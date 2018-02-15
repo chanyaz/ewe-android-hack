@@ -7,11 +7,11 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.Toolbar
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.itin.vm.ItinToolbarViewModel
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeVisibility
 
 class ItinToolbar(context: Context, attr: AttributeSet?) : Toolbar(context, attr) {
 

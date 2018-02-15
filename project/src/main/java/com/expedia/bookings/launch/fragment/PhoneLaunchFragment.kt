@@ -21,7 +21,7 @@ import com.expedia.bookings.launch.interfaces.IPhoneLaunchActivityLaunchFragment
 import com.expedia.bookings.launch.widget.PhoneLaunchWidget
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.otto.Events
-import com.expedia.bookings.subscribeObserver
+import com.expedia.bookings.extensions.subscribeObserver
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.mobiata.android.Log

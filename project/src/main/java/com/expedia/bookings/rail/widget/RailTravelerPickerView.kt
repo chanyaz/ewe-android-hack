@@ -7,12 +7,12 @@ import android.widget.AdapterView
 import android.widget.BaseAdapter
 import android.widget.Spinner
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseTravelerPickerView
 import com.expedia.bookings.widget.shared.TravelerCountSelector
 import com.expedia.bookings.widget.shared.TravelerPickerSpinnersContainer
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeText
 import com.expedia.vm.BaseTravelerPickerViewModel
 import com.expedia.vm.RailTravelerPickerViewModel
 import com.squareup.phrase.Phrase

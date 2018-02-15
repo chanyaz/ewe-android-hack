@@ -9,9 +9,9 @@ import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
 import com.expedia.bookings.R
 import com.expedia.bookings.data.TravelerParams
+import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.widget.shared.SearchInputTextView
-import com.expedia.util.subscribeText
 import com.expedia.vm.TravelerPickerViewModel
 import io.reactivex.subjects.BehaviorSubject
 

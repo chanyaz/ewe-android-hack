@@ -8,6 +8,8 @@ import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.extensions.subscribeText
+import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.navigation.NavUtils
@@ -16,8 +18,6 @@ import com.expedia.bookings.utils.LayoutUtils
 import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.expedia.bookings.widget.packages.HotelCrossSellViewModel
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeText
-import com.expedia.util.subscribeVisibility
 import com.larvalabs.svgandroid.widget.SVGView
 
 class HotelCrossSellView(context: Context, attrs: AttributeSet) : CardView(context, attrs) {

@@ -7,13 +7,13 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeInverseVisibility
 import com.expedia.bookings.itin.vm.FlightItinBookingInfoViewModel
 import com.expedia.bookings.itin.vm.ItinLinkOffCardViewViewModel
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeInverseVisibility
 import kotlinx.android.synthetic.main.widget_flight_itin_booking_details_widget.view.booking_info_container
 
 class FlightItinBookingDetailsWidget(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {

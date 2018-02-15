@@ -10,7 +10,7 @@ import com.expedia.bookings.services.RailServices
 import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.rail.widget.RailCardPickerRowView
-import com.expedia.bookings.withLatestFrom
+import com.expedia.bookings.extensions.withLatestFrom
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject

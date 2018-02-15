@@ -8,11 +8,11 @@ import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SearchSuggestion
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.hotel.tracking.SuggestionTrackingData
 import com.expedia.bookings.shared.data.SuggestionDataItem
 import com.expedia.bookings.shared.vm.BaseSuggestionViewModel
 import com.expedia.bookings.widget.TextView
-import com.expedia.util.subscribeText
 import com.expedia.vm.BaseSuggestionAdapterViewModel
 
 abstract class BaseSuggestionAdapter(val viewModel: BaseSuggestionAdapterViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

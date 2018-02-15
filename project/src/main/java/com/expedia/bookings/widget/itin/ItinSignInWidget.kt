@@ -8,18 +8,18 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeBackgroundColor
+import com.expedia.bookings.extensions.subscribeContentDescription
+import com.expedia.bookings.extensions.subscribeImageDrawable
+import com.expedia.bookings.extensions.subscribeOnClick
+import com.expedia.bookings.extensions.subscribePorterDuffColorFilter
+import com.expedia.bookings.extensions.subscribeText
+import com.expedia.bookings.extensions.subscribeTextColor
+import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
-import com.expedia.util.subscribeBackgroundColor
-import com.expedia.util.subscribeContentDescription
-import com.expedia.util.subscribeImageDrawable
 import com.expedia.bookings.widget.itin.ItinPOSHeader
-import com.expedia.util.subscribeOnClick
-import com.expedia.util.subscribePorterDuffColorFilter
-import com.expedia.util.subscribeText
-import com.expedia.util.subscribeTextColor
-import com.expedia.util.subscribeVisibility
 import com.expedia.vm.itin.ItinSignInViewModel
 
 class ItinSignInWidget(context: Context, attr: AttributeSet?) : RelativeLayout(context, attr) {

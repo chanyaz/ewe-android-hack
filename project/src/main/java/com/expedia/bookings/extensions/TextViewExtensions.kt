@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget
+package com.expedia.bookings.extensions
 
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
@@ -9,7 +9,9 @@ import android.view.View
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.hideErrorTextViewFromHoverFocus
+import com.jakewharton.rxbinding2.widget.RxTextView
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
 
 fun TextView.addErrorExclamation() {
     val context = this.context
@@ -75,6 +77,21 @@ private fun getTextInputLayoutParent(view: View): TextInputLayout? {
     } else {
         return null
     }
+}
+
+fun TextView.setInverseVisibility(forward: Boolean) {
+    this.visibility = if (!forward && this.text.isNotEmpty()) View.VISIBLE else View.GONE
+}
+
+fun TextView.setTextAndVisibility(text: CharSequence?) {
+    this.text = text ?: ""
+    setInverseVisibility(text.isNullOrBlank())
+}
+
+fun TextView.subscribeTextChange(observer: Observer<String>): Disposable {
+    return RxTextView.afterTextChangeEvents(this).map({
+        it.view().text.toString()
+    }).distinctUntilChanged().subscribeObserver(observer)
 }
 
 class TextViewExtensions {

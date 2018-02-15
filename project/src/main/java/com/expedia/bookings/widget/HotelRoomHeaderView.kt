@@ -9,13 +9,13 @@ import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.utils.bindView
-import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelRoomHeaderViewModel
 import android.view.ViewTreeObserver
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.extensions.setInverseVisibility
+import com.expedia.bookings.extensions.subscribeOnClick
+import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
-import com.expedia.util.setInverseVisibility
-import com.expedia.util.updateVisibility
 import io.reactivex.subjects.PublishSubject
 
 class HotelRoomHeaderView(context: Context, val viewModel: HotelRoomHeaderViewModel) : RelativeLayout(context) {
@@ -59,7 +59,7 @@ class HotelRoomHeaderView(context: Context, val viewModel: HotelRoomHeaderViewMo
         bedTypeTextView.text = viewModel.bedTypeString
 
         if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelRoomImageGallery)) {
-            roomPhotoCountView.updateVisibility(viewModel.hasRoomImages())
+            roomPhotoCountView.setVisibility(viewModel.hasRoomImages())
             if (viewModel.hasRoomImages()) {
                 headerImageView.subscribeOnClick(roomImageClickedSubject)
             }

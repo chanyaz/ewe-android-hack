@@ -13,6 +13,9 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeMaterialFormsError
+import com.expedia.bookings.extensions.subscribeVisibility
+import com.expedia.bookings.extensions.updatePaddingForOldApi
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.section.CountrySpinnerAdapter
 import com.expedia.bookings.utils.AccessibilityUtil
@@ -25,8 +28,6 @@ import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.bookings.widget.traveler.FrequentFlyerAdapter
 import com.expedia.bookings.widget.traveler.TSAEntryView
 import com.expedia.util.Optional
-import com.expedia.util.subscribeMaterialFormsError
-import com.expedia.util.subscribeVisibility
 import com.expedia.vm.traveler.AbstractUniversalCKOTravelerEntryWidgetViewModel
 import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel
 import com.expedia.vm.traveler.FrequentFlyerAdapterViewModel

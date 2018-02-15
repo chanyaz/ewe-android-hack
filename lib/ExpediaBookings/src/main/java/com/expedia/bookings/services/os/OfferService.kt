@@ -2,7 +2,7 @@ package com.expedia.bookings.services.os
 
 import com.expedia.bookings.data.os.LastMinuteDealsResponse
 import com.expedia.bookings.data.os.LastMinuteDealsRequest
-import com.expedia.bookings.subscribeObserver
+import com.expedia.bookings.extensions.subscribeObserver
 import com.google.gson.GsonBuilder
 import io.reactivex.Observer
 import io.reactivex.Scheduler

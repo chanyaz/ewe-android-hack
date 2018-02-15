@@ -11,7 +11,7 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.NearbyHotelParams
-import com.expedia.bookings.subscribeObserver
+import com.expedia.bookings.extensions.subscribeObserver
 import com.expedia.bookings.utils.Strings
 import com.google.gson.GsonBuilder
 import io.reactivex.Observable

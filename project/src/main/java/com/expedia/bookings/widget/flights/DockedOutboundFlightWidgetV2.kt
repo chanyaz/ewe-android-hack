@@ -4,11 +4,11 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeText
 import com.expedia.vm.flights.SelectedOutboundFlightViewModel
 
 class DockedOutboundFlightWidgetV2(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {

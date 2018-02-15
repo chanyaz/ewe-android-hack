@@ -17,6 +17,9 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.enums.TravelerCheckoutStatus
+import com.expedia.bookings.extensions.setFocusForView
+import com.expedia.bookings.extensions.setVisibility
+import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.rail.widget.AccessibleProgressDialog
@@ -31,7 +34,6 @@ import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.setFocusForView
 import com.expedia.bookings.widget.AccountButton
 import com.expedia.bookings.widget.CheckoutLoginExtender
 import com.expedia.bookings.widget.CheckoutToolbar
@@ -45,7 +47,6 @@ import com.expedia.bookings.widget.shared.SlideToPurchaseWidget
 import com.expedia.bookings.widget.traveler.TravelerSummaryCard
 import com.expedia.util.Optional
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeText
 import com.expedia.vm.CheckoutToolbarViewModel
 import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.rail.RailCheckoutViewModel
@@ -520,10 +521,6 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         } else {
             slideToPurchaseWidget.visibility = View.GONE
         }
-    }
-
-    private fun View.setVisibility(visible: Boolean) {
-        this.visibility = if (visible) View.VISIBLE else View.GONE
     }
 
     override fun onSlideStart() {

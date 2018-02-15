@@ -5,7 +5,7 @@ import android.text.Spanned
 import android.text.SpannedString
 import android.util.AttributeSet
 import android.view.View
-import com.expedia.bookings.ObservableOld
+import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightTripResponse

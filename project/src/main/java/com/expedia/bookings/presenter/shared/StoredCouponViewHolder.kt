@@ -5,11 +5,11 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeText
+import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
-import com.expedia.util.subscribeText
-import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.StoredCouponViewHolderViewModel
 import io.reactivex.subjects.PublishSubject
 

@@ -9,6 +9,10 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.FlightItinDetailsResponse
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
+import com.expedia.bookings.extensions.subscribeContentDescription
+import com.expedia.bookings.extensions.subscribeText
+import com.expedia.bookings.extensions.subscribeTextAndVisibility
+import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.shared.KrazyglueWidget
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
@@ -24,10 +28,6 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.FlightConfirmationToolbar
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.Optional
-import com.expedia.util.subscribeContentDescription
-import com.expedia.util.subscribeText
-import com.expedia.util.subscribeTextAndVisibility
-import com.expedia.util.subscribeVisibility
 import com.expedia.vm.ConfirmationToolbarViewModel
 import com.expedia.vm.flights.FlightConfirmationCardViewModel
 import com.expedia.vm.flights.FlightConfirmationViewModel

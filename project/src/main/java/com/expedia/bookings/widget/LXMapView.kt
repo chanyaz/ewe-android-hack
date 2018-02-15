@@ -11,13 +11,13 @@ import android.view.View
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.data.cars.LatLong
+import com.expedia.bookings.extensions.subscribeOnClick
+import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeOnClick
-import com.expedia.util.subscribeText
 import com.expedia.vm.LXMapViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap

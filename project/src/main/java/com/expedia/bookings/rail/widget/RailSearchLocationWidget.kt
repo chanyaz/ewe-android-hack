@@ -6,7 +6,7 @@ import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
-import com.expedia.bookings.ObservableOld
+import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.shared.SearchInputTextView

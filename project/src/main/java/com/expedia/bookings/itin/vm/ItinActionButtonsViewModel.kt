@@ -1,6 +1,6 @@
 package com.expedia.bookings.itin.vm
 
-import com.expedia.bookings.ObservableOld
+import com.expedia.bookings.extensions.ObservableOld
 import io.reactivex.subjects.PublishSubject
 
 class ItinActionButtonsViewModel {

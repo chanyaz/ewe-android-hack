@@ -12,7 +12,7 @@ import com.squareup.phrase.Phrase
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.data.Money
 import java.util.Locale
-import com.expedia.bookings.withLatestFrom
+import com.expedia.bookings.extensions.withLatestFrom
 import io.reactivex.subjects.PublishSubject
 
 class FareFamilyViewModel(private val context: Context) {

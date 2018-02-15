@@ -20,6 +20,9 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.enums.MerchandiseSpam
+import com.expedia.bookings.extensions.subscribeContentDescription
+import com.expedia.bookings.extensions.subscribeText
+import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.Presenter
@@ -36,9 +39,6 @@ import com.expedia.bookings.widget.PaymentWidget
 import com.expedia.util.endlessObserver
 import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeContentDescription
-import com.expedia.util.subscribeText
-import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.HotelCheckoutMainViewModel
 import com.expedia.vm.HotelCheckoutOverviewViewModel
 import com.expedia.vm.HotelCheckoutSummaryViewModel

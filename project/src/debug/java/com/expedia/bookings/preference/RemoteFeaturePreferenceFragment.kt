@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.features.Feature
 import com.expedia.bookings.features.Features
+import com.expedia.bookings.preference.extensions.features
 
 class RemoteFeaturePreferenceFragment : Fragment() {
 

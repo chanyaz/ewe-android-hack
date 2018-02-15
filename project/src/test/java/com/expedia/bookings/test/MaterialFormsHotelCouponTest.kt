@@ -26,7 +26,7 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.MaterialFormsCouponWidget
 import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.widget.getParentTextInputLayout
+import com.expedia.bookings.extensions.getParentTextInputLayout
 import com.expedia.vm.HotelCouponViewModel
 import com.expedia.vm.HotelCreateTripViewModel
 import org.junit.Before

@@ -15,13 +15,13 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.util.HotelCalendarRules
 import com.expedia.bookings.hotel.util.HotelInfoManager
 import com.expedia.bookings.hotel.util.HotelSearchManager
-import com.expedia.bookings.subscribeObserver
+import com.expedia.bookings.extensions.subscribeObserver
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.RetrofitError
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
-import com.expedia.bookings.utils.trackingString
+import com.expedia.bookings.extensions.trackingString
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.squareup.phrase.Phrase
 import io.reactivex.disposables.CompositeDisposable

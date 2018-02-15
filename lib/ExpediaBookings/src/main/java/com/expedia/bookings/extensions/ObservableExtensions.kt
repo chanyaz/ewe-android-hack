@@ -1,5 +1,6 @@
-package com.expedia.bookings
+package com.expedia.bookings.extensions
 
+import com.expedia.util.Optional
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.Single
@@ -11,6 +12,7 @@ import io.reactivex.functions.Function5
 import io.reactivex.functions.Function6
 import io.reactivex.functions.Function7
 import io.reactivex.functions.Function8
+import io.reactivex.observers.DisposableObserver
 
 fun <T> Observable<T>.subscribeObserver(observer: Observer<T>): Disposable {
     return subscribe({ observer.onNext(it) }, { observer.onError(it) }, { observer.onComplete() })
@@ -34,6 +36,40 @@ fun <T1, T2, T3, T4, R> Observable<T1>.withLatestFrom(o1: Observable<T2>, o2: Ob
 
 fun <T1, T2, R> Observable<T1>.zipWith(other: Observable<T2>, block: (T1, T2) -> R): Observable<R> {
     return zipWith(other, BiFunction<T1, T2, R> { t1, t2 -> block(t1, t2) })
+}
+
+fun <T : Any?> Observable<Optional<T>>.safeSubscribeOptional(observer: Observer<T>): Disposable {
+    return this.subscribeObserver(object : DisposableObserver<Optional<T>>() {
+        override fun onNext(t: Optional<T>) {
+            t.value?.let {
+                observer.onNext(it)
+            }
+        }
+
+        override fun onComplete() {
+            observer.onComplete()
+        }
+
+        override fun onError(e: Throwable) {
+            observer.onError(e)
+        }
+    })
+}
+// Only emits non-null data
+fun <T : Any?> Observable<T>.safeSubscribe(onNextFunc: (T) -> Unit): Disposable {
+    return this.subscribe {
+        if (it != null) {
+            onNextFunc.invoke(it as T)
+        }
+    }
+}
+
+fun <T : Any?> Observable<Optional<T>>.safeSubscribeOptional(onNextFunc: (T) -> Unit): Disposable {
+    return this.subscribe {
+        it.value?.let {
+            onNextFunc.invoke(it)
+        }
+    }
 }
 
 object ObservableOld {

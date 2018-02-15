@@ -2,9 +2,9 @@ package com.expedia.bookings.widget.flights
 
 import android.content.Context
 import android.util.AttributeSet
+import com.expedia.bookings.extensions.subscribeOnClick
+import com.expedia.bookings.extensions.unsubscribeOnClick
 import com.expedia.bookings.hotel.widget.TwoTabCardView
-import com.expedia.util.subscribeOnClick
-import com.expedia.util.unsubscribeOnClick
 import io.reactivex.subjects.PublishSubject
 
 class FlightOneWayRoundTripTabs(context: Context, attrs: AttributeSet?) : TwoTabCardView(context, attrs) {

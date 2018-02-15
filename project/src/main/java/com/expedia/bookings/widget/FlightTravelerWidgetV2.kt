@@ -8,8 +8,8 @@ import android.view.View
 import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.utils.Strings
-import com.expedia.util.subscribeText
 import com.expedia.vm.FlightTravelerPickerViewModel
 
 class FlightTravelerWidgetV2(context: Context, attrs: AttributeSet?) : TravelerWidgetV2(context, attrs) {

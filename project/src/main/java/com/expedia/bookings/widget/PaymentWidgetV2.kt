@@ -12,7 +12,10 @@ import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.data.utils.getPaymentType
+import com.expedia.bookings.extensions.getPaymentType
+import com.expedia.bookings.extensions.subscribeEnabled
+import com.expedia.bookings.extensions.subscribeText
+import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.hotel.animation.AlphaCalculator
 import com.expedia.bookings.utils.BookingInfoUtils
@@ -21,11 +24,8 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isDisplayCardsOnPaymentForm
 import com.expedia.bookings.utils.isHotelMaterialForms
-import com.expedia.bookings.withLatestFrom
+import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeEnabled
-import com.expedia.util.subscribeText
-import com.expedia.util.subscribeVisibility
 import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.interfaces.IPayWithPointsViewModel
 import com.expedia.vm.interfaces.IPaymentWidgetViewModel

@@ -12,7 +12,7 @@ import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
-import com.expedia.bookings.subscribeObserver
+import com.expedia.bookings.extensions.subscribeObserver
 import com.google.gson.GsonBuilder
 import io.reactivex.Observer
 import io.reactivex.Scheduler

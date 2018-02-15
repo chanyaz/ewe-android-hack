@@ -6,7 +6,7 @@ import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
-import com.expedia.bookings.extension.isShowAirAttached
+import com.expedia.bookings.extensions.isShowAirAttached
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.priceFormatter

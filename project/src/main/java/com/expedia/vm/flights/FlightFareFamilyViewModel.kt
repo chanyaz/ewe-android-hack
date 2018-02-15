@@ -5,7 +5,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.FlightTripResponse.FareFamilyDetails
-import com.expedia.bookings.withLatestFrom
+import com.expedia.bookings.extensions.withLatestFrom
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.PublishSubject
 

@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.accessibility.AccessibilityNodeInfo
 import com.expedia.bookings.R
-import com.expedia.bookings.widget.getParentTextInputLayout
+import com.expedia.bookings.extensions.getParentTextInputLayout
 
 class AccessibleEditTextForSpinner(context: Context, attributeSet: AttributeSet) : AccessibleEditText(context, attributeSet) {
 

@@ -5,8 +5,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.rail.util.RailUtils
-import com.expedia.bookings.withLatestFrom
-import com.expedia.bookings.zipWith
+import com.expedia.bookings.extensions.withLatestFrom
+import com.expedia.bookings.extensions.zipWith
 import com.expedia.util.Optional
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.PublishSubject

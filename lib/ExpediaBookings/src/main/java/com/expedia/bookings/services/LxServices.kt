@@ -1,6 +1,6 @@
 package com.expedia.bookings.services
 
-import com.expedia.bookings.ObservableOld
+import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Money
@@ -18,7 +18,8 @@ import com.expedia.bookings.data.lx.LXSortType
 import com.expedia.bookings.data.lx.LXTheme
 import com.expedia.bookings.data.lx.LXThemeType
 import com.expedia.bookings.data.lx.LxSearchParams
-import com.expedia.bookings.subscribeObserver
+import com.expedia.bookings.extensions.applySortFilter
+import com.expedia.bookings.extensions.subscribeObserver
 import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LXUtils
@@ -452,38 +453,5 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
             })
         }
         return lxSearchResponse.activities
-    }
-
-    companion object {
-
-        @JvmStatic fun List<LXActivity>.applySortFilter(lxCategoryMetadata: LXSortFilterMetadata): List<LXActivity> {
-
-            // Activity name filter
-            var activities = this.filter { it.title.contains(lxCategoryMetadata.filter, true) }
-            // Sorting
-            activities = when (lxCategoryMetadata.sort) {
-                LXSortType.POPULARITY -> activities.sortedBy { it.popularityForClientSort }
-                LXSortType.PRICE -> activities.sortedBy { it.price.amount.toInt() }
-                null -> activities
-            }
-
-            val filteredSet = LinkedHashSet<LXActivity>()
-            for (i in activities.indices) {
-                for (filterCategory in lxCategoryMetadata.lxCategoryMetadataMap.entries) {
-                    val innerLxCategoryMetadata = filterCategory.value
-                    val lxCategoryMetadataKey = filterCategory.key
-                    if (innerLxCategoryMetadata.checked) {
-                        if (activities[i].categories.contains(lxCategoryMetadataKey)) {
-                            filteredSet.add(activities[i])
-                }
-                    }
-                }
-            }
-            return if (filteredSet.size > 0 || lxCategoryMetadata.lxCategoryMetadataMap.size > 0) {
-                filteredSet.toList()
-            } else {
-                activities
-            }
-        }
     }
 }

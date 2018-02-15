@@ -6,8 +6,8 @@ import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.utils.bindView
-import com.expedia.util.subscribeText
 
 class CouponWidget(context: Context, attrs: AttributeSet?) : AbstractCouponWidget(context, attrs) {
 

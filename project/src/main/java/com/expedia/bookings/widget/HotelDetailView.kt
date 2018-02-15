@@ -14,6 +14,8 @@ import android.view.animation.LinearInterpolator
 import android.widget.ScrollView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.extensions.subscribeOnClick
+import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.DEFAULT_HOTEL_GALLERY_CODE
 import com.expedia.bookings.hotel.activity.HotelGalleryActivity
@@ -27,8 +29,6 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeOnClick
-import com.expedia.util.subscribeText
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.HotelInfoToolbarViewModel
 import io.reactivex.Observable

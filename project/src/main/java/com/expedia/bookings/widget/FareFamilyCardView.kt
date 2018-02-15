@@ -5,15 +5,15 @@ import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.setFocusForView
+import com.expedia.bookings.extensions.subscribeContentDescription
+import com.expedia.bookings.extensions.subscribeOnClick
+import com.expedia.bookings.extensions.subscribeText
+import com.expedia.bookings.extensions.subscribeTextAndVisibility
+import com.expedia.bookings.extensions.subscribeTextColor
+import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.setFocusForView
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeOnClick
-import com.expedia.util.subscribeText
-import com.expedia.util.subscribeTextAndVisibility
-import com.expedia.util.subscribeVisibility
-import com.expedia.util.subscribeTextColor
-import com.expedia.util.subscribeContentDescription
 import com.expedia.vm.FareFamilyViewModel
 
 class FareFamilyCardView(context: Context, attrs: AttributeSet) : CardView(context, attrs) {

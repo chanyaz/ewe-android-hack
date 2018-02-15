@@ -17,19 +17,20 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.Spinner
 import android.widget.TextView
-import com.expedia.bookings.ObservableOld
+import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.FlightFilter
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.extensions.clearChecks
+import com.expedia.bookings.extensions.setAccessibilityHoverFocus
+import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeOnClick
 import com.expedia.vm.BaseFlightFilterViewModel
 import com.squareup.phrase.Phrase
 import java.util.Locale
@@ -351,15 +352,6 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
             val ratio = (scrollY).toFloat() / 100
             toolbarDropshadow.alpha = ratio
         })
-    }
-
-    fun LinearLayout.clearChecks() {
-        for (i in 0..childCount - 1) {
-            val v = getChildAt(i)
-            if (v is LabeledCheckableFilter<*> && v.checkBox.isChecked) {
-                v.checkBox.isChecked = false
-            }
-        }
     }
 
     fun trackFlightSortBy(sort: FlightFilter.Sort) {

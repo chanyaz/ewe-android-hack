@@ -23,6 +23,8 @@ import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.bitmaps.PicassoTarget
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.extensions.setInverseVisibility
+import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.LayoutUtils
 import com.expedia.bookings.utils.bindView
@@ -32,8 +34,6 @@ import com.expedia.bookings.widget.hotel.hotelCellModules.HotelCellPriceTopAmeni
 import com.expedia.bookings.widget.hotel.hotelCellModules.HotelCellUrgencyMessage
 import com.expedia.bookings.widget.hotel.hotelCellModules.HotelCellVipMessage
 import com.expedia.util.getGuestRatingText
-import com.expedia.util.setInverseVisibility
-import com.expedia.util.updateVisibility
 import com.expedia.vm.hotel.HotelViewModel
 import com.larvalabs.svgandroid.widget.SVGView
 import com.squareup.picasso.Picasso
@@ -99,13 +99,13 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
         updateAirAttach()
 
         earnMessagingText.text = viewModel.earnMessage
-        earnMessagingText.updateVisibility(viewModel.showEarnMessage)
+        earnMessagingText.setVisibility(viewModel.showEarnMessage)
 
-        ratingPointsContainer.updateVisibility(viewModel.showRatingPointsContainer())
+        ratingPointsContainer.setVisibility(viewModel.showRatingPointsContainer())
 
         loadHotelImage()
 
-        soldOutOverlay.updateVisibility(viewModel.showSoldOutOverlay)
+        soldOutOverlay.setVisibility(viewModel.showSoldOutOverlay)
 
         cardView.contentDescription = viewModel.getHotelContentDesc()
     }
@@ -115,7 +115,7 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
     }
 
     fun markPinned(pin: Boolean) {
-        pinnedHotelTextView.updateVisibility(pin)
+        pinnedHotelTextView.setVisibility(pin)
     }
 
     private fun loadHotelImage() {
@@ -150,8 +150,8 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
     }
 
     private fun updateAirAttach() {
-        airAttachContainer.updateVisibility(viewModel.showAirAttachWithDiscountLabel)
-        airAttachSWPImage.updateVisibility(viewModel.showAirAttachIconWithoutDiscountLabel)
+        airAttachContainer.setVisibility(viewModel.showAirAttachWithDiscountLabel)
+        airAttachSWPImage.setVisibility(viewModel.showAirAttachIconWithoutDiscountLabel)
         airAttachDiscount.text = viewModel.hotelDiscountPercentage
     }
 
@@ -164,7 +164,7 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
             discountPercentage.setBackgroundResource(R.drawable.discount_percentage_background)
             discountPercentage.setTextColor(ContextCompat.getColor(itemView.context, R.color.white))
         }
-        discountPercentage.updateVisibility(viewModel.showDiscount)
+        discountPercentage.setVisibility(viewModel.showDiscount)
     }
 
     private fun updateHotelGuestRating() {
@@ -174,8 +174,8 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
             guestRatingRecommendedText.text = getGuestRatingText(rating, itemView.resources)
         }
 
-        guestRating.updateVisibility(viewModel.isHotelGuestRatingAvailable)
-        guestRatingRecommendedText.updateVisibility(viewModel.isHotelGuestRatingAvailable)
+        guestRating.setVisibility(viewModel.isHotelGuestRatingAvailable)
+        guestRatingRecommendedText.setVisibility(viewModel.isHotelGuestRatingAvailable)
         noGuestRating.setInverseVisibility(viewModel.isHotelGuestRatingAvailable)
     }
 

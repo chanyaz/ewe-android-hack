@@ -12,6 +12,10 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.country.CountryConfig
 import com.expedia.bookings.data.extensions.isMaterialFormEnabled
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.extensions.setInverseVisibility
+import com.expedia.bookings.extensions.subscribeMaterialFormsError
+import com.expedia.bookings.extensions.subscribeTextAndVisibility
+import com.expedia.bookings.extensions.subscribeTextChange
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.MaskedCreditCardEditText
@@ -20,15 +24,11 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.rail.widget.CreditCardFeesView
 import com.expedia.bookings.section.CountrySpinnerAdapter
-import com.expedia.bookings.subscribeObserver
+import com.expedia.bookings.extensions.subscribeObserver
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
-import com.expedia.bookings.widget.updatePaddingForOldApi
-import com.expedia.util.setInverseVisibility
-import com.expedia.util.subscribeMaterialFormsError
-import com.expedia.util.subscribeTextAndVisibility
-import com.expedia.util.subscribeTextChange
-import com.expedia.util.updateVisibility
+import com.expedia.bookings.extensions.updatePaddingForOldApi
+import com.expedia.bookings.extensions.setVisibility
 import com.expedia.vm.PaymentViewModel
 import com.squareup.otto.Subscribe
 
@@ -72,16 +72,16 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
             val hideFieldsRequirements = getBillingAddressCountryConfig(country)
             val showStateField = hideFieldsRequirements.stateRequired != CountryConfig.StateRequired.NOT_REQUIRED
             val showPostalField = hideFieldsRequirements.postalCodeRequired
-            addressStateLayout?.updateVisibility(showStateField)
-            postalCodeLayout?.updateVisibility(showPostalField)
+            addressStateLayout?.setVisibility(showStateField)
+            postalCodeLayout?.setVisibility(showPostalField)
             if (!showStateField) addressState.setText("")
             if (!hideFieldsRequirements.postalCodeRequired) creditCardPostalCode.setText("")
             postalCodeLayout?.clearFocus()
             addressStateLayout?.clearFocus()
         }
         vm.removeBillingAddressForApac.subscribe { shouldHide ->
-            billingAddressTitle.updateVisibility(!shouldHide)
-            sectionLocation.updateVisibility(!shouldHide)
+            billingAddressTitle.setVisibility(!shouldHide)
+            sectionLocation.setVisibility(!shouldHide)
             if (shouldHide) viewmodel.createFakeAddressObservable.onNext(Unit)
         }
         vm.populateFakeBillingAddress.subscribe { location ->

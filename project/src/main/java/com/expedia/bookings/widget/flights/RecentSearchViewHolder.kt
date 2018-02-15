@@ -3,10 +3,10 @@ package com.expedia.bookings.widget.flights
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.utils.LayoutUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
-import com.expedia.util.subscribeText
 import com.expedia.vm.flights.RecentSearchViewHolderViewModel
 import com.larvalabs.svgandroid.widget.SVGView
 

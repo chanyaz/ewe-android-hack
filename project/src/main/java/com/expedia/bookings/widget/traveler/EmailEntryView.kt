@@ -6,9 +6,9 @@ import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeMaterialFormsError
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeMaterialFormsError
 import com.expedia.vm.traveler.TravelerEmailViewModel
 
 class EmailEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {

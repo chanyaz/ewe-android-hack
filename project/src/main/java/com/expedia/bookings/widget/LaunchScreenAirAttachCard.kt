@@ -3,9 +3,9 @@ package com.expedia.bookings.widget
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeOnClick
+import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.utils.bindView
-import com.expedia.util.subscribeOnClick
-import com.expedia.util.subscribeText
 import com.expedia.vm.launch.LaunchScreenAirAttachViewModel
 
 class LaunchScreenAirAttachCard(itemView: View) : RecyclerView.ViewHolder(itemView) {

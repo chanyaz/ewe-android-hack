@@ -2,8 +2,9 @@ package com.expedia.bookings.section;
 
 import android.graphics.drawable.Drawable;
 import android.widget.TextView;
+
+import com.expedia.bookings.extensions.TextViewExtensionsKt;
 import com.expedia.bookings.utils.Strings;
-import com.expedia.bookings.widget.TextViewExtensionsKt;
 import com.expedia.bookings.widget.accessibility.AccessibleEditText;
 
 /**

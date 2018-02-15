@@ -2,8 +2,8 @@ package com.expedia.vm
 
 import android.content.Context
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.extensions.safeSubscribe
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.safeSubscribe
 import com.expedia.vm.packages.PackageCreateTripViewModel
 
 class PackageWebCheckoutViewViewModel(var context: Context) : WebCheckoutViewViewModel(context) {

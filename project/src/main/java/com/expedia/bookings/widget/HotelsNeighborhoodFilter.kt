@@ -8,9 +8,9 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.HotelSearchResponse.Neighborhood
+import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
-import com.expedia.util.subscribeOnClick
 import io.reactivex.Observer
 import io.reactivex.subjects.PublishSubject
 

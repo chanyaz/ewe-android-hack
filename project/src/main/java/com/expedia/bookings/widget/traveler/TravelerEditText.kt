@@ -15,10 +15,10 @@ import com.expedia.bookings.R
 import com.expedia.bookings.section.InvalidCharacterHelper
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.getParentTextInputLayout
+import com.expedia.bookings.extensions.getParentTextInputLayout
+import com.expedia.bookings.extensions.subscribeEditText
+import com.expedia.bookings.extensions.subscribeTextChange
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeEditText
-import com.expedia.util.subscribeTextChange
 import com.expedia.vm.traveler.BaseTravelerValidatorViewModel
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable

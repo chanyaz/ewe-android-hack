@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.sos.DealsDestination
 import com.expedia.bookings.data.sos.DealsResponse
+import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.mia.activity.MemberDealsActivity
 import com.expedia.bookings.mia.vm.DealsDestinationViewModel
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.LoadingViewHolder
-import com.expedia.util.subscribeOnClick
 import io.reactivex.Observer
 import io.reactivex.subjects.BehaviorSubject
 import java.util.ArrayList

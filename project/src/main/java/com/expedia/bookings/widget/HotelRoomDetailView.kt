@@ -13,13 +13,13 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotel.HotelValueAdd
+import com.expedia.bookings.extensions.setInverseVisibility
+import com.expedia.bookings.extensions.setTextAndVisibility
+import com.expedia.bookings.extensions.subscribeOnClick
+import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.LoyaltyUtil
-import com.expedia.util.setInverseVisibility
-import com.expedia.util.setTextAndVisibility
-import com.expedia.util.subscribeOnClick
-import com.expedia.util.updateVisibility
 import com.expedia.vm.HotelRoomDetailViewModel
 import io.reactivex.subjects.PublishSubject
 
@@ -82,12 +82,12 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
         }
         earnMessageTextView.setTextAndVisibility(viewModel.earnMessageString)
         mandatoryFeeTextView.setTextAndVisibility(viewModel.mandatoryFeeString)
-        memberOnlyDealTag.updateVisibility(viewModel.showMemberOnlyDealTag)
+        memberOnlyDealTag.setVisibility(viewModel.showMemberOnlyDealTag)
         discountPercentageTextView.setTextAndVisibility(viewModel.discountPercentageString)
         discountPercentageTextView.setBackground(viewModel.discountPercentageBackground)
         discountPercentageTextView.setTextColor(viewModel.discountPercentageTextColor)
         payLaterPriceTextView.setTextAndVisibility(viewModel.payLaterPriceString)
-        depositTermsTextView.updateVisibility(viewModel.showDepositTerm)
+        depositTermsTextView.setVisibility(viewModel.showDepositTerm)
         depositTermsTextView.subscribeOnClick(depositTermsClickedSubject)
 
         val isShopWithPoints = LoyaltyUtil.isShopWithPoints(viewModel.hotelRoomResponse.rateInfo.chargeableRateInfo)
@@ -98,7 +98,7 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
         }
 
         priceTextView.setTextAndVisibility(viewModel.priceString)
-        pricePerDescriptorTextView.updateVisibility(viewModel.showPerNight)
+        pricePerDescriptorTextView.setVisibility(viewModel.showPerNight)
         priceTextView.contentDescription = viewModel.getRoomPriceContentDescription()
         pricePerDescriptorTextView.text = viewModel.pricePerDescriptorString
         mandatoryFeeTextView.setTextAndVisibility(viewModel.mandatoryFeeString)

@@ -10,8 +10,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isKrazyglueOnFlightsConfirmationEnabled
-import com.expedia.util.subscribeText
 import android.support.v7.widget.PagerSnapHelper
+import com.expedia.bookings.extensions.subscribeText
 
 class KrazyglueWidget(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
 

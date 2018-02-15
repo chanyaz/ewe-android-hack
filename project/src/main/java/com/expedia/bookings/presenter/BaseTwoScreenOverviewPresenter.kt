@@ -15,6 +15,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.enums.TwoScreenOverviewState
+import com.expedia.bookings.extensions.safeSubscribeOptional
+import com.expedia.bookings.extensions.setInverseVisibility
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
@@ -27,8 +29,6 @@ import com.expedia.bookings.widget.CVVEntryWidget
 import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
 import com.expedia.util.Optional
 import com.expedia.util.endlessObserver
-import com.expedia.util.safeSubscribeOptional
-import com.expedia.util.setInverseVisibility
 import com.expedia.vm.AbstractCardFeeEnabledCheckoutViewModel
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.expedia.vm.WebViewViewModel

@@ -5,12 +5,12 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeInverseVisibility
+import com.expedia.bookings.extensions.subscribeText
+import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeInverseVisibility
-import com.expedia.util.subscribeText
-import com.expedia.util.subscribeVisibility
 import com.expedia.vm.rail.RailSegmentAmenitiesViewModel
 
 class RailSegmentAmenitiesView(context: Context) : FrameLayout(context) {

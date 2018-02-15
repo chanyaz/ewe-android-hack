@@ -11,6 +11,10 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.extensions.setAccessibilityHoverFocus
+import com.expedia.bookings.extensions.setInverseVisibility
+import com.expedia.bookings.extensions.subscribeText
+import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.tracking.SuggestionTrackingData
 import com.expedia.bookings.hotel.widget.AdvancedSearchOptionsView
@@ -29,13 +33,9 @@ import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.ShopWithPointsWidget
 import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.setInverseVisibility
-import com.expedia.util.subscribeText
-import com.expedia.util.updateVisibility
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.BaseSuggestionAdapterViewModel
 import com.expedia.vm.HotelSearchViewModel
@@ -180,7 +180,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         advancedOptionsViewModel.searchOptionsSummarySubject.subscribeText(advancedOptionsView)
 
         val showAdvancedOptions = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelSuperSearch)
-        advancedOptionsContainerCard.updateVisibility(showAdvancedOptions)
+        advancedOptionsContainerCard.setVisibility(showAdvancedOptions)
 
         fetchUserSearchHistory()
     }
@@ -269,7 +269,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
 
     private val searchToAdvancedOptions = object : Transition(InputSelectionState::class.java, AdvancedSearchOptionsView::class.java) {
         override fun endTransition(forward: Boolean) {
-            advancedOptionsDetails.updateVisibility(forward)
+            advancedOptionsDetails.setVisibility(forward)
             mainContainer.setInverseVisibility(forward)
         }
     }

@@ -18,6 +18,9 @@ import com.expedia.bookings.data.lx.LxSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.user.UserStateManager
+import com.expedia.bookings.extensions.safePrint
+import com.expedia.bookings.extensions.safePutInt
+import com.expedia.bookings.extensions.safePutString
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingData
@@ -29,7 +32,6 @@ import com.facebook.appevents.AppEventsLogger
 import com.mobiata.android.Log
 import com.mobiata.android.time.util.JodaUtils
 import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormatter
 import org.joda.time.format.ISODateTimeFormat
 import java.math.BigDecimal
 import java.util.Collections
@@ -490,29 +492,5 @@ class FacebookEvents {
 
     private val priceComparator = Comparator<FlightLeg> { flightLeg1, flightLeg2 ->
         flightLeg1.packageOfferModel.price.packageTotalPrice.amount.compareTo(flightLeg2.packageOfferModel.price.packageTotalPrice.amount)
-    }
-
-    private fun Bundle.safePutString(key: String, value: String?) {
-        if (value != null) {
-            this.putString(key, value)
-        } else {
-            this.putString(key, "")
-        }
-    }
-
-    private fun Bundle.safePutInt(key: String, value: Int?) {
-        if (value != null) {
-            this.putInt(key, value)
-        } else {
-            this.putInt(key, 0)
-        }
-    }
-
-    private fun DateTimeFormatter.safePrint(inDate: LocalDate?): String {
-        if (inDate != null) {
-            return this.print(inDate)
-        } else {
-            return ""
-        }
     }
 }

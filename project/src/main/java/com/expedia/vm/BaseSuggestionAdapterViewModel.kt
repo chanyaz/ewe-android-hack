@@ -8,6 +8,8 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SearchSuggestion
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.travelgraph.SearchInfo
+import com.expedia.bookings.extensions.toDataItemList
+import com.expedia.bookings.extensions.toSearchInfoDataItemList
 import com.expedia.bookings.services.ISuggestionV4Services
 import com.expedia.bookings.shared.data.SuggestionDataItem
 import com.expedia.bookings.shared.util.GaiaNearbyManager
@@ -245,13 +247,5 @@ abstract class BaseSuggestionAdapterViewModel(val context: Context, val suggesti
         rawQuerySuggestion.hierarchyInfo?.isChild = false
         rawQuerySuggestion.coordinates = SuggestionV4.LatLng()
         return rawQuerySuggestion
-    }
-
-    private fun List<SuggestionV4>.toDataItemList(): List<SuggestionDataItem.SuggestionDropDown> {
-        return this.map { suggestion -> SuggestionDataItem.SuggestionDropDown(suggestion) }
-    }
-
-    private fun List<SearchInfo>.toSearchInfoDataItemList(): List<SuggestionDataItem.SearchInfoDropDown> {
-        return this.map { suggestion -> SuggestionDataItem.SearchInfoDropDown(suggestion) }
     }
 }

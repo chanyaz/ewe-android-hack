@@ -3,8 +3,6 @@ package com.expedia.bookings.utils
 import android.content.Context
 import android.support.annotation.StringRes
 import android.support.design.widget.TabLayout
-import android.support.design.widget.TextInputLayout
-import android.support.v7.widget.AppCompatTextView
 import android.support.v7.widget.Toolbar
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
@@ -13,6 +11,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
+import com.expedia.bookings.extensions.setAccessibilityHoverFocus
 import com.squareup.phrase.Phrase
 
 object AccessibilityUtil {
@@ -74,23 +73,6 @@ object AccessibilityUtil {
         view.isFocusable = true
         view.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
-}
-
-fun View.setFocusForView() {
-    AccessibilityUtil.setFocusForView(this)
-}
-
-fun View.setAccessibilityHoverFocus() {
-    this.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_HOVER_ENTER)
-}
-
-fun View.setAccessibilityHoverFocus(delayMillis: Long) {
-    postDelayed({ this.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_HOVER_ENTER) }, delayMillis)
-}
-
-fun TextInputLayout.hideErrorTextViewFromHoverFocus() {
-    val errorText = this.findViewById<AppCompatTextView>(R.id.textinput_error)
-    errorText.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
 }
 
 fun setContentDescriptionToolbarTabs(context: Context, tabs: TabLayout) {

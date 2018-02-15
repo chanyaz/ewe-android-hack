@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FrequentFlyerPlansTripResponse
+import com.expedia.bookings.extensions.TextViewExtensions
 import com.mobiata.android.util.Ui
 import java.util.LinkedHashMap
 import java.util.ArrayList

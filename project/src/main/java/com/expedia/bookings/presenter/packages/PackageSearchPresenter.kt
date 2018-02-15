@@ -12,6 +12,8 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightServiceClassType
+import com.expedia.bookings.extensions.setAccessibilityHoverFocus
+import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
@@ -22,14 +24,12 @@ import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isMidAPIEnabled
-import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.FlightCabinClassWidget
 import com.expedia.bookings.widget.TravelerWidgetV2
 import com.expedia.bookings.widget.packages.PackageSuggestionAdapter
 import com.expedia.bookings.widget.suggestions.BaseSuggestionAdapter
 import com.expedia.util.PackageUtil
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeOnClick
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.BaseSuggestionAdapterViewModel
 import com.expedia.vm.packages.PackageSearchViewModel

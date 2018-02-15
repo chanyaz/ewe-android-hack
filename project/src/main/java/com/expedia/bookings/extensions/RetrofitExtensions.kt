@@ -1,4 +1,6 @@
-package com.expedia.bookings.utils
+package com.expedia.bookings.extensions
+
+import com.expedia.bookings.utils.RetrofitError
 
 fun RetrofitError.trackingString(): String {
     when (this) {

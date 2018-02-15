@@ -5,7 +5,7 @@ import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.TripsShareUrlShortenResponse
 import com.expedia.bookings.itin.activity.FlightItinDetailsActivity
 import com.expedia.bookings.services.TripShareUrlShortenServiceInterface
-import com.expedia.bookings.subscribeObserver
+import com.expedia.bookings.extensions.subscribeObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner

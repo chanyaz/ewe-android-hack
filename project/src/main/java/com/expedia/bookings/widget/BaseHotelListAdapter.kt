@@ -22,7 +22,6 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.shared.AbstractHotelCellViewHolder
 import com.expedia.util.endlessObserver
-import com.expedia.util.subscribeVisibility
 import com.expedia.vm.hotel.HotelResultsPricingStructureHeaderViewModel
 import com.mobiata.android.util.AndroidUtils
 import io.reactivex.subjects.BehaviorSubject
@@ -32,6 +31,7 @@ import android.text.SpannableStringBuilder
 import android.text.Spannable
 import android.text.style.ImageSpan
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.hotel.widget.Earn2xCardViewHolder
 import com.expedia.bookings.hotel.widget.HotelUrgencyViewHolder
 

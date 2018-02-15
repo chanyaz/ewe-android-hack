@@ -27,13 +27,13 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.LXCategoryMetadata;
 import com.expedia.bookings.data.lx.LXSortFilterMetadata;
 import com.expedia.bookings.data.lx.LXSortType;
+import com.expedia.bookings.extensions.TextViewExtensionsKt;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.util.RxKt;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -42,6 +42,7 @@ import butterknife.OnClick;
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+
 
 public class LXSortFilterWidget extends LinearLayout {
 
@@ -136,7 +137,7 @@ public class LXSortFilterWidget extends LinearLayout {
 			filterDivider.setVisibility(VISIBLE);
 		}
 
-		RxKt.subscribeTextChange(activityNameFilterEditText, activityFilterSubscriber);
+		TextViewExtensionsKt.subscribeTextChange(activityNameFilterEditText, activityFilterSubscriber);
 	}
 
 	private Observer activityFilterSubscriber = new Observer() {

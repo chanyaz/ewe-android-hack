@@ -11,11 +11,11 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.utils.WebViewUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.updateVisibility
 import com.expedia.vm.WebCheckoutViewViewModel
 import com.expedia.vm.WebViewViewModel
 import com.mobiata.android.util.AndroidUtils
@@ -62,7 +62,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
         if (ExpediaBookingApp.isAutomation()) {
             return
         }
-        loadingWebview.updateVisibility(loading)
+        loadingWebview.setVisibility(loading)
     }
 
     override fun onWebPageStarted(view: WebView, url: String, favicon: Bitmap?) {

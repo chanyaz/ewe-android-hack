@@ -7,6 +7,8 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.extensions.setAccessibilityHoverFocus
+import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseSearchPresenter
@@ -15,10 +17,8 @@ import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.LXSuggestionAdapter
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeOnClick
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.LXSuggestionAdapterViewModel
 import com.expedia.vm.BaseSuggestionAdapterViewModel

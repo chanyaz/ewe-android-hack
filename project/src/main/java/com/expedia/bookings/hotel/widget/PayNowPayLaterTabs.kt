@@ -4,8 +4,8 @@ import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import com.expedia.bookings.R
-import com.expedia.util.subscribeOnClick
-import com.expedia.util.unsubscribeOnClick
+import com.expedia.bookings.extensions.subscribeOnClick
+import com.expedia.bookings.extensions.unsubscribeOnClick
 import io.reactivex.subjects.PublishSubject
 
 class PayNowPayLaterTabs(context: Context, attrs: AttributeSet?) : TwoTabCardView(context, attrs) {

@@ -8,10 +8,10 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import android.widget.TextView
 import com.expedia.bookings.data.flights.FlightAmenityCategory
+import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.flights.FareFamilyAmenityItemViewModel
 import com.expedia.vm.flights.FareFamilyPrimaryAmenitiesWidgetViewModel
 import com.expedia.vm.flights.FlightFareFamilyAmenityDialogViewModel

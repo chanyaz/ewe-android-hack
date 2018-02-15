@@ -3,8 +3,8 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.extensions.safeSubscribeOptional
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.safeSubscribeOptional
 import com.expedia.vm.flights.FlightCreateTripViewModel
 
 class FlightWebCheckoutViewViewModel(var context: Context) : WebCheckoutViewViewModel(context) {

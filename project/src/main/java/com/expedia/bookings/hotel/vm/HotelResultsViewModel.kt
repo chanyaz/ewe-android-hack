@@ -12,11 +12,11 @@ import com.expedia.bookings.hotel.util.HotelCalendarDirections
 import com.expedia.bookings.hotel.util.HotelCalendarRules
 import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.model.HotelStayDates
-import com.expedia.bookings.subscribeObserver
+import com.expedia.bookings.extensions.subscribeObserver
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
-import com.expedia.bookings.utils.trackingString
+import com.expedia.bookings.extensions.trackingString
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
 import io.reactivex.disposables.CompositeDisposable

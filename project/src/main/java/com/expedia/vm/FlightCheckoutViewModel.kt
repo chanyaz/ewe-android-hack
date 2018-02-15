@@ -12,6 +12,7 @@ import com.expedia.bookings.data.flights.FlightCheckoutParams
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.extensions.safeSubscribeOptional
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
@@ -20,7 +21,6 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.util.safeSubscribeOptional
 import com.squareup.phrase.Phrase
 import io.reactivex.Observer
 import io.reactivex.observers.DisposableObserver

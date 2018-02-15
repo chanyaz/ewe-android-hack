@@ -5,7 +5,7 @@ import android.support.annotation.DrawableRes
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
-import com.expedia.bookings.subscribeObserver
+import com.expedia.bookings.extensions.subscribeObserver
 import com.squareup.phrase.Phrase
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable

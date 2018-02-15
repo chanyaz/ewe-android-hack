@@ -7,10 +7,10 @@ import android.view.LayoutInflater
 import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.services.RailServices
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.shared.SearchInputTextView
-import com.expedia.util.subscribeText
 import com.expedia.vm.RailCardPickerViewModel
 import com.squareup.phrase.Phrase
 import javax.inject.Inject

@@ -2,7 +2,7 @@ package com.expedia.vm.flights
 
 import android.content.Context
 import android.support.annotation.VisibleForTesting
-import com.expedia.bookings.ObservableOld
+import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.FlightItinDetailsResponse

@@ -6,6 +6,8 @@ import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.extensions.subscribeTextChange
+import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -16,8 +18,6 @@ import com.expedia.bookings.widget.traveler.NameEntryView
 import com.expedia.bookings.widget.traveler.PhoneEntryView
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeTextChange
-import com.expedia.util.subscribeVisibility
 import com.expedia.vm.EntryFormToolbarViewModel
 import com.expedia.vm.traveler.SimpleTravelerEntryWidgetViewModel
 import io.reactivex.subjects.PublishSubject

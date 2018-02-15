@@ -6,7 +6,7 @@ import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.widget.TextView;
 
-import com.expedia.bookings.widget.TextViewExtensionsKt;
+import com.expedia.bookings.extensions.TextViewExtensionsKt;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
 

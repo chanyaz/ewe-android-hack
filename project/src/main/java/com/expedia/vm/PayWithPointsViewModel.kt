@@ -12,7 +12,7 @@ import com.expedia.bookings.tracking.PayWithPointsErrorTrackingEnum
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.NumberUtils
 import com.expedia.bookings.utils.Strings
-import com.expedia.bookings.withLatestFrom
+import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.util.Optional
 import com.expedia.vm.interfaces.IPayWithPointsViewModel
 import com.squareup.phrase.Phrase

@@ -2,7 +2,7 @@ package com.expedia.bookings.widget.accessibility
 
 import android.content.Context
 import android.util.AttributeSet
-import com.expedia.bookings.widget.getParentTextInputLayout
+import com.expedia.bookings.extensions.getParentTextInputLayout
 
 class AccessiblePasswordEditText(context: Context, attributeSet: AttributeSet) : AccessibleEditText(context, attributeSet) {
 

@@ -25,7 +25,6 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils
-import com.expedia.bookings.data.utils.getPaymentType
 import com.expedia.bookings.hotel.animation.AlphaCalculator
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.MockHotelServiceTestRule
@@ -45,7 +44,8 @@ import com.expedia.bookings.widget.PaymentWidgetV2
 import com.expedia.bookings.widget.StoredCreditCardList
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.PaymentWidget
-import com.expedia.bookings.widget.getParentTextInputLayout
+import com.expedia.bookings.extensions.getParentTextInputLayout
+import com.expedia.bookings.extensions.getPaymentType
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.PayWithPointsViewModel

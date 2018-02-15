@@ -8,9 +8,9 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
-import com.expedia.util.subscribeOnClick
 import io.reactivex.subjects.PublishSubject
 
 class TravelerCountSelector(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {

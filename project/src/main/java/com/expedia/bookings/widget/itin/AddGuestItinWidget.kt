@@ -11,13 +11,13 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeMaterialFormsError
+import com.expedia.bookings.extensions.subscribeText
+import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.model.PointOfSaleStateModel
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeMaterialFormsError
-import com.expedia.util.subscribeText
-import com.expedia.util.subscribeVisibility
 import com.expedia.vm.itin.AddGuestItinViewModel
 import com.mobiata.android.util.Ui
 import io.reactivex.subjects.PublishSubject

@@ -13,12 +13,12 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.extensions.subscribeOnClick
+import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.HotelStarRatingFilterView
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeOnClick
-import com.expedia.util.subscribeVisibility
 import com.expedia.vm.hotel.AdvancedSearchOptionsViewModel
 
 class AdvancedSearchOptionsView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {

@@ -5,7 +5,7 @@ import com.expedia.bookings.data.GaiaSuggestionRequest
 import com.expedia.bookings.data.SuggestionResultType
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.SuggestionV4Response
-import com.expedia.bookings.subscribeObserver
+import com.expedia.bookings.extensions.subscribeObserver
 import com.google.gson.GsonBuilder
 import io.reactivex.Observable
 import io.reactivex.Observer

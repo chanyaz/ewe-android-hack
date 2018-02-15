@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.features.Feature
 import com.expedia.bookings.features.Features
+import com.expedia.bookings.preference.extensions.features
 
 class RemoteFeaturesListAdapter(private val listener: OnFeatureClickedListener) : RecyclerView.Adapter<RemoteFeaturesListAdapter.ViewHolder>() {
 

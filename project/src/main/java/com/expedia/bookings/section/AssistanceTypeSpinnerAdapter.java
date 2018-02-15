@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Traveler.AssistanceType;
 import com.expedia.bookings.text.HtmlCompat;
-import com.expedia.bookings.widget.TextViewExtensions;
+import com.expedia.bookings.extensions.TextViewExtensions;
 import com.mobiata.android.util.Ui;
 
 public class AssistanceTypeSpinnerAdapter extends BaseAdapter {

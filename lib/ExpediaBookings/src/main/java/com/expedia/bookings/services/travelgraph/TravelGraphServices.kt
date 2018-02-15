@@ -1,7 +1,7 @@
 package com.expedia.bookings.services.travelgraph
 
 import com.expedia.bookings.data.travelgraph.TravelGraphUserHistoryResponse
-import com.expedia.bookings.subscribeObserver
+import com.expedia.bookings.extensions.subscribeObserver
 import com.google.gson.GsonBuilder
 import io.reactivex.Observer
 import io.reactivex.Scheduler

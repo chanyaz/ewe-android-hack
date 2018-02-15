@@ -2,8 +2,8 @@ package com.expedia.bookings.rail.widget
 
 import android.view.View
 import android.widget.TextView
+import com.expedia.bookings.extensions.subscribeTextChange
 import com.expedia.util.endlessObserver
-import com.expedia.util.subscribeTextChange
 import io.reactivex.disposables.CompositeDisposable
 
 class EntryManager(private val formFields: List<TextView>, private val entryForm: FormListener) {

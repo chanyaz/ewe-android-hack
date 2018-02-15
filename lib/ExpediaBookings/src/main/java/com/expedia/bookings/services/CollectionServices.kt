@@ -1,7 +1,7 @@
 package com.expedia.bookings.services
 
 import com.expedia.bookings.data.collections.Collection
-import com.expedia.bookings.subscribeObserver
+import com.expedia.bookings.extensions.subscribeObserver
 import com.google.gson.GsonBuilder
 import io.reactivex.Observer
 import io.reactivex.Scheduler

@@ -7,7 +7,7 @@ import com.expedia.bookings.data.TNSRegisterDeviceResponse
 import com.expedia.bookings.data.TNSRegisterUserDeviceFlightsRequestBody
 import com.expedia.bookings.data.TNSRegisterUserDeviceRequestBody
 import com.expedia.bookings.data.TNSUser
-import com.expedia.bookings.subscribeObserver
+import com.expedia.bookings.extensions.subscribeObserver
 import io.reactivex.Observer
 import io.reactivex.Scheduler
 import io.reactivex.disposables.Disposable

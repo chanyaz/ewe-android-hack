@@ -6,13 +6,14 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.setMaterialFormsError
+import com.expedia.bookings.extensions.subscribeText
+import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.presenter.shared.StoredCouponListAdapter
 import com.expedia.bookings.presenter.shared.StoredCouponWidget
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isShowSavedCoupons
-import com.expedia.bookings.withLatestFrom
-import com.expedia.util.subscribeText
-import com.expedia.util.subscribeVisibility
+import com.expedia.bookings.extensions.withLatestFrom
 
 class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : AbstractCouponWidget(context, attrs) {
 

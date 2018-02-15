@@ -5,7 +5,7 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.user.UserStateManager
-import com.expedia.bookings.extension.getEarnMessage
+import com.expedia.bookings.extensions.getEarnMessage
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 
 class LoyaltyUtil {

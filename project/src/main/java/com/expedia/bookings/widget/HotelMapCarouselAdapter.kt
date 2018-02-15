@@ -13,15 +13,15 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
-import com.expedia.bookings.extension.shouldShowCircleForRatings
+import com.expedia.bookings.extensions.setInverseVisibility
+import com.expedia.bookings.extensions.setTextAndVisibility
+import com.expedia.bookings.hotel.util.shouldShowCircleForRatings
+import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
-import com.expedia.util.setInverseVisibility
-import com.expedia.util.setTextAndVisibility
-import com.expedia.util.updateVisibility
 import com.expedia.vm.hotel.HotelViewModel
 import com.mobiata.android.text.StrikethroughTagHandler
 import io.reactivex.subjects.BehaviorSubject
@@ -137,11 +137,11 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
                     else if (shopWithPoints) View.INVISIBLE
                     else View.GONE
 
-            shadowOnLoyaltyMessageContainer.updateVisibility(viewModel.loyaltyAvailable)
-            shadowOnHotelCell.updateVisibility(!viewModel.loyaltyAvailable && lineOfBusiness == LineOfBusiness.HOTELS)
+            shadowOnLoyaltyMessageContainer.setVisibility(viewModel.loyaltyAvailable)
+            shadowOnHotelCell.setVisibility(!viewModel.loyaltyAvailable && lineOfBusiness == LineOfBusiness.HOTELS)
             loyaltyAppliedMessage.text = viewModel.getMapLoyaltyMessageText()
             loyaltyEarnMessage.text = viewModel.earnMessage
-            loyaltyEarnMessage.updateVisibility(viewModel.showEarnMessage)
+            loyaltyEarnMessage.setVisibility(viewModel.showEarnMessage)
 
             updateFonts()
         }
@@ -151,7 +151,7 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
             hotelPricePerNight.text = viewModel.hotelPriceFormatted
             hotelPricePerNight.setTextColor(viewModel.pricePerNightColor)
             hotelPricePerNight.setInverseVisibility(viewModel.isHotelSoldOut)
-            hotelSoldOut.updateVisibility(viewModel.isHotelSoldOut)
+            hotelSoldOut.setVisibility(viewModel.isHotelSoldOut)
         }
 
         private fun updateFonts() {
@@ -165,12 +165,12 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
         private fun updateHotelRating(viewModel: HotelViewModel) {
             hotelPreviewRating.setStarColor(viewModel.getStarRatingColor())
             hotelPreviewRating.setRating(viewModel.hotelStarRating)
-            hotelPreviewRating.updateVisibility(viewModel.showHotelPreviewRating)
+            hotelPreviewRating.setVisibility(viewModel.showHotelPreviewRating)
 
             hotelGuestRating.text = viewModel.hotelGuestRating.toString()
-            hotelGuestRating.updateVisibility(viewModel.isHotelGuestRatingAvailable)
-            hotelGuestRecommend.updateVisibility(viewModel.isHotelGuestRatingAvailable)
-            hotelNoGuestRating.updateVisibility(viewModel.showNoGuestRating)
+            hotelGuestRating.setVisibility(viewModel.isHotelGuestRatingAvailable)
+            hotelGuestRecommend.setVisibility(viewModel.isHotelGuestRatingAvailable)
+            hotelNoGuestRating.setVisibility(viewModel.showNoGuestRating)
         }
     }
 }

@@ -7,12 +7,12 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeInverseVisibility
+import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.itin.vm.FlightItinConfirmationViewModel
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeInverseVisibility
-import com.expedia.util.subscribeText
 import kotlinx.android.synthetic.main.widget_itin_flight_confirmation.view.itin_flight_confirmation_container
 
 class ItinConfirmationWidget(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {

@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.BuildConfig
-import com.expedia.bookings.ObservableOld
+import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.AbstractItinDetailsResponse
@@ -26,6 +26,10 @@ import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.enums.TwoScreenOverviewState
+import com.expedia.bookings.extensions.safeSubscribeOptional
+import com.expedia.bookings.extensions.setInverseVisibility
+import com.expedia.bookings.extensions.subscribeVisibility
+import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.LeftToRightTransition
@@ -49,14 +53,10 @@ import com.expedia.bookings.utils.isFlightGreedySearchEnabled
 import com.expedia.bookings.utils.isShowFlightsCheckoutWebview
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.bookings.widget.shared.WebCheckoutView
-import com.expedia.bookings.withLatestFrom
+import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.ui.FlightActivity
 import com.expedia.util.Optional
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.safeSubscribeOptional
-import com.expedia.util.setInverseVisibility
-import com.expedia.util.subscribeVisibility
-import com.expedia.util.updateVisibility
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.FlightSearchViewModel
 import com.expedia.vm.FlightWebCheckoutViewViewModel
@@ -901,8 +901,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     }
 
     private fun transitionToWebView(forward: Boolean) {
-        webCheckoutView.updateVisibility(forward)
-        webCheckoutView.toolbar.updateVisibility(forward)
+        webCheckoutView.setVisibility(forward)
+        webCheckoutView.toolbar.setVisibility(forward)
         AccessibilityUtil.setFocusToToolbarNavigationIcon(webCheckoutView.toolbar)
     }
 }

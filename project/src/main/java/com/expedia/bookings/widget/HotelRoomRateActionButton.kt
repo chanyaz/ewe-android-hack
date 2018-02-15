@@ -5,8 +5,8 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.Button
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.utils.bindView
-import com.expedia.util.subscribeOnClick
 import io.reactivex.subjects.PublishSubject
 
 class HotelRoomRateActionButton(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {

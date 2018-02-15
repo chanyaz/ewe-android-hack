@@ -37,6 +37,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SearchSuggestion
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TravelerParams
+import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.launch.widget.LobToolbarWidget
 import com.expedia.bookings.utils.ProWizardBucketCache
 import com.expedia.bookings.utils.AccessibilityUtil
@@ -51,7 +52,6 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.TravelerWidgetV2
 import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.updateVisibility
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.BaseSuggestionAdapterViewModel
 import com.expedia.vm.launch.LobToolbarViewModel
@@ -531,7 +531,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     private fun setupLobToolbar() {
         lobToolbar.viewModel = LobToolbarViewModel(context, getLineOfBusiness())
         val newLaunchscreenEnabled = ProWizardBucketCache.isBucketed(context)
-        lobToolbar.updateVisibility(newLaunchscreenEnabled)
+        lobToolbar.setVisibility(newLaunchscreenEnabled)
         if (newLaunchscreenEnabled) {
             toolBarTitle.text = context.resources.getText(R.string.search_title)
         }

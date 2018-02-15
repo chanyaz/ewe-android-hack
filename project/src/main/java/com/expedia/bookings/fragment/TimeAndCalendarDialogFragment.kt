@@ -16,10 +16,10 @@ import android.widget.RelativeLayout
 import android.widget.SeekBar
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.shared.CalendarRules
 import com.expedia.bookings.widget.TimeSlider
 import com.expedia.util.Optional
-import com.expedia.util.subscribeVisibility
 import com.expedia.vm.SearchViewModelWithTimeSliderCalendar
 import io.reactivex.disposables.Disposable
 import kotlin.properties.Delegates

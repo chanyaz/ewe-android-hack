@@ -2,7 +2,7 @@ package com.expedia.vm.itin
 
 import android.content.Context
 import com.expedia.bookings.BuildConfig
-import com.expedia.bookings.ObservableOld
+import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.section.CommonSectionValidators

@@ -11,8 +11,8 @@ import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.dialog.DialogFactory
+import com.expedia.bookings.extensions.subscribeObserver
 import com.expedia.bookings.services.PackageServices
-import com.expedia.bookings.subscribeObserver
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.util.Optional
 import com.expedia.util.PackageUtil

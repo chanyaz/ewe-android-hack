@@ -1,4 +1,4 @@
-package com.expedia.bookings.preference
+package com.expedia.bookings.preference.extensions
 
 import com.expedia.bookings.features.Feature
 import com.expedia.bookings.features.Features

@@ -10,13 +10,13 @@ import android.widget.AdapterView
 import android.widget.ImageButton
 import android.widget.Spinner
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.setAccessibilityHoverFocus
+import com.expedia.bookings.extensions.subscribeOnClick
+import com.expedia.bookings.extensions.subscribeText
+import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeOnClick
-import com.expedia.util.subscribeText
-import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.BaseTravelerPickerViewModel
 import com.expedia.vm.TravelerPickerViewModel
 import com.squareup.phrase.Phrase
@@ -164,7 +164,7 @@ class TravelerPickerView(context: Context, attrs: AttributeSet) : BaseTravelerPi
         )
     }
 
-    fun ImageButton.setImageButtonColorFilter(enabled: Boolean) {
+    private fun ImageButton.setImageButtonColorFilter(enabled: Boolean) {
         if (enabled)
             this.setColorFilter(enabledColor, PorterDuff.Mode.SRC_IN)
         else this.setColorFilter(disabledColor, PorterDuff.Mode.SRC_IN)

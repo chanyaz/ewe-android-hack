@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.extensions.TextViewExtensions;
 import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.util.Ui;
 

@@ -2,7 +2,7 @@ package com.expedia.bookings.services.sos
 
 import com.expedia.bookings.data.sos.DealsResponse
 import com.expedia.bookings.data.sos.MemberDealsRequest
-import com.expedia.bookings.subscribeObserver
+import com.expedia.bookings.extensions.subscribeObserver
 import com.google.gson.GsonBuilder
 import io.reactivex.Observer
 import io.reactivex.Scheduler

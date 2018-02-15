@@ -16,6 +16,7 @@ import android.widget.Button
 import android.widget.RadioGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
@@ -24,9 +25,8 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.ScrollView
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.TotalPriceWidget
-import com.expedia.bookings.withLatestFrom
+import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.flights.FareFamilyItemViewModel
 import com.expedia.vm.flights.FareFamilyTotalPriceViewModel
 import com.expedia.vm.flights.FlightFareFamilyViewModel

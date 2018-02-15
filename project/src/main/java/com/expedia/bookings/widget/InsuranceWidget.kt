@@ -10,15 +10,15 @@ import android.view.View
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
+import com.expedia.bookings.extensions.subscribeEnabled
+import com.expedia.bookings.extensions.subscribeText
+import com.expedia.bookings.extensions.subscribeTextColor
+import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeEnabled
-import com.expedia.util.subscribeText
-import com.expedia.util.subscribeTextColor
-import com.expedia.util.subscribeVisibility
 import com.expedia.vm.InsuranceViewModel
 
 class InsuranceWidget(context: Context, attrs: AttributeSet) : CardView(context, attrs) {

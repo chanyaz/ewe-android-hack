@@ -8,7 +8,7 @@ import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplits
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.NumberUtils
-import com.expedia.bookings.withLatestFrom
+import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.vm.interfaces.IBucksViewModel
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject

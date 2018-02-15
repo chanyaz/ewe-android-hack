@@ -5,9 +5,9 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.RatingBar
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
-import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.HotelReviewRowViewModel
 import com.squareup.phrase.Phrase
 

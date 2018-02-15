@@ -1,6 +1,6 @@
 package com.expedia.vm.rail
 
-import com.expedia.bookings.ObservableOld
+import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.data.TicketDeliveryOption
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.vm.BaseCreditCardFeesViewModel

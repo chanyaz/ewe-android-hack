@@ -5,11 +5,11 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.RelativeLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.extension.shouldShowCircleForRatings
+import com.expedia.bookings.hotel.util.shouldShowCircleForRatings
+import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.StarRatingBar
 import com.expedia.bookings.widget.TextView
-import com.expedia.util.updateVisibility
 import com.expedia.vm.hotel.HotelViewModel
 import kotlin.properties.Delegates
 
@@ -57,7 +57,7 @@ class HotelCellNameStarAmenityDistance(context: Context, attrs: AttributeSet) : 
     }
 
     private fun updateStarRating(viewModel: HotelViewModel) {
-        ratingBar.updateVisibility(viewModel.showStarRating)
+        ratingBar.setVisibility(viewModel.showStarRating)
         ratingBar.setRating(viewModel.hotelStarRating)
         ratingBar.setStarColor(viewModel.getStarRatingColor())
     }

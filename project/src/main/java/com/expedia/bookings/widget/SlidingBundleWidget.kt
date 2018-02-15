@@ -19,6 +19,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
+import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.presenter.packages.BundleWidget
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
@@ -27,7 +28,6 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
 import com.expedia.bookings.utils.isMidAPIEnabled
-import com.expedia.util.subscribeText
 import com.expedia.vm.packages.BundleOverviewViewModel
 import com.expedia.vm.packages.PackageSearchType
 import com.expedia.vm.packages.PackageTotalPriceViewModel

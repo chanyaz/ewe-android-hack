@@ -6,13 +6,10 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.ValidPayment
 import com.expedia.bookings.data.flights.ValidFormOfPayment
+import com.expedia.bookings.extensions.getPaymentType
 import com.expedia.bookings.utils.CreditCardUtils
 import com.expedia.bookings.utils.CurrencyUtils
 import com.squareup.phrase.Phrase
-
-fun ValidFormOfPayment.getPaymentType(): PaymentType {
-    return CurrencyUtils.parsePaymentType(this.name)
-}
 
 object ValidFormOfPaymentUtils {
 

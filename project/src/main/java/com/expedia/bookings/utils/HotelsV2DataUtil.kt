@@ -9,7 +9,7 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.extension.isWholeNumber
+import com.expedia.bookings.extensions.isWholeNumber
 import com.expedia.bookings.services.LocalDateTypeAdapter
 import com.expedia.util.LoyaltyUtil
 import com.google.gson.Gson

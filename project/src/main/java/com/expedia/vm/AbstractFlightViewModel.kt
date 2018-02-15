@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.res.Resources
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
-import com.expedia.bookings.extension.getEarnMessage
+import com.expedia.bookings.extensions.getEarnMessage
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.squareup.phrase.Phrase

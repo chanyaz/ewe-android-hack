@@ -9,9 +9,9 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.hotel.animation.TranslateYAnimator
 import com.expedia.bookings.utils.bindView
-import com.expedia.util.subscribeText
 import io.reactivex.subjects.PublishSubject
 
 class HotelResultsChangeDateView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {

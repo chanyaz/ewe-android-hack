@@ -15,7 +15,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.services.HotelServices
-import com.expedia.bookings.subscribeObserver
+import com.expedia.bookings.extensions.subscribeObserver
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.isHotelMaterialForms
 import com.squareup.phrase.Phrase

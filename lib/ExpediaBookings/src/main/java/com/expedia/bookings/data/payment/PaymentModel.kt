@@ -4,7 +4,7 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.services.LoyaltyServices
-import com.expedia.bookings.withLatestFrom
+import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.util.Optional
 import io.reactivex.Observable
 import io.reactivex.Observer

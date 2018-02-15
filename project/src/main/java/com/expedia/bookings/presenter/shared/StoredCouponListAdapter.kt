@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.expedia.bookings.R
-import com.expedia.util.safeSubscribe
+import com.expedia.bookings.extensions.safeSubscribe
 import io.reactivex.subjects.PublishSubject
 
 class StoredCouponListAdapter(storedCouponsSubject: PublishSubject<List<StoredCouponAdapter>>,

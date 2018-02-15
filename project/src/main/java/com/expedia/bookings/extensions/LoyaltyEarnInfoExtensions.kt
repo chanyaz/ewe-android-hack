@@ -1,4 +1,4 @@
-package com.expedia.bookings.extension
+package com.expedia.bookings.extensions
 
 import android.content.Context
 import com.expedia.bookings.R

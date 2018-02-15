@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeText
+import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.shared.vm.BaseSuggestionViewModel
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
-import com.expedia.util.subscribeText
-import com.expedia.util.subscribeTextAndVisibility
 
 open class SuggestionViewHolder(val root: ViewGroup, val vm: BaseSuggestionViewModel) : RecyclerView.ViewHolder(root) {
     @VisibleForTesting val icon: ImageView by bindView(R.id.icon_imageview)

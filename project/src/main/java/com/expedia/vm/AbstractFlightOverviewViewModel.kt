@@ -1,7 +1,7 @@
 package com.expedia.vm
 
 import android.content.Context
-import com.expedia.bookings.ObservableOld
+import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.utils.Ui

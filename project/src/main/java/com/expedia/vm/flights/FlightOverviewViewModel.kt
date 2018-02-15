@@ -4,7 +4,7 @@ import android.content.Context
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.extension.getEarnMessage
+import com.expedia.bookings.extensions.getEarnMessage
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.Strings
 import com.expedia.vm.AbstractFlightOverviewViewModel

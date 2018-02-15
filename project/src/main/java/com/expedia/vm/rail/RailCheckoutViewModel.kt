@@ -3,7 +3,7 @@ package com.expedia.vm.rail
 import android.content.Context
 import android.text.Spanned
 import android.text.SpannedString
-import com.expedia.bookings.ObservableOld
+import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BillingInfo

@@ -29,6 +29,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.ClearPrivateDataDialog
 import com.expedia.bookings.dialog.TextViewDialog
+import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.AdTracker
@@ -46,7 +47,6 @@ import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBrandColorEnabled
 import com.expedia.bookings.utils.navigation.NavUtils
-import com.expedia.util.updateVisibility
 import com.mobiata.android.SocialUtils
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
@@ -355,7 +355,7 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
 
     override fun onStart() {
         super.onStart()
-        accountToolbar.updateVisibility(ProWizardBucketCache.isBucketed(context))
+        accountToolbar.setVisibility(ProWizardBucketCache.isBucketed(context))
     }
 
     override fun onUserAccountRefreshed() {

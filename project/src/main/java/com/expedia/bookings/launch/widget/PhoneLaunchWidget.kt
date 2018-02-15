@@ -27,6 +27,7 @@ import com.expedia.bookings.data.collections.Collection
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.NearbyHotelParams
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.launch.vm.LaunchLobViewModel
@@ -42,7 +43,6 @@ import com.expedia.bookings.utils.isBrandColorEnabled
 import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.shared.SearchInputTextView
-import com.expedia.util.updateVisibility
 import com.mobiata.android.Log
 import com.squareup.otto.Subscribe
 import io.reactivex.Observer
@@ -224,8 +224,8 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
 
     fun initializeProWizard() {
         val proWizardBucketed = ProWizardBucketCache.isBucketed(context)
-        proWizardSearchBar.updateVisibility(proWizardBucketed)
-        proWizardSearchBarShadow.updateVisibility(proWizardBucketed)
+        proWizardSearchBar.setVisibility(proWizardBucketed)
+        proWizardSearchBarShadow.setVisibility(proWizardBucketed)
 
         proWizardSearchBarView.setText(PointOfSale.getPointOfSale().getProWizardLOBString(context))
 

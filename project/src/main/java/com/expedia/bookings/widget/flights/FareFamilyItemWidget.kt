@@ -8,6 +8,10 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.RadioButton
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeInverseVisibilityInvisible
+import com.expedia.bookings.extensions.subscribeOnClick
+import com.expedia.bookings.extensions.subscribeTextAndVisibilityInvisible
+import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
@@ -15,10 +19,6 @@ import com.expedia.bookings.widget.FareFamilyAmenitiesDialog
 import com.expedia.bookings.widget.FareFamilyPrimaryAmenitiesWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.endlessObserver
-import com.expedia.util.subscribeInverseVisibilityInvisible
-import com.expedia.util.subscribeOnClick
-import com.expedia.util.subscribeTextAndVisibilityInvisible
-import com.expedia.util.subscribeVisibility
 import com.expedia.vm.flights.FareFamilyItemViewModel
 import com.expedia.vm.flights.FareFamilyPrimaryAmenitiesWidgetViewModel
 import com.expedia.vm.flights.FlightFareFamilyAmenityDialogViewModel

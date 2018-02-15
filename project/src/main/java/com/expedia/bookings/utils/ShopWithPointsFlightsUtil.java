@@ -141,7 +141,7 @@ public class ShopWithPointsFlightsUtil {
 	public static CharSequence getEarnInfoTextToDisplay(Context context, FlightTrip trip) {
 		LoyaltyEarnInfo earnInfo = trip.getEarnInfo();
 		if (earnInfo != null) {
-			CharSequence earnInfoTextToDisplay = com.expedia.bookings.extension.LoyaltyEarnInfoExtensionsKt.getEarnMessage(earnInfo, context);
+			CharSequence earnInfoTextToDisplay = com.expedia.bookings.extensions.LoyaltyEarnInfoExtensionsKt.getEarnMessage(earnInfo, context);
 			if (Strings.isNotEmpty(earnInfoTextToDisplay)) {
 				return earnInfoTextToDisplay;
 			}

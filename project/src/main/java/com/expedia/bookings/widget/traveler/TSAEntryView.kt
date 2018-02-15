@@ -9,11 +9,11 @@ import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.extensions.subscribeMaterialFormsError
 import com.expedia.bookings.section.GenderSpinnerAdapter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeMaterialFormsError
 import com.expedia.vm.traveler.TravelerTSAViewModel
 import org.joda.time.LocalDate
 

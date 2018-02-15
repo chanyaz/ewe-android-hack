@@ -3,7 +3,7 @@ package com.expedia.vm
 import android.content.Context
 import android.support.annotation.CallSuper
 import android.support.v4.content.ContextCompat
-import com.expedia.bookings.ObservableOld
+import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.LineOfBusiness
@@ -13,7 +13,7 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.extension.isShowAirAttached
+import com.expedia.bookings.extensions.isShowAirAttached
 import com.expedia.bookings.hotel.DEFAULT_HOTEL_GALLERY_CODE
 import com.expedia.bookings.hotel.util.HotelResortFeeFormatter
 import com.expedia.bookings.hotel.data.Amenity

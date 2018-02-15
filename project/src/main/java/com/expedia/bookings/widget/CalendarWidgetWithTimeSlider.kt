@@ -7,13 +7,13 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.fragment.CalendarDialogFragment
 import com.expedia.bookings.fragment.TimeAndCalendarDialogFragment
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeText
 import com.expedia.vm.SearchViewModelWithTimeSliderCalendar
 
 class CalendarWidgetWithTimeSlider(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {

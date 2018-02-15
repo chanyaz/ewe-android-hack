@@ -9,20 +9,20 @@ import android.widget.LinearLayout
 import android.widget.Space
 import com.expedia.bookings.R
 import com.expedia.bookings.enums.TwoScreenOverviewState
+import com.expedia.bookings.extensions.safeSubscribe
+import com.expedia.bookings.extensions.setAccessibilityHoverFocus
+import com.expedia.bookings.extensions.setInverseVisibility
+import com.expedia.bookings.extensions.subscribeEnabled
+import com.expedia.bookings.extensions.subscribeOnClick
+import com.expedia.bookings.extensions.subscribeText
+import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.SlideToWidgetLL
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.TotalPriceWidget
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.setInverseVisibility
-import com.expedia.util.subscribeOnClick
-import com.expedia.util.subscribeText
-import com.expedia.util.safeSubscribe
-import com.expedia.util.subscribeEnabled
-import com.expedia.util.updateVisibility
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
 
@@ -135,7 +135,7 @@ class BottomCheckoutContainer(context: Context, attrs: AttributeSet?) : LinearLa
     fun toggleSlideToPurchaseText(showSlider: Boolean) {
         val hasText = !viewModel.sliderPurchaseTotalText.value.isNullOrEmpty()
         slideToPurchaseSpace.setInverseVisibility(hasText && showSlider)
-        slideTotalText.updateVisibility(hasText && showSlider)
+        slideTotalText.setVisibility(hasText && showSlider)
     }
 
     fun toggleCheckoutButtonOrSlider(showSlider: Boolean, state: TwoScreenOverviewState) {

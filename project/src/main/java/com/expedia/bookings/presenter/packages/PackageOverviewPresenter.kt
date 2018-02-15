@@ -21,6 +21,9 @@ import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.enums.TwoScreenOverviewState
+import com.expedia.bookings.extensions.safeSubscribeOptional
+import com.expedia.bookings.extensions.setInverseVisibility
+import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.tracking.PackagesTracking
@@ -36,9 +39,6 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.expedia.ui.PackageHotelActivity
 import com.expedia.util.PackageUtil
-import com.expedia.util.safeSubscribeOptional
-import com.expedia.util.setInverseVisibility
-import com.expedia.util.updateVisibility
 import com.expedia.vm.PackageWebCheckoutViewViewModel
 import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
 import com.expedia.vm.packages.OverviewHeaderData
@@ -420,7 +420,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
             super.endTransition(forward)
             checkoutPresenter.setInverseVisibility(forward)
             bundleOverviewHeader.setInverseVisibility(forward)
-            webCheckoutView.updateVisibility(forward)
+            webCheckoutView.setVisibility(forward)
         }
     }
 

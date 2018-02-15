@@ -7,9 +7,9 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.util.subscribeText
 import com.expedia.vm.FreeCancellationViewModel
 
 class FreeCancellationWidget(context: Context?, attrs: AttributeSet?) : LinearLayout(context, attrs) {

@@ -5,10 +5,10 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.lx.LXCreateTripResponseV2
+import com.expedia.bookings.extensions.subscribeInverseVisibility
 import com.expedia.bookings.presenter.BaseSingleScreenOverviewPresenter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.LXCheckoutSummaryWidget
-import com.expedia.util.subscribeInverseVisibility
 import com.expedia.vm.lx.LXCheckoutViewModel
 import com.expedia.vm.lx.LXCreateTripViewModel
 

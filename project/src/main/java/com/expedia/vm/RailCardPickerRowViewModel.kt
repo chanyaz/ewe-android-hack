@@ -1,6 +1,6 @@
 package com.expedia.vm
 
-import com.expedia.bookings.ObservableOld
+import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.data.rail.responses.RailCard
 import com.expedia.bookings.data.rail.responses.RailCardSelected
 import io.reactivex.subjects.PublishSubject

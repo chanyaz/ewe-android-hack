@@ -5,10 +5,10 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.CheckBox
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeChecked
+import com.expedia.bookings.extensions.subscribeText
+import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.utils.bindView
-import com.expedia.util.subscribeChecked
-import com.expedia.util.subscribeText
-import com.expedia.util.subscribeVisibility
 import com.expedia.vm.traveler.AbstractUniversalCKOTravelerEntryWidgetViewModel
 import com.expedia.vm.traveler.HotelTravelerEntryWidgetViewModel
 

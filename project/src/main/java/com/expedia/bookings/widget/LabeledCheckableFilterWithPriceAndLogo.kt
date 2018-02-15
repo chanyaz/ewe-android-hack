@@ -7,8 +7,8 @@ import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.utils.bindView
-import com.expedia.util.subscribeOnClick
 import com.expedia.vm.BaseFlightFilterViewModel.CheckedFilterProperties
 import io.reactivex.Observer
 

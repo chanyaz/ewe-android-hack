@@ -34,7 +34,7 @@ import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.navigation.CarNavUtils
 import com.expedia.bookings.utils.navigation.FlightNavUtils
 import com.expedia.bookings.utils.navigation.NavUtils
-import com.expedia.bookings.withLatestFrom
+import com.expedia.bookings.extensions.withLatestFrom
 import com.mobiata.android.SocialUtils
 import com.mobiata.android.util.SettingUtils
 import io.reactivex.Observer

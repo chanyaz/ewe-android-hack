@@ -12,10 +12,10 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.utils.AboutUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.util.subscribeText
 import com.expedia.vm.ItinPOSHeaderViewModel
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject

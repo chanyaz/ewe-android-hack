@@ -6,9 +6,9 @@ import android.widget.CheckBox
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
-import com.expedia.util.subscribeOnClick
 import com.expedia.vm.flights.AdvanceSearchFilter
 import io.reactivex.Observer
 
