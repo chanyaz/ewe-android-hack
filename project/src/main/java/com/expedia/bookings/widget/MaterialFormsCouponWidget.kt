@@ -47,7 +47,11 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
     }
 
     override fun showError(show: Boolean) {
-        couponCode.setMaterialFormsError(!show, viewmodel.applyCouponViewModel.errorMessageObservable.value ?: "")
+        val errorMessage = viewmodel.applyCouponViewModel.errorMessageObservable.value
+        if (show) {
+            errorMessage?.let { announceForAccessibility(errorMessage) }
+        }
+        couponCode.setMaterialFormsError(!show, errorMessage ?: "")
     }
 
     override fun setUpViewModelSubscriptions() {
@@ -57,6 +61,7 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
         }
 
         viewmodel.storedCouponViewModel.errorMessageObservable.withLatestFrom(viewmodel.storedCouponViewModel.storedCouponActionParam, { errorText, storedCouponActionParam ->
+            errorText?.let { announceForAccessibility(errorText) }
             storedCouponWidget.viewModel.errorObservable.onNext(Pair(errorText, storedCouponActionParam.instanceId))
             enableCouponUi(true)
         }).subscribe()
