@@ -62,7 +62,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:background="@drawable/bg_clickable_row"
-                android:contentDescription="@string/toolbar_nav_icon_close_cont_desc"
+                android:contentDescription="@string/remove_coupon_button_content_description"
                 android:paddingRight="19dp"
                 android:src="@drawable/widget_close" />
 

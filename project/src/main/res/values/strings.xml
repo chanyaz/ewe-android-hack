@@ -3870,6 +3870,8 @@
     <string name="material_applied_coupon_subtitle_TEMPLATE">{name} (-{discount})</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
     <string name="coupon_error_dialog_title">Coupon Failed</string>
+    <!--Hotel V2 remove coupon button content description-->
+    <string name="remove_coupon_button_content_description">Remove coupon</string>
     <string name="coupon_error_remove_dialog_title">Coupon Removal Failed</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">There was a problem with your coupon. Please try entering it again.</string>

@@ -44,7 +44,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:background="@drawable/bg_clickable_row"
-            android:contentDescription="@string/toolbar_nav_icon_close_cont_desc"
+            android:contentDescription="@string/remove_coupon_button_content_description"
             android:padding="16dp"
             android:src="@drawable/widget_close" />
 

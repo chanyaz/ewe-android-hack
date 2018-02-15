@@ -625,6 +625,17 @@ class HotelCheckoutPresenterTest {
     }
 
     @Test
+    fun testRemoveCouponButtonContentDescriptionMaterialTestControl() {
+        assertEquals("Remove coupon", checkout.couponCardView.removeCoupon.contentDescription)
+    }
+
+    @Test
+    fun testRemoveCouponButtonContentDescriptionMaterialTestBucket() {
+        setupHotelMaterialForms()
+        assertEquals("Remove coupon", checkout.couponCardView.removeCoupon.contentDescription)
+    }
+
+    @Test
     fun testCouponWidgetContentDescriptionMaterialTestControl() {
         assertEquals("Enter coupon code button", checkout.couponCardView.unexpanded.contentDescription)
     }
