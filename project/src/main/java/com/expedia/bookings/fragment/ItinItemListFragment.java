@@ -402,13 +402,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		return mIsLoading;
 	}
 
-	public boolean isInDetailMode() {
-		return false;
-	}
-
-	public void hideDetails() {
-	}
-
 	public void enableLoadItins() {
 		mAllowLoadItins = true;
 		if (mNumberOfItinCardsOfGuestUser == 0) {

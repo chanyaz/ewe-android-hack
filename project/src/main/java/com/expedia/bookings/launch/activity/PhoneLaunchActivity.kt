@@ -278,17 +278,13 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
             if ((itinListFragment?.mSignInPresenter?.back() ?: false)) {
                 return
             }
-            if (itinListFragment?.isInDetailMode ?: false) {
-                itinListFragment?.hideDetails()
-                return
-            }
             viewPager.currentItem = PAGER_POS_LAUNCH
             return
         } else if (viewPager.currentItem == PAGER_POS_ACCOUNT) {
             viewPager.currentItem = PAGER_POS_LAUNCH
             return
         } else if (viewPager.currentItem == PAGER_POS_LAUNCH) {
-            if (phoneLaunchFragment?.onBackPressed() ?: false) return
+            if (phoneLaunchFragment?.onBackPressed() == true) return
         }
         super.onBackPressed()
     }
@@ -414,10 +410,6 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         if (pagerPosition != PAGER_POS_LAUNCH) {
             pagerPosition = PAGER_POS_LAUNCH
             viewPager.currentItem = PAGER_POS_LAUNCH
-
-            if (itinListFragment?.isInDetailMode ?: false) {
-                itinListFragment?.hideDetails()
-            }
 
             if (hasMenu) {
                 supportInvalidateOptionsMenu()
