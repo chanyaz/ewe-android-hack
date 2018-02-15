@@ -72,7 +72,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	private Toolbar tripToolbar;
 	private View mRoot;
-	private ImageView mShadowImageView;
 	private ItinListView mItinListView;
 	private View mOrEnterNumberTv;
 	private UserReviewRatingDialog ratingDialog;
@@ -150,7 +149,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 		tripToolbar = Ui.findView(view, R.id.trip_launch_toolbar);
 		mRoot = Ui.findView(view, R.id.outer_container);
-		mShadowImageView = Ui.findView(view, R.id.shadow_image_view);
 		mItinListView = Ui.findView(view, android.R.id.list);
 		mDeepRefreshLoadingView = Ui.findView(view, R.id.deep_refresh_loading_layout);
 
