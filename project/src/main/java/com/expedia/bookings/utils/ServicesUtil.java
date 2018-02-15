@@ -1,5 +1,7 @@
 package com.expedia.bookings.utils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import android.Manifest;
@@ -12,13 +14,19 @@ import android.support.v4.content.ContextCompat;
 import com.expedia.account.AccountService;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.dagger.AppComponent;
 import com.expedia.bookings.data.DeviceType;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.EndPoint;
+import com.expedia.bookings.server.EndpointProvider;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
+
+import okhttp3.Interceptor;
 
 public class ServicesUtil {
 
@@ -123,13 +131,24 @@ public class ServicesUtil {
 	 * @return
 	 */
 	public static AccountService generateAccountService(Context context) {
+
+		AppComponent injectedComponents = Ui.getApplication(context).appComponent();
+		boolean isUserBucketedForAPIMAuth = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppAccountsAPIKongEndPoint);
+		EndpointProvider endpointProvider = injectedComponents.endpointProvider();
+
+		List<Interceptor> interceptorList = new ArrayList<>();
+		if (isUserBucketedForAPIMAuth) {
+			interceptorList.add(injectedComponents.provideHmacInterceptor());
+		}
+
 		return new AccountService(
-			Ui.getApplication(context).appComponent().okHttpClient(),
-			Ui.getApplication(context).appComponent().endpointProvider().getE3EndpointUrl(),
+			injectedComponents.okHttpClient(),
+			isUserBucketedForAPIMAuth ? endpointProvider.getKongEndpointUrl() : endpointProvider.getE3EndpointUrl(),
 			PointOfSale.getPointOfSale().getSiteId(),
 			PointOfSale.getPointOfSale().getDualLanguageId(),
 			ServicesUtil.generateClientId(context),
-			generateUserAgentString());
+			generateUserAgentString(),
+			interceptorList);
 	}
 
 	public static String generateXDevLocationString(Context context) {

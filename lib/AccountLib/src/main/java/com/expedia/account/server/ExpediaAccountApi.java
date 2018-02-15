@@ -14,7 +14,7 @@ import retrofit2.http.POST;
 public interface ExpediaAccountApi {
 
 	@FormUrlEncoded
-	@POST("/api/user/sign-in")
+	@POST("api/user/sign-in")
 	Observable<AccountResponse> signIn(
 		@Field("email") String email,
 		@Field("password") String password,
@@ -24,14 +24,14 @@ public interface ExpediaAccountApi {
 	);
 
 	@FormUrlEncoded
-	@POST("/api/user/sign-in")
+	@POST("api/user/sign-in")
 	Observable<AccountResponse> signInProfileOnly(
 		@Field("profileOnly") boolean profileOnly,
 		@FieldMap Map<String, String> extraParams
 	);
 
 	@FormUrlEncoded
-	@POST("/api/user/create")
+	@POST("api/user/create")
 	Observable<AccountResponse> createUser(
 		@Field("email") String email,
 		@Field("password") String password,

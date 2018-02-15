@@ -55,11 +55,13 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.Traveler.AssistanceType;
 import com.expedia.bookings.data.Traveler.Gender;
 import com.expedia.bookings.data.TravelerCommitResponse;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.data.trips.TripDetailsResponse;
 import com.expedia.bookings.data.trips.TripResponse;
 import com.expedia.bookings.data.user.UserStateManager;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager;
 import com.expedia.bookings.featureconfig.SatelliteFeatureConstants;
@@ -82,6 +84,7 @@ import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
 
 import okhttp3.Call;
+import okhttp3.Interceptor;
 import okhttp3.JavaNetCookieJar;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -514,7 +517,12 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		addSignInParams(query, flags);
-		return doE3Request("api/user/sign-in", query, new SignInResponseHandler());
+		if (AbacusFeatureConfigManager.isBucketedForTest(mContext, AbacusUtils.EBAndroidAppAccountsAPIKongEndPoint)) {
+			return doApimE3Request("api/user/sign-in", query, new SignInResponseHandler());
+		}
+		else {
+			return doE3Request("api/user/sign-in", query, new SignInResponseHandler());
+		}
 	}
 
 	public SignInResponse signInWithEmailForAutomationTests(int flags, String email) {
@@ -546,8 +554,12 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 		query.add(new BasicNameValuePair("tripId", tripId));
 
 		addProfileTypes(query, flags);
-
-		return doE3Request("api/user/associateUserToTrip", query, new AssociateUserToTripResponseHandler(mContext));
+		if (AbacusFeatureConfigManager.isBucketedForTest(mContext, AbacusUtils.EBAndroidAppAccountsAPIKongEndPoint)) {
+			return doApimE3Request("api/user/associateUserToTrip", query, new AssociateUserToTripResponseHandler(mContext));
+		}
+		else {
+			return doE3Request("api/user/associateUserToTrip", query, new AssociateUserToTripResponseHandler(mContext));
+		}
 	}
 
 	/**
@@ -567,7 +579,12 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 
 		addProfileTypes(query, flags | F_FLIGHTS | F_HOTELS);
 
-		return doE3Request("api/user/profile", query, new SignInResponseHandler());
+		if (AbacusFeatureConfigManager.isBucketedForTest(mContext, AbacusUtils.EBAndroidAppAccountsAPIKongEndPoint)) {
+			return doApimE3Request("api/user/profile", query, new SignInResponseHandler());
+		}
+		else {
+			return doE3Request("api/user/profile", query, new SignInResponseHandler());
+		}
 	}
 
 	/**
@@ -582,8 +599,13 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 			addFlightTraveler(query, traveler, "");
 			addCommonParams(query);
 			Log.i(TAG_REQUEST, "update-traveler body:" + NetUtils.getParamsForLogging(query));
-			return doFlightsRequest("api/user/update-traveler", query, new TravelerCommitResponseHandler(mContext,
-				traveler));
+			if (AbacusFeatureConfigManager.isBucketedForTest(mContext, AbacusUtils.EBAndroidAppAccountsAPIKongEndPoint)) {
+				return doFlightsAPIMRequest("api/user/update", query, new TravelerCommitResponseHandler(mContext, traveler));
+			}
+			else {
+				return doFlightsRequest("api/user/update-traveler", query, new TravelerCommitResponseHandler(mContext,
+					traveler));
+			}
 		}
 		else {
 			return null;
@@ -798,7 +820,7 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 				//We first check to see if we have already sent this payload for this regId
 				if (PushNotificationUtils.sendPayloadCheck(regId, payload)) {
 					//If not we go ahead and do the request
-					PushNotificationRegistrationResponse response = doRequest(post, responseHandler, F_POST);
+					PushNotificationRegistrationResponse response = doRequest(post, responseHandler, F_POST, new ArrayList<Interceptor>());
 					if (response == null || !response.getSuccess()) {
 						//If we failed to register, remove the payload from our map, so we dont prevent ourselves form trying again later.
 						PushNotificationUtils.removePayloadFromMap(regId);
@@ -864,9 +886,14 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 		return doFlightsRequest(targetUrl, params, responseHandler, F_FLIGHTS);
 	}
 
+	private <T extends Response> T doFlightsAPIMRequest(String targetUrl, List<BasicNameValuePair> params,
+		ResponseHandler<T> responseHandler) {
+		return doApimE3Request(targetUrl, params, responseHandler, F_FLIGHTS);
+	}
+
 	private <T extends Response> T doFlightsRequest(String targetUrl, List<BasicNameValuePair> params,
 		ResponseHandler<T> responseHandler, int flags) {
-		return doE3Request(targetUrl, params, responseHandler, flags | F_FLIGHTS);
+		return doE3Request(targetUrl, params, responseHandler, flags | F_FLIGHTS, new ArrayList<Interceptor>());
 	}
 
 	private <T extends Response> T doE3Request(String targetUrl, List<BasicNameValuePair> params,
@@ -876,6 +903,27 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 
 	private <T extends Response> T doE3Request(String targetUrl, List<BasicNameValuePair> params,
 		ResponseHandler<T> responseHandler, int flags) {
+		return doE3Request(targetUrl, params, responseHandler, flags, new ArrayList<Interceptor>());
+	}
+
+	private <T extends Response> T doApimE3Request(String targetUrl, List<BasicNameValuePair> params,
+		ResponseHandler<T> responseHandler, int flags) {
+
+		EndpointProvider endpointProvider = Ui.getApplication(mContext).appComponent().endpointProvider();
+		List<Interceptor> interceptorList = new ArrayList<>();
+		interceptorList.add(Ui.getApplication(mContext).appComponent().provideHmacInterceptor());
+
+		return doE3Request(endpointProvider.getKongEndpointUrl() + targetUrl, params, responseHandler,
+			flags | F_DONT_ADD_ENDPOINT, interceptorList);
+	}
+
+	private <T extends Response> T doApimE3Request(String targetUrl, List<BasicNameValuePair> params,
+		ResponseHandler<T> responseHandler) {
+		return doApimE3Request(targetUrl, params, responseHandler, 0);
+	}
+
+	private <T extends Response> T doE3Request(String targetUrl, List<BasicNameValuePair> params,
+		ResponseHandler<T> responseHandler, int flags, List<Interceptor> interceptorList) {
 		String serverUrl;
 
 		/*
@@ -906,13 +954,13 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 		// Some logging before passing the request along
 		Log.d(TAG_REQUEST, "Request: " + serverUrl + "?" + NetUtils.getParamsForLogging(params));
 
-		return doRequest(base, responseHandler, flags);
+		return doRequest(base, responseHandler, flags, interceptorList);
 	}
 
 	private <T extends Response> T doFlightStatsRequest(String baseUrl, List<BasicNameValuePair> params,
 		ResponseHandler<T> responseHandler) {
 		Request.Builder base = createHttpGet(baseUrl, params);
-		return doRequest(base, responseHandler, F_IGNORE_COOKIES);
+		return doRequest(base, responseHandler, F_IGNORE_COOKIES, new ArrayList<Interceptor>());
 	}
 
 	private <T extends Response> T doReviewsRequest(String url, List<BasicNameValuePair> params,
@@ -921,13 +969,17 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 
 		Log.d(TAG_REQUEST, "User reviews request: " + url + "?" + NetUtils.getParamsForLogging(params));
 
-		return doRequest(get, responseHandler, F_IGNORE_COOKIES);
+		return doRequest(get, responseHandler, F_IGNORE_COOKIES, new ArrayList<Interceptor>());
 	}
 
-	private <T extends Response> T doRequest(Request.Builder request, ResponseHandler<T> responseHandler, int flags) {
+	private <T extends Response> T doRequest(Request.Builder request, ResponseHandler<T> responseHandler, int flags, List<Interceptor> interceptorList) {
 		final String userAgent = ServicesUtil.generateUserAgentString();
 
-		OkHttpClient okHttpClient = mClient;
+		OkHttpClient.Builder okHttpClientBuilder = mClient.newBuilder();
+		for (Interceptor interceptor : interceptorList) {
+			okHttpClientBuilder.addInterceptor(interceptor);
+		}
+		OkHttpClient okHttpClient = okHttpClientBuilder.build();
 		request.addHeader("User-Agent", userAgent);
 		request.addHeader("Accept-Encoding", "gzip");
 

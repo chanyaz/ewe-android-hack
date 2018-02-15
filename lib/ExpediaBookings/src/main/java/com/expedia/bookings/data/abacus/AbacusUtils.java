@@ -115,6 +115,7 @@ public class AbacusUtils {
 
 	// Account
 	public static final ABTest EBAndroidAppAccountRecaptcha = new ABTest(15652, true);
+	public static final ABTest EBAndroidAppAccountsAPIKongEndPoint = new ABTest(24860, true);
 
 	// Launch
 	public static final ABTest ProWizardTest = new ABTest(16136);
@@ -165,6 +166,7 @@ public class AbacusUtils {
 		testIDs.add(HotelAutoSuggestSameAsWeb.getKey());
 		testIDs.add(EBAndroidAppHotelSuperSearch.getKey());
 		testIDs.add(EBAndroidAppAPIMAuth.getKey());
+		testIDs.add(EBAndroidAppAccountsAPIKongEndPoint.getKey());
 		testIDs.add(ProWizardTest.getKey());
 		testIDs.add(EBAndroidPopulateCardholderName.getKey());
 		testIDs.add(EBAndroidAppSecureCheckoutIcon.getKey());

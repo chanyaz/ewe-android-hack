@@ -3465,6 +3465,8 @@ public class OmnitureTracking {
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppLastMinuteDeals);
 
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountsAPIKongEndPoint);
+
 		if (trackingEvents != null) {
 			s.setEvents(trackingEvents);
 		}
