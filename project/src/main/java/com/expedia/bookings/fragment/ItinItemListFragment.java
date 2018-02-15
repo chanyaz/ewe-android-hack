@@ -421,25 +421,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		}
 	}
 
-	public void accountLogoutClicked() {
-		if (!userStateManager.isUserAuthenticated()) {
-			doLogout();
-			return;
-		}
-
-		User user = userStateManager.getUserSource().getUser();
-
-		String email = null;
-
-		if (user != null) {
-			email = user.getPrimaryTraveler().getEmail();
-		}
-
-		String logoutMessage = getResources().getString(R.string.itin_sign_out_confirmation_message_TEMPLATE, email);
-		LoginConfirmLogoutDialogFragment df = LoginConfirmLogoutDialogFragment.getInstance(logoutMessage);
-		df.show(getFragmentManager(), LoginConfirmLogoutDialogFragment.TAG);
-	}
-
 	private void setState(MessageState state) {
 		mCurrentState = state;
 		switch (state) {
