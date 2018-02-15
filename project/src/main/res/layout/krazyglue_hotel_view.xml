@@ -132,7 +132,6 @@
                         android:id="@+id/hotel_guest_recommend"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="4dp"
                         android:layout_weight="1"
                         android:text="@string/hotel_guest_recommend"
                         android:textColor="@color/gray700"

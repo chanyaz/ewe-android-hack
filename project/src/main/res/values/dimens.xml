@@ -199,8 +199,6 @@
     <!--Dimensions for hotel reviews summary-->
     <dimen name="hotel_reviews_summary_text_size">12dp</dimen>
     <dimen name="hotel_reviews_summary_padding_bottom">10dp</dimen>
-    <dimen name="hotel_reviews_rating_padding_left">4dp</dimen>
-    <dimen name="hotel_reviews_rating_padding_right">@dimen/hotel_reviews_rating_padding_left</dimen>
     <dimen name="hotel_reviews_rating_padding_bottom">1dp</dimen>
 
     <!-- Dimensions for hotel filter -->
