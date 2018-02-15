@@ -18,6 +18,7 @@ import java.util.TimeZone;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.json.JSONException;
@@ -1393,7 +1394,7 @@ public class ItineraryManager implements JSONable {
 					}
 				}
 			}
-			waitAndParseDetailResponses(observables, trips);
+			waitAndParseDetailResponses(observables, trips, new HandleTripResponse());
 		}
 
 		@NonNull
@@ -1412,7 +1413,7 @@ public class ItineraryManager implements JSONable {
 			};
 		}
 
-		private void waitAndParseDetailResponses(List<Observable<JSONObject>> observables, final Map<String, Trip> trips) {
+		void waitAndParseDetailResponses(List<Observable<JSONObject>> observables, final Map<String, Trip> trips, final IHandleTripResponse handleTripResponse) {
 			Observable.zip(observables, new Function<Object[], List<JSONObject>>() {
 					@Override
 					public List<JSONObject> apply(Object[] objects) throws Exception {
@@ -1447,9 +1448,9 @@ public class ItineraryManager implements JSONable {
 					@Override
 					public void onNext(JSONObject jsonObject) {
 						TripDetailsResponse response = (new TripDetailsResponseHandler()).handleJson(jsonObject);
-						if (response == null) {
+						if ((response == null) || (response.getTrip() == null)) {
 							Log.i(LOGGING_TAG, "REFRESH_ALL_TRIPS: Response is null");
-							refreshTripResponseNull(new Trip());
+							handleTripResponse.refreshTripResponseNull(new Trip());
 						}
 						else {
 							Trip updatedTrip = response.getTrip();
@@ -1458,16 +1459,16 @@ public class ItineraryManager implements JSONable {
 								Trip trip = trips.get(itineraryKey);
 								if (response.hasErrors()) {
 									Log.i(LOGGING_TAG, "REFRESH_ALL_TRIPS: Response has errors");
-									refreshTripResponseHasErrors(trip, response);
+									handleTripResponse.refreshTripResponseHasErrors(trip, response);
 								}
 								else {
 									Log.i(LOGGING_TAG, "REFRESH_ALL_TRIPS: Response is a success");
-									refreshTripResponseSuccess(trip, false, response);
+									handleTripResponse.refreshTripResponseSuccess(trip, false, response);
 								}
 							}
 						}
 					}
-				});
+			});
 		}
 
 		private void refreshTrip(Trip trip, boolean deepRefresh) {
@@ -1502,80 +1503,86 @@ public class ItineraryManager implements JSONable {
 				TripDetailsResponse response;
 				response = getTripDetailsResponse(trip, deepRefresh);
 
+				HandleTripResponse handleTripResponse = new HandleTripResponse();
 				if (response == null) {
-					refreshTripResponseNull(trip);
+					handleTripResponse.refreshTripResponseNull(trip);
 				}
 				else if (response.hasErrors()) {
-					refreshTripResponseHasErrors(trip, response);
+					handleTripResponse.refreshTripResponseHasErrors(trip, response);
 				}
 				else {
-					refreshTripResponseSuccess(trip, deepRefresh, response);
+					handleTripResponse.refreshTripResponseSuccess(trip, deepRefresh, response);
 				}
 			}
 		}
 
-		private void refreshTripResponseNull(Trip trip) {
-			publishProgress(new ProgressUpdate(ProgressUpdate.Type.UPDATE_FAILED, trip));
-			mTripRefreshFailures++;
-		}
+		class HandleTripResponse implements IHandleTripResponse {
+			@Override
+			public void refreshTripResponseNull(@NotNull Trip trip) {
+				publishProgress(new ProgressUpdate(ProgressUpdate.Type.UPDATE_FAILED, trip));
+				mTripRefreshFailures++;
+			}
 
-		private void refreshTripResponseHasErrors(Trip trip, TripDetailsResponse response) {
-			Log.w(LOGGING_TAG, "Error updating trip " + trip.getItineraryKey() + ": " + response.gatherErrorMessage(mContext));
+			@Override
+			public void refreshTripResponseHasErrors(@NotNull Trip trip, @NotNull TripDetailsResponse response) {
+				Log.w(LOGGING_TAG, "Error updating trip " + trip.getItineraryKey() + ": " + response.gatherErrorMessage(mContext));
 
-			// If it's a guest trip, and we've never retrieved info on it, it may be invalid.
-			// As such, we should remove it (but don't remove a trip if it's ever been loaded
-			// or it's not a guest trip).
-			if (trip.isGuest() && trip.getLevelOfDetail() == LevelOfDetail.NONE) {
-				if (response.getErrors().size() > 0) {
-					Log.w(LOGGING_TAG, "Tried to load guest trip, but failed, so we're removing it.  Email="
-						+ trip.getGuestEmailAddress() + " itinKey="
-						+ trip.getItineraryKey());
-					mTrips.remove(trip.getItineraryKey());
-					ServerError.ErrorCode errorCode = response.getErrors().get(0).getErrorCode();
-					if (errorCode == ServerError.ErrorCode.NOT_AUTHENTICATED) {
-						publishProgress(new ProgressUpdate(ProgressUpdate.Type.FAILED_FETCHING_REGISTERED_USER_ITINERARY, trip));
+				// If it's a guest trip, and we've never retrieved info on it, it may be invalid.
+				// As such, we should remove it (but don't remove a trip if it's ever been loaded
+				// or it's not a guest trip).
+				if (trip.isGuest() && trip.getLevelOfDetail() == LevelOfDetail.NONE) {
+					if (response.getErrors().size() > 0) {
+						Log.w(LOGGING_TAG, "Tried to load guest trip, but failed, so we're removing it.  Email="
+							+ trip.getGuestEmailAddress() + " itinKey="
+							+ trip.getItineraryKey());
+						mTrips.remove(trip.getItineraryKey());
+						ServerError.ErrorCode errorCode = response.getErrors().get(0).getErrorCode();
+						if (errorCode == ServerError.ErrorCode.NOT_AUTHENTICATED) {
+							publishProgress(new ProgressUpdate(ProgressUpdate.Type.FAILED_FETCHING_REGISTERED_USER_ITINERARY, trip));
+						}
+						else {
+							publishProgress(new ProgressUpdate(ProgressUpdate.Type.FAILED_FETCHING_GUEST_ITINERARY, trip));
+						}
 					}
-					else {
-						publishProgress(new ProgressUpdate(ProgressUpdate.Type.FAILED_FETCHING_GUEST_ITINERARY, trip));
+				}
+				mTripRefreshFailures++;
+			}
+
+			@Override
+			public void refreshTripResponseSuccess(@NotNull Trip trip, boolean deepRefresh, @NotNull TripDetailsResponse response) {
+				Trip updatedTrip = response.getTrip();
+
+				BookingStatus bookingStatus = updatedTrip.getBookingStatus();
+				if (bookingStatus == BookingStatus.SAVED && trip.getLevelOfDetail() == LevelOfDetail.NONE
+					&& trip.getLastCachedUpdateMillis() == 0) {
+					// Normally we'd filter this out; but there is a special case wherein a guest trip is
+					// still in a SAVED state right after booking (when we'd normally add it).  So we give
+					// any guest trip a one-refresh; if we see that it's already been tried once, we let it
+					// die a normal death
+					Log.w(LOGGING_TAG, "Would have removed guest trip, but it is SAVED and has never been updated.");
+
+					trip.markUpdated(false, new CurrentTime());
+				}
+				else if (BookingStatus.filterOut(updatedTrip.getBookingStatus())) {
+					Log.w(LOGGING_TAG, "Removing a trip because it's being filtered by booking status.  tripNum="
+						+ updatedTrip.getItineraryKey() + " status=" + bookingStatus);
+					removeTrip(updatedTrip.getItineraryKey());
+				}
+				else {
+					// Update trip
+					trip.updateFrom(updatedTrip);
+					trip.markUpdated(deepRefresh, new CurrentTime());
+
+					mTripsRefreshed++;
+
+					if (trip.getAirAttach() != null && !trip.isShared()) {
+						Db.getTripBucket().setAirAttach(trip.getAirAttach());
 					}
-				}
-			}
-			mTripRefreshFailures++;
-		}
 
-		private void refreshTripResponseSuccess(Trip trip, boolean deepRefresh, TripDetailsResponse response) {
-			Trip updatedTrip = response.getTrip();
-
-			BookingStatus bookingStatus = updatedTrip.getBookingStatus();
-			if (bookingStatus == BookingStatus.SAVED && trip.getLevelOfDetail() == LevelOfDetail.NONE
-				&& trip.getLastCachedUpdateMillis() == 0) {
-				// Normally we'd filter this out; but there is a special case wherein a guest trip is
-				// still in a SAVED state right after booking (when we'd normally add it).  So we give
-				// any guest trip a one-refresh; if we see that it's already been tried once, we let it
-				// die a normal death
-				Log.w(LOGGING_TAG, "Would have removed guest trip, but it is SAVED and has never been updated.");
-
-				trip.markUpdated(false, new CurrentTime());
-			}
-			else if (BookingStatus.filterOut(updatedTrip.getBookingStatus())) {
-				Log.w(LOGGING_TAG, "Removing a trip because it's being filtered by booking status.  tripNum="
-					+ updatedTrip.getItineraryKey() + " status=" + bookingStatus);
-				removeTrip(updatedTrip.getItineraryKey());
-			}
-			else {
-				// Update trip
-				trip.updateFrom(updatedTrip);
-				trip.markUpdated(deepRefresh, new CurrentTime());
-
-				mTripsRefreshed++;
-
-				if (trip.getAirAttach() != null && !trip.isShared()) {
-					Db.getTripBucket().setAirAttach(trip.getAirAttach());
-				}
-
-				if (!(trip.getLevelOfDetail() == LevelOfDetail.SUMMARY_FALLBACK)) {
-					mSyncOpQueue.add(new Task(Operation.REFRESH_TRIP_FLIGHT_STATUS, trip));
-					mSyncOpQueue.add(new Task(Operation.PUBLISH_TRIP_UPDATE, trip));
+					if (!(trip.getLevelOfDetail() == LevelOfDetail.SUMMARY_FALLBACK)) {
+						mSyncOpQueue.add(new Task(Operation.REFRESH_TRIP_FLIGHT_STATUS, trip));
+						mSyncOpQueue.add(new Task(Operation.PUBLISH_TRIP_UPDATE, trip));
+					}
 				}
 			}
 		}
