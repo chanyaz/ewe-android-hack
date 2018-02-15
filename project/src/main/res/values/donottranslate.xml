@@ -457,7 +457,6 @@
     <string name="dummy_postal_code">12345</string>
 
     <!-- Deeplink URLs for app shortcuts -->
-    <string name="deeplink_home">expda://home</string>
     <string name="deeplink_trips">expda://trips</string>
     <string name="deeplink_hotel_search">expda://hotelSearch</string>
     <string name="deeplink_flight_share">expda://flightShare</string>
