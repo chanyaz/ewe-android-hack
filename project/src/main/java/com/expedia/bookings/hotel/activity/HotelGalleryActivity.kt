@@ -61,8 +61,8 @@ class HotelGalleryActivity : AppCompatActivity() {
     }
 
     private fun initToolbar() {
-        val viewModel = HotelInfoToolbarViewModel(this, galleryConfig.hotelName,
-                galleryConfig.hotelStarRating, soldOut = false)
+        val viewModel = HotelInfoToolbarViewModel(this)
+        viewModel.bind(galleryConfig.hotelName, galleryConfig.hotelStarRating, soldOut = false)
         toolbar.setViewModel(viewModel)
         toolbar.navClickedSubject.subscribe {
             onBackPressed()
