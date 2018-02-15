@@ -43,7 +43,7 @@ class RecentSearchListAdapter(recentSearchesObservable: PublishSubject<List<Rece
         } else {
             view = viewInfalter.inflate(R.layout.flight_recent_search_card_vertical, parent, false)
         }
-        return RecentSearchViewHolder(view)
+        return RecentSearchViewHolder(context, view)
     }
 
     override fun getItemCount(): Int {

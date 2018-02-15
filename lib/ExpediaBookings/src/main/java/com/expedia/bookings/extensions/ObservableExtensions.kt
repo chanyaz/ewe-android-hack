@@ -1,6 +1,7 @@
 package com.expedia.bookings.extensions
 
 import com.expedia.util.Optional
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.Single
@@ -20,6 +21,10 @@ fun <T> Observable<T>.subscribeObserver(observer: Observer<T>): Disposable {
 
 fun <T> Single<T>.subscribe(observer: Observer<T>): Disposable {
     return subscribe({ observer.onNext(it) }, { observer.onError(it) })
+}
+
+fun <T> Flowable<T>.subscribeObserver(subscriber: Observer<T>): Disposable {
+    return subscribe({ subscriber.onNext(it) }, { subscriber.onError(it) }, { subscriber.onComplete() })
 }
 
 fun <T1, T2, R> Observable<T1>.withLatestFrom(other: Observable<T2>, block: (T1, T2) -> R): Observable<R> {

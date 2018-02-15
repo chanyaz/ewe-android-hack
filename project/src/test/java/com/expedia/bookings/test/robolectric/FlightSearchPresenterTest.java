@@ -702,11 +702,11 @@ public class FlightSearchPresenterTest {
 		RecyclerView recentSearchWidgetItems = recentSearchWidgetContainer.getRecyclerView();
 
 		ArrayList<RecentSearch> recentSearches = new ArrayList<RecentSearch>();
-		recentSearches.add(new RecentSearch("SFO", "LAS", "$200", "Nov 10 - Nov 12",
-			"as of Oct 10", "2", "Premium Economy", true));
+		recentSearches.add(new RecentSearch("SFO", "LAS",null, null ,"Nov 10", "Nov 12",
+			"COACH", 100, 100, "USD", 1, "10,12", false, true));
 
-		recentSearches.add(new RecentSearch("SEA", "SFO", "$400", "Feb 10 - Mar 15",
-			"as of Jan 10", "3", "Business", false));
+		recentSearches.add(new RecentSearch("SFO", "LAS",null, null ,"Nov 10", "Nov 12",
+			"COACH", 100, 100, "USD", 1, "10,12", false, true));
 
 		recentSearchWidgetContainer.getViewModel().getRecentSearchesObservable().onNext(recentSearches);
 		recentSearchWidgetItems.measure(0, 0);

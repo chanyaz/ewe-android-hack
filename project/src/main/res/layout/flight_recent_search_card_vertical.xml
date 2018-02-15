@@ -99,7 +99,8 @@
             android:layout_height="12dp"
             android:layout_gravity="center"
             android:layout_marginLeft="6dp"
-            android:src="@drawable/search_form_icon_person" />
+            android:tint="@color/gray700"
+            android:src="@drawable/search_form_icon_person"/>
 
         <com.expedia.bookings.widget.TextView
             android:layout_width="wrap_content"

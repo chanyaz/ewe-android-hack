@@ -10,6 +10,7 @@ import android.graphics.Rect
 import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
+import android.support.v4.widget.NestedScrollView
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -69,7 +70,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     val swpWidgetStub: ViewStub by bindView(R.id.swp_stub)
     val ANIMATION_DURATION = 200L
     val toolbar: Toolbar by bindView(R.id.search_toolbar)
-    val scrollView: ScrollView by bindView(R.id.scrollView)
+    val scrollView: NestedScrollView by bindView(R.id.scrollView)
     val searchContainer: ViewGroup by bindView(R.id.search_container)
 
     val calendarWidgetV2: CalendarWidgetV2 by bindView(R.id.calendar_card)

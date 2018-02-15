@@ -1,20 +1,20 @@
 package com.expedia.bookings.utils;
 
-import android.content.Context;
-import android.text.format.DateUtils;
-
-import com.expedia.bookings.R;
-import com.squareup.phrase.Phrase;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
+import android.content.Context;
+import android.text.format.DateUtils;
+
+import com.expedia.bookings.R;
+import com.squareup.phrase.Phrase;
 
 /**
  */
@@ -167,5 +167,9 @@ public class DateFormatUtils {
 
 	public static String formatLocalDateToEEEMMMdBasedOnLocale(LocalDate date) {
 		return LocaleBasedDateFormatUtils.localDateToEEEMMMd(date);
+	}
+
+	public static String formatLocalDateToMMMdBasedOnLocale(LocalDate date) {
+		return LocaleBasedDateFormatUtils.localDateToMMMd(date);
 	}
 }

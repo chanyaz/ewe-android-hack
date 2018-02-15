@@ -6,6 +6,7 @@ buildscript {
     ext.rxjava_version = '2.1.5'
     ext.dagger_version = '2.14.1'
     ext.robolectric_version = '3.5'
+    ext.room_persistence_version = '1.0.0'
 
     repositories {
         jcenter()

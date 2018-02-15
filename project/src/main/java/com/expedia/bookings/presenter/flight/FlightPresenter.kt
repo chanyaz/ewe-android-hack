@@ -50,6 +50,7 @@ import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isFlexEnabled
 import com.expedia.bookings.utils.isFlightGreedySearchEnabled
+import com.expedia.bookings.utils.isRecentSearchesForFlightsEnabled
 import com.expedia.bookings.utils.isShowFlightsCheckoutWebview
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.bookings.widget.shared.WebCheckoutView
@@ -72,7 +73,7 @@ import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
 import io.reactivex.Observer
 import io.reactivex.observers.DisposableObserver
-import java.util.Date
+import java.util.*
 import javax.inject.Inject
 
 class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(context, attrs) {
@@ -541,6 +542,12 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             }
             searchViewModel.trackSearchClicked.subscribe {
                 FlightsV2Tracking.trackSearchClick(Db.getFlightSearchParams(), true, flightOfferViewModel.isGreedyCallAborted)
+            }
+        }
+
+        if (isRecentSearchesForFlightsEnabled(context)) {
+            flightOfferViewModel.outboundResultsObservable.map( { it -> it.first().packageOfferModel.price.averageTotalPricePerTicket} ).subscribe {
+                searchPresenter.recentSearchWidgetContainer.viewModel.saveRecentSearchObservable.onNext(it)
             }
         }
     }
