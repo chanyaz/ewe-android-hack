@@ -1,10 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
@@ -25,7 +20,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -54,7 +48,6 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
 import com.expedia.bookings.widget.itin.ItinListView;
-import com.expedia.bookings.widget.itin.ItinListView.OnListModeChangedListener;
 import com.expedia.vm.UserReviewDialogViewModel;
 import com.mobiata.android.app.SimpleDialogFragment;
 
@@ -505,43 +498,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		invalidateOptionsMenu();
 	}
 
-	private OnListModeChangedListener mOnListModeChangedListener = new OnListModeChangedListener() {
-		@Override
-		public void onListModeChanged(boolean isInDetailMode, final boolean animate) {
-			// In some bad timing situations, it's possible for the listener to fire
-			// far after this Fragment is dead in the eyes of its Activity.  In that
-			// case, don't do the list mode change (as it requires being attached).
-			Activity activity = getActivity();
-			if (getActivity() == null) {
-				return;
-			}
-
-			if (!animate) {
-				// do nothing
-			}
-			else if (isInDetailMode) {
-				getView().post(new Runnable() {
-					@Override
-					public void run() {
-						getExpandAnimatorSet().start();
-					}
-				});
-			}
-			else {
-				getView().post(new Runnable() {
-					@Override
-					public void run() {
-						getCollapseAnimatorSet().start();
-					}
-				});
-			}
-
-			if (activity instanceof OnListModeChangedListener) {
-				((OnListModeChangedListener) activity).onListModeChanged(isInDetailMode, animate);
-			}
-		}
-	};
-
 	private OnItemClickListener mOnItemClickListener = new OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -552,76 +508,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	};
 
 	// Animations
-
-	private AnimatorSet getCollapseAnimatorSet() {
-		final int actionBarHeight = getToolbarHeight();
-
-		ObjectAnimator pagerSlideDown = ObjectAnimator.ofFloat(mItinListView, "translationY", -actionBarHeight, 0);
-		ObjectAnimator shadowSlideDown = ObjectAnimator.ofFloat(mShadowImageView, "translationY", -actionBarHeight, 0);
-		AnimatorSet animatorSet = new AnimatorSet();
-		animatorSet.setDuration(400);
-		if (ProWizardBucketCache.isBucketed(getContext())) {
-			ObjectAnimator toolbarSlideIn = ObjectAnimator.ofFloat(tripToolbar, "translationY", -actionBarHeight, 0);
-			toolbarSlideIn.addListener(new AnimatorListenerAdapter() {
-				@Override
-				public void onAnimationStart(Animator animation) {
-					tripToolbar.setVisibility(View.VISIBLE);
-				}
-			});
-			pagerSlideDown.addListener(new AnimatorListenerAdapter() {
-				@Override
-				public void onAnimationStart(Animator animation) {
-					RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mItinListView.getLayoutParams();
-					layoutParams.addRule(RelativeLayout.BELOW, R.id.trip_launch_toolbar);
-					mItinListView.setLayoutParams(layoutParams);
-				}
-			});
-			animatorSet.playTogether(pagerSlideDown, shadowSlideDown, toolbarSlideIn);
-		}
-		else {
-			animatorSet.playTogether(pagerSlideDown, shadowSlideDown);
-		}
-
-		return animatorSet;
-	}
-
-	private AnimatorSet getExpandAnimatorSet() {
-		final int actionBarHeight = getToolbarHeight();
-
-		ObjectAnimator pagerSlideUp;
-		ObjectAnimator shadowSlideUp;
-		AnimatorSet animatorSet = new AnimatorSet();
-		animatorSet.setDuration(400);
-
-		if (ProWizardBucketCache.isBucketed(getContext())) {
-			pagerSlideUp = ObjectAnimator.ofFloat(mItinListView, "translationY", 0, -actionBarHeight);
-			shadowSlideUp  = ObjectAnimator.ofFloat(mShadowImageView, "translationY", 0, -actionBarHeight);
-			ObjectAnimator toolbarSlideOut = ObjectAnimator.ofFloat(tripToolbar, "translationY", 0, -actionBarHeight);
-			toolbarSlideOut.addListener(new AnimatorListenerAdapter() {
-				@Override
-				public void onAnimationEnd(Animator animation) {
-					tripToolbar.setVisibility(View.GONE);
-				}
-			});
-			pagerSlideUp.addListener(new AnimatorListenerAdapter() {
-				@Override
-				public void onAnimationEnd(Animator animation) {
-					RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mItinListView.getLayoutParams();
-					layoutParams.addRule(RelativeLayout.BELOW, 0);
-					mItinListView.setLayoutParams(layoutParams);
-					mItinListView.setTranslationY(0);
-				}
-			});
-			animatorSet.playTogether(pagerSlideUp, shadowSlideUp, toolbarSlideOut);
-		}
-		else {
-			pagerSlideUp = ObjectAnimator.ofFloat(mItinListView, "translationY", actionBarHeight, 0);
-			shadowSlideUp  = ObjectAnimator.ofFloat(mShadowImageView, "translationY", actionBarHeight, 0);
-			animatorSet.playTogether(pagerSlideUp, shadowSlideUp);
-		}
-
-		return animatorSet;
-	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Access into FragmentActivity
