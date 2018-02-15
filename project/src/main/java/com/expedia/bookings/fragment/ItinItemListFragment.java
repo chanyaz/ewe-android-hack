@@ -8,8 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -515,17 +513,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	private void invalidateOptionsMenu() {
 		if (getActivity() != null) {
 			getActivity().invalidateOptionsMenu();
-		}
-	}
-
-	private int getToolbarHeight() {
-		if (ProWizardBucketCache.isBucketed(getContext())) {
-			return tripToolbar.getHeight();
-		}
-		else {
-			ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
-			int ret = ab == null ? 0 : ab.getHeight();
-			return ret;
 		}
 	}
 
