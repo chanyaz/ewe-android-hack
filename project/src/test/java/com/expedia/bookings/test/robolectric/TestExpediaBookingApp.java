@@ -4,8 +4,8 @@ import android.content.Context;
 import android.telephony.TelephonyManager;
 
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.dagger.AppModule;
 import com.expedia.bookings.dagger.DaggerTestAppComponent;
+import com.expedia.bookings.dagger.TestAppModule;
 
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.shadows.ShadowTelephonyManager;
@@ -36,7 +36,7 @@ public class TestExpediaBookingApp extends ExpediaBookingApp {
 	@Override
 	protected void defaultAppComponents() {
 		setAppComponent(DaggerTestAppComponent.builder()
-			.appModule(new AppModule(this))
+			.appModule(new TestAppModule(this))
 			.build());
 	}
 }
