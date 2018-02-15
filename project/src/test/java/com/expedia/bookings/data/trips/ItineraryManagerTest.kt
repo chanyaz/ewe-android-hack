@@ -22,13 +22,16 @@ import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
 import com.mobiata.android.util.SettingUtils
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
+import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer
+import okio.Okio
 import org.joda.time.DateTime
 import org.joda.time.DateTimeUtils
 import org.joda.time.LocalDateTime
+import org.json.JSONObject
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -315,6 +318,48 @@ class ItineraryManagerTest {
         assertNull(response)
     }
 
+    @Test
+    fun testTripDetailsObservableErrorResponse() {
+        val mockItineraryManager = Mockito.mock(ItineraryManager::class.java)
+        val syncTask = mockItineraryManager.SyncTask(null, null)
+        val errorData = Okio.buffer(Okio.source(File("../lib/mocked/templates/api/trips/error_trip_response.json"))).readUtf8()
+        val errorJsonObject = JSONObject(errorData)
+        val testHandleTripResponse = TestHandleTripResponse()
+
+        syncTask.waitAndParseDetailResponses(listOf(Observable.just(errorJsonObject)), null, testHandleTripResponse)
+        assertTrue(testHandleTripResponse.refreshTripResponseNullCalled)
+    }
+
+    @Test
+    fun testTripDetailsObservableSuccessInvalidKey() {
+        val mockItineraryManager = Mockito.mock(ItineraryManager::class.java)
+        val syncTask = mockItineraryManager.SyncTask(null, null)
+        val legitData = Okio.buffer(Okio.source(File("../lib/mocked/templates/api/trips/hotel_trip_details.json"))).readUtf8()
+        val legitDataJSONObject = JSONObject(legitData)
+        val testHandleTripResponse = TestHandleTripResponse()
+
+        syncTask.waitAndParseDetailResponses(listOf(Observable.just(legitDataJSONObject)), HashMap<String, Trip>(), testHandleTripResponse)
+        assertFalse(testHandleTripResponse.refreshTripResponseHasErrorsCalled)
+        assertFalse(testHandleTripResponse.refreshTripResponseNullCalled)
+        assertFalse(testHandleTripResponse.refreshTripResponseSuccessCalled)
+    }
+
+    @Test
+    fun testTripDetailsObservableSuccessHappyPath() {
+        val mockItineraryManager = Mockito.mock(ItineraryManager::class.java)
+        val syncTask = mockItineraryManager.SyncTask(null, null)
+        val legitData = Okio.buffer(Okio.source(File("../lib/mocked/templates/api/trips/hotel_trip_details.json"))).readUtf8()
+        val legitDataJSONObject = JSONObject(legitData)
+        val testHandleTripResponse = TestHandleTripResponse()
+
+        val trips = HashMap<String, Trip>()
+        trips.put("1103274148635", Trip())
+        syncTask.waitAndParseDetailResponses(listOf(Observable.just(legitDataJSONObject)), trips, testHandleTripResponse)
+        assertFalse(testHandleTripResponse.refreshTripResponseHasErrorsCalled)
+        assertFalse(testHandleTripResponse.refreshTripResponseNullCalled)
+        assertTrue(testHandleTripResponse.refreshTripResponseSuccessCalled)
+    }
+
     private fun assertLinkTracked(linkName: String, rfrrId: String, event: String, mockAnalyticsProvider: AnalyticsProvider) {
         val expectedData = mapOf(
                 "&&linkType" to "o",
@@ -364,6 +409,26 @@ class ItineraryManagerTest {
     private class MockNonFatalLogger : NonFatalLoggerInterface {
         override fun logException(e: Exception) {
             println("MockNonFatalLogger: ${e.printStackTrace()}")
+        }
+    }
+
+    private class TestHandleTripResponse : IHandleTripResponse {
+        var refreshTripResponseNullCalled = false
+        var refreshTripResponseHasErrorsCalled = false
+        var refreshTripResponseSuccessCalled = false
+        override fun refreshTripResponseNull(trip: Trip) {
+            refreshTripResponseNullCalled = true
+            return
+        }
+
+        override fun refreshTripResponseHasErrors(trip: Trip, tripDetailsResponse: TripDetailsResponse) {
+            refreshTripResponseHasErrorsCalled = true
+            return
+        }
+
+        override fun refreshTripResponseSuccess(trip: Trip, deepRefresh: Boolean, tripDetailsResponse: TripDetailsResponse) {
+            refreshTripResponseSuccessCalled = true
+            return
         }
     }
 }
