@@ -71,7 +71,7 @@ class LobToolbarViewModel(context: Context, val defaultLob: LineOfBusiness) {
             LineOfBusiness.FLIGHTS -> nav.goToFlights(null, finishCallingActivity = true)
             LineOfBusiness.TRANSPORT -> nav.goToTransport(null, finishCallingActivity = true)
             LineOfBusiness.LX -> nav.goToActivities(null, finishCallingActivity = true)
-            LineOfBusiness.CARS -> nav.goToCars(null, finishCallingActivity = true)
+            LineOfBusiness.CARS -> nav.goToCars(finishCallingActivity = true)
             LineOfBusiness.PACKAGES -> nav.goToPackages(null, null, finishCallingActivity = true)
             LineOfBusiness.RAILS -> nav.goToRail(null, finishCallingActivity = true)
             else -> {

@@ -3,6 +3,7 @@ package com.expedia.bookings.presenter.packages
 import android.app.Activity
 import android.content.Context
 import android.graphics.Point
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.Gravity
@@ -327,7 +328,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(slidingBundleWidgetListener.onTouchListener)
 
         if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
-            resultsPresenter.dockedOutboundFlightSelection.setBackgroundColor(resources.getColor(R.color.docketOutboundWidgetGray))
+            resultsPresenter.dockedOutboundFlightSelection.setBackgroundColor(ContextCompat.getColor(context, R.color.docketOutboundWidgetGray))
             resultsPresenter.dockedOutboundFlightShadow.layoutParams.height = resources.getDimension(R.dimen.package_docked_outbound_view_seperator).toInt()
         }
     }

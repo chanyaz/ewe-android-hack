@@ -88,7 +88,7 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
             priceAdjustments.onNext(rate.getPriceAdjustments())
             hotelName.onNext(it.newHotelProductResponse.getHotelName())
             checkInDate.onNext(it.newHotelProductResponse.checkInDate)
-            if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)) {
+            if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)) {
                 checkinDateFormattedByEEEMMDD.onNext(DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(LocalDate.parse(it.newHotelProductResponse.checkInDate)))
                 checkoutDateFormattedByEEEMMDD.onNext(DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(LocalDate.parse(it.newHotelProductResponse.checkOutDate)))
             } else {

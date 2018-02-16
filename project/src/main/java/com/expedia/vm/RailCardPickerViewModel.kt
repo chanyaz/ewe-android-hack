@@ -45,7 +45,7 @@ class RailCardPickerViewModel(val railServices: RailServices, val context: Conte
     var rowId = 0
     val MAX_ROWS = 8
 
-    val doneClickedWithNumberOfTravelers = doneClickedSubject.withLatestFrom(numberOfTravelers, { clicked, numberOfTravelers -> numberOfTravelers })
+    val doneClickedWithNumberOfTravelers = doneClickedSubject.withLatestFrom(numberOfTravelers, { _, numberOfTravelers -> numberOfTravelers })
 
     init {
         railCardsSelectionChangedObservable.subscribe { railCardSelected ->
@@ -75,7 +75,7 @@ class RailCardPickerViewModel(val railServices: RailServices, val context: Conte
             validationSuccess.onNext(Unit)
         }
 
-        addClickSubject.withLatestFrom(railCardTypes, { clicked, railCard -> railCard }).subscribe { railCard ->
+        addClickSubject.withLatestFrom(railCardTypes, { _, railCard -> railCard }).subscribe { railCard ->
             addRow(railCard)
             RailTracking().trackRailCardPicker("Add")
         }

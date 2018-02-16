@@ -15,7 +15,7 @@ class PackageHotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, heade
 
     override fun getHotelCellHolder(parent: ViewGroup): PackageHotelCellViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.package_hotel_cell, parent, false)
-        return PackageHotelCellViewHolder(view as ViewGroup, parent.width)
+        return PackageHotelCellViewHolder(view as ViewGroup)
     }
 
     override fun getPriceDescriptorMessageIdForHSR(context: Context): Int? {

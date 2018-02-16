@@ -40,7 +40,7 @@ class PayLaterInfoWidget(context: Context, attrs: AttributeSet) : FrameLayout(co
         if (statusBarHeight > 0) {
             toolbar.setPadding(0, statusBarHeight, 0, 0)
         }
-        toolbar.setNavigationOnClickListener { view ->
+        toolbar.setNavigationOnClickListener {
             val activity = getContext() as AppCompatActivity
             activity.onBackPressed()
         }

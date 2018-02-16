@@ -88,7 +88,7 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
             vm.clearObservable.onNext(Unit)
         }
 
-        ObservableOld.combineLatest(vm.clearChecks, vm.stopsObservable, { unit, stops -> stops }).subscribe {
+        ObservableOld.combineLatest(vm.clearChecks, vm.stopsObservable, { _, stops -> stops }).subscribe {
             if (it.size > 1) stopsContainer.clearChecks()
             airlinesContainer.clearChecks()
         }
@@ -103,7 +103,7 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
             durationSeekBar.upperLimit = durationRange.notches
             duration.text = String.format(Locale.getDefault(), durationRange.defaultMaxText, context.getString(R.string.flight_duration_hour_short))
 
-            durationSeekBar.setOnSeekBarChangeListener { seekBar, progress, fromUser ->
+            durationSeekBar.setOnSeekBarChangeListener { _, progress, fromUser ->
                 duration.text = String.format(Locale.getDefault(), durationRange.formatHour(progress), context.getString(R.string.flight_duration_hour_short))
                 durationSeekBar.currentA11yValue = duration.text.toString()
                 announceForAccessibility(durationSeekBar.currentA11yValue)

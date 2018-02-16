@@ -173,7 +173,7 @@ public class LXPresenter extends Presenter {
 			resultsPresenter.setVisibility(forward ? VISIBLE : GONE);
 			searchParamsWidget.setVisibility(forward ? GONE : VISIBLE);
 			resultsPresenter.animationFinalize(!forward);
-			searchParamsWidget.animationFinalize(!forward);
+			searchParamsWidget.animationFinalize();
 			if (searchParamsWidget.getFirstLaunch()
 					&& !ProWizardBucketCache.isBucketed(getContext())) {
 				searchParamsWidget.showSuggestionState(false);
@@ -278,7 +278,7 @@ public class LXPresenter extends Presenter {
 			}
 			searchParamsWidget.setVisibility(forward ? VISIBLE : GONE);
 			resultsPresenter.animationFinalize(forward);
-			searchParamsWidget.animationFinalize(forward);
+			searchParamsWidget.animationFinalize();
 			if (forward) {
 				AccessibilityUtil.setFocusToToolbarNavigationIcon(searchParamsWidget.getToolbar());
 			}
@@ -312,7 +312,7 @@ public class LXPresenter extends Presenter {
 			}
 			searchParamsWidget.setVisibility(forward ? VISIBLE : GONE);
 			detailsPresenter.animationFinalize(forward);
-			searchParamsWidget.animationFinalize(forward);
+			searchParamsWidget.animationFinalize();
 		}
 	};
 

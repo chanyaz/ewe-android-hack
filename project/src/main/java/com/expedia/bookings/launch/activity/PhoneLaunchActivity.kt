@@ -201,7 +201,6 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
             val errorMessage = Phrase.from(this, R.string.lob_not_supported_error_message).put("lob", lobName).format()
             showLOBNotSupportedAlertMessage(this, errorMessage, R.string.ok)
         } else if (intent.getBooleanExtra(ARG_FORCE_UPGRADE, false)) {
-            val lineOfBusiness = intent.getSerializableExtra(ARG_LINE_OF_BUSINESS) as LineOfBusiness?
             PlayStoreUtil.showForceUpgradeDailogWithMessage(this)
         }
 
@@ -412,7 +411,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
             viewPager.currentItem = PAGER_POS_LAUNCH
 
             if (hasMenu) {
-                supportInvalidateOptionsMenu()
+                invalidateOptionsMenu()
             }
         }
     }
@@ -427,7 +426,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
             viewPager.currentItem = PAGER_POS_ITIN
 
             if (hasMenu) {
-                supportInvalidateOptionsMenu()
+                invalidateOptionsMenu()
             }
         }
 
@@ -542,6 +541,12 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         } else {
             setupTopNav()
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        toolbar.tabLayout.removeOnTabSelectedListener(pageChangeListener)
+        bottomNavTabLayout.removeOnTabSelectedListener(pageChangeListener)
     }
 
     override fun onDestroy() {
@@ -664,7 +669,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     fun showLOBNotSupportedAlertMessage(context: Context, errorMessage: CharSequence,
                                         confirmButtonResourceId: Int) {
         val b = AlertDialog.Builder(context)
-        b.setCancelable(false).setMessage(errorMessage).setPositiveButton(confirmButtonResourceId) { dialog, which -> dialog.dismiss() }.show()
+        b.setCancelable(false).setMessage(errorMessage).setPositiveButton(confirmButtonResourceId) { dialog, _ -> dialog.dismiss() }.show()
     }
 
     override fun onDialogCancel() {
@@ -728,7 +733,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     private fun setupTopNav() {
         toolbar.visibility = View.VISIBLE
         toolbar.tabLayout.setupWithViewPager(viewPager)
-        toolbar.tabLayout.setOnTabSelectedListener(pageChangeListener)
+        toolbar.tabLayout.addOnTabSelectedListener(pageChangeListener)
         setContentDescriptionToolbarTabs(this, toolbar.tabLayout)
 
         bottomNavShadow.visibility = View.GONE

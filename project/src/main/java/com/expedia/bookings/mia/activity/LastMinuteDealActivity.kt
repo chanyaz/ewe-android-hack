@@ -25,7 +25,7 @@ class LastMinuteDealActivity : AppCompatActivity() {
         setContentView(R.layout.last_minute_deal_activity)
 
         val toolBar = findViewById<Toolbar>(R.id.lmd_search_toolbar)
-        toolBar.setNavigationOnClickListener { view ->
+        toolBar.setNavigationOnClickListener {
             onBackPressed()
         }
 

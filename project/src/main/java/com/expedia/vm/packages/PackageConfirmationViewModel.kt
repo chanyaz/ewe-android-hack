@@ -165,7 +165,7 @@ open class PackageConfirmationViewModel(private val context: Context, isWebCheck
     fun searchForCarRentalsForTripObserver(context: Context): Observer<Unit> {
         return object : DisposableObserver<Unit>() {
             override fun onNext(t: Unit) {
-                CarNavUtils.goToCars(context, null, NavUtils.FLAG_OPEN_SEARCH)
+                CarNavUtils.goToCars(context, NavUtils.FLAG_OPEN_SEARCH)
                 val activity = context as AppCompatActivity
                 activity.setResult(Activity.RESULT_OK)
                 activity.finish()

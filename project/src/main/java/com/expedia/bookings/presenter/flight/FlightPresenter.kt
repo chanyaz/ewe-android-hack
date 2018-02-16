@@ -333,7 +333,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
         val createTripViewModel = presenter.getCheckoutPresenter().getCreateTripViewModel()
         createTripViewModel.createTripResponseObservable.safeSubscribeOptional { trip ->
-            trip!!
             val expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
             confirmationPresenter.viewModel.setRewardsPoints.onNext(Optional(expediaRewards))
         }
@@ -371,7 +370,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         viewModel.flightProductId.subscribe { productKey ->
             createTripBuilder = FlightCreateTripParams.Builder()
             createTripBuilder.productKey(productKey)
-            createTripBuilder.setFlexEnabled(isFlexEnabled())
+            createTripBuilder.setFlexEnabled(isFlexEnabled(context))
             if (EBAndroidAppFlightSubpubChange) {
                 createTripBuilder.setFeatureOverride(Constants.FEATURE_SUBPUB)
             }
@@ -498,7 +497,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         val builder = android.app.AlertDialog.Builder(context)
         builder.setTitle(context.getString(R.string.booking_successful))
         builder.setMessage(context.getString(R.string.check_your_email_for_itin))
-        builder.setPositiveButton(context.getString(R.string.ok), { dialog, which ->
+        builder.setPositiveButton(context.getString(R.string.ok), { dialog, _ ->
             if (currentState == WebCheckoutView::class.java.name) {
                 (context as Activity).finish()
             }
@@ -626,7 +625,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             searchPresenter.setBackgroundColor(if (!forward) searchBackgroundColor.end else searchBackgroundColor.start)
-            searchPresenter.animationFinalize(!forward)
+            searchPresenter.animationFinalize()
             errorPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             searchPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             if (forward) {
@@ -801,7 +800,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             super.startTransition(forward)
             if (forward) {
                 if ((searchPresenter.flightAdvanceSearchView.visibility == View.VISIBLE) && !PointOfSale.getPointOfSale().hideAdvancedSearchOnFlights() &&
-                        AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightAdvanceSearch)) {
+                        AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightAdvanceSearch)) {
                     searchPresenter.flightAdvanceSearchWidget.toggleAdvanceSearchWidget()
                 }
             }

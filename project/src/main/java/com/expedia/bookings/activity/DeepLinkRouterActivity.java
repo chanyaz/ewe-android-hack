@@ -318,7 +318,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 
 		PointOfSale pos = PointOfSale.getPointOfSale();
 		if (pos.supports(LineOfBusiness.CARS)) {
-			CarNavUtils.goToCars(this, null, 0);
+			CarNavUtils.goToCars(this, 0);
 		}
 		else {
 			NavUtils.goToLaunchScreen(this, false, LineOfBusiness.CARS);

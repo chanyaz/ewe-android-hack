@@ -195,7 +195,7 @@ class FlightItinSegmentSummaryViewModelTest {
         sut.updateFlightStatusSubject.subscribe(updateFlightStatusSubscriber)
         updateFlightStatusSubscriber.assertNoValues()
         val now = DateTime.now()
-        sut.updateFlightStatus("C", now, now, now, null)
+        sut.updateFlightStatus("C", now, now, null)
 
         val indicatorText = activity.resources.getString(R.string.itin_flight_summary_status_indicator_text_cancelled)
         updateFlightStatusSubscriber.assertValueCount(1)
@@ -216,7 +216,7 @@ class FlightItinSegmentSummaryViewModelTest {
         val now = DateTime.now()
 
         val indicatorText = activity.resources.getString(R.string.itin_flight_summary_status_indicator_text_on_time)
-        sut.updateFlightStatus("S", now, now, now, now)
+        sut.updateFlightStatus("S", now, now, now)
         updateFlightStatusSubscriber.assertValueCount(1)
         updateFlightStatusSubscriber.onNext(FlightItinSegmentSummaryViewModel.FlightStatsParams(
                 R.drawable.flight_status_indicator_success_background,
@@ -235,7 +235,7 @@ class FlightItinSegmentSummaryViewModelTest {
         val now = DateTime.now()
 
         val indicatorText = activity.resources.getString(R.string.itin_flight_summary_status_indicator_text_early_departure)
-        sut.updateFlightStatus("S", now, now, now.minusHours(1), now.minusHours(1))
+        sut.updateFlightStatus("S", now, now.minusHours(1), now.minusHours(1))
         updateFlightStatusSubscriber.assertValueCount(1)
         updateFlightStatusSubscriber.onNext(FlightItinSegmentSummaryViewModel.FlightStatsParams(
                 R.drawable.flight_status_indicator_success_background,
@@ -253,7 +253,7 @@ class FlightItinSegmentSummaryViewModelTest {
         updateFlightStatusSubscriber.assertNoValues()
         val now = DateTime.now()
 
-        sut.updateFlightStatus("S", now.minusHours(1), now.minusHours(1), now, now)
+        sut.updateFlightStatus("S", now.minusHours(1), now, now)
         updateFlightStatusSubscriber.assertValueCount(1)
         updateFlightStatusSubscriber.onNext(FlightItinSegmentSummaryViewModel.FlightStatsParams(
                 R.drawable.flight_status_indicator_error_background,

@@ -35,13 +35,13 @@ class HotelNameFilterView(context: Context, attrs: AttributeSet?) : LinearLayout
             }
         })
 
-        filterHotelName.setOnFocusChangeListener { view, isFocus ->
+        filterHotelName.setOnFocusChangeListener { _, isFocus ->
             if (!isFocus) {
                 Ui.hideKeyboard(this)
             }
         }
 
-        clearNameButton.setOnClickListener { view ->
+        clearNameButton.setOnClickListener {
             filterHotelName.text = null
         }
     }

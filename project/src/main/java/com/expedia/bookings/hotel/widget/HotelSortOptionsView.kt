@@ -56,7 +56,7 @@ class HotelSortOptionsView(context: Context, attrs: AttributeSet?) : LinearLayou
             }
         }
 
-        sortByButtonGroup.setOnTouchListener { view, event ->
+        sortByButtonGroup.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 downEventSubject.onNext(Unit)
             }

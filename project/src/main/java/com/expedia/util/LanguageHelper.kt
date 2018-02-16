@@ -44,7 +44,9 @@ object LanguageHelper {
         } else {
             Locale.setDefault(Locale(lang))
         }
-        config.locale = Locale.getDefault()
+        config.setLocale(Locale.getDefault())
+        @Suppress("DEPRECATION")
+        // createConfigurationContext() is not working as expected. Need to check
         resources.updateConfiguration(config, resources.displayMetrics)
     }
 }

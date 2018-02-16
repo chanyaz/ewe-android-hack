@@ -62,7 +62,7 @@ abstract class AbstractTravelerEntryWidget(context: Context, attrs: AttributeSet
             }
         }).subscribe()
 
-        focusedView.subscribe { view ->
+        focusedView.subscribe {
             nameEntryViewFocused.onNext(nameEntryView.firstName.hasFocus() || (nameEntryView.middleName?.hasFocus() ?: false) || nameEntryView.lastName.hasFocus())
         }
 

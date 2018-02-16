@@ -96,7 +96,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         val presenter = viewStub.inflate() as FlightResultsListViewPresenter
         presenter.resultsViewModel = FlightResultsViewModel(context, getLineOfBusiness())
         toolbarViewModel.isOutboundSearch.subscribe(presenter.resultsViewModel.isOutboundResults)
-        if (!AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppSimplifyFlightShopping) || getLineOfBusiness() == LineOfBusiness.PACKAGES) {
+        if (!AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppSimplifyFlightShopping) || getLineOfBusiness() == LineOfBusiness.PACKAGES) {
             presenter.flightSelectedSubject.subscribe(selectedFlightResults)
         }
         presenter.showSortAndFilterViewSubject.subscribe {
@@ -275,9 +275,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     }
 
     val filterCountObserver: Observer<Int> = endlessObserver {
-        if (resultsPresenter.filterButton != null) {
-            resultsPresenter.filterButton.showNumberOfFilters(it)
-        }
+        resultsPresenter.filterButton.showNumberOfFilters(it)
     }
 
     fun showResults() {

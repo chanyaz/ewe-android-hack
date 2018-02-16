@@ -60,10 +60,12 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
         }
 
         vm.autoAdvanceObservable.subscribe { searchType ->
-            when (searchType) {
-                PackageSearchType.HOTEL -> bundleHotelWidget.openHotels()
-                PackageSearchType.OUTBOUND_FLIGHT -> outboundFlightWidget.openFlightsForDeparture()
-                PackageSearchType.INBOUND_FLIGHT -> inboundFlightWidget.openFlightsForArrival()
+            if (searchType != null) {
+                when (searchType) {
+                    PackageSearchType.HOTEL -> bundleHotelWidget.openHotels()
+                    PackageSearchType.OUTBOUND_FLIGHT -> outboundFlightWidget.openFlightsForDeparture()
+                    PackageSearchType.INBOUND_FLIGHT -> inboundFlightWidget.openFlightsForArrival()
+                }
             }
         }
 

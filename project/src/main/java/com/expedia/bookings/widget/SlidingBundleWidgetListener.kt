@@ -15,7 +15,7 @@ class SlidingBundleWidgetListener (val widget: SlidingBundleWidget, val presente
     val FAST_ANIMATION_DURATION = 150
     val REGULAR_ANIMATION_DURATION = 400
 
-    val onTouchListener = View.OnTouchListener { v, event ->
+    val onTouchListener = View.OnTouchListener { _, event ->
         if (widget.isMoving) {
             return@OnTouchListener true
         }

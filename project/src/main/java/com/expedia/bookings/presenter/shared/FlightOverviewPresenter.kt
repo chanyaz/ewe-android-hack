@@ -52,7 +52,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
     val dialog: AlertDialog by lazy {
         val builder = AlertDialog.Builder(context)
         builder.setView(basicEconomyToolTipInfoView)
-        builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which -> dialog.dismiss() })
+        builder.setPositiveButton(context.getString(R.string.DONE), { dialog, _ -> dialog.dismiss() })
         builder.create()
     }
 

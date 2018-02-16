@@ -60,7 +60,7 @@ class LastMinuteDealListAdapter(val context: Context) : RecyclerView.Adapter<Rec
         } else if (viewType == itemType.DESTINATION_CARD.ordinal) {
             val view = LayoutInflater.from(context).inflate(R.layout.deals_card, parent, false)
             val holder = DealsDestinationViewHolder(view)
-            view.setOnClickListener { v ->
+            view.setOnClickListener {
                 val lastMinuteDealActivity = context as LastMinuteDealActivity
                 var animOptions: Bundle = Bundle.EMPTY
                 if (lastMinuteDealActivity.currentFocus != null) {

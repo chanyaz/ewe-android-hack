@@ -57,7 +57,6 @@ class HotelMocker : AppCompatActivity() {
 
     private fun getHotel(obj: JSONObject): TripHotel {
         val tripParser = TripParser()
-        val hotel = obj.getJSONArray("hotels").getJSONObject(0)
         val tripObj = tripParser.parseTrip(obj)
         val tripComponent = tripObj.tripComponents[0]
         return tripComponent as TripHotel

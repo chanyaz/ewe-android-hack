@@ -11,12 +11,11 @@ import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.StrUtils
 import com.mobiata.android.text.StrikethroughTagHandler
 import com.squareup.phrase.Phrase
-import java.lang.Float
 
 class RecommendedHotelViewModel(val context: Context, val hotel: Hotel) {
 
     val title: String = hotel.localizedName
-    val rating: String = Float.toString(hotel.hotelGuestRating)
+    val rating: String = hotel.hotelGuestRating.toString()
     val isDiscountRestrictedToCurrentSourceType: Boolean = hotel.isDiscountRestrictedToCurrentSourceType
     val isSameDayDRR: Boolean = hotel.isSameDayDRR
     val isAirAttached: Boolean = hotel.lowRateInfo.airAttached

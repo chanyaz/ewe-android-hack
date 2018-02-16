@@ -42,7 +42,7 @@ class TravelerPickerViewModel(context: Context) : BaseTravelerPickerViewModel(co
             childMinusObservable.onNext(travelers.childrenAges.size > MIN_CHILDREN)
             validateInfants()
         }
-        isInfantInLapObservable.subscribe { inLap ->
+        isInfantInLapObservable.subscribe {
             validateInfants()
         }
     }

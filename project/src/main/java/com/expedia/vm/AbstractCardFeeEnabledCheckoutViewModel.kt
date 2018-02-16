@@ -59,7 +59,7 @@ abstract class AbstractCardFeeEnabledCheckoutViewModel(context: Context) : Abstr
             val fetchFreshCardFee = !(tripId == lastFetchedTripId && cardId == lastFetchedCardId)
             if (fetchFreshCardFee) {
                 lastFetchedCardFeeKeyPair = Pair(tripId, cardId)
-                cardFeeService?.getCardFees(tripId, cardId, isFlexEnabled(), getCardFeesCallback())
+                cardFeeService?.getCardFees(tripId, cardId, isFlexEnabled(context), getCardFeesCallback())
             }
         }
     }

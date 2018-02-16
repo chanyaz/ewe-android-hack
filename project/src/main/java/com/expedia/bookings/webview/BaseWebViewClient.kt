@@ -30,6 +30,7 @@ open class BaseWebViewClient(val activity: Activity, val loadCookies: Boolean,
             view.loadUrl(url)
             return false
         } else {
+            @Suppress("DEPRECATION")
             return super.shouldOverrideUrlLoading(view, url)
         }
     }

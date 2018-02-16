@@ -30,15 +30,15 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
         PackagesTracking().trackCheckoutPriceChange(diffPercentage)
     }
 
-    override fun handleCheckoutPriceChange(response: TripResponse) {
-        onCreateTripResponse(response)
+    override fun handleCheckoutPriceChange(tripResponse: TripResponse) {
+        onCreateTripResponse(tripResponse)
     }
 
-    override fun onCreateTripResponse(response: TripResponse?) {
-        response as PackageCreateTripResponse
+    override fun onCreateTripResponse(tripResponse: TripResponse?) {
+        tripResponse as PackageCreateTripResponse
         loginWidget.updateRewardsText(getLineOfBusiness())
-        getCreateTripViewModel().updateOverviewUiObservable.onNext(response)
-        (travelersPresenter.viewModel as FlightTravelersViewModel).flightOfferObservable.onNext(response.packageDetails.flight.details.offer)
+        getCreateTripViewModel().updateOverviewUiObservable.onNext(tripResponse)
+        (travelersPresenter.viewModel as FlightTravelersViewModel).flightOfferObservable.onNext(tripResponse.packageDetails.flight.details.offer)
     }
 
     override fun getDefaultToTravelerTransition(): DefaultToTraveler {

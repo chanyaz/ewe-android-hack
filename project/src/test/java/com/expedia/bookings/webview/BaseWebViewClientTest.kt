@@ -59,6 +59,7 @@ class BaseWebViewClientTest {
 
     private fun assertShouldOverrideUrlLoading(url: String, expectedResult: Boolean) {
         val mockWebView = WebView(activity.applicationContext)
+        @Suppress("DEPRECATION")
         val actualResult = sut.shouldOverrideUrlLoading(mockWebView, url)
         assertEquals(expectedResult, actualResult)
     }

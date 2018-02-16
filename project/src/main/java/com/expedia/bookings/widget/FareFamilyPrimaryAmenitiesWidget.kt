@@ -20,7 +20,7 @@ class FareFamilyPrimaryAmenitiesWidget(context: Context, attrs: AttributeSet) : 
         View.inflate(context, R.layout.fare_family_primary_amenities_widget, this)
     }
 
-    var viewModel: FareFamilyPrimaryAmenitiesWidgetViewModel by notNullAndObservable { vm ->
+    var viewModel: FareFamilyPrimaryAmenitiesWidgetViewModel by notNullAndObservable {
         primaryAmenitiesContainer.removeAllViews()
         displayPrimaryAmenities()
     }

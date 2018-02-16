@@ -34,31 +34,34 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
             var numInfantsInLap = 0
 
             Collections.sort(pricePerPassengerList)
-            pricePerPassengerList.forEachIndexed { index, passenger ->
-                when (passenger.passengerCategory) {
-                    PassengerCategory.ADULT,
-                    PassengerCategory.SENIOR -> {
-                        travelerInfo = Phrase.from(context, R.string.flight_add_adult_number_TEMPLATE).put("number", ++numAdultsAdded).format().toString()
-                    }
+            pricePerPassengerList.forEach { passenger ->
+                val passengerCategory = passenger.passengerCategory
+                if (passengerCategory != null) {
+                    when (passengerCategory) {
+                        PassengerCategory.ADULT,
+                        PassengerCategory.SENIOR -> {
+                            travelerInfo = Phrase.from(context, R.string.flight_add_adult_number_TEMPLATE).put("number", ++numAdultsAdded).format().toString()
+                        }
 
-                    PassengerCategory.ADULT_CHILD -> {
-                        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)) {
-                            travelerInfo = Phrase.from(context, R.string.flight_add_youth_number_TEMPLATE).put("number", ++numYouthAdded).format().toString()
-                        } else {
+                        PassengerCategory.ADULT_CHILD -> {
+                            if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)) {
+                                travelerInfo = Phrase.from(context, R.string.flight_add_youth_number_TEMPLATE).put("number", ++numYouthAdded).format().toString()
+                            } else {
+                                travelerInfo = Phrase.from(context, R.string.flight_add_child_number_TEMPLATE).put("number", ++numChildrenAdded).format().toString()
+                            }
+                        }
+
+                        PassengerCategory.CHILD -> {
                             travelerInfo = Phrase.from(context, R.string.flight_add_child_number_TEMPLATE).put("number", ++numChildrenAdded).format().toString()
                         }
-                    }
 
-                    PassengerCategory.CHILD -> {
-                        travelerInfo = Phrase.from(context, R.string.flight_add_child_number_TEMPLATE).put("number", ++numChildrenAdded).format().toString()
-                    }
+                        PassengerCategory.INFANT_IN_LAP -> {
+                            travelerInfo = Phrase.from(context, R.string.flight_add_infant_in_lap_number_TEMPLATE).put("number", ++numInfantsInSeat).format().toString()
+                        }
 
-                    PassengerCategory.INFANT_IN_LAP -> {
-                        travelerInfo = Phrase.from(context, R.string.flight_add_infant_in_lap_number_TEMPLATE).put("number", ++numInfantsInSeat).format().toString()
-                    }
-
-                    PassengerCategory.INFANT_IN_SEAT -> {
-                        travelerInfo = Phrase.from(context, R.string.flight_add_infant_in_seat_number_TEMPLATE).put("number", ++numInfantsInLap).format().toString()
+                        PassengerCategory.INFANT_IN_SEAT -> {
+                            travelerInfo = Phrase.from(context, R.string.flight_add_infant_in_seat_number_TEMPLATE).put("number", ++numInfantsInLap).format().toString()
+                        }
                     }
                 }
                 breakdowns.add(CostSummaryBreakdownRow.Builder().title(travelerInfo).cost(passenger.totalPrice.formattedMoneyFromAmountAndCurrencyCode).build())
@@ -103,7 +106,7 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
                 breakdowns.add(CostSummaryBreakdownRow.Builder().separator())
             }
 
-            if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSubpubChange)) {
+            if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSubpubChange)) {
                 if (flightOffer.discountAmount != null && !flightOffer.discountAmount.isZero) {
                     title = Phrase.from(context, R.string.cost_summary_breakdown_discount_TEMPLATE).put("brand", ProductFlavorFeatureConfiguration.getInstance().getPOSSpecificBrandName(context)).format().toString()
                     breakdowns.add(CostSummaryBreakdownRow.Builder()

@@ -18,23 +18,21 @@ class RailDetailsTimeline(context: Context, attrs: AttributeSet) : LinearLayout(
     }
 
     private fun addTimelineViews(legOption: RailLegOption) {
-        if (legOption != null) {
-            var previousSegment: RailSegment? = null
-            legOption.travelSegmentList?.forEach {
-                if (!(previousSegment?.isTransfer ?: false) && !it.isTransfer
-                        && it.departureStation.stationCode.equals(previousSegment?.arrivalStation?.stationCode)) {
-                    val segmentView = RailTimelineTransfer(context, it.departureStation.stationDisplayName)
-                    addView(segmentView)
-                }
-                if (it.isTransfer) {
-                    val transferView = RailTimelineTransfer(context, it)
-                    addView(transferView)
-                } else {
-                    val segmentView = RailTimelineSegment(context, it)
-                    addView(segmentView)
-                }
-                previousSegment = it
+        var previousSegment: RailSegment? = null
+        legOption.travelSegmentList?.forEach {
+            if (!(previousSegment?.isTransfer ?: false) && !it.isTransfer
+                    && it.departureStation.stationCode.equals(previousSegment?.arrivalStation?.stationCode)) {
+                val segmentView = RailTimelineTransfer(context, it.departureStation.stationDisplayName)
+                addView(segmentView)
             }
+            if (it.isTransfer) {
+                val transferView = RailTimelineTransfer(context, it)
+                addView(transferView)
+            } else {
+                val segmentView = RailTimelineSegment(context, it)
+                addView(segmentView)
+            }
+            previousSegment = it
         }
     }
 }

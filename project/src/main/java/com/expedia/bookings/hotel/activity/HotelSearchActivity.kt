@@ -48,7 +48,7 @@ class HotelSearchActivity : AppCompatActivity() {
         searchViewModel.genericSearchSubject.subscribe { params -> handleGenericSearch(params) }
         searchViewModel.hotelIdSearchSubject.subscribe { params ->
             HotelTracking.trackPinnedSearch()
-            handleHotelIdSearch(params, goToResults = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPinnedSearch))
+            handleHotelIdSearch(params, goToResults = AbacusFeatureConfigManager.isBucketedForTest(this, AbacusUtils.EBAndroidAppHotelPinnedSearch))
         }
         searchViewModel.rawTextSearchSubject.subscribe { params -> handleGeoSearch(params) }
     }

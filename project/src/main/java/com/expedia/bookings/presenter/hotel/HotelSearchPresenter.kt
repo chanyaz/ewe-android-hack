@@ -179,14 +179,14 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
 
         advancedOptionsViewModel.searchOptionsSummarySubject.subscribeText(advancedOptionsView)
 
-        val showAdvancedOptions = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSuperSearch)
+        val showAdvancedOptions = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelSuperSearch)
         advancedOptionsContainerCard.updateVisibility(showAdvancedOptions)
 
         fetchUserSearchHistory()
     }
 
-    override fun animationFinalize(forward: Boolean) {
-        super.animationFinalize(forward)
+    fun animationFinalize(forward: Boolean) {
+        super.animationFinalize()
         if (!forward) {
             fetchUserSearchHistory()
         }
@@ -234,7 +234,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
     }
 
     fun resetSearchOptions() {
-        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSuperSearch)) {
+        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelSuperSearch)) {
             advancedOptionsViewModel.resetSearchOptionsObservable.onNext(Unit)
         }
     }
@@ -250,7 +250,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
             FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_user_search_history)
 
     private fun updateSearchOptions(suggestion: SuggestionV4) {
-        if (!AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSuperSearch)) {
+        if (!AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelSuperSearch)) {
             return
         }
 

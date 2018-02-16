@@ -65,7 +65,7 @@ class RailLegSummaryWidget(context: Context, attrs: AttributeSet?) : LinearLayou
 
         legContainer.subscribeOnClick(legContainerClicked)
 
-        legContainerClicked.withLatestFrom(vm.overtakenSubject, { clicked, overtaken ->
+        legContainerClicked.withLatestFrom(vm.overtakenSubject, { _, overtaken ->
             if (!isLegDetailsExpanded()) {
                 expandLegDetails(overtaken)
             } else {

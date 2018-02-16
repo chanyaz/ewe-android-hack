@@ -31,7 +31,7 @@ import com.squareup.picasso.Picasso
 class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val viewModel: HotelCheckoutSummaryViewModel) : LinearLayout(context, attrs) {
 
     val isFreeCancellationTooltipEnabled by lazy {
-        AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFreeCancellationTooltip)
+        AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFreeCancellationTooltip)
     }
 
     val PICASSO_HOTEL_IMAGE = "HOTEL_CHECKOUT_IMAGE"
@@ -67,7 +67,7 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
         val builder = AlertDialog.Builder(context)
         builder.setView(breakdown)
         builder.setTitle(R.string.cost_summary)
-        builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which -> dialog.dismiss() })
+        builder.setPositiveButton(context.getString(R.string.DONE), { dialog, _ -> dialog.dismiss() })
         builder.create()
     }
 
@@ -84,7 +84,7 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
         viewModel.address.subscribeText(address)
         viewModel.city.subscribeText(cityState)
 
-        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)) {
+        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)) {
             date.visibility = View.GONE
             checkinCheckoutDateContainer.visibility = View.VISIBLE
         } else {
@@ -97,7 +97,7 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
         viewModel.valueAddsListObservable.subscribe (valueAddsContainer.valueAddsSubject)
         viewModel.roomDescriptions.subscribeText(selectedRoom)
         viewModel.bedDescriptions.subscribeText(selectedBed)
-        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)) {
+        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)) {
             viewModel.checkinDateFormattedByEEEMMDD.subscribeText(checkinDate)
             viewModel.checkoutDateFormattedByEEEMMDD.subscribeText(checkoutDate)
         } else {

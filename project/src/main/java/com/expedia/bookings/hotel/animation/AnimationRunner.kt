@@ -57,7 +57,7 @@ class AnimationRunner(view: View, private val context: Context) {
     fun run() {
         build()
         val view = viewRef.get()
-        view?.let { view -> view.startAnimation(animationIn) }
+        view?.let { it.startAnimation(animationIn) }
     }
 
     private fun build() {
@@ -79,7 +79,7 @@ class AnimationRunner(view: View, private val context: Context) {
                 }
                 override fun onAnimationEnd(animation: Animation?) {
                     val view = viewRef.get()
-                    view?.let { view -> view.startAnimation(animationOut) }
+                    view?.let { it.startAnimation(animationOut) }
                 }
             })
         }

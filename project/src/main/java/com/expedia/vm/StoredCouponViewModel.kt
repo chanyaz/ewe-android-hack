@@ -64,7 +64,7 @@ class StoredCouponViewModel(val context: Context, hotelServices: HotelServices, 
             HotelTracking.trackHotelCouponRemoveFailure(couponTrackingString, errorMessage)
         }).subscribe()
 
-        performCouponSuccessTrackingObservable.withLatestFrom(storedCouponTrackingObservable, { unit, couponTrackingString ->
+        performCouponSuccessTrackingObservable.withLatestFrom(storedCouponTrackingObservable, { _, couponTrackingString ->
             HotelTracking.trackHotelCouponRemoveSuccess(couponTrackingString)
         }).subscribe()
     }

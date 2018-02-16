@@ -7,7 +7,7 @@ import com.expedia.bookings.services.travelgraph.TravelGraphServices
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import io.reactivex.schedulers.Schedulers
-import junit.framework.Assert.assertTrue
+import org.junit.Assert.assertTrue
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer

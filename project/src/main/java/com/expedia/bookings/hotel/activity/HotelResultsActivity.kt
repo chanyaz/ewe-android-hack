@@ -113,11 +113,11 @@ class HotelResultsActivity : AppCompatActivity() {
             hotelSearchParamProvider.params?.let { params -> searchTrackingBuilder.searchParams(params) }
             searchTrackingBuilder.searchResponse(hotelSearchResponse)
         }
-        viewModel.resultsReceivedDateTimeObservable.subscribe { dateTime ->
+        viewModel.resultsReceivedDateTimeObservable.subscribe {
             searchTrackingBuilder.markApiResponseReceived()
         }
 
-        viewModel.searchApiErrorObservable.subscribe { apiError ->
+        viewModel.searchApiErrorObservable.subscribe {
             // todo https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/9179
         }
 
@@ -149,6 +149,6 @@ class HotelResultsActivity : AppCompatActivity() {
     private fun displayResultsPresenter() {
         presenter.visibility = View.VISIBLE
         presenter.showDefault()
-        presenter.animationFinalize(enableLocation = true)
+        presenter.animationFinalize()
     }
 }

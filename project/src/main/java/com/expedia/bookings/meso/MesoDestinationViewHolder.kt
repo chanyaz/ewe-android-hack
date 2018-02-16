@@ -9,6 +9,7 @@ import android.graphics.drawable.PaintDrawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RectShape
 import android.net.Uri
+import android.support.v4.content.ContextCompat
 import android.support.v7.graphics.Palette
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -119,7 +120,7 @@ class MesoDestinationViewHolder(private val adView: View, private val vm: MesoDe
         }
 
         private fun mixColor(palette: Palette) {
-            val color = palette.getDarkVibrantColor(adView.context.resources.getColor(R.color.transparent_dark))
+            val color = palette.getDarkVibrantColor(ContextCompat.getColor(adView.context, R.color.transparent_dark))
             val fullColorBuilder = ColorBuilder(color).darkenBy(.6f).setSaturation(if (!mIsFallbackImage) .8f else 0f)
             val startColor = fullColorBuilder.setAlpha(254).build()
             val endColor = fullColorBuilder.setAlpha(100).build()

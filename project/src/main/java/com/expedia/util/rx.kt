@@ -68,13 +68,13 @@ fun CompoundButton.subscribeOnClick(observer: Observer<Boolean>) {
 }
 
 fun CompoundButton.subscribeOnCheckChanged(observer: Observer<Boolean>) {
-    this.setOnCheckedChangeListener { compoundButton: CompoundButton, isChecked: Boolean ->
+    this.setOnCheckedChangeListener { _, isChecked: Boolean ->
         observer.onNext(isChecked)
     }
 }
 
 fun RadioGroup.subscribeOnCheckChanged(observer: Observer<Int>) {
-    this.setOnCheckedChangeListener { radioGroup: RadioGroup, isChecked: Int ->
+    this.setOnCheckedChangeListener { _, isChecked: Int ->
         observer.onNext(isChecked)
     }
 }
@@ -88,30 +88,11 @@ fun View.publishOnClick(publishSubject: PublishSubject<Unit>) {
     }
 }
 
-// Only emits non-null data
-fun <T : Any?> Observable<T>.safeSubscribe(observer: Observer<T>): Disposable {
-    return this.subscribeObserver(object : DisposableObserver<T>() {
-        override fun onNext(t: T) {
-            if (t != null) {
-                observer.onNext(t)
-            }
-        }
-
-        override fun onComplete() {
-            observer.onComplete()
-        }
-
-        override fun onError(e: Throwable) {
-            observer.onError(e)
-        }
-    })
-}
-
 fun <T : Any?> Observable<Optional<T>>.safeSubscribeOptional(observer: Observer<T>): Disposable {
     return this.subscribeObserver(object : DisposableObserver<Optional<T>>() {
         override fun onNext(t: Optional<T>) {
             t.value?.let {
-                observer.onNext(it as T)
+                observer.onNext(it)
             }
         }
 
@@ -136,7 +117,7 @@ fun <T : Any?> Observable<T>.safeSubscribe(onNextFunc: (T) -> Unit): Disposable 
 fun <T : Any?> Observable<Optional<T>>.safeSubscribeOptional(onNextFunc: (T) -> Unit): Disposable {
     return this.subscribe {
         it.value?.let {
-            onNextFunc.invoke(it as T)
+            onNextFunc.invoke(it)
         }
     }
 }

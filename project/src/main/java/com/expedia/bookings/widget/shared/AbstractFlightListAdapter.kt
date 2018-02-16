@@ -235,7 +235,7 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
         }
 
         fun bind(viewModel: AbstractFlightViewModel) {
-            flightCell.bind(viewModel, maxFlightDuration)
+            flightCell.bind(viewModel)
         }
     }
 

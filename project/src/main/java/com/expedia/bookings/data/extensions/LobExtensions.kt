@@ -15,7 +15,7 @@ class LineOfBusinessExtensions {
         }
 
         private fun isLXUniversalCheckout(context: Context): Boolean {
-            return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_universal_checkout_on_lx) && AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppBringUniversalCheckoutToLX)
+            return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_universal_checkout_on_lx) && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppBringUniversalCheckoutToLX)
         }
     }
 }

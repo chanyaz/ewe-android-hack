@@ -48,13 +48,13 @@ class ShortenShareUrlUtils private constructor(context: Context) {
                 tripShareUrlShortenSubscription?.dispose()
             }
 
-            override fun onError(e: Throwable) {
-                Log.d(LOGGING_TAG, "Error: " + e?.printStackTrace().toString())
-                resultObserver.onError(e)
+            override fun onError(error: Throwable) {
+                Log.d(LOGGING_TAG, "Error: " + error.printStackTrace().toString())
+                resultObserver.onError(error)
             }
 
-            override fun onNext(t: TripsShareUrlShortenResponse) {
-                val shortUrl = t?.short_url
+            override fun onNext(response: TripsShareUrlShortenResponse) {
+                val shortUrl = response.short_url
                 Log.d(LOGGING_TAG, "Success: " + shortUrl)
                 resultObserver.onNext(shortUrl)
             }

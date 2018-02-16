@@ -9,8 +9,8 @@ class NumericKeyWatcher(view: View, mutable: Boolean, val outPutTextSubject: Pub
     val DELETION_TEXT = ""
 
     override fun sendKeyEvent(event: KeyEvent): Boolean {
-        if (event.action === KeyEvent.ACTION_DOWN ) {
-            if (event.keyCode === KeyEvent.KEYCODE_DEL) {
+        if (event.action == KeyEvent.ACTION_DOWN ) {
+            if (event.keyCode == KeyEvent.KEYCODE_DEL) {
                 outPutTextSubject.onNext(DELETION_TEXT)
             } else if (isNumericKeycode(event)) {
                 outPutTextSubject.onNext(event.displayLabel.toString())
@@ -31,15 +31,15 @@ class NumericKeyWatcher(view: View, mutable: Boolean, val outPutTextSubject: Pub
     }
 
     private fun isNumericKeycode(event: KeyEvent): Boolean {
-        return (event.keyCode === KeyEvent.KEYCODE_0 ||
-                event.keyCode === KeyEvent.KEYCODE_1 ||
-                event.keyCode === KeyEvent.KEYCODE_2 ||
-                event.keyCode === KeyEvent.KEYCODE_3 ||
-                event.keyCode === KeyEvent.KEYCODE_4 ||
-                event.keyCode === KeyEvent.KEYCODE_5 ||
-                event.keyCode === KeyEvent.KEYCODE_6 ||
-                event.keyCode === KeyEvent.KEYCODE_7 ||
-                event.keyCode === KeyEvent.KEYCODE_8 ||
-                event.keyCode === KeyEvent.KEYCODE_9)
+        return (event.keyCode == KeyEvent.KEYCODE_0 ||
+                event.keyCode == KeyEvent.KEYCODE_1 ||
+                event.keyCode == KeyEvent.KEYCODE_2 ||
+                event.keyCode == KeyEvent.KEYCODE_3 ||
+                event.keyCode == KeyEvent.KEYCODE_4 ||
+                event.keyCode == KeyEvent.KEYCODE_5 ||
+                event.keyCode == KeyEvent.KEYCODE_6 ||
+                event.keyCode == KeyEvent.KEYCODE_7 ||
+                event.keyCode == KeyEvent.KEYCODE_8 ||
+                event.keyCode == KeyEvent.KEYCODE_9)
     }
 }

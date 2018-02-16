@@ -29,6 +29,8 @@ class KrazyglueHotelsListAdapter(hotelsObservable: PublishSubject<List<Krazyglue
                 (holder as KrazyglueHotelViewHolder).viewModel.hotelObservable.onNext(hotels[hotelPosition])
                 holder.trackingPosition = hotelPosition + 1
             }
+            else -> {
+            }
         }
     }
 

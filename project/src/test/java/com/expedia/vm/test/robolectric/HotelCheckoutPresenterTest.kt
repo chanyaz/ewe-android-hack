@@ -62,8 +62,8 @@ import com.expedia.vm.HotelCheckoutViewModel
 import com.expedia.vm.HotelCreateTripViewModel
 import com.expedia.vm.test.traveler.MockTravelerProvider
 import com.expedia.vm.traveler.HotelTravelersViewModel
-import junit.framework.Assert.assertFalse
-import junit.framework.Assert.assertTrue
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.joda.time.LocalDate
 import org.junit.After
 import org.junit.Before

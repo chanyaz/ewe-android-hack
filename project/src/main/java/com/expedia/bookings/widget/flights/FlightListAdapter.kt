@@ -56,7 +56,7 @@ open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSub
     }
 
     private fun shouldShowCrossSellPackageBanner() = (PointOfSale.getPointOfSale().isCrossSellPackageOnFSR &&
-            AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR) &&
+            AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR) &&
             (context as FlightActivity).intent.getStringExtra(Codes.SEARCH_PARAMS)?.isEmpty() ?: true)
 
     private fun showCrossSellPackageBannerCell(): Boolean {
@@ -66,7 +66,7 @@ open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSub
 
     override fun showAdvanceSearchFilterHeader(): Boolean {
         return !PointOfSale.getPointOfSale().hideAdvancedSearchOnFlights() &&
-                AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightAdvanceSearch)
+                AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightAdvanceSearch)
     }
 
     override fun isShowOnlyNonStopSearch(): Boolean {

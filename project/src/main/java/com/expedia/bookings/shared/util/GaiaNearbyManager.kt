@@ -30,7 +30,7 @@ open class GaiaNearbyManager(private val suggestionsService: ISuggestionV4Servic
         override fun onComplete() {}
 
         override fun onNext(gaiaSuggestions: List<GaiaSuggestion>) {
-            if (gaiaSuggestions == null || gaiaSuggestions.isEmpty()) {
+            if (gaiaSuggestions.isEmpty()) {
                 errorSubject.onNext(Unit)
             } else {
                 suggestionsSubject.onNext(SuggestionV4Utils.convertToSuggestionV4(gaiaSuggestions))

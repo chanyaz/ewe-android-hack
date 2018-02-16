@@ -109,8 +109,8 @@ class HotelIntentBuilderTest {
 
         assertNotNull(params)
         assertFalse(params!!.isDatelessSearch)
-        assertEquals(deepLink.checkInDate, params!!.checkIn)
-        assertEquals(deepLink.checkOutDate, params!!.checkOut)
+        assertEquals(deepLink.checkInDate, params.checkIn)
+        assertEquals(deepLink.checkOutDate, params.checkOut)
     }
 
     @Test
@@ -125,8 +125,8 @@ class HotelIntentBuilderTest {
 
         assertNotNull(params)
         assertTrue(params!!.isDatelessSearch)
-        assertEquals(LocalDate.now(), params!!.checkIn)
-        assertEquals(deepLink.checkOutDate, params!!.checkOut)
+        assertEquals(LocalDate.now(), params.checkIn)
+        assertEquals(deepLink.checkOutDate, params.checkOut)
     }
 
     @Test
@@ -141,8 +141,8 @@ class HotelIntentBuilderTest {
 
         assertNotNull(params)
         assertTrue(params!!.isDatelessSearch)
-        assertEquals(deepLink.checkInDate, params!!.checkIn)
-        assertEquals(LocalDate.now().plusDays(2), params!!.checkOut)
+        assertEquals(deepLink.checkInDate, params.checkIn)
+        assertEquals(LocalDate.now().plusDays(2), params.checkOut)
     }
 
     @Test
@@ -157,8 +157,8 @@ class HotelIntentBuilderTest {
 
         assertNotNull(params)
         assertTrue(params!!.isDatelessSearch)
-        assertEquals(LocalDate.now(), params!!.checkIn)
-        assertEquals(LocalDate.now().plusDays(1), params!!.checkOut)
+        assertEquals(LocalDate.now(), params.checkIn)
+        assertEquals(LocalDate.now().plusDays(1), params.checkOut)
     }
 
     @Test
@@ -173,8 +173,8 @@ class HotelIntentBuilderTest {
 
         assertNotNull(params)
         assertTrue(params!!.isDatelessSearch)
-        assertEquals(LocalDate.now(), params!!.checkIn)
-        assertEquals(LocalDate.now().plusDays(1), params!!.checkOut)
+        assertEquals(LocalDate.now(), params.checkIn)
+        assertEquals(LocalDate.now().plusDays(1), params.checkOut)
     }
 
     private fun getParamsFromIntent(intent: Intent): HotelSearchParams? {

@@ -45,7 +45,7 @@ class PackageUnrealDealTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testFreeUnrealDealUSPosFreeHotel() {
         hotelCellView = LayoutInflater.from(activity).inflate(R.layout.package_hotel_cell, null, false) as ViewGroup
-        packageHotelHolder = PackageHotelCellViewHolder(hotelCellView, 200)
+        packageHotelHolder = PackageHotelCellViewHolder(hotelCellView)
 
         val hotel = makeHotel()
         hotel.packageOfferModel.brandedDealData.dealVariation = PackageOfferModel.DealVariation.FreeHotel
@@ -60,7 +60,7 @@ class PackageUnrealDealTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testFreeUnrealDealUSPosFreeFlight() {
         hotelCellView = LayoutInflater.from(activity).inflate(R.layout.package_hotel_cell, null, false) as ViewGroup
-        packageHotelHolder = PackageHotelCellViewHolder(hotelCellView, 200)
+        packageHotelHolder = PackageHotelCellViewHolder(hotelCellView)
 
         val hotel = makeHotel()
         hotel.packageOfferModel.brandedDealData.dealVariation = PackageOfferModel.DealVariation.FreeFlight
@@ -75,7 +75,7 @@ class PackageUnrealDealTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testFreeUnrealDealUSPosFreeOneNightHotel() {
         hotelCellView = LayoutInflater.from(activity).inflate(R.layout.package_hotel_cell, null, false) as ViewGroup
-        packageHotelHolder = PackageHotelCellViewHolder(hotelCellView, 200)
+        packageHotelHolder = PackageHotelCellViewHolder(hotelCellView)
 
         val hotel = makeHotel()
         hotel.packageOfferModel.brandedDealData.dealVariation = PackageOfferModel.DealVariation.FreeOneNightHotel
@@ -91,7 +91,7 @@ class PackageUnrealDealTest {
     @Test fun testNoFreeUnrealDealUKPos() {
         PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_no_free_unreal_deal.json")
         hotelCellView = LayoutInflater.from(activity).inflate(R.layout.package_hotel_cell, null, false) as ViewGroup
-        packageHotelHolder = PackageHotelCellViewHolder(hotelCellView, 200)
+        packageHotelHolder = PackageHotelCellViewHolder(hotelCellView)
 
         val hotel = makeHotel()
         packageHotelHolder.bindHotelData(hotel)

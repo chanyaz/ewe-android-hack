@@ -30,11 +30,11 @@ class DialogFactory {
                     .format().toString()
             builder.setMessage(messageText)
             builder.setCancelable(false)
-            builder.setPositiveButton(context.getString(R.string.sign_out), { dialog, which ->
+            builder.setPositiveButton(context.getString(R.string.sign_out), { _, _ ->
                 logoutFun()
                 OmnitureTracking.trackLogOutAction(OmnitureTracking.LogOut.SUCCESS)
             })
-            builder.setNegativeButton(context.getString(R.string.cancel), { dialog, which ->
+            builder.setNegativeButton(context.getString(R.string.cancel), { dialog, _ ->
                 dialog.dismiss()
                 OmnitureTracking.trackLogOutAction(OmnitureTracking.LogOut.CANCEL)
             })
@@ -47,11 +47,11 @@ class DialogFactory {
                 val b = AlertDialog.Builder(context)
                 b.setCancelable(false)
                         .setMessage(message)
-                        .setPositiveButton(context.resources.getString(R.string.retry)) { dialog, which ->
+                        .setPositiveButton(context.resources.getString(R.string.retry)) { dialog, _ ->
                             dialog.dismiss()
                             retryFun()
                         }
-                        .setNegativeButton(context.resources.getString(R.string.cancel)) { dialog, which ->
+                        .setNegativeButton(context.resources.getString(R.string.cancel)) { dialog, _ ->
                             dialog.dismiss()
                             cancelFun()
                         }

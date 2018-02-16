@@ -57,7 +57,7 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
             paymentFeeInfoWebView.viewModel.webViewURLObservable.onNext(flightOfferViewModel.obFeeDetailsUrlObservable.value)
         }
         flightOfferViewModel.offerSelectedChargesObFeesSubject.subscribeTextAndVisibility(overviewPresenter.paymentFeesMayApplyTextView)
-        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppSimplifyFlightShopping)) {
+        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppSimplifyFlightShopping)) {
             resultsPresenter.flightSelectedSubject.subscribe {
                 overviewPresenter.vm.selectedFlightLegSubject.onNext(it)
                 overviewPresenter.vm.selectFlightClickObserver.onNext(Unit)

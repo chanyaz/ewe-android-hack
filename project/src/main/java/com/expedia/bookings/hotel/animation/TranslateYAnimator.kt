@@ -11,7 +11,7 @@ class TranslateYAnimator(view: View, startY: Float, endY: Float, duration: Long?
     private val translateAnimator = ObjectAnimator.ofFloat(view, "translationY", startY, endY)
 
     init {
-        duration?.let { duration -> translateAnimator.duration = duration }
+        duration?.let { translateAnimator.duration = it }
         translateAnimator.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationStart(animation: Animator?) {
                 startAction()

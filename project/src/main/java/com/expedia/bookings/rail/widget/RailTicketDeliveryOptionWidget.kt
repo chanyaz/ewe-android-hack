@@ -12,7 +12,7 @@ import com.expedia.bookings.widget.TicketDeliverySelectionImageView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.rail.RailTicketDeliveryOptionViewModel
 
-class RailTicketDeliveryOptionWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+class RailTicketDeliveryOptionWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
     val statusIcon: TicketDeliverySelectionImageView by bindView(R.id.status_icon)
     val deliveryIcon: ImageView by bindView(R.id.delivery_icon)

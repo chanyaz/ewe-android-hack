@@ -38,7 +38,7 @@ object SuggestionV4Utils {
             }
             val suggestions = listOf(suggest) + loadSuggestionHistory(context, file)
             val allSuggestionsHaveAirportCode = suggestions.filter { it.hierarchyInfo?.airport?.airportCode == null }.isEmpty()
-            val recentSuggestions = suggestions.distinctBy { if (allSuggestionsHaveAirportCode) it.hierarchyInfo!!.airport!!.airportCode else it.coordinates.lat }
+            val recentSuggestions = suggestions.distinctBy { getSuggestionCondition(allSuggestionsHaveAirportCode, it) }
 
             val type = object : TypeToken<List<SuggestionV4>>() {}.type
             val suggestionJson = Gson().toJson(recentSuggestions.take(3), type)
@@ -49,6 +49,10 @@ object SuggestionV4Utils {
                 Log.e("Save History Error: ", e)
             }
         }).start()
+    }
+
+    private fun getSuggestionCondition(allSuggestionsHaveAirportCode: Boolean, suggestion: SuggestionV4): Any {
+        return if (allSuggestionsHaveAirportCode) suggestion.hierarchyInfo!!.airport!!.airportCode else suggestion.coordinates.lat
     }
 
     fun loadSuggestionHistory(context: Context, file: String, suggestionToFilter: SuggestionV4? = null): List<SuggestionV4> {

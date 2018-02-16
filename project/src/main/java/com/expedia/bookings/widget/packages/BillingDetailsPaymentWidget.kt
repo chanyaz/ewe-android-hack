@@ -52,23 +52,23 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
         val builder = AlertDialog.Builder(context)
         builder.setView(creditCardFeesView)
         builder.setTitle(R.string.fees_by_card_type)
-        builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which -> dialog.dismiss() })
+        builder.setPositiveButton(context.getString(R.string.DONE), { dialog, _ -> dialog.dismiss() })
         builder.create()
     }
 
-    override fun init(paymentViewModel: PaymentViewModel) {
-        super.init(paymentViewModel)
-        paymentViewModel.ccFeeDisclaimer.subscribeTextAndVisibility(creditCardFeeDisclaimer)
+    override fun init(vm: PaymentViewModel) {
+        super.init(vm)
+        vm.ccFeeDisclaimer.subscribeTextAndVisibility(creditCardFeeDisclaimer)
 
         creditCardFeeDisclaimer.setOnClickListener {
             dialog.show()
         }
-        paymentViewModel.lineOfBusiness.subscribe { lob ->
+        vm.lineOfBusiness.subscribe { lob ->
             if (lob.isMaterialFormEnabled(context)) {
                 setupMaterialForm()
             }
         }
-        paymentViewModel.updateBillingCountryFields.subscribe { country ->
+        vm.updateBillingCountryFields.subscribe { country ->
             val hideFieldsRequirements = getBillingAddressCountryConfig(country)
             val showStateField = hideFieldsRequirements.stateRequired != CountryConfig.StateRequired.NOT_REQUIRED
             val showPostalField = hideFieldsRequirements.postalCodeRequired
@@ -79,12 +79,12 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
             postalCodeLayout?.clearFocus()
             addressStateLayout?.clearFocus()
         }
-        paymentViewModel.removeBillingAddressForApac.subscribe { shouldHide ->
+        vm.removeBillingAddressForApac.subscribe { shouldHide ->
             billingAddressTitle.updateVisibility(!shouldHide)
             sectionLocation.updateVisibility(!shouldHide)
             if (shouldHide) viewmodel.createFakeAddressObservable.onNext(Unit)
         }
-        paymentViewModel.populateFakeBillingAddress.subscribe { location ->
+        vm.populateFakeBillingAddress.subscribe { location ->
             sectionLocation.bind(location)
         }
     }
@@ -226,13 +226,13 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
             val builder = AlertDialog.Builder(context)
             builder.setTitle(context.resources.getString(R.string.billing_country))
             val adapter = sectionLocation.materialCountryAdapter
-            val position = if (sectionLocation.billingCountryCodeSubject.value.isNullOrBlank()) {
+            val countryPosition = if (sectionLocation.billingCountryCodeSubject.value.isNullOrBlank()) {
                 adapter.defaultLocalePosition
             } else {
                 adapter.getPositionByCountryThreeLetterCode(sectionLocation.billingCountryCodeSubject.value.toString())
             }
 
-            builder.setSingleChoiceItems(adapter, position) { dialog, position ->
+            builder.setSingleChoiceItems(adapter, countryPosition) { dialog, position ->
                 sectionLocation.billingCountryCodeSubject.onNext(adapter.getItemValue(position, CountrySpinnerAdapter.CountryDisplayType.THREE_LETTER))
                 dialog.dismiss()
             }

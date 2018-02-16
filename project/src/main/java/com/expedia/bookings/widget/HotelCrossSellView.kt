@@ -43,10 +43,10 @@ class HotelCrossSellView(context: Context, attrs: AttributeSet) : CardView(conte
             var sp: HotelSearchParams
             if (viewModel.confirmationObservable.value == null) {
                 val flightLegs = viewModel.itinDetailsResponseObservable.value.responseData.flights.firstOrNull()?.legs
-                sp = HotelsV2DataUtil.getHotelV2ParmsFromFlightItinParams(context, flightLegs, viewModel.searchParamsObservable.value)
+                sp = HotelsV2DataUtil.getHotelV2ParmsFromFlightItinParams(flightLegs, viewModel.searchParamsObservable.value)
             } else {
                 val flightLegs = viewModel.confirmationObservable.value.getFirstFlightTripDetails().getLegs()
-                sp = HotelsV2DataUtil.getHotelV2ParamsFromFlightV2Params(context, flightLegs, viewModel.searchParamsObservable.value)
+                sp = HotelsV2DataUtil.getHotelV2ParamsFromFlightV2Params(flightLegs, viewModel.searchParamsObservable.value)
             }
 
             HotelNavUtils.goToHotelsV2Params(context, sp, null, NavUtils.FLAG_DEEPLINK)

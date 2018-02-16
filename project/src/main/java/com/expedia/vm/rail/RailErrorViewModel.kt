@@ -48,7 +48,7 @@ class RailErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
     }
 
     override fun createTripErrorHandler(): Observer<ApiError> {
-        return endlessObserver { error ->
+        return endlessObserver {
             imageObservable.onNext(R.drawable.error_default)
             errorMessageObservable.onNext(context.resources.getString(R.string.rail_unknown_error_message))
             buttonOneTextObservable.onNext(context.resources.getString(R.string.retry))

@@ -37,7 +37,7 @@ class FlightOffersViewModelByot(context: Context, flightServices: FlightServices
                 // assuming all offers are sorted by price by API
                 val hasCheapestOffer = !outBoundFlights.contains(outboundLeg)
                 if (hasCheapestOffer) {
-                    outboundLeg.packageOfferModel = makeOffer(offer, true)
+                    outboundLeg.packageOfferModel = makeOffer(offer)
                     outboundLeg.seatClassAndBookingCodeList = offer.offersSeatClassAndBookingCode?.first()
                 }
                 outBoundFlights.add(outboundLeg)
@@ -58,7 +58,7 @@ class FlightOffersViewModelByot(context: Context, flightServices: FlightServices
             val inboundLeg = legs.find { it.legId == inboundId }
             flightOfferModels.put(makeFlightOfferKey(outboundId, inboundId), offer)
             if (inboundLeg != null) {
-                inboundLeg.packageOfferModel = makeOffer(offer, false)
+                inboundLeg.packageOfferModel = makeOffer(offer)
                 inboundLeg.seatClassAndBookingCodeList = offer.offersSeatClassAndBookingCode?.last()
                 inboundFlights.add(inboundLeg)
                 inboundLeg.legRank = inboundFlights.size

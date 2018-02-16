@@ -1,6 +1,7 @@
 package com.expedia.bookings.presenter.flight
 
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.isShowFlightsCheckoutWebview
@@ -29,9 +30,9 @@ class FlightsWebCheckoutViewTest {
 
     private fun setUpFlightsWebCheckoutViewTest(bucketed: Boolean) {
         if (bucketed) {
-            AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowFlightsCheckoutWebview)
+            AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppShowFlightsCheckoutWebview)
         } else {
-            AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppShowFlightsCheckoutWebview)
+            AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppShowFlightsCheckoutWebview, AbacusVariant.CONTROL.value)
         }
     }
 }

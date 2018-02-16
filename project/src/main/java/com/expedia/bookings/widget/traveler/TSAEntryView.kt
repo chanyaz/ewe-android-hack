@@ -41,7 +41,7 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
         vm.dateOfBirthViewModel.birthErrorTextSubject.subscribe { text ->
             showBirthdateErrorDialog(text)
         }
-        vm.genderViewModel.errorSubject.subscribe { hasError ->
+        vm.genderViewModel.errorSubject.subscribe {
             genderEditText?.subscribeMaterialFormsError(vm.genderViewModel.errorSubject, R.string.gender_validation_error_message,
                     R.drawable.material_dropdown)
         }
@@ -66,7 +66,7 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
         builder.setTitle(context.resources.getString(R.string.gender))
         val items = arrayOf(context.resources.getString(R.string.male), context.resources.getString(R.string.female))
 
-        builder.setItems(items) { dialog, position ->
+        builder.setItems(items) { _, position ->
             viewModel.genderViewModel.genderSubject.onNext(Traveler.Gender.values()[position + 1])
             genderEditText?.viewModel?.errorSubject?.onNext(false)
         }

@@ -208,14 +208,14 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
             if (CollectionUtils.isEmpty(roomList.first)) {
                 return@subscribe
             }
-            updateRooms(roomList.first, roomList.second, false)
+            updateRooms(roomList.first, false)
         }
 
         vm.etpRoomResponseListObservable.subscribe { etpRoomList: Pair<List<HotelOffersResponse.HotelRoomResponse>, List<String>> ->
             if (CollectionUtils.isEmpty(etpRoomList.first)) {
                 return@subscribe
             }
-            updateRooms(etpRoomList.first, etpRoomList.second, true)
+            updateRooms(etpRoomList.first, true)
         }
 
         vm.hasVipAccessLoyaltyObservable.filter { it }.subscribe {
@@ -446,8 +446,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         return roomContainerPosition[1] + roomContainer.height >= toolbarOffset + payNowPayLaterTabs.height
     }
 
-    private fun updateRooms(roomList: List<HotelOffersResponse.HotelRoomResponse>, topValueAddList: List<String>,
-                            payLater: Boolean) {
+    private fun updateRooms(roomList: List<HotelOffersResponse.HotelRoomResponse>, payLater: Boolean) {
         val fadeRoomsOutAnimation = AlphaAnimation(1f, 0f)
         fadeRoomsOutAnimation.duration = ANIMATION_DURATION_ROOM_CONTAINER
         fadeRoomsOutAnimation.setAnimationListener(getGroupedRoomAnimationListener(roomList, payLater))
@@ -494,10 +493,10 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
                 header.roomImageClickedSubject.subscribe(RoomImageClickObserver(roomResponse.roomGroupingKey()))
                 cardView.addViewToContainer(header)
 
-                for (roomResponse in roomResponses) {
+                for (roomResp in roomResponses) {
                     val hasETP = viewModel.hasETPObservable.value
                     val hotelId = viewModel.hotelOffersResponse.hotelId
-                    val detail = getRoomDetailView(roomResponse, hotelId, roomOptionCount, roomCount, hasETP)
+                    val detail = getRoomDetailView(roomResp, hotelId, roomOptionCount, roomCount, hasETP)
                     viewModels.add(detail.viewModel)
                     cardView.addViewToContainer(detail)
                     roomOptionCount++
@@ -560,7 +559,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         builder.setTitle(R.string.room_description_title)
         builder.setView(roomTextView)
         builder.setCancelable(false)
-        builder.setPositiveButton(context.getString(R.string.ok), { dialog, which ->
+        builder.setPositiveButton(context.getString(R.string.ok), { dialog, _ ->
             dialog.dismiss()
         })
 

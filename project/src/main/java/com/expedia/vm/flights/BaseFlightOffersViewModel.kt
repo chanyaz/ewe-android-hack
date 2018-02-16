@@ -225,7 +225,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
         return outboundId + inboundId
     }
 
-    protected fun makeOffer(offer: FlightTripDetails.FlightOffer, isOutbound: Boolean): PackageOfferModel {
+    protected fun makeOffer(offer: FlightTripDetails.FlightOffer): PackageOfferModel {
         val offerModel = PackageOfferModel()
         val urgencyMessage = PackageOfferModel.UrgencyMessage()
         urgencyMessage.ticketsLeft = offer.seatsRemaining
@@ -317,7 +317,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
                     }
                 } else {
                     obFeeDetailsUrlObservable.onNext(response.obFeesDetails)
-                    if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSubpubChange)) {
+                    if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSubpubChange)) {
                         setSubPubAvailability(response.hasSubPub)
                     }
                     makeFlightOffer(response)
@@ -356,5 +356,5 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     protected abstract fun selectOutboundFlight(legId: String)
     protected abstract fun createFlightMap(response: FlightSearchResponse)
     protected abstract fun makeFlightOffer(response: FlightSearchResponse)
-    protected abstract fun setSubPubAvailability(boolean: Boolean)
+    protected abstract fun setSubPubAvailability(hasSubPub: Boolean)
 }

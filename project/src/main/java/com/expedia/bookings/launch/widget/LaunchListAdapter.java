@@ -308,7 +308,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			((MesoDestinationViewHolder) holder).bindData();
 		}
 		else if (holder instanceof ItinLaunchCard) {
-			((ItinLaunchCard) holder).bind(context, makeActiveItinViewModel());
+			((ItinLaunchCard) holder).bind(makeActiveItinViewModel());
 		}
 		else if (holder instanceof LaunchLoadingViewHolder) {
 			((LaunchLoadingViewHolder) holder).bind();

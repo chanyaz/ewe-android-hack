@@ -22,7 +22,7 @@ open class TravelerSelectItemViewModel(val context: Context, val index: Int, val
     lateinit var travelerValidator: TravelerValidator
         @Inject set
     val resources = context.resources
-    val emptyText = if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)) {
+    val emptyText = if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)) {
         Phrase.from(resources.getString(R.string.checkout_traveler_title_TEMPLATE))
                 .put("travelernumber", index + 1)
                 .put("passengerycategory", getPassengerAgeRangeString(context, category))

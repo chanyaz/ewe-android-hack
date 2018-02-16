@@ -34,7 +34,7 @@ class FlightCellWidget(context: Context, showPrice: Boolean = true) : FrameLayou
         flightToggleIcon.visibility = if (showPrice) View.GONE else View.VISIBLE
     }
 
-    fun bind(viewModel: AbstractFlightViewModel, maxFlightDuration: Int) {
+    fun bind(viewModel: AbstractFlightViewModel) {
         this.viewModel = viewModel
         flightTimeTextView.text = viewModel.flightTime
         priceTextView.text = viewModel.price()

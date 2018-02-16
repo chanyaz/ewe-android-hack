@@ -41,7 +41,7 @@ class RoomUpgradeOffersServiceTest {
         val url = "http://localhost:$portNumber/api/trips/c65fb5fb-489a-4fa8-a007-715b946d3b04/8066893350319/74f89606-241f-4d08-9294-8c17942333dd/1/sGUZBxGESgB2eGM7GeXkhqJuzdi8Ucq1jl7NI9NzcW1mSSoGJ4njkXYWPCT2e__Ilwdc4lgBRnwlanmEgukEJWqNybe4NPSppEUZf9quVqD_kCjh_2HSZY_-K1HvZU-tUQ3h/upgradeOffers"
 
         val testObserver = TestObserver<RoomUpgradeOffersResponse>()
-        val disposable = service.fetchOffers(url, testObserver)
+        service.fetchOffers(url, testObserver)
 
         testObserver.awaitTerminalEvent()
         testObserver.assertComplete()

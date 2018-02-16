@@ -30,16 +30,14 @@ open class HotelInfoManager(private val hotelServices: HotelServices) {
 
     private val offersObserver = object : DisposableObserver<HotelOffersResponse>() {
 
-        override fun onNext(response: HotelOffersResponse) {
-            response?.let { response ->
-                if (response.hasErrors()
-                        && response.firstError.errorCode == ApiError.Code.HOTEL_ROOM_UNAVAILABLE) {
-                    soldOutSubject.onNext(Unit)
-                } else if (!response.hasErrors()) {
-                    offerSuccessSubject.onNext(response)
-                } else {
-                    apiErrorSubject.onNext(response.firstError)
-                }
+        override fun onNext(hotelOffersResponse: HotelOffersResponse) {
+            if (hotelOffersResponse.hasErrors()
+                    && hotelOffersResponse.firstError.errorCode == ApiError.Code.HOTEL_ROOM_UNAVAILABLE) {
+                soldOutSubject.onNext(Unit)
+            } else if (!hotelOffersResponse.hasErrors()) {
+                offerSuccessSubject.onNext(hotelOffersResponse)
+            } else {
+                apiErrorSubject.onNext(hotelOffersResponse.firstError)
             }
         }
 
@@ -53,13 +51,11 @@ open class HotelInfoManager(private val hotelServices: HotelServices) {
     }
 
     private val infoObserver = object : DisposableObserver<HotelOffersResponse>() {
-        override fun onNext(response: HotelOffersResponse) {
-            response?.let { response ->
-                if (!response.hasErrors()) {
-                    infoSuccessSubject.onNext(response)
-                } else {
-                    apiErrorSubject.onNext(response.firstError)
-                }
+        override fun onNext(hotelOffersResponse: HotelOffersResponse) {
+            if (!hotelOffersResponse.hasErrors()) {
+                infoSuccessSubject.onNext(hotelOffersResponse)
+            } else {
+                apiErrorSubject.onNext(hotelOffersResponse.firstError)
             }
         }
 

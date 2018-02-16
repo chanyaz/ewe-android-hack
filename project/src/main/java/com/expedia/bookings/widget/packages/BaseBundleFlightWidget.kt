@@ -169,7 +169,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
             if (vm.showRowContainerWithMoreInfo.value) {
                 val flightOverviewRowViewModel = FlightOverviewRowViewModel(context, selectedFlight)
                 val flightCellWidget = rowContainer.getChildAt(0) as FlightCellWidget
-                flightCellWidget.bind(flightOverviewRowViewModel, 0)
+                flightCellWidget.bind(flightOverviewRowViewModel)
                 viewModel.updateUpsellClassPreference.map {
                     selectedFlight.isBasicEconomy = it.second
                     selectedFlight.seatClassAndBookingCodeList = it.first

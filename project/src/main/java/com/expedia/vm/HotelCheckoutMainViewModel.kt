@@ -20,7 +20,7 @@ class HotelCheckoutMainViewModel(paymentModel: PaymentModel<HotelCreateTripRespo
     val updateEarnedRewards: Observable<PointsAndCurrency> = paymentModel.paymentSplits.map { it.payingWithCards }
 
     val animateSlideToPurchaseWithPaymentSplits = animateInSlideToPurchaseSubject
-            .withLatestFrom(paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse, { Unit, paymentSplitsAndLatestTrip ->
+            .withLatestFrom(paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse, { _, paymentSplitsAndLatestTrip ->
                 if (paymentSplitsAndLatestTrip.tripResponse.isRewardsRedeemable()) paymentSplitsAndLatestTrip.paymentSplits.paymentSplitsType()
                 else PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD
             })
@@ -29,6 +29,6 @@ class HotelCheckoutMainViewModel(paymentModel: PaymentModel<HotelCreateTripRespo
         /* To check whether user is logged in and has opted to shopWithPoints, we want last/stale value in shopWithPointsViewModel.swpEffectiveAvailability
         which has not been updated by the time onLogoutButtonClicked triggers */
 
-        onLogoutButtonClicked.withLatestFrom(shopWithPointsViewModel.swpEffectiveAvailability, { Unit, isAvailable -> isAvailable }).subscribe(userWithEffectiveSwPAvailableSignedOut)
+        onLogoutButtonClicked.withLatestFrom(shopWithPointsViewModel.swpEffectiveAvailability, { _, isAvailable -> isAvailable }).subscribe(userWithEffectiveSwPAvailableSignedOut)
     }
 }

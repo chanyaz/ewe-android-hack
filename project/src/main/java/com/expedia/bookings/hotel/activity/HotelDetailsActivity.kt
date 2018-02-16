@@ -107,7 +107,7 @@ class HotelDetailsActivity : AppCompatActivity() {
             returnToSearch()
         }
 
-        hotelDetailViewModel.infositeApiErrorSubject.subscribe { error ->
+        hotelDetailViewModel.infositeApiErrorSubject.subscribe {
             loadingOverlay.animate(false)
             loadingOverlay.visibility = View.GONE
 
@@ -127,7 +127,7 @@ class HotelDetailsActivity : AppCompatActivity() {
 //            reviewsView.viewModel.resetTracking() todo https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/10380
         }
 
-        hotelDetailViewModel.roomSelectedSubject.subscribe { offer ->
+        hotelDetailViewModel.roomSelectedSubject.subscribe {
             //todo go to checkout https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/9176
         }
     }
@@ -151,7 +151,7 @@ class HotelDetailsActivity : AppCompatActivity() {
             returnToSearch()
         }
 
-        hotelDetailViewModel.newDatesSelected.subscribe { dates ->
+        hotelDetailViewModel.newDatesSelected.subscribe {
             //todo https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/10379
 //            searchPresenter.searchViewModel.datesUpdated(dates.first, dates.second)
         }

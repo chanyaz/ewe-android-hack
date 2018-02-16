@@ -49,7 +49,7 @@ class FlightCabinClassWidget(context: Context, attrs: AttributeSet?) : SearchInp
     val dialog: AlertDialog by lazy {
         val builder = AlertDialog.Builder(context, R.style.Theme_AlertDialog)
         builder.setView(flightCabinClassDialogView)
-        builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which ->
+        builder.setPositiveButton(context.getString(R.string.DONE), { dialog, _ ->
             flightCabinClassView.viewmodel.flightCabinClassObservable.onNext(flightCabinClassView.getSelectedClass())
             FlightsV2Tracking.trackFlightCabinClassSelect(lob, flightCabinClassView.getSelectedClass().name)
             dialog.dismiss()

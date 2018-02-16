@@ -125,7 +125,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         hotelDetailsToolbar.setHotelDetailViewModel(hotelInfoToolbarViewModel)
 
         toolbarHeightOffset = statusBarHeight.toFloat() + toolBarHeight
-        hotelDetailsToolbar.toolbar.setNavigationOnClickListener { view ->
+        hotelDetailsToolbar.toolbar.setNavigationOnClickListener {
             (getContext() as Activity).onBackPressed()
         }
 

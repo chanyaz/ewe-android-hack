@@ -91,7 +91,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         webCheckoutViewModel.blankViewObservable.subscribe {
             webCheckoutView.toggleLoading(true)
         }
-        webCheckoutViewModel.packageCreateTripViewModel.multiItemResponseSubject.subscribe { tripResponse ->
+        webCheckoutViewModel.packageCreateTripViewModel.multiItemResponseSubject.subscribe {
             fireCheckoutOverviewTracking(Db.getPackageResponse().getCurrentOfferPrice()?.packageTotalPrice?.amount?.toDouble())
         }
         webCheckoutView
@@ -382,16 +382,16 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         return PackageCostSummaryBreakdownViewModel(context)
     }
 
-    override fun onTripResponse(response: TripResponse?) {
-        response as PackageCreateTripResponse
-        totalPriceWidget.viewModel.total.onNext(response.bundleTotal)
-        val packageTotalPrice = response.packageDetails.pricing
+    override fun onTripResponse(tripResponse: TripResponse?) {
+        tripResponse as PackageCreateTripResponse
+        totalPriceWidget.viewModel.total.onNext(tripResponse.bundleTotal)
+        val packageTotalPrice = tripResponse.packageDetails.pricing
         totalPriceWidget.viewModel.savings.onNext(packageTotalPrice.savings)
         val costSummaryViewModel = (totalPriceWidget.breakdown.viewmodel as PackageCostSummaryBreakdownViewModel)
-        costSummaryViewModel.packageCostSummaryObservable.onNext(response)
+        costSummaryViewModel.packageCostSummaryObservable.onNext(tripResponse)
 
         val messageString =
-                if (response.packageDetails.pricing.hasResortFee() && !PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees())
+                if (tripResponse.packageDetails.pricing.hasResortFee() && !PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees())
                     R.string.cost_summary_breakdown_total_due_today
                 else if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.JAPAN)
                     R.string.packages_trip_total

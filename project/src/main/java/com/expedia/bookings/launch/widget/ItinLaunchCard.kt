@@ -22,7 +22,7 @@ class ItinLaunchCard(itemView: View, context: Context) : RecyclerView.ViewHolder
         }
     }
 
-    fun bind(context: Context, vm: ActiveItinViewModel) {
+    fun bind(vm: ActiveItinViewModel) {
         firstLine.text = vm.firstLine
         secondLine.text = vm.secondLine
         AccessibilityUtil.appendRoleContDesc(secondLine, secondLine.text.toString(), R.string.accessibility_cont_desc_role_button)

@@ -66,7 +66,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
     lateinit var packageServices: PackageServices
         @Inject set
 
-    lateinit var travelerManager: TravelerManager
+    var travelerManager: TravelerManager
     lateinit var tripResponse: PackageCreateTripResponse
 
     val itinTripServices: ItinTripServices by lazy {
@@ -116,7 +116,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         checkoutPresenter.getCheckoutViewModel().checkoutRequestStartTimeObservable.subscribe { startTime ->
             pageUsableData.markPageLoadStarted(startTime)
         }
-        presenter.bundleWidget.viewModel.showBundleTotalObservable.filter { !isMidAPIEnabled(context) || it }.subscribe { visible ->
+        presenter.bundleWidget.viewModel.showBundleTotalObservable.filter { !isMidAPIEnabled(context) || it }.subscribe {
             val packagePrice = Db.getPackageResponse().getCurrentOfferPrice()
             if (packagePrice != null) {
                 val packageSavings = Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
@@ -376,7 +376,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             searchPresenter.setBackgroundColor(if (forward) searchBackgroundColor.end else searchBackgroundColor.start)
-            searchPresenter.animationFinalize(forward)
+            searchPresenter.animationFinalize()
             searchPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             bundlePresenter.visibility = if (forward) View.VISIBLE else View.GONE
             if (!forward) {
@@ -443,7 +443,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             searchPresenter.setBackgroundColor(if (!forward) searchBackgroundColor.end else searchBackgroundColor.start)
-            searchPresenter.animationFinalize(!forward)
+            searchPresenter.animationFinalize()
             errorPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             searchPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             if (forward) {

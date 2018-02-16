@@ -125,7 +125,7 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
         if (isKrazyglueEnabled) {
             ObservableOld.zip(flightCheckoutResponseObservable, flightSearchParamsObservable, { response, params ->
                 val flightLegs = response.getFirstFlightTripDetails().getLegs()
-                val hotelSearchParams = HotelsV2DataUtil.getHotelV2ParamsFromFlightV2Params(context, flightLegs, params)
+                val hotelSearchParams = HotelsV2DataUtil.getHotelV2ParamsFromFlightV2Params(flightLegs, params)
                 krazyGlueHotelSearchParamsObservable.onNext(hotelSearchParams)
 
                 val krazyglueParams = getKrazyglueSearchParams(response, params)

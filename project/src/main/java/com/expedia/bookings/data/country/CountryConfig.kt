@@ -31,7 +31,7 @@ class CountryConfig {
         }
 
         fun loadJSONFromAsset(assetManager: AssetManager): String? {
-            var json: String? = null
+            val json: String?
             try {
                 val open = assetManager.open("ExpediaSharedData/country/CountryConfig.json")
                 val size = open.available()

@@ -57,7 +57,7 @@ class LXMapView(context: Context, attrs: AttributeSet) : FrameLayout(context, at
         val navIcon: ArrowXDrawable = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.BACK)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolBar.navigationIcon = navIcon
-        toolBar.setNavigationOnClickListener { view ->
+        toolBar.setNavigationOnClickListener {
             (context as Activity).onBackPressed()
         }
     }

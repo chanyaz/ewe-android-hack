@@ -54,19 +54,19 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
     var isRowClickable = true
 
     var viewModel: BundleHotelViewModel by notNullAndObservable { vm ->
-        viewModel.hotelDatesGuestObservable.subscribeTextAndVisibility(hotelsDatesGuestInfoText)
-        viewModel.hotelRoomInfoObservable.subscribeText(hotelRoomInfo)
-        viewModel.hotelRoomTypeObservable.subscribeText(hotelRoomType)
-        viewModel.hotelAddressObservable.subscribeText(hotelAddress)
-        viewModel.hotelCityObservable.subscribeText(hotelCity)
-        viewModel.hotelFreeCancellationObservable.subscribeTextAndVisibility(hotelFreeCancellation)
-        viewModel.hotelNonRefundableObservable.subscribeTextAndVisibility(hotelNotRefundable)
-        viewModel.hotelPromoTextObservable.subscribeTextAndVisibility(hotelPromoText)
-        viewModel.hotelTextObservable.subscribeText(hotelsText)
-        viewModel.hotelDetailsIconObservable.subscribeVisibility(hotelDetailsIcon)
-        viewModel.hotelIconImageObservable.subscribe { hotelLuggageIcon.setImageResource(it) }
+        vm.hotelDatesGuestObservable.subscribeTextAndVisibility(hotelsDatesGuestInfoText)
+        vm.hotelRoomInfoObservable.subscribeText(hotelRoomInfo)
+        vm.hotelRoomTypeObservable.subscribeText(hotelRoomType)
+        vm.hotelAddressObservable.subscribeText(hotelAddress)
+        vm.hotelCityObservable.subscribeText(hotelCity)
+        vm.hotelFreeCancellationObservable.subscribeTextAndVisibility(hotelFreeCancellation)
+        vm.hotelNonRefundableObservable.subscribeTextAndVisibility(hotelNotRefundable)
+        vm.hotelPromoTextObservable.subscribeTextAndVisibility(hotelPromoText)
+        vm.hotelTextObservable.subscribeText(hotelsText)
+        vm.hotelDetailsIconObservable.subscribeVisibility(hotelDetailsIcon)
+        vm.hotelIconImageObservable.subscribe { hotelLuggageIcon.setImageResource(it) }
 
-        viewModel.hotelRoomImageUrlObservable.subscribe { imageUrl ->
+        vm.hotelRoomImageUrlObservable.subscribe { imageUrl ->
             if (imageUrl.isNotBlank()) {
                 val hotelMedia = HotelMedia(imageUrl)
                 PicassoHelper.Builder(hotelRoomImage)
@@ -76,9 +76,9 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
             }
         }
 
-        viewModel.showLoadingStateObservable.subscribeVisibility(hotelLoadingBar)
-        viewModel.showLoadingStateObservable.subscribeInverseVisibility(hotelsDatesGuestInfoText)
-        viewModel.showLoadingStateObservable.subscribe { showLoading ->
+        vm.showLoadingStateObservable.subscribeVisibility(hotelLoadingBar)
+        vm.showLoadingStateObservable.subscribeInverseVisibility(hotelsDatesGuestInfoText)
+        vm.showLoadingStateObservable.subscribe { showLoading ->
             this.loadingStateObservable.onNext(showLoading)
             if (showLoading) {
                 postDelayed({ rowContainer.setFocusForView() }, 500L)
@@ -99,14 +99,14 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
                 hotelsDatesGuestInfoText.setTextColor(Ui.obtainThemeColor(context, R.attr.primary_color))
             }
         }
-        viewModel.hotelSelectIconObservable.subscribe { showing ->
+        vm.hotelSelectIconObservable.subscribe { showing ->
             if (showing) {
             } else {
                 selectArrowIcon.visibility = View.GONE
             }
         }
 
-        viewModel.selectedHotelObservable.subscribe {
+        vm.selectedHotelObservable.subscribe {
             this.selectedCardObservable.onNext(Unit)
             hotelsText.setTextColor(ContextCompat.getColor(context, R.color.packages_bundle_overview_widgets_primary_text))
             hotelLuggageIcon.setColorFilter(0)

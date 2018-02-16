@@ -3,11 +3,10 @@ package com.expedia.vm.rail
 import android.content.Context
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
-import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.vm.PriceChangeViewModel
 import io.reactivex.subjects.BehaviorSubject
 
-class RailPriceChangeViewModel(context: Context) : PriceChangeViewModel(context, LineOfBusiness.RAILS) {
+class RailPriceChangeViewModel(context: Context) : PriceChangeViewModel(context) {
     //input
     val priceChangedObserver = BehaviorSubject.create<Unit>()
 

@@ -19,19 +19,19 @@ import javax.inject.Inject
 
 class LxCheckoutPresenterV2(context: Context, attr: AttributeSet?) : BaseCheckoutPresenter(context, attr) {
 
-    override fun trackCreateTripPriceChange(priceChangeDiffPercentage: Int) {
+    override fun trackCreateTripPriceChange(diffPercentage: Int) {
         //TODO
     }
 
-    override fun trackCheckoutPriceChange(priceDiff: Int) {
+    override fun trackCheckoutPriceChange(diffPercentage: Int) {
         //TODO
     }
 
-    override fun handleCheckoutPriceChange(response: TripResponse) {
+    override fun handleCheckoutPriceChange(tripResponse: TripResponse) {
         //TODO
     }
 
-    override fun onCreateTripResponse(response: TripResponse?) {
+    override fun onCreateTripResponse(tripResponse: TripResponse?) {
     }
 
     lateinit var lxCheckoutViewModel: LXCheckoutViewModel

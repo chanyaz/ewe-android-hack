@@ -21,7 +21,7 @@ class FlightResultsViewModel(context: Context, lob: LineOfBusiness) {
             isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)
 
     init {
-        isOutboundResults.subscribe { isOutbound ->
+        isOutboundResults.subscribe {
             airlineChargesFeesSubject.onNext(PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage())
         }
     }

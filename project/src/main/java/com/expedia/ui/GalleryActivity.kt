@@ -90,7 +90,7 @@ class GalleryActivity : Activity(), RecyclerGallery.GalleryItemScrollListener {
         toolbar.setHotelDetailViewModel(vm)
         toolbar.refreshForCystalTheme()
         toolbar.toolBarBackground.alpha = 0f
-        toolbar.toolbar.setNavigationOnClickListener { view ->
+        toolbar.toolbar.setNavigationOnClickListener {
             onBackPressed()
         }
     }

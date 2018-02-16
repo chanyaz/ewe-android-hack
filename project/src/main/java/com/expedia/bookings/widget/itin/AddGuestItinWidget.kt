@@ -81,13 +81,13 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
 
         toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_close_cont_desc)
 
-        itinNumberEditText.setOnFocusChangeListener { view, hasFocus ->
+        itinNumberEditText.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 validateField(viewModel.itinNumberValidateObservable, itinNumberEditText.text.toString())
             }
         }
 
-        guestEmailEditText.setOnFocusChangeListener { view, hasFocus ->
+        guestEmailEditText.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 validateField(viewModel.emailValidateObservable, guestEmailEditText.text.toString())
             }

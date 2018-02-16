@@ -41,7 +41,7 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
         viewModel.textSubject.subscribeEditText(this)
         subscribeToError(viewModel.errorSubject)
         addTextChangedSubscriber(viewModel.textSubject)
-        viewModel.addInvalidCharacterListener(InvalidCharacterHelper.InvalidCharacterListener { text, mode ->
+        viewModel.addInvalidCharacterListener(InvalidCharacterHelper.InvalidCharacterListener { _, mode ->
             val activity = context as AppCompatActivity
             InvalidCharacterHelper.showInvalidCharacterPopup(activity.supportFragmentManager, mode)
         })

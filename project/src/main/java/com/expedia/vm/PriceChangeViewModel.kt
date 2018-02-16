@@ -5,11 +5,10 @@ import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
-import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import io.reactivex.subjects.BehaviorSubject
 
-open class PriceChangeViewModel(context: Context, lob: LineOfBusiness) {
+open class PriceChangeViewModel(context: Context) {
     val originalPrice = BehaviorSubject.create<Money>()
     val newPrice = BehaviorSubject.create<Money>()
 

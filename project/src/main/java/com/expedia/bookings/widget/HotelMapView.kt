@@ -77,7 +77,7 @@ class HotelMapView(context: Context, attrs: AttributeSet) : RelativeLayout(conte
         toolBar.navigationIcon = navIcon
         toolBar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_cont_desc)
 
-        toolBar.setNavigationOnClickListener { view ->
+        toolBar.setNavigationOnClickListener {
             (context as Activity).onBackPressed()
         }
     }

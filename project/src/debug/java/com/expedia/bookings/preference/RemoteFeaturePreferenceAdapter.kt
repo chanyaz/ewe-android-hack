@@ -47,7 +47,7 @@ class RemoteFeaturePreferenceAdapter(val context: Context, val feature: Feature)
         holder?.name?.text = name
         holder?.enabled?.isClickable = checkedChanged != null
         holder?.enabled?.isChecked = currentValue()
-        holder?.enabled?.setOnCheckedChangeListener { view, isChecked ->
+        holder?.enabled?.setOnCheckedChangeListener { _, isChecked ->
             checkedChanged?.invoke(isChecked)
             Handler(Looper.getMainLooper()).post {
                 notifyDataSetChanged()

@@ -149,7 +149,7 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
         (fab.layoutParams as MarginLayoutParams).bottomMargin = getFabHeightAndBottomMargin().toInt() - resources.getDimensionPixelSize(R.dimen.new_launch_fab_height)
         val gestureDetector: GestureDetector = GestureDetector(context, gestureListener)
 
-        darkView.setOnTouchListener { view, motionEvent ->
+        darkView.setOnTouchListener { _, motionEvent ->
             gestureDetector.onTouchEvent(motionEvent)
         }
 

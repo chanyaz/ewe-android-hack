@@ -45,7 +45,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     abstract fun inflate()
     abstract fun injectComponents()
     abstract fun getCostSummaryBreakdownViewModel(): BaseCostSummaryBreakdownViewModel
-    abstract fun onTripResponse(response: TripResponse?)
+    abstract fun onTripResponse(tripResponse: TripResponse?)
     abstract fun getPriceViewModel(context: Context): AbstractUniversalCKOTotalPriceViewModel
 
     protected abstract fun fireCheckoutOverviewTracking(createTripResponse: TripResponse)
@@ -375,7 +375,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             trackShowingCkoOverviewSubscription = checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribeOptional { tripResponse ->
                 // Un-subscribe:- as we only want to track the initial load of cko overview
                 trackShowingCkoOverviewSubscription?.dispose()
-                fireCheckoutOverviewTracking(tripResponse!!)
+                fireCheckoutOverviewTracking(tripResponse)
             }
         }
     }
@@ -464,7 +464,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     }
 
     private fun setupCreateTripViewModelSubscriptions() {
-        checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribeOptional { trip ->
+        checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribeOptional {
             resetCheckoutState()
         }
     }

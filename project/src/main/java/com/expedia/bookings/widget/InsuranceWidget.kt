@@ -72,7 +72,7 @@ class InsuranceWidget(context: Context, attrs: AttributeSet) : CardView(context,
                     .intent)
         }
 
-        toggleSwitch.setOnCheckedChangeListener { switch, isChecked ->
+        toggleSwitch.setOnCheckedChangeListener { _, isChecked ->
             if (!suppressNextToggleEvent) {
                 viewModel.userInitiatedToggleObservable.onNext(isChecked)
             }

@@ -46,7 +46,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
     val totalDurationObserver = BehaviorSubject.create<CharSequence>()
     val totalDurationContDescObserver = BehaviorSubject.create<String>()
     val searchParams = BehaviorSubject.create<BaseSearchParams>()
-    val showRowContainerWithMoreInfo = BehaviorSubject.createDefault<Boolean>(AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
+    val showRowContainerWithMoreInfo = BehaviorSubject.createDefault<Boolean>(AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
             && (lob == LineOfBusiness.FLIGHTS_V2))
     val updateUpsellClassPreference = PublishSubject.create<Pair<List<FlightTripDetails.SeatClassAndBookingCode>, Boolean>>()
     val showPaymentInfoLinkObservable = PublishSubject.create<Boolean>()
@@ -99,7 +99,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
             }
         }
 
-        ObservableOld.combineLatest(selectedFlightObservable, flight, suggestion, date, guests, { searchType, flight, suggestion, date, guests ->
+        ObservableOld.combineLatest(selectedFlightObservable, flight, suggestion, date, guests, { searchType, flight, _, _, guests ->
             baggageUrl = flight.baggageFeesUrl
             updatedFlightLeg = flight
             val fmt = ISODateTimeFormat.dateTime()

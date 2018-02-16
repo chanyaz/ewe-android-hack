@@ -228,15 +228,15 @@ abstract class AbstractTravelersPresenter(context: Context, attrs: AttributeSet)
                 .setCancelable(false)
                 .setTitle(title)
                 .setMessage(message)
-                .setPositiveButton(positiveButtonText, DialogInterface.OnClickListener { dialog, which ->
+                .setPositiveButton(positiveButtonText) { dialog, _ ->
                     Db.getWorkingTravelerManager().commitTravelerToAccount(context, newTraveler, true)
                     OmnitureTracking.trackUserChoosesToSaveTraveler()
                     closeDialogAndForm(dialog)
-                })
-                .setNegativeButton(negativeButtonText, DialogInterface.OnClickListener { dialog, which ->
+                }
+                .setNegativeButton(negativeButtonText) { dialog, _ ->
                     OmnitureTracking.trackUserChoosesNotToSaveTraveler()
                     closeDialogAndForm(dialog)
-                })
+                }
 
         alert.show()
     }

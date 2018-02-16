@@ -53,7 +53,7 @@ class PendingPointsDialogFragment : DialogFragment() {
         carsRow.contentDescription = createAccessibilityText(R.string.pending_points_cars_accessibility_TEMPLATE, CAR_DAYS)
         carsDaysText.text = createDaysText(CAR_DAYS)
 
-        alertDialogBuilder.setNegativeButton(resources.getString(R.string.ok), { dialog, which ->
+        alertDialogBuilder.setNegativeButton(resources.getString(R.string.ok), { dialog, _ ->
             dialog?.dismiss()
         })
 

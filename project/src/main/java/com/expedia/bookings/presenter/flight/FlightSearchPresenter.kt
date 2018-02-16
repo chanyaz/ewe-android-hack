@@ -120,7 +120,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             }
         }
         if (isFlightGreedySearchEnabled(context)) {
-            travelerWidgetV2.traveler.getViewModel().isTravelerSelectionChangedObservable.filter { it }.map { it -> Unit }.subscribe(vm.abortGreedyCallObservable)
+            travelerWidgetV2.traveler.getViewModel().isTravelerSelectionChangedObservable.filter { it }.map { Unit }.subscribe(vm.abortGreedyCallObservable)
         }
         travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.subscribe { travelers ->
             val noOfTravelers = travelers.getTravelerCount()
@@ -221,7 +221,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
                     }).subscribe()
         }
 
-        ObservableOld.combineLatest(vm.hasValidDatesObservable, vm.errorNoDatesObservable, { hasValidDates, invalidDates -> hasValidDates }).subscribe { hasValidDates ->
+        ObservableOld.combineLatest(vm.hasValidDatesObservable, vm.errorNoDatesObservable, { hasValidDates, _ -> hasValidDates }).subscribe { hasValidDates ->
             calendarWidgetV2.setEndDrawable(if (hasValidDates) null else errorDrawable)
         }
 

@@ -157,10 +157,10 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
         val names = activityInfoList.map(DebugMenu.DebugActivityInfo::displayName)
         val adapter = ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, names)
         activityList.adapter = adapter
-        activityList.setOnItemClickListener({ adapterView, view, position, id ->
+        activityList.setOnItemClickListener({ _, _, position, _ ->
             debugMenu.startTestActivity(activityInfoList[position].className)
         })
-        alertDialog.setPositiveButton(R.string.ok, { dialog, which -> dialog.dismiss() })
+        alertDialog.setPositiveButton(R.string.ok, { dialog, _ -> dialog.dismiss() })
         alertDialog.create()
     }
 

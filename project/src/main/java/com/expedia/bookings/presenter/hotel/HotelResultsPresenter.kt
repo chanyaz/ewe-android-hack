@@ -218,13 +218,13 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
         //We don't want to show the searchThisArea button unless the map has just moved.
         searchThisArea.visibility = View.GONE
-        searchThisArea.setOnClickListener({ view ->
+        searchThisArea.setOnClickListener {
             fab.isEnabled = false
             animateMapCarouselOut()
             hideSearchThisArea()
             doAreaSearch()
             trackMapSearchAreaClick()
-        })
+        }
 
         filterView.shopWithPointsViewModel = shopWithPointsViewModel
 
@@ -392,10 +392,8 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     private fun showMapLoadingOverlay() {
-        if (loadingOverlay != null) {
-            loadingOverlay.animate(true)
-            loadingOverlay.visibility = View.VISIBLE
-        }
+        loadingOverlay.animate(true)
+        loadingOverlay.visibility = View.VISIBLE
     }
 
     private fun doAreaSearch() {

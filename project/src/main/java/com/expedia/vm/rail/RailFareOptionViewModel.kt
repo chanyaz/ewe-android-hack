@@ -21,9 +21,9 @@ class RailFareOptionViewModel(val context: Context, val showDeltaPricing: Boolea
     val priceObservable = offerFareSubject.zipWith(inboundLegCheapestPriceSubject, { offer, cheapestPrice ->
         calculatePrice(offer, cheapestPrice.value)
     })
-    val amenitiesSelectedObservable = showAmenitiesForFareClicked.withLatestFrom(offerFareSubject, { selected, offerFare -> offerFare })
-    val fareDetailsSelectedObservable = showFareRulesForFareClicked.withLatestFrom(offerFareSubject, { selected, offerFare -> offerFare })
-    val offerSelectedObservable = offerSelectButtonClicked.withLatestFrom(offerFareSubject, { selected, offerFare -> offerFare })
+    val amenitiesSelectedObservable = showAmenitiesForFareClicked.withLatestFrom(offerFareSubject, { _, offerFare -> offerFare })
+    val fareDetailsSelectedObservable = showFareRulesForFareClicked.withLatestFrom(offerFareSubject, { _, offerFare -> offerFare })
+    val offerSelectedObservable = offerSelectButtonClicked.withLatestFrom(offerFareSubject, { _, offerFare -> offerFare })
 
     private val railProductObservable = offerFareSubject.map { offer -> offer.railProductList.first() }
     val fareTitleObservable = railProductObservable.map { railProduct ->

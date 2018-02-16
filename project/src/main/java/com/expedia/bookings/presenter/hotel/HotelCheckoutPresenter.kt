@@ -31,7 +31,7 @@ import com.expedia.vm.traveler.HotelTravelersViewModel
 class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
 
     val isFreeCancellationTooltipEnabled by lazy {
-        AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFreeCancellationTooltip)
+        AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFreeCancellationTooltip)
     }
 
     val isMaterialHotelEnabled by lazy {
@@ -58,11 +58,11 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
             hotelCheckoutViewModel.hotelBookingDataObservable.onNext(getHotelBookingData(it.cvv, it.paymentSplits))
         }
 
-        vm.bookedWithoutCVVSubject.withLatestFrom(vm.paymentModel.paymentSplits, { unit, paymentSplits -> paymentSplits }).subscribe {
+        vm.bookedWithoutCVVSubject.withLatestFrom(vm.paymentModel.paymentSplits, { _, paymentSplits -> paymentSplits }).subscribe {
             hotelCheckoutViewModel.hotelBookingDataObservable.onNext(getHotelBookingData(null, it))
         }
 
-        hotelCheckoutWidget.slideAllTheWayObservable.withLatestFrom(vm.paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse) { unit, paymentSplitsAndLatestTripResponse ->
+        hotelCheckoutWidget.slideAllTheWayObservable.withLatestFrom(vm.paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse) { _, paymentSplitsAndLatestTripResponse ->
             paymentSplitsAndLatestTripResponse.isCardRequired()
         }.subscribe(checkoutSliderSlidObserver)
 

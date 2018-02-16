@@ -35,7 +35,7 @@ open class MesoAdResponseProvider {
                             mesoHotelAdResponseSubject.onNext(mesoAdResponse)
                         }
                         mesoHotelAdResponseSubject.onComplete()
-                    }) { hotelAdResponse, s -> }
+                    }) { _, _ -> }
                     .withAdListener(object : AdListener() {
                         override fun onAdFailedToLoad(errorCode: Int) {
                             val errorMessage = "Hotel ad failed to load: " + errorCode
@@ -60,7 +60,7 @@ open class MesoAdResponseProvider {
                             mesoDestinationAdResponseSubject.onNext(mesoAdResponse)
                         }
                         mesoDestinationAdResponseSubject.onComplete()
-                    }) { destinationAdResponse, s -> }
+                    }) { _, _ -> }
                     .withAdListener(object : AdListener() {
                         override fun onAdFailedToLoad(errorCode: Int) {
                             val errorMessage = "Destination ad failed to load: " + errorCode

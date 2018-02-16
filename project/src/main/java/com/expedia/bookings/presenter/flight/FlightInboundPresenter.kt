@@ -30,7 +30,7 @@ class FlightInboundPresenter(context: Context, attrs: AttributeSet) : AbstractMa
         overviewPresenter.vm.selectedFlightClickedSubject.subscribe(flightOfferViewModel.confirmedInboundFlightSelection)
         overviewPresenter.vm.selectedFlightLegSubject.subscribe(flightOfferViewModel.inboundSelected)
         flightOfferViewModel.inboundResultsObservable.subscribe(resultsPresenter.resultsViewModel.flightResultsObservable)
-        if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)) {
+        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightByotSearch)) {
             flightOfferViewModel.confirmedOutboundFlightSelection.subscribe {
                 resultsPresenter.setLoadingState()
             }

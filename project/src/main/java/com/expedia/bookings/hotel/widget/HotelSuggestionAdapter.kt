@@ -15,7 +15,7 @@ class HotelSuggestionAdapter(viewModel: BaseSuggestionAdapterViewModel) : BaseSu
     }
 
     override fun getSuggestionTrackingData(suggestion: SuggestionV4, position: Int): SuggestionTrackingData {
-        val suggestions = suggestionItems.filter { it is SuggestionDataItem.SuggestionDropDown } as List<SuggestionDataItem.SuggestionDropDown>
+        val suggestions = suggestionItems.filterIsInstance<SuggestionDataItem.SuggestionDropDown>()
 
         val trackingData = SuggestionTrackingData()
         trackingData.selectedSuggestionPosition = position + 1

@@ -126,11 +126,11 @@ class FlightItinSegmentSummaryViewModel(private val context: Context) {
                 summaryWidgetParams.seatConfirmation
         ))
 
-        updateFlightStatus(summaryWidgetParams.flightStatus, summaryWidgetParams.departureTime, summaryWidgetParams.arrivalTime, summaryWidgetParams.estimatedGateDepartureTime, summaryWidgetParams.estimatedGateArrivalTime)
+        updateFlightStatus(summaryWidgetParams.flightStatus, summaryWidgetParams.departureTime, summaryWidgetParams.estimatedGateDepartureTime, summaryWidgetParams.estimatedGateArrivalTime)
     }
 
     @VisibleForTesting
-    fun updateFlightStatus(flightStatus: String, scheduledDepartureTime: DateTime, scheduledArrivalTime: DateTime, estimatedGateDepartureTime: DateTime?, estimatedGateArrivalTime: DateTime?) {
+    fun updateFlightStatus(flightStatus: String, scheduledDepartureTime: DateTime, estimatedGateDepartureTime: DateTime?, estimatedGateArrivalTime: DateTime?) {
         if (flightStatus == Flight.STATUS_CANCELLED) {
             val flightIndicatorText = context.resources.getString(R.string.itin_flight_summary_status_indicator_text_cancelled)
             updateFlightStatusSubject.onNext(FlightStatsParams(

@@ -323,7 +323,7 @@ open class HotelTracking {
             OmnitureTracking.trackHotelV2SponsoredListingClick()
         }
 
-        fun trackHotelPurchaseConfirmation(hotelCheckoutResponse: HotelCheckoutResponse, percentagePaidWithPoints: Int, totalAppliedRewardCurrency: String, guestCount: Int, couponCode: String, pageUsableData: PageUsableData, hotelSearchParams: HotelSearchParams) {
+        fun trackHotelPurchaseConfirmation(hotelCheckoutResponse: HotelCheckoutResponse, percentagePaidWithPoints: Int, totalAppliedRewardCurrency: String, pageUsableData: PageUsableData, hotelSearchParams: HotelSearchParams) {
             OmnitureTracking.trackHotelV2PurchaseConfirmation(hotelCheckoutResponse, percentagePaidWithPoints, totalAppliedRewardCurrency, pageUsableData)
             TuneUtils.trackHotelV2Confirmation(hotelCheckoutResponse)
             FacebookEvents().trackHotelV2Confirmation(hotelCheckoutResponse)

@@ -367,7 +367,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
             return emptyList()
         }
         val commonValueAdds = getCommonValueAdds(hotelOffersResponse)
-        val list = Array(hotelRooms!!.size, { i -> "" }).toMutableList()
+        val list = Array(hotelRooms!!.size, { "" }).toMutableList()
         for (iRoom in 0..hotelRooms.size - 1) {
             val rate = hotelOffersResponse.hotelRoomResponse[iRoom]
             if (rate.valueAdds != null) {

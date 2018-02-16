@@ -3,7 +3,7 @@ package com.expedia.bookings.unit.travelgraph
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.travelgraph.SearchInfo
 import com.expedia.bookings.data.travelgraph.TravelerInfo
-import junit.framework.Assert.assertTrue
+import org.junit.Assert.assertTrue
 import org.joda.time.LocalDate
 import org.junit.Assert.assertFalse
 import org.junit.Before

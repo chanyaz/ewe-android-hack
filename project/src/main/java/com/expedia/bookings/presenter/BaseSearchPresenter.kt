@@ -7,7 +7,6 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Rect
-import android.support.annotation.CallSuper
 import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
@@ -113,7 +112,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
         val builder = AlertDialog.Builder(context)
         builder.setTitle(R.string.search_error)
         builder.setMessage(message)
-        builder.setPositiveButton(context.getString(R.string.DONE)) { dialog, which -> dialog.dismiss() }
+        builder.setPositiveButton(context.getString(R.string.DONE)) { dialog, _ -> dialog.dismiss() }
         val dialog = builder.create()
         dialog.show()
     }
@@ -497,8 +496,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
         toolBarTitle.translationY = (if (forward) Math.abs(1 - f) else f) * -toolbarTitleTop
     }
 
-    @CallSuper
-    open fun animationFinalize(forward: Boolean) {
+    fun animationFinalize() {
         navIcon.parameter = ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type.toFloat()
     }
 

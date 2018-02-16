@@ -75,7 +75,7 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
             }
         }
 
-        viewmodel.onStoredCardChosen.withLatestFrom(vm.isPwpDirty, { x, y -> y })
+        viewmodel.onStoredCardChosen.withLatestFrom(vm.isPwpDirty, { _, isPwpDirty -> isPwpDirty })
                 .filter { !it }
                 .map { true }
                 .subscribe(enableToolbarMenuButton)
@@ -212,9 +212,9 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
             val cardInList = (validCardsList.getChildAt(i) as ImageView)
             if (cardInList.tag != validCardRes) {
                 // This is for setting the opacity, where 0% is completely transparent and 100% is completely opaque
-                cardInList.setAlpha(AlphaCalculator.getAlphaValue(percentage = 10))
+                cardInList.imageAlpha = AlphaCalculator.getAlphaValue(percentage = 10)
             } else {
-                cardInList.setAlpha(AlphaCalculator.getAlphaValue(percentage = 100))
+                cardInList.imageAlpha = AlphaCalculator.getAlphaValue(percentage = 100)
             }
         }
     }
@@ -222,7 +222,7 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
     private fun undimAllCards(validCardsList: LinearLayout) {
         for (i in 0..validCardsList.childCount - 1) {
             val cardInList = (validCardsList.getChildAt(i) as ImageView)
-            cardInList.setAlpha(AlphaCalculator.getAlphaValue(percentage = 100))
+            cardInList.imageAlpha = AlphaCalculator.getAlphaValue(percentage = 100)
         }
     }
 

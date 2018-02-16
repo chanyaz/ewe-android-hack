@@ -155,7 +155,7 @@ open class CalendarDialogFragment() : DialogFragment() {
         calendar
         removeParentView()
         builder.setView(calendarDialogView)
-        builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which ->
+        builder.setPositiveButton(context.getString(R.string.DONE), { dialog, _ ->
             oldCalendarSelection = null
             calendar.visibility = CardView.INVISIBLE
             calendar.hideToolTip()
@@ -181,9 +181,6 @@ open class CalendarDialogFragment() : DialogFragment() {
 
         calendar.setSelectedDates(baseSearchViewModel?.startDate(), baseSearchViewModel?.endDate())
 
-        if (savedInstanceState != null) {
-            dismiss()
-        }
         return dialog
     }
 

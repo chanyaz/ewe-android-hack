@@ -96,7 +96,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
             val builder = AlertDialog.Builder(context)
             builder.setTitle(R.string.coupon_error_dialog_title)
             builder.setMessage(R.string.coupon_error_dialog_message)
-            builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which -> dialog.dismiss() })
+            builder.setPositiveButton(context.getString(R.string.DONE), { dialog, _ -> dialog.dismiss() })
             val alertDialog = builder.create()
             alertDialog.show()
             doCreateTrip()
@@ -105,11 +105,11 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
             val builder = AlertDialog.Builder(context)
             builder.setTitle(R.string.coupon_error_remove_dialog_title)
             builder.setMessage(R.string.coupon_error_fallback)
-            builder.setPositiveButton(context.getString(R.string.cancel), { dialog, which ->
+            builder.setPositiveButton(context.getString(R.string.cancel), { dialog, _ ->
                 createTripResponseListener.onNext(createTripViewmodel.tripResponseObservable.value)
                 dialog.dismiss()
             })
-            builder.setNegativeButton(context.getString(R.string.retry), { dialog, which -> couponCardView.viewmodel.removeObservable.onNext(true) })
+            builder.setNegativeButton(context.getString(R.string.retry), { _, _ -> couponCardView.viewmodel.removeObservable.onNext(true) })
             val alertDialog = builder.create()
             alertDialog.show()
         }

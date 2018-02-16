@@ -34,9 +34,9 @@ class HotelResultsPricingStructureHeaderViewModel(val context: Context, val pric
             val priceDescriptorAndResultsCountHeader: String
 
             if (priceDescriptorMessageIdForHSR != null) {
-                val hotelResultsCount = context.resources.getQuantityString(R.plurals.hotel_results_default_header_TEMPLATE, hotelResultsCount, hotelResultsCount)
+                val hotelResultsDisplayText = context.resources.getQuantityString(R.plurals.hotel_results_default_header_TEMPLATE, hotelResultsCount, hotelResultsCount)
                 priceDescriptorAndResultsCountHeader = Phrase.from(context, priceDescriptorMessageIdForHSR)
-                        .putOptional("total_price_result_count_header", hotelResultsCount)
+                        .putOptional("total_price_result_count_header", hotelResultsDisplayText)
                         .format()
                         .toString()
             } else {

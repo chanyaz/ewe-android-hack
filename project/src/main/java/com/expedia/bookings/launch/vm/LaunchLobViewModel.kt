@@ -37,7 +37,7 @@ class LaunchLobViewModel(val context: Context, val hasInternetConnectionChangeSu
         lobs.add(LobInfo.HOTELS)
         lobs.add(LobInfo.FLIGHTS)
 
-        val packagesPOSABTestEnabled = !PackageUtil.isPackageLOBUnderABTest || AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesEnablePOS)
+        val packagesPOSABTestEnabled = !PackageUtil.isPackageLOBUnderABTest || AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesEnablePOS)
         if (pos.supports(LineOfBusiness.PACKAGES) && packagesPOSABTestEnabled) {
             lobs.add(LobInfo.PACKAGES)
         }
@@ -55,7 +55,7 @@ class LaunchLobViewModel(val context: Context, val hasInternetConnectionChangeSu
         }
 
         val isPosSupportingRails = pos.supports(LineOfBusiness.RAILS)
-                || (pos.supportsRailsWebView() && (!pos.isRailsWebViewBehindABTest || AbacusFeatureConfigManager.isUserBucketedForTest(pos.railsWebViewABTestID)))
+                || (pos.supportsRailsWebView() && (!pos.isRailsWebViewBehindABTest || AbacusFeatureConfigManager.isBucketedForTest(context, pos.railsWebViewABTestID)))
         if (isPosSupportingRails) {
             lobs.add(LobInfo.RAILS)
         }

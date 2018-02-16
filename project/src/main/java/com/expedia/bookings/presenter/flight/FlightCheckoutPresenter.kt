@@ -164,8 +164,8 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
         return false
     }
 
-    private fun makePaymentErrorSubscriber(fee: Subject<Boolean>, show: PublishSubject<Boolean>, textView: TextView, text: Subject<Spanned>) {
-        ObservableOld.combineLatest(fee, show, text,
+    private fun makePaymentErrorSubscriber(feeSubject: Subject<Boolean>, showSubject: PublishSubject<Boolean>, textView: TextView, textSubject: Subject<Spanned>) {
+        ObservableOld.combineLatest(feeSubject, showSubject, textSubject,
                 { fee, show, text ->
                     val cardFeeVisibility = if (fee && show) View.VISIBLE else View.GONE
                     if (cardFeeVisibility == VISIBLE) {
@@ -182,7 +182,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
     override val defaultTransition = object : DefaultCheckoutTransition() {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
-            val offerInsuranceInFlightSummary = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary)
+            val offerInsuranceInFlightSummary = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary)
             insuranceWidget.viewModel.widgetVisibilityAllowedObservable.onNext(!offerInsuranceInFlightSummary)
         }
     }
@@ -190,7 +190,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
     override val defaultToPayment = object : DefaultToPayment(this) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
-            val offerInsuranceInFlightSummary = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary)
+            val offerInsuranceInFlightSummary = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary)
             insuranceWidget.viewModel.widgetVisibilityAllowedObservable.onNext(!forward && !offerInsuranceInFlightSummary)
         }
     }

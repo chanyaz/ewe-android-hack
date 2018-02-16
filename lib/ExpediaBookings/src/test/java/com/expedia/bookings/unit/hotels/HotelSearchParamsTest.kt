@@ -119,11 +119,11 @@ class HotelSearchParamsTest {
         val originalSuggestion = getDummySuggestion("chicago", "CHI")
         originalSuggestion.hotelId = "12345"
         val params = builder.destination(originalSuggestion).startDate(tomorrow).endDate(checkoutDate).build() as HotelSearchParams
-        params?.clearPinnedHotelId()
+        params.clearPinnedHotelId()
         val newBuilder = HotelSearchParams.Builder(maxStay, maxRange)
                 .destination(originalSuggestion)
-                .startDate(params?.checkIn)
-                .endDate(params?.checkOut) as HotelSearchParams.Builder
+                .startDate(params.checkIn)
+                .endDate(params.checkOut) as HotelSearchParams.Builder
 
         assertTrue(newBuilder.build().isPinnedSearch())
     }

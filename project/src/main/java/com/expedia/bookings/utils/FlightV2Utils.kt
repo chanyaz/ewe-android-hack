@@ -333,12 +333,12 @@ object FlightV2Utils {
             if (flightTripDetails.legs[index].isBasicEconomy) {
                 selectedSeatClassList.add(context.resources.getString(R.string.cabin_code_basic_economy))
             } else {
-                selectedSeatClassList.addAll(seatClass.map { seatClass -> context.getString(FlightServiceClassType.getCabinCodeResourceId(seatClass.seatClass)) })
+                selectedSeatClassList.addAll(seatClass.map { context.getString(FlightServiceClassType.getCabinCodeResourceId(it.seatClass)) })
             }
         }
         selectedSeatClassList = selectedSeatClassList.distinct().toMutableList()
 
-        var selectedClassText = ""
+        var selectedClassText: String
 
         if (selectedSeatClassList.size == 1) {
             selectedClassText = selectedSeatClassList[0]

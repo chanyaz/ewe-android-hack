@@ -41,8 +41,8 @@ class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: Rev
     }
 
     private val orderedReviewsObserver = object : DisposableObserver<Pair<ReviewSort, HotelReviewsResponse>>() {
-        override fun onError(e: Throwable) {
-            OmnitureTracking.trackReviewLoadingError(e?.message?.toString() ?: "")
+        override fun onError(error: Throwable) {
+            OmnitureTracking.trackReviewLoadingError(error.message ?: "")
         }
 
         override fun onNext(t: Pair<ReviewSort, HotelReviewsResponse>) {

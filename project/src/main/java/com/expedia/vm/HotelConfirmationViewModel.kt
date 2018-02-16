@@ -164,7 +164,7 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
             AdImpressionTracking.trackAdConversion(context, it.checkoutResponse.bookingResponse.tripId)
 
             // LX Cross sell
-            val isUserBucketedForLXCrossSellTest = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest)
+            val isUserBucketedForLXCrossSellTest = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest)
                     && PointOfSale.getPointOfSale().supports(LineOfBusiness.LX)
             addLXBtn.onNext(if (isUserBucketedForLXCrossSellTest) context.resources.getString(R.string.add_lx_TEMPLATE, product.hotelCity) else "")
 
@@ -220,7 +220,7 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
             location.addStreetAddressLine(hotelAddress.addressLine1)
             hotelLocation.onNext(location)
 
-            val isUserBucketedForLXCrossSellTest = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest)
+            val isUserBucketedForLXCrossSellTest = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest)
                     && PointOfSale.getPointOfSale().supports(LineOfBusiness.LX)
             addLXBtn.onNext(if (isUserBucketedForLXCrossSellTest) context.resources.getString(R.string.add_lx_TEMPLATE, hotelAddress.city) else "")
 
@@ -274,7 +274,7 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
     fun getAddCarBtnObserver(context: Context): Observer<Unit> {
         return object : DisposableObserver<Unit>() {
             override fun onNext(t: Unit) {
-                CarNavUtils.goToCars(context, null, NavUtils.FLAG_OPEN_SEARCH)
+                CarNavUtils.goToCars(context, NavUtils.FLAG_OPEN_SEARCH)
                 HotelTracking.trackHotelCrossSellCar()
             }
 

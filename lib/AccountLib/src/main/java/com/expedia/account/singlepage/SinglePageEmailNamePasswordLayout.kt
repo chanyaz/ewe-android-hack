@@ -63,12 +63,13 @@ class SinglePageEmailNamePasswordLayout(context: Context, attrs: AttributeSet) :
         vLastNameInput.addTextChangedListener(InvalidCharacterTextWatcher(null))
         vEmailAddress.setValidator(object : InputValidator(ExpediaEmailInputRule()) {})
         vPassword.setValidator(object : InputValidator(ExpediaPasswordInputRule()) {})
-        vPassword.setOnEditorActionListener { v, actionId, event ->
+        vPassword.setOnEditorActionListener { _, actionId, _ ->
+            var handled = false
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 vPassword.doneCheck()
-                true
+                handled = true
             }
-            false
+            handled
         }
     }
 

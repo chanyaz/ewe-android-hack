@@ -131,7 +131,6 @@ class PhoneLaunchActivityTest {
     @Test
     fun gotoActivitiesCrossSellForNullTest() {
         val mockItinManager = Mockito.mock(ItineraryManager::class.java)
-        val testItinFlightCardData = ItinCardDataFlightBuilder().build()
         Mockito.`when`(mockItinManager.getItinCardDataFromItinId("TEST_ITIN_ID")).thenReturn(null)
         val activity = Robolectric.buildActivity(PhoneLaunchActivity::class.java).get()
         activity.gotoActivitiesCrossSell("TEST_ITIN_ID", mockItinManager)

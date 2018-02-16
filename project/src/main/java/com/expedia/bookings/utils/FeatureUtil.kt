@@ -5,8 +5,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 
-fun isFlexEnabled(): Boolean {
-    return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightFlexEnabled)
+fun isFlexEnabled(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightFlexEnabled)
 }
 
 fun isPopulateCardholderNameEnabled(context: Context): Boolean {
@@ -26,15 +26,15 @@ fun shouldPackageForceUpdateBeVisible(context: Context): Boolean {
 }
 
 fun isAllowUnknownCardTypesEnabled(context: Context): Boolean {
-    return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppAllowUnknownCardTypes)
+    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppAllowUnknownCardTypes)
 }
 
-fun isAllowCheckinCheckoutDatesInlineEnabled(): Boolean {
-    return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)
+fun isAllowCheckinCheckoutDatesInlineEnabled(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)
 }
 
 fun isShowFlightsCheckoutWebview(context: Context): Boolean {
-    return AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppShowFlightsCheckoutWebview)
+    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppShowFlightsCheckoutWebview)
 }
 
 fun isKrazyglueOnFlightsConfirmationEnabled(context: Context): Boolean {

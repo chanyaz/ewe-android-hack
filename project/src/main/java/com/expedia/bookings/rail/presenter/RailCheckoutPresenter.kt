@@ -292,7 +292,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         val builder = AlertDialog.Builder(context)
         builder.setTitle(title)
         builder.setMessage(message)
-        builder.setPositiveButton(context.getString(R.string.DONE)) { dialog, which -> dialog.dismiss() }
+        builder.setPositiveButton(context.getString(R.string.DONE)) { dialog, _ -> dialog.dismiss() }
         val dialog = builder.create()
         dialog.show()
     }

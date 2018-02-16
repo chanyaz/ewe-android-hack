@@ -196,7 +196,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
             }
 
             override fun onError(throwable: Throwable) {
-                Log.i("package error: " + throwable?.message)
+                Log.i("package error: " + throwable.message)
                 when {
                     throwable is HttpException -> try {
                         val response = throwable.response().errorBody()

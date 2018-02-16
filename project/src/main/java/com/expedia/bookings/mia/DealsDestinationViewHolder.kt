@@ -70,7 +70,7 @@ class DealsDestinationViewHolder(private val view: View) : RecyclerView.ViewHold
         searchParams = setSearchParams(vm)
         cardView.contentDescription = getDealsContentDesc()
 
-        setDiscountColors(vm)
+        setDiscountColors()
         hideDiscountViewWithNoDiscount()
     }
 
@@ -223,7 +223,7 @@ class DealsDestinationViewHolder(private val view: View) : RecyclerView.ViewHold
         }
     }
 
-    private fun setDiscountColors(vm: DealsDestinationViewModel) =
+    private fun setDiscountColors() =
             if (isBrandColorEnabled(view.context) && view.context is MemberDealsActivity) {
                 discountView.setBackgroundResource(DiscountColors.MEMBER_DEALS.backgroundColor)
                 discountView.setTextColor(ContextCompat.getColor(view.context, DiscountColors.MEMBER_DEALS.textColor))

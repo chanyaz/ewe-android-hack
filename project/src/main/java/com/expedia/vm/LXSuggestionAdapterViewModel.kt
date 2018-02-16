@@ -12,7 +12,7 @@ import io.reactivex.Observable
 class LXSuggestionAdapterViewModel(context: Context, suggestionsService: ISuggestionV4Services, locationObservable: Observable<Location>?, shouldShowCurrentLocation: Boolean, rawQueryEnabled: Boolean) : BaseSuggestionAdapterViewModel(context, suggestionsService, locationObservable, shouldShowCurrentLocation, rawQueryEnabled) {
     override fun getSuggestionService(query: String) {
         suggestionsService.getLxSuggestionsV4(query, generateSuggestionServiceCallback(),
-                AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXDisablePOISearch))
+                AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppLXDisablePOISearch))
     }
 
     override fun getSuggestionHistoryFile(): String = SuggestionV4Utils.RECENT_LX_SUGGESTIONS_FILE

@@ -245,11 +245,11 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                 onFocusChange(view, hasFocus)
             }
         }
-        sectionBillingInfo.addInvalidCharacterListener { text, mode ->
+        sectionBillingInfo.addInvalidCharacterListener { _, mode ->
             val activity = context as AppCompatActivity
             InvalidCharacterHelper.showInvalidCharacterPopup(activity.supportFragmentManager, mode)
         }
-        sectionLocation.addInvalidCharacterListener { text, mode ->
+        sectionLocation.addInvalidCharacterListener { _, mode ->
             val activity = context as AppCompatActivity
             InvalidCharacterHelper.showInvalidCharacterPopup(activity.supportFragmentManager, mode)
         }
@@ -478,11 +478,11 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                 .setMessage(Phrase.from(context, R.string.save_billing_info_message_TEMPLATE)
                         .put("brand", BuildConfig.brand)
                         .format())
-                .setPositiveButton(R.string.save, { dialogInterface, i ->
+                .setPositiveButton(R.string.save, { _, _ ->
                     OmnitureTracking.trackUserChoosesToSaveCard()
                     userChoosesToSaveCard()
                 })
-                .setNegativeButton(R.string.no_thanks, { dialogInterface, i ->
+                .setNegativeButton(R.string.no_thanks, { _, _ ->
                     OmnitureTracking.trackUserChoosesNotToSaveCard()
                     userChoosesNotToSaveCard()
                 }).create()

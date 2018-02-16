@@ -160,6 +160,21 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
         }
     }
 
+    private val railTabListener = object : TabLayout.OnTabSelectedListener {
+        override fun onTabReselected(tab: TabLayout.Tab?) {
+            // do nothing
+        }
+
+        override fun onTabUnselected(tab: TabLayout.Tab?) {
+            // do nothing
+        }
+
+        override fun onTabSelected(tab: TabLayout.Tab) {
+            val isRoundTripSearch = tab.position == 1
+            handleRoundTripChanged(isRoundTripSearch)
+        }
+    }
+
     private fun initializeToolbarTabs() {
         adapter = RailSearchPagerAdapter(context)
         viewpager.adapter = adapter
@@ -174,20 +189,11 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
             }
         }
 
-        tabs.setOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-                // do nothing
-            }
+        tabs.addOnTabSelectedListener(railTabListener)
+    }
 
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-                // do nothing
-            }
-
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                val isRoundTripSearch = tab.position == 1
-                handleRoundTripChanged(isRoundTripSearch)
-            }
-        })
+    fun cleanup() {
+        tabs.removeOnTabSelectedListener(railTabListener)
     }
 
     private fun handleRoundTripChanged(roundTrip: Boolean) {

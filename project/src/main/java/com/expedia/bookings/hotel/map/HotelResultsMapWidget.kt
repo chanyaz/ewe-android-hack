@@ -81,7 +81,7 @@ class HotelResultsMapWidget(context: Context, attrs: AttributeSet?) : FrameLayou
         if (currentHotels.isNotEmpty() && hotelMapMarkers.isEmpty()) {
             createNewMarkers()
         }
-        queuedCameraPosition?.let { position ->
+        queuedCameraPosition?.let {
             googleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(queuedCameraPosition))
         }
         queuedCameraPosition = null
@@ -180,11 +180,14 @@ class HotelResultsMapWidget(context: Context, attrs: AttributeSet?) : FrameLayou
     private fun initMapListeners() {
         var currentZoom = -1f
 
-        googleMap?.setOnCameraChangeListener { position ->
-            synchronized(currentZoom) {
-                if (Math.abs(currentZoom - position.zoom) > .5) {
-                    clusterManager?.cluster()
-                    currentZoom = position.zoom
+        googleMap?.setOnCameraIdleListener {
+            val position = googleMap?.cameraPosition
+            if (position != null) {
+                synchronized(currentZoom) {
+                    if (Math.abs(currentZoom - position.zoom) > .5) {
+                        clusterManager?.cluster()
+                        currentZoom = position.zoom
+                    }
                 }
             }
             cameraChangeSubject.onNext(Unit)
@@ -220,7 +223,7 @@ class HotelResultsMapWidget(context: Context, attrs: AttributeSet?) : FrameLayou
     }
 
     private fun animateBounds() {
-        currentBounds?.let { bounds ->
+        currentBounds?.let {
             if (ViewCompat.isLaidOut(mapView)) {
                 googleMap?.setPadding(0, getToolbarHeight(), 0, 0)
 

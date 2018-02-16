@@ -358,7 +358,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
         filterMenuItem.isVisible = false
 
-        toolbar.setNavigationOnClickListener { view ->
+        toolbar.setNavigationOnClickListener {
             if (!transitionRunning) {
                 val activity = context as AppCompatActivity
                 activity.onBackPressed()
@@ -369,7 +369,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         // Enabling crossfade prevents the icon ending up with a weird mishmash of both icons.
         fabDrawable?.isCrossFadeEnabled = true
 
-        fab.setOnClickListener { view ->
+        fab.setOnClickListener {
             if (!transitionRunning) {
                 if (recyclerView.visibility == View.VISIBLE) {
                     fab.contentDescription = context.getString(R.string.show_list)
@@ -425,7 +425,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             toast.show()
             true
         }
-        filterBtn?.setOnClickListener { view ->
+        filterBtn?.setOnClickListener {
             showWithTracking(ResultsFilter())
             val isResults = currentState == ResultsList::class.java.name
             previousWasList = isResults
@@ -467,17 +467,17 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             val firstItem = recyclerView.findViewHolderForAdapterPosition(1)
 
             if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                val manager = recyclerView.layoutManager as LinearLayoutManager
-                val displayingLastItemInList = manager.findLastCompletelyVisibleItemPosition() == (recyclerView.adapter.itemCount - 1)
-                if (isHeaderVisible() && !displayingLastItemInList) {
+                val linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager
+                val isLastItemInListDisplayed = linearLayoutManager.findLastCompletelyVisibleItemPosition() == (recyclerView.adapter.itemCount - 1)
+                if (isHeaderVisible() && !isLastItemInListDisplayed) {
                     if (firstItem == null) {
                         showWithTracking(ResultsMap())
                     } else {
                         val firstItemTop = firstItem.itemView?.top ?: 0
-                        val manager = recyclerView.layoutManager as HotelListRecyclerView.PreCachingLayoutManager
-                        val displayingLastItemInList = manager.findLastCompletelyVisibleItemPosition() == (recyclerView.adapter.itemCount - 1)
+                        val preCachingLayoutManager = recyclerView.layoutManager as HotelListRecyclerView.PreCachingLayoutManager
+                        val isDisplayingLastItemInList = preCachingLayoutManager.findLastCompletelyVisibleItemPosition() == (recyclerView.adapter.itemCount - 1)
 
-                        if (!displayingLastItemInList && firstItemTop > mapListSplitAnchor && firstItemTop < snapToFullScreenMapThreshold) {
+                        if (!isDisplayingLastItemInList && firstItemTop > mapListSplitAnchor && firstItemTop < snapToFullScreenMapThreshold) {
                             recyclerView.translationY = 0f
                             resetListOffset()
                         } else if (firstItemTop >= snapToFullScreenMapThreshold) {
@@ -920,7 +920,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         navIcon.parameter = factor
     }
 
-    fun animationFinalize(enableLocation: Boolean) {
+    fun animationFinalize() {
         recyclerTempBackground.visibility = View.GONE
         navIcon.parameter = ArrowXDrawableUtil.ArrowDrawableType.BACK.type.toFloat()
     }

@@ -68,7 +68,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val validDateSetObservable = PublishSubject.create<Unit>()
     val trackSearchClicked = PublishSubject.create<Unit>()
 
-    val EBAndroidAppFlightSubpubChange = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSubpubChange)
+    val EBAndroidAppFlightSubpubChange = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSubpubChange)
     val isUserEvolableBucketed = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsEvolable)
     var toAndFromFlightFieldsSwitched = false
     var isGreedyCallStarted = false
@@ -135,7 +135,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         isRoundTripSearchObservable.subscribe { isRoundTripSearch ->
             getParamsBuilder().roundTrip(isRoundTripSearch)
             getParamsBuilder().maxStay = getCalendarRules().getMaxSearchDurationDays()
-            if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)) {
+            if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightByotSearch)) {
                 getParamsBuilder().legNo(if (isRoundTripSearch) 0 else null)
             }
             if (selectedDates.first != null) {
@@ -164,10 +164,10 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
         if (isFlightGreedySearchEnabled(context)) {
             Observable.merge(dateSetObservable, isRoundTripSearchObservable).filter { getParamsBuilder().hasValidDates() }
-                    .map { it -> Unit }.subscribe(validDateSetObservable)
+                    .map { Unit }.subscribe(validDateSetObservable)
 
             flightGreedySearchSubscription = ObservableOld.combineLatest(formattedOriginObservable, formattedDestinationObservable,
-                    validDateSetObservable, { flyFrom, flyTo, date -> Unit })
+                    validDateSetObservable, { _, _, _ -> Unit })
                     .filter { isReadyToFireSearchCall() }
                     .subscribeObserver(performGreedyCallSearchObserver)
 

@@ -41,7 +41,7 @@ open class SinglePageInputTextPresenter(context: Context, attrs: AttributeSet) :
             override fun afterTextChanged(editable: Editable) {}
         })
 
-        editText.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
+        editText.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (mValidator != null) {
                 showInternal(mValidator.onFocusChanged(editText.text.toString(), hasFocus))
             }

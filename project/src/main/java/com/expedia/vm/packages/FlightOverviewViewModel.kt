@@ -59,7 +59,7 @@ class FlightOverviewViewModel(context: Context) : AbstractFlightOverviewViewMode
 
     fun updateOBFees(selectedFlight: FlightLeg) {
         resetPaymentFeeViews()
-        if ((selectedFlight.airlineMessageModel?.hasAirlineWithCCfee ?: false || selectedFlight.mayChargeObFees) && PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage() ?: false) {
+        if ((selectedFlight.airlineMessageModel?.hasAirlineWithCCfee ?: false || selectedFlight.mayChargeObFees) && PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage()) {
             val hasAirlineFeeLink = !selectedFlight.airlineMessageModel?.airlineFeeLink.isNullOrBlank()
             if (hasAirlineFeeLink) {
                 val paymentFeeText = context.resources.getString(R.string.payment_and_baggage_fees_may_apply)

@@ -89,7 +89,7 @@ class FlightTravelerPickerViewModel(context: Context) : BaseTravelerPickerViewMo
             childMinusObservable.onNext(child > MIN_CHILDREN)
             infantMinusObservable.onNext(infant > MIN_CHILDREN)
         }
-        isInfantInLapObservable.subscribe { inLap ->
+        isInfantInLapObservable.subscribe {
             validateInfants()
         }
     }

@@ -17,6 +17,11 @@ class RailActivity : AppCompatActivity() {
         setContentView(R.layout.rail_activity)
     }
 
+    override fun onStop() {
+        super.onStop()
+        railPresenter.searchPresenter.cleanup()
+    }
+
     override fun onBackPressed() {
         if (!railPresenter.back()) {
             super.onBackPressed()

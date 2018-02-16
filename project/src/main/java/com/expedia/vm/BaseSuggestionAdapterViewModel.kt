@@ -159,6 +159,8 @@ abstract class BaseSuggestionAdapterViewModel(val context: Context, val suggesti
                         suggestions.addAll(userRecentSearches.toSearchInfoDataItemList())
                     }
                 }
+                else -> {
+                }
             }
         }
         return suggestions

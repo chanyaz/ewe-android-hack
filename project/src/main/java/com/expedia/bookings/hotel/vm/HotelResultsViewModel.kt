@@ -139,7 +139,7 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
                 if (cachedParams != null) {
                     doSearch(cachedParams!!, isFilteredSearch)
                 } else {
-                    cancelFun
+                    cancelFun()
                 }
             }
             DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)

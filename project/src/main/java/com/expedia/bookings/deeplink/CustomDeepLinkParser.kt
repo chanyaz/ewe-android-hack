@@ -30,9 +30,9 @@ class CustomDeepLinkParser(assets: AssetManager) : DeepLinkParser(assets) {
             "supportemail" -> return SupportEmailDeepLink()
             "reviewfeedbackemail" -> return ReviewFeedbackEmailDeeplink()
             "forcebucket" -> return parseForceBucketDeepLink(data)
-            "packagesearch" -> return parsePackagesSearchCustomDeepLink(data)
-            "railsearch" -> return parseRailSearchCustomDeepLink(data)
-            "flightshare" -> return parseFlightShareCustomDeepLink(data)
+            "packagesearch" -> return parsePackagesSearchCustomDeepLink()
+            "railsearch" -> return parseRailSearchCustomDeepLink()
+            "flightshare" -> return parseFlightShareCustomDeepLink()
             else -> return HomeDeepLink()
         }
     }
@@ -122,15 +122,15 @@ class CustomDeepLinkParser(assets: AssetManager) : DeepLinkParser(assets) {
         return forceBucketDeepLink
     }
 
-    private fun parsePackagesSearchCustomDeepLink(data: Uri): PackageDeepLink {
+    private fun parsePackagesSearchCustomDeepLink(): PackageDeepLink {
         return PackageDeepLink()
     }
 
-    private fun parseRailSearchCustomDeepLink(data: Uri): RailDeepLink {
+    private fun parseRailSearchCustomDeepLink(): RailDeepLink {
         return RailDeepLink()
     }
 
-    private fun parseFlightShareCustomDeepLink(data: Uri): FlightShareDeepLink {
+    private fun parseFlightShareCustomDeepLink(): FlightShareDeepLink {
         return FlightShareDeepLink()
     }
 

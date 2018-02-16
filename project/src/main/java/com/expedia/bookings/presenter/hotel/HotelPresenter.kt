@@ -122,7 +122,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         val builder = android.app.AlertDialog.Builder(context)
         builder.setTitle(context.getString(R.string.booking_successful))
         builder.setMessage(context.getString(R.string.check_your_email_for_itin))
-        builder.setPositiveButton(context.getString(R.string.ok), { dialog, which ->
+        builder.setPositiveButton(context.getString(R.string.ok), { dialog, _ ->
             (context as Activity).finish()
             dialog.dismiss()
         })
@@ -138,7 +138,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         searchViewModel.genericSearchSubject.subscribe { params -> handleGenericSearch(params) }
         searchViewModel.hotelIdSearchSubject.subscribe { params ->
             HotelTracking.trackPinnedSearch()
-            handleHotelIdSearch(params, goToResults = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPinnedSearch))
+            handleHotelIdSearch(params, goToResults = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelPinnedSearch))
         }
         searchViewModel.rawTextSearchSubject.subscribe { params -> handleGeoSearch(params) }
 
@@ -250,7 +250,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
         presenter.hotelCheckoutViewModel.checkoutResponseObservable.subscribe(confirmationPresenter.hotelConfirmationViewModel.checkoutResponseObservable)
         presenter.hotelCheckoutViewModel.checkoutParams.subscribe { presenter.cvv.enableBookButton(false) }
-        presenter.hotelCheckoutViewModel.checkoutResponseObservable.subscribe(endlessObserver { checkoutResponse ->
+        presenter.hotelCheckoutViewModel.checkoutResponseObservable.subscribe(endlessObserver {
             checkoutDialog.dismiss()
             show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
         })
@@ -272,7 +272,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.hotelCheckoutViewModel.checkoutParams.subscribe {
             checkoutDialog.show()
         }
-        presenter.hotelCheckoutWidget.slideAllTheWayObservable.withLatestFrom(paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse) { unit, paymentSplitsAndLatestTripResponse ->
+        presenter.hotelCheckoutWidget.slideAllTheWayObservable.withLatestFrom(paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse) { _, paymentSplitsAndLatestTripResponse ->
             paymentSplitsAndLatestTripResponse.isCardRequired()
         }.filter { it }.subscribe {
             checkoutDialog.hide()
@@ -281,7 +281,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         setUpCreateTripErrorHandling(presenter.hotelCheckoutWidget.createTripViewmodel)
 
         presenter.hotelCheckoutViewModel.priceChangeResponseObservable.subscribe(presenter.hotelCheckoutWidget.createTripResponseListener)
-        presenter.hotelCheckoutViewModel.priceChangeResponseObservable.subscribe(endlessObserver { createTripResponse ->
+        presenter.hotelCheckoutViewModel.priceChangeResponseObservable.subscribe(endlessObserver {
             checkoutDialog.dismiss()
             show(presenter, Presenter.FLAG_CLEAR_TOP)
             presenter.show(presenter.hotelCheckoutWidget, Presenter.FLAG_CLEAR_TOP)
@@ -294,7 +294,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             if (confirmationDetailsSet && confirmationUISet) {
                 pageUsableData.markAllViewsLoaded(Date().time)
                 HotelTracking.trackHotelPurchaseConfirmation(confirmationPresenter.hotelConfirmationViewModel.hotelCheckoutResponseObservable.value, confirmationPresenter.hotelConfirmationViewModel.percentagePaidWithPointsObservable.value,
-                        confirmationPresenter.hotelConfirmationViewModel.totalAppliedRewardCurrencyObservable.value, hotelSearchParams.guests, confirmationPresenter.hotelConfirmationViewModel.couponCodeObservable.value, pageUsableData, hotelSearchParams)
+                        confirmationPresenter.hotelConfirmationViewModel.totalAppliedRewardCurrencyObservable.value, pageUsableData, hotelSearchParams)
             }
         }).subscribe()
 
@@ -340,21 +340,23 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
     val confirmationPresenter: HotelConfirmationPresenter by bindView(R.id.hotel_confirmation_presenter)
 
+    private val slidingTabListener = object : TabLayout.OnTabSelectedListener {
+        override fun onTabReselected(tab: TabLayout.Tab?) {
+        }
+
+        override fun onTabUnselected(tab: TabLayout.Tab?) {
+        }
+
+        override fun onTabSelected(tab: TabLayout.Tab) {
+            HotelTracking.trackHotelReviewsCategories(tab.position)
+        }
+    }
+
     val reviewsView: HotelReviewsView by lazy {
         val viewStub = findViewById<ViewStub>(R.id.reviews_stub)
         val presenter = viewStub.inflate() as HotelReviewsView
         presenter.viewModel = HotelReviewsViewModel(getContext(), LineOfBusiness.HOTELS)
-        presenter.hotelReviewsTabbar.slidingTabLayout.setOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-            }
-
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                HotelTracking.trackHotelReviewsCategories(tab.position)
-            }
-        })
+        presenter.hotelReviewsTabbar.slidingTabLayout.addOnTabSelectedListener(slidingTabListener)
         presenter.reviewServices = reviewServices
         presenter
     }
@@ -384,7 +386,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
                 val freeformLocations = StrUtils.formatAddresses(geoResults)
                 val builder = AlertDialog.Builder(context)
                 builder.setTitle(R.string.ChooseLocation)
-                val dialogItemClickListener = DialogInterface.OnClickListener { dialog, which ->
+                val dialogItemClickListener = DialogInterface.OnClickListener { _, which ->
                     triggerNewSearch(which)
                     HotelTracking.trackGeoSuggestionClick()
                 }
@@ -398,9 +400,13 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         checkoutDialog.isIndeterminate = true
     }
 
+    fun cleanup() {
+        reviewsView.hotelReviewsTabbar.slidingTabLayout.removeOnTabSelectedListener(slidingTabListener)
+    }
+
     private fun shouldUseWebCheckout() = PointOfSale.getPointOfSale().shouldShowWebCheckout() ||
             (PointOfSale.getPointOfSale().isHotelsWebCheckoutABTestEnabled
-                    && AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsWebCheckout))
+                    && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelsWebCheckout))
 
     fun setDefaultTransition(screen: Screen) {
         val defaultTransition = when (screen) {
@@ -570,7 +576,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
-            resultsPresenter.animationFinalize(enableLocation = forward)
+            resultsPresenter.animationFinalize()
             backStack.push(searchPresenter)
         }
     }
@@ -605,7 +611,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             if (!forward) searchPresenter.resetSuggestionTracking()
             searchPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
-            resultsPresenter.animationFinalize(enableLocation = forward)
+            resultsPresenter.animationFinalize()
             searchPresenter.animationFinalize(forward)
             if (!forward) HotelTracking.trackHotelSearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
         }
@@ -630,7 +636,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             detailPresenter.animationFinalize(forward)
-            resultsPresenter.animationFinalize(enableLocation = !forward)
+            resultsPresenter.animationFinalize()
             if (!forward) {
                 resultsPresenter.recyclerView.adapter.notifyDataSetChanged()
             }
@@ -943,7 +949,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             searchTrackingBuilder.searchParams(hotelSearchParams)
             searchTrackingBuilder.searchResponse(hotelSearchResponse)
         }
-        resultsViewModel.resultsReceivedDateTimeObservable.subscribe { dateTime ->
+        resultsViewModel.resultsReceivedDateTimeObservable.subscribe {
             searchTrackingBuilder.markApiResponseReceived()
         }
 

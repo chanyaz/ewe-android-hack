@@ -27,6 +27,7 @@ class NotificationMockerActivity : AppCompatActivity() {
 
     private fun setupListener() = shenanigans_text_view.setOnClickListener {
         if (!small_body_edit_text.text.isNullOrBlank()) {
+            @Suppress("DEPRECATION")
             val builder = NotificationCompat.Builder(this)
                     .setContentText(small_body_edit_text.text)
                     .setDefaults(Notification.DEFAULT_ALL)

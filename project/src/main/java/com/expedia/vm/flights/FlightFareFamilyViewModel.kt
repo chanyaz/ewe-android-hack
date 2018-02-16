@@ -21,7 +21,7 @@ class FlightFareFamilyViewModel(val context: Context) {
     var airlinesObservable = PublishSubject.create<String>()
 
     init {
-        showFareFamilyObservable.withLatestFrom(tripObservable, { showFareFamily, trip ->
+        showFareFamilyObservable.withLatestFrom(tripObservable, { _, trip ->
             trip
         }).subscribe { trip ->
             trip.fareFamilyList?.fareFamilyDetails?.let {
@@ -40,7 +40,7 @@ class FlightFareFamilyViewModel(val context: Context) {
 
     fun getFareFamilyTripLocation(): String {
         val flightSearchParams = Db.getFlightSearchParams()
-        var phrase: Phrase? = null
+        val phrase: Phrase
 
         if (flightSearchParams.isRoundTrip()) {
             phrase = Phrase.from(context, R.string.flight_departure_arrival_code_round_trip_TEMPLATE)

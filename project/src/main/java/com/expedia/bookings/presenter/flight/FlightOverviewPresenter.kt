@@ -60,7 +60,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
 
     val flightSummary: FlightSummaryWidget by bindView(R.id.flight_summary)
     val viewModel = FlightCheckoutSummaryViewModel(getContext())
-    val isBucketedForShowMoreDetailsOnOverview = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
+    val isBucketedForShowMoreDetailsOnOverview = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
     val showCollapsedToolbar = isBucketedForShowMoreDetailsOnOverview
 
     val flightCostSummaryObservable = (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable
@@ -127,7 +127,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
 
         flightFareFamilyDetailsWidget.viewModel.doneButtonObservable.withLatestFrom(
                 flightFareFamilyDetailsWidget.viewModel.selectedFareFamilyObservable, flightFareFamilyDetailsWidget.viewModel.choosingFareFamilyObservable, {
-            unit, selectedFareFamily, choosingFareFamily ->
+            _, selectedFareFamily, choosingFareFamily ->
             object {
                 val selectedFareFamily = selectedFareFamily
                 val choosingFareFamily = choosingFareFamily
@@ -139,7 +139,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
 
         fareFamilyCardView.viewModel.fareFamilyCardClickObserver.withLatestFrom(
                 fareFamilyCardView.viewModel.tripObservable, {
-            unit, trip ->
+            _, trip ->
             trip
         }).subscribe {
             FlightsV2Tracking.trackFareFamilyCardViewClick(it.isFareFamilyUpgraded)
@@ -210,7 +210,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
     override val defaultTransition = object : TwoScreenOverviewDefaultTransition() {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
-            val offerInsuranceInFlightSummary = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary)
+            val offerInsuranceInFlightSummary = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary)
             flightSummary.freeCancellationMoreInfoTextView.visibility = View.GONE
             flightSummary.freeCancellationMoreInfoIcon.clearAnimation()
             insuranceWidget.viewModel.widgetVisibilityAllowedObservable.onNext(offerInsuranceInFlightSummary)
@@ -347,7 +347,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
                 Phrase.from(this, errorString)
                         .put("fare_family_name", Strings.capitalize(fareFamilyName, Locale.US))
                         .format().toString()))
-        builder.setPositiveButton(context.getString(R.string.ok)) { dialog, which ->
+        builder.setPositiveButton(context.getString(R.string.ok)) { dialog, _ ->
             dialog.dismiss()
         }
         val dialog = builder.create()

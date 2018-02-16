@@ -73,7 +73,7 @@ class HotelsV2DataUtil {
             return GsonBuilder().registerTypeAdapter(LocalDate::class.java, LocalDateTypeAdapter(PATTERN)).create()
         }
 
-        fun getHotelV2ParamsFromFlightV2Params(context: Context, flightLegs: MutableList<FlightLeg>?, flightSearchParams: FlightSearchParams): HotelSearchParams {
+        fun getHotelV2ParamsFromFlightV2Params(flightLegs: MutableList<FlightLeg>?, flightSearchParams: FlightSearchParams): HotelSearchParams {
             val outboundLeg = flightLegs?.first()
             val lastOutboundSegment = outboundLeg?.segments?.get(outboundLeg.segments.size - 1)
 
@@ -99,7 +99,7 @@ class HotelsV2DataUtil {
             return HotelSearchParams(suggestionV4, localCheckInDate, localCheckoutDate, numAdultsPerHotelRoom, listOfChildTravelerAges, shopWithPoints = true)
         }
 
-        fun getHotelV2ParmsFromFlightItinParams(context: Context, flightLegs: List<FlightItinDetailsResponse.Flight.Leg>?, flightSearchParams: FlightSearchParams): HotelSearchParams {
+        fun getHotelV2ParmsFromFlightItinParams(flightLegs: List<FlightItinDetailsResponse.Flight.Leg>?, flightSearchParams: FlightSearchParams): HotelSearchParams {
             val outboundLeg = flightLegs?.first()
             val lastOutboundSegment = outboundLeg?.segments?.get(outboundLeg.segments.size - 1)
 
@@ -107,7 +107,7 @@ class HotelsV2DataUtil {
             var localCheckoutDate = localCheckInDate.plusDays(1)
             if (flightLegs?.size == 2) {
                 val inboundLeg = flightLegs.last()
-                localCheckoutDate = LocalDate(DateTime.parse(inboundLeg.segments?.get(0)?.departureTime?.raw))
+                localCheckoutDate = LocalDate(DateTime.parse(inboundLeg.segments.get(0).departureTime.raw))
             }
 
             val numFlightTravelers = flightSearchParams.guests

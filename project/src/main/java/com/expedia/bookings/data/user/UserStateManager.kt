@@ -157,6 +157,8 @@ class UserStateManager @JvmOverloads constructor(private val context: Context,
 
             if (accounts?.isNotEmpty() == true) {
                 accounts.forEach {
+                    @Suppress("DEPRECATION")
+                    // passing null for activity requires to update the minSdkVersion to 22 (cur: 21)
                     if (it.name == user.primaryTraveler.email) accountExists = true
                     else accountManager.removeAccount(it, null, null)
                 }
@@ -180,6 +182,8 @@ class UserStateManager @JvmOverloads constructor(private val context: Context,
         if (accounts?.isNotEmpty() == true) {
             val account = accounts.first()
             ContentResolver.setIsSyncable(account, contentAuthority, 0)
+            @Suppress("DEPRECATION")
+            // passing null for activity requires to update the minSdkVersion to 22 (cur: 21)
             accountManager.removeAccount(account, null, null)
         }
 

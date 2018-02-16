@@ -132,7 +132,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
             view.nextFocusForwardId = if (show) R.id.passport_country_spinner else R.id.first_name_input
         }
 
-        vm.passportValidSubject.subscribe { isValid ->
+        vm.passportValidSubject.subscribe {
             passportCountryEditBox.subscribeMaterialFormsError(vm.passportValidSubject.map { !it },
                     R.string.passport_validation_error_message, R.drawable.material_dropdown)
         }
@@ -193,7 +193,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
                 R.layout.material_item)
         adapter.showPosAsFirstCountry()
 
-        builder.setAdapter(adapter) { dialog, position ->
+        builder.setAdapter(adapter) { _, position ->
             if ((viewModel as FlightTravelerEntryWidgetViewModel).showPassportCountryObservable.value) {
                 (viewModel as FlightTravelerEntryWidgetViewModel).passportCountrySubject.onNext(Optional(adapter.getItemValue(position, CountrySpinnerAdapter.CountryDisplayType.THREE_LETTER)))
             }
@@ -247,8 +247,8 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
         View.inflate(context, R.layout.material_flight_traveler_entry_widget, this)
     }
 
-    private fun setOnFocusChangeListenerForView(view: View) {
-        view.setOnFocusChangeListener { view, hasFocus ->
+    private fun setOnFocusChangeListenerForView(uiView: View) {
+        uiView.setOnFocusChangeListener { view, hasFocus ->
             if (hasFocus) {
                 Ui.hideKeyboard(this)
                 view.performClick()

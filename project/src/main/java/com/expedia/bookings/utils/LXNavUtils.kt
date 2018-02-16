@@ -48,7 +48,7 @@ class LXNavUtils : NavUtils() {
                     intent.putExtra("activityId", searchParams.activityId)
                     intent.putExtra(Codes.FROM_DEEPLINK_TO_DETAILS, true)
                 } else {
-                    if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXNavigateToSRP) || !searchParams.filters.isEmpty()) {
+                    if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppLXNavigateToSRP) || !searchParams.filters.isEmpty()) {
                         intent.putExtra("filters", searchParams.filters)
                         intent.putExtra(Codes.FROM_DEEPLINK, true)
                     } else {

@@ -34,7 +34,7 @@ class LaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(conte
     private val flightNotSupportedDialog: AlertDialog by lazy {
         val builder = AlertDialog.Builder(context)
         builder.setMessage(context.resources.getString(R.string.invalid_flights_pos))
-        builder.setPositiveButton(context.getString(R.string.ok), { dialog, which -> dialog.dismiss() })
+        builder.setPositiveButton(context.getString(R.string.ok), { dialog, _ -> dialog.dismiss() })
         builder.create()
     }
     val lobViewHeightChangeSubject = PublishSubject.create<Unit>()
@@ -64,7 +64,7 @@ class LaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 }
                 LineOfBusiness.TRANSPORT -> nav.goToTransport(null)
                 LineOfBusiness.LX -> nav.goToActivities(null)
-                LineOfBusiness.CARS -> nav.goToCars(null)
+                LineOfBusiness.CARS -> nav.goToCars()
                 LineOfBusiness.PACKAGES -> {
                     if (shouldPackageForceUpdateBeVisible(context)) {
                         PlayStoreUtil.showForceUpgradeDailogWithMessage(context)

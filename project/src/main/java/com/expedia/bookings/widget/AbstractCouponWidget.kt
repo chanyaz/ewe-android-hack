@@ -128,12 +128,12 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
             (progress as ProgressBar).isIndeterminate = true
         }
         progress.layoutParams = lp
-        couponCode.setOnEditorActionListener({ textView, actionId, event ->
+        couponCode.setOnEditorActionListener { textView, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE && textView.text.length > 3) {
                 onMenuButtonPressed()
             }
             false
-        })
+        }
         addProgressView()
         showProgress(false)
 

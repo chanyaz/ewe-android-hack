@@ -134,13 +134,13 @@ class HotelCheckoutSummaryViewModelTest {
     @Test
     fun testToggleOnCheckinCheckoutDatesInline() {
         toggleABTestCheckinCheckoutDatesInline(true)
-        assertTrue(isAllowCheckinCheckoutDatesInlineEnabled())
+        assertTrue(isAllowCheckinCheckoutDatesInlineEnabled(context))
     }
 
     @Test
     fun testToggleOffCheckinCheckoutDatesInline() {
         toggleABTestCheckinCheckoutDatesInline(false)
-        assertFalse(isAllowCheckinCheckoutDatesInlineEnabled())
+        assertFalse(isAllowCheckinCheckoutDatesInlineEnabled(context))
     }
 
     @Test

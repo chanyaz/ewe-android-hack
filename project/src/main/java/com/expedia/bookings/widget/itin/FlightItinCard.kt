@@ -29,7 +29,7 @@ class FlightItinCard(context: Context, attributeSet: AttributeSet?) : ItinCard<I
 
     override fun getCollapsedHeight(): Int {
         var height = super.getCollapsedHeight()
-        if (mCheckInLayout.visibility === View.VISIBLE) {
+        if (mCheckInLayout.visibility == View.VISIBLE) {
             height += mCheckInLayout.height
         }
         return height
@@ -51,9 +51,9 @@ class FlightItinCard(context: Context, attributeSet: AttributeSet?) : ItinCard<I
             mCheckInLayout.visibility = View.VISIBLE
             setShowSummary(true)
             mCheckInLayout.setOnClickListener {
-                val userCheckedIn = (itinCardData.tripComponent as TripFlight).flightTrip
+                val isUserCheckedIn = (itinCardData.tripComponent as TripFlight).flightTrip
                         .getLeg(flightLegNumber).isUserCheckedIn
-                if (userCheckedIn) {
+                if (isUserCheckedIn) {
                     OmnitureTracking.trackItinFlightVisitSite()
                 } else {
                     val flightTrip = (itinCardData.tripComponent as TripFlight).flightTrip

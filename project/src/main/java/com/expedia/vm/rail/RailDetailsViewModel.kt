@@ -25,7 +25,7 @@ open class RailDetailsViewModel(val context: Context) {
     val railOffersAndInboundCheapestPricePairSubject = BehaviorSubject.create<Pair<List<RailOffer>, Money?>>()
 
     val overtaken = railLegOptionSubject.map { railLegOption ->
-        railLegOption?.overtakenJourney ?: false
+        railLegOption.overtakenJourney
     }
 
     init {

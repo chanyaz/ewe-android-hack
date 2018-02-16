@@ -67,7 +67,7 @@ class ScrollableContentDialogFragment : DialogFragment() {
     }
 
     private fun removeUnderline(spannableString: SpannableString?): SpannableString? {
-        val spans = spannableString?.getSpans(0, spannableString?.length, URLSpan::class.java)
+        val spans = spannableString?.getSpans(0, spannableString.length, URLSpan::class.java)
         if (spans != null) {
             for (span in spans) {
                 val start = spannableString.getSpanStart(span)

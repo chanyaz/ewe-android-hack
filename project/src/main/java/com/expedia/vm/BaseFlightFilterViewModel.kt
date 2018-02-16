@@ -178,7 +178,7 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
             previousSort = FlightFilter.Sort.PRICE
         }
 
-        doneObservable.subscribe { params ->
+        doneObservable.subscribe {
             //if previousSort and userSort is both by price(default), no need to call sort method. Otherwise, always do sort.
             if (userFilterChoices.userSort != FlightFilter.Sort.PRICE || previousSort != FlightFilter.Sort.PRICE) {
                 previousSort = userFilterChoices.userSort
@@ -196,7 +196,7 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
             atleastOneFilterIsApplied.onNext(filterCountObservable.value > 0)
         }
 
-        clearObservable.subscribe { params ->
+        clearObservable.subscribe {
             resetUserFilters()
             resetRangeBars()
             handleFiltering()

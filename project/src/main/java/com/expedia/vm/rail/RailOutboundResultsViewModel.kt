@@ -32,7 +32,7 @@ class RailOutboundResultsViewModel(val context: Context, val railServices: RailS
         paramsSubject.subscribe { params ->
             doSearch(params)
         }
-        retryObservable.withLatestFrom(paramsSubject, { retry, params ->
+        retryObservable.withLatestFrom(paramsSubject, { _, params ->
             doSearch(params)
         }).subscribe()
 

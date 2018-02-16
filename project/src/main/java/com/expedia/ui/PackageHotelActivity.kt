@@ -77,6 +77,11 @@ class PackageHotelActivity : AbstractAppCompatActivity() {
         super.onResume()
     }
 
+    override fun onStop() {
+        super.onStop()
+        hotelsPresenter.cleanup()
+    }
+
     override fun onDestroy() {
         if (!restorePackageActivityForNullParams) {
             resultsMapView.onDestroy()

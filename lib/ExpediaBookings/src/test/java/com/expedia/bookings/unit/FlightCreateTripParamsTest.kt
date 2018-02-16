@@ -2,7 +2,7 @@ package com.expedia.bookings.unit
 
 import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.utils.Constants
-import junit.framework.Assert.assertEquals
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.math.BigDecimal
 import kotlin.test.assertTrue

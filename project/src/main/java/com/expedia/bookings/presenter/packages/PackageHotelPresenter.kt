@@ -155,22 +155,24 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         presenter
     }
 
+    private val slidingTabLayoutListener = object : TabLayout.OnTabSelectedListener {
+        override fun onTabReselected(tab: TabLayout.Tab?) {
+        }
+
+        override fun onTabUnselected(tab: TabLayout.Tab?) {
+        }
+
+        override fun onTabSelected(tab: TabLayout.Tab) {
+            PackagesTracking().trackHotelReviewCategoryChange(tab.position)
+        }
+    }
+
     val reviewsView: HotelReviewsView by lazy {
         val viewStub = findViewById<ViewStub>(R.id.reviews_stub)
         val presenter = viewStub.inflate() as HotelReviewsView
         presenter.reviewServices = reviewServices
         presenter.viewModel = HotelReviewsViewModel(getContext(), LineOfBusiness.PACKAGES)
-        presenter.hotelReviewsTabbar.slidingTabLayout.setOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-            }
-
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                PackagesTracking().trackHotelReviewCategoryChange(tab.position)
-            }
-        })
+        presenter.hotelReviewsTabbar.slidingTabLayout.addOnTabSelectedListener(slidingTabLayoutListener)
         presenter
     }
 
@@ -187,10 +189,14 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         Ui.getApplication(context).packageComponent().inject(this)
         View.inflate(getContext(), R.layout.package_hotel_presenter, this)
 
-        ObservableOld.combineLatest(dataAvailableSubject, trackEventSubject, { packageSearchResponse, trackEvent -> packageSearchResponse }).subscribe {
+        ObservableOld.combineLatest(dataAvailableSubject, trackEventSubject, { packageSearchResponse, _ -> packageSearchResponse }).subscribe {
             PackagesPageUsableData.HOTEL_RESULTS.pageUsableData.markAllViewsLoaded()
             trackSearchResult(it)
         }
+    }
+
+    fun cleanup() {
+        reviewsView.hotelReviewsTabbar.slidingTabLayout.removeOnTabSelectedListener(slidingTabLayoutListener)
     }
 
     fun updateOverviewAnimationDuration(duration: Int) {
@@ -261,7 +267,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         val packageHotelOffers = if (isMidAPIEnabled(context)) {
             getMIDRoomSearch(params)
         } else {
-            getPSSRoomSearch(hotel.packageOfferModel.piid, hotel.hotelId, params.startDate.toString(), params.endDate.toString(), Db.sharedInstance.packageSelectedRoom?.ratePlanCode, Db.sharedInstance.packageSelectedRoom?.roomTypeCode, params.adults, params.children.firstOrNull())
+            getPSSRoomSearch(hotel.packageOfferModel.piid, params.startDate.toString(), params.endDate.toString(), Db.sharedInstance.packageSelectedRoom?.ratePlanCode, Db.sharedInstance.packageSelectedRoom?.roomTypeCode, params.adults, params.children.firstOrNull())
         }
         getDetails(hotel.hotelId, packageHotelOffers)
         bundleSlidingWidget.updateBundleViews(Constants.PRODUCT_HOTEL)
@@ -287,7 +293,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
     }
 
-    private fun getPSSRoomSearch(piid: String, hotelId: String, checkIn: String, checkOut: String, ratePlanCode: String?, roomTypeCode: String?, numberOfAdultTravelers: Int, childTravelerAge: Int?): Observable<BundleHotelRoomResponse> {
+    private fun getPSSRoomSearch(piid: String, checkIn: String, checkOut: String, ratePlanCode: String?, roomTypeCode: String?, numberOfAdultTravelers: Int, childTravelerAge: Int?): Observable<BundleHotelRoomResponse> {
         return packageServices
                 .hotelOffer(piid, checkIn, checkOut, ratePlanCode, roomTypeCode, numberOfAdultTravelers, childTravelerAge)
                 .map { packageHotelOffers ->
@@ -303,7 +309,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 .map { it }
     }
 
-    private fun getDetails(hotelId: String, packageHotelOffers: Observable<BundleHotelRoomResponse>) {
+    private fun getDetails(hotelId: String, packageHotelOffersObservable: Observable<BundleHotelRoomResponse>) {
         loadingOverlay.visibility = View.VISIBLE
         AccessibilityUtil.delayedFocusToView(loadingOverlay, 0)
         loadingOverlay.setAccessibilityHoverFocus()
@@ -315,15 +321,15 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             resultsPresenter.bundlePriceWidgetTop.setOnClickListener(null)
         }
         detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.sharedInstance.packageParams, resources.getInteger(R.integer.calendar_max_days_package_stay), resources.getInteger(R.integer.max_calendar_selectable_date_range)))
-        val info = packageServices.hotelInfo(hotelId)
+        val hotelOffersObservable = packageServices.hotelInfo(hotelId)
 
-        ObservableOld.zip(packageHotelOffers.doOnError {}, info.doOnError {},
-                { packageHotelOffers, info ->
+        ObservableOld.zip(packageHotelOffersObservable.doOnError {}, hotelOffersObservable.doOnError {},
+                { packageHotelOffers, hotelOffersResponse ->
                     if (packageHotelOffers.hasRoomResponseErrors()) {
                         handleRoomResponseErrors(packageHotelOffers.roomResponseFirstErrorCode)
                         return@zip
                     }
-                    val hotelOffers = HotelOffersResponse.convertToHotelOffersResponse(info, packageHotelOffers.getBundleRoomResponse(), packageHotelOffers.getHotelCheckInDate(), packageHotelOffers.getHotelCheckOutDate())
+                    val hotelOffers = HotelOffersResponse.convertToHotelOffersResponse(hotelOffersResponse, packageHotelOffers.getBundleRoomResponse(), packageHotelOffers.getHotelCheckInDate(), packageHotelOffers.getHotelCheckOutDate())
 
                     PackageResponseUtils.saveHotelOfferResponse(context, hotelOffers, PackageResponseUtils.RECENT_PACKAGE_HOTEL_OFFER_FILE)
                     loadingOverlay.animate(false)
@@ -411,7 +417,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
-            resultsPresenter.animationFinalize(enableLocation = forward)
+            resultsPresenter.animationFinalize()
             AccessibilityUtil.setFocusToToolbarNavigationIcon(resultsPresenter.toolbar)
         }
     }
@@ -436,7 +442,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
-            resultsPresenter.animationFinalize(enableLocation = !forward)
+            resultsPresenter.animationFinalize()
             detailPresenter.animationFinalize(forward)
             loadingOverlay.visibility = View.GONE
 

@@ -27,7 +27,7 @@ abstract class DealsResponseProvider {
         }
 
         override fun onNext(response: DealsResponse) {
-            if (response == null || response.hasError()) {
+            if (response.hasError()) {
                 errorSubject.onNext(Unit)
             } else {
                 dealsResponseSubject.onNext(response)

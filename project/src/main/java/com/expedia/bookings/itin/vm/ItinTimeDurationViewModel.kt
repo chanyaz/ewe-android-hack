@@ -23,7 +23,7 @@ abstract class ItinTimeDurationViewModel(private val context: Context) {
 
     val createTimeDurationWidgetSubject: PublishSubject<TimeDurationWidgetParams> = PublishSubject.create<TimeDurationWidgetParams>()
 
-    abstract fun updateWidget(duration: String)
+    abstract fun updateWidget(durationISO: String)
 
     fun getDurationMinutesFromISO(durationISO: String): Int {
         try {

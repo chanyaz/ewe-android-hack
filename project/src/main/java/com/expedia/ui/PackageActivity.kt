@@ -238,7 +238,7 @@ class PackageActivity : AbstractAppCompatActivity() {
             val params = PackageCreateTripParams.fromPackageSearchParams(Db.sharedInstance.packageParams)
             if (params.isValid) {
                 getCreateTripViewModel().reset()
-                params.flexEnabled = isFlexEnabled()
+                params.flexEnabled = isFlexEnabled(this)
                 getCreateTripViewModel().tripParams.onNext(params)
             }
         }

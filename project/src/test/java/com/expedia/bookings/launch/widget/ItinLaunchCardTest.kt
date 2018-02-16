@@ -33,7 +33,7 @@ class ItinLaunchCardTest {
         createSystemUnderTest()
         givenCustomerSignedIn()
         val activeItinViewModel = ActiveItinViewModel(expectedFirstLine, expectedSecondLine)
-        sut.bind(activity, activeItinViewModel)
+        sut.bind(activeItinViewModel)
 
         assertEquals(expectedFirstLine, sut.firstLine.text)
         assertEquals(expectedSecondLine, sut.secondLine.text)

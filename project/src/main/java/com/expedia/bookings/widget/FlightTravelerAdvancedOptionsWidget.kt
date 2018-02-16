@@ -31,7 +31,7 @@ class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?
         val builder = AlertDialog.Builder(context)
         builder.setMessage(R.string.known_traveler_msg)
         builder.setCancelable(false)
-        builder.setPositiveButton(context.getString(R.string.ok), { dialog, which ->
+        builder.setPositiveButton(context.getString(R.string.ok), { dialog, _ ->
             dialog.dismiss()
         })
         builder.create()
@@ -41,7 +41,7 @@ class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?
         val builder = AlertDialog.Builder(context)
         builder.setMessage(R.string.redress_number_msg)
         builder.setCancelable(false)
-        builder.setPositiveButton(context.getString(R.string.ok), { dialog, which ->
+        builder.setPositiveButton(context.getString(R.string.ok), { dialog, _ ->
             dialog.dismiss()
         })
         builder.create()

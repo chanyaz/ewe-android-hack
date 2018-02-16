@@ -2,7 +2,6 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
@@ -48,11 +47,11 @@ class PayWithPointsWidget(context: Context, attrs: AttributeSet) : LinearLayout(
             pwpViewModel.hasPwpEditBoxFocus.onNext(true)
         }
 
-        editAmountView.setOnFocusChangeListener { view, hasFocus ->
+        editAmountView.setOnFocusChangeListener { _, hasFocus ->
             editAmountView.isCursorVisible = hasFocus
         }
 
-        editAmountView.setOnEditorActionListener { textView: android.widget.TextView, actionId: Int, event: KeyEvent? ->
+        editAmountView.setOnEditorActionListener { _, actionId, _ ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 refreshPointsForUpdatedBurnAmount()

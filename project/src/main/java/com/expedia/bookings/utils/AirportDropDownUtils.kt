@@ -31,7 +31,7 @@ class AirportDropDownUtils {
         @JvmStatic fun failedFetchingRoutesAlertDialog(context: Context): AlertDialog {
             val builder = AlertDialog.Builder(context)
             builder.setMessage(context.resources.getString(R.string.error_could_not_load_air_asia))
-            builder.setNeutralButton(context.resources.getString(R.string.ok), { dialog, which -> NavUtils.goToLaunchScreen(context) })
+            builder.setNeutralButton(context.resources.getString(R.string.ok), { _, _ -> NavUtils.goToLaunchScreen(context) })
             return builder.create()
         }
     }

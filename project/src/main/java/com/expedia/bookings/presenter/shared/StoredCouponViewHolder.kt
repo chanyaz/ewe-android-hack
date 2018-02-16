@@ -28,21 +28,23 @@ class StoredCouponViewHolder(view: View, clickActionObserver: PublishSubject<Int
         }.subscribeText(couponNameTextView)
         vm.couponStatus.subscribe { status ->
             progressBar.visibility = View.GONE
-            when (status) {
-                StoredCouponAppliedStatus.DEFAULT -> {
-                    defaultStateImage.visibility = View.VISIBLE
-                    errorImageView.visibility = View.GONE
-                    couponApplied.visibility = View.GONE
-                }
-                StoredCouponAppliedStatus.SUCCESS -> {
-                    defaultStateImage.visibility = View.GONE
-                    errorImageView.visibility = View.GONE
-                    couponApplied.visibility = View.VISIBLE
-                }
-                StoredCouponAppliedStatus.ERROR -> {
-                    defaultStateImage.visibility = View.GONE
-                    errorImageView.visibility = View.VISIBLE
-                    couponApplied.visibility = View.GONE
+            if (status != null) {
+                when (status) {
+                    StoredCouponAppliedStatus.DEFAULT -> {
+                        defaultStateImage.visibility = View.VISIBLE
+                        errorImageView.visibility = View.GONE
+                        couponApplied.visibility = View.GONE
+                    }
+                    StoredCouponAppliedStatus.SUCCESS -> {
+                        defaultStateImage.visibility = View.GONE
+                        errorImageView.visibility = View.GONE
+                        couponApplied.visibility = View.VISIBLE
+                    }
+                    StoredCouponAppliedStatus.ERROR -> {
+                        defaultStateImage.visibility = View.GONE
+                        errorImageView.visibility = View.VISIBLE
+                        couponApplied.visibility = View.GONE
+                    }
                 }
             }
         }

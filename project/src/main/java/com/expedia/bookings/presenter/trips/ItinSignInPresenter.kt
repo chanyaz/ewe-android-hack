@@ -70,7 +70,7 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
 
     inner class createSyncAdapter : ItineraryManager.ItinerarySyncAdapter() {
         override fun onSyncFailure(error: ItineraryManager.SyncError?) {
-            signInWidget.viewModel.syncFailure(error)
+            signInWidget.viewModel.syncFailure()
         }
 
         override fun onSyncFinished(trips: MutableCollection<Trip>?) {

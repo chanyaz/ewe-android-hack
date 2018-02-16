@@ -80,11 +80,11 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     abstract fun getCreateTripViewModel(): BaseCreateTripViewModel
     abstract fun setupCreateTripViewModel(vm: BaseCreateTripViewModel)
     abstract fun showMainTravelerMinimumAgeMessaging(): Boolean
-    abstract fun trackCheckoutPriceChange(priceDiff: Int)
-    abstract fun handleCheckoutPriceChange(response: TripResponse)
+    abstract fun trackCheckoutPriceChange(diffPercentage: Int)
+    abstract fun handleCheckoutPriceChange(tripResponse: TripResponse)
     abstract fun createTravelersViewModel(): TravelersViewModel
-    abstract fun trackCreateTripPriceChange(priceChangeDiffPercentage: Int)
-    abstract fun onCreateTripResponse(response: TripResponse?)
+    abstract fun trackCreateTripPriceChange(diffPercentage: Int)
+    abstract fun onCreateTripResponse(tripResponse: TripResponse?)
 
     /** contants **/
     private val ANIMATION_DELAY = 200L
@@ -278,7 +278,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         ckoViewModel = makeCheckoutViewModel()
         tripViewModel = makeCreateTripViewModel()
         getCreateTripViewModel().createTripResponseObservable.filter { it.value != null }.subscribe(getCheckoutViewModel().createTripResponseObservable)
-        getCheckoutViewModel().cardFeeTripResponse.filter { it != null }.map { Optional(it) }.subscribe(getCreateTripViewModel().createTripResponseObservable)
+        getCheckoutViewModel().cardFeeTripResponse.map { Optional(it) }.subscribe(getCreateTripViewModel().createTripResponseObservable)
         getCheckoutViewModel().clearCvvObservable.subscribe {
             paymentWidget.clearCVV()
             getCheckoutViewModel().builder.cvv(null)
@@ -555,7 +555,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                 .put("oldprice", tripResponse.getOldPrice()!!.formattedMoneyFromAmountAndCurrencyCode)
                 .put("newprice", tripResponse.newPrice().formattedMoneyFromAmountAndCurrencyCode)
                 .format())
-        builder.setPositiveButton(context.getString(R.string.ok)) { dialog, which ->
+        builder.setPositiveButton(context.getString(R.string.ok)) { dialog, _ ->
             onCreateTripResponse(tripResponse)
             dialog.dismiss()
         }

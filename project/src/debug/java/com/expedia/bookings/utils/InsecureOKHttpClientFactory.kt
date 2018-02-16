@@ -113,7 +113,7 @@ open class InsecureOKHttpClientFactory(context: Context, cookieManager: Persiste
             val ssSocketFactory = sslContext.socketFactory
             client.sslSocketFactory(ssSocketFactory, trustAllCerts[0] as X509TrustManager)
 
-            val hostnameVerifier = HostnameVerifier { hostname, session -> true }
+            val hostnameVerifier = HostnameVerifier { _, _ -> true }
             client.hostnameVerifier(hostnameVerifier)
 
             val spec = ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)

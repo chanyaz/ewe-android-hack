@@ -11,7 +11,6 @@ import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.itin.ItinPageUsableTracking
 import com.expedia.bookings.tracking.OmnitureTracking
@@ -88,7 +87,7 @@ open class ItinSignInViewModel(val context: Context) {
                 .format().toString()
     }
 
-    fun syncFailure(error: ItineraryManager.SyncError?) {
+    fun syncFailure() {
         mCurrentSyncHasErrors = true
         setState(MessageState.FAILURE)
     }

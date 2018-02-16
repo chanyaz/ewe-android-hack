@@ -49,7 +49,7 @@ open class AddGuestItinViewModel(val context: Context) {
             hasItinErrorObservable.onNext(!isValid)
         }
 
-        ObservableOld.combineLatest(hasEmailErrorObservable, hasItinErrorObservable, { hasEmailError, hasItinError ->
+        ObservableOld.combineLatest(hasEmailErrorObservable, hasItinErrorObservable, { _, _ ->
             showErrorObservable.onNext(false)
         }).subscribe()
     }

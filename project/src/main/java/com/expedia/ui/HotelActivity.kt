@@ -112,6 +112,11 @@ class HotelActivity : AbstractAppCompatActivity() {
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        hotelPresenter.cleanup()
+    }
+
     override fun onDestroy() {
         hotelPresenter.onDestroyed()
         resultsMapView.onDestroy()
