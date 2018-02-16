@@ -76,7 +76,7 @@ function runFeedbackAndCoverageReports() {
   fi
 
   if [[ "$flavor" == "Expedia" ]]; then
-      if [[ $isJenkins && $unitTestStatus -eq 0 ]]; then
+      if [[ $isJenkins && $unitTestStatus -eq 0 && $isUnitTestsFeedbackBotEnabled == "true" ]]; then
         BUILD_URL="https://jenkins-ewe-mobile-android-master.tools.expedia.com/job/$JOB_NAME/$BUILD_NUMBER"
         python ./jenkins/report_missing_code_coverage.py $GITHUB_ACCESS_TOKEN $ghprbPullId $BUILD_URL project/build/reports/jacoco/jacocoExpediaDebug/jacocoExpediaDebug.xml lib/ExpediaBookings/build/reports/jacoco/test/jacocoTestReport.xml
         coverageBotStatus=$?
