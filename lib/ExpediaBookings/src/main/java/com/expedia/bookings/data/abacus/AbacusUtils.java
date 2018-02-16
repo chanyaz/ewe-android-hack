@@ -111,6 +111,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppPackagesDisplayFlightSeatingClass = new ABTest(16300);
 	public static final ABTest EBAndroidAppPackagesDisplayBasicEconomyTooltip = new ABTest(24678);
 	public static final ABTest EBAndroidAppPackagesFlightCabinClass = new ABTest(24803, true);
+	public static final ABTest CardExpiryDateFormField = new ABTest(24734, true);
 
 	// Account
 	public static final ABTest EBAndroidAppAccountRecaptcha = new ABTest(15652, true);

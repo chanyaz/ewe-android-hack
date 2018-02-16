@@ -93,3 +93,7 @@ fun isDisplayFlightSeatingClassForShoppingEnabled(context: Context): Boolean {
 fun isDisplayBasicEconomyTooltipForPackagesEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesDisplayBasicEconomyTooltip)
 }
+
+fun showNewCreditCardExpiryFormField(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.CardExpiryDateFormField)
+}

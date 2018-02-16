@@ -726,6 +726,14 @@
             android:key="24803"
             android:title="Packages Flight Fare Family Class - 24803"/>
 
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="-1"
+            android:summary="%s"
+            android:key="24734"
+            android:title="New Credit Card Expiry Form Field - 24734"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

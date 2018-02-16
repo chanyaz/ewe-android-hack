@@ -20,6 +20,7 @@ import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.flights.ValidFormOfPayment
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.pos.PointOfSale
@@ -34,6 +35,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
+import com.expedia.bookings.utils.showNewCreditCardExpiryFormField
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.widget.getParentTextInputLayout
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
@@ -841,6 +843,23 @@ class BillingDetailsPaymentWidgetTest {
         billingDetailsPaymentWidget.sectionLocation.bind(completeBillingInfo.location)
 
         assertFalse(billingDetailsPaymentWidget.sectionBillingInfo.performValidation())
+    }
+
+    @Test
+    fun testExpiryDateABTestEnabled() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.CardExpiryDateFormField)
+        assertTrue(showNewCreditCardExpiryFormField(activity))
+    }
+
+    @Test
+    fun testExpiryDateABTestDefaultState() {
+        assertFalse(showNewCreditCardExpiryFormField(activity))
+    }
+
+    @Test
+    fun testExpiryDateABTestDisabled() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.CardExpiryDateFormField, AbacusVariant.CONTROL.value)
+        assertFalse(showNewCreditCardExpiryFormField(activity))
     }
 
     private fun getUserWithStoredCard(): User {
