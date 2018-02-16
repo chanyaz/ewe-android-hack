@@ -31,6 +31,7 @@ class PackageTotalPriceViewModelTest {
 
     private val bundleTotalPriceWidgetCostBreakdownContDescText = "Bundle total is $totalPrice. This price includes taxes, fees for both flights and hotel. $savings. Cost Breakdown dialog. Button."
     private val bundleOverviewPriceWidgetText = "Bundle total is $totalPrice. This price includes taxes, fees for both flights and hotel. $savings"
+    private val bundleOverviewPriceWidgetTextEmptySavings = "Bundle total is $totalPrice. This price includes taxes, fees for both flights and hotel. "
     private val tripOverviewPriceWidgetExpandedText = "Bundle price is $pricePerPerson per person. This price includes taxes, fees for both flights and hotel. Button to view bundle."
     private val bundleOverviewPriceWidgetButtonOpenText = "Trip to $destination. ${LocaleBasedDateFormatUtils.localDateToMMMd(today)} to ${LocaleBasedDateFormatUtils.localDateToMMMd(tomorrow)}, ${1 + listOfChildren.size} travelers"
     private val emptyString = ""
@@ -67,12 +68,36 @@ class PackageTotalPriceViewModelTest {
     }
 
     @Test
+    fun testAccessibleContentDescriptionWhenCostBreakdownObservableReturnsFalseAllFlagsFalse() {
+        sut.costBreakdownEnabledObservable.onNext(false)
+
+        val result = sut.getAccessibleContentDescription(false, false, false)
+        assertEquals(emptyString, result)
+    }
+
+    @Test
     fun testAccessibleContentDescriptionNonSlidable() {
         sut.totalPriceObservable.onNext(totalPrice)
         sut.savingsPriceObservable.onNext(savings)
 
         val result = sut.getAccessibleContentDescription(false, false, false)
         assertEquals(bundleOverviewPriceWidgetText, result)
+    }
+
+    @Test
+    fun testAccesssibleContentDescriptionNonSlidableSavingsObservableReturningNonNullValue() {
+        sut.savingsPriceObservable.onNext(savings)
+
+        val result = sut.getAccessibleContentDescription(false, false, false)
+        assertEquals(emptyString, result)
+    }
+
+    @Test
+    fun testAccesssibleContentDescriptionNonSlidableSavingsObservableReturningDefaultValue() {
+        sut.totalPriceObservable.onNext(totalPrice)
+
+        val result = sut.getAccessibleContentDescription(false, false, false)
+        assertEquals(bundleOverviewPriceWidgetTextEmptySavings, result)
     }
 
     @Test
@@ -90,4 +115,5 @@ class PackageTotalPriceViewModelTest {
         val result = sut.getAccessibleContentDescription(false, false, false)
         assertEquals(tripOverviewPriceWidgetExpandedText, result)
     }
+
 }
