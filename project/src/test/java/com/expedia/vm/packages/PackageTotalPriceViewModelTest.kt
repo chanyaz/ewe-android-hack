@@ -115,5 +115,4 @@ class PackageTotalPriceViewModelTest {
         val result = sut.getAccessibleContentDescription(false, false, false)
         assertEquals(tripOverviewPriceWidgetExpandedText, result)
     }
-
 }
