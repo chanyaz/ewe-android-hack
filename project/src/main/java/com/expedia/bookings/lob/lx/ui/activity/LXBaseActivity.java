@@ -44,6 +44,7 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 	public static final String EXTRA_IS_GROUND_TRANSPORT = "IS_GROUND_TRANSPORT";
 	private boolean isGroundTransport;
 	private boolean modQualified;
+	private boolean mipEnabled;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,7 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 		Ui.getApplication(this).defaultLXComponents();
 		Ui.getApplication(this).defaultTravelerComponent();
 		modQualified = Ui.getApplication(this).appComponent().userStateManager().isUserAuthenticated();
+		mipEnabled = AbacusFeatureConfigManager.isBucketedForTest(this, AbacusUtils.EBAndroidLXMIP);
 
 		Intent intent = getIntent();
 		isGroundTransport = intent.getBooleanExtra(EXTRA_IS_GROUND_TRANSPORT, false);

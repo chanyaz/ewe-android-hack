@@ -577,4 +577,18 @@ public class LXDataUtils {
 		return moneyMap;
 	}
 
+	public static int getMIPImageId(String promoDiscountType) {
+		int imageResourceId = 0;
+		if (promoDiscountType.equals(Constants.LX_AIR_HOTEL_MIP)) {
+			imageResourceId = R.drawable.hotel_flight;
+		}
+		else if (promoDiscountType.equals(Constants.LX_AIR_MIP)) {
+			imageResourceId = R.drawable.flight;
+		}
+		else if (promoDiscountType.equals(Constants.LX_HOTEL_MIP)) {
+			imageResourceId = R.drawable.hotel;
+		}
+		return imageResourceId;
+	}
+
 }

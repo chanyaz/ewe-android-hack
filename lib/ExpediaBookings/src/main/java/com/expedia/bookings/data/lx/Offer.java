@@ -15,6 +15,7 @@ public class Offer {
 	public String description;
 	public int freeCancellationMinHours;
 	public int discountPercentage;
+	public String discountType;
 
 	// This is not coming from server, its for client side manipulation
 	public boolean isToggled;

@@ -201,6 +201,14 @@
     <string name="redemption_location_activity_details">Meeting/Redemption Address</string>
     <!-- Instruction at the bottom of lx infosite map to select an activity from the list -->
     <string name="select_an_activity_instruction">Select an Activity</string>
+    <!-- MIP header text on SRP. eg. Because you booked with Expedia -->
+    <string name="mip_srp_header_brand_TEMPLATE">Because you booked with {brand}</string>
+    <!-- Max discount available in selected activities. Eg. Save up to 36% on select activities -->
+    <string name="mip_srp_header_discount_TEMPLATE">Save up to {discount}% on select activities</string>
+    <!-- Discount for selected activity on infosite. Eg. Book now and get up to 9% off -->
+    <string name="mip_infosite_discount_TEMPLATE">Book now and get up to {discount}% off</string>
+    <!-- Discount for each activity on SRP tile. Eg. -9% -->
+    <string name="mip_srp_tile_discount_TEMPLATE">-{discount}%</string>
 
     <!-- Activity details inclusions heading -->
     <string name="inclusions_activity_details">Inclusions</string>

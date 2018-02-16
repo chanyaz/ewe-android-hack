@@ -16,6 +16,7 @@ import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.expedia.account.graphics.ArrowXDrawable;
@@ -41,6 +42,7 @@ import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.LXNavUtils;
+import com.expedia.bookings.utils.LXUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
@@ -50,12 +52,14 @@ import com.expedia.bookings.widget.LXSortFilterWidget;
 import com.expedia.bookings.widget.LXThemeResultsWidget;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
+import com.squareup.phrase.Phrase;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
+import com.expedia.bookings.BuildConfig;
 
 public class LXResultsPresenter extends Presenter {
 
@@ -105,6 +109,18 @@ public class LXResultsPresenter extends Presenter {
 	@InjectView(R.id.sort_filter_widget_animate_view)
 	View sortFilterWidgetAnimateView;
 
+	@InjectView(R.id.mip_srp_banner_image)
+	ImageView mipSrpBannerImage;
+
+	@InjectView(R.id.mip_srp_banner_brand)
+	android.widget.TextView mipSrpBannerBrand;
+
+	@InjectView(R.id.mip_srp_banner_discount)
+	android.widget.TextView mipSrpBannerDiscount;
+
+	@InjectView(R.id.mip_srp_banner)
+	LinearLayout mipSrpBanner;
+
 	@OnClick(R.id.transparent_view)
 	public void onTransparentViewClick() {
 		show(searchResultsWidget, FLAG_CLEAR_TOP);
@@ -125,6 +141,7 @@ public class LXResultsPresenter extends Presenter {
 	private boolean isUserBucketedForCategoriesTest;
 	private LXTheme themeSelected = new LXTheme();
 	private boolean lxFilterTextSearchEnabled;
+	private boolean isMipEnabled;
 
 	@OnClick(R.id.sort_filter_button)
 	public void onSortFilterClicked() {
@@ -212,6 +229,8 @@ public class LXResultsPresenter extends Presenter {
 
 		lxFilterTextSearchEnabled = AbacusFeatureConfigManager
 			.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXFilterSearch);
+
+		isMipEnabled = AbacusFeatureConfigManager.isBucketedForTest(getContext(), AbacusUtils.EBAndroidLXMIP);
 
 		setupToolbar();
 		int toolbarSize = Ui.getStatusBarHeight(getContext());
@@ -325,7 +344,28 @@ public class LXResultsPresenter extends Presenter {
 			OmnitureTracking.trackAppLXRTRABTest();
 			trackLXSearch();
 			Events.post(new Events.LXSearchResultsAvailable(lxSearchResponse));
-			searchResultsWidget.bind(lxSearchResponse.activities);
+
+			if (isMipEnabled && lxSearchResponse.promoDiscountType != null) {
+				lxState.setPromoDiscountType(searchResponse.promoDiscountType);
+				mipSrpBanner.setVisibility(VISIBLE);
+
+				mipSrpBannerBrand.setText(Phrase.from(getContext(), R.string.mip_srp_header_brand_TEMPLATE).put("brand", BuildConfig.brand).format().toString());
+
+				mipSrpBannerDiscount.setText(Phrase.from(getContext(),
+					R.string.mip_srp_header_discount_TEMPLATE).put("discount",
+					LXUtils.getMaxPromoDiscount(lxSearchResponse.activities)).format().toString());
+				int mipImageId = LXDataUtils.getMIPImageId(lxSearchResponse.promoDiscountType);
+				if (mipImageId == 0) {
+					mipSrpBanner.setVisibility(GONE);
+				}
+				else {
+					mipSrpBannerImage.setImageResource(mipImageId);
+				}
+			}
+			else {
+				mipSrpBanner.setVisibility(GONE);
+			}
+			searchResultsWidget.bind(lxSearchResponse.activities, lxSearchResponse.promoDiscountType);
 			show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
 			sortFilterWidget.bind(lxSearchResponse.filterCategories);
 			if (!isGroundTransport) {

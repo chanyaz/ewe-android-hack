@@ -106,4 +106,8 @@ public class Constants {
 
 	//LX
 	public static final int LX_MIN_DISCOUNT_PERCENTAGE = 5;
+	public static final String LX_AIR_HOTEL_MIP = "AirHotelAttachMip";
+	public static final String LX_HOTEL_MIP = "HotelAttachMip";
+	public static final String LX_AIR_MIP = "AirAttachMip";
+
 }

@@ -70,6 +70,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.insurance.InsuranceProduct;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
+import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.LXSortType;
@@ -1915,7 +1916,8 @@ public class OmnitureTracking {
 
 		// prop and evar 5, 6
 		setDateValues(s, lxSearchParams.getActivityStartDate(), lxSearchParams.getActivityEndDate());
-
+		String productString = getLxSRPProductString(lxSearchResponse);
+		s.setProducts(productString);
 		// Freeform location
 		if (!TextUtils.isEmpty(lxSearchParams.getLocation())) {
 			s.setEvar(48, lxSearchParams.getLocation());
@@ -1927,9 +1929,33 @@ public class OmnitureTracking {
 		}
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidLXMOD);
+		trackAbacusTest(s, AbacusUtils.EBAndroidLXMIP);
 
 		// Send the tracking data
 		s.track();
+	}
+
+	private static String getLxSRPProductString(LXSearchResponse lxSearchResponse) {
+		String products = "";
+		int i = 1;
+		Boolean isMip = false;
+		if (lxSearchResponse.promoDiscountType != null) {
+			if (lxSearchResponse.promoDiscountType.equals(Constants.LX_AIR_HOTEL_MIP) ||
+				lxSearchResponse.promoDiscountType.equals(Constants.LX_AIR_MIP) ||
+				lxSearchResponse.promoDiscountType.equals(Constants.LX_HOTEL_MIP)) {
+				isMip = true;
+			}
+		}
+		for (LXActivity activity : lxSearchResponse.activities) {
+			if (activity.mipDiscountPercentage > 0) {
+				String extraString = isMip ? "-MIP" : "-MOD";
+				products += ";LX:" + activity.id + ";;;;eVar39=" + i++ + extraString;
+			}
+			else {
+				products += ";LX:" + activity.id + ";;;;eVar39=" + i++ ;
+			}
+		}
+		return products;
 	}
 
 	public static void trackAppLXSearchCategories(LxSearchParams lxSearchParams,

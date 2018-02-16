@@ -38,7 +38,6 @@ import butterknife.InjectViews;
 
 public class LXTicketSelectionWidget extends LinearLayout {
 
-
 	private boolean isGroundTransport;
 
 	public LXTicketSelectionWidget(Context context, AttributeSet attrs) {
@@ -88,6 +87,9 @@ public class LXTicketSelectionWidget extends LinearLayout {
 
 	private String offerId;
 
+	private String discountType;
+
+
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
@@ -102,6 +104,7 @@ public class LXTicketSelectionWidget extends LinearLayout {
 	public void bind(Offer offer, boolean isGroundTransport) {
 		this.offerId = offer.id;
 		this.isGroundTransport = isGroundTransport;
+		this.discountType = offer.discountType;
 
 		title.setText(offer.title);
 
@@ -230,6 +233,12 @@ public class LXTicketSelectionWidget extends LinearLayout {
 						.put("discount", discountPercentage)
 						.format()
 						.toString();
+				if (Constants.LX_AIR_MIP.equals(discountType)) {
+					discountPercentageView.setBackgroundColor(getResources().getColor(R.color.air_attach_orange));
+				}
+				else {
+					discountPercentageView.setBackgroundColor(getResources().getColor(R.color.success_green));
+				}
 				discountPercentageView.setVisibility(View.VISIBLE);
 			}
 			else {
@@ -239,8 +248,8 @@ public class LXTicketSelectionWidget extends LinearLayout {
 						.format()
 						.toString();
 			}
-
 			actualPrice.setContentDescription(priceSummaryContDescr);
+			priceSummaryContainer.setVisibility(View.VISIBLE);
 		}
 	}
 

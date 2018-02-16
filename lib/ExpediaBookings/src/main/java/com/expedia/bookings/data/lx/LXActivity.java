@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.Strings;
 import com.google.gson.annotations.SerializedName;
 
@@ -55,5 +56,9 @@ public class LXActivity {
 
 	public boolean modPricingEnabled(boolean modTestEnabled) {
 		return modTestEnabled && mipDiscountPercentage != 0;
+	}
+
+	public boolean mipPricingEnabled(boolean mipTestEnabled) {
+		return mipTestEnabled && Constants.LX_AIR_MIP.equals(discountType);
 	}
 }

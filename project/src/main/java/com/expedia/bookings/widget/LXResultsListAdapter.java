@@ -22,6 +22,7 @@ import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.mobiata.android.util.AndroidUtils;
+import com.squareup.phrase.Phrase;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -34,6 +35,12 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 
 	private static final String ROW_PICASSO_TAG = "lx_row";
 	private static boolean userBucketedForRTRTest;
+	private static String promoDiscountType;
+
+	public void setItems(List<LXActivity> items, String discountType) {
+		setItems(items);
+		promoDiscountType = discountType;
+	}
 
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -109,6 +116,7 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 			ButterKnife.inject(this, itemView);
 			itemView.setOnClickListener(this);
 			lxModTestEnabled = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidLXMOD);
+			lxMipTestEnabled = AbacusFeatureConfigManager.isBucketedForTest(itemView.getContext(), AbacusUtils.EBAndroidLXMIP);
 		}
 
 		@InjectView(R.id.activity_title)
@@ -153,7 +161,18 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 		@InjectView(R.id.activity_vbp_lowest_price_text)
 		TextView activityVbpLowestPriceText;
 
+		@InjectView(R.id.mip_srp_tile_layout)
+		LinearLayout mipSrpTileLayout;
+
+		@InjectView(R.id.mip_srp_tile_image)
+		ImageView mipSrpTileImage;
+
+		@InjectView(R.id.mip_srp_tile_discount)
+		TextView mipSrpTileDiscount;
+
 		private boolean lxModTestEnabled;
+
+		private boolean lxMipTestEnabled;
 
 		@Override
 		public void onClick(View v) {
@@ -164,7 +183,13 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 		public void bind(LXActivity activity) {
 			itemView.setTag(activity);
 			urgencyMessage.setVisibility(View.GONE);
-			if (activity.modPricingEnabled(lxModTestEnabled)) {
+			if (activity.mipPricingEnabled(lxMipTestEnabled)) {
+				LXDataUtils
+					.bindPriceAndTicketType(itemView.getContext(), activity.fromPriceTicketCode, activity.mipPrice,
+						activity.mipOriginalPrice, activityPrice, fromPriceTicketType);
+				LXDataUtils.bindOriginalPrice(itemView.getContext(), activity.mipOriginalPrice, activityOriginalPrice);
+			}
+			else if (activity.modPricingEnabled(lxModTestEnabled)) {
 				if (activity.mipDiscountPercentage >= Constants.LX_MIN_DISCOUNT_PERCENTAGE) {
 					urgencyMessage.setVisibility(View.VISIBLE);
 				}
@@ -174,7 +199,7 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 			}
 			else {
 				LXDataUtils.bindPriceAndTicketType(itemView.getContext(), activity.fromPriceTicketCode, activity.price,
-						activity.originalPrice, activityPrice, fromPriceTicketType);
+					activity.originalPrice, activityPrice, fromPriceTicketType);
 				LXDataUtils.bindOriginalPrice(itemView.getContext(), activity.originalPrice, activityOriginalPrice);
 			}
 			// Remove the extra margin that card view adds for pre-L devices.
@@ -191,6 +216,26 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 
 			LXDataUtils.bindRecommendation(itemView.getContext(), activity.recommendationScore, recommendationScoreView, recommendationTextView);
 			LXDataUtils.bindDiscountPercentage(itemView.getContext(), activity, discountPercentageView);
+			if (activity.mipPricingEnabled(lxMipTestEnabled) && promoDiscountType != null && activity.mipDiscountPercentage >= Constants.LX_MIN_DISCOUNT_PERCENTAGE ) {
+				mipSrpTileLayout.setVisibility(View.VISIBLE);
+				discountPercentageView.setVisibility(View.GONE);
+				mipSrpTileDiscount.setText(Phrase.from(itemView.getContext(), R.string.mip_srp_tile_discount_TEMPLATE).put("discount", activity.mipDiscountPercentage).format().toString());
+				if (promoDiscountType.equals(Constants.LX_AIR_HOTEL_MIP)) {
+					mipSrpTileImage.setImageResource(R.drawable.mip_hotel_flight);
+				}
+				else if (promoDiscountType.equals(Constants.LX_AIR_MIP)) {
+					mipSrpTileImage.setImageResource(R.drawable.mip_flight);
+				}
+				else if (promoDiscountType.equals(Constants.LX_HOTEL_MIP)) {
+					mipSrpTileImage.setImageResource(R.drawable.mip_hotel);
+				}
+				else {
+					mipSrpTileLayout.setVisibility(View.GONE);
+				}
+			}
+			else {
+				mipSrpTileLayout.setVisibility(View.GONE);
+			}
 
 			List<String> imageURLs = Images
 				.getLXImageURLBasedOnWidth(activity.getImages(), AndroidUtils.getDisplaySize(itemView.getContext()).x);

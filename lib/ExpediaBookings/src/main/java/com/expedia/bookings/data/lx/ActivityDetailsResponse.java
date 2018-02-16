@@ -27,6 +27,7 @@ public class ActivityDetailsResponse {
 	public String passengers;
 	public String bags;
 	public String destination;
+	public String maxPromoPricingDiscount;
 	public LXRedemptionType redemptionType;
 	public int recommendationScore;
 	public LXLocation eventLocation;

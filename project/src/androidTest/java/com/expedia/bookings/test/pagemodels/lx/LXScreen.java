@@ -57,6 +57,14 @@ public class LXScreen {
 		SearchScreenActions.selectLocation(location);
 	}
 
+	public static ViewInteraction getMipBanner() {
+		return onView(withId(R.id.mip_srp_banner));
+	}
+
+	public static ViewInteraction getMipInfositeBanner() {
+		return onView(withId(R.id.mip_infosite_banner));
+	}
+
 	public static ViewInteraction selectDateButton() {
 		return SearchScreen.selectDateButton();
 	}

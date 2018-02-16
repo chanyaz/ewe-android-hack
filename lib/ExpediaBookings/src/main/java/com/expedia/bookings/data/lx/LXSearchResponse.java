@@ -14,6 +14,7 @@ public class LXSearchResponse {
 	public String currencyCode;
 	public boolean isFromCachedResponse;
 	public String destination;
+	public String promoDiscountType;
 
 	// Utility Members - Required for Filtering
 	public transient List<LXActivity> unFilteredActivities = new ArrayList<>();

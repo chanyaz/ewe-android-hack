@@ -24,6 +24,7 @@ public class LXState {
 	public LXActivity activity;
 	public Offer offer;
 	private List<Ticket> selectedTickets;
+	private String promoDiscountType;
 
 	/**
 	 * Original Price for Current LX Booking Workflow.
@@ -129,5 +130,13 @@ public class LXState {
 	public int selectedChildTicketsCount() {
 		return LXUtils.getTicketTypeCount(selectedTickets, LXTicketType.Child) + LXUtils
 			.getTicketTypeCount(selectedTickets, LXTicketType.Infant);
+	}
+
+	public void setPromoDiscountType(String discountType) {
+		promoDiscountType = discountType;
+	}
+
+	public String getPromoDiscountType() {
+		return promoDiscountType;
 	}
 }

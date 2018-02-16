@@ -12,6 +12,7 @@ import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
@@ -131,6 +132,15 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	@InjectView(R.id.discount_percentage)
 	TextView discountPercentageView;
 
+	@InjectView(R.id.mip_infosite_image)
+	ImageView mipInfositeImage;
+
+	@InjectView(R.id.mip_infosite_banner)
+	LinearLayout mipInfositeBanner;
+
+	@InjectView(R.id.mip_infosite_discount)
+	android.widget.TextView mipInfositeDiscount;
+
 	@Inject
 	LXState lxState;
 
@@ -149,6 +159,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	public LXActivityDetailsWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
+
 
 	@Override
 	protected void onFinishInflate() {
@@ -224,6 +235,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		}
 		buildSections(activityDetails);
 		buildDiscountSection(activityDetails.offersDetail.offers);
+		buildMipDiscountSection();
 		buildOfferDatesSelector(activityDetails.offersDetail, lxState.searchParams.getActivityStartDate());
 	}
 
@@ -602,6 +614,26 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		}
 		else {
 			discountContainer.setVisibility(View.GONE);
+		}
+	}
+
+	public void buildMipDiscountSection() {
+		if (AbacusFeatureConfigManager.isBucketedForTest(getContext(), AbacusUtils.EBAndroidLXMIP) && lxState.getPromoDiscountType() != null
+			&& Strings.isNotEmpty(activityDetails.maxPromoPricingDiscount)) {
+			mipInfositeDiscount.setText(Phrase.from(getContext(), R.string.mip_infosite_discount_TEMPLATE).put("discount", activityDetails.maxPromoPricingDiscount).format().toString());
+			mipInfositeBanner.setVisibility(VISIBLE);
+			discountContainer.setVisibility(GONE);
+			int mipImageId = LXDataUtils.getMIPImageId(lxState.getPromoDiscountType());
+			if (mipImageId == 0) {
+				mipInfositeBanner.setVisibility(GONE);
+				discountContainer.setVisibility(VISIBLE);
+			}
+			else {
+				mipInfositeImage.setImageResource(mipImageId);
+			}
+		}
+		else {
+			mipInfositeBanner.setVisibility(GONE);
 		}
 	}
 }

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.Ticket;
 
@@ -116,5 +117,23 @@ public class LXUtils {
 
 		float discountPercentage = ((originalAmount.floatValue() - discountedAmount.floatValue()) / originalAmount.floatValue()) * 100;
 		return Math.round(discountPercentage);
+	}
+
+	public static int getMaxPromoDiscount(List<LXActivity> activities) {
+
+		int maxPromoPricingDiscountForResult = 0;
+		if (activities != null) {
+			for (LXActivity activity : activities) {
+				int activityMIPDP = 0;
+				if (activity.mipDiscountPercentage > 0) {
+					activityMIPDP = activity.mipDiscountPercentage;
+				}
+				if (activity.discountType != null && activity.discountType.equals(Constants.LX_AIR_MIP))
+				{
+					maxPromoPricingDiscountForResult = Math.max(activityMIPDP, maxPromoPricingDiscountForResult);
+				}
+			}
+		}
+		return maxPromoPricingDiscountForResult;
 	}
 }

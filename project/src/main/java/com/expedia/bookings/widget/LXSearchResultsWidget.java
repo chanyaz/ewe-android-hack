@@ -76,11 +76,20 @@ public class LXSearchResultsWidget extends FrameLayout {
 		super.onDetachedFromWindow();
 	}
 
+	public void bind(List<LXActivity> activities, String discountType) {
+		adapter.setItems(activities, discountType);
+		update();
+	}
+
 	public void bind(List<LXActivity> activities) {
+		adapter.setItems(activities);
+		update();
+	}
+
+	public void update() {
 		recyclerView.setVisibility(View.VISIBLE);
 		recyclerView.getLayoutManager().scrollToPosition(0);
 		errorScreen.setVisibility(View.GONE);
-		adapter.setItems(activities);
 		adapter.setUserBucketedForRTRTest(userBucketedForRTRTest);
 	}
 

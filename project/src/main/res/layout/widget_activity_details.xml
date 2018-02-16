@@ -54,6 +54,29 @@
         </FrameLayout>
 
         <LinearLayout
+            android:id="@+id/mip_infosite_banner"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:background="@color/white"
+            android:gravity="center_vertical|left"
+            android:paddingLeft="16dp"
+            android:visibility="gone">
+            <ImageView
+                android:id="@+id/mip_infosite_image"
+                android:layout_width="30dp"
+                android:layout_height="30dp"/>
+            <TextView
+                android:id="@+id/mip_infosite_discount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="14dp"
+                style="@style/Core.Text.300.Medium"
+                android:textColor="@color/gray700"/>
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/activity_details_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

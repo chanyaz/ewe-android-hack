@@ -43,7 +43,7 @@
   ],
   "fromPrice": "$130",
   "currencyCode": "USD",
-  "fromOriginalPrice": "",
+  "fromOriginalPrice": "$140",
   "fromPriceTicketType": "Adult",
   "fromPriceTicketCode": "Adult",
   "startDate": "2015-03-25",
@@ -82,7 +82,7 @@
   },
   "redemptionLocation": [
   ],
-  "discountPercentage": 0,
+  "discountPercentage": 7,
   "address": "Gray Line New York Visitors Center, 777 8th Avenue\r\nbetween 47th and 48th Street, New York, NY 10036, United States",
   "location": "New York, United States",
   "regionId": "178293",
@@ -100,7 +100,9 @@
         "freeCancellation": true,
         "duration": "2d",
         "durationInMillis": 172800000,
-        "discountPercentage": null,
+        "discountPercentage": 7,
+        "discountType": "AirAttachMip",
+        "defaultTicketCountPrice": "$130",
         "directionality": "",
         "availabilityInfo": [
           {
@@ -2297,5 +2299,6 @@
   "metaKeywords": "New York Pass: Visit up to 80 Attractions, Museums & Tours, New York, United States, New York Attractions, New York Cruises & Water Tours, New York Sightseeing Passes, New York Tours & Sightseeing, New York Activities, New York Things To Do , Book New York Activities , Book New York Things To Do , Activities, Things To Do",
   "pageTitle": "New York Pass: Visit up to 80 Attractions, Museums &amp; Tours",
   "category": "Attractions",
+  "maxPromoPricingDiscount": 7,
   "badgingDiscountPercentage": null
 }
