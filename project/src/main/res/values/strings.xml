@@ -1556,6 +1556,8 @@
     <string name="itin_flight_leg_detail_widget_sub_title_date_time_TEMPLATE">{date} {time}</string>
     <!--Flight itin, flight leg detail widget Nonstop text-->
     <string name="itin_flight_leg_detail_widget_nonstop">Nonstop</string>
+    <!--Flight itin, flight leg detail widget Direct text-->
+    <string name="itin_flight_leg_detail_widget_direct">Direct</string>
     <!--Flight itin, flight leg detail widget "to" text-->
     <string name="itin_flight_leg_detail_widget_to_text">to</string>
     <!--Flight itin, flight leg detail widget "-" text-->
@@ -1567,6 +1569,12 @@
     <item quantity="zero">Nonstop</item>
     <item quantity="one">%s stop</item>
     <item quantity="other">%s stops</item>
+    </plurals>
+    <!-- flight leg detail widget, pluralization for number of stops for IT POSa (eg., 1 stop) -->
+    <plurals name="itin_flight_leg_detail_widget_stops_it_pos_TEMPLATE">
+        <item quantity="zero">Direct</item>
+        <item quantity="one">%s stop</item>
+        <item quantity="other">%s stops</item>
     </plurals>
 
     <!--Flight itin, flight leg detail widget's split ticket text-->
@@ -4013,6 +4021,8 @@
 
     <!-- Flight Nonstop description -->
     <string name="flight_nonstop_description">Nonstop</string>
+    <!-- Flight Direct description -->
+    <string name="flight_direct_description">Direct</string>
     <!-- Flight One stop description -->
     <string name="flight_one_stop_description">1 Stop</string>
     <!-- Flight Two stop description -->

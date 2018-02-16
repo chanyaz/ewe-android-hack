@@ -18,6 +18,8 @@ import com.expedia.bookings.data.flights.FlightSeatReservationAmenity
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.flights.FrequentFlyerCard
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.text.HtmlCompat
 import com.mobiata.flightlib.utils.DateTimeUtils
 import com.squareup.phrase.Phrase
@@ -120,7 +122,11 @@ object FlightV2Utils {
     @JvmStatic fun getStopsStringFromCheckoutResponseLeg(context: Context, flight: FlightLeg): String {
         val numOfStops = flight.stopCount
         if (numOfStops == 0) {
-            return context.resources.getString(R.string.flight_nonstop_description)
+            return if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.ITALY) {
+                context.resources.getString(R.string.flight_direct_description)
+            } else {
+                context.resources.getString(R.string.flight_nonstop_description)
+            }
         } else {
             return context.resources.getQuantityString(R.plurals.x_Stops_TEMPLATE, numOfStops, numOfStops)
         }
@@ -129,7 +135,11 @@ object FlightV2Utils {
     @JvmStatic fun getStopsStringFromCheckoutItinResponseLeg(context: Context, flightLeg: FlightItinDetailsResponse.Flight.Leg?): String {
         val numOfStops = flightLeg?.numberOfStops ?: 0
         if (numOfStops == 0) {
-            return context.resources.getString(R.string.flight_nonstop_description)
+            return if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.ITALY) {
+                context.resources.getString(R.string.flight_direct_description)
+            } else {
+                context.resources.getString(R.string.flight_nonstop_description)
+            }
         } else {
             return context.resources.getQuantityString(R.plurals.x_Stops_TEMPLATE, numOfStops, numOfStops)
         }

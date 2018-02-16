@@ -21,6 +21,8 @@ import com.expedia.bookings.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.FlightFilter
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.AnimUtils
@@ -297,7 +299,13 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
 
     private fun getStopFilterLabel(numOfStops: Int): String {
         when (numOfStops) {
-            0 -> return resources.getString(R.string.flight_nonstop_description)
+            0 -> {
+                return if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.ITALY) {
+                    resources.getString(R.string.flight_direct_description)
+                } else {
+                    resources.getString(R.string.flight_nonstop_description)
+                }
+            }
             1 -> return resources.getString(R.string.flight_one_stop_description)
             else -> {
                 return resources.getString(R.string.flight_two_plus_stops_description)
