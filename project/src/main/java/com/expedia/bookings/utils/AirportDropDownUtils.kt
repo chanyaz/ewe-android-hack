@@ -32,6 +32,7 @@ class AirportDropDownUtils {
             val builder = AlertDialog.Builder(context)
             builder.setMessage(context.resources.getString(R.string.error_could_not_load_air_asia))
             builder.setNeutralButton(context.resources.getString(R.string.ok), { _, _ -> NavUtils.goToLaunchScreen(context) })
+            builder.setCancelable(false)
             return builder.create()
         }
     }
