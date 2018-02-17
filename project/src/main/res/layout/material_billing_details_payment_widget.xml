@@ -236,11 +236,30 @@
                                     android:id="@+id/edit_creditcard_exp_text_btn"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:hint="@string/expiration_date"
-                                    android:nextFocusForward="@+id/edit_creditcard_cvv"
+                                    android:bufferType="spannable"
                                     android:focusable="false"
                                     android:focusableInTouchMode="false"
-                                    android:bufferType="spannable"
+                                    android:hint="@string/expiration_date"
+                                    android:nextFocusForward="@+id/edit_creditcard_cvv"
+                                    android:textSize="@dimen/traveler_input_text_size" />
+
+                            </android.support.design.widget.TextInputLayout>
+
+                            <android.support.design.widget.TextInputLayout
+                                android:id="@+id/material_creditcard_expiry_date"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:importantForAccessibility="no">
+
+                                <com.expedia.bookings.widget.CreditCardExpiryEditText
+                                    android:id="@+id/edit_creditcard_expiry_date"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="MM/YY"
+                                    android:inputType="phone"
+                                    android:maxLength="5"
+                                    android:nextFocusForward="@+id/edit_creditcard_cvv"
                                     android:textSize="@dimen/traveler_input_text_size" />
 
                             </android.support.design.widget.TextInputLayout>

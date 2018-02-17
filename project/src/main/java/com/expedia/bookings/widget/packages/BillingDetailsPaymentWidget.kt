@@ -18,17 +18,19 @@ import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.extensions.subscribeTextChange
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.MaskedCreditCardEditText
-import com.expedia.bookings.widget.PaymentWidget
-import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.rail.widget.CreditCardFeesView
 import com.expedia.bookings.section.CountrySpinnerAdapter
 import com.expedia.bookings.extensions.subscribeObserver
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.showNewCreditCardExpiryFormField
 import com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
 import com.expedia.bookings.extensions.updatePaddingForOldApi
 import com.expedia.bookings.extensions.setVisibility
+import com.expedia.bookings.widget.CreditCardExpiryEditText
+import com.expedia.bookings.widget.MaskedCreditCardEditText
+import com.expedia.bookings.widget.PaymentWidget
+import com.expedia.bookings.widget.TextView
 import com.expedia.vm.PaymentViewModel
 import com.squareup.otto.Subscribe
 
@@ -46,7 +48,10 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
     var editCountryEditText: AccessibleEditTextForSpinner ? = null
     var postalCodeLayout: TextInputLayout ? = null
     val cardInfoSummary: LinearLayout by bindView(R.id.card_info_summary)
-
+    var creditCardExpiryText: CreditCardExpiryEditText ? = null
+    val showNewExpiryField = showNewCreditCardExpiryFormField(context)
+    var oldCreditExpiryTextLayout: TextInputLayout ? = null
+    var newCreditCardExpiryTextLayout: TextInputLayout? = null
     val creditCardFeesView = CreditCardFeesView(context, null)
     val dialog: AlertDialog by lazy {
         val builder = AlertDialog.Builder(context)
@@ -175,11 +180,18 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
 
     private fun setupMaterialForm() {
         sectionLocation.removeNonMaterialFields()
+
         defaultCreditCardNumberLayout = findViewById<TextInputLayout>(R.id.material_edit_credit_card_number)
         editCountryEditText = findViewById<AccessibleEditTextForSpinner>(R.id.material_edit_country)
         maskedCreditLayout = findViewById<TextInputLayout>(R.id.material_edit_masked_creditcard_number)
         addressStateLayout = findViewById<TextInputLayout>(R.id.material_edit_address_state)
         postalCodeLayout = findViewById<TextInputLayout>(R.id.material_edit_address_postal_code)
+        creditCardExpiryText = findViewById<CreditCardExpiryEditText>(R.id.edit_creditcard_expiry_date)
+        oldCreditExpiryTextLayout = findViewById<TextInputLayout>(R.id.material_edit_creditcard_date)
+        newCreditCardExpiryTextLayout = findViewById<TextInputLayout>(R.id.material_creditcard_expiry_date)
+
+        oldCreditExpiryTextLayout?.setInverseVisibility(showNewExpiryField)
+        newCreditCardExpiryTextLayout?.setVisibility(showNewExpiryField)
 
         editCountryEditText?.setOnClickListener {
             showCountryDialog()
