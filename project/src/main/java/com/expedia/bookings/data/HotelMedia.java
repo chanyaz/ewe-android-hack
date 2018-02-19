@@ -82,6 +82,10 @@ public class HotelMedia implements JSONable, IMedia {
 			}
 			return Size.BIG;
 		}
+
+		public static Size getIdealGridSize() {
+			return Y;
+		}
 	}
 
 	// A size-ordered list of the different MediaTypes

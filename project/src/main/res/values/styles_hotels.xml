@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <style name="Base.Hotels" parent="AppTheme.Base">
-        <item name="android:windowBackground">@color/gray100</item>
-
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowActivityTransitions">true</item>
-        <item name="android:windowContentTransitions">true</item>
-
         <item name="android:statusBarColor">@color/app_primary_dark</item>
+
+        <item name="android:windowActivityTransitions">true</item>
 
         <!-- Search -->
         <item name="skin_searchToolbarText">@string/hotel_search_toolbar_title</item>
         <item name="skin_searchLocationText">@string/enter_destination_hint</item>
         <item name="skin_searchLocationContDesc">@string/enter_destination_cont_desc</item>
         <item name="skin_searchButtonStyle">@style/HotelButtonStyle</item>
+        <item name="skin_searchButtonSelectorDrawable">@drawable/hotel_ripple_button</item>
 
         <!-- Results -->
         <item name="spinner_text_color_drawable">@drawable/traveler_text_color</item>
@@ -29,8 +26,7 @@
         <item name="skin_errorWidgetEditButtonStyle">@style/HotelButton</item>
         <item name="traveler_details_text">@string/checkout_hotelsv2_enter_guest_details_line1</item>
 
-        <!-- needs to be updated for new variant -->
-        <item name="skin_rippleDrawable">@drawable/old_hotel_ripple_button</item>
+        <item name="skin_rippleDrawable">@drawable/hotel_ripple_button</item>
     </style>
 
     <style name="Base.Hotels.Default">
@@ -54,7 +50,7 @@
         <item name="vip_info_select_ripple_drawable">@drawable/new_vip_info_select_ripple</item>
         <item name="map_pin_drawable">@drawable/map_marker_blue</item>
         <item name="secondary_ripple_button_drawable">@drawable/hotel_secondary_ripple_button</item>
-        <item name="hotel_select_room_ripple_drawable">@drawable/primary_ripple_button</item>
+        <item name="hotel_select_room_ripple_drawable">@drawable/hotel_ripple_button</item>
 
         <!-- Checkout -->
         <item name="traveler_checkout_circle_drawable">@drawable/new_traveler_checkout_circle</item>
@@ -66,11 +62,20 @@
         <item name="itin_hotel_gallery_bg">#262626</item>
     </style>
 
-    <style name="Theme.Hotels.Default" parent="Base.Hotels.Default"/>
+    <style name="Theme.Hotels.Default" parent="Base.Hotels.Default">
+        <item name="android:windowBackground">@color/gray100</item>
+        <item name="android:windowContentTransitions">true</item>
+    </style>
+
+    <style name="Theme.Hotels.GalleryGrid" parent="Base.Hotels.Default">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowEnterTransition">@transition/gallery_grid_enter_transition</item>
+    </style>
+
     <style name="Theme.Hotels.Gallery" parent="Base.Hotels.Default">
-        <item name="android:windowBackground">@color/gray900</item>
-        <item name="android:statusBarColor">@color/transparent</item>
-        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:statusBarColor">@color/gray900</item>
+        <item name="android:windowBackground">@color/transparent</item>
     </style>
 
     <style name="Theme.Hotels.Default.Crystal">

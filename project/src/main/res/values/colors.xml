@@ -231,6 +231,7 @@
     <color name="confirmation_action_text_color">@color/gray100</color>
     <color name="hotel_confirmation_email_text_color">@color/gray300</color>
 
+    <color name="gallery_grid_placeholder_color">@color/gray300</color>
     <color name="slide_to_widget_tray_mask_color">#29a653</color>
     <color name="confirmation_screen_action_icon_color">#D1D3D6</color>
     <color name="hotel_confirmation_gradient">#80000000</color>
