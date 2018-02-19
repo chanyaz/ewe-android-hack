@@ -650,7 +650,6 @@ class HotelDetailViewModelTest {
     @Test
     fun testDatesForSoldOut() {
         val testDatesTextSub = TestObserver.create<String>()
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.HotelEnableInfositeChangeDate)
         vm.searchInfoObservable.subscribe(testDatesTextSub)
         vm.hotelOffersSubject.onNext(soldOutOffer)
 
