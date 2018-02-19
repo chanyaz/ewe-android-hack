@@ -911,7 +911,10 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
     }
 
-    fun animationStart() {
+    fun animationStart(forward: Boolean) {
+        if (forward) {
+            showChangeDateBanner()
+        }
         recyclerTempBackground.visibility = View.VISIBLE
     }
 
@@ -925,7 +928,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         navIcon.parameter = ArrowXDrawableUtil.ArrowDrawableType.BACK.type.toFloat()
     }
 
-    //We use ObjectAnimators instead of Animation because Animation mucks with settings values outside of it, and Object
+    // We use ObjectAnimators instead of Animation because Animation mucks with settings values outside of it, and Object
     // Animator lets us do that.
     fun getFabAnimIn(): Animator {
         val set = AnimatorSet()
