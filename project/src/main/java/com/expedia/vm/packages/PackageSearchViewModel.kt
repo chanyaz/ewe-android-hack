@@ -52,6 +52,7 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         Ui.getApplication(context).travelerComponent().inject(this)
         previousSearchParamsObservable.subscribe { params ->
             setupViewModelFromPastSearch(params)
+            travelerValidator.updateForNewSearch(params)
         }
     }
 

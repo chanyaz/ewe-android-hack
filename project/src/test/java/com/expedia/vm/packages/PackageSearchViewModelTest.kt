@@ -3,6 +3,7 @@ package com.expedia.vm.packages
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.DateFormatUtils
@@ -149,6 +150,15 @@ class PackageSearchViewModelTest {
         assertEquals("$expectedStartDate ～ $expectedEndDate ($expectedNumberOfNights 泊)", sut.dateTextObservable.value)
         // Reset it back
         Locale.setDefault(currentLocale)
+    }
+
+    @Test
+    fun testPastSearchUpdatesTravelerValidator() {
+        givenDefaultTravelerComponent()
+        createSystemUnderTest()
+        sut.previousSearchParamsObservable.onNext(getDummyPackageSearchParams(0, 1))
+
+        assertEquals(true, sut.travelerValidator.validatePassengerCategory(LocalDate(), PassengerCategory.INFANT_IN_LAP))
     }
 
     private fun givenDefaultTravelerComponent() {
