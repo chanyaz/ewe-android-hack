@@ -98,6 +98,10 @@
               "Prices and hotel availability are not guaranteed until full payment is received.If you would like to book multiple rooms, you must use a different name for each room. Otherwise, the duplicate reservation will be canceled by the hotel."
             ]
           },
+          "action": {
+            "isChangeable": true,
+            "isCancellable": true
+          },
           "rooms": [
             {
               "uniqueID": "5D5D96B6-0BB4-4A08-B82F-C9FBADF85532_0_520073486",

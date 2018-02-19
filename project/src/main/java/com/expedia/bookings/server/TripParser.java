@@ -385,9 +385,19 @@ public class TripParser {
 
 				}
 
-				String cancelLink = room.optString("roomCancelLink");
-				String changeLink = room.optString("roomChangeLink");
-				String mobileChangeLink = room.optString("roomChangeLinkForMobileWebView");
+				boolean isChangeable = hotel.getAction() != null && hotel.getAction().isChangeable();
+				boolean isCancellable = hotel.getAction() != null && hotel.getAction().isCancellable();
+				String cancelLink = "";
+				String changeLink = "";
+				String mobileChangeLink = "";
+
+				if (isCancellable) {
+					cancelLink = room.optString("roomCancelLink");
+				}
+				if (isChangeable) {
+					changeLink = room.optString("roomChangeLink");
+					mobileChangeLink = room.optString("roomChangeLinkForMobileWebView");
+				}
 
 				String roomBookingStatus = room.optString("bookingStatus");
 				if (!roomBookingStatus.equals(TripHotelRoom.BookingStatus.CANCELLED)) {
