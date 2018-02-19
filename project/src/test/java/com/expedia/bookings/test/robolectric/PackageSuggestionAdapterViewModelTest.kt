@@ -43,7 +43,7 @@ class PackageSuggestionAdapterViewModelTest {
             TODO("not implemented: getLxSuggestionsV4")
         }
 
-        override fun getHotelSuggestionsV4(query: String, observer: Observer<List<SuggestionV4>>, sameAsWeb: Boolean, guid: String?): Disposable {
+        override fun getHotelSuggestionsV4(query: String, observer: Observer<List<SuggestionV4>>): Disposable {
             TODO("not implemented: getHotelSuggestionsV4")
         }
 
