@@ -7,6 +7,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.HashMap;
+import java.util.Locale;
 
 import com.expedia.bookings.utils.Strings;
 
@@ -362,7 +363,14 @@ public class Money {
 			}
 		}
 
-		return nf.format(amount);
+		String formattedAmount = nf.format(amount);
+		// We are hardcoding this condition because for Java 7 euro sign appears after amount for IT
+		// TODO: Remove this once Number Format Library starts giving us correct Currency Format for IT
+		if (currencyCode.equals("EUR") && Locale.getDefault().equals(Locale.ITALY)) {
+			String[] amountAndCurrencySymbol = formattedAmount.split("\\s+");
+			formattedAmount = amountAndCurrencySymbol[1] + " " + amountAndCurrencySymbol[0];
+		}
+		return formattedAmount;
 	}
 
 	public String getCurrencySymbol() {
