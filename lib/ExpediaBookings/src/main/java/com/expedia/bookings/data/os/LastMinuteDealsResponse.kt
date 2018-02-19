@@ -1,54 +1,15 @@
 package com.expedia.bookings.data.os
 
 import com.expedia.bookings.data.sos.DealsDestination
+import com.expedia.bookings.data.BaseDealsResponse
 import com.google.gson.annotations.SerializedName
 
-open class LastMinuteDealsResponse {
-    var offerInfo: OfferInfo? = null
-    var offerErrorInfo: ErrorInfo? = null
-    var debugInformation: DebugInformation? = null
-    var offers: Offers? = null
+open class LastMinuteDealsResponse : BaseDealsResponse() {
+    var offers: Offers = Offers()
         protected set
-
-    fun hasError(): Boolean {
-        return offerErrorInfo != null
-    }
-
-    val errorCode: Int
-        get() {
-            if (offerErrorInfo == null) {
-                return -1
-            }
-            return offerErrorInfo!!.errorCode
-        }
-
-    inner class OfferInfo {
-        var currency: String? = null
-        internal var language: String? = null
-    }
-
-    inner class DebugInformation {
-        internal var activityId: String? = null
-    }
-
-    inner class ErrorInfo {
-        internal var errorCode: Int = 0
-        internal var errorMessage: String? = null
-    }
 
     inner class Offers {
         @SerializedName("Hotel")
-        var hotels: List<DealsDestination.Hotel>? = null
-    }
-
-    fun getSortedDiscountedHotels(): List<DealsDestination.Hotel> {
-        val hotels = offers?.hotels
-        if (hotels != null) {
-            val discountedHotels = hotels.filter { it ->
-                it.hotelPricingInfo?.hasDiscount() ?: false
-            }
-            return discountedHotels.sortedByDescending { it.hotelPricingInfo?.percentSavings }
-        }
-        return emptyList()
+        var hotels: List<DealsDestination.Hotel> = emptyList()
     }
 }

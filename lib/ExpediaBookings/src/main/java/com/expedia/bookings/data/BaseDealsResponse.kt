@@ -1,11 +1,9 @@
-package com.expedia.bookings.data.sos
+package com.expedia.bookings.data
 
-open class DealsResponse {
+abstract class BaseDealsResponse {
     var offerInfo: OfferInfo? = null
     var offerErrorInfo: ErrorInfo? = null
     var debugInformation: DebugInformation? = null
-    var destinations: List<DealsDestination>? = null
-        protected set
 
     fun hasError(): Boolean {
         return offerErrorInfo != null

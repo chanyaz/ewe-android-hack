@@ -6,35 +6,35 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.sos.DealsDestination
-import com.expedia.bookings.data.sos.DealsResponse
 import com.expedia.bookings.extensions.subscribeOnClick
+import com.expedia.bookings.data.sos.MemberDealsResponse
+import com.expedia.bookings.extensions.LiveDataObserver
 import com.expedia.bookings.mia.activity.MemberDealsActivity
 import com.expedia.bookings.mia.vm.DealsDestinationViewModel
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.LoadingViewHolder
-import io.reactivex.Observer
-import io.reactivex.subjects.BehaviorSubject
 import java.util.ArrayList
+import io.reactivex.Observer
 
 class MemberDealListAdapter(private val context: Context, private val searchHotelsClickedObserver: Observer<Unit>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var listData: List<DealsDestination> = emptyList()
+    val responseObserver: LiveDataObserver<MemberDealsResponse>
     private var currency: String? = null
     private var loading = true
 
-    val resultSubject = BehaviorSubject.create<DealsResponse>()
-
     init {
         listData = generateLoadingCells(3)
-        resultSubject.subscribe { response ->
-            if (response != null && response.destinations != null) {
-                loading = false
-                currency = response.offerInfo?.currency
-                listData = response.destinations!!
-                notifyDataSetChanged()
-            }
+        responseObserver = LiveDataObserver {
+            response ->
+                if (response != null && response.destinations.isNotEmpty()) {
+                    loading = false
+                    currency = response.offerInfo?.currency
+                    listData = response.destinations
+                    notifyDataSetChanged()
+                }
         }
     }
 

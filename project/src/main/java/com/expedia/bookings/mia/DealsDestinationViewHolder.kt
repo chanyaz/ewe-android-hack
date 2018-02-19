@@ -20,7 +20,7 @@ import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.bitmaps.PicassoTarget
 import com.expedia.bookings.data.DeprecatedHotelSearchParams
 import com.expedia.bookings.enums.DiscountColors
-import com.expedia.bookings.mia.activity.LastMinuteDealActivity
+import com.expedia.bookings.mia.activity.LastMinuteDealsActivity
 import com.expedia.bookings.mia.activity.MemberDealsActivity
 import com.expedia.bookings.mia.vm.DealsDestinationViewModel
 import com.expedia.bookings.utils.ColorBuilder
@@ -87,14 +87,14 @@ class DealsDestinationViewHolder(private val view: View) : RecyclerView.ViewHold
     }
 
     private fun getNumAdults(vm: DealsDestinationViewModel): Int {
-        if (view.context is LastMinuteDealActivity) {
+        if (view.context is LastMinuteDealsActivity) {
             return vm.numberOfLastMinuteDealTravelers
         }
         return vm.numberOfMemberOnlyDealTravelers
     }
 
     private fun getSubtitle(vm: DealsDestinationViewModel): String? {
-        if (view.context is LastMinuteDealActivity) {
+        if (view.context is LastMinuteDealsActivity) {
             return vm.cityName
         }
         return view.context.getString(R.string.deals_hotel_only)
@@ -117,7 +117,7 @@ class DealsDestinationViewHolder(private val view: View) : RecyclerView.ViewHold
     }
 
     private fun getHotelId(vm: DealsDestinationViewModel): String? {
-        return if (view.context is LastMinuteDealActivity) {
+        return if (view.context is LastMinuteDealsActivity) {
             vm.hotelId
         } else null
     }

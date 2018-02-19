@@ -39,7 +39,7 @@ import com.expedia.bookings.meso.model.MesoDestinationAdResponse;
 import com.expedia.bookings.meso.model.MesoHotelAdResponse;
 import com.expedia.bookings.meso.vm.MesoDestinationViewModel;
 import com.expedia.bookings.meso.vm.MesoHotelAdViewModel;
-import com.expedia.bookings.mia.activity.LastMinuteDealActivity;
+import com.expedia.bookings.mia.activity.LastMinuteDealsActivity;
 import com.expedia.bookings.mia.activity.MemberDealsActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Akeakamai;
@@ -715,7 +715,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	private class LastMinuteDealClickListener implements View.OnClickListener {
 		@Override
 		public void onClick(View v) {
-			Intent intent = new Intent(context, LastMinuteDealActivity.class);
+			Intent intent = new Intent(context, LastMinuteDealsActivity.class);
 			context.startActivity(intent);
 			OmnitureTracking.trackLaunchLastMinuteDeal();
 		}

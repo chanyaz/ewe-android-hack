@@ -1,3 +1,5 @@
 package com.expedia.bookings.data.sos
 
-class MemberDealsRequest : DealsRequest()
+import com.expedia.bookings.data.BaseDealsRequest
+
+class MemberDealsRequest : BaseDealsRequest()

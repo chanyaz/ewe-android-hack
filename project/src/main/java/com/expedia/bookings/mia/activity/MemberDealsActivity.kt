@@ -1,5 +1,6 @@
 package com.expedia.bookings.mia.activity
 
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -7,8 +8,10 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import com.expedia.bookings.R
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.sos.MemberDealsRequest
 import com.expedia.bookings.mia.MemberDealListAdapter
-import com.expedia.bookings.mia.MemberDealsResponseProvider
+import com.expedia.bookings.mia.arch.MemberDealsArchViewModel
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -17,41 +20,54 @@ import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.util.endlessObserver
 
-class MemberDealsActivity : AppCompatActivity() {
+open class MemberDealsActivity : AppCompatActivity() {
 
-    private lateinit var memberDealResponseProvider: MemberDealsResponseProvider
-    private lateinit var adapter: MemberDealListAdapter
-    val recyclerView by bindView<RecyclerView>(R.id.member_deal_recycler_view)
+    private val toolBar by bindView<Toolbar>(R.id.mod_search_toolbar)
+    private val recyclerView by bindView<RecyclerView>(R.id.member_deal_recycler_view)
+
+    protected open val viewModel: MemberDealsArchViewModel by lazy {
+        val factory = MemberDealsArchViewModel
+                .Factory(Ui.getApplication(this).appComponent().smartOfferService(), createServiceRequest())
+        ViewModelProviders.of(this, factory).get(MemberDealsArchViewModel::class.java)
+    }
+    protected val adapter: MemberDealListAdapter by lazy {
+        MemberDealListAdapter(this, endlessObserver {
+            HotelNavUtils.goToHotels(this@MemberDealsActivity, NavUtils.DEAL_SEARCH)
+            OmnitureTracking.trackMemberPricingShop()
+        })
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.member_deal_activity)
-
-        val toolBar = findViewById<Toolbar>(R.id.mod_search_toolbar)
-        toolBar.setNavigationOnClickListener {
-            onBackPressed()
-        }
-
-        adapter = MemberDealListAdapter(this, endlessObserver {
-            HotelNavUtils.goToHotels(this@MemberDealsActivity, NavUtils.DEAL_SEARCH)
-            OmnitureTracking.trackMemberPricingShop()
-        })
-
-        if (isBrandColorEnabled(this@MemberDealsActivity)) {
-            toolBar.setBackgroundColor(ContextCompat.getColor(this@MemberDealsActivity, R.color.brand_primary))
-            window.statusBarColor = ContextCompat.getColor(this@MemberDealsActivity, R.color.brand_primary_dark)
-        }
+        setupToolbar()
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
 
-        memberDealResponseProvider = MemberDealsResponseProvider(Ui.getApplication(this).appComponent().smartOfferService())
-        memberDealResponseProvider.dealsResponseSubject.subscribe(adapter.resultSubject)
+        viewModel.responseLiveData.observe(this, adapter.responseObserver)
+    }
+
+    private fun createServiceRequest(): MemberDealsRequest {
+        val request = MemberDealsRequest()
+        val pos = PointOfSale.getPointOfSale()
+        request.siteId = pos.tpid.toString()
+        request.locale = pos.localeIdentifier.toString()
+        return request
+    }
+
+    private fun setupToolbar() {
+        toolBar.setNavigationOnClickListener {
+            onBackPressed()
+        }
+        if (isBrandColorEnabled(this@MemberDealsActivity)) {
+            toolBar.setBackgroundColor(ContextCompat.getColor(this@MemberDealsActivity, R.color.brand_primary))
+            window.statusBarColor = ContextCompat.getColor(this@MemberDealsActivity, R.color.brand_primary_dark)
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        memberDealResponseProvider.fetchDeals()
         OmnitureTracking.trackMemberPricingPageLoad()
     }
 }

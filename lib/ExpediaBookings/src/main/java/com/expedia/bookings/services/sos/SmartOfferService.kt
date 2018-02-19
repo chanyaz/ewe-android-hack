@@ -1,12 +1,10 @@
 package com.expedia.bookings.services.sos
 
-import com.expedia.bookings.data.sos.DealsResponse
 import com.expedia.bookings.data.sos.MemberDealsRequest
-import com.expedia.bookings.extensions.subscribeObserver
+import com.expedia.bookings.data.sos.MemberDealsResponse
 import com.google.gson.GsonBuilder
 import io.reactivex.Observer
 import io.reactivex.Scheduler
-import io.reactivex.disposables.Disposable
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -14,9 +12,8 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 class SmartOfferService(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor,
-                        val observeOn: Scheduler, val subscribeOn: Scheduler) {
+                        val observeOn: Scheduler, val subscribeOn: Scheduler) : ISmartOfferService {
     val api: SmartOfferApi by lazy {
-
         val adapter = Retrofit.Builder()
                 .baseUrl(endpoint)
                 .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
@@ -27,13 +24,12 @@ class SmartOfferService(endpoint: String, okHttpClient: OkHttpClient, intercepto
         adapter.create(SmartOfferApi::class.java)
     }
 
-    fun fetchMemberDeals(request: MemberDealsRequest,
-                         dealsObserver: Observer<DealsResponse>): Disposable {
-
+    override fun fetchDeals(request: MemberDealsRequest,
+                            dealsObserver: Observer<MemberDealsResponse>) {
         return api.memberDeals(request.siteId, request.locale, request.productType, request.groupBy,
                 request.destinationLimit, request.clientId)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
-                .subscribeObserver(dealsObserver)
+                .subscribe(dealsObserver)
     }
 }

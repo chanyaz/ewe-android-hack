@@ -1,8 +1,8 @@
-package com.expedia.bookings.data.sos
+package com.expedia.bookings.data
 
 import com.expedia.bookings.utils.Constants
 
-open class DealsRequest {
+abstract class BaseDealsRequest {
     var siteId = Constants.SOS_SITE_ID
     var locale = Constants.SOS_DEFAULT_LOCALE
     var productType = Constants.SOS_PRODUCT_TYPE

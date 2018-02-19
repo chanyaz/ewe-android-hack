@@ -1,12 +1,12 @@
 package com.expedia.bookings.unit
 
-import com.expedia.bookings.data.os.LastMinuteDealsResponse
-import com.expedia.bookings.data.os.LastMinuteDealsRequest
+import com.expedia.bookings.data.sos.MemberDealsRequest
+import com.expedia.bookings.data.sos.MemberDealsResponse
 import com.expedia.bookings.interceptors.MockInterceptor
+import com.expedia.bookings.services.sos.SmartOfferService
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import com.expedia.bookings.services.TestObserver
-import com.expedia.bookings.services.os.OfferService
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -19,19 +19,19 @@ import java.io.File
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-class OSServiceTest {
+class SmartOfferServiceTest {
 
     var server: MockWebServer = MockWebServer()
         @Rule get
 
-    var service: OfferService? = null
+    var service: SmartOfferService? = null
 
     @Before
     fun before() {
         val logger = HttpLoggingInterceptor()
         logger.level = HttpLoggingInterceptor.Level.BODY
         val interceptor = MockInterceptor()
-        service = OfferService("http://localhost:" + server.port,
+        service = SmartOfferService("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
                 interceptor, Schedulers.trampoline(), Schedulers.trampoline())
 
@@ -42,11 +42,10 @@ class OSServiceTest {
     @Throws(Throwable::class)
     fun testMockSearchWorks() {
 
-        val observer = TestLastMinuteDealsObserver()
-        val tuid = "12345"
-        val params = LastMinuteDealsRequest(tuid)
+        val observer = TestMemberDealObsrver()
+        val params = MemberDealsRequest()
 
-        service!!.fetchLastMinuteDeals(params, observer)
+        service!!.fetchDeals(params, observer)
         observer.awaitTerminalEvent(3, TimeUnit.SECONDS)
 
         observer.assertNoErrors()
@@ -56,16 +55,15 @@ class OSServiceTest {
 
     @Test
     fun testSoSReturnedDealsAreCorrect() {
-        val observer = TestLastMinuteDealsObserver()
-        val tuid = "12345"
-        val params = LastMinuteDealsRequest(tuid)
+        val observer = TestMemberDealObsrver()
+        val params = MemberDealsRequest()
 
-        service!!.fetchLastMinuteDeals(params, observer)
+        service!!.fetchDeals(params, observer)
         observer.awaitTerminalEvent(3, TimeUnit.SECONDS)
 
         observer.assertNoErrors()
         val response = observer.values()[0]
-        Assert.assertTrue(response!!.offers!!.hotels!![0].offerMarkers!!.isNotEmpty())
+        Assert.assertTrue(response.destinations[0].hotels!![0].offerMarkers!!.isNotEmpty())
     }
 
     @Throws(IOException::class)
@@ -75,5 +73,5 @@ class OSServiceTest {
         server.setDispatcher(ExpediaDispatcher(opener))
     }
 
-    class TestLastMinuteDealsObserver : TestObserver<LastMinuteDealsResponse>()
+    class TestMemberDealObsrver : TestObserver<MemberDealsResponse>()
 }

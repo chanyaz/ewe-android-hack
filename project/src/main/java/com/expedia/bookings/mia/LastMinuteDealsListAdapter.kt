@@ -8,32 +8,34 @@ import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.os.LastMinuteDealsResponse
 import com.expedia.bookings.data.sos.DealsDestination
-import com.expedia.bookings.mia.activity.LastMinuteDealActivity
+import com.expedia.bookings.extensions.LiveDataObserver
+import com.expedia.bookings.mia.activity.LastMinuteDealsActivity
 import com.expedia.bookings.mia.vm.DealsDestinationViewModel
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.LoadingViewHolder
-import io.reactivex.subjects.BehaviorSubject
 import java.util.ArrayList
 
-class LastMinuteDealListAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class LastMinuteDealsListAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var listData: List<DealsDestination.Hotel> = emptyList()
-    val resultSubject = BehaviorSubject.create<LastMinuteDealsResponse>()
+    val responseObserver: LiveDataObserver<LastMinuteDealsResponse>
     private var currency: String? = null
     private var loading = true
 
     init {
         listData = generateLoadingCells(3)
-        resultSubject.subscribe { response ->
-            if (response != null && response.offers?.hotels != null) {
-                loading = false
-                currency = response.offerInfo?.currency
-                listData = response.getSortedDiscountedHotels()
-                notifyDataSetChanged()
-            }
+        responseObserver = LiveDataObserver {
+            response ->
+                if (response != null && response.offers.hotels.isNotEmpty()) {
+                    loading = false
+                    currency = response.offerInfo?.currency
+                    listData = response.offers.hotels
+                    listData = sortHotelByDiscount(listData)
+                    notifyDataSetChanged()
+                }
         }
     }
 
@@ -61,7 +63,7 @@ class LastMinuteDealListAdapter(val context: Context) : RecyclerView.Adapter<Rec
             val view = LayoutInflater.from(context).inflate(R.layout.deals_card, parent, false)
             val holder = DealsDestinationViewHolder(view)
             view.setOnClickListener {
-                val lastMinuteDealActivity = context as LastMinuteDealActivity
+                val lastMinuteDealActivity = context as LastMinuteDealsActivity
                 var animOptions: Bundle = Bundle.EMPTY
                 if (lastMinuteDealActivity.currentFocus != null) {
                     animOptions = AnimUtils.createActivityScaleBundle(lastMinuteDealActivity.currentFocus)
@@ -73,6 +75,13 @@ class LastMinuteDealListAdapter(val context: Context) : RecyclerView.Adapter<Rec
         } else {
             throw RuntimeException("Could not find view type")
         }
+    }
+
+    fun sortHotelByDiscount(hotels: List<DealsDestination.Hotel> ): List<DealsDestination.Hotel> {
+        val discountedHotels = hotels.filter { it ->
+            it.hotelPricingInfo?.hasDiscount() ?: false
+        }
+        return discountedHotels.sortedByDescending { it.hotelPricingInfo?.percentSavings }
     }
 
     enum class itemType {
