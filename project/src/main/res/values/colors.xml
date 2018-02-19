@@ -433,13 +433,6 @@
     <color name="account_toolbar_text_color_light">#9fff</color>
     <color name="account_sign_out_button_background_color">#F25F31</color>
     <color name="account_sign_out_button_text_color">@color/white</color>
-    <color name="account_sign_in_button_background_color">#0688bd</color>
-    <color name="account_sign_in_button_text_color">@color/white</color>
-    <color name="account_sign_in_facebook_button_background_color">#4667a3</color>
-    <color name="account_sign_in_facebook_button_text_color">@color/white</color>
-    <color name="account_create_button_background_color">@color/white</color>
-    <color name="account_create_button_text_color">#0688bd</color>
-    <color name="account_sign_in_button_separator_color">@color/gray700</color>
     <color name="material_tab_text">@color/cardview_divider_lines_gray</color>
     <color name="material_tab_text_selected">@color/white</color>
     <color name="account_reward_base_tier_color">@color/reward_base_tier_color</color>

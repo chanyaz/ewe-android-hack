@@ -6,6 +6,7 @@ import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
+import android.support.v7.widget.CardView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,7 +44,6 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBrandColorEnabled
-import com.expedia.bookings.utils.navigation.NavUtils
 import com.mobiata.android.SocialUtils
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
@@ -106,10 +106,8 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
     val toolBarHeight: Float by lazy {
         Ui.getToolbarSize(context).toFloat()
     }
-    val signInButton: Button by bindView(R.id.sign_in_button)
+    val signInCardButton: CardView by bindView(R.id.account_sign_in)
     val signOutButton: Button by bindView(R.id.sign_out_button)
-    val facebookSignInButton: Button by bindView(R.id.sign_in_with_facebook_button)
-    val createAccountButton: Button by bindView(R.id.create_account_button)
     val googleAccountChange: TextView by bindView(R.id.google_account_change)
 
     val signInSection: ViewGroup by bindView(R.id.section_sign_in)
@@ -120,6 +118,7 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
     val currencyTextView: TextView by bindView(R.id.currency)
     val pointsMonetaryValueLabel: TextView by bindView(R.id.points_monetary_value_label)
     val pointsMonetaryValueTextView: TextView by bindView(R.id.points_monetary_value)
+    val signInTextView: TextView by bindView(R.id.sign_in_text_view)
 
     val firstRowContainer: View by bindView(R.id.first_row_container)
     val secondRowContainer: View by bindView(R.id.second_row_container)
@@ -302,7 +301,8 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
 
         openSourceCredits.text = getString(R.string.this_app_makes_use_of_the_following) + " " + getString(R.string.open_source_names)
 
-        signInButton.setOnClickListener {
+        signInTextView.text = Phrase.from(context, R.string.Sign_in_with_TEMPLATE).putOptional("brand", BuildConfig.brand).format().toString()
+        signInCardButton.setOnClickListener {
             val args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.PROFILE, Config.InitialState.SignIn, null)
             userStateManager.signIn(activity, args)
         }
@@ -310,16 +310,6 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
         signOutButton.setOnClickListener {
             OmnitureTracking.trackClickSignOut()
             LoginConfirmLogoutDialogFragment().show(activity.supportFragmentManager, LoginConfirmLogoutDialogFragment.TAG)
-        }
-
-        facebookSignInButton.setOnClickListener {
-            val args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.PROFILE, Config.InitialState.FacebookSignIn, null)
-            userStateManager.signIn(activity, args)
-            OmnitureTracking.trackFacebookSignIn()
-        }
-
-        createAccountButton.setOnClickListener {
-            NavUtils.goToAccount(activity, Config.InitialState.SinglePageCreateAccount)
         }
 
         openSourceCredits.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
@@ -532,12 +522,6 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
             signInSection.visibility = View.VISIBLE
             signOutButton.visibility = View.GONE
             childFragmentManager.beginTransaction().show(appSettingsFragment).commitAllowingStateLoss()
-
-            if (ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled) {
-                facebookSignInButton.visibility = View.VISIBLE
-            } else {
-                facebookSignInButton.visibility = View.GONE
-            }
         }
     }
 

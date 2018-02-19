@@ -816,24 +816,6 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
-    <style name="AccountButton.SignIn">
-        <item name="android:textColor">@color/account_sign_in_button_text_color</item>
-        <item name="colorButtonNormal">@color/account_sign_in_button_background_color</item>
-        <item name="android:colorButtonNormal">@color/account_sign_in_button_background_color</item>
-    </style>
-
-    <style name="AccountButton.SignInFacebook">
-        <item name="android:textColor">@color/account_sign_in_facebook_button_text_color</item>
-        <item name="colorButtonNormal">@color/account_sign_in_facebook_button_background_color</item>
-        <item name="android:colorButtonNormal">@color/account_sign_in_facebook_button_background_color</item>
-    </style>
-
-    <style name="AccountButton.CreateAccount">
-        <item name="android:textColor">@color/account_create_button_text_color</item>
-        <item name="colorButtonNormal">@color/account_create_button_background_color</item>
-        <item name="android:colorButtonNormal">@color/account_create_button_background_color</item>
-    </style>
-
     <style name="AccountButton.SignOut">
         <item name="android:textColor">@color/account_sign_out_button_text_color</item>
         <item name="colorButtonNormal">@color/account_sign_out_button_background_color</item>
