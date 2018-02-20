@@ -13,7 +13,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.pagemodels.lx.LXScreen;
 import com.expedia.bookings.test.pagemodels.common.LogInScreen;
-import com.expedia.bookings.test.pagemodels.common.LaunchScreen;
+import com.expedia.bookings.test.stepdefs.phone.HomeScreenSteps;
 import com.expedia.bookings.test.pagemodels.trips.TripsScreen;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -40,10 +40,9 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 
 	@Test
 	public void testViewItineraries() throws Throwable {
-
 		AbacusTestUtils.bucketTests(EBAndroidAppLXNavigateToSRP);
 
-		LaunchScreen.tripsButton().perform(click());
+		HomeScreenSteps.switchToTab("Trips");
 
 		TripsScreen.clickOnLogInButton();
 
@@ -106,23 +105,24 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 
 		assertViewWithContentDescription(onView(withId(R.id.summary_left_button)), "Directions Button");
 		assertViewWithContentDescription(onView(withId(R.id.summary_right_button)), "GWF4NY Button");
-		outboundFlightRow.onChildView(withId(R.id.flight_status_bottom_line)).perform(scrollTo(), click());
-
+		onView(withId(R.id.close_image_button)).perform(click());
 		// Car assertions
 		DataInteraction carRow = TripsScreen.tripsListItem().atPosition(4);
 		String carTitle = getListItemValues(carRow, R.id.header_text_view);
 		carRow.onChildView(withId(R.id.header_text_date_view)).perform(click());
+		onView(allOf(
+				withText(containsString("Pick up")),
+				isDescendantOfA(withId(R.id.summary_section_layout))
+		)).perform(click());
 
 		assertEquals("Budget", carTitle);
-		carRow.onChildView(withText(containsString("Pick up"))).perform(scrollTo(), click());
-
 		// Return flight assertions
 		DataInteraction returnFlightRow = TripsScreen.tripsListItem().atPosition(5);
 		String returnFlightAirportTimeStr = getListItemValues(returnFlightRow, R.id.flight_status_bottom_line);
 		assertEquals("From DTW at 6:59 PM", returnFlightAirportTimeStr);
 		returnFlightRow.onChildView(withId(R.id.header_text_date_view)).perform(click());
 
-		returnFlightRow.onChildView(withText(returnFlightAirportTimeStr)).perform(scrollTo(), click());
+		onView(withText(returnFlightAirportTimeStr)).perform(click());
 
 		// Lx assertions
 		DataInteraction lxRow = TripsScreen.tripsListItem().atPosition(6);
@@ -162,7 +162,7 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		onView(withId(R.id.booking_info)).perform(click());
 		onView(allOf(withText("Additional Information"),isDescendantOfA(withId(R.id.toolbar)))).check(matches(isDisplayed()));
 		Common.pressBack();
-		pckgOutboundFlightRow.onChildView(withText(pckgOutboundFlightAirportTimeStr)).perform(scrollTo(), click());
+		onView(withId(R.id.close_image_button)).perform(click());
 
 		// Package hotel assertions
 		DataInteraction pckgHotelRow = TripsScreen.tripsListItem().atPosition(8);
@@ -178,7 +178,7 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertEquals("From LAS at 10:00 AM", pckgReturnFlightAirportTimeStr);
 		pckgReturnFlightRow.onChildView(withId(R.id.header_text_date_view)).perform(click());
 
-		pckgReturnFlightRow.onChildView(withText(pckgReturnFlightAirportTimeStr)).perform(scrollTo(), click());
+		onView(withText(pckgReturnFlightAirportTimeStr)).perform(click());
 
 		// Rails
 		DataInteraction railsRow = TripsScreen.tripsListItem().atPosition(11);

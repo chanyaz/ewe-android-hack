@@ -14,6 +14,7 @@ import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.trips.TripsScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
+import com.expedia.bookings.test.stepdefs.phone.HomeScreenSteps;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -59,10 +60,10 @@ public class PaymentWidgetTest extends PhoneTestCase {
 	}
 
 	private void goToCheckout(String hotel) throws Throwable {
-		LaunchScreen.tripsButton().perform(click());
+		HomeScreenSteps.switchToTab("Trips");
 		TripsScreen.clickOnLogInButton();
 		LogInScreen.signIn("singlecard@mobiata.com", "password");
-		LaunchScreen.shopButton().perform(click());
+		HomeScreenSteps.switchToTab("Shop Travel");
 		LaunchScreen.hotelsLaunchButton().perform(click());
 		SearchScreen.doGenericHotelSearch();
 		HotelResultsScreen.selectHotel(hotel);

@@ -18,4 +18,10 @@ class TripsScreenSteps {
         TripsScreen.clickOnTripItemWithName(itemName)
         TripDetailsScreen.waitUntilLoaded()
     }
+
+    @And("^I wait for trips screen to load")
+    @Throws(Throwable::class)
+    fun waitForTripsScreenToLoad(hotelName: String) {
+        TripsScreen.waitForTripsViewToLoad()
+    }
 }
