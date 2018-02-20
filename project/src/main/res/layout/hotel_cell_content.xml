@@ -141,14 +141,40 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/top_poi_container"
+        android:id="@+id/poi_distance_container"
         android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:gravity="left|top"
+        android:layout_height="wrap_content"
+        android:gravity="left|center_vertical"
         android:orientation="horizontal"
+        android:paddingBottom="12dp"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
         android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/walk_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="2dp"
+            android:src="@drawable/ic_poi_walk_distance"
+            android:tint="@color/hotelsv2_amenity_icon_color" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/walk_less_than_text_view"
+            style="@style/Core.Text.200"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:text="&lt; 1.0mi"
+            android:textColor="@color/hotel_earn_message_text_color" />
+
+        <LinearLayout
+            android:id="@+id/top_poi_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        </LinearLayout>
 
     </LinearLayout>
 

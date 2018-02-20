@@ -76,6 +76,7 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
     val earnMessagingText: TextView by bindView(R.id.earn_messaging)
     val cardView: CardView by bindView(R.id.card_view)
 
+    val poiDistanceContainer: LinearLayout by bindView(R.id.poi_distance_container)
     val topPoiContainer: LinearLayout by bindView(R.id.top_poi_container)
 
     init {
@@ -245,13 +246,13 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
 
     private fun updateTopPoiImages(poiEnums: List<HotelPoiEnum>) {
         if (poiEnums.isEmpty()) {
-            topPoiContainer.visibility = View.GONE
+            poiDistanceContainer.visibility = View.GONE
             return
         }
 
         topPoiContainer.removeAllViews()
 
-        topPoiContainer.visibility = View.VISIBLE
+        poiDistanceContainer.visibility = View.VISIBLE
         for (poi in poiEnums) {
             val imageView = ImageView(root.context)
             val imageSize = root.context.resources.getDimensionPixelSize(R.dimen.hotel_results_poi_size)

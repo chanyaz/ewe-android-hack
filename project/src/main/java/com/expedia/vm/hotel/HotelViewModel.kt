@@ -313,7 +313,7 @@ open class HotelViewModel(private val context: Context) {
                 poiEnums.add(poi)
             }
         }
-        return poiEnums.sortedByDescending { it.priority }
+        return poiEnums.sortedBy { it.priority }
     }
 
     data class UrgencyMessage(val iconDrawableId: Int?, val backgroundColorId: Int, val message: String, val messageTextColorId: Int = R.color.white) {
