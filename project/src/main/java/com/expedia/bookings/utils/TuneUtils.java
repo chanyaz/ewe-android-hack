@@ -625,7 +625,7 @@ public class TuneUtils {
 				.withRevenue(totalPrice.getAmount().doubleValue())
 				.withCurrencyCode(totalPrice.getCurrency())
 				.withEventItems(Collections.singletonList(eventItem))
-				.withDate1(DateUtils
+				.withDate1(ApiDateUtils
 					.yyyyMMddHHmmssToLocalDate(lxOfferSelectedDate)
 					.toDate());
 
@@ -655,7 +655,7 @@ public class TuneUtils {
 				.withCurrencyCode(totalPrice.getCurrency())
 				.withAdvertiserRefId(getAdvertiserRefId(checkoutResponse.newTrip.travelRecordLocator))
 				.withEventItems(Collections.singletonList(eventItem))
-				.withDate1(DateUtils
+				.withDate1(ApiDateUtils
 					.yyyyMMddHHmmssToLocalDate(lxActivityStartDate)
 					.toDate());
 

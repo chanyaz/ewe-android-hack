@@ -839,7 +839,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 			return res.getQuantityString(resId, 1, 1);
 		}
 
-		// 1871: Due to the screwed up way DateUtils.getNumberOfDaysPassed() works, this ends up such that
+		// 1871: Due to the screwed up way ApiDateUtils.getNumberOfDaysPassed() works, this ends up such that
 		// the millis must be in the system locale (and hopefully the user has not changed their locale recently)
 		return JodaUtils.getRelativeTimeSpanString(context, time, now, TimeUnit.MINUTES.toMillis(1), 0);
 	}

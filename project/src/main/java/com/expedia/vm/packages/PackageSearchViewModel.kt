@@ -8,7 +8,7 @@ import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.shared.CalendarRules
 import com.expedia.bookings.text.HtmlCompat
-import com.expedia.bookings.utils.DateFormatUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.Ui
@@ -136,8 +136,11 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     }
 
     override fun getNoEndDateText(start: LocalDate?, forContentDescription: Boolean): String {
+        if (start == null) {
+            return ""
+        }
         val selectReturnDate = Phrase.from(context, R.string.select_return_date_TEMPLATE)
-                .put("startdate", DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(start))
+                .put("startdate", LocaleBasedDateFormatUtils.localDateToEEEMMMd(start))
                 .format().toString()
         if (forContentDescription) {
             return getDateAccessibilityText(selectReturnDate, "")

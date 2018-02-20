@@ -18,7 +18,7 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.extensions.isShowAirAttached
 import com.expedia.bookings.utils.CollectionUtils
-import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.ApiDateUtils
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.Ui
@@ -173,7 +173,7 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
 
     private fun createCancellationTimeString(): String? {
         if (hotelRoomResponse.hasFreeCancellation && hotelRoomResponse.freeCancellationWindowDate != null) {
-            val dateTime = DateUtils.yyyyMMddHHmmToDateTime(hotelRoomResponse.freeCancellationWindowDate).toLocalDate()
+            val dateTime = ApiDateUtils.yyyyMMddHHmmToDateTime(hotelRoomResponse.freeCancellationWindowDate).toLocalDate()
             val cancellationDate = LocaleBasedDateFormatUtils.localDateToEEEMMMd(dateTime)
             return Phrase.from(context, R.string.before_TEMPLATE).put("date", cancellationDate).format().toString()
         }

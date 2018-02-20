@@ -19,7 +19,6 @@ import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.flights.FrequentFlyerCard
 import com.expedia.bookings.text.HtmlCompat
-import com.mobiata.flightlib.utils.DateTimeUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
 import java.util.ArrayList
@@ -248,7 +247,7 @@ object FlightV2Utils {
     @JvmStatic fun formatTimeShort(context: Context, timeStr: String): String {
         if (timeStr.isEmpty()) return ""
         val time = DateTime.parse(timeStr)
-        val dateFormat = DateTimeUtils.getDeviceTimeFormat(context)
+        val dateFormat = LocaleBasedDateFormatUtils.getDeviceTimeFormat(context)
         return JodaUtils.format(time, dateFormat).toLowerCase(Locale.getDefault())
     }
 

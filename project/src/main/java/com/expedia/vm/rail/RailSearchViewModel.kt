@@ -8,7 +8,7 @@ import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.rail.util.RailCalendarRules
 import com.expedia.bookings.shared.CalendarRules
 import com.expedia.bookings.text.HtmlCompat
-import com.expedia.bookings.utils.DateFormatUtils
+import com.expedia.bookings.utils.DateRangeUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.widget.TimeSlider
 import com.expedia.util.Optional
@@ -169,7 +169,7 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
         } else if (end == null && isRoundTripSearchObservable.value) {
             return Phrase.from(context.resources, R.string.select_return_date_TEMPLATE).put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(start!!)).format().toString()
         }
-        return DateFormatUtils.formatRailDateRange(context, start, end)
+        return DateRangeUtils.formatRailDateRange(context, start, end)
     }
 
     override fun getCalendarSliderTooltipStartTimeLabel(): String {
@@ -208,7 +208,7 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
             return getEmptyDateText(isContentDescription)
         }
 
-        val dateTimeRange = DateFormatUtils.formatRailDateTimeRange(context, startDate(), startMillis,
+        val dateTimeRange = DateRangeUtils.formatRailDateTimeRange(context, startDate(), startMillis,
                 endDate(), endMillis, isRoundTripSearchObservable.value)
         if (isContentDescription) {
             return getDateAccessibilityText(getCalendarDateLabel(), dateTimeRange)

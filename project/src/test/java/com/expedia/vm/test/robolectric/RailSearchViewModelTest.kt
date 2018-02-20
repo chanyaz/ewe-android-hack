@@ -7,7 +7,7 @@ import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.data.rail.responses.RailCard
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.DateFormatUtils
+import com.expedia.bookings.utils.DateRangeUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.util.Optional
 import com.expedia.vm.rail.RailSearchViewModel
@@ -330,6 +330,6 @@ class RailSearchViewModelTest {
     }
 
     private fun getExpectedStringFormatForDateTime(startDate: LocalDate?, endDate: LocalDate?, forRoundTrip: Boolean): String {
-        return DateFormatUtils.formatRailDateTimeRange(context, startDate, 0, endDate, 0, forRoundTrip)
+        return DateRangeUtils.formatRailDateTimeRange(context, startDate, 0, endDate, 0, forRoundTrip)
     }
 }

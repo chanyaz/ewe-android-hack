@@ -28,8 +28,8 @@ class LXNavUtils : NavUtils() {
             sendKillActivityBroadcast(context)
             val intent = Intent(context, LXBaseActivity::class.java)
             if (searchParams != null) {
-                intent.putExtra("startDateStr", DateUtils.localDateToyyyyMMdd(searchParams.activityStartDate))
-                intent.putExtra("endDateStr", DateUtils.localDateToyyyyMMdd(searchParams.activityEndDate))
+                intent.putExtra("startDateStr", ApiDateUtils.localDateToyyyyMMdd(searchParams.activityStartDate))
+                intent.putExtra("endDateStr", ApiDateUtils.localDateToyyyyMMdd(searchParams.activityEndDate))
                 intent.putExtra("location", searchParams.location)
             }
 

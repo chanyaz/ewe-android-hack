@@ -476,7 +476,7 @@ class TuneUtilsTests {
         assertEquals(1, provider.trackedEvent?.quantity)
         assertEquals(totalPrice.getAmount().toDouble(), provider.trackedEvent?.revenue)
         assertEquals("USD", provider.trackedEvent?.currencyCode)
-        assertEquals(DateUtils.yyyyMMddHHmmssToLocalDate(activityDate).toDate(), provider.trackedEvent?.date1)
+        assertEquals(ApiDateUtils.yyyyMMddHHmmssToLocalDate(activityDate).toDate(), provider.trackedEvent?.date1)
     }
 
     @Test
@@ -502,7 +502,7 @@ class TuneUtilsTests {
         assertEquals(totalPrice.amount.toDouble(), provider.trackedEvent?.revenue)
         assertEquals(1, provider.trackedEvent?.quantity)
         assertEquals("USD", provider.trackedEvent?.currencyCode)
-        assertEquals(DateUtils.yyyyMMddHHmmssToLocalDate(activityDate).toDate(), provider.trackedEvent?.date1)
+        assertEquals(ApiDateUtils.yyyyMMddHHmmssToLocalDate(activityDate).toDate(), provider.trackedEvent?.date1)
     }
 
     private fun setupTuneProvider(membershipTier: LoyaltyMembershipTier = LoyaltyMembershipTier.BASE, isLoggedIn: Boolean = false) {

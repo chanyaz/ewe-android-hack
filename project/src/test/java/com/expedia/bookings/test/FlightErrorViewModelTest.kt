@@ -7,7 +7,6 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
-import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.vm.flights.FlightErrorViewModel
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -15,6 +14,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
@@ -107,7 +107,7 @@ class FlightErrorViewModelTest {
 
     @Test fun toolBarTitleAndSubTitle() {
         val flightSearchParams = doFlightSearch()
-        val expectedDate = DateFormatUtils.formatLocalDateToShortDayAndDate(flightSearchParams.departureDate)
+        val expectedDate = LocaleBasedDateFormatUtils.dateTimeToEEEMMMddyyyy(flightSearchParams.departureDate)
         subjectUnderTest.paramsSubject.onNext(flightSearchParams)
         assertEquals("Select flight to Los Angles (LA)", subjectUnderTest.titleObservable.value)
         assertEquals(expectedDate + ", 1 traveler", subjectUnderTest.subTitleObservable.value)

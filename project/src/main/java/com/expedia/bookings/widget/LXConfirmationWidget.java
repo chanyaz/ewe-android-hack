@@ -24,8 +24,8 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
+import com.expedia.bookings.utils.ApiDateUtils;
 import com.expedia.bookings.utils.CarnivalUtils;
-import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
@@ -121,7 +121,7 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 	@Subscribe
 	public void onCheckoutSuccess(Events.LXCheckoutSucceeded event) {
 		OmnitureTracking.trackAppLXCheckoutConfirmation(event.checkoutResponse, lxState.activity.id,
-			DateUtils.yyyyMMddHHmmssToLocalDate(lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate), lxState.searchParams.getActivityEndDate(),
+			ApiDateUtils.yyyyMMddHHmmssToLocalDate(lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate), lxState.searchParams.getActivityEndDate(),
 			lxState.selectedTicketsCount(), isGroundTransport);
 		CarnivalUtils.getInstance().trackLxConfirmation(lxState.activity.title, lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
 
@@ -142,7 +142,7 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 		title.setText(lxState.activity.title);
 		tickets.setText(lxState.selectedTicketsCountSummary(getContext()));
 		location.setText(lxState.activity.location);
-		LocalDate offerSelectedDate = DateUtils.yyyyMMddHHmmssToLocalDate(
+		LocalDate offerSelectedDate = ApiDateUtils.yyyyMMddHHmmssToLocalDate(
 			lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
 		date.setText(LocaleBasedDateFormatUtils.localDateToEEEMMMd(offerSelectedDate));
 		emailText.setText(lxCheckoutParams.email);

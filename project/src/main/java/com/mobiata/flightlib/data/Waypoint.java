@@ -9,9 +9,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.expedia.bookings.utils.DateRangeUtils;
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
-import com.mobiata.flightlib.utils.DateTimeUtils;
 
 /**
  * Represents a waypoint on a plane trip - either the origin or the destination.
@@ -167,7 +168,7 @@ public class Waypoint implements JSONable {
 		if (mDateTimes[position][accuracy] == null) {
 			// First check if we have a string to parse
 			if (mDateTimeStrs[position][accuracy] != null) {
-				LocalDateTime local = DateTimeUtils.parseFlightStatsDateTime(mDateTimeStrs[position][accuracy]);
+				LocalDateTime local = LocaleBasedDateFormatUtils.parseFlightStatsDateTime(mDateTimeStrs[position][accuracy]);
 				Airport airport = getAirport();
 				DateTime cal = airport != null && airport.mTimeZone != null
 					? local.toDateTime(airport.mTimeZone)
@@ -333,7 +334,7 @@ public class Waypoint implements JSONable {
 		DateTime cal1 = getDateTime(POSITION_GATE, ACCURACY_SCHEDULED);
 		DateTime cal2 = getDateTime(POSITION_GATE, ACCURACY_ACTUAL);
 		if (cal1 != null && cal2 != null) {
-			int delay = DateTimeUtils.getMinutesBetween(cal1, cal2);
+			int delay = DateRangeUtils.getMinutesBetween(cal1, cal2);
 			return new Delay(delay, Delay.DELAY_GATE_ACTUAL);
 		}
 
@@ -344,7 +345,7 @@ public class Waypoint implements JSONable {
 			cal1 = getDateTime(POSITION_GATE, ACCURACY_SCHEDULED);
 			cal2 = getDateTime(POSITION_GATE, ACCURACY_ESTIMATED);
 			if (cal1 != null && cal2 != null) {
-				int delay = DateTimeUtils.getMinutesBetween(cal1, cal2);
+				int delay = DateRangeUtils.getMinutesBetween(cal1, cal2);
 				return new Delay(delay, Delay.DELAY_GATE_ESTIMATED);
 			}
 		}
@@ -353,7 +354,7 @@ public class Waypoint implements JSONable {
 		cal1 = getDateTime(POSITION_RUNWAY, ACCURACY_SCHEDULED);
 		cal2 = getDateTime(POSITION_RUNWAY, ACCURACY_ACTUAL);
 		if (cal1 != null && cal2 != null) {
-			int delay = DateTimeUtils.getMinutesBetween(cal1, cal2);
+			int delay = DateRangeUtils.getMinutesBetween(cal1, cal2);
 			return new Delay(delay, Delay.DELAY_RUNWAY_ACTUAL);
 		}
 
@@ -363,7 +364,7 @@ public class Waypoint implements JSONable {
 			cal1 = getDateTime(POSITION_GATE, ACCURACY_SCHEDULED);
 			cal2 = getDateTime(POSITION_GATE, ACCURACY_ESTIMATED);
 			if (cal1 != null && cal2 != null) {
-				int delay = DateTimeUtils.getMinutesBetween(cal1, cal2);
+				int delay = DateRangeUtils.getMinutesBetween(cal1, cal2);
 				return new Delay(delay, Delay.DELAY_GATE_ESTIMATED);
 			}
 		}
@@ -372,7 +373,7 @@ public class Waypoint implements JSONable {
 		cal1 = getDateTime(POSITION_RUNWAY, ACCURACY_SCHEDULED);
 		cal2 = getDateTime(POSITION_RUNWAY, ACCURACY_ESTIMATED);
 		if (cal1 != null && cal2 != null) {
-			int delay = DateTimeUtils.getMinutesBetween(cal1, cal2);
+			int delay = DateRangeUtils.getMinutesBetween(cal1, cal2);
 			return new Delay(delay, Delay.DELAY_RUNWAY_ESTIMATED);
 		}
 
@@ -568,7 +569,7 @@ public class Waypoint implements JSONable {
 			String accStr = it.next();
 			int accuracy = Integer.parseInt(accStr);
 			DateTime cal = new DateTime(times.getLong(accStr), tz);
-			addDateTime(position, accuracy, cal.toString(DateTimeUtils.FLIGHT_STATS_FORMAT));
+			addDateTime(position, accuracy, cal.toString(LocaleBasedDateFormatUtils.getFLIGHT_STATS_FORMAT()));
 		}
 	}
 

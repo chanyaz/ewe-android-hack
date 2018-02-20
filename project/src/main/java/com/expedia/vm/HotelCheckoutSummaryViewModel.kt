@@ -14,8 +14,9 @@ import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.tracking.hotel.HotelTracking
-import com.expedia.bookings.utils.DateFormatUtils
+import com.expedia.bookings.utils.DateRangeUtils
 import com.expedia.bookings.utils.HotelUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.util.Optional
@@ -89,10 +90,10 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
             hotelName.onNext(it.newHotelProductResponse.getHotelName())
             checkInDate.onNext(it.newHotelProductResponse.checkInDate)
             if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)) {
-                checkinDateFormattedByEEEMMDD.onNext(DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(LocalDate.parse(it.newHotelProductResponse.checkInDate)))
-                checkoutDateFormattedByEEEMMDD.onNext(DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(LocalDate.parse(it.newHotelProductResponse.checkOutDate)))
+                checkinDateFormattedByEEEMMDD.onNext(LocaleBasedDateFormatUtils.localDateToEEEMMMd(LocalDate.parse(it.newHotelProductResponse.checkInDate)))
+                checkoutDateFormattedByEEEMMDD.onNext(LocaleBasedDateFormatUtils.localDateToEEEMMMd(LocalDate.parse(it.newHotelProductResponse.checkOutDate)))
             } else {
-                checkInOutDatesFormatted.onNext(DateFormatUtils.formatHotelsV2DateRange(context, it.newHotelProductResponse.checkInDate, it.newHotelProductResponse.checkOutDate))
+                checkInOutDatesFormatted.onNext(DateRangeUtils.formatHotelsV2DateRange(context, it.newHotelProductResponse.checkInDate, it.newHotelProductResponse.checkOutDate))
             }
             address.onNext(it.newHotelProductResponse.hotelAddress)
             city.onNext(context.resources.getString(R.string.single_line_street_address_TEMPLATE, it.newHotelProductResponse.hotelCity, it.newHotelProductResponse.hotelStateProvince))

@@ -6,7 +6,7 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
-import com.expedia.bookings.utils.DateFormatUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.util.endlessObserver
@@ -200,7 +200,7 @@ class FlightErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
 
     private fun getToolbarSubtitle(params: FlightSearchParams): String {
         return Phrase.from(context, R.string.flight_calendar_instructions_date_with_guests_TEMPLATE)
-                .put("startdate", DateFormatUtils.formatLocalDateToShortDayAndDate(params.departureDate))
+                .put("startdate", LocaleBasedDateFormatUtils.dateTimeToEEEMMMddyyyy(params.departureDate))
                 .put("guests", StrUtils.formatTravelerString(context, params.guests))
                 .format()
                 .toString()

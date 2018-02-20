@@ -60,11 +60,11 @@ public class RailSearchPresenterTest extends RailTestCase {
 //
 //		DateTime startDateTime = DateTime.now().plusDays(3).withTimeAtStartOfDay();
 //		LocalDate startDate = startDateTime.toLocalDate();
-//		String expectedStartDateTime = DateUtils.dateTimeToMMMdhmma(startDateTime);
+//		String expectedStartDateTime = ApiDateUtils.dateTimeToMMMdhmma(startDateTime);
 //
 //		DateTime endDateTime = startDateTime.plusDays(1).withTimeAtStartOfDay();
 //		LocalDate endDate = endDateTime.toLocalDate();
-//		String expectedEndDateTime = DateUtils.dateTimeToMMMdhmma(endDateTime);
+//		String expectedEndDateTime = ApiDateUtils.dateTimeToMMMdhmma(endDateTime);
 //		RailScreen.selectDates(startDate, endDate);
 //
 //		EspressoUtils.assertViewIsDisplayed(R.id.depart_slider_container);

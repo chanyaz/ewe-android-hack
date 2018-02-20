@@ -32,7 +32,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.text.HtmlCompat
-import com.expedia.bookings.utils.DateFormatUtils
+import com.expedia.bookings.utils.DateRangeUtils
 import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.packages.FlightCellWidget
@@ -650,7 +650,7 @@ class FlightOverviewPresenterTest {
         val formatter = DateTimeFormat.forPattern("yyyy-MM-dd")
         val checkIn = params.departureDate.toString(formatter)
         val checkOut = params.returnDate?.toString(formatter)
-        return DateFormatUtils.formatPackageDateRange(context, checkIn, checkOut)
+        return DateRangeUtils.formatPackageDateRange(context, checkIn, checkOut)
     }
 
     private fun createExpectedFlightLeg() {

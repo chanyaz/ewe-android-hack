@@ -4,7 +4,7 @@ import android.content.Context
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.ApiDateUtils
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject
 import org.joda.time.format.DateTimeFormat
@@ -22,7 +22,7 @@ class HotelBreakDownViewModel(val context: Context, hotelCheckoutSummaryViewMode
             breakdowns.add(Breakdown(hotelCheckoutSummaryViewModel.numNights.value, nightlyRate.formattedMoney, BreakdownItem.OTHER))
 
             var count = 0
-            val checkIn = DateUtils.yyyyMMddToLocalDate(hotelCheckoutSummaryViewModel.checkInDate.value)
+            val checkIn = ApiDateUtils.yyyyMMddToLocalDate(hotelCheckoutSummaryViewModel.checkInDate.value)
             for (rate in hotelCheckoutSummaryViewModel.nightlyRatesPerRoom.value) {
                 val date = dtf.print(checkIn.plusDays(count))
                 val amount = Money(BigDecimal(rate.rate), hotelCheckoutSummaryViewModel.currencyCode.value)

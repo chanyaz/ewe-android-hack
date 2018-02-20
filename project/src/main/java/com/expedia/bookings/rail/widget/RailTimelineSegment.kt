@@ -8,10 +8,11 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.rail.data.RailTravelMediumDrawableProvider
 import com.expedia.bookings.data.rail.responses.RailSegment
+import com.expedia.bookings.utils.DateRangeUtils
 import com.expedia.bookings.utils.JodaUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
-import com.mobiata.flightlib.utils.DateTimeUtils
 import com.squareup.phrase.Phrase
 
 class RailTimelineSegment(context: Context, segment: RailSegment) : FrameLayout(context) {
@@ -27,7 +28,7 @@ class RailTimelineSegment(context: Context, segment: RailSegment) : FrameLayout(
     init {
         View.inflate(context, R.layout.widget_rail_details_timeline_segment, this)
 
-        val dateFormat = DateTimeUtils.getDeviceTimeFormat(context)
+        val dateFormat = LocaleBasedDateFormatUtils.getDeviceTimeFormat(context)
         departureTime.text = JodaUtils.format(segment.getDepartureDateTime(), dateFormat)
         arrivalTime.text = JodaUtils.format(segment.getArrivalDateTime(), dateFormat)
 
@@ -35,19 +36,19 @@ class RailTimelineSegment(context: Context, segment: RailSegment) : FrameLayout(
         arrivalStation.text = segment.arrivalStation.stationDisplayName
 
         operator.text = segment.operatingCarrier
-        duration.text = DateTimeUtils.formatDuration(context.resources, segment.durationMinutes())
+        duration.text = DateRangeUtils.formatDuration(context.resources, segment.durationMinutes())
         travelIcon.setImageResource(RailTravelMediumDrawableProvider.findMappedDrawable(segment.travelMedium.travelMediumCode))
         journeyDetailsView.contentDescription = getContentDescription(segment)
     }
 
     private fun getContentDescription(segment: RailSegment): String {
-        val dateFormat = DateTimeUtils.getDeviceTimeFormat(context)
+        val dateFormat = LocaleBasedDateFormatUtils.getDeviceTimeFormat(context)
         return Phrase.from(context, R.string.rail_journey_details_cont_desc_TEMPLATE)
                 .put("departurestation", segment.departureStation.stationDisplayName)
                 .put("arrivalstation", segment.arrivalStation.stationDisplayName)
                 .put("travelmode", segment.travelMode)
                 .put("trainoperator", segment.operatingCarrier)
-                .put("duration", DateTimeUtils.formatDuration(context.resources, segment.durationMinutes()))
+                .put("duration", DateRangeUtils.formatDuration(context.resources, segment.durationMinutes()))
                 .put("departuretime", JodaUtils.format(segment.getDepartureDateTime(), dateFormat))
                 .put("arrivaltime", JodaUtils.format(segment.getArrivalDateTime(), dateFormat))
                 .format()

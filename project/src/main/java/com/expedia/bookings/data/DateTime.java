@@ -76,7 +76,7 @@ public class DateTime implements JSONable, Comparable<DateTime> {
 	/**
 	 * Quick way of formatting this DateTime for consumption, using the
 	 * device's locale settings.  Flags should be the same as what is used
-	 * in Android's DateUtils.
+	 * in Android's ApiDateUtils.
 	 */
 	public String formatTime(Context context, int flags) {
 		return DateUtils.formatDateTime(context, mMillisFromEpoch + mTzOffsetMillis, flags | DateUtils.FORMAT_UTC);

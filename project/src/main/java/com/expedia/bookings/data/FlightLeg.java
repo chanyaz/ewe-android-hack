@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import com.expedia.bookings.data.trips.ItinFlightLegTime;
 import com.expedia.bookings.data.trips.ItinShareInfo;
 import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
-import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.ApiDateUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Strings;
 import com.google.gson.annotations.SerializedName;
@@ -149,7 +149,7 @@ public class FlightLeg implements JSONable, ItinSharable {
 	public int durationMinutes() {
 		try {
 			if (Strings.isNotEmpty(mDuration)) {
-				return DateUtils.parseDurationMinutesFromISOFormat(mDuration);
+				return ApiDateUtils.parseDurationMinutesFromISOFormat(mDuration);
 			}
 		}
 		catch (IllegalArgumentException e) {

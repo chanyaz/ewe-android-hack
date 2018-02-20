@@ -17,45 +17,10 @@ import org.joda.time.format.ISODateTimeFormat;
 import org.joda.time.format.ISOPeriodFormat;
 import org.joda.time.format.PeriodFormatter;
 
-public class DateUtils {
-
-	private static final String LX_DATE_PATTERN = "yyyy-MM-dd";
-	/**
-	 * Formats the given date in yyyyMMDD format and returns as int
-	 */
-	public static int convertDatetoInt(LocalDate date) {
-		int dateInteger = 0;
-		if (date != null) {
-			String year = "" + date.getYear();
-			String month = "";
-			String day = "";
-			if (date.getMonthOfYear() < 10) {
-				month = "0" + date.getMonthOfYear();
-			}
-			else {
-				month = "" + date.getMonthOfYear();
-			}
-			if (date.getDayOfMonth() < 10) {
-				day = "0" + date.getDayOfMonth();
-			}
-			else {
-				day = "" + date.getDayOfMonth();
-			}
-			String dateString = year + month + day;
-			dateInteger = Integer.valueOf(dateString);
-		}
-		return dateInteger;
-	}
-
-	/**
-	 * Return YYYY-mm-ddThh:mm:ss format for a given DateTime
-	 */
-	public static String carSearchFormatFromDateTime(DateTime d) {
-		DateTimeFormatter dateFmt = ISODateTimeFormat.date();
-		DateTimeFormatter timeFmt = ISODateTimeFormat.hourMinuteSecond();
-
-		return dateFmt.print(d) + "T" + timeFmt.print(d);
-	}
+/**
+ * Provides methods for formatting dates to/from the API.
+ */
+public class ApiDateUtils {
 
 	/**
 	 * Return YYYY-MM-ddThh:mm:ss format for a given DateTime
@@ -83,16 +48,8 @@ public class DateUtils {
 		return format.format(calendar.getTime());
 	}
 
-	public static String convertToLXDate(LocalDate date) {
-		return date != null ? date.toString(LX_DATE_PATTERN) : null;
-	}
-
 	public static String localDateToyyyyMMdd(LocalDate date) {
-		return date.toString("yyyy-MM-dd");
-	}
-
-	public static String dateTimeToHHmmss(DateTime date) {
-		return date.toString("HH:mm:ss");
+		return date != null ? date.toString("yyyy-MM-dd") : null;
 	}
 
 	public static LocalDate yyyyMMddToLocalDate(String dateyyyyMMdd) {
@@ -125,15 +82,6 @@ public class DateUtils {
 		return DateTime.parse(dateyyyyMMddHHmmSSSZ, dateTimeFormatter);
 	}
 
-	public static DateTime yyyyMMddTHHmmssToDateTimeSafe(String dateyyyyMMddTHHmmss, DateTime defaultValue) {
-		try {
-			return DateTime.parse(dateyyyyMMddTHHmmss, DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss"));
-		}
-		catch (Exception e) {
-			return defaultValue;
-		}
-	}
-
 	public static DateTime localDateAndMillisToDateTime(LocalDate date, int millis) {
 		DateTime convertedDateTime = new DateTime();
 		return convertedDateTime.withYear(date.getYear())
@@ -160,21 +108,12 @@ public class DateUtils {
 	}
 
 	/**
-	 * Parses the duration string in ISO format: P[yY][mM][dD][T[hH][mM][s[.s]S]]
+	 * Parse long millis into HH:mm:ss format
 	 */
-	public static Period parseDurationFromISOFormat(String iSODurationString) {
-		PeriodFormatter formatter = ISOPeriodFormat.standard();
-		return formatter.parsePeriod(iSODurationString);
-	}
-
-	/*
-	* Parse long millis into HH:mm:ss format
-	* */
 	public static String formatMillisToHHmmss(LocalDate date, int millis) {
 		DateTime dateTime = localDateAndMillisToDateTime(date, millis);
-		return dateTimeToHHmmss(dateTime);
+		return dateTime.toString("HH:mm:ss");
 	}
-
 
 	/**
 	 * Parse the duration string in MM/dd/yyyy

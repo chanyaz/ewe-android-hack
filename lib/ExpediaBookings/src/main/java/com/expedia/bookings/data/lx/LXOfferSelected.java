@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
-import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.ApiDateUtils;
 import com.expedia.bookings.utils.LXUtils;
 
 public class LXOfferSelected {
@@ -19,7 +19,7 @@ public class LXOfferSelected {
 	private String promotionId;
 
 	public LXOfferSelected(String activityId, Offer offer, List<Ticket> selectedTickets, String regionId, String promotionId) {
-		DateTime activityDate = DateUtils
+		DateTime activityDate = ApiDateUtils
 			.yyyyMMddHHmmssToDateTime(offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
 
 		for (Ticket ticket : selectedTickets) {
@@ -40,7 +40,7 @@ public class LXOfferSelected {
 
 		this.activityId = activityId;
 		this.amount = LXUtils.getTotalAmount(selectedTickets).getAmount().setScale(2).toString();
-		this.activityDate = DateUtils.toYYYYMMTddhhmmss(activityDate);
+		this.activityDate = ApiDateUtils.toYYYYMMTddhhmmss(activityDate);
 		this.activityItemId = offer.id;
 		this.allDayActivity = offer.availabilityInfoOfSelectedDate.availabilities.allDayActivity;
 		this.regionId = regionId;

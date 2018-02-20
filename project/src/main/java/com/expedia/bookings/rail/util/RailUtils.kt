@@ -5,9 +5,9 @@ import android.support.annotation.NonNull
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
-import com.expedia.bookings.utils.DateFormatUtils
+import com.expedia.bookings.utils.DateRangeUtils
 import com.expedia.bookings.utils.JodaUtils
-import com.mobiata.flightlib.utils.DateTimeUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
 
@@ -45,7 +45,7 @@ object RailUtils {
     fun getToolbarSubtitleFromSearchRequest(context: Context, searchRequest: RailSearchRequest): String {
         val travelerPart = context.resources.getQuantityString(R.plurals.number_of_travelers_TEMPLATE, searchRequest.guests,
                 searchRequest.guests)
-        val dateString = DateFormatUtils.formatRailDateRange(context, searchRequest.startDate, searchRequest.endDate)
+        val dateString = DateRangeUtils.formatRailDateRange(context, searchRequest.startDate, searchRequest.endDate)
         val subtitle = Phrase.from(context, R.string.rail_results_toolbar_subtitle_TEMPLATE)
                 .put("searchdates", dateString)
                 .put("travelerspart", travelerPart).format().toString()
@@ -54,7 +54,7 @@ object RailUtils {
 
     @JvmStatic
     fun formatTimeIntervalToDeviceFormat(@NonNull context: Context, @NonNull start: DateTime, @NonNull end: DateTime): String {
-        val dateFormat = DateTimeUtils.getDeviceTimeFormat(context)
+        val dateFormat = LocaleBasedDateFormatUtils.getDeviceTimeFormat(context)
         val formattedStart = JodaUtils.format(start, dateFormat)
         val formattedEnd = JodaUtils.format(end, dateFormat)
         val elapsedDays = Math.abs(JodaUtils.daysBetween(start, end))
@@ -73,7 +73,7 @@ object RailUtils {
 
     @JvmStatic
     fun formatTimeToDeviceFormat(@NonNull context: Context, @NonNull time: DateTime): String {
-        val dateFormat = DateTimeUtils.getDeviceTimeFormat(context)
+        val dateFormat = LocaleBasedDateFormatUtils.getDeviceTimeFormat(context)
         return JodaUtils.format(time, dateFormat)
     }
 }

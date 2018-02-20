@@ -6,8 +6,8 @@ import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.JodaUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.Ui
 import org.joda.time.LocalDate
@@ -65,8 +65,8 @@ class PackageSearchViewModelTest {
         sut.previousSearchParamsObservable.onNext(getDummyPackageSearchParams(0, 2))
         val startDate = LocalDate.now()
         val endDate = LocalDate.now().plusDays(2)
-        val expectedStartDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(startDate)
-        val expectedEndDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(endDate)
+        val expectedStartDate = LocaleBasedDateFormatUtils.localDateToEEEMMMd(startDate)
+        val expectedEndDate = LocaleBasedDateFormatUtils.localDateToEEEMMMd(endDate)
         val expectedNumberOfNights = JodaUtils.daysBetween(startDate, endDate)
         assertEquals("$expectedStartDate  -  $expectedEndDate ($expectedNumberOfNights nights)", sut.dateTextObservable.value)
     }
@@ -79,8 +79,8 @@ class PackageSearchViewModelTest {
         sut.previousSearchParamsObservable.onNext(getDummyPackageSearchParams(-1, -2))
         val startDate = LocalDate.now().minusDays(1)
         val endDate = LocalDate.now().minusDays(2)
-        val expectedStartDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(startDate)
-        val expectedEndDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(endDate)
+        val expectedStartDate = LocaleBasedDateFormatUtils.localDateToEEEMMMd(startDate)
+        val expectedEndDate = LocaleBasedDateFormatUtils.localDateToEEEMMMd(endDate)
         val expectedNumberOfNights = JodaUtils.daysBetween(startDate, endDate)
         assertNotEquals("$expectedStartDate  -  $expectedEndDate ($expectedNumberOfNights nights)", sut.dateTextObservable.value)
         assertNull(sut.dateTextObservable.value)

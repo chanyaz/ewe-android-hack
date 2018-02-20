@@ -22,7 +22,7 @@ import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
-import com.expedia.bookings.utils.DateFormatUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.flights.FlightListAdapter
@@ -176,7 +176,7 @@ class FlightInboundPresenterTest {
         flightInboundPresenter.toolbarViewModel.regionNames.onNext(Optional(regionName))
         flightInboundPresenter.toolbarViewModel.country.onNext(Optional("India"))
         flightInboundPresenter.toolbarViewModel.airport.onNext(Optional("BLR"))
-        val travelDate = DateFormatUtils.formatLocalDateToShortDayAndDate(currentTime)
+        val travelDate = LocaleBasedDateFormatUtils.dateTimeToEEEMMMddyyyy(currentTime)
         assertEquals(View.VISIBLE, flightInboundPresenter.toolbar.visibility)
         assertEquals(travelDate + ", 1 traveler", flightInboundPresenter.toolbar.subtitle)
         assertEquals("Select return flight", flightInboundPresenter.toolbar.title.toString())

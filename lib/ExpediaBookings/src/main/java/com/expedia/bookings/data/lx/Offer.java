@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.joda.time.LocalDate;
 
-import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.ApiDateUtils;
 
 public class Offer {
 	public String id;
@@ -28,7 +28,7 @@ public class Offer {
 
 	public AvailabilityInfo updateAvailabilityInfoOfSelectedDate(LocalDate dateSelected) {
 		for (AvailabilityInfo activityAvailabilityInfo : availabilityInfo) {
-			LocalDate availabilityDate = DateUtils
+			LocalDate availabilityDate = ApiDateUtils
 				.yyyyMMddHHmmssToLocalDate(activityAvailabilityInfo.availabilities.valueDate);
 			if (availabilityDate.equals(dateSelected)) {
 				this.availabilityInfoOfSelectedDate = activityAvailabilityInfo;

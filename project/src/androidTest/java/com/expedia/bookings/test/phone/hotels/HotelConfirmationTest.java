@@ -14,7 +14,6 @@ import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelCheckoutScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
-import com.expedia.bookings.utils.DateFormatUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -44,8 +43,8 @@ public class HotelConfirmationTest extends HotelTestCase {
 		EspressoUtils.assertViewIsDisplayed(R.id.hotel_confirmation_presenter);
 		onView(withId(R.id.hotel_name_view)).check(matches((withText("Layne Hotel"))));
 
-		String expectedDateText = DateFormatUtils
-			.formatDateRange(getActivity(), dtf.parseLocalDate(checkinDate), dtf.parseLocalDate(checkoutDate), DateFormatUtils.FLAGS_DATE_ABBREV_MONTH);
+		String expectedDateText = DateRangeUtils
+			.formatDateRangeHotelConfirmation(getActivity(), dtf.parseLocalDate(checkinDate), dtf.parseLocalDate(checkoutDate));
 		onView(allOf(withId(R.id.check_in_out_dates), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
 			.check(matches(withText(expectedDateText)));
 

@@ -103,9 +103,9 @@ import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingData;
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingData;
 import com.expedia.bookings.tracking.hotel.PageUsableData;
+import com.expedia.bookings.utils.ApiDateUtils;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.Constants;
-import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FlightV2Utils;
@@ -6215,7 +6215,7 @@ public class OmnitureTracking {
 			searchDuration = JodaUtils
 				.daysBetween(outboundLegOption.getDepartureDateTime(), inboundLegOption.getDepartureDateTime());
 			s.setEvar(6, String.valueOf(searchDuration));
-			s.setProp(6, DateUtils.localDateToyyyyMMdd(inboundLegOption.departureDateTime.toDateTime().toLocalDate()));
+			s.setProp(6, ApiDateUtils.localDateToyyyyMMdd(inboundLegOption.departureDateTime.toDateTime().toLocalDate()));
 		}
 
 		s.setProducts(products);
@@ -6224,7 +6224,7 @@ public class OmnitureTracking {
 		s.setEvar(4, "D=c4");
 		s.setProp(4, arrivalStation);
 		s.setEvar(5, String.valueOf(searchWindow));
-		s.setProp(5, DateUtils.localDateToyyyyMMdd(outboundLegOption.departureDateTime.toDateTime().toLocalDate()));
+		s.setProp(5, ApiDateUtils.localDateToyyyyMMdd(outboundLegOption.departureDateTime.toDateTime().toLocalDate()));
 
 		return s;
 	}

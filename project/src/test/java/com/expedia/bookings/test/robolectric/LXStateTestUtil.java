@@ -13,7 +13,7 @@ import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.ApiDateUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -44,7 +44,7 @@ public class LXStateTestUtil {
 		for (Ticket ticket : selectedTickets) {
 			ticket.money = new Money(ticket.amount, "USD");
 		}
-		lxOffer.updateAvailabilityInfoOfSelectedDate(DateUtils.yyyyMMddHHmmssToLocalDate("2015-02-24 07:30:00"));
+		lxOffer.updateAvailabilityInfoOfSelectedDate(ApiDateUtils.yyyyMMddHHmmssToLocalDate("2015-02-24 07:30:00"));
 		Events.post(new Events.LXOfferBooked(lxOffer, selectedTickets));
 	}
 
@@ -62,8 +62,8 @@ public class LXStateTestUtil {
 
 	public static void searchParamsState() {
 		String location = "New York";
-		LocalDate startDate = DateUtils.yyyyMMddToLocalDate("2015-03-25");
-		LocalDate endDate = DateUtils.yyyyMMddToLocalDate("2015-04-08");
+		LocalDate startDate = ApiDateUtils.yyyyMMddToLocalDate("2015-03-25");
+		LocalDate endDate = ApiDateUtils.yyyyMMddToLocalDate("2015-04-08");
 		LxSearchParams searchParams = (LxSearchParams) new LxSearchParams.Builder().location(location)
 			.startDate(startDate).endDate(endDate).build();
 

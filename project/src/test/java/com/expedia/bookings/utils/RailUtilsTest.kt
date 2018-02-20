@@ -54,7 +54,7 @@ class RailUtilsTest {
         val builder = defaultBuilder()
         val params = builder.adults(1).build() as RailSearchRequest
 
-        val expectedDateString = DateFormatUtils.formatRailDateRange(context, params.startDate, params.endDate)
+        val expectedDateString = DateRangeUtils.formatRailDateRange(context, params.startDate, params.endDate)
         val expectedTravelerString = "1 traveler"
         val expectedSubtitle = Phrase.from(context, R.string.rail_results_toolbar_subtitle_TEMPLATE)
                 .put("searchdates", expectedDateString)
@@ -69,7 +69,7 @@ class RailUtilsTest {
         val builder = defaultBuilder()
         val params = builder.adults(2).build() as RailSearchRequest
 
-        val expectedDateString = DateFormatUtils.formatRailDateRange(context, params.startDate, params.endDate)
+        val expectedDateString = DateRangeUtils.formatRailDateRange(context, params.startDate, params.endDate)
         val expectedTravelerString = "2 travelers"
         val expectedSubtitle = Phrase.from(context, R.string.rail_results_toolbar_subtitle_TEMPLATE)
                 .put("searchdates", expectedDateString)

@@ -5,6 +5,7 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
 import org.junit.Test
 import org.junit.runner.RunWith
 import kotlin.test.assertEquals
@@ -87,5 +88,30 @@ class LocaleBasedDateFormatUtilsTests {
     fun testLocalDateToEEEMMMddyyyy() {
         val actual = LocaleBasedDateFormatUtils.dateTimeToEEEMMMddyyyy(localDateExpected)
         assertEquals("Thu Jun 25, 2020", actual)
+    }
+
+    @Test
+    fun testDateTimeToEEEMMMdd() {
+        val actual = LocaleBasedDateFormatUtils.dateTimeToEEEMMMdd(dateTimeExpected)
+        assertEquals(actual, "Thu Jun 25")
+    }
+
+    @Test
+    fun testStringToEEEMMMddyyyy() {
+        val actual = LocaleBasedDateFormatUtils.stringToEEEMMMddyyyy("2020-06-25")
+        assertEquals("Thu Jun 25, 2020", actual)
+    }
+
+    @Test
+    fun testFormatBirthDate() {
+        val actual = LocaleBasedDateFormatUtils.formatBirthDate(2020, 6, 25)
+        assertEquals(actual, "Jun 25, 2020")
+    }
+
+    @Test
+    fun parseFlightStatsDateTimeTest() {
+        val actualLocalDateTime = LocaleBasedDateFormatUtils.parseFlightStatsDateTime("2017-11-28-12:23")
+        val expectedLocalDateTime = LocalDateTime(2017, 11, 28, 12, 23)
+        assertEquals(actualLocalDateTime, expectedLocalDateTime)
     }
 }

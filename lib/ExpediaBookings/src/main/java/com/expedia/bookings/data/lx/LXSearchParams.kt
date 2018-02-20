@@ -1,7 +1,7 @@
 package com.expedia.bookings.data.lx
 
 import com.expedia.bookings.data.BaseSearchParams
-import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.ApiDateUtils
 import com.expedia.bookings.utils.Strings
 import org.joda.time.LocalDate
 
@@ -72,10 +72,10 @@ open class LxSearchParams(val location: String, val activityStartDate: LocalDate
     }
 
     fun toServerStartDate(): String {
-        return DateUtils.convertToLXDate(activityStartDate)
+        return ApiDateUtils.localDateToyyyyMMdd(activityStartDate)
     }
 
     fun toServerEndDate(): String {
-        return DateUtils.convertToLXDate(activityEndDate)
+        return ApiDateUtils.localDateToyyyyMMdd(activityEndDate)
     }
 }

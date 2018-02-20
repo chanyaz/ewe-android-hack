@@ -21,7 +21,7 @@ import com.expedia.bookings.data.lx.LxSearchParams
 import com.expedia.bookings.extensions.applySortFilter
 import com.expedia.bookings.extensions.subscribeObserver
 import com.expedia.bookings.utils.CollectionUtils
-import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.ApiDateUtils
 import com.expedia.bookings.utils.LXUtils
 import com.expedia.bookings.utils.Strings
 import io.reactivex.Observable
@@ -170,8 +170,8 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
 
     fun lxDetails(activityId: String?, location: String?, startDate: LocalDate?, endDate: LocalDate?, promoPricingEnabled: Boolean,
                   observer: Observer<ActivityDetailsResponse>): Disposable {
-        return lxApi.activityDetails(activityId, location, DateUtils.convertToLXDate(startDate),
-                DateUtils.convertToLXDate(endDate), promoPricingEnabled)
+        return lxApi.activityDetails(activityId, location, ApiDateUtils.localDateToyyyyMMdd(startDate),
+                ApiDateUtils.localDateToyyyyMMdd(endDate), promoPricingEnabled)
                 .observeOn(this.observeOn)
                 .subscribeOn(this.subscribeOn)
                 .doOnNext(HANDLE_ACTIVITY_DETAILS_ERROR)

@@ -154,7 +154,7 @@ open class CarnivalUtils {
         if (isFeatureToggledOn() && initialized) {
             val attributes = AttributeMap()
             attributes.putString("confirmation_lx_activity_name", activityTitle)
-            attributes.putDate("confirmation_lx_date_of_activity", DateUtils.yyyyMMddHHmmssToLocalDate(activityDate).toDate())
+            attributes.putDate("confirmation_lx_date_of_activity", ApiDateUtils.yyyyMMddHHmmssToLocalDate(activityDate).toDate())
             setAttributes(attributes, "confirmation_lx")
         }
     }

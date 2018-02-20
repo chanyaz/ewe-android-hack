@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.ApiDateUtils;
 
 public class RailLegOption implements Comparable<RailLegOption> {
 	public Integer legOptionIndex;
@@ -25,7 +25,7 @@ public class RailLegOption implements Comparable<RailLegOption> {
 	public boolean doesAnyOfferHasFareQualifier;
 
 	public int durationMinutes() {
-		return DateUtils.parseDurationMinutesFromISOFormat(duration);
+		return ApiDateUtils.parseDurationMinutesFromISOFormat(duration);
 	}
 
 	@NotNull
