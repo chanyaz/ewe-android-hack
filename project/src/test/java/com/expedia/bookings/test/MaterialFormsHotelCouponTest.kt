@@ -215,6 +215,25 @@ class MaterialFormsHotelCouponTest {
     }
 
     @Test
+    fun testAppliedCouponRequestsFocusOnClosed() {
+        couponWidget.isExpanded = true
+        couponWidget.viewmodel.hasDiscountObservable.onNext(true)
+        couponWidget.viewmodel.applyCouponViewModel.applyCouponSuccessObservable.onNext(HotelCreateTripResponse())
+
+        assertTrue(couponWidget.applied.hasFocus())
+        assertFalse(couponWidget.unexpanded.hasFocus())
+    }
+
+    @Test
+    fun testUnexpandedTextFocusedOnCouponClosed() {
+        couponWidget.isExpanded = true
+        couponWidget.isExpanded = false
+
+        assertTrue(couponWidget.unexpanded.hasFocus())
+        assertFalse(couponWidget.applied.hasFocus())
+    }
+
+    @Test
     fun testFunctionalityOfClickOnStoredCouponViewHolder() {
         val testSubscriber = TestObserver.create<HotelCreateTripResponse.SavedCoupon>()
         couponWidget.viewmodel.storedCouponViewModel.applyStoredCouponObservable.subscribe(testSubscriber)

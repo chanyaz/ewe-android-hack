@@ -178,9 +178,11 @@ abstract class AbstractCouponWidget(context: Context, attrs: AttributeSet?) : Ex
             if (viewmodel.hasDiscountObservable.value != null && viewmodel.hasDiscountObservable.value) {
                 applied.visibility = View.VISIBLE
                 unexpanded.visibility = View.GONE
+                applied.requestFocus()
             } else {
                 applied.visibility = View.GONE
                 unexpanded.visibility = View.VISIBLE
+                unexpanded.requestFocus()
             }
         }
     }

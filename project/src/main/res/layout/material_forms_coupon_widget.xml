@@ -6,6 +6,8 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/unexpanded"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
@@ -21,6 +23,8 @@
 
     <LinearLayout
         android:id="@+id/applied"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
