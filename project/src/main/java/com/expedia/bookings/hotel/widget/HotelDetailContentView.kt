@@ -45,9 +45,11 @@ import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.extensions.unsubscribeOnClick
 import com.expedia.bookings.hotel.activity.HotelGalleryActivity
 import com.expedia.bookings.hotel.activity.HotelGalleryGridActivity
+import com.expedia.bookings.hotel.activity.HotelPoiDistanceActivity
 import com.expedia.bookings.hotel.animation.AlphaCalculator
 import com.expedia.bookings.hotel.data.Amenity
 import com.expedia.bookings.hotel.data.HotelGalleryConfig
+import com.expedia.bookings.hotel.data.POI
 import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.hotel.fragment.ChangeDatesDialogFragment
 import com.expedia.bookings.model.HotelStayDates
@@ -124,6 +126,9 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
     private val miniMapView: LocationMapImageView by bindView(R.id.mini_map_view)
     private val transparentViewOverMiniMap: View by bindView(R.id.transparent_view_over_mini_map)
 
+    private val poiContainer: LinearLayout by bindView(R.id.hotel_detail_poi_container)
+    private val poiIconContainer: LinearLayout by bindView(R.id.hotel_detail_poi_icons_container)
+
     private val roomRateHeader: LinearLayout by bindView(R.id.room_rate_header)
     private val commonAmenityText: TextView by bindView(R.id.common_amenities_text)
     private val roomRateRegularLoyaltyAppliedView: LinearLayout by bindView(R.id.room_rate_regular_loyalty_applied_container)
@@ -180,6 +185,11 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
         payNowPayLaterTabs.payNowClickedSubject.subscribe { payNowClicked() }
         payNowPayLaterTabs.payLaterClickedSubject.subscribe { payLaterClicked() }
+
+        poiContainer.setOnClickListener {
+            val intent = Intent(context, HotelPoiDistanceActivity::class.java)
+            context.startActivity(intent)
+        }
     }
 
     var viewModel: BaseHotelDetailViewModel by notNullAndObservable { vm ->
@@ -324,6 +334,20 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
             searchInfo.setOnClickListener {
                 showChangeDatesDialog()
                 HotelTracking.trackInfositeChangeDateClick()
+            }
+        }
+
+        vm.hotelOffersSubject.subscribe {
+            val pois = getPOIIcons()
+            poiIconContainer.removeAllViews()
+            pois.forEach { poi ->
+                val imageView = View.inflate(context, R.layout.hotel_poi_image_view, null) as ImageView
+                imageView.setImageResource(poi.icon)
+                poiIconContainer.addView(imageView)
+                val params = imageView.layoutParams as LinearLayout.LayoutParams
+                val rightMargin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16f, context.resources.getDisplayMetrics())
+                params.setMargins(0, 0, rightMargin.toInt(), 0)
+                imageView.layoutParams = params
             }
         }
     }
@@ -738,5 +762,42 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
             amenityContainer.addView(amenityLayout)
         }
         amenityContainer.scheduleLayoutAnimation()
+    }
+
+    private fun getPOIIcons() : List<POI> {
+        val id = viewModel.hotelId
+        when (id) {
+            "116674" -> { //silversmith
+                return listOf(POI.RESTAURANT, POI.NIGHTLIFE, POI.TRANSIT, POI.LANDMARK, POI.SHOPPING)
+            }
+            "1293276" -> { //Crowne Plaza
+                return listOf(POI.RESTAURANT, POI.NIGHTLIFE, POI.SHOPPING)
+            }
+            "2784555" -> { //Chicago South Loop
+                return listOf(POI.RESTAURANT)
+            }
+            "1850638" -> { //The Homestead evanston
+                return listOf(POI.SHOPPING)
+            }
+            "892669" -> { //City Suite Hotels
+                return listOf(POI.TRANSIT, POI.LANDMARK)
+            }
+            "18278617" -> { //Ray's Bucktown
+                return listOf(POI.RESTAURANT)
+            }
+            "983642" -> { //Motel 6
+                return listOf(POI.NIGHTLIFE)
+            }
+            "21514796" -> { //Travel Inn
+                return listOf()
+            }
+            "5461400" -> { //Aloft Chicago City Center
+                return listOf()
+            }
+            "23023" -> { //Best Western Grant Park
+                return listOf(POI.TRANSIT)
+            }
+        }
+        return listOf()
     }
 }
