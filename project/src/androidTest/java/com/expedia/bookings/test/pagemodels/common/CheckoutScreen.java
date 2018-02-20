@@ -29,6 +29,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -36,10 +37,17 @@ import static com.expedia.bookings.test.espresso.EspressoUtils.waitForViewNotYet
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
 public class CheckoutScreen {
+	private static Matcher<View> guestDetailsToolBar = withId(R.id.checkout_toolbar);
+	private static Matcher<View> guestDetailsToolBarBackButton = allOf(
+			isDescendantOfA(guestDetailsToolBar),
+			withClassName(endsWith("ImageButton")),
+			withContentDescription("Back")
+	);
 	// Checkout
 
 	public static ViewInteraction travelerInfo() {
@@ -215,6 +223,10 @@ public class CheckoutScreen {
 		onView(withId(R.id.menu_done)).perform(click());
 	}
 
+	public static void clickToolbarBackButton() {
+		onView(guestDetailsToolBarBackButton).perform(click());
+	}
+
 	public static void isDoneEnabled() {
 		onView(withId(R.id.menu_done)).check(matches(isEnabled()));
 
@@ -250,7 +262,8 @@ public class CheckoutScreen {
 		Common.closeSoftKeyboard(CheckoutScreen.email());
 		Common.delay(1);
 		enterPhoneNumber("4158675309");
-		clickDone();
+		//clickDone(); //This feature is broken. Probably never going to get fixed. Mingle # 10767
+		clickToolbarBackButton();
 		Common.delay(2);
 	}
 
