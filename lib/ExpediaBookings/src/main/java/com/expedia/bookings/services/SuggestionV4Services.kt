@@ -62,25 +62,8 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
                 .subscribeObserver(observer)
     }
 
-    override fun getHotelSuggestionsV4(query: String, observer: Observer<List<SuggestionV4>>, sameAsWeb: Boolean, guid: String?): Disposable {
-        val regiontype: Int
-        val dest: Boolean
-        val features: String
-        val maxResults: Int?
-
-        if (sameAsWeb) {
-            regiontype = SuggestionResultType.ALL_REGION
-            dest = true
-            features = "ta_hierarchy|postal_code|contextual_ta"
-            maxResults = 10
-        } else {
-            regiontype = SuggestionResultType.REGION
-            dest = false
-            features = "ta_hierarchy"
-            maxResults = null
-        }
-
-        return suggestV4(query, regiontype, dest, features, "HOTELS", maxResults = maxResults, guid = guid)
+    override fun getHotelSuggestionsV4(query: String, observer: Observer<List<SuggestionV4>>): Disposable {
+        return suggestV4(query, SuggestionResultType.REGION, false, "ta_hierarchy", "HOTELS", null, null)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { response -> response.suggestions ?: emptyList() }

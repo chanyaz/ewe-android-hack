@@ -1,10 +1,7 @@
 package com.expedia.bookings.hotel.util
 
 import android.content.Context
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.services.SuggestionV4Services
 import com.mobiata.android.Log
 import io.reactivex.Observer
@@ -17,10 +14,7 @@ open class HotelSuggestionManager(private val service: SuggestionV4Services) {
     val errorSubject = PublishSubject.create<Unit>()
 
     open fun fetchHotelSuggestions(context: Context, regionName: String) {
-        val sameAsWeb = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelAutoSuggestSameAsWeb)
-        val guid: String? = if (sameAsWeb) Db.sharedInstance.abacusGuid else null
-
-        service.getHotelSuggestionsV4(regionName, getSuggestionServiceCallback(), sameAsWeb, guid)
+        service.getHotelSuggestionsV4(regionName, getSuggestionServiceCallback())
     }
 
     fun getSuggestionServiceCallback(): Observer<List<SuggestionV4>> {

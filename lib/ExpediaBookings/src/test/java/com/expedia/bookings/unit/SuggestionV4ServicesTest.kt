@@ -117,7 +117,7 @@ class SuggestionV4ServicesTest {
     fun hotelSuggestionsUsesCorrectInterceptors() {
         val testObserver = TestObserver<List<SuggestionV4>>()
 
-        service?.getHotelSuggestionsV4("chicago", testObserver, true, "guid")
+        service?.getHotelSuggestionsV4("chicago", testObserver)
         testObserver.awaitTerminalEvent()
         testObserver.assertComplete()
 

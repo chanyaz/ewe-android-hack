@@ -43,7 +43,7 @@ class HotelModuleTest {
     fun essDeviceIsMobileForPhone() {
         val sut = givenSuggestionServicesInitialized()
 
-        sut.getHotelSuggestionsV4("chicago", TestObserver(), true, "guid")
+        sut.getHotelSuggestionsV4("chicago", TestObserver())
 
         kotlin.test.assertEquals("mobile", server.takeRequest().requestUrl.queryParameter("device"))
     }
@@ -53,7 +53,7 @@ class HotelModuleTest {
     fun essDeviceIsTabletForTablet() {
         val sut = givenSuggestionServicesInitialized()
 
-        sut.getHotelSuggestionsV4("chicago", TestObserver(), true, "guid")
+        sut.getHotelSuggestionsV4("chicago", TestObserver())
 
         kotlin.test.assertEquals("tablet", server.takeRequest().requestUrl.queryParameter("device"))
     }
@@ -62,7 +62,7 @@ class HotelModuleTest {
     fun essCommonParamsAreCorrect() {
         val sut = givenSuggestionServicesInitialized()
 
-        sut.getHotelSuggestionsV4("chicago", TestObserver(), true, "guid")
+        sut.getHotelSuggestionsV4("chicago", TestObserver())
 
         val requestUrl = server.takeRequest().requestUrl
         kotlin.test.assertEquals(PointOfSale.getSuggestLocaleIdentifier(), requestUrl.queryParameter("locale"))
