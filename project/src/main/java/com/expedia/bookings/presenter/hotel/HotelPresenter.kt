@@ -882,7 +882,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
     private fun updateSearchParams(params: HotelSearchParams) {
         hotelSearchParams = params
-        searchPresenter.searchViewModel.datesUpdated(hotelSearchParams.checkIn, hotelSearchParams.checkOut)
         errorPresenter.getViewModel().paramsSubject.onNext(params)
     }
 
