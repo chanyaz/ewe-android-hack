@@ -104,6 +104,10 @@ fun isRecentSearchesForFlightsEnabled(context: Context): Boolean {
             !AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightAdvanceSearch)
 }
 
+fun isAccountEditWebViewEnabled(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppAccountsEditWebView)
+}
+
 fun isDownloadableFontsEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.DownloadableFonts)
 }

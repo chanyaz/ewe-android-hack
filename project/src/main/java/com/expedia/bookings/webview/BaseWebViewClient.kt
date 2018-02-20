@@ -3,8 +3,10 @@ package com.expedia.bookings.webview
 import android.app.Activity
 import android.graphics.Bitmap
 import android.net.MailTo
+import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import com.expedia.bookings.features.Features
 import com.expedia.bookings.fragment.WebViewFragment
 import com.expedia.bookings.tracking.CarWebViewTracking
 import com.expedia.bookings.tracking.RailWebViewTracking
@@ -40,23 +42,30 @@ open class BaseWebViewClient(val activity: Activity, val loadCookies: Boolean,
         }
     }
 
-    override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+    override fun onPageStarted(view: WebView?, url: String, favicon: Bitmap?) {
         super.onPageStarted(view, url, favicon)
+
+        if (isUserAccountUrl(url)) {
+            view?.visibility = View.INVISIBLE
+        }
     }
 
     override fun onPageFinished(webView: WebView, url: String) {
 
         if (isRulesAndRestrictionUrl(url)) {
+            injectRulesAndRestrictionsJavascript(webView)
+        }
 
-            // Hide Print button in Rules And Restriction Page
-            webView.loadUrl("javascript:(function() { " +
-                    "document.querySelector('button.print-link').style.display='none'; " +
-                    "})()")
+        if (isUserAccountUrl(url)) {
+            webView.visibility = View.VISIBLE
+        }
+    }
 
-            // Hide close button in Rules and Restriction
-            webView.loadUrl("javascript:(function() { " +
-                    "document.querySelector('button.close-button').style.display='none'; " +
-                    "})()")
+    override fun onLoadResource(webView: WebView, url: String) {
+        super.onLoadResource(webView, url)
+
+        if (isUserAccountUrl(url) && Features.all.accountWebViewInjections.enabled()) {
+            injectAccountPageJavascript(webView)
         }
     }
 
@@ -75,6 +84,35 @@ open class BaseWebViewClient(val activity: Activity, val loadCookies: Boolean,
         }
     }
 
+    private fun injectAccountPageJavascript(webView: WebView) {
+        webView.loadUrl("javascript:(function() { " +
+                "document.getElementById('div_rewardsHeader').style.display='none'; " +
+                "})()")
+        webView.loadUrl("javascript:(function() { " +
+                "document.getElementById('acc_div').style.display='none'; " +
+                "})()")
+        webView.loadUrl("javascript:(function() { " +
+                "document.querySelector('.tabs.cf').style.display='none'; " +
+                "})()")
+
+        webView.loadUrl("javascript:(function() { " +
+                "document.querySelector('.site-header').style.display='none'; " +
+                "})()")
+    }
+
+    private fun injectRulesAndRestrictionsJavascript(webView: WebView) {
+        // Hide Print button in Rules And Restriction Page
+        webView.loadUrl("javascript:(function() { " +
+                "document.querySelector('button.print-link').style.display='none'; " +
+                "})()")
+
+        // Hide close button in Rules and Restriction
+        webView.loadUrl("javascript:(function() { " +
+                "document.querySelector('button.close-button').style.display='none'; " +
+                "})()")
+    }
+
     private fun isRulesAndRestrictionUrl(url: String): Boolean = (url.contains("RulesAndRestrictions"))
     private fun isLogOutUrl(url: String): Boolean = url.contains("/user/logout")
+    private fun isUserAccountUrl(url: String): Boolean = url.contains("/user/account")
 }

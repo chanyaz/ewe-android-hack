@@ -62,10 +62,15 @@ public class AboutUtils {
 		openWebsite(mActivity, PointOfSale.getPointOfSale().getWebsiteUrl(), true);
 	}
 
+	public void openAccountPage(String webViewTitle) {
+		OmnitureTracking.trackClickEditAccountWebView();
+		openWebsite(mActivity, PointOfSale.getPointOfSale().getAccountPageUrl(), webViewTitle);
+	}
+
 	public void openAppSupport() {
 		OmnitureTracking.trackClickSupportApp();
 		openWebsite(mActivity, ProductFlavorFeatureConfiguration.getInstance().getAppSupportUrl(mActivity), false,
-			true);
+			true, null);
 	}
 
 	public void openRewardsCard() {
@@ -96,10 +101,14 @@ public class AboutUtils {
 	}
 
 	public static void openWebsite(Context context, String url, boolean useExternalBrowser) {
-		openWebsite(context, url, useExternalBrowser, false);
+		openWebsite(context, url, useExternalBrowser, false, null);
 	}
 
-	public static void openWebsite(Context context, String url, boolean useExternalBrowser, boolean showEmailButton) {
+	public static void openWebsite(Context context, String url, String webViewTitle) {
+		openWebsite(context, url, false, false, webViewTitle);
+	}
+
+	public static void openWebsite(Context context, String url, boolean useExternalBrowser, boolean showEmailButton, String webViewTitle) {
 		if (useExternalBrowser) {
 			SocialUtils.openSite(context, url);
 		}
@@ -107,6 +116,9 @@ public class AboutUtils {
 			AboutWebViewActivity.IntentBuilder builder = new AboutWebViewActivity.IntentBuilder(context);
 			builder.setUrl(url);
 			builder.setShowEmailButton(showEmailButton);
+			if (webViewTitle != null && !webViewTitle.isEmpty()) {
+				builder.setTitle(webViewTitle);
+			}
 			context.startActivity(builder.getIntent());
 		}
 	}

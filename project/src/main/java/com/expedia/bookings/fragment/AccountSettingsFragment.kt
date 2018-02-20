@@ -43,6 +43,7 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isAccountEditWebViewEnabled
 import com.expedia.bookings.utils.isBrandColorEnabled
 import com.mobiata.android.SocialUtils
 import com.mobiata.android.fragment.AboutSectionFragment
@@ -59,6 +60,7 @@ import javax.inject.Inject
 // Open for testing.
 open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRefreshListener {
 
+    private val TAG_ACCOUNT = "TAG_ACCOUNT"
     private val TAG_SUPPORT = "TAG_SUPPORT"
     private val TAG_LEGAL = "TAG_LEGAL"
     private val TAG_DEBUG_SETTINGS = "TAG_DEBUG_SETTINGS"
@@ -67,6 +69,7 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
     private val TAG_APP_SETTINGS = "TAG_APP_SETTINGS"
     private val GOOGLE_SIGN_IN_SUPPORT = "GOOGLE_SIGN_IN_SUPPORT"
 
+    private val ROW_EDIT_ACCOUNT = 0
     private val ROW_BOOKING_SUPPORT = 1
     private val ROW_EXPEDIA_WEBSITE = 2
     private val ROW_APP_SUPPORT = 3
@@ -91,6 +94,7 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
         AboutUtils(activity)
     }
 
+    private var accountFragment: AboutSectionFragment? = null
     private var appSettingsFragment: AboutSectionFragment? = null
     private var supportFragment: AboutSectionFragment? = null
     private var copyrightFragment: CopyrightFragment? = null
@@ -190,6 +194,22 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
         setCountryChangeListeners()
         if (isBrandColorEnabled(context)) {
             loyaltySection.setBackgroundColor(ContextCompat.getColor(context, R.color.brand_primary))
+        }
+
+        // Account
+        accountFragment = Ui.findSupportFragment<AboutSectionFragment>(this, TAG_ACCOUNT)
+        if (accountFragment == null) {
+            builder = AboutSectionFragment.Builder(context)
+            builder.setTitle(R.string.account_settings_menu_label)
+            builder.addRow(ROW_EDIT_ACCOUNT, R.string.account_settings_edit_label, Phrase.from(context, R.string.a11y_button_TEMPLATE)
+                    .put("description", R.string.account_settings_edit_label).format().toString())
+
+            accountFragment = builder.build()
+            ft.add(R.id.section_account, accountFragment, TAG_ACCOUNT)
+
+            if (!userStateManager.isUserAuthenticated() || !isAccountEditWebViewEnabled(context)) {
+                ft.hide(accountFragment)
+            }
         }
 
         // App Settings
@@ -425,6 +445,8 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
     }
 
     private fun adjustLoggedInViews() {
+        showHideAccountEditWebView(userStateManager.isUserAuthenticated())
+
         if (userStateManager.isUserAuthenticated()) {
             toolbarShadow.alpha = 0f
             signInSection.visibility = View.GONE
@@ -525,6 +547,16 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
         }
     }
 
+    private fun showHideAccountEditWebView(isUserAuthenticated: Boolean) {
+        if (isAccountEditWebViewEnabled(context)) {
+            if (isUserAuthenticated) {
+                childFragmentManager.beginTransaction().show(accountFragment).commitAllowingStateLoss()
+            } else {
+                childFragmentManager.beginTransaction().hide(accountFragment).commitAllowingStateLoss()
+            }
+        }
+    }
+
     private fun setupCountryView(countryView: View) {
         val countryTextView = countryView.findViewById<TextView>(R.id.country)
         val flagIconView = countryView.findViewById<ImageView>(R.id.flagView)
@@ -544,6 +576,10 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
         when (id) {
             ROW_COUNTRY -> {
                 showCountrySelector()
+                return true
+            }
+            ROW_EDIT_ACCOUNT -> {
+                aboutUtils.openAccountPage(this.resources.getString(R.string.account_settings_edit_webview_label))
                 return true
             }
             ROW_BOOKING_SUPPORT -> {

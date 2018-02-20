@@ -3331,6 +3331,7 @@ public class OmnitureTracking {
 	private static final String ACCOUNT_SCREEN = "App.Account.MyAccount";
 	private static final String ACCOUNT_COUNTRY_SETTING = "App.Account.Settings.Country";
 	private static final String ACCOUNT_SUPPORT_WEBSITE = "App.Account.Support.Website";
+	private static final String ACCOUNT_EDIT_WEBVIEW = "App.Account.EditWebview";
 	private static final String ACCOUNT_SUPPORT_BOOKING = "App.Account.Support.Booking";
 	private static final String ACCOUNT_SUPPORT_APP = "App.Account.Support.App";
 	private static final String ACCOUNT_COMMUNICATE_RATE = "App.Account.Communicate.Rate";
@@ -3566,6 +3567,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppLastMinuteDeals);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountsAPIKongEndPoint);
 		trackAbacusTest(s, AbacusUtils.DownloadableFonts);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountsEditWebView);
 		if (ProductFlavorFeatureConfiguration.getInstance().getDefaultPOS().equals(PointOfSaleId.ORBITZ)) {
 			trackAbacusTest(s, AbacusUtils.RewardLaunchCard);
 		}
@@ -3664,6 +3666,11 @@ public class OmnitureTracking {
 
 	public static void trackClickSupportWebsite() {
 		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_SUPPORT_WEBSITE);
+		s.trackLink("Accounts");
+	}
+
+	public static void trackClickEditAccountWebView() {
+		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_EDIT_WEBVIEW);
 		s.trackLink("Accounts");
 	}
 

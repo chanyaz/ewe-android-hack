@@ -746,6 +746,10 @@ public class PointOfSale {
 		return getPosLocale().getWebsiteUrl();
 	}
 
+	public String getAccountPageUrl() {
+		return getPosLocale().getAccountPageUrl();
+	}
+
 	public String getInsuranceUrl() {
 		return getPosLocale().getInsuranceUrl();
 	}

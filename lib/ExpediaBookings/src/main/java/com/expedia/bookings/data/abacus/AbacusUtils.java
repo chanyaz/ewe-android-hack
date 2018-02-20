@@ -121,6 +121,7 @@ public class AbacusUtils {
 	// Account
 	public static final ABTest EBAndroidAppAccountRecaptcha = new ABTest(15652, true);
 	public static final ABTest EBAndroidAppAccountsAPIKongEndPoint = new ABTest(24860, true);
+	public static final ABTest EBAndroidAppAccountsEditWebView = new ABTest(24532, true);
 
 	// Launch
 	public static final ABTest EBAndroidAppBrandColors = new ABTest(15846);
@@ -205,6 +206,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightsDeltaPricing.getKey());
 		testIDs.add(HotelRoomImageGallery.getKey());
 		testIDs.add(EBAndroidAppAccountRecaptcha.getKey());
+		testIDs.add(EBAndroidAppAccountsEditWebView.getKey());
 		testIDs.add(EBAndroidAppHotelMaterialForms.getKey());
 		testIDs.add(TripsNewFlightAlerts.getKey());
 		testIDs.add(EBAndroidAppPackagesBreadcrumbsForNav.getKey());

@@ -170,8 +170,12 @@ class AccountSettingsFragmentTest {
 
     @Test
     fun buttonsToExternalResourcesWorkProperly() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppAccountsEditWebView)
         givenSignedInAsUser(getNonRewardsMember())
         givenFragmentSetup()
+
+        clickViewWithTextInSection(activity.resources.getString(R.string.account_settings_edit_label), R.id.section_account)
+        assertIntentFiredToOpenWebviewWithUri(PointOfSale.getPointOfSale().accountPageUrl)
 
         clickViewWithTextInSection("Expedia Website", R.id.section_contact_us)
         assertIntentFiredToViewUri(PointOfSale.getPointOfSale().websiteUrl)

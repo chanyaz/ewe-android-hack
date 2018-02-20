@@ -29,6 +29,11 @@ class PointOfSaleLocale(private val data: JSONObject) {
         data.optString("websiteURL", null)
     }
 
+    /** The url for just the account page */
+    val accountPageUrl by lazy {
+        data.optString("accountURL", null)
+    }
+
     /** The url for travel insurance. Not present for all POS */
     val insuranceUrl by lazy {
         data.optString("insuranceURL", null)

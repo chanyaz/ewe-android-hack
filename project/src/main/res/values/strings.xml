@@ -3007,6 +3007,10 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to open account settings screen -->
     <string name="account_settings_menu_label">Account</string>
+    <!-- Label for menu item to edit account settings screen -->
+    <string name="account_settings_edit_label">Edit account info</string>
+    <!-- Label for webview to edit account settings -->
+    <string name="account_settings_edit_webview_label">My Account</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Sign in</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
