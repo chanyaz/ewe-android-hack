@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.extensions.safeSubscribe
+import com.expedia.bookings.extensions.setAccessibilityHoverFocus
 import io.reactivex.subjects.PublishSubject
 
 class StoredCouponListAdapter(storedCouponsSubject: PublishSubject<List<StoredCouponAdapter>>,
@@ -45,6 +46,10 @@ class StoredCouponListAdapter(storedCouponsSubject: PublishSubject<List<StoredCo
         storedCouponHolder.viewModel.couponStatus.onNext(if (coupons[position].errorMessage.isEmpty()) {
             coupons[position].savedCouponStatus
         } else StoredCouponAppliedStatus.ERROR)
+
+        if (coupons[position].errorMessage.isNotEmpty()) {
+            holder.itemView.setAccessibilityHoverFocus(2000L)
+        }
         storedCouponHolder.viewModel.errorObservable.onNext(coupons[position].errorMessage)
         holder.itemView.tag = position
         enableStoredCouponsSubject.subscribe(holder.viewModel.enableViewHolder)

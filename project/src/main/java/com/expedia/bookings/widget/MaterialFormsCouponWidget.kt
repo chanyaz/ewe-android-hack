@@ -62,7 +62,6 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
         }
 
         viewmodel.storedCouponViewModel.errorMessageObservable.withLatestFrom(viewmodel.storedCouponViewModel.storedCouponActionParam, { errorText, storedCouponActionParam ->
-            errorText?.let { announceForAccessibility(errorText) }
             storedCouponWidget.viewModel.errorObservable.onNext(Pair(errorText, storedCouponActionParam.instanceId))
             enableCouponUi(true)
         }).subscribe()
