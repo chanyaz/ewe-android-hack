@@ -221,8 +221,9 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     private fun bindData() {
-        dataAvailableSubject.onNext(Db.getPackageResponse())
-        val currencyCode = Db.getPackageResponse().getCurrencyCode()
+        val packageResponse = Db.getPackageResponse()
+        dataAvailableSubject.onNext(packageResponse)
+        val currencyCode = packageResponse.getCurrencyCode()
         if (PointOfSale.getPointOfSale().pointOfSaleId != PointOfSaleId.JAPAN) {
             bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
             if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
@@ -488,13 +489,14 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         Db.setPackageSelectedHotel(selectedPackageHotel, offer)
         updatePackagePrice(offer)
         val params = Db.sharedInstance.packageParams
+        val packageResponse = Db.getPackageResponse()
         params.packagePIID = offer.productKey
         params.latestSelectedOfferInfo.ratePlanCode = offer.ratePlanCode
         params.latestSelectedOfferInfo.roomTypeCode = offer.roomTypeCode
         params.latestSelectedOfferInfo.inventoryType = offer.supplierType
-        params.latestSelectedOfferInfo.hotelCheckInDate = Db.getPackageResponse().getHotelCheckInDate()
-        params.latestSelectedOfferInfo.hotelCheckOutDate = Db.getPackageResponse().getHotelCheckOutDate()
-        params.latestSelectedOfferInfo.productOfferPrice = Db.getPackageResponse().getCurrentOfferPrice()
+        params.latestSelectedOfferInfo.hotelCheckInDate = packageResponse.getHotelCheckInDate()
+        params.latestSelectedOfferInfo.hotelCheckOutDate = packageResponse.getHotelCheckOutDate()
+        params.latestSelectedOfferInfo.productOfferPrice = packageResponse.getCurrentOfferPrice()
         val activity = (context as AppCompatActivity)
         activity.setResult(Activity.RESULT_OK)
         activity.finish()

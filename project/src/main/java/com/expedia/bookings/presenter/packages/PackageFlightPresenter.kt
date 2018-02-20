@@ -74,28 +74,29 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
 
     private val flightOverviewSelected = endlessObserver<FlightLeg> { flight ->
         val params = Db.sharedInstance.packageParams
+        val packageResponse = Db.getPackageResponse()
+
         if (flight.outbound) {
             Db.setPackageSelectedOutboundFlight(flight)
             params.currentFlights[0] = flight.legId
         } else {
             Db.setPackageFlightBundle(Db.sharedInstance.packageSelectedOutboundFlight, flight)
             params.currentFlights[1] = flight.legId
-            params.latestSelectedOfferInfo.flightPIID = Db.getPackageResponse().getSelectedFlightPIID(params.currentFlights[0], params.currentFlights[1])
+            params.latestSelectedOfferInfo.flightPIID = packageResponse.getSelectedFlightPIID(params.currentFlights[0], params.currentFlights[1])
 
             params.latestSelectedOfferInfo.inboundFlightBaggageFeesUrl = flight.baggageFeesUrl
-            params.latestSelectedOfferInfo.outboundFlightBaggageFeesUrl = Db.getPackageResponse().getFlightLegs().firstOrNull { it.legId == params.currentFlights[0] }?.baggageFeesUrl
-            params.latestSelectedOfferInfo.isSplitTicketFlights = Db.getPackageResponse().isSplitTicketFlights(params.currentFlights[0], params.currentFlights[1])
-            params.latestSelectedOfferInfo.hotelCheckInDate = Db.getPackageResponse().getHotelCheckInDate()
-            params.latestSelectedOfferInfo.hotelCheckOutDate = Db.getPackageResponse().getHotelCheckOutDate()
-            params.latestSelectedOfferInfo.ratePlanCode = Db.getPackageResponse().getRatePlanCode()
-            params.latestSelectedOfferInfo.roomTypeCode = Db.getPackageResponse().getRoomTypeCode()
+            params.latestSelectedOfferInfo.outboundFlightBaggageFeesUrl = packageResponse.getFlightLegs().firstOrNull { it.legId == params.currentFlights[0] }?.baggageFeesUrl
+            params.latestSelectedOfferInfo.isSplitTicketFlights = packageResponse.isSplitTicketFlights(params.currentFlights[0], params.currentFlights[1])
+            params.latestSelectedOfferInfo.hotelCheckInDate = packageResponse.getHotelCheckInDate()
+            params.latestSelectedOfferInfo.hotelCheckOutDate = packageResponse.getHotelCheckOutDate()
+            params.latestSelectedOfferInfo.ratePlanCode = packageResponse.getRatePlanCode()
+            params.latestSelectedOfferInfo.roomTypeCode = packageResponse.getRoomTypeCode()
         }
         params.selectedLegId = flight.departureLeg
         params.packagePIID = flight.packageOfferModel.piid
         params.latestSelectedOfferInfo.productOfferPrice = flight.packageOfferModel.price
         bundleSlidingWidget.updateBundleViews(Constants.PRODUCT_FLIGHT)
-        val response = Db.getPackageResponse()
-        response.setCurrentOfferPrice(flight.packageOfferModel.price)
+        packageResponse.setCurrentOfferPrice(flight.packageOfferModel.price)
 
         val activity = (context as AppCompatActivity)
         activity.setResult(Activity.RESULT_OK)

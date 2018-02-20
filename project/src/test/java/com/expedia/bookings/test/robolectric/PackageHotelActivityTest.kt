@@ -40,9 +40,9 @@ class PackageHotelActivityTest {
     fun testMidEnabledDeeplinkedHotelResetsDbPackageResponse() {
         setupPackageDb(baseMidResponse, midResponseWithError)
         givenPackageHotelActivity(enableMidTest = true)
-
-        assertNotEquals(midResponseWithError.errors?.size, (Db.getPackageResponse() as MultiItemApiSearchResponse).errors?.size)
-        assertEquals(baseMidResponse.errors?.size, (Db.getPackageResponse() as MultiItemApiSearchResponse).errors?.size)
+        val packageResponse = Db.getPackageResponse()
+        assertNotEquals(midResponseWithError.errors?.size, (packageResponse as MultiItemApiSearchResponse).errors?.size)
+        assertEquals(baseMidResponse.errors?.size, (packageResponse as MultiItemApiSearchResponse).errors?.size)
     }
 
     @Test
