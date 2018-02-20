@@ -36,10 +36,6 @@ compileJava {
     options.compilerArgs.addAll(['-Xlint:unchecked', '-Xlint:deprecation'])
 }
 
-compileKotlin {
-    kotlinOptions.allWarningsAsErrors = true
-}
-
 jacocoTestReport {
     reports {
         xml.enabled true
