@@ -41,22 +41,29 @@ class HotelItinCheckInCheckOutDetails(context: Context, attr: AttributeSet?) : L
         checkOutDateView.contentDescription = LocaleBasedDateFormatUtils.dateTimeToEEEEMMMd(itinCardDataHotel.endDate)
         checkInTimeView.text = itinCardDataHotel.getFallbackCheckInTime(context).toLowerCase()
         checkOutTimeView.text = itinCardDataHotel.getFallbackCheckOutTime(context).toLowerCase()
-        if (itinCardDataHotel.property.checkInPolicies.isNotEmpty()) {
+        val specialInstructions = itinCardDataHotel.property.specialInstruction
+        val shouldShowSpecialInstruction = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.TripsHotelsM2)
+                && specialInstructions.isNotEmpty()
+        val shouldShowCheckInPolicies = itinCardDataHotel.property.checkInPolicies.isNotEmpty()
+        if (shouldShowCheckInPolicies || shouldShowSpecialInstruction) {
             checkInPoliciesDivider.visibility = View.VISIBLE
             checkInOutPoliciesContainer.visibility = View.VISIBLE
-            val specialInstructions = itinCardDataHotel.property.specialInstruction
-            val shouldShowSpecialInstruction = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.TripsHotelsM2)
-                    && specialInstructions.isNotEmpty()
-            if (shouldShowSpecialInstruction) {
+            if (shouldShowCheckInPolicies && shouldShowSpecialInstruction) {
                 checkInOutPoliciesButtonText.text = context.getString(R.string.itin_hotel_check_in_policies_and_special_instruction)
+            } else if (shouldShowSpecialInstruction) {
+                checkInOutPoliciesButtonText.text = context.getString(R.string.itin_hotel_special_instruction)
             }
             checkInOutPoliciesContainer.setOnClickListener {
                 val fragmentManager = (context as FragmentActivity).supportFragmentManager
-                val dialog = if (shouldShowSpecialInstruction) {
+                val dialog = if (shouldShowCheckInPolicies && shouldShowSpecialInstruction) {
                     ScrollableContentDialogFragment.newInstance(
                             context.resources.getString(R.string.itin_hotel_check_in_policies_dialog_title),
                             getTitleContent(itinCardDataHotel),
                             context.getString(R.string.itin_hotel_special_instruction_dialog_sub_title),
+                            TextUtils.join("<br>", specialInstructions).toString())
+                } else if (shouldShowSpecialInstruction) {
+                    ScrollableContentDialogFragment.newInstance(
+                            context.resources.getString(R.string.itin_hotel_special_instruction),
                             TextUtils.join("<br>", specialInstructions).toString())
                 } else {
                     ScrollableContentDialogFragment.newInstance(context.resources.getString(R.string.itin_hotel_check_in_policies_dialog_title),

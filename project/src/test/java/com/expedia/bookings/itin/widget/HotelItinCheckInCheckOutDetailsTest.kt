@@ -128,4 +128,42 @@ class HotelItinCheckInCheckOutDetailsTest {
         val expectedString = "Minimum check-in age is 18\nCheck-in time starts at 3 PM\n" + lateArrivalInstructions
         assertEquals(expectedString, dialog.findViewById<TextView>(R.id.fragment_dialog_scrollable_text_content).text.toString())
     }
+
+    @Test
+    fun testForCheckInPoliciesButtonText() {
+        val itinCardDataHotel = ItinCardDataHotelBuilder().build()
+        val checkInPoliciesArray = ArrayList<String>()
+        checkInPoliciesArray.add("Check-in time starts at 4 PM")
+        itinCardDataHotel.property.specialInstruction = ArrayList()
+        itinCardDataHotel.property.checkInPolicies = checkInPoliciesArray
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.TripsHotelsM2)
+        hotelItinCheckinCheckOutWidget.setUpWidget(itinCardDataHotel)
+        assertEquals(hotelItinCheckinCheckOutWidget.checkInOutPoliciesButtonText.text.toString(), activity.resources.getString(R.string.itin_hotel_check_in_policies_dialog_title))
+    }
+
+    @Test
+    fun testForSpecialInstructionsButtonText() {
+        val itinCardDataHotel = ItinCardDataHotelBuilder().build()
+        val specialInstructionArray = ArrayList<String>()
+        specialInstructionArray.add("An adult age 18 or older must assume all liability for the booking. ")
+        itinCardDataHotel.property.specialInstruction = specialInstructionArray
+        itinCardDataHotel.property.checkInPolicies = ArrayList()
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.TripsHotelsM2)
+        hotelItinCheckinCheckOutWidget.setUpWidget(itinCardDataHotel)
+        assertEquals(hotelItinCheckinCheckOutWidget.checkInOutPoliciesButtonText.text.toString(), activity.resources.getString(R.string.itin_hotel_special_instruction))
+    }
+
+    @Test
+    fun testForCheckInPoliciesAndSpecialInstructionsButtonText() {
+        val itinCardDataHotel = ItinCardDataHotelBuilder().build()
+        val specialInstructionArray = ArrayList<String>()
+        specialInstructionArray.add("An adult age 18 or older must assume all liability for the booking. ")
+        val checkInPoliciesArray = ArrayList<String>()
+        checkInPoliciesArray.add("Check-in time starts at 4 PM")
+        itinCardDataHotel.property.specialInstruction = specialInstructionArray
+        itinCardDataHotel.property.checkInPolicies = checkInPoliciesArray
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.TripsHotelsM2)
+        hotelItinCheckinCheckOutWidget.setUpWidget(itinCardDataHotel)
+        assertEquals(hotelItinCheckinCheckOutWidget.checkInOutPoliciesButtonText.text.toString(), activity.resources.getString(R.string.itin_hotel_check_in_policies_and_special_instruction))
+    }
 }

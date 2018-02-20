@@ -1458,6 +1458,8 @@
     <string name="itin_hotel_special_instruction_dialog_sub_title">Special instructions</string>
     <!--Button title for check-in policies and special instructions-->
     <string name="itin_hotel_check_in_policies_and_special_instruction">Check-in and special instructions</string>
+    <!--Button title for special instructions-->
+    <string name="itin_hotel_special_instruction">Special Instructions</string>
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">Change and cancellation rules</string>
     <!--Hotel itin manage booking room tabs title TEMPLATE. Room {number} (e.g., Room 1)-->
