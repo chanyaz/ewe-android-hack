@@ -73,7 +73,7 @@
     <!-- Text for price change-->
     <string name="price_change_text">Hintamuutos</string>
     <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock in this price."-->
-    <string name="price_change_alert_TEMPLATE">Matkasi hinta on muuttunut. Vanha hinta oli {oldprice} ja uusi hinta on {newprice}. Hinnat muuttuvat usein. Varaa nyt hyödyntääksesi tämän hinnan.</string>
+    <string name="price_change_alert_TEMPLATE">Matkasi hinta on muuttunut. Vanha hinta oli {oldprice}, ja uusi hinta on {newprice}. Hinnat muuttuvat usein. Varaa nyt hyödyntääksesi tämän hinnan.</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">Hinta on muuttunut</string>
     <!-- Text for select saved contacts-->
@@ -750,6 +750,8 @@
     <string name="stops">Välilaskut</string>
     <!-- Header for a flight filter, showing a list of flights from different airlines -->
     <string name="airlines">Lentoyhtiöt</string>
+    <!-- Header for a flight filter above the price on checked filters-->
+    <string name="price_label">Hinta</string>
 
     <!-- Pluralization for number of stops (layovers) on a given flight "2 stops" -->
     <plurals name="x_Stops_TEMPLATE">
@@ -786,6 +788,9 @@
     <string name="packages_trip_total_with_taxes_and_fees_TEMPLATE">{totalstring} {taxesandfeesstring}</string>
     <!-- Progress dialog text while creating a trip -->
     <string name="spinner_text_create_trip">Luodaan matkaa…</string>
+    <!-- Error dialog title when there's a MID create trip error -->
+    <string name="server_error">Palvelinongelma</string>
+
 
     <!-- Actionbar Title - "Checkout" -->
     <string name="Checkout">Maksu</string>
@@ -921,7 +926,7 @@
     <!-- Text for active itin card on signed-in user launch screen -->
     <string name="launch_upcoming_trips_signed_in">Sinulla on tuleva matka!</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
-    <string name="launch_upcoming_trips_subtext_signed_in">Tarkista matkasuunnitelmasi tien päällä ollessasi ja pysy ajantasalla muutoksista</string>
+    <string name="launch_upcoming_trips_subtext_signed_in">Tarkista matkasuunnitelmasi tien päällä ollessasi ja pysy ajan tasalla muutoksista</string>
 
     <!-- Label for pro wizard bar on launch screen -->
     <string name="search_hotels">Hae hotelleja</string>
@@ -947,7 +952,7 @@
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Matkat</string>
     <!-- Google play services unrecoverable error dialog message -->
-    <string name="google_play_services_unrecoverable_error">Tämä sovellus vaatii Google Play Servicesin Asenna viimeisin versio Google Play Servicesistä.</string>
+    <string name="google_play_services_unrecoverable_error">Tämä sovellus vaatii Google Play Servicesin. Asenna Google Play Servicesin viimeisin versio.</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
@@ -1028,7 +1033,7 @@
     <!-- Itin list view manually add guest trip button content description -->
     <string name="itin_list_view_manually_add_guest_trip_button_content_description">Lisää vierailijana tehty varaus manuaalisesti -painike</string>
     <!-- Fetching your itinerary -->
-    <string name="fetching_your_itinerary">Matkasuunnitelmia haetaan…</string>
+    <string name="fetching_your_itinerary">Haetaan matkasuunnitelmia…</string>
     <!-- Sign in for your trips -->
     <string name="sign_in_for_your_trips">Kirjaudu sisään tarkastellaksesi matkojasi</string>
     <!-- Button text to refresh your trips -->
@@ -1166,8 +1171,6 @@
     <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;Kentällä %1$s&lt;/b&gt; – %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
     <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;Kentältä %1$s&lt;/b&gt; – %2$s</string>
-    <!-- Itin sign out confirmation message -->
-    <string name="itin_sign_out_confirmation_message_TEMPLATE">Uloskirjautuminen osoitteesta %1$s poistaa kaikki matkasuunnitelman osat, jotka liittyvät tähän tilin. Haluatko kirjautua ulos?</string>
     <!-- Accessibility lable for flight overview summary e.g Delta Airlines 745 departs 11:32 AM and arrives 6:04 PM -->
     <string name="flight_overview_TEMPLATE_cont_desc">{airline} lähtee kentältä {departureairport} kello {departuretime} ja saapuu kentälle {arrivalairport} kello {arrivaltime}</string>
     <!-- Directions -->
@@ -1308,7 +1311,7 @@
     <!-- Itin card details -->
     <string name="itin_card_details_active">Aktiivinen</string>
     <string name="itin_card_details_expires">Vanhenee</string>
-    <string name="itin_card_details_guests">Vierasta</string>
+    <string name="itin_card_details_guests">Asiakasta</string>
     <string name="itin_card_details_details">Lisätietoja</string>
     <!-- Label for button to cancel Hotel booking -->
     <string name="itin_card_details_cancel_hotel_room">Peruuta hotellihuone</string>
@@ -1935,7 +1938,7 @@
         <item quantity="other">%1$d aikuista</item>
     </plurals>
     <!-- Message shown when loading AirAsia flight routes -->
-    <string name="loading_air_asia_routes">Haetaan AirAsian reittejä…</string>
+    <string name="loading_air_asia_routes">Ladataan AirAsian reittejä…</string>
     <!-- Message shown when we could not load the AirAsia flight routes -->
     <string name="error_could_not_load_air_asia">AirAsian reittejä ei voitu ladata</string>
     <!-- Header row for airports that were used recently for a search -->
@@ -2070,8 +2073,18 @@
     <string name="you_are_a_valued_member">Olet arvostettu jäsen!</string>
     <!-- Shop as a {brand} member eg: Shop as an Expedia member! -->
     <string name="shop_as_a_member_TEMPLATE">Tee varauksia {brand}n jäsenenä!</string>
+    <!-- Launch screen 2x messaging signed-out title-->
+    <string name="launch_screen_sign_in_2x_title">Kirjaudu sisään säästääksesi enemmän!</string>
+    <!-- Launch screen 2x messaging for signed-out subtitle-->
+    <string name="launch_screen_sign_in_2x_subtitle">Jäsenhintojen ansiosta voit säästää keskimäärin 17 % lisää tuhansista hotelleista juuri nyt. Sen lisäksi ansaitset kaksinkertaiset pisteet kaikista sovelluksessa tehdyistä varauksista!</string>
+    <!-- Launch screen 2x banner messaging for signed-in users -->
+    <string name="launch_screen_2x_banner">Ansaitset kaksinkertaiset pisteet kaikista sovelluksessa tehdyistä varauksista!</string>
+    <!-- Checkout sign in button for 2x messaging -->
+    <string name="checkout_sign_in_2x_messaging">Kirjaudu sisään ansaitaksesi kaksinkertaiset pisteet!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">Ansaitset {reward_currency} pistettä tästä matkasta!</string>
+    <!-- Blurb text displayed on account sign in button when already signed in and has 2x earn messaging e.g. You'll earn 1234 points. That's double for booking in app!-->
+    <string name="earn_2x_rewards_currency_for_this_trip_TEMPLATE">Ansaitset {reward_currency} pistettä. Saat siis kaksinkertaiset pisteet, koska teit varauksesi sovelluksessa!</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_raised_the_total_price_TEMPLATE">Valitettavasti hotelli korotti yöpymisen hintaa juuri. Alkuperäinen hinta oli %1$s, ja hinta on nyt %2$s.</string>
     <!-- String to use when a price change alert should be shown to the user -->
@@ -2131,9 +2144,15 @@
     <!-- Add new traveler, checkout saved travelers list -->
     <string name="add_new_traveler">Lisää uusi matkustaja</string>
     <!-- Add Guest for hotels -->
-    <string name="guest_details">Vieraan tiedot</string>
+    <string name="guest_details">Asiakkaan tiedot</string>
     <!-- Warning shown to users when they enter their name (Material design message) -->
     <string name="name_must_match_warning_new">Matkustajien nimien tulee vastata täsmälleen virallisessa kuvallisessa henkilöllisyystodistuksessa olevia.</string>
+    <!-- For saved travelers button with saved traveler selected, eg Saved traveler, John Smith, button, opens traveler list-->
+    <string name="saved_traveler_button_content_description_TEMPLATE">Tallennettu matkustaja, {travelername}, painike, avaa matkustajalistan</string>
+    <!-- For saved travelers button without saved traveler, such as Add New Traveler or Select saved contacts, EG, Add New Traveler, button, opens traveler list -->
+    <string name="select_traveler_button_content_description_TEMPLATE">{buttontitle}, painike, avaa matkustajalistan</string>
+    <!-- Announced when saved traveler dropdown list is shown to user-->
+    <string name="traveler_list_opened">Matkustajalista avattu</string>
 
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_country_code_dropdown_cont_desc">Maatunnus</string>
@@ -3013,6 +3032,8 @@
     <string name="coupon_promo_title">Kupongit ja kampanjat</string>
     <!-- Title on dialog imploring users to enter coupons -->
     <string name="enter_coupon_code">Anna kuponkikoodi</string>
+    <!-- Coupon widget content description on Hotel Checkout Overview-->
+    <string name="coupon_widget_content_description">Anna kuponkikoodi -painike</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">Lähetä</string>
     <!-- Coupon apply button -->
@@ -3205,21 +3226,29 @@
         <item quantity="many">%d eläkeläistä</item>
         <item quantity="other">%d eläkeläistä</item>
     </plurals>
-    <!-- A number of guests. Capitalized -->
+    <!-- A number of guests. -->
     <plurals name="number_of_guests">
         <item quantity="zero">%d asiakasta</item>
-        <item quantity="one">%d vieras</item>
+        <item quantity="one">%d asiakas</item>
+        <item quantity="two">%d asiakasta</item>
+        <item quantity="many">%d asiakasta</item>
+        <item quantity="other">%d asiakasta</item>
+    </plurals>
+    <!-- A number of guests. Capitalized-->
+    <plurals name="number_of_guests_capitalized">
+        <item quantity="zero">%d asiakasta</item>
+        <item quantity="one">%d asiakas</item>
         <item quantity="two">%d asiakasta</item>
         <item quantity="many">%d asiakasta</item>
         <item quantity="other">%d asiakasta</item>
     </plurals>
     <!-- A number of guests (but not including the guest count). Capitalized -->
     <plurals name="number_of_guests_label">
-        <item quantity="zero">Asiakkaat</item>
-        <item quantity="one">Vieras</item>
-        <item quantity="two">Vierasta</item>
-        <item quantity="many">Vierasta</item>
-        <item quantity="other">Vierasta</item>
+        <item quantity="zero">Asiakasta</item>
+        <item quantity="one">Asiakas</item>
+        <item quantity="two">Asiakasta</item>
+        <item quantity="many">Asiakasta</item>
+        <item quantity="other">Asiakasta</item>
     </plurals>
     <!-- A number of nights (as in stay duration).  Capitalized -->
     <plurals name="number_of_nights">
@@ -3839,6 +3868,8 @@
     <string name="material_applied_coupon_subtitle_TEMPLATE">{name} (–{discount})</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
     <string name="coupon_error_dialog_title">Kuponkia ei voitu käyttää</string>
+    <!--Hotel V2 remove coupon button content description-->
+    <string name="remove_coupon_button_content_description">Poista kuponki</string>
     <string name="coupon_error_remove_dialog_title">Kuponkia ei voitu poistaa</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">Kuponkisi käytössä ilmeni ongelmia. Koita yrittää lisätä se uudelleen.</string>
@@ -4544,6 +4575,9 @@
     <!--Traveler widget child minus button content description-->
     <string name="remove_child_traveler_cont_desc">Poista yksi lapsimatkustaja</string>
 
+    <!--Recent search subtitle in the suggestions dropdown, e.g Jun 3 - Jun 4 1 Night 2 Guests -->
+    <string name="suggestion_search_info_dropdown_TEMPLATE">{startdate} \u2013 {enddate},\u0020 \u0020{nights},\u0020 \u0020{guests}</string>
+
     <!--Rail Traveler widget youth plus button content description-->
     <string name="rails_add_youth_traveler_cont_desc">Lisää yksi nuori matkustaja</string>
     <!--Rail Traveler widget youth minus button content description-->
@@ -4596,7 +4630,7 @@
     <string name="packages_flight_filter_checkbox_disabled_cont_desc_TEMPLATE">{filter_results} saatavilla olevaa lentoyhtiön {filter_name} lentoa. Et voi poistaa valintaa, jokainen lentohakutulos on {filter_name}.\u0020</string>
 
     <!-- Status displayed in a modal dialog while insurance is being added -->
-    <string name="insurance_adding">Matkavakuutusta lisätään…</string>
+    <string name="insurance_adding">Lisätään matkavakuutusta…</string>
     <!-- Error message displayed when insurance fails to be added to a trip -->
     <string name="insurance_add_error">Valitettavasti emme pystyneet lisäämään tätä matkavakuutusta. Yritä uudelleen tai jatka varauksen tekemistä ilman matkavakuutusta.</string>
     <!-- Benefits of purchasing insurance for domestic flights -->
@@ -4721,7 +4755,7 @@
     <!-- Package cost summary row snippet  e.g. 4 guests-->
     <plurals name="number_of_guest_TEMPLATE">
         <item quantity="zero">{guest} asiakasta</item>
-        <item quantity="one">{guest} vieras</item>
+        <item quantity="one">{guest} asiakas</item>
         <item quantity="two">{guest} asiakasta</item>
         <item quantity="many">{guest} asiakasta</item>
         <item quantity="other">{guest} asiakasta</item>
@@ -4796,7 +4830,7 @@
     <!-- Check your email for itinerary alert message-->
     <string name="check_your_email_for_itin">Saat matkasuunnitelman sähköpostiisi.</string>
     <!-- Fetching your trips in new signin screen -->
-    <string name="fetching_your_trips">Matkoja haetaan…</string>
+    <string name="fetching_your_trips">Haetaan matkoja…</string>
 
     <!-- Member Pricing Only -->
     <string name="member_deal_title">Jäsenhinnat</string>
@@ -4837,7 +4871,7 @@
     <!-- Checkout validation error message for credit card security code -->
     <string name="error_enter_valid_cvv">Anna kelvollinen CVV-numero</string>
     <!-- Checkout validation error message for credit card name -->
-    <string name="error_enter_a_valid_card_name">Anna nimi samassa muodossa missä se on kortissa</string>
+    <string name="error_enter_a_valid_card_name">Anna nimi samassa muodossa, jossa se on kortissa</string>
     <!-- Checkout validation error message for phone country code -->
     <string name="error_select_a_valid_country_code">Valitse maatunnus</string>
     <!-- Text shown on flight itin when booking is still pending -->
@@ -4931,7 +4965,10 @@
         <item quantity="one">Tarjous päättyy {no_of_days} päivän päästä</item>
         <item quantity="other">Tarjous päättyy {no_of_days} päivän päästä</item>
     </plurals>
-
+    <!-- Shop hotels now-->
+    <string name="shop_hotels_now">Varaa hotelli nyt</string>
+    <!--Up to 55% off-->
+    <string name="krazyglue_offer">Jopa 50 % alennusta</string>
     <!-- Showing the header for the coupon widget to show the saved coupon -->
     <string name="saved_coupon">Tallennetut kupongit</string>
 
@@ -4961,4 +4998,7 @@
     <string name="lx_ticket_selected_summary_TEMPLATE">{ticket_summary} valittu</string>
     <!-- LX SRP activity price content description when price is discounted e.g. Regular Price per adult  $125. Discounted price per adult $100-->
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">Normaalihinta per {ticket_type} {activity_original_price}. Alennettu hinta per {ticket_type} {activity_price}</string>
+    <string name="hotel_2x_points_search_title">Kaksinkertaiset Expedia+-pisteet!</string>
+    <string name="hotel_2x_points_search_content">Ansaitset kaksinkertaiset pisteet tekemällä varauksesi sovelluksessa!</string>
+
 </resources>

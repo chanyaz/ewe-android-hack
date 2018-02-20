@@ -750,10 +750,12 @@
     <string name="stops">经停次数</string>
     <!-- Header for a flight filter, showing a list of flights from different airlines -->
     <string name="airlines">航空公司</string>
+    <!-- Header for a flight filter above the price on checked filters-->
+    <string name="price_label">价格</string>
 
     <!-- Pluralization for number of stops (layovers) on a given flight "2 stops" -->
     <plurals name="x_Stops_TEMPLATE">
-        <item quantity="zero">不经停</item>
+        <item quantity="zero">直飞</item>
         <item quantity="one">%s 次经停</item>
         <item quantity="two">%s 次经停</item>
         <item quantity="few">%s 次经停</item>
@@ -786,6 +788,9 @@
     <string name="packages_trip_total_with_taxes_and_fees_TEMPLATE">{totalstring} {taxesandfeesstring}</string>
     <!-- Progress dialog text while creating a trip -->
     <string name="spinner_text_create_trip">正在创建旅行计划…</string>
+    <!-- Error dialog title when there's a MID create trip error -->
+    <string name="server_error">服务器错误</string>
+
 
     <!-- Actionbar Title - "Checkout" -->
     <string name="Checkout">付款</string>
@@ -1166,8 +1171,6 @@
     <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;抵达 %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
     <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;飞离 %1$s&lt;/b&gt; - %2$s</string>
-    <!-- Itin sign out confirmation message -->
-    <string name="itin_sign_out_confirmation_message_TEMPLATE">退出%1$s将删除所有与此帐户关联的行程项目。您是否确定要退出？</string>
     <!-- Accessibility lable for flight overview summary e.g Delta Airlines 745 departs 11:32 AM and arrives 6:04 PM -->
     <string name="flight_overview_TEMPLATE_cont_desc">{airline}于 {departuretime} 从{departureairport}起飞，并于 {arrivaltime} 到达{arrivalairport}</string>
     <!-- Directions -->
@@ -2070,10 +2073,20 @@
     <string name="you_are_a_valued_member">您是我们尊贵的会员！</string>
     <!-- Shop as a {brand} member eg: Shop as an Expedia member! -->
     <string name="shop_as_a_member_TEMPLATE">以 {brand} 会员身份预订！</string>
+    <!-- Launch screen 2x messaging signed-out title-->
+    <string name="launch_screen_sign_in_2x_title">登录以获得更佳预订体验！</string>
+    <!-- Launch screen 2x messaging for signed-out subtitle-->
+    <string name="launch_screen_sign_in_2x_subtitle">凭会员价，您现在可在数万家酒店享有平均 83 折的优惠。此外，任何 App 预订均可累积双倍积分！</string>
+    <!-- Launch screen 2x banner messaging for signed-in users -->
+    <string name="launch_screen_2x_banner">任何 App 预订均可累积双倍积分！</string>
+    <!-- Checkout sign in button for 2x messaging -->
+    <string name="checkout_sign_in_2x_messaging">登录帐户，累积双倍积分！</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">预订此行程将累积 {reward_currency} 分！</string>
+    <!-- Blurb text displayed on account sign in button when already signed in and has 2x earn messaging e.g. You'll earn 1234 points. That's double for booking in app!-->
+    <string name="earn_2x_rewards_currency_for_this_trip_TEMPLATE">您将累积 {reward_currency} 分。App 预订可累积双倍积分！</string>
     <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_raised_the_total_price_TEMPLATE">很抱歉，酒店好像刚刚提高了您在 %1$s到 %2$s 期间入住客房的价格。</string>
+    <string name="the_hotel_raised_the_total_price_TEMPLATE">很抱歉，酒店好像刚刚提高了您在 %1$s到 %2$s期间入住客房的价格。</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_lowered_the_total_price_TEMPLATE">好消息！您的酒店价格刚刚从 %1$s降到了 %2$s。</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
@@ -2134,6 +2147,12 @@
     <string name="guest_details">住客详细信息</string>
     <!-- Warning shown to users when they enter their name (Material design message) -->
     <string name="name_must_match_warning_new">旅客姓名必须与政府签发的带照片的身份证件完全相符。</string>
+    <!-- For saved travelers button with saved traveler selected, eg Saved traveler, John Smith, button, opens traveler list-->
+    <string name="saved_traveler_button_content_description_TEMPLATE">已保存的旅客，{travelername}，按钮，打开旅客列表</string>
+    <!-- For saved travelers button without saved traveler, such as Add New Traveler or Select saved contacts, EG, Add New Traveler, button, opens traveler list -->
+    <string name="select_traveler_button_content_description_TEMPLATE">{buttontitle}，按钮，打开旅客列表</string>
+    <!-- Announced when saved traveler dropdown list is shown to user-->
+    <string name="traveler_list_opened">已打开旅客列表</string>
 
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_country_code_dropdown_cont_desc">国家/地区代码</string>
@@ -3013,6 +3032,8 @@
     <string name="coupon_promo_title">优惠券和促销</string>
     <!-- Title on dialog imploring users to enter coupons -->
     <string name="enter_coupon_code">输入优惠券代码</string>
+    <!-- Coupon widget content description on Hotel Checkout Overview-->
+    <string name="coupon_widget_content_description">输入优惠券代码的按钮</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">提交</string>
     <!-- Coupon apply button -->
@@ -3205,8 +3226,16 @@
         <item quantity="many">%d 位老人</item>
         <item quantity="other">%d 位老人</item>
     </plurals>
-    <!-- A number of guests. Capitalized -->
+    <!-- A number of guests. -->
     <plurals name="number_of_guests">
+        <item quantity="zero">%d 位住客</item>
+        <item quantity="one">%d 位住客</item>
+        <item quantity="two">%d 位住客</item>
+        <item quantity="many">%d 位住客</item>
+        <item quantity="other">%d 位住客</item>
+    </plurals>
+    <!-- A number of guests. Capitalized-->
+    <plurals name="number_of_guests_capitalized">
         <item quantity="zero">%d 位住客</item>
         <item quantity="one">%d 位住客</item>
         <item quantity="two">%d 位住客</item>
@@ -3839,6 +3868,8 @@
     <string name="material_applied_coupon_subtitle_TEMPLATE">{name} (-{discount})</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
     <string name="coupon_error_dialog_title">优惠券未成功使用</string>
+    <!--Hotel V2 remove coupon button content description-->
+    <string name="remove_coupon_button_content_description">删除优惠券</string>
     <string name="coupon_error_remove_dialog_title">撤销优惠券未成功</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">您的优惠券有问题。请再输一次。</string>
@@ -4544,6 +4575,9 @@
     <!--Traveler widget child minus button content description-->
     <string name="remove_child_traveler_cont_desc">删除一位儿童旅客</string>
 
+    <!--Recent search subtitle in the suggestions dropdown, e.g Jun 3 - Jun 4 1 Night 2 Guests -->
+    <string name="suggestion_search_info_dropdown_TEMPLATE">{startdate}- {enddate}，{nights} 晚，{guests} 位住客</string>
+
     <!--Rail Traveler widget youth plus button content description-->
     <string name="rails_add_youth_traveler_cont_desc">添加一位青少年旅客</string>
     <!--Rail Traveler widget youth minus button content description-->
@@ -4931,7 +4965,10 @@
         <item quantity="one">优惠倒计时：{no_of_days} 天</item>
         <item quantity="other">优惠倒计时：{no_of_days} 天</item>
     </plurals>
-
+    <!-- Shop hotels now-->
+    <string name="shop_hotels_now">现在就订酒店</string>
+    <!--Up to 55% off-->
+    <string name="krazyglue_offer">低至 45 折优惠</string>
     <!-- Showing the header for the coupon widget to show the saved coupon -->
     <string name="saved_coupon">保存的优惠券</string>
 
@@ -4961,4 +4998,7 @@
     <string name="lx_ticket_selected_summary_TEMPLATE">已选择 {ticket_summary}</string>
     <!-- LX SRP activity price content description when price is discounted e.g. Regular Price per adult  $125. Discounted price per adult $100-->
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">原价{ticket_type} {activity_original_price}。折扣价{ticket_type} {activity_price}</string>
+    <string name="hotel_2x_points_search_title">双倍 Expedia+ 积分！</string>
+    <string name="hotel_2x_points_search_content">因为在 App 中预订，您将累积双倍积分！</string>
+
 </resources>
