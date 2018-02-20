@@ -750,6 +750,8 @@
     <string name="stops">轉機點</string>
     <!-- Header for a flight filter, showing a list of flights from different airlines -->
     <string name="airlines">航空公司</string>
+    <!-- Header for a flight filter above the price on checked filters-->
+    <string name="price_label">價格</string>
 
     <!-- Pluralization for number of stops (layovers) on a given flight "2 stops" -->
     <plurals name="x_Stops_TEMPLATE">
@@ -786,6 +788,9 @@
     <string name="packages_trip_total_with_taxes_and_fees_TEMPLATE">{totalstring} {taxesandfeesstring}</string>
     <!-- Progress dialog text while creating a trip -->
     <string name="spinner_text_create_trip">正在建立行程…</string>
+    <!-- Error dialog title when there's a MID create trip error -->
+    <string name="server_error">伺服器發生錯誤</string>
+
 
     <!-- Actionbar Title - "Checkout" -->
     <string name="Checkout">付款</string>
@@ -1166,8 +1171,6 @@
     <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;抵達：%1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
     <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;來自：%1$s&lt;/b&gt; - %2$s</string>
-    <!-- Itin sign out confirmation message -->
-    <string name="itin_sign_out_confirmation_message_TEMPLATE">登出 %1$s 將移除所有與此帳戶有關的行程項目。確定要登出嗎？</string>
     <!-- Accessibility lable for flight overview summary e.g Delta Airlines 745 departs 11:32 AM and arrives 6:04 PM -->
     <string name="flight_overview_TEMPLATE_cont_desc">{airline} 於 {departuretime} 從{departureairport}出發，於 {arrivaltime} 抵達{arrivalairport}</string>
     <!-- Directions -->
@@ -2070,8 +2073,18 @@
     <string name="you_are_a_valued_member">您是我們寶貴的會員！</string>
     <!-- Shop as a {brand} member eg: Shop as an Expedia member! -->
     <string name="shop_as_a_member_TEMPLATE">以 {brand} 會員身分預訂！</string>
+    <!-- Launch screen 2x messaging signed-out title-->
+    <string name="launch_screen_sign_in_2x_title">登入以享受更多優惠折扣！</string>
+    <!-- Launch screen 2x messaging for signed-out subtitle-->
+    <string name="launch_screen_sign_in_2x_subtitle">您可以透過會員價，立即享受萬家飯店平均額外 17% 折扣。此外，使用 App 預訂，還可獲得雙倍點數！</string>
+    <!-- Launch screen 2x banner messaging for signed-in users -->
+    <string name="launch_screen_2x_banner">使用 App 預訂，將可獲得雙倍點數！</string>
+    <!-- Checkout sign in button for 2x messaging -->
+    <string name="checkout_sign_in_2x_messaging">登入以獲得雙倍點數！</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">此趟旅程您將可獲得 {reward_currency} 點！</string>
+    <!-- Blurb text displayed on account sign in button when already signed in and has 2x earn messaging e.g. You'll earn 1234 points. That's double for booking in app!-->
+    <string name="earn_2x_rewards_currency_for_this_trip_TEMPLATE">您將可獲得 {reward_currency} 點。使用 App 預訂就能獲得雙倍點數！</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_raised_the_total_price_TEMPLATE">很抱歉，此飯店剛剛調漲了價格，總價從原先的 %1$s 調漲成 %2$s。</string>
     <!-- String to use when a price change alert should be shown to the user -->
@@ -2134,6 +2147,12 @@
     <string name="guest_details">旅客資訊</string>
     <!-- Warning shown to users when they enter their name (Material design message) -->
     <string name="name_must_match_warning_new">旅客姓名必須與政府核發之附相片的身分證件上姓名相符。</string>
+    <!-- For saved travelers button with saved traveler selected, eg Saved traveler, John Smith, button, opens traveler list-->
+    <string name="saved_traveler_button_content_description_TEMPLATE">儲存旅客、{travelername}、按鈕、打開旅客名單</string>
+    <!-- For saved travelers button without saved traveler, such as Add New Traveler or Select saved contacts, EG, Add New Traveler, button, opens traveler list -->
+    <string name="select_traveler_button_content_description_TEMPLATE">{buttontitle}、按鈕、打開旅客名單</string>
+    <!-- Announced when saved traveler dropdown list is shown to user-->
+    <string name="traveler_list_opened">旅客名單已打開</string>
 
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_country_code_dropdown_cont_desc">國碼</string>
@@ -3013,6 +3032,8 @@
     <string name="coupon_promo_title">優惠券及促銷活動</string>
     <!-- Title on dialog imploring users to enter coupons -->
     <string name="enter_coupon_code">輸入優惠代碼</string>
+    <!-- Coupon widget content description on Hotel Checkout Overview-->
+    <string name="coupon_widget_content_description">輸入優惠代碼按紐</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">送出</string>
     <!-- Coupon apply button -->
@@ -3205,8 +3226,16 @@
         <item quantity="many">%d 位銀髮族</item>
         <item quantity="other">%d 位銀髮族</item>
     </plurals>
-    <!-- A number of guests. Capitalized -->
+    <!-- A number of guests. -->
     <plurals name="number_of_guests">
+        <item quantity="zero">%d 位旅客</item>
+        <item quantity="one">%d 位旅客</item>
+        <item quantity="two">%d 位旅客</item>
+        <item quantity="many">%d 位旅客</item>
+        <item quantity="other">%d 位旅客</item>
+    </plurals>
+    <!-- A number of guests. Capitalized-->
+    <plurals name="number_of_guests_capitalized">
         <item quantity="zero">%d 位旅客</item>
         <item quantity="one">%d 位旅客</item>
         <item quantity="two">%d 位旅客</item>
@@ -3261,7 +3290,7 @@
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{currency}{amount}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">設定</string>
@@ -3839,6 +3868,8 @@
     <string name="material_applied_coupon_subtitle_TEMPLATE">{name} (-{discount})</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
     <string name="coupon_error_dialog_title">無法使用優惠券</string>
+    <!--Hotel V2 remove coupon button content description-->
+    <string name="remove_coupon_button_content_description">移除優惠券</string>
     <string name="coupon_error_remove_dialog_title">無法移除優惠券</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">您的優惠券出現問題。請再輸入一次。</string>
@@ -4257,7 +4288,7 @@
     <string name="rail_station_info_TEMPLATE">{departure}到{arrival}</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
-    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
+    <string name="rail_fare_info_TEMPLATE">{fareclass}{serviceclass}</string>
 
     <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
@@ -4543,6 +4574,9 @@
     <string name="add_child_traveler_cont_desc">新增 1 位兒童旅客</string>
     <!--Traveler widget child minus button content description-->
     <string name="remove_child_traveler_cont_desc">移除 1 位兒童旅客</string>
+
+    <!--Recent search subtitle in the suggestions dropdown, e.g Jun 3 - Jun 4 1 Night 2 Guests -->
+    <string name="suggestion_search_info_dropdown_TEMPLATE">{startdate} - {enddate}，{nights}，{guests}</string>
 
     <!--Rail Traveler widget youth plus button content description-->
     <string name="rails_add_youth_traveler_cont_desc">新增 1 位青少年旅客</string>
@@ -4931,7 +4965,10 @@
         <item quantity="one">優惠只剩 {no_of_days} 天</item>
         <item quantity="other">優惠只剩 {no_of_days} 天</item>
     </plurals>
-
+    <!-- Shop hotels now-->
+    <string name="shop_hotels_now">立即加訂飯店</string>
+    <!--Up to 55% off-->
+    <string name="krazyglue_offer">最高可享 45 折</string>
     <!-- Showing the header for the coupon widget to show the saved coupon -->
     <string name="saved_coupon">已儲存的優惠券</string>
 
@@ -4961,4 +4998,7 @@
     <string name="lx_ticket_selected_summary_TEMPLATE">已選擇 {ticket_summary}</string>
     <!-- LX SRP activity price content description when price is discounted e.g. Regular Price per adult  $125. Discounted price per adult $100-->
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">{ticket_type}原價 {activity_original_price}，{ticket_type}優惠價 {activity_price}</string>
+    <string name="hotel_2x_points_search_title">雙倍 Expedia+ 點數！</string>
+    <string name="hotel_2x_points_search_content">使用 App 預訂，您將可獲得雙倍點數！</string>
+
 </resources>

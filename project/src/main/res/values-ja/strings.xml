@@ -750,10 +750,12 @@
     <string name="stops">乗継回数</string>
     <!-- Header for a flight filter, showing a list of flights from different airlines -->
     <string name="airlines">航空会社</string>
+    <!-- Header for a flight filter above the price on checked filters-->
+    <string name="price_label">料金</string>
 
     <!-- Pluralization for number of stops (layovers) on a given flight "2 stops" -->
     <plurals name="x_Stops_TEMPLATE">
-        <item quantity="zero">乗継なし</item>
+        <item quantity="zero">直行</item>
         <item quantity="one">乗継 %s 回</item>
         <item quantity="two">乗継 %s 回</item>
         <item quantity="few">乗継 %s 回</item>
@@ -786,6 +788,9 @@
     <string name="packages_trip_total_with_taxes_and_fees_TEMPLATE">{totalstring} {taxesandfeesstring}</string>
     <!-- Progress dialog text while creating a trip -->
     <string name="spinner_text_create_trip">旅行を作成中…</string>
+    <!-- Error dialog title when there's a MID create trip error -->
+    <string name="server_error">サーバーエラー</string>
+
 
     <!-- Actionbar Title - "Checkout" -->
     <string name="Checkout">購入手続き</string>
@@ -1166,8 +1171,6 @@
     <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;%1$s に到着&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
     <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;%1$s から出発&lt;/b&gt; - %2$s</string>
-    <!-- Itin sign out confirmation message -->
-    <string name="itin_sign_out_confirmation_message_TEMPLATE">%1$s からサインアウトすると、このアカウントに関連する旅程が全て削除されます。サインアウトしてもよろしいですか ?</string>
     <!-- Accessibility lable for flight overview summary e.g Delta Airlines 745 departs 11:32 AM and arrives 6:04 PM -->
     <string name="flight_overview_TEMPLATE_cont_desc">フライト {airline}、{departureairport}を {departuretime}に出発、{arrivalairport}に{arrivaltime}に到着</string>
     <!-- Directions -->
@@ -2070,8 +2073,18 @@
     <string name="you_are_a_valued_member">いつもご利用ありがとうございます。</string>
     <!-- Shop as a {brand} member eg: Shop as an Expedia member! -->
     <string name="shop_as_a_member_TEMPLATE">{brand} の会員として予約 !</string>
+    <!-- Launch screen 2x messaging signed-out title-->
+    <string name="launch_screen_sign_in_2x_title">サインインしてお得に予約 !</string>
+    <!-- Launch screen 2x messaging for signed-out subtitle-->
+    <string name="launch_screen_sign_in_2x_subtitle">会員価格なら、世界中のホテルがさらに平均 17% OFF &amp; アプリ予約でポイント 2 倍獲得 !</string>
+    <!-- Launch screen 2x banner messaging for signed-in users -->
+    <string name="launch_screen_2x_banner">アプリ予約でポイント 2 倍獲得 !</string>
+    <!-- Checkout sign in button for 2x messaging -->
+    <string name="checkout_sign_in_2x_messaging">サインインしてポイントを 2 倍獲得 !</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">今回の旅行で {reward_currency} ポイント付与されます !</string>
+    <!-- Blurb text displayed on account sign in button when already signed in and has 2x earn messaging e.g. You'll earn 1234 points. That's double for booking in app!-->
+    <string name="earn_2x_rewards_currency_for_this_trip_TEMPLATE">{reward_currency} ポイント付与されます ! アプリ予約なら 2 倍 !</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_raised_the_total_price_TEMPLATE">申し訳ありません。ホテルがこの宿泊の合計料金を %1$s から %2$s に値上げしました。</string>
     <!-- String to use when a price change alert should be shown to the user -->
@@ -2134,6 +2147,12 @@
     <string name="guest_details">ゲストの詳細</string>
     <!-- Warning shown to users when they enter their name (Material design message) -->
     <string name="name_must_match_warning_new">旅行者の氏名は、パスポートに記載されている氏名と一致している必要があります。</string>
+    <!-- For saved travelers button with saved traveler selected, eg Saved traveler, John Smith, button, opens traveler list-->
+    <string name="saved_traveler_button_content_description_TEMPLATE">保存済みの旅行者、{travelername}、ボタン、旅行者リストを開く</string>
+    <!-- For saved travelers button without saved traveler, such as Add New Traveler or Select saved contacts, EG, Add New Traveler, button, opens traveler list -->
+    <string name="select_traveler_button_content_description_TEMPLATE">{buttontitle}、ボタン、旅行者リストを開く</string>
+    <!-- Announced when saved traveler dropdown list is shown to user-->
+    <string name="traveler_list_opened">旅行者リスト表示中</string>
 
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_country_code_dropdown_cont_desc">国番号</string>
@@ -3013,6 +3032,8 @@
     <string name="coupon_promo_title">クーポンとプロモーション</string>
     <!-- Title on dialog imploring users to enter coupons -->
     <string name="enter_coupon_code">クーポンコードを入力</string>
+    <!-- Coupon widget content description on Hotel Checkout Overview-->
+    <string name="coupon_widget_content_description">クーポンコードを入力ボタン</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">送信</string>
     <!-- Coupon apply button -->
@@ -3205,8 +3226,16 @@
         <item quantity="many">シニア %d 名</item>
         <item quantity="other">シニア %d 名</item>
     </plurals>
-    <!-- A number of guests. Capitalized -->
+    <!-- A number of guests. -->
     <plurals name="number_of_guests">
+        <item quantity="zero">宿泊者 %d 名</item>
+        <item quantity="one">宿泊者 %d 名</item>
+        <item quantity="two">宿泊者 %d 名</item>
+        <item quantity="many">宿泊者 %d 名</item>
+        <item quantity="other">宿泊者 %d 名</item>
+    </plurals>
+    <!-- A number of guests. Capitalized-->
+    <plurals name="number_of_guests_capitalized">
         <item quantity="zero">宿泊者 %d 名</item>
         <item quantity="one">宿泊者 %d 名</item>
         <item quantity="two">宿泊者 %d 名</item>
@@ -3839,6 +3868,8 @@
     <string name="material_applied_coupon_subtitle_TEMPLATE">{name} (-{discount})</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
     <string name="coupon_error_dialog_title">クーポンが適用できませんでした</string>
+    <!--Hotel V2 remove coupon button content description-->
+    <string name="remove_coupon_button_content_description">クーポンを削除する</string>
     <string name="coupon_error_remove_dialog_title">クーポンを削除できませんでした</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">申し訳ありません。クーポンの適用中にエラーが発生しました。もう一度入力してください。</string>
@@ -4544,6 +4575,9 @@
     <!--Traveler widget child minus button content description-->
     <string name="remove_child_traveler_cont_desc">旅行者からお子様 1 名を削除する</string>
 
+    <!--Recent search subtitle in the suggestions dropdown, e.g Jun 3 - Jun 4 1 Night 2 Guests -->
+    <string name="suggestion_search_info_dropdown_TEMPLATE">{startdate} ～ {enddate}、{nights}\u0020{guests}</string>
+
     <!--Rail Traveler widget youth plus button content description-->
     <string name="rails_add_youth_traveler_cont_desc">旅行者に中人 1 名を追加する</string>
     <!--Rail Traveler widget youth minus button content description-->
@@ -4931,7 +4965,10 @@
         <item quantity="one">プロモーション終了まであと {no_of_days} 日</item>
         <item quantity="other">プロモーション終了まであと {no_of_days} 日</item>
     </plurals>
-
+    <!-- Shop hotels now-->
+    <string name="shop_hotels_now">今すぐホテルを予約する</string>
+    <!--Up to 55% off-->
+    <string name="krazyglue_offer">最大 55% OFF</string>
     <!-- Showing the header for the coupon widget to show the saved coupon -->
     <string name="saved_coupon">保存済みのクーポン</string>
 
@@ -4961,4 +4998,7 @@
     <string name="lx_ticket_selected_summary_TEMPLATE">選択された現地ツアーの対象人数 : {ticket_summary}</string>
     <!-- LX SRP activity price content description when price is discounted e.g. Regular Price per adult  $125. Discounted price per adult $100-->
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">通常料金 {activity_original_price} ({ticket_type})。割引適用後の料金 {activity_price} ({ticket_type})</string>
+    <string name="hotel_2x_points_search_title">Expedia+ ポイント 2 倍 !</string>
+    <string name="hotel_2x_points_search_content">アプリで予約するだけで、ポイント 2 倍獲得 !</string>
+
 </resources>
