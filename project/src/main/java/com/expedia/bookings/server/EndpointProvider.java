@@ -238,15 +238,19 @@ public class EndpointProvider {
 	 * Returns the base suggestion server url, based on dev settings
 	 */
 	private final static String ESS_PRODUCTION_ENDPOINT = "https://suggest.expedia.com/";
+	private final static String ESS_INTEGRATION_ENDPOINT = "https://ess.us-west-2.int.expedia.com/";
 
 	public String getEssEndpointUrl() {
 		EndPoint endPoint = getEndPoint();
-
-		if (endPoint == EndPoint.CUSTOM_SERVER || endPoint == EndPoint.MOCK_MODE) {
+		switch (endPoint) {
+		case MOCK_MODE:
+		case CUSTOM_SERVER:
 			return getCustomServerAddress();
+		case PRODUCTION:
+			return ESS_PRODUCTION_ENDPOINT;
+		default:
+			return ESS_INTEGRATION_ENDPOINT;
 		}
-
-		return ESS_PRODUCTION_ENDPOINT;
 	}
 
 	/**

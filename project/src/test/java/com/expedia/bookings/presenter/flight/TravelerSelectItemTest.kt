@@ -13,12 +13,12 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.traveler.TravelerSelectItem
 import com.expedia.vm.test.traveler.MockTravelerProvider
 import com.expedia.vm.traveler.TravelerSelectItemViewModel
+import org.joda.time.LocalDate
+import org.joda.time.format.DateTimeFormat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
@@ -54,8 +54,8 @@ class TravelerSelectItemTest {
         travelerSelectItemViewModel.travelerValidator.updateForNewSearch(FlightTestUtil.getFlightSearchParams(false, false))
         mockTravelerProvider.updateDBWithMockTravelers(1, mockTravelerProvider.getCompleteMockTraveler())
         travelerSelectItemViewModel.refreshStatusObservable.onNext(Unit)
-        val formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
-        val date = LocalDate.now().minusYears(24).format(formatter)
+        val formatter = DateTimeFormat.forPattern("MM/dd/yyyy")
+        val date = LocalDate.now().minusYears(24).toString(formatter)
 
         assertEquals("Oscar The Grouch, " + date + ", traveler details complete. Button.", travelerSelectItem.contentDescription)
     }
