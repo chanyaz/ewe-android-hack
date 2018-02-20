@@ -30,6 +30,7 @@ import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
@@ -314,7 +315,9 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
 
     private fun getStopFilterLabel(numOfStops: Int): String {
         when (numOfStops) {
-            0 -> return resources.getString(R.string.flight_nonstop_description)
+            0 -> {
+                return FlightV2Utils.getStopsStringWhenZeroStops(context)
+            }
             1 -> return resources.getString(R.string.flight_one_stop_description)
             else -> {
                 return resources.getString(R.string.flight_two_plus_stops_description)

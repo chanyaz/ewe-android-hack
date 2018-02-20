@@ -246,6 +246,9 @@ public class PointOfSale {
 	// 8555 - Should show hotel fees in local currency for packages.
 	private boolean showResortFeesInHotelLocalCurrency;
 
+	// Should show direct text
+	private boolean mShouldShowDirectTextInsteadOfNonstop;
+
 	private static class CountryResources {
 		@StringRes
 		int countryNameResId;
@@ -968,6 +971,10 @@ public class PointOfSale {
 	public Boolean shouldShowCarsCrossSellButton() {
 		return showCarsCrossSellButton;
 	}
+
+	public Boolean shouldShowDirectText() {
+		return mShouldShowDirectTextInsteadOfNonstop;
+	}
 	
 	/**
 	 * This is equivalent to calling getStylizedHotelBookingStatement(false)
@@ -1363,6 +1370,7 @@ public class PointOfSale {
 		pos.hideAdvancedSearchOnFlights = data.optBoolean("hideAdvanceSearchOnFlights", false);
 		pos.hideBillingAddressFields = data.optBoolean("hideBillingAddressFields");
 		pos.showCarsCrossSellButton = data.optBoolean("showCarsCrossSellButton");
+		pos.mShouldShowDirectTextInsteadOfNonstop = data.optBoolean("shouldUseDirectInsteadOfNonStop", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");

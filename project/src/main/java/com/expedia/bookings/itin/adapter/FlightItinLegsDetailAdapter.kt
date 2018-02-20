@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.itin.data.FlightItinLegsDetailData
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
@@ -66,7 +67,7 @@ class FlightItinLegsDetailAdapter(val context: Context, val legsDetailList: Arra
         val departureDate = legsDetailList.get(position).departureMonthDay
         val arrivalTime = legsDetailList.get(position).arrivalTime
         val stops = Integer.parseInt(legsDetailList.get(position).stopNumber)
-        val numberOfStops = if (isZero(legsDetailList.get(position).stopNumber)) context.getString(R.string.itin_flight_leg_detail_widget_nonstop) else context.resources.getQuantityString(R.plurals.itin_flight_leg_detail_widget_stops_TEMPLATE, stops, stops)
+        val numberOfStops = getNumberOfStops(position, stops)
         if (departureTime.isNotBlank() && departureDate.isNotBlank() && arrivalTime.isNotBlank()) {
             val departureDateTime = Phrase.from(context, R.string.itin_flight_leg_detail_widget_sub_title_date_time_TEMPLATE).put("date", departureDate).put("time", departureTime).format().toString()
             subtitle = Phrase.from(context, R.string.itin_flight_leg_detail_widget_sub_title_TEMPLATE).put("departure_date_time", departureDateTime).put("arrival_date_time", arrivalTime).put("stops", numberOfStops).format().toString()
@@ -88,5 +89,21 @@ class FlightItinLegsDetailAdapter(val context: Context, val legsDetailList: Arra
 
     private fun getContentDescriptionForSubTitle(subtitleText: String): String {
         return subtitleText.replace(context.getString(R.string.itin_flight_leg_detail_widget_hyphen_text), context.getString(R.string.itin_flight_leg_detail_widget_to_text))
+    }
+
+    private fun getNumberOfStops(position: Int, stops: Int): String {
+        if (isZero(legsDetailList.get(position).stopNumber)) {
+            return if (PointOfSale.getPointOfSale().shouldShowDirectText()) {
+                context.getString(R.string.itin_flight_leg_detail_widget_direct)
+            } else {
+                context.getString(R.string.itin_flight_leg_detail_widget_nonstop)
+            }
+        } else {
+            return if (PointOfSale.getPointOfSale().shouldShowDirectText()) {
+                context.resources.getQuantityString(R.plurals.itin_flight_leg_detail_widget_stops_with_direct_TEMPLATE, stops, stops)
+            } else {
+                context.resources.getQuantityString(R.plurals.itin_flight_leg_detail_widget_stops_TEMPLATE, stops, stops)
+            }
+        }
     }
 }
