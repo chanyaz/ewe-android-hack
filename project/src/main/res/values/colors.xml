@@ -417,7 +417,7 @@
     <color name="white_disabled">@color/white_19</color>
     <color name="search_dialog_icon_color">@color/gray700</color>
     <color name="search_dialog_background_v2">@color/white</color>
-    <color name="search_origin_dest_divider">@color/gray300</color>
+    <color name="search_origin_dest_divider">@color/gray200</color>
     <color name="search_suggestion_background_v2">#FAFAFA</color>
     <color name="search_suggestion_v2">@color/gray600</color>
     <color name="search_suggestion_hint_v2">@color/gray600</color>

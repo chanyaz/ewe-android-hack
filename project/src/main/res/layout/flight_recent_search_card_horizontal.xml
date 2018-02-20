@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:id="@+id/recent_search_card_v2"
+<LinearLayout android:id="@+id/recent_search_card_item"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="185dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/flight_recent_search_item_margin_bottom"
+    android:layout_marginRight="10dp"
     android:background="@drawable/flight_recent_search_border"
     android:clickable="true"
+    android:minWidth="185dp"
     android:orientation="vertical"
-    android:padding="14dp"
-    android:layout_marginRight="10dp">
+    android:padding="14dp">
 
     <LinearLayout
         android:id="@+id/recent_search_header"
@@ -19,7 +20,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/recent_search_origin"
-            style="@style/RecentSearchFirstLine"/>
+            style="@style/RecentSearchFirstLine" />
 
         <com.larvalabs.svgandroid.widget.SVGView
             android:id="@+id/recent_search_one_way_arrow"
@@ -42,14 +43,36 @@
         android:orientation="horizontal"
         android:weightSum="1">
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/recent_search_date"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/gray700"
-            android:textSize="13sp"
-            app:textStyle="normal" />
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/recent_search_startdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray700"
+                android:textSize="13sp"
+                app:textStyle="normal" />
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/recent_search_datehyphen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray700"
+                android:textSize="13sp"
+                app:textStyle="normal"
+                android:text="\u0020\u0020-\u0020\u0020"/>
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/recent_search_enddate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray700"
+                android:textSize="13sp"
+                app:textStyle="normal" />
+        </LinearLayout>
 
         <com.expedia.bookings.widget.TextView
             android:layout_width="wrap_content"
@@ -67,15 +90,16 @@
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:layout_gravity="center"
-            android:src="@drawable/search_form_icon_person" />
+            android:src="@drawable/search_form_icon_person"
+            android:tint="@color/gray700" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/recent_search_traveler_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textColor="@color/gray700"
             android:layout_marginLeft="6dp"
+            android:textColor="@color/gray700"
             android:textSize="13sp"
             app:textStyle="normal" />
 
@@ -93,29 +117,29 @@
     <View
         android:id="@+id/flight_recent_search_divider"
         android:layout_width="match_parent"
-        android:layout_height="1px"
+        android:layout_height="1dp"
         android:layout_marginTop="12dp"
         android:background="@color/search_origin_dest_divider" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/recent_search_price"
-            style="@style/RecentSearchFirstLine"/>
+            style="@style/RecentSearchFirstLine"
+            android:textSize="@dimen/type_300_text_size"/>
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/recent_search_price_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="4dp"
             android:textColor="@color/gray600"
-            android:textSize="@dimen/type_200_text_size"
-            android:textStyle="normal"
-            android:layout_marginLeft="4dp"/>
+            android:textSize="@dimen/type_200_text_size" />
 
     </LinearLayout>
 

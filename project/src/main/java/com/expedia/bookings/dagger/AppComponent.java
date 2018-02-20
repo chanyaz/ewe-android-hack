@@ -1,10 +1,14 @@
 package com.expedia.bookings.dagger;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+import org.jetbrains.annotations.NotNull;
 import android.content.Context;
 
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.RouterActivity;
 import com.expedia.bookings.activity.SatelliteRemoteFeatureResolver;
+import com.expedia.bookings.data.AppDatabase;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.fragment.AccountSettingsFragment;
 import com.expedia.bookings.hotel.util.HotelGalleryManager;
@@ -31,11 +35,6 @@ import com.expedia.bookings.utils.HMACInterceptor;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.utils.navigation.SearchLobToolbarCache;
 import com.expedia.model.UserLoginStateChangedModel;
-
-import org.jetbrains.annotations.NotNull;
-
-import javax.inject.Named;
-import javax.inject.Singleton;
 
 import dagger.Component;
 import okhttp3.Interceptor;
@@ -114,4 +113,6 @@ public interface AppComponent {
 	NotificationScheduler notificationScheduler();
 
 	SatelliteRemoteFeatureResolver satelliteRemoteFeatureResolver();
+
+	AppDatabase provideAppDatabase();
 }

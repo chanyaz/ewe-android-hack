@@ -986,6 +986,16 @@
         <item name="android:layout_gravity">center_vertical</item>
         <item name="textStyle">medium</item>
     </style>
+
+    <style name="RecentSearchDateInvalid">
+        <item name="android:textColor">@color/gray400</item>
+        <item name="textStyle">italic</item>
+    </style>
+    <style name="RecentSearchDateValid">
+        <item name="android:textColor">@color/gray700</item>
+        <item name="textStyle">normal</item>
+    </style>
+
     <style name="CVVPromptBase">
         <item name="android:layout_centerHorizontal">true</item>
         <item name="android:singleLine">true</item>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:id="@+id/recent_search_card_v1"
+<LinearLayout android:id="@+id/recent_search_card_item"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,6 +9,8 @@
     android:background="@drawable/flight_recent_search_border"
     android:clickable="true"
     android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:padding="14dp">
 
     <LinearLayout
@@ -56,15 +58,32 @@
         android:orientation="horizontal"
         android:weightSum="1">
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/recent_search_date"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginTop="4dp"
-            android:textColor="@color/gray700"
-            android:textSize="13sp"
-            app:textStyle="normal" />
+            android:orientation="horizontal">
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/recent_search_startdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                style="@style/RecentSearchDateValid"/>
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/recent_search_datehyphen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:text="\u0020\u0020-\u0020\u0020"
+                style="@style/RecentSearchDateValid"/>
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/recent_search_enddate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                style="@style/RecentSearchDateValid"/>
+        </LinearLayout>
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/recent_search_price_subtitle"
@@ -99,7 +118,8 @@
             android:layout_height="12dp"
             android:layout_gravity="center"
             android:layout_marginLeft="6dp"
-            android:src="@drawable/search_form_icon_person" />
+            android:tint="@color/gray700"
+            android:src="@drawable/search_form_icon_person"/>
 
         <com.expedia.bookings.widget.TextView
             android:layout_width="wrap_content"

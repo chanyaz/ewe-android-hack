@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewStub
 import android.widget.ImageView
-import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.adapter.FlightSearchPageAdapter
 import com.expedia.bookings.data.LineOfBusiness
@@ -20,6 +19,7 @@ import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.extensions.setAccessibilityHoverFocus
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.location.CurrentLocationObservable
@@ -40,6 +40,7 @@ import com.expedia.bookings.widget.FlightCabinClassWidget
 import com.expedia.bookings.widget.FlightTravelerWidgetV2
 import com.expedia.bookings.widget.TravelerWidgetV2
 import com.expedia.bookings.widget.flights.RecentSearchWidgetContainer
+import com.expedia.util.Optional
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.AirportSuggestionViewModel
 import com.expedia.vm.BaseSearchViewModel
@@ -209,6 +210,25 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
                 travelerWidgetV2.traveler.getViewModel().infantInSeatObservable.onNext(!params.infantSeatingInLap)
             }
         }
+        vm.recentSearchParamsObservable.subscribe { params ->
+            scrollView.scrollTo(0, -(scrollView.height))
+
+            if (!params.isRoundTrip()) {
+                viewpager.currentItem = 1
+            } else {
+                vm.cachedEndDateObservable.onNext(Optional(params.endDate))
+                viewpager.currentItem = 0
+            }
+            val cabinClass = params.flightCabinClass
+            if (cabinClass != null) {
+                flightCabinClassWidget.flightCabinClassView.viewmodel.flightCabinClassObservable.onNext(FlightServiceClassType.CabinCode.valueOf(cabinClass))
+            }
+            travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.onNext(TravelerParams(params.adults, params.children, emptyList(), emptyList()))
+            val infantCount = params.children.count { infantAge -> infantAge < 2 }
+            if (infantCount > 0) {
+                travelerWidgetV2.traveler.getViewModel().infantInSeatObservable.onNext(!params.infantSeatingInLap)
+            }
+        }
 
         if (isSwitchToAndFromFieldsFeatureEnabled) {
             ObservableOld.combineLatest(
@@ -279,7 +299,10 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
 
         if (isRecentSearchesForFlightsEnabled(context)) {
             flightRecentSearchCardView.visibility = View.VISIBLE
-            recentSearchWidgetContainer.viewModel.fetchandShowRecentObservable.onNext(Unit)
+            recentSearchWidgetContainer.viewModel.fetchRecentSearchesObservable.onNext(Unit)
+            recentSearchWidgetContainer.viewModel.selectedRecentSearch.subscribe { searchParams ->
+                searchViewModel.recentSearchParamsObservable.onNext(searchParams)
+            }
         }
     }
 

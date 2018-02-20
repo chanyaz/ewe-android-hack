@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.BuildConfig
-import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.AbstractItinDetailsResponse
@@ -26,10 +25,12 @@ import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.enums.TwoScreenOverviewState
+import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.extensions.safeSubscribeOptional
 import com.expedia.bookings.extensions.setInverseVisibility
-import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.extensions.setVisibility
+import com.expedia.bookings.extensions.subscribeVisibility
+import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.LeftToRightTransition
@@ -50,10 +51,10 @@ import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isFlexEnabled
 import com.expedia.bookings.utils.isFlightGreedySearchEnabled
+import com.expedia.bookings.utils.isRecentSearchesForFlightsEnabled
 import com.expedia.bookings.utils.isShowFlightsCheckoutWebview
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.bookings.widget.shared.WebCheckoutView
-import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.ui.FlightActivity
 import com.expedia.util.Optional
 import com.expedia.util.notNullAndObservable
@@ -541,6 +542,12 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             }
             searchViewModel.trackSearchClicked.subscribe {
                 FlightsV2Tracking.trackSearchClick(Db.getFlightSearchParams(), true, flightOfferViewModel.isGreedyCallAborted)
+            }
+        }
+
+        if (isRecentSearchesForFlightsEnabled(context)) {
+            flightOfferViewModel.outboundResultsObservable.map({ it -> it.first().packageOfferModel.price.averageTotalPricePerTicket }).subscribe {
+                searchPresenter.recentSearchWidgetContainer.viewModel.saveRecentSearchObservable.onNext(it)
             }
         }
     }
