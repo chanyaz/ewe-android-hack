@@ -1,15 +1,18 @@
 package com.expedia.bookings.hotel.util
 
+import android.content.Context
+import android.os.Handler
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.services.HotelServices
-import com.expedia.bookings.extensions.subscribeObserver
 import com.expedia.bookings.utils.RetrofitError
 import com.expedia.bookings.utils.RetrofitUtils
+import com.google.gson.Gson
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.PublishSubject
+import java.io.InputStreamReader
 
 open class HotelSearchManager(private val hotelServices: HotelServices?) {
     val successSubject = PublishSubject.create<HotelSearchResponse>()
@@ -32,14 +35,20 @@ open class HotelSearchManager(private val hotelServices: HotelServices?) {
         return searchResponse
     }
 
-    open fun doSearch(params: HotelSearchParams, prefetchSearch: Boolean = false) {
-        hotelServices?.let { services ->
-            this.prefetchSearch = prefetchSearch
-            reset()
-            fetchingResults = true
-            isCurrentLocationSearch = params.suggestion.isCurrentLocationSearch
-            subscriptions.add(services.search(params, apiCompleteSubject).subscribeObserver(searchResponseObserver))
-        }
+    open fun doSearch(context: Context, params: HotelSearchParams, prefetchSearch: Boolean = false) {
+//        hotelServices?.let { services ->
+//            this.prefetchSearch = prefetchSearch
+//            reset()
+//            fetchingResults = true
+//            isCurrentLocationSearch = params.suggestion.isCurrentLocationSearch
+//            subscriptions.add(services.search(params, apiCompleteSubject).subscribeObserver(searchResponseObserver))
+//        }
+        val handler = Handler()
+        handler.postDelayed({
+            val mockResponse = loadResponseJson(context, "hotel/hotel_design_sprint_mock_search_response.json")
+            apiCompleteSubject.onNext(Unit)
+            searchResponseObserver.onNext(mockResponse)
+        }, 500)
     }
 
     fun reset() {
@@ -85,5 +94,11 @@ open class HotelSearchManager(private val hotelServices: HotelServices?) {
                 retrofitErrorSubject.onNext(retrofitError)
             }
         }
+    }
+
+    private fun loadResponseJson(context: Context, resourcePath: String): HotelSearchResponse {
+        val inputStream = context.assets.open(resourcePath)
+        val reader = InputStreamReader(inputStream)
+        return Gson().fromJson(reader, HotelSearchResponse::class.java)
     }
 }

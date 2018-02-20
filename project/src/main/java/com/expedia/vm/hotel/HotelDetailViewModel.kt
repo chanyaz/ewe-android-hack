@@ -91,7 +91,7 @@ open class HotelDetailViewModel(context: Context, private val hotelInfoManager: 
             val params = builder.build()
 
             fetchOffers(params, hotelId)
-            hotelSearchManager.doSearch(params, prefetchSearch = true)
+            hotelSearchManager.doSearch(context, params, prefetchSearch = true)
             datesChanged = true
             changeDateParams = params
         }

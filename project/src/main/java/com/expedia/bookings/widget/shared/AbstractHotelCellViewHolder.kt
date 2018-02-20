@@ -74,6 +74,8 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
     val earnMessagingText: TextView by bindView(R.id.earn_messaging)
     val cardView: CardView by bindView(R.id.card_view)
 
+    val topPoiContainer: LinearLayout by bindView(R.id.top_poi_container)
+
     init {
         itemView.setOnClickListener(this)
 

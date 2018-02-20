@@ -1,0 +1,1506 @@
+{
+	"numberOfRoomsRequested": 1,
+	"filterUnavailableHotelsRequested": false,
+	"totalHotelCount": 727,
+	"availableHotelCount": 616,
+	"searchRegionId": "178248",
+	"searchRegionCity": "Chicago (and vicinity)",
+	"deepLinkUrl": "https://www.expedia.com/Chicago-Hotels.d178248.Travel-Guide-Hotels",
+	"hotelList": [{
+		"sortIndex": "0",
+		"hotelId": "116674",
+		"name": "Silversmith Hotel Chicago Downtown",
+		"localizedName": "Silversmith Hotel Chicago Downtown",
+		"nonLocalizedName": "Silversmith Hotel Chicago Downtown",
+		"address": "10 S Wabash Ave",
+		"city": "Chicago",
+		"stateProvinceCode": "IL",
+		"countryCode": "USA",
+		"countryName": "United States of America",
+		"postalCode": "60603",
+		"airportCode": "ORD",
+		"supplierType": "MERCHANT",
+		"hotelStarRating": "4.0",
+		"hotelStarRatingCssClassName": "4-0",
+		"hotelGuestRating": "4.6",
+		"totalRecommendations": "4511",
+		"percentRecommended": "96",
+		"totalReviews": "4707",
+		"shortDescription": "The Silversmith Hotel is conveniently located within 1 block of Michigan Avenue and Millennium Park; Theatre District, Art Institute of Chicago, Soldier Field and McCormick Convention Center  are within 2 miles.",
+		"locationDescription": "The Loop",
+		"locationId": "800024",
+		"lowRate": "146.30",
+		"lowRateInfo": {
+			"maxNightlyRate": "146.30",
+			"averageRate": "146.30",
+			"taxStatusType": "ESTIMATED",
+			"surchargeTotal": "25.89",
+			"surchargeTotalForEntireStay": "25.89",
+			"surchargesWithoutPropertyFee": "25.89",
+			"surchargesWithoutPropertyFeeForEntireStay": "25.89",
+			"averageBaseRate": "209.00",
+			"nightlyRateTotal": "146.30",
+			"discountPercent": -30,
+			"discountPercentWithBurn": 0,
+			"discountPercentWithOutBurn": 0,
+			"total": "172.19",
+			"currencyCode": "USD",
+			"currencySymbol": "$",
+			"surcharges": [{
+				"amount": "25.89",
+				"type": "TAX_ALL"
+			}],
+			"surchargesForEntireStay": [{
+				"amount": "25.89",
+				"type": "TAX_ALL"
+			}],
+			"nightlyRatesPerRoom": [{
+				"promo": "true",
+				"baseRate": "209.00",
+				"rate": "146.30"
+			}],
+			"priceToShowUsers": "146",
+			"strikethroughPriceToShowUsers": "209",
+			"strikethroughPriceWithTaxesAndFeesToShowUsers": "235",
+			"totalMandatoryFees": "0.00",
+			"totalPriceWithMandatoryFees": "172.19",
+			"formattedTotalPriceWithMandatoryFees": "$ 172.19",
+			"userPriceType": "PerNightRateNoTaxes",
+			"priceAdjustments": [],
+			"checkoutPriceType": "total",
+			"airAttached": false,
+			"roomTypeCode": "201476629",
+			"ratePlanCode": "207372913",
+			"showResortFeeMessage": false,
+			"resortFeeInclusion": false,
+			"loyaltyInfo": {
+				"earn": {
+					"points": {
+						"base": 344,
+						"bonus": 344,
+						"total": 688
+					}
+				},
+				"earnWithBurn": {
+					"points": {
+						"base": 344,
+						"bonus": 344,
+						"total": 688
+					}
+				},
+				"earnWithOutBurn": {
+					"points": {
+						"base": 344,
+						"bonus": 344,
+						"total": 688
+					}
+				},
+				"isBurnApplied": false
+			}
+		},
+		"rateCurrencyCode": "USD",
+		"rateCurrencySymbol": "$",
+		"roomsLeftAtThisRate": "19",
+		"latitude": "41.881731",
+		"longitude": "-87.626272",
+		"proximityDistanceInMiles": "0.11622125543816035",
+		"proximityDistanceInKiloMeters": "0.187",
+		"largeThumbnailUrl": "/hotels/1000000/120000/116700/116674/3cfba32d_d.jpg",
+		"thumbnailUrl": "/hotels/1000000/120000/116700/116674/3cfba32d_n.jpg",
+		"discountMessage": "Limited time offer:  save 30%",
+		"isDiscountRestrictedToCurrentSourceType": false,
+		"isSameDayDRR": false,
+		"isHotelAvailable": true,
+		"notAvailableMessage": "",
+		"isSponsoredListing": false,
+		"hasFreeCancellation": true,
+		"distanceUnit": "Miles",
+		"didGetBackHighestPriceFromSurvey": true,
+		"highestPriceFromSurvey": "181",
+		"isDudley": false,
+		"isVipAccess": true,
+		"isPaymentChoiceAvailable": true,
+		"isShowEtpChoice": true,
+		"jsonHotelBrand": {
+			"brandId": "2305",
+			"brandName": "Remington"
+		},
+		"isMemberDeal": false,
+		"shortDiscountMessage": "Save 30%",
+		"isMobileExclusive": false,
+		"poi": [
+			"RESTAURANTS",
+			"NIGHTLIFE",
+			"TRANSPORTSTATIONS",
+			"LANDMARK",
+			"SHOPPING"
+		]
+	}, {
+		"sortIndex": "1",
+		"hotelId": "1293276",
+		"name": "Crowne Plaza Chicago West Loop",
+		"localizedName": "Crowne Plaza Chicago West Loop",
+		"nonLocalizedName": "Crowne Plaza Chicago West Loop",
+		"address": "733 W Madison St",
+		"city": "Chicago",
+		"stateProvinceCode": "IL",
+		"countryCode": "USA",
+		"countryName": "United States of America",
+		"postalCode": "60661",
+		"airportCode": "ORD",
+		"supplierType": "MERCHANT",
+		"hotelStarRating": "3.5",
+		"hotelStarRatingCssClassName": "3-5",
+		"hotelGuestRating": "4.2",
+		"totalRecommendations": "1282",
+		"percentRecommended": "88",
+		"totalReviews": "1465",
+		"shortDescription": "Just west of the downtown business core, this hotel on Chicago\u0027s Near West Side is within a quarter mile of Greektown\u0027s restaurants and Harpo Studios. United Center and Millennium Park are within 1 mile.",
+		"locationDescription": "West Loop",
+		"locationId": "553248634029130868",
+		"lowRate": "152.80",
+		"lowRateInfo": {
+			"maxNightlyRate": "152.80",
+			"averageRate": "152.80",
+			"taxStatusType": "ESTIMATED",
+			"surchargeTotal": "25.85",
+			"surchargeTotalForEntireStay": "25.85",
+			"surchargesWithoutPropertyFee": "25.85",
+			"surchargesWithoutPropertyFeeForEntireStay": "25.85",
+			"averageBaseRate": "191.00",
+			"nightlyRateTotal": "152.80",
+			"discountPercent": -20,
+			"discountPercentWithBurn": 0,
+			"discountPercentWithOutBurn": 0,
+			"total": "178.65",
+			"currencyCode": "USD",
+			"currencySymbol": "$",
+			"surcharges": [{
+				"amount": "25.85",
+				"type": "TAX_ALL"
+			}],
+			"surchargesForEntireStay": [{
+				"amount": "25.85",
+				"type": "TAX_ALL"
+			}],
+			"nightlyRatesPerRoom": [{
+				"promo": "true",
+				"baseRate": "191.00",
+				"rate": "152.80"
+			}],
+			"priceToShowUsers": "153",
+			"strikethroughPriceToShowUsers": "191",
+			"strikethroughPriceWithTaxesAndFeesToShowUsers": "217",
+			"totalMandatoryFees": "0.00",
+			"totalPriceWithMandatoryFees": "178.65",
+			"formattedTotalPriceWithMandatoryFees": "$ 178.65",
+			"userPriceType": "PerNightRateNoTaxes",
+			"priceAdjustments": [],
+			"checkoutPriceType": "total",
+			"airAttached": false,
+			"roomTypeCode": "201426580",
+			"ratePlanCode": "207064649",
+			"showResortFeeMessage": false,
+			"resortFeeInclusion": false,
+			"loyaltyInfo": {
+				"earn": {
+					"points": {
+						"base": 357,
+						"bonus": 357,
+						"total": 714
+					}
+				},
+				"earnWithBurn": {
+					"points": {
+						"base": 357,
+						"bonus": 357,
+						"total": 714
+					}
+				},
+				"earnWithOutBurn": {
+					"points": {
+						"base": 357,
+						"bonus": 357,
+						"total": 714
+					}
+				},
+				"isBurnApplied": false
+			}
+		},
+		"rateCurrencyCode": "USD",
+		"rateCurrencySymbol": "$",
+		"roomsLeftAtThisRate": "-1",
+		"latitude": "41.881079",
+		"longitude": "-87.647319",
+		"proximityDistanceInMiles": "0.9875699192044748",
+		"proximityDistanceInKiloMeters": "1.589",
+		"largeThumbnailUrl": "/hotels/2000000/1300000/1293300/1293276/eaf21c02_d.jpg",
+		"thumbnailUrl": "/hotels/2000000/1300000/1293300/1293276/eaf21c02_n.jpg",
+		"discountMessage": "Private sale: save 20%",
+		"isDiscountRestrictedToCurrentSourceType": false,
+		"isSameDayDRR": false,
+		"isHotelAvailable": true,
+		"notAvailableMessage": "",
+		"isSponsoredListing": false,
+		"hasFreeCancellation": false,
+		"distanceUnit": "Miles",
+		"didGetBackHighestPriceFromSurvey": true,
+		"highestPriceFromSurvey": "210",
+		"isDudley": false,
+		"isVipAccess": false,
+		"isPaymentChoiceAvailable": false,
+		"isShowEtpChoice": false,
+		"jsonHotelBrand": {
+			"brandId": "256",
+			"brandName": "Crowne Plaza"
+		},
+		"isMemberDeal": true,
+		"shortDiscountMessage": "Save 20%",
+		"isMobileExclusive": false,
+		"poi": [
+			"RESTAURANTS",
+			"NIGHTLIFE",
+			"SHOPPING"
+		]
+	}, {
+		"sortIndex": "2",
+		"hotelId": "2784555",
+		"name": "Chicago South Loop Hotel",
+		"localizedName": "Chicago South Loop Hotel",
+		"nonLocalizedName": "Chicago South Loop Hotel",
+		"address": "11 W 26th Street",
+		"city": "Chicago",
+		"stateProvinceCode": "IL",
+		"countryCode": "USA",
+		"countryName": "United States of America",
+		"postalCode": "60616",
+		"airportCode": "ORD",
+		"supplierType": "DIRECT_AGENCY",
+		"hotelStarRating": "3.0",
+		"hotelStarRatingCssClassName": "3-0",
+		"hotelGuestRating": "3.9",
+		"totalRecommendations": "2583",
+		"percentRecommended": "84",
+		"totalReviews": "3078",
+		"shortDescription": "Located in Bronzeville, this hotel is within 1 mi (2 km) of Illinois Institute of Technology and McCormick Place. Guaranteed Rate Field and Soldier Field are also within 2 mi (3 km). ",
+		"lowRate": "107.10",
+		"lowRateInfo": {
+			"maxNightlyRate": "107.10",
+			"averageRate": "107.10",
+			"taxStatusType": "ESTIMATED",
+			"surchargeTotal": "18.64",
+			"surchargeTotalForEntireStay": "18.64",
+			"surchargesWithoutPropertyFee": "18.64",
+			"surchargesWithoutPropertyFeeForEntireStay": "18.64",
+			"averageBaseRate": "119.00",
+			"nightlyRateTotal": "107.10",
+			"discountPercent": -10,
+			"discountPercentWithBurn": 0,
+			"discountPercentWithOutBurn": 0,
+			"total": "125.74",
+			"currencyCode": "USD",
+			"currencySymbol": "$",
+			"surcharges": [{
+				"amount": "18.64",
+				"type": "TAX_ALL"
+			}],
+			"surchargesForEntireStay": [{
+				"amount": "18.64",
+				"type": "TAX_ALL"
+			}],
+			"nightlyRatesPerRoom": [{
+				"promo": "true",
+				"baseRate": "119.00",
+				"rate": "107.10"
+			}],
+			"priceToShowUsers": "107",
+			"strikethroughPriceToShowUsers": "119",
+			"strikethroughPriceWithTaxesAndFeesToShowUsers": "138",
+			"totalMandatoryFees": "0.00",
+			"totalPriceWithMandatoryFees": "125.74",
+			"formattedTotalPriceWithMandatoryFees": "$ 125.74",
+			"userPriceType": "PerNightRateNoTaxes",
+			"priceAdjustments": [],
+			"checkoutPriceType": "total",
+			"airAttached": false,
+			"roomTypeCode": "200647949",
+			"ratePlanCode": "203199012",
+			"showResortFeeMessage": false,
+			"resortFeeInclusion": false,
+			"loyaltyInfo": {
+				"earn": {
+					"points": {
+						"base": 251,
+						"bonus": 251,
+						"total": 502
+					}
+				},
+				"earnWithBurn": {
+					"points": {
+						"base": 252,
+						"bonus": 252,
+						"total": 504
+					}
+				},
+				"earnWithOutBurn": {
+					"points": {
+						"base": 251,
+						"bonus": 251,
+						"total": 502
+					}
+				},
+				"isBurnApplied": false
+			}
+		},
+		"rateCurrencyCode": "USD",
+		"rateCurrencySymbol": "$",
+		"roomsLeftAtThisRate": "6",
+		"latitude": "41.84556",
+		"longitude": "-87.6272",
+		"proximityDistanceInMiles": "2.434431323803605",
+		"proximityDistanceInKiloMeters": "3.9170000000000003",
+		"largeThumbnailUrl": "/hotels/3000000/2790000/2784600/2784555/3c535b68_d.jpg",
+		"thumbnailUrl": "/hotels/3000000/2790000/2784600/2784555/3c535b68_n.jpg",
+		"discountMessage": "Book early and save 10%",
+		"isDiscountRestrictedToCurrentSourceType": false,
+		"isSameDayDRR": false,
+		"isHotelAvailable": true,
+		"notAvailableMessage": "",
+		"isSponsoredListing": false,
+		"hasFreeCancellation": true,
+		"amenities": [{
+			"id": "2191",
+			"description": "Free High-Speed Internet"
+		}, {
+			"id": "2109",
+			"description": "Free Parking"
+		}],
+		"distanceUnit": "Miles",
+		"didGetBackHighestPriceFromSurvey": true,
+		"highestPriceFromSurvey": "143",
+		"isDudley": false,
+		"isVipAccess": false,
+		"isPaymentChoiceAvailable": true,
+		"isShowEtpChoice": true,
+		"jsonHotelBrand": {
+			"brandId": "0",
+			"brandName": "Independent"
+		},
+		"isMemberDeal": false,
+		"shortDiscountMessage": "Save 10%",
+		"isMobileExclusive": false,
+		"poi": [
+			"RESTAURANTS"
+		]
+	}, {
+		"sortIndex": "3",
+		"hotelId": "1850638",
+		"name": "The Homestead Evanston",
+		"localizedName": "The Homestead Evanston",
+		"nonLocalizedName": "The Homestead Evanston",
+		"address": "1625 Hinman Ave",
+		"city": "Evanston",
+		"stateProvinceCode": "IL",
+		"countryCode": "USA",
+		"countryName": "United States of America",
+		"postalCode": "60201",
+		"airportCode": "ORD",
+		"supplierType": "DIRECT_AGENCY",
+		"hotelStarRating": "3.0",
+		"hotelStarRatingCssClassName": "3-0",
+		"hotelGuestRating": "4.1",
+		"totalRecommendations": "634",
+		"percentRecommended": "87",
+		"totalReviews": "731",
+		"shortDescription": "Situated near the airport, this hotel is 0.9 mi (1.5 km) from Northwestern University and within 6 mi (10 km) of Loyola University Chicago and Skokie Theatre. Wrigley Field and Lincoln Park are also within 9 mi (15 km). ",
+		"locationDescription": "Evanston",
+		"locationId": "6059333",
+		"lowRate": "126.00",
+		"lowRateInfo": {
+			"maxNightlyRate": "126.00",
+			"averageRate": "126.00",
+			"taxStatusType": "ESTIMATED",
+			"surchargeTotal": "18.27",
+			"surchargeTotalForEntireStay": "18.27",
+			"surchargesWithoutPropertyFee": "18.27",
+			"surchargesWithoutPropertyFeeForEntireStay": "18.27",
+			"averageBaseRate": "140.00",
+			"nightlyRateTotal": "126.00",
+			"discountPercent": -10,
+			"discountPercentWithBurn": 0,
+			"discountPercentWithOutBurn": 0,
+			"total": "144.27",
+			"currencyCode": "USD",
+			"currencySymbol": "$",
+			"surcharges": [{
+				"amount": "18.27",
+				"type": "TAX_ALL"
+			}],
+			"surchargesForEntireStay": [{
+				"amount": "18.27",
+				"type": "TAX_ALL"
+			}],
+			"nightlyRatesPerRoom": [{
+				"promo": "true",
+				"baseRate": "140.00",
+				"rate": "126.00"
+			}],
+			"priceToShowUsers": "126",
+			"strikethroughPriceToShowUsers": "140",
+			"strikethroughPriceWithTaxesAndFeesToShowUsers": "158",
+			"totalMandatoryFees": "0.00",
+			"totalPriceWithMandatoryFees": "144.27",
+			"formattedTotalPriceWithMandatoryFees": "$ 144.27",
+			"userPriceType": "PerNightRateNoTaxes",
+			"priceAdjustments": [],
+			"checkoutPriceType": "total",
+			"airAttached": false,
+			"roomTypeCode": "201857200",
+			"ratePlanCode": "209404668",
+			"showResortFeeMessage": false,
+			"resortFeeInclusion": false,
+			"loyaltyInfo": {
+				"earn": {
+					"points": {
+						"base": 289,
+						"bonus": 289,
+						"total": 578
+					}
+				},
+				"earnWithBurn": {
+					"points": {
+						"base": 289,
+						"bonus": 289,
+						"total": 578
+					}
+				},
+				"earnWithOutBurn": {
+					"points": {
+						"base": 289,
+						"bonus": 289,
+						"total": 578
+					}
+				},
+				"isBurnApplied": false
+			}
+		},
+		"rateCurrencyCode": "USD",
+		"rateCurrencySymbol": "$",
+		"roomsLeftAtThisRate": "5",
+		"latitude": "42.046625",
+		"longitude": "-87.677528",
+		"proximityDistanceInMiles": "11.738346799254195",
+		"proximityDistanceInKiloMeters": "18.887",
+		"largeThumbnailUrl": "/hotels/2000000/1860000/1850700/1850638/619708b1_d.jpg",
+		"thumbnailUrl": "/hotels/2000000/1860000/1850700/1850638/619708b1_n.jpg",
+		"discountMessage": "Private sale: save 10%",
+		"isDiscountRestrictedToCurrentSourceType": false,
+		"isSameDayDRR": false,
+		"isHotelAvailable": true,
+		"notAvailableMessage": "",
+		"isSponsoredListing": false,
+		"hasFreeCancellation": true,
+		"amenities": [{
+			"id": "2103",
+			"description": "Continental Breakfast"
+		}, {
+			"id": "2192",
+			"description": "Free Wireless Internet"
+		}],
+		"distanceUnit": "Miles",
+		"didGetBackHighestPriceFromSurvey": true,
+		"highestPriceFromSurvey": "140",
+		"isDudley": false,
+		"isVipAccess": false,
+		"isPaymentChoiceAvailable": true,
+		"isShowEtpChoice": true,
+		"jsonHotelBrand": {
+			"brandId": "0",
+			"brandName": "Independent"
+		},
+		"isMemberDeal": true,
+		"shortDiscountMessage": "Save 10%",
+		"isMobileExclusive": false,
+		"poi": [
+			"SHOPPING"
+		]
+	}, {
+		"sortIndex": "4",
+		"hotelId": "892669",
+		"name": "City Suites Hotel",
+		"localizedName": "City Suites Hotel",
+		"nonLocalizedName": "City Suites Hotel",
+		"address": "933 W Belmont Ave",
+		"city": "Chicago",
+		"stateProvinceCode": "IL",
+		"countryCode": "USA",
+		"countryName": "United States of America",
+		"postalCode": "60657",
+		"airportCode": "ORD",
+		"supplierType": "MERCHANT",
+		"hotelStarRating": "3.0",
+		"hotelStarRatingCssClassName": "3-0",
+		"hotelGuestRating": "4.0",
+		"totalRecommendations": "973",
+		"percentRecommended": "88",
+		"totalReviews": "1107",
+		"shortDescription": "This Chicago hotel is in the Lakeview neighborhood, steps from restaurants, theaters, and nightlife. The Belmont train station is adjacent. Wrigley Field and Lincoln Park are both within a mile.",
+		"locationDescription": "Lakeview",
+		"locationId": "178166",
+		"lowRate": "167.40",
+		"lowRateInfo": {
+			"maxNightlyRate": "167.40",
+			"averageRate": "167.40",
+			"taxStatusType": "ESTIMATED",
+			"surchargeTotal": "28.30",
+			"surchargeTotalForEntireStay": "28.30",
+			"surchargesWithoutPropertyFee": "28.30",
+			"surchargesWithoutPropertyFeeForEntireStay": "28.30",
+			"averageBaseRate": "199.24",
+			"nightlyRateTotal": "167.40",
+			"discountPercent": -16,
+			"discountPercentWithBurn": 0,
+			"discountPercentWithOutBurn": 0,
+			"total": "195.70",
+			"currencyCode": "USD",
+			"currencySymbol": "$",
+			"surcharges": [{
+				"amount": "28.30",
+				"type": "TAX_ALL"
+			}],
+			"surchargesForEntireStay": [{
+				"amount": "28.30",
+				"type": "TAX_ALL"
+			}],
+			"nightlyRatesPerRoom": [{
+				"promo": "true",
+				"baseRate": "199.24",
+				"rate": "167.40"
+			}],
+			"priceToShowUsers": "167",
+			"strikethroughPriceToShowUsers": "199",
+			"strikethroughPriceWithTaxesAndFeesToShowUsers": "228",
+			"totalMandatoryFees": "0.00",
+			"totalPriceWithMandatoryFees": "195.70",
+			"formattedTotalPriceWithMandatoryFees": "$ 195.70",
+			"userPriceType": "PerNightRateNoTaxes",
+			"priceAdjustments": [],
+			"checkoutPriceType": "total",
+			"airAttached": false,
+			"roomTypeCode": "39618",
+			"ratePlanCode": "203049533",
+			"showResortFeeMessage": false,
+			"resortFeeInclusion": false,
+			"loyaltyInfo": {
+				"earn": {
+					"points": {
+						"base": 391,
+						"bonus": 391,
+						"total": 782
+					}
+				},
+				"earnWithBurn": {
+					"points": {
+						"base": 391,
+						"bonus": 391,
+						"total": 782
+					}
+				},
+				"earnWithOutBurn": {
+					"points": {
+						"base": 391,
+						"bonus": 391,
+						"total": 782
+					}
+				},
+				"isBurnApplied": false
+			}
+		},
+		"rateCurrencyCode": "USD",
+		"rateCurrencySymbol": "$",
+		"roomsLeftAtThisRate": "10",
+		"latitude": "41.939928",
+		"longitude": "-87.652916",
+		"proximityDistanceInMiles": "4.281541330018645",
+		"proximityDistanceInKiloMeters": "6.889",
+		"largeThumbnailUrl": "/hotels/1000000/900000/892700/892669/2bb1dbc8_d.jpg",
+		"thumbnailUrl": "/hotels/1000000/900000/892700/892669/2bb1dbc8_n.jpg",
+		"discountMessage": "Private sale: save 16%",
+		"isDiscountRestrictedToCurrentSourceType": false,
+		"isSameDayDRR": false,
+		"isHotelAvailable": true,
+		"notAvailableMessage": "",
+		"isSponsoredListing": false,
+		"hasFreeCancellation": false,
+		"amenities": [{
+			"id": "2103",
+			"description": "Continental Breakfast"
+		}, {
+			"id": "2192",
+			"description": "Free Wireless Internet"
+		}],
+		"distanceUnit": "Miles",
+		"didGetBackHighestPriceFromSurvey": true,
+		"highestPriceFromSurvey": "186",
+		"isDudley": false,
+		"isVipAccess": false,
+		"isPaymentChoiceAvailable": false,
+		"isShowEtpChoice": false,
+		"jsonHotelBrand": {
+			"brandId": "0",
+			"brandName": "Independent"
+		},
+		"isMemberDeal": true,
+		"shortDiscountMessage": "Save 16%",
+		"isMobileExclusive": false,
+		"poi": [
+			"TRANSPORTSTATIONS",
+			"LANDMARK"
+		]
+	}, {
+		"sortIndex": "5",
+		"hotelId": "18278617",
+		"name": "Ray\u0027s Bucktown Bed and Breakfast",
+		"localizedName": "Ray\u0027s Bucktown Bed and Breakfast",
+		"nonLocalizedName": "Ray\u0027s Bucktown Bed and Breakfast",
+		"address": "2144 N. Leavitt St",
+		"city": "Chicago",
+		"stateProvinceCode": "IL",
+		"countryCode": "USA",
+		"countryName": "United States of America",
+		"postalCode": "60647",
+		"airportCode": "",
+		"supplierType": "DIRECT_AGENCY",
+		"hotelStarRating": "3.5",
+		"hotelStarRatingCssClassName": "3-5",
+		"hotelGuestRating": "4.8",
+		"totalRecommendations": "13",
+		"percentRecommended": "100",
+		"totalReviews": "13",
+		"shortDescription": "This bed \u0026 breakfast is located in Chicago (Bucktown), close to Humboldt Park, Apollo Theater Chicago, and Lincoln Hall. Local attractions also include Wrigley Field and Lincoln Park Zoo. ",
+		"locationDescription": "Bucktown",
+		"locationId": "553248622905536905",
+		"lowRate": "159.00",
+		"lowRateInfo": {
+			"maxNightlyRate": "159.00",
+			"averageRate": "159.00",
+			"taxStatusType": "ESTIMATED",
+			"surchargeTotal": "20.51",
+			"surchargeTotalForEntireStay": "20.51",
+			"surchargesWithoutPropertyFee": "20.51",
+			"surchargesWithoutPropertyFeeForEntireStay": "20.51",
+			"averageBaseRate": "159.00",
+			"nightlyRateTotal": "159.00",
+			"discountPercent": -6,
+			"discountPercentWithBurn": 0,
+			"discountPercentWithOutBurn": 0,
+			"total": "179.51",
+			"currencyCode": "USD",
+			"currencySymbol": "$",
+			"surcharges": [{
+				"amount": "20.51",
+				"type": "TAX_ALL"
+			}],
+			"surchargesForEntireStay": [{
+				"amount": "20.51",
+				"type": "TAX_ALL"
+			}],
+			"nightlyRatesPerRoom": [{
+				"promo": "false",
+				"baseRate": "159.00",
+				"rate": "159.00"
+			}],
+			"priceToShowUsers": "159",
+			"depositAmountToShowUsers": "180",
+			"priceRemainingAfterDepositToShowUsers": "0",
+			"depositAmountExact": "$ 179.51",
+			"depositAmount": "179.51",
+			"priceRemainingAfterDepositExact": "$ 0.00",
+			"priceRemainingAfterDeposit": "0.00",
+			"strikethroughPriceToShowUsers": "169",
+			"strikethroughPriceWithTaxesAndFeesToShowUsers": "180",
+			"totalMandatoryFees": "0.00",
+			"totalPriceWithMandatoryFees": "179.51",
+			"formattedTotalPriceWithMandatoryFees": "$ 179.51",
+			"userPriceType": "PerNightRateNoTaxes",
+			"priceAdjustments": [],
+			"checkoutPriceType": "total",
+			"airAttached": false,
+			"roomTypeCode": "201957604",
+			"ratePlanCode": "209961560",
+			"showResortFeeMessage": false,
+			"resortFeeInclusion": false,
+			"loyaltyInfo": {
+				"earn": {
+					"points": {
+						"base": 359,
+						"bonus": 359,
+						"total": 718
+					}
+				},
+				"earnWithBurn": {
+					"points": {
+						"base": 359,
+						"bonus": 359,
+						"total": 718
+					}
+				},
+				"earnWithOutBurn": {
+					"points": {
+						"base": 359,
+						"bonus": 359,
+						"total": 718
+					}
+				},
+				"isBurnApplied": false
+			}
+		},
+		"rateCurrencyCode": "USD",
+		"rateCurrencySymbol": "$",
+		"roomsLeftAtThisRate": "1",
+		"latitude": "41.92127",
+		"longitude": "-87.68291",
+		"proximityDistanceInMiles": "3.970789310130516",
+		"proximityDistanceInKiloMeters": "6.389",
+		"largeThumbnailUrl": "/hotels/19000000/18280000/18278700/18278617/6c529c12_d.jpg",
+		"thumbnailUrl": "/hotels/19000000/18280000/18278700/18278617/6c529c12_n.jpg",
+		"discountMessage": "",
+		"isDiscountRestrictedToCurrentSourceType": false,
+		"isSameDayDRR": false,
+		"isHotelAvailable": true,
+		"notAvailableMessage": "",
+		"isSponsoredListing": false,
+		"hasFreeCancellation": false,
+		"amenities": [{
+			"id": "2109",
+			"description": "Free Parking"
+		}, {
+			"id": "1073742786",
+			"description": "Free Breakfast"
+		}, {
+			"id": "2104",
+			"description": "Full Breakfast"
+		}, {
+			"id": "2191",
+			"description": "Free High-Speed Internet"
+		}],
+		"distanceUnit": "Miles",
+		"didGetBackHighestPriceFromSurvey": true,
+		"highestPriceFromSurvey": "169",
+		"isDudley": false,
+		"isVipAccess": false,
+		"isPaymentChoiceAvailable": false,
+		"isShowEtpChoice": false,
+		"jsonHotelBrand": {
+			"brandId": "0",
+			"brandName": "Independent"
+		},
+		"isMemberDeal": false,
+		"shortDiscountMessage": "",
+		"isMobileExclusive": false,
+		"poi": [
+			"RESTAURANTS"
+		]
+	}, {
+		"sortIndex": "6",
+		"hotelId": "983642",
+		"name": "Motel 6 Chicago O\u0027hare - Schiller Park",
+		"localizedName": "Motel 6 Chicago O\u0027hare - Schiller Park",
+		"nonLocalizedName": "Motel 6 Chicago O\u0027hare - Schiller Park",
+		"address": "9408 Lawrence Avenue",
+		"city": "Schiller Park",
+		"stateProvinceCode": "IL",
+		"countryCode": "USA",
+		"countryName": "United States of America",
+		"postalCode": "60176",
+		"airportCode": "ORD",
+		"supplierType": "MERCHANT",
+		"hotelStarRating": "2.0",
+		"hotelStarRatingCssClassName": "2-0",
+		"hotelGuestRating": "3.1",
+		"totalRecommendations": "112",
+		"percentRecommended": "49",
+		"totalReviews": "228",
+		"shortDescription": "Situated near the airport, this motel is within 1 mi (2 km) of Rosemont Theatre, Fashion Outlets of Chicago, and Donald E. Stephens Convention Center. MB Financial Park at Rosemont and Rivers Casino are also within 3 mi (5 km). ",
+		"locationDescription": "Chicago O\u0027Hare International Airport (ORD)",
+		"locationId": "800023",
+		"lowRate": "63.99",
+		"lowRateInfo": {
+			"maxNightlyRate": "63.99",
+			"averageRate": "63.99",
+			"taxStatusType": "ESTIMATED",
+			"surchargeTotal": "8.28",
+			"surchargeTotalForEntireStay": "8.28",
+			"surchargesWithoutPropertyFee": "8.28",
+			"surchargesWithoutPropertyFeeForEntireStay": "8.28",
+			"averageBaseRate": "63.99",
+			"nightlyRateTotal": "63.99",
+			"discountPercent": 0,
+			"discountPercentWithBurn": 0,
+			"discountPercentWithOutBurn": 0,
+			"total": "72.27",
+			"currencyCode": "USD",
+			"currencySymbol": "$",
+			"surcharges": [{
+				"amount": "8.28",
+				"type": "TAX_ALL"
+			}],
+			"surchargesForEntireStay": [{
+				"amount": "8.28",
+				"type": "TAX_ALL"
+			}],
+			"nightlyRatesPerRoom": [{
+				"promo": "false",
+				"baseRate": "63.99",
+				"rate": "63.99"
+			}],
+			"priceToShowUsers": "64",
+			"strikethroughPriceWithTaxesAndFeesToShowUsers": "72",
+			"totalMandatoryFees": "0.00",
+			"totalPriceWithMandatoryFees": "72.27",
+			"formattedTotalPriceWithMandatoryFees": "$ 72.27",
+			"userPriceType": "PerNightRateNoTaxes",
+			"priceAdjustments": [],
+			"checkoutPriceType": "total",
+			"airAttached": false,
+			"roomTypeCode": "200649868",
+			"ratePlanCode": "212390207",
+			"showResortFeeMessage": false,
+			"resortFeeInclusion": false,
+			"loyaltyInfo": {
+				"earn": {
+					"points": {
+						"base": 145,
+						"bonus": 145,
+						"total": 290
+					}
+				},
+				"earnWithBurn": {
+					"points": {
+						"base": 145,
+						"bonus": 145,
+						"total": 290
+					}
+				},
+				"earnWithOutBurn": {
+					"points": {
+						"base": 145,
+						"bonus": 145,
+						"total": 290
+					}
+				},
+				"isBurnApplied": false
+			}
+		},
+		"rateCurrencyCode": "USD",
+		"rateCurrencySymbol": "$",
+		"roomsLeftAtThisRate": "3",
+		"latitude": "41.965942",
+		"longitude": "-87.862945",
+		"proximityDistanceInMiles": "13.431323803604723",
+		"proximityDistanceInKiloMeters": "21.611",
+		"largeThumbnailUrl": "/hotels/1000000/990000/983700/983642/79241d08_d.jpg",
+		"thumbnailUrl": "/hotels/1000000/990000/983700/983642/79241d08_n.jpg",
+		"discountMessage": "",
+		"isDiscountRestrictedToCurrentSourceType": false,
+		"isSameDayDRR": false,
+		"isHotelAvailable": true,
+		"notAvailableMessage": "",
+		"isSponsoredListing": false,
+		"hasFreeCancellation": true,
+		"amenities": [{
+			"id": "2109",
+			"description": "Free Parking"
+		}],
+		"distanceUnit": "Miles",
+		"didGetBackHighestPriceFromSurvey": true,
+		"highestPriceFromSurvey": "64",
+		"isDudley": false,
+		"isVipAccess": false,
+		"isPaymentChoiceAvailable": true,
+		"isShowEtpChoice": true,
+		"jsonHotelBrand": {
+			"brandId": "2021",
+			"brandName": "Motel 6"
+		},
+		"isMemberDeal": false,
+		"shortDiscountMessage": "",
+		"isMobileExclusive": false,
+		"poi": [
+			"NIGHTLIFE"
+		]
+	}, {
+		"sortIndex": "7",
+		"hotelId": "21514796",
+		"name": "Travel Inn",
+		"localizedName": "Travel Inn",
+		"nonLocalizedName": "Travel Inn",
+		"address": "1150 W Roosevelt Rd",
+		"city": "Broadview",
+		"stateProvinceCode": "IL",
+		"countryCode": "USA",
+		"countryName": "United States of America",
+		"postalCode": "60155",
+		"airportCode": "",
+		"supplierType": "DIRECT_AGENCY",
+		"hotelStarRating": "2.5",
+		"hotelStarRatingCssClassName": "2-5",
+		"hotelGuestRating": "4.0",
+		"totalRecommendations": "1",
+		"percentRecommended": "100",
+		"totalReviews": "1",
+		"shortDescription": "Situated in Broadview, this motel is close to Brookfield Zoo. Area attractions also include Oak Brook Golf Course and Morton College. ",
+		"lowRate": "74.00",
+		"lowRateInfo": {
+			"maxNightlyRate": "74.00",
+			"averageRate": "74.00",
+			"taxStatusType": "ESTIMATED",
+			"surchargeTotal": "5.92",
+			"surchargeTotalForEntireStay": "5.92",
+			"surchargesWithoutPropertyFee": "5.92",
+			"surchargesWithoutPropertyFeeForEntireStay": "5.92",
+			"averageBaseRate": "74.00",
+			"nightlyRateTotal": "74.00",
+			"discountPercent": 0,
+			"discountPercentWithBurn": 0,
+			"discountPercentWithOutBurn": 0,
+			"total": "79.92",
+			"currencyCode": "USD",
+			"currencySymbol": "$",
+			"surcharges": [{
+				"amount": "5.92",
+				"type": "TAX_ALL"
+			}],
+			"surchargesForEntireStay": [{
+				"amount": "5.92",
+				"type": "TAX_ALL"
+			}],
+			"nightlyRatesPerRoom": [{
+				"promo": "false",
+				"baseRate": "74.00",
+				"rate": "74.00"
+			}],
+			"priceToShowUsers": "74",
+			"strikethroughPriceWithTaxesAndFeesToShowUsers": "80",
+			"totalMandatoryFees": "0.00",
+			"totalPriceWithMandatoryFees": "79.92",
+			"formattedTotalPriceWithMandatoryFees": "$ 79.92",
+			"userPriceType": "PerNightRateNoTaxes",
+			"priceAdjustments": [],
+			"checkoutPriceType": "total",
+			"airAttached": false,
+			"roomTypeCode": "202377730",
+			"ratePlanCode": "212164979",
+			"showResortFeeMessage": false,
+			"resortFeeInclusion": false,
+			"loyaltyInfo": {
+				"earn": {
+					"points": {
+						"base": 160,
+						"bonus": 160,
+						"total": 320
+					}
+				},
+				"earnWithBurn": {
+					"points": {
+						"base": 160,
+						"bonus": 160,
+						"total": 320
+					}
+				},
+				"earnWithOutBurn": {
+					"points": {
+						"base": 160,
+						"bonus": 160,
+						"total": 320
+					}
+				},
+				"isBurnApplied": false
+			}
+		},
+		"rateCurrencyCode": "USD",
+		"rateCurrencySymbol": "$",
+		"roomsLeftAtThisRate": "3",
+		"latitude": "41.86402",
+		"longitude": "-87.84651",
+		"proximityDistanceInMiles": "11.29707893101305",
+		"proximityDistanceInKiloMeters": "18.177",
+		"largeThumbnailUrl": "/hotels/22000000/21520000/21514800/21514796/4ef6621f_d.jpg",
+		"thumbnailUrl": "/hotels/22000000/21520000/21514800/21514796/4ef6621f_n.jpg",
+		"discountMessage": "",
+		"isDiscountRestrictedToCurrentSourceType": false,
+		"isSameDayDRR": false,
+		"isHotelAvailable": true,
+		"notAvailableMessage": "",
+		"isSponsoredListing": false,
+		"hasFreeCancellation": true,
+		"distanceUnit": "Miles",
+		"didGetBackHighestPriceFromSurvey": true,
+		"highestPriceFromSurvey": "74",
+		"isDudley": false,
+		"isVipAccess": false,
+		"isPaymentChoiceAvailable": false,
+		"isShowEtpChoice": false,
+		"jsonHotelBrand": {
+			"brandId": "0",
+			"brandName": "Independent"
+		},
+		"isMemberDeal": false,
+		"shortDiscountMessage": "",
+		"isMobileExclusive": false,
+		"poi": []
+	}, {
+		"sortIndex": "8",
+		"hotelId": "5461400",
+		"name": "Aloft Chicago City Center",
+		"localizedName": "Aloft Chicago City Center",
+		"nonLocalizedName": "Aloft Chicago City Center",
+		"address": "515 North Clark Street",
+		"city": "Chicago",
+		"stateProvinceCode": "IL",
+		"countryCode": "USA",
+		"countryName": "United States of America",
+		"postalCode": "60654",
+		"airportCode": "ORD",
+		"supplierType": "MERCHANT",
+		"hotelStarRating": "3.5",
+		"hotelStarRatingCssClassName": "3-5",
+		"hotelGuestRating": "4.5",
+		"totalRecommendations": "1026",
+		"percentRecommended": "93",
+		"totalReviews": "1100",
+		"shortDescription": "Located in Near North Side, this hotel is within a 10-minute walk of House of Blues Chicago, Merchandise Mart, and Wrigley Building. Tribune Tower and Ford Center for the Performing Arts Oriental Theatre are also within 15 minutes. ",
+		"locationDescription": "Magnificent Mile",
+		"locationId": "800025",
+		"lowRate": "179.00",
+		"lowRateInfo": {
+			"maxNightlyRate": "179.00",
+			"averageRate": "179.00",
+			"taxStatusType": "ESTIMATED",
+			"surchargeTotal": "31.16",
+			"surchargeTotalForEntireStay": "31.16",
+			"surchargesWithoutPropertyFee": "31.16",
+			"surchargesWithoutPropertyFeeForEntireStay": "31.16",
+			"averageBaseRate": "179.00",
+			"nightlyRateTotal": "179.00",
+			"discountPercent": -13,
+			"discountPercentWithBurn": 0,
+			"discountPercentWithOutBurn": 0,
+			"total": "210.16",
+			"currencyCode": "USD",
+			"currencySymbol": "$",
+			"surcharges": [{
+				"amount": "31.16",
+				"type": "TAX_ALL"
+			}],
+			"surchargesForEntireStay": [{
+				"amount": "31.16",
+				"type": "TAX_ALL"
+			}],
+			"nightlyRatesPerRoom": [{
+				"promo": "false",
+				"baseRate": "179.00",
+				"rate": "179.00"
+			}],
+			"priceToShowUsers": "179",
+			"strikethroughPriceToShowUsers": "205",
+			"strikethroughPriceWithTaxesAndFeesToShowUsers": "210",
+			"totalMandatoryFees": "0.00",
+			"totalPriceWithMandatoryFees": "210.16",
+			"formattedTotalPriceWithMandatoryFees": "$ 210.16",
+			"userPriceType": "PerNightRateNoTaxes",
+			"priceAdjustments": [],
+			"checkoutPriceType": "total",
+			"airAttached": false,
+			"roomTypeCode": "200679128",
+			"ratePlanCode": "206975856",
+			"showResortFeeMessage": false,
+			"resortFeeInclusion": false,
+			"loyaltyInfo": {
+				"earn": {
+					"points": {
+						"base": 420,
+						"bonus": 420,
+						"total": 840
+					}
+				},
+				"earnWithBurn": {
+					"points": {
+						"base": 420,
+						"bonus": 420,
+						"total": 840
+					}
+				},
+				"earnWithOutBurn": {
+					"points": {
+						"base": 420,
+						"bonus": 420,
+						"total": 840
+					}
+				},
+				"isBurnApplied": false
+			}
+		},
+		"rateCurrencyCode": "USD",
+		"rateCurrencySymbol": "$",
+		"roomsLeftAtThisRate": "174",
+		"latitude": "41.891353",
+		"longitude": "-87.63109",
+		"proximityDistanceInMiles": "0.7464263517712866",
+		"proximityDistanceInKiloMeters": "1.201",
+		"largeThumbnailUrl": "/hotels/6000000/5470000/5461400/5461400/3fe993f1_d.jpg",
+		"thumbnailUrl": "/hotels/6000000/5470000/5461400/5461400/3fe993f1_n.jpg",
+		"discountMessage": "",
+		"isDiscountRestrictedToCurrentSourceType": false,
+		"isSameDayDRR": false,
+		"isHotelAvailable": true,
+		"notAvailableMessage": "",
+		"isSponsoredListing": false,
+		"hasFreeCancellation": true,
+		"distanceUnit": "Miles",
+		"didGetBackHighestPriceFromSurvey": true,
+		"highestPriceFromSurvey": "205",
+		"isDudley": false,
+		"isVipAccess": false,
+		"isPaymentChoiceAvailable": true,
+		"isShowEtpChoice": true,
+		"jsonHotelBrand": {
+			"brandId": "2308",
+			"brandName": "aloft"
+		},
+		"isMemberDeal": false,
+		"shortDiscountMessage": "",
+		"isMobileExclusive": false
+	}, {
+		"sortIndex": "9",
+		"hotelId": "23023",
+		"name": "Best Western Grant Park Hotel",
+		"localizedName": "Best Western Grant Park Hotel",
+		"nonLocalizedName": "Best Western Grant Park Hotel",
+		"address": "1100 S Michigan Ave",
+		"city": "Chicago",
+		"stateProvinceCode": "IL",
+		"countryCode": "USA",
+		"countryName": "United States of America",
+		"postalCode": "60605",
+		"airportCode": "ORD",
+		"supplierType": "MERCHANT",
+		"hotelStarRating": "2.5",
+		"hotelStarRatingCssClassName": "2-5",
+		"hotelGuestRating": "4.3",
+		"totalRecommendations": "547",
+		"percentRecommended": "86",
+		"totalReviews": "634",
+		"shortDescription": "Favored for its location across from Grant Park, Museum Campus, Soldier Field, and Northerly Island, the Best Western Grant Park is also 1 mile from Millennium Park and Chicago\u0027s theater district.",
+		"locationDescription": "The Loop",
+		"locationId": "800024",
+		"lowRate": "105.40",
+		"lowRateInfo": {
+			"maxNightlyRate": "105.40",
+			"averageRate": "105.40",
+			"taxStatusType": "ESTIMATED",
+			"surchargeTotal": "18.28",
+			"surchargeTotalForEntireStay": "18.28",
+			"surchargesWithoutPropertyFee": "18.28",
+			"surchargesWithoutPropertyFeeForEntireStay": "18.28",
+			"averageBaseRate": "124.00",
+			"nightlyRateTotal": "105.40",
+			"discountPercent": -15,
+			"discountPercentWithBurn": 0,
+			"discountPercentWithOutBurn": 0,
+			"total": "123.68",
+			"currencyCode": "USD",
+			"currencySymbol": "$",
+			"surcharges": [{
+				"amount": "18.28",
+				"type": "TAX_ALL"
+			}],
+			"surchargesForEntireStay": [{
+				"amount": "18.28",
+				"type": "TAX_ALL"
+			}],
+			"nightlyRatesPerRoom": [{
+				"promo": "true",
+				"baseRate": "124.00",
+				"rate": "105.40"
+			}],
+			"priceToShowUsers": "105",
+			"strikethroughPriceToShowUsers": "124",
+			"strikethroughPriceWithTaxesAndFeesToShowUsers": "142",
+			"totalMandatoryFees": "0.00",
+			"totalPriceWithMandatoryFees": "123.68",
+			"formattedTotalPriceWithMandatoryFees": "$ 123.68",
+			"userPriceType": "PerNightRateNoTaxes",
+			"priceAdjustments": [],
+			"checkoutPriceType": "total",
+			"airAttached": false,
+			"roomTypeCode": "200992823",
+			"ratePlanCode": "204840473",
+			"showResortFeeMessage": false,
+			"resortFeeInclusion": false,
+			"loyaltyInfo": {
+				"earn": {
+					"points": {
+						"base": 247,
+						"bonus": 247,
+						"total": 494
+					}
+				},
+				"earnWithBurn": {
+					"points": {
+						"base": 247,
+						"bonus": 247,
+						"total": 494
+					}
+				},
+				"earnWithOutBurn": {
+					"points": {
+						"base": 247,
+						"bonus": 247,
+						"total": 494
+					}
+				},
+				"isBurnApplied": false
+			}
+		},
+		"rateCurrencyCode": "USD",
+		"rateCurrencySymbol": "$",
+		"roomsLeftAtThisRate": "1",
+		"latitude": "41.869299",
+		"longitude": "-87.624483",
+		"proximityDistanceInMiles": "0.8154133001864513",
+		"proximityDistanceInKiloMeters": "1.312",
+		"largeThumbnailUrl": "/hotels/1000000/30000/23100/23023/419c4bd6_d.jpg",
+		"thumbnailUrl": "/hotels/1000000/30000/23100/23023/419c4bd6_n.jpg",
+		"discountMessage": "Private sale: save 15%",
+		"isDiscountRestrictedToCurrentSourceType": false,
+		"isSameDayDRR": false,
+		"isHotelAvailable": true,
+		"notAvailableMessage": "",
+		"isSponsoredListing": false,
+		"hasFreeCancellation": false,
+		"amenities": [{
+			"id": "2191",
+			"description": "Free High-Speed Internet"
+		}],
+		"distanceUnit": "Miles",
+		"didGetBackHighestPriceFromSurvey": true,
+		"highestPriceFromSurvey": "167",
+		"isDudley": false,
+		"isVipAccess": false,
+		"isPaymentChoiceAvailable": false,
+		"isShowEtpChoice": false,
+		"jsonHotelBrand": {
+			"brandId": "17",
+			"brandName": "Best Western"
+		},
+		"isMemberDeal": true,
+		"shortDiscountMessage": "Save 15%",
+		"isMobileExclusive": false,
+		"poi": [
+			"TRANSPORTSTATIONS"
+		]
+	}],
+	"travelAdsSlotsConfiguration": {},
+	"allNeighborhoodsInSearchRegion": [{
+		"name": "Chicago (and vicinity)",
+		"id": 178248
+	}, {
+		"name": "Magnificent Mile",
+		"id": 800025
+	}, {
+		"name": "The Loop",
+		"id": 800024
+	}, {
+		"name": "Chicago O\u0027Hare International Airport (ORD)",
+		"id": 800023
+	}, {
+		"name": "Schaumburg",
+		"id": 6059335
+	}, {
+		"name": "Chicago Midway Airport (MDW)",
+		"id": 6059326
+	}, {
+		"name": "Naperville",
+		"id": 6350690
+	}, {
+		"name": "Oak Brook",
+		"id": 6059329
+	}, {
+		"name": "Evanston",
+		"id": 6059333
+	}, {
+		"name": "Joliet",
+		"id": 6350698
+	}, {
+		"name": "Lombard",
+		"id": 6351997
+	}, {
+		"name": "Lakeview",
+		"id": 178166
+	}, {
+		"name": "Gurnee",
+		"id": 6059332
+	}, {
+		"name": "Lincoln Park",
+		"id": 6059328
+	}, {
+		"name": "Bolingbrook",
+		"id": 6350700
+	}, {
+		"name": "Hammond",
+		"id": 6059750
+	}, {
+		"name": "South Loop",
+		"id": 6130108
+	}, {
+		"name": "South Suburbs",
+		"id": 6264251
+	}, {
+		"name": "Itasca",
+		"id": 6350696
+	}, {
+		"name": "North Suburbs",
+		"id": 6059336
+	}, {
+		"name": "Western Suburbs",
+		"id": 6059325
+	}, {
+		"name": "Bucktown",
+		"id": 553248622905536905
+	}, {
+		"name": "Calumet Park",
+		"id": 553248632375124337
+	}, {
+		"name": "West Loop",
+		"id": 553248634029130868
+	}, {
+		"name": "Near East Side",
+		"id": 553248633938968461
+	}],
+	"filteredSearchMatchedNoHotels": false,
+	"amenityFilterOptions": {
+		"1": {
+			"isAccessible": "false",
+			"filterName": "Free breakfast",
+			"filterNumOccurrences": "334"
+		},
+		"2": {
+			"isAccessible": "false",
+			"filterName": "Free WiFi",
+			"filterNumOccurrences": "595"
+		},
+		"3": {
+			"isAccessible": "false",
+			"filterName": "Free parking",
+			"filterNumOccurrences": "492"
+		},
+		"4": {
+			"isAccessible": "false",
+			"filterName": "Swimming Pool",
+			"filterNumOccurrences": "339"
+		},
+		"5": {
+			"isAccessible": "false",
+			"filterName": "Free airport transportation",
+			"filterNumOccurrences": "72"
+		},
+		"6": {
+			"isAccessible": "false",
+			"filterName": "Pet friendly",
+			"filterNumOccurrences": "304"
+		},
+		"8": {
+			"isAccessible": "false",
+			"filterName": "Air conditioning",
+			"filterNumOccurrences": "695"
+		},
+		"9": {
+			"isAccessible": "false",
+			"filterName": "Restaurant",
+			"filterNumOccurrences": "272"
+		},
+		"10": {
+			"isAccessible": "false",
+			"filterName": "Spa",
+			"filterNumOccurrences": "47"
+		},
+		"11": {
+			"isAccessible": "false",
+			"filterName": "Kitchen",
+			"filterNumOccurrences": "164"
+		},
+		"12": {
+			"isAccessible": "false",
+			"filterName": "Family friendly",
+			"filterNumOccurrences": "439"
+		},
+		"13": {
+			"isAccessible": "false",
+			"filterName": "Fitness center",
+			"filterNumOccurrences": "497"
+		},
+		"14": {
+			"isAccessible": "false",
+			"filterName": "Business services",
+			"filterNumOccurrences": "523"
+		}
+	},
+	"starOptions": [{
+		"starRating": 0,
+		"count": 0
+	}, {
+		"starRating": 5,
+		"count": 0
+	}, {
+		"starRating": 10,
+		"count": 14
+	}, {
+		"starRating": 15,
+		"count": 0
+	}, {
+		"starRating": 20,
+		"count": 290
+	}, {
+		"starRating": 25,
+		"count": 0
+	}, {
+		"starRating": 30,
+		"count": 295
+	}, {
+		"starRating": 35,
+		"count": 0
+	}, {
+		"starRating": 40,
+		"count": 110
+	}, {
+		"starRating": 45,
+		"count": 0
+	}, {
+		"starRating": 50,
+		"count": 7
+	}],
+	"priceOptions": [{
+		"minPrice": "0",
+		"maxPrice": "75",
+		"count": 175
+	}, {
+		"minPrice": "75",
+		"maxPrice": "124",
+		"count": 250
+	}, {
+		"minPrice": "125",
+		"maxPrice": "199",
+		"count": 137
+	}, {
+		"minPrice": "200",
+		"maxPrice": "299",
+		"count": 42
+	}, {
+		"minPrice": "300",
+		"maxPrice": "0",
+		"count": 12
+	}],
+	"activityId": "b9f16bf6-88d7-4741-ba94-7509412e4ca8",
+	"pageViewBeaconPixelUrl": "https://beam.hlserve.com/travel?action\u003dpageview\u0026programId\u003d1\u0026domain\u003dwww.expedia.com\u0026culture\u003den-US\u0026publisher\u003dexpedia\u0026pageName\u003d\u0026rooms\u003d1\u0026destRegionId\u003d178248\u0026publisherUserGuid\u003d4d991e83-d66e-4adf-8bf0-ebf552384a1f\u0026userIP\u003d198.151.53.10\u0026userAgent\u003dExpediaBookings%2F18.8.0+%28EHad%3B+Mobiata%29\u0026checkIn\u003d2018-03-09\u0026checkOut\u003d2018-03-10\u0026hotelIds\u003d13492029,1723215,6309326,116674,2675313,17809,21514796,886306,9119528,7063210,6452,581213,4903,17903,2717582,9059537,15087,2222364,889753,2151878,1118328,284792,5467,26076,2784555\u0026adults\u003d1\u0026children\u003d0\u0026deviceType\u003dApp-Phone\u0026expediaPageName\u003dpage.mobile.MobileLPASHotelSearchController\u0026testVersion\u003d9662.36494.0%2C13487.51625.0%2C14567.55218.1%2C14828.58228.1%2C11433.61816.0"
+}

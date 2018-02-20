@@ -166,7 +166,7 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
         searchingForHotelsDateTime.onNext(Unit)
         if ((isChangeDateSearch || isFilteredSearch) && !hotelSearchManager.fetchingResults) {
             searchInProgressSubject.onNext(Unit)
-            hotelSearchManager.doSearch(params)
+            hotelSearchManager.doSearch(context, params)
         } else {
             val response = hotelSearchManager.fetchResponse()
             if (response != null) {
@@ -174,7 +174,7 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
             } else {
                 searchInProgressSubject.onNext(Unit)
                 if (!hotelSearchManager.fetchingResults) {
-                    hotelSearchManager.doSearch(params)
+                    hotelSearchManager.doSearch(context, params)
                 }
             }
         }

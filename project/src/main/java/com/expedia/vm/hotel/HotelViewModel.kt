@@ -64,6 +64,8 @@ open class HotelViewModel(private val context: Context) {
     val neighborhoodName: String get() = hotel.neighborhoodName ?: ""
     val showSoldOutOverlay: Boolean get() = isHotelSoldOut && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelSoldOutOnHSRTreatment)
 
+    val topPoi: List<String> get() = hotel.poi ?: emptyList()
+
     init {
         soldOut.subscribe { soldOut ->
             isHotelSoldOut = soldOut

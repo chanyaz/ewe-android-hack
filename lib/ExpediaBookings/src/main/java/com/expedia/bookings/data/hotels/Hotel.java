@@ -60,6 +60,9 @@ public class Hotel {
 	public String neighborhoodName;
 	public boolean isCurrentLocationSearch = false;
 
+	@Nullable
+	public List<String> poi;
+
 	public static class HotelAmenity {
 		public String id;
 		public String description;

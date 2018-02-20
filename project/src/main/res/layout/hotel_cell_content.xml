@@ -11,14 +11,14 @@
         style="@style/Core.Text.300.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/primary_color"
+        android:paddingBottom="8dp"
         android:paddingLeft="8dp"
         android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:background="?attr/primary_color"
+        android:text="@string/you_picked_this_hotel_label"
         android:textColor="@color/white"
         android:visibility="gone"
-        android:text="@string/you_picked_this_hotel_label"
-        tools:visibility="visible"/>
+        tools:visibility="visible" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -95,7 +95,7 @@
         <include
             android:id="@+id/hotel_sold_out_overlay_container"
             layout="@layout/hotel_cell_sold_out_overlay"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </FrameLayout>
 
     <LinearLayout
@@ -137,6 +137,17 @@
             android:gravity="center_vertical|right"
             android:orientation="vertical"
             app:strike_through_price_orientation="horizontal" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/top_poi_container"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:visibility="gone">
 
     </LinearLayout>
 
