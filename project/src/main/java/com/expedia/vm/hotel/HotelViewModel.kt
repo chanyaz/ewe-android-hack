@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat
 import android.text.Spanned
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.hotel.HotelPoiEnum
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extensions.isShowAirAttached
@@ -64,7 +65,7 @@ open class HotelViewModel(private val context: Context) {
     val neighborhoodName: String get() = hotel.neighborhoodName ?: ""
     val showSoldOutOverlay: Boolean get() = isHotelSoldOut && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelSoldOutOnHSRTreatment)
 
-    val topPoi: List<String> get() = hotel.poi ?: emptyList()
+    val topPoi: List<HotelPoiEnum> get() = getTopPoiEnum()
 
     init {
         soldOut.subscribe { soldOut ->
@@ -303,6 +304,16 @@ open class HotelViewModel(private val context: Context) {
             return R.color.hotels_primary_color
         }
         return R.color.default_text_color
+    }
+
+    private fun getTopPoiEnum(): List<HotelPoiEnum> {
+        val poiEnums = ArrayList<HotelPoiEnum>()
+        for (poi in hotel.poi ?: emptyList()) {
+            HotelPoiEnum.fromString(poi)?.let { poi ->
+                poiEnums.add(poi)
+            }
+        }
+        return poiEnums.sortedByDescending { it.priority }
     }
 
     data class UrgencyMessage(val iconDrawableId: Int?, val backgroundColorId: Int, val message: String, val messageTextColorId: Int = R.color.white) {

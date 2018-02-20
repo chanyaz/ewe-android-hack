@@ -143,7 +143,8 @@
     <LinearLayout
         android:id="@+id/top_poi_container"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="25dp"
+        android:gravity="left|top"
         android:orientation="horizontal"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"

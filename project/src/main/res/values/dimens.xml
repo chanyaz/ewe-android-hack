@@ -171,6 +171,8 @@
     <dimen name="hotel_results_last_price_buffer">90dp</dimen>
     <dimen name="hotel_results_last_price_buffer_hide_mini_map">200dp</dimen>
     <dimen name="hotel_results_change_date_height">50dp</dimen>
+    <dimen name="hotel_results_poi_size">20dp</dimen>
+    <dimen name="hotel_results_poi_margin">4dp</dimen>
 
     <!-- Dimensions for hotel details -->
     <dimen name="widget_hotel_info_padding">18dp</dimen>

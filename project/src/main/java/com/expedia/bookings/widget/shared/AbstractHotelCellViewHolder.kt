@@ -3,6 +3,7 @@ package com.expedia.bookings.widget.shared
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.LinearGradient
+import android.graphics.PorterDuff
 import android.graphics.Shader
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.PaintDrawable
@@ -22,6 +23,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.bitmaps.PicassoTarget
 import com.expedia.bookings.data.HotelMedia
+import com.expedia.bookings.data.hotel.HotelPoiEnum
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.extensions.setInverseVisibility
 import com.expedia.bookings.extensions.setVisibility
@@ -110,6 +112,8 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
         soldOutOverlay.setVisibility(viewModel.showSoldOutOverlay)
 
         cardView.contentDescription = viewModel.getHotelContentDesc()
+
+        updateTopPoiImages(viewModel.topPoi)
     }
 
     override fun onClick(view: View) {
@@ -236,6 +240,30 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
                         array, DEFAULT_GRADIENT_POSITIONS, Shader.TileMode.REPEAT)
                 return lg
             }
+        }
+    }
+
+    private fun updateTopPoiImages(poiEnums: List<HotelPoiEnum>) {
+        if (poiEnums.isEmpty()) {
+            topPoiContainer.visibility = View.GONE
+            return
+        }
+
+        topPoiContainer.removeAllViews()
+
+        topPoiContainer.visibility = View.VISIBLE
+        for (poi in poiEnums) {
+            val imageView = ImageView(root.context)
+            val imageSize = root.context.resources.getDimensionPixelSize(R.dimen.hotel_results_poi_size)
+            val imageMargin = root.context.resources.getDimensionPixelOffset(R.dimen.hotel_results_poi_margin)
+            val imageColor = ContextCompat.getColor(root.context, R.color.hotelsv2_amenity_icon_color)
+            val linearLayoutParams = LinearLayout.LayoutParams(imageSize, imageSize)
+            linearLayoutParams.rightMargin = imageMargin
+            imageView.layoutParams = linearLayoutParams
+            imageView.scaleType = ImageView.ScaleType.FIT_CENTER
+            imageView.setImageResource(poi.iconId)
+            imageView.setColorFilter(imageColor, PorterDuff.Mode.SRC_IN)
+            topPoiContainer.addView(imageView)
         }
     }
 }
