@@ -41,6 +41,7 @@ import com.expedia.bookings.utils.GoogleMapsUtil;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.ShareUtils;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.navigation.NavUtils;
 import com.mobiata.android.SocialUtils;
@@ -388,6 +389,12 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 				&& isDurationLongerThanDays(1)) {
 			notifications.add(generateActivityInTripNotification());
 		}
+		boolean validForHotelReviewNotification =
+			Strings.isNotEmpty(((TripHotel) getItinCardData().getTripComponent()).getReviewLink())
+			&& AbacusFeatureConfigManager.isBucketedForTest(getContext(), AbacusUtils.EBAndroidAppTripsUserReviews);
+		if (validForHotelReviewNotification) {
+			notifications.add(generateHotelReviewNotification());
+		}
 		return notifications;
 	}
 
@@ -614,6 +621,38 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 				.format().toString();
 		notification.setBody(body);
 
+		return notification;
+	}
+
+	public Notification generateHotelReviewNotification() {
+		ItinCardDataHotel data = getItinCardData();
+		TripHotel hotel = (TripHotel) data.getTripComponent();
+		String deepLink = hotel.getReviewLink();
+
+		DateTime endDate = roundTime(data.getEndDate());
+
+		MutableDateTime trigger = endDate.toMutableDateTime();
+		trigger.addDays(1);
+
+		Long triggerTimeMillis = trigger.getMillis();
+
+		String hotelName = hotel.getProperty().getName();
+		String title = Phrase.from(getContext(), R.string.hotel_review_title_notification_TEMPLATE)
+			.put("hotelname", hotelName)
+			.format().toString();
+		String body = Phrase.from(getContext(), R.string.hotel_review_body_notification_TEMPLATE)
+			.put("firstname", hotel.getPrimaryTraveler().getFirstName())
+			.put("hotelname", hotelName)
+			.format().toString();
+
+		String itinId = data.getId();
+		Notification notification = new Notification(itinId + "_hotelReview", itinId, triggerTimeMillis);
+		notification.setNotificationType(NotificationType.HOTEL_REVIEW);
+		notification.setFlags(Notification.FLAG_LOCAL);
+		notification.setIconResId(R.drawable.ic_stat_hotel);
+		notification.setTitle(title);
+		notification.setBody(body);
+		notification.setDeepLink(deepLink);
 		return notification;
 	}
 

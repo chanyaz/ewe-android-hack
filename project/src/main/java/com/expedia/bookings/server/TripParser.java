@@ -293,7 +293,7 @@ public class TripParser {
 		}
 
 		hotel.setAction(parseItinAction(obj.optJSONObject("action")));
-
+		hotel.setReviewLink(obj.optString("reviewSubmissionURL"));
 		JSONObject rulesJson = obj.optJSONObject("rules");
 		if (rulesJson != null) {
 			hotel.setLateArrivalInstructions(rulesJson.optString("lateArrivalInstructions"));

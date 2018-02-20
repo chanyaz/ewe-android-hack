@@ -92,7 +92,8 @@ public class Notification extends Model implements JSONable {
 		HOTEL_ACTIVITY_CROSSSEll,
 		HOTEL_PRE_TRIP,
 		HOTEL_ACTIVITY_IN_TRIP,
-		FLIGHT_DELAYED
+		FLIGHT_DELAYED,
+		HOTEL_REVIEW
 	}
 
 
@@ -163,6 +164,9 @@ public class Notification extends Model implements JSONable {
 	@Column(name = "NotificationType")
 	private String mNotificationType;
 
+	@Column(name = "DeepLink")
+	private String mDeepLink;
+
 	public Notification() {
 	}
 
@@ -184,6 +188,7 @@ public class Notification extends Model implements JSONable {
 		setExpirationTimeMillis(triggerTimeMillis + TimeUnit.DAYS.toMillis(1));
 		setStatus(StatusType.NEW);
 		setIconResId(R.drawable.ic_stat_expedia);
+		setDeepLink("");
 		setTemplateName("");
 		setFlags(0);
 	}
@@ -350,6 +355,15 @@ public class Notification extends Model implements JSONable {
 		this.mFlags = flags;
 	}
 
+
+	public String getDeepLink() {
+		return mDeepLink;
+	}
+
+	public void setDeepLink(String mDeepLink) {
+		this.mDeepLink = mDeepLink;
+	}
+
 	public NotificationType getNotificationType() {
 		return NotificationType.valueOf(mNotificationType);
 	}
@@ -380,6 +394,7 @@ public class Notification extends Model implements JSONable {
 			obj.put("Flags", mFlags);
 			obj.put("TemplateName", mTemplateName);
 			obj.put("NotificationType", mNotificationType);
+			obj.put("DeepLink", mDeepLink);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -404,6 +419,7 @@ public class Notification extends Model implements JSONable {
 		mFlags = obj.optLong("Flags");
 		mNotificationType = obj.optString("NotificationType");
 		mTemplateName = obj.optString("TemplateName");
+		mDeepLink = obj.optString("DeepLink");
 		return true;
 	}
 

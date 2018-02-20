@@ -104,6 +104,9 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLinkSection("Rails", R.color.app_primary),
 		new DeepLink("Rail Search", "expda://railSearch"),
 
+		new DeepLinkSection("Trips", R.color.app_primary),
+		new DeepLink("Hotel Review (do not submit!)", "https://www.expedia.com/mobile/deeplink/ReviewSubmission?ItinId=7297531744744&htid=10652&campaignId=APP.REVIEW.DEEPLINK.URL"),
+
 		new DeepLinkSection("Deferred", R.color.launch_screen_primary),
 		new DeepLink("Parc 55 San Francisco, a Hilton Hotel",
 			"https://169006.measurementapi.com/serve?action=click&publisher_id=169006&site_id=107678&invoke_url=expda%3A%2F%2FhotelSearch%3FhotelId%3D12539"),

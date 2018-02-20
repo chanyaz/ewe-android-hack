@@ -3109,6 +3109,7 @@ public class OmnitureTracking {
 	private static final String NOTIFICATION_HOTEL_GET_READY = "Itinerary.Hotel.GetReady";
 	private static final String NOTIFICATION_HOTEL_ACTIVITY_CROSSSEll = "Itinerary.Hotel.CrossSell.Activity";
 	private static final String NOTIFICATION_HOTEL_ACTIVITY_IN_TRIP = "Itinerary.Hotel.InTrip.Activity";
+	private static final String NOTIFICATION_HOTEL_POST_STAY_REVIEW = "Itinerary.Hotel.PostStayReview";
 
 	public static void trackNotificationClick(Notification notification) {
 		String link = setItinNotificationLink(notification);
@@ -3187,6 +3188,9 @@ public class OmnitureTracking {
 			break;
 		case FLIGHT_DELAYED:
 			link = NOTIFICATION_FLIGHT_DELAYED;
+			break;
+		case HOTEL_REVIEW:
+			link = NOTIFICATION_HOTEL_POST_STAY_REVIEW;
 			break;
 		default:
 			link = "Itinerary." + type.name();

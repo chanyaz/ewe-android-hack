@@ -26,6 +26,7 @@ public class TripHotel extends TripComponent {
 	private List<String> changeAndCancelRules = new ArrayList<>();
 	private TripAction action;
 	private String mLateArrivalInstructions;
+	private String reviewLink = "";
 
 	public TripHotel() {
 		super(Type.HOTEL);
@@ -127,6 +128,7 @@ public class TripHotel extends TripComponent {
 			obj.putOpt("checkInTime", mCheckInTime);
 			obj.putOpt("checkOutTime", mCheckOutTime);
 			obj.putOpt("lateArrivalInstructions", mLateArrivalInstructions);
+			obj.putOpt("reviewLink", reviewLink);
 			JSONUtils.putStringList(obj, "confNumbers", mConfirmationNumbers);
 			obj.putOpt("sharableItemDetailURL", mSharableDetailsUrl);
 			JSONUtils.putJSONable(obj, "primaryTraveler", mPrimaryTraveler);
@@ -144,6 +146,7 @@ public class TripHotel extends TripComponent {
 	public boolean fromJson(JSONObject obj) {
 		super.fromJson(obj);
 		mProperty = JSONUtils.getJSONable(obj, "property", Property.class);
+		reviewLink = obj.optString("reviewLink");
 		mGuests = obj.optInt("guests");
 		mCheckInTime = obj.optString("checkInTime", null);
 		mLateArrivalInstructions = obj.optString("lateArrivalInstructions", null);
@@ -174,5 +177,13 @@ public class TripHotel extends TripComponent {
 
 	public void setAction(TripAction action) {
 		this.action = action;
+	}
+
+	public String getReviewLink() {
+		return reviewLink;
+	}
+
+	public void setReviewLink(String reviewLink) {
+		this.reviewLink = reviewLink;
 	}
 }

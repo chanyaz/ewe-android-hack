@@ -1,0 +1,2 @@
+DROP TABLE Notifications;
+CREATE TABLE Notifications (Body TEXT, ImageResId INTEGER, ItinId TEXT, Status TEXT, IconResId INTEGER, Id INTEGER PRIMARY KEY AUTOINCREMENT, TriggerTimeMillis INTEGER, Flags INTEGER, ImageValue TEXT, ImageType TEXT, NotificationType TEXT, Ticker TEXT, UniqueId TEXT, ExpirationTimeMillis INTEGER, Title TEXT, TemplateName TEXT, DeepLink TEXT);

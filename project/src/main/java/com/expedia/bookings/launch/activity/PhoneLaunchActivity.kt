@@ -109,6 +109,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
 
     var jumpToItinId: String? = null
     private var jumpToActivityCross: String = ""
+    private var jumpToDeepLink: String = ""
     private var pagerPosition = PAGER_POS_LAUNCH
 
     private var itinListFragment: ItinItemListFragment? = null
@@ -172,9 +173,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
             // No need to do anything special, waterfall is the default behavior anyway
         } else if (intent.hasExtra(ARG_JUMP_TO_NOTIFICATION)) {
             handleArgJumpToNotification(intent)
-            if (jumpToActivityCross.isEmpty())
-                gotoItineraries()
-            else gotoActivitiesCrossSell(jumpToActivityCross)
+            handleNotificationJump()
         } else if (intent.getBooleanExtra(ARG_FORCE_SHOW_ITIN, false)) {
             gotoItineraries()
         } else if (ItineraryManager.haveTimelyItinItem()) {
@@ -216,6 +215,11 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
                 userStateManager.getCurrentUserLoyaltyTier(), lastLocation?.latitude, lastLocation?.longitude, PointOfSale.getPointOfSale().url)
     }
 
+    private fun gotoDeepLink(url: String) {
+        NavUtils.goToWebView(this, url)
+        jumpToDeepLink = ""
+    }
+
     private fun requestLocationPermissionViaSoftPrompt() {
         if (isFirstTimeAskingLocationPermission(this) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
             isLocationPermissionPending = true
@@ -253,13 +257,19 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
             gotoWaterfall()
         } else if (intent.hasExtra(ARG_JUMP_TO_NOTIFICATION)) {
             handleArgJumpToNotification(intent)
-            if (jumpToActivityCross.isEmpty())
-                gotoItineraries()
-            else gotoActivitiesCrossSell(jumpToActivityCross)
+            handleNotificationJump()
         } else if (intent.getBooleanExtra(ARG_FORCE_SHOW_ITIN, false)) {
             gotoItineraries()
         } else if (intent.getBooleanExtra(ARG_FORCE_SHOW_ACCOUNT, false)) {
             gotoAccount()
+        }
+    }
+
+    fun handleNotificationJump(deepLinkUrl: String = jumpToDeepLink, activityID: String = jumpToActivityCross) {
+        when {
+            activityID.isNotEmpty() -> gotoActivitiesCrossSell(activityID)
+            deepLinkUrl.isNotEmpty() -> gotoDeepLink(deepLinkUrl)
+            else -> gotoItineraries()
         }
     }
 
@@ -333,9 +343,12 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         if (!notificationManager.hasExisting(notification)) {
             return
         }
-        if (notification.uniqueId.contains("_activityCross") || notification.uniqueId.contains("_activityInTrip"))
+        if (notification.notificationType == Notification.NotificationType.HOTEL_ACTIVITY_CROSSSEll
+                || notification.notificationType == Notification.NotificationType.HOTEL_ACTIVITY_IN_TRIP) {
             jumpToActivityCross = notification.itinId
-        else {
+        } else if (!notification.deepLink.isNullOrEmpty()) {
+            jumpToDeepLink = notification.deepLink
+        } else {
             jumpToItinId = notification.itinId
         }
         OmnitureTracking.trackNotificationClick(notification)
