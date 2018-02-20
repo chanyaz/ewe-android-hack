@@ -16,8 +16,8 @@ import com.expedia.bookings.extensions.subscribeObserver
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.FlightsV2DataUtil
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isFlightGreedySearchEnabled
@@ -393,7 +393,10 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         return getStartDashEndDateWithDayString(start, end)
     }
 
-    fun getFormattedDate(date: LocalDate?): String? {
-            return DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(date)
+    fun getFormattedDate(date: LocalDate?): String {
+        if (date == null) {
+            return ""
+        }
+        return LocaleBasedDateFormatUtils.localDateToEEEMMMd(date)
     }
 }

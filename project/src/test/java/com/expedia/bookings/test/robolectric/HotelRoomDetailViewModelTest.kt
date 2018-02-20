@@ -18,7 +18,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
-import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.ApiDateUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.testutils.JSONResourceReader
 import com.expedia.util.LoyaltyUtil
@@ -269,7 +269,7 @@ class HotelRoomDetailViewModelTest {
         roomResponse.freeCancellationWindowDate = "1993-04-10 12:34"
         var viewModel = createViewModel(roomResponse, -1)
 
-        val dateTime = DateUtils.yyyyMMddHHmmToDateTime("1993-04-10 12:34").toLocalDate()
+        val dateTime = ApiDateUtils.yyyyMMddHHmmToDateTime("1993-04-10 12:34").toLocalDate()
         val cancellationDate = LocaleBasedDateFormatUtils.localDateToEEEMMMd(dateTime)
         assertEquals("before $cancellationDate", viewModel.cancellationTimeString)
     }

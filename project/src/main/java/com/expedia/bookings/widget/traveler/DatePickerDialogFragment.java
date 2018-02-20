@@ -13,7 +13,7 @@ import android.view.Window;
 import android.widget.DatePicker;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.utils.DateFormatUtils;
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
 
 public class DatePickerDialogFragment extends DialogFragment implements DatePicker.OnDateChangedListener {
 	private static final String EXTRA_DEFAULT_DATE = "extraDefaultDate";
@@ -78,7 +78,7 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
 				int month = datePicker.getMonth();
 				int day = datePicker.getDayOfMonth();
 				dateChosenListener.handleDateChosen(year, month + 1, day,
-					DateFormatUtils.formatBirthDate(getContext(), year, month + 1, day));
+					LocaleBasedDateFormatUtils.formatBirthDate(year, month + 1, day));
 			}
 			dismiss();
 		}

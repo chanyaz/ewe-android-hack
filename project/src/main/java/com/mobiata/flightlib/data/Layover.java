@@ -2,7 +2,7 @@ package com.mobiata.flightlib.data;
 
 import org.joda.time.DateTime;
 
-import com.mobiata.flightlib.utils.DateTimeUtils;
+import com.expedia.bookings.utils.DateRangeUtils;
 
 public class Layover {
 
@@ -17,7 +17,7 @@ public class Layover {
 	public Layover(Flight flight1, Flight flight2) {
 		DateTime arrival = flight1.getArrivalWaypoint().getMostRelevantDateTime();
 		DateTime departure = flight2.getOriginWaypoint().getMostRelevantDateTime();
-		mDuration = DateTimeUtils.getMinutesBetween(arrival, departure);
+		mDuration = DateRangeUtils.getMinutesBetween(arrival, departure);
 	}
 
 }

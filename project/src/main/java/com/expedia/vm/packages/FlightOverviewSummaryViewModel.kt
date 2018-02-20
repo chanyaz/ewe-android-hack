@@ -6,8 +6,8 @@ import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightTripDetails
-import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.extensions.withLatestFrom
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.PublishSubject
 import org.joda.time.format.DateTimeFormat
@@ -40,14 +40,14 @@ class FlightOverviewSummaryViewModel(val context: Context) {
             outboundFlightTitle.onNext(Phrase.from(context, R.string.flight_overview_header_TEMPLATE)
                     .put("departureairportcode", departureAirport)
                     .put("arrivalairportcode", arrivalAirport)
-                    .put("dateoftravelling", DateFormatUtils.formatLocalDateToShortDayAndDate(params?.departureDate?.toString(formatter)))
+                    .put("dateoftravelling", LocaleBasedDateFormatUtils.yyyyMMddStringToEEEMMMddyyyy(params?.departureDate?.toString(formatter)))
                     .format().toString())
             inboundFlightTitle.onNext(
                     if (params?.returnDate != null) {
                         Phrase.from(context, R.string.flight_overview_header_TEMPLATE)
                                 .put("departureairportcode", arrivalAirport)
                                 .put("arrivalairportcode", departureAirport)
-                                .put("dateoftravelling", DateFormatUtils.formatLocalDateToShortDayAndDate(params.returnDate?.toString(formatter)))
+                                .put("dateoftravelling", LocaleBasedDateFormatUtils.yyyyMMddStringToEEEMMMddyyyy(params.returnDate?.toString(formatter)))
                                 .format().toString()
                     } else {
                         ""

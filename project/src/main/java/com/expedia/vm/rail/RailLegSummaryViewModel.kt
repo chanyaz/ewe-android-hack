@@ -6,7 +6,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailProduct
 import com.expedia.bookings.rail.util.RailUtils
-import com.mobiata.flightlib.utils.DateTimeUtils
+import com.expedia.bookings.utils.DateRangeUtils
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
@@ -41,11 +41,11 @@ class RailLegSummaryViewModel(context: Context) {
     init {
         railLegOptionObserver.subscribe { legOption ->
             val formattedStopsAndDuration = Phrase.from(context, R.string.rail_time_and_stops_line_TEMPLATE)
-                    .put("formattedduration", DateTimeUtils.formatDuration(context.resources, legOption.durationMinutes()))
+                    .put("formattedduration", DateRangeUtils.formatDuration(context.resources, legOption.durationMinutes()))
                     .put("formattedchangecount", RailUtils.formatRailChangesText(context, legOption.noOfChanges)).format().toString()
             formattedStopsAndDurationObservable.onNext(formattedStopsAndDuration)
 
-            val formattedTimes = DateTimeUtils.formatInterval(context, legOption.getDepartureDateTime(), legOption.getArrivalDateTime())
+            val formattedTimes = DateRangeUtils.formatTimeInterval(context, legOption.getDepartureDateTime(), legOption.getArrivalDateTime())
             formattedTimesObservable.onNext(formattedTimes.toString())
             operatorObservable.onNext(legOption.aggregatedOperatingCarrier)
             legOptionObservable.onNext(legOption)

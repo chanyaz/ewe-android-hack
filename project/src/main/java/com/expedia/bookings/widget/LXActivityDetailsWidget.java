@@ -31,7 +31,7 @@ import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.Constants;
-import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.ApiDateUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -489,7 +489,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 
 		@Override
 		public void onNext(Offer offer) {
-			LocalDate availabilityDate = DateUtils
+			LocalDate availabilityDate = ApiDateUtils
 				.yyyyMMddHHmmssToLocalDate(offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
 			String lowestTicketAmount = offer.availabilityInfoOfSelectedDate.getLowestTicket().money.getAmount()
 				.toString();

@@ -46,11 +46,12 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.ClipboardUtils;
-import com.expedia.bookings.utils.DateFormatUtils;
+import com.expedia.bookings.utils.DateRangeUtils;
 import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -64,7 +65,6 @@ import com.mobiata.flightlib.data.Delay;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.data.Waypoint;
-import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
 
 import org.joda.time.DateTime;
@@ -415,7 +415,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 					vh.mBulb.setImageResource(Ui.obtainThemeResID(getContext(), R.attr.itin_card_detail_flight_on_time_drawable));
 				}
 				else {
-					String timeString = JodaUtils.formatDateTime(getContext(), arrival, DateFormatUtils.FLAGS_TIME_FORMAT);
+					String timeString = JodaUtils.formatDateTime(getContext(), arrival, DateRangeUtils.getFLAGS_TIME_FORMAT());
 					int delay = getDelayForWaypoint(flight.getArrivalWaypoint());
 					if (delay > 0) {
 						vh.mTopLine.setText(res.getString(R.string.flight_arrived_late_at_TEMPLATE, timeString));
@@ -849,12 +849,12 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 				if (delay > 0) {
 					tv.setTextColor(Ui.obtainThemeColor(getContext(), R.attr.itin_card_detail_flight_delayed_text_color));
 					tv.setText(res.getString(R.string.flight_departs_x_late_TEMPLATE,
-							DateTimeUtils.formatDuration(res, delay)));
+							DateRangeUtils.formatDuration(res, delay)));
 				}
 				else if (delay < 0) {
 					tv.setTextColor(Ui.obtainThemeColor(getContext(), R.attr.itin_card_detail_flight_on_time_text_color));
 					tv.setText(res.getString(R.string.flight_departs_x_early_TEMPLATE,
-							DateTimeUtils.formatDuration(res, delay)));
+							DateRangeUtils.formatDuration(res, delay)));
 				}
 				else {
 					tv.setTextColor(Ui.obtainThemeColor(getContext(), R.attr.itin_card_detail_flight_on_time_text_color));
@@ -866,12 +866,12 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 				if (delay > 0) {
 					tv.setTextColor(Ui.obtainThemeColor(getContext(), R.attr.itin_card_detail_flight_delayed_text_color));
 					tv.setText(res.getString(R.string.flight_arrives_x_late_TEMPLATE,
-							DateTimeUtils.formatDuration(res, delay)));
+							DateRangeUtils.formatDuration(res, delay)));
 				}
 				else if (delay < 0) {
 					tv.setTextColor(Ui.obtainThemeColor(getContext(), R.attr.itin_card_detail_flight_on_time_text_color));
 					tv.setText(res.getString(R.string.flight_arrives_x_early_TEMPLATE,
-							DateTimeUtils.formatDuration(res, delay)));
+							DateRangeUtils.formatDuration(res, delay)));
 				}
 				else {
 					tv.setTextColor(Ui.obtainThemeColor(getContext(), R.attr.itin_card_detail_flight_on_time_text_color));
@@ -884,12 +884,12 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 				if (delay > 0) {
 					tv.setTextColor(Ui.obtainThemeColor(getContext(), R.attr.itin_card_detail_flight_delayed_text_color));
 					tv.setText(res.getString(R.string.flight_arrived_x_late_TEMPLATE,
-							DateTimeUtils.formatDuration(res, delay)));
+							DateRangeUtils.formatDuration(res, delay)));
 				}
 				else if (delay < 0) {
 					tv.setTextColor(Ui.obtainThemeColor(getContext(), R.attr.itin_card_detail_flight_on_time_text_color));
 					tv.setText(res.getString(R.string.flight_arrived_x_early_TEMPLATE,
-							DateTimeUtils.formatDuration(res, delay)));
+							DateRangeUtils.formatDuration(res, delay)));
 				}
 				else {
 					tv.setTextColor(Ui.obtainThemeColor(getContext(), R.attr.itin_card_detail_flight_on_time_text_color));
@@ -926,7 +926,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	}
 
 	private String formatTime(DateTime cal) {
-		String format = DateTimeUtils.getDeviceTimeFormat(getContext());
+		String format = LocaleBasedDateFormatUtils.getDeviceTimeFormat(getContext());
 		return JodaUtils.format(cal.toLocalDateTime().toDateTime(), format);
 	}
 

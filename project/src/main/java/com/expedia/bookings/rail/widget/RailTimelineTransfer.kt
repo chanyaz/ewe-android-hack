@@ -7,9 +7,9 @@ import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.rail.data.RailTravelMediumDrawableProvider
 import com.expedia.bookings.data.rail.responses.RailSegment
+import com.expedia.bookings.utils.DateRangeUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
-import com.mobiata.flightlib.utils.DateTimeUtils
 import com.squareup.phrase.Phrase
 
 class RailTimelineTransfer : FrameLayout {
@@ -22,7 +22,7 @@ class RailTimelineTransfer : FrameLayout {
         travelIcon.setImageResource(RailTravelMediumDrawableProvider.findMappedDrawable(segment.travelMedium.travelMediumCode))
         if (segment.isTransfer) {
             transferText.text = Phrase.from(context, R.string.rail_transfer_from_a_to_b_TEMPLATE)
-                    .put("formatted_duration", DateTimeUtils.formatDuration(context.resources, segment.durationMinutes()))
+                    .put("formatted_duration", DateRangeUtils.formatDuration(context.resources, segment.durationMinutes()))
                     .put("origin_station_name", segment.departureStation.stationDisplayName)
                     .put("destination_station_name", segment.arrivalStation.stationDisplayName).format().toString()
         } else {

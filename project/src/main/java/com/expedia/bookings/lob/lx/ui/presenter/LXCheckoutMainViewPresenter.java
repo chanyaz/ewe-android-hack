@@ -27,7 +27,7 @@ import com.expedia.bookings.services.LxServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingSuppressionUtils;
-import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.ApiDateUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
@@ -228,7 +228,7 @@ public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter
 
 			showProgress(false);
 			OmnitureTracking.trackAppLXCheckoutPayment(lxState.activity.id,
-				DateUtils
+				ApiDateUtils
 					.yyyyMMddHHmmssToLocalDate(lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate),
 				lxState.selectedTicketsCount(), lxState.latestTotalPrice().getAmount().setScale(2).toString(),
 				isGroundTransport);

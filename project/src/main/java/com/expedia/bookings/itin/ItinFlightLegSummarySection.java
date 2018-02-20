@@ -17,12 +17,12 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightTripView;
 import com.mobiata.flightlib.data.Airline;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
-import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
 import com.squareup.phrase.Phrase;
 
@@ -166,7 +166,7 @@ public class ItinFlightLegSummarySection extends RelativeLayout {
 	}
 
 	private String formatTime(DateTime cal) {
-		String dateFormat = DateTimeUtils.getDeviceTimeFormat(getContext());
+		String dateFormat = LocaleBasedDateFormatUtils.getDeviceTimeFormat(getContext());
 		return JodaUtils.format(cal, dateFormat);
 	}
 }

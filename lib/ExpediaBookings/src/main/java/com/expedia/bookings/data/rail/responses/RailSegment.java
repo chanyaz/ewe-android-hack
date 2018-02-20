@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 
 import com.expedia.bookings.data.rail.RailTravelMedium;
-import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.ApiDateUtils;
 
 public class RailSegment {
 	public static final String TRANSFER = "Transfer";
@@ -21,7 +21,7 @@ public class RailSegment {
 	public String duration;  //ISO duration format P[yY][mM][dD][T[hH][mM][s[.s]S]]
 
 	public int durationMinutes() {
-		return DateUtils.parseDurationMinutesFromISOFormat(duration);
+		return ApiDateUtils.parseDurationMinutesFromISOFormat(duration);
 	}
 
 	public boolean isTransfer() {

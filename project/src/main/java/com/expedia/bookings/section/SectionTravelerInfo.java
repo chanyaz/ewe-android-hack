@@ -39,7 +39,7 @@ import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
-import com.expedia.bookings.utils.DateFormatUtils;
+import com.expedia.bookings.utils.DateRangeUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TelephoneSpinner;
@@ -712,7 +712,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			if (data.getBirthDate() != null) {
 				String formatStr = getResources().getString(R.string.born_on_colored_TEMPLATE);
 				String bdayStr = JodaUtils.formatLocalDate(getContext(), data.getBirthDate(),
-					DateFormatUtils.FLAGS_MEDIUM_DATE_FORMAT);
+					DateRangeUtils.getFLAGS_MEDIUM_DATE_FORMAT());
 				btnTxt = String.format(formatStr, bdayStr);
 				stringToSpan = new SpannableString(btnTxt);
 				int color = getResources().getColor(R.color.checkout_traveler_birth_color);

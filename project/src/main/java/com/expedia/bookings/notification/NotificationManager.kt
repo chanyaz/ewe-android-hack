@@ -6,6 +6,7 @@ import android.content.Context
 import com.activeandroid.Model
 import com.activeandroid.query.Delete
 import com.activeandroid.query.Select
+import com.expedia.bookings.utils.ApiDateUtils
 import com.mobiata.android.Log
 
 class NotificationManager(private val context: Context) : INotificationManager {
@@ -147,7 +148,7 @@ class NotificationManager(private val context: Context) : INotificationManager {
     override fun searchForExistingAndUpdate(notification: Notification) {
         // If we already have this notification, don't notify again.
         val existing = findExisting(notification)
-        val newNotificationTime = com.expedia.bookings.utils.DateUtils
+        val newNotificationTime = ApiDateUtils
                 .convertMilliSecondsForLogging(notification.triggerTimeMillis)
         if (existing != null) {
             if (notification != existing) {
@@ -155,7 +156,7 @@ class NotificationManager(private val context: Context) : INotificationManager {
                 existing.delete()
                 Log.i(LOGGING_TAG, "Existing notification found and updated: scheduled for " + newNotificationTime)
             } else {
-                val existingNotificationTime = com.expedia.bookings.utils.DateUtils
+                val existingNotificationTime = ApiDateUtils
                         .convertMilliSecondsForLogging(existing.triggerTimeMillis)
                 Log.i(LOGGING_TAG, "Existing notification found and not updated: scheduled for " + existingNotificationTime)
             }

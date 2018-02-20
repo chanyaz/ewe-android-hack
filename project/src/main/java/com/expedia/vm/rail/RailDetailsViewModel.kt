@@ -6,7 +6,7 @@ import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.rail.util.RailUtils
-import com.mobiata.flightlib.utils.DateTimeUtils
+import com.expedia.bookings.utils.DateRangeUtils
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import java.util.Collections
@@ -33,7 +33,7 @@ open class RailDetailsViewModel(val context: Context) {
             formattedTimeIntervalSubject.onNext(RailUtils.formatTimeIntervalToDeviceFormat(context, railLegOption.getDepartureDateTime(),
                     railLegOption.getArrivalDateTime()))
             val changesString = RailUtils.formatRailChangesText(context, railLegOption.noOfChanges)
-            formattedLegInfoSubject.onNext("${DateTimeUtils.formatDuration(context.resources,
+            formattedLegInfoSubject.onNext("${DateRangeUtils.formatDuration(context.resources,
                     railLegOption.durationMinutes())}, $changesString")
 
             // filter offers for one-way and round trip

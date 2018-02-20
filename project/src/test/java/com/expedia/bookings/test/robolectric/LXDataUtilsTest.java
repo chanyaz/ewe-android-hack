@@ -29,7 +29,7 @@ import com.expedia.bookings.deeplink.DeepLink;
 import com.expedia.bookings.deeplink.DeepLinkParser;
 import com.expedia.bookings.test.MultiBrand;
 import com.expedia.bookings.test.RunForBrands;
-import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.ApiDateUtils;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.Strings;
 import com.google.gson.Gson;
@@ -101,13 +101,13 @@ public class LXDataUtilsTest {
 	public void testBuildLXSearchParamsFromDeeplinkSearch() {
 		final String expectedURL = "expda://activitySearch?startDate=2050-08-08&location=San+Francisco";
 		final String location = "San Francisco";
-		final String startDate = DateUtils
-			.localDateToyyyyMMdd(DateUtils.ensureDateIsTodayOrInFuture(DateUtils.yyyyMMddToLocalDate("2050-08-08")));
+		final String startDate = ApiDateUtils
+			.localDateToyyyyMMdd(ApiDateUtils.ensureDateIsTodayOrInFuture(ApiDateUtils.yyyyMMddToLocalDate("2050-08-08")));
 
 		LxSearchParams obtainedLxSearchParams = getLxSearchParamsFromDeeplink(expectedURL);
 
 		LxSearchParams expectedLxSearchParams = (LxSearchParams) new LxSearchParams.Builder().location(location)
-			.startDate(DateUtils.yyyyMMddToLocalDate(startDate)).endDate(DateUtils.yyyyMMddToLocalDate(startDate).plusDays(14)).build();
+			.startDate(ApiDateUtils.yyyyMMddToLocalDate(startDate)).endDate(ApiDateUtils.yyyyMMddToLocalDate(startDate).plusDays(14)).build();
 
 		assertEquals(expectedLxSearchParams.getLocation(), obtainedLxSearchParams.getLocation());
 		assertEquals(expectedLxSearchParams.getActivityStartDate(), obtainedLxSearchParams.getActivityStartDate());
@@ -118,14 +118,14 @@ public class LXDataUtilsTest {
 	public void testBuildLXSearchParamsFromDeeplinkSearchWithFilters() {
 		final String expectedURL = "expda://activitySearch?startDate=2050-08-08&location=San+Francisco&filters=Private+Transfers|Shared+Transfers";
 		final String location = "San Francisco";
-		final String startDate = DateUtils
-			.localDateToyyyyMMdd(DateUtils.ensureDateIsTodayOrInFuture(DateUtils.yyyyMMddToLocalDate("2050-08-08")));
+		final String startDate = ApiDateUtils
+			.localDateToyyyyMMdd(ApiDateUtils.ensureDateIsTodayOrInFuture(ApiDateUtils.yyyyMMddToLocalDate("2050-08-08")));
 		final String filters = "Private Transfers|Shared Transfers";
 
 		LxSearchParams obtainedLxSearchParams = getLxSearchParamsFromDeeplink(expectedURL);
 
 		LxSearchParams expectedLxSearchParams = (LxSearchParams) new LxSearchParams.Builder().filters(filters).location(location)
-			.startDate(DateUtils.yyyyMMddToLocalDate(startDate)).endDate(DateUtils.yyyyMMddToLocalDate(startDate).plusDays(14)).build();
+			.startDate(ApiDateUtils.yyyyMMddToLocalDate(startDate)).endDate(ApiDateUtils.yyyyMMddToLocalDate(startDate).plusDays(14)).build();
 
 		assertEquals(expectedLxSearchParams.getLocation(), obtainedLxSearchParams.getLocation());
 		assertEquals(expectedLxSearchParams.getFilters(), obtainedLxSearchParams.getFilters());

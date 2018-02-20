@@ -10,7 +10,7 @@ import com.expedia.bookings.data.flights.FlightSearchResponse
 import com.expedia.bookings.data.flights.FlightSearchResponse.FlightSearchType
 import com.expedia.bookings.extensions.subscribeObserver
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.ApiDateUtils
 import com.google.gson.GsonBuilder
 import io.reactivex.Observer
 import io.reactivex.Scheduler
@@ -108,8 +108,8 @@ open class FlightServices(val endpoint: String, okHttpClient: OkHttpClient, inte
             val departure = leg.flightSegments.first()
             val arrival = leg.flightSegments.last()
 
-            val arrivalTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTimeWithTimeZone(arrival.arrivalTimeRaw)
-            val departureTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTimeWithTimeZone(departure.departureTimeRaw)
+            val arrivalTime = ApiDateUtils.dateyyyyMMddHHmmSSSZToDateTimeWithTimeZone(arrival.arrivalTimeRaw)
+            val departureTime = ApiDateUtils.dateyyyyMMddHHmmSSSZToDateTimeWithTimeZone(departure.departureTimeRaw)
 
             leg.elapsedDays = Days.daysBetween(departureTime.toLocalDate(), arrivalTime.toLocalDate()).days
             leg.departureDateTimeISO = departure.departureTimeRaw
@@ -135,8 +135,8 @@ open class FlightServices(val endpoint: String, okHttpClient: OkHttpClient, inte
                 segment.arrivalDateTimeISO = segment.arrivalTimeRaw
                 setAirlineLogoUrl(segment)
 
-                val segmentArrivalTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTimeWithTimeZone(segment.arrivalTimeRaw)
-                val segmentDepartureTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTimeWithTimeZone(segment.departureTimeRaw)
+                val segmentArrivalTime = ApiDateUtils.dateyyyyMMddHHmmSSSZToDateTimeWithTimeZone(segment.arrivalTimeRaw)
+                val segmentDepartureTime = ApiDateUtils.dateyyyyMMddHHmmSSSZToDateTimeWithTimeZone(segment.departureTimeRaw)
                 segment.elapsedDays = Days.daysBetween(segmentDepartureTime.toLocalDate(), segmentArrivalTime.toLocalDate()).days
                 val airline = Airline(segment.airlineName, segment.airlineLogoURL)
                 airlines.add(airline)

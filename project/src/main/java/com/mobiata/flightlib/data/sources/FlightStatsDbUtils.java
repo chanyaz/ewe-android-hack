@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.joda.time.DateTimeZone;
+import org.joda.time.LocalDateTime;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -309,6 +310,17 @@ public class FlightStatsDbUtils {
 			Collections.sort(airport.mAirportMaps);
 		}
 		c.close();
+	}
+
+	public static LocalDateTime parseFlightStatsDateTime(String dateTime) {
+		// It turns out it's faster just to parse this by hand
+		int year = Integer.parseInt(dateTime.substring(0, 4));
+		int month = Integer.parseInt(dateTime.substring(5, 7));
+		int day = Integer.parseInt(dateTime.substring(8, 10));
+		int hour = Integer.parseInt(dateTime.substring(11, 13));
+		int minute = Integer.parseInt(dateTime.substring(14, 16));
+
+		return new LocalDateTime(year, month, day, hour, minute);
 	}
 
 }

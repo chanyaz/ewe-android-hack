@@ -7,8 +7,8 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.rail.util.RailUtils
+import com.expedia.bookings.utils.DateRangeUtils
 import com.expedia.util.Optional
-import com.mobiata.flightlib.utils.DateTimeUtils
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.PublishSubject
 
@@ -22,7 +22,7 @@ open class RailLegOptionViewModel(val context: Context, val inbound: Boolean) {
     //Outputs
     val formattedStopsAndDurationObservable = legOptionObservable.map { legOption ->
         Phrase.from(context, R.string.rail_time_and_stops_line_TEMPLATE)
-                .put("formattedduration", DateTimeUtils.formatDuration(context.resources, legOption.durationMinutes()))
+                .put("formattedduration", DateRangeUtils.formatDuration(context.resources, legOption.durationMinutes()))
                 .put("formattedchangecount", RailUtils.formatRailChangesText(context, legOption.noOfChanges)).format().toString()
     }
     val formattedTimeSubject = legOptionObservable.map { legOption ->

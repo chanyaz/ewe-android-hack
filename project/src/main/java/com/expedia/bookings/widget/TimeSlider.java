@@ -26,7 +26,7 @@ import android.widget.SeekBar;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.AccessibilityUtil;
-import com.expedia.bookings.utils.DateFormatUtils;
+import com.expedia.bookings.utils.DateRangeUtils;
 
 public class TimeSlider extends SeekBar {
 
@@ -190,7 +190,7 @@ public class TimeSlider extends SeekBar {
 
 	public String calculateProgress(int progress) {
 		return DateUtils
-			.formatDateTime(getContext(), getDateTime(progress).getMillis(), DateFormatUtils.FLAGS_TIME_FORMAT);
+			.formatDateTime(getContext(), getDateTime(progress).getMillis(), DateRangeUtils.getFLAGS_TIME_FORMAT());
 	}
 
 	public static DateTime getDateTime(int progress) {

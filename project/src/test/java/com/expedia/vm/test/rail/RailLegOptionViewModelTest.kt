@@ -12,7 +12,6 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowDateFormat
 import com.expedia.util.Optional
-import com.mobiata.flightlib.utils.DateTimeUtils
 import org.joda.time.DateTime
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,6 +19,7 @@ import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.utils.DateRangeUtils
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -36,7 +36,7 @@ class RailLegOptionViewModelTest {
     val testRoundTripInboundFormattedPrice = "+$10"
     val testOpenReturnFormattedPrice = "+$0"
 
-    val expectedDuration = DateTimeUtils.formatDuration(context.resources, testDurationMinutes)
+    val expectedDuration = DateRangeUtils.formatDuration(context.resources, testDurationMinutes)
     val expectedChangeText = RailUtils.formatRailChangesText(context, testNoOfChanges)
     val expectedFormattedTime = RailUtils.formatTimeIntervalToDeviceFormat(context, DateTime.now(), DateTime.now().plusHours(1))
 

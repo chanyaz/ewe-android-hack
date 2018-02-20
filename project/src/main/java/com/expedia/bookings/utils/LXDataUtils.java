@@ -313,8 +313,8 @@ public class LXDataUtils {
 			activityId = activityDeepLink.getActivityID();
 		}
 		boolean modQualified = Ui.getApplication(context).appComponent().userStateManager().isUserAuthenticated();
-		return new LxSearchParams(location, DateUtils.ensureDateIsTodayOrInFuture(startDate),
-			DateUtils.ensureDateIsTodayOrInFuture(endDate), SearchType.EXPLICIT_SEARCH, filters, activityId, "", modQualified);
+		return new LxSearchParams(location, ApiDateUtils.ensureDateIsTodayOrInFuture(startDate),
+			ApiDateUtils.ensureDateIsTodayOrInFuture(endDate), SearchType.EXPLICIT_SEARCH, filters, activityId, "", modQualified);
 	}
 
 	public static boolean isActivityGT(List<String> activityCategories) {

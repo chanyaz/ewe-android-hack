@@ -1,9 +1,9 @@
 package com.expedia.bookings.itin.vm
 
 import android.content.Context
-import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.DateRangeUtils
+import com.expedia.bookings.utils.ApiDateUtils
 import com.mobiata.android.Log
-import com.mobiata.flightlib.utils.DateTimeUtils
 import io.reactivex.subjects.PublishSubject
 
 abstract class ItinTimeDurationViewModel(private val context: Context) {
@@ -27,7 +27,7 @@ abstract class ItinTimeDurationViewModel(private val context: Context) {
 
     fun getDurationMinutesFromISO(durationISO: String): Int {
         try {
-            return DateUtils.parseDurationMinutesFromISOFormat(durationISO)
+            return ApiDateUtils.parseDurationMinutesFromISOFormat(durationISO)
         } catch (e: IllegalArgumentException) {
             Log.e("unsupported parsing format", e)
         }
@@ -36,7 +36,7 @@ abstract class ItinTimeDurationViewModel(private val context: Context) {
 
     fun getFormattedDuration(durationMinutes: Int): String {
         return if (durationMinutes > 0) {
-            DateTimeUtils.formatDurationDaysHoursMinutes(context, durationMinutes)
+            DateRangeUtils.formatDurationDaysHoursMinutes(context, durationMinutes)
         } else ""
     }
 }

@@ -6,7 +6,7 @@ import com.expedia.bookings.data.rail.requests.PointOfSaleKey
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.data.rail.responses.RailCard
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.ApiDateUtils
 import org.joda.time.LocalDate
 import java.util.ArrayList
 
@@ -66,10 +66,10 @@ class RailApiSearchModel(origin: SuggestionV4, destination: SuggestionV4, depart
     class OriginDestinationPair(origin: SuggestionV4, destination: SuggestionV4, departDate: LocalDate, departTimeMillis: Int) {
         var originStationCode = origin.hierarchyInfo?.rails?.stationCode
         var destinationStationCode = destination.hierarchyInfo?.rails?.stationCode
-        var departureDate = DateUtils.localDateToyyyyMMdd(departDate) //format: yyyy-MM-dd
+        var departureDate = ApiDateUtils.localDateToyyyyMMdd(departDate) //format: yyyy-MM-dd
 
         //format "16:00:00"
-        val departureTime = DateUtils.formatMillisToHHmmss(departDate, departTimeMillis)
+        val departureTime = ApiDateUtils.formatMillisToHHmmss(departDate, departTimeMillis)
     }
 
     class RailPassenger(passengerIndex: Int, age: Int, primaryTraveler: Boolean) {

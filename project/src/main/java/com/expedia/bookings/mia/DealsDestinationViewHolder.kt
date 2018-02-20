@@ -25,7 +25,7 @@ import com.expedia.bookings.mia.activity.MemberDealsActivity
 import com.expedia.bookings.mia.vm.DealsDestinationViewModel
 import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.DateFormatUtils
+import com.expedia.bookings.utils.DateRangeUtils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBrandColorEnabled
@@ -126,7 +126,7 @@ class DealsDestinationViewHolder(private val view: View) : RecyclerView.ViewHold
         val result = SpannableBuilder()
 
         result.append(titleView.text.toString() + ".")
-        result.append(DateFormatUtils.formatPackageDateRangeContDesc(view.context, searchParams.checkInDate.toString(), searchParams.checkOutDate.toString()))
+        result.append(DateRangeUtils.formatPackageDateRangeContDesc(view.context, searchParams.checkInDate.toString(), searchParams.checkOutDate.toString()))
 
         if (discountView.text != null) {
             result.append(Phrase.from(view.context, R.string.hotel_price_discount_percent_cont_desc_TEMPLATE).put("percentage", discountPercent).format().toString())

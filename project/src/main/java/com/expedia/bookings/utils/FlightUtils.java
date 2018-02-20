@@ -12,7 +12,6 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.flightlib.data.Waypoint;
-import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
 import com.squareup.phrase.Phrase;
 
@@ -57,7 +56,7 @@ public class FlightUtils {
 	}
 
 	public static String formatTotalDuration(Context context, int legDuration) {
-		String hoursMinutes = DateTimeUtils.formatDuration(context.getResources(), legDuration);
+		String hoursMinutes = DateRangeUtils.formatDuration(context.getResources(), legDuration);
 		String legDurationTime = Phrase.from(context.getString(R.string.total_duration_TEMPLATE)).put("hoursminutes", hoursMinutes).format().toString();
 		return legDurationTime;
 	}

@@ -12,6 +12,7 @@ import com.mobiata.flightlib.data.sources.FlightStatsDbUtils
 import com.mobiata.flightlib.utils.FormatUtils
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
+import org.joda.time.LocalDateTime
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
@@ -164,5 +165,12 @@ class FormatUtilsTest {
         airport.mTimeZone = DateTimeZone.forTimeZone(TimeZone.getTimeZone("Europe/Moscow"))
         value = FormatUtils.formatTimeZone(airport, DateTime(), 2)
         assertEquals("GMT+3", value)
+    }
+
+    @Test
+    fun parseFlightStatsDateTimeTest() {
+        val actualLocalDateTime = FlightStatsDbUtils.parseFlightStatsDateTime("2017-11-28-12:23")
+        val expectedLocalDateTime = LocalDateTime(2017, 11, 28, 12, 23)
+        assertEquals(actualLocalDateTime, expectedLocalDateTime)
     }
 }

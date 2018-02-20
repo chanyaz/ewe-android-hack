@@ -5,7 +5,7 @@ import org.junit.Test;
 import com.expedia.bookings.data.lx.AvailabilityInfo;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.OffersDetail;
-import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.ApiDateUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -22,9 +22,9 @@ public class LxActivityOfferTests {
 
 		OffersDetail parsedOffer = gson.fromJson(rawOfferDetailsJson, OffersDetail.class);
 
-		assertTrue(parsedOffer.isAvailableOnDate(DateUtils.yyyyMMddToLocalDate("2015-04-01")));
-		assertTrue(!parsedOffer.isAvailableOnDate(DateUtils.yyyyMMddToLocalDate("2015-02-23")));
-		assertTrue(!parsedOffer.isAvailableOnDate(DateUtils.yyyyMMddToLocalDate("2015-02-25")));
+		assertTrue(parsedOffer.isAvailableOnDate(ApiDateUtils.yyyyMMddToLocalDate("2015-04-01")));
+		assertTrue(!parsedOffer.isAvailableOnDate(ApiDateUtils.yyyyMMddToLocalDate("2015-02-23")));
+		assertTrue(!parsedOffer.isAvailableOnDate(ApiDateUtils.yyyyMMddToLocalDate("2015-02-25")));
 	}
 
 	@Test
@@ -35,10 +35,10 @@ public class LxActivityOfferTests {
 
 		Offer parsedOffer = gson.fromJson(rawOfferJson, Offer.class);
 
-		AvailabilityInfo activityAvailabilityInfo = parsedOffer.updateAvailabilityInfoOfSelectedDate(DateUtils.yyyyMMddToLocalDate("2015-02-24"));
+		AvailabilityInfo activityAvailabilityInfo = parsedOffer.updateAvailabilityInfoOfSelectedDate(ApiDateUtils.yyyyMMddToLocalDate("2015-02-24"));
 		assertTrue(activityAvailabilityInfo.tickets.size() == 2);
 
-		activityAvailabilityInfo = parsedOffer.updateAvailabilityInfoOfSelectedDate(DateUtils.yyyyMMddToLocalDate("2015-02-23"));
+		activityAvailabilityInfo = parsedOffer.updateAvailabilityInfoOfSelectedDate(ApiDateUtils.yyyyMMddToLocalDate("2015-02-23"));
 		assertTrue(activityAvailabilityInfo == null);
 	}
 }

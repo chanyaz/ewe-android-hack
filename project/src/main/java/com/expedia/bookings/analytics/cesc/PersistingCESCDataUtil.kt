@@ -1,6 +1,6 @@
 package com.expedia.bookings.analytics.cesc
 
-import com.mobiata.flightlib.utils.DateTimeUtils
+import com.expedia.bookings.utils.DateRangeUtils
 import org.joda.time.DateTime
 import org.joda.time.Days
 
@@ -14,7 +14,7 @@ class PersistingCESCDataUtil(private val persistenceProvider: CESCPersistencePro
         val cescStoredData = persistenceProvider.get(cidVisit)
         cescStoredData?.second?.let {
             val storedCidVisitDateTime = DateTime(it)
-            return DateTimeUtils.getMinutesBetween(storedCidVisitDateTime, dateTime) <= 30
+            return DateRangeUtils.getMinutesBetween(storedCidVisitDateTime, dateTime) <= 30
         }
         return false
     }

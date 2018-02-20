@@ -247,7 +247,7 @@ class CarnivalUtilsTest : CarnivalUtils() {
 
         assertEquals(eventNameToLog, "confirmation_lx")
         assertEquals(attributesToSend.get("confirmation_lx_activity_name"), "Disney World")
-        assertEquals(attributesToSend.get("confirmation_lx_date_of_activity"), DateUtils.yyyyMMddHHmmssToLocalDate("2017-10-18 08:00:00").toDate())
+        assertEquals(attributesToSend.get("confirmation_lx_date_of_activity"), ApiDateUtils.yyyyMMddHHmmssToLocalDate("2017-10-18 08:00:00").toDate())
     }
 
     @Test

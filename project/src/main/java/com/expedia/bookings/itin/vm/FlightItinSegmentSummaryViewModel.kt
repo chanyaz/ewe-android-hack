@@ -3,9 +3,9 @@ package com.expedia.bookings.itin.vm
 import android.content.Context
 import android.support.annotation.VisibleForTesting
 import com.expedia.bookings.R
+import com.expedia.bookings.utils.DateRangeUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.mobiata.flightlib.data.Flight
-import com.mobiata.flightlib.utils.DateTimeUtils
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.PublishSubject
 import org.joda.time.DateTime
@@ -142,7 +142,7 @@ class FlightItinSegmentSummaryViewModel(private val context: Context) {
                     null
             ))
         } else if (estimatedGateDepartureTime != null && estimatedGateArrivalTime != null) {
-            val departureDelay = DateTimeUtils.getMinutesBetween(scheduledDepartureTime, estimatedGateDepartureTime)
+            val departureDelay = DateRangeUtils.getMinutesBetween(scheduledDepartureTime, estimatedGateDepartureTime)
             when {
                 departureDelay < 0 -> {
                     val flightIndicatorText = context.resources.getString(R.string.itin_flight_summary_status_indicator_text_early_departure)
@@ -157,9 +157,9 @@ class FlightItinSegmentSummaryViewModel(private val context: Context) {
                 }
                 departureDelay > 0 -> {
                     val delayText = Phrase.from(context, R.string.itin_flight_summary_status_indicator_text_delayed_by_TEMPLATE)
-                            .put("duration", DateTimeUtils.formatDurationDaysHoursMinutes(context, departureDelay)).format().toString()
+                            .put("duration", DateRangeUtils.formatDurationDaysHoursMinutes(context, departureDelay)).format().toString()
                     val delayTextContDesc = Phrase.from(context, R.string.itin_flight_summary_status_indicator_text_delayed_by_TEMPLATE)
-                            .put("duration", DateTimeUtils.getDurationContDescDaysHoursMins(context, departureDelay)).format().toString()
+                            .put("duration", DateRangeUtils.getDurationContDescDaysHoursMins(context, departureDelay)).format().toString()
                     updateFlightStatusSubject.onNext(FlightStatsParams(
                             R.drawable.flight_status_indicator_error_background,
                             delayText,

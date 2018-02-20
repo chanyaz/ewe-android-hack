@@ -62,8 +62,6 @@
 
     <!-- Date/Time Range e.g. May 5, 11:00am - May 10, 11:00am -->
     <string name="date_time_range_TEMPLATE">{from_date_time} – {to_date_time}</string>
-    <!-- Date/Time Range content description, e.g. May 5, 11:00am to May 10, 11:00am -->
-    <string name="date_time_range_cont_desc_TEMPLATE">{from_date_time} to {to_date_time}</string>
     <!-- Label for checkout button where user slides the button in order to reserve the activity -->
     <string name="lx_slide_to_reserve">Slide to reserve</string>
     <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->

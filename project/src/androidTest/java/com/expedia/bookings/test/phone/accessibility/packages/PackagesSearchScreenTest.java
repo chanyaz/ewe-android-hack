@@ -11,7 +11,7 @@ import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.espresso.TestValues;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
-import com.expedia.bookings.utils.DateFormatUtils;
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -72,8 +72,8 @@ public class PackagesSearchScreenTest extends PackageTestCase {
 
 		SearchScreen.origin().check(matches(withContentDescription("Flying from. Button. SFO - San Francisco Intl.")));
 		SearchScreen.destination().check(matches(withContentDescription("Flying to. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)")));
-		String expectedStartDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(startDate);
-		String expectedEndDate = DateFormatUtils.formatLocalDateToEEEMMMdBasedOnLocale(endDate);
+		String expectedStartDate = LocaleBasedDateFormatUtils.localDateToEEEMMMd(startDate);
+		String expectedEndDate = LocaleBasedDateFormatUtils.localDateToEEEMMMd(endDate);
 		SearchScreen.calendarCard().check(matches(withContentDescription("Trip dates Button. Opens dialog. " + expectedStartDate + " to " + expectedEndDate + " (5 nights)")));
 		checkToolbarNavContentDescription(false);
 

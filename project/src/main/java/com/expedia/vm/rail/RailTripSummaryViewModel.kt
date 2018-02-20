@@ -4,7 +4,7 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailTripOffer
-import com.expedia.bookings.utils.DateFormatUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
@@ -17,12 +17,12 @@ class RailTripSummaryViewModel(context: Context) {
     //Outputs
     val formattedOutboundDateObservable = railOutboundLegObserver.map { railLegOption ->
         Phrase.from(context, R.string.rail_checkout_outbound_TEMPLATE)
-                .put("date", DateFormatUtils.formatLocalDateToShortDayAndMonth(railLegOption.departureDateTime.toDateTime()))
+                .put("date", LocaleBasedDateFormatUtils.dateTimeToEEEMMMdd(railLegOption.departureDateTime.toDateTime()))
                 .format().toString()
     }
     val formattedInboundDateObservable = railInboundLegObserver.map { railLegOption ->
         Phrase.from(context, R.string.rail_checkout_inbound_TEMPLATE)
-                .put("date", DateFormatUtils.formatLocalDateToShortDayAndMonth(railLegOption.arrivalDateTime.toDateTime()))
+                .put("date", LocaleBasedDateFormatUtils.dateTimeToEEEMMMdd(railLegOption.arrivalDateTime.toDateTime()))
                 .format().toString()
     }
 

@@ -8,8 +8,8 @@ import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailTripOffer
 import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.utils.JodaUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
-import com.mobiata.flightlib.utils.DateTimeUtils
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
@@ -60,7 +60,7 @@ class RailConfirmationViewModel(val context: Context) {
     }
 
     private fun getCardSubtitle(legOption: RailLegOption?, numOfTravelers: Int): String {
-        val dateFormat = DateTimeUtils.getDeviceTimeFormat(context)
+        val dateFormat = LocaleBasedDateFormatUtils.getDeviceTimeFormat(context)
         val departureTime = JodaUtils.format(legOption?.getDepartureDateTime(), dateFormat).toLowerCase(Locale.getDefault())
 
         val travelers = StrUtils.formatTravelerString(context, numOfTravelers)

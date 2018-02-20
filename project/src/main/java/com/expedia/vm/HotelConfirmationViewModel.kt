@@ -24,7 +24,7 @@ import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AddToCalendarUtils
-import com.expedia.bookings.utils.DateFormatUtils
+import com.expedia.bookings.utils.DateRangeUtils
 import com.expedia.bookings.utils.LXDataUtils
 import com.expedia.bookings.utils.LXNavUtils
 import com.expedia.bookings.utils.NumberUtils
@@ -125,7 +125,7 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
             itineraryNumberLabel.onNext(context.resources.getString(R.string.successful_checkout_TEMPLATE, itinNumber))
             checkInDate.onNext(checkInLocalDate)
             checkOutDate.onNext(checkOutLocalDate)
-            formattedCheckInOutDate.onNext(DateFormatUtils.formatDateRange(context, checkInLocalDate, checkOutLocalDate, DateFormatUtils.FLAGS_DATE_ABBREV_MONTH))
+            formattedCheckInOutDate.onNext(DateRangeUtils.formatDateRangeHotelConfirmation(context, checkInLocalDate, checkOutLocalDate))
 
             if (!Strings.isEmpty(product.bigImageUrl))
                 bigImageUrl.onNext(BuildConfig.MEDIA_URL + product.bigImageUrl)
@@ -184,7 +184,7 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
             val hotelAddress = hotelPropertyInfo.address
             checkInDate.onNext(checkInLocalDate)
             checkOutDate.onNext(checkOutLocalDate)
-            formattedCheckInOutDate.onNext(DateFormatUtils.formatDateRange(context, checkInLocalDate, checkOutLocalDate, DateFormatUtils.FLAGS_DATE_ABBREV_MONTH))
+            formattedCheckInOutDate.onNext(DateRangeUtils.formatDateRangeHotelConfirmation(context, checkInLocalDate, checkOutLocalDate))
 
             val location = Location()
 

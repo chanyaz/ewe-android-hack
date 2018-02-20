@@ -20,7 +20,7 @@ import com.expedia.bookings.location.LXCurrentLocationSuggestionObserver;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.lx.LXPresenter;
 import com.expedia.bookings.utils.AlertDialogUtils;
-import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.ApiDateUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.ui.AbstractAppCompatActivity;
@@ -106,12 +106,12 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 			(intent != null) && intent.getBooleanExtra(Codes.FROM_DEEPLINK_TO_DETAILS, false);
 
 		final String location = intent.getStringExtra("location");
-		final LocalDate startDate = DateUtils.yyyyMMddToLocalDateSafe(intent.getStringExtra("startDateStr"),
+		final LocalDate startDate = ApiDateUtils.yyyyMMddToLocalDateSafe(intent.getStringExtra("startDateStr"),
 			LocalDate.now());
 
 		String hotelCheckout = intent.getStringExtra("endDateStr");
 		Integer noHotelUseSearchDefaultOf14Days = R.integer.lx_default_search_range;
-		final LocalDate endDate = DateUtils.yyyyMMddToLocalDateSafe(hotelCheckout,
+		final LocalDate endDate = ApiDateUtils.yyyyMMddToLocalDateSafe(hotelCheckout,
 			startDate.plusDays(getResources().getInteger(noHotelUseSearchDefaultOf14Days)));
 
 		final String filters = intent.getStringExtra("filters");

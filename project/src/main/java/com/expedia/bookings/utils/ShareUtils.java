@@ -40,7 +40,6 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Layover;
-import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
 import com.squareup.phrase.Phrase;
 
@@ -797,7 +796,7 @@ public class ShareUtils {
 
 			if (a > 0) {
 				Layover layover = new Layover(flightLeg.getSegment(a - 1), flight);
-				String duration = DateTimeUtils.formatDuration(res, layover.mDuration);
+				String duration = DateRangeUtils.formatDuration(res, layover.mDuration);
 				String waypoint = StrUtils.formatWaypoint(flight.getOriginWaypoint());
 				sb.append(HtmlCompat.fromHtml(mContext.getString(R.string.layover_duration_location_TEMPLATE, duration,
 						waypoint)));

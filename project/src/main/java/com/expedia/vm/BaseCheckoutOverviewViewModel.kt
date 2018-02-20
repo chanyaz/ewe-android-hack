@@ -3,7 +3,8 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.R
-import com.expedia.bookings.utils.DateFormatUtils
+import com.expedia.bookings.utils.DateRangeUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
@@ -28,12 +29,12 @@ open class BaseCheckoutOverviewViewModel(context: Context) {
         city.subscribe(cityTitle)
 
         checkInAndCheckOutDate.subscribe { (checkIn, checkOut) ->
-            datesTitle.onNext(DateFormatUtils.formatPackageDateRange(context, checkIn, checkOut))
-            datesTitleContDesc.onNext(DateFormatUtils.formatPackageDateRangeContDesc(context, checkIn, checkOut))
+            datesTitle.onNext(DateRangeUtils.formatPackageDateRange(context, checkIn, checkOut))
+            datesTitleContDesc.onNext(DateRangeUtils.formatPackageDateRangeContDesc(context, checkIn, checkOut))
         }
 
         checkInWithoutCheckoutDate.subscribe { checkIn ->
-            val text = DateFormatUtils.formatLocalDateToShortDayAndDate(checkIn)
+            val text = LocaleBasedDateFormatUtils.yyyyMMddStringToEEEMMMddyyyy(checkIn)
             datesTitle.onNext(text)
             datesTitleContDesc.onNext(text)
         }

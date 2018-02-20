@@ -9,7 +9,7 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.ApiDateUtils;
 import com.expedia.bookings.widget.LXOfferDatesButton;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -28,7 +28,7 @@ public class LXDatesButtonTest {
 			.inflate(R.layout.lx_offer_date_button, null);
 		assertNotNull(button);
 
-		LocalDate localDate = DateUtils.yyyyMMddHHmmssToLocalDate("2015-03-18 08:30:00");
+		LocalDate localDate = ApiDateUtils.yyyyMMddHHmmssToLocalDate("2015-03-18 08:30:00");
 		String expectedText = localDate.dayOfWeek().getAsShortText() + "\n" + localDate.dayOfMonth().getAsText() + "\n";
 
 		Gson gson = new GsonBuilder().create();

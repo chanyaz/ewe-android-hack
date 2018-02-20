@@ -6,7 +6,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.DateFormatUtils
+import com.expedia.bookings.utils.DateRangeUtils
 import com.expedia.vm.rail.RailErrorViewModel
 import com.squareup.phrase.Phrase
 import org.junit.Before
@@ -36,7 +36,7 @@ class RailErrorViewModelTest {
                 .origin(RailSearchRequestMock.origin("Origin"))
                 .destination(RailSearchRequestMock.destination("Destination")).build() as RailSearchRequest
         subjectUnderTest.paramsSubject.onNext(searchRequest)
-        val expectedDateText = DateFormatUtils.formatRailDateRange(context, searchRequest.startDate, searchRequest.endDate)
+        val expectedDateText = DateRangeUtils.formatRailDateRange(context, searchRequest.startDate, searchRequest.endDate)
         assertEquals("Origin - Destination", subjectUnderTest.titleObservable.value)
         assertEquals("$expectedDateText - 1 traveler", subjectUnderTest.subTitleObservable.value)
     }

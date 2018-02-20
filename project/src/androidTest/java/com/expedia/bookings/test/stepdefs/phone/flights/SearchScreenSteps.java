@@ -53,7 +53,7 @@ import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static com.expedia.bookings.test.stepdefs.phone.TestUtil.getDateInEEEMMMdd;
 import static com.expedia.bookings.test.stepdefs.phone.flights.DatePickerSteps.pickDates;
-import static com.expedia.bookings.utils.DateFormatUtils.formatDateToShortDayAndDate;
+import static com.expedia.bookings.utils.LocaleBasedDateFormatUtils.dateTimeToEEEMMMddyyyy;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
@@ -291,7 +291,7 @@ public class SearchScreenSteps {
 		DateTime startDateTime = DateTime.now().plusDays(Integer.parseInt(expParameters.get("start_date")))
 			.withTimeAtStartOfDay();
 		onView(allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("travelers")))).
-			check(matches(withText(containsString(formatDateToShortDayAndDate(startDateTime)))));
+			check(matches(withText(containsString(dateTimeToEEEMMMddyyyy(startDateTime)))));
 	}
 
 	public static String getMonth(int month) {
@@ -480,7 +480,7 @@ public class SearchScreenSteps {
 	public void validateFSRToolBar(Map<String, String> searchFormParameters) throws Throwable {
 		String totalTravelers = searchFormParameters.get("totalTravelers");
 		DateTime startDate = DateTime.now().plusDays(Integer.parseInt(searchFormParameters.get("start_date")));
-		String checkString = formatDateToShortDayAndDate(startDate) + ", " + totalTravelers;
+		String checkString = dateTimeToEEEMMMddyyyy(startDate) + ", " + totalTravelers;
 		onView(allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("traveler"))))
 			.check(matches(withText(checkString)));
 		onView(allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("Select flight to"))))

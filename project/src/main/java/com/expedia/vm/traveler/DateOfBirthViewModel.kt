@@ -3,7 +3,7 @@ package com.expedia.vm.traveler
 import android.content.Context
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.section.InvalidCharacterHelper
-import com.expedia.bookings.utils.DateFormatUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.util.endlessObserver
@@ -32,7 +32,7 @@ class DateOfBirthViewModel(var traveler: Traveler, val context: Context) : BaseT
         val date = traveler.birthDate
         if (date != null) {
             birthDateSubject.onNext(date)
-            textSubject.onNext(DateFormatUtils.formatBirthDate(context, date.year, date.monthOfYear, date.dayOfMonth))
+            textSubject.onNext(LocaleBasedDateFormatUtils.formatBirthDate(date.year, date.monthOfYear, date.dayOfMonth))
             validatePassengerCategory()
         } else {
             textSubject.onNext("")
@@ -46,7 +46,7 @@ class DateOfBirthViewModel(var traveler: Traveler, val context: Context) : BaseT
     val dateOfBirthObserver = endlessObserver<LocalDate> { date ->
         traveler.birthDate = date
         birthDateSubject.onNext(date)
-        textSubject.onNext(DateFormatUtils.formatBirthDate(context, date.year, date.monthOfYear, date.dayOfMonth))
+        textSubject.onNext(LocaleBasedDateFormatUtils.formatBirthDate(date.year, date.monthOfYear, date.dayOfMonth))
         validatePassengerCategory()
     }
 

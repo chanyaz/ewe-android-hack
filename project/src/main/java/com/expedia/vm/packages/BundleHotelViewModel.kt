@@ -4,7 +4,7 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.hotels.HotelOffersResponse
-import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.ApiDateUtils
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
@@ -94,7 +94,7 @@ class BundleHotelViewModel(val context: Context) {
     private fun getCancellationText(selectHotelRoom: HotelOffersResponse.HotelRoomResponse): String? {
         val cancellationDateString = selectHotelRoom.freeCancellationWindowDate
         if (cancellationDateString != null) {
-            val cancellationDate = DateUtils.yyyyMMddHHmmToDateTime(cancellationDateString)
+            val cancellationDate = ApiDateUtils.yyyyMMddHHmmToDateTime(cancellationDateString)
             return Phrase.from(context, R.string.hotel_free_cancellation_TEMPLATE).put("date",
                     LocaleBasedDateFormatUtils.dateTimeToMMMdhmma(cancellationDate))
                     .format()
