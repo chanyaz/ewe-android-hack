@@ -56,15 +56,16 @@
         android:orientation="horizontal"
         android:weightSum="1">
 
-        <com.expedia.bookings.widget.TextView
+        <com.expedia.bookings.widget.flights.DateFormatterTextView
             android:id="@+id/recent_search_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginTop="4dp"
+            app:invalidColor="@color/gray500"
+            app:invalidStyle="italic"
             android:textColor="@color/gray700"
-            android:textSize="13sp"
-            app:textStyle="normal" />
+            android:textSize="13sp"/>
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/recent_search_price_subtitle"
@@ -99,7 +100,8 @@
             android:layout_height="12dp"
             android:layout_gravity="center"
             android:layout_marginLeft="6dp"
-            android:src="@drawable/search_form_icon_person" />
+            android:tint="@color/gray700"
+            android:src="@drawable/search_form_icon_person"/>
 
         <com.expedia.bookings.widget.TextView
             android:layout_width="wrap_content"

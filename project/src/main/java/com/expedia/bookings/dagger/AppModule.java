@@ -1,10 +1,20 @@
 package com.expedia.bookings.dagger;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+
+import javax.inject.Named;
+import javax.inject.Singleton;
+
+import android.arch.persistence.room.Room;
 import android.content.Context;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.SatelliteRemoteFeatureResolver;
+import com.expedia.bookings.data.AppDatabase;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.clientlog.ClientLog;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -46,14 +56,6 @@ import com.expedia.model.UserLoginStateChangedModel;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.NetUtils;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
-
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -65,6 +67,8 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+
+import static com.expedia.bookings.utils.Constants.APP_DATABASE_NAME;
 
 @Module
 public class AppModule {
@@ -417,5 +421,11 @@ public class AppModule {
 	@Singleton
 	SatelliteRemoteFeatureResolver satelliteRemoteFeatureResolver(Context context) {
 		return new SatelliteRemoteFeatureResolver(context);
+	}
+
+	@Provides
+	@Singleton
+	AppDatabase provideAppDatabase(Context context) {
+		return Room.databaseBuilder(context, AppDatabase.class, APP_DATABASE_NAME).build();
 	}
 }

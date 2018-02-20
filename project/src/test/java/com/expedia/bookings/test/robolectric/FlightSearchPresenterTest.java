@@ -1,7 +1,9 @@
 package com.expedia.bookings.test.robolectric;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
 import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +18,7 @@ import android.content.DialogInterface;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -26,7 +29,6 @@ import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.SuggestionV4;
@@ -34,6 +36,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.flights.FlightSearchParams;
 import com.expedia.bookings.data.flights.FlightServiceClassType;
 import com.expedia.bookings.data.flights.RecentSearch;
+import com.expedia.bookings.data.flights.RecentSearchDAO;
 import com.expedia.bookings.presenter.flight.FlightSearchPresenter;
 import com.expedia.bookings.services.TestObserver;
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM;
@@ -51,6 +54,7 @@ import com.expedia.bookings.widget.FlightTravelerWidgetV2;
 import com.expedia.bookings.widget.TextView;
 import com.expedia.bookings.widget.TravelerPickerView;
 import com.expedia.bookings.widget.TravelerWidgetV2;
+import com.expedia.bookings.widget.flights.DateFormatterTextView;
 import com.expedia.bookings.widget.flights.RecentSearchWidgetContainer;
 import com.expedia.bookings.widget.shared.SearchInputTextView;
 import com.expedia.vm.FlightSearchViewModel;
@@ -58,6 +62,7 @@ import com.expedia.vm.TravelerPickerViewModel;
 import com.expedia.vm.flights.FlightAdvanceSearchViewModel;
 import com.squareup.phrase.Phrase;
 
+import io.reactivex.Flowable;
 import kotlin.Unit;
 
 import static junit.framework.Assert.assertTrue;
@@ -87,7 +92,7 @@ public class FlightSearchPresenterTest {
 		assertEquals(toolbar.getVisibility(), View.VISIBLE);
 		TabLayout tab = (TabLayout) widget.findViewById(R.id.tabs);
 		assertEquals(tab.getVisibility(), View.VISIBLE);
-		ScrollView scrollView = (ScrollView) widget.findViewById(R.id.scrollView);
+		NestedScrollView scrollView = (NestedScrollView) widget.findViewById(R.id.scrollView);
 		assertEquals(scrollView.getVisibility(), View.VISIBLE);
 		ViewPager viewpager = (ViewPager) widget.findViewById(R.id.viewpager);
 		assertEquals(viewpager.getVisibility(), View.VISIBLE);
@@ -702,11 +707,12 @@ public class FlightSearchPresenterTest {
 		RecyclerView recentSearchWidgetItems = recentSearchWidgetContainer.getRecyclerView();
 
 		ArrayList<RecentSearch> recentSearches = new ArrayList<RecentSearch>();
-		recentSearches.add(new RecentSearch("SFO", "LAS", "$200", "Nov 10 - Nov 12",
-			"as of Oct 10", "2", "Premium Economy", true));
+		RecentSearch recentSearch =  new RecentSearch("SFO", "LAS", "{\"coordinates\"}".getBytes(),
+			"{\"coordinates\"}".getBytes(),"2018-05-10", "2018-05-31", "COACH",
+			1519277785754L, 668, "USD", 1, "10,12",
+			false, true);
 
-		recentSearches.add(new RecentSearch("SEA", "SFO", "$400", "Feb 10 - Mar 15",
-			"as of Jan 10", "3", "Business", false));
+		recentSearches.add(recentSearch);
 
 		recentSearchWidgetContainer.getViewModel().getRecentSearchesObservable().onNext(recentSearches);
 		recentSearchWidgetItems.measure(0, 0);
@@ -717,38 +723,50 @@ public class FlightSearchPresenterTest {
 		TextView sourceLocation = firstItem.findViewById(R.id.recent_search_origin);
 		TextView destinationLocation = firstItem.findViewById(R.id.recent_search_destination);
 		TextView price = firstItem.findViewById(R.id.recent_search_price);
-		TextView dateRange = firstItem.findViewById(R.id.recent_search_date);
+		DateFormatterTextView dateRange = firstItem.findViewById(R.id.recent_search_date);
 		TextView priceSubtitle = firstItem.findViewById(R.id.recent_search_price_subtitle);
 		TextView travelerCount = firstItem.findViewById(R.id.recent_search_traveler_count);
 		TextView flightClass = firstItem.findViewById(R.id.recent_search_class);
 
 		assertEquals("SFO", sourceLocation.getText().toString());
 		assertEquals("LAS", destinationLocation.getText().toString());
-		assertEquals("$200", price.getText().toString());
-		assertEquals("Nov 10 - Nov 12", dateRange.getText().toString());
-		assertEquals("as of Oct 10", priceSubtitle.getText().toString());
-		assertEquals("2", travelerCount.getText().toString());
-		assertEquals("Premium Economy", flightClass.getText().toString());
+		assertEquals("$668", price.getText().toString());
+		assertEquals("May 10  -  May 31", dateRange.getText().toString());
+		assertEquals("as of Feb 22", priceSubtitle.getText().toString());
+		assertEquals("3", travelerCount.getText().toString());
+		assertEquals("Economy", flightClass.getText().toString());
 	}
 
 	@Test
-	public void testRecentSearchWidgetVisibility() {
+	public void testRecentWidgetVisibilityWhenZeroItems() {
+
+		AbacusTestUtils.bucketTestsAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsRecentSearch);
+		AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsRecentSearch, 1);
+		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
+			null);
+		ArrayList<RecentSearch> recentSearches = new ArrayList<RecentSearch>();
+		assertEquals(View.VISIBLE ,widget.findViewById(R.id.flight_recent_searches_widget).getVisibility());
+
+		RecentSearchWidgetContainer recentSearchWidgetContainer = widget.getRecentSearchWidgetContainer();
+		LinearLayout recentSearchWidget = recentSearchWidgetContainer.findViewById(R.id.recent_search_widget);
+
+		recentSearchWidgetContainer.getViewModel().getFetchRecentSearchesObservable().onNext(Unit.INSTANCE);
+		assertEquals(View.GONE ,recentSearchWidget.getVisibility());
+	}
+
+	@Test
+	public void testRecentWidgetWhenOneItem() {
 
 		AbacusTestUtils.bucketTestsAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsRecentSearch);
 		AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsRecentSearch, 1);
 		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
 			null);
 
-		assertEquals(View.VISIBLE ,widget.findViewById(R.id.flight_recent_searches_widget).getVisibility());
-
 		RecentSearchWidgetContainer recentSearchWidgetContainer = widget.getRecentSearchWidgetContainer();
-		LinearLayout recentHeaderContainer = recentSearchWidgetContainer.findViewById(R.id.recent_search_header_container);
-		RecyclerView recentSearchWidgetItems = recentSearchWidgetContainer.getRecyclerView();
-
-		assertEquals(View.VISIBLE ,recentSearchWidgetItems.getVisibility());
-		recentHeaderContainer.performClick();
-		assertEquals(View.GONE ,recentSearchWidgetItems.getVisibility());
-
+		LinearLayout recentSearchWidget = recentSearchWidgetContainer.findViewById(R.id.recent_search_widget);
+		recentSearchWidgetContainer.getViewModel().getRecentSearchVisibilityObservable().onNext(true);
+		assertEquals(View.VISIBLE ,widget.findViewById(R.id.flight_recent_searches_widget).getVisibility());
+		assertEquals(View.VISIBLE ,recentSearchWidget.getVisibility());
 	}
 
 	private String getExpectedToolTipContDesc(LocalDate startDate, LocalDate endDate) {
@@ -785,5 +803,44 @@ public class FlightSearchPresenterTest {
 		Ui.getApplication(activity).defaultFlightComponents();
 		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
 			null);
+	}
+
+	private class TestRecentSearchDAO extends RecentSearchDAO {
+
+		private RecentSearch recentSearchItem = new RecentSearch("SFO", "LAS", "{\"coordinates\"}".getBytes(),
+			"{\"coordinates\"}".getBytes(),"2018-05-10", "2018-05-31", "COACH",
+			1519277785754L, 668, "USD", 1, "10,12",
+			false, true);
+
+		@Override
+		public void insert(@NotNull RecentSearch recentSearch) { }
+
+		@NotNull
+		@Override
+		public RecentSearch getOldestRecentSearch() {
+			return recentSearchItem;
+		}
+
+		@Override
+		public void delete(@NotNull RecentSearch recentSearch) { }
+
+		@Override
+		public int checkIfExist(@NotNull String sourceAirportCode, @NotNull String destinationAirportCode,
+			boolean isRoundTrip) {
+			return 0;
+		}
+
+		@Override
+		public int count() {
+			return 1;
+		}
+
+		@NotNull
+		@Override
+		public Flowable<List<RecentSearch>> loadAll() {
+			List<RecentSearch> recentSearches = new ArrayList<RecentSearch>();
+			recentSearches.add(recentSearchItem);
+			return Flowable.just(recentSearches);
+		}
 	}
 }

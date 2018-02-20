@@ -37,6 +37,11 @@
 		<attr name="minTextSize" format="dimension" />
 	</declare-styleable>
 
+	<declare-styleable name="DateFormatterTextView">
+		<attr name="invalidStyle" format="string" />
+		<attr name="invalidColor" format="color" />
+	</declare-styleable>
+
 	<declare-styleable name="Spinner">
 	    <attr name="android:textColor" />
 	</declare-styleable>

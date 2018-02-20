@@ -13,6 +13,7 @@ import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.vm.FlightCheckoutViewModel;
 import com.expedia.vm.flights.BaggageInfoViewModel;
 import com.expedia.vm.flights.FlightCreateTripViewModel;
+import com.expedia.vm.flights.RecentSearchViewModel;
 
 import dagger.Component;
 
@@ -28,6 +29,7 @@ public interface FlightComponent {
 	void inject(FlightCreateTripViewModel createTripViewModel);
 	void inject(FlightCheckoutViewModel checkoutViewModel);
 	void inject(BaggageInfoViewModel baggageInfoViewModel);
+	void inject(RecentSearchViewModel recentSearchViewModel);
 
 	SuggestionV4Services suggestionsService();
 	ItinTripServices itinTripService();
