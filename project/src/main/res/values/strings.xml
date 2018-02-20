@@ -2728,13 +2728,13 @@
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <!-- new material Hotel results cell guest recommend-->
-    <string name="hotel_guest_recommend">of 5 - guest rating</string>
+    <string name="hotel_guest_recommend">/5 - guest rating</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
-    <string name="hotel_guest_recommend_good_superlative">of 5 - Good!</string>
-    <string name="hotel_guest_recommend_very_good_superlative">of 5 - Very Good!</string>
-    <string name="hotel_guest_recommend_excellent_superlative">of 5 - Excellent!</string>
-    <string name="hotel_guest_recommend_wonderful_superlative">of 5 - Wonderful!</string>
-    <string name="hotel_guest_recommend_exceptional_superlative">of 5 - Exceptional!</string>
+    <string name="hotel_guest_recommend_good_superlative">/5 - Good!</string>
+    <string name="hotel_guest_recommend_very_good_superlative">/5 - Very Good!</string>
+    <string name="hotel_guest_recommend_excellent_superlative">/5 - Excellent!</string>
+    <string name="hotel_guest_recommend_wonderful_superlative">/5 - Wonderful!</string>
+    <string name="hotel_guest_recommend_exceptional_superlative">/5 - Exceptional!</string>
 
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>

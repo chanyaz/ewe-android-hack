@@ -13,7 +13,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/hotel_reviews_rating_padding_bottom"
-            android:paddingRight="@dimen/hotel_reviews_rating_padding_right"
             android:textColor="@color/default_text_color"
             app:textStyle="medium" />
 
@@ -21,7 +20,6 @@
             style="@style/widgetHotelReviewsSummaryText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="4dp"
             android:text="@string/hotel_guest_recommend"
             android:textColor="@color/default_text_color"
             android:textSize="@dimen/hotel_reviews_summary_text_size" />
