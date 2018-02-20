@@ -488,11 +488,9 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
 
     open fun getHotelPriceContentDescription(showStrikeThrough: Boolean): String {
         return if (showStrikeThrough) {
-            Phrase.from(context, R.string.hotel_price_strike_through_cont_desc_TEMPLATE)
+            Phrase.from(context, R.string.hotel_price_strike_through_discount_percent_cont_desc_TEMPLATE)
                     .put("strikethroughprice", strikeThroughPriceObservable.value)
                     .put("price", priceToShowCustomerObservable.value)
-                    .format()
-                    .toString() + Phrase.from(context, R.string.hotel_price_discount_percent_cont_desc_TEMPLATE)
                     .put("percentage", discountPercentageObservable.value.first)
                     .format()
                     .toString()

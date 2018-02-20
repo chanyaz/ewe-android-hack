@@ -128,7 +128,9 @@ class PackageHotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(c
     }
 
     override fun getHotelPriceContentDescription(showStrikeThrough: Boolean): String {
-        return priceToShowCustomerObservable.value + context.getString(R.string.price_per_person)
+        return Phrase.from(context, R.string.price_per_person_TEMPLATE)
+                .put("price", priceToShowCustomerObservable.value)
+                .format().toString()
     }
 
     override fun shouldShowBookByPhone(): Boolean {

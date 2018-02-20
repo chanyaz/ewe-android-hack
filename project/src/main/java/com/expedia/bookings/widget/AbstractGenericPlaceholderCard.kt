@@ -8,6 +8,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.bindView
 import com.expedia.vm.launch.GenericViewModel
+import com.squareup.phrase.Phrase
 
 abstract class AbstractGenericPlaceholderCard(itemView: View, val context: Context) : RecyclerView.ViewHolder(itemView) {
     val firstLineTextView: TextView by bindView(R.id.first_line)
@@ -23,10 +24,14 @@ abstract class AbstractGenericPlaceholderCard(itemView: View, val context: Conte
         firstLineTextView.text = vm.firstLine
         secondLineTextView.text = vm.secondLine
         button_one.text = vm.buttonOneLabel
-        button_one.contentDescription = (vm.buttonOneLabel + " " + context.getString(R.string.accessibility_cont_desc_role_button))
+        button_one.contentDescription = Phrase.from(context, R.string.accessibility_cont_desc_role_button_TEMPLATE)
+                .put("button_label", vm.buttonOneLabel)
+                .format().toString()
         button_one.visibility = if (vm.buttonOneLabel.isNotBlank()) View.VISIBLE else View.GONE
         button_two.text = vm.buttonTwoLabel
-        button_two.contentDescription = (vm.buttonTwoLabel + " " + context.getString(R.string.accessibility_cont_desc_role_button))
+        button_two.contentDescription = Phrase.from(context, R.string.accessibility_cont_desc_role_button_TEMPLATE)
+                .put("button_label", vm.buttonTwoLabel)
+                .format().toString()
         button_two.visibility = if (vm.buttonTwoLabel.isNotBlank()) View.VISIBLE else View.GONE
 
         if (Build.VERSION.SDK_INT >= 21) {

@@ -3134,7 +3134,8 @@
     <!-- Dialog for pending points -->
     <string name="pending_points_info">Pending points become available after travel has occurred within the following time period:</string>
     <string name="pending_points_dialog_title">Pending Points</string>
-    <string name="pending_points_button">Points Button</string>
+    <!-- example: 7,253 pending points button -->
+    <string name="pending_points_TEMPLATE">{loyalty_points} pending points button</string>
     <string name="trip_type">Trip Type</string>
     <string name="up_to">Up to</string>
     <string name="activities">Activities</string>
@@ -4487,6 +4488,8 @@
     <string name="hotel_price_strike_through_cont_desc_TEMPLATE">Regularly {strikethroughprice}, now {price}.\u0020</string>
     <!-- Hotel strike percentage content description. Example. Original price discounted 20%. -->
     <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">Original price discounted {percentage}.\u0020</string>
+    <!-- Hotel strike percentage content description. Example. Regularly $100, now $80. Original price discounted 20%. -->
+    <string name="hotel_price_strike_through_discount_percent_cont_desc_TEMPLATE">Regularly {strikethroughprice}, now {price}.\u0020Original price discounted {percentage}.\u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Unreal Deal {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Example. SFO to DTM. 3 hours 15 minutes. -->
@@ -4652,6 +4655,8 @@
     <string name="insurance_price_per_day">/day</string>
     <!-- Label to indicate price is per person e.g $10/person -->
     <string name="price_per_person">/person</string>
+    <!-- Label to indicate price is per person e.g $10/person -->
+    <string name="price_per_person_TEMPLATE">{price}/person</string>
 
     <!-- Content description for rating bar e.g. Rated 3 out of 5-->
     <string name="hotel_rating_bar_cont_desc_TEMPLATE">Rated {rating} out of 5</string>
@@ -4699,6 +4704,8 @@
     <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}, {subtitle}, traveler details complete. Button.</string>
     <!--Packages accessibility content description for role Button-->
     <string name="accessibility_cont_desc_role_button">Button</string>
+    <!--Packages accessibility content description for role Button e.g. Close Button-->
+    <string name="accessibility_cont_desc_role_button_TEMPLATE">{button_label} Button</string>
     <!--Packages accessibility content description for purchase Button-->
     <string name="accessibility_cont_desc_role_purchase_button">Purchase Button</string>
     <!--Packages accessibility content description for role - Button to expand -->

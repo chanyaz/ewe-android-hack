@@ -130,7 +130,9 @@ open class ItinSignInViewModel(val context: Context) {
         statusImageVisibilitySubject.onNext(imageResId != 0)
         statusTextSubject.onNext(messageText)
         updateButtonTextSubject.onNext(buttonText)
-        updateButtonContentDescriptionSubject.onNext(buttonText + " " + context.getString(R.string.accessibility_cont_desc_role_button))
+        updateButtonContentDescriptionSubject.onNext(Phrase.from(context, R.string.accessibility_cont_desc_role_button_TEMPLATE)
+                .put("button_label", buttonText)
+                .format().toString())
         warningStatusAttributes(messageText)
         buttonAttributes(imageResId)
     }
