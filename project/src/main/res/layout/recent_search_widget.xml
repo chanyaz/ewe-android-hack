@@ -9,7 +9,8 @@
     android:layout_marginRight="16dp"
     android:background="@color/white"
     android:descendantFocusability="blocksDescendants"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:visibility="gone">
 
     <LinearLayout
         android:id="@+id/recent_search_header_container"
@@ -42,13 +43,9 @@
             android:layout_height="wrap_content"
             android:src="@drawable/read_more_without_padding"
             android:tint="@color/flight_primary_color" />
-
-
     </LinearLayout>
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recent_search_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
 </LinearLayout>

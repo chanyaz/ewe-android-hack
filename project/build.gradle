@@ -68,6 +68,11 @@ dependencies {
     implementation "com.google.android.gms:play-services-auth:${rootProject.ext.googlePlayServicesVersion}"
     implementation "com.google.android.gms:play-services-gcm:${rootProject.ext.googlePlayServicesVersion}"
 
+    implementation "android.arch.persistence.room:runtime:${room_persistence_version}"
+    testImplementation "android.arch.persistence.room:testing:${room_persistence_version}"
+    implementation "android.arch.persistence.room:rxjava2:${room_persistence_version}"
+    kapt "android.arch.persistence.room:compiler:${room_persistence_version}"
+
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation "com.squareup.okhttp3:okhttp:${okhttp_version}"
     implementation "com.squareup.okhttp3:okhttp-urlconnection:${okhttp_version}"

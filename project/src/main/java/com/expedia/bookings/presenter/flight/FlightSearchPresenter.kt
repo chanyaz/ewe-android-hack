@@ -279,7 +279,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
 
         if (isRecentSearchesForFlightsEnabled(context)) {
             flightRecentSearchCardView.visibility = View.VISIBLE
-            recentSearchWidgetContainer.viewModel.fetchandShowRecentObservable.onNext(Unit)
+            recentSearchWidgetContainer.viewModel.fetchRecentSearchesObservable.onNext(Unit)
         }
     }
 

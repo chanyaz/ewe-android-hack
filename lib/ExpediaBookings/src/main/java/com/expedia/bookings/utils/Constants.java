@@ -12,6 +12,7 @@ public class Constants {
 	public static final int PACKAGE_API_ERROR_RESULT_CODE = 104;
 	public static final int FLIGHT_REQUEST_CODE = 105;
 	public static final int PACKAGE_PARAMS_NULL_RESTORE = 106;
+	public static final String APP_DATABASE_NAME = "app-database";
 
 	//For more info on Package trip type https://confluence/display/POS/GetPackages+API
 	public static final String PACKAGE_TRIP_TYPE = "2"; // 2 mean BYOT (build your own trip)
