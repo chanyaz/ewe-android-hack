@@ -32,6 +32,7 @@ import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.animation.AnimationListenerAdapter
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.LatLong
+import com.expedia.bookings.data.hotel.HotelPoiEnum
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.extensions.subscribeBackground
@@ -49,7 +50,6 @@ import com.expedia.bookings.hotel.activity.HotelPoiDistanceActivity
 import com.expedia.bookings.hotel.animation.AlphaCalculator
 import com.expedia.bookings.hotel.data.Amenity
 import com.expedia.bookings.hotel.data.HotelGalleryConfig
-import com.expedia.bookings.hotel.data.POI
 import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.hotel.fragment.ChangeDatesDialogFragment
 import com.expedia.bookings.model.HotelStayDates
@@ -342,7 +342,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
             poiIconContainer.removeAllViews()
             pois.forEach { poi ->
                 val imageView = View.inflate(context, R.layout.hotel_poi_image_view, null) as ImageView
-                imageView.setImageResource(poi.icon)
+                imageView.setImageResource(poi.iconId)
                 poiIconContainer.addView(imageView)
                 val params = imageView.layoutParams as LinearLayout.LayoutParams
                 val rightMargin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16f, context.resources.getDisplayMetrics())
@@ -764,29 +764,29 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         amenityContainer.scheduleLayoutAnimation()
     }
 
-    private fun getPOIIcons() : List<POI> {
+    private fun getPOIIcons() : List<HotelPoiEnum> {
         val id = viewModel.hotelId
         when (id) {
             "116674" -> { //silversmith
-                return listOf(POI.RESTAURANT, POI.NIGHTLIFE, POI.TRANSIT, POI.LANDMARK, POI.SHOPPING)
+                return listOf(HotelPoiEnum.RESTAURANT, HotelPoiEnum.NIGHTLIFE, HotelPoiEnum.TRANSIT, HotelPoiEnum.LANDMARK, HotelPoiEnum.SHOPPING)
             }
             "1293276" -> { //Crowne Plaza
-                return listOf(POI.RESTAURANT, POI.NIGHTLIFE, POI.SHOPPING)
+                return listOf(HotelPoiEnum.RESTAURANT, HotelPoiEnum.NIGHTLIFE, HotelPoiEnum.SHOPPING)
             }
             "2784555" -> { //Chicago South Loop
-                return listOf(POI.RESTAURANT)
+                return listOf(HotelPoiEnum.RESTAURANT)
             }
             "1850638" -> { //The Homestead evanston
-                return listOf(POI.SHOPPING)
+                return listOf(HotelPoiEnum.SHOPPING)
             }
             "892669" -> { //City Suite Hotels
-                return listOf(POI.TRANSIT, POI.LANDMARK)
+                return listOf(HotelPoiEnum.TRANSIT, HotelPoiEnum.LANDMARK)
             }
             "18278617" -> { //Ray's Bucktown
-                return listOf(POI.RESTAURANT)
+                return listOf(HotelPoiEnum.RESTAURANT)
             }
             "983642" -> { //Motel 6
-                return listOf(POI.NIGHTLIFE)
+                return listOf(HotelPoiEnum.NIGHTLIFE)
             }
             "21514796" -> { //Travel Inn
                 return listOf()
@@ -795,7 +795,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
                 return listOf()
             }
             "23023" -> { //Best Western Grant Park
-                return listOf(POI.TRANSIT)
+                return listOf(HotelPoiEnum.TRANSIT)
             }
         }
         return listOf()
