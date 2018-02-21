@@ -12,10 +12,10 @@ enum class HotelPoiEnum(val iconId: Int, val priority: Int) {
     companion object {
         fun fromString(string: String): HotelPoiEnum? {
             return when (string) {
-                "RESTAURANT" -> return RESTAURANT
+                "RESTAURANTS" -> return RESTAURANT
                 "LANDMARK" -> LANDMARK
                 "NIGHTLIFE" -> NIGHTLIFE
-                "TRANSIT" -> TRANSIT
+                "TRANSPORTSTATIONS" -> TRANSIT
                 "SHOPPING" -> SHOPPING
                 else -> null
             }
