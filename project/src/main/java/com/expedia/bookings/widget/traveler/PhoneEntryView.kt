@@ -55,6 +55,7 @@ class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
         }
         if (PointOfSale.getPointOfSale().shouldFormatTravelerPhoneNumber()) {
             phoneNumber.viewModel.textSubject.subscribe { number ->
+                @Suppress("DEPRECATION")
                 phoneNumber.setText(PhoneNumberUtils.formatNumber(number))
                 val selection = phoneNumber.text?.length ?: 0
                 phoneNumber.setSelection(selection)
