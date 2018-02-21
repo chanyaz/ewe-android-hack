@@ -2,7 +2,6 @@ package com.expedia.bookings.presenter.hotel
 
 import android.animation.ArgbEvaluator
 import android.app.Activity
-import android.app.ProgressDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Color
@@ -59,6 +58,7 @@ import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.LoadingOverlayWidget
 import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.expedia.bookings.extensions.withLatestFrom
+import com.expedia.bookings.widget.DeprecatedProgressDialog
 import com.expedia.ui.HotelActivity.Screen
 import com.expedia.util.endlessObserver
 import com.expedia.vm.GeocodeSearchModel
@@ -363,7 +363,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     val loadingOverlay: LoadingOverlayWidget by bindView(R.id.details_loading_overlay)
     val ANIMATION_DURATION = 400
     val geoCodeSearchModel = GeocodeSearchModel(context)
-    private val checkoutDialog = ProgressDialog(context)
+    private val checkoutDialog = DeprecatedProgressDialog(context)
 
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)

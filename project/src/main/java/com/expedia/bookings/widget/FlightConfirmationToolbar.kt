@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget
 
 import android.app.PendingIntent
-import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -46,7 +45,7 @@ class FlightConfirmationToolbar(context: Context, attrs: AttributeSet?) : Toolba
         Ui.getApplication(getContext()).flightComponent().itinTripService()
     }
 
-    val progressDialog = ProgressDialog(context)
+    val progressDialog = DeprecatedProgressDialog(context)
 
     init {
         if (AbacusFeatureConfigManager.isBucketedInAnyVariant(context, AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing)) {

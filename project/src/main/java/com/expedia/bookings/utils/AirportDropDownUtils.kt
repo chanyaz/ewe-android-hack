@@ -1,12 +1,12 @@
 package com.expedia.bookings.utils
 
 import android.app.AlertDialog
-import android.app.ProgressDialog
 import android.content.Context
 import android.support.v7.widget.ListPopupWindow
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.navigation.NavUtils
+import com.expedia.bookings.widget.DeprecatedProgressDialog
 
 class AirportDropDownUtils {
 
@@ -20,8 +20,8 @@ class AirportDropDownUtils {
             return listPopupWindow
         }
 
-        @JvmStatic fun fetchingRoutesProgressDialog(context: Context): ProgressDialog {
-            val progressDialog = ProgressDialog(context)
+        @JvmStatic fun fetchingRoutesProgressDialog(context: Context): DeprecatedProgressDialog {
+            val progressDialog = DeprecatedProgressDialog(context)
             progressDialog.setMessage(context.resources.getString(R.string.loading_air_asia_routes))
             progressDialog.isIndeterminate = true
             progressDialog.setCancelable(false)

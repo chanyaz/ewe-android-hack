@@ -1,12 +1,12 @@
 package com.expedia.bookings.dialog;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.widget.DeprecatedProgressDialog;
 
 public class ThrobberDialog extends DialogFragment {
 
@@ -31,7 +31,7 @@ public class ThrobberDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		ProgressDialog pd = new ProgressDialog(getActivity());
+		DeprecatedProgressDialog pd = new DeprecatedProgressDialog(getActivity());
 		Bundle args = getArguments();
 		if (args.containsKey(ARG_MESSAGE)) {
 			pd.setMessage(args.getCharSequence(ARG_MESSAGE));
@@ -71,7 +71,7 @@ public class ThrobberDialog extends DialogFragment {
 	}
 
 	public void setText(CharSequence text) {
-		ProgressDialog pd = (ProgressDialog) this.getDialog();
+		DeprecatedProgressDialog pd = (DeprecatedProgressDialog) this.getDialog();
 		if (pd != null) {
 			pd.setMessage(text);
 		}

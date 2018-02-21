@@ -1,7 +1,6 @@
 package com.expedia.vm
 
 import android.app.AlertDialog
-import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Typeface
 import android.support.v4.content.ContextCompat
@@ -19,6 +18,7 @@ import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.widget.DeprecatedProgressDialog
 import com.squareup.phrase.Phrase
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
@@ -57,8 +57,8 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
         AlertDialog.Builder(context).setPositiveButton(R.string.button_done, null).create()
     }
 
-    private val updatingTripDialog: ProgressDialog by lazy {
-        val dialog = ProgressDialog(context)
+    private val updatingTripDialog: DeprecatedProgressDialog by lazy {
+        val dialog = DeprecatedProgressDialog(context)
         dialog.isIndeterminate = true
         dialog.setCancelable(false)
         dialog
