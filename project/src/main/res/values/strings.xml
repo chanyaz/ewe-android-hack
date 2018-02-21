@@ -54,6 +54,8 @@
     <!-- Ally Description for individual map pins on hotel results. Ex. Show information for hotel of price $543 below, Button-->
     <string name="hotel_map_pin_price_cont_desc_TEMPLATE">Show information for hotel of price {price} below, Button</string>
 
+    <string name="poi_distance_TEMPLATE">\u003c {distance} miles</string>
+
     <!-- Hotel sold out label on the results hotel card -->
     <string name="hotel_sold_out_label">We are sold out</string>
 

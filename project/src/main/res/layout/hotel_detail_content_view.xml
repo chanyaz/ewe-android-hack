@@ -469,6 +469,24 @@
         android:background="?attr/selectableItemBackground"
         android:layout_below="@id/map_click_container">
 
+        <ImageView
+            android:id="@+id/walk_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="2dp"
+            android:src="@drawable/ic_poi_walk_distance"
+            android:tint="@color/hotelsv2_amenity_icon_color" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/walk_less_than_text_view"
+            style="@style/Core.Text.200.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/bg_rounded_rectangle"
+            android:text="&lt; 1.0mi"
+            android:textColor="@color/gray900" />
+
         <LinearLayout
             android:id="@+id/hotel_detail_poi_icons_container"
             android:layout_width="wrap_content"
@@ -477,7 +495,7 @@
 
         </LinearLayout>
         <TextView
-            style="@style/Core.Text.300"
+            style="@style/Core.Text.200"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="See All"

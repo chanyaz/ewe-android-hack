@@ -188,6 +188,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
         poiContainer.setOnClickListener {
             val intent = Intent(context, HotelPoiDistanceActivity::class.java)
+            intent.putExtra(HotelExtras.EXTRA_HOTEL_SELECTED_ID, viewModel.hotelId)
             context.startActivity(intent)
         }
     }
@@ -340,14 +341,19 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         vm.hotelOffersSubject.subscribe {
             val pois = getPOIIcons()
             poiIconContainer.removeAllViews()
-            pois.forEach { poi ->
-                val imageView = View.inflate(context, R.layout.hotel_poi_image_view, null) as ImageView
-                imageView.setImageResource(poi.iconId)
-                poiIconContainer.addView(imageView)
-                val params = imageView.layoutParams as LinearLayout.LayoutParams
-                val rightMargin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16f, context.resources.getDisplayMetrics())
-                params.setMargins(0, 0, rightMargin.toInt(), 0)
-                imageView.layoutParams = params
+            if (pois.isEmpty()) {
+                poiContainer.visibility = View.GONE
+            } else {
+                poiContainer.visibility = View.VISIBLE
+                pois.forEach { poi ->
+                    val imageView = View.inflate(context, R.layout.hotel_poi_image_view, null) as ImageView
+                    imageView.setImageResource(poi.iconId)
+                    poiIconContainer.addView(imageView)
+                    val params = imageView.layoutParams as LinearLayout.LayoutParams
+                    val rightMargin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16f, context.resources.getDisplayMetrics())
+                    params.setMargins(0, 0, rightMargin.toInt(), 0)
+                    imageView.layoutParams = params
+                }
             }
         }
     }

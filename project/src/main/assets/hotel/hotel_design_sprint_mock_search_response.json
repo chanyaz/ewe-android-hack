@@ -390,7 +390,8 @@
 		"shortDiscountMessage": "Save 10%",
 		"isMobileExclusive": false,
 		"poi": [
-			"RESTAURANTS"
+			"RESTAURANTS",
+			"LANDMARK"
 		]
 	}, {
 		"sortIndex": "3",
@@ -1298,7 +1299,8 @@
 		"shortDiscountMessage": "Save 15%",
 		"isMobileExclusive": false,
 		"poi": [
-			"TRANSPORTSTATIONS"
+			"TRANSPORTSTATIONS",
+			"LANDMARK"
 		]
 	}],
 	"travelAdsSlotsConfiguration": {},
