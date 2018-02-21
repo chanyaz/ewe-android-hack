@@ -8,7 +8,6 @@ import com.expedia.bookings.data.DeprecatedHotelSearchParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.tracking.OmnitureTracking
-import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject
@@ -32,15 +31,8 @@ class LaunchScreenAirAttachViewModel(val context: Context, val itemView: View, r
         daysRemaining = recentUpcomingFlightTrip.airAttach.daysRemaining
 
         onClickObserver.subscribe {
-
-            val animOptions = AnimUtils.createActivityScaleBundle(itemView)
-            if (hotelSearchParams == null) {
-                HotelNavUtils.goToHotels(context, animOptions)
-                OmnitureTracking.trackPhoneAirAttachLaunchScreenClick()
-            } else {
-                HotelNavUtils.goToHotels(context, hotelSearchParams)
-                OmnitureTracking.trackPhoneAirAttachLaunchScreenClick()
-            }
+            HotelNavUtils.goToHotels(context, hotelSearchParams)
+            OmnitureTracking.trackPhoneAirAttachLaunchScreenClick()
         }
 
         val isVariant1 = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen) == AbacusUtils.LaunchScreenAirAttachVariant.UP_TO_XX_PERCENT_OFF.ordinal

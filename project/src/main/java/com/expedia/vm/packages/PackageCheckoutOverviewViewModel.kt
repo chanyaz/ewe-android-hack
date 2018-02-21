@@ -18,14 +18,10 @@ class PackageCheckoutOverviewViewModel(context: Context) : BaseCheckoutOverviewV
         }
     }
 
-    fun setPackageOverviewHeader(hotelCity: String, checkoutDate: String, checkinDate: String, hotelImageURL: String) {
+    private fun setPackageOverviewHeader(hotelCity: String, checkoutDate: String, checkinDate: String, hotelImageURL: String) {
         val links = HotelMedia(Images.getMediaHost() + hotelImageURL).getBestUrls(width)
         city.onNext(hotelCity)
-        if (checkoutDate != null) {
-            checkInAndCheckOutDate.onNext(Pair(checkinDate, checkoutDate))
-        } else {
-            checkInWithoutCheckoutDate.onNext(checkinDate)
-        }
+        checkInAndCheckOutDate.onNext(Pair(checkinDate, checkoutDate))
         guests.onNext(Db.sharedInstance.packageParams.guests)
 
         if (url.value != links) url.onNext(links)
