@@ -53,15 +53,21 @@ class HotelSearchActivity : AppCompatActivity() {
         searchViewModel.rawTextSearchSubject.subscribe { params -> handleGeoSearch(params) }
     }
 
+    @Suppress("UNUSED_PARAMETER")
+    // Please remove unused parameter (if any) and then remove this annotation
     private fun handleGenericSearch(params: HotelSearchParams) {
         val intent = Intent(this, HotelResultsActivity::class.java)
         startActivity(intent)
     }
 
+    @Suppress("UNUSED_PARAMETER")
+    // Please remove unused parameter (if any) and then remove this annotation
     private fun handleHotelIdSearch(params: HotelSearchParams, goToResults: Boolean = false) {
         //todo
     }
 
+    @Suppress("UNUSED_PARAMETER")
+    // Please remove unused parameter (if any) and then remove this annotation
     private fun handleGeoSearch(params: HotelSearchParams) {
         //todo
     }
