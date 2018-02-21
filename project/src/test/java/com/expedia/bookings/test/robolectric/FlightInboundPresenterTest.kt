@@ -9,6 +9,7 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.DeprecatedHotelSearchParams
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
@@ -367,7 +368,7 @@ class FlightInboundPresenterTest {
         arrivalRegionNames.shortName = "LAX"
         arrivalRegionNames.fullName = "LAX - Los Angeles"
         arrivalSuggestion.regionNames = arrivalRegionNames
-        arrivalSuggestion.type = com.expedia.bookings.data.HotelSearchParams.SearchType.CITY.name
+        arrivalSuggestion.type = DeprecatedHotelSearchParams.SearchType.CITY.name
         val hierarchyInfoArrive = SuggestionV4.HierarchyInfo()
         hierarchyInfoArrive.airport = SuggestionV4.Airport()
         hierarchyInfoArrive.airport!!.airportCode = "12qw"

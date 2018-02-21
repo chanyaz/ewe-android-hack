@@ -4,7 +4,7 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.data.HotelSearchParams.SearchType
+import com.expedia.bookings.data.DeprecatedHotelSearchParams.SearchType
 import com.expedia.bookings.hotel.deeplink.HotelDeepLinkHandler
 import com.expedia.bookings.hotel.deeplink.HotelLandingPage
 import com.expedia.bookings.hotel.util.HotelSuggestionManager

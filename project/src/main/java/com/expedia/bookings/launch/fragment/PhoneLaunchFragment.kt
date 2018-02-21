@@ -16,7 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
-import com.expedia.bookings.data.HotelSearchParams
+import com.expedia.bookings.data.DeprecatedHotelSearchParams
 import com.expedia.bookings.launch.interfaces.IPhoneLaunchActivityLaunchFragment
 import com.expedia.bookings.launch.widget.PhoneLaunchWidget
 import com.expedia.bookings.location.CurrentLocationObservable
@@ -144,9 +144,9 @@ class PhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
     @Subscribe
     fun onCollectionLocationSelected(event: Events.LaunchCollectionItemSelected) {
         val location = event.collectionLocation.location
-        val params = HotelSearchParams()
+        val params = DeprecatedHotelSearchParams()
         params.query = location.shortName
-        params.searchType = HotelSearchParams.SearchType.valueOf(location.type)
+        params.searchType = DeprecatedHotelSearchParams.SearchType.valueOf(location.type)
         params.regionId = location.id
         params.setSearchLatLon(location.latLong.lat, location.latLong.lng)
         val now = LocalDate.now()

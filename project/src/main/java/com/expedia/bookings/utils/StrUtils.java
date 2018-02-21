@@ -35,7 +35,7 @@ import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.DeprecatedHotelSearchParams;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.SuggestionV4;
@@ -82,7 +82,7 @@ public class StrUtils {
 		return sb.toString();
 	}
 
-	public static String formatGuests(Context context, HotelSearchParams searchParams) {
+	public static String formatGuests(Context context, DeprecatedHotelSearchParams searchParams) {
 		return formatGuests(context, searchParams.getNumAdults(), searchParams.getNumChildren());
 	}
 

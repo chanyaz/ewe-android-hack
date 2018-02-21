@@ -22,6 +22,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import android.support.v4.content.ContextCompat
+import com.expedia.bookings.data.DeprecatedHotelSearchParams
 import com.expedia.bookings.services.TestObserver
 import java.util.ArrayList
 import kotlin.test.assertEquals
@@ -196,7 +197,7 @@ class FareFamilyViewModelTest {
         arrivalRegionNames.shortName = "LAX"
         arrivalRegionNames.fullName = "LAX - Los Angeles"
         arrivalSuggestion.regionNames = arrivalRegionNames
-        arrivalSuggestion.type = com.expedia.bookings.data.HotelSearchParams.SearchType.CITY.name
+        arrivalSuggestion.type = DeprecatedHotelSearchParams.SearchType.CITY.name
         val hierarchyInfoArrive = SuggestionV4.HierarchyInfo()
         hierarchyInfoArrive.airport = SuggestionV4.Airport()
         hierarchyInfoArrive.airport!!.airportCode = "12qw"

@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.DeprecatedHotelSearchParams;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.abacus.AbacusVariant;
 import com.expedia.bookings.data.hotels.Hotel;
@@ -282,7 +282,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			Trip recentUpcomingFlightTrip = getUpcomingAirAttachQualifiedFlightTrip();
 			if (recentUpcomingFlightTrip != null) {
 				TripFlight tripFlight = (TripFlight) recentUpcomingFlightTrip.getTripComponents().get(0);
-				HotelSearchParams hotelSearchParams = TripUtils
+				DeprecatedHotelSearchParams hotelSearchParams = TripUtils
 					.getHotelSearchParamsForRecentFlightAirAttach(tripFlight);
 				String cityName = TripUtils.getFlightTripDestinationCity(tripFlight);
 				LaunchScreenAirAttachViewModel viewModel = new LaunchScreenAirAttachViewModel(context, holder.itemView,

@@ -5,7 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.FlightSearchParams
-import com.expedia.bookings.data.HotelSearchParams
+import com.expedia.bookings.data.DeprecatedHotelSearchParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.featureconfig.SatelliteFeatureConstants
@@ -43,7 +43,7 @@ class DeepLinkRouterActivityTest {
         val hotelSearchUrl = "expda://hotelSearch"
         val deepLinkRouterActivity = getDeepLinkRouterActivity(hotelSearchUrl)
 
-        val params = HotelSearchParams()
+        val params = DeprecatedHotelSearchParams()
         val v2params = HotelsV2DataUtil.getHotelV2SearchParams(context, params)
         val gson = HotelsV2DataUtil.generateGson()
 

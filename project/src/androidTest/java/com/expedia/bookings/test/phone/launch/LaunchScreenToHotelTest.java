@@ -9,7 +9,7 @@ import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.DeprecatedHotelSearchParams;
 import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.test.espresso.Common;
@@ -34,7 +34,7 @@ public class LaunchScreenToHotelTest extends PhoneTestCase {
 
 		suggestion.displayName = city;
 		suggestion.shortName = city;
-		suggestion.type = HotelSearchParams.SearchType.CITY.toString();
+		suggestion.type = DeprecatedHotelSearchParams.SearchType.CITY.toString();
 
 		CollectionLocation.LatLng latLng = new CollectionLocation.LatLng();
 		latLng.lat = 0;
@@ -64,7 +64,7 @@ public class LaunchScreenToHotelTest extends PhoneTestCase {
 
 		CollectionLocation collectionLocation = new CollectionLocation();
 		CollectionLocation.Location suggestion = new CollectionLocation.Location();
-		suggestion.type = HotelSearchParams.SearchType.MY_LOCATION.toString();
+		suggestion.type = DeprecatedHotelSearchParams.SearchType.MY_LOCATION.toString();
 
 		CollectionLocation.LatLng coordinates = new CollectionLocation.LatLng();
 		coordinates.lat = 32.71444d;

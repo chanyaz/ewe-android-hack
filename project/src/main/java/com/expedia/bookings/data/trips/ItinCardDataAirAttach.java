@@ -1,7 +1,7 @@
 package com.expedia.bookings.data.trips;
 
 import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.DeprecatedHotelSearchParams;
 import com.expedia.bookings.utils.HotelCrossSellUtils;
 
 public class ItinCardDataAirAttach extends ItinCardData {
@@ -22,7 +22,7 @@ public class ItinCardDataAirAttach extends ItinCardData {
 		return mFirstLeg;
 	}
 
-	public HotelSearchParams getSearchParams() {
+	public DeprecatedHotelSearchParams getSearchParams() {
 		return HotelCrossSellUtils.generateHotelSearchParamsFromItinData(mTripFlight, mFirstLeg, mNextLeg);
 	}
 

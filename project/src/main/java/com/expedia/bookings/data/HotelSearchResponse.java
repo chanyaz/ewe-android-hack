@@ -19,7 +19,7 @@ import com.expedia.bookings.data.HotelFilter.OnFilterChangedListener;
 import com.expedia.bookings.data.HotelFilter.PriceRange;
 import com.expedia.bookings.data.HotelFilter.SearchRadius;
 import com.expedia.bookings.data.HotelFilter.Sort;
-import com.expedia.bookings.data.HotelSearchParams.SearchType;
+import com.expedia.bookings.data.DeprecatedHotelSearchParams.SearchType;
 import com.expedia.bookings.data.Rate.UserPriceType;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -187,7 +187,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	 *
 	 * @return
 	 */
-	private Collection<Property> getFilteredProperties(HotelSearchParams searchParams) {
+	private Collection<Property> getFilteredProperties(DeprecatedHotelSearchParams searchParams) {
 		// If we have no properties set, return null
 		if (mProperties == null) {
 			Log.v("getFilteredProperties() - properties is null, returning null");
@@ -206,7 +206,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	 *
 	 * @return
 	 */
-	public Collection<Property> getFilteredPropertiesIgnoringNeighborhood(HotelSearchParams searchParams) {
+	public Collection<Property> getFilteredPropertiesIgnoringNeighborhood(DeprecatedHotelSearchParams searchParams) {
 		// If we have no properties set, return null
 		if (mProperties == null) {
 			Log.v("getFilteredPropertiesIgnoringNeighborhood() - properties is null, returning null");
@@ -246,7 +246,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	 * <p/>
 	 * Populates mExpediaSortedProperties and mFilteredProperties as a side effect.
 	 */
-	public List<Property> getFilteredAndSortedProperties(HotelSearchParams searchParams) {
+	public List<Property> getFilteredAndSortedProperties(DeprecatedHotelSearchParams searchParams) {
 		Log.v("getFilteredAndSortedProperties() called...");
 
 		// If we have no properties set, return null
@@ -330,7 +330,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		}
 	}
 
-	public List<Property> getFilteredAndSortedProperties(Sort sort, int count, HotelSearchParams searchParams) {
+	public List<Property> getFilteredAndSortedProperties(Sort sort, int count, DeprecatedHotelSearchParams searchParams) {
 		mFilter = new HotelFilter();
 		mFilter.setSort(sort);
 
@@ -343,7 +343,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		return sorted;
 	}
 
-	public int getFilteredPropertiesCount(HotelSearchParams searchParams) {
+	public int getFilteredPropertiesCount(DeprecatedHotelSearchParams searchParams) {
 		getFilteredProperties(searchParams);
 		return mFilteredProperties == null ? 0 : mFilteredProperties.size();
 	}
@@ -422,7 +422,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	 * This populates mFilter, mPresortedProperties, mPriceTiers,
 	 * mFilteredProperties, and mFilteredPropertiesIgnoringNeighborhood
 	 */
-	private void performFiltering(HotelSearchParams searchParams) {
+	private void performFiltering(DeprecatedHotelSearchParams searchParams) {
 		// Check that we have a filter, if not create a new one
 		if (mFilter == null) {
 			Log.v("performFiltering() - no filter set, setting default one");
