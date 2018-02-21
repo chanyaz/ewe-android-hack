@@ -1,0 +1,124 @@
+{
+  "HK": {
+    "supportPhoneNumber": {
+      "*": "3077 4857"
+    },
+    "supportPhoneNumberSilver": {
+      "*": "3077 5783"
+    },
+    "supportPhoneNumberGold": {
+      "*": "3077 5777"
+    },
+    "supportPhoneNumberMiddleTier": {
+      "*": "3077 5783"
+    },
+    "supportPhoneNumberTopTier": {
+      "*": "3077 5777"
+    },
+
+    "supportEmail": "travel@support.expedia.com.hk",
+    "TPID": 18,
+    "flightsEnabled": true,
+    "lxEnabled": true,
+    "packagesEnabled": true,
+    "swpEnabled:hotels": true,
+    "earnMessageEnabled:hotels": true,
+    "url": "expedia.com.hk",
+    "memberDealCardImageUrl": "https://media.expedia.com/mobiata/mobile/apps/ExpediaBooking/TabletDestinations/images/bkk.jpg",
+    "lastMinuteDealsCardImageUrl": "https://media.expedia.com/mobiata/mobile/apps/ExpediaBooking/TabletDestinations/images/mauritius.jpg",
+    "countryCode": "HKG",
+    "supportedLocales": [
+      {
+        "localeIdentifier": "zh_HK",
+        "languageCode": "zh-Hant",
+        "languageIdentifier": 3076,
+        "appInfoURL": "https://www.expedia.com.hk/app?langid=3076",
+        "createAccountMarketingText" : "請將 Expedia 有關旅遊優惠、特別推廣及其他資訊的電郵寄給我。",
+        "forgotPasswordURL": "https://www.expedia.com.hk/user/forgotpassword?langid=3076",
+        "hotelDescriptionLocaleKey": "zh-HK",
+        "appSupportURLs": {
+          "ios": "https://www.mobiata.com/support/expedia/ios",
+          "android": "https://www.mobiata.com/support/expedia/android"
+        },
+        "bookingSupportURL": "https://www.expedia.com.hk/service/?langid=3076",
+        "websiteURL": "https://www.expedia.com.hk?langid=3076",
+        "bestPriceGuaranteePolicyURL": "https://www.expedia.com.hk/p/corporate/price-match-guarantee?langid=3076",
+        "hotelBookingStatement": "完成此預訂即表示我同意我已閱讀並接受 <a href=\"https://www.expedia.com.hk/?langid=3076\"> 規則與限制、條款及細則，以及私隱政策</a>。",
+        "hotelBookingStatement-pad": "完成此預訂即表示我同意我已閱讀並接受規則與限制、條款及細則，以及私隱政策。",
+        "termsAndConditionsLinkText": "條款及細則",
+        "privacyPolicyLinkText": "私隱政策",
+        "termsAndConditionsURL": "https://www.expedia.com.hk/g/rf/terms-of-use?langid=3076",
+        "privacyPolicyURL": "https://www.expedia.com.hk/p/corporate/privacypolicy?langid=3076",
+        "loyaltyTermsAndConditionsURL" : "https://www.expedia.com.hk/loyaltyrewards/pages/info-rewards/expediarewards/terms.htm?langid=3076"
+      },
+      {
+        "localeIdentifier": "zh_CN",
+        "languageCode": "zh-Hans",
+        "languageIdentifier": 2052,
+        "appInfoURL": "https://www.expedia.com.hk/app?langid=2052",
+        "createAccountMarketingText" : "请发送包含旅行优惠、特别促销和其他信息的 Expedia 电子邮件给我。",
+        "forgotPasswordURL": "https://www.expedia.com.hk/user/forgotpassword?langid=2052",
+        "hotelDescriptionLocaleKey": "zh-CN",
+        "appSupportURLs": {
+          "ios": "https://www.mobiata.com/support/expedia/ios",
+          "android": "https://www.mobiata.com/support/expedia/android"
+        },
+        "bookingSupportURL": "https://www.expedia.com.hk/service/?langid=2052",
+        "websiteURL": "https://www.expedia.com.hk?langid=2052",
+        "bestPriceGuaranteePolicyURL": "https://www.expedia.com.hk/p/corporate/price-match-guarantee?langid=2052",
+        "hotelBookingStatement": "完成预订即表明，我已经阅读并接受相关<a href=\"https://www.expedia.com.hk/?langid=2052\">规定和限制、条款和条件及隐私政策</a>。",
+        "hotelBookingStatement-pad": "完成预订即表明，我已经阅读并接受相关规则和限制、条款和条件及隐私政策。",
+        "termsAndConditionsLinkText": "条款和条件",
+        "privacyPolicyLinkText": "隐私政策 ",
+        "termsAndConditionsURL": "https://www.expedia.com.hk/g/rf/terms-of-use?langid=2052",
+        "privacyPolicyURL": "https://www.expedia.com.hk/p/corporate/privacypolicy?langid=2052",
+        "loyaltyTermsAndConditionsURL" : "https://www.expedia.com.hk/loyaltyrewards/pages/info-rewards/expediarewards/terms.htm?langid=2052"
+      },
+      {
+        "localeIdentifier": "en_HK",
+        "languageCode": "en",
+        "languageIdentifier": 2057,
+        "appInfoURL": "https://www.expedia.com.hk/app?langid=2057",
+        "createAccountMarketingText" : "Please send me Expedia emails with travel deals, special offers and other information.",
+        "forgotPasswordURL": "https://www.expedia.com.hk/user/forgotpassword?langid=2057",
+        "hotelDescriptionLocaleKey": "en",
+        "appSupportURLs": {
+          "ios": "https://www.mobiata.com/support/expedia/ios",
+          "android": "https://www.mobiata.com/support/expedia/android"
+        },
+        "bookingSupportURL": "https://www.expedia.com.hk/service/?langid=2057",
+        "websiteURL": "https://www.expedia.com.hk/?langid=2057",
+        "bestPriceGuaranteePolicyURL": "https://www.expedia.com.hk/p/corporate/price-match-guarantee?langid=2057",
+        "hotelBookingStatement": "By completing this booking I agree that I have read and accept the <a href=\"https://www.expedia.com/?langid=2057\">Rules and Restrictions, the Terms and Conditions, and the Privacy Policy</a>.",
+        "hotelBookingStatement-pad": "By completing this booking I agree that I have read and accept the Rules and Restrictions, the Terms and Conditions, and the Privacy Policy.",
+        "termsAndConditionsLinkText": "Terms and Conditions",
+        "privacyPolicyLinkText": "Privacy Policy",
+        "termsAndConditionsURL": "https://www.expedia.com.hk/g/rf/terms-of-use?langid=2057",
+        "privacyPolicyURL": "https://www.expedia.com.hk/p/corporate/privacypolicy?langid=2057",
+        "loyaltyTermsAndConditionsURL" : "https://www.expedia.com.hk/loyaltyrewards/pages/info-rewards/expediarewards/terms.htm?langid=2057"
+      }
+    ],
+    "automaticallyMappedLocales": [
+      "zh_HK",
+      "en_HK",
+      "zh_CN"
+    ],
+    "branding": "Expedia.com.hk",
+    "deepLinkDateFormat": "yyyy/MM/dd",
+    "pointOfSaleId": 11,
+    "shouldDisplayAveragePrices": true,
+    "shouldDisplayBestPriceGuarantee": true,
+    "shouldShowRewards": true,
+    "supportsVipAccess": true,
+    "shouldShowLastNameFirst": true,
+    "shouldShowExampleNames": true,
+    "shouldHideMiddleName": true,
+    "requiredPaymentFields:flights": "none",
+    "marketingOptIn": "SHOW_UNCHECKED",
+    "showMultiBrandCreateAccountText": false,
+    "pwpEnabled:hotels": true,
+    "businessRegion" : "APAC",
+    "hideBillingAddressFields": true,
+    "bundledHotelsPriceBreakdown": true
+  }
+}

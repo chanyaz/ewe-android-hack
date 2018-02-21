@@ -57,11 +57,7 @@ class PointOfSaleLocale(private val data: JSONObject) {
 
     /** The language code that this locale associates with */
     val languageCode by lazy {
-        val langCode = data.optString("languageCode", null)
-        when (langCode) {
-            "zh-Hant", "zh-Hans" -> "zh"
-            else -> langCode
-        }
+        data.optString("languageCode", null)
     }
 
     /** The language identifier linked to this locale (linked to language code) */

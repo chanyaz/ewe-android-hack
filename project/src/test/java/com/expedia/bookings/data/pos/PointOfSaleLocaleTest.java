@@ -2,12 +2,9 @@ package com.expedia.bookings.data.pos;
 
 import java.util.Locale;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RuntimeEnvironment;
-
-import android.content.Context;
 
 import com.expedia.bookings.test.PointOfSaleTestConfiguration;
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
@@ -21,20 +18,14 @@ import static org.junit.Assert.assertNull;
 public class PointOfSaleLocaleTest {
 	PointOfSale pos;
 
-	@Before
-	public void setup() {
-		Context context = RuntimeEnvironment.application;
-		PointOfSaleTestConfiguration.configurePointOfSale(context,
-				"MockSharedData/pos_locale_test_config.json");
-		pos = PointOfSale.getPointOfSale();
-	}
-
 	@Test
 	public void verifyGetPosLocaleReturnsCorrectPosLocale() {
+		setupPointOfSale("MockSharedData/pos_locale_test_config.json",
+			Integer.toString(PointOfSaleId.UNITED_STATES.getId()));
 		// 1) exact match
 		Assert.assertTrue(comparePointOfSaleLocale(pos.getPosLocale(getLocale("nl", "BE")), "nl_BE", "nl"));
 
-		// 2) language match
+		// 2) only language match
 		Assert.assertTrue(comparePointOfSaleLocale(pos.getPosLocale(getLocale("fr", "US")), "fr_BE", "fr"));
 
 		// 3) no match (default locale for POS)
@@ -43,6 +34,8 @@ public class PointOfSaleLocaleTest {
 
 	@Test
 	public void verifyPosLocaleFields() {
+		setupPointOfSale("MockSharedData/pos_locale_test_config.json",
+			Integer.toString(PointOfSaleId.UNITED_STATES.getId()));
 		PointOfSaleLocale posLocale = pos.getPosLocale(getLocale("nl", "BE"));
 
 		assertEquals("nl_BE", posLocale.getLocaleIdentifier());
@@ -83,6 +76,16 @@ public class PointOfSaleLocaleTest {
 		assertEquals("fr createAccountMarketingText", posLocale.getMarketingText());
 	}
 
+	@Test
+	public void verifyGetPosLocaleReturnsCorrectPosLang() {
+		setupPointOfSale("MockSharedData/pos_locale_language_test_config.json",
+			Integer.toString(PointOfSaleId.HONG_KONG.getId()));
+
+		Assert.assertTrue(comparePointOfSaleLocale(pos.getPosLocale(new Locale.Builder().setLanguage("zh").setScript("Hans").setRegion("CN").build()), "zh_CN", "zh-Hans"));
+		Assert.assertTrue(comparePointOfSaleLocale(pos.getPosLocale(new Locale.Builder().setLanguage("zh").setScript("Hant").setRegion("HK").build()), "zh_HK", "zh-Hant"));
+		Assert.assertTrue(comparePointOfSaleLocale(pos.getPosLocale(new Locale.Builder().setLanguage("zh").setScript("Hant").setRegion("TW").build()), "zh_HK", "zh-Hant"));
+	}
+
 	private Locale getLocale(String mockLanguage, String mockRegion) {
 		return new Locale(mockLanguage, mockRegion, "");
 	}
@@ -90,5 +93,10 @@ public class PointOfSaleLocaleTest {
 	private boolean comparePointOfSaleLocale(PointOfSaleLocale posLocale, String expectedLocaleIdentifier, String expectedLanguageCode) {
 		return (posLocale.getLocaleIdentifier().equals(expectedLocaleIdentifier) &&
 				posLocale.getLanguageCode().equals(expectedLanguageCode));
+	}
+
+	private void setupPointOfSale(String posConfigFileName, String posID) {
+		PointOfSaleTestConfiguration.configurePOS(RuntimeEnvironment.application, posConfigFileName, posID, false);
+		pos = PointOfSale.getPointOfSale();
 	}
 }

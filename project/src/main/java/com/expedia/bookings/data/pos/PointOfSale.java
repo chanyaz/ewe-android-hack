@@ -1019,11 +1019,46 @@ public class PointOfSale {
 				}
 			}
 
-			// If there is no exact match on Locale, attempt to match on languageCode only
 			String langCode = locale.getLanguage();
+			if (!TextUtils.isEmpty(locale.getScript())) {
+				langCode = langCode.concat("-" + locale.getScript());
+			}
+
+			String localeIdentifier = locale.getLanguage();
+			if (!TextUtils.isEmpty(locale.getCountry())) {
+				localeIdentifier = localeIdentifier.concat("_" + locale.getCountry());
+			}
+
+			// If there is no exact match on Locale, attempt to match on languageCode and localeIdentifier
+			for (PointOfSaleLocale posLocale : mLocales) {
+				if (posLocale.getLanguageCode().equalsIgnoreCase(langCode)
+					&& posLocale.getLocaleIdentifier().equalsIgnoreCase(localeIdentifier)) {
+					Log.d("PointOfSale: Selecting POSLocale by languageCode and localeIdentifier, locale=" + posLocale.getLanguageCode());
+					return posLocale;
+				}
+			}
+
+			//if there is no exact match on languageCode and localeIdentifier, attempt to match only on localeIdentifier
+			for (PointOfSaleLocale posLocale : mLocales) {
+				if (posLocale.getLocaleIdentifier().equalsIgnoreCase(localeIdentifier)) {
+					Log.d("PointOfSale: Selecting POSLocale by localeIdentifier, locale=" + posLocale.getLanguageCode());
+					return posLocale;
+				}
+			}
+
+			//otherwise, attempt to match only on languageCode
 			for (PointOfSaleLocale posLocale : mLocales) {
 				if (posLocale.getLanguageCode().equalsIgnoreCase(langCode)) {
 					Log.d("PointOfSale: Selecting POSLocale by langCode, locale=" + posLocale.getLanguageCode());
+					return posLocale;
+				}
+			}
+
+			//otherwise, match with only languageCode with no script attached
+			langCode = locale.getLanguage();
+			for (PointOfSaleLocale posLocale : mLocales) {
+				if (posLocale.getLanguageCode().equalsIgnoreCase(langCode)) {
+					Log.d("PointOfSale: Selecting POSLocale by langCode with no script, locale=" + posLocale.getLanguageCode());
 					return posLocale;
 				}
 			}
