@@ -9,6 +9,7 @@ import com.expedia.bookings.server.EndPoint
 import com.expedia.bookings.test.robolectric.RoboTestHelper.setPOS
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.tracking.OmnitureTracking
+import org.joda.time.DateTime
 import org.junit.Assert.assertArrayEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -24,38 +25,38 @@ import kotlin.test.assertTrue
 class FeatureConfigurationTest {
     val brand = BuildConfig.FLAVOR
     val context: Application = RuntimeEnvironment.application
-    val featureConfig = ProductFlavorFeatureConfiguration.getInstance()
-    val shadowApplication = Shadows.shadowOf(RuntimeEnvironment.application)
+    private val featureConfig = ProductFlavorFeatureConfiguration.getInstance()
+    private val shadowApplication = Shadows.shadowOf(RuntimeEnvironment.application)
 
     @Test
     fun testIsAppCrossSellInActivityShareContentEnabled() {
         when (brand) {
-            "airAsiaGo" -> assertFalse(featureConfig.isAppCrossSellInActivityShareContentEnabled())
-            "cheapTickets" -> assertTrue(featureConfig.isAppCrossSellInActivityShareContentEnabled())
-            "ebookers" -> assertTrue(featureConfig.isAppCrossSellInActivityShareContentEnabled())
-            "expedia" -> assertTrue(featureConfig.isAppCrossSellInActivityShareContentEnabled())
-            "lastMinute" -> assertTrue(featureConfig.isAppCrossSellInActivityShareContentEnabled())
-            "mrJet" -> assertTrue(featureConfig.isAppCrossSellInActivityShareContentEnabled())
-            "orbitz" -> assertTrue(featureConfig.isAppCrossSellInActivityShareContentEnabled())
-            "travelocity" -> assertTrue(featureConfig.isAppCrossSellInActivityShareContentEnabled())
-            "voyages" -> assertFalse(featureConfig.isAppCrossSellInActivityShareContentEnabled())
-            "wotif" -> assertTrue(featureConfig.isAppCrossSellInActivityShareContentEnabled())
+            "airAsiaGo" -> assertFalse(featureConfig.isAppCrossSellInActivityShareContentEnabled)
+            "cheapTickets" -> assertTrue(featureConfig.isAppCrossSellInActivityShareContentEnabled)
+            "ebookers" -> assertTrue(featureConfig.isAppCrossSellInActivityShareContentEnabled)
+            "expedia" -> assertTrue(featureConfig.isAppCrossSellInActivityShareContentEnabled)
+            "lastMinute" -> assertTrue(featureConfig.isAppCrossSellInActivityShareContentEnabled)
+            "mrJet" -> assertTrue(featureConfig.isAppCrossSellInActivityShareContentEnabled)
+            "orbitz" -> assertTrue(featureConfig.isAppCrossSellInActivityShareContentEnabled)
+            "travelocity" -> assertTrue(featureConfig.isAppCrossSellInActivityShareContentEnabled)
+            "voyages" -> assertFalse(featureConfig.isAppCrossSellInActivityShareContentEnabled)
+            "wotif" -> assertTrue(featureConfig.isAppCrossSellInActivityShareContentEnabled)
         }
     }
 
     @Test
     fun testIsAppCrossSellInCarShareContentEnabled() {
         when (brand) {
-            "airAsiaGo" -> assertFalse(featureConfig.isAppCrossSellInCarShareContentEnabled())
-            "cheapTickets" -> assertTrue(featureConfig.isAppCrossSellInCarShareContentEnabled())
-            "ebookers" -> assertTrue(featureConfig.isAppCrossSellInCarShareContentEnabled())
-            "expedia" -> assertTrue(featureConfig.isAppCrossSellInCarShareContentEnabled())
-            "lastMinute" -> assertTrue(featureConfig.isAppCrossSellInCarShareContentEnabled())
-            "mrJet" -> assertTrue(featureConfig.isAppCrossSellInCarShareContentEnabled())
-            "orbitz" -> assertTrue(featureConfig.isAppCrossSellInCarShareContentEnabled())
-            "travelocity" -> assertTrue(featureConfig.isAppCrossSellInCarShareContentEnabled())
-            "voyages" -> assertFalse(featureConfig.isAppCrossSellInCarShareContentEnabled())
-            "wotif" -> assertTrue(featureConfig.isAppCrossSellInCarShareContentEnabled())
+            "airAsiaGo" -> assertFalse(featureConfig.isAppCrossSellInCarShareContentEnabled)
+            "cheapTickets" -> assertTrue(featureConfig.isAppCrossSellInCarShareContentEnabled)
+            "ebookers" -> assertTrue(featureConfig.isAppCrossSellInCarShareContentEnabled)
+            "expedia" -> assertTrue(featureConfig.isAppCrossSellInCarShareContentEnabled)
+            "lastMinute" -> assertTrue(featureConfig.isAppCrossSellInCarShareContentEnabled)
+            "mrJet" -> assertTrue(featureConfig.isAppCrossSellInCarShareContentEnabled)
+            "orbitz" -> assertTrue(featureConfig.isAppCrossSellInCarShareContentEnabled)
+            "travelocity" -> assertTrue(featureConfig.isAppCrossSellInCarShareContentEnabled)
+            "voyages" -> assertFalse(featureConfig.isAppCrossSellInCarShareContentEnabled)
+            "wotif" -> assertTrue(featureConfig.isAppCrossSellInCarShareContentEnabled)
         }
     }
 
@@ -163,80 +164,80 @@ class FeatureConfigurationTest {
     @Test
     fun testIsTuneEnabled() {
         when (brand) {
-            "airAsiaGo" -> assertTrue(featureConfig.isTuneEnabled())
-            "cheapTickets" -> assertTrue(featureConfig.isTuneEnabled())
-            "ebookers" -> assertTrue(featureConfig.isTuneEnabled())
-            "expedia" -> assertTrue(featureConfig.isTuneEnabled())
-            "lastMinute" -> assertTrue(featureConfig.isTuneEnabled())
-            "mrJet" -> assertTrue(featureConfig.isTuneEnabled())
-            "orbitz" -> assertTrue(featureConfig.isTuneEnabled())
-            "travelocity" -> assertTrue(featureConfig.isTuneEnabled())
-            "voyages" -> assertFalse(featureConfig.isTuneEnabled())
-            "wotif" -> assertTrue(featureConfig.isTuneEnabled())
+            "airAsiaGo" -> assertTrue(featureConfig.isTuneEnabled)
+            "cheapTickets" -> assertTrue(featureConfig.isTuneEnabled)
+            "ebookers" -> assertTrue(featureConfig.isTuneEnabled)
+            "expedia" -> assertTrue(featureConfig.isTuneEnabled)
+            "lastMinute" -> assertTrue(featureConfig.isTuneEnabled)
+            "mrJet" -> assertTrue(featureConfig.isTuneEnabled)
+            "orbitz" -> assertTrue(featureConfig.isTuneEnabled)
+            "travelocity" -> assertTrue(featureConfig.isTuneEnabled)
+            "voyages" -> assertFalse(featureConfig.isTuneEnabled)
+            "wotif" -> assertTrue(featureConfig.isTuneEnabled)
         }
     }
 
     @Test
     fun testIsFacebookLoginIntegrationEnabled() {
         when (brand) {
-            "airAsiaGo" -> assertFalse(featureConfig.isFacebookLoginIntegrationEnabled())
-            "cheapTickets" -> assertTrue(featureConfig.isFacebookLoginIntegrationEnabled())
-            "ebookers" -> assertTrue(featureConfig.isFacebookLoginIntegrationEnabled())
-            "expedia" -> assertTrue(featureConfig.isFacebookLoginIntegrationEnabled())
-            "lastMinute" -> assertTrue(featureConfig.isFacebookLoginIntegrationEnabled())
-            "mrJet" -> assertTrue(featureConfig.isFacebookLoginIntegrationEnabled())
-            "orbitz" -> assertTrue(featureConfig.isFacebookLoginIntegrationEnabled())
-            "travelocity" -> assertTrue(featureConfig.isFacebookLoginIntegrationEnabled())
-            "voyages" -> assertFalse(featureConfig.isFacebookLoginIntegrationEnabled())
-            "wotif" -> assertTrue(featureConfig.isFacebookLoginIntegrationEnabled())
+            "airAsiaGo" -> assertFalse(featureConfig.isFacebookLoginIntegrationEnabled)
+            "cheapTickets" -> assertTrue(featureConfig.isFacebookLoginIntegrationEnabled)
+            "ebookers" -> assertTrue(featureConfig.isFacebookLoginIntegrationEnabled)
+            "expedia" -> assertTrue(featureConfig.isFacebookLoginIntegrationEnabled)
+            "lastMinute" -> assertTrue(featureConfig.isFacebookLoginIntegrationEnabled)
+            "mrJet" -> assertTrue(featureConfig.isFacebookLoginIntegrationEnabled)
+            "orbitz" -> assertTrue(featureConfig.isFacebookLoginIntegrationEnabled)
+            "travelocity" -> assertTrue(featureConfig.isFacebookLoginIntegrationEnabled)
+            "voyages" -> assertFalse(featureConfig.isFacebookLoginIntegrationEnabled)
+            "wotif" -> assertTrue(featureConfig.isFacebookLoginIntegrationEnabled)
         }
     }
 
     @Test
     fun testIsFacebookShareIntegrationEnabled() {
         when (brand) {
-            "airAsiaGo" -> assertFalse(featureConfig.isFacebookShareIntegrationEnabled())
-            "cheapTickets" -> assertTrue(featureConfig.isFacebookShareIntegrationEnabled())
-            "ebookers" -> assertTrue(featureConfig.isFacebookShareIntegrationEnabled())
-            "expedia" -> assertTrue(featureConfig.isFacebookShareIntegrationEnabled())
-            "lastMinute" -> assertTrue(featureConfig.isFacebookShareIntegrationEnabled())
-            "mrJet" -> assertTrue(featureConfig.isFacebookShareIntegrationEnabled())
-            "orbitz" -> assertTrue(featureConfig.isFacebookShareIntegrationEnabled())
-            "travelocity" -> assertTrue(featureConfig.isFacebookShareIntegrationEnabled())
-            "voyages" -> assertFalse(featureConfig.isFacebookShareIntegrationEnabled())
-            "wotif" -> assertTrue(featureConfig.isFacebookShareIntegrationEnabled())
+            "airAsiaGo" -> assertFalse(featureConfig.isFacebookShareIntegrationEnabled)
+            "cheapTickets" -> assertTrue(featureConfig.isFacebookShareIntegrationEnabled)
+            "ebookers" -> assertTrue(featureConfig.isFacebookShareIntegrationEnabled)
+            "expedia" -> assertTrue(featureConfig.isFacebookShareIntegrationEnabled)
+            "lastMinute" -> assertTrue(featureConfig.isFacebookShareIntegrationEnabled)
+            "mrJet" -> assertTrue(featureConfig.isFacebookShareIntegrationEnabled)
+            "orbitz" -> assertTrue(featureConfig.isFacebookShareIntegrationEnabled)
+            "travelocity" -> assertTrue(featureConfig.isFacebookShareIntegrationEnabled)
+            "voyages" -> assertFalse(featureConfig.isFacebookShareIntegrationEnabled)
+            "wotif" -> assertTrue(featureConfig.isFacebookShareIntegrationEnabled)
         }
     }
 
     @Test
     fun testIsAppIntroEnabled() {
         when (brand) {
-            "airAsiaGo" -> assertFalse(featureConfig.isAppIntroEnabled())
-            "cheapTickets" -> assertFalse(featureConfig.isAppIntroEnabled())
-            "ebookers" -> assertFalse(featureConfig.isAppIntroEnabled())
-            "expedia" -> assertTrue(featureConfig.isAppIntroEnabled())
-            "lastMinute" -> assertFalse(featureConfig.isAppIntroEnabled())
-            "mrJet" -> assertFalse(featureConfig.isAppIntroEnabled())
-            "orbitz" -> assertFalse(featureConfig.isAppIntroEnabled())
-            "travelocity" -> assertFalse(featureConfig.isAppIntroEnabled())
-            "voyages" -> assertFalse(featureConfig.isAppIntroEnabled())
-            "wotif" -> assertFalse(featureConfig.isAppIntroEnabled())
+            "airAsiaGo" -> assertFalse(featureConfig.isAppIntroEnabled)
+            "cheapTickets" -> assertFalse(featureConfig.isAppIntroEnabled)
+            "ebookers" -> assertFalse(featureConfig.isAppIntroEnabled)
+            "expedia" -> assertTrue(featureConfig.isAppIntroEnabled)
+            "lastMinute" -> assertFalse(featureConfig.isAppIntroEnabled)
+            "mrJet" -> assertFalse(featureConfig.isAppIntroEnabled)
+            "orbitz" -> assertFalse(featureConfig.isAppIntroEnabled)
+            "travelocity" -> assertFalse(featureConfig.isAppIntroEnabled)
+            "voyages" -> assertFalse(featureConfig.isAppIntroEnabled)
+            "wotif" -> assertFalse(featureConfig.isAppIntroEnabled)
         }
     }
 
     @Test
     fun testGetLaunchScreenActionLogo() {
         when (brand) {
-            "airAsiaGo" -> assertEquals(0, featureConfig.getLaunchScreenActionLogo())
-            "cheapTickets" -> assertEquals(0, featureConfig.getLaunchScreenActionLogo())
-            "ebookers" -> assertEquals(0, featureConfig.getLaunchScreenActionLogo())
-            "expedia" -> assertEquals(0, featureConfig.getLaunchScreenActionLogo())
-            "lastMinute" -> assertNotEquals(0, featureConfig.getLaunchScreenActionLogo())
-            "mrJet" -> assertEquals(0, featureConfig.getLaunchScreenActionLogo())
-            "orbitz" -> assertEquals(0, featureConfig.getLaunchScreenActionLogo())
-            "travelocity" -> assertEquals(0, featureConfig.getLaunchScreenActionLogo())
-            "voyages" -> assertNotEquals(0, featureConfig.getLaunchScreenActionLogo())
-            "wotif" -> assertNotEquals(0, featureConfig.getLaunchScreenActionLogo())
+            "airAsiaGo" -> assertEquals(0, featureConfig.launchScreenActionLogo)
+            "cheapTickets" -> assertEquals(0, featureConfig.launchScreenActionLogo)
+            "ebookers" -> assertEquals(0, featureConfig.launchScreenActionLogo)
+            "expedia" -> assertEquals(0, featureConfig.launchScreenActionLogo)
+            "lastMinute" -> assertNotEquals(0, featureConfig.launchScreenActionLogo)
+            "mrJet" -> assertEquals(0, featureConfig.launchScreenActionLogo)
+            "orbitz" -> assertEquals(0, featureConfig.launchScreenActionLogo)
+            "travelocity" -> assertEquals(0, featureConfig.launchScreenActionLogo)
+            "voyages" -> assertNotEquals(0, featureConfig.launchScreenActionLogo)
+            "wotif" -> assertNotEquals(0, featureConfig.launchScreenActionLogo)
         }
     }
 
@@ -260,64 +261,64 @@ class FeatureConfigurationTest {
     @Test
     fun testIsFacebookTrackingEnabled() {
         when (brand) {
-            "airAsiaGo" -> assertTrue(featureConfig.isFacebookTrackingEnabled())
-            "cheapTickets" -> assertTrue(featureConfig.isFacebookTrackingEnabled())
-            "ebookers" -> assertTrue(featureConfig.isFacebookTrackingEnabled())
-            "expedia" -> assertTrue(featureConfig.isFacebookTrackingEnabled())
-            "lastMinute" -> assertTrue(featureConfig.isFacebookTrackingEnabled())
-            "mrJet" -> assertTrue(featureConfig.isFacebookTrackingEnabled())
-            "orbitz" -> assertTrue(featureConfig.isFacebookTrackingEnabled())
-            "travelocity" -> assertTrue(featureConfig.isFacebookTrackingEnabled())
-            "voyages" -> assertFalse(featureConfig.isFacebookTrackingEnabled())
-            "wotif" -> assertTrue(featureConfig.isFacebookTrackingEnabled())
+            "airAsiaGo" -> assertTrue(featureConfig.isFacebookTrackingEnabled)
+            "cheapTickets" -> assertTrue(featureConfig.isFacebookTrackingEnabled)
+            "ebookers" -> assertTrue(featureConfig.isFacebookTrackingEnabled)
+            "expedia" -> assertTrue(featureConfig.isFacebookTrackingEnabled)
+            "lastMinute" -> assertTrue(featureConfig.isFacebookTrackingEnabled)
+            "mrJet" -> assertTrue(featureConfig.isFacebookTrackingEnabled)
+            "orbitz" -> assertTrue(featureConfig.isFacebookTrackingEnabled)
+            "travelocity" -> assertTrue(featureConfig.isFacebookTrackingEnabled)
+            "voyages" -> assertFalse(featureConfig.isFacebookTrackingEnabled)
+            "wotif" -> assertTrue(featureConfig.isFacebookTrackingEnabled)
         }
     }
 
     @Test
     fun testIsAbacusTestEnabled() {
         when (brand) {
-            "airAsiaGo" -> assertFalse(featureConfig.isAbacusTestEnabled())
-            "cheapTickets" -> assertTrue(featureConfig.isAbacusTestEnabled())
-            "ebookers" -> assertTrue(featureConfig.isAbacusTestEnabled())
-            "expedia" -> assertTrue(featureConfig.isAbacusTestEnabled())
-            "lastMinute" -> assertTrue(featureConfig.isAbacusTestEnabled())
-            "mrJet" -> assertTrue(featureConfig.isAbacusTestEnabled())
-            "orbitz" -> assertTrue(featureConfig.isAbacusTestEnabled())
-            "travelocity" -> assertTrue(featureConfig.isAbacusTestEnabled())
-            "voyages" -> assertTrue(featureConfig.isAbacusTestEnabled())
-            "wotif" -> assertTrue(featureConfig.isAbacusTestEnabled())
+            "airAsiaGo" -> assertFalse(featureConfig.isAbacusTestEnabled)
+            "cheapTickets" -> assertTrue(featureConfig.isAbacusTestEnabled)
+            "ebookers" -> assertTrue(featureConfig.isAbacusTestEnabled)
+            "expedia" -> assertTrue(featureConfig.isAbacusTestEnabled)
+            "lastMinute" -> assertTrue(featureConfig.isAbacusTestEnabled)
+            "mrJet" -> assertTrue(featureConfig.isAbacusTestEnabled)
+            "orbitz" -> assertTrue(featureConfig.isAbacusTestEnabled)
+            "travelocity" -> assertTrue(featureConfig.isAbacusTestEnabled)
+            "voyages" -> assertTrue(featureConfig.isAbacusTestEnabled)
+            "wotif" -> assertTrue(featureConfig.isAbacusTestEnabled)
         }
     }
 
     @Test
     fun testGetRewardsLayoutId() {
         when (brand) {
-            "airAsiaGo" -> assertEquals(0, featureConfig.getRewardsLayoutId())
-            "cheapTickets" -> assertEquals(R.layout.bucks_widget_stub, featureConfig.getRewardsLayoutId())
-            "ebookers" -> assertEquals(R.layout.bucks_widget_stub, featureConfig.getRewardsLayoutId())
-            "expedia" -> assertEquals(R.layout.pay_with_points_widget_stub, featureConfig.getRewardsLayoutId())
-            "lastMinute" -> assertEquals(0, featureConfig.getRewardsLayoutId())
-            "mrJet" -> assertEquals(R.layout.bucks_widget_stub, featureConfig.getRewardsLayoutId())
-            "orbitz" -> assertEquals(R.layout.bucks_widget_stub, featureConfig.getRewardsLayoutId())
-            "travelocity" -> assertEquals(0, featureConfig.getRewardsLayoutId())
-            "voyages" -> assertEquals(0, featureConfig.getRewardsLayoutId())
-            "wotif" -> assertEquals(0, featureConfig.getRewardsLayoutId())
+            "airAsiaGo" -> assertEquals(0, featureConfig.rewardsLayoutId)
+            "cheapTickets" -> assertEquals(R.layout.bucks_widget_stub, featureConfig.rewardsLayoutId)
+            "ebookers" -> assertEquals(R.layout.bucks_widget_stub, featureConfig.rewardsLayoutId)
+            "expedia" -> assertEquals(R.layout.pay_with_points_widget_stub, featureConfig.rewardsLayoutId)
+            "lastMinute" -> assertEquals(0, featureConfig.rewardsLayoutId)
+            "mrJet" -> assertEquals(R.layout.bucks_widget_stub, featureConfig.rewardsLayoutId)
+            "orbitz" -> assertEquals(R.layout.bucks_widget_stub, featureConfig.rewardsLayoutId)
+            "travelocity" -> assertEquals(0, featureConfig.rewardsLayoutId)
+            "voyages" -> assertEquals(0, featureConfig.rewardsLayoutId)
+            "wotif" -> assertEquals(0, featureConfig.rewardsLayoutId)
         }
     }
 
     @Test
     fun testIsRewardProgramPointsType() {
         when (brand) {
-            "airAsiaGo" -> assertFalse(featureConfig.isRewardProgramPointsType())
-            "cheapTickets" -> assertFalse(featureConfig.isRewardProgramPointsType())
-            "ebookers" -> assertFalse(featureConfig.isRewardProgramPointsType())
-            "expedia" -> assertTrue(featureConfig.isRewardProgramPointsType())
-            "lastMinute" -> assertFalse(featureConfig.isRewardProgramPointsType())
-            "mrJet" -> assertFalse(featureConfig.isRewardProgramPointsType())
-            "orbitz" -> assertFalse(featureConfig.isRewardProgramPointsType())
-            "travelocity" -> assertFalse(featureConfig.isRewardProgramPointsType())
-            "voyages" -> assertFalse(featureConfig.isRewardProgramPointsType())
-            "wotif" -> assertFalse(featureConfig.isRewardProgramPointsType())
+            "airAsiaGo" -> assertFalse(featureConfig.isRewardProgramPointsType)
+            "cheapTickets" -> assertFalse(featureConfig.isRewardProgramPointsType)
+            "ebookers" -> assertFalse(featureConfig.isRewardProgramPointsType)
+            "expedia" -> assertTrue(featureConfig.isRewardProgramPointsType)
+            "lastMinute" -> assertFalse(featureConfig.isRewardProgramPointsType)
+            "mrJet" -> assertFalse(featureConfig.isRewardProgramPointsType)
+            "orbitz" -> assertFalse(featureConfig.isRewardProgramPointsType)
+            "travelocity" -> assertFalse(featureConfig.isRewardProgramPointsType)
+            "voyages" -> assertFalse(featureConfig.isRewardProgramPointsType)
+            "wotif" -> assertFalse(featureConfig.isRewardProgramPointsType)
         }
     }
 
@@ -326,16 +327,16 @@ class FeatureConfigurationTest {
         val rewardTierAPINamesCTX = arrayOf("SILVER", "GOLD", "PLATINUM")
         val rewardTierAPINamesExp = arrayOf("BLUE", "SILVER", "GOLD")
         when (brand) {
-            "airAsiaGo" -> assertNull(featureConfig.getRewardTierAPINames())
-            "cheapTickets" -> assertArrayEquals(rewardTierAPINamesCTX, featureConfig.getRewardTierAPINames())
-            "ebookers" -> assertArrayEquals(rewardTierAPINamesCTX, featureConfig.getRewardTierAPINames())
-            "expedia" -> assertArrayEquals(rewardTierAPINamesExp, featureConfig.getRewardTierAPINames())
-            "lastMinute" -> assertNull(featureConfig.getRewardTierAPINames())
-            "mrJet" -> assertArrayEquals(rewardTierAPINamesCTX, featureConfig.getRewardTierAPINames())
-            "orbitz" -> assertArrayEquals(rewardTierAPINamesCTX, featureConfig.getRewardTierAPINames())
-            "travelocity" -> assertNull(featureConfig.getRewardTierAPINames())
-            "voyages" -> assertNull(featureConfig.getRewardTierAPINames())
-            "wotif" -> assertNull(featureConfig.getRewardTierAPINames())
+            "airAsiaGo" -> assertNull(featureConfig.rewardTierAPINames)
+            "cheapTickets" -> assertArrayEquals(rewardTierAPINamesCTX, featureConfig.rewardTierAPINames)
+            "ebookers" -> assertArrayEquals(rewardTierAPINamesCTX, featureConfig.rewardTierAPINames)
+            "expedia" -> assertArrayEquals(rewardTierAPINamesExp, featureConfig.rewardTierAPINames)
+            "lastMinute" -> assertNull(featureConfig.rewardTierAPINames)
+            "mrJet" -> assertArrayEquals(rewardTierAPINamesCTX, featureConfig.rewardTierAPINames)
+            "orbitz" -> assertArrayEquals(rewardTierAPINamesCTX, featureConfig.rewardTierAPINames)
+            "travelocity" -> assertNull(featureConfig.rewardTierAPINames)
+            "voyages" -> assertNull(featureConfig.rewardTierAPINames)
+            "wotif" -> assertNull(featureConfig.rewardTierAPINames)
         }
     }
 
@@ -344,81 +345,81 @@ class FeatureConfigurationTest {
         val rewardTierSupportPhoneNumberConfigNamesOrbitz = arrayOf("supportPhoneNumberSilver", "supportPhoneNumberGold", "supportPhoneNumberPlatinum")
         val rewardTierSupportPhoneNumberConfigNamesExpedia = arrayOf("supportPhoneNumber", "supportPhoneNumberSilver", "supportPhoneNumberGold")
         when (brand) {
-            "airAsiaGo" -> assertNull(featureConfig.getRewardTierSupportNumberConfigNames())
-            "cheapTickets" -> assertArrayEquals(rewardTierSupportPhoneNumberConfigNamesOrbitz, featureConfig.getRewardTierSupportNumberConfigNames())
-            "ebookers" -> assertArrayEquals(rewardTierSupportPhoneNumberConfigNamesOrbitz, featureConfig.getRewardTierSupportNumberConfigNames())
-            "expedia" -> assertArrayEquals(rewardTierSupportPhoneNumberConfigNamesExpedia, featureConfig.getRewardTierSupportNumberConfigNames())
-            "lastMinute" -> assertNull(featureConfig.getRewardTierSupportNumberConfigNames())
-            "mrJet" -> assertArrayEquals(rewardTierSupportPhoneNumberConfigNamesOrbitz, featureConfig.getRewardTierSupportNumberConfigNames())
-            "orbitz" -> assertArrayEquals(rewardTierSupportPhoneNumberConfigNamesOrbitz, featureConfig.getRewardTierSupportNumberConfigNames())
-            "travelocity" -> assertNull(featureConfig.getRewardTierSupportNumberConfigNames())
-            "voyages" -> assertNull(featureConfig.getRewardTierSupportNumberConfigNames())
-            "wotif" -> assertNull(featureConfig.getRewardTierSupportNumberConfigNames())
+            "airAsiaGo" -> assertNull(featureConfig.rewardTierSupportNumberConfigNames)
+            "cheapTickets" -> assertArrayEquals(rewardTierSupportPhoneNumberConfigNamesOrbitz, featureConfig.rewardTierSupportNumberConfigNames)
+            "ebookers" -> assertArrayEquals(rewardTierSupportPhoneNumberConfigNamesOrbitz, featureConfig.rewardTierSupportNumberConfigNames)
+            "expedia" -> assertArrayEquals(rewardTierSupportPhoneNumberConfigNamesExpedia, featureConfig.rewardTierSupportNumberConfigNames)
+            "lastMinute" -> assertNull(featureConfig.rewardTierSupportNumberConfigNames)
+            "mrJet" -> assertArrayEquals(rewardTierSupportPhoneNumberConfigNamesOrbitz, featureConfig.rewardTierSupportNumberConfigNames)
+            "orbitz" -> assertArrayEquals(rewardTierSupportPhoneNumberConfigNamesOrbitz, featureConfig.rewardTierSupportNumberConfigNames)
+            "travelocity" -> assertNull(featureConfig.rewardTierSupportNumberConfigNames)
+            "voyages" -> assertNull(featureConfig.rewardTierSupportNumberConfigNames)
+            "wotif" -> assertNull(featureConfig.rewardTierSupportNumberConfigNames)
         }
     }
 
     @Test
     fun testGetRewardTierSupportEmailConfigNames() {
-        val rewardTierSupportEmailConfigNamesExpedia = arrayOf<String?>(null, "supportEmailSilver", "supportEmailGold")
+        val rewardTierSupportEmailConfigNamesExpedia = arrayOf(null, "supportEmailSilver", "supportEmailGold")
         when (brand) {
-            "airAsiaGo" -> assertNull(featureConfig.getRewardTierSupportEmailConfigNames())
-            "cheapTickets" -> assertNull(featureConfig.getRewardTierSupportEmailConfigNames())
-            "ebookers" -> assertNull(featureConfig.getRewardTierSupportEmailConfigNames())
-            "expedia" -> assertArrayEquals(rewardTierSupportEmailConfigNamesExpedia, featureConfig.getRewardTierSupportEmailConfigNames())
-            "lastMinute" -> assertNull(featureConfig.getRewardTierSupportEmailConfigNames())
-            "mrJet" -> assertNull(featureConfig.getRewardTierSupportEmailConfigNames())
-            "orbitz" -> assertNull(featureConfig.getRewardTierSupportEmailConfigNames())
-            "travelocity" -> assertNull(featureConfig.getRewardTierSupportEmailConfigNames())
-            "voyages" -> assertNull(featureConfig.getRewardTierSupportEmailConfigNames())
-            "wotif" -> assertNull(featureConfig.getRewardTierSupportEmailConfigNames())
+            "airAsiaGo" -> assertNull(featureConfig.rewardTierSupportEmailConfigNames)
+            "cheapTickets" -> assertNull(featureConfig.rewardTierSupportEmailConfigNames)
+            "ebookers" -> assertNull(featureConfig.rewardTierSupportEmailConfigNames)
+            "expedia" -> assertArrayEquals(rewardTierSupportEmailConfigNamesExpedia, featureConfig.rewardTierSupportEmailConfigNames)
+            "lastMinute" -> assertNull(featureConfig.rewardTierSupportEmailConfigNames)
+            "mrJet" -> assertNull(featureConfig.rewardTierSupportEmailConfigNames)
+            "orbitz" -> assertNull(featureConfig.rewardTierSupportEmailConfigNames)
+            "travelocity" -> assertNull(featureConfig.rewardTierSupportEmailConfigNames)
+            "voyages" -> assertNull(featureConfig.rewardTierSupportEmailConfigNames)
+            "wotif" -> assertNull(featureConfig.rewardTierSupportEmailConfigNames)
         }
     }
 
     @Test
     fun testIsCommunicateSectionEnabled() {
         when (brand) {
-            "airAsiaGo" -> assertFalse(featureConfig.isCommunicateSectionEnabled())
-            "cheapTickets" -> assertTrue(featureConfig.isCommunicateSectionEnabled())
-            "ebookers" -> assertTrue(featureConfig.isCommunicateSectionEnabled())
-            "expedia" -> assertTrue(featureConfig.isCommunicateSectionEnabled())
-            "lastMinute" -> assertTrue(featureConfig.isCommunicateSectionEnabled())
-            "mrJet" -> assertTrue(featureConfig.isCommunicateSectionEnabled())
-            "orbitz" -> assertTrue(featureConfig.isCommunicateSectionEnabled())
-            "travelocity" -> assertTrue(featureConfig.isCommunicateSectionEnabled())
-            "voyages" -> assertFalse(featureConfig.isCommunicateSectionEnabled())
-            "wotif" -> assertTrue(featureConfig.isCommunicateSectionEnabled())
+            "airAsiaGo" -> assertFalse(featureConfig.isCommunicateSectionEnabled)
+            "cheapTickets" -> assertTrue(featureConfig.isCommunicateSectionEnabled)
+            "ebookers" -> assertTrue(featureConfig.isCommunicateSectionEnabled)
+            "expedia" -> assertTrue(featureConfig.isCommunicateSectionEnabled)
+            "lastMinute" -> assertTrue(featureConfig.isCommunicateSectionEnabled)
+            "mrJet" -> assertTrue(featureConfig.isCommunicateSectionEnabled)
+            "orbitz" -> assertTrue(featureConfig.isCommunicateSectionEnabled)
+            "travelocity" -> assertTrue(featureConfig.isCommunicateSectionEnabled)
+            "voyages" -> assertFalse(featureConfig.isCommunicateSectionEnabled)
+            "wotif" -> assertTrue(featureConfig.isCommunicateSectionEnabled)
         }
     }
 
     @Test
     fun testGetUSPointOfSaleId() {
         when (brand) {
-            "airAsiaGo" -> assertEquals(null, featureConfig.getUSPointOfSaleId())
-            "cheapTickets" -> assertEquals(PointOfSaleId.CHEAPTICKETS, featureConfig.getUSPointOfSaleId())
-            "ebookers" -> assertEquals(null, featureConfig.getUSPointOfSaleId())
-            "expedia" -> assertEquals(PointOfSaleId.UNITED_STATES, featureConfig.getUSPointOfSaleId())
-            "lastMinute" -> assertEquals(null, featureConfig.getUSPointOfSaleId())
-            "mrJet" -> assertEquals(null, featureConfig.getUSPointOfSaleId())
-            "orbitz" -> assertEquals(PointOfSaleId.ORBITZ, featureConfig.getUSPointOfSaleId())
-            "travelocity" -> assertEquals(PointOfSaleId.TRAVELOCITY, featureConfig.getUSPointOfSaleId())
-            "voyages" -> assertEquals(null, featureConfig.getUSPointOfSaleId())
-            "wotif" -> assertEquals(null, featureConfig.getUSPointOfSaleId())
+            "airAsiaGo" -> assertEquals(null, featureConfig.usPointOfSaleId)
+            "cheapTickets" -> assertEquals(PointOfSaleId.CHEAPTICKETS, featureConfig.usPointOfSaleId)
+            "ebookers" -> assertEquals(null, featureConfig.usPointOfSaleId)
+            "expedia" -> assertEquals(PointOfSaleId.UNITED_STATES, featureConfig.usPointOfSaleId)
+            "lastMinute" -> assertEquals(null, featureConfig.usPointOfSaleId)
+            "mrJet" -> assertEquals(null, featureConfig.usPointOfSaleId)
+            "orbitz" -> assertEquals(PointOfSaleId.ORBITZ, featureConfig.usPointOfSaleId)
+            "travelocity" -> assertEquals(PointOfSaleId.TRAVELOCITY, featureConfig.usPointOfSaleId)
+            "voyages" -> assertEquals(null, featureConfig.usPointOfSaleId)
+            "wotif" -> assertEquals(null, featureConfig.usPointOfSaleId)
         }
     }
 
     @Test
     fun testIsGoogleAccountChangeEnabled() {
         when (brand) {
-            "airAsiaGo" -> assertFalse(featureConfig.isGoogleAccountChangeEnabled())
-            "cheapTickets" -> assertTrue(featureConfig.isGoogleAccountChangeEnabled())
-            "ebookers" -> assertTrue(featureConfig.isGoogleAccountChangeEnabled())
-            "expedia" -> assertFalse(featureConfig.isGoogleAccountChangeEnabled())
-            "lastMinute" -> assertFalse(featureConfig.isGoogleAccountChangeEnabled())
-            "mrJet" -> assertTrue(featureConfig.isGoogleAccountChangeEnabled())
-            "orbitz" -> assertTrue(featureConfig.isGoogleAccountChangeEnabled())
-            "travelocity" -> assertFalse(featureConfig.isGoogleAccountChangeEnabled())
-            "voyages" -> assertFalse(featureConfig.isGoogleAccountChangeEnabled())
-            "wotif" -> assertFalse(featureConfig.isGoogleAccountChangeEnabled())
+            "airAsiaGo" -> assertFalse(featureConfig.isGoogleAccountChangeEnabled)
+            "cheapTickets" -> assertTrue(featureConfig.isGoogleAccountChangeEnabled)
+            "ebookers" -> assertTrue(featureConfig.isGoogleAccountChangeEnabled)
+            "expedia" -> assertFalse(featureConfig.isGoogleAccountChangeEnabled)
+            "lastMinute" -> assertFalse(featureConfig.isGoogleAccountChangeEnabled)
+            "mrJet" -> assertTrue(featureConfig.isGoogleAccountChangeEnabled)
+            "orbitz" -> assertTrue(featureConfig.isGoogleAccountChangeEnabled)
+            "travelocity" -> assertFalse(featureConfig.isGoogleAccountChangeEnabled)
+            "voyages" -> assertFalse(featureConfig.isGoogleAccountChangeEnabled)
+            "wotif" -> assertFalse(featureConfig.isGoogleAccountChangeEnabled)
         }
     }
 
@@ -458,16 +459,16 @@ class FeatureConfigurationTest {
     @Test
     fun testGetSharableFallbackImageURL() {
         when (brand) {
-            "airAsiaGo" -> assertNull(featureConfig.getSharableFallbackImageURL())
-            "expedia" -> assertEquals("http://media.expedia.com/mobiata/fb/exp-fb-share.png", featureConfig.getSharableFallbackImageURL())
-            "ebookers" -> assertNull(featureConfig.getSharableFallbackImageURL())
-            "cheapTickets" -> assertNull(featureConfig.getSharableFallbackImageURL())
-            "lastMinute" -> assertNull(featureConfig.getSharableFallbackImageURL())
-            "mrJet" -> assertNull(featureConfig.getSharableFallbackImageURL())
-            "orbitz" -> assertNull(featureConfig.getSharableFallbackImageURL())
-            "travelocity" -> assertNull(featureConfig.getSharableFallbackImageURL())
-            "voyages" -> assertNull(featureConfig.getSharableFallbackImageURL())
-            "wotif" -> assertNull(featureConfig.getSharableFallbackImageURL())
+            "airAsiaGo" -> assertNull(featureConfig.sharableFallbackImageURL)
+            "expedia" -> assertEquals("http://media.expedia.com/mobiata/fb/exp-fb-share.png", featureConfig.sharableFallbackImageURL)
+            "ebookers" -> assertNull(featureConfig.sharableFallbackImageURL)
+            "cheapTickets" -> assertNull(featureConfig.sharableFallbackImageURL)
+            "lastMinute" -> assertNull(featureConfig.sharableFallbackImageURL)
+            "mrJet" -> assertNull(featureConfig.sharableFallbackImageURL)
+            "orbitz" -> assertNull(featureConfig.sharableFallbackImageURL)
+            "travelocity" -> assertNull(featureConfig.sharableFallbackImageURL)
+            "voyages" -> assertNull(featureConfig.sharableFallbackImageURL)
+            "wotif" -> assertNull(featureConfig.sharableFallbackImageURL)
         }
     }
 
@@ -522,32 +523,32 @@ class FeatureConfigurationTest {
     @Test
     fun testIsRateOurAppEnabled() {
         when (brand) {
-            "airAsiaGo" -> assertFalse(featureConfig.isRateOurAppEnabled())
-            "cheapTickets" -> assertTrue(featureConfig.isRateOurAppEnabled())
-            "ebookers" -> assertTrue(featureConfig.isRateOurAppEnabled())
-            "expedia" -> assertTrue(featureConfig.isRateOurAppEnabled())
-            "lastMinute" -> assertTrue(featureConfig.isRateOurAppEnabled())
-            "mrJet" -> assertTrue(featureConfig.isRateOurAppEnabled())
-            "orbitz" -> assertTrue(featureConfig.isRateOurAppEnabled())
-            "travelocity" -> assertTrue(featureConfig.isRateOurAppEnabled())
-            "voyages" -> assertFalse(featureConfig.isRateOurAppEnabled())
-            "wotif" -> assertTrue(featureConfig.isRateOurAppEnabled())
+            "airAsiaGo" -> assertFalse(featureConfig.isRateOurAppEnabled)
+            "cheapTickets" -> assertTrue(featureConfig.isRateOurAppEnabled)
+            "ebookers" -> assertTrue(featureConfig.isRateOurAppEnabled)
+            "expedia" -> assertTrue(featureConfig.isRateOurAppEnabled)
+            "lastMinute" -> assertTrue(featureConfig.isRateOurAppEnabled)
+            "mrJet" -> assertTrue(featureConfig.isRateOurAppEnabled)
+            "orbitz" -> assertTrue(featureConfig.isRateOurAppEnabled)
+            "travelocity" -> assertTrue(featureConfig.isRateOurAppEnabled)
+            "voyages" -> assertFalse(featureConfig.isRateOurAppEnabled)
+            "wotif" -> assertTrue(featureConfig.isRateOurAppEnabled)
         }
     }
 
     @Test
     fun testIsRewardsCardEnabled() {
         when (brand) {
-            "airAsiaGo" -> assertFalse(featureConfig.isRewardsCardEnabled())
-            "cheapTickets" -> assertFalse(featureConfig.isRewardsCardEnabled())
-            "ebookers" -> assertFalse(featureConfig.isRewardsCardEnabled())
-            "expedia" -> assertFalse(featureConfig.isRewardsCardEnabled())
-            "lastMinute" -> assertFalse(featureConfig.isRewardsCardEnabled())
-            "mrJet" -> assertFalse(featureConfig.isRewardsCardEnabled())
-            "orbitz" -> assertTrue(featureConfig.isRewardsCardEnabled())
-            "travelocity" -> assertFalse(featureConfig.isRewardsCardEnabled())
-            "voyages" -> assertFalse(featureConfig.isRewardsCardEnabled())
-            "wotif" -> assertFalse(featureConfig.isRewardsCardEnabled())
+            "airAsiaGo" -> assertFalse(featureConfig.isRewardsCardEnabled)
+            "cheapTickets" -> assertFalse(featureConfig.isRewardsCardEnabled)
+            "ebookers" -> assertFalse(featureConfig.isRewardsCardEnabled)
+            "expedia" -> assertFalse(featureConfig.isRewardsCardEnabled)
+            "lastMinute" -> assertFalse(featureConfig.isRewardsCardEnabled)
+            "mrJet" -> assertFalse(featureConfig.isRewardsCardEnabled)
+            "orbitz" -> assertTrue(featureConfig.isRewardsCardEnabled)
+            "travelocity" -> assertFalse(featureConfig.isRewardsCardEnabled)
+            "voyages" -> assertFalse(featureConfig.isRewardsCardEnabled)
+            "wotif" -> assertFalse(featureConfig.isRewardsCardEnabled)
         }
     }
 
@@ -650,56 +651,56 @@ class FeatureConfigurationTest {
     @Test
     fun testIsFirebaseEnabled() {
         when (brand) {
-            "airAsiaGo" -> assertFalse(featureConfig.isFirebaseEnabled())
-            "cheapTickets" -> assertFalse(featureConfig.isFirebaseEnabled())
-            "ebookers" -> assertFalse(featureConfig.isFirebaseEnabled())
-            "expedia" -> assertFalse(featureConfig.isFirebaseEnabled())
-            "lastMinute" -> assertFalse(featureConfig.isFirebaseEnabled())
-            "mrJet" -> assertFalse(featureConfig.isFirebaseEnabled())
-            "orbitz" -> assertFalse(featureConfig.isFirebaseEnabled())
-            "travelocity" -> assertFalse(featureConfig.isFirebaseEnabled())
-            "voyages" -> assertFalse(featureConfig.isFirebaseEnabled())
-            "wotif" -> assertFalse(featureConfig.isFirebaseEnabled())
+            "airAsiaGo" -> assertFalse(featureConfig.isFirebaseEnabled)
+            "cheapTickets" -> assertFalse(featureConfig.isFirebaseEnabled)
+            "ebookers" -> assertFalse(featureConfig.isFirebaseEnabled)
+            "expedia" -> assertFalse(featureConfig.isFirebaseEnabled)
+            "lastMinute" -> assertFalse(featureConfig.isFirebaseEnabled)
+            "mrJet" -> assertFalse(featureConfig.isFirebaseEnabled)
+            "orbitz" -> assertFalse(featureConfig.isFirebaseEnabled)
+            "travelocity" -> assertFalse(featureConfig.isFirebaseEnabled)
+            "voyages" -> assertFalse(featureConfig.isFirebaseEnabled)
+            "wotif" -> assertFalse(featureConfig.isFirebaseEnabled)
         }
     }
 
     @Test
     fun testIsCarnivalEnabled() {
         when (brand) {
-            "airAsiaGo" -> assertTrue(featureConfig.isCarnivalEnabled())
-            "cheapTickets" -> assertTrue(featureConfig.isCarnivalEnabled())
-            "ebookers" -> assertTrue(featureConfig.isCarnivalEnabled())
-            "expedia" -> assertTrue(featureConfig.isCarnivalEnabled())
-            "lastMinute" -> assertTrue(featureConfig.isCarnivalEnabled())
-            "mrJet" -> assertTrue(featureConfig.isCarnivalEnabled())
-            "orbitz" -> assertTrue(featureConfig.isCarnivalEnabled())
-            "travelocity" -> assertTrue(featureConfig.isCarnivalEnabled())
-            "voyages" -> assertFalse(featureConfig.isCarnivalEnabled())
-            "wotif" -> assertTrue(featureConfig.isCarnivalEnabled())
+            "airAsiaGo" -> assertTrue(featureConfig.isCarnivalEnabled)
+            "cheapTickets" -> assertTrue(featureConfig.isCarnivalEnabled)
+            "ebookers" -> assertTrue(featureConfig.isCarnivalEnabled)
+            "expedia" -> assertTrue(featureConfig.isCarnivalEnabled)
+            "lastMinute" -> assertTrue(featureConfig.isCarnivalEnabled)
+            "mrJet" -> assertTrue(featureConfig.isCarnivalEnabled)
+            "orbitz" -> assertTrue(featureConfig.isCarnivalEnabled)
+            "travelocity" -> assertTrue(featureConfig.isCarnivalEnabled)
+            "voyages" -> assertFalse(featureConfig.isCarnivalEnabled)
+            "wotif" -> assertTrue(featureConfig.isCarnivalEnabled)
         }
     }
 
     @Test
     fun testIsRecaptchaEnabled() {
         when (brand) {
-            "airAsiaGo" -> assertFalse(featureConfig.isRecaptchaEnabled())
-            "cheapTickets" -> assertFalse(featureConfig.isRecaptchaEnabled())
-            "ebookers" -> assertFalse(featureConfig.isRecaptchaEnabled())
-            "expedia" -> assertTrue(featureConfig.isRecaptchaEnabled())
-            "lastMinute" -> assertFalse(featureConfig.isRecaptchaEnabled())
-            "mrJet" -> assertFalse(featureConfig.isRecaptchaEnabled())
-            "orbitz" -> assertFalse(featureConfig.isRecaptchaEnabled())
-            "travelocity" -> assertFalse(featureConfig.isRecaptchaEnabled())
-            "voyages" -> assertFalse(featureConfig.isRecaptchaEnabled())
-            "wotif" -> assertFalse(featureConfig.isRecaptchaEnabled())
+            "airAsiaGo" -> assertFalse(featureConfig.isRecaptchaEnabled)
+            "cheapTickets" -> assertFalse(featureConfig.isRecaptchaEnabled)
+            "ebookers" -> assertFalse(featureConfig.isRecaptchaEnabled)
+            "expedia" -> assertTrue(featureConfig.isRecaptchaEnabled)
+            "lastMinute" -> assertFalse(featureConfig.isRecaptchaEnabled)
+            "mrJet" -> assertFalse(featureConfig.isRecaptchaEnabled)
+            "orbitz" -> assertFalse(featureConfig.isRecaptchaEnabled)
+            "travelocity" -> assertFalse(featureConfig.isRecaptchaEnabled)
+            "voyages" -> assertFalse(featureConfig.isRecaptchaEnabled)
+            "wotif" -> assertFalse(featureConfig.isRecaptchaEnabled)
         }
     }
 
     @Test
     fun testContactUsViaWeb() {
         featureConfig.contactUsViaWeb(context)
-        val intent = shadowApplication.getNextStartedActivity()
-        val data = intent.getData()
+        val intent = shadowApplication.nextStartedActivity
+        val data = intent.data
         when (brand) {
             "airAsiaGo" -> assertEquals(PointOfSale.getPointOfSale().bookingSupportUrl, data.toString())
             "cheapTickets" -> assertEquals(PointOfSale.getPointOfSale().bookingSupportUrl, data.toString())
@@ -716,7 +717,7 @@ class FeatureConfigurationTest {
 
     @Test
     fun testGetCopyrightLogoUrl() {
-        val appCopyrightURL = PointOfSale.getPointOfSale().getWebsiteUrl()
+        val appCopyrightURL = PointOfSale.getPointOfSale().websiteUrl
         val appCopyrightURLVariant = context.getString(R.string.app_copyright_logo_url)
         when (brand) {
             "airAsiaGo" -> assertEquals(appCopyrightURL, featureConfig.getCopyrightLogoUrl(context))
@@ -735,19 +736,19 @@ class FeatureConfigurationTest {
     @Test
     fun testGetPOSSpecificBrandLogo() {
         when (brand) {
-            "airAsiaGo" -> assertEquals(R.drawable.app_copyright_logo, featureConfig.getPOSSpecificBrandLogo())
-            "cheapTickets" -> assertEquals(R.drawable.app_copyright_logo, featureConfig.getPOSSpecificBrandLogo())
-            "ebookers" -> assertEquals(R.drawable.app_copyright_logo, featureConfig.getPOSSpecificBrandLogo())
-            "expedia" -> assertEquals(R.drawable.app_copyright_logo, featureConfig.getPOSSpecificBrandLogo())
+            "airAsiaGo" -> assertEquals(R.drawable.app_copyright_logo, featureConfig.posSpecificBrandLogo)
+            "cheapTickets" -> assertEquals(R.drawable.app_copyright_logo, featureConfig.posSpecificBrandLogo)
+            "ebookers" -> assertEquals(R.drawable.app_copyright_logo, featureConfig.posSpecificBrandLogo)
+            "expedia" -> assertEquals(R.drawable.app_copyright_logo, featureConfig.posSpecificBrandLogo)
             "lastMinute" -> {
                 setPOS(PointOfSaleId.LASTMINUTE)
-                assertNotEquals(R.drawable.app_copyright_logo, featureConfig.getPOSSpecificBrandLogo())
+                assertNotEquals(R.drawable.app_copyright_logo, featureConfig.posSpecificBrandLogo)
             }
-            "mrJet" -> assertEquals(R.drawable.app_copyright_logo, featureConfig.getPOSSpecificBrandLogo())
-            "orbitz" -> assertEquals(R.drawable.app_copyright_logo, featureConfig.getPOSSpecificBrandLogo())
-            "travelocity" -> assertEquals(R.drawable.app_copyright_logo, featureConfig.getPOSSpecificBrandLogo())
-            "voyages" -> assertEquals(R.drawable.app_copyright_logo, featureConfig.getPOSSpecificBrandLogo())
-            "wotif" -> assertEquals(R.drawable.app_copyright_logo, featureConfig.getPOSSpecificBrandLogo())
+            "mrJet" -> assertEquals(R.drawable.app_copyright_logo, featureConfig.posSpecificBrandLogo)
+            "orbitz" -> assertEquals(R.drawable.app_copyright_logo, featureConfig.posSpecificBrandLogo)
+            "travelocity" -> assertEquals(R.drawable.app_copyright_logo, featureConfig.posSpecificBrandLogo)
+            "voyages" -> assertEquals(R.drawable.app_copyright_logo, featureConfig.posSpecificBrandLogo)
+            "wotif" -> assertEquals(R.drawable.app_copyright_logo, featureConfig.posSpecificBrandLogo)
         }
     }
 
@@ -781,6 +782,57 @@ class FeatureConfigurationTest {
             "voyages" -> assertNull(featureConfig.getRewardsCardUrl(context))
             "travelocity" -> assertNull(featureConfig.getRewardsCardUrl(context))
             "orbitz" -> assertEquals("http://www.orbitz.com/rewards/visacard", featureConfig.getRewardsCardUrl(context))
+        }
+    }
+
+    @Test
+    fun testGetAppNameForMobiataPushNameHeader() {
+        when (brand) {
+            "airAsiaGo" -> assertEquals("AAGBookings", featureConfig.appNameForMobiataPushNameHeader)
+            "cheapTickets" -> assertEquals("CTBookings", featureConfig.appNameForMobiataPushNameHeader)
+            "ebookers" -> assertEquals("EbookersBookings", featureConfig.appNameForMobiataPushNameHeader)
+            "expedia" -> assertEquals("ExpediaBookings", featureConfig.appNameForMobiataPushNameHeader)
+            "lastMinute" -> assertEquals("LMBookings", featureConfig.appNameForMobiataPushNameHeader)
+            "mrJet" -> assertEquals("MrJetBookings", featureConfig.appNameForMobiataPushNameHeader)
+            "orbitz" -> assertEquals("OrbitzBookings", featureConfig.appNameForMobiataPushNameHeader)
+            "travelocity" -> assertEquals("TvlyBookings", featureConfig.appNameForMobiataPushNameHeader)
+            "voyages" -> assertEquals("VSCBookings", featureConfig.appNameForMobiataPushNameHeader)
+            "wotif" -> assertEquals("WotifBookings", featureConfig.appNameForMobiataPushNameHeader)
+        }
+    }
+
+    @Test
+    fun testGetDefaultPOS() {
+        when (brand) {
+            "airAsiaGo" -> assertEquals(PointOfSaleId.AIRASIAGO_MALAYSIA, featureConfig.defaultPOS)
+            "cheapTickets" -> assertEquals(PointOfSaleId.CHEAPTICKETS, featureConfig.defaultPOS)
+            "ebookers" -> assertEquals(PointOfSaleId.EBOOKERS_UNITED_KINGDOM, featureConfig.defaultPOS)
+            "expedia" -> assertEquals(PointOfSaleId.UNITED_KINGDOM, featureConfig.defaultPOS)
+            "lastMinute" -> assertEquals(PointOfSaleId.LASTMINUTE, featureConfig.defaultPOS)
+            "mrJet" -> assertEquals(PointOfSaleId.MRJET_SWEDEN, featureConfig.defaultPOS)
+            "orbitz" -> assertEquals(PointOfSaleId.ORBITZ, featureConfig.defaultPOS)
+            "travelocity" -> assertEquals(PointOfSaleId.TRAVELOCITY, featureConfig.defaultPOS)
+            "voyages" -> assertEquals(PointOfSaleId.VSC, featureConfig.defaultPOS)
+            "wotif" -> assertEquals(PointOfSaleId.WOTIF, featureConfig.defaultPOS)
+        }
+    }
+
+    @Test
+    fun testFormatDateTimeForHotelUserReviews() {
+        val datetime = DateTime(2018, 2, 21, 14, 26)
+        val formattedDateTime = featureConfig.formatDateTimeForHotelUserReviews(context, datetime)
+
+        when (brand) {
+            "airAsiaGo" -> assertEquals("2/21", formattedDateTime)
+            "cheapTickets" -> assertEquals("2/21/2018", formattedDateTime)
+            "ebookers" -> assertEquals("21/02/2018", formattedDateTime)
+            "expedia" -> assertEquals("2/21/2018", formattedDateTime)
+            "lastMinute" -> assertEquals("21/02", formattedDateTime)
+            "mrJet" -> assertEquals("2018-02-21", formattedDateTime)
+            "orbitz" -> assertEquals("2/21/2018", formattedDateTime)
+            "travelocity" -> assertEquals("2/21", formattedDateTime)
+            "voyages" -> assertEquals("21/02/2018", formattedDateTime)
+            "wotif" -> assertEquals("21/02", formattedDateTime)
         }
     }
 }

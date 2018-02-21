@@ -6,6 +6,11 @@ jacoco {
     toolVersion = "0.7.2.201409121644"
 }
 
+coveralls {
+    sourceDirs = ["project/src/main/java", "project/src/expedia/java", "project/src/debug/java"]
+    jacocoReportPath 'project/build/reports/jacoco/jacocoExpediaDebug/jacocoExpediaDebug.xml'
+}
+
 project.afterEvaluate {  
     // Grab all build types and product flavors
     def buildTypes = android.buildTypes.collect { type -> type.name }
@@ -39,16 +44,25 @@ project.afterEvaluate {
                                    '**/*$ViewInjector*.*',
                                    '**/*$ViewBinder*.*',
                                    '**/BuildConfig.*',
-                                   '**/Manifest*.*']
+                                   '**/Manifest*.*',
+                                   '**/*test*/**',
+                                   '**/*Test*.*']
                 )
 
-                def kotlinDebugTree = fileTree(dir: "${project.buildDir}/tmp/kotlin-classes")
+                def kotlinDebugTree = fileTree(
+                        dir: "${project.buildDir}/tmp/kotlin-classes",
+                        excludes: ['**/*test*/**',
+                                   '**/*Test*.*']
+                )
+
                 classDirectories = javaTree + kotlinDebugTree
+
                 def coverageSourceDirs = [
                         "src/main/java",
                         "src/$productFlavorName/java",
                         "src/$buildTypeName/java"
                 ]
+
                 additionalSourceDirs = files(coverageSourceDirs)
                 sourceDirectories = files(coverageSourceDirs)
                 executionData = files("${project.buildDir}/jacoco/${testTaskName}.exec")
