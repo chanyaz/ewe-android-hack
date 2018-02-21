@@ -1,0 +1,290 @@
+{
+  "apiVersion": "1.0",
+  "responseType": "TRIP_DETAILS",
+  "responseData": {
+    "levelOfDetail": "FULL",
+    "tripId": "8a246ebb-ef3d-43cc-aa9e-0bede99e38bd",
+    "webDetailsURL": "https://wwwexpediacom.integration.sb.karmalab.net/trips/71296028520",
+    "tripNumber": 71296028520,
+    "orderNumber": 8098034555366,
+    "title": "7-night Alaska Cruise from Seattle (Roundtrip)",
+    "updateTripNameDescPathURL": "https://wwwexpediacom.integration.sb.karmalab.net/api/trips/8a246ebb-ef3d-43cc-aa9e-0bede99e38bd/updateTripNameDescription",
+    "startTime": {
+      "raw": "2018-09-23T00:00:00Z",
+      "localized": "Sep 23, 2018 12:00:00 AM",
+      "epochSeconds": 1537660800,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "9/23/2018",
+      "localizedMediumDate": "Sep 23",
+      "localizedFullDate": "Sun, Sep 23",
+      "localizedLongDate": "Sep 23, 2018",
+      "localizedShortTime": "12:00am"
+    },
+    "endTime": {
+      "raw": "2018-09-30T00:00:00Z",
+      "localized": "Sep 30, 2018 12:00:00 AM",
+      "epochSeconds": 1538265600,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "9/30/2018",
+      "localizedMediumDate": "Sep 30",
+      "localizedFullDate": "Sun, Sep 30",
+      "localizedLongDate": "Sep 30, 2018",
+      "localizedShortTime": "12:00am"
+    },
+    "tripCreatedTime": {
+      "raw": "2017-06-20T21:35:28Z",
+      "localized": "Jun 20, 2017 9:35:28 PM",
+      "epochSeconds": 1497994528,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Tue, 20 Jun",
+      "localizedMediumDate": "Jun 20, 2017",
+      "localizedFullDate": "Tuesday, June 20, 2017",
+      "localizedLongDate": "June 20, 2017",
+      "localizedShortTime": "9:35 PM"
+    },
+    "tripUpdatedTime": {
+      "raw": "2017-08-03T19:41:09Z",
+      "localized": "Aug 3, 2017 7:41:09 PM",
+      "epochSeconds": 1501789269,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Thu, 3 Aug",
+      "localizedMediumDate": "Aug 3, 2017",
+      "localizedFullDate": "Thursday, August 3, 2017",
+      "localizedLongDate": "August 3, 2017",
+      "localizedShortTime": "7:41 PM"
+    },
+    "tripCacheUpdatedTime": {
+      "raw": "2017-08-03T19:41:26Z",
+      "localized": "Aug 3, 2017 7:41:26 PM",
+      "epochSeconds": 1501789286,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Thu, 3 Aug",
+      "localizedMediumDate": "Aug 3, 2017",
+      "localizedFullDate": "Thursday, August 3, 2017",
+      "localizedLongDate": "August 3, 2017",
+      "localizedShortTime": "7:41 PM"
+    },
+    "ownerId": 4197799,
+    "bookingStatus": "BOOKED",
+    "sharableDetailsURL": "https://wwwexpediacom.integration.sb.karmalab.net/api/trips/shared/oJfa0ikfZY9f7JsYyhI3YcCAd1JTevSsHyukB2PvcZeqhSRf1lrp2PT7EN6qGfdwP0fHsa2F1qstTcvV-G56THpW",
+    "customerSupport": {
+      "customerSupportURL": "http://www.expedia.com/service/",
+      "customerSupportPhoneNumberDomestic": "+1-877-787-3117",
+      "customerSupportPhoneNumberInternational": "+1-877-787-3117",
+      "customerSupportPhoneInfoForEmail": [
+        "Call Expedia+ blue Customer Care at 1-877-787-3117.",
+        "For faster service, mention <strong>itinerary #71296028520 </strong>"
+      ],
+      "termsAndConditionsURL": ""
+    },
+    "isBookedUsingForeignCurrency": false,
+    "cruises": [
+      {
+        "bookingStatus": "BOOKED",
+        "invoiceNumber": "100001-2017-029492",
+        "cruiseLineName": "Norwegian Cruise Line",
+        "cruiseLineCode": "NC",
+        "shipName": "Norwegian Pearl",
+        "departureDateAbbreviated": "Sep 23",
+        "departureDateNonAbbreviated": "Sep 23, 2018",
+        "departureDateTimeAbbreviated": "Sep 23, 2018 4:00 PM",
+        "returnDateAbbreviated": "Sep 30",
+        "returnDateNonAbbreviated": "Sep 30, 2018",
+        "returnDateTimeAbbreviated": "Sep 30, 2018 8:00 AM",
+        "startTime": {
+          "raw": "2018-09-23T16:00:00Z",
+          "localized": "Sep 23, 2018 4:00:00 PM",
+          "epochSeconds": 1537718400,
+          "timeZoneOffsetSeconds": 0,
+          "localizedShortDate": "Sun, 23 Sep",
+          "localizedMediumDate": "Sep 23, 2018",
+          "localizedFullDate": "Sunday, September 23, 2018",
+          "localizedLongDate": "September 23, 2018",
+          "localizedShortTime": "4:00 PM"
+        },
+        "endTime": {
+          "raw": "2018-09-30T08:00:00Z",
+          "localized": "Sep 30, 2018 8:00:00 AM",
+          "epochSeconds": 1538294400,
+          "timeZoneOffsetSeconds": 0,
+          "localizedShortDate": "Sun, 30 Sep",
+          "localizedMediumDate": "Sep 30, 2018",
+          "localizedFullDate": "Sunday, September 30, 2018",
+          "localizedLongDate": "September 30, 2018",
+          "localizedShortTime": "8:00 AM"
+        },
+        "promotions": [
+          {
+            "promotionId": 260520175,
+            "promotionCode": "260520175",
+            "campaignId": 0,
+            "name": "Promotion_StressTest",
+            "fullDescription": "Promotion_StressTest",
+            "termsAndConditions": "Promotion_StressTest",
+            "rank": 0
+          },
+          {
+            "promotionId": 270520175,
+            "promotionCode": "270520175",
+            "campaignId": 0,
+            "name": "Promotion_StressTest",
+            "fullDescription": "Promotion_StressTest",
+            "termsAndConditions": "Promotion_StressTest",
+            "rank": 0
+          },
+          {
+            "promotionId": 120520172,
+            "promotionCode": "120520172",
+            "campaignId": 0,
+            "name": "StressTestPromotion_OfferService",
+            "fullDescription": "StressTestPromotion_OfferService",
+            "termsAndConditions": "StressTestPromotion_OfferService",
+            "rank": 0
+          },
+          {
+            "promotionId": 120520173,
+            "promotionCode": "120520173",
+            "campaignId": 0,
+            "name": "StressTestPromotion_OfferService",
+            "fullDescription": "StressTestPromotion_OfferService",
+            "termsAndConditions": "StressTestPromotion_OfferService",
+            "rank": 0
+          },
+          {
+            "promotionId": 0,
+            "promotionCode": "0",
+            "campaignId": 0,
+            "name": "TestExtraPromotion_API_updated",
+            "fullDescription": "TestExtraPromotion_API_updated",
+            "termsAndConditions": "TestExtraPromotion_API_updated",
+            "rank": 0
+          },
+          {
+            "promotionId": 18042017,
+            "promotionCode": "18042017",
+            "campaignId": 0,
+            "name": "test_PN_cruiseOfferServices",
+            "fullDescription": "test_PN_cruiseOfferService",
+            "termsAndConditions": "test_PN_cruiseOfferService",
+            "rank": 0
+          },
+          {
+            "promotionId": 1184241,
+            "promotionCode": "1184241",
+            "campaignId": 0,
+            "name": "EXCLUSIVE! $25 Onboard Credit",
+            "fullDescription": "Book and receive an EXCLUSIVE! $25 onboard credit per cabin. Offer valid on select sailings. Onboard credit is per cabin, not per person. Offer is based on limited availability and may withdrawn at any time. Restrictions may apply; please see full terms and conditions for complete details.",
+            "termsAndConditions": "Receive an EXCLUSIVE! $25 Onboard Credit per cabin. Singles paying 200% of the cruise rate are eligible for the full onboard credit amount per cabin.  Onboard credit offer is capacity controlled and may be withdrawn or modified at anytime without prior notice. Onboard credit is applied to your onboard account. Offer is for new bookings only – guests who cancel and rebook, must accept this promotion’s terms and conditions and pay any applicable cancellation or change charges. All itineraries and prices are subject to change without notice. Onboard credit is in U.S. dollars, has no cash value, is not redeemable for cash and is not transferable. Offer may not be combinable with certain promotions, including, but not limited to Travel Agent, Interline, Travel Zoo, NOFRILLS, Sailaway and any Guaranteed category X rates. Cruise rates are in U.S. dollars, per person and based on double occupancy. Cruise rates do not include airfare, government taxes or fees. Certain restriction may apply. Government taxes and fees are additional.   IMPORTANT NOTICE: Norwegian Cruise Line reserves the right to charge a fuel supplement without prior notice should the closing price of West Texas. Intermediate Fuel increase above $65 per barrel on the NYMEX (New York Mercantile Exchange Index). In the event a fuel supplement is charged, Norwegian Cruise Line will have sole discretion to apply the supplementary charge to both existing and new bookings, regardless of whether such bookings have been paid in full.  Such supplementary charges are not included in the cruise fare.  The fuel supplement charge will not exceed $10.00 per passenger per day Norwegian Cruise Line is not responsible for typographical errors or omissions. Ships’ registry: BAHAMAS and UNITED STATES OF AMERICA. ©2016 NCL Corporation Ltd",
+            "rank": 0
+          },
+          {
+            "promotionId": 1070358870,
+            "promotionCode": "1070358870",
+            "campaignId": 0,
+            "name": "Expedia+ Rewards Points",
+            "fullDescription": "Now you can Earn Expedia+ rewards points on cruises! Expedia+ rewards members earn 2 Expedia+ rewards points per $1 for cruises. To receive points for your cruise, you must be an Expedia+ rewards member and use the same email address associated to your enrolled Expedia Account at the time of booking or enroll in Expedia+ rewards using the same email address used to book your cruise any time after purchase has been made, but prior to sailing start date. Restrictions may apply; please see full terms and conditions for complete details.",
+            "termsAndConditions": "Expedia Rewards members who book a cruise on Expedia.com and with Expedia customer service agents through our call centers can earn 2 Expedia+ rewards Points per $1 USD spent. Rewards points will be awarded for the total transaction amount including cruise fare, government fees and taxes for all guests in the cabin. It does not include other charges such as insurance, prepaid gratuities, or other similar charges or fees. To receive points for your cruise, you must be an Expedia+ rewards member and use the same email address associated to your enrolled Expedia Account at the time of booking or enroll in Expedia+ rewards using the same email address used to book your cruise any time after purchase has been made, but prior to sailing start date. Your Expedia account email can be found in the Account Overview section of your Expedia Account. Points earned for cruise purchases will not appear as pending on your Expedia+ rewards Activity Page; they will post to your account 4-6 weeks after travel is complete, and will appear as bonus points on your statement.",
+            "rank": 0
+          }
+        ],
+        "pricingSummary": {
+          "baseAmount": 3198.00,
+          "formattedBaseAmount": "$3,198.00",
+          "taxesAndFees": 235.26,
+          "formattedTaxesAndFees": "$235.26",
+          "totalAmount": 3433.26,
+          "formattedTotalAmount": "$3,433.26",
+          "prepaidGratuities": 0.0,
+          "formattedPrepaidGratuities": "$0.00",
+          "insurance": 0,
+          "penalty": 0.0,
+          "formattedPenalty": "$0.00",
+          "serviceFee": 0.0,
+          "formattedServiceFee": "$0.00",
+          "specialServices": 0,
+          "refund": 0.0,
+          "formattedRefund": "$0.00",
+          "discount": 0.0,
+          "formattedDiscount": "$0.00",
+          "cruiseComponentEntityId": "88CC82B1-B168-47DF-BEAE-2421C158AE8B",
+          "isDetailedPriceBreakdownEnabled": true,
+          "currencyCode": "USD"
+        },
+        "cruiseLineBkgConfNumber": "34584046",
+        "adultPassengers": [
+          {
+            "passengerNumber": 0,
+            "firstName": "Susanna",
+            "lastName": "van Greunen",
+            "birthDate": "07/16/1966",
+            "gender": "F",
+            "citizenship": "US"
+          }
+        ],
+        "cabinDetails": "Balcony",
+        "cabinNumber": "8546",
+        "isGuaranteed": false,
+        "email": "susanna@mobiata.com",
+        "customerCareNumber": "1-866-203-5449",
+        "rulesAndRestrictionsLink": "/Checkout/CruiseRulesAndRestrictions?tripid=8a246ebb-ef3d-43cc-aa9e-0bede99e38bd",
+        "cruiseLineWebsiteLink": "http://www.ncl.com/",
+        "cruiseLineCheckinWebsiteLink": "https://www.ncl.com/oci",
+        "cruiseLineOnboardBookingLink": "https://images.trvl-media.com/media/content/expus/cruise/Norwegian_Cruise_500.pdf",
+        "paymentHistory": {
+          "amountPaid": 0.0,
+          "formattedAmountPaid": "$0.00",
+          "amountPaidCruiseOnly": 0.0,
+          "formattedAmountPaidCruiseOnly": "$0.00",
+          "paymentPending": 0.0,
+          "formattedPaymentPending": "$0.00",
+          "totalAmountReceivedInd": "N",
+          "currency": "USD",
+          "remainingBalance": 3433.26,
+          "formattedRemainingBalance": "$3,433.26",
+          "finalPaymentDueDate": "06/24/2018",
+          "finalPaymentDueDateEmailFormat": "June 24, 2018",
+          "refundReceived": 0.0,
+          "formattedRefundReceived": "$0.00",
+          "refundReceivedCruiseOnly": 0.0,
+          "formattedRefundReceivedCruiseOnly": "$0.00"
+        },
+        "subsequentPaymentEnabled": true,
+        "destination": "Alaska",
+        "shipImageUrl": "https://s3.amazonaws.com/mediavault.le/media/ccf3c179d4a84f8adc7c33c303278afe53cad613.jpeg",
+        "photoIdInformationUrl": "/service/#/article/12657",
+        "passportInformationUrl": "/service/#/articles/402/32/19030",
+        "cruiseChecklistUrl": "/cruise-guide#section-tab6-checklist",
+        "rewardsUrl": "/user/signin",
+        "duration": 7,
+        "confirmationEmailPhoneNumber": "1-800-724-1697",
+        "departurePort": {
+          "portName": "Seattle, Washington ",
+          "dayNumber": 0
+        },
+        "disembarkationPort": {
+          "portName": "Seattle, Washington ",
+          "dayNumber": 0
+        },
+        "reminderEmail48HoursPhoneNumber": "1-800-785-4976",
+        "reminderEmailSevenDaysPhoneNumber": "1-800-803-8275",
+        "groupDetails": {
+          "groupBooking": false
+        },
+        "optionBooking": true,
+        "optionBookingPhoneNumber": "1-800-785-5561"
+      }
+    ],
+    "totalTripPrice": {
+      "currency": "USD",
+      "total": "3433.26",
+      "totalFormatted": "$3,433.26"
+    },
+    "isCouponApplied": false,
+    "readTripError": false,
+    "tripSource": "expedia",
+    "zetaTrip": false,
+    "isMRP": false,
+    "tripDataSource": "EXPWEB",
+    "isTripUpgradable": false
+  }
+}

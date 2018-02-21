@@ -10,8 +10,8 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 
 class TripsServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, private val nonFatalLogger: NonFatalLoggerInterface) : TripsServicesInterface {
 
-    val LOGTAG = "TRIPS_SERVICES"
-    val tripsApi: TripsApi by lazy {
+    private val LOGTAG = "TRIPS_SERVICES"
+    private val tripsApi: TripsApi by lazy {
         val adapter = Retrofit.Builder()
                 .baseUrl(endpoint)
                 .addConverterFactory(JsonConverterFactory())

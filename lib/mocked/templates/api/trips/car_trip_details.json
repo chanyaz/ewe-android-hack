@@ -1,0 +1,487 @@
+{
+  "apiVersion": "1.0",
+  "responseType": "TRIP_DETAILS",
+  "responseData": {
+    "levelOfDetail": "FULL",
+    "tripId": "a81951a6-c740-4db9-9bcd-2862076fff1b",
+    "webDetailsURL": "https://www.expedia.com/trips/7283429594044?email=",
+    "tripNumber": 7283429594044,
+    "orderNumber": 8097919010300,
+    "title": "Car rental in Hebron",
+    "updateTripNameDescPathURL": "https://www.expedia.com/api/trips/a81951a6-c740-4db9-9bcd-2862076fff1b/updateTripNameDescription",
+    "startTime": {
+      "raw": "2018-02-13T10:30:00-05:00",
+      "localized": "Feb 13, 2018 10:30:00 AM",
+      "epochSeconds": 1518535800,
+      "timeZoneOffsetSeconds": -18000,
+      "localizedShortDate": "2/13/2018",
+      "localizedMediumDate": "Feb 13",
+      "localizedFullDate": "Tue, Feb 13",
+      "localizedLongDate": "Feb 13, 2018",
+      "localizedShortTime": "10:30am"
+    },
+    "endTime": {
+      "raw": "2018-02-14T10:30:00-05:00",
+      "localized": "Feb 14, 2018 10:30:00 AM",
+      "epochSeconds": 1518622200,
+      "timeZoneOffsetSeconds": -18000,
+      "localizedShortDate": "2/14/2018",
+      "localizedMediumDate": "Feb 14",
+      "localizedFullDate": "Wed, Feb 14",
+      "localizedLongDate": "Feb 14, 2018",
+      "localizedShortTime": "10:30am"
+    },
+    "tripCreatedTime": {
+      "raw": "2017-07-26T22:35:02Z",
+      "localized": "Jul 26, 2017 10:35:02 PM",
+      "epochSeconds": 1501108502,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Wed, 26 Jul",
+      "localizedMediumDate": "Jul 26, 2017",
+      "localizedFullDate": "Wednesday, July 26, 2017",
+      "localizedLongDate": "July 26, 2017",
+      "localizedShortTime": "10:35 PM"
+    },
+    "tripUpdatedTime": {
+      "raw": "2017-08-03T19:32:59Z",
+      "localized": "Aug 3, 2017 7:32:59 PM",
+      "epochSeconds": 1501788779,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Thu, 3 Aug",
+      "localizedMediumDate": "Aug 3, 2017",
+      "localizedFullDate": "Thursday, August 3, 2017",
+      "localizedLongDate": "August 3, 2017",
+      "localizedShortTime": "7:32 PM"
+    },
+    "tripCacheUpdatedTime": {
+      "raw": "2017-08-03T19:33:03Z",
+      "localized": "Aug 3, 2017 7:33:03 PM",
+      "epochSeconds": 1501788783,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Thu, 3 Aug",
+      "localizedMediumDate": "Aug 3, 2017",
+      "localizedFullDate": "Thursday, August 3, 2017",
+      "localizedLongDate": "August 3, 2017",
+      "localizedShortTime": "7:33 PM"
+    },
+    "ownerId": 513279321,
+    "bookingStatus": "BOOKED",
+    "rewardList": [
+      {
+        "totalPoints": 234.00,
+        "basePoints": 117.00,
+        "bonusPoints": [
+          {
+            "m_pointValue": 117.00,
+            "m_pointType": "offerPoint",
+            "m_pointDescription": "App Booking Double Points",
+            "m_status": "PENDING",
+            "m_programId": 3
+          }
+        ],
+        "logoUrl": "/static/default/default/images/myrewards/RewardsLogo_193x76.png",
+        "signUpUrl": "",
+        "viewStatementURL": "/user/rewards",
+        "programName": "ExpediaRewards"
+      }
+    ],
+    "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/YhlR6lyB3BYa-o1uRCyTVsCAJK0CFMwf_sbZDJP1Yx1Z8jUaisnLC_X2USCMzzyHyUKZ_MlAhi_rLNZUv6l-OX5t",
+    "customerSupport": {
+      "customerSupportURL": "http://www.expedia.com/service/",
+      "customerSupportPhoneNumberDomestic": "+1 800-397-3342",
+      "customerSupportPhoneNumberInternational": "+1 404-728-8787",
+      "customerSupportPhoneInfoForEmail": [
+        "Call us at 1-877-261-3523.",
+        "For faster service, mention <strong>itinerary #7283429594044 </strong>"
+      ],
+      "termsAndConditionsURL": ""
+    },
+    "isBookedUsingForeignCurrency": false,
+    "cars": [
+      {
+        "uniqueID": "426C7990-C60E-433E-852C-80886A594FCB_0",
+        "bookingStatus": "BOOKED",
+        "bookingStatusText": "Booked",
+        "bookingStatusMessage": "Your reservation is booked. No need to call us to reconfirm this reservation.",
+        "state": "PRE_START_4",
+        "orderNumber": 8097919010300,
+        "orderLineNumber": "33cc602e-fec5-4f86-9a14-9289077ef95c",
+        "paymentModel": "AGENCY_COLLECT",
+        "reservationGuaranteePolicy": "RESERVATION_GUARANTEE_OPTIONAL",
+        "price": {
+          "rateTerm": "DAILY",
+          "rateTermLocalized": "day",
+          "rate": "41.6",
+          "rateFormatted": "$41.60",
+          "mileageChargesDescription": "Unlimited mileage",
+          "extraHourCharges": "7.07",
+          "extraHourChargesFormatted": "$7.07",
+          "isTotalRate": true,
+          "totalContainsTaxesAndFees": true,
+          "taxesAreEstimated": true,
+          "insuranceIncluded": false,
+          "liabilityInsuranceIncluded": false,
+          "notIncludedinPrice": {
+            "credit-card-deposit": {
+              "name": "credit-card-deposit",
+              "description": "Credit card deposit"
+            },
+            "extra-hour": {
+              "name": "extra-hour",
+              "description": "Extra hour",
+              "price": {
+                "amount": 7.07,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              },
+              "priceFormatted": "$7.07"
+            }
+          },
+          "currency": "USD",
+          "currencyName": "US dollars",
+          "base": "41.6",
+          "baseFormatted": "$41.60",
+          "taxes": "16.98",
+          "taxesFormatted": "$16.98",
+          "total": "58.58",
+          "totalFormatted": "$58.58",
+          "taxesAndFeesBreakdown": [
+            {
+              "description": "Rental, 6.00 CUST FACILITY CHRG",
+              "price": {
+                "amount": 6.00,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              }
+            },
+            {
+              "description": "Rental, 3.00 PCT COUNTY RENTAL TAX",
+              "price": {
+                "amount": 1.45,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              }
+            },
+            {
+              "description": "Rental, 11.11 PCT CONCESSN RECOV FEE",
+              "price": {
+                "amount": 4.83,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              }
+            },
+            {
+              "description": "Rental, 1.49 ENERGY SURCHARGE",
+              "price": {
+                "amount": 1.49,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              }
+            },
+            {
+              "description": "Rental, 6.00 PCT STATE TAX",
+              "price": {
+                "amount": 2.81,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              }
+            },
+            {
+              "description": "Rental, .40 VEHICLE LICENSE FEE",
+              "price": {
+                "amount": 0.40,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              }
+            }
+          ]
+        },
+        "localPrice": {
+          "isTotalRate": false,
+          "totalContainsTaxesAndFees": false,
+          "taxesAreEstimated": false,
+          "insuranceIncluded": false,
+          "liabilityInsuranceIncluded": false
+        },
+        "confirmationNumber": "H3741063194",
+        "webCancelPathURL": "https://www.expedia.com/api/cancelCarBooking/a81951a6-c740-4db9-9bcd-2862076fff1b",
+        "webGetCarCancelDetailPathURL": "https://www.expedia.com/api/trips/a81951a6-c740-4db9-9bcd-2862076fff1b/ordernumber/8097919010300/orderlinenumber/33cc602e-fec5-4f86-9a14-9289077ef95c/isMerchant/false/getCarCancelDetail",
+        "webCarRulesPageURL": "http://www.expedia.com/Checkout/CarRulesAndRestrictions?tripid=a81951a6-c740-4db9-9bcd-2862076fff1b",
+        "bookingId": "77368701",
+        "travelers": [
+          {
+            "firstName": "SUSANNAVAN",
+            "lastName": "GREUNEN"
+          }
+        ],
+        "travelerContactInformation": {
+          "email": "Susanna@mobiata.com",
+          "phoneNumber": "2244362237"
+        },
+        "pickupTime": {
+          "raw": "2018-02-13T10:30:00-05:00",
+          "localized": "Feb 13, 2018 10:30:00 AM",
+          "epochSeconds": 1518535800,
+          "timeZoneOffsetSeconds": -18000,
+          "localizedShortDate": "2/13/2018",
+          "localizedMediumDate": "Feb 13",
+          "localizedFullDate": "Tue, Feb 13",
+          "localizedLongDate": "Feb 13, 2018",
+          "localizedShortTime": "10:30AM"
+        },
+        "dropOffTime": {
+          "raw": "2018-02-14T23:30:00-05:00",
+          "localized": "Feb 14, 2018 11:30:00 PM",
+          "epochSeconds": 1518669000,
+          "timeZoneOffsetSeconds": -18000,
+          "localizedShortDate": "2/14/2018",
+          "localizedMediumDate": "Feb 14",
+          "localizedFullDate": "Wed, Feb 14",
+          "localizedLongDate": "Feb 14, 2018",
+          "localizedShortTime": "11:30PM"
+        },
+        "pickupLocation": {
+          "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
+          "locationCategory": "AIRPORT_TERMINAL",
+          "locationDescription": "Cincinnati (Cincinnati - Northern Kentucky Intl.)",
+          "airportInstructions": "Shuttle to counter and car",
+          "latitude": 39.048837,
+          "longitude": -84.667822,
+          "addressLine1": "3114 Loomis Road",
+          "cityName": "Hebron",
+          "provinceStateName": "Ohio",
+          "postalCode": "41048-9630",
+          "countryCode": "USA",
+          "locationCode": "CVG",
+          "regionId": 178249
+        },
+        "dropOffLocation": {
+          "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
+          "locationCategory": "AIRPORT_TERMINAL",
+          "locationDescription": "Cincinnati (Cincinnati - Northern Kentucky Intl.)",
+          "latitude": 39.048837,
+          "longitude": -84.667822,
+          "addressLine1": "3114 Loomis Road",
+          "cityName": "Hebron",
+          "provinceStateName": "Ohio",
+          "postalCode": "41048-9630",
+          "countryCode": "USA",
+          "locationCode": "CVG",
+          "regionId": 178249
+        },
+        "pickupDateOpenHoursSummaryString": "7:00am - 11:00pm",
+        "pickupDateOpenHours": [
+          {
+            "openingDateTime": {
+              "raw": "2018-02-13T07:00:00-05:00",
+              "localized": "Feb 13, 2018 7:00:00 AM",
+              "epochSeconds": 1518523200,
+              "timeZoneOffsetSeconds": -18000,
+              "localizedShortDate": "2/13/2018",
+              "localizedMediumDate": "Feb 13",
+              "localizedFullDate": "Tue, Feb 13",
+              "localizedLongDate": "Feb 13, 2018",
+              "localizedShortTime": "7:00AM"
+            },
+            "closingDateTime": {
+              "raw": "2018-02-13T23:00:00-05:00",
+              "localized": "Feb 13, 2018 11:00:00 PM",
+              "epochSeconds": 1518580800,
+              "timeZoneOffsetSeconds": -18000,
+              "localizedShortDate": "2/13/2018",
+              "localizedMediumDate": "Feb 13",
+              "localizedFullDate": "Tue, Feb 13",
+              "localizedLongDate": "Feb 13, 2018",
+              "localizedShortTime": "11:00PM"
+            }
+          }
+        ],
+        "dropOffDateOpenHoursSummaryString": "7:00am - 11:00pm",
+        "dropOffDateOpenHours": [
+          {
+            "openingDateTime": {
+              "raw": "2018-02-14T07:00:00-05:00",
+              "localized": "Feb 14, 2018 7:00:00 AM",
+              "epochSeconds": 1518609600,
+              "timeZoneOffsetSeconds": -18000,
+              "localizedShortDate": "2/14/2018",
+              "localizedMediumDate": "Feb 14",
+              "localizedFullDate": "Wed, Feb 14",
+              "localizedLongDate": "Feb 14, 2018",
+              "localizedShortTime": "7:00AM"
+            },
+            "closingDateTime": {
+              "raw": "2018-02-14T23:00:00-05:00",
+              "localized": "Feb 14, 2018 11:00:00 PM",
+              "epochSeconds": 1518667200,
+              "timeZoneOffsetSeconds": -18000,
+              "localizedShortDate": "2/14/2018",
+              "localizedMediumDate": "Feb 14",
+              "localizedFullDate": "Wed, Feb 14",
+              "localizedLongDate": "Feb 14, 2018",
+              "localizedShortTime": "11:00PM"
+            }
+          }
+        ],
+        "carVendor": {
+          "longName": "Thrifty",
+          "code": "ZT",
+          "shortName": "Thrifty",
+          "logoURL": "https://images.trvl-media.com/cars/logos/ZT.png",
+          "phoneNumber": " 800 847 4389",
+          "localPhoneNumber": "+1 877 283 0898"
+        },
+        "carCategoryImageURL": "https://images.trvl-media.com/cars%2F45%2FZT_USA_STT_Toyota_Yaris_EC_20170130_s.jpg",
+        "carCategory": "Economy",
+        "carCategoryLocalized": "Economy",
+        "minDoors": 2,
+        "maxDoors": 2,
+        "adultCapacity": 5,
+        "childCapacity": 0,
+        "carType": "TwoDoorCar",
+        "carTypeLocalized": "Toyota Yaris",
+        "largeLuggageCapacity": 1,
+        "smallLuggageCapacity": 1,
+        "carTypeAttributes": {
+          "vehicleTypeLocalized": "2 or 4-Door Car",
+          "fuelType": "UNKNOWN",
+          "airConditioningType": "AIR_CONDITIONING",
+          "airConditioningTypeLocalized": "Air conditioning",
+          "transmissionType": "AUTOMATIC_TRANSMISSION",
+          "transmissionTypeLocalized": "Automatic transmission",
+          "wheelDriveType": "UNKNOWN"
+        },
+        "rules": [
+          {
+            "ruleType": "TEXT_ONLY",
+            "ruleName": "INFORMATION_PROVIDED_BY_VENDOR_POLICY",
+            "text": "The following rules and restrictions are provided by the car rental company."
+          },
+          {
+            "ruleType": "TEXT_AND_URL",
+            "ruleName": "PAYMENT_CARD_REQUIRED_AT_PICKUP",
+            "text": "The driver must present a valid driver's license and credit card in their name upon pick-up.",
+            "url": "http://www.expedia.com/Checkout/CarRulesAndRestrictions?tripid=a81951a6-c740-4db9-9bcd-2862076fff1b#DRIVERS_LICENSE",
+            "textAndURL": "The driver must present a valid <a href=\"http://www.expedia.com/Checkout/CarRulesAndRestrictions?tripid=a81951a6-c740-4db9-9bcd-2862076fff1b#DRIVERS_LICENSE\">driver's license</a> and credit card in their name upon pick-up. The credit card is required as a deposit when renting any vehicle. The deposit amount is held by the car rental company. Please ensure sufficient funds are available on the card."
+          },
+          {
+            "ruleType": "TEXT_ONLY",
+            "ruleName": "AGE_RESTRICTIONS",
+            "text": "International rentals may have different driver license requirements. An international driving license is required if the drivers' license is non-roman alphabet."
+          },
+          {
+            "ruleType": "TEXT_AND_URL",
+            "ruleName": "AGE_RESTRICTIONS",
+            "text": "Additional charges or restrictions may apply for drivers under 25.",
+            "url": "http://www.expedia.com/Checkout/CarRulesAndRestrictions?tripid=a81951a6-c740-4db9-9bcd-2862076fff1b#AGE",
+            "textAndURL": "<a href=\"http://www.expedia.com/Checkout/CarRulesAndRestrictions?tripid=a81951a6-c740-4db9-9bcd-2862076fff1b#AGE\">Additional charges or restrictions</a> may apply for drivers under 25 or over 70."
+          },
+          {
+            "ruleType": "TEXT_AND_URL",
+            "ruleName": "CONDITIONAL_CHARGES",
+            "text": "Charges for refueling, additional drivers, etc. are not included in the total price.",
+            "url": "http://www.expedia.com/Checkout/CarRulesAndRestrictions?tripid=a81951a6-c740-4db9-9bcd-2862076fff1b#RETURN_REFUELING",
+            "textAndURL": "Charges for <a href=\"http://www.expedia.com/Checkout/CarRulesAndRestrictions?tripid=a81951a6-c740-4db9-9bcd-2862076fff1b#RETURN_REFUELING\">refueling</a>, additional drivers, etc. are not included in the total price."
+          },
+          {
+            "ruleType": "TEXT_ONLY",
+            "ruleName": "OPTIONAL_SERVICES",
+            "text": "Special equipment, such as child seats and GPS, can be purchased upon pick-up (if available)."
+          },
+          {
+            "ruleType": "TEXT_ONLY",
+            "ruleName": "GEOGRAPHICAL_RESTRICTIONS_MAY_APPLY",
+            "text": "Geographical restrictions may apply, even for rental contracts that feature unlimited mileage. Some car rental companies do not allow you to take their vehicles across certain domestic or international borders, or may apply an additional charge to do so."
+          },
+          {
+            "ruleType": "TEXT_AND_URL",
+            "ruleName": "CONDITIONAL_CHARGES",
+            "text": "Your rental may have mandatory insurance requirements that result in additional charges at the time of rental.",
+            "url": "http://www.expedia.com/Checkout/CarRulesAndRestrictions?tripid=a81951a6-c740-4db9-9bcd-2862076fff1b#INSURANCE",
+            "textAndURL": "Your rental may have <a href=\"http://www.expedia.com/Checkout/CarRulesAndRestrictions?tripid=a81951a6-c740-4db9-9bcd-2862076fff1b#INSURANCE\">mandatory, local insurance requirements</a> that result in additional charges at the time of rental."
+          },
+          {
+            "ruleType": "TEXT_ONLY",
+            "ruleName": "TAXES_AND_FEES_INCLUDED",
+            "text": "The total price includes all mandatory taxes and fees."
+          },
+          {
+            "ruleType": "TEXT_ONLY",
+            "ruleName": "TIME_OF_PAYMENT",
+            "text": "Rental fees are due at pick-up."
+          }
+        ],
+        "pickUpInstructions": [
+          "After hours arrivals/returns:  airports (arr-n, ret-n)\nreservations are not accepted after regular office hrs.\nVehicles may not be returned after regular office hrs.\n.\nVehicle hold policy:\nreservations will be honored for 2 hours after the\noriginal scheduled pick up time,(6 hours for corporate\nlocations) unless the location has closed for the day.\n",
+          "Courtesy phones are located in the baggage claim area.\nPick up the Thrifty phone, announce your arrival then\nproceed to curbside for shuttle bus pick up. Shuttle\nruns every 5 to 10 minutes.\n"
+        ],
+        "fuelPolicy": {
+          "type": "FullToFull",
+          "localizedFuelPolicyDesc": "The car is supplied with a full tank of fuel. It should be returned full or refueling charges will be applied at drop-off."
+        },
+        "isPrepaid": false,
+        "rulesWithoutHyperLinks": [],
+        "inCancelAllowedWindow": true
+      }
+    ],
+    "totalTripPrice": {
+      "currency": "USD",
+      "total": "58.58",
+      "totalFormatted": "$58.58"
+    },
+    "isCouponApplied": false,
+    "paymentSummary": {
+      "totalPaidPrice": {
+        "amount": 58.58,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "totalPaidTaxAndFees": {
+        "amount": 16.98,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "subTotalPaid": {
+        "amount": 41.60,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "totalPropertyFee": {
+        "amount": 0.00,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "totalPaidLocalizedPrice": "$58.58",
+      "totalPaidTaxAndFeesLocalizedPrice": "$16.98",
+      "subTotalPaidLocalizedPrice": "$41.60",
+      "totalPropertyFeeLocalizedPrice": ""
+    },
+    "readTripError": false,
+    "tripSource": "expedia",
+    "clientId": "expweb-luna",
+    "zetaTrip": false,
+    "isMRP": false,
+    "fromCloud": [
+      "cars",
+      "clientId",
+      "rewardsList",
+      "email"
+    ],
+    "tripDataSource": "HYBRID",
+    "isTripUpgradable": false,
+    "email": {
+      "m_email": "Susanna@mobiata.com"
+    }
+  }
+}

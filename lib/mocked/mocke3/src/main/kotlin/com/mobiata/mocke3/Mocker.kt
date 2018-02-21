@@ -7,12 +7,7 @@ import java.io.File
 
 fun <T> mockObject(clazz: Class<T>, mockName: String, params: Map<String, String>? = null): T? {
     return try {
-        var file = File("lib/mocked/templates")
-        while (!file.exists()) {
-            file = File("../" + file.path)
-        }
-        val opener = FileSystemOpener(file.canonicalPath)
-        val jsonString = loadMockResponseAndReplaceTemplateParams(mockName, opener, params)
+        val jsonString = getJsonStringFromMock(mockName, params)
         val gson = GsonBuilder()
                 .registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
                 .create()
@@ -21,6 +16,16 @@ fun <T> mockObject(clazz: Class<T>, mockName: String, params: Map<String, String
         e.printStackTrace()
         null
     }
+}
+
+fun getJsonStringFromMock(mockName: String, params: Map<String, String>?): String {
+    var file = File("lib/mocked/templates")
+    while (!file.exists()) {
+        file = File("../" + file.path)
+    }
+    val opener = FileSystemOpener(file.canonicalPath)
+    val jsonString = loadMockResponseAndReplaceTemplateParams(mockName, opener, params)
+    return jsonString
 }
 
 object Mocker {

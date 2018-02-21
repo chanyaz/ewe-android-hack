@@ -1,0 +1,568 @@
+{
+  "apiVersion": "1.0",
+  "responseType": "TRIP_DETAILS",
+  "responseData": {
+    "levelOfDetail": "FULL",
+    "tripId": "efb7b989-25fa-4753-bf03-a8af9fcd4b41",
+    "webDetailsURL": "https://wwwexpediade.integration.sb.karmalab.net/trips/79004578809",
+    "tripNumber": 79004578809,
+    "orderNumber": 8068535480955,
+    "title": "Berlin Hauptbahnhof-Frankfurt (Main) Hauptbahnhof",
+    "updateTripNameDescPathURL": "https://wwwexpediade.integration.sb.karmalab.net/api/trips/efb7b989-25fa-4753-bf03-a8af9fcd4b41/updateTripNameDescription",
+    "startTime": {
+      "raw": "2017-09-30T20:34:00-07:00",
+      "localized": "Sep 30, 2017 8:34:00 PM",
+      "epochSeconds": 1506828840,
+      "timeZoneOffsetSeconds": -25200,
+      "localizedShortDate": "30.09.2017",
+      "localizedMediumDate": "30. Sep.",
+      "localizedFullDate": "Sa., 30. Sep.",
+      "localizedLongDate": "30. Sep. 2017",
+      "localizedShortTime": "20:34 Uhr"
+    },
+    "endTime": {
+      "raw": "2017-10-11T05:09:00-07:00",
+      "localized": "Okt 11, 2017 5:09:00 AM",
+      "epochSeconds": 1507723740,
+      "timeZoneOffsetSeconds": -25200,
+      "localizedShortDate": "11.10.2017",
+      "localizedMediumDate": "11. Okt.",
+      "localizedFullDate": "Mi., 11. Okt.",
+      "localizedLongDate": "11. Okt. 2017",
+      "localizedShortTime": "5:09 Uhr"
+    },
+    "tripCreatedTime": {
+      "raw": "2017-09-26T08:17:10Z",
+      "localized": "Sep 26, 2017 8:17:10 AM",
+      "epochSeconds": 1506413830,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Di, 26 Sep",
+      "localizedMediumDate": "26.09.2017",
+      "localizedFullDate": "Dienstag, 26. September 2017",
+      "localizedLongDate": "26. September 2017",
+      "localizedShortTime": "08:17"
+    },
+    "tripUpdatedTime": {
+      "raw": "2017-09-27T16:51:04Z",
+      "localized": "Sep 27, 2017 4:51:04 PM",
+      "epochSeconds": 1506531064,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Mi, 27 Sep",
+      "localizedMediumDate": "27.09.2017",
+      "localizedFullDate": "Mittwoch, 27. September 2017",
+      "localizedLongDate": "27. September 2017",
+      "localizedShortTime": "16:51"
+    },
+    "tripCacheUpdatedTime": {
+      "raw": "2017-09-27T16:51:04Z",
+      "localized": "Sep 27, 2017 4:51:04 PM",
+      "epochSeconds": 1506531064,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Mi, 27 Sep",
+      "localizedMediumDate": "27.09.2017",
+      "localizedFullDate": "Mittwoch, 27. September 2017",
+      "localizedLongDate": "27. September 2017",
+      "localizedShortTime": "16:51"
+    },
+    "ownerId": 325845,
+    "bookingStatus": "BOOKED",
+    "sharableDetailsURL": "https://wwwexpediade.integration.sb.karmalab.net/api/trips/shared/dBghNrsMCzwOA2k-e1SSecCAjGxF6JIFM4V8cRJT5jGx58E1EMVNvA-LDY-RJFauATFqKwDhJl0ZpGaoZ2lgwetl",
+    "customerSupport": {
+      "customerSupportURL": "https://support.expedia.de/app/home",
+      "customerSupportPhoneInfo": [
+        "Sie erreichen uns unter der Nummer +49 (0)69-945 192 320 (Es gelten ortsübliche Tarife vom dt. Festnetz. Mobilfunkpreise können abweichen).",
+        "Damit wir Ihnen schneller helfen können, nennen Sie uns bitte Ihre <strong>Reiseplannummer 79004578809</strong>."
+      ],
+      "customerSupportPhoneNumberDomestic": "+49 (0)69-945 192 320",
+      "termsAndConditionsURL": "/ckoterms"
+    },
+    "isBookedUsingForeignCurrency": false,
+    "rails": [
+      {
+        "recordLocator": 98204,
+        "recordLocatorState": "CONFIRMED",
+        "reservationStatus": "BOOKED",
+        "cancellationPolicies": [
+          {
+            "cancellable": true,
+            "totalPenaltyAmount": {
+              "amount": "0.00",
+              "currencyCode": "EUR",
+              "currencySymbol": "€",
+              "formattedPrice": "0,00€",
+              "formattedWholePrice": "0€",
+              "showPrice": false
+            },
+            "penaltyBreakdown": [
+              {
+                "amount": "0",
+                "currencyCode": "EUR",
+                "currencySymbol": "€",
+                "priceCategory": "Ticketpreis",
+                "priceCategoryCode": "TICKET",
+                "formattedPrice": "0€",
+                "formattedWholePrice": "0€",
+                "showPrice": false
+              },
+              {
+                "amount": "0.00",
+                "currencyCode": "EUR",
+                "currencySymbol": "€",
+                "priceCategory": "Ticket-Zustellungsgebühr",
+                "priceCategoryCode": "TICKET_DELIVERY",
+                "formattedPrice": "0,00€",
+                "formattedWholePrice": "0€",
+                "showPrice": false
+              }
+            ],
+            "totalRefundAmount": {
+              "amount": "756.00",
+              "currencyCode": "EUR",
+              "currencySymbol": "€",
+              "formattedPrice": "756,00€",
+              "formattedWholePrice": "756€",
+              "showPrice": false
+            },
+            "refundBreakdown": [
+              {
+                "amount": "756.00",
+                "currencyCode": "EUR",
+                "currencySymbol": "€",
+                "priceCategory": "Ticketpreis",
+                "priceCategoryCode": "TICKET",
+                "formattedPrice": "756,00€",
+                "formattedWholePrice": "756€",
+                "showPrice": false
+              }
+            ]
+          }
+        ],
+        "bookingDate": {
+          "raw": "2017-09-26T01:18:49-07:00",
+          "localized": "Sep 26, 2017 1:18:49 AM",
+          "epochSeconds": 1506413929,
+          "timeZoneOffsetSeconds": -25200,
+          "localizedShortDate": "Di, 26 Sep",
+          "localizedMediumDate": "26.09.2017",
+          "localizedFullDate": "Dienstag, 26. September 2017",
+          "localizedLongDate": "26. September 2017",
+          "localizedShortTime": "01:18"
+        },
+        "totalPrice": {
+          "amount": "756.00",
+          "currencyCode": "EUR",
+          "currencySymbol": "€",
+          "formattedPrice": "756,00€",
+          "formattedWholePrice": "756€",
+          "showPrice": false
+        },
+        "priceBreakdownList": [
+          {
+            "amount": "756.00",
+            "currencyCode": "EUR",
+            "currencySymbol": "€",
+            "priceCategory": "Ticketpreis",
+            "priceCategoryCode": "TICKET",
+            "formattedPrice": "756,00€",
+            "formattedWholePrice": "756€",
+            "showPrice": false
+          },
+          {
+            "amount": "0.00",
+            "currencyCode": "EUR",
+            "currencySymbol": "€",
+            "priceCategory": "Ticket-Zustellungsgebühr",
+            "priceCategoryCode": "TICKET_DELIVERY",
+            "formattedPrice": "0,00€",
+            "formattedWholePrice": "0€",
+            "showPrice": false
+          }
+        ],
+        "products": [
+          {
+            "aggregatedCarrierServiceClassDisplayName": "2. Klasse",
+            "aggregatedCarrierFareClassDisplayName": "Flexpreis",
+            "aggregatedFareDescription": "Reiseantritt zu jeder Tageszeit möglich",
+            "aggregatedCarrierFareClassCategoryName": "FLEXPREIS",
+            "legOptions": [
+              {
+                "departureStation": {
+                  "stationCode": "DEQPP",
+                  "stationDisplayName": "Berlin Hauptbahnhof"
+                },
+                "arrivalStation": {
+                  "stationCode": "DEZRB",
+                  "stationDisplayName": "Frankfurt (Main) Hauptbahnhof"
+                },
+                "departureDateTime": {
+                  "raw": "2017-10-01T05:34:00",
+                  "epochSeconds": 1506836040
+                },
+                "arrivalDateTime": {
+                  "raw": "2017-10-01T09:44:00",
+                  "epochSeconds": 1506851040
+                },
+                "duration": "PT4H10M",
+                "aggregatedMarketingCarrier": "Deutsche Bahn",
+                "aggregatedOperatingCarrier": "Deutsche Bahn",
+                "travelSegments": [
+                  {
+                    "travelMode": "Train",
+                    "departureStation": {
+                      "stationCode": "DEQPP",
+                      "stationDisplayName": "Berlin Hauptbahnhof"
+                    },
+                    "arrivalStation": {
+                      "stationCode": "DEZRB",
+                      "stationDisplayName": "Frankfurt (Main) Hauptbahnhof"
+                    },
+                    "departureDateTime": {
+                      "raw": "2017-10-01T05:34:00",
+                      "epochSeconds": 1506836040
+                    },
+                    "arrivalDateTime": {
+                      "raw": "2017-10-01T09:44:00",
+                      "epochSeconds": 1506851040
+                    },
+                    "marketingCarrier": "Deutsche Bahn",
+                    "operatingCarrier": "Deutsche Bahn",
+                    "travelMedium": {
+                      "travelMediumName": "ICE",
+                      "travelMediumCode": "HSP",
+                      "supplierTravelMediumId": "ICE  593"
+                    },
+                    "duration": "PT4H10M",
+                    "fareDetail": {
+                      "carrierServiceClassDisplayName": "2. Klasse",
+                      "carrierFareClassDisplayName": "Flexpreis",
+                      "carrierFareClassCategoryName": "FLEXPREIS",
+                      "fareDescription": "Reiseantritt zu jeder Tageszeit möglich",
+                      "amenities": [
+                        {
+                          "displayName": "Bar-Wagen"
+                        },
+                        {
+                          "displayName": "Speisewagen"
+                        },
+                        {
+                          "displayName": "WLAN (kostenlos)"
+                        },
+                        {
+                          "displayName": "Steckdose am Platz"
+                        },
+                        {
+                          "displayName": "Ruhewagen"
+                        },
+                        {
+                          "displayName": "Snack-Service"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "noOfChanges": 0,
+                "overtakenJourney": false,
+                "legBoundOrder": 1
+              }
+            ],
+            "fareQualifiers": [],
+            "supplierPNR": "8PAF4G",
+            "fareNotes": [
+              "Umtausch: Ausgeschlossen.",
+              "Erstattung: Bis einen Tag vor dem ersten Geltungstag der Hinfahrt kostenfrei zugelassen. Ab dem ersten Geltungstag gegen Abzug des Erstattungsentgelts von 19,00 euros zugelassen.",
+              "Erstattung: Bis einen Tag vor dem ersten Geltungstag der Hinfahrt kostenfrei zugelassen. Ab dem ersten Geltungstag gegen Abzug des Erstattungsentgelts von 19,00 EUR zugelassen."
+            ],
+            "refundableRules": [
+              "Ihr Ticket ist vor dem 30. Sep 2017 23:59 Uhr erstattungsfähig",
+              "Wenn Sie Ihr Ticket nach dem 30. Sep 2017 23:59 Uhr stornieren, fällt eine Bearbeitungsgebühr von 19,00 EUR an, die vom Erstattungsbetrag abgezogen wird."
+            ],
+            "pointOfSupply": "DB"
+          },
+          {
+            "aggregatedCarrierServiceClassDisplayName": "2. Klasse",
+            "aggregatedCarrierFareClassDisplayName": "Flexpreis",
+            "aggregatedFareDescription": "Reiseantritt zu jeder Tageszeit möglich",
+            "aggregatedCarrierFareClassCategoryName": "FLEXPREIS",
+            "legOptions": [
+              {
+                "departureStation": {
+                  "stationCode": "DEZRB",
+                  "stationDisplayName": "Frankfurt (Main) Hauptbahnhof"
+                },
+                "arrivalStation": {
+                  "stationCode": "DEQPP",
+                  "stationDisplayName": "Berlin Hauptbahnhof"
+                },
+                "departureDateTime": {
+                  "raw": "2017-10-11T09:58:00",
+                  "epochSeconds": 1507715880
+                },
+                "arrivalDateTime": {
+                  "raw": "2017-10-11T14:09:00",
+                  "epochSeconds": 1507730940
+                },
+                "duration": "PT4H11M",
+                "aggregatedMarketingCarrier": "Deutsche Bahn",
+                "aggregatedOperatingCarrier": "Deutsche Bahn",
+                "travelSegments": [
+                  {
+                    "travelMode": "Train",
+                    "departureStation": {
+                      "stationCode": "DEZRB",
+                      "stationDisplayName": "Frankfurt (Main) Hauptbahnhof"
+                    },
+                    "arrivalStation": {
+                      "stationCode": "DEZVR",
+                      "stationDisplayName": "Hannover Hauptbahnhof"
+                    },
+                    "departureDateTime": {
+                      "raw": "2017-10-11T09:58:00",
+                      "epochSeconds": 1507715880
+                    },
+                    "arrivalDateTime": {
+                      "raw": "2017-10-11T12:17:00",
+                      "epochSeconds": 1507724220
+                    },
+                    "marketingCarrier": "Deutsche Bahn",
+                    "operatingCarrier": "Deutsche Bahn",
+                    "travelMedium": {
+                      "travelMediumName": "ICE",
+                      "travelMediumCode": "HSP",
+                      "supplierTravelMediumId": "ICE   78"
+                    },
+                    "duration": "PT2H19M",
+                    "fareDetail": {
+                      "carrierServiceClassDisplayName": "2. Klasse",
+                      "carrierFareClassDisplayName": "Flexpreis",
+                      "carrierFareClassCategoryName": "FLEXPREIS",
+                      "fareDescription": "Reiseantritt zu jeder Tageszeit möglich",
+                      "amenities": [
+                        {
+                          "displayName": "Bar-Wagen"
+                        },
+                        {
+                          "displayName": "Speisewagen"
+                        },
+                        {
+                          "displayName": "WLAN (kostenlos)"
+                        },
+                        {
+                          "displayName": "Steckdose am Platz"
+                        },
+                        {
+                          "displayName": "Ruhewagen"
+                        },
+                        {
+                          "displayName": "Snack-Service"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "travelMode": "Train",
+                    "departureStation": {
+                      "stationCode": "DEZVR",
+                      "stationDisplayName": "Hannover Hauptbahnhof"
+                    },
+                    "arrivalStation": {
+                      "stationCode": "DEQPP",
+                      "stationDisplayName": "Berlin Hauptbahnhof"
+                    },
+                    "departureDateTime": {
+                      "raw": "2017-10-11T12:31:00",
+                      "epochSeconds": 1507725060
+                    },
+                    "arrivalDateTime": {
+                      "raw": "2017-10-11T14:09:00",
+                      "epochSeconds": 1507730940
+                    },
+                    "marketingCarrier": "Deutsche Bahn",
+                    "operatingCarrier": "Deutsche Bahn",
+                    "travelMedium": {
+                      "travelMediumName": "ICE",
+                      "travelMediumCode": "HSP",
+                      "supplierTravelMediumId": "ICE  847"
+                    },
+                    "duration": "PT1H38M",
+                    "fareDetail": {
+                      "carrierServiceClassDisplayName": "2. Klasse",
+                      "carrierFareClassDisplayName": "Flexpreis",
+                      "carrierFareClassCategoryName": "FLEXPREIS",
+                      "fareDescription": "Reiseantritt zu jeder Tageszeit möglich",
+                      "amenities": [
+                        {
+                          "displayName": "Bar-Wagen"
+                        },
+                        {
+                          "displayName": "Speisewagen"
+                        },
+                        {
+                          "displayName": "WLAN (kostenlos)"
+                        },
+                        {
+                          "displayName": "Steckdose am Platz"
+                        },
+                        {
+                          "displayName": "Ruhewagen"
+                        },
+                        {
+                          "displayName": "Snack-Service"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "noOfChanges": 1,
+                "overtakenJourney": false,
+                "legBoundOrder": 2
+              }
+            ],
+            "fareQualifiers": [],
+            "supplierPNR": "8PAF4G",
+            "fareNotes": [
+              "Umtausch: Ausgeschlossen.",
+              "Erstattung: Bis einen Tag vor dem ersten Geltungstag der Hinfahrt kostenfrei zugelassen. Ab dem ersten Geltungstag gegen Abzug des Erstattungsentgelts von 19,00 euros zugelassen.",
+              "Erstattung: Bis einen Tag vor dem ersten Geltungstag der Hinfahrt kostenfrei zugelassen. Ab dem ersten Geltungstag gegen Abzug des Erstattungsentgelts von 19,00 EUR zugelassen."
+            ],
+            "refundableRules": [
+              "Ihr Ticket ist vor dem 10. Okt 2017 23:59 Uhr erstattungsfähig",
+              "Wenn Sie Ihr Ticket nach dem 10. Okt 2017 23:59 Uhr stornieren, fällt eine Bearbeitungsgebühr von 19,00 EUR an, die vom Erstattungsbetrag abgezogen wird."
+            ],
+            "pointOfSupply": "DB"
+          }
+        ],
+        "startTime": {
+          "raw": "2017-09-30T20:34:00-07:00",
+          "localized": "Sep 30, 2017 8:34:00 PM",
+          "epochSeconds": 1506828840,
+          "timeZoneOffsetSeconds": -25200,
+          "localizedShortDate": "Sa, 30 Sep",
+          "localizedMediumDate": "30.09.2017",
+          "localizedFullDate": "Samstag, 30. September 2017",
+          "localizedLongDate": "30. September 2017",
+          "localizedShortTime": "20:34"
+        },
+        "endTime": {
+          "raw": "2017-10-11T05:09:00-07:00",
+          "localized": "Okt 11, 2017 5:09:00 AM",
+          "epochSeconds": 1507723740,
+          "timeZoneOffsetSeconds": -25200,
+          "localizedShortDate": "Mi, 11 Okt",
+          "localizedMediumDate": "11.10.2017",
+          "localizedFullDate": "Mittwoch, 11. Oktober 2017",
+          "localizedLongDate": "11. Oktober 2017",
+          "localizedShortTime": "05:09"
+        },
+        "passengers": [
+          {
+            "firstName": "Satyendra",
+            "lastName": "Sharma",
+            "email": "v-satsharma@expedia.com",
+            "telephoneNumber": "492036093063",
+            "primary": true,
+            "age": 40,
+            "ageGroup": "ADULT"
+          },
+          {
+            "firstName": "FnBetu",
+            "lastName": "LnChotu",
+            "primary": false,
+            "age": 2,
+            "ageGroup": "CHILD"
+          },
+          {
+            "firstName": "FnBhaiya",
+            "lastName": "LnChachu",
+            "primary": false,
+            "age": 20,
+            "ageGroup": "YOUTH"
+          },
+          {
+            "firstName": "FnDadu",
+            "lastName": "LnBabu",
+            "primary": false,
+            "age": 62,
+            "ageGroup": "SENIOR"
+          }
+        ],
+        "ticketDeliveryInstructions": {
+          "selectedOption": {
+            "categoryCode": "EMAIL",
+            "description": "E-Ticket (per E-Mail)",
+            "ticketDeliveryFee": {
+              "amount": "0.00",
+              "currencyCode": "EUR",
+              "currencySymbol": "€",
+              "formattedPrice": "0,00€",
+              "formattedWholePrice": "0€",
+              "showPrice": false
+            },
+            "departureStation": false
+          },
+          "paymentInstrument": {
+            "maskedPaymentInstrumentNumber": "460880XXXXXX4100"
+          }
+        },
+        "orderNumber": 8068535480955,
+        "orderLineGUID": "f3303654-1bcb-4353-a5ee-23f0f3215b75",
+        "bookingRefundableState": "REFUNDABLE",
+        "maxFareExpirationDateTime": {
+          "raw": "2017-12-27T16:51:13Z",
+          "localized": "Dez 27, 2017 4:51:13 PM",
+          "epochSeconds": 1514393473,
+          "timeZoneOffsetSeconds": 0,
+          "localizedShortDate": "Mi, 27 Dez",
+          "localizedMediumDate": "27.12.2017",
+          "localizedFullDate": "Mittwoch, 27. Dezember 2017",
+          "localizedLongDate": "27. Dezember 2017",
+          "localizedShortTime": "16:51"
+        }
+      }
+    ],
+    "totalTripPrice": {
+      "currency": "EUR",
+      "total": "756.0",
+      "totalFormatted": "756,00 €"
+    },
+    "isCouponApplied": false,
+    "readTripError": false,
+    "tripSource": "expedia",
+    "clientId": "expweb-luna",
+    "zetaTrip": false,
+    "isMRP": false,
+    "fromCloud": [
+      "isBookedUsingForeignCurrency",
+      "isTripUpgradable",
+      "tripDataSource",
+      "zetaTrip",
+      "tripId",
+      "levelOfDetail",
+      "title",
+      "ownerId",
+      "rails",
+      "isRewardsPointsBooking",
+      "bookingStatus",
+      "startTime",
+      "tripUpdatedTime",
+      "isMRP",
+      "tripNumber",
+      "email",
+      "customerSupport",
+      "clientId",
+      "webDetailsURL",
+      "tripSource",
+      "updateTripNameDescPathURL",
+      "tripCreatedTime",
+      "sharableDetailsURL",
+      "endTime",
+      "readTripError",
+      "tripCacheUpdatedTime"
+    ],
+    "tripDataSource": "EXPWEB_HYBRID",
+    "isTripUpgradable": false,
+    "email": {
+      "m_email": "v-satsharma@expedia.com"
+    },
+    "isRewardsPointsBooking": false
+  }
+}

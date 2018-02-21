@@ -1,0 +1,36 @@
+{
+  "apiVersion": "1.0",
+  "responseType": "TRIP_DETAILS",
+  "responseData": {
+    "levelOfDetail": "FULL",
+    "tripId": "fb24d134-adbd-44f6-9904-48cfb33bbd50",
+    "webDetailsURL": "https://www.expedia.com/trips/1103274148635",
+    "tripNumber": 1103274148635,
+    "title": "Mobile Itinerary",
+    "description": "",
+    "updateTripNameDescPathURL": "https://www.expedia.com/api/trips/fb24d134-adbd-44f6-9904-48cfb33bbd50/updateTripNameDescription",
+    "startTime": {
+      "epochSeconds": "${hotelCheckInEpochSeconds}",
+      "timeZoneOffsetSeconds": "${hotelCheckInTzOffset}"
+    },
+    "endTime": {
+      "epochSeconds": "${hotelCheckOutEpochSeconds}",
+      "timeZoneOffsetSeconds": "${hotelCheckOutTzOffset}"
+    },
+    "bookingStatus": "BOOKED",
+    "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/pIKlUOQoG9oOTMrSCQKbBQOvgzOArmMlOrDMFACXvO_6jYldmVbMU54aZwdZbn7e",
+    "customerSupport": {
+      "customerSupportURL": "http://support.expedia.com/app/home",
+      "customerSupportPhoneNumberDomestic": "+1-877-787-3117",
+      "customerSupportPhoneNumberInternational": "+1-877-787-3117",
+      "customerSupportPhoneInfoForEmail": [
+        "Call Expedia+ blue Customer Care at 1-877-787-3117.",
+        "For faster service, mention itinerary # <strong> 1103274148635 </strong>"
+      ],
+      "termsAndConditionsURL": ""
+    },
+    "isBookedUsingForeignCurrency": false,
+    "hotels": [],
+    "isTripUpgradable": true
+  }
+}
