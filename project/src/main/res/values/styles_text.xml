@@ -25,6 +25,10 @@
         <item name="textStyle">medium</item>
     </style>
 
+    <style name="Core.Text.200.Bold">
+        <item name="textStyle">bold</item>
+    </style>
+
     <style name="Core.Text.200.LightColor">
         <item name="android:textColor">@color/light_text_color</item>
     </style>
@@ -91,5 +95,9 @@
 
     <style name="Core.Text.900">
         <item name="android:textSize">@dimen/type_900_text_size</item>
+    </style>
+
+    <style name="Core.Text.900.Bold">
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>

@@ -257,7 +257,7 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
             val imageView = ImageView(root.context)
             val imageSize = root.context.resources.getDimensionPixelSize(R.dimen.hotel_results_poi_size)
             val imageMargin = root.context.resources.getDimensionPixelOffset(R.dimen.hotel_results_poi_margin)
-            val imageColor = ContextCompat.getColor(root.context, R.color.hotelsv2_amenity_icon_color)
+            val imageColor = ContextCompat.getColor(root.context, R.color.app_primary)
             val linearLayoutParams = LinearLayout.LayoutParams(imageSize, imageSize)
             linearLayoutParams.rightMargin = imageMargin
             imageView.layoutParams = linearLayoutParams

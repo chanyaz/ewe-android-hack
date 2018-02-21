@@ -147,7 +147,7 @@
         android:gravity="left|center_vertical"
         android:orientation="horizontal"
         android:paddingBottom="12dp"
-        android:paddingLeft="12dp"
+        android:paddingLeft="10dp"
         android:paddingRight="12dp"
         android:visibility="gone">
 
@@ -161,12 +161,13 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/walk_less_than_text_view"
-            style="@style/Core.Text.200"
+            style="@style/Core.Text.200.Bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
+            android:background="@drawable/bg_rounded_rectangle"
             android:text="&lt; 1.0mi"
-            android:textColor="@color/hotel_earn_message_text_color" />
+            android:textColor="@color/gray900" />
 
         <LinearLayout
             android:id="@+id/top_poi_container"
