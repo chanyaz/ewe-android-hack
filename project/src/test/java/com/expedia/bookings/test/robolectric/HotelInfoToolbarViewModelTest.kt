@@ -49,7 +49,6 @@ class HotelInfoToolbarViewModelTest {
         val hotelNameSubscriber = TestObserver.create<String>()
         val hotelRatingSubscriber = TestObserver.create<Float>()
         val hotelRatingContentDescriptionSubscriber = TestObserver.create<String>()
-        val toolBarRatingColorSubscriber = TestObserver.create<Int>()
 
         viewModelUnderTest.hotelNameObservable.subscribe(hotelNameSubscriber)
         viewModelUnderTest.hotelRatingObservable.subscribe(hotelRatingSubscriber)
@@ -71,7 +70,6 @@ class HotelInfoToolbarViewModelTest {
         val hotelNameSubscriber = TestObserver.create<String>()
         val hotelRatingSubscriber = TestObserver.create<Float>()
         val hotelRatingContentDescriptionSubscriber = TestObserver.create<String>()
-        val toolBarRatingColorSubscriber = TestObserver.create<Int>()
 
         viewModelUnderTest.hotelNameObservable.subscribe(hotelNameSubscriber)
         viewModelUnderTest.hotelRatingObservable.subscribe(hotelRatingSubscriber)
