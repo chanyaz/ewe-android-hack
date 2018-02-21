@@ -69,8 +69,8 @@
     </style>
 
     <style name="Theme.AccountLib" parent="Theme.Base.AccountLib">
-        <item name="skin_acctLogoSmallDrawable">@drawable/acct__logo_small_tvly</item>
-        <item name="skin_acctLogoTextDrawable">@drawable/acct__logo_text_tvly</item>
+        <item name="skin_acctLogoSmallDrawable">@android:color/transparent</item>
+        <item name="skin_acctLogoTextDrawable">@drawable/icon_home_tvly</item>
         <item name="skin_acctSignInButtonTextColor">@color/acct__btn_sign_in_text_tvly</item>
         <item name="skin_acctLogoTextDrawableMarginLeft">6dp</item>
         <item name="skin_acctLogoTextDrawableMarginTop">20dp</item>
