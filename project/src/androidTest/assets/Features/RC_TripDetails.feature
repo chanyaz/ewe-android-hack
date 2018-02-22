@@ -12,6 +12,7 @@ Feature: View Elements on Trip Details page
       | tier | Blue |
       | type | Facebook |
     And I tap on "Trips" tab
+    And I wait for trips screen to load
     And I tap on trip item with name "<hotelName>"
 
     Then I verify the hotel name in the tool bar is "<hotelName>"

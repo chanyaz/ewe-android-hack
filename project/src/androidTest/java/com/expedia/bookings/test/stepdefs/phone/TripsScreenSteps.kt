@@ -21,7 +21,7 @@ class TripsScreenSteps {
 
     @And("^I wait for trips screen to load")
     @Throws(Throwable::class)
-    fun waitForTripsScreenToLoad(hotelName: String) {
+    fun waitForTripsScreenToLoad() {
         TripsScreen.waitForTripsViewToLoad()
     }
 }
