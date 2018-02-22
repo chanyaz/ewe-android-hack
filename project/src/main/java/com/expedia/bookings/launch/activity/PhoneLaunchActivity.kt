@@ -18,7 +18,6 @@ import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.content.ContextCompat
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.TextView
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
@@ -39,7 +38,6 @@ import com.expedia.bookings.fragment.AccountSettingsFragment
 import com.expedia.bookings.fragment.ItinItemListFragment
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
 import com.expedia.bookings.fragment.SoftPromptDialogFragment
-import com.expedia.bookings.hotel.animation.TranslateYAnimator
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.launch.fragment.PhoneLaunchFragment
 import com.expedia.bookings.launch.widget.PhoneLaunchToolbar
@@ -83,7 +81,7 @@ import io.reactivex.disposables.Disposable
 import org.joda.time.LocalDate
 import javax.inject.Inject
 
-class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.LaunchFragmentListener, ItinListView.OnListModeChangedListener, AccountSettingsFragment.AccountFragmentListener,
+class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.LaunchFragmentListener, AccountSettingsFragment.AccountFragmentListener,
         ItinItemListFragment.ItinItemListFragmentListener, LoginConfirmLogoutDialogFragment.DoLogoutListener, AboutSectionFragment.AboutSectionFragmentListener
         , AboutUtils.CountrySelectDialogListener, ClearPrivateDataDialog.ClearPrivateDataDialogListener, CopyrightFragment.CopyrightFragmentListener {
 
@@ -577,15 +575,6 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         override fun restoreState(state: Parcelable?, loader: ClassLoader?) {}
     }
 
-    override fun onListModeChanged(isInDetailMode: Boolean, animated: Boolean) {
-        viewPager.setPageSwipingEnabled(!isInDetailMode)
-        if (isInDetailMode) {
-            slideNavigationOut()
-        } else {
-            slideNavigationIn()
-        }
-    }
-
     override fun onItinItemListFragmentAttached(frag: ItinItemListFragment?) {
         itinListFragment = frag
         if (pagerPosition == PAGER_POS_ITIN) {
@@ -699,30 +688,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         setContentDescriptionToolbarTabs(this, toolbar.tabLayout)
     }
 
-    private fun slideNavigationOut() {
-        val toolbarSlideOut = TranslateYAnimator(toolbar,
-                startY = 0f, endY = -toolbar.height.toFloat(),
-                duration = TOOLBAR_ANIM_DURATION,
-                startAction = { toolbar.translationY = 0f },
-                endAction = { toolbar.visibility = View.GONE })
-        toolbarSlideOut.start()
-    }
-
-    private fun slideNavigationIn() {
-        val toolbarSlideIn = TranslateYAnimator(toolbar,
-                startY = -toolbar.height.toFloat(), endY = 0f,
-                duration = TOOLBAR_ANIM_DURATION,
-                startAction = { toolbarSlideInStartAction() })
-        toolbarSlideIn.start()
-    }
-
-    private fun toolbarSlideInStartAction() {
-        toolbar.translationY = (-supportActionBar!!.height).toFloat()
-        toolbar.visibility = View.VISIBLE
-    }
-
     companion object {
-        private const val TOOLBAR_ANIM_DURATION = 200L
 
         const val NUMBER_OF_TABS = 3
         const val PAGER_POS_LAUNCH = 0
