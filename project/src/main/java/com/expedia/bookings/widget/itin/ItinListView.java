@@ -192,7 +192,7 @@ public class ItinListView extends ListView implements OnItemClickListener {
 				mLastChild = child;
 			}
 			else {
-				onTouchEventSafe(event);
+				super.onTouchEvent(event);
 			}
 		}
 		else if (isTouchUp) {
@@ -216,7 +216,7 @@ public class ItinListView extends ListView implements OnItemClickListener {
 				alterEventActionAndFireTouchEvent(event, MotionEvent.ACTION_UP);
 			}
 			else {
-				onTouchEventSafe(event);
+				super.onTouchEvent(event);
 			}
 			mLastChild = null;
 		}
@@ -232,7 +232,7 @@ public class ItinListView extends ListView implements OnItemClickListener {
 				}
 			}
 			else if (!isChildConsumedTouch && !mWasChildConsumedTouch) {
-				onTouchEventSafe(event);
+				super.onTouchEvent(event);
 			}
 			else if (isChildConsumedTouch) {
 				alterEventActionAndFireTouchEvent(event, MotionEvent.ACTION_CANCEL);
@@ -306,13 +306,9 @@ public class ItinListView extends ListView implements OnItemClickListener {
 		return sendEventToView(event, view);
 	}
 
-	private boolean onTouchEventSafe(MotionEvent event) {
-		return super.onTouchEvent(event);
-	}
-
 	private boolean alterEventActionAndFireTouchEvent(MotionEvent event, int action) {
 		event.setAction(action);
-		return onTouchEventSafe(event);
+		return super.onTouchEvent(event);
 	}
 
 	private View findMotionView(int y) {
