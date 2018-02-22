@@ -750,6 +750,8 @@
     <string name="stops">경유 횟수</string>
     <!-- Header for a flight filter, showing a list of flights from different airlines -->
     <string name="airlines">항공사</string>
+    <!-- Header for a flight filter above the price on checked filters-->
+    <string name="price_label">가격</string>
 
     <!-- Pluralization for number of stops (layovers) on a given flight "2 stops" -->
     <plurals name="x_Stops_TEMPLATE">
@@ -786,6 +788,9 @@
     <string name="packages_trip_total_with_taxes_and_fees_TEMPLATE">{totalstring} {taxesandfeesstring}</string>
     <!-- Progress dialog text while creating a trip -->
     <string name="spinner_text_create_trip">여행 만드는 중…</string>
+    <!-- Error dialog title when there's a MID create trip error -->
+    <string name="server_error">서버 오류</string>
+
 
     <!-- Actionbar Title - "Checkout" -->
     <string name="Checkout">예약하기</string>
@@ -1166,8 +1171,6 @@
     <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;%1$s 도착&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
     <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;%1$s 출발&lt;/b&gt; - %2$s</string>
-    <!-- Itin sign out confirmation message -->
-    <string name="itin_sign_out_confirmation_message_TEMPLATE">%1$s에서 로그아웃하시면 이 계정과 연결된 모든 일정 항목이 삭제됩니다. 그래도 로그아웃하시겠어요?</string>
     <!-- Accessibility lable for flight overview summary e.g Delta Airlines 745 departs 11:32 AM and arrives 6:04 PM -->
     <string name="flight_overview_TEMPLATE_cont_desc">{airline}편이 {departureairport}에서 {departuretime}에 출발하고 {arrivalairport}에 {arrivaltime}에 도착합니다.</string>
     <!-- Directions -->
@@ -2070,8 +2073,18 @@
     <string name="you_are_a_valued_member">고객님은 저희 소중한 회원이십니다!</string>
     <!-- Shop as a {brand} member eg: Shop as an Expedia member! -->
     <string name="shop_as_a_member_TEMPLATE">{brand} 회원으로 예약!</string>
+    <!-- Launch screen 2x messaging signed-out title-->
+    <string name="launch_screen_sign_in_2x_title">로그인하고 다양한 혜택을 누리세요!</string>
+    <!-- Launch screen 2x messaging for signed-out subtitle-->
+    <string name="launch_screen_sign_in_2x_subtitle">회원가로 수천 개 호텔을 지금 즉시 평균 17% 이상 할인받으실 수 있어요. 게다가 앱에서는 모든 예약에서 포인트가 두 배로 적립됩니다!</string>
+    <!-- Launch screen 2x banner messaging for signed-in users -->
+    <string name="launch_screen_2x_banner">게다가 앱에서는 모든 예약에서 포인트가 두 배로 적립됩니다!</string>
+    <!-- Checkout sign in button for 2x messaging -->
+    <string name="checkout_sign_in_2x_messaging">로그인하고 포인트를 더블 적립하세요!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">이 여행에 대해 {reward_currency}포인트가 적립됩니다!</string>
+    <!-- Blurb text displayed on account sign in button when already signed in and has 2x earn messaging e.g. You'll earn 1234 points. That's double for booking in app!-->
+    <string name="earn_2x_rewards_currency_for_this_trip_TEMPLATE">고객님은 {reward_currency}포인트를 적립하시게 됩니다. 앱에서 예약하면 두 배로 적립돼요!</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_raised_the_total_price_TEMPLATE">죄송합니다. 호텔에서 이번 숙박의 총 요금을 %1$s에서 %2$s의 금액으로 올린 것 같습니다.</string>
     <!-- String to use when a price change alert should be shown to the user -->
@@ -2134,6 +2147,12 @@
     <string name="guest_details">숙박객 정보</string>
     <!-- Warning shown to users when they enter their name (Material design message) -->
     <string name="name_must_match_warning_new">여행객 이름은 정부가 발급한 사진이 부착된 신분증과 일치해야 합니다.</string>
+    <!-- For saved travelers button with saved traveler selected, eg Saved traveler, John Smith, button, opens traveler list-->
+    <string name="saved_traveler_button_content_description_TEMPLATE">저장된 여행객 {travelername} 버튼입니다. 여행객 목록을 엽니다.</string>
+    <!-- For saved travelers button without saved traveler, such as Add New Traveler or Select saved contacts, EG, Add New Traveler, button, opens traveler list -->
+    <string name="select_traveler_button_content_description_TEMPLATE">{buttontitle} 버튼입니다. 여행객 목록을 엽니다.</string>
+    <!-- Announced when saved traveler dropdown list is shown to user-->
+    <string name="traveler_list_opened">여행객 목록 열림</string>
 
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_country_code_dropdown_cont_desc">국가 코드</string>
@@ -3013,6 +3032,8 @@
     <string name="coupon_promo_title">쿠폰 및 프로모션</string>
     <!-- Title on dialog imploring users to enter coupons -->
     <string name="enter_coupon_code">쿠폰 코드 입력</string>
+    <!-- Coupon widget content description on Hotel Checkout Overview-->
+    <string name="coupon_widget_content_description">쿠폰 코드 입력 버튼</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">제출</string>
     <!-- Coupon apply button -->
@@ -3205,13 +3226,21 @@
         <item quantity="many">고령자 %d명</item>
         <item quantity="other">고령자 %d명</item>
     </plurals>
-    <!-- A number of guests. Capitalized -->
+    <!-- A number of guests. -->
     <plurals name="number_of_guests">
         <item quantity="zero">%d명</item>
         <item quantity="one">%d명</item>
         <item quantity="two">%d명</item>
         <item quantity="many">%d명</item>
         <item quantity="other">%d명</item>
+    </plurals>
+    <!-- A number of guests. Capitalized-->
+    <plurals name="number_of_guests_capitalized">
+        <item quantity="zero">%d명</item>
+        <item quantity="one">숙박객 %d명</item>
+        <item quantity="two">숙박객 %d명</item>
+        <item quantity="many">숙박객 %d명</item>
+        <item quantity="other">숙박객 %d명</item>
     </plurals>
     <!-- A number of guests (but not including the guest count). Capitalized -->
     <plurals name="number_of_guests_label">
@@ -3839,6 +3868,8 @@
     <string name="material_applied_coupon_subtitle_TEMPLATE">{name} (-{discount})</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
     <string name="coupon_error_dialog_title">쿠폰 적용 실패</string>
+    <!--Hotel V2 remove coupon button content description-->
+    <string name="remove_coupon_button_content_description">쿠폰 삭제</string>
     <string name="coupon_error_remove_dialog_title">쿠폰 삭제 실패</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">고객님 쿠폰에 문제가 있는 것 같습니다. 다시 입력해 보세요.</string>
@@ -4544,6 +4575,9 @@
     <!--Traveler widget child minus button content description-->
     <string name="remove_child_traveler_cont_desc">아동 1명 삭제</string>
 
+    <!--Recent search subtitle in the suggestions dropdown, e.g Jun 3 - Jun 4 1 Night 2 Guests -->
+    <string name="suggestion_search_info_dropdown_TEMPLATE">{startdate} \u2013 {enddate}\u0020 \u0020{nights}\u0020 \u0020{guests}</string>
+
     <!--Rail Traveler widget youth plus button content description-->
     <string name="rails_add_youth_traveler_cont_desc">청소년 1명 추가</string>
     <!--Rail Traveler widget youth minus button content description-->
@@ -4931,7 +4965,10 @@
         <item quantity="one">{no_of_days}일 후 혜택이 만료됩니다!</item>
         <item quantity="other">{no_of_days}일 후 혜택이 만료됩니다!</item>
     </plurals>
-
+    <!-- Shop hotels now-->
+    <string name="shop_hotels_now">지금 바로 호텔 검색</string>
+    <!--Up to 55% off-->
+    <string name="krazyglue_offer">최대 55% 할인</string>
     <!-- Showing the header for the coupon widget to show the saved coupon -->
     <string name="saved_coupon">저장된 쿠폰</string>
 
@@ -4961,4 +4998,7 @@
     <string name="lx_ticket_selected_summary_TEMPLATE">{ticket_summary} 선택됨</string>
     <!-- LX SRP activity price content description when price is discounted e.g. Regular Price per adult  $125. Discounted price per adult $100-->
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">{ticket_type} 일반 요금은 {activity_original_price}입니다. {ticket_type} 할인된 요금은 {activity_price}입니다.</string>
+    <string name="hotel_2x_points_search_title">Expedia+ 포인트 더블 적립!</string>
+    <string name="hotel_2x_points_search_content">앱에서 예약하시면 포인트가 두 배로 적립됩니다!</string>
+
 </resources>
