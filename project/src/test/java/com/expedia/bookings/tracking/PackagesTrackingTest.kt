@@ -665,11 +665,11 @@ class PackagesTrackingTest {
         pageUsableData.markAllViewsLoaded(10000)
         OmnitureTracking.trackMIDBookingConfirmationDialog("MERCHANT", pageUsableData)
 
-        val expectedEvars = mapOf(2 to "D=c2")
-        val expectedProductNoDateFirstHalf = ";RT:FLT+HOT;3;96.4;;eVar30=Merchant:PKG:"
+        val expectedEvars = mapOf(2 to "D=c2", 18 to "App.Package.Checkout.Confirmation.Slim")
+        val expectedProductNoDateFirstHalf = ";RT:FLT+HOT;3;eVar30=Merchant:PKG:"
         val expectedProductSecondHalf = ";Flight:000:RT;3;0.00;;"
         val expectedEvents = "purchase,event220,event221=0.00"
-        val appState = "App.Package.Checkout.Confirmation.Slim"
+        val appState = "App.Checkout.Confirmation.Slim"
         assertMIDConfirmationTracking(appState, expectedEvars, emptyMap<Int, String>(), expectedProductNoDateFirstHalf, expectedProductSecondHalf, expectedEvents)
     }
 

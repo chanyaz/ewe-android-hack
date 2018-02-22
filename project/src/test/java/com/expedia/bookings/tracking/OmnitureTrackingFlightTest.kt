@@ -94,7 +94,7 @@ class OmnitureTrackingFlightTest {
         val expectedProducts = ";Flight:null:OW;2;223.00;;eVar30=Merchant:FLT:SFO-DTW"
         val expectedEvents = "purchase,event220,event221=0.00"
 
-        val appState = "App.Flight.Checkout.Confirmation.Slim"
+        val appState = "App.Checkout.Confirmation.Slim"
         assertWebFlightConfirmationStateTracked(appState, expectedEvars, expectedProps, expectedProducts, expectedEvents)
     }
 
