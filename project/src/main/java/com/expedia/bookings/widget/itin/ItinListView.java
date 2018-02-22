@@ -301,7 +301,6 @@ public class ItinListView extends ListView implements OnItemClickListener {
 		showDetails(mAdapter.getPosition(id));
 	}
 
-	@SuppressWarnings("unchecked")
 	private void showDetails(final int position) {
 		// Invalid index
 		if (position < 0 || position >= mAdapter.getCount()) {
