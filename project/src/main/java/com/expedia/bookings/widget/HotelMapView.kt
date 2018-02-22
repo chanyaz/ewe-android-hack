@@ -120,6 +120,8 @@ class HotelMapView(context: Context, attrs: AttributeSet) : RelativeLayout(conte
     override fun onMapReady(map: GoogleMap) {
         MapsInitializer.initialize(context)
         googleMap = map
+        googleMap?.isIndoorEnabled = false
+        googleMap?.uiSettings?.isTiltGesturesEnabled = false
         googleMap?.uiSettings?.isMapToolbarEnabled = false
         googleMap?.uiSettings?.isZoomControlsEnabled = false
         googleMap?.mapType = GoogleMap.MAP_TYPE_NONE

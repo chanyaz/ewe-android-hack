@@ -74,6 +74,9 @@ class HotelResultsMapWidget(context: Context, attrs: AttributeSet?) : FrameLayou
     override fun onMapReady(googleMap: GoogleMap?) {
         MapsInitializer.initialize(context)
         this.googleMap = googleMap
+        googleMap?.isIndoorEnabled = false
+        googleMap?.uiSettings?.isTiltGesturesEnabled = false
+
         initMapClusterManagement()
         initMapListeners()
         initMapSettings()
