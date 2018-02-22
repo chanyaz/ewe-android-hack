@@ -72,7 +72,6 @@ public class ItinListView extends ListView implements OnItemClickListener {
 
 		setAdapter(mAdapter);
 		setOnItemClickListener(null);
-		setOnScrollListener(null);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
