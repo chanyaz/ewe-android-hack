@@ -56,7 +56,7 @@ public class ItinListView extends ListView implements OnItemClickListener {
 	private View mLastChild = null;
 	private boolean mWasChildConsumedTouch = false;
 
-	private boolean mScrollToReleventOnDataSetChange;
+	private boolean mScrollToRelevantOnDataSetChange;
 
 	private int mLastItemCount = 0;
 
@@ -95,7 +95,7 @@ public class ItinListView extends ListView implements OnItemClickListener {
 	public Parcelable onSaveInstanceState() {
 		Bundle bundle = new Bundle();
 		bundle.putParcelable(STATE_DEFAULT_SAVESTATE, super.onSaveInstanceState());
-		bundle.putBoolean(STATE_DO_AUTOSCROLL, mScrollToReleventOnDataSetChange);
+		bundle.putBoolean(STATE_DO_AUTOSCROLL, mScrollToRelevantOnDataSetChange);
 		bundle.putInt(STATE_LAST_ITEM_COUNT, mLastItemCount);
 		return bundle;
 	}
@@ -105,7 +105,7 @@ public class ItinListView extends ListView implements OnItemClickListener {
 		if (state instanceof Bundle && ((Bundle) state).containsKey(STATE_DEFAULT_SAVESTATE)) {
 			Bundle bundle = (Bundle) state;
 			super.onRestoreInstanceState(bundle.getParcelable(STATE_DEFAULT_SAVESTATE));
-			mScrollToReleventOnDataSetChange = bundle.getBoolean(STATE_DO_AUTOSCROLL, true);
+			mScrollToRelevantOnDataSetChange = bundle.getBoolean(STATE_DO_AUTOSCROLL, true);
 			mLastItemCount = bundle.getInt(STATE_LAST_ITEM_COUNT, 0);
 		}
 		else {
@@ -271,7 +271,7 @@ public class ItinListView extends ListView implements OnItemClickListener {
 	 * if the previous data set contained 0 items. So when we first load up itins, scroll to our good position, otherwise dont
 	 */
 	public void enableScrollToRevelentWhenDataSetChanged() {
-		mScrollToReleventOnDataSetChange = true;
+		mScrollToRelevantOnDataSetChange = true;
 	}
 
 	public ItinCardData getItinCardData(int position) {
@@ -421,9 +421,9 @@ public class ItinListView extends ListView implements OnItemClickListener {
 	};
 
 	private void onDataSetChanged() {
-		if (mScrollToReleventOnDataSetChange || mLastItemCount <= 0) {
+		if (mScrollToRelevantOnDataSetChange || mLastItemCount <= 0) {
 			if (scrollToMostRelevantCard() >= 0) {
-				mScrollToReleventOnDataSetChange = false;
+				mScrollToRelevantOnDataSetChange = false;
 			}
 		}
 
