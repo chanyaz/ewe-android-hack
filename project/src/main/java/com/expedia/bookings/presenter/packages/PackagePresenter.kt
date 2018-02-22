@@ -497,6 +497,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
 
             override fun onError(e: Throwable) {
                 Log.d("Error fetching itin:" + e.stackTrace)
+                OmnitureTracking.trackMIDBookingConfirmationDialog(Db.sharedInstance.packageSelectedRoom.supplierType, pageUsableData)
                 bookingSuccessDialog.show()
             }
         }

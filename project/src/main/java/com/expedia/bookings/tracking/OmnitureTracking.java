@@ -1,26 +1,5 @@
 package com.expedia.bookings.tracking;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.math.BigDecimal;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import org.jetbrains.annotations.NotNull;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
-
 import android.Manifest;
 import android.app.Activity;
 import android.app.Application;
@@ -121,6 +100,27 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
+
+import org.jetbrains.annotations.NotNull;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.math.BigDecimal;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import kotlin.NotImplementedError;
 
@@ -350,7 +350,7 @@ public class OmnitureTracking {
 						airportCodes.first, airportCodes.second, takeoffDateStrings.first);
 			}
 		} else {
-			products = getFlightProductString(true);
+		    products = getFlightProductString(true);
 		}
 		s.setProducts(products);
 		// miscellaneous variables
@@ -377,7 +377,16 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-    public enum OmnitureEventName {
+	public static void trackMIDBookingConfirmationDialog(String hotelSupplierType, PageUsableData pageUsableData) {
+		Log.d(TAG, "Tracking \"" + MID_BOOKING_CONFIRMATION_DIALOG + "\" pageLoad");
+		ADMS_Measurement s = createTrackPackagePageLoadEventBase(PACKAGES_CHECKOUT_PAYMENT_CONFIRMATION, null);
+		setPackageProducts(s, null, true, true, hotelSupplierType);
+		s.setEvents("purchase");
+		addPageLoadTimeTrackingEvents(s, pageUsableData);
+		s.track();
+	}
+
+	public enum OmnitureEventName {
 		REWARD_PROGRAM_NAME,
 		HOTEL_CHECKOUT_START_REWARDS_REDEEMABLE,
 		REWARD_APPLIED_PERCENTAGE_TEMPLATE,
@@ -4345,6 +4354,8 @@ public class OmnitureTracking {
 	private static final String PACKAGES_CHECKOUT_PAYMENT_EDIT = "App.Package.Checkout.Payment.Edit.Card";
 	private static final String PACKAGES_CHECKOUT_PAYMENT_SELECT_STORED_CC = "App.Package.CKO.Payment.StoredCard";
 	private static final String PACKAGES_CHECKOUT_PAYMENT_CONFIRMATION = "App.Package.Checkout.Confirmation";
+	private static final String MID_BOOKING_CONFIRMATION_DIALOG = "App.Package.Checkout.Confirmation.SLIM";
+
 	private static final String PACKAGES_ENTER_CARD = "App.Package.CKO.Payment.EnterManually";
 
 	private static final String PACKAGES_HOTEL_RT_OUT_RESULTS = "App.Package.Flight.Search.Roundtrip.Out";
@@ -4440,7 +4451,7 @@ public class OmnitureTracking {
 		setPackageProducts(s, productPrice, addEvar63, false, hotelSupplierType);
 	}
 
-	private static void setPackageProducts(ADMS_Measurement s, double productPrice, boolean addEvarInventory,
+	private static void setPackageProducts(ADMS_Measurement s, Double productPrice, boolean addEvarInventory,
 		boolean isConfirmation, String hotelSupplierType) {
 		StringBuilder productString = new StringBuilder();
 		/*
@@ -4452,7 +4463,10 @@ public class OmnitureTracking {
 		productString.append(";RT:FLT+HOT;");
 
 		int numTravelers = Db.sharedInstance.getPackageParams().getAdults() + Db.sharedInstance.getPackageParams().getNumberOfSeatedChildren();
-		productString.append(numTravelers + ";" + productPrice + ";;");
+		productString.append(numTravelers + ";");
+		if (productPrice != null) {
+			productString.append(productPrice + ";;");
+		}
 
 		String eVarNumber = isConfirmation ? "eVar30" : "eVar63";
 		String flightInventoryType =

@@ -649,15 +649,36 @@ class PackagesTrackingTest {
         val expectedProductNoDateFirstHalf = ";RT:FLT+HOT;3;96.4;;eVar30=Merchant:PKG:"
         val expectedProductSecondHalf = ";Flight:000:RT;3;0.00;;"
         val expectedEvents = "purchase,event220,event221=0.00"
-        assertMIDConfirmationTracking(expectedEvars, expectedProps, expectedProductNoDateFirstHalf, expectedProductSecondHalf, expectedEvents)
+        val appState = "App.Package.Checkout.Confirmation"
+        assertMIDConfirmationTracking(appState, expectedEvars, expectedProps, expectedProductNoDateFirstHalf, expectedProductSecondHalf, expectedEvents)
     }
 
-    private fun assertMIDConfirmationTracking(expectedEvars: Map<Int, String>, expectedProps: Map<Int, String>, expectedProductNoDateFirstHalf: String, expectedProductSecondHalf: String, expectedEvents: String) {
-        OmnitureTestUtils.assertStateTracked("App.Package.Checkout.Confirmation", OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
-        OmnitureTestUtils.assertStateTracked("App.Package.Checkout.Confirmation", OmnitureMatchers.withProps(expectedProps), mockAnalyticsProvider)
-        OmnitureTestUtils.assertStateTracked("App.Package.Checkout.Confirmation", OmnitureMatchers.withProductsString(expectedProductNoDateFirstHalf, shouldExactlyMatch = false), mockAnalyticsProvider)
-        OmnitureTestUtils.assertStateTracked("App.Package.Checkout.Confirmation", OmnitureMatchers.withProductsString(expectedProductSecondHalf, shouldExactlyMatch = false), mockAnalyticsProvider)
-        OmnitureTestUtils.assertStateTracked("App.Package.Checkout.Confirmation", OmnitureMatchers.withEventsString(expectedEvents), mockAnalyticsProvider)
+    @Test
+    fun testTrackMIDBookingConfirmationDialog() {
+
+        Db.setPackageParams(getDummyPackageSearchParams())
+        Db.setPackageSelectedOutboundFlight(PackageTestUtil.getPackageSelectedOutboundFlight())
+        PackageTestUtil.setDbPackageSelectedHotel()
+
+        val pageUsableData = PageUsableData()
+        pageUsableData.markPageLoadStarted(10000)
+        pageUsableData.markAllViewsLoaded(10000)
+        OmnitureTracking.trackMIDBookingConfirmationDialog("MERCHANT", pageUsableData)
+
+        val expectedEvars = mapOf(2 to "D=c2")
+        val expectedProductNoDateFirstHalf = ";RT:FLT+HOT;3;96.4;;eVar30=Merchant:PKG:"
+        val expectedProductSecondHalf = ";Flight:000:RT;3;0.00;;"
+        val expectedEvents = "purchase,event220,event221=0.00"
+        val appState = "App.Package.Checkout.Confirmation.Slim"
+        assertMIDConfirmationTracking(appState, expectedEvars, emptyMap<Int, String>(), expectedProductNoDateFirstHalf, expectedProductSecondHalf, expectedEvents)
+    }
+
+    private fun assertMIDConfirmationTracking(appState: String, expectedEvars: Map<Int, String>, expectedProps: Map<Int, String>, expectedProductNoDateFirstHalf: String, expectedProductSecondHalf: String, expectedEvents: String) {
+        OmnitureTestUtils.assertStateTracked(appState, OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked(appState, OmnitureMatchers.withProps(expectedProps), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked(appState, OmnitureMatchers.withProductsString(expectedProductNoDateFirstHalf, shouldExactlyMatch = false), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked(appState, OmnitureMatchers.withProductsString(expectedProductSecondHalf, shouldExactlyMatch = false), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked(appState, OmnitureMatchers.withEventsString(expectedEvents), mockAnalyticsProvider)
     }
 
     private fun getDummyPackageSearchParams(): PackageSearchParams {
