@@ -73,7 +73,29 @@ class OmnitureTrackingFlightTest {
                 72 to "111111")
         val expectedProducts = ";Flight:null:OW;2;223.00;;eVar30=Merchant:FLT:SFO-DTW"
         val expectedEvents = "purchase,event220,event221=0.00"
-        assertWebFlightConfirmationStateTracked(expectedEvars, expectedProps, expectedProducts, expectedEvents)
+
+        val appState = "App.Flight.Checkout.Confirmation"
+        assertWebFlightConfirmationStateTracked(appState, expectedEvars, expectedProps, expectedProducts, expectedEvents)
+    }
+
+    @Test
+    fun testTrackBookingConfirmationDialog() {
+        val pageUsableData = PageUsableData()
+        pageUsableData.markPageLoadStarted(10000)
+        pageUsableData.markAllViewsLoaded(10000)
+        OmnitureTracking.trackFlightsBookingConfirmationDialog(pageUsableData)
+        val expectedEvars = mapOf(18 to "App.Flight.Checkout.Confirmation.Slim",
+                50 to "app.phone.android")
+        val expectedProps = mapOf(2 to "Flight",
+                3 to "SFO",
+                4 to "DTW",
+                8 to "5678|1234",
+                71 to "5678")
+        val expectedProducts = ";Flight:null:OW;2;223.00;;eVar30=Merchant:FLT:SFO-DTW"
+        val expectedEvents = "purchase,event220,event221=0.00"
+
+        val appState = "App.Flight.Checkout.Confirmation.Slim"
+        assertWebFlightConfirmationStateTracked(appState, expectedEvars, expectedProps, expectedProducts, expectedEvents)
     }
 
     @Test
@@ -101,11 +123,11 @@ class OmnitureTrackingFlightTest {
         Db.getTripBucket().add(flightTripItem)
     }
 
-    private fun assertWebFlightConfirmationStateTracked(expectedEvars: Map<Int, String>, expectedProps: Map<Int, String>, expectedProducts: String, expectedEvents: String) {
-        OmnitureTestUtils.assertStateTracked("App.Flight.Checkout.Confirmation", OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
-        OmnitureTestUtils.assertStateTracked("App.Flight.Checkout.Confirmation", OmnitureMatchers.withProps(expectedProps), mockAnalyticsProvider)
-        OmnitureTestUtils.assertStateTracked("App.Flight.Checkout.Confirmation", OmnitureMatchers.withProductsString(expectedProducts, shouldExactlyMatch = false), mockAnalyticsProvider)
-        OmnitureTestUtils.assertStateTracked("App.Flight.Checkout.Confirmation", OmnitureMatchers.withEventsString(expectedEvents), mockAnalyticsProvider)
+    private fun assertWebFlightConfirmationStateTracked(appState: String, expectedEvars: Map<Int, String>, expectedProps: Map<Int, String>, expectedProducts: String, expectedEvents: String) {
+        OmnitureTestUtils.assertStateTracked(appState, OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked(appState, OmnitureMatchers.withProps(expectedProps), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked(appState, OmnitureMatchers.withProductsString(expectedProducts, shouldExactlyMatch = false), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked(appState, OmnitureMatchers.withEventsString(expectedEvents), mockAnalyticsProvider)
     }
 
     private fun getCheckoutResponseWithOnlyAggregatedResponseDetails(numberOfTickets: String): FlightCheckoutResponse {

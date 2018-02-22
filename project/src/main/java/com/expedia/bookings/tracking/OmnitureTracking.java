@@ -326,7 +326,58 @@ public class OmnitureTracking {
 		trackKrazyglueError("FailToLoad");
 	}
 
-	public enum OmnitureEventName {
+	public static void trackFlightsBookingConfirmationDialog(PageUsableData pageUsableData) {
+		String pageName = FLIGHT_CONFIRMATION_BOOKING_DIALOG;
+		Log.d(TAG, "Tracking \"" + pageName + "\" page load...");
+
+		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
+
+		// events
+		s.setEvents("purchase");
+		boolean isSplitTicket = getFlightItineraryType().equals(FlightItineraryType.SPLIT_TICKET);
+
+		// products
+		Pair<String, String> airportCodes = getFlightSearchDepartureAndArrivalAirportCodes();
+		Pair<String, String> takeoffDateStrings = getFlightSearchDepartureAndReturnDateStrings();
+		String products;
+		if (!isSplitTicket) {
+			if (takeoffDateStrings.second != null) {
+				products = String.format(Locale.ENGLISH, "%s:%s-%s:%s-%s", getFlightProductString(true),
+						airportCodes.first, airportCodes.second, takeoffDateStrings.first,
+						takeoffDateStrings.second);
+			} else {
+				products = String.format(Locale.ENGLISH, "%s:%s-%s:%s%s", getFlightProductString(true),
+						airportCodes.first, airportCodes.second, takeoffDateStrings.first);
+			}
+		} else {
+			products = getFlightProductString(true);
+		}
+		s.setProducts(products);
+		// miscellaneous variables
+		s.setEvar(2, "D=c2");
+		s.setProp(2, "Flight");
+		s.setEvar(3, "D=c3");
+		s.setProp(3, airportCodes.first);
+		s.setEvar(4, "D=c4");
+		s.setProp(4, airportCodes.second);
+		s.setEvar(18, pageName);
+
+		// date variables 5, 6
+		Pair<LocalDate, LocalDate> takeoffDates = getFlightSearchDepartureAndReturnDates();
+		setDateValues(s, takeoffDates.first, takeoffDates.second);
+
+		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
+		s.setCurrencyCode(trip.totalPrice.currencyCode);
+		s.setProp(71, trip.getNewTrip().getTravelRecordLocator());
+		s.setProp(8, getFlightConfirmationTripNumberStringFromCreateTripResponse());
+		addPageLoadTimeTrackingEvents(s, pageUsableData);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsKrazyglue);
+
+		s.track();
+	}
+
+    public enum OmnitureEventName {
 		REWARD_PROGRAM_NAME,
 		HOTEL_CHECKOUT_START_REWARDS_REDEEMABLE,
 		REWARD_APPLIED_PERCENTAGE_TEMPLATE,
@@ -1656,6 +1707,8 @@ public class OmnitureTracking {
 	private static final String FLIGHT_CHECKOUT_PAYMENT_EDIT_CARD = "App.Flight.Checkout.Payment.Edit.Card";
 	private static final String FLIGHT_CHECKOUT_SLIDE_TO_PURCHASE = "App.Flight.Checkout.SlideToPurchase";
 	private static final String FLIGHT_CHECKOUT_CONFIRMATION = "App.Flight.Checkout.Confirmation";
+	private static final String FLIGHT_CONFIRMATION_BOOKING_DIALOG = "App.Flight.Checkout.Confirmation.Slim";
+
 
 	private static final String FLIGHT_SEARCH_ONE_WAY_DETAILS = "App.Flight.Search.OneWay.Details";
 	private static final String FLIGHT_SEARCH_ONE_WAY_BAGGAGE_FEE = "App.Flight.Search.OneWay.BaggageFee";
