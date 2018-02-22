@@ -188,7 +188,7 @@ public class ItinListView extends ListView implements OnItemClickListener {
 
 		if (isTouchDown) {
 			if (isChildConsumedTouch) {
-				sendEventToView(childEvent, child);
+				child.dispatchTouchEvent(childEvent);
 				mLastChild = child;
 			}
 			else {
@@ -223,7 +223,7 @@ public class ItinListView extends ListView implements OnItemClickListener {
 		else {
 			if (isChildConsumedTouch && mWasChildConsumedTouch) {
 				if (child == mLastChild) {
-					sendEventToView(childEvent, child);
+					child.dispatchTouchEvent(childEvent);
 				}
 				else {
 					alterEventActionAndSendToView(downChildEvent, MotionEvent.ACTION_CANCEL, mLastChild);
@@ -297,13 +297,9 @@ public class ItinListView extends ListView implements OnItemClickListener {
 
 	//Touch Helpers
 
-	private boolean sendEventToView(MotionEvent event, View view) {
-		return view.dispatchTouchEvent(event);
-	}
-
 	private boolean alterEventActionAndSendToView(MotionEvent event, int action, View view) {
 		event.setAction(action);
-		return sendEventToView(event, view);
+		return view.dispatchTouchEvent(event);
 	}
 
 	private boolean alterEventActionAndFireTouchEvent(MotionEvent event, int action) {
