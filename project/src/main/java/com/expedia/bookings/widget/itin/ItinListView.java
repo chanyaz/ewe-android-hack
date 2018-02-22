@@ -43,7 +43,6 @@ public class ItinListView extends ListView implements OnItemClickListener {
 	private static final String STATE_DO_AUTOSCROLL = "STATE_DO_AUTOSCROLL";
 	private static final String STATE_DEFAULT_SAVESTATE = "STATE_DEFAULT_SAVESTATE";
 	private static final String STATE_LAST_ITEM_COUNT = "STATE_LAST_ITEM_COUNT";
-	private static final String STATE_SELECTED_CARD_ID = "STATE_SELECTED_CARD_ID";
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
