@@ -324,7 +324,7 @@ public class ItinListView extends ListView implements OnItemClickListener {
 	}
 
 	/**
-	 * Asks the adapter for the most relevent card and scrolls to it.
+	 * fAsks the adapter for the most relevant card and scrolls to it.
 	 * @return the position scrolled to ( < 0 if invalid )
 	 */
 	private int scrollToMostRelevantCard() {
