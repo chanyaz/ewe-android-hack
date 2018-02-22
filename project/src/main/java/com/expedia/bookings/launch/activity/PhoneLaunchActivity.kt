@@ -65,7 +65,6 @@ import com.expedia.bookings.utils.isBrandColorEnabled
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.setContentDescriptionToolbarTabs
 import com.expedia.bookings.widget.DisableableViewPager
-import com.expedia.bookings.widget.itin.ItinListView
 import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.ui.AbstractAppCompatActivity
 import com.expedia.util.PackageUtil
