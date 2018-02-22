@@ -262,7 +262,7 @@ public class ItinListView extends ListView implements OnItemClickListener {
 	 * Calling this function will cause the list to be scrolled to the most relevant position the next time the data set changes
 	 * if the previous data set contained 0 items. So when we first load up itins, scroll to our good position, otherwise dont
 	 */
-	public void enableScrollToRevelentWhenDataSetChanged() {
+	public void enableScrollToRelevantWhenDataSetChanged() {
 		mScrollToRelevantOnDataSetChange = true;
 	}
 

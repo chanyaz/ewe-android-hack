@@ -347,7 +347,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			setIsLoading(syncing);
 			if (syncing && (showLoading || getItinCardCount() <= 0 || mNumberOfItinCardsOfGuestUser > 0)) {
 				setIsLoading(true);
-				mItinListView.enableScrollToRevelentWhenDataSetChanged();
+				mItinListView.enableScrollToRelevantWhenDataSetChanged();
 			}
 			else {
 				invalidateOptionsMenu();
