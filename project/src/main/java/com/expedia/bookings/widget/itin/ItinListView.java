@@ -12,7 +12,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -29,16 +28,11 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.itin.activity.FlightItinDetailsActivity;
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity;
 import com.expedia.bookings.itin.activity.LegacyItinCardDataActivity;
-import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayout;
 import com.mobiata.android.Log;
 
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.concurrent.Semaphore;
-
 @SuppressWarnings("rawtypes")
-public class ItinListView extends ListView implements OnItemClickListener, OnScrollListener {
+public class ItinListView extends ListView implements OnItemClickListener {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// INTERFACES
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -63,18 +57,13 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	private ItinCardDataAdapter mAdapter;
 
 	private OnItemClickListener mOnItemClickListener;
-	private OnScrollListener mOnScrollListener;
 
 	private View mLastChild = null;
 	private boolean mWasChildConsumedTouch = false;
 
-	private int mScrollState = SCROLL_STATE_IDLE;
 	private boolean mScrollToReleventOnDataSetChange;
 
 	private int mLastItemCount = 0;
-
-	private Semaphore mModeSwitchSemaphore = new Semaphore(1);
-	Queue<Runnable> mUiQueue = new LinkedList<Runnable>();
 
 	private FooterView mFooterView;
 
@@ -155,12 +144,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	public void setOnItemClickListener(OnItemClickListener listener) {
 		mOnItemClickListener = listener;
 		super.setOnItemClickListener(this);
-	}
-
-	@Override
-	public void setOnScrollListener(OnScrollListener listener) {
-		mOnScrollListener = listener;
-		super.setOnScrollListener(this);
 	}
 
 	// Touch overrides
@@ -280,17 +263,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
-		if (mScrollState == SCROLL_STATE_IDLE) {
-			return onTouchEvent(ev);
-		}
-
-		return super.onInterceptTouchEvent(ev);
-	}
-
-	@Override
-	public void onDraw(Canvas canvas) {
-		//Draw the views
-		super.onDraw(canvas);
+		return onTouchEvent(ev);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -334,14 +307,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	}
 
 	private boolean onTouchEventSafe(MotionEvent event) {
-		try {
-			//This sometimes throws ArrayIndexOutOfBounds on 2.x. when we are fast scrolling. Cause unclear.
-			return super.onTouchEvent(event);
-		}
-		catch (ArrayIndexOutOfBoundsException ex) {
-			Log.w("ArrayIndexOutOfBoundsException in ItinListView.onTouchEvent()", ex);
-		}
-		return false;
+		return super.onTouchEvent(event);
 	}
 
 	private boolean alterEventActionAndFireTouchEvent(MotionEvent event, int action) {
@@ -465,26 +431,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		context.startActivity(builder.getIntent());
 	}
 
-	@Override
-	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-		for (int i = 0; i < visibleItemCount; i++) {
-			getChildAt(i).invalidate();
-		}
-
-		if (mOnScrollListener != null) {
-			mOnScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
-		}
-	}
-
-	@Override
-	public void onScrollStateChanged(AbsListView view, int scrollState) {
-		mScrollState = scrollState;
-
-		if (mOnScrollListener != null) {
-			mOnScrollListener.onScrollStateChanged(view, scrollState);
-		}
-	}
-
 	//////////////////////////////////////////////////////////////////////////////////////
 	// INNER CLASS INSTANCES
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -496,20 +442,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	};
 
 	private void onDataSetChanged() {
-
-		if (!mModeSwitchSemaphore.tryAcquire()) {
-			mUiQueue.add(new Runnable() {
-				public void run() {
-					onDataSetChanged();
-				}
-			});
-			return;
-		}
-
-		synchronizedOnDataSetChanged();
-	}
-
-	private void synchronizedOnDataSetChanged() {
 		if (mScrollToReleventOnDataSetChange || mLastItemCount <= 0) {
 			if (scrollToMostRelevantCard() >= 0) {
 				mScrollToReleventOnDataSetChange = false;
@@ -517,29 +449,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		}
 
 		mLastItemCount = mAdapter.getCount();
-
-		// Draw the background line
-		// We want our background line to be refreshed, but not until after
-		// the list draws, 250 will usually be the right amount of time to delay.
-		// This isn't a great solution, but the line is totally non-critical.
-		postDelayed(new Runnable() {
-			public void run() {
-				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
-			}
-		}, 250);
-
-		releaseSemaphore();
-	}
-
-	private void releaseSemaphore() {
-		mModeSwitchSemaphore.release();
-		Ui.runOnNextLayout(this, new Runnable() {
-			public void run() {
-				if (!mUiQueue.isEmpty()) {
-					mUiQueue.poll().run();
-				}
-			}
-		});
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
