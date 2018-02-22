@@ -185,13 +185,6 @@
         <attr name="layoutContentPadding" format="dimension" />
     </declare-styleable>
 
-    <declare-styleable name="FruitList">
-        <attr name="headerSpacerColor" format="reference|color" />
-        <attr name="footerSpacerColor" format="reference|color" />
-        <attr name="headerSpacePercentage" format="fraction" />
-        <attr name="headerSpaceSize" format="dimension|reference" />
-    </declare-styleable>
-
     <declare-styleable name="ContactDetailsCompleteness">
         <attr name="state">
             <enum name="begin" value="0" />
