@@ -2,7 +2,6 @@ package com.expedia.bookings.widget.itin;
 
 import android.content.Context;
 import android.database.DataSetObserver;
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -10,15 +9,12 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
-import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataAdapter;
@@ -28,7 +24,6 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.itin.activity.FlightItinDetailsActivity;
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity;
 import com.expedia.bookings.itin.activity.LegacyItinCardDataActivity;
-import com.expedia.bookings.widget.FrameLayout;
 import com.mobiata.android.Log;
 
 @SuppressWarnings("rawtypes")
@@ -65,8 +60,6 @@ public class ItinListView extends ListView implements OnItemClickListener {
 
 	private int mLastItemCount = 0;
 
-	private FooterView mFooterView;
-
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -84,12 +77,6 @@ public class ItinListView extends ListView implements OnItemClickListener {
 
 		mAdapter = new ItinCardDataAdapter(context);
 		mAdapter.syncWithManager();
-
-		// We have a footer view taking up blank space presumably so that the last card
-		// in the list has room to expand smoothly. We'll increase its height upon showDetails()
-		// and decrease its height back to 0 upon hideDetails().
-		mFooterView = new FooterView(context);
-		addFooterView(mFooterView);
 
 		setAdapter(mAdapter);
 		setOnItemClickListener(null);
@@ -441,39 +428,5 @@ public class ItinListView extends ListView implements OnItemClickListener {
 		}
 
 		mLastItemCount = mAdapter.getCount();
-	}
-
-	//////////////////////////////////////////////////////////////////////////////////////
-	// INNER CLASSES
-	//////////////////////////////////////////////////////////////////////////////////////
-
-	private class FooterView extends FrameLayout {
-		private boolean mHasDrawn = false;
-		private View mStretchyView;
-
-		public FooterView(Context context) {
-			super(context);
-			AbsListView.LayoutParams params = new AbsListView.LayoutParams(
-					LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-			setLayoutParams(params);
-			setFocusable(true);
-
-			mStretchyView = new View(context);
-			mStretchyView.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, 0));
-			addView(mStretchyView);
-		}
-
-		public void setHeight(int height) {
-			ResizeAnimator.setHeight(mStretchyView, height);
-			mHasDrawn = false;
-		}
-
-		@Override
-		protected void onDraw(Canvas canvas) {
-			super.onDraw(canvas);
-			if (!mHasDrawn) {
-				mHasDrawn = true;
-			}
-		}
 	}
 }
