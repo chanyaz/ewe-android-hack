@@ -276,14 +276,14 @@ public class ItinListView extends ListView implements OnItemClickListener {
 
 	//Touch Helpers
 
-	private boolean alterEventActionAndSendToView(MotionEvent event, int action, View view) {
+	private void alterEventActionAndSendToView(MotionEvent event, int action, View view) {
 		event.setAction(action);
-		return view.dispatchTouchEvent(event);
+		view.dispatchTouchEvent(event);
 	}
 
-	private boolean alterEventActionAndFireTouchEvent(MotionEvent event, int action) {
+	private void alterEventActionAndFireTouchEvent(MotionEvent event, int action) {
 		event.setAction(action);
-		return super.onTouchEvent(event);
+		super.onTouchEvent(event);
 	}
 
 	private View findMotionView(int y) {
