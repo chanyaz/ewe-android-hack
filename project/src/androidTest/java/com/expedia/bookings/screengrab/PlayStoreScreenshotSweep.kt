@@ -49,6 +49,7 @@ import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen
 import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen
 import com.expedia.bookings.test.pagemodels.hotels.HotelSortAndFilterScreen
 import com.expedia.bookings.utils.Ui
+import com.expedia.util.PackageUtil
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.joda.time.LocalDate
@@ -112,6 +113,7 @@ class PlayStoreScreenshotSweep {
         val hotelSearchCriteria = hotelSearchCriteriaForLocale[LocaleUtil.getTestLocale()]
         val flightSearchCriteria = flightSearchCriteriaForLocale[LocaleUtil.getTestLocale()]
         val lxSearchCriteria = lxSearchCriteriaForLocale[LocaleUtil.getTestLocale()]
+        val packageSearchCriteria = packageSearchCriteriaForLocal[LocaleUtil.getTestLocale()]
 
         try {
             waitForLaunchScreenReady()
@@ -134,6 +136,10 @@ class PlayStoreScreenshotSweep {
 
             if (lxSearchCriteria != null) {
                 takeLxScreenshotAndReturnToLaunchScreen(lxSearchCriteria)
+            }
+
+            if (packageSearchCriteria != null) {
+                takePackagesScreenshotReturnToLaunch(packageSearchCriteria)
             }
 
             //Use this for mock itins
@@ -284,6 +290,39 @@ class PlayStoreScreenshotSweep {
         Common.delay(1)
     }
 
+    private fun takePackagesScreenshotReturnToLaunch(packageSearchCriteria: PackageSearchCriteria) {
+        val packagesTitle = PackageUtil.packageTitle(activityRule.activity)
+        onView(allOf(withText(packagesTitle), isCompletelyDisplayed())).perform(click())
+
+        SearchScreen.origin().perform(click())
+        SearchScreen.searchEditText().perform(typeText(packageSearchCriteria.origin))
+        Common.delay(2)
+        SearchScreen.suggestionList().perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+
+        Common.delay(1)
+        SearchScreen.searchEditText().perform(typeText(packageSearchCriteria.destination))
+        Common.delay(2)
+        SearchScreen.suggestionList().perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+        Common.delay(1)
+
+        val startDate = LocalDate.now().plusDays(90)
+        val endDate = startDate.plusDays(5)
+        SearchScreen.selectDates(startDate, endDate)
+        SearchScreen.searchButton().perform(click())
+        Common.delay(3)
+
+        waitForHotelResultsToLoad()
+        HotelResultsScreen.hotelResultsList().perform(tinySwipeDown())
+
+        Screengrab.screenshot("hotel_results")
+
+        Espresso.pressBack()
+        Espresso.pressBack()
+        Espresso.pressBack()
+
+        Common.delay(1)
+    }
+
     private fun waitForHotelResultsToLoad() {
         HotelResultsScreen.waitForResultsLoaded(30)
         Common.delay(3)
@@ -337,6 +376,7 @@ class PlayStoreScreenshotSweep {
         private val lxSearchCriteriaForLocale = HashMap<Locale, LocationSearchCriteria>()
         private val flightSearchCriteriaForLocale = HashMap<Locale, FlightSearchCriteria>()
         private val pointOfSaleForLocale = HashMap<Locale, PointOfSaleId>()
+        private val packageSearchCriteriaForLocal = HashMap<Locale, PackageSearchCriteria>()
 
         private val ARGENTINA = Locale("es", "AR")
         private val AUSTRALIA = Locale("en", "AU")
@@ -415,9 +455,12 @@ class PlayStoreScreenshotSweep {
             val LasVegasHotel = "The Venetian"
             val LondonHotel = "The Ampersand Hotel"
             val BangkokHotel = "Siam@Siam Design Hotel Bangkok"
-            val searchLasVegas = HotelSearchCriteria("Las Vegas, NV", LasVegasHotel)
-            val searchBangkok = HotelSearchCriteria("Bangkok, Thailand", BangkokHotel)
-            val searchLondonEngland = HotelSearchCriteria("London, England", LondonHotel)
+            val lasVegasCity = "Las Vegas, NV"
+            val bangkokCity = "Bangkok, Thailand"
+            val londonCity = "London, England"
+            val searchLasVegas = HotelSearchCriteria(lasVegasCity, LasVegasHotel)
+            val searchBangkok = HotelSearchCriteria(bangkokCity, BangkokHotel)
+            val searchLondonEngland = HotelSearchCriteria(londonCity, LondonHotel)
             val searchLondon = HotelSearchCriteria("London", LondonHotel)
 
             hotelSearchCriteriaForLocale.put(ARGENTINA, searchLasVegas)
@@ -463,6 +506,23 @@ class PlayStoreScreenshotSweep {
             hotelSearchCriteriaForLocale.put(USA_SPANISH, searchLasVegas)
             hotelSearchCriteriaForLocale.put(USA_CHINESE, searchLasVegas)
             hotelSearchCriteriaForLocale.put(VIETNAM, searchBangkok)
+
+            packageSearchCriteriaForLocal.put(GERMANY, PackageSearchCriteria(destination = londonCity))
+            packageSearchCriteriaForLocal.put(AUSTRALIA, PackageSearchCriteria(destination = bangkokCity))
+            packageSearchCriteriaForLocal.put(CANADA_ENGLISH, PackageSearchCriteria(destination = lasVegasCity))
+            packageSearchCriteriaForLocal.put(HONG_KONG_ENGLISH, PackageSearchCriteria(destination = bangkokCity))
+            packageSearchCriteriaForLocal.put(HONG_KONG_CHINESE_TRADITIONAL, PackageSearchCriteria(destination = bangkokCity))
+            packageSearchCriteriaForLocal.put(JAPAN_JAPANESE, PackageSearchCriteria(destination = bangkokCity))
+            packageSearchCriteriaForLocal.put(JAPAN_ENGLISH, PackageSearchCriteria(destination = bangkokCity))
+            packageSearchCriteriaForLocal.put(THAILAND_ENGLISH, PackageSearchCriteria(destination = bangkokCity))
+            packageSearchCriteriaForLocal.put(THAILAND_THAI, PackageSearchCriteria(destination = bangkokCity))
+            packageSearchCriteriaForLocal.put(MALAYSYA, PackageSearchCriteria(destination = bangkokCity))
+            packageSearchCriteriaForLocal.put(NEW_ZELAND, PackageSearchCriteria(destination = bangkokCity))
+            packageSearchCriteriaForLocal.put(SINGAPORE, PackageSearchCriteria(destination = bangkokCity))
+            packageSearchCriteriaForLocal.put(UK, PackageSearchCriteria(destination = londonCity))
+            packageSearchCriteriaForLocal.put(USA_ENGLISH, PackageSearchCriteria(destination = lasVegasCity))
+            packageSearchCriteriaForLocal.put(USA_SPANISH, PackageSearchCriteria(destination = lasVegasCity))
+            packageSearchCriteriaForLocal.put(USA_CHINESE, PackageSearchCriteria(destination = lasVegasCity))
 
             flightSearchCriteriaForLocale.put(AUSTRALIA, FlightSearchCriteria(NSW, BKK))
             flightSearchCriteriaForLocale.put(AUSTRIA, FlightSearchCriteria(VIE, LON))
@@ -573,5 +633,7 @@ class PlayStoreScreenshotSweep {
         class AirportSearchCriteria(val code: String)
 
         class HotelSearchCriteria(val city: String, val hotelName: String)
+
+        class PackageSearchCriteria(val destination: String, val origin: String = "San Francisco")
     }
 }
