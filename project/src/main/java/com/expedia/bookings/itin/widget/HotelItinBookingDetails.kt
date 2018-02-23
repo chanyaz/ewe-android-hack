@@ -46,11 +46,11 @@ class HotelItinBookingDetails(context: Context, attr: AttributeSet?) : LinearLay
                 OmnitureTracking.trackHotelItinManageBookingClick()
             }
             priceSummaryCard.setOnClickListener {
-                (context as Activity).startActivityForResult(buildWebViewIntent(R.string.itin_hotel_details_price_summary_heading, itinCardDataHotel.detailsUrl, "price-header", itinCardDataHotel.tripNumber).intent, Constants.ITIN_HOTEL_WEBPAGE_CODE)
+                (context as Activity).startActivityForResult(buildWebViewIntent(R.string.itin_hotel_details_price_summary_heading, itinCardDataHotel.detailsUrl, "price-header", itinCardDataHotel.tripNumber).intent, Constants.ITIN_WEBVIEW_REFRESH_ON_EXIT_CODE)
                 OmnitureTracking.trackHotelItinPricingRewardsClick()
             }
             additionalInfoCard.setOnClickListener {
-                (context as Activity).startActivityForResult(buildWebViewIntent(R.string.itin_hotel_details_additional_info_heading, itinCardDataHotel.detailsUrl, null, itinCardDataHotel.tripNumber).intent, Constants.ITIN_HOTEL_WEBPAGE_CODE)
+                (context as Activity).startActivityForResult(buildWebViewIntent(R.string.itin_hotel_details_additional_info_heading, itinCardDataHotel.detailsUrl, null, itinCardDataHotel.tripNumber).intent, Constants.ITIN_WEBVIEW_REFRESH_ON_EXIT_CODE)
                 OmnitureTracking.trackHotelItinAdditionalInfoClick()
             }
         }
@@ -62,7 +62,7 @@ class HotelItinBookingDetails(context: Context, attr: AttributeSet?) : LinearLay
         builder.setTitle(title)
         builder.setInjectExpediaCookies(true)
         builder.setAllowMobileRedirects(false)
-        builder.setHotelItinTripId(tripId)
+        builder.setItinTripIdForRefresh(tripId)
         return builder
     }
 }

@@ -51,7 +51,7 @@ public class HotelItinBaseActivityTest {
 		Shadows.shadowOf(testHotelItinDetailsActivity).receiveResult(
 			new Intent(testHotelItinDetailsActivity, WebViewActivity.class),
 			Activity.RESULT_OK,
-			new Intent().putExtra(Constants.ITIN_HOTEL_WEBPAGE_TRIP_NUMBER, itinCardDataHotel.getTripNumber())
+			new Intent().putExtra(Constants.ITIN_WEBVIEW_REFRESH_ON_EXIT_TRIP_NUMBER, itinCardDataHotel.getTripNumber())
 		);
 		Assert.assertEquals("Room with a view", testHotelItinDetailsActivity.itinCardDataHotel.getProperty().getItinBedType());
 	}

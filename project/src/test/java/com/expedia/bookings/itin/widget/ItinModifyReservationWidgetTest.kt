@@ -1,19 +1,23 @@
 package com.expedia.bookings.itin.widget
 
 import android.app.Activity
-import android.support.v4.app.FragmentActivity
+import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.itin.vm.FlightItinModifyReservationViewModel
+import com.expedia.bookings.itin.vm.HotelItinModifyReservationViewModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.Shadows
 import org.robolectric.shadows.ShadowAlertDialog
 import kotlin.test.assertEquals
 
@@ -25,7 +29,7 @@ class ItinModifyReservationWidgetTest {
 
     @Before
     fun before() {
-        activity = Robolectric.buildActivity(FragmentActivity::class.java).create().start().get()
+        activity = Robolectric.buildActivity(AppCompatActivity::class.java).create().start().get()
         activity.setTheme(R.style.ItinTheme)
         modifyReservationWidget = LayoutInflater.from(activity).inflate(R.layout.test_flight_itin_modify_reservation_widget, null) as ItinModifyReservationWidget
         modifyReservationWidget.viewModel = FlightItinModifyReservationViewModel(activity)
@@ -61,6 +65,32 @@ class ItinModifyReservationWidgetTest {
         modifyReservationWidget.viewModel.changeReservationSubject.onNext(Unit)
         modifyReservationWidget.changeReservationButton.performClick()
         OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Flight.Manage.Change", mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testChangeHotelWebView() {
+        val itinCardDataHotel = ItinCardDataHotelBuilder().build()
+        val shadow = Shadows.shadowOf(activity)
+        modifyReservationWidget.viewModel = HotelItinModifyReservationViewModel(activity)
+        modifyReservationWidget.viewModel.itinCardSubject.onNext(itinCardDataHotel)
+        modifyReservationWidget.viewModel.changeReservationSubject.onNext(Unit)
+        modifyReservationWidget.changeReservationButton.performClick()
+        val intent = shadow.peekNextStartedActivityForResult()
+        assertEquals(Constants.ITIN_WEBVIEW_REFRESH_ON_EXIT_CODE, intent.requestCode)
+        assertEquals(itinCardDataHotel.tripNumber, intent.intent.getStringExtra(Constants.ITIN_WEBVIEW_REFRESH_ON_EXIT_TRIP_NUMBER))
+    }
+
+    @Test
+    fun testCancelHotelWebView() {
+        val itinCardDataHotel = ItinCardDataHotelBuilder().build()
+        val shadow = Shadows.shadowOf(activity)
+        modifyReservationWidget.viewModel = HotelItinModifyReservationViewModel(activity)
+        modifyReservationWidget.viewModel.itinCardSubject.onNext(itinCardDataHotel)
+        modifyReservationWidget.viewModel.cancelReservationSubject.onNext(Unit)
+        modifyReservationWidget.cancelReservationButton.performClick()
+        val intent = shadow.peekNextStartedActivityForResult()
+        assertEquals(Constants.ITIN_WEBVIEW_REFRESH_ON_EXIT_CODE, intent.requestCode)
+        assertEquals(itinCardDataHotel.tripNumber, intent.intent.getStringExtra(Constants.ITIN_WEBVIEW_REFRESH_ON_EXIT_TRIP_NUMBER))
     }
 
     @Test
