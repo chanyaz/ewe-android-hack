@@ -2,7 +2,6 @@ package com.expedia.bookings.itin.utils
 
 import android.content.Context
 import com.expedia.bookings.BuildConfig
-import com.expedia.bookings.R
 import com.expedia.bookings.data.Courier
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TNSFlight
@@ -14,6 +13,7 @@ import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.TripComponent
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
+import com.expedia.bookings.features.Features
 import com.expedia.bookings.notification.GCMRegistrationKeeper
 import com.expedia.bookings.notification.INotificationManager
 import com.expedia.bookings.notification.PushNotificationUtils
@@ -26,7 +26,6 @@ import com.expedia.bookings.utils.UniqueIdentifierHelper
 import com.expedia.bookings.widget.itin.ItinContentGenerator
 import com.expedia.util.endlessObserver
 import com.mobiata.android.Log
-import com.mobiata.android.util.SettingUtils
 import com.mobiata.flightlib.data.Flight
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
@@ -56,7 +55,7 @@ open class NotificationScheduler @JvmOverloads constructor(val context: Context,
 
             val notifications = generator.generateNotifications() ?: continue
             for (notification in notifications) {
-                if (SettingUtils.get(context, context.getString(R.string.preference_launch_all_trip_notifications), false)) {
+                if (Features.all.launchAllTripNotifications.enabled()) {
                     notification.triggerTimeMillis = System.currentTimeMillis() + 5000
                 }
 

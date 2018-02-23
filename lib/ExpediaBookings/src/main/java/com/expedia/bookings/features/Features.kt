@@ -14,4 +14,5 @@ class Features {
     val universalWebviewDeepLink: Feature by RemoteFeatureDelegate()
     val lxRedesign: Feature by RemoteFeatureDelegate()
     val productionAbacus: Feature by RemoteFeatureDelegate()
+    val launchAllTripNotifications: Feature by RemoteFeatureDelegate()
 }
