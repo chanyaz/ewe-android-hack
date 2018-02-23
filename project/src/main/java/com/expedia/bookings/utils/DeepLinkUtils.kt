@@ -3,39 +3,28 @@ package com.expedia.bookings.utils
 import com.expedia.bookings.services.IClientLogServices
 import okhttp3.HttpUrl
 import java.util.HashMap
-import java.util.HashSet
 import java.util.Locale
 
 object DeepLinkUtils {
 
-    ///////////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Deep Link Tracking
-    //
-    // Documentation:
-    // https://confluence/display/Omniture/Download+-+Retargeting+-+Deeplink+Campaign+Tracking
-
-    // TODO candidate for ExpediaPointOfSale JSON?
-
-    private val KNOWN_DEEP_LINK_ARGS = object : HashSet<String>() {
-        init {
-            add("emlcid")
-            add("semcid")
-            add("olacid")
-            add("affcid")
-            add("brandcid")
-            add("seocid")
-            add("kword")
-            add("mdpcid")
-            add("mdpdtl")
-            add("oladtl")
-            add("afflid")
-            add("icmcid")
-            add("icmdtl")
-            add("gclid")
-            add("semdtl")
-        }
-    }
+    private val KNOWN_DEEP_LINK_ARGS = setOf(
+            "affcid",
+            "afflid",
+            "brandcid",
+            "emlcid",
+            "emldtl",
+            "icmcid",
+            "icmdtl",
+            "mdpcid",
+            "mdpdtl",
+            "olacid",
+            "oladtl",
+            "semcid",
+            "semdtl",
+            "kword",
+            "gclid",
+            "seocid",
+            "pushcid")
 
     @JvmStatic fun parseAndTrackDeepLink(clientLogServices: IClientLogServices, url: HttpUrl?, deepLinkAnalytics: DeepLinkAnalytics) {
         if (url == null) {

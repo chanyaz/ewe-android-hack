@@ -21,9 +21,18 @@ class DeepLinkUtilsTest {
 
     @Test
     fun emlcid() {
-        trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=178307&langid=1033&emlcid=TEST_BRAD_MDPCID_UNIVERSAL_LINK")
-        assertEquals("TEST_BRAD_MDPCID_UNIVERSAL_LINK", mockClientLogServices.lastSeenDeepLinkQueryParams?.get("emlcid"))
+        trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=178307&langid=1033&emlcid=SOME_EMLCID_VALUE")
+        assertEquals("SOME_EMLCID_VALUE", mockClientLogServices.lastSeenDeepLinkQueryParams?.get("emlcid"))
         assertOmnitureDeepLinkArgsSetup("emlcid")
+    }
+
+    @Test
+    fun emlcidAndEmldtl() {
+        trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=178307&langid=1033&emlcid=SOME_EMLCID_VALUE&emldtl=THAT_EMLDTL")
+        assertEquals("SOME_EMLCID_VALUE", mockClientLogServices.lastSeenDeepLinkQueryParams?.get("emlcid"))
+        assertEquals("THAT_EMLDTL", mockClientLogServices.lastSeenDeepLinkQueryParams?.get("emldtl"))
+        assertOmnitureDeepLinkArgsSetup("emlcid")
+        assertOmnitureDeepLinkArgsSetup("emldtl")
     }
 
     @Test
@@ -186,6 +195,13 @@ class DeepLinkUtilsTest {
         assertEquals("SEMGCLID_KRABI_TEST_GCLID", mockClientLogServices.lastSeenDeepLinkQueryParams?.get("gclid"))
         assertOmnitureDeepLinkArgsSetup("gclid")
         assertOmnitureDeepLinkArgsSetup("semcid")
+    }
+
+    @Test
+    fun pushcid() {
+        trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?startDate=12/27/2017&endDate=01/03/2018&regionId=602231&pushcid=ITS_A_PUSHCID")
+        assertEquals("ITS_A_PUSHCID", mockClientLogServices.lastSeenDeepLinkQueryParams?.get("pushcid"))
+        assertOmnitureDeepLinkArgsSetup("pushcid")
     }
 
     @Test
