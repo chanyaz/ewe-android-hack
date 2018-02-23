@@ -23,13 +23,6 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		// Hotel Features
 		initializeFeatureCheck(R.string.preference_enable_disabled_stp_hotels);
 
-		// Login Features
-		initializeFeatureCheck(R.string.preference_enable_activity_map);
-
-		//Flight Features
-
-		//Packages Features
-
 		//Universal Checkout Features
 		initializeFeatureCheck(R.string.pay_later_credit_card_messaging);
 

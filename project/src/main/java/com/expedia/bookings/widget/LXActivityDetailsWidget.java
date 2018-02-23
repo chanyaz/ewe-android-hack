@@ -32,7 +32,6 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.DateUtils;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -220,7 +219,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 
 		buildRecommendationPercentage(activityDetails.recommendationScore);
 		buildGallery(activityDetails);
-		if (FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_enable_activity_map)) {
+		if (Features.Companion.getAll().getActivityMap().enabled()) {
 			buildMapSection(activityDetails);
 		}
 		buildSections(activityDetails);
