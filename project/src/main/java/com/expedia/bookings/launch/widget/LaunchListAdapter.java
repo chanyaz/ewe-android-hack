@@ -44,6 +44,7 @@ import com.expedia.bookings.mia.activity.MemberDealsActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.AnimUtils;
+import com.expedia.bookings.utils.FeatureUtilKt;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.Ui;
@@ -82,7 +83,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			|| itemViewKey == LaunchDataItem.MESO_DESTINATION_AD_VIEW
 			|| itemViewKey == LaunchDataItem.MEMBER_ONLY_DEALS
 			|| itemViewKey == LaunchDataItem.LAST_MINUTE_DEALS
-			|| itemViewKey == LaunchDataItem.EARN_2X_MESSAGING_BANNER;
+			|| itemViewKey == LaunchDataItem.EARN_2X_MESSAGING_BANNER
+			|| itemViewKey == LaunchDataItem.REWARD_CARD_VIEW;
 	}
 
 	public PublishSubject<Hotel> hotelSelectedSubject = PublishSubject.create();
@@ -216,6 +218,10 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			holder.bind(vm);
 			return holder;
 		}
+		if (viewType == LaunchDataItem.REWARD_CARD_VIEW) {
+			View view = LayoutInflater.from(context).inflate(R.layout.reward_launch_card, parent, false);
+			return new RewardLaunchViewHolder(view);
+		}
 
 		if (viewType == LaunchDataItem.COLLECTION_VIEW) {
 			View view = LayoutInflater.from(context)
@@ -301,7 +307,11 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		else if (holder instanceof MesoDestinationViewHolder) {
 			((MesoDestinationViewHolder) holder).bindData();
 		}
-		else if (holder instanceof ItinLaunchCard) {
+		else if (holder instanceof RewardLaunchViewHolder) {
+			RewardLaunchViewModel vm = new RewardLaunchViewModel();
+			((RewardLaunchViewHolder) holder).bind(vm);
+		}
+ 		else if (holder instanceof ItinLaunchCard) {
 			((ItinLaunchCard) holder).bind(makeActiveItinViewModel());
 		}
 		else if (holder instanceof LaunchLoadingViewHolder) {
@@ -397,6 +407,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			}
 			if (showLastMinuteDeal()) {
 				items.add(new LaunchDataItem(LaunchDataItem.LAST_MINUTE_DEALS));
+			}
+			if (FeatureUtilKt.shouldShowRewardLaunchCard(context)) {
+				items.add(new LaunchDataItem(LaunchDataItem.REWARD_CARD_VIEW));
 			}
 			items.add(new LaunchDataItem(LaunchDataItem.HEADER_VIEW));
 		}

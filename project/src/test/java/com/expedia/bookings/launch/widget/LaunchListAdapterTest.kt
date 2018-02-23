@@ -27,7 +27,9 @@ import com.expedia.bookings.meso.model.MesoHotelAdResponse
 import com.expedia.bookings.meso.vm.MesoDestinationViewModel
 import com.expedia.bookings.meso.vm.MesoHotelAdViewModel
 import com.expedia.bookings.notification.NotificationManager
+import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -152,6 +154,26 @@ class LaunchListAdapterTest {
 
         val expectedHotelEvar = mapOf(12 to "App.LS.MeSo.B2P.Ad." + hotelName)
         OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(expectedHotelEvar), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.ORBITZ])
+    fun itemViewPosition_showingRewardLaunchCard() {
+        givenCustomerSignedIn()
+        createSystemUnderTest()
+        givenRewardLaunchCardEnabled()
+
+        val firstPosition = adapterUnderTest.getItemViewType(0)
+        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
+
+        val secondPosition = adapterUnderTest.getItemViewType(1)
+        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, secondPosition)
+
+        val thirdPosition = adapterUnderTest.getItemViewType(2)
+        assertEquals(LaunchDataItem.REWARD_CARD_VIEW, thirdPosition)
+
+        val fourthPosition = adapterUnderTest.getItemViewType(3)
+        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
     }
 
     @Test
@@ -834,6 +856,10 @@ class LaunchListAdapterTest {
 
     private fun givenMesoDestinationAdEnabled() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.MesoAd, AbacusVariant.TWO.value)
+    }
+
+    private fun givenRewardLaunchCardEnabled() {
+        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.RewardLaunchCard)
     }
 
     inner class TestLaunchListAdapter(context: Context?, header: View?, var isItinLaunchCardEnabled: Boolean = false, val trips: List<Trip>? = null, var recentAirAttachFlightTrip: Trip? = Trip()) : LaunchListAdapter(context, header) {

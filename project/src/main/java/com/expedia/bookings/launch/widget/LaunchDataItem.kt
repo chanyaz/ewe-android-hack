@@ -20,5 +20,6 @@ open class LaunchDataItem(private val key: Int) {
         @JvmField val AIR_ATTACH_VIEW = 11
         @JvmField val MESO_LMD_SECTION_HEADER_VIEW = 12
         @JvmField val EARN_2X_MESSAGING_BANNER = 13
+        @JvmField val REWARD_CARD_VIEW = 14
     }
 }

@@ -2,7 +2,9 @@ package com.expedia.bookings.utils
 
 import android.content.Context
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 
 fun isFlexEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightFlexEnabled)
@@ -103,4 +105,10 @@ fun isRecentSearchesForFlightsEnabled(context: Context): Boolean {
 
 fun isDownloadableFontsEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.DownloadableFonts)
+}
+
+fun shouldShowRewardLaunchCard(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.RewardLaunchCard)
+            && Ui.getApplication(context).appComponent().userStateManager().isUserAuthenticated()
+            && ProductFlavorFeatureConfiguration.getInstance().defaultPOS == PointOfSaleId.ORBITZ
 }

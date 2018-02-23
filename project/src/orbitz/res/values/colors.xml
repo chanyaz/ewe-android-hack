@@ -148,4 +148,6 @@
     <color name="acct__single_page_toolbar_color">@color/new_launch_screen_color</color>
     <color name="acct__single_page_create_account_bg_color">@color/new_launch_screen_color</color>
 
+    <!--Reward Launch Card-->
+    <color name="reward_launch_card_background_gradient">#4D8E0099</color>
 </resources>

@@ -463,4 +463,10 @@
     <string name="amenity_key_family_chargeable">chargeable</string>
     <string name="amenity_key_family_not_offered">notoffered</string>
     <string name="amenity_key_family_unknown">unknown</string>
+
+    <!--Reward launch card (Orbitz Only)-->
+    <string name="reward_launch_card_background_url"></string>
+    <string name="reward_webview_url"></string>
+    <string name="reward_launch_card_text_content_description"></string>
+
 </resources>

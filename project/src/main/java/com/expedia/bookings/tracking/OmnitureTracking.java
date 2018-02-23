@@ -59,6 +59,7 @@ import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.data.payment.PaymentSplitsType;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.data.rail.requests.RailSearchRequest;
 import com.expedia.bookings.data.rail.responses.RailCheckoutResponse;
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse;
@@ -3521,6 +3522,9 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppLastMinuteDeals);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountsAPIKongEndPoint);
 		trackAbacusTest(s, AbacusUtils.DownloadableFonts);
+		if (ProductFlavorFeatureConfiguration.getInstance().getDefaultPOS().equals(PointOfSaleId.ORBITZ)) {
+			trackAbacusTest(s, AbacusUtils.RewardLaunchCard);
+		}
 
 		if (trackingEvents != null) {
 			s.setEvents(trackingEvents);

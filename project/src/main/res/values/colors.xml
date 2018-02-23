@@ -497,4 +497,7 @@
     <!--Soft Prompt colors-->
     <color name="soft_prompt_button_color">@color/exp_launch_secondary</color>
     <color name="soft_prompt_text_color">@color/gray900</color>
+
+    <!--Reward Launch Card color (Only use for Orbitz)-->
+    <color name="reward_launch_card_background_gradient">@color/white</color>
 </resources>

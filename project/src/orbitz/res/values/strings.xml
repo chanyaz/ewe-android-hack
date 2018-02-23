@@ -106,4 +106,9 @@
     <!-- Member only deals for launch screen -->
     <string name="member_deal_title">Insider Prices</string>
 
+    <!--Reward launch card-->
+    <string name="reward_launch_card_background_url">https://a.travel-assets.com/mobile/brands/orbitz/rewardsbackground.jpg</string>
+    <string name="reward_webview_url">https://www.orbitz.com/rewards/orbitzmobileapprewards</string>
+    <string name="reward_launch_card_text_content_description">Orbitz rewards. Book on app get 5% back just like that. Double tap to learn how</string>
+
 </resources>
