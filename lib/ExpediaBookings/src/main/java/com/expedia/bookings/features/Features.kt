@@ -11,4 +11,5 @@ class Features {
     }
 
     val unusedFeature: Feature by RemoteFeatureDelegate()
+    val universalWebviewDeepLink: Feature by RemoteFeatureDelegate()
 }

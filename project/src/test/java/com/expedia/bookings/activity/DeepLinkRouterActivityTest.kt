@@ -4,11 +4,11 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import com.expedia.bookings.data.Codes
-import com.expedia.bookings.data.FlightSearchParams
 import com.expedia.bookings.data.DeprecatedHotelSearchParams
+import com.expedia.bookings.data.FlightSearchParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.trips.ItineraryManager
-import com.expedia.bookings.featureconfig.SatelliteFeatureConstants
+import com.expedia.bookings.features.Feature
 import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.test.MultiBrand
@@ -17,7 +17,6 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.FlightsV2DataUtil
 import com.expedia.bookings.utils.HotelsV2DataUtil
-import com.expedia.bookings.utils.SatelliteFeatureConfigTestUtils
 import com.expedia.ui.FlightActivity
 import com.expedia.ui.HotelActivity
 import com.expedia.ui.PackageActivity
@@ -93,9 +92,7 @@ class DeepLinkRouterActivityTest {
     @Test
     fun webDeepLinkWithFeatureOn() {
         val url = "https://www.expedia.com/mobile/deeplink/mobileTest"
-        SatelliteFeatureConfigTestUtils.enableFeatureForTest(context, SatelliteFeatureConstants.UNIVERSAL_WEBVIEW_DEEP_LINK)
-        val deepLinkRouterActivity = getDeepLinkRouterActivity(url)
-
+        val deepLinkRouterActivity = getDeepLinkRouterActivity(url, true)
         val startedIntent = Shadows.shadowOf(deepLinkRouterActivity).peekNextStartedActivity()
         assertIntentForActivity(DeepLinkWebViewActivity::class.java, startedIntent)
         assertBooleanExtraEquals(true, WebViewActivity.ARG_USE_WEB_VIEW_TITLE, startedIntent)
@@ -104,7 +101,7 @@ class DeepLinkRouterActivityTest {
     @Test
     fun webDeepLinkWithFeatureOff() {
         val url = "https://www.expedia.com/mobile/deeplink/mobileTest"
-        val deepLinkRouterActivity = getDeepLinkRouterActivity(url)
+        val deepLinkRouterActivity = getDeepLinkRouterActivity(url, false)
 
         val startedIntent = Shadows.shadowOf(deepLinkRouterActivity).peekNextStartedActivity()
 
@@ -207,10 +204,11 @@ class DeepLinkRouterActivityTest {
         assertIntentForActivity(PhoneLaunchActivity::class.java, startedIntent)
     }
 
-    private fun getDeepLinkRouterActivity(deepLinkUrl: String): TestDeepLinkRouterActivity {
+    private fun getDeepLinkRouterActivity(deepLinkUrl: String, universalWebviewDeepLinkEnabled: Boolean = false): TestDeepLinkRouterActivity {
         val deepLinkRouterActivityController = createSystemUnderTestWithIntent(createIntent(deepLinkUrl))
         val mockItineraryManager = createMockItineraryManager()
         val deepLinkRouterActivity = deepLinkRouterActivityController.get()
+        deepLinkRouterActivity.setUniversalWebviewDeepLinkFeature(FakeFeature(universalWebviewDeepLinkEnabled))
 
         deepLinkRouterActivity.mockItineraryManager = mockItineraryManager
         deepLinkRouterActivityController.setup()
@@ -237,6 +235,13 @@ class DeepLinkRouterActivityTest {
     private fun createIntent(deepLinkUrl: String): Intent {
         val uri = Uri.parse(deepLinkUrl)
         return Intent("", uri)
+    }
+
+    class FakeFeature(private val isEnabled: Boolean) : Feature {
+        override val name: String
+            get() = "someFeature"
+
+        override fun enabled(): Boolean = isEnabled
     }
 
     class TestDeepLinkRouterActivity : DeepLinkRouterActivity() {

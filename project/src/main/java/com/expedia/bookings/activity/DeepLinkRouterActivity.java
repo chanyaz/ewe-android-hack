@@ -39,6 +39,8 @@ import com.expedia.bookings.deeplink.WebDeepLink;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager;
 import com.expedia.bookings.featureconfig.SatelliteFeatureConstants;
+import com.expedia.bookings.features.Feature;
+import com.expedia.bookings.features.Features;
 import com.expedia.bookings.hotel.deeplink.HotelIntentBuilder;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.IClientLogServices;
@@ -79,6 +81,13 @@ import io.reactivex.observers.DisposableObserver;
 public class DeepLinkRouterActivity extends Activity implements UserAccountRefresher.IUserAccountRefreshListener {
 
 	private static final String TAG = "ExpediaDeepLink";
+
+	@VisibleForTesting
+	void setUniversalWebviewDeepLinkFeature(Feature universalWebviewDeepLinkFeature) {
+		this.universalWebviewDeepLinkFeature = universalWebviewDeepLinkFeature;
+	}
+
+	private Feature universalWebviewDeepLinkFeature = Features.Companion.getAll().getUniversalWebviewDeepLink();
 
 	private UserStateManager userStateManager;
 	IClientLogServices clientLogServices;
@@ -276,8 +285,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	}
 
 	private boolean isWebViewFeatureEnabled() {
-		return SatelliteFeatureConfigManager.isFeatureEnabled(this,
-			SatelliteFeatureConstants.UNIVERSAL_WEBVIEW_DEEP_LINK) || FeatureToggleUtil.isFeatureEnabled(this, R.string.preference_enable_universal_deeplink);
+		return universalWebviewDeepLinkFeature.enabled();
 	}
 
 	private void handleWebDeepLink(WebDeepLink deepLink) {

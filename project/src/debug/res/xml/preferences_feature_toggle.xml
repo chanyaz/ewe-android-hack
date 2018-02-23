@@ -49,21 +49,4 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:layout="@layout/preference_category_title"
-        android:title="Itin Features">
-
-        <CheckBoxPreference
-            android:key="@string/preference_enable_universal_deeplink"
-            android:summary="Trips - Universal Webview"
-            android:title="Trips - Universal Webview" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:layout="@layout/preference_category_title"
-        android:title="Packages Features">
-
-    </PreferenceCategory>
-
 </PreferenceScreen>

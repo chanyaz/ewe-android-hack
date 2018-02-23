@@ -146,7 +146,6 @@
     <string name="preference_enable_production_abacus">preference_enable_production_abacus</string>
     <string name="pay_later_credit_card_messaging">pay_later_credit_card_messaging</string>
     <string name="preference_enable_lx_redesign">preference_enable_lx_redesign</string>
-    <string name="preference_enable_universal_deeplink">preference_enable_universal_deeplink</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>
