@@ -9,4 +9,5 @@ data class FlightItinLegsDetailData(
         val arrivalMonthDay: String,
         val arrivalTime: String,
         val stopNumber: String?
+
 )

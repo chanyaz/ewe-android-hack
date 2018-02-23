@@ -39,4 +39,5 @@ enum class DisplaySort(@StringRes val resId: Int) {
         @JvmStatic
         fun getDefaultSort() = DisplaySort.RECOMMENDED
     }
+
 }
