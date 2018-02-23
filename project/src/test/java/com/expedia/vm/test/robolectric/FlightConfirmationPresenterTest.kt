@@ -1,7 +1,7 @@
 package com.expedia.vm.test.robolectric
 
 import android.graphics.drawable.ColorDrawable
-import android.support.v4.app.FragmentActivity
+import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.VISIBLE
@@ -41,23 +41,23 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import java.util.ArrayList
 import java.util.Locale
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
-import kotlin.test.assertNull
-import kotlin.test.assertNotNull
 import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import kotlin.repeat
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
 class FlightConfirmationPresenterTest {
 
     private var presenter: FlightConfirmationPresenter by Delegates.notNull()
-    private var activity: FragmentActivity by Delegates.notNull()
+    private var activity: AppCompatActivity by Delegates.notNull()
     private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     private lateinit var inboundSupplementaryText: TextView
@@ -75,7 +75,7 @@ class FlightConfirmationPresenterTest {
     private val rewardPoints = "999"
 
     @Before fun before() {
-        activity = Robolectric.buildActivity(android.support.v4.app.FragmentActivity::class.java).create().get()
+        activity = Robolectric.buildActivity(AppCompatActivity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Packages)
         Ui.getApplication(activity).defaultTravelerComponent()
         Ui.getApplication(activity).defaultFlightComponents()
@@ -270,6 +270,16 @@ class FlightConfirmationPresenterTest {
 
         val controlEvar = mapOf(28 to "App.CKO.Confirm.ViewItinerary")
         OmnitureTestUtils.assertLinkTracked("Confirmation Trip Action", "App.CKO.Confirm.ViewItinerary", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testArgPassedToPhoneLaunchFromConfirmation() {
+        setupPresenter()
+        presenter.viewItinButton.performClick()
+        val shadow = Shadows.shadowOf(activity)
+        val intent = shadow.nextStartedActivity
+        assertTrue(intent.hasExtra("ARG_IS_FROM_CONFIRMATION"))
+        assertTrue(intent.extras.getBoolean("ARG_IS_FROM_CONFIRMATION"))
     }
 
     private fun setupPresenter() {

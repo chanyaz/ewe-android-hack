@@ -124,6 +124,7 @@ public class NavUtils {
 
 	public static void goToItin(Context context, String itinNum) {
 		Intent intent = getLaunchIntent(context);
+		intent.putExtra(PhoneLaunchActivity.ARG_IS_FROM_CONFIRMATION, true);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		intent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_ITIN, true);
 		if (itinNum != null) {

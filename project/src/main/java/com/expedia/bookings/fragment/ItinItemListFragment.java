@@ -47,10 +47,9 @@ import com.expedia.bookings.widget.itin.ItinListView;
 import com.expedia.vm.UserReviewDialogViewModel;
 import com.mobiata.android.app.SimpleDialogFragment;
 
+import io.reactivex.functions.Consumer;
 import java.util.Collection;
 import java.util.List;
-
-import io.reactivex.functions.Consumer;
 import kotlin.Unit;
 
 public class ItinItemListFragment extends Fragment implements LoginConfirmLogoutDialogFragment.DoLogoutListener,
@@ -65,6 +64,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	private static final String STATE_ITIN_LIST_TRACKED = "STATE_ITIN_LIST_TRACKED";
 	private static final String STATE_JUMP_TO_UNIQUE_ID = "STATE_JUMP_TO_UNIQUE_ID";
 	private static final String STATE_NUMBER_ITIN_CARD_GUEST_USER = "STATE_NUMBER_ITIN_CARD_GUEST_USER";
+	public static final String IS_FROM_CONFIRMATION = "isFromConfirmation";
 
 	private ItinItemListFragmentListener mListener;
 
@@ -85,6 +85,8 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	private boolean mAllowLoadItins = false;
 
 	private boolean mCurrentSyncHasErrors = false;
+	private boolean isFromConfirmation = false;
+
 	private boolean mIsLoading = false;
 	private String mJumpToItinId = null;
 	private UserStateManager userStateManager;
@@ -97,6 +99,10 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	private static boolean fromNewLaunchScreen = false;
 
 	private MessageState mCurrentState = MessageState.NONE;
+
+	public void setIsFromConfirmation(boolean isFromConfirmation) {
+		this.isFromConfirmation = isFromConfirmation;
+	}
 
 	private enum MessageState {
 		NOT_LOGGED_IN,
@@ -111,9 +117,10 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	/**
 	 * Creates a new fragment that will open right away to the passed uniqueId.
 	 */
-	public static ItinItemListFragment newInstance(String uniqueId, boolean newLaunchScreen) {
+	public static ItinItemListFragment newInstance(String uniqueId, boolean newLaunchScreen, boolean isFromConfirmation) {
 		ItinItemListFragment frag = new ItinItemListFragment();
 		Bundle args = new Bundle();
+		args.putBoolean(IS_FROM_CONFIRMATION, isFromConfirmation);
 		args.putString(ARG_JUMP_TO_UNIQUE_ID, uniqueId);
 		frag.setArguments(args);
 		fromNewLaunchScreen = newLaunchScreen;
@@ -219,6 +226,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		}
 		else if (getArguments() != null) {
 			mJumpToItinId = getArguments().getString(ARG_JUMP_TO_UNIQUE_ID);
+			isFromConfirmation = getArguments().getBoolean(IS_FROM_CONFIRMATION);
 		}
 
 		mOrEnterNumberTv.setVisibility(View.VISIBLE);
@@ -252,7 +260,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mEmptyView = mSignInPresenter;
 
 		if (mSignInPresenter != null) {
-			mSignInPresenter.setVisibility(View.GONE);
+			mSignInPresenter.setVisibility(isFromConfirmation ? View.VISIBLE : View.GONE);
 		}
 		mOldEmptyView.setVisibility(View.GONE);
 		mItinListView.setEmptyView(mEmptyView);
@@ -359,12 +367,18 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	}
 
 	public void setIsLoading(boolean isLoading) {
-		mIsLoading = isLoading;
-		mEmptyListLoadingContainer.setVisibility(isLoading ? View.VISIBLE : View.GONE);
-		mEmptyListContent.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+		if (isFromConfirmation && mSignInPresenter != null) {
+			mSignInPresenter.setVisibility(View.VISIBLE);
+			mIsLoading = true;
+		}
+		else {
+			mIsLoading = isLoading;
+		}
+		mEmptyListLoadingContainer.setVisibility(mIsLoading ? View.VISIBLE : View.GONE);
+		mEmptyListContent.setVisibility(mIsLoading ? View.GONE : View.VISIBLE);
 		invalidateOptionsMenu();
 
-		if (isLoading && mSignInPresenter != null) {
+		if (mIsLoading && mSignInPresenter != null) {
 			if (mNumberOfItinCardsOfGuestUser > 0 && userStateManager.isUserAuthenticated()) {
 				mItinListView.getItinCardDataAdapter().clearAdapter();
 			}
@@ -512,6 +526,8 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	@Override
 	public void onSyncFailure(SyncError error) {
+		isFromConfirmation = false;
+		mListener.onIsSyncComplete();
 		mCurrentSyncHasErrors = true;
 	}
 
@@ -545,6 +561,9 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	@Override
 	public void onSyncFinished(Collection<Trip> trips) {
 		mItinListView.syncWithManager();
+		isFromConfirmation = false;
+		mListener.onIsSyncComplete();
+
 		setIsLoading(false);
 		if (userStateManager.isUserAuthenticated()) {
 			mNumberOfItinCardsOfGuestUser = 0;
@@ -606,6 +625,8 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		void onItinItemListFragmentAttached(ItinItemListFragment frag);
 
 		void onItinCardClicked(ItinCardData data);
+
+		void onIsSyncComplete();
 	}
 
 	@Override

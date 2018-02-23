@@ -108,6 +108,8 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         @Inject set
 
     var jumpToItinId: String? = null
+    var isFromConfirmation = false
+
     private var jumpToActivityCross: String = ""
     private var jumpToDeepLink: String = ""
     private var pagerPosition = PAGER_POS_LAUNCH
@@ -142,6 +144,9 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         Ui.getApplication(this).defaultLaunchComponents()
         Ui.getApplication(this).launchComponent()
         setContentView(R.layout.activity_phone_launch)
+
+        isFromConfirmation = intent.getBooleanExtra(PhoneLaunchActivity.ARG_IS_FROM_CONFIRMATION, false)
+
         viewPager.offscreenPageLimit = 2
         viewPager.adapter = pagerAdapter
 
@@ -259,6 +264,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
             handleArgJumpToNotification(intent)
             handleNotificationJump()
         } else if (intent.getBooleanExtra(ARG_FORCE_SHOW_ITIN, false)) {
+            isFromConfirmation = intent.getBooleanExtra(PhoneLaunchActivity.ARG_IS_FROM_CONFIRMATION, false)
             gotoItineraries()
         } else if (intent.getBooleanExtra(ARG_FORCE_SHOW_ACCOUNT, false)) {
             gotoAccount()
@@ -421,6 +427,8 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     }
 
     @Synchronized private fun gotoItineraries() {
+        itinListFragment?.setIsFromConfirmation(isFromConfirmation)
+
         if (pagerPosition != PAGER_POS_ITIN) {
 
             itinListFragment?.resetTrackingState()
@@ -558,7 +566,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         override fun getItem(position: Int): Fragment {
             val frag: Fragment
             when (position) {
-                PAGER_POS_ITIN -> frag = ItinItemListFragment.newInstance(jumpToItinId, true)
+                PAGER_POS_ITIN -> frag = ItinItemListFragment.newInstance(jumpToItinId, true, isFromConfirmation)
                 PAGER_POS_LAUNCH -> frag = PhoneLaunchFragment()
                 PAGER_POS_ACCOUNT -> frag = AccountSettingsFragment()
                 else -> throw RuntimeException("Position out of bounds position=" + position)
@@ -662,6 +670,10 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         b.setCancelable(false).setMessage(errorMessage).setPositiveButton(confirmButtonResourceId) { dialog, _ -> dialog.dismiss() }.show()
     }
 
+    override fun onIsSyncComplete() {
+        isFromConfirmation = false
+    }
+
     override fun onDialogCancel() {
         //Do nothing here
     }
@@ -710,6 +722,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         @JvmField val ARG_LINE_OF_BUSINESS = "ARG_LINE_OF_BUSINESS"
         @JvmField val ARG_FORCE_UPGRADE = "ARG_FORCE_UPGRADE"
         @JvmField val ARG_FORCE_SHOW_WATERFALL = "ARG_FORCE_SHOW_WATERFALL"
+        @JvmField val ARG_IS_FROM_CONFIRMATION = "ARG_IS_FROM_CONFIRMATION"
         @JvmField val ARG_FORCE_SHOW_ITIN = "ARG_FORCE_SHOW_ITIN"
         @JvmField val ARG_FORCE_SHOW_ACCOUNT = "ARG_FORCE_SHOW_ACCOUNT"
         @JvmField val ARG_JUMP_TO_NOTIFICATION = "ARG_JUMP_TO_NOTIFICATION"
