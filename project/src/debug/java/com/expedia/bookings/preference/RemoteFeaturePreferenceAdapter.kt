@@ -17,15 +17,37 @@ import com.mobiata.android.util.SettingUtils
 class RemoteFeaturePreferenceAdapter(val context: Context, val feature: Feature) : RecyclerView.Adapter<RemoteFeaturePreferenceAdapter.ViewHolder>() {
     data class PreferenceViewModel(val name: String, val currentValue: () -> Boolean, val update: ((Boolean) -> Unit)? = null)
 
+    private val preferenceOverrideOnKey = "remoteFeatures-localOverride-On"
+    private val preferenceOverrideOffKey = "remoteFeatures-localOverride-Off"
+
     private val namesAndValues: List<PreferenceViewModel> by lazy {
         listOf(
                 PreferenceViewModel("Enabled with Satellite", {
                     SatelliteFeatureConfigManager.isEnabled(context, feature.name)
                 }),
                 PreferenceViewModel("Turn on Locally", {
-                    SettingUtils.get(context, feature.name, false)
+                    val set = SettingUtils.getStringSet(context, preferenceOverrideOnKey)
+                    set.contains(feature.name)
                 }, { isChecked ->
-                    SettingUtils.save(context, feature.name, isChecked)
+                    val set = SettingUtils.getStringSet(context, preferenceOverrideOnKey).toMutableSet()
+                    if (isChecked) {
+                        set.add(feature.name)
+                    } else {
+                        set.remove(feature.name)
+                    }
+                    SettingUtils.saveStringSet(context, preferenceOverrideOnKey, set)
+                }),
+                PreferenceViewModel("Turn off Locally", {
+                    val set = SettingUtils.getStringSet(context, preferenceOverrideOffKey)
+                    set.contains(feature.name)
+                }, { isChecked ->
+                    val set = SettingUtils.getStringSet(context, preferenceOverrideOffKey).toMutableSet()
+                    if (isChecked) {
+                        set.add(feature.name)
+                    } else {
+                        set.remove(feature.name)
+                    }
+                    SettingUtils.saveStringSet(context, preferenceOverrideOffKey, set)
                 }),
                 PreferenceViewModel("Final Result", {
                     feature.enabled()
