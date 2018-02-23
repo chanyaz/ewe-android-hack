@@ -1,16 +1,5 @@
 package com.expedia.bookings.utils;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import org.joda.time.LocalDate;
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,10 +17,22 @@ import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.deeplink.ActivityDeepLink;
+import com.expedia.bookings.features.Features;
 import com.expedia.bookings.text.HtmlCompat;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.flightlib.data.Airport;
 import com.squareup.phrase.Phrase;
+
+import org.joda.time.LocalDate;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class LXDataUtils {
 	private static final String RULES_RESTRICTIONS_URL_PATH = "Checkout/LXRulesAndRestrictions?tripid=";
@@ -395,7 +396,7 @@ public class LXDataUtils {
 			}
 			else {
 				int template;
-				if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_lx_redesign)) {
+				if (Features.Companion.getAll().getLxRedesign().enabled()) {
 					template = R.string.activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE;
 				}
 				else {

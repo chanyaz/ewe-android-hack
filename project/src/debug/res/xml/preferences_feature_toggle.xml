@@ -21,11 +21,6 @@
             android:summary="Activity Infosite Map."
             android:title="Enable Activity Infosite Map" />
 
-        <CheckBoxPreference
-            android:key="@string/preference_enable_lx_redesign"
-            android:summary="Enable new LX Design-Discount Percentage View."
-            android:title="Enable new LX Design" />
-
     </PreferenceCategory>
 
     <PreferenceCategory

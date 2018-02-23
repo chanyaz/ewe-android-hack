@@ -1,12 +1,5 @@
 package com.expedia.bookings.widget;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
-
-import org.joda.time.LocalDate;
-
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.PointF;
@@ -32,10 +25,12 @@ import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.OffersDetail;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
+import com.expedia.bookings.features.Features;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CollectionUtils;
+import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.Images;
@@ -43,9 +38,15 @@ import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.utils.Constants;
 import com.mobiata.android.util.AndroidUtils;
 import com.squareup.phrase.Phrase;
+
+import org.joda.time.LocalDate;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -223,7 +224,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 			buildMapSection(activityDetails);
 		}
 		buildSections(activityDetails);
-		if (FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_enable_lx_redesign)) {
+		if (Features.Companion.getAll().getLxRedesign().enabled()) {
 			buildDiscountSection(activityDetails.offersDetail.offers);
 		}
 		buildOfferDatesSelector(activityDetails.offersDetail, lxState.searchParams.getActivityStartDate());

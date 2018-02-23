@@ -11,10 +11,10 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.Ticket;
+import com.expedia.bookings.features.Features;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
@@ -132,7 +132,7 @@ public class LXTicketPicker extends LinearLayout {
 			defaultCount = ticket.prices.get(0).travellerNum;
 		}
 
-		if (FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_enable_lx_redesign)) {
+		if (Features.Companion.getAll().getLxRedesign().enabled()) {
 			if (Strings.isNotEmpty(ticket.restrictionText)) {
 				ticketDetailsText = Phrase.from(this, R.string.ticket_details_new_TEMPLATE)
 						.put("traveler_type", LXDataUtils.ticketDisplayName(getContext(), ticket.code))

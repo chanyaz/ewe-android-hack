@@ -1,7 +1,5 @@
 package com.expedia.bookings.widget;
 
-import java.util.List;
-
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
@@ -19,13 +17,15 @@ import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
+import com.expedia.bookings.features.Features;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.utils.FeatureToggleUtil;
+import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXDataUtils;
-import com.expedia.bookings.utils.Constants;
 import com.mobiata.android.util.AndroidUtils;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -190,7 +190,7 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 			}
 			LXDataUtils.bindDuration(itemView.getContext(), activity.duration, activity.isMultiDuration, duration);
 
-			if (FeatureToggleUtil.isFeatureEnabled(itemView.getContext(), R.string.preference_enable_lx_redesign)) {
+			if (Features.Companion.getAll().getLxRedesign().enabled()) {
 				LXDataUtils.bindRecommendation(itemView.getContext(), activity.recommendationScore, recommendationScoreView, recommendationTextView);
 				LXDataUtils.bindDiscountPercentage(itemView.getContext(), activity, discountPercentageView);
 			}

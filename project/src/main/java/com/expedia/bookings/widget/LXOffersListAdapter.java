@@ -1,8 +1,5 @@
 package com.expedia.bookings.widget;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +13,17 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
+import com.expedia.bookings.features.Features;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CollectionUtils;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.Strings;
 import com.squareup.otto.Subscribe;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -142,7 +142,7 @@ public class LXOffersListAdapter extends BaseAdapter {
 			FontCache.setTypeface(selectTickets, FontCache.Font.ROBOTO_REGULAR);
 			FontCache.setTypeface(bookNow, FontCache.Font.ROBOTO_REGULAR);
 			ticketSelectionWidget.bind(offer, isGroundTransport);
-			if (FeatureToggleUtil.isFeatureEnabled(itemView.getContext(), R.string.preference_enable_lx_redesign)) {
+			if (Features.Companion.getAll().getLxRedesign().enabled()) {
 				for (Ticket ticket : offer.availabilityInfoOfSelectedDate.tickets) {
 					LXDataUtils.addPriceSummaryRow(itemView.getContext(), priceSummaryContainer, ticket);
 					priceSummaryContainer.setVisibility(View.VISIBLE);
