@@ -38,11 +38,14 @@ class HotelRoomHeaderView(context: Context, val viewModel: HotelRoomHeaderViewMo
                 headerImageView.viewTreeObserver.removeOnGlobalLayoutListener(this)
                 val imageUrl: String? = viewModel.imageUrl
                 if (!imageUrl.isNullOrBlank()) {
+                    headerImageView.visibility = View.VISIBLE
                     val hotelMedia = HotelMedia(imageUrl)
                     PicassoHelper.Builder(headerImageView)
                             .setPlaceholder(R.drawable.room_fallback)
                             .build()
                             .load(hotelMedia.getBestUrls(headerImageView.width / 2))
+                } else {
+                    headerImageView.visibility = View.GONE
                 }
             }
         })
