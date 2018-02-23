@@ -1,10 +1,5 @@
 package com.expedia.bookings.activity;
 
-import java.io.File;
-import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +17,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.features.Features;
 import com.expedia.bookings.onboarding.activity.OnboardingActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.tracking.RouterToLaunchTimeLogger;
@@ -29,12 +25,17 @@ import com.expedia.bookings.tracking.RouterToOnboardingTimeLogger;
 import com.expedia.bookings.tracking.RouterToSignInTimeLogger;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.TrackingUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.utils.navigation.NavUtils;
 import com.facebook.appevents.AppEventsLogger;
+
+import java.io.File;
+import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
+
 import io.reactivex.Observer;
 import io.reactivex.observers.DisposableObserver;
 
@@ -124,7 +125,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 		Ui.getApplication(this).appComponent().abacus()
 				.downloadBucket(query, evaluatePreLaunchABTestsSubscriber, 3, TimeUnit.SECONDS);
 
-		if (BuildConfig.DEBUG && FeatureToggleUtil.isFeatureEnabled(this, R.string.preference_enable_production_abacus)) {
+		if (BuildConfig.DEBUG && Features.Companion.getAll().getProductionAbacus().enabled()) {
 			Handler handler = new Handler(Looper.getMainLooper());
 			handler.post(new Runnable() {
 				public void run() {

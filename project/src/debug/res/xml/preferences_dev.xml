@@ -269,17 +269,4 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:layout="@layout/preference_category_title"
-        android:title="Abacus">
-
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="@string/preference_enable_production_abacus"
-            android:summary="Enable the connection to production Abacus (kill the app and start again to see the changes)"
-            android:title="Enable Production Abacus" />
-
-    </PreferenceCategory>
-
-
 </PreferenceScreen>

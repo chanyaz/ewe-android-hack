@@ -1,11 +1,5 @@
 package com.expedia.bookings.server;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.EnumMap;
-
 import android.content.Context;
 import android.support.annotation.NonNull;
 
@@ -13,10 +7,16 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.utils.FeatureToggleUtil;
+import com.expedia.bookings.features.Features;
 import com.expedia.bookings.utils.Strings;
 import com.google.gson.Gson;
 import com.mobiata.android.util.SettingUtils;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.EnumMap;
 
 import okhttp3.HttpUrl;
 
@@ -70,8 +70,7 @@ public class EndpointProvider {
 	public String getAbacusEndpointUrl() {
 		// Always point to production if release
 
-		if (BuildConfig.RELEASE || FeatureToggleUtil
-			.isFeatureEnabled(context, R.string.preference_enable_production_abacus)) {
+		if (BuildConfig.RELEASE || Features.Companion.getAll().getProductionAbacus().enabled()) {
 			return getE3EndpointUrl();
 		}
 
