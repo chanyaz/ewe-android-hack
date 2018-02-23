@@ -15,6 +15,7 @@ class HotelReviewRowViewModel(val context: Context) {
     val ratingObservable = BehaviorSubject.create<Float>()
     val submissionDateObservable = BehaviorSubject.create<String>()
     val reviewBodyObservable = BehaviorSubject.create<String>()
+    val translationObservable = BehaviorSubject.create<String>()
 
     val reviewObserver = endlessObserver<Review> { review ->
         titleTextObservable.onNext(review.title)

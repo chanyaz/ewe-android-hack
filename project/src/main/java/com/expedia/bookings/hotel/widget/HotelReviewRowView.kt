@@ -25,6 +25,8 @@ class HotelReviewRowView(context: Context) : LinearLayout(context) {
 
     fun bindData(vm: HotelReviewRowViewModel) {
         vm.titleTextObservable.subscribeTextAndVisibility(title)
+        vm.translationObservable.subscribe({ s -> content.append("###\nTranslation\n###\n" + s + "\n") },
+                { _ -> content.append("\n###\n Translation failed\n")})
         vm.ratingObservable.subscribe {
             ratingBar.rating = it
             setRatingBarContentDescription(it.toInt())

@@ -8,13 +8,22 @@ import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelReviewsResponse
+import com.expedia.bookings.extensions.subscribeObserver
 import com.expedia.bookings.widget.HotelReviewsLoadingWidget
 import com.expedia.bookings.widget.HotelReviewsSummaryWidget
 import com.expedia.bookings.widget.RecyclerDividerDecoration
 import com.expedia.vm.HotelReviewRowViewModel
 import com.expedia.vm.HotelReviewsSummaryViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import java.util.ArrayList
+import java.util.Locale
 
 class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : RecyclerView(context, attrs) {
 
@@ -49,6 +58,17 @@ class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : Recycler
             }
             return HotelReviewsViewHolder(view)
         }
+        private val logger = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+        private val clientBuilder = OkHttpClient.Builder().addInterceptor(logger)
+        private val translateApi = Retrofit.Builder()
+                .baseUrl("https://translation.googleapis.com")
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(clientBuilder.build())
+                .build()
+                .create(TranslationApi::class.java)
+
+        private val apiKey = <your_api_key_here>
 
         override fun onBindViewHolder(holder: HotelReviewsViewHolder, position: Int) {
             when (holder.itemView) {
@@ -60,6 +80,16 @@ class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : Recycler
                 is HotelReviewRowView -> {
                     val hotelReviewRowViewModel = HotelReviewRowViewModel(holder.itemView.context)
                     hotelReviewRowViewModel.reviewObserver.onNext(reviews[position - 1])
+                    val deviceLocale = Locale.getDefault()
+                    val reviewLocale = Locale(reviews[position - 1].contentLocale)
+                    if (reviewLocale.language != deviceLocale.language) {
+                        val review = reviews[position - 1]
+                        translateApi.translateToTargetLanguage(deviceLocale.language, review.reviewText, apiKey)
+                                .subscribeOn(Schedulers.io())
+                                .map { it.data.translations[0].translatedText }
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribeObserver(hotelReviewRowViewModel.translationObservable)
+                    }
                     holder.itemView.bindData(hotelReviewRowViewModel)
                 }
                 is HotelReviewsLoadingWidget -> loadMoreReviews()
