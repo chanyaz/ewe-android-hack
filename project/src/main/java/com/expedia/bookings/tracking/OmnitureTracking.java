@@ -75,6 +75,7 @@ import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.enums.OnboardingPagerState;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.features.Features;
 import com.expedia.bookings.hotel.tracking.SuggestionTrackingData;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
@@ -2008,7 +2009,7 @@ public class OmnitureTracking {
 		s.setEvents("event75");
 		s.setProducts(addLXProducts(lxActivityId, totalPriceFormattedTo2DecimalPlaces, selectedTicketsCount));
 
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_enable_universal_checkout_on_lx)) {
+		if (Features.Companion.getAll().getUniversalCheckoutOnLx().enabled()) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppBringUniversalCheckoutToLX);
 		}
 

@@ -33,11 +33,6 @@
             android:title="Disabled STP state for hotels" />
 
         <CheckBoxPreference
-            android:key="@string/preference_enable_universal_checkout_on_lx"
-            android:summary="Bring universal checkout to LX"
-            android:title="Enable Universal Checkout on LX" />
-
-        <CheckBoxPreference
             android:key="@string/pay_later_credit_card_messaging"
             android:summary="Enable credit card messaging for pay later"
             android:title="Enable credit card messaging pay later" />
