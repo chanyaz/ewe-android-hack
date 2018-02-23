@@ -697,6 +697,25 @@ class BillingDetailsPaymentWidgetTest {
         assertNull(billingDetailsPaymentWidget.creditCardNumber.compoundDrawables[2])
     }
 
+    fun testVisibilityOfExpiryTextViewWithABTestOn() {
+        billingDetailsPaymentWidget = LayoutInflater.from(activity).inflate(R.layout.material_billing_details_payment_widget, null) as BillingDetailsPaymentWidget
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.CardExpiryDateFormField)
+        billingDetailsPaymentWidget = LayoutInflater.from(activity).inflate(R.layout.material_billing_details_payment_widget, null) as BillingDetailsPaymentWidget
+
+        assertEquals(View.GONE, billingDetailsPaymentWidget.oldCreditExpiryTextLayout?.visibility)
+        assertEquals(View.VISIBLE, billingDetailsPaymentWidget.newCreditCardExpiryTextLayout?.visibility)
+    }
+
+    @Test
+    fun testVisibilityOfExpiryTxtViewWithAbTestOff() {
+        billingDetailsPaymentWidget = LayoutInflater.from(activity).inflate(R.layout.material_billing_details_payment_widget, null) as BillingDetailsPaymentWidget
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.CardExpiryDateFormField, AbacusVariant.CONTROL.value)
+        billingDetailsPaymentWidget = LayoutInflater.from(activity).inflate(R.layout.material_billing_details_payment_widget, null) as BillingDetailsPaymentWidget
+
+        assertEquals(View.VISIBLE, billingDetailsPaymentWidget.expirationDate.visibility)
+        assertEquals(View.GONE, billingDetailsPaymentWidget.newCreditCardExpiryTextLayout?.visibility)
+    }
+
     private fun getUserWithStoredCard(): User {
         val user = User()
         user.addStoredCreditCard(getNewCard())

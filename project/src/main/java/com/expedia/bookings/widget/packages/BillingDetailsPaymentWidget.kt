@@ -10,14 +10,14 @@ import com.expedia.bookings.R
 import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.extensions.subscribeTextChange
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.MaskedCreditCardEditText
-import com.expedia.bookings.widget.PaymentWidget
-import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.rail.widget.CreditCardFeesView
 import com.expedia.bookings.extensions.subscribeObserver
 import com.expedia.bookings.extensions.updatePaddingForOldApi
 import com.expedia.bookings.extensions.setVisibility
+import com.expedia.bookings.widget.MaskedCreditCardEditText
+import com.expedia.bookings.widget.PaymentWidget
+import com.expedia.bookings.widget.TextView
 import com.expedia.vm.PaymentViewModel
 
 open class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : PaymentWidget(context, attr) {
@@ -29,7 +29,6 @@ open class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : P
     val addressState: AccessibleEditText by bindView(R.id.edit_address_state)
     val creditCardFeeDisclaimer: TextView by bindView(R.id.card_fee_disclaimer)
     val cardInfoSummary: LinearLayout by bindView(R.id.card_info_summary)
-
     val creditCardFeesView = CreditCardFeesView(context, null)
     val dialog: AlertDialog by lazy {
         val builder = AlertDialog.Builder(context)

@@ -222,6 +222,7 @@ public class AbacusUtils {
 		testIDs.add(HotelResultChangeDate.getKey());
 		testIDs.add(HotelEarn2xMessaging.getKey());
 		testIDs.add(EBAndroidAppPackagesFlightCabinClass.getKey());
+		testIDs.add(CardExpiryDateFormField.getKey());
 		return testIDs;
 	}
 
