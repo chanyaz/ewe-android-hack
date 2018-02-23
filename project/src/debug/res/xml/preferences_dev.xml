@@ -61,12 +61,6 @@
 
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="@string/preference_enable_leakcanary"
-            android:summary="Enable super useful memory analysis tool (requires restart)"
-            android:title="Enable LeakCanary" />
-
-        <CheckBoxPreference
-            android:defaultValue="false"
             android:key="@string/preference_enable_chuck_notification"
             android:summary="Enable Chuck (In-app HTTP inspector for OkHttp clients) notification."
             android:title="Enable Chuck notification" />

@@ -122,7 +122,6 @@
     <string name="preference_abacus_setting_show_more_in_end">Show more in end</string>
     <string name="preference_abacus_setting_show_price_and_logo">Show price and logo only</string>
     <string name="preference_abacus_setting_show_price_and_logo_with_count">Show price and logo with Count</string>
-    <string name="preference_enable_leakcanary">preference_enable_leakcanary</string>
     <string name="preference_enable_chuck_notification">preference_enable_chuck_notification</string>
     <string name="preference_chuck_show_ui">preference_chuck_show_ui</string>
     <string name="preference_enable_tune">preference_enable_tune</string>
