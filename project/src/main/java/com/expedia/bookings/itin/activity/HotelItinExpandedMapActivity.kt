@@ -128,6 +128,8 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
 
     override fun onMapReady(map: GoogleMap) {
         googleMap = map
+        googleMap?.isIndoorEnabled = false
+        googleMap?.uiSettings?.isTiltGesturesEnabled = false
         googleMap?.uiSettings?.isMapToolbarEnabled = false
         googleMap?.uiSettings?.isZoomControlsEnabled = false
         googleMap?.uiSettings?.isMyLocationButtonEnabled = false

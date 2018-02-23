@@ -17,7 +17,13 @@ class PluginInitializer {
 }
 
 class SatelliteRemoteFeatureResolver(private val context: Context) : RemoteFeatureResolver {
+    private val preferenceOverrideOnKey = "remoteFeatures-localOverride-On"
+    private val preferenceOverrideOffKey = "remoteFeatures-localOverride-Off"
+
     override fun isEnabled(key: String): Boolean {
-        return SatelliteFeatureConfigManager.isEnabled(context, key) || SettingUtils.get(context, key, false)
+        val overrideOnSet = SettingUtils.getStringSet(context, preferenceOverrideOnKey)
+        val turnedOn = SatelliteFeatureConfigManager.isEnabled(context, key) || overrideOnSet.contains(key)
+        val notTurnedOff = !SettingUtils.getStringSet(context, preferenceOverrideOffKey).contains(key)
+        return turnedOn && notTurnedOff
     }
 }

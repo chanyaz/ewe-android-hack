@@ -1,11 +1,10 @@
 package com.expedia.bookings.data.extensions
 
 import android.content.Context
-import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
-import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.features.Features
 import com.expedia.bookings.utils.isHotelMaterialForms
 
 class LineOfBusinessExtensions {
@@ -15,7 +14,7 @@ class LineOfBusinessExtensions {
         }
 
         private fun isLXUniversalCheckout(context: Context): Boolean {
-            return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_universal_checkout_on_lx) && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppBringUniversalCheckoutToLX)
+            return Features.all.universalCheckoutOnLx.enabled() && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppBringUniversalCheckoutToLX)
         }
     }
 }

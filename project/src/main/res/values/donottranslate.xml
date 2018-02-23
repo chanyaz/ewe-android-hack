@@ -122,7 +122,6 @@
     <string name="preference_abacus_setting_show_more_in_end">Show more in end</string>
     <string name="preference_abacus_setting_show_price_and_logo">Show price and logo only</string>
     <string name="preference_abacus_setting_show_price_and_logo_with_count">Show price and logo with Count</string>
-    <string name="preference_enable_leakcanary">preference_enable_leakcanary</string>
     <string name="preference_enable_chuck_notification">preference_enable_chuck_notification</string>
     <string name="preference_chuck_show_ui">preference_chuck_show_ui</string>
     <string name="preference_enable_tune">preference_enable_tune</string>
@@ -139,15 +138,9 @@
     <!-- Preference keys for feature toggle -->
     <string name="preference_open_feature_toggle_settings">preference_open_feature_toggle_settings</string>
     <string name="preference_open_remote_feature_toggle_settings">preference_open_remote_feature_toggle_settings</string>
-    <string name="preference_enable_activity_map">preference_enable_activity_map</string>
-    <string name="preference_enable_universal_checkout_on_lx">preference_enable_universal_checkout_on_lx</string>
     <string name="preference_flight_rate_detail_from_cache">preference_flight_rate_detail_from_cache</string>
-    <string name="preference_launch_all_trip_notifications">preference_launch_all_trip_notifications</string>
     <string name="preference_enable_disabled_stp_hotels">preference_enable_disabled_stp_hotels</string>
-    <string name="preference_enable_production_abacus">preference_enable_production_abacus</string>
     <string name="pay_later_credit_card_messaging">pay_later_credit_card_messaging</string>
-    <string name="preference_enable_lx_redesign">preference_enable_lx_redesign</string>
-    <string name="preference_enable_universal_deeplink">preference_enable_universal_deeplink</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>
@@ -456,6 +449,7 @@
     <string name="dummy_postal_code">12345</string>
 
     <!-- Deeplink URLs for app shortcuts -->
+    <string name="deeplink_home">expda://home</string>
     <string name="deeplink_trips">expda://trips</string>
     <string name="deeplink_hotel_search">expda://hotelSearch</string>
     <string name="deeplink_flight_share">expda://flightShare</string>
@@ -474,5 +468,4 @@
     <string name="amenity_key_family_chargeable">chargeable</string>
     <string name="amenity_key_family_not_offered">notoffered</string>
     <string name="amenity_key_family_unknown">unknown</string>
-
 </resources>

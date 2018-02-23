@@ -1,5 +1,6 @@
 package com.expedia.bookings.extensions
 
+import android.os.Handler
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import com.expedia.bookings.utils.AccessibilityUtil
@@ -14,7 +15,10 @@ fun View.setAccessibilityHoverFocus() {
 }
 
 fun View.setAccessibilityHoverFocus(delayMillis: Long) {
-    postDelayed({ this.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_HOVER_ENTER) }, delayMillis)
+    Handler().postDelayed({
+                this.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_HOVER_ENTER)
+            },
+            delayMillis)
 }
 
 fun View.setInverseVisibility(forward: Boolean) {

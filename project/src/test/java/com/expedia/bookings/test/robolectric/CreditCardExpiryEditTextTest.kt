@@ -4,7 +4,6 @@ import android.app.Activity
 import android.view.LayoutInflater
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.bookings.widget.packages.MaterialBillingDetailsPaymentWidget
 import com.expedia.vm.PaymentViewModel
 import org.junit.Before

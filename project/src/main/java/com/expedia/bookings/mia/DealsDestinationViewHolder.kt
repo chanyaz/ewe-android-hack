@@ -18,7 +18,7 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.bitmaps.PicassoTarget
-import com.expedia.bookings.data.HotelSearchParams
+import com.expedia.bookings.data.DeprecatedHotelSearchParams
 import com.expedia.bookings.enums.DiscountColors
 import com.expedia.bookings.mia.activity.LastMinuteDealActivity
 import com.expedia.bookings.mia.activity.MemberDealsActivity
@@ -45,7 +45,7 @@ class DealsDestinationViewHolder(private val view: View) : RecyclerView.ViewHold
     private val gradient: View by bindView(R.id.deals_foreground)
     private val cardView: CardView by bindView(R.id.deals_cardview)
     val dealsSubtitle: TextView by bindView(R.id.deals_subtitle)
-    lateinit var searchParams: HotelSearchParams
+    lateinit var searchParams: DeprecatedHotelSearchParams
     private lateinit var discountPercent: String
 
     fun bind(vm: DealsDestinationViewModel) {
@@ -74,12 +74,12 @@ class DealsDestinationViewHolder(private val view: View) : RecyclerView.ViewHold
         hideDiscountViewWithNoDiscount()
     }
 
-    fun setSearchParams(vm: DealsDestinationViewModel): HotelSearchParams {
-        val params = HotelSearchParams()
+    fun setSearchParams(vm: DealsDestinationViewModel): DeprecatedHotelSearchParams {
+        val params = DeprecatedHotelSearchParams()
         params.regionId = vm.regionId
         params.checkInDate = vm.startDate
         params.checkOutDate = vm.endDate
-        params.searchType = HotelSearchParams.SearchType.CITY
+        params.searchType = DeprecatedHotelSearchParams.SearchType.CITY
         params.hotelId = getHotelId(vm)
         params.query = vm.cityName
         params.numAdults = getNumAdults(vm)

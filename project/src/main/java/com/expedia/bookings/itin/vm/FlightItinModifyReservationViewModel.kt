@@ -1,13 +1,15 @@
 package com.expedia.bookings.itin.vm
 
 import android.content.Context
+import android.content.Intent
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.tracking.OmnitureTracking
 
-class FlightItinModifyReservationViewModel(context: Context) : ItinModifyReservationViewModel(context) {
+class FlightItinModifyReservationViewModel(val context: Context) : ItinModifyReservationViewModel() {
 
     override val itinType: String = "FLIGHT_ITIN"
 
@@ -40,5 +42,14 @@ class FlightItinModifyReservationViewModel(context: Context) : ItinModifyReserva
         val cancelable = !cancelUrl.isNullOrEmpty() && flightTrip.action.isCancellable
         val changeable = !changeUrl.isNullOrEmpty() && flightTrip.action.isChangeable
         setupCancelAndChange(cancelable, changeable)
+    }
+
+    fun buildWebViewIntent(title: Int, url: String?): Intent {
+        val builder: WebViewActivity.IntentBuilder = WebViewActivity.IntentBuilder(context)
+        builder.setTitle(title)
+        builder.setUrl(url)
+        builder.setInjectExpediaCookies(true)
+        builder.setAllowMobileRedirects(true)
+        return builder.intent
     }
 }

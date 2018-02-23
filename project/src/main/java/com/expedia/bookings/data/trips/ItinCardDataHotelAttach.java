@@ -3,8 +3,8 @@ package com.expedia.bookings.data.trips;
 import java.util.List;
 
 import com.expedia.bookings.data.ChildTraveler;
+import com.expedia.bookings.data.DeprecatedHotelSearchParams;
 import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.HotelSearchParams;
 
 public class ItinCardDataHotelAttach extends ItinCardData {
 
@@ -28,11 +28,12 @@ public class ItinCardDataHotelAttach extends ItinCardData {
 		return mFirstLeg;
 	}
 
-	public HotelSearchParams getSearchParams() {
+	public DeprecatedHotelSearchParams getSearchParams() {
 		List<ChildTraveler> childTravelersInTrip = mTripFlight.getChildTravelers();
 		int numAdults = mTripFlight.getTravelers().size() - childTravelersInTrip.size();
 		String regionId = mTripFlight.getDestinationRegionId();
-		return HotelSearchParams.fromFlightParams(regionId, mFirstLeg, mNextLeg, numAdults, childTravelersInTrip);
+		return DeprecatedHotelSearchParams
+			.fromFlightParams(regionId, mFirstLeg, mNextLeg, numAdults, childTravelersInTrip);
 	}
 
 	@Override

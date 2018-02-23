@@ -1,12 +1,12 @@
 package com.expedia.bookings.rail.widget
 
-import android.app.ProgressDialog
 import android.content.Context
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.widget.DeprecatedProgressDialog
 
-class AccessibleProgressDialog(context: Context) : ProgressDialog(context) {
+class AccessibleProgressDialog(context: Context) : DeprecatedProgressDialog(context) {
     init {
         setCancelable(false)
         isIndeterminate = true

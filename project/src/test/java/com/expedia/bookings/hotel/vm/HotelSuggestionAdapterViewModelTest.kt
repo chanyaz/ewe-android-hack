@@ -101,6 +101,7 @@ class HotelSuggestionAdapterViewModelTest {
         viewModel.queryObserver.onNext("ORD")
         dumbObserver.onNext(emptyList())
 
+        @Suppress("UNCHECKED_CAST")
         val output = testSubscriber.values()[0] as List<SuggestionDataItem.SuggestionDropDown>
         assertEquals("\"ORD\"", output[0].suggestion.regionNames.displayName)
         assertEquals(1, output.size)
@@ -114,6 +115,7 @@ class HotelSuggestionAdapterViewModelTest {
 
         dumbObserver.onNext(listOf(getSuggestion(expectedId)))
 
+        @Suppress("UNCHECKED_CAST")
         val output = testSubscriber.values()[0] as List<SuggestionDataItem.SuggestionDropDown>
         assertEquals(expectedId, output[0].suggestion.gaiaId)
         assertEquals(1, output.size)
@@ -128,6 +130,7 @@ class HotelSuggestionAdapterViewModelTest {
         viewModel.queryObserver.onNext("ORD")
         dumbObserver.onNext(listOf(getSuggestion(expectedId)))
 
+        @Suppress("UNCHECKED_CAST")
         val output = testSubscriber.values()[0] as List<SuggestionDataItem.SuggestionDropDown>
         assertEquals("\"ORD\"", output[0].suggestion.regionNames.displayName)
         assertEquals(expectedId, output[1].suggestion.gaiaId)
@@ -166,6 +169,7 @@ class HotelSuggestionAdapterViewModelTest {
         dumbObserver.onNext(listOf(getSuggestion(expectedESSId)))
 
         assertEquals(2, testSubscriber.valueCount())
+        @Suppress("UNCHECKED_CAST")
         val output = testSubscriber.values()[1] as List<SuggestionDataItem.SuggestionDropDown>
         assertEquals(1, output.size, "FAILURE: Expected the only results shown are ESS")
         assertEquals(expectedESSId, output[0].suggestion.gaiaId)

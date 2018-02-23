@@ -51,6 +51,8 @@ class GoogleMapsLiteMapView(context: Context, attributeSet: AttributeSet) : Fram
     override fun onMapReady(googleMap: GoogleMap?) {
         MapsInitializer.initialize(context)
         googleMap?.clear()
+        googleMap?.isIndoorEnabled = false
+        googleMap?.uiSettings?.isTiltGesturesEnabled = false
         googleMap?.uiSettings?.isMapToolbarEnabled = false
         googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
 

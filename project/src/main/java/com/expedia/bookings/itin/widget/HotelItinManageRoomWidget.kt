@@ -1,6 +1,7 @@
 package com.expedia.bookings.itin.widget
 
 import android.content.Context
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.View
@@ -37,7 +38,9 @@ class HotelItinManageRoomWidget(context: Context, attributeSet: AttributeSet?) :
 
         vm.itinCardDataHotelSubject.subscribe { itinCardDataHotel ->
             manageBookingButton.setOnClickListener {
-                (context as AppCompatActivity).startActivityForResult(buildWebViewIntent(R.string.itin_hotel_manage_booking_webview_title, itinCardDataHotel.detailsUrl, "overview-header", itinCardDataHotel.tripNumber).intent, Constants.ITIN_HOTEL_WEBPAGE_CODE)
+                val animation = ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_up_partially, 0).toBundle()
+                val intent = buildWebViewIntent(R.string.itin_hotel_manage_booking_webview_title, itinCardDataHotel.detailsUrl, "overview-header", itinCardDataHotel.tripNumber).intent
+                (context as AppCompatActivity).startActivityForResult(intent, Constants.ITIN_WEBVIEW_REFRESH_ON_EXIT_CODE, animation)
             }
             hotelManageBookingHelpView.setUpWidget(itinCardDataHotel)
             hotelCustomerSupportDetailsView.setUpWidget(itinCardDataHotel.tripNumber)
@@ -65,7 +68,7 @@ class HotelItinManageRoomWidget(context: Context, attributeSet: AttributeSet?) :
         builder.setTitle(title)
         builder.setInjectExpediaCookies(true)
         builder.setAllowMobileRedirects(false)
-        builder.setHotelItinTripId(tripId)
+        builder.setItinTripIdForRefresh(tripId)
         return builder
     }
 }

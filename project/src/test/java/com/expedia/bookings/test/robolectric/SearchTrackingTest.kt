@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.robolectric
 
+import com.expedia.bookings.data.DeprecatedHotelSearchParams
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
@@ -101,7 +102,7 @@ class SearchTrackingTest {
         arrivalRegionNames.displayName = "Los Angeles"
         arrivalRegionNames.shortName = "LAX"
         arrivalSuggestion.regionNames = arrivalRegionNames
-        arrivalSuggestion.type = com.expedia.bookings.data.HotelSearchParams.SearchType.CITY.name
+        arrivalSuggestion.type = DeprecatedHotelSearchParams.SearchType.CITY.name
 
         val testArrivalCoordinates = SuggestionV4.LatLng()
         testArrivalCoordinates.lat = 100.00

@@ -12,7 +12,6 @@ import android.text.style.StyleSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotel.HotelValueAdd
-import com.expedia.bookings.data.hotel.ValueAddsEnum
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.payment.LoyaltyInformation
@@ -95,19 +94,11 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
         val valueAddsTreeSet = TreeSet<HotelValueAdd>()
         if (CollectionUtils.isNotEmpty(hotelRoomResponse.valueAdds)) {
             val valueAdds = hotelRoomResponse.valueAdds
+
             valueAdds.forEach { valueAdd ->
-                when (valueAdd.id.toInt()) {
-                // taken from https://confluence/pages/viewpage.action?pageId=587907920 and
-                // https://opengrok/source/xref/expweb-trunk/bizconfig/com/expedia/www/domain/services/hotel/config/AmenityConfig.properties.xml
-                    512, 2, 8, 4, 8192, 4096, 16777216, 33554432, 67108864, 1073742786, 1073742857, 2111, 2085, 4363,
-                    2102, 2207, 2206, 2194, 2193, 2205, 2103, 2105, 2104, 3969, 4647, 4646, 4648, 4649, 4650, 4651, 2001
-                    -> valueAddsTreeSet.add(HotelValueAdd(context, ValueAddsEnum.BREAKFAST, valueAdd.description))
-                    2048, 1024, 1073742787, 4347, 2403, 4345, 2405, 2407, 4154, 2191, 2192, 2404, 2406
-                    -> valueAddsTreeSet.add(HotelValueAdd(context, ValueAddsEnum.INTERNET, context.resources.getString(ValueAddsEnum.INTERNET.descriptionId)))
-                    16384, 128, 2195, 2109, 4449, 4447, 4445, 4443, 3863, 3861, 2011
-                    -> valueAddsTreeSet.add(HotelValueAdd(context, ValueAddsEnum.PARKING, valueAdd.description))
-                    2196, 32768, 10
-                    -> valueAddsTreeSet.add(HotelValueAdd(context, ValueAddsEnum.FREE_AIRPORT_SHUTTLE, valueAdd.description))
+                val hotelValueAdd = HotelValueAdd.getHotelValueAdd(context, valueAdd)
+                if (hotelValueAdd != null) {
+                    valueAddsTreeSet.add(hotelValueAdd)
                 }
             }
         }

@@ -86,22 +86,30 @@ public class FeatureConfiguration extends BaseFeatureConfiguration {
 
 	@Override
 	public String getOmnitureEventValue(OmnitureTracking.OmnitureEventName key) {
+		String value = null;
+
 		switch (key) {
 		case REWARD_PROGRAM_NAME:
-			return "ebookers";
+			value = "ebookers";
+			break;
 		case HOTEL_CHECKOUT_START_REWARDS_REDEEMABLE:
-			return "event119";
+			value = "event119";
+			break;
 		case REWARD_APPLIED_PERCENTAGE_TEMPLATE:
-			return "ebookers | %d";
+			value = "ebookers | %d";
+			break;
 		case NO_REWARDS_USED:
-			return "no bonus+ used";
+			value = "no bonus+ used";
+			break;
 		case TOTAL_POINTS_BURNED:
-			return "event123";
+			value = "event123";
+			break;
 		case BRAND_KEY_FOR_OMNITURE:
-			return "EBookers";
+			value = "EBookers";
+			break;
 		}
-		//It should not be the case
-		throw new IllegalArgumentException("Unknown enum value");
+
+		return value;
 	}
 
 	@Override

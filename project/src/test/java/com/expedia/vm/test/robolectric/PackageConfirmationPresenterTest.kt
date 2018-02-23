@@ -155,11 +155,9 @@ class PackageConfirmationPresenterTest {
     fun testMIDShowBookingSuccessDialogOnItinResponseError() {
         setupMIDWebCheckout()
 
-        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
         val makeItinResponseObserver = packagePresenter.makeNewItinResponseObserver()
-        packagePresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
 
-        serviceRule.services!!.getTripDetails("error-response", makeItinResponseObserver)
+        serviceRule.services!!.getTripDetails("error_trip", makeItinResponseObserver)
 
         val alertDialog = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
         assertTrue(alertDialog.title.contains("Booking Successful!"))

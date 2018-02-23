@@ -14,22 +14,6 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
-        android:title="Activity Features">
-
-        <CheckBoxPreference
-            android:key="@string/preference_enable_activity_map"
-            android:summary="Activity Infosite Map."
-            android:title="Enable Activity Infosite Map" />
-
-        <CheckBoxPreference
-            android:key="@string/preference_enable_lx_redesign"
-            android:summary="Enable new LX Design-Discount Percentage View."
-            android:title="Enable new LX Design" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:layout="@layout/preference_category_title"
         android:title="CheckOut Features">
 
         <CheckBoxPreference
@@ -38,31 +22,9 @@
             android:title="Disabled STP state for hotels" />
 
         <CheckBoxPreference
-            android:key="@string/preference_enable_universal_checkout_on_lx"
-            android:summary="Bring universal checkout to LX"
-            android:title="Enable Universal Checkout on LX" />
-
-        <CheckBoxPreference
             android:key="@string/pay_later_credit_card_messaging"
             android:summary="Enable credit card messaging for pay later"
             android:title="Enable credit card messaging pay later" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:layout="@layout/preference_category_title"
-        android:title="Itin Features">
-
-        <CheckBoxPreference
-            android:key="@string/preference_enable_universal_deeplink"
-            android:summary="Trips - Universal Webview"
-            android:title="Trips - Universal Webview" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:layout="@layout/preference_category_title"
-        android:title="Packages Features">
 
     </PreferenceCategory>
 

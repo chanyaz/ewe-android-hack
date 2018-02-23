@@ -1,7 +1,6 @@
 package com.expedia.vm.flights
 
 import android.app.AlertDialog
-import android.app.ProgressDialog
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +10,14 @@ import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.widget.DeprecatedProgressDialog
 import com.expedia.util.notNullAndObservable
 import com.squareup.phrase.Phrase
 
 class BaggageInfoView(val context: Context) {
 
     lateinit var baggageInfoParentContainer: ViewGroup
-    private val createLoader = ProgressDialog(context)
+    private val createLoader = DeprecatedProgressDialog(context)
 
     var baggageInfoViewModel: BaggageInfoViewModel by notNullAndObservable { vm ->
         vm.airlineNameSubject.subscribe {

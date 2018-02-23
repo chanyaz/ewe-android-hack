@@ -1,7 +1,6 @@
 package com.expedia.bookings.utils
 
 import com.expedia.bookings.test.MockClientLogServices
-import com.expedia.bookings.tracking.OmnitureTracking
 import okhttp3.HttpUrl
 import org.junit.Before
 import org.junit.Test
@@ -11,18 +10,29 @@ import kotlin.test.assertTrue
 
 class DeepLinkUtilsTest {
 
-    lateinit var mockClientLogServices: MockClientLogServices
+    private lateinit var mockClientLogServices: MockClientLogServices
+    private lateinit var mockDeepLinkAnalytics: MockDeepLinkAnalytics
 
     @Before
     fun setup() {
         mockClientLogServices = MockClientLogServices()
+        mockDeepLinkAnalytics = MockDeepLinkAnalytics()
     }
 
     @Test
     fun emlcid() {
-        trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=178307&langid=1033&emlcid=TEST_BRAD_MDPCID_UNIVERSAL_LINK")
-        assertEquals("TEST_BRAD_MDPCID_UNIVERSAL_LINK", mockClientLogServices.lastSeenDeepLinkQueryParams?.get("emlcid"))
+        trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=178307&langid=1033&emlcid=SOME_EMLCID_VALUE")
+        assertEquals("SOME_EMLCID_VALUE", mockClientLogServices.lastSeenDeepLinkQueryParams?.get("emlcid"))
         assertOmnitureDeepLinkArgsSetup("emlcid")
+    }
+
+    @Test
+    fun emlcidAndEmldtl() {
+        trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=178307&langid=1033&emlcid=SOME_EMLCID_VALUE&emldtl=THAT_EMLDTL")
+        assertEquals("SOME_EMLCID_VALUE", mockClientLogServices.lastSeenDeepLinkQueryParams?.get("emlcid"))
+        assertEquals("THAT_EMLDTL", mockClientLogServices.lastSeenDeepLinkQueryParams?.get("emldtl"))
+        assertOmnitureDeepLinkArgsSetup("emlcid")
+        assertOmnitureDeepLinkArgsSetup("emldtl")
     }
 
     @Test
@@ -175,7 +185,7 @@ class DeepLinkUtilsTest {
     fun gclid() {
         trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?startDate=12/27/2017&endDate=01/03/2018&regionId=602231&gclid=SEMGCLID_KRABI_TEST_GCLID")
         assertEquals("SEMGCLID_KRABI_TEST_GCLID", mockClientLogServices.lastSeenDeepLinkQueryParams?.get("gclid"))
-        assertOmnitureDeepLinkArgsSetup("icmdtl")
+        assertOmnitureDeepLinkArgsSetup("gclid")
     }
 
     @Test
@@ -188,19 +198,26 @@ class DeepLinkUtilsTest {
     }
 
     @Test
+    fun pushcid() {
+        trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?startDate=12/27/2017&endDate=01/03/2018&regionId=602231&pushcid=ITS_A_PUSHCID")
+        assertEquals("ITS_A_PUSHCID", mockClientLogServices.lastSeenDeepLinkQueryParams?.get("pushcid"))
+        assertOmnitureDeepLinkArgsSetup("pushcid")
+    }
+
+    @Test
     fun testNoDeeplinkArgs() {
-        val trackingArgsSizeBefore = OmnitureTracking.getDeepLinkArgs().size
+        val trackingArgsSizeBefore = mockDeepLinkAnalytics.deepLinkArgs.size
         trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=178307&langid=1033")
         assertNull(mockClientLogServices.lastSeenDeepLinkQueryParams)
-        val trackingArgsSizeAfter = OmnitureTracking.getDeepLinkArgs().size
+        val trackingArgsSizeAfter = mockDeepLinkAnalytics.deepLinkArgs.size
         assertEquals(trackingArgsSizeBefore, trackingArgsSizeAfter)
     }
 
     private fun trackDeepLink(url: String) {
-        DeepLinkUtils.parseAndTrackDeepLink(mockClientLogServices, HttpUrl.parse(url))
+        DeepLinkUtils.parseAndTrackDeepLink(mockClientLogServices, HttpUrl.parse(url), mockDeepLinkAnalytics)
     }
 
     private fun assertOmnitureDeepLinkArgsSetup(key: String) {
-        assertTrue(OmnitureTracking.getDeepLinkArgs().containsKey(key))
+        assertTrue(mockDeepLinkAnalytics.deepLinkArgs.containsKey(key))
     }
 }

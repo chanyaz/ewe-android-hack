@@ -3,7 +3,7 @@ package com.expedia.bookings.test.phone.launch;
 import org.junit.Test;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.DeprecatedHotelSearchParams;
 import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.otto.Events;
@@ -43,7 +43,7 @@ public class LaunchScreenTest extends PhoneTestCase {
 	public void testSeeMore() throws Throwable {
 		CollectionLocation collectionLocation = new CollectionLocation();
 		CollectionLocation.Location suggestion = new CollectionLocation.Location();
-		suggestion.type = HotelSearchParams.SearchType.MY_LOCATION.toString();
+		suggestion.type = DeprecatedHotelSearchParams.SearchType.MY_LOCATION.toString();
 
 		CollectionLocation.LatLng coordinates = new CollectionLocation.LatLng();
 		coordinates.lat = 32.71444d;

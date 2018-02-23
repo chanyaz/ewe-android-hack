@@ -27,7 +27,7 @@ public class PackageHotelResultsTest extends PackageTestCase {
 	@Test
 	public void testResultsHeader() throws Throwable {
 		PackageScreen.searchPackage();
-		PackageScreen.hotelResultsHeader().check(matches(withText("48 Results")));
+		PackageScreen.hotelResultsHeader().check(matches(withText("48 Results  ")));
 	}
 
 	@Test

@@ -1,7 +1,6 @@
 package com.expedia.bookings.hotel.activity
 
 import android.content.Intent
-import android.graphics.Rect
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
@@ -13,17 +12,27 @@ import com.expedia.bookings.hotel.util.HotelGalleryManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import android.support.v7.widget.GridLayoutManager
-import android.view.View
 import com.expedia.bookings.hotel.widget.HotelGalleryGridAdapter
+import android.app.ActivityOptions
+import android.app.ActivityManager
+import android.content.ComponentCallbacks2
+import android.content.Context
+import com.expedia.bookings.data.HotelMedia
+import com.expedia.bookings.hotel.widget.GalleryGridItemDecoration
+import com.squareup.picasso.Picasso
 
-class HotelGalleryGridActivity : AppCompatActivity() {
+class HotelGalleryGridActivity : AppCompatActivity(), ComponentCallbacks2 {
     private val toolbar by bindView<Toolbar>(R.id.hotel_gallery_grid_toolbar)
     private val recyclerView by bindView<RecyclerView>(R.id.hotel_gallery_grid_recycler)
 
     private lateinit var galleryManager: HotelGalleryManager
     private lateinit var galleryConfig: HotelGalleryConfig
+    private lateinit var adapter: HotelGalleryGridAdapter
 
-    private val adapter = HotelGalleryGridAdapter()
+    private var columnCount = 3
+    private val activityManager by lazy { getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager }
+
+    private val HD_IMAGE_MEMORY_THRESHOLD = 256
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +58,24 @@ class HotelGalleryGridActivity : AppCompatActivity() {
         }
     }
 
+    override fun onTrimMemory(level: Int) {
+        super.onTrimMemory(level)
+        when (level) {
+            ComponentCallbacks2.TRIM_MEMORY_RUNNING_MODERATE,
+            ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW,
+            ComponentCallbacks2.TRIM_MEMORY_RUNNING_CRITICAL -> {
+                if (!adapter.lowMemoryMode) {
+                    val galleryItems = galleryManager.fetchMediaList(galleryConfig.roomCode)
+                    val picasso = Picasso.with(this)
+                    galleryItems.forEach { media ->
+                        picasso.invalidate(media.getUrl(HotelMedia.Size.getIdealGridSize()))
+                    }
+                    adapter.forceLowMemory()
+                }
+            }
+        }
+    }
+
     private fun initToolbar() {
         toolbar.title = galleryConfig.hotelName
         toolbar.setNavigationOnClickListener {
@@ -57,29 +84,29 @@ class HotelGalleryGridActivity : AppCompatActivity() {
     }
 
     private fun initRecyclerView() {
-        val layoutManager = GridLayoutManager(this, 3)
+        val layoutManager = GridLayoutManager(this, columnCount)
         recyclerView.layoutManager = layoutManager
+
+        adapter = HotelGalleryGridAdapter(isLowMemory() || isBelowMemoryThreshold())
         recyclerView.adapter = adapter
         val spacingInPixels = resources.getDimensionPixelSize(R.dimen.gallery_grid_spacing)
-        recyclerView.addItemDecoration(GalleryGridItemDecoration(spacingInPixels))
+        recyclerView.addItemDecoration(GalleryGridItemDecoration(spacingInPixels, columnCount))
 
-        adapter.imageAtPositionSelected.subscribe { position ->
+        adapter.selectedImagePosition.subscribe { position ->
             val intent = Intent(this, HotelGalleryActivity::class.java)
             intent.putExtra(HotelExtras.GALLERY_CONFIG, galleryConfig.copy(startIndex = position))
-            startActivity(intent)
+            val bundle = ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
+            startActivity(intent, bundle)
         }
     }
 
-    class GalleryGridItemDecoration(private val space: Int) : RecyclerView.ItemDecoration() {
+    private fun isLowMemory(): Boolean {
+        val memoryInfo = ActivityManager.MemoryInfo()
+        activityManager.getMemoryInfo(memoryInfo)
+        return memoryInfo.lowMemory
+    }
 
-        override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView,
-                                    state: RecyclerView.State) {
-            outRect.top = space
-            outRect.left = space
-            outRect.right = space
-            outRect.bottom = space
-
-            //todo pretty https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/10330
-        }
+    private fun isBelowMemoryThreshold(): Boolean {
+        return activityManager.memoryClass < HD_IMAGE_MEMORY_THRESHOLD
     }
 }

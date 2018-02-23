@@ -17,10 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @deprecated please stop using this class and only use the .kt version
+ * This class is deprecated please use the kt version (see com.expedia.bookings.data.hotels.DeprecatedHotelSearchParams) only
  */
-@Deprecated
-public class HotelSearchParams implements JSONable {
+public class DeprecatedHotelSearchParams implements JSONable {
 
 	private SearchType mSearchType = SearchType.MY_LOCATION;
 
@@ -63,7 +62,7 @@ public class HotelSearchParams implements JSONable {
 	// This might get filled as a result of an autosuggestion
 	private String mRegionId;
 
-	// This will get set if the HotelSearchParams object was created from the widget
+	// This will get set if the DeprecatedHotelSearchParams object was created from the widget
 	private boolean mIsFromWidget;
 
 	/**
@@ -73,7 +72,7 @@ public class HotelSearchParams implements JSONable {
 	 */
 	private String mUserQuery;
 
-	public HotelSearchParams() {
+	public DeprecatedHotelSearchParams() {
 		init();
 	}
 
@@ -103,14 +102,14 @@ public class HotelSearchParams implements JSONable {
 		return new LocalDate().plusDays(1);
 	}
 
-	public HotelSearchParams(JSONObject obj) {
+	public DeprecatedHotelSearchParams(JSONObject obj) {
 		if (obj != null) {
 			fromJson(obj);
 		}
 	}
 
-	public HotelSearchParams copy() {
-		return new HotelSearchParams(toJson());
+	public DeprecatedHotelSearchParams copy() {
+		return new DeprecatedHotelSearchParams(toJson());
 	}
 
 	public SearchType getSearchType() {
@@ -118,7 +117,7 @@ public class HotelSearchParams implements JSONable {
 	}
 
 	/**
-	 * Sets the type of search for this HotelSearchParams. Returns true if the type has changed.
+	 * Sets the type of search for this DeprecatedHotelSearchParams. Returns true if the type has changed.
 	 * @param searchType
 	 * @return
 	 */
@@ -132,7 +131,7 @@ public class HotelSearchParams implements JSONable {
 	}
 
 	/**
-	 * Sets the location query for this HotelSearchParams object. Also marks the (latitude, longitude)
+	 * Sets the location query for this DeprecatedHotelSearchParams object. Also marks the (latitude, longitude)
 	 * position as not up to date and clears the regionId. Returns false if the location passed was
 	 * the same as before.
 	 * @param query
@@ -295,7 +294,7 @@ public class HotelSearchParams implements JSONable {
 	}
 
 	/**
-	 * Creates a HotelSearchParams which can be used to search for hotels
+	 * Creates a DeprecatedHotelSearchParams which can be used to search for hotels
 	 * related to a booked Flight product.
 	 *
 	 * @param regionId the destination region id to perform the search
@@ -303,10 +302,10 @@ public class HotelSearchParams implements JSONable {
 	 * @param secondLeg the second leg of a trip (if round trip); optional
 	 * @param numFlightTravelers
 	 * @param childTravelers
-	 * @return a HotelSearchParams for those flight parameters
+	 * @return a DeprecatedHotelSearchParams for those flight parameters
 	 */
-	public static HotelSearchParams fromFlightParams(String regionId, FlightLeg firstLeg, FlightLeg secondLeg, int numFlightTravelers, List<ChildTraveler> childTravelers) {
-		HotelSearchParams hotelParams = new HotelSearchParams();
+	public static DeprecatedHotelSearchParams fromFlightParams(String regionId, FlightLeg firstLeg, FlightLeg secondLeg, int numFlightTravelers, List<ChildTraveler> childTravelers) {
+		DeprecatedHotelSearchParams hotelParams = new DeprecatedHotelSearchParams();
 
 		// Where //
 		// Because we are adding regionId, it doesn't matter too much if our query isn't perfect
@@ -341,7 +340,7 @@ public class HotelSearchParams implements JSONable {
 		return hotelParams;
 	}
 
-	private static void ensureMaxStayTwentyEightDays(HotelSearchParams params) {
+	private static void ensureMaxStayTwentyEightDays(DeprecatedHotelSearchParams params) {
 		// Make sure the stay is no longer than 28 days
 		LocalDate checkInDate = params.getCheckInDate();
 		LocalDate checkOutDate = params.getCheckOutDate();
@@ -426,11 +425,11 @@ public class HotelSearchParams implements JSONable {
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof HotelSearchParams) {
-			HotelSearchParams other = (HotelSearchParams) o;
+		if (o instanceof DeprecatedHotelSearchParams) {
+			DeprecatedHotelSearchParams other = (DeprecatedHotelSearchParams) o;
 
 			// Note that "equals" doesn't mean strictly equals.  In this situation, it means that
-			// the two HotelSearchParams objects will result in the equivalent search results.  It does not
+			// the two DeprecatedHotelSearchParams objects will result in the equivalent search results.  It does not
 			// compare some state variables (such as lat/lon, which are retrieved from the freeform location
 
 			return this.getSearchType().equals(other.getSearchType())
@@ -457,9 +456,9 @@ public class HotelSearchParams implements JSONable {
 		}
 	}
 
-	public HotelSearchParams clone() {
+	public DeprecatedHotelSearchParams clone() {
 		JSONObject json = this.toJson();
-		HotelSearchParams params = new HotelSearchParams();
+		DeprecatedHotelSearchParams params = new DeprecatedHotelSearchParams();
 		params.fromJson(json);
 		return params;
 	}

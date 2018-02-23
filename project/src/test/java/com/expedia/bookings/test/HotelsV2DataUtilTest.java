@@ -13,6 +13,7 @@ import org.robolectric.annotation.Config;
 import android.content.Context;
 
 import com.expedia.bookings.data.ChildTraveler;
+import com.expedia.bookings.data.DeprecatedHotelSearchParams;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation;
@@ -70,7 +71,7 @@ public class HotelsV2DataUtilTest {
 
 	@Test
 	public void fromV1SearchParamsToV2SearchParams() {
-		com.expedia.bookings.data.HotelSearchParams v1Params = new com.expedia.bookings.data.HotelSearchParams();
+		DeprecatedHotelSearchParams v1Params = new DeprecatedHotelSearchParams();
 		v1Params.setRegionId("1234");
 		v1Params.setQuery("San Francisco");
 		LocalDate checkIn = LocalDate.now().plusDays(1);
@@ -103,7 +104,7 @@ public class HotelsV2DataUtilTest {
 
 	@Test
 	public void fromV1SearchParamsToV2SearchParamsWithPastDate() {
-		com.expedia.bookings.data.HotelSearchParams v1Params = new com.expedia.bookings.data.HotelSearchParams();
+		DeprecatedHotelSearchParams v1Params = new DeprecatedHotelSearchParams();
 		v1Params.setRegionId("1234");
 		v1Params.setQuery("San Francisco");
 		LocalDate checkIn = new LocalDate("2014-09-27");
@@ -214,7 +215,7 @@ public class HotelsV2DataUtilTest {
 		PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_swp_disabled_config.json");
 		Assert.assertFalse(PointOfSale.getPointOfSale().isSWPEnabledForHotels());
 
-		com.expedia.bookings.data.HotelSearchParams v1Params = getBasicV1Params();
+		DeprecatedHotelSearchParams v1Params = getBasicV1Params();
 
 		HotelSearchParams v2params = HotelsV2DataUtil.Companion.getHotelV2SearchParams(context, v1Params, false);
 		Assert.assertFalse("SWP expected to be disabled", v2params.getShopWithPoints());
@@ -226,7 +227,7 @@ public class HotelsV2DataUtilTest {
 		PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_swp_enabled_config.json");
 		Assert.assertTrue(PointOfSale.getPointOfSale().isSWPEnabledForHotels());
 
-		com.expedia.bookings.data.HotelSearchParams v1Params = getBasicV1Params();
+		DeprecatedHotelSearchParams v1Params = getBasicV1Params();
 
 		HotelSearchParams v2params = HotelsV2DataUtil.Companion.getHotelV2SearchParams(context, v1Params, false);
 
@@ -253,7 +254,7 @@ public class HotelsV2DataUtilTest {
 		arrivalRegionNames.displayName = "Los Angeles";
 		arrivalRegionNames.shortName = "LAX";
 		arrivalSuggestion.regionNames = arrivalRegionNames;
-		arrivalSuggestion.type = com.expedia.bookings.data.HotelSearchParams.SearchType.CITY.name();
+		arrivalSuggestion.type = DeprecatedHotelSearchParams.SearchType.CITY.name();
 
 		SuggestionV4.LatLng testArrivalCoordinates = new SuggestionV4.LatLng();
 		testArrivalCoordinates.lat = 100.00;
@@ -288,8 +289,8 @@ public class HotelsV2DataUtilTest {
 		UserLoginTestUtil.setupUserAndMockLogin(user);
 	}
 
-	private com.expedia.bookings.data.HotelSearchParams getBasicV1Params() {
-		com.expedia.bookings.data.HotelSearchParams v1Params = new com.expedia.bookings.data.HotelSearchParams();
+	private DeprecatedHotelSearchParams getBasicV1Params() {
+		DeprecatedHotelSearchParams v1Params = new DeprecatedHotelSearchParams();
 		v1Params.setRegionId("1234");
 		v1Params.setQuery("San Francisco");
 		LocalDate checkIn = new LocalDate("2017-09-27");

@@ -14,9 +14,9 @@ abstract class HotelItinBaseActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == Constants.ITIN_HOTEL_WEBPAGE_CODE) {
+        if (requestCode == Constants.ITIN_WEBVIEW_REFRESH_ON_EXIT_CODE) {
             if (resultCode == RESULT_OK && data != null) {
-                val tripId = data.getStringExtra(Constants.ITIN_HOTEL_WEBPAGE_TRIP_NUMBER)
+                val tripId = data.getStringExtra(Constants.ITIN_WEBVIEW_REFRESH_ON_EXIT_TRIP_NUMBER)
                 if (tripId.isNotEmpty()) {
                     getItineraryManager().deepRefreshTrip(tripId, true)
                 }

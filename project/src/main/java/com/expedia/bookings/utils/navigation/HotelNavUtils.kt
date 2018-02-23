@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.expedia.bookings.data.Codes
-import com.expedia.bookings.data.HotelSearchParams
+import com.expedia.bookings.data.DeprecatedHotelSearchParams
 import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.hotel.deeplink.HotelLandingPage
 import com.expedia.bookings.utils.HotelsV2DataUtil
@@ -16,7 +16,7 @@ class HotelNavUtils : NavUtils() {
             goToHotelsV2Params(context, null, null, expediaFlags)
         }
 
-        @JvmStatic fun goToHotels(context: Context, params: HotelSearchParams) {
+        @JvmStatic fun goToHotels(context: Context, params: DeprecatedHotelSearchParams) {
             goToHotels(context, params, null, 0)
         }
 
@@ -29,7 +29,7 @@ class HotelNavUtils : NavUtils() {
         }
 
         @JvmStatic
-        fun goToHotels(context: Context, oldParams: HotelSearchParams?,
+        fun goToHotels(context: Context, oldParams: DeprecatedHotelSearchParams?,
                        animOptions: Bundle?, expediaFlags: Int) {
             var v2params: com.expedia.bookings.data.hotels.HotelSearchParams? = null
             if (oldParams != null) {

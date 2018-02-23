@@ -10,7 +10,7 @@ fun CompoundButton.subscribeOnClick(observer: Observer<Boolean>) {
 }
 
 fun CompoundButton.subscribeOnCheckChanged(observer: Observer<Boolean>) {
-    this.setOnCheckedChangeListener { compoundButton: CompoundButton, isChecked: Boolean ->
+    this.setOnCheckedChangeListener { _, isChecked: Boolean ->
         observer.onNext(isChecked)
     }
 }

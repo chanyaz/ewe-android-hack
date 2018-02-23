@@ -114,7 +114,7 @@
     <!-- Facebook connect {Expedia} password hint -->
     <string name="acct__fb_brand_password_hint">{brand}n salasana</string>
     <!-- Linking your accounts -->
-    <string name="acct__fb_linking_your_accounts">Tilejä liitetään…</string>
+    <string name="acct__fb_linking_your_accounts">Liitetään tilejä…</string>
     <!-- Facebook/{Expedia} account not found: dialog box title -->
     <string name="acct__fb_notLinked_title">Tiliä ei löytynyt</string>
     <!-- Error message: Error signing in to {Expedia} account -->
@@ -126,7 +126,7 @@
     <!-- Facebook/{Expedia} account not found: sign in to existing account button -->
     <string name="acct__fb_notLinked_existing_button">Olemassa oleva</string>
     <!-- Creating a new {Expedia} account via Facebook login -->
-    <string name="acct__fb_creating_a_new_brand_account">Uutta {brand}-tiliä luodaan…</string>
+    <string name="acct__fb_creating_a_new_brand_account">Luodaan uutta {brand}-tiliä…</string>
     <!-- Message to the user requesting the user to enter email/password to link with Facebook -->
     <string name="acct__fb_enter_your_brand_credentials">Anna {brand}n tilisi käyttäjätiedot alle, ja se liitetään Facebook-tiliisi.</string>
     <!-- Label for information for users who had previously used Google sign-in -->

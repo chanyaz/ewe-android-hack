@@ -2,6 +2,7 @@ package com.expedia.bookings.hotel.deeplink
 
 import android.content.Intent
 import com.expedia.bookings.data.Codes
+import com.expedia.bookings.data.DeprecatedHotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.deeplink.HotelDeepLink
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -78,7 +79,7 @@ class HotelIntentBuilderTest {
 
         assertNotNull(params)
         assertEquals(expectedId, params!!.suggestion.gaiaId)
-        assertEquals(com.expedia.bookings.data.HotelSearchParams.SearchType.CITY.name,
+        assertEquals(DeprecatedHotelSearchParams.SearchType.CITY.name,
                 params.suggestion.type)
     }
 
@@ -92,7 +93,7 @@ class HotelIntentBuilderTest {
         val params = getParamsFromIntent(intent)
 
         assertNotNull(params)
-        assertEquals(com.expedia.bookings.data.HotelSearchParams.SearchType.CITY.name,
+        assertEquals(DeprecatedHotelSearchParams.SearchType.CITY.name,
                 params!!.suggestion.type)
         assertEquals(expectedLocation, params.suggestion.regionNames.displayName)
     }

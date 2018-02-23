@@ -488,9 +488,12 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
                 val pendingPoints = userLoyaltyInfo?.loyaltyPointsPending ?: 0.0
                 if (pendingPoints > 0) {
                     pendingPointsTextView.visibility = View.VISIBLE
+                    val formattedPendingPoints = numberFormatter.format(pendingPoints)
                     pendingPointsTextView.text = getString(R.string.loyalty_points_pending,
-                            numberFormatter.format(pendingPoints))
-                    pendingPointsTextView.contentDescription = pendingPointsTextView.text.toString() + Phrase.from(activity, R.string.pending_points_button).format().toString()
+                            formattedPendingPoints)
+                    pendingPointsTextView.contentDescription = Phrase.from(activity, R.string.pending_points_TEMPLATE)
+                            .put("loyalty_points", formattedPendingPoints)
+                            .format().toString()
                 } else {
                     pendingPointsTextView.visibility = View.GONE
                 }

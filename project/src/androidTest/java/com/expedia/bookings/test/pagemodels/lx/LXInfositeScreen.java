@@ -78,7 +78,7 @@ public class LXInfositeScreen {
 
 	public static ViewInteraction priceSummary(String ticketName) {
 		return onView(
-			Matchers.allOf(withId(R.id.selected_ticket_summary), withParent(hasSibling(withText(ticketName))),
+			Matchers.allOf(withId(R.id.selected_ticket_summary), isDescendantOfA(hasSibling(withText(ticketName))),
 				isDescendantOfA(withId(R.id.activity_details_presenter))));
 	}
 

@@ -51,7 +51,7 @@ open class ADMS_Measurement {
         sb.append(eventString)
 
         if (sb.isNotEmpty()) {
-            setEvents(sb.toString())
+            cData[EVENTS] = sb.toString()
         }
     }
 

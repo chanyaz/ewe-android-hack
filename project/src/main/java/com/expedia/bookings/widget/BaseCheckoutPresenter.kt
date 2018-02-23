@@ -2,7 +2,6 @@ package com.expedia.bookings.widget
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Rect
 import android.support.v4.content.ContextCompat
@@ -91,8 +90,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     protected var cardType: PaymentType? = null
     protected var userAccountRefresher = UserAccountRefresher(context, getLineOfBusiness(), this)
-    private val checkoutDialog = ProgressDialog(context)
-    private val createTripDialog = ProgressDialog(context)
+    private val checkoutDialog = DeprecatedProgressDialog(context)
+    private val createTripDialog = DeprecatedProgressDialog(context)
 
     /** views **/
     val toolbarDropShadow: View by bindView(R.id.drop_shadow)

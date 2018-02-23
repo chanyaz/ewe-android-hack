@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import com.expedia.bookings.data.HotelMedia
 import io.reactivex.subjects.PublishSubject
 
-class HotelGalleryGridAdapter : RecyclerView.Adapter<HotelGalleryGridViewHolder>() {
-    val imageAtPositionSelected = PublishSubject.create<Int>()
+class HotelGalleryGridAdapter(var lowMemoryMode: Boolean = false) : RecyclerView.Adapter<HotelGalleryGridViewHolder>() {
+    val selectedImagePosition = PublishSubject.create<Int>()
 
     private var mediaList: List<HotelMedia> = emptyList()
 
@@ -15,14 +15,19 @@ class HotelGalleryGridAdapter : RecyclerView.Adapter<HotelGalleryGridViewHolder>
         notifyDataSetChanged()
     }
 
+    fun forceLowMemory() {
+        this.lowMemoryMode = true
+        notifyDataSetChanged()
+    }
+
     override fun getItemCount(): Int {
         return mediaList.size
     }
 
     override fun onBindViewHolder(holder: HotelGalleryGridViewHolder, position: Int) {
-        holder.bind(mediaList[position])
+        holder.bind(mediaList[position], lowMemoryMode)
         holder.root.setOnClickListener {
-            imageAtPositionSelected.onNext(position)
+            selectedImagePosition.onNext(position)
         }
     }
 

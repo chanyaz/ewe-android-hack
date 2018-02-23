@@ -12,12 +12,12 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Contains both the parameters (see {@link com.expedia.bookings.data.HotelSearchParams}) and search
+ * Contains both the parameters (see {@link DeprecatedHotelSearchParams}) and search
  * results (see {@link com.expedia.bookings.data.HotelSearchResponse}) for a hotel search.
  */
 public class HotelSearch implements JSONable {
 
-	private HotelSearchParams mSearchParams;
+	private DeprecatedHotelSearchParams mSearchParams;
 	private HotelSearchResponse mSearchResponse;
 
 	private Property mSelectedProperty;
@@ -28,14 +28,14 @@ public class HotelSearch implements JSONable {
 	private Map<String, ReviewsResponse> mReviewsResponses;
 
 	public HotelSearch() {
-		mSearchParams = new HotelSearchParams();
+		mSearchParams = new DeprecatedHotelSearchParams();
 	}
 
-	public void setSearchParams(HotelSearchParams params) {
+	public void setSearchParams(DeprecatedHotelSearchParams params) {
 		mSearchParams = params;
 	}
 
-	public HotelSearchParams getSearchParams() {
+	public DeprecatedHotelSearchParams getSearchParams() {
 		return mSearchParams;
 	}
 
@@ -123,7 +123,7 @@ public class HotelSearch implements JSONable {
 
 	@Override
 	public boolean fromJson(JSONObject obj) {
-		setSearchParams(JSONUtils.getJSONable(obj, "searchParams", HotelSearchParams.class));
+		setSearchParams(JSONUtils.getJSONable(obj, "searchParams", DeprecatedHotelSearchParams.class));
 		setSearchResponse(JSONUtils.getJSONable(obj, "searchResponse", HotelSearchResponse.class));
 
 		mSelectedProperty = JSONUtils.getJSONable(obj, "selectedProperty", Property.class);

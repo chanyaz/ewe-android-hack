@@ -3,7 +3,6 @@ package com.expedia.bookings.presenter.lx;
 import javax.inject.Inject;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.StringRes;
@@ -29,6 +28,7 @@ import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CVVEntryWidget;
+import com.expedia.bookings.widget.DeprecatedProgressDialog;
 import com.expedia.bookings.widget.LXErrorWidget;
 import com.expedia.bookings.widget.LxRulesWidget;
 import com.mobiata.android.Log;
@@ -68,7 +68,7 @@ public class LXCheckoutPresenter extends Presenter {
 	LXErrorWidget errorScreen;
 
 	private LXCheckoutParams checkoutParams;
-	private ProgressDialog checkoutDialog;
+	private DeprecatedProgressDialog checkoutDialog;
 	private Disposable checkoutSubscription;
 
 	@Override
@@ -85,7 +85,7 @@ public class LXCheckoutPresenter extends Presenter {
 
 		cvv.setCVVEntryListener(checkout);
 
-		checkoutDialog = new ProgressDialog(getContext());
+		checkoutDialog = new DeprecatedProgressDialog(getContext());
 		checkoutDialog.setMessage(getResources().getString(R.string.booking_loading));
 		checkoutDialog.setIndeterminate(true);
 	}

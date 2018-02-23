@@ -3,6 +3,7 @@ package com.expedia.bookings.widget
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.app.Activity
+import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.util.AttributeSet
@@ -144,7 +145,8 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                     roomCode = DEFAULT_HOTEL_GALLERY_CODE,
                     showDescription = true, startIndex = galleryView.getCurrentIndex())
             intent.putExtra(HotelExtras.GALLERY_CONFIG, galleryConfig)
-            context.startActivity(intent)
+            val bundle = ActivityOptions.makeSceneTransitionAnimation(context as Activity).toBundle()
+            context.startActivity(intent, bundle)
         }
 
         bottomButtonWidget.selectRoomClickedSubject.subscribe {

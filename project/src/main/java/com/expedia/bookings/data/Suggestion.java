@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 import android.util.Pair;
 
-import com.expedia.bookings.data.HotelSearchParams.SearchType;
+import com.expedia.bookings.data.DeprecatedHotelSearchParams.SearchType;
 import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.SuggestionStrUtils;
@@ -126,8 +126,8 @@ public class Suggestion implements JSONable {
 			SuggestionStrUtils.formatAirportName(formattedDisplayName));
 	}
 
-	public HotelSearchParams toHotelSearchParams() {
-		HotelSearchParams hotelSearchParams = new HotelSearchParams();
+	public DeprecatedHotelSearchParams toHotelSearchParams() {
+		DeprecatedHotelSearchParams hotelSearchParams = new DeprecatedHotelSearchParams();
 		hotelSearchParams.setQuery(mDisplayName);
 		hotelSearchParams.setRegionId(mId);
 		switch (mType) {

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.DeprecatedHotelSearchParams
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
@@ -225,7 +226,7 @@ class FareFamilyItemWidgetTest {
         arrivalRegionNames.shortName = "LAX"
         arrivalRegionNames.fullName = "LAX - Los Angeles"
         arrivalSuggestion.regionNames = arrivalRegionNames
-        arrivalSuggestion.type = com.expedia.bookings.data.HotelSearchParams.SearchType.CITY.name
+        arrivalSuggestion.type = DeprecatedHotelSearchParams.SearchType.CITY.name
         val hierarchyInfoArrive = SuggestionV4.HierarchyInfo()
         hierarchyInfoArrive.airport = SuggestionV4.Airport()
         hierarchyInfoArrive.airport!!.airportCode = "LAX"

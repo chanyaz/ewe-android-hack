@@ -96,8 +96,8 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 			return this;
 		}
 
-		public IntentBuilder setHotelItinTripId(String hotelItinTripId) {
-			mIntent.putExtra(Constants.ITIN_HOTEL_WEBPAGE_TRIP_NUMBER, hotelItinTripId);
+		public IntentBuilder setItinTripIdForRefresh(String tripId) {
+			mIntent.putExtra(Constants.ITIN_WEBVIEW_REFRESH_ON_EXIT_TRIP_NUMBER, tripId);
 			mIntent.putExtra(ARG_RETURN_FROM_HOTEL_ITIN_WEBVIEW, true);
 			return this;
 		}

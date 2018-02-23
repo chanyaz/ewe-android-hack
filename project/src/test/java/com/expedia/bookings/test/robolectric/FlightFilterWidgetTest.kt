@@ -42,7 +42,7 @@ class FlightFilterWidgetTest {
     fun testStopsContainer() {
         vm.flightResultsObservable.onNext(getFlightList())
         val stopsContainer = widget.stopsContainer
-        val firstStop = stopsContainer.getChildAt(0) as LabeledCheckableFilter<Int>
+        val firstStop = stopsContainer.getChildAt(0) as LabeledCheckableFilter<*>
 
         assertEquals(1, stopsContainer.childCount)
         assertEquals("1 Stop", firstStop.stopsLabel.text)
@@ -53,7 +53,7 @@ class FlightFilterWidgetTest {
     fun testAirlineContainer() {
         vm.flightResultsObservable.onNext(getFlightList())
         val airlineContainer = widget.airlinesContainer
-        val firstAirlineFilter = airlineContainer.getChildAt(0) as LabeledCheckableFilter<String>
+        val firstAirlineFilter = airlineContainer.getChildAt(0) as LabeledCheckableFilter<*>
 
         assertEquals(1, airlineContainer.childCount)
         assertEquals("American Airlines", firstAirlineFilter.stopsLabel.text)
@@ -67,7 +67,7 @@ class FlightFilterWidgetTest {
         setViewModel()
         vm.flightResultsObservable.onNext(getFlightList())
         val stopsContainer = widget.stopsContainer
-        val firstStop = stopsContainer.getChildAt(0) as PriceProminenceFilterWithLogoAndCount<Int>
+        val firstStop = stopsContainer.getChildAt(0) as PriceProminenceFilterWithLogoAndCount<*>
 
         assertEquals(1, stopsContainer.childCount)
         assertEquals(View.GONE, firstStop.logoImage.visibility)
@@ -117,7 +117,7 @@ class FlightFilterWidgetTest {
         setViewModel()
         vm.flightResultsObservable.onNext(getFlightList())
         val airlineContainer = widget.airlinesContainer
-        val firstAirlineFilter = airlineContainer.getChildAt(0) as PriceProminenceFilterWithLogoAndCount<String>
+        val firstAirlineFilter = airlineContainer.getChildAt(0) as PriceProminenceFilterWithLogoAndCount<*>
 
         assertEquals(1, airlineContainer.childCount)
         assertEquals(View.VISIBLE, firstAirlineFilter.logoImage.visibility)
@@ -132,7 +132,7 @@ class FlightFilterWidgetTest {
         setViewModel()
         vm.flightResultsObservable.onNext(getFlightList())
         val stopsContainer = widget.stopsContainer
-        val firstStop = stopsContainer.getChildAt(0) as PriceProminenceFilterWithLogoAndCount<Int>
+        val firstStop = stopsContainer.getChildAt(0) as PriceProminenceFilterWithLogoAndCount<*>
 
         assertEquals(1, stopsContainer.childCount)
         assertEquals(View.GONE, firstStop.logoImage.visibility)
@@ -149,7 +149,7 @@ class FlightFilterWidgetTest {
         setViewModel()
         vm.flightResultsObservable.onNext(getFlightList())
         val airlineContainer = widget.airlinesContainer
-        val firstAirlineFilter = airlineContainer.getChildAt(0) as PriceProminenceFilterWithLogoAndCount<String>
+        val firstAirlineFilter = airlineContainer.getChildAt(0) as PriceProminenceFilterWithLogoAndCount<*>
 
         assertEquals(1, airlineContainer.childCount)
         assertEquals(View.VISIBLE, firstAirlineFilter.logoImage.visibility)

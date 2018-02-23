@@ -2,8 +2,9 @@ package com.expedia.bookings.utils
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.data.DeprecatedHotelSearchParams
 import com.expedia.bookings.data.FlightItinDetailsResponse
-import com.expedia.bookings.data.HotelSearchParams.SearchType
+import com.expedia.bookings.data.DeprecatedHotelSearchParams.SearchType
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
@@ -36,7 +37,7 @@ class HotelsV2DataUtil {
             return null
         }
 
-        fun getHotelV2SearchParams(context: Context, params: com.expedia.bookings.data.HotelSearchParams, isDatelessSearch: Boolean = false): HotelSearchParams {
+        fun getHotelV2SearchParams(context: Context, params: DeprecatedHotelSearchParams, isDatelessSearch: Boolean = false): HotelSearchParams {
             val suggestionV4 = SuggestionV4()
             suggestionV4.hotelId = params.hotelId
             suggestionV4.gaiaId = params.regionId

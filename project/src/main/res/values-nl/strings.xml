@@ -750,6 +750,8 @@
     <string name="stops">Tussenstops</string>
     <!-- Header for a flight filter, showing a list of flights from different airlines -->
     <string name="airlines">Airlines</string>
+    <!-- Header for a flight filter above the price on checked filters-->
+    <string name="price_label">Prijs</string>
 
     <!-- Pluralization for number of stops (layovers) on a given flight "2 stops" -->
     <plurals name="x_Stops_TEMPLATE">
@@ -786,6 +788,9 @@
     <string name="packages_trip_total_with_taxes_and_fees_TEMPLATE">{totalstring} {taxesandfeesstring}</string>
     <!-- Progress dialog text while creating a trip -->
     <string name="spinner_text_create_trip">De reis wordt samengesteld …</string>
+    <!-- Error dialog title when there's a MID create trip error -->
+    <string name="server_error">Serverfout</string>
+
 
     <!-- Actionbar Title - "Checkout" -->
     <string name="Checkout">Betaling</string>
@@ -1166,8 +1171,6 @@
     <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;Op %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
     <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;Vanaf %1$s&lt;/b&gt; - %2$s</string>
-    <!-- Itin sign out confirmation message -->
-    <string name="itin_sign_out_confirmation_message_TEMPLATE">Wanneer je je afmeldt bij %1$s verwijder je alle reisplanitems die aan dit account gekoppeld zijn. Weet je zeker dat je je wilt afmelden?</string>
     <!-- Accessibility lable for flight overview summary e.g Delta Airlines 745 departs 11:32 AM and arrives 6:04 PM -->
     <string name="flight_overview_TEMPLATE_cont_desc">{airline} vertrekt vanaf {departureairport} om {departuretime} en komt aan op {arrivalairport} om {arrivaltime}</string>
     <!-- Directions -->
@@ -2070,8 +2073,18 @@
     <string name="you_are_a_valued_member">Je bent een fantastisch lid!</string>
     <!-- Shop as a {brand} member eg: Shop as an Expedia member! -->
     <string name="shop_as_a_member_TEMPLATE">Boek als lid van {brand}!</string>
+    <!-- Launch screen 2x messaging signed-out title-->
+    <string name="launch_screen_sign_in_2x_title">Meld je aan en bespaar!</string>
+    <!-- Launch screen 2x messaging for signed-out subtitle-->
+    <string name="launch_screen_sign_in_2x_subtitle">Met ledenprijzen kun je nu gemiddeld 17% meer besparen op duizenden hotels. Bovendien verzamel je 2x zo veel punten als je via de app boekt!</string>
+    <!-- Launch screen 2x banner messaging for signed-in users -->
+    <string name="launch_screen_2x_banner">Verzamel 2x zo veel punten als je via de app boekt!</string>
+    <!-- Checkout sign in button for 2x messaging -->
+    <string name="checkout_sign_in_2x_messaging">Meld je aan en verzamel 2x zo veel Expedia+ punten!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">Je verdient {reward_currency} punten voor deze reis!</string>
+    <!-- Blurb text displayed on account sign in button when already signed in and has 2x earn messaging e.g. You'll earn 1234 points. That's double for booking in app!-->
+    <string name="earn_2x_rewards_currency_for_this_trip_TEMPLATE">Je verzamelt {reward_currency} punten. Dat is 2x zo veel doordat je via de app boekt!</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_raised_the_total_price_TEMPLATE">Sorry, het lijkt erop dat het hotel net de totaalprijs verhoogd heeft van %1$s naar %2$s.</string>
     <!-- String to use when a price change alert should be shown to the user -->
@@ -2134,6 +2147,12 @@
     <string name="guest_details">Reizigersinfo</string>
     <!-- Warning shown to users when they enter their name (Material design message) -->
     <string name="name_must_match_warning_new">De reizigersnaam dient exact overeen te komen met de naam op het identiteitsbewijs.</string>
+    <!-- For saved travelers button with saved traveler selected, eg Saved traveler, John Smith, button, opens traveler list-->
+    <string name="saved_traveler_button_content_description_TEMPLATE">Opgeslagen reiziger, {travelername}, knop, opent de reizigerslijst</string>
+    <!-- For saved travelers button without saved traveler, such as Add New Traveler or Select saved contacts, EG, Add New Traveler, button, opens traveler list -->
+    <string name="select_traveler_button_content_description_TEMPLATE">{buttontitle}, knop, opent de reizigerslijst</string>
+    <!-- Announced when saved traveler dropdown list is shown to user-->
+    <string name="traveler_list_opened">Reizigerslijst geopend</string>
 
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_country_code_dropdown_cont_desc">Landcode</string>
@@ -3013,6 +3032,8 @@
     <string name="coupon_promo_title">Coupons en deals</string>
     <!-- Title on dialog imploring users to enter coupons -->
     <string name="enter_coupon_code">Voer couponcode in</string>
+    <!-- Coupon widget content description on Hotel Checkout Overview-->
+    <string name="coupon_widget_content_description">‘Voer couponcode in\&apos;-knop</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">Versturen</string>
     <!-- Coupon apply button -->
@@ -3205,8 +3226,16 @@
         <item quantity="many">%d senioren</item>
         <item quantity="other">%d senioren</item>
     </plurals>
-    <!-- A number of guests. Capitalized -->
+    <!-- A number of guests. -->
     <plurals name="number_of_guests">
+        <item quantity="zero">%d gasten</item>
+        <item quantity="one">%d gast</item>
+        <item quantity="two">%d gasten</item>
+        <item quantity="many">%d gasten</item>
+        <item quantity="other">%d gasten</item>
+    </plurals>
+    <!-- A number of guests. Capitalized-->
+    <plurals name="number_of_guests_capitalized">
         <item quantity="zero">%d gasten</item>
         <item quantity="one">%d gast</item>
         <item quantity="two">%d gasten</item>
@@ -3215,7 +3244,7 @@
     </plurals>
     <!-- A number of guests (but not including the guest count). Capitalized -->
     <plurals name="number_of_guests_label">
-        <item quantity="zero">Gasten</item>
+        <item quantity="zero">gasten</item>
         <item quantity="one">gast</item>
         <item quantity="two">gasten</item>
         <item quantity="many">gasten</item>
@@ -3839,6 +3868,8 @@
     <string name="material_applied_coupon_subtitle_TEMPLATE">{name} (-{discount})</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
     <string name="coupon_error_dialog_title">Toepassing coupon mislukt</string>
+    <!--Hotel V2 remove coupon button content description-->
+    <string name="remove_coupon_button_content_description">Coupon verwijderen</string>
     <string name="coupon_error_remove_dialog_title">Verwijdering coupon mislukt</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">Er was een probleem met je coupon. Probeer het opnieuw in te voeren.</string>
@@ -4544,6 +4575,9 @@
     <!--Traveler widget child minus button content description-->
     <string name="remove_child_traveler_cont_desc">Verwijder 1 kind</string>
 
+    <!--Recent search subtitle in the suggestions dropdown, e.g Jun 3 - Jun 4 1 Night 2 Guests -->
+    <string name="suggestion_search_info_dropdown_TEMPLATE">Van {startdate} tot {enddate}\u0020-\u0020{nights}\u0020-\u0020{guests}</string>
+
     <!--Rail Traveler widget youth plus button content description-->
     <string name="rails_add_youth_traveler_cont_desc">Voeg 1 jongere toe</string>
     <!--Rail Traveler widget youth minus button content description-->
@@ -4931,7 +4965,10 @@
         <item quantity="one">Deal eindigt over {no_of_days} dag</item>
         <item quantity="other">Deal eindigt over {no_of_days} dagen</item>
     </plurals>
-
+    <!-- Shop hotels now-->
+    <string name="shop_hotels_now">Boek nu</string>
+    <!--Up to 55% off-->
+    <string name="krazyglue_offer">Tot 55% korting</string>
     <!-- Showing the header for the coupon widget to show the saved coupon -->
     <string name="saved_coupon">Opgeslagen coupons</string>
 
@@ -4961,4 +4998,7 @@
     <string name="lx_ticket_selected_summary_TEMPLATE">Activiteit geselecteerd voor: {ticket_summary}</string>
     <!-- LX SRP activity price content description when price is discounted e.g. Regular Price per adult  $125. Discounted price per adult $100-->
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">Standaardprijs {ticket_type}{activity_original_price}. Kortingsprijs {ticket_type} {activity_price}</string>
+    <string name="hotel_2x_points_search_title">2x zo veel Expedia+ punten!</string>
+    <string name="hotel_2x_points_search_content">Verzamel 2x zo veel punten door via de app te boeken!</string>
+
 </resources>

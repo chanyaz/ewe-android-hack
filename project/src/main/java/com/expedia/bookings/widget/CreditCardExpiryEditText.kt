@@ -8,14 +8,14 @@ import com.expedia.bookings.widget.accessibility.AccessibleEditText
 
 class CreditCardExpiryEditText(context: Context, attributeSet: AttributeSet?) : AccessibleEditText(context, attributeSet) {
 
-    private var mLength: Int = 0
+    private var textViewLengthBeforeEditing: Int = 0
     private val space = "/"
     private val initialMonthCharToAdd = "0"
     init {
         this.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
                 var deletion = false
-                if (mLength > s.length) {
+                if (textViewLengthBeforeEditing > s.length) {
                     deletion = true
                 }
                 if (s.length == 1 && Character.getNumericValue(s.elementAt(0)) >= 2) {
@@ -28,7 +28,7 @@ class CreditCardExpiryEditText(context: Context, attributeSet: AttributeSet?) : 
             }
 
             override fun beforeTextChanged(s: CharSequence, p1: Int, p2: Int, p3: Int) {
-                mLength = s.length
+                textViewLengthBeforeEditing = s.length
             }
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {

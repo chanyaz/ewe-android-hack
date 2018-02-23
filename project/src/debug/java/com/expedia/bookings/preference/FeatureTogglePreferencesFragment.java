@@ -1,4 +1,3 @@
-
 package com.expedia.bookings.preference;
 
 import android.os.Bundle;
@@ -24,22 +23,11 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		// Hotel Features
 		initializeFeatureCheck(R.string.preference_enable_disabled_stp_hotels);
 
-		// Login Features
-		initializeFeatureCheck(R.string.preference_enable_activity_map);
-
-		//Flight Features
-
-		//Packages Features
-
 		//Universal Checkout Features
-		initializeFeatureCheck(R.string.preference_enable_universal_checkout_on_lx);
 		initializeFeatureCheck(R.string.pay_later_credit_card_messaging);
 
 		//Flight Features
 		initializeFeatureCheck(R.string.preference_flight_rate_detail_from_cache);
-
-		//Itin Features
-		initializeFeatureCheck(R.string.preference_enable_universal_deeplink);
 	}
 
 	private void initializeFeatureCheck(int featureKey) {

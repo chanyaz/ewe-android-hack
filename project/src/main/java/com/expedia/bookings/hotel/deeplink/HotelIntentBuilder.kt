@@ -4,8 +4,9 @@ import android.content.Context
 import android.content.Intent
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
+import com.expedia.bookings.data.DeprecatedHotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.data.HotelSearchParams.SearchType
+import com.expedia.bookings.data.DeprecatedHotelSearchParams.SearchType
 import com.expedia.bookings.deeplink.HotelDeepLink
 import com.expedia.bookings.hotel.util.HotelCalendarRules
 import com.expedia.bookings.utils.HotelsV2DataUtil
@@ -24,7 +25,7 @@ class HotelIntentBuilder {
     fun from(context: Context, deepLink: HotelDeepLink): HotelIntentBuilder {
         var isDatelessSearch = false
 
-        val hotelSearchParams = com.expedia.bookings.data.HotelSearchParams()
+        val hotelSearchParams = DeprecatedHotelSearchParams()
         fromDeepLink = true
 
         if (deepLink.checkInDate != null) {

@@ -47,6 +47,7 @@ class ADMS_MeasurementTest {
     @Test
     fun testEvents() {
         val sampleEvents = "sample events"
+        @Suppress("DEPRECATION")
         adms.setEvents(sampleEvents)
         assertEquals(sampleEvents, adms.getEvents())
         assertEquals(sampleEvents, adms.getOmnitureDataValue("&&events"))

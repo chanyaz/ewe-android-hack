@@ -10,6 +10,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.itin.vm.HotelItinManageRoomViewModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import com.squareup.phrase.Phrase
@@ -18,6 +19,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric.buildActivity
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.Shadows
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -97,5 +99,16 @@ class HotelItinManageRoomWidgetTest {
         manageRoomWidget.setupReservationModifications()
         assertEquals(View.VISIBLE, manageRoomWidget.manageBookingButton.visibility)
         assertEquals(View.GONE, manageRoomWidget.modifyReservationWidget.visibility)
+    }
+
+    @Test
+    fun manageBookingChangeOrCancelButtonLaunchWebview() {
+        val itinCardDataHotel = ItinCardDataHotelBuilder().build()
+        manageRoomViewModel.itinCardDataHotelSubject.onNext(itinCardDataHotel)
+        val shadowActivity = Shadows.shadowOf(activity)
+        manageRoomWidget.manageBookingButton.performClick()
+        val intent = shadowActivity.peekNextStartedActivityForResult()
+        assertEquals(Constants.ITIN_WEBVIEW_REFRESH_ON_EXIT_CODE, intent.requestCode)
+        assertEquals(itinCardDataHotel.tripNumber, intent.intent.getStringExtra(Constants.ITIN_WEBVIEW_REFRESH_ON_EXIT_TRIP_NUMBER))
     }
 }

@@ -102,6 +102,8 @@ class LXMapView(context: Context, attrs: AttributeSet) : FrameLayout(context, at
     override fun onMapReady(map: GoogleMap) {
         MapsInitializer.initialize(context)
         googleMap = map
+        googleMap?.isIndoorEnabled = false
+        googleMap?.uiSettings?.isTiltGesturesEnabled = false
         googleMap?.uiSettings?.isMapToolbarEnabled = false
         googleMap?.uiSettings?.isMyLocationButtonEnabled = false
         googleMap?.uiSettings?.isZoomControlsEnabled = false

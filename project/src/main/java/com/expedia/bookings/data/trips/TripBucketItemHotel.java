@@ -3,7 +3,7 @@ package com.expedia.bookings.data.trips;
 import com.expedia.bookings.data.HotelAvailability;
 import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.HotelSearch;
-import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.DeprecatedHotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Rate;
 import com.mobiata.android.Log;
@@ -52,7 +52,7 @@ public class TripBucketItemHotel extends TripBucketItem {
 		return mHotelSearch;
 	}
 
-	public HotelSearchParams getHotelSearchParams() {
+	public DeprecatedHotelSearchParams getHotelSearchParams() {
 		return mHotelSearch.getSearchParams();
 	}
 

@@ -1,9 +1,5 @@
 package com.expedia.bookings.widget;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -19,19 +15,23 @@ import com.expedia.bookings.data.lx.AvailabilityInfo;
 import com.expedia.bookings.data.lx.LXRedemptionType;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
+import com.expedia.bookings.features.Features;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.AccessibilityUtil;
-import com.expedia.bookings.utils.FeatureToggleUtil;
+import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.LXUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.utils.Constants;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.squareup.otto.Subscribe;
 import com.squareup.phrase.Phrase;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -203,7 +203,7 @@ public class LXTicketSelectionWidget extends LinearLayout {
 					.format()
 					.toString());
 
-			if (FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_enable_lx_redesign)) {
+			if (Features.Companion.getAll().getLxRedesign().enabled()) {
 				Money originalAmount = LXUtils.getTotalOriginalAmount(selectedTickets);
 				Money totalAmount = LXUtils.getTotalAmount(selectedTickets);
 				int discountPercentage = LXUtils.getDiscountPercentValue(totalAmount.getAmount(), originalAmount.getAmount());

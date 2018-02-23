@@ -79,6 +79,7 @@ function runFeedbackAndCoverageReports() {
       if [[ $isJenkins && $unitTestStatus -eq 0 && $isUnitTestsFeedbackBotEnabled == "true" ]]; then
         BUILD_URL="https://jenkins-ewe-mobile-android-master.tools.expedia.com/job/$JOB_NAME/$BUILD_NUMBER"
         python ./jenkins/report_missing_code_coverage.py $GITHUB_ACCESS_TOKEN $ghprbPullId $BUILD_URL project/build/reports/jacoco/jacocoExpediaDebug/jacocoExpediaDebug.xml lib/ExpediaBookings/build/reports/jacoco/test/jacocoTestReport.xml
+        ./jenkins/pr_coveralls.sh
         coverageBotStatus=$?
       else
         echo "Either script was not run on Jenkins or the unit tests failed. Not invoking Coverage Bot."

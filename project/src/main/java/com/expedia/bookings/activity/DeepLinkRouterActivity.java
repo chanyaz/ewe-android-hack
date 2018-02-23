@@ -37,17 +37,17 @@ import com.expedia.bookings.deeplink.SupportEmailDeepLink;
 import com.expedia.bookings.deeplink.TripDeepLink;
 import com.expedia.bookings.deeplink.WebDeepLink;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager;
-import com.expedia.bookings.featureconfig.SatelliteFeatureConstants;
+import com.expedia.bookings.features.Feature;
+import com.expedia.bookings.features.Features;
 import com.expedia.bookings.hotel.deeplink.HotelIntentBuilder;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.IClientLogServices;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.DeepLinkUtils;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.LXNavUtils;
+import com.expedia.bookings.utils.OmnitureDeepLinkAnalytics;
 import com.expedia.bookings.utils.ShortcutUtils;
 import com.expedia.bookings.utils.TrackingUtils;
 import com.expedia.bookings.utils.Ui;
@@ -65,9 +65,9 @@ import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 
-import okhttp3.HttpUrl;
 import io.reactivex.Observer;
 import io.reactivex.observers.DisposableObserver;
+import okhttp3.HttpUrl;
 
 /**
  * This class acts as a router for incoming deep links.  It seems a lot
@@ -78,6 +78,13 @@ import io.reactivex.observers.DisposableObserver;
 public class DeepLinkRouterActivity extends Activity implements UserAccountRefresher.IUserAccountRefreshListener {
 
 	private static final String TAG = "ExpediaDeepLink";
+
+	@VisibleForTesting
+	void setUniversalWebviewDeepLinkFeature(Feature universalWebviewDeepLinkFeature) {
+		this.universalWebviewDeepLinkFeature = universalWebviewDeepLinkFeature;
+	}
+
+	private Feature universalWebviewDeepLinkFeature = Features.Companion.getAll().getUniversalWebviewDeepLink();
 
 	private UserStateManager userStateManager;
 	IClientLogServices clientLogServices;
@@ -181,7 +188,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 
 	private void handleDeepLinkUri(Uri data) {
 		clientLogServices = Ui.getApplication(this).appComponent().clientLog();
-		DeepLinkUtils.parseAndTrackDeepLink(clientLogServices, HttpUrl.parse(data.toString()));
+		DeepLinkUtils.parseAndTrackDeepLink(clientLogServices, HttpUrl.parse(data.toString()), new OmnitureDeepLinkAnalytics());
 
 		DeepLink deepLink = deepLinkParser.parseDeepLink(data);
 
@@ -275,8 +282,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	}
 
 	private boolean isWebViewFeatureEnabled() {
-		return SatelliteFeatureConfigManager.isFeatureEnabled(this,
-			SatelliteFeatureConstants.UNIVERSAL_WEBVIEW_DEEP_LINK) || FeatureToggleUtil.isFeatureEnabled(this, R.string.preference_enable_universal_deeplink);
+		return universalWebviewDeepLinkFeature.enabled();
 	}
 
 	private void handleWebDeepLink(WebDeepLink deepLink) {

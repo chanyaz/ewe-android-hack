@@ -15,7 +15,7 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
 import com.expedia.bookings.R
-import com.expedia.bookings.data.HotelSearchParams
+import com.expedia.bookings.data.DeprecatedHotelSearchParams
 import com.expedia.bookings.data.HotelSearchResponse
 import com.expedia.bookings.data.Property
 import com.expedia.bookings.data.collections.Collection
@@ -60,7 +60,7 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
     lateinit var hotelServices: HotelServices
         @Inject set
 
-    var searchParams: HotelSearchParams? = null
+    var searchParams: DeprecatedHotelSearchParams? = null
     private var downloadSubscription: Disposable? = null
     private var wasHotelsDownloadEmpty = false
     private var launchDataTimeStamp: DateTime? = null
@@ -138,10 +138,10 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
         }
 
         (launchListWidget.adapter as LaunchListAdapter).hotelSelectedSubject.subscribe { selectedHotel ->
-            val params = HotelSearchParams()
+            val params = DeprecatedHotelSearchParams()
             params.hotelId = selectedHotel.hotelId
             params.query = selectedHotel.localizedName
-            params.searchType = HotelSearchParams.SearchType.HOTEL
+            params.searchType = DeprecatedHotelSearchParams.SearchType.HOTEL
             val now = LocalDate.now()
             params.checkInDate = now
             params.checkOutDate = now.plusDays(1)
@@ -344,9 +344,9 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
         return params
     }
 
-    private fun buildDeeplinkToHotelSearchParams(loc: Location): HotelSearchParams {
+    private fun buildDeeplinkToHotelSearchParams(loc: Location): DeprecatedHotelSearchParams {
         val currentDate = LocalDate()
-        val searchParams = HotelSearchParams()
+        val searchParams = DeprecatedHotelSearchParams()
         searchParams.checkInDate = currentDate
         searchParams.checkOutDate = currentDate.plusDays(1)
         searchParams.setSearchLatLon(loc.latitude, loc.longitude)

@@ -300,30 +300,25 @@ class UniversalDeepLinkParser(assets: AssetManager) : DeepLinkParser(assets) {
 
     private fun getDateFormatForPOS(uri: Uri): String {
         val defaultDateFormat = "MM/dd/yyyy"
+        val configHelper = PointOfSaleConfigHelper(ASSETS, ProductFlavorFeatureConfiguration.getInstance().posConfigurationPath)
+        val stream = configHelper.openPointOfSaleConfiguration()
 
-        if (ASSETS != null) {
-            val configHelper = PointOfSaleConfigHelper(ASSETS, ProductFlavorFeatureConfiguration.getInstance().posConfigurationPath)
-            val stream = configHelper.openPointOfSaleConfiguration()
+        try {
+            val jsonData = IoUtils.convertStreamToString(stream)
+            val posData = JSONObject(jsonData)
+            val keys = posData.keys()
 
-            try {
-                val jsonData = IoUtils.convertStreamToString(stream)
-                val posData = JSONObject(jsonData)
-                val keys = posData.keys()
-
-                keys.forEach { key ->
-                    val posJson = posData.getJSONObject(key)
-                    if (posJson.getString("url") == uri.host.replace("www.", "")) {
-                        return posJson.getString("deepLinkDateFormat")
-                    }
+            keys.forEach { key ->
+                val posJson = posData.getJSONObject(key)
+                if (posJson.getString("url") == uri.host.replace("www.", "")) {
+                    return posJson.getString("deepLinkDateFormat")
                 }
-                return defaultDateFormat
-            } catch (e: JSONException) {
-                return defaultDateFormat
-            } finally {
-                stream.close()
             }
-        } else {
             return defaultDateFormat
+        } catch (e: JSONException) {
+            return defaultDateFormat
+        } finally {
+            stream.close()
         }
     }
 

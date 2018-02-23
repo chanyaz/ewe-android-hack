@@ -19,8 +19,8 @@ import org.json.JSONObject;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 
+import com.expedia.bookings.data.DeprecatedHotelSearchParams;
 import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.utils.HotelCrossSellUtils;
 import com.expedia.bookings.utils.Strings;
@@ -211,7 +211,7 @@ public class TripUtils {
 		return "";
 	}
 
-	public static HotelSearchParams getHotelSearchParamsForRecentFlightAirAttach(TripFlight tripFlight) {
+	public static DeprecatedHotelSearchParams getHotelSearchParamsForRecentFlightAirAttach(TripFlight tripFlight) {
 		if (tripFlight != null) {
 			FlightLeg firstFlightLeg = tripFlight.getFlightTrip().getLeg(0);
 			FlightLeg secondFlightLeg = null;

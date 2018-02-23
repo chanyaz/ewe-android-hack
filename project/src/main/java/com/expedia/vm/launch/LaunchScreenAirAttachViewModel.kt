@@ -4,17 +4,16 @@ import android.content.Context
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.HotelSearchParams
+import com.expedia.bookings.data.DeprecatedHotelSearchParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.tracking.OmnitureTracking
-import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
-class LaunchScreenAirAttachViewModel(val context: Context, val itemView: View, recentUpcomingFlightTrip: Trip, hotelSearchParams: HotelSearchParams, cityName: String) {
+class LaunchScreenAirAttachViewModel(val context: Context, val itemView: View, recentUpcomingFlightTrip: Trip, hotelSearchParams: DeprecatedHotelSearchParams, cityName: String) {
 
     //Inputs
     var onClickObserver = PublishSubject.create<Unit>()
@@ -32,15 +31,8 @@ class LaunchScreenAirAttachViewModel(val context: Context, val itemView: View, r
         daysRemaining = recentUpcomingFlightTrip.airAttach.daysRemaining
 
         onClickObserver.subscribe {
-
-            val animOptions = AnimUtils.createActivityScaleBundle(itemView)
-            if (hotelSearchParams == null) {
-                HotelNavUtils.goToHotels(context, animOptions)
-                OmnitureTracking.trackPhoneAirAttachLaunchScreenClick()
-            } else {
-                HotelNavUtils.goToHotels(context, hotelSearchParams)
-                OmnitureTracking.trackPhoneAirAttachLaunchScreenClick()
-            }
+            HotelNavUtils.goToHotels(context, hotelSearchParams)
+            OmnitureTracking.trackPhoneAirAttachLaunchScreenClick()
         }
 
         val isVariant1 = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen) == AbacusUtils.LaunchScreenAirAttachVariant.UP_TO_XX_PERCENT_OFF.ordinal

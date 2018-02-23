@@ -3,6 +3,10 @@ package com.mobiata.android.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+
+import java.util.Collections;
+import java.util.Set;
 
 public class SettingUtils {
 	public static boolean contains(Context context, int keyResId) {
@@ -77,6 +81,13 @@ public class SettingUtils {
 		editor.apply();
 	}
 
+	public static void saveStringSet(Context context, String key, Set<String> value) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putStringSet(key, value);
+		editor.apply();
+	}
+
 	public static boolean get(Context context, int keyResId, boolean defValue) {
 		return get(context, context.getString(keyResId), defValue);
 	}
@@ -135,6 +146,12 @@ public class SettingUtils {
 	public static String get(Context context, String key, String defValue) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		return prefs.getString(key, defValue);
+	}
+
+	@NonNull
+	public static Set<String> getStringSet(Context context, String key) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		return prefs.getStringSet(key, Collections.<String>emptySet());
 	}
 
 	public static void remove(Context context, int keyResId) {

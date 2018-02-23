@@ -17,7 +17,7 @@ import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelAvailability;
 import com.expedia.bookings.data.HotelSearch;
-import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.DeprecatedHotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Rate;
@@ -337,7 +337,7 @@ public class TripBucket implements JSONable {
 	}
 
 	private boolean hotelCheckinIsDayBeforeFlightLands() {
-		HotelSearchParams hotelParams = getHotel().getHotelSearchParams();
+		DeprecatedHotelSearchParams hotelParams = getHotel().getHotelSearchParams();
 		FlightLeg departingFlight = getFlight().getFlightTrip().getLeg(0);
 		LocalDate departingFlightLandingTime = new LocalDate(
 			departingFlight.getLastWaypoint().getMostRelevantDateTime());
@@ -350,7 +350,7 @@ public class TripBucket implements JSONable {
 	}
 
 	private boolean hotelCheckoutIsBeforeOrAfterFlightLeaves() {
-		HotelSearchParams hotelParams = getHotel().getHotelSearchParams();
+		DeprecatedHotelSearchParams hotelParams = getHotel().getHotelSearchParams();
 		if (getFlight().getFlightSearchParams().isRoundTrip()) {
 			FlightLeg returnFlight = getFlight().getFlightTrip().getLeg(1);
 			LocalDate returnFlightTakeoffTime = new LocalDate(
@@ -380,7 +380,7 @@ public class TripBucket implements JSONable {
 	}
 
 	private boolean itemsAreForSameDestination() {
-		HotelSearchParams hotelParams = getHotel().getHotelSearchParams();
+		DeprecatedHotelSearchParams hotelParams = getHotel().getHotelSearchParams();
 		FlightSearchParams flightParams = getFlight().getFlightSearchParams();
 
 		if (TextUtils.equals("" + flightParams.getDestinationId(), hotelParams.getRegionId())) {

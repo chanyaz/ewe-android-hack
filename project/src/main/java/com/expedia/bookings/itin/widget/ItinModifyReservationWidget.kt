@@ -3,6 +3,7 @@ package com.expedia.bookings.itin.widget
 import android.content.Context
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.app.FragmentActivity
+import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
@@ -10,6 +11,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.fragment.ItinModifyReservationDialog
 import com.expedia.bookings.itin.vm.ItinModifyReservationViewModel
 import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
@@ -35,6 +37,10 @@ class ItinModifyReservationWidget(context: Context, attrs: AttributeSet) : Linea
         }
         vm.webViewIntentSubject.subscribe {
             context.startActivity(it, ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_up_partially, 0).toBundle())
+        }
+        vm.webViewRefreshOnExitIntentSubject.subscribe {
+            val animation = ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_up_partially, 0).toBundle()
+            (context as AppCompatActivity).startActivityForResult(it, Constants.ITIN_WEBVIEW_REFRESH_ON_EXIT_CODE, animation)
         }
     }
 

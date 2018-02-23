@@ -1,6 +1,8 @@
 package com.expedia.bookings.hotel.widget
 
 import android.animation.ObjectAnimator
+import android.app.Activity
+import android.app.ActivityOptions
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -526,7 +528,8 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
                     viewModel.hotelRatingObservable.value, roomCode,
                     showDescription = false, startIndex = 0)
             intent.putExtra(HotelExtras.GALLERY_CONFIG, galleryConfig)
-            context.startActivity(intent)
+            val bundle = ActivityOptions.makeSceneTransitionAnimation(context as Activity).toBundle()
+            context.startActivity(intent, bundle)
         }
 
         override fun onError(e: Throwable) {
