@@ -10,7 +10,6 @@ class Features {
         val all = Features()
     }
 
-    val unusedFeature: Feature by RemoteFeatureDelegate()
     val universalWebviewDeepLink: Feature by RemoteFeatureDelegate()
     val lxRedesign: Feature by RemoteFeatureDelegate()
     val productionAbacus: Feature by RemoteFeatureDelegate()
