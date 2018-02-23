@@ -5,24 +5,21 @@ import com.expedia.bookings.data.hotel.ValueAddsEnum
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.RuntimeEnvironment
 import java.util.ArrayList
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class HotelValueAddTest {
 
-    val context = RuntimeEnvironment.application
-
     @Test
     fun testHotelValueAddPriority() {
         val valueAddsList = ArrayList<HotelValueAdd>()
 
-        valueAddsList.add(HotelValueAdd(context, ValueAddsEnum.BREAKFAST, "0"))
-        valueAddsList.add(HotelValueAdd(context, ValueAddsEnum.FREE_AIRPORT_SHUTTLE, "1"))
-        valueAddsList.add(HotelValueAdd(context, ValueAddsEnum.BREAKFAST, "2"))
-        valueAddsList.add(HotelValueAdd(context, ValueAddsEnum.INTERNET, "3"))
-        valueAddsList.add(HotelValueAdd(context, ValueAddsEnum.PARKING, "4"))
+        valueAddsList.add(HotelValueAdd(ValueAddsEnum.BREAKFAST, "0"))
+        valueAddsList.add(HotelValueAdd(ValueAddsEnum.FREE_AIRPORT_SHUTTLE, "1"))
+        valueAddsList.add(HotelValueAdd(ValueAddsEnum.BREAKFAST, "2"))
+        valueAddsList.add(HotelValueAdd(ValueAddsEnum.INTERNET, "3"))
+        valueAddsList.add(HotelValueAdd(ValueAddsEnum.PARKING, "4"))
 
         valueAddsList.sort()
 
