@@ -40,6 +40,7 @@ import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.shouldShowRewardLaunchCard
+import com.expedia.bookings.utils.LaunchNavBucketCache
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.launch.SignInPlaceHolderViewModel
@@ -77,6 +78,7 @@ class LaunchListAdapterTest {
         headerView = LayoutInflater.from(context).inflate(R.layout.snippet_launch_list_header, null)
         parentView = FrameLayout(context)
         notificationManager = NotificationManager(context)
+        context.getSharedPreferences("abacus_prefs", Context.MODE_PRIVATE).edit().clear().apply()
         givenCustomerSignedOut()
     }
 
@@ -752,6 +754,24 @@ class LaunchListAdapterTest {
         givenWeHaveCurrentLocationAndHotels()
         val secondPosition = adapterUnderTest.getItemViewType(1)
         assertNotEquals(LaunchDataItem.EARN_2X_MESSAGING_BANNER, secondPosition)
+    }
+
+    @Test
+    fun brandHeaderIsShown_givenUserIsBucketedIntoBottomNavBar() {
+        LaunchNavBucketCache.cacheBucket(context, 1)
+        createSystemUnderTest()
+
+        val firstPosition = adapterUnderTest.getItemViewType(0)
+        assertEquals(LaunchDataItem.BRAND_HEADER, firstPosition)
+    }
+
+    @Test
+    fun brandHeaderIsHidden_givenUserIsNotBucketedIntoBottomNavBar() {
+        LaunchNavBucketCache.cacheBucket(context, 0)
+        createSystemUnderTest()
+
+        val firstPosition = adapterUnderTest.getItemViewType(0)
+        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
     }
 
     private fun makeSignInPlaceholderViewModel(): SignInPlaceHolderViewModel {

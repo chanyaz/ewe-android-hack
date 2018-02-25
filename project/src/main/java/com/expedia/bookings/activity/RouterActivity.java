@@ -27,6 +27,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.abacus.AbacusEvaluateQuery;
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.abacus.AbacusVariant;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.user.UserStateManager;
@@ -39,11 +40,13 @@ import com.expedia.bookings.tracking.RouterToOnboardingTimeLogger;
 import com.expedia.bookings.tracking.RouterToSignInTimeLogger;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
+import com.expedia.bookings.utils.LaunchNavBucketCache;
 import com.expedia.bookings.utils.TrackingUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.utils.navigation.NavUtils;
 import com.facebook.appevents.AppEventsLogger;
+import com.mobiata.android.util.SettingUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -237,6 +240,7 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightsAPIKongEndPoint.getKey());
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightsRecentSearch.getKey());
 			query.addExperiment(AbacusUtils.EBAndroidAppBrandColors.getKey());
+			query.addExperiment(AbacusUtils.EBAndroidAppBottomNavTabs.getKey());
 			query.addExperiment(AbacusUtils.HotelEarn2xMessaging.getKey());
 			query.addExperiment(AbacusUtils.EBAndroidAppAccountsAPIKongEndPoint.getKey());
 			query.addExperiment(AbacusUtils.DownloadableFonts.getKey());
@@ -267,17 +271,30 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 		public void onError(Throwable e) {
 			if (BuildConfig.DEBUG) {
 				AbacusHelperUtils.updateAbacus(new AbacusResponse(), RouterActivity.this);
+				cacheLaunchNavBucket(0);
 			}
 			notifyAnimationsThatDataHasLoaded();
 		}
 
 		@Override
 		public void onNext(AbacusResponse abacusResponse) {
+			cacheLaunchNavBucket(abacusResponse.variateForTest(AbacusUtils.EBAndroidAppBottomNavTabs));
 			AbacusHelperUtils.updateAbacus(abacusResponse, RouterActivity.this);
 			notifyAnimationsThatDataHasLoaded();
 		}
 	};
 
+	private void cacheLaunchNavBucket(int testValue) {
+		if (BuildConfig.DEBUG) {
+			int debugValue = SettingUtils
+				.get(getApplicationContext(), String.valueOf(AbacusUtils.EBAndroidAppBottomNavTabs.getKey()),
+					AbacusVariant.NO_BUCKET.getValue());
+			LaunchNavBucketCache.cacheBucket(RouterActivity.this, debugValue);
+		}
+		else {
+			LaunchNavBucketCache.cacheBucket(RouterActivity.this, testValue);
+		}
+	}
 
 	/**
 	 * Tell facebook we installed the app every time we launch!

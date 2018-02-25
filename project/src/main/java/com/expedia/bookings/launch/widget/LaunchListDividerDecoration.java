@@ -48,6 +48,7 @@ class LaunchListDividerDecoration extends RecyclerDividerDecoration {
 		int actualPosition = parent.getChildAdapterPosition(view) - adapter.getOffset();
 		int itemViewType = adapter.getItemViewType(recyclerViewChildIndex);
 
+		boolean isBrandHeader = itemViewType == LaunchDataItem.BRAND_HEADER;
 		boolean isLobView = itemViewType == LaunchDataItem.LOB_VIEW;
 		boolean isHeaderView = itemViewType == LaunchDataItem.HEADER_VIEW;
 		boolean isSectionHeaderView = itemViewType == LaunchDataItem.MESO_LMD_SECTION_HEADER_VIEW;
@@ -61,6 +62,11 @@ class LaunchListDividerDecoration extends RecyclerDividerDecoration {
 		else if (isHeaderView) {
 			outRect.left = mLeft;
 			outRect.right = mRight;
+		}
+		else if (isBrandHeader) {
+			outRect.left = 0;
+			outRect.right = 0;
+			outRect.bottom = 0;
 		}
 		else if (isSectionHeaderView) {
 			outRect.left = mLeft;

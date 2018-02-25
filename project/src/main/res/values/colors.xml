@@ -267,6 +267,7 @@
     <color name="launch_screen_active_itin_bg">@color/blue5</color>
     <color name="launch_screen_meso_ad_text_color">@color/blue5</color>
     <color name="launch_screen_placeholder_color">#A4ACAF</color>
+    <color name="launch_screen_selected_tab_icon">#0947b2</color>
 
     <!-- LX colors -->
     <color name="lx_primary_color">@color/app_primary</color>

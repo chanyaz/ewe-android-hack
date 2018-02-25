@@ -34,9 +34,9 @@ import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.itin.ItinLaunchScreenHelper;
 import com.expedia.bookings.launch.vm.BigImageLaunchViewModel;
 import com.expedia.bookings.launch.vm.LaunchLobViewModel;
+import com.expedia.bookings.meso.MesoDestinationViewHolder;
 import com.expedia.bookings.meso.model.MesoDestinationAdResponse;
 import com.expedia.bookings.meso.model.MesoHotelAdResponse;
-import com.expedia.bookings.meso.MesoDestinationViewHolder;
 import com.expedia.bookings.meso.vm.MesoDestinationViewModel;
 import com.expedia.bookings.meso.vm.MesoHotelAdViewModel;
 import com.expedia.bookings.mia.activity.LastMinuteDealActivity;
@@ -47,6 +47,7 @@ import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.FeatureUtilKt;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
+import com.expedia.bookings.utils.LaunchNavBucketCache;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CollectionViewHolder;
 import com.expedia.bookings.widget.FrameLayout;
@@ -130,6 +131,12 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		parentView = parent;
+
+		if (viewType == LaunchDataItem.BRAND_HEADER) {
+			View view = LayoutInflater.from(context)
+				.inflate(R.layout.launch_screen_brand_header, parent, false);
+			return new BrandHeaderViewHolder(view);
+		}
 
 		if (viewType == LaunchDataItem.LOB_VIEW) {
 			LaunchLobWidget view = (LaunchLobWidget) LayoutInflater.from(context)
@@ -375,6 +382,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	private ArrayList<LaunchDataItem> makeStaticCards() {
 		ArrayList<LaunchDataItem> items = new ArrayList<>();
+		if (LaunchNavBucketCache.isBucketed(context)) {
+			items.add(new LaunchDataItem(LaunchDataItem.BRAND_HEADER));
+		}
 		items.add(new LaunchDataItem(LaunchDataItem.LOB_VIEW));
 		if (!showOnlyLOBView) {
 			if (!showSignInCard() && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelEarn2xMessaging)) {
@@ -470,6 +480,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		int itemViewType = holder.getItemViewType();
 		return itemViewType == LaunchDataItem.HEADER_VIEW
 			|| itemViewType == LaunchDataItem.LOB_VIEW
+			|| itemViewType == LaunchDataItem.BRAND_HEADER
 			|| isStaticCard(itemViewType);
 	}
 

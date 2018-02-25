@@ -17,6 +17,7 @@ import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.content.ContextCompat
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.BuildConfig
@@ -40,6 +41,7 @@ import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
 import com.expedia.bookings.fragment.SoftPromptDialogFragment
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.launch.fragment.PhoneLaunchFragment
+import com.expedia.bookings.launch.widget.LaunchTabView
 import com.expedia.bookings.launch.widget.PhoneLaunchToolbar
 import com.expedia.bookings.model.PointOfSaleStateModel
 import com.expedia.bookings.notification.Notification
@@ -58,6 +60,7 @@ import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.DebugMenuFactory
 import com.expedia.bookings.utils.LXDataUtils
 import com.expedia.bookings.utils.LXNavUtils
+import com.expedia.bookings.utils.LaunchNavBucketCache
 import com.expedia.bookings.utils.PlayStoreUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -134,6 +137,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     val viewPager by bindView<DisableableViewPager>(R.id.viewpager)
     val toolbar by bindView<PhoneLaunchToolbar>(R.id.launch_toolbar)
     val rootLayout by bindView<LinearLayout>(R.id.root_linear_layout)
+    val bottomTabLayout by bindView<TabLayout>(R.id.bottom_tab_layout)
 
     val pagerAdapter: PagerAdapter by lazy {
         PagerAdapter(supportFragmentManager)
@@ -223,6 +227,15 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
                 userStateManager.getCurrentUserLoyaltyTier(), lastLocation?.latitude, lastLocation?.longitude, PointOfSale.getPointOfSale().url)
     }
 
+    override fun onStart() {
+        super.onStart()
+        if (LaunchNavBucketCache.isBucketed(this@PhoneLaunchActivity)) {
+            setupBottomNav()
+        } else {
+            setupTopNav()
+        }
+    }
+
     private fun gotoDeepLink(url: String) {
         NavUtils.goToWebView(this, url)
         jumpToDeepLink = ""
@@ -305,6 +318,35 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
                 showFlightItinCheckinDialog(data)
             }
         }
+    }
+
+    private fun setupTopNav() {
+        toolbar.visibility = View.VISIBLE
+        toolbar.tabLayout.setupWithViewPager(viewPager)
+        toolbar.tabLayout.setOnTabSelectedListener(pageChangeListener)
+        setContentDescriptionToolbarTabs(this, toolbar.tabLayout)
+
+        bottomTabLayout.visibility = View.GONE
+    }
+
+    private fun setupBottomNav() {
+        bottomTabLayout.visibility = View.VISIBLE
+        bottomTabLayout.setupWithViewPager(viewPager)
+        bottomTabLayout.addOnTabSelectedListener(pageChangeListener)
+        toolbar.visibility = View.GONE
+
+        setupBottomTabIcons()
+    }
+
+    private fun setupBottomTabIcons() {
+        val shopTab = LaunchTabView(this, LaunchTabState.SHOP.drawableId, resources.getString(LaunchTabState.SHOP.textId))
+        bottomTabLayout.getTabAt(PAGER_POS_LAUNCH)?.customView = shopTab
+
+        val itinTab = LaunchTabView(this, LaunchTabState.TRIPS.drawableId, resources.getString(Ui.obtainThemeResID(this, LaunchTabState.TRIPS.textId)))
+        bottomTabLayout.getTabAt(PAGER_POS_ITIN)?.customView = itinTab
+
+        val accountTab = LaunchTabView(this, LaunchTabState.ACCOUNT.drawableId, resources.getString(LaunchTabState.ACCOUNT.textId))
+        bottomTabLayout.getTabAt(PAGER_POS_ACCOUNT)?.customView = accountTab
     }
 
     private fun showFlightItinCheckinDialog(data: Intent) {
@@ -534,14 +576,10 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
                 && SettingUtils.get(this, PREF_LOCATION_PERMISSION_PROMPT_TIMES, 0) < Constants.LOCATION_PROMPT_LIMIT
     }
 
-    override fun onStart() {
-        super.onStart()
-        setupTopNav()
-    }
-
     override fun onStop() {
         super.onStop()
         toolbar.tabLayout.removeOnTabSelectedListener(pageChangeListener)
+        bottomTabLayout.removeOnTabSelectedListener(pageChangeListener)
     }
 
     override fun onDestroy() {
@@ -694,12 +732,6 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         return events.joinToString(",")
     }
 
-    private fun setupTopNav() {
-        toolbar.tabLayout.setupWithViewPager(viewPager)
-        toolbar.tabLayout.addOnTabSelectedListener(pageChangeListener)
-        setContentDescriptionToolbarTabs(this, toolbar.tabLayout)
-    }
-
     companion object {
         const val NUMBER_OF_TABS = 3
         const val PAGER_POS_LAUNCH = 0
@@ -732,5 +764,11 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
 
             return intent
         }
+    }
+
+    enum class LaunchTabState(val drawableId: Int, val textId: Int) {
+        SHOP(R.drawable.ic_shop_tab, R.string.shop),
+        TRIPS(R.drawable.ic_trips_tab, R.attr.skin_tripsTabText),
+        ACCOUNT(R.drawable.ic_accounts_tab, R.string.account_settings_menu_label)
     }
 }

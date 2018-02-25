@@ -124,6 +124,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppBrandColors = new ABTest(15846);
 	public static final ABTest MesoAd = new ABTest(15842, true);
 	public static final ABTest RewardLaunchCard = new ABTest(25000, true);
+	public static final ABTest EBAndroidAppBottomNavTabs = new ABTest(24528, true);
 	public static final ABTest DisableSignInPageAsFirstScreen = new ABTest(25030, true);
 
 	// Soft Prompt
@@ -233,6 +234,7 @@ public class AbacusUtils {
 		testIDs.add(HotelEarn2xMessaging.getKey());
 		testIDs.add(CardExpiryDateFormField.getKey());
 		testIDs.add(EBAndroidAppPackagesFlightCabinClass.getKey());
+		testIDs.add(EBAndroidAppBottomNavTabs.getKey());
 		testIDs.add(EBAndroidAppTripsUserReviews.getKey());
 		testIDs.add(DownloadableFonts.getKey());
 		testIDs.add(HotelSatelliteSearch.getKey());

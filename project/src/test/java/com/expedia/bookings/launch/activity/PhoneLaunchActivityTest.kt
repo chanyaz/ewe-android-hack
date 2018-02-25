@@ -1,6 +1,8 @@
 package com.expedia.bookings.launch.activity
 
 import android.app.Activity
+import android.content.Context
+import android.view.View
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateNotTracked
 import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateTracked
@@ -24,12 +26,15 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AbacusTestUtils
+import com.expedia.bookings.utils.LaunchNavBucketCache
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
+import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import kotlin.test.assertEquals
@@ -39,6 +44,13 @@ import kotlin.test.assertTrue
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class PhoneLaunchActivityTest {
+
+    private val context = RuntimeEnvironment.application
+
+    @Before
+    fun setUp() {
+        context.getSharedPreferences("abacus_prefs", Context.MODE_PRIVATE).edit().clear().apply()
+    }
 
     @Test
     fun testNotificationClickOmnitureTrackingNoTemplateName() {
@@ -105,6 +117,36 @@ class PhoneLaunchActivityTest {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppBrandColors)
         OmnitureTracking.trackPageLoadLaunchScreen()
         assertStateTracked("App.LaunchScreen", withAbacusTestBucketed(15846), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun topNavigationIsHidden_givenUserIsBucketedIntoBottomNav() {
+        LaunchNavBucketCache.cacheBucket(context, 1)
+        val startedActivity = Robolectric.buildActivity(PhoneLaunchActivity::class.java).create().start()
+        val activity = startedActivity.get()
+        assertEquals(View.GONE, activity.toolbar.visibility)
+        assertEquals(View.VISIBLE, activity.bottomTabLayout.visibility)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun bottomNavigationIsHidden_givenUserIsNotBucketedIntoBottomNav() {
+        LaunchNavBucketCache.cacheBucket(context, 0)
+        val startedActivity = Robolectric.buildActivity(PhoneLaunchActivity::class.java).create().start()
+        val activity = startedActivity.get()
+        assertEquals(View.VISIBLE, activity.toolbar.visibility)
+        assertEquals(View.GONE, activity.bottomTabLayout.visibility)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun bottomNavigationIsHidden_givenUserIsInUnbucketedState() {
+        LaunchNavBucketCache.cacheBucket(context, -1)
+        val startedActivity = Robolectric.buildActivity(PhoneLaunchActivity::class.java).create().start()
+        val activity = startedActivity.get()
+        assertEquals(View.VISIBLE, activity.toolbar.visibility)
+        assertEquals(View.GONE, activity.bottomTabLayout.visibility)
     }
 
     @Test
