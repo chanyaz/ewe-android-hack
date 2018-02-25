@@ -4843,6 +4843,7 @@
     <string name="find_guest_add_email_address_hint">Email</string>
     <!-- Hint to type in itinerary number -->
     <string name="find_guest_add_itinerary_number_hint">Itinerary number</string>
+    <string name="itin_toolbar">Trips</string>
 
     <!-- Booking successful alert text-->
     <string name="booking_successful">Booking Successful!</string>
