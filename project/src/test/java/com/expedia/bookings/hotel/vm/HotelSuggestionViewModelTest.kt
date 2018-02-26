@@ -6,6 +6,7 @@ import com.expedia.bookings.data.travelgraph.SearchInfo
 import com.expedia.bookings.data.travelgraph.TravelerInfo
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.testutils.builder.TestSuggestionV4Builder
 import org.joda.time.LocalDate
@@ -13,6 +14,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class HotelSuggestionViewModelTest {
@@ -114,5 +116,31 @@ class HotelSuggestionViewModelTest {
         testVM.bind(suggestion)
         testIconObserver.assertValue(R.drawable.search_type_icon)
         testIconContentDescriptionObserver.assertValue("SEARCH_TYPE_ICON")
+    }
+
+    @Test
+    fun testTitleFontWithNoSubtitle() {
+        val testFontSubscriber = TestObserver.create<FontCache.Font>()
+        testVM.titleFontObservable.subscribe(testFontSubscriber)
+
+        val suggestion = TestSuggestionV4Builder().regionDisplayName("Chicago").build()
+        testVM.bind(suggestion)
+
+        assertEquals(FontCache.Font.ROBOTO_REGULAR, testFontSubscriber.values()[0])
+    }
+
+    @Test
+    fun testTitleFontWithSubtitle() {
+        val testFontSubscriber = TestObserver.create<FontCache.Font>()
+        testVM.titleFontObservable.subscribe(testFontSubscriber)
+
+        val suggestion = TestSuggestionV4Builder().regionDisplayName("Chicago").build()
+        val startDate = LocalDate.now()
+        val endDate = startDate.plusDays(1)
+
+        val searchInfo = SearchInfo(suggestion, startDate, endDate, TravelerInfo())
+        testVM.bind(searchInfo)
+
+        assertEquals(FontCache.Font.ROBOTO_MEDIUM, testFontSubscriber.values()[0])
     }
 }

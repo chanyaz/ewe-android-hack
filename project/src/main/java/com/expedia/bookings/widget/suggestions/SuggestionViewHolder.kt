@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeFont
 import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.shared.vm.BaseSuggestionViewModel
@@ -23,6 +24,7 @@ open class SuggestionViewHolder(val root: ViewGroup, val vm: BaseSuggestionViewM
     init {
         vm.titleObservable.subscribeText(title)
         vm.subtitleObservable.subscribeTextAndVisibility(subtitle)
+        vm.titleFontObservable.subscribeFont(title)
 
         vm.isChildObservable.subscribe { isChild ->
             if (isChild) {
