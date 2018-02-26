@@ -39,6 +39,7 @@
                 <data android:host="packageSearch"/>
                 <data android:host="railSearch"/>
                 <data android:host="flightshare"/>
+                <data android:host="ReviewSubmission"/>
 
                 <!-- We will handle iOS implementation of ItinSharing as well, just cause we can -->
                 <data android:host="addSharedItinerary" />

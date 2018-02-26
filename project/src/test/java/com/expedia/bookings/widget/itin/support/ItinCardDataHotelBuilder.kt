@@ -24,6 +24,7 @@ class ItinCardDataHotelBuilder {
     private var infantCount = 0
     private var guestCount = 1
     private var specialInstructions = ""
+    private var reviewLink = ""
 
     fun build(): ItinCardDataHotel {
         val itinCardDataHotel = makeHotel()
@@ -41,6 +42,7 @@ class ItinCardDataHotelBuilder {
         tripHotel.startDate = checkInDate
         tripHotel.endDate = checkOutDate
         tripHotel.guests = adultCount
+        tripHotel.reviewLink = reviewLink
 
         val room = itinCardDataHotel.getHotelRoom(0)
         if (room != null) {
@@ -70,6 +72,11 @@ class ItinCardDataHotelBuilder {
 
     fun withSpecialInstructions(instructions: String = "No running in the halls"): ItinCardDataHotelBuilder {
         specialInstructions = instructions
+        return this
+    }
+
+    fun withReviewLink(link: String = "www.expedia.com"): ItinCardDataHotelBuilder {
+        reviewLink = link
         return this
     }
 

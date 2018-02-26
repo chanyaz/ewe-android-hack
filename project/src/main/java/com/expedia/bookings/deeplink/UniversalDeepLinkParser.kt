@@ -31,6 +31,7 @@ class UniversalDeepLinkParser(assets: AssetManager) : DeepLinkParser(assets) {
     private val HOTEL_INFO_SITE = Pattern.compile("/[^\\.]+\\.h(\\d+)\\.hotel-information")
     private val TRIPS_ITIN_NUM = Pattern.compile("/trips/([0-9]+)")
     private val SIGN_IN = Pattern.compile(".+(?=\\/signin/?$).+")
+    private val HOTEL_REVIEW = "/reviewsubmission"
 
     fun parseUniversalDeepLink(data: Uri): DeepLink {
         val routingDestination = getRoutingDestination(data)
@@ -49,6 +50,7 @@ class UniversalDeepLinkParser(assets: AssetManager) : DeepLinkParser(assets) {
             "/signin" -> return SignInDeepLink()
             "/member-pricing" -> return MemberPricingDeepLink()
             "/trips" -> return parseTripUniversalDeepLink(data)
+            "/review-submission" -> return parseReviewSubmissionDeepLink(data)
             else -> {
                 return if (data.path.contains("mobile/deeplink")) {
                     parseWebUniversalDeepLink(data)
@@ -57,6 +59,10 @@ class UniversalDeepLinkParser(assets: AssetManager) : DeepLinkParser(assets) {
                 }
             }
         }
+    }
+
+    private fun parseReviewSubmissionDeepLink(data: Uri): DeepLink {
+        return ReviewSubmissionDeepLink(data.toString())
     }
 
     private fun getRoutingDestination(data: Uri): String {
@@ -75,6 +81,8 @@ class UniversalDeepLinkParser(assets: AssetManager) : DeepLinkParser(assets) {
                 routingDestination = "/trips"
             } else if (SIGN_IN.matcher(routingDestination).find()) {
                 routingDestination = "/signin"
+            } else if (routingDestination.contains(HOTEL_REVIEW)) {
+                routingDestination = "/review-submission"
             }
         }
 

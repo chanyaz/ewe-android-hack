@@ -314,14 +314,54 @@ class HotelItinContentGeneratorTest {
         assertTrue(hotelItinGenerator.hasLastDayStarted())
     }
 
+    @Test
+    fun generateHotelReviewNotificationTest() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppTripsUserReviews)
+        val link = "www.expedia.com"
+        val itinCardDataHotel = givenHappyItinCardDataHotel(reviewLink = link)
+        val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
+        val notifications = hotelItinGenerator.generateNotifications()
+        val hotelReviewNotification = notifications.filter {
+            it.notificationType == Notification.NotificationType.HOTEL_REVIEW
+        }
+        assertEquals(1, hotelReviewNotification.size)
+        assertEquals(link, hotelReviewNotification[0].deepLink)
+    }
+
+    @Test
+    fun generateHotelReviewNotificationWhenEmptyStringTest() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsUserReviews)
+        val link = ""
+        val itinCardDataHotel = givenHappyItinCardDataHotel(reviewLink = link)
+        val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
+        val notifications = hotelItinGenerator.generateNotifications()
+        val hotelReviewNotifications = notifications.filter {
+            it.notificationType == Notification.NotificationType.HOTEL_REVIEW
+        }
+        assertEquals(0, hotelReviewNotifications.size)
+    }
+
+    @Test
+    fun generateHotelReviewNotificationValidStringNotBucketedTest() {
+        val link = "www.expedia.com"
+        val itinCardDataHotel = givenHappyItinCardDataHotel(reviewLink = link)
+        val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
+        val notifications = hotelItinGenerator.generateNotifications()
+        val hotelReviewNotifications = notifications.filter {
+            it.notificationType == Notification.NotificationType.HOTEL_REVIEW
+        }
+        assertEquals(0, hotelReviewNotifications.size)
+    }
+
     private fun makeHotelItinGenerator(itinCardDataHotel: ItinCardDataHotel): HotelItinContentGenerator {
         return HotelItinContentGenerator(context, itinCardDataHotel, null)
     }
 
-    private fun givenHappyItinCardDataHotel(checkIn: DateTime = DateTime.now().plusDays(2), checkOut: DateTime? = null): ItinCardDataHotel {
+    private fun givenHappyItinCardDataHotel(checkIn: DateTime = DateTime.now().plusDays(2), checkOut: DateTime? = null, reviewLink: String = ""): ItinCardDataHotel {
         val itinCardDataHotel = ItinCardDataHotelBuilder()
                 .withCheckInDate(checkIn)
-                .withCheckOutDate(checkOut).build()
+                .withCheckOutDate(checkOut)
+                .withReviewLink(reviewLink).build()
         return itinCardDataHotel
     }
 

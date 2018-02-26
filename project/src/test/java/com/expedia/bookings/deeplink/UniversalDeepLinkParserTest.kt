@@ -13,6 +13,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import java.util.ArrayList
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class UniversalDeepLinkParserTest {
@@ -291,6 +292,16 @@ class UniversalDeepLinkParserTest {
         val data = Uri.parse("https://www.expedia.com/mobile/deeplink/RandomLinkForExpedia")
         val parsed = parser.parseUniversalDeepLink(data) as WebDeepLink
         assertEquals("https://www.expedia.com/mobile/deeplink/RandomLinkForExpedia", parsed.url)
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun hotelReviewParse() {
+        val data = Uri.parse("https://www.expedia.com/mobile/deeplink/ReviewSubmission?ItinId=7297531744744&htid=10652&campaignId=APP.REVIEW.DEEPLINK.URL")
+        val parsed = parser.parseUniversalDeepLink(data)
+        assertTrue(parsed is ReviewSubmissionDeepLink)
+        val parsedDeeplink = parsed as ReviewSubmissionDeepLink
+        assertEquals("https://www.expedia.com/mobile/deeplink/ReviewSubmission?ItinId=7297531744744&htid=10652&campaignId=APP.REVIEW.DEEPLINK.URL", parsedDeeplink.url)
     }
 
     @Test

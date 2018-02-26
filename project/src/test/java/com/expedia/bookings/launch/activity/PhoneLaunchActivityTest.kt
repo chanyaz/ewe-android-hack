@@ -4,6 +4,7 @@ import android.app.Activity
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateNotTracked
 import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateTracked
+import com.expedia.bookings.activity.DeepLinkWebViewActivity
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.trips.ItineraryManager
@@ -30,6 +31,7 @@ import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
+import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
@@ -57,7 +59,8 @@ class PhoneLaunchActivityTest {
                 Notification.NotificationType.HOTEL_GET_READY,
                 Notification.NotificationType.HOTEL_ACTIVITY_CROSSSEll,
                 Notification.NotificationType.HOTEL_ACTIVITY_IN_TRIP,
-                Notification.NotificationType.FLIGHT_DELAYED
+                Notification.NotificationType.FLIGHT_DELAYED,
+                Notification.NotificationType.HOTEL_REVIEW
         )
 
         for (notificationType in listOfNotificationTypes) {
@@ -115,6 +118,16 @@ class PhoneLaunchActivityTest {
         assertTrue(settingsFragment.didCallRefreshUserInfo)
 
         activity.finish()
+    }
+
+    @Test
+    fun testNotificationDeepLinkJump() {
+        val activity = Robolectric.buildActivity(PhoneLaunchActivity::class.java).create().start().postCreate(null).resume().get()
+        val shadowActivity = Shadows.shadowOf(activity)
+        activity.handleNotificationJump(deepLinkUrl = "www.expedia.com")
+        val nextIntent = shadowActivity.peekNextStartedActivity()
+        assertEquals(DeepLinkWebViewActivity::class.java.name, nextIntent.component.className)
+        assertTrue(nextIntent.getStringExtra("ARG_URL").startsWith("www.expedia.com"))
     }
 
     @Test

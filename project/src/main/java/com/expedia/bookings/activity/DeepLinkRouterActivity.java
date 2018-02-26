@@ -30,6 +30,7 @@ import com.expedia.bookings.deeplink.MemberPricingDeepLink;
 import com.expedia.bookings.deeplink.PackageDeepLink;
 import com.expedia.bookings.deeplink.RailDeepLink;
 import com.expedia.bookings.deeplink.ReviewFeedbackEmailDeeplink;
+import com.expedia.bookings.deeplink.ReviewSubmissionDeepLink;
 import com.expedia.bookings.deeplink.SharedItineraryDeepLink;
 import com.expedia.bookings.deeplink.ShortUrlDeepLink;
 import com.expedia.bookings.deeplink.SignInDeepLink;
@@ -260,6 +261,10 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 		}
 		else if (deepLink instanceof FlightShareDeepLink) {
 			handleFlightShareDeepLink((FlightShareDeepLink)deepLink);
+			finish = true;
+		}
+		else if (deepLink instanceof ReviewSubmissionDeepLink) {
+			NavUtils.goToWebView(this, ((ReviewSubmissionDeepLink) deepLink).getUrl());
 			finish = true;
 		}
 		else if (deepLink instanceof WebDeepLink) {

@@ -159,6 +159,7 @@ public class NavUtils {
 		builder.setUrl(url);
 		builder.setHandleBack(true);
 		builder.setAllowMobileRedirects(true);
+		builder.setInjectExpediaCookies(true);
 		builder.setOriginalWebViewTitle(true);
 		TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
 		stackBuilder.addNextIntentWithParentStack(builder.getIntent());
