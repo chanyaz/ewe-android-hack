@@ -61,6 +61,28 @@ Feature: Search Suggestions for packages
       | client                      | expedia.app.android.phone      |
       | lob                         | PACKAGES                       |
       | sourceType                  | mobileapp                      |
+      | ab                          | 11996.0                        |
+
+  @Packages @PackagesTypeahead @Prod
+    Scenario: Flying From field - Typeahead call is made when 3 letters are entered (RWG enabled)
+      Given I launch the App
+      And I set bucketing rules for A/B tests as
+        | EBAndroidAppPackagesMISRealWorldGeo | BUCKETED                        |
+      And I want to intercept these calls for packages
+        | TypeAheadSFO |
+      And I launch "Bundle Deals" LOB
+      And I click on source search button
+      And I type "sfo" and select the location "SFO - San Francisco Intl."
+      Then Validate the "TypeAhead" API request query params for following parameters for packages
+        | locale                      | en_US                          |
+        | regiontype                  | 863                            |
+        | dest                        | false                          |
+        | features                    | ta_hierarchy                   |
+        | client                      | expedia.app.android.phone      |
+        | lob                         | PACKAGES                       |
+        | sourceType                  | mobileapp                      |
+        | ab                          | 11996.1                        |
+
 
   @Packages @PackagesTypeahead @Prod
   Scenario: Flying to field - No typeahead call is made when 2 letters are entered

@@ -74,7 +74,7 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
         val limit = 2
         val response = gaiaSuggestApi.gaiaNearBy(request.lat, request.lng, limit, request.lob,
                 request.sortType, request.locale, request.siteId,
-                if (request.misForRealWorldEnabled) "rwg" else null)
+                if (request.misForRealWorldEnabled) "rwg" else "legacy")
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
         return response.map { it.toMutableList() }
@@ -99,7 +99,7 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
                     SuggestionResultType.POINT_OF_INTEREST or
                     SuggestionResultType.AIRPORT_METRO_CODE
         }
-        return suggestV4(query, suggestType, isDest, "ta_hierarchy", "PACKAGES", abTest = if (isMISForRealWorldEnabled) "11996.1" else null, guid = guid, packageType = "FH")
+        return suggestV4(query, suggestType, isDest, "ta_hierarchy", "PACKAGES", abTest = if (isMISForRealWorldEnabled) "11996.1" else "11996.0", guid = guid, packageType = "FH")
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { response -> response.suggestions ?: emptyList() }
