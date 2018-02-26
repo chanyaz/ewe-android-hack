@@ -511,6 +511,14 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
+            android:key="25071"
+            android:title="Downloadable Fonts Roboto - 25071" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:summary="%s"
             android:key="11455"
             android:title="Integration AA Test - 11455" />
 

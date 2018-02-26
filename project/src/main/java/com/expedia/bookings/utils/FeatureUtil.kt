@@ -100,3 +100,7 @@ fun isRecentSearchesForFlightsEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedInAnyVariant(context, AbacusUtils.EBAndroidAppFlightsRecentSearch) &&
             !AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightAdvanceSearch)
 }
+
+fun isDownloadableFontsEnabled(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.ExpediaAndroid_DownloadablefontsRoboto)
+}
