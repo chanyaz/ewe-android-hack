@@ -435,13 +435,15 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     private inner class HotelResultsScrollListener : BaseHotelResultsScrollListener() {
+        private var changeDateSensitivity = context.resources.getDimensionPixelSize(R.dimen.hotel_results_change_date_sensitivity)
+
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
 
             if (isBucketedToShowChangeDate()) {
-                if (dy < 0) {
+                if (dy < -changeDateSensitivity) {
                     hotelResultChangeDateView.animateIn()
-                } else if (dy > 0 && !isHeaderVisible()) {
+                } else if (dy > changeDateSensitivity && !isHeaderVisible()) {
                     hotelResultChangeDateView.animateOut()
                 }
             }

@@ -28,7 +28,7 @@ class HotelResultsChangeDateView(context: Context, attrs: AttributeSet?) : Linea
     private val changeDateCalendarTextView: TextView by bindView(R.id.change_date_calendar_text_view)
     private val changeDateGuestTextView: TextView by bindView(R.id.change_date_guest_text_view)
 
-    private val changeDatesAnimationDuration = 250L
+    private val changeDatesAnimationDuration = 200L
     private val containerHeight = context.resources.getDimensionPixelSize(R.dimen.hotel_results_change_date_height)
     private lateinit var translateInAnimator: TranslateYAnimator
     private lateinit var translateOutAnimator: TranslateYAnimator
