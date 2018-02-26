@@ -2186,6 +2186,8 @@
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">Credit Card number</string>
+    <!-- New Credit Card field hint which will show MM/YY -->
+    <string name="new_credit_card_expiry_hint">MM/YY</string>
     <!-- Credit Card field hint; this version calls out that debit cards are also acceptable -->
     <string name="credit_debit_card_hint">Enter new Debit/Credit Card</string>
     <!-- Expiration date label -->

@@ -440,6 +440,11 @@ class BillingDetailsPaymentWidgetTest {
         validateInvalidBillingInfo()
 
         assertEquals(R.drawable.invalid, Shadows.shadowOf(billingDetailsPaymentWidget.expirationDate.compoundDrawables[2]).createdFromResId)
+
+        billingDetailsPaymentWidget.sectionBillingInfo.mEditCreditCardNumber.getData().setExpirationDate(LocalDate(2023, 10, 23))
+        billingDetailsPaymentWidget.onDoneClicked()
+
+        assertEquals(null, billingDetailsPaymentWidget.expirationDate.compoundDrawables[2])
     }
 
     @Test

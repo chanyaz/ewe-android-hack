@@ -252,11 +252,11 @@
                                 android:layout_weight="1"
                                 android:importantForAccessibility="no">
 
-                                <com.expedia.bookings.widget.CreditCardExpiryEditText
+                                <com.expedia.bookings.widget.accessibility.AccessibleEditText
                                     android:id="@+id/edit_creditcard_expiry_date"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:hint="MM/YY"
+                                    android:hint="@string/new_credit_card_expiry_hint"
                                     android:inputType="phone"
                                     android:maxLength="5"
                                     android:nextFocusForward="@+id/edit_creditcard_cvv"

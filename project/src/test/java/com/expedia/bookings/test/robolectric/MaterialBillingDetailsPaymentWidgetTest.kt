@@ -13,7 +13,6 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.flights.ValidFormOfPayment
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.pos.PointOfSale
@@ -291,7 +290,7 @@ class MaterialBillingDetailsPaymentWidgetTest {
     @Test
     fun testMaterialBillingMaskedCreditCardAlternatesVisibility() {
         val creditCardLayout = materialBillingDetailsPaymentWidget.creditCardNumber.getParentTextInputLayout()!!
-        val maskedCreditLayout = materialBillingDetailsPaymentWidget.maskedCreditLayout as TextInputLayout
+        val maskedCreditLayout = materialBillingDetailsPaymentWidget.maskedCreditLayout
 
         assertInverseLayoutVisibility(visibleLayout = creditCardLayout, hiddenLayout = maskedCreditLayout)
         Assert.assertEquals("", materialBillingDetailsPaymentWidget.creditCardNumber.text.toString())
@@ -353,8 +352,7 @@ class MaterialBillingDetailsPaymentWidgetTest {
 
     @Test
     fun testVisibilityOfExpiryTextViewWithABTestOn() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.CardExpiryDateFormField)
-        materialBillingDetailsPaymentWidget = LayoutInflater.from(activity).inflate(R.layout.material_billing_details_payment_widget, null) as MaterialBillingDetailsPaymentWidget
+        setNewCreditCardABTestOnMaterialBillingDetailView()
 
         Assert.assertEquals(View.GONE, materialBillingDetailsPaymentWidget.oldCreditExpiryTextLayout.visibility)
         Assert.assertEquals(View.VISIBLE, materialBillingDetailsPaymentWidget.newCreditCardExpiryTextLayout.visibility)
@@ -362,11 +360,76 @@ class MaterialBillingDetailsPaymentWidgetTest {
 
     @Test
     fun testVisibilityOfExpiryTxtViewWithAbTestOff() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.CardExpiryDateFormField, AbacusVariant.CONTROL.value)
-        materialBillingDetailsPaymentWidget = LayoutInflater.from(activity).inflate(R.layout.material_billing_details_payment_widget, null) as MaterialBillingDetailsPaymentWidget
-
         Assert.assertEquals(View.VISIBLE, materialBillingDetailsPaymentWidget.expirationDate.visibility)
         Assert.assertEquals(View.GONE, materialBillingDetailsPaymentWidget.newCreditCardExpiryTextLayout.visibility)
+    }
+
+    @Test
+    fun testMaterialExpiryDateValidationWithABTestOn() {
+        setNewCreditCardABTestOnMaterialBillingDetailView()
+        materialBillingDetailsPaymentWidget.cardInfoContainer.performClick()
+        val creditCardLayout = materialBillingDetailsPaymentWidget.creditCardExpiryText.getParentTextInputLayout()!!
+
+        assertValidState(creditCardLayout, "MM/YY", "MM/YY")
+
+        validateInvalidBillingInfo()
+
+        assertErrorState(creditCardLayout, "Enter a valid month and year", "MM/YY, Error, Enter a valid month and year")
+
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.setText("01/")
+        materialBillingDetailsPaymentWidget.onDoneClicked()
+
+        assertErrorState(creditCardLayout, "Enter a valid month and year", "MM/YY, 01/, Error, Enter a valid month and year")
+
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.setText("13/33")
+        materialBillingDetailsPaymentWidget.onDoneClicked()
+
+        assertErrorState(creditCardLayout, "Enter a valid month and year", "MM/YY, 13/33, Error, Enter a valid month and year")
+
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.setText("13/3")
+        materialBillingDetailsPaymentWidget.onDoneClicked()
+
+        assertErrorState(creditCardLayout, "Enter a valid month and year", "MM/YY, 13/3, Error, Enter a valid month and year")
+
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.setText("12/33")
+        materialBillingDetailsPaymentWidget.onDoneClicked()
+
+        assertValidState(creditCardLayout, "MM/YY", "MM/YY, 12/33")
+
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.setText("00/33")
+        materialBillingDetailsPaymentWidget.onDoneClicked()
+
+        assertErrorState(creditCardLayout, "Enter a valid month and year", "MM/YY, 00/33, Error, Enter a valid month and year")
+
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.setText("01/25")
+        materialBillingDetailsPaymentWidget.onDoneClicked()
+
+        assertValidState(creditCardLayout, "MM/YY", "MM/YY, 01/25")
+    }
+
+    @Test
+    fun testMaterialExpiryDateValidationWithABTestOff() {
+        materialBillingDetailsPaymentWidget.cardInfoContainer.performClick()
+        val creditCardLayout = materialBillingDetailsPaymentWidget.expirationDate.getParentTextInputLayout()!!
+
+        assertValidState(creditCardLayout, "Expiration Date", " Expiration Date, Opens dialog")
+
+        validateInvalidBillingInfo()
+
+        assertErrorState(creditCardLayout, "Enter a valid month and year", "Expiration Date, Opens dialog, Error, Enter a valid month and year")
+
+        materialBillingDetailsPaymentWidget.sectionBillingInfo.mEditCreditCardNumber.getData().setExpirationDate(LocalDate(2023, 10, 23))
+        materialBillingDetailsPaymentWidget.onDoneClicked()
+
+        assertValidState(creditCardLayout, "Expiration Date", " Expiration Date, Opens dialog")
+    }
+
+    private fun setNewCreditCardABTestOnMaterialBillingDetailView() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.CardExpiryDateFormField)
+        materialBillingDetailsPaymentWidget = LayoutInflater.from(activity).inflate(R.layout.material_billing_details_payment_widget, null) as MaterialBillingDetailsPaymentWidget
+        materialBillingDetailsPaymentWidget.viewmodel = PaymentViewModel(activity)
+        materialBillingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
+        materialBillingDetailsPaymentWidget.viewmodel.emptyBillingInfo.onNext(Unit)
     }
 
     private fun givenPackageTripWithVisaValidFormOfPayment() {

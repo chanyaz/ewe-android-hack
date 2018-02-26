@@ -83,6 +83,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	}
 
 	private void init(Context context) {
+
 		userStateManager = Ui.getApplication(context).appComponent().userStateManager();
 		//Display fields
 		mFields.add(this.mDisplayCreditCardBrandIconGrey);
@@ -102,6 +103,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		mFields.add(mValidExpiration);
 		mFields.add(mValidPostalCode);
 		mFields.add(mValidSecurityCode);
+		mFields.add(mValidCreditCardTextViewExpiration);
 
 		//Edit fields
 		mFields.add(this.mEditCreditCardNumber);
@@ -113,6 +115,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		mFields.add(this.mEditCardExpirationDateTextBtn);
 		mFields.add(this.mEditPostalCode);
 		mFields.add(this.mEditCreditCardSecurityCode);
+		mFields.add(this.mEditCardExpirationDateTextField);
 	}
 
 	/**
@@ -212,16 +215,32 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 	public void setErrorStrings() {
 		mValidCCNum.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_number));
-		mValidMaskedCCNum.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_number));
+		mValidMaskedCCNum
+			.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_number));
 		mValidNameOnCard.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_name));
-		mValidExpiration.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_month_and_year));
+		mValidExpiration
+			.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_month_and_year));
 		mValidSecurityCode.setErrorString(getContext().getResources().getString(R.string.error_enter_valid_cvv));
+		mValidCreditCardTextViewExpiration
+			.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_month_and_year));
 	}
 
 	public void resetMaterialErrorString() {
 		if (LobExtensionsKt.isMaterialFormEnabled(mLineOfBusiness, getContext())) {
-			mValidMaskedCCNum.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_number));
+			mValidMaskedCCNum
+				.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_number));
 			mValidCCNum.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_number));
+		}
+	}
+
+	public void updateCreditCardView(Boolean expiryABTestStatus) {
+		if (expiryABTestStatus) {
+			mFields.removeField(mEditCardExpirationDateTextBtn);
+			mFields.removeField(mValidExpiration);
+		}
+		else {
+			mFields.removeField(mEditCardExpirationDateTextField);
+			mFields.removeField(mValidCreditCardTextViewExpiration);
 		}
 	}
 
@@ -290,7 +309,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 						if (!hasValidPaymentType(mLineOfBusiness, getData(), getContext())) {
 							field.setImageResource(R.drawable.ic_lcc_no_card_payment_entry);
 							if (LobExtensionsKt.isMaterialFormEnabled(mLineOfBusiness, getContext())) {
-								String errorMessage = ValidFormOfPaymentUtils.getInvalidFormOfPaymentMessage(getContext(), getData().getPaymentType(getContext()), mLineOfBusiness);
+								String errorMessage = ValidFormOfPaymentUtils
+									.getInvalidFormOfPaymentMessage(getContext(),
+										getData().getPaymentType(getContext()), mLineOfBusiness);
 								mValidCCNum.setErrorString(errorMessage);
 								mValidMaskedCCNum.setErrorString(errorMessage);
 							}
@@ -375,6 +396,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		R.id.edit_creditcard_exp_text_btn);
 	ValidationIndicatorExclamation<BillingInfo> mValidSecurityCode = new ValidationIndicatorExclamation<>(
 		R.id.edit_creditcard_cvv);
+	ValidationIndicatorExclamation<BillingInfo> mValidCreditCardTextViewExpiration = new ValidationIndicatorExclamation<>(
+		R.id.edit_creditcard_expiry_date);
 
 	//////////////////////////////////////
 	////// EDIT FIELDS
@@ -405,7 +428,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 							//A strange special case, as when we load billingInfo from disk, we don't have number, but we retain brandcode
 							//We don't want to get rid of the brand code until the user has started to enter new data...
 							if (!TextUtils.isEmpty(getData().getNumber())) {
-								PaymentType type = CurrencyUtils.detectCreditCardBrand(getData().getNumber(), getContext());
+								PaymentType type = CurrencyUtils
+									.detectCreditCardBrand(getData().getNumber(), getContext());
 								if (type == null) {
 									getData().setBrandCode(null);
 									getData().setBrandName(null);
@@ -580,7 +604,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		Validator<EditText> mValidator = new Validator<EditText>() {
 			@Override
 			public int validate(EditText obj) {
-				if (isPostalCodeRequired() &&  !LobExtensionsKt.hasBillingInfo(mLineOfBusiness)) {
+				if (isPostalCodeRequired() && !LobExtensionsKt.hasBillingInfo(mLineOfBusiness)) {
 					if (obj == null) {
 						return ValidationError.ERROR_DATA_MISSING;
 					}
@@ -782,7 +806,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 					}
 					else {
 						String text = obj.getText().toString();
-						boolean amex = getData() != null && getData().getPaymentType(getContext()) == PaymentType.CARD_AMERICAN_EXPRESS;
+						boolean amex = getData() != null
+							&& getData().getPaymentType(getContext()) == PaymentType.CARD_AMERICAN_EXPRESS;
 						if (text.length() != (amex ? 4 : 3)) {
 							return ValidationError.ERROR_DATA_INVALID;
 						}
@@ -1087,6 +1112,106 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			return mValidator;
 		}
 	};
+
+
+	public SectionFieldEditable<EditText, BillingInfo> mEditCardExpirationDateTextField = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
+		R.id.edit_creditcard_expiry_date) {
+		int textViewLengthBeforeEditing = 0;
+		String initialMonthCharToAdd = "0";
+		String forwardSlash = "/";
+
+		@Override
+		protected Validator<EditText> getValidator() {
+			//Inline so that we can get the context
+			return new Validator<EditText>() {
+				@Override
+				public int validate(EditText obj) {
+					int validationStatus;
+					String enteredText = obj.getText().toString();
+					if (!enteredText.isEmpty()) {
+						if (enteredText.length() == 5) {
+							validationStatus = getEnteredExpiryDateValidationStatus(enteredText);
+							if (validationStatus == ValidationError.NO_ERROR) {
+								LocalDate dateEntered = LocalDate.parse(enteredText, MONTHYEAR_FORMATTER);
+								getData().setExpirationDate(dateEntered);
+							}
+						}
+						else {
+							validationStatus = ValidationError.ERROR_DATA_INVALID;
+						}
+					}
+					else {
+						validationStatus = ValidationError.ERROR_DATA_MISSING;
+					}
+					return validationStatus;
+				}
+			};
+		}
+
+		@Override
+		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
+			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<>();
+			retArr.add(mValidCreditCardTextViewExpiration);
+			return retArr;
+		}
+
+		@Override
+		public void setChangeListener(EditText field) {
+			field.addTextChangedListener(new AfterChangeTextWatcher() {
+				@Override
+				public void afterTextChanged(Editable editBoxText) {
+					updateExpiryDateTextView(editBoxText);
+					onChange(SectionBillingInfo.this);
+				}
+
+				@Override
+				public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+					textViewLengthBeforeEditing = s.length();
+				}
+			});
+		}
+
+		private void updateExpiryDateTextView(Editable editBoxText) {
+			Boolean charRemoved = false;
+			if (textViewLengthBeforeEditing > editBoxText.length()) {
+				charRemoved = true;
+			}
+			if (editBoxText.length() == 1 && Character.getNumericValue(editBoxText.charAt(0)) >= 2) {
+				editBoxText.insert(0, initialMonthCharToAdd);
+			}
+			else if (editBoxText.length() == 2 && !charRemoved) {
+				editBoxText.insert(2, forwardSlash);
+			}
+			else if (editBoxText.length() == 2 && charRemoved) {
+				editBoxText.delete(1, 2);
+			}
+		}
+
+		@Override
+		protected void onHasFieldAndData(EditText field, BillingInfo data) {
+			String btnTxt = "";
+			if (data.getExpirationDate() != null) {
+				btnTxt = MONTHYEAR_FORMATTER.print(data.getExpirationDate());
+			}
+			field.setText(btnTxt);
+		}
+	};
+
+	private int getEnteredExpiryDateValidationStatus(String enteredText) {
+		int validationStatus;
+		LocalDate currentDate = LocalDate.now();
+		int month = Integer.parseInt(enteredText.substring(0, 2));
+		if (month >= 13 || month == 00) {
+			validationStatus = ValidationError.ERROR_DATA_INVALID;
+		}
+		else if (LocalDate.parse(enteredText, MONTHYEAR_FORMATTER).isBefore(currentDate)) {
+			validationStatus = ValidationError.ERROR_DATA_INVALID;
+		}
+		else {
+			validationStatus = ValidationError.NO_ERROR;
+		}
+		return validationStatus;
+	}
 
 	public static boolean hasValidPaymentType(LineOfBusiness lob, BillingInfo info, Context context) {
 		if (info == null || info.getPaymentType(context) == null) {

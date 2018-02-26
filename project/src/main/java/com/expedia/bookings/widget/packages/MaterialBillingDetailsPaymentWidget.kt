@@ -20,7 +20,7 @@ import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.extensions.setInverseVisibility
 import com.expedia.bookings.extensions.updatePaddingForOldApi
 import com.expedia.bookings.utils.showNewCreditCardExpiryFormField
-import com.expedia.bookings.widget.CreditCardExpiryEditText
+import com.expedia.bookings.widget.accessibility.AccessibleEditText
 
 class MaterialBillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : BillingDetailsPaymentWidget(context, attr) {
     val addressStateLayout by bindView<TextInputLayout>(R.id.material_edit_address_state)
@@ -31,7 +31,7 @@ class MaterialBillingDetailsPaymentWidget(context: Context, attr: AttributeSet) 
     val showNewExpiryField = showNewCreditCardExpiryFormField(context)
     val oldCreditExpiryTextLayout by bindView<TextInputLayout>(R.id.material_edit_creditcard_date)
     val newCreditCardExpiryTextLayout by bindView<TextInputLayout>(R.id.material_creditcard_expiry_date)
-    val creditCardExpiryText by bindView<CreditCardExpiryEditText>(R.id.edit_creditcard_expiry_date)
+    val creditCardExpiryText by bindView<AccessibleEditText>(R.id.edit_creditcard_expiry_date)
 
     override fun init(vm: PaymentViewModel) {
         super.init(vm)
@@ -61,6 +61,10 @@ class MaterialBillingDetailsPaymentWidget(context: Context, attr: AttributeSet) 
         }
         oldCreditExpiryTextLayout.setInverseVisibility(showNewExpiryField)
         newCreditCardExpiryTextLayout.setVisibility(showNewExpiryField)
+        if (showNewExpiryField) {
+            creditCardExpiryText.onFocusChangeListener = this
+        }
+        sectionBillingInfo.updateCreditCardView(showNewExpiryField)
     }
 
     private fun setupFields() {

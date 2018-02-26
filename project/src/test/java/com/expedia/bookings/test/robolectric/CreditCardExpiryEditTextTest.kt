@@ -14,7 +14,7 @@ import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class CreditCardExpiryEditTextTest {
-    private lateinit var billingDetailsPaymentWidget: MaterialBillingDetailsPaymentWidget
+    private lateinit var materialBillingDetailsPaymentWidget: MaterialBillingDetailsPaymentWidget
     private lateinit var activity: Activity
 
     @Before
@@ -22,87 +22,87 @@ class CreditCardExpiryEditTextTest {
         Db.sharedInstance.clear()
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Packages)
-        billingDetailsPaymentWidget = LayoutInflater.from(activity).inflate(R.layout.material_billing_details_payment_widget, null) as MaterialBillingDetailsPaymentWidget
-        billingDetailsPaymentWidget.viewmodel = PaymentViewModel(activity)
+        materialBillingDetailsPaymentWidget = LayoutInflater.from(activity).inflate(R.layout.material_billing_details_payment_widget, null) as MaterialBillingDetailsPaymentWidget
+        materialBillingDetailsPaymentWidget.viewmodel = PaymentViewModel(activity)
     }
 
     @Test
     fun testExpiryDateTextWhenUserEntersThree() {
-        billingDetailsPaymentWidget.creditCardExpiryText.setText("3")
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.setText("3")
 
-        assertEquals("03/", billingDetailsPaymentWidget.creditCardExpiryText.text.toString())
+        assertEquals("03/", materialBillingDetailsPaymentWidget.creditCardExpiryText.text.toString())
     }
 
     @Test
     fun testExpiryDateTextWhenUserEntersOne() {
-        billingDetailsPaymentWidget.creditCardExpiryText.setText("1")
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.setText("1")
 
-        assertEquals("1", billingDetailsPaymentWidget.creditCardExpiryText.text.toString())
+        assertEquals("1", materialBillingDetailsPaymentWidget.creditCardExpiryText.text.toString())
     }
 
     @Test
     fun testExpiryDateTextWhenUserEntersZero() {
-        billingDetailsPaymentWidget.creditCardExpiryText.setText("0")
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.setText("0")
 
-        assertEquals("0", billingDetailsPaymentWidget.creditCardExpiryText.text.toString())
+        assertEquals("0", materialBillingDetailsPaymentWidget.creditCardExpiryText.text.toString())
     }
 
     @Test
     fun testExpiryDateTextWhenUserEnters05() {
-        billingDetailsPaymentWidget.creditCardExpiryText.setText("05")
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.setText("05")
 
-        assertEquals("05/", billingDetailsPaymentWidget.creditCardExpiryText.text.toString())
+        assertEquals("05/", materialBillingDetailsPaymentWidget.creditCardExpiryText.text.toString())
     }
 
     @Test
     fun testExpiryDateTextWhenUserEnters054() {
-        billingDetailsPaymentWidget.creditCardExpiryText.append("0")
-        billingDetailsPaymentWidget.creditCardExpiryText.append("5")
-        billingDetailsPaymentWidget.creditCardExpiryText.append("4")
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.append("0")
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.append("5")
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.append("4")
 
-        assertEquals("05/4", billingDetailsPaymentWidget.creditCardExpiryText.text.toString())
+        assertEquals("05/4", materialBillingDetailsPaymentWidget.creditCardExpiryText.text.toString())
     }
 
     @Test
     fun testDeletionWhenTextViewWithValue054() {
-        billingDetailsPaymentWidget.creditCardExpiryText.append("0")
-        billingDetailsPaymentWidget.creditCardExpiryText.append("5")
-        billingDetailsPaymentWidget.creditCardExpiryText.append("4")
-        billingDetailsPaymentWidget.creditCardExpiryText.text.delete(3, 4)
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.append("0")
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.append("5")
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.append("4")
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.text.delete(3, 4)
 
-        assertEquals("05/", billingDetailsPaymentWidget.creditCardExpiryText.text.toString())
+        assertEquals("05/", materialBillingDetailsPaymentWidget.creditCardExpiryText.text.toString())
     }
 
     @Test
     fun testContinuousDeletionWhenTextViewWithValue054() {
-        billingDetailsPaymentWidget.creditCardExpiryText.append("0")
-        billingDetailsPaymentWidget.creditCardExpiryText.append("5")
-        billingDetailsPaymentWidget.creditCardExpiryText.append("4")
-        billingDetailsPaymentWidget.creditCardExpiryText.text.delete(3, 4)
-        billingDetailsPaymentWidget.creditCardExpiryText.text.delete(2, 3)
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.append("0")
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.append("5")
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.append("4")
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.text.delete(3, 4)
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.text.delete(2, 3)
 
-        assertEquals("0", billingDetailsPaymentWidget.creditCardExpiryText.text.toString())
+        assertEquals("0", materialBillingDetailsPaymentWidget.creditCardExpiryText.text.toString())
     }
 
     @Test
     fun testDeletionWhenTextViewWithValue0542() {
-        billingDetailsPaymentWidget.creditCardExpiryText.append("0")
-        billingDetailsPaymentWidget.creditCardExpiryText.append("5")
-        billingDetailsPaymentWidget.creditCardExpiryText.append("4")
-        billingDetailsPaymentWidget.creditCardExpiryText.append("2")
-        billingDetailsPaymentWidget.creditCardExpiryText.text.delete(4, 5)
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.append("0")
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.append("5")
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.append("4")
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.append("2")
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.text.delete(4, 5)
 
-        assertEquals("05/4", billingDetailsPaymentWidget.creditCardExpiryText.text.toString())
+        assertEquals("05/4", materialBillingDetailsPaymentWidget.creditCardExpiryText.text.toString())
     }
 
     @Test
     fun testTextViewWithValue05421() {
-        billingDetailsPaymentWidget.creditCardExpiryText.append("0")
-        billingDetailsPaymentWidget.creditCardExpiryText.append("5")
-        billingDetailsPaymentWidget.creditCardExpiryText.append("4")
-        billingDetailsPaymentWidget.creditCardExpiryText.append("2")
-        billingDetailsPaymentWidget.creditCardExpiryText.append("1")
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.append("0")
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.append("5")
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.append("4")
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.append("2")
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.append("1")
 
-        assertEquals("05/42", billingDetailsPaymentWidget.creditCardExpiryText.text.toString())
+        assertEquals("05/42", materialBillingDetailsPaymentWidget.creditCardExpiryText.text.toString())
     }
 }
