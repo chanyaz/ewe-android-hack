@@ -176,17 +176,16 @@ class HotelRoomDetailViewModelTest {
     }
 
     @Test
-    fun testGroupedInternetValueAdds() {
+    fun testNotGroupedInternetValueAdds() {
         val ids = intArrayOf(2048, 1024, 1073742787, 4347, 2403, 4345, 2405, 2407, 4154, 2191, 2192, 2404, 2406).toList()
 
         val roomResponse = createRoomResponse(ids)
         val vm = createViewModel(roomResponse, 0)
         val toShow = vm.getValueAdds()
 
-        assertEquals(1, toShow.count())
+        assertEquals(13, toShow.count())
 
         assertEquals(ValueAddsEnum.INTERNET, toShow[0].valueAddsEnum)
-        assertEquals(context.resources.getString(ValueAddsEnum.INTERNET.descriptionId), toShow[0].apiDescription)
     }
 
     @Test
