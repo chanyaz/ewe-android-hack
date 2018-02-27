@@ -95,6 +95,7 @@
         <item quantity="one">{number} tulos</item>
         <item quantity="other">{number} tulosta</item>
     </plurals>
+
     <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
     <plurals name="number_results_announcement_text_TEMPLATE">
         <item quantity="one">{number} tulos suodatettu</item>
@@ -153,7 +154,7 @@
     <!-- Message for user that date is too far out.  -->
     <string name="error_date_too_far">Tämä päivämäärä on liian kaukana tulevaisuudessa, valitse uusi päivä.</string>
     <!-- Shown to user in case the reservation timed out -->
-    <string name="reservation_time_out">Oletko vielä siellä? Istuntosi on vanhentunut Yritä tehdä haku uudelleen.</string>
+    <string name="reservation_time_out">Oletko vielä siellä? Istuntosi on vanhentunut. Yritä tehdä haku uudelleen.</string>
     <!-- Shown to user when they try to book something already booked in new Hotels -->
     <string name="reservation_already_exists_new_hotels">Tämä varaus on tehty. Tarkista matkasi tai sähköpostisi.</string>
     <!-- Shown to user when they try to book something already booked -->
@@ -225,7 +226,7 @@
     <!-- Cancellation policy template -->
     <string name="lx_cancellation_policy_TEMPLATE">Voit peruuttaa ilmaiseksi viimeistään {hours} tuntia ennen varauksesi alkamista. Tämän jälkeen varausta ei voi peruuttaa, muuttaa eikä hyvittää.</string>
     <!-- Cancellation policy text for non-cancellable activities -->
-    <string name="lx_policy_non_cancellable">Tämä varaus on ei-hyvitettävä eikä sitä voi muuttaa tai peruuttaa varauksen tekemisen jälkeen.</string>
+    <string name="lx_policy_non_cancellable">Tämä varaus on ei-hyvitettävä, eikä sitä voi muuttaa tai peruuttaa varauksen tekemisen jälkeen.</string>
     <!-- LX checkout cost breakdown total due today -->
     <string name="lx_cost_breakdown_due_today">Veloitetaan nyt</string>
     <!-- LX checkout cost breakdown total due today -->
@@ -877,10 +878,6 @@
     <!-- Accessibility announcement when Return search screen is selected. -->
     <string name="rail_tab_roundtrip_selected_announcement">Näytetään junahakunäyttö menopaluumatkoille</string>
 
-    <!-- New launch screen -->
-    <!-- Search screen title -->
-    <string name="search_title">Haku</string>
-
     <!--Meso destination ad card-->
     <string name="meso_destination_name_las_vegas">Las Vegas</string>
     <string name="meso_destination_name_los_angeles">Los Angeles</string>
@@ -927,15 +924,6 @@
     <string name="launch_upcoming_trips_signed_in">Sinulla on tuleva matka!</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">Tarkista matkasuunnitelmasi tien päällä ollessasi ja pysy ajan tasalla muutoksista</string>
-
-    <!-- Label for pro wizard bar on launch screen -->
-    <string name="search_hotels">Hae hotelleja</string>
-
-    <!-- Label for pro wizard bar on launch screen -->
-    <string name="search_hotels_and_flights">Hae hotelleja ja lentoja</string>
-
-    <!-- Label for super search bar at launch screen -->
-    <string name="search_hotels_flight_more">Hae hotelleja, lentoja ja paljon muuta…</string>
 
     <!--Onboarding-->
     <string name="booking_page_title">Varaa tien päällä ollessasi</string>
@@ -1311,7 +1299,7 @@
     <!-- Itin card details -->
     <string name="itin_card_details_active">Aktiivinen</string>
     <string name="itin_card_details_expires">Vanhenee</string>
-    <string name="itin_card_details_guests">Asiakasta</string>
+    <string name="itin_card_details_guests">Asiakkaat</string>
     <string name="itin_card_details_details">Lisätietoja</string>
     <!-- Label for button to cancel Hotel booking -->
     <string name="itin_card_details_cancel_hotel_room">Peruuta hotellihuone</string>
@@ -1457,6 +1445,8 @@
     <string name="itin_hotel_special_instruction_dialog_sub_title">Erikoisohjeet</string>
     <!--Button title for check-in policies and special instructions-->
     <string name="itin_hotel_check_in_policies_and_special_instruction">Sisäänkirjautuminen ja erikoisohjeet</string>
+    <!--Button title for special instructions-->
+    <string name="itin_hotel_special_instruction">Erikoisohjeet</string>
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">Muutos- ja peruutusehdot</string>
     <!--Hotel itin manage booking room tabs title TEMPLATE. Room {number} (e.g., Room 1)-->
@@ -1867,7 +1857,7 @@
     <!-- Flight Unavailable error screen:- warning -->
     <string name="flight_unavailable_warning">Pahoittelemme! Tämä lento ei ole enää saatavilla.</string>
     <!-- Flight Session expired error screen:- warning -->
-    <string name="flight_session_expired_warning">Oletko vielä siellä? Istuntosi on vanhentunut Yritä tehdä haku uudelleen.</string>
+    <string name="flight_session_expired_warning">Oletko vielä siellä? Istuntosi on vanhentunut. Yritä tehdä haku uudelleen.</string>
     <!-- Flight Session expired error screen:- toolbar title -->
     <string name="flight_session_expired_toolbar_title">Istunto päättyi</string>
     <!-- Flight Session expired error screen:- new search button label -->
@@ -2730,8 +2720,8 @@
     <string name="hotel_guest_recommend_good_superlative">/ 5 – Hyvä!</string>
     <string name="hotel_guest_recommend_very_good_superlative">/ 5 – Erittäin hyvä!</string>
     <string name="hotel_guest_recommend_excellent_superlative">/ 5 – Erinomainen!</string>
-    <string name="hotel_guest_recommend_wonderful_superlative">/ 5 – Loistava!</string>
-    <string name="hotel_guest_recommend_exceptional_superlative">/ 5 – Upea!</string>
+    <string name="hotel_guest_recommend_wonderful_superlative">/ 5 – Upea!</string>
+    <string name="hotel_guest_recommend_exceptional_superlative">/ 5 – Loistava!</string>
 
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount} %</string>
@@ -3076,7 +3066,7 @@
     <!-- Error when applying coupon - Invalid Stay Dates -->
     <string name="coupon_error_invalid_stay_dates">Valitettavasti tätä kuponkia ei voi käyttää näille matkustuspäiville.</string>
     <!-- Error when applying coupon - Exceeded Earn Limit -->
-    <string name="coupon_error_exceeded_earn_limit">Valitettavasti tätä kuponkia on käytetty liian monta kertaa eikä sitä voi enää käyttää.</string>
+    <string name="coupon_error_exceeded_earn_limit">Valitettavasti tätä kuponkia on käytetty liian monta kertaa, eikä sitä voi enää käyttää.</string>
     <!-- Error when applying coupon - Invalid Average Price -->
     <string name="coupon_error_invalid_average_price">Valitettavasti yöpymisen keskivertohinta ei vastaa kupongin minimivaatimusta.</string>
     <!-- Error when applying coupon - Not Active -->
@@ -3144,7 +3134,8 @@
     <!-- Dialog for pending points -->
     <string name="pending_points_info">Odottavat pisteet tulevat käytettäviksi matkan päätyttyä alla olevan ajan jälkeen:</string>
     <string name="pending_points_dialog_title">Odottavat pisteet</string>
-    <string name="pending_points_button">Pistepainike</string>
+    <!-- example: 7,253 pending points button -->
+    <string name="pending_points_TEMPLATE">{loyalty_points} odottavaa pistettä, painike</string>
     <string name="trip_type">Matkan tyyppi</string>
     <string name="up_to">Korkeintaan</string>
     <string name="activities">Aktiviteetit</string>
@@ -3178,7 +3169,7 @@
     <string name="country_pos_cont_desc_TEMPLATE">{countrycode}, maapainike</string>
 
     <!-- Error shown if user tries to launch an outside app that they don't have access to -->
-    <string name="app_not_available">Joko puhelimessasi ei ole sovellusta, joka pystyy käsittelemään tämän toiminnon tai sinulla ei ole käyttöoikeuksia siihen.</string>
+    <string name="app_not_available">Joko puhelimessasi ei ole sovellusta, joka pystyy käsittelemään tämän toiminnon, tai sinulla ei ole käyttöoikeuksia siihen.</string>
     <!--Content description for add child button on traveler form Eg: 2 children added -->
     <plurals name="add_child_button_cont_desc_TEMPLATE">
         <item quantity="zero">%d lasta, valitse lasten ikä alla.\u0020</item>
@@ -3244,11 +3235,11 @@
     </plurals>
     <!-- A number of guests (but not including the guest count). Capitalized -->
     <plurals name="number_of_guests_label">
-        <item quantity="zero">Asiakasta</item>
+        <item quantity="zero">Asiakkaat</item>
         <item quantity="one">Asiakas</item>
-        <item quantity="two">Asiakasta</item>
-        <item quantity="many">Asiakasta</item>
-        <item quantity="other">Asiakasta</item>
+        <item quantity="two">Asiakkaat</item>
+        <item quantity="many">Asiakkaat</item>
+        <item quantity="other">Asiakkaat</item>
     </plurals>
     <!-- A number of nights (as in stay duration).  Capitalized -->
     <plurals name="number_of_nights">
@@ -3343,13 +3334,13 @@
     <string name="e3_error_hotel_offers_unknown_error">Pahoittelemme! Tämän huoneen tarjous on päättynyt, mutta meillä on muita tarjouksia.</string>
 
     <!-- HotelProduct API method -->
-    <string name="e3_error_hotel_product_unknown_error">Tuntematon virhe tapahtui.</string>
-    <string name="e3_error_hotel_product_invalid_input">Tuntematon virhe tapahtui.</string>
+    <string name="e3_error_hotel_product_unknown_error">Tapahtui tuntematon virhe.</string>
+    <string name="e3_error_hotel_product_invalid_input">Tapahtui tuntematon virhe.</string>
 
     <!-- HotelInformation API method -->
-    <string name="e3_error_hotel_information_hotel_service_failure">Tuntematon virhe tapahtui.</string>
-    <string name="e3_error_hotel_information_unknown_error">Tuntematon virhe tapahtui.</string>
-    <string name="e3_error_hotel_information_invalid_input">Tuntematon virhe tapahtui.</string>
+    <string name="e3_error_hotel_information_hotel_service_failure">Tapahtui tuntematon virhe.</string>
+    <string name="e3_error_hotel_information_unknown_error">Tapahtui tuntematon virhe.</string>
+    <string name="e3_error_hotel_information_invalid_input">Tapahtui tuntematon virhe.</string>
 
     <!-- Country names -->
     <string name="country_af">Afganistan</string>
@@ -3985,7 +3976,7 @@
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Valitse hotelli kohteessa %s</string>
     <!-- Bundle Overview searching flight -->
-    <string name="searching_flight_to">Lentoja haetaan…</string>
+    <string name="searching_flight_to">Haetaan lentoja…</string>
     <!-- Package All Flight label -->
     <string name="all_flights_label">Kaikki lennot</string>
     <!-- Package Best Flight title -->
@@ -4017,6 +4008,15 @@
     <string name="flight_one_stop_description">1 välilasku</string>
     <!-- Flight Two stop description -->
     <string name="flight_two_plus_stops_description">Vähintään 2 välilaskua</string>
+    <!-- Flight 1 result description -->
+    <string name="flight_one_filter_result_description">1 tulos</string>
+    <!-- Flight multiple result description Eg: 4 results -->
+    <string name="flight_filter_result_count_TEMPLATE">{count} tulosta</string>
+    <!-- Flight 1 result with price description. Eg: 1 Result from $200  -->
+    <string name="count_with_price__for_one_result_TEMPLATE">1 tulos alkaen {price}</string>
+    <!-- Flight multiple results with price description. Eg: 4 Results from $200  -->
+    <string name="count_with_price_results_TEMPLATE">{number} tulosta alkaen {price}</string>
+
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -4369,7 +4369,7 @@
 
    <string name="pwp_points_conversion_unauthenticated_access">Olemme pahoillamme, mutta palvelimellamme on ongelmia. Ole hyvä ja yritä uudelleen.</string>
    <string name="pwp_trip_service_error">Olemme pahoillamme, mutta palvelimellamme on ongelmia. Ole hyvä ja yritä uudelleen.</string>
-   <string name="pwp_unknown_error">Tuntematon virhe tapahtui. Ole hyvä ja yritä uudelleen.</string>
+   <string name="pwp_unknown_error">Tapahtui tuntematon virhe. Ole hyvä ja yritä uudelleen.</string>
 
    <!-- New Hotel Search screen -->
     <string name="enter_destination_hint">Anna kohde</string>
@@ -4488,6 +4488,8 @@
     <string name="hotel_price_strike_through_cont_desc_TEMPLATE">Normaalisti {strikethroughprice}, nyt {price}.\u0020</string>
     <!-- Hotel strike percentage content description. Example. Original price discounted 20%. -->
     <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">{percentage} halvempi kuin alkuperäinen hinta.\u0020</string>
+    <!-- Hotel strike percentage content description. Example. Regularly $100, now $80. Original price discounted 20%. -->
+    <string name="hotel_price_strike_through_discount_percent_cont_desc_TEMPLATE">Normaalisti {strikethroughprice}, nyt {price}.\u0020{percentage} halvempi kuin alkuperäinen hinta.\u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Unreal Deal {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Example. SFO to DTM. 3 hours 15 minutes. -->
@@ -4638,7 +4640,7 @@
     <!-- Benefits of purchasing insurance for international flights -->
     <string name="insurance_benefits_international">1. Lippusi on ei-hyvitettävä ja olet liian sairas matkustaaksesi.&lt;br/&gt;&lt;br/&gt;2. Haluat korvata hukkuneet matkatavarat, joihin sisältyy kannettava tietokone, puhelin tai kamera.&lt;br/&gt;&lt;br/&gt;3. Vakuutuksesi ei välttämättä kata sairauskuluja matkoilla.</string>
     <!-- Insurance call to action; links to list of benefits -->
-    <string name="insurance_description">Kolme syytä miksi saatat tarvita matkavakuutuksen</string>
+    <string name="insurance_description">3 syytä, miksi saatat tarvita matkavakuutuksen</string>
     <!-- Error message displayed when insurance fails to be removed from a trip -->
     <string name="insurance_remove_error">Valitettavasti emme pystyneet poistamaan tätä matkavakuutusta. Ole hyvä ja yritä uudelleen.</string>
     <!-- Status displayed in a modal dialog while insurance is being removed -->
@@ -4653,6 +4655,8 @@
     <string name="insurance_price_per_day">per päivä</string>
     <!-- Label to indicate price is per person e.g $10/person -->
     <string name="price_per_person">per henkilö</string>
+    <!-- Label to indicate price is per person e.g $10/person -->
+    <string name="price_per_person_TEMPLATE">{price} per henkilö</string>
 
     <!-- Content description for rating bar e.g. Rated 3 out of 5-->
     <string name="hotel_rating_bar_cont_desc_TEMPLATE">Arvosteltu {rating}/5</string>
@@ -4700,12 +4704,14 @@
     <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}, {subtitle}, kaikki matkustajan tiedot annettu. Painike.</string>
     <!--Packages accessibility content description for role Button-->
     <string name="accessibility_cont_desc_role_button">Painike</string>
+    <!--Packages accessibility content description for role Button e.g. Close Button-->
+    <string name="accessibility_cont_desc_role_button_TEMPLATE">{button_label}-painike</string>
     <!--Packages accessibility content description for purchase Button-->
     <string name="accessibility_cont_desc_role_purchase_button">Ostopainike</string>
     <!--Packages accessibility content description for role - Button to expand -->
-    <string name="accessibility_cont_desc_role_button_expand">Painike laajentaaksesi</string>
+    <string name="accessibility_cont_desc_role_button_expand">Laajennuspainike</string>
     <!--Packages accessibility content description for role - Button to collapse -->
-    <string name="accessibility_cont_desc_role_button_collapse">Painike pienentämiseen</string>
+    <string name="accessibility_cont_desc_role_button_collapse">Pienennyspainike</string>
     <!--Packages accessibility content description for dialogs - Opens dialog -->
     <string name="accessibility_cont_desc_opens_dialog">Avaa dialogin</string>
     <!-- Content Description for payment options list when card is not accepted -->
@@ -4968,7 +4974,7 @@
     <!-- Shop hotels now-->
     <string name="shop_hotels_now">Varaa hotelli nyt</string>
     <!--Up to 55% off-->
-    <string name="krazyglue_offer">Jopa 50 % alennusta</string>
+    <string name="krazyglue_offer">Jopa 55 % alennusta</string>
     <!-- Showing the header for the coupon widget to show the saved coupon -->
     <string name="saved_coupon">Tallennetut kupongit</string>
 
@@ -5000,5 +5006,7 @@
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">Normaalihinta per {ticket_type} {activity_original_price}. Alennettu hinta per {ticket_type} {activity_price}</string>
     <string name="hotel_2x_points_search_title">Kaksinkertaiset Expedia+-pisteet!</string>
     <string name="hotel_2x_points_search_content">Ansaitset kaksinkertaiset pisteet tekemällä varauksesi sovelluksessa!</string>
+    <!-- Recent search header string -->
+    <string name="flight_recent_search_label">Viimeaikaiset haut</string>
 
 </resources>

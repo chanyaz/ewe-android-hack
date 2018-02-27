@@ -95,6 +95,7 @@
         <item quantity="one">{number} resultat</item>
         <item quantity="other">{number} resultater</item>
     </plurals>
+
     <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
     <plurals name="number_results_announcement_text_TEMPLATE">
         <item quantity="one">{number} filtreret resultat</item>
@@ -877,10 +878,6 @@
     <!-- Accessibility announcement when Return search screen is selected. -->
     <string name="rail_tab_roundtrip_selected_announcement">Viser søgevindue for tur-returbillet til togrejse</string>
 
-    <!-- New launch screen -->
-    <!-- Search screen title -->
-    <string name="search_title">Søg</string>
-
     <!--Meso destination ad card-->
     <string name="meso_destination_name_las_vegas">Las Vegas</string>
     <string name="meso_destination_name_los_angeles">Los Angeles</string>
@@ -927,15 +924,6 @@
     <string name="launch_upcoming_trips_signed_in">Du har en forestående rejse!</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">Få adgang til dine rejseplaner på farten, og hold dig opdateret om eventuelle rejser</string>
-
-    <!-- Label for pro wizard bar on launch screen -->
-    <string name="search_hotels">Søg efter hoteller</string>
-
-    <!-- Label for pro wizard bar on launch screen -->
-    <string name="search_hotels_and_flights">Søg efter hoteller og flyrejser</string>
-
-    <!-- Label for super search bar at launch screen -->
-    <string name="search_hotels_flight_more">Søg efter hoteller, flyrejser og meget mere…</string>
 
     <!--Onboarding-->
     <string name="booking_page_title">Book på farten</string>
@@ -1457,6 +1445,8 @@
     <string name="itin_hotel_special_instruction_dialog_sub_title">Særlige anvisninger</string>
     <!--Button title for check-in policies and special instructions-->
     <string name="itin_hotel_check_in_policies_and_special_instruction">Indtjekning og særlige anvisninger</string>
+    <!--Button title for special instructions-->
+    <string name="itin_hotel_special_instruction">Særlige anvisninger</string>
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">Ændrings- og afbestillingsregler</string>
     <!--Hotel itin manage booking room tabs title TEMPLATE. Room {number} (e.g., Room 1)-->
@@ -2725,13 +2715,13 @@
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <!-- new material Hotel results cell guest recommend-->
-    <string name="hotel_guest_recommend">af 5 - gæstebedømmelse</string>
+    <string name="hotel_guest_recommend">af 5 – gæstebedømmelse</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
-    <string name="hotel_guest_recommend_good_superlative">ud af 5 - Godt!</string>
-    <string name="hotel_guest_recommend_very_good_superlative">ud af 5 - Meget Godt!</string>
-    <string name="hotel_guest_recommend_excellent_superlative">ud af 5 - Fremragende!</string>
-    <string name="hotel_guest_recommend_wonderful_superlative">ud af 5 - Fantastisk!</string>
-    <string name="hotel_guest_recommend_exceptional_superlative">ud af 5 - Enestående!</string>
+    <string name="hotel_guest_recommend_good_superlative">/5 - Godt!</string>
+    <string name="hotel_guest_recommend_very_good_superlative">/5 - Meget godt!</string>
+    <string name="hotel_guest_recommend_excellent_superlative">/5 - Fremragende!</string>
+    <string name="hotel_guest_recommend_wonderful_superlative">/5 - Fabelagtigt!</string>
+    <string name="hotel_guest_recommend_exceptional_superlative">/5 - Enestående!</string>
 
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
@@ -3144,7 +3134,8 @@
     <!-- Dialog for pending points -->
     <string name="pending_points_info">Afventende point bliver tilgængelige efter rejsen har fundet sted inden for følgende tidsperiode:</string>
     <string name="pending_points_dialog_title">Afventende point</string>
-    <string name="pending_points_button">Knap for point</string>
+    <!-- example: 7,253 pending points button -->
+    <string name="pending_points_TEMPLATE">Knap for {loyalty_points} afventende point</string>
     <string name="trip_type">Rejsetype</string>
     <string name="up_to">Op til</string>
     <string name="activities">Aktiviteter</string>
@@ -4017,6 +4008,15 @@
     <string name="flight_one_stop_description">1 mellemlanding</string>
     <!-- Flight Two stop description -->
     <string name="flight_two_plus_stops_description">2+ mellemlandinger</string>
+    <!-- Flight 1 result description -->
+    <string name="flight_one_filter_result_description">1 resultat</string>
+    <!-- Flight multiple result description Eg: 4 results -->
+    <string name="flight_filter_result_count_TEMPLATE">{count} resultater</string>
+    <!-- Flight 1 result with price description. Eg: 1 Result from $200  -->
+    <string name="count_with_price__for_one_result_TEMPLATE">1 resultat fra {price}</string>
+    <!-- Flight multiple results with price description. Eg: 4 Results from $200  -->
+    <string name="count_with_price_results_TEMPLATE">{number} resultater fra {price}</string>
+
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -4488,6 +4488,8 @@
     <string name="hotel_price_strike_through_cont_desc_TEMPLATE">Normalt {strikethroughprice}, nu {price}.  \u0020</string>
     <!-- Hotel strike percentage content description. Example. Original price discounted 20%. -->
     <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">Den oprindelige pris er blevet nedsat med {percentage}.  \u0020</string>
+    <!-- Hotel strike percentage content description. Example. Regularly $100, now $80. Original price discounted 20%. -->
+    <string name="hotel_price_strike_through_discount_percent_cont_desc_TEMPLATE">Normalt {strikethroughprice}, nu {price}.\u0020Den oprindelige pris er blevet nedsat med {percentage}.  \u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Utroligt tilbud {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Example. SFO to DTM. 3 hours 15 minutes. -->
@@ -4652,7 +4654,9 @@
     <!-- Insurance price type qualifiers -->
     <string name="insurance_price_per_day">pr. dag</string>
     <!-- Label to indicate price is per person e.g $10/person -->
-    <string name="price_per_person">/person</string>
+    <string name="price_per_person">pr. person</string>
+    <!-- Label to indicate price is per person e.g $10/person -->
+    <string name="price_per_person_TEMPLATE">{price} pr. person</string>
 
     <!-- Content description for rating bar e.g. Rated 3 out of 5-->
     <string name="hotel_rating_bar_cont_desc_TEMPLATE">Bedømt som nummer {rating} ud af 5</string>
@@ -4700,6 +4704,8 @@
     <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}, {subtitle}, oplysninger om rejsende er udfyldt. Knap.</string>
     <!--Packages accessibility content description for role Button-->
     <string name="accessibility_cont_desc_role_button">Knap</string>
+    <!--Packages accessibility content description for role Button e.g. Close Button-->
+    <string name="accessibility_cont_desc_role_button_TEMPLATE">{button_label} knap</string>
     <!--Packages accessibility content description for purchase Button-->
     <string name="accessibility_cont_desc_role_purchase_button">Knap til at købe</string>
     <!--Packages accessibility content description for role - Button to expand -->
@@ -5000,5 +5006,7 @@
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">Normalpris {ticket_type}{activity_original_price}. Prisen med rabat er {ticket_type} {activity_price}</string>
     <string name="hotel_2x_points_search_title">Dobbelt så mange Expedia+ point!</string>
     <string name="hotel_2x_points_search_content">Du optjener dobbelt så mange point ved at booke gennem appen!</string>
+    <!-- Recent search header string -->
+    <string name="flight_recent_search_label">Seneste søgninger</string>
 
 </resources>

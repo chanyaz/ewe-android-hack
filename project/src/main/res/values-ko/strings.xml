@@ -95,6 +95,7 @@
         <item quantity="one">{number}개 결과</item>
         <item quantity="other">{number}개 결과</item>
     </plurals>
+
     <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
     <plurals name="number_results_announcement_text_TEMPLATE">
         <item quantity="one">{number}개 결과 필터링됨</item>
@@ -877,10 +878,6 @@
     <!-- Accessibility announcement when Return search screen is selected. -->
     <string name="rail_tab_roundtrip_selected_announcement">왕복 기차 검색 화면을 보여줍니다.</string>
 
-    <!-- New launch screen -->
-    <!-- Search screen title -->
-    <string name="search_title">검색</string>
-
     <!--Meso destination ad card-->
     <string name="meso_destination_name_las_vegas">라스베이거스</string>
     <string name="meso_destination_name_los_angeles">로스앤젤레스</string>
@@ -927,15 +924,6 @@
     <string name="launch_upcoming_trips_signed_in">고객님, 다가오는 여행 일정이 있습니다!</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">이동 중에도 일정을 확인하시고 최신 변경 사항도 놓치지 마세요.</string>
-
-    <!-- Label for pro wizard bar on launch screen -->
-    <string name="search_hotels">호텔 검색</string>
-
-    <!-- Label for pro wizard bar on launch screen -->
-    <string name="search_hotels_and_flights">호텔 및 항공 검색</string>
-
-    <!-- Label for super search bar at launch screen -->
-    <string name="search_hotels_flight_more">호텔, 항공 및 기타 여행 상품 검색…</string>
 
     <!--Onboarding-->
     <string name="booking_page_title">이동 중에도 예약하세요!</string>
@@ -1457,6 +1445,8 @@
     <string name="itin_hotel_special_instruction_dialog_sub_title">특별 지침</string>
     <!--Button title for check-in policies and special instructions-->
     <string name="itin_hotel_check_in_policies_and_special_instruction">체크인 및 특별 지침</string>
+    <!--Button title for special instructions-->
+    <string name="itin_hotel_special_instruction">특별 지침</string>
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">변경 및 취소 규정</string>
     <!--Hotel itin manage booking room tabs title TEMPLATE. Room {number} (e.g., Room 1)-->
@@ -2725,7 +2715,7 @@
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <!-- new material Hotel results cell guest recommend-->
-    <string name="hotel_guest_recommend">(5점 만점의 고객 평점)</string>
+    <string name="hotel_guest_recommend">/ 5 – 고객 평점</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
     <string name="hotel_guest_recommend_good_superlative">/ 5 - 좋음!</string>
     <string name="hotel_guest_recommend_very_good_superlative">/ 5 - 매우 좋음!</string>
@@ -3144,7 +3134,8 @@
     <!-- Dialog for pending points -->
     <string name="pending_points_info">적립 대기 중인 포인트는 다음 기간 이내에 여행이 완료된 후 이용 가능하게 됩니다.</string>
     <string name="pending_points_dialog_title">적립 대기 중인 포인트</string>
-    <string name="pending_points_button">포인트 버튼</string>
+    <!-- example: 7,253 pending points button -->
+    <string name="pending_points_TEMPLATE">적립 대기 중인 {loyalty_points}포인트 버튼</string>
     <string name="trip_type">여행 유형</string>
     <string name="up_to">최대</string>
     <string name="activities">즐길거리</string>
@@ -4017,6 +4008,15 @@
     <string name="flight_one_stop_description">1번 경유</string>
     <!-- Flight Two stop description -->
     <string name="flight_two_plus_stops_description">2번 이상 경유</string>
+    <!-- Flight 1 result description -->
+    <string name="flight_one_filter_result_description">1개 결과</string>
+    <!-- Flight multiple result description Eg: 4 results -->
+    <string name="flight_filter_result_count_TEMPLATE">{count}개 결과</string>
+    <!-- Flight 1 result with price description. Eg: 1 Result from $200  -->
+    <string name="count_with_price__for_one_result_TEMPLATE">1개 결과 최저 {price}</string>
+    <!-- Flight multiple results with price description. Eg: 4 Results from $200  -->
+    <string name="count_with_price_results_TEMPLATE">{number}개 결과 최저 {price}</string>
+
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -4488,6 +4488,8 @@
     <string name="hotel_price_strike_through_cont_desc_TEMPLATE">정상가 {strikethroughprice}, 현재 할인가 {price}.\u0020</string>
     <!-- Hotel strike percentage content description. Example. Original price discounted 20%. -->
     <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">원래 가격 {percentage} 할인.\u0020</string>
+    <!-- Hotel strike percentage content description. Example. Regularly $100, now $80. Original price discounted 20%. -->
+    <string name="hotel_price_strike_through_discount_percent_cont_desc_TEMPLATE">정상가 {strikethroughprice}, 현재 할인가 {price}.\U0020원래 가격 {percentage} 할인.\u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">상상 초월 특가 {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Example. SFO to DTM. 3 hours 15 minutes. -->
@@ -4653,6 +4655,8 @@
     <string name="insurance_price_per_day">1일 기준</string>
     <!-- Label to indicate price is per person e.g $10/person -->
     <string name="price_per_person">1인당</string>
+    <!-- Label to indicate price is per person e.g $10/person -->
+    <string name="price_per_person_TEMPLATE">1인당 {price}</string>
 
     <!-- Content description for rating bar e.g. Rated 3 out of 5-->
     <string name="hotel_rating_bar_cont_desc_TEMPLATE">평점: {rating} (5점 만점)</string>
@@ -4700,6 +4704,8 @@
     <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}, {subtitle}, 여행객 정보 완료. 버튼.</string>
     <!--Packages accessibility content description for role Button-->
     <string name="accessibility_cont_desc_role_button">버튼</string>
+    <!--Packages accessibility content description for role Button e.g. Close Button-->
+    <string name="accessibility_cont_desc_role_button_TEMPLATE">{button_label} 버튼</string>
     <!--Packages accessibility content description for purchase Button-->
     <string name="accessibility_cont_desc_role_purchase_button">구매 버튼</string>
     <!--Packages accessibility content description for role - Button to expand -->
@@ -5000,5 +5006,7 @@
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">{ticket_type} 일반 요금은 {activity_original_price}입니다. {ticket_type} 할인된 요금은 {activity_price}입니다.</string>
     <string name="hotel_2x_points_search_title">Expedia+ 포인트 더블 적립!</string>
     <string name="hotel_2x_points_search_content">앱에서 예약하시면 포인트가 두 배로 적립됩니다!</string>
+    <!-- Recent search header string -->
+    <string name="flight_recent_search_label">최근 검색</string>
 
 </resources>

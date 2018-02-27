@@ -95,6 +95,7 @@
         <item quantity="one">{number} résultat</item>
         <item quantity="other">{number} résultats</item>
     </plurals>
+
     <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
     <plurals name="number_results_announcement_text_TEMPLATE">
         <item quantity="one">{number} résultat filtré</item>
@@ -877,10 +878,6 @@
     <!-- Accessibility announcement when Return search screen is selected. -->
     <string name="rail_tab_roundtrip_selected_announcement">Affichage de l\&apos;écran de recherche des voyages en train de retour</string>
 
-    <!-- New launch screen -->
-    <!-- Search screen title -->
-    <string name="search_title">Rechercher</string>
-
     <!--Meso destination ad card-->
     <string name="meso_destination_name_las_vegas">Las Vegas</string>
     <string name="meso_destination_name_los_angeles">Los Angeles</string>
@@ -927,15 +924,6 @@
     <string name="launch_upcoming_trips_signed_in">Vous voyagez bientôt!</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">Accédez à vos itinéraires de partout et restez à l\&apos;affût des changements</string>
-
-    <!-- Label for pro wizard bar on launch screen -->
-    <string name="search_hotels">Rechercher des hôtels</string>
-
-    <!-- Label for pro wizard bar on launch screen -->
-    <string name="search_hotels_and_flights">Rechercher des hôtels et des vols</string>
-
-    <!-- Label for super search bar at launch screen -->
-    <string name="search_hotels_flight_more">Rechercher des hôtels, des vols et plus…</string>
 
     <!--Onboarding-->
     <string name="booking_page_title">Réservez de partout</string>
@@ -1457,6 +1445,8 @@
     <string name="itin_hotel_special_instruction_dialog_sub_title">Instructions spéciales</string>
     <!--Button title for check-in policies and special instructions-->
     <string name="itin_hotel_check_in_policies_and_special_instruction">Arrivée et instructions spéciales</string>
+    <!--Button title for special instructions-->
+    <string name="itin_hotel_special_instruction">Instructions spéciales</string>
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">Règles relatives aux modifications et annulations</string>
     <!--Hotel itin manage booking room tabs title TEMPLATE. Room {number} (e.g., Room 1)-->
@@ -2084,7 +2074,7 @@
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">Vous accumulerez {reward_currency} points pour ce voyage!</string>
     <!-- Blurb text displayed on account sign in button when already signed in and has 2x earn messaging e.g. You'll earn 1234 points. That's double for booking in app!-->
-    <string name="earn_2x_rewards_currency_for_this_trip_TEMPLATE">Vous accumulerez {reward_currency} points, soit le double, en réservant dans l\&apos;application!</string>
+    <string name="earn_2x_rewards_currency_for_this_trip_TEMPLATE">Vous accumulerez {reward_currency} points. C\&apos;est le double parce que vous réservez dans l\&apos;application!</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_raised_the_total_price_TEMPLATE">Désolés, mais il semble que l\&apos;hôtel vient d\&apos;augmenter le coût total du séjour de %1$s à %2$s.</string>
     <!-- String to use when a price change alert should be shown to the user -->
@@ -2604,7 +2594,7 @@
     <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
     <string name="search_hotel_id_TEMPLATE">Hôtel %s</string>
     <!-- Expedia Member Discount for a given property, AB test -->
-    <string name="member_pricing">Prix réservé aux membres</string>
+    <string name="member_pricing">Prix réservés aux membres</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -2725,13 +2715,13 @@
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <!-- new material Hotel results cell guest recommend-->
-    <string name="hotel_guest_recommend">sur 5 – évaluation de client</string>
+    <string name="hotel_guest_recommend">/5 – évaluation des clients</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
-    <string name="hotel_guest_recommend_good_superlative">sur 5 – Bien!</string>
-    <string name="hotel_guest_recommend_very_good_superlative">sur 5 – Vraiment bien!</string>
-    <string name="hotel_guest_recommend_excellent_superlative">sur 5 – Excellent!</string>
-    <string name="hotel_guest_recommend_wonderful_superlative">sur 5 – Incroyable!</string>
-    <string name="hotel_guest_recommend_exceptional_superlative">sur 5 – Exceptionnel!</string>
+    <string name="hotel_guest_recommend_good_superlative">/5 – Bien!</string>
+    <string name="hotel_guest_recommend_very_good_superlative">/5 – Très bien!</string>
+    <string name="hotel_guest_recommend_excellent_superlative">/5 – Excellent!</string>
+    <string name="hotel_guest_recommend_wonderful_superlative">/5 – Fantastique!</string>
+    <string name="hotel_guest_recommend_exceptional_superlative">/5 – Exceptionnel!</string>
 
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount} %</string>
@@ -3144,7 +3134,8 @@
     <!-- Dialog for pending points -->
     <string name="pending_points_info">Une fois le voyage achevé, les points en attente deviennent disponibles selon les laps de temps suivants :</string>
     <string name="pending_points_dialog_title">Points en attente</string>
-    <string name="pending_points_button">Bouton des points</string>
+    <!-- example: 7,253 pending points button -->
+    <string name="pending_points_TEMPLATE">Bouton {loyalty_points} points en attente</string>
     <string name="trip_type">Type de voyage</string>
     <string name="up_to">Jusqu\&apos;à</string>
     <string name="activities">Activités</string>
@@ -4017,6 +4008,15 @@
     <string name="flight_one_stop_description">1 escale</string>
     <!-- Flight Two stop description -->
     <string name="flight_two_plus_stops_description">2 escales ou plus</string>
+    <!-- Flight 1 result description -->
+    <string name="flight_one_filter_result_description">1 résultat</string>
+    <!-- Flight multiple result description Eg: 4 results -->
+    <string name="flight_filter_result_count_TEMPLATE">{count} résultats</string>
+    <!-- Flight 1 result with price description. Eg: 1 Result from $200  -->
+    <string name="count_with_price__for_one_result_TEMPLATE">1 résultat à partir de {price}</string>
+    <!-- Flight multiple results with price description. Eg: 4 Results from $200  -->
+    <string name="count_with_price_results_TEMPLATE">{number} résultats à partir de {price}</string>
+
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -4488,6 +4488,8 @@
     <string name="hotel_price_strike_through_cont_desc_TEMPLATE">Normalement {strikethroughprice}, maintenant {price}. \u0020</string>
     <!-- Hotel strike percentage content description. Example. Original price discounted 20%. -->
     <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">Prix initial réduit de {percentage}. \u0020</string>
+    <!-- Hotel strike percentage content description. Example. Regularly $100, now $80. Original price discounted 20%. -->
+    <string name="hotel_price_strike_through_discount_percent_cont_desc_TEMPLATE">Normalement {strikethroughprice}, maintenant {price}.\u0020Prix initial réduit de {percentage}. \u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Aubaine incroyable {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Example. SFO to DTM. 3 hours 15 minutes. -->
@@ -4653,6 +4655,8 @@
     <string name="insurance_price_per_day">par jour</string>
     <!-- Label to indicate price is per person e.g $10/person -->
     <string name="price_per_person">par personne</string>
+    <!-- Label to indicate price is per person e.g $10/person -->
+    <string name="price_per_person_TEMPLATE">{price} par personne</string>
 
     <!-- Content description for rating bar e.g. Rated 3 out of 5-->
     <string name="hotel_rating_bar_cont_desc_TEMPLATE">Coté {rating} sur 5</string>
@@ -4700,6 +4704,8 @@
     <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}, {subtitle}, détails sur le voyageur remplis. Bouton.</string>
     <!--Packages accessibility content description for role Button-->
     <string name="accessibility_cont_desc_role_button">Bouton</string>
+    <!--Packages accessibility content description for role Button e.g. Close Button-->
+    <string name="accessibility_cont_desc_role_button_TEMPLATE">Bouton {button_label}</string>
     <!--Packages accessibility content description for purchase Button-->
     <string name="accessibility_cont_desc_role_purchase_button">Bouton Acheter</string>
     <!--Packages accessibility content description for role - Button to expand -->
@@ -4833,10 +4839,10 @@
     <string name="fetching_your_trips">Récupération de vos voyages…</string>
 
     <!-- Member Pricing Only -->
-    <string name="member_deal_title">Prix réservé aux membres</string>
-    <string name="member_deal_subtitle">Rabais sur certains hôtels</string>
+    <string name="member_deal_title">Prix réservés aux membres</string>
+    <string name="member_deal_subtitle">Rabais sur une sélection d\&apos;hôtels</string>
     <string name="search_for_hotel_deals_page_header">Rechercher des offres d\&apos;hôtels</string>
-    <string name="member_deals_toolbar_title">Prix réservé aux membres</string>
+    <string name="member_deals_toolbar_title">Prix réservés aux membres</string>
     <string name="deals_hotel_only">Hôtel seulement</string>
     <string name="member_deals_toolbar_close_cont_desc">Fermer l\&apos;écran affichant les prix réservés aux membres</string>
 
@@ -5000,5 +5006,7 @@
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">Prix courant de {activity_original_price} {ticket_type}. Prix réduit à {activity_price} {ticket_type}</string>
     <string name="hotel_2x_points_search_title">Doublez vos points Expedia+!</string>
     <string name="hotel_2x_points_search_content">Vous accumulerez le double des points en réservant dans l\&apos;application!</string>
+    <!-- Recent search header string -->
+    <string name="flight_recent_search_label">Recherches récentes</string>
 
 </resources>

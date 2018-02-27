@@ -95,6 +95,7 @@
         <item quantity="one">{number} 個結果</item>
         <item quantity="other">{number} 個結果</item>
     </plurals>
+
     <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
     <plurals name="number_results_announcement_text_TEMPLATE">
         <item quantity="one">已篩選 {number} 個結果</item>
@@ -877,10 +878,6 @@
     <!-- Accessibility announcement when Return search screen is selected. -->
     <string name="rail_tab_roundtrip_selected_announcement">正在顯示回程火車搜尋畫面</string>
 
-    <!-- New launch screen -->
-    <!-- Search screen title -->
-    <string name="search_title">搜尋</string>
-
     <!--Meso destination ad card-->
     <string name="meso_destination_name_las_vegas">拉斯維加斯</string>
     <string name="meso_destination_name_los_angeles">洛杉磯</string>
@@ -927,15 +924,6 @@
     <string name="launch_upcoming_trips_signed_in">您有一個即將出發的行程！</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">隨時隨地查看您的行程並留意最新動態</string>
-
-    <!-- Label for pro wizard bar on launch screen -->
-    <string name="search_hotels">搜尋飯店</string>
-
-    <!-- Label for pro wizard bar on launch screen -->
-    <string name="search_hotels_and_flights">搜尋機 + 酒</string>
-
-    <!-- Label for super search bar at launch screen -->
-    <string name="search_hotels_flight_more">搜尋飯店、機票和更多…</string>
 
     <!--Onboarding-->
     <string name="booking_page_title">隨時預訂</string>
@@ -1457,6 +1445,8 @@
     <string name="itin_hotel_special_instruction_dialog_sub_title">特別規定</string>
     <!--Button title for check-in policies and special instructions-->
     <string name="itin_hotel_check_in_policies_and_special_instruction">入住特別規定</string>
+    <!--Button title for special instructions-->
+    <string name="itin_hotel_special_instruction">特別規定</string>
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">變更和取消規定</string>
     <!--Hotel itin manage booking room tabs title TEMPLATE. Room {number} (e.g., Room 1)-->
@@ -2725,7 +2715,7 @@
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <!-- new material Hotel results cell guest recommend-->
-    <string name="hotel_guest_recommend">/ 5 - 旅客評分</string>
+    <string name="hotel_guest_recommend">/ 5 - 旅客評等</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
     <string name="hotel_guest_recommend_good_superlative">/ 5 - 不錯哦！</string>
     <string name="hotel_guest_recommend_very_good_superlative">/ 5 - 非常好！</string>
@@ -3144,7 +3134,8 @@
     <!-- Dialog for pending points -->
     <string name="pending_points_info">待處理點數會在行程完成後的下列期限內存入您的帳戶：</string>
     <string name="pending_points_dialog_title">待處理點數</string>
-    <string name="pending_points_button">點數按鈕</string>
+    <!-- example: 7,253 pending points button -->
+    <string name="pending_points_TEMPLATE">{loyalty_points} 點待處理點數按鈕</string>
     <string name="trip_type">行程類型</string>
     <string name="up_to">最多</string>
     <string name="activities">活動</string>
@@ -4017,6 +4008,15 @@
     <string name="flight_one_stop_description">1 個轉機點</string>
     <!-- Flight Two stop description -->
     <string name="flight_two_plus_stops_description">2 個以上轉機點</string>
+    <!-- Flight 1 result description -->
+    <string name="flight_one_filter_result_description">1 個結果</string>
+    <!-- Flight multiple result description Eg: 4 results -->
+    <string name="flight_filter_result_count_TEMPLATE">{count} 個結果</string>
+    <!-- Flight 1 result with price description. Eg: 1 Result from $200  -->
+    <string name="count_with_price__for_one_result_TEMPLATE">1 個結果，{price} 起</string>
+    <!-- Flight multiple results with price description. Eg: 4 Results from $200  -->
+    <string name="count_with_price_results_TEMPLATE">{number} 個結果，{price} 起</string>
+
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -4288,7 +4288,7 @@
     <string name="rail_station_info_TEMPLATE">{departure}到{arrival}</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
-    <string name="rail_fare_info_TEMPLATE">{fareclass}{serviceclass}</string>
+    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
 
     <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
@@ -4488,6 +4488,8 @@
     <string name="hotel_price_strike_through_cont_desc_TEMPLATE">原價 {strikethroughprice}，現在 {price}。\u0020</string>
     <!-- Hotel strike percentage content description. Example. Original price discounted 20%. -->
     <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">原價 {percentage} 折扣。\u0020</string>
+    <!-- Hotel strike percentage content description. Example. Regularly $100, now $80. Original price discounted 20%. -->
+    <string name="hotel_price_strike_through_discount_percent_cont_desc_TEMPLATE">原價 {strikethroughprice}，現在 {price}。\u0020原價 {percentage} 折扣。\u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">最超值機 + 酒 {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Example. SFO to DTM. 3 hours 15 minutes. -->
@@ -4653,6 +4655,8 @@
     <string name="insurance_price_per_day">/天</string>
     <!-- Label to indicate price is per person e.g $10/person -->
     <string name="price_per_person">/人</string>
+    <!-- Label to indicate price is per person e.g $10/person -->
+    <string name="price_per_person_TEMPLATE">{price}/人</string>
 
     <!-- Content description for rating bar e.g. Rated 3 out of 5-->
     <string name="hotel_rating_bar_cont_desc_TEMPLATE">評分為 {rating}/5</string>
@@ -4700,6 +4704,8 @@
     <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}，{subtitle}，旅客詳細資料已填妥。按鈕。</string>
     <!--Packages accessibility content description for role Button-->
     <string name="accessibility_cont_desc_role_button">按鈕</string>
+    <!--Packages accessibility content description for role Button e.g. Close Button-->
+    <string name="accessibility_cont_desc_role_button_TEMPLATE">{button_label}按鈕</string>
     <!--Packages accessibility content description for purchase Button-->
     <string name="accessibility_cont_desc_role_purchase_button">預訂按鈕</string>
     <!--Packages accessibility content description for role - Button to expand -->
@@ -5000,5 +5006,7 @@
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">{ticket_type}原價 {activity_original_price}，{ticket_type}優惠價 {activity_price}</string>
     <string name="hotel_2x_points_search_title">雙倍 Expedia+ 點數！</string>
     <string name="hotel_2x_points_search_content">使用 App 預訂，您將可獲得雙倍點數！</string>
+    <!-- Recent search header string -->
+    <string name="flight_recent_search_label">最近的搜尋</string>
 
 </resources>

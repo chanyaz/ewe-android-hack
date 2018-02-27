@@ -95,6 +95,7 @@
         <item quantity="one">{number} resultaat</item>
         <item quantity="other">{number} resultaten</item>
     </plurals>
+
     <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
     <plurals name="number_results_announcement_text_TEMPLATE">
         <item quantity="one">{number} resultaat gefilterd</item>
@@ -877,10 +878,6 @@
     <!-- Accessibility announcement when Return search screen is selected. -->
     <string name="rail_tab_roundtrip_selected_announcement">Zoekscherm met retour treinritten</string>
 
-    <!-- New launch screen -->
-    <!-- Search screen title -->
-    <string name="search_title">Zoeken</string>
-
     <!--Meso destination ad card-->
     <string name="meso_destination_name_las_vegas">Las Vegas</string>
     <string name="meso_destination_name_los_angeles">Los Angeles</string>
@@ -927,15 +924,6 @@
     <string name="launch_upcoming_trips_signed_in">Je hebt een aankomende reis!</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">Bekijk je reisplannen waar dan ook en blijf op de hoogte van wijzigingen</string>
-
-    <!-- Label for pro wizard bar on launch screen -->
-    <string name="search_hotels">Hotels zoeken</string>
-
-    <!-- Label for pro wizard bar on launch screen -->
-    <string name="search_hotels_and_flights">Hotels &amp; Vluchten zoeken</string>
-
-    <!-- Label for super search bar at launch screen -->
-    <string name="search_hotels_flight_more">Zoek hotels, vluchten en meer …</string>
 
     <!--Onboarding-->
     <string name="booking_page_title">Boek waar je ook bent</string>
@@ -1457,6 +1445,8 @@
     <string name="itin_hotel_special_instruction_dialog_sub_title">Speciale instructies</string>
     <!--Button title for check-in policies and special instructions-->
     <string name="itin_hotel_check_in_policies_and_special_instruction">Check-in en speciale instructies</string>
+    <!--Button title for special instructions-->
+    <string name="itin_hotel_special_instruction">Speciale instructies</string>
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">Regels over wijzigen en annuleren</string>
     <!--Hotel itin manage booking room tabs title TEMPLATE. Room {number} (e.g., Room 1)-->
@@ -2725,13 +2715,13 @@
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <!-- new material Hotel results cell guest recommend-->
-    <string name="hotel_guest_recommend">/ 5 - gastenscore</string>
+    <string name="hotel_guest_recommend">/5 - gastenscore</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
-    <string name="hotel_guest_recommend_good_superlative">/ 5 - Goed</string>
-    <string name="hotel_guest_recommend_very_good_superlative">/ 5 - Zeer goed</string>
-    <string name="hotel_guest_recommend_excellent_superlative">/ 5 - Uitstekend</string>
-    <string name="hotel_guest_recommend_wonderful_superlative">/ 5 - Fantastisch</string>
-    <string name="hotel_guest_recommend_exceptional_superlative">/ 5 - Superieur</string>
+    <string name="hotel_guest_recommend_good_superlative">/5 - Goed!</string>
+    <string name="hotel_guest_recommend_very_good_superlative">/5 - Zeer goed!</string>
+    <string name="hotel_guest_recommend_excellent_superlative">/5 - Uitstekend!</string>
+    <string name="hotel_guest_recommend_wonderful_superlative">/5 - Fantastisch!</string>
+    <string name="hotel_guest_recommend_exceptional_superlative">/5 - Superieur!</string>
 
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
@@ -3144,7 +3134,8 @@
     <!-- Dialog for pending points -->
     <string name="pending_points_info">Punten in behandeling worden beschikbaar na afloop van de reis binnen de volgende periode:</string>
     <string name="pending_points_dialog_title">Punten in behandeling</string>
-    <string name="pending_points_button">Puntenknop</string>
+    <!-- example: 7,253 pending points button -->
+    <string name="pending_points_TEMPLATE">{loyalty_points} punten in behandeling knop</string>
     <string name="trip_type">Soort reis</string>
     <string name="up_to">Tot</string>
     <string name="activities">Activiteiten</string>
@@ -4017,6 +4008,15 @@
     <string name="flight_one_stop_description">1 tussenstop</string>
     <!-- Flight Two stop description -->
     <string name="flight_two_plus_stops_description">2+ tussenstops</string>
+    <!-- Flight 1 result description -->
+    <string name="flight_one_filter_result_description">1 resultaat</string>
+    <!-- Flight multiple result description Eg: 4 results -->
+    <string name="flight_filter_result_count_TEMPLATE">{count} resultaten</string>
+    <!-- Flight 1 result with price description. Eg: 1 Result from $200  -->
+    <string name="count_with_price__for_one_result_TEMPLATE">1 resultaat van {price}</string>
+    <!-- Flight multiple results with price description. Eg: 4 Results from $200  -->
+    <string name="count_with_price_results_TEMPLATE">{number} resultaten van {price}</string>
+
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -4288,7 +4288,7 @@
     <string name="rail_station_info_TEMPLATE">{departure} naar {arrival}</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
-    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
+    <string name="rail_fare_info_TEMPLATE">{fareclass} {serviceclass}</string>
 
     <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
@@ -4488,6 +4488,8 @@
     <string name="hotel_price_strike_through_cont_desc_TEMPLATE">Normaal {strikethroughprice}, nu {price} \u0020</string>
     <!-- Hotel strike percentage content description. Example. Original price discounted 20%. -->
     <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">Normale prijs met {percentage} korting.  \u0020</string>
+    <!-- Hotel strike percentage content description. Example. Regularly $100, now $80. Original price discounted 20%. -->
+    <string name="hotel_price_strike_through_discount_percent_cont_desc_TEMPLATE">Normaal {strikethroughprice}, nu {price}.\u0020Normale prijs met {percentage} korting.  \u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Dwaze Deal {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Example. SFO to DTM. 3 hours 15 minutes. -->
@@ -4652,7 +4654,9 @@
     <!-- Insurance price type qualifiers -->
     <string name="insurance_price_per_day">per dag</string>
     <!-- Label to indicate price is per person e.g $10/person -->
-    <string name="price_per_person">per persoon</string>
+    <string name="price_per_person">/persoon</string>
+    <!-- Label to indicate price is per person e.g $10/person -->
+    <string name="price_per_person_TEMPLATE">{price}/persoon</string>
 
     <!-- Content description for rating bar e.g. Rated 3 out of 5-->
     <string name="hotel_rating_bar_cont_desc_TEMPLATE">Score van {rating} / 5</string>
@@ -4700,6 +4704,8 @@
     <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}, {subtitle}, reizigersinfo compleet Knop.</string>
     <!--Packages accessibility content description for role Button-->
     <string name="accessibility_cont_desc_role_button">Knop</string>
+    <!--Packages accessibility content description for role Button e.g. Close Button-->
+    <string name="accessibility_cont_desc_role_button_TEMPLATE">{button_label} knop</string>
     <!--Packages accessibility content description for purchase Button-->
     <string name="accessibility_cont_desc_role_purchase_button">Knop voor aankoop</string>
     <!--Packages accessibility content description for role - Button to expand -->
@@ -5000,5 +5006,7 @@
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">Standaardprijs {ticket_type}{activity_original_price}. Kortingsprijs {ticket_type} {activity_price}</string>
     <string name="hotel_2x_points_search_title">2x zo veel Expedia+ punten!</string>
     <string name="hotel_2x_points_search_content">Verzamel 2x zo veel punten door via de app te boeken!</string>
+    <!-- Recent search header string -->
+    <string name="flight_recent_search_label">Recente zoekopdrachten</string>
 
 </resources>
