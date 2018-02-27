@@ -97,7 +97,7 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 	private static final int F_IGNORE_COOKIES = 128;
 
 	// Flag to indicate that we don't need to add the Endpoint while making an E3request
-	public static final int F_DONT_ADD_ENDPOINT = 512;
+	private static final int F_DONT_ADD_ENDPOINT = 512;
 
 	private Context mContext;
 
