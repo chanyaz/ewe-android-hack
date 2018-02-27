@@ -427,22 +427,6 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 		}
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////
-	// FlightStats Ratings API: https://developer.flightstats.com/api-docs/ratings/v1
-
-	//////////////////////////////////////////////////////////////////////////
-	// Expedia hotel API
-	//
-	// Documentation: http://www.expedia.com/static/mobile/APIConsole/
-
-
-	private void addTealeafId(List<BasicNameValuePair> query, String tealeafId) {
-		if (!TextUtils.isEmpty(tealeafId)) {
-			query.add(new BasicNameValuePair("tlPaymentsSubmitEvent", "1"));
-			query.add(new BasicNameValuePair("tealeafTransactionId", tealeafId));
-		}
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// Expedia Itinerary API
 	//
