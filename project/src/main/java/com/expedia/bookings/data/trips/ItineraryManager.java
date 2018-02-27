@@ -1613,31 +1613,19 @@ public class ItineraryManager implements JSONable {
 		}
 
 		TripDetailsResponse getTripDetailsResponse(Trip trip, boolean deepRefresh) {
-			TripDetailsResponse response;
-
-			if (featureFlagForRetrofitServiceEnabled()) {
-				JSONObject json;
-				if (trip.isShared()) {
-					json = tripsServices.getSharedTripDetails(trip.getShareInfo().getSharableDetailsApiUrl());
-				}
-				else if (trip.isGuest()) {
-					json = tripsServices.getGuestTrip(trip.getTripNumber(), trip.getGuestEmailAddress(), !deepRefresh);
-				}
-				else {
-					json = tripsServices.getTripDetails(trip.getTripId(), !deepRefresh);
-				}
-				response = (new TripDetailsResponseHandler()).handleJson(json);
-				if (json != null && response != null && !response.hasErrors()) {
-					writeTripJsonResponseToFile(trip, json);
-				}
+			JSONObject json;
+			if (trip.isShared()) {
+				json = tripsServices.getSharedTripDetails(trip.getShareInfo().getSharableDetailsApiUrl());
+			}
+			else if (trip.isGuest()) {
+				json = tripsServices.getGuestTrip(trip.getTripNumber(), trip.getGuestEmailAddress(), !deepRefresh);
 			}
 			else {
-				if (trip.isShared()) {
-					response = mServices.getSharedItin(trip.getShareInfo().getSharableDetailsApiUrl());
-				}
-				else {
-					response = mServices.getTripDetails(trip, !deepRefresh);
-				}
+				json = tripsServices.getTripDetails(trip.getTripId(), !deepRefresh);
+			}
+			TripDetailsResponse response = (new TripDetailsResponseHandler()).handleJson(json);
+			if (json != null && response != null && !response.hasErrors()) {
+				writeTripJsonResponseToFile(trip, json);
 			}
 			return response;
 		}
@@ -1662,10 +1650,6 @@ public class ItineraryManager implements JSONable {
 					tripsJsonFileUtils.deleteTripFile(trip.getTripId());
 				}
 			}
-		}
-
-		private boolean featureFlagForRetrofitServiceEnabled() {
-			return true;
 		}
 
 		// If the user is logged in, retrieve a listing of current trips for logged in user
@@ -1832,18 +1816,10 @@ public class ItineraryManager implements JSONable {
 			mTrips.put(shareableUrl, trip);
 
 			Log.i(LOGGING_TAG, "Fetching shared itin " + shareableUrl);
-			// We need to replace the /m with /api to get the json response.
-			String shareableAPIUrl = ItinShareInfo.convertSharableUrlToApiUrl(shareableUrl);
-			TripDetailsResponse response;
-			if (featureFlagForRetrofitServiceEnabled()) {
-				JSONObject json = tripsServices.getSharedTripDetails(trip.getShareInfo().getSharableDetailsApiUrl());
-				response = (new TripDetailsResponseHandler()).handleJson(json);
-				if (json != null && response != null && !response.hasErrors()) {
-					writeTripJsonResponseToFile(trip, json);
-				}
-			}
-			else {
-				response = mServices.getSharedItin(shareableAPIUrl);
+			JSONObject json = tripsServices.getSharedTripDetails(trip.getShareInfo().getSharableDetailsApiUrl());
+			TripDetailsResponse response = (new TripDetailsResponseHandler()).handleJson(json);
+			if (json != null && response != null && !response.hasErrors()) {
+				writeTripJsonResponseToFile(trip, json);
 			}
 
 			if (isCancelled()) {
