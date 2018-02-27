@@ -1,28 +1,5 @@
 package com.expedia.bookings.server;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.CookieManager;
-import java.net.CookiePolicy;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.zip.GZIPInputStream;
-
-import javax.inject.Inject;
-
-import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.message.BasicNameValuePair;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
-import org.json.JSONObject;
-
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.Context;
@@ -63,8 +40,6 @@ import com.expedia.bookings.data.trips.TripResponse;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager;
-import com.expedia.bookings.featureconfig.SatelliteFeatureConstants;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.services.PersistentCookiesCookieJar;
 import com.expedia.bookings.utils.BookingSuppressionUtils;
@@ -82,6 +57,29 @@ import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
+
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.message.BasicNameValuePair;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.zip.GZIPInputStream;
+
+import javax.inject.Inject;
 
 import okhttp3.Call;
 import okhttp3.Interceptor;
@@ -461,12 +459,6 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 		query.add(new BasicNameValuePair("filterTimePeriod", "INPROGRESS"));
 		query.add(new BasicNameValuePair("filterTimePeriod", "RECENTLY_COMPLETED"));
 		query.add(new BasicNameValuePair("sort", "SORT_STARTDATE_ASCENDING"));
-
-		if (getCachedDetails && !SatelliteFeatureConfigManager
-			.isFeatureEnabled(mContext, SatelliteFeatureConstants.ITINERARY_MANAGER_USE_RETROFIT_TRIP_DETAILS)) {
-			query.add(new BasicNameValuePair("getCachedDetails", "10"));
-		}
-
 		return doE3Request("api/trips", query, new TripResponseHandler(mContext), F_GET);
 	}
 
