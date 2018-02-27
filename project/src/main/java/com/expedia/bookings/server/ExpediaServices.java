@@ -674,8 +674,7 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 			mRequest = request.build();
 			call = okHttpClient.newCall(mRequest);
 			response = call.execute();
-			T processedResponse = responseHandler.handleResponse(response);
-			return processedResponse;
+			return responseHandler.handleResponse(response);
 		}
 		catch (IOException e) {
 			if (mCancellingDownload) {
