@@ -200,7 +200,7 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 	// Airport Dropdown Suggest
 
 	public RoutesResponse flightRoutes() {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+		List<BasicNameValuePair> query = new ArrayList<>();
 
 		addCommonParams(query);
 
@@ -218,7 +218,7 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 	}
 
 	public List<BasicNameValuePair> generateFlightSearchParams(FlightSearchParams params) {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+		List<BasicNameValuePair> query = new ArrayList<>();
 
 		// This code currently assumes that you are either making a one-way or round trip flight,
 		// even though FlightSearchParams can be configured to handle multi-leg flights.
@@ -277,7 +277,7 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 		FlightTrip flightTrip = flightItem.getFlightTrip();
 		Itinerary itinerary = flightItem.getItinerary();
 
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+		List<BasicNameValuePair> query = new ArrayList<>();
 
 		query.add(new BasicNameValuePair("tripId", itinerary.getTripId()));
 		query.add(new BasicNameValuePair("expectedTotalFare", flightTrip.getTotalPrice().getAmount().toString() + ""));
@@ -361,7 +361,7 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 	}
 
 	public Flight getUpdatedFlight(Flight flight) {
-		ArrayList<BasicNameValuePair> parameters = new ArrayList<BasicNameValuePair>();
+		ArrayList<BasicNameValuePair> parameters = new ArrayList<>();
 
 		addCommonFlightStatsParams(parameters);
 
@@ -433,7 +433,7 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 	// Documentation: https://www.expedia.com/static/mobile/APIConsole/trip.html
 
 	public TripResponse getTrips() {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+		List<BasicNameValuePair> query = new ArrayList<>();
 		addCommonParams(query);
 		query.add(new BasicNameValuePair("filterBookingStatus", "PENDING"));
 		query.add(new BasicNameValuePair("filterBookingStatus", "BOOKED"));
@@ -451,7 +451,7 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 
 	// Attempt to sign in again with the stored cookie
 	public SignInResponse signIn(int flags) {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+		List<BasicNameValuePair> query = new ArrayList<>();
 
 		addSignInParams(query, flags);
 		if (AbacusFeatureConfigManager.isBucketedForTest(mContext, AbacusUtils.EBAndroidAppAccountsAPIKongEndPoint)) {
@@ -466,7 +466,7 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 		if (!ExpediaBookingApp.isAutomation()) {
 			throw new RuntimeException("signInWithEmailForAutomationTests can be called only from automation builds");
 		}
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+		List<BasicNameValuePair> query = new ArrayList<>();
 
 		addSignInParams(query, flags);
 		query.add(new BasicNameValuePair("email", email));
@@ -484,7 +484,7 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 	}
 
 	public AssociateUserToTripResponse associateUserToTrip(String tripId, int flags) {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+		List<BasicNameValuePair> query = new ArrayList<>();
 
 		addCommonParams(query);
 
@@ -508,7 +508,7 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 	 * @return
 	 */
 	public SignInResponse travelerDetails(Traveler traveler, int flags) {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+		List<BasicNameValuePair> query = new ArrayList<>();
 
 		addCommonParams(query);
 
@@ -532,7 +532,7 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 	 */
 	public TravelerCommitResponse commitTraveler(Traveler traveler) {
 		if (userStateManager.isUserAuthenticated()) {
-			List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+			List<BasicNameValuePair> query = new ArrayList<>();
 			addFlightTraveler(query, traveler, "");
 			addCommonParams(query);
 			Log.i(TAG_REQUEST, "update-traveler body:" + NetUtils.getParamsForLogging(query));
@@ -550,7 +550,7 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 	}
 
 	private void addProfileTypes(List<BasicNameValuePair> query, int flags) {
-		List<String> profileTypes = new ArrayList<String>();
+		List<String> profileTypes = new ArrayList<>();
 
 		if ((flags & F_HOTELS) != 0) {
 			profileTypes.add("HOTEL");
@@ -792,7 +792,7 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 	}
 
 	public ReviewsResponse reviews(Property property, ReviewSort sort, int pageNumber, int numReviewsPerPage) {
-		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
+		List<BasicNameValuePair> params = new ArrayList<>();
 
 		params.add(new BasicNameValuePair("_type", "json"));
 		params.add(new BasicNameValuePair("sortBy", sort.getSortByApiParam()));
