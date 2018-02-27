@@ -852,7 +852,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         showDetails(hotel.hotelId)
     }
 
-    fun handleGenericSearch(params: HotelSearchParams) {
+    private fun handleGenericSearch(params: HotelSearchParams) {
         updateSearchParams(params)
 
         show(resultsPresenter, Presenter.FLAG_CLEAR_TOP)
@@ -879,6 +879,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
     private fun updateSearchParams(params: HotelSearchParams) {
         hotelSearchParams = params
+        searchPresenter.searchViewModel.updateWithNewDates(Pair(hotelSearchParams.checkIn, hotelSearchParams.checkOut))
         errorPresenter.getViewModel().paramsSubject.onNext(params)
     }
 

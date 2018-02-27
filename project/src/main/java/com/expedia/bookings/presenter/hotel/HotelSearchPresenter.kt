@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.data.DeprecatedHotelSearchParams
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TravelerParams
@@ -48,8 +47,6 @@ import javax.inject.Inject
 class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPresenter(context, attrs) {
     lateinit var searchTrackingBuilder: HotelSearchTrackingDataBuilder
         @Inject set
-
-    val params = DeprecatedHotelSearchParams()
 
     private val mainContainer: LinearLayout by bindView(R.id.main_container)
     private val advancedOptionsContainerCard: FrameLayout by bindView(R.id.advanced_options_card_view)

@@ -78,6 +78,19 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
         }
     }
 
+    fun updateWithNewDates(dates: Pair<LocalDate?, LocalDate?>) {
+        if (selectedDates == dates) {
+            return
+        }
+
+        var (start, end) = dates
+
+        updateCalendarString(start, end)
+        end = updateEndDate(start, end)
+
+        setSelectedDate(Pair(start, end))
+    }
+
     override fun getCalendarRules(): CalendarRules {
         return rules
     }
@@ -89,15 +102,8 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
         var (start, end) = dates
 
-        dateTextObservable.onNext(getCalendarCardDateText(start, end, false))
-        dateAccessibilityObservable.onNext(getCalendarCardDateText(start, end, true))
-        dateInstructionObservable.onNext(getDateInstructionText(start, end))
-        calendarTooltipTextObservable.onNext(getToolTipText(start, end))
-        calendarTooltipContDescObservable.onNext(getToolTipContentDescription(start, end))
-
-        if (start != null && (end == null || start == end)) {
-            end = start.plusDays(1)
-        }
+        updateCalendarString(start, end)
+        end = updateEndDate(start, end)
 
         super.onDatesChanged(Pair(start, end))
     }
@@ -217,5 +223,20 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
         dateNightBuilder.append(context.resources.getString(R.string.nights_count_TEMPLATE, nightsString), RelativeSizeSpan(0.8f))
 
         return dateNightBuilder.build()
+    }
+
+    private fun updateCalendarString(start: LocalDate?, end: LocalDate?) {
+        dateTextObservable.onNext(getCalendarCardDateText(start, end, false))
+        dateAccessibilityObservable.onNext(getCalendarCardDateText(start, end, true))
+        dateInstructionObservable.onNext(getDateInstructionText(start, end))
+        calendarTooltipTextObservable.onNext(getToolTipText(start, end))
+        calendarTooltipContDescObservable.onNext(getToolTipContentDescription(start, end))
+    }
+
+    private fun updateEndDate(start: LocalDate?, end: LocalDate?): LocalDate? {
+        if (start != null && (end == null || start == end)) {
+            return start.plusDays(1)
+        }
+        return end
     }
 }

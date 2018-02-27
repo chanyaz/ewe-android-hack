@@ -110,12 +110,18 @@ abstract class BaseSearchViewModel(val context: Context) {
 
     @CallSuper
     protected open fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
-        val (start, end) = dates
+        if (selectedDates == dates) {
+            return
+        }
+        setSelectedDate(dates)
+        requiredSearchParamsObserver.onNext(Unit)
+    }
+
+    protected fun setSelectedDate(dates: Pair<LocalDate?, LocalDate?>) {
         selectedDates = dates
 
-        getParamsBuilder().startDate(start)
-        getParamsBuilder().endDate(end)
-        requiredSearchParamsObserver.onNext(Unit)
+        getParamsBuilder().startDate(dates.first)
+        getParamsBuilder().endDate(dates.second)
     }
 
     protected fun getToolTipText(start: LocalDate?, end: LocalDate?): Pair<String, String> {
