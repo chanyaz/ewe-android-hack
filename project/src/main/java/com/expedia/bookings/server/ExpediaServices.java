@@ -33,9 +33,7 @@ import com.expedia.bookings.data.Traveler.AssistanceType;
 import com.expedia.bookings.data.Traveler.Gender;
 import com.expedia.bookings.data.TravelerCommitResponse;
 import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripBucketItemFlight;
-import com.expedia.bookings.data.trips.TripDetailsResponse;
 import com.expedia.bookings.data.trips.TripResponse;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
@@ -460,43 +458,6 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 		query.add(new BasicNameValuePair("filterTimePeriod", "RECENTLY_COMPLETED"));
 		query.add(new BasicNameValuePair("sort", "SORT_STARTDATE_ASCENDING"));
 		return doE3Request("api/trips", query, new TripResponseHandler(mContext), F_GET);
-	}
-
-	public TripDetailsResponse getTripDetails(Trip trip, boolean useCache) {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-
-		addCommonParams(query);
-
-		int flags = F_POST;
-
-		// Always use tripNumber for guests, tripId for logged in
-		String tripIdentifier;
-		if (trip.isGuest()) {
-			// You must always use trip number for guest itineraries
-			tripIdentifier = trip.getTripNumber();
-
-			query.add(new BasicNameValuePair("email", trip.getGuestEmailAddress()));
-			query.add(new BasicNameValuePair("idtype", "itineraryNumber"));
-
-			// When fetching trips for guest user as a signed in user, the response sends back cookies for both user profile. So let's ignore it.
-			flags = flags | F_IGNORE_COOKIES;
-		}
-		else {
-			tripIdentifier = trip.getTripId();
-		}
-
-		query.add(new BasicNameValuePair("useCache", useCache ? "1" : "0"));
-
-		return doE3Request("api/trips/" + tripIdentifier, query, new TripDetailsResponseHandler(), flags);
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Expedia ItinSharing API
-	//
-
-	public TripDetailsResponse getSharedItin(String shareableUrl) {
-		int flags = F_GET | F_DONT_ADD_ENDPOINT | F_IGNORE_COOKIES;
-		return doE3Request(shareableUrl, null, new TripDetailsResponseHandler(), flags);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
