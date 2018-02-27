@@ -254,14 +254,15 @@ build
 
 #install
 for DEVICE in "${deviceIdentifierArr[@]}" ; do
-    uninstallBuild ${DEVICE}
-    installBuild ${DEVICE}
-
     # Need to re-enable data/wifi on devices, which used to run espresso tests in addition to cucumber.
     adb -s ${DEVICE} shell svc data enable
     adb -s ${DEVICE} shell svc wifi enable
-    wait
+
+    uninstallBuild ${DEVICE}
+    installBuild ${DEVICE} &
 done
+
+wait
 
 runTags=$tags
 initialTags=$tags
