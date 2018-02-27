@@ -17,7 +17,7 @@ import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 import com.expedia.bookings.test.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.pagemodels.common.CheckoutScreen;
-import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
@@ -83,11 +83,11 @@ public class PackageScreen {
 
 
 	public static void searchPackage() throws Throwable {
-		SearchScreen.doGenericSearch();
+		SearchScreenActions.search(1, 0, false, false);
 	}
 
 	public static void searchPackageFor(int adults, int children) throws Throwable {
-		SearchScreen.search(adults, children, false, false);
+		SearchScreenActions.search(adults, children, false, false);
 	}
 
 	public static ViewInteraction bundleToolbar() {

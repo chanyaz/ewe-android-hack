@@ -9,6 +9,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.Months;
 
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
@@ -37,17 +38,17 @@ public class DatePickerSteps {
 			LocalDate endDate = LocalDate.now()
 				.plusDays(Integer.parseInt(parameters.get("end_date")));
 			//choose departure and return date
-			SearchScreen.chooseDates(stDate, endDate);
+			SearchScreenActions.chooseDates(stDate, endDate);
 		}
 		else {
 			//choose departure date
-			SearchScreen.chooseDates(stDate, null);
+			SearchScreenActions.chooseDates(stDate, null);
 		}
 	}
 
 	@And("^I open calendar widget$")
 	public void openCalendarWidget() throws Throwable {
-		SearchScreen.calendarCard().perform(click());
+		SearchScreen.selectDateButton().perform(click());
 	}
 
 	// Validate calender tooltip and subtitle
@@ -63,12 +64,12 @@ public class DatePickerSteps {
 			LocalDate endDate = LocalDate.now().plusDays(Integer.parseInt(endDateParam));
 			String endDateMMMd = getFormattedDate(endDate, dateFormatMMMd);
 			String endDateEEEMMMd = getFormattedDate(endDate, dateFormatterEEEMMMd);
-			SearchScreen.validateDatesToolTip(startDateMMMd + " - " + endDateMMMd, "Drag to modify");
+			SearchScreenActions.validateDatesToolTip(startDateMMMd + " - " + endDateMMMd, "Drag to modify");
 			validateCalenderSubtitle(
 				startDateEEEMMMd + "  -  " + endDateEEEMMMd + " " + parameters.get("number_of_nights"));
 		}
 		else {
-			SearchScreen.validateDatesToolTip(startDateMMMd, "Next: Select return date");
+			SearchScreenActions.validateDatesToolTip(startDateMMMd, "Next: Select return date");
 			validateCalenderSubtitle(startDateEEEMMMd + " – Select return date");
 		}
 	}
@@ -84,11 +85,11 @@ public class DatePickerSteps {
 
 		// We are not able to get individual days view from the calendar popup.
 		// Forcefully setting invalid date in test would result in selection of max selectable date as start and end.
-		SearchScreen.chooseDates(maxSelectableDate.plusDays(1), null);
+		SearchScreenActions.chooseDates(maxSelectableDate.plusDays(1), null);
 		SearchScreen.searchAlertDialogDone().perform(click());
 		String startDate = getFormattedDate(maxSelectableDate, dateFormatterEEEMMMd);
 		String endDate = getFormattedDate(maxSelectableDate.plusDays(1), dateFormatterEEEMMMd);
-		SearchScreen.calendarCard().check(matches(withText(startDate + "  -  " + endDate + " (1 night)")));
+		SearchScreen.selectDateButton().check(matches(withText(startDate + "  -  " + endDate + " (1 night)")));
 	}
 
 }

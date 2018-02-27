@@ -10,6 +10,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.CustomMatchers;
 import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.espresso.PackageTestCase;
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
@@ -31,10 +32,10 @@ public class PackagesFlightsTest extends PackageTestCase {
 
 	@Test
 	public void testPackageFlightsOverview() throws Throwable {
-		SearchScreen.selectPackageOriginAndDestination();
+		SearchScreenActions.selectPackageOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
-		SearchScreen.selectDates(startDate, endDate);
+		SearchScreenActions.chooseDatesWithDialog(startDate, endDate);
 		SearchScreen.searchButton().perform(click());
 		Common.delay(1);
 		HotelResultsScreen.selectHotel("Package Happy Path");
@@ -52,10 +53,10 @@ public class PackagesFlightsTest extends PackageTestCase {
 
 	@Test
 	public void testPackageFlightsFilters() throws Throwable {
-		SearchScreen.selectPackageOriginAndDestination();
+		SearchScreenActions.selectPackageOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
-		SearchScreen.selectDates(startDate, endDate);
+		SearchScreenActions.chooseDatesWithDialog(startDate, endDate);
 		SearchScreen.searchButton().perform(click());
 
 		HotelResultsScreen.selectHotel("Package Happy Path");

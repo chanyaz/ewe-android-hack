@@ -8,6 +8,7 @@ import org.junit.Test;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
@@ -28,10 +29,10 @@ public class PackageFlightsToolbarTest extends PackageTestCase {
 
 	@Test
 	public void testPackageFlightsToolbar() throws Throwable {
-		SearchScreen.selectPackageOriginAndDestination();
+		SearchScreenActions.selectPackageOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
-		SearchScreen.selectDates(startDate, endDate);
+		SearchScreenActions.chooseDatesWithDialog(startDate, endDate);
 		SearchScreen.searchButton().perform(click());
 		HotelResultsScreen.selectHotel("Package Happy Path");
 		HotelInfoSiteScreen.bookFirstRoom();

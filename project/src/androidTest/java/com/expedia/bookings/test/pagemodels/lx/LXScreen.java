@@ -17,6 +17,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.IdlingResources;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -53,7 +54,7 @@ public class LXScreen {
 
 	public static void selectLocation(String location) throws Throwable {
 		Common.delay(1);
-		SearchScreen.selectLocation(location);
+		SearchScreenActions.selectLocation(location);
 	}
 
 	public static ViewInteraction selectDateButton() {
@@ -61,7 +62,7 @@ public class LXScreen {
 	}
 
 	public static void selectDates(LocalDate start, LocalDate end) {
-		SearchScreen.selectDates(start, end);
+		SearchScreenActions.chooseDatesWithDialog(start, end);
 	}
 
 	public static ViewInteraction itinNumberOnConfirmationScreen() {
@@ -213,7 +214,7 @@ public class LXScreen {
 
 	public static void goToSearchResults(IdlingResources.LxIdlingResource lxIdlingResource) throws Throwable {
 		if (!lxIdlingResource.isSearchResultsAvailable()) {
-			SearchScreen.doGenericLXSearch();
+			SearchScreenActions.doGenericLXSearch();
 		}
 	}
 }

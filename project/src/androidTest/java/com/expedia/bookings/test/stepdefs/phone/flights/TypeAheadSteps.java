@@ -2,6 +2,7 @@ package com.expedia.bookings.test.stepdefs.phone.flights;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
@@ -20,7 +21,7 @@ public class TypeAheadSteps {
 
 	@Then("^flights suggest typeAhead is fired for \"(.*?)\"$")
 	public void verifySuggestionsForGivenQuery(String query) throws Throwable {
-		SearchScreen.searchEditText().check(matches(withText(query)));
+		SearchScreen.waitForSearchEditText().check(matches(withText(query)));
 		if (query.equals("lon")) {
 			SearchScreen.suggestionList()
 				.check(matches(hasDescendant(withText("London, England, UK (LON - All Airports)"))));
@@ -33,7 +34,7 @@ public class TypeAheadSteps {
 
 	@Then("^flights suggest typeAhead is fired$")
 	public void checkTypeAheadFired() throws Throwable {
-		SearchScreen.waitForSuggestions(hasDescendant(withId(R.id.suggestion_text_container)));
+		SearchScreenActions.waitForSuggestions(hasDescendant(withId(R.id.suggestion_text_container)));
 		SearchScreen.suggestionList().check(matches(hasDescendant(withId(R.id.suggestion_text_container))));
 	}
 

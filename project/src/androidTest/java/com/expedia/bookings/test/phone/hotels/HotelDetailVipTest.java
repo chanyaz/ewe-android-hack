@@ -6,7 +6,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
-import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 
@@ -14,7 +14,7 @@ import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 public class HotelDetailVipTest extends HotelTestCase {
 	@Test
 	public void testVIPHotel() throws Throwable {
-		SearchScreen.doGenericHotelSearch();
+		SearchScreenActions.doGenericHotelSearch();
 		HotelResultsScreen.selectHotel("vip_hotel");
 		HotelInfoSiteScreen.waitForDetailsLoaded();
 		HotelInfoSiteScreen.clickVIPAccess();

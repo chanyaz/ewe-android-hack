@@ -6,7 +6,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.pagemodels.common.CheckoutScreen;
 import com.expedia.bookings.test.pagemodels.common.PaymentOptionsScreen;
-import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 
@@ -20,7 +20,7 @@ public class HotelPwpTest extends HotelTestCase {
 	 */
 	@Test
 	public void testPwPHappyPathPayWithPointsOnly() throws Throwable {
-		SearchScreen.doGenericHotelSearch();
+		SearchScreenActions.doGenericHotelSearch();
 		HotelResultsScreen.selectHotel("happypath_pwp");
 		Common.delay(1);
 		HotelInfoSiteScreen.clickStickySelectRoom();
@@ -65,7 +65,7 @@ public class HotelPwpTest extends HotelTestCase {
 	 */
 	@Test
 	public void testPwPHappyPathPayWithPointsAndCard() throws Throwable {
-		SearchScreen.doGenericHotelSearch();
+		SearchScreenActions.doGenericHotelSearch();
 		HotelResultsScreen.selectHotel("happypath_pwp");
 		Common.delay(1);
 		HotelInfoSiteScreen.clickStickySelectRoom();
@@ -96,7 +96,7 @@ public class HotelPwpTest extends HotelTestCase {
 	 */
 	@Test
 	public void testPwPCalculatePoints() throws Throwable {
-		SearchScreen.doGenericHotelSearch();
+		SearchScreenActions.doGenericHotelSearch();
 		HotelResultsScreen.selectHotel("happypath_pwp");
 		Common.delay(1);
 		HotelInfoSiteScreen.clickStickySelectRoom();

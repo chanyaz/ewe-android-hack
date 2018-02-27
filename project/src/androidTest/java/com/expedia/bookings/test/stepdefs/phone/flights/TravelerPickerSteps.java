@@ -3,6 +3,8 @@ package com.expedia.bookings.test.stepdefs.phone.flights;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import static android.support.test.espresso.Espresso.onView;
@@ -24,10 +26,10 @@ public class TravelerPickerSteps {
 
 	@Then("^I increase the adult count to max$")
 	public void increaseAdultCount() throws Throwable {
-		SearchScreen.incrementAdultsButton();
+		SearchScreenActions.clickIncrementAdultsButton();
 		onView(withId(R.id.adult)).check(matches(withText(containsString("Adults"))));
 		for (int i = 1; i < 5; i++) {
-			SearchScreen.incrementAdultsButton();
+			SearchScreenActions.clickIncrementAdultsButton();
 		}
 	}
 
@@ -107,10 +109,10 @@ public class TravelerPickerSteps {
 
 	@Then("^I increase the child count to max$")
 	public void increaseChildCount() throws Throwable {
-		SearchScreen.incrementChildrenButton();
+		SearchScreenActions.clickIncrementChildButton();
 		onView(withId(R.id.children)).check(matches(withText(containsString("1 Child"))));
 		for (int i = 1; i < 4; i++) {
-			SearchScreen.incrementChildrenButton();
+			SearchScreenActions.clickIncrementChildButton();
 		}
 		onView(withId(R.id.children)).check(matches(withText(containsString("Children"))));
 	}

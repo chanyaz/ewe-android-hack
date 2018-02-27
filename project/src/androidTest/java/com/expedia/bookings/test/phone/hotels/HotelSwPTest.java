@@ -6,7 +6,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.pagemodels.common.LaunchScreen;
-import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.test.pagemodels.hotels.HotelCheckoutScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
@@ -46,10 +46,10 @@ public class HotelSwPTest extends PhoneTestCase {
 		LaunchScreen.shopButton().perform(click());
 		LaunchScreen.hotelsLaunchButton().perform(click());
 		if (clickSwP) {
-			SearchScreen.doGenericHotelSearchWithSwp();
+			SearchScreenActions.doGenericHotelSearchWithSwp();
 		}
 		else {
-			SearchScreen.doGenericHotelSearch();
+			SearchScreenActions.doGenericHotelSearch();
 		}
 		HotelResultsScreen.selectHotel("happypath");
 		HotelInfoSiteScreen.bookFirstRoom();

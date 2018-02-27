@@ -6,7 +6,7 @@ import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.HotelTestCase
-import com.expedia.bookings.test.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen
 import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen
 import org.junit.Test
@@ -15,7 +15,7 @@ class HotelNonMerchantTest : HotelTestCase() {
 
     @Test
     fun testNonMerchantHotel() {
-        SearchScreen.doGenericHotelSearch()
+        SearchScreenActions.doGenericHotelSearch()
         // Check to make sure non merchant shows up in result list
         HotelResultsScreen.selectHotel("Non Merchant Hotel")
         Common.delay(1)

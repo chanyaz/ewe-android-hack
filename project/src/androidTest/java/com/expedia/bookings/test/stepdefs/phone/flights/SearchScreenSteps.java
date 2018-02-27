@@ -18,6 +18,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.BuildConfig;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen;
 import com.expedia.bookings.test.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.stepdefs.phone.TestUtil;
@@ -83,22 +84,22 @@ public class SearchScreenSteps {
 		}
 		else {
 			SearchScreen.origin().perform(click());
-			SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(parameters.get("source")));
-			SearchScreen.selectLocation(parameters.get("source_suggest"));
-			SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(parameters.get("destination")));
-			SearchScreen.selectLocation(parameters.get("destination_suggest"));
+			SearchScreen.waitForSearchEditText().perform(typeText(parameters.get("source")));
+			SearchScreenActions.selectLocation(parameters.get("source_suggest"));
+			SearchScreen.waitForSearchEditText().perform(typeText(parameters.get("destination")));
+			SearchScreenActions.selectLocation(parameters.get("destination_suggest"));
 		}
 	}
 
 	@When("^I type \"(.*?)\" in the flights search box$")
 	public void typeInOriginSearchBox(String query) throws Throwable {
 		SearchScreen.origin().perform(click());
-		SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(query));
+		SearchScreen.waitForSearchEditText().perform(typeText(query));
 	}
 
 	@When("^I type \"(.*?)\" in the flights destination search box$")
 	public void typeInDestinationSearchBox(String query) throws Throwable {
-		SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(query));
+		SearchScreen.waitForSearchEditText().perform(typeText(query));
 	}
 
 	@When("^I select source location from the dropdown as \"(.*?)\"$")
@@ -119,12 +120,12 @@ public class SearchScreenSteps {
 
 	@When("^I add \"(.*?)\" to the query in flights search box$")
 	public void addLettersToQuery(String q) throws Throwable {
-		SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(q));
+		SearchScreen.waitForSearchEditText().perform(typeText(q));
 	}
 
 	@When("^I select \"(.*?)\" from suggestions$")
 	public void selectSuggestion(String suggestion) throws Throwable {
-		SearchScreen.selectLocation(suggestion);
+		SearchScreenActions.selectLocation(suggestion);
 	}
 
 
@@ -132,9 +133,9 @@ public class SearchScreenSteps {
 	public void changeTravellersCount() throws Throwable {
 		SearchScreen.selectGuestsButton().perform(click());
 		SearchScreen.searchAlertDialogDone().perform(waitForViewToDisplay());
-		SearchScreen.incrementAdultsButton();
-		SearchScreen.incrementAdultsButton();
-		SearchScreen.incrementChildrenButton();
+		SearchScreenActions.clickIncrementAdultsButton();
+		SearchScreenActions.clickIncrementAdultsButton();
+		SearchScreenActions.clickIncrementChildButton();
 		SearchScreen.searchAlertDialogDone().perform(click());
 	}
 
@@ -199,12 +200,12 @@ public class SearchScreenSteps {
 	public void remakeFlightSearch(Map<String, String> parameters) throws Throwable {
 		TestUtil.dataSet = parameters;
 		SearchScreen.origin().perform(click());
-		SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(parameters.get("source")));
-		SearchScreen.selectLocation(parameters.get("source_suggest"));
+		SearchScreen.waitForSearchEditText().perform(typeText(parameters.get("source")));
+		SearchScreenActions.selectLocation(parameters.get("source_suggest"));
 		SearchScreen.destination().perform(click());
-		SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(parameters.get("destination")));
-		SearchScreen.selectLocation(parameters.get("destination_suggest"));
-		SearchScreen.calendarCard().perform(click());
+		SearchScreen.waitForSearchEditText().perform(typeText(parameters.get("destination")));
+		SearchScreenActions.selectLocation(parameters.get("destination_suggest"));
+		SearchScreen.selectDateButton().perform(click());
 		pickDates(parameters);
 		SearchScreen.selectGuestsButton().perform(click());
 		int previousNumberOfAdults = Integer.parseInt(FlightsSearchScreen.getAdultTravelerNumberText().split(" ")[0]);
@@ -223,10 +224,10 @@ public class SearchScreenSteps {
 		SearchScreen.selectGuestsButton().perform(click());
 
 		for (int i = 1; i < adult; i++) {
-			SearchScreen.incrementAdultsButton();
+			SearchScreenActions.clickIncrementAdultsButton();
 		}
 		for (int i = 0; i < child; i++) {
-			SearchScreen.incrementChildrenButton();
+			SearchScreenActions.clickIncrementChildButton();
 		}
 		SearchScreen.searchAlertDialogDone().perform(click());
 	}
@@ -242,7 +243,7 @@ public class SearchScreenSteps {
 
 	private void changeNumberOfAdults(int previousNumberOfAdults) {
 		while (previousNumberOfAdults < Integer.parseInt(TestUtil.dataSet.get("adults"))) {
-			SearchScreen.incrementAdultsButton();
+			SearchScreenActions.clickIncrementAdultsButton();
 			previousNumberOfAdults++;
 		}
 		while (previousNumberOfAdults > Integer.parseInt(TestUtil.dataSet.get("adults"))) {
@@ -257,7 +258,7 @@ public class SearchScreenSteps {
 		int child = Integer.parseInt(TestUtil.dataSet.get("child"));
 		this.totalTravelers = adult + child;
 		while (previousNumberOfChildren < Integer.parseInt(TestUtil.dataSet.get("child"))) {
-			SearchScreen.incrementChildrenButton();
+			SearchScreenActions.clickIncrementChildButton();
 			previousNumberOfChildren++;
 		}
 		while (previousNumberOfChildren > Integer.parseInt(TestUtil.dataSet.get("child"))) {
@@ -457,23 +458,23 @@ public class SearchScreenSteps {
 		String expectedCalendarDate = startDate + endDate;
 		SearchScreen.origin().check(matches(withText(expParameters.get("source"))));
 		SearchScreen.destination().check(matches(withText(expParameters.get("destination"))));
-		SearchScreen.calendarCard().check(matches(withText(expectedCalendarDate)));
-		SearchScreen.selectTravelerText().check(matches(withText(expParameters.get("totalTravelers"))));
+		SearchScreen.selectDateButton().check(matches(withText(expectedCalendarDate)));
+		SearchScreen.selectGuestsButton().check(matches(withText(expParameters.get("totalTravelers"))));
 		SearchScreen.flightClass().check(matches(withText(expParameters.get("flightClass"))));
 	}
 
 	@When("^I enter source for flights$")
 	public void reEnterSource(Map<String, String> parameters) throws Throwable {
 		SearchScreen.origin().perform(click());
-		SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(parameters.get("source")));
-		SearchScreen.selectLocation(parameters.get("source_suggest"));
+		SearchScreen.waitForSearchEditText().perform(typeText(parameters.get("source")));
+		SearchScreenActions.selectLocation(parameters.get("source_suggest"));
 	}
 
 	@When("^I enter destination for flights$")
 	public void reEnterDestination(Map<String, String> parameters) throws Throwable {
 		SearchScreen.destination().perform(click());
-		SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(parameters.get("destination")));
-		SearchScreen.selectLocation(parameters.get("destination_suggest"));
+		SearchScreen.waitForSearchEditText().perform(typeText(parameters.get("destination")));
+		SearchScreenActions.selectLocation(parameters.get("destination_suggest"));
 	}
 
 	@Then("^Validate FSR toolbar is consistent with search params")

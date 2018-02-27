@@ -7,7 +7,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.common.CheckoutScreen;
-import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.test.pagemodels.hotels.ErrorScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelCheckoutScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
@@ -21,7 +21,7 @@ public class HotelInvalidTravellerCCTest extends HotelTestCase {
 
 	@Test
 	public void testInvalidCardDetails() throws Throwable {
-		SearchScreen.doGenericHotelSearch();
+		SearchScreenActions.doGenericHotelSearch();
 		HotelResultsScreen.selectHotel("error_checkout_card");
 		Common.delay(1);
 		HotelInfoSiteScreen.bookFirstRoom();
@@ -38,7 +38,7 @@ public class HotelInvalidTravellerCCTest extends HotelTestCase {
 
 	@Test
 	public void testInvalidTravellerInfo() throws Throwable {
-		SearchScreen.doGenericHotelSearch();
+		SearchScreenActions.doGenericHotelSearch();
 		HotelResultsScreen.selectHotel("error_checkout_traveller_info");
 		Common.delay(1);
 		HotelInfoSiteScreen.bookFirstRoom();

@@ -9,6 +9,7 @@ import org.joda.time.LocalDate;
 import android.support.test.espresso.matcher.ViewMatchers;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.test.stepdefs.phone.TestUtil;
 
 import cucumber.api.java.en.And;
@@ -29,13 +30,13 @@ public class DatePickerSteps {
 	public static void pickDates(Map<String, String> parameters) throws Throwable {
 		LocalDate stDate = LocalDate.now().plusDays(Integer.parseInt(parameters.get("start_date")));
 		LocalDate endDate = LocalDate.now().plusDays(Integer.parseInt(parameters.get("end_date")));
-		SearchScreen.selectDates(stDate, endDate);
+		SearchScreenActions.chooseDatesWithDialog(stDate, endDate);
 	}
 
 	@And("^I pick departure date for flights$")
 	public void selectDepartureDate(Map<String, String> parameters) throws Throwable {
 		LocalDate stDate = LocalDate.now().plusDays(Integer.parseInt(parameters.get("start_date")));
-		SearchScreen.selectDates(stDate, null);
+		SearchScreenActions.chooseDatesWithDialog(stDate, null);
 	}
 
 	@Then("^Validate that Previous month arrow is displayed: (true|false)$")
@@ -97,10 +98,10 @@ public class DatePickerSteps {
 		}
 
 		if (isRoundTrip) {
-			SearchScreen.calendarCard().check(matches(withText(stDateStr + endDateStr)));
+			SearchScreen.selectDateButton().check(matches(withText(stDateStr + endDateStr)));
 		}
 		else {
-			SearchScreen.calendarCard().check(matches(withText(stDateStr + " (One Way)")));
+			SearchScreen.selectDateButton().check(matches(withText(stDateStr + " (One Way)")));
 		}
 	}
 
@@ -115,10 +116,10 @@ public class DatePickerSteps {
 		String stDateStrSubtitle = TestUtil.getDateInEEEMMMdd(parameters.get("start_date"));
 
 		//choose departure date
-		SearchScreen.chooseDates(TestUtil.getDateFromOffset(parameters.get("start_date")), null);
+		SearchScreenActions.chooseDates(TestUtil.getDateFromOffset(parameters.get("start_date")), null);
 
 		//validate calender tooltip and subtilte
-		SearchScreen.validateDatesToolTip(stDateStrToolTip, "Next: Select return date");
+		SearchScreenActions.validateDatesToolTip(stDateStrToolTip, "Next: Select return date");
 		validateCalenderSubtitle(stDateStrSubtitle + " – Select return date");
 	}
 
@@ -130,13 +131,13 @@ public class DatePickerSteps {
 		String endDateStrSubtitle = TestUtil.getDateInEEEMMMdd(parameters.get("end_date"));
 
 		//choose return date
-		SearchScreen.chooseDates(
+		SearchScreenActions.chooseDates(
 				TestUtil.getDateFromOffset(parameters.get("start_date")),
 				TestUtil.getDateFromOffset(parameters.get("end_date"))
 		);
 
 		//validate calender tooltip and subtitle
-		SearchScreen.validateDatesToolTip(stDateStrToolTip + " - " + endDateStrToolTip, "Drag to modify");
+		SearchScreenActions.validateDatesToolTip(stDateStrToolTip + " - " + endDateStrToolTip, "Drag to modify");
 		validateCalenderSubtitle(stDateStrSubtitle + "  -  " + endDateStrSubtitle);
 	}
 
@@ -146,10 +147,10 @@ public class DatePickerSteps {
 		String stDateStrSubtitle = TestUtil.getDateInEEEMMMdd(parameters.get("start_date"));
 
 		//choose departure date
-		SearchScreen.chooseDates(TestUtil.getDateFromOffset(parameters.get("start_date")), null);
+		SearchScreenActions.chooseDates(TestUtil.getDateFromOffset(parameters.get("start_date")), null);
 
 		//validate calender tooltip and subtitle
-		SearchScreen.validateDatesToolTip(stDateStrToolTip, "Drag to modify");
+		SearchScreenActions.validateDatesToolTip(stDateStrToolTip, "Drag to modify");
 		validateCalenderSubtitle(stDateStrSubtitle + " (One Way)");
 
 	}

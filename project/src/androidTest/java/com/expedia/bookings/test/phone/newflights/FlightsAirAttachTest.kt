@@ -9,6 +9,7 @@ import com.expedia.bookings.test.espresso.NewFlightTestCase
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen
 import com.expedia.bookings.test.pagemodels.common.CheckoutScreen
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions
 import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
@@ -134,8 +135,8 @@ class FlightsAirAttachTest : NewFlightTestCase() {
 
     private fun selectFlightsProceedToCheckoutSingleGuest(startDate: LocalDate, endDate: LocalDate) {
         SearchScreen.origin().perform(ViewActions.click())
-        SearchScreen.selectFlightOriginAndDestination()
-        SearchScreen.selectDates(startDate, endDate)
+        SearchScreenActions.selectFlightOriginAndDestination()
+        SearchScreenActions.chooseDatesWithDialog(startDate, endDate)
         SearchScreen.searchButton().perform(ViewActions.click())
 
         FlightTestHelpers.assertFlightOutbound()
@@ -150,12 +151,12 @@ class FlightsAirAttachTest : NewFlightTestCase() {
 
     private fun selectFlightsProceedToCheckoutWithChildren(startDate: LocalDate, endDate: LocalDate) {
         SearchScreen.origin().perform(ViewActions.click())
-        SearchScreen.selectFlightOriginAndDestination()
-        SearchScreen.selectDates(startDate, endDate)
+        SearchScreenActions.selectFlightOriginAndDestination()
+        SearchScreenActions.chooseDatesWithDialog(startDate, endDate)
 
-        SearchScreen.selectTravelerText().perform(ViewActions.click())
-        SearchScreen.incrementChildrenButton()
-        SearchScreen.incrementChildrenButton()
+        SearchScreen.selectGuestsButton().perform(ViewActions.click())
+        SearchScreenActions.clickIncrementChildButton()
+        SearchScreenActions.clickIncrementChildButton()
         SearchScreen.searchAlertDialogDone().perform(ViewActions.click())
 
         SearchScreen.searchButton().perform(ViewActions.click())

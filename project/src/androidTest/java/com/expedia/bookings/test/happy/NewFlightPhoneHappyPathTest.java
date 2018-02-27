@@ -22,6 +22,7 @@ import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.NewFlightTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.common.CheckoutScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.test.pagemodels.common.TravelerModel.SaveTravelerPrompt;
 import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails;
 import com.expedia.bookings.test.phone.newflights.FlightTestHelpers;
@@ -83,10 +84,10 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 	@Test
 	public void testNewFlightHappyPathWithMaterialForms() throws Throwable {
 		SearchScreen.origin().perform(click());
-		SearchScreen.selectFlightOriginAndDestination();
+		SearchScreenActions.selectFlightOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
-		SearchScreen.selectDates(startDate, endDate);
+		SearchScreenActions.chooseDatesWithDialog(startDate, endDate);
 
 		SearchScreen.searchButton().perform(click());
 
@@ -246,10 +247,10 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 	private void selectOriginDestinationAndDates() throws Throwable {
 		SearchScreen.origin().perform(click());
-		SearchScreen.selectFlightOriginAndDestination();
+		SearchScreenActions.selectFlightOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
-		SearchScreen.selectDates(startDate, endDate);
+		SearchScreenActions.chooseDatesWithDialog(startDate, endDate);
 	}
 
 	private void assertCostSummaryView() {
