@@ -13,6 +13,8 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.http.TravelGraphRequestInterceptor;
 import com.expedia.bookings.itin.services.FlightRegistrationHandler;
+import com.expedia.bookings.itin.tripstore.utils.ITripsJsonFileUtils;
+import com.expedia.bookings.itin.tripstore.utils.TripsJsonFileUtils;
 import com.expedia.bookings.itin.utils.NotificationScheduler;
 import com.expedia.bookings.model.PointOfSaleStateModel;
 import com.expedia.bookings.notification.NotificationManager;
@@ -395,6 +397,13 @@ public class AppModule {
 	@Singleton
 	NotificationManager provideNotificationManager(Context context) {
 		return new NotificationManager(context);
+	}
+
+	@Provides
+	@Singleton
+	ITripsJsonFileUtils provideTripsJsonFileUtils(Context context) {
+		File tripsDirectory = context.getDir("TRIPS_JSON_STORE", Context.MODE_PRIVATE);
+		return new TripsJsonFileUtils(tripsDirectory);
 	}
 
 	@Provides

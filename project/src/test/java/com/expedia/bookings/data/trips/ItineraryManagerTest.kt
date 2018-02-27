@@ -7,6 +7,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.featureconfig.SatelliteFeatureConstants
 import com.expedia.bookings.interceptors.MockInterceptor
+import com.expedia.bookings.itin.tripstore.utils.ITripsJsonFileUtils
 import com.expedia.bookings.services.NonFatalLoggerInterface
 import com.expedia.bookings.services.TripsServices
 import com.expedia.bookings.test.CustomMatchers.Companion.hasEntries
@@ -22,6 +23,7 @@ import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
 import com.mobiata.android.util.SettingUtils
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
+import com.mobiata.mocke3.getJsonStringFromMock
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
@@ -34,7 +36,6 @@ import org.joda.time.LocalDateTime
 import org.json.JSONObject
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -51,7 +52,11 @@ import kotlin.test.assertTrue
 class ItineraryManagerTest {
 
     val context = RuntimeEnvironment.application
-    lateinit var itinManager: ItineraryManager
+    private val itinManager: ItineraryManager by lazy {
+        val im = ItineraryManager.getInstance()
+        im.setTripsJsonFileUtils(TestTripJsonFileUtils())
+        im
+    }
     var server: MockWebServer = MockWebServer()
         @Rule get
     val mockDispatcherTripsServices by lazy {
@@ -66,11 +71,8 @@ class ItineraryManagerTest {
                 OkHttpClient.Builder().addInterceptor(logger).build(), interceptor, Schedulers.trampoline(), Schedulers.trampoline(), MockNonFatalLogger())
         service
     }
-
-    @Before
-    fun setup() {
-        itinManager = ItineraryManager.getInstance()
-    }
+    val hotelData = getJsonStringFromMock("api/trips/hotel_trip_details.json", null)
+    val hotelJsonObject = JSONObject(hotelData)
 
     @After
     fun tearDown() {
@@ -170,9 +172,8 @@ class ItineraryManagerTest {
 
     @Test
     fun testRefreshAllTripsShared() {
-        val mockItineraryManager = Mockito.mock(ItineraryManager::class.java)
         val spyTripServices = Mockito.spy(MockTripServices(false))
-        val syncTask = mockItineraryManager.SyncTask(spyTripServices, null)
+        val syncTask = itinManager.SyncTask(spyTripServices, null)
 
         val trip = Trip("", "12345")
         trip.setIsShared(true)
@@ -184,9 +185,8 @@ class ItineraryManagerTest {
 
     @Test
     fun testRefreshAllTripsGuest() {
-        val mockItineraryManager = Mockito.mock(ItineraryManager::class.java)
         val spyTripServices = Mockito.spy(MockTripServices(false))
-        val syncTask = mockItineraryManager.SyncTask(spyTripServices, null)
+        val syncTask = itinManager.SyncTask(spyTripServices, null)
 
         val trip = Trip("asd@123.com", "12345")
         trip.setIsShared(false)
@@ -198,9 +198,8 @@ class ItineraryManagerTest {
 
     @Test
     fun testRefreshAllTripsUserBooked() {
-        val mockItineraryManager = Mockito.mock(ItineraryManager::class.java)
         val spyTripServices = Mockito.spy(MockTripServices(false))
-        val syncTask = mockItineraryManager.SyncTask(spyTripServices, null)
+        val syncTask = itinManager.SyncTask(spyTripServices, null)
 
         val trip = Trip("", "12345")
         trip.tripId = "12345"
@@ -213,9 +212,8 @@ class ItineraryManagerTest {
 
     @Test
     fun testRefreshAllTripsMultipleTrips() {
-        val mockItineraryManager = Mockito.mock(ItineraryManager::class.java)
         val spyTripServices = Mockito.spy(MockTripServices(false))
-        val syncTask = mockItineraryManager.SyncTask(spyTripServices, null)
+        val syncTask = itinManager.SyncTask(spyTripServices, null)
 
         val tripGuest = Trip("asd@123.com", "12345")
         tripGuest.setIsShared(false)
@@ -232,9 +230,8 @@ class ItineraryManagerTest {
 
     @Test
     fun testRefreshAllTripsNoTrips() {
-        val mockItineraryManager = Mockito.mock(ItineraryManager::class.java)
         val spyTripServices = Mockito.spy(MockTripServices(false))
-        val syncTask = mockItineraryManager.SyncTask(spyTripServices, null)
+        val syncTask = itinManager.SyncTask(spyTripServices, null)
 
         val tripGuest = Trip("asd@123.com", "12345")
         tripGuest.setIsShared(false)
@@ -252,7 +249,6 @@ class ItineraryManagerTest {
     @Test
     fun testGetTripDetailsResponse() {
         SatelliteFeatureConfigTestUtils.enableFeatureForTest(context, SatelliteFeatureConstants.ITINERARY_MANAGER_USE_RETROFIT_TRIP_DETAILS)
-        val itinManager = ItineraryManager.getInstance()
 
         //SUCCESSFUL RESPONSE
         val mockTripServices = MockTripServices(false)
@@ -284,7 +280,6 @@ class ItineraryManagerTest {
     fun testExceptionTripDetailsSynchronous() {
         SatelliteFeatureConfigTestUtils.enableFeatureForTest(context, SatelliteFeatureConstants.ITINERARY_MANAGER_USE_RETROFIT_TRIP_DETAILS)
 
-        val itinManager = ItineraryManager.getInstance()
         val trip = Trip()
         trip.tripId = "ItineraryManagerTest_TestExceptionTripDetails"
         val response = itinManager.SyncTask(mockDispatcherTripsServices, null).getTripDetailsResponse(trip, false)
@@ -295,7 +290,6 @@ class ItineraryManagerTest {
     fun testExceptionSharedTripSynchronous() {
         SatelliteFeatureConfigTestUtils.enableFeatureForTest(context, SatelliteFeatureConstants.ITINERARY_MANAGER_USE_RETROFIT_TRIP_DETAILS)
 
-        val itinManager = ItineraryManager.getInstance()
         val trip = Trip()
         trip.tripId = "53a6459c-822c-4425-9e14-3eea43f38a97"
         val mockEndpoint = "http://localhost:" + server.port
@@ -312,7 +306,6 @@ class ItineraryManagerTest {
     fun testExceptionGuestTripSynchronous() {
         SatelliteFeatureConfigTestUtils.enableFeatureForTest(context, SatelliteFeatureConstants.ITINERARY_MANAGER_USE_RETROFIT_TRIP_DETAILS)
 
-        val itinManager = ItineraryManager.getInstance()
         val trip = Trip("test123@123.com", "ItineraryManagerTest_TestExceptionGuestTrip")
         val response = itinManager.SyncTask(mockDispatcherTripsServices, null).getTripDetailsResponse(trip, false)
         assertNull(response)
@@ -320,8 +313,7 @@ class ItineraryManagerTest {
 
     @Test
     fun testTripDetailsObservableErrorResponse() {
-        val mockItineraryManager = Mockito.mock(ItineraryManager::class.java)
-        val syncTask = mockItineraryManager.SyncTask(null, null)
+        val syncTask = itinManager.SyncTask(null, null)
         val errorData = Okio.buffer(Okio.source(File("../lib/mocked/templates/api/trips/error_trip_response.json"))).readUtf8()
         val errorJsonObject = JSONObject(errorData)
         val testHandleTripResponse = TestHandleTripResponse()
@@ -332,13 +324,10 @@ class ItineraryManagerTest {
 
     @Test
     fun testTripDetailsObservableSuccessInvalidKey() {
-        val mockItineraryManager = Mockito.mock(ItineraryManager::class.java)
-        val syncTask = mockItineraryManager.SyncTask(null, null)
-        val legitData = Okio.buffer(Okio.source(File("../lib/mocked/templates/api/trips/hotel_trip_details.json"))).readUtf8()
-        val legitDataJSONObject = JSONObject(legitData)
+        val syncTask = itinManager.SyncTask(null, null)
         val testHandleTripResponse = TestHandleTripResponse()
 
-        syncTask.waitAndParseDetailResponses(listOf(Observable.just(legitDataJSONObject)), HashMap<String, Trip>(), testHandleTripResponse)
+        syncTask.waitAndParseDetailResponses(listOf(Observable.just(hotelJsonObject)), HashMap<String, Trip>(), testHandleTripResponse)
         assertFalse(testHandleTripResponse.refreshTripResponseHasErrorsCalled)
         assertFalse(testHandleTripResponse.refreshTripResponseNullCalled)
         assertFalse(testHandleTripResponse.refreshTripResponseSuccessCalled)
@@ -346,15 +335,12 @@ class ItineraryManagerTest {
 
     @Test
     fun testTripDetailsObservableSuccessHappyPath() {
-        val mockItineraryManager = Mockito.mock(ItineraryManager::class.java)
-        val syncTask = mockItineraryManager.SyncTask(null, null)
-        val legitData = Okio.buffer(Okio.source(File("../lib/mocked/templates/api/trips/hotel_trip_details.json"))).readUtf8()
-        val legitDataJSONObject = JSONObject(legitData)
+        val syncTask = itinManager.SyncTask(null, null)
         val testHandleTripResponse = TestHandleTripResponse()
 
         val trips = HashMap<String, Trip>()
         trips.put("1103274148635", Trip())
-        syncTask.waitAndParseDetailResponses(listOf(Observable.just(legitDataJSONObject)), trips, testHandleTripResponse)
+        syncTask.waitAndParseDetailResponses(listOf(Observable.just(hotelJsonObject)), trips, testHandleTripResponse)
         assertFalse(testHandleTripResponse.refreshTripResponseHasErrorsCalled)
         assertFalse(testHandleTripResponse.refreshTripResponseNullCalled)
         assertTrue(testHandleTripResponse.refreshTripResponseSuccessCalled)
@@ -428,6 +414,24 @@ class ItineraryManagerTest {
 
         override fun refreshTripResponseSuccess(trip: Trip, deepRefresh: Boolean, tripDetailsResponse: TripDetailsResponse) {
             refreshTripResponseSuccessCalled = true
+            return
+        }
+    }
+
+    private class TestTripJsonFileUtils : ITripsJsonFileUtils {
+        override fun writeTripToFile(filename: String?, content: String?) {
+            return
+        }
+
+        override fun readTripFromFile(filename: String?): String? {
+            return ""
+        }
+
+        override fun deleteTripFile(filename: String?): Boolean {
+            return true
+        }
+
+        override fun deleteTripStore() {
             return
         }
     }

@@ -3,14 +3,14 @@ package com.expedia.bookings.itin.tripstore.utils
 import java.io.File
 import java.security.MessageDigest
 
-class TripsJsonFileUtils(private val tripsDirectory: File) {
+class TripsJsonFileUtils(private val tripsDirectory: File) : ITripsJsonFileUtils {
     private val LOGGING_TAG = "TRIPS_JSON_FILE_UTILS"
     private val TEMP_FILE = "TEMP_FILE"
 
     @Synchronized
-    fun writeTripToFile(filename: String, content: String) {
+    override fun writeTripToFile(filename: String?, content: String?) {
         try {
-            if (tripsDirectory.exists() and filename.isNotEmpty() and content.isNotEmpty()) {
+            if (tripsDirectory.exists() && filename != null && filename.isNotEmpty() && content != null && content.isNotEmpty()) {
                 val hashedFileName = hashString(filename)
                 val tempFile = File(tripsDirectory, TEMP_FILE)
                 val tripFile = File(tripsDirectory, hashedFileName)
@@ -24,9 +24,9 @@ class TripsJsonFileUtils(private val tripsDirectory: File) {
     }
 
     @Synchronized
-    fun readTripFromFile(filename: String): String? {
+    override fun readTripFromFile(filename: String?): String? {
         try {
-            if (tripsDirectory.exists() and filename.isNotEmpty()) {
+            if (tripsDirectory.exists() && filename != null && filename.isNotEmpty()) {
                 val hashedFileName = hashString(filename)
                 val tripFile = File(tripsDirectory, hashedFileName)
 
@@ -39,9 +39,9 @@ class TripsJsonFileUtils(private val tripsDirectory: File) {
     }
 
     @Synchronized
-    fun deleteTripFile(filename: String): Boolean {
+    override fun deleteTripFile(filename: String?): Boolean {
         try {
-            if (tripsDirectory.exists() and filename.isNotEmpty()) {
+            if (tripsDirectory.exists() && filename != null && filename.isNotEmpty()) {
                 val hashedFileName = hashString(filename)
                 val tripFile = File(tripsDirectory, hashedFileName)
 
@@ -54,15 +54,17 @@ class TripsJsonFileUtils(private val tripsDirectory: File) {
     }
 
     @Synchronized
-    fun deleteTripStore(): Boolean {
+    override fun deleteTripStore() {
         try {
             if (tripsDirectory.exists()) {
-                return tripsDirectory.deleteRecursively()
+                val tripFiles = tripsDirectory.listFiles()
+                tripFiles.forEach { file ->
+                    file.delete()
+                }
             }
         } catch (e: Exception) {
             println("$LOGGING_TAG Exception occurred while deleting file : ${e.printStackTrace()}")
         }
-        return false
     }
 
     @Synchronized

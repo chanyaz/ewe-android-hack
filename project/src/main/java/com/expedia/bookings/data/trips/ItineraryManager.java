@@ -45,6 +45,9 @@ import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager;
 import com.expedia.bookings.featureconfig.SatelliteFeatureConstants;
+import com.expedia.bookings.features.Feature;
+import com.expedia.bookings.features.Features;
+import com.expedia.bookings.itin.tripstore.utils.ITripsJsonFileUtils;
 import com.expedia.bookings.itin.utils.NotificationScheduler;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.NotificationManager;
@@ -126,6 +129,7 @@ public class ItineraryManager implements JSONable {
 	private Context mContext;
 	private UserStateManager userStateManager;
 	private NotificationManager notificationManager;
+	private ITripsJsonFileUtils tripsJsonFileUtils;
 
 	// Don't try refreshing too often
 	private long mLastUpdateTime;
@@ -285,6 +289,17 @@ public class ItineraryManager implements JSONable {
 		return null;
 	}
 
+	private Feature itineraryManagerStoreTripsJsonFeature = Features.Companion.getAll().getItineraryManagerStoreTripsJson();
+
+	private boolean isStoreJsonToTripStoreEnabled() {
+		return itineraryManagerStoreTripsJsonFeature.enabled();
+	}
+
+	@VisibleForTesting
+	void setItineraryManagerStoreTripsJsonFeature(Feature feature) {
+		this.itineraryManagerStoreTripsJsonFeature = feature;
+	}
+
 	/**
 	 * Clear all data from the itinerary manager.  Used on sign out or
 	 * when private data is cleared.
@@ -309,6 +324,10 @@ public class ItineraryManager implements JSONable {
 		if (file.exists()) {
 			//noinspection ResultOfMethodCallIgnored
 			file.delete();
+		}
+
+		if (isStoreJsonToTripStoreEnabled()) {
+			tripsJsonFileUtils.deleteTripStore();
 		}
 
 		mStartTimes.clear();
@@ -365,9 +384,15 @@ public class ItineraryManager implements JSONable {
 		if (!ExpediaBookingApp.isAutomation()) {
 			notificationScheduler.subscribeToListener(syncFinishObserverable);
 		}
+		tripsJsonFileUtils = Ui.getApplication(context).appComponent().tripJsonFileUtils();
 		loadStartAndEndTimes();
 
 		Log.d(LOGGING_TAG, "Initialized ItineraryManager in " + ((System.nanoTime() - start) / 1000000) + " ms");
+	}
+
+	@VisibleForTesting
+	void setTripsJsonFileUtils(ITripsJsonFileUtils tripsJsonFileUtils) {
+		this.tripsJsonFileUtils = tripsJsonFileUtils;
 	}
 
 	private void save() {
@@ -1454,6 +1479,7 @@ public class ItineraryManager implements JSONable {
 						}
 						else {
 							Trip updatedTrip = response.getTrip();
+							//getItineraryKey() handles both user and shared trips
 							String itineraryKey = updatedTrip.getItineraryKey();
 							if (trips.containsKey(itineraryKey)) {
 								Trip trip = trips.get(itineraryKey);
@@ -1464,6 +1490,7 @@ public class ItineraryManager implements JSONable {
 								else {
 									Log.i(LOGGING_TAG, "REFRESH_ALL_TRIPS: Response is a success");
 									handleTripResponse.refreshTripResponseSuccess(trip, false, response);
+									writeTripJsonResponseToFile(trip, jsonObject);
 								}
 							}
 						}
@@ -1602,6 +1629,9 @@ public class ItineraryManager implements JSONable {
 					json = tripsServices.getTripDetails(trip.getTripId(), !deepRefresh);
 				}
 				response = (new TripDetailsResponseHandler()).handleJson(json);
+				if (json != null && response != null && !response.hasErrors()) {
+					writeTripJsonResponseToFile(trip, json);
+				}
 			}
 			else {
 				if (trip.isShared()) {
@@ -1612,6 +1642,28 @@ public class ItineraryManager implements JSONable {
 				}
 			}
 			return response;
+		}
+
+		void writeTripJsonResponseToFile(Trip trip, JSONObject json) {
+			if (isStoreJsonToTripStoreEnabled()) {
+				if (trip.isShared()) {
+					tripsJsonFileUtils.writeTripToFile(trip.getShareInfo().getSharableDetailsUrl(), json.toString());
+				}
+				else {
+					tripsJsonFileUtils.writeTripToFile(trip.getTripId(), json.toString());
+				}
+			}
+		}
+
+		void deleteTripJsonFromFile(Trip trip) {
+			if (isStoreJsonToTripStoreEnabled()) {
+				if (trip.isShared()) {
+					tripsJsonFileUtils.deleteTripFile(trip.getShareInfo().getSharableDetailsUrl());
+				}
+				else {
+					tripsJsonFileUtils.deleteTripFile(trip.getTripId());
+				}
+			}
 		}
 
 		private boolean featureFlagForRetrofitServiceEnabled() {
@@ -1784,6 +1836,8 @@ public class ItineraryManager implements JSONable {
 				deletePendingNotification(trip);
 				mTrips.remove(tripNumber);
 				mTripsRemoved++;
+
+				deleteTripJsonFromFile(trip);
 			}
 		}
 
@@ -1803,6 +1857,9 @@ public class ItineraryManager implements JSONable {
 			if (featureFlagForRetrofitServiceEnabled()) {
 				JSONObject json = tripsServices.getSharedTripDetails(trip.getShareInfo().getSharableDetailsApiUrl());
 				response = (new TripDetailsResponseHandler()).handleJson(json);
+				if (json != null && response != null && !response.hasErrors()) {
+					writeTripJsonResponseToFile(trip, json);
+				}
 			}
 			else {
 				response = mServices.getSharedItin(shareableAPIUrl);

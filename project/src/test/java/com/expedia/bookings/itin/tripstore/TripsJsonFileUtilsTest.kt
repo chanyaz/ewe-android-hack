@@ -99,6 +99,27 @@ class TripsJsonFileUtilsTest {
     }
 
     @Test
+    fun writeFileNameNull() {
+        tripJsonUtils.writeTripToFile(null, "test_content")
+        val tripFiles = tripsDirectory.listFiles()
+        assertEquals(0, tripFiles.size)
+    }
+
+    @Test
+    fun writeContentNull() {
+        tripJsonUtils.writeTripToFile(TEST_FILENAME, null)
+        val tripFiles = tripsDirectory.listFiles()
+        assertEquals(0, tripFiles.size)
+    }
+
+    @Test
+    fun writeFileNAMEContentNull() {
+        tripJsonUtils.writeTripToFile(null, null)
+        val tripFiles = tripsDirectory.listFiles()
+        assertEquals(0, tripFiles.size)
+    }
+
+    @Test
     fun readValidFile() {
         tripJsonUtils.writeTripToFile(TEST_FILENAME, data)
         val readData = tripJsonUtils.readTripFromFile(TEST_FILENAME)
@@ -118,6 +139,13 @@ class TripsJsonFileUtilsTest {
         tripJsonUtils.writeTripToFile(TEST_FILENAME, data)
         val readData = tripJsonUtils.readTripFromFile("")
         assertNull(readData)
+    }
+
+    @Test
+    fun readFileNameNull() {
+        tripJsonUtils.readTripFromFile(null)
+        val tripFiles = tripsDirectory.listFiles()
+        assertEquals(0, tripFiles.size)
     }
 
     @Test
@@ -142,6 +170,13 @@ class TripsJsonFileUtilsTest {
     }
 
     @Test
+    fun deleteTripFilenameNull() {
+        tripJsonUtils.deleteTripFile(null)
+        val tripFiles = tripsDirectory.listFiles()
+        assertEquals(0, tripFiles.size)
+    }
+
+    @Test
     fun deleteTripStore() {
         tripJsonUtils.writeTripToFile("FILE_1", data)
         tripJsonUtils.writeTripToFile("FILE_2", data)
@@ -153,9 +188,9 @@ class TripsJsonFileUtilsTest {
         assertTrue(tripFiles.contains(tripFile1))
         assertTrue(tripFiles.contains(tripFile2))
 
-        val result = tripJsonUtils.deleteTripStore()
-        assertTrue(result)
-        assertFalse(tripsDirectory.exists())
+        tripJsonUtils.deleteTripStore()
+        assertTrue(tripsDirectory.exists())
+        assertTrue(tripsDirectory.listFiles().isEmpty())
     }
 
     @Test
