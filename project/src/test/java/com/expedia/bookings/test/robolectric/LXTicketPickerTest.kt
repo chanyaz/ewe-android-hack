@@ -4,6 +4,7 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
@@ -40,15 +41,20 @@ class LXTicketPickerTest {
         val ticketCount = picker.findViewById<View>(R.id.ticket_count) as TextView
         val ticketAdd = picker.findViewById<View>(R.id.ticket_add) as ImageButton
         val ticketRemove = picker.findViewById<View>(R.id.ticket_remove) as ImageButton
-        val ticketDetails = picker.findViewById<View>(R.id.ticket_details) as TextView
+        val ticketDetailsContainer = picker.findViewById<View>(R.id.ticket_details_container) as LinearLayout
+        val travelerType = picker.findViewById<View>(R.id.traveler_type) as TextView
+        val originalPriceView = picker.findViewById<View>(R.id.original_price) as TextView
+        val priceView = picker.findViewById<View>(R.id.actual_price) as TextView
 
         assertNotNull(ticketCount)
         assertNotNull(ticketAdd)
         assertNotNull(ticketRemove)
-        assertNotNull(ticketDetails)
+        assertNotNull(ticketDetailsContainer)
 
         assertEquals("1", ticketCount.text)
-        assertEquals("$99 Adult (16+ years)", ticketDetails.text)
+        assertEquals("Adult (16+ years)", travelerType.text)
+        assertEquals("$99", priceView.text)
+        assertEquals("$135", originalPriceView.text.toString())
         assertEquals("Add Adult", ticketAdd.contentDescription.toString())
         assertEquals("Remove Adult", ticketRemove.contentDescription.toString())
     }
@@ -58,6 +64,7 @@ class LXTicketPickerTest {
         val ticket = gson.fromJson<Ticket>(
                 "{\ncode: \"Adult\",\nticketId: \"6319\",\nname: \"Adult\",\nlowerCaseName: \"adult\",\nrestrictionText: \"16+ years\",\nrestriction: {\ntype: \"AGE\",\nmax: 255,\nmin: 16\n},\nprice: \"$99\",\noriginalPrice: \"$135\",\namount: \"99.00\",\noriginalAmount: \"135.00\",\ndisplayName: null,\ndefaultTicketCount: 1\n}", Ticket::class.java)
         ticket.money = Money(99, "USD")
+        ticket.originalPriceMoney = Money(135, "USD")
 
         return ticket
     }

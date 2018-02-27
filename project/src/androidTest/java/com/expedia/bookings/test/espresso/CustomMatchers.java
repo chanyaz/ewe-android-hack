@@ -292,9 +292,9 @@ public class CustomMatchers {
 	}
 
 	public static Matcher<View> withTotalPrice(final BigDecimal expectedPrice) {
-		return new BoundedMatcher<View, Button>(Button.class) {
+		return new BoundedMatcher<View, TextView>(TextView.class) {
 			@Override
-			public boolean matchesSafely(Button view) {
+			public boolean matchesSafely(TextView view) {
 				String displayedText = view.getText().toString().replace(",", "");
 				Pattern p = Pattern.compile("([\\d.]+)");
 				java.util.regex.Matcher m = p.matcher(displayedText);

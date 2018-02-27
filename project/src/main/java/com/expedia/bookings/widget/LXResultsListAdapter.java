@@ -17,7 +17,6 @@ import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
-import com.expedia.bookings.features.Features;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.Images;
@@ -190,10 +189,8 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 			}
 			LXDataUtils.bindDuration(itemView.getContext(), activity.duration, activity.isMultiDuration, duration);
 
-			if (Features.Companion.getAll().getLxRedesign().enabled()) {
-				LXDataUtils.bindRecommendation(itemView.getContext(), activity.recommendationScore, recommendationScoreView, recommendationTextView);
-				LXDataUtils.bindDiscountPercentage(itemView.getContext(), activity, discountPercentageView);
-			}
+			LXDataUtils.bindRecommendation(itemView.getContext(), activity.recommendationScore, recommendationScoreView, recommendationTextView);
+			LXDataUtils.bindDiscountPercentage(itemView.getContext(), activity, discountPercentageView);
 
 			List<String> imageURLs = Images
 				.getLXImageURLBasedOnWidth(activity.getImages(), AndroidUtils.getDisplaySize(itemView.getContext()).x);

@@ -109,6 +109,7 @@ class LXOfferListWidgetTest {
             for (availabilityInfo in offer.availabilityInfo) {
                 for (ticket in availabilityInfo.tickets) {
                     ticket.money = Money(ticket.amount, "USD")
+                    ticket.originalPriceMoney = Money(ticket.originalAmount, "USD")
                 }
             }
         }

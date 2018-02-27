@@ -9,7 +9,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import com.expedia.bookings.test.phone.lx.models.TicketDataModel;
 import com.expedia.bookings.test.phone.lx.models.TicketSummaryDataModel;
@@ -20,6 +19,7 @@ public class ExpectedDataSupplierForTicketWidget {
 	private HashMap<TicketDataModel, Integer> mTotalTickets = new HashMap<>();
 	private String ticketName;
 	HashMap<String,String> expectedPlural = new HashMap<String, String>();
+	private BigDecimal totalOriginal = BigDecimal.ZERO;
 
 	public ExpectedDataSupplierForTicketWidget(TicketSummaryDataModel summary) {
 		/*
@@ -84,13 +84,20 @@ public class ExpectedDataSupplierForTicketWidget {
 
 	public void buildTicketsFromPriceSummary(String[] options) {
 		int order = 1;
-		for (String option : options) { // here options is ["$99 Adult","$80 Child"];
-			String travellerType = option.trim().split(" ")[1];//travellerType would be Adult/Child in first and second pass
-			Pattern p = Pattern.compile("([\\d.]+)");// this will extract the price value
-			java.util.regex.Matcher m = p.matcher(option);
-			m.find();
+		for (String option : options) { // here options is ["$110 $99/Adult","$80/Child"];   $110 is the Strike through price
+			String[] ticketParameters = option.trim().split("/");
+			String travellerType = ticketParameters[1];//travellerType would be Adult/Child in first and second pass
+			ticketParameters[0] = ticketParameters[0].replaceAll("[^0-9]+", " ");
+			String[] ticketPrices = ticketParameters[0].trim().split(" ");
 			TicketDataModel ticket = new TicketDataModel();
-			ticket.perTicketCost = new BigDecimal(m.group());
+			if (ticketPrices.length > 1) {
+				ticket.perTicketOriginalCost = new BigDecimal(ticketPrices[0]);
+				ticket.perTicketCost = new BigDecimal(ticketPrices[1]);
+			}
+			else {
+				ticket.perTicketOriginalCost = new BigDecimal(0);
+				ticket.perTicketCost = new BigDecimal(ticketPrices[0]);
+			}
 			ticket.travellerType = travellerType;
 			ticket.order = order;
 			order++;
@@ -114,9 +121,27 @@ public class ExpectedDataSupplierForTicketWidget {
 			TicketDataModel ticket = (TicketDataModel) pair.getKey();
 			int numberOfTravellers = (int) pair.getValue();
 			total = total.add(ticket.perTicketCost.multiply(BigDecimal.valueOf(numberOfTravellers)));
-			it.remove();
 		}
 		return total;
+	}
+
+	public BigDecimal getTotalOriginalPrice() {
+		totalOriginal = BigDecimal.ZERO;
+		Iterator it = mTotalTickets.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry pair = (Map.Entry) it.next();
+			TicketDataModel ticket = (TicketDataModel) pair.getKey();
+			int numberOfTravellers = (int) pair.getValue();
+			totalOriginal = totalOriginal.add(ticket.perTicketOriginalCost.multiply(BigDecimal.valueOf(numberOfTravellers)));
+		}
+		return totalOriginal;
+	}
+
+	public BigDecimal getDiscountPercentage() {
+		if (totalOriginal.intValue() == 0 || totalOriginal.intValue() < total.intValue()) {
+			return BigDecimal.ZERO;
+		}
+		return new BigDecimal(((totalOriginal.intValue() - total.intValue()) / totalOriginal.intValue()) * 100);
 	}
 	/*
 		This method will get the expected Summary Strip

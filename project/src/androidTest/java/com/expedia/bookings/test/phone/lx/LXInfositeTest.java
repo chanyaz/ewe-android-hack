@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.phone.lx;
 
+import java.math.BigDecimal;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -114,10 +115,10 @@ public class LXInfositeTest extends LxTestCase {
 		//Below is the default state verification
 		boolean isFirstRow = true;
 		for (TicketDataModel ticket : mExpectedDataTktWdgt.getTickets()) {
-			LXInfositeScreen.ticketRow(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType).check(
+			LXInfositeScreen.ticketRowPrice(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType).check(
 				matches(withText(
 					containsString(ticket.perTicketCost.toString()))));
-			LXInfositeScreen.ticketRow(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType).check(
+			LXInfositeScreen.ticketRowTravelerType(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType).check(
 				matches(LXInfositeScreen.withRestrictionText()));
 			if (isFirstRow) {
 				isFirstRow = false;
@@ -131,7 +132,7 @@ public class LXInfositeTest extends LxTestCase {
 					.ticketRemoveButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
 					.perform(clickWhenEnabled());
 				//check in this situation where we dont have any ticket we dont have the book now button nor the ticket summary
-				LXInfositeScreen.priceSummary(mExpectedDataTktWdgt.getTicketName())
+				LXInfositeScreen.selectedTicketSummary(mExpectedDataTktWdgt.getTicketName())
 						.check(matches(not(isDisplayed())));
 				LXInfositeScreen.bookNowButton(mExpectedDataTktWdgt.getTicketName())
 						.check(matches(not(isDisplayed())));
@@ -201,10 +202,18 @@ public class LXInfositeTest extends LxTestCase {
 				mExpectedDataTktWdgt.updateTravellers(currentClickCounter, ticket.travellerType);
 			}
 		}
-		LXInfositeScreen.priceSummary(mExpectedDataTktWdgt.getTicketName())
+		LXInfositeScreen.selectedTicketSummary(mExpectedDataTktWdgt.getTicketName())
 				.check(matches(withText(mExpectedDataTktWdgt.expectedSummary())));
-		LXInfositeScreen.bookNowButton(mExpectedDataTktWdgt.getTicketName())
+		LXInfositeScreen.priceSummary(mExpectedDataTktWdgt.getTicketName())
 				.check(matches(withTotalPrice(mExpectedDataTktWdgt.getTotalPrice())));
+		if (!mExpectedDataTktWdgt.getTotalOriginalPrice().equals(BigDecimal.ZERO)) {
+			LXInfositeScreen.originalPriceSummary(mExpectedDataTktWdgt.getTicketName())
+				.check(matches(withTotalPrice(mExpectedDataTktWdgt.getTotalOriginalPrice())));
+		}
+		if (!mExpectedDataTktWdgt.getDiscountPercentage().equals(BigDecimal.ZERO)) {
+			LXInfositeScreen.discountPercentage(mExpectedDataTktWdgt.getTicketName())
+				.check(matches(withTotalPrice(mExpectedDataTktWdgt.getDiscountPercentage())));
+		}
 		LXInfositeScreen.offersWidgetContainer().perform(customScroll(50));
 		LXInfositeScreen.bookNowButton(mExpectedDataTktWdgt.getTicketName()).perform(clickWhenEnabled());
 		screenshot("LX validated the offers widget");

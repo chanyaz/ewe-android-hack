@@ -121,8 +121,9 @@
                   "min": 13
                 },
                 "price": "$130",
-                "originalPrice": "",
+                "originalPrice": "$145",
                 "amount": "130",
+                "originalAmount": "145",
                 "displayName": null,
                 "defaultTicketCount": 2
               },
@@ -137,8 +138,9 @@
                   "min": 4
                 },
                 "price": "$110",
-                "originalPrice": "",
+                "originalPrice": "$120",
                 "amount": "110",
+                "originalAmount": "120",
                 "displayName": null,
                 "defaultTicketCount": 0
               }

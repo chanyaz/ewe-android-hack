@@ -212,7 +212,7 @@ public class LXDataUtilsTest {
 			new Money("220", "USD"), activityPrice, fromPriceTicketType);
 
 		assertEquals("$180", activityPrice.getText());
-		assertEquals("Price is $180 per traveler. Price before discount was $220 per traveler", activityPrice.getContentDescription().toString());
+		assertEquals("Regular Price per traveler $220. Discounted price per traveler $180", activityPrice.getContentDescription().toString());
 		assertEquals("per traveler", fromPriceTicketType.getText());
 	}
 

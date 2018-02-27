@@ -223,9 +223,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 			buildMapSection(activityDetails);
 		}
 		buildSections(activityDetails);
-		if (Features.Companion.getAll().getLxRedesign().enabled()) {
-			buildDiscountSection(activityDetails.offersDetail.offers);
-		}
+		buildDiscountSection(activityDetails.offersDetail.offers);
 		buildOfferDatesSelector(activityDetails.offersDetail, lxState.searchParams.getActivityStartDate());
 	}
 

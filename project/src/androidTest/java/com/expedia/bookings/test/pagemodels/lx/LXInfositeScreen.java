@@ -41,7 +41,7 @@ public class LXInfositeScreen {
 	}
 
 	public static ViewInteraction ticketAddButton(String ticketName, String travellerType) {
-		Matcher<View> rowMatcher = Matchers.allOf(withText(containsString(travellerType)),
+		Matcher<View> rowMatcher = Matchers.allOf(hasDescendant(withText(containsString(travellerType))),
 			isDescendantOfA(hasSibling(withText(containsString(ticketName)))), isDescendantOfA(withId(R.id.activity_details_presenter)));
 		return onView(Matchers.allOf(withId(R.id.ticket_add), hasSibling(rowMatcher)));
 	}
@@ -57,29 +57,61 @@ public class LXInfositeScreen {
 	}
 
 	public static ViewInteraction ticketRemoveButton(String ticketName, String travellerType) {
-		Matcher<View> rowMatcher = Matchers.allOf(withText(containsString(travellerType)),
+		Matcher<View> rowMatcher = Matchers.allOf(hasDescendant(withText(containsString(travellerType))),
 			isDescendantOfA(hasSibling(withText(ticketName))));
 		return onView(Matchers.allOf(withId(R.id.ticket_remove), hasSibling(rowMatcher),
 			isDescendantOfA(withId(R.id.activity_details_presenter))));
 	}
 
 	public static ViewInteraction ticketCount(String ticketName, String travellerType) {
-		Matcher<View> rowMatcher = Matchers.allOf(withText(containsString(travellerType)),
+		Matcher<View> rowMatcher = Matchers.allOf(hasDescendant(withText(containsString(travellerType))),
 			isDescendantOfA(hasSibling(withText(ticketName))));
 		return onView(Matchers.allOf(withId(R.id.ticket_count), hasSibling(rowMatcher),
 			isDescendantOfA(withId(R.id.activity_details_presenter))));
 	}
 
-	public static ViewInteraction ticketRow(String ticketName, String travellerType) {
-		return onView(Matchers.allOf(withText(containsString(travellerType)), withId(R.id.ticket_details),
+	public static ViewInteraction ticketRowPrice(String ticketName, String travelerType) {
+		return onView(Matchers.allOf(withId(R.id.actual_price),
+				isDescendantOfA(hasSibling(withText(ticketName))),
+				isDescendantOfA(withId(R.id.activity_details_presenter)),
+				isDescendantOfA(hasSibling(withText(containsString(travelerType)))),
+				isDescendantOfA(hasSibling(withText(containsString("("))))));
+	}
+
+	public static ViewInteraction ticketRowTravelerType(String ticketName, String travellerType) {
+		return onView(Matchers.allOf(withText(containsString(travellerType)), withId(R.id.traveler_type),
 			isDescendantOfA(hasSibling(withText(ticketName))),
-			isDescendantOfA(withId(R.id.activity_details_presenter))));
+			isDescendantOfA(withId(R.id.ticket_details_container))));
+	}
+
+	public static ViewInteraction selectedTicketSummary(String ticketName) {
+		return onView(
+			Matchers.allOf(withId(R.id.selected_ticket_summary), isDescendantOfA(hasSibling(withText(ticketName))),
+				isDescendantOfA(withId(R.id.activity_details_presenter))));
 	}
 
 	public static ViewInteraction priceSummary(String ticketName) {
 		return onView(
-			Matchers.allOf(withId(R.id.selected_ticket_summary), isDescendantOfA(hasSibling(withText(ticketName))),
-				isDescendantOfA(withId(R.id.activity_details_presenter))));
+			Matchers.allOf(withId(R.id.actual_price),
+				isDescendantOfA(hasSibling(withText(ticketName))),
+				isDescendantOfA(withId(R.id.activity_details_presenter)),
+				isDescendantOfA(withId(R.id.price_summary_container))));
+	}
+
+	public static ViewInteraction originalPriceSummary(String ticketName) {
+		return onView(
+			Matchers.allOf(withId(R.id.strike_through_price),
+				isDescendantOfA(hasSibling(withText(ticketName))),
+				isDescendantOfA(withId(R.id.activity_details_presenter)),
+				isDescendantOfA(withId(R.id.price_summary_container))));
+	}
+
+	public static ViewInteraction discountPercentage(String ticketName) {
+		return onView(
+			Matchers.allOf(withId(R.id.discount_percentage),
+				isDescendantOfA(hasSibling(withText(ticketName))),
+				isDescendantOfA(withId(R.id.activity_details_presenter)),
+				isDescendantOfA(withId(R.id.price_summary_container))));
 	}
 
 	public static ViewInteraction bookNowButton(String ticketName) {
@@ -108,10 +140,17 @@ public class LXInfositeScreen {
 			@Override
 			public void perform(UiController uiController, View view) {
 				LinearLayout offerRow = (LinearLayout) ((ViewGroup) view).getChildAt(index);
-				TextView offerTitleView = (TextView) offerRow.findViewById(R.id.offer_title);
-				TextView offerPriceView = (TextView) offerRow.findViewById(R.id.price_summary);
+				TextView offerTitleView = offerRow.findViewById(R.id.offer_title);
+				LinearLayout offerPriceContainer = offerRow.findViewById(R.id.activity_price_summary_container);
+				StringBuilder offerPriceSummary = new StringBuilder();
+				for (int i = 0; i < offerPriceContainer.getChildCount(); i++) {
+					LinearLayout ticketSummary = (LinearLayout) offerPriceContainer.getChildAt(i);
+					offerPriceSummary.append(((TextView) ticketSummary.findViewById(R.id.strike_through_price)).getText());
+					offerPriceSummary.append(((TextView) ticketSummary.findViewById(R.id.traveler_price)).getText());
+					offerPriceSummary.append(",");
+				}
 				offerDataContainer.ticketTitle = offerTitleView.getText().toString();
-				offerDataContainer.priceSummary = offerPriceView.getText().toString();
+				offerDataContainer.priceSummary = offerPriceSummary.toString();
 			}
 
 			@Override

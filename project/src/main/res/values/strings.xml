@@ -208,12 +208,6 @@
     <string name="exclusions_activity_details">Exclusions</string>
     <!-- Activity details know before you book heading -->
     <string name="know_before_you_book_activity_details">Know before you book</string>
-    <!-- Template for ticket details -->
-    <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
-    <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
-    <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
-    <!-- Template for ticket selection summary -->
-    <string name="offer_book_now_TEMPLATE">Book Now %1$s</string>
     <!-- Template for ticket details (eg: Adult (12+ years)) -->
     <string name="ticket_details_new_TEMPLATE">{traveler_type} ({restriction_text})</string>
     <!-- Template for ticket details without restrictions (eg: Traveler) -->
@@ -4724,8 +4718,6 @@
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
     <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">Price is {activity_price} {ticket_type}</string>
 
-    <!-- LX SRP activity price content description when price is discounted e.g. Price is $180 per adult. Price before discount was $230 per adult-->
-    <string name="activity_price_per_travelertype_with_discount_cont_desc_TEMPLATE">Price is {activity_price} {ticket_type}. Price before discount was {activity_original_price} {ticket_type}</string>
     <!-- Content description for Checkbox types, state Checked -->
     <string name="accessibility_cont_desc_role_checkbox_checked">Checkbox. Checked.</string>
     <!-- Content description for Checkbox types, state Unchecked -->

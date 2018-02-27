@@ -32,24 +32,12 @@
                 android:layout_marginRight="10dp"
                 app:textStyle="medium" />
 
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/price_summary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:maxLines="1"
-                android:textColor="@color/lx_ticket_summary_color"
-                android:textSize="11sp"
-                app:textStyle="normal"
-                android:visibility="gone"/>
-
             <LinearLayout
                 android:id="@+id/activity_price_summary_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="8dp"
-                android:visibility="gone"/>
+                android:layout_marginTop="8dp"/>
         </LinearLayout>
 
         <Button

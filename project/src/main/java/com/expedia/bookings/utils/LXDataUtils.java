@@ -17,7 +17,6 @@ import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.deeplink.ActivityDeepLink;
-import com.expedia.bookings.features.Features;
 import com.expedia.bookings.text.HtmlCompat;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.flightlib.data.Airport;
@@ -395,14 +394,7 @@ public class LXDataUtils {
 					.format();
 			}
 			else {
-				int template;
-				if (Features.Companion.getAll().getLxRedesign().enabled()) {
-					template = R.string.activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE;
-				}
-				else {
-					template = R.string.activity_price_per_travelertype_with_discount_cont_desc_TEMPLATE;
-				}
-				activityPriceContDesc = Phrase.from(context, template)
+				activityPriceContDesc = Phrase.from(context, R.string.activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE)
 						.put("activity_price", price.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP))
 						.put("activity_original_price", originalPrice.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP))
 						.put("ticket_type", LXDataUtils.perTicketTypeDisplayLabel(context, fromPriceTicketCode))

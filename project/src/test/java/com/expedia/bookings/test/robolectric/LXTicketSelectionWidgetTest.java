@@ -70,7 +70,10 @@ public class LXTicketSelectionWidgetTest {
 		TextView freeCancellation = (TextView) widget.findViewById(R.id.offer_detail2);
 		TextView redemptionType = (TextView) widget.findViewById(R.id.offer_detail3);
 		LXOfferDescription descriptionWidget = (LXOfferDescription) widget.findViewById(R.id.offer_description);
-		TextView ticketDetails = (TextView) ticketSelector.findViewById(R.id.ticket_details);
+		LinearLayout ticketDetailsContainer = (LinearLayout) ticketSelector.findViewById(R.id.ticket_details_container);
+		TextView travelerType = ticketSelector.findViewById(R.id.traveler_type);
+		TextView originalPriceView = ticketSelector.findViewById(R.id.original_price);
+		TextView priceView = ticketSelector.findViewById(R.id.actual_price);
 		TextView ticketCount = (TextView) ticketSelector.findViewById(R.id.ticket_count);
 		ImageButton addTicketView = (ImageButton) ticketSelector.findViewById(R.id.ticket_add);
 		ImageButton removeTicketView = (ImageButton) ticketSelector.findViewById(R.id.ticket_remove);
@@ -83,7 +86,10 @@ public class LXTicketSelectionWidgetTest {
 		assertNotNull(redemptionType);
 		assertEquals(activity.getResources().getString(R.string.lx_print_voucher_offer), redemptionType.getText());
 		assertNotNull(descriptionWidget);
-		assertNotNull(ticketDetails);
+		assertNotNull(ticketDetailsContainer);
+		assertNotNull(travelerType);
+		assertNotNull(originalPriceView);
+		assertNotNull(priceView);
 		assertNotNull(ticketCount);
 		assertNotNull(addTicketView);
 		assertNotNull(removeTicketView);
@@ -182,48 +188,60 @@ public class LXTicketSelectionWidgetTest {
 
 		Ticket testTicket = availabilityInfo.tickets.get(0);
 
-		TextView ticketDetails = (TextView) widget.findViewById(R.id.ticket_details);
+		TextView travelerType = widget.findViewById(R.id.traveler_type);
+		TextView originalPriceView = widget.findViewById(R.id.original_price);
+		TextView priceView = widget.findViewById(R.id.actual_price);
 		TextView ticketCount = (TextView) widget.findViewById(R.id.ticket_count);
 		ImageButton addTicketView = (ImageButton) widget.findViewById(R.id.ticket_add);
 		ImageButton removeTicketView = (ImageButton) widget.findViewById(R.id.ticket_remove);
 		TextView ticketsSummary = (TextView) widget.findViewById(R.id.selected_ticket_summary);
+		LinearLayout priceSummaryContainer = widget.findViewById(R.id.price_summary_container);
+		TextView stpView = priceSummaryContainer.findViewById(R.id.strike_through_price);    // Tkt selection
+		TextView totalPriceView = priceSummaryContainer.findViewById(R.id.actual_price);     // Tkt selection
+		TextView discountPercentView = priceSummaryContainer.findViewById(R.id.discount_percentage);
 		Button bookButton = (Button) widget.findViewById(R.id.lx_book_now);
 		TextView titleText = (TextView) widget.findViewById(R.id.offer_title);
 		LXOfferDescription descriptionWidget = (LXOfferDescription) widget.findViewById(R.id.offer_description);
 		TextView descriptionText = (TextView) descriptionWidget.findViewById(R.id.description);
 
 		int expectedCount = 1;
-		String expectedDetails = String
-			.format(activity.getResources().getString(R.string.ticket_details_template),
-				testTicket.money.getFormattedMoney(),
-				testTicket.code, testTicket.restrictionText);
-
+		String expectedTravelerType = testTicket.code + " (" + testTicket.restrictionText + ")";
+		String expectedTotalPrice = testTicket.money.getFormattedMoney();
+		String expectedOriginalPrice = testTicket.originalPriceMoney.getFormattedMoney();
+		String expectedDiscountPercentage = "-50%";
 		String expectedSummary = LXDataUtils.ticketCountSummary(activity, testTicket.code, expectedCount);
 		String expectedCurrencyCode = "USD";
 		String expectedTitleText = "One Day Tour";
 		String expectedDescription = "Offer Description";
-		String bookButtonTemplate = activity.getResources().getString(R.string.offer_book_now_TEMPLATE);
 		String expectedAmountWithCurrency = new Money(new BigDecimal(40), expectedCurrencyCode).getFormattedMoney();
-		String expectedBookText = String.format(bookButtonTemplate, expectedAmountWithCurrency);
+		String expectedOriginalAmountWithCurrency = new Money(new BigDecimal(80), expectedCurrencyCode).getFormattedMoney();
+		String expectedBookText = activity.getResources().getString(R.string.offer_book_now_button);
 
 		assertEquals(String.valueOf(expectedCount), ticketCount.getText());
-		assertEquals(expectedDetails, ticketDetails.getText());
+		assertEquals(expectedTravelerType, travelerType.getText());
+		assertEquals(expectedTotalPrice, priceView.getText());
+		assertEquals(expectedOriginalPrice, originalPriceView.getText().toString());
 		assertEquals(expectedSummary, ticketsSummary.getText());
 		assertEquals(expectedBookText, bookButton.getText());
 		assertEquals(expectedTitleText, titleText.getText());
 		assertEquals(expectedDescription, descriptionText.getText());
+		assertEquals(expectedAmountWithCurrency, totalPriceView.getText());
+		assertEquals(expectedOriginalAmountWithCurrency, stpView.getText().toString());
+		assertEquals(expectedDiscountPercentage, discountPercentView.getText().toString());
 
 		addTicketView.performClick();
 		expectedCount++;
 		expectedSummary = LXDataUtils.ticketCountSummary(activity, testTicket.code, expectedCount);
 		expectedAmountWithCurrency = new Money(new BigDecimal(80), expectedCurrencyCode).getFormattedMoney();
-		expectedBookText = String.format(bookButtonTemplate, expectedAmountWithCurrency);
+		expectedOriginalAmountWithCurrency = new Money(new BigDecimal(160), expectedCurrencyCode).getFormattedMoney();
 
 		assertEquals(String.valueOf(expectedCount), ticketCount.getText());
-		assertEquals(expectedDetails, ticketDetails.getText());
+		assertEquals(expectedTotalPrice, priceView.getText());
 		assertEquals(expectedSummary, ticketsSummary.getText());
 		assertEquals(expectedBookText, bookButton.getText());
 		assertEquals(expectedTitleText, titleText.getText());
+		assertEquals(expectedAmountWithCurrency, totalPriceView.getText());
+		assertEquals(expectedOriginalAmountWithCurrency, stpView.getText().toString());
 
 		// Set ticket count to 0.
 		for (int i = 0; i < 2; i++) {
@@ -232,13 +250,14 @@ public class LXTicketSelectionWidgetTest {
 		}
 		expectedSummary = "";
 		expectedAmountWithCurrency = new Money(BigDecimal.ZERO, expectedCurrencyCode).getFormattedMoney();
-		expectedBookText = String.format(bookButtonTemplate, expectedAmountWithCurrency);
+		expectedOriginalAmountWithCurrency = new Money(BigDecimal.ZERO, expectedCurrencyCode).getFormattedMoney();
 
 		assertEquals(String.valueOf(expectedCount), ticketCount.getText());
-		assertEquals(expectedDetails, ticketDetails.getText());
+		assertEquals(expectedTravelerType, travelerType.getText());
 		assertEquals(expectedSummary, ticketsSummary.getText());
 		assertEquals(expectedBookText, bookButton.getText());
 		assertEquals(expectedTitleText, titleText.getText());
+		assertEquals(expectedAmountWithCurrency, totalPriceView.getText());
 	}
 
 	@Test
@@ -256,12 +275,13 @@ public class LXTicketSelectionWidgetTest {
 		for (int i = 0; i < container.getChildCount(); i++) {
 			View child = container.getChildAt(i);
 			if (child instanceof LXTicketPicker) {
-				String expectedDetails = String
-					.format(activity.getResources().getString(R.string.ticket_details_template),
-						tickets.get(ticketPickerIndex).money.getFormattedMoney(),
-						tickets.get(ticketPickerIndex).code, tickets.get(ticketPickerIndex).restrictionText);
+				String expectedTotalPrice = tickets.get(ticketPickerIndex).money.getFormattedMoney();
+				String expectedOriginalPrice = tickets.get(ticketPickerIndex).originalPriceMoney.getFormattedMoney();
+				String expectedDetails = tickets.get(ticketPickerIndex).code + " (" + tickets.get(ticketPickerIndex).restrictionText + ")";
 
-				TextView ticketDetails = (TextView) child.findViewById(R.id.ticket_details);
+				TextView travelerType = child.findViewById(R.id.traveler_type);
+				TextView originalPriceView = child.findViewById(R.id.original_price);
+				TextView priceView = child.findViewById(R.id.actual_price);
 				TextView ticketCount = (TextView) child.findViewById(R.id.ticket_count);
 				ImageButton addTicketView = (ImageButton) child.findViewById(R.id.ticket_add);
 
@@ -270,7 +290,12 @@ public class LXTicketSelectionWidgetTest {
 					expectedTicketCount = activity.getResources().getInteger(R.integer.lx_offer_ticket_default_count);
 				}
 				assertEquals(String.valueOf(expectedTicketCount), ticketCount.getText());
-				assertEquals(expectedDetails, ticketDetails.getText());
+				assertEquals(expectedDetails, travelerType.getText());
+				// If condition is required because when the originalPrice = 0, the text of the view does not get updated, causing the test to fail
+				if (!"$0".equals(expectedOriginalPrice)) {
+					assertEquals(expectedOriginalPrice, originalPriceView.getText().toString());
+				}
+				assertEquals(expectedTotalPrice, priceView.getText());
 				ticketPickerIndex++;
 
 				addTicketView.performClick();
@@ -282,8 +307,7 @@ public class LXTicketSelectionWidgetTest {
 		String expectedDescription = "Offer Description";
 		String expectedAmountWithCurrency = new Money(expectedTotalAmount, tickets.get(0).money.getCurrency())
 			.getFormattedMoney();
-		String expectedBookText = String
-			.format(activity.getResources().getString(R.string.offer_book_now_TEMPLATE), expectedAmountWithCurrency);
+		String expectedBookText = activity.getResources().getString(R.string.offer_book_now_button);
 		Button bookButton = (Button) widget.findViewById(R.id.lx_book_now);
 		TextView titleText = (TextView) widget.findViewById(R.id.offer_title);
 		LXOfferDescription descriptionWidget = (LXOfferDescription) widget.findViewById(R.id.offer_description);
@@ -323,6 +347,7 @@ public class LXTicketSelectionWidgetTest {
 		Ticket testTicket = new Ticket();
 		testTicket.code = LXTicketType.Adult;
 		testTicket.money = new Money("40", "USD");
+		testTicket.originalPriceMoney = new Money("80", "USD");
 		testTicket.restrictionText = "13+ years";
 		tickets.add(testTicket);
 		availabilityInfo.tickets = tickets;
@@ -335,12 +360,14 @@ public class LXTicketSelectionWidgetTest {
 		Ticket adultTicket = new Ticket();
 		adultTicket.code = LXTicketType.Adult;
 		adultTicket.money = new Money("40", "USD");
+		adultTicket.originalPriceMoney = new Money("0", "USD");
 		adultTicket.restrictionText = "13+ years";
 		tickets.add(adultTicket);
 
 		Ticket childTicket = new Ticket();
 		childTicket.code = LXTicketType.Child;
 		childTicket.money = new Money("30", "USD");
+		childTicket.originalPriceMoney = new Money("45", "USD");
 		childTicket.restrictionText = "4-12 years";
 		tickets.add(childTicket);
 

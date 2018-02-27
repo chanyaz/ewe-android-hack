@@ -15,7 +15,6 @@ import com.expedia.bookings.data.lx.AvailabilityInfo;
 import com.expedia.bookings.data.lx.LXRedemptionType;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
-import com.expedia.bookings.features.Features;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.AccessibilityUtil;
@@ -203,53 +202,45 @@ public class LXTicketSelectionWidget extends LinearLayout {
 					.format()
 					.toString());
 
-			if (Features.Companion.getAll().getLxRedesign().enabled()) {
-				Money originalAmount = LXUtils.getTotalOriginalAmount(selectedTickets);
-				Money totalAmount = LXUtils.getTotalAmount(selectedTickets);
-				int discountPercentage = LXUtils.getDiscountPercentValue(totalAmount.getAmount(), originalAmount.getAmount());
+			Money originalAmount = LXUtils.getTotalOriginalAmount(selectedTickets);
+			Money totalAmount = LXUtils.getTotalAmount(selectedTickets);
+			int discountPercentage = LXUtils.getDiscountPercentValue(totalAmount.getAmount(), originalAmount.getAmount());
 
-				if (!originalAmount.getAmount().equals(BigDecimal.ZERO)) {
-					strikeThroughPrice.setText(HtmlCompat.fromHtml(
-							getContext().getString(R.string.strike_template,
-							originalAmount.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)),
-							null,
-							new StrikethroughTagHandler()));
-					strikeThroughPrice.setVisibility(VISIBLE);
-				}
-				else {
-					strikeThroughPrice.setVisibility(GONE);
-				}
-				actualPrice.setText(totalAmount.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL));
-				String priceSummaryContDescr;
-
-				if (discountPercentage >= Constants.LX_MIN_DISCOUNT_PERCENTAGE) {
-					discountPercentageView.setText(Phrase.from(getContext(), R.string.lx_discount_percentage_text_TEMPLATE)
-							.put("discount", discountPercentage)
-							.format());
-					priceSummaryContDescr = Phrase.from(getContext(), R.string.activity_price_with_discount_cont_desc_TEMPLATE)
-							.put("activity_price", totalAmount.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL))
-							.put("original_price", originalAmount.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL))
-							.put("discount", discountPercentage)
-							.format()
-							.toString();
-					discountPercentageView.setVisibility(View.VISIBLE);
-				}
-				else {
-					discountPercentageView.setVisibility(View.GONE);
-					priceSummaryContDescr = Phrase.from(getContext(), R.string.activity_price_without_discount_cont_desc_TEMPLATE)
-							.put("activity_price", totalAmount.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL))
-							.format()
-							.toString();
-				}
-
-				actualPrice.setContentDescription(priceSummaryContDescr);
-				priceSummaryContainer.setVisibility(View.VISIBLE);
+			if (!originalAmount.getAmount().equals(BigDecimal.ZERO)) {
+				strikeThroughPrice.setText(HtmlCompat.fromHtml(
+						getContext().getString(R.string.strike_template,
+								originalAmount.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)),
+						null,
+						new StrikethroughTagHandler()));
+				strikeThroughPrice.setVisibility(VISIBLE);
 			}
 			else {
-				bookNow.setText(String.format(getResources().getString(R.string.offer_book_now_TEMPLATE),
-					LXUtils.getTotalAmount(selectedTickets).getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)));
-				priceSummaryContainer.setVisibility(View.GONE);
+				strikeThroughPrice.setVisibility(GONE);
 			}
+			actualPrice.setText(totalAmount.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL));
+			String priceSummaryContDescr;
+
+			if (discountPercentage >= Constants.LX_MIN_DISCOUNT_PERCENTAGE) {
+				discountPercentageView.setText(Phrase.from(getContext(), R.string.lx_discount_percentage_text_TEMPLATE)
+						.put("discount", discountPercentage)
+						.format());
+				priceSummaryContDescr = Phrase.from(getContext(), R.string.activity_price_with_discount_cont_desc_TEMPLATE)
+						.put("activity_price", totalAmount.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL))
+						.put("original_price", originalAmount.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL))
+						.put("discount", discountPercentage)
+						.format()
+						.toString();
+				discountPercentageView.setVisibility(View.VISIBLE);
+			}
+			else {
+				discountPercentageView.setVisibility(View.GONE);
+				priceSummaryContDescr = Phrase.from(getContext(), R.string.activity_price_without_discount_cont_desc_TEMPLATE)
+						.put("activity_price", totalAmount.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL))
+						.format()
+						.toString();
+			}
+
+			actualPrice.setContentDescription(priceSummaryContDescr);
 		}
 	}
 

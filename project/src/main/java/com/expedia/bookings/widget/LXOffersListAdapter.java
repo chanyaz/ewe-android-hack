@@ -8,18 +8,15 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
-import com.expedia.bookings.features.Features;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.LXDataUtils;
-import com.expedia.bookings.utils.Strings;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -105,9 +102,6 @@ public class LXOffersListAdapter extends BaseAdapter {
 		@InjectView(R.id.offer_title)
 		TextView offerTitle;
 
-		@InjectView(R.id.price_summary)
-		TextView priceSummary;
-
 		@InjectView(R.id.select_tickets)
 		Button selectTickets;
 
@@ -142,32 +136,9 @@ public class LXOffersListAdapter extends BaseAdapter {
 			FontCache.setTypeface(selectTickets, FontCache.Font.ROBOTO_REGULAR);
 			FontCache.setTypeface(bookNow, FontCache.Font.ROBOTO_REGULAR);
 			ticketSelectionWidget.bind(offer, isGroundTransport);
-			if (Features.Companion.getAll().getLxRedesign().enabled()) {
-				for (Ticket ticket : offer.availabilityInfoOfSelectedDate.tickets) {
-					LXDataUtils.addPriceSummaryRow(itemView.getContext(), priceSummaryContainer, ticket);
-					priceSummaryContainer.setVisibility(View.VISIBLE);
-					priceSummary.setVisibility(View.GONE);
-				}
-			}
-			else {
-				List<String> priceSummaries = new ArrayList<>();
-
-				Money ticketPerTraveller;
-				for (Ticket ticket : offer.availabilityInfoOfSelectedDate.tickets) {
-					if (ticket.prices == null) {
-						ticketPerTraveller = ticket.money;
-					}
-					else {
-						ticketPerTraveller = ticket.prices.get(0).money;
-					}
-					priceSummaries.add(String.format("%s %s",
-							ticketPerTraveller.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL),
-						LXDataUtils.ticketDisplayName(itemView.getContext(), ticket.code)));
-				}
-				String priceSummaryText = Strings.joinWithoutEmpties(", ", priceSummaries);
-				priceSummary.setText(priceSummaryText);
-				priceSummary.setVisibility(View.VISIBLE);
-				priceSummaryContainer.setVisibility(View.GONE);
+			for (Ticket ticket : offer.availabilityInfoOfSelectedDate.tickets) {
+				LXDataUtils.addPriceSummaryRow(itemView.getContext(), priceSummaryContainer, ticket);
+				priceSummaryContainer.setVisibility(View.VISIBLE);
 			}
 			ticketSelectionWidget.buildTicketPickers(offer.availabilityInfoOfSelectedDate);
 

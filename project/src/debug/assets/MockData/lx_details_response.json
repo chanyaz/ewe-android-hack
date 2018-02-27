@@ -383,9 +383,9 @@
             "min": 16
           },
           "price": "$45",
-          "originalPrice": "",
+          "originalPrice": "$50",
           "amount": "45.00",
-          "originalAmount": "",
+          "originalAmount": "50.00",
           "displayName": null,
           "defaultTicketCount": 1
         }, {

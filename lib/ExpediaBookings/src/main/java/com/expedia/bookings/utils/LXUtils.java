@@ -110,7 +110,7 @@ public class LXUtils {
 	}
 
 	public static int getDiscountPercentValue(BigDecimal discountedAmount, BigDecimal originalAmount) {
-		if (originalAmount.equals(BigDecimal.ZERO)) {
+		if (originalAmount.equals(BigDecimal.ZERO) || originalAmount.intValue() < discountedAmount.intValue()) {
 			return 0;
 		}
 

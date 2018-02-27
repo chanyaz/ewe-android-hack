@@ -54,6 +54,7 @@ class LXActivityDetailsWidgetTest {
         val eventLocation = details.findViewById<View>(R.id.event_location)
         val redemptionLocation = details.findViewById<View>(R.id.redemption_location)
         val infositeMap = details.findViewById<View>(R.id.map_click_container)
+        val discountContainer = details.findViewById<View>(R.id.discount_container)
 
         assertNotNull(activityGallery)
         assertNotNull(description)
@@ -68,6 +69,7 @@ class LXActivityDetailsWidgetTest {
         assertNotNull(eventLocation)
         assertNotNull(redemptionLocation)
         assertNotNull(infositeMap)
+        assertNotNull(discountContainer)
     }
 
     @Test
@@ -132,10 +134,16 @@ class LXActivityDetailsWidgetTest {
         val count = container.childCount
 
         val offerTitleOne = offerOne.findViewById<View>(R.id.offer_title) as TextView
-        val offerPriceSummaryOne = offerOne.findViewById<View>(R.id.price_summary) as TextView
+        val offerPriceSummaryContainerOne = offerOne.findViewById<View>(R.id.activity_price_summary_container) as LinearLayout
+        val offerPriceSummaryRowOne = offerPriceSummaryContainerOne.getChildAt(0)
+        val originalPriceViewOne = offerPriceSummaryRowOne.findViewById<View>(R.id.strike_through_price) as TextView
+        val priceViewOne = offerPriceSummaryRowOne.findViewById<View>(R.id.traveler_price) as TextView
 
         val offerTitleTwo = offerTwo.findViewById<View>(R.id.offer_title) as TextView
-        val offerPriceSummaryTwo = offerTwo.findViewById<View>(R.id.price_summary) as TextView
+        val offerPriceSummaryContainerTwo = offerTwo.findViewById<View>(R.id.activity_price_summary_container) as LinearLayout
+        val offerPriceSummaryRowTwo = offerPriceSummaryContainerTwo.getChildAt(0)
+        val originalPriceViewTwo = offerPriceSummaryRowTwo.findViewById<View>(R.id.strike_through_price) as TextView
+        val priceViewTwo = offerPriceSummaryRowTwo.findViewById<View>(R.id.traveler_price) as TextView
         val offerSelectTicketTwo = offerTwo.findViewById<View>(R.id.select_tickets) as Button
         val offerRowTwo = offerTwo.findViewById<View>(R.id.offer_row) as LinearLayout
 
@@ -144,11 +152,13 @@ class LXActivityDetailsWidgetTest {
 
         // First Offer
         assertEquals("1-Day Ticket", offerTitleOne.text.toString())
-        assertEquals("$45 Adult, $25 Child", offerPriceSummaryOne.text.toString())
+        assertEquals("$50", originalPriceViewOne.text.toString())
+        assertEquals("$45/Adult", priceViewOne.text.toString())
 
         // Second Offer
         assertEquals("2-Day Ticket", offerTitleTwo.text.toString())
-        assertEquals("$55 Adult, $35 Child", offerPriceSummaryTwo.text.toString())
+        assertEquals("", originalPriceViewTwo.text.toString())
+        assertEquals("$55/Adult", priceViewTwo.text.toString())
         assertEquals(offerRowTwo.visibility, View.VISIBLE)
         offerSelectTicketTwo.performClick()
 
@@ -204,6 +214,7 @@ class LXActivityDetailsWidgetTest {
             for (availabilityInfo in offer.availabilityInfo) {
                 for (ticket in availabilityInfo.tickets) {
                     ticket.money = Money(ticket.amount, "USD")
+                    ticket.originalPriceMoney = Money(ticket.originalAmount, "USD")
                 }
             }
         }

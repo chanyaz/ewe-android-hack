@@ -12,22 +12,12 @@
     android:paddingTop="4dp"
     android:paddingBottom="5dp">
 
-    <TextView
-        android:id="@+id/ticket_details"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight=".8"
-        android:textColor="@color/lx_ticket_summary_color"
-        android:textSize="12dp"
-        android:visibility="gone"/>
-
     <LinearLayout
         android:id="@+id/ticket_details_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_weight=".8"
-        android:visibility="gone">
+        android:layout_weight=".8">
 
         <TextView
             android:id="@+id/traveler_type"
