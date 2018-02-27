@@ -1,7 +1,6 @@
 package com.expedia.bookings.server;
 
 import android.annotation.SuppressLint;
-import android.app.ActivityManager;
 import android.content.Context;
 import android.text.TextUtils;
 
@@ -10,16 +9,8 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.AssociateUserToTripResponse;
-import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightSearchParams;
-import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightStatsFlightResponse;
-import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.Itinerary;
-import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.Response;
@@ -27,21 +18,17 @@ import com.expedia.bookings.data.ReviewSort;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.RoutesResponse;
 import com.expedia.bookings.data.SignInResponse;
-import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.Traveler.AssistanceType;
 import com.expedia.bookings.data.Traveler.Gender;
 import com.expedia.bookings.data.TravelerCommitResponse;
 import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.data.trips.TripResponse;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.services.PersistentCookiesCookieJar;
-import com.expedia.bookings.utils.BookingSuppressionUtils;
-import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.OKHttpClientFactory;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.Strings;
@@ -59,7 +46,6 @@ import com.mobiata.flightlib.data.FlightCode;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.json.JSONObject;
@@ -105,8 +91,6 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 	public static final int REVIEWS_PER_PAGE = 25;
 
 	public static final int HOTEL_MAX_RESULTS = 200;
-
-	public static final int FLIGHT_MAX_TRIPS = 1600;
 
 	// Flags for getE3EndpointUrl()
 	public static final int F_HOTELS = 4;
@@ -205,131 +189,6 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 		addCommonParams(query);
 
 		return doFlightsRequest("api/flight/airportDropDown", query, new RoutesResponseHandler(mContext), 0);
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Expedia Flights API
-	//
-	// Documentation: http://www.expedia.com/static/mobile/APIConsole/flight.html
-
-	public FlightSearchResponse flightSearch(FlightSearchParams params, int flags) {
-		List<BasicNameValuePair> query = generateFlightSearchParams(params);
-		return doFlightsRequest("api/flight/search", query, new StreamingFlightSearchResponseHandler(mContext), flags);
-	}
-
-	public List<BasicNameValuePair> generateFlightSearchParams(FlightSearchParams params) {
-		List<BasicNameValuePair> query = new ArrayList<>();
-
-		// This code currently assumes that you are either making a one-way or round trip flight,
-		// even though FlightSearchParams can be configured to handle multi-leg flights.
-		//
-		// Once e3 can handle these as well, we will want to update this code.
-		query.add(new BasicNameValuePair("departureAirport", params.getDepartureLocation().getDestinationId()));
-		query.add(new BasicNameValuePair("arrivalAirport", params.getArrivalLocation().getDestinationId()));
-
-		DateTimeFormatter dtf = ISODateTimeFormat.date();
-
-		query.add(new BasicNameValuePair("departureDate", dtf.print(params.getDepartureDate())));
-
-		if (params.isRoundTrip()) {
-			query.add(new BasicNameValuePair("returnDate", dtf.print(params.getReturnDate())));
-		}
-
-		query.add(new BasicNameValuePair("numberOfAdultTravelers", Integer.toString(params.getNumAdults())));
-		addFlightChildTravelerParameters(query, params);
-
-		addCommonParams(query);
-
-		// Vary the max # of flights based on memory, so we don't run out.  Numbers are semi-educated guesses.
-		//
-		// TODO: Minimize the memory footprint so we don't have to keep doing this.
-		int maxOfferCount;
-		final int memClass = ((ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
-		if (memClass <= 24) {
-			maxOfferCount = 800;
-		}
-		else if (memClass <= 32) {
-			maxOfferCount = 1200;
-		}
-		else {
-			maxOfferCount = FLIGHT_MAX_TRIPS;
-		}
-
-		query.add(new BasicNameValuePair("maxOfferCount", Integer.toString(maxOfferCount)));
-
-		query.add(new BasicNameValuePair("lccAndMerchantFareCheckoutAllowed", "true"));
-
-		return query;
-	}
-
-	private void addFlightChildTravelerParameters(List<BasicNameValuePair> query, FlightSearchParams params) {
-		List<ChildTraveler> children = params.getChildren();
-		if (children != null) {
-			for (ChildTraveler child : children) {
-				query.add(new BasicNameValuePair("childTravelerAge", Integer.toString(child.getAge())));
-			}
-			query.add(new BasicNameValuePair("infantSeatingInLap", Boolean.toString(params.getInfantSeatingInLap())));
-		}
-	}
-
-	public List<BasicNameValuePair> generateFlightCheckoutParams(TripBucketItemFlight flightItem,
-		BillingInfo billingInfo, List<Traveler> travelers) {
-		FlightTrip flightTrip = flightItem.getFlightTrip();
-		Itinerary itinerary = flightItem.getItinerary();
-
-		List<BasicNameValuePair> query = new ArrayList<>();
-
-		query.add(new BasicNameValuePair("tripId", itinerary.getTripId()));
-		query.add(new BasicNameValuePair("expectedTotalFare", flightTrip.getTotalPrice().getAmount().toString() + ""));
-		query.add(new BasicNameValuePair("expectedFareCurrencyCode", flightTrip.getTotalPrice().getCurrency()));
-
-		Money cardFee = flightItem.getPaymentFee(billingInfo.getPaymentType(mContext));
-		if (cardFee != null) {
-			query.add(new BasicNameValuePair("expectedCardFee", cardFee.getAmount().toString() + ""));
-			query.add(new BasicNameValuePair("expectedCardFeeCurrencyCode", cardFee.getCurrency()));
-		}
-
-		addBillingInfo(query, billingInfo, F_HAS_TRAVELER);
-
-		String prefix;
-		for (int i = 0; i < travelers.size(); i++) {
-			if (i == 0) {
-				//NOTE: the values associated with mainFlightPassenger will take precedence over values in BillingInfo
-				prefix = "mainFlightPassenger.";
-			}
-			else {
-				prefix = "associatedFlightPassengers[" + Integer.toString(i - 1) + "].";
-			}
-			addFlightTraveler(query, travelers.get(i), prefix);
-		}
-
-		query.add(new BasicNameValuePair("validateWithChildren", "true"));
-
-		String nameOnCard = billingInfo.getNameOnCard();
-		if (!TextUtils.isEmpty(nameOnCard)) {
-			query.add(new BasicNameValuePair("nameOnCard", nameOnCard));
-		}
-
-		// Checkout calls without this flag can make ACTUAL bookings!
-		if (suppressFinalFlightBooking(mContext)) {
-			query.add(new BasicNameValuePair("suppressFinalBooking", "true"));
-		}
-
-		if (userStateManager.isUserAuthenticated()) {
-			query.add(new BasicNameValuePair("doIThinkImSignedIn", "true"));
-			query.add(new BasicNameValuePair("storeCreditCardInUserProfile",
-				billingInfo.getSaveCardToExpediaAccount() ? "true" : "false"));
-		}
-
-		addCommonParams(query);
-
-		return query;
-	}
-
-	// Suppress final bookings if we're not in release mode and the preference is set to suppress
-	private static boolean suppressFinalFlightBooking(Context context) {
-		return BookingSuppressionUtils
-			.shouldSuppressFinalBooking(context, R.string.preference_suppress_flight_bookings);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -584,78 +443,6 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 	private void addCommonFlightStatsParams(List<BasicNameValuePair> query) {
 		query.add(new BasicNameValuePair("appId", FS_FLEX_APP_ID));
 		query.add(new BasicNameValuePair("appKey", FS_FLEX_APP_KEY));
-	}
-
-	private void addBillingInfo(List<BasicNameValuePair> query, BillingInfo billingInfo, int flags) {
-		if ((flags & F_HAS_TRAVELER) == 0) {
-			// Don't add firstname/lastname if we're adding it through the traveler interface later
-			query.add(new BasicNameValuePair("firstName", billingInfo.getFirstName()));
-			query.add(new BasicNameValuePair("lastName", billingInfo.getLastName()));
-			query.add(new BasicNameValuePair("phoneCountryCode", billingInfo.getTelephoneCountryCode()));
-			query.add(new BasicNameValuePair("phone", billingInfo.getTelephone()));
-			query.add(new BasicNameValuePair("nameOnCard", billingInfo.getNameOnCard()));
-		}
-
-		query.add(new BasicNameValuePair("email", billingInfo.getEmail()));
-
-		StoredCreditCard scc = billingInfo.getStoredCard();
-		if (scc == null) {
-			Location location = billingInfo.getLocation();
-			if ((flags & F_HOTELS) != 0) {
-				// 130 Hotels reservation requires only postalCode for US POS, no billing info for other POS
-				if (location != null && !TextUtils.isEmpty(location.getPostalCode())) {
-					query.add(new BasicNameValuePair("postalCode", location.getPostalCode()));
-				}
-			}
-			else {
-				// F670: Location can be null if we are using a stored credit card
-				if (location != null && location.getStreetAddress() != null) {
-					String address = location.getStreetAddress().get(0);
-					if (!TextUtils.isEmpty(address)) {
-						query.add(new BasicNameValuePair("streetAddress", address));
-					}
-					if (location.getStreetAddress().size() > 1) {
-						String address2 = location.getStreetAddress().get(1);
-						if (!TextUtils.isEmpty(address2)) {
-							query.add(new BasicNameValuePair("streetAddress2", address2));
-						}
-					}
-					if (!TextUtils.isEmpty(location.getCity())) {
-						query.add(new BasicNameValuePair("city", location.getCity()));
-					}
-					if (!TextUtils.isEmpty(location.getStateCode())) {
-						query.add(new BasicNameValuePair("state", location.getStateCode()));
-					}
-					// #1056. Flights booking postalCode check depends on the billing country chosen during checkout.
-					if (!TextUtils.isEmpty(location.getPostalCode())) {
-						query.add(new BasicNameValuePair("postalCode", location.getPostalCode()));
-					}
-					query.add(new BasicNameValuePair("country", location.getCountryCode()));
-				}
-			}
-
-			query.add(new BasicNameValuePair("creditCardNumber", billingInfo.getNumber()));
-
-			LocalDate expDate = billingInfo.getExpirationDate();
-
-			query.add(new BasicNameValuePair("expirationDate", JodaUtils.format(expDate, "MMyy")));
-
-			// This is an alternative way of representing expiration date, used for Flights.
-			// Doesn't hurt to include both methods
-			query.add(new BasicNameValuePair("expirationDateYear", JodaUtils.format(expDate, "yyyy")));
-			query.add(new BasicNameValuePair("expirationDateMonth", JodaUtils.format(expDate, "MM")));
-		}
-		else {
-			query.add(new BasicNameValuePair("storedCreditCardId", billingInfo.getStoredCard().getId()));
-			/*
-			 *  The new checkout API requires this field.
-			 *  As of this comment, after signIn we only get the storedCreditCardId. The API has to also send us back it's associated nameOnCard.
-			 *  We have already filed a defect with the API team, for now let's just send the first and lastName.
-			 */
-			query.add(
-				new BasicNameValuePair("nameOnCard", billingInfo.getFirstName() + " " + billingInfo.getLastName()));
-		}
-		query.add(new BasicNameValuePair("cvv", billingInfo.getSecurityCode()));
 	}
 
 	private void addFlightTraveler(List<BasicNameValuePair> query, Traveler traveler, String prefix) {
