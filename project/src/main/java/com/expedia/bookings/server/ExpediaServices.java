@@ -450,7 +450,7 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 	//
 	// Documentation: https://www.expedia.com/static/mobile/APIConsole/trip.html
 
-	public TripResponse getTrips(boolean getCachedDetails) {
+	public TripResponse getTrips() {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 		addCommonParams(query);
 		query.add(new BasicNameValuePair("filterBookingStatus", "PENDING"));

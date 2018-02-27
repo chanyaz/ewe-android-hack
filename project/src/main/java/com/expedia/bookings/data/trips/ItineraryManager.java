@@ -1667,7 +1667,7 @@ public class ItineraryManager implements JSONable {
 				Log.d(LOGGING_TAG, "User is logged in, refreshing the user list.  Using cached details call: "
 					+ getCachedDetails);
 
-				TripResponse response = mServices.getTrips(getCachedDetails);
+				TripResponse response = mServices.getTrips();
 				OmnitureTracking.trackItinTripRefreshCallMade();
 
 				if (isCancelled()) {
