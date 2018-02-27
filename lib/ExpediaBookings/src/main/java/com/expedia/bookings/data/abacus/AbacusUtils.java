@@ -39,7 +39,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidLXNotifications = new ABTest(24888);
 	public static final ABTest EBAndroidAppSavedCoupons = new ABTest(16365, true);
 	public static final ABTest EBAndroidAppFlightsFiltersPriceAndLogo = new ABTest(24758, true);
-	public static final ABTest ExpediaAndroid_DownloadablefontsRoboto = new ABTest(25071);
+	public static final ABTest DownloadableFonts = new ABTest(25071, true);
 
 	// Rail tests
 	public static final ABTest EBAndroidRailHybridAppForDEEnabled = new ABTest(15102);
@@ -226,7 +226,7 @@ public class AbacusUtils {
 		testIDs.add(CardExpiryDateFormField.getKey());
 		testIDs.add(EBAndroidAppPackagesFlightCabinClass.getKey());
 		testIDs.add(EBAndroidAppTripsUserReviews.getKey());
-		testIDs.add(ExpediaAndroid_DownloadablefontsRoboto.getKey());
+		testIDs.add(DownloadableFonts.getKey());
 		return testIDs;
 	}
 

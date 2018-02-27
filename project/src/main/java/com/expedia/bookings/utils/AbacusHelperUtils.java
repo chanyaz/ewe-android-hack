@@ -19,8 +19,10 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.abacus.AbacusVariant;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.fonts.GoogleFontProvider;
 import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.services.PersistentCookiesCookieJar;
+import com.expedia.bookings.tracking.TimeSourceInMillis;
 import com.expedia.util.ForceBucketPref;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
@@ -83,6 +85,8 @@ public class AbacusHelperUtils {
 
 		Log.v("AbacusData", Db.sharedInstance.getAbacusResponse().toString());
 		Crashlytics.log(Db.sharedInstance.getAbacusResponse().toString());
+		FontCache.downloadFonts(context, new GoogleFontProvider(),
+			Ui.getApplication(context).appComponent().clientLog(), FontCache.getCachedFonts(), new TimeSourceInMillis());
 	}
 
 	@VisibleForTesting

@@ -120,6 +120,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 			query.addExperiment(AbacusUtils.EBAndroidAppBrandColors.getKey());
 			query.addExperiment(AbacusUtils.HotelEarn2xMessaging.getKey());
 			query.addExperiment(AbacusUtils.EBAndroidAppAccountsAPIKongEndPoint.getKey());
+			query.addExperiment(AbacusUtils.DownloadableFonts.getKey());
 		}
 
 		Ui.getApplication(this).appComponent().abacus()

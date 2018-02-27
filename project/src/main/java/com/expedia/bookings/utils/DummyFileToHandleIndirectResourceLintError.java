@@ -44,6 +44,9 @@ public class DummyFileToHandleIndirectResourceLintError {
 		R.bool.tablet,
 		R.string.recent_searched_location,
 		R.string.suggested_location,
-		R.string.suggested_location_list
+		R.string.suggested_location_list,
+		R.array.com_google_android_gms_fonts_certs,
+		R.array.com_google_android_gms_fonts_certs_dev,
+		R.array.com_google_android_gms_fonts_certs_prod
 	};
 }

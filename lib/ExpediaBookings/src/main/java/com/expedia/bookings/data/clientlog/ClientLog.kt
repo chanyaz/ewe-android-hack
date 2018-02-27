@@ -110,4 +110,29 @@ class ClientLog(val pageName: String?, val eventName: String?, val deviceName: S
             return ClientLog(pageName, null, null, null, null, null, requestToUser)
         }
     }
+
+    class FontDownloadTimeBuilder() {
+        private var responseTime: Long? = null
+        private var pageName: String? = null
+        private var fontName: String? = null
+
+        fun pageName(page: String?): ClientLog.FontDownloadTimeBuilder {
+            pageName = page
+            return this
+        }
+
+        fun responseTime(time: Long?): ClientLog.FontDownloadTimeBuilder {
+            responseTime = time
+            return this
+        }
+
+        fun fontName(font: String?): ClientLog.FontDownloadTimeBuilder {
+            fontName = font
+            return this
+        }
+
+        fun build(): ClientLog {
+            return ClientLog(pageName, fontName, null, null, responseTime, null, null)
+        }
+    }
 }
