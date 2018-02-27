@@ -19,7 +19,8 @@ class FlightResultsViewModel(context: Context, lob: LineOfBusiness) {
             AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsDeltaPricing)
     val doNotOverrideFilterButton = lob == LineOfBusiness.PACKAGES &&
             isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)
-
+    val showLoadingStateV1 = lob == LineOfBusiness.FLIGHTS_V2 &&
+            AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFLightLoadingStateV1)
     init {
         isOutboundResults.subscribe {
             airlineChargesFeesSubject.onNext(PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage())

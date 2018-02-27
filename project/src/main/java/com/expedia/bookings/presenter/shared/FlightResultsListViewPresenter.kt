@@ -5,7 +5,12 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewStub
+import android.view.animation.Animation
+import android.widget.ProgressBar
 import com.expedia.bookings.R
+import com.expedia.bookings.animation.AnimationListenerAdapter
+import com.expedia.bookings.animation.ProgressBarAnimation
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.extensions.subscribeInverseVisibility
 import com.expedia.bookings.presenter.Presenter
@@ -22,12 +27,16 @@ import com.expedia.vm.FlightResultsViewModel
 import com.expedia.vm.flights.SelectedOutboundFlightViewModel
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
+import com.expedia.bookings.widget.FlightLoadingWidget
 
 class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val recyclerView: FlightListRecyclerView by bindView(R.id.list_view)
     val dockedOutboundFlightShadow: View by bindView(R.id.docked_outbound_flight_widget_dropshadow)
     private val airlineChargesFeesTextView: TextView by bindView(R.id.airline_charges_fees_header)
     val filterButton: FlightFilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
+    private lateinit var flightLoader: ViewStub
+    private lateinit var flightLoadingWidget: FlightLoadingWidget
+    private lateinit var flightProgressBar: ProgressBar
     private lateinit var flightListAdapter: AbstractFlightListAdapter
     var trackScrollDepthSubscription: Disposable? = null
 
@@ -40,6 +49,8 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     var isShowingOutboundResults = false
     var showFilterButton = true
+
+    private val FLIGHT_PROGRESS_BAR_MAX = 600
 
     lateinit var dockedOutboundFlightSelection: View
 
@@ -85,7 +96,19 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     fun setLoadingState() {
         filterButton.visibility = GONE
+        if (isShowingOutboundResults && resultsViewModel.showLoadingStateV1 && Db.getFlightSearchParams() != null) {
+            showLoadingStateV1()
+        }
         flightListAdapter.setLoadingState()
+    }
+
+    private fun showLoadingStateV1() {
+        flightProgressBar = findViewById(R.id.flight_loader_progressBar)
+        flightLoadingWidget = findViewById(R.id.flight_loading_view)
+        flightLoadingWidget.setupLoadingState()
+        flightProgressBar.visibility = View.VISIBLE
+        flightProgressBar.max = FLIGHT_PROGRESS_BAR_MAX
+        progressBarAnimation(12000, 0f, 500f, false)
     }
 
     var resultsViewModel: FlightResultsViewModel by notNullAndObservable { vm ->
@@ -94,15 +117,41 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
         vm.isOutboundResults.subscribe { isShowingOutboundResults = it }
         vm.isOutboundResults.subscribeInverseVisibility(dockedOutboundFlightSelection)
         vm.isOutboundResults.subscribeInverseVisibility(dockedOutboundFlightShadow)
-
         vm.airlineChargesFeesSubject.subscribe { showAirlineChargesFees ->
             setPaymentLegalMessage(showAirlineChargesFees)
+        }
+        if (vm.showLoadingStateV1) {
+            flightLoader = findViewById(R.id.flight_loading_screen)
+            flightLoader.visibility = View.VISIBLE
         }
     }
 
     val listResultsObserver = endlessObserver<List<FlightLeg>> {
         flightListAdapter.setNewFlights(it)
+        if (resultsViewModel.showLoadingStateV1) {
+            if (isShowingOutboundResults) {
+                flightProgressBar.clearAnimation()
+                flightLoadingWidget.setResultReceived()
+                progressBarAnimation(1000, flightProgressBar.progress.toFloat(), FLIGHT_PROGRESS_BAR_MAX.toFloat(), true)
+            } else {
+                flightLoadingWidget.visibility = View.GONE
+            }
+        }
         filterButton.visibility = if (showFilterButton) View.VISIBLE else View.GONE
+    }
+
+    private fun progressBarAnimation(duration: Long, fromProgress: Float, toProgress: Float, resultsReceived: Boolean) {
+        val anim = ProgressBarAnimation(flightProgressBar, fromProgress, toProgress)
+        anim.duration = duration
+        flightProgressBar.startAnimation(anim)
+        if (resultsReceived) {
+            anim.setAnimationListener(object : AnimationListenerAdapter() {
+                override fun onAnimationEnd(animation: Animation?) {
+                    super.onAnimationEnd(animation)
+                    flightProgressBar.visibility = View.GONE
+                }
+            })
+        }
     }
 
     private fun setupFilterButton(doNotOverrideFilterButton: Boolean) {
