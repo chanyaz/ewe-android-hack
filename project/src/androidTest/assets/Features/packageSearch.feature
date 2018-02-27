@@ -405,8 +405,8 @@ Feature: Package Search
   @Packages @PackageSearch
   Scenario: UI fields validation for travellers on new revamp Traveler form
     Given I launch the App
-    And I bucket the following tests
-      | FlightTravelerFormRevamp |
+    And I set bucketing rules for A/B tests as
+      | EBAndroidAppFlightTravelerFormRevamp | BUCKETED              |
     And I launch "Bundle Deals" LOB
     When I enter source and destination for packages
       | source              | SFO                                    |

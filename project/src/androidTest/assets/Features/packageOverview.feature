@@ -218,8 +218,8 @@ Feature: Package Overview
   @Packages @PackageOverview
   Scenario: Validate that close and edit icons are present when PackagesBackFlowFromOverview is controlled
     Given I launch the App
-    And I put following tests in control
-      | PackagesBackFlowFromOverview |
+    And I set bucketing rules for A/B tests as
+      | PackagesBackFlowFromOverview | CONTROL |
     And I launch "Bundle Deals" LOB
     When I make a packages search with following parameters
       | source                | SFO                                                |
@@ -242,8 +242,8 @@ Feature: Package Overview
   @Packages @PackageOverview
   Scenario: Validate that Back and edit icons are present when PackagesBackFlowFromOverview is bucketed
     Given I launch the App
-    And I bucket the following tests
-      | PackagesBackFlowFromOverview |
+    And I set bucketing rules for A/B tests as
+      | PackagesBackFlowFromOverview | BUCKETED                                    |
     And I launch "Bundle Deals" LOB
     When I make a packages search with following parameters
       | source                | SFO                                                |
@@ -266,8 +266,8 @@ Feature: Package Overview
   @Packages @PackageOverview
   Scenario: Validate bundle Package Overview Screen details shows seating class
       Given I launch the App
-      And I bucket the following tests
-        | EBAndroidAppPackagesDisplayFlightSeatingClass |
+      And I set bucketing rules for A/B tests as
+        | EBAndroidAppPackagesDisplayFlightSeatingClass | BUCKETED                 |
       And I launch "Bundle Deals" LOB
       When I make a packages search with following parameters
         | source              | KTM                            |

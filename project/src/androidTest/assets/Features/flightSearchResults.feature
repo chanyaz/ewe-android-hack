@@ -256,8 +256,8 @@ Feature: Flights Search Results
   @Flights @EBOnlySet2
   Scenario: Validate that XSell Package Banner is displayed for Round Trip, Economy and UK/US POS
     Given I launch the App
-    And I bucket the following tests
-      | FlightXSellPackage  |
+    And I set bucketing rules for A/B tests as
+      | EBAndroidAppFlightsCrossSellPackageOnFSR | BUCKETED            |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |
@@ -286,8 +286,8 @@ Feature: Flights Search Results
   Scenario: Validate that XSell Package Banner is not displayed for POS other than UK/US POS
     Given I launch the App
     And I set the POS to "Australia"
-    And I bucket the following tests
-      | FlightXSellPackage  |
+    And I set bucketing rules for A/B tests as
+      | EBAndroidAppFlightsCrossSellPackageOnFSR | BUCKETED            |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |
@@ -305,8 +305,8 @@ Feature: Flights Search Results
   @Flights @EBOnlySet2
   Scenario: Validate that XSell Package Banner is not displayed for Cabin Class other than Economy
     Given I launch the App
-    And I bucket the following tests
-      | FlightXSellPackage  |
+    And I set bucketing rules for A/B tests as
+      | EBAndroidAppFlightsCrossSellPackageOnFSR | BUCKETED            |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |
@@ -324,8 +324,8 @@ Feature: Flights Search Results
   @Flights @EBOnlySet1
   Scenario: Validate that XSell Package Banner is not displayed for One Way Flights
     Given I launch the App
-    And I bucket the following tests
-      | FlightXSellPackage  |
+    And I set bucketing rules for A/B tests as
+      | EBAndroidAppFlightsCrossSellPackageOnFSR | BUCKETED            |
     And I launch "Flights" LOB
     And I select one way trip
     When I enter source and destination for flights
@@ -346,8 +346,8 @@ Feature: Flights Search Results
   @Flights @Prod @EBOnlySet2
   Scenario: Intercept getPackages API call after hitting XSell Package Banner and validate request parameters
     Given I launch the App
-    And I bucket the following tests
-      | FlightXSellPackage  |
+    And I set bucketing rules for A/B tests as
+      | EBAndroidAppFlightsCrossSellPackageOnFSR | BUCKETED            |
     And I want to intercept these calls for packages
       | GetPackagesV1       |
     And I launch "Flights" LOB
@@ -380,8 +380,8 @@ Feature: Flights Search Results
   @Flights @EBOnlySet1
   Scenario: Intercept getPackages API call after hitting XSell Package Banner and validate request parameters with modifying parameters
     Given I launch the App
-    And I bucket the following tests
-      | FlightXSellPackage  |
+    And I set bucketing rules for A/B tests as
+      | EBAndroidAppFlightsCrossSellPackageOnFSR | BUCKETED            |
     And I want to intercept these calls for packages
       | GetPackagesV1       |
     And I launch "Flights" LOB

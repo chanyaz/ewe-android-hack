@@ -73,8 +73,8 @@ Feature: Flights Search
     Scenario: Verify International search works with BYOT
 
     Given I launch the App
-    And I bucket the following tests
-      | FlightByotSearch |
+    And I set bucketing rules for A/B tests as
+      | EBAndroidAppFlightByotSearch | BUCKETED                        |
     And I launch "Flights" LOB
     When I enter source and destination for flights
       | source              | SFO                                      |
@@ -96,8 +96,8 @@ Feature: Flights Search
   Scenario: Verifying if one way International search works when user is bucketed in BYOT
 
     Given I launch the App
-    And I bucket the following tests
-      | FlightByotSearch |
+    And I set bucketing rules for A/B tests as
+      | EBAndroidAppFlightByotSearch | BUCKETED                        |
     And I launch "Flights" LOB
     And I select one way trip
     When I enter source and destination for flights
@@ -341,8 +341,6 @@ Feature: Flights Search
   @Flights @FlightSearchSet1 @Prod
   Scenario: Verify user is able to select preferred class while booking flight for one way trip under AB test
     Given I launch the App
-    And I bucket the following tests
-      |FlightPremiumClass|
     And I launch "Flights" LOB
     And I select one way trip
     When I enter source and destination for flights
@@ -426,9 +424,8 @@ Feature: Flights Search
 @Flights @FlightSearchSet3 @Prod
   Scenario Outline: Verify if preferred class search works for one-way trip
   Given I launch the App
-  And I bucket the following tests
-    |FlightPremiumClass|
-    |FlightShowMoreInfo|
+  And I set bucketing rules for A/B tests as
+    | EBAndroidAppFlightsMoreInfoOnOverview | BUCKETED               |
   And I launch "Flights" LOB
   And I select one way trip
   When I enter source and destination for flights
@@ -462,9 +459,8 @@ Feature: Flights Search
   @Flights @FlightSearchSet3 @Prod
   Scenario Outline: Verify if preferred class search works for round trip
     Given I launch the App
-    And I bucket the following tests
-      |FlightPremiumClass|
-      |FlightShowMoreInfo|
+    And I set bucketing rules for A/B tests as
+    | EBAndroidAppFlightsMoreInfoOnOverview | BUCKETED                 |
     And I launch "Flights" LOB
     When I enter source and destination for flights
       | source              | LAS - McCarran Intl.                     |

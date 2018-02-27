@@ -173,9 +173,9 @@ Feature: Flights Overview
   Scenario: Intercept Flight Search and Overview API call and validate request parameters for SubPub and Flex
     Given I launch the App
     And I set the POS to "Singapore"
-    And I bucket the following tests
-     | FlightSubpub |
-     | FlightFlex   |
+    And I set bucketing rules for A/B tests as
+     | EBAndroidAppFlightSubpubChange | BUCKETED                        |
+     | EBAndroidAppFlightFlexEnabled | BUCKETED                          |
     And I launch "Flights" LOB
     And I want to intercept these calls
      | FlightSearch |
@@ -213,8 +213,8 @@ Feature: Flights Overview
   @Flights @FlightsOverviewSet2
   Scenario: Verify price details on cost summary popup on Flights Overview for Subpub.
     Given I launch the App
-    And I bucket the following tests
-         | FlightSubpub |
+    And I set bucketing rules for A/B tests as
+      | EBAndroidAppFlightSubpubChange | BUCKETED                      |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |
@@ -244,8 +244,8 @@ Feature: Flights Overview
   @Flights @FlightsOverviewSet2
   Scenario: Verify the price decrease dialog box appears on price change.
     Given I launch the App
-    And I put following tests in control
-      | FlightsCrossSellPackage |
+    And I set bucketing rules for A/B tests as
+      | EBAndroidAppFlightsCrossSellPackageOnFSR | CONTROL             |
     And I launch "Flights" LOB
     And I select one way trip
     When I enter source and destination for flights
@@ -269,8 +269,8 @@ Feature: Flights Overview
   @Flights @FlightsOverviewSet2
   Scenario: Verify the price increase dialog box appears on price change.
     Given I launch the App
-    And I put following tests in control
-      | FlightsCrossSellPackage |
+    And I set bucketing rules for A/B tests as
+      | EBAndroidAppFlightsCrossSellPackageOnFSR | CONTROL             |
     And I launch "Flights" LOB
     And I select one way trip
     When I enter source and destination for flights
@@ -293,8 +293,8 @@ Feature: Flights Overview
     @Flights @FlightsOverviewSet2
     Scenario: Verify the "sold out flights" scenario.
       Given I launch the App
-      And I put following tests in control
-        | FlightsCrossSellPackage |
+      And I set bucketing rules for A/B tests as
+        | EBAndroidAppFlightsCrossSellPackageOnFSR | CONTROL             |
       And I launch "Flights" LOB
       And I select one way trip
       When I enter source and destination for flights
@@ -331,8 +331,8 @@ Feature: Flights Overview
   @Flights @FlightsOverviewSet2
   Scenario: Verify the "session time out" scenario.
     Given I launch the App
-    And I put following tests in control
-      | FlightsCrossSellPackage |
+    And I set bucketing rules for A/B tests as
+      | EBAndroidAppFlightsCrossSellPackageOnFSR | CONTROL             |
     And I launch "Flights" LOB
     And I select one way trip
     When I enter source and destination for flights
@@ -369,8 +369,8 @@ Feature: Flights Overview
   @Flights @FlightsOverviewSet1
   Scenario: Verify the "flight unavailable" scenario.
     Given I launch the App
-    And I put following tests in control
-      | FlightsCrossSellPackage |
+    And I set bucketing rules for A/B tests as
+      | EBAndroidAppFlightsCrossSellPackageOnFSR | CONTROL             |
     And I launch "Flights" LOB
     And I select one way trip
     When I enter source and destination for flights
@@ -407,8 +407,8 @@ Feature: Flights Overview
   @Flights @FlightsOverviewSet1
   Scenario: Verify the "unknown error" scenario.
     Given I launch the App
-    And I put following tests in control
-      | FlightsCrossSellPackage |
+    And I set bucketing rules for A/B tests as
+      | EBAndroidAppFlightsCrossSellPackageOnFSR | CONTROL             |
     And I launch "Flights" LOB
     And I select one way trip
     When I enter source and destination for flights

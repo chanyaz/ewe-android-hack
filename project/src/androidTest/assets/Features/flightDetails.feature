@@ -4,8 +4,8 @@ Feature: Flight Details on a seperate screen
   Scenario: Verify data consistency between outbound search and details screen on flights toolbar
 
     Given I launch the App
-    And I bucket the following tests
-      | FlightsSeatClassAndBookingCode |
+    And I set bucketing rules for A/B tests as
+      | EBAndroidAppFlightsSeatClassAndBookingCode | BUCKETED                          |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |

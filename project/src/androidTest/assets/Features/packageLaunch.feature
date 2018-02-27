@@ -34,8 +34,8 @@ Feature: Package Launch
   @Packages @Prod @EBOnlySet2
   Scenario Outline: UI validation if Packages Tab is present and clickable on Launch Screen for POSales under Abacus Test
     Given I set the POS to "<point_of_sale>"
-    And I bucket the following tests
-      | PackagesNewPOSLaunch |
+    And I set bucketing rules for A/B tests as
+      | EBAndroidAppPackagesEnablePOS | BUCKETED        |
     And I launch the App
     And I launch Package LOB with "<point_of_sale>" POS
     When I make a packages search with following parameters
