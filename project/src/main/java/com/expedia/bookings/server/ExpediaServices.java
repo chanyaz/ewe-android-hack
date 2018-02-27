@@ -11,11 +11,8 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.AssociateUserToTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightStatsFlightResponse;
-import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.Response;
-import com.expedia.bookings.data.ReviewSort;
-import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.RoutesResponse;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
@@ -87,8 +84,6 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 	private static final String FS_FLEX_APP_ID = "db824f8c";
 	private static final String FS_FLEX_APP_KEY = "6cf6ac9c083a45e93c6a290bf0cd442e";
 	private static final String FS_FLEX_BASE_URI = "https://api.flightstats.com/flex";
-
-	public static final int REVIEWS_PER_PAGE = 25;
 
 	public static final int HOTEL_MAX_RESULTS = 200;
 
@@ -570,39 +565,6 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// User Reviews API
-	//
-	// API Console: http://test.reviewsvc.expedia.com/APIConsole?segmentedapi=true
-
-	public ReviewsResponse reviews(Property property, ReviewSort sort, int pageNumber) {
-		return reviews(property, sort, pageNumber, REVIEWS_PER_PAGE);
-	}
-
-	public ReviewsResponse reviews(Property property, ReviewSort sort, int pageNumber, int numReviewsPerPage) {
-		List<BasicNameValuePair> params = new ArrayList<>();
-
-		params.add(new BasicNameValuePair("_type", "json"));
-		params.add(new BasicNameValuePair("sortBy", sort.getSortByApiParam()));
-		params.add(new BasicNameValuePair("start", Integer.toString(pageNumber * numReviewsPerPage)));
-		params.add(new BasicNameValuePair("items", Integer.toString(numReviewsPerPage)));
-		List<BasicNameValuePair> additionalParamsForReviewsRequest = ProductFlavorFeatureConfiguration.getInstance()
-			.getAdditionalParamsForReviewsRequest();
-		if (additionalParamsForReviewsRequest != null) {
-			for (BasicNameValuePair param : additionalParamsForReviewsRequest) {
-				params.add(param);
-			}
-		}
-		return doReviewsRequest(getReviewsUrl(property), params, new ReviewsResponseHandler());
-	}
-
-	private String getReviewsUrl(Property property) {
-		String url = mEndpointProvider.getReviewsEndpointUrl();
-		url += "api/hotelreviews/hotel/";
-		url += property.getPropertyId();
-		return url;
-	}
-
-	//////////////////////////////////////////////////////////////////////////
 	// Request code
 
 	private <T extends Response> T doFlightsRequest(String targetUrl, List<BasicNameValuePair> params,
@@ -685,15 +647,6 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 		ResponseHandler<T> responseHandler) {
 		Request.Builder base = createHttpGet(baseUrl, params);
 		return doRequest(base, responseHandler, F_IGNORE_COOKIES, new ArrayList<Interceptor>());
-	}
-
-	private <T extends Response> T doReviewsRequest(String url, List<BasicNameValuePair> params,
-		ResponseHandler<T> responseHandler) {
-		Request.Builder get = createHttpGet(url, params);
-
-		Log.d(TAG_REQUEST, "User reviews request: " + url + "?" + NetUtils.getParamsForLogging(params));
-
-		return doRequest(get, responseHandler, F_IGNORE_COOKIES, new ArrayList<Interceptor>());
 	}
 
 	private <T extends Response> T doRequest(Request.Builder request, ResponseHandler<T> responseHandler, int flags, List<Interceptor> interceptorList) {
