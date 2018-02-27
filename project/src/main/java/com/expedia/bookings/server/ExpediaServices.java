@@ -85,14 +85,9 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 	private static final String FS_FLEX_APP_KEY = "6cf6ac9c083a45e93c6a290bf0cd442e";
 	private static final String FS_FLEX_BASE_URI = "https://api.flightstats.com/flex";
 
-	public static final int HOTEL_MAX_RESULTS = 200;
-
 	// Flags for getE3EndpointUrl()
 	public static final int F_HOTELS = 4;
 	public static final int F_FLIGHTS = 8;
-
-	// Flags for addBillingInfo()
-	public static final int F_HAS_TRAVELER = 16;
 
 	// Flags for GET vs. POST
 	private static final int F_GET = 32;
@@ -101,15 +96,8 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 	// Skips all cookie sending/receiving
 	private static final int F_IGNORE_COOKIES = 128;
 
-	// Allows redirects.  You do not want this by default, as not following
-	// redirects has revealed issues in the past.
-	private static final int F_ALLOW_REDIRECT = 256;
-
 	// Flag to indicate that we don't need to add the Endpoint while making an E3request
 	public static final int F_DONT_ADD_ENDPOINT = 512;
-
-	// Indicator that this request came from the widget, for tracking purposes
-	public static final int F_FROM_WIDGET = 1024;
 
 	private Context mContext;
 
