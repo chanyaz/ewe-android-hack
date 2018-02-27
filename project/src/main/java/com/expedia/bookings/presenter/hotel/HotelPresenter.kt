@@ -326,8 +326,12 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             }
 
             override fun onNext(itinDetailsResponse: AbstractItinDetailsResponse) {
-                confirmationPresenter.hotelConfirmationViewModel.itinDetailsResponseObservable.onNext(itinDetailsResponse as HotelItinDetailsResponse)
-                show(confirmationPresenter, FLAG_CLEAR_BACKSTACK)
+                if (itinDetailsResponse.errors != null) {
+                    bookingSuccessDialog.show()
+                } else {
+                    confirmationPresenter.hotelConfirmationViewModel.itinDetailsResponseObservable.onNext(itinDetailsResponse as HotelItinDetailsResponse)
+                    show(confirmationPresenter, FLAG_CLEAR_BACKSTACK)
+                }
             }
 
             override fun onError(e: Throwable) {

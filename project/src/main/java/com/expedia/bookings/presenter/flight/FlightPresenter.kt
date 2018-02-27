@@ -866,11 +866,16 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             }
 
             override fun onNext(itinDetailsResponse: AbstractItinDetailsResponse) {
-                val flightItinDetailsResponse = itinDetailsResponse as FlightItinDetailsResponse
-                confirmationPresenter.showConfirmationInfoFromWebCheckoutView(flightItinDetailsResponse)
-                show(confirmationPresenter, FLAG_CLEAR_BACKSTACK)
-                pageUsableData.markAllViewsLoaded(System.currentTimeMillis())
-                OmnitureTracking.trackWebFlightCheckoutConfirmation(flightItinDetailsResponse, pageUsableData)
+                if (itinDetailsResponse.errors != null) {
+                    OmnitureTracking.trackFlightsBookingConfirmationDialog(pageUsableData)
+                    bookingSuccessDialog.show()
+                } else {
+                    val flightItinDetailsResponse = itinDetailsResponse as FlightItinDetailsResponse
+                    confirmationPresenter.showConfirmationInfoFromWebCheckoutView(flightItinDetailsResponse)
+                    show(confirmationPresenter, FLAG_CLEAR_BACKSTACK)
+                    pageUsableData.markAllViewsLoaded(System.currentTimeMillis())
+                    OmnitureTracking.trackWebFlightCheckoutConfirmation(flightItinDetailsResponse, pageUsableData)
+                }
             }
 
             override fun onError(e: Throwable) {

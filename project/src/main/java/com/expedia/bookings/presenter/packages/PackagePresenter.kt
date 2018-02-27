@@ -488,11 +488,16 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             }
 
             override fun onNext(itinDetailsResponse: AbstractItinDetailsResponse) {
-                val response = itinDetailsResponse as MIDItinDetailsResponse
-                confirmationPresenter.viewModel.itinDetailsResponseObservable.onNext(response)
-                show(confirmationPresenter, FLAG_CLEAR_BACKSTACK)
-                pageUsableData.markAllViewsLoaded(System.currentTimeMillis())
-                OmnitureTracking.trackMIDConfirmation(response, Db.sharedInstance.packageSelectedRoom.supplierType, pageUsableData)
+                if (itinDetailsResponse.errors != null) {
+                    bookingSuccessDialog.show()
+                    OmnitureTracking.trackMIDBookingConfirmationDialog(Db.sharedInstance.packageSelectedRoom.supplierType, pageUsableData)
+                } else {
+                    val response = itinDetailsResponse as MIDItinDetailsResponse
+                    confirmationPresenter.viewModel.itinDetailsResponseObservable.onNext(response)
+                    show(confirmationPresenter, FLAG_CLEAR_BACKSTACK)
+                    pageUsableData.markAllViewsLoaded(System.currentTimeMillis())
+                    OmnitureTracking.trackMIDConfirmation(response, Db.sharedInstance.packageSelectedRoom.supplierType, pageUsableData)
+                }
             }
 
             override fun onError(e: Throwable) {

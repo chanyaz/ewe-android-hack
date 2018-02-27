@@ -1,10 +1,10 @@
 package com.expedia.bookings.data
 
-import java.util.ArrayList
-
 abstract class AbstractItinDetailsResponse {
     var responseType: String? = null
-    val errors = ArrayList<ApiError>()
+    val errors: List<Error>? = null
+
+    class Error
 
     open class ResponseData {
         var levelOfDetail: String? = null
