@@ -1668,10 +1668,6 @@ public class ItineraryManager implements JSONable {
 			return true;
 		}
 
-		private boolean featureFlagForAsynchronousRefreshEnabled() {
-			return true;
-		}
-
 		// If the user is logged in, retrieve a listing of current trips for logged in user
 		private void refreshUserList() {
 			if (!userStateManager.isUserAuthenticated()) {
@@ -1772,19 +1768,8 @@ public class ItineraryManager implements JSONable {
 		private void gatherTrips() {
 			Log.i(LOGGING_TAG, "Gathering " + mTrips.values().size() + " trips...");
 
-			if (featureFlagForAsynchronousRefreshEnabled()) {
-				Log.i(LOGGING_TAG, "====REFRESH_ALL_TRIPS====");
-				mSyncOpQueue.add(new Task(Operation.REFRESH_ALL_TRIPS));
-			}
-			else {
-				for (Trip trip : mTrips.values()) {
-					mSyncOpQueue.add(new Task(Operation.REFRESH_TRIP, trip));
-
-					if (trip.isGuest() && trip.getLevelOfDetail() == LevelOfDetail.NONE) {
-						mGuestTripsNotYetLoaded.add(trip.getTripNumber());
-					}
-				}
-			}
+			Log.i(LOGGING_TAG, "====REFRESH_ALL_TRIPS====");
+			mSyncOpQueue.add(new Task(Operation.REFRESH_ALL_TRIPS));
 		}
 
 		private void deduplicateTrips() {
