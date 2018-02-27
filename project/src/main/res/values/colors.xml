@@ -148,12 +148,12 @@
     <color name="filter_dynamic_feedback_text">@color/gray600</color>
 
     <!-- Login -->
-    <color name="reward_base_tier_color">#085BA5</color>
+    <color name="reward_base_tier_color">#00355F</color>
     <color name="reward_base_tier_text_color">@color/white</color>
-    <color name="reward_middle_tier_color">#668193</color>
+    <color name="reward_middle_tier_color">#6B6B6B</color>
     <color name="reward_middle_tier_text_color">@color/white</color>
-    <color name="reward_top_tier_color">#FFC300</color>
-    <color name="reward_top_tier_text_color">#403f3f</color>
+    <color name="reward_top_tier_color">#E7B40D</color>
+    <color name="reward_top_tier_text_color">#1F1F1F</color>
 
     <!-- CVV entry colors -->
     <color name="cvv_normal">@color/white</color>
@@ -350,9 +350,9 @@
     <color name="hotelsv2_coupon_applied_color">@color/success_green</color>
 
     <!-- Signed in user tier colors -->
-    <color name="sign_in_user_base_tier">#085ba5</color>
-    <color name="sign_in_user_middle_tier">#808080</color>
-    <color name="sign_in_user_top_tier">#e7b40d</color>
+    <color name="sign_in_user_base_tier">@color/reward_base_tier_color</color>
+    <color name="sign_in_user_middle_tier">@color/reward_middle_tier_color</color>
+    <color name="sign_in_user_top_tier">@color/reward_top_tier_color</color>
 
     <!-- Error widget button colors -->
     <color name="error_widget_edit_button_selected_color">#7C7C7C</color>
