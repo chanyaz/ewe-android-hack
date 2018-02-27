@@ -19,7 +19,7 @@ import com.expedia.bookings.widget.BaseHotelFilterView
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.HotelClientFilterView
-import com.expedia.bookings.widget.HotelMapCarouselAdapter
+import com.expedia.bookings.hotel.widget.adapter.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.packages.BundleTotalPriceTopWidget
 import com.expedia.bookings.widget.packages.PackageHotelListAdapter
 import com.expedia.util.endlessObserver

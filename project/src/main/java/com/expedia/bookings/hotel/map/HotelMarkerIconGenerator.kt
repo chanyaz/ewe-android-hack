@@ -9,7 +9,7 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.extensions.isShowAirAttached
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.widget.priceFormatter
+import com.expedia.bookings.hotel.widget.adapter.priceFormatter
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.maps.android.ui.IconGenerator

@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget
+package com.expedia.bookings.hotel.widget.adapter
 
 import android.content.res.Resources
 import android.support.v7.widget.RecyclerView
@@ -21,6 +21,8 @@ import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.StarRatingBar
+import com.expedia.bookings.widget.TextView
 import com.expedia.util.endlessObserver
 import com.expedia.vm.hotel.HotelViewModel
 import com.mobiata.android.text.StrikethroughTagHandler

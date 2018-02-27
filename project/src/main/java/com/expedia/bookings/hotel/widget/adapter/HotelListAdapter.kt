@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget.hotel
+package com.expedia.bookings.hotel.widget.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,6 +8,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.widget.BaseHotelListAdapter
+import com.expedia.bookings.widget.hotel.HotelCellViewHolder
 import io.reactivex.subjects.PublishSubject
 
 class HotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, headerSubject: PublishSubject<Unit>, pricingHeaderSelectedSubject: PublishSubject<Unit>, canShow2xMessaging: Boolean = false) :

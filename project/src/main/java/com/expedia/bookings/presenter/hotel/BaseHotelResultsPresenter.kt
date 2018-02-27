@@ -59,7 +59,7 @@ import com.expedia.bookings.widget.BaseHotelFilterView
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.HotelCarouselRecycler
 import com.expedia.bookings.widget.HotelListRecyclerView
-import com.expedia.bookings.widget.HotelMapCarouselAdapter
+import com.expedia.bookings.hotel.widget.adapter.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.hotel.HotelResultsSortFaqWebView

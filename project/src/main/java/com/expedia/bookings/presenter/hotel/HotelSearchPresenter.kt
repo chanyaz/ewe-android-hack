@@ -20,7 +20,7 @@ import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.tracking.SuggestionTrackingData
 import com.expedia.bookings.hotel.widget.AdvancedSearchOptionsView
-import com.expedia.bookings.hotel.widget.HotelSuggestionAdapter
+import com.expedia.bookings.hotel.widget.adapter.HotelSuggestionAdapter
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseSearchPresenter
 import com.expedia.bookings.tracking.OmnitureTracking

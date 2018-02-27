@@ -1,4 +1,4 @@
-package com.expedia.bookings.hotel.widget
+package com.expedia.bookings.hotel.widget.adapter
 
 import android.support.v7.widget.RecyclerView
 import android.widget.LinearLayout

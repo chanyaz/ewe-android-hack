@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewConfiguration
 import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.hotel.widget.adapter.HotelMapCarouselAdapter
 import com.mobiata.android.util.AndroidUtils
 import io.reactivex.subjects.PublishSubject
 

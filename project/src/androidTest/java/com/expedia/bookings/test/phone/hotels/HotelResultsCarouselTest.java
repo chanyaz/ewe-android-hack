@@ -21,7 +21,7 @@ import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
 import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.widget.HotelCarouselRecycler;
-import com.expedia.bookings.widget.HotelMapCarouselAdapter;
+import com.expedia.bookings.hotel.widget.adapter.HotelMapCarouselAdapter;
 
 import io.reactivex.subjects.PublishSubject;
 

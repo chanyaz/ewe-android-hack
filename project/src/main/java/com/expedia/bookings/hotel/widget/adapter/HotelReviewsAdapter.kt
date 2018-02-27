@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget
+package com.expedia.bookings.hotel.widget.adapter
 
 import android.content.Context
 import android.support.v4.view.PagerAdapter
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelReviewsResponse.Review
 import com.expedia.bookings.data.hotels.ReviewSort
+import com.expedia.bookings.widget.HotelReviewsPageView
 import com.expedia.vm.HotelReviewsAdapterViewModel
 import com.expedia.vm.HotelReviewsPageViewModel
 

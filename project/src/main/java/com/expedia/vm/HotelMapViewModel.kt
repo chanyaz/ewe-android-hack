@@ -13,7 +13,7 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.utils.HotelsV2DataUtil
-import com.expedia.bookings.widget.priceFormatter
+import com.expedia.bookings.hotel.widget.adapter.priceFormatter
 import com.expedia.util.LoyaltyUtil
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase

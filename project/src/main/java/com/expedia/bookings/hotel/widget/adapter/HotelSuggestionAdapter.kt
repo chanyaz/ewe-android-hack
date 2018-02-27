@@ -1,4 +1,4 @@
-package com.expedia.bookings.hotel.widget
+package com.expedia.bookings.hotel.widget.adapter
 
 import android.content.Context
 import com.expedia.bookings.data.SuggestionV4

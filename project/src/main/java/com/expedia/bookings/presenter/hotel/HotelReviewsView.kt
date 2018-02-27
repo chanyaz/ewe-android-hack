@@ -13,7 +13,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.HotelReviewsAdapter
+import com.expedia.bookings.hotel.widget.adapter.HotelReviewsAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.HotelReviewsAdapterViewModel
 import com.expedia.vm.HotelReviewsViewModel

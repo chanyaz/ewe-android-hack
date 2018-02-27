@@ -1,10 +1,11 @@
-package com.expedia.bookings.hotel.widget
+package com.expedia.bookings.hotel.widget.adapter
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelMedia
+import com.expedia.bookings.hotel.widget.HotelDetailGalleryViewHolder
 import io.reactivex.subjects.PublishSubject
 
 class HotelDetailGalleryAdapter : RecyclerView.Adapter<HotelDetailGalleryViewHolder>() {

@@ -19,7 +19,7 @@ import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.priceFormatter
+import com.expedia.bookings.hotel.widget.adapter.priceFormatter
 import com.expedia.util.LoyaltyUtil
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject

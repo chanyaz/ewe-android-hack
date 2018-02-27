@@ -39,12 +39,12 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseHotelFilterView
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
-import com.expedia.bookings.widget.HotelMapCarouselAdapter
+import com.expedia.bookings.hotel.widget.adapter.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.HotelResultsChangeDateView
 import com.expedia.bookings.widget.HotelServerFilterView
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.widget.hotel.HotelListAdapter
+import com.expedia.bookings.hotel.widget.adapter.HotelListAdapter
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.ShopWithPointsViewModel

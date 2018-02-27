@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelMedia
+import com.expedia.bookings.hotel.widget.adapter.HotelDetailGalleryAdapter
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.RecyclerGallery
 import com.expedia.bookings.widget.TextView

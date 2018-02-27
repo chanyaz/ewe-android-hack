@@ -12,7 +12,7 @@ import com.expedia.bookings.hotel.util.HotelGalleryManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import android.support.v7.widget.GridLayoutManager
-import com.expedia.bookings.hotel.widget.HotelGalleryGridAdapter
+import com.expedia.bookings.hotel.widget.adapter.HotelGalleryGridAdapter
 import android.app.ActivityOptions
 import android.app.ActivityManager
 import android.content.ComponentCallbacks2
