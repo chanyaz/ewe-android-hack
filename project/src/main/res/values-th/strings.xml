@@ -95,6 +95,7 @@
         <item quantity="one">{number} ผลลัพธ์</item>
         <item quantity="other">{number} ผลลัพธ์</item>
     </plurals>
+
     <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
     <plurals name="number_results_announcement_text_TEMPLATE">
         <item quantity="one">{number} ผลลัพธ์ที่ถูกกรอง</item>
@@ -877,10 +878,6 @@
     <!-- Accessibility announcement when Return search screen is selected. -->
     <string name="rail_tab_roundtrip_selected_announcement">แสดงหน้าจอค้นหารถไฟขากลับ</string>
 
-    <!-- New launch screen -->
-    <!-- Search screen title -->
-    <string name="search_title">ค้นหา</string>
-
     <!--Meso destination ad card-->
     <string name="meso_destination_name_las_vegas">ลาสเวกัส</string>
     <string name="meso_destination_name_los_angeles">ลอสแองเจลิส</string>
@@ -927,15 +924,6 @@
     <string name="launch_upcoming_trips_signed_in">คุณมีทริปที่กำลังจะถึง!</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">ดูแผนการเดินทางได้ทุกที่ทุกเวลาและไม่พลาดทุกการเปลี่ยนแปลง</string>
-
-    <!-- Label for pro wizard bar on launch screen -->
-    <string name="search_hotels">ค้นหาโรงแรม</string>
-
-    <!-- Label for pro wizard bar on launch screen -->
-    <string name="search_hotels_and_flights">ค้นหาโรงแรมและเที่ยวบิน</string>
-
-    <!-- Label for super search bar at launch screen -->
-    <string name="search_hotels_flight_more">ค้นหาโรงแรม เที่ยวบิน และอีกมากมาย…</string>
 
     <!--Onboarding-->
     <string name="booking_page_title">จองได้ทุกที่ ทุกเวลา</string>
@@ -1457,6 +1445,8 @@
     <string name="itin_hotel_special_instruction_dialog_sub_title">คำแนะนำพิเศษ</string>
     <!--Button title for check-in policies and special instructions-->
     <string name="itin_hotel_check_in_policies_and_special_instruction">นโยบายการเช็คอินและคำแนะนำพิเศษ</string>
+    <!--Button title for special instructions-->
+    <string name="itin_hotel_special_instruction">คำแนะนำพิเศษ</string>
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">กฎการเปลี่ยนแปลงและยกเลิก</string>
     <!--Hotel itin manage booking room tabs title TEMPLATE. Room {number} (e.g., Room 1)-->
@@ -2725,13 +2715,13 @@
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <!-- new material Hotel results cell guest recommend-->
-    <string name="hotel_guest_recommend">จาก 5 - คะแนนจากผู้เข้าพัก</string>
+    <string name="hotel_guest_recommend">/5 - คะแนนจากผู้เข้าพัก</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
-    <string name="hotel_guest_recommend_good_superlative">จาก 5 - ดี!</string>
-    <string name="hotel_guest_recommend_very_good_superlative">จาก 5 - ดีมาก!</string>
-    <string name="hotel_guest_recommend_excellent_superlative">จาก 5 - ดีเลิศ!</string>
-    <string name="hotel_guest_recommend_wonderful_superlative">จาก 5 - ยอดเยี่ยม!</string>
-    <string name="hotel_guest_recommend_exceptional_superlative">จาก 5 - ยอดเยี่ยมที่สุด!</string>
+    <string name="hotel_guest_recommend_good_superlative">/5 - ดี!</string>
+    <string name="hotel_guest_recommend_very_good_superlative">/5 - ดีมาก!</string>
+    <string name="hotel_guest_recommend_excellent_superlative">/5 - ดีเลิศ!</string>
+    <string name="hotel_guest_recommend_wonderful_superlative">/5 - ยอดเยี่ยม!</string>
+    <string name="hotel_guest_recommend_exceptional_superlative">/5 - ไร้ที่ติ!</string>
 
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
@@ -3145,7 +3135,8 @@
     <!-- Dialog for pending points -->
     <string name="pending_points_info">คะแนนสะสมจะสามารถใช้ได้หลังการเดินทางสิ้นสุดลงภายในระยะเวลาดังต่อไปนี้:</string>
     <string name="pending_points_dialog_title">คะแนนรอดำเนินการ</string>
-    <string name="pending_points_button">ปุ่มคะแนน</string>
+    <!-- example: 7,253 pending points button -->
+    <string name="pending_points_TEMPLATE">ปุ่มเปิดรายละเอียดคะแนนรอดำเนินการ {loyalty_points} คะแนน</string>
     <string name="trip_type">ประเภทการเดินทาง</string>
     <string name="up_to">สูงสุด</string>
     <string name="activities">กิจกรรม</string>
@@ -4018,6 +4009,15 @@
     <string name="flight_one_stop_description">แวะพัก 1 ครั้ง</string>
     <!-- Flight Two stop description -->
     <string name="flight_two_plus_stops_description">แวะพักอย่างน้อย 2 ครั้ง</string>
+    <!-- Flight 1 result description -->
+    <string name="flight_one_filter_result_description">1 ผลการค้นหา</string>
+    <!-- Flight multiple result description Eg: 4 results -->
+    <string name="flight_filter_result_count_TEMPLATE">{count} ผลการค้นหา</string>
+    <!-- Flight 1 result with price description. Eg: 1 Result from $200  -->
+    <string name="count_with_price__for_one_result_TEMPLATE">1 ผลการค้นหา เริ่มที่ {price}</string>
+    <!-- Flight multiple results with price description. Eg: 4 Results from $200  -->
+    <string name="count_with_price_results_TEMPLATE">{number} ผลการค้นหา เริ่มที่ {price}</string>
+
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -4489,6 +4489,8 @@
     <string name="hotel_price_strike_through_cont_desc_TEMPLATE">ราคาปกติ {strikethroughprice}, เหลือ {price} \u0020</string>
     <!-- Hotel strike percentage content description. Example. Original price discounted 20%. -->
     <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">ส่วนลด {percentage} จากราคาเต็ม \u0020</string>
+    <!-- Hotel strike percentage content description. Example. Regularly $100, now $80. Original price discounted 20%. -->
+    <string name="hotel_price_strike_through_discount_percent_cont_desc_TEMPLATE">ราคาปกติ {strikethroughprice}, เหลือ {price}ส่วนลด {percentage} จากราคาเต็ม\u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">ดีลถูกเหลือเชื่อ {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Example. SFO to DTM. 3 hours 15 minutes. -->
@@ -4654,6 +4656,8 @@
     <string name="insurance_price_per_day">/วัน</string>
     <!-- Label to indicate price is per person e.g $10/person -->
     <string name="price_per_person">/คน</string>
+    <!-- Label to indicate price is per person e.g $10/person -->
+    <string name="price_per_person_TEMPLATE">{price}/คน</string>
 
     <!-- Content description for rating bar e.g. Rated 3 out of 5-->
     <string name="hotel_rating_bar_cont_desc_TEMPLATE">ได้รับ {rating} เต็ม 5 คะแนน</string>
@@ -4701,6 +4705,8 @@
     <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}, {subtitle}, ปุ่มป้อนรายละเอียดผู้เดินทาง</string>
     <!--Packages accessibility content description for role Button-->
     <string name="accessibility_cont_desc_role_button">ปุ่ม</string>
+    <!--Packages accessibility content description for role Button e.g. Close Button-->
+    <string name="accessibility_cont_desc_role_button_TEMPLATE">ปุ่ม{button_label}</string>
     <!--Packages accessibility content description for purchase Button-->
     <string name="accessibility_cont_desc_role_purchase_button">ปุ่มจอง</string>
     <!--Packages accessibility content description for role - Button to expand -->
@@ -5001,5 +5007,7 @@
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">ราคาปกติ{ticket_type} {activity_original_price} ราคารวมส่วนลด{ticket_type} {activity_price}</string>
     <string name="hotel_2x_points_search_title">คะแนน Expedia+ สองเท่า!</string>
     <string name="hotel_2x_points_search_content">คุณจะได้รับคะแนนเป็นสองเท่าเมื่อจองผ่านแอพ!</string>
+    <!-- Recent search header string -->
+    <string name="flight_recent_search_label">การค้นหาล่าสุด</string>
 
 </resources>

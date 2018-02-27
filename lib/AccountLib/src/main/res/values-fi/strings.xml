@@ -98,7 +98,7 @@
     <!-- User Denied email permission Heading -->
     <string name="acct__fb_user_denied_email_heading">Lupa sähköpostiosoitteeseen</string>
     <!-- User Denied email permission re-request message -->
-    <string name="acct__fb_user_denied_email_message">Kirjautuaksesi Facebookiin, vaadimme luvan vahvistaa sähköpostiosoitteesi. \n\nOle hyvä ja napauta alla olevaa Facebook-painiketta myöntääksesi {brand}lle luvan vahvistaa sähköpostiosoitteesi. Kiitos!</string>
+    <string name="acct__fb_user_denied_email_message">Kirjautuaksesi Facebookin kautta vaadimme luvan vahvistaa sähköpostiosoitteesi. \n\nOle hyvä ja napauta alla olevaa Facebook-painiketta myöntääksesi {brand}lle luvan vahvistaa sähköpostiosoitteesi. Kiitos!</string>
     <!-- User's facebook account missing email address Heading -->
     <string name="acct__fb_user_missing_email_heading">Sähköpostiosoitetta ei voida varmistaa</string>
     <!-- User's facebook account missing email address message -->

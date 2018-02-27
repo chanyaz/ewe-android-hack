@@ -95,6 +95,7 @@
         <item quantity="one">{number} kết quả</item>
         <item quantity="other">{number} kết quả</item>
     </plurals>
+
     <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
     <plurals name="number_results_announcement_text_TEMPLATE">
         <item quantity="one">Đã lọc {number} kết quả</item>
@@ -877,10 +878,6 @@
     <!-- Accessibility announcement when Return search screen is selected. -->
     <string name="rail_tab_roundtrip_selected_announcement">Hiển thị màn hình tìm vé tàu hỏa khứ hồi</string>
 
-    <!-- New launch screen -->
-    <!-- Search screen title -->
-    <string name="search_title">Tìm kiếm</string>
-
     <!--Meso destination ad card-->
     <string name="meso_destination_name_las_vegas">Las Vegas</string>
     <string name="meso_destination_name_los_angeles">Los Angeles</string>
@@ -927,15 +924,6 @@
     <string name="launch_upcoming_trips_signed_in">Gần đến chuyến đi của quý vị!</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">Xem lịch trình và cập nhật thay đổi trên đường</string>
-
-    <!-- Label for pro wizard bar on launch screen -->
-    <string name="search_hotels">Tìm khách sạn</string>
-
-    <!-- Label for pro wizard bar on launch screen -->
-    <string name="search_hotels_and_flights">Tìm khách sạn và chuyến bay</string>
-
-    <!-- Label for super search bar at launch screen -->
-    <string name="search_hotels_flight_more">Tìm khách sạn và sản phẩm du lịch khác…</string>
 
     <!--Onboarding-->
     <string name="booking_page_title">Đặt mọi lúc, mọi nơi</string>
@@ -1457,6 +1445,8 @@
     <string name="itin_hotel_special_instruction_dialog_sub_title">Hướng dẫn đặc biệt</string>
     <!--Button title for check-in policies and special instructions-->
     <string name="itin_hotel_check_in_policies_and_special_instruction">Nhận phòng và hướng dẫn đặc biệt</string>
+    <!--Button title for special instructions-->
+    <string name="itin_hotel_special_instruction">Hướng dẫn đặc biệt</string>
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">Quy định thay đổi và hủy</string>
     <!--Hotel itin manage booking room tabs title TEMPLATE. Room {number} (e.g., Room 1)-->
@@ -2725,13 +2715,13 @@
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <!-- new material Hotel results cell guest recommend-->
-    <string name="hotel_guest_recommend">/5 - xếp hạng của khách</string>
+    <string name="hotel_guest_recommend">/5 – xếp hạng của khách</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
-    <string name="hotel_guest_recommend_good_superlative">/ 5 - Tốt!</string>
-    <string name="hotel_guest_recommend_very_good_superlative">/ 5 - Rất tốt!</string>
-    <string name="hotel_guest_recommend_excellent_superlative">/ 5 - Xuất sắc!</string>
-    <string name="hotel_guest_recommend_wonderful_superlative">/ 5 - Tuyệt vời!</string>
-    <string name="hotel_guest_recommend_exceptional_superlative">/ 5 - Ngoại hạng!</string>
+    <string name="hotel_guest_recommend_good_superlative">/5 - Tốt!</string>
+    <string name="hotel_guest_recommend_very_good_superlative">/5 - Rất tốt!</string>
+    <string name="hotel_guest_recommend_excellent_superlative">/5 - Xuất sắc!</string>
+    <string name="hotel_guest_recommend_wonderful_superlative">/5 - Tuyệt vời!</string>
+    <string name="hotel_guest_recommend_exceptional_superlative">/5 - Ngoại hạng!</string>
 
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
@@ -3144,7 +3134,8 @@
     <!-- Dialog for pending points -->
     <string name="pending_points_info">Điểm chờ nhận sẽ được ghi nhận sau khi hoàn tất chuyến đi, theo mốc thời gian sau:</string>
     <string name="pending_points_dialog_title">Điểm chờ nhận</string>
-    <string name="pending_points_button">Nút điểm</string>
+    <!-- example: 7,253 pending points button -->
+    <string name="pending_points_TEMPLATE">{loyalty_points} điểm chờ nhận</string>
     <string name="trip_type">Loại chuyến đi</string>
     <string name="up_to">Tối đa</string>
     <string name="activities">Hoạt động</string>
@@ -4017,6 +4008,15 @@
     <string name="flight_one_stop_description">1 điểm dừng</string>
     <!-- Flight Two stop description -->
     <string name="flight_two_plus_stops_description">2+ điểm dừng</string>
+    <!-- Flight 1 result description -->
+    <string name="flight_one_filter_result_description">1 kết quả</string>
+    <!-- Flight multiple result description Eg: 4 results -->
+    <string name="flight_filter_result_count_TEMPLATE">{count} kết quả</string>
+    <!-- Flight 1 result with price description. Eg: 1 Result from $200  -->
+    <string name="count_with_price__for_one_result_TEMPLATE">1 kết quả từ {price}</string>
+    <!-- Flight multiple results with price description. Eg: 4 Results from $200  -->
+    <string name="count_with_price_results_TEMPLATE">{number} kết quả từ {price}</string>
+
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -4488,6 +4488,8 @@
     <string name="hotel_price_strike_through_cont_desc_TEMPLATE">Thông thường {strikethroughprice}, nay {price}.\u0020</string>
     <!-- Hotel strike percentage content description. Example. Original price discounted 20%. -->
     <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">Giảm {percentage} giá thông thường.\u0020</string>
+    <!-- Hotel strike percentage content description. Example. Regularly $100, now $80. Original price discounted 20%. -->
+    <string name="hotel_price_strike_through_discount_percent_cont_desc_TEMPLATE">Thông thường {strikethroughprice}, nay {price}.\u0020Giảm {percentage} giá thông thường.\u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Ưu đãi Không tưởng {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Example. SFO to DTM. 3 hours 15 minutes. -->
@@ -4653,6 +4655,8 @@
     <string name="insurance_price_per_day">/ngày</string>
     <!-- Label to indicate price is per person e.g $10/person -->
     <string name="price_per_person">/người</string>
+    <!-- Label to indicate price is per person e.g $10/person -->
+    <string name="price_per_person_TEMPLATE">{price}/người</string>
 
     <!-- Content description for rating bar e.g. Rated 3 out of 5-->
     <string name="hotel_rating_bar_cont_desc_TEMPLATE">Điểm đánh giá {rating}/5</string>
@@ -4700,6 +4704,8 @@
     <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}, {subtitle}, hoàn tất thông tin khách. Nút.</string>
     <!--Packages accessibility content description for role Button-->
     <string name="accessibility_cont_desc_role_button">Nút</string>
+    <!--Packages accessibility content description for role Button e.g. Close Button-->
+    <string name="accessibility_cont_desc_role_button_TEMPLATE">Nút {button_label}</string>
     <!--Packages accessibility content description for purchase Button-->
     <string name="accessibility_cont_desc_role_purchase_button">Nút thanh toán</string>
     <!--Packages accessibility content description for role - Button to expand -->
@@ -5000,5 +5006,7 @@
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">Giá gốc: {activity_original_price}/{ticket_type}. Giá đã giảm: {activity_price}/{ticket_type}</string>
     <string name="hotel_2x_points_search_title">Nhân đôi số điểm Expedia+!</string>
     <string name="hotel_2x_points_search_content">Quý vị sẽ được nhân đôi số điểm khi đặt chỗ trong ứng dụng!</string>
+    <!-- Recent search header string -->
+    <string name="flight_recent_search_label">Tìm gần đây</string>
 
 </resources>

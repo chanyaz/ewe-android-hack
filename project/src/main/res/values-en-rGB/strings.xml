@@ -95,6 +95,7 @@
         <item quantity="one">{number} Result</item>
         <item quantity="other">{number} Results</item>
     </plurals>
+
     <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
     <plurals name="number_results_announcement_text_TEMPLATE">
         <item quantity="one">{number} Result Filtered</item>
@@ -877,10 +878,6 @@
     <!-- Accessibility announcement when Return search screen is selected. -->
     <string name="rail_tab_roundtrip_selected_announcement">Showing return rail search screen</string>
 
-    <!-- New launch screen -->
-    <!-- Search screen title -->
-    <string name="search_title">Search</string>
-
     <!--Meso destination ad card-->
     <string name="meso_destination_name_las_vegas">Las Vegas</string>
     <string name="meso_destination_name_los_angeles">Los Angeles</string>
@@ -927,15 +924,6 @@
     <string name="launch_upcoming_trips_signed_in">You Have An Upcoming Trip!</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">Access your itineraries on the go and stay up to date on changes</string>
-
-    <!-- Label for pro wizard bar on launch screen -->
-    <string name="search_hotels">Search Hotels</string>
-
-    <!-- Label for pro wizard bar on launch screen -->
-    <string name="search_hotels_and_flights">Search Hotels and Flights</string>
-
-    <!-- Label for super search bar at launch screen -->
-    <string name="search_hotels_flight_more">Search Hotels, Flights, and more…</string>
 
     <!--Onboarding-->
     <string name="booking_page_title">Book on the go</string>
@@ -1457,6 +1445,8 @@
     <string name="itin_hotel_special_instruction_dialog_sub_title">Special instructions</string>
     <!--Button title for check-in policies and special instructions-->
     <string name="itin_hotel_check_in_policies_and_special_instruction">Check-in and special instructions</string>
+    <!--Button title for special instructions-->
+    <string name="itin_hotel_special_instruction">Special Instructions</string>
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">Change and cancellation rules</string>
     <!--Hotel itin manage booking room tabs title TEMPLATE. Room {number} (e.g., Room 1)-->
@@ -2201,7 +2191,7 @@
     <!-- Credit Card field hint; this version calls out that debit cards are also acceptable -->
     <string name="credit_debit_card_hint">Enter new Debit/Credit Card</string>
     <!-- Expiration date label -->
-    <string name="expiration_date">Expiration Date</string>
+    <string name="expiration_date">Expiry date</string>
     <!-- Set expiration date button -->
     <string name="btn_set">Set</string>
 
@@ -2725,13 +2715,13 @@
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <!-- new material Hotel results cell guest recommend-->
-    <string name="hotel_guest_recommend">of 5 - guest rating</string>
+    <string name="hotel_guest_recommend">/5 - guest rating</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
-    <string name="hotel_guest_recommend_good_superlative">of 5 - Good!</string>
-    <string name="hotel_guest_recommend_very_good_superlative">of 5 - Very Good!</string>
-    <string name="hotel_guest_recommend_excellent_superlative">of 5 - Excellent!</string>
-    <string name="hotel_guest_recommend_wonderful_superlative">of 5 - Wonderful!</string>
-    <string name="hotel_guest_recommend_exceptional_superlative">of 5 - Exceptional!</string>
+    <string name="hotel_guest_recommend_good_superlative">/5 - Good!</string>
+    <string name="hotel_guest_recommend_very_good_superlative">/5 - Very Good!</string>
+    <string name="hotel_guest_recommend_excellent_superlative">/5 - Excellent!</string>
+    <string name="hotel_guest_recommend_wonderful_superlative">/5 - Wonderful!</string>
+    <string name="hotel_guest_recommend_exceptional_superlative">/5 - Exceptional!</string>
 
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
@@ -3144,7 +3134,8 @@
     <!-- Dialog for pending points -->
     <string name="pending_points_info">Pending points become available after travel has occurred within the following time period:</string>
     <string name="pending_points_dialog_title">Pending Points</string>
-    <string name="pending_points_button">Points Button</string>
+    <!-- example: 7,253 pending points button -->
+    <string name="pending_points_TEMPLATE">{loyalty_points} pending points button</string>
     <string name="trip_type">Trip Type</string>
     <string name="up_to">Up to</string>
     <string name="activities">Activities</string>
@@ -3315,7 +3306,7 @@
     <!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
     <string name="e3_error_checkout_payment_failed">We\'re sorry, but we were unable to process your payment. Please verify that you entered your information correctly.</string>
     <!-- There is invalid expiration date for the credit card used. Please fix it. -->
-    <string name="e3_error_checkout_invalid_expiration">Invalid credit card expiration date.</string>
+    <string name="e3_error_checkout_invalid_expiration">Invalid credit card Expiry date.</string>
     <!-- Error message displayed when the traveler information is invalid -->
     <string name="e3_error_checkout_invalid_traveler_info_TEMPLATE">Please enter a valid %1$s</string>
     <!-- Text for error toolbar-->
@@ -4017,6 +4008,15 @@
     <string name="flight_one_stop_description">1 Stop</string>
     <!-- Flight Two stop description -->
     <string name="flight_two_plus_stops_description">2+ Stops</string>
+    <!-- Flight 1 result description -->
+    <string name="flight_one_filter_result_description">1 result</string>
+    <!-- Flight multiple result description Eg: 4 results -->
+    <string name="flight_filter_result_count_TEMPLATE">{count} results</string>
+    <!-- Flight 1 result with price description. Eg: 1 Result from $200  -->
+    <string name="count_with_price__for_one_result_TEMPLATE">1 Result from {price}</string>
+    <!-- Flight multiple results with price description. Eg: 4 Results from $200  -->
+    <string name="count_with_price_results_TEMPLATE">{number} Results from {price}</string>
+
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -4488,6 +4488,8 @@
     <string name="hotel_price_strike_through_cont_desc_TEMPLATE">Regularly {strikethroughprice}, now {price}.\u0020</string>
     <!-- Hotel strike percentage content description. Example. Original price discounted 20%. -->
     <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">Original price discounted {percentage}.\u0020</string>
+    <!-- Hotel strike percentage content description. Example. Regularly $100, now $80. Original price discounted 20%. -->
+    <string name="hotel_price_strike_through_discount_percent_cont_desc_TEMPLATE">Regularly {strikethroughprice}, now {price}.\u0020Original price discounted {percentage}.\u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Unreal Deal {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Example. SFO to DTM. 3 hours 15 minutes. -->
@@ -4653,6 +4655,8 @@
     <string name="insurance_price_per_day">/day</string>
     <!-- Label to indicate price is per person e.g $10/person -->
     <string name="price_per_person">/person</string>
+    <!-- Label to indicate price is per person e.g $10/person -->
+    <string name="price_per_person_TEMPLATE">{price}/person</string>
 
     <!-- Content description for rating bar e.g. Rated 3 out of 5-->
     <string name="hotel_rating_bar_cont_desc_TEMPLATE">Rated {rating} out of 5</string>
@@ -4700,6 +4704,8 @@
     <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}, {subtitle}, traveller details complete. Button.</string>
     <!--Packages accessibility content description for role Button-->
     <string name="accessibility_cont_desc_role_button">Button</string>
+    <!--Packages accessibility content description for role Button e.g. Close Button-->
+    <string name="accessibility_cont_desc_role_button_TEMPLATE">{button_label} Button</string>
     <!--Packages accessibility content description for purchase Button-->
     <string name="accessibility_cont_desc_role_purchase_button">Purchase Button</string>
     <!--Packages accessibility content description for role - Button to expand -->
@@ -5000,5 +5006,7 @@
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">Regular Price {ticket_type} {activity_original_price}. Discounted price {ticket_type} {activity_price}</string>
     <string name="hotel_2x_points_search_title">Double Expedia+ Points!</string>
     <string name="hotel_2x_points_search_content">You\'ll earn double points just for booking in the app!</string>
+    <!-- Recent search header string -->
+    <string name="flight_recent_search_label">Recent Searches</string>
 
 </resources>

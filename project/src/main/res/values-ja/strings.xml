@@ -95,6 +95,7 @@
         <item quantity="one">結果 {number} 件</item>
         <item quantity="other">結果 {number} 件</item>
     </plurals>
+
     <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
     <plurals name="number_results_announcement_text_TEMPLATE">
         <item quantity="one">{number} 件に絞込みました</item>
@@ -877,10 +878,6 @@
     <!-- Accessibility announcement when Return search screen is selected. -->
     <string name="rail_tab_roundtrip_selected_announcement">往復の鉄道の検索画面を表示中</string>
 
-    <!-- New launch screen -->
-    <!-- Search screen title -->
-    <string name="search_title">検索</string>
-
     <!--Meso destination ad card-->
     <string name="meso_destination_name_las_vegas">ラスベガス</string>
     <string name="meso_destination_name_los_angeles">ロサンゼルス</string>
@@ -927,15 +924,6 @@
     <string name="launch_upcoming_trips_signed_in">まもなくご旅行日です !</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">外出先でも旅程にアクセスし、最新の変更事項をチェックしましょう</string>
-
-    <!-- Label for pro wizard bar on launch screen -->
-    <string name="search_hotels">ホテルを検索</string>
-
-    <!-- Label for pro wizard bar on launch screen -->
-    <string name="search_hotels_and_flights">ホテル、航空券を検索</string>
-
-    <!-- Label for super search bar at launch screen -->
-    <string name="search_hotels_flight_more">ホテル、航空券、その他を検索…</string>
 
     <!--Onboarding-->
     <string name="booking_page_title">外出先でカンタン予約</string>
@@ -1457,6 +1445,8 @@
     <string name="itin_hotel_special_instruction_dialog_sub_title">特記事項</string>
     <!--Button title for check-in policies and special instructions-->
     <string name="itin_hotel_check_in_policies_and_special_instruction">チェックインおよび特記事項</string>
+    <!--Button title for special instructions-->
+    <string name="itin_hotel_special_instruction">特記事項</string>
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">変更およびキャンセル規則</string>
     <!--Hotel itin manage booking room tabs title TEMPLATE. Room {number} (e.g., Room 1)-->
@@ -2725,13 +2715,13 @@
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <!-- new material Hotel results cell guest recommend-->
-    <string name="hotel_guest_recommend">(5 段階中) - ゲスト評価</string>
+    <string name="hotel_guest_recommend">/5 - ゲスト評価</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
-    <string name="hotel_guest_recommend_good_superlative">(5 段階中) - 良い</string>
-    <string name="hotel_guest_recommend_very_good_superlative">(5 段階中) - とても良い</string>
-    <string name="hotel_guest_recommend_excellent_superlative">(5 段階中) - 素晴らしい</string>
-    <string name="hotel_guest_recommend_wonderful_superlative">(5 段階中) - とても素晴らしい</string>
-    <string name="hotel_guest_recommend_exceptional_superlative">(5 段階中) - 最高に素晴らしい</string>
+    <string name="hotel_guest_recommend_good_superlative">/5 - 良い</string>
+    <string name="hotel_guest_recommend_very_good_superlative">/5 - とても良い</string>
+    <string name="hotel_guest_recommend_excellent_superlative">/5 - 素晴らしい</string>
+    <string name="hotel_guest_recommend_wonderful_superlative">/5 - とても素晴らしい</string>
+    <string name="hotel_guest_recommend_exceptional_superlative">/5 - 最高に素晴らしい</string>
 
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
@@ -3144,7 +3134,8 @@
     <!-- Dialog for pending points -->
     <string name="pending_points_info">仮付与のポイントは旅行完了後、以下の期間内に有効ポイントとなります。</string>
     <string name="pending_points_dialog_title">仮付与ポイント</string>
-    <string name="pending_points_button">ポイント ボタン</string>
+    <!-- example: 7,253 pending points button -->
+    <string name="pending_points_TEMPLATE">{loyalty_points} 仮付与ポイント ボタン</string>
     <string name="trip_type">旅行タイプ</string>
     <string name="up_to">最大所要日数</string>
     <string name="activities">現地ツアー</string>
@@ -4017,6 +4008,15 @@
     <string name="flight_one_stop_description">乗継 1 回</string>
     <!-- Flight Two stop description -->
     <string name="flight_two_plus_stops_description">乗継 2 回以上</string>
+    <!-- Flight 1 result description -->
+    <string name="flight_one_filter_result_description">結果 1 件</string>
+    <!-- Flight multiple result description Eg: 4 results -->
+    <string name="flight_filter_result_count_TEMPLATE">結果 {count} 件</string>
+    <!-- Flight 1 result with price description. Eg: 1 Result from $200  -->
+    <string name="count_with_price__for_one_result_TEMPLATE">結果 1 件 ({price} ～)</string>
+    <!-- Flight multiple results with price description. Eg: 4 Results from $200  -->
+    <string name="count_with_price_results_TEMPLATE">結果 {number} 件 ({price} ～)</string>
+
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -4488,6 +4488,8 @@
     <string name="hotel_price_strike_through_cont_desc_TEMPLATE">通常料金 {strikethroughprice}、割引後 {price}。\u0020</string>
     <!-- Hotel strike percentage content description. Example. Original price discounted 20%. -->
     <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">通常料金から {percentage} 割引。\u0020</string>
+    <!-- Hotel strike percentage content description. Example. Regularly $100, now $80. Original price discounted 20%. -->
+    <string name="hotel_price_strike_through_discount_percent_cont_desc_TEMPLATE">通常料金 {strikethroughprice}、割引後 {price}。\u0020通常料金から {percentage} 割引。\u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">トラベルセット割 {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Example. SFO to DTM. 3 hours 15 minutes. -->
@@ -4653,6 +4655,8 @@
     <string name="insurance_price_per_day">/ 日</string>
     <!-- Label to indicate price is per person e.g $10/person -->
     <string name="price_per_person">/ 人</string>
+    <!-- Label to indicate price is per person e.g $10/person -->
+    <string name="price_per_person_TEMPLATE">1 名あたり {price}</string>
 
     <!-- Content description for rating bar e.g. Rated 3 out of 5-->
     <string name="hotel_rating_bar_cont_desc_TEMPLATE">5 段階中 {rating} の評価</string>
@@ -4700,6 +4704,8 @@
     <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}、{subtitle}、旅行者情報の入力完了。ボタン。</string>
     <!--Packages accessibility content description for role Button-->
     <string name="accessibility_cont_desc_role_button">ボタン</string>
+    <!--Packages accessibility content description for role Button e.g. Close Button-->
+    <string name="accessibility_cont_desc_role_button_TEMPLATE">{button_label}ボタン</string>
     <!--Packages accessibility content description for purchase Button-->
     <string name="accessibility_cont_desc_role_purchase_button">購入ボタン</string>
     <!--Packages accessibility content description for role - Button to expand -->
@@ -5000,5 +5006,7 @@
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">通常料金 {activity_original_price} ({ticket_type})。割引適用後の料金 {activity_price} ({ticket_type})</string>
     <string name="hotel_2x_points_search_title">Expedia+ ポイント 2 倍 !</string>
     <string name="hotel_2x_points_search_content">アプリで予約するだけで、ポイント 2 倍獲得 !</string>
+    <!-- Recent search header string -->
+    <string name="flight_recent_search_label">最近の検索履歴</string>
 
 </resources>
