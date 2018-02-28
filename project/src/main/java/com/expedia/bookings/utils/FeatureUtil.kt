@@ -19,6 +19,10 @@ fun isMidAPIEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesMidApi)
 }
 
+fun isFHCPackageWebViewEnabled(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesWebviewFHC)
+}
+
 fun shouldPackageForceUpdateBeVisible(context: Context): Boolean {
     return !isMidAPIEnabled(context) && isPackageForceUpdateEnabled(context)
 }

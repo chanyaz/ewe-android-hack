@@ -115,6 +115,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppPackagesDisplayBasicEconomyTooltip = new ABTest(24678);
 	public static final ABTest EBAndroidAppPackagesFlightCabinClass = new ABTest(24803, true);
 	public static final ABTest CardExpiryDateFormField = new ABTest(24734, true);
+	public static final ABTest EBAndroidAppPackagesWebviewFHC = new ABTest(25042, true);
 
 	// Account
 	public static final ABTest EBAndroidAppAccountRecaptcha = new ABTest(15652, true);
@@ -240,6 +241,7 @@ public class AbacusUtils {
 		testIDs.add(DownloadableFonts.getKey());
 		testIDs.add(HotelSatelliteSearch.getKey());
 		testIDs.add(EBAndroidAppSeatsLeftUrgencyMessaging.getKey());
+		testIDs.add(EBAndroidAppPackagesWebviewFHC.getKey());
 		return testIDs;
 	}
 

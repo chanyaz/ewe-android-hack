@@ -4519,6 +4519,7 @@ public class OmnitureTracking {
 	public static void trackPackagesDestinationSearchInit(PageUsableData pageUsableData) {
 		List<ABTest> abTests = new ArrayList<>();
 		abTests.add(AbacusUtils.EBAndroidAppPackagesMidApi);
+		abTests.add(AbacusUtils.EBAndroidAppPackagesWebviewFHC);
 		if (!isMidAPIEnabled(sContext)) {
 			abTests.add(AbacusUtils.EBAndroidAppPackagesMISRealWorldGeo);
 		}
