@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.widget.FrameLayout
+import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.itin.widget.HotelItinToolbar
@@ -24,6 +25,8 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.mobiata.android.Log
+import java.net.URLEncoder
 import java.util.Locale
 
 class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraIdleListener {
@@ -41,8 +44,8 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
                 }
             }
             if (checkForPan()) {
-                    OmnitureTracking.trackItinExpandedMapZoomPan()
-                    panTracked = true
+                OmnitureTracking.trackItinExpandedMapZoomPan()
+                panTracked = true
             }
             if (panTracked && zoomTracked) {
                 fullyTracked = true
@@ -55,6 +58,7 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         return !panTracked && currentZoom == googleMap?.cameraPosition?.zoom
                 && googleMap?.cameraPosition?.target != startPosition
     }
+
     override fun onCameraMoveStarted(reason: Int) {
         if (reason == OnCameraMoveStartedListener.REASON_GESTURE && !fullyTracked) {
             moveStarted = true
@@ -76,6 +80,7 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
     private var moveStarted = false
     private var currentZoom = 0f
     private val toolbar by bindView<HotelItinToolbar>(R.id.widget_hotel_itin_toolbar)
+    private val LOGGING_TAG = "HotelItinExpandedMapActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,18 +116,40 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         directionsButtonText.setCompoundDrawablesTint(ContextCompat.getColor(this, R.color.white))
         AccessibilityUtil.appendRoleContDesc(directionsButton, directionsButtonText.text.toString(), R.string.accessibility_cont_desc_role_button)
         directionsButton.setOnClickListener {
-            val hotelLat = itinCardDataHotel.propertyLocation.latitude
-            val hotelLong = itinCardDataHotel.propertyLocation.longitude
-            val propertyName = itinCardDataHotel.propertyName
+            val hotelLat: Double? = itinCardDataHotel.propertyLocation.latitude
+            val hotelLong: Double? = itinCardDataHotel.propertyLocation.longitude
+            val propertyName: String? = itinCardDataHotel.propertyName
 
-            val uri = String.format(Locale.getDefault(), "geo:0,0?q=") + android.net.Uri.encode(String.format("%s@%f,%f", propertyName, hotelLat, hotelLong), "UTF-8")
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
-            intent.flags = Intent.FLAG_ACTIVITY_FORWARD_RESULT
-            intent.flags = Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP
-            intent.data = Uri.parse(uri)
-            this.startActivity(intent)
-
+            val locationData = buildUriForHotel(hotelLat, hotelLong, propertyName)
+            if (locationData != null) {
+                val intent = Intent(Intent.ACTION_VIEW, locationData)
+                intent.flags = Intent.FLAG_ACTIVITY_FORWARD_RESULT
+                intent.flags = Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP
+                intent.data = locationData
+                if (intent.resolveActivity(packageManager) != null) {
+                    this.startActivity(intent)
+                } else {
+                    Toast.makeText(this, R.string.itin_hotel_map_directions_no_app_available, Toast.LENGTH_SHORT).show()
+                }
+            }
             OmnitureTracking.trackItinHotelMapDirectionsButton()
+        }
+    }
+
+    fun buildUriForHotel(hotelLat: Double?, hotelLong: Double?, propertyName: String?): Uri? {
+        var urlEncodedPropertyName = ""
+        if (!propertyName.isNullOrEmpty()) {
+            try {
+                urlEncodedPropertyName = URLEncoder.encode(propertyName, "UTF-8")
+            } catch (e: Exception) {
+                Log.d(LOGGING_TAG, e.message)
+            }
+        }
+        return if (hotelLat != null && hotelLong != null) {
+            val formattedUriString = String.format(Locale.getDefault(), "geo:$hotelLat,$hotelLong?q=$urlEncodedPropertyName")
+            Uri.parse(formattedUriString)
+        } else {
+            null
         }
     }
 
