@@ -140,7 +140,6 @@
     <string name="preference_open_feature_toggle_settings">preference_open_feature_toggle_settings</string>
     <string name="preference_open_remote_feature_toggle_settings">preference_open_remote_feature_toggle_settings</string>
     <string name="preference_flight_rate_detail_from_cache">preference_flight_rate_detail_from_cache</string>
-    <string name="preference_enable_disabled_stp_hotels">preference_enable_disabled_stp_hotels</string>
     <string name="pay_later_credit_card_messaging">pay_later_credit_card_messaging</string>
 
     <!-- Default values for preference keys -->

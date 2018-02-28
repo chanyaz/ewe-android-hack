@@ -20,12 +20,6 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		// Load the preferences from an XML resource
 		addPreferencesFromResource(R.xml.preferences_feature_toggle);
 
-		// Hotel Features
-		initializeFeatureCheck(R.string.preference_enable_disabled_stp_hotels);
-
-		//Universal Checkout Features
-		initializeFeatureCheck(R.string.pay_later_credit_card_messaging);
-
 		//Flight Features
 		initializeFeatureCheck(R.string.preference_flight_rate_detail_from_cache);
 	}

@@ -1129,10 +1129,7 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = createTrackPageLoadEventBase(HOTELS_CHECKOUT_INFO);
 
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_enable_disabled_stp_hotels)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppDisabledSTPStateHotels);
-		}
-
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppDisabledSTPStateHotels);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelMaterialForms);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSavedCoupons);
 

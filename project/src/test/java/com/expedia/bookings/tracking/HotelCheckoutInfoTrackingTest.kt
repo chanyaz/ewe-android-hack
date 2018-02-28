@@ -43,7 +43,6 @@ class HotelCheckoutInfoTrackingTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testDisabledSTPStateBucketedTrackingCallFiredWhenFeatureToggleON() {
 
-        enableFeatureFlag(true, R.string.preference_enable_disabled_stp_hotels)
         enableABTest(true, AbacusUtils.EBAndroidAppDisabledSTPStateHotels.key)
 
         OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
@@ -57,7 +56,6 @@ class HotelCheckoutInfoTrackingTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testDisabledSTPStateControlTrackingCallFiredWhenFeatureToggleON() {
 
-        enableFeatureFlag(true, R.string.preference_enable_disabled_stp_hotels)
         enableABTest(false, AbacusUtils.EBAndroidAppDisabledSTPStateHotels.key)
 
         OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
@@ -71,7 +69,6 @@ class HotelCheckoutInfoTrackingTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testDisabledSTPStateBucketedTrackingCallNotFiredWhenFeatureToggleOFF() {
 
-        enableFeatureFlag(false, R.string.preference_enable_disabled_stp_hotels)
         enableABTest(true, AbacusUtils.EBAndroidAppDisabledSTPStateHotels.key)
 
         trackPageLoadHotelCheckoutInfo()
@@ -83,7 +80,6 @@ class HotelCheckoutInfoTrackingTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testDisabledSTPStateControlTrackingCallNotFiredWhenFeatureToggleOFF() {
 
-        enableFeatureFlag(false, R.string.preference_enable_disabled_stp_hotels)
         enableABTest(false, AbacusUtils.EBAndroidAppDisabledSTPStateHotels.key)
 
         trackPageLoadHotelCheckoutInfo()

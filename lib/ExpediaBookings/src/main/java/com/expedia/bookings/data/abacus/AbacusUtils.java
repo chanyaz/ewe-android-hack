@@ -17,7 +17,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppLXFirstActivityListingExpanded = new ABTest(9467);
 	public static final ABTest EBAndroidAppLXRTROnSearchAndDetails = new ABTest(10000);
 	public static final ABTest EBAndroidAppLXCrossSellOnHotelConfirmationTest = new ABTest(10556);
-	public static final ABTest EBAndroidAppDisabledSTPStateHotels = new ABTest(15923);
+	public static final ABTest EBAndroidAppDisabledSTPStateHotels = new ABTest(15923, true);
 	public static final ABTest EBAndroidAppBringUniversalCheckoutToLX = new ABTest(12630);
 	public static final ABTest EBAndroidAppLXFilterSearch = new ABTest(12689);
 	public static final ABTest EBAndroidAppLXDisablePOISearch = new ABTest(13050);
