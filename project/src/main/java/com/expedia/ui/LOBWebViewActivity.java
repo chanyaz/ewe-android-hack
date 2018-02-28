@@ -28,6 +28,7 @@ public class LOBWebViewActivity extends WebViewActivity implements UserAccountRe
 		public IntentBuilder(Context context) {
 			super(context);
 			getIntent().setClass(context, LOBWebViewActivity.class);
+			this.setDomStorage(true);
 		}
 	}
 
