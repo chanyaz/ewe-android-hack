@@ -118,7 +118,7 @@ class HotelConfirmationPresenterTest {
         hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.hotelConfirmationUISetObservable.onNext(true)
         assertTrue(confirmationDetailsAndUISet)
     }
-    
+
     private fun testBookingSuccessDialogDisplayed() {
         val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
 

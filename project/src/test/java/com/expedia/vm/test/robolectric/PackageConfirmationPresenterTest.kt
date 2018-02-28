@@ -161,9 +161,7 @@ class PackageConfirmationPresenterTest {
 
         serviceRule.services!!.getTripDetails("error_trip", makeItinResponseObserver)
 
-        val alertDialog = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
-        assertTrue(alertDialog.title.contains("Booking Successful!"))
-        assertTrue(alertDialog.message.contains("Please check your email for the itinerary."))
+        assertBookingSuccessDialogDisplayed()
     }
 
     @Test
@@ -175,9 +173,7 @@ class PackageConfirmationPresenterTest {
 
         serviceRule.services!!.getTripDetails("error_trip_details_response", makeItinResponseObserver)
 
-        val alertDialog = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
-        assertTrue(alertDialog.title.contains("Booking Successful!"))
-        assertTrue(alertDialog.message.contains("Please check your email for the itinerary."))
+        assertBookingSuccessDialogDisplayed()
     }
 
     @Test
@@ -217,6 +213,12 @@ class PackageConfirmationPresenterTest {
         PointOfSaleTestConfiguration.configurePointOfSale(activity, if (shouldShow) "MockSharedData/pos_with_car_cross_sell.json"
         else "MockSharedData/pos_with_no_car_cross_sell.json", false)
         confirmationPresenter = LayoutInflater.from(activity).inflate(com.expedia.bookings.R.layout.package_confirmation_stub, null) as PackageConfirmationPresenter
+    }
+
+    private fun assertBookingSuccessDialogDisplayed() {
+        val alertDialog = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
+        assertTrue(alertDialog.title.contains("Booking Successful!"))
+        assertTrue(alertDialog.message.contains("Please check your email for the itinerary."))
     }
 
     fun setupMIDWebCheckout() {
