@@ -14,6 +14,7 @@ import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withEvars
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withEventsString
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withProps
@@ -210,6 +211,14 @@ class OmnitureTrackingTest {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         OmnitureTracking.trackPackagesBundlePageLoad(getPackageDetails().pricing.packageTotal.amount.toDouble(), null)
         assertStateTracked(withProps(mapOf(34 to "16163.0.0")), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTrackConfirmationViewItinClick() {
+        OmnitureTracking.trackConfirmationViewItinClick()
+        val controlEvar = mapOf(28 to "App.CKO.Confirm.ViewItinerary")
+        OmnitureTestUtils.assertLinkTracked("Confirmation Trip Action", "App.CKO.Confirm.ViewItinerary", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
     }
 
     private fun getPackageDetails(): PackageCreateTripResponse.PackageDetails {

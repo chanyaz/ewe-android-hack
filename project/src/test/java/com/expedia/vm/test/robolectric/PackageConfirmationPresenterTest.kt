@@ -3,6 +3,7 @@ package com.expedia.vm.test.robolectric
 import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
+import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
 import com.expedia.bookings.data.AbstractItinDetailsResponse
@@ -12,6 +13,7 @@ import com.expedia.bookings.presenter.packages.PackagePresenter
 import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RoboTestHelper.getContext
@@ -180,6 +182,16 @@ class PackageConfirmationPresenterTest {
         testObserver.assertValueCount(1)
         val confirmationPresenter = packagePresenter.confirmationPresenter
         assertTrue(confirmationPresenter.expediaPoints.text.isEmpty())
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTrackConfirmationViewItinClick() {
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        packagePresenter.confirmationPresenter.viewItinButton.performClick()
+
+        val controlEvar = mapOf(28 to "App.CKO.Confirm.ViewItinerary")
+        OmnitureTestUtils.assertLinkTracked("Confirmation Trip Action", "App.CKO.Confirm.ViewItinerary", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
     }
 
     fun assertShouldShowCarsCrossSellButton(show: Boolean) {

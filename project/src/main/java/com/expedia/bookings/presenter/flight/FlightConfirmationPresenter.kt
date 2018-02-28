@@ -15,6 +15,7 @@ import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.shared.KrazyglueWidget
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.bindView
@@ -79,6 +80,7 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
     init {
         View.inflate(context, R.layout.flight_confirmation_presenter, this)
         viewItinButton.setOnClickListener {
+            OmnitureTracking.trackConfirmationViewItinClick()
             (context as AppCompatActivity).finish()
             NavUtils.goToItin(context)
         }

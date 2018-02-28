@@ -12,6 +12,7 @@ import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -50,6 +51,7 @@ class PackageConfirmationPresenter(context: Context, attributeSet: AttributeSet)
         View.inflate(context, R.layout.package_confirmation_presenter, this)
         confirmationContainer.setPadding(0, Ui.toolbarSizeWithStatusBar(context), 0, 0)
         viewItinButton.setOnClickListener {
+            OmnitureTracking.trackConfirmationViewItinClick()
             (context as AppCompatActivity).finish()
             NavUtils.goToItin(context)
         }

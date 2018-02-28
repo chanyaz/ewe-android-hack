@@ -259,6 +259,19 @@ class FlightConfirmationPresenterTest {
         OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTrackConfirmationViewItinClick() {
+        activity = Robolectric.buildActivity(android.support.v7.app.AppCompatActivity::class.java).create().get()
+
+        setupPresenter()
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        presenter.viewItinButton.performClick()
+
+        val controlEvar = mapOf(28 to "App.CKO.Confirm.ViewItinerary")
+        OmnitureTestUtils.assertLinkTracked("Confirmation Trip Action", "App.CKO.Confirm.ViewItinerary", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+    }
+
     private fun setupPresenter() {
         presenter = LayoutInflater.from(activity).inflate(R.layout.flight_confirmation_stub, null) as FlightConfirmationPresenter
         presenter.viewModel = FlightConfirmationViewModel(activity)

@@ -290,8 +290,10 @@ public class OmnitureTracking {
 	private static final String APP_CKO_TRAVELER_DECLINE_SAVE = "App.CKO.Traveler.DeclineSave";
 	private static final String APP_CKO_SLIDE_TO_BOOK = "App.CKO.SlideToBook";
 	private static final String APP_CKO_ENTER_COUPON = "App.CKO.Coupon";
+	private static final String APP_CKO_CONFIRMATION_VIEW_ITIN = "App.CKO.Confirm.ViewItinerary";
 
 	private static final String UNIVERSAL_CHECKOUT = "Universal Checkout";
+	private static final String CONFIRMATION_TRIP_ACTION = "Confirmation Trip Action";
 
 	public static void trackSlideToBookAction() {
 		ADMS_Measurement s = getFreshTrackingObject();
@@ -379,6 +381,11 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsKrazyglue);
 
 		s.track();
+	}
+
+	public static void trackConfirmationViewItinClick() {
+		ADMS_Measurement s = createTrackLinkEvent(APP_CKO_CONFIRMATION_VIEW_ITIN);
+		s.trackLink(CONFIRMATION_TRIP_ACTION);
 	}
 
 	public static void trackMIDBookingConfirmationDialog(String hotelSupplierType, PageUsableData pageUsableData) {
@@ -1447,21 +1454,21 @@ public class OmnitureTracking {
 	public static void trackHotelV2ConfirmationCalendar() {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_CONFIRMATION_ADD_CALENDAR + "\" click...");
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CONFIRMATION_ADD_CALENDAR);
-		s.trackLink("Confirmation Trip Action");
+		s.trackLink(CONFIRMATION_TRIP_ACTION);
 	}
 
 	public static void trackHotelV2CallCustomerSupport() {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_CONFIRMATION_CALL_CUSTOMER_SUPPORT + "\" click...");
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CONFIRMATION_CALL_CUSTOMER_SUPPORT);
 		s.setEvents("event35");
-		s.trackLink("Confirmation Trip Action");
+		s.trackLink(CONFIRMATION_TRIP_ACTION);
 	}
 
 	public static void trackHotelV2ConfirmationDirection() {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_CONFIRMATION_DIRECTIONS + "\" click...");
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CONFIRMATION_DIRECTIONS);
-		s.trackLink("Confirmation Trip Action");
+		s.trackLink(CONFIRMATION_TRIP_ACTION);
 	}
 
 	public static void trackHotelV2ConfirmationCrossSell(String typeOfBusiness) {

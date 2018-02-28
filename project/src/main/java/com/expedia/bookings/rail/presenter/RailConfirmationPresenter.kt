@@ -10,6 +10,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.ConfirmationRowCardView
@@ -40,6 +41,7 @@ class RailConfirmationPresenter(context: Context, attrs: AttributeSet?) : Presen
 
         viewItinButton.setBackgroundColor(ContextCompat.getColor(context, R.color.rail_primary_color))
         viewItinButton.setOnClickListener {
+            OmnitureTracking.trackConfirmationViewItinClick()
             (context as AppCompatActivity).finish()
             NavUtils.goToItin(context)
         }
