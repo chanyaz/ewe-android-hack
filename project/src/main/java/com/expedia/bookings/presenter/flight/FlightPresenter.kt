@@ -503,7 +503,11 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             }
             dialog.dismiss()
         })
-        builder.create()
+        val dialog = builder.create()
+        dialog.setOnShowListener {
+            OmnitureTracking.trackFlightsBookingConfirmationDialog(pageUsableData)
+        }
+        dialog
     }
 
     init {
@@ -868,7 +872,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             override fun onNext(itinDetailsResponse: AbstractItinDetailsResponse) {
                 if (itinDetailsResponse.errors != null) {
                     bookingSuccessDialog.show()
-                    OmnitureTracking.trackFlightsBookingConfirmationDialog(pageUsableData)
                 } else {
                     val flightItinDetailsResponse = itinDetailsResponse as FlightItinDetailsResponse
                     confirmationPresenter.showConfirmationInfoFromWebCheckoutView(flightItinDetailsResponse)
@@ -881,7 +884,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             override fun onError(e: Throwable) {
                 Log.d("Error fetching itin:" + e.stackTrace)
                 bookingSuccessDialog.show()
-                OmnitureTracking.trackFlightsBookingConfirmationDialog(pageUsableData)
             }
         }
     }

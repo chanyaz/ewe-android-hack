@@ -227,7 +227,11 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             }
             dialog.dismiss()
         })
-        builder.create()
+        val dialog = builder.create()
+        dialog.setOnShowListener {
+            OmnitureTracking.trackMIDBookingConfirmationDialog(Db.sharedInstance.packageSelectedRoom.supplierType, pageUsableData)
+        }
+        dialog
     }
 
     init {
@@ -490,7 +494,6 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             override fun onNext(itinDetailsResponse: AbstractItinDetailsResponse) {
                 if (itinDetailsResponse.errors != null) {
                     bookingSuccessDialog.show()
-                    OmnitureTracking.trackMIDBookingConfirmationDialog(Db.sharedInstance.packageSelectedRoom.supplierType, pageUsableData)
                 } else {
                     val response = itinDetailsResponse as MIDItinDetailsResponse
                     confirmationPresenter.viewModel.itinDetailsResponseObservable.onNext(response)
@@ -503,7 +506,6 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             override fun onError(e: Throwable) {
                 Log.d("Error fetching itin:" + e.stackTrace)
                 bookingSuccessDialog.show()
-                OmnitureTracking.trackMIDBookingConfirmationDialog(Db.sharedInstance.packageSelectedRoom.supplierType, pageUsableData)
             }
         }
     }
