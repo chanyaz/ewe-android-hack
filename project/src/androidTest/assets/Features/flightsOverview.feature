@@ -78,8 +78,8 @@ Feature: Flights Overview
       | destination         | LAS                                      |
       | source_suggest      | San Francisco, CA                        |
       | destination_suggest | LAS - McCarran Intl.                     |
-      | start_date          | 55                                       |
-      | end_date            | 60                                       |
+      | start_date          | 50                                       |
+      | end_date            | 55                                       |
       | adults              | 1                                        |
       | child               | 0                                        |
     And I wait for results to load
@@ -169,13 +169,13 @@ Feature: Flights Overview
     And Wait for checkout button to display
     Then basic economy link with text "Please Read Important Flight Restrictions" isDisplayed : true
 
-  @Flights @Prod @EBOnlySet1
+  @Flights @Prod @EBOnlySet5
   Scenario: Intercept Flight Search and Overview API call and validate request parameters for SubPub and Flex
     Given I launch the App
     And I set the POS to "Singapore"
     And I set bucketing rules for A/B tests as
      | EBAndroidAppFlightSubpubChange | BUCKETED                        |
-     | EBAndroidAppFlightFlexEnabled | BUCKETED                          |
+     | EBAndroidAppFlightFlexEnabled | BUCKETED                         |
     And I launch "Flights" LOB
     And I want to intercept these calls
      | FlightSearch |

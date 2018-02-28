@@ -343,7 +343,7 @@ Feature: Flights Search Results
     And I wait for results to load
     Then Validate that XSell Package Banner is not displayed
 
-  @Flights @Prod @EBOnlySet2
+  @Flights @Prod @EBOnlySet4
   Scenario: Intercept getPackages API call after hitting XSell Package Banner and validate request parameters
     Given I launch the App
     And I set bucketing rules for A/B tests as
