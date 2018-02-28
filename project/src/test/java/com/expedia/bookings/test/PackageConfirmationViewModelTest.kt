@@ -70,7 +70,7 @@ class PackageConfirmationViewModelTest {
         vm.rewardPointsObservable.subscribe(expediaPointsSubscriber)
         vm.setRewardsPoints.onNext(userPoints)
 
-        expediaPointsSubscriber.assertValue("$userPoints Expedia+ Points")
+        expediaPointsSubscriber.assertValue("$userPoints Expedia Rewards Points")
     }
 
     @Test

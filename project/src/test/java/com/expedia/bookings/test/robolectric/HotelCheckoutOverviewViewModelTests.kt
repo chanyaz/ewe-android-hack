@@ -107,7 +107,7 @@ class HotelCheckoutOverviewViewModelTest {
 
         paymentSplitsSubscriber.assertValueCount(4)
 
-        totalPriceChargedSubscriber.assertValues("You are using 2,500 ($1,000.00) Expedia+ points", "Your card will be charged $135.81", "You are using 2,500 ($1,000.00) Expedia+ points" , "You are using 14,005 ($100.00) Expedia+ points\nYour card will be charged $3.70")
+        totalPriceChargedSubscriber.assertValues("You are using 2,500 ($1,000.00) Expedia Rewards points", "Your card will be charged $135.81", "You are using 2,500 ($1,000.00) Expedia Rewards points" , "You are using 14,005 ($100.00) Expedia Rewards points\nYour card will be charged $3.70")
     }
 
     @Test

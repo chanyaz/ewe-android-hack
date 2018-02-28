@@ -45,7 +45,7 @@ class RewardsUtilTest {
     fun testBuildRewardText() {
         val userPoints = "100.55"
         val rewardText = util.buildRewardText(context, userPoints, givenFeatureConfig(false))
-        assertEquals(rewardText, "$userPoints Expedia+ Points")
+        assertEquals(rewardText, "$userPoints Expedia Rewards Points")
     }
 
     @Test

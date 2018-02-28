@@ -30,6 +30,6 @@
     <string name="terms_of_service">I have read and agree to the &lt;a href="http://www.google.com"&gt;Terms of Use&lt;/a&gt; and the &lt;a href="http://www.expedia.com"&gt;Privacy Policy&lt;/a&gt;.</string>
 
     <!-- Description text of "I agree to terms of service" checkbox -->
-    <string name="loyalty_terms_of_service">By joining Expedia+, I accept all &lt;a href="http://www.google.com"&gt;terms &amp; conditions&lt;/a&gt;.</string>
+    <string name="loyalty_terms_of_service">By joining Expedia Rewards, I accept all &lt;a href="http://www.google.com"&gt;terms &amp; conditions&lt;/a&gt;.</string>
 
 </resources>

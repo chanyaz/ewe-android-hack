@@ -27,7 +27,7 @@ public class HotelPwpTest extends HotelTestCase {
 		HotelInfoSiteScreen.bookRoomType("happypath_pwp_points_only");
 		CheckoutScreen.signInOnCheckout("singlecard@mobiata.com", "password");
 		CheckoutScreen.assertEarnPointsText("You are a valued member");
-		CheckoutScreen.assertPurchaseTotalText("You are using 2,395 ($2,394.88) Expedia+ points");
+		CheckoutScreen.assertPurchaseTotalText("You are using 2,395 ($2,394.88) Expedia Rewards points");
 		CheckoutScreen.assertCardInfoText("Paying with Points");
 		CheckoutScreen.assertSlideToPurchaseDisplayed();
 		CheckoutScreen.clickPaymentInfo();
@@ -72,7 +72,7 @@ public class HotelPwpTest extends HotelTestCase {
 		HotelInfoSiteScreen.bookRoomType("happypath_pwp_points_with_card");
 		CheckoutScreen.signInOnCheckout("singlecard@mobiata.com", "password");
 		CheckoutScreen.assertEarnPointsText("earn 795 points");
-		CheckoutScreen.assertPurchaseTotalText("You are using 3,600 ($3,600) Expedia+ points\nYour card will be charged $794.88");
+		CheckoutScreen.assertPurchaseTotalText("You are using 3,600 ($3,600) Expedia Rewards points\nYour card will be charged $794.88");
 		CheckoutScreen.assertCardInfoText("Paying with Points & Visa 1111");
 		CheckoutScreen.assertSlideToPurchaseDisplayed();
 		CheckoutScreen.clickPaymentInfo();
@@ -114,7 +114,7 @@ public class HotelPwpTest extends HotelTestCase {
 		PaymentOptionsScreen.clickMenuDone();
 		CheckoutScreen.assertEarnPointsText("earn 4,295 points");
 		CheckoutScreen.assertCardInfoText("Paying with Points & Visa 1111");
-		CheckoutScreen.assertPurchaseTotalText("You are using 100 ($100.00) Expedia+ points\nYour card will be charged $4,294.88");
+		CheckoutScreen.assertPurchaseTotalText("You are using 100 ($100.00) Expedia Rewards points\nYour card will be charged $4,294.88");
 		CheckoutScreen.assertSlideToPurchaseDisplayed();
 	}
 }

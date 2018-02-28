@@ -132,7 +132,7 @@ class PackageConfirmationPresenterTest {
         assertEquals("Mar 7 at 09:00:00, 1 traveler", confirmationPresenter.outboundFlightCard.subTitle.text)
         assertEquals("Flight to (SFO) San Francisco", confirmationPresenter.inboundFlightCard.title.text)
         assertEquals("Mar 8 at 11:25:00, 1 traveler", confirmationPresenter.inboundFlightCard.subTitle.text)
-        assertEquals("4462 Expedia+ Points", confirmationPresenter.expediaPoints.text)
+        assertEquals("4462 Expedia Rewards Points", confirmationPresenter.expediaPoints.text)
     }
 
     @Test

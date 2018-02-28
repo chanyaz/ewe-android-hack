@@ -97,7 +97,7 @@ public class PaymentOptionsScreen {
 		onView(withId(R.id.section_payment_options_container))
 			.check(matches(
 				hasDescendant(allOf(withId(R.id.total_points_available_view),
-					withText(containsString(points + " Expedia+ points"))))));
+					withText(containsString(points + " Expedia Rewards points"))))));
 	}
 
 	public static void assertTotalAmountAvailableMatches(String amount) {

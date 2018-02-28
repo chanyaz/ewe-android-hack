@@ -84,7 +84,7 @@ class PayWithPointsViewModelTest {
         createTripWithShopWithPointsOpted(true)
         optForPwp(true)
         totalPointsAndAmountAvailableToRedeemTestSubscriber.assertNoErrors()
-        totalPointsAndAmountAvailableToRedeemTestSubscriber.assertValue("$100.00 available (1,000 Expedia+ points)")
+        totalPointsAndAmountAvailableToRedeemTestSubscriber.assertValue("$100.00 available (1,000 Expedia Rewards points)")
 
         burnAmountUpdateTestSubscriber.assertNoErrors()
         burnAmountUpdateTestSubscriber.assertValue("100.00")
