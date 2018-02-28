@@ -180,7 +180,7 @@ class PaymentWidgetV2Test {
         assertCardImageEquals(R.drawable.unsupported_card, tv)
         val errorMessage = "Hotel does not accept American Express"
         assertEquals(errorMessage, tv.text)
-        assertEquals(errorMessage + ", disabled Button", tv.contentDescription.toString())
+        assertEquals(errorMessage + ". Button, Disabled", tv.contentDescription.toString())
     }
 
     @Test

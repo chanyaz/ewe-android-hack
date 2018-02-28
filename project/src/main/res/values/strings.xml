@@ -4717,7 +4717,7 @@
     <!--Packages accessibility content description for dialogs - Opens dialog -->
     <string name="accessibility_cont_desc_opens_dialog">Opens dialog</string>
     <!-- Content Description for payment options list when card is not accepted -->
-    <string name="accessibility_cont_desc_card_is_disabled">disabled</string>
+    <string name="accessibility_cont_desc_card_is_disabled">Disabled</string>
     <!-- Content Description for Rating Button -->
     <string name="accessibility_cont_desc_user_rating_button">User Rating Button</string>
 

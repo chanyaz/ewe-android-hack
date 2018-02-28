@@ -89,7 +89,7 @@ class CheckoutToolbarTest {
         assertEquals("Submit, Button", actionMenuView.getChildAt(0).contentDescription)
 
         toolbar.viewModel.enableMenuItem.onNext(false)
-        assertEquals("Submit, disabled, Button", actionMenuView.getChildAt(0).contentDescription)
+        assertEquals("Submit, Disabled, Button", actionMenuView.getChildAt(0).contentDescription)
     }
 
     @Test

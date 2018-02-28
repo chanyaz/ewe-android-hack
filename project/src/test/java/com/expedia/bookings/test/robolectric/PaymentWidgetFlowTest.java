@@ -441,6 +441,32 @@ public class PaymentWidgetFlowTest {
 		assertNull(Db.sharedInstance.getTemporarilySavedCard());
 	}
 
+	@Test
+	public void testStoredCardContentDescription() {
+		User user = UserLoginTestUtil.mockUser();
+
+		StoredCreditCard card = new StoredCreditCard();
+		card.setCardNumber("1234567812345678");
+		card.setId("stored-card-id");
+		card.setType(PaymentType.CARD_VISA);
+		card.setDescription("Visa 1111");
+		card.setIsGoogleWallet(false);
+
+		user.addStoredCreditCard(card);
+		UserLoginTestUtil.setupUserAndMockLogin(user);
+		userStateManager.getUserSource().setUser(user);
+		setupPaymentWidget();
+		tempSavedCardBillingInfo.setIsTempCard(true);
+		paymentWidget.getSectionBillingInfo().bind(tempSavedCardBillingInfo);
+		paymentWidget.userChoosesToSaveCard();
+		paymentWidget.getStoredCreditCardList().bind();
+
+		ListView storedList = paymentWidget.getStoredCreditCardList().findViewById(R.id.stored_card_list);
+
+		TextView tv = storedList.getAdapter().getView(0, null, paymentWidget).findViewById(R.id.text1);
+		assertEquals("Saved Visa 1111 Button" , tv.getContentDescription().toString());
+	}
+
 	private void setUserWithStoredCard(PaymentWidget paymentWidget) {
 		User user = new User();
 		user.addStoredCreditCard(getNewCard(PaymentType.CARD_MAESTRO));
@@ -483,11 +509,11 @@ public class PaymentWidgetFlowTest {
 		setUserWithStoredCard(paymentWidget);
 		paymentWidget.getStoredCreditCardList().bind();
 
-		ListView storedList = (ListView) paymentWidget.getStoredCreditCardList().findViewById(R.id.stored_card_list);
+		ListView storedList = paymentWidget.getStoredCreditCardList().findViewById(R.id.stored_card_list);
 
-		TextView tv = (TextView) storedList.getAdapter().getView(0, null, paymentWidget).findViewById(R.id.text1) ;
+		TextView tv = storedList.getAdapter().getView(0, null, paymentWidget).findViewById(R.id.text1);
 		assertEquals(message, tv.getText());
-		assertEquals(message + ", disabled Button" , tv.getContentDescription().toString());
+		assertEquals(message + ". Button, Disabled" , tv.getContentDescription().toString());
 	}
 
 	private void setupPaymentWidget() {

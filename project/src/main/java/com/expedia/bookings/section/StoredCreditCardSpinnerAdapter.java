@@ -140,12 +140,14 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 					rStatus.setVisibility(View.VISIBLE);
 				}
 				imgRes = BookingInfoUtils.getColorfulCardIcon(cardType);
+				AccessibilityUtil.appendRoleContDesc(tv, storedCardName, R.string.accessibility_cont_desc_role_button);
 			}
 			else {
 				rStatus.setVisibility(View.GONE);
 				storedCardText = ValidFormOfPaymentUtils.getInvalidFormOfPaymentMessage(getContext(), cardType, mTripBucketItem.getLineOfBusiness());
-				String disabledString = getContext().getString(R.string.accessibility_cont_desc_card_is_disabled);
-				AccessibilityUtil.appendRoleContDesc(tv, storedCardText + ", " + disabledString, R.string.accessibility_cont_desc_role_button);
+				String cardContentDesc = Phrase.from(getContext(), R.string.a11y_button_TEMPLATE)
+					.put("description", storedCardText).format().toString();
+				AccessibilityUtil.appendRoleContDesc(tv, cardContentDesc + ",", R.string.accessibility_cont_desc_card_is_disabled);
 			}
 		}
 		tv.setCompoundDrawablesWithIntrinsicBounds(imgRes, 0, 0, 0);
