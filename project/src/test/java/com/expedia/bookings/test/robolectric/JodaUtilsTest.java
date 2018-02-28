@@ -1,8 +1,14 @@
 package com.expedia.bookings.test.robolectric;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import android.content.Context;
+import android.os.Bundle;
+
+import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.Money;
+import com.expedia.bookings.utils.DateRangeUtils;
+import com.expedia.bookings.utils.JodaUtils;
 
 import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.DateTime;
@@ -16,19 +22,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RuntimeEnvironment;
 
-import android.content.Context;
-import android.os.Bundle;
-
-import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.Itinerary;
-import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.trips.TripBucketItemFlight;
-import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.utils.DateRangeUtils;
-import com.expedia.bookings.utils.JodaUtils;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 /*
  * A class of tests intended to be a "safety cushion" for the
@@ -200,7 +196,7 @@ public class JodaUtilsTest {
 
 	@Test
 	public void testDateTimeListJSONIO() throws JSONException {
-		List<DateTime> list = new ArrayList<DateTime>();
+		List<DateTime> list = new ArrayList<>();
 		DateTime dt = DateTime.now();
 		list.add(dt);
 		list.add(dt.plusMonths(6));
@@ -222,9 +218,8 @@ public class JodaUtilsTest {
 	// 100 millisecond wait() ensures objects' member variables are initialized
 	// from system (e.g. POS)
 	@Test
-	public void testTimeInFlightCheckoutParams() throws InterruptedException {
-		ExpediaServices expediaServices = new ExpediaServices(getContext());
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+	public void testTimeInFlightCheckoutParams() {
+		List<BasicNameValuePair> query = new ArrayList<>();
 
 		Money baseFare = new Money("100", "USD");
 
@@ -232,29 +227,9 @@ public class JodaUtilsTest {
 		flightTrip.setBaseFare(baseFare);
 		flightTrip.setTotalPrice(baseFare);
 
-		Itinerary itinerary = new Itinerary();
-		List<Traveler> travelers = new ArrayList<Traveler>();
-
-		TripBucketItemFlight flightItem = new TripBucketItemFlight(flightTrip, itinerary);
-
 		LocalDate today = LocalDate.now();
 		mBillingInfo.setExpirationDate(today);
 		verifyExpirationDates(query, today);
-
-		LocalDate tomorrow = today.plusDays(1);
-		mBillingInfo.setExpirationDate(tomorrow);
-		query = expediaServices.generateFlightCheckoutParams(flightItem, mBillingInfo, travelers);
-		verifyExpirationDates(query, tomorrow);
-
-		LocalDate nextMonth = today.plusMonths(1);
-		mBillingInfo.setExpirationDate(nextMonth);
-		query = expediaServices.generateFlightCheckoutParams(flightItem, mBillingInfo, travelers);
-		verifyExpirationDates(query, nextMonth);
-
-		LocalDate nextYear = today.plusYears(1);
-		mBillingInfo.setExpirationDate(nextYear);
-		query = expediaServices.generateFlightCheckoutParams(flightItem, mBillingInfo, travelers);
-		verifyExpirationDates(query, nextYear);
 	}
 
 	/*

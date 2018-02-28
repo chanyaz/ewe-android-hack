@@ -1,29 +1,5 @@
 package com.expedia.bookings.data.trips;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
-import java.util.TimeZone;
-import java.util.concurrent.PriorityBlockingQueue;
-import java.util.concurrent.TimeUnit;
-
-import org.jetbrains.annotations.NotNull;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -43,8 +19,6 @@ import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
-import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager;
-import com.expedia.bookings.featureconfig.SatelliteFeatureConstants;
 import com.expedia.bookings.features.Feature;
 import com.expedia.bookings.features.Features;
 import com.expedia.bookings.itin.tripstore.utils.ITripsJsonFileUtils;
@@ -66,6 +40,30 @@ import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
+
+import org.jetbrains.annotations.NotNull;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
+import java.util.TimeZone;
+import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -1615,31 +1613,19 @@ public class ItineraryManager implements JSONable {
 		}
 
 		TripDetailsResponse getTripDetailsResponse(Trip trip, boolean deepRefresh) {
-			TripDetailsResponse response;
-
-			if (featureFlagForRetrofitServiceEnabled()) {
-				JSONObject json;
-				if (trip.isShared()) {
-					json = tripsServices.getSharedTripDetails(trip.getShareInfo().getSharableDetailsApiUrl());
-				}
-				else if (trip.isGuest()) {
-					json = tripsServices.getGuestTrip(trip.getTripNumber(), trip.getGuestEmailAddress(), !deepRefresh);
-				}
-				else {
-					json = tripsServices.getTripDetails(trip.getTripId(), !deepRefresh);
-				}
-				response = (new TripDetailsResponseHandler()).handleJson(json);
-				if (json != null && response != null && !response.hasErrors()) {
-					writeTripJsonResponseToFile(trip, json);
-				}
+			JSONObject json;
+			if (trip.isShared()) {
+				json = tripsServices.getSharedTripDetails(trip.getShareInfo().getSharableDetailsApiUrl());
+			}
+			else if (trip.isGuest()) {
+				json = tripsServices.getGuestTrip(trip.getTripNumber(), trip.getGuestEmailAddress(), !deepRefresh);
 			}
 			else {
-				if (trip.isShared()) {
-					response = mServices.getSharedItin(trip.getShareInfo().getSharableDetailsApiUrl());
-				}
-				else {
-					response = mServices.getTripDetails(trip, !deepRefresh);
-				}
+				json = tripsServices.getTripDetails(trip.getTripId(), !deepRefresh);
+			}
+			TripDetailsResponse response = (new TripDetailsResponseHandler()).handleJson(json);
+			if (json != null && response != null && !response.hasErrors()) {
+				writeTripJsonResponseToFile(trip, json);
 			}
 			return response;
 		}
@@ -1666,16 +1652,6 @@ public class ItineraryManager implements JSONable {
 			}
 		}
 
-		private boolean featureFlagForRetrofitServiceEnabled() {
-			return SatelliteFeatureConfigManager
-				.isFeatureEnabled(mContext, SatelliteFeatureConstants.ITINERARY_MANAGER_USE_RETROFIT_TRIP_DETAILS);
-		}
-
-		private boolean featureFlagForAsynchronousRefreshEnabled() {
-			return SatelliteFeatureConfigManager.isFeatureEnabled(mContext,
-				SatelliteFeatureConstants.ITINERARY_MANAGER_MAKE_ASYNCHRONOUS_CALLS_REFRESH_TRIPS);
-		}
-
 		// If the user is logged in, retrieve a listing of current trips for logged in user
 		private void refreshUserList() {
 			if (!userStateManager.isUserAuthenticated()) {
@@ -1691,7 +1667,7 @@ public class ItineraryManager implements JSONable {
 				Log.d(LOGGING_TAG, "User is logged in, refreshing the user list.  Using cached details call: "
 					+ getCachedDetails);
 
-				TripResponse response = mServices.getTrips(getCachedDetails);
+				TripResponse response = mServices.getTrips();
 				OmnitureTracking.trackItinTripRefreshCallMade();
 
 				if (isCancelled()) {
@@ -1776,19 +1752,8 @@ public class ItineraryManager implements JSONable {
 		private void gatherTrips() {
 			Log.i(LOGGING_TAG, "Gathering " + mTrips.values().size() + " trips...");
 
-			if (featureFlagForAsynchronousRefreshEnabled()) {
-				Log.i(LOGGING_TAG, "====REFRESH_ALL_TRIPS====");
-				mSyncOpQueue.add(new Task(Operation.REFRESH_ALL_TRIPS));
-			}
-			else {
-				for (Trip trip : mTrips.values()) {
-					mSyncOpQueue.add(new Task(Operation.REFRESH_TRIP, trip));
-
-					if (trip.isGuest() && trip.getLevelOfDetail() == LevelOfDetail.NONE) {
-						mGuestTripsNotYetLoaded.add(trip.getTripNumber());
-					}
-				}
-			}
+			Log.i(LOGGING_TAG, "====REFRESH_ALL_TRIPS====");
+			mSyncOpQueue.add(new Task(Operation.REFRESH_ALL_TRIPS));
 		}
 
 		private void deduplicateTrips() {
@@ -1851,18 +1816,10 @@ public class ItineraryManager implements JSONable {
 			mTrips.put(shareableUrl, trip);
 
 			Log.i(LOGGING_TAG, "Fetching shared itin " + shareableUrl);
-			// We need to replace the /m with /api to get the json response.
-			String shareableAPIUrl = ItinShareInfo.convertSharableUrlToApiUrl(shareableUrl);
-			TripDetailsResponse response;
-			if (featureFlagForRetrofitServiceEnabled()) {
-				JSONObject json = tripsServices.getSharedTripDetails(trip.getShareInfo().getSharableDetailsApiUrl());
-				response = (new TripDetailsResponseHandler()).handleJson(json);
-				if (json != null && response != null && !response.hasErrors()) {
-					writeTripJsonResponseToFile(trip, json);
-				}
-			}
-			else {
-				response = mServices.getSharedItin(shareableAPIUrl);
+			JSONObject json = tripsServices.getSharedTripDetails(trip.getShareInfo().getSharableDetailsApiUrl());
+			TripDetailsResponse response = (new TripDetailsResponseHandler()).handleJson(json);
+			if (json != null && response != null && !response.hasErrors()) {
+				writeTripJsonResponseToFile(trip, json);
 			}
 
 			if (isCancelled()) {
