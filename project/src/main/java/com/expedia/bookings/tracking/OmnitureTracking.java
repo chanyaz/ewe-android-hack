@@ -1172,8 +1172,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFreeCancellationTooltip);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline);
 
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.pay_later_credit_card_messaging) && isPayLaterHotel(
-			trip)) {
+		if (isPayLaterHotel(trip)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelPayLaterCreditCardMessaging);
 		}
 

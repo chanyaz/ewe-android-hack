@@ -381,8 +381,7 @@ class PaymentWidgetV2Test {
 
     @Test
     fun testIsCreditCardMessagingFeatureEnabledForPayLaterHotel() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppHotelPayLaterCreditCardMessaging)
-        SettingUtils.save(activity, activity.getString(R.string.pay_later_credit_card_messaging), true)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppHotelPayLaterCreditCardMessaging, AbacusVariant.BUCKETED.value)
 
         assertTrue(isCreditCardMessagingForPayLaterEnabled(activity))
     }
@@ -390,7 +389,6 @@ class PaymentWidgetV2Test {
     @Test
     fun testIsCreditCardMessagingFeatureDisabledForPayLaterHotel() {
         RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppHotelPayLaterCreditCardMessaging)
-        SettingUtils.save(activity, activity.getString(R.string.pay_later_credit_card_messaging), false)
 
         assertFalse(isCreditCardMessagingForPayLaterEnabled(activity))
     }

@@ -3,7 +3,6 @@ package com.expedia.bookings.test
 import android.app.Application
 import android.support.annotation.StringRes
 import com.expedia.bookings.OmnitureTestUtils
-import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.ABTest
@@ -41,9 +40,9 @@ class HotelCheckoutInfoTrackingTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testDisabledSTPStateBucketedTrackingCallFiredWhenFeatureToggleON() {
+    fun testDisabledSTPStateBucketedTrackingCallFired() {
 
-        enableABTest(true, AbacusUtils.EBAndroidAppDisabledSTPStateHotels.key)
+        enableABTestWithRemoteFeatureFlag(true, AbacusUtils.EBAndroidAppDisabledSTPStateHotels)
 
         OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
 
@@ -54,37 +53,15 @@ class HotelCheckoutInfoTrackingTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testDisabledSTPStateControlTrackingCallFiredWhenFeatureToggleON() {
+    fun testDisabledSTPStateControlTrackingCallFired() {
 
-        enableABTest(false, AbacusUtils.EBAndroidAppDisabledSTPStateHotels.key)
+        enableABTestWithRemoteFeatureFlag(false, AbacusUtils.EBAndroidAppDisabledSTPStateHotels)
 
         OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
 
         trackPageLoadHotelCheckoutInfo()
 
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withAbacusTestControl(AbacusUtils.EBAndroidAppDisabledSTPStateHotels.key), mockAnalyticsProvider)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testDisabledSTPStateBucketedTrackingCallNotFiredWhenFeatureToggleOFF() {
-
-        enableABTest(true, AbacusUtils.EBAndroidAppDisabledSTPStateHotels.key)
-
-        trackPageLoadHotelCheckoutInfo()
-        OmnitureTestUtils.assertStateNotTracked(OmnitureMatchers.withEvars(mapOf(34 to "15923.0.0")), mockAnalyticsProvider)
-        OmnitureTestUtils.assertStateNotTracked(OmnitureMatchers.withEvars(mapOf(34 to "15923.0.1")), mockAnalyticsProvider)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testDisabledSTPStateControlTrackingCallNotFiredWhenFeatureToggleOFF() {
-
-        enableABTest(false, AbacusUtils.EBAndroidAppDisabledSTPStateHotels.key)
-
-        trackPageLoadHotelCheckoutInfo()
-        OmnitureTestUtils.assertStateNotTracked(OmnitureMatchers.withEvars(mapOf(34 to "15923.0.0")), mockAnalyticsProvider)
-        OmnitureTestUtils.assertStateNotTracked(OmnitureMatchers.withEvars(mapOf(34 to "15923.0.1")), mockAnalyticsProvider)
     }
 
     @Test

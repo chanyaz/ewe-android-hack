@@ -11,16 +11,5 @@
             android:title="Flight rate details from cache (i.e. remove fullscreen progress)" />
 
     </PreferenceCategory>
-
-    <PreferenceCategory
-        android:layout="@layout/preference_category_title"
-        android:title="CheckOut Features">
-        
-        <CheckBoxPreference
-            android:key="@string/pay_later_credit_card_messaging"
-            android:summary="Enable credit card messaging for pay later"
-            android:title="Enable credit card messaging pay later" />
-
-    </PreferenceCategory>
-
+    
 </PreferenceScreen>

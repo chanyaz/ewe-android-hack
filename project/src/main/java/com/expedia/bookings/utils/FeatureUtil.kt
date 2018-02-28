@@ -1,7 +1,6 @@
 package com.expedia.bookings.utils
 
 import android.content.Context
-import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 
@@ -46,8 +45,7 @@ fun isDisplayCardsOnPaymentForm(context: Context): Boolean {
 }
 
 fun isCreditCardMessagingForPayLaterEnabled(context: Context): Boolean {
-    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelPayLaterCreditCardMessaging) &&
-            FeatureToggleUtil.isFeatureEnabled(context, R.string.pay_later_credit_card_messaging)
+    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelPayLaterCreditCardMessaging)
 }
 
 fun isBrandColorEnabled(context: Context): Boolean {

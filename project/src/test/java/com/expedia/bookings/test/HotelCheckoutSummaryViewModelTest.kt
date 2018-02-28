@@ -342,7 +342,7 @@ class HotelCheckoutSummaryViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testCheckOmnitureTrackingForHotelPayLaterMessagingWithNonPayLaterResponse() {
-        setABTestAndFeaturetoggleForPayLaterMessaging(true, true)
+        setABTestAndFeaturetoggleForPayLaterMessaging(true)
         performHotelTrackingWithPayLaterResponse(false)
 
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withAbacusTestBucketed(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline.key), mockAnalyticsProvider)
@@ -351,7 +351,7 @@ class HotelCheckoutSummaryViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testCheckOmnitureTrackingForHotelPayLaterMessagingWithPayLaterResponse() {
-        setABTestAndFeaturetoggleForPayLaterMessaging(true, true)
+        setABTestAndFeaturetoggleForPayLaterMessaging(true)
         performHotelTrackingWithPayLaterResponse(true)
 
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withAbacusTestBucketed(AbacusUtils.EBAndroidAppHotelPayLaterCreditCardMessaging.key), mockAnalyticsProvider)
@@ -359,29 +359,11 @@ class HotelCheckoutSummaryViewModelTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testCheckOmnitureTrackingForHotelPayLaterMessagingWithPayLaterResponseAndWithFeatureToggleTurnedOff() {
-        setABTestAndFeaturetoggleForPayLaterMessaging(true, false)
-        performHotelTrackingWithPayLaterResponse(true)
-
-        OmnitureTestUtils.assertStateNotTracked(OmnitureMatchers.withAbacusTestBucketed(AbacusUtils.EBAndroidAppHotelPayLaterCreditCardMessaging.key), mockAnalyticsProvider)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testCheckOmnitureTrackingForHotelPayLaterMessagingWithAbacusTestAsControl() {
-        setABTestAndFeaturetoggleForPayLaterMessaging(false, true)
+        setABTestAndFeaturetoggleForPayLaterMessaging(false)
         performHotelTrackingWithPayLaterResponse(true)
 
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withAbacusTestControl(AbacusUtils.EBAndroidAppHotelPayLaterCreditCardMessaging.key), mockAnalyticsProvider)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testCheckOmnitureTrackingForHotelPayLaterMessagingWithAbacusTestAsControlAndFeatureToggleTurnedOff() {
-        setABTestAndFeaturetoggleForPayLaterMessaging(false, false)
-        performHotelTrackingWithPayLaterResponse(true)
-
-        OmnitureTestUtils.assertStateNotTracked(OmnitureMatchers.withAbacusTestBucketed(AbacusUtils.EBAndroidAppHotelPayLaterCreditCardMessaging.key), mockAnalyticsProvider)
     }
 
     private fun setPOS(pos: PointOfSaleId) {
@@ -444,13 +426,12 @@ class HotelCheckoutSummaryViewModelTest {
         }
     }
 
-    private fun setABTestAndFeaturetoggleForPayLaterMessaging(payLaterAbTest: Boolean, featureToggle: Boolean) {
-        Db.sharedInstance.abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppHotelPayLaterCreditCardMessaging.key,
-                if (payLaterAbTest) AbacusVariant.BUCKETED.value else AbacusVariant.CONTROL.value)
+    private fun setABTestAndFeaturetoggleForPayLaterMessaging(enable: Boolean) {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppHotelPayLaterCreditCardMessaging,
+                if (enable) AbacusVariant.BUCKETED.value else AbacusVariant.CONTROL.value)
+
         Db.sharedInstance.abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline.key,
                 AbacusVariant.BUCKETED.value)
-
-        SettingUtils.save(context, context.getString(R.string.pay_later_credit_card_messaging), featureToggle)
     }
 
     private fun performHotelTrackingWithPayLaterResponse(payLaterResponse: Boolean) {
