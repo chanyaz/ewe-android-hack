@@ -484,6 +484,32 @@ class FlightCheckoutViewTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testBookingSuccessDialogDisplayedOnItinResponseContainingErrors() {
+        setPOSToIndia()
+        turnOnABTest()
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
+
+        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
+        val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
+        flightPresenter.show(flightPresenter.webCheckoutView)
+        flightPresenter.bookingSuccessDialog.show()
+        flightPresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
+        serviceRule.services!!.getTripDetails("error_trip_details_response", makeItinResponseObserver)
+        testObserver.assertValueCount(0)
+
+        val alertDialog = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
+        assertTrue(alertDialog.title.contains("Booking Successful!"))
+        assertTrue(alertDialog.message.contains("Please check your email for the itinerary."))
+
+        flightPresenter.bookingSuccessDialog.getButton(Dialog.BUTTON_POSITIVE).performClick()
+
+        val activityShadow = Shadows.shadowOf(activity)
+        assertTrue(activityShadow.isFinishing)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testShowBookingSuccessDialogDoesNotFinishActivityIfWebCheckoutNotShown() {
         setPOSToIndia()
         turnOnABTest()

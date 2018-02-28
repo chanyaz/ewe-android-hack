@@ -168,6 +168,20 @@ class PackageConfirmationPresenterTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testMIDShowBookingSuccessDialogOnItinResponseContainingErrors() {
+        setupMIDWebCheckout()
+
+        val makeItinResponseObserver = packagePresenter.makeNewItinResponseObserver()
+
+        serviceRule.services!!.getTripDetails("error_trip_details_response", makeItinResponseObserver)
+
+        val alertDialog = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
+        assertTrue(alertDialog.title.contains("Booking Successful!"))
+        assertTrue(alertDialog.message.contains("Please check your email for the itinerary."))
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMIDDontShowPointsOnConfirmation() {
         setupMIDWebCheckout()
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())

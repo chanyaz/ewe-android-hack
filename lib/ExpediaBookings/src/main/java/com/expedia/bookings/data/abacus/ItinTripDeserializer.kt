@@ -22,15 +22,16 @@ class ItinTripDeserializer : JsonDeserializer<AbstractItinDetailsResponse> {
         val jsonObject = json.asJsonObject
         val responseData = jsonObject.getAsJsonObject("responseData")
         val gson = GsonBuilder().registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter()).create()
-
-        if (responseData.has("hotels") && responseData.has("flights") && !responseData.has("packages") ) {
-            return gson.fromJson(jsonObject, MIDItinDetailsResponse::class.java)
-        } else if (responseData.has("hotels")) {
-            return gson.fromJson(jsonObject, HotelItinDetailsResponse::class.java)
-        } else if (responseData.has("flights")) {
-            return gson.fromJson(jsonObject, FlightItinDetailsResponse::class.java)
-        } else if (responseData.has("packages")) {
-            return gson.fromJson(jsonObject, PackageItinDetailsResponse::class.java)
+        if (responseData != null) {
+            if (responseData.has("hotels") && responseData.has("flights") && !responseData.has("packages")) {
+                return gson.fromJson(jsonObject, MIDItinDetailsResponse::class.java)
+            } else if (responseData.has("hotels")) {
+                return gson.fromJson(jsonObject, HotelItinDetailsResponse::class.java)
+            } else if (responseData.has("flights")) {
+                return gson.fromJson(jsonObject, FlightItinDetailsResponse::class.java)
+            } else if (responseData.has("packages")) {
+                return gson.fromJson(jsonObject, PackageItinDetailsResponse::class.java)
+            }
         }
         return gson.fromJson(jsonObject, ItinDetailsResponse::class.java)
     }
