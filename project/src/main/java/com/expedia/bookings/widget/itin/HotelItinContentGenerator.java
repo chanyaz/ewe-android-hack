@@ -651,6 +651,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		notification.setFlags(Notification.FLAG_LOCAL);
 		notification.setIconResId(R.drawable.ic_stat_hotel);
 		notification.setTitle(title);
+		notification.setTicker(title);
 		notification.setBody(body);
 		notification.setDeepLink(deepLink);
 		return notification;

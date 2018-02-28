@@ -20,8 +20,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.mockito.Mockito.never
-import org.mockito.Mockito.verify
 import org.mockito.Mockito.spy
+import org.mockito.Mockito.verify
 import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -325,6 +325,7 @@ class HotelItinContentGeneratorTest {
             it.notificationType == Notification.NotificationType.HOTEL_REVIEW
         }
         assertEquals(1, hotelReviewNotification.size)
+        assertFalse(hotelReviewNotification[0].ticker.isNullOrEmpty())
         assertEquals(link, hotelReviewNotification[0].deepLink)
     }
 
