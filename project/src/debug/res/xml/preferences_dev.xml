@@ -249,6 +249,11 @@
             android:summary="Show Check In Now button on Itin flights before 24 hours (kill the app and start again to see the changes.)"
             android:title="Show Itin Check In Now for Flights" />
 
+        <Preference
+            android:key="@string/preference_trips_store_json_files"
+            android:summary="Show details about the stored trip details json files"
+            android:title="Show stored json details" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

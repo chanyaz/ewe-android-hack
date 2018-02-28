@@ -104,6 +104,7 @@
     <string name="preference_force_fs_db_update">preference_force_fs_db_update</string>
     <string name="preference_push_notification_gcm_id">preference_push_notification_gcm_id</string>
     <string name="preference_push_notification_tns_server">preference_push_notification_tns_server</string>
+    <string name="preference_trips_store_json_files">preference_trips_store_json_files</string>
     <string name="preference_clear_user_cookies">preference_clear_user_cookies</string>
     <string name="preference_enable_picasso_logging">preference_enable_picasso_logging</string>
     <string name="preference_enable_retain_prev_flight_search_params">preference_enable_retain_prev_flight_search_params</string>

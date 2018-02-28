@@ -32,6 +32,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
+import java.io.File;
 import java.io.IOException;
 
 import io.reactivex.functions.Consumer;
@@ -239,6 +240,37 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 
 			dialogFragment.setViewModel(vm);
 			dialogFragment.show(getFragmentManager(), "tag_select_lang_dialog_fragment");
+			return true;
+		}
+		else if (getString(R.string.preference_trips_store_json_files).equals(key)) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AccountDialogTheme);
+			builder.setTitle("Trips Store");
+			StringBuilder sb = new StringBuilder();
+			File tripsDirectory = getContext().getDir("TRIPS_JSON_STORE", Context.MODE_PRIVATE);
+			String[] storedFiles = null;
+			if (tripsDirectory.exists()) {
+				storedFiles = tripsDirectory.list();
+			}
+			if (storedFiles != null) {
+				sb.append("Number of storedFiles: ");
+				sb.append(storedFiles.length);
+				sb.append("\n\nFiles: ");
+				for (String file : storedFiles) {
+					sb.append("\n\n");
+					sb.append(file);
+				}
+			}
+			else {
+				sb.append("Trips directory does not exist");
+			}
+			builder.setMessage(sb.toString());
+			builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			});
+			builder.create().show();
 			return true;
 		}
 
