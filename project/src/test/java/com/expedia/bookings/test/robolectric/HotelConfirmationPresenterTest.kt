@@ -1,6 +1,7 @@
 package com.expedia.bookings.presenter.hotel
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -80,16 +81,19 @@ class HotelConfirmationPresenterTest {
     fun testDialogDisplayedOnItinsCallFailure() {
         val makeItinResponseObserver = hotelPresenter.makeNewItinResponseObserver()
         makeItinResponseObserver.onError(Throwable())
-        val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
-        val shadowOfAlertDialog = Shadows.shadowOf(alertDialog)
 
-        val message = alertDialog.findViewById<View>(android.R.id.message) as TextView
-        val okButton = alertDialog.findViewById<View>(android.R.id.button1) as Button
+        testBookingSuccessDialogDisplayed()
+    }
 
-        assertEquals(true, alertDialog.isShowing)
-        assertEquals("Booking Successful!", shadowOfAlertDialog.title)
-        assertEquals("Please check your email for the itinerary.", message.text)
-        assertEquals("OK", okButton.text)
+    @Test
+    fun testDialogDisplayedOnItinsResponseContainingError() {
+        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
+        val makeItinResponseObserver = hotelPresenter.makeNewItinResponseObserver()
+        hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.itinDetailsResponseObservable.subscribe(testObserver)
+        serviceRule.services!!.getTripDetails("error_trip_details_response", makeItinResponseObserver)
+        testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
+
+        testBookingSuccessDialogDisplayed()
     }
 
     @Test
@@ -113,6 +117,19 @@ class HotelConfirmationPresenterTest {
 
         hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.hotelConfirmationUISetObservable.onNext(true)
         assertTrue(confirmationDetailsAndUISet)
+    }
+    
+    private fun testBookingSuccessDialogDisplayed() {
+        val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
+
+        val shadowOfAlertDialog = Shadows.shadowOf(alertDialog)
+        val message = alertDialog.findViewById<View>(android.R.id.message) as TextView
+        val okButton = alertDialog.findViewById<View>(android.R.id.button1) as Button
+
+        assertEquals(true, alertDialog.isShowing)
+        assertEquals("Booking Successful!", shadowOfAlertDialog.title)
+        assertEquals("Please check your email for the itinerary.", message.text)
+        assertEquals("OK", okButton.text)
     }
 
     private fun selectHotelRoom() {
