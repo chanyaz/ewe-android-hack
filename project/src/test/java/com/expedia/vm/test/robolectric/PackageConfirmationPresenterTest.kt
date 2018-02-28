@@ -7,6 +7,7 @@ import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
 import com.expedia.bookings.data.AbstractItinDetailsResponse
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.presenter.packages.PackageConfirmationPresenter
 import com.expedia.bookings.presenter.packages.PackagePresenter
@@ -16,6 +17,8 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.test.robolectric.PackageTestUtil
+import com.expedia.bookings.test.robolectric.PackageTestUtil.Companion.getPackageSearchParams
 import com.expedia.bookings.test.robolectric.RoboTestHelper.getContext
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
@@ -156,10 +159,13 @@ class PackageConfirmationPresenterTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMIDShowBookingSuccessDialogOnItinResponseError() {
         setupMIDWebCheckout()
+        Db.setPackageParams(getPackageSearchParams())
+        Db.setPackageSelectedOutboundFlight(PackageTestUtil.getPackageSelectedOutboundFlight())
+        PackageTestUtil.setDbPackageSelectedHotel()
 
         val makeItinResponseObserver = packagePresenter.makeNewItinResponseObserver()
 
-        serviceRule.services!!.getTripDetails("error_trip", makeItinResponseObserver)
+        serviceRule.services!!.getTripDetails("error_trip_response", makeItinResponseObserver)
 
         assertBookingSuccessDialogDisplayed()
     }

@@ -1,7 +1,6 @@
 package com.expedia.bookings.presenter.hotel
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -82,7 +81,7 @@ class HotelConfirmationPresenterTest {
         val makeItinResponseObserver = hotelPresenter.makeNewItinResponseObserver()
         makeItinResponseObserver.onError(Throwable())
 
-        testBookingSuccessDialogDisplayed()
+        assertBookingSuccessDialogDisplayed()
     }
 
     @Test
@@ -93,7 +92,7 @@ class HotelConfirmationPresenterTest {
         serviceRule.services!!.getTripDetails("error_trip_details_response", makeItinResponseObserver)
         testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
 
-        testBookingSuccessDialogDisplayed()
+        assertBookingSuccessDialogDisplayed()
     }
 
     @Test
@@ -119,7 +118,7 @@ class HotelConfirmationPresenterTest {
         assertTrue(confirmationDetailsAndUISet)
     }
 
-    private fun testBookingSuccessDialogDisplayed() {
+    private fun assertBookingSuccessDialogDisplayed() {
         val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
 
         val shadowOfAlertDialog = Shadows.shadowOf(alertDialog)

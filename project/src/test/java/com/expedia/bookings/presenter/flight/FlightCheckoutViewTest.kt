@@ -10,6 +10,7 @@ import com.expedia.bookings.activity.PlaygroundActivity
 import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.TripBucketItemFlightV2
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripParams
@@ -24,6 +25,7 @@ import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.test.robolectric.FlightTestUtil.Companion.getFlightCreateTripResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
@@ -464,22 +466,11 @@ class FlightCheckoutViewTest {
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
 
-        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
-        val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
-        flightPresenter.show(flightPresenter.webCheckoutView)
-        flightPresenter.bookingSuccessDialog.show()
-        flightPresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
-        serviceRule.services!!.getTripDetails("should_error", makeItinResponseObserver)
-        testObserver.assertValueCount(0)
+        Db.getTripBucket().add(TripBucketItemFlightV2(getFlightCreateTripResponse()))
 
-        val alertDialog = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
-        assertTrue(alertDialog.title.contains("Booking Successful!"))
-        assertTrue(alertDialog.message.contains("Please check your email for the itinerary."))
+        makeAnItinsCall("should_error")
 
-        flightPresenter.bookingSuccessDialog.getButton(Dialog.BUTTON_POSITIVE).performClick()
-
-        val activityShadow = Shadows.shadowOf(activity)
-        assertTrue(activityShadow.isFinishing)
+        assertBookingSuccessDialogDisplayedAndFinishesActivityOnClick()
     }
 
     @Test
@@ -490,14 +481,14 @@ class FlightCheckoutViewTest {
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
 
-        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
-        val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
-        flightPresenter.show(flightPresenter.webCheckoutView)
-        flightPresenter.bookingSuccessDialog.show()
-        flightPresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
-        serviceRule.services!!.getTripDetails("error_trip_details_response", makeItinResponseObserver)
-        testObserver.assertValueCount(0)
+        Db.getTripBucket().add(TripBucketItemFlightV2(getFlightCreateTripResponse()))
 
+        makeAnItinsCall("error_trip_details_response")
+
+        assertBookingSuccessDialogDisplayedAndFinishesActivityOnClick()
+    }
+
+    private fun assertBookingSuccessDialogDisplayedAndFinishesActivityOnClick() {
         val alertDialog = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
         assertTrue(alertDialog.title.contains("Booking Successful!"))
         assertTrue(alertDialog.message.contains("Please check your email for the itinerary."))
@@ -515,6 +506,8 @@ class FlightCheckoutViewTest {
         turnOnABTest()
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
+
+        Db.getTripBucket().add(TripBucketItemFlightV2(getFlightCreateTripResponse()))
 
         flightPresenter.bookingSuccessDialog.show()
 
@@ -626,6 +619,16 @@ class FlightCheckoutViewTest {
         val checkOut = LocalDate().plusDays(3)
 
         return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, 2, childList, false, null, null, null, null, null, null)
+    }
+
+    private fun makeAnItinsCall(tripID: String) {
+        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
+        val makeItinResponseObserver = flightPresenter.makeNewItinResponseObserver()
+        flightPresenter.show(flightPresenter.webCheckoutView)
+        flightPresenter.bookingSuccessDialog.show()
+        flightPresenter.confirmationPresenter.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
+        serviceRule.services!!.getTripDetails(tripID, makeItinResponseObserver)
+        testObserver.assertValueCount(0)
     }
 
     private fun createMockFlightServices() {
