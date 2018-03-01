@@ -4,9 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.PorterDuff
 import android.graphics.Rect
-import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
@@ -96,11 +94,6 @@ open class MessageProgressView(context: Context, attrs: AttributeSet?) : View(co
             bgTint = ta.getColor(R.styleable.MessageProgressView_background_tint, bgTint)
         } finally {
             ta.recycle()
-        }
-        if (Build.VERSION.SDK_INT < 21 && bgTint != -1) {
-            val bg = background
-            bg.mutate()
-            bg.setColorFilter(bgTint, PorterDuff.Mode.SRC_IN)
         }
     }
 

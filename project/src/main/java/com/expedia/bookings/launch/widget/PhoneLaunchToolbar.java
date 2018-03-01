@@ -1,7 +1,6 @@
 package com.expedia.bookings.launch.widget;
 
 import android.content.Context;
-import android.os.Build;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
@@ -42,10 +41,7 @@ public class PhoneLaunchToolbar extends Toolbar {
 	@Override
 	public void onFinishInflate() {
 		super.onFinishInflate();
-
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			setElevation(getResources().getDimensionPixelSize(R.dimen.launch_toolbar_elevation));
-		}
+		setElevation(getResources().getDimensionPixelSize(R.dimen.launch_toolbar_elevation));
 	}
 
 }

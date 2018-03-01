@@ -18,14 +18,12 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.VectorDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -135,10 +133,6 @@ public class CustomMatchers {
 	}
 
 	public static Bitmap getBitmapFromVectorDrawable(Drawable drawable) {
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-			drawable = (DrawableCompat.wrap(drawable)).mutate();
-		}
-
 		Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
 			drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(bitmap);

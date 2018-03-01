@@ -19,7 +19,7 @@ class ShareItinDialog(val context: Context) {
 
         SettingUtils.save(Cache.getContext(), "TripType", tripType)
 
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP) {
             context.startActivity(shareIntent)
         } else {
             val receiver = Intent(Cache.getContext(), ItinShareTargetBroadcastReceiver::class.java)

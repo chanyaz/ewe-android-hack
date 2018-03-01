@@ -70,7 +70,7 @@ open class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : P
             creditCardNumber.visibility = VISIBLE
             maskedCreditCard.visibility = GONE
         }
-        val isExtraPaddingRequired = Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP
+        val isExtraPaddingRequired = Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP
         if (isExtraPaddingRequired) {
             addressCity.updatePaddingForOldApi()
             addressState.updatePaddingForOldApi()

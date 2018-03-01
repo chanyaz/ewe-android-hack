@@ -1,7 +1,6 @@
 package com.expedia.bookings.fragment;
 
 import android.annotation.SuppressLint;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -83,13 +82,9 @@ public class TerminalMapFragment extends Fragment {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 
-		// 1895: https://code.google.com/p/android/issues/detail?id=58257 svg-android and system-related.
-		// Let's just prevent the saving of this terminal map (and crash) on 4.3.
-		if (Build.VERSION_CODES.JELLY_BEAN_MR2 != Build.VERSION.SDK_INT) {
-			if (mMapLoaded) {
-				outState.putParcelable(STATE_SVG, mMapSvg);
-				JSONUtils.putJSONable(outState, STATE_AIRPORT_MAP, mCurrentMap);
-			}
+		if (mMapLoaded) {
+			outState.putParcelable(STATE_SVG, mMapSvg);
+			JSONUtils.putJSONable(outState, STATE_AIRPORT_MAP, mCurrentMap);
 		}
 	}
 

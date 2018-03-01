@@ -13,7 +13,7 @@ fun EditText.subscribeMaterialFormsError(observer: Observable<Boolean>, errorMes
         if (parentTextInputLayout != null) {
             this.setParentTextInputLayoutError(parentTextInputLayout, hasError, errorMessage)
 
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP && this.paddingBottom != 8) {
+            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP && this.paddingBottom != 8) {
                 this.updatePaddingForOldApi()
             }
         }

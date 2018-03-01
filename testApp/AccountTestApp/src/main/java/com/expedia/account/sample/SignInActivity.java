@@ -1,13 +1,11 @@
 package com.expedia.account.sample;
 
-import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentActivity;
@@ -175,12 +173,9 @@ public class SignInActivity extends FragmentActivity {
 		vAccountView.onActivityResult(requestCode, resultCode, data);
 	}
 
-	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 	private void showTransparentStatusBar() {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-				WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-		}
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+			WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 	}
 
 	AccountView.Listener mAccountViewListener = new AccountView.Listener() {

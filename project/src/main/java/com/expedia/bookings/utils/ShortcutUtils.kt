@@ -87,7 +87,7 @@ object ShortcutUtils : ItineraryManager.ItinerarySyncAdapter() {
 
                 SettingUtils.save(context, "TripType", "Flight")
 
-                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+                if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP) {
                     context.startActivity(shareIntent)
                 } else {
                     val receiver = Intent(context, ItinShareTargetBroadcastReceiver::class.java)

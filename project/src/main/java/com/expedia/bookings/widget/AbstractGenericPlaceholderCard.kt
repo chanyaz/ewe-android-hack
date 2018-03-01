@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
-import android.os.Build
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.expedia.bookings.R
@@ -33,11 +32,8 @@ abstract class AbstractGenericPlaceholderCard(itemView: View, val context: Conte
                 .put("button_label", vm.buttonTwoLabel)
                 .format().toString()
         button_two.visibility = if (vm.buttonTwoLabel.isNotBlank()) View.VISIBLE else View.GONE
-
-        if (Build.VERSION.SDK_INT >= 21) {
-            button_one.letterSpacing = .05f
-            button_two.letterSpacing = .05f
-        }
+        button_one.letterSpacing = .05f
+        button_two.letterSpacing = .05f
     }
 
     private fun setupFonts() {

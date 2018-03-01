@@ -35,7 +35,7 @@ fun TextView.setMaterialFormsError(isValid: Boolean, errorMessage: String, right
     if (parentTextInputLayout != null) {
         setParentTextInputLayoutError(parentTextInputLayout, !isValid, errorMessage)
 
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP && this.paddingBottom != 8) {
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP && this.paddingBottom != 8) {
             this.updatePaddingForOldApi()
         }
     }

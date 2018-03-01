@@ -172,7 +172,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
             }
         }
 
-        val isExtraPaddingRequired = Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP
+        val isExtraPaddingRequired = Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP
         if (isExtraPaddingRequired) {
             phoneEntryView.phoneNumber.updatePaddingForOldApi()
             phoneEntryView.phoneEditBox?.updatePaddingForOldApi()
