@@ -12,6 +12,8 @@ import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Location
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.flights.ValidFormOfPayment
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.pos.PointOfSale
@@ -19,6 +21,7 @@ import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.extensions.getParentTextInputLayout
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.widget.packages.MaterialBillingDetailsPaymentWidget
 import com.expedia.testutils.AndroidAssert
@@ -346,6 +349,24 @@ class MaterialBillingDetailsPaymentWidgetTest {
         materialBillingDetailsPaymentWidget.onDoneClicked()
 
         assertErrorState(cityLayout, "Enter a valid city", "City, Error, Enter a valid city")
+    }
+
+    @Test
+    fun testVisibilityOfExpiryTextViewWithABTestOn() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.CardExpiryDateFormField)
+        materialBillingDetailsPaymentWidget = LayoutInflater.from(activity).inflate(R.layout.material_billing_details_payment_widget, null) as MaterialBillingDetailsPaymentWidget
+
+        Assert.assertEquals(View.GONE, materialBillingDetailsPaymentWidget.oldCreditExpiryTextLayout.visibility)
+        Assert.assertEquals(View.VISIBLE, materialBillingDetailsPaymentWidget.newCreditCardExpiryTextLayout.visibility)
+    }
+
+    @Test
+    fun testVisibilityOfExpiryTxtViewWithAbTestOff() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.CardExpiryDateFormField, AbacusVariant.CONTROL.value)
+        materialBillingDetailsPaymentWidget = LayoutInflater.from(activity).inflate(R.layout.material_billing_details_payment_widget, null) as MaterialBillingDetailsPaymentWidget
+
+        Assert.assertEquals(View.VISIBLE, materialBillingDetailsPaymentWidget.expirationDate.visibility)
+        Assert.assertEquals(View.GONE, materialBillingDetailsPaymentWidget.newCreditCardExpiryTextLayout.visibility)
     }
 
     private fun givenPackageTripWithVisaValidFormOfPayment() {
