@@ -49,7 +49,7 @@ public interface ExpediaAccountApi {
 	///////////////////////////////////////////////////////////////////////////
 
 	@FormUrlEncoded
-	@POST("/api/auth/autologin")
+	@POST("api/auth/autologin")
 	Observable<FacebookLinkResponse> facebookAutoLogin(
 		@Field("provider") String provider,
 		@Field("userId") String userId,
@@ -57,7 +57,7 @@ public interface ExpediaAccountApi {
 	);
 
 	@FormUrlEncoded
-	@POST("/api/auth/linkNewAccount")
+	@POST("api/auth/linkNewAccount")
 	Observable<FacebookLinkResponse> facebookLinkNewAccount(
 		@Field("provider") String provider,
 		@Field("userId") String facebookUserId,
@@ -66,7 +66,7 @@ public interface ExpediaAccountApi {
 	);
 
 	@FormUrlEncoded
-	@POST("/api/auth/linkExistingAccount")
+	@POST("api/auth/linkExistingAccount")
 	Observable<FacebookLinkResponse> facebookLinkExistingAccount(
 		@Field("provider") String provider,
 		@Field("userId") String facebookUserId,
