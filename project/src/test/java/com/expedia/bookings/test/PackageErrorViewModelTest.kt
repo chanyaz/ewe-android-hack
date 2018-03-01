@@ -169,7 +169,7 @@ class PackageErrorViewModelTest {
         val subjectUnderTest = PackageErrorViewModel(RuntimeEnvironment.application)
 
         val unknownErrorObservableTestSubscriber = TestObserver.create<Unit>()
-        subjectUnderTest.checkoutUnknownErrorObservable.subscribe(unknownErrorObservableTestSubscriber)
+        subjectUnderTest.createTripUnknownErrorObservable.subscribe(unknownErrorObservableTestSubscriber)
 
         val errorImageObservableTestSubscriber = TestObserver.create<Int>()
         subjectUnderTest.imageObservable.subscribe(errorImageObservableTestSubscriber)

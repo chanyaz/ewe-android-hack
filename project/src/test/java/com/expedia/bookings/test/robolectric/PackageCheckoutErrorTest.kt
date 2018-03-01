@@ -51,9 +51,9 @@ class PackageCheckoutErrorTest {
     @RunForBrands(brands = [(MultiBrand.EXPEDIA)])
     fun testUnknownCheckoutErrorGoesToCheckout() {
         presenter.show(presenter.bundlePresenter)
-        presenter.show(presenter.errorPresenter)
-        presenter.errorPresenter.viewmodel.checkoutApiErrorObserver.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
+        presenter.errorPresenter.viewmodel.checkoutApiErrorObserver.onNext(ApiError(ApiError.Code.PACKAGE_CHECKOUT_UNKNOWN))
         presenter.errorPresenter.viewmodel.errorButtonClickedObservable.onNext(Unit)
+
         assertTrue(presenter.bundlePresenter.getCheckoutPresenter().visibility == View.VISIBLE)
     }
 }

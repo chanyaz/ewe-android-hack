@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.robolectric
 
+import android.view.LayoutInflater
+import android.view.View
 import android.widget.TextView
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
@@ -14,6 +16,7 @@ import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
 import com.expedia.bookings.data.packages.MultiItemCreateTripParams
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.presenter.packages.PackagePresenter
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MockPackageServiceTestRule
@@ -28,6 +31,7 @@ import com.expedia.ui.PackageActivity
 import org.hamcrest.Matchers
 import org.joda.time.LocalDate
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -199,6 +203,18 @@ class PackagesCreateTripTest {
         createTripViewModel.packageServices.multiItemCreateTrip(errorParams).subscribe(createTripViewModel.makeMultiItemCreateTripResponseObserver())
 
         showErrorPresenterTestSubscriber.assertValueCount(1)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testUnknownCreateTripErrorHandling() {
+        val presenter = LayoutInflater.from(activity).inflate(R.layout.package_activity, null) as PackagePresenter
+        presenter.show(activity.packagePresenter.bundlePresenter)
+        presenter.show(activity.packagePresenter.errorPresenter)
+        presenter.errorPresenter.viewmodel.createTripErrorObserverable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
+        presenter.errorPresenter.viewmodel.errorButtonClickedObservable.onNext(Unit)
+
+        assertTrue(presenter.searchPresenter.visibility == View.VISIBLE)
     }
 
     private fun getDummySearchParams(response: String = "mid_create_trip"): PackageSearchParams {
