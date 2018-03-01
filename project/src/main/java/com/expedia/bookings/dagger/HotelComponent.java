@@ -1,8 +1,11 @@
 package com.expedia.bookings.dagger;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.expedia.bookings.dagger.tags.HotelScope;
 import com.expedia.bookings.hotel.activity.HotelDetailsActivity;
 import com.expedia.bookings.hotel.activity.HotelResultsActivity;
+import com.expedia.bookings.hotel.activity.HotelReviewsActivity;
 import com.expedia.bookings.hotel.activity.HotelSearchActivity;
 import com.expedia.bookings.presenter.hotel.HotelCheckoutMainViewPresenter;
 import com.expedia.bookings.presenter.hotel.HotelCheckoutPresenter;
@@ -22,8 +25,6 @@ import com.expedia.bookings.widget.itin.HotelItinContentGenerator;
 import com.expedia.vm.HotelConfirmationViewModel;
 import com.expedia.vm.HotelSearchViewModel;
 import com.expedia.vm.interfaces.IPayWithPointsViewModel;
-
-import org.jetbrains.annotations.NotNull;
 
 import dagger.Component;
 
@@ -53,4 +54,5 @@ public interface HotelComponent {
 	void inject(@NotNull HotelSearchActivity hotelSearchActivity);
 	void inject(@NotNull HotelResultsActivity hotelResultsActivity);
 	void inject(@NotNull HotelDetailsActivity hotelDetailsActivity);
+	void inject(@NotNull HotelReviewsActivity hotelReviewsActivity);
 }
