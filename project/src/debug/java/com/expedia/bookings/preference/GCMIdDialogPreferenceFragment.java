@@ -13,6 +13,7 @@ import com.expedia.bookings.data.user.UserSource;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.utils.ClipboardUtils;
+import com.expedia.bookings.utils.UniqueIdentifierPersistenceProvider;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UniqueIdentifierHelper;
 
@@ -44,7 +45,7 @@ public class GCMIdDialogPreferenceFragment extends PreferenceDialogFragmentCompa
 			sb.append("\n \n");
 		}
 		sb.append("Device ID = ");
-		sb.append(UniqueIdentifierHelper.getID(context));
+		sb.append(UniqueIdentifierHelper.getID(new UniqueIdentifierPersistenceProvider(context)));
 		final String gcmInfo = sb.toString();
 
 		builder.setTitle("GCM Info");

@@ -22,6 +22,7 @@ import com.expedia.bookings.server.ExpediaServicesPushInterface
 import com.expedia.bookings.server.PushRegistrationResponseHandler
 import com.expedia.bookings.services.ITNSServices
 import com.expedia.bookings.utils.JodaUtils
+import com.expedia.bookings.utils.UniqueIdentifierPersistenceProvider
 import com.expedia.bookings.utils.UniqueIdentifierHelper
 import com.expedia.bookings.widget.itin.ItinContentGenerator
 import com.expedia.util.endlessObserver
@@ -87,7 +88,8 @@ open class NotificationScheduler @JvmOverloads constructor(val context: Context,
             val userTuid: Long = 0
             val tnsUser = getTNSUser(siteId)
 
-            val courier = Courier("gcm", Integer.toString(langId), BuildConfig.APPLICATION_ID, regId, UniqueIdentifierHelper.getID(context))
+            val courier = Courier("gcm", Integer.toString(langId), BuildConfig.APPLICATION_ID, regId,
+                    UniqueIdentifierHelper.getID(UniqueIdentifierPersistenceProvider(context)))
             //use old Flight Alert system
             if (!AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.TripsNewFlightAlerts)) {
                 val payload = PushNotificationUtils
