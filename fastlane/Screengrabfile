@@ -2,11 +2,12 @@
 
 app_package_name 'com.expedia.bookings.debug'
 tests_package_name 'com.expedia.bookings.test'
-use_tests_in_packages ['com.expedia.bookings.screengrab']
 test_instrumentation_runner 'com.expedia.bookings.test.espresso.InstrumentationTestRunner'
 
 app_apk_path 'project/build/outputs/apk/expedia/debug/project-expedia-debug.apk'
 tests_apk_path 'project/build/outputs/apk/androidTest/expedia/debug/project-expedia-debug-androidTest.apk'
+
+output_directory 'project/build/outputs/fastlane/screenshots'
 
 locales [
         'da_DK',
