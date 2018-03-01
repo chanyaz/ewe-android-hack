@@ -57,14 +57,10 @@ public class ProfileScreen {
 	}
 
 	public static void clickSignInButton() {
-		onView(withId(R.id.sign_in_button)).perform(click());
+		onView(withId(R.id.account_sign_in)).perform(click());
 	}
 
 	public static void clickFacebookSignInButton() {
 		onView(withId(R.id.sign_in_with_facebook_button)).perform(click());
-	}
-
-	public static void clickCreateAccountButton() {
-		onView(withId(R.id.create_account_button)).perform(click());
 	}
 }

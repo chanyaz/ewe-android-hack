@@ -77,11 +77,6 @@ public class ProfileScreenTest {
 		ProfileScreen.clickSignInButton();
 		assertIntentFiredToStartSignInWithInitialState(Config.InitialState.SignIn);
 
-		ProfileScreen.clickFacebookSignInButton();
-		assertIntentFiredToStartSignInWithInitialState(Config.InitialState.FacebookSignIn);
-
-		ProfileScreen.clickCreateAccountButton();
-		assertIntentFiredToStartSignInWithInitialState(Config.InitialState.SinglePageCreateAccount);
 	}
 
 	@Test
