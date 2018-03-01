@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="app_primary">#e31f0e</color>
-    <color name="aag_primary_color">#E31F0E</color>
+    <color name="app_primary">#E31F0E</color>
     <color name="app_primary_dark">#DC170A</color>
     <color name="aag_secondary_color">#F18700</color>
     <color name="hotel_price_text_color_airasiago">#333</color>
-    <color name="hotel_price_sale_text_color_airasiago">@color/aag_primary_color</color>
+    <color name="hotel_price_sale_text_color_airasiago">@color/app_primary</color>
     <color name="action_bar_bg_color">#E21E25</color>
     <color name="flight_trip_color_aag">#F8A424</color>
     <color name="itin_flight_line_color">#e93b2c</color>
     <color name="flight_trip">@color/flight_trip_color_aag</color>
     <color name="flight_trip_price_aag">#E21E25</color>
     <color name="action_bar_selected_tab_underline_color">#E21E25</color>
-    <color name="hotelsv2_coupon_applied_color">@color/aag_primary_color</color>
-    <color name="splash_screen_bg">@color/aag_primary_color</color>
-    <color name="flight_trip_price">@color/aag_primary_color</color>
+    <color name="hotelsv2_coupon_applied_color">@color/app_primary</color>
+    <color name="splash_screen_bg">@color/app_primary</color>
+    <color name="flight_trip_price">@color/app_primary</color>
 
     <color name="launch_actionbar_bg_color">#2B2D32</color>
-    <color name="hotel_lob_btn">@color/aag_primary_color</color>
-    <color name="flights_lob_btn">@color/aag_primary_color</color>
-    <color name="hotels_primary_color">@color/aag_primary_color</color>
-    <color name="traveler_drop_down_checked_color">@color/aag_primary_color</color>
+    <color name="hotel_lob_btn">@color/app_primary</color>
+    <color name="flights_lob_btn">@color/app_primary</color>
+    <color name="hotels_primary_color">@color/app_primary</color>
+    <color name="traveler_drop_down_checked_color">@color/app_primary</color>
     <color name="member_pricing_flag_bg_color">#3e3f43</color>
     <color name="member_pricing_text_color">#FFFFFF</color>
     <color name="member_only_tag_bg_color">#3e3f43</color>
@@ -28,12 +27,12 @@
     <color name="member_deals_background_gradient">#BF495863</color>
 
     <!-- Checkout Colors -->
-    <color name="material_checkout_account_button_background_color">@color/aag_primary_color</color>
+    <color name="material_checkout_account_button_background_color">@color/app_primary</color>
     <color name="material_checkout_account_button_text_color">@android:color/white</color>
 
     <!-- Popular Hotels Tonight Discount strips-->
     <color name="launch_mobile_exclusive">#F8A424</color>
-    <color name="launch_discount">@color/aag_primary_color</color>
+    <color name="launch_discount">@color/app_primary</color>
     <color name="launch_tonight_only">#333333</color>
     <color name="member_pricing_bg_color">#3e3f43</color>
 
@@ -41,23 +40,24 @@
     <color name="hotel_mobile_exclusive_color">#F8A424</color>
     <color name="hotel_tonight_only_color">#333333</color>
     <color name="hotel_urgency_message_color">@color/error_color</color>
-    <color name="hotelsv2_discount_green">@color/aag_primary_color</color>
+    <color name="hotelsv2_discount_green">@color/app_primary</color>
 
     <!-- LX colors -->
-    <color name="lx_primary_color">@color/aag_primary_color</color>
+    <color name="lx_primary_color">@color/app_primary</color>
     <color name="lx_ripple_color">#8b1a10</color>
-    <color name="lx_secondary_color_disabled">@color/aag_primary_color</color>
+    <color name="lx_secondary_color_disabled">@color/app_primary</color>
     <color name="lx_unchecked_toggle_text_color">@android:color/white</color>
 
     <!--Account Lib Colors -->
-    <color name="btn_sign_in_normal">@color/aag_primary_color</color>
+    <color name="btn_sign_in_normal">@color/app_primary</color>
     <color name="btn_sign_in_pressed">#840003</color>
     <color name="btn_sign_in_focused">#C30A0E</color>
     <color name="btn_sign_in_disabled">#80E31F0E</color>
     <color name="acct__btn_sign_in_text">#FFFFFF</color>
     <color name="acct__bg_input_text_good">@color/gray600</color>
-    <color name="account_sign_in_button_background_color">@color/aag_primary_color</color>
-    <color name="account_create_button_text_color">@color/aag_primary_color</color>
+    <color name="account_sign_in_button_background_color">@color/app_primary</color>
+    <color name="account_sign_in_button_text_color">@color/white</color>
+    <color name="account_create_button_text_color">@color/app_primary</color>
     <color name="account_sign_out_button_background_color">@color/aag_secondary_color</color>
 
     <!-- Checkout Colors -->
