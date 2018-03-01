@@ -173,8 +173,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/hotel_booking_summary"
         android:background="@drawable/cost_breakdown"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
         android:orientation="vertical"
         android:paddingBottom="9dp"
         android:paddingLeft="14dp"

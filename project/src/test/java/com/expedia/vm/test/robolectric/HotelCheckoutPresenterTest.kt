@@ -962,6 +962,15 @@ class HotelCheckoutPresenterTest {
         assertEquals(toolbarTitle, backButton.nextFocusRightId)
     }
 
+    @Test
+    fun testToolbarBackButtonFocusedOnCheckout() {
+        goToCheckout()
+        checkout.show(CheckoutBasePresenter.Ready())
+        val backButton = checkout.toolbar.getChildAt(1)
+
+        assertTrue(backButton.isFocused)
+    }
+
     private fun givenLoggedInUserAndTravelerInDb() {
         val testUser = User()
         val traveler = mockTravelerProvider.getCompleteMockTraveler()

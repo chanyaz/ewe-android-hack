@@ -604,6 +604,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				animateInSlideToPurchase(false);
 			}
 			listenToScroll = true;
+			AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar);
 		}
 	};
 
