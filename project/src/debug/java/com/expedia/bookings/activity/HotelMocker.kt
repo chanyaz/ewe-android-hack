@@ -40,7 +40,7 @@ class HotelMocker : AppCompatActivity() {
             val manager = ItineraryManager.getInstance()
             card.id = "hotelMock"
             manager.itinCardData.add(card)
-            this.startActivity(HotelItinDetailsActivity.createIntent(this, card.id),
+            this.startActivity(HotelItinDetailsActivity.createIntent(this, card.id, card.tripId),
                     ActivityOptionsCompat
                             .makeCustomAnimation(this, R.anim.slide_in_right, R.anim.slide_out_left_complete)
                             .toBundle())

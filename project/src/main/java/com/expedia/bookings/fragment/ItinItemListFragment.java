@@ -317,7 +317,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			.isBucketedForTest(getContext(), AbacusUtils.TripsFlightsNewDesign);
 		ItinCardData data = ItineraryManager.getInstance().getItinCardDataFromItinId(itinId);
 		if (data instanceof ItinCardDataHotel) {
-			startActivity(HotelItinDetailsActivity.createIntent(getContext(), data.getId()));
+			startActivity(HotelItinDetailsActivity.createIntent(getContext(), data.getId(), data.getTripId()));
 		}
 		else if (data instanceof ItinCardDataFlight && isFlightDetailOn) {
 			startActivity(FlightItinDetailsActivity.createIntent(getContext(), data.getId()));

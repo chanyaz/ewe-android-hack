@@ -363,7 +363,7 @@ public class ItinListView extends ListView implements OnItemClickListener {
 				openItinInWebView(data.getDetailsUrl());
 			}
 			else if (data.hasDetailData() && data.getTripComponentType() == TripComponent.Type.HOTEL) {
-				getContext().startActivity(HotelItinDetailsActivity.createIntent(getContext(), data.getId()),
+				getContext().startActivity(HotelItinDetailsActivity.createIntent(getContext(), data.getId(), data.getTripId()),
 					ActivityOptionsCompat
 						.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete)
 						.toBundle());

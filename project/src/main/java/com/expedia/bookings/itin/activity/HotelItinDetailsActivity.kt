@@ -40,12 +40,14 @@ open class HotelItinDetailsActivity : HotelItinBaseActivity() {
     lateinit var itinCardDataHotel: ItinCardDataHotel
 
     companion object {
-        private const val ITIN_ID_EXTRA = "ITIN_ID"
+        private const val UNIQUE_ID_EXTRA = "UNIQUE_ID_EXTRA"
+        private const val ITIN_ID_EXTRA = "ITIN_ID_EXTRA"
 
         @JvmStatic
-        fun createIntent(context: Context, id: String): Intent {
+        fun createIntent(context: Context, id: String, itinId: String): Intent {
             val i = Intent(context, HotelItinDetailsActivity::class.java)
-            i.putExtra(HotelItinDetailsActivity.ITIN_ID_EXTRA, id)
+            i.putExtra(HotelItinDetailsActivity.UNIQUE_ID_EXTRA, id)
+            i.putExtra(HotelItinDetailsActivity.ITIN_ID_EXTRA, itinId)
             return i
         }
     }
@@ -63,7 +65,7 @@ open class HotelItinDetailsActivity : HotelItinBaseActivity() {
     }
 
     override fun updateItinCardDataHotel() {
-        val freshItinCardDataHotel = getItineraryManager().getItinCardDataFromItinId(intent.getStringExtra(ITIN_ID_EXTRA)) as ItinCardDataHotel?
+        val freshItinCardDataHotel = getItineraryManager().getItinCardDataFromItinId(intent.getStringExtra(UNIQUE_ID_EXTRA)) as ItinCardDataHotel?
         if (freshItinCardDataHotel == null) {
             finish()
         } else {
