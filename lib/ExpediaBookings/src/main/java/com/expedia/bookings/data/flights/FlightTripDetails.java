@@ -54,6 +54,8 @@ public class FlightTripDetails {
 
 		public List<InsuranceProduct> availableInsuranceProducts = Collections.emptyList();
 		public InsuranceProduct selectedInsuranceProduct;
+		public boolean isEvolable;
+		public FlightEvolable evolableUrls;
 
 		public Money getBookingFee() {
 			return new Money(fees, currency);
@@ -120,5 +122,12 @@ public class FlightTripDetails {
 		public String bookingCode;
 		@SerializedName("cabinCode")
 		public String seatClass;
+	}
+
+	public static class FlightEvolable {
+		public String evolablePenaltyRulesUrl;
+		public String evolableAsiaUrl;
+		public String evolableTermsAndConditionsUrl;
+		public String evolableCancellationChargeUrl;
 	}
 }

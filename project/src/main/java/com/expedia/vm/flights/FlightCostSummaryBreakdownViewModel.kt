@@ -76,8 +76,8 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
             }
 
             if (flightOffer.fees != null) {
-                val flightLeg = flightDetails.legs?.firstOrNull()
-                if (flightLeg != null && flightLeg.isEvolable && isEvolableEnabled()) {
+                val flightOffer = flightDetails.offer
+                if (flightOffer != null && flightOffer.isEvolable && isEvolableEnabled()) {
                     title = context.getString(R.string.booking_fee)
                 } else {
                     title = Phrase.from(context, R.string.brand_booking_fee).put("brand", ProductFlavorFeatureConfiguration.getInstance().getPOSSpecificBrandName(context)).format().toString()

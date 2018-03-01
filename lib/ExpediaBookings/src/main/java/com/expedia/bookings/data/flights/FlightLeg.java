@@ -56,12 +56,6 @@ public class FlightLeg {
 	public int legRank;
 	public BaggageInfoFormData jsonBaggageFeesUrl;
 
-	public boolean isEvolable;
-	public String evolablePenaltyRulesUrl;
-	public String evolableAsiaUrl;
-	public String evolableTermsAndConditionsUrl;
-	public String evolableCancellationChargeUrl;
-
 	public boolean isFreeCancellable() {
 		return freeCancellationBy != null;
 	}

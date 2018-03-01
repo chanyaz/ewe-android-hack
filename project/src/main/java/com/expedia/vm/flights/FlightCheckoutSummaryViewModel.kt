@@ -5,7 +5,7 @@ import android.support.v4.content.ContextCompat
 import android.text.SpannableStringBuilder
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.StrUtils
 import com.squareup.phrase.Phrase
@@ -22,18 +22,15 @@ class FlightCheckoutSummaryViewModel(val context: Context) {
     var outboundSelectedAndTotalLegRank: Pair<Int, Int>? = null
     var inboundSelectedAndTotalLegRank: Pair<Int, Int>? = null
     val evolableTermsConditionTextObservable = PublishSubject.create<SpannableStringBuilder>()
-    val evolableTermsConditionSubject = PublishSubject.create<List<FlightLeg>>()
+    val evolableTermsConditionSubject = PublishSubject.create<FlightTripDetails.FlightOffer>()
 
     init {
-        evolableTermsConditionSubject.filter { flightList ->
-            val flightLeg = flightList.firstOrNull()
-            flightLeg != null && flightLeg.isEvolable && isEvolableEnabled()
-        }.map { flightList ->
-            flightList[0]
-        }.subscribe { flightLeg ->
+        evolableTermsConditionSubject.filter { flightOffer ->
+            flightOffer.isEvolable && flightOffer.evolableUrls != null && isEvolableEnabled()
+        }.map { it.evolableUrls }.subscribe { flightEvolableUrl ->
             val baggageFeesTextFormatted = Phrase.from(context, R.string.evolable_terms_condition_TEMPLATE)
-                    .put("evolable_asia_link", flightLeg.evolableAsiaUrl)
-                    .put("evolable_terms_condition_link", flightLeg.evolableTermsAndConditionsUrl)
+                    .put("evolable_asia_link", flightEvolableUrl.evolableAsiaUrl)
+                    .put("evolable_terms_condition_link", flightEvolableUrl.evolableTermsAndConditionsUrl)
                     .format().toString()
 
             val baggageFeesTextWithColoredClickableLinks = StrUtils.getSpannableTextByColor(baggageFeesTextFormatted,

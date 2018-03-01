@@ -292,7 +292,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
                     .bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.BUNDLE)
             totalPriceWidget.viewModel.priceAvailableObservable.onNext(true)
         }
-        tripResponse.details.legs?.let {
+        tripResponse.details.offer?.let {
             viewModel.evolableTermsConditionSubject.onNext(it)
         }
         bottomCheckoutContainer.viewModel.checkoutButtonEnableObservable.onNext(true)

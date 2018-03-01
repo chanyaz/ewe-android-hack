@@ -7,7 +7,6 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripDetails
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
-import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.insurance.InsuranceProduct
 import com.expedia.bookings.services.TestObserver
@@ -338,7 +337,7 @@ class FlightCostSummaryBreakdownViewModelTest {
         newTripResponse.details.offer.pricePerPassengerCategory[0].totalPrice.formattedPrice = totalPrice.formattedMoneyFromAmountAndCurrencyCode
         newTripResponse.details.offer.pricePerPassengerCategory[0].basePrice = basePrice
         newTripResponse.details.offer.pricePerPassengerCategory[0].basePrice.formattedPrice = basePrice.formattedMoneyFromAmountAndCurrencyCode
-        newTripResponse.details.legs = listOf(getFlightLeg())
+        newTripResponse.details.offer = addEvolableUrls(newTripResponse.details.offer)
     }
 
     private fun assertEvents(expectedBreakdownList: List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>,
@@ -371,16 +370,6 @@ class FlightCostSummaryBreakdownViewModelTest {
         newTripResponse.details.offer.pricePerPassengerCategory[1].basePrice.formattedPrice = basePrice.formattedMoneyFromAmountAndCurrencyCode
     }
 
-    private fun getFlightLeg(): FlightLeg {
-        val flightLeg = FlightLeg()
-        flightLeg.isEvolable = true
-        flightLeg.evolablePenaltyRulesUrl = "http://www.evolableasia.com/support/japanflight/oem_cancelprice.html"
-        flightLeg.evolableTermsAndConditionsUrl = "https://www.expedia.co.jp/g/rf/terms-of-use?langid=1041"
-        flightLeg.evolableAsiaUrl = "https://www.expedia.co.jp/g/rf/evolable?langid=1041"
-        flightLeg.evolableCancellationChargeUrl = "https://www.expedia.co.jp/g/rf/check-in?langid=1041"
-        return flightLeg
-    }
-
     private fun setUpFlightSubPubChange() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightSubpubChange)
         Ui.getApplication(activity).defaultFlightComponents()
@@ -389,5 +378,15 @@ class FlightCostSummaryBreakdownViewModelTest {
     private fun givenTripResponseHasFees() {
         val money = Money("2.50", "USD")
         newTripResponse.selectedCardFees = money
+    }
+
+    private fun addEvolableUrls(flightOffer: FlightTripDetails.FlightOffer): FlightTripDetails.FlightOffer {
+        flightOffer.isEvolable = true
+        flightOffer.evolableUrls = FlightTripDetails.FlightEvolable()
+        flightOffer.evolableUrls.evolablePenaltyRulesUrl = "http://www.evolableasia.com/support/japanflight/oem_cancelprice.html"
+        flightOffer.evolableUrls.evolableTermsAndConditionsUrl = "https://www.expedia.co.jp/g/rf/terms-of-use?langid=1041"
+        flightOffer.evolableUrls.evolableAsiaUrl = "https://www.expedia.co.jp/g/rf/evolable?langid=1041"
+        flightOffer.evolableUrls.evolableCancellationChargeUrl = "https://www.expedia.co.jp/g/rf/check-in?langid=1041"
+        return flightOffer
     }
 }

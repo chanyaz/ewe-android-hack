@@ -639,12 +639,23 @@ class FlightOverviewPresenterTest {
         flightLeg.baggageFeesUrl = "http://new baggage url"
         flightTripDetails.legs.add(flightLeg)
         flightOffer.pricePerPassengerCategory = pricePerPassengerList
+        flightOffer.isEvolable = true
+        flightOffer.evolableUrls = getEvolableUrl()
         flightTripDetails.offer = flightOffer
         flightCreateTripResponse.details = flightTripDetails
         flightCreateTripResponse.totalPriceIncludingFees = Money(223, "USD")
         flightCreateTripResponse.selectedCardFees = Money(0, "USD")
 
         return flightCreateTripResponse
+    }
+
+    private fun getEvolableUrl(): FlightTripDetails.FlightEvolable {
+        var flightEvolableUrl = FlightTripDetails.FlightEvolable()
+        flightEvolableUrl.evolableAsiaUrl = "https://www.expedia.co.jp/g/rf/evolable?langid=1041"
+        flightEvolableUrl.evolableCancellationChargeUrl = "https://www.expedia.co.jp/g/rf/check-in?langid=1041"
+        flightEvolableUrl.evolablePenaltyRulesUrl = "http://www.evolableasia.com/support/japanflight/oem_cancelprice.html"
+        flightEvolableUrl.evolableTermsAndConditionsUrl = "https://www.expedia.co.jp/g/rf/terms-of-use?langid=1041"
+        return flightEvolableUrl
     }
 
     private fun getToolbarDateText(params: FlightSearchParams): String {
@@ -676,12 +687,6 @@ class FlightOverviewPresenterTest {
         flightLeg.packageOfferModel.price.averageTotalPricePerTicket = Money("200.0", "USD")
         flightLeg.packageOfferModel.price.averageTotalPricePerTicket.roundedAmount = BigDecimal(201)
         flightLeg.packageOfferModel.price.pricePerPerson = Money("200.0", "USD")
-
-        flightLeg.isEvolable = true
-        flightLeg.evolablePenaltyRulesUrl = "http://www.evolableasia.com/support/japanflight/oem_cancelprice.html"
-        flightLeg.evolableTermsAndConditionsUrl = "https://www.expedia.co.jp/g/rf/terms-of-use?langid=1041"
-        flightLeg.evolableAsiaUrl = "https://www.expedia.co.jp/g/rf/evolable?langid=1041"
-        flightLeg.evolableCancellationChargeUrl = "https://www.expedia.co.jp/g/rf/check-in?langid=1041"
 
         val airlines = ArrayList<Airline>()
         val airline1 = Airline("United", null)

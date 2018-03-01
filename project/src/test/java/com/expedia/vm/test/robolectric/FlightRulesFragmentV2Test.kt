@@ -6,7 +6,6 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripBucketItemFlightV2
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
-import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.fragment.ExpediaSupportFragmentTestUtil
 import com.expedia.bookings.fragment.FlightRulesFragmentV2
@@ -86,7 +85,7 @@ class FlightRulesFragmentV2Test {
         flightCreateTripResponse.flightRules.rulesToUrl = rulesToUrl
 
         flightCreateTripResponse.details = FlightTripDetails()
-        flightCreateTripResponse.details.legs = listOf<FlightLeg>(prepareFlightLeg())
+        flightCreateTripResponse.details.offer = prepareFlightOffer()
 
         return flightCreateTripResponse
     }
@@ -96,14 +95,15 @@ class FlightRulesFragmentV2Test {
         flightResponse.flightRules.rulesToUrl.put("GeneralConditions", "https://www.expedia.fr/p/support/check-in")
     }
 
-    private fun prepareFlightLeg(): FlightLeg {
-        val flightLeg = FlightLeg()
-        flightLeg.isEvolable = true
-        flightLeg.evolablePenaltyRulesUrl = "http://www.evolableasia.com/support/japanflight/oem_cancelprice.html"
-        flightLeg.evolableTermsAndConditionsUrl = "https://www.expedia.co.jp/g/rf/terms-of-use?langid=1041"
-        flightLeg.evolableAsiaUrl = "https://www.expedia.co.jp/g/rf/evolable?langid=1041"
-        flightLeg.evolableCancellationChargeUrl = "https://www.expedia.co.jp/g/rf/check-in?langid=1041"
-        return flightLeg
+    private fun prepareFlightOffer(): FlightTripDetails.FlightOffer {
+        val flightOffer = FlightTripDetails.FlightOffer()
+        flightOffer.isEvolable = true
+        flightOffer.evolableUrls = FlightTripDetails.FlightEvolable()
+        flightOffer.evolableUrls.evolablePenaltyRulesUrl = "http://www.evolableasia.com/support/japanflight/oem_cancelprice.html"
+        flightOffer.evolableUrls.evolableTermsAndConditionsUrl = "https://www.expedia.co.jp/g/rf/terms-of-use?langid=1041"
+        flightOffer.evolableUrls.evolableAsiaUrl = "https://www.expedia.co.jp/g/rf/evolable?langid=1041"
+        flightOffer.evolableUrls.evolableCancellationChargeUrl = "https://www.expedia.co.jp/g/rf/check-in?langid=1041"
+        return flightOffer
     }
 
     @After

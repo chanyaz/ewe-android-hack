@@ -1,7 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.List;
-
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.SpannableStringBuilder;
@@ -13,7 +11,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
-import com.expedia.bookings.data.flights.FlightLeg;
+import com.expedia.bookings.data.flights.FlightTripDetails;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.StrUtils;
@@ -23,7 +21,7 @@ import com.squareup.phrase.Phrase;
 public class FlightRulesFragmentV2 extends BaseRulesFragment {
 
 	private FlightCreateTripResponse flightCreateTripResponse;
-	private FlightLeg flightLeg;
+	private FlightTripDetails.FlightEvolable flightEvolableUrls;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -41,15 +39,15 @@ public class FlightRulesFragmentV2 extends BaseRulesFragment {
 		if (flightCreateTripResponse != null) {
 			String completeRuleUrl = flightCreateTripResponse.flightRules.rulesToUrl
 				.get(RulesKeys.COMPLETE_PENALTY_RULES.getKey());
-			if (flightLeg != null) {
-				String evolablePenaltyRuleUrl = flightLeg.evolablePenaltyRulesUrl;
+			if (flightEvolableUrls != null) {
+				String evolablePenaltyRuleUrl = flightEvolableUrls.evolablePenaltyRulesUrl;
 				if (Strings.isNotEmpty(evolablePenaltyRuleUrl)) {
 					completeRuleUrl = evolablePenaltyRuleUrl;
 				}
 			}
 			setRulesAndRestrictionHeader(fragmentView, completeRuleUrl);
 			populateHeaderRows(fragmentView);
-			if (flightLeg == null) {
+			if (flightEvolableUrls == null) {
 				populateBody(fragmentView);
 			}
 			else {
@@ -60,7 +58,7 @@ public class FlightRulesFragmentV2 extends BaseRulesFragment {
 				.get(RulesKeys.COMPLETE_PENALTY_RULES.getKey());
 			String completePenaltyRuleUrl = flightCreateTripResponse.flightRules.rulesToUrl
 				.get(RulesKeys.COMPLETE_PENALTY_RULES.getKey());
-			if (flightLeg != null) {
+			if (flightEvolableUrls != null) {
 				completePenaltyRuleText = getResources().getString(R.string.evolable_legal_refund_info);
 				completePenaltyRuleUrl = "";
 			}
@@ -84,8 +82,8 @@ public class FlightRulesFragmentV2 extends BaseRulesFragment {
 				.get(RulesKeys.ADDITIONAL_AIRLINE_FEES.getKey());
 			String airlineFeeRuleUrl = flightCreateTripResponse.flightRules.rulesToUrl
 				.get(RulesKeys.ADDITIONAL_AIRLINE_FEES.getKey());
-			if (flightLeg != null) {
-				String evolableCancellationChargeUrl = flightLeg.evolableCancellationChargeUrl;
+			if (flightEvolableUrls != null) {
+				String evolableCancellationChargeUrl = flightEvolableUrls.evolableCancellationChargeUrl;
 				if (Strings.isEmpty(evolableCancellationChargeUrl)) {
 					airlineFeeRuleUrl = "";
 				}
@@ -138,15 +136,12 @@ public class FlightRulesFragmentV2 extends BaseRulesFragment {
 	}
 
 	private SpannableStringBuilder constructHtmlBodyEvolableSectionOne() {
-		SpannableStringBuilder builder = new SpannableStringBuilder();
-		if (flightCreateTripResponse != null) {
-			String cancellationText = Phrase.from(getContext(), R.string.evolable_legal_cancellation_info_TEMPLATE)
-				.put("cancellation_charge_link", flightLeg.evolablePenaltyRulesUrl)
+		String cancellationText = Phrase.from(getContext(), R.string.evolable_legal_cancellation_info_TEMPLATE)
+				.put("cancellation_charge_link", flightEvolableUrls.evolablePenaltyRulesUrl)
 				.format().toString();
 
-			builder = StrUtils.getSpannableTextByColor(cancellationText,
+		SpannableStringBuilder builder = StrUtils.getSpannableTextByColor(cancellationText,
 				ContextCompat.getColor(getContext(), R.color.flight_primary_color), true);
-		}
 		return builder;
 	}
 
@@ -168,12 +163,9 @@ public class FlightRulesFragmentV2 extends BaseRulesFragment {
 
 	private void fetchEvolableDetails() {
 		if (flightCreateTripResponse != null) {
-			List<FlightLeg> flightLegs = flightCreateTripResponse.getDetails().getLegs();
-			if (flightLegs != null && !flightLegs.isEmpty()) {
-				FlightLeg flightLeg = flightLegs.get(0);
-				if (flightLeg != null && flightLeg.isEvolable) {
-					this.flightLeg = flightLeg;
-				}
+			FlightTripDetails.FlightOffer flightOffer = flightCreateTripResponse.getOffer();
+			if (flightOffer != null && flightOffer.isEvolable && flightOffer.evolableUrls != null) {
+					this.flightEvolableUrls = flightOffer.evolableUrls;
 			}
 		}
 	}
