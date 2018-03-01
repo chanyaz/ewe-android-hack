@@ -106,11 +106,6 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
 
         // TODO - move Trips into own dispatcher
 
-        // Trips API - room upgrade
-        if (request.path.matches(Regex("^/api/trips.*/upgradeOffers\\?.*$"))) {
-            return dispatchUpgradeOffersResponse()
-        }
-
         // Trips API
         if (request.path.startsWith("/api/trips?")) {
             return dispatchTrip(request)
@@ -352,9 +347,6 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
 
         return makeResponse("/api/trips/happy.json", params)
     }
-
-    private fun dispatchUpgradeOffersResponse(): MockResponse =
-            makeResponse("/api/trips/upgradeOffers/happy.json", emptyMap())
 
     private fun dispatchSuggest(request: RecordedRequest): MockResponse {
         var type: String? = ""

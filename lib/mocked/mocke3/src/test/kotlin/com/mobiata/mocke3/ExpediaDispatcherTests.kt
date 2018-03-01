@@ -105,11 +105,6 @@ class ExpediaDispatcherTests {
     }
 
     @Test
-    fun testRequestWithTripsUpgradeOffersPathReturnsMatchingResponse() {
-        assertPathReturnsMockBodyWithString("api/trips/upgradeOffers", mapOf(Pair("key", "value")), "api/trips/upgradeOffers/happy.json")
-    }
-
-    @Test
     fun testRequestWithTripsPathContainingParametersReturnsMatchingResponse() {
         assertPathReturnsMockBodyWithString("api/trips", mapOf(Pair("key", "value")), "api/trips/happy.json")
     }
