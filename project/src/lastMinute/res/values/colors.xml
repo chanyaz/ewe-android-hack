@@ -80,6 +80,7 @@
     <color name="account_toolbar_text_color">@android:color/white</color>
     <color name="account_sign_out_button_background_color">@color/lob_btn_color</color>
     <color name="account_sign_in_button_background_color">@color/last_minute_primary_color</color>
+    <color name="account_sign_in_button_text_color">@color/white</color>
     <color name="account_create_button_text_color">@color/last_minute_primary_color</color>
 
     <color name="error_widget_edit_button_selected_color">#A1266C</color>

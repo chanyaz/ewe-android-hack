@@ -48,6 +48,7 @@
     <color name="flights_lob_btn">#0088CE</color>
     <color name="action_bar_selected_tab_underline_color">@color/gray800</color>
     <color name="account_sign_in_button_background_color">@color/vsc_primary_color</color>
+    <color name="account_sign_in_button_text_color">@color/white</color>
     <color name="account_create_button_text_color">@color/vsc_primary_color</color>
     <color name="account_sign_out_button_background_color">@color/vsc_secondary_color</color>
 

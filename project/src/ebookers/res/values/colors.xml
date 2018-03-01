@@ -2,8 +2,8 @@
 <resources>
     <color name="app_primary">#0099CC</color>
     <color name="app_primary_dark">#0086C0</color>
-    <color name="action_bar_bg_color">#0099CC</color>
-    <color name="launch_toolbar_background_color">@color/action_bar_bg_color</color>
+    <color name="action_bar_bg_color">@color/app_primary</color>
+    <color name="launch_toolbar_background_color">@color/app_primary</color>
     <color name="preferences_text">#495863</color>
 
     <color name="lob_btn_color">#0099CC</color>
@@ -34,7 +34,7 @@
     <!--Flight-->
     <color name="action_bar_text_color">@color/white</color>
     <color name="flight_free_cancellation_text_color">#0099CC</color>
-    <color name="traveler_drop_down_checked_color">@color/action_bar_bg_color</color>
+    <color name="traveler_drop_down_checked_color">@color/app_primary</color>
 
     <color name="hotels_primary_color">#0099CC</color>
 
@@ -94,7 +94,8 @@
     <color name="acct__bg_input_text_good">@color/gray600</color>
 
     <color name="account_sign_out_button_background_color">#003366</color>
-    <color name="account_sign_in_button_background_color">@color/action_bar_bg_color</color>
+    <color name="account_sign_in_button_background_color">@color/app_primary</color>
+    <color name="account_sign_in_button_text_color">@color/white</color>
 
     <!-- Rewards -->
     <color name="reward_base_tier_color">#668193</color>
