@@ -28,14 +28,10 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 	private static final String ARG_HTML_DATA = "ARG_HTML_DATA";
 	private static final String ARG_ITIN_CHECKIN = "ARG_ITIN_CHECKIN";
 	private static final String ARG_ALLOW_MOBILE_REDIRECTS = "ARG_ALLOW_MOBILE_REDIRECTS";
-	private static final String ARG_RETURN_FROM_CANCEL_ROOM_BOOKING = "ARG_RETURN_FROM_CANCEL_ROOM_BOOKING";
-	private static final String ARG_RETURN_FROM_SOFT_CHANGE_ROOM_BOOKING = "ARG_RETURN_FROM_SOFT_CHANGE_ROOM_BOOKING";
-	private static final String ARG_RETURN_FROM_ROOM_UPGRADE = "ARG_RETURN_FROM_ROOM_UPGRADE";
 	private static final String ARG_RETURN_FROM_HOTEL_ITIN_WEBVIEW = "ARG_RETURN_FROM_HOTEL_ITIN_WEBVIEW";
 	private static final String ARG_HANDLE_BACK = "ARG_HANDLE_BACK";
 	private static final String ARG_HANDLE_RETRY_ON_ERROR = "ARG_HANDLE_RETRY_ON_ERROR";
 	protected static final String ARG_USE_WEB_VIEW_TITLE = "ARG_USE_WEB_VIEW_TITLE";
-	private static final String APP_VISITOR_ID_PARAM = "appvi=";
 	private static final String ARG_ALLOW_DOM_STORAGE = "ARG_ALLOW_DOM_STORAGE";
 	private static final String ARG_MESO_DESTINATION_PAGE = "ARG_MESO_DESTINATION_PAGE";
 
@@ -102,22 +98,6 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 			return this;
 		}
 
-		public IntentBuilder setRoomCancelType() {
-			mIntent.putExtra(ARG_RETURN_FROM_CANCEL_ROOM_BOOKING, true);
-			return this;
-		}
-
-
-		public IntentBuilder setRoomSoftChange() {
-			mIntent.putExtra(ARG_RETURN_FROM_SOFT_CHANGE_ROOM_BOOKING, true);
-			return this;
-		}
-
-		public IntentBuilder setRoomUpgradeType() {
-			mIntent.putExtra(ARG_RETURN_FROM_ROOM_UPGRADE, true);
-			return this;
-		}
-
 		public IntentBuilder setDomStorage(boolean setDomStorage) {
 			mIntent.putExtra(ARG_ALLOW_DOM_STORAGE, setDomStorage);
 			return this;
@@ -171,7 +151,7 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 		Bundle extras = intent.getExtras();
 		setTheme(R.style.Material_WebView_Theme);
 		setContentView(R.layout.web_view_toolbar);
-		mProgressBar = (ProgressBar) findViewById(R.id.webview_progress_view);
+		mProgressBar = findViewById(R.id.webview_progress_view);
 
 		if (shouldBail()) {
 			return;
@@ -185,18 +165,6 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 			resultIntent.putExtra(Constants.ITIN_CHECK_IN_AIRLINE_NAME, airlineName);
 			resultIntent.putExtra(Constants.ITIN_CHECK_IN_AIRLINE_CODE, airlineCode);
 			resultIntent.putExtra(Constants.ITIN_CHECK_IN_CONFIRMATION_CODE, confirmationCode);
-			setResult(RESULT_OK, resultIntent);
-		}
-		else if (extras.getBoolean(ARG_RETURN_FROM_CANCEL_ROOM_BOOKING)) {
-			Intent resultIntent = new Intent(intent);
-			setResult(RESULT_OK, resultIntent);
-		}
-		else if (extras.getBoolean(ARG_RETURN_FROM_SOFT_CHANGE_ROOM_BOOKING)) {
-			Intent resultIntent = new Intent(intent);
-			setResult(RESULT_OK, resultIntent);
-		}
-		else if (extras.getBoolean(ARG_RETURN_FROM_ROOM_UPGRADE)) {
-			Intent resultIntent = new Intent(intent);
 			setResult(RESULT_OK, resultIntent);
 		}
 		else if (extras.getBoolean(ARG_RETURN_FROM_HOTEL_ITIN_WEBVIEW)) {

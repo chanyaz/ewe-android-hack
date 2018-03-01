@@ -3,7 +3,6 @@ package com.expedia.bookings.dagger;
 import com.expedia.bookings.dagger.tags.TripScope;
 import com.expedia.bookings.model.PointOfSaleStateModel;
 import com.expedia.bookings.server.EndpointProvider;
-import com.expedia.bookings.services.RoomUpgradeOffersService;
 import com.expedia.bookings.itin.ItinPageUsableTracking;
 import com.expedia.bookings.services.TripShareUrlShortenService;
 import com.expedia.bookings.services.TripShareUrlShortenServiceInterface;
@@ -40,13 +39,6 @@ public final class TripModule {
 		final String endpoint = endpointProvider.getShortlyEndpointUrl();
 		return new TripShareUrlShortenService(endpoint, client, interceptor, AndroidSchedulers.mainThread(),
 			Schedulers.io());
-	}
-
-	@Provides
-	@TripScope
-	RoomUpgradeOffersService provideRoomUpgradeOffersService(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
-		final String endpoint = endpointProvider.getE3EndpointUrl();
-		return new RoomUpgradeOffersService(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides

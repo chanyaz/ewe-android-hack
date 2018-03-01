@@ -25,6 +25,7 @@ import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.TNSServices;
 import com.expedia.bookings.utils.ChuckShim;
+import com.expedia.bookings.utils.UniqueIdentifierPersistenceProvider;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UniqueIdentifierHelper;
 import com.expedia.bookings.vm.DebugSelectLanguageVM;
@@ -137,7 +138,8 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 		String regId = GCMRegistrationKeeper.getInstance(getActivity()).getRegistrationId(getActivity());
 		int langId = PointOfSale.getPointOfSale().getDualLanguageId();
 		if (!TextUtils.isEmpty(regId)) {
-			tnsServices.deregisterDevice(new Courier("gcm", Integer.toString(langId), BuildConfig.APPLICATION_ID, regId, UniqueIdentifierHelper.getID(getContext())));
+			tnsServices.deregisterDevice(new Courier("gcm", Integer.toString(langId), BuildConfig.APPLICATION_ID,
+				regId, UniqueIdentifierHelper.getID(new UniqueIdentifierPersistenceProvider(getContext()))));
 		}
 	}
 

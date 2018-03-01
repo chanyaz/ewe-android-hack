@@ -1,7 +1,6 @@
 package com.expedia.bookings.launch.activity
 
 import android.Manifest
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -21,7 +20,6 @@ import android.view.MenuItem
 import android.widget.TextView
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
-import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -300,22 +298,6 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         if (requestCode == Constants.ITIN_CHECK_IN_WEBPAGE_CODE) {
             if (resultCode == RESULT_OK && data != null) {
                 showFlightItinCheckinDialog(data)
-            }
-        } else if (requestCode == Constants.ITIN_CANCEL_ROOM_WEBPAGE_CODE) {
-            if (resultCode == RESULT_OK && data != null && !ExpediaBookingApp.isAutomation()) {
-                val tripId = data.getStringExtra(Constants.ITIN_CANCEL_ROOM_BOOKING_TRIP_ID)
-                ItineraryManager.getInstance().deepRefreshTrip(tripId, true)
-            }
-        } else if (requestCode == Constants.ITIN_ROOM_UPGRADE_WEBPAGE_CODE) {
-            if (resultCode == RESULT_OK && data != null && !ExpediaBookingApp.isAutomation()) {
-                val tripId = data.getStringExtra(Constants.ITIN_ROOM_UPGRADE_TRIP_ID)
-                itinListFragment?.showDeepRefreshLoadingView(true)
-                ItineraryManager.getInstance().deepRefreshTrip(tripId, true)
-            }
-        } else if (requestCode == Constants.ITIN_SOFT_CHANGE_WEBPAGE_CODE) {
-            if (resultCode == Activity.RESULT_OK && data != null) {
-                val tripId = data.getStringExtra(Constants.ITIN_SOFT_CHANGE_TRIP_ID)
-                ItineraryManager.getInstance().deepRefreshTrip(tripId, true)
             }
         }
     }
