@@ -7,6 +7,7 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.features.Features
 import com.expedia.bookings.hotel.util.HotelCalendarDirections
 import com.expedia.bookings.hotel.util.HotelCalendarRules
 import com.expedia.bookings.hotel.util.HotelSearchManager
@@ -22,7 +23,7 @@ import org.joda.time.LocalDate
 import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
-class HotelSearchViewModel(context: Context, private val hotelSearchManager: HotelSearchManager) : BaseSearchViewModel(context) {
+class HotelSearchViewModel(context: Context, private val hotelSearchManager: HotelSearchManager, private val isGreedySearchFeatureEnabled: Boolean = Features.all.hotelGreedySearch.enabled()) : BaseSearchViewModel(context) {
 
     // outputs
     val hotelIdSearchSubject = PublishSubject.create<HotelSearchParams>()
@@ -173,7 +174,7 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
     }
 
     private fun shouldPrefetchSearch(): Boolean {
-        if (builderHasValidParams()) {
+        if (isGreedySearchFeatureEnabled && builderHasValidParams()) {
             val params = hotelParamsBuilder.build()
             val suggestion = params.suggestion
 

@@ -3,6 +3,7 @@ package com.expedia.vm
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import org.mockito.Mockito
 import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.services.TestObserver
@@ -18,7 +19,6 @@ import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -31,7 +31,9 @@ class HotelSearchViewModelTest {
     private val context = RuntimeEnvironment.application
 
     private val mockSearchManager = MockSearchManager(Mockito.mock(HotelServices::class.java))
+    private val mockSearchManager2 = MockSearchManager(Mockito.mock(HotelServices::class.java))
     private lateinit var testViewModel: HotelSearchViewModel
+    private lateinit var testViewModel2: HotelSearchViewModel
 
     private lateinit var suggestionBuilder: TestSuggestionV4Builder
 
@@ -41,11 +43,13 @@ class HotelSearchViewModelTest {
     @Before
     fun setup() {
         Ui.getApplication(context).defaultHotelComponents()
-        testViewModel = HotelSearchViewModel(context, mockSearchManager)
+        testViewModel = HotelSearchViewModel(context, mockSearchManager, true)
+        testViewModel2 = HotelSearchViewModel(context, mockSearchManager2, false)
 
         today = testViewModel.getCalendarRules().getFirstAvailableDate()
 
         testViewModel.genericSearchSubject.subscribe(testGenericSearchSubscriber)
+        testViewModel2.genericSearchSubject.subscribe(testGenericSearchSubscriber)
         suggestionBuilder = TestSuggestionV4Builder().regionDisplayName("diplayName")
     }
 
@@ -406,6 +410,22 @@ class HotelSearchViewModelTest {
 
         testViewModel.datesUpdated(today.plusDays(1), today.plusDays(2))
         assertEquals(3, testSubscriber.valueCount(), "Error: Expected another search after dates change")
+    }
+
+    @Test
+    fun testPrefetchDisabled() {
+        val testSubscriber = TestObserver.create<Unit>()
+        mockSearchManager2.searchCalledSubject.subscribe(testSubscriber)
+        triggerParams(suggestion = suggestionBuilder.build(),
+                startDate = today, endDate = today.plusDays(1))
+
+        assertEquals(0, testSubscriber.valueCount())
+
+        testViewModel2.destinationLocationObserver.onNext(suggestionBuilder.build())
+        assertEquals(0, testSubscriber.valueCount(), "Error: Expected another search after destination change")
+
+        testViewModel2.datesUpdated(today.plusDays(1), today.plusDays(2))
+        assertEquals(0, testSubscriber.valueCount(), "Error: Expected another search after dates change")
     }
 
     @Test

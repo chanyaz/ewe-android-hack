@@ -17,4 +17,5 @@ class Features {
     val itineraryManagerStoreTripsJson: Feature by RemoteFeatureDelegate()
     val universalCheckoutOnLx: Feature by RemoteFeatureDelegate()
     val activityMap: Feature by RemoteFeatureDelegate()
+    val hotelGreedySearch: Feature by RemoteFeatureDelegate()
 }
