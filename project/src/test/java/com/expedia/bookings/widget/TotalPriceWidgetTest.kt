@@ -9,7 +9,6 @@ import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.packages.FlightTotalPriceViewModel
 import com.expedia.vm.packages.PackageTotalPriceViewModel
-import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -44,7 +43,6 @@ class TotalPriceWidgetTest {
 
     @Test
     fun testTotalPriceProgressBarShownInFLightsWhenBucketed() {
-        SettingUtils.save(context, R.string.preference_flight_rate_detail_from_cache, true)
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightRateDetailsFromCache)
         val flightTotalPriceViewModel = FlightTotalPriceViewModel(context)
         totalPriceWidget.viewModel = flightTotalPriceViewModel

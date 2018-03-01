@@ -22,11 +22,6 @@
             android:summary="Click to view tests and change buckets" />
 
         <Preference
-            android:title="Feature Toggle"
-            android:key="@string/preference_open_feature_toggle_settings"
-            android:summary="Click for Features Toggle" />
-
-        <Preference
             android:title="Remote Feature Toggles"
             android:key="@string/preference_open_remote_feature_toggle_settings"
             android:summary="Click to toggle remote features" />

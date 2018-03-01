@@ -20,20 +20,17 @@ class AbacusFeatureConfigManagerTest {
     val context: Application = RuntimeEnvironment.application
 
     @Before
-    fun before() = setup()
+    fun before() {
+        val testList = listOf("12345")
+        SatelliteFeatureConfigManager.cacheFeatureConfig(context, testList)
+        Db.sharedInstance.abacusResponse = AbacusResponse()
+    }
 
     @Test
     fun testSatelliteManagedEnabledABTest() {
         val abTest = ABTest(12345, true)
         AbacusTestUtils.updateABTest(abTest, AbacusVariant.BUCKETED.value)
         assertTrue(AbacusFeatureConfigManager.isBucketedForTest(context, abTest))
-    }
-
-    @Test
-    fun testSatelliteManagedDisabledABTest() {
-        val abTest = ABTest(99999, true)
-        AbacusTestUtils.updateABTest(abTest, AbacusVariant.BUCKETED.value)
-        assertFalse(AbacusFeatureConfigManager.isBucketedForTest(context, abTest))
     }
 
     @Test
@@ -105,13 +102,6 @@ class AbacusFeatureConfigManagerTest {
         val abTest = ABTest(99999, true)
         updateTestOverride(abTest.key)
         assertTrue(AbacusFeatureConfigManager.shouldTrackTest(context, abTest))
-    }
-
-    private fun setup() {
-        val testList = listOf("12345")
-        SatelliteFeatureConfigManager.cacheFeatureConfig(context, testList)
-        val abacusResponse = AbacusResponse()
-        Db.sharedInstance.abacusResponse = abacusResponse
     }
 
     private fun updateTestOverride(testKey: Int) {

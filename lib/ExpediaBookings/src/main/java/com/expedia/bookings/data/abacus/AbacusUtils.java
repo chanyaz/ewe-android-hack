@@ -66,7 +66,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppFlightTravelerFormRevamp = new ABTest(14647);
 	public static final ABTest EBAndroidAppFlightSearchSuggestionLabel = new ABTest(16366);
 	public static final ABTest EBAndroidAppFlightSuggestionOnOneCharacter = new ABTest(15349);
-	public static final ABTest EBAndroidAppFlightRateDetailsFromCache = new ABTest(14769);
+	public static final ABTest EBAndroidAppFlightRateDetailsFromCache = new ABTest(14769, true);
 	public static final ABTest EBAndroidAppFlightsSearchResultCaching = new ABTest(14888);
 	public static final ABTest EBAndroidAppFlightsKrazyglue = new ABTest(15790, true);
 	public static final ABTest EBAndroidAppFlightsEvolable = new ABTest(16345);

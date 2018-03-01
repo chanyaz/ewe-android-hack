@@ -137,9 +137,7 @@
     <string name="preference_abacus_setting_recent_search_horizontal">Horizontal tiles</string>
 
     <!-- Preference keys for feature toggle -->
-    <string name="preference_open_feature_toggle_settings">preference_open_feature_toggle_settings</string>
     <string name="preference_open_remote_feature_toggle_settings">preference_open_remote_feature_toggle_settings</string>
-    <string name="preference_flight_rate_detail_from_cache">preference_flight_rate_detail_from_cache</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>

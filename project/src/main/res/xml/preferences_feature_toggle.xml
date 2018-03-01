@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- This space intentionally left blank so we don't ship debug settings; you're looking for the debug version of this file -->
-</PreferenceScreen>

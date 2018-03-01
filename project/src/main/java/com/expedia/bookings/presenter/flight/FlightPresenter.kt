@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.BuildConfig
-import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.AbstractItinDetailsResponse
@@ -26,10 +25,12 @@ import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.enums.TwoScreenOverviewState
+import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.extensions.safeSubscribeOptional
 import com.expedia.bookings.extensions.setInverseVisibility
-import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.extensions.setVisibility
+import com.expedia.bookings.extensions.subscribeVisibility
+import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.LeftToRightTransition
@@ -43,7 +44,6 @@ import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.TravelerManager
@@ -53,7 +53,6 @@ import com.expedia.bookings.utils.isFlightGreedySearchEnabled
 import com.expedia.bookings.utils.isShowFlightsCheckoutWebview
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.bookings.widget.shared.WebCheckoutView
-import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.ui.FlightActivity
 import com.expedia.util.Optional
 import com.expedia.util.notNullAndObservable
@@ -593,7 +592,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         flightOverviewPresenter.totalPriceWidget.bundleTotalPrice.visibility = View.GONE
         flightOverviewPresenter.getCheckoutPresenter().clearPaymentInfo()
         flightOverviewPresenter.getCheckoutPresenter().updateDbTravelers()
-        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightRateDetailsFromCache, R.string.preference_flight_rate_detail_from_cache)) {
+        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightRateDetailsFromCache)) {
             flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel()
                     .bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
         } else {

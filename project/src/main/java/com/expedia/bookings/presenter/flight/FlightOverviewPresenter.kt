@@ -21,6 +21,7 @@ import com.expedia.bookings.extensions.setFocusForView
 import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.extensions.subscribeVisibility
+import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.Presenter
@@ -30,14 +31,12 @@ import com.expedia.bookings.services.InsuranceServices
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FareFamilyCardView
 import com.expedia.bookings.widget.InsuranceWidget
 import com.expedia.bookings.widget.flights.FlightFareFamilyWidget
-import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.util.Optional
 import com.expedia.vm.FareFamilyViewModel
 import com.expedia.vm.FlightCheckoutOverviewViewModel
@@ -288,7 +287,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
     override fun onTripResponse(tripResponse: TripResponse?) {
         tripResponse as FlightTripResponse
         totalPriceWidget.viewModel.total.onNext(tripResponse.newPrice())
-        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightRateDetailsFromCache, R.string.preference_flight_rate_detail_from_cache)) {
+        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightRateDetailsFromCache)) {
             getCheckoutPresenter().getCheckoutViewModel()
                     .bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.BUNDLE)
             totalPriceWidget.viewModel.priceAvailableObservable.onNext(true)

@@ -43,7 +43,7 @@ class KrazyglueWidgetTest {
     }
 
     @Test
-    fun testVisibilityGONEWhenFeatureToggleONAndBucketingOFF() {
+    fun testVisibilityGONEWhenBucketingOFF() {
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppFlightsKrazyglue)
 
         val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
@@ -54,29 +54,7 @@ class KrazyglueWidgetTest {
     }
 
     @Test
-    fun testVisibilityGONEWhenFeatureToggleOFFAndBucketingOFF() {
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppFlightsKrazyglue)
-
-        val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
-
-        assertEquals(View.GONE, krazyglueWidget.visibility)
-        krazyglueWidget.viewModel.hotelsObservable.onNext(arrayListOf(KrazyglueResponse.KrazyglueHotel()))
-        assertEquals(View.GONE, krazyglueWidget.visibility)
-    }
-
-    @Test
-    fun testVisibilityGONEWhenFeatureToggleOFFAndBucketingON() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightsKrazyglue)
-
-        val krazyglueWidget = LayoutInflater.from(activity).inflate(R.layout.krazyglue_widget, null) as KrazyglueWidget
-
-        assertEquals(View.GONE, krazyglueWidget.visibility)
-        krazyglueWidget.viewModel.hotelsObservable.onNext(arrayListOf(KrazyglueResponse.KrazyglueHotel()))
-        assertEquals(View.GONE, krazyglueWidget.visibility)
-    }
-
-    @Test
-    fun testVisibilityVISIBLEWhenFeatureToggleONAndBucketingON() {
+    fun testVisibilityVISIBLEWhenBucketingON() {
         enableKrazyglueTest(activity)
         setDbFlightSearch()
 

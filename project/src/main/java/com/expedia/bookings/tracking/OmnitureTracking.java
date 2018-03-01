@@ -87,7 +87,6 @@ import com.expedia.bookings.utils.ApiDateUtils;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.DebugInfoUtils;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FlightV2Utils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NumberUtils;
@@ -5790,10 +5789,7 @@ public class OmnitureTracking {
 		setDateValues(s, departureDate, returnDate);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsBaggageWebViewHideAd);
-
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_flight_rate_detail_from_cache)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightRateDetailsFromCache);
-		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightRateDetailsFromCache);
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowFlightsCheckoutWebview);
 

@@ -1,7 +1,6 @@
 package com.expedia.vm.test.robolectric
 
 import android.support.v4.app.FragmentActivity
-import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
@@ -16,7 +15,6 @@ import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.flights.FlightCreateTripViewModel
-import com.mobiata.android.util.SettingUtils
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import io.reactivex.schedulers.Schedulers
@@ -134,7 +132,6 @@ class FlightCreateTripViewModelTest {
         sut.performCreateTrip.onNext(Unit)
         testSubscriber.assertValueCount(2)
 
-        SettingUtils.save(activity, R.string.preference_flight_rate_detail_from_cache, true)
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightRateDetailsFromCache)
         sut.performCreateTrip.onNext(Unit)
         testSubscriber.assertValueCount(2)

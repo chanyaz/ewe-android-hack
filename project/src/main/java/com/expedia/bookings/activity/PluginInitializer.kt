@@ -22,7 +22,7 @@ class SatelliteRemoteFeatureResolver(private val context: Context) : RemoteFeatu
 
     override fun isEnabled(key: String): Boolean {
         val overrideOnSet = SettingUtils.getStringSet(context, preferenceOverrideOnKey)
-        val turnedOn = SatelliteFeatureConfigManager.isEnabled(context, key) || overrideOnSet.contains(key)
+        val turnedOn = SatelliteFeatureConfigManager.isFeatureEnabled(context, key) || overrideOnSet.contains(key)
         val notTurnedOff = !SettingUtils.getStringSet(context, preferenceOverrideOffKey).contains(key)
         return turnedOn && notTurnedOff
     }

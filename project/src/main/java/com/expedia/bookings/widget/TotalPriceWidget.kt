@@ -20,9 +20,9 @@ import com.expedia.bookings.extensions.subscribeInverseVisibility
 import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.extensions.subscribeVisibility
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.CurrencyUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
@@ -107,7 +107,7 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         val currencyCode = CurrencyUtils.currencyForLocale(countryCode)
         viewModel.total.onNext(Money(BigDecimal("0.00"), currencyCode))
         viewModel.savings.onNext(Money(BigDecimal("0.00"), currencyCode))
-        if (viewModel.shouldShowTotalPriceLoadingProgress() && FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightRateDetailsFromCache, R.string.preference_flight_rate_detail_from_cache)) {
+        if (viewModel.shouldShowTotalPriceLoadingProgress() && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightRateDetailsFromCache)) {
             viewModel.priceAvailableObservable.onNext(false)
         }
         toggleBundleTotalCompoundDrawable(false)

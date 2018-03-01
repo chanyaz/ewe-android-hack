@@ -5,7 +5,6 @@ import android.text.Spanned
 import android.text.SpannedString
 import android.util.AttributeSet
 import android.view.View
-import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightTripResponse
@@ -16,13 +15,13 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.dialog.DialogFactory
+import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.packages.FlightTravelersPresenter
 import com.expedia.bookings.services.InsuranceServices
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.InsuranceWidget
@@ -93,7 +92,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
         vm as FlightCreateTripViewModel
 
         vm.tripParams.subscribe {
-            if (!FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightRateDetailsFromCache, R.string.preference_flight_rate_detail_from_cache)) {
+            if (!AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightRateDetailsFromCache)) {
                 vm.showCreateTripDialogObservable.onNext(true)
             }
             userAccountRefresher.ensureAccountIsRefreshed()

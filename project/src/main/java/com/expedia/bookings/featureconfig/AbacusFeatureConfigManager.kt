@@ -73,7 +73,15 @@ class AbacusFeatureConfigManager {
                 return true
             }
 
+            if (isDebugOverrideInAbacusResponse(abacusTest)) {
+                return true
+            }
+
             return false
+        }
+
+        private fun isDebugOverrideInAbacusResponse(abacusTest: ABTest): Boolean {
+            return Db.sharedInstance.abacusResponse.isOverriddenForTest(abacusTest)
         }
 
         private fun isDebugOverride(context: Context, abacusTest: ABTest): Boolean {

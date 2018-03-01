@@ -1,16 +1,15 @@
 package com.expedia.vm.flights
 
 import android.content.Context
-import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.TripBucketItemFlightV2
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
@@ -34,7 +33,7 @@ class FlightCreateTripViewModel(val context: Context) : BaseCreateTripViewModel(
     init {
         Ui.getApplication(context).flightComponent().inject(this)
 
-        showCreateTripDialogIfNotBucketed.filter { !FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightRateDetailsFromCache, R.string.preference_flight_rate_detail_from_cache) }.subscribe {
+        showCreateTripDialogIfNotBucketed.filter { !AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightRateDetailsFromCache) }.subscribe {
             showCreateTripDialogObservable.onNext(it)
         }
         performCreateTrip.subscribe {
