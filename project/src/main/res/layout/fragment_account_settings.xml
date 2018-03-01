@@ -242,7 +242,7 @@
                     android:minHeight="60dp"
                     app:cardCornerRadius="4dp"
                     app:cardElevation="1dp"
-                    app:cardBackgroundColor="@color/exp_yellow"
+                    app:cardBackgroundColor="@color/account_sign_in_button_background_color"
                     app:cardUseCompatPadding="true"
                     android:foreground="?android:attr/selectableItemBackground">
 
@@ -270,7 +270,7 @@
                             android:layout_centerInParent="true"
                             android:layout_gravity="center_vertical"
                             style="@style/Core.Text.400.Medium"
-                            android:textColor="@color/exp_brand_blue_65"/>
+                            android:textColor="@color/account_sign_in_button_text_color"/>
 
                     </LinearLayout>
 

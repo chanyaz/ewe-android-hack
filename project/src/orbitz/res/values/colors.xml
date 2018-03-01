@@ -67,6 +67,7 @@
     <!--Account Screen-->
     <color name="account_sign_out_button_background_color">#C4204B</color>
     <color name="account_sign_in_button_background_color">#004D7C</color>
+    <color name="account_sign_in_button_text_color">@color/white</color>
     <color name="account_reward_base_tier_color">@color/loyalty_earn_color</color>
     <color name="account_reward_base_tier_text_color">@color/white</color>
     <color name="account_reward_middle_tier_color">@color/loyalty_earn_color</color>
