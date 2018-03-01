@@ -182,6 +182,9 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     open class OverviewTransition(override val presenter: BaseFlightPresenter) : ScaleTransition(presenter, FlightResultsListViewPresenter::class.java, FlightOverviewPresenter::class.java) {
         @CallSuper override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
+            // Disable filter button and recycler view clicks while transitioning to overview screen.
+            presenter.resultsPresenter.recyclerView.isEnabled = !forward
+            presenter.resultsPresenter.filterButton.isClickable = !forward
             presenter.toolbarViewModel.menuVisibilitySubject.onNext(false)
         }
 
@@ -261,6 +264,9 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
 
     val selectedFlightResults = object : DisposableObserver<FlightLeg>() {
         override fun onNext(flight: FlightLeg) {
+            // Disabling click before we start transitioning to Overview screen.
+            // Doing it in start transition was not enough and causing crash : https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/3154
+            resultsPresenter.filterButton.isClickable = false
             show(overviewPresenter)
             overviewPresenter.vm.selectedFlightLegSubject.onNext(flight)
             trackFlightOverviewLoad(flight)
