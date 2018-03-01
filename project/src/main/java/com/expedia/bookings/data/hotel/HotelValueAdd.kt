@@ -27,11 +27,7 @@ class HotelValueAdd(val valueAddsEnum: ValueAddsEnum, val apiDescription: String
             }
             val valueAddsEnum: ValueAddsEnum? = jsonMapping!!.get(valueAdd.id.toInt())
             return if (valueAddsEnum != null) {
-                if (ValueAddsEnum.INTERNET == valueAddsEnum) {
-                    HotelValueAdd(valueAddsEnum, context.resources.getString(valueAddsEnum.descriptionId))
-                } else {
-                    HotelValueAdd(valueAddsEnum, valueAdd.description)
-                }
+                HotelValueAdd(valueAddsEnum, valueAdd.description)
             } else {
                 null
             }

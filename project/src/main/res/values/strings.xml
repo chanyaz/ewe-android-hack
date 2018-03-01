@@ -2742,8 +2742,6 @@
     <string name="amenity_hot_tub">Hot Tub</string>
     <!-- Internet access amenity -->
     <string name="amenity_internet">Internet</string>
-    <!-- Free Internet access amenity -->
-    <string name="amenity_free_internet">Free Internet</string>
     <!-- Kids' activities amenity -->
     <string name="amenity_kids_activities">Kids Activities</string>
     <!-- Kitchen/kitchenette amenity -->
