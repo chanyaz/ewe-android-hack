@@ -22,6 +22,7 @@ import com.expedia.bookings.hotel.DEFAULT_HOTEL_GALLERY_CODE
 import com.expedia.bookings.hotel.activity.HotelGalleryActivity
 import com.expedia.bookings.hotel.activity.HotelGalleryGridActivity
 import com.expedia.bookings.hotel.animation.AlphaCalculator
+import com.expedia.bookings.hotel.data.HotelGalleryAnalyticsData
 import com.expedia.bookings.hotel.data.HotelGalleryConfig
 import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.hotel.widget.HotelDetailContentView
@@ -145,6 +146,8 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                     roomCode = DEFAULT_HOTEL_GALLERY_CODE,
                     showDescription = true, startIndex = galleryView.getCurrentIndex())
             intent.putExtra(HotelExtras.GALLERY_CONFIG, galleryConfig)
+            val analyticsData = HotelGalleryAnalyticsData(System.currentTimeMillis(), viewmodel.hotelOffersResponse.isPackage)
+            intent.putExtra(HotelExtras.GALLERY_ANALYTICS_DATA, analyticsData)
             val bundle = ActivityOptions.makeSceneTransitionAnimation(context as Activity).toBundle()
             context.startActivity(intent, bundle)
         }

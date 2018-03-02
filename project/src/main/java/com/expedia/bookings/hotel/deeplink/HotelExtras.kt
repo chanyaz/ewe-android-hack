@@ -9,5 +9,6 @@ class HotelExtras {
 
         const val GALLERY_CONFIG = "hotelGalleryParcelable"
         const val GALLERY_SCROLL_POSITION = "hotelGalleryScrollPosition"
+        const val GALLERY_ANALYTICS_DATA = "galleryAnalyticsData"
     }
 }

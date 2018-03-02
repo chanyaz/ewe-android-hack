@@ -49,6 +49,7 @@ import com.expedia.bookings.hotel.activity.HotelGalleryActivity
 import com.expedia.bookings.hotel.activity.HotelGalleryGridActivity
 import com.expedia.bookings.hotel.animation.AlphaCalculator
 import com.expedia.bookings.hotel.data.Amenity
+import com.expedia.bookings.hotel.data.HotelGalleryAnalyticsData
 import com.expedia.bookings.hotel.data.HotelGalleryConfig
 import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.hotel.fragment.ChangeDatesDialogFragment
@@ -528,6 +529,8 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
                     viewModel.hotelRatingObservable.value, roomCode,
                     showDescription = false, startIndex = 0)
             intent.putExtra(HotelExtras.GALLERY_CONFIG, galleryConfig)
+            val analyticsData = HotelGalleryAnalyticsData(System.currentTimeMillis(), viewModel.hotelOffersResponse.isPackage)
+            intent.putExtra(HotelExtras.GALLERY_ANALYTICS_DATA, analyticsData)
             val bundle = ActivityOptions.makeSceneTransitionAnimation(context as Activity).toBundle()
             context.startActivity(intent, bundle)
         }

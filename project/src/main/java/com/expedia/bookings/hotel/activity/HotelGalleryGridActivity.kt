@@ -17,22 +17,28 @@ import android.app.ActivityOptions
 import android.app.ActivityManager
 import android.content.ComponentCallbacks2
 import android.content.Context
+import android.support.annotation.VisibleForTesting
 import com.expedia.bookings.data.HotelMedia
+import com.expedia.bookings.hotel.data.HotelGalleryAnalyticsData
 import com.expedia.bookings.hotel.widget.GalleryGridItemDecoration
+import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.squareup.picasso.Picasso
 
 class HotelGalleryGridActivity : AppCompatActivity(), ComponentCallbacks2 {
+    @VisibleForTesting lateinit var adapter: HotelGalleryGridAdapter
     private val toolbar by bindView<Toolbar>(R.id.hotel_gallery_grid_toolbar)
     private val recyclerView by bindView<RecyclerView>(R.id.hotel_gallery_grid_recycler)
 
     private lateinit var galleryManager: HotelGalleryManager
     private lateinit var galleryConfig: HotelGalleryConfig
-    private lateinit var adapter: HotelGalleryGridAdapter
 
     private var columnCount = 3
     private val activityManager by lazy { getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager }
 
     private val HD_IMAGE_MEMORY_THRESHOLD = 256
+
+    private lateinit var analyticsData: HotelGalleryAnalyticsData
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +47,7 @@ class HotelGalleryGridActivity : AppCompatActivity(), ComponentCallbacks2 {
 
         galleryManager = Ui.getApplication(this).appComponent().hotelGalleryManager()
         galleryConfig = intent.getParcelableExtra<HotelGalleryConfig>(HotelExtras.GALLERY_CONFIG)
+        analyticsData = intent.getParcelableExtra(HotelExtras.GALLERY_ANALYTICS_DATA)
 
         initToolbar()
         initRecyclerView()
@@ -56,6 +63,17 @@ class HotelGalleryGridActivity : AppCompatActivity(), ComponentCallbacks2 {
         } else {
             adapter.setMedia(galleryItems)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val pageUsableData = PageUsableData().apply {
+            markPageLoadStarted(analyticsData.creationTime)
+            markAllViewsLoaded()
+        }
+        OmnitureTracking.trackHotelDetailGalleryGridView(galleryManager.fetchMediaList(galleryConfig.roomCode).size,
+                pageUsableData, analyticsData.fromPackages)
     }
 
     override fun onTrimMemory(level: Int) {
@@ -93,6 +111,7 @@ class HotelGalleryGridActivity : AppCompatActivity(), ComponentCallbacks2 {
         recyclerView.addItemDecoration(GalleryGridItemDecoration(spacingInPixels, columnCount))
 
         adapter.selectedImagePosition.subscribe { position ->
+            OmnitureTracking.trackHotelDetailGalleryGridClick(analyticsData.fromPackages)
             val intent = Intent(this, HotelGalleryActivity::class.java)
             intent.putExtra(HotelExtras.GALLERY_CONFIG, galleryConfig.copy(startIndex = position))
             val bundle = ActivityOptions.makeSceneTransitionAnimation(this).toBundle()

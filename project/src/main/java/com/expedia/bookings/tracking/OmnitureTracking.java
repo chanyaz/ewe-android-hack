@@ -251,6 +251,8 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_DETAIL_GALLERY_CLICK = "App.Hotels.IS.Gallery.Hotel";
 	private static final String HOTELSV2_DETAIL_ROOM_GALLERY_CLICK = "App.Hotels.IS.Gallery.Room";
 	private static final String HOTELSV2_DETAIL_CHANGE_DATE = "App.Hotels.IS.ChangeDates";
+	private static final String HOTELS_GALLERY_GRID_VIEW = "App.Hotels.Infosite.Gallery";
+	private static final String HOTELS_GALLERY_GRID_CLICK = "App.Hotels.IS.Gallery.OpenImage";
 
 	private static final String HOTELSV2_REVIEWS = "App.Hotels.Reviews";
 
@@ -1024,8 +1026,36 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_DETAIL_GALLERY_CLICK + "\" click...");
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_DETAIL_GALLERY_CLICK);
+		trackAbacusTest(s, AbacusUtils.HotelImageGrid);
 
 		s.trackLink("Gallery View");
+	}
+
+	public static void trackHotelDetailGalleryGridView(int imageCount, PageUsableData usableData, boolean isPackages) {
+		ADMS_Measurement s = getFreshTrackingObject();
+		if (isPackages) {
+			s.setAppState(PACKAGES_GALLERY_GRID_VIEW);
+			s.setProp(2, PACKAGES_LOB);
+		}
+		else {
+			s.setAppState(HOTELS_GALLERY_GRID_VIEW);
+			s.setProp(2, HOTELV2_LOB);
+		}
+		s.appendEvents("event357=" + imageCount);
+		addPageLoadTimeTrackingEvents(s, usableData);
+		s.setEvar(2, "D=c2");
+		s.track();
+	}
+
+	public static void trackHotelDetailGalleryGridClick(boolean isPackages) {
+		ADMS_Measurement s;
+		if (isPackages) {
+			s = createTrackLinkEvent(PACKAGES_GALLERY_GRID_CLICK);
+		}
+		else {
+			s = createTrackLinkEvent(HOTELS_GALLERY_GRID_CLICK);
+		}
+		s.trackLink("Image Gallery");
 	}
 
 	public static void trackHotelDetailRoomGalleryClick() {
@@ -1034,6 +1064,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_DETAIL_ROOM_GALLERY_CLICK);
 
 		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
+		trackAbacusTest(s, AbacusUtils.HotelImageGrid);
 
 		s.trackLink("Gallery View");
 	}
@@ -4403,6 +4434,8 @@ public class OmnitureTracking {
 	private static final String PACKAGES_HOTEL_DETAILS_MAP_SELECT_ROOM = "App.Package.IS.Map.SelectRoom";
 	private static final String PACKAGES_HOTELS_DETAIL_GALLERY_CLICK = "App.Package.Hotels.IS.Gallery.Hotel";
 	private static final String PACKAGES_HOTELS_DETAIL_ROOM_GALLERY_CLICK = "App.Package.Hotels.IS.Gallery.Room";
+	private static final String PACKAGES_GALLERY_GRID_VIEW = "App.Package.Hotels.Infosite.Gallery";
+	private static final String PACKAGES_GALLERY_GRID_CLICK = "App.Package.Hotels.IS.Gallery.OpenImage";
 
 	private static final String PACKAGES_HOTELS_SEARCH_REFINE = "App.Package.Hotels.Search.Filter";
 	private static final String PACKAGES_HOTELS_SORT_BY_TEMPLATE = "App.Package.Hotels.Search.Sort.";

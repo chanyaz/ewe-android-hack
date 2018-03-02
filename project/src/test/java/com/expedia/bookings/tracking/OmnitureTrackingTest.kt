@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.pm.PackageInfo
 import com.expedia.bookings.ADMS_Measurement
 import com.expedia.bookings.OmnitureTestUtils
+import com.expedia.bookings.OmnitureTestUtils.Companion.assertLinkTracked
 import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateTracked
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.Db
@@ -230,6 +231,23 @@ class OmnitureTrackingTest {
         OmnitureTestUtils.assertLinkTracked("App.Flight.Search.PaymentFee", "App.Flight.Search.PaymentFee", Matchers.allOf(
                 OmnitureMatchers.withProps(mapOf(16 to "App.Flight.Search.PaymentFee")),
                 OmnitureMatchers.withEvars(mapOf(28 to "App.Flight.Search.PaymentFee"))), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testGalleryGridView() {
+        val pageUsable = PageUsableData().apply {
+            markPageLoadStarted(1000)
+            markAllViewsLoaded(2000)
+        }
+        OmnitureTracking.trackHotelDetailGalleryGridView(7, pageUsable, false)
+        assertStateTracked(
+                "App.Hotels.Infosite.Gallery",
+                Matchers.allOf(
+                        withEventsString("event357=7,event220,event221=1.00"),
+                        withProps(mapOf(2 to "hotels")),
+                        withEvars(mapOf(2 to "D=c2"))),
+                mockAnalyticsProvider)
     }
 
     private fun getPackageDetails(): PackageCreateTripResponse.PackageDetails {
