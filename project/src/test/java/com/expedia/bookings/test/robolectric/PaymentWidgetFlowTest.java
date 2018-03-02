@@ -467,6 +467,12 @@ public class PaymentWidgetFlowTest {
 		assertEquals("Saved Visa 1111 Button" , tv.getContentDescription().toString());
 	}
 
+	@Test
+	public void testPaymentOptionCreditDebitCardButtonContentDescription() {
+		setupPaymentWidget();
+		assertEquals("Enter new Debit/Credit Card Button", paymentWidget.getPaymentOptionCreditDebitCard().getContentDescription());
+	}
+
 	private void setUserWithStoredCard(PaymentWidget paymentWidget) {
 		User user = new User();
 		user.addStoredCreditCard(getNewCard(PaymentType.CARD_MAESTRO));

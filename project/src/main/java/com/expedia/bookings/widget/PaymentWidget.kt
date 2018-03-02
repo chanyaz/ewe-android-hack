@@ -280,6 +280,8 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         FontCache.setTypeface(cardInfoExpiration, FontCache.Font.ROBOTO_REGULAR)
         FontCache.setTypeface(cardInfoName, FontCache.Font.ROBOTO_MEDIUM)
         Db.sharedInstance.setTemporarilySavedCard(null)
+
+        AccessibilityUtil.appendRoleContDesc(paymentOptionCreditDebitCard, R.string.accessibility_cont_desc_role_button)
     }
 
     fun showPaymentForm(fromPaymentError: Boolean) {
