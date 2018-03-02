@@ -6,20 +6,26 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.shared.CalendarRules
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.validation.TravelerValidator
+import com.expedia.bookings.utils.WebViewIntentBuilderUtil
+import com.expedia.ui.LOBWebViewActivity
 import com.expedia.util.PackageCalendarRules
 import com.expedia.util.endlessObserver
 import com.expedia.vm.BaseSearchViewModel
 import com.mobiata.android.time.util.JodaUtils
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.PublishSubject
+import okhttp3.HttpUrl
 import org.joda.time.LocalDate
+import org.joda.time.format.DateTimeFormat
 import javax.inject.Inject
 
 class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
@@ -35,6 +41,7 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     }
     // Outputs
     val searchParamsObservable = PublishSubject.create<PackageSearchParams>()
+    var isFHPackageSearch = true
 
     val packageParamsBuilder = PackageSearchParams.Builder(rules.getMaxSearchDurationDays(), rules.getMaxDateRange())
     val previousSearchParamsObservable = PublishSubject.create<PackageSearchParams>()
@@ -44,8 +51,62 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     val performSearchObserver = endlessObserver<PackageSearchParams> { params ->
         travelerValidator.updateForNewSearch(params)
-        searchParamsObservable.onNext(params)
+        if (!isFHPackageSearch) {
+            launchFHCPackageWebView(params)
+        } else {
+            searchParamsObservable.onNext(params)
+        }
         SearchParamsHistoryUtil.savePackageParams(context, params)
+    }
+
+    private fun launchFHCPackageWebView(params: PackageSearchParams) {
+        var builder = LOBWebViewActivity.IntentBuilder(context)
+        builder = WebViewIntentBuilderUtil.setDefaultWebViewIntentProperties(builder)
+        builder.setUrl(getFHCPackageWebViewUrlByParams(params))
+        builder.setTitle(context.getString(R.string.nav_packages))
+        builder.setTrackingName("PackageWebView")
+        NavUtils.startActivity(context, builder.intent, null)
+        NavUtils.finishIfFlagged(context, 0)
+    }
+
+    private fun getFHCPackageWebViewUrlByParams(searchParams: PackageSearchParams): String {
+        val format = DateTimeFormat.forPattern("MM/dd/yyyy")
+        val origin = searchParams.origin?.regionNames?.fullName?.replace(" ", "%20")
+        val originId = searchParams.originId
+        val ftla = searchParams.origin?.hierarchyInfo?.airport?.airportCode
+        val destination = searchParams.destination?.regionNames?.fullName?.replace(" ", "%20")
+        val destinationId = searchParams.destinationId
+        val ttla = searchParams.destination?.hierarchyInfo?.airport?.airportCode
+        val fromDate = searchParams.startDate.toString(format)
+        val toDate = searchParams.endDate?.toString(format)
+        val numberOfRooms = searchParams.numberOfRooms
+        val adultsPerRoom = searchParams.adults
+        val childrenPerRoom = searchParams.children.size
+        val urlBuilder = HttpUrl.Builder()
+                .scheme("https")
+                .host("www." + PointOfSale.getPointOfSale().url)
+                .addPathSegments("flexibleshopping")
+                .addQueryParameter("packageType", "fhc")
+                .addQueryParameter("origin", origin)
+                .addQueryParameter("originId", originId)
+                .addQueryParameter("ftla", ftla)
+                .addQueryParameter("destination", destination)
+                .addQueryParameter("destinationId", destinationId)
+                .addQueryParameter("ttla", ttla)
+                .addQueryParameter("fromDate", fromDate)
+                .addQueryParameter("toDate", toDate)
+                .addQueryParameter("numberOfRooms", numberOfRooms)
+                .addQueryParameter("adultsPerRoom[1]", adultsPerRoom.toString())
+                .addQueryParameter("childrenPerRoom[1]", childrenPerRoom.toString())
+        for (index in searchParams.children.indices) {
+            urlBuilder.addQueryParameter("childAges[1][$index]", searchParams.children[index].toString())
+        }
+        if (searchParams.infantsInSeats != null) {
+            val infantsInSeats = if (searchParams.infantsInSeats!!) "1" else "0"
+            urlBuilder.addQueryParameter("infantsInSeats", infantsInSeats)
+        }
+        urlBuilder.addQueryParameter("mcicid", "App.Package.WebView")
+        return urlBuilder.build().url().toString()
     }
 
     init {

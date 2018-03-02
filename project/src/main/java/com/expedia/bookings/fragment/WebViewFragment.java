@@ -52,6 +52,7 @@ public class WebViewFragment extends DialogFragment {
 		CarWebView,
 		Default,
 		RailWebView,
+		PackageWebView,
 	}
 
 	public static final String TAG = WebViewFragment.class.toString();

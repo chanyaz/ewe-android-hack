@@ -262,7 +262,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         }
         travelerWidgetV2.traveler.getViewModel().showSeatingPreference = true
         travelerWidgetV2.traveler.getViewModel().lob = LineOfBusiness.FLIGHTS_V2 //Not sure why we still have Flights V2 all over the place??
-        showFlightOneWayRoundTripOptions = true
+        showTabOptionsOnSearchForm = true
 
         if (isSwitchToAndFromFieldsFeatureEnabled) {
             swapFlightsLocationsButton.isEnabled = false

@@ -33,6 +33,7 @@ import com.expedia.bookings.rail.activity.RailActivity;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.tracking.RailWebViewTracking;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.WebViewIntentBuilderUtil;
 import com.expedia.bookings.widget.ItinerarySyncLoginExtender;
 import com.expedia.ui.LOBWebViewActivity;
 
@@ -228,11 +229,7 @@ public class NavUtils {
 			LOBWebViewActivity.IntentBuilder builder = new LOBWebViewActivity.IntentBuilder(context);
 			EndpointProvider endpointProvider = Ui.getApplication(context).appComponent().endpointProvider();
 			builder.setUrl(endpointProvider.getRailWebViewEndpointUrl());
-			builder.setInjectExpediaCookies(true);
-			builder.setAllowMobileRedirects(true);
-			builder.setLoginEnabled(true);
-			builder.setHandleBack(true);
-			builder.setRetryOnFailure(true);
+			builder = WebViewIntentBuilderUtil.setDefaultWebViewIntentProperties(builder);
 			builder.setTitle(context.getString(R.string.nav_rail));
 			builder.setTrackingName("RailWebView");
 			startActivity(context, builder.getIntent(), null);
@@ -305,7 +302,7 @@ public class NavUtils {
 		return new Intent(context, PhoneLaunchActivity.class);
 	}
 
-	protected static void finishIfFlagged(Context context, int flags) {
+	public static void finishIfFlagged(Context context, int flags) {
 		if ((flags & FLAG_REMOVE_CALL_ACTIVITY_FROM_STACK) != 0) {
 			if (context instanceof AppCompatActivity) {
 				((AppCompatActivity) context).finish();

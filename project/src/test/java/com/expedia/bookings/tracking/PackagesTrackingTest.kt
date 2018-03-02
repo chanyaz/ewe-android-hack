@@ -627,6 +627,14 @@ class PackagesTrackingTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTrackFHCTabClick() {
+        sut.trackFHCTabClick()
+        val controlEvar = mapOf(28 to "App.Package.DS.FHC.TabClicked")
+        OmnitureTestUtils.assertLinkTracked("FHC tab", "App.Package.DS.FHC.TabClicked", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+    }
+
+    @Test
     fun testTrackMIDPackageCheckoutConfirmation() {
 
         Db.setPackageParams(getDummyPackageSearchParams())

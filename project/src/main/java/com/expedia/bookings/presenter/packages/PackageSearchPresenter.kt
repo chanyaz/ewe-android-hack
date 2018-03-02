@@ -1,6 +1,7 @@
 package com.expedia.bookings.presenter.packages
 
 import android.content.Context
+import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
@@ -18,12 +19,14 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isMidAPIEnabled
+import com.expedia.bookings.utils.isFHCPackageWebViewEnabled
 import com.expedia.bookings.widget.FlightCabinClassWidget
 import com.expedia.bookings.widget.TravelerWidgetV2
 import com.expedia.bookings.widget.packages.PackageSuggestionAdapter
@@ -149,12 +152,20 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
     init {
         widgetTravelerAndCabinClassStub.layoutResource = R.layout.widget_traveler_cabin_class_vertical
         widgetTravelerAndCabinClassStub.inflate()
+        showTabOptionsOnSearchForm = true
     }
 
     override fun inflate() {
         val view = View.inflate(context, R.layout.widget_base_flight_search, this)
         val packageTitleText = view.findViewById<TextView>(R.id.title)
         packageTitleText.text = resources.getString(PackageUtil.packageTitle(context))
+    }
+
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+        if (isFHCPackageWebViewEnabled(context)) {
+            initializeToolbarTabs()
+        }
     }
 
     override fun getSuggestionHistoryFileName(): String {
@@ -183,5 +194,32 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
 
     override fun getLineOfBusiness(): LineOfBusiness {
         return LineOfBusiness.PACKAGES
+    }
+
+    private fun initializeToolbarTabs() {
+        tabs.visibility = View.VISIBLE
+        tabs.addTab(tabs.newTab().setText(R.string.nav_hotel_plus_flight))
+        tabs.addTab(tabs.newTab().setText(R.string.nav_hotel_plus_flight_plus_car))
+
+        var hasFHCTabBeenClickedOnce = false
+
+        tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                // do nothing
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                // do nothing
+            }
+
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                val isFHPackageSearch = tab.position == 0
+                searchViewModel.isFHPackageSearch = isFHPackageSearch
+                if (!isFHPackageSearch && !hasFHCTabBeenClickedOnce) {
+                    hasFHCTabBeenClickedOnce = true
+                    PackagesTracking().trackFHCTabClick()
+                }
+            }
+        })
     }
 }

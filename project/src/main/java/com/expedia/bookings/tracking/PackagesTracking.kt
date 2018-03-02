@@ -299,4 +299,8 @@ class PackagesTracking {
     fun trackForceUpgradeBanner() {
         OmnitureTracking.trackForceUpgradeBanner()
     }
+
+    fun trackFHCTabClick() {
+        OmnitureTracking.trackPackagesFHCTabClick()
+    }
 }

@@ -97,7 +97,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
 
     var firstLaunch = true
     var transitioningFromOriginToDestination = true
-    var showFlightOneWayRoundTripOptions = false
+    var showTabOptionsOnSearchForm = false
     protected var isCustomerSelectingOrigin = false
 
     protected val suggestionListShownSubject = PublishSubject.create<Unit>()
@@ -370,7 +370,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
             }
             toolbar.navigationIcon = navIcon
 
-            if (showFlightOneWayRoundTripOptions) {
+            if (showTabOptionsOnSearchForm) {
                 tabs.visibility = VISIBLE
                 tabs.alpha = TransitionElement.calculateStep(bgFade.end, bgFade.start, 0f)
             }
@@ -409,7 +409,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
                     suggestionRecyclerView.scaleY = (if (forward) (1 - (1 - yScale) * -(f - 1)) else (yScale + (1 - yScale) * -(f - 1)))
                 }
 
-                if (showFlightOneWayRoundTripOptions) {
+                if (showTabOptionsOnSearchForm) {
                     tabs.alpha = TransitionElement.calculateStep(bgFade.end, bgFade.start, progress)
                 }
             }
@@ -433,7 +433,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
                 navIcon.parameter = 1f
                 toolBarTitle.alpha = TransitionElement.calculateStep(bgFade.end, bgFade.start, 0f)
                 searchLocationEditText?.visibility = GONE
-                if (showFlightOneWayRoundTripOptions) {
+                if (showTabOptionsOnSearchForm) {
                     tabs.alpha = TransitionElement.calculateStep(bgFade.end, bgFade.start, 0f)
                 }
                 mRootView.viewTreeObserver.removeOnPreDrawListener(globalLayoutListener)
@@ -445,7 +445,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
             }
 
             toolBarTitle.visibility = if (forward) GONE else VISIBLE
-            if (showFlightOneWayRoundTripOptions) {
+            if (showTabOptionsOnSearchForm) {
                 tabs.visibility = if (forward) GONE else VISIBLE
             }
             if (!forward) {
