@@ -417,13 +417,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     }
 
     open fun isComplete(): Boolean {
-        if (!isCreditCardRequired()) {
-            return true
-        } else if (isCreditCardRequired() && (hasStoredCard())) {
-            return true
-        } else if (isCreditCardRequired() && (isAtLeastPartiallyFilled() && sectionBillingInfo.performValidation() && sectionLocation.performValidation())) {
-            return true
-        } else return isCreditCardRequired() && Db.sharedInstance.temporarilySavedCard != null && Db.sharedInstance.temporarilySavedCard.saveCardToExpediaAccount
+        return isCreditCardValid()
     }
 
     fun isCreditCardRequired(): Boolean {
@@ -738,7 +732,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
 
     fun onDoneClicked() {
         Ui.hideKeyboard(this@PaymentWidget)
-        if (isComplete()) {
+        if (isCreditCardValid()) {
             if (shouldShowSaveDialog()) {
                 showSaveBillingInfoDialog()
             } else {
@@ -782,5 +776,15 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         } else {
             updateLegacyToolbarMenu(enableMenuItem)
         }
+    }
+
+    private fun isCreditCardValid(): Boolean {
+        if (!isCreditCardRequired()) {
+            return true
+        } else if (isCreditCardRequired() && (hasStoredCard())) {
+            return true
+        } else if (isCreditCardRequired() && (isAtLeastPartiallyFilled() && sectionBillingInfo.performValidation() && sectionLocation.performValidation())) {
+            return true
+        } else return isCreditCardRequired() && Db.sharedInstance.temporarilySavedCard != null && Db.sharedInstance.temporarilySavedCard.saveCardToExpediaAccount
     }
 }

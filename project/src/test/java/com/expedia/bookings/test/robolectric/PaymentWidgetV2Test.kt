@@ -516,6 +516,15 @@ class PaymentWidgetV2Test {
         assertFalse(isShowSavedCoupons(getContext()))
     }
 
+    @Test
+    fun testErrorWhenPayableWithPointsAndInvalidPaymentInfo() {
+        sut.isFullPayableWithPoints = true
+        sut.creditCardNumber.setText("213412342134213421341234")
+        sut.onDoneClicked()
+
+        assertEquals(sut.sectionBillingInfo.firstInvalidField, sut.creditCardNumber)
+    }
+
     private fun testPaymentTileInfo(paymentInfo: String, paymentOption: String, paymentIcon: Drawable, pwpSmallIconVisibility: Int) {
         assertEquals(paymentInfo, paymentTileInfo.text)
         assertEquals(paymentOption, paymentTileOption.text)
