@@ -59,6 +59,7 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
 
         getStoredCouponListAdapter().applyStoredCouponObservable.subscribe { clickPosition ->
             viewmodel.storedCouponViewModel.applyStoredCouponObservable.onNext(getStoredCouponListAdapter().coupons[clickPosition].savedCoupon)
+            clearError()
         }
 
         viewmodel.storedCouponViewModel.errorMessageObservable.withLatestFrom(viewmodel.storedCouponViewModel.storedCouponActionParam, { errorText, storedCouponActionParam ->
@@ -82,6 +83,16 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
         }
 
         viewmodel.couponSubtitleObservable.subscribeText(appliedCouponSubtitle)
+
+        viewmodel.applyCouponViewModel.applyCouponProgressObservable.subscribe {
+            viewmodel.storedCouponViewModel.clearStoredCouponError.onNext(Unit)
+        }
+
+        viewmodel.onCouponWidgetExpandSubject.subscribe { expandCouponWidget ->
+            if (expandCouponWidget) {
+                viewmodel.storedCouponViewModel.clearStoredCouponError.onNext(Unit)
+            }
+        }
     }
 
     override fun getViewToInflate(): Int {

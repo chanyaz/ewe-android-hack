@@ -28,6 +28,7 @@ class StoredCouponViewModel(val context: Context, hotelServices: HotelServices, 
     val errorMessageObservable = BehaviorSubject.create<String>()
     val performCouponErrorTrackingObservable = PublishSubject.create<String>()
     val performCouponSuccessTrackingObservable = PublishSubject.create<Unit>()
+    val clearStoredCouponError = PublishSubject.create<Unit>()
 
     val couponResponseObserver = object : DisposableObserver<HotelCreateTripResponse>() {
         override fun onNext(tripResponse: HotelCreateTripResponse) {
@@ -67,6 +68,10 @@ class StoredCouponViewModel(val context: Context, hotelServices: HotelServices, 
         performCouponSuccessTrackingObservable.withLatestFrom(storedCouponTrackingObservable, { _, couponTrackingString ->
             HotelTracking.trackHotelCouponRemoveSuccess(couponTrackingString)
         }).subscribe()
+
+        clearStoredCouponError.subscribe {
+            errorMessageObservable.onNext("")
+        }
     }
 
     fun setupErrorObservables(trip: HotelCreateTripResponse) {

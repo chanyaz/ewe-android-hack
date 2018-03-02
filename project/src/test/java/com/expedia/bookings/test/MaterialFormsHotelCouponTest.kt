@@ -85,6 +85,17 @@ class MaterialFormsHotelCouponTest {
     }
 
     @Test
+    fun testStoredCouponErrorClearedOnExpanded() {
+        val errorMessageTestObserver = TestObserver<String>()
+        couponWidget.viewmodel.storedCouponViewModel.errorMessageObservable.subscribe(errorMessageTestObserver)
+
+        couponWidget.viewmodel.onCouponWidgetExpandSubject.onNext(true)
+
+        errorMessageTestObserver.assertValueCount(1)
+        assertEquals("", errorMessageTestObserver.values()[0])
+    }
+
+    @Test
     fun testStoredCouponError() {
         val errorMessageTestObserver = TestObserver<String>()
         couponWidget.viewmodel.storedCouponViewModel.errorMessageObservable.subscribe(errorMessageTestObserver)
@@ -243,5 +254,35 @@ class MaterialFormsHotelCouponTest {
 
         assertEquals("1", testSubscriber.values()[0].instanceId)
         assertEquals("A", testSubscriber.values()[0].name)
+    }
+
+    @Test
+    fun testApplyCouponErrorClearedAfterStoredCouponClicked() {
+        couponWidget.viewmodel.applyCouponViewModel.errorMessageObservable.onNext("Hello")
+        couponWidget.showError(true)
+
+        val couponAdapter = couponWidget.storedCouponWidget.storedCouponRecyclerView.adapter as StoredCouponListAdapter
+        couponAdapter.coupons.addAll(CouponTestUtil.createStoredCouponAdapterData())
+        couponAdapter.applyStoredCouponObservable.onNext(0)
+
+        assertEquals(null, couponWidget.couponCode.getParentTextInputLayout()!!.error)
+        assertFalse(couponWidget.couponCode.getParentTextInputLayout()!!.isErrorEnabled)
+    }
+
+    @Test
+    fun testStoredCouponErrorClearedAfterManuallyApplyingCoupon() {
+        val errorMessageTestObserver = TestObserver<String>()
+        couponWidget.viewmodel.storedCouponViewModel.errorMessageObservable.subscribe(errorMessageTestObserver)
+
+        couponWidget.viewmodel.storedCouponViewModel.storedCouponActionParam.onNext(CouponTestUtil.storedCouponParam(false, "hotel_coupon_errors_expired"))
+
+        errorMessageTestObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
+        errorMessageTestObserver.assertValueCount(1)
+        assertEquals("Sorry, but this coupon has expired.", errorMessageTestObserver.values()[0])
+
+        couponWidget.viewmodel.applyCouponViewModel.applyActionCouponParam.onNext(CouponTestUtil.applyCouponParam(true))
+
+        errorMessageTestObserver.assertValueCount(2)
+        assertEquals("", errorMessageTestObserver.values()[1])
     }
 }
