@@ -25,6 +25,7 @@ import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.DialogFactory
+import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.extensions.safeSubscribeOptional
 import com.expedia.bookings.extensions.setFocusForView
@@ -593,9 +594,11 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     fun doHarlemShakes() {
         if (!travelersPresenter.viewModel.allTravelersValid()) {
+            travelerSummaryCard.viewModel.travelerStatusObserver.onNext(TravelerCheckoutStatus.DIRTY)
             AnimUtils.doTheHarlemShake(travelerSummaryCard)
         }
         if (!paymentWidget.isComplete()) {
+            paymentWidget.viewmodel.statusUpdate.onNext(ContactDetailsCompletenessStatus.INCOMPLETE)
             AnimUtils.doTheHarlemShake((paymentWidget as BillingDetailsPaymentWidget).cardInfoSummary)
         }
     }

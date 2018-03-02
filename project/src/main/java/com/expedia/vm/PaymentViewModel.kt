@@ -38,6 +38,7 @@ open class PaymentViewModel(val context: Context) {
     // inputs
     val splitsType = BehaviorSubject.createDefault<PaymentSplitsType>(PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD)
     val isRedeemable = BehaviorSubject.createDefault<Boolean>(false)
+    val statusUpdate = PublishSubject.create<ContactDetailsCompletenessStatus>()
     val billingInfoAndStatusUpdate = BehaviorSubject.create<Pair<BillingInfo?, ContactDetailsCompletenessStatus>>()
     val emptyBillingInfo = PublishSubject.create<Unit>()
     val storedCardRemoved = PublishSubject.create<Optional<StoredCreditCard>>()
@@ -97,6 +98,10 @@ open class PaymentViewModel(val context: Context) {
                                   val splitType: PaymentSplitsType, val completionStatus: ContactDetailsCompletenessStatus)
 
     init {
+        statusUpdate.subscribe { it ->
+            billingInfoAndStatusUpdate.onNext(Pair(billingInfoAndStatusUpdate.value?.first ?: null, it))
+        }
+
         ObservableOld.combineLatest(billingInfoAndStatusUpdate, isRedeemable, splitsType, shouldShowPayLaterMessaging) {
             infoAndStatus, isRedeemable, splitsType, shouldShowPayLaterMessaging ->
             object {
