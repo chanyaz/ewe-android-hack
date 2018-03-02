@@ -91,7 +91,7 @@ open class HotelCheckoutViewModel(val context: Context, val hotelServices: Hotel
                     val expirationDateYear = JodaUtils.format(billingInfo.expirationDate, "yyyy")
                     val expirationDateMonth = JodaUtils.format(billingInfo.expirationDate, "MM")
                     val nameOnCard = billingInfo.nameOnCard
-                    val postalCode = if (billingInfo.location.postalCode.isEmpty()) null else billingInfo.location.postalCode
+                    val postalCode = if (billingInfo.location.postalCode.isNullOrEmpty()) null else billingInfo.location.postalCode
                     val storeCreditCardInUserProfile = billingInfo.saveCardToExpediaAccount
 
                     val creditCardDetails = CardDetails(

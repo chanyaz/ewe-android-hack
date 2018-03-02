@@ -42,6 +42,7 @@ import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.test.robolectric.BillingDetailsTestUtils
 import com.expedia.bookings.test.robolectric.HotelPresenterTestUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
@@ -82,6 +83,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = [(ShadowGCM::class), (ShadowUserManager::class), (ShadowAccountManagerEB::class)])
@@ -969,6 +971,27 @@ class HotelCheckoutPresenterTest {
         val backButton = checkout.toolbar.getChildAt(1)
 
         assertTrue(backButton.isFocused)
+    }
+
+    @Test
+    fun testCreditCardDetailsWithDefaultBillingLocationInfo() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppHotelMaterialForms)
+        val incompleteBillingInfo = BillingDetailsTestUtils.getIncompleteCCBillingInfo()
+        incompleteBillingInfo.location.postalCode = null
+        val checkoutView = setupHotelCheckoutPresenter()
+        val testCheckoutParams = TestObserver<HotelCheckoutV2Params>()
+        checkoutView.hotelCheckoutViewModel.checkoutParams.subscribe(testCheckoutParams)
+        checkoutView.hotelCheckoutWidget.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHappyCreateTripEmailOptOutResponse())
+
+        checkoutView.hotelCheckoutWidget.travelerSummaryCardView.performClick()
+        checkoutView.hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.bind(incompleteBillingInfo)
+        val paymentSplits = PaymentSplits(PointsAndCurrency(771.40f, PointsType.BURN, Money("0", "USD")),
+                PointsAndCurrency(0f, PointsType.EARN, Money("0", "USD")))
+        val hotelBookingData = checkoutView.getHotelBookingData("111", paymentSplits)
+
+        checkoutView.hotelCheckoutViewModel.hotelBookingDataObservable.onNext(hotelBookingData)
+
+        assertNull(testCheckoutParams.values()[0].paymentInfo.cards!![0].postalCode)
     }
 
     private fun givenLoggedInUserAndTravelerInDb() {
