@@ -8,6 +8,7 @@ import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplits
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.services.LoyaltyServices
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
@@ -18,7 +19,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import com.expedia.bookings.services.TestObserver
 import java.math.BigDecimal
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -33,6 +33,7 @@ class HotelCheckoutOverviewViewModelTest {
     var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
         @Rule get
 
+    lateinit var activity: Activity
     lateinit var hotelProductResponse: HotelCreateTripResponse.HotelProductResponse
     lateinit var hotelcreateTripResponse: HotelCreateTripResponse
     lateinit var sut: HotelCheckoutOverviewViewModel
@@ -40,7 +41,7 @@ class HotelCheckoutOverviewViewModelTest {
 
     @Before
     fun setup() {
-        val activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.Theme_Hotels_Default)
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         sut = HotelCheckoutOverviewViewModel(activity, paymentModel)
@@ -67,6 +68,18 @@ class HotelCheckoutOverviewViewModelTest {
         paymentModel.createTripSubject.onNext(hotelcreateTripResponse)
 
         assertEquals("The $0 resort fee will be collected at the hotel. The total price for your stay will be $135.81.", sut.disclaimerText.value.toString())
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
+    fun showResortFeeMessageWithPOSuFee() {
+        hotelcreateTripResponse = mockHotelServiceTestRule.getCreateTripResponseWithPOSuFee()
+        hotelProductResponse = hotelcreateTripResponse.newHotelProductResponse
+        hotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.showResortFeeMessage = true
+        sut.newRateObserver.onNext(hotelProductResponse)
+        paymentModel.createTripSubject.onNext(hotelcreateTripResponse)
+
+        assertEquals("The $44.23 resort fee will be collected at the hotel. The total price for your stay will be $135.81.", sut.disclaimerText.value.toString())
     }
 
     @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))

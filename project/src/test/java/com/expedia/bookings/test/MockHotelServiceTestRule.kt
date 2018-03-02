@@ -8,6 +8,7 @@ import com.expedia.bookings.data.hotels.HotelCheckoutV2Params
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.MiscellaneousParams
 import com.expedia.bookings.data.payment.PointsAndCurrency
@@ -97,6 +98,17 @@ class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::clas
 
     fun getUnknownErrorResponse(): HotelCreateTripResponse {
         return getCreateTripResponse("error_unknown_createtrip")
+    }
+
+    fun getCreateTripResponseWithPOSuFee(): HotelCreateTripResponse {
+        val response = getCreateTripResponse("happypath_0")
+        val mandatoryFeesInPOSuCurrency = HotelRate.MandatoryFeesInPOSuCurrency()
+        mandatoryFeesInPOSuCurrency.amount = "44.23".toFloat()
+        mandatoryFeesInPOSuCurrency.feeName = "Resort Fee"
+        val mandatoryFeesInPOSuCurrencyList = arrayListOf(mandatoryFeesInPOSuCurrency)
+        response.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.mandatoryFeesInPOSuCurrency = mandatoryFeesInPOSuCurrencyList
+        response.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.posuCurrency = "USD"
+        return response
     }
 
     fun getHappyOfferResponse(): HotelOffersResponse {

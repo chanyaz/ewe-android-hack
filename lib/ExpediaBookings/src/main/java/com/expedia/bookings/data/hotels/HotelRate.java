@@ -8,6 +8,7 @@ import com.expedia.bookings.data.multiitem.MandatoryFees;
 import com.expedia.bookings.data.payment.LoyaltyInformation;
 import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.Strings;
+import com.google.gson.annotations.SerializedName;
 
 public class HotelRate {
 	public float maxNightlyRate;
@@ -24,10 +25,13 @@ public class HotelRate {
 	public String currencyCodePOSu;
 	public String currencySymbol;
 	public String discountMessage;
+	@SerializedName("POSuCurrency")
+	public String posuCurrency;
 	public float priceToShowUsers;
 	public float strikethroughPriceToShowUsers;
 	public float dailyMandatoryFee;
 	public float totalMandatoryFees;
+	public List<MandatoryFeesInPOSuCurrency> mandatoryFeesInPOSuCurrency;
 	public MandatoryFees.DisplayType mandatoryDisplayType;
 	public MandatoryFees.DisplayCurrency mandatoryDisplayCurrency;
 	public float totalPriceWithMandatoryFees;
@@ -88,6 +92,11 @@ public class HotelRate {
 	public static class SurchargesForEntireStay {
 		public String type;
 		public String amount;
+	}
+
+	public static class MandatoryFeesInPOSuCurrency {
+		public String feeName;
+		public float amount;
 	}
 
 	public Money getPriceAdjustments() {
