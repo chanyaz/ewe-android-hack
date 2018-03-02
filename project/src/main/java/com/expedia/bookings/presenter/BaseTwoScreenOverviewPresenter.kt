@@ -158,6 +158,8 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         checkoutPresenter.getCheckoutViewModel().checkoutParams.subscribe { cvv.enableBookButton(false) }
         checkoutPresenter.getCheckoutViewModel().noNetworkObservable.subscribe(bottomCheckoutContainer.viewModel.noNetworkObservable)
         checkoutPresenter.getCheckoutViewModel().checkoutPriceChangeObservable.subscribe(bottomCheckoutContainer.viewModel.checkoutPriceChangeObservable)
+        checkoutPresenter.getCheckoutViewModel().showUrgencyMessageObservable.subscribe(bottomCheckoutContainer.viewModel.urgencyMessageContainerVisibilityObservable)
+        checkoutPresenter.getCheckoutViewModel().urgencyMessageTextObservable.subscribe(bottomCheckoutContainer.viewModel.urgencyMessageTextObservable)
 
         val checkoutPresenterLayoutParams = checkoutPresenter.layoutParams as MarginLayoutParams
         checkoutPresenterLayoutParams.setMargins(0, toolbarHeight, 0, 0)
@@ -197,6 +199,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
                 if (isSecureIconEnabled(context)) {
                     bundleOverviewHeader.secureIconContainer?.visibility = View.GONE
                 }
+                checkoutPresenter.getCheckoutViewModel().toCheckoutTransitionObservable.onNext(false)
             } else {
                 scrollSpaceView?.viewTreeObserver?.removeOnGlobalLayoutListener(overviewLayoutListener)
             }
@@ -250,6 +253,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
                     bundleOverviewHeader.toolbar.viewModel.hideToolbarTitle.onNext(Unit)
                     bundleOverviewHeader.secureIconContainer?.visibility = View.VISIBLE
                 }
+                checkoutPresenter.getCheckoutViewModel().toCheckoutTransitionObservable.onNext(true)
             } else {
                 trackShowBundleOverview()
             }
@@ -358,6 +362,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     private fun toggleBottomContainerViews(state: TwoScreenOverviewState) {
         val showSlider = checkoutPresenter.getCheckoutViewModel().isValidForBooking()
                 && state == TwoScreenOverviewState.CHECKOUT
+        checkoutPresenter.getCheckoutViewModel().slideToPurchaseVisibilityObservable.onNext(showSlider)
         bottomCheckoutContainer.toggleBottomContainerViews(state, showSlider)
         if (showSlider) {
             checkoutPresenter.trackShowSlideToPurchase()
@@ -461,6 +466,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         bottomCheckoutContainer.viewModel = bottomCheckoutContainerViewModel
         bottomCheckoutContainer.totalPriceViewModel = getPriceViewModel(context)
         bottomCheckoutContainer.baseCostSummaryBreakdownViewModel = getCostSummaryBreakdownViewModel()
+        bottomCheckoutContainer.viewModel.showSlideToPurchaseObservable.subscribe(checkoutPresenter.getCheckoutViewModel().slideToPurchaseVisibilityObservable)
     }
 
     private fun setupCreateTripViewModelSubscriptions() {

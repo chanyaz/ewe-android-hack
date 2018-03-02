@@ -4,6 +4,7 @@ import android.content.Context
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import com.crashlytics.android.Crashlytics
+import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
@@ -12,7 +13,11 @@ import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.enums.TwoScreenOverviewState
+import com.expedia.bookings.extensions.ObservableOld
+import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.utils.shouldShowUrgencyMessaging
 import com.expedia.util.Optional
+import com.squareup.phrase.Phrase
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -39,6 +44,8 @@ abstract class AbstractCheckoutViewModel(val context: Context) {
     val createTripResponseObservable = BehaviorSubject.create<Optional<TripResponse>>()
     val checkoutParams = BehaviorSubject.create<BaseCheckoutParams>()
     val bookingSuccessResponse = PublishSubject.create<Pair<BaseApiResponse, String>>()
+    val seatsRemainingObservable = PublishSubject.create<Int>()
+    val toCheckoutTransitionObservable = PublishSubject.create<Boolean>()
 
     var slideAllTheWayObservable = PublishSubject.create<Unit>()
     val bottomCheckoutContainerStateObservable = PublishSubject.create<TwoScreenOverviewState>()
@@ -62,6 +69,9 @@ abstract class AbstractCheckoutViewModel(val context: Context) {
     val showCardFeeWarningText = BehaviorSubject.create<Boolean>()
     val paymentTypeSelectedHasCardFee = PublishSubject.create<Boolean>()
     val toolbarNavIconFocusObservable = PublishSubject.create<Unit>()
+    val showUrgencyMessageObservable = PublishSubject.create<Boolean>()
+    val urgencyMessageTextObservable = PublishSubject.create<String>()
+    val slideToPurchaseVisibilityObservable = PublishSubject.create<Boolean>()
 
     protected var compositeDisposable: CompositeDisposable? = null
 
@@ -99,6 +109,19 @@ abstract class AbstractCheckoutViewModel(val context: Context) {
 
         checkoutErrorObservable.subscribe {
             clearCvvObservable.onNext(Unit)
+        }
+
+        if (shouldShowUrgencyMessaging(context)) {
+            ObservableOld.combineLatest(seatsRemainingObservable, toCheckoutTransitionObservable, slideToPurchaseVisibilityObservable, { numSeats, onCheckout, showSlider ->
+                val showUrgencyMessage = (numSeats in 1..5) && onCheckout && !showSlider
+                showUrgencyMessageObservable.onNext(showUrgencyMessage)
+                if (showUrgencyMessage) {
+                    OmnitureTracking.trackUrgencyMessageDisplayed()
+                    val message = Phrase.from(context, R.string.seats_left_urgency_message_on_checkout_TEMPLATE)
+                            .put("seats", numSeats).format().toString()
+                    urgencyMessageTextObservable.onNext(message)
+                }
+            }).subscribe()
         }
     }
 

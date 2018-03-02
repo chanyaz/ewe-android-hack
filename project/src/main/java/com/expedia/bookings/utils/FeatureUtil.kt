@@ -114,3 +114,7 @@ fun shouldShowRewardLaunchCard(context: Context): Boolean {
             && ProductFlavorFeatureConfiguration.getInstance().defaultPOS == PointOfSaleId.ORBITZ
             && Locale.getDefault().language != "es"
 }
+
+fun shouldShowUrgencyMessaging(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppSeatsLeftUrgencyMessaging)
+}

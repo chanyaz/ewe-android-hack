@@ -14,6 +14,7 @@
     <!-- 8dp grid margins -->
     <dimen name="small_margin">4dp</dimen>
     <dimen name="default_margin">8dp</dimen>
+    <dimen name="medium_margin">12dp</dimen>
     <dimen name="xlarge_margin">32dp</dimen>
 
     <!-- Launch dimens -->
@@ -113,6 +114,8 @@
     <dimen name="flight_leg_day_textview_margin_top_no_overlap">3dp</dimen>
     <dimen name="flight_sort_filter_container_height">58dp</dimen>
     <dimen name="flight_recent_search_item_margin_bottom">10dp</dimen>
+    <dimen name="flight_urgency_message_checkout_image_width">10dp</dimen>
+    <dimen name="flight_urgency_message_checkout_image_height">14dp</dimen>
 
     <!-- FlightTripView dimensions -->
     <dimen name="flight_trip_view_stroke_width">2dp</dimen>

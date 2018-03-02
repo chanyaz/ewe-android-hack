@@ -293,6 +293,7 @@ public class OmnitureTracking {
 	private static final String APP_CKO_SLIDE_TO_BOOK = "App.CKO.SlideToBook";
 	private static final String APP_CKO_ENTER_COUPON = "App.CKO.Coupon";
 	private static final String APP_CKO_CONFIRMATION_VIEW_ITIN = "App.CKO.Confirm.ViewItinerary";
+	private static final String APP_CKO_URGENCY_MESSAGING_SHOWN = "App.CKO.Urgency.Shown";
 
 	private static final String UNIVERSAL_CHECKOUT = "Universal Checkout";
 	private static final String CONFIRMATION_TRIP_ACTION = "Confirmation Trip Action";
@@ -568,6 +569,11 @@ public class OmnitureTracking {
 
 	public static void trackUserChoosesNotToSaveTraveler() {
 		ADMS_Measurement s = createTrackLinkEvent(APP_CKO_TRAVELER_DECLINE_SAVE);
+		s.trackLink(UNIVERSAL_CHECKOUT);
+	}
+
+	public static void trackUrgencyMessageDisplayed() {
+		ADMS_Measurement s = createTrackLinkEvent(APP_CKO_URGENCY_MESSAGING_SHOWN);
 		s.trackLink(UNIVERSAL_CHECKOUT);
 	}
 

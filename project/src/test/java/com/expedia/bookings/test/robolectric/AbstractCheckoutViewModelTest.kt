@@ -2,13 +2,11 @@ package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
 import com.expedia.bookings.data.BaseCheckoutParams
-import com.expedia.bookings.data.BillingInfo
-import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.services.TestObserver
-import com.expedia.util.Optional
+import com.expedia.bookings.utils.TravelerTestUtils
 import com.expedia.vm.AbstractCheckoutViewModel
 import com.expedia.vm.PaymentViewModel
 import org.joda.time.LocalDate
@@ -44,23 +42,23 @@ class AbstractCheckoutViewModelTest {
 
         testViewModel.checkoutParams.subscribe(testSubscriber)
 
-        var travelers = arrayListOf(getTraveler(), getTraveler(), getTraveler())
+        var travelers = arrayListOf(TravelerTestUtils.getTraveler(), TravelerTestUtils.getTraveler(), TravelerTestUtils.getTraveler())
         testViewModel.travelerCompleted.onNext(travelers)
-        testViewModel.paymentCompleted.onNext(getBillingInfo())
+        testViewModel.paymentCompleted.onNext(BillingDetailsTestUtils.getBillingInfo(activity))
         testViewModel.cvvCompleted.onNext("123")
 
         assertEquals(3, testSubscriber.values()[0].travelers.size)
 
-        travelers = arrayListOf(getTraveler(), getTraveler(), getTraveler(), getTraveler())
+        travelers = arrayListOf(TravelerTestUtils.getTraveler(), TravelerTestUtils.getTraveler(), TravelerTestUtils.getTraveler(), TravelerTestUtils.getTraveler())
         testViewModel.travelerCompleted.onNext(travelers)
-        testViewModel.paymentCompleted.onNext(getBillingInfo())
+        testViewModel.paymentCompleted.onNext(BillingDetailsTestUtils.getBillingInfo(activity))
         testViewModel.cvvCompleted.onNext("123")
 
         assertEquals(4, testSubscriber.values()[0].travelers.size)
 
         testViewModel.clearTravelers.onNext(Unit)
 
-        travelers = arrayListOf(getTraveler())
+        travelers = arrayListOf(TravelerTestUtils.getTraveler())
         testViewModel.travelerCompleted.onNext(travelers)
     }
 
@@ -68,8 +66,8 @@ class AbstractCheckoutViewModelTest {
     fun testStreetAddress() {
         val testSubscriber = TestObserver<BaseCheckoutParams>()
         testViewModel.checkoutParams.subscribe(testSubscriber)
-        testViewModel.travelerCompleted.onNext(arrayListOf(getTraveler()))
-        testViewModel.paymentCompleted.onNext(getBillingInfo())
+        testViewModel.travelerCompleted.onNext(arrayListOf(TravelerTestUtils.getTraveler()))
+        testViewModel.paymentCompleted.onNext(BillingDetailsTestUtils.getBillingInfo(activity))
         testViewModel.cvvCompleted.onNext("123")
 
         assertEquals("123 street", testSubscriber.values()[0].toQueryMap()["streetAddress"])
@@ -78,8 +76,8 @@ class AbstractCheckoutViewModelTest {
 
     @Test
     fun testInvalidBillingInfo() {
-        testViewModel.travelerCompleted.onNext(arrayListOf(getTraveler()))
-        val incompleteBillingInfo = getBillingInfo()
+        testViewModel.travelerCompleted.onNext(arrayListOf(TravelerTestUtils.getTraveler()))
+        val incompleteBillingInfo = BillingDetailsTestUtils.getBillingInfo(activity)
         incompleteBillingInfo.value!!.location.countryCode = null
         testViewModel.paymentCompleted.onNext(incompleteBillingInfo)
 
@@ -88,8 +86,8 @@ class AbstractCheckoutViewModelTest {
 
     @Test
     fun testValidSavedCard() {
-        testViewModel.travelerCompleted.onNext(arrayListOf(getTraveler()))
-        val savedInfo = getBillingInfo()
+        testViewModel.travelerCompleted.onNext(arrayListOf(TravelerTestUtils.getTraveler()))
+        val savedInfo = BillingDetailsTestUtils.getBillingInfo(activity)
         savedInfo.value!!.storedCard = getStoredCard()
         testViewModel.paymentCompleted.onNext(savedInfo)
 
@@ -98,8 +96,8 @@ class AbstractCheckoutViewModelTest {
 
     @Test
     fun testInvalidSavedCard() {
-        testViewModel.travelerCompleted.onNext(arrayListOf(getTraveler()))
-        val savedInfo = getBillingInfo()
+        testViewModel.travelerCompleted.onNext(arrayListOf(TravelerTestUtils.getTraveler()))
+        val savedInfo = BillingDetailsTestUtils.getBillingInfo(activity)
         savedInfo.value!!.storedCard = getStoredCard()
         savedInfo.value!!.storedCard.isExpired = true
         testViewModel.paymentCompleted.onNext(savedInfo)
@@ -109,78 +107,43 @@ class AbstractCheckoutViewModelTest {
 
     @Test
     fun testInvalidTravelerInfo() {
-        val invalidTraveler = getTraveler()
+        val invalidTraveler = TravelerTestUtils.getTraveler()
         invalidTraveler.email = null
         testViewModel.travelerCompleted.onNext(arrayListOf(invalidTraveler))
-        testViewModel.paymentCompleted.onNext(getBillingInfo())
+        testViewModel.paymentCompleted.onNext(BillingDetailsTestUtils.getBillingInfo(activity))
 
         assertEquals(false, testViewModel.builder.hasValidCheckoutParams())
     }
 
     @Test
     fun testInvalidMultipleTravelers() {
-        val firstTraveler = getTraveler()
-        val secondTraveler = getTraveler()
+        val firstTraveler = TravelerTestUtils.getTraveler()
+        val secondTraveler = TravelerTestUtils.getTraveler()
         secondTraveler.gender = Traveler.Gender.GENDER
         testViewModel.travelerCompleted.onNext(arrayListOf(firstTraveler, secondTraveler))
-        testViewModel.paymentCompleted.onNext(getBillingInfo())
+        testViewModel.paymentCompleted.onNext(BillingDetailsTestUtils.getBillingInfo(activity))
 
         assertEquals(false, testViewModel.builder.hasValidCheckoutParams())
     }
 
     @Test
     fun testValidMultipleTravelers() {
-        val firstTraveler = getTraveler()
+        val firstTraveler = TravelerTestUtils.getTraveler()
         val secondTraveler = getSecondaryTraveler()
         val thirdTraveler = getSecondaryTraveler()
 
         testViewModel.travelerCompleted.onNext(arrayListOf(firstTraveler, secondTraveler, thirdTraveler))
-        testViewModel.paymentCompleted.onNext(getBillingInfo())
+        testViewModel.paymentCompleted.onNext(BillingDetailsTestUtils.getBillingInfo(activity))
 
         assertEquals(true, testViewModel.builder.hasValidCheckoutParams())
     }
 
     @Test
     fun testValidCheckoutParams() {
-        testViewModel.travelerCompleted.onNext(arrayListOf(getTraveler()))
-        testViewModel.paymentCompleted.onNext(getBillingInfo())
+        testViewModel.travelerCompleted.onNext(arrayListOf(TravelerTestUtils.getTraveler()))
+        testViewModel.paymentCompleted.onNext(BillingDetailsTestUtils.getBillingInfo(activity))
 
         assertEquals(true, testViewModel.builder.hasValidCheckoutParams())
-    }
-
-    fun getBillingInfo(): Optional<BillingInfo> {
-        val info = BillingInfo()
-        info.email = "qa-ehcc@mobiata.com"
-        info.firstName = "JexperCC"
-        info.lastName = "MobiataTestaverde"
-        info.nameOnCard = info.firstName + " " + info.lastName
-        info.setNumberAndDetectType("4111111111111111", activity)
-        info.securityCode = "111"
-        info.telephone = "4155555555"
-        info.telephoneCountryCode = "1"
-        info.expirationDate = LocalDate.now()
-
-        val location = Location()
-        location.streetAddress = arrayListOf("123 street", "apt 69")
-        location.city = "city"
-        location.stateCode = "CA"
-        location.countryCode = "US"
-        location.postalCode = "12334"
-        info.location = location
-
-        return Optional(info)
-    }
-
-    private fun getTraveler(): Traveler {
-        val traveler = Traveler()
-        traveler.firstName = "malcolm"
-        traveler.lastName = "nguyen"
-        traveler.gender = Traveler.Gender.MALE
-        traveler.phoneNumber = "9163355329"
-        traveler.phoneCountryCode = "1"
-        traveler.birthDate = LocalDate.now().minusYears(18)
-        traveler.email = "test@gmail.com"
-        return traveler
     }
 
     private fun getSecondaryTraveler(): Traveler {

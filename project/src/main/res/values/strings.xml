@@ -4032,6 +4032,8 @@
         <item quantity="one">{seats} left at this price</item>
         <item quantity="other">{seats} left at this price</item>
     </plurals>
+    <!-- Flight seats left urgency message on checkout e.g. We have 4 left at this price -->
+    <string name= "seats_left_urgency_message_on_checkout_TEMPLATE">We have {seats} seats left at this price</string>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am -1d -->
     <string name="flight_departure_arrival_time_negative_days_TEMPLATE">{departuretime} - {arrivaltime} -{elapseddays}d</string>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->

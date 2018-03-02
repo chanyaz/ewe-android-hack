@@ -106,6 +106,7 @@
     <color name="cardview_divider_lines_gray">@color/gray200</color>
     <color name="flights_details_layover_color">@color/yellow_layover</color>
     <color name="flight_seats_left_urgency_message_color">@color/error_red</color>
+    <color name="flight_urgency_message_on_checkout_color">@color/exp_action_required_red</color>
     <color name="hotel_map_earn_message_text_color">@color/gray400</color>
     <color name="flights_confirmation_itin_bar_color">@color/exp_launch_secondary</color>
     <color name="flights_tab_text_color">#D9FFFFFF</color>

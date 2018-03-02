@@ -18,5 +18,18 @@ class TravelerTestUtils {
             traveler.phoneNumber = "4053615992"
             traveler.passengerCategory = PassengerCategory.ADULT
         }
+
+        @JvmStatic
+        fun getTraveler(): Traveler {
+            val traveler = Traveler()
+            traveler.firstName = "malcolm"
+            traveler.lastName = "nguyen"
+            traveler.gender = Traveler.Gender.MALE
+            traveler.phoneNumber = "9163355329"
+            traveler.phoneCountryCode = "1"
+            traveler.birthDate = LocalDate.now().minusYears(18)
+            traveler.email = "test@gmail.com"
+            return traveler
+        }
     }
 }

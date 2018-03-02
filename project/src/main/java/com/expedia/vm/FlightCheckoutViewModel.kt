@@ -56,6 +56,7 @@ open class FlightCheckoutViewModel(context: Context) : AbstractCardFeeEnabledChe
             builder.expectedFareCurrencyCode(createTripResponse.details.offer.totalPrice.currency)
             builder.tealeafTransactionId(createTripResponse.tealeafTransactionId)
             builder.suppressFinalBooking(BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_flight_bookings))
+            seatsRemainingObservable.onNext(createTripResponse.getOffer().seatsRemaining)
         }
 
         checkoutPriceChangeObservable.subscribe { checkoutResponse ->

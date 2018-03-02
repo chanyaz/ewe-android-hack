@@ -12,6 +12,42 @@
         android:layout_height="4dp"
         android:background="@drawable/drop_shadow" />
 
+    <RelativeLayout
+        android:id="@+id/urgency_message_container"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@color/material_checkout_background_color"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="@dimen/flight_urgency_message_checkout_image_width"
+            android:layout_height="@dimen/flight_urgency_message_checkout_image_height"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/default_margin"
+            android:layout_toLeftOf="@+id/urgency_message"
+            android:src="@drawable/urgency"
+            android:tint="@color/flight_urgency_message_on_checkout_color" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/urgency_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/medium_margin"
+            android:fontFamily="sans-serif"
+            android:gravity="end"
+            android:textColor="@color/gray550"
+            android:textSize="12sp"
+            android:textStyle="normal" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider_gray" />
+
     <com.expedia.bookings.widget.TotalPriceWidget
         android:id="@+id/total_price_widget"
         android:layout_width="match_parent"

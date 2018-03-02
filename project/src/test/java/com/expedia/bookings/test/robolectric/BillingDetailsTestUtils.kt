@@ -1,7 +1,9 @@
 package com.expedia.bookings.test.robolectric
 
+import android.content.Context
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Location
+import com.expedia.util.Optional
 import org.joda.time.LocalDate
 
 class BillingDetailsTestUtils {
@@ -35,6 +37,30 @@ class BillingDetailsTestUtils {
             billingInfo.telephoneCountryCode = "1"
             billingInfo.location = location
             return billingInfo
+        }
+
+        @JvmStatic
+        fun getBillingInfo(context: Context): Optional<BillingInfo> {
+            val info = BillingInfo()
+            info.email = "qa-ehcc@mobiata.com"
+            info.firstName = "JexperCC"
+            info.lastName = "MobiataTestaverde"
+            info.nameOnCard = info.firstName + " " + info.lastName
+            info.setNumberAndDetectType("4111111111111111", context)
+            info.securityCode = "111"
+            info.telephone = "4155555555"
+            info.telephoneCountryCode = "1"
+            info.expirationDate = LocalDate.now()
+
+            val location = Location()
+            location.streetAddress = arrayListOf("123 street", "apt 69")
+            location.city = "city"
+            location.stateCode = "CA"
+            location.countryCode = "US"
+            location.postalCode = "12334"
+            info.location = location
+
+            return Optional(info)
         }
     }
 }

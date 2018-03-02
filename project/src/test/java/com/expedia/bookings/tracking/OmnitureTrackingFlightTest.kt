@@ -116,6 +116,13 @@ class OmnitureTrackingFlightTest {
         OmnitureTestUtils.assertStateTracked("App.Flight.Checkout.Confirmation", OmnitureMatchers.withProductsString(insuranceProductWithNumberOfTickets, shouldExactlyMatch = false), mockAnalyticsProvider)
     }
 
+    @Test
+    fun testTrackUrgencyMessageDisplayedOnCheckout() {
+        OmnitureTracking.trackUrgencyMessageDisplayed()
+        val controlEvar = mapOf(28 to "App.CKO.Urgency.Shown")
+        OmnitureTestUtils.assertLinkTracked("Universal Checkout", "App.CKO.Urgency.Shown", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+    }
+
     private fun setupDb() {
         Db.sharedInstance.clear()
         Db.setFlightSearchParams(FlightTestUtil.getFlightSearchParams(isRoundTrip = false, includeChild = false))

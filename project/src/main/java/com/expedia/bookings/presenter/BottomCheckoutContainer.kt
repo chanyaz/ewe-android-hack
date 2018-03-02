@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.Space
 import com.expedia.bookings.R
 import com.expedia.bookings.enums.TwoScreenOverviewState
@@ -16,6 +17,7 @@ import com.expedia.bookings.extensions.subscribeEnabled
 import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.extensions.setVisibility
+import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
@@ -56,6 +58,8 @@ class BottomCheckoutContainer(context: Context, attrs: AttributeSet?) : LinearLa
     val checkoutButtonContainer: View by bindView(R.id.button_container)
     val checkoutButton: Button by bindView(R.id.checkout_button)
     val bottomContainer: LinearLayout by bindView(R.id.bottom_container)
+    val urgencyMessageContainer: RelativeLayout by bindView(R.id.urgency_message_container)
+    val urgencyMessage: TextView by bindView(R.id.urgency_message)
 
     var viewModel: BottomCheckoutContainerViewModel by notNullAndObservable { vm ->
         vm.sliderPurchaseTotalText.subscribeText(slideTotalText)
@@ -97,6 +101,8 @@ class BottomCheckoutContainer(context: Context, attrs: AttributeSet?) : LinearLa
             }
         }
         vm.checkoutButtonEnableObservable.subscribeEnabled(checkoutButton)
+        vm.urgencyMessageContainerVisibilityObservable.subscribeVisibility(urgencyMessageContainer)
+        vm.urgencyMessageTextObservable.subscribeText(urgencyMessage)
     }
 
     var totalPriceViewModel: AbstractUniversalCKOTotalPriceViewModel by notNullAndObservable { vm ->

@@ -423,7 +423,7 @@
             android:title="Hotels Web Checkout AB text - 15823" />
 
         <ListPreference
-            android:defaultValue="-1"
+            android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="14525"
@@ -431,7 +431,7 @@
             android:title="Checkout populate cardholder name AB test - 14525" />
 
         <ListPreference
-            android:defaultValue="-1"
+            android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="16112"
@@ -439,7 +439,7 @@
             android:title="Checkout secure icon AB test - 16112" />
 
         <ListPreference
-            android:defaultValue="-1"
+            android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="15247"
@@ -447,7 +447,7 @@
             android:title="Flex for flights AB test - 15247" />
 
         <ListPreference
-            android:defaultValue="-1"
+            android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="15457"
@@ -455,7 +455,7 @@
             android:title="Allow Unknown Card Types - 15457" />
 
         <ListPreference
-            android:defaultValue="-1"
+            android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="15344"
@@ -463,7 +463,7 @@
             android:title="Hotel Checkin Checkout Dates Inline - 15344" />
 
         <ListPreference
-            android:defaultValue="-1"
+            android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="15371"
@@ -471,7 +471,7 @@
             android:title="Show Flights Checkout Webview - 15371" />
 
         <ListPreference
-            android:defaultValue="-1"
+            android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="15682"
@@ -503,12 +503,20 @@
             android:title="Hotel Material Forms - 24870" />
 
         <ListPreference
-            android:defaultValue="-1"
+            android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="16365"
             android:summary="%s"
             android:title="Saved Coupons For Hotels - 16365" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="25037"
+            android:summary="%s"
+            android:title="Seats Left Urgency Messaging - 25037" />
 
     </PreferenceCategory>
 
