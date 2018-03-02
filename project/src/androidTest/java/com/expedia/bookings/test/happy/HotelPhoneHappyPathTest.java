@@ -55,12 +55,13 @@ public class HotelPhoneHappyPathTest extends HotelTestCase {
 		CheckoutScreen.clickDone();
 
 		CheckoutScreen.loginAsQAUser();
-		CheckoutScreen.selectStoredTraveler();
-		Common.delay(1);
 
 		// checkout
 		CheckoutScreen.selectStoredCard(true);
 		CheckoutScreen.clickDone();
+		CheckoutScreen.selectStoredTraveler();
+		Common.delay(1);
+
 		CheckoutScreen.performSlideToPurchase(true);
 
 		assertICanSeeItinNumber();

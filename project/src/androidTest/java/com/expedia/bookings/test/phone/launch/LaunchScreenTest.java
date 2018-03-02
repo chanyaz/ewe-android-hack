@@ -34,7 +34,7 @@ public class LaunchScreenTest extends PhoneTestCase {
 		Log.v(TAG, "Shop button on Launch screen is displayed ");
 
 		LaunchScreen.accountButton().perform(click());
-		EspressoUtils.assertViewIsDisplayed(R.id.sign_in_button);
+		EspressoUtils.assertViewIsDisplayed(R.id.account_sign_in);
 		Log.v(TAG, "Account button on Launch screen is displayed ");
 
 	}

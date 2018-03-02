@@ -234,7 +234,7 @@ public class RailScreen {
 		onView(withText("Any off-peak train")).check(matches(isDisplayed()));
 		RailScreen.clickSelectFareOption("£617.20");
 
-		onView(withText("Outbound - Thu Nov 10")).perform(ViewActions.waitForViewToDisplay())
+		onView(withText("Outbound - Thu, Nov 10")).perform(ViewActions.waitForViewToDisplay())
 			.check(matches(isDisplayed()));
 	}
 
