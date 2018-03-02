@@ -5,16 +5,19 @@ import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.web.sugar.Web;
 import android.support.test.espresso.web.webdriver.Locator;
 import android.support.test.uiautomator.By;
+import android.support.test.uiautomator.BySelector;
 import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject2;
 import android.support.test.uiautomator.Until;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.mobiata.android.Log;
+
+import java.util.List;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -73,9 +76,9 @@ public class LogInScreen {
 		clickOnLoginButton();
 	}
 
-	public static class FacebookSignIn {
+	public static class FacebookWebSignIn {
 		public static void waitForViewToLoad() {
-			mDevice.wait(Until.findObject(By.desc("Log into your Facebook account to connect to Expedia")), 30000);
+			mDevice.wait(Until.findObject(By.res("login_form")), 30000);
 			mDevice.waitForIdle(3000); //Needed, because the view loads before the progress bar.
 		}
 
@@ -108,9 +111,9 @@ public class LogInScreen {
 		}
 	}
 
-	public static class FacebookConfirmLogin {
+	public static class FacebookWebConfirmLogin {
 		public static void waitForViewToLoad() {
-			mDevice.wait(Until.findObject(By.clazz(WebView.class).desc("Confirm Login")), 30000);
+			mDevice.wait(Until.findObject(By.res("m-future-page-header-title").text("Confirm Login")), 30000);
 			mDevice.waitForIdle(3000); //Needed, because the view loads before the progress bar.
 		}
 
@@ -130,6 +133,37 @@ public class LogInScreen {
 
 		public static void clickCancel() {
 			mDevice.findObject(By.clazz(Button.class).desc("Cancel")).click();
+		}
+	}
+
+	public static class FacebookAppSignIn {
+		static String facebookAppPackage = "com.facebook.katana";
+		static BySelector logInButtonSelector = By.pkg(facebookAppPackage).clazz(Button.class).text("LOG IN");
+		static BySelector emailFieldSelector = By.pkg(facebookAppPackage).text("Email or Phone");
+		static BySelector passwordFieldSelector = By.pkg(facebookAppPackage).clazz(EditText.class).text("").desc("");
+
+		public static Boolean isFacebookAppInstalled() {
+			return Common.isPackageInstalled(facebookAppPackage);
+		}
+
+		public static void waitForViewToLoad() {
+			mDevice.wait(Until.findObject(logInButtonSelector), 60000);
+		}
+
+		public static void typeInEmail(String text) {
+			mDevice.findObject(emailFieldSelector).setText(text);
+		}
+
+		public static void typeInPassword(String text) {
+			mDevice.findObject(passwordFieldSelector).setText(text);
+		}
+
+		public static void clickLogIn() {
+			mDevice.findObject(logInButtonSelector).click();
+		}
+
+		public static void waitWhileVisible() {
+			mDevice.wait(Until.gone(By.pkg(facebookAppPackage)), 60000);
 		}
 	}
 }

@@ -58,6 +58,11 @@ public class TestBootstrap extends ActivityInstrumentationTestCase2<RouterActivi
 		super.setUp();
 		mActivity = getActivity();
 		assertNotNull(mActivity);
+
+		//Ensure Facebook process isn't running and data is wiped.
+		//This will allow a login screen to appear for every test
+		Common.killProcess("com.facebook.katana");
+		Common.clearProcessCacheData("com.facebook.katana");
 	}
 
 	@After

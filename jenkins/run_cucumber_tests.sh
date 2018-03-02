@@ -105,6 +105,8 @@ function installBuild() {
     fi
 
     adb -s $device shell pm grant "${packageName}.debug" android.permission.ACCESS_FINE_LOCATION
+    adb -s $device shell pm grant "${packageName}.debug" android.permission.READ_EXTERNAL_STORAGE
+    adb -s $device shell pm grant "${packageName}.debug" android.permission.WRITE_EXTERNAL_STORAGE
 
 }
 

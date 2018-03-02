@@ -119,6 +119,11 @@ public class CommonSteps {
 		Common.pressBack();
 	}
 
+	@And("^I tap on back button$")
+	public void tapBackButton() {
+		Common.genericPressBack();
+	}
+
 	@And("^I press back following number of times: (\\d+)$")
 	public void hitBackNumberOfTimes(int number) {
 		for (int iterator = 0 ; iterator < number ; iterator++) {

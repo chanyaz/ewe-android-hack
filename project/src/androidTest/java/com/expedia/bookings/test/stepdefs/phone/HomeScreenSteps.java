@@ -1,10 +1,12 @@
 package com.expedia.bookings.test.stepdefs.phone;
 
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.pagemodels.common.LogInScreen;
 import com.expedia.bookings.test.support.Users;
 import com.expedia.bookings.test.support.User;
+import com.mobiata.android.Log;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -52,13 +54,21 @@ public class HomeScreenSteps {
 		if (user.getType().toLowerCase().equals("facebook")) {
 			LogInScreen.signInWithExpediaButton().perform(waitForViewToDisplay(), click());
 			LogInScreen.signInWithFacebookButton().perform(waitForViewToDisplay(), click());
-			LogInScreen.FacebookSignIn.waitForViewToLoad();
-			LogInScreen.FacebookSignIn.typeInEmail(user.getEmail());
-			LogInScreen.FacebookSignIn.typeInPassword(user.getPassword());
-			LogInScreen.FacebookSignIn.clickLogIn();
-			LogInScreen.FacebookConfirmLogin.waitForViewToLoad();
-			LogInScreen.FacebookConfirmLogin.clickContinue();
 
+			if (LogInScreen.FacebookAppSignIn.isFacebookAppInstalled()) {
+				LogInScreen.FacebookAppSignIn.waitForViewToLoad();
+				LogInScreen.FacebookAppSignIn.typeInEmail(user.getEmail());
+				LogInScreen.FacebookAppSignIn.typeInPassword(user.getPassword());
+				LogInScreen.FacebookAppSignIn.clickLogIn();
+				LogInScreen.FacebookAppSignIn.waitWhileVisible();
+			} else {
+				LogInScreen.FacebookWebSignIn.waitForViewToLoad();
+				LogInScreen.FacebookWebSignIn.typeInEmail(user.getEmail());
+				LogInScreen.FacebookWebSignIn.typeInPassword(user.getPassword());
+				LogInScreen.FacebookWebSignIn.clickLogIn();
+				LogInScreen.FacebookWebConfirmLogin.waitForViewToLoad();
+				LogInScreen.FacebookWebConfirmLogin.clickContinue();
+			}
 		}
 		else if (user.getType().toLowerCase().equals("expedia")) {
 			LogInScreen.signInWithExpediaButton().perform(waitForViewToDisplay(), click());

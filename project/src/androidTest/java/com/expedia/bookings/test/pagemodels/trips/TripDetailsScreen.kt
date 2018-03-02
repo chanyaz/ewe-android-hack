@@ -1,6 +1,8 @@
 package com.expedia.bookings.test.pagemodels.trips
 
+import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso.onView
+import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.isClickable
 import android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
@@ -9,6 +11,11 @@ import android.support.test.espresso.matcher.ViewMatchers.withClassName
 import android.support.test.espresso.matcher.ViewMatchers.withContentDescription
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withText
+import android.support.test.uiautomator.By
+import android.support.test.uiautomator.BySelector
+import android.support.test.uiautomator.UiDevice
+import android.support.test.uiautomator.Until
+import com.activeandroid.query.Select
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.EspressoUtils.waitForViewNotYetInLayoutToDisplay
 import org.hamcrest.Matchers.allOf
@@ -17,6 +24,7 @@ import org.joda.time.format.DateTimeFormat
 import java.util.concurrent.TimeUnit
 
 object TripDetailsScreen {
+    val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
     val bodyScrollableContainer = allOf(withChild(withId(R.id.container)),
             withClassName(endsWith("ScrollView")))
 
@@ -45,6 +53,10 @@ object TripDetailsScreen {
                     getFormattedDate(from, "MMM d") + " - " +
                             getFormattedDate(to, "MMM d")
             )))
+        }
+
+        fun clickShareButton() {
+            onView(shareButton).perform(click())
         }
     }
 
@@ -124,5 +136,40 @@ object TripDetailsScreen {
         val additionalInformation = withId(R.id.itin_hotel_additional_info_card_view)
         val additionalInformationHeading = allOf(isDescendantOfA(additionalInformation),
                 withId(R.id.link_off_card_heading))
+    }
+
+    object ShareOptions {
+        private val timeout: Long = 30000
+        private val optionsListSelector = By.res("android:id/resolver_list")
+        private val appList = mapOf(
+                "FACEBOOK" to AppInfo(packageName = "com.facebook.katana", text = "Share to Facebook"),
+                "GMAIL" to AppInfo(packageName = "com.google.android.gm", text = "Compose"),
+                "KAKAOTALK" to AppInfo(packageName = "com.kakao.talk", text = "Select"),
+                "LINE" to AppInfo(packageName = "jp.naver.line.android", text = "Share with")
+        )
+
+        fun waitForShareSuggestionsListToLoad() {
+            device.wait(Until.findObject(optionsListSelector), timeout)
+        }
+
+        fun clickOnIconWithText(appName: String) {
+            device.findObject(By.res("android:id/text1").text(appName.toUpperCase())).click()
+        }
+
+        fun waitForAppToLoad(appName: String) {
+            device.wait(Until.findObject(getBySelectorForAppName(appName.toUpperCase())), timeout)
+        }
+
+        fun getBySelectorForAppName(appName: String): BySelector {
+            val packageName = appList.get(appName)?.packageName
+            val text = appList.get(appName)?.text
+            return By.pkg(packageName).text(text)
+        }
+
+        fun getPackageNameForAppName(appName: String): String {
+            return appList.get(appName.toUpperCase())?.packageName!!
+        }
+
+        private data class AppInfo(val packageName: String?, val text: String?)
     }
 }
