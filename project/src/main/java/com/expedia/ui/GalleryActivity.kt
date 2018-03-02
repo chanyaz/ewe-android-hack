@@ -6,7 +6,6 @@ import android.view.View
 import android.view.animation.LinearInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelMedia
-import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.HotelDetailsToolbar
 import com.expedia.bookings.widget.RecyclerGallery
@@ -38,7 +37,6 @@ class GalleryActivity : Activity(), RecyclerGallery.GalleryItemScrollListener {
         Ui.showTransparentStatusBar(this)
         setUpGallery()
         setUpToolbar()
-        OmnitureTracking.trackHotelItinGalleryOpen()
     }
 
     private fun setUpGallery() {

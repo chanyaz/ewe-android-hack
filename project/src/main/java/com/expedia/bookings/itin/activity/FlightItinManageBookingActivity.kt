@@ -55,7 +55,7 @@ class FlightItinManageBookingActivity : AppCompatActivity() {
         super.onResume()
         viewModel.setUp()
         if (!trackingFired) {
-            OmnitureTracking.trackItinFlightManageBookingActivity(this, viewModel.createOmnitureTrackingValues())
+            OmnitureTracking.trackItinFlightManageBookingActivity(viewModel.createOmnitureTrackingValues())
             trackingFired = true
         }
     }

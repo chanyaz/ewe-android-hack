@@ -44,7 +44,7 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
 
     private fun trackOmniture(dataFlight: ItinCardDataFlight) {
         if (!trackingFired) {
-            OmnitureTracking.trackItinFlight(context, createOmnitureTrackingValues(dataFlight))
+            OmnitureTracking.trackItinFlight(createOmnitureTrackingValues(dataFlight))
             trackingFired = true
         }
     }

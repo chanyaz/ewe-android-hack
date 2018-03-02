@@ -2422,95 +2422,95 @@ public class OmnitureTracking {
 	//
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	private static final String ITIN_EMPTY = "App.Itinerary.Empty";
-	private static final String ITIN_FIND = "App.Itinerary.Find";
-	private static final String ITIN_FIND_GUEST = "App.Itinerary.Find.Guest";
-	private static final String ITIN_ADD_SUCCESS = "App.Itinerary.Add.Success";
 	private static final String ITIN = "App.Itinerary";
+	private static final String ITIN_EMPTY = "App.Itinerary.Empty";
+	private static final String ITIN_NEW_SIGN_IN = "App.Itinerary.Login.Start";
+	private static final String ITIN_USER_REFRESH = "App.Itinerary.User.Refresh";
+	private static final String ITIN_CHANGE_POSA = "App.Itinerary.POSa";
+	private static final String ITIN_FIND_GUEST = "App.Itinerary.Find.Guest";
+	private static final String ITIN_ERROR = "App.Itinerary.Error";
+	private static final String ITIN_RELOAD_TEMPLATE = "App.Itinerary.%s.Info.Reload";
+	private static final String ITIN_ADD_SUCCESS = "App.Itinerary.Add.Success";
+
+	private static final String ITIN_TRIP_REFRESH_CALL_MADE = "App.Itinerary.Call.Made";
+	private static final String ITIN_TRIP_REFRESH_CALL_SUCCESS = "App.Itinerary.Call.Success";
+	private static final String ITIN_TRIP_REFRESH_CALL_FAILURE = "App.Itinerary.Call.Failure";
+
+	private static final String ITIN_CAR_SHARE_PREFIX = "App.Itinerary.Car.Share.";
+	private static final String ITIN_ACTIVITY_SHARE_PREFIX = "App.Itinerary.Activity.Share.";
+	private static final String ITIN_HOTEL_SHARE_PREFIX = "App.Itinerary.Hotel.Share.";
+	private static final String ITIN_FLIGHT_SHARE_PREFIX = "App.Itinerary.Flight.Share.";
+
+	private static final String ITIN_CAR_INFO = "App.Itinerary.Car.Info.Additional";
+	private static final String ITIN_CAR_DIRECTIONS = "App.Itinerary.Car.Directions";
+	private static final String ITIN_CAR_CALL = "App.Itinerary.Car.Call";
+
+	private static final String ITIN_ACTIVITY_REDEEM = "App.Itinerary.Activity.Redeem";
+	private static final String ITIN_ACTIVITY_SUPPORT = "App.Itinerary.Activity.Support";
+	private static final String ITIN_ACTIVITY_INFO = "App.Itinerary.Activity.Info.Additional";
+
 	private static final String ITIN_HOTEL = "App.Itinerary.Hotel";
-	private static final String ITIN_HOTEL_UPGRADE = "App.Itinerary.Hotel.Upgrade";
+	private static final String ITIN_HOTEL_INFO = "App.Itinerary.Hotel.Info.Additional";
+	private static final String ITIN_HOTEL_MAP_OPEN = "App.Itinerary.Hotel.Map";
+	private static final String ITIN_HOTEL_MAP_PAN = "App.Map.Directions.Pan";
+	private static final String ITIN_HOTEL_MAP_ZOOM_IN = "App.Map.Directions.ZoomIn";
+	private static final String ITIN_HOTEL_MAP_ZOOM_OUT = "App.Map.Directions.ZoomOut";
 	private static final String ITIN_NEW_HOTEL_DIRECTIONS = "App.Itinerary.Hotel.Directions";
+	private static final String ITIN_HOTEL_MAP_DIRECTIONS = "App.Map.Directions.Drive";
+
 	private static final String ITIN_HOTEL_CALL = "App.Itinerary.Hotel.Call";
 	private static final String ITIN_HOTEL_MESSAGE = "App.Itinerary.Hotel.Message.Hotel";
+	private static final String ITIN_HOTEL_PRICING_REWARDS = "App.Itinerary.Hotel.PricingRewards";
+	private static final String ITIN_HOTEL_CHECK_IN_POLICIES = "App.Itinerary.Hotel.Info.Check-in";
+
+	private static final String ITIN_HOTEL_MANAGE_BOOKING = "App.Itinerary.Hotel.ManageBooking";
+	private static final String ITIN_HOTEL_CHANGE_CANCEL_RULES = "App.Itinerary.Hotel.Manage.Info.Change-Cancel";
+	private static final String ITIN_HOTEL_CHANGE_HOTEL = "App.Itinerary.Hotel.Manage.Change";
+	private static final String ITIN_HOTEL_CANCEL_HOTEL = "App.Itinerary.Hotel.Manage.Cancel";
+	private static final String ITIN_HOTEL_CHANGE_HOTEL_LEARN_MORE = "App.Itinerary.Hotel.Manage.Change.LearnMore";
+	private static final String ITIN_HOTEL_CANCEL_HOTEL_LEARN_MORE = "App.Itinerary.Hotel.Manage.Cancel.LearnMore";
 	private static final String ITIN_HOTEL_MANAGE_BOOKING_MESSAGE = "App.Itinerary.Hotel.Manage.Message.Hotel";
-	private static final String ITIN_HOTEL_INFO = "App.Itinerary.Hotel.Info.Additional";
-	private static final String ITIN_HOTEL_SHARE_PREFIX = "App.Itinerary.Hotel.Share.";
+	private static final String ITIN_HOTEL_CALL_HOTEL = "App.Itinerary.Hotel.Manage.Call.Hotel";
+	private static final String ITIN_HOTEL_CALL_EXPEDIA = "App.Itinerary.Hotel.Manage.Call.Expedia";
+	private static final String ITIN_HOTEL_OPEN_SUPPORT_WEBSITE = "App.Itinerary.Hotel.Manage.CSP";
+
 	private static final String ITIN_FLIGHT = "App.Itinerary.Flight";
+	private static final String ITIN_FLIGHT_COPY_PNR = "App.Itinerary.Flight.CopyPNR";
 	private static final String ITIN_FLIGHT_CHECKIN = "App.Itinerary.Flight.CheckInNow";
 	private static final String ITIN_FLIGHT_CHECKIN_SUCCESS = "App.Itinerary.Flight.CheckIn.Yes";
 	private static final String ITIN_FLIGHT_CHECKIN_FAILURE = "App.Itinerary.Flight.CheckIn.No";
 	private static final String ITIN_FLIGHT_CHECKIN_VISIT = "App.Itinerary.Flight.VisitAirline";
 	private static final String ITIN_FLIGHT_BAGGAGEINFO = "App.Itinerary.Flight.Baggage.Info";
 	private static final String ITIN_FLIGHT_DIRECTIONS = "App.Itinerary.Flight.Airport.Directions";
+	private static final String ITIN_NEW_FLIGHT_DIRECTIONS = "App.Itinerary.Flight.Directions";
 	private static final String ITIN_FLIGHT_TERMINAL_MAPS = "App.Itinerary.Flight.Airport.TerminalMaps";
-	private static final String ITIN_FLIGHT_INFO = "App.Itinerary.Flight.Info.Additional";
-	private static final String ITIN_FLIGHT_SHARE_PREFIX = "App.Itinerary.Flight.Share.";
-	private static final String ITIN_FLIGHT_COPY_PNR = "App.Itinerary.Flight.CopyPNR";
-	private static final String ITIN_FLIGHT_MANAGE_BOOKING = "App.Itinerary.Flight.ManageBooking";
-	private static final String ITIN_FLIGHT_TRAVELER_INFO = "App.Itinerary.Flight.TravelerInfo";
-	private static final String ITIN_FLIGHT_INFO_ADDITIONAL = "App.Itinerary.Flight.Info.Additional";
-	private static final String ITIN_FLIGHT_PRICE_SUMMARY = "App.Itinerary.Flight.PriceSummary";
+	private static final String ITIN_NEW_FLIGHT_TERMINAL_MAPS = "App.Itinerary.Flight.TerminalMaps";
 	private static final String ITIN_FLIGHT_MAP_OPEN = "App.Itinerary.Flight.Map";
-	private static final String ITIN_CAR = "App.Itinerary.Car";
-	private static final String ITIN_CAR_DIRECTIONS = "App.Itinerary.Car.Directions";
-	private static final String ITIN_CAR_CALL = "App.Itinerary.Car.Call";
-	private static final String ITIN_CAR_INFO = "App.Itinerary.Car.Info.Additional";
-	private static final String ITIN_CAR_SHARE_PREFIX = "App.Itinerary.Car.Share.";
-	private static final String ITIN_ACTIVITY = "App.Itinerary.Activity";
-	private static final String ITIN_ACTIVITY_REDEEM = "App.Itinerary.Activity.Redeem";
-	private static final String ITIN_ACTIVITY_SUPPORT = "App.Itinerary.Activity.Support";
-	private static final String ITIN_ACTIVITY_INFO = "App.Itinerary.Activity.Info.Additional";
-	private static final String ITIN_ACTIVITY_SHARE_PREFIX = "App.Itinerary.Activity.Share.";
-	private static final String ITIN_RELOAD_TEMPLATE = "App.Itinerary.%s.Info.Reload";
-	private static final String ITIN_HOTEL_ROOM_CANCEL_CLICK = "App.Itinerary.Hotel.Cancel";
-	private static final String ITIN_ERROR = "App.Itinerary.Error";
-	private static final String ITIN_HOTEL_GALLERY_OPEN = "App.Itinerary.Hotel.Photos";
-	private static final String ITIN_HOTEL_MAP_OPEN = "App.Itinerary.Hotel.Map";
-	private static final String ITIN_CHANGE_POSA = "App.Itinerary.POSa";
-	private static final String ITIN_HOTEL_INFO_EDIT_ROOM = "App.Itinerary.Hotel.Info.EditRoom";
-	private static final String ITIN_NEW_SIGN_IN = "App.Itinerary.Login.Start";
-	private static final String ITIN_USER_REFRESH = "App.Itinerary.User.Refresh";
-	private static final String ITIN_HOTEL_MANAGE_BOOKING = "App.Itinerary.Hotel.ManageBooking";
-	private static final String ITIN_HOTEL_PRICING_REWARDS = "App.Itinerary.Hotel.PricingRewards";
-	private static final String ITIN_HOTEL_CHECK_IN_POLICIES = "App.Itinerary.Hotel.Info.Check-in";
-	private static final String ITIN_HOTEL_CHANGE_CANCEL_RULES = "App.Itinerary.Hotel.Manage.Info.Change-Cancel";
+
+	private static final String ITIN_FLIGHT_TRAVELER_INFO = "App.Itinerary.Flight.TravelerInfo";
+	private static final String ITIN_FLIGHT_INFO = "App.Itinerary.Flight.Info.Additional";
+	private static final String ITIN_FLIGHT_PRICE_SUMMARY = "App.Itinerary.Flight.PriceSummary";
+
+	private static final String ITIN_FLIGHT_MANAGE_BOOKING = "App.Itinerary.Flight.ManageBooking";
 	private static final String ITIN_FLIGHT_LEG_DETAIL_WIDGET_RULES_RESTRICTION = "App.Itinerary.Flight.Manage.AirlineRules";
 	private static final String ITIN_FLIGHT_AIRLINE_CALL_SUPPORT = "App.Itinerary.Flight.Manage.Call.Airline";
 	private static final String ITIN_FLIGHT_CANCEL_FLIGHT = "App.Itinerary.Flight.Manage.Cancel";
 	private static final String ITIN_FLIGHT_CHANGE_FLIGHT = "App.Itinerary.Flight.Manage.Change";
-	private static final String ITIN_HOTEL_CHANGE_HOTEL = "App.Itinerary.Hotel.Manage.Change";
-	private static final String ITIN_HOTEL_CANCEL_HOTEL = "App.Itinerary.Hotel.Manage.Cancel";
+	private static final String ITIN_FLIGHT_OPEN_SUPPORT_WEBSITE = "App.Itinerary.Flight.Manage.CSP";
+	private static final String ITIN_FLIGHT_CALL_EXPEDIA = "App.Itinerary.Flight.Manage.Call.Expedia";
 	private static final String ITIN_FLIGHT_AIRLINE_WEB_SUPPORT = "App.Itinerary.Flight.Manage.Support.Airline";
 	private static final String ITIN_FLIGHT_CHANGE_FLIGHT_LEARN_MORE = "App.Itinerary.Flight.Manage.Change.LearnMore";
 	private static final String ITIN_FLIGHT_CANCEL_FLIGHT_LEARN_MORE = "App.Itinerary.Flight.Manage.Cancel.LearnMore";
-	private static final String ITIN_HOTEL_CHANGE_HOTEL_LEARN_MORE = "App.Itinerary.Hotel.Manage.Change.LearnMore";
-	private static final String ITIN_HOTEL_CANCEL_HOTEL_LEARN_MORE = "App.Itinerary.Hotel.Manage.Cancel.LearnMore";
-
-	private static final String ITIN_HOTEL_CALL_HOTEL = "App.Itinerary.Hotel.Manage.Call.Hotel";
-	private static final String ITIN_HOTEL_CALL_EXPEDIA = "App.Itinerary.Hotel.Manage.Call.Expedia";
-	private static final String ITIN_HOTEL_OPEN_SUPPORT_WEBSITE = "App.Itinerary.Hotel.Manage.CSP";
-	private static final String ITIN_FLIGHT_OPEN_SUPPORT_WEBSITE = "App.Itinerary.Flight.Manage.CSP";
-	private static final String ITIN_FLIGHT_CALL_EXPEDIA = "App.Itinerary.Flight.Manage.Call.Expedia";
-	private static final String ITIN_TRIP_REFRESH_CALL_MADE = "App.Itinerary.Call.Made";
-	private static final String ITIN_TRIP_REFRESH_CALL_SUCCESS = "App.Itinerary.Call.Success";
-	private static final String ITIN_TRIP_REFRESH_CALL_FAILURE = "App.Itinerary.Call.Failure";
-	private static final String ITIN_NEW_FLIGHT_DIRECTIONS = "App.Itinerary.Flight.Directions";
-	private static final String ITIN_NEW_FLIGHT_TERMINAL_MAPS = "App.Itinerary.Flight.TerminalMaps";
-	private static final String ITIN_HOTEL_MAP_DIRECTIONS = "App.Map.Directions.Drive";
-	private static final String ITIN_HOTEL_MAP_PAN = "App.Map.Directions.Pan";
-	private static final String ITIN_HOTEL_MAP_ZOOM_IN = "App.Map.Directions.ZoomIn";
-	private static final String ITIN_HOTEL_MAP_ZOOM_OUT = "App.Map.Directions.ZoomOut";
-	private static final String ITIN_HOTEL_MESSAGE_HOTEL = "App.Itinerary.Hotel.Message.Hotel";
 
 	public static void trackItinTripRefreshCallMade() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_TRIP_REFRESH_CALL_MADE);
-		s.setEvents("event286");
+		s.appendEvents("event286");
 		s.trackLink("Trips Call");
 	}
 
 	public static void trackItinTripRefreshCallSuccess(boolean tripHasFlight) {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_TRIP_REFRESH_CALL_SUCCESS);
-		s.setEvents("event287");
+		s.appendEvents("event287");
 		if (tripHasFlight) {
 			trackAbacusTest(s, AbacusUtils.TripsNewFlightAlerts);
 		}
@@ -2519,7 +2519,7 @@ public class OmnitureTracking {
 
 	public static void trackItinTripRefreshCallFailure(String error) {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_TRIP_REFRESH_CALL_FAILURE);
-		s.setEvents("event288");
+		s.appendEvents("event288");
 		s.setProp(36, error);
 		s.trackLink("Trips Call");
 	}
@@ -2541,36 +2541,20 @@ public class OmnitureTracking {
 	public static void trackItinError() {
 		Log.d(TAG, "Tracking \"" + ITIN_ERROR + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_ERROR);
-		s.setEvents("event98");
+		s.appendEvents("event98");
 		s.setEvar(18, ITIN_ERROR);
 		s.setProp(36, "itin:unable to retrieve trip summary");
 		s.track();
-	}
-
-	public static void trackHotelItinGalleryOpen() {
-		createAndTrackLinkEvent(ITIN_HOTEL_GALLERY_OPEN, "Itinerary Action");
-	}
-
-	public static void trackHotelItinRoomUpgradeClick() {
-		createAndTrackLinkEvent(ITIN_HOTEL_UPGRADE, "Itinerary Action");
 	}
 
 	public static void trackItinChangePOS() {
 		trackItineraryClickAction(ITIN_CHANGE_POSA);
 	}
 
-	public static void trackItinEditRoomInfoWebViewOpen() {
-		trackItineraryClickAction(ITIN_HOTEL_INFO_EDIT_ROOM);
-	}
-
 	private static void trackItineraryClickAction(String trackingId) {
 		Log.d(TAG, "Tracking \"" + trackingId + "\" click...");
 		ADMS_Measurement s = createTrackLinkEvent(trackingId);
 		s.trackLink("Itinerary Action");
-	}
-
-	public static void trackFindItin() {
-		internalTrackPageLoadEventStandard(ITIN_FIND);
 	}
 
 	public static void trackFindGuestItin() {
@@ -2669,7 +2653,7 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = createTrackLinkEvent(pageName);
 		s.setEvar(2, itinType);
-		s.setEvents("event48");
+		s.appendEvents("event48");
 
 		internalTrackLink(s);
 	}
@@ -2679,18 +2663,9 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = createTrackLinkEvent(pageName);
 		s.setEvar(2, tripType);
-		s.setEvents("event48");
+		s.appendEvents("event48");
 
 		internalTrackLink(s);
-	}
-
-	public static void trackHotelItinCancelRoomClick() {
-		Log.d(TAG, "Tracking \"" + ITIN_HOTEL_ROOM_CANCEL_CLICK + "\" click...");
-
-		ADMS_Measurement s = getFreshTrackingObject();
-		s.setEvar(28, ITIN_HOTEL_ROOM_CANCEL_CLICK);
-		s.setProp(16, ITIN_HOTEL_ROOM_CANCEL_CLICK);
-		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackHotelItinManageBookingClick() {
@@ -2767,10 +2742,6 @@ public class OmnitureTracking {
 	 */
 	private static Trip mPendingManualAddGuestItin;
 
-	public static void setPendingManualAddGuestItin(String email, String tripNumber) {
-		mPendingManualAddGuestItin = new Trip(email, tripNumber);
-	}
-
 	public static void trackItinAdd(Trip trip) {
 		boolean track = mPendingManualAddGuestItin != null && mPendingManualAddGuestItin.isSameGuest(trip);
 		if (track) {
@@ -2782,18 +2753,10 @@ public class OmnitureTracking {
 	public static void trackItin(PageUsableData pageLoadTimeData) {
 		Log.d(TAG, "Tracking \"" + ITIN + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN);
+		s.appendEvents("event63");
 		if (userStateManager.isUserAuthenticated()) {
-			String usersTripComponentTypeEventString = getUsersTripComponentTypeEventString();
-			if (!usersTripComponentTypeEventString.isEmpty()) {
-				s.setEvents("event63" + "," + usersTripComponentTypeEventString);
-				s.setProp(75, TripUtils.createUsersProp75String(getUsersTrips()));
-			}
-			else {
-				s.setEvents("event63"); //we still need to track event63 even if the users does not have any trips
-			}
-		}
-		else {
-			s.setEvents("event63");
+			appendUsersEventString(s);
+			s.setProp(75, TripUtils.createUsersProp75String(getUsersTrips()));
 		}
 		if (pageLoadTimeData != null) {
 			addPageLoadTimeTrackingEvents(s, pageLoadTimeData);
@@ -2807,7 +2770,7 @@ public class OmnitureTracking {
 		if (hasHotelMessagingURL) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsMessageHotel);
 		}
-		s.setEvents("event63");
+		s.appendEvents("event63");
 		s.track();
 	}
 
@@ -2848,11 +2811,6 @@ public class OmnitureTracking {
 
 	public static void trackItinHotelCallHotel() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_CALL_HOTEL);
-		s.trackLink("Itinerary Action");
-	}
-
-	public static void trackItinHotelMessaging() {
-		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_MESSAGE_HOTEL);
 		s.trackLink("Itinerary Action");
 	}
 
@@ -2945,33 +2903,23 @@ public class OmnitureTracking {
 	public static void trackItinTravelerInfo() {
 		Log.d(TAG, "Tracking \"" + ITIN_FLIGHT_TRAVELER_INFO + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_FLIGHT_TRAVELER_INFO);
+		s.appendEvents("event63");
 		if (userStateManager.isUserAuthenticated()) {
-			String usersTripComponentTypeEventString = getUsersTripComponentTypeEventString();
-			if (!usersTripComponentTypeEventString.isEmpty()) {
-				s.setEvents("event63" + "," + usersTripComponentTypeEventString);
-				s.setProp(75, TripUtils.createUsersProp75String(getUsersTrips()));
-			}
-			else {
-				s.setEvents("event63");
-			}
+			appendUsersEventString(s);
+			s.setProp(75, TripUtils.createUsersProp75String(getUsersTrips()));
 		}
 		s.setProp(2, "itinerary");
 		s.setEvar(2, "D=c2");
 		s.track();
 	}
 
-	public static void trackItinFlight(Context context, Map trip) {
+	public static void trackItinFlight(Map trip) {
 		Log.d(TAG, "Tracking \"" + ITIN_FLIGHT + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_FLIGHT);
+		s.appendEvents("event63");
 		if (userStateManager.isUserAuthenticated()) {
-			String usersTripComponentTypeEventString = getUsersTripComponentTypeEventString();
-			if (!usersTripComponentTypeEventString.isEmpty()) {
-				s.setEvents("event63" + "," + usersTripComponentTypeEventString);
-				s.setProp(75, TripUtils.createUsersProp75String(getUsersTrips()));
-			}
-			else {
-				s.setEvents("event63");
-			}
+			appendUsersEventString(s);
+			s.setProp(75, TripUtils.createUsersProp75String(getUsersTrips()));
 		}
 		if (trip != null) {
 			s.setProducts(String.valueOf(trip.get("productString")));
@@ -2996,18 +2944,13 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackItinFlightManageBookingActivity(Context context, Map trip) {
+	public static void trackItinFlightManageBookingActivity(Map trip) {
 		Log.d(TAG, "Tracking \"" + ITIN_FLIGHT_MANAGE_BOOKING + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_FLIGHT_MANAGE_BOOKING);
+		s.appendEvents("event63");
 		if (userStateManager.isUserAuthenticated()) {
-			String usersTripComponentTypeEventString = getUsersTripComponentTypeEventString();
-			if (!usersTripComponentTypeEventString.isEmpty()) {
-				s.setEvents("event63" + "," + usersTripComponentTypeEventString);
-				s.setProp(75, TripUtils.createUsersProp75String(getUsersTrips()));
-			}
-			else {
-				s.setEvents("event63");
-			}
+			appendUsersEventString(s);
+			s.setProp(75, TripUtils.createUsersProp75String(getUsersTrips()));
 		}
 		if (trip != null) {
 			s.setProducts(String.valueOf(trip.get("productString")));
@@ -3033,7 +2976,7 @@ public class OmnitureTracking {
 
 	public static void trackItinFlightCheckIn(String airlineCode, boolean isSplitTicket, int tripLegs) {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_CHECKIN);
-		s.setEvents("event95");
+		s.appendEvents("event95");
 		s.setProducts(getFlightCheckInProductString(airlineCode, isSplitTicket, tripLegs));
 		s.trackLink("Itinerary Action");
 	}
@@ -3061,18 +3004,17 @@ public class OmnitureTracking {
 
 	public static void trackItinFlightCheckInSuccess(String airlineCode, boolean isSplitTicket, int flightLegs) {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_CHECKIN_SUCCESS);
-		s.setEvents("event96");
+		s.appendEvents("event96");
 		s.setProducts(getFlightCheckInProductString(airlineCode, isSplitTicket, flightLegs));
 		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackItinFlightCheckInFailure(String airlineCode, boolean isSplitTicket, int flightLegs) {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_CHECKIN_FAILURE);
-		s.setEvents("event97");
+		s.appendEvents("event97");
 		s.setProducts(getFlightCheckInProductString(airlineCode, isSplitTicket, flightLegs));
 		s.trackLink("Itinerary Action");
 	}
-
 
 	public static void trackItinFlightDirections() {
 		internalTrackLink(ITIN_FLIGHT_DIRECTIONS);
@@ -3106,15 +3048,8 @@ public class OmnitureTracking {
 	}
 
 	public static void trackItinFlightAdditionalInfo() {
-		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_INFO_ADDITIONAL);
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_INFO);
 		s.trackLink("Itinerary Action");
-	}
-
-	public static void trackItinCar(Context context) {
-		Log.d(TAG, "Tracking \"" + ITIN_CAR + "\" pageLoad");
-		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_CAR);
-		s.setEvents("event63");
-		s.track();
 	}
 
 	public static void trackItinCarDirections() {
@@ -3127,13 +3062,6 @@ public class OmnitureTracking {
 
 	private static void trackItinCarInfo() {
 		internalTrackLink(ITIN_CAR_INFO);
-	}
-
-	public static void trackItinActivity(Context context) {
-		Log.d(TAG, "Tracking \"" + ITIN_ACTIVITY + "\" pageLoad");
-		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_ACTIVITY);
-		s.setEvents("event63");
-		s.track();
 	}
 
 	public static void trackItinActivityRedeem() {
@@ -3180,14 +3108,14 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(11, link);
-		s.setEvents("event212");
+		s.appendEvents("event212");
 		s.trackLink(link);
 	}
 
 	public static void trackNotificationShown(Notification notification) {
 		String link = setItinNotificationLink(notification);
 		ADMS_Measurement s = createTrackLinkEvent(link);
-		s.setEvents("event208");
+		s.appendEvents("event208");
 		s.trackLink(link);
 	}
 
@@ -4237,6 +4165,14 @@ public class OmnitureTracking {
 	private static String getUsersTripComponentTypeEventString() {
 		return TripUtils
 			.createUsersTripComponentTypeEventString(getUsersTrips());
+	}
+
+	private static ADMS_Measurement appendUsersEventString(ADMS_Measurement s) {
+		String usersTripComponentTypeEventString = getUsersTripComponentTypeEventString();
+		if (!usersTripComponentTypeEventString.isEmpty()) {
+			s.appendEvents(usersTripComponentTypeEventString);
+		}
+		return s;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
