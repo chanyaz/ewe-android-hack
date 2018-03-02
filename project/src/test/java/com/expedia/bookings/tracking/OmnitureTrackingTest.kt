@@ -30,6 +30,7 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.DebugInfoUtils
 import com.google.android.gms.common.GoogleApiAvailability
 import com.mobiata.android.util.SettingUtils
+import org.hamcrest.Matchers
 import org.hamcrest.Matchers.allOf
 import org.joda.time.DateTimeZone
 import org.junit.Before
@@ -219,6 +220,16 @@ class OmnitureTrackingTest {
         OmnitureTracking.trackConfirmationViewItinClick()
         val controlEvar = mapOf(28 to "App.CKO.Confirm.ViewItinerary")
         OmnitureTestUtils.assertLinkTracked("Confirmation Trip Action", "App.CKO.Confirm.ViewItinerary", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testOmnitureTrackingFlightPaymentFeesClick() {
+        OmnitureTracking.trackFlightPaymentFeesClick()
+
+        OmnitureTestUtils.assertLinkTracked("App.Flight.Search.PaymentFee", "App.Flight.Search.PaymentFee", Matchers.allOf(
+                OmnitureMatchers.withProps(mapOf(16 to "App.Flight.Search.PaymentFee")),
+                OmnitureMatchers.withEvars(mapOf(28 to "App.Flight.Search.PaymentFee"))), mockAnalyticsProvider)
     }
 
     private fun getPackageDetails(): PackageCreateTripResponse.PackageDetails {

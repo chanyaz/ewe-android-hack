@@ -5526,7 +5526,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK);
 		s.setProp(16, FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK);
-		s.trackLink("");
+		s.trackLink(FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK);
 	}
 
 	public static void trackFlightTravelerPickerClick(String actionLabel) {
