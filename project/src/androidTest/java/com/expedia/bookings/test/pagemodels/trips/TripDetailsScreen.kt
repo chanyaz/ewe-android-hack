@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.pagemodels.trips
 
 import android.support.test.espresso.Espresso.onView
+import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.isClickable
 import android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
@@ -9,7 +10,11 @@ import android.support.test.espresso.matcher.ViewMatchers.withClassName
 import android.support.test.espresso.matcher.ViewMatchers.withContentDescription
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withText
+import android.support.test.uiautomator.By
+import android.support.test.uiautomator.BySelector
+import android.support.test.uiautomator.Until
 import com.expedia.bookings.R
+import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.EspressoUtils.waitForViewNotYetInLayoutToDisplay
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.core.StringEndsWith.endsWith
@@ -45,6 +50,10 @@ object TripDetailsScreen {
                     getFormattedDate(from, "MMM d") + " - " +
                             getFormattedDate(to, "MMM d")
             )))
+        }
+
+        fun clickShareButton() {
+            onView(shareButton).perform(click())
         }
     }
 
@@ -124,5 +133,45 @@ object TripDetailsScreen {
         val additionalInformation = withId(R.id.itin_hotel_additional_info_card_view)
         val additionalInformationHeading = allOf(isDescendantOfA(additionalInformation),
                 withId(R.id.link_off_card_heading))
+    }
+
+    object ShareOptions {
+        val device = Common.getUiDevice()
+        private val timeout: Long = 30000
+        private val optionsListSelector = By.res("android:id/resolver_list")
+        private val appList = HashMap<String, AppInfo>()
+
+        init {
+            appList.set("GMAIL", AppInfo(packageName = "com.google.android.gm",
+                    bySelector = By.pkg("com.google.android.gm").text("Compose")))
+            appList.set("KAKAOTALK", AppInfo(packageName = "com.kakao.talk",
+                    bySelector = By.pkg("com.kakao.talk")
+                            .text("KakaoTalk needs access to the following:")))
+            appList.set("LINE", AppInfo(packageName = "jp.naver.line.android",
+                    bySelector = By.pkg("jp.naver.line.android")
+                            .desc("Sign up for LINE, Free messaging")))
+        }
+
+        fun waitForShareSuggestionsListToLoad() {
+            device.wait(Until.findObject(optionsListSelector), timeout)
+        }
+
+        fun clickOnIconWithText(appName: String) {
+            device.findObject(By.res("android:id/text1").text(appName)).click()
+        }
+
+        fun waitForAppToLoad(appName: String) {
+            device.wait(Until.findObject(getBySelectorForAppName(appName.toUpperCase())), timeout)
+        }
+
+        fun getBySelectorForAppName(appName: String): BySelector {
+            return appList.get(appName.toUpperCase())?.bySelector!!
+        }
+
+        fun getPackageNameForAppName(appName: String): String {
+            return appList.get(appName.toUpperCase())?.packageName!!
+        }
+
+        private data class AppInfo(val packageName: String, val bySelector: BySelector)
     }
 }

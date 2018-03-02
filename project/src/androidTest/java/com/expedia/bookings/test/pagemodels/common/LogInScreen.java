@@ -8,7 +8,6 @@ import android.support.test.uiautomator.By;
 import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject2;
 import android.support.test.uiautomator.Until;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -73,9 +72,9 @@ public class LogInScreen {
 		clickOnLoginButton();
 	}
 
-	public static class FacebookSignIn {
+	public static class FacebookWebSignIn {
 		public static void waitForViewToLoad() {
-			mDevice.wait(Until.findObject(By.desc("Log into your Facebook account to connect to Expedia")), 30000);
+			mDevice.wait(Until.findObject(By.res("login_form")), 30000);
 			mDevice.waitForIdle(3000); //Needed, because the view loads before the progress bar.
 		}
 
@@ -108,9 +107,9 @@ public class LogInScreen {
 		}
 	}
 
-	public static class FacebookConfirmLogin {
+	public static class FacebookWebConfirmLogin {
 		public static void waitForViewToLoad() {
-			mDevice.wait(Until.findObject(By.clazz(WebView.class).desc("Confirm Login")), 30000);
+			mDevice.wait(Until.findObject(By.res("m-future-page-header-title").text("Confirm Login")), 30000);
 			mDevice.waitForIdle(3000); //Needed, because the view loads before the progress bar.
 		}
 

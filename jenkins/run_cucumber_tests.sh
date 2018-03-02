@@ -105,7 +105,6 @@ function installBuild() {
     fi
 
     adb -s $device shell pm grant "${packageName}.debug" android.permission.ACCESS_FINE_LOCATION
-
 }
 
 function uninstallBuild() {

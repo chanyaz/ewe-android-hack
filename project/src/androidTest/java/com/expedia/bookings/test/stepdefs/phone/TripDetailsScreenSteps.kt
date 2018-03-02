@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.stepdefs.phone
 
+import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.pagemodels.trips.TripDetailsScreen
 import cucumber.api.java.en.Then
 
@@ -40,5 +41,26 @@ class TripDetailsScreenSteps {
             "Check-In Time" -> TripDetailsScreen.CheckInCheckOut.verifyCheckInTime(verifyString)
             "Check-Out Time" -> TripDetailsScreen.CheckInCheckOut.verifyCheckOutTime(verifyString)
         }
+    }
+
+    @Then("^I tap on Share icon")
+    @Throws(Throwable::class)
+    fun iTapOnShareIcon() {
+        TripDetailsScreen.Toolbar.clickShareButton()
+        TripDetailsScreen.ShareOptions.waitForShareSuggestionsListToLoad()
+    }
+
+    @Then("^I tap on (Facebook|Gmail|KakaoTalk|LINE) and verify the app has opened")
+    @Throws(Throwable::class)
+    fun iTapOnSpecificAppIconAndVerifyAppOpened(appName: String) {
+        TripDetailsScreen.ShareOptions.clickOnIconWithText(appName)
+        TripDetailsScreen.ShareOptions.waitForAppToLoad(appName)
+    }
+
+    @Then("^I force-stop process of (Facebook|Gmail|KakaoTalk|LINE) app")
+    @Throws(Throwable::class)
+    fun iForceStopProcessOfApp(appName: String) {
+        val packageName = TripDetailsScreen.ShareOptions.getPackageNameForAppName(appName)
+        Common.forceStopProcess(packageName)
     }
 }

@@ -52,13 +52,12 @@ public class HomeScreenSteps {
 		if (user.getType().toLowerCase().equals("facebook")) {
 			LogInScreen.signInWithExpediaButton().perform(waitForViewToDisplay(), click());
 			LogInScreen.signInWithFacebookButton().perform(waitForViewToDisplay(), click());
-			LogInScreen.FacebookSignIn.waitForViewToLoad();
-			LogInScreen.FacebookSignIn.typeInEmail(user.getEmail());
-			LogInScreen.FacebookSignIn.typeInPassword(user.getPassword());
-			LogInScreen.FacebookSignIn.clickLogIn();
-			LogInScreen.FacebookConfirmLogin.waitForViewToLoad();
-			LogInScreen.FacebookConfirmLogin.clickContinue();
-
+			LogInScreen.FacebookWebSignIn.waitForViewToLoad();
+			LogInScreen.FacebookWebSignIn.typeInEmail(user.getEmail());
+			LogInScreen.FacebookWebSignIn.typeInPassword(user.getPassword());
+			LogInScreen.FacebookWebSignIn.clickLogIn();
+			LogInScreen.FacebookWebConfirmLogin.waitForViewToLoad();
+			LogInScreen.FacebookWebConfirmLogin.clickContinue();
 		}
 		else if (user.getType().toLowerCase().equals("expedia")) {
 			LogInScreen.signInWithExpediaButton().perform(waitForViewToDisplay(), click());
