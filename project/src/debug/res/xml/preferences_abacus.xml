@@ -117,6 +117,14 @@
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_flights_route_happy_variant_choices"
+            android:entryValues="@array/abacus_flights_route_happy_variant_choice_values"
+            android:key="25165"
+            android:summary="%s"
+            android:title="Flights Route Happy - 25165" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="16345"

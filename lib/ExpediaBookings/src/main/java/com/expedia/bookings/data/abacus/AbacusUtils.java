@@ -77,6 +77,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppFlightsAPIKongEndPoint = new ABTest(16382, true);
 	public static final ABTest EBAndroidAppFLightLoadingStateV1 = new ABTest(24766, true);
 	public static final ABTest EBAndroidAppFlightsRecentSearch = new ABTest(24765, true);
+	public static final ABTest EBAndroidAppFlightsRouteHappy = new ABTest(25165, true);
 
 	public static final ABTest EBAndroidAppHotelPinnedSearch = new ABTest(15082);
 	public static final ABTest EBAndroidAppHotelSuperSearch = new ABTest(14911);
@@ -219,6 +220,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFLightLoadingStateV1.getKey());
 		testIDs.add(HotelHideMiniMapOnResult.getKey());
 		testIDs.add(EBAndroidAppFlightsRecentSearch.getKey());
+		testIDs.add(EBAndroidAppFlightsRouteHappy.getKey());
 		testIDs.add(EBAndroidAppPackagesDisplayBasicEconomyTooltip.getKey());
 		testIDs.add(HotelSoldOutOnHSRTreatment.getKey());
 		testIDs.add(HotelImageGrid.getKey());
