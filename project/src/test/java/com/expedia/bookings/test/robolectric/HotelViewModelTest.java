@@ -280,7 +280,7 @@ public class HotelViewModelTest {
 			R.color.hotel_urgency_message_color,
 			RuntimeEnvironment.application.getResources()
 				.getQuantityString(R.plurals.num_rooms_left, hotel.roomsLeftAtThisRate, hotel.roomsLeftAtThisRate),
-			R.color.white);
+			R.color.gray900);
 
 		assertEquals(compareTo, msg);
 	}
@@ -297,7 +297,7 @@ public class HotelViewModelTest {
 			R.drawable.tonight_only,
 			R.color.hotel_tonight_only_color,
 			RuntimeEnvironment.application.getResources().getString(R.string.tonight_only),
-			R.color.white);
+			R.color.gray900);
 
 		assertEquals(compareTo, msg);
 	}
@@ -315,7 +315,7 @@ public class HotelViewModelTest {
 			R.drawable.mobile_exclusive,
 			R.color.hotel_mobile_exclusive_color,
 			RuntimeEnvironment.application.getResources().getString(R.string.mobile_exclusive),
-			R.color.white);
+			R.color.gray900);
 
 		assertEquals(compareTo, msg);
 	}
