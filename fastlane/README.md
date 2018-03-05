@@ -18,19 +18,8 @@ or alternatively using `brew cask install fastlane`
 ## Android
 ### android screenshots
 ```
-fastlane screenshots
+fastlane android screenshots
 ```
-###### Examples of options, which could be added
-```
-classes:com.expedia.bookings.screengrab.PlayStoreScreenshotSweep
-packages:com.expedia.bookings.screengrab
-locales:da_DK,en_US
-```
-###### Example start command with options
-```
-fastlane screenshots classes:com.expedia.bookings.screengrab.PlayStoreScreenshotSweep locales:da_DK,en_US
-```
-
 Run a marketing screenshot sweep
 ### android release
 ```
