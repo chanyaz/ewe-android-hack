@@ -78,7 +78,7 @@ class FlightTravelerPickerViewModel(context: Context) : BaseTravelerPickerViewMo
             )
 
             adultPlusObservable.onNext(total < MAX_GUESTS)
-            youthPlusObservable.onNext(total < MAX_GUESTS && totalChildren < MAX_CHILDREN)
+            youthPlusObservable.onNext(total < MAX_GUESTS)
             childPlusObservable.onNext(total < MAX_GUESTS && totalChildren < MAX_CHILDREN)
             infantPlusObservable.onNext(total < MAX_GUESTS && totalChildren < MAX_CHILDREN)
 

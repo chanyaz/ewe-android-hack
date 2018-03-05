@@ -88,7 +88,6 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             travelerFlightCardViewStub.inflate().findViewById<FlightTravelerWidgetV2>(R.id.traveler_card)
         else travelerCardViewStub.inflate().findViewById<TravelerWidgetV2>(R.id.traveler_card)
     }
-    val isShowSuggestionLabelTestEnabled: Boolean = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSearchSuggestionLabel)
 
     val recentSearchStub: ViewStub by bindView(R.id.flight_recent_search_widget_stub)
     val flightRecentSearchCardView: CardView by bindView(R.id.flight_recent_search_widget_card_view)
