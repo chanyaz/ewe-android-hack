@@ -30,7 +30,7 @@
         android:id="@+id/slide_to_purchase_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/gray100"
+        android:background="@color/material_checkout_background_color"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
@@ -38,7 +38,7 @@
             android:id="@+id/slide_to_purchase_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/gray100"
+            android:background="@color/material_checkout_background_color"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:visibility="gone">
@@ -51,7 +51,7 @@
                 android:layout_marginLeft="@dimen/slide_to_purchase_padding"
                 android:layout_marginRight="@dimen/slide_to_purchase_padding"
                 android:layout_marginTop="8dp"
-                android:background="#FFFFFF" />
+                android:background="@color/material_checkout_background_color" />
 
             <com.expedia.bookings.widget.SlideToWidgetLL
                 android:id="@+id/purchase_button_widget"
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/slide_to_purchase_padding"
                 android:layout_marginRight="@dimen/slide_to_purchase_padding"
-                android:background="#FFFFFF"
+                android:background="@color/material_checkout_background_color"
                 android:visibility="gone" />
 
             <com.expedia.bookings.widget.TextView
