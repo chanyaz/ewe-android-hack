@@ -110,9 +110,6 @@ abstract class BaseSearchViewModel(val context: Context) {
 
     @CallSuper
     protected open fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
-        if (selectedDates == dates) {
-            return
-        }
         setSelectedDate(dates)
         requiredSearchParamsObserver.onNext(Unit)
     }
