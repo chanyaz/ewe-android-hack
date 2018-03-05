@@ -3,9 +3,12 @@ package com.expedia.bookings.marketing.carnival
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import com.carnival.sdk.AttributeMap
 import com.carnival.sdk.Message
+import com.expedia.bookings.OmnitureTestUtils
+import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.flights.FlightLeg
@@ -27,9 +30,11 @@ import com.expedia.bookings.marketing.carnival.model.CarnivalNotificationTypeCon
 import com.expedia.bookings.marketing.carnival.persistence.MockCarnivalPersistenceProvider
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.ApiDateUtils
+import org.hamcrest.Matchers
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
@@ -48,12 +53,14 @@ class CarnivalUtilsTest : CarnivalUtils() {
     private var userEmailToLog: String? = null
     private val context = RuntimeEnvironment.application
     private lateinit var persistenceProvider: MockCarnivalPersistenceProvider
+    private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     @Before
     fun setup() {
         persistenceProvider = MockCarnivalPersistenceProvider()
         initialize(context, persistenceProvider)
         attributesToSend = AttributeMap()
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
     }
 
     @Test
@@ -447,6 +454,36 @@ class CarnivalUtilsTest : CarnivalUtils() {
         persistenceProvider.put(mockAttributeMap)
         assertEquals(sampleDate.toString(), persistenceProvider.get(sampleStringKey))
     }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun pushNotificationMarketingCodeIsTrackedInOmniture() {
+        val marketingCode = "OLA.EXPEDIA-US-MARKETING-CODE"
+        val deeplink = Uri.parse("expda://hotelSearch?olacid=OLA.EXPEDIA-US-OLACID")
+        val bundle = Bundle()
+        bundle.putString(CustomCarnivalListener.KEY_PAYLOAD_MARKETING, marketingCode)
+
+        this.trackCarnivalPush(context, deeplink, bundle)
+
+        OmnitureTestUtils.assertStateTracked("App.Carnival.Push.Notification", Matchers.allOf(
+                OmnitureMatchers.withEvars(mapOf(10 to marketingCode)),
+                OmnitureMatchers.withEvars(mapOf(11 to marketingCode))), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun pushNotificationOLAcidIsTrackedInOmniture() {
+        val marketingCode = ""
+        val deeplink = Uri.parse("expda://hotelSearch?olacid=OLA.EXPEDIA-US-OLACID")
+        val bundle = Bundle()
+        bundle.putString(CustomCarnivalListener.KEY_PAYLOAD_MARKETING, marketingCode)
+
+        this.trackCarnivalPush(context, deeplink, bundle)
+
+        OmnitureTestUtils.assertStateTracked("App.Carnival.Push.Notification", Matchers.allOf(
+                OmnitureMatchers.withEvars(mapOf(10 to "OLA.EXPEDIA-US-OLACID")),
+                OmnitureMatchers.withEvars(mapOf(11 to "OLA.EXPEDIA-US-OLACID"))), mockAnalyticsProvider)
+            }
 
     private fun getIntent(pendingIntent: PendingIntent): Intent {
         return (Shadow.extract(pendingIntent) as ShadowPendingIntent).savedIntent

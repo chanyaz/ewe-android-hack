@@ -4,6 +4,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.TaskStackBuilder
@@ -21,6 +22,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.rail.responses.RailCheckoutResponse
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
@@ -88,8 +90,10 @@ import com.expedia.bookings.marketing.carnival.model.CarnivalConstants.SEARCH_HO
 import com.expedia.bookings.marketing.carnival.model.CarnivalNotificationTypeConstants
 import com.expedia.bookings.marketing.carnival.persistence.CarnivalPersistenceProvider
 import com.expedia.bookings.services.HotelCheckoutResponse
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.ApiDateUtils
 import com.expedia.bookings.utils.JodaUtils
+import com.squareup.phrase.Phrase
 import org.joda.time.Days
 import org.joda.time.LocalDate
 
@@ -97,6 +101,7 @@ open class CarnivalUtils {
 
     companion object {
         private val TAG = "CarnivalTracker"
+        private val OLACID = "olacid"
         private lateinit var appContext: Context
         private var carnivalUtils: CarnivalUtils? = null
         private var initialized = false
@@ -353,22 +358,41 @@ open class CarnivalUtils {
         return String.format("%d:%02d", hours, minutes)
     }
 
+    fun trackCarnivalPush(context: Context, deeplink: Uri, bundle: Bundle) {
+        val marketingCode = bundle.getString(CustomCarnivalListener.KEY_PAYLOAD_MARKETING)
+        val marketingOLAcidFromUri = deeplink.getQueryParameter(OLACID)
+        if (!marketingCode.isNullOrEmpty()) {
+            OmnitureTracking.trackCarnivalPushNotificationTap(marketingCode)
+            return
+        }
+        if (marketingOLAcidFromUri.isNullOrEmpty()) {
+            val brand = ProductFlavorFeatureConfiguration.getInstance().getPOSSpecificBrandName(context)
+            val countryCode = PointOfSale.getPointOfSale().twoLetterCountryCode
+            val defaultOLAcid = Phrase.from(context.resources, R.string.carnival_default_olacid_TEMPLATE).put("brand", brand).put("pos", countryCode).format().toString().toUpperCase()
+            OmnitureTracking.trackCarnivalPushNotificationTap(defaultOLAcid)
+        } else {
+            OmnitureTracking.trackCarnivalPushNotificationTap(marketingOLAcidFromUri)
+        }
+    }
+
     open class CustomCarnivalListener : CarnivalMessageListener() {
 
         companion object {
             val KEY_PAYLOAD_DEEPLINK: String = "deeplink"
             val KEY_PAYLOAD_ALERT: String = "alert"
             val KEY_PAYLOAD_TITLE: String = "title"
-            val KEY_PROVIDER: String = "provider"
-            val KEY_PROVIDER_VALUE: String = "carnival"
+            val KEY_PAYLOAD_MARKETING: String = "mkt_code"
+            val KEY_NOTIFICATION_PROVIDER: String = "provider"
+            val KEY_NOTIFICATION_PROVIDER_VALUE: String = "carnival"
         }
 
         fun isNotificationFromCarnival(bundle: Bundle): Boolean {
-            return bundle.containsKey(KEY_PROVIDER) && bundle.getString(KEY_PROVIDER) == KEY_PROVIDER_VALUE
+            return bundle.containsKey(KEY_NOTIFICATION_PROVIDER) && bundle.getString(KEY_NOTIFICATION_PROVIDER) == KEY_NOTIFICATION_PROVIDER_VALUE
         }
 
         fun createPendingIntent(context: Context, bundle: Bundle, deepLink: String?): PendingIntent {
             val pendingIntent: PendingIntent
+            bundle.putBoolean(KEY_NOTIFICATION_PROVIDER_VALUE, true)
 
             val intent = Intent()
                     .putExtras(bundle)

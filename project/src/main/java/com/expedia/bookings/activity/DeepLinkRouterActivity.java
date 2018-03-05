@@ -41,6 +41,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.features.Feature;
 import com.expedia.bookings.features.Features;
 import com.expedia.bookings.hotel.deeplink.HotelIntentBuilder;
+import com.expedia.bookings.marketing.carnival.CarnivalUtils;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.IClientLogServices;
 import com.expedia.bookings.utils.AbacusHelperUtils;
@@ -190,6 +191,10 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	private void handleDeepLinkUri(Uri data) {
 		clientLogServices = Ui.getApplication(this).appComponent().clientLog();
 		DeepLinkUtils.parseAndTrackDeepLink(clientLogServices, HttpUrl.parse(data.toString()), new OmnitureDeepLinkAnalytics());
+
+		if (this.getIntent().getExtras() != null && this.getIntent().getExtras().getBoolean(CarnivalUtils.CustomCarnivalListener.Companion.getKEY_NOTIFICATION_PROVIDER_VALUE(), false)) {
+			CarnivalUtils.getInstance().trackCarnivalPush(this, data, this.getIntent().getExtras());
+		}
 
 		DeepLink deepLink = deepLinkParser.parseDeepLink(data);
 

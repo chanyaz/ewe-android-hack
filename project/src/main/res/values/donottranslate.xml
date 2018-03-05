@@ -474,4 +474,7 @@
     <string name="reward_webview_url"></string>
     <string name="reward_launch_card_text_content_description"></string>
 
+    <!--Carnival OLACID Template-->
+    <string name="carnival_default_olacid_TEMPLATE">OLA.{brand}-{pos}.PUSH-EVENT-TRIG.CARNIVAL.UNSPECIFIED.GENERIC</string>
+
 </resources>

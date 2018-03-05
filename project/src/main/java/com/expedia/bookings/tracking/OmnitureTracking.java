@@ -3278,6 +3278,7 @@ public class OmnitureTracking {
 	private static final String NEW_USER_ONBOARDING_GO_SIGNIN = "App.Onboarding.SignIn";
 	private static final String PENDING_POINTS_TAP = "App.PointsToolTip.Tap";
 	private static final String LEGACY_USER_APP_UPDATE_TAP = "App.LS.Package.AppUpdate";
+	private static final String CARNIVAL_PUSH_NOTIFICATION = "App.Carnival.Push.Notification";
 
 	public static void trackLoginSuccess() {
 		ADMS_Measurement s = createTrackLinkEvent(LOGIN_SUCCESS);
@@ -3416,6 +3417,14 @@ public class OmnitureTracking {
 		// set the pageName
 		s.setAppState(LOGIN_SINGLE_PAGE);
 		s.setEvar(18, LOGIN_SINGLE_PAGE);
+		s.track();
+	}
+
+	public static void trackCarnivalPushNotificationTap(String marketingLink) {
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setAppState(CARNIVAL_PUSH_NOTIFICATION);
+		s.setEvar(10, marketingLink);
+		s.setEvar(11, marketingLink);
 		s.track();
 	}
 
