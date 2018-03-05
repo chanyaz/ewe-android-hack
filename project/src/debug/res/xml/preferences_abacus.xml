@@ -707,8 +707,8 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="-1"
             android:summary="%s"
-            android:key="16314"
-            android:title="Packages MISRealWorldGeo: RWG Migration - 16314"/>
+            android:key="25064"
+            android:title="Packages MISRealWorldGeo: RWG Migration - 25064"/>
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
