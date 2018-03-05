@@ -97,6 +97,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     fun setLoadingState() {
         filterButton.visibility = GONE
+        airlineChargesFeesTextView.visibility = View.GONE
         if (isShowingOutboundResults && resultsViewModel.showLoadingStateV1 && Db.getFlightSearchParams() != null) {
             showLoadingStateV1()
         }

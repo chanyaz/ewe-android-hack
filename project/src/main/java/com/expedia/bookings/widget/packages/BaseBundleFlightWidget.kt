@@ -6,7 +6,6 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.extensions.setAccessibilityHoverFocus

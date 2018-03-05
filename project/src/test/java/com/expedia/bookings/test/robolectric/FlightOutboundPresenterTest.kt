@@ -32,7 +32,7 @@ import org.joda.time.LocalDate
 class FlightOutboundPresenterTest {
     private lateinit var activity: Activity
     private lateinit var flightOutboundPresenter: FlightOutboundPresenter
-    lateinit private var service: FlightServices
+    private lateinit var service: FlightServices
     var server: MockWebServer = MockWebServer()
         @Rule get
 

@@ -23,6 +23,7 @@ class FlightCheckoutSummaryViewModel(val context: Context) {
     var inboundSelectedAndTotalLegRank: Pair<Int, Int>? = null
     val evolableTermsConditionTextObservable = PublishSubject.create<SpannableStringBuilder>()
     val evolableTermsConditionSubject = PublishSubject.create<FlightTripDetails.FlightOffer>()
+    val obFeeDetailsUrlObservable = PublishSubject.create<String>()
 
     init {
         evolableTermsConditionSubject.filter { flightOffer ->

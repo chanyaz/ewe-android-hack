@@ -3,7 +3,6 @@ package com.expedia.bookings.utils
 import android.app.Activity
 import android.content.res.Resources
 import com.expedia.bookings.R
-import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.packages.PackageOfferModel

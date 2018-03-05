@@ -157,6 +157,7 @@ class FlightOverviewPresenterTest {
         val airlineFeeWarningText = widget.flightSummary.airlineFeeWarningTextView
         val basicEconomyMessaging = widget.flightSummary.basicEconomyMessageTextView
 
+        widget.viewModel.obFeeDetailsUrlObservable.onNext("")
         widget.viewModel.showAirlineFeeWarningObservable.onNext(true)
         widget.viewModel.airlineFeeWarningTextObservable.onNext(context.getString(R.string.airline_additional_fee_notice))
         widget.viewModel.showFreeCancellationObservable.onNext(true)
@@ -168,6 +169,7 @@ class FlightOverviewPresenterTest {
         assertEquals(View.VISIBLE, airlineFeeWarningText.visibility)
         assertEquals(View.VISIBLE, basicEconomyMessaging.visibility)
 
+        widget.viewModel.obFeeDetailsUrlObservable.onNext("")
         widget.viewModel.showAirlineFeeWarningObservable.onNext(false)
         widget.viewModel.airlineFeeWarningTextObservable.onNext(context.getString(R.string.airline_additional_fee_notice))
         widget.viewModel.showFreeCancellationObservable.onNext(false)
