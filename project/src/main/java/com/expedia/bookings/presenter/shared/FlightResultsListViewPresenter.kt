@@ -104,7 +104,6 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     private fun showLoadingStateV1() {
         flightProgressBar = findViewById(R.id.flight_loader_progressBar)
-        flightLoadingWidget = findViewById(R.id.flight_loading_view)
         flightLoadingWidget.setupLoadingState()
         flightProgressBar.visibility = View.VISIBLE
         flightProgressBar.max = FLIGHT_PROGRESS_BAR_MAX
@@ -123,6 +122,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
         if (vm.showLoadingStateV1) {
             flightLoader = findViewById(R.id.flight_loading_screen)
             flightLoader.visibility = View.VISIBLE
+            flightLoadingWidget = findViewById(R.id.flight_loading_view)
         }
     }
 
