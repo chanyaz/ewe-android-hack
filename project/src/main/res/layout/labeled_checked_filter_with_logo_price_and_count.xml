@@ -2,13 +2,13 @@
 <com.expedia.bookings.widget.PriceProminenceFilterWithLogoAndCount android:id="@+id/filter_categories_widget"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/airlines_filter_height_with_price_and_count"
+    android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
-    android:paddingBottom="@dimen/sort_filter_padding_small"
+    android:paddingBottom="@dimen/sort_filter_padding_checkmarks"
     android:paddingLeft="@dimen/sort_filter_padding_checkmarks"
     android:paddingRight="@dimen/sort_filter_padding_normal"
-    android:paddingTop="@dimen/sort_filter_padding_small">
+    android:paddingTop="@dimen/sort_filter_padding_checkmarks">
 
     <CheckBox
         android:id="@+id/check_box"
@@ -33,6 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
+        android:layout_toLeftOf="@id/results_label"
         android:layout_toRightOf="@id/airline_logo_image_view"
         android:gravity="center_vertical"
         android:orientation="vertical">
@@ -42,8 +43,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
+            android:maxLines="2"
             android:focusable="false"
-            android:maxLines="1"
             android:textColor="@color/packages_flight_filter_text"
             android:textSize="@dimen/package_sort_filter_label_text_size" />
 

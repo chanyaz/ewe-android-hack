@@ -73,7 +73,8 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
     val dynamicFeedbackClearButton: TextView by bindView(R.id.dynamic_feedback_clear_button)
     val filterContainer: ViewGroup by bindView(R.id.filter_container)
     val checkedFiltersTestVariant = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.EBAndroidAppFlightsFiltersPriceAndLogo)
-    val rowHeight = if (checkedFiltersTestVariant == AbacusVariant.TWO.value) resources.getDimensionPixelSize(R.dimen.airlines_filter_height_with_price_and_count) else resources.getDimensionPixelSize(R.dimen.airlines_filter_height)
+    var airlineRowCollapsedHeight = 0
+    var airlineRowExpandedHeight = 0
 
     val doneButton: Button by lazy {
         val button = LayoutInflater.from(context).inflate(R.layout.toolbar_checkmark_item, null) as Button
@@ -261,7 +262,10 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
                     }
                     airlinesContainer.addView(view)
                 }
-                setupAirlinesView()
+                airlinesContainer.post {
+                    setAirlineContainerHeight()
+                    setupAirlinesView()
+                }
             } else {
                 airlinesLabel.visibility = GONE
                 airlinesMoreLessView.visibility = GONE
@@ -284,7 +288,7 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
                 }
 
                 val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
-                resizeAnimator.addViewSpec(airlinesContainer, rowHeight * airlinesContainer.childCount)
+                resizeAnimator.addViewSpec(airlinesContainer, airlineRowExpandedHeight)
                 resizeAnimator.start()
             } else {
                 setupAirlinesView()
@@ -302,6 +306,23 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
             priceLabelForStops.visibility = View.GONE
             priceLabelForAirline.visibility = View.GONE
         }
+    }
+
+    private fun resetAirlineContainerHeight() {
+        airlineRowCollapsedHeight = 0
+        airlineRowExpandedHeight = 0
+    }
+
+    private fun setAirlineContainerHeight() {
+        resetAirlineContainerHeight()
+        val heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.UNSPECIFIED)
+        val widthMeasureSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY)
+        airlinesContainer.measure(widthMeasureSpec, heightMeasureSpec)
+        val size = if (airlinesContainer.childCount > 3) 3 else airlinesContainer.childCount
+        for (i in 0..size - 1) {
+            airlineRowCollapsedHeight += airlinesContainer.getChildAt(i).measuredHeight
+        }
+        airlineRowExpandedHeight = airlinesContainer.measuredHeight
     }
 
     private fun getLayoutIdForCheckedFilters(): Int {
@@ -328,9 +349,8 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
         airlinesMoreLessView.contentDescription = resources.getString(R.string.packages_flight_search_filter_show_more_cont_desc)
 
         val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
-        resizeAnimator.addViewSpec(airlinesContainer, rowHeight * 3)
+        resizeAnimator.addViewSpec(airlinesContainer, airlineRowCollapsedHeight)
         resizeAnimator.start()
-
         for (i in 3..airlinesContainer.childCount - 1) {
             val v = airlinesContainer.getChildAt(i)
             if (v is CheckBoxFilterWidget) {

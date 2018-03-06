@@ -204,7 +204,7 @@
     <com.expedia.bookings.widget.DynamicFeedbackWidget
         android:id="@+id/dynamic_feedback_container"
         android:layout_width="match_parent"
-        android:layout_height="36dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_margin="16dp"
         android:clickable="true"
