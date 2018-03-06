@@ -86,6 +86,7 @@
             android:name="com.expedia.bookings.activity.RouterActivity"
             android:exported="true"
             android:resizeableActivity="false"
+            android:screenOrientation="portrait"
             android:theme="@style/SplashTheme"
             tools:ignore="UnusedAttribute" />
         <activity-alias
@@ -185,9 +186,9 @@
             android:theme="@style/ItinTheme"
             tools:ignore="UnusedAttribute"
             android:screenOrientation="portrait"/>
-        
+
         <activity
-            android:name=".itin.activity.FlightItinTravelerInfoActivity"
+            android:name="com.expedia.bookings.itin.activity.FlightItinTravelerInfoActivity"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:theme="@style/ItinTheme"
@@ -262,7 +263,7 @@
         <!-- LX activity -->
 
         <activity
-            android:name=".lob.lx.ui.activity.LXBaseActivity"
+            android:name="com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity"
             android:label="Activities"
             android:launchMode="singleTop"
             android:resizeableActivity="false"

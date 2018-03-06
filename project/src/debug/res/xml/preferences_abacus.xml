@@ -321,6 +321,14 @@
         android:title="Launch Screen Tests">
 
         <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
+            android:key="25030"
+            android:title="Disable Sign-in Page as First Screen - 25030" />
+
+        <ListPreference
             android:entries="@array/abacus_air_attach_choices"
             android:entryValues="@array/abacus_air_attach_choice_values"
             android:defaultValue="@string/preference_abacus_default"

@@ -17,6 +17,8 @@
     <dimen name="xlarge_margin">32dp</dimen>
 
     <!-- Launch dimens -->
+    <dimen name="launch_splash_icon_width">90dp</dimen>
+    <dimen name="launch_splash_icon_height">90dp</dimen>
     <dimen name="launch_card_icon_height">30dp</dimen>
     <dimen name="launch_card_icon_width">30dp</dimen>
     <dimen name="launch_header_height">48dp</dimen>

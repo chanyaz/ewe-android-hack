@@ -1,14 +1,28 @@
 package com.expedia.bookings.activity;
 
-import android.app.Activity;
-import android.content.Intent;
+import java.io.File;
+import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
+
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.RawRes;
+import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.LottieDrawable;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.animation.ActivityTransitionCircularRevealHelper;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.abacus.AbacusEvaluateQuery;
 import com.expedia.bookings.data.abacus.AbacusResponse;
@@ -16,9 +30,9 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.user.UserStateManager;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.features.Features;
-import com.expedia.bookings.onboarding.activity.OnboardingActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.tracking.RouterToLaunchTimeLogger;
 import com.expedia.bookings.tracking.RouterToOnboardingTimeLogger;
@@ -31,16 +45,14 @@ import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.utils.navigation.NavUtils;
 import com.facebook.appevents.AppEventsLogger;
 
-import java.io.File;
-import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
-
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import io.reactivex.CompletableObserver;
 import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
-public class RouterActivity extends Activity implements UserAccountRefresher.IUserAccountRefreshListener {
-	boolean loadSignInView = false;
+public class RouterActivity extends AppCompatActivity implements UserAccountRefresher.IUserAccountRefreshListener {
 
 	@Inject
 	UserStateManager userStateManager;
@@ -54,6 +66,21 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 	@Inject
 	RouterToSignInTimeLogger routerToSignInTimeLogger;
 
+	@InjectView(R.id.root_layout)
+	ConstraintLayout rootLayout;
+
+	@InjectView(R.id.start_animation_view)
+	LottieAnimationView startAnimationView;
+
+	@InjectView(R.id.loop_animation_view)
+	LottieAnimationView loopAnimationView;
+
+	@InjectView(R.id.end_animation_view)
+	LottieAnimationView endAnimationView;
+
+	boolean loadSignInView = false;
+	boolean isUserLoadComplete;
+
 	private enum LaunchDestination {
 		SIGN_IN,
 		LAUNCH_SCREEN
@@ -61,7 +88,17 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		setTheme(R.style.SplashThemeAfterLaunch);
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_router_launch_animation);
+		ButterKnife.inject(this);
+
+		// Setup the splash screen animations
+		setupAnimations();
+
+		// Start the first animation
+		startAnimationView.playAnimation();
+
 		Ui.getApplication(this).appComponent().inject(this);
 
 		setTimeLogging();
@@ -83,13 +120,95 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 		userStateManager.ensureUserStateSanity(this);
 	}
 
+	private void setupAnimations() {
+		initStartAnimation(R.raw.splash_intro_60);
+		initLoopAnimation(R.raw.splash_loop_60);
+		initEndAnimation(R.raw.splash_exit_60);
+	}
+
+	private void initStartAnimation(@RawRes int animationRes) {
+		startAnimationView.setAnimation(animationRes);
+		startAnimationView.addAnimatorListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				super.onAnimationEnd(animation);
+				startAnimationView.setVisibility(View.GONE);
+
+				if (isUserLoadComplete) {
+					endAnimationView.setVisibility(View.VISIBLE);
+					endAnimationView.playAnimation();
+				}
+				else {
+					loopAnimationView.setVisibility(View.VISIBLE);
+					loopAnimationView.playAnimation();
+				}
+			}
+		});
+	}
+
+	private void initLoopAnimation(@RawRes int animationRes) {
+		loopAnimationView.setAnimation(animationRes);
+		loopAnimationView.setRepeatCount(LottieDrawable.INFINITE);
+		loopAnimationView.addAnimatorListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationRepeat(Animator animation) {
+				super.onAnimationRepeat(animation);
+				if (isUserLoadComplete) {
+					loopAnimationView.cancelAnimation();
+					loopAnimationView.setVisibility(View.GONE);
+					endAnimationView.setVisibility(View.VISIBLE);
+					endAnimationView.playAnimation();
+				}
+			}
+		});
+	}
+
+	private void initEndAnimation(@RawRes int animationRes) {
+		endAnimationView.setAnimation(animationRes);
+		endAnimationView.addAnimatorListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				super.onAnimationEnd(animation);
+				launchScreenSelection(endAnimationView);
+			}
+		});
+	}
+
+	private void notifyAnimationsThatDataHasLoaded() {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				if (loopAnimationView.isAnimating()) {
+					loopAnimationView.removeAllAnimatorListeners();
+					AlphaAnimation fadeOut = new AlphaAnimation(1.0f, 0.0f);
+					fadeOut.setDuration(600);
+					loopAnimationView.startAnimation(fadeOut);
+
+					AlphaAnimation fadeIn = new AlphaAnimation(0.0f, 1.0f);
+					fadeIn.setDuration(400);
+					endAnimationView.setVisibility(View.VISIBLE);
+					endAnimationView.startAnimation(fadeIn);
+					endAnimationView.playAnimation();
+				}
+				else {
+					isUserLoadComplete = true;
+				}
+			}
+		});
+	}
+
 	private void setTimeLogging() {
 		routerToOnboardingTimeLogger.setStartTime();
 		routerToLaunchTimeLogger.setStartTime();
 		routerToSignInTimeLogger.setStartTime();
 	}
 
-	private void launchOpeningView() {
+	@Override
+	public void onUserAccountRefreshed() {
+		initializeAndDownloadAbacusTests();
+	}
+
+	private void initializeAndDownloadAbacusTests() {
 		TrackingUtils.initializeTracking(this.getApplication());
 
 		boolean isUsersFirstLaunchOfApp = ExpediaBookingApp.isFirstLaunchEver();
@@ -121,16 +240,18 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 			query.addExperiment(AbacusUtils.HotelEarn2xMessaging.getKey());
 			query.addExperiment(AbacusUtils.EBAndroidAppAccountsAPIKongEndPoint.getKey());
 			query.addExperiment(AbacusUtils.DownloadableFonts.getKey());
+			query.addExperiment(AbacusUtils.DisableSignInPageAsFirstScreen.getKey());
 		}
 
 		Ui.getApplication(this).appComponent().abacus()
-				.downloadBucket(query, evaluatePreLaunchABTestsSubscriber, 3, TimeUnit.SECONDS);
+			.downloadBucket(query, evaluatePreLaunchABTestsSubscriber, 3, TimeUnit.SECONDS);
 
 		if (BuildConfig.DEBUG && Features.Companion.getAll().getProductionAbacus().enabled()) {
 			Handler handler = new Handler(Looper.getMainLooper());
 			handler.post(new Runnable() {
 				public void run() {
-					Toast.makeText(RouterActivity.this.getApplication(), "Production Abacus is enabled! Go to Settings to change it", Toast.LENGTH_LONG).show();
+					Toast.makeText(RouterActivity.this.getApplication(),
+						"Production Abacus is enabled! Go to Settings to change it", Toast.LENGTH_LONG).show();
 				}
 			});
 		}
@@ -147,29 +268,16 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 			if (BuildConfig.DEBUG) {
 				AbacusHelperUtils.updateAbacus(new AbacusResponse(), RouterActivity.this);
 			}
-			launchScreenSelection();
+			notifyAnimationsThatDataHasLoaded();
 		}
 
 		@Override
 		public void onNext(AbacusResponse abacusResponse) {
 			AbacusHelperUtils.updateAbacus(abacusResponse, RouterActivity.this);
-			launchScreenSelection();
+			notifyAnimationsThatDataHasLoaded();
 		}
 	};
 
-	private void launchScreenSelection() {
-		if (loadSignInView && !ExpediaBookingApp.isInstrumentation()) {
-			showSplashThenLaunchOpeningView(LaunchDestination.SIGN_IN);
-		}
-		else {
-			showSplashThenLaunchOpeningView(LaunchDestination.LAUNCH_SCREEN);
-		}
-	}
-
-	private void finishActivity() {
-		finish();
-		overridePendingTransition(R.anim.hold, R.anim.slide_down_splash);
-	}
 
 	/**
 	 * Tell facebook we installed the app every time we launch!
@@ -220,34 +328,55 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 		}
 	}
 
-	@Override
-	public void onUserAccountRefreshed() {
-		launchOpeningView();
+	public void launchScreenSelection(View sharedView) {
+		LaunchDestination destination = getLaunchDestination();
+		int revealX = (int) (sharedView.getX() + sharedView.getWidth() / 2);
+		int revealY = (int) (sharedView.getY() + sharedView.getHeight() / 2);
+		int backgroundColor = ActivityTransitionCircularRevealHelper.Companion.getViewBackgroundColor(rootLayout);
+
+		ActivityOptionsCompat options = ActivityTransitionCircularRevealHelper.Companion
+			.getSceneTransitionAnimationAndSubscribe(this, sharedView, "transition",
+				new CompletableObserver() {
+					@Override
+					public void onSubscribe(Disposable d) {
+					}
+
+					@Override
+					public void onComplete() {
+						finish();
+					}
+
+					@Override
+					public void onError(Throwable e) {
+						finish();
+					}
+				});
+
+		if (showNewUserOnboarding()) {
+			NavUtils.goToOnboardingScreen(this, options.toBundle(), revealX, revealY, backgroundColor);
+		}
+		else if (destination == LaunchDestination.SIGN_IN) {
+			NavUtils.goToSignIn(RouterActivity.this);
+		}
+		else {
+			NavUtils.goToLaunchScreen(RouterActivity.this, options.toBundle(), revealX, revealY, backgroundColor);
+		}
+
+		overridePendingTransition(R.anim.hold, R.anim.hold);
 	}
 
-	private void showSplashThenLaunchOpeningView(final LaunchDestination destination) {
-		Handler handler = new Handler(Looper.getMainLooper());
-		handler.postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				if (showNewUserOnboarding()) {
-					Intent intent = new Intent(RouterActivity.this, OnboardingActivity.class);
-					startActivity(intent);
-				}
-				else {
-					if (destination == LaunchDestination.LAUNCH_SCREEN) {
-						NavUtils.goToLaunchScreen(RouterActivity.this);
-					}
-					else {
-						NavUtils.goToSignIn(RouterActivity.this);
-					}
-				}
-				finishActivity();
-			}
-		}, getResources().getInteger(android.R.integer.config_longAnimTime));
+	private LaunchDestination getLaunchDestination() {
+		return (loadSignInView &&
+			!ExpediaBookingApp.isInstrumentation() &&
+			!AbacusFeatureConfigManager.isBucketedForTest(this, AbacusUtils.DisableSignInPageAsFirstScreen))
+			? LaunchDestination.SIGN_IN
+			: LaunchDestination.LAUNCH_SCREEN;
 	}
 
 	private boolean showNewUserOnboarding() {
-		return ExpediaBookingApp.isFirstLaunchEver() && ProductFlavorFeatureConfiguration.getInstance().isAppIntroEnabled();
+		return ExpediaBookingApp.isFirstLaunchEver() && ProductFlavorFeatureConfiguration.getInstance()
+			.isAppIntroEnabled();
 	}
+
+
 }

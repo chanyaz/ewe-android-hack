@@ -89,6 +89,16 @@ class PhoneLaunchActivityTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun disableLoginScreenIsTrackedOnLaunchScreen_whenBucketed() {
+        val activity = Robolectric.buildActivity(PhoneLaunchActivity::class.java).create().start().postCreate(null).resume().get()
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(activity, AbacusUtils.DisableSignInPageAsFirstScreen)
+        OmnitureTracking.trackPageLoadLaunchScreen()
+        assertStateTracked("App.LaunchScreen", withAbacusTestBucketed(25030), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun brandColorsIsTrackedOnLaunchScreen_whenBucketed() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppBrandColors)

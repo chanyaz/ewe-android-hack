@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <set xmlns:android="http://schemas.android.com/apk/res/android">
-    <translate
-        android:duration="@integer/splash_transition_duration" />
+    <!-- The duration of the circular reveal animation -->
+    <translate android:duration="600" />
 </set>
