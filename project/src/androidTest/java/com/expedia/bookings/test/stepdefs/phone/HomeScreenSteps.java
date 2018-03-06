@@ -4,7 +4,7 @@ import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.pagemodels.common.LogInScreen;
 import com.expedia.bookings.test.support.Users;
-import com.expedia.bookings.test.support.Users.User;
+import com.expedia.bookings.test.support.User;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -48,9 +48,10 @@ public class HomeScreenSteps {
 	}
 
 	@And("^I login to Expedia with credentials \"(.*?)\":\"(.*?)\" $")
-	public void logInToTheApp(User user) throws Throwable {
+	public static void logInToTheApp(User user) throws Throwable {
 		if (user.getType().toLowerCase().equals("facebook")) {
-			LogInScreen.signInWithFacebookButton().perform(click());
+			LogInScreen.signInWithExpediaButton().perform(waitForViewToDisplay(), click());
+			LogInScreen.signInWithFacebookButton().perform(waitForViewToDisplay(), click());
 			LogInScreen.FacebookSignIn.waitForViewToLoad();
 			LogInScreen.FacebookSignIn.typeInEmail(user.getEmail());
 			LogInScreen.FacebookSignIn.typeInPassword(user.getPassword());
@@ -60,7 +61,7 @@ public class HomeScreenSteps {
 
 		}
 		else if (user.getType().toLowerCase().equals("expedia")) {
-			LogInScreen.signInButton().perform(waitForViewToDisplay(), click());
+			LogInScreen.signInWithExpediaButton().perform(waitForViewToDisplay(), click());
 			LogInScreen.typeTextEmailEditText(user.getEmail());
 			LogInScreen.typeTextPasswordEditText(user.getPassword());
 			LogInScreen.clickOnLoginButton();

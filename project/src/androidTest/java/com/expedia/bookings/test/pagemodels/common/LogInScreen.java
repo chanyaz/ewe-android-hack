@@ -39,6 +39,10 @@ public class LogInScreen {
 		return onView(allOf(withId(R.id.input_text), withParent(withId(R.id.password))));
 	}
 
+	public static ViewInteraction signInWithExpediaButton() {
+		return onView(withId(R.id.account_sign_in));
+	}
+
 	public static ViewInteraction signInButton() {
 		return onView(withId(R.id.sign_in_button));
 	}

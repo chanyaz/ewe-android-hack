@@ -6,12 +6,12 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.pagemodels.common.LaunchScreen;
-import com.expedia.bookings.test.pagemodels.common.LogInScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
-import com.expedia.bookings.test.pagemodels.trips.TripsScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelCheckoutScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
+import com.expedia.bookings.test.stepdefs.phone.HomeScreenSteps;
+import com.expedia.bookings.test.support.User;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDisplayed;
@@ -39,11 +39,10 @@ public class HotelSwPTest extends PhoneTestCase {
 		assertViewIsDisplayed(R.id.widget_hotel_search);
 	}
 
-	private void goToCheckout(boolean clickSwP) throws Throwable {
+	private static void goToCheckout(boolean clickSwP) throws Throwable {
 		LaunchScreen.waitForLOBHeaderToBeDisplayed();
-		LaunchScreen.tripsButton().perform(click());
-		TripsScreen.clickOnLogInButton();
-		LogInScreen.signIn("goldstatus@mobiata.com", "password");
+		HomeScreenSteps.switchToTab("Account");
+		HomeScreenSteps.logInToTheApp(new User("goldstatus@mobiata.com", "password", "expedia"));
 		LaunchScreen.shopButton().perform(click());
 		LaunchScreen.hotelsLaunchButton().perform(click());
 		if (clickSwP) {
