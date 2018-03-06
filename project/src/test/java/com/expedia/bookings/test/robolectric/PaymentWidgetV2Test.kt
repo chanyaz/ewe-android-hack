@@ -45,6 +45,7 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.PaymentWidget
 import com.expedia.bookings.extensions.getParentTextInputLayout
 import com.expedia.bookings.extensions.getPaymentType
+import com.expedia.bookings.section.StoredCreditCardSpinnerAdapter
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.PayWithPointsViewModel
@@ -138,11 +139,11 @@ class PaymentWidgetV2Test {
         paymentModel.burnAmountToPointsApiResponse.subscribe { latch.countDown() }
         paymentModel.burnAmountSubject.onNext(BigDecimal(32))
         latch.await(10, TimeUnit.SECONDS)
-        setUserWithStoredCard()
+        setUserWithStoredCards()
         testPaymentTileInfo("Paying with Points & Visa 4111", "Tap to edit", ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful), View.VISIBLE)
         //WithoutPayingWithPoints
         paymentModel.createTripSubject.onNext(getCreateTripResponse(false))
-        setUserWithStoredCard()
+        setUserWithStoredCards()
         testPaymentTileInfo("Visa 4111", "Tap to edit", ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful), View.GONE)
     }
 
@@ -168,7 +169,7 @@ class PaymentWidgetV2Test {
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
         sut.validateAndBind()
         paymentModel.createTripSubject.onNext(getCreateTripResponse(false))
-        setUserWithStoredCard()
+        setUserWithStoredCards()
         sut.storedCreditCardList.bind()
 
         val listView = sut.storedCreditCardList.findViewById<View>(R.id.stored_card_list) as ListView
@@ -372,7 +373,7 @@ class PaymentWidgetV2Test {
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
         sut.validateAndBind()
         paymentModel.createTripSubject.onNext(getCreateTripResponse(false))
-        setUserWithStoredCard()
+        setUserWithStoredCards()
         sut.storedCreditCardList.bind()
 
         sut.paymentOptionCreditDebitCard.performClick()
@@ -514,6 +515,21 @@ class PaymentWidgetV2Test {
         assertEquals(sut.sectionBillingInfo.firstInvalidField, sut.creditCardNumber)
     }
 
+    @Test
+    fun testStoredCreditCardSelectStatus() {
+        setUserWithStoredCards(true)
+        Db.getTripBucket().add(TripBucketItemHotelV2(getCreateTripResponseWithValidFormsOfPayment(createValidFormOfPaymentStringList())))
+        sut.sectionBillingInfo.bind(BillingInfo())
+        sut.selectFirstAvailableCard()
+        val creditCardListAdapter = storedCardList.listView.adapter as StoredCreditCardSpinnerAdapter
+
+        assertTrue(creditCardListAdapter.getItem(1).isSelectable)
+
+        storedCardList.listView.performItemClick(storedCardList.listView.getChildAt(1), 1, 1)
+
+        assertTrue(creditCardListAdapter.getItem(0).isSelectable)
+    }
+
     private fun testPaymentTileInfo(paymentInfo: String, paymentOption: String, paymentIcon: Drawable, pwpSmallIconVisibility: Int) {
         assertEquals(paymentInfo, paymentTileInfo.text)
         assertEquals(paymentOption, paymentTileOption.text)
@@ -551,24 +567,25 @@ class PaymentWidgetV2Test {
         assertEquals(cardDrawableResId, shadow.compoundDrawablesWithIntrinsicBoundsLeft)
     }
 
-    private fun setUserWithStoredCard() {
+    private fun setUserWithStoredCards(multipleCardRequired: Boolean = false) {
         val user = User()
         user.addStoredCreditCard(getNewCard())
-
+        if (multipleCardRequired) {
+            user.addStoredCreditCard(getNewCard(PaymentType.CARD_MAESTRO))
+        }
         val userStateManager = Ui.getApplication(RuntimeEnvironment.application).appComponent().userStateManager()
-        userStateManager.userSource.user = user
+        UserLoginTestUtil.setupUserAndMockLogin(user, userStateManager)
 
         sut.viewmodel.isCreditCardRequired.onNext(true)
         sut.sectionBillingInfo.bind(BillingInfo())
         sut.selectFirstAvailableCard()
     }
 
-    private fun getNewCard(): StoredCreditCard {
+    private fun getNewCard(paymentType: PaymentType = PaymentType.CARD_AMERICAN_EXPRESS): StoredCreditCard {
         val card = StoredCreditCard()
-
         card.cardNumber = "4111111111111111"
         card.id = "stored-card-id"
-        card.type = PaymentType.CARD_AMERICAN_EXPRESS
+        card.type = paymentType
         card.description = "Visa 4111"
         card.setIsGoogleWallet(false)
         return card

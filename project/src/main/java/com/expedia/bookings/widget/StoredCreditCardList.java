@@ -77,9 +77,9 @@ public class StoredCreditCardList extends LinearLayout {
 					if (currentCC != null) {
 						BookingInfoUtils.resetPreviousCreditCardSelectState(userStateManager, currentCC);
 					}
-					setStatusForStoredCards(position);
 					Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setStoredCard(card);
 					Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
+					setStatusForStoredCards(position);
 
 					mStoredCreditCardListener.onStoredCreditCardChosen(card);
 					if (lineOfBusiness == LineOfBusiness.HOTELS) {
@@ -146,5 +146,9 @@ public class StoredCreditCardList extends LinearLayout {
 
 	public void updateAdapter() {
 		mStoredCreditCardAdapter.notifyDataSetChanged();
+	}
+
+	public ListView getListView() {
+		return mStoredCardList;
 	}
 }
