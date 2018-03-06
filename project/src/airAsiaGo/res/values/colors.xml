@@ -39,7 +39,6 @@
     <!-- Hotel SRP Discount & Promo strips-->
     <color name="hotel_mobile_exclusive_color">#F8A424</color>
     <color name="hotel_tonight_only_color">#333333</color>
-    <color name="hotel_urgency_message_color">@color/error_color</color>
     <color name="hotelsv2_discount_green">@color/app_primary</color>
 
     <!-- LX colors -->

@@ -58,7 +58,7 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
         strikeThroughTextView.paintFlags = strikeThroughTextView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
 
         val urgencyIconDrawable = ContextCompat.getDrawable(context, R.drawable.urgency).mutate()
-        urgencyIconDrawable.setColorFilter(ContextCompat.getColor(context, R.color.hotel_urgency_message_color), PorterDuff.Mode.SRC_IN)
+        urgencyIconDrawable.setColorFilter(ContextCompat.getColor(context, R.color.hotel_urgency_icon_color), PorterDuff.Mode.SRC_IN)
         urgencyIcon.setImageDrawable(urgencyIconDrawable)
 
         bindViewModel(viewModel)

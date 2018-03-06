@@ -26,7 +26,6 @@
     <!-- Hotel SRP Discount & Promo strips-->
     <color name="hotel_mobile_exclusive_color">#DE0058</color>
     <color name="hotel_tonight_only_color">#72098A</color>
-    <color name="hotel_urgency_message_color">#555555</color>
     <color name="hotelsv2_discount_green">@color/hotel_price_sale_text_color_vsc</color>
     <color name="hotel_member_pricing_bg_color">#3c4851</color>
     <color name="hotel_member_pricing_text_color">#FFFFFF</color>
