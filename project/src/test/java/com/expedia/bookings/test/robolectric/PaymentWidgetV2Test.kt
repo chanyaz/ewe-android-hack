@@ -394,6 +394,22 @@ class PaymentWidgetV2Test {
     }
 
     @Test
+    fun testPostalCodeNotShownForMaterialFormsWhenNotRequired() {
+        setupHotelMaterialForms()
+        sut.viewmodel.isZipValidationRequired.onNext(false)
+
+        assertEquals(View.GONE, sut.postalCodeLayout.visibility)
+    }
+
+    @Test
+    fun testPostalCodeShownForMaterialFormsWhenRequired() {
+        setupHotelMaterialForms()
+        sut.viewmodel.isZipValidationRequired.onNext(true)
+
+        assertEquals(View.VISIBLE, sut.postalCodeLayout.visibility)
+    }
+
+    @Test
     fun testToolbarDoesNotChangeWhenUserEnterPaymentDetailsWithHotelMaterialFormsTurnedOn() {
         setupHotelMaterialForms()
         val nextMenuVisibilitySubscriber = TestObserver<Boolean>()

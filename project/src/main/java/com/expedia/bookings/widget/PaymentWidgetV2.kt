@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
+import android.support.design.widget.TextInputLayout
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
@@ -39,6 +40,9 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
     val rewardWidget: ViewStub by bindView(R.id.reward_widget_stub)
     val validCardsList: LinearLayout by bindView(R.id.valid_cards_list)
     val greyCardIcon: ImageView by bindView(R.id.display_credit_card_brand_icon_grey)
+    val postalCodeLayout by lazy {
+        findViewById<TextInputLayout>(R.id.material_edit_address_postal_code)
+    }
     var paymentSplitsType = PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD
     var isRewardsRedeemable: Boolean = false
     var isFullPayableWithPoints: Boolean = false
@@ -106,6 +110,7 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
             viewmodel.lineOfBusiness.subscribe {
                 sectionBillingInfo.updateMaterialPostalFieldErrorAndHint(PointOfSale.getPointOfSale().pointOfSaleId)
             }
+            viewmodel.isZipValidationRequired.subscribeVisibility(postalCodeLayout)
         }
         hotelMaterialFormEnabled = isHotelMaterialForms
     }
