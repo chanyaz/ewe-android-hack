@@ -62,8 +62,6 @@
 
     <!-- Date/Time Range e.g. May 5, 11:00am - May 10, 11:00am -->
     <string name="date_time_range_TEMPLATE">{from_date_time} – {to_date_time}</string>
-    <!-- Date/Time Range content description, e.g. May 5, 11:00am to May 10, 11:00am -->
-    <string name="date_time_range_cont_desc_TEMPLATE">Du {from_date_time} au {to_date_time}</string>
     <!-- Label for checkout button where user slides the button in order to reserve the activity -->
     <string name="lx_slide_to_reserve">Faites glisser pour réserver</string>
     <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
@@ -210,12 +208,6 @@
     <string name="exclusions_activity_details">Exclusions</string>
     <!-- Activity details know before you book heading -->
     <string name="know_before_you_book_activity_details">À savoir avant de réserver</string>
-    <!-- Template for ticket details -->
-    <string name="ticket_details_template">%2$s (%3$s) : %1$s</string>
-    <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
-    <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
-    <!-- Template for ticket selection summary -->
-    <string name="offer_book_now_TEMPLATE">Réserver : %1$s</string>
     <!-- Template for ticket details (eg: Adult (12+ years)) -->
     <string name="ticket_details_new_TEMPLATE">{traveler_type} ({restriction_text})</string>
     <!-- Template for ticket details without restrictions (eg: Traveler) -->
@@ -800,10 +792,10 @@
     <string name="Sign_in_with_TEMPLATE">Se connecter avec {brand}</string>
     <!-- Content description for sign in button. Eg: Sign in with Expedia button -->
     <string name="Sign_in_with_cont_desc_TEMPLATE">Bouton pour se connecter avec {brand}</string>
-    <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia+ points -->
-    <string name="Sign_in_to_earn_TEMPLATE">Connectez-vous pour gagner {reward} points Expedia+.</string>
-    <!-- Content description for sign in with earn message. Eg: Sign in to earn 123 Expedia+ points button -->
-    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Bouton pour se connecter et gagner {reward} points Expedia+</string>
+    <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia Rewards points -->
+    <string name="Sign_in_to_earn_TEMPLATE">Connectez-vous pour gagner {reward} points Expedia Rewards.</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn 123 Expedia Rewards points button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Bouton connectez-vous pour gagner {reward} points Expedia Rewards</string>
     <!-- or -->
     <string name="or">ou</string>
     <!--Create Account -->
@@ -931,7 +923,7 @@
     <string name="trip_page_title">Voyagez l\&apos;esprit tranquille</string>
     <string name="trip_page_subtitle">Un accès facile aux détails de votre réservation et des alertes pour toujours avoir un temps d\&apos;avance.</string>
     <string name="reward_page_title">Des récompenses rien que pour vous</string>
-    <!-- Sign up for a free Expedia+ account and earn points on all your purchases -->
+    <!-- Sign up for a free Expedia Rewards account and earn points on all your purchases -->
     <string name="reward_page_subtitle_TEMPLATE">Inscrivez-vous gratuitement à {brand_reward_name} et cumulez des points sur tous vos achats.</string>
     <string name="onboarding_final_button_text">C\&apos;EST PARTI</string>
 
@@ -972,15 +964,19 @@
     <string name="check_in_notification_title">Rappel d\&apos;enregistrement à l\&apos;hôtel</string>
     <!-- Notification body for check in {hotel is hotel's name, {checkin} is check in time. e.g. Check in for your hotel booking for Caesars Palace begins at 11 PM tomorrow.-->
     <string name="check_in_notification_body_TEMPLATE">Vous pourrez vous enregistrer à l\&apos;établissement {hotel} dès {checkin} demain. Consultez votre réservation pour plus d\&apos;informations.</string>
-    <!-- Notification tittle for check out {checkout} is checkout time e.g. ("Check out today at 3 PM")-->
+    <!-- Notification title for check out {checkout} is checkout time e.g. ("Check out today at 3 PM")-->
     <string name="check_out_notification_title_day_of_TEMPLATE">Départ aujourd\&apos;hui à {checkout}</string>
-    <!-- Notification tittle for check out {checkout} is checkout time e.g. ("Check out tomorrow at 3 PM")-->
+    <!-- Notification title for check out {checkout} is checkout time e.g. ("Check out tomorrow at 3 PM")-->
     <string name="check_out_notification_title_day_before_TEMPLATE">Départ demain à {checkout}</string>
     <!-- Notification body for check out {hotel} is hotel name, {checkout} is checkout time. e.g. ("Your check out time at Caesars Palace is today at 11 PM. Tap for details.")-->
     <string name="check_out_notification_body_day_of_TEMPLATE">Votre départ de l\&apos;établissement {hotel} a lieu aujourd\&apos;hui à {checkout}. Appuyez pour plus de détails.</string>
     <!-- Notification body for check out {hotel} is hotel name, {checkout} is checkout time. e.g. ("Your check out time at Caesars Palace is tomorrow at 11 PM. Tap for details.")-->
     <string name="check_out_notification_body_day_before_TEMPLATE">Votre départ de l\&apos;établissement {hotel} a lieu demain à {checkout}. Appuyez pour plus de détails.</string>
-    <!--Notification tittle for Hotel Activities Cross Sell e.g. ("Things to do in Las Vegas")-->
+    <!-- Notification title for hotel reviews e.g. Review your recent stay at Caesars Palace -->
+    <string name="hotel_review_title_notification_TEMPLATE">Évaluez votre récent séjour dans l\&apos;établissement {hotelname}</string>
+    <!-- Notification body for hotel reviews e.g. Bob, How would you rate your stay at Caesars Palace? Help a community of travelers like you by sharing your experience. -->
+    <string name="hotel_review_body_notification_TEMPLATE">{firstname}, comment évalueriez-vous votre séjour dans l\&apos;établissement {hotelname} ? Aidez une communauté de voyageurs, comme vous, en partageant votre expérience.</string>
+    <!--Notification title for Hotel Activities Cross Sell e.g. ("Things to do in Las Vegas")-->
     <string name="hotel_book_activities_cross_sell_notification_title_TEMPLATE">À voir, à faire à {destination}</string>
     <!--Notification body for Hotel Activities Cross Sell e.g. Activities in Las Vegas sell out fast! Explore things to do and book your tickets in advance.-->
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">Les activités à {destination} affichent bientôt complet ! Découvrez les choses à voir et à faire et réservez vos billets.</string>
@@ -1355,6 +1351,8 @@
     <string name="itin_hotel_details_address_clipboard_TEMPLATE">{addresslineone}, {addresslinetwo}</string>
     <!--Hotel itin map view content description-->
     <string name="itin_hotel_details_map_view_content_description">Emplacement de l\&apos;hôtel sur Google Map</string>
+    <!--Hotel itin expanded map directions button no application available toast text-->
+    <string name="itin_hotel_map_directions_no_app_available">Aucune application n\&apos;est disponible pour afficher les directions</string>
     <!--Hotel itin call hotel button content description. Call hotel at {phonenumber} (eg., Call hotel at +18055437700)-->
     <string name="itin_hotel_details_call_button_content_description_TEMPLATE">Appeler l\&apos;hôtel au {phonenumber}</string>
     <!--Hotel itin message hotel button-->
@@ -2048,9 +2046,9 @@
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_template">Votre carte sera débitée de {dueamount}</string>
     <!-- Your are using pwp points -->
-    <string name="you_are_using_expedia_points_TEMPLATE">Vous allez utiliser {points} points Expedia+ ({amount}).</string>
+    <string name="you_are_using_expedia_points_TEMPLATE">Vous allez utiliser {points} points Expedia Rewards ({amount})</string>
     <!-- Payment through card + pwp points -->
-    <string name="payment_through_card_and_pwp_points">Vous allez utiliser {points} points Expedia+ ({amount}).\nUn montant de {dueamount} sera facturé sur votre carte.</string>
+    <string name="payment_through_card_and_pwp_points">Vous allez utiliser {points} points Expedia Rewards ({amount})\nUn montant de {dueamount} sera facturé sur votre carte.</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">Finaliser la réservation</string>
     <!-- Our price gaurentee string -->
@@ -2738,8 +2736,6 @@
     <string name="amenity_hot_tub">Spa</string>
     <!-- Internet access amenity -->
     <string name="amenity_internet">Internet</string>
-    <!-- Free Internet access amenity -->
-    <string name="amenity_free_internet">Internet gratuit</string>
     <!-- Kids' activities amenity -->
     <string name="amenity_kids_activities">Activités pour enfants</string>
     <!-- Kitchen/kitchenette amenity -->
@@ -3123,9 +3119,9 @@
     <string name="this_app_makes_use_of_the_following">Cette appli utilise les librairies open-source suivantes :</string>
 
     <!-- Account settings view -->
-    <!-- Label for a field containing the number of points that the user has accrued under the loyalty program (e.g. Expedia+) -->
+    <!-- Label for a field containing the number of points that the user has accrued under the loyalty program (e.g. Expedia Rewards) -->
     <string name="available_loyalty_points">Points disponibles</string>
-    <!-- String for showing the number of pending points that the user will accrue under the loyalty program (e.g. Expedia+); parameter is the number of points (e.g. "7,253 pending") -->
+    <!-- String for showing the number of pending points that the user will accrue under the loyalty program (e.g. Expedia Rewards); parameter is the number of points (e.g. "7,253 pending") -->
     <string name="loyalty_points_pending">%1$s en attente</string>
     <!-- Label (positioned above points) indicating the monetary ($) value of the customers points -->
     <string name="points_value_label">Valeur des points</string>
@@ -3749,7 +3745,7 @@
     <string name="legal_TEMPLATE">En finalisant cette réservation, je reconnais avoir lu et j\&apos;accepte les %1$s, les %2$s et la %3$s.</string>
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">J\&apos;ai lu et j\&apos;accepte les {terms_of_use} et la {privacy_policy}.</string>
-    <!-- Account creation legal template for reward points eg: Join Expedia+ today. By joining Expedia+, I accept all Terms and Conditions. -->
+    <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">Inscrivez-vous à {brand_reward_name} aujourd\&apos;hui. En rejoignant {brand_reward_name}, j\&apos;accepte l\&apos;ensemble des {terms_and_conditions}.</string>
 
     <!-- Used in hotel search for specifying traveler -->
@@ -4118,7 +4114,7 @@
     <!-- Slide to book -->
     <string name="slide_to_book_text">Faites glisser pour acheter</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
-    <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia+ Rewards Points -->
+    <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia Rewards Points -->
     <string name="confirmation_reward_points_TEMPLATE">{rewardpoints} points {brand_reward_name}</string>
     <!-- Confirmation Text in new Flights Confirmation Summary widget indicating rewards earned for the booked flight E.g. 183 points earned-->
     <string name="confirmation_flight_reward_points_earned_TEMPLATE">{rewardpoints} points gagnés</string>
@@ -4153,9 +4149,9 @@
     <string name="package_start_over">Recommencer</string>
 
     <!-- Pay with points widget -->
-    <string name="paying_with_rewards">Payer avec des points Expedia+</string>
-    <string name="pay_with_rewards">Payer avec des points Expedia+</string>
-    <string name="pay_with_point_total_available_TEMPLATE">{money} disponibles ({points} points Expedia+)</string>
+    <string name="paying_with_rewards">Paiement avec des points Expedia Rewards</string>
+    <string name="pay_with_rewards">Payer avec des points Expedia Rewards</string>
+    <string name="pay_with_point_total_available_TEMPLATE">{money} disponibles ({points} points Expedia Rewards)</string>
     <string name="user_enters_more_than_available_points_TEMPLATE">La valeur des points est supérieure à votre solde actuel.\nVeuillez saisir {money} ou moins.</string>
     <string name="user_enters_more_than_trip">La valeur des points ne peut pas être supérieure au montant du paiement à régler aujourd\&apos;hui.</string>
     <string name="pwp_calculating_points">Calcul des points…</string>
@@ -4406,17 +4402,17 @@
     <string name="flight_add_infant_in_seat_number_TEMPLATE">Informations Jeune enfant sur le siège {number}</string>
 
     <!-- Shop with points -->
-    <string name="loyalty_applied_excluding_taxes_and_fees_message">Points Expedia+ appliqués ! (taxes et frais non compris)</string>
-    <string name="regular_loyalty_applied_message">Points Expedia+ appliqués !</string>
+    <string name="loyalty_applied_excluding_taxes_and_fees_message">Points Expedia Rewards appliqués ! (taxes et frais non compris)</string>
+    <string name="regular_loyalty_applied_message">Points Expedia Rewards appliqués !</string>
     <string name="vip_loyalty_applied_message">Double de points appliqué !</string>
     <string name="vip_short_loyalty_applied_message">2X</string>
     <!-- String to be appended with +VIP in header of room rates. -->
-    <string name="vip_loyalty_applied_header_message">Double de points Expedia+ appliqués !</string>
+    <string name="vip_loyalty_applied_header_message">Le double de points Expedia Rewards a été appliqué !</string>
     <!-- SwP Widget you have points template. points_or_amount = it may have money (in case of Expedia) or point value (in case of Orbucks). E.g. You have 3,000 points -->
     <string name="swp_widget_points_value_TEMPLATE">Vous avez {points_or_amount} points</string>
-    <string name="vip_loyalty_applied_map_message">&lt;b&gt;+VIP&lt;/b&gt; Le double de points Expedia+ a été appliqué !</string>
-    <string name="swp_off_widget_header">Appliquer des points Expedia+</string>
-    <string name="swp_on_widget_header">Points Expedia+ appliqués</string>
+    <string name="vip_loyalty_applied_map_message">&lt;b&gt;+VIP&lt;/b&gt; Le double de points Expedia Rewards a été appliqué !</string>
+    <string name="swp_off_widget_header">Appliquer des points Expedia Rewards</string>
+    <string name="swp_on_widget_header">Points Expedia Rewards appliqués</string>
 
     <!-- Message telling you on confirmation screen where you've booked a package to -->
     <string name="yay_going_somewhere">Vous allez à</string>
@@ -4489,7 +4485,7 @@
     <!-- Hotel strike percentage content description. Example. Original price discounted 20%. -->
     <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">Remise de {percentage} sur le prix initial.  \u0020</string>
     <!-- Hotel strike percentage content description. Example. Regularly $100, now $80. Original price discounted 20%. -->
-    <string name="hotel_price_strike_through_discount_percent_cont_desc_TEMPLATE">Le prix normal de {strikethroughprice} est maintenant de {price}.\u0020Remise de {percentage} sur le prix initial.  \u0020</string>
+    <string name="hotel_price_strike_through_discount_percent_cont_desc_TEMPLATE">Le prix normal de {strikethroughprice} est maintenant de {price}.\u0020Remise de {percentage} sur le prix initial.\u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Offre incroyable : {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Example. SFO to DTM. 3 hours 15 minutes. -->
@@ -4715,15 +4711,13 @@
     <!--Packages accessibility content description for dialogs - Opens dialog -->
     <string name="accessibility_cont_desc_opens_dialog">Ouvre la boîte de dialogue</string>
     <!-- Content Description for payment options list when card is not accepted -->
-    <string name="accessibility_cont_desc_card_is_disabled">non acceptée</string>
+    <string name="accessibility_cont_desc_card_is_disabled">Non acceptée</string>
     <!-- Content Description for Rating Button -->
     <string name="accessibility_cont_desc_user_rating_button">Bouton des évaluations des utilisateurs</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
     <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">Le prix est de {activity_price}{ticket_type}</string>
 
-    <!-- LX SRP activity price content description when price is discounted e.g. Price is $180 per adult. Price before discount was $230 per adult-->
-    <string name="activity_price_per_travelertype_with_discount_cont_desc_TEMPLATE">Le prix est de {activity_price}{ticket_type}. Le prix avant application de la réduction était de {activity_original_price} {ticket_type}</string>
     <!-- Content description for Checkbox types, state Checked -->
     <string name="accessibility_cont_desc_role_checkbox_checked">Case. Cochée.</string>
     <!-- Content description for Checkbox types, state Unchecked -->
@@ -5004,9 +4998,12 @@
     <string name="lx_ticket_selected_summary_TEMPLATE">Activité sélectionnée pour : {ticket_summary}</string>
     <!-- LX SRP activity price content description when price is discounted e.g. Regular Price per adult  $125. Discounted price per adult $100-->
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">Prix normal : {activity_original_price} {ticket_type}. Prix réduit : {activity_price} {ticket_type}</string>
-    <string name="hotel_2x_points_search_title">Doublez vos points Expedia+ !</string>
+    <string name="hotel_2x_points_search_title">Doublez vos points Expedia Rewards !</string>
     <string name="hotel_2x_points_search_content">Vous gagnerez deux fois plus de points en réservant sur l\&apos;appli !</string>
     <!-- Recent search header string -->
     <string name="flight_recent_search_label">Recherches récentes</string>
+
+    <!-- Brand reward name -->
+    <string name="brand_reward_name">Expedia Rewards</string>
 
 </resources>

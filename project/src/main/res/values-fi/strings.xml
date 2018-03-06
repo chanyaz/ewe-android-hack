@@ -62,8 +62,6 @@
 
     <!-- Date/Time Range e.g. May 5, 11:00am - May 10, 11:00am -->
     <string name="date_time_range_TEMPLATE">{from_date_time} – {to_date_time}</string>
-    <!-- Date/Time Range content description, e.g. May 5, 11:00am to May 10, 11:00am -->
-    <string name="date_time_range_cont_desc_TEMPLATE">{from_date_time} viiva {to_date_time}</string>
     <!-- Label for checkout button where user slides the button in order to reserve the activity -->
     <string name="lx_slide_to_reserve">Liu\&apos;uta varataksesi</string>
     <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
@@ -210,12 +208,6 @@
     <string name="exclusions_activity_details">Ei sisälly hintaan</string>
     <!-- Activity details know before you book heading -->
     <string name="know_before_you_book_activity_details">Hyvä tietää ennen varaamista</string>
-    <!-- Template for ticket details -->
-    <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
-    <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
-    <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
-    <!-- Template for ticket selection summary -->
-    <string name="offer_book_now_TEMPLATE">Varaa nyt %1$s</string>
     <!-- Template for ticket details (eg: Adult (12+ years)) -->
     <string name="ticket_details_new_TEMPLATE">{traveler_type} ({restriction_text})</string>
     <!-- Template for ticket details without restrictions (eg: Traveler) -->
@@ -800,10 +792,10 @@
     <string name="Sign_in_with_TEMPLATE">Kirjaudu sisään {brand}n sivuille</string>
     <!-- Content description for sign in button. Eg: Sign in with Expedia button -->
     <string name="Sign_in_with_cont_desc_TEMPLATE">Kirjaudu sisään {brand}n sivuille -painike</string>
-    <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia+ points -->
-    <string name="Sign_in_to_earn_TEMPLATE">Kirjaudu sisään ansaitaksesi {reward} Expedia+-pistettä</string>
-    <!-- Content description for sign in with earn message. Eg: Sign in to earn 123 Expedia+ points button -->
-    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Kirjaudu sisään ansaitaksesi {reward} Expedia+-pistettä -painike</string>
+    <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia Rewards points -->
+    <string name="Sign_in_to_earn_TEMPLATE">Kirjaudu sisään ansaitaksesi {reward} Expedia Rewards -pistettä</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn 123 Expedia Rewards points button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Kirjaudu sisään ansaitaksesi {reward} Expedia Rewards -pistettä, painike</string>
     <!-- or -->
     <string name="or">tai</string>
     <!--Create Account -->
@@ -931,7 +923,7 @@
     <string name="trip_page_title">Matkusta luottavaisin mielin</string>
     <string name="trip_page_subtitle">Pääset käsiksi varaustietoihisi ja saat hälytyksiä tien päällä ollessasi</string>
     <string name="reward_page_title">Ansaitse kanta-asiakaspisteitä</string>
-    <!-- Sign up for a free Expedia+ account and earn points on all your purchases -->
+    <!-- Sign up for a free Expedia Rewards account and earn points on all your purchases -->
     <string name="reward_page_subtitle_TEMPLATE">Avaa ilmainen {brand_reward_name}-tili ja ansaitse pisteitä kaikista ostoksistasi</string>
     <string name="onboarding_final_button_text">LÄHDE MATKAAN!</string>
 
@@ -972,15 +964,19 @@
     <string name="check_in_notification_title">Hotellin sisäänkirjautumismuistutus</string>
     <!-- Notification body for check in {hotel is hotel's name, {checkin} is check in time. e.g. Check in for your hotel booking for Caesars Palace begins at 11 PM tomorrow.-->
     <string name="check_in_notification_body_TEMPLATE">Sisäänkirjautuminen hotelliin {hotel} alkaa huomenna kello {checkin}. Katso lisätiedot varauksestasi.</string>
-    <!-- Notification tittle for check out {checkout} is checkout time e.g. ("Check out today at 3 PM")-->
+    <!-- Notification title for check out {checkout} is checkout time e.g. ("Check out today at 3 PM")-->
     <string name="check_out_notification_title_day_of_TEMPLATE">Kirjaudu ulos tänään kello {checkout}</string>
-    <!-- Notification tittle for check out {checkout} is checkout time e.g. ("Check out tomorrow at 3 PM")-->
+    <!-- Notification title for check out {checkout} is checkout time e.g. ("Check out tomorrow at 3 PM")-->
     <string name="check_out_notification_title_day_before_TEMPLATE">Uloskirjautuminen huomenna kello {checkout}</string>
     <!-- Notification body for check out {hotel} is hotel name, {checkout} is checkout time. e.g. ("Your check out time at Caesars Palace is today at 11 PM. Tap for details.")-->
     <string name="check_out_notification_body_day_of_TEMPLATE">Uloskirjautumisaikasi hotellissa {hotel} on tänään kello {checkout}. Napsauta saadaksesi lisätietoja.</string>
     <!-- Notification body for check out {hotel} is hotel name, {checkout} is checkout time. e.g. ("Your check out time at Caesars Palace is tomorrow at 11 PM. Tap for details.")-->
     <string name="check_out_notification_body_day_before_TEMPLATE">Uloskirjautumisaikasi hotellissa {hotel} on huomenna kello {checkout}. Napsauta saadaksesi lisätietoja.</string>
-    <!--Notification tittle for Hotel Activities Cross Sell e.g. ("Things to do in Las Vegas")-->
+    <!-- Notification title for hotel reviews e.g. Review your recent stay at Caesars Palace -->
+    <string name="hotel_review_title_notification_TEMPLATE">Arvioi yöpymiskokemuksesi kohteessa {hotelname}</string>
+    <!-- Notification body for hotel reviews e.g. Bob, How would you rate your stay at Caesars Palace? Help a community of travelers like you by sharing your experience. -->
+    <string name="hotel_review_body_notification_TEMPLATE">{firstname}, minkä arvosanan antaisit yöpymisellesi majoitusliikkeessä {hotelname}? Auta muita matkailijoita kertomalla kokemuksestasi.</string>
+    <!--Notification title for Hotel Activities Cross Sell e.g. ("Things to do in Las Vegas")-->
     <string name="hotel_book_activities_cross_sell_notification_title_TEMPLATE">Tekemistä kohteessa {destination}</string>
     <!--Notification body for Hotel Activities Cross Sell e.g. Activities in Las Vegas sell out fast! Explore things to do and book your tickets in advance.-->
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">Aktiviteetit kohteessa {destination} myydään loppuun nopeasti! Tutustu aktiviteettitarjontaan ja varaa lippusi etukäteen.</string>
@@ -1355,6 +1351,8 @@
     <string name="itin_hotel_details_address_clipboard_TEMPLATE">{addresslineone}, {addresslinetwo}</string>
     <!--Hotel itin map view content description-->
     <string name="itin_hotel_details_map_view_content_description">Hotellin sijainti Google Mapsissa</string>
+    <!--Hotel itin expanded map directions button no application available toast text-->
+    <string name="itin_hotel_map_directions_no_app_available">Reittiohjeita antavaa sovellusta ei ole saatavilla</string>
     <!--Hotel itin call hotel button content description. Call hotel at {phonenumber} (eg., Call hotel at +18055437700)-->
     <string name="itin_hotel_details_call_button_content_description_TEMPLATE">Hotellin puhelinnumero: {phonenumber}</string>
     <!--Hotel itin message hotel button-->
@@ -2048,9 +2046,9 @@
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_template">Kortiltasi veloitetaan {dueamount}</string>
     <!-- Your are using pwp points -->
-    <string name="you_are_using_expedia_points_TEMPLATE">Käytät {points} ({amount}) Expedia+-pistettä</string>
+    <string name="you_are_using_expedia_points_TEMPLATE">Käytät {points} ({amount}) Expedia Rewards -pistettä</string>
     <!-- Payment through card + pwp points -->
-    <string name="payment_through_card_and_pwp_points">Käytät {points} ({amount}) Expedia+-pistettä\nKortiltasi veloitetaan {dueamount}</string>
+    <string name="payment_through_card_and_pwp_points">Käytät {points} ({amount}) Expedia Rewards -pistettä\nKortiltasi veloitetaan {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">Tee varaus loppuun</string>
     <!-- Our price gaurentee string -->
@@ -2738,8 +2736,6 @@
     <string name="amenity_hot_tub">Poreallas</string>
     <!-- Internet access amenity -->
     <string name="amenity_internet">Internet</string>
-    <!-- Free Internet access amenity -->
-    <string name="amenity_free_internet">Ilmainen internet</string>
     <!-- Kids' activities amenity -->
     <string name="amenity_kids_activities">Lasten aktiviteetit</string>
     <!-- Kitchen/kitchenette amenity -->
@@ -3123,9 +3119,9 @@
     <string name="this_app_makes_use_of_the_following">Tämä sovellus käyttää seuraavia avoimen lähdekoodin kirjastoja:</string>
 
     <!-- Account settings view -->
-    <!-- Label for a field containing the number of points that the user has accrued under the loyalty program (e.g. Expedia+) -->
+    <!-- Label for a field containing the number of points that the user has accrued under the loyalty program (e.g. Expedia Rewards) -->
     <string name="available_loyalty_points">Saatavilla olevat pisteet</string>
-    <!-- String for showing the number of pending points that the user will accrue under the loyalty program (e.g. Expedia+); parameter is the number of points (e.g. "7,253 pending") -->
+    <!-- String for showing the number of pending points that the user will accrue under the loyalty program (e.g. Expedia Rewards); parameter is the number of points (e.g. "7,253 pending") -->
     <string name="loyalty_points_pending">%1$s odottaa vahvistusta</string>
     <!-- Label (positioned above points) indicating the monetary ($) value of the customers points -->
     <string name="points_value_label">Pisteiden arvo</string>
@@ -3749,7 +3745,7 @@
     <string name="legal_TEMPLATE">Tekemällä tämän varauksen vahvistan, että olen lukenut ja hyväksyn %1$s, %2$s ja %3$s.</string>
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">Vahvistan, että olen lukenut ja hyväksyn {terms_of_use} ja {privacy_policy}.</string>
-    <!-- Account creation legal template for reward points eg: Join Expedia+ today. By joining Expedia+, I accept all Terms and Conditions. -->
+    <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">Liity {brand_reward_name}-ohjelmaan nyt. Liittymällä {brand_reward_name}-ohjelmaan hyväksyt {terms_and_conditions}.</string>
 
     <!-- Used in hotel search for specifying traveler -->
@@ -4118,7 +4114,7 @@
     <!-- Slide to book -->
     <string name="slide_to_book_text">Liu\&apos;uta ostaaksesi</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
-    <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia+ Rewards Points -->
+    <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia Rewards Points -->
     <string name="confirmation_reward_points_TEMPLATE">{rewardpoints} {brand_reward_name}-pistettä</string>
     <!-- Confirmation Text in new Flights Confirmation Summary widget indicating rewards earned for the booked flight E.g. 183 points earned-->
     <string name="confirmation_flight_reward_points_earned_TEMPLATE">{rewardpoints} pistettä ansaittu</string>
@@ -4153,9 +4149,9 @@
     <string name="package_start_over">Uusi haku</string>
 
     <!-- Pay with points widget -->
-    <string name="paying_with_rewards">Maksu Expedia+-pisteillä</string>
-    <string name="pay_with_rewards">Maksa Expedia+-pisteillä</string>
-    <string name="pay_with_point_total_available_TEMPLATE">{money} jäljellä ({points} Expedia+-pistettä)</string>
+    <string name="paying_with_rewards">Maksu Expedia Rewards -pisteillä</string>
+    <string name="pay_with_rewards">Maksa Expedia Rewards -pisteillä</string>
+    <string name="pay_with_point_total_available_TEMPLATE">{money} jäljellä ({points} Expedia Rewards -pistettä)</string>
     <string name="user_enters_more_than_available_points_TEMPLATE">Pisteiden arvo ylittää saatavilla olevan arvon.\nAnna {money} tai vähemmän.</string>
     <string name="user_enters_more_than_trip">Pisteiden arvo ei voi ylittää nyt maksettavaa summaa.</string>
     <string name="pwp_calculating_points">Lasketaan pisteitä…</string>
@@ -4406,17 +4402,17 @@
     <string name="flight_add_infant_in_seat_number_TEMPLATE">Istuinpaikalla matkustavan vauvan {number} tiedot</string>
 
     <!-- Shop with points -->
-    <string name="loyalty_applied_excluding_taxes_and_fees_message">Expedia+-pisteet käytetty! (ei sisällä veroja ja maksuja)</string>
-    <string name="regular_loyalty_applied_message">Expedia+-pisteet käytetty!</string>
+    <string name="loyalty_applied_excluding_taxes_and_fees_message">Expedia Rewards -pisteitä lisätty! (ei sisällä veroja ja maksuja)</string>
+    <string name="regular_loyalty_applied_message">Expedia Rewards -pisteitä lisätty!</string>
     <string name="vip_loyalty_applied_message">2-kertaiset pisteet käytetty!</string>
     <string name="vip_short_loyalty_applied_message">2X</string>
     <!-- String to be appended with +VIP in header of room rates. -->
-    <string name="vip_loyalty_applied_header_message">2-kertaiset Expedia+-pisteet käytetty!</string>
+    <string name="vip_loyalty_applied_header_message">Kaksinkertaiset Expedia Rewards -pisteet lisätty!</string>
     <!-- SwP Widget you have points template. points_or_amount = it may have money (in case of Expedia) or point value (in case of Orbucks). E.g. You have 3,000 points -->
     <string name="swp_widget_points_value_TEMPLATE">Sinulla on {points_or_amount} pistettä</string>
-    <string name="vip_loyalty_applied_map_message">&lt;b&gt;+VIP&lt;/b&gt; 2-kertaiset Expedia+ -pisteet käytetty!</string>
-    <string name="swp_off_widget_header">Käytä Expedia+-pisteitä</string>
-    <string name="swp_on_widget_header">Expedia+ -pisteet käytetty</string>
+    <string name="vip_loyalty_applied_map_message">&lt;b&gt;+VIP&lt;/b&gt; kaksinkertaiset Expedia Rewards -pisteet lisätty!</string>
+    <string name="swp_off_widget_header">Lisää Expedia Rewards -pisteet</string>
+    <string name="swp_on_widget_header">Expedia Rewards -pisteet lisätty</string>
 
     <!-- Message telling you on confirmation screen where you've booked a package to -->
     <string name="yay_going_somewhere">Olet matkalla kohteeseen</string>
@@ -4715,15 +4711,13 @@
     <!--Packages accessibility content description for dialogs - Opens dialog -->
     <string name="accessibility_cont_desc_opens_dialog">Avaa dialogin</string>
     <!-- Content Description for payment options list when card is not accepted -->
-    <string name="accessibility_cont_desc_card_is_disabled">poistettu käytöstä</string>
+    <string name="accessibility_cont_desc_card_is_disabled">Poistettu käytöstä</string>
     <!-- Content Description for Rating Button -->
     <string name="accessibility_cont_desc_user_rating_button">Asiakasarvostelupainike</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
     <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">Hinta on {activity_price}{ticket_type}</string>
 
-    <!-- LX SRP activity price content description when price is discounted e.g. Price is $180 per adult. Price before discount was $230 per adult-->
-    <string name="activity_price_per_travelertype_with_discount_cont_desc_TEMPLATE">Hinta on {activity_price}{ticket_type} Hinta ennen alennusta oli {activity_original_price}{ticket_type}</string>
     <!-- Content description for Checkbox types, state Checked -->
     <string name="accessibility_cont_desc_role_checkbox_checked">Valintaruutu. Valittu.</string>
     <!-- Content description for Checkbox types, state Unchecked -->
@@ -5004,9 +4998,12 @@
     <string name="lx_ticket_selected_summary_TEMPLATE">{ticket_summary} valittu</string>
     <!-- LX SRP activity price content description when price is discounted e.g. Regular Price per adult  $125. Discounted price per adult $100-->
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">Normaalihinta per {ticket_type} {activity_original_price}. Alennettu hinta per {ticket_type} {activity_price}</string>
-    <string name="hotel_2x_points_search_title">Kaksinkertaiset Expedia+-pisteet!</string>
+    <string name="hotel_2x_points_search_title">Ansaitse kaksinkertaiset Expedia Rewards -pisteet</string>
     <string name="hotel_2x_points_search_content">Ansaitset kaksinkertaiset pisteet tekemällä varauksesi sovelluksessa!</string>
     <!-- Recent search header string -->
     <string name="flight_recent_search_label">Viimeaikaiset haut</string>
+
+    <!-- Brand reward name -->
+    <string name="brand_reward_name">Expedia Rewards</string>
 
 </resources>
