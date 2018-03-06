@@ -7,6 +7,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
@@ -45,6 +46,13 @@ class RewardLaunchViewHolderTest {
         assertTrue(extras.getBoolean("ARG_HANDLE_BACK"))
         assertTrue(extras.getBoolean("ARG_HANDLE_RETRY_ON_ERROR"))
         assertEquals("https://www.orbitz.com/rewards/orbitzmobileapprewards", extras.getString("ARG_URL"))
+    }
+
+    @Test
+    fun testPerformClickIsTrackedInOmniture() {
+        sut.itemView.performClick()
+        OmnitureTestUtils.assertLinkTracked("App Landing", "App.Orbitz.Rewards",
+                OmnitureMatchers.withEvars(mapOf(12 to "App.Orbitz.Rewards")), mockAnalyticsProvider)
     }
 
     private fun createSystemUnderTest() {

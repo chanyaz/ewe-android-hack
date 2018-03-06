@@ -20,6 +20,7 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.data.user.UserStateManager
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.meso.model.MesoAdResponse
 import com.expedia.bookings.meso.model.MesoDestinationAdResponse
@@ -37,6 +38,8 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AbacusTestUtils
+import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.shouldShowRewardLaunchCard
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.launch.SignInPlaceHolderViewModel
@@ -50,6 +53,7 @@ import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
 import java.util.ArrayList
+import java.util.Locale
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
@@ -158,10 +162,32 @@ class LaunchListAdapterTest {
 
     @Test
     @RunForBrands(brands = [MultiBrand.ORBITZ])
-    fun itemViewPosition_showingRewardLaunchCard() {
+    fun itemViewPosition_NotShowingRewardLaunchCardInSpanish() {
+        setSystemLanguage("es")
         givenCustomerSignedIn()
-        createSystemUnderTest()
         givenRewardLaunchCardEnabled()
+        createSystemUnderTest()
+
+        val firstPosition = adapterUnderTest.getItemViewType(0)
+        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
+
+        val secondPosition = adapterUnderTest.getItemViewType(1)
+        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, secondPosition)
+
+        val thirdPosition = adapterUnderTest.getItemViewType(2)
+        assertEquals(LaunchDataItem.HEADER_VIEW, thirdPosition)
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.ORBITZ])
+    fun itemViewPosition_ShowingRewardLaunchCard() {
+        givenCustomerSignedIn()
+        givenRewardLaunchCardEnabled()
+        createSystemUnderTest()
+
+        println(shouldShowRewardLaunchCard(context))
+        println(AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.RewardLaunchCard))
+        println(Ui.getApplication(context).appComponent().userStateManager().isUserAuthenticated())
 
         val firstPosition = adapterUnderTest.getItemViewType(0)
         assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
@@ -860,6 +886,10 @@ class LaunchListAdapterTest {
 
     private fun givenRewardLaunchCardEnabled() {
         AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.RewardLaunchCard)
+    }
+
+    private fun setSystemLanguage(lang: String) {
+        Locale.setDefault(Locale(lang))
     }
 
     inner class TestLaunchListAdapter(context: Context?, header: View?, var isItinLaunchCardEnabled: Boolean = false, val trips: List<Trip>? = null, var recentAirAttachFlightTrip: Trip? = Trip()) : LaunchListAdapter(context, header) {

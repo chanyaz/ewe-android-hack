@@ -9,6 +9,7 @@ import android.widget.ImageView
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Akeakamai
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.navigation.NavUtils
@@ -41,7 +42,10 @@ class RewardLaunchViewHolder(val view: View) : RecyclerView.ViewHolder(view), Vi
     }
 
     override fun onClick(view: View) {
-        rewardWebViewUrl?.let { url -> goToRewardWebViewPage(view.context, url) }
+        rewardWebViewUrl?.let { url ->
+            goToRewardWebViewPage(view.context, url)
+            OmnitureTracking.trackTapRewardLaunchTile()
+        }
     }
 
     private fun goToRewardWebViewPage(context: Context, url: String) {

@@ -15,6 +15,7 @@ import com.expedia.bookings.test.CustomMatchers
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.NullSafeMockitoHamcrest
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withAbacusTestBucketed
+import com.expedia.bookings.test.OmnitureMatchers.Companion.withAbacusTestControl
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
@@ -113,6 +114,15 @@ class PhoneLaunchActivityTest {
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppBrandColors)
         OmnitureTracking.trackPageLoadLaunchScreen()
         assertStateNotTracked(withAbacusTestBucketed(15846), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.ORBITZ))
+    fun testRewardLaunchTileIsTrackedOnOmniture() {
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppBrandColors)
+        OmnitureTracking.trackPageLoadLaunchScreen()
+        assertStateTracked(withAbacusTestControl(15846), mockAnalyticsProvider)
     }
 
     @Test

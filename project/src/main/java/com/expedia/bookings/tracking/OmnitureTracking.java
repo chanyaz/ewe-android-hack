@@ -2200,6 +2200,7 @@ public class OmnitureTracking {
 	private static final String MESO_BASE = "App.LS.MeSo";
 	private static final String MESO_HOTEL_AD = MESO_BASE + ".B2P.Ad";
 	private static final String MESO_DESTINATION_AD = MESO_BASE + ".Dest";
+	private static final String REWARD_LAUNCH_TILE = "App.Orbitz.Rewards";
 
 	public static void trackLaunchSignIn() {
 		ADMS_Measurement s = createTrackLinkEvent(LAUNCH_SIGN_IN);
@@ -2240,6 +2241,12 @@ public class OmnitureTracking {
 	public static void trackMesoDestination(String destination) {
 		ADMS_Measurement s = createTrackLinkEvent(MESO_BASE);
 		s.setEvar(12, MESO_DESTINATION_AD + "." + destination);
+		s.trackLink("App Landing");
+	}
+
+	public static void trackTapRewardLaunchTile() {
+		ADMS_Measurement s = createTrackLinkEvent(REWARD_LAUNCH_TILE);
+		s.setEvar(12, REWARD_LAUNCH_TILE);
 		s.trackLink("App Landing");
 	}
 
