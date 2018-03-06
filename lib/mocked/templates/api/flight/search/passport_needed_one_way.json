@@ -61,6 +61,13 @@
         "formattedPrice": "$620.46",
         "formattedWholePrice": "$620"
       },
+      "deltaPrice": {
+        "amount": "696.00",
+        "formattedPrice": "$696.00",
+        "currencyCode": "USD",
+        "formattedWholePrice": "$696",
+        "roundedAmount": "696"
+      },
       "currency": "USD",
       "fareType": "PUBLISHED",
       "fees": "7.00",

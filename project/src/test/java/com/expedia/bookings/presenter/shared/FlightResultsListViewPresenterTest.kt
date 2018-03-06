@@ -7,13 +7,11 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
-import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowDateFormat
 import com.expedia.bookings.widget.TextView
@@ -48,7 +46,6 @@ class FlightResultsListViewPresenterTest {
 
     @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.VOYAGES, MultiBrand.TRAVELOCITY, MultiBrand.CHEAPTICKETS))
     fun testDockedOutboundFlightV2() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsDeltaPricing)
         inflateAndSetViewModel()
         val flightLeg = createFakeFlightLeg()
         sut.outboundFlightSelectedSubject.onNext(flightLeg)

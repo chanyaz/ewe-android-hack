@@ -10,13 +10,11 @@ import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
-class FlightResultsViewModel(context: Context, lob: LineOfBusiness) {
+class FlightResultsViewModel(context: Context, val lob: LineOfBusiness) {
 
     val flightResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
     val isOutboundResults = BehaviorSubject.create<Boolean>()
     val airlineChargesFeesSubject = PublishSubject.create<Boolean>()
-    val shouldShowDeltaPricing = lob == LineOfBusiness.FLIGHTS_V2 &&
-            AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsDeltaPricing)
     val doNotOverrideFilterButton = lob == LineOfBusiness.PACKAGES &&
             isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)
     val showLoadingStateV1 = lob == LineOfBusiness.FLIGHTS_V2 &&

@@ -3,7 +3,6 @@ package com.expedia.vm.test.robolectric
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
@@ -11,7 +10,6 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
-import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.vm.flights.FlightViewModel
@@ -97,7 +95,6 @@ class FlightViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testDeltaPrice() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsDeltaPricing)
         createExpectedFlightLeg(true)
         flightLeg.packageOfferModel.price.deltaPositive = true
         flightLeg.packageOfferModel.price.deltaPrice = Money("4", "USD")
