@@ -625,7 +625,7 @@ class PaymentWidgetV2Test {
         assertEquals(layoutChildCount, validPaymentTypesCount)
 
         for (i in 0..layoutChildCount - 1) {
-            val cardInValidFormsRes = BookingInfoUtils.getCreditCardIcon(response.validFormsOfPayment[i].getPaymentType())
+            val cardInValidFormsRes = BookingInfoUtils.getCreditCardRectangularIcon(response.validFormsOfPayment[i].getPaymentType())
             val cardInList = (validCardsList.getChildAt(i) as ImageView)
             assertEquals(cardInList.tag, cardInValidFormsRes)
         }
@@ -647,7 +647,7 @@ class PaymentWidgetV2Test {
     }
 
     private fun assertAllCardsDimmedExceptValidCardType(validCardsList: LinearLayout, validType: PaymentType) {
-        val validCardRes = BookingInfoUtils.getCreditCardIcon(validType)
+        val validCardRes = BookingInfoUtils.getCreditCardRectangularIcon(validType)
         for (i in 0..(validCardsList.childCount - 1)) {
             val cardInList = (validCardsList.getChildAt(i) as ImageView)
             if (cardInList.tag == validCardRes) {
@@ -668,7 +668,7 @@ class PaymentWidgetV2Test {
     private fun assertCardTypeDisplayed(validFormsOfPayment: ArrayList<PaymentType>) {
         for (i in 0..(validCardsList.childCount - 1)) {
             val cardInList = (validCardsList.getChildAt(i) as ImageView)
-            assertEquals(cardInList.tag, BookingInfoUtils.getCreditCardIcon(validFormsOfPayment.get(i)))
+            assertEquals(cardInList.tag, BookingInfoUtils.getCreditCardRectangularIcon(validFormsOfPayment.get(i)))
         }
     }
 

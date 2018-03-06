@@ -76,10 +76,10 @@ public class BookingInfoUtils {
 		return R.drawable.ic_generic_card_colorful;
 	}
 
-	public static int getCreditCardIcon(PaymentType type) {
+	public static int getCreditCardRectangularIcon(PaymentType type) {
 		type.assertIsCardOrPoints();
-		if (CREDIT_CARD_ICON.containsKey(type) && type != PaymentType.CARD_UNKNOWN) {
-			return CREDIT_CARD_ICON.get(type);
+		if (CREDIT_CARD_RECT_ICONS.containsKey(type) && type != PaymentType.CARD_UNKNOWN) {
+			return CREDIT_CARD_RECT_ICONS.get(type);
 		}
 		return -1;
 	}
@@ -87,8 +87,6 @@ public class BookingInfoUtils {
 	//////////////////////////////////////////////////////////////////////////////////
 	// More static data (that just takes up a lot of space, so at bottom)
 
-	// Which icon to use with which credit card
-	@SuppressWarnings("serial")
 	private static final HashMap<PaymentType, Integer> CREDIT_CARD_GREY_ICONS = new HashMap<PaymentType, Integer>() {
 		{
 			put(PaymentType.CARD_AMERICAN_EXPRESS, R.drawable.ic_amex_grey);
@@ -104,8 +102,6 @@ public class BookingInfoUtils {
 		}
 	};
 
-	// Which icon to use with which credit card
-	@SuppressWarnings("serial")
 	private static final HashMap<PaymentType, Integer> CREDIT_CARD_WHITE_ICONS = new HashMap<PaymentType, Integer>() {
 		{
 			put(PaymentType.CARD_AMERICAN_EXPRESS, R.drawable.ic_amex_white);
@@ -121,7 +117,6 @@ public class BookingInfoUtils {
 		}
 	};
 
-	@SuppressWarnings("serial")
 	private static final HashMap<PaymentType, Integer> CREDIT_CARD_COLORFUL_ICONS = new HashMap<PaymentType, Integer>() {
 		{
 			put(PaymentType.CARD_AMERICAN_EXPRESS, R.drawable.ic_amex_colorful);
@@ -139,19 +134,18 @@ public class BookingInfoUtils {
 		}
 	};
 
-	@SuppressWarnings("serial")
-	private static final HashMap<PaymentType, Integer> CREDIT_CARD_ICON = new HashMap<PaymentType, Integer>() {
+	private static final HashMap<PaymentType, Integer> CREDIT_CARD_RECT_ICONS = new HashMap<PaymentType, Integer>() {
 		{
-			put(PaymentType.CARD_AMERICAN_EXPRESS, R.drawable.amex);
-			put(PaymentType.CARD_CARTE_BLEUE, R.drawable.carte_bleue);
-			put(PaymentType.CARD_CHINA_UNION_PAY, R.drawable.union_pay);
-			put(PaymentType.CARD_DINERS_CLUB, R.drawable.diners_club);
-			put(PaymentType.CARD_DISCOVER, R.drawable.discover);
-			put(PaymentType.CARD_JAPAN_CREDIT_BUREAU, R.drawable.jcb);
-			put(PaymentType.CARD_MAESTRO, R.drawable.maestro);
-			put(PaymentType.CARD_MASTERCARD, R.drawable.mc);
-			put(PaymentType.CARD_VISA, R.drawable.visa);
-			put(PaymentType.CARD_UNKNOWN, R.drawable.generic);
+			put(PaymentType.CARD_AMERICAN_EXPRESS, R.drawable.ic_amex_rect);
+			put(PaymentType.CARD_CARTE_BLEUE, R.drawable.ic_carte_bleue_rect);
+			put(PaymentType.CARD_CHINA_UNION_PAY, R.drawable.ic_union_pay_rect);
+			put(PaymentType.CARD_DINERS_CLUB, R.drawable.ic_diners_club_rect);
+			put(PaymentType.CARD_DISCOVER, R.drawable.ic_discover_rect);
+			put(PaymentType.CARD_JAPAN_CREDIT_BUREAU, R.drawable.ic_jcb_rect);
+			put(PaymentType.CARD_MAESTRO, R.drawable.ic_maestro_rect);
+			put(PaymentType.CARD_MASTERCARD, R.drawable.ic_mastercard_rect);
+			put(PaymentType.CARD_VISA, R.drawable.ic_visa_rect);
+			put(PaymentType.CARD_UNKNOWN, R.drawable.ic_generic_card_rect);
 		}
 	};
 }

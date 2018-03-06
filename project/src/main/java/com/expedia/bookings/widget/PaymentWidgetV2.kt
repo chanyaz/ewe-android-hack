@@ -177,7 +177,7 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
 
     private fun addCardInValidCardsList(paymentType: PaymentType) {
         val creditCardImage = ImageView(context)
-        val cardIcon = BookingInfoUtils.getCreditCardIcon(paymentType)
+        val cardIcon = BookingInfoUtils.getCreditCardRectangularIcon(paymentType)
         if (cardIcon != -1 && !isCreditCardInList(cardIcon)) {
             creditCardImage.setTag(cardIcon)
             creditCardImage.setImageResource(cardIcon)
@@ -207,7 +207,7 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
     }
 
     private fun dimCardsInListThatDontMatchPaymentType(paymentType: PaymentType) {
-        val validCardRes = BookingInfoUtils.getCreditCardIcon(paymentType)
+        val validCardRes = BookingInfoUtils.getCreditCardRectangularIcon(paymentType)
         for (i in 0..validCardsList.childCount - 1) {
             val cardInList = (validCardsList.getChildAt(i) as ImageView)
             if (cardInList.tag != validCardRes) {
