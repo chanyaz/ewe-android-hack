@@ -62,8 +62,6 @@
 
     <!-- Date/Time Range e.g. May 5, 11:00am - May 10, 11:00am -->
     <string name="date_time_range_TEMPLATE">{from_date_time} – {to_date_time}</string>
-    <!-- Date/Time Range content description, e.g. May 5, 11:00am to May 10, 11:00am -->
-    <string name="date_time_range_cont_desc_TEMPLATE">{from_date_time} đến {to_date_time}</string>
     <!-- Label for checkout button where user slides the button in order to reserve the activity -->
     <string name="lx_slide_to_reserve">Trượt để đặt</string>
     <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
@@ -210,12 +208,6 @@
     <string name="exclusions_activity_details">Không gồm</string>
     <!-- Activity details know before you book heading -->
     <string name="know_before_you_book_activity_details">Lưu ý trước khi đặt</string>
-    <!-- Template for ticket details -->
-    <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
-    <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
-    <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
-    <!-- Template for ticket selection summary -->
-    <string name="offer_book_now_TEMPLATE">Đặt ngay %1$s</string>
     <!-- Template for ticket details (eg: Adult (12+ years)) -->
     <string name="ticket_details_new_TEMPLATE">{traveler_type} ({restriction_text})</string>
     <!-- Template for ticket details without restrictions (eg: Traveler) -->
@@ -800,10 +792,10 @@
     <string name="Sign_in_with_TEMPLATE">Đăng nhập {brand}</string>
     <!-- Content description for sign in button. Eg: Sign in with Expedia button -->
     <string name="Sign_in_with_cont_desc_TEMPLATE">Nút đăng nhập {brand}</string>
-    <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia+ points -->
-    <string name="Sign_in_to_earn_TEMPLATE">Đăng nhập để nhận {reward} điểm Expedia+</string>
-    <!-- Content description for sign in with earn message. Eg: Sign in to earn 123 Expedia+ points button -->
-    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Nút đăng nhập để nhận {reward} điểm Expedia+</string>
+    <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia Rewards points -->
+    <string name="Sign_in_to_earn_TEMPLATE">Đăng nhập để nhận {reward} điểm Expedia Rewards</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn 123 Expedia Rewards points button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Nút đăng nhập để nhận {reward} điểm Expedia Rewards</string>
     <!-- or -->
     <string name="or">hoặc</string>
     <!--Create Account -->
@@ -931,7 +923,7 @@
     <string name="trip_page_title">An tâm du lịch</string>
     <string name="trip_page_subtitle">Xem thông tin đặt phòng/đặt chỗ và nhận thông báo mọi lúc, mọi nơi</string>
     <string name="reward_page_title">Nhận thưởng</string>
-    <!-- Sign up for a free Expedia+ account and earn points on all your purchases -->
+    <!-- Sign up for a free Expedia Rewards account and earn points on all your purchases -->
     <string name="reward_page_subtitle_TEMPLATE">Đăng ký tài khoản {brand_reward_name} miễn phí và nhận điểm thưởng khi đặt mọi sản phẩm</string>
     <string name="onboarding_final_button_text">HÃY BẮT ĐẦU</string>
 
@@ -972,15 +964,19 @@
     <string name="check_in_notification_title">Nhắc nhở nhận phòng khách sạn</string>
     <!-- Notification body for check in {hotel is hotel's name, {checkin} is check in time. e.g. Check in for your hotel booking for Caesars Palace begins at 11 PM tomorrow.-->
     <string name="check_in_notification_body_TEMPLATE">Nhận phòng tại {hotel} từ {checkin} ngày mai. Xem xác nhận đặt phòng để biết thêm chi tiết.</string>
-    <!-- Notification tittle for check out {checkout} is checkout time e.g. ("Check out today at 3 PM")-->
+    <!-- Notification title for check out {checkout} is checkout time e.g. ("Check out today at 3 PM")-->
     <string name="check_out_notification_title_day_of_TEMPLATE">Trả phòng hôm nay lúc {checkout}</string>
-    <!-- Notification tittle for check out {checkout} is checkout time e.g. ("Check out tomorrow at 3 PM")-->
+    <!-- Notification title for check out {checkout} is checkout time e.g. ("Check out tomorrow at 3 PM")-->
     <string name="check_out_notification_title_day_before_TEMPLATE">Trả phòng ngày mai lúc {checkout}</string>
     <!-- Notification body for check out {hotel} is hotel name, {checkout} is checkout time. e.g. ("Your check out time at Caesars Palace is today at 11 PM. Tap for details.")-->
     <string name="check_out_notification_body_day_of_TEMPLATE">Giờ trả phòng hôm nay tại {hotel} là {checkout}. Chạm để xem chi tiết.</string>
     <!-- Notification body for check out {hotel} is hotel name, {checkout} is checkout time. e.g. ("Your check out time at Caesars Palace is tomorrow at 11 PM. Tap for details.")-->
     <string name="check_out_notification_body_day_before_TEMPLATE">Giờ trả phòng ngày mai tại {hotel} là {checkout}. Chạm để xem chi tiết.</string>
-    <!--Notification tittle for Hotel Activities Cross Sell e.g. ("Things to do in Las Vegas")-->
+    <!-- Notification title for hotel reviews e.g. Review your recent stay at Caesars Palace -->
+    <string name="hotel_review_title_notification_TEMPLATE">Nhận xét kỳ lưu trú gần đây của quý vị ở {hotelname}</string>
+    <!-- Notification body for hotel reviews e.g. Bob, How would you rate your stay at Caesars Palace? Help a community of travelers like you by sharing your experience. -->
+    <string name="hotel_review_body_notification_TEMPLATE">{firstname}. Quý vị đánh giá thời gian lưu trú tại {hotelname} thế nào? Hãy chia sẻ trải nghiệm của mình với những khách hàng khác.</string>
+    <!--Notification title for Hotel Activities Cross Sell e.g. ("Things to do in Las Vegas")-->
     <string name="hotel_book_activities_cross_sell_notification_title_TEMPLATE">Hoạt động giải trí tại {destination}</string>
     <!--Notification body for Hotel Activities Cross Sell e.g. Activities in Las Vegas sell out fast! Explore things to do and book your tickets in advance.-->
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">Nhiều khách đặt hoạt động giải trí tại {destination}! Khám phá các hoạt động trong vùng và đặt vé sớm.</string>
@@ -1355,6 +1351,8 @@
     <string name="itin_hotel_details_address_clipboard_TEMPLATE">{addresslineone}, {addresslinetwo}</string>
     <!--Hotel itin map view content description-->
     <string name="itin_hotel_details_map_view_content_description">Bản đồ Google địa điểm khách sạn</string>
+    <!--Hotel itin expanded map directions button no application available toast text-->
+    <string name="itin_hotel_map_directions_no_app_available">Không có app phù hợp để hướng dẫn đường đi</string>
     <!--Hotel itin call hotel button content description. Call hotel at {phonenumber} (eg., Call hotel at +18055437700)-->
     <string name="itin_hotel_details_call_button_content_description_TEMPLATE">Gọi khách sạn số {phonenumber}</string>
     <!--Hotel itin message hotel button-->
@@ -2048,9 +2046,9 @@
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_template">Thẻ của quý vị sẽ được tính phí {dueamount}</string>
     <!-- Your are using pwp points -->
-    <string name="you_are_using_expedia_points_TEMPLATE">Quý vị sử dụng {points} ({amount}) điểm Expedia+</string>
+    <string name="you_are_using_expedia_points_TEMPLATE">Quý vị đang sử dụng {points} ({amount}) điểm Expedia Rewards</string>
     <!-- Payment through card + pwp points -->
-    <string name="payment_through_card_and_pwp_points">Quý vị sử dụng {points} ({amount}) điểm Expedia+\nSẽ thu {dueamount} từ thẻ tín dụng của quý vị</string>
+    <string name="payment_through_card_and_pwp_points">Quý vị đang sử dụng {points} ({amount}) điểm Expedia Rewards\nSẽ thu {dueamount} từ thẻ của quý vị</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">Hoàn tất việc đặt</string>
     <!-- Our price gaurentee string -->
@@ -2738,8 +2736,6 @@
     <string name="amenity_hot_tub">Bồn tắm\nnước nóng</string>
     <!-- Internet access amenity -->
     <string name="amenity_internet">Internet</string>
-    <!-- Free Internet access amenity -->
-    <string name="amenity_free_internet">Internet miễn phí</string>
     <!-- Kids' activities amenity -->
     <string name="amenity_kids_activities">Các hoạt động cho trẻ</string>
     <!-- Kitchen/kitchenette amenity -->
@@ -3123,9 +3119,9 @@
     <string name="this_app_makes_use_of_the_following">Ứng dụng này sử dụng các thư viện nguồn mở sau:</string>
 
     <!-- Account settings view -->
-    <!-- Label for a field containing the number of points that the user has accrued under the loyalty program (e.g. Expedia+) -->
+    <!-- Label for a field containing the number of points that the user has accrued under the loyalty program (e.g. Expedia Rewards) -->
     <string name="available_loyalty_points">Hiện có</string>
-    <!-- String for showing the number of pending points that the user will accrue under the loyalty program (e.g. Expedia+); parameter is the number of points (e.g. "7,253 pending") -->
+    <!-- String for showing the number of pending points that the user will accrue under the loyalty program (e.g. Expedia Rewards); parameter is the number of points (e.g. "7,253 pending") -->
     <string name="loyalty_points_pending">%1$s đang chờ xem xét</string>
     <!-- Label (positioned above points) indicating the monetary ($) value of the customers points -->
     <string name="points_value_label">Giá trị điểm</string>
@@ -3749,7 +3745,7 @@
     <string name="legal_TEMPLATE">Bằng việc hoàn tất quy trình đặt, tôi đồng ý mình đã đọc và chấp thuận %1$s, %2$s và %3$s.</string>
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">Tôi đã đọc và đồng ý {terms_of_use} và {privacy_policy}.</string>
-    <!-- Account creation legal template for reward points eg: Join Expedia+ today. By joining Expedia+, I accept all Terms and Conditions. -->
+    <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">Tham gia {brand_reward_name} ngay hôm nay. Bằng việc tham gia {brand_reward_name}, tôi đồng ý mọi {terms_and_conditions}.</string>
 
     <!-- Used in hotel search for specifying traveler -->
@@ -4118,7 +4114,7 @@
     <!-- Slide to book -->
     <string name="slide_to_book_text">Trượt để đặt</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
-    <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia+ Rewards Points -->
+    <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia Rewards Points -->
     <string name="confirmation_reward_points_TEMPLATE">{rewardpoints} điểm {brand_reward_name}</string>
     <!-- Confirmation Text in new Flights Confirmation Summary widget indicating rewards earned for the booked flight E.g. 183 points earned-->
     <string name="confirmation_flight_reward_points_earned_TEMPLATE">Nhận {rewardpoints} điểm</string>
@@ -4153,9 +4149,9 @@
     <string name="package_start_over">Bắt đầu lại</string>
 
     <!-- Pay with points widget -->
-    <string name="paying_with_rewards">Thanh toán bằng điểm Expedia+</string>
-    <string name="pay_with_rewards">Thanh toán bằng điểm Expedia+</string>
-    <string name="pay_with_point_total_available_TEMPLATE">Hiện có {money} ({points} điểm Expedia+)</string>
+    <string name="paying_with_rewards">Thanh toán bằng điểm Expedia Rewards</string>
+    <string name="pay_with_rewards">Thanh toán bằng điểm Expedia Rewards</string>
+    <string name="pay_with_point_total_available_TEMPLATE">Có {money} ({points} điểm Expedia Rewards)</string>
     <string name="user_enters_more_than_available_points_TEMPLATE">Số vừa nhập vượt quá điểm quý vị hiện có.\nVui lòng nhập {money} trở xuống.</string>
     <string name="user_enters_more_than_trip">Giá trị điểm không thể lớn hơn khoản cần thanh toán hôm nay.</string>
     <string name="pwp_calculating_points">Đang tính điểm…</string>
@@ -4406,17 +4402,17 @@
     <string name="flight_add_infant_in_seat_number_TEMPLATE">Chi tiết trẻ sơ sinh có chỗ ngồi riêng {number}</string>
 
     <!-- Shop with points -->
-    <string name="loyalty_applied_excluding_taxes_and_fees_message">Đã áp dụng Điểm Expedia+! (không gồm thuế và phí)</string>
-    <string name="regular_loyalty_applied_message">Đã áp dụng Điểm Expedia+!</string>
+    <string name="loyalty_applied_excluding_taxes_and_fees_message">Đã áp dụng điểm Expedia Rewards! (không gồm thuế và phí)</string>
+    <string name="regular_loyalty_applied_message">Đã áp dụng điểm Expedia Rewards!</string>
     <string name="vip_loyalty_applied_message">Đã áp dụng số điểm gấp đôi!</string>
     <string name="vip_short_loyalty_applied_message">2X</string>
     <!-- String to be appended with +VIP in header of room rates. -->
-    <string name="vip_loyalty_applied_header_message">Áp dụng gấp đôi điểm Expedia+!</string>
+    <string name="vip_loyalty_applied_header_message">Đã áp dụng gấp đôi điểm Expedia Rewards!</string>
     <!-- SwP Widget you have points template. points_or_amount = it may have money (in case of Expedia) or point value (in case of Orbucks). E.g. You have 3,000 points -->
     <string name="swp_widget_points_value_TEMPLATE">Quý vị có {points_or_amount} điểm</string>
-    <string name="vip_loyalty_applied_map_message">&lt;b&gt;+VIP&lt;/b&gt; áp dụng gấp đôi điểm Expedia+!</string>
-    <string name="swp_off_widget_header">Áp dụng điểm Expedia+</string>
-    <string name="swp_on_widget_header">Đã áp dụng điểm Expedia+</string>
+    <string name="vip_loyalty_applied_map_message">&lt;b&gt;+VIP&lt;/b&gt; Đã áp dụng gấp đôi điểm Expedia Rewards!</string>
+    <string name="swp_off_widget_header">Áp dụng điểm Expedia Rewards</string>
+    <string name="swp_on_widget_header">Đã áp dụng điểm Expedia Rewards</string>
 
     <!-- Message telling you on confirmation screen where you've booked a package to -->
     <string name="yay_going_somewhere">Điểm đến của quý vị</string>
@@ -4715,15 +4711,13 @@
     <!--Packages accessibility content description for dialogs - Opens dialog -->
     <string name="accessibility_cont_desc_opens_dialog">Mở hộp thoại</string>
     <!-- Content Description for payment options list when card is not accepted -->
-    <string name="accessibility_cont_desc_card_is_disabled">không hoạt động</string>
+    <string name="accessibility_cont_desc_card_is_disabled">Không hoạt động</string>
     <!-- Content Description for Rating Button -->
     <string name="accessibility_cont_desc_user_rating_button">Nút Đánh giá của Người dùng</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
     <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">Giá là {activity_price} {ticket_type}</string>
 
-    <!-- LX SRP activity price content description when price is discounted e.g. Price is $180 per adult. Price before discount was $230 per adult-->
-    <string name="activity_price_per_travelertype_with_discount_cont_desc_TEMPLATE">Giá là {activity_price} {ticket_type}. Giá trước giảm giá là {activity_original_price} {ticket_type}</string>
     <!-- Content description for Checkbox types, state Checked -->
     <string name="accessibility_cont_desc_role_checkbox_checked">Ô chọn. Đã chọn</string>
     <!-- Content description for Checkbox types, state Unchecked -->
@@ -4734,7 +4728,7 @@
     <!-- Accessibility string, indicates the type of trip and the duration of the trip. -->
     <!-- Ex. Select Dates. Button. Opens dialog. Dec 22 to Dec 25 (3 nights) -->
     <!-- Ex 2. Select pick-up and drop-off dates. Button. Opens dialog. Jan 1 5:00 to Jan 5 18:00 -->
-    <string name="search_dates_cont_desc_TEMPLATE">Nút {dates_label}. s Mở hộp thoại. {duration_description}</string>
+    <string name="search_dates_cont_desc_TEMPLATE">Nút {dates_label}. Mở hộp thoại. {duration_description}</string>
 
     <!-- Discount amount shown with minus e.g. -$30 -->
     <string name="discount_minus_amount">-{amount}</string>
@@ -4935,19 +4929,19 @@
 
     <!-- Amenities Content Description-->
     <!-- Cont Desc for charged amenities Example: Seat Choice available for a fee-->
-    <string name="amenity_chargeable_cont_desc_TEMPLATE">{amenity_name} hiện có sẵn và có tính phí. \u0020</string>
+    <string name="amenity_chargeable_cont_desc_TEMPLATE">Có {amenity_name} với phụ phí. \u0020</string>
     <!-- Cont Desc for included amenities Example: Seat Choice available -->
-    <string name="amenity_included_cont_desc_TEMPLATE">{amenity_name} hiện có sẵn. \u0020</string>
+    <string name="amenity_included_cont_desc_TEMPLATE">Có {amenity_name}. \u0020</string>
     <!-- Cont Desc for unavailable amenities Example: Seat Choice not available-->
-    <string name="amenity_not_available_cont_desc_TEMPLATE">{amenity_name} không có sẵn. \u0020</string>
+    <string name="amenity_not_available_cont_desc_TEMPLATE">Không có {amenity_name}. \u0020</string>
     <plurals name="checked_bags_template">
-        <item quantity="one">{number}Hành lý ký gửi</item>
-        <item quantity="other">{number}Hành lý ký gửi</item>
+        <item quantity="one">{number} hành lý ký gửi</item>
+        <item quantity="other">{number} hành lý ký gửi</item>
     </plurals>
     <!-- Cont Desc for fare family item Example: Classic, cabin Econonmy--> 
     <string name="fare_family_item_cont_desc_TEMPLATE">{fare_family_name}, cabin {cabin_code}. \u0020</string> 
     <!-- Cont Desc for fare family item Example: This fare is available for an additional $20, roundtrip for 2 travelers--> 
-    <string name="fare_family_item_cont_desc_price_TEMPLATE">Loại vé này hiện có sẵn và có tính phí thêm {delta}, {trip_type} dành cho {guests}. \u0020</string>  
+    <string name="fare_family_item_cont_desc_price_TEMPLATE">Hiện có giá này với phụ phí {delta}, {trip_type} cho {guests}. \u0020</string>  
     <!-- Amenity Show More String -->
     <string name="amenity_show_more">hiển thị thêm</string>
 
@@ -4964,7 +4958,7 @@
     <string name="flight_itin_cancelled_status_label">Đã hủy</string>
     <string name="flight_itin_in_progress_status_label">Đang xuất vé</string>
     <!-- After doing a krazyglue search on Flight Confirmation page, we show something like: "Because you booked a flight, save on select hotels in San Francisco" -->
-    <string name="because_you_booked_a_flight_save_on_hotels_TEMPLATE">Vì quý vị đã đặt chỗ chuyến bay nên được giảm giá tại các khách sạn tuyển chọn ở {city}</string>
+    <string name="because_you_booked_a_flight_save_on_hotels_TEMPLATE">Vì đã đặt chuyến bay, quý vị được giảm giá tại một số khách sạn ở {city}</string>
 
     <!-- See more section offer string which would look like Offer expires in 2 days -->
     <plurals name="krazy_glue_offer_expire_TEMPLATE">
@@ -5004,9 +4998,12 @@
     <string name="lx_ticket_selected_summary_TEMPLATE">Đã chọn {ticket_summary}</string>
     <!-- LX SRP activity price content description when price is discounted e.g. Regular Price per adult  $125. Discounted price per adult $100-->
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">Giá gốc: {activity_original_price}/{ticket_type}. Giá đã giảm: {activity_price}/{ticket_type}</string>
-    <string name="hotel_2x_points_search_title">Nhân đôi số điểm Expedia+!</string>
+    <string name="hotel_2x_points_search_title">Nhận gấp đôi điểm Expedia Rewards!</string>
     <string name="hotel_2x_points_search_content">Quý vị sẽ được nhân đôi số điểm khi đặt chỗ trong ứng dụng!</string>
     <!-- Recent search header string -->
     <string name="flight_recent_search_label">Tìm gần đây</string>
+
+    <!-- Brand reward name -->
+    <string name="brand_reward_name">Expedia Rewards</string>
 
 </resources>

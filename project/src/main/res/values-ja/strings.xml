@@ -62,8 +62,6 @@
 
     <!-- Date/Time Range e.g. May 5, 11:00am - May 10, 11:00am -->
     <string name="date_time_range_TEMPLATE">{from_date_time} – {to_date_time}</string>
-    <!-- Date/Time Range content description, e.g. May 5, 11:00am to May 10, 11:00am -->
-    <string name="date_time_range_cont_desc_TEMPLATE">{from_date_time} から {to_date_time} まで</string>
     <!-- Label for checkout button where user slides the button in order to reserve the activity -->
     <string name="lx_slide_to_reserve">スライドして予約</string>
     <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
@@ -210,12 +208,6 @@
     <string name="exclusions_activity_details">含まれないもの</string>
     <!-- Activity details know before you book heading -->
     <string name="know_before_you_book_activity_details">予約前の確認事項</string>
-    <!-- Template for ticket details -->
-    <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
-    <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
-    <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
-    <!-- Template for ticket selection summary -->
-    <string name="offer_book_now_TEMPLATE">予約する %1$s</string>
     <!-- Template for ticket details (eg: Adult (12+ years)) -->
     <string name="ticket_details_new_TEMPLATE">{traveler_type} ({restriction_text})</string>
     <!-- Template for ticket details without restrictions (eg: Traveler) -->
@@ -797,13 +789,13 @@
     <string name="Checkout">購入手続き</string>
 
     <!-- Sign in with Expedia -->
-    <string name="Sign_in_with_TEMPLATE">{brand} アカウントでサインイン</string>
+    <string name="Sign_in_with_TEMPLATE">{brand} アカウントでログイン</string>
     <!-- Content description for sign in button. Eg: Sign in with Expedia button -->
-    <string name="Sign_in_with_cont_desc_TEMPLATE">{brand} アカウントでサインイン ボタン</string>
-    <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia+ points -->
-    <string name="Sign_in_to_earn_TEMPLATE">サインインして {reward} Expedia+ ポイントを獲得</string>
-    <!-- Content description for sign in with earn message. Eg: Sign in to earn 123 Expedia+ points button -->
-    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">サインインして {reward} Expedia+ ポイントを獲得ボタン</string>
+    <string name="Sign_in_with_cont_desc_TEMPLATE">{brand} アカウントでログイン ボタン</string>
+    <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia Rewards points -->
+    <string name="Sign_in_to_earn_TEMPLATE">ログインして {reward} エクスペディア会員プログラム ポイントを獲得</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn 123 Expedia Rewards points button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">ログインして {reward} エクスペディア会員プログラム ポイントを獲得ボタン</string>
     <!-- or -->
     <string name="or">または</string>
     <!--Create Account -->
@@ -813,11 +805,11 @@
     <!--With member prices, you could save an average of 17% more right now on thousands of hotels.-->
     <string name="member_prices_signin">会員価格なら、世界中のホテルがさらに平均 17% OFF になります。</string>
     <!--Sign in or create an account-->
-    <string name="sign_in_create_account">サインインまたはアカウントを作成</string>
+    <string name="sign_in_create_account">ログインまたはアカウントを作成</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
-    <string name="restricted_profile_sign_in_message_TEMPLATE">{brand} にサインインするには、ご使用のデバイスで制限なしのユーザー プロフィールをお使いください。</string>
+    <string name="restricted_profile_sign_in_message_TEMPLATE">{brand} にログインするには、ご使用のデバイスで制限なしのユーザー プロフィールをお使いください。</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Hotels -->
@@ -931,7 +923,7 @@
     <string name="trip_page_title">旅先でも安心</string>
     <string name="trip_page_subtitle">外出先でも予約詳細にアクセス &amp; 最新情報のアラートを受信</string>
     <string name="reward_page_title">ポイントがたまる</string>
-    <!-- Sign up for a free Expedia+ account and earn points on all your purchases -->
+    <!-- Sign up for a free Expedia Rewards account and earn points on all your purchases -->
     <string name="reward_page_subtitle_TEMPLATE">{brand_reward_name} アカウントに無料登録して、すべての予約でポイント獲得</string>
     <string name="onboarding_final_button_text">今すぐ利用する</string>
 
@@ -972,15 +964,19 @@
     <string name="check_in_notification_title">ホテルのチェックイン時刻のお知らせ</string>
     <!-- Notification body for check in {hotel is hotel's name, {checkin} is check in time. e.g. Check in for your hotel booking for Caesars Palace begins at 11 PM tomorrow.-->
     <string name="check_in_notification_body_TEMPLATE">ご予約いただいた{hotel}のチェックイン時刻は明日の {checkin} です。詳細は予約情報をご確認ください。</string>
-    <!-- Notification tittle for check out {checkout} is checkout time e.g. ("Check out today at 3 PM")-->
+    <!-- Notification title for check out {checkout} is checkout time e.g. ("Check out today at 3 PM")-->
     <string name="check_out_notification_title_day_of_TEMPLATE">本日{checkout}にチェックアウト</string>
-    <!-- Notification tittle for check out {checkout} is checkout time e.g. ("Check out tomorrow at 3 PM")-->
+    <!-- Notification title for check out {checkout} is checkout time e.g. ("Check out tomorrow at 3 PM")-->
     <string name="check_out_notification_title_day_before_TEMPLATE">明日{checkout}にチェックアウト</string>
     <!-- Notification body for check out {hotel} is hotel name, {checkout} is checkout time. e.g. ("Your check out time at Caesars Palace is today at 11 PM. Tap for details.")-->
     <string name="check_out_notification_body_day_of_TEMPLATE">ご予約いただいた{hotel}のチェックアウト時刻は本日の{checkout}です。詳細を表示。</string>
     <!-- Notification body for check out {hotel} is hotel name, {checkout} is checkout time. e.g. ("Your check out time at Caesars Palace is tomorrow at 11 PM. Tap for details.")-->
     <string name="check_out_notification_body_day_before_TEMPLATE">ご予約いただいた{hotel}のチェックアウト時刻は明日の{checkout}です。詳細を表示。</string>
-    <!--Notification tittle for Hotel Activities Cross Sell e.g. ("Things to do in Las Vegas")-->
+    <!-- Notification title for hotel reviews e.g. Review your recent stay at Caesars Palace -->
+    <string name="hotel_review_title_notification_TEMPLATE">{hotelname}での滞在に関する口コミ投稿のお願い</string>
+    <!-- Notification body for hotel reviews e.g. Bob, How would you rate your stay at Caesars Palace? Help a community of travelers like you by sharing your experience. -->
+    <string name="hotel_review_body_notification_TEMPLATE">{firstname} 様、宿泊された{hotelname}について評価をお願いいたします。ホテルでの体験を他の旅行者と共有し情報交換にお役立てください。</string>
+    <!--Notification title for Hotel Activities Cross Sell e.g. ("Things to do in Las Vegas")-->
     <string name="hotel_book_activities_cross_sell_notification_title_TEMPLATE">{destination}の現地ツアー</string>
     <!--Notification body for Hotel Activities Cross Sell e.g. Activities in Las Vegas sell out fast! Explore things to do and book your tickets in advance.-->
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">{destination}の現地ツアーは売り切れ間近です ! 今すぐ現地ツアーをチェックし、事前に予約しましょう。</string>
@@ -999,7 +995,7 @@
     <string name="find_itinerary">旅程を検索する</string>
     <string name="unable_to_find_guest_itinerary">旅程が見つかりません。アカウント画面で、該当のご予約に関する国の設定がウェブサイトのアドレスと一致していることをご確認ください。</string>
     <!-- Unable to find itinerary for registered user  example: This is not a guest itinerary. Please sign into the Expedia account associated with this itinerary.-->
-    <string name="unable_to_find_registered_user_itinerary_template">これはゲスト旅程ではありません。この旅程に関連する {brand} アカウントにサインインしてください。</string>
+    <string name="unable_to_find_registered_user_itinerary_template">これはゲスト旅程ではありません。この旅程に関連する {brand} アカウントにログインしてください。</string>
     <!-- Expedia Itinerary -->
     <string name="itinerary_TEMPLATE">{brand}旅程番号</string>
     <!-- Label for exclusive phone number for base tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
@@ -1023,7 +1019,7 @@
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">お客様の旅程を取得しています…</string>
     <!-- Sign in for your trips -->
-    <string name="sign_in_for_your_trips">サインインして予約を確認してください</string>
+    <string name="sign_in_for_your_trips">ログインして予約を確認してください</string>
     <!-- Button text to refresh your trips -->
     <string name="refresh_trips">旅程を更新</string>
     <!-- Button text to refresh your trips in new Itin Sign In -->
@@ -1355,6 +1351,8 @@
     <string name="itin_hotel_details_address_clipboard_TEMPLATE">{addresslineone}, {addresslinetwo}</string>
     <!--Hotel itin map view content description-->
     <string name="itin_hotel_details_map_view_content_description">ホテルの所在地 Google マップ</string>
+    <!--Hotel itin expanded map directions button no application available toast text-->
+    <string name="itin_hotel_map_directions_no_app_available">行き方を表示できるアプリがありません</string>
     <!--Hotel itin call hotel button content description. Call hotel at {phonenumber} (eg., Call hotel at +18055437700)-->
     <string name="itin_hotel_details_call_button_content_description_TEMPLATE">ホテル ({phonenumber}) に電話する</string>
     <!--Hotel itin message hotel button-->
@@ -2048,15 +2046,15 @@
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_template">カードに {dueamount} が課金されます</string>
     <!-- Your are using pwp points -->
-    <string name="you_are_using_expedia_points_TEMPLATE">{points} Expedia+ ポイント ({amount} 相当) を使用します</string>
+    <string name="you_are_using_expedia_points_TEMPLATE">{points} エクスペディア会員プログラム ポイント ({amount} 相当) を使用します</string>
     <!-- Payment through card + pwp points -->
-    <string name="payment_through_card_and_pwp_points">{points} Expedia+ ポイント ({amount} 相当) を使用します\nご利用のクレジット カードには {dueamount} が課金されます</string>
+    <string name="payment_through_card_and_pwp_points">{points} エクスペディア会員プログラム ポイント ({amount} 相当) を使用します\nご利用のクレジット カードには {dueamount} が課金されます</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">予約を完了する</string>
     <!-- Our price gaurentee string -->
     <string name="price_guarantee">価格保証</string>
     <!-- Sign out -->
-    <string name="sign_out">サインアウト</string>
+    <string name="sign_out">ログアウト</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">今回のご予約で {reward_currency} ポイント付与されます !</string>
     <!-- You are a valued member -->
@@ -2064,13 +2062,13 @@
     <!-- Shop as a {brand} member eg: Shop as an Expedia member! -->
     <string name="shop_as_a_member_TEMPLATE">{brand} の会員として予約 !</string>
     <!-- Launch screen 2x messaging signed-out title-->
-    <string name="launch_screen_sign_in_2x_title">サインインしてお得に予約 !</string>
+    <string name="launch_screen_sign_in_2x_title">ログインしてお得に予約 !</string>
     <!-- Launch screen 2x messaging for signed-out subtitle-->
     <string name="launch_screen_sign_in_2x_subtitle">会員価格なら、世界中のホテルがさらに平均 17% OFF &amp; アプリ予約でポイント 2 倍獲得 !</string>
     <!-- Launch screen 2x banner messaging for signed-in users -->
     <string name="launch_screen_2x_banner">アプリ予約でポイント 2 倍獲得 !</string>
     <!-- Checkout sign in button for 2x messaging -->
-    <string name="checkout_sign_in_2x_messaging">サインインしてポイントを 2 倍獲得 !</string>
+    <string name="checkout_sign_in_2x_messaging">ログインしてポイントを 2 倍獲得 !</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">今回の旅行で {reward_currency} ポイント付与されます !</string>
     <!-- Blurb text displayed on account sign in button when already signed in and has 2x earn messaging e.g. You'll earn 1234 points. That's double for booking in app!-->
@@ -2097,7 +2095,7 @@
     <!-- Content description for Expedia logo icon on checkout account view  e.g. Expedia Account -->
     <string name="brand_account_cont_desc_TEMPLATE">{brand} アカウント</string>
     <!-- Content description for signed in Expedia account e.g. Signed in as qa-ehcc@mobiata.com -->
-    <string name="signed_in_account_cont_desc_TEMPLATE">{email} でサインイン済み</string>
+    <string name="signed_in_account_cont_desc_TEMPLATE">{email} でログイン済み</string>
     <!-- Enter Payment Information -->
     <string name="enter_payment_information">支払い情報を入力</string>
 
@@ -2738,8 +2736,6 @@
     <string name="amenity_hot_tub">浴槽</string>
     <!-- Internet access amenity -->
     <string name="amenity_internet">インターネット</string>
-    <!-- Free Internet access amenity -->
-    <string name="amenity_free_internet">インターネット無料</string>
     <!-- Kids' activities amenity -->
     <string name="amenity_kids_activities">キッズ\nアクティビティ</string>
     <!-- Kitchen/kitchenette amenity -->
@@ -2954,11 +2950,11 @@
     <!-- Message for dialog confirming the clearing of private data -->
     <string name="dialog_clear_private_data_msg">実行するとすべての検索履歴が削除されます。</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_sign_out_and_clear_private_data_msg">実行すると一旦サインアウトされ、検索履歴が削除されます。</string>
+    <string name="dialog_sign_out_and_clear_private_data_msg">実行すると一旦ログアウトされ、検索履歴が削除されます。</string>
     <!-- Title for dialog confirming the clearing of private data when user is logged in-->
     <string name="dialog_clear_private_data_title_logged_in_user">処理を続けますか ?</string>
     <!-- Message for dialog confirming the clearing of private data when user is logged in. Ex: Changing the country will sign you out of your Expedia account​ -->
-    <string name="dialog_sign_out_and_clear_private_data_msg_TEMPLATE">国を変更すると、ご利用の{brand}アカウントからサインアウトします。</string>
+    <string name="dialog_sign_out_and_clear_private_data_msg_TEMPLATE">国を変更すると、ご利用の{brand}アカウントからログアウトします。</string>
     <!-- Continue button for dialog confirming the clearing of private data -->
     <string name="continue_button">続ける</string>
     <!-- Title for dialog after private data has been cleared -->
@@ -3002,11 +2998,11 @@
     <!-- Label for menu item to open account settings screen -->
     <string name="account_settings_menu_label">アカウント</string>
     <!-- Label for menu item to sign into account -->
-    <string name="sign_in">サインイン</string>
+    <string name="sign_in">ログイン</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
-    <string name="signing_in">サインイン…</string>
+    <string name="signing_in">ログイン…</string>
     <!-- Label for sign out confirmation -->
-    <string name="sign_out_confirmation_TEMPLATE">{brand}のアカウントからサインアウトしてもよろしいですか ?</string>
+    <string name="sign_out_confirmation_TEMPLATE">{brand}のアカウントからログアウトしてもよろしいですか ?</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">{brand}アカウントを読み込み中</string>
     <!-- Label for coupon code hint -->
@@ -3014,8 +3010,8 @@
     <!-- Label applying a coupon -->
     <string name="apply">適用</string>
     <!-- Google Account Change -->
-    <string name="google_account_change_string">Google でサインインしますか ?</string>
-    <string name="google_account_change_message_TEMPLATE">Google でのサインイン機能は終了しました。ただし、{brand}のご旅行情報は保存されています ! 当社のウェブサイトで Google メールのアドレスをご利用のうえ、パスワードを設定してサインインしてください</string>
+    <string name="google_account_change_string">Google でログインしますか ?</string>
+    <string name="google_account_change_message_TEMPLATE">Google でのログイン機能は終了しました。ただし、{brand}のご旅行情報は保存されています ! 当社のウェブサイトで Google メールのアドレスをご利用のうえ、パスワードを設定してログインしてください</string>
 
     <!-- Coupon dialog -->
     <!-- Coupon Widget Title -->
@@ -3123,9 +3119,9 @@
     <string name="this_app_makes_use_of_the_following">このアプリは、以下のオープンソース ライブラリを使用しています :</string>
 
     <!-- Account settings view -->
-    <!-- Label for a field containing the number of points that the user has accrued under the loyalty program (e.g. Expedia+) -->
+    <!-- Label for a field containing the number of points that the user has accrued under the loyalty program (e.g. Expedia Rewards) -->
     <string name="available_loyalty_points">利用可能なポイント数</string>
-    <!-- String for showing the number of pending points that the user will accrue under the loyalty program (e.g. Expedia+); parameter is the number of points (e.g. "7,253 pending") -->
+    <!-- String for showing the number of pending points that the user will accrue under the loyalty program (e.g. Expedia Rewards); parameter is the number of points (e.g. "7,253 pending") -->
     <string name="loyalty_points_pending">%1$s ポイント保留中</string>
     <!-- Label (positioned above points) indicating the monetary ($) value of the customers points -->
     <string name="points_value_label">ポイント相当額</string>
@@ -3749,7 +3745,7 @@
     <string name="legal_TEMPLATE">この予約を完了をもって、%1$s、%2$s、%3$sを読み、理解したものと見なされます。</string>
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">{terms_of_use}および{privacy_policy}を読み、これに同意します。</string>
-    <!-- Account creation legal template for reward points eg: Join Expedia+ today. By joining Expedia+, I accept all Terms and Conditions. -->
+    <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">今すぐ{brand_reward_name}にご入会ください。{brand_reward_name}への入会をもって、すべての{terms_and_conditions}に同意したものとみなされます。</string>
 
     <!-- Used in hotel search for specifying traveler -->
@@ -4118,7 +4114,7 @@
     <!-- Slide to book -->
     <string name="slide_to_book_text">スライドして購入</string>
     <string name="hotel_city_country_TEMPLATE">{city}、{country}</string>
-    <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia+ Rewards Points -->
+    <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia Rewards Points -->
     <string name="confirmation_reward_points_TEMPLATE">{rewardpoints}{brand_reward_name} ポイント</string>
     <!-- Confirmation Text in new Flights Confirmation Summary widget indicating rewards earned for the booked flight E.g. 183 points earned-->
     <string name="confirmation_flight_reward_points_earned_TEMPLATE">{rewardpoints} ポイント獲得</string>
@@ -4153,9 +4149,9 @@
     <string name="package_start_over">やり直す</string>
 
     <!-- Pay with points widget -->
-    <string name="paying_with_rewards">Expedia+ ポイントでお支払い</string>
-    <string name="pay_with_rewards">Expedia+ ポイントでお支払い</string>
-    <string name="pay_with_point_total_available_TEMPLATE">{money} 利用可能 ({points} Expedia+ ポイント)</string>
+    <string name="paying_with_rewards">エクスペディア会員プログラム ポイントでお支払い</string>
+    <string name="pay_with_rewards">エクスペディア会員プログラム ポイントでお支払い</string>
+    <string name="pay_with_point_total_available_TEMPLATE">{money} 利用可能 ({points} エクスペディア会員プログラム ポイント)</string>
     <string name="user_enters_more_than_available_points_TEMPLATE">ポイント相当額が残高を超えています。\n{money} 以下の値を入力してください。</string>
     <string name="user_enters_more_than_trip">本日お支払いの金額以下のポイント相当額を入力してください。</string>
     <string name="pwp_calculating_points">ポイントを計算しています…</string>
@@ -4406,17 +4402,17 @@
     <string name="flight_add_infant_in_seat_number_TEMPLATE">座席利用の乳幼児 {number} の詳細</string>
 
     <!-- Shop with points -->
-    <string name="loyalty_applied_excluding_taxes_and_fees_message">Expedia+ ポイント適用済み ! (税およびサービス料別)</string>
-    <string name="regular_loyalty_applied_message">Expedia+ ポイント適用済み !</string>
+    <string name="loyalty_applied_excluding_taxes_and_fees_message">エクスペディア会員プログラム ポイント適用済み ! (税およびサービス料別)</string>
+    <string name="regular_loyalty_applied_message">エクスペディア会員プログラム ポイント適用済み !</string>
     <string name="vip_loyalty_applied_message">還元率 2 倍でポイント適用済み !</string>
     <string name="vip_short_loyalty_applied_message">還元率 2 倍</string>
     <!-- String to be appended with +VIP in header of room rates. -->
-    <string name="vip_loyalty_applied_header_message">還元率 2 倍で Expedia+ ポイント適用済み !</string>
+    <string name="vip_loyalty_applied_header_message">還元率 2 倍でエクスペディア会員プログラム ポイント適用済み !</string>
     <!-- SwP Widget you have points template. points_or_amount = it may have money (in case of Expedia) or point value (in case of Orbucks). E.g. You have 3,000 points -->
     <string name="swp_widget_points_value_TEMPLATE">{points_or_amount} ポイント獲得済み</string>
-    <string name="vip_loyalty_applied_map_message">&lt;b&gt;+VIP&lt;/b&gt; 還元率 2 倍で Expedia+ ポイント適用済み !</string>
-    <string name="swp_off_widget_header">Expedia+ ポイントを適用</string>
-    <string name="swp_on_widget_header">Expedia+ ポイント適用済み</string>
+    <string name="vip_loyalty_applied_map_message">&lt;b&gt;+VIP&lt;/b&gt; 還元率 2 倍でエクスペディア会員プログラム ポイント適用済み !</string>
+    <string name="swp_off_widget_header">エクスペディア会員プログラム ポイントを適用</string>
+    <string name="swp_on_widget_header">エクスペディア会員プログラム ポイント適用済み</string>
 
     <!-- Message telling you on confirmation screen where you've booked a package to -->
     <string name="yay_going_somewhere">目的地 :</string>
@@ -4722,8 +4718,6 @@
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
     <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">料金は {activity_price} ({ticket_type}) です</string>
 
-    <!-- LX SRP activity price content description when price is discounted e.g. Price is $180 per adult. Price before discount was $230 per adult-->
-    <string name="activity_price_per_travelertype_with_discount_cont_desc_TEMPLATE">料金は {activity_price} ({ticket_type}) です。割引前の料金は {activity_original_price} ({ticket_type}) でした</string>
     <!-- Content description for Checkbox types, state Checked -->
     <string name="accessibility_cont_desc_role_checkbox_checked">チェックボックス。チェック済みです。</string>
     <!-- Content description for Checkbox types, state Unchecked -->
@@ -4821,7 +4815,7 @@
     <!-- Itinerary number error message -->
     <string name="itinerary_number_error_message">有効な旅程番号を入力してください</string>
     <!-- Itin screen message for signing in-->
-    <string name="itin_sign_in_message">サインインして今後の旅行予定にアクセスする</string>
+    <string name="itin_sign_in_message">ログインして今後の旅行予定にアクセスする</string>
     <!-- Find Guest Itinerary Screen Title -->
     <string name="find_guest_itinerary_title">ゲストとして予約した旅行を検索</string>
     <!-- Introduction text for find guest itinerary screen -->
@@ -4924,7 +4918,7 @@
 
     <!--Soft Prompt-->
     <string name="location_soft_prompt_title">旅の予約をスタート</string>
-    <string name="location_soft_prompt_subtitle">近隣の情報、近くのホテル、道順などが検索できます</string>
+    <string name="location_soft_prompt_subtitle">近隣の情報、近くのホテル、行き方などを検索できます</string>
     <string name="location_soft_prompt_enable">位置情報をオンにする</string>
     <string name="location_soft_prompt_disable">後で</string>
 
@@ -5004,9 +4998,12 @@
     <string name="lx_ticket_selected_summary_TEMPLATE">選択された現地ツアーの対象人数 : {ticket_summary}</string>
     <!-- LX SRP activity price content description when price is discounted e.g. Regular Price per adult  $125. Discounted price per adult $100-->
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">通常料金 {activity_original_price} ({ticket_type})。割引適用後の料金 {activity_price} ({ticket_type})</string>
-    <string name="hotel_2x_points_search_title">Expedia+ ポイント 2 倍 !</string>
+    <string name="hotel_2x_points_search_title">エクスペディア会員プログラム ポイント 2 倍 !</string>
     <string name="hotel_2x_points_search_content">アプリで予約するだけで、ポイント 2 倍獲得 !</string>
     <!-- Recent search header string -->
     <string name="flight_recent_search_label">最近の検索履歴</string>
+
+    <!-- Brand reward name -->
+    <string name="brand_reward_name">エクスペディア会員プログラム</string>
 
 </resources>
