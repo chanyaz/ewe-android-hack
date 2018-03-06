@@ -2,7 +2,6 @@ package com.expedia.vm
 
 import android.content.Context
 import com.expedia.bookings.BuildConfig
-import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
@@ -10,9 +9,11 @@ import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightServiceClassType
+import com.expedia.bookings.extensions.ObservableOld
+import com.expedia.bookings.extensions.subscribeObserver
+import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.shared.CalendarRules
-import com.expedia.bookings.extensions.subscribeObserver
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.Constants
@@ -22,7 +23,6 @@ import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isFlightGreedySearchEnabled
 import com.expedia.bookings.utils.validation.TravelerValidator
-import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.ui.FlightActivity
 import com.expedia.util.FlightCalendarRules
 import com.expedia.util.Optional
@@ -306,13 +306,27 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     private fun setupViewModelFromPastSearch(pastSearchParams: FlightSearchParams) {
         isRoundTripSearchObservable.onNext(pastSearchParams.isRoundTrip())
         val currentDate = LocalDate.now()
-        val invalidDates = pastSearchParams.departureDate.isBefore(currentDate) || pastSearchParams.returnDate?.isBefore(currentDate) ?: false
-        if (!invalidDates) {
+        val isStartDateInvalid = pastSearchParams.departureDate.isBefore(currentDate)
+        val isEndDateInvalid = pastSearchParams.returnDate?.isBefore(currentDate) ?: false
+
+        if (isStartDateInvalid && isEndDateInvalid) {
+            datesUpdated(null, null)
+            highlightCalendarObservable.onNext(true)
+        } else if (isStartDateInvalid && !isEndDateInvalid) {
+            if (pastSearchParams.isRoundTrip()) {
+                datesUpdated(currentDate, pastSearchParams.returnDate)
+                highlightCalendarObservable.onNext(false)
+            } else {
+                datesUpdated(null, null)
+                highlightCalendarObservable.onNext(true)
+            }
+        } else {
             datesUpdated(pastSearchParams.departureDate, pastSearchParams.returnDate)
+            highlightCalendarObservable.onNext(false)
         }
+
         originLocationObserver.onNext(pastSearchParams.departureAirport)
         destinationLocationObserver.onNext(pastSearchParams.arrivalAirport)
-        isReadyForInteractionTracking.onNext(Unit)
     }
 
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {

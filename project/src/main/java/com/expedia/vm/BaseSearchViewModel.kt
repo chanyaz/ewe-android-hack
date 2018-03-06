@@ -41,6 +41,7 @@ abstract class BaseSearchViewModel(val context: Context) {
     val formattedDestinationObservable = PublishSubject.create<String>()
 
     var a11yFocusSelectDatesObservable = BehaviorSubject.create<Unit>()
+    val highlightCalendarObservable = PublishSubject.create<Boolean>()
 
     protected var selectedDates: Pair<LocalDate?, LocalDate?> = Pair(null, null)
 
@@ -67,6 +68,7 @@ abstract class BaseSearchViewModel(val context: Context) {
 
     fun datesUpdated(startDate: LocalDate?, endDate: LocalDate?) {
         onDatesChanged(Pair(startDate, endDate))
+        highlightCalendarObservable.onNext(false)
     }
 
     fun startDate(): LocalDate? {

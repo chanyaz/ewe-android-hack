@@ -23,6 +23,7 @@ open class RecentSearchViewModel(val context: Context, val recentSearchDao: Rece
     val fetchRecentSearchesObservable = PublishSubject.create<Unit>()
     val saveRecentSearchObservable = PublishSubject.create<Money>()
     val recentSearchVisibilityObservable = PublishSubject.create<Boolean>()
+    val selectedRecentSearch = PublishSubject.create<FlightSearchParams>()
     private val maxCount = 3
 
     init {

@@ -1,5 +1,6 @@
 package com.expedia.bookings.presenter.flight
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
@@ -12,7 +13,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewStub
 import android.widget.ImageView
-import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.adapter.FlightSearchPageAdapter
 import com.expedia.bookings.data.LineOfBusiness
@@ -20,6 +20,7 @@ import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.extensions.setAccessibilityHoverFocus
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.location.CurrentLocationObservable
@@ -40,12 +41,12 @@ import com.expedia.bookings.widget.FlightCabinClassWidget
 import com.expedia.bookings.widget.FlightTravelerWidgetV2
 import com.expedia.bookings.widget.TravelerWidgetV2
 import com.expedia.bookings.widget.flights.RecentSearchWidgetContainer
+import com.expedia.util.Optional
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.AirportSuggestionViewModel
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.BaseSuggestionAdapterViewModel
 import com.expedia.vm.FlightSearchViewModel
-import com.expedia.vm.flights.AdvanceSearchFilter
 import com.expedia.vm.flights.FlightAdvanceSearchViewModel
 import com.squareup.phrase.Phrase
 import javax.inject.Inject
@@ -95,6 +96,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
     val recentSearchWidgetContainer by lazy {
         recentSearchStub.inflate().findViewById<RecentSearchWidgetContainer>(R.id.flight_recent_searches_widget)
     }
+    private var anim: ValueAnimator? = null
 
     var searchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
@@ -187,21 +189,16 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         }
 
         vm.previousSearchParamsObservable.subscribe { params ->
+            animateView(scrollView, scrollView.scrollY, 0, 500, 200)
             val cabinClass = params.flightCabinClass
             if (cabinClass != null) {
                 flightCabinClassWidget.flightCabinClassView.viewmodel.flightCabinClassObservable.onNext(FlightServiceClassType.CabinCode.valueOf(cabinClass))
             }
             if (!params.isRoundTrip()) {
                 viewpager.currentItem = 1
-            }
-            if (isFlightAdvanceSearchTestEnabled && params.nonStopFlight != null && params.nonStopFlight as Boolean) {
-                flightAdvanceSearchWidget.viewModel.applySelectedFilter.onNext(AdvanceSearchFilter.NonStop.ordinal)
-                flightAdvanceSearchWidget.toggleAdvanceSearchWidget()
-            }
-
-            if (isFlightAdvanceSearchTestEnabled && params.showRefundableFlight != null && params.showRefundableFlight as Boolean) {
-                flightAdvanceSearchWidget.viewModel.applySelectedFilter.onNext(AdvanceSearchFilter.Refundable.ordinal)
-                flightAdvanceSearchWidget.toggleAdvanceSearchWidget()
+            } else {
+                vm.cachedEndDateObservable.onNext(Optional(params.endDate))
+                viewpager.currentItem = 0
             }
             travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.onNext(TravelerParams(params.adults, params.children, emptyList(), emptyList()))
             val infantCount = params.children.count { infantAge -> infantAge < 2 }
@@ -236,6 +233,13 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         destinationSuggestionAdapter = SuggestionAdapter(destinationSuggestionViewModel)
 
         setContentDescriptionToolbarTabs(context, tabs)
+        vm.highlightCalendarObservable.subscribe { show ->
+            if (show) {
+                calendarWidgetV2.setBackgroundResource(R.drawable.calendar_border)
+            } else {
+                calendarWidgetV2.setBackgroundResource(0)
+            }
+        }
     }
 
     private lateinit var originSuggestionAdapter: SuggestionAdapter
@@ -280,6 +284,9 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         if (isRecentSearchesForFlightsEnabled(context)) {
             flightRecentSearchCardView.visibility = View.VISIBLE
             recentSearchWidgetContainer.viewModel.fetchRecentSearchesObservable.onNext(Unit)
+            recentSearchWidgetContainer.viewModel.selectedRecentSearch.subscribe { searchParams ->
+                searchViewModel.previousSearchParamsObservable.onNext(searchParams)
+            }
         }
     }
 
@@ -359,5 +366,16 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         } else {
             announceForAccessibility(context.getString(R.string.flights_tab_selection_accouncement_oneway))
         }
+    }
+
+    private fun animateView(view: View, fromHeight: Int, toHeight: Int, animDuration: Long, startDelay: Long) {
+        anim?.cancel()
+        anim = ValueAnimator.ofInt(fromHeight, toHeight)
+        anim?.duration = animDuration
+        anim?.startDelay = startDelay
+        anim?.addUpdateListener { valueAnimator ->
+            view.scrollY = valueAnimator.animatedValue as Int
+        }
+        anim?.start()
     }
 }

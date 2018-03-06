@@ -1,34 +1,34 @@
 package com.expedia.bookings.widget.flights
 
 import android.content.Context
-import android.content.res.TypedArray
 import android.graphics.Typeface
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.util.AttributeSet
 import android.widget.TextView
 import com.expedia.bookings.R
-import com.expedia.bookings.utils.DateFormatUtils
+import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.SpannableBuilder
 import org.joda.time.LocalDate
 
 class DateFormatterTextView(context: Context, attr: AttributeSet): TextView(context, attr) {
-    val attributes: TypedArray
     lateinit var startDate: LocalDate
     var endDate: LocalDate? = null
+    private var invalidStyle: String
+    private var invalidColor: Int
 
     init {
-        attributes = context.obtainStyledAttributes(attr, R.styleable.DateFormatterTextView)
+        val attributes = context.obtainStyledAttributes(attr, R.styleable.DateFormatterTextView)
+        invalidStyle = attributes.getString(R.styleable.DateFormatterTextView_invalidStyle)
+        invalidColor = attributes.getColor(R.styleable.DateFormatterTextView_invalidColor, 0x000000)
+        attributes.recycle()
     }
 
     fun setDate(startDate: LocalDate, endDate: LocalDate? = null) {
-        val invalidStyle = attributes.getString(R.styleable.DateFormatterTextView_invalidStyle)
-        val invalidColor = attributes.getColor(R.styleable.DateFormatterTextView_invalidColor, 0x000000)
-        attributes.recycle()
         this.startDate = startDate
         this.endDate = endDate
         val currentDate = LocalDate.now()
-        val startDateFormatted = DateFormatUtils.formatLocalDateToMMMdBasedOnLocale(startDate)
+        val startDateFormatted = LocaleBasedDateFormatUtils.localDateToMMMd(this.startDate)
         val spanBuilder = SpannableBuilder()
 
         if (startDate.isBefore(currentDate)) {
@@ -39,7 +39,7 @@ class DateFormatterTextView(context: Context, attr: AttributeSet): TextView(cont
         }
 
         endDate?.let {
-            val endDateFormatted = DateFormatUtils.formatLocalDateToMMMdBasedOnLocale(endDate)
+            val endDateFormatted = LocaleBasedDateFormatUtils.localDateToMMMd(endDate)
             if (it.isBefore(currentDate)) {
                 spanBuilder.append("  -  " + endDateFormatted, getTypeface(invalidStyle),
                         ForegroundColorSpan(invalidColor))
