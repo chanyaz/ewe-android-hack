@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.SslErrorHandler;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
 
@@ -299,6 +300,17 @@ public class WebViewFragment extends DialogFragment {
 	@SuppressLint("NewApi")
 	private void constructWebView() {
 		mWebView = new WebView(getActivity());
+
+		mWebView.setWebChromeClient(new WebChromeClient() {
+			@Override
+			public void onProgressChanged(WebView view, int newProgress) {
+				mWebView.loadUrl("javascript:(function() { " +
+					"if (header = document.getElementsByClassName('site-header-primary')[0]) {" +
+					"header.parentElement.removeChild(header);" +
+					"}" +
+					"})()");
+			}
+		});
 
 		mWebView.getSettings().setJavaScriptEnabled(true);
 		mWebView.getSettings().setLoadWithOverviewMode(true);
