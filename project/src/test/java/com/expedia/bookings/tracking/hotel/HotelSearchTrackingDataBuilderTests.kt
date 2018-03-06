@@ -63,6 +63,9 @@ class HotelSearchTrackingDataBuilderTests {
         assertFalse(trackingData.pinnedHotelSoldOut)
 
         assertFalse(trackingData.hasSoldOutHotel)
+
+        assertEquals(0, trackingData.airAttachedCount)
+        assertEquals(0, trackingData.memberOnlyDealsCount)
     }
 
     @Test
@@ -105,6 +108,9 @@ class HotelSearchTrackingDataBuilderTests {
         assertFalse(trackingData.pinnedHotelSoldOut)
 
         assertTrue(trackingData.hasSoldOutHotel)
+
+        assertEquals(0, trackingData.airAttachedCount)
+        assertEquals(0, trackingData.memberOnlyDealsCount)
     }
 
     @Test
@@ -146,6 +152,9 @@ class HotelSearchTrackingDataBuilderTests {
         assertFalse(trackingData.pinnedHotelSoldOut)
 
         assertFalse(trackingData.hasSoldOutHotel)
+
+        assertEquals(0, trackingData.airAttachedCount)
+        assertEquals(0, trackingData.memberOnlyDealsCount)
     }
 
     @Test
@@ -187,6 +196,9 @@ class HotelSearchTrackingDataBuilderTests {
         assertFalse(trackingData.pinnedHotelSoldOut)
 
         assertFalse(trackingData.hasSoldOutHotel)
+
+        assertEquals(0, trackingData.airAttachedCount)
+        assertEquals(0, trackingData.memberOnlyDealsCount)
     }
 
     @Test
@@ -228,6 +240,9 @@ class HotelSearchTrackingDataBuilderTests {
         assertFalse(trackingData.pinnedHotelSoldOut)
 
         assertFalse(trackingData.hasSoldOutHotel)
+
+        assertEquals(0, trackingData.airAttachedCount)
+        assertEquals(0, trackingData.memberOnlyDealsCount)
     }
 
     @Test
@@ -270,6 +285,9 @@ class HotelSearchTrackingDataBuilderTests {
         assertFalse(trackingData.pinnedHotelSoldOut)
 
         assertFalse(trackingData.hasSoldOutHotel)
+
+        assertEquals(0, trackingData.airAttachedCount)
+        assertEquals(0, trackingData.memberOnlyDealsCount)
     }
 
     @Test
@@ -312,6 +330,53 @@ class HotelSearchTrackingDataBuilderTests {
         assertFalse(trackingData.pinnedHotelSoldOut)
 
         assertFalse(trackingData.hasSoldOutHotel)
+
+        assertEquals(0, trackingData.airAttachedCount)
+        assertEquals(0, trackingData.memberOnlyDealsCount)
+    }
+
+    @Test
+    fun testAirAttachedMemberOnlyDealCount() {
+        val params = createSearchParams()
+        val response = getHotelSearchResponse("src/test/resources/raw/hotel/hotel_happy_search_air_attached_member_deal_response.json")
+        trackingDataBuilder.searchParams(params)
+        trackingDataBuilder.searchResponse(response)
+
+        val trackingData = trackingDataBuilder.build()
+
+        assertEquals("Chicago", trackingData.city)
+        assertEquals("IL", trackingData.stateProvinceCode)
+        assertEquals("USA", trackingData.countryCode)
+
+        assertEquals("gaiaId", trackingData.region)
+        assertEquals("fullName", trackingData.freeFormRegion)
+        assertEquals("178248", trackingData.searchRegionId)
+
+        assertEquals(LocalDate().plusDays(1), trackingData.checkInDate)
+        assertEquals(LocalDate().plusDays(2), trackingData.checkoutDate)
+
+        assertEquals(3, trackingData.numberOfGuests)
+        assertEquals(1, trackingData.numberOfAdults)
+        assertEquals(2, trackingData.numberOfChildren)
+
+        assertEquals("1", trackingData.searchWindowDays)
+        assertEquals(1, trackingData.duration)
+
+        assertTrue(trackingData.resultsReturned)
+        assertEquals("6", trackingData.numberOfResults)
+        assertTrue(trackingData.hasSponsoredListingPresent)
+        assertEquals("639.51", trackingData.lowestHotelTotalPrice)
+        assertEquals(6, trackingData.hotels.count())
+
+        assertFalse(trackingData.swpEnabled)
+
+        assertFalse(trackingData.hasPinnedHotel)
+        assertFalse(trackingData.pinnedHotelSoldOut)
+
+        assertFalse(trackingData.hasSoldOutHotel)
+
+        assertEquals(2, trackingData.airAttachedCount)
+        assertEquals(3, trackingData.memberOnlyDealsCount)
     }
 
     private fun createSuggestion(gaiaId: String? = "gaiaId",

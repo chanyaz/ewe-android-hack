@@ -67,6 +67,20 @@ class HotelSearchTrackingDataBuilder : AbstractTrackingDataBuilder<HotelSearchTr
             trackingData.pinnedHotelSoldOut = trackingData.hasPinnedHotel && searchResponse.hotelList[0].isSoldOut
 
             trackingData.hasSoldOutHotel = haveSoldOutProperties(hotelList)
+
+            var airAttachedCount = 0
+            var memberOnlyDealsCount = 0
+            for (hotel in hotelList) {
+                if (hotel.lowRateInfo?.airAttached == true) {
+                    airAttachedCount++
+                }
+                if (hotel.isMemberDeal) {
+                    memberOnlyDealsCount++
+                }
+            }
+
+            trackingData.airAttachedCount = airAttachedCount
+            trackingData.memberOnlyDealsCount = memberOnlyDealsCount
         }
     }
 

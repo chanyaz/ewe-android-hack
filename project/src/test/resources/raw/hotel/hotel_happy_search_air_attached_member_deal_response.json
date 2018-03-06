@@ -1,0 +1,863 @@
+{
+  "numberOfRoomsRequested": 1,
+  "filterUnavailableHotelsRequested": true,
+  "totalHotelCount": 120,
+  "availableHotelCount": 45,
+  "searchRegionId": "178248",
+  "searchRegionCity": "Chicago (and vicinity)",
+  "deepLinkUrl": "https://www.expedia.co.uk/Chicago-Hotels.d178248.Travel-Guide-Hotels",
+  "hotelList": [{
+    "sortIndex": "0",
+    "hotelId": "23963",
+    "name": "The Talbott Hotel",
+    "localizedName": "The Talbott Hotel",
+    "nonLocalizedName": "The Talbott Hotel",
+    "address": "20 E Delaware Pl",
+    "city": "Chicago",
+    "stateProvinceCode": "IL",
+    "countryCode": "USA",
+    "countryName": "United States of America",
+    "postalCode": "60611",
+    "airportCode": "ORD",
+    "supplierType": "MERCHANT",
+    "hotelStarRating": "4.0",
+    "hotelStarRatingCssClassName": "4-0",
+    "hotelGuestRating": "0.0",
+    "totalRecommendations": "0",
+    "percentRecommended": "0",
+    "totalReviews": "0",
+    "shortDescription": "Located in Near North Side, this boutique hotel is within a 10-minute walk of John Hancock Center and Chicago Water Tower. Tribune Tower and Wrigley Building are also within 1 mi (2 km). ",
+    "locationDescription": "Magnificent Mile",
+    "locationId": "800025",
+    "lowRate": "232.35",
+    "lowRateInfo": {
+      "maxNightlyRate": "232.35",
+      "averageRate": "232.35",
+      "taxStatusType": "ESTIMATED",
+      "surchargeTotal": "0.00",
+      "surchargeTotalForEntireStay": "0.00",
+      "surchargesWithoutPropertyFee": "0.00",
+      "surchargesWithoutPropertyFeeForEntireStay": "0.00",
+      "averageBaseRate": "232.35",
+      "nightlyRateTotal": "929.40",
+      "discountPercent": 0,
+      "total": "929.38",
+      "currencyCode": "GBP",
+      "currencySymbol": "£",
+      "surcharges": [],
+      "surchargesForEntireStay": [],
+      "nightlyRatesPerRoom": [{
+        "promo": "false",
+        "baseRate": "232.35",
+        "rate": "232.35"
+      }, {
+        "promo": "false",
+        "baseRate": "232.35",
+        "rate": "232.35"
+      }, {
+        "promo": "false",
+        "baseRate": "232.35",
+        "rate": "232.35"
+      }, {
+        "promo": "false",
+        "baseRate": "232.35",
+        "rate": "232.35"
+      }],
+      "priceToShowUsers": "929",
+      "strikethroughPriceWithTaxesAndFeesToShowUsers": "929",
+      "totalMandatoryFees": "0.00",
+      "totalPriceWithMandatoryFees": "929.38",
+      "formattedTotalPriceWithMandatoryFees": "£ 929.38",
+      "userPriceType": "RateForWholeStayWithTaxes",
+      "priceAdjustments": [],
+      "checkoutPriceType": "total",
+      "airAttached": true,
+      "roomTypeCode": "201969717",
+      "ratePlanCode": "210016795",
+      "showResortFeeMessage": false,
+      "resortFeeInclusion": false
+    },
+    "rateCurrencyCode": "GBP",
+    "rateCurrencySymbol": "£",
+    "roomsLeftAtThisRate": "24",
+    "latitude": "41.89919",
+    "longitude": "-87.62756",
+    "proximityDistanceInMiles": "1.2728402734617776",
+    "proximityDistanceInKiloMeters": "2.048",
+    "largeThumbnailUrl": "/hotels/1000000/30000/24000/23963/23963_146_d.jpg",
+    "thumbnailUrl": "/hotels/1000000/30000/24000/23963/23963_146_n.jpg",
+    "discountMessage": "",
+    "isDiscountRestrictedToCurrentSourceType": false,
+    "isSameDayDRR": false,
+    "isHotelAvailable": true,
+    "notAvailableMessage": "",
+    "isSponsoredListing": true,
+    "clickTrackingUrl": "https://travelads.hlserve.com/TravelAdsService/v3/Hotels/TravelAdClick?trackingData\u003dCmp-pEW9vYjLnQ2xQ7AZh8w/v3dqBE6dFwMkyhZhHGuD3xMR947pignyoYdaSqdvfw8nbipbvqvVySBJmt8cX02YAFDB/8Gg+kweRZhfBb5jc8GDuHJNGR05GK8U/7XKP2IjUQ2aNbr5DgJMdIYQu7VsZZRyVpotQzy7AIclc0SoFMROA3vsxu3Mdj2l+RwFvnfgqAGyp7iJ4nPE176Xbvj6ASTNWSJ23Ffim9rVVVpJP6wK1ijQJDZ3IkMlE3zpsFnYnkKkBVdjusAVxd6qROdo8BebzatJuYqzlSe5GTdqCCFY/zNt6EcFjy9UVkb3WdlMWu/ZuwurrUCX8UjEsT6vfaAECOwru57VdtVbPS5Inw9jufXZCJnrD7alXiLmNldaNroMzldtywohGYbCtT5pwVzv4q3yIsrOXbjJQFAE/3CyQ6gLKdC0hbYBRrczdpQzTX+oDJfufwtAi98jxQ4Tae3fbEO1dtFgtsNEU3JkqBF+klCsC/2Lsl0AqkAbwsvWZ0o5bHbKooHuLT3ozsB1xQJlwvtGx33N4fgp56FCk57j3rGD69QAfoZbGwEi9GPK6sGKbB3Yeo8+5gPTnEfrqvpnMPSb7ag2JPWCG+7w9JPxKZQasPluKxgtWAQVVW+XPxlUDXSOECyXcRAE4AAmdLIJV8ZXsZ6cvFqXduS8yADUaP0A6PMm9+pktVzpMedY/7UQTDsX8lLonwGyDL+KhanDZ4iMSQ+a9VaaPyqF3orz8Ku+kIGdyQRiyOevo7mI4MFsIZSasNevQroy+65qZid00SKxdzWk8Qphu4iuKLn3Am9UhsfQnR2e8AjdpNecnJak3Kok62PJHouvfaG9JhHL2w7GNXgafnSs57+ZAS60EHhtP5H2q6ywT2vPqWDhtqLJrQXzy0h5bACn+pXj5BkQdHSIdHQv6tu5mSc7PXq/wHAdP46k8Cwf214hFwlHQ5tgVbQfKMKTrrCky2SQAzUksHuZmH5+Qk7jb7MRNaJFkzSQ9GCgYgOQ6GMKPDMmJx4k0LkHwZvYHXEhGNdolZ6CTXoH6lrD9tC6Sun/kx0\u003d\u0026rank\u003d1\u0026testVersionOverride\u003d12564.49548.1%2C13487.51625.0\u0026candidateHmGuid\u003d607c7d20-5c42-4d88-b149-ffe9e7bde27f\u0026beaconIssued\u003d2017-05-12T19:16:08",
+    "clickTrackingRedirectUrl": "https://travelads.hlserve.com/TravelAdsService/v3/Hotels/TravelAdClickRedirect?trackingData\u003dCmp-pEW9vYjLnQ2xQ7AZh8w/v3dqBE6dFwMkyhZhHGuD3xMR947pignyoYdaSqdvfw8nbipbvqvVySBJmt8cX02YAFDB/8Gg+kweRZhfBb5jc8GDuHJNGR05GK8U/7XKP2IjUQ2aNbr5DgJMdIYQu7VsZZRyVpotQzy7AIclc0SoFMROA3vsxu3Mdj2l+RwFvnfgqAGyp7iJ4nPE176Xbvj6ASTNWSJ23Ffim9rVVVpJP6wK1ijQJDZ3IkMlE3zpsFnYnkKkBVdjusAVxd6qROdo8BebzatJuYqzlSe5GTdqCCFY/zNt6EcFjy9UVkb3WdlMWu/ZuwurrUCX8UjEsT6vfaAECOwru57VdtVbPS5Inw9jufXZCJnrD7alXiLmNldaNroMzldtywohGYbCtT5pwVzv4q3yIsrOXbjJQFAE/3CyQ6gLKdC0hbYBRrczdpQzTX+oDJfufwtAi98jxQ4Tae3fbEO1dtFgtsNEU3JkqBF+klCsC/2Lsl0AqkAbwsvWZ0o5bHbKooHuLT3ozsB1xQJlwvtGx33N4fgp56FCk57j3rGD69QAfoZbGwEi9GPK6sGKbB3Yeo8+5gPTnEfrqvpnMPSb7ag2JPWCG+7w9JPxKZQasPluKxgtWAQVVW+XPxlUDXSOECyXcRAE4AAmdLIJV8ZXsZ6cvFqXduS8yADUaP0A6PMm9+pktVzpMedY/7UQTDsX8lLonwGyDL+KhanDZ4iMSQ+a9VaaPyqF3orz8Ku+kIGdyQRiyOevo7mI4MFsIZSasNevQroy+65qZid00SKxdzWk8Qphu4iuKLn3Am9UhsfQnR2e8AjdpNecnJak3Kok62PJHouvfaG9JhHL2w7GNXgafnSs57+ZAS60EHhtP5H2q6ywT2vPqWDhtqLJrQXzy0h5bACn+pXj5BkQdHSIdHQv6tu5mSc7PXq/wHAdP46k8Cwf214hFwlHQ5tgVbQfKMKTrrCky2SQAzUksHuZmH5+Qk7jb7MRNaJFkzSQ9GCgYgOQ6GMKPDMmJx4k0LkHwZvYHXEhGNdolZ6CTXoH6lrD9tC6Sun/kx0\u003d\u0026rank\u003d1\u0026testVersionOverride\u003d12564.49548.1%2C13487.51625.0\u0026destinationUrl\u003d[destinationUrl]\u0026candidateHmGuid\u003d607c7d20-5c42-4d88-b149-ffe9e7bde27f\u0026beaconIssued\u003d2017-05-12T19:16:08",
+    "impressionTrackingUrl": "https://travelads.hlserve.com/TravelAdsService/v3/Hotels/TravelAdImpression?trackingData\u003dCmp-pEW9vYjLnQ2xQ7AZh8w/v3dqBE6dFwMkyhZhHGuD3xMR947pignyoYdaSqdvfw8nbipbvqvVySBJmt8cX02YAFDB/8Gg+kweRZhfBb5jc8GDuHJNGR05GK8U/7XKP2IjUQ2aNbr5DgJMdIYQu7VsZZRyVpotQzy7AIclc0SoFMROA3vsxu3Mdj2l+RwFvnfgqAGyp7iJ4nPE176Xbvj6ASTNWSJ23Ffim9rVVVpJP6wK1ijQJDZ3IkMlE3zpsFnYnkKkBVdjusAVxd6qROdo8BebzatJuYqzlSe5GTdqCCFY/zNt6EcFjy9UVkb3WdlMWu/ZuwurrUCX8UjEsT6vfaAECOwru57VdtVbPS5Inw9jufXZCJnrD7alXiLmNldaNroMzldtywohGYbCtT5pwVzv4q3yIsrOXbjJQFAE/3CyQ6gLKdC0hbYBRrczdpQzTX+oDJfufwtAi98jxQ4Tae3fbEO1dtFgtsNEU3JkqBF+klCsC/2Lsl0AqkAbwsvWZ0o5bHbKooHuLT3ozsB1xQJlwvtGx33N4fgp56FCk57j3rGD69QAfoZbGwEi9GPK6sGKbB3Yeo8+5gPTnEfrqvpnMPSb7ag2JPWCG+7w9JPxKZQasPluKxgtWAQVVW+XPxlUDXSOECyXcRAE4AAmdLIJV8ZXsZ6cvFqXduS8yADUaP0A6PMm9+pktVzpMedY/7UQTDsX8lLonwGyDL+KhanDZ4iMSQ+a9VaaPyqF3orz8Ku+kIGdyQRiyOevo7mI4MFsIZSasNevQroy+65qZid00SKxdzWk8Qphu4iuKLn3Am9UhsfQnR2e8AjdpNecnJak3Kok62PJHouvfaG9JhHL2w7GNXgafnSs57+ZAS60EHhtP5H2q6ywT2vPqWDhtqLJrQXzy0h5bACn+pXj5BkQdHSIdHQv6tu5mSc7PXq/wHAdP46k8Cwf214hFwlHQ5tgVbQfKMKTrrCky2SQAzUksHuZmH5+Qk7jb7MRNaJFkzSQ9GCgYgOQ6GMKPDMmJx4k0LkHwZvYHXEhGNdolZ6CTXoH6lrD9tC6Sun/kx0\u003d\u0026rank\u003d1\u0026testVersionOverride\u003d12564.49548.1%2C13487.51625.0\u0026candidateHmGuid\u003d607c7d20-5c42-4d88-b149-ffe9e7bde27f\u0026beaconIssued\u003d2017-05-12T19:16:08",
+    "omnitureAdDisplayedUrl": "447?AQB\u003d1\u0026v28\u003dTravelAdImp|23963|0|Test\u0026c16\u003dTravelAdImp|23963|0|Test\u0026events\u003devent44\u0026pe\u003dlnk_o\u0026pev2\u003dAPE:Sponsored%20listing%20impression\u0026AQE\u003d1",
+    "omnitureAdClickedUrl": "447?AQB\u003d1\u0026v28\u003dTravelAdClick|23963|0|Test\u0026c16\u003dTravelAdClick|23963|0|Test\u0026pe\u003dlnk_o\u0026pev1\u003dD\u003durl\u0026pev2\u003dSponsored%20Listing%20Click\u0026AQE\u003d1",
+    "hasFreeCancellation": false,
+    "distanceUnit": "Miles",
+    "didGetBackHighestPriceFromSurvey": false,
+    "isDudley": false,
+    "isVipAccess": false,
+    "isPaymentChoiceAvailable": false,
+    "isShowEtpChoice": false,
+    "jsonHotelBrand": {
+      "brandId": "2090",
+      "brandName": "Destination Hotels"
+    },
+    "isMemberDeal": false,
+    "shortDiscountMessage": "",
+    "isMobileExclusive": false,
+    "fallbackImage": "/hotels/1000000/30000/24000/23963/ff17d439_t.jpg"
+  }, {
+    "sortIndex": "1",
+    "hotelId": "17809",
+    "name": "PUBLIC Chicago",
+    "localizedName": "PUBLIC Chicago",
+    "nonLocalizedName": "PUBLIC Chicago",
+    "address": "1301 N State Pkwy",
+    "city": "Chicago",
+    "stateProvinceCode": "IL",
+    "countryCode": "USA",
+    "countryName": "United States of America",
+    "postalCode": "60610",
+    "airportCode": "ORD",
+    "supplierType": "MERCHANT",
+    "hotelStarRating": "4.0",
+    "hotelStarRatingCssClassName": "4-0",
+    "hotelGuestRating": "4.2",
+    "totalRecommendations": "1132",
+    "percentRecommended": "83",
+    "totalReviews": "1356",
+    "shortDescription": "PUBLIC Chicago is 2 blocks from Lake Michigan beaches, 3 blocks from Rush Street restaurants and nightlife, and a half-mile from Magnificent Mile shops.",
+    "locationDescription": "Magnificent Mile",
+    "locationId": "800025",
+    "lowRate": "216.55",
+    "lowRateInfo": {
+      "maxNightlyRate": "216.55",
+      "averageRate": "216.55",
+      "taxStatusType": "ESTIMATED",
+      "surchargeTotal": "0.00",
+      "surchargeTotalForEntireStay": "0.00",
+      "surchargesWithoutPropertyFee": "0.00",
+      "surchargesWithoutPropertyFeeForEntireStay": "0.00",
+      "averageBaseRate": "216.55",
+      "nightlyRateTotal": "866.20",
+      "discountPercent": 0,
+      "total": "866.13",
+      "currencyCode": "GBP",
+      "currencySymbol": "£",
+      "surcharges": [],
+      "surchargesForEntireStay": [],
+      "nightlyRatesPerRoom": [{
+        "promo": "false",
+        "baseRate": "216.55",
+        "rate": "216.55"
+      }, {
+        "promo": "false",
+        "baseRate": "216.55",
+        "rate": "216.55"
+      }, {
+        "promo": "false",
+        "baseRate": "216.55",
+        "rate": "216.55"
+      }, {
+        "promo": "false",
+        "baseRate": "216.55",
+        "rate": "216.55"
+      }],
+      "priceToShowUsers": "866",
+      "strikethroughPriceWithTaxesAndFeesToShowUsers": "914",
+      "totalMandatoryFees": "0.00",
+      "totalPriceWithMandatoryFees": "866.13",
+      "formattedTotalPriceWithMandatoryFees": "£ 866.13",
+      "userPriceType": "RateForWholeStayWithTaxes",
+      "priceAdjustments": [],
+      "checkoutPriceType": "total",
+      "airAttached": false,
+      "roomTypeCode": "201753137",
+      "ratePlanCode": "208706713",
+      "showResortFeeMessage": false,
+      "resortFeeInclusion": false
+    },
+    "rateCurrencyCode": "GBP",
+    "rateCurrencySymbol": "£",
+    "roomsLeftAtThisRate": "43",
+    "latitude": "41.905853",
+    "longitude": "-87.628334",
+    "proximityDistanceInMiles": "1.7327532628962088",
+    "proximityDistanceInKiloMeters": "2.788",
+    "largeThumbnailUrl": "/hotels/1000000/20000/17900/17809/b4aefac0_d.jpg",
+    "thumbnailUrl": "/hotels/1000000/20000/17900/17809/b4aefac0_n.jpg",
+    "discountMessage": "",
+    "isDiscountRestrictedToCurrentSourceType": false,
+    "isSameDayDRR": false,
+    "isHotelAvailable": true,
+    "notAvailableMessage": "",
+    "isSponsoredListing": false,
+    "hasFreeCancellation": false,
+    "distanceUnit": "Miles",
+    "didGetBackHighestPriceFromSurvey": false,
+    "isDudley": false,
+    "isVipAccess": true,
+    "isPaymentChoiceAvailable": false,
+    "isShowEtpChoice": false,
+    "jsonHotelBrand": {
+      "brandId": "0",
+      "brandName": "Independent"
+    },
+    "isMemberDeal": true,
+    "shortDiscountMessage": "",
+    "isMobileExclusive": false
+  }, {
+    "sortIndex": "2",
+    "hotelId": "23963",
+    "name": "The Talbott Hotel",
+    "localizedName": "The Talbott Hotel",
+    "nonLocalizedName": "The Talbott Hotel",
+    "address": "20 E Delaware Pl",
+    "city": "Chicago",
+    "stateProvinceCode": "IL",
+    "countryCode": "USA",
+    "countryName": "United States of America",
+    "postalCode": "60611",
+    "airportCode": "ORD",
+    "supplierType": "MERCHANT",
+    "hotelStarRating": "4.0",
+    "hotelStarRatingCssClassName": "4-0",
+    "hotelGuestRating": "0.0",
+    "totalRecommendations": "0",
+    "percentRecommended": "0",
+    "totalReviews": "0",
+    "shortDescription": "Located in Near North Side, this boutique hotel is within a 10-minute walk of John Hancock Center and Chicago Water Tower. Tribune Tower and Wrigley Building are also within 1 mi (2 km). ",
+    "locationDescription": "Magnificent Mile",
+    "locationId": "800025",
+    "lowRate": "232.35",
+    "lowRateInfo": {
+      "maxNightlyRate": "232.35",
+      "averageRate": "232.35",
+      "taxStatusType": "ESTIMATED",
+      "surchargeTotal": "0.00",
+      "surchargeTotalForEntireStay": "0.00",
+      "surchargesWithoutPropertyFee": "0.00",
+      "surchargesWithoutPropertyFeeForEntireStay": "0.00",
+      "averageBaseRate": "232.35",
+      "nightlyRateTotal": "929.40",
+      "discountPercent": 0,
+      "total": "929.38",
+      "currencyCode": "GBP",
+      "currencySymbol": "£",
+      "surcharges": [],
+      "surchargesForEntireStay": [],
+      "nightlyRatesPerRoom": [{
+        "promo": "false",
+        "baseRate": "232.35",
+        "rate": "232.35"
+      }, {
+        "promo": "false",
+        "baseRate": "232.35",
+        "rate": "232.35"
+      }, {
+        "promo": "false",
+        "baseRate": "232.35",
+        "rate": "232.35"
+      }, {
+        "promo": "false",
+        "baseRate": "232.35",
+        "rate": "232.35"
+      }],
+      "priceToShowUsers": "929",
+      "strikethroughPriceWithTaxesAndFeesToShowUsers": "929",
+      "totalMandatoryFees": "0.00",
+      "totalPriceWithMandatoryFees": "929.38",
+      "formattedTotalPriceWithMandatoryFees": "£ 929.38",
+      "userPriceType": "RateForWholeStayWithTaxes",
+      "priceAdjustments": [],
+      "checkoutPriceType": "total",
+      "airAttached": false,
+      "roomTypeCode": "201969717",
+      "ratePlanCode": "210016795",
+      "showResortFeeMessage": false,
+      "resortFeeInclusion": false
+    },
+    "rateCurrencyCode": "GBP",
+    "rateCurrencySymbol": "£",
+    "roomsLeftAtThisRate": "24",
+    "latitude": "41.89919",
+    "longitude": "-87.62756",
+    "proximityDistanceInMiles": "1.2728402734617776",
+    "proximityDistanceInKiloMeters": "2.048",
+    "largeThumbnailUrl": "/hotels/1000000/30000/24000/23963/ff17d439_d.jpg",
+    "thumbnailUrl": "/hotels/1000000/30000/24000/23963/ff17d439_n.jpg",
+    "discountMessage": "",
+    "isDiscountRestrictedToCurrentSourceType": false,
+    "isSameDayDRR": false,
+    "isHotelAvailable": true,
+    "notAvailableMessage": "",
+    "isSponsoredListing": false,
+    "hasFreeCancellation": false,
+    "distanceUnit": "Miles",
+    "didGetBackHighestPriceFromSurvey": false,
+    "isDudley": false,
+    "isVipAccess": false,
+    "isPaymentChoiceAvailable": false,
+    "isShowEtpChoice": false,
+    "jsonHotelBrand": {
+      "brandId": "2090",
+      "brandName": "Destination Hotels"
+    },
+    "isMemberDeal": false,
+    "shortDiscountMessage": "",
+    "isMobileExclusive": false
+  }, {
+    "sortIndex": "3",
+    "hotelId": "20695",
+    "name": "Park Hyatt - Chicago",
+    "localizedName": "Park Hyatt - Chicago",
+    "nonLocalizedName": "Park Hyatt - Chicago",
+    "address": "800 N Michigan Ave",
+    "city": "Chicago",
+    "stateProvinceCode": "IL",
+    "countryCode": "USA",
+    "countryName": "United States of America",
+    "postalCode": "60611",
+    "airportCode": "MDW",
+    "supplierType": "MERCHANT",
+    "hotelStarRating": "5.0",
+    "hotelStarRatingCssClassName": "5-0",
+    "hotelGuestRating": "4.8",
+    "totalRecommendations": "319",
+    "percentRecommended": "95",
+    "totalReviews": "336",
+    "shortDescription": "Located in Gold Coast, this luxury hotel is steps from Museum of Contemporary Art and Chicago Water Tower. John Hancock Center and Tribune Tower are also within 10 minutes. ",
+    "locationDescription": "Magnificent Mile",
+    "locationId": "800025",
+    "lowRate": "383.93",
+    "lowRateInfo": {
+      "maxNightlyRate": "383.93",
+      "averageRate": "383.93",
+      "taxStatusType": "ESTIMATED",
+      "surchargeTotal": "0.00",
+      "surchargeTotalForEntireStay": "0.00",
+      "surchargesWithoutPropertyFee": "0.00",
+      "surchargesWithoutPropertyFeeForEntireStay": "0.00",
+      "averageBaseRate": "383.93",
+      "nightlyRateTotal": "1535.72",
+      "discountPercent": 0,
+      "total": "1535.71",
+      "currencyCode": "GBP",
+      "currencySymbol": "£",
+      "surcharges": [],
+      "surchargesForEntireStay": [],
+      "nightlyRatesPerRoom": [{
+        "promo": "false",
+        "baseRate": "383.93",
+        "rate": "383.93"
+      }, {
+        "promo": "false",
+        "baseRate": "383.93",
+        "rate": "383.93"
+      }, {
+        "promo": "false",
+        "baseRate": "383.93",
+        "rate": "383.93"
+      }, {
+        "promo": "false",
+        "baseRate": "383.93",
+        "rate": "383.93"
+      }],
+      "priceToShowUsers": "1536",
+      "strikethroughPriceWithTaxesAndFeesToShowUsers": "1536",
+      "totalMandatoryFees": "0.00",
+      "totalPriceWithMandatoryFees": "1535.71",
+      "formattedTotalPriceWithMandatoryFees": "£ 1,535.71",
+      "userPriceType": "RateForWholeStayWithTaxes",
+      "priceAdjustments": [],
+      "checkoutPriceType": "total",
+      "airAttached": false,
+      "roomTypeCode": "201300512",
+      "ratePlanCode": "206295542",
+      "showResortFeeMessage": false,
+      "resortFeeInclusion": false
+    },
+    "rateCurrencyCode": "GBP",
+    "rateCurrencySymbol": "£",
+    "roomsLeftAtThisRate": "1",
+    "latitude": "41.896724",
+    "longitude": "-87.625069",
+    "proximityDistanceInMiles": "1.113113735239279",
+    "proximityDistanceInKiloMeters": "1.791",
+    "largeThumbnailUrl": "/hotels/1000000/30000/20700/20695/454f35b8_d.jpg",
+    "thumbnailUrl": "/hotels/1000000/30000/20700/20695/454f35b8_n.jpg",
+    "discountMessage": "",
+    "isDiscountRestrictedToCurrentSourceType": false,
+    "isSameDayDRR": false,
+    "isHotelAvailable": true,
+    "notAvailableMessage": "",
+    "isSponsoredListing": false,
+    "hasFreeCancellation": false,
+    "amenities": [{
+      "id": "2192",
+      "description": "Free Wireless Internet"
+    }],
+    "distanceUnit": "Miles",
+    "didGetBackHighestPriceFromSurvey": false,
+    "isDudley": false,
+    "isVipAccess": false,
+    "isPaymentChoiceAvailable": false,
+    "isShowEtpChoice": false,
+    "jsonHotelBrand": {
+      "brandId": "65",
+      "brandName": "Hyatt Hotels"
+    },
+    "isMemberDeal": true,
+    "shortDiscountMessage": "",
+    "isMobileExclusive": false
+  }, {
+    "sortIndex": "4",
+    "hotelId": "6452",
+    "name": "Congress Plaza Hotel",
+    "localizedName": "Congress Plaza Hotel",
+    "nonLocalizedName": "Congress Plaza Hotel",
+    "address": "520 South Michigan Avenue",
+    "city": "Chicago",
+    "stateProvinceCode": "IL",
+    "countryCode": "USA",
+    "countryName": "United States of America",
+    "postalCode": "60605",
+    "airportCode": "ORD",
+    "supplierType": "MERCHANT",
+    "hotelStarRating": "3.0",
+    "hotelStarRatingCssClassName": "3-0",
+    "hotelGuestRating": "3.5",
+    "totalRecommendations": "128",
+    "percentRecommended": "74",
+    "totalReviews": "174",
+    "shortDescription": "Built in 1893, this downtown Chicago hotel offers a convenient location across from Grant Park and close to Lake Michigan.",
+    "locationDescription": "The Loop",
+    "locationId": "800024",
+    "lowRate": "159.88",
+    "lowRateInfo": {
+      "maxNightlyRate": "159.88",
+      "averageRate": "159.88",
+      "taxStatusType": "ESTIMATED",
+      "surchargeTotal": "0.00",
+      "surchargeTotalForEntireStay": "0.00",
+      "surchargesWithoutPropertyFee": "0.00",
+      "surchargesWithoutPropertyFeeForEntireStay": "0.00",
+      "averageBaseRate": "159.88",
+      "nightlyRateTotal": "639.52",
+      "discountPercent": 0,
+      "total": "639.51",
+      "currencyCode": "GBP",
+      "currencySymbol": "£",
+      "surcharges": [],
+      "surchargesForEntireStay": [],
+      "nightlyRatesPerRoom": [{
+        "promo": "false",
+        "baseRate": "159.88",
+        "rate": "159.88"
+      }, {
+        "promo": "false",
+        "baseRate": "159.88",
+        "rate": "159.88"
+      }, {
+        "promo": "false",
+        "baseRate": "159.88",
+        "rate": "159.88"
+      }, {
+        "promo": "false",
+        "baseRate": "159.88",
+        "rate": "159.88"
+      }],
+      "priceToShowUsers": "640",
+      "strikethroughPriceWithTaxesAndFeesToShowUsers": "675",
+      "totalMandatoryFees": "0.00",
+      "totalPriceWithMandatoryFees": "639.51",
+      "formattedTotalPriceWithMandatoryFees": "£ 639.51",
+      "userPriceType": "RateForWholeStayWithTaxes",
+      "priceAdjustments": [],
+      "checkoutPriceType": "total",
+      "airAttached": false,
+      "roomTypeCode": "24455",
+      "ratePlanCode": "25290",
+      "showResortFeeMessage": false,
+      "resortFeeInclusion": false
+    },
+    "rateCurrencyCode": "GBP",
+    "rateCurrencySymbol": "£",
+    "roomsLeftAtThisRate": "73",
+    "latitude": "41.875231",
+    "longitude": "-87.624334",
+    "proximityDistanceInMiles": "0.43008079552517087",
+    "proximityDistanceInKiloMeters": "0.692",
+    "largeThumbnailUrl": "/hotels/1000000/10000/6500/6452/6452_60_d.jpg",
+    "thumbnailUrl": "/hotels/1000000/10000/6500/6452/6452_60_n.jpg",
+    "discountMessage": "",
+    "isDiscountRestrictedToCurrentSourceType": false,
+    "isSameDayDRR": false,
+    "isHotelAvailable": true,
+    "notAvailableMessage": "",
+    "isSponsoredListing": false,
+    "hasFreeCancellation": true,
+    "amenities": [{
+      "id": "2191",
+      "description": "Free High-Speed Internet"
+    }, {
+      "id": "2192",
+      "description": "Free Wireless Internet"
+    }],
+    "distanceUnit": "Miles",
+    "didGetBackHighestPriceFromSurvey": false,
+    "isDudley": false,
+    "isVipAccess": false,
+    "isPaymentChoiceAvailable": true,
+    "isShowEtpChoice": true,
+    "jsonHotelBrand": {
+      "brandId": "0",
+      "brandName": "Independent"
+    },
+    "isMemberDeal": false,
+    "shortDiscountMessage": "",
+    "isMobileExclusive": false
+  }, {
+    "sortIndex": "5",
+    "hotelId": "151139",
+    "name": "Hyatt Centric Chicago Magnificent Mile",
+    "localizedName": "Hyatt Centric Chicago Magnificent Mile",
+    "nonLocalizedName": "Hyatt Centric Chicago Magnificent Mile",
+    "address": "633 N Saint Clair St",
+    "city": "Chicago",
+    "stateProvinceCode": "IL",
+    "countryCode": "USA",
+    "countryName": "United States of America",
+    "postalCode": "60611",
+    "airportCode": "ORD",
+    "supplierType": "DIRECT_AGENCY",
+    "hotelStarRating": "4.0",
+    "hotelStarRatingCssClassName": "4-0",
+    "hotelGuestRating": "4.4",
+    "totalRecommendations": "6266",
+    "percentRecommended": "90",
+    "totalReviews": "6924",
+    "shortDescription": "This smoke-free 17-story hotel is 1 block from North Michigan Avenue\u0027s boutique and specialty stores, 3 blocks from Lake Michigan, 6 blocks from the State \u0026 Grand subway station (Red Line), and 7 blocks from the Navy Pier entertainment center.",
+    "locationDescription": "Magnificent Mile",
+    "locationId": "800025",
+    "lowRate": "233.16",
+    "lowRateInfo": {
+      "maxNightlyRate": "233.16",
+      "averageRate": "233.16",
+      "taxStatusType": "ESTIMATED",
+      "surchargeTotal": "0.00",
+      "surchargeTotalForEntireStay": "0.00",
+      "surchargesWithoutPropertyFee": "0.00",
+      "surchargesWithoutPropertyFeeForEntireStay": "0.00",
+      "averageBaseRate": "233.16",
+      "nightlyRateTotal": "932.64",
+      "discountPercent": 0,
+      "total": "932.64",
+      "currencyCode": "GBP",
+      "currencySymbol": "£",
+      "surcharges": [],
+      "surchargesForEntireStay": [],
+      "nightlyRatesPerRoom": [{
+        "promo": "false",
+        "baseRate": "233.16",
+        "rate": "233.16"
+      }, {
+        "promo": "false",
+        "baseRate": "233.16",
+        "rate": "233.16"
+      }, {
+        "promo": "false",
+        "baseRate": "233.16",
+        "rate": "233.16"
+      }, {
+        "promo": "false",
+        "baseRate": "233.16",
+        "rate": "233.16"
+      }],
+      "priceToShowUsers": "933",
+      "strikethroughPriceWithTaxesAndFeesToShowUsers": "933",
+      "totalMandatoryFees": "0.00",
+      "totalPriceWithMandatoryFees": "932.64",
+      "formattedTotalPriceWithMandatoryFees": "£ 932.64",
+      "userPriceType": "RateForWholeStayWithTaxes",
+      "priceAdjustments": [],
+      "checkoutPriceType": "total",
+      "airAttached": true,
+      "roomTypeCode": "200188714",
+      "ratePlanCode": "201076900",
+      "showResortFeeMessage": false,
+      "resortFeeInclusion": false
+    },
+    "rateCurrencyCode": "GBP",
+    "rateCurrencySymbol": "£",
+    "roomsLeftAtThisRate": "10",
+    "latitude": "41.894148",
+    "longitude": "-87.62253",
+    "proximityDistanceInMiles": "0.9676817899316346",
+    "proximityDistanceInKiloMeters": "1.557",
+    "largeThumbnailUrl": "/hotels/1000000/160000/151200/151139/dc2f687f_d.jpg",
+    "thumbnailUrl": "/hotels/1000000/160000/151200/151139/dc2f687f_n.jpg",
+    "discountMessage": "",
+    "isDiscountRestrictedToCurrentSourceType": false,
+    "isSameDayDRR": false,
+    "isHotelAvailable": true,
+    "notAvailableMessage": "",
+    "isSponsoredListing": false,
+    "hasFreeCancellation": true,
+    "amenities": [{
+      "id": "2192",
+      "description": "Free Wireless Internet"
+    }],
+    "distanceUnit": "Miles",
+    "didGetBackHighestPriceFromSurvey": false,
+    "isDudley": false,
+    "isVipAccess": false,
+    "isPaymentChoiceAvailable": true,
+    "isShowEtpChoice": true,
+    "jsonHotelBrand": {
+      "brandId": "65",
+      "brandName": "Hyatt Hotels"
+    },
+    "isMemberDeal": true,
+    "shortDiscountMessage": "",
+    "isMobileExclusive": false
+  }],
+  "travelAdsSlotsConfiguration": {},
+  "allNeighborhoodsInSearchRegion": [{
+    "name": "Chicago (and vicinity)",
+    "id": 178248
+  }, {
+    "name": "Bolingbrook",
+    "id": 6350700
+  }, {
+    "name": "Chicago Midway Airport (MDW)",
+    "id": 6059326
+  }, {
+    "name": "Chicago O\u0027Hare International Airport (ORD)",
+    "id": 800023
+  }, {
+    "name": "Evanston",
+    "id": 6059333
+  }, {
+    "name": "Gurnee",
+    "id": 6059332
+  }, {
+    "name": "Itasca",
+    "id": 6350696
+  }, {
+    "name": "Joliet",
+    "id": 6350698
+  }, {
+    "name": "Lakeview",
+    "id": 178166
+  }, {
+    "name": "Lincoln Park",
+    "id": 6059328
+  }, {
+    "name": "Lombard",
+    "id": 6351997
+  }, {
+    "name": "Magnificent Mile",
+    "id": 800025
+  }, {
+    "name": "Naperville",
+    "id": 6350690
+  }, {
+    "name": "North Suburbs",
+    "id": 6059336
+  }, {
+    "name": "Oak Brook",
+    "id": 6059329
+  }, {
+    "name": "Schaumburg",
+    "id": 6059335
+  }, {
+    "name": "South Loop",
+    "id": 6130108
+  }, {
+    "name": "South Suburbs",
+    "id": 6264251
+  }, {
+    "name": "The Loop",
+    "id": 800024
+  }, {
+    "name": "Western Suburbs",
+    "id": 6059325
+  }],
+  "filteredSearchMatchedNoHotels": false,
+  "amenityFilterOptions": {
+    "66": {
+      "isAccessible": "false",
+      "filterName": "Free airport transportation",
+      "filterNumOccurrences": "70"
+    },
+    "69": {
+      "isAccessible": "false",
+      "filterName": "Babysitting service",
+      "filterNumOccurrences": "19"
+    },
+    "71": {
+      "isAccessible": "false",
+      "filterName": "Children\u0027s club",
+      "filterNumOccurrences": "5"
+    },
+    "7": {
+      "isAccessible": "false",
+      "filterName": "Swimming pool",
+      "filterNumOccurrences": "341"
+    },
+    "72": {
+      "isAccessible": "false",
+      "filterName": "Childcare",
+      "filterNumOccurrences": "1"
+    },
+    "9": {
+      "isAccessible": "false",
+      "filterName": "Restaurant in hotel",
+      "filterNumOccurrences": "271"
+    },
+    "11": {
+      "isAccessible": "false",
+      "filterName": "Fitness equipment",
+      "filterNumOccurrences": "491"
+    },
+    "12": {
+      "isAccessible": "false",
+      "filterName": "Business services",
+      "filterNumOccurrences": "477"
+    },
+    "13": {
+      "isAccessible": "false",
+      "filterName": "Room service",
+      "filterNumOccurrences": "235"
+    },
+    "14": {
+      "isAccessible": "false",
+      "filterName": "Free parking",
+      "filterNumOccurrences": "474"
+    },
+    "2158": {
+      "isAccessible": "false",
+      "filterName": "Kitchen",
+      "filterNumOccurrences": "206"
+    },
+    "15": {
+      "isAccessible": "false",
+      "filterName": "Spa services on site",
+      "filterNumOccurrences": "49"
+    },
+    "16": {
+      "isAccessible": "false",
+      "filterName": "Free breakfast",
+      "filterNumOccurrences": "335"
+    },
+    "17": {
+      "isAccessible": "false",
+      "filterName": "Pets allowed (conditions apply)",
+      "filterNumOccurrences": "269"
+    },
+    "18": {
+      "isAccessible": "false",
+      "filterName": "Free newspaper",
+      "filterNumOccurrences": "395"
+    },
+    "19": {
+      "isAccessible": "false",
+      "filterName": "High-speed Internet",
+      "filterNumOccurrences": "660"
+    },
+    "312": {
+      "isAccessible": "false",
+      "filterName": "Kitchenette",
+      "filterNumOccurrences": "20"
+    },
+    "58": {
+      "isAccessible": "true",
+      "filterName": "Accessible bathroom",
+      "filterNumOccurrences": "474"
+    },
+    "26": {
+      "isAccessible": "false",
+      "filterName": "Hair dryer",
+      "filterNumOccurrences": "516"
+    },
+    "27": {
+      "isAccessible": "false",
+      "filterName": "Air conditioning",
+      "filterNumOccurrences": "747"
+    },
+    "62": {
+      "isAccessible": "true",
+      "filterName": "In-room accessibility",
+      "filterNumOccurrences": "484"
+    },
+    "63": {
+      "isAccessible": "true",
+      "filterName": "Roll-in shower",
+      "filterNumOccurrences": "389"
+    }
+  },
+  "starOptions": [{
+    "starRating": 0,
+    "count": 0
+  }, {
+    "starRating": 5,
+    "count": 0
+  }, {
+    "starRating": 10,
+    "count": 14
+  }, {
+    "starRating": 15,
+    "count": 0
+  }, {
+    "starRating": 20,
+    "count": 288
+  }, {
+    "starRating": 25,
+    "count": 0
+  }, {
+    "starRating": 30,
+    "count": 343
+  }, {
+    "starRating": 35,
+    "count": 0
+  }, {
+    "starRating": 40,
+    "count": 126
+  }, {
+    "starRating": 45,
+    "count": 0
+  }, {
+    "starRating": 50,
+    "count": 7
+  }],
+  "priceOptions": [{
+    "minPrice": "0",
+    "maxPrice": "50",
+    "count": 43
+  }, {
+    "minPrice": "50",
+    "maxPrice": "99",
+    "count": 55
+  }, {
+    "minPrice": "100",
+    "maxPrice": "149",
+    "count": 28
+  }, {
+    "minPrice": "150",
+    "maxPrice": "224",
+    "count": 26
+  }, {
+    "minPrice": "225",
+    "maxPrice": "0",
+    "count": 34
+  }],
+  "activityId": "735a0b0c-3375-452b-aeae-8e2aac2bd846",
+  "pageViewBeaconPixelUrl": "https://beam.hlserve.com/travel?action\u003dpageview\u0026programId\u003d1\u0026domain\u003dwww.expedia.co.uk\u0026culture\u003den-GB\u0026publisher\u003dexpedia\u0026pageName\u003d\u0026rooms\u003d1\u0026destRegionId\u003d178248\u0026publisherUserGuid\u003dc662d476-0f00-43a2-945a-eeca6c3a16ea\u0026userIP\u003d198.151.53.10\u0026userAgent\u003dExpediaBookings%2F17.20.0+%28EHad%3B+Mobiata%29\u0026checkIn\u003d2018-05-07\u0026checkOut\u003d2018-05-11\u0026hotelIds\u003d23963,17809,23963,20695,6452,151139,18312112,7374,16212,17903,6435554,26076,15937,11237372,581213,9845524,9069667,49985,10465099,6309326,886306,25748,11062225,1850638,1669633\u0026adults\u003d1\u0026children\u003d0\u0026deviceType\u003dApp-Phone\u0026expediaPageName\u003dpage.mobile.MobileLPASHotelSearchController\u0026testVersion\u003d11141.44405.1%2C12564.49548.1%2C13487.51625.0"
+}

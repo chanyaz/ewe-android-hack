@@ -9,6 +9,7 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withEventsString
+import com.expedia.bookings.test.OmnitureMatchers.Companion.withProps
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingData
@@ -164,7 +165,7 @@ class OmnitureTrackingHotelTest {
         trackPageLoadHotelV2Infosite(hotelOffersResponse = hotelOffersResponse,
                 isETPEligible = false, isCurrentLocationSearch = false, isHotelSoldOut = false,
                 isRoomSoldOut = false, pageLoadTimeData = pageLoadTimeData, swpEnabled = false)
-        assertStateTracked(withEventsString("event3,event220,event221=0.00,event57"), mockAnalyticsProvider)
+        assertStateTracked(withEventsString("event3,event220,event221=0.00,event57,event132,event152"), mockAnalyticsProvider)
     }
 
     @Test
@@ -228,6 +229,36 @@ class OmnitureTrackingHotelTest {
 
         OmnitureTracking.trackHotelsV2Search(trackingData)
         assertStateTracked(withEventsString("event12,event51,event220,event221=1.0"), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testResultsTrackEventsAirAttached() {
+        val trackingData = searchTrackingData()
+        trackingData.airAttachedCount = 1
+
+        OmnitureTracking.trackHotelsV2Search(trackingData)
+        assertStateTracked(withEventsString("event12,event51,event132,event152"), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testResultsTrackProp68() {
+        val trackingData = searchTrackingData()
+
+        OmnitureTracking.trackHotelsV2Search(trackingData)
+        assertStateTracked(withProps(mapOf(68 to "HOTMIP.N.MDEALS.N")), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testResultsTrackProp68WithAirAttachedMemberDeals() {
+        val trackingData = searchTrackingData()
+        trackingData.airAttachedCount = 1
+        trackingData.memberOnlyDealsCount = 2
+
+        OmnitureTracking.trackHotelsV2Search(trackingData)
+        assertStateTracked(withProps(mapOf(68 to "HOTMIP.Y1.MDEALS.Y2")), mockAnalyticsProvider)
     }
 
     private fun trackPageLoadHotelV2Infosite(hotelOffersResponse: HotelOffersResponse, isETPEligible: Boolean,

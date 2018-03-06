@@ -624,9 +624,31 @@ public class OmnitureTracking {
 			s.setProp(16, sponsoredListingPresent);
 		}
 
+		StringBuilder prop68Sb = new StringBuilder("");
+		if (searchTrackingData.getAirAttachedCount() > 0) {
+			prop68Sb.append("HOTMIP.Y");
+			prop68Sb.append(searchTrackingData.getAirAttachedCount());
+		}
+		else {
+			prop68Sb.append("HOTMIP.N");
+		}
+		prop68Sb.append(".");
+		if (searchTrackingData.getMemberOnlyDealsCount() > 0) {
+			prop68Sb.append("MDEALS.Y");
+			prop68Sb.append(searchTrackingData.getMemberOnlyDealsCount());
+		}
+		else {
+			prop68Sb.append("MDEALS.N");
+		}
+		s.setProp(68, prop68Sb.toString());
+
 		s.appendEvents("event12,event51");
 		if (searchTrackingData.getSwpEnabled()) {
 			s.appendEvents("event118");
+		}
+
+		if (searchTrackingData.getAirAttachedCount() > 0) {
+			s.appendEvents("event132,event152");
 		}
 
 		String products = getSearchResultsHotelProductStrings(searchTrackingData.getHotels());
@@ -889,7 +911,7 @@ public class OmnitureTracking {
 				products += ";;;;eVar66=Flight:Hotel Infosite X-Sell";
 				s.setProducts(products);
 
-				s.appendEvents("event57");
+				s.appendEvents("event57,event132,event152");
 			}
 		}
 
