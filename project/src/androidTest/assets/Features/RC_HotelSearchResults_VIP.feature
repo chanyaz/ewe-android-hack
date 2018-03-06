@@ -1,6 +1,6 @@
 Feature: +VIP labels and functionality on HSR and HIS pages
 
-  @Prod @RC_HotelSearchResults
+  @Prod @RC_HotelSearchResults_VIP
   Scenario Outline: Validate VIP label presence, based on the user tier type
     Given I launch the App
     And I tap on "Account" tab

@@ -43,8 +43,8 @@ import com.expedia.bookings.test.pagemodels.lx.LXScreen
 import com.expedia.bookings.test.pagemodels.common.LogInScreen
 import com.expedia.bookings.test.pagemodels.common.LaunchScreen
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
-import com.expedia.bookings.test.pagemodels.trips.TripsScreen
 import com.expedia.bookings.test.Settings
+import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen
 import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen
 import com.expedia.bookings.test.pagemodels.hotels.HotelSortAndFilterScreen
@@ -154,8 +154,7 @@ class PlayStoreScreenshotSweep {
     private fun signInUser() {
         LaunchScreen.tripsButton().perform(click())
 
-        TripsScreen.clickOnLogInButton()
-
+        LogInScreen.signInWithExpediaButton().perform(waitForViewToDisplay(), click())
         LogInScreen.typeTextEmailEditText("deepanshu11madan@gmail.com")
         LogInScreen.typeTextPasswordEditText("fwefw")
         LogInScreen.clickOnLoginButton()
@@ -173,7 +172,7 @@ class PlayStoreScreenshotSweep {
     private fun takeItinScreens() {
         LaunchScreen.tripsButton().perform(click())
 
-        TripsScreen.clickOnLogInButton()
+        LogInScreen.signInWithExpediaButton().perform(waitForViewToDisplay(), click())
 
         LogInScreen.typeTextEmailEditText("qa-ehcc@mobiata.com")
         LogInScreen.typeTextPasswordEditText("e3trefwfw")
