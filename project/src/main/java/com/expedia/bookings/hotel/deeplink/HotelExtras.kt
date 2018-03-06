@@ -5,6 +5,7 @@ class HotelExtras {
         const val LANDING_PAGE = "extraLandingPage"
         const val EXTRA_HOTEL_SEARCH_PARAMS = "hotelSearchParams"
         const val EXTRA_HOTEL_SELECTED_ID = "hotelSelectedId"
+        const val EXTRA_HOTEL_TRACK_REVIEWS = "hotelTrackReviews"
 
         const val GALLERY_CONFIG = "hotelGalleryParcelable"
         const val GALLERY_SCROLL_POSITION = "hotelGalleryScrollPosition"

@@ -9,6 +9,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.hotel.util.HotelInfoManager
+import com.expedia.bookings.hotel.util.HotelReviewsDataProvider
 import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.hotel.util.HotelSearchParamsProvider
 import com.expedia.bookings.presenter.hotel.HotelDetailPresenter
@@ -32,11 +33,16 @@ class HotelDetailsActivity : AppCompatActivity() {
     lateinit var hotelSearchParamProvider: HotelSearchParamsProvider
         @Inject set
 
+    lateinit var hotelReviewsDataProvider: HotelReviewsDataProvider
+        @Inject set
+
     lateinit var hotelSearchManager: HotelSearchManager
         @Inject set
 
     lateinit var hotelInfoManager: HotelInfoManager
         @Inject set
+
+    private var trackReviewsPageLoad = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -123,8 +129,7 @@ class HotelDetailsActivity : AppCompatActivity() {
             presenter.hotelDetailView.refresh()
             hotelDetailViewModel.addViewsAfterTransition()
             presenter.hotelMapView.viewmodel.offersObserver.onNext(response)
-
-//            reviewsView.viewModel.resetTracking() todo https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/10380
+            trackReviewsPageLoad = true
         }
 
         hotelDetailViewModel.roomSelectedSubject.subscribe {
@@ -156,8 +161,10 @@ class HotelDetailsActivity : AppCompatActivity() {
 //            searchPresenter.searchViewModel.datesUpdated(dates.first, dates.second)
         }
 
-        // todo https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/10380
-//        hotelDetailViewModel.reviewsDataObservable.subscribe(reviewsOfferObserver)
+        hotelDetailViewModel.reviewsDataObservable.subscribe { hotelOfferResponse ->
+            showHotelReviews(hotelOfferResponse)
+            trackReviewsPageLoad = false
+        }
 
         presenter
     }
@@ -175,5 +182,14 @@ class HotelDetailsActivity : AppCompatActivity() {
         val intent = Intent(this, HotelSearchActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    private fun showHotelReviews(hotelOfferResponse: HotelOffersResponse) {
+        // TODO this is to avoid passing it in a bundle. ReviewsVM just needs 3 pieces of data.
+        // TODO Ideally, we'd just pass in these and refactor ReviewsVM without breaking packages and existing presenter path
+        hotelReviewsDataProvider.hotelOffersResponse = hotelOfferResponse
+        val intent = Intent(this, HotelReviewsActivity::class.java)
+        intent.putExtra(HotelExtras.EXTRA_HOTEL_TRACK_REVIEWS, trackReviewsPageLoad)
+        startActivity(intent)
     }
 }

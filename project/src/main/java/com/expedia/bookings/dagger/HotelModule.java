@@ -1,11 +1,14 @@
 package com.expedia.bookings.dagger;
 
+import javax.inject.Named;
+
 import android.content.Context;
 
 import com.expedia.bookings.dagger.tags.HotelScope;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.payment.PaymentModel;
 import com.expedia.bookings.hotel.util.HotelInfoManager;
+import com.expedia.bookings.hotel.util.HotelReviewsDataProvider;
 import com.expedia.bookings.hotel.util.HotelSearchManager;
 import com.expedia.bookings.hotel.util.HotelSearchParamsProvider;
 import com.expedia.bookings.server.EndpointProvider;
@@ -26,14 +29,12 @@ import com.expedia.vm.interfaces.IBucksViewModel;
 import com.expedia.vm.interfaces.IPayWithPointsViewModel;
 import com.expedia.vm.interfaces.IPaymentWidgetViewModel;
 
-import javax.inject.Named;
-
 import dagger.Module;
 import dagger.Provides;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
 
 @Module
 public final class HotelModule {
@@ -142,6 +143,12 @@ public final class HotelModule {
 	@HotelScope
 	HotelSearchParamsProvider provideHotelSearchParamsProvider() {
 		return new HotelSearchParamsProvider();
+	}
+
+	@Provides
+	@HotelScope
+	HotelReviewsDataProvider provideHotelReviewsDataProvider() {
+		return new HotelReviewsDataProvider();
 	}
 
 	@Provides
