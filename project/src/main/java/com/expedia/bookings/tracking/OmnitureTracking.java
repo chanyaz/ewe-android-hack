@@ -2676,6 +2676,7 @@ public class OmnitureTracking {
 
 	public static void trackHotelItinPricingRewardsClick() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_PRICING_REWARDS);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsHotelPricing);
 		s.trackLink("Itinerary Action");
 	}
 

@@ -650,6 +650,14 @@
             android:summary="%s"
             android:title="Trips - Hotel Review - 24499" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="25068"
+            android:summary="%s"
+            android:title="Trips - Hotel Pricing and Rewards - 25068" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
