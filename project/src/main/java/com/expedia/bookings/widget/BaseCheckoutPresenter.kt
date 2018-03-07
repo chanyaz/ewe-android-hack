@@ -129,7 +129,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     }
 
     /** viewmodels **/
-    protected fun setUpPaymentViewModel() {
+    protected fun setupPaymentViewModel() {
         paymentWidget.viewmodel = getPaymentWidgetViewModel()
         paymentWidget.viewmodel.paymentTypeWarningHandledByCkoView.onNext(true)
         paymentWidget.viewmodel.lineOfBusiness.onNext(getLineOfBusiness())
@@ -258,9 +258,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         View.inflate(context, R.layout.base_checkout_presenter, this)
         injectComponents()
         travelerManager = Ui.getApplication(context).travelerComponent().travelerManager()
-        setUpPaymentViewModel()
-        setUpViewModels()
-        setUpDialogs()
+        setupPaymentViewModel()
+        setupViewModels()
+        setupDialogs()
         setupClickListeners()
     }
 
@@ -270,11 +270,11 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         addTransition(getDefaultToTravelerTransition())
         addTransition(defaultToPayment)
         setupKeyboardListeners()
-        setUpErrorMessaging()
-        initLoggedInState(userStateManager.isUserAuthenticated())
+        setupErrorMessaging()
+        setupViewsFromAuthenticationState(userStateManager.isUserAuthenticated())
     }
 
-    private fun setUpViewModels() {
+    private fun setupViewModels() {
         ckoViewModel = makeCheckoutViewModel()
         tripViewModel = makeCreateTripViewModel()
         getCreateTripViewModel().createTripResponseObservable.filter { it.value != null }.subscribe(getCheckoutViewModel().createTripResponseObservable)
@@ -286,20 +286,24 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         paymentWidget.viewmodel.toolbarNavIconFocusObservable.subscribe(getCheckoutViewModel().toolbarNavIconFocusObservable)
     }
 
-    private fun initLoggedInState(isUserLoggedIn: Boolean) {
+    private fun setupViewsFromAuthenticationState(isUserAuthenticated: Boolean) {
         val user = userStateManager.userSource.user
 
-        loginWidget.bind(false, isUserLoggedIn, user, getLineOfBusiness())
-        hintContainer.visibility = if (isUserLoggedIn) View.GONE else View.VISIBLE
-        travelersPresenter.onLogin(isUserLoggedIn)
-        paymentWidget.viewmodel.userLogin.onNext(isUserLoggedIn)
-        if (isUserLoggedIn) {
-            val lp = loginWidget.layoutParams as LinearLayout.LayoutParams
-            lp.bottomMargin = resources.getDimension(R.dimen.card_view_container_margin).toInt()
+        loginWidget.bind(false, isUserAuthenticated, user, getLineOfBusiness())
+        hintContainer.visibility = if (isUserAuthenticated) View.GONE else View.VISIBLE
+        travelersPresenter.onUserAuthenticationStateChanged(isUserAuthenticated)
+        paymentWidget.viewmodel.userAuthenticationState.onNext(isUserAuthenticated)
+        if (isUserAuthenticated) {
+            adjustLoginWidgetBottomMarginWhenHintIsHidden()
         }
     }
 
-    private fun setUpDialogs() {
+    private fun adjustLoginWidgetBottomMarginWhenHintIsHidden() {
+        val lp = loginWidget.layoutParams as LinearLayout.LayoutParams
+        lp.bottomMargin = resources.getDimensionPixelSize(R.dimen.card_view_container_margin)
+    }
+
+    private fun setupDialogs() {
         createTripDialog.setCancelable(false)
         createTripDialog.isIndeterminate = true
         checkoutDialog.setMessage(resources.getString(R.string.booking_loading))
@@ -319,7 +323,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         travelerLayoutListener = makeKeyboardListener(travelersPresenter.travelerEntryWidget, 0)
     }
 
-    private fun setUpErrorMessaging() {
+    private fun setupErrorMessaging() {
         ObservableOld.combineLatest(
                 paymentWidget.viewmodel.showingPaymentForm,
                 paymentWidget.viewmodel.invalidPaymentTypeWarning,
@@ -464,7 +468,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         userStateManager.signOut()
         updateDbTravelers()
         ckoViewModel.bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
-        initLoggedInState(false)
+        setupViewsFromAuthenticationState(false)
         updateTravelerPresenter()
         tripViewModel.performCreateTrip.onNext(Unit)
     }
@@ -472,7 +476,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     fun onLoginSuccess() {
         updateDbTravelers()
         tripViewModel.performCreateTrip.onNext(Unit)
-        initLoggedInState(true)
+        setupViewsFromAuthenticationState(true)
         ckoViewModel.bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
     }
 

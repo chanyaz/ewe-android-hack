@@ -209,7 +209,7 @@ class PackageCheckoutTest {
     @Test
     fun testLoggedInUserPaymentStatusMultipleCards() {
         val testUserLoggedIn = TestObserver<Boolean>()
-        checkout.paymentWidget.viewmodel.userLogin.subscribe(testUserLoggedIn)
+        checkout.paymentWidget.viewmodel.userAuthenticationState.subscribe(testUserLoggedIn)
         createTrip()
 
         val testUser = User()
@@ -234,7 +234,7 @@ class PackageCheckoutTest {
     @Test
     fun testLoggedInUserPaymentStatusNoValidCards() {
         val testUserLoggedIn = TestObserver<Boolean>()
-        checkout.paymentWidget.viewmodel.userLogin.subscribe(testUserLoggedIn)
+        checkout.paymentWidget.viewmodel.userAuthenticationState.subscribe(testUserLoggedIn)
         createTrip()
 
         val testUser = User()
@@ -259,7 +259,7 @@ class PackageCheckoutTest {
     @Test
     fun testGuestPaymentInfoClearedAfterUserLogsIn() {
         val testUserLoggedIn = TestObserver<Boolean>()
-        checkout.paymentWidget.viewmodel.userLogin.subscribe(testUserLoggedIn)
+        checkout.paymentWidget.viewmodel.userAuthenticationState.subscribe(testUserLoggedIn)
 
         createTrip()
         enterValidTraveler()

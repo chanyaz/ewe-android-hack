@@ -148,7 +148,7 @@ class BillingDetailsPaymentWidgetTest {
     @RunForBrands(brands = [(MultiBrand.EXPEDIA)])
     fun testSavePromptDisplayed() {
         UserLoginTestUtil.setupUserAndMockLogin(getUserWithStoredCard())
-        billingDetailsPaymentWidget.viewmodel.userLogin.onNext(true)
+        billingDetailsPaymentWidget.viewmodel.userAuthenticationState.onNext(true)
         completelyFillBillingInfo()
         billingDetailsPaymentWidget.sectionBillingInfo.billingInfo.storedCard = StoredCreditCard()
         billingDetailsPaymentWidget.cardInfoContainer.performClick()

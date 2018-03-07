@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--This has a hardcoded string FYI-->
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout android:id="@+id/hint_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"

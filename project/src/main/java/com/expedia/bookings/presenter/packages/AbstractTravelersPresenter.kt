@@ -193,9 +193,9 @@ abstract class AbstractTravelersPresenter(context: Context, attrs: AttributeSet)
         travelerPickerWidget.viewModel.refreshStatusObservable.onNext(Unit)
     }
 
-    fun onLogin(isLoggedIn: Boolean) {
+    fun onUserAuthenticationStateChanged(isUserAuthenticated: Boolean) {
         resetTravelers()
-        travelerEntryWidget.emailEntryView.visibility = if (isLoggedIn) GONE else VISIBLE
+        travelerEntryWidget.emailEntryView.visibility = if (isUserAuthenticated) GONE else VISIBLE
         viewModel.refresh()
     }
 

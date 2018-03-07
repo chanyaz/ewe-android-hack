@@ -151,10 +151,10 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             storedCreditCardList.updateAdapter()
         }
 
-        vm.userLogin.subscribe { isLoggedIn ->
-            if (isLoggedIn) {
+        vm.userAuthenticationState.subscribe { isUserAuthenticated ->
+            if (isUserAuthenticated) {
                 clearPaymentInfo()
-                vm.selectCorrectCardObservable.onNext(isLoggedIn)
+                vm.selectCorrectCardObservable.onNext(isUserAuthenticated)
             }
         }
 

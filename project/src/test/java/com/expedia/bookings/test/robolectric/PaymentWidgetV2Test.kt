@@ -260,7 +260,7 @@ class PaymentWidgetV2Test {
         sut.populateCardholderName()
         assertEquals("Lee Bob", sut.creditCardName.text.toString())
 
-        viewModel.userLogin.onNext(true)
+        viewModel.userAuthenticationState.onNext(true)
         assertEquals("", sut.creditCardName.text.toString())
 
         firstNameEditText.setText("Joe")

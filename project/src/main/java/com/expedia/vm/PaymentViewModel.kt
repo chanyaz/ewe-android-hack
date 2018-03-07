@@ -53,7 +53,7 @@ open class PaymentViewModel(val context: Context) {
     val cardBIN = BehaviorSubject.createDefault<String>("")
     val resetCardFees = PublishSubject.create<Unit>()
     val moveFocusToPostalCodeSubject = PublishSubject.create<Unit>()
-    val userLogin = PublishSubject.create<Boolean>()
+    val userAuthenticationState = PublishSubject.create<Boolean>()
     val isCreditCardRequired = BehaviorSubject.createDefault<Boolean>(false)
     val isZipValidationRequired = BehaviorSubject.createDefault<Boolean>(false)
     val lineOfBusiness = BehaviorSubject.createDefault<LineOfBusiness>(LineOfBusiness.HOTELS)
@@ -171,8 +171,8 @@ open class PaymentViewModel(val context: Context) {
             resetCardFees.onNext(Unit)
         }
 
-        userLogin.subscribe { isLoggedIn ->
-            if (!isLoggedIn) {
+        userAuthenticationState.subscribe { isUserAuthenticated ->
+            if (!isUserAuthenticated) {
                 storedCardRemoved.onNext(Optional(null))
             }
         }

@@ -873,7 +873,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 		loginWidget.bind(false, true, user, getLineOfBusiness());
 		mainContactInfoCardView.onLogin();
-		paymentInfoCardView.getViewmodel().getUserLogin().onNext(true);
+		paymentInfoCardView.getViewmodel().getUserAuthenticationState().onNext(true);
 		hintContainer.setVisibility(GONE);
 		show(new CheckoutDefault());
 		doCreateTripAndScrollToCheckout();
@@ -909,7 +909,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		userStateManager.signOut();
 		showProgress(true);
 		mainContactInfoCardView.onLogout();
-		paymentInfoCardView.getViewmodel().getUserLogin().onNext(false);
+		paymentInfoCardView.getViewmodel().getUserAuthenticationState().onNext(false);
 		hintContainer.setVisibility(VISIBLE);
 		showCheckout();
 	}
