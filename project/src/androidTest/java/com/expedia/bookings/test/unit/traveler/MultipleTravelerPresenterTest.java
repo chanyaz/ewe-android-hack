@@ -55,7 +55,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 
 	@Test
 	public void testTravelerPickerIOB() throws Throwable {
-		uiThreadTestRule.runOnUiThread(new Runnable() {
+		activityTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				TravelersViewModel mockViewModel = getMockViewModelEmptyTravelers(3);
@@ -113,7 +113,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 
 	@Test
 	public void testIncompleteTravelerState() throws Throwable {
-		uiThreadTestRule.runOnUiThread(new Runnable() {
+		activityTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				mockViewModel = getMockViewModelIncompleteTravelers(2);
@@ -146,7 +146,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 
 		TravelerDetails.enterFirstName(testFirstName);
 
-		uiThreadTestRule.runOnUiThread(new Runnable() {
+		activityTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				testTravelersPresenter.onDoneClicked();
@@ -157,7 +157,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		TravelerDetails.enterLastName(testLastName);
 		EspressoUser.scrollToView(R.id.edit_email_address);
 		TravelerDetails.enterEmail(testEmail);
-		uiThreadTestRule.runOnUiThread(new Runnable() {
+		activityTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				testTravelersPresenter.onDoneClicked();
@@ -169,7 +169,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 	@Test
 	public void testEmptyChildInfantTraveler() throws Throwable {
 		final List<Integer> children = Arrays.asList(1);
-		uiThreadTestRule.runOnUiThread(new Runnable() {
+		activityTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				mockViewModel = getMockViewModelEmptyTravelersWithInfant(2, children, true);
@@ -188,7 +188,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 	@Test
 	public void testInvalidChildInfantTraveler() throws Throwable {
 		final List<Integer> children = Arrays.asList(1);
-		uiThreadTestRule.runOnUiThread(new Runnable() {
+		activityTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				mockViewModel = getMockViewModelEmptyTravelersWithInfant(2, children, true);
@@ -213,7 +213,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 	@Test
 	public void testValidChildInfantTraveler() throws Throwable {
 		final List<Integer> children = Arrays.asList(1);
-		uiThreadTestRule.runOnUiThread(new Runnable() {
+		activityTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				mockViewModel = getMockViewModelEmptyTravelersWithInfant(2, children, true);
@@ -236,7 +236,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 	@Test
 	public void testValidChildTravelers() throws Throwable {
 		final List<Integer> children = Arrays.asList(10);
-		uiThreadTestRule.runOnUiThread(new Runnable() {
+		activityTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				mockViewModel = getMockViewModelEmptyTravelersWithInfant(2, children, false);
@@ -258,7 +258,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 	@Test
 	public void testInvalidChildTravelers() throws Throwable {
 		final List<Integer> children = Arrays.asList(10);
-		uiThreadTestRule.runOnUiThread(new Runnable() {
+		activityTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				mockViewModel = getMockViewModelEmptyTravelersWithInfant(2, children, false);
@@ -308,7 +308,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 
 	@Test
 	public void testPassportIndependent() throws Throwable {
-		uiThreadTestRule.runOnUiThread(new Runnable() {
+		activityTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				mockViewModel = getMockViewModelValidTravelers(2);
@@ -339,7 +339,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 	}
 
 	private void travelerPresenterBack() throws Throwable {
-		uiThreadTestRule.runOnUiThread(new Runnable() {
+		activityTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				testTravelersPresenter.back();
@@ -352,7 +352,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 
-		uiThreadTestRule.runOnUiThread(new Runnable() {
+		activityTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				testTravelersPresenter.getTravelerEntryWidget().onAddNewTravelerSelected();
@@ -367,7 +367,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 	}
 
 	private void setViewModelForMiAge(final boolean mainTravelerMinAge) throws Throwable {
-		uiThreadTestRule.runOnUiThread(new Runnable() {
+		activityTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				TravelersViewModel mockViewModel = getMockviewModel(mainTravelerMinAge);

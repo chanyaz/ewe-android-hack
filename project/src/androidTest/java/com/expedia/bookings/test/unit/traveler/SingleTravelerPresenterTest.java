@@ -27,7 +27,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_entry_widget);
 		EspressoUtils.assertViewIsNotDisplayed(R.id.traveler_picker_widget);
 
-		uiThreadTestRule.runOnUiThread(new Runnable() {
+		activityTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				testTravelersPresenter.back();
@@ -97,7 +97,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 	@Test
 	public void testIncompleteTraveler() throws Throwable {
 
-		uiThreadTestRule.runOnUiThread(new Runnable() {
+		activityTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				mockViewModel = getMockViewModelIncompleteTravelers(1);
@@ -116,7 +116,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		setTravelerViewModelForEmptyTravelers(1);
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		TravelerDetails.enterLastName(testLastName);
-		uiThreadTestRule.runOnUiThread(new Runnable() {
+		activityTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				testTravelersPresenter.getViewModel().updateCompletionStatus();
@@ -133,7 +133,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 
-		uiThreadTestRule.runOnUiThread(new Runnable() {
+		activityTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				((FlightTravelerEntryWidgetViewModel) testTravelersPresenter.getTravelerEntryWidget().getViewModel()).getShowPassportCountryObservable().onNext(true);
@@ -156,7 +156,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 
-		uiThreadTestRule.runOnUiThread(new Runnable() {
+		activityTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				((FlightTravelerEntryWidgetViewModel) testTravelersPresenter.getTravelerEntryWidget().getViewModel()).getShowPassportCountryObservable().onNext(true);

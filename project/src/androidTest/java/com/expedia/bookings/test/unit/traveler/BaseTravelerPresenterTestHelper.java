@@ -10,7 +10,6 @@ import org.junit.Rule;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
-import android.support.test.rule.UiThreadTestRule;
 import android.view.View;
 import android.view.ViewStub;
 
@@ -43,9 +42,6 @@ import io.reactivex.observers.DisposableObserver;
 import kotlin.Unit;
 
 public class BaseTravelerPresenterTestHelper {
-
-	@Rule
-	public UiThreadTestRule uiThreadTestRule = new UiThreadTestRule();
 
 	protected AbstractTravelersPresenter testTravelersPresenter;
 	protected TravelerSummaryCard testTravelerDefault;
@@ -102,7 +98,7 @@ public class BaseTravelerPresenterTestHelper {
 		final ViewStub viewStub = (ViewStub) activityTestRule.getRoot().findViewById(R.id.traveler_presenter_stub);
 		testTravelerDefault = (TravelerSummaryCard) activityTestRule.getRoot()
 			.findViewById(R.id.traveler_default_state);
-		uiThreadTestRule.runOnUiThread(new Runnable() {
+		activityTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				testTravelersPresenter = (AbstractTravelersPresenter) viewStub.inflate();
@@ -328,7 +324,7 @@ public class BaseTravelerPresenterTestHelper {
 	}
 
 	protected void setTravelerViewModelForEmptyTravelers(final int travelerCount) throws Throwable {
-		uiThreadTestRule.runOnUiThread(new Runnable() {
+		activityTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				mockViewModel = getMockViewModelEmptyTravelers(travelerCount);
@@ -339,7 +335,7 @@ public class BaseTravelerPresenterTestHelper {
 	}
 
 	protected void setTravelerViewModelForValidTravelers(final int travelerCount) throws Throwable {
-		uiThreadTestRule.runOnUiThread(new Runnable() {
+		activityTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				mockViewModel = getMockViewModelValidTravelers(travelerCount);

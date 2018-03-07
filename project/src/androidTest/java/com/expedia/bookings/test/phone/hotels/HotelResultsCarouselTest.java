@@ -10,18 +10,17 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import android.support.test.espresso.action.ViewActions;
-import android.support.test.rule.UiThreadTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelRate;
+import com.expedia.bookings.hotel.widget.adapter.HotelMapCarouselAdapter;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
 import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.widget.HotelCarouselRecycler;
-import com.expedia.bookings.hotel.widget.adapter.HotelMapCarouselAdapter;
 
 import io.reactivex.subjects.PublishSubject;
 
@@ -36,14 +35,10 @@ public class HotelResultsCarouselTest {
 	@Rule
 	public PlaygroundRule mRule = new PlaygroundRule(R.layout.test_carousel_widget);
 
-	@Rule
-	public UiThreadTestRule uiThreadTestRule = new UiThreadTestRule();
-
-
 	@Before
 	public void setUp() throws Throwable {
 		final HotelCarouselRecycler hotelCarouselRecycler = (HotelCarouselRecycler) mRule.getRoot();
-		uiThreadTestRule.runOnUiThread(new Runnable() {
+		mRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				hotelCarouselRecycler

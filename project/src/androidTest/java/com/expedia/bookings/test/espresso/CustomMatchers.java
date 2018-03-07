@@ -43,7 +43,7 @@ import com.expedia.bookings.widget.accessibility.AccessibleEditText;
 import com.expedia.bookings.widget.flights.FlightListAdapter;
 import com.mobiata.flightlib.data.Airport;
 
-import static android.support.test.espresso.core.deps.guava.base.Preconditions.checkNotNull;
+import static android.support.test.internal.util.Checks.checkNotNull;
 import static org.hamcrest.Matchers.equalTo;
 
 public class CustomMatchers {

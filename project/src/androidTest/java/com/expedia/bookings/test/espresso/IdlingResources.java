@@ -1,7 +1,7 @@
 package com.expedia.bookings.test.espresso;
 
-import android.support.test.espresso.Espresso;
-import android.support.test.espresso.contrib.CountingIdlingResource;
+import android.support.test.espresso.IdlingRegistry;
+import android.support.test.espresso.idling.CountingIdlingResource;
 
 import com.expedia.bookings.otto.Events;
 import com.mobiata.android.Log;
@@ -16,13 +16,13 @@ public class IdlingResources {
 		}
 
 		public void register() {
-			Espresso.registerIdlingResources(resource);
+			IdlingRegistry.getInstance().register(resource);
 			Events.register(this);
 		}
 
 		public void unregister() {
 			Events.unregister(this);
-			Espresso.unregisterIdlingResources(resource);
+			IdlingRegistry.getInstance().unregister(resource);
 		}
 
 	}

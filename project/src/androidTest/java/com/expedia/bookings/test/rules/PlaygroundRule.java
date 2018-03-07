@@ -35,7 +35,7 @@ public class PlaygroundRule extends ActivityTestRule<PlaygroundActivity> {
 
 	@Override
 	protected Intent getActivityIntent() {
-		Intent intent = super.getActivityIntent();
+		Intent intent = new Intent(Intent.ACTION_MAIN);
 		PlaygroundActivity.addData(intent, layout);
 		PlaygroundActivity.addTheme(intent, style);
 		return intent;
