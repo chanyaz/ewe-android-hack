@@ -9,7 +9,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
-import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 
@@ -24,7 +24,7 @@ public class HotelDetailEtpFreeCancellationTest extends HotelTestCase {
 
 	@Test
 	public void testETPHotelWithoutFreeCancellationHavingRenovation() throws Throwable {
-		SearchScreen.doGenericHotelSearch();
+		SearchScreenActions.doGenericHotelSearch();
 		HotelResultsScreen.selectHotel("hotel_etp_renovation_resort");
 		HotelInfoSiteScreen.waitForDetailsLoaded();
 
@@ -35,7 +35,7 @@ public class HotelDetailEtpFreeCancellationTest extends HotelTestCase {
 
 	@Test
 	public void testNonETPHotelWithoutFreeCancellation() throws Throwable {
-		SearchScreen.doGenericHotelSearch();
+		SearchScreenActions.doGenericHotelSearch();
 		HotelResultsScreen.selectHotel("happypath");
 		HotelInfoSiteScreen.waitForDetailsLoaded();
 
@@ -44,7 +44,7 @@ public class HotelDetailEtpFreeCancellationTest extends HotelTestCase {
 
 	@Test
 	public void testNonETPHotelWithFreeCancellation() throws Throwable {
-		SearchScreen.doGenericHotelSearch();
+		SearchScreenActions.doGenericHotelSearch();
 		HotelResultsScreen.selectHotel("hotel_non_etp_with_free_cancellation");
 		HotelInfoSiteScreen.waitForDetailsLoaded();
 

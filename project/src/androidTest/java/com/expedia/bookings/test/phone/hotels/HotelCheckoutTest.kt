@@ -15,7 +15,7 @@ import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.HotelTestCase
 import com.expedia.bookings.test.pagemodels.common.CheckoutScreen
-import com.expedia.bookings.test.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen
 import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen
 import org.junit.Test
@@ -24,7 +24,7 @@ class HotelCheckoutTest : HotelTestCase() {
 
     @Test
     fun testCardNumberClearedAfterCreateTrip() {
-        SearchScreen.doGenericHotelSearch()
+        SearchScreenActions.doGenericHotelSearch()
         HotelResultsScreen.selectHotel("happypath")
         Common.delay(1)
         HotelInfoSiteScreen.bookFirstRoom()
@@ -45,7 +45,7 @@ class HotelCheckoutTest : HotelTestCase() {
 
     @Test
     fun testLoggedInCustomerCanEnterNewTraveler() {
-        SearchScreen.doGenericHotelSearch()
+        SearchScreenActions.doGenericHotelSearch()
         HotelResultsScreen.selectHotel("happypath")
         HotelInfoSiteScreen.bookFirstRoom()
         CheckoutScreen.clickDone()
@@ -73,7 +73,7 @@ class HotelCheckoutTest : HotelTestCase() {
 
     @Test
     fun testResortFeeDisclaimerTextVisibility() {
-        SearchScreen.doGenericHotelSearch()
+        SearchScreenActions.doGenericHotelSearch()
         // Check to make sure non merchant shows up in result list
         HotelResultsScreen.selectHotel("Non Merchant Hotel")
         Common.delay(1)
@@ -96,7 +96,7 @@ class HotelCheckoutTest : HotelTestCase() {
 
     @Test
     fun testFreeCancellationNotAvailableAndHiddenFromSummary() {
-        SearchScreen.doGenericHotelSearch()
+        SearchScreenActions.doGenericHotelSearch()
         HotelResultsScreen.selectHotel("happypath")
 
         HotelInfoSiteScreen.bookFirstRoom()
@@ -105,7 +105,7 @@ class HotelCheckoutTest : HotelTestCase() {
 
     @Test
     fun testFreeCancellationAvailableAndShownInSummary() {
-        SearchScreen.doGenericHotelSearch()
+        SearchScreenActions.doGenericHotelSearch()
         // Check to make sure non merchant shows up in result list
         HotelResultsScreen.selectHotel("Non Merchant Hotel")
 
@@ -115,7 +115,7 @@ class HotelCheckoutTest : HotelTestCase() {
 
     @Test
     fun testFreeCancellationTooltipAvailableAndShownInSummary() {
-        SearchScreen.doGenericHotelSearch()
+        SearchScreenActions.doGenericHotelSearch()
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppFreeCancellationTooltip,
                 AbacusVariant.BUCKETED.value)
 
@@ -137,7 +137,7 @@ class HotelCheckoutTest : HotelTestCase() {
 
     @Test
     fun testTravelerCardContentDescription() {
-        SearchScreen.doGenericHotelSearch()
+        SearchScreenActions.doGenericHotelSearch()
         HotelResultsScreen.selectHotel("happypath")
         HotelInfoSiteScreen.bookFirstRoom()
         CheckoutScreen.waitForCheckout()

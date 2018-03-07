@@ -12,6 +12,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PackageTestCase;
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
@@ -44,7 +45,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		SearchScreen.selectPackageOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
-		SearchScreen.selectDates(startDate, endDate);
+		SearchScreen.chooseDatesWithDialog(startDate, endDate);
 
 		SearchScreen.searchButton().perform(click());
 
@@ -124,10 +125,10 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 	@Test
 	public void testPackagePhoneHappyPathSignedIn() throws Throwable {
-		SearchScreen.selectPackageOriginAndDestination();
+		SearchScreenActions.selectPackageOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
-		SearchScreen.selectDates(startDate, endDate);
+		SearchScreenActions.chooseDatesWithDialog(startDate, endDate);
 		SearchScreen.searchButton().perform(click());
 		HotelResultsScreen.mapFab().perform(click());
 		Common.pressBack();

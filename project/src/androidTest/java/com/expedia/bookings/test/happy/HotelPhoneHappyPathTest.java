@@ -10,6 +10,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.pagemodels.common.CheckoutScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.test.pagemodels.hotels.HotelCheckoutScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
@@ -30,8 +31,8 @@ public class HotelPhoneHappyPathTest extends HotelTestCase {
 
 	@Test
 	public void testHotelPhoneHappyPath() throws Throwable {
-		SearchScreen.searchEditText().check(ViewAssertions.matches(withHint("Enter Destination")));
-		SearchScreen.doGenericHotelSearch();
+		SearchScreen.waitForSearchEditText().check(ViewAssertions.matches(withHint("Enter Destination")));
+		SearchScreenActions.doGenericHotelSearch();
 		HotelResultsScreen.selectHotel("happypath");
 		reviews();
 		launchFullMap();
@@ -49,7 +50,7 @@ public class HotelPhoneHappyPathTest extends HotelTestCase {
 
 	@Test
 	public void testNewHotelPhoneHappyPathLoggedInCustomer() throws Throwable {
-		SearchScreen.doGenericHotelSearch();
+		SearchScreenActions.doGenericHotelSearch();
 		HotelResultsScreen.selectHotel("happypath");
 		HotelInfoSiteScreen.bookFirstRoom();
 		CheckoutScreen.clickDone();
@@ -69,7 +70,7 @@ public class HotelPhoneHappyPathTest extends HotelTestCase {
 
 	@Test
 	public void testSingleStoredCard() throws Throwable {
-		SearchScreen.doGenericHotelSearch();
+		SearchScreenActions.doGenericHotelSearch();
 		HotelResultsScreen.selectHotel("happypath");
 
 		HotelInfoSiteScreen.clickStickySelectRoom();
@@ -86,7 +87,7 @@ public class HotelPhoneHappyPathTest extends HotelTestCase {
 
 	@Test
 	public void testNoStoredCard() throws Throwable {
-		SearchScreen.doGenericHotelSearch();
+		SearchScreenActions.doGenericHotelSearch();
 		HotelResultsScreen.selectHotel("happypath");
 
 		HotelInfoSiteScreen.clickStickySelectRoom();

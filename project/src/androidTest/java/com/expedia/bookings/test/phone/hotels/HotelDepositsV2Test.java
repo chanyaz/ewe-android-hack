@@ -8,6 +8,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 
@@ -120,9 +121,9 @@ public class HotelDepositsV2Test extends HotelTestCase {
 	private void goToResults() throws Throwable {
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		final DateTime endDateTime = startDateTime.plusDays(3);
-		SearchScreen.searchEditText().perform(typeText("SFO"));
-		SearchScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
-		SearchScreen.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
+		SearchScreen.waitForSearchEditText().perform(typeText("SFO"));
+		SearchScreenActions.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
+		SearchScreenActions.chooseDatesWithDialog(startDateTime.toLocalDate(), endDateTime.toLocalDate());
 		SearchScreen.searchButton().perform(click());
 	}
 }

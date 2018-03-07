@@ -17,6 +17,7 @@ import com.expedia.bookings.test.pagemodels.packages.PackageScreen
 import com.expedia.bookings.test.pagemodels.common.CheckoutScreen
 import com.expedia.bookings.test.pagemodels.common.PaymentOptionsScreen
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions
 import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen
 import org.joda.time.LocalDate
@@ -123,10 +124,10 @@ class FlightCheckoutTravelerAndPaymentInfoClearTest : NewFlightTestCase() {
 
     private fun flightSearchAndGoToCheckout() {
         SearchScreen.origin().perform(ViewActions.click())
-        SearchScreen.selectFlightOriginAndDestination()
+        SearchScreenActions.selectFlightOriginAndDestination()
         val startDate = LocalDate.now().plusDays(3)
         val endDate = LocalDate.now().plusDays(8)
-        SearchScreen.selectDates(startDate, endDate)
+        SearchScreenActions.chooseDatesWithDialog(startDate, endDate)
         SearchScreen.searchButton().perform(ViewActions.click())
         FlightsScreen.selectFlight(FlightsScreen.outboundFlightList(), 0)
         FlightsScreen.selectOutboundFlight().perform(ViewActions.click())

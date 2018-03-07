@@ -11,8 +11,8 @@ import android.support.test.runner.AndroidJUnit4;
 import com.expedia.bookings.R;
 import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel;
 import com.expedia.bookings.presenter.lx.LXSearchPresenter;
-import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.test.pagemodels.lx.LXScreen;
 import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
 import com.expedia.bookings.test.rules.PlaygroundRule;
@@ -49,12 +49,12 @@ public class LXSearchParamsTest {
 
 		//Calendar opens when we enter the location
 		SearchScreen.destination().perform(click());
-		SearchScreen.searchEditText().perform(ViewActions.waitForViewToDisplay(), typeText("SFO"));
-		SearchScreen.selectLocation("San Francisco, CA");
+		SearchScreen.waitForSearchEditText().perform(typeText("SFO"));
+		SearchScreenActions.selectLocation("San Francisco, CA");
 		SearchScreen.calendar().check(matches(isDisplayed()));
 
 		//Checking the date label after entering the activity start date
-		SearchScreen.selectDates(start, null);
+		SearchScreenActions.chooseDatesWithDialog(start, null);
 		String expectedDateText = JodaUtils.format(LocalDate.now(), "MMMM d");
 		SearchScreen.selectDateButton().check(matches(withText(expectedDateText)));
 	}

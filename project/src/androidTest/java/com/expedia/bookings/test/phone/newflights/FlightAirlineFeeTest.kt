@@ -18,6 +18,7 @@ import com.expedia.bookings.test.pagemodels.packages.PackageScreen
 import com.expedia.bookings.test.pagemodels.common.CardInfoScreen
 import com.expedia.bookings.test.pagemodels.common.CheckoutScreen
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions
 import com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen
 import com.expedia.bookings.test.pagemodels.flights.FlightsResultsScreen
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen
@@ -96,11 +97,11 @@ class FlightAirlineFeeTest : NewFlightTestCase() {
     fun testAirlineMayChargeFeesAlwaysShownAustraliaPOS() {
         Common.setPOS(PointOfSaleId.AUSTRALIA)
 
-        SearchScreen.selectFlightOriginAndDestination(FlightApiMockResponseGenerator.SuggestionResponseType.HAPPY_PATH, 0)
+        SearchScreenActions.selectFlightOriginAndDestination(FlightApiMockResponseGenerator.SuggestionResponseType.HAPPY_PATH, 0)
 
         val startDate = LocalDate.now().plusDays(3)
         val endDate = LocalDate.now().plusDays(8)
-        SearchScreen.selectDates(startDate, endDate)
+        SearchScreenActions.chooseDatesWithDialog(startDate, endDate)
         SearchScreen.searchButton().perform(click())
         FlightTestHelpers.assertFlightOutbound()
 
@@ -143,11 +144,11 @@ class FlightAirlineFeeTest : NewFlightTestCase() {
     }
 
     private fun selectFlightsProceedToCheckout() {
-        SearchScreen.selectFlightOriginAndDestination(FlightApiMockResponseGenerator.SuggestionResponseType.MAY_CHARGE_OB_FEES, 0)
+        SearchScreenActions.selectFlightOriginAndDestination(FlightApiMockResponseGenerator.SuggestionResponseType.MAY_CHARGE_OB_FEES, 0)
 
         val startDate = LocalDate.now().plusDays(3)
         val endDate = LocalDate.now().plusDays(8)
-        SearchScreen.selectDates(startDate, endDate)
+        SearchScreenActions.chooseDatesWithDialog(startDate, endDate)
         SearchScreen.searchButton().perform(click())
         FlightTestHelpers.assertFlightOutbound()
 

@@ -6,7 +6,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.common.CheckoutScreen;
-import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.test.pagemodels.hotels.ErrorScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelCheckoutScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
@@ -20,7 +20,7 @@ public class HotelTripAlreadyBookedError extends HotelTestCase {
 
 	@Test
 	public void testTripAlreadyBookedError() throws Throwable {
-		SearchScreen.doGenericHotelSearch();
+		SearchScreenActions.doGenericHotelSearch();
 		HotelResultsScreen.selectHotel("error_checkout_trip_already_booked");
 		Common.delay(1);
 		HotelInfoSiteScreen.bookFirstRoom();

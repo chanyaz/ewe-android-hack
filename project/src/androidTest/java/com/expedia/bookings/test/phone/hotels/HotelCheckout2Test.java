@@ -12,7 +12,7 @@ import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.common.CheckoutScreen;
 import com.expedia.bookings.test.pagemodels.common.LogInScreen;
-import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.test.pagemodels.hotels.HotelCheckoutScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 public class HotelCheckout2Test extends HotelTestCase {
 	@Test
 	public void testCouponIsClearedEachCreateTrip() throws Throwable {
-		SearchScreen.doGenericHotelSearch();
+		SearchScreenActions.doGenericHotelSearch();
 		HotelResultsScreen.selectHotel("happypath");
 		HotelInfoSiteScreen.bookFirstRoom();
 
@@ -57,7 +57,7 @@ public class HotelCheckout2Test extends HotelTestCase {
 
 	@Test
 	public void testTealeafIDClearedAfterSignIn() throws Throwable {
-		SearchScreen.doGenericHotelSearch();
+		SearchScreenActions.doGenericHotelSearch();
 		HotelResultsScreen.selectHotel("tealeaf_id");
 		Common.delay(1);
 		HotelInfoSiteScreen.bookFirstRoom();

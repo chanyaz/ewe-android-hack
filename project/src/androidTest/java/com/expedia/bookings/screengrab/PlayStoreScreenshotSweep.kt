@@ -45,6 +45,7 @@ import com.expedia.bookings.test.pagemodels.common.LaunchScreen
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
 import com.expedia.bookings.test.Settings
 import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen
 import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen
 import com.expedia.bookings.test.pagemodels.hotels.HotelSortAndFilterScreen
@@ -189,14 +190,14 @@ class PlayStoreScreenshotSweep {
 
         waitForViewNotYetInLayout(R.id.search_src_text)
 
-        SearchScreen.searchEditText().perform(typeTextViaReplace(hotelSearchInfo.city))
+        SearchScreen.waitForSearchEditText().perform(typeTextViaReplace(hotelSearchInfo.city))
         Common.delay(1)
         SearchScreen.suggestionList().perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(1, click()))
         Common.delay(1)
 
         val startDate = LocalDate.now().plusDays(90)
         val endDate = startDate.plusDays(5)
-        SearchScreen.selectDates(startDate, endDate)
+        SearchScreenActions.chooseDatesWithDialog(startDate, endDate)
         SearchScreen.searchButton().perform(click())
         Common.delay(1)
 
@@ -234,12 +235,11 @@ class PlayStoreScreenshotSweep {
             onData(airportDropDownEntryWithAirportCode(searchCriteria.arrivalAirport.code)).inRoot(RootMatchers.isPlatformPopup()).perform(click())
         } else {
             SearchScreen.origin().perform(click())
-            SearchScreen.searchEditText().perform(typeText("1"), typeTextViaReplace(searchCriteria.departureAirport.code))
+            SearchScreen.waitForSearchEditText().perform(typeText("1"), typeTextViaReplace(searchCriteria.departureAirport.code))
             Common.delay(2)
             SearchScreen.suggestionList().perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
             Common.delay(1)
-            SearchScreen.searchEditText().perform(ViewActions.waitForViewToDisplay())
-            SearchScreen.searchEditText().perform(typeText("1"), typeTextViaReplace(searchCriteria.arrivalAirport.code))
+            SearchScreen.waitForSearchEditText().perform(typeText("1"), typeTextViaReplace(searchCriteria.arrivalAirport.code))
             Common.delay(2)
             SearchScreen.suggestionList().perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
         }
@@ -248,7 +248,7 @@ class PlayStoreScreenshotSweep {
 
         val startDate = LocalDate.now().plusDays(35)
         val endDate = startDate.plusDays(3)
-        SearchScreen.selectDates(startDate, endDate)
+        SearchScreenActions.chooseDatesWithDialog(startDate, endDate)
         SearchScreen.searchButton().perform(click())
 
         waitForViewNotYetInLayout(R.id.sort_filter_button, 60)
@@ -264,13 +264,13 @@ class PlayStoreScreenshotSweep {
     private fun takeLxScreenshotAndReturnToLaunchScreen(searchCriteria: LocationSearchCriteria) {
         onView(allOf(withText(LobInfo.ACTIVITIES.labelRes), isCompletelyDisplayed())).perform(click())
 
-        SearchScreen.searchEditText().perform(typeTextViaReplace(searchCriteria.searchString))
+        SearchScreen.waitForSearchEditText().perform(typeTextViaReplace(searchCriteria.searchString))
         Common.delay(1)
-        SearchScreen.selectLocation(searchCriteria.suggestString)
+        SearchScreenActions.selectLocation(searchCriteria.suggestString)
 
         val startDate = LocalDate.now().plusDays(90)
         val endDate = startDate.plusDays(1)
-        SearchScreen.selectDates(startDate, endDate)
+        SearchScreenActions.chooseDatesWithDialog(startDate, endDate)
 
         SearchScreen.searchButton().perform(click())
         waitForViewNotYetInLayout(R.id.sort_filter_button, 30)
@@ -294,19 +294,19 @@ class PlayStoreScreenshotSweep {
         onView(allOf(withText(packagesTitle), isCompletelyDisplayed())).perform(click())
 
         SearchScreen.origin().perform(click())
-        SearchScreen.searchEditText().perform(typeText(packageSearchCriteria.origin))
+        SearchScreen.waitForSearchEditText().perform(typeText(packageSearchCriteria.origin))
         Common.delay(2)
         SearchScreen.suggestionList().perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
 
         Common.delay(1)
-        SearchScreen.searchEditText().perform(typeText(packageSearchCriteria.destination))
+        SearchScreen.waitForSearchEditText().perform(typeText(packageSearchCriteria.destination))
         Common.delay(2)
         SearchScreen.suggestionList().perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
         Common.delay(1)
 
         val startDate = LocalDate.now().plusDays(90)
         val endDate = startDate.plusDays(5)
-        SearchScreen.selectDates(startDate, endDate)
+        SearchScreenActions.chooseDatesWithDialog(startDate, endDate)
         SearchScreen.searchButton().perform(click())
         Common.delay(3)
 

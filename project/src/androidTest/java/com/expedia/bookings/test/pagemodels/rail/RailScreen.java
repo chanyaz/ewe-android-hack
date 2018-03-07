@@ -16,6 +16,7 @@ import com.expedia.bookings.test.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.pagemodels.common.CheckoutScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -152,7 +153,7 @@ public class RailScreen {
 	}
 
 	public static void navigateToDetails() throws Throwable {
-		SearchScreen.selectRailOriginAndDestination();
+		SearchScreenActions.selectRailOriginAndDestination();
 		RailScreen.calendarButton().perform(click());
 		LocalDate startDate = LocalDate.now().plusDays(10);
 		RailScreen.selectDates(startDate, null);
@@ -169,7 +170,7 @@ public class RailScreen {
 
 	public static void performRoundTripSearch() throws Throwable {
 		selectRoundTrip();
-		SearchScreen.selectRailOriginAndDestination();
+		SearchScreenActions.selectRailOriginAndDestination();
 		selectRoundTripDates();
 		SearchScreen.searchButton().perform(click());
 	}

@@ -20,6 +20,7 @@ import com.expedia.bookings.test.BuildConfig;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
@@ -77,14 +78,13 @@ public class SearchScreenSteps {
 	public void enterSourceAndDestinationForPackages(Map<String, String> parameters)
 		throws Throwable {
 		clickSourceSearchButton();
-		SearchScreen.searchEditText()
-			.perform(waitForViewToDisplay(), typeText(parameters.get("source")));
+		SearchScreen.waitForSearchEditText()
+			.perform(typeText(parameters.get("source")));
 
 
-		SearchScreen.selectLocation(parameters.get("source_suggest"));
-		SearchScreen.searchEditText()
-			.perform(waitForViewToDisplay(), typeText(parameters.get("destination")));
-		SearchScreen.selectLocation(parameters.get("destination_suggest"));
+		SearchScreenActions.selectLocation(parameters.get("source_suggest"));
+		SearchScreen.waitForSearchEditText().perform(typeText(parameters.get("destination")));
+		SearchScreenActions.selectLocation(parameters.get("destination_suggest"));
 	}
 
 	@And("^Validate the date selected on calender button$")
@@ -99,14 +99,14 @@ public class SearchScreenSteps {
 				.plusDays(Integer.parseInt(parameters.get("end_date")));
 			String endDateStr = dateFormatterEEEMMMd.format(endDate.toDate()).toString();
 
-			SearchScreen.calendarCard().check(matches(withText(
+			SearchScreen.selectDateButton().check(matches(withText(
 				stDateStr + "  -  " + endDateStr + " " + parameters.get("number_of_nights"))));
 		}
 		else {
 			LocalDate incrdate = stDate.plusDays(1);
 			String incrdateStr = dateFormatterEEEMMMd.format(incrdate.toDate()).toString();
 			String finalstr = stDateStr + "  -  " + incrdateStr;
-			SearchScreen.calendarCard().check(matches(withText(finalstr + " (1 night)")));
+			SearchScreen.selectDateButton().check(matches(withText(finalstr + " (1 night)")));
 
 		}
 	}
@@ -129,10 +129,10 @@ public class SearchScreenSteps {
 	public void packagesSearchCall(Map<String, String> parameters) throws Throwable {
 		TestUtil.dataSet = parameters;
 		clickSourceSearchButton();
-		SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(parameters.get("source")));
-		SearchScreen.selectLocation(parameters.get("source_suggest"));
-		SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(parameters.get("destination")));
-		SearchScreen.selectLocation(parameters.get("destination_suggest"));
+		SearchScreen.waitForSearchEditText().perform(typeText(parameters.get("source")));
+		SearchScreenActions.selectLocation(parameters.get("source_suggest"));
+		SearchScreen.waitForSearchEditText().perform(typeText(parameters.get("destination")));
+		SearchScreenActions.selectLocation(parameters.get("destination_suggest"));
 		pickDates(parameters);
 		selectTravelers(parameters);
 		SearchScreen.searchButton().perform(click());
@@ -243,8 +243,8 @@ public class SearchScreenSteps {
 
 	@Then("^I type \"(.*?)\" and select the location \"(.*?)\"$")
 	public void validateTypeAheadCallTrigerred(String query, String location) throws Throwable {
-		SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(query));
-		SearchScreen.selectLocation(location);
+		SearchScreen.waitForSearchEditText().perform(typeText(query));
+		SearchScreenActions.selectLocation(location);
 		//Assert.assertNotNull(apiRequestData);
 	}
 
@@ -269,10 +269,10 @@ public class SearchScreenSteps {
 		int child = Integer.parseInt(parameters.get("child"));
 		SearchScreen.selectGuestsButton().perform(click());
 		for (int i = 1; i < adult; i++) {
-			SearchScreen.incrementAdultsButton();
+			SearchScreenActions.clickIncrementAdultsButton();
 		}
 		for (int i = 0; i < child; i++) {
-			SearchScreen.incrementChildrenButton();
+			SearchScreenActions.clickIncrementChildButton();
 		}
 		SearchScreen.searchAlertDialogDone().perform(click());
 	}
@@ -396,16 +396,16 @@ public class SearchScreenSteps {
 
 		SearchScreen.origin().check(matches(withText(expParameters.get("source"))));
 		SearchScreen.destination().check(matches(withText(expParameters.get("destination"))));
-		SearchScreen.calendarCard().check(matches(withText(expectedCalendarDate)));
-		SearchScreen.selectTravelerText().check(matches(withText(expParameters.get("totalTravelers"))));
+		SearchScreen.selectDateButton().check(matches(withText(expectedCalendarDate)));
+		SearchScreen.selectGuestsButton().check(matches(withText(expParameters.get("totalTravelers"))));
 	}
 
 	@Then("^Validate search form default state for packages")
 	public void validateSearchFormDefaultState(Map<String, String> expParameters) throws Throwable {
 		SearchScreen.origin().check(matches(withText(expParameters.get("source"))));
 		SearchScreen.destination().check(matches(withText(expParameters.get("destination"))));
-		SearchScreen.calendarCard().check(matches(withText(expParameters.get("calendar"))));
-		SearchScreen.selectTravelerText().check(matches(withText(expParameters.get("totalTravelers"))));
+		SearchScreen.selectDateButton().check(matches(withText(expParameters.get("calendar"))));
+		SearchScreen.selectGuestsButton().check(matches(withText(expParameters.get("totalTravelers"))));
 	}
 
 	@Then("^Validate Search button is disabled")

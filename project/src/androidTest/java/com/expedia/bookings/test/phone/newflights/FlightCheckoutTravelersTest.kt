@@ -24,6 +24,7 @@ import com.expedia.bookings.test.pagemodels.common.CheckoutScreen.clickLogin
 import com.expedia.bookings.test.pagemodels.common.CheckoutScreen.enterUsername
 import com.expedia.bookings.test.pagemodels.common.CheckoutScreen.enterPassword
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions
 import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen
 import org.hamcrest.CoreMatchers.allOf
@@ -180,12 +181,12 @@ class FlightCheckoutTravelersTest : NewFlightTestCase() {
 
     private fun flightSearchAndGoToCheckout(numberOfTravelers: Int) {
         SearchScreen.origin().perform(click())
-        SearchScreen.selectFlightOriginAndDestination()
+        SearchScreenActions.selectFlightOriginAndDestination()
         val startDate = LocalDate.now().plusDays(3)
         val endDate = LocalDate.now().plusDays(8)
-        SearchScreen.selectDates(startDate, endDate)
+        SearchScreenActions.chooseDatesWithDialog(startDate, endDate)
         SearchScreen.selectGuestsButton().perform(click())
-        SearchScreen.setGuests(numberOfTravelers, 0)
+        SearchScreenActions.setGuests(numberOfTravelers, 0)
         SearchScreen.searchButton().perform(click())
         FlightsScreen.selectFlight(FlightsScreen.outboundFlightList(), 0)
         FlightsScreen.selectOutboundFlight().perform(click())
@@ -196,12 +197,12 @@ class FlightCheckoutTravelersTest : NewFlightTestCase() {
 
     private fun flightSearchWithPassportAndGoToCheckout(numberOfTravelers: Int) {
         SearchScreen.origin().perform(click())
-        SearchScreen.selectFlightOriginAndDestination()
+        SearchScreenActions.selectFlightOriginAndDestination()
         val startDate = LocalDate.now().plusDays(3)
         val endDate = LocalDate.now().plusDays(8)
-        SearchScreen.selectDates(startDate, endDate)
+        SearchScreenActions.chooseDatesWithDialog(startDate, endDate)
         SearchScreen.selectGuestsButton().perform(click())
-        SearchScreen.setGuests(numberOfTravelers, 0)
+        SearchScreenActions.setGuests(numberOfTravelers, 0)
         SearchScreen.searchButton().perform(click())
         FlightsScreen.selectFlight(FlightsScreen.outboundFlightList(), 1)
         FlightsScreen.selectOutboundFlight().perform(click())

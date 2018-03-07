@@ -10,6 +10,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -34,9 +35,9 @@ public class HotelResultsPresenterTest extends HotelTestCase {
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		final DateTime endDateTime = startDateTime.plusDays(3);
 
-		SearchScreen.searchEditText().perform(typeText("SFO"));
-		SearchScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
-		SearchScreen.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
+		SearchScreen.waitForSearchEditText().perform(typeText("SFO"));
+		SearchScreenActions.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
+		SearchScreenActions.chooseDatesWithDialog(startDateTime.toLocalDate(), endDateTime.toLocalDate());
 		SearchScreen.searchButton().perform(click());
 
 		// Happy Path : First Item.
@@ -79,9 +80,9 @@ public class HotelResultsPresenterTest extends HotelTestCase {
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		final DateTime endDateTime = startDateTime.plusDays(3);
 
-		SearchScreen.searchEditText().perform(typeText("SFO"));
-		SearchScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
-		SearchScreen.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
+		SearchScreen.waitForSearchEditText().perform(typeText("SFO"));
+		SearchScreenActions.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
+		SearchScreenActions.chooseDatesWithDialog(startDateTime.toLocalDate(), endDateTime.toLocalDate());
 		SearchScreen.searchButton().perform(click());
 		HotelResultsScreen.mapFab().perform(click());
 		onView(withId(R.id.filter_btn)).perform(click());

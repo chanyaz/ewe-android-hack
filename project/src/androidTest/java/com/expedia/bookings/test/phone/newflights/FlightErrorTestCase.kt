@@ -18,6 +18,7 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.test.espresso.NewFlightTestCase
 import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen
 import com.expedia.bookings.widget.TextView
 import com.mobiata.mocke3.FlightApiMockResponseGenerator
@@ -31,12 +32,12 @@ open class FlightErrorTestCase : NewFlightTestCase() {
             Espresso.onView(Matchers.allOf(withText("One way"),
                     isDescendantOfA(withId(R.id.tabs)))).perform(ViewActions.click())
         }
-        SearchScreen.selectFlightOriginAndDestination(suggestionResponseType, 0)
+        SearchScreenActions.selectFlightOriginAndDestination(suggestionResponseType, 0)
         val startDate = LocalDate.now().plusDays(3)
         if (isOneWay) {
-            SearchScreen.selectDate(startDate)
+            SearchScreenActions.chooseDatesWithDialog(startDate, null)
         } else {
-            SearchScreen.selectDates(startDate, startDate.plusDays(5))
+            SearchScreenActions.chooseDatesWithDialog(startDate, startDate.plusDays(5))
         }
         SearchScreen.searchButton().perform(ViewActions.click())
     }

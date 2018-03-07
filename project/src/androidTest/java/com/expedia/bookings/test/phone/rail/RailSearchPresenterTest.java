@@ -10,6 +10,7 @@ import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.RailTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.test.pagemodels.rail.RailScreen;
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
 
@@ -30,7 +31,7 @@ public class RailSearchPresenterTest extends RailTestCase {
 		SearchScreen.searchButton().perform(click());
 		SearchScreen.searchButton().check(matches(isDisplayed()));
 
-		SearchScreen.selectRailOriginAndDestination();
+		SearchScreenActions.selectRailOriginAndDestination();
 		RailScreen.calendarButton().perform(click());
 
 		DateTime startDateTime = DateTime.now().plusDays(3).withTimeAtStartOfDay();
@@ -65,7 +66,7 @@ public class RailSearchPresenterTest extends RailTestCase {
 //		DateTime endDateTime = startDateTime.plusDays(1).withTimeAtStartOfDay();
 //		LocalDate endDate = endDateTime.toLocalDate();
 //		String expectedEndDateTime = ApiDateUtils.dateTimeToMMMdhmma(endDateTime);
-//		RailScreen.selectDates(startDate, endDate);
+//		RailScreen.chooseDatesWithDialog(startDate, endDate);
 //
 //		EspressoUtils.assertViewIsDisplayed(R.id.depart_slider_container);
 //		EspressoUtils.assertViewIsDisplayed(R.id.return_slider_container);

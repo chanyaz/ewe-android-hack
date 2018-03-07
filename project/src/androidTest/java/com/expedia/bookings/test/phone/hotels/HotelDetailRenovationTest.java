@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.HotelTestCase;
-import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
 
@@ -21,7 +21,7 @@ import static org.hamcrest.CoreMatchers.not;
 public class HotelDetailRenovationTest extends HotelTestCase {
 	@Test
 	public void testETPHotelWithoutFreeCancellationHavingRenovation() throws Throwable {
-		SearchScreen.doGenericHotelSearch();
+		SearchScreenActions.doGenericHotelSearch();
 		HotelResultsScreen.selectHotel("hotel_etp_renovation_resort");
 		HotelInfoSiteScreen.waitForDetailsLoaded();
 
