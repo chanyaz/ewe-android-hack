@@ -124,6 +124,14 @@
             android:summary="%s"
             android:title="Hotels Guest Ratings Filter - 25123" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="25187"
+            android:summary="%s"
+            android:title="HSR Floating Action Pill - 25187" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -7,6 +7,8 @@ import org.junit.Test;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
@@ -23,6 +25,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDisplayed;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTextIsDisplayed;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.core.IsNot.not;
@@ -91,6 +94,37 @@ public class HotelResultsPresenterTest extends HotelTestCase {
 		pressBack();
 		assertViewWithTextIsDisplayed(R.id.filter_count_text, "2");
 		onView(allOf(withId(R.id.filter_text), isDescendantOfA(withId(R.id.filter_btn)))).check(matches(isDisplayed()));
+	}
+
+	@Test
+	public void testFloatingPillToggle() throws Throwable {
+		AbacusTestUtils.bucketTests(AbacusUtils.HotelSearchResultsFloatingActionPill);
+
+		getSearchResults();
+		assertViewWithTextIsDisplayed(R.string.hotel_results_map_button);
+
+		onView(withId(R.id.fap_toggle_icon)).perform(click());
+		assertViewWithTextIsDisplayed(R.string.hotel_results_list_button);
+	}
+
+	@Test
+	public void testFloatingPillFilter() throws Throwable {
+		AbacusTestUtils.bucketTests(AbacusUtils.HotelSearchResultsFloatingActionPill);
+
+		getSearchResults();
+		assertViewWithTextIsDisplayed(R.string.hotel_results_filters_button);
+
+		onView(withId(R.id.fap_filter_button)).perform(click());
+		assertViewIsDisplayed(R.id.hotel_filter_view);
+	}
+
+	private void getSearchResults() throws Throwable {
+		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
+		final DateTime endDateTime = startDateTime.plusDays(3);
+		SearchScreen.waitForSearchEditText().perform(typeText("SFO"));
+		SearchScreenActions.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
+		SearchScreenActions.chooseDatesWithDialog(startDateTime.toLocalDate(), endDateTime.toLocalDate());
+		SearchScreen.searchButton().perform(click());
 	}
 
 	private void assertViewNotDisplayedAtPosition(int position, int id) {

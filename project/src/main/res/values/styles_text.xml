@@ -37,6 +37,14 @@
         <item name="android:textColor">@color/light_text_color</item>
     </style>
 
+    <style name="Core.Text.200.Medium.White">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Core.Text.400.Medium.PrimaryColor">
+        <item name="android:textColor">@color/app_primary</item>
+    </style>
+
     <style name="Core.Text.300">
         <item name="android:textSize">@dimen/type_300_text_size</item>
     </style>

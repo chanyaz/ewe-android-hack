@@ -28,7 +28,6 @@ import android.view.ViewTreeObserver
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
-import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -48,6 +47,7 @@ import com.expedia.bookings.hotel.animation.transition.VerticalFadeTransition
 import com.expedia.bookings.hotel.animation.transition.VerticalTranslateTransition
 import com.expedia.bookings.hotel.map.HotelResultsMapWidget
 import com.expedia.bookings.hotel.vm.BaseHotelResultsViewModel
+import com.expedia.bookings.hotel.widget.HotelSearchFloatingActionPill
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.utils.AccessibilityUtil
@@ -88,6 +88,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     val mapCarouselRecycler: HotelCarouselRecycler by bindView(R.id.hotel_carousel)
     val fab: FloatingActionButton by bindView(R.id.fab)
     val filterButtonOnClickObservable = PublishSubject.create<Unit>()
+    open val floatingPill: HotelSearchFloatingActionPill? = null
 
     open val filterMenuItem by lazy { toolbar.menu.findItem(R.id.menu_filter) }
 
@@ -106,7 +107,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     var adapter: BaseHotelListAdapter by Delegates.notNull()
-    open val searchThisArea: Button? = null
+    open val searchThisArea: TextView? = null
 
     private val PICASSO_TAG = "HOTEL_RESULTS_LIST"
     val DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION = 200L
@@ -158,14 +159,14 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             if (mapCarouselContainer.height == 0) {
                 var onLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null //need to know carousel height before fab can properly animate.
                 onLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
-                    fab.animate().translationY(-fabHeightOffset()).setInterpolator(DecelerateInterpolator()).withEndAction {
+                    getFloatingButton().animate().translationY(-fabHeightOffset()).setInterpolator(DecelerateInterpolator()).withEndAction {
                         carouselAnimation.start()
                     }.start()
                     mapCarouselContainer.viewTreeObserver.removeOnGlobalLayoutListener(onLayoutListener)
                 }
                 mapCarouselContainer.viewTreeObserver.addOnGlobalLayoutListener(onLayoutListener)
             } else {
-                fab.animate().translationY(-fabHeightOffset()).setInterpolator(DecelerateInterpolator())
+                getFloatingButton().animate().translationY(-fabHeightOffset()).setInterpolator(DecelerateInterpolator())
                         .withEndAction { carouselAnimation.start() }
                         .start()
             }
@@ -208,7 +209,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     private fun animateFab(newTranslationY: Float) {
-        fab.animate().translationY(newTranslationY).setInterpolator(DecelerateInterpolator()).start()
+        getFloatingButton().animate().translationY(newTranslationY).setInterpolator(DecelerateInterpolator()).start()
     }
 
     private fun fabShouldBeHiddenOnList(): Boolean {
@@ -224,7 +225,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         adapter.resultsSubject.onNext(response)
         showFilterMenuItem(currentState == ResultsList::class.java.name)
         // show fab button always in case of AB test or shitty device
-        if (ExpediaBookingApp.isDeviceShitty()) {
+        if (ExpediaBookingApp.isDeviceShitty() && !shouldUsePill()) {
             fab.visibility = View.VISIBLE
             getFabAnimIn().start()
         }
@@ -381,6 +382,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 }
             }
         }
+        floatingPill?.visibility = View.GONE
 
         inflateAndSetupToolbarMenu()
 
@@ -407,7 +409,13 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 subTitleTransition?.fadeOut(1.0f)
             }
         }
+
+        searchThisArea?.let {
+            AccessibilityUtil.appendRoleContDesc(it as View, it.text.toString(), R.string.accessibility_cont_desc_role_button)
+        }
     }
+
+    fun getFloatingButton(): View = if (shouldUsePill() && floatingPill != null) floatingPill!! else fab
 
     private fun inflateAndSetupToolbarMenu() {
         val toolbarFilterItemActionView = LayoutInflater.from(context).inflate(R.layout.toolbar_filter_item, null) as LinearLayout
@@ -486,6 +494,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                     }
                 }
 
+                if (shouldUsePill()) {
+                    return
+                }
                 if (!transitionRunning && !filterScreenShown) {
                     if (fab.visibility != View.VISIBLE && !fabShouldBeHiddenOnList()) {
                         fab.visibility = View.VISIBLE
@@ -551,7 +562,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 return
             }
             recyclerView.viewTreeObserver.removeOnGlobalLayoutListener(this)
-            if (ExpediaBookingApp.isAutomation()) {
+            if (ExpediaBookingApp.isAutomation() && !shouldUsePill()) {
                 screenHeight = 0
                 screenWidth = 0f
                 // todo be nice if the tests could reflect actual behavior of fab aka need scroll b4 visible
@@ -681,7 +692,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             val isMapPinSelected = mapWidget.hasSelectedMarker()
 
             recyclerView.visibility = View.VISIBLE
-            fabShouldVisiblyMove = if (forwardToList) !fabShouldBeHiddenOnList() else (fab.visibility == View.VISIBLE)
+            fabShouldVisiblyMove = if (forwardToList) !fabShouldBeHiddenOnList() else (getFloatingButton().visibility == View.VISIBLE)
             initialListTranslation = if (recyclerView.layoutManager.findFirstVisibleItemPosition() == 0) recyclerView.getChildAt(1)?.top ?: 0 else 0
             if (forwardToList) {
                 previousWasList = true
@@ -704,18 +715,24 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                     //Since we're not moving it manually, let's jump it to where it belongs,
                     // and let's get it showing the right thing
                     if (isMapPinSelected) {
-                        fab.translationY = -fabHeightOffset()
+                        getFloatingButton().translationY = -fabHeightOffset()
                     } else {
-                        fab.translationY = 0f
+                        getFloatingButton().translationY = 0f
                     }
                     (fab.drawable as? TransitionDrawable)?.startTransition(0)
-                    fab.visibility = View.VISIBLE
+                    if (!shouldUsePill()) {
+                        fab.visibility = View.VISIBLE
+                    }
                     getFabAnimIn().start()
                 }
             }
-            startingFabTranslation = fab.translationY
+            startingFabTranslation = getFloatingButton().translationY
             if (forwardToList) {
-                finalFabTranslation = -filterHeight
+                if (shouldUsePill()) {
+                    finalFabTranslation = 0f
+                } else {
+                    finalFabTranslation = -filterHeight
+                }
             } else {
                 finalFabTranslation = if (isMapPinSelected) -fabHeightOffset() else 0f
             }
@@ -737,9 +754,16 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 mapWidget.translationY = (1 - f) * mapTranslationStart
             }
 
+            if (f > .5) {
+                // Half-way through the transition, toggle the pill. We can't toggle it immediately because then it
+                // changes before the rest of the UI. We can't change it on endTransition because that feels like lag.
+                floatingPill?.setToggleState(forward)
+            }
+
             if (fabShouldVisiblyMove) {
                 fab.translationY = startingFabTranslation - f * (startingFabTranslation - finalFabTranslation)
             }
+            floatingPill?.translationY = startingFabTranslation - f * (startingFabTranslation - finalFabTranslation)
 
             if (forward) {
                 if (shouldAnimateTitleSubtitle) {
@@ -773,6 +797,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             }
 
             if (forward) {
+                floatingPill?.translationY = 0f
                 if (!fabShouldVisiblyMove) {
                     fab.translationY = 0f
                     (fab.drawable as? TransitionDrawable)?.reverseTransition(0)
@@ -790,7 +815,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
                 mapWidget.toFullScreen()
             }
-            fab.translationY = finalFabTranslation
+            getFloatingButton().translationY = finalFabTranslation
         }
     }
 
@@ -822,7 +847,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             transitionRunning = false
             if (!forward) filterView.visibility = View.GONE
             filterView.translationY = (if (forward) 0 else filterView.height).toFloat()
-            if (!forward && !fabShouldBeHiddenOnList()) {
+            if (!forward && !fabShouldBeHiddenOnList() && !shouldUsePill()) {
                 fab.visibility = View.VISIBLE
                 getFabAnimIn().start()
             }
@@ -861,7 +886,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 filterView.toolbar.requestFocus()
             } else {
                 filterView.visibility = View.GONE
-                fab.visibility = View.VISIBLE
+                if (!shouldUsePill()) {
+                    fab.visibility = View.VISIBLE
+                }
                 searchThisArea?.visibility = View.VISIBLE
             }
         }
@@ -888,7 +915,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 toolbar.visibility = View.GONE
                 mapWidget.visibility = View.GONE
             } else {
-                if (!fabShouldBeHiddenOnList()) {
+                if (!fabShouldBeHiddenOnList() && !shouldUsePill()) {
                     fab.visibility = View.VISIBLE
                     getFabAnimIn().start()
                 }
@@ -964,7 +991,12 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         //
     }
 
+    fun shouldUsePill(): Boolean = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelSearchResultsFloatingActionPill) && getLineOfBusiness() == LineOfBusiness.HOTELS
+
     fun showFilterMenuItem(isResults: Boolean) {
+        if (shouldUsePill()) {
+            return
+        }
         if (getLineOfBusiness() == LineOfBusiness.PACKAGES && !isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
             filterMenuItem.isVisible = true
         } else {

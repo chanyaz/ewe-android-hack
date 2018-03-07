@@ -87,7 +87,7 @@
             android:background="@drawable/tb_shadow" />
 
         <!-- Do not be fooled, this textStyle does not yet function - but it's a reminder that we WANT it to do that -->
-        <Button
+        <com.expedia.bookings.widget.TextView
             android:id="@+id/search_this_area"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -105,7 +105,32 @@
             android:text="@string/Search_this_area"
             android:textAllCaps="false"
             android:textColor="?attr/primary_color"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:elevation="4dp"
+            android:visibility="gone"/>
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/search_this_area_pill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|top"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/floating_action_pill_background"
+            android:drawableLeft="@drawable/ic_material_location_pin"
+            android:drawablePadding="8dp"
+            android:minHeight="40dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="@string/Search_this_area"
+            android:textAllCaps="false"
+            android:textColor="?attr/primary_color"
+            android:elevation="5dp"
+            android:textSize="16sp"
+            android:visibility="gone"
+            android:gravity="center"
+            />
+
     </LinearLayout>
 
     <com.expedia.bookings.widget.FilterButtonWithCountWidget
@@ -141,6 +166,15 @@
         android:background="?attr/primary_color"
         android:src="@drawable/ic_transition_map_list_fab"
         app:useCompatPadding="true" />
+
+    <com.expedia.bookings.hotel.widget.HotelSearchFloatingActionPill
+        android:id="@+id/hotel_results_floating_pill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:padding="20dp"
+        android:clipToPadding="false"
+        android:visibility="gone" />
 
     <ViewStub
         android:id="@+id/hotel_filter_view_stub"

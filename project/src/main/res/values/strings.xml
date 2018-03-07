@@ -54,6 +54,13 @@
     <!-- Ally Description for individual map pins on hotel results. Ex. Show information for hotel of price $543 below, Button-->
     <string name="hotel_map_pin_price_cont_desc_TEMPLATE">Show information for hotel of price {price} below, Button</string>
 
+    <!-- Text on Floating Action Pill to switch to the map view of hotel search results -->
+    <string name="hotel_results_map_button">Map</string>
+    <!-- Text on Floating Action Pill to switch to the list view of hotel search results -->
+    <string name="hotel_results_list_button">List</string>
+    <!-- Text on Floating Action Pill to add/remove filters for hotel search results -->
+    <string name="hotel_results_filters_button">Filters</string>
+
     <!-- Hotel sold out label on the results hotel card -->
     <string name="hotel_sold_out_label">We are sold out</string>
 

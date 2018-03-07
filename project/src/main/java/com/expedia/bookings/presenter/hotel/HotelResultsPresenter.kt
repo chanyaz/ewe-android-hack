@@ -14,7 +14,6 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
-import android.widget.Button
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
@@ -28,6 +27,7 @@ import com.expedia.bookings.hotel.animation.AnimationRunner
 import com.expedia.bookings.hotel.animation.transition.VerticalTranslateTransition
 import com.expedia.bookings.hotel.fragment.ChangeDatesDialogFragment
 import com.expedia.bookings.hotel.vm.HotelResultsViewModel
+import com.expedia.bookings.hotel.widget.HotelSearchFloatingActionPill
 import com.expedia.bookings.model.HotelStayDates
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.urgency.UrgencyServices
@@ -45,6 +45,7 @@ import com.expedia.bookings.widget.HotelServerFilterView
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.hotel.widget.adapter.HotelListAdapter
+import com.expedia.bookings.utils.FontCache
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.ShopWithPointsViewModel
@@ -56,17 +57,19 @@ import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
 class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
+    override val floatingPill: HotelSearchFloatingActionPill by bindView(R.id.hotel_results_floating_pill)
     private val hotelResultChangeDateView: HotelResultsChangeDateView by bindView(R.id.hotel_result_change_date_container)
     private val toolbarShadow: View by bindView(R.id.toolbar_dropshadow)
     val filterBtnWithCountWidget: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     private val narrowResultsPromptView: TextView by bindView(R.id.narrow_result_prompt)
-    override val searchThisArea: Button by bindView(R.id.search_this_area)
+    override val searchThisArea: TextView by bindView(if (shouldUsePill()) R.id.search_this_area_pill else R.id.search_this_area)
     override val loadingOverlay: MapLoadingOverlayWidget by bindView(R.id.map_loading_overlay)
     private var narrowFilterPromptSubscription: Disposable? = null
     private var swpEnabled = false
 
     val filterCountObserver: Observer<Int> = endlessObserver { numberOfFilters ->
         filterBtnWithCountWidget.showNumberOfFilters(numberOfFilters)
+        floatingPill.setFilterCount(numberOfFilters)
     }
 
     lateinit var shopWithPointsViewModel: ShopWithPointsViewModel
@@ -80,6 +83,22 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     init {
         filterViewModel.filterByParamsObservable.subscribe { params ->
             viewModel.filterParamsSubject.onNext(params)
+        }
+
+        floatingPill.filterButton.setOnClickListener {
+            show(ResultsFilter())
+            trackFilterShown()
+            filterViewModel.sortContainerVisibilityObservable.onNext(currentState == ResultsList::class.java.name)
+            filterView.toolbar.title = resources.getString(R.string.sort_and_filter)
+        }
+
+        floatingPill.toggleViewButton.setOnClickListener {
+            if (floatingPill.showMap) {
+                showWithTracking(ResultsMap())
+            } else {
+                show(ResultsList(), Presenter.FLAG_CLEAR_BACKSTACK)
+                trackMapToList()
+            }
         }
 
         recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
@@ -112,6 +131,9 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         initSortFilterCallToAction()
 
         vm.hotelResultsObservable.subscribe {
+            if (shouldUsePill()) {
+                floatingPill.visibility = View.VISIBLE
+            }
             if (previousWasList && filterBtnWithCountWidget.translationY != 0f) {
                 showSortAndFilter()
             } else {
@@ -121,6 +143,9 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
         vm.filterResultsObservable.subscribe(listResultsObserver)
         vm.filterResultsObservable.subscribe {
+            if (shouldUsePill()) {
+                floatingPill.visibility = View.VISIBLE
+            }
             if (previousWasList && filterBtnWithCountWidget.translationY != 0f) {
                 showSortAndFilter()
             } else {
@@ -158,7 +183,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
                 resetListOffset()
             } else {
                 show(ResultsMap(), Presenter.FLAG_CLEAR_TOP)
-                fab.isEnabled = false
+                getFloatingButton().isEnabled = false
                 animateMapCarouselOut()
             }
         }
@@ -190,7 +215,9 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             narrowResultsPromptView.visibility = View.GONE
             narrowFilterPromptSubscription = adapter.filterPromptSubject.subscribe {
                 val animationRunner = AnimationRunner(narrowResultsPromptView, context)
-                narrowResultsPromptView.visibility = View.VISIBLE
+                if (!shouldUsePill()) {
+                    narrowResultsPromptView.visibility = View.VISIBLE
+                }
                 animationRunner.animIn(R.anim.filter_prompt_in)
                         .animOut(R.anim.filter_prompt_out)
                         .afterAction({ narrowResultsPromptView.visibility = View.GONE })
@@ -210,16 +237,22 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             urgencyViewModel.urgencyTextSubject.subscribe { text -> adapter.addUrgency(text) }
         }
         ViewCompat.setElevation(loadingOverlay, context.resources.getDimension(R.dimen.launch_tile_margin_side))
+        val iconColor = ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color))
+        FontCache.setTypeface(searchThisArea, FontCache.Font.ROBOTO_MEDIUM)
         //Fetch, color, and slightly resize the searchThisArea location pin drawable
-        val icon = ContextCompat.getDrawable(context, R.drawable.ic_material_location_pin).mutate()
-        icon.setColorFilter(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)), PorterDuff.Mode.SRC_IN)
-        icon.bounds = Rect(icon.bounds.left, icon.bounds.top, (icon.bounds.right * 1.1).toInt(), (icon.bounds.bottom * 1.1).toInt())
-        searchThisArea.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
+        if (shouldUsePill()) {
+            searchThisArea.compoundDrawables[0]?.setColorFilter(iconColor, PorterDuff.Mode.SRC_IN)
+        } else {
+            val icon = ContextCompat.getDrawable(context, R.drawable.ic_material_location_pin).mutate()
+            icon.setColorFilter(iconColor, PorterDuff.Mode.SRC_IN)
+            icon.bounds = Rect(icon.bounds.left, icon.bounds.top, (icon.bounds.right * 1.1).toInt(), (icon.bounds.bottom * 1.1).toInt())
+            searchThisArea.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
+        }
 
         //We don't want to show the searchThisArea button unless the map has just moved.
         searchThisArea.visibility = View.GONE
         searchThisArea.setOnClickListener {
-            fab.isEnabled = false
+            getFloatingButton().isEnabled = false
             animateMapCarouselOut()
             hideSearchThisArea()
             doAreaSearch()
@@ -228,10 +261,14 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
         filterView.shopWithPointsViewModel = shopWithPointsViewModel
 
-        sortFilterButtonTransition = VerticalTranslateTransition(filterBtnWithCountWidget, 0, filterHeight.toInt())
-        sortFilterButtonTransition?.reachedTargetSubject?.subscribe {
-            narrowResultsPromptView.clearAnimation()
-            narrowResultsPromptView.visibility = View.GONE
+        if (shouldUsePill()) {
+            filterBtnWithCountWidget.visibility = View.GONE
+        } else {
+            sortFilterButtonTransition = VerticalTranslateTransition(filterBtnWithCountWidget, 0, filterHeight.toInt())
+            sortFilterButtonTransition?.reachedTargetSubject?.subscribe {
+                narrowResultsPromptView.clearAnimation()
+                narrowResultsPromptView.visibility = View.GONE
+            }
         }
 
         filterBtnWithCountWidget.subscribeOnClick(filterButtonOnClickObservable)
@@ -266,6 +303,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         super.showLoading()
         resetListOffset()
         sortFilterButtonTransition?.jumpToTarget()
+        floatingPill.visibility = View.GONE
         narrowResultsPromptView.visibility = View.GONE
         narrowResultsPromptView.clearAnimation()
     }
