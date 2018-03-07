@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
@@ -19,12 +18,6 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
 
     val storedCouponWidget: StoredCouponWidget by bindView(R.id.stored_coupon_widget)
     val appliedCouponSubtitle: TextView by bindView(R.id.applied_coupon_subtitle_text)
-
-    init {
-        if (isShowSavedCoupons(context)) {
-            expanded.setBackgroundColor(ContextCompat.getColor(context, R.color.material_checkout_background_color))
-        }
-    }
 
     override val textWatcher: TextWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable) {
@@ -109,7 +102,7 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
 
     override fun setExpanded(expand: Boolean, animate: Boolean) {
         super.setExpanded(expand, animate)
-        viewmodel.onCouponWidgetExpandSubject.onNext(expand && isShowSavedCoupons(context))
+        viewmodel.onCouponWidgetExpandSubject.onNext(expand)
     }
 
     override fun showHotelCheckoutView(couponInstanceId: String?): Boolean {

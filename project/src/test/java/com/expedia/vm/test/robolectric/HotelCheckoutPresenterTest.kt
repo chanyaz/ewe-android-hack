@@ -155,6 +155,15 @@ class HotelCheckoutPresenterTest {
     }
 
     @Test
+    fun testMaterialCouponBackgroundColor() {
+        setupHotelMaterialForms()
+        assertEquals((checkout.scrollView.background as ColorDrawable).color, ContextCompat.getColor(activity, R.color.checkout_overview_background_color))
+
+        checkout.couponCardView.performClick()
+        assertEquals((checkout.scrollView.background as ColorDrawable).color, ContextCompat.getColor(activity, R.color.material_checkout_background_color))
+    }
+
+    @Test
     fun testMaterialCouponWidgetInflatedOnMaterialFormsBucketedAndFeatureToggleON() {
         setupHotelMaterialForms()
         assertTrue(checkout.couponCardView is MaterialFormsCouponWidget)
