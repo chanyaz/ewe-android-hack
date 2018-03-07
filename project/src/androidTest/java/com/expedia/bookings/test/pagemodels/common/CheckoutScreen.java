@@ -384,9 +384,6 @@ public class CheckoutScreen {
 		return onView(withId(R.id.disclaimer_text));
 	}
 
-	public static ViewInteraction freeCancellationText() {
-		return onView(withId(R.id.free_cancellation_text));
-	}
 	public static ViewInteraction freeCancellationTooltipText() {
 		return onView(withId(R.id.free_cancellation_tooltip_text));
 	}

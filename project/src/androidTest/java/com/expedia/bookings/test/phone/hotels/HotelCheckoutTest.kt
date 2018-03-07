@@ -8,9 +8,6 @@ import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.abacus.AbacusVariant
-import com.expedia.bookings.test.espresso.AbacusTestUtils
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.HotelTestCase
@@ -100,7 +97,7 @@ class HotelCheckoutTest : HotelTestCase() {
         HotelResultsScreen.selectHotel("happypath")
 
         HotelInfoSiteScreen.bookFirstRoom()
-        CheckoutScreen.freeCancellationText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
+        CheckoutScreen.freeCancellationTooltipText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
     }
 
     @Test
@@ -110,21 +107,18 @@ class HotelCheckoutTest : HotelTestCase() {
         HotelResultsScreen.selectHotel("Non Merchant Hotel")
 
         HotelInfoSiteScreen.bookFirstRoom()
-        CheckoutScreen.freeCancellationText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
+        CheckoutScreen.freeCancellationTooltipText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
     }
 
     @Test
     fun testFreeCancellationTooltipAvailableAndShownInSummary() {
         SearchScreenActions.doGenericHotelSearch()
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppFreeCancellationTooltip,
-                AbacusVariant.BUCKETED.value)
 
         // Check to make sure non merchant shows up in result list
         HotelResultsScreen.selectHotel("Non Merchant Hotel")
 
         HotelInfoSiteScreen.bookFirstRoom()
 
-        CheckoutScreen.freeCancellationText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
         CheckoutScreen.freeCancellationTooltipText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
 
         CheckoutScreen.freeCancellationTooltipText().perform(click())

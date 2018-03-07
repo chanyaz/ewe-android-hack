@@ -1228,7 +1228,6 @@ public class OmnitureTracking {
 			properCaseSupplierType = supplierType;
 		}
 
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFreeCancellationTooltip);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline);
 
 		if (isPayLaterHotel(trip)) {

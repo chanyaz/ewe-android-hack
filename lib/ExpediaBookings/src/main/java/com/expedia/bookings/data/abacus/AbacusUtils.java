@@ -26,7 +26,6 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppShowAirAttachMessageOnLaunchScreen = new ABTest(13345);
 	public static final ABTest EBAndroidAppLastMinuteDeals = new ABTest(15844);
 	public static final ABTest EBAndroidLXMOD = new ABTest(16098);
-	public static final ABTest EBAndroidAppFreeCancellationTooltip = new ABTest(14513);
 	public static final ABTest EBAndroidAppAPIMAuth = new ABTest(14654);
 	public static final ABTest EBAndroidPopulateCardholderName = new ABTest(14525);
 	public static final ABTest EBAndroidAppSecureCheckoutIcon = new ABTest(16112);
@@ -154,7 +153,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightsFiltersPriceAndLogo.getKey());
 		testIDs.add(EBAndroidAppLXDisablePOISearch.getKey());
 		testIDs.add(EBAndroidAppFlightsSeatClassAndBookingCode.getKey());
-		testIDs.add(EBAndroidAppFreeCancellationTooltip.getKey());
 		testIDs.add(EBAndroidAppFlightsConfirmationItinSharing.getKey());
 		testIDs.add(EBAndroidAppFlightByotSearch.getKey());
 		testIDs.add(EBAndroidAppShowAirAttachMessageOnLaunchScreen.getKey());

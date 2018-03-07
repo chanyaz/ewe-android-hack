@@ -30,10 +30,6 @@ import com.squareup.picasso.Picasso
 
 class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val viewModel: HotelCheckoutSummaryViewModel) : LinearLayout(context, attrs) {
 
-    val isFreeCancellationTooltipEnabled by lazy {
-        AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFreeCancellationTooltip)
-    }
-
     val PICASSO_HOTEL_IMAGE = "HOTEL_CHECKOUT_IMAGE"
 
     val hotelName: android.widget.TextView by bindView(R.id.hotel_name)
@@ -45,7 +41,6 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
     val selectedBed: android.widget.TextView by bindView(R.id.selected_bed)
     val numberNights: android.widget.TextView by bindView(R.id.number_nights)
     val numberGuests: android.widget.TextView by bindView(R.id.number_guests)
-    val freeCancellationView: android.widget.TextView by bindView(R.id.free_cancellation_text)
     val freeCancellationTooltipView: android.widget.TextView by bindView(R.id.free_cancellation_tooltip_text)
     val valueAddsContainer: ValueAddsContainer by bindView(R.id.value_adds_container)
     val totalWithTaxLabelWithInfoButton: android.widget.TextView by bindView(R.id.total_tax_label)
@@ -60,7 +55,6 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
     val checkinCheckoutDateContainer: LinearLayout by bindView(R.id.checkin_checkout_date_holder)
     val checkinDate: android.widget.TextView by bindView(R.id.checkin_date)
     val checkoutDate: android.widget.TextView by bindView(R.id.checkout_date)
-    val hotelBookingSummaryContainer: android.widget.LinearLayout by bindView(R.id.hotel_booking_summary)
 
     val breakdown = HotelBreakDownView(context, null)
     val dialog: AlertDialog by lazy {
@@ -135,9 +129,8 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
     }
 
     private fun setUpFreeCancellationSubscription() {
-        val freeCancellationViewToDisplay = if (isFreeCancellationTooltipEnabled) freeCancellationTooltipView else freeCancellationView
-        viewModel.hasFreeCancellation.subscribeVisibility(freeCancellationViewToDisplay)
-        viewModel.freeCancellationText.subscribeText(freeCancellationViewToDisplay)
+        viewModel.hasFreeCancellation.subscribeVisibility(freeCancellationTooltipView)
+        viewModel.freeCancellationText.subscribeText(freeCancellationTooltipView)
     }
 
     val picassoTarget = object : PicassoTarget() {
