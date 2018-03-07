@@ -64,7 +64,11 @@ class HotelItinExpandedMapActivityTest {
         var long: Double? = 22.23
         var propertyName: String? = "Test Property"
         var result = activity.buildUriForHotel(lat, long, propertyName)
-        assertEquals(Uri.parse("geo:37.14,22.23?q=Test+Property"), result)
+        assertEquals(Uri.parse("geo:37.14,22.23?q=Test%20Property"), result)
+
+        propertyName = "Test & Property"
+        result = activity.buildUriForHotel(lat, long, propertyName)
+        assertEquals(Uri.parse("geo:37.14,22.23?q=Test%20%26%20Property"), result)
 
         propertyName = null
         result = activity.buildUriForHotel(lat, long, propertyName)
