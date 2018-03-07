@@ -35,6 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/airline_logo_image_view"
+        android:layout_toLeftOf="@id/results_label"
         android:layout_centerVertical="true"
         android:orientation="vertical">
 
@@ -45,7 +46,7 @@
             android:layout_centerVertical="true"
             android:ellipsize="end"
             android:focusable="false"
-            android:maxLines="1"
+            android:maxLines="2"
             android:textColor="@color/hotel_filter_neighborhood_text"
             android:textSize="@dimen/package_sort_filter_label_text_size" />
 

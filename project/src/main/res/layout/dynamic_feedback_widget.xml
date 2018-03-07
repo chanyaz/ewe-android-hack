@@ -10,7 +10,9 @@
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/dynamic_feedback_counter"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:paddingTop="9dp"
+                android:paddingBottom="9dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_vertical|left"
                 android:paddingLeft="20dp"
@@ -28,7 +30,9 @@
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/dynamic_feedback_clear_button"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:paddingTop="9dp"
+                android:paddingBottom="9dp"
+                android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
                 android:gravity="center"
                 android:paddingLeft="20dp"
