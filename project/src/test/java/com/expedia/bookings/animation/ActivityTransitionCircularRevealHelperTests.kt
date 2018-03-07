@@ -16,9 +16,6 @@ import org.robolectric.android.controller.ActivityController
 import org.robolectric.shadows.ShadowLog
 import kotlin.test.assertEquals
 
-/**
- * Created by cplachta on 2/23/18.
- */
 @RunWith(RobolectricRunner::class)
 class ActivityTransitionCircularRevealHelperTests {
     private lateinit var activityController: ActivityController<RouterActivity>

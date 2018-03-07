@@ -75,6 +75,10 @@ public abstract class BaseFeatureConfiguration {
 		return JodaUtils.formatDateTime(context, dateTime, DateUtils.FORMAT_NUMERIC_DATE);
 	}
 
+	public boolean isSplashLoadingAnimationEnabled() {
+		return false;
+	}
+
 	public boolean isAppIntroEnabled() {
 		return false;
 	}
