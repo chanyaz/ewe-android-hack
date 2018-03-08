@@ -322,6 +322,7 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
         openSourceCredits.text = getString(R.string.this_app_makes_use_of_the_following) + " " + getString(R.string.open_source_names)
 
         signInTextView.text = Phrase.from(context, R.string.Sign_in_with_TEMPLATE).putOptional("brand", BuildConfig.brand).format().toString()
+        signInCardButton.contentDescription = Phrase.from(this.context, R.string.Sign_in_with_cont_desc_TEMPLATE).put("brand", BuildConfig.brand).format()
         signInCardButton.setOnClickListener {
             val args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.PROFILE, Config.InitialState.SignIn, null)
             userStateManager.signIn(activity, args)
