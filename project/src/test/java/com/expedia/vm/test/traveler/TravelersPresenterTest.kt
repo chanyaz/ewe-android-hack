@@ -9,6 +9,8 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter
 import com.expedia.bookings.test.MultiBrand
@@ -18,6 +20,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.FlightTravelerEntryWidget
 import com.expedia.vm.traveler.FlightTravelersViewModel
 import com.expedia.vm.traveler.TravelerSelectItemViewModel
+import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -90,7 +93,9 @@ class TravelersPresenterTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testRightDataShownInAdvancedOptionsWhenMultipleTravelerIsPresent() {
-        var travelers = getMockTravelers(2)
+        SettingUtils.save(activity, "point_of_sale_key", PointOfSaleId.UNITED_STATES.id.toString())
+        PointOfSale.onPointOfSaleChanged(activity)
+        val travelers = getMockTravelers(2)
         Db.sharedInstance.setTravelers(travelers)
         setupPresenterAndViewModel(LineOfBusiness.FLIGHTS_V2)
         resetAndUpdateTravelers()
@@ -98,7 +103,7 @@ class TravelersPresenterTest {
         travelersPresenter.travelerPickerWidget.refresh(Db.sharedInstance.travelers)
         var travelerToSelect = TravelerSelectItemViewModel(activity, 0, travelers[0].age, PassengerCategory.ADULT)
         travelersPresenter.travelerPickerWidget.viewModel.selectedTravelerSubject.onNext(travelerToSelect)
-        var travelerEntryWidget = (travelersPresenter.travelerEntryWidget as FlightTravelerEntryWidget)
+        val travelerEntryWidget = (travelersPresenter.travelerEntryWidget as FlightTravelerEntryWidget)
 
         assertEquals(View.VISIBLE, travelerEntryWidget.visibility)
         assertEquals("", travelerEntryWidget.advancedOptionsWidget.travelerNumber.text.toString())

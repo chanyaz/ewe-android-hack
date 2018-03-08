@@ -332,7 +332,7 @@ public class Money {
 			if (currency != null) {
 				nf.setCurrency(currency);
 				nf.setMaximumFractionDigits(currency.getDefaultFractionDigits());
-				nf.setNegativePrefix("-" + Currency.getInstance(currencyCode).getSymbol());
+				nf.setNegativePrefix("-" + currency.getSymbol());
 				nf.setNegativeSuffix("");
 			}
 
@@ -367,8 +367,18 @@ public class Money {
 		// We are hardcoding this condition because for Java 7 euro sign appears after amount for IT
 		// TODO: Remove this once Number Format Library starts giving us correct Currency Format for IT
 		if (currencyCode.equals("EUR") && Locale.getDefault().equals(Locale.ITALY)) {
-			String[] amountAndCurrencySymbol = formattedAmount.split("\\s+");
-			formattedAmount = amountAndCurrencySymbol[1] + " " + amountAndCurrencySymbol[0];
+			String currencySymbol = nf.getCurrency().getSymbol();
+//			currency is reversed, eg 34,00 €
+			if (formattedAmount.endsWith(currencySymbol)) {
+				String[] amountAndCurrencySymbol = formattedAmount.split("\\s+");
+				if (amountAndCurrencySymbol.length > 1 && amountAndCurrencySymbol[1].matches(currencySymbol)) {
+					formattedAmount = amountAndCurrencySymbol[1] + " " + amountAndCurrencySymbol[0];
+				}
+			}
+//			formatted but without a space, eg -€34,00
+			else if (formattedAmount.startsWith(nf.getNegativePrefix()) && !formattedAmount.startsWith(nf.getNegativePrefix() + " ")) {
+				formattedAmount = formattedAmount.replace(nf.getNegativePrefix(), nf.getNegativePrefix() + " ");
+			}
 		}
 		return formattedAmount;
 	}

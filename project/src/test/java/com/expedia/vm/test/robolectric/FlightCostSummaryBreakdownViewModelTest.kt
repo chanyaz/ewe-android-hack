@@ -23,6 +23,7 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import java.util.ArrayList
+import java.util.Locale
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class) @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
@@ -290,6 +291,48 @@ class FlightCostSummaryBreakdownViewModelTest {
         assertEvents(expectedBreakdown, breakdownRowsTestObservable.values()[0])
     }
 
+    @Test
+    fun testBreakdownWithSubPubNoFeesNoInsuranceEuroCurrency() {
+        Locale.setDefault(Locale.ITALY)
+        setupSystemUnderTest()
+        setUpFlightSubPubChange()
+        givenGoodTripResponse(currencyCode = "EUR")
+
+        val breakdownRowsTestObservable = TestObserver<kotlin.collections.List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
+        sut.addRows.subscribe(breakdownRowsTestObservable)
+        sut.flightCostSummaryObservable.onNext(newTripResponse)
+
+        val breakdowns = arrayListOf<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>()
+
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Adult 1 details").cost("€ 55,00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Flight").cost("€ 50,00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Taxes & Fees").cost("€ 5,00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().separator())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Expedia Booking Fee").cost("€ 0,00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().separator())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder()
+                .title("Expedia Discount")
+                .color(ContextCompat.getColor(activity, R.color.cost_summary_breakdown_savings_cost_color))
+                .cost("-€ 6,24").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().separator())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Total Due Today").cost("€ 55,00").build())
+
+        val expectedBreakdown = listOf(
+                breakdowns[0],
+                breakdowns[1],
+                breakdowns[2],
+                breakdowns[3],
+                breakdowns[4],
+                breakdowns[5],
+                breakdowns[6],
+                breakdowns[7],
+                breakdowns[8]
+        )
+        val breakdownRows = breakdownRowsTestObservable.values()[0]
+        assertEquals(9, breakdownRows.size)
+        assertEvents(expectedBreakdown, breakdownRows)
+    }
+
     private fun setupInsuranceFees() {
         val insurance = Money("10.00", "USD")
 
@@ -301,16 +344,16 @@ class FlightCostSummaryBreakdownViewModelTest {
         newTripResponse.details.offer.selectedInsuranceProduct.totalPrice.formattedPrice = insurance.formattedMoneyFromAmountAndCurrencyCode
     }
 
-    private fun givenGoodTripResponse() {
+    private fun givenGoodTripResponse(currencyCode: String = "USD") {
         val tripId = "1234"
         val tealeafTransactionId = "tealeaf-1234"
         val priceString = "55.00"
-        val currencyCode = "USD"
+        val currencyCode = currencyCode
         val totalPrice = Money(priceString, currencyCode)
         val adultCategory = FlightTripDetails.PassengerCategory.ADULT
-        val taxesPrice = Money("5.00", "USD")
-        val basePrice = Money("50.00", "USD")
-        val discountAmount = Money("-6.24", "USD")
+        val taxesPrice = Money("5.00", currencyCode)
+        val basePrice = Money("50.00", currencyCode)
+        val discountAmount = Money("-6.24", currencyCode)
 
         newTripResponse = FlightCreateTripResponse()
         newTripResponse.tripId = tripId
