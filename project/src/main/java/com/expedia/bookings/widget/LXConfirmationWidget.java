@@ -25,7 +25,7 @@ import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.ApiDateUtils;
-import com.expedia.bookings.utils.CarnivalUtils;
+import com.expedia.bookings.marketing.carnival.CarnivalUtils;
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;

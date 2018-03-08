@@ -54,7 +54,7 @@ import com.expedia.bookings.tracking.RouterToLaunchTimeLogger
 import com.expedia.bookings.tracking.RouterToSignInTimeLogger
 import com.expedia.bookings.utils.AbacusHelperUtils
 import com.expedia.bookings.utils.AboutUtils
-import com.expedia.bookings.utils.CarnivalUtils
+import com.expedia.bookings.marketing.carnival.CarnivalUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.DebugMenuFactory

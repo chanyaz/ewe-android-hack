@@ -26,7 +26,7 @@ import com.expedia.bookings.services.IClientLogServices
 import com.expedia.bookings.tracking.AppStartupTimeClientLog
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.RouterToOnboardingTimeLogger
-import com.expedia.bookings.utils.CarnivalUtils
+import com.expedia.bookings.marketing.carnival.CarnivalUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.navigation.NavUtils

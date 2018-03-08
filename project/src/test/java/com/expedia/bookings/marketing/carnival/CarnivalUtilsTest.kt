@@ -1,10 +1,9 @@
-package com.expedia.bookings.utils
+package com.expedia.bookings.marketing.carnival
 
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.carnival.sdk.AttributeMap
 import com.carnival.sdk.Message
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
@@ -22,36 +21,43 @@ import com.expedia.bookings.data.rail.responses.RailTripOffer
 import com.expedia.bookings.data.rail.responses.RailTripProduct
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.data.trips.TripComponent
+import com.expedia.bookings.marketing.carnival.model.CarnivalConstants
+import com.expedia.bookings.marketing.carnival.model.CarnivalNotificationTypeConstants
+import com.expedia.bookings.marketing.carnival.persistence.MockCarnivalPersistenceProvider
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.ApiDateUtils
 import org.joda.time.LocalDate
+import org.json.JSONObject
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.shadow.api.Shadow
 import org.robolectric.shadows.ShadowPendingIntent
+import java.text.SimpleDateFormat
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class CarnivalUtilsTest : CarnivalUtils() {
 
-    private lateinit var attributesToSend: AttributeMap
+    private lateinit var attributesToSend: JSONObject
     private var eventNameToLog: String? = null
     private var userIdToLog: String? = null
     private var userEmailToLog: String? = null
     private val context = RuntimeEnvironment.application
+    private lateinit var persistenceProvider: MockCarnivalPersistenceProvider
 
     @Before
     fun setup() {
-        initialize(context)
-        attributesToSend = AttributeMap()
+        persistenceProvider = MockCarnivalPersistenceProvider()
+        initialize(context, persistenceProvider)
+        attributesToSend = JSONObject()
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackHotelSearch() {
         reset()
 
@@ -70,7 +76,6 @@ class CarnivalUtilsTest : CarnivalUtils() {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackHotelInfoSite() {
         reset()
 
@@ -92,7 +97,6 @@ class CarnivalUtilsTest : CarnivalUtils() {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackFlightSearch() {
         reset()
 
@@ -105,7 +109,6 @@ class CarnivalUtilsTest : CarnivalUtils() {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackFlightCheckoutStart() {
         reset()
 
@@ -148,7 +151,6 @@ class CarnivalUtilsTest : CarnivalUtils() {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackFlightConfirmation() {
         reset()
 
@@ -191,7 +193,6 @@ class CarnivalUtilsTest : CarnivalUtils() {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackHotelCheckoutStart() {
         reset()
 
@@ -214,7 +215,6 @@ class CarnivalUtilsTest : CarnivalUtils() {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackHotelConfirmation() {
         reset()
 
@@ -239,7 +239,6 @@ class CarnivalUtilsTest : CarnivalUtils() {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackLxConfirmation() {
         reset()
 
@@ -251,7 +250,6 @@ class CarnivalUtilsTest : CarnivalUtils() {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackPackagesConfirmation() {
         reset()
 
@@ -269,7 +267,6 @@ class CarnivalUtilsTest : CarnivalUtils() {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackRailConfirmation() {
         reset()
 
@@ -293,7 +290,7 @@ class CarnivalUtilsTest : CarnivalUtils() {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testTrackAppLaunch() {
         reset()
 
@@ -321,7 +318,6 @@ class CarnivalUtilsTest : CarnivalUtils() {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testSetUserInfo() {
         this.setUserInfo("123456", "Tester@Test.com")
 
@@ -330,7 +326,6 @@ class CarnivalUtilsTest : CarnivalUtils() {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testClearUserInfo() {
         this.clearUserInfo()
 
@@ -339,7 +334,6 @@ class CarnivalUtilsTest : CarnivalUtils() {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun customMessageListenerListens() {
         val listener = TestableCarnivalMessageListener()
         val bundle = Bundle()
@@ -358,7 +352,6 @@ class CarnivalUtilsTest : CarnivalUtils() {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun customMessageListenerListensWithNoDeeplinkProvided() {
         val listener = TestableCarnivalMessageListener()
         val bundle = Bundle()
@@ -375,7 +368,6 @@ class CarnivalUtilsTest : CarnivalUtils() {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun customMessageListenerRequiresProviderKey() {
         val listener = TestableCarnivalMessageListener()
         val bundle = Bundle()
@@ -386,25 +378,134 @@ class CarnivalUtilsTest : CarnivalUtils() {
         assertEquals(listener.isNotificationFromCarnival(bundle), true)
     }
 
-    private fun getIntent(pendingIntent: PendingIntent): Intent {
-        return (Shadow.extract(pendingIntent) as ShadowPendingIntent)
-                .savedIntent
-    }
-    private fun reset() {
-        eventNameToLog = ""
-        attributesToSend.clear()
+    @Test
+    fun customAttributesWereSavedCorrectly() {
+        val mockAttributes = getMockCarnivalAttributesAsJsonObject()
+        persistenceProvider.put(mockAttributes)
+        assertEquals(getMockCarnivalAttributesAsHashMap(), persistenceProvider.getStoredAttributes())
     }
 
-    override fun setAttributes(attributes: AttributeMap, eventName: String) {
+    @Test
+    fun intAttributesWereSavedCorrectly() {
+        val sampleStringKey = "String_Key"
+        val sampleInt = 86
+        val mockJSONObject = JSONObject()
+
+        mockJSONObject.put(sampleStringKey, sampleInt)
+        persistenceProvider.put(mockJSONObject)
+        val storedIntValue = persistenceProvider.get(sampleStringKey) as Double
+
+        assertEquals(sampleInt, storedIntValue.toInt())
+    }
+
+    @Test
+    fun booleanAttributesWereSavedCorrectly() {
+        val sampleStringKey = "String_Key"
+        val sampleBoolean = false
+        val mockJSONObject = JSONObject()
+
+        mockJSONObject.put(sampleStringKey, sampleBoolean)
+        persistenceProvider.put(mockJSONObject)
+
+        assertEquals(sampleBoolean, persistenceProvider.get(sampleStringKey))
+    }
+
+    @Test
+    fun stringAttributesWereSavedCorrectly() {
+        val sampleStringKey = "String_Key"
+        val sampleString = "This is a sample string"
+        val mockJSONObject = JSONObject()
+
+        mockJSONObject.put(sampleStringKey, sampleString)
+        persistenceProvider.put(mockJSONObject)
+
+        assertEquals(sampleString, persistenceProvider.get(sampleStringKey))
+    }
+
+    @Test
+    fun stringArrayListAttributesWereSavedCorrectly() {
+        val sampleStringKey = "String_Key"
+        val sampleArrayList = arrayListOf(
+                CarnivalNotificationTypeConstants.MKTG,
+                CarnivalNotificationTypeConstants.SERV,
+                CarnivalNotificationTypeConstants.PROMO)
+        val mockJSONObject = JSONObject()
+
+        mockJSONObject.put(sampleStringKey, sampleArrayList)
+        persistenceProvider.put(mockJSONObject)
+
+        assertEquals(sampleArrayList, persistenceProvider.get(sampleStringKey))
+    }
+
+    @Test
+    fun dateAttributesWereSavedCorrectly() {
+        val sampleStringKey = "String_Key"
+        val dateFormat = SimpleDateFormat("dd/MM/yy")
+
+        val sampleDate = dateFormat.format(LocalDate.now().toDate())
+        val mockJSONObject = JSONObject()
+
+        mockJSONObject.put(sampleStringKey, sampleDate)
+        persistenceProvider.put(mockJSONObject)
+        assertEquals(sampleDate, persistenceProvider.get(sampleStringKey))
+    }
+
+    private fun getIntent(pendingIntent: PendingIntent): Intent {
+        return (Shadow.extract(pendingIntent) as ShadowPendingIntent).savedIntent
+    }
+
+    private fun reset() {
+        eventNameToLog = ""
+        attributesToSend = JSONObject()
+    }
+
+    override fun setAttributes(attributes: JSONObject, eventName: String) {
         //Don't actually send anything up to carnival
         eventNameToLog = eventName
         attributesToSend = attributes
+        persistenceProvider.put(attributes)
     }
 
     override fun setUserInfo(userId: String?, userEmail: String?) {
         //Don't actually set these user values on carnival
         userIdToLog = userId
         userEmailToLog = userEmail
+    }
+
+    private fun getMockCarnivalAttributesAsJsonObject(): JSONObject {
+        val mockAttributes = JSONObject()
+
+        mockAttributes.put(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_LOCATION_ENABLED, true)
+        mockAttributes.put(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_USER_EMAIL, "Tester@Test.com")
+        mockAttributes.put(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_SIGN_IN, true)
+        mockAttributes.put(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_BOOKED_PRODUCT, arrayListOf("HOTEL"))
+        mockAttributes.put(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_LOYALTY_TIER, "GOLD")
+        mockAttributes.put(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_LAST_LOCATION, "100.1, 75.2")
+        mockAttributes.put(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_NOTIFICATION_TYPE, arrayListOf(
+                CarnivalNotificationTypeConstants.MKTG,
+                CarnivalNotificationTypeConstants.SERV,
+                CarnivalNotificationTypeConstants.PROMO))
+        mockAttributes.put(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_POS, "expedia.fr")
+
+        return mockAttributes
+    }
+
+    private fun getMockCarnivalAttributesAsHashMap(): HashMap<String, Any> {
+        val mockAttributes = HashMap<String, Any>()
+
+        mockAttributes.put(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_LOCATION_ENABLED, true)
+        mockAttributes.put(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_USER_EMAIL, "Tester@Test.com")
+        mockAttributes.put(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_SIGN_IN, true)
+        mockAttributes.put(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_BOOKED_PRODUCT, arrayListOf("HOTEL"))
+        mockAttributes.put(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_LOYALTY_TIER, "GOLD")
+        mockAttributes.put(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_LAST_LOCATION, "100.1, 75.2")
+        mockAttributes.put(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_NOTIFICATION_TYPE, arrayListOf(
+                CarnivalNotificationTypeConstants.MKTG,
+                CarnivalNotificationTypeConstants.SERV,
+                CarnivalNotificationTypeConstants.PROMO))
+        mockAttributes.put(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_POS, "expedia.fr")
+
+        return mockAttributes
     }
 }
 

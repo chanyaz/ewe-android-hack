@@ -1,4 +1,4 @@
-package com.expedia.bookings.meso
+package com.expedia.bookings.marketing.meso
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -19,7 +19,7 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.bitmaps.PicassoTarget
-import com.expedia.bookings.meso.vm.MesoDestinationViewModel
+import com.expedia.bookings.marketing.meso.vm.MesoDestinationViewModel
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.Constants

@@ -1,4 +1,4 @@
-package com.expedia.bookings.meso.model
+package com.expedia.bookings.marketing.meso.model
 
 import com.google.android.gms.ads.formats.NativeAd
 

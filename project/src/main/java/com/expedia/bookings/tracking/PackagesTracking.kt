@@ -9,7 +9,7 @@ import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.tracking.hotel.PageUsableData
-import com.expedia.bookings.utils.CarnivalUtils
+import com.expedia.bookings.marketing.carnival.CarnivalUtils
 import com.expedia.bookings.utils.TuneUtils
 import com.expedia.vm.BaseFlightFilterViewModel
 

@@ -1,4 +1,4 @@
-package com.expedia.bookings.meso.vm
+package com.expedia.bookings.marketing.meso.vm
 
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -7,9 +7,9 @@ import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.meso.MesoAdResponseProvider
-import com.expedia.bookings.meso.model.MesoAdResponse
-import com.expedia.bookings.meso.model.MesoHotelAdResponse
+import com.expedia.bookings.marketing.meso.MesoAdResponseProvider
+import com.expedia.bookings.marketing.meso.model.MesoAdResponse
+import com.expedia.bookings.marketing.meso.model.MesoHotelAdResponse
 import com.expedia.util.Optional
 import com.squareup.phrase.Phrase
 import io.reactivex.Observer

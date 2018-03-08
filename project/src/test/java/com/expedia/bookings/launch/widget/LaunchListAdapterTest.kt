@@ -23,11 +23,11 @@ import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity
-import com.expedia.bookings.meso.model.MesoAdResponse
-import com.expedia.bookings.meso.model.MesoDestinationAdResponse
-import com.expedia.bookings.meso.model.MesoHotelAdResponse
-import com.expedia.bookings.meso.vm.MesoDestinationViewModel
-import com.expedia.bookings.meso.vm.MesoHotelAdViewModel
+import com.expedia.bookings.marketing.meso.model.MesoAdResponse
+import com.expedia.bookings.marketing.meso.model.MesoDestinationAdResponse
+import com.expedia.bookings.marketing.meso.model.MesoHotelAdResponse
+import com.expedia.bookings.marketing.meso.vm.MesoDestinationViewModel
+import com.expedia.bookings.marketing.meso.vm.MesoHotelAdViewModel
 import com.expedia.bookings.notification.NotificationManager
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers

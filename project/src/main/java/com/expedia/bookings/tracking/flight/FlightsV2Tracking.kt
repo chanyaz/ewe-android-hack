@@ -14,7 +14,7 @@ import com.expedia.bookings.data.flights.KrazyglueResponse
 import com.expedia.bookings.tracking.FacebookEvents
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
-import com.expedia.bookings.utils.CarnivalUtils
+import com.expedia.bookings.marketing.carnival.CarnivalUtils
 import com.expedia.bookings.utils.TuneUtils
 import com.expedia.vm.BaseFlightFilterViewModel
 import com.expedia.vm.InsuranceViewModel

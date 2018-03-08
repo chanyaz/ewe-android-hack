@@ -1,4 +1,4 @@
-package com.expedia.bookings.meso
+package com.expedia.bookings.marketing.meso
 
 import android.app.Activity
 import android.view.LayoutInflater
@@ -6,8 +6,8 @@ import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.analytics.AnalyticsProvider
-import com.expedia.bookings.meso.model.MesoDestinationAdResponse
-import com.expedia.bookings.meso.vm.MesoDestinationViewModel
+import com.expedia.bookings.marketing.meso.model.MesoDestinationAdResponse
+import com.expedia.bookings.marketing.meso.vm.MesoDestinationViewModel
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
