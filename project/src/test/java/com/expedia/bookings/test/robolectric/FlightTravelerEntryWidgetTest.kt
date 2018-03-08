@@ -421,7 +421,6 @@ class FlightTravelerEntryWidgetTest {
 
     @Test
     fun testGetTravelerReturnsTravelerIfEmpty() {
-        Db.sharedInstance.clear()
         givenMaterialForm()
         assertEquals(2, Db.sharedInstance.travelers.size)
         assertEquals(12345, Db.sharedInstance.travelers[0].tuid)

@@ -1,10 +1,13 @@
 package com.expedia.bookings.utils
 
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.TripBucketItemFlightV2
 import com.expedia.bookings.data.TripInfo
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
+import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightTripDetails
@@ -260,36 +263,35 @@ class TuneUtilsTests {
         assertEquals("AA|\$|850|RT|12345-48172:DL|\$|450|RT|12345-48172", provider.trackedEvent?.eventItems?.first()?.attribute5)
     }
 
-//    Comment out flaky Unit Test
-//    @Test
-//    fun testTrackFlightV2RateDetailOverview() {
-//        setupTuneProvider()
-//
-//        val flightSearchParams = FlightSearchParams(generateFlightSuggestionV4("DTW", "12005"), generateFlightSuggestionV4("SFO", "00887"),
-//                baseStartDate, baseStartDate.plusDays(3), 1, listOf(), false, "first class", 1, "1350", false, true, null)
-//
-//        val flightCreateTripResponse = FlightCreateTripResponse()
-//        flightCreateTripResponse.details = FlightTripDetails()
-//        flightCreateTripResponse.details.legs = listOf(generateFlightLeg("DL", 560))
-//        flightCreateTripResponse.details.offer = FlightTripDetails.FlightOffer()
-//        flightCreateTripResponse.details.offer.totalPrice = Money(560, "USD")
-//
-//        val tripBucketFlight = TripBucketItemFlightV2(flightCreateTripResponse)
-//        Db.getTripBucket().add(tripBucketFlight)
-//
-//        TuneUtils.trackFlightV2RateDetailOverview(flightSearchParams)
-//
-//        assertEquals("flight_rate_details", provider.trackedEvent?.eventName)
-//        assertEquals("flight_rate_details_item", provider.trackedEvent?.eventItems?.first()?.itemname)
-//        assertEquals(1, provider.trackedEvent?.eventItems?.first()?.quantity)
-//        assertEquals("DTW", provider.trackedEvent?.eventItems?.first()?.attribute2)
-//        assertEquals("SFO", provider.trackedEvent?.eventItems?.first()?.attribute3)
-//        assertEquals("DL", provider.trackedEvent?.eventItems?.first()?.attribute4)
-//        assertEquals(baseStartDate.toDate(), provider.trackedEvent?.date1)
-//        assertEquals(baseStartDate.plusDays(3).toDate(), provider.trackedEvent?.date2)
-//        assertEquals(560.00, provider.trackedEvent?.revenue)
-//        assertEquals("USD", provider.trackedEvent?.currencyCode)
-//    }
+    @Test
+    fun testTrackFlightV2RateDetailOverview() {
+        setupTuneProvider()
+
+        val flightSearchParams = FlightSearchParams(generateFlightSuggestionV4("DTW", "12005"), generateFlightSuggestionV4("SFO", "00887"),
+                baseStartDate, baseStartDate.plusDays(3), 1, listOf(), false, "first class", 1, "1350", false, true, null)
+
+        val flightCreateTripResponse = FlightCreateTripResponse()
+        flightCreateTripResponse.details = FlightTripDetails()
+        flightCreateTripResponse.details.legs = listOf(generateFlightLeg("DL", 560))
+        flightCreateTripResponse.details.offer = FlightTripDetails.FlightOffer()
+        flightCreateTripResponse.details.offer.totalPrice = Money(560, "USD")
+
+        val tripBucketFlight = TripBucketItemFlightV2(flightCreateTripResponse)
+        Db.getTripBucket().add(tripBucketFlight)
+
+        TuneUtils.trackFlightV2RateDetailOverview(flightSearchParams)
+
+        assertEquals("flight_rate_details", provider.trackedEvent?.eventName)
+        assertEquals("flight_rate_details_item", provider.trackedEvent?.eventItems?.first()?.itemname)
+        assertEquals(1, provider.trackedEvent?.eventItems?.first()?.quantity)
+        assertEquals("DTW", provider.trackedEvent?.eventItems?.first()?.attribute2)
+        assertEquals("SFO", provider.trackedEvent?.eventItems?.first()?.attribute3)
+        assertEquals("DL", provider.trackedEvent?.eventItems?.first()?.attribute4)
+        assertEquals(baseStartDate.toDate(), provider.trackedEvent?.date1)
+        assertEquals(baseStartDate.plusDays(3).toDate(), provider.trackedEvent?.date2)
+        assertEquals(560.00, provider.trackedEvent?.revenue)
+        assertEquals("USD", provider.trackedEvent?.currencyCode)
+    }
 
     @Test
     fun testTrackFlightV2Booked() {

@@ -2,6 +2,7 @@ package com.expedia.bookings.test.robolectric;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.DateTime;
@@ -22,6 +23,7 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.utils.DateRangeUtils;
 import com.expedia.bookings.utils.JodaUtils;
 
 /*
@@ -122,35 +124,35 @@ public class JodaUtilsTest {
 	}
 
 //	@Test
-//	public void testFormatting() {
-//		if (getContext().getResources().getConfiguration().locale
-//			.equals(new Locale("en", "US"))) {
-//			DateTime now = DateTime.now();
-//			String dayOfWeek = now.dayOfWeek().getAsText();
-//			String monthOfYear = now.monthOfYear().getAsText();
-//			String monthShort = now.monthOfYear().getAsShortText();
-//			String dayOfMonth = now.dayOfMonth().getAsText();
-//			String year = now.year().getAsText();
-//
-//			String nowLongDateFormat = JodaUtils.formatDateTime(getContext(),
-//				now, DateRangeUtils.getFLAGS_LONG_DATE_FORMAT());
-//			String expectedLongString = dayOfWeek + ", " + monthOfYear + " "
-//				+ dayOfMonth + ", " + year;
-//			Assert.assertEquals(expectedLongString, nowLongDateFormat);
-//
-//			String nowMediumDateFormat = JodaUtils.formatDateTime(getContext(),
-//				now, DateRangeUtils.getFLAGS_MEDIUM_DATE_FORMAT());
-//			String expectedMediumString = monthShort + " " + dayOfMonth + ", "
-//				+ year;
-//			Assert.assertEquals(expectedMediumString, nowMediumDateFormat);
-//
-//			String dateFormat = JodaUtils.formatDateTime(getContext(), now,
-//				DateRangeUtils.getFLAGS_DATE_NUMERIC() | DateRangeUtils.getFLAGS_MEDIUM_DATE_FORMAT());
-//			String expectedDateString = now.monthOfYear().getAsString() + "/"
-//				+ now.dayOfMonth().getAsString() + "/" + now.year().getAsString();
-//			Assert.assertEquals(expectedDateString, dateFormat);
-//		}
-//	}
+	public void testFormatting() {
+		if (getContext().getResources().getConfiguration().locale
+			.equals(new Locale("en", "US"))) {
+			DateTime now = DateTime.now();
+			String dayOfWeek = now.dayOfWeek().getAsText();
+			String monthOfYear = now.monthOfYear().getAsText();
+			String monthShort = now.monthOfYear().getAsShortText();
+			String dayOfMonth = now.dayOfMonth().getAsText();
+			String year = now.year().getAsText();
+
+			String nowLongDateFormat = JodaUtils.formatDateTime(getContext(),
+				now, DateRangeUtils.getFLAGS_LONG_DATE_FORMAT());
+			String expectedLongString = dayOfWeek + ", " + monthOfYear + " "
+				+ dayOfMonth + ", " + year;
+			Assert.assertEquals(expectedLongString, nowLongDateFormat);
+
+			String nowMediumDateFormat = JodaUtils.formatDateTime(getContext(),
+				now, DateRangeUtils.getFLAGS_MEDIUM_DATE_FORMAT());
+			String expectedMediumString = monthShort + " " + dayOfMonth + ", "
+				+ year;
+			Assert.assertEquals(expectedMediumString, nowMediumDateFormat);
+
+			String dateFormat = JodaUtils.formatDateTime(getContext(), now,
+				DateRangeUtils.getFLAGS_DATE_NUMERIC() | DateRangeUtils.getFLAGS_MEDIUM_DATE_FORMAT());
+			String expectedDateString = now.monthOfYear().getAsString() + "/"
+				+ now.dayOfMonth().getAsString() + "/" + now.year().getAsString();
+			Assert.assertEquals(expectedDateString, dateFormat);
+		}
+	}
 
 	/*
 	 * Direct comparison of the original DateTime and the instantiation returned

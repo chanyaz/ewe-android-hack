@@ -146,6 +146,7 @@ class FlightCheckoutToolbarTest {
     @Test
     fun testBackButtonFocusedWhenShowingTravelerForm() {
         overview.showCheckout()
+        Db.sharedInstance.travelers = listOf(Traveler())
         checkout.travelerSummaryCard.performClick()
         checkout.show(checkout.travelersPresenter)
 

@@ -31,6 +31,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import java.util.ArrayList
+import java.util.Locale
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
@@ -71,7 +72,7 @@ class PayWithPointsViewModelTest {
         Ui.getApplication(activity).defaultHotelComponents()
         val paymentWidget = LayoutInflater.from(activity).inflate(R.layout.payment_widget_v2, null) as PaymentWidgetV2
         val pwpWidget = paymentWidget.findViewById<View>(R.id.pwp_widget) as PayWithPointsWidget
-
+        Locale.setDefault(Locale.US)
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         shopWithPointsViewModel = ShopWithPointsViewModel(activity.applicationContext, paymentModel, UserLoginStateChangedModel())
         payWithPointsViewModel = PayWithPointsViewModel(paymentModel, shopWithPointsViewModel, activity.applicationContext)

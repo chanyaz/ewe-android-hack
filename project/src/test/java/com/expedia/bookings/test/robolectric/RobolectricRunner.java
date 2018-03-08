@@ -61,6 +61,7 @@ public class RobolectricRunner extends RobolectricTestRunner {
 
 		@Override
 		public void beforeTest(Method method) {
+			Db.sharedInstance.clear();
 			Db.sharedInstance.setAbacusResponse(new AbacusResponse());
 			super.beforeTest(method);
 		}

@@ -59,7 +59,6 @@ class BillingDetailsPaymentWidgetTest {
 
     @Before
     fun before() {
-        Db.sharedInstance.clear()
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Packages)
         billingDetailsPaymentWidget = LayoutInflater.from(activity).inflate(R.layout.billing_details_payment_widget, null) as BillingDetailsPaymentWidget

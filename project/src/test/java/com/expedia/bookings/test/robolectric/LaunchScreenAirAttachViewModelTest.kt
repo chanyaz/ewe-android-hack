@@ -67,7 +67,7 @@ class LaunchScreenAirAttachViewModelTest {
         assertEquals(contentDesc, view.contentDescription.toString())
     }
 
-    //@Test
+    @Test
     fun testAirAttachVariant2Displayed() {
         enableABTest()
         AbacusTestUtils.bucketTestWithVariant(ABTest(13345), 2)

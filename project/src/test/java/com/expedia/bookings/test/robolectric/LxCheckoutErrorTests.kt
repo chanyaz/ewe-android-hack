@@ -59,7 +59,8 @@ class LxCheckoutErrorTests {
     lateinit var checkoutPresenter: LXCheckoutPresenter
     lateinit var checkoutToolbar: ViewGroup
 
-    @Before fun before() {
+    @Before
+    fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_LX)
         Ui.getApplication(activity).defaultLXComponents()

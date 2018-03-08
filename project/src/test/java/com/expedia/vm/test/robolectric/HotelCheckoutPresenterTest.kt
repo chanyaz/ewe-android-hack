@@ -79,6 +79,7 @@ import org.robolectric.annotation.Config
 import org.robolectric.shadows.RoboLayoutInflater
 import org.robolectric.shadows.ShadowAlertDialog
 import java.io.IOException
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -105,6 +106,7 @@ class HotelCheckoutPresenterTest {
         Ui.getApplication(RuntimeEnvironment.application).defaultHotelComponents()
         Ui.getApplication(RuntimeEnvironment.application).defaultTravelerComponent()
         Db.sharedInstance.resetTravelers()
+        Locale.setDefault(Locale.US)
         activity.setTheme(R.style.Theme_Hotels_Default)
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppHotelMaterialForms)
         val checkoutView = LayoutInflater.from(activity).inflate(R.layout.test_hotel_checkout_presenter, null) as HotelCheckoutPresenter

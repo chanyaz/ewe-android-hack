@@ -59,7 +59,6 @@ class FlightTravelerFrequentFlyerWidgetTest {
         Ui.getApplication(context).defaultFlightComponents()
 
         widget = LayoutInflater.from(activity).inflate(R.layout.test_flight_entry_widget, null) as FlightTravelerEntryWidget
-        Db.sharedInstance.clear()
         Db.sharedInstance.travelers.add(traveler)
         widget.viewModel = FlightTravelerEntryWidgetViewModel(activity, 0, BehaviorSubject.createDefault(false), TravelerCheckoutStatus.CLEAN)
     }

@@ -3,7 +3,6 @@ package com.expedia.bookings.test.robolectric
 import android.app.Activity
 import android.view.LayoutInflater
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.widget.packages.MaterialBillingDetailsPaymentWidget
 import com.expedia.vm.PaymentViewModel
 import org.junit.Before
@@ -19,7 +18,6 @@ class CreditCardExpiryEditTextTest {
 
     @Before
     fun before() {
-        Db.sharedInstance.clear()
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Packages)
         materialBillingDetailsPaymentWidget = LayoutInflater.from(activity).inflate(R.layout.material_billing_details_payment_widget, null) as MaterialBillingDetailsPaymentWidget

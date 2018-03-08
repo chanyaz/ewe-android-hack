@@ -13,7 +13,6 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.ui.PackageHotelActivity
-import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
@@ -30,11 +29,6 @@ class PackageHotelActivityTest {
     val midResponseWithError = PackageTestUtil.getMockMIDResponse(offers = emptyList(),
             hotels = mapOf("1" to PackageTestUtil.dummyMidHotelRoomOffer()),
             errors = arrayListOf(MultiItemError("description", "MIS_FLIGHT_PRODUCT_NOT_FOUND", ProductType.Bundle)))
-
-    @After
-    fun tearDown() {
-        Db.sharedInstance.clear()
-    }
 
     @Test
     fun testMidEnabledDeeplinkedHotelResetsDbPackageResponse() {

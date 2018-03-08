@@ -48,7 +48,6 @@ class FlightCheckoutPresenterTest {
     private var activity: FragmentActivity by Delegates.notNull()
 
     @Before fun before() {
-        Db.sharedInstance.clear()
         Ui.getApplication(RuntimeEnvironment.application).defaultTravelerComponent()
         Ui.getApplication(RuntimeEnvironment.application).defaultFlightComponents()
         Db.sharedInstance.setTravelers(listOf(getTravelerWithFrequentFlyerMemberships()))

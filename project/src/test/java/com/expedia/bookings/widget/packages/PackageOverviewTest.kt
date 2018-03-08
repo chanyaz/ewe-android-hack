@@ -35,6 +35,7 @@ import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
+import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
@@ -56,7 +57,8 @@ class PackageOverviewTest {
     private val testTravelerInfoText = "Jun 29 at 9:00 am, 1 Traveler"
     private var bundleWidget: BundleWidget by Delegates.notNull()
 
-    @Before fun before() {
+    @Before
+    fun before() {
         Ui.getApplication(RuntimeEnvironment.application).defaultTravelerComponent()
         Ui.getApplication(RuntimeEnvironment.application).defaultPackageComponents()
         setUpPackageDb()
@@ -68,7 +70,7 @@ class PackageOverviewTest {
     }
 
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
-    //@Test
+    @Test
     fun testOvervviewRowsContentDescrition() {
         createTrip()
         //Initially when all rows are collapsed
@@ -91,7 +93,7 @@ class PackageOverviewTest {
     }
 
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    //@Test
+    @Test
     fun testAirlineFeeTextOnBundleOverview() {
         RoboTestHelper.setPOS(PointOfSaleId.AUSTRALIA)
         createTrip()
@@ -100,7 +102,7 @@ class PackageOverviewTest {
     }
 
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    //@Test
+    @Test
     fun testAirlineFeeTextNotShownOnBundleOverview() {
         RoboTestHelper.setPOS(PointOfSaleId.UNITED_STATES)
         createTrip()
@@ -109,7 +111,7 @@ class PackageOverviewTest {
     }
 
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
-    //@Test
+    @Test
     fun testFromPackageSearchParamsUsesMultiCityForPOIDestinationType() {
         val packageSearchParams = givenPackageSearchParamsWithPiid()
         setDestinationTypeAndMultiCity(packageSearchParams)
@@ -122,7 +124,7 @@ class PackageOverviewTest {
     }
 
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
-    //@Test
+    @Test
     fun testFromPackageSearchParamsUsesGaiaIdDefault() {
         val packageSearchParams = givenPackageSearchParamsWithPiid()
         val createTripParams = PackageCreateTripParams.fromPackageSearchParams(packageSearchParams)
@@ -205,10 +207,10 @@ class PackageOverviewTest {
     }
 
     private fun setDestinationTypeAndMultiCity(packageSearchParams: PackageSearchParams) {
-            packageSearchParams.destination?.type = "POI"
-            packageSearchParams.destination?.hierarchyInfo = SuggestionV4.HierarchyInfo()
-            packageSearchParams.destination?.hierarchyInfo?.airport = SuggestionV4.Airport()
-            packageSearchParams.destination?.hierarchyInfo?.airport?.multicity = "Seattle"
+        packageSearchParams.destination?.type = "POI"
+        packageSearchParams.destination?.hierarchyInfo = SuggestionV4.HierarchyInfo()
+        packageSearchParams.destination?.hierarchyInfo?.airport = SuggestionV4.Airport()
+        packageSearchParams.destination?.hierarchyInfo?.airport?.multicity = "Seattle"
     }
 
     private fun givenPackageSearchParamsWithPiid(): PackageSearchParams {

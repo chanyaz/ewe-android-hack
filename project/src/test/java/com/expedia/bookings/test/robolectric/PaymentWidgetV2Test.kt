@@ -63,6 +63,7 @@ import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import com.expedia.bookings.services.TestObserver
 import java.math.BigDecimal
+import java.util.Locale
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
@@ -107,7 +108,9 @@ class PaymentWidgetV2Test {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.Theme_Hotels_Default)
         Ui.getApplication(activity).defaultHotelComponents()
+        Locale.setDefault(Locale.US)
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppAllowUnknownCardTypes,
+                AbacusUtils.EBAndroidAppAllowUnknownCardTypes,
                 AbacusUtils.EBAndroidAppHotelMaterialForms,
                 AbacusUtils.EBAndroidAppSavedCoupons)
         sut = android.view.LayoutInflater.from(activity).inflate(R.layout.payment_widget_v2, null) as PaymentWidgetV2
