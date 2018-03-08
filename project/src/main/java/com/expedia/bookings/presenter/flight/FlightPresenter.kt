@@ -192,6 +192,11 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 trackResultsLoaded()
             }
         }
+        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFLightLoadingStateV1)) {
+            presenter.flightOfferViewModel.retrySearchObservable.subscribe {
+                presenter.resultsPresenter.setLoadingState()
+            }
+        }
 
         if (isByotEnabled) {
             presenter.overviewPresenter.vm.selectedFlightClickedSubject.subscribe {

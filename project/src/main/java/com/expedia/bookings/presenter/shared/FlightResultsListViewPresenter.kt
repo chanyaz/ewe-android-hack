@@ -17,6 +17,7 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FlightFilterButtonWithCountWidget
 import com.expedia.bookings.widget.FlightListRecyclerView
+import com.expedia.bookings.widget.FlightLoadingWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.flights.DockedOutboundFlightSelectionView
 import com.expedia.bookings.widget.flights.DockedOutboundFlightWidgetV2
@@ -27,7 +28,6 @@ import com.expedia.vm.FlightResultsViewModel
 import com.expedia.vm.flights.SelectedOutboundFlightViewModel
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
-import com.expedia.bookings.widget.FlightLoadingWidget
 
 class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val recyclerView: FlightListRecyclerView by bindView(R.id.list_view)
@@ -104,6 +104,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     private fun showLoadingStateV1() {
         flightProgressBar = findViewById(R.id.flight_loader_progressBar)
+        flightProgressBar.alpha = 1f
         flightLoadingWidget.setupLoadingState()
         flightProgressBar.visibility = View.VISIBLE
         flightProgressBar.max = FLIGHT_PROGRESS_BAR_MAX
@@ -132,12 +133,14 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
             if (isShowingOutboundResults) {
                 flightProgressBar.clearAnimation()
                 flightLoadingWidget.setResultReceived()
-                progressBarAnimation(1000, flightProgressBar.progress.toFloat(), FLIGHT_PROGRESS_BAR_MAX.toFloat(), true)
+                progressBarAnimation(800, flightProgressBar.progress.toFloat(), FLIGHT_PROGRESS_BAR_MAX.toFloat(), true)
             } else {
                 flightLoadingWidget.visibility = View.GONE
+                filterButton.visibility = if (showFilterButton) View.VISIBLE else View.GONE
             }
+        } else {
+            filterButton.visibility = if (showFilterButton) View.VISIBLE else View.GONE
         }
-        filterButton.visibility = if (showFilterButton) View.VISIBLE else View.GONE
     }
 
     private fun progressBarAnimation(duration: Long, fromProgress: Float, toProgress: Float, resultsReceived: Boolean) {
@@ -148,7 +151,8 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
             anim.setAnimationListener(object : AnimationListenerAdapter() {
                 override fun onAnimationEnd(animation: Animation?) {
                     super.onAnimationEnd(animation)
-                    flightProgressBar.visibility = View.GONE
+                    flightProgressBar.animate().alpha(0f).setDuration(300)
+                    filterButton.visibility = if (showFilterButton) View.VISIBLE else View.GONE
                 }
             })
         }

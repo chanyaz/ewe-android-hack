@@ -52,6 +52,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     val cancelCachedSearchObservable = PublishSubject.create<Unit>()
     val cancelGreedySearchObservable = PublishSubject.create<Unit>()
     val cancelGreedyCachedSearchObservable = PublishSubject.create<Unit>()
+    val retrySearchObservable = PublishSubject.create<Unit>()
 
     val isCachedCallCompleted = PublishSubject.create<Boolean>()
     val isRoundTripSearchSubject = BehaviorSubject.create<Boolean>()
@@ -330,6 +331,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
                         isGreedyCallAborted = true
                     } else {
                         val retryFun = fun() {
+                            retrySearchObservable.onNext(Unit)
                             flightServices.flightSearch(searchParamsObservable.value, makeResultsObserver(), resultsReceivedDateTimeObservable)
                         }
                         val cancelFun = fun() {
