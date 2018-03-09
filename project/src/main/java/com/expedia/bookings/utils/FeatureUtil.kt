@@ -43,10 +43,6 @@ fun isKrazyglueOnFlightsConfirmationEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedInAnyVariant(context, AbacusUtils.EBAndroidAppFlightsKrazyglue)
 }
 
-fun isDisplayCardsOnPaymentForm(context: Context): Boolean {
-    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppDisplayEligibleCardsOnPaymentForm)
-}
-
 fun isCreditCardMessagingForPayLaterEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelPayLaterCreditCardMessaging)
 }

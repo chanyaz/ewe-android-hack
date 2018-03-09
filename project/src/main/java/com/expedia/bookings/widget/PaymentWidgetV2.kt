@@ -22,7 +22,6 @@ import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isDisplayCardsOnPaymentForm
 import com.expedia.bookings.utils.isHotelMaterialForms
 import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.util.notNullAndObservable
@@ -43,7 +42,6 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
     var paymentSplitsType = PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD
     var isRewardsRedeemable: Boolean = false
     var isFullPayableWithPoints: Boolean = false
-    val shouldDisplayCardsListOnPaymentForm = isDisplayCardsOnPaymentForm(context)
     val isHotelMaterialForms = isHotelMaterialForms(context)
 
     var paymentWidgetViewModel by notNullAndObservable<IPaymentWidgetViewModel> { vm ->
@@ -64,9 +62,7 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
             paymentSplitsType = it.paymentSplits.paymentSplitsType()
             isFullPayableWithPoints = !it.isCardRequired()
             vm.burnAmountApiCallResponsePending.onNext(false)
-            if (shouldDisplayCardsListOnPaymentForm) {
-                viewmodel.showValidCards.onNext(it.tripResponse.validFormsOfPayment)
-            }
+            viewmodel.showValidCards.onNext(it.tripResponse.validFormsOfPayment)
         }
 
         enableToolbarMenuButton.subscribe { enable ->
@@ -96,14 +92,13 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
             }
         }
 
-        if (shouldDisplayCardsListOnPaymentForm) {
-            creditCardNumber.setOnFocusChangeListener { view, hasFocus ->
-                if (!hasFocus) {
-                    updateCardListOpacity((view as EditText).text.toString())
-                }
-                super.onFocusChange(creditCardNumber, hasFocus)
+        creditCardNumber.setOnFocusChangeListener { view, hasFocus ->
+            if (!hasFocus) {
+                updateCardListOpacity((view as EditText).text.toString())
             }
+            super.onFocusChange(creditCardNumber, hasFocus)
         }
+
         viewmodel.resetCardList.subscribe {
             undimAllCards(validCardsList)
         }
@@ -122,9 +117,7 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
             rewardWidget.layoutResource = layoutId
             rewardWidget.inflate()
         }
-        if (shouldDisplayCardsListOnPaymentForm) {
-            updateViewsForDisplayingCardsList()
-        }
+        updateViewsForDisplayingCardsList()
     }
 
     override fun shouldShowPaymentOptions(): Boolean {
