@@ -83,7 +83,7 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
     }
 
     fun createOmnitureTrackingValues(dataFlight: ItinCardDataFlight): HashMap<String, String?> {
-        return FlightItinOmnitureUtils().createOmnitureTrackingValues(dataFlight)
+        return FlightItinOmnitureUtils.createOmnitureTrackingValues(dataFlight)
     }
 
     @VisibleForTesting

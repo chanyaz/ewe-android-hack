@@ -5,8 +5,9 @@ import com.expedia.bookings.utils.JodaUtils
 import org.joda.time.DateTime
 import org.joda.time.Days
 
-class FlightItinOmnitureUtils {
+object FlightItinOmnitureUtils {
 
+    @JvmStatic
     fun createOmnitureTrackingValues(itinCardData: ItinCardDataFlight): HashMap<String, String?> {
         val duration = calculateTripDuration(itinCardData)
         val daysUntilTrip = calculateDaysUntilTripStart(itinCardData)

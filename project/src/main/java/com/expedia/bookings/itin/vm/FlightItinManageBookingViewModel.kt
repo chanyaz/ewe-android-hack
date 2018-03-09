@@ -66,7 +66,7 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
     }
 
     fun createOmnitureTrackingValues(): HashMap<String, String?> {
-        return FlightItinOmnitureUtils().createOmnitureTrackingValues(itinCardDataFlight)
+        return FlightItinOmnitureUtils.createOmnitureTrackingValues(itinCardDataFlight)
     }
 
     private fun updateToolbar() {

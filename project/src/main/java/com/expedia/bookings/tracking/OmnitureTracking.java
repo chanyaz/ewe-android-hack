@@ -2505,6 +2505,8 @@ public class OmnitureTracking {
 	private static final String ITIN_ACTIVITY_INFO = "App.Itinerary.Activity.Info.Additional";
 
 	private static final String ITIN_FLIGHT = "App.Itinerary.Flight";
+	private static final String ITIN_CAR = "App.Itinerary.Car";
+	private static final String ITIN_ACTIVITY = "App.Itinerary.Activity";
 	private static final String ITIN_FLIGHT_COPY_PNR = "App.Itinerary.Flight.CopyPNR";
 	private static final String ITIN_FLIGHT_CHECKIN = "App.Itinerary.Flight.CheckInNow";
 	private static final String ITIN_FLIGHT_CHECKIN_SUCCESS = "App.Itinerary.Flight.CheckIn.Yes";
@@ -2849,6 +2851,20 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.TripsFlightsNewDesign);
 		s.setProp(2, "itinerary");
 		s.setEvar(2, "D=c2");
+		s.track();
+	}
+
+	public static void trackItinCar() {
+		Log.d(TAG, "Tracking \"" + ITIN_CAR + "\" pageLoad");
+		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_CAR);
+		s.appendEvents("event63");
+		s.track();
+	}
+
+	public static void trackItinActivity() {
+		Log.d(TAG, "Tracking \"" + ITIN_ACTIVITY + "\" pageLoad");
+		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_ACTIVITY);
+		s.appendEvents("event63");
 		s.track();
 	}
 

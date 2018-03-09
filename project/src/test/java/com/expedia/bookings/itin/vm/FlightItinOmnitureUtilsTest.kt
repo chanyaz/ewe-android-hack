@@ -20,7 +20,7 @@ class FlightItinOmnitureUtilsTest {
     @Before
     fun setup() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        sut = FlightItinOmnitureUtils()
+        sut = FlightItinOmnitureUtils
         context = RuntimeEnvironment.application
     }
 

@@ -24,6 +24,7 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.itin.activity.FlightItinDetailsActivity;
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity;
 import com.expedia.bookings.itin.activity.LegacyItinCardDataActivity;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.mobiata.android.Log;
 
 @SuppressWarnings("rawtypes")
@@ -307,10 +308,25 @@ public class ItinListView extends ListView implements OnItemClickListener {
 		}
 
 		ItinCardData data = mAdapter.getItem(position);
+		trackExpansionOmniture(data);
 		getContext().startActivity(LegacyItinCardDataActivity.createIntent(getContext(), data.getId()),
 				ActivityOptionsCompat
 						.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete)
 						.toBundle());
+	}
+
+	private void trackExpansionOmniture(ItinCardData data) {
+		switch (data.getTripComponentType()) {
+		case CAR:
+			OmnitureTracking.trackItinCar();
+			break;
+		case FLIGHT:
+			OmnitureTracking.trackItinFlight(null);
+			break;
+		case ACTIVITY:
+			OmnitureTracking.trackItinActivity();
+			break;
+		}
 	}
 
 	private void registerDataSetObserver() {
