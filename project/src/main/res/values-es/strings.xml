@@ -2597,9 +2597,9 @@
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
         <item quantity="one">¡Nos queda %d habitación!</item>
-        <item quantity="two">¡Nos %d quedan habitaciones!</item>
-        <item quantity="many">¡Nos %d quedan habitaciones!</item>
-        <item quantity="other">¡Nos %d quedan habitaciones!</item>
+        <item quantity="two">¡Nos quedan %d habitaciones!</item>
+        <item quantity="many">¡Nos quedan %d habitaciones!</item>
+        <item quantity="other">¡Nos quedan %d habitaciones!</item>
     </plurals>
     <!-- No of filters applied on packages -->
     <plurals name="no_of_filters_applied_TEMPLATE">
