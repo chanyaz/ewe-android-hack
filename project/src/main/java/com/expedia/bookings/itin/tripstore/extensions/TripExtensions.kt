@@ -8,3 +8,7 @@ fun Itin.firstHotel(): ItinHotel? {
     val standAloneHotels = hotels.orEmpty()
     return packageHotels.plus(standAloneHotels).firstOrNull()
 }
+
+fun Itin.eligibleForRewards(): Boolean {
+    return rewardList != null && rewardList.isNotEmpty()
+}

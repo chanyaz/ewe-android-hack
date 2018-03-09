@@ -1,0 +1,451 @@
+{
+  "apiVersion": "1.0",
+  "responseType": "TRIP_DETAILS",
+  "responseData": {
+    "levelOfDetail": "FULL",
+    "tripId": "9e9d8bb8-c7c0-44e2-b8d1-529882d8d75a",
+    "webDetailsURL": "https://www.expedia.com/trips/7286254481412",
+    "tripNumber": 7286254481412,
+    "orderNumber": 8104774602994,
+    "title": "The Downtowner, Las Vegas",
+    "updateTripNameDescPathURL": "https://www.expedia.com/api/trips/9e9d8bb8-c7c0-44e2-b8d1-529882d8d75a/updateTripNameDescription",
+    "startTime": {
+      "raw": "2018-03-14T15:00:00-08:00",
+      "localized": "Mar 14, 2018 3:00:00 PM",
+      "epochSeconds": 1521068400,
+      "timeZoneOffsetSeconds": -28800,
+      "localizedShortDate": "3/14/2018",
+      "localizedMediumDate": "Mar 14",
+      "localizedFullDate": "Wed, Mar 14",
+      "localizedLongDate": "Mar 14, 2018",
+      "localizedShortTime": "3:00pm"
+    },
+    "endTime": {
+      "raw": "2018-03-15T11:00:00-08:00",
+      "localized": "Mar 15, 2018 11:00:00 AM",
+      "epochSeconds": 1521140400,
+      "timeZoneOffsetSeconds": -28800,
+      "localizedShortDate": "3/15/2018",
+      "localizedMediumDate": "Mar 15",
+      "localizedFullDate": "Thu, Mar 15",
+      "localizedLongDate": "Mar 15, 2018",
+      "localizedShortTime": "11:00am"
+    },
+    "tripCreatedTime": {
+      "raw": "2017-08-07T04:20:28Z",
+      "localized": "Aug 7, 2017 4:20:28 AM",
+      "epochSeconds": 1502079628,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Mon, 7 Aug",
+      "localizedMediumDate": "Aug 7, 2017",
+      "localizedFullDate": "Monday, August 7, 2017",
+      "localizedLongDate": "August 7, 2017",
+      "localizedShortTime": "4:20 AM"
+    },
+    "tripUpdatedTime": {
+      "raw": "2018-02-07T23:37:10Z",
+      "localized": "Feb 7, 2018 11:37:10 PM",
+      "epochSeconds": 1518046630,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Wed, 7 Feb",
+      "localizedMediumDate": "Feb 7, 2018",
+      "localizedFullDate": "Wednesday, February 7, 2018",
+      "localizedLongDate": "February 7, 2018",
+      "localizedShortTime": "11:37 PM"
+    },
+    "tripCacheUpdatedTime": {
+      "raw": "2018-02-07T23:37:10Z",
+      "localized": "Feb 7, 2018 11:37:10 PM",
+      "epochSeconds": 1518046630,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Wed, 7 Feb",
+      "localizedMediumDate": "Feb 7, 2018",
+      "localizedFullDate": "Wednesday, February 7, 2018",
+      "localizedLongDate": "February 7, 2018",
+      "localizedShortTime": "11:37 PM"
+    },
+    "ownerId": 1198215898,
+    "bookingStatus": "BOOKED",
+    "rewardList": [],
+    "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/TAPwPKxWSP022umPHcDukcCAODWmyuUcBA2a5C5Yje8SJ8DxNhIcGgfkrRZcZUmpHcBNldu6rykb9pVy1vnOtq4j",
+    "customerSupport": {},
+    "isBookedUsingForeignCurrency": false,
+    "hotels": [
+      {
+        "uniqueID": "D2534C85-84C5-4E66-AFAB-4E6D5E541A6D_0",
+        "hotelId": "11920424",
+        "checkInDateTime": {
+          "raw": "2018-03-14T15:00:00-08:00",
+          "localized": "Mar 14, 2018 3:00:00 PM",
+          "epochSeconds": 1521068400,
+          "timeZoneOffsetSeconds": -28800,
+          "localizedShortDate": "3/14/2018",
+          "localizedMediumDate": "Mar 14",
+          "localizedFullDate": "Wed, Mar 14",
+          "localizedLongDate": "Mar 14, 2018",
+          "localizedShortTime": "3:00pm"
+        },
+        "checkOutDateTime": {
+          "raw": "2018-03-15T11:00:00-08:00",
+          "localized": "Mar 15, 2018 11:00:00 AM",
+          "epochSeconds": 1521140400,
+          "timeZoneOffsetSeconds": -28800,
+          "localizedShortDate": "3/15/2018",
+          "localizedMediumDate": "Mar 15",
+          "localizedFullDate": "Thu, Mar 15",
+          "localizedLongDate": "Mar 15, 2018",
+          "localizedShortTime": "11:00am"
+        },
+        "checkInDate": "2018-03-14T15:00:00-08:00",
+        "checkOutDate": "2018-03-15T11:00:00-08:00",
+        "checkInDateLocalized": "Mar 14, 2018",
+        "checkOutDateLocalized": "Mar 15, 2018",
+        "numberOfNights": 1,
+        "bookingStatus": "BOOKED",
+        "bookingStatusText": "Confirmed",
+        "bookingStatusMessage": "We have confirmed your hotel reservation with the property.",
+        "bookedDate": "2017-08-06",
+        "inventoryType": "DIRECT_AGENCY",
+        "inventoryTypeEnum": "DIRECT_AGENCY",
+        "inventorySource": "INTERNAL",
+        "paymentModel": "HOTEL_COLLECT",
+        "inventoryVisibility": "VISIBLE",
+        "orderNumber": "8104774602994",
+        "state": "PRE_START_4",
+        "infositeURL": "https://www.expedia.com/itin.h11920424.Hotel-Information?langid=1033",
+        "reviewSubmissionURL": "https://www.expedia.com/ReviewSubmission?ItinId=7286254481412&htid=11920424&campaignId=APP.REVIEW.DEEPLINK.URL",
+        "epcConversationURL": "https://www.expedia.com/createConversation/create/?bookingId=0&bookingItemId=888698301&itineraryId=7286254481412&checkinDate=03/14/2018&checkoutDate=03/15/2018&tpid=1&eapid=0&siteId=1&hotelId=11920424&hotelName=The+Downtowner&userTokenString=m54WJ0ERPi8yV8N38tL-1adOdFeKdqGkxdL8-RbdYC8uUwRbzGg9pQiQqTBS--rzh5Vx4WziSxcaKh5Ne68FWCiZcE9jnqrv4zNvlV5U_ptxO0JaDx3tUTs",
+        "hotelPropertyInfo": {
+          "address": {
+            "addressLine1": "129 North 8th Street",
+            "city": "Las Vegas",
+            "countrySubdivisionCode": "NV",
+            "postalCode": "89101",
+            "countryCode": "USA",
+            "countryName": " United States of America",
+            "fullAddress": "129 North 8th Street, Las Vegas, NV, 89101 United States of America",
+            "airportCode": "LAS"
+          },
+          "name": "The Downtowner",
+          "starRating": "20",
+          "photoThumbnailURL": "/hotels/12000000/11930000/11920500/11920424/d21c680e_l.jpg",
+          "photoThumbnail500pixURL": "/hotels/12000000/11930000/11920500/11920424/d21c680e_y.jpg",
+          "photoThumbnail1000pixURL": "/hotels/12000000/11930000/11920500/11920424/d21c680e_z.jpg",
+          "localPhone": "+1-702-553-2553",
+          "tollFreePhone": "1-702-384-1441",
+          "formattedPhoneNumbers": "Tel: 1 (702) 553-2553, Fax: 1 (702) 359-9987",
+          "checkInPolicies": [
+            "Check-in time starts at 3 PM",
+            "Check-in time ends at 1 AM",
+            "Minimum check-in age is 21"
+          ],
+          "checkInStartTimePolicy": {
+            "label": "Check-in time starts at",
+            "value": "3 PM"
+          },
+          "checkInEndTimePolicy": {
+            "label": "Check-in time ends at",
+            "value": "1 AM"
+          },
+          "checkOutTimePolicy": {
+            "label": "Check-out time is",
+            "value": "11 AM"
+          },
+          "generalRules": [
+            "Check-out time is 11 AM",
+            "No rollaway/extra beds available",
+            "No cribs (infant beds) available"
+          ],
+          "restrictionPolicies": [
+            "No elevators"
+          ],
+          "fees": [],
+          "mandatoryFees": [
+            "<p>You'll be asked to pay the following charges at the property:</p>",
+            "<ul><li>Deposit: USD 50.00 per stay</li><li>Resort fee: USD 5.65 per accommodation, per night</li></ul>",
+            "The resort fee includes:<ul><li>Internet access</li><li>Parking</li></ul>",
+            "<p>We have included all charges provided to us by the property. However, charges can vary, for example, based on length of stay or the room you book. </p>"
+          ],
+          "specialCheckInInstructions": [
+            "The front desk is open daily from 7 AM - 1:30 AM"
+          ],
+          "latitude": 36.168682,
+          "longitude": -115.136731,
+          "isVipAccess": false,
+          "googleMapsLink": "//maps.google.com/?q=89101+Las+Vegas%2C+129+North+8th+Street+",
+          "regionId": "800047"
+        },
+        "totalPriceDetails": {
+          "primaryCurrencyCode": "USD",
+          "base": "39.00",
+          "baseFormatted": "$39.00",
+          "baseWithAdjustmentForDRRRateDiscount": "39.00",
+          "baseWithAdjustmentForDRRRateDiscountFormatted": "$39.00",
+          "taxesAndFees": "5.07",
+          "taxesAndFeesFormatted": "$5.07",
+          "drrRateDiscountDescription": "",
+          "subTotalBeforeCoupon": "44.07",
+          "subTotalBeforeCouponFormatted": "$44.07",
+          "subTotalAfterDeposits": "0.00",
+          "subTotalAfterDepositsFormatted": "$0.00",
+          "taxStatus": "ESTIMATED",
+          "total": "44.07",
+          "totalFormatted": "$44.07",
+          "chargedTotalFormatted": "$44.07",
+          "isCurrencyConversionEnabled": false,
+          "hotelDeposits": "44.07",
+          "hotelDepositsFormatted": "$44.07",
+          "hasFees": false,
+          "expediaChangeFee": "0",
+          "expediaChangeFeeFormatted": "$0.00"
+        },
+        "rules": {
+          "cancelChangeRulesIntroduction": "If you cancel or change your plans, please cancel your reservation in accordance with the property's cancellation policies to avoid a no-show charge.",
+          "cancelChangeRules": [
+            "Cancellations or changes made after 3:00pm (Pacific Daylight Time (US & Canada); Tijuana) on Mar 12, 2018 or no-shows are subject to a property fee equal to 100% of the total amount paid for the reservation.",
+            "Deposits charged by the property will be applied to any cancellation or change property fees."
+          ],
+          "cancellationWindowTime": {
+            "raw": "2018-03-12T15:00:00-08:00",
+            "localized": "Mar 12, 2018 3:00:00 PM",
+            "epochSeconds": 1520895600,
+            "timeZoneOffsetSeconds": -28800,
+            "localizedShortDate": "Mon, 12 Mar",
+            "localizedMediumDate": "Mar 12, 2018",
+            "localizedFullDate": "Monday, March 12, 2018",
+            "localizedLongDate": "March 12, 2018",
+            "localizedShortTime": "3:00 PM"
+          },
+          "opaqueRules": [],
+          "opaquePolicies": [],
+          "lateArrivalInstructions": "If a late check-in is planned, contact this property directly for their late check-in policy.",
+          "currencyDisclaimer": "Unless specified otherwise, <span class=\"rr-bold\">rates are quoted in </span><span class=\"rr-bold\" id=\"hotel_id-default-currency\">US dollars</span>.",
+          "extraGuestPolicies": [
+            "Availability of accommodation in the same property for extra guests is not guaranteed."
+          ],
+          "occupancyPolicies": [
+            "Base rate is for 2 guests.",
+            "If rates are listed below, they may be quoted in the currency of the country where the property is located.",
+            "This property considers guests of any age to be an adult."
+          ],
+          "paymentPolicies": [
+            "Your credit card is used to guarantee your reservation.",
+            "If rates are listed below, they may be quoted in the currency of the country where the hotel is located.",
+            "You will be charged deposits by the property based on the following schedule. First night plus tax (after booking) ",
+            "A deposit will be required for this lodging reservation."
+          ],
+          "depositPolicies": {
+            "depositPolicies": [
+              {
+                "depositReferenceId": "d275b882-7adf-4f2f-a333-0e25d7836a75",
+                "paragraphPerLang": [
+                  {
+                    "langId": 1033,
+                    "paragraphs": [
+                      "You will be charged deposits by the property based on the following schedule. ",
+                      "First night plus tax (after booking) "
+                    ]
+                  }
+                ],
+                "policyByReferenceId": true
+              }
+            ]
+          },
+          "depositTextID": "d275b882-7adf-4f2f-a333-0e25d7836a75",
+          "roomRequestDisclaimer": "All special requests (such as in-room amenities, bed type, and smoking preference) are shared with the hotel, but requests are not guaranteed and may incur additional charges. We recommend you confirm them directly with the hotel before travel.",
+          "dualCurrencyText": "Rate quotes in USD are based on current exchange rates, which may vary at time of travel. Final payment will be settled in local currency directly with the hotel."
+        },
+        "rooms": [
+          {
+            "uniqueID": "D2534C85-84C5-4E66-AFAB-4E6D5E541A6D_0_888698301",
+            "roomRatePlanDescription": "Deluxe Room, 1 Queen Bed",
+            "roomTypeCode": "201223610",
+            "ratePlanCode": "205788407",
+            "bookingStatus": "BOOKED",
+            "bookingStatusEnum": "BOOKED",
+            "hotelConfirmationNumber": "EXP-888698301",
+            "drrRateDiscountDescription": "",
+            "orderLineNumber": "1fad0b1f-ff06-441e-b3e4-104ec520a129",
+            "refundabilityStatus": "REFUNDABLE",
+            "availableOnAllDates": true,
+            "roomCancelLink": "https://www.expedia.com/hotel-cancel-details?tripid=9e9d8bb8-c7c0-44e2-b8d1-529882d8d75a&ordernumber=8104774602994&orderlineguid=1fad0b1f-ff06-441e-b3e4-104ec520a129&roomNumber=0",
+            "roomChangeLink": "https://www.expedia.com/trips/9e9d8bb8-c7c0-44e2-b8d1-529882d8d75a/ordernumber/8104774602994/orderlinenumber/1fad0b1f-ff06-441e-b3e4-104ec520a129/change",
+            "roomChangeLinkForMobileWebView": "https://www.expedia.com/trips/9e9d8bb8-c7c0-44e2-b8d1-529882d8d75a/ordernumber/8104774602994/orderlinenumber/1fad0b1f-ff06-441e-b3e4-104ec520a129/change?blockHardChange=true&mobileWebView=true",
+            "totalPriceDetails": {
+              "primaryCurrencyCode": "USD",
+              "base": "39.00",
+              "baseFormatted": "$39.00",
+              "baseWithAdjustmentForDRRRateDiscount": "39.00",
+              "baseWithAdjustmentForDRRRateDiscountFormatted": "$39.00",
+              "taxesAndFees": "5.07",
+              "taxesAndFeesFormatted": "$5.07",
+              "subTotalBeforeCoupon": "44.07",
+              "subTotalBeforeCouponFormatted": "$44.07",
+              "subTotalAfterDeposits": "0.00",
+              "subTotalAfterDepositsFormatted": "$0.00",
+              "total": "44.07",
+              "totalFormatted": "$44.07",
+              "chargedTotalFormatted": "$44.07",
+              "isCurrencyConversionEnabled": false,
+              "hotelDeposits": "44.07",
+              "hotelDepositsFormatted": "$44.07",
+              "averagePricePerDay": "39.00",
+              "averagePricePerDayFormatted": "$39.00",
+              "averageTaxPerDay": "5.07",
+              "averageTaxPerDayFormatted": "$5.07",
+              "priceDetailsPerDay": [
+                {
+                  "day": {
+                    "raw": "2018-03-14T15:00:00-08:00",
+                    "localized": "Mar 14, 2018 3:00:00 PM",
+                    "epochSeconds": 1521068400,
+                    "timeZoneOffsetSeconds": -28800,
+                    "localizedShortDate": "Wed, 14 Mar",
+                    "localizedMediumDate": "Mar 14, 2018",
+                    "localizedFullDate": "Wednesday, March 14, 2018",
+                    "localizedLongDate": "March 14, 2018",
+                    "localizedShortTime": "3:00 PM"
+                  },
+                  "primaryCurrencyCode": "USD",
+                  "amount": "39.00",
+                  "amountFormatted": "$39.00",
+                  "localizedDay": {
+                    "raw": "2018-03-14T15:00:00-08:00",
+                    "localized": "Mar 14, 2018 3:00:00 PM",
+                    "epochSeconds": 1521068400,
+                    "timeZoneOffsetSeconds": -28800,
+                    "localizedShortDate": "3/14/2018",
+                    "localizedMediumDate": "Mar 14",
+                    "localizedFullDate": "Wed, Mar 14",
+                    "localizedLongDate": "Mar 14, 2018",
+                    "localizedShortTime": "3:00pm"
+                  }
+                }
+              ],
+              "isSameRateForAllNights": true,
+              "expediaChangeFee": "0",
+              "expediaChangeFeeFormatted": "$0.00"
+            },
+            "roomPreferences": {
+              "primaryOccupant": {
+                "firstName": "Nina",
+                "fullName": "Nina Ricci",
+                "email": "test123@123.com",
+                "phone": "1-555-8885858"
+              },
+              "otherOccupantInfo": {
+                "adultCount": 2,
+                "childCount": 0,
+                "infantCount": 0,
+                "childAndInfantCount": 0,
+                "maxGuestCount": 0,
+                "childAndInfantAges": []
+              },
+              "occupantSelectedRoomOptions": {
+                "bedTypeName": "1 Queen Bed",
+                "defaultBedTypeName": "1 queen bed",
+                "smokingPreference": "NONSMOKING_ROOM",
+                "accessibilityOptions": [],
+                "hasExtraBedAdult": false,
+                "hasExtraBedChild": false,
+                "hasExtraBedInfant": false,
+                "isSmokingPreferenceSelected": true,
+                "isRoomOptionsAvailable": true
+              },
+              "availableRoomOptions": {
+                "bedTypes": [
+                  {
+                    "id": "37310",
+                    "description": "1 Queen Bed",
+                    "selected": false
+                  }
+                ],
+                "isNewBedTypes": true,
+                "isSmokingRoomAvailable": false,
+                "isNonSmokingRoomAvailable": true
+              }
+            },
+            "amenities": [
+              "Free Parking"
+            ],
+            "amenityIds": [
+              128
+            ],
+            "nonPricePromotionData": {},
+            "hotelRatePlan": {
+              "m_type": 524288
+            }
+          }
+        ],
+        "isFreeCancellationAvailable": false,
+        "paymentsAndCreditFees": {
+          "paymentsHotelFeesAndDepositsDisclaimer": "The below fees and deposits only apply if they are not included in your selected room rate.",
+          "paymentsDepositRequired": "This hotel requires an initial deposit which will be charged to your credit card. The remaining balance will be collected by the hotel during your stay.",
+          "noFeesStaticText": "The price above DOES NOT include any applicable hotel service fees, charges for optional incidentals (such as minibar snacks or telephone calls), or regulatory surcharges. The hotel will assess these fees, charges, and surcharges upon check-out.",
+          "isDirectAgency": true,
+          "isGDS": false,
+          "isFullyCancelled": false,
+          "isAnyRoomCancelled": false,
+          "isDepositRequired": true,
+          "isPaymentsCreditsVisible": true
+        },
+        "showVATDisclaimer": false,
+        "action": {
+          "isChangeable": true,
+          "isCancellable": true
+        }
+      }
+    ],
+    "totalTripPrice": {
+      "currency": "USD",
+      "total": "44.07",
+      "totalFormatted": "$44.07"
+    },
+    "isCouponApplied": false,
+    "readTripError": false,
+    "tripSource": "expedia",
+    "clientId": "expedia.app.android.phone:18.6.0",
+    "zetaTrip": false,
+    "showCurrencyName": false,
+    "isMRP": false,
+    "fromCloud": [
+      "isBookedUsingForeignCurrency",
+      "orderNumber",
+      "isTripUpgradable",
+      "tripDataSource",
+      "zetaTrip",
+      "tripId",
+      "levelOfDetail",
+      "title",
+      "ownerId",
+      "billPayMethod",
+      "totalTripPrice",
+      "isRewardsPointsBooking",
+      "bookingStatus",
+      "startTime",
+      "tripUpdatedTime",
+      "isCouponApplied",
+      "isMRP",
+      "tripNumber",
+      "email",
+      "customerSupport",
+      "clientId",
+      "webDetailsURL",
+      "tripSource",
+      "updateTripNameDescPathURL",
+      "tripCreatedTime",
+      "sharableDetailsURL",
+      "hotels",
+      "endTime",
+      "readTripError",
+      "tripCacheUpdatedTime"
+    ],
+    "tripDataSource": "EXPWEB_HYBRID",
+    "isTripUpgradable": false,
+    "email": {
+      "m_email": "test123@123.com"
+    },
+    "isRewardsPointsBooking": false,
+    "billPayMethod": "false"
+  }
+}

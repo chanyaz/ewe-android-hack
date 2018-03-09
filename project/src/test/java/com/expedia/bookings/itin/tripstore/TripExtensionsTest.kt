@@ -2,12 +2,15 @@ package com.expedia.bookings.itin.tripstore
 
 import com.expedia.bookings.itin.tripstore.data.ItinDetailsResponse
 import com.expedia.bookings.itin.tripstore.data.ItinHotel
+import com.expedia.bookings.itin.tripstore.extensions.eligibleForRewards
 import com.expedia.bookings.itin.tripstore.extensions.firstHotel
 import com.mobiata.mocke3.mockObject
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 class TripExtensionsTest {
 
@@ -35,6 +38,24 @@ class TripExtensionsTest {
     fun testFirstHotelNoHotels() {
         val hotel = makeItinHotel("api/trips/hotel_trip_details_empty_hotels.json")
         assertNull(hotel)
+    }
+
+    @Test
+    fun validRewardList() {
+        val trip = mockObject(ItinDetailsResponse::class.java, "api/trips/trip_valid_rewards_list.json")
+        assertTrue(trip?.itin?.eligibleForRewards()!!)
+    }
+
+    @Test
+    fun nullRewardList() {
+        val trip = mockObject(ItinDetailsResponse::class.java, "api/trips/hotel_trip_details.json")
+        assertFalse(trip?.itin?.eligibleForRewards()!!)
+    }
+
+    @Test
+    fun emptyRewardList() {
+        val trip = mockObject(ItinDetailsResponse::class.java, "api/trips/trip_empty_rewards_list.json")
+        assertFalse(trip?.itin?.eligibleForRewards()!!)
     }
 
     private fun makeItinHotel(mockName: String): ItinHotel? {
