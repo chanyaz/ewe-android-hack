@@ -97,9 +97,9 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="24783"
+            android:key="24743"
             android:summary="%s"
-            android:title="Hotel Result change date - 24783" />
+            android:title="Hotel Result change date - 24743" />
             
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"

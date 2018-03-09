@@ -96,7 +96,7 @@ public class AbacusUtils {
 	public static final ABTest HotelSoldOutOnHSRTreatment = new ABTest(24727, true);
 	public static final ABTest HotelImageGrid = new ABTest(24841, true);
 	public static final ABTest HotelRecentSearch = new ABTest(15832, true);
-	public static final ABTest HotelResultChangeDate = new ABTest(24783, true);
+	public static final ABTest HotelResultChangeDate = new ABTest(24743, true);
 	public static final ABTest HotelEarn2xMessaging = new ABTest(24742, true);
 	public static final ABTest HotelSatelliteSearch = new ABTest(24951, true);
 
