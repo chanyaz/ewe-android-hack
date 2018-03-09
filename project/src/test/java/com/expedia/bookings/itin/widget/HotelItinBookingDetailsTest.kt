@@ -7,15 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
-
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.trips.ItinCardDataHotel
+import com.expedia.bookings.itin.hotel.details.HotelItinBookingDetails
 import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinDetailsResponse
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
-import com.expedia.bookings.data.trips.ItinCardDataHotel
-import com.expedia.bookings.itin.hotel.details.HotelItinBookingDetails
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import com.mobiata.mocke3.mockObject
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -34,11 +36,13 @@ class HotelItinBookingDetailsTest {
     private lateinit var itinCardDataHotel: ItinCardDataHotel
     lateinit var intent: Intent
     lateinit var shadowActivity: ShadowActivity
+    lateinit var context: Context
 
     @Before
     fun before() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.ItinTheme)
+        context = RuntimeEnvironment.application
         bookingDetailsWidget = LayoutInflater.from(activity).inflate(R.layout.test_hotel_itin_booking_details, null) as HotelItinBookingDetails
         itinCardDataHotel = ItinCardDataHotelBuilder().build()
         intentBuilder = WebViewActivity.IntentBuilder(RuntimeEnvironment.application)
@@ -107,14 +111,19 @@ class HotelItinBookingDetailsTest {
     }
 
     object MockReadJsonUtil : IJsonToItinUtil {
-        override fun getItin(context: Context, itinId: String?): Itin? {
+        override fun getItin(itinId: String?): Itin? {
             return mockObject(ItinDetailsResponse::class.java, "api/trips/hotel_trip_details_for_mocker.json")?.itin!!
         }
     }
 
     object FaultyReadJsonUtil : IJsonToItinUtil {
-        override fun getItin(context: Context, itinId: String?): Itin? {
+        override fun getItin(tinId: String?): Itin? {
             return null
         }
+    }
+
+    @After
+    fun tearDown() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppTripsHotelPricing)
     }
 }

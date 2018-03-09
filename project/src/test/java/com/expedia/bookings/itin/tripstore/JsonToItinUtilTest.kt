@@ -2,7 +2,6 @@ package com.expedia.bookings.itin.tripstore
 
 import android.content.Context
 import com.expedia.bookings.itin.tripstore.data.ItinDetailsResponse
-import com.expedia.bookings.itin.tripstore.utils.JsonToItinUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
 import com.mobiata.mocke3.getJsonStringFromMock
@@ -20,6 +19,7 @@ class JsonToItinUtilTest {
     private val context: Context = RuntimeEnvironment.application
     private val TEST_FILENAME = "TEST_FILE"
     private val fileUtils = Ui.getApplication(context).appComponent().tripJsonFileUtils()
+    private val jsonUtils = Ui.getApplication(context).tripComponent().jsonUtilProvider()
 
     @Before
     fun setup() {
@@ -33,20 +33,20 @@ class JsonToItinUtilTest {
 
     @Test
     fun noJsonFileExists() {
-        val itin = JsonToItinUtil.getItin(context, TEST_FILENAME)
+        val itin = jsonUtils.getItin(TEST_FILENAME)
         assertNull(itin)
     }
 
     @Test
     fun nullItinId() {
-        val itin = JsonToItinUtil.getItin(context, null)
+        val itin = jsonUtils.getItin(null)
         assertNull(itin)
     }
 
     @Test
     fun validItinIdInvalidJson() {
         fileUtils.writeTripToFile(TEST_FILENAME, "blah blah")
-        val itin = JsonToItinUtil.getItin(context, TEST_FILENAME)
+        val itin = jsonUtils.getItin(TEST_FILENAME)
         assertNull(itin)
     }
 
@@ -54,7 +54,7 @@ class JsonToItinUtilTest {
     fun validItinIdValidJsonInvalidItin() {
         val errorData: String = getJsonStringFromMock("api/trips/error_bad_request_trip_response.json", null)
         fileUtils.writeTripToFile(TEST_FILENAME, errorData)
-        val itin = JsonToItinUtil.getItin(context, TEST_FILENAME)
+        val itin = jsonUtils.getItin(TEST_FILENAME)
         assertNull(itin)
     }
 
@@ -63,7 +63,7 @@ class JsonToItinUtilTest {
         val mockData: String = getJsonStringFromMock("api/trips/hotel_trip_details.json", null)
         val mockObject = mockObject(ItinDetailsResponse::class.java, "api/trips/hotel_trip_details.json")?.itin
         fileUtils.writeTripToFile(TEST_FILENAME, mockData)
-        val itin = JsonToItinUtil.getItin(context, TEST_FILENAME)
+        val itin = jsonUtils.getItin(TEST_FILENAME)
         assertEquals(mockObject, itin)
     }
 }

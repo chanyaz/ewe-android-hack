@@ -1,15 +1,18 @@
 package com.expedia.bookings.itin.hotel.details
 
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.itin.common.ItinBookingInfoCardViewModel
+import com.expedia.bookings.itin.scopes.HasAbacusProvider
+import com.expedia.bookings.itin.scopes.HasActivityLauncher
 import com.expedia.bookings.itin.scopes.HasHotel
 import com.expedia.bookings.itin.scopes.HasItin
 import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.scopes.HasTripsTracking
 import com.expedia.bookings.itin.scopes.HasWebViewLauncher
 import com.expedia.bookings.itin.tripstore.data.PaymentModel
-import com.expedia.bookings.itin.common.ItinBookingInfoCardViewModel
 
-class HotelItinPriceSummaryButtonViewModel<S>(scope: S) : ItinBookingInfoCardViewModel where S : HasItin, S : HasHotel, S : HasStringProvider, S : HasWebViewLauncher, S : HasTripsTracking {
+class HotelItinPriceSummaryButtonViewModel<S>(scope: S) : ItinBookingInfoCardViewModel where S : HasItin, S : HasHotel, S : HasStringProvider, S : HasWebViewLauncher, S : HasTripsTracking, S : HasActivityLauncher, S : HasAbacusProvider {
 
     override val iconImage = R.drawable.ic_itin_credit_card_icon
     override val headingText: String
@@ -39,10 +42,12 @@ class HotelItinPriceSummaryButtonViewModel<S>(scope: S) : ItinBookingInfoCardVie
         val detailsUrl = scope.itin.webDetailsURL
         val tripNumber = scope.itin.tripNumber
         cardClickListener = {
-            if (detailsUrl != null && tripNumber != null) {
+            if (scope.abacus.isBucketedForTest(AbacusUtils.EBAndroidAppTripsHotelPricing)) {
+                scope.activityLauncher.launchActivity()
+            } else if (detailsUrl != null && tripNumber != null) {
                 scope.webViewLauncher.launchWebViewActivity(R.string.itin_hotel_details_price_summary_heading, detailsUrl, "price-header", tripNumber)
-                scope.tripsTracking.trackHotelItinPricingRewardsClick()
             }
+            scope.tripsTracking.trackHotelItinPricingRewardsClick()
         }
     }
 }

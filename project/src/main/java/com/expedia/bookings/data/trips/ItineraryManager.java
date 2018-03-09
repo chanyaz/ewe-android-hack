@@ -146,7 +146,7 @@ public class ItineraryManager implements JSONable {
 	private List<DateTime> mStartTimes = new ArrayList<>();
 	private List<DateTime> mEndTimes = new ArrayList<>();
 
-	private final PublishSubject<List<ItinCardData>> syncFinishObserverable = PublishSubject.create();
+	private final PublishSubject<List<ItinCardData>> syncFinishObservable = PublishSubject.create();
 
 	/**
 	 * Adds a guest trip to the itinerary list.
@@ -208,6 +208,10 @@ public class ItineraryManager implements JSONable {
 			}
 		}
 		return null;
+	}
+
+	public Observable<List<ItinCardData>> getSyncFinishObservable() {
+		return syncFinishObservable;
 	}
 
 	/**
@@ -380,7 +384,7 @@ public class ItineraryManager implements JSONable {
 		notificationManager = Ui.getApplication(context).appComponent().notificationManager();
 		NotificationScheduler notificationScheduler = Ui.getApplication(context).appComponent().notificationScheduler();
 		if (!ExpediaBookingApp.isAutomation()) {
-			notificationScheduler.subscribeToListener(syncFinishObserverable);
+			notificationScheduler.subscribeToListener(syncFinishObservable);
 		}
 		tripsJsonFileUtils = Ui.getApplication(context).appComponent().tripJsonFileUtils();
 		loadStartAndEndTimes();
@@ -782,7 +786,7 @@ public class ItineraryManager implements JSONable {
 	@VisibleForTesting
 	public void onSyncFinished(Collection<Trip> trips) {
 		Set<ItinerarySyncListener> listeners = new HashSet<>(mSyncListeners);
-		syncFinishObserverable.onNext(getImmutableItinCardDatas());
+		syncFinishObservable.onNext(getImmutableItinCardDatas());
 		for (ItinerarySyncListener listener : listeners) {
 			listener.onSyncFinished(trips);
 		}

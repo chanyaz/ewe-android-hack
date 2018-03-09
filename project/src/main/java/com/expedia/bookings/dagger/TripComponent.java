@@ -2,6 +2,7 @@ package com.expedia.bookings.dagger;
 
 import com.expedia.bookings.dagger.tags.TripScope;
 import com.expedia.bookings.itin.common.NewAddGuestItinActivity;
+import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil;
 import com.expedia.bookings.presenter.trips.ItinSignInPresenter;
 import com.expedia.bookings.presenter.trips.AddGuestItinWidget;
 import com.expedia.bookings.itin.common.ItinPageUsableTracking;
@@ -23,4 +24,5 @@ public interface TripComponent {
 	ItinPageUsableTracking itinPageUsableTracking();
 	TripsServicesInterface tripServices();
 	TripShareUrlShortenServiceInterface tripShareUrlShortenService();
+	IJsonToItinUtil jsonUtilProvider();
 }

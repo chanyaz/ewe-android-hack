@@ -8,19 +8,21 @@ import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
+import com.expedia.bookings.data.trips.ItinCardDataHotel
 import com.expedia.bookings.features.Features
+import com.expedia.bookings.itin.common.ItinBookingInfoCardView
+import com.expedia.bookings.itin.common.ItinLinkOffCardView
+import com.expedia.bookings.itin.hotel.manageBooking.HotelItinManageBookingActivity
+import com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingRewardsActivity
 import com.expedia.bookings.itin.scopes.HotelItinDetailsScope
 import com.expedia.bookings.itin.tripstore.extensions.firstHotel
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
-import com.expedia.bookings.itin.tripstore.utils.JsonToItinUtil
+import com.expedia.bookings.itin.utils.AbacusSource
+import com.expedia.bookings.itin.utils.ActivityLauncher
 import com.expedia.bookings.itin.utils.IWebViewLauncher
 import com.expedia.bookings.itin.utils.StringSource
 import com.expedia.bookings.itin.utils.WebViewLauncher
-import com.expedia.bookings.itin.common.ItinBookingInfoCardView
 import com.expedia.bookings.tracking.ITripsTracking
-import com.expedia.bookings.itin.hotel.manageBooking.HotelItinManageBookingActivity
-import com.expedia.bookings.data.trips.ItinCardDataHotel
-import com.expedia.bookings.itin.common.ItinLinkOffCardView
 import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
@@ -35,8 +37,9 @@ class HotelItinBookingDetails(context: Context, attr: AttributeSet?) : LinearLay
     var checkIfReadJsonEnabled = Features.all.readTripJson.enabled()
     var checkIfWriteJsonEnabled = Features.all.itineraryManagerStoreTripsJson.enabled()
     val stringProvider: StringSource = Ui.getApplication(context).appComponent().stringProvider()
+    val abacusProvider: AbacusSource = Ui.getApplication(context).appComponent().abacusProvider()
+    var readJsonUtil: IJsonToItinUtil = Ui.getApplication(context).tripComponent().jsonUtilProvider()
     val webViewLauncher: IWebViewLauncher = WebViewLauncher(context)
-    var readJsonUtil: IJsonToItinUtil = JsonToItinUtil
     val tripsTracking: ITripsTracking = TripsTracking
     val newPriceSummaryCard: ItinBookingInfoCardView by bindView(R.id.itin_hotel_booking_info_price_summary)
 
@@ -54,12 +57,13 @@ class HotelItinBookingDetails(context: Context, attr: AttributeSet?) : LinearLay
             manageBookingCard.setSubHeadingText(context.resources.getText(R.string.itin_hotel_details_manage_booking_subheading))
 
             if (checkIfWriteJsonEnabled && checkIfReadJsonEnabled) {
-                val itin = readJsonUtil.getItin(context, itinCardDataHotel.tripId)
+                val itin = readJsonUtil.getItin(itinCardDataHotel.tripId)
                 itin?.let { itin ->
                     itin.firstHotel()?.let { hotel ->
                         newPriceSummaryCard.visibility = View.VISIBLE
                         priceSummaryCard.visibility = View.GONE
-                        val scope = HotelItinDetailsScope(itin, hotel, stringProvider, webViewLauncher, tripsTracking)
+                        val activityLauncher = ActivityLauncher(context, HotelItinPricingRewardsActivity, itinCardDataHotel.tripId)
+                        val scope = HotelItinDetailsScope(itin, hotel, stringProvider, webViewLauncher, tripsTracking, activityLauncher, abacusProvider)
                         val vm = HotelItinPriceSummaryButtonViewModel(scope)
                         newPriceSummaryCard.viewModel = vm
                     }

@@ -25,6 +25,8 @@ import com.expedia.bookings.http.TravelGraphRequestInterceptor;
 import com.expedia.bookings.itin.flight.common.FlightRegistrationHandler;
 import com.expedia.bookings.itin.tripstore.utils.ITripsJsonFileUtils;
 import com.expedia.bookings.itin.tripstore.utils.TripsJsonFileUtils;
+import com.expedia.bookings.itin.utils.AbacusProvider;
+import com.expedia.bookings.itin.utils.AbacusSource;
 import com.expedia.bookings.itin.utils.StringProvider;
 import com.expedia.bookings.itin.utils.StringSource;
 import com.expedia.bookings.itin.utils.NotificationScheduler;
@@ -424,6 +426,12 @@ public class AppModule {
 	@Singleton
 	StringSource provideStringSource(Context context) {
 		return new StringProvider(context);
+	}
+
+	@Provides
+	@Singleton
+	AbacusSource provideAbacusSource(Context context) {
+		return new AbacusProvider(context);
 	}
 	
 	@Provides

@@ -1,6 +1,9 @@
 package com.expedia.bookings.dagger;
 
 import com.expedia.bookings.dagger.tags.TripScope;
+import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil;
+import com.expedia.bookings.itin.tripstore.utils.ITripsJsonFileUtils;
+import com.expedia.bookings.itin.tripstore.utils.JsonToItinUtil;
 import com.expedia.bookings.model.PointOfSaleStateModel;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.itin.common.ItinPageUsableTracking;
@@ -45,5 +48,11 @@ public final class TripModule {
 	@TripScope
 	ItinPageUsableTracking provideItinPageUsableTracking() {
 		return new ItinPageUsableTracking();
+	}
+
+	@Provides
+	@TripScope
+	IJsonToItinUtil provideReadJsonUtil(ITripsJsonFileUtils tripsJsonFileUtils) {
+		return new JsonToItinUtil(tripsJsonFileUtils);
 	}
 }
