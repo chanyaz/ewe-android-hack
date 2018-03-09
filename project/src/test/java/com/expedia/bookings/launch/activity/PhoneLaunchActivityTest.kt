@@ -2,8 +2,10 @@ package com.expedia.bookings.launch.activity
 
 import android.app.Activity
 import android.content.Context
+import android.support.design.widget.TabLayout
 import android.view.View
 import com.expedia.bookings.OmnitureTestUtils
+import com.expedia.bookings.OmnitureTestUtils.Companion.assertLinkTracked
 import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateNotTracked
 import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateTracked
 import com.expedia.bookings.activity.DeepLinkWebViewActivity
@@ -16,6 +18,7 @@ import com.expedia.bookings.notification.Notification
 import com.expedia.bookings.test.CustomMatchers
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.NullSafeMockitoHamcrest
+import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withAbacusTestBucketed
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withAbacusTestControl
 import com.expedia.bookings.test.RunForBrands
@@ -151,6 +154,29 @@ class PhoneLaunchActivityTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun navigationTabsAreTracked() {
+        val startedActivity = Robolectric.buildActivity(PhoneLaunchActivity::class.java).create().start()
+        val activity = startedActivity.get()
+
+        selectTabAndAssertTracked(PhoneLaunchActivity.PAGER_POS_ITIN, activity.toolbar.tabLayout, "Trips")
+        selectTabAndAssertTracked(PhoneLaunchActivity.PAGER_POS_ACCOUNT, activity.toolbar.tabLayout, "Info")
+        selectTabAndAssertTracked(PhoneLaunchActivity.PAGER_POS_LAUNCH, activity.toolbar.tabLayout, "Shop")
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun bottomNavTabsAreTracked_givenUserIsBucketedIntoTest() {
+        LaunchNavBucketCache.cacheBucket(context, 1)
+        val startedActivity = Robolectric.buildActivity(PhoneLaunchActivity::class.java).create().start()
+        val activity = startedActivity.get()
+
+        selectTabAndAssertTracked(PhoneLaunchActivity.PAGER_POS_ITIN, activity.bottomTabLayout, "Trips")
+        selectTabAndAssertTracked(PhoneLaunchActivity.PAGER_POS_ACCOUNT, activity.bottomTabLayout, "Info")
+        selectTabAndAssertTracked(PhoneLaunchActivity.PAGER_POS_LAUNCH, activity.bottomTabLayout, "Shop")
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun brandColorsIsNotTrackedOnLaunchScreen_whenUnbucketed() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppBrandColors)
@@ -225,6 +251,13 @@ class PhoneLaunchActivityTest {
         assertTrue(intent.hasExtra("startDateStr"))
         assertTrue(intent.hasExtra("endDateStr"))
         assertTrue(intent.hasExtra("location"))
+    }
+
+    private fun selectTabAndAssertTracked(index: Int, tabLayout: TabLayout, link: String) {
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        tabLayout.getTabAt(index)?.select()
+        assertLinkTracked(OmnitureMatchers.withProps(mapOf(16 to "App.Global.$link")), mockAnalyticsProvider)
+        assertLinkTracked(OmnitureMatchers.withEvars(mapOf(28 to "App.Global.$link")), mockAnalyticsProvider)
     }
 
     class TestAccountSettingsFragment : AccountSettingsFragment() {
