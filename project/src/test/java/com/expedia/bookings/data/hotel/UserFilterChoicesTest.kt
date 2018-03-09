@@ -52,6 +52,35 @@ class UserFilterChoicesTest {
     }
 
     @Test
+    fun testCompareGuestRatings() {
+        val guestRating1 = UserFilterChoices.GuestRatings()
+        guestRating1.three = true
+        filters1.hotelGuestRating = guestRating1
+
+        val guestRating2 = UserFilterChoices.GuestRatings()
+        guestRating2.three = true
+        filters2.hotelGuestRating = guestRating2
+
+        assertTrue(filters1 == filters2)
+
+        guestRating1.four = true
+        assertFalse(filters1 == filters2)
+    }
+
+    @Test
+    fun testGuestRatingsClone() {
+        val guestRating1 = UserFilterChoices.GuestRatings()
+        guestRating1.three = true
+        filters1.hotelGuestRating = guestRating1
+        val f = filters1.copy()
+
+        assertTrue(filters1 == f)
+
+        guestRating1.four = true
+        assertFalse(filters1 == f)
+    }
+
+    @Test
     fun testCompareHotelName() {
         filters1.name = "Hyatt"
         filters2.name = "Hyatt"
@@ -119,5 +148,7 @@ class UserFilterChoicesTest {
         assertFalse(filterOptions.isVipOnlyAccess)
         val starRating = UserFilterChoices.StarRatings()
         assertEquals(starRating, filterOptions.hotelStarRating)
+        val guestRating = UserFilterChoices.GuestRatings()
+        assertEquals(guestRating, filterOptions.hotelGuestRating)
     }
 }

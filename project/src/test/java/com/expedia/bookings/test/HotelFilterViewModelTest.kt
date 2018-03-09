@@ -49,6 +49,22 @@ class HotelFilterViewModelTest {
     }
 
     @Test
+    fun filterGuestRatings() {
+        vm.userFilterChoices.hotelGuestRating.three = false
+        vm.guestRatingThreeFilterObserver.onNext(Unit)
+
+        assertEquals(true, vm.userFilterChoices.hotelGuestRating.three)
+
+        vm.userFilterChoices.hotelGuestRating.four = false
+        vm.guestRatingFourFilterObserver.onNext(Unit)
+
+        assertEquals(true, vm.userFilterChoices.hotelGuestRating.four)
+
+        vm.guestRatingThreeFilterObserver.onNext(Unit)
+        assertEquals(false, vm.userFilterChoices.hotelGuestRating.three)
+    }
+
+    @Test
     fun filterVip() {
         vm.vipFilteredObserver.onNext(true)
         assertEquals(true, vm.userFilterChoices.isVipOnlyAccess)
@@ -86,6 +102,8 @@ class HotelFilterViewModelTest {
         vm.vipFilteredObserver.onNext(true)
         vm.userFilterChoices.hotelStarRating.one = false
         vm.oneStarFilterObserver.onNext(Unit)
+        vm.userFilterChoices.hotelGuestRating.three = false
+        vm.guestRatingThreeFilterObserver.onNext(Unit)
 
         vm.userFilterChoices.minPrice = 20
         vm.userFilterChoices.maxPrice = 50
@@ -96,7 +114,7 @@ class HotelFilterViewModelTest {
 
         vm.selectAmenity.onNext(Amenity.PETS)
 
-        assertEquals(6, vm.userFilterChoices.filterCount())
+        assertEquals(7, vm.userFilterChoices.filterCount())
         assertEquals(str, vm.userFilterChoices.name)
         assertEquals(true, vm.userFilterChoices.hotelStarRating.one)
         assertEquals(true, vm.userFilterChoices.isVipOnlyAccess)
@@ -114,6 +132,9 @@ class HotelFilterViewModelTest {
 
         vm.userFilterChoices.hotelStarRating.one = false
         vm.oneStarFilterObserver.onNext(Unit)
+
+        vm.userFilterChoices.hotelGuestRating.three = false
+        vm.guestRatingThreeFilterObserver.onNext(Unit)
 
         vm.vipFilteredObserver.onNext(true)
 
@@ -133,6 +154,7 @@ class HotelFilterViewModelTest {
         assertEquals(false, vm.userFilterChoices.isVipOnlyAccess)
         assertTrue(vm.userFilterChoices.neighborhoods.isEmpty())
         assertEquals(false, vm.userFilterChoices.hotelStarRating.one)
+        assertEquals(false, vm.userFilterChoices.hotelGuestRating.three)
         assertEquals(0, vm.userFilterChoices.minPrice)
         assertEquals(0, vm.userFilterChoices.maxPrice)
         assertTrue(vm.userFilterChoices.amenities.isEmpty())

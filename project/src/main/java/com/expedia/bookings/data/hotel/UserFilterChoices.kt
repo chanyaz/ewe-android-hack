@@ -8,6 +8,7 @@ import java.util.HashSet
 data class UserFilterChoices(var userSort: DisplaySort = DisplaySort.getDefaultSort(),
                              var isVipOnlyAccess: Boolean = false,
                              var hotelStarRating: StarRatings = StarRatings(),
+                             var hotelGuestRating: GuestRatings = GuestRatings(),
                              var name: String = "",
                              var minPrice: Int = 0,
                              var maxPrice: Int = 0,
@@ -17,6 +18,7 @@ data class UserFilterChoices(var userSort: DisplaySort = DisplaySort.getDefaultS
     fun filterCount(): Int {
         var count = 0
         count += hotelStarRating.getStarRatingParamsAsList().size
+        count += hotelGuestRating.getGuestRatingParamsAsList().size
         if (isVipOnlyAccess) count++
         if (name.isNotEmpty()) count++
         if (neighborhoods.isNotEmpty()) count += neighborhoods.size
@@ -35,6 +37,7 @@ data class UserFilterChoices(var userSort: DisplaySort = DisplaySort.getDefaultS
         filterChoices.userSort = userSort
         filterChoices.isVipOnlyAccess = isVipOnlyAccess
         filterChoices.hotelStarRating = hotelStarRating.copy()
+        filterChoices.hotelGuestRating = hotelGuestRating.copy()
         filterChoices.name = name
         filterChoices.minPrice = minPrice
         filterChoices.maxPrice = maxPrice
@@ -87,6 +90,17 @@ data class UserFilterChoices(var userSort: DisplaySort = DisplaySort.getDefaultS
                 if (ratingList.contains(50)) ratings.five = true
                 return ratings
             }
+        }
+    }
+
+    data class GuestRatings(var three: Boolean = false, var four: Boolean = false, var five: Boolean = false) {
+        //TODO Need to update to the valid values from API
+        fun getGuestRatingParamsAsList(): List<Int> {
+            val guestRatings = ArrayList<Int>()
+            if (three) guestRatings.add(60)
+            if (four) guestRatings.add(70)
+            if (five) guestRatings.add(80)
+            return guestRatings
         }
     }
 }

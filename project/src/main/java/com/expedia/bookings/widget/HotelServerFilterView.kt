@@ -44,6 +44,11 @@ class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelF
                 amenityViews.add(gridItem)
             }
         }
+
+        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelGuestRatingFilter)) {
+            guestRatingView.visibility = View.VISIBLE
+            guestRatingLabelView.visibility = View.VISIBLE
+        }
     }
 
     override fun bindViewModel(vm: BaseHotelFilterViewModel) {
@@ -99,6 +104,7 @@ class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelF
         if (!filterOptions.name.isNullOrEmpty()) hotelNameFilterView.updateName(filterOptions.name)
         filterVipView.update(filterOptions.isVipOnlyAccess)
         starRatingView.update(filterOptions.hotelStarRating)
+        guestRatingView.update(filterOptions.hotelGuestRating)
         amenityViews.forEach { amenityView ->
             if (filterOptions.amenities.contains(Amenity.getSearchKey(amenityView.amenity))) {
                 amenityView.select()

@@ -142,6 +142,37 @@
                     android:paddingTop="5dp"
                     android:visibility="gone" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingLeft="@dimen/hotel_sort_filter_padding"
+                    android:paddingRight="@dimen/hotel_sort_filter_padding"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp">
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/guest_rating_label"
+                        style="@style/Core.Text.400.Medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:text="@string/guest_rating"
+                        android:textColor="@color/hotel_filter_text"
+                        android:visibility="gone" />
+
+                    <com.expedia.bookings.widget.HotelGuestRatingFilterView
+                        android:id="@+id/guest_rating_container"
+                        style="@style/MaterialCardView"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="6dp"
+                        app:cardUseCompatPadding="true"
+                        android:visibility="gone" />
+                </LinearLayout>
+
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/neighborhood_label"
                     style="@style/Core.Text.400.Medium"
@@ -149,6 +180,7 @@
                     android:layout_height="wrap_content"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
+                    android:paddingTop="5dp"
                     android:paddingBottom="5dp"
                     android:paddingLeft="@dimen/hotel_sort_filter_padding"
                     android:paddingRight="@dimen/hotel_sort_filter_padding"

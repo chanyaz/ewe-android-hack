@@ -39,6 +39,8 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
     val optionLabel: TextView by bindView(R.id.option_label)
     val hotelSortOptionsView: HotelSortOptionsView by bindView(R.id.hotel_sort_options)
     val starRatingView: HotelStarRatingFilterView by bindView(R.id.star_rating_container)
+    val guestRatingView: HotelGuestRatingFilterView by bindView(R.id.guest_rating_container)
+    val guestRatingLabelView: com.expedia.bookings.widget.TextView by bindView(R.id.guest_rating_label)
     val amenitiesLabelView: com.expedia.bookings.widget.TextView by bindView(R.id.filter_amenity_label)
     val amenitiesGridView: GridLayout by bindView(R.id.filter_amenities_grid_layout)
     val hotelNameFilterView: HotelNameFilterView by bindView(R.id.hotel_filter_name_view)
@@ -118,6 +120,7 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
         }
 
         resetStars()
+        resetGuestRating()
     }
 
     fun setViewModel(viewModel: BaseHotelFilterViewModel) {
@@ -148,12 +151,14 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
         neighborhoodView.neighborhoodOffSubject.subscribe(vm.deselectNeighborhood)
 
         bindStarRating(vm)
+        bindGuestRating(vm)
 
         hotelNameFilterView.filterNameChangedSubject.subscribe(vm.filterHotelNameObserver)
 
         vm.finishClear.subscribe {
             hotelNameFilterView.reset()
             resetStars()
+            resetGuestRating()
 
             filterVipView.reset()
             neighborhoodView.clear()
@@ -203,8 +208,18 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
         starRatingView.fiveStarSubject.subscribe(vm.fiveStarFilterObserver)
     }
 
+    private fun bindGuestRating(vm: BaseHotelFilterViewModel) {
+        guestRatingView.threeGuestRatingSubject.subscribe(vm.guestRatingThreeFilterObserver)
+        guestRatingView.fourGuestRatingSubject.subscribe(vm.guestRatingFourFilterObserver)
+        guestRatingView.fiveGuestRatingSubject.subscribe(vm.guestRatingFiveFilterObserver)
+    }
+
     fun resetStars() {
         starRatingView.reset()
+    }
+
+    fun resetGuestRating() {
+        guestRatingView.reset()
     }
 
     fun show() {

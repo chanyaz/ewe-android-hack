@@ -116,6 +116,14 @@
             android:summary="%s"
             android:title="Hotels satellite search - 24951" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="25123"
+            android:summary="%s"
+            android:title="Hotels Guest Ratings Filter - 25123" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
