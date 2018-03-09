@@ -7,7 +7,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
-import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.tracking.TripsTracking
 
 object MessageHotelUtil {
 
@@ -16,7 +16,7 @@ object MessageHotelUtil {
 
     fun getClickListener(url: String, context: Context, fromManageBooking: Boolean = false): View.OnClickListener =
             View.OnClickListener {
-                OmnitureTracking.trackItinHotelMessage(fromManageBooking)
+                TripsTracking.trackItinHotelMessage(fromManageBooking)
                 context.startActivity(buildWebViewIntentBuilder(url = url, context = context).intent,
                         ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_up_partially, 0)
                                 .toBundle())

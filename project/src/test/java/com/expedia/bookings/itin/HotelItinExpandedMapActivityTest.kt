@@ -6,7 +6,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.itin.activity.HotelItinExpandedMapActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import org.junit.Before
 import org.junit.Test
@@ -40,21 +40,21 @@ class HotelItinExpandedMapActivityTest {
     @Test
     fun testOmnitureForZoomIn() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        OmnitureTracking.trackItinExpandedMapZoomIn()
+        TripsTracking.trackItinExpandedMapZoomIn()
         OmnitureTestUtils.assertLinkTracked("Map Action", "App.Map.Directions.ZoomIn", mockAnalyticsProvider)
     }
 
     @Test
     fun testOmnitureForZoomout() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        OmnitureTracking.trackItinExpandedMapZoomOut()
+        TripsTracking.trackItinExpandedMapZoomOut()
         OmnitureTestUtils.assertLinkTracked("Map Action", "App.Map.Directions.ZoomOut", mockAnalyticsProvider)
     }
 
     @Test
     fun testOmnitureForPan() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        OmnitureTracking.trackItinExpandedMapZoomPan()
+        TripsTracking.trackItinExpandedMapZoomPan()
         OmnitureTestUtils.assertLinkTracked("Map Action", "App.Map.Directions.Pan", mockAnalyticsProvider)
     }
 

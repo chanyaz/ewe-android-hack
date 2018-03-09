@@ -11,7 +11,7 @@ import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.itin.widget.HotelItinToolbar
-import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -35,14 +35,14 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
                 if (googleMap?.cameraPosition?.zoom != MAP_ZOOM_LEVEL) {
                     zoomTracked = true
                     if (googleMap?.cameraPosition!!.zoom > MAP_ZOOM_LEVEL) {
-                        OmnitureTracking.trackItinExpandedMapZoomIn()
+                        TripsTracking.trackItinExpandedMapZoomIn()
                     } else {
-                        OmnitureTracking.trackItinExpandedMapZoomOut()
+                        TripsTracking.trackItinExpandedMapZoomOut()
                     }
                 }
             }
             if (checkForPan()) {
-                OmnitureTracking.trackItinExpandedMapZoomPan()
+                TripsTracking.trackItinExpandedMapZoomPan()
                 panTracked = true
             }
             if (panTracked && zoomTracked) {
@@ -130,7 +130,7 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
                     Toast.makeText(this, R.string.itin_hotel_map_directions_no_app_available, Toast.LENGTH_SHORT).show()
                 }
             }
-            OmnitureTracking.trackItinHotelMapDirectionsButton()
+            TripsTracking.trackItinHotelMapDirectionsButton()
         }
     }
 

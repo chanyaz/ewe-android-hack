@@ -18,7 +18,7 @@ import com.expedia.bookings.itin.widget.HotelItinImageWidget
 import com.expedia.bookings.itin.widget.HotelItinLocationDetails
 import com.expedia.bookings.itin.widget.HotelItinRoomDetails
 import com.expedia.bookings.itin.widget.HotelItinToolbar
-import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
@@ -104,7 +104,7 @@ open class HotelItinDetailsActivity : HotelItinBaseActivity() {
             toolbar.showShare()
         }
 
-        OmnitureTracking.trackItinHotel(hotelHasMessagingURL())
+        TripsTracking.trackItinHotel(hotelHasMessagingURL())
     }
 
     private fun addRoomsToContainer(rooms: MutableList<TripHotelRoom?>) {

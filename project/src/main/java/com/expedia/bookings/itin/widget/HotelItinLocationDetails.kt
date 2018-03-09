@@ -11,7 +11,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.itin.activity.HotelItinExpandedMapActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.itin.vm.GoogleMapsLiteViewModel
-import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.ClipboardUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
@@ -37,11 +37,11 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
             mapView.setViewModel(mapVm)
             mapView.setOnClickListener {
                 context.startActivity(HotelItinExpandedMapActivity.createIntent(context, itinCardDataHotel.id), ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_in_right, R.anim.slide_out_left_complete).toBundle())
-                OmnitureTracking.trackItinHotelExpandMap()
+                TripsTracking.trackItinHotelExpandMap()
             }
             directionsButton.setOnClickListener {
                 context.startActivity(HotelItinExpandedMapActivity.createIntent(context, itinCardDataHotel.id), ActivityOptionsCompat.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete).toBundle())
-                OmnitureTracking.trackItinHotelDirections()
+                TripsTracking.trackItinHotelDirections()
             }
         }
 

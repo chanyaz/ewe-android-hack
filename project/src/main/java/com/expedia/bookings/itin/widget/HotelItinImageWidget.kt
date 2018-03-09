@@ -14,7 +14,7 @@ import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.itin.utils.MessageHotelUtil.getClickListener
 import com.expedia.bookings.itin.utils.MessageHotelUtil.isHotelMessagingEnabled
-import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.ClipboardUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -64,7 +64,7 @@ class HotelItinImageWidget(context: Context, attr: AttributeSet?) : LinearLayout
                     Phrase.from(context, R.string.itin_hotel_details_call_button_content_description_TEMPLATE)
                             .put("phonenumber", phoneNumber).format().toString(),
                     OnClickListener {
-                        OmnitureTracking.trackItinHotelCall()
+                        TripsTracking.trackItinHotelCall()
                         if (phoneNumber.isNotEmpty()) {
                             val pm = context.packageManager
                             if (pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {

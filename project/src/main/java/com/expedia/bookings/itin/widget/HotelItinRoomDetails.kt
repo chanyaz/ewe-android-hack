@@ -13,7 +13,7 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.TripHotelRoom
 import com.expedia.bookings.fragment.ScrollableContentDialogFragment
-import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
@@ -128,7 +128,7 @@ class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout
             val dialog = ScrollableContentDialogFragment.newInstance(context.resources.getString(R.string.itin_hotel_check_cancel_rules_label),
                     TextUtils.join("<br>", changeAndCancelRules).toString())
             dialog.show(fragmentManager, DIALOG_TAG)
-            OmnitureTracking.trackHotelItinChangeAndCancelRulesDialogClick()
+            TripsTracking.trackHotelItinChangeAndCancelRulesDialogClick()
         }
         changeCancelRulesButtonText.setCompoundDrawablesTint(ContextCompat.getColor(context, R.color.app_primary))
     }

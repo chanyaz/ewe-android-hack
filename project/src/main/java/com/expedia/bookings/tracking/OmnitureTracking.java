@@ -2503,31 +2503,6 @@ public class OmnitureTracking {
 	private static final String ITIN_ACTIVITY_SUPPORT = "App.Itinerary.Activity.Support";
 	private static final String ITIN_ACTIVITY_INFO = "App.Itinerary.Activity.Info.Additional";
 
-	private static final String ITIN_HOTEL = "App.Itinerary.Hotel";
-	private static final String ITIN_HOTEL_INFO = "App.Itinerary.Hotel.Info.Additional";
-	private static final String ITIN_HOTEL_MAP_OPEN = "App.Itinerary.Hotel.Map";
-	private static final String ITIN_HOTEL_MAP_PAN = "App.Map.Directions.Pan";
-	private static final String ITIN_HOTEL_MAP_ZOOM_IN = "App.Map.Directions.ZoomIn";
-	private static final String ITIN_HOTEL_MAP_ZOOM_OUT = "App.Map.Directions.ZoomOut";
-	private static final String ITIN_NEW_HOTEL_DIRECTIONS = "App.Itinerary.Hotel.Directions";
-	private static final String ITIN_HOTEL_MAP_DIRECTIONS = "App.Map.Directions.Drive";
-
-	private static final String ITIN_HOTEL_CALL = "App.Itinerary.Hotel.Call";
-	private static final String ITIN_HOTEL_MESSAGE = "App.Itinerary.Hotel.Message.Hotel";
-	private static final String ITIN_HOTEL_PRICING_REWARDS = "App.Itinerary.Hotel.PricingRewards";
-	private static final String ITIN_HOTEL_CHECK_IN_POLICIES = "App.Itinerary.Hotel.Info.Check-in";
-
-	private static final String ITIN_HOTEL_MANAGE_BOOKING = "App.Itinerary.Hotel.ManageBooking";
-	private static final String ITIN_HOTEL_CHANGE_CANCEL_RULES = "App.Itinerary.Hotel.Manage.Info.Change-Cancel";
-	private static final String ITIN_HOTEL_CHANGE_HOTEL = "App.Itinerary.Hotel.Manage.Change";
-	private static final String ITIN_HOTEL_CANCEL_HOTEL = "App.Itinerary.Hotel.Manage.Cancel";
-	private static final String ITIN_HOTEL_CHANGE_HOTEL_LEARN_MORE = "App.Itinerary.Hotel.Manage.Change.LearnMore";
-	private static final String ITIN_HOTEL_CANCEL_HOTEL_LEARN_MORE = "App.Itinerary.Hotel.Manage.Cancel.LearnMore";
-	private static final String ITIN_HOTEL_MANAGE_BOOKING_MESSAGE = "App.Itinerary.Hotel.Manage.Message.Hotel";
-	private static final String ITIN_HOTEL_CALL_HOTEL = "App.Itinerary.Hotel.Manage.Call.Hotel";
-	private static final String ITIN_HOTEL_CALL_EXPEDIA = "App.Itinerary.Hotel.Manage.Call.Expedia";
-	private static final String ITIN_HOTEL_OPEN_SUPPORT_WEBSITE = "App.Itinerary.Hotel.Manage.CSP";
-
 	private static final String ITIN_FLIGHT = "App.Itinerary.Flight";
 	private static final String ITIN_FLIGHT_COPY_PNR = "App.Itinerary.Flight.CopyPNR";
 	private static final String ITIN_FLIGHT_CHECKIN = "App.Itinerary.Flight.CheckInNow";
@@ -2722,33 +2697,6 @@ public class OmnitureTracking {
 		internalTrackLink(s);
 	}
 
-	public static void trackHotelItinManageBookingClick() {
-		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_MANAGE_BOOKING);
-		trackAbacusTest(s, AbacusUtils.TripsHotelsM2);
-		s.trackLink("Itinerary Action");
-	}
-
-	public static void trackHotelItinPricingRewardsClick() {
-		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_PRICING_REWARDS);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsHotelPricing);
-		s.trackLink("Itinerary Action");
-	}
-
-	public static void trackHotelItinAdditionalInfoClick() {
-		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_INFO);
-		s.trackLink("Itinerary Action");
-	}
-
-	public static void trackHotelItinCheckInPoliciesDialogClick() {
-		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_CHECK_IN_POLICIES);
-		s.trackLink("Itinerary Action");
-	}
-
-	public static void trackHotelItinChangeAndCancelRulesDialogClick() {
-		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_CHANGE_CANCEL_RULES);
-		s.trackLink("Itinerary Action");
-	}
-
 	public static void trackFlightItinLegDetailWidgetRulesAndRestrictionsDialogClick() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_LEG_DETAIL_WIDGET_RULES_RESTRICTION);
 		s.trackLink("Itinerary Action");
@@ -2771,16 +2719,6 @@ public class OmnitureTracking {
 
 	public static void trackFlightItinChangeFlight() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_CHANGE_FLIGHT);
-		s.trackLink("Itinerary Action");
-	}
-
-	public static void trackHotelItinChangeHotel() {
-		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_CHANGE_HOTEL);
-		s.trackLink("Itinerary Action");
-	}
-
-	public static void trackHotelItinCancelHotel() {
-		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_CANCEL_HOTEL);
 		s.trackLink("Itinerary Action");
 	}
 
@@ -2819,63 +2757,8 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackItinHotel(Boolean hasHotelMessagingURL) {
-		Log.d(TAG, "Tracking \"" + ITIN_HOTEL + "\" pageLoad");
-		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_HOTEL);
-		if (hasHotelMessagingURL) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsMessageHotel);
-		}
-		s.appendEvents("event63");
-		s.track();
-	}
-
-	public static void trackItinHotelMapDirectionsButton() {
-		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_MAP_DIRECTIONS);
-		s.trackLink("Map Action");
-	}
-
-	public static void trackItinExpandedMapZoomIn() {
-		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_MAP_ZOOM_IN);
-		s.trackLink("Map Action");
-	}
-
-	public static void trackItinExpandedMapZoomOut() {
-		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_MAP_ZOOM_OUT);
-		s.trackLink("Map Action");
-	}
-
-	public static void trackItinExpandedMapZoomPan() {
-		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_MAP_PAN);
-		s.trackLink("Map Action");
-	}
-
-	public static void trackItinHotelDirections() {
-		ADMS_Measurement s = createTrackLinkEvent(ITIN_NEW_HOTEL_DIRECTIONS);
-		s.trackLink("Itinerary Action");
-	}
-
-	public static void trackItinHotelExpandMap() {
-		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_MAP_OPEN);
-		s.trackLink("Itinerary Action");
-	}
-
 	public static void trackItinFlightExpandMap() {
 		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_MAP_OPEN);
-		s.trackLink("Itinerary Action");
-	}
-
-	public static void trackItinHotelCallHotel() {
-		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_CALL_HOTEL);
-		s.trackLink("Itinerary Action");
-	}
-
-	public static void trackItinHotelCallSupport() {
-		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_CALL_EXPEDIA);
-		s.trackLink("Itinerary Action");
-	}
-
-	public static void trackItinHotelOpenSupportWebsite() {
-		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_OPEN_SUPPORT_WEBSITE);
 		s.trackLink("Itinerary Action");
 	}
 
@@ -2899,37 +2782,6 @@ public class OmnitureTracking {
 		s.trackLink("Itinerary Action");
 	}
 
-	public static void trackItinHotelCancelLearnMore() {
-		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_CANCEL_HOTEL_LEARN_MORE);
-		s.trackLink("Itinerary Action");
-	}
-
-	public static void trackItinHotelChangeLearnMore() {
-		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_CHANGE_HOTEL_LEARN_MORE);
-		s.trackLink("Itinerary Action");
-	}
-
-	public static void trackItinHotelCall() {
-		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_CALL);
-		s.trackLink("Itinerary Action");
-	}
-
-	public static void trackItinHotelMessage(Boolean isManageBooking) {
-		ADMS_Measurement s;
-		if (isManageBooking) {
-			s = createTrackLinkEvent(ITIN_HOTEL_MANAGE_BOOKING_MESSAGE);
-		}
-		else {
-			s = createTrackLinkEvent(ITIN_HOTEL_MESSAGE);
-		}
-		s.trackLink("Itinerary Action");
-	}
-
-
-	private static void trackItinHotelInfo() {
-		internalTrackLink(ITIN_HOTEL_INFO);
-	}
-
 	public static void trackItinInfoClicked(Type type) {
 		switch (type) {
 		case ACTIVITY:
@@ -2942,7 +2794,7 @@ public class OmnitureTracking {
 			trackItinFlightInfo();
 			break;
 		case HOTEL:
-			trackItinHotelInfo();
+			TripsTracking.trackItinHotelInfo();
 			break;
 		case CRUISE:
 			//TODO:track cruise info
@@ -4081,7 +3933,7 @@ public class OmnitureTracking {
 		createTrackPageLoadEventBase(pageName).track();
 	}
 
-	private static void internalTrackLink(String link) {
+	static void internalTrackLink(String link) {
 		ADMS_Measurement s = createTrackLinkEvent(link);
 		internalTrackLink(s);
 	}
@@ -4091,7 +3943,7 @@ public class OmnitureTracking {
 		s.trackLink(s.getEvar(28));
 	}
 
-	private static ADMS_Measurement createTrackLinkEvent(String link) {
+	static ADMS_Measurement createTrackLinkEvent(String link) {
 		ADMS_Measurement s = getFreshTrackingObject();
 
 		// link
@@ -4101,7 +3953,7 @@ public class OmnitureTracking {
 		return s;
 	}
 
-	private static ADMS_Measurement createTrackPageLoadEventBase(String pageName) {
+	static ADMS_Measurement createTrackPageLoadEventBase(String pageName) {
 		ADMS_Measurement s = getFreshTrackingObject();
 
 		// set the pageName

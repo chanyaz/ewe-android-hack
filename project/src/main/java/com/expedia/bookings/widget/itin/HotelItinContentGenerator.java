@@ -36,6 +36,7 @@ import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.services.HotelServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.tracking.TripsTracking;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.GoogleMapsUtil;
 import com.expedia.bookings.utils.Images;
@@ -309,7 +310,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 					final Intent intent = GoogleMapsUtil.getDirectionsIntent(getItinCardData().getProperty().getLocation().toLongFormattedString());
 					if (intent != null) {
 						NavUtils.startActivitySafe(getContext(), intent);
-						OmnitureTracking.trackItinHotelDirections();
+						TripsTracking.trackItinHotelDirections();
 					}
 				}
 			});
@@ -327,7 +328,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 			public void onClick(final View v) {
 				if (phone != null) {
 					SocialUtils.call(getContext(), phone);
-					OmnitureTracking.trackItinHotelCall();
+					TripsTracking.trackItinHotelCall();
 				}
 			}
 		};

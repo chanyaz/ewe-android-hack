@@ -10,7 +10,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.itin.utils.MessageHotelUtil.getClickListener
 import com.expedia.bookings.itin.utils.MessageHotelUtil.isHotelMessagingEnabled
-import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.ClipboardUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
@@ -55,7 +55,7 @@ class HotelItinManageBookingHelp(context: Context, attr: AttributeSet?) : Linear
                     ClipboardUtils.setText(context, phoneNumber)
                     Toast.makeText(context, R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show()
                 }
-                OmnitureTracking.trackItinHotelCallHotel()
+                TripsTracking.trackItinHotelCallHotel()
             }
         }
     }

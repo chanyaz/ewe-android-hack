@@ -10,7 +10,7 @@ import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.ClipboardUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -53,7 +53,7 @@ class HotelItinCustomerSupportDetails(context: Context, attr: AttributeSet?) : L
                     ClipboardUtils.setText(context, supportNumber)
                     Toast.makeText(context, R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show()
                 }
-                OmnitureTracking.trackItinHotelCallSupport()
+                TripsTracking.trackItinHotelCallSupport()
             }
         }
 
@@ -61,7 +61,7 @@ class HotelItinCustomerSupportDetails(context: Context, attr: AttributeSet?) : L
         customerSupportSiteButton.contentDescription = Phrase.from(context, R.string.itin_hotel_customer_support_site_button_content_description_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
         customerSupportSiteButton.setOnClickListener {
             context.startActivity(buildWebViewIntent(R.string.itin_hotel_customer_support_site_toolbar_header, PointOfSale.getPointOfSale().bookingSupportUrl).intent)
-            OmnitureTracking.trackItinHotelOpenSupportWebsite()
+            TripsTracking.trackItinHotelOpenSupportWebsite()
         }
     }
 

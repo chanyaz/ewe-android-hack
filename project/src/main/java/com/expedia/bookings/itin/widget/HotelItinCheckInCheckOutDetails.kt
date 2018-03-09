@@ -14,7 +14,7 @@ import com.expedia.bookings.data.trips.TripHotel
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.fragment.ScrollableContentDialogFragment
 import com.expedia.bookings.itin.data.ItinCardDataHotel
-import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
@@ -70,7 +70,7 @@ class HotelItinCheckInCheckOutDetails(context: Context, attr: AttributeSet?) : L
                             getTitleContent(itinCardDataHotel))
                 }
                 dialog.show(fragmentManager, DIALOG_TAG)
-                OmnitureTracking.trackHotelItinCheckInPoliciesDialogClick()
+                TripsTracking.trackHotelItinCheckInPoliciesDialogClick()
             }
             checkInOutPoliciesButtonText.setCompoundDrawablesTint(ContextCompat.getColor(context, R.color.app_primary))
         }

@@ -7,7 +7,7 @@ import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.TripHotel
 import com.expedia.bookings.itin.data.ItinCardDataHotel
-import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.tracking.TripsTracking
 
 class HotelItinModifyReservationViewModel(val context: Context) : ItinModifyReservationViewModel() {
 
@@ -35,20 +35,20 @@ class HotelItinModifyReservationViewModel(val context: Context) : ItinModifyRese
 
         cancelTextViewClickSubject.subscribe {
             webViewRefreshOnExitIntentSubject.onNext(buildWebViewIntent(R.string.itin_flight_modify_widget_cancel_reservation_text, cancelUrl, tripNumber))
-            OmnitureTracking.trackHotelItinCancelHotel()
+            TripsTracking.trackHotelItinCancelHotel()
         }
 
         changeTextViewClickSubject.subscribe {
             webViewRefreshOnExitIntentSubject.onNext(buildWebViewIntent(R.string.itin_flight_modify_widget_change_reservation_text, changeUrl, tripNumber))
-            OmnitureTracking.trackHotelItinChangeHotel()
+            TripsTracking.trackHotelItinChangeHotel()
         }
 
         cancelLearnMoreClickSubject.subscribe {
-            OmnitureTracking.trackItinHotelCancelLearnMore()
+            TripsTracking.trackItinHotelCancelLearnMore()
         }
 
         changeLearnMoreClickSubject.subscribe {
-            OmnitureTracking.trackItinHotelChangeLearnMore()
+            TripsTracking.trackItinHotelChangeLearnMore()
         }
     }
 

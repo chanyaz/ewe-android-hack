@@ -10,7 +10,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.itin.activity.HotelItinManageBookingActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
-import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.bindView
 
@@ -43,15 +43,15 @@ class HotelItinBookingDetails(context: Context, attr: AttributeSet?) : LinearLay
 
             manageBookingCard.setOnClickListener {
                 context.startActivity(HotelItinManageBookingActivity.createIntent(context, itinCardDataHotel.id), ActivityOptionsCompat.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete).toBundle())
-                OmnitureTracking.trackHotelItinManageBookingClick()
+                TripsTracking.trackHotelItinManageBookingClick()
             }
             priceSummaryCard.setOnClickListener {
                 (context as Activity).startActivityForResult(buildWebViewIntent(R.string.itin_hotel_details_price_summary_heading, itinCardDataHotel.detailsUrl, "price-header", itinCardDataHotel.tripNumber).intent, Constants.ITIN_WEBVIEW_REFRESH_ON_EXIT_CODE)
-                OmnitureTracking.trackHotelItinPricingRewardsClick()
+                TripsTracking.trackHotelItinPricingRewardsClick()
             }
             additionalInfoCard.setOnClickListener {
                 (context as Activity).startActivityForResult(buildWebViewIntent(R.string.itin_hotel_details_additional_info_heading, itinCardDataHotel.detailsUrl, null, itinCardDataHotel.tripNumber).intent, Constants.ITIN_WEBVIEW_REFRESH_ON_EXIT_CODE)
-                OmnitureTracking.trackHotelItinAdditionalInfoClick()
+                TripsTracking.trackHotelItinAdditionalInfoClick()
             }
         }
     }

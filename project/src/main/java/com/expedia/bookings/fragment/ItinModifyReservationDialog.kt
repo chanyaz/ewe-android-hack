@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ClipboardUtils
 import com.expedia.bookings.utils.Strings
@@ -76,7 +77,7 @@ class ItinModifyReservationDialog : DialogFragment() {
 
         when (itinType) {
             FLIGHT_ITIN -> OmnitureTracking.trackItinFlightCallSupport()
-            HOTEL_ITIN -> OmnitureTracking.trackItinHotelCallSupport()
+            HOTEL_ITIN -> TripsTracking.trackItinHotelCallSupport()
         }
     }
 
