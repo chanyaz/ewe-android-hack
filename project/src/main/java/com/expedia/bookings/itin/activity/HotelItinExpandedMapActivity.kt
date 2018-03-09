@@ -26,8 +26,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.mobiata.android.Log
-import java.net.URLEncoder
-import java.util.Locale
 
 class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraIdleListener {
 
@@ -137,20 +135,18 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
     }
 
     fun buildUriForHotel(hotelLat: Double?, hotelLong: Double?, propertyName: String?): Uri? {
-        var urlEncodedPropertyName = ""
-        if (!propertyName.isNullOrEmpty()) {
-            try {
-                urlEncodedPropertyName = URLEncoder.encode(propertyName, "UTF-8")
-            } catch (e: Exception) {
-                Log.d(LOGGING_TAG, e.message)
+        try {
+            var urlEncodedPropertyName = ""
+            if (!propertyName.isNullOrEmpty()) {
+                urlEncodedPropertyName = Uri.encode(propertyName)
             }
+            if (hotelLat != null && hotelLong != null) {
+                return Uri.parse("geo:$hotelLat,$hotelLong?q=$urlEncodedPropertyName")
+            }
+        } catch (e: Exception) {
+            Log.d(LOGGING_TAG, e.printStackTrace().toString())
         }
-        return if (hotelLat != null && hotelLong != null) {
-            val formattedUriString = String.format(Locale.getDefault(), "geo:$hotelLat,$hotelLong?q=$urlEncodedPropertyName")
-            Uri.parse(formattedUriString)
-        } else {
-            null
-        }
+        return null
     }
 
     override fun onMapReady(map: GoogleMap) {

@@ -303,7 +303,7 @@ open class HotelViewModel(private val context: Context) {
         return R.color.default_text_color
     }
 
-    data class UrgencyMessage(val iconDrawableId: Int?, val backgroundColorId: Int, val message: String, val messageTextColorId: Int = R.color.gray900) {
+    data class UrgencyMessage(val iconDrawableId: Int?, val backgroundColorId: Int, val message: String, val messageTextColorId: Int = R.color.white) {
         fun hasIconDrawable(): Boolean {
             return iconDrawableId != null
         }

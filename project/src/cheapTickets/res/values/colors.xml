@@ -81,6 +81,8 @@
     <color name="account_toolbar_text_color">@color/white</color>
     <color name="account_toolbar_text_color_light">#99FFFFFF</color>
     <color name="account_sign_out_button_background_color">#D00000</color>
+    <color name="account_sign_in_button_background_color">@color/app_primary</color>
+    <color name="account_sign_in_button_text_color">@color/white</color>
 
     <!-- Checkout Colors -->
     <color name="old_checkout_account_button_text_color">@android:color/white</color>

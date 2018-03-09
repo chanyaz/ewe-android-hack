@@ -62,8 +62,6 @@
 
     <!-- Date/Time Range e.g. May 5, 11:00am - May 10, 11:00am -->
     <string name="date_time_range_TEMPLATE">{from_date_time} – {to_date_time}</string>
-    <!-- Date/Time Range content description, e.g. May 5, 11:00am to May 10, 11:00am -->
-    <string name="date_time_range_cont_desc_TEMPLATE">{from_date_time} 至 {to_date_time}</string>
     <!-- Label for checkout button where user slides the button in order to reserve the activity -->
     <string name="lx_slide_to_reserve">滑動預訂</string>
     <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
@@ -210,12 +208,6 @@
     <string name="exclusions_activity_details">不包項目</string>
     <!-- Activity details know before you book heading -->
     <string name="know_before_you_book_activity_details">預訂前須知</string>
-    <!-- Template for ticket details -->
-    <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
-    <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
-    <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
-    <!-- Template for ticket selection summary -->
-    <string name="offer_book_now_TEMPLATE">立即預訂%1$s</string>
     <!-- Template for ticket details (eg: Adult (12+ years)) -->
     <string name="ticket_details_new_TEMPLATE">{traveler_type} ({restriction_text})</string>
     <!-- Template for ticket details without restrictions (eg: Traveler) -->
@@ -645,7 +637,7 @@
     <string name="lx_recommend_percent_Template">{recommend}%</string>
 
     <string name="lx_recommendation_no_superlative">/ 5</string>
-    <string name="lx_recommendation_superlativeGood">/ 5 - 不錯！</string>
+    <string name="lx_recommendation_superlativeGood">/ 5 - 好！</string>
     <string name="lx_recommendation_superlativeGreat">/ 5 - 很好！</string>
     <string name="lx_recommendation_superlativeAmazing">/ 5 - 一流！</string>
 
@@ -800,10 +792,10 @@
     <string name="Sign_in_with_TEMPLATE">以 {brand} 帳戶登入</string>
     <!-- Content description for sign in button. Eg: Sign in with Expedia button -->
     <string name="Sign_in_with_cont_desc_TEMPLATE">以 {brand} 帳戶登入按鈕</string>
-    <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia+ points -->
-    <string name="Sign_in_to_earn_TEMPLATE">登入以賺取 {reward} 點 Expedia+ 積分</string>
-    <!-- Content description for sign in with earn message. Eg: Sign in to earn 123 Expedia+ points button -->
-    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">登入以獲得 {reward} Expedia+ 積分按鈕</string>
+    <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia Rewards points -->
+    <string name="Sign_in_to_earn_TEMPLATE">登入以賺取 {reward} Expedia Rewards 積分</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn 123 Expedia Rewards points button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">登入以賺取 {reward} Expedia Rewards 積分按鈕</string>
     <!-- or -->
     <string name="or">或</string>
     <!--Create Account -->
@@ -931,7 +923,7 @@
     <string name="trip_page_title">安心出發</string>
     <string name="trip_page_subtitle">隨時隨地查看預訂資料，並收取行程提示</string>
     <string name="reward_page_title">獲取獎賞</string>
-    <!-- Sign up for a free Expedia+ account and earn points on all your purchases -->
+    <!-- Sign up for a free Expedia Rewards account and earn points on all your purchases -->
     <string name="reward_page_subtitle_TEMPLATE">登記免費 {brand_reward_name} 帳戶，所有預訂皆可賺取積分</string>
     <string name="onboarding_final_button_text">立即開始</string>
 
@@ -972,15 +964,19 @@
     <string name="check_in_notification_title">酒店入住提醒</string>
     <!-- Notification body for check in {hotel is hotel's name, {checkin} is check in time. e.g. Check in for your hotel booking for Caesars Palace begins at 11 PM tomorrow.-->
     <string name="check_in_notification_body_TEMPLATE">您可於明日 {checkin} 起登記入住您預訂的{hotel}。詳情請查閱您的預訂。</string>
-    <!-- Notification tittle for check out {checkout} is checkout time e.g. ("Check out today at 3 PM")-->
+    <!-- Notification title for check out {checkout} is checkout time e.g. ("Check out today at 3 PM")-->
     <string name="check_out_notification_title_day_of_TEMPLATE">今天 {checkout} 退房</string>
-    <!-- Notification tittle for check out {checkout} is checkout time e.g. ("Check out tomorrow at 3 PM")-->
+    <!-- Notification title for check out {checkout} is checkout time e.g. ("Check out tomorrow at 3 PM")-->
     <string name="check_out_notification_title_day_before_TEMPLATE">明天 {checkout} 退房</string>
     <!-- Notification body for check out {hotel} is hotel name, {checkout} is checkout time. e.g. ("Your check out time at Caesars Palace is today at 11 PM. Tap for details.")-->
     <string name="check_out_notification_body_day_of_TEMPLATE">您於{hotel}的退房時間是今天 {checkout}。輕按以查看詳情。</string>
     <!-- Notification body for check out {hotel} is hotel name, {checkout} is checkout time. e.g. ("Your check out time at Caesars Palace is tomorrow at 11 PM. Tap for details.")-->
     <string name="check_out_notification_body_day_before_TEMPLATE">您於{hotel}的退房時間是明天 {checkout}。輕按以查看詳情。</string>
-    <!--Notification tittle for Hotel Activities Cross Sell e.g. ("Things to do in Las Vegas")-->
+    <!-- Notification title for hotel reviews e.g. Review your recent stay at Caesars Palace -->
+    <string name="hotel_review_title_notification_TEMPLATE">請評價一下您最近於{hotelname}的住宿</string>
+    <!-- Notification body for hotel reviews e.g. Bob, How would you rate your stay at Caesars Palace? Help a community of travelers like you by sharing your experience. -->
+    <string name="hotel_review_body_notification_TEMPLATE">{firstname}，您會給{hotelname}多少分？請分享您的體驗以供其他旅客參考。</string>
+    <!--Notification title for Hotel Activities Cross Sell e.g. ("Things to do in Las Vegas")-->
     <string name="hotel_book_activities_cross_sell_notification_title_TEMPLATE">{destination}當地玩樂</string>
     <!--Notification body for Hotel Activities Cross Sell e.g. Activities in Las Vegas sell out fast! Explore things to do and book your tickets in advance.-->
     <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">{destination}的活動很快訂滿！請預早搜尋當地玩樂並預訂門票。</string>
@@ -1355,6 +1351,8 @@
     <string name="itin_hotel_details_address_clipboard_TEMPLATE">{addresslineone}, {addresslinetwo}</string>
     <!--Hotel itin map view content description-->
     <string name="itin_hotel_details_map_view_content_description">Google 地圖上的酒店位置</string>
+    <!--Hotel itin expanded map directions button no application available toast text-->
+    <string name="itin_hotel_map_directions_no_app_available">沒有可顯示路線的應用程式</string>
     <!--Hotel itin call hotel button content description. Call hotel at {phonenumber} (eg., Call hotel at +18055437700)-->
     <string name="itin_hotel_details_call_button_content_description_TEMPLATE">致電 {phonenumber} 與酒店聯絡</string>
     <!--Hotel itin message hotel button-->
@@ -2048,9 +2046,9 @@
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_template">您的付款卡將被收取 {dueamount}</string>
     <!-- Your are using pwp points -->
-    <string name="you_are_using_expedia_points_TEMPLATE">您將使用 {points} 點 ({amount}) Expedia+ 積分</string>
+    <string name="you_are_using_expedia_points_TEMPLATE">您將使用 {points} ({amount}) Expedia Rewards 積分</string>
     <!-- Payment through card + pwp points -->
-    <string name="payment_through_card_and_pwp_points">您將使用 {points} 點 ({amount}) Expedia+ 積分\n您的付款卡將被收取 {dueamount}</string>
+    <string name="payment_through_card_and_pwp_points">您將使用 {points} ({amount}) Expedia Rewards 積分\n您的付款卡將被收取 {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">完成預訂</string>
     <!-- Our price gaurentee string -->
@@ -2738,8 +2736,6 @@
     <string name="amenity_hot_tub">熱水浴缸</string>
     <!-- Internet access amenity -->
     <string name="amenity_internet">上網</string>
-    <!-- Free Internet access amenity -->
-    <string name="amenity_free_internet">免費上網</string>
     <!-- Kids' activities amenity -->
     <string name="amenity_kids_activities">兒童活動設施</string>
     <!-- Kitchen/kitchenette amenity -->
@@ -3123,9 +3119,9 @@
     <string name="this_app_makes_use_of_the_following">此應用程式使用以下開放源碼程式庫：</string>
 
     <!-- Account settings view -->
-    <!-- Label for a field containing the number of points that the user has accrued under the loyalty program (e.g. Expedia+) -->
+    <!-- Label for a field containing the number of points that the user has accrued under the loyalty program (e.g. Expedia Rewards) -->
     <string name="available_loyalty_points">可用積分</string>
-    <!-- String for showing the number of pending points that the user will accrue under the loyalty program (e.g. Expedia+); parameter is the number of points (e.g. "7,253 pending") -->
+    <!-- String for showing the number of pending points that the user will accrue under the loyalty program (e.g. Expedia Rewards); parameter is the number of points (e.g. "7,253 pending") -->
     <string name="loyalty_points_pending">%1$s 分有待確認</string>
     <!-- Label (positioned above points) indicating the monetary ($) value of the customers points -->
     <string name="points_value_label">積分價值</string>
@@ -3749,7 +3745,7 @@
     <string name="legal_TEMPLATE">完成此預訂，即表示本人同意已閱讀並接受%1$s、%2$s及%3$s。</string>
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">我已閱讀並同意{terms_of_use}及{privacy_policy}。</string>
-    <!-- Account creation legal template for reward points eg: Join Expedia+ today. By joining Expedia+, I accept all Terms and Conditions. -->
+    <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">立即登記 {brand_reward_name}。登記 {brand_reward_name}，即表示我接受所有{terms_and_conditions}。</string>
 
     <!-- Used in hotel search for specifying traveler -->
@@ -4118,7 +4114,7 @@
     <!-- Slide to book -->
     <string name="slide_to_book_text">滑動來購買</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
-    <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia+ Rewards Points -->
+    <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia Rewards Points -->
     <string name="confirmation_reward_points_TEMPLATE">{rewardpoints} 點 {brand_reward_name} 積分</string>
     <!-- Confirmation Text in new Flights Confirmation Summary widget indicating rewards earned for the booked flight E.g. 183 points earned-->
     <string name="confirmation_flight_reward_points_earned_TEMPLATE">已賺取 {rewardpoints} 分</string>
@@ -4153,9 +4149,9 @@
     <string name="package_start_over">重新開始</string>
 
     <!-- Pay with points widget -->
-    <string name="paying_with_rewards">以 Expedia+ 積分付款</string>
-    <string name="pay_with_rewards">以 Expedia+ 積分付款</string>
-    <string name="pay_with_point_total_available_TEMPLATE">{money} 可用 ({points} 點 Expedia+ 積分)</string>
+    <string name="paying_with_rewards">使用 Expedia Rewards 積分付款</string>
+    <string name="pay_with_rewards">以 Expedia Rewards 積分付款</string>
+    <string name="pay_with_point_total_available_TEMPLATE">已累積 {money} ({points} Expedia Rewards 積分)</string>
     <string name="user_enters_more_than_available_points_TEMPLATE">積分價值超過您的可用餘額。\n請輸入 {money} 或以下。</string>
     <string name="user_enters_more_than_trip">積分價值不可超過今日應付金額。</string>
     <string name="pwp_calculating_points">正在計算積分…</string>
@@ -4406,17 +4402,17 @@
     <string name="flight_add_infant_in_seat_number_TEMPLATE">佔位嬰幼兒 {number} 資料</string>
 
     <!-- Shop with points -->
-    <string name="loyalty_applied_excluding_taxes_and_fees_message">已使用 Expedia+ 積分！(不包稅項及附加費)</string>
-    <string name="regular_loyalty_applied_message">已使用 Expedia+ 積分！</string>
+    <string name="loyalty_applied_excluding_taxes_and_fees_message">已使用 Expedia Rewards 積分！(不包稅項及附加費)</string>
+    <string name="regular_loyalty_applied_message">已使用 Expedia Rewards 積分！</string>
     <string name="vip_loyalty_applied_message">已使用 2 倍積分！</string>
     <string name="vip_short_loyalty_applied_message">2X</string>
     <!-- String to be appended with +VIP in header of room rates. -->
-    <string name="vip_loyalty_applied_header_message">已使用 2 倍 Expedia+ 積分！</string>
+    <string name="vip_loyalty_applied_header_message">已使用 2 倍 Expedia Rewards 積分！</string>
     <!-- SwP Widget you have points template. points_or_amount = it may have money (in case of Expedia) or point value (in case of Orbucks). E.g. You have 3,000 points -->
-    <string name="swp_widget_points_value_TEMPLATE">您有 {points_or_amount} 點積分</string>
-    <string name="vip_loyalty_applied_map_message">&lt;b&gt;+VIP&lt;/b&gt; 已使用 2 倍 Expedia+ 積分！</string>
-    <string name="swp_off_widget_header">使用 Expedia+ 積分</string>
-    <string name="swp_on_widget_header">已使用 Expedia+ 積分</string>
+    <string name="swp_widget_points_value_TEMPLATE">您有 {points_or_amount} 分</string>
+    <string name="vip_loyalty_applied_map_message">已使用 &lt;b&gt;+VIP&lt;/b&gt; 2 倍 Expedia Rewards 積分！</string>
+    <string name="swp_off_widget_header">使用 Expedia Rewards 積分</string>
+    <string name="swp_on_widget_header">已使用 Expedia Rewards 積分</string>
 
     <!-- Message telling you on confirmation screen where you've booked a package to -->
     <string name="yay_going_somewhere">您將前往</string>
@@ -4722,8 +4718,6 @@
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 per adult-->
     <string name="activity_price_per_travelertype_without_discount_cont_desc_TEMPLATE">價格為{ticket_type} {activity_price}</string>
 
-    <!-- LX SRP activity price content description when price is discounted e.g. Price is $180 per adult. Price before discount was $230 per adult-->
-    <string name="activity_price_per_travelertype_with_discount_cont_desc_TEMPLATE">價格為{ticket_type} {activity_price}。打折前價格為{ticket_type} {activity_original_price}</string>
     <!-- Content description for Checkbox types, state Checked -->
     <string name="accessibility_cont_desc_role_checkbox_checked">選擇方格。已選擇。</string>
     <!-- Content description for Checkbox types, state Unchecked -->
@@ -5004,9 +4998,12 @@
     <string name="lx_ticket_selected_summary_TEMPLATE">已選擇 {ticket_summary}</string>
     <!-- LX SRP activity price content description when price is discounted e.g. Regular Price per adult  $125. Discounted price per adult $100-->
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">正價 {ticket_type} {activity_original_price}。折扣價 {ticket_type} {activity_price}</string>
-    <string name="hotel_2x_points_search_title">雙倍 Expedia+ 積分！</string>
+    <string name="hotel_2x_points_search_title">雙倍 Expedia Rewards 積分！</string>
     <string name="hotel_2x_points_search_content">透過 App 預訂您就能賺取雙倍積分！</string>
     <!-- Recent search header string -->
     <string name="flight_recent_search_label">近期的搜尋</string>
+
+    <!-- Brand reward name -->
+    <string name="brand_reward_name">Expedia Rewards</string>
 
 </resources>

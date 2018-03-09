@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget.hotel.hotelCellModules
 
 import android.content.Context
-import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
@@ -35,9 +34,7 @@ class HotelCellUrgencyMessage(context: Context, attrs: AttributeSet) : LinearLay
     private fun setupUrgencyMessage(urgencyMessage: HotelViewModel.UrgencyMessage) {
         if (urgencyMessage.hasIconDrawable()) {
             urgencyIconImageView.visibility = View.VISIBLE
-            val urgencyIcon = ContextCompat.getDrawable(context, urgencyMessage.iconDrawableId!!)
-            urgencyIcon.setColorFilter(ContextCompat.getColor(context, R.color.hotel_urgency_icon_color), PorterDuff.Mode.SRC_IN)
-            urgencyIconImageView.setImageDrawable(urgencyIcon)
+            urgencyIconImageView.setImageDrawable(ContextCompat.getDrawable(context, urgencyMessage.iconDrawableId!!))
         } else {
             urgencyIconImageView.visibility = View.GONE
         }
