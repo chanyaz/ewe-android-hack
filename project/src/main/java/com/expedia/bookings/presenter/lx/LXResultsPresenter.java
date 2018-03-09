@@ -40,6 +40,7 @@ import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
+import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.LXNavUtils;
 import com.expedia.bookings.utils.LXUtils;
@@ -345,25 +346,30 @@ public class LXResultsPresenter extends Presenter {
 			trackLXSearch();
 			Events.post(new Events.LXSearchResultsAvailable(lxSearchResponse));
 
-			if (isMipEnabled && lxSearchResponse.promoDiscountType != null) {
-				lxState.setPromoDiscountType(searchResponse.promoDiscountType);
-				mipSrpBanner.setVisibility(VISIBLE);
+			if (lxSearchResponse.promoDiscountType != null) {
+				if (isMipEnabled) {
+					lxState.setPromoDiscountType(searchResponse.promoDiscountType);
+					mipSrpBanner.setVisibility(VISIBLE);
 
-				mipSrpBannerBrand.setText(Phrase.from(getContext(), R.string.mip_srp_header_brand_TEMPLATE).put("brand", BuildConfig.brand).format().toString());
+					mipSrpBannerBrand.setText(Phrase.from(getContext(), R.string.mip_srp_header_brand_TEMPLATE).put("brand", BuildConfig.brand).format().toString());
 
-				mipSrpBannerDiscount.setText(Phrase.from(getContext(),
-					R.string.mip_srp_header_discount_TEMPLATE).put("discount",
-					LXUtils.getMaxPromoDiscount(lxSearchResponse.activities)).format().toString());
-				int mipImageId = LXDataUtils.getMIPImageId(lxSearchResponse.promoDiscountType);
-				if (mipImageId == 0) {
-					mipSrpBanner.setVisibility(GONE);
+					mipSrpBannerDiscount.setText(Phrase.from(getContext(),
+							R.string.mip_srp_header_discount_TEMPLATE).put("discount",
+							LXUtils.getMaxPromoDiscount(lxSearchResponse.activities)).format().toString());
+					int mipImageId = LXDataUtils.getMIPImageId(lxSearchResponse.promoDiscountType);
+					if (mipImageId == 0) {
+						mipSrpBanner.setVisibility(GONE);
+					}
+					else {
+						mipSrpBannerImage.setImageResource(mipImageId);
+					}
 				}
 				else {
-					mipSrpBannerImage.setImageResource(mipImageId);
+					mipSrpBanner.setVisibility(GONE);
+					if (AbacusFeatureConfigManager.isBucketedForTest(getContext(), AbacusUtils.EBAndroidLXMOD)) {
+						lxState.setPromoDiscountType(Constants.MOD_PROMO_TYPE);
+					}
 				}
-			}
-			else {
-				mipSrpBanner.setVisibility(GONE);
 			}
 			searchResultsWidget.bind(lxSearchResponse.activities, lxSearchResponse.promoDiscountType);
 			show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);

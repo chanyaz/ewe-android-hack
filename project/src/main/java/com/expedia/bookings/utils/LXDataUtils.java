@@ -442,14 +442,26 @@ public class LXDataUtils {
 		}
 	}
 
-	public static void bindDiscountPercentage(Context context, LXActivity activity, TextView discountBadge) {
-		if (activity.discountPercentage != 0) {
+	public static void bindDiscountPercentage(Context context, LXActivity activity, TextView discountBadge, boolean modTestEnabled) {
+		int discPercentage = 0;
+		int discDescrTemplate = 0;
+		if (activity.mipDiscountPercentage >= Constants.LX_MIN_DISCOUNT_PERCENTAGE && modTestEnabled) {
+			discPercentage = activity.mipDiscountPercentage;
+			discDescrTemplate = R.string.lx_member_pricing_discount_percent_TEMPLATE;
+			formatDiscountBadge(context, discountBadge, R.color.member_only_tag_bg_color, R.color.member_pricing_text_color);
+		}
+		else if (activity.discountPercentage >= Constants.LX_MIN_DISCOUNT_PERCENTAGE) {
+			discPercentage = activity.discountPercentage;
+			discDescrTemplate = R.string.lx_discount_percentage_description_TEMPLATE;
+			LXDataUtils.formatDiscountBadge(context, discountBadge, R.color.success_green, R.color.white);
+		}
+		if (discPercentage != 0) {
 			discountBadge.setText(Phrase.from(context, R.string.lx_discount_percentage_text_TEMPLATE)
-					.put("discount", activity.discountPercentage)
+					.put("discount", discPercentage)
 					.format()
 					.toString());
-			discountBadge.setContentDescription(Phrase.from(context, R.string.lx_discount_percentage_description_TEMPLATE)
-					.put("discount", activity.discountPercentage)
+			discountBadge.setContentDescription(Phrase.from(context, discDescrTemplate)
+					.put("discount", discPercentage)
 					.format().toString());
 			discountBadge.setVisibility(View.VISIBLE);
 		}
@@ -589,6 +601,15 @@ public class LXDataUtils {
 			imageResourceId = R.drawable.hotel;
 		}
 		return imageResourceId;
+	}
+
+	public static void formatDiscountBadge(Context context, TextView disBadge, int bgColor, int textColor) {
+		disBadge.setBackgroundColor(context.getResources().getColor(bgColor));
+		disBadge.setTextColor(context.getResources().getColor(textColor));
+	}
+
+	public static int findScrolledPosition(int percentage, int activitiesListSize) {
+		return (percentage * activitiesListSize) / 100;
 	}
 
 }

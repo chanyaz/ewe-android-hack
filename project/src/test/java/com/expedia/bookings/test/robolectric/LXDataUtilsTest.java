@@ -242,13 +242,30 @@ public class LXDataUtilsTest {
 		LXActivity activity1 = new LXActivity();
 		activity1.discountPercentage = 10;
 
-		LXDataUtils.bindDiscountPercentage(getContext(), activity1, discountPercentage);
+		LXDataUtils.bindDiscountPercentage(getContext(), activity1, discountPercentage, true);
+		assertEquals("-10%", discountPercentage.getText());
+		assertEquals("10% discount on original pricing", discountPercentage.getContentDescription());
+		assertEquals(getContext().getResources().getColor(R.color.white), discountPercentage.getCurrentTextColor());
+
+		LXActivity activity2 = new LXActivity();
+		activity2.mipDiscountPercentage = 8;
+
+		LXDataUtils.bindDiscountPercentage(getContext(), activity2, discountPercentage, true);
+		assertEquals("-8%", discountPercentage.getText());
+		assertEquals("Member Pricing Discount: 8%", discountPercentage.getContentDescription());
+		assertEquals(getContext().getResources().getColor(R.color.member_pricing_text_color), discountPercentage.getCurrentTextColor());
+
+		LXActivity activity3 = new LXActivity();
+		activity3.mipDiscountPercentage = 15;
+		activity3.discountPercentage = 10;
+
+		LXDataUtils.bindDiscountPercentage(getContext(), activity3, discountPercentage, false);
 		assertEquals("-10%", discountPercentage.getText());
 		assertEquals("10% discount on original pricing", discountPercentage.getContentDescription());
 
-		LXActivity activity2 = new LXActivity();
+		LXActivity activity4 = new LXActivity();
 
-		LXDataUtils.bindDiscountPercentage(getContext(), activity2, discountPercentage);
+		LXDataUtils.bindDiscountPercentage(getContext(), activity4, discountPercentage, true);
 		assertEquals(View.GONE, discountPercentage.getVisibility());
 	}
 
@@ -363,5 +380,17 @@ public class LXDataUtilsTest {
 		Assert.assertEquals(new Money("130", "USD"), moneyMap1.get("perTicketPrice"));
 		Assert.assertEquals(new Money("125", "USD"), moneyMap2.get("perTicketPrice"));
 		Assert.assertEquals(new Money("39.65", "USD"), moneyMap3.get("perTicketPrice"));
+	}
+
+	@Test
+	public void testFormatDiscountBadge() {
+		TextView discountTextView = new TextView(getContext());
+		LXDataUtils.formatDiscountBadge(getContext(), discountTextView, R.color.white, R.color.success_green);
+		Assert.assertEquals(getContext().getResources().getColor(R.color.success_green), discountTextView.getCurrentTextColor());
+	}
+
+	@Test
+	public void testFindScrolledPosition() {
+		Assert.assertEquals(1, LXDataUtils.findScrolledPosition(10, 16));
 	}
 }

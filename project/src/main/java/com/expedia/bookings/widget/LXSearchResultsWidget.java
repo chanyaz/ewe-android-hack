@@ -83,6 +83,7 @@ public class LXSearchResultsWidget extends FrameLayout {
 
 	public void bind(List<LXActivity> activities) {
 		adapter.setItems(activities);
+		adapter.initializeScrollDepthMap(activities.size());
 		update();
 	}
 

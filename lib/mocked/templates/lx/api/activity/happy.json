@@ -2300,5 +2300,6 @@
   "pageTitle": "New York Pass: Visit up to 80 Attractions, Museums &amp; Tours",
   "category": "Attractions",
   "maxPromoPricingDiscount": 7,
-  "badgingDiscountPercentage": null
+  "badgingDiscountPercentage": null,
+  "discountType": "AirAttachMip"
 }

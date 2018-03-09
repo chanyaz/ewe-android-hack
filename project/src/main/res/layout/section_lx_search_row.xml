@@ -54,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="4dp"
-                android:src="@drawable/ic_member_badge"/>
+                android:src="@drawable/ic_member_only_tag"/>
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/urgency_message"

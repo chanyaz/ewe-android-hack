@@ -32,6 +32,8 @@ public class ActivityDetailsResponse {
 	public int recommendationScore;
 	public LXLocation eventLocation;
 	public List<LXLocation> redemptionLocation = new ArrayList<>();
+	public String discountType;
+	public int discountPercentage;
 
 	public static class LXLocation {
 		public String addressName;

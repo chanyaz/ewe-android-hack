@@ -5021,4 +5021,7 @@
     <!-- Brand reward name -->
     <string name="brand_reward_name">Expedia Rewards</string>
 
+    <!--Accessibility Content Description for Member Pricing Discount Percentage Eg. Member Pricing Discount: 10%-->
+    <string name="lx_member_pricing_discount_percent_TEMPLATE">Member Pricing Discount: {discount}%</string>
+
 </resources>

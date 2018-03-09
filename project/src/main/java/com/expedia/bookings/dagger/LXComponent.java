@@ -12,7 +12,9 @@ import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.bookings.widget.LXActivityDetailsWidget;
 import com.expedia.bookings.widget.LXCheckoutSummaryWidget;
 import com.expedia.bookings.widget.LXConfirmationWidget;
+import com.expedia.bookings.widget.LXResultsListAdapter;
 import com.expedia.bookings.widget.LXSuggestionAdapter;
+import com.expedia.bookings.widget.LXTicketSelectionWidget;
 import com.expedia.vm.LXMapViewModel;
 import com.expedia.vm.lx.LXCheckoutViewModel;
 import com.expedia.vm.lx.LXCreateTripViewModel;
@@ -32,6 +34,8 @@ public interface LXComponent {
 	void inject(LXConfirmationWidget lxConfirmationWidget);
 	void inject(LXPresenter lxPresenter);
 	void inject(LXMapViewModel lxMapViewModel);
+	void inject(LXTicketSelectionWidget lxTicketSelectionWidget);
+	void inject(LXResultsListAdapter.ViewHolder lxResultsListAdapterViewHolder);
 
 	void inject(LxCheckoutPresenterV2 lxCheckoutPresenterV2);
 	void inject(LXCheckoutViewModel lxCheckoutViewModel);

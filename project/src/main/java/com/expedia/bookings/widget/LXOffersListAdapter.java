@@ -15,6 +15,7 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CollectionUtils;
+import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.squareup.otto.Subscribe;
@@ -33,8 +34,9 @@ public class LXOffersListAdapter extends BaseAdapter {
 	private List<Offer> offers = new ArrayList<>();
 	PublishSubject<Offer> publishSubject;
 	private boolean isGroundTransport;
+	private static String activityId;
 
-	public void setOffers(List<Offer> offers, PublishSubject<Offer> subject, boolean isGroundTransport) {
+	public void setOffers(List<Offer> offers, PublishSubject<Offer> subject, boolean isGroundTransport, String activityId) {
 		this.offers = offers;
 		this.publishSubject = subject;
 		boolean shouldExpandFirstItem = AbacusFeatureConfigManager.isUserBucketedForTest( AbacusUtils.EBAndroidAppLXFirstActivityListingExpanded);
@@ -44,6 +46,7 @@ public class LXOffersListAdapter extends BaseAdapter {
 			offers.get(0).isToggled = true;
 			publishSubject.onNext(offers.get(0));
 			this.isGroundTransport = isGroundTransport;
+			this.activityId = activityId;
 			OmnitureTracking.trackLinkLXSelectTicket(isGroundTransport);
 		}
 	}
@@ -156,6 +159,9 @@ public class LXOffersListAdapter extends BaseAdapter {
 				}
 				offer.isToggled = true;
 				offerRow.setVisibility(View.GONE);
+				if (Constants.LX_AIR_MIP.equals(offer.discountType) && offer.discountPercentage < Constants.LX_MIN_DISCOUNT_PERCENTAGE) {
+					OmnitureTracking.trackLXProductForNonMOD(activityId, false);
+				}
 				ticketSelectionWidget.setVisibility(View.VISIBLE);
 			}
 			else {

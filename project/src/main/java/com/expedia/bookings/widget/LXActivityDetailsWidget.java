@@ -127,10 +127,16 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	View recommendedDivider;
 
 	@InjectView(R.id.discount_container)
-	FrameLayout discountContainer;
+	LinearLayout discountContainer;
 
 	@InjectView(R.id.discount_percentage)
 	TextView discountPercentageView;
+
+	@InjectView(R.id.member_only_deal_tag)
+	ImageView memberPricingTag;
+
+	@InjectView(R.id.discount_text)
+	TextView memberPricingText;
 
 	@InjectView(R.id.mip_infosite_image)
 	ImageView mipInfositeImage;
@@ -159,7 +165,6 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	public LXActivityDetailsWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
-
 
 	@Override
 	protected void onFinishInflate() {
@@ -225,7 +230,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 
 	public void onShowActivityDetails(ActivityDetailsResponse activityDetails) {
 		//  Track Product Information on load of this Local Expert Information screen.
-		OmnitureTracking.trackAppLXProductInformation(activityDetails, lxState.searchParams, isGroundTransport);
+		OmnitureTracking.trackAppLXProductInformation(activityDetails, lxState.searchParams, isGroundTransport, lxState.getPromoDiscountType());
 		this.activityDetails = activityDetails;
 
 		buildRecommendationPercentage(activityDetails.recommendationScore);
@@ -234,9 +239,10 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 			buildMapSection(activityDetails);
 		}
 		buildSections(activityDetails);
-		buildDiscountSection(activityDetails.offersDetail.offers);
+		buildDiscountSection(activityDetails);
 		buildMipDiscountSection();
 		buildOfferDatesSelector(activityDetails.offersDetail, lxState.searchParams.getActivityStartDate());
+		offers.setActivityId(activityDetails.id);
 	}
 
 	private void buildRecommendationPercentage(int recommendationScore) {
@@ -602,15 +608,29 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		updateGalleryPosition();
 	}
 
-	public void buildDiscountSection(List<Offer> offers) {
-		if (offers.get(0).discountPercentage >= Constants.LX_MIN_DISCOUNT_PERCENTAGE) {
+	public void buildDiscountSection(ActivityDetailsResponse activityDetails) {
+
+		if (activityDetails.discountPercentage >= Constants.LX_MIN_DISCOUNT_PERCENTAGE) {
+			int discountDescrTemplate;
 			discountPercentageView.setText(Phrase.from(getContext(), R.string.lx_discount_percentage_text_TEMPLATE)
-					.put("discount", offers.get(0).discountPercentage)
-					.format());
-			discountPercentageView.setContentDescription(Phrase.from(getContext(), R.string.lx_discount_percentage_description_TEMPLATE)
-					.put("discount", offers.get(0).discountPercentage)
+					.put("discount", activityDetails.discountPercentage)
 					.format());
 			discountContainer.setVisibility(View.VISIBLE);
+			if (Constants.MOD_PROMO_TYPE.equals(lxState.getPromoDiscountType()) && Constants.LX_AIR_MIP.equals(activityDetails.discountType)) {
+				discountDescrTemplate = R.string.lx_member_pricing_discount_percent_TEMPLATE;
+				LXDataUtils.formatDiscountBadge(getContext(), discountPercentageView, R.color.member_only_tag_bg_color, R.color.member_pricing_text_color);
+				memberPricingTag.setVisibility(View.VISIBLE);
+				memberPricingText.setVisibility(View.VISIBLE);
+			}
+			else {
+				discountDescrTemplate = R.string.lx_discount_percentage_description_TEMPLATE;
+				LXDataUtils.formatDiscountBadge(getContext(), discountPercentageView, R.color.success_green, R.color.white);
+				memberPricingTag.setVisibility(View.GONE);
+				memberPricingText.setVisibility(View.GONE);
+			}
+			discountPercentageView.setContentDescription(Phrase.from(getContext(), discountDescrTemplate)
+					.put("discount", activityDetails.discountPercentage)
+					.format());
 		}
 		else {
 			discountContainer.setVisibility(View.GONE);

@@ -15,6 +15,7 @@ import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.LXUtils;
 import com.squareup.otto.Subscribe;
@@ -87,7 +88,7 @@ public class LXState {
 	public LXCreateTripParams createTripParams(Context context) {
 
 		String promotionId = "";
-		boolean lxModTestEnabled = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidLXMOD);
+		boolean lxModTestEnabled = Constants.MOD_PROMO_TYPE.equals(promoDiscountType);
 
 		boolean modPricingEnabled = activity.modPricingEnabled(lxModTestEnabled);
 		if (modPricingEnabled) {

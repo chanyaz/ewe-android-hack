@@ -169,9 +169,9 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
     }
 
     fun lxDetails(activityId: String?, location: String?, startDate: LocalDate?, endDate: LocalDate?, promoPricingEnabled: Boolean,
-                  observer: Observer<ActivityDetailsResponse>): Disposable {
+                  promoPricingMaxDiscountPercentageEnabled: Boolean, observer: Observer<ActivityDetailsResponse>): Disposable {
         return lxApi.activityDetails(activityId, location, ApiDateUtils.localDateToyyyyMMddSafe(startDate),
-                ApiDateUtils.localDateToyyyyMMddSafe(endDate), promoPricingEnabled)
+                ApiDateUtils.localDateToyyyyMMddSafe(endDate), promoPricingEnabled, promoPricingMaxDiscountPercentageEnabled)
                 .observeOn(this.observeOn)
                 .subscribeOn(this.subscribeOn)
                 .doOnNext(HANDLE_ACTIVITY_DETAILS_ERROR)

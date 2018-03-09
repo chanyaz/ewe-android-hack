@@ -120,6 +120,25 @@ public class LXInfositeScreen {
 				withText(containsString(ticketName)))), isDescendantOfA(withId(R.id.activity_details_presenter))));
 	}
 
+	public static ViewInteraction mipBadgeIcon() {
+		return onView(
+				Matchers.allOf(withId(R.id.member_only_deal_tag),
+						isDescendantOfA(withId(R.id.activity_details_presenter))));
+	}
+
+	public static ViewInteraction mipPercentageBadge() {
+		return onView(
+				Matchers.allOf(withId(R.id.discount_percentage),
+						isDescendantOfA(hasSibling(withId(R.id.member_only_deal_tag))),
+						isDescendantOfA(withId(R.id.activity_details_presenter))));
+	}
+
+	public static ViewInteraction mipBadgeText() {
+		return onView(
+				Matchers.allOf(withId(R.id.discount_text),
+						isDescendantOfA(withId(R.id.activity_details_presenter))));
+	}
+
 	/*
 		This method is used for getting the data back from the individual Tickets that are been offered by the Activity Infosite page
 		Passed Params : index = Since on a particular day we might have more than one offers we want to have an index passed so that we can

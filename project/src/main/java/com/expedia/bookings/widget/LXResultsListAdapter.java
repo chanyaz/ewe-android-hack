@@ -1,5 +1,8 @@
 package com.expedia.bookings.widget;
 
+import java.util.HashMap;
+import java.util.List;
+
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
@@ -14,18 +17,21 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.bitmaps.PicassoTarget;
+import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Constants;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXDataUtils;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
 import com.squareup.phrase.Phrase;
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -35,6 +41,8 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 
 	private static final String ROW_PICASSO_TAG = "lx_row";
 	private static boolean userBucketedForRTRTest;
+	private static HashMap<Integer, Integer> scrollDepthMap;
+	private static int activitiesListSize;
 	private static String promoDiscountType;
 
 	public void setItems(List<LXActivity> items, String discountType) {
@@ -82,6 +90,14 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 		LXResultsListAdapter.userBucketedForRTRTest = userBucketedForRTRTest;
 	}
 
+	public void initializeScrollDepthMap(int activitiesListSize) {
+		scrollDepthMap = new HashMap<>();
+		this.activitiesListSize = activitiesListSize;
+		scrollDepthMap.put(LXDataUtils.findScrolledPosition(10, activitiesListSize), 10);
+		scrollDepthMap.put(LXDataUtils.findScrolledPosition(30, activitiesListSize), 30);
+		scrollDepthMap.put(LXDataUtils.findScrolledPosition(100, activitiesListSize), 100);
+	}
+
 	public static class RecommendedViewHolder extends ViewHolder implements View.OnClickListener {
 
 		@InjectView(R.id.recommended_percentage)
@@ -114,8 +130,9 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 		public ViewHolder(View itemView) {
 			super(itemView);
 			ButterKnife.inject(this, itemView);
+			Ui.getApplication(itemView.getContext()).lxComponent().inject(this);
 			itemView.setOnClickListener(this);
-			lxModTestEnabled = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidLXMOD);
+			lxModTestEnabled = Constants.MOD_PROMO_TYPE.equals(lxState.getPromoDiscountType());
 			lxMipTestEnabled = AbacusFeatureConfigManager.isBucketedForTest(itemView.getContext(), AbacusUtils.EBAndroidLXMIP);
 		}
 
@@ -170,6 +187,9 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 		@InjectView(R.id.mip_srp_tile_discount)
 		TextView mipSrpTileDiscount;
 
+		@Inject
+		LXState lxState;
+
 		private boolean lxModTestEnabled;
 
 		private boolean lxMipTestEnabled;
@@ -215,7 +235,7 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 			LXDataUtils.bindDuration(itemView.getContext(), activity.duration, activity.isMultiDuration, duration);
 
 			LXDataUtils.bindRecommendation(itemView.getContext(), activity.recommendationScore, recommendationScoreView, recommendationTextView);
-			LXDataUtils.bindDiscountPercentage(itemView.getContext(), activity, discountPercentageView);
+			LXDataUtils.bindDiscountPercentage(itemView.getContext(), activity, discountPercentageView, lxModTestEnabled);
 			if (activity.mipPricingEnabled(lxMipTestEnabled) && promoDiscountType != null && activity.mipDiscountPercentage >= Constants.LX_MIN_DISCOUNT_PERCENTAGE ) {
 				mipSrpTileLayout.setVisibility(View.VISIBLE);
 				discountPercentageView.setVisibility(View.GONE);
@@ -248,6 +268,10 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 				.build()
 				.load(imageURLs);
 
+			if (scrollDepthMap != null && scrollDepthMap.get(getAdapterPosition() + 1) != null) {
+				OmnitureTracking.trackLXSRPScrollDepth(scrollDepthMap.get(getAdapterPosition() + 1), activitiesListSize);
+				scrollDepthMap.remove(getAdapterPosition() + 1);
+			}
 		}
 
 		private PicassoTarget target = new PicassoTarget() {

@@ -1938,21 +1938,25 @@ public class OmnitureTracking {
 	private static String getLxSRPProductString(LXSearchResponse lxSearchResponse) {
 		String products = "";
 		int i = 1;
-		Boolean isMip = false;
+		String extraString = "";
 		if (lxSearchResponse.promoDiscountType != null) {
 			if (lxSearchResponse.promoDiscountType.equals(Constants.LX_AIR_HOTEL_MIP) ||
 				lxSearchResponse.promoDiscountType.equals(Constants.LX_AIR_MIP) ||
 				lxSearchResponse.promoDiscountType.equals(Constants.LX_HOTEL_MIP)) {
-				isMip = true;
+				extraString = "-MIP";
+
+			}
+			else if (Constants.MOD_PROMO_TYPE.equals(lxSearchResponse.promoDiscountType)) {
+				extraString = "-MOD";
 			}
 		}
 		for (LXActivity activity : lxSearchResponse.activities) {
+			products += (i == 1) ? ";LX:" : ",;LX:";
 			if (activity.mipDiscountPercentage > 0) {
-				String extraString = isMip ? "-MIP" : "-MOD";
-				products += ";LX:" + activity.id + ";;;;eVar39=" + i++ + extraString;
+				products += activity.id + ";;;;eVar39=" + i++ + extraString;
 			}
 			else {
-				products += ";LX:" + activity.id + ";;;;eVar39=" + i++ ;
+				products += activity.id + ";;;;eVar39=" + i++ + "none";
 			}
 		}
 		return products;
@@ -2067,7 +2071,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackAppLXProductInformation(ActivityDetailsResponse activityDetailsResponse,
-		LxSearchParams lxSearchParams, boolean isGroundTransport) {
+		LxSearchParams lxSearchParams, boolean isGroundTransport, String promoDiscountType) {
 		Log.d(TAG, "Tracking \"" + LX_INFOSITE_INFORMATION + "\" pageLoad...");
 
 		ADMS_Measurement s = internalTrackAppLX(
@@ -2075,7 +2079,9 @@ public class OmnitureTracking {
 
 		s.setEvents(isGroundTransport ? "event3" : "event32");
 
-		s.setProducts("LX;Merchant LX:" + activityDetailsResponse.id);
+		String memberDealCode = Constants.MOD_PROMO_TYPE.equals(promoDiscountType) && Constants.LX_AIR_MIP.equals(activityDetailsResponse.discountType) && activityDetailsResponse.offersDetail.offers.get(0).discountPercentage > Constants.LX_MIN_DISCOUNT_PERCENTAGE ? "-MOD" : "none";
+
+		s.setProducts("LX;Merchant LX:" + activityDetailsResponse.id + ";;;;eVar39=" + memberDealCode);
 
 		// Destination
 		s.setProp(4, activityDetailsResponse.regionId);
@@ -2085,6 +2091,13 @@ public class OmnitureTracking {
 		setDateValues(s, lxSearchParams.getActivityStartDate(), lxSearchParams.getActivityEndDate());
 
 		// Send the tracking data
+		s.track();
+	}
+
+	public static void trackLXProductForNonMOD(String activityId, boolean isGroundTransport) {
+		ADMS_Measurement s = internalTrackAppLX(
+				isGroundTransport ? LX_GT_INFOSITE_INFORMATION : LX_INFOSITE_INFORMATION);
+		s.setProducts("LX;Merchant LX:" + activityId + ";;;;eVar39=none");
 		s.track();
 	}
 
@@ -2207,6 +2220,16 @@ public class OmnitureTracking {
 		sb.append(".");
 		sb.append(rffr);
 		trackLinkLX(sb.toString());
+	}
+
+	public static void trackLXSRPScrollDepth(int scrollDepth, int totalCount) {
+		String pageName = LX_SEARCH;
+		StringBuilder link = new StringBuilder(pageName);
+		link.append(".Scroll.").append(scrollDepth);
+		ADMS_Measurement s = createTrackLinkEvent(link.toString());
+		String event = new StringBuilder("event245=").append(totalCount).toString();
+		s.setEvents(event);
+		s.trackLink("Scroll");
 	}
 
 	private static void trackLinkLX(String rffr) {

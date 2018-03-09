@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.AvailabilityInfo;
 import com.expedia.bookings.data.lx.LXRedemptionType;
@@ -31,6 +32,8 @@ import com.squareup.phrase.Phrase;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -83,6 +86,9 @@ public class LXTicketSelectionWidget extends LinearLayout {
 	@InjectView(R.id.actual_price)
 	TextView actualPrice;
 
+	@Inject
+	LXState lxState;
+
 	private List<Ticket> selectedTickets = new ArrayList<>();
 
 	private String offerId;
@@ -94,6 +100,7 @@ public class LXTicketSelectionWidget extends LinearLayout {
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
+		Ui.getApplication(getContext()).lxComponent().inject(this);
 		Events.register(this);
 	}
 
@@ -171,6 +178,17 @@ public class LXTicketSelectionWidget extends LinearLayout {
 			}
 		}
 
+		if (Constants.LX_AIR_MIP.equals(offer.discountType)) {
+			if (Constants.MOD_PROMO_TYPE.equals(lxState.getPromoDiscountType())) {
+				LXDataUtils.formatDiscountBadge(getContext(), discountPercentageView, R.color.member_only_tag_bg_color, R.color.member_pricing_text_color);
+			}
+			else {
+				LXDataUtils.formatDiscountBadge(getContext(), discountPercentageView, R.color.air_attach_orange, R.color.white);
+			}
+		}
+		else {
+			LXDataUtils.formatDiscountBadge(getContext(), discountPercentageView, R.color.success_green, R.color.white);
+		}
 	}
 
 	public void buildTicketPickers(AvailabilityInfo availabilityInfo) {
@@ -233,12 +251,6 @@ public class LXTicketSelectionWidget extends LinearLayout {
 						.put("discount", discountPercentage)
 						.format()
 						.toString();
-				if (Constants.LX_AIR_MIP.equals(discountType)) {
-					discountPercentageView.setBackgroundColor(getResources().getColor(R.color.air_attach_orange));
-				}
-				else {
-					discountPercentageView.setBackgroundColor(getResources().getColor(R.color.success_green));
-				}
 				discountPercentageView.setVisibility(View.VISIBLE);
 			}
 			else {

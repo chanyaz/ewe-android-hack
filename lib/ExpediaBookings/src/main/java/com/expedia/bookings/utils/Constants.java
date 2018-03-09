@@ -109,5 +109,6 @@ public class Constants {
 	public static final String LX_AIR_HOTEL_MIP = "AirHotelAttachMip";
 	public static final String LX_HOTEL_MIP = "HotelAttachMip";
 	public static final String LX_AIR_MIP = "AirAttachMip";
+	public static final String MOD_PROMO_TYPE = "MOD";
 
 }

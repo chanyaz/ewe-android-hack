@@ -42,7 +42,8 @@ public interface LXApi {
 		@Query("location") String location,
 		@Query("startDate") String startDate,
 		@Query("endDate") String endDate,
-		@Query("promoPricingEnabled") boolean promoPricingEnabled);
+		@Query("promoPricingEnabled") boolean promoPricingEnabled,
+		@Query("promoPricingMaxDiscountPercentageEnabled") boolean promoPricingDiscountPercentEnabled);
 
 	@Headers("Content-Type: application/json")
 	@POST("/m/api/lx/trip/create")

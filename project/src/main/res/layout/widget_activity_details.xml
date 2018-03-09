@@ -23,13 +23,22 @@
 
         </FrameLayout>
 
-        <FrameLayout
+        <LinearLayout
             android:id="@+id/discount_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:padding="12dp"
-            android:visibility="gone">
+            android:visibility="gone"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/member_only_deal_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="6dp"
+                android:src="@drawable/ic_member_only_tag_bg"
+                android:visibility="gone"/>
 
             <com.expedia.bookings.widget.RoundedCornerFrameLayout
                 android:layout_width="wrap_content"
@@ -51,7 +60,19 @@
 
             </com.expedia.bookings.widget.RoundedCornerFrameLayout>
 
-        </FrameLayout>
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/discount_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/member_pricing"
+                android:layout_marginLeft="6dp"
+                android:visibility="gone"
+                style="@style/Core.Text.200"
+                android:textColor="#264d65"
+                android:layout_gravity="center_vertical"
+                android:importantForAccessibility="no"/>
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/mip_infosite_banner"

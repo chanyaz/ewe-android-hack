@@ -135,5 +135,6 @@
       "checked": false
     }
   },
-  "currencyCode": "USD"
+  "currencyCode": "USD",
+  "promoDiscountType": "MOD"
 }

@@ -150,7 +150,7 @@ public class LXServicesTest {
 		TestObserver<ActivityDetailsResponse> observer = new TestObserver<>();
 		LXActivity lxActivity = new LXActivity();
 		lxActivity.id = "183615";
-		serviceRule.getServices().lxDetails(lxActivity.id, null, LocalDate.now(), LocalDate.now().plusDays(1), false, observer);
+		serviceRule.getServices().lxDetails(lxActivity.id, null, LocalDate.now(), LocalDate.now().plusDays(1), false, false, observer);
 		observer.awaitTerminalEvent();
 
 		observer.assertNoErrors();
@@ -170,7 +170,7 @@ public class LXServicesTest {
 
 		LXActivity lxActivity = new LXActivity();
 		lxActivity.id = "183615";
-		serviceRule.getServices().lxDetails(lxActivity.id, null, LocalDate.now(), LocalDate.now().plusDays(1), true, observer);
+		serviceRule.getServices().lxDetails(lxActivity.id, null, LocalDate.now(), LocalDate.now().plusDays(1), true, true, observer);
 		observer.awaitTerminalEvent();
 
 		observer.assertComplete();
@@ -244,7 +244,7 @@ public class LXServicesTest {
 		serviceRule.getServer().enqueue(new MockResponse().setBody("{Unexpected}"));
 		TestObserver<ActivityDetailsResponse> observer = new TestObserver<>();
 
-		serviceRule.getServices().lxDetails(new LXActivity().id, null, null, null, false, observer);
+		serviceRule.getServices().lxDetails(new LXActivity().id, null, null, null, false, false, observer);
 		observer.awaitTerminalEvent();
 
 		observer.assertNoValues();
