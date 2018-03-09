@@ -362,7 +362,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     private fun toggleBottomContainerViews(state: TwoScreenOverviewState) {
         val showSlider = checkoutPresenter.getCheckoutViewModel().isValidForBooking()
                 && state == TwoScreenOverviewState.CHECKOUT
-        checkoutPresenter.getCheckoutViewModel().slideToPurchaseVisibilityObservable.onNext(showSlider)
         bottomCheckoutContainer.toggleBottomContainerViews(state, showSlider)
         if (showSlider) {
             checkoutPresenter.trackShowSlideToPurchase()
@@ -466,7 +465,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         bottomCheckoutContainer.viewModel = bottomCheckoutContainerViewModel
         bottomCheckoutContainer.totalPriceViewModel = getPriceViewModel(context)
         bottomCheckoutContainer.baseCostSummaryBreakdownViewModel = getCostSummaryBreakdownViewModel()
-        bottomCheckoutContainer.viewModel.showSlideToPurchaseObservable.subscribe(checkoutPresenter.getCheckoutViewModel().slideToPurchaseVisibilityObservable)
     }
 
     private fun setupCreateTripViewModelSubscriptions() {

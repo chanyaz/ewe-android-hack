@@ -110,7 +110,7 @@ class FlightTestUtil {
         }
 
         @JvmStatic
-        fun getFlightCreateTripResponse(limitedSeats: Boolean = false): FlightCreateTripResponse {
+        fun getFlightCreateTripResponse(remainingSeats: Int = 9): FlightCreateTripResponse {
             val flightCreateTripResponse = FlightCreateTripResponse()
             flightCreateTripResponse.tealeafTransactionId = "123456"
             val newTrip = TripDetails("1234", "5678", "9101112")
@@ -124,11 +124,7 @@ class FlightTestUtil {
             pricePerPassengerList.add(passengerInfo)
             val flightOffer = FlightTripDetails.FlightOffer()
             flightOffer.totalPrice = Money(223, "USD")
-            if (limitedSeats) {
-                flightOffer.seatsRemaining = 2
-            } else {
-                flightOffer.seatsRemaining = 6
-            }
+            flightOffer.seatsRemaining = remainingSeats
             val flightTripDetails = FlightTripDetails()
 
             flightTripDetails.legs = ArrayList()

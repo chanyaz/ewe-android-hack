@@ -71,7 +71,6 @@ abstract class AbstractCheckoutViewModel(val context: Context) {
     val toolbarNavIconFocusObservable = PublishSubject.create<Unit>()
     val showUrgencyMessageObservable = PublishSubject.create<Boolean>()
     val urgencyMessageTextObservable = PublishSubject.create<String>()
-    val slideToPurchaseVisibilityObservable = PublishSubject.create<Boolean>()
 
     protected var compositeDisposable: CompositeDisposable? = null
 
@@ -112,14 +111,15 @@ abstract class AbstractCheckoutViewModel(val context: Context) {
         }
 
         if (shouldShowUrgencyMessaging(context)) {
-            ObservableOld.combineLatest(seatsRemainingObservable, toCheckoutTransitionObservable, slideToPurchaseVisibilityObservable, { numSeats, onCheckout, showSlider ->
-                val showUrgencyMessage = (numSeats in 1..5) && onCheckout && !showSlider
+            ObservableOld.combineLatest(seatsRemainingObservable, toCheckoutTransitionObservable, { numSeats, onCheckout ->
+                val showUrgencyMessage = (numSeats in 1..5) && onCheckout
                 showUrgencyMessageObservable.onNext(showUrgencyMessage)
                 if (showUrgencyMessage) {
-                    OmnitureTracking.trackUrgencyMessageDisplayed()
-                    val message = Phrase.from(context, R.string.seats_left_urgency_message_on_checkout_TEMPLATE)
-                            .put("seats", numSeats).format().toString()
+                    val message = Phrase.from(context.resources.getQuantityString(R.plurals.flight_seats_left_urgency_message_on_checkout_TEMPLATE, numSeats))
+                            .put("seats", numSeats)
+                            .format().toString()
                     urgencyMessageTextObservable.onNext(message)
+                    OmnitureTracking.trackUrgencyMessageDisplayed()
                 }
             }).subscribe()
         }

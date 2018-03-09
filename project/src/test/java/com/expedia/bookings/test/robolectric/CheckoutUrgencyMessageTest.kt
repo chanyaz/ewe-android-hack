@@ -6,7 +6,6 @@ import android.view.View
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TripBucketItemFlightV2
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.enums.TwoScreenOverviewState
@@ -14,7 +13,6 @@ import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.flight.FlightOverviewPresenter
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.utils.AbacusTestUtils
-import com.expedia.bookings.utils.TravelerTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.Optional
 import org.junit.Before
@@ -47,7 +45,7 @@ class CheckoutUrgencyMessageTest {
 
     @Test
     fun testDontShowUrgencyMessageInOverview() {
-        setupCreateTripAndGoToCheckout(limitedSeats = true, goToCheckout = false)
+        setupCreateTripAndGoToCheckout(remainingSeats = 2, goToCheckout = false)
         flightOverviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
 
         assertTrue(flightOverviewPresenter.bottomCheckoutContainer.urgencyMessageContainer.visibility == View.GONE)
@@ -55,7 +53,7 @@ class CheckoutUrgencyMessageTest {
 
     @Test
     fun testShowUrgencyMessageWhenGoingToCheckout() {
-        setupCreateTripAndGoToCheckout(limitedSeats = true, goToCheckout = true)
+        setupCreateTripAndGoToCheckout(remainingSeats = 2, goToCheckout = true)
 
         assertTrue(flightOverviewPresenter.bottomCheckoutContainer.urgencyMessageContainer.visibility == View.VISIBLE)
     }
@@ -64,43 +62,50 @@ class CheckoutUrgencyMessageTest {
     fun testDontShowUrgencyMessageWhenGoingToCheckoutWithABTestOff() {
         turnOffABTest()
 
-        setupCreateTripAndGoToCheckout(limitedSeats = true, goToCheckout = true)
+        setupCreateTripAndGoToCheckout(remainingSeats = 2, goToCheckout = true)
 
         assertTrue(flightOverviewPresenter.bottomCheckoutContainer.urgencyMessageContainer.visibility == View.GONE)
     }
 
     @Test
     fun testDontShowUrgencyMessageWhenGoingToCheckout() {
-        setupCreateTripAndGoToCheckout(limitedSeats = false, goToCheckout = true)
+        setupCreateTripAndGoToCheckout(remainingSeats = 6, goToCheckout = true)
 
         assertTrue(flightOverviewPresenter.bottomCheckoutContainer.urgencyMessageContainer.visibility == View.GONE)
     }
 
     @Test
     fun testCorrectUrgencyMessage() {
-        setupCreateTripAndGoToCheckout(limitedSeats = true, goToCheckout = true)
+        setupCreateTripAndGoToCheckout(remainingSeats = 2, goToCheckout = true)
 
         assertEquals("We have 2 seats left at this price", flightOverviewPresenter.bottomCheckoutContainer.urgencyMessage.text.toString())
     }
 
     @Test
-    fun testDontShowUrgencyMessageWhenSlideToPurchaseIsVisible() {
-        setupCreateTripAndGoToCheckout(limitedSeats = true, goToCheckout = false)
-        val traveler = Traveler()
-        TravelerTestUtils.completeTraveler(traveler)
-        flightOverviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
-        flightOverviewPresenter.getCheckoutPresenter().flightCheckoutViewModel.travelerCompleted.onNext(arrayListOf(traveler))
-        flightOverviewPresenter.getCheckoutPresenter().flightCheckoutViewModel.paymentCompleted.onNext(BillingDetailsTestUtils.getBillingInfo(context))
-        flightOverviewPresenter.show(flightOverviewPresenter.getCheckoutPresenter())
-        flightOverviewPresenter.checkoutButton.performClick()
+    fun testCorrectUrgencyMessageWhenOneSeatLeft() {
+        setupCreateTripAndGoToCheckout(remainingSeats = 1, goToCheckout = true)
 
-        assertTrue(flightOverviewPresenter.bottomCheckoutContainer.slideToPurchase.visibility == View.VISIBLE)
-        assertTrue(flightOverviewPresenter.bottomCheckoutContainer.urgencyMessageContainer.visibility == View.GONE)
+        assertEquals("We have 1 seat left at this price", flightOverviewPresenter.bottomCheckoutContainer.urgencyMessage.text.toString())
     }
+
+//    @Test
+//    fun testShowUrgencyMessageWhenSlideToPurchaseIsVisible() {
+//        setupCreateTripAndGoToCheckout(remainingSeats = 2, goToCheckout = false)
+//        val traveler = Traveler()
+//        TravelerTestUtils.completeTraveler(traveler)
+//        flightOverviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
+//        flightOverviewPresenter.getCheckoutPresenter().flightCheckoutViewModel.travelerCompleted.onNext(arrayListOf(traveler))
+//        flightOverviewPresenter.getCheckoutPresenter().flightCheckoutViewModel.paymentCompleted.onNext(BillingDetailsTestUtils.getBillingInfo(context))
+//        flightOverviewPresenter.show(flightOverviewPresenter.getCheckoutPresenter())
+//        flightOverviewPresenter.checkoutButton.performClick()
+//
+//        assertTrue(flightOverviewPresenter.bottomCheckoutContainer.slideToPurchase.visibility == View.VISIBLE)
+//        assertTrue(flightOverviewPresenter.bottomCheckoutContainer.urgencyMessageContainer.visibility == View.VISIBLE)
+//    }
 
     @Test
     fun testDontShowUrgencyMessageWhenGoingFromCheckoutBackToOverview() {
-        setupCreateTripAndGoToCheckout(limitedSeats = true, goToCheckout = true)
+        setupCreateTripAndGoToCheckout(remainingSeats = 2, goToCheckout = true)
         flightOverviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
 
         assertTrue(flightOverviewPresenter.bottomCheckoutContainer.urgencyMessageContainer.visibility == View.GONE)
@@ -109,7 +114,7 @@ class CheckoutUrgencyMessageTest {
     @Test
     fun testUrgencyMessageDisplayedTracked() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        setupCreateTripAndGoToCheckout(limitedSeats = true, goToCheckout = false)
+        setupCreateTripAndGoToCheckout(remainingSeats = 2, goToCheckout = false)
         flightOverviewPresenter.getCheckoutPresenter().flightCheckoutViewModel.toCheckoutTransitionObservable.onNext(true)
         flightOverviewPresenter.getCheckoutPresenter().flightCheckoutViewModel.bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
 
@@ -120,7 +125,7 @@ class CheckoutUrgencyMessageTest {
     @Test
     fun testUrgencyMessageDisplayedNotTracked() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        setupCreateTripAndGoToCheckout(limitedSeats = false, goToCheckout = false)
+        setupCreateTripAndGoToCheckout(remainingSeats = 6, goToCheckout = false)
         flightOverviewPresenter.getCheckoutPresenter().flightCheckoutViewModel.toCheckoutTransitionObservable.onNext(true)
         flightOverviewPresenter.getCheckoutPresenter().flightCheckoutViewModel.bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
 
@@ -128,8 +133,8 @@ class CheckoutUrgencyMessageTest {
         OmnitureTestUtils.assertLinkNotTracked("Universal Checkout", "App.CKO.Urgency.Shown", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
     }
 
-    private fun setupCreateTripAndGoToCheckout(limitedSeats: Boolean, goToCheckout: Boolean) {
-        val createTripResponse = FlightTestUtil.getFlightCreateTripResponse(limitedSeats)
+    private fun setupCreateTripAndGoToCheckout(remainingSeats: Int, goToCheckout: Boolean) {
+        val createTripResponse = FlightTestUtil.getFlightCreateTripResponse(remainingSeats)
         Db.getTripBucket().add(TripBucketItemFlightV2(createTripResponse))
         flightOverviewPresenter.getCheckoutPresenter().getCreateTripViewModel().createTripResponseObservable.onNext(Optional(createTripResponse))
         if (goToCheckout) {
