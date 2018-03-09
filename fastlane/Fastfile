@@ -49,20 +49,43 @@ platform :android do
     adb(command: "shell pm grant com.expedia.bookings.debug android.permission.ACCESS_COARSE_LOCATION")
     adb(command: "shell pm grant com.expedia.bookings.debug android.permission.ACCESS_FINE_LOCATION")
     adb(command: "shell pm grant com.expedia.bookings.debug android.permission.DUMP")
-
-    # Run screenshots with options
+    
+    #Configure options
+    defaultPackage = 'com.expedia.bookings.screengrab'
+    defaultDeviceType = 'phone'
     if options == {} || (options[:packages].is_a?(NilClass) && options[:classes].is_a?(NilClass))
-      options[:packages] = 'com.expedia.bookings.screengrab' #fallback to default package
+      options[:packages] = defaultPackage #fallback to default package
     end
 
+    #if device type has not been defined, use default
+    if options[:device_type].is_a?(NilClass)
+      options[:device_type] = defaultDeviceType
+    end
+    
+    #If class(es) have been provided, but without package, prepend a default package to each class without a package.
+    unless options[:classes].is_a?(NilClass)
+      options[:classes] = options[:classes].split(',')
+      options[:classes].each_with_index { |className , index|
+        unless className.include?('com.expedia.bookings.screengrab')
+          options[:classes][index] = "#{defaultPackage}.#{options[:classes][index]}"
+        end
+      }
+      options[:classes] = options[:classes].join(',')
+    end
+
+    # Run screenshots with options
     screengrab(
         use_tests_in_packages: options[:packages],
         use_tests_in_classes: options[:classes],
-        locales: options[:locales]
+        locales: options[:locales],
+        device_type: options[:device_type],
+        exit_on_test_failure: false
     )
 
     # Reset device
     demo_mode(enable: false)
+    adb(command: "shell settings put secure location_providers_allowed +network")
+    adb(command: "shell settings put secure location_providers_allowed +gps")
   end
 
   desc "Upload release to Google Play"
