@@ -35,6 +35,7 @@ import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
+import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
@@ -60,6 +61,7 @@ class PackageOverviewTest {
         Ui.getApplication(RuntimeEnvironment.application).defaultTravelerComponent()
         Ui.getApplication(RuntimeEnvironment.application).defaultPackageComponents()
         setUpPackageDb()
+        Db.sharedInstance.travelers = emptyList()
         val intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.package_overview_test)
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
         activity = Robolectric.buildActivity(PlaygroundActivity::class.java, styledIntent).create().visible().get()
@@ -68,7 +70,7 @@ class PackageOverviewTest {
     }
 
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
-    //@Test
+    @Test
     fun testOvervviewRowsContentDescrition() {
         createTrip()
         //Initially when all rows are collapsed
@@ -91,7 +93,7 @@ class PackageOverviewTest {
     }
 
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    //@Test
+    @Test
     fun testAirlineFeeTextOnBundleOverview() {
         RoboTestHelper.setPOS(PointOfSaleId.AUSTRALIA)
         createTrip()
@@ -100,7 +102,7 @@ class PackageOverviewTest {
     }
 
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    //@Test
+    @Test
     fun testAirlineFeeTextNotShownOnBundleOverview() {
         RoboTestHelper.setPOS(PointOfSaleId.UNITED_STATES)
         createTrip()
@@ -109,7 +111,7 @@ class PackageOverviewTest {
     }
 
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
-    //@Test
+    @Test
     fun testFromPackageSearchParamsUsesMultiCityForPOIDestinationType() {
         val packageSearchParams = givenPackageSearchParamsWithPiid()
         setDestinationTypeAndMultiCity(packageSearchParams)
@@ -122,7 +124,7 @@ class PackageOverviewTest {
     }
 
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
-    //@Test
+    @Test
     fun testFromPackageSearchParamsUsesGaiaIdDefault() {
         val packageSearchParams = givenPackageSearchParamsWithPiid()
         val createTripParams = PackageCreateTripParams.fromPackageSearchParams(packageSearchParams)
