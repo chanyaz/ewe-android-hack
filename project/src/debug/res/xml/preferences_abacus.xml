@@ -100,7 +100,6 @@
             android:key="24743"
             android:summary="%s"
             android:title="Hotel Result change date - 24743" />
-            
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
@@ -381,6 +380,14 @@
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
         android:title="Checkout tests">
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:summary="%s"
+            android:key="24632"
+            android:title="Frequent flier tooltip - 24632" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"

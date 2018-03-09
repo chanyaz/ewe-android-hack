@@ -13,9 +13,11 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.extensions.subscribeMaterialFormsError
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.extensions.updatePaddingForOldApi
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.section.CountrySpinnerAdapter
 import com.expedia.bookings.utils.AccessibilityUtil
@@ -44,6 +46,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
     var frequentFlyerRecycler: RecyclerView? = null
     var frequentFlyerIcon: ImageView? = null
     var frequentFlyerText: TextView? = null
+    val frequentFlyerTooltip by bindView<TextView>(R.id.frequent_flyer_tooltip)
 
     val resizeOpenAnimator: ResizeHeightAnimator by lazy {
         val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
@@ -159,6 +162,9 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
         passportCountryEditBox.setOnClickListener {
             showCountryAlertDialog()
         }
+
+        frequentFlyerTooltip.visibility = if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFrequentFlierTooltip)) View.VISIBLE else View.GONE
+
         updateFrequentFlyerVisibility(show = false)
         frequentFlyerButton?.setOnClickListener {
             updateFrequentFlyerVisibility(frequentFlyerRecycler?.visibility == Presenter.GONE)

@@ -2250,6 +2250,8 @@
     <string name="save_traveler">Save Traveler</string>
     <!-- no thanks -->
     <string name="no_thanks">No Thanks</string>
+    <!--Advanced flight traveler options, explicitly telling user that they can add frequent flyer number anytime before the flight -->
+    <string name="add_anytime_before_your_flight">Add any time before your flight.</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">Advanced (optional)</string>
     <!--Contact airline message on flight checkout traveler details -->

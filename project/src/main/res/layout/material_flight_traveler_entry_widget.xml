@@ -108,30 +108,45 @@
             android:id="@+id/traveler_frequent_flyer_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="8dp"
+            android:orientation="vertical"
             android:paddingBottom="8dp"
+            android:paddingTop="8dp"
             android:visibility="gone">
 
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/frequent_flyer_program_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/expand_frequent_flyer_button_cont_desc"
-                android:text="@string/frequent_flyer_optional"
-                android:textColor="@color/app_primary"
-                android:textSize="18dp" />
-
-            <ImageView
-                android:id="@+id/traveler_frequent_flyer_program_icon"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/frequent_flyer_program_text"
-                android:layout_marginLeft="8dp"
-                android:layout_gravity="center"
-                android:src="@drawable/read_more"
-                android:tint="@color/app_primary" />
+                android:orientation="horizontal">
 
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/frequent_flyer_program_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/expand_frequent_flyer_button_cont_desc"
+                    android:text="@string/frequent_flyer_optional"
+                    android:textColor="@color/app_primary"
+                    android:textSize="18dp" />
+
+                <ImageView
+                    android:id="@+id/traveler_frequent_flyer_program_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/frequent_flyer_program_text"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="8dp"
+                    android:src="@drawable/read_more"
+                    android:tint="@color/app_primary" />
+
+            </LinearLayout>
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/frequent_flyer_tooltip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/expand_advanced_button_cont_desc"
+                android:text="@string/add_anytime_before_your_flight"
+                android:textColor="@color/gray600"
+                android:textSize="14dp" />
         </LinearLayout>
 
             <android.support.v7.widget.RecyclerView

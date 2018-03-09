@@ -4208,6 +4208,9 @@ public class OmnitureTracking {
 	public static void trackFlightCheckoutTravelerEditInfo() {
 		Log.d(TAG, "Tracking \"" + FLIGHT_CHECKOUT_TRAVELER_EDIT_INFO + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHT_CHECKOUT_TRAVELER_EDIT_INFO);
+
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFrequentFlierTooltip);
+
 		s.track();
 	}
 
