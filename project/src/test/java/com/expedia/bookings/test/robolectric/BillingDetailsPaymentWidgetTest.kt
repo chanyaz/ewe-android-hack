@@ -67,6 +67,17 @@ class BillingDetailsPaymentWidgetTest {
     }
 
     @Test
+    fun testPaymentWidgetCardContentDescription() {
+        val testTitleObserver = TestObserver.create<String>()
+        billingDetailsPaymentWidget.viewmodel.cardTitle.subscribe(testTitleObserver)
+        billingDetailsPaymentWidget.viewmodel.cardTitle.onNext("Saved Visa 4111")
+
+        testTitleObserver.assertValue("Saved Visa 4111")
+        assertEquals("Saved Visa 4111", billingDetailsPaymentWidget.cardInfoName.text)
+        assertEquals("Saved Visa 4111 Button", billingDetailsPaymentWidget.cardInfoName.contentDescription)
+    }
+
+    @Test
     fun testCreditCardSecurityCodeWidget() {
         assertNotNull(billingDetailsPaymentWidget)
         ButterKnife.inject(activity)

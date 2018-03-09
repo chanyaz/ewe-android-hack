@@ -24,7 +24,6 @@ import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.extensions.isMaterialFormEnabled
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.user.UserStateManager
-import com.expedia.bookings.extensions.setFocusForView
 import com.expedia.bookings.extensions.subscribeImageDrawable
 import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.extensions.subscribeTextAndVisibility
@@ -102,7 +101,9 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     }
 
     protected open fun init(vm: PaymentViewModel) {
-        vm.cardTitle.subscribeText(cardInfoName)
+        vm.cardTitle.doOnNext { title ->
+            AccessibilityUtil.appendRoleContDesc(cardInfoName, title, R.string.accessibility_cont_desc_role_button)
+        }.subscribeText(cardInfoName)
         vm.cardSubtitle.subscribeTextAndVisibility(cardInfoExpiration)
         vm.subtitleColorObservable.subscribeTextColor(cardInfoExpiration)
         vm.paymentType.subscribeImageDrawable(cardInfoIcon)
@@ -505,7 +506,6 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             paymentOptionsContainer.visibility = View.GONE
             billingInfoContainer.visibility = View.GONE
             validateAndBind()
-            cardInfoContainer.setFocusForView()
         }
     }
 
