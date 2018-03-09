@@ -8,6 +8,7 @@ import com.expedia.bookings.OmnitureTestUtils.Companion.assertLinkTracked
 import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateTracked
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.ABTest
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -173,7 +174,6 @@ class OmnitureTrackingTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun launchScreenTilesTracked() {
-        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         OmnitureTracking.trackPageLoadLaunchScreen("event322,event326,event327")
 
         assertStateTracked("App.LaunchScreen", withEventsString("event322,event326,event327"), mockAnalyticsProvider)
@@ -183,7 +183,6 @@ class OmnitureTrackingTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testLoggingForSeatingClassABTest() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesDisplayFlightSeatingClass)
-        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         OmnitureTracking.trackPackagesFlightRoundTripOutLoad(null)
         assertStateTracked(withProps(mapOf(34 to "16300.0.1")), mockAnalyticsProvider)
     }
@@ -192,7 +191,6 @@ class OmnitureTrackingTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testLoggingForSeatingClassABTestControlled() {
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesDisplayFlightSeatingClass)
-        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         OmnitureTracking.trackPackagesFlightRoundTripOutLoad(null)
         assertStateTracked(withProps(mapOf(34 to "16300.0.0")), mockAnalyticsProvider)
     }
@@ -201,7 +199,6 @@ class OmnitureTrackingTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testLoggingForPackagesBackFlowABTest() {
         AbacusTestUtils.bucketTests(AbacusUtils.PackagesBackFlowFromOverview)
-        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         OmnitureTracking.trackPackagesBundlePageLoad(getPackageDetails().pricing.packageTotal.amount.toDouble(), null)
         assertStateTracked(withProps(mapOf(34 to "16163.0.1")), mockAnalyticsProvider)
     }
@@ -210,7 +207,6 @@ class OmnitureTrackingTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testLoggingForPackagesBackFlowABTestControlled() {
         AbacusTestUtils.unbucketTests(AbacusUtils.PackagesBackFlowFromOverview)
-        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         OmnitureTracking.trackPackagesBundlePageLoad(getPackageDetails().pricing.packageTotal.amount.toDouble(), null)
         assertStateTracked(withProps(mapOf(34 to "16163.0.0")), mockAnalyticsProvider)
     }
@@ -248,6 +244,42 @@ class OmnitureTrackingTest {
                         withProps(mapOf(2 to "hotels")),
                         withEvars(mapOf(2 to "D=c2"))),
                 mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testTrackFlightsCardExpiryABTest() {
+        val abTest = ABTest(24734, true)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, abTest)
+        OmnitureTracking.trackCheckoutPayment(LineOfBusiness.FLIGHTS_V2)
+        assertStateTracked(withProps(mapOf(34 to "15457.0.-1|24734.0.1")), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testDontTrackFlightsCardExpiryABTest() {
+        val abTest = ABTest(24734, true)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, abTest, 0)
+        OmnitureTracking.trackCheckoutPayment(LineOfBusiness.FLIGHTS_V2)
+        assertStateTracked(withProps(mapOf(34 to "15457.0.-1|24734.0.0")), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testTrackPackageCardExpiryABTest() {
+        val abTest = ABTest(24734, true)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, abTest)
+        OmnitureTracking.trackCheckoutPayment(LineOfBusiness.PACKAGES)
+        assertStateTracked(withProps(mapOf(34 to "24734.0.1")), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testDontTrackPackageCardExpiryABTest() {
+        val abTest = ABTest(24734, true)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, abTest, 0)
+        OmnitureTracking.trackCheckoutPayment(LineOfBusiness.PACKAGES)
+        assertStateTracked(withProps(mapOf(34 to "24734.0.0")), mockAnalyticsProvider)
     }
 
     private fun getPackageDetails(): PackageCreateTripResponse.PackageDetails {

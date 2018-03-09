@@ -23,10 +23,9 @@ import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.widget.packages.MaterialBillingDetailsPaymentWidget
-import com.expedia.testutils.AndroidAssert
+import com.expedia.testutils.AndroidAssert.Companion.assertViewFocusabilityIsFalse
 import com.expedia.vm.PaymentViewModel
 import org.joda.time.LocalDate
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -35,6 +34,7 @@ import org.robolectric.Shadows
 import org.robolectric.shadows.ShadowAlertDialog
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
@@ -60,29 +60,29 @@ class MaterialBillingDetailsPaymentWidgetTest {
         givenPackageTripWithVisaValidFormOfPayment()
 
         val expirationDate = materialBillingDetailsPaymentWidget.findViewById<View>(materialBillingDetailsPaymentWidget.creditCardNumber.nextFocusForwardId)
-        Assert.assertEquals(expirationDate, materialBillingDetailsPaymentWidget.expirationDate)
-        AndroidAssert.assertViewFocusabilityIsFalse(expirationDate)
+        assertEquals(expirationDate, materialBillingDetailsPaymentWidget.expirationDate)
+        assertViewFocusabilityIsFalse(expirationDate)
 
         val cvvView = materialBillingDetailsPaymentWidget.findViewById<View>(expirationDate.nextFocusForwardId)
-        Assert.assertEquals(cvvView, materialBillingDetailsPaymentWidget.creditCardCvv)
+        assertEquals(cvvView, materialBillingDetailsPaymentWidget.creditCardCvv)
 
         val cardholderName = materialBillingDetailsPaymentWidget.findViewById<View>(cvvView.nextFocusForwardId)
-        Assert.assertEquals(cardholderName, materialBillingDetailsPaymentWidget.creditCardName)
+        assertEquals(cardholderName, materialBillingDetailsPaymentWidget.creditCardName)
 
         val addressLine1 = materialBillingDetailsPaymentWidget.findViewById<View>(cardholderName.nextFocusForwardId)
-        Assert.assertEquals(addressLine1, materialBillingDetailsPaymentWidget.addressLineOne)
+        assertEquals(addressLine1, materialBillingDetailsPaymentWidget.addressLineOne)
 
         val city = materialBillingDetailsPaymentWidget.findViewById<View>(addressLine1.nextFocusForwardId)
-        Assert.assertEquals(city, materialBillingDetailsPaymentWidget.addressCity)
+        assertEquals(city, materialBillingDetailsPaymentWidget.addressCity)
 
         val state = materialBillingDetailsPaymentWidget.findViewById<View>(city.nextFocusForwardId)
-        Assert.assertEquals(state, materialBillingDetailsPaymentWidget.addressState)
+        assertEquals(state, materialBillingDetailsPaymentWidget.addressState)
 
         val zip = materialBillingDetailsPaymentWidget.findViewById<View>(state.nextFocusForwardId)
-        Assert.assertEquals(zip, materialBillingDetailsPaymentWidget.creditCardPostalCode)
+        assertEquals(zip, materialBillingDetailsPaymentWidget.creditCardPostalCode)
 
         val country = materialBillingDetailsPaymentWidget.editCountryEditText as EditText
-        AndroidAssert.assertViewFocusabilityIsFalse(country)
+        assertViewFocusabilityIsFalse(country)
     }
 
     @Test
@@ -139,7 +139,7 @@ class MaterialBillingDetailsPaymentWidgetTest {
 
         materialBillingDetailsPaymentWidget.cardInfoContainer.performClick()
         assertValidState(expirationLayout, "Expiration Date", " Expiration Date, Opens dialog")
-        Assert.assertNotNull(expirationLayout.editText!!.compoundDrawables[2])
+        assertNotNull(expirationLayout.editText!!.compoundDrawables[2])
 
         validateInvalidBillingInfo()
 
@@ -247,17 +247,17 @@ class MaterialBillingDetailsPaymentWidgetTest {
 
         materialBillingDetailsPaymentWidget.cardInfoContainer.performClick()
         assertValidState(countryLayout, "Country", " Country, $countryName, Opens dialog")
-        Assert.assertEquals(countryName, countryLayout.editText?.text.toString())
-        Assert.assertNotNull(countryLayout.editText!!.compoundDrawables[2])
+        assertEquals(countryName, countryLayout.editText?.text.toString())
+        assertNotNull(countryLayout.editText!!.compoundDrawables[2])
 
         materialBillingDetailsPaymentWidget.editCountryEditText.performClick()
         val testAlert = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
-        Assert.assertNotNull(testAlert)
-        Assert.assertEquals("Billing Country", testAlert.title)
+        assertNotNull(testAlert)
+        assertEquals("Billing Country", testAlert.title)
         testAlert.clickOnItem(0)
 
-        Assert.assertEquals("Afghanistan", materialBillingDetailsPaymentWidget.editCountryEditText.text.toString())
-        Assert.assertEquals("AFG", materialBillingDetailsPaymentWidget.sectionLocation.location.countryCode)
+        assertEquals("Afghanistan", materialBillingDetailsPaymentWidget.editCountryEditText.text.toString())
+        assertEquals("AFG", materialBillingDetailsPaymentWidget.sectionLocation.location.countryCode)
         assertValidState(countryLayout, "Country", " Country, Afghanistan, Opens dialog")
     }
 
@@ -274,16 +274,16 @@ class MaterialBillingDetailsPaymentWidgetTest {
         materialBillingDetailsPaymentWidget.showPaymentForm(false)
 
         assertValidState(countryLayout, "Country", " Country, $countryName, Opens dialog")
-        Assert.assertEquals(true, testHasErrorSubscriber.values().isEmpty())
-        Assert.assertEquals(countryName, countryLayout.editText?.text.toString())
-        Assert.assertEquals(pointOfSale, materialBillingDetailsPaymentWidget.sectionLocation.location.countryCode)
+        assertEquals(true, testHasErrorSubscriber.values().isEmpty())
+        assertEquals(countryName, countryLayout.editText?.text.toString())
+        assertEquals(pointOfSale, materialBillingDetailsPaymentWidget.sectionLocation.location.countryCode)
 
         countryLayout.editText?.text = null
         materialBillingDetailsPaymentWidget.onDoneClicked()
 
         countryLayout.editText?.setText("")
         materialBillingDetailsPaymentWidget.sectionLocation.validateBillingCountrySubject.onNext(Unit)
-        Assert.assertTrue(testHasErrorSubscriber.values()[testHasErrorSubscriber.values().lastIndex])
+        assertTrue(testHasErrorSubscriber.values()[testHasErrorSubscriber.values().lastIndex])
         assertErrorState(countryLayout, "Select a billing country", "Country, Opens dialog, Error, Select a billing country")
     }
 
@@ -293,22 +293,22 @@ class MaterialBillingDetailsPaymentWidgetTest {
         val maskedCreditLayout = materialBillingDetailsPaymentWidget.maskedCreditLayout
 
         assertInverseLayoutVisibility(visibleLayout = creditCardLayout, hiddenLayout = maskedCreditLayout)
-        Assert.assertEquals("", materialBillingDetailsPaymentWidget.creditCardNumber.text.toString())
+        assertEquals("", materialBillingDetailsPaymentWidget.creditCardNumber.text.toString())
 
         materialBillingDetailsPaymentWidget.cardInfoContainer.performClick()
         materialBillingDetailsPaymentWidget.creditCardNumber.setText("4111111111111111")
         materialBillingDetailsPaymentWidget.showMaskedCreditCardNumber()
 
         assertInverseLayoutVisibility(visibleLayout = maskedCreditLayout, hiddenLayout = creditCardLayout)
-        Assert.assertEquals("XXXX XXXX XXXX 1111", materialBillingDetailsPaymentWidget.maskedCreditCard.text.toString())
+        assertEquals("XXXX XXXX XXXX 1111", materialBillingDetailsPaymentWidget.maskedCreditCard.text.toString())
 
         materialBillingDetailsPaymentWidget.maskedCreditCard.cardNumberTextSubject.onNext("1")
 
         assertInverseLayoutVisibility(visibleLayout = creditCardLayout, hiddenLayout = maskedCreditLayout)
-        Assert.assertEquals("1", materialBillingDetailsPaymentWidget.creditCardNumber.text.toString())
+        assertEquals("1", materialBillingDetailsPaymentWidget.creditCardNumber.text.toString())
 
         materialBillingDetailsPaymentWidget.creditCardNumber.setText("4111111111111111")
-        Assert.assertEquals("4111111111111111", materialBillingDetailsPaymentWidget.creditCardNumber.text.toString())
+        assertEquals("4111111111111111", materialBillingDetailsPaymentWidget.creditCardNumber.text.toString())
     }
 
     @Test
@@ -317,15 +317,15 @@ class MaterialBillingDetailsPaymentWidgetTest {
         materialBillingDetailsPaymentWidget.cardInfoContainer.performClick()
         materialBillingDetailsPaymentWidget.sectionLocation.updateMaterialPostalFields(PointOfSaleId.IRELAND)
         assertValidState(postalLayout, "Postal Code", "Postal Code")
-        Assert.assertEquals(InputType.TYPE_CLASS_TEXT, materialBillingDetailsPaymentWidget.creditCardPostalCode.inputType)
+        assertEquals(InputType.TYPE_CLASS_TEXT, materialBillingDetailsPaymentWidget.creditCardPostalCode.inputType)
 
         materialBillingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("IRL")
         assertValidState(postalLayout, "Postal Code", "Postal Code")
-        Assert.assertEquals(InputType.TYPE_CLASS_TEXT, materialBillingDetailsPaymentWidget.creditCardPostalCode.inputType)
+        assertEquals(InputType.TYPE_CLASS_TEXT, materialBillingDetailsPaymentWidget.creditCardPostalCode.inputType)
 
         materialBillingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("CAN")
         assertValidState(postalLayout, "Postal Code", "Postal Code")
-        Assert.assertEquals(InputType.TYPE_CLASS_TEXT, materialBillingDetailsPaymentWidget.creditCardPostalCode.inputType)
+        assertEquals(InputType.TYPE_CLASS_TEXT, materialBillingDetailsPaymentWidget.creditCardPostalCode.inputType)
     }
 
     @Test
@@ -354,14 +354,14 @@ class MaterialBillingDetailsPaymentWidgetTest {
     fun testVisibilityOfExpiryTextViewWithABTestOn() {
         setNewCreditCardABTestOnMaterialBillingDetailView()
 
-        Assert.assertEquals(View.GONE, materialBillingDetailsPaymentWidget.oldCreditExpiryTextLayout.visibility)
-        Assert.assertEquals(View.VISIBLE, materialBillingDetailsPaymentWidget.newCreditCardExpiryTextLayout.visibility)
+        assertEquals(View.GONE, materialBillingDetailsPaymentWidget.oldCreditExpiryTextLayout.visibility)
+        assertEquals(View.VISIBLE, materialBillingDetailsPaymentWidget.newCreditCardExpiryTextLayout.visibility)
     }
 
     @Test
     fun testVisibilityOfExpiryTxtViewWithAbTestOff() {
-        Assert.assertEquals(View.VISIBLE, materialBillingDetailsPaymentWidget.expirationDate.visibility)
-        Assert.assertEquals(View.GONE, materialBillingDetailsPaymentWidget.newCreditCardExpiryTextLayout.visibility)
+        assertEquals(View.VISIBLE, materialBillingDetailsPaymentWidget.expirationDate.visibility)
+        assertEquals(View.GONE, materialBillingDetailsPaymentWidget.newCreditCardExpiryTextLayout.visibility)
     }
 
     @Test
@@ -424,6 +424,20 @@ class MaterialBillingDetailsPaymentWidgetTest {
         assertValidState(creditCardLayout, "Expiration Date", " Expiration Date, Opens dialog")
     }
 
+    @Test
+    fun testShouldNotClearBillingInformationWithNewExpiry() {
+        setNewCreditCardABTestOnMaterialBillingDetailView()
+        materialBillingDetailsPaymentWidget.viewmodel.removeBillingAddressForApac.onNext(true)
+
+        materialBillingDetailsPaymentWidget.creditCardNumber.setText("4444444444444442")
+        materialBillingDetailsPaymentWidget.creditCardName.setText("Hidden Billing")
+        materialBillingDetailsPaymentWidget.creditCardCvv.setText("111")
+        materialBillingDetailsPaymentWidget.creditCardExpiryText.setText(LocalDate.now().plusYears(1).toString())
+
+        materialBillingDetailsPaymentWidget.viewmodel.clearHiddenBillingAddress.onNext(Unit)
+        assertTrue(materialBillingDetailsPaymentWidget.isCompletelyFilled())
+    }
+
     private fun setNewCreditCardABTestOnMaterialBillingDetailView() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.CardExpiryDateFormField)
         materialBillingDetailsPaymentWidget = LayoutInflater.from(activity).inflate(R.layout.material_billing_details_payment_widget, null) as MaterialBillingDetailsPaymentWidget
@@ -441,11 +455,11 @@ class MaterialBillingDetailsPaymentWidgetTest {
     }
 
     private fun assertValidState(layout: TextInputLayout, hint: String?, accessbilityString: String) {
-        Assert.assertFalse(layout.isErrorEnabled)
+        assertFalse(layout.isErrorEnabled)
         assertNull(layout.error)
-        Assert.assertEquals(hint, layout.hint)
-        Assert.assertFalse(layout.isImportantForAccessibility)
-        Assert.assertEquals(accessbilityString, (layout.editText as AccessibleEditText).getAccessibilityNodeInfo())
+        assertEquals(hint, layout.hint)
+        assertFalse(layout.isImportantForAccessibility)
+        assertEquals(accessbilityString, (layout.editText as AccessibleEditText).getAccessibilityNodeInfo())
     }
 
     private fun validateInvalidBillingInfo() {
@@ -459,23 +473,23 @@ class MaterialBillingDetailsPaymentWidgetTest {
     }
 
     private fun assertErrorState(layout: TextInputLayout, errorString: String, stringForAccessibility: String) {
-        Assert.assertTrue(layout.isErrorEnabled)
-        Assert.assertEquals(errorString, layout.error)
-        Assert.assertFalse(layout.isImportantForAccessibility)
-        Assert.assertEquals(stringForAccessibility, (layout.editText as AccessibleEditText).getAccessibilityNodeInfo())
+        assertTrue(layout.isErrorEnabled)
+        assertEquals(errorString, layout.error)
+        assertFalse(layout.isImportantForAccessibility)
+        assertEquals(stringForAccessibility, (layout.editText as AccessibleEditText).getAccessibilityNodeInfo())
         val errorTextView = layout.findViewById<AppCompatTextView>(R.id.textinput_error)
-        Assert.assertFalse(errorTextView.isImportantForAccessibility)
+        assertFalse(errorTextView.isImportantForAccessibility)
     }
 
     private fun assertFormFieldsHiddenProperly(addressStateVisibility: Int, postalCodeVisiblity: Int) {
-        Assert.assertTrue(materialBillingDetailsPaymentWidget.addressStateLayout.visibility == addressStateVisibility)
-        Assert.assertTrue(materialBillingDetailsPaymentWidget.postalCodeLayout.visibility == postalCodeVisiblity)
+        assertTrue(materialBillingDetailsPaymentWidget.addressStateLayout.visibility == addressStateVisibility)
+        assertTrue(materialBillingDetailsPaymentWidget.postalCodeLayout.visibility == postalCodeVisiblity)
     }
 
     private fun assertInverseLayoutVisibility(visibleLayout: TextInputLayout, hiddenLayout: TextInputLayout) {
-        Assert.assertEquals(View.GONE, hiddenLayout.visibility)
-        Assert.assertEquals(View.GONE, hiddenLayout.editText?.visibility)
-        Assert.assertEquals(View.VISIBLE, visibleLayout.visibility)
-        Assert.assertEquals(View.VISIBLE, visibleLayout.editText?.visibility)
+        assertEquals(View.GONE, hiddenLayout.visibility)
+        assertEquals(View.GONE, hiddenLayout.editText?.visibility)
+        assertEquals(View.VISIBLE, visibleLayout.visibility)
+        assertEquals(View.VISIBLE, visibleLayout.editText?.visibility)
     }
 }

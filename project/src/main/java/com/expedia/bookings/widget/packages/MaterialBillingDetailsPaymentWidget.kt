@@ -67,6 +67,13 @@ class MaterialBillingDetailsPaymentWidget(context: Context, attr: AttributeSet) 
         sectionBillingInfo.updateCreditCardView(showNewExpiryField)
     }
 
+    override fun isCompletelyFilled(): Boolean {
+        if (showNewExpiryField) {
+            return isCompletelyFilledWithNewExpiry()
+        }
+        return super.isCompletelyFilled()
+    }
+
     private fun setupFields() {
         sectionLocation.removeNonMaterialFields()
         editCountryEditText.setOnClickListener {
@@ -147,5 +154,15 @@ class MaterialBillingDetailsPaymentWidget(context: Context, attr: AttributeSet) 
         val isCreditCardNumberEmpty = creditCardNumber.text.isNullOrEmpty()
         maskedCreditLayout.setInverseVisibility(isCreditCardNumberEmpty)
         defaultCreditCardNumberLayout.setInverseVisibility(!isCreditCardNumberEmpty)
+    }
+
+    private fun isCompletelyFilledWithNewExpiry(): Boolean {
+        return ((creditCardNumber.text.isNotEmpty()
+                && (!isZipValidationRequired() || creditCardPostalCode.text.isNotEmpty())
+                && creditCardName.text.isNotEmpty() && creditCardExpiryText.text.isNotEmpty()) || hasStoredCard()
+                && creditCardCvv.text.toString().isNotEmpty()
+                && addressLineOne.text.toString().isNotEmpty()
+                && addressCity.text.toString().isNotEmpty()
+                && (!isStateRequired() || addressState.text.toString().isNotEmpty()))
     }
 }

@@ -1814,6 +1814,7 @@ public class OmnitureTracking {
 		s.setEvar(18, pageName);
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAllowUnknownCardTypes);
+		trackAbacusTest(s, AbacusUtils.CardExpiryDateFormField);
 
 		s.track();
 	}
@@ -4477,6 +4478,9 @@ public class OmnitureTracking {
 		s.setEvar(2, "D=c2");
 		s.setProp(2, PACKAGES_LOB);
 		addPageLoadTimeTrackingEvents(s, pageUsableData);
+		if (pageName == PACKAGES_CHECKOUT_PAYMENT_EDIT) {
+			trackAbacusTest(s, AbacusUtils.CardExpiryDateFormField);
+		}
 		return s;
 	}
 
