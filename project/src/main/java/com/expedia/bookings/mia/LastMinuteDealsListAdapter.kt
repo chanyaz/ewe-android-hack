@@ -10,7 +10,7 @@ import com.expedia.bookings.data.os.LastMinuteDealsResponse
 import com.expedia.bookings.data.sos.DealsDestination
 import com.expedia.bookings.extensions.LiveDataObserver
 import com.expedia.bookings.mia.activity.LastMinuteDealsActivity
-import com.expedia.bookings.mia.vm.DealsDestinationViewModel
+import com.expedia.bookings.mia.vm.LastMinuteDealsCardViewModel
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.navigation.HotelNavUtils
@@ -40,9 +40,9 @@ class LastMinuteDealsListAdapter(val context: Context) : RecyclerView.Adapter<Re
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
-        if (holder is DealsDestinationViewHolder) {
+        if (holder is DealsCardViewHolder) {
             val lastMinuteHotel = listData[position]
-            val vm = DealsDestinationViewModel(context, lastMinuteHotel, currency)
+            val vm = LastMinuteDealsCardViewModel(context, lastMinuteHotel, currency)
             holder.bind(vm)
         }
         if (holder is LoadingViewHolder) {
@@ -61,7 +61,7 @@ class LastMinuteDealsListAdapter(val context: Context) : RecyclerView.Adapter<Re
             return holder
         } else if (viewType == itemType.DESTINATION_CARD.ordinal) {
             val view = LayoutInflater.from(context).inflate(R.layout.deals_card, parent, false)
-            val holder = DealsDestinationViewHolder(view)
+            val holder = DealsCardViewHolder(view)
             view.setOnClickListener {
                 val lastMinuteDealActivity = context as LastMinuteDealsActivity
                 var animOptions: Bundle = Bundle.EMPTY

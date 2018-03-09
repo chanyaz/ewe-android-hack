@@ -1,12 +1,21 @@
 package com.expedia.bookings.data
 
-import com.expedia.bookings.utils.Constants
-
 abstract class BaseDealsRequest {
-    var siteId = Constants.SOS_SITE_ID
-    var locale = Constants.SOS_DEFAULT_LOCALE
-    var productType = Constants.SOS_PRODUCT_TYPE
-    var groupBy = Constants.SOS_GROUP_BY
-    var destinationLimit = Constants.SOS_DESTINATION_LIMIT
-    var clientId = Constants.SOS_CLIENT_ID
+
+    companion object {
+        private const val DEFAULT_SITE_ID = "1"
+        private const val DEFAULT_LOCALE = "en_US"
+        private const val CLIENT_ID = "ebad"
+        private const val PRODUCT_TYPE = "Hotel"
+        private const val GROUP_BY = "destination"
+        private const val DESTINATION_LIMIT = 20
+    }
+
+    val productType = PRODUCT_TYPE
+    val groupBy = GROUP_BY
+    val destinationLimit = DESTINATION_LIMIT
+    val clientId = CLIENT_ID
+
+    var siteId = DEFAULT_SITE_ID
+    var locale = DEFAULT_LOCALE
 }

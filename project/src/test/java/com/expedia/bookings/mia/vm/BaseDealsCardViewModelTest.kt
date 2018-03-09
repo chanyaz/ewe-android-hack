@@ -1,12 +1,12 @@
-package com.expedia.bookings.test.robolectric
+package com.expedia.bookings.mia.vm
 
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.sos.DealsDestination
-import com.expedia.bookings.mia.vm.DealsDestinationViewModel
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test
@@ -15,9 +15,9 @@ import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-class DealsDestinationViewModelTest {
+class BaseDealsCardViewModelTest {
 
-    lateinit var vm: DealsDestinationViewModel
+    lateinit var vm: BaseDealsCardViewModel
     lateinit var hotel: DealsDestination.Hotel
     lateinit var context: Context
 
@@ -41,37 +41,40 @@ class DealsDestinationViewModelTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMemberDealDestinationViewModel() {
         setupSystemUnderTest()
-        assertEquals("https://a.travel-assets.com/dynamic_images/800103.jpg", vm.memberDealBackgroundUrl)
         assertEquals("Paris", vm.cityName)
         assertEquals("Mon, May 8 - Tue, May 9", vm.dateRangeText)
         assertEquals("-50%", vm.percentSavingsText)
+        assertEquals("50%", vm.discountPercent)
         assertEquals("$130", vm.priceText.toString())
         assertEquals("$260", vm.strikeOutPriceText.toString())
     }
 
     @Test
-    fun getPercentSavingsText_returnsFormattedString() {
+    fun percentSavingsText_isEmpty_givenZeroSavings() {
         setupSystemUnderTest()
-        hotel.hotelPricingInfo?.totalPriceValue = 150.06
-        assertEquals("-50%", vm.getPercentSavingsText(hotel.hotelPricingInfo?.percentSavings))
+        hotel.hotelPricingInfo?.percentSavings = 0.0
+        assertEquals("", vm.percentSavingsText)
     }
 
     @Test
-    fun getPercentSavingsText_hidesText_givenNoDiscount() {
+    fun percentSavingsText_isEmpty_givenNullSavings() {
         setupSystemUnderTest()
-        assertEquals("", vm.getPercentSavingsText(0.00))
+        hotel.hotelPricingInfo?.percentSavings = null
+        assertEquals("", vm.percentSavingsText)
     }
 
     @Test
-    fun getPercentSavingsText_returnsEmptyString_givenPercentSavingsIsNull() {
+    fun discountPercent_isEmpty_givenZeroSavings() {
         setupSystemUnderTest()
-        assertEquals("", vm.getPercentSavingsText(null))
+        hotel.hotelPricingInfo?.percentSavings = 0.0
+        assertEquals("", vm.discountPercent)
     }
 
     @Test
-    fun getDiscountPercentForContentDesc_returnsEmptyString_givenPercentSavingsIsNull() {
+    fun discountPercent_isEmpty_givenNullSavings() {
         setupSystemUnderTest()
-        assertEquals("", vm.getDiscountPercentForContentDesc(null))
+        hotel.hotelPricingInfo?.percentSavings = null
+        assertEquals("", vm.discountPercent)
     }
 
     @Test
@@ -81,40 +84,10 @@ class DealsDestinationViewModelTest {
         assertEquals("", vm.strikeOutPriceText.toString())
     }
 
-    @Test
-    fun nonLocalizedHotelNameIsUsed_givenEmptyLocalizedHotelName() {
-        setupSystemUnderTest()
-        hotel.hotelInfo?.hotelName = "non localized hotel name"
-        hotel.hotelInfo?.localizedHotelName = ""
-        assertEquals("non localized hotel name", vm.hotelName)
-    }
-
-    @Test
-    fun localizedHotelNameIsUsedAsDefault() {
-        setupSystemUnderTest()
-        hotel.hotelInfo?.hotelName = "non localized hotel name"
-        hotel.hotelInfo?.localizedHotelName = "localized hotel name"
-        assertEquals("localized hotel name", vm.hotelName)
-    }
-
-    @Test
-    fun hotelBackgroundImageURL_isFormattedWithHighResImage() {
-        setupSystemUnderTest()
-        hotel.hotelInfo?.hotelImageUrl = "https://images.trvl-media.com/hotels/2000000/1450000/1445800/1445791/3c7df4c6_l.jpg"
-        assertEquals("https://images.trvl-media.com/hotels/2000000/1450000/1445800/1445791/3c7df4c6_z.jpg", vm.lastMinuteDealsBackgroundUrl.toString())
-    }
-
-    @Test
-    fun hotelBackgroundImageURL_appendsHighResString_givenUrlWithoutUnderscorePattern() {
-        setupSystemUnderTest()
-        hotel.hotelInfo?.hotelImageUrl = "https://images.trvl-media.com/hotels/2000000/1450000/1445800/1445791/3c7df4c6.jpg"
-        assertEquals("https://images.trvl-media.com/hotels/2000000/1450000/1445800/1445791/3c7df4c6_z.jpg", vm.lastMinuteDealsBackgroundUrl.toString())
-    }
-
     private fun setupSystemUnderTest() {
         context = RuntimeEnvironment.application
         setPOS(PointOfSaleId.UNITED_STATES)
-        vm = DealsDestinationViewModel(context, hotel, "USD")
+        vm = LastMinuteDealsCardViewModel(context, hotel, "USD")
     }
 
     private fun setPOS(pos: PointOfSaleId) {

@@ -10,7 +10,7 @@ import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.data.sos.MemberDealsResponse
 import com.expedia.bookings.extensions.LiveDataObserver
 import com.expedia.bookings.mia.activity.MemberDealsActivity
-import com.expedia.bookings.mia.vm.DealsDestinationViewModel
+import com.expedia.bookings.mia.vm.MemberDealsCardViewModel
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.expedia.bookings.utils.navigation.NavUtils
@@ -55,7 +55,7 @@ class MemberDealListAdapter(private val context: Context, private val searchHote
             return LoadingViewHolder(view)
         } else if (viewType == itemType.DESTINATION_CARD.ordinal) {
             val view = LayoutInflater.from(context).inflate(R.layout.deals_card, parent, false)
-            val holder = DealsDestinationViewHolder(view)
+            val holder = DealsCardViewHolder(view)
             view.setOnClickListener {
                 val memberDealActivity = context as MemberDealsActivity
                 val animOptions = AnimUtils.createActivityScaleBundle(memberDealActivity.currentFocus)
@@ -68,11 +68,11 @@ class MemberDealListAdapter(private val context: Context, private val searchHote
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
-        if (holder is DealsDestinationViewHolder) {
+        if (holder is DealsCardViewHolder) {
             val destination = listData[position - 1]
             val leadingHotel = destination.getLeadingHotel()
             if (leadingHotel != null) {
-                val vm = DealsDestinationViewModel(context, leadingHotel, currency)
+                val vm = MemberDealsCardViewModel(context, leadingHotel, currency)
                 holder.bind(vm)
             }
         }

@@ -10,10 +10,11 @@ import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.os.LastMinuteDealsResponse
 import com.expedia.bookings.data.sos.DealsDestination
 import com.expedia.bookings.hotel.deeplink.HotelExtras
-import com.expedia.bookings.mia.DealsDestinationViewHolder
+import com.expedia.bookings.mia.DealsCardViewHolder
 import com.expedia.bookings.mia.LastMinuteDealsListAdapter
 import com.expedia.bookings.mia.activity.LastMinuteDealsActivity
-import com.expedia.bookings.mia.vm.DealsDestinationViewModel
+import com.expedia.bookings.mia.vm.BaseDealsCardViewModel
+import com.expedia.bookings.mia.vm.LastMinuteDealsCardViewModel
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import org.joda.time.LocalDate
 import org.junit.Assert.assertEquals
@@ -49,7 +50,7 @@ class LastMinuteDealsListAdapterTest {
     @Test
     fun tappingOnLastMinuteDeals_setsParamsCorrectlyForHotelSearch() {
         adapterUnderTest.responseObserver.onChanged(dealResponseWithDeals)
-        val vm = DealsDestinationViewModel(context, dealResponseWithDeals.offers!!.hotels[1], "USD")
+        val vm = LastMinuteDealsCardViewModel(context, dealResponseWithDeals.offers.hotels[1], "USD")
         val recyclerView = setupRecyclerView()
 
         clickOnViewHolderForAdapterPosition(recyclerView, vm, 0)
@@ -68,7 +69,7 @@ class LastMinuteDealsListAdapterTest {
     fun tappingDestinationTracksRank() {
         adapterUnderTest.responseObserver.onChanged(dealResponseWithDeals)
 
-        val vm = DealsDestinationViewModel(context, DealsDestination().Hotel(), "")
+        val vm = LastMinuteDealsCardViewModel(context, DealsDestination().Hotel(), "")
         val recyclerView = setupRecyclerView()
 
         clickOnViewHolderForAdapterPosition(recyclerView, vm, 0)
@@ -81,7 +82,7 @@ class LastMinuteDealsListAdapterTest {
     @Test
     fun tappingOnLastMinuteDeals_disablesPayWithPoints() {
         adapterUnderTest.responseObserver.onChanged(dealResponseWithDeals)
-        val vm = DealsDestinationViewModel(context, DealsDestination().Hotel(), "")
+        val vm = LastMinuteDealsCardViewModel(context, DealsDestination().Hotel(), "")
         val recyclerView = setupRecyclerView()
 
         clickOnViewHolderForAdapterPosition(recyclerView, vm, 0)
@@ -96,7 +97,7 @@ class LastMinuteDealsListAdapterTest {
     @Test
     fun tappingOnLastMinuteDeals_sendsDealsCodeOnIntent() {
         adapterUnderTest.responseObserver.onChanged(dealResponseWithDeals)
-        val vm = DealsDestinationViewModel(context, DealsDestination().Hotel(), "")
+        val vm = LastMinuteDealsCardViewModel(context, DealsDestination().Hotel(), "")
         val recyclerView = setupRecyclerView()
 
         clickOnViewHolderForAdapterPosition(recyclerView, vm, 0)
@@ -112,7 +113,7 @@ class LastMinuteDealsListAdapterTest {
         adapterUnderTest.responseObserver.onChanged(dealResponseWithDeals)
         val recyclerView = setupRecyclerView()
 
-        val dealsDestinationViewHolderInPositionOne = recyclerView.findViewHolderForAdapterPosition(0) as DealsDestinationViewHolder
+        val dealsDestinationViewHolderInPositionOne = recyclerView.findViewHolderForAdapterPosition(0) as DealsCardViewHolder
         assertEquals("Some City", dealsDestinationViewHolderInPositionOne.dealsSubtitle.text)
     }
 
@@ -120,7 +121,7 @@ class LastMinuteDealsListAdapterTest {
     fun titleShowsHotelName_givenContextIsLastMinuteDeal() {
         adapterUnderTest.responseObserver.onChanged(dealResponseWithDeals)
         val recyclerView = setupRecyclerView()
-        val dealsDestinationViewHolderInPositionOne = recyclerView.findViewHolderForAdapterPosition(0) as DealsDestinationViewHolder
+        val dealsDestinationViewHolderInPositionOne = recyclerView.findViewHolderForAdapterPosition(0) as DealsCardViewHolder
         assertEquals("Some Hotel", dealsDestinationViewHolderInPositionOne.titleView.text)
     }
 
@@ -132,8 +133,8 @@ class LastMinuteDealsListAdapterTest {
         assertEquals(0, recyclerView.adapter.itemCount)
     }
 
-    private fun clickOnViewHolderForAdapterPosition(recyclerView: RecyclerView, vm: DealsDestinationViewModel, position: Int) {
-        val viewHolder = recyclerView.findViewHolderForAdapterPosition(position) as DealsDestinationViewHolder
+    private fun clickOnViewHolderForAdapterPosition(recyclerView: RecyclerView, vm: BaseDealsCardViewModel, position: Int) {
+        val viewHolder = recyclerView.findViewHolderForAdapterPosition(position) as DealsCardViewHolder
         viewHolder.bind(vm)
         viewHolder.itemView.performClick()
     }
@@ -142,7 +143,7 @@ class LastMinuteDealsListAdapterTest {
         init {
             offers = Offers()
             offerInfo = OfferInfo()
-            offers?.hotels = generateCells(2, crossoutPriceValue)
+            offers.hotels = generateCells(2, crossoutPriceValue)
             offerInfo?.currency = "USD"
         }
 

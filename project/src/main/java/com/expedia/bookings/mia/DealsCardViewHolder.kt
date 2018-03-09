@@ -19,22 +19,17 @@ import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.bitmaps.PicassoTarget
 import com.expedia.bookings.data.DeprecatedHotelSearchParams
-import com.expedia.bookings.enums.DiscountColors
-import com.expedia.bookings.mia.activity.LastMinuteDealsActivity
-import com.expedia.bookings.mia.activity.MemberDealsActivity
-import com.expedia.bookings.mia.vm.DealsDestinationViewModel
+import com.expedia.bookings.mia.vm.BaseDealsCardViewModel
 import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.DateRangeUtils
-import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isBrandColorEnabled
-import com.squareup.phrase.Phrase
 import com.squareup.picasso.Picasso
 
-class DealsDestinationViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+class DealsCardViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
-    val DEFAULT_GRADIENT_POSITIONS = floatArrayOf(0f, .3f, .6f, 1f)
+    companion object {
+        private val DEFAULT_GRADIENT_POSITIONS = floatArrayOf(0f, .3f, .6f, 1f)
+    }
 
     val titleView: TextView by bindView(R.id.deals_title)
     private val dateView: TextView by bindView(R.id.deals_date)
@@ -46,108 +41,40 @@ class DealsDestinationViewHolder(private val view: View) : RecyclerView.ViewHold
     private val cardView: CardView by bindView(R.id.deals_cardview)
     val dealsSubtitle: TextView by bindView(R.id.deals_subtitle)
     lateinit var searchParams: DeprecatedHotelSearchParams
-    private lateinit var discountPercent: String
 
-    fun bind(vm: DealsDestinationViewModel) {
+    fun bind(vm: BaseDealsCardViewModel) {
         discountView.visibility = View.VISIBLE
-        titleView.text = getTitle(vm)
+        titleView.text = vm.title
         dateView.text = vm.dateRangeText
         discountView.text = vm.percentSavingsText
         strikePriceView.text = vm.strikeOutPriceText
         priceView.text = vm.priceText
-        dealsSubtitle.text = getSubtitle(vm)
-        discountPercent = vm.getDiscountPercentForContentDesc(vm.leadingHotel.hotelPricingInfo?.percentSavings)
-
-        val backgroundUrl = getBackgroundUrl(vm)
+        dealsSubtitle.text = vm.subtitle
 
         PicassoHelper.Builder(view.context)
-                .setPlaceholder(vm.backgroundPlaceHolder)
-                .setError(vm.backgroundFallback)
+                .setPlaceholder(vm.backgroundPlaceHolderResId)
+                .setError(vm.backgroundFallbackResId)
                 .setTarget(target)
                 .build()
-                .load(listOf(backgroundUrl, vm.memberDealBackgroundUrl))
+                .load(vm.prioritizedBackgroundImageUrls)
 
-        searchParams = setSearchParams(vm)
-        cardView.contentDescription = getDealsContentDesc()
+        searchParams = buildHotelSearchParamsFromViewModel(vm)
+        cardView.contentDescription = vm.getCardContentDescription()
 
-        setDiscountColors()
+        setDiscountColors(vm)
         hideDiscountViewWithNoDiscount()
     }
 
-    fun setSearchParams(vm: DealsDestinationViewModel): DeprecatedHotelSearchParams {
+    private fun buildHotelSearchParamsFromViewModel(vm: BaseDealsCardViewModel): DeprecatedHotelSearchParams {
         val params = DeprecatedHotelSearchParams()
         params.regionId = vm.regionId
         params.checkInDate = vm.startDate
         params.checkOutDate = vm.endDate
         params.searchType = DeprecatedHotelSearchParams.SearchType.CITY
-        params.hotelId = getHotelId(vm)
+        params.hotelId = vm.hotelId
         params.query = vm.cityName
-        params.numAdults = getNumAdults(vm)
+        params.numAdults = vm.numberOfTravelers
         return params
-    }
-
-    private fun getNumAdults(vm: DealsDestinationViewModel): Int {
-        if (view.context is LastMinuteDealsActivity) {
-            return vm.numberOfLastMinuteDealTravelers
-        }
-        return vm.numberOfMemberOnlyDealTravelers
-    }
-
-    private fun getSubtitle(vm: DealsDestinationViewModel): String? {
-        if (view.context is LastMinuteDealsActivity) {
-            return vm.cityName
-        }
-        return view.context.getString(R.string.deals_hotel_only)
-    }
-
-    private fun getBackgroundUrl(vm: DealsDestinationViewModel): String? {
-        return if (view.context is MemberDealsActivity) {
-            vm.memberDealBackgroundUrl
-        } else {
-            vm.lastMinuteDealsBackgroundUrl
-        }
-    }
-
-    private fun getTitle(vm: DealsDestinationViewModel): String? {
-        return if (view.context is MemberDealsActivity) {
-            vm.cityName
-        } else {
-            vm.hotelName
-        }
-    }
-
-    private fun getHotelId(vm: DealsDestinationViewModel): String? {
-        return if (view.context is LastMinuteDealsActivity) {
-            vm.hotelId
-        } else null
-    }
-
-    fun getDealsContentDesc(): CharSequence {
-        val result = SpannableBuilder()
-
-        result.append(titleView.text.toString() + ".")
-        result.append(DateRangeUtils.formatPackageDateRangeContDesc(view.context, searchParams.checkInDate.toString(), searchParams.checkOutDate.toString()))
-
-        if (discountView.text != null) {
-            result.append(Phrase.from(view.context, R.string.hotel_price_discount_percent_cont_desc_TEMPLATE).put("percentage", discountPercent).format().toString())
-        }
-
-        if (strikePriceView.text != null) {
-            result.append(Phrase.from(view.context, R.string.hotel_price_strike_through_cont_desc_TEMPLATE)
-                    .put("strikethroughprice", strikePriceView.text)
-                    .put("price", priceView.text)
-                    .format()
-                    .toString())
-        } else {
-            result.append(Phrase.from(view.context, R.string.hotel_card_view_price_cont_desc_TEMPLATE)
-                    .put("price", priceView.text)
-                    .format()
-                    .toString())
-        }
-
-        result.append(Phrase.from(view.context, R.string.deals_hotel_only).format().toString())
-
-        return result.build()
     }
 
     private val target = object : PicassoTarget() {
@@ -195,7 +122,7 @@ class DealsDestinationViewHolder(private val view: View) : RecyclerView.ViewHold
         }
 
         private fun mixColor(palette: Palette) {
-            val color = palette.getDarkVibrantColor(R.color.transparent_dark)
+            val color = palette.getDarkVibrantColor(ContextCompat.getColor(bgImageView.context, R.color.transparent_dark))
             val fullColorBuilder = ColorBuilder(color).darkenBy(.6f).setSaturation(if (!mIsFallbackImage) .8f else 0f)
             val startColor = fullColorBuilder.setAlpha(154).build()
             val endColor = fullColorBuilder.setAlpha(0).build()
@@ -210,9 +137,8 @@ class DealsDestinationViewHolder(private val view: View) : RecyclerView.ViewHold
     private fun getShader(array: IntArray): ShapeDrawable.ShaderFactory {
         return object : ShapeDrawable.ShaderFactory() {
             override fun resize(width: Int, height: Int): Shader {
-                val lg = LinearGradient(0f, 0f, 0f, height.toFloat(),
+                return LinearGradient(0f, 0f, 0f, height.toFloat(),
                         array, DEFAULT_GRADIENT_POSITIONS, Shader.TileMode.REPEAT)
-                return lg
             }
         }
     }
@@ -223,12 +149,8 @@ class DealsDestinationViewHolder(private val view: View) : RecyclerView.ViewHold
         }
     }
 
-    private fun setDiscountColors() =
-            if (isBrandColorEnabled(view.context) && view.context is MemberDealsActivity) {
-                discountView.setBackgroundResource(DiscountColors.MEMBER_DEALS.backgroundColor)
-                discountView.setTextColor(ContextCompat.getColor(view.context, DiscountColors.MEMBER_DEALS.textColor))
-            } else {
-                discountView.setBackgroundResource(DiscountColors.LAST_MINUTE_DEALS.backgroundColor)
-                discountView.setTextColor(ContextCompat.getColor(view.context, DiscountColors.LAST_MINUTE_DEALS.textColor))
-            }
+    private fun setDiscountColors(vm: BaseDealsCardViewModel) {
+        discountView.setBackgroundResource(vm.discountColors.backgroundDrawableResId)
+        discountView.setTextColor(ContextCompat.getColor(view.context, vm.discountColors.textColorResId))
+    }
 }
