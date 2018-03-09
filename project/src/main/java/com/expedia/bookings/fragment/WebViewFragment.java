@@ -20,11 +20,11 @@ import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.SslErrorHandler;
-import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
 
 import com.expedia.bookings.BuildConfig;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.R;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.PersistentCookieManager;
@@ -301,17 +301,6 @@ public class WebViewFragment extends DialogFragment {
 	private void constructWebView() {
 		mWebView = new WebView(getActivity());
 
-		mWebView.setWebChromeClient(new WebChromeClient() {
-			@Override
-			public void onProgressChanged(WebView view, int newProgress) {
-				mWebView.loadUrl("javascript:(function() { " +
-					"if (header = document.getElementsByClassName('site-header-primary')[0]) {" +
-					"header.parentElement.removeChild(header);" +
-					"}" +
-					"})()");
-			}
-		});
-
 		mWebView.getSettings().setJavaScriptEnabled(true);
 		mWebView.getSettings().setLoadWithOverviewMode(true);
 		mWebView.getSettings().setUseWideViewPort(!getArguments().getBoolean(ARG_DIALOG_MODE));
@@ -404,6 +393,15 @@ public class WebViewFragment extends DialogFragment {
 				webview.loadUrl("javascript:(function() { " +
 					"document.getElementById('SmartBanner').style.display='none'; " +
 					"})()");
+
+				// Insert javascript to remove navigation header if we are on cars storefront page
+				if (webview.getUrl() != null && webview.getUrl().contains(PointOfSale.getPointOfSale().getCarsTabWebViewURL())) {
+					mWebView.loadUrl("javascript:(function() { " +
+						"if (header = document.getElementsByClassName('site-header-primary')[0]) {" +
+						"header.parentElement.removeChild(header);" +
+						"}" +
+						"})()");
+				}
 
 				if (isMesoDestinationPage) {
 					// Insert javascript to remove the social media icons and top banners
