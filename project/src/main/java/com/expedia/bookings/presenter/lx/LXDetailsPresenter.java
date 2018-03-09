@@ -36,6 +36,8 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LXActivityDetailsWidget;
 import com.expedia.bookings.widget.LXMapView;
 import com.google.android.gms.maps.GoogleMap;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
@@ -193,18 +195,20 @@ public class LXDetailsPresenter extends Presenter {
 		this.lxActivity = lxActivity;
 		boolean lxModTestEnabled = Constants.MOD_PROMO_TYPE.equals(lxState.getPromoDiscountType());
 
-		boolean modPricingEnabled = lxActivity.modPricingEnabled(lxModTestEnabled);
+		boolean lxMipTestEnabled = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidLXMIP);
+		boolean promoPricingEnabled = lxActivity.modPricingEnabled(lxModTestEnabled) || lxActivity.mipPricingEnabled(lxMipTestEnabled);
 		showActivityDetails(lxActivity.id, lxActivity.title, lxState.searchParams.getLocation(),
-			lxState.searchParams.getActivityStartDate(), lxState.searchParams.getActivityEndDate(), modPricingEnabled);
+			lxState.searchParams.getActivityStartDate(), lxState.searchParams.getActivityEndDate(), promoPricingEnabled);
 	}
 
 	@Subscribe
 	public void onActivitySelectedRetry(Events.LXActivitySelectedRetry event) {
 		boolean lxModTestEnabled = Constants.MOD_PROMO_TYPE.equals(lxState.getPromoDiscountType());
 
-		boolean modPricingEnabled = lxActivity.modPricingEnabled(lxModTestEnabled);
+		boolean lxMipTestEnabled = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidLXMIP);
+		boolean promoPricingEnabled = lxActivity.modPricingEnabled(lxModTestEnabled) || lxActivity.mipPricingEnabled(lxMipTestEnabled);
 		showActivityDetails(lxState.activity.id, lxState.activity.title, lxState.searchParams.getLocation(),
-			lxState.searchParams.getActivityStartDate(), lxState.searchParams.getActivityEndDate(), modPricingEnabled);
+			lxState.searchParams.getActivityStartDate(), lxState.searchParams.getActivityEndDate(), promoPricingEnabled);
 	}
 
 	private void showActivityDetails(String activityId, String title, String location, LocalDate startDate,
