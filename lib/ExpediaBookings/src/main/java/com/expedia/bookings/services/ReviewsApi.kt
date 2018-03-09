@@ -1,5 +1,6 @@
 package com.expedia.bookings.services
 
+import com.expedia.bookings.data.hotels.HotelReviewTranslationResponse
 import com.expedia.bookings.data.hotels.HotelReviewsResponse
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -16,4 +17,9 @@ interface ReviewsApi {
                      @Query("start") start: Int,
                      @Query("items") items: Int,
                      @Query("locale") locale: String): Observable<HotelReviewsResponse>
+
+    @GET("/api/hotelreview/translate/{reviewId}/{lang}")
+    @Headers("Cache-Control: no-cache")
+    fun translate(@Path("reviewId") reviewId: String,
+                  @Path("lang") languageCode: String): Observable<HotelReviewTranslationResponse>
 }

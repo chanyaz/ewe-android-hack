@@ -181,6 +181,10 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
             return dispatchReviews()
         }
 
+        if (request.path.startsWith("/api/hotelreview")) {
+            return dispatchReview()
+        }
+
         //TNS User API
         if (request.path.contains("m/api/register/user")) {
             return dispatchTNSResponse()
@@ -502,6 +506,8 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
     }
 
     private fun dispatchReviews(): MockResponse = makeResponse("api/hotelreviews/hotel/happy.json")
+
+    private fun dispatchReview(): MockResponse = makeResponse("api/hotelreview/translate/happy.json")
 
     private fun dispatchCalculatePoints(request: RecordedRequest): MockResponse {
         val params = parseHttpRequest(request)

@@ -33,6 +33,7 @@ public class HotelReviewsResponse {
 	}
 
 	public static class Review {
+		public String reviewId;
 		public String hotelId;
 		public int ratingOverall;
 		public String userDisplayName;

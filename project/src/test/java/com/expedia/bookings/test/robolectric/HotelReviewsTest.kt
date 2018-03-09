@@ -1,5 +1,6 @@
 package com.expedia.bookings.test
 
+import com.expedia.bookings.data.hotels.HotelReviewsResponse
 import com.expedia.bookings.data.hotels.HotelReviewsResponse.ReviewSummary
 import com.expedia.bookings.data.hotels.ReviewSort
 import com.expedia.bookings.services.ReviewsServices
@@ -86,6 +87,14 @@ class HotelReviewsTest {
         testSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
         testSubscriber.assertNoErrors()
         testSubscriber.assertComplete()
+    }
+
+    @Test
+    fun testReviewTranslation() {
+        val testSubscriber = TestObserver<HotelReviewsResponse.Review>()
+        vm.reviewTranslatedObservable.subscribe(testSubscriber)
+        vm.translateReviewIdObserver.onNext("5a2cc5ffa6ffd10dd50e1844")
+        assertEquals(testSubscriber.valueCount(), 1)
     }
 
     private fun getExpectedReviewRequestStr(startParam: Int): String {

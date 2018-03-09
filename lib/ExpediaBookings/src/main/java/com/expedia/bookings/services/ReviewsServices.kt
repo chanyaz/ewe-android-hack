@@ -50,4 +50,11 @@ class ReviewsServices(endPoint: String, client: OkHttpClient, interceptor: Inter
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
     }
+
+    fun translate(reviewId: String, targetLanguage: String): Observable<HotelReviewsResponse.Review> {
+        return reviewsApi.translate(reviewId, targetLanguage)
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .map { translationResponse -> translationResponse.review }
+    }
 }

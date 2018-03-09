@@ -11,6 +11,7 @@ import com.expedia.util.endlessObserver
 import io.reactivex.Observable
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.PublishSubject
+import java.util.Locale
 
 class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: ReviewsServices, val locale: String) {
 
@@ -23,10 +24,17 @@ class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: Rev
     val favorableReviewsObservable = PublishSubject.create<List<Review>>()
     val criticalReviewsObservable = PublishSubject.create<List<Review>>()
     val newestReviewsObservable = PublishSubject.create<List<Review>>()
+    val reviewTranslatedObservable = PublishSubject.create<Review>()
 
     private val reviewsDownloadsObservable = PublishSubject.create<Observable<Pair<ReviewSort, HotelReviewsResponse>>>()
     private val orderedReviewsObservable = Observable.concat(reviewsDownloadsObservable)
     private val reviewsObservable = PublishSubject.create<Pair<ReviewSort, HotelReviewsResponse>>()
+
+    val translateReviewIdObserver = endlessObserver<String> { reviewId ->
+        reviewsServices.translate(reviewId, Locale.getDefault().language).subscribe { translatedReview ->
+            reviewTranslatedObservable.onNext(translatedReview)
+        }
+    }
 
     val reviewsObserver = endlessObserver<ReviewSort> { reviewSort ->
         val params = HotelReviewsParams.Builder()

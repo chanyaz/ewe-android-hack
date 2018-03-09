@@ -11,9 +11,11 @@ import com.expedia.bookings.data.hotels.HotelReviewsResponse
 import com.expedia.bookings.widget.HotelReviewsLoadingWidget
 import com.expedia.bookings.widget.HotelReviewsSummaryWidget
 import com.expedia.bookings.widget.RecyclerDividerDecoration
+import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelReviewRowViewModel
 import com.expedia.vm.HotelReviewsSummaryViewModel
 import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 
 class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : RecyclerView(context, attrs) {
@@ -31,6 +33,14 @@ class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : Recycler
         val loadMoreObservable = BehaviorSubject.create<Unit>()
 
         var moreReviewsAvailable = false
+
+        val translateReviewIdSubject = PublishSubject.create<String>()
+        val reviewTranslatedSubject = endlessObserver<HotelReviewsResponse.Review> { review ->
+            translationMap.put(review.reviewId, review)
+            //todo: update UI
+        }
+
+        private var translationMap: HashMap<String, HotelReviewsResponse.Review> = HashMap()
 
         private var reviews: ArrayList<HotelReviewsResponse.Review> = arrayListOf()
         private var reviewsSummary: HotelReviewsResponse.ReviewSummary = HotelReviewsResponse.ReviewSummary()

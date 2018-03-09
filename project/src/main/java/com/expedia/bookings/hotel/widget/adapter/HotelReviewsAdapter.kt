@@ -35,6 +35,10 @@ class HotelReviewsAdapter(val context: Context, val viewPager: ViewPager, val vm
         vm.newestReviewsObservable.subscribe { reviews ->
             addReviews(ReviewSort.NEWEST_REVIEW_FIRST, reviews)
         }
+
+        vm.reviewTranslatedObservable.subscribe { review ->
+            onReviewTranslated(review)
+        }
     }
 
     private fun addReviews(reviewSort: ReviewSort, reviews: List<Review>) {
@@ -70,6 +74,9 @@ class HotelReviewsAdapter(val context: Context, val viewPager: ViewPager, val vm
         val sort = getReviewSort(position)
         hotelReviewsView.tag = sort
         container.addView(hotelReviewsView)
+        hotelReviewsView.recyclerAdapter.translateReviewIdSubject.subscribe { reviewId ->
+            vm.translateReviewIdObserver.onNext(reviewId)
+        }
         return hotelReviewsView
     }
 
@@ -89,5 +96,12 @@ class HotelReviewsAdapter(val context: Context, val viewPager: ViewPager, val vm
         vm.reviewsObserver.onNext(ReviewSort.HIGHEST_RATING_FIRST)
         vm.reviewsObserver.onNext(ReviewSort.LOWEST_RATING_FIRST)
         vm.reviewsObserver.onNext(ReviewSort.NEWEST_REVIEW_FIRST)
+    }
+
+    private fun onReviewTranslated(review: Review) {
+        for (reviewSort: ReviewSort in ReviewSort.values()) {
+            val hotelReviewsView = viewPager.findViewWithTag<HotelReviewsPageView>(reviewSort)
+            hotelReviewsView.recyclerAdapter.reviewTranslatedSubject.onNext(review)
+        }
     }
 }
