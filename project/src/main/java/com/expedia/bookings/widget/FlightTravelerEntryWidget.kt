@@ -159,7 +159,8 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
             showCountryAlertDialog()
         }
 
-        frequentFlyerTooltip.visibility = if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFrequentFlierTooltip)) View.VISIBLE else View.GONE
+        val isFreeCancellationTooltipEnabled = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFrequentFlierTooltip)
+        frequentFlyerTooltip.visibility = if (isFreeCancellationTooltipEnabled) View.VISIBLE else View.GONE
 
         updateFrequentFlyerVisibility(show = false)
         frequentFlyerButton.setOnClickListener {
