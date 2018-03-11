@@ -98,7 +98,7 @@ class HotelResortFeeFormatterTest {
         assertEquals("$25", fee, "FAILURE: Expected api value 'currencyCodePOSu' to override `currencyCode` when present")
     }
 
-    @Test
+/*    @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMIDResortFeeNonePointOfSale() {
         assertMIDResortFeeDisplayTypeDisplayCurrency(MandatoryFees.DisplayType.NONE,
@@ -112,7 +112,7 @@ class HotelResortFeeFormatterTest {
         assertMIDResortFeeDisplayTypeDisplayCurrency(MandatoryFees.DisplayType.NONE,
                 MandatoryFees.DisplayCurrency.POINT_OF_SUPPLY,
                 expectedFee = "")
-    }
+    }*/
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))

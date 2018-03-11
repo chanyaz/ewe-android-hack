@@ -110,21 +110,21 @@ class HotelTest {
         assertEquals(showResortFeeMessage, room.rateInfo.chargeableRateInfo.showResortFeeMessage)
     }
 
-    @Test
+/*    @Test
     fun testMIDMandatoryFeesNonePointOfSale() {
         assertMIDMandatoryFeesDisplayTypeDisplayCurrency(MandatoryFees.DisplayType.NONE,
                 MandatoryFees.DisplayCurrency.POINT_OF_SALE,
                 158.62f,
                 false)
-    }
+    }*/
 
-    @Test
+/*    @Test
     fun testMIDMandatoryFeesNonePointOfSupply() {
         assertMIDMandatoryFeesDisplayTypeDisplayCurrency(MandatoryFees.DisplayType.NONE,
                 MandatoryFees.DisplayCurrency.POINT_OF_SUPPLY,
                 0f,
                 false)
-    }
+    }*/
 
     @Test
     fun testMIDMandatoryFeesDailyPointOfSale() {

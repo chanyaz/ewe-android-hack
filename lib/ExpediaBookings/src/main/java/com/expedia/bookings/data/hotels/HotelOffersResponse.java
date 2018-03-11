@@ -280,7 +280,8 @@ public class HotelOffersResponse extends BaseApiResponse {
 						.getDailyResortFeePOSCurrency().getAmount().floatValue();
 				}
 				break;
-			case NONE:
+				//No need to parse displayType NONE cases as this value is only needed on UDP and we are not handling those cases
+/*			case NONE:
 				if (hotelRoomResponse.rateInfo.chargeableRateInfo.mandatoryDisplayCurrency
 					== MandatoryFees.DisplayCurrency.POINT_OF_SALE && roomOffer.getMandatoryFees()
 					.getTotalMandatoryFeesPOSCurrency().getAmount() != null) {
@@ -288,7 +289,7 @@ public class HotelOffersResponse extends BaseApiResponse {
 						.getTotalMandatoryFeesPOSCurrency().getAmount().floatValue();
 				}
 				hotelRoomResponse.rateInfo.chargeableRateInfo.showResortFeeMessage = false;
-				break;
+				break;*/
 			}
 		}
 		hotelRoomResponse.rateInfo.chargeableRateInfo.packagePricePerPerson = room.getPrice().pricePerPerson();

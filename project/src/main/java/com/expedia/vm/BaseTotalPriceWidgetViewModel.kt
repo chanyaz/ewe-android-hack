@@ -3,7 +3,6 @@ package com.expedia.vm
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
-import java.math.BigDecimal
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
@@ -50,8 +49,7 @@ abstract class BaseTotalPriceWidgetViewModel(isSlidable: Boolean) {
         return Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL
     }
 
-    fun addMandatoryFeeWithTotalPrice(mandatoryFee: BigDecimal?, currencyCode: String?) {
-        val totalPackagePriceWithMandatoryFee = Money(mandatoryFee, currencyCode)
-        totalPriceObservable.onNext(totalPackagePriceWithMandatoryFee.getFormattedMoneyFromAmountAndCurrencyCode(getMoneyFormatFlagForInteger()))
+    fun setBundleTotalPrice(totalPrice: Money) {
+        totalPriceObservable.onNext(totalPrice.getFormattedMoneyFromAmountAndCurrencyCode(getMoneyFormatFlagForInteger()))
     }
 }

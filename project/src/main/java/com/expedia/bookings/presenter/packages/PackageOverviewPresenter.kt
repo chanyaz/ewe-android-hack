@@ -15,7 +15,6 @@ import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
-import com.expedia.bookings.data.multiitem.MandatoryFees
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.data.pos.PointOfSale
@@ -47,9 +46,7 @@ import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
 import com.expedia.vm.packages.PackageTotalPriceViewModel
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.PublishSubject
-import org.joda.time.Days
 import org.joda.time.format.DateTimeFormat
-import java.math.BigDecimal
 
 class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoScreenOverviewPresenter(context, attrs) {
 
@@ -470,9 +467,11 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         }
     }
 
+    //We have decided to not add mandatory fees in the bundle total for now. This will be worked on again.
+
     private fun setMandatoryFee(packageResponse: BundleSearchResponse) {
-        val packagetotal = packageResponse.getCurrentOfferPrice()?.packageTotalPrice
-        val rateInfo = Db.sharedInstance.packageSelectedRoom.rateInfo.chargeableRateInfo
+        val packageTotal = packageResponse.getCurrentOfferPrice()?.packageTotalPrice ?: return
+/*        val rateInfo = Db.sharedInstance.packageSelectedRoom.rateInfo.chargeableRateInfo
         var mandatoryFee: Float = 0F
 
         //rateInfo.totalMandatoryFees has either daily or total mandatory fees based upon the display type (See convertMidHotelRoomResponse() in HotelOfferResponse for reference)
@@ -483,17 +482,17 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
                 mandatoryFee = rateInfo.totalMandatoryFees
             }
         }
-        val packageTotalWithMandatoryFee = packagetotal?.amount?.plus(BigDecimal(mandatoryFee.toString()))
-        totalPriceWidget.viewModel.addMandatoryFeeWithTotalPrice(packageTotalWithMandatoryFee, packagetotal?.currencyCode)
+        val packageTotalWithMandatoryFee = packagetotal?.amount?.plus(BigDecimal(mandatoryFee.toString()))*/
+        totalPriceWidget.viewModel.setBundleTotalPrice(packageTotal)
     }
 
-    private fun getNumberOfDaysInHotel(packageResponse: BundleSearchResponse): Int {
+/*    private fun getNumberOfDaysInHotel(packageResponse: BundleSearchResponse): Int {
         val dtf = DateTimeFormat.forPattern("yyyy-MM-dd")
 
         val checkInDate = dtf.parseLocalDate(packageResponse.getHotelCheckInDate())
         val checkoutDate = dtf.parseLocalDate(packageResponse.getHotelCheckOutDate())
         return Days.daysBetween(checkInDate, checkoutDate).days
-    }
+    }*/
 
     private fun setHotelBundleWidgetGuestsAndDatesText(packageResponse: BundleSearchResponse) {
         bundleWidget.bundleHotelWidget.viewModel.hotelDatesGuestObservable.onNext(
