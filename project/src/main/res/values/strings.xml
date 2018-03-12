@@ -2901,8 +2901,6 @@
     <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
          e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
     <string name="package_hotel_results_header_TEMPLATE">Total price roundtrip, per person. includes hotel and flights • {total_price_result_count_header}</string>
-    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay -->
-    <string name="package_hotel_results_header">Total price roundtrip, per person • includes hotel and flights</string>
 
     <!-- Urgency message indicating percent of hotels remaining in a region-->
     <string name="urgency_only_x_hotels_left_TEMPLATE">We only have {percent}% of hotels left!</string>

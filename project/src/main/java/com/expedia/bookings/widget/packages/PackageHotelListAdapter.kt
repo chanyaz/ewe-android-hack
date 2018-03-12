@@ -22,11 +22,9 @@ class PackageHotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, heade
         val shouldShowPackageIncludesTaxesMessage = PointOfSale.getPointOfSale().supportsPackagesHSRIncludesHeader()
         val shouldShowPackageIncludesMessage = PointOfSale.getPointOfSale().supportsPackagesHSRHeader()
         val isBreadcrumbsEnabled = isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)
-        if (isBreadcrumbsEnabled) {
-            return R.string.package_hotel_results_header
-        } else if (shouldShowPackageIncludesTaxesMessage) {
+        if (shouldShowPackageIncludesTaxesMessage) {
             return R.string.package_hotel_results_includes_header_TEMPLATE
-        } else if (shouldShowPackageIncludesMessage) {
+        } else if (shouldShowPackageIncludesMessage || isBreadcrumbsEnabled) {
             return R.string.package_hotel_results_header_TEMPLATE
         } else return null
     }

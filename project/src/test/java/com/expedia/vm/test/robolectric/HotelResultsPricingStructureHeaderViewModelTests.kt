@@ -106,8 +106,8 @@ class HotelResultsPricingStructureHeaderViewModelTests {
         val initialPOSID = PointOfSale.getPointOfSale().pointOfSaleId
         setPointOfSale(PointOfSaleId.UNITED_KINGDOM)
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs)
-        sut = HotelResultsPricingStructureHeaderViewModel(getContext(), R.string.package_hotel_results_header)
-        assertExpectedText(HotelRate.UserPriceType.UNKNOWN, 50, "Total price roundtrip, per person • includes hotel and flights", false)
+        sut = HotelResultsPricingStructureHeaderViewModel(getContext(), R.string.package_hotel_results_header_TEMPLATE)
+        assertExpectedText(HotelRate.UserPriceType.UNKNOWN, 50, "Total price roundtrip, per person. includes hotel and flights • 50 Results", false)
         setPointOfSale(initialPOSID)
     }
 

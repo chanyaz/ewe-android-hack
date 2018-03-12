@@ -223,12 +223,13 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     private fun bindData() {
         dataAvailableSubject.onNext(Db.getPackageResponse())
         val currencyCode = Db.getPackageResponse().getCurrencyCode()
-        if (PointOfSale.getPointOfSale().pointOfSaleId != PointOfSaleId.JAPAN) {
+
+        if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
+            bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text_new))
+        } else if (PointOfSale.getPointOfSale().pointOfSaleId != PointOfSaleId.JAPAN) {
             bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
-            if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
-                bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text_new))
-            }
         }
+
         val zero = Money(BigDecimal(0), currencyCode)
         bundleSlidingWidget.bundlePriceWidget.viewModel.pricePerPerson.onNext(zero)
         bundleSlidingWidget.bundlePriceFooter.viewModel.total.onNext(zero)
