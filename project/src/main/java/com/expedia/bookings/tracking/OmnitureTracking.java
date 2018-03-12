@@ -5433,7 +5433,6 @@ public class OmnitureTracking {
 		Pair<LocalDate, LocalDate> takeoffDates = getFlightSearchDepartureAndReturnDates();
 		setDateValues(s, takeoffDates.first, takeoffDates.second);
 
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppSecureCheckoutIcon);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSeatsLeftUrgencyMessaging);
 		s.track();
 	}

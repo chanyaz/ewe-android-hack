@@ -21,7 +21,6 @@ import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isSecureIconEnabled
 import com.expedia.bookings.widget.BaggageFeeInfoWebView
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.BundleOverviewHeader
@@ -196,9 +195,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
                 checkoutPresenter.toolbarDropShadow.visibility = View.GONE
                 resetScrollSpaceHeight()
                 scrollSpaceView?.viewTreeObserver?.addOnGlobalLayoutListener(overviewLayoutListener)
-                if (isSecureIconEnabled(context)) {
-                    bundleOverviewHeader.secureIconContainer?.visibility = View.GONE
-                }
                 checkoutPresenter.getCheckoutViewModel().toCheckoutTransitionObservable.onNext(false)
             } else {
                 scrollSpaceView?.viewTreeObserver?.removeOnGlobalLayoutListener(overviewLayoutListener)
@@ -249,10 +245,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             if (forward) {
                 checkoutPresenter.adjustScrollingSpace(bottomContainer)
                 checkoutPresenter.travelersPresenter.updateAllTravelerStatuses()
-                if (isSecureIconEnabled(context)) {
-                    bundleOverviewHeader.toolbar.viewModel.hideToolbarTitle.onNext(Unit)
-                    bundleOverviewHeader.secureIconContainer?.visibility = View.VISIBLE
-                }
                 checkoutPresenter.getCheckoutViewModel().toCheckoutTransitionObservable.onNext(true)
             } else {
                 trackShowBundleOverview()

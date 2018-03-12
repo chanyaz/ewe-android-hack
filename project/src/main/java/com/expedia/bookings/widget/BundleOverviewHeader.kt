@@ -14,15 +14,11 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.extensions.subscribeText
-import com.expedia.bookings.utils.LayoutUtils
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isSecureIconEnabled
-import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.widget.packages.CheckoutOverviewHeader
 import com.expedia.vm.CheckoutToolbarViewModel
-import com.larvalabs.svgandroid.widget.SVGView
 
 class BundleOverviewHeader(context: Context, attrs: AttributeSet) : CoordinatorLayout(context, attrs), AppBarLayout.OnOffsetChangedListener {
     val toolbar: CheckoutToolbar by bindView(R.id.checkout_toolbar)
@@ -32,10 +28,6 @@ class BundleOverviewHeader(context: Context, attrs: AttributeSet) : CoordinatorL
     val checkoutOverviewHeaderToolbar: CheckoutOverviewHeader by bindView(R.id.checkout_overview_header_toolbar)
     val nestedScrollView: NestedScrollView by bindView(R.id.nested_scrollview)
     val checkoutOverviewFloatingToolbar: CheckoutOverviewHeader by bindView(R.id.checkout_overview_floating_toolbar)
-    val secureIcon: SVGView by bindView(R.id.secure_lock_icon)
-    var customTitle: TextView? = null
-    var secureIconContainer: LinearLayout? = null
-    val isSecureIconActive = isSecureIconEnabled(context)
 
     var isHideToolbarView = false
     var isDisabled = false
@@ -59,14 +51,6 @@ class BundleOverviewHeader(context: Context, attrs: AttributeSet) : CoordinatorL
         checkoutOverviewFloatingToolbar.destinationText.ellipsize = null
         checkoutOverviewFloatingToolbar.destinationText.setSingleLine(false)
         checkoutOverviewFloatingToolbar.destinationText.maxLines = 2
-        if (isSecureIconActive) {
-            LayoutUtils.setSVG(secureIcon, R.raw.lock_icon)
-            customTitle = findViewById<TextView>(R.id.checkout_custom_title)
-            secureIconContainer = findViewById<LinearLayout>(R.id.secure_icon_container)
-            customTitle?.let {
-                toolbar.viewModel.toolbarCustomTitle.subscribeText(it)
-            }
-        }
     }
 
     /** Collapsing Toolbar **/

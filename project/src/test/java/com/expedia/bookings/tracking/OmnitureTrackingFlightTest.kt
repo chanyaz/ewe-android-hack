@@ -69,7 +69,7 @@ class OmnitureTrackingFlightTest {
         val abTest = ABTest(25037, true)
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, abTest)
         OmnitureTracking.trackFlightCheckoutInfoPageLoad(mockResponse)
-        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withProps(mapOf(34 to "16112.0.-1|25037.0.1")), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withProps(mapOf(34 to "25037.0.1")), mockAnalyticsProvider)
     }
 
     @Test
@@ -80,7 +80,7 @@ class OmnitureTrackingFlightTest {
         val abTest = ABTest(25037, true)
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, abTest, 0)
         OmnitureTracking.trackFlightCheckoutInfoPageLoad(mockResponse)
-        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withProps(mapOf(34 to "16112.0.-1|25037.0.0")), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withProps(mapOf(34 to "25037.0.0")), mockAnalyticsProvider)
     }
 
     @Test

@@ -30,7 +30,6 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidLXMIP = new ABTest(24617, true);
 	public static final ABTest EBAndroidAppAPIMAuth = new ABTest(14654);
 	public static final ABTest EBAndroidPopulateCardholderName = new ABTest(14525);
-	public static final ABTest EBAndroidAppSecureCheckoutIcon = new ABTest(16112);
 	public static final ABTest EBAndroidAppFlightFlexEnabled = new ABTest(15247);
 	public static final ABTest EBAndroidAppLXOfferLevelCancellationPolicySupport = new ABTest(15246);
 	public static final ABTest EBAndroidAppAllowUnknownCardTypes = new ABTest(15457);
@@ -176,7 +175,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppAPIMAuth.getKey());
 		testIDs.add(EBAndroidAppAccountsAPIKongEndPoint.getKey());
 		testIDs.add(EBAndroidPopulateCardholderName.getKey());
-		testIDs.add(EBAndroidAppSecureCheckoutIcon.getKey());
 		testIDs.add(EBAndroidAppPackagesMidApi.getKey());
 		testIDs.add(EBAndroidAppFlightFlexEnabled.getKey());
 		testIDs.add(EBAndroidAppFlightSubpubChange.getKey());

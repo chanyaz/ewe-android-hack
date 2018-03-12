@@ -7,11 +7,7 @@ import android.support.v7.widget.ActionMenuView
 import android.view.LayoutInflater
 import android.view.accessibility.AccessibilityManager
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.AbacusTestUtils
-import com.expedia.bookings.utils.isSecureIconEnabled
 import com.expedia.vm.CheckoutToolbarViewModel
 import org.junit.Before
 import org.junit.Test
@@ -20,10 +16,8 @@ import org.mockito.Mockito
 import org.robolectric.Robolectric
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
-import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class CheckoutToolbarTest {
@@ -33,7 +27,6 @@ class CheckoutToolbarTest {
 
     @Before
     fun setup() {
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppSecureCheckoutIcon)
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.Theme_Rail)
     }
@@ -90,43 +83,6 @@ class CheckoutToolbarTest {
 
         toolbar.viewModel.enableMenuItem.onNext(false)
         assertEquals("Submit, Disabled, Button", actionMenuView.getChildAt(0).contentDescription)
-    }
-
-    @Test
-    fun testCustomToolbarTitle() {
-        setSecureIconABTest()
-        getToolbar()
-        val toolbarCustomTitleTestSubscriber = TestObserver.create<String>()
-        toolbar.viewModel.toolbarCustomTitle.subscribe(toolbarCustomTitleTestSubscriber)
-
-        toolbar.viewModel.toolbarTitle.onNext("test title")
-        toolbarCustomTitleTestSubscriber.assertValue("test title")
-    }
-
-    @Test
-    fun testHideToolbarTitle() {
-        setSecureIconABTest()
-        getToolbar()
-        val hideToolbarTitleTestSubscriber = TestObserver.create<Unit>()
-        toolbar.viewModel.hideToolbarTitle.subscribe(hideToolbarTitleTestSubscriber)
-
-        toolbar.viewModel.hideToolbarTitle.onNext(Unit)
-        assertEquals("", toolbar.title)
-    }
-
-    @Test
-    fun testSecureIconABTestIsOn() {
-        setSecureIconABTest()
-        assertTrue(isSecureIconEnabled(activity))
-    }
-
-    @Test
-    fun testSecureIconABTestIsOff() {
-        assertFalse(isSecureIconEnabled(activity))
-    }
-
-    private fun setSecureIconABTest() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppSecureCheckoutIcon)
     }
 
     private fun getToolbar() {

@@ -12,7 +12,6 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TripBucketItemFlightV2
 import com.expedia.bookings.data.TripDetails
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
@@ -25,7 +24,6 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.bookings.widget.CheckoutToolbar
@@ -131,33 +129,6 @@ class FlightCheckoutToolbarTest {
         checkout.openTravelerPresenter()
 
         assertFalse(toolbar.menuItem.isVisible)
-    }
-
-    @Test
-    fun testBucketedSecureIconTestHidesNativeToolbarTitleInPaymentWidget() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppSecureCheckoutIcon)
-        overview = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
-        checkout = overview.getCheckoutPresenter()
-        toolbar = overview.bundleOverviewHeader.toolbar
-        overview.showCheckout()
-        checkout.paymentWidget.cardInfoContainer.performClick()
-        checkout.paymentWidget.showPaymentForm(false)
-
-        assertEquals("", toolbar.title)
-    }
-
-    @Test
-    fun testBucketedSecureIconTestHidesNativeToolbarTitleInTravelerWidget() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppSecureCheckoutIcon)
-        setTravelersInDb(0)
-        overview = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
-        checkout = overview.getCheckoutPresenter()
-        toolbar = overview.bundleOverviewHeader.toolbar
-        overview.showCheckout()
-        checkout.paymentWidget.cardInfoContainer.performClick()
-        checkout.paymentWidget.showPaymentForm(false)
-
-        assertEquals("", toolbar.title)
     }
 
     @Test

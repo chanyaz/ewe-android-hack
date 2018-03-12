@@ -13,7 +13,6 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.interfaces.ToolbarListener
 import com.expedia.bookings.utils.ArrowXDrawableUtil
-import com.expedia.bookings.utils.isSecureIconEnabled
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.CheckoutToolbarViewModel
@@ -30,12 +29,6 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
         }
         vm.toolbarSubtitle.subscribe {
             subtitle = it
-        }
-        if (isSecureIconEnabled(context)) {
-            vm.toolbarTitle.subscribe(vm.toolbarCustomTitle)
-            vm.hideToolbarTitle.subscribe {
-                title = ""
-            }
         }
         vm.menuTitle.subscribe {
             menuItem.title = it

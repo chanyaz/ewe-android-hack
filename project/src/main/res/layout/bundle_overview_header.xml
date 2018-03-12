@@ -37,38 +37,6 @@
                 app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
                 app:contentInsetStartWithNavigation="0dp" >
 
-                <LinearLayout
-                    android:id="@+id/secure_icon_container"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:visibility="gone"
-                    android:gravity="left|center_vertical"
-                    android:orientation="horizontal">
-
-                    <com.larvalabs.svgandroid.widget.SVGView
-                        android:layout_width="13dp"
-                        android:layout_height="22dp"
-                        android:id="@+id/secure_lock_icon"
-                        android:focusable="true"
-                        android:contentDescription="@string/secure_lock_accessibility"
-                        android:layout_marginRight="10dp" />
-
-                    <LinearLayout
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:orientation="vertical">
-
-                        <com.expedia.bookings.widget.TextView
-                            android:id="@+id/checkout_custom_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/ToolbarTitleTextAppearance"/>
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
                 <com.expedia.bookings.widget.packages.CheckoutOverviewHeader
                     android:id="@+id/checkout_overview_header_toolbar"
                     android:layout_width="match_parent"
