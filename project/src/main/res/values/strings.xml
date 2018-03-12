@@ -2749,6 +2749,20 @@
     <string name="hotel_guest_recommend_wonderful_superlative">/5 - Wonderful!</string>
     <string name="hotel_guest_recommend_exceptional_superlative">/5 - Exceptional!</string>
 
+    <!-- Flights Score results -->
+    <!-- Route Happy AB Test: Example: 9/10 - Excellent! -->
+    <string name="flight_score_excellent_superlative_TEMPLATE">{flight_score}/10 - Excellent!</string>
+    <!-- Route Happy AB Test: Example: 8.1/10 - Very Good! -->
+    <string name="flight_score_very_good_superlative_TEMPLATE">{flight_score}/10 - Very Good!</string>
+    <!-- Route Happy AB Test: Example: 7.5/10 - Good! -->
+    <string name="flight_score_good_superlative_TEMPLATE">{flight_score}/10 - Good!</string>
+    <!-- Route Happy AB Test: Example: 7/10 - Okay! -->
+    <string name="flight_score_okay_superlative_TEMPLATE">{flight_score}/10 - Okay!</string>
+    <!-- Route Happy AB Test: Example: 6/10 - Fair! -->
+    <string name="flight_score_fair_superlative_TEMPLATE">{flight_score}/10 - Fair!</string>
+    <!-- Route Happy AB Test: Example: 5.5/10 - Poor! -->
+    <string name="flight_score_poor_superlative_TEMPLATE">{flight_score}/10 - Poor!</string>
+
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
