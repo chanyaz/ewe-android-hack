@@ -1,14 +1,18 @@
 package com.expedia.bookings.tracking
 
+import android.content.Context
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripBucketItemFlightV2
+import com.expedia.bookings.data.abacus.ABTest
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.insurance.InsuranceProduct
+import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.FlightTestUtil
 import com.expedia.bookings.test.robolectric.FlightTestUtil.Companion.getCheckoutResponse
 import com.expedia.bookings.test.robolectric.FlightTestUtil.Companion.getFlightAggregatedResponse
@@ -17,15 +21,21 @@ import com.expedia.bookings.test.robolectric.FlightTestUtil.Companion.getFlightI
 import com.expedia.bookings.test.robolectric.FlightTestUtil.Companion.getFlightTripDetails
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.tracking.hotel.PageUsableData
+import com.expedia.bookings.utils.AbacusTestUtils
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
+import org.robolectric.RuntimeEnvironment
 import org.mockito.Mockito.`when` as whenever
 
 @RunWith(RobolectricRunner::class)
 class OmnitureTrackingFlightTest {
     private lateinit var mockAnalyticsProvider: AnalyticsProvider
+
+    private val context: Context by lazy {
+        RuntimeEnvironment.application
+    }
 
     @Before
     fun setup() {
@@ -35,10 +45,7 @@ class OmnitureTrackingFlightTest {
 
     @Test
     fun testTrackFlightCheckoutInfoPageLoadEvents() {
-        val mockResponse = Mockito.mock(FlightCreateTripResponse::class.java)
-        val mockOffer = Mockito.mock(FlightTripDetails.FlightOffer::class.java)
-        mockOffer.availableInsuranceProducts = emptyList()
-        whenever(mockResponse.getOffer()).thenReturn(mockOffer)
+        val mockResponse = getCreateTripMockResponse()
 
         OmnitureTracking.trackFlightCheckoutInfoPageLoad(mockResponse)
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEventsString("event36,event71"), mockAnalyticsProvider,
@@ -47,14 +54,33 @@ class OmnitureTrackingFlightTest {
 
     @Test
     fun testTrackFlightCheckoutInfoPageLoadEventsWithInsurance() {
-        val mockResponse = Mockito.mock(FlightCreateTripResponse::class.java)
-        val mockOffer = Mockito.mock(FlightTripDetails.FlightOffer::class.java)
-        mockOffer.availableInsuranceProducts = listOf(InsuranceProduct())
-        whenever(mockResponse.getOffer()).thenReturn(mockOffer)
+        val mockResponse = getCreateTripMockResponse(withInsuranceProduct = true)
 
         OmnitureTracking.trackFlightCheckoutInfoPageLoad(mockResponse)
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEventsString("event36,event71,event122"), mockAnalyticsProvider,
                 "FAILED: Expected event36 (checkout start), event71 (flight checkout start), and event 122 (insurance present)")
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTrackUrgencyMessagingABTestOnCheckout() {
+        val mockResponse = getCreateTripMockResponse()
+
+        val abTest = ABTest(25037, true)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, abTest)
+        OmnitureTracking.trackFlightCheckoutInfoPageLoad(mockResponse)
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withProps(mapOf(34 to "16112.0.-1|25037.0.1")), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testDontTrackUrgencyMessagingABTestOnCheckout() {
+        val mockResponse = getCreateTripMockResponse()
+
+        val abTest = ABTest(25037, true)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, abTest, 0)
+        OmnitureTracking.trackFlightCheckoutInfoPageLoad(mockResponse)
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withProps(mapOf(34 to "16112.0.-1|25037.0.0")), mockAnalyticsProvider)
     }
 
     @Test
@@ -142,5 +168,13 @@ class OmnitureTrackingFlightTest {
         val aggregatedResponse = getFlightAggregatedResponse(listOfFlightDetails = tripDetails)
         val checkoutResponse = getCheckoutResponse(flightAggregatedResponse = aggregatedResponse, hasDetails = false)
         return checkoutResponse
+    }
+
+    private fun getCreateTripMockResponse(withInsuranceProduct: Boolean = false): FlightCreateTripResponse {
+        val mockResponse = Mockito.mock(FlightCreateTripResponse::class.java)
+        val mockOffer = Mockito.mock(FlightTripDetails.FlightOffer::class.java)
+        mockOffer.availableInsuranceProducts = if (withInsuranceProduct) listOf(InsuranceProduct()) else emptyList()
+        whenever(mockResponse.getOffer()).thenReturn(mockOffer)
+        return mockResponse
     }
 }

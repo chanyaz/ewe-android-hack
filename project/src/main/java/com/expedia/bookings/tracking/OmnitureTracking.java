@@ -5431,6 +5431,7 @@ public class OmnitureTracking {
 		setDateValues(s, takeoffDates.first, takeoffDates.second);
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSecureCheckoutIcon);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppSeatsLeftUrgencyMessaging);
 		s.track();
 	}
 
