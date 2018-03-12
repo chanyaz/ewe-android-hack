@@ -383,14 +383,14 @@ android {
 
             ext.betaDistributionReleaseNotesFilePath = CHANGELOG_PATH
             ext.betaDistributionGroupAliasesFilePath = CRASHLYTICS_BETA_GROUPS_PATH
-            ext.alwaysUpdateBuildId = !GradleUtil.isLocalDevBuild(project)
+            ext.alwaysUpdateBuildId = GradleUtil.isJenkinsBuild()
 
             buildConfigField "boolean", "RELEASE", "Boolean.parseBoolean(\"false\")"
             buildConfigField "boolean", "USABILITY", GradleUtil.isUsabilityBuild(project) ? "Boolean.parseBoolean(\"true\")" : "Boolean.parseBoolean(\"false\")"
         }
 
         release {
-            if (GradleUtil.isUsabilityBuild(project)) {
+            if (GradleUtil.isUsabilityBuild(project) || !GradleUtil.isJenkinsBuild()) {
                 applicationIdSuffix ("." + GradleUtil.getBuildIdentifier(project))
             }
 
@@ -494,17 +494,9 @@ public class GradleUtil {
     }
 
     private static def shouldEnableOnJenkinsOrIfManuallyEnabled(Project project, String manualEnableKey) {
-        def buildNumber = "${System.env.BUILD_NUMBER}"
-        def ci = "${System.env.CI}"
         def boolean shouldEnable = false
 
-        // If BUILD_NUMBER defined turn on proguard
-        if (isDefined(buildNumber)) {
-            shouldEnable = true
-        }
-
-        // If CI defined turn on proguard
-        if (isDefined(ci)) {
+        if (isJenkinsBuild()) {
             shouldEnable = true
         }
 
@@ -513,7 +505,7 @@ public class GradleUtil {
             shouldEnable = project.getProperty(manualEnableKey).toBoolean()
         }
 
-        return shouldEnable;
+        return shouldEnable
     }
 
     static def getPropertyWithDefault(Project project, String key, String defaultValue) {
@@ -528,10 +520,11 @@ public class GradleUtil {
         return getPropertyWithDefault(project, "id", "debug")
     }
 
-    static def isLocalDevBuild(Project project) {
-        def buildId = getBuildIdentifier(project)
-
-        return (buildId == "debug")
+    static def isJenkinsBuild() {
+        def buildNumber = "${System.env.BUILD_NUMBER}"
+        def ci = "${System.env.CI}"
+        
+        return isDefined(buildNumber) || isDefined(ci)
     }
 
     static def getAppName(Project project, variant) {
