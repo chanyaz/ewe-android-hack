@@ -55,6 +55,7 @@ public class FlightLeg {
 	public List<String> basicEconomyRuleLocIds = new ArrayList<>();
 	public int legRank;
 	public BaggageInfoFormData jsonBaggageFeesUrl;
+	public String naturalKey;
 
 	public boolean isFreeCancellable() {
 		return freeCancellationBy != null;

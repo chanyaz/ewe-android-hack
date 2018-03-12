@@ -51,6 +51,7 @@ public class FlightTripDetails {
 		@SerializedName("segmentAttributes")
 		public List<List<SeatClassAndBookingCode>> offersSeatClassAndBookingCode;
 		public LoyaltyInformation loyaltyInfo;
+		public String naturalKey;
 
 		public List<InsuranceProduct> availableInsuranceProducts = Collections.emptyList();
 		public InsuranceProduct selectedInsuranceProduct;

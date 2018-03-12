@@ -11,6 +11,7 @@ import com.expedia.bookings.data.flights.FlightSearchResponse.FlightSearchType
 import com.expedia.bookings.extensions.subscribeObserver
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.ApiDateUtils
+import com.expedia.bookings.utils.Strings
 import com.google.gson.GsonBuilder
 import io.reactivex.Observer
 import io.reactivex.Scheduler
@@ -100,6 +101,12 @@ open class FlightServices(val endpoint: String, okHttpClient: OkHttpClient, inte
     private fun processSearchResponse(response: FlightSearchResponse) {
         if (response.hasErrors() || response.legs.isEmpty() || response.offers.isEmpty()) return
         response.legs.forEach { leg ->
+            if (Strings.isEmpty(leg.naturalKey)) {
+                val filteredOffers = response.offers.filter { it.legIds.contains(leg.legId) && Strings.isNotEmpty(it.naturalKey) }
+                if (filteredOffers.isNotEmpty()) {
+                    leg.naturalKey = filteredOffers[0].naturalKey
+                }
+            }
             leg.carrierName = leg.segments.first().airlineName
             leg.flightSegments = leg.segments
             val departure = leg.flightSegments.first()
