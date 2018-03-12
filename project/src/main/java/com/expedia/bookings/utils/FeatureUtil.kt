@@ -1,7 +1,9 @@
 package com.expedia.bookings.utils
 
 import android.content.Context
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
@@ -133,6 +135,19 @@ fun checkIfTripFoldersEnabled(context: Context): Boolean {
 }
 
 fun isHideMiniMapOnResultBucketed(context: Context): Boolean {
-    return AbacusFeatureConfigManager.isBucketedForTest(context,
-            AbacusUtils.HotelHideMiniMapOnResult)
+    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelHideMiniMapOnResult)
+}
+
+fun isRouteHappyEnabled(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isBucketedInAnyVariant(context, AbacusUtils.EBAndroidAppFlightsRouteHappy)
+}
+
+fun isRouteHappyShowAmenityEnabled(): Boolean {
+    val routeHappyVariant = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.EBAndroidAppFlightsRouteHappy)
+    return (routeHappyVariant == AbacusVariant.ONE.value || routeHappyVariant == AbacusVariant.THREE.value)
+}
+
+fun isRouteHappyShowFlightScoreEnabled(): Boolean {
+    val routeHappyVariant = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.EBAndroidAppFlightsRouteHappy)
+    return (routeHappyVariant == AbacusVariant.TWO.value || routeHappyVariant == AbacusVariant.THREE.value)
 }

@@ -11,6 +11,7 @@ import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.services.KrazyglueServices;
 import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.vm.FlightCheckoutViewModel;
+import com.expedia.vm.FlightResultsViewModel;
 import com.expedia.vm.flights.BaggageInfoViewModel;
 import com.expedia.vm.flights.FlightCreateTripViewModel;
 import com.expedia.vm.flights.RecentSearchViewModel;
@@ -29,6 +30,7 @@ public interface FlightComponent {
 	void inject(FlightCreateTripViewModel createTripViewModel);
 	void inject(FlightCheckoutViewModel checkoutViewModel);
 	void inject(BaggageInfoViewModel baggageInfoViewModel);
+	void inject(FlightResultsViewModel flightResultsViewModel);
 	void inject(RecentSearchViewModel recentSearchViewModel);
 
 	SuggestionV4Services suggestionsService();

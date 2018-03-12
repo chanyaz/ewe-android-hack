@@ -9,6 +9,8 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.interceptors.MockInterceptor
+import com.expedia.bookings.services.KongFlightServices
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -16,12 +18,20 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowDateFormat
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.flights.DockedOutboundFlightWidgetV2
 import com.expedia.vm.FlightResultsViewModel
+import com.mobiata.mocke3.ExpediaDispatcher
+import com.mobiata.mocke3.FileSystemOpener
+import io.reactivex.schedulers.Schedulers
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import okhttp3.mockwebserver.MockWebServer
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import java.io.File
 import java.math.BigDecimal
 import kotlin.test.assertEquals
 
@@ -31,16 +41,30 @@ class FlightResultsListViewPresenterTest {
     val context = RuntimeEnvironment.application
     lateinit var sut: FlightResultsListViewPresenter
     private lateinit var activity: Activity
+    private lateinit var kongService: KongFlightServices
+    var server: MockWebServer = MockWebServer()
+        @Rule get
 
     @Before
     fun setup() {
+        val interceptor = MockInterceptor()
+        val root = File("../lib/mocked/templates").canonicalPath
+        val opener = FileSystemOpener(root)
+        val logger = HttpLoggingInterceptor()
+        logger.level = HttpLoggingInterceptor.Level.BODY
+        server.setDispatcher(ExpediaDispatcher(opener))
+        kongService = KongFlightServices("http://localhost:" + server.port,
+                OkHttpClient.Builder().addInterceptor(logger).build(),
+                listOf(interceptor), Schedulers.trampoline(), Schedulers.trampoline())
         activity = Robolectric.buildActivity(AppCompatActivity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Packages)
     }
 
     fun inflateAndSetViewModel() {
         sut = LayoutInflater.from(activity).inflate(R.layout.package_flight_results_presenter_stub, null) as FlightResultsListViewPresenter
-        sut.resultsViewModel = FlightResultsViewModel(context)
+        val flightResultsViewModel = FlightResultsViewModel(context)
+        flightResultsViewModel.kongFlightServices = kongService
+        sut.resultsViewModel = flightResultsViewModel
     }
 
     @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.VOYAGES, MultiBrand.TRAVELOCITY, MultiBrand.CHEAPTICKETS))

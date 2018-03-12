@@ -288,6 +288,11 @@ class ExpediaDispatcherTests {
     }
 
     @Test
+    fun testRequestWithRouteHappyPathReturnsMatchingReponse() {
+        assertPathReturnsMockBodyWithString("m/api/flight/getRichContent", null, "m/api/flight/routehappy/flight_route_happy.json")
+    }
+
+    @Test
     fun testRequestWithInsurancePathReturnsMatchingResponse() {
         val parameters = mapOf(Pair("tripId", "happy_round_trip_with_insurance_available"))
         assertPathReturnsMockBodyWithString("m/api/insurance", parameters, "api/flight/trip/create/happy_round_trip_with_insurance_available")

@@ -13,6 +13,7 @@ import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.BaggageInfoService;
 import com.expedia.bookings.services.FlightServices;
 import com.expedia.bookings.services.ItinTripServices;
+import com.expedia.bookings.services.KongFlightServices;
 import com.expedia.bookings.services.KrazyglueServices;
 import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder;
@@ -103,5 +104,16 @@ public final class FlightModule {
 	KrazyglueServices provideKrazyglueServices(EndpointProvider endpointProvider, OkHttpClient client) {
 		final String endpoint = endpointProvider.getKrazyglueEndpointUrl();
 		return new KrazyglueServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
+	}
+
+	@Provides
+	@FlightScope
+	KongFlightServices provideKongFlightServices(EndpointProvider endpointProvider, OkHttpClient client,
+		Interceptor interceptor, HMACInterceptor hmacInterceptor) {
+		List<Interceptor> interceptorList = new ArrayList<>();
+		interceptorList.add(interceptor);
+		interceptorList.add(hmacInterceptor);
+		return new KongFlightServices(endpointProvider.getKongEndpointUrl(), client, interceptorList,
+			AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 }

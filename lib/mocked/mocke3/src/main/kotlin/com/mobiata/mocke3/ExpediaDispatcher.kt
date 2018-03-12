@@ -24,6 +24,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
     private val sosApiRequestDispatcher = SOSApiRequestDispatcher(fileOpener)
     private val osApiRequestDispatcher = OSApiRequestDispatcher(fileOpener)
     private val travelGraphRequestDispatcher = TravelGraphApiRequestDispatcher(fileOpener)
+    private val flightMApiRequestDispatcher = FlightMApiRequestDispatcher(fileOpener)
 
     @Throws(InterruptedException::class)
     override fun dispatch(request: RecordedRequest): MockResponse {
@@ -69,6 +70,11 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         if (request.path.contains("/api/flight/baggagefees")) {
             var params = request.body.readUtf8()
             return dispatchBaggageInfo(params.contains("4"))
+        }
+        
+        // Flights MAPI
+        if (request.path.contains("/m/api/flight")) {
+            return flightMApiRequestDispatcher.dispatch(request)
         }
 
         // Flights API

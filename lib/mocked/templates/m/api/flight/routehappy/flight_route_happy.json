@@ -1,0 +1,39 @@
+{
+  "activityId": "80caa3d348d1437b8172c49fb62a537d",
+  "richContentList": [
+    {
+      "legId": "ab64aefca28e772ca024d4a00e6ae131",
+      "score": "8.1",
+      "superlative": "VERY_GOOD",
+      "legAmenities": {
+        "wifi": true,
+        "entertainment": true,
+        "power": true
+      },
+      "segmentAmenitiesList": [
+        {
+          "wifi": true,
+          "entertainment": true,
+          "power": true
+        }
+      ]
+    },
+    {
+      "legId": "df96c858c742c92c8d3d9ebd16428623",
+      "score": "8.4",
+      "superlative": "VERY_GOOD",
+      "legAmenities": {
+        "wifi": true,
+        "entertainment": true,
+        "power": true
+      },
+      "segmentAmenitiesList": [
+        {
+          "wifi": true,
+          "entertainment": true,
+          "power": true
+        }
+      ]
+    }
+  ]
+}
