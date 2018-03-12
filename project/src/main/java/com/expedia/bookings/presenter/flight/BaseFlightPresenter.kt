@@ -174,6 +174,8 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
             overviewPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             baggageFeeInfoWebView.visibility = View.GONE
             paymentFeeInfoWebView.visibility = View.GONE
+            resultsPresenter.recyclerView.isEnabled = true
+            resultsPresenter.filterButton.isClickable = true
             filter.visibility = View.INVISIBLE
             postDelayed({ AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar) }, 50L)
         }
@@ -182,7 +184,10 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     open class OverviewTransition(override val presenter: BaseFlightPresenter) : ScaleTransition(presenter, FlightResultsListViewPresenter::class.java, FlightOverviewPresenter::class.java) {
         @CallSuper override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
+            // Disable filter button and recycler view clicks while transitioning to overview screen.
             presenter.toolbarViewModel.menuVisibilitySubject.onNext(false)
+            presenter.resultsPresenter.recyclerView.isEnabled = !forward
+            presenter.resultsPresenter.filterButton.isClickable = !forward
         }
 
         @CallSuper override fun endTransition(forward: Boolean) {
