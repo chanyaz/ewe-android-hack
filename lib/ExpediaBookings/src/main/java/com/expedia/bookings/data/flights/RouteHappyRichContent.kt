@@ -9,4 +9,10 @@ class RouteHappyRichContent {
     var scoreExpression = ""
     var legAmenities: RouteHappyAmenity? = null
     var segmentAmenitiesList: List<RouteHappyAmenity> = emptyList()
+
+    class RouteHappyAmenity {
+        var wifi = false
+        var entertainment = false
+        var power = false
+    }
 }

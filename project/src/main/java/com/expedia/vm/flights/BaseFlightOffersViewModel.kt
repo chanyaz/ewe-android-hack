@@ -11,6 +11,7 @@ import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightSearchResponse
 import com.expedia.bookings.data.flights.FlightSearchResponse.FlightSearchType
 import com.expedia.bookings.data.flights.FlightTripDetails
+import com.expedia.bookings.data.flights.RouteHappyResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
@@ -340,6 +341,22 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
             }
 
             override fun onComplete() {
+            }
+        }
+    }
+
+    fun makeRouteHappyObserver(): Observer<RouteHappyResponse> {
+        return object : DisposableObserver<RouteHappyResponse>() {
+            override fun onComplete() {
+                // DO Nothing...
+            }
+
+            override fun onNext(resp: RouteHappyResponse) {
+                // TODO process for Flight Results
+            }
+
+            override fun onError(error: Throwable) {
+                // DO Nothing...
             }
         }
     }
