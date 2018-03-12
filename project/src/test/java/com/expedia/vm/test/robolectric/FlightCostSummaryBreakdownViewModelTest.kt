@@ -293,6 +293,7 @@ class FlightCostSummaryBreakdownViewModelTest {
 
     @Test
     fun testBreakdownWithSubPubNoFeesNoInsuranceEuroCurrency() {
+        val currentLocale = Locale.getDefault()
         Locale.setDefault(Locale.ITALY)
         setupSystemUnderTest()
         setUpFlightSubPubChange()
@@ -331,6 +332,7 @@ class FlightCostSummaryBreakdownViewModelTest {
         val breakdownRows = breakdownRowsTestObservable.values()[0]
         assertEquals(9, breakdownRows.size)
         assertEvents(expectedBreakdown, breakdownRows)
+        Locale.setDefault(currentLocale)
     }
 
     private fun setupInsuranceFees() {
