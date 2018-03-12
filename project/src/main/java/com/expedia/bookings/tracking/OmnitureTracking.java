@@ -3441,13 +3441,12 @@ public class OmnitureTracking {
 		}
 
 		if (trackingEvents != null) {
-			s.setEvents(trackingEvents);
+			s.appendEvents(trackingEvents);
 		}
 
 		if (userStateManager.isUserAuthenticated()) {
-			String usersTripComponentTypeEventString = getUsersTripComponentTypeEventString();
-			if (!usersTripComponentTypeEventString.isEmpty()) {
-				s.setEvents(usersTripComponentTypeEventString);
+			appendUsersEventString(s);
+			if (!getUsersTrips().isEmpty()) {
 				s.setProp(75, TripUtils.createUsersProp75String(getUsersTrips()));
 			}
 		}
