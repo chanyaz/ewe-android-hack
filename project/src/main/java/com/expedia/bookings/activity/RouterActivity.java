@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.RawRes;
+import android.support.annotation.VisibleForTesting;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -70,7 +71,7 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 	RouterToSignInTimeLogger routerToSignInTimeLogger;
 
 	@InjectView(R.id.root_layout)
-	ConstraintLayout rootLayout;
+	protected ConstraintLayout rootLayout;
 
 	@InjectView(R.id.start_animation_view)
 	LottieAnimationView startAnimationView;
@@ -91,16 +92,14 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		setTheme(R.style.SplashThemeAfterLaunch);
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_router_launch_animation);
-		ButterKnife.inject(this);
-
-		// Setup the splash screen animations
-		setupAnimations();
-
-		// Start the first animation
-		startAnimationView.playAnimation();
+		if (ProductFlavorFeatureConfiguration.getInstance().isSplashLoadingAnimationEnabled()) {
+			setTheme(R.style.SplashThemeForLoadingAnimation);
+			super.onCreate(savedInstanceState);
+			setupActivityForAnimationsAndBeginAnimation();
+		}
+		else {
+			super.onCreate(savedInstanceState);
+		}
 
 		Ui.getApplication(this).appComponent().inject(this);
 
@@ -121,6 +120,17 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 		Ui.getApplication(this).updateFirstLaunchAndUpdateSettings();
 
 		userStateManager.ensureUserStateSanity(this);
+	}
+
+	public void setupActivityForAnimationsAndBeginAnimation() {
+		setContentView(R.layout.activity_router_launch_animation);
+		ButterKnife.inject(this);
+
+		// Setup the splash screen animations
+		setupAnimations();
+
+		// Start the first animation
+		startAnimationView.playAnimation();
 	}
 
 	private void setupAnimations() {
@@ -172,12 +182,13 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 			@Override
 			public void onAnimationEnd(Animator animation) {
 				super.onAnimationEnd(animation);
-				launchScreenSelection(endAnimationView);
+				launchNextActivityWithLoadingAnimationScreen(endAnimationView);
 			}
 		});
 	}
 
-	private void notifyAnimationsThatDataHasLoaded() {
+	@VisibleForTesting
+	protected void notifyAnimationsThatDataHasLoaded() {
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
@@ -273,14 +284,25 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 				AbacusHelperUtils.updateAbacus(new AbacusResponse(), RouterActivity.this);
 				cacheLaunchNavBucket(0);
 			}
-			notifyAnimationsThatDataHasLoaded();
+
+			if (ProductFlavorFeatureConfiguration.getInstance().isSplashLoadingAnimationEnabled()) {
+				notifyAnimationsThatDataHasLoaded();
+			}
+			else {
+				launchNextActivityWithStaticScreen();
+			}
 		}
 
 		@Override
 		public void onNext(AbacusResponse abacusResponse) {
 			cacheLaunchNavBucket(abacusResponse.variateForTest(AbacusUtils.EBAndroidAppBottomNavTabs));
 			AbacusHelperUtils.updateAbacus(abacusResponse, RouterActivity.this);
-			notifyAnimationsThatDataHasLoaded();
+			if (ProductFlavorFeatureConfiguration.getInstance().isSplashLoadingAnimationEnabled()) {
+				notifyAnimationsThatDataHasLoaded();
+			}
+			else {
+				launchNextActivityWithStaticScreen();
+			}
 		}
 	};
 
@@ -300,7 +322,8 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 	 * Tell facebook we installed the app every time we launch!
 	 * This is asynchronous, and after we get a success message back from FB this call no longer does anything at all.
 	 */
-	private void facebookInstallTracking() {
+	@VisibleForTesting
+	protected void facebookInstallTracking() {
 		AppEventsLogger.activateApp(this);
 	}
 
@@ -345,7 +368,7 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 		}
 	}
 
-	public void launchScreenSelection(View sharedView) {
+	public void launchNextActivityWithLoadingAnimationScreen(View sharedView) {
 		LaunchDestination destination = getLaunchDestination();
 		int revealX = (int) (sharedView.getX() + sharedView.getWidth() / 2);
 		int revealY = (int) (sharedView.getY() + sharedView.getHeight() / 2);
@@ -380,6 +403,28 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 		}
 
 		overridePendingTransition(R.anim.hold, R.anim.hold);
+	}
+
+	public void launchNextActivityWithStaticScreen() {
+		final LaunchDestination destination = getLaunchDestination();
+		Handler handler = new Handler(Looper.getMainLooper());
+		handler.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				if (showNewUserOnboarding()) {
+					NavUtils.goToOnboardingScreen(RouterActivity.this);
+				}
+				else if (destination == LaunchDestination.LAUNCH_SCREEN) {
+					NavUtils.goToLaunchScreen(RouterActivity.this);
+				}
+				else {
+					NavUtils.goToSignIn(RouterActivity.this);
+				}
+
+				finish();
+				overridePendingTransition(R.anim.hold, R.anim.slide_down_splash);
+			}
+		}, getResources().getInteger(android.R.integer.config_longAnimTime));
 	}
 
 	private LaunchDestination getLaunchDestination() {

@@ -398,12 +398,11 @@
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
         <item name="android:background">@drawable/splash_screen</item>
-        <item name="android:navigationBarColor">@color/brand_secondary</item>
-        <item name="android:statusBarColor">@color/brand_secondary</item>
     </style>
 
-    <style name="SplashThemeAfterLaunch" parent="SplashTheme">
+    <style name="SplashThemeForLoadingAnimation" parent="SplashTheme">
         <item name="android:background">@null</item>
         <item name="android:windowAnimationStyle">@null</item>
     </style>

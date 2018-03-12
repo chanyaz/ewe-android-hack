@@ -83,6 +83,11 @@ public class NavUtils {
 		}
 	}
 
+	public static void goToOnboardingScreen(Context context) {
+		Intent intent = new Intent(context, OnboardingActivity.class);
+		context.startActivity(intent);
+	}
+
 	public static void goToOnboardingScreen(Context context, Bundle animOptions, int revealXPos, int revealYPos, int backgroundColor) {
 		Intent intent = new Intent(context, OnboardingActivity.class);
 		intent.putExtra(ActivityTransitionCircularRevealHelper.ARG_CIRCULAR_REVEAL_X, revealXPos);

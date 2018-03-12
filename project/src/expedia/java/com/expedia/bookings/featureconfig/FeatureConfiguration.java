@@ -72,6 +72,11 @@ public class FeatureConfiguration extends BaseFeatureConfiguration {
 		return "expedia";
 	}
 
+	@Override
+	public boolean isSplashLoadingAnimationEnabled() {
+		return true;
+	}
+
 	public boolean isAppIntroEnabled() {
 		return true;
 	}
