@@ -52,7 +52,7 @@ class FlightTravelerFrequentFlyerWidgetTooltipTest {
     }
 
     @Test
-    fun testTooltipVisibilityOFFWhenABTestIsBucketed() {
+    fun testTooltipVisibilityONWhenABTestIsBucketed() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFrequentFlierTooltip)
 
         val widget = LayoutInflater.from(activity).inflate(R.layout.test_flight_entry_widget, null) as FlightTravelerEntryWidget

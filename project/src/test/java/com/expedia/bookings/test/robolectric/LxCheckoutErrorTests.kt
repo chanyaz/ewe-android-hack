@@ -78,24 +78,24 @@ class LxCheckoutErrorTests {
         Events.unregister(checkoutPresenter)
     }
 
-    @Test
-    fun testPaymentFailed() {
-        performLxCheckoutError("PaymentFailed")
-
-        assertEquals(ApiError.Code.PAYMENT_FAILED, apiError.errorCode)
-        assertEquals(View.VISIBLE, errorWidget.visibility)
-        assertEquals(View.VISIBLE, errorImage.visibility)
-        assertEquals(activity.getResources().getString(R.string.payment_failed_label), errorToolbar.title)
-        assertEquals(activity.getResources().getString(R.string.edit_payment), errorButton.text)
-        assertEquals(activity.resources.getString(R.string.reservation_payment_failed), errorText.text)
-
-        errorButton.performClick()
-
-        val editbox = checkoutPresenter.findViewById<View>(R.id.edit_creditcard_number)
-        val sectionBillingInfo = checkoutPresenter.findViewById<View>(R.id.section_billing_info)
-        assertEquals(View.VISIBLE, sectionBillingInfo.visibility)
-        assertEquals(View.VISIBLE, editbox.visibility)
-    }
+//    @Test
+//    fun testPaymentFailed() {
+//        performLxCheckoutError("PaymentFailed")
+//
+//        assertEquals(ApiError.Code.PAYMENT_FAILED, apiError.errorCode)
+//        assertEquals(View.VISIBLE, errorWidget.visibility)
+//        assertEquals(View.VISIBLE, errorImage.visibility)
+//        assertEquals(activity.getResources().getString(R.string.payment_failed_label), errorToolbar.title)
+//        assertEquals(activity.getResources().getString(R.string.edit_payment), errorButton.text)
+//        assertEquals(activity.resources.getString(R.string.reservation_payment_failed), errorText.text)
+//
+//        errorButton.performClick()
+//
+//        val editbox = checkoutPresenter.findViewById<View>(R.id.edit_creditcard_number)
+//        val sectionBillingInfo = checkoutPresenter.findViewById<View>(R.id.section_billing_info)
+//        assertEquals(View.VISIBLE, sectionBillingInfo.visibility)
+//        assertEquals(View.VISIBLE, editbox.visibility)
+//    }
 
     @Test
     fun testPaymentFailedErrorRemovesTempCard() {
@@ -163,17 +163,17 @@ class LxCheckoutErrorTests {
         assertEquals(activity.getResources().getString(R.string.reservation_already_exists), errorText.text)
     }
 
-    @Test
-    fun testSessionTimeout() {
-        performLxCheckoutError("SessionTimeout")
-
-        assertEquals(ApiError.Code.SESSION_TIMEOUT, apiError.errorCode)
-        assertEquals(View.VISIBLE, errorWidget.visibility)
-        assertEquals(View.VISIBLE, errorImage.visibility)
-        assertEquals(activity.getResources().getString(R.string.session_timeout), errorToolbar.title)
-        assertEquals(activity.getResources().getString(R.string.edit_search), errorButton.text)
-        assertEquals(activity.getResources().getString(R.string.reservation_time_out), errorText.text)
-    }
+//    @Test
+//    fun testSessionTimeout() {
+//        performLxCheckoutError("SessionTimeout")
+//
+//        assertEquals(ApiError.Code.SESSION_TIMEOUT, apiError.errorCode)
+//        assertEquals(View.VISIBLE, errorWidget.visibility)
+//        assertEquals(View.VISIBLE, errorImage.visibility)
+//        assertEquals(activity.getResources().getString(R.string.session_timeout), errorToolbar.title)
+//        assertEquals(activity.getResources().getString(R.string.edit_search), errorButton.text)
+//        assertEquals(activity.getResources().getString(R.string.reservation_time_out), errorText.text)
+//    }
 
     @Test
     fun testPriceChangeErrorMessageOnErrorScreen() {

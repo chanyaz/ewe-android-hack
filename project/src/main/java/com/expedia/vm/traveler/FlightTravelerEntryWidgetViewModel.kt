@@ -22,7 +22,7 @@ class FlightTravelerEntryWidgetViewModel(val context: Context, travelerIndex: In
     val additionalNumberOfInvalidFields = PublishSubject.create<Int>()
     val flightLegsObservable = PublishSubject.create<List<FlightLeg>>()
     val frequentFlyerPlans = PublishSubject.create<FlightCreateTripResponse.FrequentFlyerPlans>()
-    var frequentFlyerAdapterViewModel = FrequentFlyerAdapterViewModel(getTraveler())
+    val frequentFlyerAdapterViewModel = FrequentFlyerAdapterViewModel(getTraveler())
 
     init {
         updateTraveler(getTraveler())
@@ -37,7 +37,6 @@ class FlightTravelerEntryWidgetViewModel(val context: Context, travelerIndex: In
             numberOfInvalidFields.onNext(numberOfInvalidFields.value + newNumberOfInvalidFields)
         }
 
-        frequentFlyerAdapterViewModel = FrequentFlyerAdapterViewModel(getTraveler())
         flightLegsObservable.subscribe(frequentFlyerAdapterViewModel.flightLegsObservable)
         frequentFlyerPlans.subscribe(frequentFlyerAdapterViewModel.frequentFlyerPlans)
     }
