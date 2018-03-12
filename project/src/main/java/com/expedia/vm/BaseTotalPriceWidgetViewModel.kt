@@ -40,7 +40,8 @@ abstract class BaseTotalPriceWidgetViewModel(isSlidable: Boolean) {
 
     fun getMoneyFormatFlag(): Int {
 
-        return if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.JAPAN) Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL
+        val pointOfSale = PointOfSale.getPointOfSale().pointOfSaleId
+        return if (pointOfSale == PointOfSaleId.JAPAN || pointOfSale == PointOfSaleId.SOUTH_KOREA) Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL
         else Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL
     }
 
