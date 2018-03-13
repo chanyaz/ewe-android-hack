@@ -143,7 +143,6 @@
                 android:id="@+id/frequent_flyer_tooltip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/expand_advanced_button_cont_desc"
                 android:text="@string/add_anytime_before_your_flight"
                 android:textColor="@color/gray600"
                 android:textSize="14dp" />
