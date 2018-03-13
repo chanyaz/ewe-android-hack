@@ -1,6 +1,10 @@
 package com.expedia.bookings.dagger;
 
+import android.content.Context;
+
 import com.expedia.bookings.dagger.tags.TripScope;
+import com.expedia.bookings.itin.utils.IWebViewLauncher;
+import com.expedia.bookings.itin.utils.WebViewLauncher;
 import com.expedia.bookings.model.PointOfSaleStateModel;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.itin.ItinPageUsableTracking;
@@ -45,5 +49,11 @@ public final class TripModule {
 	@TripScope
 	ItinPageUsableTracking provideItinPageUsableTracking() {
 		return new ItinPageUsableTracking();
+	}
+
+	@Provides
+	@TripScope
+	IWebViewLauncher provideWebViewLauncher(Context context) {
+		return new WebViewLauncher(context);
 	}
 }
