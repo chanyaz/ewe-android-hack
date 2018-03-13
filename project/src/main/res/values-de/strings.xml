@@ -201,6 +201,14 @@
     <string name="redemption_location_activity_details">Treffpunkt/Einlöseort</string>
     <!-- Instruction at the bottom of lx infosite map to select an activity from the list -->
     <string name="select_an_activity_instruction">Aktivität auswählen</string>
+    <!-- MIP header text on SRP. eg. Because you booked with Expedia -->
+    <string name="mip_srp_header_brand_TEMPLATE">Weil Sie bei {brand} gebucht haben</string>
+    <!-- Max discount available in selected activities. Eg. Save up to 36% on select activities -->
+    <string name="mip_srp_header_discount_TEMPLATE">Sparen Sie bis zu {discount}% bei ausgewählten Aktivitäten</string>
+    <!-- Discount for selected activity on infosite. Eg. Book now and get up to 9% off -->
+    <string name="mip_infosite_discount_TEMPLATE">Jetzt buchen und bis zu {discount}% Rabatt erhalten</string>
+    <!-- Discount for each activity on SRP tile. Eg. -9% -->
+    <string name="mip_srp_tile_discount_TEMPLATE">-{discount}%</string>
 
     <!-- Activity details inclusions heading -->
     <string name="inclusions_activity_details">Leistungen</string>
@@ -590,7 +598,7 @@
     <!-- Infant age label on flight checkout traveler summary card-->
     <string name="flight_checkout_infant_age_label">Unter 2</string>
     <!-- Text informing guest that main travler is checking into hotel-->
-    <string name="traveler_main_message">Der Hauptreisende muss im Hotel einchecken. Er muss mindestens 18 sein.</string>
+    <string name="traveler_main_message">Der Hauptreisende (Mindestalter: 18 Jahre) muss im Hotel einchecken.</string>
     <!-- Text for enter traveler details-->
     <string name="traveler_enter_details_text">Angaben zum Reisenden eingeben</string>
     <!--Price sort button -->
@@ -818,8 +826,8 @@
     <string name="nav_transport">Transfers</string>
     <!-- Packages -->
     <string name="nav_packages">Click&amp;Mix-Angebote</string>
-    <string name="nav_hotel_plus_flight_deals">Hotel+Flug-Angebote</string>
-    <string name="nav_hotel_plus_flight">Hotel + Flug</string>
+    <string name="nav_hotel_plus_flight_deals">Flug+Hotel-Angebote</string>
+    <string name="nav_hotel_plus_flight">Flug + Hotel</string>
     <string name="nav_flight_plus_hotel">Flug + Hotel</string>
     <!-- Rail -->
     <string name="nav_rail">Züge</string>
@@ -2186,6 +2194,8 @@
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">Kreditkartennummer</string>
+    <!-- New Credit Card field hint which will show MM/YY -->
+    <string name="new_credit_card_expiry_hint">MM/JJ</string>
     <!-- Credit Card field hint; this version calls out that debit cards are also acceptable -->
     <string name="credit_debit_card_hint">Neue Debit-/Kreditkarte eingeben</string>
     <!-- Expiration date label -->
@@ -3890,7 +3900,7 @@
     <string name="package_toolbar_close_cont_desc">Suchfenster schließen</string>
     <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
     <string name="package_toolbar_back_to_search_cont_desc">Zurück zum Suchfenster</string>
-    <string name="package_toolbar_title">Hotel + Flug</string>
+    <string name="package_toolbar_title">Flug + Hotel</string>
     <!-- Accessibility - Content Description for Expiration date: increase month -->
     <string name="increase_month_cont_desc">Monat erhöhen</string>
     <!-- Accessibility - Content Description for Expiration date: decrease month -->
@@ -3906,7 +3916,7 @@
     <!-- Accessibility - Content Description for showing list fab on hotel search result -->
     <string name="show_list">Liste aufrufen</string>
     <!-- Label for package bundle price on overview-->
-    <string name="bundle_total_text">Gesamtpreis der Click&amp;Mix-Reise</string>
+    <string name="bundle_total_text">Gesamtpreis der Reise</string>
     <!-- Label for package bundle price on search-->
     <string name="search_bundle_total_text">Click&amp;Mix-Reise anzeigen</string>
     <!-- Label for package bundle price on search (revamped)-->
@@ -4030,6 +4040,11 @@
         <item quantity="one">Nur noch {seats} Sitzplatz zu diesem Preis</item>
         <item quantity="other">Nur noch {seats} Sitzplätze zu diesem Preis</item>
     </plurals>
+    <!-- Flight seats left urgency message on checkout e.g. We have 4 seats left at this price -->
+    <plurals name="flight_seats_left_urgency_message_on_checkout_TEMPLATE">
+        <item quantity="one">Bei uns nur noch {seats} Sitzplatz zu diesem Preis</item>
+        <item quantity="other">Bei uns nur noch {seats} Sitzplätze zu diesem Preis</item>
+    </plurals>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am -1d -->
     <string name="flight_departure_arrival_time_negative_days_TEMPLATE">{departuretime} - {arrivaltime} (- {elapseddays} T.)</string>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
@@ -4099,7 +4114,7 @@
         <item quantity="other">Hotel in {city} – 1 Zimmer, {number} Nächte</item>
     </plurals>
     <!-- Label for Package Banner on Flight Search Results Screen -->
-    <string name="flight_package_banner_title">Hotel + Flug</string>
+    <string name="flight_package_banner_title">Flug + Hotel</string>
     <!-- Description for Package Banner on Flight Search Results Screen -->
     <string name="flight_package_banner_description">Sparen Sie, wenn Sie Ihre Flüge und Hotels zusammen buchen</string>
     <!-- Accessibility announcement when showing Flight Search Results with Package Banner on top Eg. Flight + Hotel. Save when you book your flights and hotels together. Button -->
@@ -4171,7 +4186,7 @@
     </plurals>
         <string name="package_flight_overview_baggage_fees">Gepäckgebühren</string>
     <string name="package_flight_overview_select_flight">Diesen Flug auswählen</string>
-    <string name="package_flight_overview_bundle_total_label">Gesamtpreis der Click&amp;Mix-Reise</string>
+    <string name="package_flight_overview_bundle_total_label">Gesamtpreis der Reise</string>
     <string name="package_flight_overview_per_person_TEMPLATE">{money}/Person</string>
     <string name="package_flight_overview_departure_arrival_TEMPLATE">{departurecity} ({departureairportcode}) – {arrivalcity} ({arrivalairportcode})</string>
     <!-- Flight segment departure to arrival, content description. Example: (SFO) San Francisco to (DEN) Denver -->
@@ -4385,7 +4400,7 @@
     <!-- Cost summary breakdown line item for taxes and fees that are included in the base price, e.g. Taxes &amp; Fees Included ($34.21) -->
     <string name="cost_summary_breakdown_taxes_fees_included_TEMPLATE">Steuern und Gebühren inbegriffen ({taxes})</string>
     <!-- Cost summary breakdown line item for savings -->
-    <string name="cost_summary_breakdown_total_savings">Paketreise-Rabatt</string>
+    <string name="cost_summary_breakdown_total_savings">Ihr Vorteilsrabatt</string>
     <!-- Cost summary breakdown line item for total -->
     <string name="cost_summary_breakdown_total_due_today">Heute fälliger Betrag</string>
 
@@ -4613,11 +4628,11 @@
     <string name="flight_overview_price_widget_button_open_TEMPLATE">Der Gesamtpreis der Reise beträgt {price_per_person} pro Person. Inklusive Steuern und Gebühren. Schaltfläche zum Anzeigen von Flügen.</string>
 
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
-    <string name="bundle_overview_price_widget_TEMPLATE">Der Gesamtpreis der Click&amp;Mix-Reise beträgt {totalprice}. Im Preis sind Steuern und Gebühren für Flüge und Hotel enthalten. {savings}</string>
+    <string name="bundle_overview_price_widget_TEMPLATE">Der Gesamtpreis der Reise beträgt {totalprice}. Im Preis sind Steuern und Gebühren für Flüge und Hotel enthalten. {savings}</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
-    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Der Gesamtpreis der Click&amp;Mix-Reise beträgt {totalprice}. Im Preis sind Steuern und Gebühren für Flüge und Hotel enthalten. {savings}. Dialogfeld mit Kostenaufschlüsselung. Schaltfläche.</string>
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Der Gesamtpreis der Reise beträgt {totalprice}. Im Preis sind Steuern und Gebühren für Flüge und Hotel enthalten. {savings}. Dialogfeld mit Kostenaufschlüsselung. Schaltfläche.</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
-    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Der Gesamtpreis der Click&amp;Mix-Reise ist {price_per_person} pro Person. Im Preis sind Steuern und Gebühren für Flüge und Hotel enthalten. Schaltfläche zum Anzeigen der Click&amp;Mix-Reise.</string>
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Der Gesamtpreis der Reise beträgt {price_per_person} pro Person. Im Preis sind Steuern und Gebühren für Flüge und Hotel enthalten. Schaltfläche zum Anzeigen der Click&amp;Mix-Reise.</string>
     <!--Content description for Bundle sliding widget, when it's opened. Example: Trip to Seattle, WA. March 6 to March 7, 1 traveller-->
     <string name="trip_overview_price_widget_expanded_TEMPLATE">Reise nach {city_name}. Von {startdate} bis {enddate}, {guests}</string>
     <!-- Package filter checkbox.

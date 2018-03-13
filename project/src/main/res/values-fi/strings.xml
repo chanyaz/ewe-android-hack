@@ -201,6 +201,14 @@
     <string name="redemption_location_activity_details">Tapaamis-/lunastusosoite</string>
     <!-- Instruction at the bottom of lx infosite map to select an activity from the list -->
     <string name="select_an_activity_instruction">Valitse aktiviteetti</string>
+    <!-- MIP header text on SRP. eg. Because you booked with Expedia -->
+    <string name="mip_srp_header_brand_TEMPLATE">Koska varasit {brand}lta</string>
+    <!-- Max discount available in selected activities. Eg. Save up to 36% on select activities -->
+    <string name="mip_srp_header_discount_TEMPLATE">saat jopa {discount} % alennuksen huippuaktiviteeteista</string>
+    <!-- Discount for selected activity on infosite. Eg. Book now and get up to 9% off -->
+    <string name="mip_infosite_discount_TEMPLATE">Varaa nyt ja hyödynnä jopa {discount} % alennus</string>
+    <!-- Discount for each activity on SRP tile. Eg. -9% -->
+    <string name="mip_srp_tile_discount_TEMPLATE">–{discount} %</string>
 
     <!-- Activity details inclusions heading -->
     <string name="inclusions_activity_details">Sisältyy hintaan</string>
@@ -2186,6 +2194,8 @@
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">Luottokortin numero</string>
+    <!-- New Credit Card field hint which will show MM/YY -->
+    <string name="new_credit_card_expiry_hint">KK/VV</string>
     <!-- Credit Card field hint; this version calls out that debit cards are also acceptable -->
     <string name="credit_debit_card_hint">Anna uuden pankki-/luottokortin tiedot</string>
     <!-- Expiration date label -->
@@ -4029,6 +4039,11 @@
     <plurals name="flight_seats_left_urgency_message_TEMPLATE">
         <item quantity="one">{seats} jäljellä tähän hintaan</item>
         <item quantity="other">{seats} jäljellä tähän hintaan</item>
+    </plurals>
+    <!-- Flight seats left urgency message on checkout e.g. We have 4 seats left at this price -->
+    <plurals name="flight_seats_left_urgency_message_on_checkout_TEMPLATE">
+        <item quantity="one">{seats} istuinpaikka jäljellä tähän hintaan</item>
+        <item quantity="other">{seats} istuinpaikkaa jäljellä tähän hintaan</item>
     </plurals>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am -1d -->
     <string name="flight_departure_arrival_time_negative_days_TEMPLATE">{departuretime} – {arrivaltime} -{elapseddays} pv</string>

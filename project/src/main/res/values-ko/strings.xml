@@ -201,6 +201,14 @@
     <string name="redemption_location_activity_details">집합/사용 주소</string>
     <!-- Instruction at the bottom of lx infosite map to select an activity from the list -->
     <string name="select_an_activity_instruction">즐길거리 선택</string>
+    <!-- MIP header text on SRP. eg. Because you booked with Expedia -->
+    <string name="mip_srp_header_brand_TEMPLATE">{brand}에서 예약하신 고객님께는</string>
+    <!-- Max discount available in selected activities. Eg. Save up to 36% on select activities -->
+    <string name="mip_srp_header_discount_TEMPLATE">일부 즐길거리를 최대 {discount}% 할인!</string>
+    <!-- Discount for selected activity on infosite. Eg. Book now and get up to 9% off -->
+    <string name="mip_infosite_discount_TEMPLATE">지금 예약하면 최대 {discount}% 할인</string>
+    <!-- Discount for each activity on SRP tile. Eg. -9% -->
+    <string name="mip_srp_tile_discount_TEMPLATE">-{discount}%</string>
 
     <!-- Activity details inclusions heading -->
     <string name="inclusions_activity_details">포함 사항</string>
@@ -2186,6 +2194,8 @@
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">신용카드 번호</string>
+    <!-- New Credit Card field hint which will show MM/YY -->
+    <string name="new_credit_card_expiry_hint">MM/YY</string>
     <!-- Credit Card field hint; this version calls out that debit cards are also acceptable -->
     <string name="credit_debit_card_hint">새 카드 입력</string>
     <!-- Expiration date label -->
@@ -4027,8 +4037,13 @@
 
     <!-- Label for Flight seats left urgency message. Example: 4 left at this price -->
     <plurals name="flight_seats_left_urgency_message_TEMPLATE">
-        <item quantity="one">{seats}개 좌석 남음</item>
-        <item quantity="other">{seats}개 좌석 남음</item>
+        <item quantity="one">이 요금으로 {seats}개 남음</item>
+        <item quantity="other">이 요금으로 {seats}개 남음</item>
+    </plurals>
+    <!-- Flight seats left urgency message on checkout e.g. We have 4 seats left at this price -->
+    <plurals name="flight_seats_left_urgency_message_on_checkout_TEMPLATE">
+        <item quantity="one">이 요금으로 {seats}개 좌석 남음</item>
+        <item quantity="other">이 요금으로 {seats}개 좌석 남음</item>
     </plurals>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am -1d -->
     <string name="flight_departure_arrival_time_negative_days_TEMPLATE">{departuretime} ~ {arrivaltime} (-{elapseddays}일)</string>

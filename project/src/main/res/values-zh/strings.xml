@@ -201,6 +201,14 @@
     <string name="redemption_location_activity_details">报到/兑换地址</string>
     <!-- Instruction at the bottom of lx infosite map to select an activity from the list -->
     <string name="select_an_activity_instruction">选择活动</string>
+    <!-- MIP header text on SRP. eg. Because you booked with Expedia -->
+    <string name="mip_srp_header_brand_TEMPLATE">因为您通过 {brand} 预订</string>
+    <!-- Max discount available in selected activities. Eg. Save up to 36% on select activities -->
+    <string name="mip_srp_header_discount_TEMPLATE">预订精选活动可享最高 {discount}% 折扣</string>
+    <!-- Discount for selected activity on infosite. Eg. Book now and get up to 9% off -->
+    <string name="mip_infosite_discount_TEMPLATE">现在预订，节省多达 {discount}%</string>
+    <!-- Discount for each activity on SRP tile. Eg. -9% -->
+    <string name="mip_srp_tile_discount_TEMPLATE">-{discount}%</string>
 
     <!-- Activity details inclusions heading -->
     <string name="inclusions_activity_details">包含的项目</string>
@@ -2186,6 +2194,8 @@
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">信用卡卡号</string>
+    <!-- New Credit Card field hint which will show MM/YY -->
+    <string name="new_credit_card_expiry_hint">MM/YY</string>
     <!-- Credit Card field hint; this version calls out that debit cards are also acceptable -->
     <string name="credit_debit_card_hint">输入新的借记卡或信用卡信息</string>
     <!-- Expiration date label -->
@@ -4029,6 +4039,11 @@
     <plurals name="flight_seats_left_urgency_message_TEMPLATE">
         <item quantity="one">此价格的机票还剩 {seats} 张</item>
         <item quantity="other">此价格的机票还剩 {seats} 张</item>
+    </plurals>
+    <!-- Flight seats left urgency message on checkout e.g. We have 4 seats left at this price -->
+    <plurals name="flight_seats_left_urgency_message_on_checkout_TEMPLATE">
+        <item quantity="one">此价格还剩 {seats} 个座位</item>
+        <item quantity="other">此价格还剩 {seats} 个座位</item>
     </plurals>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am -1d -->
     <string name="flight_departure_arrival_time_negative_days_TEMPLATE">{departuretime}- {arrivaltime} - {elapseddays} 天</string>
