@@ -14,7 +14,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
-import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
@@ -1093,11 +1092,6 @@ class HotelCheckoutPresenterTest {
     }
 
     private fun onCouponError() {
-        val error = ApiError()
-        error.errorCode = ApiError.Code.APPLY_COUPON_ERROR
-        error.errorInfo = ApiError.ErrorInfo()
-        error.errorInfo.couponErrorType = "Expired"
-
         checkout.couponCardView.viewmodel.hasDiscountObservable.onNext(true)
         checkout.couponCardView.viewmodel.applyCouponViewModel.errorMessageObservable.onNext(activity.resources.getString(R.string.coupon_error_expired))
     }

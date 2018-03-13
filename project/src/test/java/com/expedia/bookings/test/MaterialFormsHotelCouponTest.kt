@@ -33,6 +33,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import java.util.concurrent.TimeUnit
@@ -267,6 +268,14 @@ class MaterialFormsHotelCouponTest {
 
         assertEquals(null, couponWidget.couponCode.getParentTextInputLayout()!!.error)
         assertFalse(couponWidget.couponCode.getParentTextInputLayout()!!.isErrorEnabled)
+    }
+
+    @Test
+    fun testMockErrorAnnounced() {
+        val mockWidget = Mockito.mock((checkout.couponCardView as MaterialFormsCouponWidget)::class.java)
+        mockWidget.announceForAccessibility("Sorry, but this coupon has expired.")
+
+        Mockito.verify(mockWidget).announceForAccessibility("Sorry, but this coupon has expired.")
     }
 
     @Test
