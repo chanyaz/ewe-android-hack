@@ -45,7 +45,14 @@ jacocoTestReport {
 }
 
 checkstyle {
-    toolVersion = '6.2'
+    toolVersion = "${checkstyle_version}"
+}
+
+task checkstyle(type: Checkstyle) {
+    configFile rootProject.file('project/checkstyle.xml')
+    source 'src/'
+    include '**/*.java'
+
+    classpath = files()
     ignoreFailures = false
-    configFile = rootProject.file('project/checkstyle.xml')
 }
