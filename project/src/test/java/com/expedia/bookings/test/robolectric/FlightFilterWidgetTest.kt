@@ -73,6 +73,7 @@ class FlightFilterWidgetTest {
         assertEquals(View.GONE, firstStop.logoImage.visibility)
         assertEquals("1 Stop", firstStop.stopsLabel.text)
         assertEquals("$200", firstStop.resultsLabel.text)
+        assertEquals("1 Stop flights starting from $200. Cannot be deselected, all flight results are 1 Stop. Checkbox. Checked.", firstStop.contentDescription.toString())
     }
 
     @Test
@@ -123,6 +124,7 @@ class FlightFilterWidgetTest {
         assertEquals(View.VISIBLE, firstAirlineFilter.logoImage.visibility)
         assertEquals("American Airlines", firstAirlineFilter.stopsLabel.text)
         assertEquals("$200", firstAirlineFilter.resultsLabel.text)
+        assertEquals("American Airlines flights starting from $200 Checkbox. Unchecked.", firstAirlineFilter.contentDescription.toString())
     }
 
     @Test
@@ -157,6 +159,7 @@ class FlightFilterWidgetTest {
         assertEquals("$200", firstAirlineFilter.resultsLabel.text)
         assertEquals(View.VISIBLE, firstAirlineFilter.countLabel.visibility)
         assertEquals("3 results", firstAirlineFilter.countLabel.text)
+        assertEquals("3 available American Airlines flights starting from $200 Checkbox. Unchecked.", firstAirlineFilter.contentDescription.toString())
     }
 
     fun setViewModel() {

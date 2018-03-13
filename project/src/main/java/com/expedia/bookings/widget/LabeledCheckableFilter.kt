@@ -48,7 +48,7 @@ open class LabeledCheckableFilter<T>(context: Context, attrs: AttributeSet) : Re
         this.isClickable = false
     }
 
-    fun refreshContentDescription() {
+    open fun refreshContentDescription() {
         val contentDesc = StringBuilder(Phrase.from(context, R.string.packages_flight_filter_checkbox_cont_desc_TEMPLATE)
                 .put("filter_name", stopsLabel.text)
                 .put("filter_results", resultsLabel.text)
@@ -61,7 +61,7 @@ open class LabeledCheckableFilter<T>(context: Context, attrs: AttributeSet) : Re
         this.contentDescription = contentDesc
     }
 
-    fun setDisabledContentDescription() {
+    open fun setDisabledContentDescription() {
         val contentDesc = StringBuilder(Phrase.from(context, R.string.packages_flight_filter_checkbox_disabled_cont_desc_TEMPLATE)
                 .put("filter_name", stopsLabel.text)
                 .put("filter_results", resultsLabel.text)
