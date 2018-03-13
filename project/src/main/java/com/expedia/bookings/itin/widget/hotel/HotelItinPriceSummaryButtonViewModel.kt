@@ -46,4 +46,3 @@ class HotelItinPriceSummaryButtonViewModel<S>(scope: S) : ItinBookingInfoCardVie
         }
     }
 }
-

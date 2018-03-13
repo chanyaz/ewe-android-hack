@@ -3,7 +3,7 @@ package com.expedia.bookings.itin.utils
 import android.content.Context
 import com.squareup.phrase.Phrase
 
-class StringProvider(val context: Context): StringSource {
+class StringProvider(val context: Context) : StringSource {
 
     override fun fetch(stringResource: Int): String {
         return context.resources.getText(stringResource).toString()
