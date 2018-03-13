@@ -1,4 +1,4 @@
-package com.expedia.bookings.itin
+package com.expedia.bookings.itin.scopes
 
 import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinHotel

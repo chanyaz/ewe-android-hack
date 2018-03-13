@@ -1369,6 +1369,12 @@
     <string name="itin_hotel_details_manage_booking_subheading">Change, cancel and support</string>
     <!--Hotel itin card price summary heading-->
     <string name="itin_hotel_details_price_summary_heading">Price summary</string>
+    <!--Hotel itin card price summary and rewards heading-->
+    <string name="itin_hotel_details_price_summary_rewards_heading">Pricing and Rewards</string>
+    <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
+    <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">{amount} total amount paid</string>
+    <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
+    <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">{amount} total due at hotel</string>
     <!--Hotel itin card additional info heading-->
     <string name="itin_hotel_details_additional_info_heading">Additional information</string>
     <!--Hotel itin checkin text-->
