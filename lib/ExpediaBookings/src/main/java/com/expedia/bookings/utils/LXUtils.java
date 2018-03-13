@@ -128,8 +128,7 @@ public class LXUtils {
 				if (activity.mipDiscountPercentage > 0) {
 					activityMIPDP = activity.mipDiscountPercentage;
 				}
-				if (activity.discountType != null && activity.discountType.equals(Constants.LX_AIR_MIP))
-				{
+				if (activity.discountType != null && activity.discountType.equals(Constants.LX_AIR_MIP)) {
 					maxPromoPricingDiscountForResult = Math.max(activityMIPDP, maxPromoPricingDiscountForResult);
 				}
 			}
