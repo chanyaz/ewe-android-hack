@@ -7,6 +7,7 @@ import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.scopes.HasWebViewLauncher
 import com.expedia.bookings.itin.tripstore.data.PaymentModel
 import com.expedia.bookings.itin.widget.common.ItinBookingInfoCardViewModel
+import com.expedia.bookings.tracking.TripsTracking
 
 class HotelItinPriceSummaryButtonViewModel<S>(scope: S) : ItinBookingInfoCardViewModel where S : HasItin, S : HasHotel, S : HasStringProvider, S : HasWebViewLauncher {
 
@@ -40,6 +41,7 @@ class HotelItinPriceSummaryButtonViewModel<S>(scope: S) : ItinBookingInfoCardVie
         cardClickListener = {
             if (detailsUrl != null && tripNumber != null) {
                 scope.webViewLauncher.launchWebViewActivity(R.string.itin_hotel_details_price_summary_heading, detailsUrl, "price-header", tripNumber)
+                TripsTracking.trackHotelItinPricingRewardsClick()
             }
         }
     }
