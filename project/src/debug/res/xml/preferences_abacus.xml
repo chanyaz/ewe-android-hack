@@ -373,8 +373,8 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
-            android:key="25000"
-            android:title="Show Orbitz Reward Launch Card - 25000" />
+            android:key="25001"
+            android:title="Show Orbitz Reward Launch Card - 25001" />
 
     </PreferenceCategory>
 

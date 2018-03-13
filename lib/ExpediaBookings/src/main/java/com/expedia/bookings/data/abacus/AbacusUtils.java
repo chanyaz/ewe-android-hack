@@ -125,7 +125,7 @@ public class AbacusUtils {
 	// Launch
 	public static final ABTest EBAndroidAppBrandColors = new ABTest(15846);
 	public static final ABTest MesoAd = new ABTest(15842, true);
-	public static final ABTest RewardLaunchCard = new ABTest(25000, true);
+	public static final ABTest RewardLaunchCard = new ABTest(25001, true);
 	public static final ABTest EBAndroidAppBottomNavTabs = new ABTest(24528, true);
 	public static final ABTest DisableSignInPageAsFirstScreen = new ABTest(25030, true);
 
