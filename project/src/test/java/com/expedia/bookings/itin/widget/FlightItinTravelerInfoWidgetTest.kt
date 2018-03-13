@@ -4,7 +4,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.itin.vm.FlightTravelerInfoViewModel
+import com.expedia.bookings.itin.flight.traveler.FlightItinTravelerInfoViewModel
+import com.expedia.bookings.itin.flight.traveler.FlightItinTravelerInfoWidget
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import kotlinx.android.synthetic.main.itin_traveler_info_widget.view.*
 import org.junit.Before
@@ -22,7 +23,7 @@ class FlightItinTravelerInfoWidgetTest {
     fun setup() {
         context = RuntimeEnvironment.application
         sut = LayoutInflater.from(context).inflate(R.layout.test_widget_itin_traveler_info, null) as FlightItinTravelerInfoWidget
-        sut.viewModel = FlightTravelerInfoViewModel()
+        sut.viewModel = FlightItinTravelerInfoViewModel()
     }
 
     @Test

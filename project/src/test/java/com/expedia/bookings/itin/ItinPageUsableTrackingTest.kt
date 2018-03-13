@@ -5,6 +5,7 @@ import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateTracked
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.TripComponent
+import com.expedia.bookings.itin.common.ItinPageUsableTracking
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withEventsString
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before

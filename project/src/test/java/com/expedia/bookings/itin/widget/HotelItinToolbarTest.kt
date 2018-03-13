@@ -2,9 +2,10 @@ package com.expedia.bookings.itin.widget
 
 import android.view.LayoutInflater
 import com.expedia.bookings.R
-import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
-import com.expedia.bookings.itin.activity.HotelItinExpandedMapActivity
-import com.expedia.bookings.itin.activity.HotelItinManageBookingActivity
+import com.expedia.bookings.itin.hotel.details.HotelItinDetailsActivity
+import com.expedia.bookings.itin.hotel.common.HotelItinExpandedMapActivity
+import com.expedia.bookings.itin.hotel.manageBooking.HotelItinManageBookingActivity
+import com.expedia.bookings.itin.hotel.common.HotelItinToolbar
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder

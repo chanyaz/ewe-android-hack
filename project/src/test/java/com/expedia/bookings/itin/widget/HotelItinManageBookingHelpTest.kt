@@ -5,7 +5,8 @@ import android.view.View
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.itin.activity.HotelItinManageBookingActivity
+import com.expedia.bookings.itin.hotel.manageBooking.HotelItinManageBookingActivity
+import com.expedia.bookings.itin.hotel.manageBooking.HotelItinManageBookingHelp
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.ClipboardUtils

@@ -3,7 +3,7 @@ package com.expedia.bookings.itin.utils
 import android.content.Intent
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.TripsShareUrlShortenResponse
-import com.expedia.bookings.itin.activity.FlightItinDetailsActivity
+import com.expedia.bookings.itin.flight.details.FlightItinDetailsActivity
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.services.TripShareUrlShortenServiceInterface
 import com.expedia.bookings.extensions.subscribeObserver

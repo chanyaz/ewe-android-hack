@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.expedia.bookings.itin.widget.ItinToolbar
+        <com.expedia.bookings.itin.common.ItinToolbar
             android:id="@+id/widget_flight_itin_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
             android:paddingBottom="19dp"
             android:paddingTop="19dp">
 
-            <com.expedia.bookings.itin.widget.ItinConfirmationWidget
+            <com.expedia.bookings.itin.common.ItinConfirmationWidget
                 android:id="@+id/widget_itin_flight_confirmation_cardview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -42,22 +42,22 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />
 
-            <com.expedia.bookings.itin.widget.ItinTimeDurationWidget
+            <com.expedia.bookings.itin.common.ItinTimeDurationWidget
                 android:id="@+id/widget_itin_flight_total_duration_cardview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <com.expedia.bookings.itin.widget.ItinWebviewInfoWidget
+            <com.expedia.bookings.itin.common.ItinWebviewInfoWidget
                 android:id="@+id/widget_itin_webview_info_cardview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <com.expedia.bookings.itin.widget.FlightItinMapWidget
+            <com.expedia.bookings.itin.flight.details.FlightItinMapWidget
                 android:id="@+id/widget_itin_flight_map"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <com.expedia.bookings.itin.widget.FlightItinBookingDetailsWidget
+            <com.expedia.bookings.itin.flight.details.FlightItinBookingDetailsWidget
                 android:id="@+id/widget_flight_itin_booking_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

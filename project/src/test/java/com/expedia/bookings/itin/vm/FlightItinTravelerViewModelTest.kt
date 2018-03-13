@@ -7,6 +7,8 @@ import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.TripFlight
+import com.expedia.bookings.itin.common.ItinToolbarViewModel
+import com.expedia.bookings.itin.flight.traveler.FlightItinTravelerViewModel
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder

@@ -7,7 +7,7 @@ import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.itin.ItinPageUsableTracking
+import com.expedia.bookings.itin.common.ItinPageUsableTracking
 import com.expedia.bookings.notification.NotificationManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.model.UserLoginStateChangedModel

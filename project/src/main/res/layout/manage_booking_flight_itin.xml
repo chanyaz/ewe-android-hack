@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.expedia.bookings.itin.widget.ItinToolbar
+        <com.expedia.bookings.itin.common.ItinToolbar
             android:id="@+id/manage_booking_flight_itin_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,13 +42,13 @@
                 android:textStyle="normal"
                 android:fontFamily="sans-serif-medium" />
 
-            <com.expedia.bookings.itin.widget.FlightItinLegsDetailWidget
+            <com.expedia.bookings.itin.flight.manageBooking.FlightItinLegsDetailWidget
                 android:id="@+id/manage_booking_itin_flight_leg_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"/>
 
-            <com.expedia.bookings.itin.widget.ItinModifyReservationWidget
+            <com.expedia.bookings.itin.common.ItinModifyReservationWidget
                 android:id="@+id/flight_itin_modify_reservation_widget"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
                 android:layout_marginLeft="13dp"
                 android:layout_marginRight="13dp"/>
 
-            <com.expedia.bookings.itin.widget.FlightItinAirlineSupportDetailsWidget
+            <com.expedia.bookings.itin.flight.manageBooking.FlightItinAirlineSupportDetailsWidget
                 android:id="@+id/flight_itin_airline_support_widget"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
                 android:layout_marginLeft="13dp"
                 android:layout_marginRight="13dp"/>
 
-            <com.expedia.bookings.itin.widget.FlightItinCustomerSupportDetails
+            <com.expedia.bookings.itin.flight.manageBooking.FlightItinCustomerSupportDetails
                 android:id="@+id/flight_itin_customer_support_widget"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

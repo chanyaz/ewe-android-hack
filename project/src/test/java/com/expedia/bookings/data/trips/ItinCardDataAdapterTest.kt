@@ -6,7 +6,7 @@ import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateTracked
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.AirAttach
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.itin.ItinPageUsableTracking
+import com.expedia.bookings.itin.common.ItinPageUsableTracking
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withEventsString
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder

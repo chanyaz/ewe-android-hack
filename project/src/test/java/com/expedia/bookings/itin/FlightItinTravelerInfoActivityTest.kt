@@ -6,9 +6,9 @@ import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.trips.ItinCardDataFlight
-import com.expedia.bookings.itin.activity.FlightItinTravelerInfoActivity
-import com.expedia.bookings.itin.vm.FlightItinTravelerViewModel
-import com.expedia.bookings.itin.vm.FlightTravelerInfoViewModel
+import com.expedia.bookings.itin.flight.traveler.FlightItinTravelerInfoActivity
+import com.expedia.bookings.itin.flight.traveler.FlightItinTravelerViewModel
+import com.expedia.bookings.itin.flight.traveler.FlightItinTravelerInfoViewModel
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -40,7 +40,7 @@ class FlightItinTravelerInfoActivityTest {
         context = RuntimeEnvironment.application
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         sut.viewModel = FlightItinTravelerViewModel(context, "test123")
-        sut.travelerInfoViewModel = FlightTravelerInfoViewModel()
+        sut.travelerInfoViewModel = FlightItinTravelerInfoViewModel()
     }
 
     @Test

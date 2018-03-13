@@ -4,6 +4,8 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.itin.common.ItinBookingInfoCardView
+import com.expedia.bookings.itin.common.ItinBookingInfoCardViewModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Test
 import org.junit.runner.RunWith

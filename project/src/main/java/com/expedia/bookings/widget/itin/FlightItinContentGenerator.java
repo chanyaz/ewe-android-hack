@@ -38,7 +38,7 @@ import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.TicketingStatus;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
-import com.expedia.bookings.itin.ItinFlightLegSummarySection;
+import com.expedia.bookings.itin.flight.manageBooking.FlightItinLegSummarySection;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.text.HtmlCompat;
@@ -815,7 +815,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	}
 
 	private View getFlightView(Flight flight, DateTime minTime, DateTime maxTime) {
-		ItinFlightLegSummarySection v = (ItinFlightLegSummarySection) getLayoutInflater().inflate(
+		FlightItinLegSummarySection v = (FlightItinLegSummarySection) getLayoutInflater().inflate(
 				R.layout.section_flight_leg_summary_itin, null);
 		v.bindFlight(flight, minTime, maxTime);
 

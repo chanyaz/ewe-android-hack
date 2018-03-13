@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.TripHotelRoom
-import com.expedia.bookings.itin.activity.HotelItinManageBookingActivity
-import com.expedia.bookings.itin.data.ItinCardDataHotel
-import com.expedia.bookings.itin.widget.HotelItinRoomDetails
+import com.expedia.bookings.itin.hotel.manageBooking.HotelItinManageBookingActivity
+import com.expedia.bookings.data.trips.ItinCardDataHotel
+import com.expedia.bookings.itin.hotel.details.HotelItinRoomDetails
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import org.junit.Before

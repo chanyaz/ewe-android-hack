@@ -2,6 +2,7 @@ package com.expedia.bookings.itin.vm
 
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.flights.TravelerFrequentFlyerMembership
+import com.expedia.bookings.itin.flight.traveler.FlightItinTravelerPreferenceViewModel
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before

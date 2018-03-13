@@ -5,8 +5,9 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.itin.vm.FlightItinCustomerSupportDetailsViewModel
-import com.expedia.bookings.itin.vm.ItinCustomerSupportDetailsViewModel
+import com.expedia.bookings.itin.flight.manageBooking.FlightItinCustomerSupportDetailsViewModel
+import com.expedia.bookings.itin.common.ItinCustomerSupportDetailsViewModel
+import com.expedia.bookings.itin.flight.manageBooking.FlightItinCustomerSupportDetails
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.ClipboardUtils
 import com.squareup.phrase.Phrase

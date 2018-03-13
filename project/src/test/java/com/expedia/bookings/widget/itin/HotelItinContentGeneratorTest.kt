@@ -4,7 +4,7 @@ import android.content.Context
 import android.text.format.DateUtils
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.trips.TripHotel
-import com.expedia.bookings.itin.data.ItinCardDataHotel
+import com.expedia.bookings.data.trips.ItinCardDataHotel
 import com.expedia.bookings.notification.Notification
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils

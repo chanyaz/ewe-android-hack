@@ -4,6 +4,7 @@ import android.support.v4.app.FragmentActivity
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.TerminalMapActivity
+import com.expedia.bookings.itin.flight.details.FlightItinTerminalMapBottomSheet
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.TextView
 import org.junit.Test

@@ -19,7 +19,7 @@
         android:textSize="18sp"
         app:textStyle="medium" />
 
-    <com.expedia.bookings.itin.widget.HotelItinRoomDetails
+    <com.expedia.bookings.itin.hotel.details.HotelItinRoomDetails
         android:id="@+id/widget_hotel_itin_room_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -44,7 +44,7 @@
         android:visibility="gone"
         tools:visibility="visible" />
 
-    <com.expedia.bookings.itin.widget.ItinModifyReservationWidget
+    <com.expedia.bookings.itin.common.ItinModifyReservationWidget
         android:id="@+id/hotel_itin_modify_reservation_widget"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
         android:visibility="gone"
         tools:visibility="visible" />
 
-    <com.expedia.bookings.itin.widget.HotelItinManageBookingHelp
+    <com.expedia.bookings.itin.hotel.manageBooking.HotelItinManageBookingHelp
         android:id="@+id/widget_hotel_itin_manage_booking_help"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
         android:layout_marginTop="20dp" />
 
     <!--Customer Support-->
-    <com.expedia.bookings.itin.widget.HotelItinCustomerSupportDetails
+    <com.expedia.bookings.itin.hotel.manageBooking.HotelItinCustomerSupportDetails
         android:id="@+id/widget_hotel_itin_customer_support"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

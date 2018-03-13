@@ -2,6 +2,8 @@ package com.expedia.bookings.itin.vm
 
 import android.app.Activity
 import com.expedia.bookings.R
+import com.expedia.bookings.itin.common.ItinToolbarViewModel
+import com.expedia.bookings.itin.flight.common.FlightItinToolbarViewModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.squareup.phrase.Phrase
 import org.junit.Before

@@ -9,7 +9,7 @@ import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.TicketingStatus
 import com.expedia.bookings.data.trips.TripFlight
-import com.expedia.bookings.itin.activity.FlightItinDetailsActivity
+import com.expedia.bookings.itin.flight.details.FlightItinDetailsActivity
 import com.expedia.bookings.server.TripParser
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject

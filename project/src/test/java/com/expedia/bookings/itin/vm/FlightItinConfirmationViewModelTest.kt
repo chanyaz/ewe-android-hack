@@ -3,6 +3,7 @@ package com.expedia.bookings.itin.vm
 import android.app.Activity
 import android.content.Context
 import com.expedia.bookings.data.trips.TicketingStatus
+import com.expedia.bookings.itin.flight.details.FlightItinConfirmationViewModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Test

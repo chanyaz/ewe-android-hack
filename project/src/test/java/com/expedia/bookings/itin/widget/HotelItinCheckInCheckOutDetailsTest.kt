@@ -5,7 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.TripHotel
-import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
+import com.expedia.bookings.itin.hotel.details.HotelItinDetailsActivity
+import com.expedia.bookings.itin.hotel.details.HotelItinCheckInCheckOutDetails
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils

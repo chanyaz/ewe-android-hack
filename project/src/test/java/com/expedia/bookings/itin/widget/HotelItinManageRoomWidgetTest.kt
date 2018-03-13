@@ -7,7 +7,8 @@ import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.itin.vm.HotelItinManageRoomViewModel
+import com.expedia.bookings.itin.hotel.manageBooking.HotelItinManageRoomViewModel
+import com.expedia.bookings.itin.hotel.manageBooking.HotelItinManageRoomWidget
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Constants

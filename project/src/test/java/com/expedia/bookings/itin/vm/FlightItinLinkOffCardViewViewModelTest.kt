@@ -1,5 +1,7 @@
 package com.expedia.bookings.itin.vm
 
+import com.expedia.bookings.itin.common.ItinLinkOffCardViewViewModel
+import com.expedia.bookings.itin.flight.details.FlightItinLinkOffCardViewViewModel
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before

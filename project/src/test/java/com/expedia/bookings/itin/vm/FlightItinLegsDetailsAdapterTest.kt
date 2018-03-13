@@ -3,8 +3,8 @@ package com.expedia.bookings.itin.vm
 import android.content.Context
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.itin.adapter.FlightItinLegsDetailAdapter
-import com.expedia.bookings.itin.data.FlightItinLegsDetailData
+import com.expedia.bookings.itin.flight.manageBooking.FlightItinLegsDetailAdapter
+import com.expedia.bookings.itin.flight.manageBooking.FlightItinLegsDetailData
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.squareup.phrase.Phrase
 import org.junit.Before

@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.expedia.bookings.itin.widget.HotelItinToolbar
+        <com.expedia.bookings.itin.hotel.common.HotelItinToolbar
             android:id="@+id/widget_hotel_itin_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,19 +34,19 @@
             android:paddingTop="19dp">
 
             <!--Hotel thumbnail-->
-            <com.expedia.bookings.itin.widget.HotelItinImageWidget
+            <com.expedia.bookings.itin.hotel.details.HotelItinImageWidget
                 android:id="@+id/hotel_itin_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <!--Check in/out info-->
-            <com.expedia.bookings.itin.widget.HotelItinCheckInCheckOutDetails
+            <com.expedia.bookings.itin.hotel.details.HotelItinCheckInCheckOutDetails
                 android:id="@+id/widget_hotel_itin_checkin_checkout_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <!--Map and directions-->
-            <com.expedia.bookings.itin.widget.HotelItinLocationDetails
+            <com.expedia.bookings.itin.hotel.details.HotelItinLocationDetails
                 android:id="@+id/widget_hotel_itin_location_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -72,7 +72,7 @@
                 android:orientation="vertical" />
 
             <!--Booking details-->
-            <com.expedia.bookings.itin.widget.HotelItinBookingDetails
+            <com.expedia.bookings.itin.hotel.details.HotelItinBookingDetails
                 android:id="@+id/widget_hotel_itin_booking_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

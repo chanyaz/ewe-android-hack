@@ -6,7 +6,8 @@ import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
+import com.expedia.bookings.itin.hotel.details.HotelItinDetailsActivity
+import com.expedia.bookings.itin.hotel.details.HotelItinImageWidget
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder

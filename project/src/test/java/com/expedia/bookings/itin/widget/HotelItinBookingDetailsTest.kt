@@ -7,10 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
-import com.expedia.bookings.itin.data.ItinCardDataHotel
+
 import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinDetailsResponse
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
+import com.expedia.bookings.data.trips.ItinCardDataHotel
+import com.expedia.bookings.itin.hotel.details.HotelItinBookingDetails
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import com.mobiata.mocke3.mockObject

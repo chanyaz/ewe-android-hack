@@ -5,7 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
-import com.expedia.bookings.itin.vm.FlightItinLegsDetailWidgetViewModel
+import com.expedia.bookings.itin.flight.manageBooking.FlightItinLegsDetailWidgetViewModel
+import com.expedia.bookings.itin.flight.manageBooking.FlightItinLegsDetailWidget
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.TextView
 import org.junit.Before

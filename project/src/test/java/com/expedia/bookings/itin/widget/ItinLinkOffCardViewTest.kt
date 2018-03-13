@@ -6,6 +6,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.itin.common.ItinLinkOffCardView
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.TextView
 import org.junit.Before

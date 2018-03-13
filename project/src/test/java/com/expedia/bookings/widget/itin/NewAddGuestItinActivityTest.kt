@@ -1,6 +1,6 @@
 package com.expedia.bookings.widget.itin
 
-import com.expedia.bookings.itin.activity.NewAddGuestItinActivity
+import com.expedia.bookings.itin.common.NewAddGuestItinActivity
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Test

@@ -2,6 +2,8 @@ package com.expedia.bookings.itin.vm
 
 import android.app.Activity
 import android.content.Context
+import com.expedia.bookings.itin.common.ItinToolbarViewModel
+import com.expedia.bookings.itin.flight.traveler.FlightItinTravelerToolBarViewModel
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
@@ -22,7 +24,7 @@ class TravelerItinToolBarViewModelTest {
     @Before
     fun setup() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        sut = TravelerItinToolBarViewModel(activity)
+        sut = FlightItinTravelerToolBarViewModel(activity)
         context = RuntimeEnvironment.application
     }
 

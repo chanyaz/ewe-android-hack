@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.expedia.bookings.itin.activity.FlightItinTravelerInfoActivity">
+    tools:context="com.expedia.bookings.itin.flight.traveler.FlightItinTravelerInfoActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.expedia.bookings.itin.widget.ItinToolbar
+        <com.expedia.bookings.itin.common.ItinToolbar
             android:id="@+id/widget_traveler_itin_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
                 android:text="@string/traveler_information"
                 android:layout_marginBottom="3dp"/>
 
-            <com.expedia.bookings.itin.widget.FlightItinTravelerInfoWidget
+            <com.expedia.bookings.itin.flight.traveler.FlightItinTravelerInfoWidget
                 android:id="@+id/traveler_info_card_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -64,7 +64,7 @@
                 android:text="@string/itin_flight_traveler_preferences"
                 android:layout_marginBottom="3dp"/>
 
-            <com.expedia.bookings.itin.widget.FlightItinTravelerPreferenceWidget
+            <com.expedia.bookings.itin.flight.traveler.FlightItinTravelerPreferenceWidget
                 android:id="@+id/preferences_card_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

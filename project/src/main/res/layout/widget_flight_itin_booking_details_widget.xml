@@ -18,26 +18,26 @@
             android:textSize="18sp"
             app:textStyle="medium" />
 
-        <com.expedia.bookings.itin.widget.ItinLinkOffCardView
+        <com.expedia.bookings.itin.common.ItinLinkOffCardView
             android:id="@+id/itin_flight_manage_booking_card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:clickable="true" />
 
-        <com.expedia.bookings.itin.widget.ItinLinkOffCardView
+        <com.expedia.bookings.itin.common.ItinLinkOffCardView
             android:id="@+id/itin_flight_traveler_info_card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true" />
 
-        <com.expedia.bookings.itin.widget.ItinLinkOffCardView
+        <com.expedia.bookings.itin.common.ItinLinkOffCardView
             android:id="@+id/itin_flight_price_summary_card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true" />
 
-        <com.expedia.bookings.itin.widget.ItinLinkOffCardView
+        <com.expedia.bookings.itin.common.ItinLinkOffCardView
             android:id="@+id/itin_flight_additional_info_card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

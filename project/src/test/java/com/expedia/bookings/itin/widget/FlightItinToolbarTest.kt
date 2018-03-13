@@ -4,7 +4,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.itin.vm.FlightItinToolbarViewModel
+import com.expedia.bookings.itin.flight.common.FlightItinToolbarViewModel
+import com.expedia.bookings.itin.common.ItinToolbar
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before

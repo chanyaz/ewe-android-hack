@@ -3,6 +3,8 @@ package com.expedia.bookings.itin.vm
 import android.app.Activity
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.itin.common.ItinLinkOffCardViewViewModel
+import com.expedia.bookings.itin.flight.details.FlightItinBookingInfoViewModel
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder

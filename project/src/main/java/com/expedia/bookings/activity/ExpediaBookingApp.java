@@ -49,7 +49,7 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager;
-import com.expedia.bookings.itin.services.FlightRegistrationHandler;
+import com.expedia.bookings.itin.flight.common.FlightRegistrationHandler;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.CrossContextHelper;

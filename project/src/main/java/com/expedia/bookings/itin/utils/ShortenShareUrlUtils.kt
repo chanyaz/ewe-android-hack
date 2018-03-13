@@ -16,7 +16,8 @@ class ShortenShareUrlUtils private constructor(context: Context) {
 
         fun getInstance(context: Context): ShortenShareUrlUtils =
                 INSTANCE ?: synchronized(this) {
-                    INSTANCE ?: createInstance(context).also {
+                    INSTANCE
+                            ?: createInstance(context).also {
                         INSTANCE = it
                     }
                 }

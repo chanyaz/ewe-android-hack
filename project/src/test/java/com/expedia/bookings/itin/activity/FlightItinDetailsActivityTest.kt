@@ -4,6 +4,7 @@ import android.content.Intent
 import android.text.format.DateUtils
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.data.trips.ItinCardDataFlight
+import com.expedia.bookings.itin.flight.details.FlightItinDetailsActivity
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner

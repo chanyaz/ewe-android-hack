@@ -1,6 +1,7 @@
 package com.expedia.bookings.itin.vm
 
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.itin.flight.traveler.FlightItinTravelerInfoViewModel
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
@@ -9,7 +10,7 @@ import org.junit.runner.RunWith
 
 @RunWith(RobolectricRunner::class)
 class FlightTravelerInfoViewModelTest {
-    private lateinit var sut: FlightTravelerInfoViewModel
+    private lateinit var sut: FlightItinTravelerInfoViewModel
     private val testString = "123456"
     private val createTravelerSubscriber = TestObserver<Traveler>()
     private val createTravelerNameSubscriber = TestObserver<CharSequence>()
@@ -20,7 +21,7 @@ class FlightTravelerInfoViewModelTest {
 
     @Before
     fun setup() {
-        sut = FlightTravelerInfoViewModel()
+        sut = FlightItinTravelerInfoViewModel()
     }
 
     @Test

@@ -21,10 +21,10 @@ import com.expedia.bookings.data.trips.ItinCardDataAdapter;
 import com.expedia.bookings.data.trips.ItinCardDataRails;
 import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
-import com.expedia.bookings.itin.activity.FlightItinDetailsActivity;
-import com.expedia.bookings.itin.activity.HotelItinDetailsActivity;
-import com.expedia.bookings.itin.activity.LegacyItinCardDataActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.itin.flight.details.FlightItinDetailsActivity;
+import com.expedia.bookings.itin.hotel.details.HotelItinDetailsActivity;
+import com.expedia.bookings.itin.common.LegacyItinCardDataActivity;
 import com.mobiata.android.Log;
 
 @SuppressWarnings("rawtypes")

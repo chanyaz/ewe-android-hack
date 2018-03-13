@@ -33,7 +33,7 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.itin.data.ItinCardDataHotel;
+import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.notification.Notification.StatusType;

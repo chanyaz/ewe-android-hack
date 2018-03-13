@@ -5,6 +5,7 @@ import com.expedia.bookings.itin.helpers.ItinMocker
 import com.expedia.bookings.itin.helpers.MockStringProvider
 import com.expedia.bookings.itin.helpers.MockTripsTracking
 import com.expedia.bookings.itin.helpers.MockWebViewLauncher
+import com.expedia.bookings.itin.hotel.details.HotelItinPriceSummaryButtonViewModel
 import com.expedia.bookings.itin.scopes.HasHotel
 import com.expedia.bookings.itin.scopes.HasItin
 import com.expedia.bookings.itin.scopes.HasStringProvider

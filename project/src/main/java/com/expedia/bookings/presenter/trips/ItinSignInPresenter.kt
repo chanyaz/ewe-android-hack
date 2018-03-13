@@ -7,8 +7,8 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
-import com.expedia.bookings.itin.ItinPageUsableTracking
-import com.expedia.bookings.itin.activity.NewAddGuestItinActivity
+import com.expedia.bookings.itin.common.ItinPageUsableTracking
+import com.expedia.bookings.itin.common.NewAddGuestItinActivity
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.tracking.OmnitureTracking

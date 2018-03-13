@@ -2,6 +2,7 @@ package com.expedia.bookings.itin.vm
 
 import android.app.Activity
 import com.expedia.bookings.R
+import com.expedia.bookings.itin.flight.details.FlightItinSegmentSummaryViewModel
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands

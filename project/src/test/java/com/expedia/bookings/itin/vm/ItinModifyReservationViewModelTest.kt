@@ -2,6 +2,7 @@ package com.expedia.bookings.itin.vm
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.itin.hotel.manageBooking.HotelItinModifyReservationViewModel
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before

@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.expedia.bookings.itin.widget.HotelItinToolbar
+        <com.expedia.bookings.itin.hotel.common.HotelItinToolbar
             android:id="@+id/widget_hotel_itin_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

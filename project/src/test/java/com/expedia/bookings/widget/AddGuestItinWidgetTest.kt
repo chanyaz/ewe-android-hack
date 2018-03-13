@@ -5,7 +5,7 @@ import android.support.design.widget.TextInputLayout
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItineraryManager
-import com.expedia.bookings.itin.activity.NewAddGuestItinActivity
+import com.expedia.bookings.itin.common.NewAddGuestItinActivity
 import com.expedia.bookings.presenter.trips.AddGuestItinWidget
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.itin.AddGuestItinViewModel

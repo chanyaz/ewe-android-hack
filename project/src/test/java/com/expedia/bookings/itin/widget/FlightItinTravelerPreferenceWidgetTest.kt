@@ -5,7 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.TravelerFrequentFlyerMembership
-import com.expedia.bookings.itin.vm.FlightItinTravelerPreferenceViewModel
+import com.expedia.bookings.itin.flight.traveler.FlightItinTravelerPreferenceViewModel
+import com.expedia.bookings.itin.flight.traveler.FlightItinTravelerPreferenceWidget
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Test

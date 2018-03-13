@@ -9,7 +9,11 @@ import com.expedia.bookings.data.trips.FlightConfirmation
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.TripFlight
-import com.expedia.bookings.itin.data.FlightItinLegsDetailData
+import com.expedia.bookings.itin.flight.manageBooking.FlightItinLegsDetailData
+import com.expedia.bookings.itin.common.ItinCustomerSupportDetailsViewModel
+import com.expedia.bookings.itin.common.ItinToolbarViewModel
+import com.expedia.bookings.itin.flight.manageBooking.FlightItinAirlineSupportDetailsViewModel
+import com.expedia.bookings.itin.flight.manageBooking.FlightItinManageBookingViewModel
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.JodaUtils

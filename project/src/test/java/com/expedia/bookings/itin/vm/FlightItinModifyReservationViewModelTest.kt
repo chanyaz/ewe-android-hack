@@ -4,6 +4,7 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.TripAction
 import com.expedia.bookings.data.trips.TripFlight
+import com.expedia.bookings.itin.flight.manageBooking.FlightItinModifyReservationViewModel
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder

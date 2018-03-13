@@ -148,7 +148,7 @@
             tools:ignore="UnusedAttribute" />
 
         <activity
-            android:name="com.expedia.bookings.itin.activity.LegacyItinCardDataActivity"
+            android:name="com.expedia.bookings.itin.common.LegacyItinCardDataActivity"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:theme="@style/LaunchTheme.Light"
@@ -156,7 +156,7 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name="com.expedia.bookings.itin.activity.HotelItinDetailsActivity"
+            android:name="com.expedia.bookings.itin.hotel.details.HotelItinDetailsActivity"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:theme="@style/ItinTheme"
@@ -164,7 +164,7 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name="com.expedia.bookings.itin.activity.HotelItinManageBookingActivity"
+            android:name="com.expedia.bookings.itin.hotel.manageBooking.HotelItinManageBookingActivity"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:theme="@style/ItinTheme"
@@ -172,7 +172,7 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name="com.expedia.bookings.itin.activity.HotelItinExpandedMapActivity"
+            android:name="com.expedia.bookings.itin.hotel.common.HotelItinExpandedMapActivity"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:theme="@style/ItinTheme"
@@ -180,7 +180,7 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name="com.expedia.bookings.itin.activity.FlightItinDetailsActivity"
+            android:name="com.expedia.bookings.itin.flight.details.FlightItinDetailsActivity"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:theme="@style/ItinTheme"
@@ -188,7 +188,7 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name="com.expedia.bookings.itin.activity.FlightItinTravelerInfoActivity"
+            android:name="com.expedia.bookings.itin.flight.traveler.FlightItinTravelerInfoActivity"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:theme="@style/ItinTheme"
@@ -196,7 +196,7 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name="com.expedia.bookings.itin.activity.FlightItinManageBookingActivity"
+            android:name="com.expedia.bookings.itin.flight.manageBooking.FlightItinManageBookingActivity"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:theme="@style/ItinTheme"
@@ -204,7 +204,7 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name="com.expedia.bookings.itin.activity.NewAddGuestItinActivity"
+            android:name="com.expedia.bookings.itin.common.NewAddGuestItinActivity"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
@@ -458,7 +458,7 @@
             android:authorities="@string/authority_account_sync"
             android:exported="false" />
 
-        <receiver android:name="com.expedia.bookings.itin.ItinShareTargetBroadcastReceiver">
+        <receiver android:name="com.expedia.bookings.itin.utils.ItinShareTargetBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.extra.CHOSEN_COMPONENT" />
             </intent-filter>

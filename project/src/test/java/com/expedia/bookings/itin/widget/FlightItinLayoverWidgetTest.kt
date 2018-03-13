@@ -4,8 +4,9 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.itin.vm.FlightItinLayoverViewModel
-import com.expedia.bookings.itin.vm.ItinTimeDurationViewModel
+import com.expedia.bookings.itin.flight.details.FlightItinLayoverViewModel
+import com.expedia.bookings.itin.common.ItinTimeDurationViewModel
+import com.expedia.bookings.itin.common.ItinTimeDurationWidget
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Test

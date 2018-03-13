@@ -32,7 +32,7 @@ import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.dialog.NoLocationPermissionDialog;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
-import com.expedia.bookings.itin.ItinLaunchScreenHelper;
+import com.expedia.bookings.itin.common.ItinLaunchScreenHelper;
 import com.expedia.bookings.launch.vm.BigImageLaunchViewModel;
 import com.expedia.bookings.launch.vm.LaunchLobViewModel;
 import com.expedia.bookings.meso.MesoDestinationViewHolder;

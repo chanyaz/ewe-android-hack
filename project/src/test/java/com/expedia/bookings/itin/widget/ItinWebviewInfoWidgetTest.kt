@@ -7,8 +7,9 @@ import android.view.View
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
-import com.expedia.bookings.itin.vm.FlightItinBagaggeInfoViewModel
-import com.expedia.bookings.itin.vm.ItinWebviewInfoButtonViewModel
+import com.expedia.bookings.itin.flight.details.FlightItinBagaggeInfoViewModel
+import com.expedia.bookings.itin.common.ItinWebviewInfoButtonViewModel
+import com.expedia.bookings.itin.common.ItinWebviewInfoWidget
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
 import kotlinx.android.synthetic.main.widget_itin_webview_button.view.card_view

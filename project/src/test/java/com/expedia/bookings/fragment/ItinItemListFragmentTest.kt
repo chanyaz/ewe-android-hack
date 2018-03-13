@@ -13,8 +13,8 @@ import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.data.trips.TripComponent
-import com.expedia.bookings.itin.ItinPageUsableTracking
-import com.expedia.bookings.itin.activity.NewAddGuestItinActivity
+import com.expedia.bookings.itin.common.ItinPageUsableTracking
+import com.expedia.bookings.itin.common.NewAddGuestItinActivity
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withEventsString
 import com.expedia.bookings.test.RunForBrands

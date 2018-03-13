@@ -6,6 +6,11 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.TicketingStatus
+import com.expedia.bookings.itin.common.ItinConfirmationViewModel
+import com.expedia.bookings.itin.common.ItinToolbarViewModel
+import com.expedia.bookings.itin.flight.details.FlightItinBookingInfoViewModel
+import com.expedia.bookings.itin.flight.details.FlightItinDetailsViewModel
+import com.expedia.bookings.itin.flight.details.FlightItinSegmentSummaryViewModel
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.JodaUtils

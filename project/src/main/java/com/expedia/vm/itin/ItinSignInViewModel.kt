@@ -12,7 +12,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.trips.Trip
-import com.expedia.bookings.itin.ItinPageUsableTracking
+import com.expedia.bookings.itin.common.ItinPageUsableTracking
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender

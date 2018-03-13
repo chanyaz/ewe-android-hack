@@ -15,7 +15,7 @@ import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.data.trips.TripComponent
 import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
-import com.expedia.bookings.itin.ItinShareTargetBroadcastReceiver
+import com.expedia.bookings.itin.utils.ItinShareTargetBroadcastReceiver
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.mobiata.android.util.SettingUtils
 

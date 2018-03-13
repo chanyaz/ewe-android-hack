@@ -1,10 +1,10 @@
 package com.expedia.bookings.dagger;
 
 import com.expedia.bookings.dagger.tags.TripScope;
-import com.expedia.bookings.itin.activity.NewAddGuestItinActivity;
+import com.expedia.bookings.itin.common.NewAddGuestItinActivity;
 import com.expedia.bookings.presenter.trips.ItinSignInPresenter;
 import com.expedia.bookings.presenter.trips.AddGuestItinWidget;
-import com.expedia.bookings.itin.ItinPageUsableTracking;
+import com.expedia.bookings.itin.common.ItinPageUsableTracking;
 import com.expedia.bookings.services.TripShareUrlShortenServiceInterface;
 import com.expedia.bookings.services.TripsServicesInterface;
 import com.expedia.bookings.widget.itin.ItinPOSHeader;

@@ -5,7 +5,8 @@ import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.itin.vm.FlightItinSegmentSummaryViewModel
+import com.expedia.bookings.itin.flight.details.FlightItinSegmentSummaryViewModel
+import com.expedia.bookings.itin.flight.details.FlightItinSegmentSummaryWidget
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Test

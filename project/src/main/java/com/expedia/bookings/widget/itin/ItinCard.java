@@ -35,7 +35,7 @@ import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.itin.utils.ShareTripHelper;
+import com.expedia.bookings.itin.utils.ItinShareTripHelper;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.AnimUtils;
@@ -1073,7 +1073,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	}
 
 	private void showNativeShareDialog() {
-		ShareTripHelper shareTripHelper = new ShareTripHelper(getContext(), mItinContentGenerator.getItinCardData());
+		ItinShareTripHelper shareTripHelper = new ItinShareTripHelper(getContext(), mItinContentGenerator.getItinCardData());
 		shareTripHelper.fetchShortShareUrlShowShareDialog();
 	}
 

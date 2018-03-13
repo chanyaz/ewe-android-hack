@@ -2,6 +2,7 @@ package com.expedia.bookings.itin.vm
 
 import android.app.Activity
 import android.content.Context
+import com.expedia.bookings.itin.flight.common.FlightItinOmnitureUtils
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
 import org.junit.Before

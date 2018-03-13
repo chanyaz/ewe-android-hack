@@ -7,8 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
-import com.expedia.bookings.R.id.itin_flight_confirmation_container
-import com.expedia.bookings.itin.vm.FlightItinConfirmationViewModel
+import com.expedia.bookings.itin.flight.details.FlightItinConfirmationViewModel
+import com.expedia.bookings.itin.common.ItinConfirmationWidget
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.FlightClickAbleSpan
 import com.expedia.bookings.widget.TextView

@@ -31,7 +31,7 @@ import com.expedia.bookings.data.hotels.HotelSearchParams;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
-import com.expedia.bookings.itin.data.ItinCardDataHotel;
+import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.services.HotelServices;

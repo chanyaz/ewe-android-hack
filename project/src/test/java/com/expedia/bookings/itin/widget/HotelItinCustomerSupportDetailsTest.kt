@@ -9,8 +9,9 @@ import com.expedia.bookings.OmnitureTestUtils.Companion.assertLinkTracked
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.itin.activity.HotelItinManageBookingActivity
-import com.expedia.bookings.itin.data.ItinCardDataHotel
+import com.expedia.bookings.itin.hotel.manageBooking.HotelItinManageBookingActivity
+import com.expedia.bookings.data.trips.ItinCardDataHotel
+import com.expedia.bookings.itin.hotel.manageBooking.HotelItinCustomerSupportDetails
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.ClipboardUtils
 import com.expedia.bookings.utils.Ui

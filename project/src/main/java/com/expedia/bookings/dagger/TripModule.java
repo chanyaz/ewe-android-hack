@@ -3,7 +3,7 @@ package com.expedia.bookings.dagger;
 import com.expedia.bookings.dagger.tags.TripScope;
 import com.expedia.bookings.model.PointOfSaleStateModel;
 import com.expedia.bookings.server.EndpointProvider;
-import com.expedia.bookings.itin.ItinPageUsableTracking;
+import com.expedia.bookings.itin.common.ItinPageUsableTracking;
 import com.expedia.bookings.services.TripShareUrlShortenService;
 import com.expedia.bookings.services.TripShareUrlShortenServiceInterface;
 import com.expedia.bookings.services.TripsServices;

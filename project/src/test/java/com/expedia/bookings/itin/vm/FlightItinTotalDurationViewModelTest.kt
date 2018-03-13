@@ -1,6 +1,8 @@
 package com.expedia.bookings.itin.vm
 
 import android.app.Activity
+import com.expedia.bookings.itin.common.ItinTimeDurationViewModel
+import com.expedia.bookings.itin.flight.details.FlightItinTotalDurationViewModel
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before

@@ -47,7 +47,7 @@ import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.ItinConfirmRemoveDialogFragment;
-import com.expedia.bookings.itin.data.ItinCardDataHotel;
+import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.OmnitureTracking;

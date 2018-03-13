@@ -10,7 +10,7 @@ import android.widget.AdapterView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.TerminalMapFragment;
 import com.expedia.bookings.fragment.TerminalMapLegendDialogFragment;
-import com.expedia.bookings.itin.widget.ToolbarWithSpinner;
+import com.expedia.bookings.itin.common.ItinToolbarWithSpinner;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.AirportMap;
@@ -42,7 +42,7 @@ public class TerminalMapActivity extends AppCompatActivity {
 
 		setContentView(R.layout.terminal_maps_container_with_toolbar);
 
-		ToolbarWithSpinner toolbar = findViewById(R.id.toolbar);
+		ItinToolbarWithSpinner toolbar = findViewById(R.id.toolbar);
 		toolbar.setButtonListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {

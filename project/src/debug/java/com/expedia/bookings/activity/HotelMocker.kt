@@ -7,8 +7,8 @@ import android.view.animation.AnimationUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.TripHotel
-import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
-import com.expedia.bookings.itin.data.ItinCardDataHotel
+import com.expedia.bookings.itin.hotel.details.HotelItinDetailsActivity
+import com.expedia.bookings.data.trips.ItinCardDataHotel
 import com.expedia.bookings.server.TripParser
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject

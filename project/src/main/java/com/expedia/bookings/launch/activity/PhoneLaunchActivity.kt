@@ -39,7 +39,7 @@ import com.expedia.bookings.fragment.AccountSettingsFragment
 import com.expedia.bookings.fragment.ItinItemListFragment
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
 import com.expedia.bookings.fragment.SoftPromptDialogFragment
-import com.expedia.bookings.itin.data.ItinCardDataHotel
+import com.expedia.bookings.data.trips.ItinCardDataHotel
 import com.expedia.bookings.launch.fragment.PhoneLaunchFragment
 import com.expedia.bookings.launch.widget.LaunchTabView
 import com.expedia.bookings.launch.widget.PhoneLaunchToolbar

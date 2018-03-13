@@ -14,7 +14,7 @@ import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.itin.data.ItinCardDataHotel;
+import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.test.MultiBrand;
 import com.expedia.bookings.test.RunForBrands;

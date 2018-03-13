@@ -6,7 +6,8 @@ import android.view.View
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
-import com.expedia.bookings.itin.vm.FlightItinMapWidgetViewModel
+import com.expedia.bookings.itin.flight.details.FlightItinMapWidgetViewModel
+import com.expedia.bookings.itin.flight.details.FlightItinMapWidget
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
