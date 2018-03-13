@@ -3,6 +3,7 @@ package com.expedia.bookings.widget.traveler
 import android.content.Context
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.text.Editable
@@ -24,6 +25,8 @@ import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.BehaviorSubject
 import java.util.ArrayList
+import android.view.autofill.AutofillManager
+import android.view.autofill.AutofillValue
 
 class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(context, attrs), View.OnFocusChangeListener {
     var valid = true
@@ -36,6 +39,7 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
     private var textChangedSubscription: Disposable? = null
     private var errorSubscription: Disposable? = null
     private var onFocusChangeListeners = ArrayList<OnFocusChangeListener>()
+    private var autoFillManager: AutofillManager? = null
 
     var viewModel: BaseTravelerValidatorViewModel by notNullAndObservable {
         viewModel.textSubject.subscribeEditText(this)
@@ -59,6 +63,9 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
             } finally {
                 attrSet.recycle()
             }
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            autoFillManager = context.getSystemService(AutofillManager::class.java)
         }
     }
 
@@ -132,12 +139,28 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
     }
 
     override fun onFocusChange(view: View?, hasFocus: Boolean) {
-        if (!hasFocus) {
+        if (hasFocus) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if (text.isEmpty()) {
+                    // Prevents incorrect auto-fill content from popping up
+                    autoFillManager?.cancel()
+                }
+            }
+        } else {
             viewModel.validate()
         }
         onFocusChangeListeners.forEach { listener ->
             listener.onFocusChange(view, hasFocus)
         }
+    }
+
+    /**
+     * This function validates the field after it's auto-filled. We are doing this because the error was sometimes
+     * popping up after auto-filling as if the field was empty.
+     */
+    override fun autofill(value: AutofillValue?) {
+        super.autofill(value)
+        viewModel.validate()
     }
 
     private inner class TravelerTextWatcher : TextWatcher {

@@ -4,7 +4,10 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.accessibility.AccessibilityNodeInfo
+import android.view.autofill.AutofillValue
+import com.expedia.account.BuildConfig
 import com.expedia.bookings.R
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.traveler.TravelerEditText
 import com.expedia.vm.traveler.LastNameViewModel
@@ -12,10 +15,13 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.annotation.Config
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
+@Config(constants = BuildConfig::class, sdk = [26])
 class TravelerEditTextTest {
 
     var editText by Delegates.notNull<TravelerEditText>()
@@ -65,5 +71,20 @@ class TravelerEditTextTest {
         editText.valid = false
         editText.onInitializeAccessibilityNodeInfo(testNode)
         assertEquals(" Last Name, Test text, Error, Enter valid text, ", testNode.text.toString())
+    }
+
+    @Test
+    fun testAutoFillWorkspWhenFieldIsEmptyAndSelected() {
+        editText.setText("")
+        editText.requestFocus()
+        assertTrue(editText.autofillType == View.AUTOFILL_TYPE_TEXT)
+    }
+
+    @Test
+    fun testFieldIsValidWhenAutoFilled() {
+        val errorSubjectTestObserver = TestObserver.create<Boolean>()
+        editText.viewModel.errorSubject.subscribe(errorSubjectTestObserver)
+        editText.autofill(AutofillValue.forText("blah"))
+        assertTrue(editText.viewModel.isValid())
     }
 }

@@ -8,17 +8,17 @@
         android:id="@+id/edit_phone_number_country_code_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
         android:layout_weight="2"
-        android:layout_marginRight="10dp">
+        android:hint="@string/phone_number_country_code_hint">
 
         <com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
             android:id="@+id/material_edit_phone_number_country_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/phone_number_country_code_hint"
-            android:focusableInTouchMode="false"
-            android:focusable="false"
             android:drawableRight="@drawable/material_dropdown"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:maxLines="1"
             android:nextFocusForward="@+id/edit_phone_layout_number"
             android:textSize="@dimen/traveler_input_text_size" />
@@ -28,18 +28,18 @@
         android:id="@+id/edit_phone_layout_number"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="5">
+        android:layout_weight="5"
+        android:hint="@string/phone_number_hint">
 
         <com.expedia.bookings.widget.traveler.TravelerEditText
             android:id="@+id/edit_phone_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/phone_number_hint"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:inputType="phone"
             android:maxLines="1"
             android:nextFocusForward="@+id/edit_birth_date_text_btn"
-            android:focusableInTouchMode="true"
-            android:focusable="true"
             android:textSize="@dimen/traveler_input_text_size"
             app:error_cont_desc="@string/accessibility_cont_desc_role_error" />
     </android.support.design.widget.TextInputLayout>

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
+import com.expedia.account.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Phone
 import com.expedia.bookings.data.pos.PointOfSale
@@ -29,10 +30,11 @@ import org.robolectric.shadows.ShadowAlertDialog
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import com.expedia.testutils.AndroidAssert.Companion.assertViewFocusabilityIsFalse
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class, ShadowAlertDialog::class))
-
+@Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class, ShadowAlertDialog::class),
+        constants = BuildConfig::class, sdk = [26])
 class PhoneEntryViewTest {
 
     private val appContext = RuntimeEnvironment.application.applicationContext
@@ -234,6 +236,12 @@ class PhoneEntryViewTest {
 
         assertEquals(R.drawable.material_dropdown, Shadows.shadowOf(dropdownDrawable).createdFromResId)
         assertEquals(true, dropdownDrawable.isVisible)
+    }
+
+    @Test
+    fun testMaterialCountryCodeNotImportantForAutoFill() {
+        val phoneCountryCode = widget.findViewById<View>(R.id.material_edit_phone_number_country_code) as EditText
+        assertTrue(phoneCountryCode.importantForAutofill == View.IMPORTANT_FOR_AUTOFILL_NO)
     }
 
     private fun setupViewModelWithPhone(): TravelerPhoneViewModel {

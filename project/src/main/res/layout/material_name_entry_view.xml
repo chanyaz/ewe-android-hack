@@ -13,13 +13,13 @@
             android:id="@+id/first_name_layout_input"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="6">
+            android:layout_weight="6"
+            android:hint="@string/first_name">
 
             <com.expedia.bookings.widget.traveler.TravelerEditText
                 android:id="@+id/first_name_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/first_name"
                 android:inputType="textPersonName|textCapWords"
                 android:maxLines="1"
                 android:nextFocusForward="@+id/last_name_input"
@@ -31,13 +31,13 @@
             android:id="@+id/middle_name_layout_input"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="5">
+            android:layout_weight="5"
+            android:hint="@string/middle_name_optional">
 
             <com.expedia.bookings.widget.traveler.TravelerEditText
                 android:id="@+id/middle_name_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/middle_name_optional"
                 android:inputType="textPersonName|textCapWords"
                 android:maxLines="1"
                 android:nextFocusForward="@+id/last_name_input"
@@ -50,13 +50,13 @@
     <android.support.design.widget.TextInputLayout
         android:id="@+id/last_name_layout_input"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:hint="@string/last_name">
 
         <com.expedia.bookings.widget.traveler.TravelerEditText
             android:id="@+id/last_name_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/last_name"
             android:inputType="textPersonName|textCapWords"
             android:maxLines="1"
             android:textSize="@dimen/traveler_input_text_size"

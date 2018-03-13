@@ -8,7 +8,8 @@
         android:id="@+id/edit_email_layout_address"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="3">
+        android:layout_weight="3"
+        android:hint="@string/email_address_hint_confirmation">
 
         <com.expedia.bookings.widget.traveler.TravelerEditText
             android:id="@+id/edit_email_address"
@@ -17,7 +18,6 @@
             android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
             android:maxLines="1"
-            android:hint="@string/email_address_hint_confirmation"
             android:textSize="@dimen/traveler_input_text_size"
             app:error_cont_desc="@string/accessibility_cont_desc_role_error" />
 
