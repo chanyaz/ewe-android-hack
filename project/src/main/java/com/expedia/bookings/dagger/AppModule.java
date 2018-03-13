@@ -411,13 +411,7 @@ public class AppModule {
 		File tripsDirectory = context.getDir("TRIPS_JSON_STORE", Context.MODE_PRIVATE);
 		return new TripsJsonFileUtils(tripsDirectory);
 	}
-
-	@Provides
-	@Singleton
-	StringSource providesStringSource(Context context) {
-		return new StringProvider(context);
-	}
-
+	
 	@Provides
 	@Singleton
 	NotificationScheduler provideNotificationScheduler(Context context, NotificationManager notificationManager,

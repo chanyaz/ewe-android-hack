@@ -2,7 +2,6 @@ package com.expedia.bookings.dagger;
 
 import com.expedia.bookings.dagger.tags.TripScope;
 import com.expedia.bookings.itin.activity.NewAddGuestItinActivity;
-import com.expedia.bookings.itin.utils.IWebViewLauncher;
 import com.expedia.bookings.presenter.trips.ItinSignInPresenter;
 import com.expedia.bookings.presenter.trips.AddGuestItinWidget;
 import com.expedia.bookings.itin.ItinPageUsableTracking;
@@ -24,5 +23,4 @@ public interface TripComponent {
 	ItinPageUsableTracking itinPageUsableTracking();
 	TripsServicesInterface tripServices();
 	TripShareUrlShortenServiceInterface tripShareUrlShortenService();
-	IWebViewLauncher webViewLauncher();
 }
