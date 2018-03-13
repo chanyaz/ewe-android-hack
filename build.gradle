@@ -168,9 +168,15 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
 
 task ktlint(type: JavaExec, group: "verification") {
     description = "Check Kotlin code style"
+
+    def inputFiles = fileTree(dir: "lib", include: "*/src/**/*.kt") + fileTree(dir: "project", include: "src/**/*.kt")
+    def outputFile = "${buildDir}/ktlint.xml"
+    inputs.files(inputFiles)
+    outputs.file(outputFile)
+
     classpath = configurations.ktlint
     main = "com.github.shyiko.ktlint.Main"
-    args "lib/*/src/**/*.kt", "project/src/**/*.kt", "--reporter=plain", "--reporter=checkstyle,output=${buildDir}/ktlint.xml"
+    args "lib/*/src/**/*.kt", "project/src/**/*.kt", "--reporter=plain", "--reporter=checkstyle,output=${outputFile}"
 }
 
 task ktlintFormat(type: JavaExec, group: "formatting") {
