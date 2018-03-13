@@ -9,16 +9,18 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.abacus.AbacusVariant
+import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.RecentSearch
 import io.reactivex.subjects.PublishSubject
 
-class RecentSearchListAdapter(recentSearchesObservable: PublishSubject<List<RecentSearch>>, val context: Context) : RecyclerView.Adapter<RecentSearchViewHolder>() {
+class RecentSearchListAdapter(recentSearchesObservable: PublishSubject<List<RecentSearch>>, val context: Context, val selectedRecentSearch: PublishSubject<FlightSearchParams>) : RecyclerView.Adapter<RecentSearchViewHolder>() {
 
     private val abacusVariant = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.EBAndroidAppFlightsRecentSearch)
 
     private val TYPE_VERTICAL = 1
     private val TYPE_HORIZONTAL = 2
     private val recentSearches = arrayListOf<RecentSearch>()
+    var lastSelectedView: View? = null
 
     init {
         recentSearchesObservable.subscribe { recentSearchList ->
@@ -43,7 +45,15 @@ class RecentSearchListAdapter(recentSearchesObservable: PublishSubject<List<Rece
         } else {
             view = viewInfalter.inflate(R.layout.flight_recent_search_card_vertical, parent, false)
         }
-        return RecentSearchViewHolder(context, view)
+        val recentSearchViewHolder = RecentSearchViewHolder(context, view)
+        view.setOnClickListener {
+            lastSelectedView?.isSelected = false
+            it?.isSelected = true
+            lastSelectedView = it
+            val searchParam = recentSearchViewHolder.viewModel.convertRecentSearchToSearchParams(recentSearches[recentSearchViewHolder.adapterPosition])
+            selectedRecentSearch.onNext(searchParam)
+        }
+        return recentSearchViewHolder
     }
 
     override fun getItemCount(): Int {
@@ -52,5 +62,6 @@ class RecentSearchListAdapter(recentSearchesObservable: PublishSubject<List<Rece
 
     override fun onBindViewHolder(holder: RecentSearchViewHolder?, position: Int) {
         holder?.viewModel?.recentSearchObservable?.onNext(recentSearches[position])
+        holder?.itemView?.isSelected = false
     }
 }

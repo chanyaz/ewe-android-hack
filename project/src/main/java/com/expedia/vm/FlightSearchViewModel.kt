@@ -2,7 +2,6 @@ package com.expedia.vm
 
 import android.content.Context
 import com.expedia.bookings.BuildConfig
-import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
@@ -10,9 +9,11 @@ import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightServiceClassType
+import com.expedia.bookings.extensions.ObservableOld
+import com.expedia.bookings.extensions.subscribeObserver
+import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.shared.CalendarRules
-import com.expedia.bookings.extensions.subscribeObserver
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.Constants
@@ -22,7 +23,6 @@ import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isFlightGreedySearchEnabled
 import com.expedia.bookings.utils.validation.TravelerValidator
-import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.ui.FlightActivity
 import com.expedia.util.FlightCalendarRules
 import com.expedia.util.Optional
@@ -72,6 +72,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val isUserEvolableBucketed = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsEvolable)
     var toAndFromFlightFieldsSwitched = false
     var isGreedyCallStarted = false
+    val highlightCalendarObservable = PublishSubject.create<Int>()
 
     protected var flightGreedySearchSubscription: Disposable? = null
 
@@ -140,7 +141,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             }
             if (selectedDates.first != null) {
                 val cachedEndDate = cachedEndDateObservable.value?.value
-                if (isRoundTripSearch && cachedEndDate != null && startDate()?.isBefore(cachedEndDate) ?: false) {
+                if (isRoundTripSearch && cachedEndDate != null && (startDate()?.isBefore(cachedEndDate) ?: false || startDate()?.equals(cachedEndDate) ?: false)) {
                     datesUpdated(startDate(), cachedEndDate)
                 } else {
                     cachedEndDateObservable.onNext(Optional(endDate()))
@@ -304,15 +305,30 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     }
 
     private fun setupViewModelFromPastSearch(pastSearchParams: FlightSearchParams) {
-        isRoundTripSearchObservable.onNext(pastSearchParams.isRoundTrip())
+
         val currentDate = LocalDate.now()
-        val invalidDates = pastSearchParams.departureDate.isBefore(currentDate) || pastSearchParams.returnDate?.isBefore(currentDate) ?: false
-        if (!invalidDates) {
+        val isStartDateInvalid = pastSearchParams.departureDate.isBefore(currentDate)
+        val isEndDateInvalid = pastSearchParams.returnDate?.isBefore(currentDate) ?: false
+
+        if (isStartDateInvalid && isEndDateInvalid) {
+            datesUpdated(null, null)
+            highlightCalendarObservable.onNext(R.drawable.calendar_border)
+        } else if (isStartDateInvalid && !isEndDateInvalid) {
+            if (pastSearchParams.isRoundTrip()) {
+                datesUpdated(currentDate, pastSearchParams.returnDate)
+                highlightCalendarObservable.onNext(0)
+            } else {
+                datesUpdated(null, null)
+                highlightCalendarObservable.onNext(R.drawable.calendar_border)
+            }
+        } else {
             datesUpdated(pastSearchParams.departureDate, pastSearchParams.returnDate)
+            highlightCalendarObservable.onNext(0)
         }
+        cachedEndDateObservable.onNext(Optional(pastSearchParams.returnDate))
+        isRoundTripSearchObservable.onNext(pastSearchParams.isRoundTrip())
         originLocationObserver.onNext(pastSearchParams.departureAirport)
         destinationLocationObserver.onNext(pastSearchParams.arrivalAirport)
-        isReadyForInteractionTracking.onNext(Unit)
     }
 
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
@@ -334,7 +350,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             false -> start != null
         }
         hasValidDatesObservable.onNext(hasValidDates)
-
+        highlightCalendarObservable.onNext(0)
         super.onDatesChanged(Pair(start, end))
     }
 

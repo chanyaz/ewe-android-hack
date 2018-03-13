@@ -363,21 +363,6 @@ class FlightSearchViewModelTest {
     }
 
     @Test
-    fun testReadyForInteractionTracking() {
-        givenDefaultTravelerComponent()
-        createSystemUnderTest()
-        givenParamsHaveDestination()
-        givenParamsHaveOrigin()
-        givenValidStartAndEndDates()
-        val params = sut.getParamsBuilder().build()
-
-        val testSubscriber = TestObserver<Unit>()
-        sut.isReadyForInteractionTracking.subscribe(testSubscriber)
-        sut.previousSearchParamsObservable.onNext(params)
-        testSubscriber.assertValueCount(1)
-    }
-
-    @Test
     fun testFLightCachedParams() {
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsSearchResultCaching)
         givenMockServer()

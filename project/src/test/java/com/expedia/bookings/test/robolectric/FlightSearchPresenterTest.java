@@ -698,10 +698,7 @@ public class FlightSearchPresenterTest {
 
 	@Test
 	public void testRecentSearchWidgetItem() {
-		AbacusTestUtils.bucketTestsAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsRecentSearch);
-		AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsRecentSearch, 1);
-		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
-			null);
+		setupRecentSearch();
 		RecentSearchWidgetContainer recentSearchWidgetContainer = widget.getRecentSearchWidgetContainer();
 
 		RecyclerView recentSearchWidgetItems = recentSearchWidgetContainer.getRecyclerView();
@@ -739,11 +736,7 @@ public class FlightSearchPresenterTest {
 
 	@Test
 	public void testRecentWidgetVisibilityWhenZeroItems() {
-
-		AbacusTestUtils.bucketTestsAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsRecentSearch);
-		AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsRecentSearch, 1);
-		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
-			null);
+		setupRecentSearch();
 		ArrayList<RecentSearch> recentSearches = new ArrayList<RecentSearch>();
 		assertEquals(View.VISIBLE ,widget.findViewById(R.id.flight_recent_searches_widget).getVisibility());
 
@@ -756,17 +749,100 @@ public class FlightSearchPresenterTest {
 
 	@Test
 	public void testRecentWidgetWhenOneItem() {
-
-		AbacusTestUtils.bucketTestsAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsRecentSearch);
-		AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsRecentSearch, 1);
-		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
-			null);
-
+		setupRecentSearch();
 		RecentSearchWidgetContainer recentSearchWidgetContainer = widget.getRecentSearchWidgetContainer();
 		LinearLayout recentSearchWidget = recentSearchWidgetContainer.findViewById(R.id.recent_search_widget);
 		recentSearchWidgetContainer.getViewModel().getRecentSearchVisibilityObservable().onNext(true);
 		assertEquals(View.VISIBLE ,widget.findViewById(R.id.flight_recent_searches_widget).getVisibility());
 		assertEquals(View.VISIBLE ,recentSearchWidget.getVisibility());
+	}
+
+	@Test
+	public void testRecentSearchItemSelectionWithValidDates() {
+		setupRecentSearch();
+		RecentSearchWidgetContainer recentSearchWidgetContainer = widget.getRecentSearchWidgetContainer();
+		RecyclerView recentSearchWidgetItems = recentSearchWidgetContainer.getRecyclerView();
+		ArrayList<RecentSearch> recentSearches = new ArrayList<RecentSearch>();
+		LocalDate startDate = LocalDate.now().plusDays(30);
+		LocalDate endDate = LocalDate.now().plusDays(40);
+
+		RecentSearch recentSearch =  new RecentSearch("SFO", "LAS",
+			createSuggestion("SFO","San Francisco").getBytes(),
+			createSuggestion("LAS" ,"Las Vegas").getBytes(),
+			startDate.toString(), endDate.toString(), "COACH",
+			1520490226L, 668, "USD", 1, "10,12",
+			false, true);
+		recentSearches.add(recentSearch);
+		recentSearchWidgetContainer.getViewModel().getRecentSearchesObservable().onNext(recentSearches);
+		recentSearchWidgetItems.measure(0, 0);
+		recentSearchWidgetItems.layout(0, 0, 100, 10000);
+		//Assertions
+		recentSearchWidgetItems.getChildAt(0).performClick();
+		assertEquals("San Francisco", widget.getOriginCardView().getText());
+		assertEquals("Las Vegas", widget.getDestinationCardView().getText());
+		assertEquals(LocaleBasedDateFormatUtils.localDateToEEEMMMd(startDate) + "  -  " +
+			LocaleBasedDateFormatUtils.localDateToEEEMMMd(endDate), widget.getCalendarWidgetV2().getText());
+		assertEquals("3 travelers", widget.getTravelerWidgetV2().getText());
+		assertEquals("Economy", widget.getFlightCabinClassWidget().getText());
+	}
+
+	@Test
+	public void testRecentSearchWhenDepartureDateInvalid() {
+		setupRecentSearch();
+		RecentSearchWidgetContainer recentSearchWidgetContainer = widget.getRecentSearchWidgetContainer();
+		RecyclerView recentSearchWidgetItems = recentSearchWidgetContainer.getRecyclerView();
+		ArrayList<RecentSearch> recentSearches = new ArrayList<RecentSearch>();
+		LocalDate startDate = LocalDate.now().minusDays(20);
+		LocalDate endDate = LocalDate.now().plusDays(30);
+
+		RecentSearch recentSearch =  new RecentSearch("SFO", "LAS",
+			createSuggestion("SFO","San Francisco").getBytes(),
+			createSuggestion("LAS" ,"Las Vegas").getBytes(),
+			startDate.toString(), endDate.toString(), "PREMIUM_COACH",
+			1520490226L, 668, "USD", 2, "",
+			false, true);
+		recentSearches.add(recentSearch);
+		recentSearchWidgetContainer.getViewModel().getRecentSearchesObservable().onNext(recentSearches);
+		recentSearchWidgetItems.measure(0, 0);
+		recentSearchWidgetItems.layout(0, 0, 1000, 10000);
+		//Assertions
+		recentSearchWidgetItems.getChildAt(0).performClick();
+		assertEquals("San Francisco", widget.getOriginCardView().getText());
+		assertEquals("Las Vegas", widget.getDestinationCardView().getText());
+		assertEquals(LocaleBasedDateFormatUtils.localDateToEEEMMMd(LocalDate.now()) + "  -  " +
+			LocaleBasedDateFormatUtils.localDateToEEEMMMd(endDate), widget.getCalendarWidgetV2().getText());
+		assertEquals("2 travelers", widget.getTravelerWidgetV2().getText());
+		assertEquals("Premium Economy", widget.getFlightCabinClassWidget().getText());
+	}
+
+	@Test
+	public void testRecentSearchWhenBothDatesInvalid() {
+		setupRecentSearch();
+		RecentSearchWidgetContainer recentSearchWidgetContainer = widget.getRecentSearchWidgetContainer();
+		RecyclerView recentSearchWidgetItems = recentSearchWidgetContainer.getRecyclerView();
+		ArrayList<RecentSearch> recentSearches = new ArrayList<RecentSearch>();
+
+		RecentSearch recentSearch =  new RecentSearch("SFO", "LAS",
+			createSuggestion("SFO","San Francisco").getBytes(),
+			createSuggestion("LAS" ,"Las Vegas").getBytes(),
+			LocalDate.now().minusDays(30).toString(), LocalDate.now().minusDays(20).toString(), "PREMIUM_COACH",
+			1520490226L, 668, "USD", 2, "",
+			false, true);
+		recentSearches.add(recentSearch);
+		recentSearchWidgetContainer.getViewModel().getRecentSearchesObservable().onNext(recentSearches);
+		recentSearchWidgetItems.measure(0, 0);
+		recentSearchWidgetItems.layout(0, 0, 1000, 10000);
+		//Assertions
+		recentSearchWidgetItems.getChildAt(0).performClick();
+		assertEquals("Select dates", widget.getCalendarWidgetV2().getText());
+	}
+
+	private void setupRecentSearch() {
+		AbacusTestUtils.bucketTestsAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsRecentSearch);
+		AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsRecentSearch, 1);
+		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
+			null);
+		widget.setSearchViewModel(new FlightSearchViewModel(activity));
 	}
 
 	private String getExpectedToolTipContDesc(LocalDate startDate, LocalDate endDate) {
@@ -803,6 +879,23 @@ public class FlightSearchPresenterTest {
 		Ui.getApplication(activity).defaultFlightComponents();
 		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
 			null);
+	}
+
+	private String createSuggestion(String airportCode, String displayName) {
+		return "{\"coordinates\":{\"lat\":37.61594,\"long\":-122.387996},\"gaiaId\":\"5195347\",\"hierarchyInfo\":"
+			+ "{\"airport\":{\"airportCode\":\""
+			+ airportCode
+			+ "\",\"multicity\":\"178305\"},\"country\":{\"isoCode3\":\"USA\",\"name\""
+			+ ":\"United States of America\"},\"isChild\":false},\"iconType\":\"SEARCH_TYPE_ICON\",\"isMinorAirport\":false,"
+			+ "\"isSearchThisArea\":false,\"regionNames\":{\"displayName\":\""
+			+ displayName
+			+ "\",\"fullName\":\""
+			+ displayName
+			+ "\",\"lastSearchName\":\""
+			+ displayName
+			+ "\",\"shortName\":\""
+			+ displayName
+			+ "\"},\"type\":\"AIRPORT\"}";
 	}
 
 	private class TestRecentSearchDAO extends RecentSearchDAO {
@@ -842,5 +935,8 @@ public class FlightSearchPresenterTest {
 			recentSearches.add(recentSearchItem);
 			return Flowable.just(recentSearches);
 		}
+
+		@Override
+		public void clear() { }
 	}
 }

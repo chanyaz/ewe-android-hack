@@ -23,6 +23,7 @@ open class RecentSearchViewModel(val context: Context, val recentSearchDao: Rece
     val fetchRecentSearchesObservable = PublishSubject.create<Unit>()
     val saveRecentSearchObservable = PublishSubject.create<Money>()
     val recentSearchVisibilityObservable = PublishSubject.create<Boolean>()
+    val selectedRecentSearch = PublishSubject.create<FlightSearchParams>()
     private val maxCount = 3
 
     init {
@@ -88,9 +89,10 @@ open class RecentSearchViewModel(val context: Context, val recentSearchDao: Rece
 
     private inner class InsertRecentSearchCallable(val recentSearch: RecentSearch) : Callable<Any> {
         override fun call() {
+            val doesExists = checkIfExist(recentSearch)
             recentSearchDao.insert(recentSearch)
             if (recentSearchDao.count() > maxCount) {
-                if (!checkIfExist(recentSearch)) {
+                if (!doesExists) {
                     val oldestRecentSearch = recentSearchDao.getOldestRecentSearch()
                     recentSearchDao.delete(oldestRecentSearch)
                 }

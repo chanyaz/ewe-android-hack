@@ -532,6 +532,15 @@ object FlightV2Utils {
         return AmenityResourceType(resourceId, dispVal, getAmenityContentDesc(context, amenityValue, amenityCategory))
     }
 
+    @JvmStatic fun convertStringToIntList(string: String): List<Int> {
+        val intArray = ArrayList<Int>()
+        if (!string.trim().isEmpty()) {
+            val strArray = string.split(",")
+            for (s in strArray) intArray.add(Integer.valueOf(s))
+        }
+        return intArray
+    }
+
     private fun getAmenityContentDesc(context: Context, amenityValue: String, amenityCategory: FlightAmenityCategory?): String {
         val stringResId: Int
         when (amenityCategory) {

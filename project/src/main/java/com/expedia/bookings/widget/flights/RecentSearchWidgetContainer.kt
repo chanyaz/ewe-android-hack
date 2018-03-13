@@ -38,7 +38,7 @@ class RecentSearchWidgetContainer(context: Context, attr: AttributeSet?) : Linea
             recyclerView.isNestedScrollingEnabled = false
             recyclerView.setHasFixedSize(false)
         }
-        recyclerView.adapter = RecentSearchListAdapter(viewModel.recentSearchesObservable, context)
+        recyclerView.adapter = RecentSearchListAdapter(viewModel.recentSearchesObservable, context, viewModel.selectedRecentSearch)
         recentSearchHeaderContainer.setOnClickListener {
             if (isRecentSearchViewExpanded()) {
                 collapsedRecentSearchView()

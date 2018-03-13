@@ -27,4 +27,7 @@ abstract class RecentSearchDAO {
 
     @Query("SELECT * FROM flight_recent_searches ORDER BY dateSearchedOn desc LIMIT 3")
     abstract fun loadAll(): Flowable<List<RecentSearch>>
+
+    @Query("DELETE FROM flight_recent_searches")
+    abstract fun clear()
 }

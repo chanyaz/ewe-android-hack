@@ -5,6 +5,7 @@ import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebStorage;
 
+import com.expedia.bookings.data.AppDatabase;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.user.UserStateManager;
@@ -17,6 +18,8 @@ public class ClearPrivateDataUtil {
 		Log.i("Clearing all private data!");
 
 		UserStateManager userStateManager = Ui.getApplication(context).appComponent().userStateManager();
+
+		final AppDatabase appDB = Ui.getApplication(context).appComponent().provideAppDatabase();
 
 		boolean signedIn = userStateManager.isUserAuthenticated();
 		if (signedIn) {
@@ -51,5 +54,13 @@ public class ClearPrivateDataUtil {
 
 		//Clear Webpage JS Dom Storage
 		WebStorage.getInstance().deleteAllData();
+
+		//Clear Flight recent search suggestion
+		new Thread() {
+			@Override
+			public void run() {
+				appDB.recentSearchDAO().clear();
+			}
+		}.start();
 	}
 }
