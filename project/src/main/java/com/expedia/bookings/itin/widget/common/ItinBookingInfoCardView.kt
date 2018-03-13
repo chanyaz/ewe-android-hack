@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
+import com.expedia.util.notNullAndObservable
 
 class ItinBookingInfoCardView(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
 
@@ -15,15 +16,15 @@ class ItinBookingInfoCardView(context: Context, attr: AttributeSet?) : LinearLay
     val heading: TextView by bindView(R.id.link_off_card_heading)
     val subheading: TextView by bindView(R.id.link_off_card_subheading)
 
-    init {
-        View.inflate(context, R.layout.widget_itin_link_off_card_view, this)
-    }
-
-    fun bindWithViewModel(viewModel: ItinBookingInfoCardViewModel) {
+    var viewModel by notNullAndObservable<ItinBookingInfoCardViewModel> { viewModel ->
         setupHeading(viewModel)
         setupSubheading(viewModel)
         setupIcon(viewModel)
         setupClickAction(viewModel)
+    }
+
+    init {
+        View.inflate(context, R.layout.widget_itin_link_off_card_view, this)
     }
 
     private fun setupHeading(viewModel: ItinBookingInfoCardViewModel) {
@@ -32,6 +33,7 @@ class ItinBookingInfoCardView(context: Context, attr: AttributeSet?) : LinearLay
 
     private fun setupSubheading(viewModel: ItinBookingInfoCardViewModel) {
         if (!viewModel.subheadingText.isNullOrEmpty()) {
+            subheading.visibility = View.VISIBLE
             subheading.text = viewModel.subheadingText
         } else {
             subheading.visibility = View.GONE

@@ -29,10 +29,11 @@ class ItinBookingInfoCardViewTest {
     @Test
     fun testViewWithSubheading() {
         val vm = MockViewModelWithSubheading(mockIcon, mockHeading, mockSubheading, mockClickListener())
-        testView.bindWithViewModel(vm)
+        testView.viewModel = vm
 
         assertEquals(mockIcon, Shadows.shadowOf(testView.icon.drawable).createdFromResId)
         assertEquals(mockHeading, testView.heading.text)
+        assertEquals(View.VISIBLE, testView.subheading.visibility)
         assertEquals(mockSubheading, testView.subheading.text)
 
         testView.performClick()
@@ -42,7 +43,7 @@ class ItinBookingInfoCardViewTest {
     @Test
     fun testViewWithoutSubheading() {
         val vm = MockViewModelWithSubheading(mockIcon, mockHeading, null, mockClickListener())
-        testView.bindWithViewModel(vm)
+        testView.viewModel = vm
 
         assertEquals(mockIcon, Shadows.shadowOf(testView.icon.drawable).createdFromResId)
         assertEquals(mockHeading, testView.heading.text)
