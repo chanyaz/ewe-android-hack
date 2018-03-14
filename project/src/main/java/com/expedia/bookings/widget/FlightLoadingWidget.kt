@@ -25,8 +25,6 @@ class FlightLoadingWidget(context: Context, attrs: AttributeSet) : LinearLayout(
     private var flightLoadingWidgetHeight = 0
     private var anim: ValueAnimator? = null
 
-    private val AIRPLANE_ANIMATOR_DIMENSION = 82
-
     init {
         View.inflate(context, R.layout.flight_loading_view, this)
     }
@@ -41,8 +39,7 @@ class FlightLoadingWidget(context: Context, attrs: AttributeSet) : LinearLayout(
                     flightLoadingWidgetHeight = height
                     airplaneAnimatorHeight = airplaneAnimator.height
                     viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    val toHeightFraction = dpToPx(context, 112) / flightLoadingWidgetHeight.toFloat()
-                    animateWidget(1f, toHeightFraction, 1200, 5000, false)
+                    animateWidget(flightLoadingWidgetHeight, dpToPx(context, 168), 1200, 5000, false)
                 }
             }
         })
@@ -58,7 +55,7 @@ class FlightLoadingWidget(context: Context, attrs: AttributeSet) : LinearLayout(
                     flightLoadingWidgetHeight = height
                     airplaneAnimatorHeight = airplaneAnimator.height
                     viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    animateWidget(1f, 0f, 1000, 0, true)
+                    animateWidget(flightLoadingWidgetHeight, 0, 1000, 0, true)
                 }
             }
         })
@@ -68,28 +65,19 @@ class FlightLoadingWidget(context: Context, attrs: AttributeSet) : LinearLayout(
         setHeight(this, LayoutParams.MATCH_PARENT)
         searchingAirlineMessage.visibility = View.VISIBLE
         LayoutUtils.setSVG(rightHandArrow, R.raw.flight_recent_search_one_way)
-        airplaneAnimator.layoutParams.width = dpToPx(context, AIRPLANE_ANIMATOR_DIMENSION)
-        airplaneAnimator.layoutParams.height = dpToPx(context, AIRPLANE_ANIMATOR_DIMENSION)
     }
 
-    private fun animateWidget(fromHeight: Float, toHeight: Float, animDuration: Long, startDelay: Long, isResultReceived: Boolean) {
+    private fun animateWidget(fromHeight: Int, toHeight: Int, animDuration: Long, startDelay: Long, isResultReceived: Boolean) {
         anim?.cancel()
-        anim = ValueAnimator.ofFloat(fromHeight, toHeight)
+        anim = ValueAnimator.ofInt(fromHeight, toHeight)
         anim?.duration = animDuration
         anim?.startDelay = startDelay
         anim?.addUpdateListener { valueAnimator ->
             if (searchingAirlineMessage.visibility == View.VISIBLE) {
                 searchingAirlineMessage.visibility = View.GONE
             }
-            val calculatedWidgetHeight = (flightLoadingWidgetHeight * valueAnimator.animatedValue as Float).toInt()
+            val calculatedWidgetHeight = valueAnimator.animatedValue as Int
             setHeight(this, calculatedWidgetHeight)
-            if (!isResultReceived) {
-                val calculatedAirplaneHeight = (airplaneAnimatorHeight * valueAnimator.animatedValue as Float).toInt()
-                if (calculatedAirplaneHeight >= dpToPx(context, 61)) {
-                    airplaneAnimator.layoutParams.height = calculatedAirplaneHeight
-                    airplaneAnimator.layoutParams.width = calculatedAirplaneHeight
-                }
-            }
         }
         anim?.start()
     }
