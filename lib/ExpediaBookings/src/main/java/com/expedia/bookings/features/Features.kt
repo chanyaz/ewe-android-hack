@@ -15,6 +15,7 @@ class Features {
     val productionAbacus: Feature by RemoteFeatureDelegate()
     val launchAllTripNotifications: Feature by RemoteFeatureDelegate()
     val itineraryManagerStoreTripsJson: Feature by RemoteFeatureDelegate()
+    val readTripJson: Feature by RemoteFeatureDelegate()
     val universalCheckoutOnLx: Feature by RemoteFeatureDelegate()
     val activityMap: Feature by RemoteFeatureDelegate()
     val hotelGreedySearch: Feature by RemoteFeatureDelegate()

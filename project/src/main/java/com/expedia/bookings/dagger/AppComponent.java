@@ -15,6 +15,7 @@ import com.expedia.bookings.hotel.util.HotelGalleryManager;
 import com.expedia.bookings.itin.services.FlightRegistrationHandler;
 import com.expedia.bookings.itin.tripstore.utils.ITripsJsonFileUtils;
 import com.expedia.bookings.itin.utils.NotificationScheduler;
+import com.expedia.bookings.itin.utils.StringSource;
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.launch.widget.LaunchListWidget;
 import com.expedia.bookings.model.PointOfSaleStateModel;
@@ -113,6 +114,7 @@ public interface AppComponent {
 
 	NotificationScheduler notificationScheduler();
 	ITripsJsonFileUtils tripJsonFileUtils();
+	StringSource stringProvider();
 
 	SatelliteRemoteFeatureResolver satelliteRemoteFeatureResolver();
 

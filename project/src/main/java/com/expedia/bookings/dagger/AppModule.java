@@ -26,6 +26,8 @@ import com.expedia.bookings.itin.services.FlightRegistrationHandler;
 import com.expedia.bookings.itin.tripstore.utils.ITripsJsonFileUtils;
 import com.expedia.bookings.itin.tripstore.utils.TripsJsonFileUtils;
 import com.expedia.bookings.itin.utils.NotificationScheduler;
+import com.expedia.bookings.itin.utils.StringProvider;
+import com.expedia.bookings.itin.utils.StringSource;
 import com.expedia.bookings.model.PointOfSaleStateModel;
 import com.expedia.bookings.notification.NotificationManager;
 import com.expedia.bookings.server.EndpointProvider;
@@ -410,6 +412,12 @@ public class AppModule {
 		return new TripsJsonFileUtils(tripsDirectory);
 	}
 
+	@Provides
+	@Singleton
+	StringSource provideStringSource(Context context) {
+		return new StringProvider(context);
+	}
+	
 	@Provides
 	@Singleton
 	NotificationScheduler provideNotificationScheduler(Context context, NotificationManager notificationManager,

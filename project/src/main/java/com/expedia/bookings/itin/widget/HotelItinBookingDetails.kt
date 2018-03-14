@@ -8,10 +8,22 @@ import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
+import com.expedia.bookings.features.Features
 import com.expedia.bookings.itin.activity.HotelItinManageBookingActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
+import com.expedia.bookings.itin.scopes.HotelItinDetailsScope
+import com.expedia.bookings.itin.tripstore.extensions.firstHotel
+import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
+import com.expedia.bookings.itin.tripstore.utils.JsonToItinUtil
+import com.expedia.bookings.itin.utils.IWebViewLauncher
+import com.expedia.bookings.itin.utils.StringSource
+import com.expedia.bookings.itin.utils.WebViewLauncher
+import com.expedia.bookings.itin.widget.common.ItinBookingInfoCardView
+import com.expedia.bookings.itin.widget.hotel.HotelItinPriceSummaryButtonViewModel
+import com.expedia.bookings.tracking.ITripsTracking
 import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 
 class HotelItinBookingDetails(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
@@ -19,6 +31,14 @@ class HotelItinBookingDetails(context: Context, attr: AttributeSet?) : LinearLay
     val manageBookingCard: ItinLinkOffCardView by bindView(R.id.itin_hotel_manage_booking_card_view)
     val priceSummaryCard: ItinLinkOffCardView by bindView(R.id.itin_hotel_price_summary_card_view)
     val additionalInfoCard: ItinLinkOffCardView by bindView(R.id.itin_hotel_additional_info_card_view)
+
+    var checkIfReadJsonEnabled = Features.all.readTripJson.enabled()
+    var checkIfWriteJsonEnabled = Features.all.itineraryManagerStoreTripsJson.enabled()
+    val stringProvider: StringSource = Ui.getApplication(context).appComponent().stringProvider()
+    val webViewLauncher: IWebViewLauncher = WebViewLauncher(context)
+    var readJsonUtil: IJsonToItinUtil = JsonToItinUtil
+    val tripsTracking: ITripsTracking = TripsTracking
+    val newPriceSummaryCard: ItinBookingInfoCardView by bindView(R.id.itin_hotel_booking_info_price_summary)
 
     init {
         View.inflate(context, R.layout.widget_hotel_itin_booking_details, this)
@@ -33,9 +53,24 @@ class HotelItinBookingDetails(context: Context, attr: AttributeSet?) : LinearLay
             manageBookingCard.setHeadingText(context.resources.getText(R.string.itin_hotel_manage_booking_header))
             manageBookingCard.setSubHeadingText(context.resources.getText(R.string.itin_hotel_details_manage_booking_subheading))
 
-            priceSummaryCard.setIcon(R.drawable.ic_itin_credit_card_icon)
-            priceSummaryCard.setHeadingText(context.resources.getText(R.string.itin_hotel_details_price_summary_heading))
-            priceSummaryCard.hideSubheading()
+            if (checkIfWriteJsonEnabled && checkIfReadJsonEnabled) {
+                val itin = readJsonUtil.getItin(context, itinCardDataHotel.tripId)
+                itin?.let { itin ->
+                    itin.firstHotel()?.let { hotel ->
+                        newPriceSummaryCard.visibility = View.VISIBLE
+                        priceSummaryCard.visibility = View.GONE
+                        val scope = HotelItinDetailsScope(itin, hotel, stringProvider, webViewLauncher, tripsTracking)
+                        val vm = HotelItinPriceSummaryButtonViewModel(scope)
+                        newPriceSummaryCard.viewModel = vm
+                    }
+                }
+            } else {
+                newPriceSummaryCard.visibility = View.GONE
+                priceSummaryCard.visibility = View.VISIBLE
+                priceSummaryCard.setIcon(R.drawable.ic_itin_credit_card_icon)
+                priceSummaryCard.setHeadingText(context.resources.getText(R.string.itin_hotel_details_price_summary_rewards_heading))
+                priceSummaryCard.hideSubheading()
+            }
 
             additionalInfoCard.setIcon(R.drawable.ic_itin_additional_info_icon)
             additionalInfoCard.setHeadingText(context.resources.getText(R.string.itin_hotel_details_additional_info_heading))

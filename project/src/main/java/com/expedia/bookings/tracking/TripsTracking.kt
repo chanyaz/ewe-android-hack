@@ -4,7 +4,7 @@ import com.expedia.bookings.ADMS_Measurement
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.mobiata.android.Log
 
-object TripsTracking : OmnitureTracking() {
+object TripsTracking : OmnitureTracking(), ITripsTracking {
 
     //Tags
     private val TAG = "OmnitureTracking"
@@ -63,7 +63,7 @@ object TripsTracking : OmnitureTracking() {
         s.trackLink("Itinerary Action")
     }
 
-    fun trackHotelItinPricingRewardsClick() {
+    override fun trackHotelItinPricingRewardsClick() {
         val s = createTrackLinkEvent(ITIN_HOTEL_PRICING_REWARDS)
         trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsHotelPricing)
         s.trackLink("Itinerary Action")

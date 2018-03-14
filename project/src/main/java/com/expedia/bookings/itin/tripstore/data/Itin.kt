@@ -14,5 +14,11 @@ data class Itin(
         val cars: List<ItinCar>?,
         val cruises: List<ItinCruise>?,
         val rails: List<ItinRail>?,
-        val packages: List<ItinPackage>?
+        val packages: List<ItinPackage>?,
+        val rewardList: List<Reward>?
+)
+
+data class Reward(
+        val totalPoints: String?,
+        val basePoints: String?
 )
