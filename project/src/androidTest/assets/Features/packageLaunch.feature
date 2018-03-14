@@ -55,3 +55,4 @@ Feature: Package Launch
       | point_of_sale |
       | France        |
       | Italy         |
+      | South Korea   |
