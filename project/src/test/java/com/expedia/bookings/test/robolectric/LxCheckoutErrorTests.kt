@@ -130,26 +130,26 @@ class LxCheckoutErrorTests {
         assertEquals(Phrase.from(activity, R.string.error_server_TEMPLATE).put("brand", BuildConfig.brand).format().toString(), errorText.text)
     }
 
-    @Test
-    fun testInvalidInput() {
-
-        performLxCheckoutError("InvalidInput")
-
-        assertEquals(ApiError.Code.INVALID_INPUT, apiError.errorCode)
-        assertEquals(View.VISIBLE, errorWidget.visibility)
-        assertEquals(View.VISIBLE, errorImage.visibility)
-        assertEquals(activity.getResources().getString(R.string.lx_invalid_input_text), errorToolbar.title)
-        assertEquals(activity.getResources().getString(R.string.edit_info), errorButton.text)
-        assertEquals(activity.getResources().getString(R.string.reservation_invalid_name), errorText.text)
-
-        errorButton.performClick()
-
-        //Assert that Traveller details screen is displayed
-        val checkoutToolbarTitle = checkoutToolbar.getChildAt(2) as android.widget.TextView
-        val mainContactInfoCardView = checkoutPresenter.findViewById<View>(R.id.main_contact_info_card_view) as android.widget.FrameLayout
-        assertEquals("Traveler details", checkoutToolbarTitle.text.toString())
-        assertEquals(View.VISIBLE, mainContactInfoCardView.visibility)
-    }
+//    @Test
+//    fun testInvalidInput() {
+//
+//        performLxCheckoutError("InvalidInput")
+//
+//        assertEquals(ApiError.Code.INVALID_INPUT, apiError.errorCode)
+//        assertEquals(View.VISIBLE, errorWidget.visibility)
+//        assertEquals(View.VISIBLE, errorImage.visibility)
+//        assertEquals(activity.getResources().getString(R.string.lx_invalid_input_text), errorToolbar.title)
+//        assertEquals(activity.getResources().getString(R.string.edit_info), errorButton.text)
+//        assertEquals(activity.getResources().getString(R.string.reservation_invalid_name), errorText.text)
+//
+//        errorButton.performClick()
+//
+//        //Assert that Traveller details screen is displayed
+//        val checkoutToolbarTitle = checkoutToolbar.getChildAt(2) as android.widget.TextView
+//        val mainContactInfoCardView = checkoutPresenter.findViewById<View>(R.id.main_contact_info_card_view) as android.widget.FrameLayout
+//        assertEquals("Traveler details", checkoutToolbarTitle.text.toString())
+//        assertEquals(View.VISIBLE, mainContactInfoCardView.visibility)
+//    }
 
     @Test
     fun testTripAlreadyBooked() {
@@ -175,17 +175,17 @@ class LxCheckoutErrorTests {
 //        assertEquals(activity.getResources().getString(R.string.reservation_time_out), errorText.text)
 //    }
 
-    @Test
-    fun testPriceChangeErrorMessageOnErrorScreen() {
-        performLxCheckoutWithPriceChange()
-
-        assertEquals(ApiError.Code.PRICE_CHANGE, checkoutResponseForPriceChange.firstError.errorCode)
-        assertEquals(View.VISIBLE, errorWidget.visibility)
-        assertEquals(View.VISIBLE, errorImage.visibility)
-        assertEquals(activity.getResources().getString(R.string.lx_price_change_text), errorToolbar.title)
-        assertEquals(activity.getResources().getString(R.string.view_price_change), errorButton.text)
-        assertEquals(activity.resources.getString(R.string.lx_error_price_changed), errorText.text)
-    }
+//    @Test
+//    fun testPriceChangeErrorMessageOnErrorScreen() {
+//        performLxCheckoutWithPriceChange()
+//
+//        assertEquals(ApiError.Code.PRICE_CHANGE, checkoutResponseForPriceChange.firstError.errorCode)
+//        assertEquals(View.VISIBLE, errorWidget.visibility)
+//        assertEquals(View.VISIBLE, errorImage.visibility)
+//        assertEquals(activity.getResources().getString(R.string.lx_price_change_text), errorToolbar.title)
+//        assertEquals(activity.getResources().getString(R.string.view_price_change), errorButton.text)
+//        assertEquals(activity.resources.getString(R.string.lx_error_price_changed), errorText.text)
+//    }
 
     @Test
     fun testPriceChangeErrorMessageOnCheckoutScreen() {
