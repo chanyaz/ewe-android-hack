@@ -1009,7 +1009,7 @@ public class PointOfSale {
 		return getPosLocale(locale);
 	}
 
-	public PointOfSaleLocale getPosLocale(Locale locale) {
+	PointOfSaleLocale getPosLocale(Locale locale) {
 		String localeString = locale.toString();
 
 		Log.d("PointOfSale: getPosLocale, device locale=" + localeString);
@@ -1017,7 +1017,7 @@ public class PointOfSale {
 		if (mLocales.size() > 1) {
 			// First look for an exact match on the Locale, languageCode and countryCode
 			for (PointOfSaleLocale posLocale : mLocales) {
-				if (posLocale.getLocaleIdentifier().equalsIgnoreCase(localeString)) {
+				if (localeString.equalsIgnoreCase(posLocale.getLocaleIdentifier())) {
 					Log.d("PointOfSale: Selecting POSLocale by locale, locale=" + posLocale.getLocaleIdentifier());
 					return posLocale;
 				}
@@ -1035,8 +1035,8 @@ public class PointOfSale {
 
 			// If there is no exact match on Locale, attempt to match on languageCode and localeIdentifier
 			for (PointOfSaleLocale posLocale : mLocales) {
-				if (posLocale.getLanguageCode().equalsIgnoreCase(langCode)
-					&& posLocale.getLocaleIdentifier().equalsIgnoreCase(localeIdentifier)) {
+				if (langCode.equalsIgnoreCase(posLocale.getLanguageCode())
+					&& localeIdentifier.equalsIgnoreCase(posLocale.getLocaleIdentifier())) {
 					Log.d("PointOfSale: Selecting POSLocale by languageCode and localeIdentifier, locale=" + posLocale.getLanguageCode());
 					return posLocale;
 				}
@@ -1044,7 +1044,7 @@ public class PointOfSale {
 
 			//if there is no exact match on languageCode and localeIdentifier, attempt to match only on localeIdentifier
 			for (PointOfSaleLocale posLocale : mLocales) {
-				if (posLocale.getLocaleIdentifier().equalsIgnoreCase(localeIdentifier)) {
+				if (localeIdentifier.equalsIgnoreCase(posLocale.getLocaleIdentifier())) {
 					Log.d("PointOfSale: Selecting POSLocale by localeIdentifier, locale=" + posLocale.getLanguageCode());
 					return posLocale;
 				}
@@ -1052,7 +1052,7 @@ public class PointOfSale {
 
 			//otherwise, attempt to match only on languageCode
 			for (PointOfSaleLocale posLocale : mLocales) {
-				if (posLocale.getLanguageCode().equalsIgnoreCase(langCode)) {
+				if (langCode.equalsIgnoreCase(posLocale.getLanguageCode())) {
 					Log.d("PointOfSale: Selecting POSLocale by langCode, locale=" + posLocale.getLanguageCode());
 					return posLocale;
 				}
@@ -1061,7 +1061,7 @@ public class PointOfSale {
 			//otherwise, match with only languageCode with no script attached
 			langCode = locale.getLanguage();
 			for (PointOfSaleLocale posLocale : mLocales) {
-				if (posLocale.getLanguageCode().equalsIgnoreCase(langCode)) {
+				if (langCode.equalsIgnoreCase(posLocale.getLanguageCode())) {
 					Log.d("PointOfSale: Selecting POSLocale by langCode with no script, locale=" + posLocale.getLanguageCode());
 					return posLocale;
 				}
