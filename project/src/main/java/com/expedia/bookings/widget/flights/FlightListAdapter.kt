@@ -25,7 +25,6 @@ open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSub
     val ScrollDepth3 = 90
     lateinit var scrollDepthMap: HashMap<Int, Int>
     val trackScrollDepthSubject = PublishSubject.create<Int>()
-    val showDeltaPricing = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsDeltaPricing)
 
     override fun adjustPosition(): Int {
         isCrossSellPackageOnFSR = showCrossSellPackageBannerCell()
@@ -46,7 +45,7 @@ open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSub
     }
 
     override fun getRoundTripStringResourceId(): Int {
-        if (showDeltaPricing && !isOutboundSearch) {
+        if (!isOutboundSearch) {
             return R.string.delta_price_roundtrip_inbound_label
         } else if (PointOfSale.getPointOfSale().shouldAdjustPricingMessagingForAirlinePaymentMethodFee()) {
             return R.string.prices_roundtrip_minimum_label

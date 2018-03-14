@@ -3,19 +3,16 @@ package com.expedia.vm.flights
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.Strings
 import com.expedia.vm.AbstractFlightViewModel
 
 open class FlightViewModel(context: Context, flightLeg: FlightLeg, val isOutboundSearch: Boolean = true) : AbstractFlightViewModel(context, flightLeg) {
-    val showDeltaPricing = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsDeltaPricing)
     override fun price(): String {
         val priceToShow = StringBuilder()
         var price = flightLeg.packageOfferModel.price.averageTotalPricePerTicket
-        if (!isOutboundSearch && showDeltaPricing) {
+        if (!isOutboundSearch) {
             if (flightLeg.packageOfferModel.price.deltaPositive) {
                 priceToShow.append("+ ")
             }

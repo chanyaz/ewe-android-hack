@@ -69,7 +69,6 @@ class FlightListAdapterTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun flightResultsHeaderRoundTripForDeltaPricing() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsDeltaPricing)
         createSystemUnderTest()
         givenRoundTripFlight()
         isOutboundSearch = false
@@ -81,7 +80,6 @@ class FlightListAdapterTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun flightResultsHeaderRoundTripForDeltaPricingInAUPOS() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsDeltaPricing)
         val initialPOSID = PointOfSale.getPointOfSale().pointOfSaleId
         setPointOfSale(PointOfSaleId.AUSTRALIA)
         createSystemUnderTest()
@@ -91,16 +89,6 @@ class FlightListAdapterTest {
         sut.onBindViewHolder(headerViewHolder, 0)
         assertEquals("Additional price per person for inbound flight", headerViewHolder.priceHeader.text)
         setPointOfSale(initialPOSID)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
-    fun flightResultsHeaderRoundTrip() {
-        createSystemUnderTest()
-        givenRoundTripFlight()
-        val headerViewHolder = createHeaderViewHolder()
-        sut.onBindViewHolder(headerViewHolder, 0)
-        assertEquals("Roundtrip price per person", headerViewHolder.priceHeader.text)
     }
 
     @Test
@@ -125,13 +113,12 @@ class FlightListAdapterTest {
 
     @Test
     fun flightResultsHeaderReturnMinPrice() {
-        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppFlightsDeltaPricing)
         configurePointOfSale()
         createSystemUnderTest()
         givenRoundTripFlight()
         val headerViewHolder = createHeaderViewHolder()
         sut.onBindViewHolder(headerViewHolder, 0)
-        assertEquals("Prices roundtrip, per person, from", headerViewHolder.priceHeader.text)
+        assertEquals("Additional price per person for inbound flight", headerViewHolder.priceHeader.text)
     }
 
     @Test
@@ -151,7 +138,7 @@ class FlightListAdapterTest {
         if (shouldAdjustPricing) {
             expectedHeader = "Showing nonstop flights. Prices roundtrip, per person, from"
         } else {
-            expectedHeader = "Showing nonstop flights. Roundtrip price per person"
+            expectedHeader = "Showing nonstop flights. Additional price per person for inbound flight"
         }
         assertEquals(expectedHeader, headerViewHolder.advanceSearchFilterHeader.text.toString())
         assertEquals(expectedHeader, headerViewHolder.advanceSearchFilterHeader.contentDescription.toString())
@@ -160,7 +147,7 @@ class FlightListAdapterTest {
         if (shouldAdjustPricing) {
             expectedHeader = "Showing nonstop and refundable flights. Prices roundtrip, per person, from"
         } else {
-            expectedHeader = "Showing nonstop and refundable flights. Roundtrip price per person"
+            expectedHeader = "Showing nonstop and refundable flights. Additional price per person for inbound flight"
         }
         isRefundableSubject.onNext(true)
         sut.onBindViewHolder(headerViewHolder, 0)
@@ -172,7 +159,7 @@ class FlightListAdapterTest {
         if (shouldAdjustPricing) {
             expectedHeader = "Showing refundable flights. Prices roundtrip, per person, from"
         } else {
-            expectedHeader = "Showing refundable flights. Roundtrip price per person"
+            expectedHeader = "Showing refundable flights. Additional price per person for inbound flight"
         }
         isNonStopSubject.onNext(false)
         sut.onBindViewHolder(headerViewHolder, 0)

@@ -1,5 +1,6 @@
 package com.expedia.vm.test.robolectric
 
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
@@ -32,7 +33,7 @@ class SelectedOutboundFlightViewModelTest {
 
     @Before
     fun setup() {
-        sut = SelectedOutboundFlightViewModel(mockFlightSelectedSubject, context, false)
+        sut = SelectedOutboundFlightViewModel(mockFlightSelectedSubject, context, LineOfBusiness.FLIGHTS_V2)
     }
 
     @Test
@@ -68,7 +69,7 @@ class SelectedOutboundFlightViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTotalAmount() {
-        sut = SelectedOutboundFlightViewModel(mockFlightSelectedSubject, context, true)
+        sut = SelectedOutboundFlightViewModel(mockFlightSelectedSubject, context, LineOfBusiness.FLIGHTS_V2)
         val testSubscriber = TestObserver.create<String>()
         sut.pricePerPersonObservable.subscribe(testSubscriber)
 

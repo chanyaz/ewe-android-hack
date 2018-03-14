@@ -764,6 +764,13 @@
         "formattedWholePrice": "$696",
         "roundedAmount": "696"
       },
+      "deltaPrice": {
+        "amount": "696.00",
+        "formattedPrice": "$696.00",
+        "currencyCode": "USD",
+        "formattedWholePrice": "$696",
+        "roundedAmount": "696"
+      },
       "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
       "baseFare": "620.46",
       "baseFarePrice": {

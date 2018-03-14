@@ -11,6 +11,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.animation.AnimationListenerAdapter
 import com.expedia.bookings.animation.ProgressBarAnimation
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.extensions.subscribeInverseVisibility
 import com.expedia.bookings.presenter.Presenter
@@ -58,10 +59,10 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
         View.inflate(getContext(), R.layout.widget_flight_results_package, this)
     }
 
-    private fun bind(shouldShowDeltaPricing: Boolean, doNotOverrideFilterButton: Boolean) {
+    private fun bind(doNotOverrideFilterButton: Boolean, lob: LineOfBusiness) {
         val dockedOutboundFlightSelectionStub = findViewById<ViewStub>(R.id.widget_docked_outbound_flight_stub)
-        val selectedOutboundFlightViewModel = SelectedOutboundFlightViewModel(outboundFlightSelectedSubject, context, shouldShowDeltaPricing)
-        if (shouldShowDeltaPricing) {
+        val selectedOutboundFlightViewModel = SelectedOutboundFlightViewModel(outboundFlightSelectedSubject, context, lob)
+        if (lob == LineOfBusiness.FLIGHTS_V2) {
             dockedOutboundFlightSelectionStub.layoutResource = R.layout.docked_outbound_flight_selection_v2
             val dockedOutboundFlightWidgetV2 = dockedOutboundFlightSelectionStub.inflate() as DockedOutboundFlightWidgetV2
             dockedOutboundFlightWidgetV2.viewModel = selectedOutboundFlightViewModel
@@ -111,7 +112,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     }
 
     var resultsViewModel: FlightResultsViewModel by notNullAndObservable { vm ->
-        bind(vm.shouldShowDeltaPricing, vm.doNotOverrideFilterButton)
+        bind(vm.doNotOverrideFilterButton, vm.lob)
         vm.flightResultsObservable.subscribe(listResultsObserver)
         vm.isOutboundResults.subscribe { isShowingOutboundResults = it }
         vm.isOutboundResults.subscribeInverseVisibility(dockedOutboundFlightSelection)

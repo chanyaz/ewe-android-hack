@@ -5654,7 +5654,6 @@ public class OmnitureTracking {
 		if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)) {
 			setEventsForSearchTracking(s, trackingData.getPerformanceData(), "");
 		}
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsDeltaPricing);
 		s.track();
 	}
 
