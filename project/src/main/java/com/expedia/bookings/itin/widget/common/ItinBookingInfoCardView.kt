@@ -16,22 +16,22 @@ class ItinBookingInfoCardView(context: Context, attr: AttributeSet?) : LinearLay
     val heading: TextView by bindView(R.id.link_off_card_heading)
     val subheading: TextView by bindView(R.id.link_off_card_subheading)
 
-    var viewModel by notNullAndObservable<ItinBookingInfoCardViewModel> { viewModel ->
-        setupHeading(viewModel)
-        setupSubheading(viewModel)
-        setupIcon(viewModel)
-        setupClickAction(viewModel)
+    var viewModel by notNullAndObservable<ItinBookingInfoCardViewModel> {
+        setupHeading()
+        setupSubheading()
+        setupIcon()
+        setupClickAction()
     }
 
     init {
         View.inflate(context, R.layout.widget_itin_link_off_card_view, this)
     }
 
-    private fun setupHeading(viewModel: ItinBookingInfoCardViewModel) {
+    private fun setupHeading() {
         heading.text = viewModel.headingText
     }
 
-    private fun setupSubheading(viewModel: ItinBookingInfoCardViewModel) {
+    private fun setupSubheading() {
         if (!viewModel.subheadingText.isNullOrEmpty()) {
             subheading.visibility = View.VISIBLE
             subheading.text = viewModel.subheadingText
@@ -40,11 +40,11 @@ class ItinBookingInfoCardView(context: Context, attr: AttributeSet?) : LinearLay
         }
     }
 
-    private fun setupIcon(viewModel: ItinBookingInfoCardViewModel) {
+    private fun setupIcon() {
         icon.setImageResource(viewModel.iconImage)
     }
 
-    private fun setupClickAction(viewModel: ItinBookingInfoCardViewModel) {
+    private fun setupClickAction() {
         this.setOnClickListener {
             viewModel.cardClickListener()
         }

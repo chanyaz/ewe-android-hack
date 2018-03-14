@@ -10,7 +10,7 @@ class MockStringProvider : StringSource {
     }
 
     var lastSeenFetchWithMapArgs: Pair<Int, Map<String, String>>? = null
-    override fun fetch(stringResource: Int, map: Map<String, String>): String {
+    override fun fetchWithPhrase(stringResource: Int, map: Map<String, String>): String {
         lastSeenFetchWithMapArgs = Pair(stringResource, map)
         return "somePhraseString"
     }

@@ -6,10 +6,10 @@ import com.squareup.phrase.Phrase
 class StringProvider(val context: Context) : StringSource {
 
     override fun fetch(stringResource: Int): String {
-        return context.resources.getText(stringResource).toString()
+        return context.getString(stringResource)
     }
 
-    override fun fetch(stringResource: Int, map: Map<String, String>): String {
+    override fun fetchWithPhrase(stringResource: Int, map: Map<String, String>): String {
         val string = Phrase.from(context, stringResource)
         map.forEach {
             string.put(it.key, it.value)

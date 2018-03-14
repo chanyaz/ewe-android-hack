@@ -26,10 +26,10 @@ class HotelItinPriceSummaryButtonViewModel<S>(scope: S) : ItinBookingInfoCardVie
         if (paymentModel != null && formattedPrice != null) {
             when (paymentModel) {
                 PaymentModel.EXPEDIA_COLLECT -> {
-                    subheadingText = scope.strings.fetch(R.string.itin_hotel_details_price_summary_pay_now_TEMPLATE, mapOf("amount" to formattedPrice))
+                    subheadingText = scope.strings.fetchWithPhrase(R.string.itin_hotel_details_price_summary_pay_now_TEMPLATE, mapOf("amount" to formattedPrice))
                 }
                 PaymentModel.HOTEL_COLLECT -> {
-                    subheadingText = scope.strings.fetch(R.string.itin_hotel_details_price_summary_pay_later_TEMPLATE, mapOf("amount" to formattedPrice))
+                    subheadingText = scope.strings.fetchWithPhrase(R.string.itin_hotel_details_price_summary_pay_later_TEMPLATE, mapOf("amount" to formattedPrice))
                 }
             }
         } else {

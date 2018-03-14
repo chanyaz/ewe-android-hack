@@ -55,7 +55,7 @@ class HotelItinBookingDetails(context: Context, attr: AttributeSet?) : LinearLay
 
             if (checkIfWriteJsonEnabled && checkIfReadJsonEnabled) {
                 val itin = readJsonUtil.getItin(context, itinCardDataHotel.tripId)
-                itin?.let {
+                itin?.let { itin ->
                     itin.firstHotel()?.let { hotel ->
                         newPriceSummaryCard.visibility = View.VISIBLE
                         priceSummaryCard.visibility = View.GONE
