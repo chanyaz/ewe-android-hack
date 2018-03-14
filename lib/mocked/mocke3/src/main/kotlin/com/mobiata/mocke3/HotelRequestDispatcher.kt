@@ -26,6 +26,10 @@ class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOp
         }
 
         return when {
+            HotelRequestMatcher.isHotelSatelliteRequest(urlPath) -> {
+                return getMockResponse("m/api/hotel/search/satellite_happy.json")
+            }
+
             HotelRequestMatcher.isHotelSearchRequest(urlPath) -> {
                 val gaiaId = if (params["regionId"].isNullOrBlank()) "happy" else params["regionId"]
                 return getMockResponse("m/api/hotel/search/$gaiaId.json")
@@ -156,6 +160,10 @@ class HotelRequestMatcher() {
 
         fun isHotelSearchRequest(urlPath: String): Boolean {
             return doesItMatch("^/m/api/hotel/search.*$", urlPath)
+        }
+
+        fun isHotelSatelliteRequest(urlPath:String): Boolean {
+            return doesItMatch("^/m/api/hotel/search/v1.*$", urlPath)
         }
 
         fun isExpectedFareFormatDecimal(number: String) : Boolean {

@@ -6,6 +6,7 @@ import com.expedia.bookings.data.hotel.PriceRange
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.data.hotels.Neighborhood
 import com.expedia.bookings.hotel.data.Amenity
 import com.expedia.bookings.tracking.hotel.FilterTracker
 import com.expedia.util.endlessObserver
@@ -32,7 +33,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     val sortSpinnerObservable = PublishSubject.create<DisplaySort>()
     val isCurrentLocationSearch = BehaviorSubject.createDefault<Boolean>(false)
     val sortContainerVisibilityObservable = BehaviorSubject.create<Boolean>()
-    val neighborhoodListObservable = PublishSubject.create<List<HotelSearchResponse.Neighborhood>>()
+    val neighborhoodListObservable = PublishSubject.create<List<Neighborhood>>()
     val newPriceRangeObservable = PublishSubject.create<PriceRange>()
     val filteredZeroResultObservable = PublishSubject.create<Unit>()
     val availableAmenityOptionsObservable = PublishSubject.create<Set<String>>()
@@ -155,7 +156,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         toggleAmenity(amenity, false)
     }
 
-    val selectNeighborhood = endlessObserver<HotelSearchResponse.Neighborhood> { neighborhood ->
+    val selectNeighborhood = endlessObserver<Neighborhood> { neighborhood ->
         if (isClientSideFiltering()) {
             if (userFilterChoices.neighborhoods.isEmpty() || !userFilterChoices.neighborhoods.contains(neighborhood)) {
                 userFilterChoices.neighborhoods.add(neighborhood)
@@ -171,7 +172,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         handleFiltering()
     }
 
-    val deselectNeighborhood = endlessObserver<HotelSearchResponse.Neighborhood> { neighborhood ->
+    val deselectNeighborhood = endlessObserver<Neighborhood> { neighborhood ->
         if (!userFilterChoices.neighborhoods.isEmpty() && userFilterChoices.neighborhoods.contains(neighborhood)) {
             userFilterChoices.neighborhoods.remove(neighborhood)
         }

@@ -5,6 +5,7 @@ import android.location.Location
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.data.hotels.Neighborhood
 import com.expedia.bookings.hotel.map.HotelMapMarker
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
@@ -36,14 +37,14 @@ open class HotelResultsMapViewModel(val context: Context, val currentLocation: L
 
         val isInsideSearchArea = allHotelsBox.contains(currentLocationLatLng)
         val closestHotelWithNeighborhood: Hotel? = sortedHotels.firstOrNull { it.locationId != null }
-        val searchNeighborhood: HotelSearchResponse.Neighborhood? = response.allNeighborhoodsInSearchRegion.filter { it.id == searchRegionId }.firstOrNull()
+        val searchNeighborhood: Neighborhood? = response.allNeighborhoodsInSearchRegion.filter { it.id == searchRegionId }.firstOrNull()
 
         //If neighborhood search, zoom to that neighborhood
         if (searchNeighborhood != null && searchNeighborhood.hotels.isNotEmpty()) {
             return boxHotels(searchNeighborhood.hotels)
             //if current location is not within the search results, zoom to most "Dense" neighborhood
         } else if (!isInsideSearchArea) {
-            val mostInterestingNeighborhood: HotelSearchResponse.Neighborhood? = response.allNeighborhoodsInSearchRegion.sortedByDescending { it.score }.firstOrNull()
+            val mostInterestingNeighborhood: Neighborhood? = response.allNeighborhoodsInSearchRegion.sortedByDescending { it.score }.firstOrNull()
 
             if (mostInterestingNeighborhood != null && mostInterestingNeighborhood.hotels != null && mostInterestingNeighborhood.hotels.isNotEmpty()) {
                 return boxHotels(mostInterestingNeighborhood.hotels)

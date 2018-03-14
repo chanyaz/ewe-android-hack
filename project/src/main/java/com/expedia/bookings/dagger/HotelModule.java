@@ -1,12 +1,17 @@
 package com.expedia.bookings.dagger;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Named;
 
 import android.content.Context;
 
 import com.expedia.bookings.dagger.tags.HotelScope;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.payment.PaymentModel;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.hotel.util.HotelInfoManager;
 import com.expedia.bookings.hotel.util.HotelReviewsDataProvider;
 import com.expedia.bookings.hotel.util.HotelSearchManager;
@@ -20,6 +25,7 @@ import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.bookings.services.travelgraph.TravelGraphServices;
 import com.expedia.bookings.services.urgency.UrgencyServices;
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder;
+import com.expedia.bookings.utils.HMACInterceptor;
 import com.expedia.model.UserLoginStateChangedModel;
 import com.expedia.vm.BucksViewModel;
 import com.expedia.vm.PayWithPointsViewModel;
@@ -40,10 +46,17 @@ import okhttp3.OkHttpClient;
 public final class HotelModule {
 	@Provides
 	@HotelScope
-	HotelServices provideHotelServices(EndpointProvider endpointProvider, OkHttpClient client,
-		Interceptor interceptor) {
+	HotelServices provideHotelServices(Context context, EndpointProvider endpointProvider, OkHttpClient client,
+		Interceptor interceptor, HMACInterceptor hmacInterceptor, @Named("SatelliteInterceptor") Interceptor satelliteInterceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
-		return new HotelServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
+		final String satelliteEndpoint = endpointProvider.getSatelliteHotelEndpointUrl();
+
+		List<Interceptor> satelliteInterceptors = new ArrayList<>();
+		satelliteInterceptors.add(satelliteInterceptor);
+		satelliteInterceptors.add(hmacInterceptor);
+
+		boolean bucketed = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelSatelliteSearch);
+		return new HotelServices(endpoint, satelliteEndpoint, client, interceptor, satelliteInterceptors, bucketed, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides

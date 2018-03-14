@@ -3,6 +3,7 @@ package com.expedia.bookings.testrule
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.CardFeeService
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.services.RailServices
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
@@ -63,6 +64,11 @@ open class ServicesRule<T : Any>(val servicesClass: Class<T>, val scheduler: Sch
             return servicesClass.getConstructor(String::class.java, OkHttpClient::class.java, List::class.java, Scheduler::class.java,
                     Scheduler::class.java, Boolean::class.java).newInstance("http://localhost:" + server.port, client.build(), listOf(MockInterceptor()),
                     Schedulers.trampoline(), scheduler, false)
+        } else if (servicesClass.equals(HotelServices::class.java)) {
+            val endpoint = "http://localhost:" + server.port
+            return servicesClass.getConstructor(String::class.java, String::class.java, OkHttpClient::class.java, Interceptor::class.java, List::class.java,
+                    Boolean::class.java, Scheduler::class.java, Scheduler::class.java).newInstance(endpoint, endpoint, client.build(), MockInterceptor(),
+                    listOf(MockInterceptor()), false, Schedulers.trampoline(), scheduler)
         } else if (servicesClass.equals(CardFeeService::class.java)) {
             return servicesClass.getConstructor(String::class.java, OkHttpClient::class.java, List::class.java, Scheduler::class.java,
                     Scheduler::class.java, Boolean::class.java).newInstance("http://localhost:" + server.port, client.build(), listOf(MockInterceptor()),

@@ -1,7 +1,7 @@
 package com.expedia.bookings.data.hotel
 
 import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.data.hotels.Neighborhood
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Test
@@ -68,11 +68,11 @@ class UserFilterChoicesTest {
 
     @Test
     fun testNeighborhoodsClone() {
-        val neighborhood1 = HotelSearchResponse.Neighborhood()
+        val neighborhood1 = Neighborhood()
         neighborhood1.id = "id1"
         neighborhood1.name = "Nice neighborhood"
 
-        val neighborhood2 = HotelSearchResponse.Neighborhood()
+        val neighborhood2 = Neighborhood()
         neighborhood2.id = "id2"
         neighborhood2.name = "Don't stay here"
 

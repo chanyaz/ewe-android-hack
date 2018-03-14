@@ -11,6 +11,7 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.NearbyHotelParams
+import com.expedia.bookings.data.hotels.NewHotelSearchResponse
 import com.expedia.bookings.extensions.subscribeObserver
 import com.expedia.bookings.utils.Strings
 import com.google.gson.GsonBuilder
@@ -29,10 +30,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.HashMap
 import java.util.concurrent.TimeUnit
 
-open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+open class HotelServices(endpoint: String, satelliteEndpoint: String, okHttpClient: OkHttpClient,
+                         interceptor: Interceptor, satelliteInterceptors: List<Interceptor>, bucketedForHotelSatelliteSearch: Boolean,
+                         val observeOn: Scheduler, val subscribeOn: Scheduler) {
     private val TIME_OUT_SECONDS = 30L
 
-    val hotelApi: HotelApi by lazy {
+    private val hotelApi: HotelApi by lazy {
         val gson = GsonBuilder()
                 .registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
                 .create()
@@ -45,6 +48,26 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
                 .build()
 
         adapter.create(HotelApi::class.java)
+    }
+
+    private val hotelSatelliteApi: HotelSatelliteApi by lazy {
+        val gson = GsonBuilder()
+                .registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
+                .create()
+
+        val httpClientBuilder = okHttpClient.newBuilder()
+        httpClientBuilder.addInterceptor(interceptor)
+        for (satelliteInterceptor in satelliteInterceptors) {
+            httpClientBuilder.addInterceptor(satelliteInterceptor)
+        }
+
+        val adapter = Retrofit.Builder()
+                .baseUrl(satelliteEndpoint)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(httpClientBuilder.build())
+                .build()
+        adapter.create(HotelSatelliteApi::class.java)
     }
 
     fun nearbyHotels(params: NearbyHotelParams, observer: Observer<MutableList<Hotel>>): Disposable {
@@ -78,16 +101,39 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
                 }
     }
 
+    //TODO exposed for testing for now.  Mingle card 11028 to add a fork and convert to Old Hotel Response
+    fun fastSearch(params: HotelSearchParams, resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Observable<NewHotelSearchResponse> {
+        val lat = getLatitude(params.suggestion)
+        val long = getLongitude(params.suggestion)
+        val regionId = getRegionId(params)
+        if (params.suggestion.hotelId != null) {
+            params.enableSponsoredListings = false
+        }
+
+        return hotelSatelliteApi.search(regionId, params.suggestion.hotelId, lat, long,
+                params.checkIn.toString(), params.checkOut.toString(), params.guestString, params.shopWithPoints,
+                params.getSortOrder().sortName, params.filterOptions?.getFiltersQueryMap() ?: HashMap(), params.mctc,
+                params.enableSponsoredListings)
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .doOnNext {
+                    resultsResponseReceivedObservable?.onNext(Unit)
+                }
+                .doOnNext { response ->
+                    //TODO convert to old hotel search response
+                }
+    }
+
     fun offers(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Disposable {
-            return hotelApi.offers(hotelSearchParams.checkIn.toString(), hotelSearchParams.checkOut.toString(),
-                    hotelSearchParams.guestString, hotelId, hotelSearchParams.shopWithPoints, hotelSearchParams.mctc)
-                    .timeout(TIME_OUT_SECONDS, TimeUnit.SECONDS)
-                    .observeOn(observeOn)
-                    .subscribeOn(subscribeOn)
-                    .doOnNext { response ->
-                        doPostOffersClientSideWork(response)
-                    }
-                    .subscribeObserver(observer)
+        return hotelApi.offers(hotelSearchParams.checkIn.toString(), hotelSearchParams.checkOut.toString(),
+                hotelSearchParams.guestString, hotelId, hotelSearchParams.shopWithPoints, hotelSearchParams.mctc)
+                .timeout(TIME_OUT_SECONDS, TimeUnit.SECONDS)
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .doOnNext { response ->
+                    doPostOffersClientSideWork(response)
+                }
+                .subscribeObserver(observer)
     }
 
     fun info(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Disposable {

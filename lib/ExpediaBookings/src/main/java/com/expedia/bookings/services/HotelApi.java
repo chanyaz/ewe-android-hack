@@ -40,7 +40,7 @@ public interface HotelApi {
 		@Query("room1") String guestString,
 		@Query("shopWithPoints") Boolean shopWithPoints,
 		@Query("sortOrder") String sortOrder,
-		@QueryMap(encoded = true) Map<String, Object> filterParams,
+		@QueryMap(encoded = true) Map<String, String> filterParams,
 		@Query("mctc") Integer mctc,
 		@Query("enableSponsoredListings") Boolean enableSponsoredListings);
 

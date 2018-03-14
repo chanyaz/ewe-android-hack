@@ -6,7 +6,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
-import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.data.hotels.Neighborhood
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
@@ -101,8 +101,8 @@ class HotelFilterViewTest {
     fun testOneNeighborhoodIsValid() {
         // https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/1682
         initViewModel()
-        val list = ArrayList<HotelSearchResponse.Neighborhood>()
-        list.add(HotelSearchResponse.Neighborhood())
+        val list = ArrayList<Neighborhood>()
+        list.add(Neighborhood())
         viewModel.neighborhoodListObservable.onNext(list)
 
         assertTrue(hotelFilterView.neighborhoodView.visibility == View.VISIBLE)
@@ -175,11 +175,11 @@ class HotelFilterViewTest {
         hotelFilterView.shopWithPointsViewModel = shopWithPointsViewModel
     }
 
-    private fun getNeighborhoodList(): List<HotelSearchResponse.Neighborhood> {
-        val list = ArrayList<HotelSearchResponse.Neighborhood>()
-        list.add(HotelSearchResponse.Neighborhood())
-        list.add(HotelSearchResponse.Neighborhood())
-        list.add(HotelSearchResponse.Neighborhood())
+    private fun getNeighborhoodList(): List<Neighborhood> {
+        val list = ArrayList<Neighborhood>()
+        list.add(Neighborhood())
+        list.add(Neighborhood())
+        list.add(Neighborhood())
         return list
     }
 }

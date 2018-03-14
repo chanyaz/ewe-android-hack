@@ -8,7 +8,7 @@ import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import com.expedia.bookings.R
-import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.data.hotels.Neighborhood
 import com.expedia.bookings.utils.bindView
 
 class ServerNeighborhoodFilterView(context: Context, attrs: AttributeSet?) : BaseNeighborhoodFilterView(context, attrs) {
@@ -22,7 +22,7 @@ class ServerNeighborhoodFilterView(context: Context, attrs: AttributeSet?) : Bas
         }
     }
 
-    override fun updateNeighborhoods(list: List<HotelSearchResponse.Neighborhood>) {
+    override fun updateNeighborhoods(list: List<Neighborhood>) {
         super.updateNeighborhoods(list)
         neighborhoodGroup.removeAllViews()
 

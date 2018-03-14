@@ -3,6 +3,7 @@ package com.expedia.vm.hotel
 import android.location.Location
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.data.hotels.Neighborhood
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
@@ -199,8 +200,8 @@ class HotelResultsMapViewModelTest {
 
         hotelSearchResponse.hotelList = hotelList
         hotelSearchResponse.isFilteredResponse = isFilteredResponse
-        val allNeighborhoodsInSearchRegion = ArrayList<HotelSearchResponse.Neighborhood>()
-        val neighborhoodsMap = HashMap<String, HotelSearchResponse.Neighborhood>()
+        val allNeighborhoodsInSearchRegion = ArrayList<Neighborhood>()
+        val neighborhoodsMap = HashMap<String, Neighborhood>()
         for (i in 0 until numNeighborhood) {
             val neighborhood = createNeighborhood("region$i", ArrayList(), numNeighborhood - i)
             if (i == 0) {
@@ -225,8 +226,8 @@ class HotelResultsMapViewModelTest {
         return hotel
     }
 
-    private fun createNeighborhood(id: String, hotels: List<Hotel>, score: Int): HotelSearchResponse.Neighborhood {
-        val neighborhood = HotelSearchResponse.Neighborhood()
+    private fun createNeighborhood(id: String, hotels: List<Hotel>, score: Int): Neighborhood {
+        val neighborhood = Neighborhood()
         neighborhood.name = "region"
         neighborhood.id = id
         neighborhood.hotels = hotels

@@ -213,10 +213,10 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
         var userSort: SortType? = null
         var amenities: HashSet<Int> = HashSet()
 
-        fun getFiltersQueryMap(): Map<String, Any?> {
-            val params = HashMap<String, Any?>()
+        fun getFiltersQueryMap(): Map<String, String> {
+            val params = HashMap<String, String>()
             if (!filterHotelName.isNullOrEmpty()) {
-                params.put("filterHotelName", filterHotelName)
+                params.put("filterHotelName", filterHotelName!!)
             }
 
             if (filterStarRatings.isNotEmpty()) {

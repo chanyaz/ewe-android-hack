@@ -3,6 +3,7 @@ package com.expedia.bookings.test
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.data.hotels.Neighborhood
 import com.expedia.bookings.hotel.data.Amenity
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.testutils.JSONResourceReader
@@ -89,7 +90,7 @@ class HotelFilterViewModelTest {
         vm.userFilterChoices.minPrice = 20
         vm.userFilterChoices.maxPrice = 50
 
-        val neighborhood = HotelSearchResponse.Neighborhood()
+        val neighborhood = Neighborhood()
         neighborhood.name = "Civic Center"
         vm.selectNeighborhood.onNext(neighborhood)
 
@@ -119,7 +120,7 @@ class HotelFilterViewModelTest {
         vm.userFilterChoices.minPrice = 20
         vm.userFilterChoices.maxPrice = 50
 
-        val neighborhood = HotelSearchResponse.Neighborhood()
+        val neighborhood = Neighborhood()
         neighborhood.name = "Civic Center"
         vm.selectNeighborhood.onNext(neighborhood)
 
@@ -158,7 +159,7 @@ class HotelFilterViewModelTest {
         vm.doneObservable.onNext(Unit)
         assertEquals(1, vm.userFilterChoices.filterCount())
 
-        val neighborhood1 = HotelSearchResponse.Neighborhood()
+        val neighborhood1 = Neighborhood()
         neighborhood1.name = "Civic Center"
 
         vm.selectNeighborhood.onNext(neighborhood1)
@@ -190,7 +191,7 @@ class HotelFilterViewModelTest {
 
     @Test
     fun testNotShowingSearchedNeighborhood() {
-        var neighborhoodList: List<HotelSearchResponse.Neighborhood> = ArrayList()
+        var neighborhoodList: List<Neighborhood> = ArrayList()
         vm.neighborhoodListObservable.subscribe { neighborhood ->
             neighborhoodList = neighborhood
         }

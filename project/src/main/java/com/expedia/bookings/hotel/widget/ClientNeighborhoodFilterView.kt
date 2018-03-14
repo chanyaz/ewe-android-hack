@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.data.hotels.Neighborhood
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.HotelsNeighborhoodFilter
 
@@ -20,7 +20,7 @@ class ClientNeighborhoodFilterView(context: Context, attrs: AttributeSet?) : Bas
         }
     }
 
-    override fun updateNeighborhoods(list: List<HotelSearchResponse.Neighborhood>) {
+    override fun updateNeighborhoods(list: List<Neighborhood>) {
         super.updateNeighborhoods(list)
         neighborhoodGroup.removeAllViews()
 

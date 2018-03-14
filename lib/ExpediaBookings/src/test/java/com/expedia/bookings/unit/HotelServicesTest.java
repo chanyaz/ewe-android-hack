@@ -13,9 +13,9 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.SuggestionV4;
-import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelApplyCouponParameters;
 import com.expedia.bookings.data.hotels.HotelCheckoutParamsMock;
@@ -25,6 +25,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelSearchParams;
 import com.expedia.bookings.data.hotels.NearbyHotelParams;
+import com.expedia.bookings.data.hotels.NewHotelSearchResponse;
 import com.expedia.bookings.data.payment.PointsAndCurrency;
 import com.expedia.bookings.data.payment.PointsType;
 import com.expedia.bookings.data.payment.ProgramName;
@@ -33,10 +34,12 @@ import com.expedia.bookings.data.payment.UserPreferencePointsDetails;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.services.HotelServices;
-import com.expedia.bookings.utils.NumberUtils;
+import com.expedia.bookings.services.TestObserver;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
 
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -44,8 +47,6 @@ import okhttp3.mockwebserver.Dispatcher;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
-import com.expedia.bookings.services.TestObserver;
-import io.reactivex.schedulers.Schedulers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -59,15 +60,24 @@ public class HotelServicesTest {
 
 	private HotelServices service;
 	private HotelApplyCouponParameters couponParams;
+	private MockInterceptor satelliteInterceptor = new MockInterceptor();
+	private MockInterceptor hmacInterceptor = new MockInterceptor();
 
 	@Before
 	public void before() {
 		HttpLoggingInterceptor logger = new HttpLoggingInterceptor();
 		logger.setLevel(HttpLoggingInterceptor.Level.BODY);
+
 		Interceptor interceptor = new MockInterceptor();
-		service = new HotelServices("http://localhost:" + server.getPort(),
+		List<Interceptor> interceptors = new ArrayList<>();
+		interceptors.add(satelliteInterceptor);
+		interceptors.add(hmacInterceptor);
+
+		String endpoint = "http://localhost:" + server.getPort();
+
+		service = new HotelServices(endpoint, endpoint,
 			new OkHttpClient.Builder().addInterceptor(logger).build(),
-			interceptor, Schedulers.trampoline(), Schedulers.trampoline());
+			interceptor, interceptors, false, Schedulers.trampoline(), Schedulers.trampoline());
 	}
 
 	@Test
@@ -193,6 +203,45 @@ public class HotelServicesTest {
 		observer.assertValueCount(1);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testFastSearchHappyResponse() throws Throwable {
+		givenServerUsingMockResponses();
+
+		TestObserver<NewHotelSearchResponse> observer = new TestObserver<>();
+		PublishSubject testSubject = PublishSubject.create();
+
+		HotelSearchParams params = givenHappyHotelSearchParams();
+
+		service.fastSearch(params, testSubject).subscribe(observer);
+		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
+
+		observer.assertNoErrors();
+		observer.assertComplete();
+		observer.assertValueCount(1);
+
+		NewHotelSearchResponse response = observer.values().get(0);
+		assertEquals(100, response.getHotels().size());
+		assertNotNull(response.getPageSummaryData());
+	}
+
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testFastSearchHitsAllInterceptors() throws Throwable {
+		givenServerUsingMockResponses();
+		TestObserver<NewHotelSearchResponse> observer = new TestObserver<>();
+		PublishSubject testSubject = PublishSubject.create();
+
+		HotelSearchParams params = givenHappyHotelSearchParams();
+
+		service.fastSearch(params, testSubject).subscribe(observer);
+		observer.awaitTerminalEvent();
+		observer.assertComplete();
+
+		assertTrue(satelliteInterceptor.wasCalled());
+		assertTrue(hmacInterceptor.wasCalled());
+	}
+
 	@Test
 	public void testMockDetailsWithoutOffersWorks() throws Throwable {
 		givenServerUsingMockResponses();
@@ -235,7 +284,8 @@ public class HotelServicesTest {
 	public void unknownRewardsTypesAreRemovedAndKnownRewardsTypesRemainInCreateTripResponse() throws Throwable {
 		givenServerUsingMockResponses();
 
-		HotelCreateTripParams params = new HotelCreateTripParams("hotel_pwp_multiple_points_types", false, 1, Collections.<Integer>emptyList());
+		HotelCreateTripParams params = new HotelCreateTripParams("hotel_pwp_multiple_points_types", false, 1,
+			Collections.<Integer>emptyList());
 
 		TestObserver<HotelCreateTripResponse> observer = new TestObserver<>();
 
@@ -247,15 +297,16 @@ public class HotelServicesTest {
 		observer.assertValueCount(1);
 
 		HotelCreateTripResponse response = observer.values().get(0);
-		Assert.assertEquals(1, response.getPointsDetails().size());
-		Assert.assertEquals(ProgramName.ExpediaRewards, response.getPointsDetails().get(0).getProgramName());
+		assertEquals(1, response.getPointsDetails().size());
+		assertEquals(ProgramName.ExpediaRewards, response.getPointsDetails().get(0).getProgramName());
 	}
 
 	@Test
 	public void knownRewardsTypeRemainInCreateTripResponse() throws Throwable {
 		givenServerUsingMockResponses();
 
-		HotelCreateTripParams params = new HotelCreateTripParams("happypath_pwp_points_only", false, 1, Collections.<Integer>emptyList());
+		HotelCreateTripParams params = new HotelCreateTripParams("happypath_pwp_points_only", false, 1,
+			Collections.<Integer>emptyList());
 
 		TestObserver<HotelCreateTripResponse> observer = new TestObserver<>();
 
@@ -267,15 +318,16 @@ public class HotelServicesTest {
 		observer.assertValueCount(1);
 
 		HotelCreateTripResponse response = observer.values().get(0);
-		Assert.assertEquals(1, response.getPointsDetails().size());
-		Assert.assertEquals(ProgramName.ExpediaRewards, response.getPointsDetails().get(0).getProgramName());
+		assertEquals(1, response.getPointsDetails().size());
+		assertEquals(ProgramName.ExpediaRewards, response.getPointsDetails().get(0).getProgramName());
 	}
 
 	@Test
 	public void unknownRewardsTypesAreRemovedFromCreateTripResponse() throws Throwable {
 		givenServerUsingMockResponses();
 
-		HotelCreateTripParams params = new HotelCreateTripParams("hotel_pwp_unknown_points_type", false, 1, Collections.<Integer>emptyList());
+		HotelCreateTripParams params = new HotelCreateTripParams("hotel_pwp_unknown_points_type", false, 1,
+			Collections.<Integer>emptyList());
 
 		TestObserver<HotelCreateTripResponse> observer = new TestObserver<>();
 
@@ -287,7 +339,7 @@ public class HotelServicesTest {
 		observer.assertValueCount(1);
 
 		HotelCreateTripResponse response = observer.values().get(0);
-		Assert.assertEquals(0, response.getPointsDetails().size());
+		assertEquals(0, response.getPointsDetails().size());
 	}
 
 	@Test
@@ -404,7 +456,7 @@ public class HotelServicesTest {
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 		observer.assertComplete();
 		ApiError apiError = observer.values().get(0).getFirstError();
-		Assert.assertEquals(ApiError.Code.APPLY_COUPON_ERROR, apiError.errorCode);
+		assertEquals(ApiError.Code.APPLY_COUPON_ERROR, apiError.errorCode);
 	}
 
 	@Test
@@ -450,7 +502,8 @@ public class HotelServicesTest {
 	public void testStoredCouponsWithCreateTripResponse() throws Throwable {
 		givenServerUsingMockResponses();
 
-		HotelCreateTripParams params = new HotelCreateTripParams("happypath_createtrip_saved_coupons", false, 1, Collections.<Integer>emptyList());
+		HotelCreateTripParams params = new HotelCreateTripParams("happypath_createtrip_saved_coupons", false, 1,
+			Collections.<Integer>emptyList());
 
 		TestObserver<HotelCreateTripResponse> observer = new TestObserver<>();
 
@@ -462,51 +515,22 @@ public class HotelServicesTest {
 		observer.assertValueCount(1);
 
 		HotelCreateTripResponse response = observer.values().get(0);
-		Assert.assertEquals(3, response.userCoupons.size());
+		assertEquals(3, response.userCoupons.size());
 		HotelCreateTripResponse.SavedCoupon firstCoupon = response.userCoupons.get(0);
 
-		Assert.assertEquals(HotelCreateTripResponse.RedemptionStatus.REDEEMED, firstCoupon.redemptionStatus);
-		Assert.assertEquals("1", firstCoupon.instanceId);
-		Assert.assertEquals("firstCoupon", firstCoupon.name);
+		assertEquals(HotelCreateTripResponse.RedemptionStatus.REDEEMED, firstCoupon.redemptionStatus);
+		assertEquals("1", firstCoupon.instanceId);
+		assertEquals("firstCoupon", firstCoupon.name);
 
 		HotelCreateTripResponse.SavedCoupon secondCoupon = response.userCoupons.get(1);
-		Assert.assertEquals(HotelCreateTripResponse.RedemptionStatus.VALID, secondCoupon.redemptionStatus);
-		Assert.assertEquals("2", secondCoupon.instanceId);
-		Assert.assertEquals("ESCAPE20PERCENT - US", secondCoupon.name);
+		assertEquals(HotelCreateTripResponse.RedemptionStatus.VALID, secondCoupon.redemptionStatus);
+		assertEquals("2", secondCoupon.instanceId);
+		assertEquals("ESCAPE20PERCENT - US", secondCoupon.name);
 
 		HotelCreateTripResponse.SavedCoupon thirdCoupon = response.userCoupons.get(2);
-		Assert.assertEquals(HotelCreateTripResponse.RedemptionStatus.EXPIRED, thirdCoupon.redemptionStatus);
-		Assert.assertEquals("3", thirdCoupon.instanceId);
-		Assert.assertEquals("Employee Escape Package Coupon - $1000-$1999", thirdCoupon.name);
-	}
-
-
-	private List<Hotel> createDummyList(int hotelCount, boolean keepSponsoredItems) {
-		List<Hotel> hotelList = new ArrayList<>();
-		for (int index = 0; index < hotelCount; index++) {
-			Hotel hotel = new Hotel();
-			hotel.hotelId = "Normal";
-			hotelList.add(hotel);
-		}
-
-		List<Integer> randomNumberList = NumberUtils.getRandomNumberList(hotelCount);
-		if (keepSponsoredItems) {
-			setHotelAsSponsored(hotelList.get(randomNumberList.get(0)));
-			if (hotelCount >= 50) {
-				setHotelAsSponsored(hotelList.get(randomNumberList.get(1)));
-				setHotelAsSponsored(hotelList.get(randomNumberList.get(2)));
-			}
-		}
-		return hotelList;
-	}
-
-	private void setHotelAsSponsored(Hotel hotel) {
-		hotel.isSponsoredListing = true;
-		hotel.hotelId = "Sponsored";
-	}
-
-	private boolean isHotelSponsored(Hotel hotel) {
-		return hotel.isSponsoredListing && hotel.hotelId.equals("Sponsored");
+		assertEquals(HotelCreateTripResponse.RedemptionStatus.EXPIRED, thirdCoupon.redemptionStatus);
+		assertEquals("3", thirdCoupon.instanceId);
+		assertEquals("Employee Escape Package Coupon - $1000-$1999", thirdCoupon.name);
 	}
 
 	private NearbyHotelParams givenNearbyHotelParams() {

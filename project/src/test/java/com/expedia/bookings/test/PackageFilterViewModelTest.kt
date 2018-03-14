@@ -5,6 +5,7 @@ import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.data.hotels.PriceOption
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.testutils.JSONResourceReader
@@ -201,7 +202,7 @@ class PackageFilterViewModelTest {
 
     private fun fakeFilteredResponse(): HotelSearchResponse {
         val response = HotelSearchResponse()
-        response.priceOptions = listOf(HotelSearchResponse.PriceOption(), HotelSearchResponse.PriceOption())
+        response.priceOptions = listOf(PriceOption(), PriceOption())
         response.priceOptions[0].minPrice = 0
         response.priceOptions[1].minPrice = 300
 

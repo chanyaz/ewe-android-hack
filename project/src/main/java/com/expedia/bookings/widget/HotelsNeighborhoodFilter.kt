@@ -6,8 +6,7 @@ import android.widget.CheckBox
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.expedia.bookings.R
-import com.expedia.bookings.data.hotels.HotelSearchResponse
-import com.expedia.bookings.data.hotels.HotelSearchResponse.Neighborhood
+import com.expedia.bookings.data.hotels.Neighborhood
 import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
@@ -16,8 +15,8 @@ import io.reactivex.subjects.PublishSubject
 
 class HotelsNeighborhoodFilter(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs) {
 
-    val neighborhoodSelectedSubject = PublishSubject.create<HotelSearchResponse.Neighborhood>()
-    val neighborhoodDeselectedSubject = PublishSubject.create<HotelSearchResponse.Neighborhood>()
+    val neighborhoodSelectedSubject = PublishSubject.create<Neighborhood>()
+    val neighborhoodDeselectedSubject = PublishSubject.create<Neighborhood>()
 
     private lateinit var neighborhood: Neighborhood
 

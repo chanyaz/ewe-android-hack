@@ -8,14 +8,14 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.data.hotels.Neighborhood
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import io.reactivex.subjects.PublishSubject
 
 abstract class BaseNeighborhoodFilterView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
-    val neighborhoodOnSubject = PublishSubject.create<HotelSearchResponse.Neighborhood>()
-    val neighborhoodOffSubject = PublishSubject.create<HotelSearchResponse.Neighborhood>()
+    val neighborhoodOnSubject = PublishSubject.create<Neighborhood>()
+    val neighborhoodOffSubject = PublishSubject.create<Neighborhood>()
 
     protected val collapseViewCount = 3
     private val ANIMATION_DURATION = 500L
@@ -36,7 +36,7 @@ abstract class BaseNeighborhoodFilterView(context: Context, attrs: AttributeSet?
     protected abstract fun getNeighborhoodContainer(): LinearLayout
 
     @CallSuper
-    open fun updateNeighborhoods(list: List<HotelSearchResponse.Neighborhood>) {
+    open fun updateNeighborhoods(list: List<Neighborhood>) {
         moreLessView.visibility = if (list.size > collapseViewCount) View.VISIBLE else View.GONE
     }
 

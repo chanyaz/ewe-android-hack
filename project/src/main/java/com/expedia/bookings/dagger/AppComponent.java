@@ -86,6 +86,9 @@ public interface AppComponent {
 	@Named("TravelGraphInterceptor")
 	Interceptor travelGraphInterceptor();
 
+	@Named("SatelliteInterceptor")
+	Interceptor satelliteRequestInterceptor();
+
 	AbacusServices abacus();
 
 	IClientLogServices clientLog();

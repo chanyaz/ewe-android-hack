@@ -5,6 +5,7 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.data.hotels.Neighborhood
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -117,10 +118,10 @@ class HotelSearchManagerTest {
     }
 
     private fun addNeighborhoodAndHotelsToResponse(hotelSearchResponse: HotelSearchResponse) {
-        val neighborhood1 = HotelSearchResponse.Neighborhood()
+        val neighborhood1 = Neighborhood()
         neighborhood1.id = "1"
         neighborhood1.name = "West Loop"
-        val neighborhood2 = HotelSearchResponse.Neighborhood()
+        val neighborhood2 = Neighborhood()
         neighborhood2.id = "2"
         neighborhood2.name = "Lincoln Park"
         hotelSearchResponse.neighborhoodsMap.put("123", neighborhood1)
