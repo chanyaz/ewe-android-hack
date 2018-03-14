@@ -431,7 +431,7 @@
         android:layout_below="@+id/hotel_description_container"
         android:background="@color/white" />
 
-    <com.expedia.bookings.widget.FrameLayout
+    <FrameLayout
         android:id="@+id/map_click_container"
         android:layout_width="wrap_content"
         android:layout_height="160dp"
@@ -457,7 +457,7 @@
             android:contentDescription="@string/hotel_map_view_cont_desc"
             android:paddingBottom="160dp" />
 
-    </com.expedia.bookings.widget.FrameLayout>
+    </FrameLayout>
 
     <com.expedia.bookings.hotel.widget.PayNowPayLaterTabs
         android:id="@+id/pay_now_pay_later_tabs"

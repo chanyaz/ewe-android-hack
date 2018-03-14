@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewStub
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotel.DisplaySort

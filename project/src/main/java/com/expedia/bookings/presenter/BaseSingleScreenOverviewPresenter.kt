@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.AnimUtils
@@ -11,7 +12,6 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.CVVEntryWidget
 import com.expedia.bookings.widget.CheckoutToolbar
-import com.expedia.bookings.widget.FrameLayout
 import com.expedia.vm.CheckoutToolbarViewModel
 
 abstract class BaseSingleScreenOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverviewPresenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {

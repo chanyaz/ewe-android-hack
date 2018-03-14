@@ -3,9 +3,9 @@ package com.expedia.bookings.rail.widget
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.widget.FrameLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.CalendarWidgetWithTimeSlider
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.rail.RailSearchViewModel

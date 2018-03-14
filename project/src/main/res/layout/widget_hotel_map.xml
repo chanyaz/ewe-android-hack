@@ -52,7 +52,7 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <com.expedia.bookings.widget.FrameLayout
+    <FrameLayout
         android:id="@+id/stub_map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

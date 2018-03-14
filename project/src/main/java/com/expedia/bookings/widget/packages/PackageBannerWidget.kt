@@ -6,12 +6,12 @@ import android.support.v7.widget.CardView
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.NavigationHelper
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.FrameLayout
 import com.squareup.phrase.Phrase
 
 class PackageBannerWidget(context: Context) : FrameLayout(context) {

@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.FrameLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.DeprecatedHotelSearchParams
 import com.expedia.bookings.data.HotelSearchResponse
@@ -33,7 +34,6 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBrandColorEnabled
 import com.expedia.bookings.utils.navigation.HotelNavUtils
-import com.expedia.bookings.widget.FrameLayout
 import com.mobiata.android.Log
 import com.squareup.otto.Subscribe
 import io.reactivex.Observer

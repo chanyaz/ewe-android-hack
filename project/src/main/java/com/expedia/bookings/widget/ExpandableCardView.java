@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.interfaces.ToolbarListener;

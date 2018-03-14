@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.Button
+import android.widget.FrameLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.utils.bindView

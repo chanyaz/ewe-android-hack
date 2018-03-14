@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
+import android.widget.FrameLayout
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.hotel.util.shouldShowCircleForRatings
@@ -15,7 +16,6 @@ import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.StarRatingBar
 import com.expedia.bookings.widget.TextView
 import com.expedia.vm.HotelInfoToolbarViewModel

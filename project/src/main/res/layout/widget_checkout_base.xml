@@ -23,14 +23,14 @@
                 android:paddingLeft="9dp"
                 android:paddingRight="9dp">
 
-                <com.expedia.bookings.widget.FrameLayout
+                <FrameLayout
                     android:id="@+id/summary_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="9dp"
                     android:background="@drawable/card_background">
 
-                </com.expedia.bookings.widget.FrameLayout>
+                </FrameLayout>
 
                 <com.expedia.bookings.widget.AccountButton
                     android:id="@+id/login_widget"
@@ -103,7 +103,7 @@
                     android:layout_marginTop="12dp"
                     android:layout="?attr/paymentWidgetLayout" />
 
-                <com.expedia.bookings.widget.FrameLayout
+                <FrameLayout
                     android:id="@+id/coupon_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>

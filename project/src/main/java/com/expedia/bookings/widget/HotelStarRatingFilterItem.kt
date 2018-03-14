@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.ImageButton
 import com.expedia.bookings.R
 import com.expedia.bookings.data.pos.PointOfSale

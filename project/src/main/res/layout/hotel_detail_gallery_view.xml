@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:parentTag="RelativeLayout">
 
-    <com.expedia.bookings.widget.FrameLayout
+    <FrameLayout
         android:id="@+id/gallery_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -44,7 +44,7 @@
             android:paddingTop="8dp"
             android:textColor="@color/white"
             android:importantForAccessibility="no"/>
-    </com.expedia.bookings.widget.FrameLayout>
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/hotel_gallery_description_container"

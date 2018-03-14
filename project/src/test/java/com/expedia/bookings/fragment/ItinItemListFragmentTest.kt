@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.TextView
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateTracked
@@ -18,7 +19,6 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withEventsString
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.widget.FrameLayout
 import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test

@@ -16,10 +16,10 @@ import android.util.Pair;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
+import android.widget.FrameLayout;
 
 import com.expedia.bookings.animation.LooseLipsSinkShipsInterpolator;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.widget.FrameLayout;
 import com.mobiata.android.Log;
 
 import butterknife.ButterKnife;

@@ -184,7 +184,7 @@
         android:layout_height="6dp"
         android:background="@drawable/ab_shadow" />
 
-    <com.expedia.bookings.widget.FrameLayout
+    <FrameLayout
         android:id="@+id/deep_refresh_loading_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -215,6 +215,6 @@
                 android:indeterminate="true" />
         </LinearLayout>
 
-    </com.expedia.bookings.widget.FrameLayout>
+    </FrameLayout>
 
 </RelativeLayout>

@@ -5,11 +5,11 @@ import android.support.v7.widget.CardView
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.TextView
 import com.expedia.vm.AbstractFlightViewModel
 

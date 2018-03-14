@@ -5,9 +5,9 @@ import android.graphics.drawable.Drawable
 import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.View
+import android.widget.FrameLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.TextView
 
 open class TwoTabCardView(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {

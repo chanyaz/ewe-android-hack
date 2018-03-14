@@ -7,10 +7,10 @@ import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
+import android.widget.FrameLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
-import com.expedia.bookings.widget.FrameLayout
 import com.expedia.util.PermissionsUtils
 import com.expedia.vm.hotel.HotelResultsMapViewModel
 import com.google.android.gms.maps.CameraUpdateFactory

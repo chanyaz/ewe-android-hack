@@ -3,6 +3,7 @@ package com.expedia.bookings.widget.itin
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
@@ -16,7 +17,6 @@ import com.expedia.bookings.server.TripParser
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.TextView
 import com.mobiata.flightlib.data.Flight
 import okio.Okio

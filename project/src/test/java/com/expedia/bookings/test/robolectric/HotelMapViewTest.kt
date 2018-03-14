@@ -2,6 +2,7 @@ package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
 import android.view.View
+import android.widget.FrameLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -9,7 +10,6 @@ import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
-import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.HotelMapView
 import com.expedia.vm.HotelMapViewModel
 import com.google.android.gms.maps.MapView

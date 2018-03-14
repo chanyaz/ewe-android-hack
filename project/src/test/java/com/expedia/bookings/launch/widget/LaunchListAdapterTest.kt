@@ -9,6 +9,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
@@ -41,7 +42,6 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.shouldShowRewardLaunchCard
 import com.expedia.bookings.utils.LaunchNavBucketCache
-import com.expedia.bookings.widget.FrameLayout
 import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.launch.SignInPlaceHolderViewModel
 import com.google.android.gms.ads.formats.NativeAd
