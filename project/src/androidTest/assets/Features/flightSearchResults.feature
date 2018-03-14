@@ -253,7 +253,7 @@ Feature: Flights Search Results
     And Validate that flight search results are displayed
     Then basic economy on cell 1 isDisplayed : true
 
-  @Flights @EBOnlySet2
+  @Flights
   Scenario: Validate that XSell Package Banner is displayed for Round Trip, Economy and UK/US POS
     Given I launch the App
     And I set bucketing rules for A/B tests as

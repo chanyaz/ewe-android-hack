@@ -432,7 +432,7 @@ public class SearchScreenSteps {
 	@Then("^Validate that number of results shown and present are equal$")
 	public void validateResultCount() {
 		String resultString = getResultCount();
-		String resultCountString = resultString.replace(" Results", "");
+		String resultCountString = resultString.replace(" Results", "").trim();
 		int resultCount = Integer.parseInt(resultCountString);
 		PackageScreen.listView().check(matches(withRecyclerViewSize(resultCount + 3)));
 	}

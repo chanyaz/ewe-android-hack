@@ -443,7 +443,6 @@ Feature: Flights Search
   And I wait for results to load
   And Validate that flight search results are displayed
   And I click on sort and filter icon and isOutBound : true
-  And I select "Nonstop" checkbox and isOutBound : true
   And I select "1 Stop" checkbox and isOutBound : true
   And I click on sort and filter screen done button
   Then Validate <preferredClass> is present on every result on FSR for isOutBound : true

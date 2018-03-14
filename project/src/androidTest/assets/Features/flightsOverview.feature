@@ -78,8 +78,8 @@ Feature: Flights Overview
       | destination         | LAS                                      |
       | source_suggest      | San Francisco, CA                        |
       | destination_suggest | LAS - McCarran Intl.                     |
-      | start_date          | 50                                       |
-      | end_date            | 55                                       |
+      | start_date          | 30                                       |
+      | end_date            | 35                                       |
       | adults              | 1                                        |
       | child               | 0                                        |
     And I wait for results to load
@@ -91,7 +91,7 @@ Feature: Flights Overview
     And I click on sort and filter icon and isOutBound : false
     And I select "Nonstop" checkbox and isOutBound : false
     And I click on sort and filter screen done button
-    And I choose the flight with airline name "Virgin America" and isOutBound : false
+    And I choose the flight with airline name "Delta" and isOutBound : false
     And Close price change Alert dialog if it is visible
     And Wait for checkout button to display
     Then validate free cancellation message "Free cancellation within 24 hours" is displayed
@@ -451,8 +451,8 @@ Feature: Flights Overview
       | destination         | LAS                                      |
       | source_suggest      | San Francisco, CA                        |
       | destination_suggest | LAS - McCarran Intl.                     |
-      | start_date          | 55                                       |
-      | end_date            | 60                                       |
+      | start_date          | 30                                       |
+      | end_date            | 35                                       |
       | adults              | 1                                        |
       | child               | 0                                        |
     And I wait for results to load

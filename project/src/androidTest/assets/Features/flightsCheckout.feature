@@ -286,8 +286,6 @@ Feature: Flights Checkout
   @Flights @FlightsCheckoutSet2 @Prod
   Scenario: Verify that traveler details and card details are erased on each create trip from checkout page for one-way trip flights.
     Given I launch the App
-    And I set bucketing rules for A/B tests as
-      | EBAndroidAppFlightsCrossSellPackageOnFSR` | CONTROL            |
     And I launch "Flights" LOB
     And I select one way trip
     When I enter source and destination for flights
