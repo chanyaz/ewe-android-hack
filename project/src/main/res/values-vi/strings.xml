@@ -201,6 +201,14 @@
     <string name="redemption_location_activity_details">Địa điểm gặp/đổi vé</string>
     <!-- Instruction at the bottom of lx infosite map to select an activity from the list -->
     <string name="select_an_activity_instruction">Chọn một hoạt động</string>
+    <!-- MIP header text on SRP. eg. Because you booked with Expedia -->
+    <string name="mip_srp_header_brand_TEMPLATE">Vì đã đặt sản phẩm du lịch qua {brand}</string>
+    <!-- Max discount available in selected activities. Eg. Save up to 36% on select activities -->
+    <string name="mip_srp_header_discount_TEMPLATE">Giảm đến {discount}% giá một số hoạt động giải trí</string>
+    <!-- Discount for selected activity on infosite. Eg. Book now and get up to 9% off -->
+    <string name="mip_infosite_discount_TEMPLATE">Đặt và hưởng ưu đãi giảm đến {discount}%</string>
+    <!-- Discount for each activity on SRP tile. Eg. -9% -->
+    <string name="mip_srp_tile_discount_TEMPLATE">-{discount}%</string>
 
     <!-- Activity details inclusions heading -->
     <string name="inclusions_activity_details">Bao gồm</string>
@@ -2186,6 +2194,8 @@
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">Số thẻ tín dụng</string>
+    <!-- New Credit Card field hint which will show MM/YY -->
+    <string name="new_credit_card_expiry_hint">MM/YY</string>
     <!-- Credit Card field hint; this version calls out that debit cards are also acceptable -->
     <string name="credit_debit_card_hint">Nhập thẻ tín dụng/ghi nợ mới</string>
     <!-- Expiration date label -->
@@ -4030,6 +4040,11 @@
         <item quantity="one">Chỉ còn {seats} chỗ giá này</item>
         <item quantity="other">Còn {seats} chỗ giá này</item>
     </plurals>
+    <!-- Flight seats left urgency message on checkout e.g. We have 4 seats left at this price -->
+    <plurals name="flight_seats_left_urgency_message_on_checkout_TEMPLATE">
+        <item quantity="one">Chúng tôi còn {seats} chỗ giá này</item>
+        <item quantity="other">Chúng tôi còn {seats} chỗ giá này</item>
+    </plurals>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am -1d -->
     <string name="flight_departure_arrival_time_negative_days_TEMPLATE">{departuretime} - {arrivaltime} -{elapseddays} ngày</string>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
@@ -4951,7 +4966,7 @@
     <string name="fare_family_not_available">Không gồm</string>
     <string name="fare_family_unknown">Không có thông tin</string>
     <!-- Error message that user is not connected to the internet -->
-    <string name="error_no_internet">Thiết bị của quý vị hiện không kết nối internet.  Vui lòng kiểm tra kết nối và thử lại.</string>
+    <string name="error_no_internet">Thiết bị của quý vị hiện không kết nối internet. Vui lòng kiểm tra kết nối và thử lại.</string>
 
     <!-- Confirmation widget Strings -->
     <string name="flight_itin_confirmation_status_label">Mã xác nhận</string>
@@ -4999,7 +5014,7 @@
     <!-- LX SRP activity price content description when price is discounted e.g. Regular Price per adult  $125. Discounted price per adult $100-->
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">Giá gốc: {activity_original_price}/{ticket_type}. Giá đã giảm: {activity_price}/{ticket_type}</string>
     <string name="hotel_2x_points_search_title">Nhận gấp đôi điểm Expedia Rewards!</string>
-    <string name="hotel_2x_points_search_content">Quý vị sẽ được nhân đôi số điểm khi đặt chỗ trong ứng dụng!</string>
+    <string name="hotel_2x_points_search_content">Nhận gấp đôi điểm thưởng khi đặt qua app!</string>
     <!-- Recent search header string -->
     <string name="flight_recent_search_label">Tìm gần đây</string>
 

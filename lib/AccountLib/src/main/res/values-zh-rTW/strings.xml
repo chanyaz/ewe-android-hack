@@ -46,7 +46,7 @@
     <!-- Button text for final Create Account button -->
     <string name="acct__Create_Account">註冊帳戶</string>
     <string name="acct__Passwords_must_match">唉呀！密碼不相符</string>
-    <string name="acct__Password_length_error_message">密碼長度必須介於 {minlen}至 {maxlen}個字元</string>
+    <string name="acct__Password_length_error_message">密碼長度必須介於 {minlen} 至 {maxlen} 個字元</string>
 
     <!-- Welcome Screen -->
     <!-- Message displayed after a successful create account -->

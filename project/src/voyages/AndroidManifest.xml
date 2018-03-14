@@ -33,6 +33,7 @@
                 <data android:host="signIn"/>
                 <data android:host="supportEmail"/>
                 <data android:host="flightshare"/>
+                <data android:host="forceBucket"/>
 
             </intent-filter>
             <intent-filter>

@@ -182,7 +182,7 @@
 
     <!-- LX -->
     <!--LX Search widget header text -->
-    <string name="lx_search_title">Søg efter aktiviteter</string>
+    <string name="lx_search_title">Søg efter oplevelser</string>
     <!--LX Search widget header text -->
     <string name="lx_select_a_category_title">Vælg en kategori</string>
     <!--GT Search widget header text -->
@@ -201,6 +201,14 @@
     <string name="redemption_location_activity_details">Mødested/indløsningsadresse</string>
     <!-- Instruction at the bottom of lx infosite map to select an activity from the list -->
     <string name="select_an_activity_instruction">Vælg en aktivitet</string>
+    <!-- MIP header text on SRP. eg. Because you booked with Expedia -->
+    <string name="mip_srp_header_brand_TEMPLATE">Fordi du reserverede hos {brand}</string>
+    <!-- Max discount available in selected activities. Eg. Save up to 36% on select activities -->
+    <string name="mip_srp_header_discount_TEMPLATE">Spar op til {discount}% på udvalgte oplevelser</string>
+    <!-- Discount for selected activity on infosite. Eg. Book now and get up to 9% off -->
+    <string name="mip_infosite_discount_TEMPLATE">Book nu, og få op til {discount}% i rabat</string>
+    <!-- Discount for each activity on SRP tile. Eg. -9% -->
+    <string name="mip_srp_tile_discount_TEMPLATE">-{discount}%</string>
 
     <!-- Activity details inclusions heading -->
     <string name="inclusions_activity_details">Inkluderet</string>
@@ -517,8 +525,8 @@
     <string name="per_ticket_type_vehicle">pr. køretøj</string>
 
     <!-- LX Themes &  their description-->
-    <string name="top_rated_activities">Populære aktiviteter</string>
-    <string name="top_rated_activities_description">Aktiviteter anbefalet af kunder som dig</string>
+    <string name="top_rated_activities">Populære oplevelser</string>
+    <string name="top_rated_activities_description">Oplevelser anbefalet af kunder som dig</string>
 
     <string name="adventure_around">Tag på eventyr</string>
     <string name="adventure_around_description">Udforsk din destination ved at tage på dagsture og spændende udflugter</string>
@@ -530,7 +538,7 @@
     <string name="tour_the_area_description">Tag en tur rundt i byen, og bliv klogere på byens historie og nutid</string>
 
     <string name="fun_for_the_family">Sjov for hele familien</string>
-    <string name="fun_for_the_family_description">Familievenlige aktiviteter for familiemedlemmer i alle aldre</string>
+    <string name="fun_for_the_family_description">Familievenlige oplevelser for familiemedlemmer i alle aldre</string>
 
     <string name="pure_entertainment">Ren underholdning</string>
     <string name="pure_entertainment_description">Sportsevents, forlystelsesparker og forestillinger</string>
@@ -538,7 +546,7 @@
     <string name="eat_play_enjoy">Kulinariske oplevelser, natteliv og afslapning</string>
     <string name="eat_play_enjoy_description">Mad og drikke, natteliv og en masse afslapning</string>
 
-    <string name="all_things_to_do_description">En liste over alle tilgængelige aktiviteter på dine valgte datoer.</string>
+    <string name="all_things_to_do_description">En liste over alle tilgængelige oplevelser på dine valgte datoer.</string>
 
     <!-- LX Strings -->
     <!-- Enter contact details-->
@@ -546,7 +554,7 @@
     <!-- LX search error -->
     <string name="error_lx_search_message">Din søgning gav ingen resultater. Prøv at søge igen med andre søgekriterier.</string>
     <!-- LX search error -->
-    <string name="error_lx_current_location_search_message">Vi kunne ikke fastlægge din nuværende placering og kan derfor ikke finde aktiviteter i nærheden af dig.</string>
+    <string name="error_lx_current_location_search_message">Vi kunne ikke fastlægge din nuværende placering og kan derfor ikke finde oplevelser i nærheden af dig.</string>
 
     <!-- GT current location search error -->
     <string name="error_gt_current_location_search_message">Vi kunne ikke fastlægge din nuværende placering og kan derfor ikke finde transportmuligheder i nærheden af dig.</string>
@@ -2186,6 +2194,8 @@
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">Kreditkortnummer</string>
+    <!-- New Credit Card field hint which will show MM/YY -->
+    <string name="new_credit_card_expiry_hint">MM/ÅÅ</string>
     <!-- Credit Card field hint; this version calls out that debit cards are also acceptable -->
     <string name="credit_debit_card_hint">Indtast nyt kreditkort/debetkort</string>
     <!-- Expiration date label -->
@@ -4028,7 +4038,12 @@
     <!-- Label for Flight seats left urgency message. Example: 4 left at this price -->
     <plurals name="flight_seats_left_urgency_message_TEMPLATE">
         <item quantity="one">{seats} tilbage til denne pris</item>
-        <item quantity="other">{seats} sæder tilbage til denne pris</item>
+        <item quantity="other">{seats} tilbage til denne pris</item>
+    </plurals>
+    <!-- Flight seats left urgency message on checkout e.g. We have 4 seats left at this price -->
+    <plurals name="flight_seats_left_urgency_message_on_checkout_TEMPLATE">
+        <item quantity="one">Vi har {seats} sæde tilbage til denne pris</item>
+        <item quantity="other">Vi har {seats} sæder tilbage til denne pris</item>
     </plurals>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am -1d -->
     <string name="flight_departure_arrival_time_negative_days_TEMPLATE">{departuretime} - {arrivaltime} -{elapseddays}d</string>
