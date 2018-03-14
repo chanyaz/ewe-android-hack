@@ -4,11 +4,9 @@ import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.trips.TripHotel
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.widget.TextView
@@ -89,7 +87,6 @@ class HotelItinCheckInCheckOutDetailsTest {
         assertEquals(View.GONE, dialog.findViewById<View>(R.id.fragment_dialog_second_heading).visibility)
         assertEquals(View.GONE, dialog.findViewById<View>(R.id.fragment_dialog_scrollable_second_text_content).visibility)
 
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.TripsHotelsM2)
         hotelItinCheckinCheckOutWidget.setUpWidget(itinCardDataHotel)
         assertEquals(activity.getString(R.string.itin_hotel_check_in_policies_dialog_title), hotelItinCheckinCheckOutWidget.checkInOutPoliciesButtonText.text)
         hotelItinCheckinCheckOutWidget.checkInOutPoliciesContainer.performClick()
@@ -136,7 +133,6 @@ class HotelItinCheckInCheckOutDetailsTest {
         checkInPoliciesArray.add("Check-in time starts at 4 PM")
         itinCardDataHotel.property.specialInstruction = ArrayList()
         itinCardDataHotel.property.checkInPolicies = checkInPoliciesArray
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.TripsHotelsM2)
         hotelItinCheckinCheckOutWidget.setUpWidget(itinCardDataHotel)
         assertEquals(hotelItinCheckinCheckOutWidget.checkInOutPoliciesButtonText.text.toString(), activity.resources.getString(R.string.itin_hotel_check_in_policies_dialog_title))
     }
@@ -148,7 +144,6 @@ class HotelItinCheckInCheckOutDetailsTest {
         specialInstructionArray.add("An adult age 18 or older must assume all liability for the booking. ")
         itinCardDataHotel.property.specialInstruction = specialInstructionArray
         itinCardDataHotel.property.checkInPolicies = ArrayList()
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.TripsHotelsM2)
         hotelItinCheckinCheckOutWidget.setUpWidget(itinCardDataHotel)
         assertEquals(hotelItinCheckinCheckOutWidget.checkInOutPoliciesButtonText.text.toString(), activity.resources.getString(R.string.itin_hotel_special_instruction))
     }
@@ -162,7 +157,6 @@ class HotelItinCheckInCheckOutDetailsTest {
         checkInPoliciesArray.add("Check-in time starts at 4 PM")
         itinCardDataHotel.property.specialInstruction = specialInstructionArray
         itinCardDataHotel.property.checkInPolicies = checkInPoliciesArray
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.TripsHotelsM2)
         hotelItinCheckinCheckOutWidget.setUpWidget(itinCardDataHotel)
         assertEquals(hotelItinCheckinCheckOutWidget.checkInOutPoliciesButtonText.text.toString(), activity.resources.getString(R.string.itin_hotel_check_in_policies_and_special_instruction))
     }

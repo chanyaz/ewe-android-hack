@@ -9,9 +9,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.trips.TripHotel
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.fragment.ScrollableContentDialogFragment
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.tracking.TripsTracking
@@ -42,8 +40,7 @@ class HotelItinCheckInCheckOutDetails(context: Context, attr: AttributeSet?) : L
         checkInTimeView.text = itinCardDataHotel.getFallbackCheckInTime(context).toLowerCase()
         checkOutTimeView.text = itinCardDataHotel.getFallbackCheckOutTime(context).toLowerCase()
         val specialInstructions = itinCardDataHotel.property.specialInstruction
-        val shouldShowSpecialInstruction = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.TripsHotelsM2)
-                && specialInstructions.isNotEmpty()
+        val shouldShowSpecialInstruction = specialInstructions.isNotEmpty()
         val shouldShowCheckInPolicies = itinCardDataHotel.property.checkInPolicies.isNotEmpty()
         if (shouldShowCheckInPolicies || shouldShowSpecialInstruction) {
             checkInPoliciesDivider.visibility = View.VISIBLE
