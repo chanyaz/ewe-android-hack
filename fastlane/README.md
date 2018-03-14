@@ -16,6 +16,11 @@ or alternatively using `brew cask install fastlane`
 
 # Available Actions
 ## Android
+### android measure_startup_time
+```
+fastlane android measure_startup_time
+```
+Run a competitor app startup time comparison
 ### android screenshots
 ```
 fastlane android screenshots
