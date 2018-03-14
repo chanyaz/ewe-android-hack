@@ -201,6 +201,14 @@
     <string name="redemption_location_activity_details">集合場所 / 現地住所</string>
     <!-- Instruction at the bottom of lx infosite map to select an activity from the list -->
     <string name="select_an_activity_instruction">現地ツアーを選択</string>
+    <!-- MIP header text on SRP. eg. Because you booked with Expedia -->
+    <string name="mip_srp_header_brand_TEMPLATE">{brand}で予約した人だけ !</string>
+    <!-- Max discount available in selected activities. Eg. Save up to 36% on select activities -->
+    <string name="mip_srp_header_discount_TEMPLATE">対象の現地ツアーが最大 {discount}% 割引</string>
+    <!-- Discount for selected activity on infosite. Eg. Book now and get up to 9% off -->
+    <string name="mip_infosite_discount_TEMPLATE">今すぐ予約で最大 {discount}% OFF</string>
+    <!-- Discount for each activity on SRP tile. Eg. -9% -->
+    <string name="mip_srp_tile_discount_TEMPLATE">- {discount}%</string>
 
     <!-- Activity details inclusions heading -->
     <string name="inclusions_activity_details">含まれるもの</string>
@@ -2064,7 +2072,7 @@
     <!-- Launch screen 2x messaging signed-out title-->
     <string name="launch_screen_sign_in_2x_title">ログインしてお得に予約 !</string>
     <!-- Launch screen 2x messaging for signed-out subtitle-->
-    <string name="launch_screen_sign_in_2x_subtitle">会員価格なら、世界中のホテルがさらに平均 17% OFF &amp; アプリ予約でポイント 2 倍獲得 !</string>
+    <string name="launch_screen_sign_in_2x_subtitle">会員価格なら、世界中のホテルがさらに平均 17% OFF になります。+ アプリ予約でポイント 2 倍獲得 !</string>
     <!-- Launch screen 2x banner messaging for signed-in users -->
     <string name="launch_screen_2x_banner">アプリ予約でポイント 2 倍獲得 !</string>
     <!-- Checkout sign in button for 2x messaging -->
@@ -2186,6 +2194,8 @@
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">クレジットカード番号</string>
+    <!-- New Credit Card field hint which will show MM/YY -->
+    <string name="new_credit_card_expiry_hint">月 / 年</string>
     <!-- Credit Card field hint; this version calls out that debit cards are also acceptable -->
     <string name="credit_debit_card_hint">新しいクレジット / デビットカード情報を入力</string>
     <!-- Expiration date label -->
@@ -2596,10 +2606,10 @@
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
-        <item quantity="one">エクスペディアで残り %d 室 !</item>
-        <item quantity="two">エクスペディアで残り %d 室</item>
-        <item quantity="many">エクスペディアで残り %d 室</item>
-        <item quantity="other">エクスペディアで残り %d 室</item>
+        <item quantity="one">当サイトで残り %d 室 !</item>
+        <item quantity="two">当サイトで残り %d 室</item>
+        <item quantity="many">当サイトで残り %d 室</item>
+        <item quantity="other">当サイトで残り %d 室</item>
     </plurals>
     <!-- No of filters applied on packages -->
     <plurals name="no_of_filters_applied_TEMPLATE">
@@ -4030,6 +4040,11 @@
         <item quantity="one">この料金の座席は残り {seats} 席</item>
         <item quantity="other">この料金の座席は残り {seats} 席</item>
     </plurals>
+    <!-- Flight seats left urgency message on checkout e.g. We have 4 seats left at this price -->
+    <plurals name="flight_seats_left_urgency_message_on_checkout_TEMPLATE">
+        <item quantity="one">当サイトでこの料金の座席は残り {seats} 席</item>
+        <item quantity="other">当サイトでこの料金の座席は残り {seats} 席</item>
+    </plurals>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am -1d -->
     <string name="flight_departure_arrival_time_negative_days_TEMPLATE">{departuretime}- {arrivaltime} -{elapseddays} 日</string>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
@@ -4494,8 +4509,8 @@
     <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">乗継時間 {layoverhours} {layovermins}。\u0020</string>
     <!-- Label for seats left urgency message content description for accessibility Example. There are 2 left at this price. -->
     <plurals name="flight_detail_urgency_message_cont_desc_TEMPLATE">
-        <item quantity="one">この料金の座席は残り {seatsleft} 席です</item>
-        <item quantity="other">の料金の座席は残り {seatsleft} 席です</item>
+        <item quantity="one">この料金の座席は残り {seatsleft} 席</item>
+        <item quantity="other">この料金の座席は残り {seatsleft} 席</item>
     </plurals>
     <!--Flying to card content description Eg. Flying to. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
     <string name="search_flying_to_destination_cont_desc_TEMPLATE">目的地。ボタン。{to_destination}</string>

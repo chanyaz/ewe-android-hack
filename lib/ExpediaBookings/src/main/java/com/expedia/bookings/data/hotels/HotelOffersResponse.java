@@ -281,15 +281,15 @@ public class HotelOffersResponse extends BaseApiResponse {
 				}
 				break;
 				//No need to parse displayType NONE cases as this value is only needed on UDP and we are not handling those cases
-/*			case NONE:
-				if (hotelRoomResponse.rateInfo.chargeableRateInfo.mandatoryDisplayCurrency
-					== MandatoryFees.DisplayCurrency.POINT_OF_SALE && roomOffer.getMandatoryFees()
-					.getTotalMandatoryFeesPOSCurrency().getAmount() != null) {
-					hotelRoomResponse.rateInfo.chargeableRateInfo.totalMandatoryFees = roomOffer.getMandatoryFees()
-						.getTotalMandatoryFeesPOSCurrency().getAmount().floatValue();
-				}
+			case NONE:
+//				if (hotelRoomResponse.rateInfo.chargeableRateInfo.mandatoryDisplayCurrency
+//					== MandatoryFees.DisplayCurrency.POINT_OF_SALE && roomOffer.getMandatoryFees()
+//					.getTotalMandatoryFeesPOSCurrency().getAmount() != null) {
+//					hotelRoomResponse.rateInfo.chargeableRateInfo.totalMandatoryFees = roomOffer.getMandatoryFees()
+//						.getTotalMandatoryFeesPOSCurrency().getAmount().floatValue();
+//				}
 				hotelRoomResponse.rateInfo.chargeableRateInfo.showResortFeeMessage = false;
-				break;*/
+				break;
 			}
 		}
 		hotelRoomResponse.rateInfo.chargeableRateInfo.packagePricePerPerson = room.getPrice().pricePerPerson();
