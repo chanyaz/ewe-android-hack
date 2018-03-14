@@ -1,19 +1,24 @@
 package com.expedia.bookings.itin.widget.hotel
 
 import com.expedia.bookings.R
+import com.expedia.bookings.itin.helpers.ItinMocker
+import com.expedia.bookings.itin.helpers.MockStringProvider
+import com.expedia.bookings.itin.helpers.MockTripsTracking
+import com.expedia.bookings.itin.helpers.MockWebViewLauncher
 import com.expedia.bookings.itin.scopes.HasHotel
 import com.expedia.bookings.itin.scopes.HasItin
 import com.expedia.bookings.itin.scopes.HasStringProvider
+import com.expedia.bookings.itin.scopes.HasTripsTracking
 import com.expedia.bookings.itin.scopes.HasWebViewLauncher
 import com.expedia.bookings.itin.tripstore.data.Itin
-import com.expedia.bookings.itin.tripstore.data.ItinDetailsResponse
 import com.expedia.bookings.itin.tripstore.data.ItinHotel
 import com.expedia.bookings.itin.tripstore.extensions.firstHotel
 import com.expedia.bookings.itin.utils.IWebViewLauncher
 import com.expedia.bookings.itin.utils.StringSource
-import com.mobiata.mocke3.mockObject
+import com.expedia.bookings.tracking.ITripsTracking
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class HotelItinPriceSummaryButtonViewModelTest {
 
@@ -34,6 +39,7 @@ class HotelItinPriceSummaryButtonViewModelTest {
         assertEquals("1103274148635", scope.mockWebViewLauncher.lastSeenTripId)
         assertEquals("https://www.expedia.com/trips/1103274148635", scope.mockWebViewLauncher.lastSeenURL)
         assertEquals(R.string.itin_hotel_details_price_summary_heading, scope.mockWebViewLauncher.lastSeenTitle)
+        assertTrue(scope.mockTripsTracking.trackHotelItinPricingRewardsClicked)
     }
 
     @Test
@@ -53,53 +59,28 @@ class HotelItinPriceSummaryButtonViewModelTest {
         assertEquals("7280999576135", scope.mockWebViewLauncher.lastSeenTripId)
         assertEquals("https://www.expedia.com/trips/7280999576135", scope.mockWebViewLauncher.lastSeenURL)
         assertEquals(R.string.itin_hotel_details_price_summary_heading, scope.mockWebViewLauncher.lastSeenTitle)
+        assertTrue(scope.mockTripsTracking.trackHotelItinPricingRewardsClicked)
     }
 }
 
-class TestHotelDetailsScopeNoPriceDetails : HasItin, HasHotel, HasStringProvider, HasWebViewLauncher {
+class TestHotelDetailsScopeNoPriceDetails : HasItin, HasHotel, HasStringProvider, HasWebViewLauncher, HasTripsTracking {
     override val itin: Itin = ItinMocker.hotelDetailsNoPriceDetails
     override val hotel: ItinHotel = ItinMocker.hotelDetailsNoPriceDetails.firstHotel()!!
     val mockStrings = MockStringProvider()
     override val strings: StringSource = mockStrings
     val mockWebViewLauncher = MockWebViewLauncher()
     override val webViewLauncher: IWebViewLauncher = mockWebViewLauncher
+    val mockTripsTracking = MockTripsTracking()
+    override val tripsTracking: ITripsTracking = mockTripsTracking
 }
 
-class TestHotelDetailsScopeHappy : HasItin, HasHotel, HasStringProvider, HasWebViewLauncher {
+class TestHotelDetailsScopeHappy : HasItin, HasHotel, HasStringProvider, HasWebViewLauncher, HasTripsTracking {
     override val itin: Itin = ItinMocker.hotelDetailsHappy
     override val hotel: ItinHotel = ItinMocker.hotelDetailsHappy.firstHotel()!!
     val mockStrings = MockStringProvider()
     override val strings: StringSource = mockStrings
     val mockWebViewLauncher = MockWebViewLauncher()
     override val webViewLauncher: IWebViewLauncher = mockWebViewLauncher
-}
-
-object ItinMocker {
-    val hotelDetailsNoPriceDetails = mockObject(ItinDetailsResponse::class.java, "api/trips/hotel_trip_details.json")?.itin!!
-    val hotelDetailsHappy = mockObject(ItinDetailsResponse::class.java, "api/trips/hotel_trip_details_for_mocker.json")?.itin!!
-}
-
-class MockWebViewLauncher : IWebViewLauncher {
-    var lastSeenTitle: Int? = null
-    var lastSeenURL: String? = null
-    var lastSeenTripId: String? = null
-    override fun launchWebViewActivity(title: Int, url: String, anchor: String?, tripId: String) {
-        lastSeenTitle = title
-        lastSeenURL = url
-        lastSeenTripId = tripId
-    }
-}
-
-class MockStringProvider : StringSource {
-    var lastSeenFetchArgs: Int? = null
-    override fun fetch(stringResource: Int): String {
-        lastSeenFetchArgs = stringResource
-        return "someString"
-    }
-
-    var lastSeenFetchWithMapArgs: Pair<Int, Map<String, String>>? = null
-    override fun fetch(stringResource: Int, map: Map<String, String>): String {
-        lastSeenFetchWithMapArgs = Pair(stringResource, map)
-        return "somePhraseString"
-    }
+    val mockTripsTracking = MockTripsTracking()
+    override val tripsTracking: ITripsTracking = mockTripsTracking
 }

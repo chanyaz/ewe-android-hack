@@ -43,8 +43,6 @@ class ItinLinkOffCardViewTest {
 
     @Test
     fun testWrapSubHeading() {
-        assertEquals(Integer.MAX_VALUE, subHeading.maxLines)
-        assertEquals(null, subHeading.ellipsize)
         sut.wrapSubHeading()
         assertEquals(1, subHeading.maxLines)
         assertEquals(TextUtils.TruncateAt.END, subHeading.ellipsize)

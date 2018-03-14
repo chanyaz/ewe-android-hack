@@ -4,12 +4,12 @@ import com.expedia.bookings.R
 import com.expedia.bookings.itin.scopes.HasHotel
 import com.expedia.bookings.itin.scopes.HasItin
 import com.expedia.bookings.itin.scopes.HasStringProvider
+import com.expedia.bookings.itin.scopes.HasTripsTracking
 import com.expedia.bookings.itin.scopes.HasWebViewLauncher
 import com.expedia.bookings.itin.tripstore.data.PaymentModel
 import com.expedia.bookings.itin.widget.common.ItinBookingInfoCardViewModel
-import com.expedia.bookings.tracking.TripsTracking
 
-class HotelItinPriceSummaryButtonViewModel<S>(scope: S) : ItinBookingInfoCardViewModel where S : HasItin, S : HasHotel, S : HasStringProvider, S : HasWebViewLauncher {
+class HotelItinPriceSummaryButtonViewModel<S>(scope: S) : ItinBookingInfoCardViewModel where S : HasItin, S : HasHotel, S : HasStringProvider, S : HasWebViewLauncher, S : HasTripsTracking {
 
     override val iconImage = R.drawable.ic_itin_credit_card_icon
     override val headingText: String
@@ -41,7 +41,7 @@ class HotelItinPriceSummaryButtonViewModel<S>(scope: S) : ItinBookingInfoCardVie
         cardClickListener = {
             if (detailsUrl != null && tripNumber != null) {
                 scope.webViewLauncher.launchWebViewActivity(R.string.itin_hotel_details_price_summary_heading, detailsUrl, "price-header", tripNumber)
-                TripsTracking.trackHotelItinPricingRewardsClick()
+                scope.tripsTracking.trackHotelItinPricingRewardsClick()
             }
         }
     }

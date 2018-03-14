@@ -20,6 +20,7 @@ import com.expedia.bookings.itin.utils.StringSource
 import com.expedia.bookings.itin.utils.WebViewLauncher
 import com.expedia.bookings.itin.widget.common.ItinBookingInfoCardView
 import com.expedia.bookings.itin.widget.hotel.HotelItinPriceSummaryButtonViewModel
+import com.expedia.bookings.tracking.ITripsTracking
 import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
@@ -36,6 +37,7 @@ class HotelItinBookingDetails(context: Context, attr: AttributeSet?) : LinearLay
     val stringProvider: StringSource = Ui.getApplication(context).appComponent().stringProvider()
     val webViewLauncher: IWebViewLauncher = WebViewLauncher(context)
     var readJsonUtil: IJsonToItinUtil = JsonToItinUtil
+    val tripsTracking: ITripsTracking = TripsTracking
     val newPriceSummaryCard: ItinBookingInfoCardView by bindView(R.id.itin_hotel_booking_info_price_summary)
 
     init {
@@ -57,7 +59,7 @@ class HotelItinBookingDetails(context: Context, attr: AttributeSet?) : LinearLay
                     itin.firstHotel()?.let { hotel ->
                         newPriceSummaryCard.visibility = View.VISIBLE
                         priceSummaryCard.visibility = View.GONE
-                        val scope = HotelItinDetailsScope(itin, hotel, stringProvider, webViewLauncher)
+                        val scope = HotelItinDetailsScope(itin, hotel, stringProvider, webViewLauncher, tripsTracking)
                         val vm = HotelItinPriceSummaryButtonViewModel(scope)
                         newPriceSummaryCard.viewModel = vm
                     }
