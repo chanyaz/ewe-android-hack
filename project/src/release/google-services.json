@@ -36,6 +36,37 @@
           "status": 2
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:190461105157:android:3b05c35184eba178",
+        "android_client_info": {
+          "package_name": "com.expedia.bookings.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "190461105157-i5ier91885oc92ugkkp0vbg0p6ri57fg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqkpNbBb__HW2GHhFnIuQzIvKHTvB4vFo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
     }
   ],
   "configuration_version": "1"
