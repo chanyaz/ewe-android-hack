@@ -14,8 +14,12 @@ open class GaiaNearbyManager(private val suggestionsService: ISuggestionV4Servic
     val suggestionsSubject = PublishSubject.create<List<SuggestionV4>>()
     val errorSubject = PublishSubject.create<Unit>()
 
-    open fun nearBySuggestions(location: Location, nearbySortType: String,
-                               lobString: String, misForRealWorldEnabled: Boolean) {
+    open fun nearBySuggestions(
+        location: Location,
+        nearbySortType: String,
+        lobString: String,
+        misForRealWorldEnabled: Boolean
+    ) {
         val request = GaiaSuggestionRequest(location.latitude, location.longitude, nearbySortType,
                 lobString, PointOfSale.getSuggestLocaleIdentifier(),
                 PointOfSale.getPointOfSale().siteId, misForRealWorldEnabled)

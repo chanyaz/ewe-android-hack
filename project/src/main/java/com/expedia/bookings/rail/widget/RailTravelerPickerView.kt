@@ -98,8 +98,12 @@ class RailTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTravel
         return viewModel
     }
 
-    fun wireUpSpinners(spinners: List<Spinner>, adapter: BaseAdapter, defaultAge: Int,
-                       selectedObserver: Observer<Pair<Int, Int>>) {
+    fun wireUpSpinners(
+        spinners: List<Spinner>,
+        adapter: BaseAdapter,
+        defaultAge: Int,
+        selectedObserver: Observer<Pair<Int, Int>>
+    ) {
         for (i in spinners.indices) {
             val spinner = spinners[i]
             spinner.adapter = adapter

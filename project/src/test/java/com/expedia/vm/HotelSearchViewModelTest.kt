@@ -462,9 +462,11 @@ class HotelSearchViewModelTest {
         }
     }
 
-    private fun triggerParams(suggestion: SuggestionV4? = null,
-                              startDate: LocalDate? = null,
-                              endDate: LocalDate? = null) {
+    private fun triggerParams(
+        suggestion: SuggestionV4? = null,
+        startDate: LocalDate? = null,
+        endDate: LocalDate? = null
+    ) {
         suggestion?.let { testViewModel.destinationLocationObserver.onNext(it) }
         testViewModel.datesUpdated(startDate, endDate)
     }

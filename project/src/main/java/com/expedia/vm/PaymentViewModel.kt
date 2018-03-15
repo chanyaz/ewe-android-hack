@@ -94,8 +94,13 @@ open class PaymentViewModel(val context: Context) {
 
     private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
 
-    private class PaymentTileInfo(val paymentType: PaymentType?, val title: String, var subTitle: String,
-                                  val splitType: PaymentSplitsType, val completionStatus: ContactDetailsCompletenessStatus)
+    private class PaymentTileInfo(
+        val paymentType: PaymentType?,
+        val title: String,
+        var subTitle: String,
+        val splitType: PaymentSplitsType,
+        val completionStatus: ContactDetailsCompletenessStatus
+    )
 
     init {
         statusUpdate.subscribe { it ->

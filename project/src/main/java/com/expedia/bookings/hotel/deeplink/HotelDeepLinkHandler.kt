@@ -12,8 +12,10 @@ import io.reactivex.Observer
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.PublishSubject
 
-class HotelDeepLinkHandler(private val context: Context,
-                           private val suggestionManager: HotelSuggestionManager) {
+class HotelDeepLinkHandler(
+    private val context: Context,
+    private val suggestionManager: HotelSuggestionManager
+) {
 
     val hotelSearchDeepLinkSubject = PublishSubject.create<HotelSearchParams>()
     val hotelIdToDetailsSubject = PublishSubject.create<HotelSearchParams>()
@@ -21,8 +23,10 @@ class HotelDeepLinkHandler(private val context: Context,
 
     val deepLinkInvalidSubject = PublishSubject.create<Unit>()
 
-    fun handleNavigationViaDeepLink(hotelSearchParams: HotelSearchParams?,
-                                    landingPage: HotelLandingPage?) {
+    fun handleNavigationViaDeepLink(
+        hotelSearchParams: HotelSearchParams?,
+        landingPage: HotelLandingPage?
+    ) {
         if (hotelSearchParams != null) {
             val lat = hotelSearchParams.suggestion.coordinates?.lat ?: 0.0
             val lon = hotelSearchParams.suggestion.coordinates?.lng ?: 0.0

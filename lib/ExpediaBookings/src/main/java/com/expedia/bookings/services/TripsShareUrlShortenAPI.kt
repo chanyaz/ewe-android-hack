@@ -10,6 +10,6 @@ interface TripShareUrlShortenAPI {
 
     @POST("/v1/shorten")
     fun shortenURL(
-            @Body request: RequestBody
+        @Body request: RequestBody
     ): Observable<TripsShareUrlShortenResponse>
 }

@@ -186,8 +186,12 @@ class HotelSuggestionAdapterViewModelTest {
     }
 
     private class TestGaiaManager(services: ISuggestionV4Services) : GaiaNearbyManager(services) {
-        override fun nearBySuggestions(location: Location, nearbySortType: String,
-                                       lobString: String, misForRealWorldEnabled: Boolean) {
+        override fun nearBySuggestions(
+            location: Location,
+            nearbySortType: String,
+            lobString: String,
+            misForRealWorldEnabled: Boolean
+        ) {
             // do nothing
         }
     }

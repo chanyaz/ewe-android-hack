@@ -24,8 +24,10 @@ import com.expedia.vm.SearchViewModelWithTimeSliderCalendar
 import io.reactivex.disposables.Disposable
 import kotlin.properties.Delegates
 
-class TimeAndCalendarDialogFragment(val viewModel: SearchViewModelWithTimeSliderCalendar,
-                                    rules: CalendarRules) : CalendarDialogFragment(viewModel, rules) {
+class TimeAndCalendarDialogFragment(
+    val viewModel: SearchViewModelWithTimeSliderCalendar,
+    rules: CalendarRules
+) : CalendarDialogFragment(viewModel, rules) {
 
     var popupLabel by Delegates.notNull<android.widget.TextView>()
     var pickupTimePopup by Delegates.notNull<android.widget.TextView>()

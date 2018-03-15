@@ -11,8 +11,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 import io.reactivex.Observable
 import io.reactivex.Scheduler
 
-open class InsuranceServices(endpoint: String, client: OkHttpClient, interceptor: Interceptor,
-                             val observeOn: Scheduler, val subscribeOn: Scheduler) {
+open class InsuranceServices(
+    endpoint: String,
+    client: OkHttpClient,
+    interceptor: Interceptor,
+    val observeOn: Scheduler,
+    val subscribeOn: Scheduler
+) {
     val insuranceApi: InsuranceApi by lazy {
         val gson = GsonBuilder().create()
 

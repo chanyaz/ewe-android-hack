@@ -6,11 +6,12 @@ import com.expedia.bookings.data.payment.Traveler
 import com.expedia.bookings.data.payment.TripDetails
 
 class HotelCheckoutV2Params(
-        val checkoutInfo: HotelCheckoutInfo,
-        val traveler: Traveler,
-        val tripDetails: TripDetails,
-        val paymentInfo: PaymentInfo,
-        val misc: MiscellaneousParams) {
+    val checkoutInfo: HotelCheckoutInfo,
+    val traveler: Traveler,
+    val tripDetails: TripDetails,
+    val paymentInfo: PaymentInfo,
+    val misc: MiscellaneousParams
+) {
 
     class Builder {
         private var checkoutInfo: HotelCheckoutInfo? = null

@@ -10,11 +10,11 @@ import java.util.ArrayList
 import java.util.HashMap
 
 data class MultiItemApiSearchResponse(
-        val offers: List<MultiItemOffer>,
-        val hotels: Map<String, HotelOffer>,
-        val flights: Map<String, FlightOffer>,
-        val flightLegs: Map<String, MultiItemFlightLeg>,
-        val errors: List<MultiItemError>?
+    val offers: List<MultiItemOffer>,
+    val hotels: Map<String, HotelOffer>,
+    val flights: Map<String, FlightOffer>,
+    val flightLegs: Map<String, MultiItemFlightLeg>,
+    val errors: List<MultiItemError>?
 ) : BundleSearchResponse, BundleHotelRoomResponse {
 
     private lateinit var sortedHotels: List<Hotel>

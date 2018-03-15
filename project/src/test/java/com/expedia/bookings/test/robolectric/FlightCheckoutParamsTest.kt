@@ -64,11 +64,14 @@ class FlightCheckoutParamsTest {
         assertTravelerDetails(mapFrequentFlyerParams, appendString, "AA", "AA", "AD0", "123")
     }
 
-    private fun assertTravelerDetails(mapFrequentFlyerParams: Map<String, Any>, appendString: String,
-                                      flightAirlineCode: String? = null,
-                                      frequentFlyerPlanAirlineCode: String? = null,
-                                      frequentFlyerPlanCode: String? = null,
-                                      membershipNumber: String? = null) {
+    private fun assertTravelerDetails(
+        mapFrequentFlyerParams: Map<String, Any>,
+        appendString: String,
+        flightAirlineCode: String? = null,
+        frequentFlyerPlanAirlineCode: String? = null,
+        frequentFlyerPlanCode: String? = null,
+        membershipNumber: String? = null
+    ) {
         assertEquals(flightAirlineCode, mapFrequentFlyerParams[appendString + "flightAirlineCode"])
         assertEquals(frequentFlyerPlanAirlineCode, mapFrequentFlyerParams[appendString + "frequentFlyerPlanAirlineCode"])
         assertEquals(frequentFlyerPlanCode, mapFrequentFlyerParams[appendString + "frequentFlyerPlanCode"])

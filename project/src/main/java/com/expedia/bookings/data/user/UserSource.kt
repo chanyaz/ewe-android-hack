@@ -10,8 +10,10 @@ import org.json.JSONObject
 import java.io.File
 import java.io.FileNotFoundException
 
-open class UserSource(val context: Context,
-                      private val fileCipher: FileCipher = FileCipher(PASSWORD)) {
+open class UserSource(
+    val context: Context,
+    private val fileCipher: FileCipher = FileCipher(PASSWORD)
+) {
     private companion object {
         val PASSWORD = "M2MBDdEjbFTXTgNynBY2uvMPcUd8g3k9"
         val SAVED_INFO_FILENAME = "user.dat"

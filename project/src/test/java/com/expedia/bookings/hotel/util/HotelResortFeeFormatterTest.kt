@@ -156,11 +156,13 @@ class HotelResortFeeFormatterTest {
                 expectedFee = "221.10 GBP")
     }
 
-    private fun assertMIDResortFeeDisplayTypeDisplayCurrency(displayType: MandatoryFees.DisplayType,
-                                                             displayCurrency: MandatoryFees.DisplayCurrency,
-                                                             showResortFeesInHotelLocalCurrency: Boolean = false,
-                                                             hotelCountry: String = "",
-                                                             expectedFee: String) {
+    private fun assertMIDResortFeeDisplayTypeDisplayCurrency(
+        displayType: MandatoryFees.DisplayType,
+        displayCurrency: MandatoryFees.DisplayCurrency,
+        showResortFeesInHotelLocalCurrency: Boolean = false,
+        hotelCountry: String = "",
+        expectedFee: String
+    ) {
         val hotelOffer = dummyMidHotelRoomOffer(displayType, displayCurrency)
         val multiItemOffer = dummyMIDItemRoomOffer()
 

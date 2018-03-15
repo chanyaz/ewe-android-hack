@@ -182,13 +182,15 @@ class FlightTestUtil {
         }
 
         @JvmStatic
-        fun getCheckoutResponse(itineraryNumber: String = "11111",
-                                travelRecordLocator: String = "22222",
-                                tripId: String = "33333",
-                                listOfTravelers: List<Traveler> = listOf(Traveler("test", "traveler", "1", "9999999", "test@email.com", false)),
-                                flightAggregatedResponse: FlightCheckoutResponse.FlightAggregatedResponse = FlightCheckoutResponse.FlightAggregatedResponse(),
-                                details: FlightTripDetails = FlightTripDetails(),
-                                hasDetails: Boolean = true): FlightCheckoutResponse {
+        fun getCheckoutResponse(
+            itineraryNumber: String = "11111",
+            travelRecordLocator: String = "22222",
+            tripId: String = "33333",
+            listOfTravelers: List<Traveler> = listOf(Traveler("test", "traveler", "1", "9999999", "test@email.com", false)),
+            flightAggregatedResponse: FlightCheckoutResponse.FlightAggregatedResponse = FlightCheckoutResponse.FlightAggregatedResponse(),
+            details: FlightTripDetails = FlightTripDetails(),
+            hasDetails: Boolean = true
+        ): FlightCheckoutResponse {
             val response = FlightCheckoutResponse()
             response.newTrip = TripDetails(itineraryNumber, travelRecordLocator, tripId)
             if (hasDetails) {
@@ -208,9 +210,11 @@ class FlightTestUtil {
         }
 
         @JvmStatic
-        fun getFlightTripDetails(numberOfTickets: String = "1",
-                                 insuranceTypeId: String = "typeId",
-                                 totalPrice: BigDecimal = BigDecimal.ZERO): FlightTripDetails {
+        fun getFlightTripDetails(
+            numberOfTickets: String = "1",
+            insuranceTypeId: String = "typeId",
+            totalPrice: BigDecimal = BigDecimal.ZERO
+        ): FlightTripDetails {
             val offer = FlightTripDetails.FlightOffer()
             val insuranceProduct = InsuranceProduct()
             insuranceProduct.typeId = insuranceTypeId

@@ -13,8 +13,11 @@ import com.expedia.bookings.tracking.RailWebViewTracking
 import com.expedia.bookings.utils.DebugInfoUtils
 import com.mobiata.android.SocialUtils
 
-open class BaseWebViewClient(val activity: Activity, val loadCookies: Boolean,
-                             val mTrackingName: WebViewFragment.TrackingName?) : WebViewClient() {
+open class BaseWebViewClient(
+    val activity: Activity,
+    val loadCookies: Boolean,
+    val mTrackingName: WebViewFragment.TrackingName?
+) : WebViewClient() {
 
     override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
         if (isLogOutUrl(url)) {

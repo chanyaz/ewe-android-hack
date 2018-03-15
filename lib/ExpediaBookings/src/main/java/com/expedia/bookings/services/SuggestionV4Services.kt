@@ -18,8 +18,16 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor,
-                                essInterceptor: Interceptor, gaiaInterceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) : ISuggestionV4Services {
+open class SuggestionV4Services(
+    essEndpoint: String,
+    gaiaEndPoint: String,
+    okHttpClient: OkHttpClient,
+    interceptor: Interceptor,
+    essInterceptor: Interceptor,
+    gaiaInterceptor: Interceptor,
+    val observeOn: Scheduler,
+    val subscribeOn: Scheduler
+) : ISuggestionV4Services {
 
     private val suggestApi: SuggestApi by lazy {
         val gson = GsonBuilder().create()
@@ -134,8 +142,17 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
         return airportSuggestionSubscription as Disposable
     }
 
-    private fun suggestV4(query: String, suggestType: Int, isDest: Boolean, features: String, lineOfBusiness: String,
-                          maxResults: Int? = null, guid: String? = null, packageType: String? = null, abTest: String? = null): Observable<SuggestionV4Response> {
+    private fun suggestV4(
+        query: String,
+        suggestType: Int,
+        isDest: Boolean,
+        features: String,
+        lineOfBusiness: String,
+        maxResults: Int? = null,
+        guid: String? = null,
+        packageType: String? = null,
+        abTest: String? = null
+    ): Observable<SuggestionV4Response> {
         return suggestApi.suggestV4(query, suggestType, isDest, features, lineOfBusiness, maxResults, guid, packageType, abTest)
     }
 

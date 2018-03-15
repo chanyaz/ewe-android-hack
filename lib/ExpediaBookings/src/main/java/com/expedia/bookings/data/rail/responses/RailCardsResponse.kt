@@ -7,7 +7,9 @@ class RailCardsResponse {
 }
 
 data class RailCard(
-        val category: String, val program: String, val name: String
+    val category: String,
+    val program: String,
+    val name: String
 )
 
 class RailCardSelected(val id: Int, val cardType: RailCard, val quantity: Int) {

@@ -12,65 +12,65 @@ import org.joda.time.DateTime
 
 class FlightItinSegmentSummaryViewModel(private val context: Context) {
     data class SummaryWidgetParams(
-            val airlineLogoURL: String?,
-            val airlineName: String,
-            val operatedByAirlines: String?,
-            val departureTime: DateTime,
-            val arrivalTime: DateTime,
-            val departureAirportCode: String,
-            val departureAirportCity: String,
-            val arrivalAirportCode: String,
-            val arrivalAirportCity: String,
-            var departureTerminal: String?,
-            var departureGate: String?,
-            var arrivalTerminal: String?,
-            var arrivalGate: String?,
-            val seats: String,
-            val cabinCode: String,
-            val seatConfirmation: String?,
-            val redEyeDays: String?,
-            val flightStatus: String,
-            val estimatedGateDepartureTime: DateTime?,
-            val estimatedGateArrivalTime: DateTime?
+        val airlineLogoURL: String?,
+        val airlineName: String,
+        val operatedByAirlines: String?,
+        val departureTime: DateTime,
+        val arrivalTime: DateTime,
+        val departureAirportCode: String,
+        val departureAirportCity: String,
+        val arrivalAirportCode: String,
+        val arrivalAirportCity: String,
+        var departureTerminal: String?,
+        var departureGate: String?,
+        var arrivalTerminal: String?,
+        var arrivalGate: String?,
+        val seats: String,
+        val cabinCode: String,
+        val seatConfirmation: String?,
+        val redEyeDays: String?,
+        val flightStatus: String,
+        val estimatedGateDepartureTime: DateTime?,
+        val estimatedGateArrivalTime: DateTime?
     )
 
     data class AirlineWidgetParams(
-            val airlineLogoURL: String?,
-            val airlineName: String,
-            val operatedByAirlines: String?
+        val airlineLogoURL: String?,
+        val airlineName: String,
+        val operatedByAirlines: String?
     )
 
     data class TimingWidgetParams(
-            val departureTime: String,
-            val arrivalTime: String,
-            val departureAirport: String,
-            val arrivalAirport: String
+        val departureTime: String,
+        val arrivalTime: String,
+        val departureAirport: String,
+        val arrivalAirport: String
     )
 
     data class RedEyeParams(
-            val departureRedEye: String?,
-            val arrivalRedEye: String?,
-            val redEyeDays: String?
+        val departureRedEye: String?,
+        val arrivalRedEye: String?,
+        val redEyeDays: String?
     )
 
     data class TerminalGateParams(
-            val departureTerminalGate: String?,
-            val arrivalTerminalGate: String?
+        val departureTerminalGate: String?,
+        val arrivalTerminalGate: String?
     )
 
     data class SeatingWidgetParams(
-            val seats: String,
-            val cabinCode: String,
-            val seatConfirmation: String?
+        val seats: String,
+        val cabinCode: String,
+        val seatConfirmation: String?
     )
 
     data class FlightStatsParams(
-            val indicatorContainerBackground: Int,
-            val flightStatusText: String,
-            val flightStatusTextContDesc: String,
-            val indicatorTextColor: Int,
-            val newDepartureTimeText: String?,
-            val newArrivalTimeText: String?
+        val indicatorContainerBackground: Int,
+        val flightStatusText: String,
+        val flightStatusTextContDesc: String,
+        val indicatorTextColor: Int,
+        val newDepartureTimeText: String?,
+        val newArrivalTimeText: String?
     )
 
     val createAirlineWidgetSubject: PublishSubject<AirlineWidgetParams> = PublishSubject.create<AirlineWidgetParams>()

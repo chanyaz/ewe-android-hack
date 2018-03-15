@@ -6,11 +6,16 @@ import com.expedia.bookings.data.packages.PackageSearchParams
 import org.joda.time.LocalDate
 import java.util.HashMap
 
-open class HotelSearchParams(val suggestion: SuggestionV4,
-                             val checkIn: LocalDate, val checkOut: LocalDate,
-                             adults: Int, children: List<Int>,
-                             var shopWithPoints: Boolean, var sortType: String? = null,
-                             var mctc: Int? = null) : BaseSearchParams(suggestion, null, adults, children, checkIn, checkOut) {
+open class HotelSearchParams(
+    val suggestion: SuggestionV4,
+    val checkIn: LocalDate,
+    val checkOut: LocalDate,
+    adults: Int,
+    children: List<Int>,
+    var shopWithPoints: Boolean,
+    var sortType: String? = null,
+    var mctc: Int? = null
+) : BaseSearchParams(suggestion, null, adults, children, checkIn, checkOut) {
     var forPackage = false
     var filterOptions: HotelFilterOptions? = null
     var enableSponsoredListings = true
@@ -56,8 +61,8 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
                 && checkIn == other.checkIn && checkOut == other.checkOut
                 && adults == other.adults && children.size == other.children.size
                 && shopWithPoints == other.shopWithPoints
-                && filterOptions?.let { options -> options.isEmpty() } ?: true
-                && other.filterOptions?.let { options -> options.isEmpty() } ?: true
+                && filterOptions?.let { options -> options.isEmpty() } ?: true &&
+                other.filterOptions?.let { options -> options.isEmpty() } ?: true
     }
 
     private fun getSortTypeFromString(sortString: String?): SortType? {
@@ -243,8 +248,8 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
                     && filterStarRatings.isEmpty()
                     && (filterPrice == null || !filterPrice!!.isValid())
                     && !filterVipOnly
-                    && userSort == null
-                    && amenities.isEmpty()
+                    && userSort == null &&
+                    amenities.isEmpty()
         }
 
         fun isNotEmpty(): Boolean {

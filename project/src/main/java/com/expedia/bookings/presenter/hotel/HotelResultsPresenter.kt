@@ -238,8 +238,8 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         filterViewModel.filterCountObservable.subscribe(filterCountObserver)
 
         mapWidget.cameraChangeSubject.subscribe {
-            if (currentState?.equals(ResultsMap::class.java.name) == true
-                    && searchThisArea.visibility == View.GONE) {
+            if (currentState?.equals(ResultsMap::class.java.name) == true &&
+                    searchThisArea.visibility == View.GONE) {
                 searchThisArea.visibility = View.VISIBLE
                 ObjectAnimator.ofFloat(searchThisArea, "alpha", 0f, 1f).setDuration(DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION).start()
             }

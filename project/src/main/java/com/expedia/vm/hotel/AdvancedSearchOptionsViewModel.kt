@@ -121,8 +121,8 @@ class AdvancedSearchOptionsViewModel(val context: Context) {
     }
 
     private fun filterCountChanged() {
-        showClearButtonSubject.onNext(searchOptions.filterCount() > 0
-                || searchOptions.userSort != DisplaySort.RECOMMENDED)
+        showClearButtonSubject.onNext(searchOptions.filterCount() > 0 ||
+                searchOptions.userSort != DisplaySort.RECOMMENDED)
     }
 
     private fun resetUserFilters() {

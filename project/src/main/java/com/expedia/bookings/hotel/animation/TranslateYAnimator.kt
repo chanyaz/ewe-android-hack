@@ -5,9 +5,14 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.view.View
 
-class TranslateYAnimator(view: View, startY: Float, endY: Float, duration: Long? = null,
-                         private val startAction: () -> Unit = {},
-                         private val endAction: () -> Unit = {}) {
+class TranslateYAnimator(
+    view: View,
+    startY: Float,
+    endY: Float,
+    duration: Long? = null,
+    private val startAction: () -> Unit = {},
+    private val endAction: () -> Unit = {}
+) {
     private val translateAnimator = ObjectAnimator.ofFloat(view, "translationY", startY, endY)
 
     init {

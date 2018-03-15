@@ -619,15 +619,19 @@ class PlayStoreScreenshotSweep {
             pointOfSaleForLocale.put(VIETNAM, PointOfSaleId.VIETNAM)
         }
 
-        class LocationSearchCriteria(val searchString: String,
-                                     private val alternateSuggestString: String? = null) {
+        class LocationSearchCriteria(
+            val searchString: String,
+            private val alternateSuggestString: String? = null
+        ) {
             val suggestString: String
                 get() = alternateSuggestString ?: searchString
         }
 
-        class FlightSearchCriteria(val departureAirport: AirportSearchCriteria,
-                                   val arrivalAirport: AirportSearchCriteria,
-                                   val isDropdownSearch: Boolean = false)
+        class FlightSearchCriteria(
+            val departureAirport: AirportSearchCriteria,
+            val arrivalAirport: AirportSearchCriteria,
+            val isDropdownSearch: Boolean = false
+        )
 
         class AirportSearchCriteria(val code: String)
 

@@ -35,10 +35,12 @@ import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.hotel.widget.Earn2xCardViewHolder
 import com.expedia.bookings.hotel.widget.HotelUrgencyViewHolder
 
-abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>,
-                                    val headerSubject: PublishSubject<Unit>,
-                                    val pricingHeaderSelectedSubject: PublishSubject<Unit>,
-                                    var canShow2xMessaging: Boolean = false) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+abstract class BaseHotelListAdapter(
+    val hotelSelectedSubject: PublishSubject<Hotel>,
+    val headerSubject: PublishSubject<Unit>,
+    val pricingHeaderSelectedSubject: PublishSubject<Unit>,
+    var canShow2xMessaging: Boolean = false
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     abstract fun getHotelCellHolder(parent: ViewGroup): AbstractHotelCellViewHolder
     abstract fun getPriceDescriptorMessageIdForHSR(context: Context): Int?

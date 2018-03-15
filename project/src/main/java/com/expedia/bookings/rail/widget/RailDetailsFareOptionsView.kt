@@ -19,8 +19,11 @@ class RailDetailsFareOptionsView(context: Context, attrs: AttributeSet) : Linear
         }
     }
 
-    private fun addFareOptionViews(railOffers: List<RailOffer>, inboundLegCheapestPrice: Money?,
-                                   showDeltaPricing: Boolean) {
+    private fun addFareOptionViews(
+        railOffers: List<RailOffer>,
+        inboundLegCheapestPrice: Money?,
+        showDeltaPricing: Boolean
+    ) {
         railOffers.forEach { offerForLeg ->
             val fareOptionViewModel = RailFareOptionViewModel(context, showDeltaPricing)
             val fareOptionView = RailFareOptionView(context)

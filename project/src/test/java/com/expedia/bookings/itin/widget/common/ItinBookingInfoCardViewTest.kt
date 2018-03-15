@@ -56,9 +56,9 @@ class ItinBookingInfoCardViewTest {
     }
 
     private class MockViewModelWithSubheading(
-            override val iconImage: Int,
-            override val headingText: String,
-            override val subheadingText: String?,
-            override val cardClickListener: () -> Unit
+        override val iconImage: Int,
+        override val headingText: String,
+        override val subheadingText: String?,
+        override val cardClickListener: () -> Unit
     ) : ItinBookingInfoCardViewModel
 }

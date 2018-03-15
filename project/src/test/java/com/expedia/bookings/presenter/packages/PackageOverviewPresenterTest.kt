@@ -199,9 +199,11 @@ class PackageOverviewPresenterTest {
         assertEquals("2 travelers", overviewPresenter.bundleOverviewHeader.checkoutOverviewFloatingToolbar.travelers.text)
     }
 
-    private fun assertTotalPriceDisplayedForMID(displayType: MandatoryFees.DisplayType,
-                                                displayCurrency: MandatoryFees.DisplayCurrency,
-                                                expectedTotalPrice: String) {
+    private fun assertTotalPriceDisplayedForMID(
+        displayType: MandatoryFees.DisplayType,
+        displayCurrency: MandatoryFees.DisplayCurrency,
+        expectedTotalPrice: String
+    ) {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesMidApi)
         setupOverviewPresenter(displayType, displayCurrency)
         overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
@@ -363,8 +365,10 @@ class PackageOverviewPresenterTest {
         Db.setPackageResponse(baseMidResponse)
     }
 
-    private fun setupOverviewPresenter(displayType: MandatoryFees.DisplayType = MandatoryFees.DisplayType.NONE,
-                                       displayCurrency: MandatoryFees.DisplayCurrency = MandatoryFees.DisplayCurrency.POINT_OF_SALE) {
+    private fun setupOverviewPresenter(
+        displayType: MandatoryFees.DisplayType = MandatoryFees.DisplayType.NONE,
+        displayCurrency: MandatoryFees.DisplayCurrency = MandatoryFees.DisplayCurrency.POINT_OF_SALE
+    ) {
         overviewPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_overview_presenter, null) as PackageOverviewPresenter
         overviewPresenter.bundleWidget.viewModel = BundleOverviewViewModel(activity, packageServiceRule.services!!)
         setUpPackageDb()

@@ -44,16 +44,22 @@ class AbacusFeatureConfigManager {
             return true
         }
 
-        fun isBucketedForVariant(context: Context, abacusTest: ABTest,
-                                 variant: AbacusVariant): Boolean {
+        fun isBucketedForVariant(
+            context: Context,
+            abacusTest: ABTest,
+            variant: AbacusVariant
+        ): Boolean {
             if (abacusTest.remote && !(useOverride(context, abacusTest))) {
                 return isUserInVariantForRemoteTest(context, abacusTest, variant)
             }
             return isInVariant(abacusTest, variant)
         }
 
-        private fun isUserInVariantForRemoteTest(context: Context, abacusTest: ABTest,
-                                                 variant: AbacusVariant): Boolean {
+        private fun isUserInVariantForRemoteTest(
+            context: Context,
+            abacusTest: ABTest,
+            variant: AbacusVariant
+        ): Boolean {
             if (SatelliteFeatureConfigManager.isABTestEnabled(context, abacusTest.key)) {
                 return isInVariant(abacusTest, variant)
             }

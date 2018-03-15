@@ -12,10 +12,13 @@ import java.util.ArrayList
 import java.util.Comparator
 import java.util.TreeSet
 
-enum class Amenity(@DrawableRes val drawableRes: Int,
-                   @StringRes val filterDescriptionId: Int?,
-                   @StringRes val propertyDescriptionId: Int,
-                   val priority: Int, val jsonId: String) {
+enum class Amenity(
+    @DrawableRes val drawableRes: Int,
+    @StringRes val filterDescriptionId: Int?,
+    @StringRes val propertyDescriptionId: Int,
+    val priority: Int,
+    val jsonId: String
+) {
 
     POOL(R.drawable.ic_amenity_pool, R.string.amenity_pool, R.string.amenity_pool, priority = 0, jsonId = "pool"),
     POOL_INDOOR(R.drawable.ic_amenity_pool, null, R.string.amenity_pool_indoor, priority = 0, jsonId = "poolIndoor"),

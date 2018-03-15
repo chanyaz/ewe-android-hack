@@ -1,16 +1,18 @@
 package com.expedia.bookings.data.packages
 
-class MultiItemCreateTripParams(val flightPIID: String,
-                                val hotelID: String,
-                                val inventoryType: String,
-                                val ratePlanCode: String,
-                                val roomTypeCode: String,
-                                val totalPrice: PackageOfferModel.PackagePrice,
-                                val startDate: String,
-                                val endDate: String,
-                                val adults: Int,
-                                val childAges: String?,
-                                val infantsInSeats: Boolean?) {
+class MultiItemCreateTripParams(
+    val flightPIID: String,
+    val hotelID: String,
+    val inventoryType: String,
+    val ratePlanCode: String,
+    val roomTypeCode: String,
+    val totalPrice: PackageOfferModel.PackagePrice,
+    val startDate: String,
+    val endDate: String,
+    val adults: Int,
+    val childAges: String?,
+    val infantsInSeats: Boolean?
+) {
     companion object {
         fun fromPackageSearchParams(searchParams: PackageSearchParams): MultiItemCreateTripParams {
             return MultiItemCreateTripParams(

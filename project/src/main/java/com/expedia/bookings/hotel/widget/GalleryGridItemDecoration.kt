@@ -6,8 +6,12 @@ import android.view.View
 
 class GalleryGridItemDecoration(private val space: Int, private val columnCount: Int) : RecyclerView.ItemDecoration() {
 
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView,
-                                state: RecyclerView.State) {
+    override fun getItemOffsets(
+        outRect: Rect,
+        view: View,
+        parent: RecyclerView,
+        state: RecyclerView.State
+    ) {
         outRect.top = space + space / 2
         outRect.bottom = 0
 

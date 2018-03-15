@@ -385,8 +385,10 @@ class FlightCostSummaryBreakdownViewModelTest {
         newTripResponse.details.offer = addEvolableUrls(newTripResponse.details.offer)
     }
 
-    private fun assertEvents(expectedBreakdownList: List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>,
-                             list: List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>) {
+    private fun assertEvents(
+        expectedBreakdownList: List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>,
+        list: List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>
+    ) {
         for (i in expectedBreakdownList.indices) {
             val expected = expectedBreakdownList[i]
             val actual = list[i]

@@ -41,8 +41,12 @@ class DialogFactory {
             return builder.create()
         }
 
-        private fun showRetryCancelDialog(context: Context, message: String,
-                                          retryFun: () -> Unit, cancelFun: () -> Unit) {
+        private fun showRetryCancelDialog(
+            context: Context,
+            message: String,
+            retryFun: () -> Unit,
+            cancelFun: () -> Unit
+        ) {
             if (isContextValidActivity(context)) {
                 val b = AlertDialog.Builder(context)
                 b.setCancelable(false)

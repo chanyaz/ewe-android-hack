@@ -95,10 +95,12 @@ class HotelTest {
         assertEquals(room.packageLoyaltyInformation, multiItemOffer.loyaltyInfo)
     }
 
-    private fun assertMIDMandatoryFeesDisplayTypeDisplayCurrency(displayType: MandatoryFees.DisplayType,
-                                                                 displayCurrency: MandatoryFees.DisplayCurrency,
-                                                                 totalMandatoryFees: Float,
-                                                                 showResortFeeMessage: Boolean) {
+    private fun assertMIDMandatoryFeesDisplayTypeDisplayCurrency(
+        displayType: MandatoryFees.DisplayType,
+        displayCurrency: MandatoryFees.DisplayCurrency,
+        totalMandatoryFees: Float,
+        showResortFeeMessage: Boolean
+    ) {
         val hotelOffer = dummyMidHotelRoomOffer(displayType, displayCurrency)
         val multiItemOffer = dummyMultiItemRoomOffer()
 
@@ -408,8 +410,10 @@ class HotelTest {
         return Gson().fromJson(hotelOfferJson, HotelOffer::class.java)
     }
 
-    private fun dummyMidHotelRoomOffer(displayType: MandatoryFees.DisplayType = MandatoryFees.DisplayType.NONE,
-                                       displayCurrency: MandatoryFees.DisplayCurrency = MandatoryFees.DisplayCurrency.POINT_OF_SALE): HotelOffer {
+    private fun dummyMidHotelRoomOffer(
+        displayType: MandatoryFees.DisplayType = MandatoryFees.DisplayType.NONE,
+        displayCurrency: MandatoryFees.DisplayCurrency = MandatoryFees.DisplayCurrency.POINT_OF_SALE
+    ): HotelOffer {
 
         val hotelRoomOfferJson = """
         {

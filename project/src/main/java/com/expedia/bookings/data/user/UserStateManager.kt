@@ -21,12 +21,14 @@ import com.expedia.bookings.utils.CarnivalUtils
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.model.UserLoginStateChangedModel
 
-class UserStateManager @JvmOverloads constructor(private val context: Context,
-                                                 private val userLoginStateChangedModel: UserLoginStateChangedModel,
-                                                 private val notificationManager: NotificationManager,
-                                                 private val accountManager: AccountManager = AccountManager.get(context),
-                                                 val userSource: UserSource = UserSource(context),
-                                                 private val loggingProvider: ExceptionLoggingProvider = ExceptionLoggingProvider()) {
+class UserStateManager @JvmOverloads constructor(
+    private val context: Context,
+    private val userLoginStateChangedModel: UserLoginStateChangedModel,
+    private val notificationManager: NotificationManager,
+    private val accountManager: AccountManager = AccountManager.get(context),
+    val userSource: UserSource = UserSource(context),
+    private val loggingProvider: ExceptionLoggingProvider = ExceptionLoggingProvider()
+) {
     private val SAVED_INFO_FILENAME = "user.dat"
 
     private val accountType: String by lazy {
@@ -132,8 +134,10 @@ class UserStateManager @JvmOverloads constructor(private val context: Context,
     }
 
     @JvmOverloads
-    fun ensureUserStateSanity(listener: UserAccountRefresher.IUserAccountRefreshListener,
-                              refresher: UserAccountRefresher? = null) {
+    fun ensureUserStateSanity(
+        listener: UserAccountRefresher.IUserAccountRefreshListener,
+        refresher: UserAccountRefresher? = null
+    ) {
         if (isUserLoggedInToAccountManager() && !isUserLoggedInOnDisk()) {
             (refresher ?: UserAccountRefresher(context, LineOfBusiness.NONE, listener)).forceAccountRefresh()
         } else {

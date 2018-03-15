@@ -125,8 +125,10 @@ abstract class BaseSuggestionAdapter(val viewModel: BaseSuggestionAdapterViewMod
 
     private class SearchInfoViewHolder(itemView: ViewGroup, vm: BaseSuggestionViewModel) : SuggestionViewHolder(itemView, vm)
 
-    private inner class SuggestionClickListener(private val suggestion: SuggestionV4,
-                                                private val position: Int) : View.OnClickListener {
+    private inner class SuggestionClickListener(
+        private val suggestion: SuggestionV4,
+        private val position: Int
+    ) : View.OnClickListener {
         override fun onClick(v: View?) {
             val searchSuggestion = SearchSuggestion(suggestion)
             searchSuggestion.trackingData = getSuggestionTrackingData(suggestion, position)

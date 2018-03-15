@@ -31,14 +31,16 @@ import com.mobiata.flightlib.data.Flight
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 
-open class NotificationScheduler @JvmOverloads constructor(val context: Context,
-                                                           val db: Db = Db.sharedInstance,
-                                                           val services: ExpediaServicesPushInterface = ExpediaServices(context),
-                                                           var notificationManager: INotificationManager,
-                                                           val userStateManager: UserStateManager,
-                                                           val tnsServices: ITNSServices,
-                                                           val gcmRegistrationKeeper: GCMRegistrationKeeper = GCMRegistrationKeeper.getInstance(context),
-                                                           val pos: PointOfSale = PointOfSale.getPointOfSale()) {
+open class NotificationScheduler @JvmOverloads constructor(
+    val context: Context,
+    val db: Db = Db.sharedInstance,
+    val services: ExpediaServicesPushInterface = ExpediaServices(context),
+    var notificationManager: INotificationManager,
+    val userStateManager: UserStateManager,
+    val tnsServices: ITNSServices,
+    val gcmRegistrationKeeper: GCMRegistrationKeeper = GCMRegistrationKeeper.getInstance(context),
+    val pos: PointOfSale = PointOfSale.getPointOfSale()
+) {
 
     private val LOGGING_TAG = "NotificationScheduler"
 

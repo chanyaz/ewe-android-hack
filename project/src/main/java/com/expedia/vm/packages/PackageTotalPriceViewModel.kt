@@ -8,8 +8,11 @@ import com.expedia.bookings.utils.StrUtils
 import com.squareup.phrase.Phrase
 
 class PackageTotalPriceViewModel(context: Context, isSlidable: Boolean = false) : AbstractUniversalCKOTotalPriceViewModel(context, isSlidable) {
-    override fun getAccessibleContentDescription(isCostBreakdownShown: Boolean,
-                                                 isSlidable: Boolean, isExpanded: Boolean): String {
+    override fun getAccessibleContentDescription(
+        isCostBreakdownShown: Boolean,
+        isSlidable: Boolean,
+        isExpanded: Boolean
+    ): String {
         val description = if (isCostBreakdownShown || (costBreakdownEnabledObservable.value != null && costBreakdownEnabledObservable.value)) {
             Phrase.from(context, R.string.bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE)
                     .put("totalprice", totalPriceObservable.value)

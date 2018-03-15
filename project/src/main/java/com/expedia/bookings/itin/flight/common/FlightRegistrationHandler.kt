@@ -14,9 +14,11 @@ import com.expedia.bookings.utils.UniqueIdentifierPersistenceProvider
 import com.expedia.bookings.utils.UniqueIdentifierHelper
 import io.reactivex.subjects.PublishSubject
 
-class FlightRegistrationHandler(val context: Context,
-                                val tnsServices: TNSServices,
-                                val userDetail: UserSource) {
+class FlightRegistrationHandler(
+    val context: Context,
+    val tnsServices: TNSServices,
+    val userDetail: UserSource
+) {
 
     val userLoginStateChanged = PublishSubject.create<Boolean>()
 

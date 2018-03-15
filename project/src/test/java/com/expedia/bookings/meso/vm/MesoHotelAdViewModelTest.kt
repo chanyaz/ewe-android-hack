@@ -265,14 +265,16 @@ class MesoHotelAdViewModelTest {
         providerPublishSubject.onNext(mockHotelAdData)
     }
 
-    private fun getMesoAdResponseMockData(headline: String? = "Check out this hotel",
-                                          hotelId: String? = "123456",
-                                          hotelName: String? = "Really Great Fake Hotel",
-                                          offerPrice: String? = "$200",
-                                          percentageOff: String? = "33%",
-                                          propertyLocation: String? = "Ann Arbor, Michigan",
-                                          regionId: String? = "0",
-                                          strikeThroughPrice: String? = "$300"): MesoAdResponse {
+    private fun getMesoAdResponseMockData(
+        headline: String? = "Check out this hotel",
+        hotelId: String? = "123456",
+        hotelName: String? = "Really Great Fake Hotel",
+        offerPrice: String? = "$200",
+        percentageOff: String? = "33%",
+        propertyLocation: String? = "Ann Arbor, Michigan",
+        regionId: String? = "0",
+        strikeThroughPrice: String? = "$300"
+    ): MesoAdResponse {
 
         val mesoHotelAdResponse = MesoHotelAdResponse(object : NativeAd.Image() {
             override fun getDrawable(): Drawable? {

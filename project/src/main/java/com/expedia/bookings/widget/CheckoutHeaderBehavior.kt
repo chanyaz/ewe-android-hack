@@ -34,8 +34,8 @@ class CheckoutHeaderBehavior(val context: Context, attrs: AttributeSet) : Coordi
                 resetValues()
             }
 
-            if (percentage == 0f && (textViewLeftX <= 0 || toolBarRightX <= 0
-                    || (textViewWidth == 0 && child.destinationText.width != 0))) {
+            if (percentage == 0f && (textViewLeftX <= 0 || toolBarRightX <= 0 ||
+                    (textViewWidth == 0 && child.destinationText.width != 0))) {
                 setupValues(child, dependency)
             }
 

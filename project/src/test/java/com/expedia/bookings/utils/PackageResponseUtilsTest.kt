@@ -79,11 +79,13 @@ class PackageResponseUtilsTest {
         assertEquals(null, hotelOffersResponse)
     }
 
-    private fun mockMIDResponse(offers: List<MultiItemOffer> = emptyList(),
-                                hotels: Map<String, HotelOffer> = emptyMap(),
-                                flights: Map<String, FlightOffer> = emptyMap(),
-                                flightLegs: Map<String, MultiItemFlightLeg> = emptyMap(),
-                                errors: List<MultiItemError>? = null): MultiItemApiSearchResponse {
+    private fun mockMIDResponse(
+        offers: List<MultiItemOffer> = emptyList(),
+        hotels: Map<String, HotelOffer> = emptyMap(),
+        flights: Map<String, FlightOffer> = emptyMap(),
+        flightLegs: Map<String, MultiItemFlightLeg> = emptyMap(),
+        errors: List<MultiItemError>? = null
+    ): MultiItemApiSearchResponse {
         return MultiItemApiSearchResponse(offers = offers, hotels = hotels, flights = flights, flightLegs = flightLegs, errors = errors)
     }
 }

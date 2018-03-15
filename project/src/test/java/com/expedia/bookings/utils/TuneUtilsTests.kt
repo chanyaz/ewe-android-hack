@@ -570,8 +570,10 @@ class TuneUtilsTests {
         return activity
     }
 
-    private class TestTuneTrackingProviderImpl(private val user: User? = UserLoginTestUtil.mockUser(),
-                                               private val isLoggedIn: Boolean = false) : TuneTrackingProvider {
+    private class TestTuneTrackingProviderImpl(
+        private val user: User? = UserLoginTestUtil.mockUser(),
+        private val isLoggedIn: Boolean = false
+    ) : TuneTrackingProvider {
         var trackedEvent: TuneEvent? = null
             private set
         override val authenticatedUser: User?

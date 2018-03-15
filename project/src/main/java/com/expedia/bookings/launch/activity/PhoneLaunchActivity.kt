@@ -690,8 +690,11 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         return false
     }
 
-    fun showLOBNotSupportedAlertMessage(context: Context, errorMessage: CharSequence,
-                                        confirmButtonResourceId: Int) {
+    fun showLOBNotSupportedAlertMessage(
+        context: Context,
+        errorMessage: CharSequence,
+        confirmButtonResourceId: Int
+    ) {
         val b = AlertDialog.Builder(context)
         b.setCancelable(false).setMessage(errorMessage).setPositiveButton(confirmButtonResourceId) { dialog, _ -> dialog.dismiss() }.show()
     }

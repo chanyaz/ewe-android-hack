@@ -26,17 +26,19 @@ abstract class FlightTripResponse : TripResponse() {
     }
 
     data class FareFamilies (
-            val productKey: String,
-            val fareFamilyDetails: Array<FareFamilyDetails>)
+        val productKey: String,
+        val fareFamilyDetails: Array<FareFamilyDetails>
+    )
 
     data class FareFamilyDetails (
-            val fareFamilyName: String,
-            val fareFamilyCode: String,
-            val cabinClass: String,
-            val totalPrice: Money,
-            val deltaTotalPrice: Money,
-            val deltaPositive: Boolean = false,
-            val fareFamilyComponents: HashMap<String, HashMap<String, String>>)
+        val fareFamilyName: String,
+        val fareFamilyCode: String,
+        val cabinClass: String,
+        val totalPrice: Money,
+        val deltaTotalPrice: Money,
+        val deltaPositive: Boolean = false,
+        val fareFamilyComponents: HashMap<String, HashMap<String, String>>
+    )
 
     enum class CreateTripError {
         FARE_FAMILY_PRICE_CHANGE,

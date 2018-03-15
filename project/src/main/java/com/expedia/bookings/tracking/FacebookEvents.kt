@@ -185,8 +185,10 @@ class FacebookEvents {
         track(AppEventsConstants.EVENT_NAME_SEARCHED, parameters)
     }
 
-    fun trackFilteredFlightV2Search(flightSearchParams: com.expedia.bookings.data.flights.FlightSearchParams,
-                                    flightLegList: List<FlightLeg>) {
+    fun trackFilteredFlightV2Search(
+        flightSearchParams: com.expedia.bookings.data.flights.FlightSearchParams,
+        flightLegList: List<FlightLeg>
+    ) {
         val destinationAirport = flightSearchParams.arrivalAirport.gaiaId
         val arrivalAirport = flightSearchParams.departureAirport.gaiaId
         val parameters = Bundle()
@@ -199,8 +201,10 @@ class FacebookEvents {
         track(AppEventsConstants.EVENT_NAME_SEARCHED, parameters)
     }
 
-    fun trackFlightV2Detail(flightSearchParams: com.expedia.bookings.data.flights.FlightSearchParams,
-                            flightCreateTripResponse: FlightCreateTripResponse) {
+    fun trackFlightV2Detail(
+        flightSearchParams: com.expedia.bookings.data.flights.FlightSearchParams,
+        flightCreateTripResponse: FlightCreateTripResponse
+    ) {
         val parameters = Bundle()
         val totalPrice = flightCreateTripResponse.details.offer.totalPrice
 
@@ -259,8 +263,14 @@ class FacebookEvents {
         track(AppEventsConstants.EVENT_NAME_SEARCHED, parameters)
     }
 
-    fun trackLXDetail(activityId: String, destination: String, startDate: LocalDate, regionId: String,
-                      currencyCode: String, activityValue: String) {
+    fun trackLXDetail(
+        activityId: String,
+        destination: String,
+        startDate: LocalDate,
+        regionId: String,
+        currencyCode: String,
+        activityValue: String
+    ) {
         val parameters = Bundle()
 
         addCommonLXParams(parameters, startDate, regionId, destination)
@@ -272,8 +282,15 @@ class FacebookEvents {
         track(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT, parameters)
     }
 
-    fun trackLXCheckout(activityId: String, lxActivityLocation: String, startDate: LocalDate, regionId: String,
-                        totalPrice: Money, ticketCount: Int, childTicketCount: Int) {
+    fun trackLXCheckout(
+        activityId: String,
+        lxActivityLocation: String,
+        startDate: LocalDate,
+        regionId: String,
+        totalPrice: Money,
+        ticketCount: Int,
+        childTicketCount: Int
+    ) {
         val parameters = Bundle()
 
         addCommonLXParams(parameters, startDate, regionId, lxActivityLocation)
@@ -287,8 +304,15 @@ class FacebookEvents {
         track(AppEventsConstants.EVENT_NAME_ADDED_TO_CART, parameters)
     }
 
-    fun trackLXConfirmation(activityId: String, lxActivityLocation: String, startDate: LocalDate, regionId: String,
-                            totalPrice: Money, ticketCount: Int, childTicketCount: Int) {
+    fun trackLXConfirmation(
+        activityId: String,
+        lxActivityLocation: String,
+        startDate: LocalDate,
+        regionId: String,
+        totalPrice: Money,
+        ticketCount: Int,
+        childTicketCount: Int
+    ) {
         val parameters = Bundle()
 
         addCommonLXParams(parameters, startDate, regionId, lxActivityLocation)
@@ -365,8 +389,13 @@ class FacebookEvents {
         parameters.safePutString("LOB", "Hotel")
     }
 
-    private fun addCommonHotelDATSearchParams(parameters: Bundle, checkIn: LocalDate?, checkOut: LocalDate?,
-                                              adults: Int, numberOfChildren: Int) {
+    private fun addCommonHotelDATSearchParams(
+        parameters: Bundle,
+        checkIn: LocalDate?,
+        checkOut: LocalDate?,
+        adults: Int,
+        numberOfChildren: Int
+    ) {
         val dtf = ISODateTimeFormat.date()
 
         parameters.safePutString(FB_CHECKIN_DATE, dtf.safePrint(checkIn))
@@ -414,8 +443,15 @@ class FacebookEvents {
         parameters.safePutInt(FB_NUM_CHILDREN, flightParams.children.size)
     }
 
-    private fun addCommonFlightV2Params(parameters: Bundle, arrivalAirport: SuggestionV4?,
-                                        departureAirport: SuggestionV4?, departureDate: LocalDate?, returnDate: LocalDate?, guests: Int, childrenNo: Int) {
+    private fun addCommonFlightV2Params(
+        parameters: Bundle,
+        arrivalAirport: SuggestionV4?,
+        departureAirport: SuggestionV4?,
+        departureDate: LocalDate?,
+        returnDate: LocalDate?,
+        guests: Int,
+        childrenNo: Int
+    ) {
         val dtf = ISODateTimeFormat.date()
         val destinationId = arrivalAirport?.gaiaId ?: ""
         parameters.safePutString("region_id", destinationId)

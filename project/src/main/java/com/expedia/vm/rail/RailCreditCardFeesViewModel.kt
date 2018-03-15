@@ -19,8 +19,10 @@ class RailCreditCardFeesViewModel : BaseCreditCardFeesViewModel() {
         }
     }
 
-    private fun getValidCreditCardsAndFeesForToken(validPayments: List<RailCreateTripResponse.RailValidFormOfPayment>,
-                                                   ticketDeliveryToken: RailCreateTripResponse.RailTicketDeliveryOptionToken): List<CardFeesRow> {
+    private fun getValidCreditCardsAndFeesForToken(
+        validPayments: List<RailCreateTripResponse.RailValidFormOfPayment>,
+        ticketDeliveryToken: RailCreateTripResponse.RailTicketDeliveryOptionToken
+    ): List<CardFeesRow> {
         val cardFees = arrayListOf<CardFeesRow>()
         for (validPayment in validPayments) {
             if (validPayment.fees[ticketDeliveryToken] != null) {

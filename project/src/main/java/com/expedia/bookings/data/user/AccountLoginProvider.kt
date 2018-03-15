@@ -15,11 +15,13 @@ open class AccountLoginProvider(val manager: AccountManager? = null) {
         manager?.getAuthToken(account, accountType, options, activity, callback, handler)
     }
 
-    open fun addAccount(accountType: String,
-                        authTokenType: String,
-                        requiredFeatures: Array<out String>?,
-                        addAccountOptions: Bundle?,
-                        activity: Activity,
-                        callback: AccountManagerCallback<Bundle>?,
-                        handler: Handler?): AccountManagerFuture<Bundle>? = manager?.addAccount(accountType, authTokenType, requiredFeatures, addAccountOptions, activity, callback, handler)
+    open fun addAccount(
+        accountType: String,
+        authTokenType: String,
+        requiredFeatures: Array<out String>?,
+        addAccountOptions: Bundle?,
+        activity: Activity,
+        callback: AccountManagerCallback<Bundle>?,
+        handler: Handler?
+    ): AccountManagerFuture<Bundle>? = manager?.addAccount(accountType, authTokenType, requiredFeatures, addAccountOptions, activity, callback, handler)
 }

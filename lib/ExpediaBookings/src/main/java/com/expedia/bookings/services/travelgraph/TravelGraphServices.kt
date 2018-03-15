@@ -13,8 +13,14 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.UUID
 
-class TravelGraphServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, tgInterceptor: Interceptor,
-                          private val observeOn: Scheduler, private val subscribeOn: Scheduler) {
+class TravelGraphServices(
+    endpoint: String,
+    okHttpClient: OkHttpClient,
+    interceptor: Interceptor,
+    tgInterceptor: Interceptor,
+    private val observeOn: Scheduler,
+    private val subscribeOn: Scheduler
+) {
 
     private val travelGraphApi: TravelGraphApi by lazy {
         val gson = GsonBuilder().create()

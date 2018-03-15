@@ -1,7 +1,9 @@
 package com.expedia.bookings.data.rail
 
-class RailTravelMedium(val travelMediumCode: String,
-                       val travelMediumName: String) {
+class RailTravelMedium(
+    val travelMediumCode: String,
+    val travelMediumName: String
+) {
 
     companion object {
         val AIRPORT = "APT"

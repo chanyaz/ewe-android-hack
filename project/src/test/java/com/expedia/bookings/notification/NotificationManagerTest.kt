@@ -222,14 +222,16 @@ class NotificationManagerTest {
         assertEquals(5, shadowAlarmManager.scheduledAlarms.size)
     }
 
-    private fun makeNotification(id: String,
-                                 type: Notification.NotificationType,
-                                 status: Notification.StatusType = Notification.StatusType.NEW,
-                                 time: Long = frozenTime.millis,
-                                 title: String = "",
-                                 ticker: String = "",
-                                 body: String = "",
-                                 trigger: Long = frozenTime.minusHours(1).millis): Notification {
+    private fun makeNotification(
+        id: String,
+        type: Notification.NotificationType,
+        status: Notification.StatusType = Notification.StatusType.NEW,
+        time: Long = frozenTime.millis,
+        title: String = "",
+        ticker: String = "",
+        body: String = "",
+        trigger: Long = frozenTime.minusHours(1).millis
+    ): Notification {
         val notification = Notification()
         notification.uniqueId = id
         notification.triggerTimeMillis = trigger

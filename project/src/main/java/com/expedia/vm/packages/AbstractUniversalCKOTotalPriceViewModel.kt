@@ -5,8 +5,10 @@ import com.expedia.bookings.R
 import com.expedia.vm.BaseTotalPriceWidgetViewModel
 import com.squareup.phrase.Phrase
 
-abstract class AbstractUniversalCKOTotalPriceViewModel(val context: Context,
-                                                       val isSlidable: Boolean = false) : BaseTotalPriceWidgetViewModel(isSlidable) {
+abstract class AbstractUniversalCKOTotalPriceViewModel(
+    val context: Context,
+    val isSlidable: Boolean = false
+) : BaseTotalPriceWidgetViewModel(isSlidable) {
     init {
         pricePerPerson.subscribe {
             perPersonTextLabelObservable.onNext(true)

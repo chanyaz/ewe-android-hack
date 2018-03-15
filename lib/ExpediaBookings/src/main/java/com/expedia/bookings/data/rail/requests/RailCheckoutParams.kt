@@ -2,10 +2,12 @@ package com.expedia.bookings.data.rail.requests
 
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 
-class RailCheckoutParams(val travelers: List<Traveler>,
-                         val tripDetails: TripDetails,
-                         val paymentInfo: PaymentInfo,
-                         val ticketDeliveryOption: TicketDeliveryOption) {
+class RailCheckoutParams(
+    val travelers: List<Traveler>,
+    val tripDetails: TripDetails,
+    val paymentInfo: PaymentInfo,
+    val ticketDeliveryOption: TicketDeliveryOption
+) {
     var messageInfo: MessageInfo? = null
 
     class Builder {
@@ -51,8 +53,8 @@ class RailCheckoutParams(val travelers: List<Traveler>,
         }
 
         fun isValid(): Boolean {
-            return travelers.isNotEmpty() && paymentInfo != null && paymentInfo!!.cards.isNotEmpty() && tripDetails != null
-                    && !paymentInfo!!.cards[0].cvv.isNullOrEmpty() && isValidTDO()
+            return travelers.isNotEmpty() && paymentInfo != null && paymentInfo!!.cards.isNotEmpty() && tripDetails != null &&
+                    !paymentInfo!!.cards[0].cvv.isNullOrEmpty() && isValidTDO()
         }
 
         private fun isValidTDO(): Boolean {
@@ -74,34 +76,37 @@ class RailCheckoutParams(val travelers: List<Traveler>,
 
     // variable names 1-1 mapping to the format the api expects
     data class TripDetails(
-            val tripId: String,
-            val expectedTotalFare: String,
-            val expectedFareCurrencyCode: String,
-            val sendConfirmationEmail: Boolean)
+        val tripId: String,
+        val expectedTotalFare: String,
+        val expectedFareCurrencyCode: String,
+        val sendConfirmationEmail: Boolean
+    )
 
     // variable names 1-1 mapping to the format the api expects
     data class Traveler(
-            val firstName: String,
-            val lastName: String,
-            val phoneCountryCode: String,
-            val phone: String,
-            val email: String)
+        val firstName: String,
+        val lastName: String,
+        val phoneCountryCode: String,
+        val phone: String,
+        val email: String
+    )
 
     data class PaymentInfo(val cards: List<CardDetails>)
 
     // variable names 1-1 mapping to the format the api expects
     data class CardDetails (
-            val creditCardNumber: String? = null,
-            val expirationDateYear: String? = null,
-            val expirationDateMonth: String? = null,
-            val cvv: String?,
-            val nameOnCard: String?,
-            val address1: String? = null,
-            val address2: String? = null,
-            val city: String? = null,
-            val postalCode: String? = null,
-            val currencyCode: String? = null,
-            val country: String? = null) {
+        val creditCardNumber: String? = null,
+        val expirationDateYear: String? = null,
+        val expirationDateMonth: String? = null,
+        val cvv: String?,
+        val nameOnCard: String?,
+        val address1: String? = null,
+        val address2: String? = null,
+        val city: String? = null,
+        val postalCode: String? = null,
+        val currencyCode: String? = null,
+        val country: String? = null
+    ) {
         var state: String? = null
             set(value) {
                 field = if (value.isNullOrBlank()) {
@@ -113,10 +118,11 @@ class RailCheckoutParams(val travelers: List<Traveler>,
     }
 
     data class TicketDeliveryOption(
-            val deliveryOptionToken: String,
-            val deliveryAddressLine1: String? = null,
-            val deliveryAddressLine2: String? = null,
-            val city: String? = null,
-            val postalCode: String? = null,
-            val country: String? = null)
+        val deliveryOptionToken: String,
+        val deliveryAddressLine1: String? = null,
+        val deliveryAddressLine2: String? = null,
+        val city: String? = null,
+        val postalCode: String? = null,
+        val country: String? = null
+    )
 }

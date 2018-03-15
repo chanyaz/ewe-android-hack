@@ -11,8 +11,13 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-class OfferService(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor,
-                   val observeOn: Scheduler, val subscribeOn: Scheduler) : IOfferService {
+class OfferService(
+    endpoint: String,
+    okHttpClient: OkHttpClient,
+    interceptor: Interceptor,
+    val observeOn: Scheduler,
+    val subscribeOn: Scheduler
+) : IOfferService {
     val api: OfferApi by lazy {
 
         val adapter = Retrofit.Builder()
@@ -25,8 +30,10 @@ class OfferService(endpoint: String, okHttpClient: OkHttpClient, interceptor: In
         adapter.create(OfferApi::class.java)
     }
 
-    override fun fetchDeals(request: LastMinuteDealsRequest,
-                            dealsObserver: Observer<LastMinuteDealsResponse>) {
+    override fun fetchDeals(
+        request: LastMinuteDealsRequest,
+        dealsObserver: Observer<LastMinuteDealsResponse>
+    ) {
         return api.lastMinuteDeals(request.siteId, request.locale, request.groupBy, request.productType, request.destinationLimit, request.clientId, request.page, request.uid, request.scenario, request.stayDateRanges)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)

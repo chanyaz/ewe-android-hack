@@ -159,11 +159,17 @@ open class HotelTracking {
             OmnitureTracking.trackHotelV2InfositeChangeDateClick()
         }
 
-        fun trackPageLoadHotelInfosite(hotelOffersResponse: HotelOffersResponse, searchParams: HotelSearchParams,
-                                       isETPEligible: Boolean, isCurrentLocationSearch: Boolean,
-                                       isHotelSoldOut: Boolean, isRoomSoldOut: Boolean,
-                                       pageLoadTime: PageUsableData,
-                                       swpEnabled: Boolean, isDateless: Boolean) {
+        fun trackPageLoadHotelInfosite(
+            hotelOffersResponse: HotelOffersResponse,
+            searchParams: HotelSearchParams,
+            isETPEligible: Boolean,
+            isCurrentLocationSearch: Boolean,
+            isHotelSoldOut: Boolean,
+            isRoomSoldOut: Boolean,
+            pageLoadTime: PageUsableData,
+            swpEnabled: Boolean,
+            isDateless: Boolean
+        ) {
             if (isDateless) {
                 OmnitureTracking.trackPageLoadDatelessInfosite(hotelOffersResponse, isCurrentLocationSearch, pageLoadTime, swpEnabled)
             } else {

@@ -12,37 +12,37 @@ interface TripsApi {
 
     @GET("/api/trips/{tripId}")
     fun tripDetails(
-            @Path("tripId") tripId: String,
-            @Query("useCache") cache: String
+        @Path("tripId") tripId: String,
+        @Query("useCache") cache: String
     ): Call<JSONObject>
 
     @GET
     fun sharedTripDetails(
-            @Url sharedTripUrl: String
+        @Url sharedTripUrl: String
     ): Call<JSONObject>
 
     @GET("/api/trips/{tripId}?idtype=itineraryNumber")
     fun guestTrip(
-            @Path("tripId") tripId: String,
-            @Query("email") guestEmail: String,
-            @Query("useCache") cache: String
+        @Path("tripId") tripId: String,
+        @Query("email") guestEmail: String,
+        @Query("useCache") cache: String
     ): Call<JSONObject>
 
     @GET("/api/trips/{tripId}")
     fun tripDetailsObservable(
-            @Path("tripId") tripId: String,
-            @Query("useCache") cache: String
+        @Path("tripId") tripId: String,
+        @Query("useCache") cache: String
     ): Observable<JSONObject>
 
     @GET
     fun sharedTripDetailsObservable(
-            @Url sharedTripUrl: String
+        @Url sharedTripUrl: String
     ): Observable<JSONObject>
 
     @GET("/api/trips/{tripId}?idtype=itineraryNumber")
     fun guestTripObservable(
-            @Path("tripId") tripId: String,
-            @Query("email") guestEmail: String,
-            @Query("useCache") cache: String
+        @Path("tripId") tripId: String,
+        @Query("email") guestEmail: String,
+        @Query("useCache") cache: String
     ): Observable<JSONObject>
 }

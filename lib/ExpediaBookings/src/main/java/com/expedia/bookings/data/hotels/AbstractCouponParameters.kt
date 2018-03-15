@@ -3,9 +3,11 @@ package com.expedia.bookings.data.hotels
 import com.expedia.bookings.data.payment.UserPreferencePointsDetails
 import java.util.HashMap
 
-abstract class AbstractCouponParameters(val tripId: String,
-                                        val isFromNotSignedInToSignedIn: Boolean,
-                                        private val userPreferencePointsDetails: List<UserPreferencePointsDetails>) {
+abstract class AbstractCouponParameters(
+    val tripId: String,
+    val isFromNotSignedInToSignedIn: Boolean,
+    private val userPreferencePointsDetails: List<UserPreferencePointsDetails>
+) {
 
     abstract class Builder<B : Builder<B>> {
         protected var tripId: String? = null

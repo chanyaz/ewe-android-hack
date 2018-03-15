@@ -261,9 +261,15 @@ class OmnitureTrackingHotelTest {
         assertStateTracked(withProps(mapOf(68 to "HOTMIP.Y1.MDEALS.Y2")), mockAnalyticsProvider)
     }
 
-    private fun trackPageLoadHotelV2Infosite(hotelOffersResponse: HotelOffersResponse, isETPEligible: Boolean,
-                                             isCurrentLocationSearch: Boolean, isHotelSoldOut: Boolean, isRoomSoldOut: Boolean,
-                                             pageLoadTimeData: PageUsableData, swpEnabled: Boolean) {
+    private fun trackPageLoadHotelV2Infosite(
+        hotelOffersResponse: HotelOffersResponse,
+        isETPEligible: Boolean,
+        isCurrentLocationSearch: Boolean,
+        isHotelSoldOut: Boolean,
+        isRoomSoldOut: Boolean,
+        pageLoadTimeData: PageUsableData,
+        swpEnabled: Boolean
+    ) {
         OmnitureTracking.trackPageLoadHotelV2Infosite(hotelOffersResponse,
                 isETPEligible, isCurrentLocationSearch, isHotelSoldOut, isRoomSoldOut, pageLoadTimeData, swpEnabled)
     }

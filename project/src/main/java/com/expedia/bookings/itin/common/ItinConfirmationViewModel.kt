@@ -5,9 +5,9 @@ import io.reactivex.subjects.PublishSubject
 
 abstract class ItinConfirmationViewModel {
     data class WidgetParams(
-            val confirmationStatus: TicketingStatus,
-            val confirmationNumbers: CharSequence,
-            val isShared: Boolean
+        val confirmationStatus: TicketingStatus,
+        val confirmationNumbers: CharSequence,
+        val isShared: Boolean
     )
 
     val widgetConfirmationStatusSubject: PublishSubject<CharSequence> = PublishSubject.create<CharSequence>()

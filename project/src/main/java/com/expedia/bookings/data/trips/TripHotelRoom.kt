@@ -4,17 +4,17 @@ import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 
 data class TripHotelRoom(
-        var hotelConfirmationNumber: String,
-        var roomType: String,
-        var bookingStatus: String,
-        var primaryOccupant: PrimaryOccupant?,
-        var occupantSelectedRoomOptions: OccupantSelectedRoomOptions?,
-        var otherOccupantInfo: OtherOccupantInfo?,
-        var amenities: List<String> = emptyList(),
-        var amenityIds: List<Int> = emptyList(),
-        var roomChangeLinkForMobileWebView: String = "",
-        var roomChangeLink: String = "",
-        var roomCancelLink: String = ""
+    var hotelConfirmationNumber: String,
+    var roomType: String,
+    var bookingStatus: String,
+    var primaryOccupant: PrimaryOccupant?,
+    var occupantSelectedRoomOptions: OccupantSelectedRoomOptions?,
+    var otherOccupantInfo: OtherOccupantInfo?,
+    var amenities: List<String> = emptyList(),
+    var amenityIds: List<Int> = emptyList(),
+    var roomChangeLinkForMobileWebView: String = "",
+    var roomChangeLink: String = "",
+    var roomCancelLink: String = ""
 ) {
     companion object {
         val gsonTypeToken: Type? = object : TypeToken<List<TripHotelRoom>>() {}.type
@@ -29,30 +29,30 @@ data class TripHotelRoom(
 }
 
 data class PrimaryOccupant(
-        var firstName: String,
-        var fullName: String,
-        var email: String,
-        var phone: String
+    var firstName: String,
+    var fullName: String,
+    var email: String,
+    var phone: String
 )
 
 data class OtherOccupantInfo(
-        var adultCount: Int,
-        var childCount: Int,
-        var infantCount: Int,
-        var childAndInfantCount: Int,
-        var maxGuestCount: Int,
-        var childAndInfantAges: List<Int>
+    var adultCount: Int,
+    var childCount: Int,
+    var infantCount: Int,
+    var childAndInfantCount: Int,
+    var maxGuestCount: Int,
+    var childAndInfantAges: List<Int>
 )
 
 data class OccupantSelectedRoomOptions(
-        var bedTypeName: String,
-        var defaultBedTypeName: String,
-        var smokingPreference: String,
-        var specialRequest: String,
-        var accessibilityOptions: List<String>,
-        var hasExtraBedAdult: Boolean,
-        var hasExtraBedChild: Boolean,
-        var hasExtraBedInfant: Boolean,
-        var isSmokingPreferenceSelected: Boolean,
-        var isRoomOptionsAvailable: Boolean
+    var bedTypeName: String,
+    var defaultBedTypeName: String,
+    var smokingPreference: String,
+    var specialRequest: String,
+    var accessibilityOptions: List<String>,
+    var hasExtraBedAdult: Boolean,
+    var hasExtraBedChild: Boolean,
+    var hasExtraBedInfant: Boolean,
+    var isSmokingPreferenceSelected: Boolean,
+    var isRoomOptionsAvailable: Boolean
 )

@@ -185,10 +185,13 @@ class HotelResultsMapViewModelTest {
         return HotelResultsMapViewModel(context, currentLocation)
     }
 
-    private fun createSearchResponse(searchRegionId: String = "region0",
-                                     numHotel: Int = 5, hotelSpacing: Double = 0.01,
-                                     isFilteredResponse: Boolean = false,
-                                     numNeighborhood: Int = 3): HotelSearchResponse {
+    private fun createSearchResponse(
+        searchRegionId: String = "region0",
+        numHotel: Int = 5,
+        hotelSpacing: Double = 0.01,
+        isFilteredResponse: Boolean = false,
+        numNeighborhood: Int = 3
+    ): HotelSearchResponse {
         val hotelSearchResponse = HotelSearchResponse()
         hotelSearchResponse.searchRegionId = searchRegionId
 

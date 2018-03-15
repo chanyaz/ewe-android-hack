@@ -113,8 +113,8 @@ class UrgencyViewModelTest {
         testViewModel.urgencyTextSubject.subscribe(testObserver)
 
         testViewModel.fetchCompressionScore("12342", today.plusYears(1), today.plusYears(1).plusDays(1))
-        assertEquals(expectedText, testObserver.values()[0], "Error: Expected score to be capped at 95,"
-                + "the api sends 100% sold out for some regions even though we have results")
+        assertEquals(expectedText, testObserver.values()[0], "Error: Expected score to be capped at 95," +
+                "the api sends 100% sold out for some regions even though we have results")
     }
 
     @Test

@@ -11,11 +11,13 @@ import java.math.BigDecimal
 import java.text.DecimalFormat
 
 class HotelResortFeeFormatter {
-    fun getResortFee(context: Context,
-                     roomResponse: HotelOffersResponse.HotelRoomResponse?,
-                     isPackage: Boolean,
-                     hotelCountry: String,
-                     showResortFeesInHotelLocalCurrency: Boolean = PointOfSale.getPointOfSale().showResortFeesInHotelLocalCurrency()): String {
+    fun getResortFee(
+        context: Context,
+        roomResponse: HotelOffersResponse.HotelRoomResponse?,
+        isPackage: Boolean,
+        hotelCountry: String,
+        showResortFeesInHotelLocalCurrency: Boolean = PointOfSale.getPointOfSale().showResortFeesInHotelLocalCurrency()
+    ): String {
         var resortText = ""
         if (roomResponse?.rateInfo?.chargeableRateInfo?.showResortFeeMessage == true) {
             val rate = roomResponse.rateInfo.chargeableRateInfo
@@ -44,8 +46,10 @@ class HotelResortFeeFormatter {
         return resortText
     }
 
-    fun getResortFeeInclusionText(context: Context,
-                                  roomResponse: HotelOffersResponse.HotelRoomResponse?): String {
+    fun getResortFeeInclusionText(
+        context: Context,
+        roomResponse: HotelOffersResponse.HotelRoomResponse?
+    ): String {
         var feeInclusionText = ""
         if (roomResponse?.rateInfo?.chargeableRateInfo?.showResortFeeMessage == true) {
             val rate = roomResponse.rateInfo.chargeableRateInfo

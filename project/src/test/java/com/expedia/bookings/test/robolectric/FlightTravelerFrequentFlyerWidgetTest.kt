@@ -272,9 +272,11 @@ class FlightTravelerFrequentFlyerWidgetTest {
         assertEquals(0, frequentFlyerViewHolder.viewModel.enrolledPlans.size)
     }
 
-    private fun setupVisibilityAndCardTestSubscribers(visibilitySubscriber: TestObserver<Boolean>,
-                                                      cardsSubscriber: TestObserver<List<FrequentFlyerCard>>,
-                                                      numOfSegments: Int) {
+    private fun setupVisibilityAndCardTestSubscribers(
+        visibilitySubscriber: TestObserver<Boolean>,
+        cardsSubscriber: TestObserver<List<FrequentFlyerCard>>,
+        numOfSegments: Int
+    ) {
         (widget.viewModel as FlightTravelerEntryWidgetViewModel).frequentFlyerAdapterViewModel
                 ?.showFrequentFlyerObservable?.subscribe(visibilitySubscriber)
         (widget.viewModel as FlightTravelerEntryWidgetViewModel).frequentFlyerAdapterViewModel
@@ -366,22 +368,26 @@ class FlightTravelerFrequentFlyerWidgetTest {
         assertEquals(3, testDialog.adapter.count)
     }
 
-    private fun assertFrequentFlyerViewHolderData(frequentFlyerViewHolder: FrequentFlyerViewHolder,
-                                                  programName: String,
-                                                  programTitle: String,
-                                                  programNumber: String,
-                                                  currentPosition: Int) {
+    private fun assertFrequentFlyerViewHolderData(
+        frequentFlyerViewHolder: FrequentFlyerViewHolder,
+        programName: String,
+        programTitle: String,
+        programNumber: String,
+        currentPosition: Int
+    ) {
         assertEquals(programNumber, frequentFlyerViewHolder.frequentFlyerNumberInput.text.toString())
         assertEquals(programName, frequentFlyerViewHolder.frequentFlyerProgram.text.toString())
         assertEquals(programTitle, frequentFlyerViewHolder.frequentFlyerNameTitle.text.toString())
         assertEquals(currentPosition, frequentFlyerViewHolder.frequentFlyerDialogAdapter.currentPosition)
     }
 
-    private fun assertEnrolledPlans(oldEnrolledPlans: LinkedHashMap<String, FrequentFlyerPlansTripResponse>,
-                                    size: Int,
-                                    key: String?,
-                                    number: String?,
-                                    airlineCode: String?) {
+    private fun assertEnrolledPlans(
+        oldEnrolledPlans: LinkedHashMap<String, FrequentFlyerPlansTripResponse>,
+        size: Int,
+        key: String?,
+        number: String?,
+        airlineCode: String?
+    ) {
         assertEquals(size, oldEnrolledPlans.size)
         assertEquals(key, oldEnrolledPlans.keys.firstOrNull())
         assertEquals(number, oldEnrolledPlans.values.firstOrNull()?.membershipNumber)

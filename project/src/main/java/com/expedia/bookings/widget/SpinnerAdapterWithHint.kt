@@ -8,8 +8,13 @@ import android.widget.BaseAdapter
 import java.util.ArrayList
 
 // Spinner needs to set selection to count initially to show hint.
-class SpinnerAdapterWithHint(val context: Context, val hint: String, val itemLayout: Int,
-                             val dropDownLayout: Int? = null, val dropDownTextResourceId: Int? = null) : BaseAdapter() {
+class SpinnerAdapterWithHint(
+    val context: Context,
+    val hint: String,
+    val itemLayout: Int,
+    val dropDownLayout: Int? = null,
+    val dropDownTextResourceId: Int? = null
+) : BaseAdapter() {
     var optionsWithHint = ArrayList<SpinnerItem>()
 
     init {

@@ -10,9 +10,10 @@ interface TravelGraphApi {
 
     @GET("travelGraphUserHistory/{siteId}/{locale}")
     fun fetchUserHistory(
-            @Path("siteId") siteId: String,
-            @Path("locale") locale: String,
-            @Query("expUserId") expUserId: String,
-            @Query("transactionGUID") transactionGUID: String,
-            @Query("lobs") lobs: ArrayList<String>): Observable<TravelGraphUserHistoryResponse>
+        @Path("siteId") siteId: String,
+        @Path("locale") locale: String,
+        @Query("expUserId") expUserId: String,
+        @Query("transactionGUID") transactionGUID: String,
+        @Query("lobs") lobs: ArrayList<String>
+    ): Observable<TravelGraphUserHistoryResponse>
 }

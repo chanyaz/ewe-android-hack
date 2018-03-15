@@ -168,8 +168,15 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
         }
     }
 
-    fun lxDetails(activityId: String?, location: String?, startDate: LocalDate?, endDate: LocalDate?, promoPricingEnabled: Boolean,
-                  promoPricingMaxDiscountPercentageEnabled: Boolean, observer: Observer<ActivityDetailsResponse>): Disposable {
+    fun lxDetails(
+        activityId: String?,
+        location: String?,
+        startDate: LocalDate?,
+        endDate: LocalDate?,
+        promoPricingEnabled: Boolean,
+        promoPricingMaxDiscountPercentageEnabled: Boolean,
+        observer: Observer<ActivityDetailsResponse>
+    ): Disposable {
         return lxApi.activityDetails(activityId, location, ApiDateUtils.localDateToyyyyMMddSafe(startDate),
                 ApiDateUtils.localDateToyyyyMMddSafe(endDate), promoPricingEnabled, promoPricingMaxDiscountPercentageEnabled)
                 .observeOn(this.observeOn)
@@ -386,8 +393,12 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
                 .subscribeObserver(categorySortObserver)
     }
 
-    fun lxSearchSortFilter(lxSearchParams: LxSearchParams?, lxSortFilterMetadata: LXSortFilterMetadata?,
-                           searchResultFilterObserver: Observer<LXSearchResponse>, lxFilterTextSearchEnabled: Boolean): Disposable {
+    fun lxSearchSortFilter(
+        lxSearchParams: LxSearchParams?,
+        lxSortFilterMetadata: LXSortFilterMetadata?,
+        searchResultFilterObserver: Observer<LXSearchResponse>,
+        lxFilterTextSearchEnabled: Boolean
+    ): Disposable {
 
         val lxSearchResponseObservable = if (lxSearchParams == null)
             Observable.just<LXSearchResponse>(cachedLXSearchResponse) else lxSearch(lxSearchParams)

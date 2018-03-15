@@ -24,8 +24,8 @@ class GaiaSuggestion() {
     var regionId: Array<RegionId>? = null
 
     data class Position(
-            val type: String,
-            val coordinates: Array<Double>
+        val type: String,
+        val coordinates: Array<Double>
     )
 
     val latLong: LatLong by lazy {
@@ -33,23 +33,23 @@ class GaiaSuggestion() {
     }
 
     data class LocalizedName(
-            @SerializedName("lcid")
-            val languageIdentifier: Int,
-            @SerializedName("value")
-            val shortName: String,
-            @SerializedName("extendedValue")
-            val fullName: String,
-            val friendlyName: String,
-            var airportName: String? = null
+        @SerializedName("lcid")
+        val languageIdentifier: Int,
+        @SerializedName("value")
+        val shortName: String,
+        @SerializedName("extendedValue")
+        val fullName: String,
+        val friendlyName: String,
+        var airportName: String? = null
     )
 
     data class Country(
-            val name: String,
-            var code: String? = null
+        val name: String,
+        var code: String? = null
     )
 
     data class RegionId(
-            val id: String,
-            val type: String
+        val id: String,
+        val type: String
     )
 }

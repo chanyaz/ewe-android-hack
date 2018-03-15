@@ -5,14 +5,16 @@ import com.expedia.bookings.data.hotels.HotelSearchResponse
 import java.util.ArrayList
 import java.util.HashSet
 
-data class UserFilterChoices(var userSort: DisplaySort = DisplaySort.getDefaultSort(),
-                             var isVipOnlyAccess: Boolean = false,
-                             var hotelStarRating: StarRatings = StarRatings(),
-                             var name: String = "",
-                             var minPrice: Int = 0,
-                             var maxPrice: Int = 0,
-                             var amenities: HashSet<Int> = HashSet(),
-                             var neighborhoods: HashSet<HotelSearchResponse.Neighborhood> = HashSet<HotelSearchResponse.Neighborhood>()) {
+data class UserFilterChoices(
+    var userSort: DisplaySort = DisplaySort.getDefaultSort(),
+    var isVipOnlyAccess: Boolean = false,
+    var hotelStarRating: StarRatings = StarRatings(),
+    var name: String = "",
+    var minPrice: Int = 0,
+    var maxPrice: Int = 0,
+    var amenities: HashSet<Int> = HashSet(),
+    var neighborhoods: HashSet<HotelSearchResponse.Neighborhood> = HashSet<HotelSearchResponse.Neighborhood>()
+) {
 
     fun filterCount(): Int {
         var count = 0

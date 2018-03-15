@@ -29,8 +29,12 @@ class HotelNavUtils : NavUtils() {
         }
 
         @JvmStatic
-        fun goToHotels(context: Context, oldParams: DeprecatedHotelSearchParams?,
-                       animOptions: Bundle?, expediaFlags: Int) {
+        fun goToHotels(
+            context: Context,
+            oldParams: DeprecatedHotelSearchParams?,
+            animOptions: Bundle?,
+            expediaFlags: Int
+        ) {
             var v2params: com.expedia.bookings.data.hotels.HotelSearchParams? = null
             if (oldParams != null) {
                 v2params = HotelsV2DataUtil.getHotelV2SearchParams(context, oldParams)
@@ -38,8 +42,12 @@ class HotelNavUtils : NavUtils() {
             goToHotelsV2Params(context, v2params, animOptions, expediaFlags)
         }
 
-        @JvmStatic fun goToHotelsV2Params(context: Context, params: com.expedia.bookings.data.hotels.HotelSearchParams?,
-                                          animOptions: Bundle?, expediaFlags: Int) {
+        @JvmStatic fun goToHotelsV2Params(
+            context: Context,
+            params: com.expedia.bookings.data.hotels.HotelSearchParams?,
+            animOptions: Bundle?,
+            expediaFlags: Int
+        ) {
             sendKillActivityBroadcast(context)
 
             val intent = Intent()

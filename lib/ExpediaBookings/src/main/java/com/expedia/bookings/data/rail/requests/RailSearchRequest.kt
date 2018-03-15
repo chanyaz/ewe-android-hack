@@ -6,9 +6,20 @@ import com.expedia.bookings.data.rail.responses.RailCard
 import org.joda.time.Days
 import org.joda.time.LocalDate
 
-class RailSearchRequest(val searchType: SearchType, origin: SuggestionV4, destination: SuggestionV4, val departDate: LocalDate,
-                        val returnDate: LocalDate?, val departDateTimeMillis: Int, val returnDateTimeMillis: Int?,
-                        adults: Int, children: List<Int>, val youths: List<Int>, val seniors: List<Int>, val selectedRailCards: List<RailCard>) : BaseSearchParams(origin, destination, adults, children, departDate, returnDate) {
+class RailSearchRequest(
+    val searchType: SearchType,
+    origin: SuggestionV4,
+    destination: SuggestionV4,
+    val departDate: LocalDate,
+    val returnDate: LocalDate?,
+    val departDateTimeMillis: Int,
+    val returnDateTimeMillis: Int?,
+    adults: Int,
+    children: List<Int>,
+    val youths: List<Int>,
+    val seniors: List<Int>,
+    val selectedRailCards: List<RailCard>
+) : BaseSearchParams(origin, destination, adults, children, departDate, returnDate) {
     enum class SearchType {
         ONE_WAY,
         ROUND_TRIP

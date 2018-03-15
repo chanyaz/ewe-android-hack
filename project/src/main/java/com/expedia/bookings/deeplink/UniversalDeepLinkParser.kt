@@ -286,8 +286,8 @@ class UniversalDeepLinkParser(assets: AssetManager) : DeepLinkParser(assets) {
             while (a < childAgesArr.size && children.size < maxChildren) {
                 val childAge = Integer.parseInt(childAgesArr[a].substring(1, childAgesArr[a].length))
                 if (childAge < GuestsPickerUtils.MIN_CHILD_AGE) {
-                    Log.w(TAG, "Child age (" + childAge + ") less than that of a child, not adding: "
-                            + childAge)
+                    Log.w(TAG, "Child age (" + childAge + ") less than that of a child, not adding: " +
+                            childAge)
                 } else if (childAge > GuestsPickerUtils.MAX_CHILD_AGE) {
                     Log.w(TAG, "Child age ($childAge) not an actual child, ignoring: $childAge")
                 } else {

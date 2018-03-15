@@ -653,8 +653,8 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     open fun shouldShowPaymentOptions(): Boolean {
         val user = userStateManager.userSource.user
 
-        return (userStateManager.isUserAuthenticated() && user?.storedCreditCards?.isNotEmpty() == true
-                && getLineOfBusiness() != LineOfBusiness.RAILS)
+        return (userStateManager.isUserAuthenticated() && user?.storedCreditCards?.isNotEmpty() == true &&
+                getLineOfBusiness() != LineOfBusiness.RAILS)
                 || Db.sharedInstance.temporarilySavedCard != null
     }
 

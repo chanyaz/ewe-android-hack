@@ -11,9 +11,11 @@ interface ReviewsApi {
 
     @GET("/api/hotelreviews/hotel/{hotelId}")
     @Headers("Cache-Control: no-cache")
-    fun hotelReviews(@Path("hotelId") hotelId: String,
-                     @Query("sortBy") sort: String,
-                     @Query("start") start: Int,
-                     @Query("items") items: Int,
-                     @Query("locale") locale: String): Observable<HotelReviewsResponse>
+    fun hotelReviews(
+        @Path("hotelId") hotelId: String,
+        @Query("sortBy") sort: String,
+        @Query("start") start: Int,
+        @Query("items") items: Int,
+        @Query("locale") locale: String
+    ): Observable<HotelReviewsResponse>
 }

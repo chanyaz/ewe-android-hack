@@ -15,9 +15,15 @@ import com.expedia.vm.flights.FlightViewModel
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
-open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, val isRoundTripSearchSubject: BehaviorSubject<Boolean>,
-                             val isOutboundSearch: Boolean, val flightCabinClassSubject: BehaviorSubject<String>,
-                             val nonStopSearchFilterAppliedSubject: BehaviorSubject<Boolean>, val refundableFilterAppliedSearchSubject: BehaviorSubject<Boolean> )
+open class FlightListAdapter(
+    context: Context,
+    flightSelectedSubject: PublishSubject<FlightLeg>,
+    val isRoundTripSearchSubject: BehaviorSubject<Boolean>,
+    val isOutboundSearch: Boolean,
+    val flightCabinClassSubject: BehaviorSubject<String>,
+    val nonStopSearchFilterAppliedSubject: BehaviorSubject<Boolean>,
+    val refundableFilterAppliedSearchSubject: BehaviorSubject<Boolean>
+)
                             : AbstractFlightListAdapter(context, flightSelectedSubject, isRoundTripSearchSubject) {
 
     val ScrollDepth1 = 25

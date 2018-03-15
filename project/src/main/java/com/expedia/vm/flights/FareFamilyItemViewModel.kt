@@ -12,9 +12,12 @@ import com.expedia.bookings.utils.StrUtils
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.PublishSubject
 
-class FareFamilyItemViewModel(val context: Context,
-                              val fareFamilyDetail: FlightTripResponse.FareFamilyDetails,
-                              val defaultChecked: Boolean, val roundTripObservable: PublishSubject<Boolean>) {
+class FareFamilyItemViewModel(
+    val context: Context,
+    val fareFamilyDetail: FlightTripResponse.FareFamilyDetails,
+    val defaultChecked: Boolean,
+    val roundTripObservable: PublishSubject<Boolean>
+) {
 
     val radioBtnClickObservable = PublishSubject.create<Unit>()
     val showMoreVisibilitySubject = PublishSubject.create<Boolean>()

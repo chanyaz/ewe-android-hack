@@ -8,6 +8,6 @@ import retrofit2.http.POST
 interface BaggageApi {
     @POST("/api/flight/baggagefees")
     fun baggageInfo(
-            @Body queryParams: MutableList<HashMap<String, String>>
+        @Body queryParams: MutableList<HashMap<String, String>>
     ): Observable<BaggageInfoResponse>
 }

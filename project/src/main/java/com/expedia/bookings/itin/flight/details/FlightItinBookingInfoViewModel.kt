@@ -11,10 +11,10 @@ import io.reactivex.subjects.PublishSubject
 
 open class FlightItinBookingInfoViewModel(private val context: Context, private val itinId: String) {
     data class WidgetParams(
-            val travelerNames: String,
-            val isShared: Boolean,
-            val url: String?,
-            val cardId: String
+        val travelerNames: String,
+        val isShared: Boolean,
+        val url: String?,
+        val cardId: String
     )
 
     fun updateBookingInfoWidget(widgetParams: WidgetParams) {

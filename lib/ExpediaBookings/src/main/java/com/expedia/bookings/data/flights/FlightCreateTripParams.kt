@@ -3,8 +3,13 @@ package com.expedia.bookings.data.flights
 import java.math.BigDecimal
 import java.util.HashMap
 
-class FlightCreateTripParams(val productKey: String, val flexEnabled: Boolean, val featureOverride: String?,
-                            val fareFamilyCode: String?, val fareFamilyTotalPrice: BigDecimal?) {
+class FlightCreateTripParams(
+    val productKey: String,
+    val flexEnabled: Boolean,
+    val featureOverride: String?,
+    val fareFamilyCode: String?,
+    val fareFamilyTotalPrice: BigDecimal?
+) {
 
     class Builder {
         private var productKey: String? = null

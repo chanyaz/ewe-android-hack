@@ -379,9 +379,14 @@ class HotelSearchTrackingDataBuilderTests {
         assertEquals(3, trackingData.memberOnlyDealsCount)
     }
 
-    private fun createSuggestion(gaiaId: String? = "gaiaId",
-                                 displayName: String? = "displayName", fullName: String? = "fullName", shortName: String? = "shortName",
-                                 lat: Double = 41.8781, lng: Double = -87.6298): SuggestionV4 {
+    private fun createSuggestion(
+        gaiaId: String? = "gaiaId",
+        displayName: String? = "displayName",
+        fullName: String? = "fullName",
+        shortName: String? = "shortName",
+        lat: Double = 41.8781,
+        lng: Double = -87.6298
+    ): SuggestionV4 {
         val suggestion = SuggestionV4()
         suggestion.gaiaId = gaiaId
         suggestion.regionNames = SuggestionV4.RegionNames()
@@ -395,10 +400,14 @@ class HotelSearchTrackingDataBuilderTests {
         return suggestion
     }
 
-    private fun createSearchParams(suggestion: SuggestionV4 = createSuggestion(),
-                                   checkIn: LocalDate = LocalDate().plusDays(1), checkOut: LocalDate = LocalDate().plusDays(2),
-                                   adults: Int = 1, children: List<Int> = listOf(4, 5),
-                                   shopWithPoints: Boolean = false): HotelSearchParams {
+    private fun createSearchParams(
+        suggestion: SuggestionV4 = createSuggestion(),
+        checkIn: LocalDate = LocalDate().plusDays(1),
+        checkOut: LocalDate = LocalDate().plusDays(2),
+        adults: Int = 1,
+        children: List<Int> = listOf(4, 5),
+        shopWithPoints: Boolean = false
+    ): HotelSearchParams {
         return HotelSearchParams(suggestion, checkIn, checkOut, adults, children, shopWithPoints)
     }
 

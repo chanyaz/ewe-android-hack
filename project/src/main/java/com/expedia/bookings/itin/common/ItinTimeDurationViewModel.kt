@@ -9,10 +9,10 @@ import io.reactivex.subjects.PublishSubject
 abstract class ItinTimeDurationViewModel(private val context: Context) {
 
     data class TimeDurationWidgetParams(
-            val text: String,
-            val contDesc: String?,
-            val drawable: Int?,
-            val durationType: DurationType
+        val text: String,
+        val contDesc: String?,
+        val drawable: Int?,
+        val durationType: DurationType
     )
 
     enum class DurationType {

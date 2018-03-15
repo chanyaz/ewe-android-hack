@@ -5,9 +5,11 @@ import com.expedia.bookings.data.flights.FlightAmenityCategory
 import io.reactivex.subjects.PublishSubject
 import java.util.HashMap
 
-class FlightFareFamilyAmenityDialogViewModel(val context: Context,
-                                             val fareFamilyComponents: HashMap<String, HashMap<String, String>>,
-                                             val currencyCode: String) {
+class FlightFareFamilyAmenityDialogViewModel(
+    val context: Context,
+    val fareFamilyComponents: HashMap<String, HashMap<String, String>>,
+    val currencyCode: String
+) {
 
     val fareFamilyNameSubject = PublishSubject.create<String>()
     val airlineNameSubject = PublishSubject.create<String>()

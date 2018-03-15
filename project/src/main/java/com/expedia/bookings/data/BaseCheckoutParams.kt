@@ -3,9 +3,15 @@ package com.expedia.bookings.data
 import java.util.ArrayList
 import java.util.HashMap
 
-open class BaseCheckoutParams(val billingInfo: BillingInfo, val travelers: ArrayList<Traveler>,
-                              val cvv: String, val expectedTotalFare: String, val expectedFareCurrencyCode: String,
-                              val suppressFinalBooking: Boolean, val tripId: String) {
+open class BaseCheckoutParams(
+    val billingInfo: BillingInfo,
+    val travelers: ArrayList<Traveler>,
+    val cvv: String,
+    val expectedTotalFare: String,
+    val expectedFareCurrencyCode: String,
+    val suppressFinalBooking: Boolean,
+    val tripId: String
+) {
 
     open class Builder {
         protected var billingInfo: BillingInfo? = null

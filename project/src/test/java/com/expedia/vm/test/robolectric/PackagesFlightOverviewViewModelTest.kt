@@ -39,9 +39,11 @@ class PackagesFlightOverviewViewModelTest {
         flightLeg.mayChargeObFees = mayChargeObFees
     }
 
-    private fun setupFlightLegWithAirlineMessageModel(mayChargeObFees: Boolean = true,
-                                                      hasAirlineWithCCfee: Boolean = true,
-                                                      airlineFeeLink: String = "/p/regulatory/obfees") {
+    private fun setupFlightLegWithAirlineMessageModel(
+        mayChargeObFees: Boolean = true,
+        hasAirlineWithCCfee: Boolean = true,
+        airlineFeeLink: String = "/p/regulatory/obfees"
+    ) {
         setupFlightLeg(mayChargeObFees)
         val airlineMessageModel = FlightLeg.AirlineMessageModel()
         airlineMessageModel.airlineFeeLink = airlineFeeLink

@@ -260,8 +260,11 @@ class HotelResultsMapWidget(context: Context, attrs: AttributeSet?) : FrameLayou
                 }
     }
 
-    private fun selectMarker(hotelMapMarker: HotelMapMarker, zoom: Boolean = false,
-                             refreshCarousel: Boolean = false) {
+    private fun selectMarker(
+        hotelMapMarker: HotelMapMarker,
+        zoom: Boolean = false,
+        refreshCarousel: Boolean = false
+    ) {
         if (clusterManager == null) {
             return
         }

@@ -8,9 +8,10 @@ import io.reactivex.Observable
 interface UrgencyApi {
     @GET("ticker/region?")
     fun compression(
-            @Query("ids") ids: String,
-            @Query("checkinDate") checkinDate: String? = null,
-            @Query("checkoutDate") checkoutDate: String? = null,
-            @Query("clientId") clientId: String,
-            @Query("type") type: String = "compression"): Observable<UrgencyResponse>
+        @Query("ids") ids: String,
+        @Query("checkinDate") checkinDate: String? = null,
+        @Query("checkoutDate") checkoutDate: String? = null,
+        @Query("clientId") clientId: String,
+        @Query("type") type: String = "compression"
+    ): Observable<UrgencyResponse>
 }

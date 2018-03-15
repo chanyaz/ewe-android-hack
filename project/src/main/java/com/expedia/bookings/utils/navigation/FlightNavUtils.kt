@@ -34,8 +34,12 @@ class FlightNavUtils : NavUtils() {
             goToFlights(context, null, 0, params)
         }
 
-        @JvmStatic private fun goToFlights(context: Context, animOptions: Bundle?, expediaFlags: Int,
-                                           flightSearchParams: FlightSearchParams?) {
+        @JvmStatic private fun goToFlights(
+            context: Context,
+            animOptions: Bundle?,
+            expediaFlags: Int,
+            flightSearchParams: FlightSearchParams?
+        ) {
             if (!PointOfSale.getPointOfSale().supports(LineOfBusiness.FLIGHTS) && !isShowFlightsCheckoutWebview(context)) {
                 goToLaunchScreen(context, false, LineOfBusiness.FLIGHTS)
             } else {

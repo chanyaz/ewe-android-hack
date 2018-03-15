@@ -142,8 +142,10 @@ object SearchScreenActions {
         SearchScreen.searchButton().perform(ViewActions.click())
     }
 
-    @JvmStatic fun selectFlightOriginAndDestination(suggestionResponseType: FlightApiMockResponseGenerator.SuggestionResponseType,
-                                                    destinationPosition: Int) {
+    @JvmStatic fun selectFlightOriginAndDestination(
+        suggestionResponseType: FlightApiMockResponseGenerator.SuggestionResponseType,
+        destinationPosition: Int
+    ) {
         SearchScreen.origin().perform(ViewActions.click())
         SearchScreen.waitForSearchEditText().perform(ViewActions.typeText("origin"))
         Espresso.closeSoftKeyboard()

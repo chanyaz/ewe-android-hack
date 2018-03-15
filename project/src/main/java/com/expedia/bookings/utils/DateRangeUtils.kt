@@ -73,8 +73,14 @@ object DateRangeUtils {
      * @return date range as formatted string
      */
     @JvmStatic
-    fun formatRailDateTimeRange(context: Context, startDate: LocalDate?, startMillis: Int,
-                                endDate: LocalDate?, endMillis: Int, isRoundTrip: Boolean?): String {
+    fun formatRailDateTimeRange(
+        context: Context,
+        startDate: LocalDate?,
+        startMillis: Int,
+        endDate: LocalDate?,
+        endMillis: Int,
+        isRoundTrip: Boolean?
+    ): String {
         val startDateTime = ApiDateUtils
                 .localDateAndMillisToDateTime(startDate, startMillis)
         if (isRoundTrip == true) {
@@ -310,8 +316,12 @@ object DateRangeUtils {
      * @param stringResID string template which uses two dates strings as parameters
      * @return formatted date string
      */
-    private fun formatPackageDateRangeTemplate(context: Context, checkinDate: String, checkoutDate: String,
-                                               stringResID: Int): String {
+    private fun formatPackageDateRangeTemplate(
+        context: Context,
+        checkinDate: String,
+        checkoutDate: String,
+        stringResID: Int
+    ): String {
         val parser = DateTimeFormat.forPattern("yyyy-MM-dd")
         val checkinDateTime = dateTimeToEEEMMMddyyyy(parser.parseDateTime(checkinDate))
         val checkoutDateTime = dateTimeToEEEMMMddyyyy(parser.parseDateTime(checkoutDate))

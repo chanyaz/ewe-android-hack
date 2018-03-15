@@ -11,8 +11,11 @@ import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
-class HotelTravelerEntryWidgetViewModel(val context: Context, travelerCheckoutStatus: TravelerCheckoutStatus,
-                                        val createTripOptInStatus: BehaviorSubject<MerchandiseSpam>)
+class HotelTravelerEntryWidgetViewModel(
+    val context: Context,
+    travelerCheckoutStatus: TravelerCheckoutStatus,
+    val createTripOptInStatus: BehaviorSubject<MerchandiseSpam>
+)
     : AbstractUniversalCKOTravelerEntryWidgetViewModel(context, 0) {
 
     val optInEmailStatusSubject = PublishSubject.create<MerchandiseSpam>()

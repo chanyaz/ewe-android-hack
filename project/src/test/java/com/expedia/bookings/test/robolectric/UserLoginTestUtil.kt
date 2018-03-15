@@ -29,8 +29,10 @@ class UserLoginTestUtil {
         }
 
         @JvmStatic
-        fun getUserStateManager(context: Context = RuntimeEnvironment.application,
-                                userSource: UserSource = UserSource(context, TestFileCipher("whatever"))): UserStateManager =
+        fun getUserStateManager(
+            context: Context = RuntimeEnvironment.application,
+            userSource: UserSource = UserSource(context, TestFileCipher("whatever"))
+        ): UserStateManager =
                 UserStateManager(context, UserLoginStateChangedModel(), NotificationManager(context), AccountManager.get(context), userSource)
 
         @JvmStatic

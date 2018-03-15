@@ -77,8 +77,11 @@ class OmnitureTestUtils : ADMS_Measurement() {
         }
 
         @JvmStatic
-        fun assertStateTracked(matcher: Matcher<Map<String, Any>>, mockAnalyticsProvider: AnalyticsProvider,
-                               errorMessage: String) {
+        fun assertStateTracked(
+            matcher: Matcher<Map<String, Any>>,
+            mockAnalyticsProvider: AnalyticsProvider,
+            errorMessage: String
+        ) {
             fun verify() = Mockito.verify(mockAnalyticsProvider).trackState(Mockito.anyString(), mapThat(matcher))
             verifyWithMessage(::verify, errorMessage)
         }
@@ -89,8 +92,12 @@ class OmnitureTestUtils : ADMS_Measurement() {
         }
 
         @JvmStatic
-        fun assertStateTrackedNumTimes(appState: String, dataMatcher: Matcher<Map<String, Any>>, numInvocation: Int,
-                                       mockAnalyticsProvider: AnalyticsProvider) {
+        fun assertStateTrackedNumTimes(
+            appState: String,
+            dataMatcher: Matcher<Map<String, Any>>,
+            numInvocation: Int,
+            mockAnalyticsProvider: AnalyticsProvider
+        ) {
             Mockito.verify(mockAnalyticsProvider, Mockito.times(numInvocation)).trackState(Mockito.eq(appState), mapThat(dataMatcher))
         }
 

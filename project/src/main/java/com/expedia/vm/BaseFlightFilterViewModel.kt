@@ -66,18 +66,22 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
         TWO_PLUS_STOPS(2)
     }
 
-    data class CheckedFilterProperties(val count: Int = 0,
-                                       val minPrice: Money? = null,
-                                       val logo: String? = null)
+    data class CheckedFilterProperties(
+        val count: Int = 0,
+        val minPrice: Money? = null,
+        val logo: String? = null
+    )
 
-    data class UserFilterChoices(var userSort: FlightFilter.Sort = FlightFilter.Sort.PRICE,
-                                 var maxDuration: Int = 0,
-                                 var minDeparture: Int = 0,
-                                 var maxDeparture: Int = 0,
-                                 var minArrival: Int = 0,
-                                 var maxArrival: Int = 0,
-                                 var stops: ArrayList<Stops> = ArrayList<Stops>(),
-                                 var airlines: ArrayList<String> = ArrayList<String>()) {
+    data class UserFilterChoices(
+        var userSort: FlightFilter.Sort = FlightFilter.Sort.PRICE,
+        var maxDuration: Int = 0,
+        var minDeparture: Int = 0,
+        var maxDeparture: Int = 0,
+        var minArrival: Int = 0,
+        var maxArrival: Int = 0,
+        var stops: ArrayList<Stops> = ArrayList<Stops>(),
+        var airlines: ArrayList<String> = ArrayList<String>()
+    ) {
 
         fun filterCount(): Int {
             var count = 0

@@ -5,9 +5,9 @@ import io.reactivex.subjects.PublishSubject
 abstract class ItinToolbarViewModel {
 
     data class ToolbarParams(
-            val title: String,
-            val subTitle: String,
-            val showShareIcon: Boolean
+        val title: String,
+        val subTitle: String,
+        val showShareIcon: Boolean
     )
 
     val toolbarTitleSubject: PublishSubject<String> = PublishSubject.create<String>()

@@ -15,8 +15,12 @@ import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManagerFactory
 import javax.net.ssl.X509TrustManager
 
-abstract class SecureOKHttpClientFactory(protected val context: Context, private val cookieManager: PersistentCookiesCookieJar,
-                                         private val cache: Cache, protected val endpointProvider: EndpointProvider) {
+abstract class SecureOKHttpClientFactory(
+    protected val context: Context,
+    private val cookieManager: PersistentCookiesCookieJar,
+    private val cache: Cache,
+    protected val endpointProvider: EndpointProvider
+) {
 
     fun getOkHttpClient(cookieJar: CookieJar? = null): OkHttpClient {
         val clientBuilder = makeOkHttpClientBuilder()

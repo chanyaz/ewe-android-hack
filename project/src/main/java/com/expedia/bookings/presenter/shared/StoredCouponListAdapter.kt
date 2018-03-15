@@ -8,8 +8,11 @@ import com.expedia.bookings.extensions.safeSubscribe
 import com.expedia.bookings.extensions.setAccessibilityHoverFocus
 import io.reactivex.subjects.PublishSubject
 
-class StoredCouponListAdapter(storedCouponsSubject: PublishSubject<List<StoredCouponAdapter>>,
-                              val enableStoredCouponsSubject: PublishSubject<Boolean>, errorMessageAndSavedCouponInstanceIDObservable: PublishSubject<Pair<String, String>>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class StoredCouponListAdapter(
+    storedCouponsSubject: PublishSubject<List<StoredCouponAdapter>>,
+    val enableStoredCouponsSubject: PublishSubject<Boolean>,
+    errorMessageAndSavedCouponInstanceIDObservable: PublishSubject<Pair<String, String>>
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var coupons = arrayListOf<StoredCouponAdapter>()
     val applyStoredCouponObservable = PublishSubject.create<Int>()

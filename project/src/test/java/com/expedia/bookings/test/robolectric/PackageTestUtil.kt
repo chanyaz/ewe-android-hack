@@ -26,10 +26,12 @@ import java.util.ArrayList
 class PackageTestUtil {
     companion object {
         @JvmStatic
-        fun getPackageSearchParams(startDate: LocalDate = LocalDate.now().plusDays(1),
-                                   endDate: LocalDate = LocalDate.now().plusDays(2),
-                                   destinationCityName: String = "San Francisco",
-                                   childCount: List<Int> = listOf(0)): PackageSearchParams {
+        fun getPackageSearchParams(
+            startDate: LocalDate = LocalDate.now().plusDays(1),
+            endDate: LocalDate = LocalDate.now().plusDays(2),
+            destinationCityName: String = "San Francisco",
+            childCount: List<Int> = listOf(0)
+        ): PackageSearchParams {
             return PackageSearchParams.Builder(maxRange = 1, maxStay = 1)
                     .startDate(startDate)
                     .endDate(endDate)
@@ -42,8 +44,9 @@ class PackageTestUtil {
 
         // Add more fields when needed
         @JvmStatic fun getPackageSelectedOutboundFlight(
-                flightFareTypeString: String = "M",
-                carrierCode: String = "000"): FlightLeg {
+            flightFareTypeString: String = "M",
+            carrierCode: String = "000"
+        ): FlightLeg {
             val flight = FlightLeg()
             flight.flightFareTypeString = flightFareTypeString
             flight.carrierCode = carrierCode
@@ -97,8 +100,10 @@ class PackageTestUtil {
         }
 
         @JvmStatic
-        fun dummyMidHotelRoomOffer(displayType: MandatoryFees.DisplayType = MandatoryFees.DisplayType.NONE,
-                                   displayCurrency: MandatoryFees.DisplayCurrency = MandatoryFees.DisplayCurrency.POINT_OF_SALE): HotelOffer {
+        fun dummyMidHotelRoomOffer(
+            displayType: MandatoryFees.DisplayType = MandatoryFees.DisplayType.NONE,
+            displayCurrency: MandatoryFees.DisplayCurrency = MandatoryFees.DisplayCurrency.POINT_OF_SALE
+        ): HotelOffer {
             val hotelRoomOfferJson = """
                 {
               "thumbnailUrl": "/hotels/1000000/30000/26500/26432/26432_223_t.jpg",
@@ -243,17 +248,21 @@ class PackageTestUtil {
         }
 
         @JvmStatic
-        fun getMockMIDResponse(offers: List<MultiItemOffer> = emptyList(),
-                               hotels: Map<String, HotelOffer> = emptyMap(),
-                               flights: Map<String, FlightOffer> = emptyMap(),
-                               flightLegs: Map<String, MultiItemFlightLeg> = emptyMap(),
-                               errors: List<MultiItemError>? = null): MultiItemApiSearchResponse {
+        fun getMockMIDResponse(
+            offers: List<MultiItemOffer> = emptyList(),
+            hotels: Map<String, HotelOffer> = emptyMap(),
+            flights: Map<String, FlightOffer> = emptyMap(),
+            flightLegs: Map<String, MultiItemFlightLeg> = emptyMap(),
+            errors: List<MultiItemError>? = null
+        ): MultiItemApiSearchResponse {
             return MultiItemApiSearchResponse(offers = offers, hotels = hotels, flights = flights, flightLegs = flightLegs, errors = errors)
         }
 
         @JvmStatic
-        fun setDbPackageSelectedHotel(displayType: MandatoryFees.DisplayType = MandatoryFees.DisplayType.NONE,
-                                      displayCurrency: MandatoryFees.DisplayCurrency = MandatoryFees.DisplayCurrency.POINT_OF_SALE) {
+        fun setDbPackageSelectedHotel(
+            displayType: MandatoryFees.DisplayType = MandatoryFees.DisplayType.NONE,
+            displayCurrency: MandatoryFees.DisplayCurrency = MandatoryFees.DisplayCurrency.POINT_OF_SALE
+        ) {
             val hotel = Hotel()
             hotel.packageOfferModel = PackageOfferModel()
             hotel.city = "Detroit"
@@ -291,10 +300,19 @@ class PackageTestUtil {
         }
 
         @JvmStatic
-        fun getCreateTripResponse(tripId: String = "00000", currency: String = "USD", bundleTotal: Int = 0, packageTotal: Int = 0,
-                                  hotelLargeThumbnailUrl: String = "", hotelCity: String = "", hotelStateProvince: String = "",
-                                  hotelCountry: String = "", hotelCheckinDate: String = "", hotelCheckoutOutDate: String = "",
-                                  hotelNumberOfNights: String = ""): PackageCreateTripResponse {
+        fun getCreateTripResponse(
+            tripId: String = "00000",
+            currency: String = "USD",
+            bundleTotal: Int = 0,
+            packageTotal: Int = 0,
+            hotelLargeThumbnailUrl: String = "",
+            hotelCity: String = "",
+            hotelStateProvince: String = "",
+            hotelCountry: String = "",
+            hotelCheckinDate: String = "",
+            hotelCheckoutOutDate: String = "",
+            hotelNumberOfNights: String = ""
+        ): PackageCreateTripResponse {
             val trip = PackageCreateTripResponse()
             val packageDetails = PackageCreateTripResponse.PackageDetails()
             packageDetails.tripId = tripId
@@ -318,8 +336,10 @@ class PackageTestUtil {
             return trip
         }
 
-        private fun setRateInfo(displayType: MandatoryFees.DisplayType = MandatoryFees.DisplayType.NONE,
-                                displayCurrency: MandatoryFees.DisplayCurrency = MandatoryFees.DisplayCurrency.POINT_OF_SALE): HotelOffersResponse.RateInfo {
+        private fun setRateInfo(
+            displayType: MandatoryFees.DisplayType = MandatoryFees.DisplayType.NONE,
+            displayCurrency: MandatoryFees.DisplayCurrency = MandatoryFees.DisplayCurrency.POINT_OF_SALE
+        ): HotelOffersResponse.RateInfo {
             val rateInfo = HotelOffersResponse.RateInfo()
             rateInfo.chargeableRateInfo = HotelRate()
             rateInfo.chargeableRateInfo.showResortFeeMessage = true

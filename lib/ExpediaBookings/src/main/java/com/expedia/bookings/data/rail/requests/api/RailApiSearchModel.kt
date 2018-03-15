@@ -13,9 +13,20 @@ import java.util.ArrayList
 /* note: the variable names in this model have to match 1:1 to the format the api expects. this whole
             model is getting serialized to json and sent to the search endpoint
  */
-class RailApiSearchModel(origin: SuggestionV4, destination: SuggestionV4, departDate: LocalDate, returnDate: LocalDate?,
-                         departTimeMillis: Int, returnTimeMillis: Int?, val isSearchRoundTrip: Boolean,
-                         adults: Int, children: List<Int>, youths: List<Int>, seniors: List<Int>, val fareQualifierList: List<RailCard>) {
+class RailApiSearchModel(
+    origin: SuggestionV4,
+    destination: SuggestionV4,
+    departDate: LocalDate,
+    returnDate: LocalDate?,
+    departTimeMillis: Int,
+    returnTimeMillis: Int?,
+    val isSearchRoundTrip: Boolean,
+    adults: Int,
+    children: List<Int>,
+    youths: List<Int>,
+    seniors: List<Int>,
+    val fareQualifierList: List<RailCard>
+) {
 
     var pos = PointOfSaleKey()
     var clientCode = Constants.RAIL_CLIENT_CODE

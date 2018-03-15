@@ -573,8 +573,13 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         dialog.show()
     }
 
-    private fun getRoomDetailView(hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, hotelId: String,
-                                  rowIndex: Int, roomCount: Int, hasETP: Boolean): HotelRoomDetailView {
+    private fun getRoomDetailView(
+        hotelRoomResponse: HotelOffersResponse.HotelRoomResponse,
+        hotelId: String,
+        rowIndex: Int,
+        roomCount: Int,
+        hasETP: Boolean
+    ): HotelRoomDetailView {
 
         val detailViewModel = HotelRoomDetailViewModel(context, hotelRoomResponse, hotelId, rowIndex, roomCount, hasETP)
         val detail = HotelRoomDetailView(context, detailViewModel)

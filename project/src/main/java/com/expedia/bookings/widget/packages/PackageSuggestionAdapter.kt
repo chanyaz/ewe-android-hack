@@ -6,8 +6,10 @@ import com.expedia.bookings.widget.suggestions.BaseSuggestionAdapter
 import com.expedia.vm.BaseSuggestionAdapterViewModel
 import com.expedia.vm.packages.PackageSuggestionViewModel
 
-class PackageSuggestionAdapter(viewModel: BaseSuggestionAdapterViewModel,
-                               private val isOrigin: Boolean) : BaseSuggestionAdapter(viewModel) {
+class PackageSuggestionAdapter(
+    viewModel: BaseSuggestionAdapterViewModel,
+    private val isOrigin: Boolean
+) : BaseSuggestionAdapter(viewModel) {
 
     override fun getSuggestionViewModel(context: Context): BaseSuggestionViewModel {
         return PackageSuggestionViewModel(isOrigin, context)

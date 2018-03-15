@@ -144,8 +144,8 @@ class CustomDeepLinkParser(assets: AssetManager) : DeepLinkParser(assets) {
                 val childAge = Integer.parseInt(childAgesArr[a])
 
                 if (childAge < GuestsPickerUtils.MIN_CHILD_AGE) {
-                    Log.w(TAG, "Child age (" + childAge + ") less than that of a child, not adding: "
-                            + childAge)
+                    Log.w(TAG, "Child age (" + childAge + ") less than that of a child, not adding: " +
+                            childAge)
                 } else if (childAge > GuestsPickerUtils.MAX_CHILD_AGE) {
                     Log.w(TAG, "Child age ($childAge) not an actual child, ignoring: $childAge")
                 } else {

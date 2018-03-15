@@ -24,9 +24,13 @@ import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 
-abstract class BaseSuggestionAdapterViewModel(val context: Context, val suggestionsService: ISuggestionV4Services,
-                                              locationObservable: Observable<Location>?,
-                                              private val shouldShowCurrentLocation: Boolean, val rawQueryEnabled: Boolean) {
+abstract class BaseSuggestionAdapterViewModel(
+    val context: Context,
+    val suggestionsService: ISuggestionV4Services,
+    locationObservable: Observable<Location>?,
+    private val shouldShowCurrentLocation: Boolean,
+    val rawQueryEnabled: Boolean
+) {
     protected enum class Category {
         CURRENT_LOCATION,
         NEARBY,

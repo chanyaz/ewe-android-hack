@@ -832,8 +832,14 @@ class HotelDetailViewModelTest {
         return rooms
     }
 
-    private fun triggerHotelMessageContainer(showDiscount: Boolean, vip: Boolean, promoMessage: String,
-                                             soldOut: Boolean, loyaltyApplied: Boolean, airAttach: Boolean) {
+    private fun triggerHotelMessageContainer(
+        showDiscount: Boolean,
+        vip: Boolean,
+        promoMessage: String,
+        soldOut: Boolean,
+        loyaltyApplied: Boolean,
+        airAttach: Boolean
+    ) {
         vm.showDiscountPercentageObservable.onNext(showDiscount)
         vm.hasVipAccessObservable.onNext(vip)
         vm.promoMessageObservable.onNext(promoMessage)

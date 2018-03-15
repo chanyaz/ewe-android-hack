@@ -23,73 +23,81 @@ interface PackageApi {
     @FormUrlEncoded
     @POST("/getpackages/v1?forceNoRedir=1&packageType=fh")
     fun packageSearch(
-            @FieldMap queryParams: Map<String, @JvmSuppressWildcards Any?>): Observable<PackageSearchResponse>
+        @FieldMap queryParams: Map<String, @JvmSuppressWildcards Any?>
+    ): Observable<PackageSearchResponse>
 
     @GET("/api/packages/hotelOffers")
     fun packageHotelOffers(
-            @Query("productKey") productKey: String,
-            @Query("checkInDate") checkInDate: String,
-            @Query("checkOutDate") checkOutDate: String,
-            @Query("ratePlanCode") ratePlanCode: String?,
-            @Query("roomTypeCode") roomTypeCode: String?,
-            @Query("numberOfAdultTravelers") numberOfAdultTravelers: Int?,
-            @Query("childTravelerAge") childTravelerAge: Int?): Observable<PackageOffersResponse>
+        @Query("productKey") productKey: String,
+        @Query("checkInDate") checkInDate: String,
+        @Query("checkOutDate") checkOutDate: String,
+        @Query("ratePlanCode") ratePlanCode: String?,
+        @Query("roomTypeCode") roomTypeCode: String?,
+        @Query("numberOfAdultTravelers") numberOfAdultTravelers: Int?,
+        @Query("childTravelerAge") childTravelerAge: Int?
+    ): Observable<PackageOffersResponse>
 
     @GET("/m/api/hotel/info")
     fun hotelInfo(
-            @Query("hotelId") hotelId: String): Observable<HotelOffersResponse>
+        @Query("hotelId") hotelId: String
+    ): Observable<HotelOffersResponse>
 
     @FormUrlEncoded
     @POST("/api/packages/createTrip")
     fun createTrip(
-            @Field("productKey") productKey: String,
-            @Query("destinationId") destId: String,
-            @Query("roomOccupants[0].numberOfAdultGuests") numberOfAdults: Int,
-            @Query("roomOccupants[0].infantsInSeat") infantInSeat: Boolean,
-            @Query("roomOccupants[0].childGuestAge") childAges: List<Int>,
-            @Query("mobileFlexEnabled") flexEnabled: Boolean): Observable<PackageCreateTripResponse>
+        @Field("productKey") productKey: String,
+        @Query("destinationId") destId: String,
+        @Query("roomOccupants[0].numberOfAdultGuests") numberOfAdults: Int,
+        @Query("roomOccupants[0].infantsInSeat") infantInSeat: Boolean,
+        @Query("roomOccupants[0].childGuestAge") childAges: List<Int>,
+        @Query("mobileFlexEnabled") flexEnabled: Boolean
+    ): Observable<PackageCreateTripResponse>
 
     @FormUrlEncoded
     @POST("/api/packages/checkout")
     fun checkout(
-            @FieldMap queryParams: Map<String, @JvmSuppressWildcards Any>): Observable<PackageCheckoutResponse>
+        @FieldMap queryParams: Map<String, @JvmSuppressWildcards Any>
+    ): Observable<PackageCheckoutResponse>
 
     //MID API
 
     @GET("/api/multiitem/v1/{productType}")
     fun multiItemSearch(
-            @Path("productType") productType: String,
-            @Query("packageType") packageType: String?,
-            @Query("origin") origin: String?,
-            @Query("originId") originId: String?,
-            @Query("destination") destination: String?,
-            @Query("destinationId") destinationId: String?,
-            @Query("fromDate") fromDate: String,
-            @Query("toDate") toDate: String,
-            @Query("adults") adults: Int,
-            @Query("childAges") childAges: String?,
-            @Query("infantsInSeats") infantsInSeats: Boolean?,
-            @Query("hotelId") hotelId: String? = null,
-            @Query("ratePlanCode") ratePlanCode: String? = null,
-            @Query("roomTypeCode") roomTypeCode: String? = null,
-            @Query("legIndex") legIndex: Int? = null,
-            @Query("legId[0]") outboundLegId: String? = null,
-            @Query("legId[1]") inboundLegId: String? = null,
-            @Query("flightPIID") flightPIID: String? = null,
-            @Query("anchorTotalPrice") anchorTotalPrice: BigDecimal? = null,
-            @Query("currencyCode") currencyCode: String? = null,
-            @Query("cabinClass") cabinClass: String? = null): Observable<MultiItemApiSearchResponse>
+        @Path("productType") productType: String,
+        @Query("packageType") packageType: String?,
+        @Query("origin") origin: String?,
+        @Query("originId") originId: String?,
+        @Query("destination") destination: String?,
+        @Query("destinationId") destinationId: String?,
+        @Query("fromDate") fromDate: String,
+        @Query("toDate") toDate: String,
+        @Query("adults") adults: Int,
+        @Query("childAges") childAges: String?,
+        @Query("infantsInSeats") infantsInSeats: Boolean?,
+        @Query("hotelId") hotelId: String? = null,
+        @Query("ratePlanCode") ratePlanCode: String? = null,
+        @Query("roomTypeCode") roomTypeCode: String? = null,
+        @Query("legIndex") legIndex: Int? = null,
+        @Query("legId[0]") outboundLegId: String? = null,
+        @Query("legId[1]") inboundLegId: String? = null,
+        @Query("flightPIID") flightPIID: String? = null,
+        @Query("anchorTotalPrice") anchorTotalPrice: BigDecimal? = null,
+        @Query("currencyCode") currencyCode: String? = null,
+        @Query("cabinClass") cabinClass: String? = null
+    ): Observable<MultiItemApiSearchResponse>
 
     @GET("/api/multiitem/v1/createTrip")
-    fun multiItemCreateTrip(@Query("flightPIID") flightPIID: String,
-                            @Query("hotelId") hotelID: String,
-                            @Query("inventoryType") inventoryType: String,
-                            @Query("ratePlanCode") ratePlanCode: String,
-                            @Query("roomTypeCode") roomTypeCode: String,
-                            @Query("adults") adults: Int,
-                            @Query("checkInDate") checkInDate: String,
-                            @Query("checkOutDate") checkOutDate: String,
-                            @Query("totalPrice") totalPrice: BigDecimal,
-                            @Query("childAges") childAges: String? = null,
-                            @Query("infantInSeats") infantsInSeats: Boolean?): Observable<MultiItemApiCreateTripResponse>
+    fun multiItemCreateTrip(
+        @Query("flightPIID") flightPIID: String,
+        @Query("hotelId") hotelID: String,
+        @Query("inventoryType") inventoryType: String,
+        @Query("ratePlanCode") ratePlanCode: String,
+        @Query("roomTypeCode") roomTypeCode: String,
+        @Query("adults") adults: Int,
+        @Query("checkInDate") checkInDate: String,
+        @Query("checkOutDate") checkOutDate: String,
+        @Query("totalPrice") totalPrice: BigDecimal,
+        @Query("childAges") childAges: String? = null,
+        @Query("infantInSeats") infantsInSeats: Boolean?
+    ): Observable<MultiItemApiCreateTripResponse>
 }

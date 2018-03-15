@@ -29,8 +29,11 @@ import io.reactivex.subjects.PublishSubject
 import org.joda.time.LocalDate
 import java.math.BigDecimal
 
-open class HotelDetailViewModel(context: Context, private val hotelInfoManager: HotelInfoManager,
-                                private val hotelSearchManager: HotelSearchManager) :
+open class HotelDetailViewModel(
+    context: Context,
+    private val hotelInfoManager: HotelInfoManager,
+    private val hotelSearchManager: HotelSearchManager
+) :
         BaseHotelDetailViewModel(context) {
 
     val fetchInProgressSubject = PublishSubject.create<Unit>()

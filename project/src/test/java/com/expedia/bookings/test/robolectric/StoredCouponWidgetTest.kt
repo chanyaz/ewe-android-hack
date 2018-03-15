@@ -109,8 +109,10 @@ class StoredCouponWidgetTest {
         assertEquals(2, testApplyCoupon.valueCount())
     }
 
-    fun setupStoredCouponWidget(couponNames: List<String> = listOf("A", "B", "C"),
-                                visibility: List<StoredCouponAppliedStatus> = listOf(StoredCouponAppliedStatus.DEFAULT, StoredCouponAppliedStatus.DEFAULT, StoredCouponAppliedStatus.DEFAULT)) {
+    fun setupStoredCouponWidget(
+        couponNames: List<String> = listOf("A", "B", "C"),
+        visibility: List<StoredCouponAppliedStatus> = listOf(StoredCouponAppliedStatus.DEFAULT, StoredCouponAppliedStatus.DEFAULT, StoredCouponAppliedStatus.DEFAULT)
+    ) {
         storedCouponWidget.viewModel.storedCouponsSubject.onNext(CouponTestUtil.createStoredCouponAdapterData(couponNames, visibility))
         storedCouponWidget.storedCouponRecyclerView.measure(0, 0)
         storedCouponWidget.storedCouponRecyclerView.layout(0, 0, 100, 10000)

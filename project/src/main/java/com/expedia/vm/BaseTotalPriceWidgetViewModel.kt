@@ -21,8 +21,11 @@ abstract class BaseTotalPriceWidgetViewModel(isSlidable: Boolean) {
     val contentDescriptionObservable = BehaviorSubject.create<String>()
     val costBreakdownEnabledObservable = BehaviorSubject.create<Boolean>()
 
-    abstract fun getAccessibleContentDescription(isCostBreakdownShown: Boolean = false,
-                                                 isSlidable: Boolean = false, isExpanded: Boolean = false): String
+    abstract fun getAccessibleContentDescription(
+        isCostBreakdownShown: Boolean = false,
+        isSlidable: Boolean = false,
+        isExpanded: Boolean = false
+    ): String
 
     abstract fun shouldShowTotalPriceLoadingProgress(): Boolean
     init {
