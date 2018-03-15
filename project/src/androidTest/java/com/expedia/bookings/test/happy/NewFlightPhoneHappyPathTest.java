@@ -97,9 +97,10 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 		FlightTestHelpers.assertFlightInbound();
 		FlightTestHelpers.assertDockedOutboundFlightSelectionWidget();
-		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("Outbound");
+		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("Outbound flight:");
 		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("happy_round_trip_with_insurance_available");
 		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("9:00 pm - 11:00 pm (2h 0m)");
+		FlightsResultsScreen.assertDeltaPrice("$696");
 		FlightsScreen.selectFlight(FlightsScreen.inboundFlightList(), 0);
 		assertInsuranceVisibilityTests();
 		FlightsScreen.selectInboundFlight().perform(click());

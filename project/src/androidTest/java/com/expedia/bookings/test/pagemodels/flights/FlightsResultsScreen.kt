@@ -28,6 +28,10 @@ object FlightsResultsScreen {
         EspressoUtils.viewHasDescendantsWithText(R.id.docked_outbound_flight_selection, text)
     }
 
+    @JvmStatic fun assertDeltaPrice(price: String) {
+        onView(allOf(withId(R.id.price_per_person), withText(price))).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    }
+
     @JvmStatic fun assertPaymentFeesMayApplyLinkShowing(resultsView: Matcher<View>) {
         paymentFeesLinkTextView(resultsView).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
                 .check(ViewAssertions.matches(ViewMatchers.withText("Payment fees may apply")))
