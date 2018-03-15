@@ -342,7 +342,7 @@ public class RecyclerGallery extends RecyclerView {
 		public void onBindViewHolder(final GalleryViewHolder holder, int position) {
 			IMedia media = mMedia.get(position);
 			if (media.getIsPlaceHolder()) {
-				media.loadErrorImage(holder.mImageView, holder.callback, media.getFallbackImage());
+				media.loadErrorImage(holder.mImageView, holder.callback, media.getPlaceHolderId());
 			}
 			else {
 				media.loadImage(holder.mImageView, holder.callback,

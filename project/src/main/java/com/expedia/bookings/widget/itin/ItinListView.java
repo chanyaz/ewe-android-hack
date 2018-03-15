@@ -378,6 +378,9 @@ public class ItinListView extends ListView implements OnItemClickListener {
 			else if (data instanceof ItinCardDataRails) {
 				openItinInWebView(data.getDetailsUrl());
 			}
+			else if (data != null && data.getTripComponentType() == TripComponent.Type.CRUISE) {
+				openItinInWebView(data.getDetailsUrl());
+			}
 			else if (data.hasDetailData() && data.getTripComponentType() == TripComponent.Type.HOTEL) {
 				getContext().startActivity(HotelItinDetailsActivity.createIntent(getContext(), data.getId(), data.getTripId()),
 					ActivityOptionsCompat

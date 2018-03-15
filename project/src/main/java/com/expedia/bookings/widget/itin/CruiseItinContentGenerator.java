@@ -13,13 +13,14 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.data.DefaultMedia;
 import com.expedia.bookings.data.trips.ItinCardData;
+import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.utils.Ui;
 
 public class CruiseItinContentGenerator extends ItinContentGenerator<ItinCardData> {
 	@Override
 	public List<? extends IMedia> getHeaderBitmapDrawable() {
-		ArrayList<DefaultMedia> mediaList = new ArrayList<>();
+		List<IMedia> mediaList = new ArrayList<>();
 		DefaultMedia placeholder = new DefaultMedia(Collections.<String>emptyList(), "", getHeaderImagePlaceholderResId());
 		placeholder.setIsPlaceholder(true);
 		mediaList.add(placeholder);
@@ -62,7 +63,7 @@ public class CruiseItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 	@Override
 	public int getHeaderImagePlaceholderResId() {
-		return R.drawable.itin_header_placeholder_cruises;
+		return Ui.obtainThemeResID(getContext(), R.attr.skin_itinCruisePlaceholderDrawable);
 	}
 
 	@Override
@@ -72,7 +73,9 @@ public class CruiseItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 	@Override
 	public String getHeaderText() {
-		return "Cruise Card";
+		ItinCardData itinCardData = getItinCardData();
+		TripComponent cruise = itinCardData.getTripComponent();
+		return cruise.getParentTrip().getTitle();
 	}
 
 	@Override

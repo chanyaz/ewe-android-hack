@@ -132,6 +132,7 @@
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
         <item name="skin_itinCarPlaceholderDrawable">@drawable/cars_fallback</item>
+        <item name="skin_itinCruisePlaceholderDrawable">@drawable/itin_header_placeholder_cruises</item>
         <item name="skin_itinHotelPlaceholderDrawable">@drawable/bg_itin_placeholder</item>
         <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
         <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_fallback_activity</item>

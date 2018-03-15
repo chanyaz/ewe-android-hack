@@ -86,7 +86,7 @@ public class FallbackItinContentGenerator extends ItinContentGenerator<ItinCardD
 		case CAR:
 			return Ui.obtainThemeResID(getContext(), R.attr.skin_itinCarPlaceholderDrawable);
 		case CRUISE:
-			return R.drawable.itin_header_placeholder_cruises;
+			return Ui.obtainThemeResID(getContext(), R.attr.skin_itinCruisePlaceholderDrawable);
 		default:
 			return Ui.obtainThemeResID(getContext(), R.attr.skin_itinDefaultPlaceholderDrawable);
 		}
