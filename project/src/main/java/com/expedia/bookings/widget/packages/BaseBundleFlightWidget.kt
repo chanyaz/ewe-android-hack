@@ -28,6 +28,7 @@ import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.CrashlyticsLoggingUtil.logWhenNotAutomation
 import com.expedia.bookings.widget.AccessibleCardView
 import com.expedia.bookings.widget.FlightSegmentBreakdownView
 import com.expedia.bookings.widget.TextView
@@ -257,6 +258,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
         flightDetailsIcon.isEnabled = isEnabled
         rowContainer.isEnabled = isEnabled
         if (!isEnabled) {
+            logWhenNotAutomation("onNext() called on disabledStateObservable of AccessibleCardView in BaseBundleFlightWidget.")
             this.disabledStateObservable.onNext(Unit)
         }
     }
@@ -271,6 +273,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
 
     override fun contentDescription(): String {
         val searchParams = viewModel.searchParams.value
+        logWhenNotAutomation("contentDescription() called in BaseBundleFlightWidget. value of searchParams is " + if (searchParams == null) "null" else "not null")
         return Phrase.from(context, R.string.select_flight_cont_desc_TEMPLATE)
                 .put("flight", StrUtils.formatAirportCodeCityName(if (isInboundFlight()) searchParams.origin else searchParams.destination))
                 .put("date", LocaleBasedDateFormatUtils.localDateToMMMd(if (isInboundFlight()) searchParams.endDate!! else searchParams.startDate))
@@ -281,6 +284,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
 
     override fun disabledContentDescription(): String {
         val searchParams = viewModel.searchParams.value
+        logWhenNotAutomation("disabledContentDescription() called in BaseBundleFlightWidget. value of searchParams is " + if (searchParams == null) "null" else "not null")
         return Phrase.from(context, R.string.select_flight_disabled_cont_desc_TEMPLATE)
                 .put("flight", StrUtils.formatAirportCodeCityName(if (isInboundFlight()) searchParams.origin else searchParams.destination))
                 .put("date", LocaleBasedDateFormatUtils.localDateToMMMd(if (isInboundFlight()) searchParams.endDate!! else searchParams.startDate))
@@ -296,6 +300,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
 
     override fun loadingContentDescription(): String {
         val searchParams = viewModel.searchParams.value
+        logWhenNotAutomation("loadingContentDescription() called in BaseBundleFlightWidget. value of searchParams is " + if (searchParams == null) "null" else "not null")
         return Phrase.from(context, R.string.select_flight_searching_cont_desc_TEMPLATE)
                 .put("flight", StrUtils.formatAirportCodeCityName(if (isInboundFlight()) searchParams.origin else searchParams.destination))
                 .put("date", LocaleBasedDateFormatUtils.localDateToMMMd(if (isInboundFlight()) searchParams.endDate!! else searchParams.startDate))
@@ -306,6 +311,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
 
     override fun selectedCardContentDescription(): String {
         val searchParams = viewModel.searchParams.value
+        logWhenNotAutomation("selectedCardContentDescription() called in BaseBundleFlightWidget. value of searchParams is " + if (searchParams == null) "null" else "not null")
         val travelInfoText = viewModel.travelInfoTextObservable.value
         if (viewModel.showRowContainerWithMoreInfo.value) {
             return (rowContainer.getChildAt(0) as FlightCellWidget).cardView.contentDescription?.toString() ?: ""

@@ -21,6 +21,7 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isBreadcrumbsPackagesEnabled
 import com.expedia.bookings.utils.isMidAPIEnabled
+import com.expedia.bookings.utils.CrashlyticsLoggingUtil.logWhenNotAutomation
 import com.google.gson.Gson
 import com.mobiata.android.Log
 import com.squareup.phrase.Phrase
@@ -63,6 +64,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
     init {
         hotelParamsObservable.subscribe { params ->
             Db.setPackageParams(params)
+            logWhenNotAutomation("subscription of hotelParamsObservable in BundleOverviewViewModel.")
             val cityName = StrUtils.formatCity(params.destination)
             toolbarTitleObservable.onNext(java.lang.String.format(context.getString(R.string.your_trip_to_TEMPLATE), cityName))
             toolbarSubtitleObservable.onNext(Phrase.from(context, R.string.start_dash_end_date_range_with_guests_TEMPLATE)
@@ -208,6 +210,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     RetrofitUtils.isNetworkError(throwable) -> {
                         val retryFun = fun() {
                             if (type.equals(PackageSearchType.HOTEL)) {
+                                logWhenNotAutomation("onNext() called on hotelParamsObservable in BundleOverviewViewModel.")
                                 hotelParamsObservable.onNext(Db.sharedInstance.packageParams)
                             } else {
                                 flightParamsObservable.onNext(Db.sharedInstance.packageParams)

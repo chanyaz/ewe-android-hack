@@ -28,6 +28,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
 import com.expedia.bookings.utils.isMidAPIEnabled
+import com.expedia.bookings.utils.CrashlyticsLoggingUtil.logWhenNotAutomation
 import com.expedia.vm.packages.BundleOverviewViewModel
 import com.expedia.vm.packages.PackageSearchType
 import com.expedia.vm.packages.PackageTotalPriceViewModel
@@ -199,6 +200,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
     }
 
     fun updateBundleViews(product: String) {
+        logWhenNotAutomation("onNext() called on hotelParamsObservable in SlidingBundleWidget.")
         bundleOverViewWidget.viewModel.hotelParamsObservable.onNext(Db.sharedInstance.packageParams)
         bundleOverViewWidget.viewModel.hotelResultsObservable.onNext(Unit)
 

@@ -33,6 +33,7 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBackFlowFromOverviewEnabled
 import com.expedia.bookings.utils.isMidAPIEnabled
+import com.expedia.bookings.utils.CrashlyticsLoggingUtil.logWhenNotAutomation
 import com.expedia.bookings.widget.PackageCheckoutPresenter
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.shared.WebCheckoutView
@@ -254,6 +255,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         params.pageType = Constants.PACKAGE_CHANGE_HOTEL
         params.searchProduct = null
 
+        logWhenNotAutomation("onNext() called on hotelParamsObservable in PackageOverviewPresenter.")
         bundleWidget.viewModel.hotelParamsObservable.onNext(params)
         bottomCheckoutContainer.viewModel.sliderPurchaseTotalText.onNext("")
         PackagesTracking().trackBundleEditItemClick("Hotel")

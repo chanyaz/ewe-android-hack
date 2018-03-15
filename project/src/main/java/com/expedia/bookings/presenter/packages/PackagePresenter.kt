@@ -47,6 +47,7 @@ import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isMidAPIEnabled
+import com.expedia.bookings.utils.CrashlyticsLoggingUtil.logWhenNotAutomation
 import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.expedia.ui.PackageActivity
 import com.expedia.vm.PackageWebCheckoutViewViewModel
@@ -255,6 +256,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             Db.sharedInstance.clearPackageSelection()
             travelerManager.updateDbTravelers(params)
             errorPresenter.getViewModel().paramsSubject.onNext(params)
+            logWhenNotAutomation("onNext() called on hotelParamsObservable in PackagePresenter.")
             bundlePresenter.bundleWidget.viewModel.hotelParamsObservable.onNext(params)
             showBundleOverView()
         }
