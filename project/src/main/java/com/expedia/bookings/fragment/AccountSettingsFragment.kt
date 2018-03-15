@@ -71,7 +71,6 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
     private val TAG_APP_SETTINGS = "TAG_APP_SETTINGS"
     private val GOOGLE_SIGN_IN_SUPPORT = "GOOGLE_SIGN_IN_SUPPORT"
 
-    private val ROW_EDIT_ACCOUNT = 0
     private val ROW_BOOKING_SUPPORT = 1
     private val ROW_EXPEDIA_WEBSITE = 2
     private val ROW_APP_SUPPORT = 3
@@ -91,6 +90,7 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
     private val ROW_TEST_SCREEN = 13
     private val INSTALL_SHORTCUTS = 14
     private val ROW_REWARDS_VISA_CARD = 15
+    private val ROW_EDIT_ACCOUNT = 16
 
     private val aboutUtils: AboutUtils by lazy {
         AboutUtils(activity)

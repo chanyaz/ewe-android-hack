@@ -118,7 +118,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_toLeftOf="@id/center"
-                        android:text="@string/available_loyalty_points" />
+                        android:text="@string/available_loyalty_points"/>
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/available_points"
@@ -129,7 +129,9 @@
                         android:layout_below="@id/available_points_label"
                         android:layout_marginTop="4dp"
                         android:layout_toLeftOf="@id/center"
-                        tools:text="51,203" />
+                        android:accessibilityTraversalAfter="@id/available_points_label"
+                        tools:text="51,203"
+                        tools:ignore="UnusedAttribute"/>
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/pending_points"
@@ -153,7 +155,9 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:layout_toRightOf="@+id/center"
-                        android:text="@string/points_value_label" />
+                        android:accessibilityTraversalAfter="@id/pending_points"
+                        android:text="@string/points_value_label"
+                        tools:ignore="UnusedAttribute"/>
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/points_monetary_value"
