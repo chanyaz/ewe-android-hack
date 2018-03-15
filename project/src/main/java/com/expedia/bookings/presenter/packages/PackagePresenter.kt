@@ -144,7 +144,12 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         }
         checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.subscribe(errorPresenter.getViewModel().checkoutApiErrorObserver)
         checkoutPresenter.getCheckoutViewModel().checkoutErrorObservable.subscribe(errorPresenter.getViewModel().checkoutApiErrorObserver)
-        checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.subscribe { show(errorPresenter) }
+        checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.subscribe {
+            if (bundlePresenter.webCheckoutView.visibility == View.VISIBLE) {
+                bundlePresenter.back()
+            }
+            show(errorPresenter)
+        }
         checkoutPresenter.getCheckoutViewModel().checkoutErrorObservable.subscribe { show(errorPresenter) }
         presenter.bundleWidget.viewModel.toolbarTitleObservable.subscribe(presenter.bundleOverviewHeader.toolbar.viewModel.toolbarTitle)
         presenter.bundleWidget.viewModel.toolbarTitleObservable.subscribe(presenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel.cityTitle)
