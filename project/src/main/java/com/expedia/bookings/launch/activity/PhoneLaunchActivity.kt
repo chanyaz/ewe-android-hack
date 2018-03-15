@@ -434,6 +434,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         }
 
         override fun onTabSelected(tab: TabLayout.Tab) {
+            viewPager.announceForAccessibility(resources.getString(R.string.tab_selected_announcement))
             val tripComponent = Ui.getApplication(this@PhoneLaunchActivity).tripComponent()
             if (tab.position != pagerSelectedPosition) {
                 pagerSelectedPosition = tab.position
