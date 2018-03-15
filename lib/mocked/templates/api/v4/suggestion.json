@@ -711,6 +711,42 @@
       "packageable": "false",
       "score": "1.0",
       "popularity": "0.0"
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "19",
+      "gaiaId": "happy",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "SanFranciscoMip",
+        "shortName": "SanFranciscoMip",
+        "displayName": "SanFranciscoMip",
+        "lastSearchName": "SanFranciscoMip"
+      },
+      "coordinates": {
+        "lat": "37.715940",
+        "long": "-122.787996"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "SFP",
+          "metrocode": "QSD",
+          "multicity": "happyMip"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "392"
+      },
+      "regionGrades": {
+        "globalGrade": "99"
+      },
+      "isMinorAirport": "false",
+      "packageable": "false"
     }
   ]
 }

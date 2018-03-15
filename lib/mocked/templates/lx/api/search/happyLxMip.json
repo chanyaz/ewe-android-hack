@@ -2,6 +2,7 @@
   "regionId": "178293",
   "startDate": "2015-03-25",
   "endDate": "2015-04-08",
+  "promoDiscountType" : "AirHotelAttachMip",
   "activities": [
     {
       "id": "happy",
@@ -134,6 +135,5 @@
       "checked": false
     }
   },
-  "currencyCode": "USD",
-  "promoDiscountType": "MOD"
+  "currencyCode": "USD"
 }

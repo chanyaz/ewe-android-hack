@@ -21,7 +21,10 @@ class LxApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOp
                 // Return happy path response if not testing for special cases.
                 return if (location == "search_failure") {
                     getMockResponse("lx/api/search/$location.json")
-                } else {
+                }else if (location == "SanFranciscoMip") {
+                    getMockResponse("lx/api/search/happyLxMip.json")
+                }
+                else {
                     getMockResponse("lx/api/search/happy.json")
                 }
             }

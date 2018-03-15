@@ -63,6 +63,13 @@ object SearchScreenActions {
     }
 
     @Throws(Throwable::class)
+    @JvmStatic fun selectLocationForLxMip(location: String) {
+        val originPosition = 19 // origin suggestion position in suggestion list
+        SearchScreen.suggestionList().perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(originPosition))
+        selectLocation(location)
+    }
+
+    @Throws(Throwable::class)
     @JvmStatic fun selectItemWithMagnifyingGlass() {
         val viewMatcher = Matchers.allOf(
                 ViewMatchers.hasDescendant(ViewMatchers.withContentDescription("MAGNIFYING_GLASS_ICON")),

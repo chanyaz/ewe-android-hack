@@ -57,6 +57,11 @@ public class LXScreen {
 		SearchScreenActions.selectLocation(location);
 	}
 
+	public static void selectLocationForLxMip(String location) throws Throwable {
+		Common.delay(1);
+		SearchScreenActions.selectLocationForLxMip(location);
+	}
+
 	public static ViewInteraction getMipBanner() {
 		return onView(withId(R.id.mip_srp_banner));
 	}

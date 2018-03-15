@@ -82,12 +82,12 @@ public class LxMIPPricingTest extends PhoneTestCase {
 	}
 
 	private void searchListDisplayed(boolean firstLaunch) throws Throwable {
-		String expectedLocationDisplayName = "San Francisco, CA";
+		String expectedLocationDisplayName = "SanFranciscoMip";
 		if (!firstLaunch) {
 			LXScreen.locationCardView().perform(click());
 		}
-		LXScreen.location().perform(typeText("San"));
-		LXScreen.selectLocation(expectedLocationDisplayName);
+		LXScreen.location().perform(typeText("SanFra"));
+		LXScreen.selectLocationForLxMip(expectedLocationDisplayName);
 		if (!firstLaunch) {
 			LXScreen.selectDateButton().perform(click());
 		}
