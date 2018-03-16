@@ -23,15 +23,15 @@ class BaseDealsCardViewModelTest {
 
     @Before
     fun before() {
-        hotel = DealsDestination().Hotel()
-        hotel.destination = DealsDestination().Hotel().Destination()
+        hotel = DealsDestination.Hotel()
+        hotel.destination = DealsDestination.Hotel.Destination()
         hotel.destination?.regionID = "800103"
         hotel.destination?.shortName = "Paris"
-        hotel.offerDateRange = DealsDestination().Hotel().OfferDateRange()
+        hotel.offerDateRange = DealsDestination.Hotel.OfferDateRange()
         hotel.offerDateRange?.travelStartDate = arrayListOf(2017, 5, 8)
         hotel.offerDateRange?.travelEndDate = arrayListOf(2017, 5, 9)
-        hotel.hotelPricingInfo = DealsDestination().Hotel().HotelPricingInfo()
-        hotel.hotelInfo = DealsDestination().Hotel().HotelInfo()
+        hotel.hotelPricingInfo = DealsDestination.Hotel.HotelPricingInfo()
+        hotel.hotelInfo = DealsDestination.Hotel.HotelInfo()
         hotel.hotelPricingInfo?.percentSavings = 50.0
         hotel.hotelPricingInfo?.averagePriceValue = 130.06
         hotel.hotelPricingInfo?.crossOutPriceValue = 260.12

@@ -61,8 +61,8 @@ class LastMinuteDealsActivityTest {
     inner class TestLastMinuteDealsResponse : LastMinuteDealsResponse() {
         init {
             val mockOffers = Offers()
-            mockOffers.hotels = listOf(DealsDestination().Hotel())
-            mockOffers.hotels[0].hotelPricingInfo = DealsDestination().Hotel().HotelPricingInfo()
+            mockOffers.hotels = listOf(DealsDestination.Hotel())
+            mockOffers.hotels[0].hotelPricingInfo = DealsDestination.Hotel.HotelPricingInfo()
             mockOffers.hotels[0].hotelPricingInfo!!.crossOutPriceValue = 146.34
             mockOffers.hotels[0].hotelPricingInfo!!.percentSavings = 37.5
             offers = mockOffers

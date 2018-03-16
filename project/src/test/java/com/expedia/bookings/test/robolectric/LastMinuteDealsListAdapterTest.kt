@@ -16,6 +16,7 @@ import com.expedia.bookings.mia.activity.LastMinuteDealsActivity
 import com.expedia.bookings.mia.vm.BaseDealsCardViewModel
 import com.expedia.bookings.mia.vm.LastMinuteDealsCardViewModel
 import com.expedia.bookings.utils.HotelsV2DataUtil
+import com.expedia.testutils.JSONResourceReader
 import org.joda.time.LocalDate
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -34,6 +35,7 @@ class LastMinuteDealsListAdapterTest {
     private lateinit var mockAnalyticsProvider: AnalyticsProvider
     private lateinit var lastMinuteDealsActivityController: ActivityController<LastMinuteDealsActivity>
     private lateinit var lastMinuteDealShadowActivity: ShadowActivity
+    private lateinit var recyclerView: RecyclerView
     private var dealResponseWithDeals: MockDealResponse = MockDealResponse(100.00)
     private var dealResponseWithOutDeals: MockDealResponse = MockDealResponse(0.00)
 
@@ -45,13 +47,13 @@ class LastMinuteDealsListAdapterTest {
         context = lastMinuteDealsActivityController.get()
         adapterUnderTest = LastMinuteDealsListAdapter(context)
         lastMinuteDealsActivityController.create().start().visible()
+        recyclerView = setupRecyclerView()
     }
 
     @Test
     fun tappingOnLastMinuteDeals_setsParamsCorrectlyForHotelSearch() {
         adapterUnderTest.responseObserver.onChanged(dealResponseWithDeals)
         val vm = LastMinuteDealsCardViewModel(context, dealResponseWithDeals.offers.hotels[1], "USD")
-        val recyclerView = setupRecyclerView()
 
         clickOnViewHolderForAdapterPosition(recyclerView, vm, 0)
 
@@ -69,8 +71,7 @@ class LastMinuteDealsListAdapterTest {
     fun tappingDestinationTracksRank() {
         adapterUnderTest.responseObserver.onChanged(dealResponseWithDeals)
 
-        val vm = LastMinuteDealsCardViewModel(context, DealsDestination().Hotel(), "")
-        val recyclerView = setupRecyclerView()
+        val vm = LastMinuteDealsCardViewModel(context, DealsDestination.Hotel(), "")
 
         clickOnViewHolderForAdapterPosition(recyclerView, vm, 0)
         OmnitureTestUtils.assertLinkTracked("Last Minute Deals", "App.LMD.Rank.0", mockAnalyticsProvider)
@@ -82,8 +83,7 @@ class LastMinuteDealsListAdapterTest {
     @Test
     fun tappingOnLastMinuteDeals_disablesPayWithPoints() {
         adapterUnderTest.responseObserver.onChanged(dealResponseWithDeals)
-        val vm = LastMinuteDealsCardViewModel(context, DealsDestination().Hotel(), "")
-        val recyclerView = setupRecyclerView()
+        val vm = LastMinuteDealsCardViewModel(context, DealsDestination.Hotel(), "")
 
         clickOnViewHolderForAdapterPosition(recyclerView, vm, 0)
 
@@ -97,8 +97,7 @@ class LastMinuteDealsListAdapterTest {
     @Test
     fun tappingOnLastMinuteDeals_sendsDealsCodeOnIntent() {
         adapterUnderTest.responseObserver.onChanged(dealResponseWithDeals)
-        val vm = LastMinuteDealsCardViewModel(context, DealsDestination().Hotel(), "")
-        val recyclerView = setupRecyclerView()
+        val vm = LastMinuteDealsCardViewModel(context, DealsDestination.Hotel(), "")
 
         clickOnViewHolderForAdapterPosition(recyclerView, vm, 0)
 
@@ -111,7 +110,6 @@ class LastMinuteDealsListAdapterTest {
     @Test
     fun subtitleShowsLocation_givenContextIsLastMinuteDeal() {
         adapterUnderTest.responseObserver.onChanged(dealResponseWithDeals)
-        val recyclerView = setupRecyclerView()
 
         val dealsDestinationViewHolderInPositionOne = recyclerView.findViewHolderForAdapterPosition(0) as DealsCardViewHolder
         assertEquals("Some City", dealsDestinationViewHolderInPositionOne.dealsSubtitle.text)
@@ -120,7 +118,6 @@ class LastMinuteDealsListAdapterTest {
     @Test
     fun titleShowsHotelName_givenContextIsLastMinuteDeal() {
         adapterUnderTest.responseObserver.onChanged(dealResponseWithDeals)
-        val recyclerView = setupRecyclerView()
         val dealsDestinationViewHolderInPositionOne = recyclerView.findViewHolderForAdapterPosition(0) as DealsCardViewHolder
         assertEquals("Some Hotel", dealsDestinationViewHolderInPositionOne.titleView.text)
     }
@@ -128,8 +125,13 @@ class LastMinuteDealsListAdapterTest {
     @Test
     fun dealCardNotIncluded_givenNoDiscount() {
         adapterUnderTest.responseObserver.onChanged(dealResponseWithOutDeals)
-        val recyclerView = setupRecyclerView()
+        assertEquals(0, recyclerView.adapter.itemCount)
+    }
 
+    @Test
+    fun showsNoCells_WhenNoOffersInResponse() {
+
+        adapterUnderTest.responseObserver.onChanged(createResponseWithEmptyOffersNode())
         assertEquals(0, recyclerView.adapter.itemCount)
     }
 
@@ -141,7 +143,6 @@ class LastMinuteDealsListAdapterTest {
 
     class MockDealResponse(crossoutPriceValue: Double) : LastMinuteDealsResponse() {
         init {
-            offers = Offers()
             offerInfo = OfferInfo()
             offers.hotels = generateCells(2, crossoutPriceValue)
             offerInfo?.currency = "USD"
@@ -150,12 +151,12 @@ class LastMinuteDealsListAdapterTest {
         private fun generateCells(count: Int, crossoutPriceValue: Double): List<DealsDestination.Hotel> {
             val listLoading = ArrayList<DealsDestination.Hotel>()
             for (i in 1..count) {
-                val lastMinuteDealsDestination = DealsDestination().Hotel()
+                val lastMinuteDealsDestination = DealsDestination.Hotel()
                 lastMinuteDealsDestination.offerMarkers = listOf("LEADIN_PRICE")
-                lastMinuteDealsDestination.hotelPricingInfo = DealsDestination().Hotel().HotelPricingInfo()
-                lastMinuteDealsDestination.hotelInfo = DealsDestination().Hotel().HotelInfo()
-                lastMinuteDealsDestination.destination = DealsDestination().Hotel().Destination()
-                lastMinuteDealsDestination.offerDateRange = DealsDestination().Hotel().OfferDateRange()
+                lastMinuteDealsDestination.hotelPricingInfo = DealsDestination.Hotel.HotelPricingInfo()
+                lastMinuteDealsDestination.hotelInfo = DealsDestination.Hotel.HotelInfo()
+                lastMinuteDealsDestination.destination = DealsDestination.Hotel.Destination()
+                lastMinuteDealsDestination.offerDateRange = DealsDestination.Hotel.OfferDateRange()
                 lastMinuteDealsDestination.hotelPricingInfo!!.crossOutPriceValue = crossoutPriceValue
                 lastMinuteDealsDestination.hotelPricingInfo!!.percentSavings = 20.00
                 lastMinuteDealsDestination.hotelInfo!!.hotelProvince = "Some State"
@@ -177,5 +178,10 @@ class LastMinuteDealsListAdapterTest {
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapterUnderTest
         return recyclerView
+    }
+
+    private fun createResponseWithEmptyOffersNode(): LastMinuteDealsResponse {
+        val resourceReader = JSONResourceReader("../lib/mocked/templates/m/api/os/os_no_offers.json")
+        return resourceReader.constructUsingGson(LastMinuteDealsResponse::class.java)
     }
 }

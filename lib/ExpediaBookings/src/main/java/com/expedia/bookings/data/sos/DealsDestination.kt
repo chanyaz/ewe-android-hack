@@ -9,11 +9,11 @@ class DealsDestination {
     val displayName: String?
         get() = destinationInfo!!.longName
 
-    inner class DestinationInfo {
+    class DestinationInfo {
         internal var longName: String? = null
     }
 
-    inner class Hotel {
+    class Hotel {
         var offerDateRange: OfferDateRange? = null
         var destination: Destination? = null
         var offerMarkers: List<String>? = null
@@ -21,18 +21,18 @@ class DealsDestination {
         var hotelUrls: HotelUrls? = null
         var hotelInfo: HotelInfo? = null
 
-        inner class OfferDateRange {
+        class OfferDateRange {
             var travelStartDate: List<Int>? = null
             var travelEndDate: List<Int>? = null
         }
 
-        inner class Destination {
+        class Destination {
             var shortName: String? = null
             var regionID: String? = null
             var city: String? = null
         }
 
-        inner class HotelPricingInfo {
+        class HotelPricingInfo {
             var averagePriceValue: Double? = null
             var totalPriceValue: Double? = null
             var crossOutPriceValue: Double? = null
@@ -41,12 +41,12 @@ class DealsDestination {
             fun hasDiscount(): Boolean? = crossOutPriceValue?.let { it > 0.0 }
         }
 
-        inner class HotelUrls {
+        class HotelUrls {
             var hotelInfositeUrl: String? = null
             var hotelSearchResultUrl: String? = null
         }
 
-        inner class HotelInfo {
+        class HotelInfo {
             var hotelProvince: String? = null
             var hotelCity: String? = null
             var hotelName: String? = null

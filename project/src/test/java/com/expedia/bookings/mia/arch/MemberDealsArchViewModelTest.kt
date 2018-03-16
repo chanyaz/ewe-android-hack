@@ -1,5 +1,6 @@
 package com.expedia.bookings.mia.arch
 
+import com.expedia.bookings.data.BaseDealsResponse
 import com.expedia.bookings.data.sos.MemberDealsRequest
 import com.expedia.bookings.data.sos.MemberDealsResponse
 import com.expedia.bookings.services.sos.ISmartOfferService
@@ -44,7 +45,7 @@ class MemberDealsArchViewModelTest {
 
     private fun createMockResponse(): MemberDealsResponse {
         val response = MemberDealsResponse()
-        response.offerInfo = MemberDealsResponse().OfferInfo()
+        response.offerInfo = BaseDealsResponse.OfferInfo()
         response.offerInfo?.currency = "USD"
         return response
     }

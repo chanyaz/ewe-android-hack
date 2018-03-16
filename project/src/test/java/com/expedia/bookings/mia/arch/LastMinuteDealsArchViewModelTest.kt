@@ -1,5 +1,6 @@
 package com.expedia.bookings.mia.arch
 
+import com.expedia.bookings.data.BaseDealsResponse
 import com.expedia.bookings.data.os.LastMinuteDealsRequest
 import com.expedia.bookings.data.os.LastMinuteDealsResponse
 import com.expedia.bookings.services.os.IOfferService
@@ -45,7 +46,7 @@ class LastMinuteDealsArchViewModelTest {
 
     private fun createMockResponse(): LastMinuteDealsResponse {
         val response = LastMinuteDealsResponse()
-        response.offerInfo = LastMinuteDealsResponse().OfferInfo()
+        response.offerInfo = BaseDealsResponse.OfferInfo()
         response.offerInfo?.currency = "USD"
         return response
     }

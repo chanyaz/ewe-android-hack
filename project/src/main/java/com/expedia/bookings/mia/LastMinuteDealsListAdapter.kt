@@ -29,7 +29,7 @@ class LastMinuteDealsListAdapter(val context: Context) : RecyclerView.Adapter<Re
         listData = generateLoadingCells(3)
         responseObserver = LiveDataObserver {
             response ->
-                if (response != null && response.offers.hotels.isNotEmpty()) {
+                if (response != null) {
                     loading = false
                     currency = response.offerInfo?.currency
                     listData = response.offers.hotels
@@ -100,7 +100,7 @@ class LastMinuteDealsListAdapter(val context: Context) : RecyclerView.Adapter<Re
     private fun generateLoadingCells(count: Int): List<DealsDestination.Hotel> {
         val listLoading = ArrayList<DealsDestination.Hotel>()
         for (i in 1..count) {
-            listLoading.add(DealsDestination().Hotel())
+            listLoading.add(DealsDestination.Hotel())
         }
         return listLoading
     }

@@ -17,16 +17,16 @@ abstract class BaseDealsResponse {
             return offerErrorInfo!!.errorCode
         }
 
-    inner class OfferInfo {
+    class OfferInfo {
         var currency: String? = null
         internal var language: String? = null
     }
 
-    inner class DebugInformation {
+    class DebugInformation {
         internal var activityId: String? = null
     }
 
-    inner class ErrorInfo {
+    class ErrorInfo {
         internal var errorCode: Int = 0
         internal var errorMessage: String? = null
     }

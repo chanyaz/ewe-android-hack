@@ -8,7 +8,7 @@ open class LastMinuteDealsResponse : BaseDealsResponse() {
     var offers: Offers = Offers()
         protected set
 
-    inner class Offers {
+    class Offers {
         @SerializedName("Hotel")
         var hotels: List<DealsDestination.Hotel> = emptyList()
     }

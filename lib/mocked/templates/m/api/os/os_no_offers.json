@@ -1,0 +1,16 @@
+{
+  "offerInfo": {
+    "siteID": "1",
+    "language": "en_US",
+    "currency": "USD",
+    "userSelectedCurrency": "USD"
+  },
+  "userInfo": {
+    "persona": {
+      "personaType": "OTHERS"
+    },
+    "userId": "1111738c-26e8-4445-8ec4-1a0f876a05c6"
+  },
+  "offers": {
+  }
+}
