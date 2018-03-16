@@ -16,7 +16,7 @@ class SatelliteFeatureConfigManager {
     companion object {
         const val PREFS_FEATURE_CONFIG_LAST_UPDATED = "lastUpdated"
         const val PREFS_SUPPORTED_FEATURE_SET = "supportedFeatures"
-        private const val PREFS_FILE_NAME = "featureConfig"
+        const val PREFS_FILE_NAME = "featureConfig"
         private val FEATURE_CONFIG_REFRESH_TIMEOUT = TimeUnit.HOURS.toMillis(4)
         private val FEATURE_CONFIG_VALID_TIMEOUT = TimeUnit.HOURS.toMillis(6)
 
@@ -69,7 +69,7 @@ class SatelliteFeatureConfigManager {
             return supportedFeatures.contains(featureString)
         }
 
-        private fun clearFeatureConfig(context: Context) {
+        @JvmStatic fun clearFeatureConfig(context: Context) {
             val editor = getFeatureConfigPreferences(context).edit()
             editor.clear().apply()
         }

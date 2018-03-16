@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.preference.CheckBoxPreference;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
@@ -19,6 +20,7 @@ import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Courier;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.user.UserStateManager;
+import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager;
 import com.expedia.bookings.fragment.SelectLanguageDialogFragment;
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
@@ -63,17 +65,7 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 			ListPreference apiPref = (ListPreference) findPreference(apiKey);
 			apiPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 				public boolean onPreferenceChange(Preference preference, final Object newValue) {
-					AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AccountDialogTheme);
-					builder.setTitle("Server Switching");
-					builder.setMessage(getActivity().getResources().getString(R.string.server_change_message));
-					builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int which) {
-							SettingUtils.save(getActivity(), getString(R.string.preference_disable_modern_https_security), !newValue.toString().equals("Production"));
-							SettingUtils.save(getActivity(), getString(R.string.preference_which_api_to_use_key), newValue.toString());
-							restartApp();
-						}
-					});
-					builder.create().show();
+					showChangeServerDialog(newValue);
 					return true;
 				}
 			});
@@ -133,6 +125,28 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 		}
 	}
 
+	@VisibleForTesting
+	public AlertDialog showChangeServerDialog(final Object newValue) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AccountDialogTheme);
+		builder.setTitle("Server Switching");
+		builder.setMessage(getActivity().getResources().getString(R.string.server_change_message));
+		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+
+
+				SettingUtils.save(getActivity(), getString(R.string.preference_disable_modern_https_security),
+					!newValue.toString().equals("Production"));
+				SettingUtils
+					.save(getActivity(), getString(R.string.preference_which_api_to_use_key), newValue.toString());
+				SatelliteFeatureConfigManager.clearFeatureConfig(getContext());
+				restartApp();
+			}
+		});
+		AlertDialog alertDialog = builder.create();
+		alertDialog.show();
+		return alertDialog;
+	}
+
 	private void deregisterFromExistingTNSServer() {
 		TNSServices tnsServices = Ui.getApplication(getActivity()).appComponent().tnsService();
 		String regId = GCMRegistrationKeeper.getInstance(getActivity()).getRegistrationId(getActivity());
@@ -156,7 +170,7 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 		}
 	}
 
-	private void restartApp() {
+	protected void restartApp() {
 		Intent mStartActivity = new Intent(getActivity(), RouterActivity.class);
 		int mPendingIntentId = 123456;
 		PendingIntent mPendingIntent = PendingIntent

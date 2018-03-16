@@ -20,12 +20,13 @@ class ExpediaSupportFragmentTestUtil {
             fragmentManager.beginTransaction().add(1, fragment, null).commit()
         }
 
-        @JvmStatic fun startFragment(fragment: Fragment) {
-            startFragment(buildSupportFragmentManager(), fragment)
+        @JvmStatic fun startFragment(fragment: Fragment, theme: Int) {
+            startFragment(buildSupportFragmentManager(theme), fragment)
         }
 
-        private fun buildSupportFragmentManager(): FragmentManager {
+        private fun buildSupportFragmentManager(theme: Int): FragmentManager {
             val activity = Robolectric.setupActivity(FragmentUtilActivity::class.java)
+            activity.setTheme(theme)
             return activity.supportFragmentManager
         }
     }
