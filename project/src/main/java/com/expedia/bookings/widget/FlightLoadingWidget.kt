@@ -55,7 +55,7 @@ class FlightLoadingWidget(context: Context, attrs: AttributeSet) : LinearLayout(
                     flightLoadingWidgetHeight = height
                     airplaneAnimatorHeight = airplaneAnimator.height
                     viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    animateWidget(flightLoadingWidgetHeight, 0, 1000, 0, true)
+                    animateWidget(flightLoadingWidgetHeight, 0, 800, 0, true)
                 }
             }
         })
