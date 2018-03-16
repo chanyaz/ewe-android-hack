@@ -332,8 +332,15 @@ public class Money {
 			if (currency != null) {
 				nf.setCurrency(currency);
 				nf.setMaximumFractionDigits(currency.getDefaultFractionDigits());
-				nf.setNegativePrefix("-" + currency.getSymbol());
-				nf.setNegativeSuffix("");
+				String formattedAmount = nf.format(amount);
+				if (formattedAmount.endsWith(currency.getSymbol())) {
+					nf.setNegativePrefix("-");
+					nf.setNegativeSuffix(" " + currency.getSymbol());
+				}
+				else {
+					nf.setNegativePrefix("-" + currency.getSymbol());
+					nf.setNegativeSuffix("");
+				}
 			}
 
 			if ((flags & F_NO_DECIMAL) != 0) {
@@ -372,7 +379,14 @@ public class Money {
 			if (formattedAmount.endsWith(currencySymbol)) {
 				String[] amountAndCurrencySymbol = formattedAmount.split("\\s+");
 				if (amountAndCurrencySymbol.length > 1 && amountAndCurrencySymbol[1].matches(currencySymbol)) {
-					formattedAmount = amountAndCurrencySymbol[1] + " " + amountAndCurrencySymbol[0];
+					boolean isNegative = false;
+					if (amount.compareTo(BigDecimal.ZERO) < 0) {
+						isNegative = true;
+					}
+					formattedAmount = amountAndCurrencySymbol[1] + " " + amountAndCurrencySymbol[0].replace("-", "");
+					if (isNegative) {
+						formattedAmount = "-" + formattedAmount;
+					}
 				}
 			}
 //			formatted but without a space, eg -€34,00

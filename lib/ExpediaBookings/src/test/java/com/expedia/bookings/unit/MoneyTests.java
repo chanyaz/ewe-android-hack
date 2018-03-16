@@ -1,5 +1,8 @@
 package com.expedia.bookings.unit;
 
+import java.util.Locale;
+
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -45,5 +48,54 @@ public class MoneyTests {
 		Assert.assertEquals("$24.00", money.getFormattedMoney(Money.F_ROUND_HALF_UP));
 		Assert.assertEquals("$24", money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
 		Assert.assertEquals("$23.67", money.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL | Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
+	}
+
+	@Test
+	public void testPositiveAmountWithCurrencyAsPrefix() {
+		Money money = new Money("23", "USD");
+		Assert.assertEquals("$23", money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
+	}
+
+	@Test
+	public void testNegativeAmountWithCurrencyAsPrefix() {
+		Money money = new Money("-23", "USD");
+		Assert.assertEquals("-$23", money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
+	}
+
+	@Test
+	public void testPositiveAmountWithCurrencyAsPostfix() {
+		setLocale("fr", "FR");
+		Money money = new Money("23", "EUR");
+		Assert.assertEquals("23 €", money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
+	}
+
+	@Test
+	public void testNegativeAmountWithCurrencyAsPostfix() {
+		setLocale("fr", "FR");
+		Money money = new Money("-23", "EUR");
+		Assert.assertEquals("-23 €", money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
+	}
+
+	@Test
+	public void testPositiveAmountForItaly() {
+		setLocale("it", "IT");
+		Money money = new Money("23", "EUR");
+		Assert.assertEquals("€ 23", money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
+	}
+
+	@Test
+	public void testNegativeAmountForItaly() {
+		setLocale("it", "IT");
+		Money money = new Money("-23", "EUR");
+		Assert.assertEquals("-€ 23", money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
+	}
+
+	@After
+	public void resetLocale() {
+		setLocale("en", "US");
+	}
+
+	private void setLocale(String lang, String region) {
+		Locale.setDefault(new Locale(lang, region));
 	}
 }
