@@ -106,6 +106,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     private fun showLoadingStateV1() {
         flightProgressBar = findViewById(R.id.flight_loader_progressBar)
         flightProgressBar.alpha = 1f
+        flightProgressBar.visibility = View.VISIBLE
         flightLoadingWidget.setupLoadingState()
         flightProgressBar.visibility = View.VISIBLE
         flightProgressBar.max = FLIGHT_PROGRESS_BAR_MAX
@@ -134,7 +135,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
             if (isShowingOutboundResults) {
                 flightProgressBar.clearAnimation()
                 flightLoadingWidget.setResultReceived()
-                progressBarAnimation(800, flightProgressBar.progress.toFloat(), FLIGHT_PROGRESS_BAR_MAX.toFloat(), true)
+                progressBarAnimation(1000, flightProgressBar.progress.toFloat(), FLIGHT_PROGRESS_BAR_MAX.toFloat(), true)
             } else {
                 flightLoadingWidget.visibility = View.GONE
                 filterButton.visibility = if (showFilterButton) View.VISIBLE else View.GONE
@@ -152,7 +153,9 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
             anim.setAnimationListener(object : AnimationListenerAdapter() {
                 override fun onAnimationEnd(animation: Animation?) {
                     super.onAnimationEnd(animation)
-                    flightProgressBar.animate().alpha(0f).setDuration(300)
+                    flightProgressBar.animate().translationYBy(-30f).alpha(0f).setDuration(300).withEndAction {
+                        flightProgressBar.visibility = View.GONE
+                    }
                     filterButton.visibility = if (showFilterButton) View.VISIBLE else View.GONE
                 }
             })
