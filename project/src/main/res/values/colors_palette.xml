@@ -38,7 +38,9 @@
     <color name="gray500">#999999</color>
     <color name="gray550">#797979</color>
     <color name="gray600">#757575</color>
+    <color name="gray650">#656565</color>
     <color name="gray700">#616161</color>
+    <color name="gray750">#4a4a4a</color>
     <color name="gray800">#404040</color>
     <color name="gray900">#1F1F1F</color>
     <color name="black">#FF000000</color>

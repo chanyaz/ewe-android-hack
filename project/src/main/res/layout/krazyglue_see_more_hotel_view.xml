@@ -31,31 +31,36 @@
             android:orientation="vertical">
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/shop_hotel_now"
-                android:layout_width="fill_parent"
+                android:id="@+id/hotel_offer_text"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2dp"
-                android:maxLines="1"
-                android:text="@string/shop_hotels_now"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/hotel_offer_text"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="9dp"
+                android:fontFamily="sans-serif-medium"
                 android:maxLines="1"
                 android:text="@string/krazyglue_offer"
-                android:textColor="@color/gray700"
-                android:textSize="12sp" />
+                android:textColor="@color/gray750"
+                android:textSize="@dimen/type_400_text_size"
+                android:textStyle="normal" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/see_all_hotels"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dp"
+                android:fontFamily="sans-serif"
+                android:maxLines="1"
+                android:text="@string/see_all_hotels"
+                android:textColor="@color/gray650"
+                android:textSize="@dimen/type_200_text_size"
+                android:textStyle="normal" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/hotel_offer_expire"
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
                 android:maxLines="1"
-                android:textColor="@color/gray700"
+                android:textColor="@color/gray650"
                 android:textSize="11sp"
                 android:textStyle="normal" />
         </LinearLayout>

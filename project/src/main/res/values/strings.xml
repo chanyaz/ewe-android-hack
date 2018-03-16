@@ -5003,8 +5003,8 @@
         <item quantity="one">Offer expires in {no_of_days} day</item>
         <item quantity="other">Offer expires in {no_of_days} days</item>
     </plurals>
-    <!-- Shop hotels now-->
-    <string name="shop_hotels_now">Shop hotels now</string>
+    <!-- See all hotels -->
+    <string name="see_all_hotels">See all hotels</string>
     <!--Up to 55% off-->
     <string name="krazyglue_offer">Up to 55&#37; off</string>
     <!-- Showing the header for the coupon widget to show the saved coupon -->
