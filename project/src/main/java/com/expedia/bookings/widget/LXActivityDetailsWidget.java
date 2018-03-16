@@ -232,6 +232,9 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		//  Track Product Information on load of this Local Expert Information screen.
 		OmnitureTracking.trackAppLXProductInformation(activityDetails, lxState.searchParams, isGroundTransport, lxState.getPromoDiscountType());
 		this.activityDetails = activityDetails;
+		offers.setActivityId(activityDetails.id);
+		offers.setPromoDiscountType(lxState.getPromoDiscountType());
+		offers.setPromoDiscountType(activityDetails.discountType);
 
 		buildRecommendationPercentage(activityDetails.recommendationScore);
 		buildGallery(activityDetails);
@@ -242,7 +245,6 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		buildDiscountSection(activityDetails);
 		buildMipDiscountSection();
 		buildOfferDatesSelector(activityDetails.offersDetail, lxState.searchParams.getActivityStartDate());
-		offers.setActivityId(activityDetails.id);
 	}
 
 	private void buildRecommendationPercentage(int recommendationScore) {

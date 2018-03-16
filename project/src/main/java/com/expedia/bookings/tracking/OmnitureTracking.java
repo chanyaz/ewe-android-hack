@@ -75,6 +75,8 @@ import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.LXSortType;
 import com.expedia.bookings.data.lx.LxSearchParams;
+import com.expedia.bookings.data.lx.Offer;
+import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.data.multiitem.BundleSearchResponse;
 import com.expedia.bookings.data.packages.PackageCheckoutResponse;
 import com.expedia.bookings.data.packages.PackageCreateTripResponse;
@@ -112,6 +114,7 @@ import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.FlightV2Utils;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.NumberUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
@@ -1903,23 +1906,24 @@ public class OmnitureTracking {
 	}
 
 	public static void trackAppLXSearch(LxSearchParams lxSearchParams,
-		LXSearchResponse lxSearchResponse, boolean isGroundTransport) {
+		LXSearchResponse lxSearchResponse, boolean isGroundTransport, String promoDiscountType) {
 		// Start actually tracking the search result change
 		Log.d(TAG, "Tracking \"" + LX_SEARCH + "\" pageLoad...");
 
 		ADMS_Measurement s = internalTrackAppLX(isGroundTransport ? LX_GT_SEARCH : LX_SEARCH);
+		StringBuilder events = new StringBuilder();
 
 		// Destination
 		s.setProp(4, lxSearchResponse.regionId);
 		s.setEvar(4, "D=c4");
 
 		// Success event for Product Search, Local Expert Search
-		s.setEvents(isGroundTransport ? "event30,event47" : "event30,event56");
+		events.append(isGroundTransport ? "event30,event47" : "event30,event56");
 
 		// prop and evar 5, 6
 		setDateValues(s, lxSearchParams.getActivityStartDate(), lxSearchParams.getActivityEndDate());
-		String productString = getLxSRPProductString(lxSearchResponse);
-		s.setProducts(productString);
+		getLxSRPProductString(s, lxSearchResponse, promoDiscountType, events);
+
 		// Freeform location
 		if (!TextUtils.isEmpty(lxSearchParams.getLocation())) {
 			s.setEvar(48, lxSearchParams.getLocation());
@@ -1929,7 +1933,7 @@ public class OmnitureTracking {
 		if (lxSearchResponse.activities.size() > 0) {
 			s.setProp(1, Integer.toString(lxSearchResponse.activities.size()));
 		}
-
+		s.setEvents(events.toString());
 		trackAbacusTest(s, AbacusUtils.EBAndroidLXMOD);
 		trackAbacusTest(s, AbacusUtils.EBAndroidLXMIP);
 
@@ -1937,31 +1941,42 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	private static String getLxSRPProductString(LXSearchResponse lxSearchResponse) {
-		String products = "";
-		int i = 1;
-		String extraString = "";
-		if (lxSearchResponse.promoDiscountType != null) {
-			if (lxSearchResponse.promoDiscountType.equals(Constants.LX_AIR_HOTEL_MIP) ||
-				lxSearchResponse.promoDiscountType.equals(Constants.LX_AIR_MIP) ||
-				lxSearchResponse.promoDiscountType.equals(Constants.LX_HOTEL_MIP)) {
-				extraString = "-MIP";
-
-			}
-			else if (Constants.MOD_PROMO_TYPE.equals(lxSearchResponse.promoDiscountType)) {
-				extraString = "-MOD";
-			}
+	private static void getLxSRPProductString(ADMS_Measurement s, LXSearchResponse lxSearchResponse, String promoDiscountType, StringBuilder events) {
+		StringBuilder products = new StringBuilder();
+		int index = 1;
+		int promoDealsCount = 0;
+		String prop68 = "";
+		if (promoDiscountType != null && !Constants.MOD_PROMO_TYPE.equals(promoDiscountType)) {
+			promoDiscountType = "MIP";
 		}
+
 		for (LXActivity activity : lxSearchResponse.activities) {
-			products += (i == 1) ? ";LX:" : ",;LX:";
-			if (activity.mipDiscountPercentage > 0) {
-				products += activity.id + ";;;;eVar39=" + i++ + extraString;
+			products.append(index == 1 ? ";LX:" : ",;LX:");
+			products.append(activity.id + ";;;;eVar32=" + index++);
+			if (promoDiscountType != null && activity.mipDiscountPercentage > 0) {
+				products.append("|eVar39=" + promoDiscountType + "|eVar30=");
+				products.append(!activity.mipFromOriginalPriceValue.isEmpty() ? activity.mipFromOriginalPriceValue + "-" + activity.mipFromPriceValue : activity.mipFromPriceValue);
+				promoDealsCount++;
 			}
 			else {
-				products += activity.id + ";;;;eVar39=" + i++ + "none";
+				products.append("|eVar39=" + "NONE|eVar30=" + activity.fromPriceValue);
 			}
 		}
-		return products;
+		s.setProducts(products.toString());
+		if ("MIP".equals(promoDiscountType)) {
+			prop68 = "LXMIP.Y" + promoDealsCount + ".MDEALS.N";
+			events.append(",event154");
+			if (promoDealsCount != 0 ) {
+				events.append(",event132");
+			}
+		}
+		else if ("MOD".equals(promoDiscountType)) {
+			prop68 = "LXMIP.N.MDEALS.Y" + promoDealsCount;
+			if (promoDealsCount != 0 ) {
+				events.append(",event226");
+			}
+		}
+		s.setProp(68, prop68);
 	}
 
 	public static void trackAppLXSearchCategories(LxSearchParams lxSearchParams,
@@ -2075,15 +2090,48 @@ public class OmnitureTracking {
 	public static void trackAppLXProductInformation(ActivityDetailsResponse activityDetailsResponse,
 		LxSearchParams lxSearchParams, boolean isGroundTransport, String promoDiscountType) {
 		Log.d(TAG, "Tracking \"" + LX_INFOSITE_INFORMATION + "\" pageLoad...");
+		StringBuilder products = new StringBuilder();
+		String events = "";
 
 		ADMS_Measurement s = internalTrackAppLX(
 			isGroundTransport ? LX_GT_INFOSITE_INFORMATION : LX_INFOSITE_INFORMATION);
+		events += isGroundTransport ? "event3" : "event32";
+		if (promoDiscountType != null && !Constants.MOD_PROMO_TYPE.equals(promoDiscountType)) {
+			promoDiscountType = "MIP";
+		}
 
-		s.setEvents(isGroundTransport ? "event3" : "event32");
+		int index = 1;
+		StringBuilder eVar43Mip = new StringBuilder();
+		String memberDealCode;
+		for (Offer offer : activityDetailsResponse.offersDetail.offers) {
+			Ticket ticket = offer.availabilityInfo.get(0).tickets.get(0);
+			HashMap<String, Money> moneyMap = LXDataUtils.getPriceMoneyMap(ticket, 0);
+			Money priceAmount = moneyMap.get("perTicketPrice");
+			Money originalAmount = moneyMap.get("perTicketOriginalPrice");
+			if (Constants.LX_AIR_MIP.equals(offer.discountType) && promoDiscountType != null) {
+				memberDealCode = promoDiscountType;
+			}
+			else {
+				memberDealCode = "NONE";
+			}
 
-		String memberDealCode = Constants.MOD_PROMO_TYPE.equals(promoDiscountType) && Constants.LX_AIR_MIP.equals(activityDetailsResponse.discountType) && activityDetailsResponse.offersDetail.offers.get(0).discountPercentage > Constants.LX_MIN_DISCOUNT_PERCENTAGE ? "-MOD" : "none";
-
-		s.setProducts("LX;Merchant LX:" + activityDetailsResponse.id + ";;;;eVar39=" + memberDealCode);
+			products.append(index == 1 ? ";LX" : ",;LX");
+			products.append(activityDetailsResponse.id);
+			products.append(";;;;event296;eVar39=" + memberDealCode);
+			products.append("|eVar41=" + index++ + ":" + offer.id);
+			products.append("NONE".equals(memberDealCode) || originalAmount.amount.equals(BigDecimal.ZERO) ? "|eVar30=" + priceAmount.amount : "|eVar30=" + originalAmount.amount + "-" + priceAmount.amount);
+			if ("MIP".equals(memberDealCode)) {
+				eVar43Mip.append(index == 1 ? "MIP.LX." : ",MIP.LX.");
+				eVar43Mip.append(offer.id);
+			}
+		}
+		s.setProducts(products.toString());
+		if (eVar43Mip.length() > 0) {
+			s.setEvar(43, eVar43Mip.toString());
+		}
+		if ("MOD".equals(promoDiscountType)) {
+			events += ",event226";
+		}
 
 		// Destination
 		s.setProp(4, activityDetailsResponse.regionId);
@@ -2091,15 +2139,24 @@ public class OmnitureTracking {
 
 		// prop and evar 5, 6
 		setDateValues(s, lxSearchParams.getActivityStartDate(), lxSearchParams.getActivityEndDate());
+		s.setEvents(events);
 
 		// Send the tracking data
 		s.track();
 	}
 
-	public static void trackLXProductForNonMOD(String activityId, boolean isGroundTransport) {
+	public static void trackLXProductForNonMipMod(String activityId, boolean isGroundTransport) {
 		ADMS_Measurement s = internalTrackAppLX(
 				isGroundTransport ? LX_GT_INFOSITE_INFORMATION : LX_INFOSITE_INFORMATION);
-		s.setProducts("LX;Merchant LX:" + activityId + ";;;;eVar39=none");
+		s.setProducts("LX;Merchant LX:" + activityId + ";;;;eVar39=NONE");
+		s.track();
+	}
+
+	public static void trackLXOfferClicked(String activityId, String offerId, String promoDiscountType, int offerIndex, boolean isGroundTransport) {
+		ADMS_Measurement s = internalTrackAppLX(isGroundTransport ? LX_GT_INFOSITE_INFORMATION : LX_INFOSITE_INFORMATION);
+		s.setProducts(";LX:" + activityId + ";;;;event297;eVar39=" + promoDiscountType + "|eVar41=" + offerIndex + ":" + offerId);
+		s.setProp(16, "LX.IS.bookButton." + offerId);
+		s.setEvar(28, "LX.IS.bookButton." + offerId);
 		s.track();
 	}
 

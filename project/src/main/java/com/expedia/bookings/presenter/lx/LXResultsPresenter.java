@@ -343,11 +343,10 @@ public class LXResultsPresenter extends Presenter {
 			searchResponse = lxSearchResponse;
 			// Search Results Omniture Tracking on load of search screen.
 			OmnitureTracking.trackAppLXRTRABTest();
-			trackLXSearch();
 			Events.post(new Events.LXSearchResultsAvailable(lxSearchResponse));
 
 			if (lxSearchResponse.promoDiscountType != null) {
-				if (isMipEnabled) {
+				if (isMipEnabled  && !Constants.MOD_PROMO_TYPE.equals(lxSearchResponse.promoDiscountType)) {
 					lxState.setPromoDiscountType(searchResponse.promoDiscountType);
 					mipSrpBanner.setVisibility(VISIBLE);
 
@@ -371,6 +370,7 @@ public class LXResultsPresenter extends Presenter {
 					}
 				}
 			}
+			trackLXSearch();
 			searchResultsWidget.bind(lxSearchResponse.activities, lxSearchResponse.promoDiscountType);
 			show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
 			sortFilterWidget.bind(lxSearchResponse.filterCategories);
@@ -691,7 +691,7 @@ public class LXResultsPresenter extends Presenter {
 
 	public void trackLXSearch() {
 		if (searchResponse != null && searchResponse.regionId != null) {
-			OmnitureTracking.trackAppLXSearch(lxState.searchParams, searchResponse, isGroundTransport);
+			OmnitureTracking.trackAppLXSearch(lxState.searchParams, searchResponse, isGroundTransport, lxState.getPromoDiscountType());
 		}
 	}
 }

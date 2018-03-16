@@ -23,6 +23,8 @@ import io.reactivex.subjects.PublishSubject;
 public class LXOffersListWidget extends android.widget.LinearLayout {
 	private boolean isGroundTransport;
 	private String activityId;
+	private String promoDiscountType;
+	private String activityDiscountType;
 
 	public LXOffersListWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -58,7 +60,7 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 				availableOffers.add(offer);
 			}
 		}
-		adapter.setOffers(sortTicketByPriorityAndOfferByPrice(availableOffers), lxOfferSubject, isGroundTransport, activityId);
+		adapter.setOffers(sortTicketByPriorityAndOfferByPrice(availableOffers), lxOfferSubject, isGroundTransport, activityId, promoDiscountType, activityDiscountType);
 
 		offerContainer.removeAllViews();
 
@@ -115,5 +117,13 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 
 	public void setActivityId(String activityId) {
 		this.activityId = activityId;
+	}
+
+	public void setPromoDiscountType(String promoDiscountType) {
+		this.promoDiscountType = promoDiscountType;
+	}
+
+	public void setActivityDiscountType(String activityDiscountType) {
+		this.activityDiscountType = activityDiscountType;
 	}
 }
