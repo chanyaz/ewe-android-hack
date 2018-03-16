@@ -1190,7 +1190,6 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackPageLoadEventBase(HOTELS_CHECKOUT_INFO);
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppDisabledSTPStateHotels);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelMaterialForms);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSavedCoupons);
 
 		StringBuilder events = new StringBuilder("event70");
@@ -1270,6 +1269,7 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_TRAVELER_INFO + "\" pageLoad...");
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setAppState(HOTELSV2_CHECKOUT_TRAVELER_INFO);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelMaterialForms);
 		s.track();
 	}
 
@@ -1286,6 +1286,7 @@ public class OmnitureTracking {
 		s.setEvar(18, HOTELSV2_CHECKOUT_EDIT_PAYMENT);
 		trackAbacusTest(s, AbacusUtils.EBAndroidPopulateCardholderName);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAllowUnknownCardTypes);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelMaterialForms);
 		s.track();
 	}
 
@@ -1540,6 +1541,7 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_CONFIRMATION_EXPAND_COUPON + "\" click...");
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CONFIRMATION_EXPAND_COUPON);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelMaterialForms);
 		s.trackLink("CKO:Coupon Action");
 	}
 

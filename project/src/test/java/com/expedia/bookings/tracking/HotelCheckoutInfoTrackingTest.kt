@@ -11,6 +11,7 @@ import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.test.robolectric.HotelPresenterTestUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.AbacusTestUtils
@@ -66,26 +67,76 @@ class HotelCheckoutInfoTrackingTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testHotelMaterialFormsBucketedTracking() {
+    fun testHotelMaterialFormsBucketedTrackingEditTraveler() {
         enableABTestWithRemoteFeatureFlag(true, AbacusUtils.EBAndroidAppHotelMaterialForms)
 
         OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
 
-        trackPageLoadHotelCheckoutInfo()
+        OmnitureTracking.trackHotelV2CheckoutTraveler()
 
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withAbacusTestBucketed(AbacusUtils.EBAndroidAppHotelMaterialForms.key), mockAnalyticsProvider)
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testHotelMaterialFormsControlTracking() {
+    fun testHotelMaterialFormsBucketedTrackingEditPayment() {
+        enableABTestWithRemoteFeatureFlag(true, AbacusUtils.EBAndroidAppHotelMaterialForms)
+
+        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+
+        OmnitureTracking.trackHotelV2PaymentEdit()
+
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withAbacusTestBucketed(AbacusUtils.EBAndroidAppHotelMaterialForms.key), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testHotelMaterialFormsBucketedTrackingExpandCoupon() {
+        enableABTestWithRemoteFeatureFlag(true, AbacusUtils.EBAndroidAppHotelMaterialForms)
+
+        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+
+        OmnitureTracking.trackHotelV2ExpandCoupon()
+
+        OmnitureTestUtils.assertLinkTracked("CKO:Coupon Action", "App.CKO.Coupon.Expand",
+                OmnitureMatchers.withProps(mapOf(34 to "24870.0.1")), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testHotelMaterialFormsControlTrackingEditTraveler() {
         enableABTestWithRemoteFeatureFlag(false, AbacusUtils.EBAndroidAppHotelMaterialForms)
 
         OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
 
-        trackPageLoadHotelCheckoutInfo()
+        OmnitureTracking.trackHotelV2CheckoutTraveler()
 
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withAbacusTestControl(AbacusUtils.EBAndroidAppHotelMaterialForms.key), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testHotelMaterialFormsControlTrackingEditPayment() {
+        enableABTestWithRemoteFeatureFlag(false, AbacusUtils.EBAndroidAppHotelMaterialForms)
+
+        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+
+        OmnitureTracking.trackHotelV2PaymentEdit()
+
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withAbacusTestControl(AbacusUtils.EBAndroidAppHotelMaterialForms.key), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testHotelMaterialFormsControlTrackingExpandCoupon() {
+        enableABTestWithRemoteFeatureFlag(false, AbacusUtils.EBAndroidAppHotelMaterialForms)
+
+        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+
+        OmnitureTracking.trackHotelV2ExpandCoupon()
+
+        OmnitureTestUtils.assertLinkTracked("CKO:Coupon Action", "App.CKO.Coupon.Expand",
+                OmnitureMatchers.withProps(mapOf(34 to "24870.0.0")), mockAnalyticsProvider)
     }
 
     @Test
