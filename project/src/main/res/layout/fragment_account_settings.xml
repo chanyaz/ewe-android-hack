@@ -6,10 +6,24 @@
     android:layout_height="match_parent"
     android:background="@color/account_background_color">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/account_toolbar"
+        android:background="@color/new_launch_toolbar_background_color"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:elevation="8dp"
+        app:titleTextColor="@color/white"
+        app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+        app:title="@string/account_settings_menu_label"
+        >
+    </android.support.v7.widget.Toolbar>
+
     <ScrollView
         android:id="@+id/scroll_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/account_toolbar"
         android:fadingEdge="none"
         android:fillViewport="true">
 

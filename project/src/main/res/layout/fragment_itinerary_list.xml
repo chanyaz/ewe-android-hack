@@ -9,11 +9,24 @@
 
     <!-- The listview -->
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/trips_toolbar"
+        android:background="@color/new_launch_toolbar_background_color"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="8dp"
+        android:minHeight="?attr/actionBarSize"
+        app:titleTextColor="@color/white"
+        app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+        app:title="@string/itin_toolbar">
+    </android.support.v7.widget.Toolbar>
+
     <com.expedia.bookings.widget.itin.ItinListView
         android:id="@android:id/list"
         android:layout_width="@dimen/itin_list_view_width"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
+        android:layout_below="@+id/trips_toolbar"
         android:cacheColorHint="@android:color/transparent"
         android:divider="@null"
         android:dividerHeight="0dp"

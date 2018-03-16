@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.CardView
+import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,6 +45,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isAccountEditWebViewEnabled
+import com.expedia.bookings.utils.isBottomNavigationBarEnabled
 import com.expedia.bookings.utils.isBrandColorEnabled
 import com.mobiata.android.SocialUtils
 import com.mobiata.android.fragment.AboutSectionFragment
@@ -134,6 +136,7 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
     val memberNameView: TextView by bindView(R.id.toolbar_name)
     val memberEmailView: TextView by bindView(R.id.toolbar_email)
     val memberTierView: TextView by bindView(R.id.toolbar_loyalty_tier_text)
+    val accountHeader: Toolbar by bindView(R.id.account_toolbar)
     val userAccountRefresher: UserAccountRefresher by lazy {
         UserAccountRefresher(context, LineOfBusiness.PROFILE, this)
     }
@@ -192,9 +195,9 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
         setGoogleAccountChangeVisibility(googleAccountChange)
         googleAccountChange.setOnClickListener(GoogleAccountChangeListener())
         setCountryChangeListeners()
-        if (isBrandColorEnabled(context)) {
-            loyaltySection.setBackgroundColor(ContextCompat.getColor(context, R.color.brand_primary))
-        }
+
+        handleBrandColorBackground()
+        handleAccountHeaderVisibility()
 
         // Account
         accountFragment = Ui.findSupportFragment<AboutSectionFragment>(this, TAG_ACCOUNT)
@@ -350,6 +353,17 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
             pendingPointsDialog.show(fragmentManager, "fragment_dialog_pending_points")
             OmnitureTracking.trackPendingPointsTooltipTapped()
         }
+    }
+
+    private fun handleBrandColorBackground() {
+        if (isBrandColorEnabled(context)) {
+            loyaltySection.setBackgroundColor(ContextCompat.getColor(context, R.color.brand_primary))
+            accountHeader.setBackgroundColor(ContextCompat.getColor(context, R.color.brand_primary))
+        }
+    }
+
+    private fun handleAccountHeaderVisibility() {
+        accountHeader.visibility = if (isBottomNavigationBarEnabled(context)) View.VISIBLE else View.GONE
     }
 
     override fun onResume() {

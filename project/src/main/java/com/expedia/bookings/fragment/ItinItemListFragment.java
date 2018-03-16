@@ -1,5 +1,7 @@
 package com.expedia.bookings.fragment;
 
+import java.util.Collection;
+import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
@@ -8,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -40,6 +43,7 @@ import com.expedia.bookings.itin.hotel.details.HotelItinDetailsActivity;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.presenter.trips.ItinSignInPresenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.FeatureUtilKt;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
@@ -48,8 +52,6 @@ import com.expedia.vm.UserReviewDialogViewModel;
 import com.mobiata.android.app.SimpleDialogFragment;
 
 import io.reactivex.functions.Consumer;
-import java.util.Collection;
-import java.util.List;
 import kotlin.Unit;
 
 public class ItinItemListFragment extends Fragment implements LoginConfirmLogoutDialogFragment.DoLogoutListener,
@@ -81,6 +83,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	public ItinSignInPresenter mSignInPresenter;
 	public View mOldEmptyView;
 	private FrameLayout mDeepRefreshLoadingView;
+	private Toolbar itinHeader;
 
 	private boolean mAllowLoadItins = false;
 
@@ -173,6 +176,10 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 		mItinListView.setOnItemClickListener(mOnItemClickListener);
 		mOldEmptyView =  Ui.findView(view, R.id.old_sign_in_view);
+		itinHeader =  Ui.findView(view, R.id.trips_toolbar);
+
+		handleToolbarBackgroundColor();
+		handleToolbarVisibility();
 
 		View guestItinView = inflater.inflate(R.layout.add_guest_itin, null);
 		mItinListView.addFooterView(guestItinView);
@@ -233,6 +240,16 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mFindItineraryButton.setVisibility(View.GONE);
 
 		return view;
+	}
+
+	private void handleToolbarBackgroundColor() {
+		if (FeatureUtilKt.isBrandColorEnabled(getContext())) {
+			itinHeader.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.brand_primary));
+		}
+	}
+
+	private void handleToolbarVisibility() {
+		itinHeader.setVisibility(FeatureUtilKt.isBottomNavigationBarEnabled(getContext()) ? View.VISIBLE : View.GONE);
 	}
 
 	public void showAddGuestItinScreen() {
