@@ -467,3 +467,21 @@ Feature: Package Search
     And I select first room
     And I select outbound flight to destination at position 1
     And Validate that there is a docked outbound flight
+
+    @Packages @Prod
+      Scenario: Verify Hotel + Flight + Car Tab on search form screen
+        Given I launch the App
+        And I set bucketing rules for A/B tests as
+          | EBAndroidAppPackagesWebviewFHC | BUCKETED       |
+        And I launch "Bundle Deals" LOB
+        And I select FHC package
+        When I make a packages search with following parameters
+          | source              | SFO                       |
+          | destination         | LAS                       |
+          | source_suggest      | SFO - San Francisco Intl. |
+          | destination_suggest | Las Vegas Strip, NV       |
+          | start_date          | 5                         |
+          | end_date            | 10                        |
+          | adults              | 2                         |
+          | child               | 2                         |
+        Then Validate that FHC WebView screen is displayed

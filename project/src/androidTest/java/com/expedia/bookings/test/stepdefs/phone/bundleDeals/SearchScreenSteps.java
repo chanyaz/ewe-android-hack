@@ -436,4 +436,14 @@ public class SearchScreenSteps {
 		int resultCount = Integer.parseInt(resultCountString);
 		PackageScreen.listView().check(matches(withRecyclerViewSize(resultCount + 3)));
 	}
+
+	@And("^I select FHC package")
+	public void selectFHCPackage() throws Throwable {
+		PackageScreen.selectFHCTab();
+	}
+
+	@Then("^Validate that FHC WebView screen is displayed$")
+	public void validateFHCPackageWebview() {
+		PackageScreen.webView().check(matches(isDisplayed()));
+	}
 }

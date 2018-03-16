@@ -460,4 +460,13 @@ public class PackageScreen {
 	public static ViewInteraction dockedOBTextView() {
 		return onView(withId(R.id.outbound_label));
 	}
+
+	public static ViewInteraction selectFHCTab() {
+		return Espresso.onView(allOf(withText("Hotel + Flight + Car"), isDescendantOfA(withId(R.id.tabs))))
+			.perform(click());
+	}
+
+	public static ViewInteraction webView() {
+		return onView(withId(R.id.root_content));
+	}
 }
