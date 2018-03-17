@@ -25,6 +25,7 @@ import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.tracking.hotel.HotelTracking;
+import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
@@ -306,6 +307,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			bind();
 			Db.getWorkingTravelerManager().commitWorkingTravelerToDB(0);
 			travelerButton.dismissPopup();
+			AccessibilityUtil.requestFocusForView(this);
 		}
 	}
 
