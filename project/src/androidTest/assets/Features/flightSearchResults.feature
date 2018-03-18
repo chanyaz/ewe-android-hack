@@ -141,6 +141,8 @@ Feature: Flights Search Results
     And I select outbound flight at position 1 and reach inbound FSR
     Then Validate that on the selected outbound docked view Flight label is displayed
     And Validate that on the selected outbound docked view Flight Airline name is displayed
+    And Validate that on the selected outbound docked view delta pricing is displayed
+    And Validate that on the selected outbound docked view Airline time is displayed
     And Validate the toolbar header text on the selected outbound docked view
 
   @Flights @FlightSearchResults
