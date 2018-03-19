@@ -15,6 +15,7 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
+import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -146,6 +147,8 @@ abstract class AbstractTravelersPresenter(context: Context, attrs: AttributeSet)
                     PackagesTracking().trackCheckoutEditTraveler()
                 } else if (viewModel.lob == LineOfBusiness.FLIGHTS_V2) {
                     FlightsV2Tracking.trackCheckoutEditTraveler()
+                } else if (viewModel.lob == LineOfBusiness.HOTELS) {
+                    HotelTracking.trackHotelCheckoutTraveler()
                 }
             } else {
                 travelerPickerWidget.viewModel.selectedTravelerSubject.value?.refreshStatusObservable?.onNext(Unit)
