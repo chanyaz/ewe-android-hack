@@ -20,6 +20,8 @@ class SatelliteFeatureConfigManager {
         private val FEATURE_CONFIG_REFRESH_TIMEOUT = TimeUnit.HOURS.toMillis(4)
         private val FEATURE_CONFIG_VALID_TIMEOUT = TimeUnit.HOURS.toMillis(6)
 
+        private var isFetchingFeatureConfig = false
+
         @JvmStatic fun forceRefreshFeatureConfig(context: Context) {
             clearFeatureConfig(context)
             refreshFeatureConfigIfStale(context)
@@ -85,8 +87,9 @@ class SatelliteFeatureConfigManager {
         }
 
         private fun fetchRemoteConfig(context: Context) {
-            if (!ExpediaBookingApp.isAutomation()) {
+            if (!ExpediaBookingApp.isAutomation() && !isFetchingFeatureConfig) {
                 val satelliteServices = Ui.getApplication(context).appComponent().satelliteServices()
+                isFetchingFeatureConfig = true
                 satelliteServices.fetchFeatureConfig(createConfigResponseObserver(context))
             }
         }
@@ -102,10 +105,13 @@ class SatelliteFeatureConfigManager {
                     CookiesUtils.checkAndUpdateCookiesMechanism(context)
                 }
 
-                override fun onComplete() {}
+                override fun onComplete() {
+                    isFetchingFeatureConfig = false
+                }
 
                 override fun onError(e: Throwable) {
                     Log.e("Satellite Feature Config Fetch Error", e)
+                    isFetchingFeatureConfig = false
                 }
             }
         }
