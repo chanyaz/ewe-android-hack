@@ -116,6 +116,36 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         handleFiltering()
     }
 
+    val guestRatingThreeFilterObserver: Observer<Unit> = endlessObserver {
+        if (!userFilterChoices.hotelGuestRating.three) {
+            userFilterChoices.hotelGuestRating.three = true
+        } else {
+            userFilterChoices.hotelGuestRating.three = false
+        }
+        updateFilterCount()
+        handleFiltering()
+    }
+
+    val guestRatingFourFilterObserver: Observer<Unit> = endlessObserver {
+        if (!userFilterChoices.hotelGuestRating.four) {
+            userFilterChoices.hotelGuestRating.four = true
+        } else {
+            userFilterChoices.hotelGuestRating.four = false
+        }
+        updateFilterCount()
+        handleFiltering()
+    }
+
+    val guestRatingFiveFilterObserver: Observer<Unit> = endlessObserver {
+        if (!userFilterChoices.hotelGuestRating.five) {
+            userFilterChoices.hotelGuestRating.five = true
+        } else {
+            userFilterChoices.hotelGuestRating.five = false
+        }
+        updateFilterCount()
+        handleFiltering()
+    }
+
     val priceRangeChangedObserver = endlessObserver<Pair<Int, Int>> { minMaxPair ->
         userFilterChoices.minPrice = minMaxPair.first
         userFilterChoices.maxPrice = minMaxPair.second
@@ -288,6 +318,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         sortSpinnerObservable.onNext(userFilterChoices.userSort)
         userFilterChoices.isVipOnlyAccess = false
         userFilterChoices.hotelStarRating = UserFilterChoices.StarRatings()
+        userFilterChoices.hotelGuestRating = UserFilterChoices.GuestRatings()
         userFilterChoices.name = ""
         userFilterChoices.minPrice = 0
         userFilterChoices.maxPrice = 0
