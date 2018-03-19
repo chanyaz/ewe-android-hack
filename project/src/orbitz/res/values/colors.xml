@@ -33,7 +33,6 @@
     <color name="launch_discount">#00B1FF</color>
     <color name="launch_tonight_only">#C4204B</color>
 
-    <color name="hotel_urgency_message_color">#00B1FF</color>
     <color name="hotel_tonight_only_color">#C4204B</color>
     <color name="hotel_mobile_exclusive_color">#00253C</color>
     <color name="hotel_earn_message_text_color">@color/earn_message_text_color</color>

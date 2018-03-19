@@ -280,7 +280,7 @@ public class HotelViewModelTest {
 			R.color.hotel_urgency_message_color,
 			RuntimeEnvironment.application.getResources()
 				.getQuantityString(R.plurals.num_rooms_left, hotel.roomsLeftAtThisRate, hotel.roomsLeftAtThisRate),
-			R.color.white);
+			R.color.gray900);
 
 		assertEquals(compareTo, msg);
 	}

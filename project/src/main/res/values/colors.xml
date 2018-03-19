@@ -124,7 +124,8 @@
     <color name="hotel_filter_background_color">@color/gray100</color>
     <color name="hotel_points_applied_plus_color">@color/hotels_primary_color</color>
 
-    <color name="hotel_urgency_message_color">#E2934A</color>
+    <color name="hotel_urgency_message_color">#FFFFFF</color>
+    <color name="hotel_urgency_icon_color">#F77600</color>
     <color name="hotel_tonight_only_color">#4A90E2</color>
     <color name="hotel_mobile_exclusive_color">#E2624A</color>
     <color name="member_pricing_text_color">#00355F</color>

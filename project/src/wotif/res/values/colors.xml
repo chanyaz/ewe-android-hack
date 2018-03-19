@@ -26,7 +26,6 @@
     <color name="material_cko_acct_btn_rewards_bg_color">@color/material_checkout_account_button_background_color</color>
     <color name="material_checkout_account_button_text_color">@android:color/white</color>
 
-    <color name="hotel_urgency_message_color">#c20202</color>
     <color name="hotel_tonight_only_color">#FFBA12</color>
     <color name="hotel_mobile_exclusive_color">#1F8EDE</color>
     <color name="member_pricing_flag_bg_color">#599027</color>

@@ -43,7 +43,6 @@
     <color name="launch_discount">#D00000</color>
     <color name="launch_tonight_only">#990033</color>
 
-    <color name="hotel_urgency_message_color">#D00000</color>
     <color name="hotel_tonight_only_color">#990033</color>
     <color name="hotel_mobile_exclusive_color">@color/lob_btn_color</color>
 
