@@ -3450,7 +3450,7 @@
     <string name="country_ht">Haiti</string>
     <string name="country_va">Holy See (Vatican City State)</string>
     <string name="country_hn">Honduras</string>
-    <string name="country_hk">Hong Kong</string>
+    <string name="country_hk">Hong Kong SAR</string>
     <string name="country_hu">Hungary</string>
     <string name="country_is">Iceland</string>
     <string name="country_in">India</string>
@@ -3481,7 +3481,7 @@
     <string name="country_li">Liechtenstein</string>
     <string name="country_lt">Lithuania</string>
     <string name="country_lu">Luxembourg</string>
-    <string name="country_mo">Macao</string>
+    <string name="country_mo">Macao SAR</string>
     <string name="country_mk">Macedonia, the former Yugoslav Republic of</string>
     <string name="country_mg">Madagascar</string>
     <string name="country_mw">Malawi</string>
