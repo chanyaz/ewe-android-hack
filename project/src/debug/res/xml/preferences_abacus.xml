@@ -621,6 +621,14 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
+            android:key="25224"
+            android:summary="%s"
+            android:title="Trips - Trip Folders - 25224" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
             android:key="16205"
             android:summary="%s"
             android:title="Trips - New Flight Alerts - 16205" />

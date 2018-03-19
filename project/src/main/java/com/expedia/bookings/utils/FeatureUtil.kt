@@ -114,6 +114,7 @@ fun shouldShowRewardLaunchCard(context: Context): Boolean {
             && ProductFlavorFeatureConfiguration.getInstance().defaultPOS == PointOfSaleId.ORBITZ
             && Locale.getDefault().language != "es"
 }
+
 fun isBottomNavigationBarEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppBottomNavTabs)
 }
@@ -124,4 +125,8 @@ fun isShowClassAndBookingCodeEnabled(context: Context): Boolean {
 
 fun shouldShowUrgencyMessaging(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppSeatsLeftUrgencyMessaging)
+}
+
+fun checkIfTripFoldersEnabled(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.TripFoldersFragment)
 }

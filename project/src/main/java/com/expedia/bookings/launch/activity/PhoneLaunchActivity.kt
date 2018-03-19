@@ -40,6 +40,7 @@ import com.expedia.bookings.fragment.ItinItemListFragment
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
 import com.expedia.bookings.fragment.SoftPromptDialogFragment
 import com.expedia.bookings.data.trips.ItinCardDataHotel
+import com.expedia.bookings.itin.triplist.TripListFragment
 import com.expedia.bookings.launch.fragment.PhoneLaunchFragment
 import com.expedia.bookings.launch.widget.LaunchTabView
 import com.expedia.bookings.launch.widget.PhoneLaunchToolbar
@@ -65,6 +66,7 @@ import com.expedia.bookings.utils.PlayStoreUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBrandColorEnabled
+import com.expedia.bookings.utils.checkIfTripFoldersEnabled
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.setContentDescriptionToolbarTabs
 import com.expedia.bookings.widget.DisableableViewPager
@@ -121,6 +123,9 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     private var phoneLaunchFragment: PhoneLaunchFragment? = null
     private var softPromptDialogFragment: SoftPromptDialogFragment? = null
     var isLocationPermissionPending = false
+    val isTripFoldersEnabled: Boolean by lazy {
+        checkIfTripFoldersEnabled(this)
+    }
 
     private val userLoginStateChangedModel: UserLoginStateChangedModel by lazy {
         Ui.getApplication(this).appComponent().userLoginStateChangedModel()
@@ -297,7 +302,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
 
     override fun onBackPressed() {
         if (viewPager.currentItem == PAGER_POS_ITIN) {
-            if ((itinListFragment?.mSignInPresenter?.back() ?: false)) {
+            if (!isTripFoldersEnabled && (itinListFragment?.mSignInPresenter?.back() ?: false)) {
                 return
             }
             viewPager.currentItem = PAGER_POS_LAUNCH
@@ -431,7 +436,11 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
                             val itinPageUsablePerformanceModel = tripComponent.itinPageUsableTracking()
                             itinPageUsablePerformanceModel.markSuccessfulStartTime(System.currentTimeMillis())
                         }
-                        gotoItineraries()
+                        if (isTripFoldersEnabled) {
+                            goToTripList()
+                        } else {
+                            gotoItineraries()
+                        }
                     }
                     PAGER_POS_ACCOUNT -> {
                         pagerPosition = PAGER_POS_ACCOUNT
@@ -476,6 +485,17 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
                 itinListFragment?.goToItin(jumpToItinId)
             }
             jumpToItinId = null
+        }
+    }
+
+    @Synchronized fun goToTripList() {
+        if (pagerPosition != PAGER_POS_ITIN) {
+            pagerPosition = PAGER_POS_ITIN
+            viewPager.currentItem = PAGER_POS_ITIN
+        }
+
+        if (hasMenu) {
+            invalidateOptionsMenu()
         }
     }
 
@@ -592,7 +612,13 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         override fun getItem(position: Int): Fragment {
             val frag: Fragment
             when (position) {
-                PAGER_POS_ITIN -> frag = ItinItemListFragment.newInstance(jumpToItinId, true, isFromConfirmation)
+                PAGER_POS_ITIN -> {
+                    if (isTripFoldersEnabled) {
+                        frag = TripListFragment()
+                    } else {
+                        frag = ItinItemListFragment.newInstance(jumpToItinId, true, isFromConfirmation)
+                    }
+                }
                 PAGER_POS_LAUNCH -> frag = PhoneLaunchFragment()
                 PAGER_POS_ACCOUNT -> frag = AccountSettingsFragment()
                 else -> throw RuntimeException("Position out of bounds position=" + position)

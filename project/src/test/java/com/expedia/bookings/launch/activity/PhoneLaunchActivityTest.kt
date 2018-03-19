@@ -14,6 +14,8 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.user.RestrictedProfileSource
 import com.expedia.bookings.fragment.AccountSettingsFragment
+import com.expedia.bookings.fragment.ItinItemListFragment
+import com.expedia.bookings.itin.triplist.TripListFragment
 import com.expedia.bookings.notification.Notification
 import com.expedia.bookings.test.CustomMatchers
 import com.expedia.bookings.test.MultiBrand
@@ -251,6 +253,43 @@ class PhoneLaunchActivityTest {
         assertTrue(intent.hasExtra("startDateStr"))
         assertTrue(intent.hasExtra("endDateStr"))
         assertTrue(intent.hasExtra("location"))
+    }
+
+    @Test
+    fun isTripFoldersEnabledDoesntChange() {
+        AbacusTestUtils.bucketTests(AbacusUtils.TripFoldersFragment)
+        val activity = Robolectric.buildActivity(PhoneLaunchActivity::class.java).create().start().get()
+        assertTrue(activity.isTripFoldersEnabled)
+        AbacusTestUtils.unbucketTests(AbacusUtils.TripFoldersFragment)
+        assertTrue(activity.isTripFoldersEnabled)
+        AbacusTestUtils.bucketTests(AbacusUtils.TripFoldersFragment)
+        assertTrue(activity.isTripFoldersEnabled)
+    }
+
+    @Test
+    fun testGoToTripList() {
+        val activity = Robolectric.buildActivity(PhoneLaunchActivity::class.java).create().start().get()
+        activity.viewPager.currentItem = PhoneLaunchActivity.PAGER_POS_LAUNCH
+        activity.goToTripList()
+        assertEquals(PhoneLaunchActivity.PAGER_POS_ITIN, activity.viewPager.currentItem)
+
+        activity.viewPager.currentItem = PhoneLaunchActivity.PAGER_POS_ITIN
+        activity.goToTripList()
+        assertEquals(PhoneLaunchActivity.PAGER_POS_ITIN, activity.viewPager.currentItem)
+    }
+
+    @Test
+    fun pagerAdapterGetItinItemListFragment() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.TripFoldersFragment)
+        val activity = Robolectric.buildActivity(PhoneLaunchActivity::class.java).create().start().get()
+        assertTrue(activity.pagerAdapter.getItem(1) is ItinItemListFragment)
+    }
+
+    @Test
+    fun pagerAdapterGetTripListFragment() {
+        AbacusTestUtils.bucketTests(AbacusUtils.TripFoldersFragment)
+        val activity = Robolectric.buildActivity(PhoneLaunchActivity::class.java).create().start().get()
+        assertTrue(activity.pagerAdapter.getItem(1) is TripListFragment)
     }
 
     private fun selectTabAndAssertTracked(index: Int, tabLayout: TabLayout, link: String) {
