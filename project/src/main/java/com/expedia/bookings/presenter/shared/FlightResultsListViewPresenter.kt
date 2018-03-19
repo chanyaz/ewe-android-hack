@@ -105,10 +105,10 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     private fun showLoadingStateV1() {
         flightProgressBar = findViewById(R.id.flight_loader_progressBar)
+        flightProgressBar.visibility = View.VISIBLE
         flightProgressBar.alpha = 1f
-        flightProgressBar.visibility = View.VISIBLE
+        flightProgressBar.translationY = 0f
         flightLoadingWidget.setupLoadingState()
-        flightProgressBar.visibility = View.VISIBLE
         flightProgressBar.max = FLIGHT_PROGRESS_BAR_MAX
         progressBarAnimation(12000, 0f, 500f, false)
     }
