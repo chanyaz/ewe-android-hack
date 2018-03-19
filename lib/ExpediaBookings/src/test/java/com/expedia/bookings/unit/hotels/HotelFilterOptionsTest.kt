@@ -9,7 +9,7 @@ class HotelFilterOptionsTest {
     val testFilterOptions = HotelSearchParams.HotelFilterOptions()
 
     @Test
-    fun testIsEmpty_hotelName() {
+    fun testIsEmptyHotelNameFilter() {
         assertTrue(testFilterOptions.isEmpty()) // sanity check
 
         testFilterOptions.filterHotelName = "test"
@@ -17,7 +17,7 @@ class HotelFilterOptionsTest {
     }
 
     @Test
-    fun testIsEmpty_filterStarRatings() {
+    fun testIsEmptyStarRatingsFilter() {
         assertTrue(testFilterOptions.isEmpty()) // sanity check
 
         testFilterOptions.filterStarRatings = listOf(10)
@@ -25,7 +25,15 @@ class HotelFilterOptionsTest {
     }
 
     @Test
-    fun testIsEmpty_filterPrice() {
+    fun testIsEmptyGuestRatingsFilter() {
+        assertTrue(testFilterOptions.isEmpty()) // sanity check
+
+        testFilterOptions.filterGuestRatings = listOf(5)
+        assertFalse(testFilterOptions.isEmpty())
+    }
+
+    @Test
+    fun testIsEmptyPriceFilter() {
         assertTrue(testFilterOptions.isEmpty()) // sanity check
 
         testFilterOptions.filterPrice = HotelSearchParams.PriceRange(10, 100)
@@ -33,7 +41,7 @@ class HotelFilterOptionsTest {
     }
 
     @Test
-    fun testIsEmpty_vipOnly() {
+    fun testIsEmptyVipOnlyFilter() {
         assertTrue(testFilterOptions.isEmpty()) // sanity check
 
         testFilterOptions.filterVipOnly = true
@@ -41,7 +49,7 @@ class HotelFilterOptionsTest {
     }
 
     @Test
-    fun testIsEmpty_sort() {
+    fun testIsEmptySort() {
         assertTrue(testFilterOptions.isEmpty()) // sanity check
 
         testFilterOptions.userSort = HotelSearchParams.SortType.MOBILE_DEALS
@@ -49,7 +57,7 @@ class HotelFilterOptionsTest {
     }
 
     @Test
-    fun testNotEmpty_hotelName() {
+    fun testNotEmptyHotelNameFilter() {
         assertFalse(testFilterOptions.isNotEmpty()) // sanity check
 
         testFilterOptions.filterHotelName = "test"
@@ -57,7 +65,7 @@ class HotelFilterOptionsTest {
     }
 
     @Test
-    fun testNotEmpty_filterStarRatings() {
+    fun testNotEmptyStarRatingsFilter() {
         assertFalse(testFilterOptions.isNotEmpty()) // sanity check
 
         testFilterOptions.filterStarRatings = listOf(10)
@@ -65,7 +73,15 @@ class HotelFilterOptionsTest {
     }
 
     @Test
-    fun testNotEmpty_filterPrice() {
+    fun testNotEmptyGuestRatingsFilter() {
+        assertTrue(testFilterOptions.isEmpty()) // sanity check
+
+        testFilterOptions.filterGuestRatings = listOf(5)
+        assertTrue(testFilterOptions.isNotEmpty())
+    }
+
+    @Test
+    fun testNotEmptyPriceFilter() {
         assertFalse(testFilterOptions.isNotEmpty()) // sanity check
 
         testFilterOptions.filterPrice = HotelSearchParams.PriceRange(10, 100)
@@ -73,7 +89,7 @@ class HotelFilterOptionsTest {
     }
 
     @Test
-    fun testNotEmpty_vipOnly() {
+    fun testNotEmptyVipOnlyFilter() {
         assertFalse(testFilterOptions.isNotEmpty()) // sanity check
 
         testFilterOptions.filterVipOnly = true
@@ -81,7 +97,7 @@ class HotelFilterOptionsTest {
     }
 
     @Test
-    fun testNotEmpty_sort() {
+    fun testNotEmptySort() {
         assertFalse(testFilterOptions.isNotEmpty()) // sanity check
 
         testFilterOptions.userSort = HotelSearchParams.SortType.MOBILE_DEALS
@@ -89,7 +105,7 @@ class HotelFilterOptionsTest {
     }
 
     @Test
-    fun testNotEmpty_amenities() {
+    fun testNotEmptyAmenitiesFilter() {
         assertFalse(testFilterOptions.isNotEmpty()) // sanity check
 
         testFilterOptions.amenities = hashSetOf(4, 16)

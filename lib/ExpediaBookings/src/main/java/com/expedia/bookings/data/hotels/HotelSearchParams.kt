@@ -83,6 +83,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
         private var hotelName: String? = null
         private var starRatings: List<Int> = emptyList()
         private var neighborhoodRegion: Neighborhood? = null
+        private var guestRatings: List<Int> = emptyList()
         private var vipOnly: Boolean = false
         private var userSort: SortType? = null
         private var amenities: HashSet<Int> = HashSet()
@@ -110,6 +111,11 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
 
         fun starRatings(starRatings: List<Int>): Builder {
             this.starRatings = starRatings
+            return this
+        }
+
+        fun guestRatings(guestRatings: List<Int>): Builder {
+            this.guestRatings = guestRatings
             return this
         }
 
@@ -142,11 +148,6 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
             return this
         }
 
-        fun isDatelessSearch(isDatelessSearch: Boolean): Builder {
-            this.isDatelessSearch = isDatelessSearch
-            return this
-        }
-
         fun from(params: HotelSearchParams): Builder {
             destination(params.suggestion)
             forPackage(params.forPackage)
@@ -154,6 +155,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
             params.filterOptions?.let { filterOptions ->
                 filterOptions.filterHotelName?.let { hotelName(it) }
                 filterOptions.filterStarRatings.let { starRatings(it) }
+                filterOptions.filterGuestRatings?.let { guestRatings(it) }
                 filterOptions.filterPrice?.let { priceRange(it) }
                 vipOnly(filterOptions.filterVipOnly)
                 filterOptions.filterByNeighborhood?.let { neighborhood(it) }
@@ -195,6 +197,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
             val filterOptions = HotelFilterOptions()
             filterOptions.filterHotelName = hotelName
             filterOptions.filterStarRatings = starRatings
+            filterOptions.filterGuestRatings = guestRatings
             filterOptions.filterPrice = priceRange
             filterOptions.filterVipOnly = vipOnly
             filterOptions.filterByNeighborhood = neighborhoodRegion
@@ -207,6 +210,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
     class HotelFilterOptions {
         var filterHotelName: String? = null
         var filterStarRatings: List<Int> = emptyList()
+        var filterGuestRatings: List<Int> = emptyList()
         var filterPrice: PriceRange? = null
         var filterVipOnly: Boolean = false
         var filterByNeighborhood: Neighborhood? = null
@@ -221,6 +225,10 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
 
             if (filterStarRatings.isNotEmpty()) {
                 params.put("filterStarRatings", filterStarRatings.joinToString(","))
+            }
+
+            if (filterGuestRatings.isNotEmpty()) {
+                params.put("guestRatingFilterItems", filterGuestRatings.joinToString(","))
             }
 
             if (filterPrice != null && filterPrice!!.isValid()) {
@@ -241,6 +249,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
         fun isEmpty(): Boolean {
             return filterHotelName.isNullOrEmpty()
                     && filterStarRatings.isEmpty()
+                    && filterGuestRatings.isEmpty()
                     && (filterPrice == null || !filterPrice!!.isValid())
                     && !filterVipOnly
                     && userSort == null

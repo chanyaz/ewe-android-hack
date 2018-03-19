@@ -8,6 +8,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -164,5 +165,15 @@ class UserFilterChoicesTest {
         assertEquals(0, filterOptions.minPrice)
         assertEquals(0, filterOptions.maxPrice)
         assertTrue(filterOptions.neighborhoods.isEmpty())
+    }
+
+    @Test
+    fun testGuestRatingsFromParamList() {
+        assertEquals(UserFilterChoices.GuestRatings(true, false, false), UserFilterChoices.GuestRatings.fromParamList(listOf(3, 4, 5)))
+        assertEquals(UserFilterChoices.GuestRatings(false, true, false), UserFilterChoices.GuestRatings.fromParamList(listOf(4, 5)))
+        assertEquals(UserFilterChoices.GuestRatings(false, false, true), UserFilterChoices.GuestRatings.fromParamList(listOf(5)))
+        assertNotEquals(UserFilterChoices.GuestRatings(false, true, false), UserFilterChoices.GuestRatings.fromParamList(listOf(3, 4, 5)))
+        assertNotEquals(UserFilterChoices.GuestRatings(false, false, true), UserFilterChoices.GuestRatings.fromParamList(listOf(3, 4, 5)))
+        assertNotEquals(UserFilterChoices.GuestRatings(false, false, true), UserFilterChoices.GuestRatings.fromParamList(listOf(4, 5)))
     }
 }

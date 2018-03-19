@@ -117,6 +117,7 @@ class HotelFilterViewModelTest {
         assertEquals(7, vm.userFilterChoices.filterCount())
         assertEquals(str, vm.userFilterChoices.name)
         assertEquals(true, vm.userFilterChoices.hotelStarRating.one)
+        assertEquals(true, vm.userFilterChoices.hotelGuestRating.three)
         assertEquals(true, vm.userFilterChoices.isVipOnlyAccess)
         assertTrue(vm.userFilterChoices.neighborhoods.size == 1)
         assertEquals(20, vm.userFilterChoices.minPrice)
@@ -197,6 +198,16 @@ class HotelFilterViewModelTest {
         assertEquals(2, vm.userFilterChoices.filterCount())
 
         vm.deselectAmenity.onNext(Amenity.INTERNET)
+        vm.doneObservable.onNext(Unit)
+        assertEquals(1, vm.userFilterChoices.filterCount())
+
+        vm.userFilterChoices.hotelGuestRating.three = false
+        vm.guestRatingThreeFilterObserver.onNext(Unit)
+
+        vm.doneObservable.onNext(Unit)
+        assertEquals(2, vm.userFilterChoices.filterCount())
+
+        vm.guestRatingThreeFilterObserver.onNext(Unit)
         vm.doneObservable.onNext(Unit)
         assertEquals(1, vm.userFilterChoices.filterCount())
     }
