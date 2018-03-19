@@ -106,7 +106,12 @@ public class FlightsSearchResultsSingleCellSteps {
 
 	@Then("^Validate that on the selected outbound docked view Flight label is displayed$")
 	public void validateOutboundFlightLabel() throws Throwable {
-		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("Outbound");
+		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("Outbound flight:");
+	}
+
+	@And("^Validate that on the selected outbound docked view delta pricing is displayed$")
+	public void deltaPricingText() throws Throwable {
+		FlightsResultsScreen.assertDeltaPrice("$696");
 	}
 
 	@And("^Validate that on the selected outbound docked view Flight Airline name is displayed$")
@@ -141,7 +146,12 @@ public class FlightsSearchResultsSingleCellSteps {
 
 	@And("^Validate the Per person roundtrip text and isOutbound : (true|false)$")
 	public void validateperpersonOutbound(boolean outBound) throws Throwable {
-		legalComplianceAU(R.id.flight_results_price_header, "Prices roundtrip, per person, from", outBound);
+		if (outBound) {
+			legalComplianceAU(R.id.flight_results_price_header, "Prices roundtrip, per person, from", outBound);
+		}
+		else {
+			legalComplianceAU(R.id.flight_results_price_header, "Additional price per person for inbound flight", outBound);
+		}
 	}
 
 	@And("^Validate legal compliance message on flight detail screen and isOutbound : (true|false)$")
