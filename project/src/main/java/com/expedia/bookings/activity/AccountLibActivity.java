@@ -31,7 +31,7 @@ import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.AppStartupTimeClientLog;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.tracking.RouterToSignInTimeLogger;
-import com.expedia.bookings.utils.CarnivalUtils;
+import com.expedia.bookings.marketing.carnival.CarnivalUtils;
 import com.expedia.bookings.utils.LoginExtender;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.StrUtils;

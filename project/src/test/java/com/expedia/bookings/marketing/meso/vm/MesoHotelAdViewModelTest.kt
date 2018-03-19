@@ -1,11 +1,11 @@
-package com.expedia.bookings.meso.vm
+package com.expedia.bookings.marketing.meso.vm
 
 import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import com.expedia.bookings.meso.model.MesoAdResponse
-import com.expedia.bookings.meso.model.MesoHotelAdResponse
+import com.expedia.bookings.marketing.meso.model.MesoAdResponse
+import com.expedia.bookings.marketing.meso.model.MesoHotelAdResponse
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner

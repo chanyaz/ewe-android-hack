@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.expedia.bookings.R
-import com.expedia.bookings.meso.vm.MesoHotelAdViewModel
+import com.expedia.bookings.marketing.meso.vm.MesoHotelAdViewModel
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.bindView

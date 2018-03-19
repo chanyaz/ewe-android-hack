@@ -1,10 +1,10 @@
-package com.expedia.bookings.meso.vm
+package com.expedia.bookings.marketing.meso.vm
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.meso.MesoAdResponseProvider
-import com.expedia.bookings.meso.model.MesoAdResponse
-import com.expedia.bookings.meso.model.MesoDestinationAdResponse
+import com.expedia.bookings.marketing.meso.MesoAdResponseProvider
+import com.expedia.bookings.marketing.meso.model.MesoAdResponse
+import com.expedia.bookings.marketing.meso.model.MesoDestinationAdResponse
 import com.expedia.util.Optional
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable

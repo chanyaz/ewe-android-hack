@@ -50,6 +50,7 @@ import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager;
 import com.expedia.bookings.itin.flight.common.FlightRegistrationHandler;
+import com.expedia.bookings.marketing.carnival.persistence.SharedPreferencesCarnivalProvider;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.CrossContextHelper;
@@ -61,7 +62,7 @@ import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.AccessibilityUtil;
-import com.expedia.bookings.utils.CarnivalUtils;
+import com.expedia.bookings.marketing.carnival.CarnivalUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
@@ -322,7 +323,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		}
 
 		initializeFeatureConfig();
-		CarnivalUtils.getInstance().initialize(this);
+		CarnivalUtils.getInstance().initialize(this, new SharedPreferencesCarnivalProvider(this));
 
 		FlightRegistrationHandler flightRegistrationHandler = appComponent().flightRegistrationService();
 		flightRegistrationHandler.setup();

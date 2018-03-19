@@ -1,13 +1,13 @@
-package com.expedia.bookings.meso
+package com.expedia.bookings.marketing.meso
 
 import android.accounts.NetworkErrorException
 import android.content.Context
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.enums.MesoDestinationAdState
-import com.expedia.bookings.meso.model.MesoAdResponse
-import com.expedia.bookings.meso.model.MesoDestinationAdResponse
-import com.expedia.bookings.meso.model.MesoHotelAdResponse
+import com.expedia.bookings.marketing.meso.model.MesoAdResponse
+import com.expedia.bookings.marketing.meso.model.MesoDestinationAdResponse
+import com.expedia.bookings.marketing.meso.model.MesoHotelAdResponse
 import com.expedia.bookings.utils.Constants
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader

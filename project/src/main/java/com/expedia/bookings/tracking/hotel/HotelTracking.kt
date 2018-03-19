@@ -11,7 +11,7 @@ import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.tracking.FacebookEvents
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.PayWithPointsErrorTrackingEnum
-import com.expedia.bookings.utils.CarnivalUtils
+import com.expedia.bookings.marketing.carnival.CarnivalUtils
 import com.expedia.bookings.utils.TuneUtils
 
 open class HotelTracking {
