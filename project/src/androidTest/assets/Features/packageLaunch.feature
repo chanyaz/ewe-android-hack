@@ -30,6 +30,8 @@ Feature: Package Launch
       | Canada         |
       | Thailand       |
       | Germany        |
+      | France        |
+      | Italy         |
 
   @Packages @Prod @EBOnlySet4
   Scenario Outline: UI validation if Packages Tab is present and clickable on Launch Screen for POSales under Abacus Test
@@ -53,6 +55,4 @@ Feature: Package Launch
 
     Examples:
       | point_of_sale |
-      | France        |
-      | Italy         |
       | South Korea   |
