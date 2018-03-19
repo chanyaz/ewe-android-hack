@@ -185,6 +185,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
             bundleSlidingWidget.bundlePriceWidget.viewModel.perPersonTextLabelObservable.subscribeVisibility(bundlePriceWidgetTop.bundlePerPersonText)
             bundleSlidingWidget.bundlePriceFooter.viewModel.totalPriceObservable.subscribeTextAndVisibility(bundlePriceWidgetTop.bundleTotalPrice)
             bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.subscribeText(bundlePriceWidgetTop.bundleTitleText)
+            bundleSlidingWidget.bundlePriceWidget.viewModel.pricePerPersonObservable.subscribeText(bundlePriceWidgetTop.bundleTotalPrice)
         }
     }
 
