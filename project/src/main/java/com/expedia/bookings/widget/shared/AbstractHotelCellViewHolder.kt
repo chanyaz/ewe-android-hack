@@ -10,7 +10,6 @@ import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RectShape
 import android.support.annotation.CallSuper
 import android.support.v4.content.ContextCompat
-import android.support.v7.graphics.Palette
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -183,22 +182,16 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
         override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
             super.onBitmapLoaded(bitmap, from)
             imageView.setImageBitmap(bitmap)
-            val listener = Palette.PaletteAsyncListener { palette ->
-                mixColor(palette)
-            }
-            Palette.Builder(bitmap).generate(listener)
+            addGradient()
         }
 
-        private fun mixColor(palette: Palette) {
-            val color = palette.getDarkVibrantColor(R.color.transparent_dark)
-            val fullColorBuilder = ColorBuilder(color).darkenBy(.6f).setSaturation(if (!mIsFallbackImage) .8f else 0f)
-            val topColor = fullColorBuilder.setAlpha(80).build() // 30
-            val midColor1 = fullColorBuilder.setAlpha(15).build() // 5
-            val midColor2 = fullColorBuilder.setAlpha(25).build() // 10
-            val bottomColor = fullColorBuilder.setAlpha(125).build() // 50
-            val startColor = fullColorBuilder.setAlpha(154).build()
-            val endColor = fullColorBuilder.setAlpha(0).build()
-            val colorArrayBottom = intArrayOf(0, 0, endColor, startColor)
+        private fun addGradient() {
+            val colorBuilder = ColorBuilder(ContextCompat.getColor(gradient.context, R.color.gray900))
+            val topColor = colorBuilder.setAlpha(60).build()
+            val midColor1 = colorBuilder.setAlpha(15).build()
+            val midColor2 = colorBuilder.setAlpha(40).build()
+            val bottomColor = colorBuilder.setAlpha(154).build()
+            val colorArrayBottom = intArrayOf(0, 0, midColor2, bottomColor)
             val colorArrayFull = intArrayOf(topColor, midColor1, midColor2, bottomColor)
 
             val drawable = PaintDrawable()
@@ -230,9 +223,17 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
     private fun getShader(array: IntArray): ShapeDrawable.ShaderFactory {
         return object : ShapeDrawable.ShaderFactory() {
             override fun resize(width: Int, height: Int): Shader {
+                val textHeightAsPercent = (hotelNameStarAmenityDistance.parent as View).top.toFloat() / height
                 val lg = LinearGradient(0f, 0f, 0f, height.toFloat(),
-                        array, DEFAULT_GRADIENT_POSITIONS, Shader.TileMode.REPEAT)
+                        array, getGradientPositions(textHeightAsPercent), Shader.TileMode.REPEAT)
                 return lg
+            }
+
+            private fun getGradientPositions(textHeightPercent: Float): FloatArray {
+                val gradientPositions = DEFAULT_GRADIENT_POSITIONS.copyOf()
+                gradientPositions[1] = Math.min(DEFAULT_GRADIENT_POSITIONS[1], textHeightPercent)
+                gradientPositions[2] = textHeightPercent
+                return gradientPositions
             }
         }
     }
