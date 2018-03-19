@@ -9,10 +9,12 @@ import android.widget.LinearLayout
 import com.airbnb.lottie.LottieAnimationView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.LayoutUtils
 import com.expedia.bookings.utils.bindView
 import com.larvalabs.svgandroid.widget.SVGView
 import com.mobiata.android.util.AndroidUtils.dpToPx
+import java.util.Locale
 
 class FlightLoadingWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
@@ -24,6 +26,9 @@ class FlightLoadingWidget(context: Context, attrs: AttributeSet) : LinearLayout(
     private var airplaneAnimatorHeight = 0
     private var flightLoadingWidgetHeight = 0
     private var anim: ValueAnimator? = null
+    private val pointOfSale = PointOfSale.getPointOfSale()
+    private val twoLetterCountryCode = pointOfSale.twoLetterCountryCode
+    private val isPointOfSaleWithHundredsOfAirlines = !twoLetterCountryCode.toUpperCase(Locale.US).contains(Regex("PH|ID|KR"))
 
     init {
         View.inflate(context, R.layout.flight_loading_view, this)
@@ -63,6 +68,9 @@ class FlightLoadingWidget(context: Context, attrs: AttributeSet) : LinearLayout(
 
     private fun initialiseLoadingState() {
         setHeight(this, LayoutParams.MATCH_PARENT)
+        if (!isPointOfSaleWithHundredsOfAirlines) {
+            searchingAirlineMessage.text = context.resources.getString(R.string.loading_flights)
+        }
         searchingAirlineMessage.visibility = View.VISIBLE
         LayoutUtils.setSVG(rightHandArrow, R.raw.flight_recent_search_one_way)
     }
