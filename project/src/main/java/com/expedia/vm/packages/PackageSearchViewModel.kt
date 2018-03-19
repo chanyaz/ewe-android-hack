@@ -70,11 +70,10 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     }
 
     private fun getFHCPackageWebViewUrlByParams(searchParams: PackageSearchParams): String {
+        // Date format is applicable to US only
         val format = DateTimeFormat.forPattern("MM/dd/yyyy")
-        val origin = searchParams.origin?.regionNames?.fullName?.replace(" ", "%20")
         val originId = searchParams.originId
         val ftla = searchParams.origin?.hierarchyInfo?.airport?.airportCode
-        val destination = searchParams.destination?.regionNames?.fullName?.replace(" ", "%20")
         val destinationId = searchParams.destinationId
         val ttla = searchParams.destination?.hierarchyInfo?.airport?.airportCode
         val fromDate = searchParams.startDate.toString(format)
@@ -87,10 +86,8 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
                 .host("www." + PointOfSale.getPointOfSale().url)
                 .addPathSegments("flexibleshopping")
                 .addQueryParameter("packageType", "fhc")
-                .addQueryParameter("origin", origin)
                 .addQueryParameter("originId", originId)
                 .addQueryParameter("ftla", ftla)
-                .addQueryParameter("destination", destination)
                 .addQueryParameter("destinationId", destinationId)
                 .addQueryParameter("ttla", ttla)
                 .addQueryParameter("fromDate", fromDate)
