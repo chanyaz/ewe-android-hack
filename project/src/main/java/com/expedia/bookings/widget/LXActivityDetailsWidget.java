@@ -234,7 +234,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		this.activityDetails = activityDetails;
 		offers.setActivityId(activityDetails.id);
 		offers.setPromoDiscountType(lxState.getPromoDiscountType());
-		offers.setPromoDiscountType(activityDetails.discountType);
+		offers.setActivityDiscountType(activityDetails.discountType);
 
 		buildRecommendationPercentage(activityDetails.recommendationScore);
 		buildGallery(activityDetails);

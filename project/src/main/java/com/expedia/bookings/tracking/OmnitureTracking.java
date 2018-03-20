@@ -2115,15 +2115,15 @@ public class OmnitureTracking {
 				memberDealCode = "NONE";
 			}
 
-			products.append(index == 1 ? ";LX" : ",;LX");
-			products.append(activityDetailsResponse.id);
-			products.append(";;;;event296;eVar39=" + memberDealCode);
-			products.append("|eVar41=" + index++ + ":" + offer.id);
-			products.append("NONE".equals(memberDealCode) || originalAmount.amount.equals(BigDecimal.ZERO) ? "|eVar30=" + priceAmount.amount : "|eVar30=" + originalAmount.amount + "-" + priceAmount.amount);
 			if ("MIP".equals(memberDealCode)) {
 				eVar43Mip.append(index == 1 ? "MIP.LX." : ",MIP.LX.");
 				eVar43Mip.append(offer.id);
 			}
+			products.append(index == 1 ? ";LX:" : ",;LX:");
+			products.append(activityDetailsResponse.id);
+			products.append(";;;;event296;eVar39=" + memberDealCode);
+			products.append("|eVar41=" + index++ + ":" + offer.id);
+			products.append("NONE".equals(memberDealCode) || originalAmount.amount.equals(BigDecimal.ZERO) ? "|eVar30=" + priceAmount.amount : "|eVar30=" + originalAmount.amount + "-" + priceAmount.amount);
 		}
 		s.setProducts(products.toString());
 		if (eVar43Mip.length() > 0) {
