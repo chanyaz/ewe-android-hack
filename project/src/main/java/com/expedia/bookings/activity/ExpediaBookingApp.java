@@ -143,11 +143,12 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 	@Override
 	public void onCreate() {
-		TimingLogger startupTimer = new TimingLogger("ExpediaBookings", "startUp");
+		TimingLogger startupTimer = new TimingLogger("ExpediaBookings", " Expedia Booking on create startUp");
 		//Init language as per dev settings
 		if (BuildConfig.DEBUG) {
 			LanguageHelper.initLangSetup(this);
 		}
+
 		// Initialize some parts of the code that require a Context
 		initializePointOfSale();
 		startupTimer.addSplit("PointOfSale Init");
@@ -155,11 +156,10 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		CountryConfig.loadCountryConfigs(getAssets());
 
 		defaultAppComponents();
-		PluginInitializer.initializePlugins(appComponent());
-		startupTimer.addSplit("Dagger AppModule created");
-
 		AppStartupTimeLogger appStartupTimeLogger = appComponent().appStartupTimeLogger();
 		appStartupTimeLogger.setStartTime();
+		PluginInitializer.initializePlugins(appComponent());
+		startupTimer.addSplit("Dagger AppModule created");
 
 		AppCreateTimeLogger appCreateTimeLogger = appComponent().appCreateTimeLogger();
 		appCreateTimeLogger.setStartTime();
@@ -316,24 +316,33 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 		CurrencyUtils.initMap(this);
 		startupTimer.addSplit("Currency Utils init");
-		startupTimer.dumpToLog();
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
 			ShortcutUtils.INSTANCE.initialize(getBaseContext());
 		}
 
 		initializeFeatureConfig();
+
+		startupTimer.addSplit("feature config init");
+
 		CarnivalUtils.getInstance().initialize(this, new SharedPreferencesCarnivalProvider(this));
+
+		startupTimer.addSplit("CarnivalUtils initialization");
 
 		FlightRegistrationHandler flightRegistrationHandler = appComponent().flightRegistrationService();
 		flightRegistrationHandler.setup();
 		appComponent().userLoginStateChangedModel().getUserLoginStateChanged()
 			.subscribe(flightRegistrationHandler.getUserLoginStateChanged());
 
+		startupTimer.addSplit("FlightRegistrationHandler");
+
 		UserAccountRefresher refresher = new UserAccountRefresher(getApplicationContext(), LineOfBusiness.NONE, null);
 		UserStateManager userStateManager = appComponent().userStateManager();
 
 		loginUserIfApplicable(refresher, userStateManager);
+
+		startupTimer.addSplit("Trying to loggin user functionality");
+		startupTimer.dumpToLog();
 
 		appCreateTimeLogger.setEndTime();
 		AppStartupTimeClientLog.trackTimeLogger(appCreateTimeLogger, mAppComponent.clientLog());

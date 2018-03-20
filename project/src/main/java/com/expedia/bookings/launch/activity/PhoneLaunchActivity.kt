@@ -80,6 +80,7 @@ import com.mobiata.android.LocationServices
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
 import com.mobiata.android.util.SettingUtils
+import com.mobiata.android.util.TimingLogger
 import com.squareup.phrase.Phrase
 import io.reactivex.disposables.Disposable
 import org.joda.time.LocalDate
@@ -149,13 +150,20 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val startupTimer = TimingLogger("Phone Launch Activity", "Phone activity on create startUp")
         super.onCreate(savedInstanceState)
+        startupTimer.addSplit("Phone activity Super class on create")
 
         Ui.getApplication(this).appComponent().inject(this)
         Ui.getApplication(this).defaultLaunchComponents()
         Ui.getApplication(this).launchComponent()
         setContentView(R.layout.activity_phone_launch)
+
+        startupTimer.addSplit("Time for setting up launch application and content view")
+
         ActivityTransitionCircularRevealHelper.startCircularRevealTransitionAnimation(this, savedInstanceState, intent, rootLayout)
+
+        startupTimer.addSplit("Time for Animation")
 
         isFromConfirmation = intent.getBooleanExtra(PhoneLaunchActivity.ARG_IS_FROM_CONFIRMATION, false)
 
@@ -167,9 +175,17 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
             toolbar.setBackgroundColor(ContextCompat.getColor(this@PhoneLaunchActivity, R.color.brand_primary))
         }
 
+        startupTimer.addSplit("Time for setting up background")
+
         setSupportActionBar(toolbar)
         supportActionBar?.elevation = 0f
+
+        startupTimer.addSplit("Time for setting up support Action Bar")
+
         AbacusHelperUtils.downloadBucket(this)
+
+        startupTimer.addSplit("Time to download bucket")
+
         if (intent.hasExtra(ARG_ITIN_NUM)) {
             jumpToItinId = intent.getStringExtra(ARG_ITIN_NUM)
         }
@@ -179,11 +195,14 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
             isLocationPermissionPending = savedInstanceState.getBoolean("is_location_permission_pending", false)
         }
 
+        startupTimer.addSplit("Time for getting location permission")
+
         if (AbacusFeatureConfigManager.isBucketedForTest(this, AbacusUtils.EBAndroidAppSoftPromptLocation)) {
             loginStateSubsciption = userLoginStateChangedModel.userLoginStateChanged.distinctUntilChanged().filter { isSignIn -> isSignIn == true }.subscribe {
                 SettingUtils.save(this, PREF_USER_ENTERS_FROM_SIGNIN, true)
             }
         }
+        startupTimer.addSplit("Time for setting login state subscription")
 
         val lineOfBusiness = intent.getSerializableExtra(Codes.LOB_NOT_SUPPORTED) as LineOfBusiness?
         if (intent.getBooleanExtra(ARG_FORCE_SHOW_WATERFALL, false)) {
@@ -211,9 +230,11 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
             PlayStoreUtil.showForceUpgradeDailogWithMessage(this)
         }
 
+        startupTimer.addSplit("Time for operation related with intent")
+
         GooglePlayServicesDialog(this).startChecking()
 
-        appStartupTimeLogger.setEndTime()
+        startupTimer.addSplit("Time for operation related with google play service")
 
         if (AbacusFeatureConfigManager.isBucketedForTest(this, AbacusUtils.EBAndroidAppSoftPromptLocation)) {
             if (shouldShowSoftPrompt()) {
@@ -225,20 +246,27 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
             }
         }
 
+        startupTimer.addSplit("Check trigger location prompt")
         val lastLocation = LocationServices.getLastBestLocation(this, 0)
+
         CarnivalUtils.getInstance().trackLaunch(
                 havePermissionToAccessLocation(this), userStateManager.isUserAuthenticated(),
                 userStateManager.userSource.user?.primaryTraveler, ItineraryManager.getInstance().trips,
                 userStateManager.getCurrentUserLoyaltyTier(), lastLocation?.latitude, lastLocation?.longitude, PointOfSale.getPointOfSale().url)
+        startupTimer.addSplit("CarnivalUtils split")
+        startupTimer.dumpToLog()
     }
 
     override fun onStart() {
+        val startupTimer = TimingLogger("On Start Activity", " Phone activity onStart startUp")
         super.onStart()
         if (LaunchNavBucketCache.isBucketed(this@PhoneLaunchActivity)) {
             setupBottomNav()
         } else {
             setupTopNav()
         }
+        startupTimer.addSplit("ON start func finish")
+        startupTimer.dumpToLog()
     }
 
     private fun gotoDeepLink(url: String) {
@@ -555,6 +583,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     }
 
     override fun onResume() {
+        val startupTimer = TimingLogger("On Resume Activity", " Phone Activity On Resume startUp")
         super.onResume()
 
         when (viewPager.currentItem) {
@@ -582,7 +611,11 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
             routerToSignInTimeLogger.shouldGoToSignIn = true
         }
 
+        appStartupTimeLogger.setEndTime()
+
         trackTimeLogs()
+        startupTimer.addSplit("On Resume Activity completion")
+        startupTimer.dumpToLog()
     }
 
     private fun trackTimeLogs() {

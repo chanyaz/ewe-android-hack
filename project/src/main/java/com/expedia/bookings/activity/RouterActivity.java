@@ -48,6 +48,7 @@ import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.utils.navigation.NavUtils;
 import com.facebook.appevents.AppEventsLogger;
 import com.mobiata.android.util.SettingUtils;
+import com.mobiata.android.util.TimingLogger;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -92,6 +93,8 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		TimingLogger startupTimer = new TimingLogger("Router Activity", " Router on create startUp");
+
 		if (ProductFlavorFeatureConfiguration.getInstance().isSplashLoadingAnimationEnabled()) {
 			setTheme(R.style.SplashThemeForLoadingAnimation);
 			super.onCreate(savedInstanceState);
@@ -100,26 +103,42 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 		else {
 			super.onCreate(savedInstanceState);
 		}
+		startupTimer.addSplit("Time taken to decide which intent to trigger");
 
 		Ui.getApplication(this).appComponent().inject(this);
+
+		startupTimer.addSplit("Injecting router activity to app component");
 
 		setTimeLogging();
 
 		// Track the app loading
 		OmnitureTracking.trackAppLoading(this);
 
+		startupTimer.addSplit("Track omniture app loading");
+
 		// Update data
 		ItineraryManager.getInstance().startSync(false, false, true);
+
+		startupTimer.addSplit("ItineraryManager sync");
 
 		//Hi Facebook!
 		facebookInstallTracking();
 
+		startupTimer.addSplit("Facebook install tracking");
+
 		cleanupOldCookies();
 		cleanupOldSuggestions();
 
+		startupTimer.addSplit("Cleanup cookies and suggestions");
+
 		Ui.getApplication(this).updateFirstLaunchAndUpdateSettings();
 
+		startupTimer.addSplit("Updating Launch settings");
+
 		userStateManager.ensureUserStateSanity(this);
+
+		startupTimer.addSplit("Ensuring sanity of users");
+		startupTimer.dumpToLog();
 	}
 
 	public void setupActivityForAnimationsAndBeginAnimation() {
