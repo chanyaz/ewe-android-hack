@@ -5745,7 +5745,6 @@ public class OmnitureTracking {
 			products = getFlightSubpubProductString(products);
 		}
 		s.setProducts(products);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview);
 
 		StringBuilder eventStringBuilder = new StringBuilder(s.getEvents());
 

@@ -54,12 +54,12 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
     protected val opacity: Float = 0.25f
 
     val flightLoadingBar: ImageView by bindView(R.id.flight_loading_bar)
-    lateinit var rowContainer: ViewGroup
+    val rowContainer: ViewGroup by bindView(R.id.row_container)
     val flightInfoContainer: ViewGroup by bindView(R.id.flight_info_container)
     val flightCardText: TextView by bindView(R.id.flight_card_view_text)
     val travelInfoText: TextView by bindView(R.id.travel_info_view_text)
     val flightIcon: ImageView by bindView(R.id.package_flight_icon)
-    lateinit var flightDetailsIcon: ImageView
+    val flightDetailsIcon: ImageView by bindView(R.id.package_flight_details_icon)
     var flightCollapseIcon: ImageView? = null
 
     val forwardArrow: ImageView by bindView(R.id.flight_forward_arrow_icon)
@@ -73,29 +73,6 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
     lateinit var baggageInfoView: BaggageInfoView
 
     var viewModel: BundleFlightViewModel by notNullAndObservable { vm ->
-        vm.showRowContainerWithMoreInfo.subscribe {
-            when (it) {
-                true -> {
-                    rowContainer = this.findViewById<ViewGroup>(R.id.detailed_row_container)
-                    rowContainer.visibility = VISIBLE
-                    val flightCell = FlightCellWidget(context, false)
-                    rowContainer.addView(flightCell)
-                    flightDetailsContainer.setOnClickListener {
-                        if (isFlightSegmentDetailsExpanded()) {
-                            collapseFlightDetails(true)
-                        }
-                    }
-                    flightDetailsIcon = rowContainer.findViewById<ImageView>(R.id.flight_overview_expand_icon)
-                }
-                false -> {
-                    rowContainer = this.findViewById<ViewGroup>(R.id.row_container)
-                    rowContainer.visibility = VISIBLE
-                    flightDetailsIcon = this.findViewById<ImageView>(R.id.package_flight_details_icon)
-                }
-            }
-            showCollapseIcon = it
-        }
-
         vm.flightTextObservable.subscribeText(flightCardText)
         vm.flightTextColorObservable.subscribeTextColor(flightCardText)
         vm.flightTravelInfoColorObservable.subscribeTextColor(travelInfoText)

@@ -160,7 +160,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppShowAirAttachMessageOnLaunchScreen.getKey());
 		testIDs.add(EBAndroidAppLXNavigateToSRP.getKey());
 		testIDs.add(EBAndroidAppLastMinuteDeals.getKey());
-		testIDs.add(EBAndroidAppFlightsMoreInfoOnOverview.getKey());
 		testIDs.add(EBAndroidAppFlightsCrossSellPackageOnFSR.getKey());
 		testIDs.add(PackagesTitleChange.getKey());
 		testIDs.add(EBAndroidAppSimplifyFlightShopping.getKey());

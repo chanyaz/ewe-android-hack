@@ -199,11 +199,6 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         }
         addTransition(overviewToBasicEconomyInfoWebView)
         addTransition(overviewToFamilyFare)
-        if (isBucketedForShowMoreDetailsOnOverview) {
-            bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel.subTitleText.filter { Strings.isNotEmpty(it) }.subscribe {
-                bundleOverviewHeader.checkoutOverviewHeaderToolbar.checkInOutDates.text = it
-            }
-        }
     }
 
     override val defaultTransition = object : TwoScreenOverviewDefaultTransition() {
