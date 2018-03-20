@@ -567,7 +567,6 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             paymentOptionsContainer.visibility = View.GONE
             billingInfoContainer.visibility = if (forward) View.VISIBLE else View.GONE
             storedCreditCardList.bind()
-            trackAnalytics()
             if (forward) {
                 viewmodel.doneClickedMethod.onNext { onDoneClicked() }
                 if (populateCardholderNameTestEnabled) {
@@ -575,6 +574,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                 }
                 showMaskedCreditCardNumber()
                 filledIn.onNext(isCompletelyFilled())
+                trackAnalytics()
             } else {
                 validateAndBind()
             }
@@ -607,13 +607,13 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                 removeStoredCard()
                 temporarilySavedCardIsSelected(false, Db.sharedInstance.temporarilySavedCard)
                 filledIn.onNext(isCompletelyFilled())
+                trackAnalytics()
             } else {
                 Ui.hideKeyboard(this@PaymentWidget)
                 validateAndBind()
                 viewmodel.userHasAtleastOneStoredCard.onNext(userHasAtLeastOneCard())
             }
             storedCreditCardList.bind()
-            trackAnalytics()
             viewmodel.showingPaymentForm.onNext(forward)
             if (getLineOfBusiness().isMaterialFormEnabled(context)) viewmodel.updateBackgroundColor.onNext(forward)
             updateToolbarMenu(forward, !forward, forward)

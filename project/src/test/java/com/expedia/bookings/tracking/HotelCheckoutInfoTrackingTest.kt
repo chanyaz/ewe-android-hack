@@ -91,15 +91,15 @@ class HotelCheckoutInfoTrackingTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testHotelMaterialFormsBucketedTrackingExpandCoupon() {
+    fun testTrackMaterialEnterCouponWidget() {
         enableABTestWithRemoteFeatureFlag(true, AbacusUtils.EBAndroidAppHotelMaterialForms)
 
         OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
 
-        OmnitureTracking.trackHotelV2ExpandCoupon()
+        OmnitureTracking.trackUserEnterCouponWidget()
 
-        OmnitureTestUtils.assertLinkTracked("CKO:Coupon Action", "App.CKO.Coupon.Expand",
-                OmnitureMatchers.withProps(mapOf(34 to "24870.0.1")), mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked("Universal Checkout", "App.CKO.Coupon",
+                OmnitureMatchers.withAbacusTestBucketed(24870), mockAnalyticsProvider)
     }
 
     @Test
@@ -128,15 +128,15 @@ class HotelCheckoutInfoTrackingTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testHotelMaterialFormsControlTrackingExpandCoupon() {
+    fun testTrackControlEnterCouponWidget() {
         enableABTestWithRemoteFeatureFlag(false, AbacusUtils.EBAndroidAppHotelMaterialForms)
 
         OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
 
-        OmnitureTracking.trackHotelV2ExpandCoupon()
+        OmnitureTracking.trackUserEnterCouponWidget()
 
-        OmnitureTestUtils.assertLinkTracked("CKO:Coupon Action", "App.CKO.Coupon.Expand",
-                OmnitureMatchers.withProps(mapOf(34 to "24870.0.0")), mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked("Universal Checkout", "App.CKO.Coupon",
+                OmnitureMatchers.withAbacusTestControl(24870), mockAnalyticsProvider)
     }
 
     @Test

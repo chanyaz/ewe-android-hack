@@ -2,8 +2,10 @@ package com.expedia.bookings.tracking
 
 import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
+import android.view.View
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -14,6 +16,7 @@ import com.expedia.bookings.test.robolectric.HotelPresenterTestUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.widget.PaymentWidget
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -42,21 +45,107 @@ class HotelCheckoutViewsTrackingTest {
     }
 
     @Test
-    fun testTrackMaterialHotelEditTravelerEntry() {
+    fun testTrackMaterialEditTravelerDetails() {
         setupMaterialForms()
         checkout.travelerSummaryCardView.performClick()
         checkout.travelersPresenter.closeSubject.onNext(Unit)
         OmnitureTestUtils.assertStateTracked("App.Hotels.Checkout.Traveler.Edit.Info",
-                OmnitureMatchers.withProps(mapOf(34 to "24870.0.1")),
+                OmnitureMatchers.withAbacusTestBucketed(24870),
                 mockAnalyticsProvider)
     }
 
     @Test
-    fun testTrackControlHotelTravelerEntryWidget() {
+    fun testTrackControlEditTravelerDetails() {
         checkout.mainContactInfoCardView.performClick()
         OmnitureTestUtils.assertStateTracked("App.Hotels.Checkout.Traveler.Edit.Info",
-                OmnitureMatchers.withProps(mapOf(34 to "24870.0.0")),
+                OmnitureMatchers.withAbacusTestControl(24870),
                 mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackMaterialEditPaymentDetails() {
+        setupMaterialForms()
+        ExpediaBookingApp.setIsRobolectric(false)
+        checkout.paymentInfoCardView.show(PaymentWidget.PaymentDefault())
+        checkout.paymentInfoCardView.show(PaymentWidget.PaymentDetails())
+
+        OmnitureTestUtils.assertStateTracked("App.Hotels.Checkout.Payment.Edit.Card",
+                OmnitureMatchers.withAbacusTestBucketed(24870),
+                mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackControlEditPaymentDetails() {
+        ExpediaBookingApp.setIsRobolectric(false)
+        checkout.paymentInfoCardView.show(PaymentWidget.PaymentDefault())
+        checkout.paymentInfoCardView.show(PaymentWidget.PaymentDetails())
+
+        OmnitureTestUtils.assertStateTracked("App.Hotels.Checkout.Payment.Edit.Card",
+                OmnitureMatchers.withAbacusTestControl(24870),
+                mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testEditPaymentNotTrackedWhenGoingToFromDetailsToDefault() {
+        ExpediaBookingApp.setIsRobolectric(false)
+        checkout.paymentInfoCardView.show(PaymentWidget.PaymentDetails())
+        checkout.paymentInfoCardView.show(PaymentWidget.PaymentDefault())
+
+        OmnitureTestUtils.assertStateTrackedNumTimes("App.Hotels.Checkout.Payment.Edit.Card",
+                OmnitureMatchers.withAbacusTestControl(24870),
+                0, mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testEditPaymentNotTrackedWhenGoingToOptions() {
+        ExpediaBookingApp.setIsRobolectric(false)
+        checkout.paymentInfoCardView.show(PaymentWidget.PaymentDefault())
+        checkout.paymentInfoCardView.show(PaymentWidget.PaymentOption())
+
+        OmnitureTestUtils.assertStateTrackedNumTimes("App.Hotels.Checkout.Payment.Edit.Card",
+                OmnitureMatchers.withAbacusTestControl(24870),
+                0, mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testEditPaymentNotTrackedWhenGoingFromDetailsToOptions() {
+        ExpediaBookingApp.setIsRobolectric(false)
+        checkout.paymentInfoCardView.show(PaymentWidget.PaymentDetails())
+        checkout.paymentInfoCardView.show(PaymentWidget.PaymentOption())
+
+        OmnitureTestUtils.assertStateTrackedNumTimes("App.Hotels.Checkout.Payment.Edit.Card",
+                OmnitureMatchers.withAbacusTestControl(24870),
+                0, mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testEditPaymentTrackedWhenGoingFromOptionsToDetails() {
+        ExpediaBookingApp.setIsRobolectric(false)
+        checkout.paymentInfoCardView.show(PaymentWidget.PaymentOption())
+        checkout.paymentInfoCardView.show(PaymentWidget.PaymentDetails())
+
+        OmnitureTestUtils.assertStateTracked("App.Hotels.Checkout.Payment.Edit.Card",
+                OmnitureMatchers.withAbacusTestControl(24870),
+                mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackControlEnterCouponWidget() {
+        checkout.couponCardView.applied.visibility = View.GONE
+        checkout.couponCardView.performClick()
+
+        OmnitureTestUtils.assertLinkTracked("Universal Checkout", "App.CKO.Coupon",
+                OmnitureMatchers.withAbacusTestControl(24870), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackMaterialEnterCouponWidget() {
+        setupMaterialForms()
+        checkout.couponCardView.applied.visibility = View.GONE
+        checkout.couponCardView.performClick()
+
+        OmnitureTestUtils.assertLinkTracked("Universal Checkout", "App.CKO.Coupon",
+                OmnitureMatchers.withAbacusTestBucketed(24870), mockAnalyticsProvider)
     }
 
     private fun setupMaterialForms() {

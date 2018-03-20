@@ -568,6 +568,7 @@ public class OmnitureTracking {
 	public static void trackUserEnterCouponWidget() {
 		ADMS_Measurement s = createTrackLinkEvent(APP_CKO_ENTER_COUPON);
 		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelMaterialForms);
 		s.trackLink(UNIVERSAL_CHECKOUT);
 	}
 
@@ -1544,7 +1545,6 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_CONFIRMATION_EXPAND_COUPON + "\" click...");
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CONFIRMATION_EXPAND_COUPON);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelMaterialForms);
 		s.trackLink("CKO:Coupon Action");
 	}
 
