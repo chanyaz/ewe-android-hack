@@ -25,7 +25,7 @@ import com.expedia.bookings.widget.flights.DockedOutboundFlightWidgetV2
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.FlightResultsViewModel
+import com.expedia.vm.BaseResultsViewModel
 import com.expedia.vm.flights.SelectedOutboundFlightViewModel
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
@@ -113,8 +113,8 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
         progressBarAnimation(12000, 0f, 500f, false)
     }
 
-    var resultsViewModel: FlightResultsViewModel by notNullAndObservable { vm ->
-        bind(vm.doNotOverrideFilterButton, vm.lob)
+    var resultsViewModel: BaseResultsViewModel by notNullAndObservable { vm ->
+        bind(vm.doNotOverrideFilterButton, vm.getLineOfBusiness())
         vm.flightResultsObservable.subscribe(listResultsObserver)
         vm.isOutboundResults.subscribe { isShowingOutboundResults = it }
         vm.isOutboundResults.subscribeInverseVisibility(dockedOutboundFlightSelection)

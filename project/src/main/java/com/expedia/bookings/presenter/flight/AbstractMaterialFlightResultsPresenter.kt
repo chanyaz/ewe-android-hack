@@ -11,6 +11,7 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.vm.AbstractFlightOverviewViewModel
+import com.expedia.vm.FlightResultsViewModel
 import com.expedia.vm.FlightToolbarViewModel
 import com.expedia.vm.flights.BaseFlightOffersViewModel
 import com.expedia.vm.flights.FlightOverviewViewModel
@@ -82,6 +83,10 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
 
     override fun getLineOfBusiness(): LineOfBusiness {
         return LineOfBusiness.FLIGHTS_V2
+    }
+
+    override fun getResultsViewModel(context: Context): FlightResultsViewModel {
+        return FlightResultsViewModel(context)
     }
 
     abstract fun trackFlightScrollDepth(scrollDepth: Int)

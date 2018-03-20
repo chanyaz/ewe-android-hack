@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
@@ -41,7 +40,7 @@ class FlightResultsListViewPresenterTest {
 
     fun inflateAndSetViewModel() {
         sut = LayoutInflater.from(activity).inflate(R.layout.package_flight_results_presenter_stub, null) as FlightResultsListViewPresenter
-        sut.resultsViewModel = FlightResultsViewModel(context, LineOfBusiness.FLIGHTS_V2)
+        sut.resultsViewModel = FlightResultsViewModel(context)
     }
 
     @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.VOYAGES, MultiBrand.TRAVELOCITY, MultiBrand.CHEAPTICKETS))

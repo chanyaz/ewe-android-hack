@@ -43,6 +43,7 @@ import com.expedia.bookings.widget.packages.PackageFlightListAdapter
 import com.expedia.util.Optional
 import com.expedia.util.endlessObserver
 import com.expedia.vm.AbstractFlightOverviewViewModel
+import com.expedia.vm.PackageResultsViewModel
 import com.expedia.vm.PackageToolbarViewModel
 import com.expedia.vm.packages.FlightOverviewViewModel
 import com.squareup.phrase.Phrase
@@ -381,5 +382,9 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
     override fun disableSlidingWidget(isDisabled: Boolean) {
         bundleSlidingWidget.bundlePriceWidget.isClickable = !isDisabled
         bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(if (isDisabled) null else slidingBundleWidgetListener.onTouchListener)
+    }
+
+    override fun getResultsViewModel(context: Context): PackageResultsViewModel {
+        return PackageResultsViewModel(context)
     }
 }

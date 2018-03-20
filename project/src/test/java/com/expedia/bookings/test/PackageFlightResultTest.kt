@@ -1,7 +1,6 @@
 package com.expedia.bookings.test
 
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
@@ -10,7 +9,7 @@ import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowDateFormat
-import com.expedia.vm.FlightResultsViewModel
+import com.expedia.vm.PackageResultsViewModel
 import com.expedia.vm.packages.PackageFlightViewModel
 import org.junit.Before
 import org.junit.Test
@@ -99,7 +98,7 @@ class PackageFlightResultTest {
         searchResponse.packageResult.flightsPackage.flights = makeFlightList()
         Db.setPackageResponse(searchResponse)
 
-        val resultsVM = FlightResultsViewModel(context, LineOfBusiness.PACKAGES)
+        val resultsVM = PackageResultsViewModel(context)
         val testSubscriber = TestObserver<List<FlightLeg>>()
         resultsVM.flightResultsObservable.subscribe(testSubscriber)
         resultsVM.flightResultsObservable.onNext(searchResponse.packageResult.flightsPackage.flights)

@@ -1,6 +1,5 @@
 package com.expedia.vm
 
-import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
@@ -21,7 +20,7 @@ class FlightResultsViewModelTest {
 
     @Before
     fun setUp() {
-        sut = FlightResultsViewModel(context, LineOfBusiness.FLIGHTS_V2)
+        sut = FlightResultsViewModel(context)
     }
 
     @Test

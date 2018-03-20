@@ -35,8 +35,8 @@ import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.AbstractFlightOverviewViewModel
 import com.expedia.vm.BaseFlightFilterViewModel
+import com.expedia.vm.BaseResultsViewModel
 import com.expedia.vm.BaseToolbarViewModel
-import com.expedia.vm.FlightResultsViewModel
 import com.expedia.vm.WebViewViewModel
 import io.reactivex.Observer
 import io.reactivex.exceptions.OnErrorNotImplementedException
@@ -94,7 +94,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     val resultsPresenter: FlightResultsListViewPresenter by lazy {
         val viewStub = findViewById<ViewStub>(R.id.results_stub)
         val presenter = viewStub.inflate() as FlightResultsListViewPresenter
-        presenter.resultsViewModel = FlightResultsViewModel(context, getLineOfBusiness())
+        presenter.resultsViewModel = getResultsViewModel(context)
         toolbarViewModel.isOutboundSearch.subscribe(presenter.resultsViewModel.isOutboundResults)
         if (!AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppSimplifyFlightShopping) || getLineOfBusiness() == LineOfBusiness.PACKAGES) {
             presenter.flightSelectedSubject.subscribe(selectedFlightResults)
@@ -331,4 +331,5 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     abstract fun trackShowBaggageFee()
     abstract fun trackShowPaymentFees()
     abstract fun viewBundleSetVisibility(forward: Boolean)
+    abstract fun getResultsViewModel(context: Context): BaseResultsViewModel
 }
