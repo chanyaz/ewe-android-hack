@@ -561,7 +561,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		notification.setNotificationType(NotificationType.HOTEL_ACTIVITY_CROSSSEll);
 		notification.setExpirationTimeMillis(expirationTimeMillis);
 		notification.setFlags(Notification.FLAG_LOCAL);
-		notification.setIconResId(R.drawable.ic_stat_expedia);
+		notification.setIconResId(R.drawable.ic_stat);
 
 		String title = Phrase.from(getContext(), R.string.hotel_book_activities_cross_sell_notification_title_TEMPLATE)
 			.put("destination", data.getPropertyCity())
@@ -610,7 +610,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		notification.setNotificationType(NotificationType.HOTEL_ACTIVITY_IN_TRIP);
 		notification.setExpirationTimeMillis(expirationTimeMillis);
 		notification.setFlags(Notification.FLAG_LOCAL);
-		notification.setIconResId(R.drawable.ic_stat_expedia);
+		notification.setIconResId(R.drawable.ic_stat);
 
 		String title = getContext().getString(R.string.things_to_do_near_hotel);
 

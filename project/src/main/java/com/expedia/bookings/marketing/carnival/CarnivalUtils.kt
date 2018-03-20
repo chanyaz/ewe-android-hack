@@ -388,7 +388,7 @@ open class CarnivalUtils {
                         .setContentTitle(bundle.getString(KEY_PAYLOAD_TITLE))
                         .setContentText(bundle.getString(KEY_PAYLOAD_ALERT))
                         .setContentIntent(createPendingIntent(context, bundle, bundle.getString(KEY_PAYLOAD_DEEPLINK)))
-                        .setSmallIcon(R.drawable.ic_stat_expedia)
+                        .setSmallIcon(R.drawable.ic_stat)
                         .setAutoCancel(true)
 
                 val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

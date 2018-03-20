@@ -267,8 +267,6 @@ public abstract class BaseFeatureConfiguration {
 
 	public abstract String getHostnameForShortUrl();
 
-	public abstract int getNotificationIconResourceId();
-
 	public abstract int getNotificationIndicatorLEDColor();
 
 	public abstract PointOfSaleId getDefaultPOS();

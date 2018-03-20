@@ -360,8 +360,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 				.setDeleteIntent(generateDismissPendingIntent(mContext, mNotification))
 				.setContentIntent(clickPendingIntent);
 
-			int notificationIconResourceId = ProductFlavorFeatureConfiguration.getInstance()
-				.getNotificationIconResourceId();
+			int notificationIconResourceId = R.drawable.ic_stat;
 			builder.setSmallIcon(notificationIconResourceId);
 
 			int notificationIndicatorLEDColor = ProductFlavorFeatureConfiguration.getInstance()

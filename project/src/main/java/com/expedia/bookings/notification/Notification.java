@@ -6,7 +6,6 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.expedia.bookings.R;
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 
@@ -108,7 +107,7 @@ public class Notification extends Model implements JSONable {
 	 */
 	private static final int[] sResIdMap = {
 		0,
-		R.drawable.ic_stat_expedia,
+		R.drawable.ic_stat,
 		R.drawable.ic_stat_flight,
 		R.drawable.ic_stat_car,
 		R.drawable.ic_stat_hotel,
@@ -187,7 +186,7 @@ public class Notification extends Model implements JSONable {
 		// Defaults
 		setExpirationTimeMillis(triggerTimeMillis + TimeUnit.DAYS.toMillis(1));
 		setStatus(StatusType.NEW);
-		setIconResId(R.drawable.ic_stat_expedia);
+		setIconResId(R.drawable.ic_stat);
 		setDeepLink("");
 		setTemplateName("");
 		setFlags(0);
@@ -232,7 +231,7 @@ public class Notification extends Model implements JSONable {
 		int resId = unmarshallResId(mIconId);
 
 		if (resId == 0 || mIconId == 1) {
-			resId = ProductFlavorFeatureConfiguration.getInstance().getNotificationIconResourceId();
+			resId = R.drawable.ic_stat;
 		}
 
 		return resId;

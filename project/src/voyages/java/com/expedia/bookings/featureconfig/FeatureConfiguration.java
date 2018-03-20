@@ -52,11 +52,6 @@ public class FeatureConfiguration extends BaseFeatureConfiguration {
 	}
 
 	@Override
-	public int getNotificationIconResourceId() {
-		return R.drawable.ic_stat_vsc;
-	}
-
-	@Override
 	public int getNotificationIndicatorLEDColor() {
 		return 0xfbc51e;
 	}

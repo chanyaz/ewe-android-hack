@@ -9,7 +9,6 @@ import android.support.v4.app.NotificationCompat
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.expedia.bookings.R
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import kotlinx.android.synthetic.main.activity_notification_mocker.small_body_edit_text
 import kotlinx.android.synthetic.main.activity_notification_mocker.shenanigans_text_view
 import kotlinx.android.synthetic.main.activity_notification_mocker.title_edit_text
@@ -31,8 +30,7 @@ class NotificationMockerActivity : AppCompatActivity() {
             val builder = NotificationCompat.Builder(this)
                     .setContentText(small_body_edit_text.text)
                     .setDefaults(Notification.DEFAULT_ALL)
-            val notificationIconResourceId = ProductFlavorFeatureConfiguration.getInstance()
-                    .notificationIconResourceId
+            val notificationIconResourceId = R.drawable.ic_stat
             builder.setSmallIcon(notificationIconResourceId)
             if (!title_edit_text.text.isNullOrBlank()) {
                 builder.setTicker(title_edit_text.text)
