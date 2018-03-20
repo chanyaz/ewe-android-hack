@@ -29,7 +29,6 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.ItineraryManager
-import com.expedia.bookings.data.trips.TripUtils
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.ClearPrivateDataDialog
 import com.expedia.bookings.dialog.FlightCheckInDialogBuilder
@@ -42,6 +41,7 @@ import com.expedia.bookings.fragment.SoftPromptDialogFragment
 import com.expedia.bookings.data.trips.ItinCardDataHotel
 import com.expedia.bookings.itin.triplist.TripListFragment
 import com.expedia.bookings.launch.fragment.PhoneLaunchFragment
+import com.expedia.bookings.launch.widget.LaunchListLogic
 import com.expedia.bookings.launch.widget.LaunchTabView
 import com.expedia.bookings.launch.widget.PhoneLaunchToolbar
 import com.expedia.bookings.model.PointOfSaleStateModel
@@ -458,7 +458,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
                 when (tab.position) {
                     PAGER_POS_LAUNCH -> {
                         gotoWaterfall()
-                        OmnitureTracking.trackPageLoadLaunchScreen(getLaunchTrackingEventsString())
+                        OmnitureTracking.trackPageLoadLaunchScreen(getLaunchTrackingEvents())
                     }
                     PAGER_POS_ITIN -> {
                         if (tripComponent != null) {
@@ -588,7 +588,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         super.onResume()
 
         when (viewPager.currentItem) {
-            PAGER_POS_LAUNCH -> OmnitureTracking.trackPageLoadLaunchScreen(getLaunchTrackingEventsString())
+            PAGER_POS_LAUNCH -> OmnitureTracking.trackPageLoadLaunchScreen(getLaunchTrackingEvents())
             PAGER_POS_ACCOUNT -> OmnitureTracking.trackAccountPageLoad()
         }
         if (AbacusFeatureConfigManager.isBucketedForTest(this, AbacusUtils.EBAndroidAppSoftPromptLocation)) {
@@ -764,32 +764,41 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         //Do nothing here
     }
 
-    private fun getLaunchTrackingEventsString(): String {
-        val events = mutableListOf<String>()
+    private fun getLaunchTrackingEvents(): MutableList<OmnitureTracking.PageEvent> {
+        val events = mutableListOf<OmnitureTracking.PageEvent>()
+        val launchListLogic = LaunchListLogic.getInstance()
 
-        events.add("event328")
+        // Track if either top or botton nav tabs are present. Currently always true
+        events.add(OmnitureTracking.PageEvent.LAUNCHSCREEN_GLOBAL_NAV)
+        // Track if LOB buttons are present (e.g. versus pro-wizard style search). Currently always true
+        events.add(OmnitureTracking.PageEvent.LAUNCHSCREEN_LOB_BUTTONS)
 
-        if (ItineraryManager.haveTimelyItinItem()) {
-            events.add("event322")
+        if (launchListLogic.showSignInCard()) {
+            events.add(OmnitureTracking.PageEvent.LAUNCHSCREEN_SIGN_IN_CARD)
         }
-
-        if (AbacusFeatureConfigManager.isBucketedInAnyVariant(this, AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen)
-                && userStateManager.isUserAuthenticated()
-                && TripUtils.getUpcomingAirAttachQualifiedFlightTrip(ItineraryManager.getInstance().trips) != null) {
-            events.add("event323")
+        if (launchListLogic.showItinCard()) {
+            events.add(OmnitureTracking.PageEvent.LAUNCHSCREEN_ACTIVE_ITINERARY)
         }
-
-        if (userStateManager.isUserAuthenticated()) {
-            events.add("event324")
-        } else {
-            events.add("event327")
+        if (launchListLogic.showAirAttachMessage()) {
+            events.add(OmnitureTracking.PageEvent.LAUNCHSCREEN_AIR_ATTACH)
         }
-
+        if (launchListLogic.showMemberDeal()) {
+            events.add(OmnitureTracking.PageEvent.LAUNCHSCREEN_MEMBER_DEALS_CARD)
+        }
+        if (launchListLogic.showMesoHotelAd()) {
+            events.add(OmnitureTracking.PageEvent.LAUNCHSCREEN_MESO_HOTEL_A2A_B2P)
+        }
+        if (launchListLogic.showMesoDestinationAd()) {
+            events.add(OmnitureTracking.PageEvent.LAUNCHSCREEN_MESO_DESTINATION)
+        }
+        if (launchListLogic.showLastMinuteDeal()) {
+            events.add(OmnitureTracking.PageEvent.LAUNCHSCREEN_LMD)
+        }
         if (havePermissionToAccessLocation(this)) {
-            events.add("event326")
+            events.add(OmnitureTracking.PageEvent.LAUNCHSCREEN_HOTELS_NEARBY)
         }
 
-        return events.joinToString(",")
+        return events
     }
 
     companion object {

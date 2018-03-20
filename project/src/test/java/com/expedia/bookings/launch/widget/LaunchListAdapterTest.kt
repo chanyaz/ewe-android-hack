@@ -70,6 +70,7 @@ class LaunchListAdapterTest {
     private lateinit var context: Context
     private lateinit var parentView: ViewGroup
     private lateinit var headerView: View
+    private lateinit var launchListLogic: LaunchListLogic
 
     @Before
     @Throws(Exception::class)
@@ -79,6 +80,8 @@ class LaunchListAdapterTest {
         parentView = FrameLayout(context)
         notificationManager = NotificationManager(context)
         context.getSharedPreferences("abacus_prefs", Context.MODE_PRIVATE).edit().clear().apply()
+        LaunchListLogic.getInstance().initialize(context)
+        launchListLogic = LaunchListLogic.getInstance()
         givenCustomerSignedOut()
     }
 
@@ -522,7 +525,7 @@ class LaunchListAdapterTest {
         var fourthPosition = adapterUnderTest.getItemViewType(3)
         assertEquals(LaunchDataItem.COLLECTION_VIEW, fourthPosition)
 
-        adapterUnderTest.isItinLaunchCardEnabled = true
+        adapterUnderTest.setLaunchListLogic(TestLaunchListLogic(context, isItinLaunchCardEnabled = true))
         mockItineraryManager.onSyncFinished(ArrayList<Trip>())
 
         firstPosition = adapterUnderTest.getItemViewType(0)
@@ -549,7 +552,7 @@ class LaunchListAdapterTest {
         assertFalse(adapterUnderTest.isStaticCardAlreadyShown(LaunchDataItem.ITIN_VIEW))
         assertFalse(adapterUnderTest.isStaticCardAlreadyShown(LaunchDataItem.AIR_ATTACH_VIEW))
 
-        adapterUnderTest.isItinLaunchCardEnabled = true
+        adapterUnderTest.setLaunchListLogic(TestLaunchListLogic(context, isItinLaunchCardEnabled = true))
         givenAirAttachCardEnabled()
         givenCustomerSignedIn()
         givenWeHaveStaffPicks()
@@ -870,7 +873,8 @@ class LaunchListAdapterTest {
     }
 
     private fun createSystemUnderTest(isItinLaunchCardEnabled: Boolean = false, recentAirAttachFlightTrip: Trip? = Trip()) {
-        adapterUnderTest = TestLaunchListAdapter(context, headerView, isItinLaunchCardEnabled, null, recentAirAttachFlightTrip)
+        val testLaunchListLogic = TestLaunchListLogic(context, isItinLaunchCardEnabled, null, recentAirAttachFlightTrip)
+        adapterUnderTest = TestLaunchListAdapter(context, headerView, testLaunchListLogic)
         adapterUnderTest.onCreateViewHolder(parentView, 0)
     }
 
@@ -912,19 +916,20 @@ class LaunchListAdapterTest {
         Locale.setDefault(Locale(lang))
     }
 
-    inner class TestLaunchListAdapter(context: Context?, header: View?, var isItinLaunchCardEnabled: Boolean = false, val trips: List<Trip>? = null, var recentAirAttachFlightTrip: Trip? = Trip()) : LaunchListAdapter(context, header) {
-
+    inner class TestLaunchListAdapter(context: Context?, header: View?, logic: LaunchListLogic) : LaunchListAdapter(context, header, logic) {
         override fun initMesoAd() {
-            if (showMesoHotelAd()) {
+            if (launchListLogic.showMesoHotelAd()) {
                 mesoHotelAdViewModel = MesoHotelAdViewModel(context = context)
                 mesoHotelAdViewModel.mesoHotelAdResponse = getMesoAdResponseMockData().HotelAdResponse
-            } else if (showMesoDestinationAd()) {
+            } else if (launchListLogic.showMesoDestinationAd()) {
                 mesoDestinationViewModel = MesoDestinationViewModel(context = context)
                 mesoDestinationViewModel.mesoDestinationAdResponse = getMesoAdResponseMockData().DestinationAdResponse
             }
         }
+    }
 
-        override fun showActiveItinLaunchScreenCard(): Boolean {
+    inner class TestLaunchListLogic(context: Context, var isItinLaunchCardEnabled: Boolean = false, val trips: List<Trip>? = null, var recentAirAttachFlightTrip: Trip? = Trip()) : LaunchListLogic() {
+        override fun showItinCard(): Boolean {
             return isItinLaunchCardEnabled
         }
 

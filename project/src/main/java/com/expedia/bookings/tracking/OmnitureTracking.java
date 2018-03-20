@@ -9,6 +9,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -152,6 +153,35 @@ public class OmnitureTracking {
 	private static UserStateManager userStateManager;
 
 	private static CESCTrackingUtil cescTrackingUtil;
+
+	public enum PageEvent {
+		LAUNCHSCREEN_SIGN_IN_CARD,
+		LAUNCHSCREEN_MEMBER_DEALS_CARD,
+		LAUNCHSCREEN_LOB_BUTTONS,
+		LAUNCHSCREEN_ACTIVE_ITINERARY,
+		LAUNCHSCREEN_AIR_ATTACH,
+		LAUNCHSCREEN_HOTELS_NEARBY,
+		LAUNCHSCREEN_GLOBAL_NAV,
+		LAUNCHSCREEN_LMD,
+		LAUNCHSCREEN_MESO_DESTINATION,
+		LAUNCHSCREEN_MESO_HOTEL_A2A_B2P
+	}
+
+	private static final Map<PageEvent, String> PAGE_EVENT_MAPPING = new EnumMap<PageEvent, String>(PageEvent.class) {
+		{
+			put(PageEvent.LAUNCHSCREEN_LOB_BUTTONS, "event321");
+			put(PageEvent.LAUNCHSCREEN_ACTIVE_ITINERARY, "event322");
+			put(PageEvent.LAUNCHSCREEN_AIR_ATTACH, "event323");
+			put(PageEvent.LAUNCHSCREEN_MEMBER_DEALS_CARD, "event324");
+			put(PageEvent.LAUNCHSCREEN_HOTELS_NEARBY, "event326");
+			put(PageEvent.LAUNCHSCREEN_SIGN_IN_CARD, "event327");
+			put(PageEvent.LAUNCHSCREEN_GLOBAL_NAV, "event328");
+			put(PageEvent.LAUNCHSCREEN_LMD, "event329");
+			put(PageEvent.LAUNCHSCREEN_MESO_HOTEL_A2A_B2P, "event336");
+			put(PageEvent.LAUNCHSCREEN_MESO_DESTINATION, "event337");
+		}
+	};
+
 
 	public static void init(ExpediaBookingApp app) {
 		Log.d(TAG, "init");
@@ -3485,14 +3515,29 @@ public class OmnitureTracking {
 		s.trackLink("Accounts");
 	}
 
-	public static void trackPageLoadLaunchScreen() {
-		trackPageLoadLaunchScreen(null);
+
+
+	@VisibleForTesting
+	static String getEventStringFromEventList(List<PageEvent> pageEvents) {
+
+		if (pageEvents == null) {
+			return "";
+		}
+
+		List<String> trackingEvents = new ArrayList<>();
+
+		for (PageEvent event : pageEvents) {
+			if (PAGE_EVENT_MAPPING.get(event) != null) {
+				trackingEvents.add(PAGE_EVENT_MAPPING.get(event));
+			}
+		}
+
+		return TextUtils.join(",", trackingEvents);
 	}
 
-	public static void trackPageLoadLaunchScreen(String trackingEvents) {
+
+	public static void trackPageLoadLaunchScreen(List<PageEvent> pageEvents) {
 		ADMS_Measurement s = createTrackPageLoadEventBase(LAUNCH_SCREEN);
-		boolean isFirstAppLaunch =
-			ExpediaBookingApp.isFirstLaunchEver() || ExpediaBookingApp.isFirstLaunchOfAppVersion();
 
 		if (PackageUtil.INSTANCE.isPackagesLobTitleABTestEnabled()) {
 			trackAbacusTest(s, AbacusUtils.PackagesTitleChange);
@@ -3516,9 +3561,7 @@ public class OmnitureTracking {
 			trackAbacusTest(s, AbacusUtils.RewardLaunchCard);
 		}
 
-		if (trackingEvents != null) {
-			s.appendEvents(trackingEvents);
-		}
+		s.appendEvents(getEventStringFromEventList(pageEvents));
 
 		if (userStateManager.isUserAuthenticated()) {
 			appendUsersEventString(s);

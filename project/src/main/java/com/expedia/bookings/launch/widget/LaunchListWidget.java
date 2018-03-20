@@ -45,7 +45,7 @@ public class LaunchListWidget extends RecyclerView {
 		setLayoutManager(layoutManager);
 
 		header = LayoutInflater.from(getContext()).inflate(R.layout.snippet_launch_list_header, null);
-		adapter = new LaunchListAdapter(getContext(), header);
+		adapter = new LaunchListAdapter(getContext(), header, LaunchListLogic.getInstance());
 		adapter.addSyncListener();
 		setAdapter(adapter);
 		setItemAnimator(new SlideInItemAnimator(this));

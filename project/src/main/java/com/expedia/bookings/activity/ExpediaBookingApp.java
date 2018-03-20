@@ -50,6 +50,7 @@ import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager;
 import com.expedia.bookings.itin.flight.common.FlightRegistrationHandler;
+import com.expedia.bookings.launch.widget.LaunchListLogic;
 import com.expedia.bookings.marketing.carnival.persistence.SharedPreferencesCarnivalProvider;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.PushNotificationUtils;
@@ -326,6 +327,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		startupTimer.addSplit("feature config init");
 
 		CarnivalUtils.getInstance().initialize(this, new SharedPreferencesCarnivalProvider(this));
+		LaunchListLogic.getInstance().initialize(this);
 
 		startupTimer.addSplit("CarnivalUtils initialization");
 

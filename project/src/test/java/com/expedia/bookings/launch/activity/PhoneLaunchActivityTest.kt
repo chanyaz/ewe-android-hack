@@ -111,7 +111,7 @@ class PhoneLaunchActivityTest {
         val activity = Robolectric.buildActivity(PhoneLaunchActivity::class.java).create().start().postCreate(null).resume().get()
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         AbacusTestUtils.bucketTestsAndEnableRemoteFeature(activity, AbacusUtils.DisableSignInPageAsFirstScreen)
-        OmnitureTracking.trackPageLoadLaunchScreen()
+        OmnitureTracking.trackPageLoadLaunchScreen(null)
         assertStateTracked("App.LaunchScreen", withAbacusTestBucketed(25030), mockAnalyticsProvider)
     }
 
@@ -120,7 +120,7 @@ class PhoneLaunchActivityTest {
     fun brandColorsIsTrackedOnLaunchScreen_whenBucketed() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppBrandColors)
-        OmnitureTracking.trackPageLoadLaunchScreen()
+        OmnitureTracking.trackPageLoadLaunchScreen(null)
         assertStateTracked("App.LaunchScreen", withAbacusTestBucketed(15846), mockAnalyticsProvider)
     }
 
@@ -182,7 +182,7 @@ class PhoneLaunchActivityTest {
     fun brandColorsIsNotTrackedOnLaunchScreen_whenUnbucketed() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppBrandColors)
-        OmnitureTracking.trackPageLoadLaunchScreen()
+        OmnitureTracking.trackPageLoadLaunchScreen(null)
         assertStateNotTracked(withAbacusTestBucketed(15846), mockAnalyticsProvider)
     }
 
@@ -191,7 +191,7 @@ class PhoneLaunchActivityTest {
     fun testRewardLaunchTileIsTrackedOnOmniture() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppBrandColors)
-        OmnitureTracking.trackPageLoadLaunchScreen()
+        OmnitureTracking.trackPageLoadLaunchScreen(null)
         assertStateTracked(withAbacusTestControl(15846), mockAnalyticsProvider)
     }
 
