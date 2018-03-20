@@ -14,29 +14,25 @@ import android.view.ViewAnimationUtils
 import android.view.ViewTreeObserver
 import android.view.animation.PathInterpolator
 import com.expedia.bookings.R
-import com.mobiata.android.Log
 import io.reactivex.CompletableObserver
 import io.reactivex.subjects.CompletableSubject
 
-/**
- * Created by cplachta on 2/16/18.
- */
 class ActivityTransitionCircularRevealHelper {
     companion object {
-        @JvmField val ARG_CIRCULAR_REVEAL_X = "ARG_CIRCULAR_REVEAL_X"
-        @JvmField val ARG_CIRCULAR_REVEAL_Y = "ARG_CIRCULAR_REVEAL_Y"
-        @JvmField val ARG_CIRCULAR_REVEAL_BACKGROUND_COLOR = "ARG_CIRCULAR_REVEAL_BACKGROUND_COLOR"
+        const val ARG_CIRCULAR_REVEAL_X = "ARG_CIRCULAR_REVEAL_X"
+        const val ARG_CIRCULAR_REVEAL_Y = "ARG_CIRCULAR_REVEAL_Y"
+        const val ARG_CIRCULAR_REVEAL_BACKGROUND_COLOR = "ARG_CIRCULAR_REVEAL_BACKGROUND_COLOR"
 
-        private val PATH_CONTROL_X1 = 0.60f
-        private val PATH_CONTROL_Y1 = 0.0f
-        private val PATH_CONTROL_X2 = 0.30f
-        private val PATH_CONTROL_Y2 = 1.0f
-        private val CIRCULAR_REVEAL_DURATION: Long = 600
-        private lateinit var doneAnimatingCompletable: CompletableSubject
+        private const val PATH_CONTROL_X1 = 0.60f
+        private const val PATH_CONTROL_Y1 = 0.0f
+        private const val PATH_CONTROL_X2 = 0.30f
+        private const val PATH_CONTROL_Y2 = 1.0f
+        private const val CIRCULAR_REVEAL_DURATION: Long = 600
+        private var doneAnimatingCompletable: CompletableSubject? = null
 
         fun getSceneTransitionAnimationAndSubscribe(activity: AppCompatActivity, sharedView: View, transitionName: String = "transition", completableObserver: CompletableObserver): ActivityOptionsCompat {
             doneAnimatingCompletable = CompletableSubject.create()
-            doneAnimatingCompletable.subscribe(completableObserver)
+            doneAnimatingCompletable?.subscribe(completableObserver)
             return ActivityOptionsCompat.makeSceneTransitionAnimation(activity, sharedView, transitionName)
         }
 
@@ -80,6 +76,7 @@ class ActivityTransitionCircularRevealHelper {
 
         private fun shouldStartCircularReveal(savedInstanceState: Bundle?, intent: Intent): Boolean {
             return savedInstanceState == null &&
+                    doneAnimatingCompletable != null &&
                     intent.hasExtra(ARG_CIRCULAR_REVEAL_X) &&
                     intent.hasExtra(ARG_CIRCULAR_REVEAL_Y) &&
                     intent.hasExtra(ARG_CIRCULAR_REVEAL_BACKGROUND_COLOR)
@@ -102,15 +99,11 @@ class ActivityTransitionCircularRevealHelper {
         }
 
         @VisibleForTesting
-        fun getNotifyOnAnimationEndAnimator(completableSubject: CompletableSubject, activity: AppCompatActivity, previousWindowBackgroundColor: Int): Animator.AnimatorListener {
+        fun getNotifyOnAnimationEndAnimator(completableSubject: CompletableSubject?, activity: AppCompatActivity, previousWindowBackgroundColor: Int): Animator.AnimatorListener {
             return object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animator: Animator?) {
-                    try {
-                        setWindowBackgroundColor(activity, previousWindowBackgroundColor)
-                        completableSubject.onComplete()
-                    } catch (ex: UninitializedPropertyAccessException) {
-                        Log.e("Calling this without initialization prevents the previous activity from finishing: " + ex.message)
-                    }
+                    setWindowBackgroundColor(activity, previousWindowBackgroundColor)
+                    completableSubject?.onComplete()
                 }
             }
         }

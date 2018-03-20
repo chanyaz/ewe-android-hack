@@ -4,7 +4,6 @@ import android.support.constraint.ConstraintLayout
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.ActivityTransitionCircularRevealHelper
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Test
@@ -35,7 +34,7 @@ class RouterActivityTest {
     @Test
     fun splashAnimationShouldShowWhenEnabledInFeatureConfig() {
 
-        if (ProductFlavorFeatureConfiguration.getInstance().isSplashLoadingAnimationEnabled) {
+        if (mockRouterActivity.shouldSplashLoadingAnimationShow()) {
             val nextIntentStarted = ShadowApplication.getInstance().nextStartedActivity
             assertTrue {
                 nextIntentStarted.hasExtra(ActivityTransitionCircularRevealHelper.ARG_CIRCULAR_REVEAL_X) &&
@@ -57,7 +56,7 @@ class RouterActivityTest {
         }
 
         override fun notifyAnimationsThatDataHasLoaded() {
-            if (ProductFlavorFeatureConfiguration.getInstance().isSplashLoadingAnimationEnabled) {
+            if (shouldSplashLoadingAnimationShow()) {
                 val mockView = Mockito.mock(View::class.java)
                 launchNextActivityWithLoadingAnimationScreen(mockView)
             } else {

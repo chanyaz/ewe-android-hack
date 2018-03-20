@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -92,7 +93,7 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		if (ProductFlavorFeatureConfiguration.getInstance().isSplashLoadingAnimationEnabled()) {
+		if (shouldSplashLoadingAnimationShow()) {
 			setTheme(R.style.SplashThemeForLoadingAnimation);
 			super.onCreate(savedInstanceState);
 			setupActivityForAnimationsAndBeginAnimation();
@@ -120,6 +121,11 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 		Ui.getApplication(this).updateFirstLaunchAndUpdateSettings();
 
 		userStateManager.ensureUserStateSanity(this);
+	}
+
+	protected boolean shouldSplashLoadingAnimationShow() {
+		return ProductFlavorFeatureConfiguration.getInstance().isSplashLoadingAnimationEnabled() &&
+			Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP;
 	}
 
 	public void setupActivityForAnimationsAndBeginAnimation() {
@@ -291,7 +297,7 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 				cacheLaunchNavBucket(0);
 			}
 
-			if (ProductFlavorFeatureConfiguration.getInstance().isSplashLoadingAnimationEnabled()) {
+			if (shouldSplashLoadingAnimationShow()) {
 				notifyAnimationsThatDataHasLoaded();
 			}
 			else {
@@ -303,7 +309,7 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 		public void onNext(AbacusResponse abacusResponse) {
 			cacheLaunchNavBucket(abacusResponse.variateForTest(AbacusUtils.EBAndroidAppBottomNavTabs));
 			AbacusHelperUtils.updateAbacus(abacusResponse, RouterActivity.this);
-			if (ProductFlavorFeatureConfiguration.getInstance().isSplashLoadingAnimationEnabled()) {
+			if (shouldSplashLoadingAnimationShow()) {
 				notifyAnimationsThatDataHasLoaded();
 			}
 			else {
