@@ -143,8 +143,6 @@
     </plurals>
     <!-- Accessibility announcement requesting user to fix errors on checkout forms. -->
     <string name="accessibility_announcement_please_review_and_resubmit">Verifique e envie novamente.</string>
-    <!--Accessibility content description for lock icon on checkout. -->
-    <string name="secure_lock_accessibility">Ícone na forma de um cadeado, pagamento seguro</string>
     <!--Legal booking statement for flights on checkout-->
     <string name="flight_booking_statement_TEMPLATE">Ao concluir esta reserva, eu concordo que li e aceitei as &lt;a href=\"{website_url}\""&gt;Regras e restrições, os Termos e condições, a Política de privacidade e as Informações de tarifa&lt;/a&gt;.</string>
 
@@ -797,9 +795,9 @@
     <string name="Checkout">Check-out</string>
 
     <!-- Sign in with Expedia -->
-    <string name="Sign_in_with_TEMPLATE">Conectar com a {brand}</string>
+    <string name="Sign_in_with_TEMPLATE">Fazer login com a {brand}</string>
     <!-- Content description for sign in button. Eg: Sign in with Expedia button -->
-    <string name="Sign_in_with_cont_desc_TEMPLATE">Botão para se conectar com a {brand}</string>
+    <string name="Sign_in_with_cont_desc_TEMPLATE">Botão para fazer login com a {brand}</string>
     <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia Rewards points -->
     <string name="Sign_in_to_earn_TEMPLATE">Faça login e ganhe {reward} pontos do Expedia Rewards</string>
     <!-- Content description for sign in with earn message. Eg: Sign in to earn 123 Expedia Rewards points button -->
@@ -813,11 +811,11 @@
     <!--With member prices, you could save an average of 17% more right now on thousands of hotels.-->
     <string name="member_prices_signin">Com o preço para associado, você pode economizar uma média de 17% a mais neste momento em milhares de hotéis.</string>
     <!--Sign in or create an account-->
-    <string name="sign_in_create_account">Conecte-se ou crie uma conta</string>
+    <string name="sign_in_create_account">Faça login ou crie uma conta</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
-    <string name="restricted_profile_sign_in_message_TEMPLATE">Para se conectar à {brand}, você deve usar um perfil de usuário irrestrito em seu dispositivo.</string>
+    <string name="restricted_profile_sign_in_message_TEMPLATE">Para fazer login com a {brand}, você deve usar um perfil de usuário irrestrito em seu dispositivo.</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Hotels -->
@@ -828,6 +826,7 @@
     <string name="nav_packages">Ofertas de pacote</string>
     <string name="nav_hotel_plus_flight_deals">Ofertas de hotel + voo</string>
     <string name="nav_hotel_plus_flight">Hotel + voo</string>
+    <string name="nav_hotel_plus_flight_plus_car">Hotel + voo + carro</string>
     <string name="nav_flight_plus_hotel">Voo + hotel</string>
     <!-- Rail -->
     <string name="nav_rail">Trens</string>
@@ -1003,7 +1002,7 @@
     <string name="find_itinerary">Buscar itinerário</string>
     <string name="unable_to_find_guest_itinerary">Não foi possível encontrar o itinerário. Confirme na tela da conta o país correspondente ao endereço do site de sua reserva.</string>
     <!-- Unable to find itinerary for registered user  example: This is not a guest itinerary. Please sign into the Expedia account associated with this itinerary.-->
-    <string name="unable_to_find_registered_user_itinerary_template">Este não é um itinerário feito com uma conta de convidado. Conecte-se à conta da {brand} associada a este itinerário.</string>
+    <string name="unable_to_find_registered_user_itinerary_template">Este não é um itinerário feito com uma conta de convidado. Faça login na conta da {brand} associada a este itinerário.</string>
     <!-- Expedia Itinerary -->
     <string name="itinerary_TEMPLATE">N° do itinerário da {brand}</string>
     <!-- Label for exclusive phone number for base tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
@@ -1019,7 +1018,7 @@
     <!-- Enter a Guest itinerary number -->
     <string name="enter_a_guest_itinerary_number">Insira um número de itinerário de hóspede</string>
     <!-- Itin list view manually add guest trip intro text -->
-    <string name="itin_list_view_manually_add_guest_trip_intro_text">Fez check-out sem se conectar? Encontre sua viagem usando o número do itinerário.</string>
+    <string name="itin_list_view_manually_add_guest_trip_intro_text">Fez check-out sem fazer login? Encontre sua viagem usando o número do itinerário.</string>
     <!-- Itin list view manually add guest trip button text -->
     <string name="itin_list_view_manually_add_guest_trip_button_text">Adicionar manualmente a viagem reservada como convidado</string>
     <!-- Itin list view manually add guest trip button content description -->
@@ -1027,7 +1026,7 @@
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Buscando seus itinerários…</string>
     <!-- Sign in for your trips -->
-    <string name="sign_in_for_your_trips">Conecte-se para ver suas viagens</string>
+    <string name="sign_in_for_your_trips">Faça login para ver suas viagens</string>
     <!-- Button text to refresh your trips -->
     <string name="refresh_trips">Atualizar viagens</string>
     <!-- Button text to refresh your trips in new Itin Sign In -->
@@ -1371,6 +1370,12 @@
     <string name="itin_hotel_details_manage_booking_subheading">Alterações, cancelamentos e suporte</string>
     <!--Hotel itin card price summary heading-->
     <string name="itin_hotel_details_price_summary_heading">Resumo do preço</string>
+    <!--Hotel itin card price summary and rewards heading-->
+    <string name="itin_hotel_details_price_summary_rewards_heading">Programa de fidelidade e preços</string>
+    <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
+    <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">{amount} valor total pago</string>
+    <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
+    <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">{amount} total devido no hotel</string>
     <!--Hotel itin card additional info heading-->
     <string name="itin_hotel_details_additional_info_heading">Mais informações</string>
     <!--Hotel itin checkin text-->
@@ -1890,7 +1895,7 @@
     <!-- "Select" button label, for selecting a particular leg of a flight -->
     <string name="select">Selecionar</string>
     <!-- Template string for error when we simple can't connect to E3 servers-->
-    <string name="error_server_TEMPLATE">Não foi possível conectar aos servidores da {brand}.  Tente novamente mais tarde.</string>
+    <string name="error_server_TEMPLATE">Não foi possível fazer login com os servidores da {brand}.  Tente novamente mais tarde.</string>
     <!-- Sort by departure timelabel -->
     <string name="sort_description_departure">Horário de partida</string>
     <!-- Sort by arrival time label -->
@@ -2062,7 +2067,7 @@
     <!-- Our price gaurentee string -->
     <string name="price_guarantee">Garantia de preço</string>
     <!-- Sign out -->
-    <string name="sign_out">Desconectar</string>
+    <string name="sign_out">Fazer logout</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Você ganhará {reward_currency} pontos com esta reserva!</string>
     <!-- You are a valued member -->
@@ -2070,13 +2075,13 @@
     <!-- Shop as a {brand} member eg: Shop as an Expedia member! -->
     <string name="shop_as_a_member_TEMPLATE">Reserve como associado da {brand}!</string>
     <!-- Launch screen 2x messaging signed-out title-->
-    <string name="launch_screen_sign_in_2x_title">Conecte-se e economize ainda mais!</string>
+    <string name="launch_screen_sign_in_2x_title">Faça login e economize ainda mais!</string>
     <!-- Launch screen 2x messaging for signed-out subtitle-->
     <string name="launch_screen_sign_in_2x_subtitle">Com o preço para associado, você pode economizar uma média de 17% a mais neste momento em milhares de hotéis. Além disso, você ganhará o dobro de pontos em todas as reservas feitas com o app!</string>
     <!-- Launch screen 2x banner messaging for signed-in users -->
     <string name="launch_screen_2x_banner">Você ganhará o dobro de pontos em todas as reservas feitas com o app!</string>
     <!-- Checkout sign in button for 2x messaging -->
-    <string name="checkout_sign_in_2x_messaging">Conecte-se para ganhar o dobro de pontos!</string>
+    <string name="checkout_sign_in_2x_messaging">Faça login para ganhar o dobro de pontos!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">Você ganhará {reward_currency} pontos com esta viagem!</string>
     <!-- Blurb text displayed on account sign in button when already signed in and has 2x earn messaging e.g. You'll earn 1234 points. That's double for booking in app!-->
@@ -2103,7 +2108,7 @@
     <!-- Content description for Expedia logo icon on checkout account view  e.g. Expedia Account -->
     <string name="brand_account_cont_desc_TEMPLATE">Conta da {brand}</string>
     <!-- Content description for signed in Expedia account e.g. Signed in as qa-ehcc@mobiata.com -->
-    <string name="signed_in_account_cont_desc_TEMPLATE">Conectado como {email}</string>
+    <string name="signed_in_account_cont_desc_TEMPLATE">Você fez login como {email}</string>
     <!-- Enter Payment Information -->
     <string name="enter_payment_information">Insira as informações de pagamento</string>
 
@@ -2250,6 +2255,8 @@
     <string name="save_traveler">Salvar viajante</string>
     <!-- no thanks -->
     <string name="no_thanks">Não</string>
+    <!--Advanced flight traveler options, explicitly telling user that they can add frequent flyer number anytime before the flight -->
+    <string name="add_anytime_before_your_flight">Adicione a qualquer momento antes do voo.</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">Detalhes avançados (opcional)</string>
     <!--Contact airline message on flight checkout traveler details -->
@@ -2901,8 +2908,6 @@
     <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
          e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
     <string name="package_hotel_results_header_TEMPLATE">Preço total de ida e volta por pessoa. Inclui hotéis e voos • {total_price_result_count_header}</string>
-    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay -->
-    <string name="package_hotel_results_header">Preço total de ida e volta, por pessoa • incluindo hotel e voos</string>
 
     <!-- Urgency message indicating percent of hotels remaining in a region-->
     <string name="urgency_only_x_hotels_left_TEMPLATE">Apenas {percent} % de hotéis disponíveis no nosso site!</string>
@@ -2960,11 +2965,11 @@
     <!-- Message for dialog confirming the clearing of private data -->
     <string name="dialog_clear_private_data_msg">Essa ação removerá todo o histórico de busca.</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_sign_out_and_clear_private_data_msg">Essa ação irá desconectá-lo e remover todo o histórico de busca.</string>
+    <string name="dialog_sign_out_and_clear_private_data_msg">Assim, você vai sair da sua conta e perder todo o histórico de busca.</string>
     <!-- Title for dialog confirming the clearing of private data when user is logged in-->
     <string name="dialog_clear_private_data_title_logged_in_user">Tem certeza?</string>
     <!-- Message for dialog confirming the clearing of private data when user is logged in. Ex: Changing the country will sign you out of your Expedia account​ -->
-    <string name="dialog_sign_out_and_clear_private_data_msg_TEMPLATE">Ao alterar o país, você será desconectado de sua conta da {brand}.</string>
+    <string name="dialog_sign_out_and_clear_private_data_msg_TEMPLATE">Ao alterar o país, você sairá da sua conta da {brand}.</string>
     <!-- Continue button for dialog confirming the clearing of private data -->
     <string name="continue_button">Continuar</string>
     <!-- Title for dialog after private data has been cleared -->
@@ -3007,12 +3012,16 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to open account settings screen -->
     <string name="account_settings_menu_label">Conta</string>
+    <!-- Label for menu item to edit account settings screen -->
+    <string name="account_settings_edit_label">Editar informações da conta</string>
+    <!-- Label for webview to edit account settings -->
+    <string name="account_settings_edit_webview_label">Minha conta</string>
     <!-- Label for menu item to sign into account -->
-    <string name="sign_in">Conectar-se</string>
+    <string name="sign_in">Fazer login</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
-    <string name="signing_in">Conectando…</string>
+    <string name="signing_in">Fazendo login…</string>
     <!-- Label for sign out confirmation -->
-    <string name="sign_out_confirmation_TEMPLATE">Tem certeza de que deseja se desconectar de sua conta da {brand}?</string>
+    <string name="sign_out_confirmation_TEMPLATE">Tem certeza de que deseja fazer logout de sua conta da {brand}?</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">Carregando a conta da {brand}</string>
     <!-- Label for coupon code hint -->
@@ -3021,7 +3030,7 @@
     <string name="apply">Solicitar</string>
     <!-- Google Account Change -->
     <string name="google_account_change_string">Quer fazer login com Google?</string>
-    <string name="google_account_change_message_TEMPLATE">Não oferecemos mais suporte à conexão com o Google, mas ainda temos suas informações de viagem da {brand}! Para conectar-se, você deverá definir uma senha usando seu endereço de e-mail do Google em nosso site</string>
+    <string name="google_account_change_message_TEMPLATE">Não oferecemos mais suporte à conexão com o Google, mas ainda temos suas informações de viagem da {brand}! Para fazer login, você deve definir uma senha usando seu endereço de e-mail do Google em nosso site</string>
 
     <!-- Coupon dialog -->
     <!-- Coupon Widget Title -->
@@ -3287,7 +3296,7 @@
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{currency} {amount}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">Configurações</string>
@@ -4642,6 +4651,19 @@
     <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights. Cannot be deselected, all flight results are NonStop. -->
     <string name="packages_flight_filter_checkbox_disabled_cont_desc_TEMPLATE">Disponibilidade de {filter_results} voos {filter_name}. Não foi possível cancelar a seleção, pois todos os resultados de voo são {filter_name}.\u0020</string>
 
+
+   <!--    Example #1: 3 available NonStop flights starting from $200.
+           Example #2: 2 available Hawaiian Airlines flights starting from $200. -->
+    <string name="flight_filter_checkbox_with_price_and_count_cont_desc_TEMPLATE">{filter_results} voos disponíveis. {filter_name}. A partir de {price}\u0020</string>
+    <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights starting from $200. Cannot be deselected, all flight results are NonStop. -->
+    <string name="flight_filter_checkbox_disabled_with_price_and_count_cont_desc_TEMPLATE">{filter_results} voos disponíveis. {filter_name}. A partir de {price}. Não foi possível cancelar a seleção, pois todos os resultados de voo são {filter_name}.\u0020</string>
+
+    <!-- Example #1: NonStop flights starting from $200.
+         Example #2: Hawaiian Airlines flights starting from $200. -->
+    <string name="flight_filter_checkbox_with_price_cont_desc_TEMPLATE">{filter_name}. Voos a partir de {price}\u0020</string>
+    <!-- Content Description for diabled filter option on Sort Filter Page. Example: NonStop flights starting from $200. Cannot be deselected, all flight results are NonStop. -->
+    <string name="flight_filter_checkbox_disabled_with_price__cont_desc_TEMPLATE">{filter_name}. Voos a partir de {price}. Não foi possível cancelar a seleção, pois todos os resultados de voo são {filter_name}.\u0020</string>
+
     <!-- Status displayed in a modal dialog while insurance is being added -->
     <string name="insurance_adding">Adicionando proteção para a viagem…</string>
     <!-- Error message displayed when insurance fails to be added to a trip -->
@@ -4830,15 +4852,16 @@
     <!-- Itinerary number error message -->
     <string name="itinerary_number_error_message">Insira um núm. de itinerário válido</string>
     <!-- Itin screen message for signing in-->
-    <string name="itin_sign_in_message">Conecte-se para ter acesso a suas próximas viagens</string>
+    <string name="itin_sign_in_message">Faça login para ter acesso a suas próximas viagens</string>
     <!-- Find Guest Itinerary Screen Title -->
     <string name="find_guest_itinerary_title">Procurar viagem reservada como convidado</string>
     <!-- Introduction text for find guest itinerary screen -->
-    <string name="find_guest_itinerary_intro_text">Fez check-out sem se conectar? Encontre sua viagem usando o número do itinerário. O número do itinerário está no e-mail de confirmação.</string>
+    <string name="find_guest_itinerary_intro_text">Fez check-out sem fazer login? Encontre sua viagem usando o número do itinerário. O número do itinerário está no e-mail de confirmação.</string>
     <!-- Hint to type in email address -->
     <string name="find_guest_add_email_address_hint">E-mail</string>
     <!-- Hint to type in itinerary number -->
     <string name="find_guest_add_itinerary_number_hint">Número do itinerário</string>
+    <string name="itin_toolbar">Viagens</string>
 
     <!-- Booking successful alert text-->
     <string name="booking_successful">Reserva efetuada com sucesso!</string>
@@ -5015,10 +5038,16 @@
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">Preço padrão: {ticket_type} {activity_original_price}. Preço com desconto: {ticket_type} {activity_price}.</string>
     <string name="hotel_2x_points_search_title">Dobre os pontos do Expedia Rewards!</string>
     <string name="hotel_2x_points_search_content">Você ganhará o dobro de pontos por reservar com o app!</string>
+
+    <!-- Recent search - Date searched On string e.g. as of Nov 10 -->
+    <string name="flight_recent_search_date_searched_TEMPLATE">em {searchdate}</string>
     <!-- Recent search header string -->
     <string name="flight_recent_search_label">Buscas recentes</string>
 
     <!-- Brand reward name -->
     <string name="brand_reward_name">Expedia Rewards</string>
+
+    <!--Accessibility Content Description for Member Pricing Discount Percentage Eg. Member Pricing Discount: 10%-->
+    <string name="lx_member_pricing_discount_percent_TEMPLATE">Desconto do preço para associado: {discount}</string>
 
 </resources>

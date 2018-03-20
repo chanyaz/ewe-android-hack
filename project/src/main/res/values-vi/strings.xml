@@ -143,8 +143,6 @@
     </plurals>
     <!-- Accessibility announcement requesting user to fix errors on checkout forms. -->
     <string name="accessibility_announcement_please_review_and_resubmit">Vui lòng kiểm tra và gửi lại.</string>
-    <!--Accessibility content description for lock icon on checkout. -->
-    <string name="secure_lock_accessibility">Biểu tượng ổ khóa, thanh toán an toàn</string>
     <!--Legal booking statement for flights on checkout-->
     <string name="flight_booking_statement_TEMPLATE">Bằng việc hoàn tất đặt, tôi đồng ý đã đọc và chấp nhận &lt;a href=\"{website_url}\""&gt;Quy định và Giới hạn, Điều khoản và Điều kiện, chính sách riêng tư, và thông tin giá vé&lt;/a&gt;.</string>
 
@@ -828,6 +826,7 @@
     <string name="nav_packages">Ưu đãi Gói</string>
     <string name="nav_hotel_plus_flight_deals">Ưu đãi Khách sạn + Chuyến bay</string>
     <string name="nav_hotel_plus_flight">Khách sạn + Chuyến bay</string>
+    <string name="nav_hotel_plus_flight_plus_car">Khách sạn + Chuyến bay + Xe hơi</string>
     <string name="nav_flight_plus_hotel">Chuyến bay + Khách sạn</string>
     <!-- Rail -->
     <string name="nav_rail">Tàu hỏa</string>
@@ -1371,6 +1370,12 @@
     <string name="itin_hotel_details_manage_booking_subheading">Thay đổi, hủy hoặc hỗ trợ</string>
     <!--Hotel itin card price summary heading-->
     <string name="itin_hotel_details_price_summary_heading">Tóm tắt giá</string>
+    <!--Hotel itin card price summary and rewards heading-->
+    <string name="itin_hotel_details_price_summary_rewards_heading">Giá và điểm thưởng</string>
+    <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
+    <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">Tổng số tiền đã thanh toán: {amount}</string>
+    <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
+    <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">Tổng thanh toán tại khách sạn: {amount}</string>
     <!--Hotel itin card additional info heading-->
     <string name="itin_hotel_details_additional_info_heading">Thông tin bổ sung</string>
     <!--Hotel itin checkin text-->
@@ -2250,6 +2255,8 @@
     <string name="save_traveler">Lưu khách</string>
     <!-- no thanks -->
     <string name="no_thanks">Không, cảm ơn</string>
+    <!--Advanced flight traveler options, explicitly telling user that they can add frequent flyer number anytime before the flight -->
+    <string name="add_anytime_before_your_flight">Thêm vào bất kỳ lúc nào trước chuyến bay của quý vị.</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">Nâng cao (tùy chọn)</string>
     <!--Contact airline message on flight checkout traveler details -->
@@ -2901,8 +2908,6 @@
     <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
          e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
     <string name="package_hotel_results_header_TEMPLATE">Tổng giá hai chiều, mỗi người. gồm khách sạn và chuyến bay • {total_price_result_count_header}</string>
-    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay -->
-    <string name="package_hotel_results_header">Tổng giá khứ hồi, mỗi người • bao gồm khách sạn và chuyến bay</string>
 
     <!-- Urgency message indicating percent of hotels remaining in a region-->
     <string name="urgency_only_x_hotels_left_TEMPLATE">Chỉ {percent}% khách sạn còn chỗ!</string>
@@ -3007,6 +3012,10 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to open account settings screen -->
     <string name="account_settings_menu_label">Tài khoản</string>
+    <!-- Label for menu item to edit account settings screen -->
+    <string name="account_settings_edit_label">Chỉnh sửa thông tin tài khoản</string>
+    <!-- Label for webview to edit account settings -->
+    <string name="account_settings_edit_webview_label">Tài khoản của tôi</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Đăng nhập</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
@@ -4642,6 +4651,19 @@
     <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights. Cannot be deselected, all flight results are NonStop. -->
     <string name="packages_flight_filter_checkbox_disabled_cont_desc_TEMPLATE">Có {filter_results} chuyến bay {filter_name}. Không thể bỏ chọn, tất cả chuyến bay là {filter_name}.\u0020</string>
 
+
+   <!--    Example #1: 3 available NonStop flights starting from $200.
+           Example #2: 2 available Hawaiian Airlines flights starting from $200. -->
+    <string name="flight_filter_checkbox_with_price_and_count_cont_desc_TEMPLATE">Có {filter_results} chuyến bay {filter_name} giá từ {price}\u0020</string>
+    <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights starting from $200. Cannot be deselected, all flight results are NonStop. -->
+    <string name="flight_filter_checkbox_disabled_with_price_and_count_cont_desc_TEMPLATE">Có {filter_results} chuyến bay {filter_name} giá từ {price}. Không thể bỏ chọn, tất cả chuyến bay là {filter_name}.\u0020</string>
+
+    <!-- Example #1: NonStop flights starting from $200.
+         Example #2: Hawaiian Airlines flights starting from $200. -->
+    <string name="flight_filter_checkbox_with_price_cont_desc_TEMPLATE">Có chuyến bay {filter_name} giá từ {price}\u0020</string>
+    <!-- Content Description for diabled filter option on Sort Filter Page. Example: NonStop flights starting from $200. Cannot be deselected, all flight results are NonStop. -->
+    <string name="flight_filter_checkbox_disabled_with_price__cont_desc_TEMPLATE">Có {filter_name} chuyến bay giá từ {price}. Không thể bỏ chọn, tất cả chuyến bay là {filter_name}.\u0020</string>
+
     <!-- Status displayed in a modal dialog while insurance is being added -->
     <string name="insurance_adding">Thêm bảo hiểm chuyến đi…</string>
     <!-- Error message displayed when insurance fails to be added to a trip -->
@@ -4839,6 +4861,7 @@
     <string name="find_guest_add_email_address_hint">Email</string>
     <!-- Hint to type in itinerary number -->
     <string name="find_guest_add_itinerary_number_hint">Số lịch trình</string>
+    <string name="itin_toolbar">Chuyến đi</string>
 
     <!-- Booking successful alert text-->
     <string name="booking_successful">Đã đặt thành công!</string>
@@ -5015,10 +5038,16 @@
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">Giá gốc: {activity_original_price}/{ticket_type}. Giá đã giảm: {activity_price}/{ticket_type}</string>
     <string name="hotel_2x_points_search_title">Nhận gấp đôi điểm Expedia Rewards!</string>
     <string name="hotel_2x_points_search_content">Nhận gấp đôi điểm thưởng khi đặt qua app!</string>
+
+    <!-- Recent search - Date searched On string e.g. as of Nov 10 -->
+    <string name="flight_recent_search_date_searched_TEMPLATE">vào {searchdate}</string>
     <!-- Recent search header string -->
     <string name="flight_recent_search_label">Tìm gần đây</string>
 
     <!-- Brand reward name -->
     <string name="brand_reward_name">Expedia Rewards</string>
+
+    <!--Accessibility Content Description for Member Pricing Discount Percentage Eg. Member Pricing Discount: 10%-->
+    <string name="lx_member_pricing_discount_percent_TEMPLATE">Giảm giá thành viên: {discount}%</string>
 
 </resources>

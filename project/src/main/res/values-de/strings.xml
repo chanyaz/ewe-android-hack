@@ -143,8 +143,6 @@
     </plurals>
     <!-- Accessibility announcement requesting user to fix errors on checkout forms. -->
     <string name="accessibility_announcement_please_review_and_resubmit">Bitte überprüfen Sie Ihre Angaben und senden Sie sie erneut ab.</string>
-    <!--Accessibility content description for lock icon on checkout. -->
-    <string name="secure_lock_accessibility">Schloss-Symbol, sicherer Buchungsabschluss</string>
     <!--Legal booking statement for flights on checkout-->
     <string name="flight_booking_statement_TEMPLATE">Durch den Abschluss dieser Buchung bestätige ich, dass ich die &lt;a href=\"{website_url}\""&gt;Richtlinien und Einschränkungen, die allgemeinen Geschäftsbedingungen, die Datenschutzrichtlinie und die Preisinformationen&lt;/a&gt; zur Kenntnis genommen und akzeptiert habe.</string>
 
@@ -825,9 +823,10 @@
     <!-- Ground Transport -->
     <string name="nav_transport">Transfers</string>
     <!-- Packages -->
-    <string name="nav_packages">Click&amp;Mix-Angebote</string>
+    <string name="nav_packages">Flug+Hotel-Angebote</string>
     <string name="nav_hotel_plus_flight_deals">Flug+Hotel-Angebote</string>
     <string name="nav_hotel_plus_flight">Flug + Hotel</string>
+    <string name="nav_hotel_plus_flight_plus_car">Hotel + Flug + Mietwagen</string>
     <string name="nav_flight_plus_hotel">Flug + Hotel</string>
     <!-- Rail -->
     <string name="nav_rail">Züge</string>
@@ -1371,6 +1370,12 @@
     <string name="itin_hotel_details_manage_booking_subheading">Änderungen, Stornierungen und Hilfe</string>
     <!--Hotel itin card price summary heading-->
     <string name="itin_hotel_details_price_summary_heading">Preisübersicht</string>
+    <!--Hotel itin card price summary and rewards heading-->
+    <string name="itin_hotel_details_price_summary_rewards_heading">Preise und Bonusprogramm</string>
+    <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
+    <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">{amount} gezahlter Betrag</string>
+    <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
+    <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">{amount} im Hotel fälliger Betrag</string>
     <!--Hotel itin card additional info heading-->
     <string name="itin_hotel_details_additional_info_heading">Zusätzliche Informationen</string>
     <!--Hotel itin checkin text-->
@@ -2250,6 +2255,8 @@
     <string name="save_traveler">Reisenden speichern</string>
     <!-- no thanks -->
     <string name="no_thanks">Nein, danke</string>
+    <!--Advanced flight traveler options, explicitly telling user that they can add frequent flyer number anytime before the flight -->
+    <string name="add_anytime_before_your_flight">Diese Angaben können Sie jederzeit vor Ihrem Flug hinzufügen.</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">Erweitert (optional)</string>
     <!--Contact airline message on flight checkout traveler details -->
@@ -2901,8 +2908,6 @@
     <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
          e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
     <string name="package_hotel_results_header_TEMPLATE">Gesamtpreis für Hin- und Rückflug pro Person. Inklusive Hotel und Flüge • {total_price_result_count_header}</string>
-    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay -->
-    <string name="package_hotel_results_header">Gesamtpreis für Hin- und Rückflug pro Person • inklusive Hotel und Flüge</string>
 
     <!-- Urgency message indicating percent of hotels remaining in a region-->
     <string name="urgency_only_x_hotels_left_TEMPLATE">Nur noch {percent}% der Hotels bei uns übrig!</string>
@@ -3007,6 +3012,10 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to open account settings screen -->
     <string name="account_settings_menu_label">Konto</string>
+    <!-- Label for menu item to edit account settings screen -->
+    <string name="account_settings_edit_label">Kontoinformationen bearbeiten</string>
+    <!-- Label for webview to edit account settings -->
+    <string name="account_settings_edit_webview_label">Mein Konto</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Anmelden</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
@@ -3152,7 +3161,7 @@
     <!--example: Points from flights become available up to 30 days after travel has been completed.-->
     <string name="pending_points_flights_accessibility_TEMPLATE">Punkte von Flügen werden innerhalb von {number_of_days} Tagen nach Reiseende verfügbar.</string>
     <!--example: Points from bundle deals become available up to 30 days after travel has been completed.-->
-    <string name="pending_points_bundles_accessibility_TEMPLATE">Punkte von Click&amp;Mix-Angeboten werden innerhalb von {number_of_days} Tagen nach Reiseende verfügbar.</string>
+    <string name="pending_points_bundles_accessibility_TEMPLATE">Punkte von Flug+Hotel-Angeboten werden innerhalb von {number_of_days} Tagen nach Reiseende verfügbar.</string>
     <!--example: Points from activities become available up to 30 days after travel has been completed.-->
     <string name="pending_points_activities_accessibility_TEMPLATE">Punkte von Events &amp; Tickets werden innerhalb von {number_of_days} Tagen nach Reiseende verfügbar.</string>
     <!--example: Points from hotels become available up to 30 days after travel has been completed.-->
@@ -3918,7 +3927,7 @@
     <!-- Label for package bundle price on overview-->
     <string name="bundle_total_text">Gesamtpreis der Reise</string>
     <!-- Label for package bundle price on search-->
-    <string name="search_bundle_total_text">Click&amp;Mix-Reise anzeigen</string>
+    <string name="search_bundle_total_text">Flug+Hotel-Angebot anzeigen</string>
     <!-- Label for package bundle price on search (revamped)-->
     <string name="search_bundle_total_text_new">Ihre Reise anzeigen</string>
     <!-- Bundle Overview Step 1, select a hotel -->
@@ -3940,7 +3949,7 @@
     <!-- Title for screen when user is still using old build hence packages unavailable until user upgrades -->
     <string name="packages_invalid_user_title_label">Zeit für ein Update!</string>
     <!-- Text for screen when user is still using old build hence packages unavailable until user upgrades -->
-    <string name="packages_invalid_user_text_label">Leider sind über diese Version der App keine Click&amp;Mix-Buchungen möglich.\nJetzt updaten und Click&amp;Mix-Angebote erhalten.</string>
+    <string name="packages_invalid_user_text_label">Leider sind über diese Version der App keine Flug+Hotel-Buchungen möglich.\nJetzt updaten und Flug+Hotel-Angebote erhalten.</string>
     <!-- package hotel results unreal deal message for freeOneNightHotel -->
     <plurals name="free_one_night_hotel_deal_TEMPLATE">
         <item quantity="one">Freuen Sie sich auf {night} kostenlose Übernachtung, wenn Sie einen Flug dazubuchen.</item>
@@ -4632,7 +4641,7 @@
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
     <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Der Gesamtpreis der Reise beträgt {totalprice}. Im Preis sind Steuern und Gebühren für Flüge und Hotel enthalten. {savings}. Dialogfeld mit Kostenaufschlüsselung. Schaltfläche.</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
-    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Der Gesamtpreis der Reise beträgt {price_per_person} pro Person. Im Preis sind Steuern und Gebühren für Flüge und Hotel enthalten. Schaltfläche zum Anzeigen der Click&amp;Mix-Reise.</string>
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Der Gesamtpreis der Reise beträgt {price_per_person} pro Person. Im Preis sind Steuern und Gebühren für Flüge und Hotel enthalten. Schaltfläche zum Anzeigen des Flug+Hotel-Angebots.</string>
     <!--Content description for Bundle sliding widget, when it's opened. Example: Trip to Seattle, WA. March 6 to March 7, 1 traveller-->
     <string name="trip_overview_price_widget_expanded_TEMPLATE">Reise nach {city_name}. Von {startdate} bis {enddate}, {guests}</string>
     <!-- Package filter checkbox.
@@ -4641,6 +4650,19 @@
     <string name="packages_flight_filter_checkbox_cont_desc_TEMPLATE">{filter_results} verfügbare {filter_name}-Flüge.\u0020</string>
     <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights. Cannot be deselected, all flight results are NonStop. -->
     <string name="packages_flight_filter_checkbox_disabled_cont_desc_TEMPLATE">{filter_results} verfügbare {filter_name}-Flüge. Kann nicht abgewählt werden, da alle Ergebnisse {filter_name}-Flüge sind.\u0020</string>
+
+
+   <!--    Example #1: 3 available NonStop flights starting from $200.
+           Example #2: 2 available Hawaiian Airlines flights starting from $200. -->
+    <string name="flight_filter_checkbox_with_price_and_count_cont_desc_TEMPLATE">{filter_results} Flüge verfügbar. {filter_name}. Ab {price}\u0020</string>
+    <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights starting from $200. Cannot be deselected, all flight results are NonStop. -->
+    <string name="flight_filter_checkbox_disabled_with_price_and_count_cont_desc_TEMPLATE">{filter_results} Flüge verfügbar. {filter_name}. Ab {price}. Kann nicht abgewählt werden, da alle Flugergebnisse {filter_name} sind.\u0020</string>
+
+    <!-- Example #1: NonStop flights starting from $200.
+         Example #2: Hawaiian Airlines flights starting from $200. -->
+    <string name="flight_filter_checkbox_with_price_cont_desc_TEMPLATE">Verfügbare Flüge: {filter_name}, ab {price}\u0020</string>
+    <!-- Content Description for diabled filter option on Sort Filter Page. Example: NonStop flights starting from $200. Cannot be deselected, all flight results are NonStop. -->
+    <string name="flight_filter_checkbox_disabled_with_price__cont_desc_TEMPLATE">Verfügbare Flüge: {filter_name}, ab {price}. Kann nicht abgewählt werden, da alle Flugergebnisse {filter_name} sind.\u0020</string>
 
     <!-- Status displayed in a modal dialog while insurance is being added -->
     <string name="insurance_adding">Reiseschutz wird hinzugefügt …</string>
@@ -4839,6 +4861,7 @@
     <string name="find_guest_add_email_address_hint">E-Mail</string>
     <!-- Hint to type in itinerary number -->
     <string name="find_guest_add_itinerary_number_hint">Reiseplannummer</string>
+    <string name="itin_toolbar">Reisen</string>
 
     <!-- Booking successful alert text-->
     <string name="booking_successful">Buchung erfolgreich!</string>
@@ -5015,10 +5038,16 @@
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">Regulärer Preis {ticket_type} {activity_original_price}. Ermäßigter Preis {ticket_type} {activity_price}</string>
     <string name="hotel_2x_points_search_title">Doppelte Expedia Rewards-Punkte!</string>
     <string name="hotel_2x_points_search_content">Sie sammeln doppelte Punkte bei App-Buchungen.</string>
+
+    <!-- Recent search - Date searched On string e.g. as of Nov 10 -->
+    <string name="flight_recent_search_date_searched_TEMPLATE">Stand: {searchdate}</string>
     <!-- Recent search header string -->
     <string name="flight_recent_search_label">Zuletzt gesucht</string>
 
     <!-- Brand reward name -->
     <string name="brand_reward_name">Expedia Rewards</string>
+
+    <!--Accessibility Content Description for Member Pricing Discount Percentage Eg. Member Pricing Discount: 10%-->
+    <string name="lx_member_pricing_discount_percent_TEMPLATE">Mitgliederrabatt: {discount}%</string>
 
 </resources>

@@ -143,8 +143,6 @@
     </plurals>
     <!-- Accessibility announcement requesting user to fix errors on checkout forms. -->
     <string name="accessibility_announcement_please_review_and_resubmit">Silakan periksa dan kirim ulang.</string>
-    <!--Accessibility content description for lock icon on checkout. -->
-    <string name="secure_lock_accessibility">Ikon gembok, checkout aman</string>
     <!--Legal booking statement for flights on checkout-->
     <string name="flight_booking_statement_TEMPLATE">Dengan menyelesaikan pemesanan ini, saya menyatakan bahwa saya telah membaca dan menerima &lt;a href=\"{website_url}\""&gt;Peraturan dan Batasan, Syarat dan Ketentuan, Kebijakan Privasi, dan Informasi Harga&lt;/a&gt;.</string>
 
@@ -828,6 +826,7 @@
     <string name="nav_packages">Promo Paket</string>
     <string name="nav_hotel_plus_flight_deals">Penawaran Hotel + Penerbangan</string>
     <string name="nav_hotel_plus_flight">Hotel + Penerbangan</string>
+    <string name="nav_hotel_plus_flight_plus_car">Hotel + Penerbangan + Mobil</string>
     <string name="nav_flight_plus_hotel">Penerbangan + Hotel</string>
     <!-- Rail -->
     <string name="nav_rail">Kereta</string>
@@ -1371,6 +1370,12 @@
     <string name="itin_hotel_details_manage_booking_subheading">Pengubahan, pembatalan, dan dukungan</string>
     <!--Hotel itin card price summary heading-->
     <string name="itin_hotel_details_price_summary_heading">Ringkasan harga</string>
+    <!--Hotel itin card price summary and rewards heading-->
+    <string name="itin_hotel_details_price_summary_rewards_heading">Harga dan Reward</string>
+    <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
+    <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">Jumlah total yang dibayar {amount}</string>
+    <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
+    <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">Total yang harus dibayarkan di hotel {amount}</string>
     <!--Hotel itin card additional info heading-->
     <string name="itin_hotel_details_additional_info_heading">Informasi tambahan</string>
     <!--Hotel itin checkin text-->
@@ -2250,6 +2255,8 @@
     <string name="save_traveler">Simpan Traveler</string>
     <!-- no thanks -->
     <string name="no_thanks">Tidak, Terima Kasih</string>
+    <!--Advanced flight traveler options, explicitly telling user that they can add frequent flyer number anytime before the flight -->
+    <string name="add_anytime_before_your_flight">Tambahkan kapan pun sebelum penerbangan Anda.</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">Lanjutan (opsional)</string>
     <!--Contact airline message on flight checkout traveler details -->
@@ -2901,8 +2908,6 @@
     <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
          e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
     <string name="package_hotel_results_header_TEMPLATE">Harga total untuk pulang-pergi, per orang. termasuk hotel dan penerbangan • {total_price_result_count_header}</string>
-    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay -->
-    <string name="package_hotel_results_header">Harga total untuk pulang-pergi, per orang • termasuk hotel dan penerbangan</string>
 
     <!-- Urgency message indicating percent of hotels remaining in a region-->
     <string name="urgency_only_x_hotels_left_TEMPLATE">Kami hanya memiliki {percent}% hotel yang tersisa!</string>
@@ -3007,6 +3012,10 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to open account settings screen -->
     <string name="account_settings_menu_label">Akun</string>
+    <!-- Label for menu item to edit account settings screen -->
+    <string name="account_settings_edit_label">Edit info akun</string>
+    <!-- Label for webview to edit account settings -->
+    <string name="account_settings_edit_webview_label">Akun saya</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Masuk</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
@@ -4642,6 +4651,19 @@
     <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights. Cannot be deselected, all flight results are NonStop. -->
     <string name="packages_flight_filter_checkbox_disabled_cont_desc_TEMPLATE">Tersedia {filter_results} penerbangan {filter_name}. Pilihan tidak dapat dibatalkan, semua hasil penerbangan {filter_name}.\u0020</string>
 
+
+   <!--    Example #1: 3 available NonStop flights starting from $200.
+           Example #2: 2 available Hawaiian Airlines flights starting from $200. -->
+    <string name="flight_filter_checkbox_with_price_and_count_cont_desc_TEMPLATE">Tersedia {filter_results} penerbangan {filter_name} mulai dari {price}\u0020</string>
+    <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights starting from $200. Cannot be deselected, all flight results are NonStop. -->
+    <string name="flight_filter_checkbox_disabled_with_price_and_count_cont_desc_TEMPLATE">Tersedia {filter_results} penerbangan {filter_name} mulai dari {price}. Pilihan tidak dapat dibatalkan, semua hasil penerbangan {filter_name}.\u0020</string>
+
+    <!-- Example #1: NonStop flights starting from $200.
+         Example #2: Hawaiian Airlines flights starting from $200. -->
+    <string name="flight_filter_checkbox_with_price_cont_desc_TEMPLATE">Penerbangan {filter_name} mulai dari {price}\u0020</string>
+    <!-- Content Description for diabled filter option on Sort Filter Page. Example: NonStop flights starting from $200. Cannot be deselected, all flight results are NonStop. -->
+    <string name="flight_filter_checkbox_disabled_with_price__cont_desc_TEMPLATE">Penerbangan {filter_name} mulai dari {price}. Pilihan tidak dapat dibatalkan, semua hasil penerbangan {filter_name}.\u0020</string>
+
     <!-- Status displayed in a modal dialog while insurance is being added -->
     <string name="insurance_adding">Menambahkan perlindungan perjalanan…</string>
     <!-- Error message displayed when insurance fails to be added to a trip -->
@@ -4839,6 +4861,7 @@
     <string name="find_guest_add_email_address_hint">Email</string>
     <!-- Hint to type in itinerary number -->
     <string name="find_guest_add_itinerary_number_hint">Nomor itinerary</string>
+    <string name="itin_toolbar">Perjalanan</string>
 
     <!-- Booking successful alert text-->
     <string name="booking_successful">Pemesanan Berhasil!</string>
@@ -5015,10 +5038,16 @@
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">Harga Reguler {ticket_type} {activity_original_price}. Harga setelah diskon {ticket_type} {activity_price}</string>
     <string name="hotel_2x_points_search_title">Poin Expedia Rewards Ganda!</string>
     <string name="hotel_2x_points_search_content">Anda akan mendapatkan poin ganda hanya karena memesan di aplikasi!</string>
+
+    <!-- Recent search - Date searched On string e.g. as of Nov 10 -->
+    <string name="flight_recent_search_date_searched_TEMPLATE">mulai {searchdate}</string>
     <!-- Recent search header string -->
     <string name="flight_recent_search_label">Pencarian Terbaru</string>
 
     <!-- Brand reward name -->
     <string name="brand_reward_name">Expedia Rewards</string>
+
+    <!--Accessibility Content Description for Member Pricing Discount Percentage Eg. Member Pricing Discount: 10%-->
+    <string name="lx_member_pricing_discount_percent_TEMPLATE">Diskon Harga Member: {discount}%</string>
 
 </resources>

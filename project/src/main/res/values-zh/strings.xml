@@ -143,8 +143,6 @@
     </plurals>
     <!-- Accessibility announcement requesting user to fix errors on checkout forms. -->
     <string name="accessibility_announcement_please_review_and_resubmit">请检查并重新提交。</string>
-    <!--Accessibility content description for lock icon on checkout. -->
-    <string name="secure_lock_accessibility">锁图标，安全付款</string>
     <!--Legal booking statement for flights on checkout-->
     <string name="flight_booking_statement_TEMPLATE">完成此预订，即表示我已阅读并接受&lt;a href=\"{website_url}\""&gt;规则和限制、条款和条件、隐私政策以及票价信息&lt;/a&gt;。</string>
 
@@ -801,9 +799,9 @@
     <!-- Content description for sign in button. Eg: Sign in with Expedia button -->
     <string name="Sign_in_with_cont_desc_TEMPLATE">登录 {brand} 按钮</string>
     <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia Rewards points -->
-    <string name="Sign_in_to_earn_TEMPLATE">登录帐户，累积 {reward} 个 Expedia 奖励计划积分</string>
+    <string name="Sign_in_to_earn_TEMPLATE">登录帐户，累积 {reward} 个 Expedia Rewards 积分</string>
     <!-- Content description for sign in with earn message. Eg: Sign in to earn 123 Expedia Rewards points button -->
-    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">按钮：登录，累积 {reward} 个 Expedia 奖励计划积分</string>
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">按钮：登录，累积 {reward} 个 Expedia Rewards 积分</string>
     <!-- or -->
     <string name="or">或</string>
     <!--Create Account -->
@@ -828,6 +826,7 @@
     <string name="nav_packages">组合优惠</string>
     <string name="nav_hotel_plus_flight_deals">机 + 酒优惠</string>
     <string name="nav_hotel_plus_flight">酒店 + 机票</string>
+    <string name="nav_hotel_plus_flight_plus_car">机 + 酒 + 租车</string>
     <string name="nav_flight_plus_hotel">机 + 酒</string>
     <!-- Rail -->
     <string name="nav_rail">火车</string>
@@ -1371,6 +1370,12 @@
     <string name="itin_hotel_details_manage_booking_subheading">变更、取消、联系客服</string>
     <!--Hotel itin card price summary heading-->
     <string name="itin_hotel_details_price_summary_heading">价格摘要</string>
+    <!--Hotel itin card price summary and rewards heading-->
+    <string name="itin_hotel_details_price_summary_rewards_heading">定价和会员计划</string>
+    <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
+    <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">{amount} 总额已付</string>
+    <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
+    <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">{amount} 总额到店支付</string>
     <!--Hotel itin card additional info heading-->
     <string name="itin_hotel_details_additional_info_heading">其他信息</string>
     <!--Hotel itin checkin text-->
@@ -2054,9 +2059,9 @@
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_template">您的卡将被收取 {dueamount}</string>
     <!-- Your are using pwp points -->
-    <string name="you_are_using_expedia_points_TEMPLATE">您使用了 {points} 个 Expedia 奖励计划积分（价值 {amount}）</string>
+    <string name="you_are_using_expedia_points_TEMPLATE">您使用了 {points} 个 Expedia Rewards 积分（价值 {amount}）</string>
     <!-- Payment through card + pwp points -->
-    <string name="payment_through_card_and_pwp_points">您使用了 {points} 个 Expedia 奖励计划积分（价值 {amount}）\n您的卡将被收取 {dueamount}</string>
+    <string name="payment_through_card_and_pwp_points">您使用了 {points} 个 Expedia Rewards 积分（价值 {amount}）\n您的卡将被收取 {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">完成预订</string>
     <!-- Our price gaurentee string -->
@@ -2250,6 +2255,8 @@
     <string name="save_traveler">保存旅客</string>
     <!-- no thanks -->
     <string name="no_thanks">不，谢谢</string>
+    <!--Advanced flight traveler options, explicitly telling user that they can add frequent flyer number anytime before the flight -->
+    <string name="add_anytime_before_your_flight">在您航班出发前可随时添加。</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">高级选项（可选）</string>
     <!--Contact airline message on flight checkout traveler details -->
@@ -2901,8 +2908,6 @@
     <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
          e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
     <string name="package_hotel_results_header_TEMPLATE">往返总价（每人）。包括酒店和机票 • {total_price_result_count_header}</string>
-    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay -->
-    <string name="package_hotel_results_header">往返总价（每人） • 包括酒店和机票</string>
 
     <!-- Urgency message indicating percent of hotels remaining in a region-->
     <string name="urgency_only_x_hotels_left_TEMPLATE">我们仅剩 {percent}% 的酒店！</string>
@@ -3007,6 +3012,10 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to open account settings screen -->
     <string name="account_settings_menu_label">帐户</string>
+    <!-- Label for menu item to edit account settings screen -->
+    <string name="account_settings_edit_label">编辑帐户信息</string>
+    <!-- Label for webview to edit account settings -->
+    <string name="account_settings_edit_webview_label">我的帐户</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">登录</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
@@ -4164,9 +4173,9 @@
     <string name="package_start_over">重新开始</string>
 
     <!-- Pay with points widget -->
-    <string name="paying_with_rewards">使用 Expedia 奖励计划积分付款</string>
-    <string name="pay_with_rewards">使用 Expedia 奖励计划积分付款</string>
-    <string name="pay_with_point_total_available_TEMPLATE">有 {money} 可以使用（{points} 个 Expedia 奖励计划积分）</string>
+    <string name="paying_with_rewards">使用 Expedia Rewards 积分付款</string>
+    <string name="pay_with_rewards">使用 Expedia Rewards 积分付款</string>
+    <string name="pay_with_point_total_available_TEMPLATE">有 {money} 可以使用（{points} 个 Expedia Rewards 积分）</string>
     <string name="user_enters_more_than_available_points_TEMPLATE">积分价值超出您现有的余额。\n请输入 {money} 或以下。</string>
     <string name="user_enters_more_than_trip">积分价值不能超出今天应付的款额。</string>
     <string name="pwp_calculating_points">正在计算积分…</string>
@@ -4417,17 +4426,17 @@
     <string name="flight_add_infant_in_seat_number_TEMPLATE">第 {number} 名占座婴儿的信息</string>
 
     <!-- Shop with points -->
-    <string name="loyalty_applied_excluding_taxes_and_fees_message">已使用 Expedia 奖励计划积分！（不含税费）</string>
-    <string name="regular_loyalty_applied_message">已使用 Expedia 奖励计划积分！</string>
+    <string name="loyalty_applied_excluding_taxes_and_fees_message">已使用 Expedia Rewards 积分！（不含税费）</string>
+    <string name="regular_loyalty_applied_message">已使用 Expedia Rewards 积分！</string>
     <string name="vip_loyalty_applied_message">使用了 2 倍积分！</string>
     <string name="vip_short_loyalty_applied_message">2 倍</string>
     <!-- String to be appended with +VIP in header of room rates. -->
-    <string name="vip_loyalty_applied_header_message">已使用 2 倍 Expedia 奖励计划积分！</string>
+    <string name="vip_loyalty_applied_header_message">已使用 2 倍 Expedia Rewards 积分！</string>
     <!-- SwP Widget you have points template. points_or_amount = it may have money (in case of Expedia) or point value (in case of Orbucks). E.g. You have 3,000 points -->
     <string name="swp_widget_points_value_TEMPLATE">您有 {points_or_amount} 分</string>
-    <string name="vip_loyalty_applied_map_message">已使用 &lt;b&gt;+VIP&lt;/b&gt; 2 倍 Expedia 奖励计划积分！</string>
-    <string name="swp_off_widget_header">使用 Expedia 奖励计划积分</string>
-    <string name="swp_on_widget_header">已使用 Expedia 奖励计划积分</string>
+    <string name="vip_loyalty_applied_map_message">已使用 &lt;b&gt;+VIP&lt;/b&gt; 2 倍 Expedia Rewards 积分！</string>
+    <string name="swp_off_widget_header">使用 Expedia Rewards 积分</string>
+    <string name="swp_on_widget_header">已使用 Expedia Rewards 积分</string>
 
     <!-- Message telling you on confirmation screen where you've booked a package to -->
     <string name="yay_going_somewhere">您准备出发去</string>
@@ -4638,9 +4647,22 @@
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->
-    <string name="packages_flight_filter_checkbox_cont_desc_TEMPLATE">{filter_results} 个可选的 {filter_name} 航班。\u0020</string>
+    <string name="packages_flight_filter_checkbox_cont_desc_TEMPLATE">{filter_results} 个可选的{filter_name}航班。\u0020</string>
     <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights. Cannot be deselected, all flight results are NonStop. -->
-    <string name="packages_flight_filter_checkbox_disabled_cont_desc_TEMPLATE">{filter_results} 个可选的{filter_name} 航班。不能取消选中，搜到的所有航班均为 {filter_name}。\u0020</string>
+    <string name="packages_flight_filter_checkbox_disabled_cont_desc_TEMPLATE">{filter_results} 个可选的{filter_name}航班。不能取消选中，搜到的所有航班均为 {filter_name}。\u0020</string>
+
+
+   <!--    Example #1: 3 available NonStop flights starting from $200.
+           Example #2: 2 available Hawaiian Airlines flights starting from $200. -->
+    <string name="flight_filter_checkbox_with_price_and_count_cont_desc_TEMPLATE">{filter_results} 个可选的{filter_name}航班，最低 {price}\u0020</string>
+    <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights starting from $200. Cannot be deselected, all flight results are NonStop. -->
+    <string name="flight_filter_checkbox_disabled_with_price_and_count_cont_desc_TEMPLATE">{filter_results} 个可选的{filter_name}航班，最低 {price}。不能取消选中，搜到的所有航班均为 {filter_name}。\u0020</string>
+
+    <!-- Example #1: NonStop flights starting from $200.
+         Example #2: Hawaiian Airlines flights starting from $200. -->
+    <string name="flight_filter_checkbox_with_price_cont_desc_TEMPLATE">{filter_name} 个航班，最低 {price}\u0020</string>
+    <!-- Content Description for diabled filter option on Sort Filter Page. Example: NonStop flights starting from $200. Cannot be deselected, all flight results are NonStop. -->
+    <string name="flight_filter_checkbox_disabled_with_price__cont_desc_TEMPLATE">{filter_name} 个航班，最低 {price}。不能取消选中，搜到的所有航班均为 {filter_name}。\u0020</string>
 
     <!-- Status displayed in a modal dialog while insurance is being added -->
     <string name="insurance_adding">正在添加旅行保障…</string>
@@ -4839,6 +4861,7 @@
     <string name="find_guest_add_email_address_hint">电子邮件</string>
     <!-- Hint to type in itinerary number -->
     <string name="find_guest_add_itinerary_number_hint">行程编号</string>
+    <string name="itin_toolbar">旅行</string>
 
     <!-- Booking successful alert text-->
     <string name="booking_successful">预订成功！</string>
@@ -5013,12 +5036,18 @@
     <string name="lx_ticket_selected_summary_TEMPLATE">已选择 {ticket_summary}</string>
     <!-- LX SRP activity price content description when price is discounted e.g. Regular Price per adult  $125. Discounted price per adult $100-->
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">原价{ticket_type} {activity_original_price}。折扣价{ticket_type} {activity_price}</string>
-    <string name="hotel_2x_points_search_title">累积双倍 Expedia 奖励计划积分！</string>
+    <string name="hotel_2x_points_search_title">累积双倍 Expedia Rewards 积分！</string>
     <string name="hotel_2x_points_search_content">因为在 App 中预订，您将累积双倍积分！</string>
+
+    <!-- Recent search - Date searched On string e.g. as of Nov 10 -->
+    <string name="flight_recent_search_date_searched_TEMPLATE">截至 {searchdate}</string>
     <!-- Recent search header string -->
     <string name="flight_recent_search_label">近期搜索</string>
 
     <!-- Brand reward name -->
-    <string name="brand_reward_name">Expedia 奖励计划</string>
+    <string name="brand_reward_name">Expedia Rewards</string>
+
+    <!--Accessibility Content Description for Member Pricing Discount Percentage Eg. Member Pricing Discount: 10%-->
+    <string name="lx_member_pricing_discount_percent_TEMPLATE">会员价折扣：{discount}%</string>
 
 </resources>

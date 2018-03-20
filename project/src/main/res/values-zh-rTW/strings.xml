@@ -122,7 +122,7 @@
     <!-- Text for enter payment details line 1 when paying with pwp and Card -->
     <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">以點數和{carddescription}支付</string>
     <!-- Text for enter payment details line 2 for pwp -->
-    <string name="checkout_tap_to_edit">輕觸以修改</string>
+    <string name="checkout_tap_to_edit">點選以修改</string>
     <!-- Text for enter payment details line 2 for pwp -->
     <string name="checkout_payment_options">信用卡，以點數支付</string>
     <!-- Text for enter payment details line 2 for pwp -->
@@ -143,8 +143,6 @@
     </plurals>
     <!-- Accessibility announcement requesting user to fix errors on checkout forms. -->
     <string name="accessibility_announcement_please_review_and_resubmit">請檢查後再重新送出。</string>
-    <!--Accessibility content description for lock icon on checkout. -->
-    <string name="secure_lock_accessibility">鎖頭圖示，安全付款</string>
     <!--Legal booking statement for flights on checkout-->
     <string name="flight_booking_statement_TEMPLATE">完成此預訂表示我已經閱讀並同意&lt;a href=\"{website_url}\""&gt;規則和限制、條款和條件、隱私權政策和票價資訊。&lt;/a&gt;</string>
 
@@ -828,6 +826,7 @@
     <string name="nav_packages">套裝優惠</string>
     <string name="nav_hotel_plus_flight_deals">機 + 酒優惠</string>
     <string name="nav_hotel_plus_flight">機 + 酒</string>
+    <string name="nav_hotel_plus_flight_plus_car">機 + 酒 + 租車</string>
     <string name="nav_flight_plus_hotel">機 + 酒</string>
     <!-- Rail -->
     <string name="nav_rail">火車</string>
@@ -977,9 +976,9 @@
     <!-- Notification title for check out {checkout} is checkout time e.g. ("Check out tomorrow at 3 PM")-->
     <string name="check_out_notification_title_day_before_TEMPLATE">退房時間：明天 {checkout}</string>
     <!-- Notification body for check out {hotel} is hotel name, {checkout} is checkout time. e.g. ("Your check out time at Caesars Palace is today at 11 PM. Tap for details.")-->
-    <string name="check_out_notification_body_day_of_TEMPLATE">您的{hotel}退房時間：今天 {checkout}。輕觸查看詳細資料。</string>
+    <string name="check_out_notification_body_day_of_TEMPLATE">您的{hotel}退房時間：今天 {checkout}。點選查看詳細資料。</string>
     <!-- Notification body for check out {hotel} is hotel name, {checkout} is checkout time. e.g. ("Your check out time at Caesars Palace is tomorrow at 11 PM. Tap for details.")-->
-    <string name="check_out_notification_body_day_before_TEMPLATE">您的{hotel}退房時間：明天 {checkout}。輕觸查看詳細資料。</string>
+    <string name="check_out_notification_body_day_before_TEMPLATE">您的{hotel}退房時間：明天 {checkout}。點選查看詳細資料。</string>
     <!-- Notification title for hotel reviews e.g. Review your recent stay at Caesars Palace -->
     <string name="hotel_review_title_notification_TEMPLATE">分享您最近入住{hotelname}的經驗</string>
     <!-- Notification body for hotel reviews e.g. Bob, How would you rate your stay at Caesars Palace? Help a community of travelers like you by sharing your experience. -->
@@ -1371,6 +1370,12 @@
     <string name="itin_hotel_details_manage_booking_subheading">變更、取消和支援</string>
     <!--Hotel itin card price summary heading-->
     <string name="itin_hotel_details_price_summary_heading">價格摘要</string>
+    <!--Hotel itin card price summary and rewards heading-->
+    <string name="itin_hotel_details_price_summary_rewards_heading">價格和獎勵計畫</string>
+    <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
+    <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">總共已支付 {amount}</string>
+    <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
+    <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">需於飯店支付 {amount}</string>
     <!--Hotel itin card additional info heading-->
     <string name="itin_hotel_details_additional_info_heading">其他資訊</string>
     <!--Hotel itin checkin text-->
@@ -1549,7 +1554,7 @@
     <!--Flight itin, flight leg detail widget sub title. {departure_date_time} - {arrival_date_time} · {stops} (eg., Aug 20 8:00am - 10:22am · Nonstop)-->
     <string name="itin_flight_leg_detail_widget_sub_title_TEMPLATE">{departure_date_time} - {arrival_date_time} · {stops}</string>
     <!--Flight itin, flight leg detail widget sub title date time template. {date} {time} (eg., Aug 20 8:00am)-->
-    <string name="itin_flight_leg_detail_widget_sub_title_date_time_TEMPLATE">{date} {time}</string>
+    <string name="itin_flight_leg_detail_widget_sub_title_date_time_TEMPLATE">{time} {date}</string>
     <!--Flight itin, flight leg detail widget Nonstop text-->
     <string name="itin_flight_leg_detail_widget_nonstop">直飛</string>
     <!--Flight itin, flight leg detail widget "to" text-->
@@ -2250,6 +2255,8 @@
     <string name="save_traveler">儲存旅客</string>
     <!-- no thanks -->
     <string name="no_thanks">不用了，謝謝</string>
+    <!--Advanced flight traveler options, explicitly telling user that they can add frequent flyer number anytime before the flight -->
+    <string name="add_anytime_before_your_flight">航班出發前都可以加入此資訊</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">其他資料 (選填)</string>
     <!--Contact airline message on flight checkout traveler details -->
@@ -2568,7 +2575,7 @@
     <!-- Advance Search Cont Description Template. Example: Advanced Search Button to expand filter options -->
     <string name= "advance_search_cont_desc_TEMPLATE">進階搜尋{expandstate}</string>
     <!-- Cont Description to . Example: Advanced Search Button to expand filter options -->
-    <string name="row_collapse_button_description">展開按鈕。輕觸兩下以收合。</string>
+    <string name="row_collapse_button_description">展開按鈕。點兩下以收合。</string>
     <!-- Title for non stop filter on advance search view -->
     <string name="nonstop_flight_filter_label">僅限直飛航班</string>
     <!-- Title for refundable filter on advance search view -->
@@ -2901,8 +2908,6 @@
     <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
          e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
     <string name="package_hotel_results_header_TEMPLATE">每人來回價。含機 + 酒 • {total_price_result_count_header}</string>
-    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay -->
-    <string name="package_hotel_results_header">每人來回總價 (包含飯店和機票)</string>
 
     <!-- Urgency message indicating percent of hotels remaining in a region-->
     <string name="urgency_only_x_hotels_left_TEMPLATE">我們只剩下 {percent}% 的飯店！</string>
@@ -3007,6 +3012,10 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to open account settings screen -->
     <string name="account_settings_menu_label">帳戶</string>
+    <!-- Label for menu item to edit account settings screen -->
+    <string name="account_settings_edit_label">修改帳戶資訊</string>
+    <!-- Label for webview to edit account settings -->
+    <string name="account_settings_edit_webview_label">我的帳戶</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">登入</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
@@ -3287,7 +3296,7 @@
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{currency}{amount}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{amount}{currency}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">設定</string>
@@ -3963,13 +3972,13 @@
     <!-- Bundle Overview flight card accessibility content description after flight selected Eg. You have selected flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Button to expand flight details. -->
     <string name="select_flight_selected_cont_desc_TEMPLATE">您已選擇班機前往{flight}，{datetraveler}班機詳細資料{expandstate}。</string>
     <!-- Bundle Overview collapsed flight card with more info accessibility content description-->
-    <string name="row_expand_button_description">收合按鈕。輕觸兩下以展開。</string>
+    <string name="row_expand_button_description">收合按鈕。點兩下以展開。</string>
     <!-- Bundle Overview expanded flight card accessibility content description. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. Expanded button. Double tap to collapse. -->
-    <string name="bundle_overview_detailed_button_description_TEMPLATE">{rowdescription}展開按鈕。輕觸兩下以收合。</string>
+    <string name="bundle_overview_detailed_button_description_TEMPLATE">{rowdescription}展開按鈕。點兩下以收合。</string>
     <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. Collapsed button. Double tap to expand. -->
-    <string name="bundle_overview_free_canellation_collapsed_button_description_TEMPLATE">{rowdescription}。已收合的按鈕。輕觸兩下以展開。</string>
+    <string name="bundle_overview_free_canellation_collapsed_button_description_TEMPLATE">{rowdescription}。已收合的按鈕。點兩下以展開。</string>
     <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. After 24 hours, standard flight rules apply. Expanded button. Double tap to collapse. -->
-    <string name="bundle_overview_free_canellation_expanded_button_description_TEMPLATE">{rowtitle}。{rowdescription}已展開的按鈕。輕觸兩下以收合。</string>
+    <string name="bundle_overview_free_canellation_expanded_button_description_TEMPLATE">{rowtitle}。{rowdescription}已展開的按鈕。點兩下以收合。</string>
     <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
     <string name="flight_detail_card_cont_desc_without_price_TEMPLATE">班機時間為：{time}。乘搭{airline}。航程總時間 {hours} {minutes}，停留 {stops} 次\u0020</string>
     <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco on Jun 23, for 1 Traveler. Please select Outbound Flight first. Button. -->
@@ -4299,7 +4308,7 @@
     <string name="rail_station_info_TEMPLATE">{departure}到{arrival}</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
-    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
+    <string name="rail_fare_info_TEMPLATE">{serviceclass}{fareclass}</string>
 
     <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
@@ -4550,7 +4559,7 @@
     <!-- Label for fare family upgrade option. Example. Upgrade your flights from $2 for 2 travellers, Current selection is economy -->
     <string name="flight_fare_family_upgrade_round_trip_flight_cont_desc_TEMPLATE">目前的艙等為{class}，為 {guest}升等機位，最低只要 {amount}。</string>
     <!-- Label for fare family upgrade option. Example. You have selected Economy, Double tap to change fare class-->
-    <string name="flight_fare_family_change_cont_desc_TEMPLATE">您已選擇了{fare_family_name}，請輕觸兩下以變票價等級。</string>
+    <string name="flight_fare_family_change_cont_desc_TEMPLATE">您已選擇了{fare_family_name}，請點兩下以變票價等級。</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_oneway_label">機位升等</string>
     <!-- Label for fare family delta pricing. Example. From -->
@@ -4641,6 +4650,19 @@
     <string name="packages_flight_filter_checkbox_cont_desc_TEMPLATE">{filter_results} 班適合的{filter_name}班機。\u0020</string>
     <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights. Cannot be deselected, all flight results are NonStop. -->
     <string name="packages_flight_filter_checkbox_disabled_cont_desc_TEMPLATE">{filter_results} 班適合的{filter_name}班機。無法取消選擇，所有班機皆為{filter_name}。\u0020</string>
+
+
+   <!--    Example #1: 3 available NonStop flights starting from $200.
+           Example #2: 2 available Hawaiian Airlines flights starting from $200. -->
+    <string name="flight_filter_checkbox_with_price_and_count_cont_desc_TEMPLATE">{filter_results} 班{filter_name}班機，起價 {price}\u0020</string>
+    <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights starting from $200. Cannot be deselected, all flight results are NonStop. -->
+    <string name="flight_filter_checkbox_disabled_with_price_and_count_cont_desc_TEMPLATE">{filter_results} 班{filter_name}班機，起價 {price}。無法取消選擇，所有班機皆為{filter_name}。\u0020</string>
+
+    <!-- Example #1: NonStop flights starting from $200.
+         Example #2: Hawaiian Airlines flights starting from $200. -->
+    <string name="flight_filter_checkbox_with_price_cont_desc_TEMPLATE">{filter_name}班機，起價 {price}\u0020</string>
+    <!-- Content Description for diabled filter option on Sort Filter Page. Example: NonStop flights starting from $200. Cannot be deselected, all flight results are NonStop. -->
+    <string name="flight_filter_checkbox_disabled_with_price__cont_desc_TEMPLATE">{filter_name}班機，起價 {price}。無法取消選擇，所有班機皆為{filter_name}。\u0020</string>
 
     <!-- Status displayed in a modal dialog while insurance is being added -->
     <string name="insurance_adding">正在加訂旅遊保險…</string>
@@ -4839,6 +4861,7 @@
     <string name="find_guest_add_email_address_hint">電子郵件</string>
     <!-- Hint to type in itinerary number -->
     <string name="find_guest_add_itinerary_number_hint">行程編號</string>
+    <string name="itin_toolbar">行程</string>
 
     <!-- Booking successful alert text-->
     <string name="booking_successful">預訂成功！</string>
@@ -5015,10 +5038,16 @@
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">{ticket_type}原價 {activity_original_price}，{ticket_type}優惠價 {activity_price}</string>
     <string name="hotel_2x_points_search_title">雙倍 Expedia Rewards 點數！</string>
     <string name="hotel_2x_points_search_content">使用 App 預訂，您將可獲得雙倍點數！</string>
+
+    <!-- Recent search - Date searched On string e.g. as of Nov 10 -->
+    <string name="flight_recent_search_date_searched_TEMPLATE">搜尋日期{searchdate}</string>
     <!-- Recent search header string -->
     <string name="flight_recent_search_label">最近的搜尋</string>
 
     <!-- Brand reward name -->
     <string name="brand_reward_name">Expedia Rewards</string>
+
+    <!--Accessibility Content Description for Member Pricing Discount Percentage Eg. Member Pricing Discount: 10%-->
+    <string name="lx_member_pricing_discount_percent_TEMPLATE">會員價優惠：{discount}%</string>
 
 </resources>

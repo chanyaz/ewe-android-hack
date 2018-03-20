@@ -143,14 +143,12 @@
     </plurals>
     <!-- Accessibility announcement requesting user to fix errors on checkout forms. -->
     <string name="accessibility_announcement_please_review_and_resubmit">Tarkista ja lähetä uudelleen.</string>
-    <!--Accessibility content description for lock icon on checkout. -->
-    <string name="secure_lock_accessibility">Lukkoikoni, turvallinen maksutapahtuma</string>
     <!--Legal booking statement for flights on checkout-->
     <string name="flight_booking_statement_TEMPLATE">Tekemällä tämän varauksen loppuun vahvistan, että olen lukenut ja hyväksyn &lt;a href=\"{website_url}\""&gt;säännöt ja rajoitukset, ehdot, tietosuojakäytännön ja hintatiedot&lt;/a&gt;.</string>
 
     <!-- error strings -->
     <!-- Message for user that date is too far out.  -->
-    <string name="error_date_too_far">Tämä päivämäärä on liian kaukana tulevaisuudessa, valitse uusi päivä.</string>
+    <string name="error_date_too_far">Tämä päivämäärä on liian kaukana tulevaisuudessa. Valitse uusi päivä.</string>
     <!-- Shown to user in case the reservation timed out -->
     <string name="reservation_time_out">Oletko vielä siellä? Istuntosi on vanhentunut. Yritä tehdä haku uudelleen.</string>
     <!-- Shown to user when they try to book something already booked in new Hotels -->
@@ -204,9 +202,9 @@
     <!-- MIP header text on SRP. eg. Because you booked with Expedia -->
     <string name="mip_srp_header_brand_TEMPLATE">Koska varasit {brand}lta</string>
     <!-- Max discount available in selected activities. Eg. Save up to 36% on select activities -->
-    <string name="mip_srp_header_discount_TEMPLATE">saat jopa {discount} % alennuksen huippuaktiviteeteista</string>
+    <string name="mip_srp_header_discount_TEMPLATE">Saat jopa {discount} % alennuksen huippuaktiviteeteista</string>
     <!-- Discount for selected activity on infosite. Eg. Book now and get up to 9% off -->
-    <string name="mip_infosite_discount_TEMPLATE">Varaa nyt ja hyödynnä jopa {discount} % alennus</string>
+    <string name="mip_infosite_discount_TEMPLATE">Varaa nyt ja hyödynnä jopa {discount} %:n alennus</string>
     <!-- Discount for each activity on SRP tile. Eg. -9% -->
     <string name="mip_srp_tile_discount_TEMPLATE">–{discount} %</string>
 
@@ -635,7 +633,7 @@
     <!-- Ground Transport passengers text-->
     <string name="lx_ground_transport_passengers_text">%1$s matkustajaa</string>
     <!-- Incorrect date search for LX -->
-    <string name="lx_start_date_error">Tämä päivämäärä on menneisyydessä, valitse uusi päivä.</string>
+    <string name="lx_start_date_error">Tämä päivämäärä on menneisyydessä. Valitse uusi päivä.</string>
 
     <!-- Category Title "All Things To Do" -->
     <string name="lx_category_all_things_to_do">Kaikki ajanvietteet</string>
@@ -817,7 +815,7 @@
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
-    <string name="restricted_profile_sign_in_message_TEMPLATE">Kirjautuaksesi sisään {brand}n sovellukseen, sinun täytyy käyttää laitteessasi rajoittamatonta käyttäjäprofiilia.</string>
+    <string name="restricted_profile_sign_in_message_TEMPLATE">Kirjautuaksesi sisään {brand}n sovellukseen sinun täytyy käyttää laitteessasi rajoittamatonta käyttäjäprofiilia.</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Hotels -->
@@ -828,6 +826,7 @@
     <string name="nav_packages">Pakettitarjoukset</string>
     <string name="nav_hotel_plus_flight_deals">Hotelli + lento -tarjoukset</string>
     <string name="nav_hotel_plus_flight">Hotelli + lento</string>
+    <string name="nav_hotel_plus_flight_plus_car">Hotelli + lento + vuokra-auto</string>
     <string name="nav_flight_plus_hotel">Lento + hotelli</string>
     <!-- Rail -->
     <string name="nav_rail">Junat</string>
@@ -932,7 +931,7 @@
     <string name="trip_page_subtitle">Pääset käsiksi varaustietoihisi ja saat hälytyksiä tien päällä ollessasi</string>
     <string name="reward_page_title">Ansaitse kanta-asiakaspisteitä</string>
     <!-- Sign up for a free Expedia Rewards account and earn points on all your purchases -->
-    <string name="reward_page_subtitle_TEMPLATE">Avaa ilmainen {brand_reward_name}-tili ja ansaitse pisteitä kaikista ostoksistasi</string>
+    <string name="reward_page_subtitle_TEMPLATE">Avaa ilmainen {brand_reward_name} -tili ja ansaitse pisteitä kaikista ostoksistasi</string>
     <string name="onboarding_final_button_text">LÄHDE MATKAAN!</string>
 
     <!-- Error message when we can't connect -->
@@ -1371,6 +1370,12 @@
     <string name="itin_hotel_details_manage_booking_subheading">Muutokset, peruutukset ja tuki</string>
     <!--Hotel itin card price summary heading-->
     <string name="itin_hotel_details_price_summary_heading">Hinnan yhteenveto</string>
+    <!--Hotel itin card price summary and rewards heading-->
+    <string name="itin_hotel_details_price_summary_rewards_heading">Hinnat ja kanta-asiakkuus</string>
+    <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
+    <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">Maksettu kokonaissumma: {amount}</string>
+    <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
+    <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">Hotellilla maksettava kokonaissumma: {amount}</string>
     <!--Hotel itin card additional info heading-->
     <string name="itin_hotel_details_additional_info_heading">Lisätietoja</string>
     <!--Hotel itin checkin text-->
@@ -1884,7 +1889,7 @@
     <!-- Hint in edit text that indicates one should enter an arrival airport -->
     <string name="hint_arrival_airport">Saapumislentokenttä</string>
     <!-- Label for when flights are loading -->
-    <string name="loading_flights">Ladataan lentoja…</string>
+    <string name="loading_flights">Lentoja ladataan…</string>
     <!-- Label at head of flight results while we're waiting for them to load -->
     <string name="loading_flights_from_400_airlines">Haetaan lentoja yli 400 lentoyhtiön joukosta…</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->
@@ -2250,6 +2255,8 @@
     <string name="save_traveler">Tallenna matkustaja</string>
     <!-- no thanks -->
     <string name="no_thanks">Ei kiitos</string>
+    <!--Advanced flight traveler options, explicitly telling user that they can add frequent flyer number anytime before the flight -->
+    <string name="add_anytime_before_your_flight">Lisää milloin tahansa ennen lentoasi.</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">Lisätiedot (valinnainen)</string>
     <!--Contact airline message on flight checkout traveler details -->
@@ -2339,7 +2346,7 @@
     <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE2">Haluaa istuinpaikan: %1$s</string>
     <!-- loading traveler info -->
-    <string name="loading_traveler_info">Ladataan matkustajan tietoja…</string>
+    <string name="loading_traveler_info">Matkustajan tietoja ladataan…</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -2455,7 +2462,7 @@
     <!-- Accessibility announcement when filter are cleared-->
     <string name="filters_cleared">Suodattimet poistettu</string>
     <!-- split ticket rules and restrictions -->
-    <string name="split_ticket_rules_with_link_TEMPLATE">Lentosi koostuu kahdesta yhdensuuntaisesta lennosta, kumpaankin niistä sovelletaan eri sääntöjä ja rajoituksia.</string>
+    <string name="split_ticket_rules_with_link_TEMPLATE">Lentosi koostuu kahdesta yhdensuuntaisesta lennosta. Kumpaankin niistä sovelletaan eri sääntöjä ja rajoituksia.</string>
     <!-- split ticket rules - cancellation policy -->
     <string name="split_ticket_rules_cancellation_policy">Jos jompaankumpaan lentoon tehdään muutoksia tai se peruutetaan, tämä ei automaattisesti vaikuta toiseen lentoon. Toiseen lentoon tehdyistä muutoksista saatetaan veloittaa.</string>
     <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
@@ -2465,7 +2472,7 @@
     <!-- Legal Information Screen: Evolable Cancellation Info -->
     <string name="evolable_legal_cancellation_info_TEMPLATE">Peruutusmaksu vaihtelee hinnan ja reitin sekä ajan ja peruutuspäivän mukaan. Katso &lt;a href=\"{cancellation_charge_link}\"&gt;Evolable Asian ehdot ja rajoitukset&lt;/a&gt;.&lt;br&gt;</string>
     <!-- Legal Information Screen: Evolable Refund Info -->
-    <string name="evolable_legal_refund_info">Kaikkiin lippuihin sovelletaan peruutusmaksun lisäksi 430 JPY:n (tai 500 JPY Skymark-lennoista) hyvitysmaksu per lento.</string>
+    <string name="evolable_legal_refund_info">Kaikkiin lippuihin sovelletaan peruutusmaksun lisäksi 430 JPY:n (tai 500 JPY:n Skymark-lennoista) hyvitysmaksu per lento.</string>
 
     <!-- Flight dialog  errors -->
     <!-- Button label for cancelling on error -->
@@ -2617,11 +2624,11 @@
         <item quantity="other">{filterno} suodatinta otettu käyttöön</item>
     </plurals>
     <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
-    <string name="EnableLocationPermissionSettings_TEMPLATE">Käyttääksesi tämänhetkistä sijaintiasi, sinun tulee antaa {brand}lle lupa käyttää sijaintiasi.\n\nOttaaksesi tämän ominaisuuden käyttöön, napauta \"suostumukset\" ja ota sijainti käyttöön.</string>
+    <string name="EnableLocationPermissionSettings_TEMPLATE">Käyttääksesi tämänhetkistä sijaintiasi sinun tulee antaa {brand}lle lupa käyttää sijaintiasi.\n\nOttaaksesi tämän ominaisuuden käyttöön napauta \"suostumukset\" ja ota sijainti käyttöön.</string>
     <string name="go_to_settings">Siirry asetuksiin</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
-    <string name="EnableLocationSettings">Käyttääksesi tämänhetkistä sijaintia, sinun tulee asettaa sijainnin lähde päälle asetuksissa.\n\nHaluatko siirtyä asetuksiin ja asettaa sen päälle?</string>
+    <string name="EnableLocationSettings">Käyttääksesi tämänhetkistä sijaintia sinun tulee asettaa sijainnin lähde päälle asetuksissa.\n\nHaluatko siirtyä asetuksiin ja asettaa sen päälle?</string>
 
     <!-- Sort descriptions, e.g. Sorted by "description" -->
     <!-- Sort by distance label -->
@@ -2851,7 +2858,7 @@
     <string name="pay_later_info_text">Varaa nyt, maksa myöhemmin</string>
     <string name="etp_payment_options_text">Hotellin maksuvaihtoehtosi</string>
     <string name="etp_pay_later_option_text">Maksa myöhemmin</string>
-    <string name="etp_pay_later_currency_text_TEMPLATE">Maksat suoraan hotellille, hotellin omassa valuutassa (%s).</string>
+    <string name="etp_pay_later_currency_text_TEMPLATE">Maksat suoraan hotellille hotellin omassa valuutassa (%s).</string>
     <string name="etp_pay_later_payment_info_text">Tarvitsemme maksutiedot vain varauksen tekemiseen.</string>
     <string name="etp_pay_later_cancellation_text">Peruutus on ilmaista aina hotellin peruutusajan loppuun asti.</string>
     <string name="etp_pay_now_option_text">Maksa nyt verkossa</string>
@@ -2901,8 +2908,6 @@
     <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
          e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
     <string name="package_hotel_results_header_TEMPLATE">Menopaluuhinta per henkilö. sisältää hotellin ja lennot • {total_price_result_count_header}</string>
-    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay -->
-    <string name="package_hotel_results_header">Menopaluumatkan kokonaishinta per henkilö • sisältää hotellin ja lennot</string>
 
     <!-- Urgency message indicating percent of hotels remaining in a region-->
     <string name="urgency_only_x_hotels_left_TEMPLATE">Enää {percent} % hotelleista jäljellä sivustollamme!</string>
@@ -3007,6 +3012,10 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to open account settings screen -->
     <string name="account_settings_menu_label">Tili</string>
+    <!-- Label for menu item to edit account settings screen -->
+    <string name="account_settings_edit_label">Muokkaa tilitietoja</string>
+    <!-- Label for webview to edit account settings -->
+    <string name="account_settings_edit_webview_label">Minun tilini</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Kirjaudu sisään</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
@@ -3021,7 +3030,7 @@
     <string name="apply">Käytä</string>
     <!-- Google Account Change -->
     <string name="google_account_change_string">Halusitko kirjautua sisään Googlen kautta?</string>
-    <string name="google_account_change_message_TEMPLATE">Emme enää tue Google-kirjautumista, mutta meillä on edelleen {brand}n matkustustietosi! Voidaksesi kirjautua sisään, sinun täytyy asettaa salasana Googlen sähköpostiosoitetta käyttäen sivuillamme</string>
+    <string name="google_account_change_message_TEMPLATE">Emme enää tue Google-kirjautumista, mutta meillä on edelleen {brand}n matkustustietosi! Voidaksesi kirjautua sisään sivustollemme sinun täytyy asettaa salasana käyttäen Googlen sähköpostiosoitetta</string>
 
     <!-- Coupon dialog -->
     <!-- Coupon Widget Title -->
@@ -3756,7 +3765,7 @@
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">Vahvistan, että olen lukenut ja hyväksyn {terms_of_use} ja {privacy_policy}.</string>
     <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Liity {brand_reward_name}-ohjelmaan nyt. Liittymällä {brand_reward_name}-ohjelmaan hyväksyt {terms_and_conditions}.</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">Liity {brand_reward_name} -ohjelmaan nyt. Liittymällä {brand_reward_name} -ohjelmaan hyväksyt {terms_and_conditions}.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Valitse jokaisen lapsen ikä</string>
@@ -4628,11 +4637,11 @@
     <string name="flight_overview_price_widget_button_open_TEMPLATE">Matkan hinta on {price_per_person} per henkilö. Sisältää verot ja maksut. Lentojen tarkastelu -painike.</string>
 
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
-    <string name="bundle_overview_price_widget_TEMPLATE">Pakettimatka yhteensä {totalprice}. Hintaan sisältyy sekä lentojen että hotellin verot ja maksut. {savings}</string>
+    <string name="bundle_overview_price_widget_TEMPLATE">Pakettimatka yhteensä {totalprice}. Hintaan sisältyvät sekä lentojen että hotellin verot ja maksut. {savings}</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
-    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Pakettimatka yhteensä {totalprice}. Hintaan sisältyy sekä lentojen että hotellin verot ja maksut. {savings}. Hintaerittelyn dialogi. Painike.</string>
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Pakettimatka yhteensä {totalprice}. Hintaan sisältyvät sekä lentojen että hotellin verot ja maksut. {savings}. Hintaerittelyn dialogi. Painike.</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
-    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Pakettimatkahinta on {price_per_person} per henkilö. Hintaan sisältyy sekä lentojen että hotellin verot ja maksut. Painike pakettimatkan tarkasteluun.</string>
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Pakettimatkahinta on {price_per_person} per henkilö. Hintaan sisältyvät sekä lentojen että hotellin verot ja maksut. Painike pakettimatkan tarkasteluun.</string>
     <!--Content description for Bundle sliding widget, when it's opened. Example: Trip to Seattle, WA. March 6 to March 7, 1 traveller-->
     <string name="trip_overview_price_widget_expanded_TEMPLATE">Matka kohteeseen {city_name}. {startdate}–{enddate}, {guests}</string>
     <!-- Package filter checkbox.
@@ -4641,6 +4650,19 @@
     <string name="packages_flight_filter_checkbox_cont_desc_TEMPLATE">{filter_results} saatavilla olevaa lentoyhtiön {filter_name} lentoa.\u0020</string>
     <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights. Cannot be deselected, all flight results are NonStop. -->
     <string name="packages_flight_filter_checkbox_disabled_cont_desc_TEMPLATE">{filter_results} saatavilla olevaa lentoyhtiön {filter_name} lentoa. Et voi poistaa valintaa, jokainen lentohakutulos on {filter_name}.\u0020</string>
+
+
+   <!--    Example #1: 3 available NonStop flights starting from $200.
+           Example #2: 2 available Hawaiian Airlines flights starting from $200. -->
+    <string name="flight_filter_checkbox_with_price_and_count_cont_desc_TEMPLATE">{filter_results} saatavilla olevaa lentoa, {filter_name}, alkaen {price}\u0020</string>
+    <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights starting from $200. Cannot be deselected, all flight results are NonStop. -->
+    <string name="flight_filter_checkbox_disabled_with_price_and_count_cont_desc_TEMPLATE">{filter_results} saatavilla olevaa lentoa, {filter_name}, alkaen {price}. Et voi poistaa valintaa, jokainen lentohakutulos on {filter_name}.\u0020</string>
+
+    <!-- Example #1: NonStop flights starting from $200.
+         Example #2: Hawaiian Airlines flights starting from $200. -->
+    <string name="flight_filter_checkbox_with_price_cont_desc_TEMPLATE">lennot, {filter_name}, alkaen {price}\u0020</string>
+    <!-- Content Description for diabled filter option on Sort Filter Page. Example: NonStop flights starting from $200. Cannot be deselected, all flight results are NonStop. -->
+    <string name="flight_filter_checkbox_disabled_with_price__cont_desc_TEMPLATE">lennot, {filter_name}, alkaen {price}. Et voi poistaa valintaa, jokainen lentohakutulos on {filter_name}.\u0020</string>
 
     <!-- Status displayed in a modal dialog while insurance is being added -->
     <string name="insurance_adding">Lisätään matkavakuutusta…</string>
@@ -4839,6 +4861,7 @@
     <string name="find_guest_add_email_address_hint">Lähetä sähköpostia</string>
     <!-- Hint to type in itinerary number -->
     <string name="find_guest_add_itinerary_number_hint">Matkasuunnitelman numero</string>
+    <string name="itin_toolbar">Matkat</string>
 
     <!-- Booking successful alert text-->
     <string name="booking_successful">Varaus tehty!</string>
@@ -4857,7 +4880,7 @@
 
     <!-- Last Minute Deal -->
     <string name="last_minute_deal_title">Viime hetken tarjouksia</string>
-    <string name="last_minute_deal_subtitle">Haluatko lomalle? Tarkista meidän viime hetken halvat hinnat</string>
+    <string name="last_minute_deal_subtitle">Haluatko lomalle? Tarkista meidän viime hetken halvat hintamme</string>
     <string name="last_minute_deals_toolbar_title">Äkkilähtötarjouksia</string>
     <string name="last_minute_deals_toolbar_close_cont_desc">Sulje viime hetken tarjousten ikkuna</string>
 
@@ -5015,10 +5038,16 @@
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">Normaalihinta per {ticket_type} {activity_original_price}. Alennettu hinta per {ticket_type} {activity_price}</string>
     <string name="hotel_2x_points_search_title">Ansaitse kaksinkertaiset Expedia Rewards -pisteet</string>
     <string name="hotel_2x_points_search_content">Ansaitset kaksinkertaiset pisteet tekemällä varauksesi sovelluksessa!</string>
+
+    <!-- Recent search - Date searched On string e.g. as of Nov 10 -->
+    <string name="flight_recent_search_date_searched_TEMPLATE">{searchdate} lähtien</string>
     <!-- Recent search header string -->
     <string name="flight_recent_search_label">Viimeaikaiset haut</string>
 
     <!-- Brand reward name -->
     <string name="brand_reward_name">Expedia Rewards</string>
+
+    <!--Accessibility Content Description for Member Pricing Discount Percentage Eg. Member Pricing Discount: 10%-->
+    <string name="lx_member_pricing_discount_percent_TEMPLATE">Jäsenille tarkoitettu alennus: {discount} %</string>
 
 </resources>

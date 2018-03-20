@@ -143,8 +143,6 @@
     </plurals>
     <!-- Accessibility announcement requesting user to fix errors on checkout forms. -->
     <string name="accessibility_announcement_please_review_and_resubmit">請更正並重新提交。</string>
-    <!--Accessibility content description for lock icon on checkout. -->
-    <string name="secure_lock_accessibility">鎖頭圖標，安全付款</string>
     <!--Legal booking statement for flights on checkout-->
     <string name="flight_booking_statement_TEMPLATE">完成此預訂即表示我同意我已閱讀並接受&lt;a href=\"{website_url}\""&gt;規則與限制、條款及細則、私隱政策，以及收費資料&lt;/a&gt;。</string>
 
@@ -828,6 +826,7 @@
     <string name="nav_packages">套票行程優惠</string>
     <string name="nav_hotel_plus_flight_deals">酒店 + 機票優惠</string>
     <string name="nav_hotel_plus_flight">酒店 + 機票</string>
+    <string name="nav_hotel_plus_flight_plus_car">酒店 + 機票 + 租車</string>
     <string name="nav_flight_plus_hotel">機票 + 酒店</string>
     <!-- Rail -->
     <string name="nav_rail">火車票</string>
@@ -1371,6 +1370,12 @@
     <string name="itin_hotel_details_manage_booking_subheading">更改、取消及支援</string>
     <!--Hotel itin card price summary heading-->
     <string name="itin_hotel_details_price_summary_heading">價格概要</string>
+    <!--Hotel itin card price summary and rewards heading-->
+    <string name="itin_hotel_details_price_summary_rewards_heading">價格及獎賞</string>
+    <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
+    <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">合共已付 {amount}</string>
+    <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
+    <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">須於酒店支付合共 {amount}</string>
     <!--Hotel itin card additional info heading-->
     <string name="itin_hotel_details_additional_info_heading">其他資料</string>
     <!--Hotel itin checkin text-->
@@ -2250,6 +2255,8 @@
     <string name="save_traveler">儲存旅客</string>
     <!-- no thanks -->
     <string name="no_thanks">不用了</string>
+    <!--Advanced flight traveler options, explicitly telling user that they can add frequent flyer number anytime before the flight -->
+    <string name="add_anytime_before_your_flight">可於航班出發前隨時新增。</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">其他資料 (選填)</string>
     <!--Contact airline message on flight checkout traveler details -->
@@ -2901,8 +2908,6 @@
     <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
          e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
     <string name="package_hotel_results_header_TEMPLATE">一位來回總價。包括酒店及機票 • {total_price_result_count_header}</string>
-    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay -->
-    <string name="package_hotel_results_header">一位來回總價 (包括酒店及機票)</string>
 
     <!-- Urgency message indicating percent of hotels remaining in a region-->
     <string name="urgency_only_x_hotels_left_TEMPLATE">我們僅餘 {percent}% 酒店！</string>
@@ -3007,6 +3012,10 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to open account settings screen -->
     <string name="account_settings_menu_label">帳戶</string>
+    <!-- Label for menu item to edit account settings screen -->
+    <string name="account_settings_edit_label">編輯帳戶資料</string>
+    <!-- Label for webview to edit account settings -->
+    <string name="account_settings_edit_webview_label">我的帳戶</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">登入</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
@@ -4642,6 +4651,19 @@
     <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights. Cannot be deselected, all flight results are NonStop. -->
     <string name="packages_flight_filter_checkbox_disabled_cont_desc_TEMPLATE">有 {filter_results} 個{filter_name}航班。不可取消選擇，所有航班搜尋結果均為{filter_name}。\u0020</string>
 
+
+   <!--    Example #1: 3 available NonStop flights starting from $200.
+           Example #2: 2 available Hawaiian Airlines flights starting from $200. -->
+    <string name="flight_filter_checkbox_with_price_and_count_cont_desc_TEMPLATE">有 {filter_results} 個{filter_name}航班，低至 {price}\u0020</string>
+    <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights starting from $200. Cannot be deselected, all flight results are NonStop. -->
+    <string name="flight_filter_checkbox_disabled_with_price_and_count_cont_desc_TEMPLATE">有 {filter_results} 個{filter_name}航班，低至 {price}。不可取消選擇，所有航班搜尋結果均為{filter_name}。\u0020</string>
+
+    <!-- Example #1: NonStop flights starting from $200.
+         Example #2: Hawaiian Airlines flights starting from $200. -->
+    <string name="flight_filter_checkbox_with_price_cont_desc_TEMPLATE">{filter_name}航班，低至 {price}\u0020</string>
+    <!-- Content Description for diabled filter option on Sort Filter Page. Example: NonStop flights starting from $200. Cannot be deselected, all flight results are NonStop. -->
+    <string name="flight_filter_checkbox_disabled_with_price__cont_desc_TEMPLATE">{filter_name}航班，低至 {price}。不可取消選擇，所有航班搜尋結果均為{filter_name}。\u0020</string>
+
     <!-- Status displayed in a modal dialog while insurance is being added -->
     <string name="insurance_adding">正在添加旅遊保險…</string>
     <!-- Error message displayed when insurance fails to be added to a trip -->
@@ -4839,6 +4861,7 @@
     <string name="find_guest_add_email_address_hint">電郵</string>
     <!-- Hint to type in itinerary number -->
     <string name="find_guest_add_itinerary_number_hint">行程編號</string>
+    <string name="itin_toolbar">行程</string>
 
     <!-- Booking successful alert text-->
     <string name="booking_successful">預訂成功！</string>
@@ -5015,10 +5038,16 @@
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">正價 {ticket_type} {activity_original_price}。折扣價 {ticket_type} {activity_price}</string>
     <string name="hotel_2x_points_search_title">雙倍 Expedia Rewards 積分！</string>
     <string name="hotel_2x_points_search_content">透過 App 預訂您就能賺取雙倍積分！</string>
+
+    <!-- Recent search - Date searched On string e.g. as of Nov 10 -->
+    <string name="flight_recent_search_date_searched_TEMPLATE">{searchdate} 價格</string>
     <!-- Recent search header string -->
     <string name="flight_recent_search_label">近期的搜尋</string>
 
     <!-- Brand reward name -->
     <string name="brand_reward_name">Expedia Rewards</string>
+
+    <!--Accessibility Content Description for Member Pricing Discount Percentage Eg. Member Pricing Discount: 10%-->
+    <string name="lx_member_pricing_discount_percent_TEMPLATE">會員價折扣：{discount}%</string>
 
 </resources>
