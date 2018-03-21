@@ -1474,6 +1474,10 @@
     <!--Hotel itin price and rewards expedia title -->
     <string name="itin_hotel_price_reward_title">Pricing and rewards</string>
 
+    <!--LX itin redesign-->
+    <!--LX toolbar title template. (e.g. Activity in San Francisco)-->
+    <string name="itin_lx_toolbar_title_TEMPLATE">Activity in {location}</string>
+
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Share Itinerary</string>
 

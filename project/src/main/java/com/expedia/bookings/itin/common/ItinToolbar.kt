@@ -21,7 +21,7 @@ class ItinToolbar(context: Context, attr: AttributeSet?) : Toolbar(context, attr
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     val toolbarShareIcon: TextView by bindView(R.id.itin_share_button)
 
-    var viewModel: ItinToolbarViewModel by notNullAndObservable {
+    var viewModel: NewItinToolbarViewModel by notNullAndObservable {
         viewModel.toolbarTitleSubject.subscribe {
             toolbarTitleText.text = it
         }

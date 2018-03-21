@@ -5,7 +5,7 @@ import com.expedia.bookings.itin.helpers.ItinMocker
 import com.expedia.bookings.itin.helpers.MockHotelRepo
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
 import com.expedia.bookings.itin.helpers.MockStringProvider
-import com.expedia.bookings.itin.repositories.ItinHotelRepoInterface
+import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepoInterface
 import com.expedia.bookings.itin.scopes.HasHotelRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasStringProvider

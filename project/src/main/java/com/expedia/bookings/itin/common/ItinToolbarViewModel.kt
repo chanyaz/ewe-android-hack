@@ -2,7 +2,7 @@ package com.expedia.bookings.itin.common
 
 import io.reactivex.subjects.PublishSubject
 
-abstract class ItinToolbarViewModel {
+abstract class ItinToolbarViewModel : NewItinToolbarViewModel {
 
     data class ToolbarParams(
             val title: String,
@@ -10,11 +10,11 @@ abstract class ItinToolbarViewModel {
             val showShareIcon: Boolean
     )
 
-    val toolbarTitleSubject: PublishSubject<String> = PublishSubject.create<String>()
-    val toolbarSubTitleSubject: PublishSubject<String> = PublishSubject.create<String>()
-    val shareIconVisibleSubject: PublishSubject<Boolean> = PublishSubject.create<Boolean>()
-    val navigationBackPressedSubject: PublishSubject<Unit> = PublishSubject.create<Unit>()
-    val shareIconClickedSubject = PublishSubject.create<Unit>()
+    override val toolbarTitleSubject = PublishSubject.create<String>()
+    override val toolbarSubTitleSubject = PublishSubject.create<String>()
+    override val shareIconVisibleSubject = PublishSubject.create<Boolean>()
+    override val navigationBackPressedSubject = PublishSubject.create<Unit>()
+    override val shareIconClickedSubject = PublishSubject.create<Unit>()
 
     abstract fun updateWidget(toolbarParams: ToolbarParams)
 }

@@ -19,10 +19,13 @@ import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataAdapter;
 import com.expedia.bookings.data.trips.ItinCardDataRails;
 import com.expedia.bookings.data.trips.TripComponent;
+
 import com.expedia.bookings.itin.common.LegacyItinCardDataActivity;
+import com.expedia.bookings.features.Features;
+import com.expedia.bookings.itin.lx.details.LxItinDetailsActivity;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.itin.flight.details.FlightItinDetailsActivity;
 import com.expedia.bookings.itin.hotel.details.HotelItinDetailsActivity;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.mobiata.android.Log;
 
 @SuppressWarnings("rawtypes")
@@ -364,6 +367,8 @@ public class ItinListView extends ListView implements OnItemClickListener {
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		ItinCardData data = mAdapter.getItem(position);
 
+		Boolean isLxItinRedesignedBucketed = Features.Companion.getAll().getLxRedesign().enabled();
+
 		if (data != null) {
 			if (view instanceof ItinButtonCard) {
 				// Do nothing
@@ -385,6 +390,12 @@ public class ItinListView extends ListView implements OnItemClickListener {
 			}
 			else if (data.hasDetailData() && data.getTripComponentType() == TripComponent.Type.FLIGHT) {
 				getContext().startActivity(FlightItinDetailsActivity.createIntent(getContext(), data.getId()),
+						ActivityOptionsCompat
+							.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete)
+							.toBundle());
+			}
+			else if (data.hasDetailData() && data.getTripComponentType() == TripComponent.Type.ACTIVITY && isLxItinRedesignedBucketed) {
+				getContext().startActivity(LxItinDetailsActivity.createIntent(getContext(), data.getTripId()),
 						ActivityOptionsCompat
 							.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete)
 							.toBundle());

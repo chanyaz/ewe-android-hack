@@ -9,6 +9,28 @@
     "orderNumber": 8104062917948,
     "title": "New York, United States",
     "updateTripNameDescPathURL": "https://wwwexpediacom.trunk.sb.karmalab.net/api/trips/b9739936-62a8-49a1-af12-fdbe85d78e5f/updateTripNameDescription",
+    "startTime": {
+      "raw": "2018-10-24T09:30:00-07:00",
+      "localized": "Oct 24, 2018 9:30:00 AM",
+      "epochSeconds": 1540398600,
+      "timeZoneOffsetSeconds": -25200,
+      "localizedShortDate": "10/24/2018",
+      "localizedMediumDate": "Oct 24",
+      "localizedFullDate": "Wed, Oct 24",
+      "localizedLongDate": "Oct 24, 2018",
+      "localizedShortTime": "9:30am"
+    },
+    "endTime": {
+      "raw": "2018-10-24T09:30:00-07:00",
+      "localized": "Oct 24, 2018 9:30:00 AM",
+      "epochSeconds": 1540398600,
+      "timeZoneOffsetSeconds": -25200,
+      "localizedShortDate": "10/24/2018",
+      "localizedMediumDate": "Oct 24",
+      "localizedFullDate": "Wed, Oct 24",
+      "localizedLongDate": "Oct 24, 2018",
+      "localizedShortTime": "9:30am"
+    },
     "ownerId": 6429319,
     "bookingStatus": "BOOKED",
     "sharableDetailsURL": "https://wwwexpediacom.trunk.sb.karmalab.net/api/trips/shared/Ej3GwUvDPQCPgYEL4wqUusCAxWnx_ppy1JPYu2eQN_hHj6B-UzUGEgUkz6iX8iditJFEYwyq93bh2dL4L7HhU4Av",
@@ -90,6 +112,17 @@
           "creditString": ""
         },
         "activityDetailsURL": "https://wwwexpediacom.trunk.sb.karmalab.net/lx/activity/358734/",
+        "activityLocation": {
+          "name1": "California Academy of Sciences",
+          "latitude": 37.76974,
+          "longitude": -122.46614,
+          "addressLine1": "55 Music Concourse Drive",
+          "city": "San Francisco",
+          "countrySubdivisionCode": "CA",
+          "postalCode": "94118",
+          "countryCode": "USA",
+          "fullAddress": "California Academy of Sciences: 55 Music Concourse Drive, San Francisco, CA, 94118, USA"
+        },
         "locationMapURL": "//maps.googleapis.com/maps/api/staticmap?client=gme-expedia&channel=expedia-LXVoucher&zoom=17&size=640x360&maptype=roadmap&sensor=false&format=png8&scale=2&center=39.95572,-75.1819&markers=color:blue%7C39.95572,-75.1819&markers=color:red%7C40.71279,-74.00594&signature=NmnjkjoTTbiO4FX4w2ONlwTzBhY=",
         "travelerCount": 5,
         "durationInMillis": 43200000,

@@ -11,6 +11,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.itin.common.ItinToolbar
+import com.expedia.bookings.itin.common.ItinToolbarViewModel
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
@@ -34,7 +35,8 @@ open class FlightItinTravelerInfoActivity : AppCompatActivity() {
             finish()
         }
         vm.updateToolbarSubject.subscribe {
-            travelerToolbar.viewModel.updateWidget(it)
+            val toolbarViewModel = travelerToolbar.viewModel as ItinToolbarViewModel
+            toolbarViewModel.updateWidget(it)
         }
         vm.updateTravelerListSubject.subscribe {
             if (it.size > 1) {

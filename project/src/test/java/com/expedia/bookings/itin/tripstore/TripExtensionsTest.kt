@@ -3,8 +3,10 @@ package com.expedia.bookings.itin.tripstore
 import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinDetailsResponse
 import com.expedia.bookings.itin.tripstore.data.ItinHotel
+import com.expedia.bookings.itin.tripstore.data.ItinLx
 import com.expedia.bookings.itin.tripstore.extensions.eligibleForRewards
 import com.expedia.bookings.itin.tripstore.extensions.firstHotel
+import com.expedia.bookings.itin.tripstore.extensions.firstLx
 import com.expedia.bookings.itin.tripstore.extensions.packagePrice
 import com.mobiata.mocke3.mockObject
 import org.junit.Test
@@ -66,6 +68,13 @@ class TripExtensionsTest {
         assertEquals("$122.55", itin?.packagePrice())
     }
 
+    @Test
+    fun testFirstLxValid() {
+        val lx = makeItinLx("api/trips/activity_trip_details.json")
+        assertNotNull(lx)
+        assertEquals("200E974C-C7DA-445E-A392-DD12578A96A0_0_358734_358736", lx?.uniqueID)
+    }
+
     private fun makeItinHotel(mockName: String): ItinHotel? {
         return makeItin(mockName)?.firstHotel()
     }
@@ -73,5 +82,9 @@ class TripExtensionsTest {
     private fun makeItin(mockName: String): Itin? {
         val json = mockObject(ItinDetailsResponse::class.java, mockName)
         return json?.itin
+    }
+
+    private fun makeItinLx(mockName: String): ItinLx? {
+        return makeItin(mockName)?.firstLx()
     }
 }

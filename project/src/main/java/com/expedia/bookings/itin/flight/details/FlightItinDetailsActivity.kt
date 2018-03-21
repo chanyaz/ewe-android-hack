@@ -13,6 +13,7 @@ import com.expedia.bookings.itin.flight.common.FlightItinToolbarViewModel
 import com.expedia.bookings.itin.common.ItinConfirmationWidget
 import com.expedia.bookings.itin.common.ItinTimeDurationWidget
 import com.expedia.bookings.itin.common.ItinToolbar
+import com.expedia.bookings.itin.common.ItinToolbarViewModel
 import com.expedia.bookings.itin.common.ItinWebviewInfoWidget
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
@@ -38,7 +39,8 @@ class FlightItinDetailsActivity : ItinBaseActivity() {
             finishActivity()
         }
         vm.updateToolbarSubject.subscribe { params ->
-            itinToolbar.viewModel.updateWidget(params)
+            val flightToolbarViewModel = itinToolbar.viewModel as ItinToolbarViewModel
+            flightToolbarViewModel.updateWidget(params)
         }
         vm.clearLegSummaryContainerSubject.subscribe {
             flightSummaryContainer.removeAllViews()

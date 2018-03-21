@@ -1,32 +1,33 @@
-package com.expedia.bookings.itin.repositories
+package com.expedia.bookings.itin.lx
 
 import android.arch.lifecycle.MutableLiveData
 import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.itin.tripstore.data.Itin
-import com.expedia.bookings.itin.tripstore.data.ItinHotel
-import com.expedia.bookings.itin.tripstore.extensions.firstHotel
+import com.expedia.bookings.itin.tripstore.data.ItinLx
+import com.expedia.bookings.itin.tripstore.extensions.firstLx
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import io.reactivex.Observable
 import io.reactivex.observers.DisposableObserver
+import io.reactivex.subjects.PublishSubject
 
-class ItinHotelRepo(private val itinId: String, private val jsonUtil: IJsonToItinUtil, observable: Observable<MutableList<ItinCardData>>) : ItinHotelRepoInterface {
+class ItinLxRepo(private val itinId: String, private val jsonUtil: IJsonToItinUtil, observable: Observable<MutableList<ItinCardData>>) : ItinLxRepoInterface {
 
-    override val liveDataHotel: MutableLiveData<ItinHotel> = MutableLiveData()
-    val liveDataItin: MutableLiveData<Itin> = MutableLiveData()
-    val liveDataInvalidItin: MutableLiveData<Unit> = MutableLiveData()
+    override val liveDataLx: MutableLiveData<ItinLx> = MutableLiveData()
+    override val liveDataItin: MutableLiveData<Itin> = MutableLiveData()
+    val invalidDataSubject: PublishSubject<Unit> = PublishSubject.create()
 
     val syncObserver = object : DisposableObserver<MutableList<ItinCardData>>() {
         override fun onComplete() {
         }
 
         override fun onNext(t: MutableList<ItinCardData>) {
-            val hotel = fetchHotel()
+            val lx = fetchLx()
             val itin = fetchItin()
-            if (hotel != null && itin != null) {
-                liveDataHotel.postValue(hotel)
+            if (lx != null && itin != null) {
+                liveDataLx.postValue(lx)
                 liveDataItin.postValue(itin)
             } else {
-                liveDataInvalidItin.postValue(Unit)
+                invalidDataSubject.onNext(Unit)
             }
         }
 
@@ -38,10 +39,10 @@ class ItinHotelRepo(private val itinId: String, private val jsonUtil: IJsonToIti
         return jsonUtil.getItin(itinId)
     }
 
-    private fun fetchHotel(): ItinHotel? = jsonUtil.getItin(itinId)?.firstHotel()
+    private fun fetchLx(): ItinLx? = jsonUtil.getItin(itinId)?.firstLx()
 
     init {
-        liveDataHotel.value = fetchHotel()
+        liveDataLx.value = fetchLx()
         liveDataItin.value = fetchItin()
         observable.subscribe(syncObserver)
     }

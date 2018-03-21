@@ -8,6 +8,7 @@ import com.expedia.bookings.itin.common.ItinBaseActivity
 import com.expedia.bookings.itin.flight.common.FlightItinToolbarViewModel
 import com.expedia.bookings.itin.common.ItinModifyReservationWidget
 import com.expedia.bookings.itin.common.ItinToolbar
+import com.expedia.bookings.itin.common.ItinToolbarViewModel
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -57,7 +58,8 @@ class FlightItinManageBookingActivity : ItinBaseActivity() {
             finish()
         }
         vm.updateToolbarSubject.subscribe { params ->
-            itinToolbar.viewModel.updateWidget(params)
+            val toolbarViewModel = itinToolbar.viewModel as ItinToolbarViewModel
+            toolbarViewModel.updateWidget(params)
         }
         vm.customerSupportDetailsSubject.subscribe { params ->
             customerSupportDetails.viewModel = FlightItinCustomerSupportDetailsViewModel()
