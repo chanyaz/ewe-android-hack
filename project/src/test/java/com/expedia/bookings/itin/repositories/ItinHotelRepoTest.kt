@@ -2,6 +2,7 @@ package com.expedia.bookings.itin.repositories
 
 import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.itin.helpers.ItinMocker
+import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepo
 import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinDetailsResponse
 import com.expedia.bookings.itin.tripstore.extensions.firstHotel

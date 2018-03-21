@@ -10,7 +10,7 @@ data class Itin(
         val bookingStatus: String?,
         val hotels: List<ItinHotel>?,
         val flights: List<ItinFlight>?,
-        val activities: List<ItinActivity>?,
+        val lxes: List<ItinLx>?,
         val cars: List<ItinCar>?,
         val cruises: List<ItinCruise>?,
         val rails: List<ItinRail>?,

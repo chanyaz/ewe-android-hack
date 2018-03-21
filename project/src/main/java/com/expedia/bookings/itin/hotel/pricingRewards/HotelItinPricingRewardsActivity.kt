@@ -8,7 +8,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.extensions.LiveDataObserver
 import com.expedia.bookings.itin.common.ItinToolbar
-import com.expedia.bookings.itin.repositories.ItinHotelRepo
+import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepo
 import com.expedia.bookings.itin.scopes.HotelItinToolbarScope
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.itin.utils.Intentable

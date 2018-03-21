@@ -6,10 +6,10 @@ import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-class ItinActivityParsingTest {
+class ItinLXParsingTest {
 
     @Test
-    fun activityParsing() {
+    fun lxParsing() {
         val json = mockObject(ItinDetailsResponse::class.java, "api/trips/activity_trip_details.json")
         val itin = json?.itin
 
@@ -25,8 +25,8 @@ class ItinActivityParsingTest {
         assertEquals(startTime, itin?.startTime)
         assertEquals(endTime, itin?.endTime)
 
-        val activity = itin?.activities?.first()
-        assertNotNull(activity)
-        assertEquals("200E974C-C7DA-445E-A392-DD12578A96A0_0_358734_358736", activity?.uniqueID)
+        val lx = itin?.lxes?.first()
+        assertNotNull(lx)
+        assertEquals("200E974C-C7DA-445E-A392-DD12578A96A0_0_358734_358736", lx?.uniqueID)
     }
 }

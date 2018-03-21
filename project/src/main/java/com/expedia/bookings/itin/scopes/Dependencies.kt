@@ -1,7 +1,8 @@
 package com.expedia.bookings.itin.scopes
 
 import android.arch.lifecycle.LifecycleOwner
-import com.expedia.bookings.itin.repositories.ItinHotelRepoInterface
+import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepoInterface
+import com.expedia.bookings.itin.lx.ItinLxRepoInterface
 import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinHotel
 import com.expedia.bookings.itin.utils.AbacusSource
@@ -44,4 +45,8 @@ interface HasActivityLauncher {
 
 interface HasAbacusProvider {
     val abacus: AbacusSource
+}
+
+interface HasLxRepo {
+    val itinLxRepo: ItinLxRepoInterface
 }
