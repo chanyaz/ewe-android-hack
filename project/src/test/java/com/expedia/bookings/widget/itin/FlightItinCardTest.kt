@@ -3,7 +3,7 @@ package com.expedia.bookings.widget.itin
 import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageButton
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItinCardDataFlight
@@ -95,22 +95,39 @@ class FlightItinCardTest {
         assertEquals("Image gallery", imageView.contentDescription)
     }
 
-    private fun getShareButtonOverflow(): ImageButton {
-        val shareButtonOverflow = sut.findViewById<View>(R.id.itin_overflow_image_button) as ImageButton
-        return shareButtonOverflow
+    @Test
+    fun testSummaryHiddenWhenOutsideOf24HourCheckInWindow() {
+        val startDate = DateTime.now().plusDays(2)
+        createSystemUnderTest(startDate)
+
+        val summaryLayout = sut.findViewById<ViewGroup>(R.id.summary_section_layout)
+        val checkInLayout = sut.findViewById<ViewGroup>(R.id.checkin_layout)
+
+        assertEquals(View.GONE, summaryLayout.visibility, "summary_section_layout visibility is not GONE.")
+        assertEquals(View.GONE, checkInLayout.visibility, "checkin_layout visibility is not GONE.")
+    }
+
+    @Test
+    fun testSummaryHiddenWhenInsideOf24HourCheckInWindow() {
+        val startDate = DateTime.now().plusHours(2)
+        createSystemUnderTest(startDate)
+
+        val summaryLayout = sut.findViewById<ViewGroup>(R.id.summary_section_layout)
+        val checkInLayout = sut.findViewById<ViewGroup>(R.id.checkin_layout)
+
+        assertEquals(View.GONE, summaryLayout.visibility, "summary_section_layout visibility is not GONE.")
+        assertEquals(View.VISIBLE, checkInLayout.visibility, "checkin_layout visibility is not VISIBLE.")
     }
 
     private fun getActionButtonLayout(): LinearLayout {
-        val actionButtonLayout = sut.findViewById<View>(R.id.action_button_layout) as LinearLayout
-        return actionButtonLayout
+        return sut.findViewById<View>(R.id.action_button_layout) as LinearLayout
     }
 
     private fun getFlightDurationTextView(): TextView {
-        val actionButtonLayout = sut.findViewById<View>(R.id.flight_duration) as TextView
-        return actionButtonLayout
+        return sut.findViewById<View>(R.id.flight_duration) as TextView
     }
 
-    private fun createSystemUnderTest() {
+    private fun createSystemUnderTest(startDate: DateTime? = null) {
         val data = Okio.buffer(Okio.source(File("../lib/mocked/templates/api/trips/flight_trips_summary_with_insurance.json"))).readUtf8()
         val jsonObject = JSONObject(data)
         val jsonArray = jsonObject.getJSONArray("responseData")
@@ -119,7 +136,7 @@ class FlightItinCardTest {
         sut = FlightItinCard(activity, null)
         LayoutInflater.from(activity).inflate(R.layout.widget_itin_card, sut)
 
-        itinCardData = ItinCardDataFlight(tripFlight, 0)
+        itinCardData = TestItinCardDataFlight(tripFlight, 0, startDate)
         sut.bind(itinCardData)
     }
 
@@ -131,12 +148,16 @@ class FlightItinCardTest {
     }
 
     private fun getUpgradeTextView(): TextView {
-        val upgradeText = sut.findViewById<View>(R.id.room_upgrade_available_banner) as TextView
-        return upgradeText
+        return sut.findViewById<View>(R.id.room_upgrade_available_banner) as TextView
     }
 
     private fun getCheckInTextView(): TextView {
-        val checkInTextView = sut.findViewById<View>(R.id.checkin_text_view) as TextView
-        return checkInTextView
+        return sut.findViewById<View>(R.id.checkin_text_view) as TextView
+    }
+
+    private class TestItinCardDataFlight(parent: TripFlight?, leg: Int, val overrideStartDate: DateTime?) : ItinCardDataFlight(parent, leg) {
+        override fun getStartDate(): DateTime {
+            return overrideStartDate ?: super.getStartDate()
+        }
     }
 }

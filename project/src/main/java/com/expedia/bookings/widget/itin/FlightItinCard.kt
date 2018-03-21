@@ -41,6 +41,7 @@ class FlightItinCard(context: Context, attributeSet: AttributeSet?) : ItinCard<I
 
     private fun showFlightCheckIn(itinCardData: ItinCardDataFlight) {
         val shouldShowCheckInLink = shouldShowCheckInLink(itinCardData)
+
         if (shouldShowCheckInLink) {
             val flightLegNumber = (itinCardData).legNumber
             val userCheckedIn = (itinCardData.tripComponent as TripFlight).flightTrip
@@ -49,7 +50,6 @@ class FlightItinCard(context: Context, attributeSet: AttributeSet?) : ItinCard<I
                 onCheckInLinkVisited(itinCardData)
             }
             mCheckInLayout.visibility = View.VISIBLE
-            setShowSummary(true)
             mCheckInLayout.setOnClickListener {
                 val isUserCheckedIn = (itinCardData.tripComponent as TripFlight).flightTrip
                         .getLeg(flightLegNumber).isUserCheckedIn
@@ -68,10 +68,9 @@ class FlightItinCard(context: Context, attributeSet: AttributeSet?) : ItinCard<I
             }
         } else {
             mCheckInLayout.visibility = View.GONE
-            if (isCollapsed) {
-                setShowSummary(false)
-            }
         }
+
+        mSummarySectionLayout.visibility = View.GONE
     }
 
     private fun shouldShowCheckInLink(itinCardData: ItinCardDataFlight): Boolean {

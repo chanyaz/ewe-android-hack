@@ -105,7 +105,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	private ViewGroup mTitleContentLayout;
 	private ViewGroup mHeaderLayout;
 	private ViewGroup mHeaderTextLayout;
-	private ViewGroup mSummarySectionLayout;
+	protected ViewGroup mSummarySectionLayout;
 	private ViewGroup mSummaryLayout;
 	private ImageView mChevronImageView;
 	private ViewGroup mDetailsLayout;
