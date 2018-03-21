@@ -4,9 +4,11 @@ import com.google.gson.annotations.SerializedName
 
 data class ItinHotel(
         val uniqueID: String?,
+        val hotelId: String?,
         val paymentModel: PaymentModel?,
         val totalPriceDetails: TotalPriceDetails?,
-        val hotelPropertyInfo: HotelPropertyInfo?
+        val hotelPropertyInfo: HotelPropertyInfo?,
+        val numberOfNights: String?
 )
 
 enum class PaymentModel {
@@ -17,7 +19,8 @@ enum class PaymentModel {
 }
 
 data class TotalPriceDetails(
-        val totalFormatted: String?
+        val totalFormatted: String?,
+        val base: String?
 )
 
 data class HotelPropertyInfo(

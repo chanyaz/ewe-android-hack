@@ -2,6 +2,7 @@ package com.expedia.bookings.tracking
 
 import com.expedia.bookings.ADMS_Measurement
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.trips.TripUtils
 import com.mobiata.android.Log
 
 object TripsTracking : OmnitureTracking(), ITripsTracking {
@@ -147,12 +148,21 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
         internalTrackLink(ITIN_HOTEL_INFO)
     }
 
-    fun trackItinHotel(hasHotelMessagingURL: Boolean?) {
+    @JvmStatic
+    fun trackItinHotel(trip: HashMap<String, String?>) {
         Log.d(TAG, "Tracking \"$ITIN_HOTEL\" pageLoad")
         val s = createTrackPageLoadEventBase(ITIN_HOTEL)
-        if (hasHotelMessagingURL!!) {
-            trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsMessageHotel)
+        val userTrips = OmnitureTracking.getUsersTrips()
+        if (userStateManager.isUserAuthenticated()) {
+            OmnitureTracking.appendUsersEventString(s)
+            s.setProp(75, TripUtils.createUsersProp75String(userTrips))
         }
+        s.setProducts(trip.get("productString").toString())
+        s.setProp(8, trip.get("orderAndTripNumbers").toString())
+        s.setEvar(6, trip.get("duration").toString())
+        s.setProp(5, trip.get("tripStartDate").toString())
+        s.setProp(6, trip.get("tripEndDate").toString())
+        s.setEvar(5, trip.get("daysUntilTrip").toString())
         s.appendEvents("event63")
         s.track()
     }

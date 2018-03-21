@@ -7,7 +7,7 @@ import com.expedia.bookings.data.FlightLeg
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.TripFlight
-import com.expedia.bookings.itin.flight.common.FlightItinOmnitureUtils
+import com.expedia.bookings.itin.flight.common.ItinOmnitureUtils
 import com.expedia.bookings.itin.common.ItinCustomerSupportDetailsViewModel
 import com.expedia.bookings.itin.common.ItinToolbarViewModel
 import com.expedia.bookings.utils.Strings
@@ -68,7 +68,7 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
     }
 
     fun createOmnitureTrackingValues(): HashMap<String, String?> {
-        return FlightItinOmnitureUtils.createOmnitureTrackingValues(itinCardDataFlight)
+        return ItinOmnitureUtils.createOmnitureTrackingValues(itinCardDataFlight)
     }
 
     private fun updateToolbar() {

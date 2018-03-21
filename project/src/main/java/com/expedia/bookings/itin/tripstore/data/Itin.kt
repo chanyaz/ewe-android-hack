@@ -7,6 +7,7 @@ data class Itin(
         val title: String?,
         val startTime: Time?,
         val endTime: Time?,
+        val orderNumber: String?,
         val bookingStatus: String?,
         val hotels: List<ItinHotel>?,
         val flights: List<ItinFlight>?,
