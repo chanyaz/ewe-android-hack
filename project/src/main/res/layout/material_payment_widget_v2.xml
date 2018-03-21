@@ -213,8 +213,6 @@
                             android:hint="@string/credit_debit_card_hint"
                             android:imeOptions="actionNext"
                             android:maxLines="1"
-                            android:focusable="true"
-                            android:focusableInTouchMode="true"
                             android:nextFocusForward="@+id/edit_creditcard_exp_text_btn"
                             android:textSize="@dimen/traveler_input_text_size"
                             android:layout_gravity="left"

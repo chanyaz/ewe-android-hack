@@ -524,7 +524,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                     })
             storedCreditCardList.bind()
             if (!forward) validateAndBind()
-            else viewmodel.userHasAtleastOneStoredCard.onNext(userHasAtLeastOneCard())
+            else viewmodel.userHasAtleastOneStoredCard.onNext(userStateManager.isUserAuthenticated() && (userStateManager.userSource.user?.storedCreditCards?.isNotEmpty() == true || Db.sharedInstance.temporarilySavedCard != null))
             updateToolbarMenu(forward, forward, !forward)
             if (forward) {
                 viewmodel.doneClickedMethod.onNext { close() }
@@ -568,25 +568,21 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             billingInfoContainer.visibility = if (forward) View.VISIBLE else View.GONE
             storedCreditCardList.bind()
             trackAnalytics()
+            if (!forward) validateAndBind()
             if (forward) {
                 viewmodel.doneClickedMethod.onNext { onDoneClicked() }
+                viewmodel.toolbarNavIconFocusObservable.onNext(Unit)
                 if (populateCardholderNameTestEnabled) {
                     populateCardholderName()
                 }
                 showMaskedCreditCardNumber()
                 filledIn.onNext(isCompletelyFilled())
-            } else {
-                validateAndBind()
             }
             if (getLineOfBusiness().isMaterialFormEnabled(context)) viewmodel.updateBackgroundColor.onNext(forward)
             updateToolbarMenu(forward, !forward, forward)
             viewmodel.showingPaymentForm.onNext(forward)
-            if (forward) {
-                viewmodel.removeBillingAddressForApac.onNext(PointOfSale.getPointOfSale().shouldHideBillingAddressFields())
-                viewmodel.toolbarNavIconFocusObservable.onNext(Unit)
-            } else {
-                viewmodel.clearHiddenBillingAddress.onNext(Unit)
-            }
+            if (forward) viewmodel.removeBillingAddressForApac.onNext(PointOfSale.getPointOfSale().shouldHideBillingAddressFields())
+            else viewmodel.clearHiddenBillingAddress.onNext(Unit)
         }
     }
 
@@ -598,6 +594,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             cardInfoContainer.visibility = View.GONE
             paymentOptionsContainer.visibility = if (forward) View.GONE else View.VISIBLE
             billingInfoContainer.visibility = if (forward) View.VISIBLE else View.GONE
+            onFocusChange(creditCardNumber, true)
             if (forward) {
                 viewmodel.doneClickedMethod.onNext { onDoneClicked() }
                 if (populateCardholderNameTestEnabled) {
@@ -607,22 +604,20 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                 removeStoredCard()
                 temporarilySavedCardIsSelected(false, Db.sharedInstance.temporarilySavedCard)
                 filledIn.onNext(isCompletelyFilled())
-            } else {
-                Ui.hideKeyboard(this@PaymentWidget)
-                validateAndBind()
-                viewmodel.userHasAtleastOneStoredCard.onNext(userHasAtLeastOneCard())
             }
+            if (!forward) Ui.hideKeyboard(this@PaymentWidget)
             storedCreditCardList.bind()
             trackAnalytics()
+            if (!forward) {
+                validateAndBind()
+                viewmodel.userHasAtleastOneStoredCard.onNext(userStateManager.isUserAuthenticated() && (userStateManager.userSource.user?.storedCreditCards?.isNotEmpty() == true || Db.sharedInstance.temporarilySavedCard != null))
+            }
             viewmodel.showingPaymentForm.onNext(forward)
             if (getLineOfBusiness().isMaterialFormEnabled(context)) viewmodel.updateBackgroundColor.onNext(forward)
             updateToolbarMenu(forward, !forward, forward)
-            if (forward) {
-                viewmodel.removeBillingAddressForApac.onNext(PointOfSale.getPointOfSale().shouldHideBillingAddressFields())
-                viewmodel.toolbarNavIconFocusObservable.onNext(Unit)
-            } else {
-                viewmodel.clearHiddenBillingAddress.onNext(Unit)
-            }
+            if (forward) viewmodel.removeBillingAddressForApac.onNext(PointOfSale.getPointOfSale().shouldHideBillingAddressFields())
+            else viewmodel.clearHiddenBillingAddress.onNext(Unit)
+            viewmodel.toolbarNavIconFocusObservable.onNext(Unit)
         }
     }
 
@@ -783,12 +778,6 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         } else {
             updateLegacyToolbarMenu(enableMenuItem)
         }
-    }
-
-    private fun userHasAtLeastOneCard(): Boolean {
-        return userStateManager.isUserAuthenticated()
-                && (userStateManager.userSource.user?.storedCreditCards?.isNotEmpty() == true
-                || Db.sharedInstance.temporarilySavedCard != null)
     }
 
     private fun isCreditCardValid(): Boolean {
