@@ -2443,6 +2443,7 @@ public class OmnitureTracking {
 	private static final String MESO_HOTEL_AD = MESO_BASE + ".B2P.Ad";
 	private static final String MESO_DESTINATION_AD = MESO_BASE + ".Dest";
 	private static final String REWARD_LAUNCH_TILE = "App.Orbitz.Rewards";
+	private static final String CUSTOMER_FIRST_GUARANTEE_LAUNCH_TILE = "App.LS.CFG";
 
 	public static void trackLaunchSignIn() {
 		AppAnalytics s = createTrackLinkEvent(LAUNCH_SIGN_IN);
@@ -2489,6 +2490,12 @@ public class OmnitureTracking {
 	public static void trackTapRewardLaunchTile() {
 		AppAnalytics s = createTrackLinkEvent(REWARD_LAUNCH_TILE);
 		s.setEvar(12, REWARD_LAUNCH_TILE);
+		s.trackLink("App Landing");
+	}
+
+	public static void trackTapCustomerFirstGuaranteeLaunchTile() {
+		AppAnalytics s = createTrackLinkEvent(CUSTOMER_FIRST_GUARANTEE_LAUNCH_TILE);
+		s.setEvar(12, CUSTOMER_FIRST_GUARANTEE_LAUNCH_TILE);
 		s.trackLink("App Landing");
 	}
 
@@ -3384,6 +3391,20 @@ public class OmnitureTracking {
 	private static final String PENDING_POINTS_TAP = "App.PointsToolTip.Tap";
 	private static final String LEGACY_USER_APP_UPDATE_TAP = "App.LS.Package.AppUpdate";
 	private static final String CARNIVAL_PUSH_NOTIFICATION = "App.Carnival.Push.Notification";
+	private static final String CUSTOMER_FIRST_ACCOUNT_LINK_TAP = "App.Account.Support.CFG";
+	private static final String CUSTOMER_FIRST_SUPPORT_PAGE_LOAD = "App.Support.CFG";
+	private static final String CUSTOMER_FIRST_SUPPORT_TWITTER_TAP = "App.Support.CFG.Twitter";
+	private static final String CUSTOMER_FIRST_SUPPORT_MESSENGER_TAP = "App.Support.CFG.Messenger";
+	private static final String CUSTOMER_FIRST_SUPPORT_PHONE_TAP = "App.Support.CFG.Phone";
+	private static final String CUSTOMER_FIRST_SUPPORT_HELP_TOPICS_TAP = "App.Support.CFG.HelpTopics";
+	private static final String CUSTOMER_FIRST_SUPPORT_TWITTER_OPEN = "App.Support.CFG.Twitter.Open";
+	private static final String CUSTOMER_FIRST_SUPPORT_TWITTER_OPEN_CANCEL = "App.Support.CFG.Twitter.Open.Cancel";
+	private static final String CUSTOMER_FIRST_SUPPORT_MESSENGER_OPEN = "App.Support.CFG.Messenger.Open";
+	private static final String CUSTOMER_FIRST_SUPPORT_MESSENGER_OPEN_CANCEL = "App.Support.CFG.Messenger.Open.Cancel";
+	private static final String CUSTOMER_FIRST_SUPPORT_TWITTER_DOWNLOAD = "App.Support.CFG.Twitter.Download";
+	private static final String CUSTOMER_FIRST_SUPPORT_TWITTER_DOWNLOAD_CANCEL = "App.Support.CFG.Twitter.Download.Cancel";
+	private static final String CUSTOMER_FIRST_SUPPORT_MESSENGER_DOWNLOAD = "App.Support.CFG.Messenger.Download";
+	private static final String CUSTOMER_FIRST_SUPPORT_MESSENGER_DOWNLOAD_CANCEL = "App.Support.CFG.Messenger.Download.Cancel";
 
 	public static void trackLoginSuccess() {
 		AppAnalytics s = createTrackLinkEvent(LOGIN_SUCCESS);
@@ -3533,6 +3554,78 @@ public class OmnitureTracking {
 		s.track();
 	}
 
+	public static void trackCustomerFirstAccountLinkClick() {
+		AppAnalytics s = createTrackLinkEvent(CUSTOMER_FIRST_ACCOUNT_LINK_TAP);
+		s.trackLink("Accounts");
+	}
+
+	public static void trackCustomerFirstSupportPageLoad() {
+		AppAnalytics s = getFreshTrackingObject();
+		s.setAppState(CUSTOMER_FIRST_SUPPORT_PAGE_LOAD);
+		s.setEvar(18, "D=" + CUSTOMER_FIRST_SUPPORT_PAGE_LOAD);
+		s.track();
+	}
+
+	public static void trackCustomerFirstTwitterClick() {
+		AppAnalytics s = createTrackLinkEvent(CUSTOMER_FIRST_SUPPORT_TWITTER_TAP);
+		s.trackLink("Accounts");
+	}
+
+	public static void trackCustomerFirstMessengerClick() {
+		AppAnalytics s = createTrackLinkEvent(CUSTOMER_FIRST_SUPPORT_MESSENGER_TAP);
+		s.trackLink("Accounts");
+	}
+
+	public static void trackCustomerFirstPhoneClick() {
+		AppAnalytics s = createTrackLinkEvent(CUSTOMER_FIRST_SUPPORT_PHONE_TAP);
+		s.trackLink("Accounts");
+	}
+
+	public static void trackCustomerFirstHelpTopicsClick() {
+		AppAnalytics s = createTrackLinkEvent(CUSTOMER_FIRST_SUPPORT_HELP_TOPICS_TAP);
+		s.trackLink("Accounts");
+	}
+
+	public static void trackCustomerFirstTwitterOpenClick() {
+		AppAnalytics s = createTrackLinkEvent(CUSTOMER_FIRST_SUPPORT_TWITTER_OPEN);
+		s.trackLink("Accounts");
+	}
+
+	public static void trackCustomerFirstTwitterOpenCancelClick() {
+		AppAnalytics s = createTrackLinkEvent(CUSTOMER_FIRST_SUPPORT_TWITTER_OPEN_CANCEL);
+		s.trackLink("Accounts");
+	}
+
+	public static void trackCustomerFirstTwitterDownloadClick() {
+		AppAnalytics s = createTrackLinkEvent(CUSTOMER_FIRST_SUPPORT_TWITTER_DOWNLOAD);
+		s.trackLink("Accounts");
+	}
+
+	public static void trackCustomerFirstTwitterDownloadCancelClick() {
+		AppAnalytics s = createTrackLinkEvent(CUSTOMER_FIRST_SUPPORT_TWITTER_DOWNLOAD_CANCEL);
+		s.trackLink("Accounts");
+	}
+
+	public static void trackCustomerFirstMessengerOpenClick() {
+		AppAnalytics s = createTrackLinkEvent(CUSTOMER_FIRST_SUPPORT_MESSENGER_OPEN);
+		s.trackLink("Accounts");
+	}
+
+	public static void trackCustomerFirstMessengerOpenCancelClick() {
+		AppAnalytics s = createTrackLinkEvent(CUSTOMER_FIRST_SUPPORT_MESSENGER_OPEN_CANCEL);
+		s.trackLink("Accounts");
+	}
+
+	public static void trackCustomerFirstMessengerDownloadClick() {
+		AppAnalytics s = createTrackLinkEvent(CUSTOMER_FIRST_SUPPORT_MESSENGER_DOWNLOAD);
+		s.trackLink("Accounts");
+	}
+
+	public static void trackCustomerFirstMessengerDownloadCancelClick() {
+		AppAnalytics s = createTrackLinkEvent(CUSTOMER_FIRST_SUPPORT_MESSENGER_DOWNLOAD_CANCEL);
+		s.trackLink("Accounts");
+	}
+
 	public static void trackMarketingOptIn(boolean optIn) {
 		AppAnalytics s = createTrackLinkEvent(optIn ? LOGIN_MARKETING_OPT_IN : LOGIN_MARKETING_OPT_OUT);
 		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
@@ -3627,6 +3720,9 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountsEditWebView);
 		if (ProductFlavorFeatureConfiguration.getInstance().getDefaultPOS().equals(PointOfSaleId.ORBITZ)) {
 			trackAbacusTest(s, AbacusUtils.RewardLaunchCard);
+		}
+		if (PointOfSale.getPointOfSale().shouldShowCustomerFirstGuarantee()) {
+			trackAbacusTest(s, AbacusUtils.CustomerFirstGuarantee);
 		}
 
 		s.appendEvents(getEventStringFromEventList(pageEvents));

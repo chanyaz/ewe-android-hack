@@ -269,6 +269,15 @@
             tools:ignore="UnusedAttribute"/>
 
         <activity
+            android:name="com.expedia.bookings.mia.activity.CustomerFirstActivity"
+            android:label="@string/customer_first_support_toolbar_title"
+            android:launchMode="singleTop"
+            android:resizeableActivity="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Deals"
+            tools:ignore="UnusedAttribute"/>
+
+        <activity
             android:name="com.expedia.ui.LOBWebViewActivity"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"

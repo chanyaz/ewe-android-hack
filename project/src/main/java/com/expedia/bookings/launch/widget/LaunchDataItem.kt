@@ -22,5 +22,6 @@ open class LaunchDataItem(private val key: Int) {
         @JvmField val EARN_2X_MESSAGING_BANNER = 13
         @JvmField val REWARD_CARD_VIEW = 14
         @JvmField val BRAND_HEADER = 15
+        @JvmField val CUSTOMER_FIRST_GUARANTEE = 16
     }
 }
