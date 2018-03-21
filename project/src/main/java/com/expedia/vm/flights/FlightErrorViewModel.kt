@@ -13,12 +13,14 @@ import com.expedia.util.endlessObserver
 import com.expedia.vm.AbstractErrorViewModel
 import com.squareup.phrase.Phrase
 import io.reactivex.Observer
+import com.expedia.bookings.extensions.withLatestFrom
 import io.reactivex.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 class FlightErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
 
     private val MAX_RETRY_CREATE_TRIP_ATTEMPTS = 2
+    private val MAX_RETRY_ATTEMPTS = 3
 
     val fireRetryCreateTrip = PublishSubject.create<Unit>()
     val retryCheckout = PublishSubject.create<Unit>()
@@ -28,19 +30,27 @@ class FlightErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
     val retrySearch = PublishSubject.create<Unit>()
     val paramsSubject = PublishSubject.create<com.expedia.bookings.data.flights.FlightSearchParams>()
     val showTravelerForm = PublishSubject.create<Unit>()
-
+    val isSearchError = PublishSubject.create<Boolean>()
     private val retryCreateTripBtnClicked = PublishSubject.create<Unit>()
+    val retryBtnClicked = PublishSubject.create<Unit>()
+
     private var retryCreateTripBtnCount = 0
+    private var retryBtnCount = 0
 
     var error: ApiError by Delegates.notNull()
 
     init {
-        clickBack.subscribe {
-            when (error.errorCode) {
-                ApiError.Code.PAYMENT_FAILED, ApiError.Code.INVALID_INPUT -> errorButtonClickedObservable.onNext(Unit)
-                else -> defaultErrorObservable.onNext(Unit)
+        clickBack.withLatestFrom(isSearchError, { _, isFromSearch ->
+            if (isFromSearch) {
+                defaultErrorObservable.onNext(Unit)
+            } else {
+                when (error.errorCode) {
+                    ApiError.Code.PAYMENT_FAILED, ApiError.Code.INVALID_INPUT -> errorButtonClickedObservable.onNext(Unit)
+                    else -> defaultErrorObservable.onNext(Unit)
+                }
             }
-        }
+        }).subscribe()
+
         paramsSubject.subscribe { params ->
             val errorTitle: String = SuggestionStrUtils.formatCityName(context.resources.getString(R.string.select_flight_to,
                     HtmlCompat.stripHtml(params.arrivalAirport.regionNames.displayName)))
@@ -48,10 +58,12 @@ class FlightErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
             subTitleObservable.onNext(getToolbarSubtitle(params))
         }
         setupRetryCreateTripButton()
+        setupRetryButton()
     }
 
     override fun searchErrorHandler(): Observer<ApiError> {
         return endlessObserver {
+            isSearchError.onNext(true)
             error = it
             when (it.errorCode) {
                 ApiError.Code.FLIGHT_SEARCH_NO_RESULTS -> {
@@ -63,7 +75,7 @@ class FlightErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
                 }
                 else -> {
                     makeDefaultError()
-                    subscribeActionToButtonPress(retrySearch)
+                    subscribeActionToButtonPress(retryBtnClicked)
                     FlightsV2Tracking.trackFlightSearchUnknownError()
                 }
             }
@@ -90,6 +102,7 @@ class FlightErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
 
         return endlessObserver {
             error = it
+            isSearchError.onNext(false)
             when (it.errorCode) {
                 ApiError.Code.UNKNOWN_ERROR -> {
                     retryCreateTripErrorHandler()
@@ -131,6 +144,7 @@ class FlightErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
     override fun checkoutApiErrorHandler(): Observer<ApiError> {
         return endlessObserver {
             error = it
+            isSearchError.onNext(false)
             FlightsV2Tracking.trackFlightCheckoutError(error)
             when (it.errorCode) {
                 ApiError.Code.UNKNOWN_ERROR -> {
@@ -217,6 +231,21 @@ class FlightErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
             } else {
                 defaultErrorObservable.onNext(Unit)
                 retryCreateTripBtnCount = 0
+            }
+        }
+    }
+
+    private fun setupRetryButton() {
+        defaultErrorObservable.subscribe {
+            retryBtnCount = 0
+        }
+
+        retryBtnClicked.subscribe {
+            if (retryBtnCount++ < MAX_RETRY_ATTEMPTS) {
+                retrySearch.onNext(Unit)
+            } else {
+                defaultErrorObservable.onNext(Unit)
+                retryBtnCount = 0
             }
         }
     }

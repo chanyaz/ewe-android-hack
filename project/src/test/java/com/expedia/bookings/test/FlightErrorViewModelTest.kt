@@ -35,6 +35,36 @@ class FlightErrorViewModelTest {
         observableEmissionsOnSearchError(ApiError(ApiError.Code.FLIGHT_SEARCH_NO_RESULTS))
     }
 
+    @Test fun testRetrySearchError() {
+        val errorMessageObservableTestSubscriber = TestObserver.create<String>()
+        val retrySearchTestSubscriber = TestObserver.create<Unit>()
+        val defaultErrorTestSubscriber = TestObserver.create<Unit>()
+
+        subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
+        subjectUnderTest.retrySearch.subscribe(retrySearchTestSubscriber)
+        subjectUnderTest.defaultErrorObservable.subscribe(defaultErrorTestSubscriber)
+
+        subjectUnderTest.searchApiErrorObserver.onNext(ApiError(ApiError.Code.INVALID_INPUT))
+        errorMessageObservableTestSubscriber.awaitTerminalEvent(100, TimeUnit.MILLISECONDS)
+        errorMessageObservableTestSubscriber.assertValue(getContext().getString(R.string.error_try_again_warning))
+
+        subjectUnderTest.retryBtnClicked.onNext(Unit)
+        retrySearchTestSubscriber.assertValueCount(1)
+        defaultErrorTestSubscriber.assertValueCount(0)
+
+        subjectUnderTest.retryBtnClicked.onNext(Unit)
+        retrySearchTestSubscriber.assertValueCount(2)
+        defaultErrorTestSubscriber.assertValueCount(0)
+
+        subjectUnderTest.retryBtnClicked.onNext(Unit)
+        retrySearchTestSubscriber.assertValueCount(3)
+        defaultErrorTestSubscriber.assertValueCount(0)
+
+        subjectUnderTest.retryBtnClicked.onNext(Unit)
+        retrySearchTestSubscriber.assertValueCount(3)
+        defaultErrorTestSubscriber.assertValueCount(1)
+    }
+
     @Test fun testCheckoutErrorMessageInvalidPaymentInfo() {
         val errorMessage = getContext().getString(R.string.e3_error_checkout_invalid_input)
 
