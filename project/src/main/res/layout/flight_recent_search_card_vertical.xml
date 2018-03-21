@@ -74,6 +74,7 @@
             android:textColor="@color/gray600"
             android:textSize="@dimen/type_200_text_size"
             android:textStyle="normal"
+            android:text="@string/flight_recent_search_per_person"
             tools:text="as of Nov 10" />
 
     </LinearLayout>

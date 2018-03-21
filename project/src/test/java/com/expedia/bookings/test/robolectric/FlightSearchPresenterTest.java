@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.robolectric;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
@@ -9,6 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.robolectric.Robolectric;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.RoboLayoutInflater;
@@ -30,7 +33,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.expedia.bookings.OmnitureTestUtils;
 import com.expedia.bookings.R;
+import com.expedia.bookings.analytics.AnalyticsProvider;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.flights.FlightSearchParams;
@@ -39,6 +44,7 @@ import com.expedia.bookings.data.flights.RecentSearch;
 import com.expedia.bookings.data.flights.RecentSearchDAO;
 import com.expedia.bookings.presenter.flight.FlightSearchPresenter;
 import com.expedia.bookings.services.TestObserver;
+import com.expedia.bookings.test.OmnitureMatchers;
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM;
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager;
 import com.expedia.bookings.utils.AbacusTestUtils;
@@ -75,6 +81,7 @@ import static org.junit.Assert.assertNotNull;
 public class FlightSearchPresenterTest {
 	private FlightSearchPresenter widget;
 	private FragmentActivity activity;
+	private AnalyticsProvider mockAnalyticsProvider;
 
 	@Before
 	public void before() {
@@ -83,6 +90,13 @@ public class FlightSearchPresenterTest {
 		Ui.getApplication(activity).defaultFlightComponents();
 		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
 			null);
+		mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider();
+		Mockito.when(mockAnalyticsProvider.getUrlWithVisitorData(Mockito.anyString())).thenAnswer(new Answer() {
+			@Override
+			public String answer(InvocationOnMock invocation) throws Throwable {
+				return invocation.getArgumentAt(0, String.class);
+			}
+		});
 	}
 
 	@Test
@@ -305,6 +319,8 @@ public class FlightSearchPresenterTest {
 		assertEquals(View.GONE, travelerPicker.getInfantError().getVisibility());
 		setUpFlightTravelerRevamp(false);
 	}
+
+
 
 	public void testRevampFlightTravelerDialogForInfantErrorInSeat() {
 
@@ -746,7 +762,7 @@ public class FlightSearchPresenterTest {
 		assertEquals("LAS", destinationLocation.getText().toString());
 		assertEquals("$668", price.getText().toString());
 		assertEquals("May 10  -  May 31", dateRange.getText().toString());
-		assertEquals("as of Jan 18", priceSubtitle.getText().toString());
+		assertEquals("per person", priceSubtitle.getText().toString());
 		assertEquals("3", travelerCount.getText().toString());
 		assertEquals("Economy", flightClass.getText().toString());
 	}
@@ -852,6 +868,76 @@ public class FlightSearchPresenterTest {
 		//Assertions
 		recentSearchWidgetItems.getChildAt(0).performClick();
 		assertEquals("Select dates", widget.getCalendarWidgetV2().getText());
+	}
+
+	@Test
+	public void testRecentSearchItemClickOmniture() {
+		HashMap<Integer, String> data = new HashMap();
+		RecyclerView recentSearchWidgetItems = getRecentSearchList();
+		recentSearchWidgetItems.getChildAt(0).performClick();
+		data.put(28, "App.Flight.Dest.Search.RS.Clicked.1.1");
+		OmnitureTestUtils.assertLinkTracked("Flight Recent Search item Clicked", "App.Flight.Dest.Search.RS.Clicked.1.1",
+			OmnitureMatchers.withEvars(data), mockAnalyticsProvider);
+	}
+
+	@Test
+	public void testChangeSearchFormAfterClick() {
+		HashMap<Integer, String> data = new HashMap();
+		RecyclerView recentSearchWidgetItems = getRecentSearchList();
+		recentSearchWidgetItems.getChildAt(0).performClick();
+		widget.getSearchViewModel().getOriginLocationObserver().onNext(getSuggestion("SFO", "San Francisco"));
+		data.put(28, "App.Flight.Dest.Search.RS.Origin.Edit");
+		OmnitureTestUtils.assertLinkTracked("Edit Flight Search form", "App.Flight.Dest.Search.RS.Origin.Edit",
+			OmnitureMatchers.withEvars(data), mockAnalyticsProvider);
+		widget.getSearchViewModel().getDestinationLocationObserver().onNext(getSuggestion("SFO", "San Francisco"));
+		data.clear();
+		data.put(28, "App.Flight.Dest.Search.RS.Destination.Edit");
+		OmnitureTestUtils.assertLinkTracked("Edit Flight Search form", "App.Flight.Dest.Search.RS.Destination.Edit",
+			OmnitureMatchers.withEvars(data), mockAnalyticsProvider);
+		data.clear();
+		widget.getSearchViewModel().setAreRecentSearchDatesInPast(false);
+		widget.getSearchViewModel().getDateSetObservable().onNext(Unit.INSTANCE);
+		data.put(28, "App.Flight.Dest.Search.RS.Date.Edit");
+		OmnitureTestUtils.assertLinkTracked("Edit Flight Search form", "App.Flight.Dest.Search.RS.Date.Edit",
+			OmnitureMatchers.withEvars(data), mockAnalyticsProvider);
+
+		data.clear();
+		widget.getSearchViewModel().setAreRecentSearchDatesInPast(true);
+		widget.getSearchViewModel().getDateSetObservable().onNext(Unit.INSTANCE);
+		data.put(28, "App.Flight.Dest.Search.RS.Dates.Past.Edit");
+		OmnitureTestUtils.assertLinkTracked("Edit Flight Search form", "App.Flight.Dest.Search.RS.Dates.Past.Edit",
+			OmnitureMatchers.withEvars(data), mockAnalyticsProvider);
+	}
+
+	@Test
+	public void testTrackMultipleFieldChangeAfterClick() {
+		HashMap<Integer, String> data = new HashMap();
+		RecyclerView recentSearchWidgetItems = getRecentSearchList();
+		recentSearchWidgetItems.getChildAt(0).performClick();
+		widget.getSearchViewModel().getOriginLocationObserver().onNext(getSuggestion("SFO", "San Francisco"));
+		widget.getSearchViewModel().getDestinationLocationObserver().onNext(getSuggestion("SFO", "San Francisco"));
+		data.put(28, "App.Flight.Dest.Search.RS.Multi.Edit");
+		OmnitureTestUtils.assertLinkTracked("Edit Flight Search form", "App.Flight.Dest.Search.RS.Multi.Edit",
+			OmnitureMatchers.withEvars(data), mockAnalyticsProvider);
+	}
+
+	private RecyclerView getRecentSearchList() {
+		setupRecentSearch();
+		RecentSearchWidgetContainer recentSearchWidgetContainer = widget.getRecentSearchWidgetContainer();
+		RecyclerView recentSearchWidgetItems = recentSearchWidgetContainer.getRecyclerView();
+		ArrayList<RecentSearch> recentSearches = new ArrayList<RecentSearch>();
+
+		RecentSearch recentSearch =  new RecentSearch("SFO", "LAS",
+			createSuggestion("SFO","San Francisco").getBytes(),
+			createSuggestion("LAS" ,"Las Vegas").getBytes(),
+			LocalDate.now().minusDays(30).toString(), LocalDate.now().minusDays(20).toString(), "PREMIUM_COACH",
+			1520490226L, 668, "USD", 2, "",
+			false, true);
+		recentSearches.add(recentSearch);
+		recentSearchWidgetContainer.getViewModel().getRecentSearchesObservable().onNext(recentSearches);
+		recentSearchWidgetItems.measure(0, 0);
+		recentSearchWidgetItems.layout(0, 0, 1000, 10000);
+		return recentSearchWidgetItems;
 	}
 
 	private void setupRecentSearch() {

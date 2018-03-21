@@ -293,19 +293,4 @@ public class AnimUtils {
 		set.setInterpolator(new DecelerateInterpolator());
 		return set;
 	}
-	public static void animateView(ValueAnimator anim, final View view, int fromHeight, int toHeight, Long animDuration, Long startDelay) {
-		if (anim != null) {
-			anim.cancel();
-		}
-		anim = ValueAnimator.ofInt(fromHeight, toHeight);
-		anim.setDuration(animDuration);
-		anim.setStartDelay(startDelay);
-		anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-			@Override
-			public void onAnimationUpdate(ValueAnimator valueAnimator) {
-				view.setScrollY((int) valueAnimator.getAnimatedValue());
-			}
-		});
-		anim.start();
-	}
 }

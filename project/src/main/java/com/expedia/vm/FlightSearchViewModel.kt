@@ -67,12 +67,17 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val cancelGreedyCallObservable = PublishSubject.create<Unit>()
     val validDateSetObservable = PublishSubject.create<Unit>()
     val trackSearchClicked = PublishSubject.create<Unit>()
+    val wiggleAnimationEnd = PublishSubject.create<Unit>()
 
     val EBAndroidAppFlightSubpubChange = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSubpubChange)
     val isUserEvolableBucketed = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsEvolable)
     var toAndFromFlightFieldsSwitched = false
     var isGreedyCallStarted = false
     val highlightCalendarObservable = PublishSubject.create<Int>()
+    val modifySearchFormObservable = PublishSubject.create<String>()
+    var isModifySearchFormAllowed = false
+    var areRecentSearchDatesInPast = false
+    var recentSearchFormEditCount = 0
 
     protected var flightGreedySearchSubscription: Disposable? = null
 
@@ -88,6 +93,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         if (isFlightGreedySearchEnabled(context) && !cabinCode.equals(FlightServiceClassType.CabinCode.COACH)) {
             abortGreedyCallObservable.onNext(Unit)
         }
+        trackFieldChange("Class.Edit")
     }
 
     val advanceSearchObserver = endlessObserver<AdvanceSearchFilter> {
@@ -109,11 +115,13 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     override val originLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
         setOriginText(suggestion)
         flightsSourceObservable.onNext(suggestion)
+        trackFieldChange("Origin.Edit")
     }
 
     override val destinationLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
         setDestinationText(suggestion)
         flightsDestinationObservable.onNext(suggestion)
+        trackFieldChange("Destination.Edit")
     }
 
     val performGreedyCallSearchObserver = endlessObserver<Unit> {
@@ -206,11 +214,6 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             }
         }
 
-        previousSearchParamsObservable.subscribe { params ->
-            hasPreviousSearchParams = true
-            setupViewModelFromPastSearch(params)
-        }
-
         swapToFromFieldsObservable.withLatestFrom(flightsSourceObservable, flightsDestinationObservable, {
             _, source, destination ->
             object {
@@ -222,6 +225,25 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             destinationLocationObserver.onNext(it.source)
             FlightsV2Tracking.trackFlightLocationSwapViewClick()
         }
+
+        modifySearchFormObservable.subscribe { actionLabel ->
+            recentSearchFormEditCount += 1
+            if (recentSearchFormEditCount == 2) {
+                FlightsV2Tracking.trackRecentSearchFieldChange("Multi.Edit")
+            }
+            FlightsV2Tracking.trackRecentSearchFieldChange(actionLabel)
+        }
+
+        dateSetObservable.subscribe {
+            if (isModifySearchFormAllowed) {
+                if (areRecentSearchDatesInPast) {
+                    modifySearchFormObservable.onNext("Dates.Past.Edit")
+                    areRecentSearchDatesInPast = false
+                } else {
+                    modifySearchFormObservable.onNext("Date.Edit")
+                }
+            }
+        }
     }
 
     private fun isReadyToFireSearchCall(): Boolean {
@@ -229,6 +251,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     }
 
     val performSearchObserver = endlessObserver<Unit> {
+        isModifySearchFormAllowed = false
         val maxStay = getCalendarRules().getMaxSearchDurationDays()
         getParamsBuilder().maxStay = maxStay
         if (isReadyToFireSearchCall()) {
@@ -304,14 +327,19 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         performSearchObserver.onNext(Unit)
     }
 
-    private fun setupViewModelFromPastSearch(pastSearchParams: FlightSearchParams) {
-
+    fun setupViewModelFromPastSearch(pastSearchParams: FlightSearchParams) {
+        isModifySearchFormAllowed = false
+        areRecentSearchDatesInPast = false
+        recentSearchFormEditCount = 0
         val currentDate = LocalDate.now()
         val isStartDateInvalid = pastSearchParams.departureDate.isBefore(currentDate)
         val isEndDateInvalid = pastSearchParams.returnDate?.isBefore(currentDate) ?: false
 
+        originLocationObserver.onNext(pastSearchParams.departureAirport)
+        destinationLocationObserver.onNext(pastSearchParams.arrivalAirport)
         if (isStartDateInvalid && isEndDateInvalid) {
             datesUpdated(null, null)
+            areRecentSearchDatesInPast = true
             highlightCalendarObservable.onNext(R.drawable.calendar_border)
         } else if (isStartDateInvalid && !isEndDateInvalid) {
             if (pastSearchParams.isRoundTrip()) {
@@ -319,6 +347,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
                 highlightCalendarObservable.onNext(0)
             } else {
                 datesUpdated(null, null)
+                areRecentSearchDatesInPast = true
                 highlightCalendarObservable.onNext(R.drawable.calendar_border)
             }
         } else {
@@ -327,8 +356,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         }
         cachedEndDateObservable.onNext(Optional(pastSearchParams.returnDate))
         isRoundTripSearchObservable.onNext(pastSearchParams.isRoundTrip())
-        originLocationObserver.onNext(pastSearchParams.departureAirport)
-        destinationLocationObserver.onNext(pastSearchParams.arrivalAirport)
+        isModifySearchFormAllowed = true
     }
 
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
@@ -414,5 +442,11 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             return ""
         }
         return LocaleBasedDateFormatUtils.localDateToEEEMMMd(date)
+    }
+
+    private fun trackFieldChange(actionLabel: String) {
+        if (isModifySearchFormAllowed) {
+            modifySearchFormObservable.onNext(actionLabel)
+        }
     }
 }

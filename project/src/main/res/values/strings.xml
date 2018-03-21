@@ -5056,8 +5056,8 @@
     <!-- Accessibility announcement for when home screen navigation tab is selected. -->
     <string name="tab_selected_announcement">Tab Selected</string>
 
-    <!-- Recent search - Date searched On string e.g. as of Nov 10 -->
-    <string name="flight_recent_search_date_searched_TEMPLATE">as of {searchdate}</string>
+    <string name="flight_recent_search_per_person">per person</string>
+
     <!-- Recent search header string -->
     <string name="flight_recent_search_label">Recent Searches</string>
 

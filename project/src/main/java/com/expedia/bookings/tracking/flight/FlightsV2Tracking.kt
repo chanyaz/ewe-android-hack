@@ -9,12 +9,12 @@ import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
-import com.expedia.bookings.presenter.flight.FlightSummaryWidget
 import com.expedia.bookings.data.flights.KrazyglueResponse
+import com.expedia.bookings.marketing.carnival.CarnivalUtils
+import com.expedia.bookings.presenter.flight.FlightSummaryWidget
 import com.expedia.bookings.tracking.FacebookEvents
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
-import com.expedia.bookings.marketing.carnival.CarnivalUtils
 import com.expedia.bookings.utils.TuneUtils
 import com.expedia.vm.BaseFlightFilterViewModel
 import com.expedia.vm.InsuranceViewModel
@@ -31,6 +31,18 @@ object FlightsV2Tracking {
 
     fun trackSearchPageLoad() {
         OmnitureTracking.trackPageLoadFlightSearchV2()
+    }
+
+    fun trackRecentSearchDisplayed(count: Int) {
+        OmnitureTracking.trackFlightsRecentSearchItemsDisplayed(count)
+    }
+
+    fun trackRecentSearchFieldChange(actionLabel: String) {
+        OmnitureTracking.trackFlightsRecentSearchFieldChange(actionLabel)
+    }
+
+    fun trackRecentSearchItemClicked(index: Int, count: Int) {
+        OmnitureTracking.trackFlightsRecentSearchItemClicked(index, count)
     }
 
     fun trackTravelerPickerClick(actionLabel: String) {

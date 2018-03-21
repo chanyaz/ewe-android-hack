@@ -49,8 +49,9 @@ open class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInpu
         traveler
         builder.setView(travelerDialogView)
         builder.setPositiveButton(context.getString(R.string.DONE), { dialog, _ ->
+            traveler.getViewModel().isTravelerSelectionChanged.onNext(!traveler.getViewModel().travelerParamsObservable.value.equalParams(oldTravelerData!!))
             oldTravelerData = null
-            traveler.getViewModel().isTravelerSelectionChangedObservable.onNext(traveler.getViewModel().travelerParamsObservable.value.getTravelerCount() != 1)
+            traveler.getViewModel().isDefaultSelectionChangedObservable.onNext(traveler.getViewModel().travelerParamsObservable.value.getTravelerCount() != 1)
             dialog.dismiss()
         })
         val dialog: AlertDialog = builder.create()

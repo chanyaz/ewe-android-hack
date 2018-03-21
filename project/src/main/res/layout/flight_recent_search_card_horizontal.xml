@@ -115,6 +115,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="4dp"
             android:textColor="@color/gray600"
+            android:text="@string/flight_recent_search_per_person"
             android:textSize="@dimen/type_200_text_size" />
 
     </LinearLayout>
