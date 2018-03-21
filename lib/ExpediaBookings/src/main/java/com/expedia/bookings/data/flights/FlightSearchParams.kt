@@ -6,7 +6,6 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Strings
 import org.joda.time.Days
 import org.joda.time.LocalDate
-import java.util.HashMap
 
 class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport: SuggestionV4, val departureDate: LocalDate, val returnDate: LocalDate?, adults: Int,
                          children: List<Int>, infantSeatingInLap: Boolean, val flightCabinClass: String?, val legNo: Int?, val selectedOutboundLegId: String?,
@@ -68,6 +67,20 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
         fun flightCabinClass(cabinClass: String?): Builder {
             this.flightCabinClass = cabinClass
             return this
+        }
+
+        fun isCabinClassChanged(cabinClass: String?): Boolean {
+            return !this.flightCabinClass.equals(cabinClass)
+        }
+
+        fun hasOriginChanged(originLocationNew: SuggestionV4?): Boolean {
+            return !(hasOriginLocation() && this.originLocation?.hierarchyInfo?.airport?.airportCode
+                    .equals(originLocationNew?.hierarchyInfo?.airport?.airportCode))
+        }
+
+        fun hasDestinationChanged(destinationLocationNew: SuggestionV4?): Boolean {
+            return !(hasDestinationLocation() && this.destinationLocation?.hierarchyInfo?.airport?.airportCode
+                    .equals(destinationLocationNew?.hierarchyInfo?.airport?.airportCode))
         }
 
         fun legNo(legNo: Int?): Builder {

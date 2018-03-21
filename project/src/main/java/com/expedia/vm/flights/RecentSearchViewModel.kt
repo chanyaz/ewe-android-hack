@@ -6,6 +6,7 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.RecentSearch
 import com.expedia.bookings.data.flights.RecentSearchDAO
+import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.FlightsV2DataUtil
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -25,6 +26,7 @@ open class RecentSearchViewModel(val context: Context, val recentSearchDao: Rece
     val recentSearchVisibilityObservable = PublishSubject.create<Boolean>()
     val selectedRecentSearch = PublishSubject.create<FlightSearchParams>()
     private val maxCount = 3
+    private var shouldTriggerOmniture = false
 
     init {
         fetchRecentSearchesObservable.subscribe {
@@ -34,7 +36,11 @@ open class RecentSearchViewModel(val context: Context, val recentSearchDao: Rece
                 } else {
                     recentSearchVisibilityObservable.onNext(true)
                     recentSearchesObservable.onNext(recentSearches)
+                    if (!shouldTriggerOmniture) {
+                        FlightsV2Tracking.trackRecentSearchDisplayed(recentSearches.size)
+                    }
                 }
+                shouldTriggerOmniture = true
             })
         }
         saveRecentSearchObservable.subscribe { price ->

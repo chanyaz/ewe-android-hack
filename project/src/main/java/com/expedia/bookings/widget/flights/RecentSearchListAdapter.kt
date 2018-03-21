@@ -11,6 +11,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.RecentSearch
+import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import io.reactivex.subjects.PublishSubject
 
 class RecentSearchListAdapter(recentSearchesObservable: PublishSubject<List<RecentSearch>>, val context: Context, val selectedRecentSearch: PublishSubject<FlightSearchParams>) : RecyclerView.Adapter<RecentSearchViewHolder>() {
@@ -50,8 +51,10 @@ class RecentSearchListAdapter(recentSearchesObservable: PublishSubject<List<Rece
             lastSelectedView?.isSelected = false
             it?.isSelected = true
             lastSelectedView = it
-            val searchParam = recentSearchViewHolder.viewModel.convertRecentSearchToSearchParams(recentSearches[recentSearchViewHolder.adapterPosition])
+            val index = recentSearchViewHolder.adapterPosition
+            val searchParam = recentSearchViewHolder.viewModel.convertRecentSearchToSearchParams(recentSearches[index])
             selectedRecentSearch.onNext(searchParam)
+            FlightsV2Tracking.trackRecentSearchItemClicked(index + 1, recentSearches.size)
         }
         return recentSearchViewHolder
     }

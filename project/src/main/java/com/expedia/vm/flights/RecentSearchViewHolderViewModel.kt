@@ -1,7 +1,6 @@
 package com.expedia.vm.flights
 
 import android.content.Context
-import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightSearchParams
@@ -9,8 +8,6 @@ import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.flights.RecentSearch
 import com.expedia.bookings.utils.FlightV2Utils.convertStringToIntList
 import com.expedia.bookings.utils.FlightsV2DataUtil
-import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
-import com.squareup.phrase.Phrase
 import io.reactivex.subjects.PublishSubject
 import org.joda.time.LocalDate
 
@@ -41,16 +38,7 @@ class RecentSearchViewHolderViewModel(val context: Context) {
             travelerCountObservable.onNext(getTravelerCount(recentSearch.adultTravelerCount, recentSearch.childTraveler).toString())
             classObservable.onNext(getCabinClass(recentSearch.flightClass))
             roundTripObservable.onNext(recentSearch.isRoundTrip)
-            searchDateObservable.onNext(getSearchedOnDateText(recentSearch.dateSearchedOn))
         }
-    }
-
-    fun getSearchedOnDateText(dateSearchedOn: Long): String {
-        val dateSearchedOnObj = LocalDate(dateSearchedOn)
-        val dateString = Phrase.from(context.resources, R.string.flight_recent_search_date_searched_TEMPLATE)
-                .put("searchdate", LocaleBasedDateFormatUtils.localDateToMMMd(dateSearchedOnObj))
-                .format().toString()
-        return dateString
     }
 
     fun getCabinClass(cabinCode: String): String {

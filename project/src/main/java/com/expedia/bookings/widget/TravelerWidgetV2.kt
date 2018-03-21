@@ -11,6 +11,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.isRecentSearchesForFlightsEnabled
 import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.vm.TravelerPickerViewModel
 import io.reactivex.subjects.BehaviorSubject
@@ -49,8 +50,11 @@ open class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInpu
         traveler
         builder.setView(travelerDialogView)
         builder.setPositiveButton(context.getString(R.string.DONE), { dialog, _ ->
+            if (isRecentSearchesForFlightsEnabled(context)) {
+                traveler.getViewModel().isTravelerSelectionChanged.onNext(!traveler.getViewModel().travelerParamsObservable.value.equalParams(oldTravelerData!!))
+            }
             oldTravelerData = null
-            traveler.getViewModel().isTravelerSelectionChangedObservable.onNext(traveler.getViewModel().travelerParamsObservable.value.getTravelerCount() != 1)
+            traveler.getViewModel().isDefaultSelectionChangedObservable.onNext(traveler.getViewModel().travelerParamsObservable.value.getTravelerCount() != 1)
             dialog.dismiss()
         })
         val dialog: AlertDialog = builder.create()

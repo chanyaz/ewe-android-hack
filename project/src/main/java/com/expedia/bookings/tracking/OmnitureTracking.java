@@ -5090,6 +5090,8 @@ public class OmnitureTracking {
 	private static final String FLIGHTS_V2_KRAZY_GLUE_CLICK_LINK = "Krazyglue Click";
 	private static final String FLIGHTS_V2_KRAZY_GLUE_HOTEL_CLICKED = "mip.hot.app.kg.flight.conf.HSR.tile";
 	private static final String FLIGHTS_V2_KRAZY_GLUE_SEE_MORE_CLICKED = "mip.hot.app.kg.flight.conf.HSR.see_more";
+	private static final String FLIGHT_V2_RS_ITEMS_TEMPLATE = "App.Flight.Dest.Search.RS.";
+	private static final String FLIGHT_V2_RS_ITEM_CLICK_TEMPLATE = "App.Flight.Dest.Search.RS.Clicked.";
 
 	private static Pair<com.expedia.bookings.data.flights.FlightLeg,
 		com.expedia.bookings.data.flights.FlightLeg> getFirstAndLastFlightLegs() {
@@ -5348,6 +5350,18 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppConfirmationToolbarXHidden);
 
 		s.track();
+	}
+
+	public static void trackFlightsRecentSearchItemsDisplayed(int count) {
+		createAndTrackLinkEvent(FLIGHT_V2_RS_ITEMS_TEMPLATE + count, "Flight Recent Search items displayed");
+	}
+
+	public static void trackFlightsRecentSearchItemClicked(int index, int count) {
+		createAndTrackLinkEvent(FLIGHT_V2_RS_ITEM_CLICK_TEMPLATE + index + "." + count, "Flight Recent Search item Clicked");
+	}
+
+	public static void trackFlightsRecentSearchFieldChange(String str) {
+		createAndTrackLinkEvent(FLIGHT_V2_RS_ITEMS_TEMPLATE + str, "Edit Flight Search form");
 	}
 
 	public static void trackWebFlightCheckoutConfirmation(FlightItinDetailsResponse itinDetailsResponse,

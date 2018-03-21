@@ -1,5 +1,7 @@
 package com.expedia.bookings.presenter.flight
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.content.Context
 import android.support.design.widget.TabLayout
@@ -22,7 +24,6 @@ import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.extensions.setAccessibilityHoverFocus
-import com.expedia.bookings.extensions.subscribeBackgroundResource
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
@@ -31,7 +32,7 @@ import com.expedia.bookings.shared.widget.SuggestionAdapter
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.AnimUtils.animateView
+import com.expedia.bookings.utils.AnimationUtils.animateView
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -127,12 +128,23 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             }
         }
         if (isFlightGreedySearchEnabled(context)) {
-            travelerWidgetV2.traveler.getViewModel().isTravelerSelectionChangedObservable.filter { it }.map { Unit }.subscribe(vm.abortGreedyCallObservable)
+            travelerWidgetV2.traveler.getViewModel().isDefaultSelectionChangedObservable.filter { it }.map { Unit }.subscribe(vm.abortGreedyCallObservable)
         }
         travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.subscribe { travelers ->
             val noOfTravelers = travelers.getTravelerCount()
             travelerWidgetV2.contentDescription = Phrase.from(context.resources.getQuantityString(R.plurals.search_travelers_cont_desc_TEMPLATE, noOfTravelers))
                     .put("travelers", noOfTravelers).format().toString()
+        }
+        travelerWidgetV2.traveler.getViewModel().isTravelerSelectionChanged.filter { it }.subscribe {
+            vm.trackFieldChange("Traveller.Edit")
+        }
+        vm.dateSelectionChanged.filter { it }.subscribe {
+            if (vm.areRecentSearchDatesInPast) {
+                vm.trackFieldChange("Dates.Past.Edit")
+                vm.areRecentSearchDatesInPast = false
+            } else {
+                vm.trackFieldChange("Date.Edit")
+            }
         }
 
         vm.errorNoDestinationObservable.subscribe {
@@ -190,21 +202,59 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         }
 
         vm.previousSearchParamsObservable.subscribe { params ->
-            animateView(anim, scrollView, scrollView.scrollY, 0, 500, 200)
-            params.flightCabinClass?.let {
-                flightCabinClassWidget.flightCabinClassView.viewmodel.flightCabinClassObservable.onNext(FlightServiceClassType.CabinCode.valueOf(it))
+            calendarWidgetV2.setBackgroundResource(0)
+            anim = animateView(scrollView, scrollView.scrollY, 0, 300, 200)
+            anim?.cancel()
+            val animateRight = ValueAnimator.ofFloat(0f, 25f)
+            val animatorLeft = ValueAnimator.ofFloat(25f, 0f)
+            animateRight.duration = 200
+            animateRight.cancel()
+            animateRight.addUpdateListener {
+                val animatedValue = it.animatedValue as Float
+                animateSearchFormFields(animatedValue)
             }
-            if (!params.isRoundTrip()) {
-                viewpager.currentItem = 1
-            } else {
-                viewpager.currentItem = 0
+            animateRight.addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    vm.hasPreviousSearchParams = true
+                    vm.shouldTrackEditSearchForm = false
+                    params.flightCabinClass?.let {
+                        flightCabinClassWidget.flightCabinClassView.viewmodel.flightCabinClassObservable.onNext(FlightServiceClassType.CabinCode.valueOf(it))
+                    }
+                    if (!params.isRoundTrip()) {
+                        viewpager.currentItem = 1
+                    } else {
+                        viewpager.currentItem = 0
+                    }
+                    travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.onNext(TravelerParams(params.adults, params.children, emptyList(), emptyList()))
+                    val infantCount = params.children.count { infantAge -> infantAge < 2 }
+                    if (infantCount > 0) {
+                        travelerWidgetV2.traveler.getViewModel().infantInSeatObservable.onNext(!params.infantSeatingInLap)
+                        travelerWidgetV2.traveler.getViewModel().isInfantInLapObservable.onNext(params.infantSeatingInLap)
+                    }
+                    vm.setupViewModelFromPastSearch(params)
+                    vm.shouldTrackEditSearchForm = true
+                    vm.hasPreviousSearchParams = false
+                    animatorLeft.start()
+                }
+            })
+            animatorLeft.duration = 200
+            animatorLeft.cancel()
+            animatorLeft.addUpdateListener {
+                val animatedValue = it.animatedValue as Float
+                animateSearchFormFields(animatedValue)
             }
-            travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.onNext(TravelerParams(params.adults, params.children, emptyList(), emptyList()))
-            val infantCount = params.children.count { infantAge -> infantAge < 2 }
-            if (infantCount > 0) {
-                travelerWidgetV2.traveler.getViewModel().infantInSeatObservable.onNext(!params.infantSeatingInLap)
-                travelerWidgetV2.traveler.getViewModel().isInfantInLapObservable.onNext(params.infantSeatingInLap)
-            }
+            animatorLeft.addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    vm.wiggleAnimationEnd.onNext(Unit)
+                }
+            })
+
+            anim?.addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    animateRight.start()
+                }
+            })
+            anim?.start()
         }
 
         if (isSwitchToAndFromFieldsFeatureEnabled) {
@@ -233,7 +283,12 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         destinationSuggestionAdapter = SuggestionAdapter(destinationSuggestionViewModel)
 
         setContentDescriptionToolbarTabs(context, tabs)
-        vm.highlightCalendarObservable.subscribeBackgroundResource(calendarWidgetV2)
+
+        if (isRecentSearchesForFlightsEnabled(context)) {
+            ObservableOld.combineLatest(vm.wiggleAnimationEnd, vm.highlightCalendarObservable, { _, border ->
+                calendarWidgetV2.setBackgroundResource(border)
+            }).subscribe()
+        }
     }
 
     private lateinit var originSuggestionAdapter: SuggestionAdapter
@@ -360,5 +415,14 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         } else {
             announceForAccessibility(context.getString(R.string.flights_tab_selection_accouncement_oneway))
         }
+        searchViewModel.trackFieldChange("SearchType.Edit")
+    }
+
+    private fun animateSearchFormFields(animatedValue: Float) {
+        originCardView.translationX = animatedValue
+        destinationCardView.translationX = animatedValue
+        calendarWidgetV2.translationX = animatedValue
+        travelerWidgetV2.translationX = animatedValue
+        flightCabinClassWidget.translationX = animatedValue
     }
 }

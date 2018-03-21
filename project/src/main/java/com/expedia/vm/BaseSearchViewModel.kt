@@ -14,9 +14,9 @@ import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
-import org.joda.time.LocalDate
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
+import org.joda.time.LocalDate
 
 abstract class BaseSearchViewModel(val context: Context) {
     // Outputs
@@ -41,6 +41,7 @@ abstract class BaseSearchViewModel(val context: Context) {
     val formattedDestinationObservable = PublishSubject.create<String>()
 
     var a11yFocusSelectDatesObservable = BehaviorSubject.create<Unit>()
+    val dateSelectionChanged = PublishSubject.create<Boolean>()
 
     protected var selectedDates: Pair<LocalDate?, LocalDate?> = Pair(null, null)
 

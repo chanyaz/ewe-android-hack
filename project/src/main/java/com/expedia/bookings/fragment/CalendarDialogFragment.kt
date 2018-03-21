@@ -17,6 +17,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.shared.CalendarRules
 import com.expedia.bookings.utils.CalendarShortDateRenderer
 import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.isRecentSearchesForFlightsEnabled
 import com.expedia.bookings.widget.shared.CalendarStyleUtil
 import com.expedia.util.endlessObserver
 import com.expedia.vm.BaseSearchViewModel
@@ -156,13 +157,16 @@ open class CalendarDialogFragment() : DialogFragment() {
         removeParentView()
         builder.setView(calendarDialogView)
         builder.setPositiveButton(context.getString(R.string.DONE), { dialog, _ ->
-            oldCalendarSelection = null
             calendar.visibility = CardView.INVISIBLE
             calendar.hideToolTip()
             if (calendar.startDate != null && calendar.endDate == null) {
                 val endDate = if (!(rules?.isStartDateOnlyAllowed() ?: false)) calendar.startDate.plusDays(1) else null
                 calendar.setSelectedDates(calendar.startDate, endDate)
             }
+            if (isRecentSearchesForFlightsEnabled(context)) {
+                baseSearchViewModel?.dateSelectionChanged?.onNext(!isCalenderDatesChanged(oldCalendarSelection!!, Pair(calendar.startDate, calendar.endDate)))
+            }
+            oldCalendarSelection = null
             userTappedDone = true
             baseSearchViewModel?.dateSetObservable?.onNext(Unit)
             dialog.dismiss()
@@ -191,5 +195,21 @@ open class CalendarDialogFragment() : DialogFragment() {
 
     private fun setMaxSelectableDateRange() {
         calendar.setMaxSelectableDateRange(rules?.getMaxSearchDurationDays() ?: 0)
+    }
+
+    fun isCalenderDatesChanged(calender1: Pair<LocalDate?, LocalDate?>, calender2: Pair<LocalDate?, LocalDate?>): Boolean {
+        val isStartDateEqual = compareDates(calender1.first, calender2.first)
+        val isEndDateEqual = compareDates(calender1.second, calender2.second)
+        return isStartDateEqual && isEndDateEqual
+    }
+
+    private fun compareDates(date1: LocalDate?, date2: LocalDate?): Boolean {
+        if (date1 == null && date2 == null) {
+            return true
+        } else if ((date1 == null && date2 != null) || (date1 != null && date2 == null)) {
+            return false
+        } else {
+            return date1?.isEqual(date2) ?: false
+        }
     }
 }
