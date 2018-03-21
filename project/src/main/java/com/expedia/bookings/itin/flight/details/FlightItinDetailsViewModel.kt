@@ -8,7 +8,7 @@ import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.ItineraryManagerInterface
 import com.expedia.bookings.itin.common.ItinConfirmationViewModel
-import com.expedia.bookings.itin.flight.common.FlightItinOmnitureUtils
+import com.expedia.bookings.itin.flight.common.ItinOmnitureUtils
 import com.expedia.bookings.itin.common.ItinToolbarViewModel
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
@@ -91,7 +91,7 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
     }
 
     fun createOmnitureTrackingValues(dataFlight: ItinCardDataFlight): HashMap<String, String?> {
-        return FlightItinOmnitureUtils.createOmnitureTrackingValues(dataFlight)
+        return ItinOmnitureUtils.createOmnitureTrackingValues(dataFlight)
     }
 
     @VisibleForTesting

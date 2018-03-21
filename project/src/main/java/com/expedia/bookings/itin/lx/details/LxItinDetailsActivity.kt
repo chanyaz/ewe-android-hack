@@ -7,12 +7,15 @@ import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.itin.common.ItinToolbar
+import com.expedia.bookings.itin.flight.common.ItinOmnitureUtils
 import com.expedia.bookings.itin.lx.ItinLxRepo
 import com.expedia.bookings.itin.lx.LxItinToolbarViewModel
 import com.expedia.bookings.itin.scopes.LxItinToolbarScope
+import com.expedia.bookings.itin.tripstore.extensions.firstLx
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.itin.utils.Intentable
 import com.expedia.bookings.itin.utils.StringSource
+import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
@@ -57,6 +60,13 @@ class LxItinDetailsActivity : AppCompatActivity() {
         toolbar.viewModel = toolbarViewModel
         lxRepo.invalidDataSubject.subscribe {
             finishActivity()
+        }
+        val itin = jsonUtil.getItin(intent.getStringExtra(LX_ITIN_ID))
+        itin?.let { trip ->
+            trip.firstLx()?.let {
+                val omnitureValues = ItinOmnitureUtils.createOmnitureTrackingValuesNew(trip, ItinOmnitureUtils.LOB.LX)
+                TripsTracking.trackItinLx(omnitureValues)
+            }
         }
     }
 

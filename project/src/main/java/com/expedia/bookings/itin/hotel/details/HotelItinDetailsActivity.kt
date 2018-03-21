@@ -13,7 +13,10 @@ import com.expedia.bookings.data.trips.TripHotelRoom
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.data.trips.ItinCardDataHotel
 import com.expedia.bookings.itin.common.ItinBaseActivity
+import com.expedia.bookings.itin.flight.common.ItinOmnitureUtils
 import com.expedia.bookings.itin.hotel.common.HotelItinToolbar
+import com.expedia.bookings.itin.tripstore.extensions.firstHotel
+import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -38,7 +41,6 @@ open class HotelItinDetailsActivity : ItinBaseActivity() {
     companion object {
         private const val UNIQUE_ID_EXTRA = "UNIQUE_ID_EXTRA"
         private const val ITIN_ID_EXTRA = "ITIN_ID_EXTRA"
-
         @JvmStatic
         fun createIntent(context: Context, id: String, itinId: String): Intent {
             val i = Intent(context, HotelItinDetailsActivity::class.java)
@@ -50,9 +52,19 @@ open class HotelItinDetailsActivity : ItinBaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val readJsonUtil: IJsonToItinUtil
         Ui.getApplication(this).defaultTripComponents()
         setContentView(R.layout.hotel_itin_card_details)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        readJsonUtil = Ui.getApplication(this).tripComponent().jsonUtilProvider()
+
+        val itin = readJsonUtil.getItin(intent.getStringExtra(ITIN_ID_EXTRA))
+        itin?.let { trip ->
+            trip.firstHotel()?.let {
+                val omnitureValues = ItinOmnitureUtils.createOmnitureTrackingValuesNew(trip, ItinOmnitureUtils.LOB.HOTEL)
+                TripsTracking.trackItinHotel(omnitureValues)
+            }
+        }
     }
 
     override fun onResume() {
@@ -99,8 +111,6 @@ open class HotelItinDetailsActivity : ItinBaseActivity() {
         if (!itinCardDataHotel.isSharedItin && ProductFlavorFeatureConfiguration.getInstance().shouldShowItinShare()) {
             toolbar.showShare()
         }
-
-        TripsTracking.trackItinHotel()
     }
 
     private fun addRoomsToContainer(rooms: MutableList<TripHotelRoom?>) {

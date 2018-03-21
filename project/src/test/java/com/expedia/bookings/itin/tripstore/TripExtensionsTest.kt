@@ -20,9 +20,9 @@ class TripExtensionsTest {
 
     @Test
     fun testFirstHotelValidHotel() {
-        val hotel = makeItinHotel("api/trips/hotel_trip_details.json")
+        val hotel = makeItinHotel("api/trips/hotel_trip_details_for_mocker.json")
         assertNotNull(hotel)
-        assertEquals("5D5D96B6-0BB4-4A08-B82F-C9FBADF85532_0", hotel?.uniqueID)
+        assertEquals("B43C38B0-6F14-4D9D-BBEC-F56AEA3DF3B9_0", hotel?.uniqueID)
     }
 
     @Test
@@ -52,8 +52,8 @@ class TripExtensionsTest {
 
     @Test
     fun nullRewardList() {
-        val trip = mockObject(ItinDetailsResponse::class.java, "api/trips/hotel_trip_details.json")
-        assertFalse(trip?.itin?.eligibleForRewards()!!)
+        val trip = mockObject(ItinDetailsResponse::class.java, "api/trips/hotel_trip_details_for_mocker.json")
+        assertTrue(trip?.itin?.eligibleForRewards()!!)
     }
 
     @Test

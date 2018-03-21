@@ -150,7 +150,7 @@ public class OmnitureTracking {
 	private static final DateTimeFormatter sFormatter = DateTimeFormat.forPattern("E|hh:mma");
 
 	private static Context sContext = null;
-	private static UserStateManager userStateManager;
+	protected static UserStateManager userStateManager;
 
 	private static CESCTrackingUtil cescTrackingUtil;
 
@@ -4067,7 +4067,7 @@ public class OmnitureTracking {
 		createTrackPageLoadEventBase(pageName).track();
 	}
 
-	static void internalTrackLink(String link) {
+	protected static void internalTrackLink(String link) {
 		ADMS_Measurement s = createTrackLinkEvent(link);
 		internalTrackLink(s);
 	}
@@ -4087,7 +4087,7 @@ public class OmnitureTracking {
 		return s;
 	}
 
-	static ADMS_Measurement createTrackPageLoadEventBase(String pageName) {
+	protected static ADMS_Measurement createTrackPageLoadEventBase(String pageName) {
 		ADMS_Measurement s = getFreshTrackingObject();
 
 		// set the pageName
@@ -4190,7 +4190,7 @@ public class OmnitureTracking {
 		}
 	}
 
-	private static Collection<Trip> getUsersTrips() {
+	protected static Collection<Trip> getUsersTrips() {
 		return ItineraryManager.getInstance().getTrips();
 	}
 
@@ -4199,7 +4199,7 @@ public class OmnitureTracking {
 			.createUsersTripComponentTypeEventString(getUsersTrips());
 	}
 
-	private static ADMS_Measurement appendUsersEventString(ADMS_Measurement s) {
+	protected static ADMS_Measurement appendUsersEventString(ADMS_Measurement s) {
 		String usersTripComponentTypeEventString = getUsersTripComponentTypeEventString();
 		if (!usersTripComponentTypeEventString.isEmpty()) {
 			s.appendEvents(usersTripComponentTypeEventString);

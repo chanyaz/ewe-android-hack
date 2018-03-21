@@ -6,5 +6,7 @@ data class Time(
         val localizedShortDate: String?,
         val localizedMediumDate: String?,
         val localizedFullDate: String?,
-        val localizedLongDate: String?
+        val localizedLongDate: String?,
+        val epochSeconds: Long?,
+        val timeZoneOffsetSeconds: Int?
 )

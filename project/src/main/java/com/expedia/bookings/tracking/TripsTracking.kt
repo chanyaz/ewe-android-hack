@@ -2,12 +2,13 @@ package com.expedia.bookings.tracking
 
 import com.expedia.bookings.ADMS_Measurement
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.trips.TripUtils
 import com.mobiata.android.Log
 
 object TripsTracking : OmnitureTracking(), ITripsTracking {
 
     //Tags
-    private val TAG = "OmnitureTracking"
+    private val TAG = "TripsTracking"
 
     //Hotel Tracking
     private val ITIN_HOTEL_CALL_EXPEDIA = "App.Itinerary.Hotel.Manage.Call.Expedia"
@@ -32,6 +33,9 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     private val ITIN_HOTEL_MAP_ZOOM_IN = "App.Map.Directions.ZoomIn"
     private val ITIN_HOTEL_MAP_ZOOM_OUT = "App.Map.Directions.ZoomOut"
     private val ITIN_HOTEL = "App.Itinerary.Hotel"
+
+    //LX Tracking
+    private val ITIN_ACTIVITY = "App.Itinerary.Activity"
 
     fun trackItinHotelCallSupport() {
         val s = createTrackLinkEvent(ITIN_HOTEL_CALL_EXPEDIA)
@@ -147,9 +151,40 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
         internalTrackLink(ITIN_HOTEL_INFO)
     }
 
-    fun trackItinHotel() {
+    @JvmStatic
+    fun trackItinHotel(trip: HashMap<String, String?>) {
         Log.d(TAG, "Tracking \"$ITIN_HOTEL\" pageLoad")
         val s = createTrackPageLoadEventBase(ITIN_HOTEL)
+        val userTrips = getUsersTrips()
+        if (userStateManager.isUserAuthenticated()) {
+            appendUsersEventString(s)
+            s.setProp(75, TripUtils.createUsersProp75String(userTrips))
+        }
+        s.setProducts(trip.get("productString").toString())
+        s.setProp(8, trip.get("orderAndTripNumbers").toString())
+        s.setEvar(6, trip.get("duration").toString())
+        s.setProp(5, trip.get("tripStartDate").toString())
+        s.setProp(6, trip.get("tripEndDate").toString())
+        s.setEvar(5, trip.get("daysUntilTrip").toString())
+        s.appendEvents("event63")
+        s.track()
+    }
+
+    @JvmStatic
+    fun trackItinLx(trip: HashMap<String, String?>) {
+        Log.d(TAG, "Tracking \"$ITIN_ACTIVITY\" pageLoad")
+        val s = createTrackPageLoadEventBase(ITIN_ACTIVITY)
+        val userTrips = getUsersTrips()
+        if (userStateManager.isUserAuthenticated()) {
+            appendUsersEventString(s)
+            s.setProp(75, TripUtils.createUsersProp75String(userTrips))
+        }
+        s.setProducts(trip.get("productString").toString())
+        s.setProp(8, trip.get("orderAndTripNumbers").toString())
+        s.setEvar(6, trip.get("duration").toString())
+        s.setProp(5, trip.get("tripStartDate").toString())
+        s.setProp(6, trip.get("tripEndDate").toString())
+        s.setEvar(5, trip.get("daysUntilTrip").toString())
         s.appendEvents("event63")
         s.track()
     }

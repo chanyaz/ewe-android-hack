@@ -2,7 +2,7 @@ package com.expedia.bookings.itin.vm
 
 import android.app.Activity
 import android.content.Context
-import com.expedia.bookings.itin.flight.common.FlightItinOmnitureUtils
+import com.expedia.bookings.itin.flight.common.ItinOmnitureUtils
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
 import org.junit.Before
@@ -13,15 +13,15 @@ import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-class FlightItinOmnitureUtilsTest {
+class ItinOmnitureUtilsTest {
     private lateinit var activity: Activity
-    private lateinit var sut: FlightItinOmnitureUtils
+    private lateinit var sut: ItinOmnitureUtils
     private lateinit var context: Context
 
     @Before
     fun setup() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        sut = FlightItinOmnitureUtils
+        sut = ItinOmnitureUtils
         context = RuntimeEnvironment.application
     }
 

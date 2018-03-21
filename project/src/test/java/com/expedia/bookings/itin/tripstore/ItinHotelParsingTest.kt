@@ -16,10 +16,10 @@ class ItinHotelParsingTest {
         val itin = getMockItin()
 
         assertNotNull(itin)
-        assertEquals("fb24d134-adbd-44f6-9904-48cfb33bbd50", itin?.tripId)
-        assertEquals("https://www.expedia.com/trips/1103274148635", itin?.webDetailsURL)
-        assertEquals("1103274148635", itin?.tripNumber)
-        assertEquals("Mobile Itinerary", itin?.title)
+        assertEquals("58fc868b-63e9-42cc-a0c3-6ac4dd78beaa", itin?.tripId)
+        assertEquals("https://www.expedia.com/trips/7280999576135", itin?.webDetailsURL)
+        assertEquals("7280999576135", itin?.tripNumber)
+        assertEquals("Hotel in Bengaluru", itin?.title)
         assertEquals("BOOKED", itin?.bookingStatus)
 
         val startTime = itin?.startTime
@@ -33,7 +33,7 @@ class ItinHotelParsingTest {
         val hotel = getMockHotel()
 
         assertNotNull(hotel)
-        assertEquals("5D5D96B6-0BB4-4A08-B82F-C9FBADF85532_0", hotel?.uniqueID)
+        assertEquals("B43C38B0-6F14-4D9D-BBEC-F56AEA3DF3B9_0", hotel?.uniqueID)
     }
 
     @Test
@@ -41,7 +41,7 @@ class ItinHotelParsingTest {
         val rooms = getMockHotelRooms()
 
         assertNotNull(rooms)
-        assertEquals(2, rooms?.size)
+        assertEquals(1, rooms?.size)
 
         if (rooms != null) {
             for (room in rooms) {
@@ -60,9 +60,9 @@ class ItinHotelParsingTest {
             val totalPriceDetails = room.totalPriceDetails
             val priceDetailsPerDay = totalPriceDetails?.priceDetailsPerDay
 
-            assertEquals("$430.80", totalPriceDetails?.totalFormatted)
+            assertEquals("₹3,500.00", totalPriceDetails?.totalFormatted)
             assertNotNull(priceDetailsPerDay)
-            assertEquals(1, priceDetailsPerDay?.size)
+            assertEquals(4, priceDetailsPerDay?.size)
         }
     }
 
@@ -73,13 +73,13 @@ class ItinHotelParsingTest {
         assertNotNull(priceDetail)
 
         if (priceDetail != null) {
-            assertEquals("$293.57", priceDetail.amountFormatted)
-            assertEquals("Sun, May 20", priceDetail.localizedDay?.localizedFullDate)
+            assertEquals("₹875.00", priceDetail.amountFormatted)
+            assertEquals("Mon, Mar 12", priceDetail.localizedDay?.localizedFullDate)
         }
     }
 
     private fun createMockJson(): ItinDetailsResponse? {
-        return mockObject(ItinDetailsResponse::class.java, "api/trips/hotel_trip_details.json")
+        return mockObject(ItinDetailsResponse::class.java, "api/trips/hotel_trip_details_for_mocker.json")
     }
 
     private fun getMockItin(): Itin? {

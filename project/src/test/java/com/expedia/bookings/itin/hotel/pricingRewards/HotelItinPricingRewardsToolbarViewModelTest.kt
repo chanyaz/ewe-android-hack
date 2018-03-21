@@ -19,7 +19,7 @@ class HotelItinPricingRewardsToolbarViewModelTest {
 
     private val toolbarTitleTestObserver = TestObserver<String>()
     private val toolbarSubTitleTestObserver = TestObserver<String>()
-    val hotelName: String = "Orchard Hotel"
+    val hotelName: String = "Vega Hotel & Convention Center"
     lateinit var sut: HotelItinPricingRewardsToolbarViewModel<MockPricingRewardsToolbarScope>
 
     @Before
