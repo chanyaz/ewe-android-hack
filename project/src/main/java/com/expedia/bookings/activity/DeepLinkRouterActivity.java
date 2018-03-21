@@ -194,6 +194,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 
 		if (this.getIntent().getExtras() != null && this.getIntent().getExtras().getBoolean(CarnivalUtils.CustomCarnivalListener.Companion.getKEY_NOTIFICATION_PROVIDER_VALUE(), false)) {
 			CarnivalUtils.getInstance().trackCarnivalPush(this, data, this.getIntent().getExtras());
+			data = CarnivalUtils.getInstance().createParameterizedDeeplinkWithStoredValues(data);
 		}
 
 		DeepLink deepLink = deepLinkParser.parseDeepLink(data);

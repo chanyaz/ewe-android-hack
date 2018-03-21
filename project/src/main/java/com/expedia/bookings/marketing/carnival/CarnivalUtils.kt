@@ -96,12 +96,17 @@ import com.expedia.bookings.utils.JodaUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.Days
 import org.joda.time.LocalDate
+import org.joda.time.format.DateTimeFormat
+import java.util.regex.Pattern
 
 open class CarnivalUtils {
 
     companion object {
-        private val TAG = "CarnivalTracker"
-        private val OLACID = "olacid"
+        private val tag = "CarnivalTracker"
+        private val olacid = "olacid"
+        private val parameterizedPattern = Pattern.compile("\\{\\{(.+)\\}\\}")
+        private val carnivalDateFormat = "EEE MMM dd HH:mm:ss z yyyy"
+        private val unwantedCharacters = Regex("[{}®]")
         private lateinit var appContext: Context
         private var carnivalUtils: CarnivalUtils? = null
         private var initialized = false
@@ -187,7 +192,7 @@ open class CarnivalUtils {
     fun trackHotelSearch(searchParams: HotelSearchParams) {
         if (isFeatureToggledOn() && initialized) {
             val attributes = AttributeMap()
-            attributes.putString(SEARCH_HOTEL_DESTINATION, searchParams.suggestion.regionNames.fullName)
+            attributes.putString(SEARCH_HOTEL_DESTINATION, searchParams.suggestion.regionNames.fullName ?: searchParams.suggestion.regionNames.displayName)
             attributes.putInt(SEARCH_HOTEL_NUMBER_OF_ADULTS, searchParams.adults)
             attributes.putDate(SEARCH_HOTEL_CHECK_IN_DATE, searchParams.checkIn.toDate())
             attributes.putInt(SEARCH_HOTEL_LENGTH_OF_STAY, JodaUtils.daysBetween(searchParams.checkIn, searchParams.checkOut))
@@ -198,7 +203,7 @@ open class CarnivalUtils {
     fun trackHotelInfoSite(hotelOffersResponse: HotelOffersResponse, searchParams: HotelSearchParams) {
         if (isFeatureToggledOn() && initialized) {
             val attributes = AttributeMap()
-            attributes.putString(PRODUCT_VIEW_HOTEL_DESTINATION, searchParams.suggestion.regionNames.fullName)
+            attributes.putString(PRODUCT_VIEW_HOTEL_DESTINATION, searchParams.suggestion.regionNames.fullName ?: searchParams.suggestion.regionNames.displayName)
             attributes.putString(PRODUCT_VIEW_HOTEL_HOTEL_NAME, hotelOffersResponse.hotelName)
             attributes.putInt(PRODUCT_VIEW_HOTEL_NUMBER_OF_ADULTS, searchParams.adults)
             attributes.putDate(PRODUCT_VIEW_HOTEL_CHECK_IN_DATE, searchParams.checkIn.toDate())
@@ -210,7 +215,7 @@ open class CarnivalUtils {
     fun trackHotelCheckoutStart(hotelCreateTripResponse: HotelCreateTripResponse, hotelSearchParams: HotelSearchParams) {
         if (isFeatureToggledOn() && initialized) {
             val attributes = AttributeMap()
-            attributes.putString(CHECKOUT_START_HOTEL_DESTINATION, hotelSearchParams.suggestion.regionNames.fullName)
+            attributes.putString(CHECKOUT_START_HOTEL_DESTINATION, hotelSearchParams.suggestion.regionNames.fullName ?: hotelSearchParams.suggestion.regionNames.displayName)
             attributes.putString(CHECKOUT_START_HOTEL_HOTEL_NAME, hotelCreateTripResponse.newHotelProductResponse.getHotelName())
             attributes.putInt(CHECKOUT_START_HOTEL_NUMBER_OF_ADULTS, hotelSearchParams.adults)
             attributes.putDate(CHECKOUT_START_HOTEL_CHECK_IN_DATE, hotelSearchParams.checkIn.toDate())
@@ -222,7 +227,7 @@ open class CarnivalUtils {
     fun trackHotelConfirmation(hotelCheckoutResponse: HotelCheckoutResponse, hotelSearchParams: HotelSearchParams) {
         if (isFeatureToggledOn() && initialized) {
             val attributes = AttributeMap()
-            attributes.putString(CONFIRMATION_HOTEL_DESTINATION, hotelSearchParams.suggestion.regionNames.fullName)
+            attributes.putString(CONFIRMATION_HOTEL_DESTINATION, hotelSearchParams.suggestion.regionNames.fullName ?: hotelSearchParams.suggestion.regionNames.displayName)
             attributes.putString(CONFIRMATION_HOTEL_HOTEL_NAME, hotelCheckoutResponse.checkoutResponse.productResponse.hotelName)
             attributes.putInt(CONFIRMATION_HOTEL_NUMBER_OF_ADULTS, hotelSearchParams.adults)
             attributes.putDate(CONFIRMATION_HOTEL_CHECK_IN_DATE, hotelSearchParams.checkIn.toDate())
@@ -266,12 +271,12 @@ open class CarnivalUtils {
         Carnival.logEvent(eventName)
         Carnival.setAttributes(attributes, object : Carnival.AttributesHandler {
             override fun onSuccess() {
-                Log.d(TAG, "Carnival attributes sent successfully.")
+                Log.d(tag, "Carnival attributes sent successfully.")
                 saveAttributes(attributes)
             }
 
             override fun onFailure(error: Error) {
-                Log.d(TAG, error.message)
+                Log.d(tag, error.message)
             }
         })
     }
@@ -284,21 +289,21 @@ open class CarnivalUtils {
         if (isFeatureToggledOn() && initialized) {
             Carnival.setUserId(userId, object : CarnivalHandler<Void> {
                 override fun onSuccess(value: Void) {
-                    Log.d(TAG, "Carnival UserId set successfully.")
+                    Log.d(tag, "Carnival UserId set successfully.")
                 }
 
                 override fun onFailure(error: Error) {
-                    Log.d(TAG, error.message)
+                    Log.d(tag, error.message)
                 }
             })
 
             Carnival.setUserEmail(userEmail, object : CarnivalHandler<Void> {
                 override fun onSuccess(value: Void) {
-                    Log.d(TAG, "Carnival User Email set successfully.")
+                    Log.d(tag, "Carnival User Email set successfully.")
                 }
 
                 override fun onFailure(error: Error) {
-                    Log.d(TAG, error.message)
+                    Log.d(tag, error.message)
                 }
             })
         }
@@ -360,7 +365,7 @@ open class CarnivalUtils {
 
     fun trackCarnivalPush(context: Context, deeplink: Uri, bundle: Bundle) {
         val marketingCode = bundle.getString(CustomCarnivalListener.KEY_PAYLOAD_MARKETING)
-        val marketingOLAcidFromUri = deeplink.getQueryParameter(OLACID)
+        val marketingOLAcidFromUri = deeplink.getQueryParameter(olacid)
         if (!marketingCode.isNullOrEmpty()) {
             OmnitureTracking.trackCarnivalPushNotificationTap(marketingCode)
             return
@@ -372,6 +377,49 @@ open class CarnivalUtils {
             OmnitureTracking.trackCarnivalPushNotificationTap(defaultOLAcid)
         } else {
             OmnitureTracking.trackCarnivalPushNotificationTap(marketingOLAcidFromUri)
+        }
+    }
+
+    fun createParameterizedDeeplinkWithStoredValues(data: Uri): Uri {
+        var stringUri = data.toString()
+        val listOfParamValuesToFill = mutableListOf<String>()
+
+        data.queryParameterNames.forEach { param ->
+            val paramValue = data.getQueryParameter(param)
+
+            if (parameterizedPattern.matcher(paramValue).matches()) {
+                listOfParamValuesToFill.add(paramValue)
+            }
+        }
+
+        for (paramValue in listOfParamValuesToFill) {
+            val storedCarnivalValue = CarnivalUtils.persistenceProvider.get(stripUnwantedCharacters(paramValue)).toString()
+
+            if (storedCarnivalValue.isEmpty() || storedCarnivalValue == "null") {
+                Log.d(tag, "Deeplink parameter was stored as NULL, safeguarding against bad deeplink.")
+                return Uri.parse(appContext.getString(R.string.deeplink_home))
+            } else {
+                val dateValue = getCarnivalDate(storedCarnivalValue)
+
+                stringUri = if (dateValue != null) {
+                    stringUri.replace(paramValue, stripUnwantedCharacters(dateValue.toString()))
+                } else {
+                    stringUri.replace(paramValue, stripUnwantedCharacters(storedCarnivalValue))
+                }
+            }
+        }
+        return Uri.parse(stringUri)
+    }
+
+    private fun stripUnwantedCharacters(stringToStrip: String): String {
+        return stringToStrip.replace(unwantedCharacters, "")
+    }
+
+    private fun getCarnivalDate(inDate: String): LocalDate? {
+        return try {
+            LocalDate.parse(inDate, DateTimeFormat.forPattern(carnivalDateFormat))
+        } catch (e: IllegalArgumentException) {
+            null
         }
     }
 

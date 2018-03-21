@@ -34,6 +34,7 @@ import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.ApiDateUtils
+import junit.framework.Assert
 import org.hamcrest.Matchers
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -456,7 +457,6 @@ class CarnivalUtilsTest : CarnivalUtils() {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun pushNotificationMarketingCodeIsTrackedInOmniture() {
         val marketingCode = "OLA.EXPEDIA-US-MARKETING-CODE"
         val deeplink = Uri.parse("expda://hotelSearch?olacid=OLA.EXPEDIA-US-OLACID")
@@ -471,7 +471,6 @@ class CarnivalUtilsTest : CarnivalUtils() {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun pushNotificationOLAcidIsTrackedInOmniture() {
         val marketingCode = ""
         val deeplink = Uri.parse("expda://hotelSearch?olacid=OLA.EXPEDIA-US-OLACID")
@@ -483,7 +482,22 @@ class CarnivalUtilsTest : CarnivalUtils() {
         OmnitureTestUtils.assertStateTracked("App.Carnival.Push.Notification", Matchers.allOf(
                 OmnitureMatchers.withEvars(mapOf(10 to "OLA.EXPEDIA-US-OLACID")),
                 OmnitureMatchers.withEvars(mapOf(11 to "OLA.EXPEDIA-US-OLACID"))), mockAnalyticsProvider)
-            }
+    }
+
+    @Test
+    fun parameterizedDeeplinksAreCorrectlyBuilt() {
+        val mockAttributes = AttributeMap()
+        val mockUri = Uri.parse("expda://hotelSearch?location={{search_hotel_destination}}&checkInDate={{search_hotel_check-in_date}}")
+
+        mockAttributes.putString(CarnivalConstants.SEARCH_HOTEL_DESTINATION, "Disney World")
+        mockAttributes.putDate(CarnivalConstants.SEARCH_HOTEL_CHECK_IN_DATE, LocalDate(2018, 1, 30).toDate())
+        persistenceProvider.put(mockAttributes)
+
+        val parameterizedUri = this.createParameterizedDeeplinkWithStoredValues(mockUri)
+        val expectedUri = Uri.parse("expda://hotelSearch?location=Disney World&checkInDate=2018-01-30")
+
+        Assert.assertEquals(expectedUri, parameterizedUri)
+    }
 
     private fun getIntent(pendingIntent: PendingIntent): Intent {
         return (Shadow.extract(pendingIntent) as ShadowPendingIntent).savedIntent
