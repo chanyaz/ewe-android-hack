@@ -53,6 +53,7 @@ import com.expedia.util.Optional;
 import com.expedia.util.PermissionsUtils;
 import com.expedia.vm.launch.ActiveItinViewModel;
 import com.expedia.vm.launch.BrandSignInLaunchHolderViewModel;
+import com.expedia.vm.launch.CustomerFirstLaunchHolderViewModel;
 import com.expedia.vm.launch.LaunchScreenAirAttachViewModel;
 import com.expedia.vm.launch.RecommendedHotelViewModel;
 import com.expedia.vm.launch.SignInPlaceHolderViewModel;
@@ -80,7 +81,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			|| itemViewKey == LaunchDataItem.MEMBER_ONLY_DEALS
 			|| itemViewKey == LaunchDataItem.LAST_MINUTE_DEALS
 			|| itemViewKey == LaunchDataItem.EARN_2X_MESSAGING_BANNER
-			|| itemViewKey == LaunchDataItem.REWARD_CARD_VIEW;
+			|| itemViewKey == LaunchDataItem.REWARD_CARD_VIEW
+			|| itemViewKey == LaunchDataItem.CUSTOMER_FIRST_GUARANTEE;
 	}
 
 	public PublishSubject<Hotel> hotelSelectedSubject = PublishSubject.create();
@@ -225,6 +227,11 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			return new RewardLaunchViewHolder(view);
 		}
 
+		if (viewType == LaunchDataItem.CUSTOMER_FIRST_GUARANTEE) {
+			View view = LayoutInflater.from(context).inflate(R.layout.customer_first_launch_card, parent, false);
+			return new CustomerFirstLaunchViewHolder(view);
+		}
+
 		if (viewType == LaunchDataItem.COLLECTION_VIEW) {
 			View view = LayoutInflater.from(context)
 				.inflate(R.layout.section_collection_list_card, parent, false);
@@ -282,6 +289,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		}
 		else if (holder instanceof SignInPlaceholderCard) {
 			((SignInPlaceholderCard) holder).bind(makeSignInPlaceholderViewModel());
+		}
+		else if (holder instanceof CustomerFirstLaunchViewHolder) {
+			((CustomerFirstLaunchViewHolder) holder).bind(makeCustomerFirstLaunchHolderViewModel());
 		}
 		else if (holder instanceof BrandSignInLaunchCard) {
 			((BrandSignInLaunchCard) holder).bind(makeSignInLaunchHolderViewModel());
@@ -388,6 +398,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			if (launchListLogic.showSignInCard()) {
 				items.add(new LaunchDataItem(LaunchDataItem.SIGN_IN_VIEW));
 			}
+			if (FeatureUtilKt.shouldShowCustomerFirstGuarantee(context)) {
+				items.add(new LaunchDataItem(LaunchDataItem.CUSTOMER_FIRST_GUARANTEE));
+			}
 			if (launchListLogic.showItinCard()) {
 				items.add(new LaunchDataItem(LaunchDataItem.ITIN_VIEW));
 			}
@@ -416,6 +429,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			if (FeatureUtilKt.shouldShowRewardLaunchCard(context)) {
 				items.add(new LaunchDataItem(LaunchDataItem.REWARD_CARD_VIEW));
 			}
+
 			items.add(new LaunchDataItem(LaunchDataItem.HEADER_VIEW));
 		}
 		return items;
@@ -517,6 +531,10 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		return new BrandSignInLaunchHolderViewModel(getBrandForSignInView(),
 			context.getString(R.string.member_prices_signin),
 			context.getString(R.string.sign_in_create_account));
+	}
+
+	private CustomerFirstLaunchHolderViewModel makeCustomerFirstLaunchHolderViewModel() {
+		return new CustomerFirstLaunchHolderViewModel(context.getString(R.string.customer_first_we_are_here_for_you));
 	}
 
 	private BigImageLaunchViewModel getDealViewModel(int dealsIcon, int backgroundGradient,

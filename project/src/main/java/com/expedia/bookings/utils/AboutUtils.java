@@ -97,7 +97,7 @@ public class AboutUtils {
 	public void rateApp() {
 		OmnitureTracking.trackClickRateApp();
 
-		PlayStoreUtil.openPlayStore(mActivity);
+		PlayStoreUtil.openPlayStore(mActivity, mActivity.getPackageName());
 	}
 
 	public static void openWebsite(Context context, String url, boolean useExternalBrowser) {

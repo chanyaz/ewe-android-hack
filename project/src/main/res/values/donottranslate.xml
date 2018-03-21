@@ -477,4 +477,30 @@
     <!--Carnival OLACID Template-->
     <string name="carnival_default_olacid_TEMPLATE">OLA.{brand}-{pos}.PUSH-EVENT-TRIG.CARNIVAL.UNSPECIFIED.GENERIC</string>
     <string name="bullet">\u2022</string>
+
+    <!-- Customer First Guarantee for Travelocity only -->
+    <string name="customer_first_chat_with_us_now" />
+    <string name="customer_first_we_are_here_for_you" />
+    <string name="customer_first_support_toolbar_title" />
+    <string name="customer_first_guarantee_title" />
+    <string name="customer_first_guarantee_subtitle" />
+    <string name="customer_first_connect_with_twitter" />
+    <string name="customer_first_connect_with_fb" />
+    <string name="customer_first_phone_number" />
+    <string name="customer_first_browse_solutions" />
+    <string name="customer_first_help_topics" />
+    <string name="twitter" />
+    <string name="facebook_messenger" />
+    <string name="customer_first_open_app_confirmation_TEMPLATE" />
+    <string name="customer_first_facebook_messenger_uri" />
+    <string name="customer_first_twitter_uri" />
+    <string name="customer_first_help_topics_url" />
+    <string name="customer_first_app_not_present_TEMPLATE" />
+    <string name="download" />
+    <string name="open" />
+
+    <!-- Package names -->
+    <string name="facebook_messenger_package_name">com.facebook.orca</string>
+    <string name="twitter_package_name">com.twitter.android</string>
+
 </resources>
