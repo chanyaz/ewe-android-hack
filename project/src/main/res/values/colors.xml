@@ -256,14 +256,14 @@
     <color name="checkout_overview_background_color">@color/gray100</color>
 
     <!-- Old Launch Screen colors -->
-    <color name="launch_toolbar_background_color">@color/exp_old_launch</color>
+    <color name="old_launch_toolbar_background_color">@color/exp_old_launch</color>
     <color name="launch_tab_indicator">@color/exp_launch_yellow</color>
 
     <!-- New Launch Screen colors -->
-    <color name="new_launch_toolbar_background_color">@color/exp_launch_blue</color>
-    <color name="new_launch_fab_color">@color/exp_launch_blue</color>
-    <color name="new_launch_screen_itin_ripple">@color/exp_launch_blue</color>
-    <color name="new_launch_screen_itin_button_color">@color/white_25</color>
+    <color name="launch_toolbar_background_color">@color/exp_launch_blue</color>
+    <color name="launch_fab_color">@color/exp_launch_blue</color>
+    <color name="launch_screen_itin_ripple">@color/exp_launch_blue</color>
+    <color name="launch_screen_itin_button_color">@color/white_25</color>
     <color name="launch_screen_itin_divider">@color/white_70</color>
     <color name="launch_screen_active_itin_bg">@color/blue5</color>
     <color name="launch_screen_meso_ad_text_color">@color/blue5</color>
@@ -414,7 +414,7 @@
     <color name="preferences_divider">#c0c7cd</color>
 
     <color name="bg_air_attach_banner_divider">#4D555D</color>
-    <color name="preferences_text">@color/launch_toolbar_background_color</color>
+    <color name="preferences_text">@color/old_launch_toolbar_background_color</color>
 
     <!-- Unified Search Screen -->
     <color name="search_screen_icon_color_v2">@color/gray600</color>
@@ -465,17 +465,17 @@
     <color name="error_widget_text">@color/gray600</color>
 
     <!-- New Hotels Launch Screen LOB button colors -->
-    <color name="new_launch_hotels_lob_color">@color/exp_launch_hotel_green</color>
-    <color name="new_launch_flights_lob_color">@color/exp_launch_flights_blue</color>
-    <color name="new_launch_cars_lob_color">@color/exp_launch_car_pink</color>
-    <color name="new_launch_gt_lob_color">@color/exp_launch_gt_red</color>
-    <color name="new_launch_lx_lob_color">@color/exp_launch_lx_orange</color>
-    <color name="new_launch_packages_lob_color">@color/exp_launch_packages_blue</color>
-    <color name="new_launch_rail_lob_color">@color/exp_launch_rail_teal</color>
-    <color name="new_launch_lob_disabled_color">@color/black</color>
-    <color name="new_launch_primary_color">@color/exp_lob_dark_blue</color>
-    <color name="new_launch_alert_dialog_button_color">@color/exp_lob_blue</color>
-    <color name="new_launch_lob_text_color">@color/exp_launch_dark_teal</color>
+    <color name="launch_hotels_lob_color">@color/exp_launch_hotel_green</color>
+    <color name="launch_flights_lob_color">@color/exp_launch_flights_blue</color>
+    <color name="launch_cars_lob_color">@color/exp_launch_car_pink</color>
+    <color name="launch_gt_lob_color">@color/exp_launch_gt_red</color>
+    <color name="launch_lx_lob_color">@color/exp_launch_lx_orange</color>
+    <color name="launch_packages_lob_color">@color/exp_launch_packages_blue</color>
+    <color name="launch_rail_lob_color">@color/exp_launch_rail_teal</color>
+    <color name="launch_lob_disabled_color">@color/black</color>
+    <color name="launch_primary_color">@color/exp_lob_dark_blue</color>
+    <color name="launch_alert_dialog_button_color">@color/exp_lob_blue</color>
+    <color name="launch_lob_text_color">@color/exp_launch_dark_teal</color>
 
     <!-- hotels swp colors-->
     <color name="hotelsv2_loyalty_applied_text_color">@color/hotelsv2_checkout_text_color</color>

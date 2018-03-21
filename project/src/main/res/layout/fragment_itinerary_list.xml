@@ -11,7 +11,7 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/trips_toolbar"
-        android:background="@color/new_launch_toolbar_background_color"
+        android:background="@color/launch_toolbar_background_color"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="8dp"

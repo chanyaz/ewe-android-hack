@@ -9,7 +9,7 @@
         android:id="@+id/trip_list_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/new_launch_toolbar_background_color"
+        android:background="@color/launch_toolbar_background_color"
         android:elevation="8dp"
         android:minHeight="?attr/actionBarSize"
         app:title="@string/itin_toolbar"

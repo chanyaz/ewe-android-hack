@@ -667,7 +667,7 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
             ROW_TEST_SCREEN -> {
                 if (BuildConfig.DEBUG) {
                     debugAlertDialog.show()
-                    debugAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setTextColor(ContextCompat.getColor(context, R.color.new_launch_alert_dialog_button_color))
+                    debugAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setTextColor(ContextCompat.getColor(context, R.color.launch_alert_dialog_button_color))
                 }
                 return true
             }

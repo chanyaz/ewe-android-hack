@@ -12,10 +12,10 @@
     <style name="LaunchTheme" parent="AppTheme.Base">
         <item name="android:windowBackground">@android:color/white</item>
         <item name="android:colorPrimaryDark">#04445e</item>
-        <item name="android:colorButtonNormal">@color/new_launch_primary_color</item>
-        <item name="colorAccent">@color/new_launch_primary_color</item>
-        <item name="android:colorEdgeEffect">@color/new_launch_primary_color</item>
-        <item name="primary_color">@color/new_launch_primary_color</item>
+        <item name="android:colorButtonNormal">@color/launch_primary_color</item>
+        <item name="colorAccent">@color/launch_primary_color</item>
+        <item name="android:colorEdgeEffect">@color/launch_primary_color</item>
+        <item name="primary_color">@color/launch_primary_color</item>
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>

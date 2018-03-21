@@ -59,7 +59,7 @@ class LaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(conte
                     } else {
                         flightNotSupportedDialog.show()
                         flightNotSupportedDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                                ?.setTextColor(ContextCompat.getColor(context, R.color.new_launch_alert_dialog_button_color))
+                                ?.setTextColor(ContextCompat.getColor(context, R.color.launch_alert_dialog_button_color))
                     }
                 }
                 LineOfBusiness.TRANSPORT -> nav.goToTransport(null)

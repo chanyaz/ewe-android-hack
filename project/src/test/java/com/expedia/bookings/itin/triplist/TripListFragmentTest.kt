@@ -45,7 +45,7 @@ class TripListFragmentTest {
         fragmentManager.beginTransaction().add(testFragment, "TRIP_LIST_FRAGMENT").commitNow()
         val controlToolbar = testFragment.view!!.findViewById<Toolbar>(R.id.trip_list_toolbar)
         val controlBackGroundColor = (controlToolbar.background as ColorDrawable).color
-        assertEquals(ContextCompat.getColor(activity, R.color.new_launch_toolbar_background_color), controlBackGroundColor)
+        assertEquals(ContextCompat.getColor(activity, R.color.launch_toolbar_background_color), controlBackGroundColor)
     }
 
     @Test

@@ -26,7 +26,7 @@
         android:id="@+id/lob_view_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/new_launch_toolbar_background_color"
+        android:background="@color/launch_toolbar_background_color"
         android:paddingBottom="@dimen/card_view_container_margin"
         android:visibility="visible" />
 
@@ -40,7 +40,7 @@
         android:contentDescription="@string/search"
         android:src="@drawable/fab_search"
         android:visibility="invisible"
-        app:backgroundTint="@color/new_launch_fab_color" />
+        app:backgroundTint="@color/launch_fab_color" />
 
     <include
         android:id="@+id/launch_error"
