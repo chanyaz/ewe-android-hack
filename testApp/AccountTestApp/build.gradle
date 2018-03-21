@@ -69,7 +69,7 @@ android {
     defaultConfig {
         applicationId "com.expedia.account.sample"
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode calculateVersionCode()
         versionName calculateVersionName()
         testApplicationId "com.expedia.account.test"

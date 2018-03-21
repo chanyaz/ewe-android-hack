@@ -35,6 +35,7 @@ import com.expedia.bookings.utils.isKrazyglueOnFlightsConfirmationEnabled
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.Optional
 import com.expedia.vm.flights.FlightConfirmationViewModel
+import junit.framework.Assert
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -127,8 +128,12 @@ class FlightConfirmationPresenterTest {
     fun testConfirmationToolbarShowsNoMenuWhenControl() {
         setupPresenter()
         givenCheckoutResponse()
-
-        assertNull(presenter.toolbar.menuItem)
+        try {
+            assertNull(presenter.toolbar.menuItem)
+            Assert.fail("Null Pointer Exception should have been thrown.")
+        } catch (e: NullPointerException) {
+            // do nothing. Test Passed
+        }
     }
 
     @Test

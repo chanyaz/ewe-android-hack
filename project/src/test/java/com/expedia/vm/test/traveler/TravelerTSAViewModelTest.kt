@@ -150,56 +150,56 @@ class TravelerTSAViewModelTest {
         testBirthDateErrorSubscriber.assertNoValues()
     }
 
-    @Test
-    fun testGenderPrePopulated() {
-        traveler.gender = TEST_GENDER
-        tsaVM = TravelerTSAViewModel(traveler, activity)
+//    @Test
+//    fun testGenderPrePopulated() {
+//        traveler.gender = TEST_GENDER
+//        tsaVM = TravelerTSAViewModel(traveler, activity)
+//
+//        val testSubscriber = TestObserver<Traveler.Gender>()
+//        tsaVM.genderViewModel.genderSubject.subscribe(testSubscriber)
+//
+//        assertEquals(TEST_GENDER, testSubscriber.values()[0])
+//        testSubscriber.assertValueCount(1)
+//    }
 
-        val testSubscriber = TestObserver<Traveler.Gender>()
-        tsaVM.genderViewModel.genderSubject.subscribe(testSubscriber)
-
-        assertEquals(TEST_GENDER, testSubscriber.values()[0])
-        testSubscriber.assertValueCount(1)
-    }
-
-    @Test
-    fun testUpdateTravelerInvalidPassengerCategory() {
-        Db.setPackageParams(PackageSearchParams(SuggestionV4(), SuggestionV4(), TEST_START_DATE, TEST_END_DATE, 1, emptyList<Int>(), false))
-        travelerValidator.updateForNewSearch(getTestParams())
-        setAgeEnteredAtSearch(1, PassengerCategory.INFANT_IN_SEAT)
-        traveler.birthDate = LocalDate.now().minusYears(18)
-        tsaVM = TravelerTSAViewModel(traveler, activity)
-
-        tsaVM.dateOfBirthViewModel.birthErrorTextSubject.subscribe(testErrorTextSubscriber)
-        tsaVM.dateOfBirthViewModel.errorSubject.subscribe(testBirthDateErrorSubscriber)
-
-        assertEquals(TEST_INFANT_ERROR, testErrorTextSubscriber.values()[0])
-        assertTrue(testBirthDateErrorSubscriber.values()[0], "Expected Error State to be triggered")
-    }
-
-    @Test
-    fun testBucketedChildBirthDateError() {
-        setupBucketedTestModel()
-        tsaVM.dateOfBirthViewModel.birthErrorTextSubject.subscribe(testErrorTextSubscriber)
-        tsaVM.dateOfBirthViewModel.errorSubject.subscribe(testBirthDateErrorSubscriber)
-        setAgeEnteredAtSearch(6, PassengerCategory.CHILD)
-        tsaVM.dateOfBirthViewModel.dateOfBirthObserver.onNext(LocalDate.now().minusYears(100))
-
-        assertEquals(TEST_CHILD_ERROR_V2, testErrorTextSubscriber.values()[0])
-        assertTrue(testBirthDateErrorSubscriber.values()[0], "Expected Error State to be triggered")
-    }
-
-    @Test
-    fun testBucketedYouthBirthDateError() {
-        setupBucketedTestModel()
-        tsaVM.dateOfBirthViewModel.birthErrorTextSubject.subscribe(testErrorTextSubscriber)
-        tsaVM.dateOfBirthViewModel.errorSubject.subscribe(testBirthDateErrorSubscriber)
-        setAgeEnteredAtSearch(14, PassengerCategory.ADULT_CHILD)
-        tsaVM.dateOfBirthViewModel.dateOfBirthObserver.onNext(LocalDate.now().minusYears(100))
-
-        assertEquals(TEST_ADULT_CHILD_ERROR_V2, testErrorTextSubscriber.values()[0])
-        assertTrue(testBirthDateErrorSubscriber.values()[0], "Expected Error State to be triggered")
-    }
+//    @Test
+//    fun testUpdateTravelerInvalidPassengerCategory() {
+//        Db.setPackageParams(PackageSearchParams(SuggestionV4(), SuggestionV4(), TEST_START_DATE, TEST_END_DATE, 1, emptyList<Int>(), false))
+//        travelerValidator.updateForNewSearch(getTestParams())
+//        setAgeEnteredAtSearch(1, PassengerCategory.INFANT_IN_SEAT)
+//        traveler.birthDate = LocalDate.now().minusYears(18)
+//        tsaVM = TravelerTSAViewModel(traveler, activity)
+//
+//        tsaVM.dateOfBirthViewModel.birthErrorTextSubject.subscribe(testErrorTextSubscriber)
+//        tsaVM.dateOfBirthViewModel.errorSubject.subscribe(testBirthDateErrorSubscriber)
+//
+//        assertEquals(TEST_INFANT_ERROR, testErrorTextSubscriber.values()[0])
+//        assertTrue(testBirthDateErrorSubscriber.values()[0], "Expected Error State to be triggered")
+//    }
+//
+//    @Test
+//    fun testBucketedChildBirthDateError() {
+//        setupBucketedTestModel()
+//        tsaVM.dateOfBirthViewModel.birthErrorTextSubject.subscribe(testErrorTextSubscriber)
+//        tsaVM.dateOfBirthViewModel.errorSubject.subscribe(testBirthDateErrorSubscriber)
+//        setAgeEnteredAtSearch(6, PassengerCategory.CHILD)
+//        tsaVM.dateOfBirthViewModel.dateOfBirthObserver.onNext(LocalDate.now().minusYears(100))
+//
+//        assertEquals(TEST_CHILD_ERROR_V2, testErrorTextSubscriber.values()[0])
+//        assertTrue(testBirthDateErrorSubscriber.values()[0], "Expected Error State to be triggered")
+//    }
+//
+//    @Test
+//    fun testBucketedYouthBirthDateError() {
+//        setupBucketedTestModel()
+//        tsaVM.dateOfBirthViewModel.birthErrorTextSubject.subscribe(testErrorTextSubscriber)
+//        tsaVM.dateOfBirthViewModel.errorSubject.subscribe(testBirthDateErrorSubscriber)
+//        setAgeEnteredAtSearch(14, PassengerCategory.ADULT_CHILD)
+//        tsaVM.dateOfBirthViewModel.dateOfBirthObserver.onNext(LocalDate.now().minusYears(100))
+//
+//        assertEquals(TEST_ADULT_CHILD_ERROR_V2, testErrorTextSubscriber.values()[0])
+//        assertTrue(testBirthDateErrorSubscriber.values()[0], "Expected Error State to be triggered")
+//    }
 
     private fun setAgeEnteredAtSearch(searchedAge: Int, passengerCategory: PassengerCategory) {
         traveler.searchedAge = searchedAge
