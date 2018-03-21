@@ -5,6 +5,7 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.FlightSegmentBreakdownView
 import com.expedia.bookings.widget.TextView
@@ -52,6 +53,30 @@ class FlightSegmentBreakdownViewTest {
     fun testSeatClassAndBookingCodeViewForPackagesSeatClassAbacusTest() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesDisplayFlightSeatingClass)
         seatClassAndBookingCodeTestCases()
+    }
+
+    @Test
+    fun testSeatClassAndBookingCodeViewUpdationWithLayover() {
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode)
+        sut.viewmodel.addSegmentRowsObserver.onNext(getFlightSegmentBreakdownList("coach", true, true, true))
+        sut.viewmodel.updateSeatClassAndCodeSubject.onNext(getSegmentAttributesList(listOf("business", "coach")))
+
+        seatClassAndBookingCodeTextView = sut.linearLayout.getChildAt(0).findViewById<View>(R.id.flight_seat_class_booking_code) as TextView
+        assertEquals("Business (X)", seatClassAndBookingCodeTextView.text)
+
+        seatClassAndBookingCodeTextView = sut.linearLayout.getChildAt(2).findViewById<View>(R.id.flight_seat_class_booking_code) as TextView
+        assertEquals("Economy (X)", seatClassAndBookingCodeTextView.text)
+    }
+
+    @Test
+    fun testSeatClassAndBookingCodeViewUpdationWithoutLayover() {
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode)
+        sut.viewmodel.addSegmentRowsObserver.onNext(getFlightSegmentBreakdownList("coach", true, true))
+        seatClassAndBookingCodeTextView = sut.linearLayout.findViewById<View>(R.id.flight_seat_class_booking_code) as TextView
+        assertEquals("Economy (O)", seatClassAndBookingCodeTextView.text)
+
+        sut.viewmodel.updateSeatClassAndCodeSubject.onNext(getSegmentAttributesList(listOf("business")))
+        assertEquals("Business (X)", seatClassAndBookingCodeTextView.text)
     }
 
     fun seatClassAndBookingCodeTestCases() {
@@ -115,11 +140,14 @@ class FlightSegmentBreakdownViewTest {
         return sut.linearLayout.findViewById<View>(R.id.flight_seat_class_booking_code) as TextView
     }
 
-    private fun getFlightSegmentBreakdownList(seatClass: String, showSeatClassAndBookingCode: Boolean, showCollapseIcon: Boolean = false): List<FlightSegmentBreakdown> {
+    private fun getFlightSegmentBreakdownList(seatClass: String, showSeatClassAndBookingCode: Boolean, showCollapseIcon: Boolean = false, hasLayover: Boolean = false): List<FlightSegmentBreakdown> {
         val flightSegment = createFlightSegment(seatClass)
-        val breakdown = FlightSegmentBreakdown(flightSegment, false, showSeatClassAndBookingCode, showCollapseIcon)
+        val breakdown = FlightSegmentBreakdown(flightSegment, hasLayover, showSeatClassAndBookingCode, showCollapseIcon)
         val list: ArrayList<FlightSegmentBreakdown> = ArrayList()
         list.add(breakdown)
+        if (hasLayover) {
+            list.add(breakdown)
+        }
         return list.toList()
     }
 
@@ -144,5 +172,16 @@ class FlightSegmentBreakdownViewTest {
         airlineSegment.seatClass = seatClass
         airlineSegment.bookingCode = "O"
         return airlineSegment
+    }
+
+    private fun getSegmentAttributesList(classList: List<String>): List<FlightTripDetails.SeatClassAndBookingCode> {
+        val segmentAttributes = ArrayList<FlightTripDetails.SeatClassAndBookingCode>()
+        classList.forEach {
+            val seatClassAndBookingCode = FlightTripDetails.SeatClassAndBookingCode()
+            seatClassAndBookingCode.seatClass = it
+            seatClassAndBookingCode.bookingCode = "X"
+            segmentAttributes.add(seatClassAndBookingCode)
+        }
+        return segmentAttributes
     }
 }

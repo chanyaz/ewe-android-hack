@@ -29,6 +29,20 @@ class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) : Linea
                 }
             }
         }
+        vm.updateSeatClassAndCodeSubject.subscribe {
+            var childIndex = 0
+            it.forEach { seatClassAndBookingCode ->
+                val seatClassAndBookingCodeTextView = linearLayout.getChildAt(childIndex).findViewById<TextView>(R.id.flight_seat_class_booking_code)
+                val seatClassAndBookingCodeText = FlightServiceClassType.getSeatClassAndBookingCodeText(context, seatClassAndBookingCode.seatClass, seatClassAndBookingCode.bookingCode)
+                if (Strings.isNotEmpty(seatClassAndBookingCodeText)) {
+                    seatClassAndBookingCodeTextView.visibility = VISIBLE
+                    seatClassAndBookingCodeTextView.text = seatClassAndBookingCodeText
+                } else {
+                    seatClassAndBookingCodeTextView.visibility = GONE
+                }
+                childIndex += 2
+            }
+        }
     }
 
     init {
@@ -54,7 +68,7 @@ class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) : Linea
         segmentDuration.text = FlightV2Utils.getFlightSegmentDurationString(context, breakdown.segment)
         segmentDuration.contentDescription = FlightV2Utils.getFlightSegmentDurationContentDescription(context, breakdown.segment)
 
-        val seatClassAndBookingCodeText = FlightServiceClassType.getSeatClassAndBookingCodeText(context, breakdown.segment)
+        val seatClassAndBookingCodeText = FlightServiceClassType.getSeatClassAndBookingCodeText(context, breakdown.segment.seatClass, breakdown.segment.bookingCode)
         if (breakdown.showSeatClassAndBookingCode && Strings.isNotEmpty(seatClassAndBookingCodeText)) {
             seatClassAndBookingCode.visibility = VISIBLE
             seatClassAndBookingCode.text = seatClassAndBookingCodeText

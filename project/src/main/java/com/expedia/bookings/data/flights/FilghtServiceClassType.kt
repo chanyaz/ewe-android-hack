@@ -26,11 +26,11 @@ object FlightServiceClassType {
         }
     }
 
-    @JvmStatic fun getSeatClassAndBookingCodeText(context: Context, segment: FlightLeg.FlightSegment): String {
-        if (Strings.isNotEmpty(segment.seatClass) && Strings.isNotEmpty(segment.bookingCode)) {
+    @JvmStatic fun getSeatClassAndBookingCodeText(context: Context, seatClass: String , bookingCode: String): String {
+        if (Strings.isNotEmpty(seatClass) && Strings.isNotEmpty(bookingCode)) {
             return Phrase.from(context.resources.getString(R.string.flight_seatclass_booking_code_TEMPLATE))
-                    .put("seat_class", context.resources.getString(getCabinCodeResourceId(segment.seatClass)))
-                    .put("booking_code", segment.bookingCode)
+                    .put("seat_class", context.resources.getString(getCabinCodeResourceId(seatClass)))
+                    .put("booking_code", bookingCode)
                     .format().toString()
         } else {
             return ""

@@ -57,7 +57,7 @@ public class AbacusUtils {
 	// Flight tests
 	public static final ABTest EBAndroidAppOfferInsuranceInFlightSummary = new ABTest(12268);
 	public static final ABTest EBAndroidAppFlightByotSearch = new ABTest(13202);
-	public static final ABTest EBAndroidAppFlightsSeatClassAndBookingCode = new ABTest(12763);
+	public static final ABTest EBAndroidAppFlightsSeatClassAndBookingCode = new ABTest(12763, true);
 	public static final ABTest EBAndroidAppSimplifyFlightShopping = new ABTest(13514);
 	public static final ABTest EBAndroidAppFlightsMoreInfoOnOverview = new ABTest(13505);
 	public static final ABTest EBAndroidAppFlightsCrossSellPackageOnFSR = new ABTest(14183);

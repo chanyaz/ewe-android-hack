@@ -54,6 +54,7 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.utils.AbacusTestUtils
 import java.math.BigDecimal
 import java.util.ArrayList
 import kotlin.test.assertEquals
@@ -481,6 +482,29 @@ class FlightOverviewPresenterTest {
         updatedInboundFlightLegSubjectTestSubscriber.assertValueCount(1)
     }
 
+    @Test
+    fun testFlightUpdatingSeatClassWhenBucketed() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(RuntimeEnvironment.application, AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode, 1)
+        val outboundSeatClassTestSubscriber = TestObserver.create<List<FlightTripDetails.SeatClassAndBookingCode>>()
+        val inboundSeatClassTestSubscriber = TestObserver.create<List<FlightTripDetails.SeatClassAndBookingCode>>()
+        widget = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
+        val flightSummaryWidget = widget.findViewById<View>(R.id.flight_summary) as FlightSummaryWidget
+        flightSummaryWidget.viewmodel = FlightOverviewSummaryViewModel(context)
+        createExpectedFlightLeg()
+        flightSummaryWidget.outboundFlightWidget.viewModel.selectedFlightLegObservable.onNext(flightLeg)
+
+        flightSummaryWidget.viewmodel.updateOutboundSeatClassAndCodeSubject.subscribe(outboundSeatClassTestSubscriber)
+        flightSummaryWidget.viewmodel.updateInboundSeatClassAndCodeSubject.subscribe(inboundSeatClassTestSubscriber)
+
+        flightSummaryWidget.viewmodel.params.onNext(setupFlightSearchParams(true))
+        flightSummaryWidget.viewmodel.tripResponse.onNext(getFlightCreateTripResponse())
+
+        outboundSeatClassTestSubscriber.assertValueCount(1)
+        inboundSeatClassTestSubscriber.assertValueCount(0)
+        assertEquals(outboundSeatClassTestSubscriber.values()[0].get(0).seatClass, "coach")
+        assertEquals(outboundSeatClassTestSubscriber.values()[0].get(0).bookingCode, "X")
+    }
+
 //    TODO: Will create a mingle card for it
 //    @Test
 //    fun testOutboundWidgetPaymentInfoClick() {
@@ -629,6 +653,7 @@ class FlightOverviewPresenterTest {
         flightOffer.totalPrice = Money(223, "USD")
         val seatClassAndBookingCode = FlightTripDetails.SeatClassAndBookingCode()
         seatClassAndBookingCode.seatClass = "coach"
+        seatClassAndBookingCode.bookingCode = "X"
         flightOffer.offersSeatClassAndBookingCode = listOf(listOf(seatClassAndBookingCode))
         val flightTripDetails = FlightTripDetails()
         flightTripDetails.legs = ArrayList()
