@@ -41,6 +41,7 @@ import com.expedia.bookings.services.SatelliteServices;
 import com.expedia.bookings.services.TNSServices;
 import com.expedia.bookings.services.os.OfferService;
 import com.expedia.bookings.services.sos.SmartOfferService;
+import com.expedia.bookings.trace.util.ServerDebugTraceUtil;
 import com.expedia.bookings.tracking.AppCreateTimeLogger;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.tracking.RouterToLaunchTimeLogger;
@@ -62,6 +63,7 @@ import dagger.Module;
 import dagger.Provides;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import kotlin.Pair;
 import okhttp3.Cache;
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
@@ -145,10 +147,10 @@ public class AppModule {
 			@Override
 			public Response intercept(Interceptor.Chain chain) throws IOException {
 				HttpUrl.Builder url = chain.request().url().newBuilder();
-				Request.Builder request = chain.request().newBuilder();
-				request.header("User-Agent", ServicesUtil.generateUserAgentString());
+				Request.Builder requestBuilder = chain.request().newBuilder();
+				requestBuilder.header("User-Agent", ServicesUtil.generateUserAgentString());
 				if (!ExpediaBookingApp.isAutomation()) {
-					request.addHeader("x-eb-client", ServicesUtil.generateXEbClientString(context));
+					requestBuilder.addHeader("x-eb-client", ServicesUtil.generateXEbClientString(context));
 				}
 				url.addEncodedQueryParameter("clientid", ServicesUtil.generateClientId(context));
 				url.addEncodedQueryParameter("sourceType", ServicesUtil.generateSourceType());
@@ -161,22 +163,28 @@ public class AppModule {
 				if (endpointProvider.requestRequiresSiteId()) {
 					url.addEncodedQueryParameter("siteid", ServicesUtil.generateSiteId());
 				}
-				request.addHeader("Accept", "application/json");
+				requestBuilder.addHeader("Accept", "application/json");
 
 				String mobVisId = AdvertisingIdUtils.getIDFA();
 				if (Strings.isNotEmpty(mobVisId)) {
-					request.addHeader("x-mobvisid", mobVisId);
+					requestBuilder.addHeader("x-mobvisid", mobVisId);
 				}
 
 				String devLocation = ServicesUtil.generateXDevLocationString(context);
 				if (Strings.isNotEmpty(devLocation)) {
-					request.addHeader("x-dev-loc", devLocation);
+					requestBuilder.addHeader("x-dev-loc", devLocation);
 				}
 
-				request.url(url.build());
-				Response response = chain.proceed(request.build());
 
-				clientLog(request, response, context);
+				setupDebugTracingIfEnabled(requestBuilder);
+
+				requestBuilder.url(url.build());
+				Request request = requestBuilder.build();
+				Response response = chain.proceed(request);
+
+				captureDebugTracingIfEnabled(request, response);
+
+				clientLog(requestBuilder, response, context);
 				return response;
 			}
 		};
@@ -435,5 +443,30 @@ public class AppModule {
 	@Singleton
 	AppDatabase provideAppDatabase(Context context) {
 		return Room.databaseBuilder(context, AppDatabase.class, APP_DATABASE_NAME).build();
+	}
+
+	private void setupDebugTracingIfEnabled(Request.Builder requestBuilder) {
+		if (ServerDebugTraceUtil.isDebugTracingAvailable()) {
+			String serverDebugTraceToken = ServerDebugTraceUtil.getDebugTokenAndRefreshIfNeeded();
+			if (serverDebugTraceToken != null) {
+				requestBuilder.addHeader("x-debug-trace", serverDebugTraceToken);
+			}
+		}
+	}
+
+	private void captureDebugTracingIfEnabled(Request request, Response response) {
+		if (ServerDebugTraceUtil.isDebugTracingAvailable()) {
+			String requestUrl = request.url().toString();
+			String traceId = null;
+			if (response.header("Trace-ID") != null) {
+				traceId = response.header("Trace-ID");
+			}
+			else if (response.header("activity-id") != null) {
+				traceId = response.header("activity-id");
+			}
+			if (traceId != null) {
+				ServerDebugTraceUtil.debugTraceData.add(new Pair(requestUrl, traceId));
+			}
+		}
 	}
 }

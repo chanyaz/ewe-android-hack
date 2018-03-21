@@ -6,4 +6,21 @@
     <!--Debug Carnival SDK Key-->
     <string name="carnival_sdk_key">813a3ca4a2bdd97c7a3fd967417d37e006d96dec</string>
 
+    <!-- Server debug tracing -->
+    <string name="server_debug_trace">Server Debug Trace</string>
+    <string name="disabled_click_to_enable">Disabled: click to enable</string>
+    <string name="enabled_click_to_disable">Enabled: click to disable</string>
+    <string name="clear_all">Clear all</string>
+    <string name="copy">Copy</string>
+    <string name="email">Email</string>
+    <string name="delete">Delete</string>
+    <string name="requesting_token">Requesting token&#8230;</string>
+    <string name="debug_trace_ids">Debug trace ids</string>
+    <string name="selected_data_copied">Selected data copied</string>
+    <string name="trace_id">Trace id: </string>
+    <string name="error_template">Error: {error}</string>
+    <string name="empty_token">Empty token</string>
+    <string name="unknown_error">Unknown error</string>
+    <string name="cant_find_debug_trace_toggle">Can\'t find debug trace toggle preference"</string>
+
 </resources>

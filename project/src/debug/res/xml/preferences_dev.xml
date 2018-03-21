@@ -71,6 +71,11 @@
             android:summary="Allows connecting to insecure https and http servers"
             android:title="Disable Modern https security" />
 
+        <Preference
+            android:title="Server side debug tracing"
+            android:key="@string/preference_server_debug_tracing"
+            android:summary="Click to view on/off toggle and stored trace ids" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
