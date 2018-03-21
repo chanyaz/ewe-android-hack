@@ -20,7 +20,7 @@ class HotelTest {
     fun testConvertMultiItemHotel() {
         val hotelOffer = dummyHotelOffer()
         val multiItemOffer = dummyMultiItemOffer()
-        val hotel = Hotel.convertMultiItemHotel(hotelOffer, multiItemOffer)
+        val hotel = Hotel.convertMultiItemHotel(hotelOffer, multiItemOffer, 0)
 
         assertEquals(hotel.isPackage, true)
         assertEquals(hotel.hotelId, "3818880")
@@ -57,6 +57,7 @@ class HotelTest {
         assertEquals(hotel.lowRateInfo.strikethroughPriceToShowUsers, 4333.87f)
         assertEquals(hotel.lowRateInfo.priceToShowUsers, 3434.48f)
         assertEquals(hotel.lowRateInfo.currencyCode, "USD")
+        assertEquals(hotel.sortIndex, 0)
     }
 
     @Test

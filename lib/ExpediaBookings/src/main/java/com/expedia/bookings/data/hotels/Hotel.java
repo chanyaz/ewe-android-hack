@@ -89,7 +89,7 @@ public class Hotel {
 	}
 
 
-	public static Hotel convertMultiItemHotel(HotelOffer multiItemHotel, MultiItemOffer offer) {
+	public static Hotel convertMultiItemHotel(HotelOffer multiItemHotel, MultiItemOffer offer, int sortIndex) {
 		Hotel hotel = new Hotel();
 		hotel.hotelId = multiItemHotel.getId();
 		hotel.hotelPid = offer.getSearchedOffer().getProductKey();
@@ -112,6 +112,7 @@ public class Hotel {
 		hotel.packageOfferModel = new PackageOfferModel(offer);
 		hotel.lowRateInfo = getLowRateInfo(offer);
 		hotel.isPackage = true;
+		hotel.sortIndex = sortIndex;
 		return hotel;
 	}
 

@@ -11,6 +11,7 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.testutils.JSONResourceReader
 import com.expedia.vm.PackageFilterViewModel
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
@@ -23,6 +24,8 @@ import kotlin.test.assertTrue
 @RunWith(RobolectricRunner::class)
 class PackageFilterViewModelTest {
     var vm: PackageFilterViewModel by Delegates.notNull()
+    val mockPackageServiceRule: MockPackageServiceTestRule = MockPackageServiceTestRule()
+        @Rule get
 
     @Before
     fun before() {
@@ -112,12 +115,14 @@ class PackageFilterViewModelTest {
     fun sortByPopular() {
         vm.filteredResponse = fakeFilteredResponse()
         vm.sortByObservable.onNext(DisplaySort.RECOMMENDED)
+        assertResultsSortedByRecommended()
+    }
 
-        for (i in 1..vm.filteredResponse.hotelList.size - 1) {
-            val current = vm.filteredResponse.hotelList.elementAt(i).sortIndex
-            val previous = vm.filteredResponse.hotelList.elementAt(i - 1).sortIndex
-            assertTrue(current >= previous)
-        }
+    @Test
+    fun sortByRecommendedMID() {
+        vm.filteredResponse = HotelSearchResponse.convertPackageToSearchResponse(mockPackageServiceRule.getMIDHotelResponse())
+        vm.sortByObservable.onNext(DisplaySort.RECOMMENDED)
+        assertResultsSortedByRecommended()
     }
 
     @Test
@@ -316,5 +321,13 @@ class PackageFilterViewModelTest {
         val resourceReader = JSONResourceReader("../lib/mocked/templates/m/api/hotel/search/happy.json")
         val response = resourceReader.constructUsingGson(HotelSearchResponse::class.java)
         return response
+    }
+
+    private fun assertResultsSortedByRecommended() {
+        for (i in 1 until vm.filteredResponse.hotelList.size - 1) {
+            val current = vm.filteredResponse.hotelList.elementAt(i).sortIndex
+            val previous = vm.filteredResponse.hotelList.elementAt(i - 1).sortIndex
+            assertTrue(current >= previous)
+        }
     }
 }

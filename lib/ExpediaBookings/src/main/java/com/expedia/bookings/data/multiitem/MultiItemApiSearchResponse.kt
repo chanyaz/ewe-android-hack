@@ -32,7 +32,7 @@ data class MultiItemApiSearchResponse(
         val convertedHotels = HashMap<String, Hotel>()
         val convertedFlightLegs = HashMap<String, FlightLeg>()
 
-        offers.map { offer ->
+        offers.mapIndexed { index, offer ->
             (offer.packagedOffers + offer.searchedOffer).map { (productType, productKey) ->
                 when (productType) {
                     ProductType.Air -> {
@@ -55,7 +55,7 @@ data class MultiItemApiSearchResponse(
                     }
                     ProductType.Hotel -> {
                         offer.price?.let {
-                            val hotel = convertedHotels[productKey] ?: Hotel.convertMultiItemHotel(hotels[productKey], offer)
+                            val hotel = convertedHotels[productKey] ?: Hotel.convertMultiItemHotel(hotels[productKey], offer, index)
                             convertedHotels[productKey] = hotel
                             sortedHotels += hotel
                         }

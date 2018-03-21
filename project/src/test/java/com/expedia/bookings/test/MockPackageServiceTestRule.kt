@@ -122,6 +122,27 @@ class MockPackageServiceTestRule : ServicesRule<PackageServices>(PackageServices
         return obsever.values()[0]
     }
 
+    fun getMIDHotelResponse(): BundleSearchResponse {
+        val observer = TestObserver<BundleSearchResponse>()
+        val params = PackageSearchParams.Builder(26, 329)
+                .flightCabinClass("coach")
+                .infantSeatingInLap(true)
+                .origin(getOriginDestSuggestions("happy", "happy").second)
+                .destination(getOriginDestSuggestions("happy", "happy").first)
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1))
+                .adults(1)
+                .children(listOf(16, 10, 1))
+                .build() as PackageSearchParams
+
+        Db.setPackageParams(params)
+
+        services?.packageSearch(params, ProductSearchType.MultiItemHotels)?.subscribe(observer)
+        observer.awaitTerminalEvent()
+
+        return observer.values()[0]
+    }
+
     private fun getBillingInfo(): BillingInfo {
         val info = BillingInfo()
         info.email = "qa-ehcc@mobiata.com"
@@ -167,7 +188,7 @@ class MockPackageServiceTestRule : ServicesRule<PackageServices>(PackageServices
         return card
     }
 
-    fun getOriginDestSuggestions(): Pair<SuggestionV4, SuggestionV4> {
+    fun getOriginDestSuggestions(origin: String = "happyOrigin", destination: String = "happyDestination"): Pair<SuggestionV4, SuggestionV4> {
         val suggestionDest = SuggestionV4()
         val suggestionOrigin = SuggestionV4()
         suggestionDest.gaiaId = "12345"
@@ -177,8 +198,8 @@ class MockPackageServiceTestRule : ServicesRule<PackageServices>(PackageServices
         suggestionDest.regionNames.shortName = "London"
         suggestionDest.hierarchyInfo = SuggestionV4.HierarchyInfo()
         suggestionDest.hierarchyInfo!!.airport = SuggestionV4.Airport()
-        suggestionDest.hierarchyInfo!!.airport!!.airportCode = "happyDest"
-        suggestionDest.hierarchyInfo!!.airport!!.multicity = "happyDest"
+        suggestionDest.hierarchyInfo!!.airport!!.airportCode = destination
+        suggestionDest.hierarchyInfo!!.airport!!.multicity = destination
         suggestionDest.coordinates = SuggestionV4.LatLng()
 
         suggestionOrigin.coordinates = SuggestionV4.LatLng()
@@ -189,8 +210,8 @@ class MockPackageServiceTestRule : ServicesRule<PackageServices>(PackageServices
         suggestionOrigin.regionNames.shortName = "Paris"
         suggestionOrigin.hierarchyInfo = SuggestionV4.HierarchyInfo()
         suggestionOrigin.hierarchyInfo!!.airport = SuggestionV4.Airport()
-        suggestionOrigin.hierarchyInfo!!.airport!!.airportCode = "happyOrigin"
-        suggestionOrigin.hierarchyInfo!!.airport!!.multicity = "happyOrigin"
+        suggestionOrigin.hierarchyInfo!!.airport!!.airportCode = origin
+        suggestionOrigin.hierarchyInfo!!.airport!!.multicity = origin
 
         return Pair<SuggestionV4, SuggestionV4>(suggestionDest, suggestionOrigin)
     }

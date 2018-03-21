@@ -128,7 +128,7 @@ class PackageConfirmationViewModelTest {
         assertEquals(destinationTestSubscriber.values()[0], "London")
         assertEquals(destinationTitleTestSubscriber.values()[0], "London")
         assertEquals(destinationSubTitleTestSubscriber.values()[0], "Feb 2 - Feb 4, 4 guests")
-        assertEquals(outboundFlightCardTestSubscriber.values()[0], "Flight to (happyDest) London")
+        assertEquals(outboundFlightCardTestSubscriber.values()[0], "Flight to (happyDestination) London")
         assertEquals(outboundFlightCardSubTitleTestSubscriber.values()[0], "Jul 10 at 08:20:00, 4 travelers")
         assertEquals(inboundFlightCardTitleTestSubscriber.values()[0], "Flight to (happyOrigin) Paris")
         assertEquals(inboundFlightCardSubTitleTestSubscriber.values()[0], "Jul 22 at 08:20:00, 4 travelers")
