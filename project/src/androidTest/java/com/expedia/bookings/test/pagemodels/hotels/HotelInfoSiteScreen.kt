@@ -18,6 +18,7 @@ import android.support.test.espresso.matcher.ViewMatchers.withParent
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.test.espresso.CalendarPickerActions
 import com.expedia.bookings.test.espresso.CustomMatchers.withIndex
 import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.ViewActions
@@ -29,6 +30,7 @@ import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.instanceOf
 import org.hamcrest.Matchers.isEmptyString
 import org.hamcrest.Matchers.not
+import org.joda.time.LocalDate
 import java.util.concurrent.TimeUnit
 
 object HotelInfoSiteScreen {
@@ -170,6 +172,11 @@ object HotelInfoSiteScreen {
     fun verifyHeaderLabelText(expectedText: String) {
         EspressoUtils.waitForViewNotYetInLayoutToDisplay(headerLabelText, 10, TimeUnit.SECONDS)
         onView(headerLabelText).check(matches(withText(expectedText)))
+    }
+
+    @JvmStatic
+    fun verifyHotelFeesAppear() {
+        resortFeesText().check(matches(isDisplayed()))
     }
 
     @JvmStatic
@@ -370,7 +377,9 @@ object HotelInfoSiteScreen {
     @JvmStatic
     fun bookFirstRoom() {
         firstCardView().perform(scrollTo())
-        firstCardView().perform(swipeUp())
+        if (!EspressoUtils.existsOnScreen(firstBookButton())) {
+            firstCardView().perform(swipeUp())
+        }
         if (!EspressoUtils.existsOnScreen(firstBookButton())) {
             getRootView().perform(swipeDown())
         }
@@ -390,6 +399,37 @@ object HotelInfoSiteScreen {
         roomCardViewForRoomType(roomType).perform(scrollTo(), swipeUp())
         bookButtonForRoomType(roomType).perform(scrollTo())
         bookButtonForRoomType(roomType).perform(click())
+    }
+
+    @JvmStatic
+    fun changeDatesCalendarIsDisplayed(): Boolean {
+        try {
+            changeDatesCalendar().check(matches(isDisplayed()))
+            return true
+        } catch (e: Exception) {
+            return false
+        }
+    }
+
+    @JvmStatic
+    fun changeDatesCalendar(): ViewInteraction {
+        return onView(withId(R.id.change_dates_picker))
+    }
+
+    @JvmStatic
+    fun changeDatesCalendarDoneButton(): ViewInteraction {
+        return onView(withId(R.id.change_dates_done_button))
+    }
+
+    @JvmStatic
+    fun chooseDatesWithDialog(start: LocalDate, end: LocalDate?) {
+        chooseDates(start, end)
+        changeDatesCalendarDoneButton().perform(click())
+    }
+
+    @JvmStatic
+    fun chooseDates(start: LocalDate, end: LocalDate?) {
+        changeDatesCalendar().perform(CalendarPickerActions.clickDates(start, end))
     }
 
     // Helper

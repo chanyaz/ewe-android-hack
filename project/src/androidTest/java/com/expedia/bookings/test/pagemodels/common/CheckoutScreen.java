@@ -343,7 +343,7 @@ public class CheckoutScreen {
 	public static void waitForCheckout() {
 		Matcher<View> displayedAndFilled = allOf(isDisplayed(), CustomMatchers.withAtLeastChildCount(1));
 		onView(withId(R.id.summary_container)).perform(ViewActions.waitFor(displayedAndFilled, 10, TimeUnit.SECONDS));
-		onView(withId(R.id.hint_container)).perform(scrollTo(), ViewActions.waitForViewToDisplay());
+		hintContainer().perform(scrollTo(), ViewActions.waitForViewToDisplay());
 	}
 
 	public static void applyCoupon(String coupon) {
@@ -394,6 +394,10 @@ public class CheckoutScreen {
 
 	public static ViewInteraction freeCancellationDescription() {
 		return onView(withId(R.id.free_cancellation_description));
+	}
+
+	public static ViewInteraction hintContainer() {
+		return onView(withId(R.id.hint_container));
 	}
 
 	public static void loginAsQAUser() throws Throwable {

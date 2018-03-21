@@ -13,6 +13,7 @@ import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
 import com.expedia.bookings.test.pagemodels.common.CVVEntryScreen
 import com.expedia.bookings.test.pagemodels.common.CheckoutScreen
 import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.containsString
 
 class HotelCheckoutScreen {
 
@@ -56,6 +57,18 @@ class HotelCheckoutScreen {
         @JvmStatic
         fun waitForErrorDisplayed() {
             onView(withId(R.id.widget_hotel_errors)).perform(waitForViewToDisplay())
+        }
+
+        @JvmStatic
+        fun verifyFeesBreakdownAppear() {
+            onView(withText("Fees paid at hotel")).check(matches(isDisplayed()))
+        }
+
+        @JvmStatic
+        fun verifyFeesDisclaimerAppear() {
+            onView(
+                    withText(containsString(" resort fee will be collected at the hotel. The total price for your stay will be "))
+            ).perform(scrollTo()).check(matches(isDisplayed()))
         }
     }
 }
