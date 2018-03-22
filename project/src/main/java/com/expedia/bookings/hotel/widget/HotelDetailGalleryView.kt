@@ -78,6 +78,9 @@ class HotelDetailGalleryView(context: Context, attrs: AttributeSet?) : RelativeL
     }
 
     fun scrollTo(position: Int) {
+        if (position < 0 || position >= mediaList.size) {
+            return
+        }
         galleryRecyclerView.scrollToPosition(position)
         updateTextForPosition(position)
     }
