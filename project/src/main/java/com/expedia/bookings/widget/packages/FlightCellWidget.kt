@@ -37,7 +37,7 @@ class FlightCellWidget(context: Context, showPrice: Boolean = true) : FrameLayou
     fun bind(viewModel: AbstractFlightViewModel) {
         this.viewModel = viewModel
         flightTimeTextView.text = viewModel.flightTime
-        priceTextView.text = viewModel.price()
+        priceTextView.text = "123"//viewModel.price()
         flightDurationTextView.text = viewModel.duration
         flightAirlineWidget.update(viewModel.airline, viewModel.isEarnMessageVisible(viewModel.earnMessage))
         viewModel.updateflightCabinPreferenceObservable.subscribe {
@@ -58,7 +58,7 @@ class FlightCellWidget(context: Context, showPrice: Boolean = true) : FrameLayou
             flightEarnMessage.text = viewModel.earnMessage
             flightEarnMessage.visibility = View.VISIBLE
         }
-        cardView.contentDescription = viewModel.getFlightContentDesc(bestFlightView.visibility == View.VISIBLE)
+//        cardView.contentDescription = viewModel.getFlightContentDesc(bestFlightView.visibility == View.VISIBLE)
     }
 
     fun setMargins() {

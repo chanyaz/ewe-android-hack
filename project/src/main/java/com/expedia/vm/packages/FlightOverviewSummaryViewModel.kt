@@ -26,6 +26,7 @@ class FlightOverviewSummaryViewModel(val context: Context) {
     val inboundBundleBaggageUrlSubject = PublishSubject.create<String>()
     val freeCancellationInfoClickSubject = PublishSubject.create<Unit>()
     val freeCancellationInfoSubject = PublishSubject.create<Boolean>()
+    val outboundLeg= PublishSubject.create<FlightLeg>()
 
     init {
         freeCancellationInfoClickSubject
@@ -63,6 +64,7 @@ class FlightOverviewSummaryViewModel(val context: Context) {
             outboundBundleWidgetClassObservable.onNext(Pair(it.trip.details.offer.offersSeatClassAndBookingCode[0], it.trip.details.getLegs()[0].isBasicEconomy))
             outboundBundleBaggageUrlSubject.onNext(it.trip.details.getLegs()[0].baggageFeesUrl)
             updatedOutboundFlightLegSubject.onNext(it.trip.details.getLegs()[0])
+            outboundLeg.onNext(it.trip.details.getLegs()[0])
             if (it.params?.returnDate != null && it.trip.details.getLegs().size > 1) {
                 inboundBundleWidgetClassObservable.onNext(Pair(it.trip.details.offer.offersSeatClassAndBookingCode[1], it.trip.details.getLegs()[1].isBasicEconomy))
                 inboundBundleBaggageUrlSubject.onNext(it.trip.details.getLegs()[1].baggageFeesUrl)

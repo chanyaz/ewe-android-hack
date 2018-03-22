@@ -58,6 +58,8 @@ class FlightSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayout(
     var viewmodel: FlightOverviewSummaryViewModel by notNullAndObservable { vm ->
         vm.outboundFlightTitle.subscribeText(outboundFlightTitle)
         vm.inboundFlightTitle.subscribeTextAndVisibility(inboundFlightTitle)
+        vm.outboundLeg.subscribe(outboundFlightWidget.viewModel.flight)
+
         vm.outboundBundleWidgetClassObservable.subscribe(outboundFlightWidget.viewModel.updateUpsellClassPreference)
         vm.inboundBundleWidgetClassObservable.subscribe(inboundFlightWidget.viewModel.updateUpsellClassPreference)
         vm.outboundBundleBaggageUrlSubject.subscribe {

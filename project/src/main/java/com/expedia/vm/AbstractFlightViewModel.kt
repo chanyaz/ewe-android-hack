@@ -19,7 +19,7 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
     val layover = flightLeg
     var flightSegments = flightLeg.flightSegments
     val earnMessage = flightLeg.packageOfferModel?.loyaltyInfo?.earn?.getEarnMessage(context, false) ?: ""
-    var seatsLeftUrgencyMessage = FlightV2Utils.getSeatsLeftUrgencyMessage(context, flightLeg)
+    var seatsLeftUrgencyMessage = ""//FlightV2Utils.getSeatsLeftUrgencyMessage(context, flightLeg)
     val updateflightCabinPreferenceObservable = BehaviorSubject.createDefault<String>(FlightV2Utils.getFlightCabinPreferences(context, flightLeg))
 
     abstract fun price(): String

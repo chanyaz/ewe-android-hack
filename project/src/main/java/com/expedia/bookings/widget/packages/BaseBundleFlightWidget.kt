@@ -171,11 +171,11 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
                 val flightOverviewRowViewModel = FlightOverviewRowViewModel(context, selectedFlight)
                 val flightCellWidget = rowContainer.getChildAt(0) as FlightCellWidget
                 flightCellWidget.bind(flightOverviewRowViewModel)
-                viewModel.updateUpsellClassPreference.map {
-                    selectedFlight.isBasicEconomy = it.second
-                    selectedFlight.seatClassAndBookingCodeList = it.first
-                    FlightV2Utils.getFlightCabinPreferences(context, selectedFlight)
-                }.subscribe(flightCellWidget.viewModel.updateflightCabinPreferenceObservable)
+//                viewModel.updateUpsellClassPreference.map {
+//                    selectedFlight.isBasicEconomy = it.second
+//                    selectedFlight.seatClassAndBookingCodeList = it.first
+//                    FlightV2Utils.getFlightCabinPreferences(context, selectedFlight)
+//                }.subscribe(flightCellWidget.viewModel.updateflightCabinPreferenceObservable)
                 flightCollapseIcon = flightSegmentWidget.linearLayout.getChildAt(0).findViewById<ImageView>(R.id.flight_overview_collapse_icon)
             }
             this.selectedCardObservable.onNext(Unit)
