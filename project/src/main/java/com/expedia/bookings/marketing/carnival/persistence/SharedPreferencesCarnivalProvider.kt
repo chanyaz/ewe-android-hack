@@ -1,9 +1,9 @@
 package com.expedia.bookings.marketing.carnival.persistence
 
 import android.content.Context
+import com.carnival.sdk.AttributeMap
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import org.json.JSONObject
 
 class SharedPreferencesCarnivalProvider(private val context: Context) : CarnivalPersistenceProvider {
 
@@ -14,7 +14,7 @@ class SharedPreferencesCarnivalProvider(private val context: Context) : Carnival
         return storedAttributes[key]
     }
 
-    override fun put(attributes: JSONObject) {
+    override fun put(attributes: AttributeMap) {
         val sharedPref = context.getSharedPreferences(carnivalSharedPreferencesName, Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
 
@@ -25,10 +25,10 @@ class SharedPreferencesCarnivalProvider(private val context: Context) : Carnival
         editor.apply()
     }
 
-    private fun getStoredAttributesWithNewAttributesAdded(newAttributes: JSONObject): HashMap<String, Any> {
+    private fun getStoredAttributesWithNewAttributesAdded(attributes: AttributeMap): HashMap<String, Any> {
         val storedDataJson = getStoredAttributes()
-        for (key in newAttributes.keys()) {
-            storedDataJson[key] = newAttributes.get(key)
+        for (key in attributes.keySet()) {
+            storedDataJson[key] = attributes.get(key).toString()
         }
 
         return storedDataJson

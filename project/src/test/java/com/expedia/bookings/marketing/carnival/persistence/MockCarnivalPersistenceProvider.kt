@@ -1,8 +1,8 @@
 package com.expedia.bookings.marketing.carnival.persistence
 
+import com.carnival.sdk.AttributeMap
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import org.json.JSONObject
 
 class MockCarnivalPersistenceProvider : CarnivalPersistenceProvider {
 
@@ -18,16 +18,16 @@ class MockCarnivalPersistenceProvider : CarnivalPersistenceProvider {
         savedAttributes.clear()
     }
 
-    override fun put(attributes: JSONObject) {
+    override fun put(attributes: AttributeMap) {
         val storedDataJson = getStoredAttributesWithNewAttributesAdded(attributes)
         val hashMapJsonString = Gson().toJson(storedDataJson)
         savedAttributesAsJSONString = hashMapJsonString
     }
 
-    private fun getStoredAttributesWithNewAttributesAdded(newAttributes: JSONObject): HashMap<String, Any> {
+    private fun getStoredAttributesWithNewAttributesAdded(newAttributes: AttributeMap): HashMap<String, Any> {
         val storedDataJson = getStoredAttributes()
-        for (key in newAttributes.keys()) {
-            storedDataJson[key] = newAttributes.get(key)
+        for (key in newAttributes.keySet()) {
+            storedDataJson[key] = newAttributes.get(key).toString()
         }
 
         return storedDataJson

@@ -4,6 +4,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import com.carnival.sdk.AttributeMap
 import com.carnival.sdk.Message
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
@@ -30,20 +31,18 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.ApiDateUtils
 import org.joda.time.LocalDate
-import org.json.JSONObject
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.shadow.api.Shadow
 import org.robolectric.shadows.ShadowPendingIntent
-import java.text.SimpleDateFormat
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class CarnivalUtilsTest : CarnivalUtils() {
 
-    private lateinit var attributesToSend: JSONObject
+    private lateinit var attributesToSend: AttributeMap
     private var eventNameToLog: String? = null
     private var userIdToLog: String? = null
     private var userEmailToLog: String? = null
@@ -54,7 +53,7 @@ class CarnivalUtilsTest : CarnivalUtils() {
     fun setup() {
         persistenceProvider = MockCarnivalPersistenceProvider()
         initialize(context, persistenceProvider)
-        attributesToSend = JSONObject()
+        attributesToSend = AttributeMap()
     }
 
     @Test
@@ -382,42 +381,42 @@ class CarnivalUtilsTest : CarnivalUtils() {
     fun customAttributesWereSavedCorrectly() {
         val mockAttributes = getMockCarnivalAttributesAsJsonObject()
         persistenceProvider.put(mockAttributes)
-        assertEquals(getMockCarnivalAttributesAsHashMap(), persistenceProvider.getStoredAttributes())
+        assertEquals(getMockCarnivalAttributesAsHashMap().toString(), persistenceProvider.getStoredAttributes().toString())
     }
 
     @Test
     fun intAttributesWereSavedCorrectly() {
         val sampleStringKey = "String_Key"
         val sampleInt = 86
-        val mockJSONObject = JSONObject()
+        val mockAttributeMap = AttributeMap()
 
-        mockJSONObject.put(sampleStringKey, sampleInt)
-        persistenceProvider.put(mockJSONObject)
-        val storedIntValue = persistenceProvider.get(sampleStringKey) as Double
+        mockAttributeMap.putInt(sampleStringKey, sampleInt)
+        persistenceProvider.put(mockAttributeMap)
+        val storedIntValue = persistenceProvider.get(sampleStringKey)
 
-        assertEquals(sampleInt, storedIntValue.toInt())
+        assertEquals(sampleInt, storedIntValue.toString().toInt())
     }
 
     @Test
     fun booleanAttributesWereSavedCorrectly() {
         val sampleStringKey = "String_Key"
         val sampleBoolean = false
-        val mockJSONObject = JSONObject()
+        val mockAttributeMap = AttributeMap()
 
-        mockJSONObject.put(sampleStringKey, sampleBoolean)
-        persistenceProvider.put(mockJSONObject)
+        mockAttributeMap.putBoolean(sampleStringKey, sampleBoolean)
+        persistenceProvider.put(mockAttributeMap)
 
-        assertEquals(sampleBoolean, persistenceProvider.get(sampleStringKey))
+        assertEquals(sampleBoolean, persistenceProvider.get(sampleStringKey).toString().toBoolean())
     }
 
     @Test
     fun stringAttributesWereSavedCorrectly() {
         val sampleStringKey = "String_Key"
         val sampleString = "This is a sample string"
-        val mockJSONObject = JSONObject()
+        val mockAttributeMap = AttributeMap()
 
-        mockJSONObject.put(sampleStringKey, sampleString)
-        persistenceProvider.put(mockJSONObject)
+        mockAttributeMap.putString(sampleStringKey, sampleString)
+        persistenceProvider.put(mockAttributeMap)
 
         assertEquals(sampleString, persistenceProvider.get(sampleStringKey))
     }
@@ -429,25 +428,24 @@ class CarnivalUtilsTest : CarnivalUtils() {
                 CarnivalNotificationTypeConstants.MKTG,
                 CarnivalNotificationTypeConstants.SERV,
                 CarnivalNotificationTypeConstants.PROMO)
-        val mockJSONObject = JSONObject()
+        val mockAttributeMap = AttributeMap()
 
-        mockJSONObject.put(sampleStringKey, sampleArrayList)
-        persistenceProvider.put(mockJSONObject)
+        mockAttributeMap.putStringArray(sampleStringKey, sampleArrayList)
+        persistenceProvider.put(mockAttributeMap)
 
-        assertEquals(sampleArrayList, persistenceProvider.get(sampleStringKey))
+        assertEquals(sampleArrayList.toString(), persistenceProvider.get(sampleStringKey))
     }
 
     @Test
     fun dateAttributesWereSavedCorrectly() {
         val sampleStringKey = "String_Key"
-        val dateFormat = SimpleDateFormat("dd/MM/yy")
 
-        val sampleDate = dateFormat.format(LocalDate.now().toDate())
-        val mockJSONObject = JSONObject()
+        val sampleDate = LocalDate.now().toDate()
+        val mockAttributeMap = AttributeMap()
 
-        mockJSONObject.put(sampleStringKey, sampleDate)
-        persistenceProvider.put(mockJSONObject)
-        assertEquals(sampleDate, persistenceProvider.get(sampleStringKey))
+        mockAttributeMap.putDate(sampleStringKey, sampleDate)
+        persistenceProvider.put(mockAttributeMap)
+        assertEquals(sampleDate.toString(), persistenceProvider.get(sampleStringKey))
     }
 
     private fun getIntent(pendingIntent: PendingIntent): Intent {
@@ -456,10 +454,10 @@ class CarnivalUtilsTest : CarnivalUtils() {
 
     private fun reset() {
         eventNameToLog = ""
-        attributesToSend = JSONObject()
+        attributesToSend = AttributeMap()
     }
 
-    override fun setAttributes(attributes: JSONObject, eventName: String) {
+    override fun setAttributes(attributes: AttributeMap, eventName: String) {
         //Don't actually send anything up to carnival
         eventNameToLog = eventName
         attributesToSend = attributes
@@ -472,20 +470,20 @@ class CarnivalUtilsTest : CarnivalUtils() {
         userEmailToLog = userEmail
     }
 
-    private fun getMockCarnivalAttributesAsJsonObject(): JSONObject {
-        val mockAttributes = JSONObject()
+    private fun getMockCarnivalAttributesAsJsonObject(): AttributeMap {
+        val mockAttributes = AttributeMap()
 
-        mockAttributes.put(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_LOCATION_ENABLED, true)
-        mockAttributes.put(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_USER_EMAIL, "Tester@Test.com")
-        mockAttributes.put(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_SIGN_IN, true)
-        mockAttributes.put(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_BOOKED_PRODUCT, arrayListOf("HOTEL"))
-        mockAttributes.put(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_LOYALTY_TIER, "GOLD")
-        mockAttributes.put(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_LAST_LOCATION, "100.1, 75.2")
-        mockAttributes.put(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_NOTIFICATION_TYPE, arrayListOf(
+        mockAttributes.putBoolean(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_LOCATION_ENABLED, true)
+        mockAttributes.putString(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_USER_EMAIL, "Tester@Test.com")
+        mockAttributes.putBoolean(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_SIGN_IN, true)
+        mockAttributes.putStringArray(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_BOOKED_PRODUCT, arrayListOf("HOTEL"))
+        mockAttributes.putString(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_LOYALTY_TIER, "GOLD")
+        mockAttributes.putString(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_LAST_LOCATION, "100.1, 75.2")
+        mockAttributes.putStringArray(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_NOTIFICATION_TYPE, arrayListOf(
                 CarnivalNotificationTypeConstants.MKTG,
                 CarnivalNotificationTypeConstants.SERV,
                 CarnivalNotificationTypeConstants.PROMO))
-        mockAttributes.put(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_POS, "expedia.fr")
+        mockAttributes.putString(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_POS, "expedia.fr")
 
         return mockAttributes
     }

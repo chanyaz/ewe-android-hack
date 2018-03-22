@@ -92,7 +92,6 @@ import com.expedia.bookings.utils.ApiDateUtils
 import com.expedia.bookings.utils.JodaUtils
 import org.joda.time.Days
 import org.joda.time.LocalDate
-import org.json.JSONObject
 
 open class CarnivalUtils {
 
@@ -124,143 +123,143 @@ open class CarnivalUtils {
 
     fun trackLaunch(isLocationEnabled: Boolean, isSignedIn: Boolean, traveler: Traveler?, bookedProducts: MutableCollection<Trip>, loyaltyTier: LoyaltyMembershipTier?, latitude: Double?, longitude: Double?, posUrl: String) {
         if (isFeatureToggledOn() && initialized) {
-            val attributes = JSONObject()
+            val attributes = AttributeMap()
             val coordinates = latitude.toString() + ", " + longitude.toString()
             val bookedTrips = bookedProducts
                     .filter { it.tripComponents.any() }
                     .map { it.tripComponents.first()?.type.toString() }
                     .toSet()
 
-            attributes.put(APP_OPEN_LAUNCH_RELAUNCH_LOCATION_ENABLED, isLocationEnabled)
-            traveler?.tuid?.toInt()?.let { attributes.put(APP_OPEN_LAUNCH_RELAUNCH_USERID, it) }
-            attributes.put(APP_OPEN_LAUNCH_RELAUNCH_USER_EMAIL, traveler?.email)
-            attributes.put(APP_OPEN_LAUNCH_RELAUNCH_SIGN_IN, isSignedIn)
-            attributes.put(APP_OPEN_LAUNCH_RELAUNCH_BOOKED_PRODUCT, ArrayList(bookedTrips.distinct()))
-            attributes.put(APP_OPEN_LAUNCH_RELAUNCH_LOYALTY_TIER, loyaltyTier?.toApiValue())
-            attributes.put(APP_OPEN_LAUNCH_RELAUNCH_LAST_LOCATION, coordinates)
-            attributes.put(APP_OPEN_LAUNCH_RELAUNCH_NOTIFICATION_TYPE, arrayListOf(CarnivalNotificationTypeConstants.MKTG, CarnivalNotificationTypeConstants.SERV, CarnivalNotificationTypeConstants.PROMO)) //by default give them all types until the control is created to set these values
-            attributes.put(APP_OPEN_LAUNCH_RELAUNCH_POS, posUrl)
+            attributes.putBoolean(APP_OPEN_LAUNCH_RELAUNCH_LOCATION_ENABLED, isLocationEnabled)
+            traveler?.tuid?.toInt()?.let { attributes.putInt(APP_OPEN_LAUNCH_RELAUNCH_USERID, it) }
+            attributes.putString(APP_OPEN_LAUNCH_RELAUNCH_USER_EMAIL, traveler?.email)
+            attributes.putBoolean(APP_OPEN_LAUNCH_RELAUNCH_SIGN_IN, isSignedIn)
+            attributes.putStringArray(APP_OPEN_LAUNCH_RELAUNCH_BOOKED_PRODUCT, ArrayList(bookedTrips.distinct()))
+            attributes.putString(APP_OPEN_LAUNCH_RELAUNCH_LOYALTY_TIER, loyaltyTier?.toApiValue())
+            attributes.putString(APP_OPEN_LAUNCH_RELAUNCH_LAST_LOCATION, coordinates)
+            attributes.putStringArray(APP_OPEN_LAUNCH_RELAUNCH_NOTIFICATION_TYPE, arrayListOf(CarnivalNotificationTypeConstants.MKTG, CarnivalNotificationTypeConstants.SERV, CarnivalNotificationTypeConstants.PROMO)) //by default give them all types until the control is created to set these values
+            attributes.putString(APP_OPEN_LAUNCH_RELAUNCH_POS, posUrl)
             setAttributes(attributes, APP_OPEN_LAUNCH_RELAUNCH)
         }
     }
 
     fun trackFlightSearch(destination: String?, adults: Int, departure_date: LocalDate) {
         if (isFeatureToggledOn() && initialized) {
-            val attributes = JSONObject()
-            attributes.put(SEARCH_FLIGHT_DESTINATION, destination)
-            attributes.put(SEARCH_FLIGHT_NUMBER_OF_ADULTS, adults)
-            attributes.put(SEARCH_FLIGHT_DEPARTURE_DATE, departure_date.toDate())
+            val attributes = AttributeMap()
+            attributes.putString(SEARCH_FLIGHT_DESTINATION, destination)
+            attributes.putInt(SEARCH_FLIGHT_NUMBER_OF_ADULTS, adults)
+            attributes.putDate(SEARCH_FLIGHT_DEPARTURE_DATE, departure_date.toDate())
             setAttributes(attributes, SEARCH_FLIGHT)
         }
     }
 
     fun trackFlightCheckoutStart(destination: String?, adults: Int, departure_date: LocalDate, outboundFlight: FlightLeg?, inboundFlight: FlightLeg?, isRoundTrip: Boolean) {
         if (isFeatureToggledOn() && initialized) {
-            val attributes = JSONObject()
-            attributes.put(CHECKOUT_START_FLIGHT_DESTINATION, destination)
-            attributes.put(CHECKOUT_START_FLIGHT_AIRLINE, getAllAirlinesInTrip(outboundFlight, inboundFlight, isRoundTrip))
-            attributes.put(CHECKOUT_START_FLIGHT_FLIGHT_NUMBER, getAllFlightNumbersInTrip(outboundFlight, inboundFlight, isRoundTrip))
-            attributes.put(CHECKOUT_START_FLIGHT_NUMBER_OF_ADULTS, adults)
-            attributes.put(CHECKOUT_START_FLIGHT_DEPARTURE_DATE, departure_date.toDate())
-            attributes.put(CHECKOUT_START_FLIGHT_LENGTH_OF_FLIGHT, calculateTotalTravelTime(outboundFlight, inboundFlight, isRoundTrip))
+            val attributes = AttributeMap()
+            attributes.putString(CHECKOUT_START_FLIGHT_DESTINATION, destination)
+            attributes.putStringArray(CHECKOUT_START_FLIGHT_AIRLINE, getAllAirlinesInTrip(outboundFlight, inboundFlight, isRoundTrip))
+            attributes.putStringArray(CHECKOUT_START_FLIGHT_FLIGHT_NUMBER, getAllFlightNumbersInTrip(outboundFlight, inboundFlight, isRoundTrip))
+            attributes.putInt(CHECKOUT_START_FLIGHT_NUMBER_OF_ADULTS, adults)
+            attributes.putDate(CHECKOUT_START_FLIGHT_DEPARTURE_DATE, departure_date.toDate())
+            attributes.putString(CHECKOUT_START_FLIGHT_LENGTH_OF_FLIGHT, calculateTotalTravelTime(outboundFlight, inboundFlight, isRoundTrip))
             setAttributes(attributes, CHECKOUT_START_FLIGHT)
         }
     }
 
     fun trackFlightCheckoutConfirmation(destination: String?, adults: Int, departure_date: LocalDate, outboundFlight: FlightLeg?, inboundFlight: FlightLeg?, isRoundTrip: Boolean) {
         if (isFeatureToggledOn() && initialized) {
-            val attributes = JSONObject()
-            attributes.put(CONFIRMATION_FLIGHT_DESTINATION, destination)
-            attributes.put(CONFIRMATION_FLIGHT_AIRLINE, getAllAirlinesInTrip(outboundFlight, inboundFlight, isRoundTrip))
-            attributes.put(CONFIRMATION_FLIGHT_FLIGHT_NUMBER, getAllFlightNumbersInTrip(outboundFlight, inboundFlight, isRoundTrip))
-            attributes.put(CONFIRMATION_FLIGHT_NUMBER_OF_ADULTS, adults)
-            attributes.put(CONFIRMATION_FLIGHT_DEPARTURE_DATE, departure_date.toDate())
-            attributes.put(CONFIRMATION_FLIGHT_LENGTH_OF_FLIGHT, calculateTotalTravelTime(outboundFlight, inboundFlight, isRoundTrip))
+            val attributes = AttributeMap()
+            attributes.putString(CONFIRMATION_FLIGHT_DESTINATION, destination)
+            attributes.putStringArray(CONFIRMATION_FLIGHT_AIRLINE, getAllAirlinesInTrip(outboundFlight, inboundFlight, isRoundTrip))
+            attributes.putStringArray(CONFIRMATION_FLIGHT_FLIGHT_NUMBER, getAllFlightNumbersInTrip(outboundFlight, inboundFlight, isRoundTrip))
+            attributes.putInt(CONFIRMATION_FLIGHT_NUMBER_OF_ADULTS, adults)
+            attributes.putDate(CONFIRMATION_FLIGHT_DEPARTURE_DATE, departure_date.toDate())
+            attributes.putString(CONFIRMATION_FLIGHT_LENGTH_OF_FLIGHT, calculateTotalTravelTime(outboundFlight, inboundFlight, isRoundTrip))
             setAttributes(attributes, CONFIRMATION_FLIGHT)
         }
     }
 
     fun trackHotelSearch(searchParams: HotelSearchParams) {
         if (isFeatureToggledOn() && initialized) {
-            val attributes = JSONObject()
-            attributes.put(SEARCH_HOTEL_DESTINATION, searchParams.suggestion.regionNames.fullName)
-            attributes.put(SEARCH_HOTEL_NUMBER_OF_ADULTS, searchParams.adults)
-            attributes.put(SEARCH_HOTEL_CHECK_IN_DATE, searchParams.checkIn.toDate())
-            attributes.put(SEARCH_HOTEL_LENGTH_OF_STAY, JodaUtils.daysBetween(searchParams.checkIn, searchParams.checkOut))
+            val attributes = AttributeMap()
+            attributes.putString(SEARCH_HOTEL_DESTINATION, searchParams.suggestion.regionNames.fullName)
+            attributes.putInt(SEARCH_HOTEL_NUMBER_OF_ADULTS, searchParams.adults)
+            attributes.putDate(SEARCH_HOTEL_CHECK_IN_DATE, searchParams.checkIn.toDate())
+            attributes.putInt(SEARCH_HOTEL_LENGTH_OF_STAY, JodaUtils.daysBetween(searchParams.checkIn, searchParams.checkOut))
             setAttributes(attributes, SEARCH_HOTEL)
         }
     }
 
     fun trackHotelInfoSite(hotelOffersResponse: HotelOffersResponse, searchParams: HotelSearchParams) {
         if (isFeatureToggledOn() && initialized) {
-            val attributes = JSONObject()
-            attributes.put(PRODUCT_VIEW_HOTEL_DESTINATION, searchParams.suggestion.regionNames.fullName)
-            attributes.put(PRODUCT_VIEW_HOTEL_HOTEL_NAME, hotelOffersResponse.hotelName)
-            attributes.put(PRODUCT_VIEW_HOTEL_NUMBER_OF_ADULTS, searchParams.adults)
-            attributes.put(PRODUCT_VIEW_HOTEL_CHECK_IN_DATE, searchParams.checkIn.toDate())
-            attributes.put(PRODUCT_VIEW_HOTEL_LENGTH_OF_STAY, JodaUtils.daysBetween(searchParams.checkIn, searchParams.checkOut))
+            val attributes = AttributeMap()
+            attributes.putString(PRODUCT_VIEW_HOTEL_DESTINATION, searchParams.suggestion.regionNames.fullName)
+            attributes.putString(PRODUCT_VIEW_HOTEL_HOTEL_NAME, hotelOffersResponse.hotelName)
+            attributes.putInt(PRODUCT_VIEW_HOTEL_NUMBER_OF_ADULTS, searchParams.adults)
+            attributes.putDate(PRODUCT_VIEW_HOTEL_CHECK_IN_DATE, searchParams.checkIn.toDate())
+            attributes.putInt(PRODUCT_VIEW_HOTEL_LENGTH_OF_STAY, JodaUtils.daysBetween(searchParams.checkIn, searchParams.checkOut))
             setAttributes(attributes, PRODUCT_VIEW_HOTEL)
         }
     }
 
     fun trackHotelCheckoutStart(hotelCreateTripResponse: HotelCreateTripResponse, hotelSearchParams: HotelSearchParams) {
         if (isFeatureToggledOn() && initialized) {
-            val attributes = JSONObject()
-            attributes.put(CHECKOUT_START_HOTEL_DESTINATION, hotelSearchParams.suggestion.regionNames.fullName)
-            attributes.put(CHECKOUT_START_HOTEL_HOTEL_NAME, hotelCreateTripResponse.newHotelProductResponse.getHotelName())
-            attributes.put(CHECKOUT_START_HOTEL_NUMBER_OF_ADULTS, hotelSearchParams.adults)
-            attributes.put(CHECKOUT_START_HOTEL_CHECK_IN_DATE, hotelSearchParams.checkIn.toDate())
-            attributes.put(CHECKOUT_START_HOTEL_LENGTH_OF_STAY, JodaUtils.daysBetween(hotelSearchParams.checkIn, hotelSearchParams.checkOut))
+            val attributes = AttributeMap()
+            attributes.putString(CHECKOUT_START_HOTEL_DESTINATION, hotelSearchParams.suggestion.regionNames.fullName)
+            attributes.putString(CHECKOUT_START_HOTEL_HOTEL_NAME, hotelCreateTripResponse.newHotelProductResponse.getHotelName())
+            attributes.putInt(CHECKOUT_START_HOTEL_NUMBER_OF_ADULTS, hotelSearchParams.adults)
+            attributes.putDate(CHECKOUT_START_HOTEL_CHECK_IN_DATE, hotelSearchParams.checkIn.toDate())
+            attributes.putInt(CHECKOUT_START_HOTEL_LENGTH_OF_STAY, JodaUtils.daysBetween(hotelSearchParams.checkIn, hotelSearchParams.checkOut))
             setAttributes(attributes, CHECKOUT_START_HOTEL)
         }
     }
 
     fun trackHotelConfirmation(hotelCheckoutResponse: HotelCheckoutResponse, hotelSearchParams: HotelSearchParams) {
         if (isFeatureToggledOn() && initialized) {
-            val attributes = JSONObject()
-            attributes.put(CONFIRMATION_HOTEL_DESTINATION, hotelSearchParams.suggestion.regionNames.fullName)
-            attributes.put(CONFIRMATION_HOTEL_HOTEL_NAME, hotelCheckoutResponse.checkoutResponse.productResponse.hotelName)
-            attributes.put(CONFIRMATION_HOTEL_NUMBER_OF_ADULTS, hotelSearchParams.adults)
-            attributes.put(CONFIRMATION_HOTEL_CHECK_IN_DATE, hotelSearchParams.checkIn.toDate())
-            attributes.put(CONFIRMATION_HOTEL_LENGTH_OF_STAY, JodaUtils.daysBetween(hotelSearchParams.checkIn, hotelSearchParams.checkOut))
+            val attributes = AttributeMap()
+            attributes.putString(CONFIRMATION_HOTEL_DESTINATION, hotelSearchParams.suggestion.regionNames.fullName)
+            attributes.putString(CONFIRMATION_HOTEL_HOTEL_NAME, hotelCheckoutResponse.checkoutResponse.productResponse.hotelName)
+            attributes.putInt(CONFIRMATION_HOTEL_NUMBER_OF_ADULTS, hotelSearchParams.adults)
+            attributes.putDate(CONFIRMATION_HOTEL_CHECK_IN_DATE, hotelSearchParams.checkIn.toDate())
+            attributes.putInt(CONFIRMATION_HOTEL_LENGTH_OF_STAY, JodaUtils.daysBetween(hotelSearchParams.checkIn, hotelSearchParams.checkOut))
             setAttributes(attributes, CONFIRMATION_HOTEL)
         }
     }
 
     fun trackLxConfirmation(activityTitle: String, activityDate: String) {
         if (isFeatureToggledOn() && initialized) {
-            val attributes = JSONObject()
-            attributes.put(CONFIRMATION_LX_ACTIVITY_NAME, activityTitle)
-            attributes.put(CONFIRMATION_LX_DATE_OF_ACTIVITY, ApiDateUtils.yyyyMMddHHmmssToLocalDate(activityDate).toDate())
+            val attributes = AttributeMap()
+            attributes.putString(CONFIRMATION_LX_ACTIVITY_NAME, activityTitle)
+            attributes.putDate(CONFIRMATION_LX_DATE_OF_ACTIVITY, ApiDateUtils.yyyyMMddHHmmssToLocalDate(activityDate).toDate())
             setAttributes(attributes, CONFIRMATION_LX)
         }
     }
 
     fun trackPackagesConfirmation(packageParams: PackageSearchParams) {
         if (isFeatureToggledOn() && initialized) {
-            val attributes = JSONObject()
-            attributes.put(CONFIRMATION_PKG_DESTINATION, packageParams.destination?.regionNames?.fullName)
-            attributes.put(CONFIRMATION_PKG_DEPARTURE_DATE, packageParams.startDate.toDate())
-            attributes.put(CONFIRMATION_PKG_LENGTH_OF_STAY, Days.daysBetween(packageParams.startDate, packageParams.endDate).days)
+            val attributes = AttributeMap()
+            attributes.putString(CONFIRMATION_PKG_DESTINATION, packageParams.destination?.regionNames?.fullName)
+            attributes.putDate(CONFIRMATION_PKG_DEPARTURE_DATE, packageParams.startDate.toDate())
+            attributes.putInt(CONFIRMATION_PKG_LENGTH_OF_STAY, Days.daysBetween(packageParams.startDate, packageParams.endDate).days)
             setAttributes(attributes, CONFIRMATION_PKG)
         }
     }
 
     fun trackRailConfirmation(railCheckoutResponse: RailCheckoutResponse) {
         if (isFeatureToggledOn() && initialized) {
-            val attributes = JSONObject()
+            val attributes = AttributeMap()
             val railLeg = railCheckoutResponse.railDomainProduct.railOffer.railProductList.first()?.legOptionList?.first()
-            attributes.put(CONFIRMATION_RAIL_DESTINATION, railLeg?.arrivalStation?.stationDisplayName + ", " + railLeg?.arrivalStation?.stationCity)
-            attributes.put(CONFIRMATION_RAIL_DEPARTURE_DATE, railLeg?.departureDateTime?.toDateTime()?.toDate())
+            attributes.putString(CONFIRMATION_RAIL_DESTINATION, railLeg?.arrivalStation?.stationDisplayName + ", " + railLeg?.arrivalStation?.stationCity)
+            attributes.putDate(CONFIRMATION_RAIL_DEPARTURE_DATE, railLeg?.departureDateTime?.toDateTime()?.toDate())
             setAttributes(attributes, CONFIRMATION_RAIL)
         }
     }
 
     private fun isFeatureToggledOn(): Boolean = ProductFlavorFeatureConfiguration.getInstance().isCarnivalEnabled
 
-    open fun setAttributes(attributes: JSONObject, eventName: String) {
+    open fun setAttributes(attributes: AttributeMap, eventName: String) {
         Carnival.logEvent(eventName)
-        Carnival.setAttributes(AttributeMap(attributes), object : Carnival.AttributesHandler {
+        Carnival.setAttributes(attributes, object : Carnival.AttributesHandler {
             override fun onSuccess() {
                 Log.d(TAG, "Carnival attributes sent successfully.")
                 saveAttributes(attributes)
@@ -272,7 +271,7 @@ open class CarnivalUtils {
         })
     }
 
-    open fun saveAttributes(attributes: JSONObject) {
+    open fun saveAttributes(attributes: AttributeMap) {
         persistenceProvider.put(attributes)
     }
 
