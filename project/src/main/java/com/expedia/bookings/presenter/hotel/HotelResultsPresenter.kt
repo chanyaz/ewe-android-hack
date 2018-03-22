@@ -58,6 +58,11 @@ import javax.inject.Inject
 
 class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
     override val floatingPill: HotelSearchFloatingActionPill by bindView(R.id.hotel_results_floating_pill)
+
+    override fun getRecyclerYTranslation(): Float {
+        return 0f
+    }
+
     private val hotelResultChangeDateView: HotelResultsChangeDateView by bindView(R.id.hotel_result_change_date_container)
     private val toolbarShadow: View by bindView(R.id.toolbar_dropshadow)
     val filterBtnWithCountWidget: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)

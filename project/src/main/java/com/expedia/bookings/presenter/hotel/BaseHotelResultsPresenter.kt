@@ -486,7 +486,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                         val isDisplayingLastItemInList = preCachingLayoutManager.findLastCompletelyVisibleItemPosition() == (recyclerView.adapter.itemCount - 1)
 
                         if (!isDisplayingLastItemInList && firstItemTop > mapListSplitAnchor && firstItemTop < snapToFullScreenMapThreshold) {
-                            recyclerView.translationY = 0f
+                            recyclerView.translationY = getRecyclerYTranslation()
                             resetListOffset()
                         } else if (firstItemTop >= snapToFullScreenMapThreshold) {
                             showWithTracking(ResultsMap())
@@ -539,7 +539,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             navIcon.parameter = ArrowXDrawableUtil.ArrowDrawableType.BACK.type.toFloat()
-            recyclerView.translationY = 0f
+            recyclerView.translationY = getRecyclerYTranslation()
             mapWidget.translationY = -mapListSplitAnchor.toFloat()
 
             recyclerView.visibility = View.VISIBLE
@@ -680,7 +680,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
         var fabShouldVisiblyMove: Boolean = true
         var mapTranslationStart: Float = 0f
-        var initialListTranslation: Int = 0
+        var initialListTranslation: Int = getRecyclerYTranslation().toInt()
         var startingFabTranslation: Float = 0f
         var finalFabTranslation: Float = 0f
 
@@ -745,7 +745,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
-            val hotelListDistance = if (forward) (screenHeight * (1 - f)) else ((screenHeight - initialListTranslation) * f)
+            val hotelListDistance = if (forward) (screenHeight * (1 - f) + getRecyclerYTranslation().toInt()) else ((screenHeight - initialListTranslation) * f)
             recyclerView.translationY = hotelListDistance
             navIcon.parameter = if (forward) Math.abs(1 - f) else f
             if (forward) {
@@ -803,7 +803,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                     (fab.drawable as? TransitionDrawable)?.reverseTransition(0)
                     fab.visibility = View.INVISIBLE
                 }
-                recyclerView.translationY = 0f
+                recyclerView.translationY = getRecyclerYTranslation()
                 mapWidget.translationY = -mapListSplitAnchor.toFloat()
                 mapWidget.toSplitView(getRequiredMapPadding())
 
@@ -1078,6 +1078,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         return mapCarouselContainer.height.toFloat() - offset
     }
 
+    abstract fun getRecyclerYTranslation(): Float
     abstract fun inflate()
     abstract fun inflateFilterView(viewStub: ViewStub): BaseHotelFilterView
     abstract fun hideSearchThisArea()

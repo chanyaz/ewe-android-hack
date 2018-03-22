@@ -30,6 +30,11 @@ import com.squareup.phrase.Phrase
 import io.reactivex.Observer
 
 class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
+
+    override fun getRecyclerYTranslation(): Float {
+        return resources.getDimension(R.dimen.package_bundle_widget_height)
+    }
+
     override val filterHeight by lazy { resources.getDimension(R.dimen.footer_button_height) }
 
     var viewModel: PackageHotelResultsViewModel by notNullAndObservable { vm ->

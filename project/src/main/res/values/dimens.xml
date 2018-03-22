@@ -214,6 +214,7 @@
 
     <!-- Package Results -->
     <dimen name="package_docked_outbound_view_seperator">1dp</dimen>
+    <dimen name="package_bundle_widget_height">41dp</dimen>
 
     <!-- Material Checkout Forms-->
     <dimen name="traveler_select_item_padding">12dp</dimen>
