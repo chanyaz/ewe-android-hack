@@ -60,9 +60,9 @@
     <color name="error_widget_edit_button_selected_color">#7b3761</color>
 
     <!-- New Launch Screen colors -->
-    <color name="new_launch_toolbar_background_color">@color/new_launch_screen_color</color>
-    <color name="new_launch_fab_color">@color/new_launch_screen_color</color>
-    <color name="new_launch_screen_itin_ripple">@color/new_launch_screen_color</color>
+    <color name="new_launch_toolbar_background_color">@color/launch_screen_color</color>
+    <color name="new_launch_fab_color">@color/launch_screen_color</color>
+    <color name="new_launch_screen_itin_ripple">@color/launch_screen_color</color>
     <color name="new_launch_screen_color">#495863</color>
     <color name="new_launch_hotels_lob_color">#70BB00</color>
     <color name="new_launch_flights_lob_color">#0088CE</color>
@@ -96,7 +96,7 @@
     <color name="itin_add_guest_text_button_color">@color/app_primary</color>
 
     <!--Single Page Sign Up-->
-    <color name="acct__single_page_toolbar_color">@color/new_launch_screen_color</color>
-    <color name="acct__single_page_create_account_bg_color">@color/new_launch_screen_color</color>
+    <color name="acct__single_page_toolbar_color">@color/launch_screen_color</color>
+    <color name="acct__single_page_create_account_bg_color">@color/launch_screen_color</color>
 
 </resources>

@@ -111,19 +111,19 @@
     <color name="new_launch_lob_color">#004D7C</color>
     <color name="new_launch_screen_color">#00253C</color>
 
-    <color name="new_launch_hotels_lob_color">@color/new_launch_lob_color</color>
-    <color name="new_launch_flights_lob_color">@color/new_launch_lob_color</color>
-    <color name="new_launch_cars_lob_color">@color/new_launch_lob_color</color>
-    <color name="new_launch_lx_lob_color">@color/new_launch_lob_color</color>
-    <color name="new_launch_packages_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_hotels_lob_color">@color/launch_lob_color</color>
+    <color name="new_launch_flights_lob_color">@color/launch_lob_color</color>
+    <color name="new_launch_cars_lob_color">@color/launch_lob_color</color>
+    <color name="new_launch_lx_lob_color">@color/launch_lob_color</color>
+    <color name="new_launch_packages_lob_color">@color/launch_lob_color</color>
 
     <!-- New Launch Screen colors -->
-    <color name="new_launch_toolbar_background_color">@color/new_launch_screen_color</color>
-    <color name="new_launch_fab_color">@color/new_launch_screen_color</color>
-    <color name="new_launch_screen_itin_ripple">@color/new_launch_screen_color</color>
+    <color name="new_launch_toolbar_background_color">@color/launch_screen_color</color>
+    <color name="new_launch_fab_color">@color/launch_screen_color</color>
+    <color name="new_launch_screen_itin_ripple">@color/launch_screen_color</color>
     <color name="launch_screen_active_itin_bg">@color/app_primary</color>
     <color name="placeholder_card_background_color">@color/loyalty_earn_color</color>
-    <color name="placeholder_card_button_text_color">@color/new_launch_lob_color</color>
+    <color name="placeholder_card_button_text_color">@color/launch_lob_color</color>
 
     <!-- Flights V2 colors -->
     <color name="flight_overview_color_filter">@color/lob_btn_color</color>
@@ -145,8 +145,8 @@
     <color name="itin_add_guest_text_button_color">@color/app_primary</color>
 
     <!--Single Page Sign Up-->
-    <color name="acct__single_page_toolbar_color">@color/new_launch_screen_color</color>
-    <color name="acct__single_page_create_account_bg_color">@color/new_launch_screen_color</color>
+    <color name="acct__single_page_toolbar_color">@color/launch_screen_color</color>
+    <color name="acct__single_page_create_account_bg_color">@color/launch_screen_color</color>
 
     <!--Reward Launch Card-->
     <color name="reward_launch_card_background_gradient">#4D8E0099</color>
