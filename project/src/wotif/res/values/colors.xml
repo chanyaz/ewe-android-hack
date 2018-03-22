@@ -60,7 +60,7 @@
     <color name="lx_unchecked_toggle_text_color">@android:color/white</color>
 
     <!-- Launch colors -->
-    <color name="launch_toolbar_background_color">@color/action_bar_bg_color</color>
+    <color name="old_launch_toolbar_background_color">@color/action_bar_bg_color</color>
 
     <!--Account Lib Colors -->
     <color name="btn_sign_in_normal">#7AC231</color>
@@ -86,16 +86,16 @@
     <color name="error_widget_edit_button_selected_color">#2F5806</color>
 
     <!-- New Launch Screen colors -->
-    <color name="new_launch_toolbar_background_color">@color/launch_screen_color</color>
-    <color name="new_launch_fab_color">@color/launch_screen_color</color>
-    <color name="new_launch_screen_itin_ripple">@color/launch_screen_color</color>
-    <color name="new_launch_lob_color">#1F8EDE</color>
-    <color name="new_launch_screen_color">#7AC231</color>
-    <color name="new_launch_hotels_lob_color">@color/launch_lob_color</color>
-    <color name="new_launch_flights_lob_color">@color/launch_lob_color</color>
-    <color name="new_launch_cars_lob_color">@color/launch_lob_color</color>
-    <color name="new_launch_lx_lob_color">@color/launch_lob_color</color>
-    <color name="new_launch_packages_lob_color">@color/launch_lob_color</color>
+    <color name="launch_toolbar_background_color">@color/launch_screen_color</color>
+    <color name="launch_fab_color">@color/launch_screen_color</color>
+    <color name="launch_screen_itin_ripple">@color/launch_screen_color</color>
+    <color name="launch_lob_color">#1F8EDE</color>
+    <color name="launch_screen_color">#7AC231</color>
+    <color name="launch_hotels_lob_color">@color/launch_lob_color</color>
+    <color name="launch_flights_lob_color">@color/launch_lob_color</color>
+    <color name="launch_cars_lob_color">@color/launch_lob_color</color>
+    <color name="launch_lx_lob_color">@color/launch_lob_color</color>
+    <color name="launch_packages_lob_color">@color/launch_lob_color</color>
     <color name="launch_screen_active_itin_bg">#1f8ede</color>
 
     <!-- Flights V2 colors -->
