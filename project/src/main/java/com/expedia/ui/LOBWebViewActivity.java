@@ -10,6 +10,7 @@ import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.fragment.WebViewFragment;
 import com.expedia.bookings.interfaces.LOBWebViewConfigurator;
 import com.expedia.bookings.interfaces.helpers.CarWebViewConfiguration;
+import com.expedia.bookings.interfaces.helpers.PackageWebViewConfiguration;
 import com.expedia.bookings.interfaces.helpers.RailWebViewConfiguration;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
@@ -35,7 +36,8 @@ public class LOBWebViewActivity extends WebViewActivity implements UserAccountRe
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mLOBWebViewConfigurator = getIntent().getExtras().get(WebViewActivity.ARG_TRACKING_NAME).equals(WebViewFragment.TrackingName.RailWebView) ? new RailWebViewConfiguration() : new CarWebViewConfiguration();
+		mLOBWebViewConfigurator = getLOBWebViewConfigurator(
+			(String) getIntent().getExtras().get(WebViewActivity.ARG_TRACKING_NAME));
 		userAccountRefresher = new UserAccountRefresher(this, mLOBWebViewConfigurator.getLineOfBusiness(), this);
 		userStateManager = Ui.getApplication(this).appComponent().userStateManager();
 	}
@@ -68,5 +70,15 @@ public class LOBWebViewActivity extends WebViewActivity implements UserAccountRe
 	public void onUserAccountRefreshed() {
 		User user = userStateManager.getUserSource().getUser();
 		userStateManager.addUserToAccountManager(user);
+	}
+
+	private LOBWebViewConfigurator getLOBWebViewConfigurator(String trackingName) {
+		if (trackingName.equals(WebViewFragment.TrackingName.RailWebView.toString())) {
+			return new RailWebViewConfiguration();
+		}
+		if (trackingName.equals(WebViewFragment.TrackingName.PackageWebView.toString())) {
+			return new PackageWebViewConfiguration();
+		}
+		return new CarWebViewConfiguration();
 	}
 }

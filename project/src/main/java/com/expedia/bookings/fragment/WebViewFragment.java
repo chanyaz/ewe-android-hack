@@ -31,6 +31,7 @@ import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.services.PersistentCookiesCookieJar;
 import com.expedia.bookings.tracking.CarWebViewTracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.tracking.PackageWebViewTracking;
 import com.expedia.bookings.tracking.RailWebViewTracking;
 import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.ServicesUtil;
@@ -535,18 +536,24 @@ public class WebViewFragment extends DialogFragment {
 		if (mTrackingName == TrackingName.CarWebView) {
 			new CarWebViewTracking().trackAppCarWebViewSignIn();
 		}
-        	if (mTrackingName == TrackingName.RailWebView) {
-            		RailWebViewTracking.trackAppRailWebViewSignIn();
-        	}
+		if (mTrackingName == TrackingName.RailWebView) {
+			RailWebViewTracking.trackAppRailWebViewSignIn();
+		}
+		if (mTrackingName == TrackingName.PackageWebView) {
+			PackageWebViewTracking.trackAppPackageWebViewSignIn();
+		}
 	}
 
 	private void trackRetryClick() {
 		if (mTrackingName == TrackingName.CarWebView) {
 			new CarWebViewTracking().trackAppCarWebViewRetry();
 		}
-        	if (mTrackingName == TrackingName.RailWebView) {
-            		RailWebViewTracking.trackAppRailWebViewRetry();
-        	}
+		if (mTrackingName == TrackingName.RailWebView) {
+			RailWebViewTracking.trackAppRailWebViewRetry();
+		}
+		if (mTrackingName == TrackingName.PackageWebView) {
+			PackageWebViewTracking.trackAppPackageWebViewRetry();
+		}
 	}
 
 	public void setMesoDestinationPage(boolean isMesoDestinationPage) {

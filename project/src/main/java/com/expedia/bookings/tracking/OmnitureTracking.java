@@ -4238,6 +4238,11 @@ public class OmnitureTracking {
 	private static final String RAIL_WEBVIEW_CLOSE = "App.Rails.WebView.Close";
 	private static final String RAIL_WEBVIEW_BACK = "App.Rails.WebView.Back";
 	private static final String RAIL_WEBVIEW_SIGNIN = "App.Rails.WebView.SignIn";
+	private static final String PACKAGE_WEBVIEW_RETRY = "App.Packages.WebView.Retry";
+	private static final String PACKAGE_WEBVIEW_LOGOUT = "App.Packages.WebView.Logout";
+	private static final String PACKAGE_WEBVIEW_CLOSE = "App.Packages.WebView.Close";
+	private static final String PACKAGE_WEBVIEW_BACK = "App.Packages.WebView.Back";
+	private static final String PACKAGE_WEBVIEW_SIGNIN = "App.Packages.WebView.SignIn";
 
 	public static void trackAppCarWebViewRetry() {
 		createAndTrackLinkEvent(CAR_WEBVIEW_RETRY, "Car Webview");
@@ -4295,6 +4300,26 @@ public class OmnitureTracking {
 		AppAnalytics s = getFreshTrackingObject();
 		trackAbacusTest(s, AbacusUtils.EBAndroidRailHybridAppForDEEnabled);
 		s.trackLink("Rail Webview");
+	}
+
+	public static void trackAppPackageWebViewRetry() {
+		createAndTrackLinkEvent(PACKAGE_WEBVIEW_RETRY, "Package Webview");
+	}
+
+	public static void trackAppPackageWebViewBack() {
+		createAndTrackLinkEvent(PACKAGE_WEBVIEW_BACK, "Package Webview");
+	}
+
+	public static void trackAppPackageWebViewSignIn() {
+		createAndTrackLinkEvent(PACKAGE_WEBVIEW_SIGNIN, "Package Webview");
+	}
+
+	public static void trackAppPackageWebViewLogOut() {
+		createAndTrackLinkEvent(PACKAGE_WEBVIEW_LOGOUT, "Package Webview");
+	}
+
+	public static void trackAppPackageWebViewClose() {
+		createAndTrackLinkEvent(PACKAGE_WEBVIEW_CLOSE, "Package Webview");
 	}
 
 	public static void trackCheckoutPayment(LineOfBusiness lineOfBusiness) {
