@@ -14,7 +14,7 @@ class ValidFormOfUtilsTest {
     @Test
     fun testValidPaymentCreatedWithInvalidFee() {
         val newVfop = getValidFormOfPayment()
-        val oldVfop = ValidFormOfPaymentUtils.createFromValidFormOfPayment(newVfop)
+        val oldVfop = ValidFormOfPaymentUtils.createValidPaymentFromValidFormOfPayment(newVfop)
 
         assertEquals(oldVfop.name, "Visa")
         assertEquals(oldVfop.paymentType, PaymentType.CARD_VISA)

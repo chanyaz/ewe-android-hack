@@ -3302,12 +3302,6 @@
     <string name="unit_miles">mi</string>
     <!-- Abbreviated kilometers (used in distance_template) -->
     <string name="unit_kilometers">km</string>
-    <!-- Miles (used in distance_template) -->
-    <string name="unit_miles_full">miles</string>
-    <!-- Kilometers (used in distance template) -->
-    <string name="unit_kilometers_full">kilometers</string>
-    <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
-    <string name="distance_template">%1$s %2$s away</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->

@@ -31,27 +31,6 @@ public class ValidPayment {
 	//////////////////////////////////////////////////////////////////////////
 	// Utility methods
 
-	public static void addValidPayment(List<ValidPayment> payments, ValidPayment payment) {
-		if (payments == null) {
-			throw new IllegalArgumentException("payments can not be null");
-		}
-		if (payment == null) {
-			throw new IllegalArgumentException("payment can not be null");
-		}
-
-		payments.add(payment);
-
-		// #1363: Duplicate Mastercard valid payment types as a Google Wallet card as well,
-		// since Google Wallet uses Mastercard on the back end.
-		// #3014: Google Wallet now uses Discover cards
-		if (payment.getPaymentType() == PaymentType.CARD_DISCOVER) {
-			ValidPayment googlePayment = new ValidPayment();
-			googlePayment.setPaymentType(PaymentType.WALLET_GOOGLE);
-			googlePayment.setFee(payment.getFee());
-			payments.add(googlePayment);
-		}
-	}
-
 	public static boolean isPaymentTypeSupported(List<ValidPayment> payments, PaymentType paymentType) {
 		if (paymentType != null && payments != null) {
 			for (ValidPayment payment : payments) {

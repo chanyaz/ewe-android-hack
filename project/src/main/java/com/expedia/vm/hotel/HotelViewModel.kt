@@ -102,7 +102,7 @@ open class HotelViewModel(private val context: Context) {
 
     fun distanceFromCurrentLocation(): String {
         if (hotel.proximityDistanceInMiles > 0) {
-            return HotelUtils.formatDistanceForNearby(resources, hotel, true)
+            return HotelUtils.formatDistanceForNearby(resources, hotel)
         } else return ""
     }
 
