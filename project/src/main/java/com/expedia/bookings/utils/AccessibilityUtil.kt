@@ -27,6 +27,7 @@ object AccessibilityUtil {
                 if (v is ImageButton) {
                     v.isFocusableInTouchMode = true
                     v.isFocusable = true
+                    v.clearFocus()
                     v.requestFocus()
                     v.setBackgroundColor(android.R.color.transparent)
                     v.setAccessibilityHoverFocus()
@@ -70,14 +71,7 @@ object AccessibilityUtil {
 
     @JvmStatic fun setFocusForView(view: View) {
         view.isFocusable = true
-        view.isFocusableInTouchMode = true
         view.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
-    }
-
-    @JvmStatic fun requestFocusForView(view: View) {
-        view.isFocusable = true
-        view.isFocusableInTouchMode = true
-        view.requestFocus()
     }
 }
 
