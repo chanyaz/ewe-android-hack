@@ -43,4 +43,16 @@ class HotelInfoSiteScreenSteps {
     fun iVerifyHotelLabelText(headerLabelText: String) {
         HotelInfoSiteScreen.verifyHeaderLabelText(headerLabelText)
     }
+
+    @And("^I click on Select a Room Button$")
+    @Throws(Throwable::class)
+    fun performClickOnViewSelectARoomButton() {
+        HotelInfoSiteScreen.clickStickySelectRoom()
+    }
+
+    @Then("^I book first Room$")
+    @Throws(Throwable::class)
+    fun selectFirstRoom() {
+        HotelInfoSiteScreen.bookFirstRoom()
+    }
 }
