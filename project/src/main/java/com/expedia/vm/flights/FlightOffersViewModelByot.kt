@@ -7,6 +7,7 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchResponse
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.utils.isFlightGreedySearchEnabled
 import java.util.HashMap
 import java.util.LinkedHashSet
 
@@ -18,6 +19,7 @@ class FlightOffersViewModelByot(context: Context, flightServices: FlightServices
         val searchParams = Db.getFlightSearchParams().buildParamsForInboundSearch(maxStay, maxRange, legId)
         searchingForFlightDateTime.onNext(Unit)
         flightInboundSearchSubscription = flightServices.flightSearch(searchParams, makeResultsObserver(), resultsReceivedDateTimeObservable)
+        isOutboundSearch = false
     }
 
     override fun createFlightMap(response: FlightSearchResponse) {
@@ -44,7 +46,13 @@ class FlightOffersViewModelByot(context: Context, flightServices: FlightServices
                 outboundLeg.legRank = outBoundFlights.size
             }
         }
-        outboundResultsObservable.onNext(outBoundFlights.toList())
+        if (isFlightGreedySearchEnabled(context) && isGreedyCallCompleted && !isGreedyCallAborted) {
+            greedyOutboundResultsObservable.onNext(outBoundFlights.toList())
+            hasUserClickedSearchObservable.onNext(searchParamsObservable.value != null)
+            isGreedyCallCompleted = false
+        } else {
+            outboundResultsObservable.onNext(outBoundFlights.toList())
+        }
     }
 
     private fun findInboundFlights(response: FlightSearchResponse) {
@@ -70,7 +78,6 @@ class FlightOffersViewModelByot(context: Context, flightServices: FlightServices
     override fun makeFlightOffer(response: FlightSearchResponse) {
         if (isOutboundSearch) {
             createFlightMap(response)
-            isOutboundSearch = false
         } else {
             findInboundFlights(response)
         }

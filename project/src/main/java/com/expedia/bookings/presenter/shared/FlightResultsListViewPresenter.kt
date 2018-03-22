@@ -12,8 +12,10 @@ import com.expedia.bookings.animation.AnimationListenerAdapter
 import com.expedia.bookings.animation.ProgressBarAnimation
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.extensions.subscribeInverseVisibility
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FlightFilterButtonWithCountWidget
@@ -97,7 +99,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     fun setLoadingState() {
         filterButton.visibility = GONE
-        if (isShowingOutboundResults && resultsViewModel.showLoadingStateV1 && Db.getFlightSearchParams() != null) {
+        if ((AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightByotSearch) || isShowingOutboundResults) && resultsViewModel.showLoadingStateV1 && Db.getFlightSearchParams() != null) {
             showLoadingStateV1()
         }
         flightListAdapter.setLoadingState()
@@ -132,7 +134,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     val listResultsObserver = endlessObserver<List<FlightLeg>> {
         flightListAdapter.setNewFlights(it)
         if (resultsViewModel.showLoadingStateV1) {
-            if (isShowingOutboundResults) {
+            if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightByotSearch) || isShowingOutboundResults) {
                 flightProgressBar.clearAnimation()
                 flightLoadingWidget.setResultReceived()
                 progressBarAnimation(1000, flightProgressBar.progress.toFloat(), FLIGHT_PROGRESS_BAR_MAX.toFloat(), true)
