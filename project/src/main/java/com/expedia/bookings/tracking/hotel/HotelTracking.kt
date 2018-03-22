@@ -78,6 +78,10 @@ open class HotelTracking {
             OmnitureTracking.trackLinkHotelV2FilterVip(state)
         }
 
+        fun trackLinkHotelFilterGuestRating(rating: String) {
+            OmnitureTracking.trackLinkHotelV2GuestRating(rating)
+        }
+
         fun trackHotelSuperSearchFilter() {
             OmnitureTracking.trackHotelV2SuperSearchFilter()
         }

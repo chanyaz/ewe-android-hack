@@ -11,6 +11,10 @@ class PackagesFilterTracker : FilterTracker {
         PackagesTracking().trackHotelFilterVIP(vipOnly)
     }
 
+    override fun trackHotelFilterGuestRating(rating: String) {
+        // not available on package
+    }
+
     override fun trackHotelFilterPriceSlider() {
         PackagesTracking().trackHotelFilterPriceSlider()
     }

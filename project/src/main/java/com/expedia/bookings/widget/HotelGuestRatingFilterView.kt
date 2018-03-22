@@ -75,7 +75,7 @@ class HotelGuestRatingFilterView(context: Context, attrs: AttributeSet?) : CardV
         }
         filterFive.toggle()
         guestRatings.five = !guestRatings.five
-        threeGuestRatingSubject.onNext(Unit)
+        fiveGuestRatingSubject.onNext(Unit)
     }
 
     private fun setUpText() {

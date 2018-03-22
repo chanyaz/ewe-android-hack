@@ -222,6 +222,7 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_NO_PINNED_RESULT = "App.Hotels.Search.SelectedHotelNotFound";
 	private static final String HOTELSV2_SORT = "App.Hotels.Search.Sort.";
 	private static final String HOTELSV2_SORT_PRICE_SLIDER = "App.Hotels.Search.Price";
+	private static final String HOTELSV2_SEARCH_FILTER_GUEST_RATING = "App.Hotels.Search.Filter.GuestRating";
 	private static final String HOTELSV2_SEARCH_FILTER_VIP = "App.Hotels.Search.Filter.VIP.";
 	private static final String HOTELSV2_SEARCH_FILTER_NEIGHBOURHOOD = "App.Hotels.Search.Neighborhood";
 	private static final String HOTELSV2_SEARCH_FILTER_BY_NAME = "App.Hotels.Search.HotelName";
@@ -795,11 +796,18 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = createTrackLinkEvent(pageName);
 		s.trackLink("Search Results Sort");
-
 	}
 
 	public static void trackLinkHotelV2FilterVip(String state) {
 		String pageName = HOTELSV2_SEARCH_FILTER_VIP + state;
+		Log.d(TAG, "Tracking \"" + pageName + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(pageName);
+		s.trackLink("Search Results Sort");
+	}
+
+	public static void trackLinkHotelV2GuestRating(String rating) {
+		String pageName = HOTELSV2_SEARCH_FILTER_GUEST_RATING + rating;
 		Log.d(TAG, "Tracking \"" + pageName + "\" click...");
 
 		ADMS_Measurement s = createTrackLinkEvent(pageName);

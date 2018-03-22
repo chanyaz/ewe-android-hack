@@ -9,6 +9,10 @@ class HotelFilterTracker : FilterTracker {
         HotelTracking.trackLinkHotelFilterVip(vipOnly)
     }
 
+    override fun trackHotelFilterGuestRating(rating: String) {
+        HotelTracking.trackLinkHotelFilterGuestRating(rating)
+    }
+
     override fun trackHotelFilterPriceSlider() {
         HotelTracking.trackHotelSortPriceSlider()
     }

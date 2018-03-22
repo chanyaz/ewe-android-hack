@@ -3,6 +3,7 @@ package com.expedia.bookings.tracking.hotel
 interface FilterTracker {
     fun trackHotelSortBy(sortBy: String)
     fun trackHotelFilterVIP(vipOnly: Boolean)
+    fun trackHotelFilterGuestRating(rating: String)
     fun trackHotelFilterPriceSlider()
     fun trackHotelFilterByName()
     fun trackClearFilter()

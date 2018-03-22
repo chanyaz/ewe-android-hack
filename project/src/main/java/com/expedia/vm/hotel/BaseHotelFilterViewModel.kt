@@ -119,6 +119,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     val guestRatingThreeFilterObserver: Observer<Unit> = endlessObserver {
         if (!userFilterChoices.hotelGuestRating.three) {
             userFilterChoices.hotelGuestRating.three = true
+            trackHotelFilterGuestRating("3")
         } else {
             userFilterChoices.hotelGuestRating.three = false
         }
@@ -129,6 +130,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     val guestRatingFourFilterObserver: Observer<Unit> = endlessObserver {
         if (!userFilterChoices.hotelGuestRating.four) {
             userFilterChoices.hotelGuestRating.four = true
+            trackHotelFilterGuestRating("4")
         } else {
             userFilterChoices.hotelGuestRating.four = false
         }
@@ -139,6 +141,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     val guestRatingFiveFilterObserver: Observer<Unit> = endlessObserver {
         if (!userFilterChoices.hotelGuestRating.five) {
             userFilterChoices.hotelGuestRating.five = true
+            trackHotelFilterGuestRating("5")
         } else {
             userFilterChoices.hotelGuestRating.five = false
         }
@@ -291,6 +294,10 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
 
     private fun trackHotelFilterVIP(vipOnly: Boolean) {
         filterTracker.trackHotelFilterVIP(vipOnly)
+    }
+
+    private fun trackHotelFilterGuestRating(rating: String) {
+        filterTracker.trackHotelFilterGuestRating(rating)
     }
 
     private fun trackHotelFilterPriceSlider() {
