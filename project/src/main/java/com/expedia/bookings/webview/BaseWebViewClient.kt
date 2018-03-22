@@ -34,7 +34,9 @@ open class BaseWebViewClient(val activity: Activity, val loadCookies: Boolean,
             SocialUtils.openApp(activity, url)
             return false
         } else if (loadCookies) {
-            view.loadUrl(url)
+            if (mTrackingName != WebViewFragment.TrackingName.PackageWebView) {
+                view.loadUrl(url)
+            }
             return false
         } else {
             @Suppress("DEPRECATION")
