@@ -111,6 +111,7 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
             val infantCount = params.children.count { age -> age < 2 }
             if (infantCount > 0) {
                 travelerWidgetV2.traveler.getViewModel().infantInSeatObservable.onNext(!params.infantSeatingInLap)
+                travelerWidgetV2.traveler.getViewModel().isInfantInLapObservable.onNext(params.infantSeatingInLap)
             }
             val cabinClass = params.flightCabinClass
             if (cabinClass != null && isMidAPIEnabled(context) && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesFlightCabinClass)) {

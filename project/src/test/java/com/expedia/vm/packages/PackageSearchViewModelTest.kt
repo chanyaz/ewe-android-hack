@@ -176,6 +176,7 @@ class PackageSearchViewModelTest {
         val endDate = startDate.plusDays(endDateOffset)
 
         val paramsBuilder = PackageSearchParams.Builder(26, 369)
+                .infantSeatingInLap(false)
                 .origin(origin)
                 .destination(destination)
                 .startDate(startDate)

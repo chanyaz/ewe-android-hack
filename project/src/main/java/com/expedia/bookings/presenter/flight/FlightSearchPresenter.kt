@@ -203,6 +203,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             val infantCount = params.children.count { infantAge -> infantAge < 2 }
             if (infantCount > 0) {
                 travelerWidgetV2.traveler.getViewModel().infantInSeatObservable.onNext(!params.infantSeatingInLap)
+                travelerWidgetV2.traveler.getViewModel().isInfantInLapObservable.onNext(params.infantSeatingInLap)
             }
         }
 

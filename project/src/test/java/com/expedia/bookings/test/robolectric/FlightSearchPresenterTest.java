@@ -235,6 +235,23 @@ public class FlightSearchPresenterTest {
 	}
 
 	@Test
+	public void testTravelerDialogInfantInSeatObservable() {
+		TravelerWidgetV2 travelerCard = (TravelerWidgetV2) widget.findViewById(R.id.traveler_card);
+		TravelerPickerViewModel vm = new TravelerPickerViewModel(activity);
+		View view = travelerCard.getTravelerDialogView();
+		TravelerPickerView travelerPicker = (TravelerPickerView) view
+			.findViewById(R.id.traveler_view);
+
+		travelerPicker.setViewmodel(vm);
+		vm.getInfantInSeatObservable().onNext(true);
+		assertEquals(1, travelerPicker.getInfantPreferenceSeatingSpinner().getSelectedItemPosition());
+		vm.getInfantInSeatObservable().onNext(false);
+		assertEquals(0, travelerPicker.getInfantPreferenceSeatingSpinner().getSelectedItemPosition());
+		vm.getInfantInSeatObservable().onNext(true);
+		assertEquals(1, travelerPicker.getInfantPreferenceSeatingSpinner().getSelectedItemPosition());
+	}
+
+	@Test
 	public void testTravelDialogForChildAgeAfterDismiss() {
 		TravelerWidgetV2 travelerCard = (TravelerWidgetV2) widget.findViewById(R.id.traveler_card);
 		travelerCard.performClick();

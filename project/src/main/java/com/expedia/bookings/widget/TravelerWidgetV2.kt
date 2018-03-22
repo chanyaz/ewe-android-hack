@@ -16,7 +16,8 @@ import com.expedia.vm.TravelerPickerViewModel
 import io.reactivex.subjects.BehaviorSubject
 
 open class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputTextView(context, attrs) {
-    var oldTravelerData: TravelerParams? = null
+    private var oldTravelerData: TravelerParams? = null
+    private var oldInfantPreferenceInLap: Boolean = true
     val travelersSubject = BehaviorSubject.create<TravelerParams>()
 
     init {
@@ -43,7 +44,7 @@ open class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInpu
         travelerView
     }
 
-    open val travelerDialog: AlertDialog by lazy {
+    val travelerDialog: AlertDialog by lazy {
         val builder = AlertDialog.Builder(context, R.style.Theme_AlertDialog)
         traveler
         builder.setView(travelerDialogView)
@@ -55,12 +56,15 @@ open class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInpu
         val dialog: AlertDialog = builder.create()
         dialog.setOnShowListener {
             oldTravelerData = traveler.getViewModel().travelerParamsObservable.value
+            oldInfantPreferenceInLap = traveler.getViewModel().isInfantInLapObservable.value
             dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
         }
         dialog.setOnDismissListener {
             oldTravelerData?.let {
                 //if it's not null, the user dismissed the dialog, otherwise we clear it on Done
                 traveler.getViewModel().travelerParamsObservable.onNext(it)
+                traveler.getViewModel().infantInSeatObservable.onNext(!oldInfantPreferenceInLap)
+                traveler.getViewModel().isInfantInLapObservable.onNext(oldInfantPreferenceInLap)
                 oldTravelerData = null
             }
             this.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_HOVER_ENTER)
