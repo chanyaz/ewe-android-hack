@@ -152,7 +152,9 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
     init {
         widgetTravelerAndCabinClassStub.layoutResource = R.layout.widget_traveler_cabin_class_vertical
         widgetTravelerAndCabinClassStub.inflate()
-        showTabOptionsOnSearchForm = true
+        if (isFHCPackageWebViewEnabled(context)) {
+            showTabOptionsOnSearchForm = true
+        }
     }
 
     override fun inflate() {
