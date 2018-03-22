@@ -11,6 +11,7 @@ import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.test.robolectric.FlightTestUtil
 import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
@@ -434,6 +435,58 @@ class FlightOffersViewModelTest {
         assertEquals("leg0", inboundFlights1[0].legId)
         assertEquals("0558a569d2c6b1af709befca2e617390", inboundFlights2[0].legId)
         testSubscriber.assertValueCount(2)
+    }
+
+    @Test
+    fun testOneWayNumberOfTicketsLeft() {
+        val ticketsLeftTestObserver = TestObserver.create<Int>()
+        sut.ticketsLeftObservable.subscribe(ticketsLeftTestObserver)
+        performFlightSearch(false)
+
+        val outboundFlight = FlightTestUtil.getFlightLeg(numberOfTickets = 4)
+
+        sut.confirmedOutboundFlightSelection.onNext(outboundFlight)
+        ticketsLeftTestObserver.assertValue(4)
+    }
+
+    @Test
+    fun testRoundTripNoTicketsValueAfterOnlySelectingOutbound() {
+        val ticketsLeftTestObserver = TestObserver.create<Int>()
+        sut.ticketsLeftObservable.subscribe(ticketsLeftTestObserver)
+        performFlightSearch(true)
+
+        val outboundFlight = FlightTestUtil.getFlightLeg(numberOfTickets = 4)
+        sut.confirmedOutboundFlightSelection.onNext(outboundFlight)
+
+        ticketsLeftTestObserver.assertNoValues()
+    }
+
+    @Test
+    fun testRoundTripMinNumberOfTicketsLeftIsOutbound() {
+        val ticketsLeftTestObserver = TestObserver.create<Int>()
+        sut.ticketsLeftObservable.subscribe(ticketsLeftTestObserver)
+        performFlightSearch(true)
+
+        val outboundFlight = FlightTestUtil.getFlightLeg(numberOfTickets = 4)
+        val inboundFlight = FlightTestUtil.getFlightLeg(numberOfTickets = 5)
+        sut.confirmedOutboundFlightSelection.onNext(outboundFlight)
+        sut.confirmedInboundFlightSelection.onNext(inboundFlight)
+
+        ticketsLeftTestObserver.assertValue(4)
+    }
+
+    @Test
+    fun testRoundTripMinNumberOfTicketsLeftIsInbound() {
+        val ticketsLeftTestObserver = TestObserver.create<Int>()
+        sut.ticketsLeftObservable.subscribe(ticketsLeftTestObserver)
+        performFlightSearch(true)
+
+        val outboundFlight = FlightTestUtil.getFlightLeg(numberOfTickets = 6)
+        val inboundFlight = FlightTestUtil.getFlightLeg(numberOfTickets = 5)
+        sut.confirmedOutboundFlightSelection.onNext(outboundFlight)
+        sut.confirmedInboundFlightSelection.onNext(inboundFlight)
+
+        ticketsLeftTestObserver.assertValue(5)
     }
 
     private fun performFlightSearch(roundTrip: Boolean) {

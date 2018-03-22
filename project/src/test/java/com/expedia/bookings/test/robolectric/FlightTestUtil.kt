@@ -12,6 +12,7 @@ import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.flights.KrazyglueResponse
 import com.expedia.bookings.data.insurance.InsuranceProduct
+import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.payment.Traveler
 import org.joda.time.LocalDate
 import java.math.BigDecimal
@@ -222,6 +223,16 @@ class FlightTestUtil {
             val details = FlightTripDetails()
             details.offer = offer
             return details
+        }
+
+        @JvmStatic
+        fun getFlightLeg(legId: String = "12345", numberOfTickets: Int = 1): FlightLeg {
+            val flightLeg = FlightLeg()
+            flightLeg.legId = legId
+            flightLeg.packageOfferModel = PackageOfferModel()
+            flightLeg.packageOfferModel.urgencyMessage = PackageOfferModel.UrgencyMessage()
+            flightLeg.packageOfferModel.urgencyMessage.ticketsLeft = numberOfTickets
+            return flightLeg
         }
     }
 }

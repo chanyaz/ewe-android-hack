@@ -316,7 +316,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         flightOfferViewModel.confirmedInboundFlightSelection.subscribe {
             presenter.viewModel.inboundSelectedAndTotalLegRank = Pair(it.legRank, flightOfferViewModel.totalInboundResults)
         }
-
+        flightOfferViewModel.ticketsLeftObservable.subscribe(checkoutViewModel.seatsRemainingObservable)
         flightOfferViewModel.flightOfferSelected.subscribe { flightOffer ->
             val mayChargeObFees = flightOffer.mayChargeOBFees
             presenter.viewModel.showSplitTicketMessagingObservable.onNext(flightOffer.isSplitTicket)

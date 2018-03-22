@@ -52,6 +52,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     val cancelGreedySearchObservable = PublishSubject.create<Unit>()
     val cancelGreedyCachedSearchObservable = PublishSubject.create<Unit>()
     val retrySearchObservable = PublishSubject.create<Unit>()
+    val ticketsLeftObservable = PublishSubject.create<Int>()
 
     val isCachedCallCompleted = PublishSubject.create<Boolean>()
     val isRoundTripSearchSubject = BehaviorSubject.create<Boolean>()
@@ -189,14 +190,20 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
                 val outboundLegId = flight.legId
                 val inboundLegId = flight.legId // yes, they are the same. It will get us the flight offer
                 selectFlightOffer(outboundLegId, inboundLegId)
+                ticketsLeftObservable.onNext(flight.packageOfferModel.urgencyMessage.ticketsLeft)
             }
         }
 
         // return trip flights
         confirmedInboundFlightSelection.subscribe {
+            val outboundFlight = confirmedOutboundFlightSelection.value
+
             val inboundLegId = it.legId
-            val outboundLegId = confirmedOutboundFlightSelection.value.legId
+            val outboundLegId = outboundFlight.legId
             selectFlightOffer(outboundLegId, inboundLegId)
+            val minimumTicketsLeft = getMinimumTicketsLeft(outboundFlight.packageOfferModel.urgencyMessage.ticketsLeft,
+                    it.packageOfferModel.urgencyMessage.ticketsLeft)
+            ticketsLeftObservable.onNext(minimumTicketsLeft)
         }
 
         // fires offer selected before flight selection confirmed to lookup terms, fees etc. in offer
@@ -342,6 +349,11 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
         if (BuildConfig.DEBUG) {
             Toast.makeText(context, message, Toast.LENGTH_LONG).show()
         }
+    }
+
+    private fun getMinimumTicketsLeft(outboundTicketsLeft: Int, inboundTicketsLeft: Int): Int {
+        if (outboundTicketsLeft < inboundTicketsLeft) return outboundTicketsLeft
+        return inboundTicketsLeft
     }
 
     protected abstract fun selectOutboundFlight(legId: String)
