@@ -3,7 +3,7 @@
     <color name="app_primary">#0099CC</color>
     <color name="app_primary_dark">#0086C0</color>
     <color name="action_bar_bg_color">@color/app_primary</color>
-    <color name="launch_toolbar_background_color">@color/app_primary</color>
+    <color name="old_launch_toolbar_background_color">@color/app_primary</color>
     <color name="preferences_text">#495863</color>
 
     <color name="lob_btn_color">#0099CC</color>
@@ -118,20 +118,20 @@
     <color name="traveler_incomplete_text_color">@color/error_color</color>
 
     <!-- New Launch Screen LOB button colors -->
-    <color name="new_launch_lob_color">@color/lob_btn_color</color>
-    <color name="new_launch_screen_color">@color/lob_btn_color</color>
+    <color name="launch_lob_color">@color/lob_btn_color</color>
+    <color name="launch_screen_color">@color/lob_btn_color</color>
 
-    <color name="new_launch_hotels_lob_color">@color/launch_lob_color</color>
-    <color name="new_launch_flights_lob_color">@color/launch_lob_color</color>
-    <color name="new_launch_cars_lob_color">@color/launch_lob_color</color>
-    <color name="new_launch_lx_lob_color">@color/launch_lob_color</color>
-    <color name="new_launch_packages_lob_color">@color/launch_lob_color</color>
-    <color name="new_launch_rail_lob_color">@color/launch_lob_color</color>
+    <color name="launch_hotels_lob_color">@color/launch_lob_color</color>
+    <color name="launch_flights_lob_color">@color/launch_lob_color</color>
+    <color name="launch_cars_lob_color">@color/launch_lob_color</color>
+    <color name="launch_lx_lob_color">@color/launch_lob_color</color>
+    <color name="launch_packages_lob_color">@color/launch_lob_color</color>
+    <color name="launch_rail_lob_color">@color/launch_lob_color</color>
 
     <!-- New Launch Screen colors -->
-    <color name="new_launch_toolbar_background_color">@color/launch_screen_color</color>
-    <color name="new_launch_fab_color">@color/launch_screen_color</color>
-    <color name="new_launch_screen_itin_ripple">@color/launch_screen_color</color>
+    <color name="launch_toolbar_background_color">@color/launch_screen_color</color>
+    <color name="launch_fab_color">@color/launch_screen_color</color>
+    <color name="launch_screen_itin_ripple">@color/launch_screen_color</color>
     <color name="launch_screen_active_itin_bg">@color/app_primary</color>
 
     <!-- Flights V2 colors -->
