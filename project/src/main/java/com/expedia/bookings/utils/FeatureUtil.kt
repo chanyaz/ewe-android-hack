@@ -16,7 +16,7 @@ fun isPopulateCardholderNameEnabled(context: Context): Boolean {
 }
 
 fun isMidAPIEnabled(context: Context): Boolean {
-    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesMidApi)
+    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesMidApi) || AbacusFeatureConfigManager.isMIDABTestUndetermined(AbacusUtils.EBAndroidAppPackagesMidApi)
 }
 
 fun isFHCPackageWebViewEnabled(context: Context): Boolean {

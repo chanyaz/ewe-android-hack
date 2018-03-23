@@ -10,6 +10,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
@@ -90,6 +91,7 @@ class PackagesCreateTripTest {
 
     @Test
     fun testMultiItemCreateTripFiredWhenMIDAPIOFF() {
+        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppPackagesMidApi, AbacusVariant.CONTROL.value)
         val testSubscriber = TestObserver<Unit>()
         activity.getCreateTripViewModel().performCreateTrip.subscribe(testSubscriber)
 

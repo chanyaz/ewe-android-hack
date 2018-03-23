@@ -4,6 +4,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
@@ -40,6 +41,7 @@ class BundleOverviewViewModelTests {
 
     @Test
     fun testHotels() {
+        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppPackagesMidApi, AbacusVariant.CONTROL.value)
         val resultsSubscriber = TestObserver<PackageSearchType>()
         sut.autoAdvanceObservable.subscribe(resultsSubscriber)
 
@@ -70,6 +72,7 @@ class BundleOverviewViewModelTests {
 
     @Test
     fun testFlightsInbound() {
+        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppPackagesMidApi, AbacusVariant.CONTROL.value)
         val resultsSubscriber = TestObserver<PackageSearchType>()
         sut.autoAdvanceObservable.subscribe(resultsSubscriber)
 
@@ -103,6 +106,7 @@ class BundleOverviewViewModelTests {
 
     @Test
     fun testFlightsOutbound() {
+        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppPackagesMidApi, AbacusVariant.CONTROL.value)
         val resultsSubscriber = TestObserver<PackageSearchType>()
         sut.autoAdvanceObservable.subscribe(resultsSubscriber)
         val params = setUpParams()

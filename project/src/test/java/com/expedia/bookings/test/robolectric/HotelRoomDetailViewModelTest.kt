@@ -5,6 +5,7 @@ import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.hotel.ValueAddsEnum
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
@@ -93,6 +94,7 @@ class HotelRoomDetailViewModelTest {
 
     @Test
     fun testRoomPriceContentDescription() {
+        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppPackagesMidApi, AbacusVariant.CONTROL.value)
         var roomResponse = createRoomResponse()
         roomResponse.rateInfo.chargeableRateInfo.strikethroughPriceToShowUsers = 200f
 
@@ -706,6 +708,7 @@ class HotelRoomDetailViewModelTest {
 
     @Test
     fun testPricePerDescriptorStringPerNightForPSS() {
+        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppPackagesMidApi, AbacusVariant.CONTROL.value)
         val roomResponse = createRoomResponse()
         val viewModel = createViewModel(roomResponse, -1)
         roomResponse.packageHotelDeltaPrice = Money("23", "USD")

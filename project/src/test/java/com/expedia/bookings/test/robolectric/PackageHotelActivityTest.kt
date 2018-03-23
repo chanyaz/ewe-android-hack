@@ -4,6 +4,7 @@ import android.content.Intent
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse
 import com.expedia.bookings.data.multiitem.MultiItemError
@@ -41,6 +42,7 @@ class PackageHotelActivityTest {
 
     @Test
     fun testMidDisabledDeeplinkedHotelDoesNotResetDbPackageResponse() {
+        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppPackagesMidApi, AbacusVariant.CONTROL.value)
         setupPackageDb(baseMidResponse, midResponseWithError)
         givenPackageHotelActivity(enableMidTest = false)
 
