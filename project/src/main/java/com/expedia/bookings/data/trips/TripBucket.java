@@ -4,31 +4,17 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.joda.time.LocalDate;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.text.TextUtils;
-
 import com.expedia.bookings.data.AirAttach;
-import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch;
-import com.expedia.bookings.data.FlightSearchParams;
-import com.expedia.bookings.data.HotelAvailability;
-import com.expedia.bookings.data.HotelSearch;
-import com.expedia.bookings.data.DeprecatedHotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.TripBucketItemFlightV2;
-import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.utils.JodaUtils;
-import com.google.android.gms.maps.model.LatLng;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
-import com.mobiata.android.maps.MapUtils;
 
 /**
  * This class is the single source of truth for storing product checkout related information, e.g. anything
@@ -37,7 +23,6 @@ import com.mobiata.android.maps.MapUtils;
 public class TripBucket implements JSONable {
 
 	private int mRefreshCount;
-	private LineOfBusiness mLastLOBAdded;
 	private List<TripBucketItem> mItems;
 
 	public TripBucket() {
@@ -111,39 +96,6 @@ public class TripBucket implements JSONable {
 		}
 	}
 
-	/**
-	 * Convenience method to determine which LOB to refresh.
-	 *
-	 * @return {LineOfBusiness} If returns null then don't refresh the TripBucket
-	 */
-	public LineOfBusiness getLOBToRefresh() {
-		if (doRefresh()) {
-			return mLastLOBAdded;
-		}
-		else {
-			return null;
-		}
-	}
-
-	public void add(TripBucketItemHotel hotel) {
-		mLastLOBAdded = LineOfBusiness.HOTELS;
-		mRefreshCount++;
-		mItems.add(hotel);
-
-		checkForTabletMismatchedItems();
-	}
-
-	/**
-	 * Adds a Hotel to the trip bucket. Must specify the property and room rate.
-	 *
-	 * @param hotelSearch
-	 * @param rate
-	 * @param availability
-	 */
-	public void add(HotelSearch hotelSearch, Rate rate, HotelAvailability availability) {
-		add(new TripBucketItemHotel(hotelSearch, rate, availability));
-	}
-
 	public void add(TripBucketItemFlight flight) {
 		addBucket(flight);
 	}
@@ -173,7 +125,6 @@ public class TripBucket implements JSONable {
 	}
 
 	private void addBucket(TripBucketItem tripBucketItem) {
-		mLastLOBAdded = tripBucketItem.getLineOfBusiness();
 		mRefreshCount++;
 		mItems.add(tripBucketItem);
 	}
@@ -186,11 +137,6 @@ public class TripBucket implements JSONable {
 		return mItems.size();
 	}
 
-	/**
-	 * Are there any items in the trip bucket?
-	 *
-	 * @return
-	 */
 	public boolean isEmpty() {
 		return mItems.size() < 1;
 	}
@@ -208,16 +154,6 @@ public class TripBucket implements JSONable {
 	public TripBucketItemTransport getTransport() {
 		int index = getIndexOf(LineOfBusiness.TRANSPORT);
 		return index == -1 ? null : (TripBucketItemTransport) mItems.get(index);
-	}
-
-	/**
-	 * Returns the first hotel found in the bucket, or null if not found.
-	 *
-	 * @return
-	 */
-	public TripBucketItemHotel getHotel() {
-		int index = getIndexOf(LineOfBusiness.HOTELS);
-		return index == -1 ? null : (TripBucketItemHotel) mItems.get(index);
 	}
 
 	/**
@@ -295,113 +231,6 @@ public class TripBucket implements JSONable {
 		}
 	}
 
-	private void checkForTabletMismatchedItems() {
-		if (getFlight() == null || getHotel() == null) {
-			// Don't bother checking if we don't have both items
-			return;
-		}
-
-		if (hasRedeyeDates()) {
-			Events.post(new Events.TripBucketHasRedeyeItems());
-		}
-		else if (hasMismatchedDates()) {
-			Events.post(new Events.TripBucketHasMismatchedItems());
-		}
-	}
-
-	private boolean hasRedeyeDates() {
-		if (!getFlight().getFlightSearchParams().isRoundTrip()) {
-			// We don't trigger the redeye case for round trips
-			return false;
-		}
-
-		if (!itemsAreForSameDestination()) {
-			return false;
-		}
-
-		return hotelCheckinIsDayBeforeFlightLands() && !hotelCheckoutIsBeforeOrAfterFlightLeaves();
-
-	}
-
-	private boolean hasMismatchedDates() {
-		if (!itemsAreForSameDestination()) {
-			return false;
-		}
-
-		if (hotelCheckinIsDayBeforeFlightLands()) {
-			return true;
-		}
-
-		return daysBetweenFlights() && hotelCheckoutIsBeforeOrAfterFlightLeaves();
-
-	}
-
-	private boolean hotelCheckinIsDayBeforeFlightLands() {
-		DeprecatedHotelSearchParams hotelParams = getHotel().getHotelSearchParams();
-		FlightLeg departingFlight = getFlight().getFlightTrip().getLeg(0);
-		LocalDate departingFlightLandingTime = new LocalDate(
-			departingFlight.getLastWaypoint().getMostRelevantDateTime());
-		if (hotelParams.getCheckInDate().isBefore(departingFlightLandingTime)) {
-			Log.d("TripBucket", "Hotel Checkin is the day before Departing Flight Lands");
-			return true;
-		}
-
-		return false;
-	}
-
-	private boolean hotelCheckoutIsBeforeOrAfterFlightLeaves() {
-		DeprecatedHotelSearchParams hotelParams = getHotel().getHotelSearchParams();
-		if (getFlight().getFlightSearchParams().isRoundTrip()) {
-			FlightLeg returnFlight = getFlight().getFlightTrip().getLeg(1);
-			LocalDate returnFlightTakeoffTime = new LocalDate(
-				returnFlight.getFirstWaypoint().getMostRelevantDateTime());
-			if (hotelParams.getCheckOutDate().isAfter(returnFlightTakeoffTime) ||
-				hotelParams.getCheckOutDate().isBefore(returnFlightTakeoffTime)) {
-				Log.d("TripBucket", "Hotel Checkout is the day before or after Returning Flight Takes off");
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	private boolean daysBetweenFlights() {
-		if (!getFlight().getFlightSearchParams().isRoundTrip()) {
-			return true;
-		}
-
-		FlightLeg departingFlight = getFlight().getFlightTrip().getLeg(0);
-		LocalDate departingFlightLandingTime = new LocalDate(
-			departingFlight.getLastWaypoint().getMostRelevantDateTime());
-		FlightLeg returnFlight = getFlight().getFlightTrip().getLeg(1);
-		LocalDate returnFlightTakeoffTime = new LocalDate(returnFlight.getFirstWaypoint().getMostRelevantDateTime());
-
-		return JodaUtils.daysBetween(departingFlightLandingTime, returnFlightTakeoffTime) > 0;
-	}
-
-	private boolean itemsAreForSameDestination() {
-		DeprecatedHotelSearchParams hotelParams = getHotel().getHotelSearchParams();
-		FlightSearchParams flightParams = getFlight().getFlightSearchParams();
-
-		if (TextUtils.equals("" + flightParams.getDestinationId(), hotelParams.getRegionId())) {
-			Log.d("TripBucket", "Items are for same region id");
-			return true;
-		}
-
-		// check latlng within 50 miles
-		Location flightLocation = flightParams.getArrivalLocation();
-		LatLng flightLL = new LatLng(flightLocation.getLatitude(), flightLocation.getLongitude());
-		LatLng hotelLL = new LatLng(hotelParams.getSearchLatitude(), hotelParams.getSearchLongitude());
-
-		double distance = MapUtils.getDistance(flightLL, hotelLL);
-		if (distance < 50.0f) {
-			Log.d("TripBucket", "Items are within 50miles of each other");
-			return true;
-		}
-
-		return false;
-	}
-
 	public AirAttach getAirAttach() {
 		return mAirAttach;
 	}
@@ -460,23 +289,17 @@ public class TripBucket implements JSONable {
 			JSONArray arr = obj.optJSONArray(key);
 			if (arr != null) {
 				int len = arr.length();
-				mItems = new ArrayList<TripBucketItem>(len);
+				mItems = new ArrayList<>(len);
 
 				for (int a = 0; a < len; a++) {
 					JSONObject jsonObj = arr.optJSONObject(a);
 
 					String type = jsonObj.optString("type");
-					if ("hotel".equals(type)) {
-						TripBucketItemHotel hotel = new TripBucketItemHotel();
-						hotel.fromJson(jsonObj);
-						mItems.add(hotel);
-					}
-					else if ("flight".equals(type)) {
+					if ("flight".equals(type)) {
 						TripBucketItemFlight flight = new TripBucketItemFlight();
 						flight.fromJson(jsonObj);
 						mItems.add(flight);
 					}
-
 				}
 			}
 		}

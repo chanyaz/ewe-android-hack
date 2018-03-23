@@ -35,7 +35,6 @@ import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripBucketItemFlight;
-import com.expedia.bookings.data.trips.TripBucketItemHotel;
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2;
 import com.expedia.bookings.data.trips.TripBucketItemLX;
 import com.expedia.bookings.data.trips.TripBucketItemPackages;
@@ -492,25 +491,6 @@ public class AccountButton extends LinearLayout {
 		}
 
 		rewardsContainer.setBackgroundColor(ContextCompat.getColor(getContext(), rewardsBgColor));
-	}
-
-	private void clearTabletCheckoutData() {
-		clearTabletHotelCheckoutData();
-		clearTabletFlightCheckoutData();
-	}
-
-	private void clearTabletHotelCheckoutData() {
-		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
-		if (hotel != null) {
-			hotel.clearCheckoutData();
-		}
-	}
-
-	private void clearTabletFlightCheckoutData() {
-		TripBucketItemFlight flight = Db.getTripBucket().getFlight();
-		if (flight != null) {
-			flight.clearCheckoutData();
-		}
 	}
 
 	public interface AccountButtonClickListener {
