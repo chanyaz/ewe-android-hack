@@ -26,8 +26,8 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppLXNavigateToSRP = new ABTest(13152);
 	public static final ABTest EBAndroidAppShowAirAttachMessageOnLaunchScreen = new ABTest(13345);
 	public static final ABTest EBAndroidAppLastMinuteDeals = new ABTest(15844);
-	public static final ABTest EBAndroidLXMOD = new ABTest(16098);
-	public static final ABTest EBAndroidLXMIP = new ABTest(24617, true);
+	public static final ABTest EBAndroidLXMOD = new ABTest(25418);
+	public static final ABTest EBAndroidLXMIP = new ABTest(25417, true);
 	public static final ABTest EBAndroidAppAPIMAuth = new ABTest(14654);
 	public static final ABTest EBAndroidPopulateCardholderName = new ABTest(14525);
 	public static final ABTest EBAndroidAppFlightFlexEnabled = new ABTest(15247);
