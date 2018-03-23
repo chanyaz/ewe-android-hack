@@ -2166,8 +2166,6 @@
     <string name="phone_number_country_code_dropdown_cont_desc">Country code</string>
     <!-- Country Code hint for material traveler form -->
     <string name="phone_number_country_code_hint">Country Code</string>
-    <!-- Born on colored -->
-    <string name="born_on_colored_TEMPLATE">Born %1$s</string>
 
     <!-- Section edit contact -->
     <!-- name on card hint -->
@@ -3033,8 +3031,6 @@
     <string name="account_settings_edit_webview_label">My Account</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Sign in</string>
-    <!-- Progress dialog text when we are signing the user into Expedia -->
-    <string name="signing_in">Signing in…</string>
     <!-- Label for sign out confirmation -->
     <string name="sign_out_confirmation_TEMPLATE">Are you sure you want to sign out of your {brand} account?</string>
     <!-- Label for loading user profile from Expedia -->

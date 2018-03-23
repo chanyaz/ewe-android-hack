@@ -249,7 +249,6 @@
 
     <color name="bg_checkout_saved_traveler_cc_row">@color/gray100</color>
     <color name="bg_checkout_saved_traveler_cc_row_pressed">@color/gray300</color>
-    <color name="checkout_traveler_birth_color">@color/gray500</color>
     <color name="checkout_main_traveler_message">@color/gray700</color>
     <color name="checkout_screen_error_message_color">@color/error_red</color>
     <color name="material_checkout_background_color">@color/white</color>
