@@ -60,14 +60,14 @@
     <color name="error_widget_edit_button_selected_color">#7b3761</color>
 
     <!-- New Launch Screen colors -->
-    <color name="new_launch_toolbar_background_color">@color/launch_screen_color</color>
-    <color name="new_launch_fab_color">@color/launch_screen_color</color>
-    <color name="new_launch_screen_itin_ripple">@color/launch_screen_color</color>
-    <color name="new_launch_screen_color">#495863</color>
-    <color name="new_launch_hotels_lob_color">#70BB00</color>
-    <color name="new_launch_flights_lob_color">#0088CE</color>
-    <color name="new_launch_cars_lob_color">#663399</color>
-    <color name="new_launch_lx_lob_color">#A1006B</color>
+    <color name="launch_toolbar_background_color">@color/launch_screen_color</color>
+    <color name="launch_fab_color">@color/launch_screen_color</color>
+    <color name="launch_screen_itin_ripple">@color/launch_screen_color</color>
+    <color name="launch_screen_color">#495863</color>
+    <color name="launch_hotels_lob_color">#70BB00</color>
+    <color name="launch_flights_lob_color">#0088CE</color>
+    <color name="launch_cars_lob_color">#663399</color>
+    <color name="launch_lx_lob_color">#A1006B</color>
     <color name="launch_screen_active_itin_bg">#70bb00</color>
 
     <!-- Flights V2 colors -->

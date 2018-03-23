@@ -11,7 +11,7 @@
     <color name="pay_now_earn_text_color">#8E0099</color>
     <color name="error_color">#b80000</color>
     <!-- Launch colors -->
-    <color name="launch_toolbar_background_color">@color/lob_btn_color</color>
+    <color name="old_launch_toolbar_background_color">@color/lob_btn_color</color>
     <color name="launch_tab_indicator">#00B1FF</color>
 
     <color name="action_bar_text_blue_orbitz">#7baed4</color>
@@ -108,19 +108,19 @@
     <color name="traveler_incomplete_text_color">@color/error_color</color>
 
     <!-- New Launch Screen LOB button colors -->
-    <color name="new_launch_lob_color">#004D7C</color>
-    <color name="new_launch_screen_color">#00253C</color>
+    <color name="launch_lob_color">#004D7C</color>
+    <color name="launch_screen_color">#00253C</color>
 
-    <color name="new_launch_hotels_lob_color">@color/launch_lob_color</color>
-    <color name="new_launch_flights_lob_color">@color/launch_lob_color</color>
-    <color name="new_launch_cars_lob_color">@color/launch_lob_color</color>
-    <color name="new_launch_lx_lob_color">@color/launch_lob_color</color>
-    <color name="new_launch_packages_lob_color">@color/launch_lob_color</color>
+    <color name="launch_hotels_lob_color">@color/launch_lob_color</color>
+    <color name="launch_flights_lob_color">@color/launch_lob_color</color>
+    <color name="launch_cars_lob_color">@color/launch_lob_color</color>
+    <color name="launch_lx_lob_color">@color/launch_lob_color</color>
+    <color name="launch_packages_lob_color">@color/launch_lob_color</color>
 
     <!-- New Launch Screen colors -->
-    <color name="new_launch_toolbar_background_color">@color/launch_screen_color</color>
-    <color name="new_launch_fab_color">@color/launch_screen_color</color>
-    <color name="new_launch_screen_itin_ripple">@color/launch_screen_color</color>
+    <color name="launch_toolbar_background_color">@color/launch_screen_color</color>
+    <color name="launch_fab_color">@color/launch_screen_color</color>
+    <color name="launch_screen_itin_ripple">@color/launch_screen_color</color>
     <color name="launch_screen_active_itin_bg">@color/app_primary</color>
     <color name="placeholder_card_background_color">@color/loyalty_earn_color</color>
     <color name="placeholder_card_button_text_color">@color/launch_lob_color</color>
