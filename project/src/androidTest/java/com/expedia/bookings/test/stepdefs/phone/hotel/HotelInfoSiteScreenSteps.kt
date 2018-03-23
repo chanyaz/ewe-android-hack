@@ -1,8 +1,9 @@
 package com.expedia.bookings.test.stepdefs.phone.hotel
 
+import android.support.test.espresso.action.ViewActions.scrollTo
+import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen.VIPAccess
-
 import cucumber.api.java.en.And
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
@@ -79,5 +80,24 @@ class HotelInfoSiteScreenSteps {
     @Throws(Throwable::class)
     fun iBookFirstRoom() {
         HotelInfoSiteScreen.bookFirstRoom()
+    }
+
+    @And("^I verify PayNowPayLater Tab is Present$")
+    @Throws(Throwable::class)
+    fun verifyPayNowPayLaterTabIsPresent() {
+        HotelInfoSiteScreen.payNowAndLaterOptions().perform(scrollTo(), waitForViewToDisplay())
+        HotelInfoSiteScreen.payNowAndLaterOptionsIsPresent()
+    }
+
+    @And("^I click on Pay Now Button$")
+    @Throws(Throwable::class)
+    fun clickPayNow() {
+        HotelInfoSiteScreen.clickPayNow()
+    }
+
+    @And("^I verify ETP Text is not Displayed$")
+    @Throws(Throwable::class)
+    fun verifyETPTextIsNotDisplayed() {
+        HotelInfoSiteScreen.etpTextIsNotPresent()
     }
 }

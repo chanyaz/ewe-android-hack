@@ -42,6 +42,8 @@ object HotelInfoSiteScreen {
     private val plusVIPLabel = withId(R.id.vip_access_message)
     private val travelDates = withId(R.id.hotel_search_info)
     private val numberOfGuests = withId(R.id.hotel_search_info_guests)
+    private val payNowPayLaterTabs = withId(R.id.pay_now_pay_later_tabs)
+    private val etpInfoText = withId(R.id.etp_info_text)
     private val headerLabelText = allOf(isDescendantOfA(withId(R.id.hotel_details_toolbar)),
             withId(R.id.hotel_name_text), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
 
@@ -78,7 +80,7 @@ object HotelInfoSiteScreen {
 
     @JvmStatic
     fun etpInfoText(): ViewInteraction {
-        return onView(withId(R.id.etp_info_text))
+        return onView(etpInfoText)
     }
 
     @JvmStatic
@@ -103,12 +105,22 @@ object HotelInfoSiteScreen {
 
     @JvmStatic
     fun etpPlaceholder(): ViewInteraction {
-        return onView(withId(R.id.pay_now_pay_later_tabs))
+        return onView(payNowPayLaterTabs)
     }
 
     @JvmStatic
     fun payNowAndLaterOptions(): ViewInteraction {
-        return onView(withId(R.id.pay_now_pay_later_tabs))
+        return onView(payNowPayLaterTabs)
+    }
+
+    @JvmStatic
+    fun payNowAndLaterOptionsIsPresent(): ViewInteraction {
+        return onView(payNowPayLaterTabs).check(matches(isDisplayed()))
+    }
+
+    @JvmStatic
+    fun etpTextIsNotPresent(): ViewInteraction {
+        return onView(etpInfoText).check(matches(not(isDisplayed())))
     }
 
     @JvmStatic
