@@ -111,11 +111,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		setDbTraveler(traveler);
 	}
 
-	public void bind(Traveler traveler, int travelerIndex) {
-		setPhoneFieldsEnabled(travelerIndex);
-		bind(traveler);
-	}
-
 	protected void preFinishInflate() {
 		//Load the pos specific name edit fields if we have the container for them.
 		ViewGroup nameContainer = Ui.findView(this, R.id.edit_names_container);

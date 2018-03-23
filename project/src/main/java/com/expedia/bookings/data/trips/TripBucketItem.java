@@ -55,7 +55,6 @@ public abstract class TripBucketItem implements JSONable {
 		}
 	}
 
-
 	/**
 	 * Is the supplied card type valid for this FlightTrip?
 	 *
@@ -98,6 +97,9 @@ public abstract class TripBucketItem implements JSONable {
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		mValidPayments = GsonUtil.getListForJsonable(obj, "validPayments", ValidPayment.gsonListTypeToken);
+		if (mValidPayments == null) {
+			mValidPayments = new ArrayList<>();
+		}
 		return true;
 	}
 
