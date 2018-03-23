@@ -7,8 +7,14 @@ import javax.inject.Named;
 import android.content.Context;
 
 import com.expedia.bookings.dagger.tags.FlightScope;
+import com.expedia.bookings.dagger.tags.HotelScope;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
+import com.expedia.bookings.features.Features;
+import com.expedia.bookings.presenter.HotelTravelersRepository;
+import com.expedia.bookings.presenter.TravelerConfig;
+import com.expedia.bookings.presenter.TravelersRepository;
+import com.expedia.bookings.presenter.TravelersViewModel;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.BaggageInfoService;
 import com.expedia.bookings.services.FlightServices;
@@ -30,6 +36,34 @@ import io.reactivex.schedulers.Schedulers;
 
 @Module
 public final class FlightModule {
+
+	@Provides
+	@FlightScope
+	TravelersRepository provideTravelersRepository() {
+		return new HotelTravelersRepository();
+	}
+
+	@Provides
+	@FlightScope
+	TravelersViewModel provideTravelersViewModel(TravelersRepository travelersRepository) {
+		return new TravelersViewModel(travelersRepository, new TravelerConfig(){
+
+			@Override
+			public boolean getShouldDisplayFFN() {
+				return Features.Companion.getAll().getFlightsShowFFN().enabled();
+			}
+
+			@Override
+			public String getDisplayTitle() {
+				return "Flights";
+			}
+
+			@Override
+			public boolean getShouldDisplayNumberOfTravelers() {
+				return false;
+			}
+		});
+	}
 
 	@Provides
 	@FlightScope

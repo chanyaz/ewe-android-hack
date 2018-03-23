@@ -1,6 +1,7 @@
 package com.expedia.bookings.dagger;
 
 import com.expedia.bookings.dagger.tags.PackageScope;
+import com.expedia.bookings.presenter.TravelersActivity;
 import com.expedia.bookings.presenter.packages.PackageHotelPresenter;
 import com.expedia.bookings.presenter.packages.PackagePresenter;
 import com.expedia.bookings.services.ItinTripServices;
@@ -14,7 +15,7 @@ import dagger.Component;
 
 @PackageScope
 @Component(dependencies = {AppComponent.class}, modules = {PackageModule.class, FeesModule.class})
-public interface PackageComponent {
+public interface PackageComponent extends TravelerActivityComponent{
 	void inject(PackagePresenter presenter);
 	void inject(PackageHotelPresenter presenter);
 	void inject(PackageCheckoutPresenter presenter);

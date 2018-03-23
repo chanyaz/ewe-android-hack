@@ -3,6 +3,7 @@ package com.expedia.bookings.widget
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Rect
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.CardView
@@ -37,6 +38,7 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter
 import com.expedia.bookings.extensions.subscribeObserver
+import com.expedia.bookings.presenter.TravelersActivity
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.TravelerManager
@@ -597,6 +599,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     }
 
     fun doHarlemShakes() {
+        context.startActivity(Intent(context, TravelersActivity::class.java))
+
         if (!travelersPresenter.viewModel.allTravelersValid()) {
             travelerSummaryCard.viewModel.travelerStatusObserver.onNext(TravelerCheckoutStatus.DIRTY)
             AnimUtils.doTheHarlemShake(travelerSummaryCard)

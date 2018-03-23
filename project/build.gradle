@@ -71,6 +71,8 @@ dependencies {
     implementation "android.arch.persistence.room:runtime:${room_persistence_version}"
     testImplementation "android.arch.persistence.room:testing:${room_persistence_version}"
     implementation "android.arch.persistence.room:rxjava2:${room_persistence_version}"
+
+    implementation "android.arch.lifecycle:reactivestreams:1.1.0"
     kapt "android.arch.persistence.room:compiler:${room_persistence_version}"
 
     implementation 'com.squareup.picasso:picasso:2.5.2'

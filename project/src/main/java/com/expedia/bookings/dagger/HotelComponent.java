@@ -30,7 +30,7 @@ import dagger.Component;
 
 @HotelScope
 @Component(dependencies = {AppComponent.class}, modules = {HotelModule.class})
-public interface HotelComponent {
+public interface HotelComponent extends TravelerActivityComponent{
 	void inject(HotelPresenter presenter);
 	void inject(HotelSearchPresenter presenter);
 	void inject(HotelItinContentGenerator presenter);

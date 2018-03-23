@@ -1,7 +1,5 @@
 package com.expedia.bookings.dagger;
 
-import org.jetbrains.annotations.NotNull;
-
 import com.expedia.bookings.dagger.tags.FlightScope;
 import com.expedia.bookings.presenter.TravelersActivity;
 import com.expedia.bookings.presenter.flight.FlightCheckoutPresenter;
@@ -20,22 +18,6 @@ import com.expedia.vm.flights.RecentSearchViewModel;
 
 import dagger.Component;
 
-@FlightScope
-@Component(dependencies = {AppComponent.class}, modules = {FlightModule.class, FeesModule.class, InsuranceModule.class})
-public interface FlightComponent extends TravelerActivityComponent {
-	void inject(FlightPresenter presenter);
-	void inject(FlightSearchPresenter flightSearchPresenter);
-	void inject(FlightOutboundPresenter flightOutboundPresenter);
-	void inject(FlightInboundPresenter flightInboundPresenter);
-	void inject(FlightOverviewPresenter flightOverviewPresenter);
-	void inject(FlightCheckoutPresenter flightCheckoutPresenter);
-	void inject(FlightCreateTripViewModel createTripViewModel);
-	void inject(FlightCheckoutViewModel checkoutViewModel);
-	void inject(BaggageInfoViewModel baggageInfoViewModel);
-	void inject(RecentSearchViewModel recentSearchViewModel);
-
-	SuggestionV4Services suggestionsService();
-	ItinTripServices itinTripService();
-	KrazyglueServices krazyglueService();
-
+public interface TravelerActivityComponent {
+	void inject(TravelersActivity travelersActivity);
 }

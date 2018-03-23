@@ -5,6 +5,10 @@ import javax.inject.Named;
 import android.content.Context;
 
 import com.expedia.bookings.dagger.tags.PackageScope;
+import com.expedia.bookings.presenter.HotelTravelersRepository;
+import com.expedia.bookings.presenter.TravelerConfig;
+import com.expedia.bookings.presenter.TravelersRepository;
+import com.expedia.bookings.presenter.TravelersViewModel;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.services.PackageServices;
@@ -21,6 +25,35 @@ import io.reactivex.schedulers.Schedulers;
 
 @Module
 public final class PackageModule {
+
+	@Provides
+	@PackageScope
+	TravelersRepository provideTravelersRepository() {
+		return new HotelTravelersRepository();
+	}
+
+	@Provides
+	@PackageScope
+	TravelersViewModel provideTravelersViewModel(TravelersRepository travelersRepository) {
+		return new TravelersViewModel(travelersRepository, new TravelerConfig(){
+
+			@Override
+			public boolean getShouldDisplayFFN() {
+				return false;
+			}
+
+			@Override
+			public String getDisplayTitle() {
+				return "Packages";
+			}
+
+			@Override
+			public boolean getShouldDisplayNumberOfTravelers() {
+				return false;
+			}
+		});
+	}
+
 	@Provides
 	@PackageScope
 	PackageServices providePackageServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {

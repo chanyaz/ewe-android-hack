@@ -5,6 +5,9 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.ComponentName;
@@ -37,6 +40,7 @@ import com.expedia.bookings.dagger.LXComponent;
 import com.expedia.bookings.dagger.LaunchComponent;
 import com.expedia.bookings.dagger.PackageComponent;
 import com.expedia.bookings.dagger.RailComponent;
+import com.expedia.bookings.dagger.TravelerActivityComponent;
 import com.expedia.bookings.dagger.TravelerComponent;
 import com.expedia.bookings.dagger.TripComponent;
 import com.expedia.bookings.data.Db;
@@ -52,6 +56,7 @@ import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager;
 import com.expedia.bookings.itin.services.FlightRegistrationHandler;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.PushNotificationUtils;
+import com.expedia.bookings.presenter.ComponentType;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.tracking.AdTracker;
@@ -622,5 +627,18 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		if (userStateManager.getUserSource().getUser() != null) {
 			refresher.forceAccountRefresh();
 		}
+	}
+
+	public TravelerActivityComponent getTravelerActivityComponent(ComponentType componentType) {
+		TravelerActivityComponent travelerActivityComponent;
+		switch (componentType) {
+		case FLIGHTS:
+			return flightComponent();
+		case PACKAGES:
+			return packageComponent();
+		case HOTELS:
+			return hotelComponent();
+		}
+		throw new UnsupportedOperationException();
 	}
 }

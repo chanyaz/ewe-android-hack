@@ -19,4 +19,5 @@ class Features {
     val activityMap: Feature by RemoteFeatureDelegate()
     val hotelGreedySearch: Feature by RemoteFeatureDelegate()
     val accountWebViewInjections: Feature by RemoteFeatureDelegate()
+    val flightsShowFFN: Feature by RemoteFeatureDelegate()
 }
