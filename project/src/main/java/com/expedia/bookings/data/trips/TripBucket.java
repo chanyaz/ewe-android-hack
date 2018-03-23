@@ -1,15 +1,12 @@
 package com.expedia.bookings.data.trips;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.expedia.bookings.data.AirAttach;
-import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.TripBucketItemFlightV2;
 import com.mobiata.android.Log;
@@ -29,7 +26,7 @@ public class TripBucket implements JSONable {
 		mItems = new LinkedList<TripBucketItem>();
 	}
 
-	public AirAttach mAirAttach;
+	private AirAttach mAirAttach;
 
 	/**
 	 * Removes all items from this TripBucket.
@@ -50,10 +47,6 @@ public class TripBucket implements JSONable {
 				remove(i);
 			}
 		}
-	}
-
-	public void clearHotel() {
-		clear(LineOfBusiness.HOTELS);
 	}
 
 	public void clearFlight() {
@@ -79,25 +72,6 @@ public class TripBucket implements JSONable {
 
 	public void clearRails() {
 		clear(LineOfBusiness.RAILS);
-	}
-
-	/**
-	 * Convenience method to determine when we really need to refresh this TripBucket.
-	 *
-	 * @return
-	 */
-	public boolean doRefresh() {
-		if (mRefreshCount <= 0) {
-			return false;
-		}
-		else {
-			mRefreshCount--;
-			return true;
-		}
-	}
-
-	public void add(TripBucketItemFlight flight) {
-		addBucket(flight);
 	}
 
 	public void add(TripBucketItemFlightV2 flight) {
@@ -127,10 +101,6 @@ public class TripBucket implements JSONable {
 	private void addBucket(TripBucketItem tripBucketItem) {
 		mRefreshCount++;
 		mItems.add(tripBucketItem);
-	}
-
-	public void add(FlightSearch flightSearch) {
-		add(new TripBucketItemFlight(flightSearch));
 	}
 
 	public int size() {
@@ -202,16 +172,6 @@ public class TripBucket implements JSONable {
 	 *
 	 * @return
 	 */
-	public TripBucketItemFlight getFlight() {
-		int index = getIndexOf(LineOfBusiness.FLIGHTS);
-		return index == -1 ? null : (TripBucketItemFlight) mItems.get(index);
-	}
-
-	/**
-	 * Returns the first flight found in the bucket, or null if not found.
-	 *
-	 * @return
-	 */
 	public TripBucketItemFlightV2 getFlightV2() {
 		int index = getIndexOf(LineOfBusiness.FLIGHTS_V2);
 		return index == -1 ? null : (TripBucketItemFlightV2) mItems.get(index);
@@ -267,7 +227,6 @@ public class TripBucket implements JSONable {
 	public JSONObject toJson() {
 		try {
 			JSONObject obj = new JSONObject();
-			JSONUtils.putJSONableList(obj, "items", mItems);
 			JSONUtils.putJSONable(obj, "airAttach", mAirAttach);
 			return obj;
 		}
@@ -279,30 +238,6 @@ public class TripBucket implements JSONable {
 
 	@Override
 	public boolean fromJson(JSONObject obj) {
-		// We have a custom fromJson because of the way that this class is structured. Because
-		// mItems is a Collection of an abstract class, we cannot use the JSONUtils methods and
-		// provide TripBucketItem.class and have instantiations occur. Therefore, we store a tag
-		// in the toJson of the subclasses and refer to that here in order to build the TripBucket
-		// back up again.
-		final String key = "items";
-		if (obj != null && obj.has(key)) {
-			JSONArray arr = obj.optJSONArray(key);
-			if (arr != null) {
-				int len = arr.length();
-				mItems = new ArrayList<>(len);
-
-				for (int a = 0; a < len; a++) {
-					JSONObject jsonObj = arr.optJSONObject(a);
-
-					String type = jsonObj.optString("type");
-					if ("flight".equals(type)) {
-						TripBucketItemFlight flight = new TripBucketItemFlight();
-						flight.fromJson(jsonObj);
-						mItems.add(flight);
-					}
-				}
-			}
-		}
 		mAirAttach = JSONUtils.getJSONable(obj, "airAttach", AirAttach.class);
 		return true;
 	}

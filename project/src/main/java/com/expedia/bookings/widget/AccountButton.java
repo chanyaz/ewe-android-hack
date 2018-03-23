@@ -21,7 +21,6 @@ import android.widget.TextView;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.LoyaltyMembershipTier;
 import com.expedia.bookings.data.Money;
@@ -34,7 +33,6 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2;
 import com.expedia.bookings.data.trips.TripBucketItemLX;
 import com.expedia.bookings.data.trips.TripBucketItemPackages;
@@ -341,12 +339,6 @@ public class AccountButton extends LinearLayout {
 	private String getRewardPointsText(LineOfBusiness lob) {
 		String rewardPoints = "";
 		switch (lob) {
-		case FLIGHTS:
-			TripBucketItemFlight flight = Db.getTripBucket().getFlight();
-			FlightTrip flightTrip = flight == null ? null : flight.getFlightTrip();
-			rewardPoints = flightTrip == null ? "" : getRewardsString(flightTrip.getRewards());
-			break;
-
 		case FLIGHTS_V2:
 			TripBucketItemFlightV2 flightV2 = Db.getTripBucket().getFlightV2();
 			FlightCreateTripResponse flightTripV2 = flightV2 == null ? null : flightV2.flightCreateTripResponse;
@@ -450,12 +442,6 @@ public class AccountButton extends LinearLayout {
 			//TODO Remove trip.getRewards() != null && trip.getRewards().getTotalAmountToEarn() != null. Currently we need to initialize it till we start getting this in production.
 			if (trip != null && trip.getRewards() != null && (trip.getRewards().getTotalPointsToEarn() != 0
 				|| trip.getRewards().getTotalAmountToEarn() != null)) {
-				return trip.getRewards();
-			}
-		}
-		else if (lob == LineOfBusiness.FLIGHTS) {
-			FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
-			if (trip != null && trip.getRewards() != null && trip.getRewards().getTotalAmountToEarn() != null) {
 				return trip.getRewards();
 			}
 		}

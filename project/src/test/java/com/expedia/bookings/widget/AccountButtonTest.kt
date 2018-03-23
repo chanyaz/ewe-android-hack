@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.FlightTrip
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.RewardsInfo
@@ -15,7 +14,6 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.lx.LXCreateTripResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
-import com.expedia.bookings.data.trips.TripBucketItemFlight
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.data.trips.TripBucketItemLX
 import com.expedia.bookings.data.trips.TripBucketItemPackages
@@ -87,27 +85,6 @@ class AccountButtonTest {
         createTripResponse.rewards = rewardsInfo
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
         val rewards = accountButton.getRewardsForLOB(LineOfBusiness.HOTELS)
-        assertNotNull(rewards)
-    }
-
-    @Test
-    fun testNoRewardsForFlights() {
-        val flightTrip = FlightTrip()
-        val tripBucketItemFlight = TripBucketItemFlight(flightTrip, null)
-        Db.getTripBucket().add(tripBucketItemFlight)
-        val rewards = accountButton.getRewardsForLOB(LineOfBusiness.FLIGHTS)
-        assertNull(rewards)
-    }
-
-    @Test
-    fun testRewardsForFlights() {
-        val rewardsInfo = RewardsInfo()
-        rewardsInfo.totalAmountToEarn = Money("1234", "USD")
-        val flightTrip = FlightTrip()
-        flightTrip.rewards = rewardsInfo
-        val tripBucketItemFlight = TripBucketItemFlight(flightTrip, null)
-        Db.getTripBucket().add(tripBucketItemFlight)
-        val rewards = accountButton.getRewardsForLOB(LineOfBusiness.FLIGHTS)
         assertNotNull(rewards)
     }
 

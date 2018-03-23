@@ -46,7 +46,6 @@ import com.expedia.bookings.analytics.cesc.SharedPrefsCESCPersistenceProvider;
 import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightItinDetailsResponse;
-import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelItinDetailsResponse;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.LoyaltyMembershipTier;
@@ -4045,22 +4044,6 @@ public class OmnitureTracking {
 		s.setAppState(pageName);
 		s.setEvar(18, lobPageName);
 		s.setEvents("event38");
-
-		return s;
-	}
-
-	private static ADMS_Measurement createTrackPageLoadEventPriceChange(String pageName) {
-		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
-
-		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
-
-		// This is only to be included when there is a price change shown on the page. This should be the % increase or
-		// decrease in price. Round to whole integers.
-		String priceChange = trip.computePercentagePriceChangeForOmnitureTracking();
-		if (priceChange != null) {
-			s.setEvents("event62");
-			s.setProp(9, priceChange);
-		}
 
 		return s;
 	}
