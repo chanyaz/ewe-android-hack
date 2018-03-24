@@ -9,6 +9,7 @@ import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.extensions.LiveDataObserver
 import com.expedia.bookings.itin.common.ItinToolbar
 import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepo
+import com.expedia.bookings.itin.scopes.HotelItinPricingSummaryScope
 import com.expedia.bookings.itin.scopes.HotelItinToolbarScope
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.itin.utils.Intentable
@@ -30,6 +31,7 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
     }
 
     val toolbar: ItinToolbar by bindView(R.id.widget_hotel_itin_toolbar)
+    val pricingSummaryView: HotelItinPricingSummaryView by bindView(R.id.hotel_itin_pricing_summary_view)
 
     lateinit var jsonUtil: IJsonToItinUtil
 
@@ -42,6 +44,8 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
             finishActivity()
         }
     }
+
+    lateinit var summaryViewModel: HotelItinPricingSummaryViewModel<HotelItinPricingSummaryScope>
 
     val itineraryManager: ItineraryManager = ItineraryManager.getInstance()
 
@@ -57,6 +61,10 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
         val toolbarScope = HotelItinToolbarScope(stringProvider, hotelRepo, this)
         toolbarViewModel = HotelItinPricingRewardsToolbarViewModel(toolbarScope)
         toolbar.viewModel = toolbarViewModel
+
+        val summaryScope = HotelItinPricingSummaryScope(hotelRepo, stringProvider, this)
+        summaryViewModel = HotelItinPricingSummaryViewModel(summaryScope)
+        pricingSummaryView.viewModel = summaryViewModel
 
         hotelRepo.liveDataInvalidItin.observe(this, LiveDataObserver {
             finishActivity()

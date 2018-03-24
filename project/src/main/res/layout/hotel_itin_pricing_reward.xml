@@ -21,7 +21,7 @@
     <com.expedia.bookings.widget.ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gray100"
+        android:background="@color/gray200"
         android:fadingEdge="none"
         android:paddingBottom="20dp"
         android:paddingLeft="12dp"
@@ -37,9 +37,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/itin_hotel_details_price_summary_heading"
-                android:textColor="@color/gray900"
+                android:textColor="@color/gray750"
                 android:textSize="18sp"
                 app:textStyle="medium" />
+
+            <com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingSummaryView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/hotel_itin_pricing_summary_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:layout_marginLeft="11dp"
+                android:layout_marginRight="11dp"
+                android:layout_marginTop="12dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/hotel_itin_pricing_summary_container"
+                    android:orientation="vertical"
+                    android:padding="16dp"/>
+            </com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingSummaryView>
+
         </LinearLayout>
 
     </com.expedia.bookings.widget.ScrollView>

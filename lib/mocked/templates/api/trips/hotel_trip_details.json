@@ -121,6 +121,35 @@
                 "baseFormatted": "$504.46",
                 "baseWithAdjustmentForDRRRateDiscount": "450.66",
                 "baseWithAdjustmentForDRRRateDiscountFormatted": "$450.66",
+                "priceDetailsPerDay": [
+                  {
+                    "amount": "293.57",
+                    "amountFormatted": "$293.57",
+                    "day": {
+                      "epochSeconds": 1526792400,
+                      "localized": "May 20, 2018 3:00:00 PM",
+                      "localizedFullDate": "Sunday, May 20, 2018",
+                      "localizedLongDate": "May 20, 2018",
+                      "localizedMediumDate": "May 20, 2018",
+                      "localizedShortDate": "Sun, 20 May",
+                      "localizedShortTime": "3:00 PM",
+                      "raw": "2018-05-20T15:00:00+10:00",
+                      "timeZoneOffsetSeconds": 36000
+                    },
+                    "localizedDay": {
+                      "epochSeconds": 1526792400,
+                      "localized": "May 20, 2018 3:00:00 PM",
+                      "localizedFullDate": "Sun, May 20",
+                      "localizedLongDate": "May 20, 2018",
+                      "localizedMediumDate": "May 20",
+                      "localizedShortDate": "5/20/2018",
+                      "localizedShortTime": "3:00pm",
+                      "raw": "2018-05-20T15:00:00+10:00",
+                      "timeZoneOffsetSeconds": 36000
+                    },
+                    "primaryCurrencyCode": "USD"
+                  }
+                ],
                 "taxesAndFees": "70.28",
                 "taxesAndFeesFormatted": "$70.28",
                 "adjustmentForDRRRateDiscount": "-53.80",
