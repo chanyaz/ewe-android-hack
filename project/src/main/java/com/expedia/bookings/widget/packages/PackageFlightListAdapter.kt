@@ -86,8 +86,9 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
         }
     }
 
+    //Two additional views (best flight cell and "All flights" header) when showing best flights
     override fun adjustPosition(): Int {
-        return if (shouldShowBestFlight) 2 else (if (isChangePackageSearch) 0 else 1)
+        return if (shouldShowBestFlight) 3 else 1
     }
 
     override fun getPriceDescriptorMessageIdForFSR(): Int? {

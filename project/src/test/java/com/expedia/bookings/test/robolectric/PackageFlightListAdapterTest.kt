@@ -81,7 +81,7 @@ class PackageFlightListAdapterTest {
         createSystemUnderTest()
         sut.setNewFlights(emptyList())
         sut.shouldShowBestFlight = false
-        val itemViewType = sut.getItemViewType(2)
+        val itemViewType = sut.getItemViewType(1)
         assertEquals(AbstractFlightListAdapter.ViewTypes.FLIGHT_CELL_VIEW.ordinal, itemViewType)
     }
 
@@ -116,9 +116,18 @@ class PackageFlightListAdapterTest {
         createSystemUnderTest()
         createExpectedFlightLeg()
         sut.setNewFlights(listOf(flightLeg))
-        sut.shouldShowBestFlight = true
-        val itemViewType = sut.getItemViewType(3)
+        sut.shouldShowBestFlight = false
+        val itemViewType = sut.getItemViewType(1)
         assertEquals(AbstractFlightListAdapter.ViewTypes.FLIGHT_CELL_VIEW.ordinal, itemViewType)
+    }
+
+    @Test
+    fun testItemCountWhenBestFlightIsFalse() {
+        createSystemUnderTest()
+        createExpectedFlightLeg()
+        sut.setNewFlights(listOf(flightLeg))
+        sut.shouldShowBestFlight = false
+        assertEquals(2, sut.itemCount)
     }
 
     @Test
@@ -133,12 +142,22 @@ class PackageFlightListAdapterTest {
     }
 
     @Test
+    fun testItemCountWhenBestFlightIsTrue() {
+        createSystemUnderTest()
+        createExpectedFlightLeg()
+        flightLeg.isBestFlight = true
+        sut.setNewFlights(listOf(flightLeg))
+        sut.shouldShowBestFlight = true
+        assertEquals(4, sut.itemCount)
+    }
+
+    @Test
     fun testFlightCellViewShownWhenChangePackageSearchIsFalseAndBestFlightIsFalse() {
         sut = PackageFlightListAdapter(context, flightSelectedSubject, false)
         createExpectedFlightLeg()
         sut.setNewFlights(listOf(flightLeg))
-        sut.shouldShowBestFlight = true
-        val itemViewType = sut.getItemViewType(3)
+        sut.shouldShowBestFlight = false
+        val itemViewType = sut.getItemViewType(1)
         assertEquals(AbstractFlightListAdapter.ViewTypes.FLIGHT_CELL_VIEW.ordinal, itemViewType)
     }
 
@@ -154,7 +173,36 @@ class PackageFlightListAdapterTest {
     }
 
     @Test
+    fun testItemCountWhenChangePackageSearchIsFalseAndBestFlightIsTrue() {
+        sut = PackageFlightListAdapter(context, flightSelectedSubject, false)
+        createExpectedFlightLeg()
+        flightLeg.isBestFlight = true
+        sut.setNewFlights(listOf(flightLeg))
+        sut.shouldShowBestFlight = true
+        assertEquals(4, sut.itemCount)
+    }
+
+    @Test
     fun testFlightCellViewShownWhenFlightsSizeIsTwoAndBestFlightIsFalse() {
+        sut = PackageFlightListAdapter(context, flightSelectedSubject, false)
+        createExpectedFlightLeg()
+        sut.setNewFlights(arrayListOf(flightLeg, flightLeg))
+        sut.shouldShowBestFlight = false
+        val itemViewType = sut.getItemViewType(3)
+        assertEquals(AbstractFlightListAdapter.ViewTypes.FLIGHT_CELL_VIEW.ordinal, itemViewType)
+    }
+
+    @Test
+    fun testItemCountWhenFlightSizeTwoAndBestFlightFalse() {
+        sut = PackageFlightListAdapter(context, flightSelectedSubject, false)
+        createExpectedFlightLeg()
+        sut.setNewFlights(arrayListOf(flightLeg, flightLeg))
+        sut.shouldShowBestFlight = false
+        assertEquals(3, sut.itemCount)
+    }
+
+    @Test
+    fun testFlightCellViewShownWhenFlightsSizeIsTwoAndBestFlightIsTrue() {
         sut = PackageFlightListAdapter(context, flightSelectedSubject, false)
         createExpectedFlightLeg()
         sut.setNewFlights(arrayListOf(flightLeg, flightLeg))
@@ -164,14 +212,12 @@ class PackageFlightListAdapterTest {
     }
 
     @Test
-    fun testFlightCellViewShownWhenFlightsSizeIsTwoAndBestFlightIsTrue() {
+    fun testItemCountWhenFlightSizeTwoAndBestFlightTrue() {
         sut = PackageFlightListAdapter(context, flightSelectedSubject, false)
         createExpectedFlightLeg()
-        flightLeg.isBestFlight = true
         sut.setNewFlights(arrayListOf(flightLeg, flightLeg))
         sut.shouldShowBestFlight = true
-        val itemViewType = sut.getItemViewType(3)
-        assertEquals(AbstractFlightListAdapter.ViewTypes.FLIGHT_CELL_VIEW.ordinal, itemViewType)
+        assertEquals(5, sut.itemCount)
     }
 
     @Test
