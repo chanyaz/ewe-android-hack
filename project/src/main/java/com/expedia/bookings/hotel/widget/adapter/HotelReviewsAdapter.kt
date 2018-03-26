@@ -77,6 +77,7 @@ class HotelReviewsAdapter(val context: Context, val viewPager: ViewPager, val vm
         hotelReviewsView.recyclerAdapter.translateReviewIdSubject.subscribe { reviewId ->
             vm.translateReviewIdObserver.onNext(reviewId)
         }
+        hotelReviewsView.recyclerAdapter.translationMap = vm.translationMap
         return hotelReviewsView
     }
 

@@ -35,12 +35,13 @@ class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : Recycler
         var moreReviewsAvailable = false
 
         val translateReviewIdSubject = PublishSubject.create<String>()
-        val reviewTranslatedSubject = endlessObserver<HotelReviewsResponse.Review> { review ->
-            translationMap.put(review.reviewId, review)
-            //todo: update UI
+        val reviewTranslatedSubject = endlessObserver<HotelReviewsResponse.Review> { translatedReview ->
+            val reviewIndex = reviews.indexOfFirst { reviewInList -> reviewInList.reviewId == translatedReview.reviewId }
+            if (reviewIndex >= 0) {
+                notifyItemChanged(reviewIndex + 1)
+            }
         }
-
-        private var translationMap: HashMap<String, HotelReviewsResponse.Review> = HashMap()
+        var translationMap: HashMap<String, HotelReviewsResponse.Review>? = null
 
         private var reviews: ArrayList<HotelReviewsResponse.Review> = arrayListOf()
         private var reviewsSummary: HotelReviewsResponse.ReviewSummary = HotelReviewsResponse.ReviewSummary()
@@ -70,6 +71,10 @@ class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : Recycler
                 is HotelReviewRowView -> {
                     val hotelReviewRowViewModel = HotelReviewRowViewModel(holder.itemView.context)
                     hotelReviewRowViewModel.reviewObserver.onNext(reviews[position - 1])
+                    translationMap?.get(reviews[position - 1].reviewId)?.let { translatedReview ->
+                        hotelReviewRowViewModel.translatedReviewObserver.onNext(translatedReview)
+                    }
+                    hotelReviewRowViewModel.translateReviewIdObservable.subscribe(translateReviewIdSubject)
                     holder.itemView.bindData(hotelReviewRowViewModel)
                 }
                 is HotelReviewsLoadingWidget -> loadMoreReviews()

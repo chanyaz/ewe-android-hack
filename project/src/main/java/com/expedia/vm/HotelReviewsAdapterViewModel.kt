@@ -26,13 +26,18 @@ class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: Rev
     val newestReviewsObservable = PublishSubject.create<List<Review>>()
     val reviewTranslatedObservable = PublishSubject.create<Review>()
 
+    var translationMap: HashMap<String, HotelReviewsResponse.Review> = HashMap()
+
     private val reviewsDownloadsObservable = PublishSubject.create<Observable<Pair<ReviewSort, HotelReviewsResponse>>>()
     private val orderedReviewsObservable = Observable.concat(reviewsDownloadsObservable)
     private val reviewsObservable = PublishSubject.create<Pair<ReviewSort, HotelReviewsResponse>>()
 
     val translateReviewIdObserver = endlessObserver<String> { reviewId ->
-        reviewsServices.translate(reviewId, Locale.getDefault().language).subscribe { translatedReview ->
-            reviewTranslatedObservable.onNext(translatedReview)
+        val alreadyTranslatedReview = translationMap[reviewId]
+        if (alreadyTranslatedReview != null) {
+            reviewTranslatedObservable.onNext(alreadyTranslatedReview)
+        } else {
+            getReviewFromApi(reviewId)
         }
     }
 
@@ -84,5 +89,12 @@ class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: Rev
                 .map { it.second.reviewDetails.reviewCollection.review }
                 .map { it.filter { it.ratingOverall < MIN_FAVORABLE_RATING } }
                 .subscribe(criticalReviewsObservable)
+    }
+
+    private fun getReviewFromApi(reviewId: String) {
+        reviewsServices.translate(reviewId, Locale.getDefault().language).subscribe ({ translatedReview ->
+            translationMap[reviewId] = translatedReview
+            reviewTranslatedObservable.onNext(translatedReview)
+        }, { /* TODO: handle unhappy path */ })
     }
 }

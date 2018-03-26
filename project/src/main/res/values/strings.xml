@@ -2844,6 +2844,11 @@
     <!-- Special case for 0 reviews -->
     <string name="no_reviews">No Reviews</string>
 
+    <!-- Text for button to translate a hotel review into user's language -->
+    <string name="user_review_see_translation">See Translation</string>
+    <!-- Text for button while the review is being translated -->
+    <string name="user_review_translation_loading">Loading&#8230;</string>
+
     <!-- HOtel V2A number of reviews -->
     <plurals name="hotel_number_of_reviews">
         <item quantity="zero">No Reviews</item>

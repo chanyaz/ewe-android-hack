@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.RatingBar
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
@@ -18,6 +19,7 @@ class HotelReviewRowView(context: Context) : LinearLayout(context) {
     val content: TextView by bindView(R.id.content)
     val reviewer: TextView by bindView(R.id.reviewer)
     val date: TextView by bindView(R.id.date)
+    private val translateButton: TextView by bindView(R.id.hotel_review_row_translate)
 
     init {
         View.inflate(getContext(), R.layout.hotel_review_row, this)
@@ -32,6 +34,8 @@ class HotelReviewRowView(context: Context) : LinearLayout(context) {
         vm.reviewerTextObservable.subscribeTextAndVisibility(reviewer)
         vm.reviewBodyObservable.subscribeTextAndVisibility(content)
         vm.submissionDateObservable.subscribeTextAndVisibility(date)
+        vm.translateButtonTextObservable.subscribeTextAndVisibility(translateButton)
+        translateButton.subscribeOnClick(vm.onTranslateClick)
     }
 
     private fun setRatingBarContentDescription(rating: Int) {

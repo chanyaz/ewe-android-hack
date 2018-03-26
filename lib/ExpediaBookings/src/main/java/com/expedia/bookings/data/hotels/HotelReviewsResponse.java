@@ -43,6 +43,7 @@ public class HotelReviewsResponse {
 		public IsRecommended isRecommended;
 		public String userLocation;
 		public DateTime reviewSubmissionTime;
+		public String contentLocale;
 
 		public enum IsRecommended {
 			YES,

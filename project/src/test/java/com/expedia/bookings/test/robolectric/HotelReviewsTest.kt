@@ -94,7 +94,16 @@ class HotelReviewsTest {
         val testSubscriber = TestObserver<HotelReviewsResponse.Review>()
         vm.reviewTranslatedObservable.subscribe(testSubscriber)
         vm.translateReviewIdObserver.onNext("5a2cc5ffa6ffd10dd50e1844")
-        assertEquals(testSubscriber.valueCount(), 1)
+        testSubscriber.assertValueCount(1)
+    }
+
+    @Test
+    fun testReviewAlreadyTranslated() {
+        val testSubscriber = TestObserver<HotelReviewsResponse.Review>()
+        vm.reviewTranslatedObservable.subscribe(testSubscriber)
+        vm.translationMap.put("a1", HotelReviewsResponse.Review())
+        vm.translateReviewIdObserver.onNext("a1")
+        testSubscriber.assertValueCount(1)
     }
 
     private fun getExpectedReviewRequestStr(startParam: Int): String {
