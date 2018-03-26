@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget.packages
 
 import android.support.v4.app.FragmentActivity
+import android.support.v7.view.menu.MenuItemImpl
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
@@ -90,6 +91,15 @@ class PackageOverviewTest {
         bundleWidget.bundleHotelWidget.expandSelectedHotel()
         assertEquals(getExpectedHotelRowContDescription("Button to collapse"), bundleWidget.bundleHotelWidget.rowContainer.contentDescription)
         assertEquals(getExpectedFlightRowContDescription("Button to expand"), bundleWidget.outboundFlightWidget.rowContainer.contentDescription)
+    }
+
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @Test
+    fun testChangeSearchIconOnBundleOverviewHeader() {
+        createTrip()
+        assertEquals(bundleWidget.toggleMenuObservable.value, true)
+        (overview.changeFlight as MenuItemImpl).invoke()
+        assertEquals(bundleWidget.toggleMenuObservable.value, false)
     }
 
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))

@@ -273,6 +273,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         resetBundleTotalTax()
         bundleWidget.collapseBundleWidgets()
         bundleWidget.viewModel.showSplitTicketMessagingObservable.onNext(false)
+        bundleWidget.toggleMenuObservable.onNext(false)
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
