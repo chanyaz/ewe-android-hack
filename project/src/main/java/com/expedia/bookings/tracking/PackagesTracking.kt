@@ -303,4 +303,8 @@ class PackagesTracking {
     fun trackFHCTabClick() {
         OmnitureTracking.trackPackagesFHCTabClick()
     }
+
+    fun trackDormantUserHomeRedirect() {
+        OmnitureTracking.trackPackagesDormantUserHomeRedirect()
+    }
 }

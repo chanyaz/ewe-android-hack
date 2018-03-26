@@ -4377,6 +4377,7 @@ public class OmnitureTracking {
 	private static final String PACKAGES_HOTEL_RT_OUT_DETAILS = "App.Package.Flight.Search.Roundtrip.Out.Details";
 	private static final String PACKAGES_HOTEL_RT_IN_DETAILS = "App.Package.Flight.Search.Roundtrip.In.Details";
 
+	private static final String PACKAGES_DORMANT_REDIRECT = "APP.PACKAGE.DORMANT.HOMEREDIRECT";
 	private static final String PACKAGES_FHC_TAB = "App.Package.DS.FHC.TabClicked";
 	private static final String PACKAGES_HOTEL_DETAILS_LOAD = "App.Package.Hotels.Infosite";
 	private static final String PACKAGES_HOTEL_DETAILS_REVIEWS = "App.Package.Reviews";
@@ -5038,6 +5039,10 @@ public class OmnitureTracking {
 
 	public static void trackPackagesFHCTabClick() {
 		createAndTrackLinkEvent(PACKAGES_FHC_TAB, "FHC tab");
+	}
+
+	public static void trackPackagesDormantUserHomeRedirect() {
+		createAndTrackLinkEvent(PACKAGES_DORMANT_REDIRECT, "Dormant Redirect");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
