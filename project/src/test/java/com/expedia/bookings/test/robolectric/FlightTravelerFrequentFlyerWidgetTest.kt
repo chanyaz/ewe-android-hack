@@ -135,7 +135,7 @@ class FlightTravelerFrequentFlyerWidgetTest {
     fun testDifferentTravelerUpdatesEnrolledPrograms() {
         Db.sharedInstance.travelers[0].addFrequentFlyerMembership(getNewFrequentFlyerMembership("AA", "12345", "AA", "AA-A1"))
         givenLegsAndFrequentFlyerPlans(hasEnrolledPlans = true)
-        val frequentFlyerViewHolder = getViewHolderAndOpen()
+        var frequentFlyerViewHolder = getViewHolderAndOpen()
         Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog()).dismiss()
         val oldEnrolledPlans = frequentFlyerViewHolder.frequentFlyerDialogAdapter.enrolledFrequentFlyerPlans
 
@@ -144,7 +144,8 @@ class FlightTravelerFrequentFlyerWidgetTest {
         val newTraveler = Traveler()
         newTraveler.addFrequentFlyerMembership(getNewFrequentFlyerMembership("UA", "98765", "UA", "UA-U1"))
         widget.viewModel.updateTraveler(newTraveler)
-
+        openFrequentFlyerWidget()
+        frequentFlyerViewHolder = getViewHolderAndOpen()
         val newEnrolledPlans = frequentFlyerViewHolder.frequentFlyerDialogAdapter.enrolledFrequentFlyerPlans
         assertEnrolledPlans(newEnrolledPlans, 1, "UA", "98765", "UA")
     }
@@ -163,6 +164,7 @@ class FlightTravelerFrequentFlyerWidgetTest {
 
         widget.onAddNewTravelerSelected()
         updateTravelerSubscriber.assertValueCount(1)
+        openFrequentFlyerWidget()
 
         val updatedViewHolder = widget.frequentFlyerRecycler?.findViewHolderForAdapterPosition(0) as FrequentFlyerViewHolder
 

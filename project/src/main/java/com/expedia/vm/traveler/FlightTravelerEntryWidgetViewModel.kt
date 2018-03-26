@@ -67,6 +67,6 @@ class FlightTravelerEntryWidgetViewModel(val context: Context, travelerIndex: In
         tsaViewModel.updateTraveler(traveler)
         advancedOptionsViewModel.updateTraveler(traveler)
         passportCountrySubject.onNext(Optional(traveler.primaryPassportCountry))
-        frequentFlyerAdapterViewModel?.updateTravelerObservable?.onNext(traveler)
+        frequentFlyerAdapterViewModel.updateTravelerObservable.onNext(traveler)
     }
 }

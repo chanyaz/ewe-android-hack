@@ -5,6 +5,7 @@ import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FrequentFlyerCard
+import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.bookings.utils.FlightV2Utils
 import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
@@ -21,32 +22,46 @@ class FrequentFlyerAdapterViewModel(var traveler: Traveler) {
     init {
         updateTravelerObservable.subscribe { traveler ->
             this.traveler = traveler
-            viewHolderViewModels.forEach { viewModel ->
-                viewModel.updateTraveler(traveler)
-            }
         }
 
         ObservableOld.combineLatest(flightLegsObservable, frequentFlyerPlans, { legs, plans ->
-            if (legs != null && plans != null) {
-                viewHolderViewModels.clear()
-                val validAirlines = ArrayList<FrequentFlyerCard>()
-                val airlines = FlightV2Utils.getAirlineNames(legs)
-                airlines.forEach { airline ->
-                    val viewModel = FlightTravelerFrequentFlyerItemViewModel(traveler)
-                    setUpFrequentFlyerPlans(plans, viewModel)
-                    if (viewModel.allAirlineCodes.contains(airline.airlineCode)) {
-                        viewHolderViewModels.add(viewModel)
-                        validAirlines.add(airline)
-                        viewModel.bind(airline)
-                    }
-                }
-                val hasValidAirlines = validAirlines.isNotEmpty()
-                if (hasValidAirlines) {
-                    frequentFlyerCardsObservable.onNext(validAirlines)
-                }
-                showFrequentFlyerObservable.onNext(hasValidAirlines)
-            }
+            updateFrequentFlyerData(legs, plans)
         }).subscribe()
+
+        updateTravelerObservable.withLatestFrom(flightLegsObservable, frequentFlyerPlans, { _, legs, plans ->
+            updateFrequentFlyerData(legs, plans)
+        }).subscribe()
+    }
+
+    private fun updateFrequentFlyerData(legs: List<FlightLeg>, plans: FlightCreateTripResponse.FrequentFlyerPlans) {
+        if (legs != null && plans != null) {
+            viewHolderViewModels.clear()
+            val validAirlines = createFrequentFlyerCards(legs, plans)
+            val hasValidAirlines = validAirlines.isNotEmpty()
+            if (hasValidAirlines) {
+                frequentFlyerCardsObservable.onNext(validAirlines)
+            }
+            showFrequentFlyerObservable.onNext(hasValidAirlines)
+        }
+    }
+
+    private fun createFrequentFlyerCards(legs: List<FlightLeg>, plans: FlightCreateTripResponse.FrequentFlyerPlans): ArrayList<FrequentFlyerCard> {
+        val validAirlines = ArrayList<FrequentFlyerCard>()
+        updateFlightTravelerFrequentFlyerItemViewModel(legs, plans, validAirlines)
+        return validAirlines
+    }
+
+    private fun updateFlightTravelerFrequentFlyerItemViewModel(legs: List<FlightLeg>, plans: FlightCreateTripResponse.FrequentFlyerPlans, validAirlines: ArrayList<FrequentFlyerCard>) {
+        val airlines = FlightV2Utils.getAirlineNames(legs)
+        airlines.forEach { airline ->
+            val viewModel = FlightTravelerFrequentFlyerItemViewModel(traveler)
+            setUpFrequentFlyerPlans(plans, viewModel)
+            if (viewModel.allAirlineCodes.contains(airline.airlineCode)) {
+                viewHolderViewModels.add(viewModel)
+                validAirlines.add(airline)
+                viewModel.bind(airline)
+            }
+        }
     }
 
     private fun setUpFrequentFlyerPlans (frequentFlyerPlans: FlightCreateTripResponse.FrequentFlyerPlans, viewModel: FlightTravelerFrequentFlyerItemViewModel) {
