@@ -34,6 +34,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBackFlowFromOverviewEnabled
 import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.utils.CrashlyticsLoggingUtil.logWhenNotAutomation
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.PackageCheckoutPresenter
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.shared.WebCheckoutView
@@ -48,6 +49,7 @@ import com.expedia.vm.packages.PackageTotalPriceViewModel
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.PublishSubject
 import org.joda.time.format.DateTimeFormat
+import javax.inject.Inject
 
 class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoScreenOverviewPresenter(context, attrs) {
 
@@ -61,10 +63,11 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
     val toolbarNavIconContDescSubject = PublishSubject.create<String>()
     val performMIDCreateTripSubject = PublishSubject.create<Unit>()
 
+    lateinit var webCheckoutViewModel: PackageWebCheckoutViewViewModel
+        @Inject set
     val webCheckoutView: WebCheckoutView by lazy {
         val viewStub = findViewById<ViewStub>(R.id.package_web_checkout_stub)
         val webCheckoutView = viewStub.inflate() as WebCheckoutView
-        val webCheckoutViewModel = PackageWebCheckoutViewViewModel(context)
         webCheckoutViewModel.packageCreateTripViewModel = getCheckoutPresenter().getCreateTripViewModel()
         webCheckoutViewModel.packageCreateTripViewModel.midCreateTripErrorObservable.subscribe { error ->
             PackagesTracking().trackMidCreateTripError(error)
@@ -120,6 +123,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
     }
 
     init {
+        Ui.getApplication(context).packageComponent().inject(this)
         bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel = PackageCheckoutOverviewViewModel(context)
         bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel = PackageCheckoutOverviewViewModel(context)
         toolbarNavIconContDescSubject.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIconContentDesc)
