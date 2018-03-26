@@ -1,0 +1,76 @@
+{
+  "TH": {
+    "supportPhoneNumber": {
+      "*": "02 787 3093"
+    },
+    "TPID": 17,
+    "EAPID": 43386,
+    "packagesEnabled": true,
+    "flightsEnabled": true,
+    "url": "thailand.airasiago.com",
+    "memberDealCardImageUrl": "https://media.expedia.com/mobiata/mobile/apps/ExpediaBooking/TabletDestinations/images/bkk.jpg",
+    "lastMinuteDealsCardImageUrl": "https://media.expedia.com/mobiata/mobile/apps/ExpediaBooking/TabletDestinations/images/mauritius.jpg",
+    "countryCode": "THA",
+    "supportedLocales": [
+      {
+        "localeIdentifier": "th_TH",
+        "appInfoURL": "https://thailand.airasiago.com/app?langid=1054",
+        "languageCode": "th",
+        "languageIdentifier": 1054,
+        "hotelDescriptionLocaleKey": "th",
+        "createAccountMarketingText" : "โปรดส่งอีเมลดีลท่องเที่ยว ข้อเสนอพิเศษ และข้อมูลอื่นๆ จากAirAsiaGoให้ฉัน",
+        "appSupportURLs": {
+          "ios": "https://www.mobiata.com/support/airasiago/ios",
+          "android": "https://www.mobiata.com/support/airasiago/android"
+        },
+        "bookingSupportURL": "https://thailand.airasiago.com/g/rf/feedback?langid=1054",
+        "forgotPasswordURL": "https://thailand.airasiago.com/user/forgotpassword?langid=1054",
+        "websiteURL": "https://thailand.airasiago.com/?langid=1054",
+        "hotelBookingStatement": "เมื่อดำเนินการจองนี้ให้เสร็จสมบูรณ์ ข้าพเจ้ายอมรับว่าได้อ่านและยอมรับใน <a href=\"https://thailand.airasiago.com/?langid=1054\">กฎและข้อจำกัด ข้อตกลงและเงื่อนไข และนโยบายความเป็นส่วนตัวแล้ว</a>",
+        "hotelBookingStatement-pad": "เมื่อดำเนินการจองนี้ให้เสร็จสมบูรณ์ ข้าพเจ้ายอมรับว่าได้อ่านและยอมรับในกฎและข้อจำกัด ข้อตกลงและเงื่อนไข และนโยบายความเป็นส่วนตัวแล้ว",
+        "termsAndConditionsLinkText": "ข้อตกลงและเงื่อนไข",
+        "privacyPolicyLinkText": "นโยบายความเป็นส่วนตัว",
+        "termsAndConditionsURL": "https://thailand.airasiago.com/p/corporate/termsofuse?langid=1054",
+        "privacyPolicyURL": "https://thailand.airasiago.com/p/corporate/privacypolicy?langid=1054"
+      },
+      {
+        "localeIdentifier": "en_TH",
+        "appInfoURL": "https://thailand.airasiago.com/app?langid=2057",
+        "languageCode": "en",
+        "languageIdentifier": 2057,
+        "hotelDescriptionLocaleKey": "en",
+        "createAccountMarketingText" : "Please send me AirAsiaGo emails with travel deals, special offers and other information.",
+        "appSupportURLs": {
+          "ios": "https://www.mobiata.com/support/airasiago/ios",
+          "android": "https://www.mobiata.com/support/airasiago/android"
+        },
+        "bookingSupportURL": "https://thailand.airasiago.com/g/rf/feedback?langid=2057",
+        "forgotPasswordURL": "https://thailand.airasiago.com/user/forgotpassword?langid=2057",
+        "websiteURL": "https://thailand.airasiago.com/?langid=2057",
+        "hotelBookingStatement": "By completing this booking I agree that I have read and accept the <a href=\"https://thailand.airasiago.com/?langid=2057\">Rules and Restrictions, the Terms and Conditions, and the Privacy Policy</a>.",
+        "hotelBookingStatement-pad": "By completing this booking I agree that I have read and accept the Rules and Restrictions, the Terms and Conditions, and the Privacy Policy.",
+        "termsAndConditionsLinkText": "Terms and Conditions",
+        "privacyPolicyLinkText": "Privacy Policy",
+        "termsAndConditionsURL": "https://thailand.airasiago.com/p/corporate/termsofuse?langid=2057",
+        "privacyPolicyURL": "https://thailand.airasiago.com/p/corporate/privacypolicy?langid=2057"
+      }
+    ],
+    "automaticallyMappedLocales": [
+      "th_TH"
+    ],
+    "branding": "Thailand.AirAsiaGo.com",
+    "deepLinkDateFormat": "dd/MM/yyyy",
+    "pointOfSaleId": 1256,
+    "shouldDisplayAveragePrices": true,
+    "shouldDisplayBestPriceGuarantee": false,
+    "distanceUnit": "kilometers",
+    "supportsVipAccess": false,
+    "shouldDisplayFlightDropDownList": true,
+    "requiredPaymentFields:flights": "none",
+    "marketingOptIn" : "SHOW_UNCHECKED",
+    "shouldShowRewards": false,
+    "showMultiBrandCreateAccountText" : true,
+    "businessRegion" : "APAC",
+    "hideBillingAddressFields": true
+  }
+}

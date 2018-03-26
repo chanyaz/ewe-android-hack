@@ -1,16 +1,17 @@
 package com.expedia.vm
 
 import android.content.Context
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extensions.safeSubscribe
+import com.expedia.bookings.server.EndpointProvider
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.packages.PackageCreateTripViewModel
+import javax.inject.Inject
 
-class PackageWebCheckoutViewViewModel(var context: Context) : WebCheckoutViewViewModel(context) {
+class PackageWebCheckoutViewViewModel @Inject constructor(val context: Context, val endpointProvider: EndpointProvider) : WebCheckoutViewViewModel(context) {
 
     var packageCreateTripViewModel by notNullAndObservable<PackageCreateTripViewModel> {
         it.multiItemResponseSubject.safeSubscribe { multiItemResponse ->
-            webViewURLObservable.onNext("https://www.${ PointOfSale.getPointOfSale().url}/MultiItemCheckout?tripid=${multiItemResponse.tripId}")
+            webViewURLObservable.onNext(endpointProvider.getE3EndpointUrlWithPath("MultiItemCheckout?tripid=${multiItemResponse.tripId}"))
         }
     }
 

@@ -257,6 +257,15 @@ public abstract class BaseFeatureConfiguration {
 		return PointOfSale.getPointOfSale().getWebsiteUrl();
 	}
 
+	/**
+	 * This flag is only meant for AAG as AB tests cannot be enabled for it.
+	 * Rest all brands completely depend on the Abacus Server for the configuration.
+	 * @return Whether MID API is forcefully enabled for Packages.
+	 */
+	public boolean shouldForceEnableMIDAPIForPackages() {
+		return false;
+	}
+
 	public abstract String getServerEndpointsConfigurationPath();
 
 	public abstract String getPOSConfigurationPath();

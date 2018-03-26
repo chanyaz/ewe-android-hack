@@ -835,4 +835,20 @@ class FeatureConfigurationTest {
             "wotif" -> assertEquals("21/02", formattedDateTime)
         }
     }
+
+    @Test
+    fun testShouldForceEnableMIDAPIForPackages() {
+        when (brand) {
+            "airAsiaGo" -> assertTrue(featureConfig.shouldForceEnableMIDAPIForPackages())
+            "cheapTickets" -> assertFalse(featureConfig.shouldForceEnableMIDAPIForPackages())
+            "ebookers" -> assertFalse(featureConfig.shouldForceEnableMIDAPIForPackages())
+            "expedia" -> assertFalse(featureConfig.shouldForceEnableMIDAPIForPackages())
+            "lastMinute" -> assertFalse(featureConfig.shouldForceEnableMIDAPIForPackages())
+            "mrJet" -> assertFalse(featureConfig.shouldForceEnableMIDAPIForPackages())
+            "orbitz" -> assertFalse(featureConfig.shouldForceEnableMIDAPIForPackages())
+            "travelocity" -> assertFalse(featureConfig.shouldForceEnableMIDAPIForPackages())
+            "voyages" -> assertFalse(featureConfig.shouldForceEnableMIDAPIForPackages())
+            "wotif" -> assertFalse(featureConfig.shouldForceEnableMIDAPIForPackages())
+        }
+    }
 }
