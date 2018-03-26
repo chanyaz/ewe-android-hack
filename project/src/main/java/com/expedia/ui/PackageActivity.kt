@@ -11,6 +11,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackagesPageUsableData
+import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
@@ -28,17 +29,26 @@ class PackageActivity : AbstractAppCompatActivity() {
     var changedOutboundFlight = false
 
     private var isCrossSellPackageOnFSREnabled = false
+    private val IS_RESTORED = "isRestored"
 
     val packagePresenter by bindView<PackagePresenter>(R.id.package_presenter)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        PackagesPageUsableData.SEARCH.pageUsableData.markPageLoadStarted()
-        Ui.getApplication(this).defaultPackageComponents()
-        Ui.getApplication(this).defaultTravelerComponent()
-        setContentView(R.layout.package_activity)
-        Ui.showTransparentStatusBar(this)
-        isCrossSellPackageOnFSREnabled = intent.getBooleanExtra(Constants.INTENT_PERFORM_HOTEL_SEARCH, false)
+        if (savedInstanceState?.containsKey(IS_RESTORED) ?: false) {
+            PackagesTracking().trackDormantUserHomeRedirect()
+            val intent = Intent(this, PhoneLaunchActivity::class.java)
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            finish()
+            startActivity(intent)
+        } else {
+            PackagesPageUsableData.SEARCH.pageUsableData.markPageLoadStarted()
+            Ui.getApplication(this).defaultPackageComponents()
+            Ui.getApplication(this).defaultTravelerComponent()
+            setContentView(R.layout.package_activity)
+            Ui.showTransparentStatusBar(this)
+            isCrossSellPackageOnFSREnabled = intent.getBooleanExtra(Constants.INTENT_PERFORM_HOTEL_SEARCH, false)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -246,4 +256,9 @@ class PackageActivity : AbstractAppCompatActivity() {
 
     @VisibleForTesting( otherwise = VisibleForTesting.PRIVATE)
     fun getCreateTripViewModel() = packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel()
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        outState?.putBoolean(IS_RESTORED, true)
+        super.onSaveInstanceState(outState)
+    }
 }

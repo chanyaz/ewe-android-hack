@@ -635,6 +635,14 @@ class PackagesTrackingTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTrackDormantUserHomeRedirect() {
+        sut.trackDormantUserHomeRedirect()
+        val controlEvar = mapOf(28 to "APP.PACKAGE.DORMANT.HOMEREDIRECT")
+        OmnitureTestUtils.assertLinkTracked("Dormant Redirect", "APP.PACKAGE.DORMANT.HOMEREDIRECT", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+    }
+
+    @Test
     fun testTrackMIDPackageCheckoutConfirmation() {
 
         Db.setPackageParams(getDummyPackageSearchParams())
