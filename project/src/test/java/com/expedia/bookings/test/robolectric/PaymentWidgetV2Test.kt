@@ -131,6 +131,42 @@ class PaymentWidgetV2Test {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testFullyPWPEnablesMenuButton() {
+        val testObserver = TestObserver<Boolean>()
+        sut.validateAndBind()
+        sut.viewmodel.enableMenuItem.subscribe(testObserver)
+
+        val createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithRedeemableOrbucksCreateTripResponse()
+        createTripResponse.tripId = "happy"
+        Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
+
+        testObserver.assertNoValues()
+
+        paymentModel.createTripSubject.onNext(createTripResponse)
+
+        testObserver.assertValue(true)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testNonFullyPWPDisablesMenuButton() {
+        val testObserver = TestObserver<Boolean>()
+        sut.validateAndBind()
+        sut.viewmodel.enableMenuItem.subscribe(testObserver)
+
+        val createTripResponse = mockHotelServiceTestRule.getHappyCreateTripResponse()
+        createTripResponse.tripId = "happy"
+        Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
+
+        testObserver.assertNoValues()
+
+        paymentModel.createTripSubject.onNext(createTripResponse)
+
+        testObserver.assertValue(false)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPaymentTile() {
         sut.validateAndBind()
         //For Paying With Points Only
