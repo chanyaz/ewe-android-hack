@@ -27,16 +27,16 @@ class PackageSuggestionAdapterViewModelTest {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppPackagesMidApi, AbacusVariant.CONTROL.value)
         val mockSuggestionV4Services = MockSuggestionV4Services()
         val viewModel = PackageSuggestionAdapterViewModel(RuntimeEnvironment.application, mockSuggestionV4Services, true, null)
-        assertTrue(viewModel.isMISForRealWorldEnabled())
+        assertFalse(viewModel.isMISForRealWorldEnabled())
     }
 
     @Test
-    fun isMISForRealWorldEnabledFalseForMID() {
+    fun isMISForRealWorldEnabledTrueForMID() {
         AbacusTestUtils.bucketTestsAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesMidApi, AbacusUtils.EBAndroidAppPackagesMISRealWorldGeo)
 
         val mockSuggestionV4Services = MockSuggestionV4Services()
         val viewModel = PackageSuggestionAdapterViewModel(RuntimeEnvironment.application, mockSuggestionV4Services, true, null)
-        assertFalse(viewModel.isMISForRealWorldEnabled())
+        assertTrue(viewModel.isMISForRealWorldEnabled())
     }
 
     class MockSuggestionV4Services : ISuggestionV4Services {

@@ -111,7 +111,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppPackagesEnablePOS = new ABTest(24551);
 	public static final ABTest EBAndroidAppPackagesBreadcrumbsForNav = new ABTest(15835);
 	public static final ABTest EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs = new ABTest(16223);
-	public static final ABTest EBAndroidAppPackagesMISRealWorldGeo = new ABTest(25064, true);
+	public static final ABTest EBAndroidAppPackagesMISRealWorldGeo = new ABTest(25352, true);
 	public static final ABTest EBAndroidAppPackagesShowForceUpdateDialog = new ABTest(16283);
 	public static final ABTest PackagesBackFlowFromOverview = new ABTest(16163);
 	public static final ABTest EBAndroidAppPackagesDisplayFlightSeatingClass = new ABTest(16300);
