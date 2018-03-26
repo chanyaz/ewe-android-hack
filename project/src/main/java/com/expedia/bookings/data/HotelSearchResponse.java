@@ -490,10 +490,8 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 			// HotelFilter search radius
 			if (searchDistance != null) {
 				if (property.getDistanceFromUser() != null) {
-					Distance distanceFromUser = new Distance(property.getDistanceFromUser().getDistance(), property
-						.getDistanceFromUser().getUnit());
-					distanceFromUser.setDistance(Math.rint(distanceFromUser.getDistance() * 10.0d) / 10.0d);
-					if (distanceFromUser == null || distanceFromUser.compareTo(searchDistance) > 0) {
+					Distance distanceFromUser = roundDistanceToTenths(property.getDistanceFromUser());
+					if (distanceFromUser.compareTo(searchDistance) > 0) {
 						continue;
 					}
 				}
@@ -527,6 +525,12 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 			// Property passed the tests, add it to results
 			mFilteredProperties.add(property);
 		}
+	}
+
+	private Distance roundDistanceToTenths(Distance distance) {
+		Distance roundedDistance = new Distance(distance.getDistance(), distance.getUnit());
+		roundedDistance.setDistance(Math.rint(roundedDistance.getDistance() * 10.0d) / 10.0d);
+		return roundedDistance;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////

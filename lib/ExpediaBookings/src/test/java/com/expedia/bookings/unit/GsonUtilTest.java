@@ -140,6 +140,16 @@ public class GsonUtilTest {
 		assertNull(deserializedObject);
 	}
 
+	@Test
+	public void emptyListSerialization() {
+		final String key = "key";
+		JSONObject jsonObject = new JSONObject();
+		GsonUtil.putListForJsonable(jsonObject, key, new ArrayList<TestClass>());
+		List<TestClass> deserializedObject = GsonUtil.getListForJsonable(jsonObject, key, listOfTestClassType);
+
+		assertEquals(0, deserializedObject.size());
+	}
+
 	private void assertTestClassEquals(TestClass expected, TestClass deserialized) {
 		assertEquals(expected.name, deserialized.name);
 		assertEquals(expected.money, deserialized.money);

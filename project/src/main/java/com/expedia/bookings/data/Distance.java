@@ -1,14 +1,12 @@
 package com.expedia.bookings.data;
 
-import java.text.NumberFormat;
 import java.util.Locale;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
+import android.support.annotation.NonNull;
 
-import com.expedia.bookings.R;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.android.maps.MapUtils;
@@ -42,27 +40,6 @@ public class Distance implements JSONable, Comparable<Distance> {
 		fromJson(obj);
 	}
 
-	/**
-	 * Constructor that calculates the distance based on two coordinates
-	 * @param lat1 latitude of start
-	 * @param lon1 longitude of start
-	 * @param lat2 latitude of end
-	 * @param lon2 longitude of end
-	 * @param unit the unit to calculate the results in
-	 */
-	public Distance(double lat1, double lon1, double lat2, double lon2, DistanceUnit unit) {
-		mUnit = unit;
-
-		// Calculate the distance
-		double miles = MapUtils.getDistance(lat1, lon1, lat2, lon2);
-		if (unit == DistanceUnit.MILES) {
-			mDistance = miles;
-		}
-		else {
-			mDistance = MapUtils.milesToKilometers(miles);
-		}
-	}
-
 	public void setDistance(double distance) {
 		mDistance = distance;
 	}
@@ -85,55 +62,8 @@ public class Distance implements JSONable, Comparable<Distance> {
 		}
 	}
 
-	/**
-	 * Sets the unit system for this object.  If convertDistance is true,
-	 * it automatically converts the existing distance value for the new
-	 * unit system.
-	 * @param unit the unit to measure distance in
-	 * @param convertDistance if true, converts existing distance
-	 */
-	public void setUnit(DistanceUnit unit, boolean convertDistance) {
-		if (convertDistance) {
-			mDistance = getDistance(unit);
-		}
-
-		mUnit = unit;
-	}
-
 	public DistanceUnit getUnit() {
 		return mUnit;
-	}
-
-	public String formatDistance(Context context) {
-		return formatDistance(context, mUnit, false);
-	}
-
-	public String formatDistance(Context context, DistanceUnit distanceUnit) {
-		return formatDistance(context, distanceUnit, false);
-	}
-
-	public String formatDistance(Context context, DistanceUnit distanceUnit, boolean abbreviated) {
-		//		if (mDistance < 0.1d) {
-		//			return context.getString(R.string.distance_nearby);
-		//		}
-
-		double distance = getDistance(distanceUnit);
-		NumberFormat nf = NumberFormat.getInstance();
-		nf.setMaximumFractionDigits(1);
-
-		// This skirts the pluralization problem, while also being more precise.
-		// We will display "1.0 miles away" instead of "1 miles away".
-		nf.setMinimumFractionDigits(abbreviated ? 0 : 1);
-
-		int unitStrId;
-		if (distanceUnit == DistanceUnit.KILOMETERS) {
-			unitStrId = abbreviated ? R.string.unit_kilometers : R.string.unit_kilometers_full;
-		}
-		else {
-			unitStrId = abbreviated ? R.string.unit_miles : R.string.unit_miles_full;
-		}
-		int templateResId = (abbreviated) ? R.string.distance_template_short : R.string.distance_template;
-		return context.getString(templateResId, nf.format(distance), context.getString(unitStrId));
 	}
 
 	public boolean fromJson(JSONObject obj) {
@@ -158,10 +88,9 @@ public class Distance implements JSONable, Comparable<Distance> {
 	}
 
 	@Override
-	public int compareTo(Distance other) {
-		double myMiles = (mUnit == DistanceUnit.KILOMETERS) ? MapUtils.kilometersToMiles(mDistance) : mDistance;
-		double otherMiles = (other.getUnit() == DistanceUnit.KILOMETERS) ? MapUtils.kilometersToMiles(other
-				.getDistance()) : other.getDistance();
+	public int compareTo(@NonNull Distance other) {
+		double myMiles = getDistance(DistanceUnit.MILES);
+		double otherMiles = other.getDistance(DistanceUnit.MILES);
 
 		if (myMiles > otherMiles) {
 			return 1;

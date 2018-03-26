@@ -12,11 +12,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
@@ -31,20 +28,16 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.Phone;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.user.UserStateManager;
-import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
-import com.expedia.bookings.utils.DateRangeUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TelephoneSpinner;
 import com.expedia.bookings.widget.TelephoneSpinnerAdapter;
-import com.mobiata.android.Log;
 import com.mobiata.android.validation.MultiValidator;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
@@ -57,10 +50,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 	private Traveler mTraveler;
 
-	private FlightSearchParams mFlightSearchParams;
 	private UserStateManager userStateManager;
-
-	boolean mAutoChoosePassportCountry = true;
 
 	public SectionTravelerInfo(Context context) {
 		super(context);
@@ -98,7 +88,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		mFields.add(mEditPhoneNumberCountryCodeSpinner);
 		mFields.add(mEditPhoneNumber);
 		mFields.add(mEditEmailAddress);
-		mFields.add(mEditBirthDateTextBtn);
 	}
 
 	@Override
@@ -120,21 +109,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			mFields.bindDataAll(traveler);
 		}
 		setDbTraveler(traveler);
-	}
-
-	public void bind(Traveler traveler, int travelerIndex) {
-		setPhoneFieldsEnabled(travelerIndex);
-		bind(traveler);
-	}
-
-	public void bind(Traveler traveler, FlightSearchParams params) {
-		mFlightSearchParams = params;
-		bind(traveler);
-	}
-
-	public void bind(Traveler traveler, int travelerIndex, FlightSearchParams params) {
-		mFlightSearchParams = params;
-		bind(traveler, travelerIndex);
 	}
 
 	protected void preFinishInflate() {
@@ -617,150 +591,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			super(fieldId);
 		}
 	}
-
-	private FlightSearchParams getFlightSearchParams() {
-		if (mFlightSearchParams == null) {
-			throw new RuntimeException("Tried to get nonexistent FlightSearchParams. Should have been set in the bind() method!");
-		}
-		return mFlightSearchParams;
-	}
-
-	private boolean mIsBirthdateAligned = true;
-
-	public boolean isBirthdateAligned() {
-		return mIsBirthdateAligned;
-	}
-
-	SectionFieldEditable<TextView, Traveler> mEditBirthDateTextBtn = new SectionFieldEditableWithDateChangeListener<TextView, Traveler>(
-		R.id.edit_birth_date_text_btn) {
-
-		private final static String TAG_DATE_PICKER = "TAG_DATE_PICKER";
-
-		@Override
-		public void setChangeListener(TextView field) {
-			//We are using a fragmentDialog so we need a fragmentActivity...
-			if (getContext() instanceof FragmentActivity) {
-				final FragmentActivity fa = (FragmentActivity) getContext();
-				final DatePickerDialog.OnDateSetListener listener = this;
-
-				//If we already have created the fragment, we need to set the listener again
-				DatePickerFragment datePickerFragment = Ui.findSupportFragment(fa, TAG_DATE_PICKER);
-				if (datePickerFragment != null) {
-					datePickerFragment.setOnDateSetListener(listener);
-				}
-
-				//Finally set the on click listener that shows the dialog
-				field.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						LocalDate date = new LocalDate(1970, 1, 1);
-						if (hasBoundData()) {
-							if (getData().getBirthDate() != null) {
-								date = getData().getBirthDate();
-							}
-						}
-
-						DatePickerFragment datePickerFragment = Ui.findSupportFragment(fa, TAG_DATE_PICKER);
-						if (datePickerFragment == null) {
-							datePickerFragment = DatePickerFragment.newInstance(date, listener);
-						}
-						datePickerFragment.show(fa.getSupportFragmentManager(), TAG_DATE_PICKER);
-					}
-				});
-
-				field.addTextChangedListener(new AfterChangeTextWatcher() {
-					@Override
-					public void afterTextChanged(Editable s) {
-						//Fixes rotation bug...
-						onChange(SectionTravelerInfo.this);
-					}
-				});
-			}
-			else {
-				Log.e(
-					"The Birthday picker is expecting a FragmentActivity to be the context. In it's current state, this will do nohting if the context is not a FragmentActivity");
-			}
-		}
-
-		@Override
-		public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-			monthOfYear++;//DatePicker uses calendars...
-			if (hasBoundData()) {
-				getData().setBirthDate(new LocalDate(year, monthOfYear, dayOfMonth));
-			}
-			refreshText();
-			onChange(SectionTravelerInfo.this);
-		}
-
-		private void refreshText() {
-			if (hasBoundField() && hasBoundData()) {
-				onHasFieldAndData(getField(), getData());
-			}
-		}
-
-		@Override
-		protected ArrayList<SectionFieldValidIndicator<?, Traveler>> getPostValidators() {
-			ArrayList<SectionFieldValidIndicator<?, Traveler>> retArr = new ArrayList<SectionFieldValidIndicator<?, Traveler>>();
-			retArr.add(mValidDateOfBirth);
-			return retArr;
-		}
-
-		@Override
-		protected void onHasFieldAndData(TextView field, Traveler data) {
-			String btnTxt = "";
-			Spannable stringToSpan = null;
-			if (data.getBirthDate() != null) {
-				String formatStr = getResources().getString(R.string.born_on_colored_TEMPLATE);
-				String bdayStr = JodaUtils.formatLocalDate(getContext(), data.getBirthDate(),
-					DateRangeUtils.getFLAGS_MEDIUM_DATE_FORMAT());
-				btnTxt = String.format(formatStr, bdayStr);
-				stringToSpan = new SpannableString(btnTxt);
-				int color = getResources().getColor(R.color.checkout_traveler_birth_color);
-				Ui.setTextStyleNormalText(stringToSpan, color, 0, btnTxt.indexOf(bdayStr));
-
-			}
-			field.setText(stringToSpan != null ? stringToSpan : btnTxt);
-		}
-
-		Validator<TextView> mValidator = new Validator<TextView>() {
-
-			@Override
-			public int validate(TextView obj) {
-				int retVal;
-				if (hasBoundData()) {
-					if (getData().getBirthDate() != null) {
-						LocalDate birthDate = getData().getBirthDate();
-						FlightSearchParams searchParams = Db.getTripBucket().getFlight().getFlightSearchParams();
-						PassengerCategory passengerCategory = getData().getPassengerCategory(searchParams);
-						if (birthDate.isAfter(LocalDate.now())) {
-							retVal = ValidationError.ERROR_DATA_INVALID;
-						}
-						else if (!PassengerCategory.isDateWithinPassengerCategoryRange(birthDate, getFlightSearchParams(), passengerCategory)) {
-							retVal = ValidationError.ERROR_DATA_INVALID;
-							mIsBirthdateAligned = false;
-						}
-						else {
-							retVal = ValidationError.NO_ERROR;
-							mIsBirthdateAligned = true;
-						}
-					}
-					else {
-						retVal = ValidationError.ERROR_DATA_MISSING;
-					}
-				}
-				else {
-					retVal = ValidationError.ERROR_DATA_MISSING;
-				}
-				return retVal;
-			}
-		};
-
-		@Override
-		protected Validator<TextView> getValidator() {
-			return mValidator;
-		}
-
-	};
 
 	SectionFieldEditable<EditText, Traveler> mEditPhoneNumber = new SectionFieldEditableFocusChangeTrimmer<EditText, Traveler>(
 		R.id.edit_phone_number) {

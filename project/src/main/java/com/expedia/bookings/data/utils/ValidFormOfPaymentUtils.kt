@@ -13,7 +13,7 @@ import com.squareup.phrase.Phrase
 
 object ValidFormOfPaymentUtils {
 
-    @JvmStatic fun createFromValidFormOfPayment(newPayment: ValidFormOfPayment): ValidPayment {
+    @JvmStatic fun createValidPaymentFromValidFormOfPayment(newPayment: ValidFormOfPayment): ValidPayment {
         val oldPayment = ValidPayment()
         oldPayment.name = newPayment.name
         oldPayment.paymentType = CurrencyUtils.parsePaymentType(newPayment.name)

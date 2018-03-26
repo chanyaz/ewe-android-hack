@@ -8,7 +8,6 @@ import com.expedia.bookings.interfaces.LoginExtenderListener;
 import com.expedia.bookings.widget.CheckoutLoginExtender;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
 import com.expedia.bookings.widget.ItinerarySyncLoginExtender;
-import com.expedia.bookings.widget.UserToTripAssocLoginExtender;
 
 /**
  * This interface is for classes that want to do something after login. It was developed for itin so we can wait for itins on the login screen.
@@ -21,7 +20,6 @@ public abstract class LoginExtender {
 
 	public enum LoginExtenderType {
 		CHECKOUT,
-		USER_TO_TRIP_ASSOC,
 		ITINERARY_LOADER,
 		ITINERARY_SYNC
 	}
@@ -57,9 +55,6 @@ public abstract class LoginExtender {
 		LoginExtenderType type = LoginExtenderType.valueOf(state.getString(STATE_TYPE));
 		Bundle data = state.getBundle(STATE_DATA);
 		switch (type) {
-		case USER_TO_TRIP_ASSOC: {
-			return new UserToTripAssocLoginExtender(data);
-		}
 		case ITINERARY_LOADER: {
 			return new ItineraryLoaderLoginExtender(data);
 		}
@@ -74,7 +69,6 @@ public abstract class LoginExtender {
 
 	/**
 	 * The login has finished successfully, now is your time to do some stuff. If we have gui components add them to the extenderContainer
-	 * @param fragment - the login fragment
 	 * @param extenderContainer - a container set aside for views if the extender has a gui component
 	 */
 	public abstract void onLoginComplete(Context context, LoginExtenderListener listener, ViewGroup extenderContainer);

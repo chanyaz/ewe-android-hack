@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.fragment.BaseRulesFragment;
-import com.expedia.bookings.fragment.FlightRulesFragmentV1;
 import com.expedia.bookings.fragment.FlightRulesFragmentV2;
 import com.expedia.bookings.fragment.PackagesRulesFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -36,7 +35,7 @@ public class FlightAndPackagesRulesActivity extends AppCompatActivity {
 		}
 		setContentView(R.layout.fragment_container_with_toolbar);
 
-		LineOfBusiness lob = LineOfBusiness.FLIGHTS;
+		LineOfBusiness lob = LineOfBusiness.FLIGHTS_V2;
 		BaseRulesFragment rulesFragment;
 
 		if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(LOB_KEY)) {
@@ -46,11 +45,8 @@ public class FlightAndPackagesRulesActivity extends AppCompatActivity {
 		if (lob == LineOfBusiness.PACKAGES) {
 			rulesFragment = new PackagesRulesFragment();
 		}
-		else if (lob == LineOfBusiness.FLIGHTS_V2) {
-			rulesFragment = new FlightRulesFragmentV2();
-		}
 		else {
-			rulesFragment = new FlightRulesFragmentV1();
+			rulesFragment = new FlightRulesFragmentV2();
 		}
 
 		getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, rulesFragment).commit();
