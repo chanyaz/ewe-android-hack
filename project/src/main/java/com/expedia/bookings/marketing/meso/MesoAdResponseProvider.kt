@@ -1,6 +1,5 @@
 package com.expedia.bookings.marketing.meso
 
-import android.accounts.NetworkErrorException
 import android.content.Context
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
@@ -28,19 +27,21 @@ open class MesoAdResponseProvider {
 
             hotelAdLoader = AdLoader.Builder(context, getUrlPath()).forCustomTemplateAd(hotelTemplateID,
                     { hotelAdResponse ->
-                        if (hotelAdResponse == null) {
-                            mesoHotelAdResponseSubject.onError(Throwable("Hotel Ad Response was null."))
-                        } else {
-                            val mesoAdResponse = MesoAdResponse(generateHotelAdResponse(hotelAdResponse))
-                            mesoHotelAdResponseSubject.onNext(mesoAdResponse)
+                        if (!mesoHotelAdResponseSubject.hasComplete()) {
+                            if (hotelAdResponse == null) {
+                                mesoHotelAdResponseSubject.onError(Throwable("Hotel Ad Response was null."))
+                            } else {
+                                val mesoAdResponse = MesoAdResponse(generateHotelAdResponse(hotelAdResponse))
+                                mesoHotelAdResponseSubject.onNext(mesoAdResponse)
+                            }
+                            mesoHotelAdResponseSubject.onComplete()
                         }
-                        mesoHotelAdResponseSubject.onComplete()
                     }) { _, _ -> }
                     .withAdListener(object : AdListener() {
                         override fun onAdFailedToLoad(errorCode: Int) {
                             val errorMessage = "Hotel ad failed to load: " + errorCode
                             Log.d(errorMessage)
-                            mesoHotelAdResponseSubject.onError(NetworkErrorException(errorMessage))
+                            mesoHotelAdResponseSubject.onComplete()
                         }
                     }).build()
 
@@ -49,27 +50,9 @@ open class MesoAdResponseProvider {
 
         @JvmStatic
         fun fetchDestinationMesoAd(context: Context, mesoDestinationAdResponseSubject: PublishSubject<MesoAdResponse>) {
-            val destinationTemplateID = if (BuildConfig.RELEASE) Constants.MESO_PROD_DESTINATION_TEMPLATEID else Constants.MESO_DEV_DESTINATION_TEMPLATEID
-
-            destinationAdLoader = AdLoader.Builder(context, getUrlPath()).forCustomTemplateAd(destinationTemplateID,
-                    { destinationAdResponse ->
-                        if (destinationAdResponse == null) {
-                            mesoDestinationAdResponseSubject.onError(Throwable("Destination Ad Response was null."))
-                        } else {
-                            val mesoAdResponse = MesoAdResponse(null, generateDestinationAdResponse(context))
-                            mesoDestinationAdResponseSubject.onNext(mesoAdResponse)
-                        }
-                        mesoDestinationAdResponseSubject.onComplete()
-                    }) { _, _ -> }
-                    .withAdListener(object : AdListener() {
-                        override fun onAdFailedToLoad(errorCode: Int) {
-                            val errorMessage = "Destination ad failed to load: " + errorCode
-                            Log.d(errorMessage)
-                            mesoDestinationAdResponseSubject.onError(NetworkErrorException(errorMessage))
-                        }
-                    }).build()
-
-            destinationAdLoader.loadAd(PublisherAdRequest.Builder().build())
+            val mesoAdResponse = MesoAdResponse(null, generateDestinationAdResponse(context))
+            mesoDestinationAdResponseSubject.onNext(mesoAdResponse)
+            mesoDestinationAdResponseSubject.onComplete()
         }
 
         private fun getUrlPath(): String {
