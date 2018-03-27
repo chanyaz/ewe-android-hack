@@ -799,6 +799,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 }
             }
 
+            floatingPill?.setToggleState(forward)
+
             if (forward) {
                 floatingPill?.translationY = 0f
                 if (!fabShouldVisiblyMove) {
