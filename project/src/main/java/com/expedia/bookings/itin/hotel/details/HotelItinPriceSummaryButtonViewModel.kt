@@ -11,6 +11,7 @@ import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.scopes.HasTripsTracking
 import com.expedia.bookings.itin.scopes.HasWebViewLauncher
 import com.expedia.bookings.itin.tripstore.data.PaymentModel
+import com.expedia.bookings.itin.tripstore.extensions.packagePrice
 
 class HotelItinPriceSummaryButtonViewModel<S>(scope: S) : ItinBookingInfoCardViewModel where S : HasItin, S : HasHotel, S : HasStringProvider, S : HasWebViewLauncher, S : HasTripsTracking, S : HasActivityLauncher, S : HasAbacusProvider {
 
@@ -25,7 +26,7 @@ class HotelItinPriceSummaryButtonViewModel<S>(scope: S) : ItinBookingInfoCardVie
         headingText = scope.strings.fetch(R.string.itin_hotel_details_price_summary_rewards_heading)
 
         val paymentModel = hotel.paymentModel
-        val formattedPrice = hotel.totalPriceDetails?.totalFormatted
+        var formattedPrice = hotel.totalPriceDetails?.totalFormatted
         if (paymentModel != null && formattedPrice != null) {
             when (paymentModel) {
                 PaymentModel.EXPEDIA_COLLECT -> {
@@ -35,6 +36,9 @@ class HotelItinPriceSummaryButtonViewModel<S>(scope: S) : ItinBookingInfoCardVie
                     subheadingText = scope.strings.fetchWithPhrase(R.string.itin_hotel_details_price_summary_pay_later_TEMPLATE, mapOf("amount" to formattedPrice))
                 }
             }
+        } else if (!scope.itin.packagePrice().isNullOrEmpty()) {
+            formattedPrice = scope.itin.packagePrice()!!
+            subheadingText = scope.strings.fetchWithPhrase(R.string.itin_hotel_details_price_summary_pay_now_TEMPLATE, mapOf("amount" to formattedPrice))
         } else {
             subheadingText = null
         }

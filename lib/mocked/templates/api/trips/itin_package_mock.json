@@ -1,0 +1,878 @@
+{
+  "apiVersion": "1.0",
+  "responseType": "TRIP_DETAILS",
+  "responseData": {
+    "levelOfDetail": "FULL",
+    "tripId": "6c4bb5f4-0cb2-4dad-917a-1e8e8f3334a2",
+    "webDetailsURL": "https://www.expedia.com/trips/7281567283123",
+    "tripNumber": 7281567283123,
+    "orderNumber": 8060733417920,
+    "title": "Trip to Las Vegas",
+    "updateTripNameDescPathURL": "https://www.expedia.com/api/trips/6c4bb5f4-0cb2-4dad-917a-1e8e8f3334a2/updateTripNameDescription",
+    "startTime": {
+      "raw": "2017-12-05T07:35:00-08:00",
+      "localized": "Dec 5, 2017 7:35:00 AM",
+      "epochSeconds": 1512488100,
+      "timeZoneOffsetSeconds": -28800,
+      "localizedShortDate": "12/5/2017",
+      "localizedMediumDate": "Dec 5",
+      "localizedFullDate": "Tue, Dec 5",
+      "localizedLongDate": "Dec 5, 2017",
+      "localizedShortTime": "7:35AM"
+    },
+    "endTime": {
+      "raw": "2017-12-06T20:56:00-08:00",
+      "localized": "Dec 6, 2017 8:56:00 PM",
+      "epochSeconds": 1512622560,
+      "timeZoneOffsetSeconds": -28800,
+      "localizedShortDate": "12/6/2017",
+      "localizedMediumDate": "Dec 6",
+      "localizedFullDate": "Wed, Dec 6",
+      "localizedLongDate": "Dec 6, 2017",
+      "localizedShortTime": "8:56PM"
+    },
+    "tripCreatedTime": {
+      "raw": "2017-07-19T20:54:15Z",
+      "localized": "Jul 19, 2017 8:54:15 PM",
+      "epochSeconds": 1500497655,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Wed, 19 Jul",
+      "localizedMediumDate": "Jul 19, 2017",
+      "localizedFullDate": "Wednesday, July 19, 2017",
+      "localizedLongDate": "July 19, 2017",
+      "localizedShortTime": "8:54 PM"
+    },
+    "tripUpdatedTime": {
+      "raw": "2017-07-24T18:59:08Z",
+      "localized": "Jul 24, 2017 6:59:08 PM",
+      "epochSeconds": 1500922748,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Mon, 24 Jul",
+      "localizedMediumDate": "Jul 24, 2017",
+      "localizedFullDate": "Monday, July 24, 2017",
+      "localizedLongDate": "July 24, 2017",
+      "localizedShortTime": "6:59 PM"
+    },
+    "tripCacheUpdatedTime": {
+      "raw": "2017-07-24T18:59:08Z",
+      "localized": "Jul 24, 2017 6:59:08 PM",
+      "epochSeconds": 1500922748,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Mon, 24 Jul",
+      "localizedMediumDate": "Jul 24, 2017",
+      "localizedFullDate": "Monday, July 24, 2017",
+      "localizedLongDate": "July 24, 2017",
+      "localizedShortTime": "6:59 PM"
+    },
+    "ownerId": 513279321,
+    "bookingStatus": "BOOKED",
+    "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/xM0tJ-pGFQBxUqF5_bGRmMCA1-0xzF4kprggqKcBce1QbnsTfH8VHQFLXMTJn-Lmq0iwUROHC4jXcOZd-zGatWYO",
+    "customerSupport": {
+      "customerSupportURL": "http://www.expedia.com/service/",
+      "customerSupportPhoneNumberDomestic": "+1-877-787-3117",
+      "customerSupportPhoneNumberInternational": "+1-877-787-3117",
+      "customerSupportPhoneInfoForEmail": [
+        "Call Expedia+ blue Customer Care at 1-877-787-3117.",
+        "For faster service, mention <strong>itinerary #7281567283123 </strong>"
+      ],
+      "termsAndConditionsURL": ""
+    },
+    "isBookedUsingForeignCurrency": false,
+    "packages": [
+      {
+        "uniqueID": "A9D5ECF8-AA4E-41E0-BF86-7795E68C1095",
+        "bookingStatus": "BOOKED",
+        "orderNumber": "8060733417920",
+        "orderLineNumber": "8bf8a706-a43e-48af-a588-7e523de732eb",
+        "price": {
+          "currency": "USD",
+          "subTotal": "122.55",
+          "subTotalFormatted": "$122.55",
+          "total": "122.55",
+          "totalFormatted": "$122.55"
+        },
+        "flights": [
+          {
+            "uniqueID": "A9D5ECF8-AA4E-41E0-BF86-7795E68C1095_8bf8a706-a43e-48af-a588-7e523de732eb_1",
+            "bookingStatus": "BOOKED",
+            "bookingStatusText": "Confirmed",
+            "bookingStatusMessage": "Your reservation is booked and confirmed. There is no need to call us to reconfirm this reservation.",
+            "ticketingStatus": "COMPLETE",
+            "orderNumber": "8060733417920",
+            "updateFrequentFlyerPathURL": "https://www.expedia.com/api/trips/6c4bb5f4-0cb2-4dad-917a-1e8e8f3334a2/updateFrequentFlyerInformation",
+            "confirmationNumbers": [
+              {
+                "airlineName": "Virgin America",
+                "number": "KMYWKB"
+              }
+            ],
+            "expediaBookingId": "KRPQWY",
+            "paymentModel": "AGENCY",
+            "fareType": "PUBLISHED",
+            "flightType": "ROUND_TRIP",
+            "isInternational": false,
+            "isSplitTicket": false,
+            "fulfillmentMethod": "ETICKET",
+            "passengers": [
+              {
+                "typeCode": "ADULT",
+                "typeLocalized": "Adult",
+                "title": "",
+                "firstName": "Susanna",
+                "lastName": "Van greunen",
+                "fullName": "Susanna Van greunen",
+                "age": 51,
+                "gender": "Female",
+                "dateOfBirth": "1966-7-16",
+                "TSAKnownTravelerNumber": "",
+                "phoneNumbers": [
+                  {
+                    "countryCode": "1",
+                    "phone": "2244362237"
+                  }
+                ],
+                "ticketNumbers": [
+                  "9848687000529"
+                ],
+                "frequentFlyerPlans": [],
+                "seats": [
+                  {
+                    "assigned": "08F",
+                    "seatPreference": "",
+                    "seatPreferenceLocalized": "Unknown",
+                    "smokingAllowed": false,
+                    "seatType": "SEAT_UNPAID",
+                    "statusCode": "Unknown",
+                    "passengerName": "Susanna Van greunen",
+                    "legIndex": 0,
+                    "segmentIndex": 0
+                  },
+                  {
+                    "assigned": "08A",
+                    "seatPreference": "",
+                    "seatPreferenceLocalized": "Unknown",
+                    "smokingAllowed": false,
+                    "seatType": "SEAT_UNPAID",
+                    "statusCode": "Unknown",
+                    "passengerName": "Susanna Van greunen",
+                    "legIndex": 1,
+                    "segmentIndex": 0
+                  }
+                ],
+                "emailAddress": "Susanna@mobiata.com",
+                "seatPreferenceCode": "Z"
+              }
+            ],
+            "brandedFareFamilyName": "",
+            "legs": [
+              {
+                "type": "NONSTOP",
+                "state": "PRE_START_4",
+                "numberOfStops": 0,
+                "airlineLogoURL": "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smVX.gif",
+                "segments": [
+                  {
+                    "transportationType": "FLIGHT",
+                    "departureType": "FLIGHT_DEPARTURE",
+                    "departureLocation": {
+                      "latitude": 37.61594,
+                      "longitude": -122.387996,
+                      "name": "San Francisco Intl.",
+                      "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+                      "airportCode": "SFO",
+                      "airportMetroCode": "QSF",
+                      "city": "San Francisco",
+                      "countryCode": "USA",
+                      "countrySubdivisionCode": " CA"
+                    },
+                    "departureTime": {
+                      "raw": "2017-12-05T07:35:00-08:00",
+                      "localized": "Dec 5, 2017 7:35:00 AM",
+                      "epochSeconds": 1512488100,
+                      "timeZoneOffsetSeconds": -28800,
+                      "localizedShortDate": "12/5/2017",
+                      "localizedMediumDate": "Dec 5",
+                      "localizedFullDate": "Tue, Dec 5",
+                      "localizedLongDate": "Dec 5, 2017",
+                      "localizedShortTime": "7:35AM"
+                    },
+                    "arrivalType": "FLIGHT_ARRIVAL",
+                    "arrivalLocation": {
+                      "latitude": 36.085393,
+                      "longitude": -115.150098,
+                      "name": "McCarran Intl.",
+                      "longName": "Las Vegas, NV (LAS-McCarran Intl.)",
+                      "airportCode": "LAS",
+                      "airportMetroCode": "LAS",
+                      "city": "Las Vegas",
+                      "countryCode": "USA",
+                      "countrySubdivisionCode": " NV"
+                    },
+                    "arrivalTime": {
+                      "raw": "2017-12-05T09:04:00-08:00",
+                      "localized": "Dec 5, 2017 9:04:00 AM",
+                      "epochSeconds": 1512493440,
+                      "timeZoneOffsetSeconds": -28800,
+                      "localizedShortDate": "12/5/2017",
+                      "localizedMediumDate": "Dec 5",
+                      "localizedFullDate": "Tue, Dec 5",
+                      "localizedLongDate": "Dec 5, 2017",
+                      "localizedShortTime": "9:04AM"
+                    },
+                    "departureTerminal": "2",
+                    "arrivalTerminal": "3",
+                    "airlineCode": "VX",
+                    "externalAirlineCode": "VX",
+                    "airlineName": "Virgin America",
+                    "operatedByAirCarrierName": "",
+                    "confirmationAirline": "Virgin America",
+                    "confirmationNUmber": "KMYWKB",
+                    "flightNumber": "1896",
+                    "equipmentCode": "320",
+                    "equipmentDescription": "Airbus A320",
+                    "formattedLayoverDuration": "",
+                    "duration": "PT1H29M",
+                    "formattedDuration": "1h 29m",
+                    "providerCode": "Amadeus",
+                    "bookingCode": "N",
+                    "cabinCode": "coach",
+                    "cabinCodeLocalized": "Economy / Coach",
+                    "isSeatMapAvailable": true,
+                    "flightIdForSeatMap": "A9D5ECF8-AA4E-41E0-BF86-7795E68C1095_8bf8a706-a43e-48af-a588-7e523de732eb_1_L1_S1_1",
+                    "status": "UNKNOWN",
+                    "airSegmentStatusCode": "HK",
+                    "isHidden": false,
+                    "seatList": [
+                      {
+                        "assigned": "08F",
+                        "seatPreference": "",
+                        "seatPreferenceLocalized": "Unknown",
+                        "smokingAllowed": false,
+                        "seatType": "SEAT_UNPAID",
+                        "statusCode": "Unknown",
+                        "passengerName": "Susanna Van greunen",
+                        "legIndex": 0,
+                        "segmentIndex": 0
+                      }
+                    ]
+                  }
+                ],
+                "sharableFlightLegURL": "https://www.expedia.com/api/trips/shared/Q6bd4v3yQKgnO3kM5LGyM8CAs0afqSNn3Ow3bP5WOSGodIiDnihJt6x19f6vpWDcCX9NUD4XBLfLUm7e_5Jm_zhg7-RuHwtwTptwiRnI9ZHmWJiAaURQCPmpjZDsTkfpRCfSIa_hBvNZS0QJYZ-QDu1dvCzqNo6NTVuJcW6Y4FXgdSwywtO_5bqMLbZQ0ji4W0-5TEakEM5YxQbnN59OvsbA",
+                "duration": "PT1H29M",
+                "formattedDuration": "1h 29m",
+                "departingAirport": {
+                  "code": "SFO",
+                  "name": "San Francisco (SFO)",
+                  "city": "San Francisco",
+                  "metroCode": "QSF",
+                  "latitude": 37.61594,
+                  "longitude": -122.387996,
+                  "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+                  "isMinorAirport": false,
+                  "isProhibitedAirport": false,
+                  "countryCode": "USA",
+                  "identicalMetroCode": false,
+                  "isMetroCode": false,
+                  "airportID": 5195347,
+                  "localName": "San Francisco Intl.",
+                  "airportCityCode": "San Francisco, CA (SFO)",
+                  "airportStateCode": " CA",
+                  "terminalMaps": [
+                    {
+                      "name": "Overview",
+                      "url": "https://a.travel-assets.com/mobile/maps/sfo_airport.svg",
+                      "type": "O"
+                    },
+                    {
+                      "name": "Terminal 1",
+                      "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_1.svg",
+                      "type": "T"
+                    },
+                    {
+                      "name": "Terminal 2",
+                      "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_2.svg",
+                      "type": "T"
+                    },
+                    {
+                      "name": "Terminal 3",
+                      "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_3.svg",
+                      "type": "T"
+                    },
+                    {
+                      "name": "International Terminal",
+                      "url": "https://a.travel-assets.com/mobile/maps/sfo_international_terminal.svg",
+                      "type": "T"
+                    }
+                  ],
+                  "timeZoneName": "America/Los_Angeles"
+                },
+                "arrivalAirport": {
+                  "code": "LAS",
+                  "name": "Las Vegas (McCarran Intl.)",
+                  "city": "Las Vegas",
+                  "metroCode": "LAS",
+                  "latitude": 36.085393,
+                  "longitude": -115.150098,
+                  "longName": "Las Vegas, NV (LAS-McCarran Intl.)",
+                  "isMinorAirport": false,
+                  "isProhibitedAirport": false,
+                  "countryCode": "USA",
+                  "identicalMetroCode": true,
+                  "isMetroCode": false,
+                  "airportID": 5456204,
+                  "localName": "McCarran Intl.",
+                  "airportCityCode": "Las Vegas, NV (LAS)",
+                  "airportStateCode": " NV",
+                  "terminalMaps": [
+                    {
+                      "name": "Overview",
+                      "url": "https://a.travel-assets.com/mobile/maps/las_airport.svg",
+                      "type": "O"
+                    },
+                    {
+                      "name": "Terminal 1: Concourse A, Concourse B, Concourse C",
+                      "url": "https://a.travel-assets.com/mobile/maps/las_concourse_a_b_c.svg",
+                      "type": "T"
+                    },
+                    {
+                      "name": "Concourse D",
+                      "url": "https://a.travel-assets.com/mobile/maps/las_concourse_d.svg",
+                      "type": "T"
+                    },
+                    {
+                      "name": "Terminal 3",
+                      "url": "https://a.travel-assets.com/mobile/maps/las_terminal_3.svg",
+                      "type": "T"
+                    }
+                  ],
+                  "timeZoneName": "America/Los_Angeles"
+                },
+                "legDepartureTime": {
+                  "raw": "2017-12-05T07:35:00-08:00",
+                  "localized": "Dec 5, 2017 7:35:00 AM",
+                  "epochSeconds": 1512488100,
+                  "timeZoneOffsetSeconds": -28800,
+                  "localizedShortDate": "12/5/2017",
+                  "localizedMediumDate": "Dec 5",
+                  "localizedFullDate": "Tue, Dec 5",
+                  "localizedLongDate": "Dec 5, 2017",
+                  "localizedShortTime": "7:35AM"
+                },
+                "legArrivaltime": {
+                  "raw": "2017-12-05T09:04:00-08:00",
+                  "localized": "Dec 5, 2017 9:04:00 AM",
+                  "epochSeconds": 1512493440,
+                  "timeZoneOffsetSeconds": -28800,
+                  "localizedShortDate": "12/5/2017",
+                  "localizedMediumDate": "Dec 5",
+                  "localizedFullDate": "Tue, Dec 5",
+                  "localizedLongDate": "Dec 5, 2017",
+                  "localizedShortTime": "9:04AM"
+                },
+                "fareBasisCode": "NVUVN5"
+              },
+              {
+                "type": "NONSTOP",
+                "state": "PRE_START_4",
+                "numberOfStops": 0,
+                "airlineLogoURL": "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smVX.gif",
+                "segments": [
+                  {
+                    "transportationType": "FLIGHT",
+                    "departureType": "FLIGHT_DEPARTURE",
+                    "departureLocation": {
+                      "latitude": 36.085393,
+                      "longitude": -115.150098,
+                      "name": "McCarran Intl.",
+                      "longName": "Las Vegas, NV (LAS-McCarran Intl.)",
+                      "airportCode": "LAS",
+                      "airportMetroCode": "LAS",
+                      "city": "Las Vegas",
+                      "countryCode": "USA",
+                      "countrySubdivisionCode": " NV"
+                    },
+                    "departureTime": {
+                      "raw": "2017-12-06T19:15:00-08:00",
+                      "localized": "Dec 6, 2017 7:15:00 PM",
+                      "epochSeconds": 1512616500,
+                      "timeZoneOffsetSeconds": -28800,
+                      "localizedShortDate": "12/6/2017",
+                      "localizedMediumDate": "Dec 6",
+                      "localizedFullDate": "Wed, Dec 6",
+                      "localizedLongDate": "Dec 6, 2017",
+                      "localizedShortTime": "7:15PM"
+                    },
+                    "arrivalType": "FLIGHT_ARRIVAL",
+                    "arrivalLocation": {
+                      "latitude": 37.61594,
+                      "longitude": -122.387996,
+                      "name": "San Francisco Intl.",
+                      "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+                      "airportCode": "SFO",
+                      "airportMetroCode": "QSF",
+                      "city": "San Francisco",
+                      "countryCode": "USA",
+                      "countrySubdivisionCode": " CA"
+                    },
+                    "arrivalTime": {
+                      "raw": "2017-12-06T20:56:00-08:00",
+                      "localized": "Dec 6, 2017 8:56:00 PM",
+                      "epochSeconds": 1512622560,
+                      "timeZoneOffsetSeconds": -28800,
+                      "localizedShortDate": "12/6/2017",
+                      "localizedMediumDate": "Dec 6",
+                      "localizedFullDate": "Wed, Dec 6",
+                      "localizedLongDate": "Dec 6, 2017",
+                      "localizedShortTime": "8:56PM"
+                    },
+                    "departureTerminal": "3",
+                    "arrivalTerminal": "2",
+                    "airlineCode": "VX",
+                    "externalAirlineCode": "VX",
+                    "airlineName": "Virgin America",
+                    "operatedByAirCarrierName": "",
+                    "confirmationAirline": "Virgin America",
+                    "confirmationNUmber": "KMYWKB",
+                    "flightNumber": "1919",
+                    "equipmentCode": "320",
+                    "equipmentDescription": "Airbus A320",
+                    "formattedLayoverDuration": "",
+                    "duration": "PT1H41M",
+                    "formattedDuration": "1h 41m",
+                    "providerCode": "Amadeus",
+                    "bookingCode": "N",
+                    "cabinCode": "coach",
+                    "cabinCodeLocalized": "Economy / Coach",
+                    "isSeatMapAvailable": true,
+                    "flightIdForSeatMap": "A9D5ECF8-AA4E-41E0-BF86-7795E68C1095_8bf8a706-a43e-48af-a588-7e523de732eb_1_L2_S1_1",
+                    "status": "UNKNOWN",
+                    "airSegmentStatusCode": "HK",
+                    "isHidden": false,
+                    "seatList": [
+                      {
+                        "assigned": "08A",
+                        "seatPreference": "",
+                        "seatPreferenceLocalized": "Unknown",
+                        "smokingAllowed": false,
+                        "seatType": "SEAT_UNPAID",
+                        "statusCode": "Unknown",
+                        "passengerName": "Susanna Van greunen",
+                        "legIndex": 1,
+                        "segmentIndex": 0
+                      }
+                    ]
+                  }
+                ],
+                "sharableFlightLegURL": "https://www.expedia.com/api/trips/shared/cPq_PkpbRglyR4foXAHGa8CADCU8QGEkoEiA4Y0tDhSPPHVIkdOTnMjXM8GGhCIu1gNaAEq5FPhiRQ4B6VHgV4d2o51WoAwmT1DjdHLEJulk1WIZU2anU6IcyiE214gS-bSI8-Vd6hG5Xw1bl1AqHZTpMyZ2b91JcWcXpXZjgsBa62X4Cy0Tnw3I2nAH2Y82fzmRH1HcMcJDk_y4pKNAJIm3",
+                "duration": "PT1H41M",
+                "formattedDuration": "1h 41m",
+                "departingAirport": {
+                  "code": "LAS",
+                  "name": "Las Vegas (McCarran Intl.)",
+                  "city": "Las Vegas",
+                  "metroCode": "LAS",
+                  "latitude": 36.085393,
+                  "longitude": -115.150098,
+                  "longName": "Las Vegas, NV (LAS-McCarran Intl.)",
+                  "isMinorAirport": false,
+                  "isProhibitedAirport": false,
+                  "countryCode": "USA",
+                  "identicalMetroCode": true,
+                  "isMetroCode": false,
+                  "airportID": 5456204,
+                  "localName": "McCarran Intl.",
+                  "airportCityCode": "Las Vegas, NV (LAS)",
+                  "airportStateCode": " NV",
+                  "terminalMaps": [
+                    {
+                      "name": "Overview",
+                      "url": "https://a.travel-assets.com/mobile/maps/las_airport.svg",
+                      "type": "O"
+                    },
+                    {
+                      "name": "Terminal 1: Concourse A, Concourse B, Concourse C",
+                      "url": "https://a.travel-assets.com/mobile/maps/las_concourse_a_b_c.svg",
+                      "type": "T"
+                    },
+                    {
+                      "name": "Concourse D",
+                      "url": "https://a.travel-assets.com/mobile/maps/las_concourse_d.svg",
+                      "type": "T"
+                    },
+                    {
+                      "name": "Terminal 3",
+                      "url": "https://a.travel-assets.com/mobile/maps/las_terminal_3.svg",
+                      "type": "T"
+                    }
+                  ],
+                  "timeZoneName": "America/Los_Angeles"
+                },
+                "arrivalAirport": {
+                  "code": "SFO",
+                  "name": "San Francisco (SFO)",
+                  "city": "San Francisco",
+                  "metroCode": "QSF",
+                  "latitude": 37.61594,
+                  "longitude": -122.387996,
+                  "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+                  "isMinorAirport": false,
+                  "isProhibitedAirport": false,
+                  "countryCode": "USA",
+                  "identicalMetroCode": false,
+                  "isMetroCode": false,
+                  "airportID": 5195347,
+                  "localName": "San Francisco Intl.",
+                  "airportCityCode": "San Francisco, CA (SFO)",
+                  "airportStateCode": " CA",
+                  "terminalMaps": [
+                    {
+                      "name": "Overview",
+                      "url": "https://a.travel-assets.com/mobile/maps/sfo_airport.svg",
+                      "type": "O"
+                    },
+                    {
+                      "name": "Terminal 1",
+                      "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_1.svg",
+                      "type": "T"
+                    },
+                    {
+                      "name": "Terminal 2",
+                      "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_2.svg",
+                      "type": "T"
+                    },
+                    {
+                      "name": "Terminal 3",
+                      "url": "https://a.travel-assets.com/mobile/maps/sfo_terminal_3.svg",
+                      "type": "T"
+                    },
+                    {
+                      "name": "International Terminal",
+                      "url": "https://a.travel-assets.com/mobile/maps/sfo_international_terminal.svg",
+                      "type": "T"
+                    }
+                  ],
+                  "timeZoneName": "America/Los_Angeles"
+                },
+                "legDepartureTime": {
+                  "raw": "2017-12-06T19:15:00-08:00",
+                  "localized": "Dec 6, 2017 7:15:00 PM",
+                  "epochSeconds": 1512616500,
+                  "timeZoneOffsetSeconds": -28800,
+                  "localizedShortDate": "12/6/2017",
+                  "localizedMediumDate": "Dec 6",
+                  "localizedFullDate": "Wed, Dec 6",
+                  "localizedLongDate": "Dec 6, 2017",
+                  "localizedShortTime": "7:15PM"
+                },
+                "legArrivaltime": {
+                  "raw": "2017-12-06T20:56:00-08:00",
+                  "localized": "Dec 6, 2017 8:56:00 PM",
+                  "epochSeconds": 1512622560,
+                  "timeZoneOffsetSeconds": -28800,
+                  "localizedShortDate": "12/6/2017",
+                  "localizedMediumDate": "Dec 6",
+                  "localizedFullDate": "Wed, Dec 6",
+                  "localizedLongDate": "Dec 6, 2017",
+                  "localizedShortTime": "8:56PM"
+                },
+                "fareBasisCode": "NVUVN5"
+              }
+            ],
+            "rules": {
+              "cancellationFeeLegalText": "A non-refundable administration fee will be applied for changes and cancellations of bookings. Customers will be informed of the administration fee by their Customer Support Centre Agent at the time of their call.",
+              "cancelChangeIntroductionText": "We understand that sometimes plans change. We do not charge a cancel or change fee. When the airline charges such fees in accordance with its own policies, the cost will be passed on to you.",
+              "feeChangeRefundIntroductionText": "When the airline charges any cancellation or change fees in accordance with its own policies, the cost will be passed on to you.",
+              "refundabilityText": "Tickets are nonrefundable, nontransferable and name changes are not allowed.",
+              "completePenaltyRules": {
+                "text": "Rules and restrictions as imposed by the airline will be applicable to your fare should you need to change or cancel your flight.",
+                "url": "https://www.expedia.com/Fare-Rules?tripid=6c4bb5f4-0cb2-4dad-917a-1e8e8f3334a2",
+                "textAndURL": "Please read the <a id=\"complete_penalty_rules_for_changes_and_cancellations_link\" href=\"https://www.expedia.com/Fare-Rules?tripid=6c4bb5f4-0cb2-4dad-917a-1e8e8f3334a2\" target=\"rulesAndRestrictions\">complete penalty rules for changes and cancellations<span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a> applicable to this fare.",
+                "apiURL": "https://www.expedia.com/api/trips/7281567283123/items/A9D5ECF8-AA4E-41E0-BF86-7795E68C1095_8bf8a706-a43e-48af-a588-7e523de732eb_1/gdsFareRulesText?useCache=true"
+              },
+              "additionalAirlineFees": {
+                "text": "The airline may charge additional fees for checked baggage or other optional services.",
+                "url": "https://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=LAS&cabinclass=3&mktgcarrier=VX&opcarrier=VX&farebasis=NVUVN5&bookingclass=N&travelDate=2017-12-05&flightNumber=1896",
+                "textAndURL": "The airline may charge <a href=\"https://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=LAS&cabinclass=3&mktgcarrier=VX&opcarrier=VX&farebasis=NVUVN5&bookingclass=N&travelDate=2017-12-05&flightNumber=1896\" target=\"rulesAndRestrictions\">additional fees <span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a> for checked baggage or other optional services."
+              },
+              "airlineLiabilityLimitations": {
+                "text": "Please read important information regarding airline liability limitations.",
+                "url": "https://www.expedia.com/p/info-main/warsaw?",
+                "textAndURL": "Please read important information regarding <a id=\"airline_liability_limitations_link\" href=\"https://www.expedia.com/p/info-main/warsaw?\" target=\"rulesAndRestrictions\">airline liability limitations<span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a>."
+              },
+              "airlineCheckInInstructionText": "Remember to bring your itinerary and government-issued photo ID for airport check-in and security.",
+              "railFeederMessages": [],
+              "expediaChangeFeeChargeable": false,
+              "hasElectronicsBannedMessage": false
+            },
+            "sharableItemDetailURL": "https://www.expedia.com/api/trips/shared/66yFajzwV87j6yygPNzLhMCAHKKfhCIevlRP6MY3A94WyrrzXKdJEWj3CKqupuNzjAJofp_D4MXD5snhWdQM_uHKaMalyYBzuj_pv7KXii8-zu5B7xUGBKA6NrH0b_VIbOfGjxLOC_treeLDBIztpG0evR4WKOMPAcIMFlClkYPon4whJ4KKfldGwkcpW9DT4SM",
+            "airRecordLocator": "341962237",
+            "isSeatMapAvailable": true,
+            "ticketingTime": {
+              "raw": "2017-07-19T13:56:00-07:00",
+              "localized": "Jul 19, 2017 1:56:00 PM",
+              "epochSeconds": 1500497760,
+              "timeZoneOffsetSeconds": -25200,
+              "localizedShortDate": "Wed, 19 Jul",
+              "localizedMediumDate": "Jul 19, 2017",
+              "localizedFullDate": "Wednesday, July 19, 2017",
+              "localizedLongDate": "July 19, 2017",
+              "localizedShortTime": "1:56 PM"
+            },
+            "bookingProvider": "Amadeus",
+            "hasTrainTransfer": false,
+            "ticketingAirCarrierNames": [
+              "Virgin America"
+            ],
+            "isLccOrCharter": false
+          }
+        ],
+        "hotels": [
+          {
+            "uniqueID": "A9D5ECF8-AA4E-41E0-BF86-7795E68C1095_8bf8a706-a43e-48af-a588-7e523de732eb_0",
+            "hotelId": "24715",
+            "checkInDateTime": {
+              "raw": "2017-12-05T15:00:00-08:00",
+              "localized": "Dec 5, 2017 3:00:00 PM",
+              "epochSeconds": 1512514800,
+              "timeZoneOffsetSeconds": -28800,
+              "localizedShortDate": "12/5/2017",
+              "localizedMediumDate": "Dec 5",
+              "localizedFullDate": "Tue, Dec 5",
+              "localizedLongDate": "Dec 5, 2017",
+              "localizedShortTime": "3:00PM"
+            },
+            "checkOutDateTime": {
+              "raw": "2017-12-06T11:00:00-08:00",
+              "localized": "Dec 6, 2017 11:00:00 AM",
+              "epochSeconds": 1512586800,
+              "timeZoneOffsetSeconds": -28800,
+              "localizedShortDate": "12/6/2017",
+              "localizedMediumDate": "Dec 6",
+              "localizedFullDate": "Wed, Dec 6",
+              "localizedLongDate": "Dec 6, 2017",
+              "localizedShortTime": "11:00AM"
+            },
+            "checkInDate": "2017-12-05T15:00:00-08:00",
+            "checkOutDate": "2017-12-06T11:00:00-08:00",
+            "checkInDateLocalized": "Dec 5, 2017",
+            "checkOutDateLocalized": "Dec 6, 2017",
+            "numberOfNights": 1,
+            "bookingStatus": "BOOKED",
+            "bookingStatusText": "Confirmed",
+            "bookingStatusMessage": "We have confirmed your hotel reservation with the property.",
+            "bookedDate": "2017-07-19",
+            "inventoryType": "MERCHANT",
+            "inventoryTypeEnum": "MERCHANT",
+            "inventorySource": "INTERNAL",
+            "paymentModel": "EXPEDIA_COLLECT",
+            "inventoryVisibility": "VISIBLE",
+            "orderNumber": "8060733417920",
+            "state": "PRE_START_4",
+            "infositeURL": "http://www.expedia.com/itin.h24715.Hotel-Information?langid=1033",
+            "epcConversationURL": "http://www.expedia.com/createConversation/create/?bookingId=715952447&bookingItemId=878223911&itineraryId=0&checkinDate=12/05/2017&checkoutDate=12/06/2017&tpid=1&eapid=0&siteId=1&hotelId=24715&hotelName=Circus Circus Hotel, Casino & Theme Park&userTokenString=4kQVb-kAnCdoFe_I1nWaQ95qmXu3SS_eIFFGuknPC2-_gNc4-UBh02e79sUYCGg3LeY1JjH0SYtgaNVr9DFuySTQGpRNlm2Y8aK3yuJFF3ugZbFzTrxWFkInZY7BFV_jSqFRPK3OcxTwXRW2yw",
+            "hotelPropertyInfo": {
+              "address": {
+                "addressLine1": "2880 Las Vegas Blvd S",
+                "city": "Las Vegas",
+                "countrySubdivisionCode": "NV",
+                "postalCode": "89109",
+                "countryCode": "USA",
+                "countryName": " United States of America",
+                "fullAddress": "2880 Las Vegas Blvd S, Las Vegas, NV, 89109 United States of America",
+                "airportCode": "LAS"
+              },
+              "name": "Circus Circus Hotel, Casino & Theme Park",
+              "starRating": "30",
+              "photoThumbnailURL": "/hotels/1000000/30000/24800/24715/ac91e36a_l.jpg",
+              "photoThumbnail500pixURL": "/hotels/1000000/30000/24800/24715/ac91e36a_y.jpg",
+              "photoThumbnail1000pixURL": "/hotels/1000000/30000/24800/24715/ac91e36a_z.jpg",
+              "localPhone": "1-702-734-0410",
+              "tollFreePhone": "1-800-634-3450",
+              "formattedPhoneNumbers": "Tel: 1 (702) 734-0410, Fax: 1 (702) 691-5888",
+              "checkInPolicies": [
+                "Check-in time starts at 3:00 PM",
+                "Minimum check-in age is 21"
+              ],
+              "checkInStartTimePolicy": {
+                "label": "Check-in time starts at",
+                "value": "3:00 PM"
+              },
+              "checkInEndTimePolicy": {},
+              "checkOutTimePolicy": {
+                "label": "Check-out time is",
+                "value": "11 AM"
+              },
+              "generalRules": [
+                "Check-out time is 11 AM",
+                "Cash Deposit Required"
+              ],
+              "restrictionPolicies": [],
+              "fees": [
+                "The following fees and deposits are charged by the property at time of service, check-in, or check-out.<ul> <li>Fee for buffet breakfast: USD 17.99 for adults and USD 12.99 for children (approximately)</li>         <li>Valet parking fee: USD 15 per day</li>        <li>Refrigerator fee: USD 20 per day</li><li>Crib (infant bed) fee: USD 20 per night</li><li>Rollaway bed fee: USD 20.00 per day</li>             </ul>",
+                "The above list may not be comprehensive. Fees and deposits may not include tax and are subject to change."
+              ],
+              "mandatoryFees": [
+                "<p>You'll be asked to pay the following charges at the property:</p>",
+                "<ul><li>Resort fee: USD 30.61 per accommodation, per night</li></ul>",
+                "The resort fee includes:<ul><li>Fitness center access</li><li>Internet access</li><li>Phone calls</li><li>Additional inclusions</li></ul>",
+                "<p>We have included all charges provided to us by the property. However, charges can vary, for example, based on length of stay or the room you book. </p>"
+              ],
+              "specialCheckInInstructions": [],
+              "latitude": 36.136361,
+              "longitude": -115.162247,
+              "isVipAccess": false,
+              "googleMapsLink": "//maps.google.com?q=89109+Las+Vegas,+2880+Las+Vegas+Blvd+S+",
+              "regionId": "800045"
+            },
+            "rules": {
+              "cancelChangeRulesIntroduction": "We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the property charges such fees in accordance with its own policies, the cost will be passed on to you. Circus Circus Hotel, Casino & Theme Park charges the following cancellation and change fees.",
+              "cancelChangeRules": [
+                "Cancellations or changes made after 3:00PM (Pacific Daylight Time (US & Canada); Tijuana) on Dec 2, 2017 or no-shows are subject to a property fee equal to 100% of the total amount paid for the reservation.",
+                "Prices and hotel availability are not guaranteed until full payment is received.If you would like to book multiple rooms, you must use a different name for each room. Otherwise, the duplicate reservation will be canceled by the hotel."
+              ],
+              "cancellationWindowTime": {
+                "raw": "2017-12-02T15:00:00-08:00",
+                "localized": "Dec 2, 2017 3:00:00 PM",
+                "epochSeconds": 1512255600,
+                "timeZoneOffsetSeconds": -28800,
+                "localizedShortDate": "Sat, 2 Dec",
+                "localizedMediumDate": "Dec 2, 2017",
+                "localizedFullDate": "Saturday, December 2, 2017",
+                "localizedLongDate": "December 2, 2017",
+                "localizedShortTime": "3:00 PM"
+              },
+              "opaqueRules": [],
+              "opaquePolicies": [],
+              "lateArrivalInstructions": "Your room/unit will be guaranteed for late arrival.",
+              "loyaltyPointsDisclaimer": "Hotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate properties.",
+              "currencyDisclaimer": "Unless specified otherwise, <span class=\"rr-bold\">rates are quoted in </span><span class=\"rr-bold\" id=\"hotel_id-default-currency\">US dollars</span>.",
+              "extraGuestPolicies": [
+                "Availability of accommodation in the same property for extra guests is not guaranteed."
+              ],
+              "occupancyPolicies": [
+                "Base rate is for 2 guests.",
+                "This property considers guests of any age to be an adult."
+              ],
+              "paymentPolicies": [
+                "Your credit card is charged the total cost at time of purchase. Prices and room/unit availability are not guaranteed until full payment is received.",
+                "Some properties request that we wait to submit guest names until 7 days prior to check in. In such a case, your room/unit is reserved, but your name is not yet on file with the property."
+              ],
+              "roomRequestDisclaimer": "All special requests (such as in-room amenities, bed type, and smoking preference) are shared with the hotel, but requests are not guaranteed and may incur additional charges. We recommend you confirm them directly with the hotel before travel.",
+              "dualCurrencyText": "Rate quotes in USD are based on current exchange rates, which may vary at time of travel. Final payment will be settled in local currency directly with the hotel.",
+              "feesDisclaimer": "The list of fees presented may not be comprehensive. Fees and deposits may not include tax and are subject to change."
+            },
+            "appliedCoupons": [],
+            "rooms": [
+              {
+                "uniqueID": "A9D5ECF8-AA4E-41E0-BF86-7795E68C1095_8bf8a706-a43e-48af-a588-7e523de732eb_0_878223911",
+                "roomRatePlanDescription": "Run of House Room",
+                "roomTypeCode": "284895",
+                "ratePlanCode": "837432",
+                "bookingStatus": "BOOKED",
+                "bookingStatusEnum": "BOOKED",
+                "hotelConfirmationNumber": "771770278",
+                "drrRateDiscountDescription": "Book early and save",
+                "orderLineNumber": "8bf8a706-a43e-48af-a588-7e523de732eb",
+                "refundabilityStatus": "REFUNDABLE",
+                "availableOnAllDates": true,
+                "roomPreferences": {
+                  "primaryOccupant": {
+                    "firstName": "Susanna",
+                    "fullName": "Susanna Van greunen",
+                    "email": "Susanna@mobiata.com",
+                    "phone": "1-224-4362237"
+                  },
+                  "otherOccupantInfo": {
+                    "adultCount": 1,
+                    "childCount": 0,
+                    "infantCount": 0,
+                    "childAndInfantCount": 0,
+                    "maxGuestCount": 0,
+                    "childAndInfantAges": []
+                  },
+                  "occupantSelectedRoomOptions": {
+                    "bedTypeName": "1 king bed",
+                    "defaultBedTypeName": "1 king bed",
+                    "smokingPreference": "NONSMOKING_ROOM",
+                    "accessibilityOptions": [],
+                    "hasExtraBedAdult": false,
+                    "hasExtraBedChild": false,
+                    "hasExtraBedInfant": false,
+                    "isSmokingPreferenceSelected": true,
+                    "isRoomOptionsAvailable": true
+                  },
+                  "availableRoomOptions": {
+                    "bedTypes": [
+                      {
+                        "id": "14",
+                        "description": "1 king bed",
+                        "selected": true
+                      },
+                      {
+                        "id": "23",
+                        "description": "2 queen beds",
+                        "selected": false
+                      }
+                    ],
+                    "isNewBedTypes": false,
+                    "accessibilityOptions": [
+                      {
+                        "id": "2420",
+                        "description": "Accessible bathroom",
+                        "selected": false
+                      },
+                      {
+                        "id": "2421",
+                        "description": "Roll-in shower",
+                        "selected": false
+                      },
+                      {
+                        "id": "2423",
+                        "description": "In-room accessibility",
+                        "selected": false
+                      }
+                    ],
+                    "isSmokingRoomAvailable": false,
+                    "isNonSmokingRoomAvailable": true
+                  }
+                },
+                "nonPricePromotionData": {},
+                "hotelRatePlan": {
+                  "m_type": 16777216
+                }
+              }
+            ],
+            "sharableItemDetailURL": "https://www.expedia.com/api/trips/shared/Fx4odW30k906_JXPuzc-lsCA42gB3Sfu2v7-8nPPyXMW6crfsFa_fYF_IwSUWTC8diTFr5zrzckI89TlClnLhzqcXySuNPlzWc7EKd-gSaSSUHewtNGIqzsjxAPKtg3Ukig6FNW3oKC8FvweYP3RmJsVE2hyTUBr-MHufRUzWpSZrBwlRNfiYmLf9_89VGWRZzY",
+            "isFreeCancellationAvailable": false,
+            "paymentsAndCreditFees": {
+              "paymentsHotelFeesAndDepositsDisclaimer": "The below fees and deposits only apply if they are not included in your selected room rate.",
+              "noFeesStaticText": "The price above DOES NOT include any applicable hotel service fees, charges for optional incidentals (such as minibar snacks or telephone calls), or regulatory surcharges. The hotel will assess these fees, charges, and surcharges upon check-out.",
+              "isDirectAgency": false,
+              "isGDS": false,
+              "isFullyCancelled": false,
+              "isAnyRoomCancelled": false,
+              "isDepositRequired": false,
+              "isPaymentsCreditsVisible": false
+            },
+            "showVATDisclaimer": false
+          }
+        ]
+      }
+    ],
+    "totalTripPrice": {
+      "currency": "USD",
+      "total": "122.55",
+      "totalFormatted": "$122.55"
+    },
+    "isCouponApplied": false,
+    "readTripError": false,
+    "tripSource": "expedia",
+    "zetaTrip": false,
+    "isMRP": false,
+    "tripDataSource": "EXPWEB",
+    "isTripUpgradable": false,
+    "email": {
+      "m_email": "Susanna@mobiata.com"
+    }
+  }
+}

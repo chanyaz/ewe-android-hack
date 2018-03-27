@@ -80,21 +80,21 @@ class HotelItinBookingDetailsTest {
         bookingDetailsWidget.checkIfReadJsonEnabled = false
         bookingDetailsWidget.setUpWidget(itinCardDataHotel)
         assertEquals(View.VISIBLE, bookingDetailsWidget.priceSummaryCard.visibility)
-        assertEquals("Pricing and Rewards", bookingDetailsWidget.priceSummaryCard.heading.text)
+        assertEquals("Pricing and rewards", bookingDetailsWidget.priceSummaryCard.heading.text)
         assertEquals(View.GONE, bookingDetailsWidget.newPriceSummaryCard.visibility)
 
         bookingDetailsWidget.checkIfWriteJsonEnabled = true
         bookingDetailsWidget.checkIfReadJsonEnabled = false
         bookingDetailsWidget.setUpWidget(itinCardDataHotel)
         assertEquals(View.VISIBLE, bookingDetailsWidget.priceSummaryCard.visibility)
-        assertEquals("Pricing and Rewards", bookingDetailsWidget.priceSummaryCard.heading.text)
+        assertEquals("Pricing and rewards", bookingDetailsWidget.priceSummaryCard.heading.text)
         assertEquals(View.GONE, bookingDetailsWidget.newPriceSummaryCard.visibility)
 
         bookingDetailsWidget.checkIfWriteJsonEnabled = true
         bookingDetailsWidget.checkIfReadJsonEnabled = true
         bookingDetailsWidget.setUpWidget(itinCardDataHotel)
         assertEquals(View.VISIBLE, bookingDetailsWidget.newPriceSummaryCard.visibility)
-        assertEquals("Pricing and Rewards", bookingDetailsWidget.newPriceSummaryCard.heading.text)
+        assertEquals("Pricing and rewards", bookingDetailsWidget.newPriceSummaryCard.heading.text)
         assertEquals("₹3,500.00 total due at hotel", bookingDetailsWidget.newPriceSummaryCard.subheading.text)
         assertEquals(View.GONE, bookingDetailsWidget.priceSummaryCard.visibility)
     }

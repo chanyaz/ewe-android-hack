@@ -18,6 +18,7 @@ import com.expedia.bookings.itin.scopes.HasWebViewLauncher
 import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinHotel
 import com.expedia.bookings.itin.tripstore.extensions.firstHotel
+import com.expedia.bookings.itin.tripstore.extensions.packagePrice
 import com.expedia.bookings.itin.utils.AbacusSource
 import com.expedia.bookings.itin.utils.IActivityLauncher
 import com.expedia.bookings.itin.utils.IWebViewLauncher
@@ -80,6 +81,15 @@ class HotelItinPriceSummaryButtonViewModelTest {
         assertTrue(scope.activityMockLauncher.launched)
         assertTrue(scope.mockTripsTracking.trackHotelItinPricingRewardsClicked)
     }
+
+    @Test
+fun testPackageHappyPath() {
+        val scope = TestPackageHotelDetailsScopeHappy(true)
+        val viewModel = HotelItinPriceSummaryButtonViewModel(scope)
+
+        assertEquals("somePhraseString", viewModel.subheadingText)
+        assertEquals(Pair(R.string.itin_hotel_details_price_summary_pay_now_TEMPLATE, mapOf("amount" to ItinMocker.hotelPackageHappy.packagePrice()!!)), scope.mockStrings.lastSeenFetchWithMapArgs)
+    }
 }
 
 class TestHotelDetailsScopeNoPriceDetails : HasItin, HasHotel, HasStringProvider, HasWebViewLauncher, HasTripsTracking, HasActivityLauncher, HasAbacusProvider {
@@ -101,6 +111,20 @@ class TestHotelDetailsScopeHappy(bucketed: Boolean) : HasItin, HasHotel, HasStri
     override val abacus: AbacusSource = MockAbacusSource(bucketed)
     override val itin: Itin = ItinMocker.hotelDetailsHappy
     override val hotel: ItinHotel = ItinMocker.hotelDetailsHappy.firstHotel()!!
+    val mockStrings = MockStringProvider()
+    override val strings: StringSource = mockStrings
+    val mockWebViewLauncher = MockWebViewLauncher()
+    override val webViewLauncher: IWebViewLauncher = mockWebViewLauncher
+    val mockTripsTracking = MockTripsTracking()
+    override val tripsTracking: ITripsTracking = mockTripsTracking
+}
+
+class TestPackageHotelDetailsScopeHappy(bucketed: Boolean) : HasItin, HasHotel, HasStringProvider, HasActivityLauncher, HasWebViewLauncher, HasTripsTracking, HasAbacusProvider {
+    val activityMockLauncher = MockActivityLauncher()
+    override val activityLauncher: IActivityLauncher = activityMockLauncher
+    override val abacus: AbacusSource = MockAbacusSource(bucketed)
+    override val itin: Itin = ItinMocker.hotelPackageHappy
+    override val hotel: ItinHotel = ItinMocker.hotelPackageHappy.firstHotel()!!
     val mockStrings = MockStringProvider()
     override val strings: StringSource = mockStrings
     val mockWebViewLauncher = MockWebViewLauncher()

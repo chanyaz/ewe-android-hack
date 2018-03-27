@@ -7,5 +7,10 @@ data class ItinPackage(
         val cars: List<ItinCar>?,
         val activities: List<ItinActivity>?,
         val cruises: List<ItinCruise>?,
-        val rails: List<ItinRail>?
+        val rails: List<ItinRail>?,
+        val price: Price?
+)
+
+data class Price(
+        val totalFormatted: String?
 )

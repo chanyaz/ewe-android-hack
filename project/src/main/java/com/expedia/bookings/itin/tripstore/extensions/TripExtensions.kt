@@ -12,3 +12,8 @@ fun Itin.firstHotel(): ItinHotel? {
 fun Itin.eligibleForRewards(): Boolean {
     return rewardList != null && rewardList.isNotEmpty()
 }
+
+fun Itin.packagePrice(): String? {
+    val firstPackage = packages?.first()
+    return firstPackage?.price?.totalFormatted
+}
