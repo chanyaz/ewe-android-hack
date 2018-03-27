@@ -63,7 +63,8 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
     }
 
     override fun getHotelSuggestionsV4(query: String, observer: Observer<List<SuggestionV4>>): Disposable {
-        return suggestV4(query, SuggestionResultType.REGION, false, "ta_hierarchy", "HOTELS", null, null)
+        val suggestType = SuggestionResultType.REGION or SuggestionResultType.MULTI_REGION
+        return suggestV4(query, suggestType, false, "ta_hierarchy", "HOTELS", null, null)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { response -> response.suggestions ?: emptyList() }
