@@ -195,8 +195,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical|left">
+                    android:gravity="center_vertical|left"
+                    android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
                         android:id="@+id/material_edit_credit_card_number"
@@ -204,18 +204,18 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom|left"
                         android:layout_weight="1"
+                        android:hint="@string/credit_debit_card_hint"
                         android:importantForAccessibility="no">
 
                         <com.expedia.bookings.widget.NumberMaskEditText
                             android:id="@+id/edit_creditcard_number"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/credit_debit_card_hint"
+                            android:layout_gravity="left"
                             android:imeOptions="actionNext"
                             android:maxLines="1"
                             android:nextFocusForward="@+id/edit_creditcard_exp_text_btn"
                             android:textSize="@dimen/traveler_input_text_size"
-                            android:layout_gravity="left"
                             app:numberFormat="creditcard" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -241,17 +241,17 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:hint="@string/expiration_date"
                     android:importantForAccessibility="no">
 
                     <com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
                         android:id="@+id/edit_creditcard_exp_text_btn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/expiration_date"
-                        android:nextFocusForward="@+id/edit_creditcard_cvv"
+                        android:bufferType="spannable"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
-                        android:bufferType="spannable"
+                        android:nextFocusForward="@+id/edit_creditcard_cvv"
                         android:textSize="@dimen/traveler_input_text_size" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -261,13 +261,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:hint="@string/address_zip_code_hint"
                     android:importantForAccessibility="no">
 
                     <com.expedia.bookings.widget.accessibility.AccessibleEditText
                         android:id="@+id/edit_address_postal_code"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/address_zip_code_hint"
                         android:imeOptions="actionNext"
                         android:maxLines="1"
                         android:nextFocusForward="@+id/edit_name_on_card"
@@ -281,13 +281,13 @@
                 android:id="@+id/edit_name_on_card_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/cardholder_name_hint"
                 android:importantForAccessibility="no">
 
                 <com.expedia.bookings.widget.accessibility.AccessibleEditText
                     android:id="@+id/edit_name_on_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/cardholder_name_hint"
                     android:imeOptions="actionNext"
                     android:inputType="textPersonName|textCapWords"
                     android:maxLines="1"
