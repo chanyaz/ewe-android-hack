@@ -22,6 +22,7 @@ import java.io.IOException
 
 @RunWith(AndroidJUnit4::class)
 class CompetitorStartupTimeTest {
+    annotation class ExcludeFromFork
 
     var classWatchman: TestRule = object : TestWatcher() {
         override fun succeeded(description: Description?) {
@@ -71,7 +72,7 @@ class CompetitorStartupTimeTest {
     }
 
     @Throws(Throwable::class)
-    @Test
+    @Test @ExcludeFromFork
     fun testStartupTimeOfAllApps() {
         val testRepetition = 3
 

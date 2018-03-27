@@ -191,7 +191,7 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		DataInteraction cruiseRow = TripsScreen.tripsListItem().atPosition(14);
 		String cruiseTitle = getListItemValues(cruiseRow, R.id.header_text_view);
 
-		final String expectedCruiseTitle = "Cruise Card";
+		final String expectedCruiseTitle = "External Cruise, Booked";
 		assertEquals(expectedCruiseTitle, cruiseTitle);
 
 		assertViewWithContentDescription(TripsScreen.addGuestItinButton(), "Manually add guest booked trip button");
