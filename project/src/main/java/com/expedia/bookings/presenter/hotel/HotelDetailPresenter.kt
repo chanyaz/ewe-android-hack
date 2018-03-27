@@ -102,6 +102,7 @@ class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             hotelPayLaterInfo.visibility = if (forward) View.VISIBLE else View.GONE
+            if (forward) AccessibilityUtil.setFocusToToolbarNavigationIcon(hotelPayLaterInfo.toolbar)
             hotelDetailView.visibility = if (forward) View.GONE else View.VISIBLE
         }
     }
