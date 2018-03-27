@@ -8,20 +8,20 @@
         android:id="@+id/edit_birth_date_text_layout_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:hint="@string/date_of_birth">
 
         <com.expedia.bookings.widget.traveler.TravelerEditText
             android:id="@+id/edit_birth_date_text_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/date_of_birth"
             android:cursorVisible="false"
             android:drawableRight="@drawable/material_dropdown"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:inputType="none"
             android:nextFocusForward="@+id/edit_gender_layout_btn"
             android:textSize="@dimen/traveler_input_text_size"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
             app:error_cont_desc="@string/accessibility_cont_desc_role_error" />
 
     </android.support.design.widget.TextInputLayout>
@@ -30,20 +30,20 @@
         android:id="@+id/edit_gender_layout_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:hint="@string/gender">
 
         <com.expedia.bookings.widget.traveler.TravelerEditText
             android:id="@+id/edit_gender_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/gender"
             android:cursorVisible="false"
             android:drawableRight="@drawable/material_dropdown"
-            android:textIsSelectable="true"
-            android:nextFocusForward="@+id/first_name_input"
-            android:textSize="@dimen/traveler_input_text_size"
             android:focusable="false"
             android:focusableInTouchMode="false"
+            android:nextFocusForward="@+id/first_name_input"
+            android:textIsSelectable="true"
+            android:textSize="@dimen/traveler_input_text_size"
             app:error_cont_desc="@string/accessibility_cont_desc_role_error" />
 
     </android.support.design.widget.TextInputLayout>

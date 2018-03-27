@@ -16,8 +16,8 @@
             android:id="@+id/traveler_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:gravity="center_vertical"/>
+            android:gravity="center_vertical"
+            android:visibility="gone" />
 
         <com.expedia.bookings.widget.traveler.NameEntryView
             android:id="@+id/name_entry_widget"
@@ -44,18 +44,19 @@
             style="@style/FakeSpinner.Light"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:popupBackground="@android:color/white"
-            android:focusableInTouchMode="true"
             android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:popupBackground="@android:color/white"
             android:textSize="@dimen/traveler_input_text_size"
             android:visibility="gone"
-            app:spinner_label="@string/passport_country"/>
+            app:spinner_label="@string/passport_country" />
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/passport_country_layout_btn"
             android:layout_width="match_parent"
-            android:visibility="gone"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:hint="@string/passport_country"
+            android:visibility="gone">
 
             <com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
                 android:id="@+id/passport_country_btn"
@@ -64,7 +65,6 @@
                 android:cursorVisible="false"
                 android:drawableRight="@drawable/material_dropdown"
                 android:textIsSelectable="true"
-                android:hint="@string/passport_country"
                 android:textSize="@dimen/traveler_input_text_size" />
 
         </android.support.design.widget.TextInputLayout>
@@ -73,9 +73,9 @@
             android:id="@+id/traveler_advanced_options_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="16dp"
+            android:orientation="horizontal"
             android:paddingBottom="8dp"
-            android:orientation="horizontal">
+            android:paddingTop="16dp">
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/advanced_options_text"
@@ -91,8 +91,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/advanced_options_text"
-                android:layout_marginLeft="8dp"
                 android:layout_gravity="center"
+                android:layout_marginLeft="8dp"
                 android:src="@drawable/read_more"
                 android:tint="@color/app_primary" />
 
@@ -148,12 +148,12 @@
                 android:textSize="14dp" />
         </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/frequent_flyer_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="vertical"
-                android:visibility="gone"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/frequent_flyer_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            android:visibility="gone" />
 
     </LinearLayout>
 </merge>
