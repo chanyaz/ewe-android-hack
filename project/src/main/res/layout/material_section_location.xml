@@ -5,7 +5,6 @@
     android:orientation="vertical">
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/material_edit_address_line_one"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/address_line_one_hint"
@@ -25,7 +24,6 @@
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/material_edit_address_line_two"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/address_line_two_hint"
@@ -57,10 +55,9 @@
             android:orientation="horizontal">
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/material_address_city"
+                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:hint="@string/address_city_hint"
                 android:importantForAccessibility="no">
 
@@ -106,10 +103,9 @@
             android:orientation="horizontal">
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/material_country_spinner_layout"
+                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:hint="@string/country"
                 android:importantForAccessibility="no">
 

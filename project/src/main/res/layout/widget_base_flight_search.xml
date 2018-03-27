@@ -109,7 +109,6 @@
                             android:orientation="horizontal">
 
                             <LinearLayout
-                                android:id="@+id/search_location_container"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="?attr/selectableItemBackground"

@@ -46,14 +46,12 @@
             tools:visibility="visible">
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/open_return_header_messaging"
                 style="@style/Core.Text.300.Medium.WhiteColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/rail_open_return_selected" />
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/open_return_description"
                 style="@style/Core.Text.200.WhiteColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

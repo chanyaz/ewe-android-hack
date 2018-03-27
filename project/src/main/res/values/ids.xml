@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- For styles that want to declare IDs -->
-    <item name="departure_airport_edit_text" type="id"/>
-    <item name="arrival_airport_edit_text" type="id"/>
 
     <!-- for using Ids while running Expedia or Travelocity (part of replacement for search_progress_animation)-->
-    <item name="search_progress_bar" type="id"/>
 
     <item name="price_range_increase_min_price" type="id"/>
     <item name="price_range_decrease_min_price" type="id"/>

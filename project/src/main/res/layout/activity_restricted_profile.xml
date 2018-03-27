@@ -4,13 +4,11 @@
     android:layout_height="match_parent" >
 
     <View
-        android:id="@+id/background_shade"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/window_background_dark" />
 
     <LinearLayout
-        android:id="@+id/content_container"
         style="@style/MarginPoint"
         android:layout_height="match_parent"
         android:background="#28000000"

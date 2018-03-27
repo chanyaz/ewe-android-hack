@@ -31,7 +31,6 @@
             android:paddingBottom="20dp">
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/manage_booking_itin_flight_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="14dp"

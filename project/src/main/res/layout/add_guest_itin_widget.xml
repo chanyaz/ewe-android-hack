@@ -14,7 +14,6 @@
         app:contentInsetStartWithNavigation="0dp" />
 
     <com.expedia.bookings.widget.itin.ItinPOSHeader
-        android:id="@+id/itin_pos_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true" />
@@ -103,7 +102,6 @@
         android:visibility="gone">
 
         <com.expedia.bookings.widget.TextView
-            android:id="@+id/fetching_your_itin_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -112,7 +110,6 @@
             android:textSize="22sp" />
 
         <ProgressBar
-            android:id="@+id/empty_progress_bar"
             style="@style/ProgressBar.AddGuestItin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

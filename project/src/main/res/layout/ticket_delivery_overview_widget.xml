@@ -32,7 +32,6 @@
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/ticket_delivery_details_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/card_info_container"

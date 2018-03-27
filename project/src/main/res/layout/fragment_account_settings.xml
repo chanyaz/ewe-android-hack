@@ -44,7 +44,6 @@
                 android:paddingTop="16dp">
 
                 <LinearLayout
-                    android:id="@+id/toolbar_signed_in"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -272,7 +271,6 @@
                         android:padding="12dp">
 
                         <ImageView
-                            android:id="@+id/exp_logo_sign_in"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"

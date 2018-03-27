@@ -14,7 +14,6 @@
         android:paddingBottom="@dimen/temporary_medium_padding">
 
         <TextView
-            android:id="@+id/depart_time_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -46,7 +45,6 @@
         android:paddingBottom="@dimen/temporary_small_padding">
 
         <TextView
-            android:id="@+id/return_time_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"

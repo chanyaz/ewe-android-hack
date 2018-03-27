@@ -31,7 +31,6 @@
     </LinearLayout>
 
     <include
-        android:id="@+id/edit_creditcard_exp_date_and_zipcode_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"

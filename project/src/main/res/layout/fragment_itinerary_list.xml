@@ -59,7 +59,6 @@
             android:visibility="visible">
 
             <LinearLayout
-                android:id="@+id/centered_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -171,7 +170,6 @@
             android:visibility="gone">
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/fetching_your_itin_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
@@ -181,7 +179,6 @@
                 app:textStyle="light" />
 
             <ProgressBar
-                android:id="@+id/empty_progress_bar"
                 style="@style/ProgressBar.CandyCane"
                 android:layout_width="match_parent"
                 android:layout_height="3dp"
@@ -192,7 +189,6 @@
     <!-- ActionBar shadow view -->
 
     <ImageView
-        android:id="@+id/shadow_image_view"
         android:layout_width="match_parent"
         android:layout_height="6dp"
         android:background="@drawable/ab_shadow" />

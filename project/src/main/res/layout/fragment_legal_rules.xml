@@ -55,7 +55,6 @@
             android:visibility="gone">
 
             <TextView
-                android:id="@+id/insurance_information"
                 style="@style/LegalInformationTextView.Blue"
                 android:text="@string/insurance_information" />
 

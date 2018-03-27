@@ -55,7 +55,6 @@
             android:textSize="14sp" />
 
         <View
-            android:id="@+id/vertical_sep"
             android:layout_width="@dimen/one_px_hdpi_two_px_xhdpi"
             android:layout_height="match_parent"
             android:background="@color/hotel_details_separator" />

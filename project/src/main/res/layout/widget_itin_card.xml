@@ -63,7 +63,6 @@
                     android:layout_weight="1" />
 
                 <FrameLayout
-                    android:id="@+id/title_menu_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="0dp">
@@ -203,7 +202,6 @@
                             android:visibility="gone" />
 
                         <com.expedia.bookings.widget.TextView
-                            android:id="@+id/vip_label_text_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"

@@ -21,7 +21,6 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/air_attach_plane_container"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
@@ -53,7 +52,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/itin_button_content"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -62,7 +60,6 @@
                 android:padding="12dp">
 
                 <TextView
-                    android:id="@+id/itin_air_attach_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="?attr/itin_air_attach_text_color"
@@ -70,7 +67,6 @@
                     android:text="@string/air_attach_alert" />
 
                 <TextView
-                    android:id="@+id/itin_air_attach_savings_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="?attr/itin_air_attach_text_color"
@@ -85,7 +81,6 @@
 
 
                     <TextView
-                        android:id="@+id/itin_air_attach_expires_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="?attr/itin_air_attach_expiration_text_color"

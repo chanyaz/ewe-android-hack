@@ -50,13 +50,11 @@
             <include layout="@layout/package_flight_filter_divider" />
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/duration_label"
                 style="@style/FilterSortLabelTheme"
                 android:text="@string/flight_duration_label"
                 android:focusable="true"/>
 
             <LinearLayout
-                android:id="@+id/duration_range_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/sort_filter_padding_small"
@@ -111,13 +109,11 @@
             <include layout="@layout/package_flight_filter_divider" />
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/departure"
                 style="@style/FilterSortLabelTheme"
                 android:text="@string/departure_time_range"
                 android:focusable="true"/>
 
             <LinearLayout
-                android:id="@+id/departure_range_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -132,14 +128,12 @@
             </LinearLayout>
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/arrival"
                 style="@style/FilterSortLabelTheme"
                 android:layout_marginTop="@dimen/sort_filter_padding_small"
                 android:text="@string/arrival_time_range"
                 android:focusable="true"/>
 
             <LinearLayout
-                android:id="@+id/arrival_range_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"

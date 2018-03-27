@@ -8,7 +8,6 @@
     android:padding="0dp" >
 
     <com.expedia.bookings.widget.TextView
-        android:id="@+id/shared_options_label"
         style="@style/TextView.Itin.SectionHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -47,7 +47,6 @@
                 android:background="@drawable/tb_shadow" />
 
             <View
-                android:id="@+id/rail_legal_banner_shadow"
                 android:layout_width="match_parent"
                 android:layout_height="4dp"
                 android:layout_gravity="bottom"

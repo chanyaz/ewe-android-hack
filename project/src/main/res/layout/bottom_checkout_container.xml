@@ -7,7 +7,6 @@
     android:orientation="vertical">
 
     <View
-        android:id="@+id/bottom_container_drop_shadow"
         android:layout_width="match_parent"
         android:layout_height="4dp"
         android:background="@drawable/drop_shadow" />
@@ -63,7 +62,6 @@
         android:background="@color/divider_gray" />
 
     <RelativeLayout
-        android:id="@+id/slide_to_purchase_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/material_checkout_background_color"

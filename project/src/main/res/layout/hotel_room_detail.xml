@@ -6,7 +6,6 @@
     tools:parentTag="RelativeLayout">
 
     <View
-        android:id="@+id/room_info_divider"
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_alignParentTop="true"

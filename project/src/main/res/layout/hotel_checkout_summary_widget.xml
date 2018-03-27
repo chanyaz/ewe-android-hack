@@ -114,14 +114,12 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/checkin_date_holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="4dp"
             android:orientation="horizontal">
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/checkin_date_text"
                 style="@style/HotelCheckoutSummaryCommon.Common"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -134,13 +132,11 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/checkout_date_holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/checkout_date_text"
                 style="@style/HotelCheckoutSummaryCommon.Common"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -172,7 +168,6 @@
         android:paddingTop="9dp">
 
         <RelativeLayout
-            android:id="@+id/total_fees_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -202,7 +197,6 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/hotel_fees_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -231,7 +225,6 @@
         </RelativeLayout>
 
         <View
-            android:id="@+id/dotted_divider"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginBottom="4dp"
@@ -241,7 +234,6 @@
             android:visibility="gone" />
 
         <RelativeLayout
-            android:id="@+id/amount_due_today_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

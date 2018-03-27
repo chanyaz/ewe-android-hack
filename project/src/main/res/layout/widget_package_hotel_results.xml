@@ -15,13 +15,11 @@
         android:orientation="vertical">
 
         <View
-            android:id="@+id/preview_shadow"
             android:layout_width="match_parent"
             android:layout_height="8dp"
             android:background="@drawable/map_shadow" />
 
         <TextView
-            android:id="@+id/package_map_price_messaging"
             style="@style/PackagesHotelMapMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
