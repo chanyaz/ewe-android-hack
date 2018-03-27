@@ -15,6 +15,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extensions.safeSubscribeOptional
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.tracking.ApiCallFailing
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.expedia.bookings.utils.Constants
@@ -147,7 +148,7 @@ open class FlightCheckoutViewModel(context: Context) : AbstractCardFeeEnabledChe
                 showCheckoutDialogObservable.onNext(false)
                 if (RetrofitUtils.isNetworkError(e)) {
                     showNoInternetRetryDialog.onNext(Unit)
-                    FlightsV2Tracking.trackFlightCheckoutAPINoResponseError()
+                    FlightsV2Tracking.trackFlightShoppingError(ApiCallFailing.FlightCheckout(Constants.NO_INTERNET_ERROR_CODE))
                 }
             }
 

@@ -105,4 +105,7 @@ public class Constants {
 	public static final String LX_AIR_MIP = "AirAttachMip";
 	public static final String MOD_PROMO_TYPE = "MOD";
 
+	public static final String NO_INTERNET_ERROR_CODE = "NO_INTERNET";
+	public static final String UNKNOWN_ERROR_CODE = "UNKNOWN_ERROR";
+
 }

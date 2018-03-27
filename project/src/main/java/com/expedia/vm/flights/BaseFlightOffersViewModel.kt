@@ -19,6 +19,8 @@ import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.isFlightGreedySearchEnabled
 import com.expedia.bookings.extensions.withLatestFrom
+import com.expedia.bookings.tracking.ApiCallFailing
+import com.expedia.bookings.utils.Constants
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableObserver
@@ -334,7 +336,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
                             noNetworkObservable.onNext(Unit)
                         }
                         DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
-                        FlightsV2Tracking.trackFlightSearchAPINoResponseError()
+                        FlightsV2Tracking.trackFlightShoppingError(ApiCallFailing.FlightSearch(Constants.NO_INTERNET_ERROR_CODE))
                     }
                 }
             }

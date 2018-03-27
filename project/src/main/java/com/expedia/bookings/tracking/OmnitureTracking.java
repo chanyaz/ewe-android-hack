@@ -1801,6 +1801,7 @@ public class OmnitureTracking {
 	private static final String FLIGHT_CHECKOUT_SLIDE_TO_PURCHASE = "App.Flight.Checkout.SlideToPurchase";
 	private static final String FLIGHT_CHECKOUT_CONFIRMATION = "App.Flight.Checkout.Confirmation";
 	private static final String FLIGHT_CONFIRMATION_BOOKING_DIALOG = "App.Flight.Checkout.Confirmation.Slim";
+	private static final String FLIGHT_SHOPPING_ERROR = "App.Flight.Shopping.Error";
 
 	private static final String CONFIRMATION_BOOKING_DIALOG_PAGE_NAME = "App.Checkout.Confirmation.Slim";
 
@@ -5997,6 +5998,13 @@ public class OmnitureTracking {
 		s.setProp(16, FLIGHTS_V2_ERROR);
 		s.setProp(36, errorType);
 		s.trackLink("Flight Error");
+	}
+
+	public static void trackFlightShoppingError(String errorDetails) {
+		Log.d(TAG, "Tracking \"" + FLIGHT_SHOPPING_ERROR + "\" pageLoad...");
+		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHT_SHOPPING_ERROR);
+		s.setProp(36, errorDetails);
+		s.track();
 	}
 
 	public static void trackFlightCheckoutError(String errorType) {

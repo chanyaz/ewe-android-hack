@@ -12,6 +12,7 @@ import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.KrazyglueResponse
 import com.expedia.bookings.marketing.carnival.CarnivalUtils
 import com.expedia.bookings.presenter.flight.FlightSummaryWidget
+import com.expedia.bookings.tracking.ApiCallFailing
 import com.expedia.bookings.tracking.FacebookEvents
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
@@ -211,44 +212,8 @@ object FlightsV2Tracking {
         FacebookEvents().trackFlightV2Confirmation(flightCheckoutResponse, searchParams)
     }
 
-    fun trackFlightSearchAPINoResponseError() {
-        trackFlightError("Flight Search API No Response Error")
-    }
-
-    fun trackFlightCreateTripNoResponseError() {
-        trackFlightError("Flight Create Trip API No Response Error")
-    }
-
-    fun trackFlightCheckoutAPINoResponseError() {
-        trackFlightError("Flight Checkout API No Response Error")
-    }
-
-    fun trackFlightNoResult() {
-        trackFlightError("Flight No Result")
-    }
-
-    fun trackFlightSearchUnknownError() {
-        trackFlightError("Flight Search Unknown Error")
-    }
-
-    fun trackFlightCreateUnknownError() {
-        trackFlightError("Flight Create Trip Unknown Error")
-    }
-
-    fun trackFlightCreateSessionTimeOutError() {
-        trackFlightError("Flight Create Trip Session Timeout Error")
-    }
-
-    fun trackFlightCreateProductNotFoundError() {
-        trackFlightError("Flight Create Trip Product Not Found Error")
-    }
-
-    fun trackFlightSoldOutError() {
-        trackFlightError("Flight Sold Out Error")
-    }
-
-    private fun trackFlightError(errorType: String) {
-        OmnitureTracking.trackFlightError(errorType)
+    fun trackFlightShoppingError(apiCallFailing: ApiCallFailing) {
+        OmnitureTracking.trackFlightShoppingError("${apiCallFailing.errorCode}|${apiCallFailing.apiCall}")
     }
 
     fun trackFlightCheckoutError(error: ApiError) {

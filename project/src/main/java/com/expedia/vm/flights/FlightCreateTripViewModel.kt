@@ -9,7 +9,9 @@ import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.tracking.ApiCallFailing
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
@@ -60,7 +62,7 @@ class FlightCreateTripViewModel(val context: Context) : BaseCreateTripViewModel(
             override fun onError(e: Throwable) {
                 showCreateTripDialogIfNotBucketed.onNext(false)
                 if (RetrofitUtils.isNetworkError(e)) {
-                    FlightsV2Tracking.trackFlightCreateTripNoResponseError()
+                    FlightsV2Tracking.trackFlightShoppingError(ApiCallFailing.FlightCreateTrip(Constants.NO_INTERNET_ERROR_CODE))
                     showNoInternetRetryDialog.onNext(Unit)
                 }
             }
