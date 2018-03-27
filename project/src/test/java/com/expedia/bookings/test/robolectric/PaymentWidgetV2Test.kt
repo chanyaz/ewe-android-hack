@@ -134,7 +134,7 @@ class PaymentWidgetV2Test {
     fun testFullyPWPEnablesMenuButton() {
         val testObserver = TestObserver<Boolean>()
         sut.validateAndBind()
-        sut.viewmodel.enableMenuItem.subscribe(testObserver)
+        sut.enableToolbarMenuButton.subscribe(testObserver)
 
         val createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithRedeemableOrbucksCreateTripResponse()
         createTripResponse.tripId = "happy"
@@ -152,7 +152,7 @@ class PaymentWidgetV2Test {
     fun testNonFullyPWPDisablesMenuButton() {
         val testObserver = TestObserver<Boolean>()
         sut.validateAndBind()
-        sut.viewmodel.enableMenuItem.subscribe(testObserver)
+        sut.enableToolbarMenuButton.subscribe(testObserver)
 
         val createTripResponse = mockHotelServiceTestRule.getHappyCreateTripResponse()
         createTripResponse.tripId = "happy"

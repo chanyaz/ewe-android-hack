@@ -52,7 +52,7 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
         vm.totalDueToday.subscribeText(totalDueTodayAmount)
         vm.remainingBalanceDueOnCard.subscribeText(remainingBalanceAmount)
         vm.remainingBalanceDueOnCardVisibility.subscribeVisibility(remainingBalance)
-        vm.paymentSplitsWithTripTotalAndTripResponse.map { !it.isCardRequired() }.subscribe(viewmodel.enableMenuItem)
+        vm.paymentSplitsWithTripTotalAndTripResponse.map { !it.isCardRequired() }.subscribe(enableToolbarMenuButton)
         vm.paymentSplitsWithTripTotalAndTripResponse.map { it.isCardRequired() }.subscribeEnabled(sectionCreditCardContainer)
         vm.paymentSplitsWithTripTotalAndTripResponse.subscribe {
             if (isCreditCardMessagingForPayLaterEnabled(context)) {
