@@ -52,7 +52,7 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
     val surchargeTotalForEntireStay = BehaviorSubject.create<Money>()
     val propertyServiceSurcharge = BehaviorSubject.create<Optional<Money>>()
     val taxStatusType = BehaviorSubject.create<Optional<String>>()
-    val extraGuestFees = BehaviorSubject.create<Money>()
+    val extraGuestFees = BehaviorSubject.create<Optional<Money>>()
     val priceChangeMessage = BehaviorSubject.create<String>()
     val isPriceChange = BehaviorSubject.createDefault<Boolean>(false)
     val priceChangeIconResourceId = BehaviorSubject.create<Int>()
@@ -117,9 +117,7 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
                 propertyServiceSurcharge.onNext(Optional(null))
             }
             taxStatusType.onNext(Optional(rate.taxStatusType))
-            rate.extraGuestFees?.let {
-                extraGuestFees.onNext(it)
-            }
+            extraGuestFees.onNext(Optional(rate.extraGuestFees))
 
             feesPaidAtHotel.onNext(Money(BigDecimal(rate.totalMandatoryFees.toString()), currencyCode.value).formattedMoney)
 

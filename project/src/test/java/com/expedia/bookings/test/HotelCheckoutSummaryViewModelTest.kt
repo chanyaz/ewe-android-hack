@@ -22,6 +22,7 @@ import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.isAllowCheckinCheckoutDatesInlineEnabled
+import com.expedia.util.Optional
 import com.expedia.vm.HotelCheckoutSummaryViewModel
 import com.mobiata.android.util.SettingUtils
 import io.reactivex.subjects.PublishSubject
@@ -36,6 +37,7 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
@@ -105,7 +107,7 @@ class HotelCheckoutSummaryViewModelTest {
         assertEquals(rate.nightlyRateTotal.toString(), sut.nightlyRateTotal.value)
         assertEquals(Money(BigDecimal(rate.surchargeTotalForEntireStay.toString()), rate.currencyCode).formattedMoney, sut.surchargeTotalForEntireStay.value.formattedMoney)
         assertEquals(rate.taxStatusType, sut.taxStatusType.value?.value)
-        assertEquals(rate.extraGuestFees, sut.extraGuestFees.value)
+        assertEquals(rate.extraGuestFees, sut.extraGuestFees.value?.value)
         assertEquals(rate.displayTotalPrice.formattedMoney, sut.tripTotalPrice.value)
         assertEquals("$0", sut.dueNowAmount.value)
         assertFalse(sut.showFeesPaidAtHotel.value)
@@ -366,6 +368,28 @@ class HotelCheckoutSummaryViewModelTest {
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withAbacusTestControl(AbacusUtils.EBAndroidAppHotelPayLaterCreditCardMessaging.key), mockAnalyticsProvider)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testExtraGuestFeeIsClearedAfterNewCreateTripCallWithoutFee() {
+        setup()
+        val extraGuestFeesTestObservable = TestObserver.create<Optional<Money>>()
+        sut.extraGuestFees.subscribe(extraGuestFeesTestObservable)
+
+        givenHotelWithGuestFee()
+        createTripResponseObservable.onNext(createTripResponse)
+        paymentModel.createTripSubject.onNext(createTripResponse)
+
+        extraGuestFeesTestObservable.assertValueCount(1)
+        assertNotNull(extraGuestFeesTestObservable.values()[0].value)
+
+        givenPayLaterHotelProductResponse()
+        createTripResponseObservable.onNext(createTripResponse)
+        paymentModel.createTripSubject.onNext(createTripResponse)
+
+        extraGuestFeesTestObservable.assertValueCount(2)
+        assertNull(extraGuestFeesTestObservable.values()[1].value)
+    }
+
     private fun setPOS(pos: PointOfSaleId) {
         SettingUtils.save(context, R.string.PointOfSaleKey, pos.id.toString())
         PointOfSale.onPointOfSaleChanged(context)
@@ -404,6 +428,11 @@ class HotelCheckoutSummaryViewModelTest {
 
     private fun givenHappyHotelProductResponse() {
         createTripResponse = mockHotelServiceTestRule.getHappyCreateTripResponse()
+        hotelProductResponse = createTripResponse.newHotelProductResponse
+    }
+
+    private fun givenHotelWithGuestFee() {
+        createTripResponse = mockHotelServiceTestRule.getHotelWithGuestChargeResponse()
         hotelProductResponse = createTripResponse.newHotelProductResponse
     }
 

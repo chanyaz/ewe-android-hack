@@ -52,9 +52,11 @@ class HotelBreakDownViewModel(val context: Context, hotelCheckoutSummaryViewMode
             }
 
             // Extra guest fees
-            val extraGuestFees = hotelCheckoutSummaryViewModel.extraGuestFees.value
-            if (extraGuestFees != null && !extraGuestFees.isZero) {
-                breakdowns.add(Breakdown(context.getString(R.string.extra_guest_charge), extraGuestFees.formattedMoney, BreakdownItem.OTHER))
+            val extraGuestFees = hotelCheckoutSummaryViewModel.extraGuestFees.value?.value
+            extraGuestFees?.let { fee ->
+                if (!fee.isZero) {
+                    breakdowns.add(Breakdown(context.getString(R.string.extra_guest_charge), extraGuestFees.formattedMoney, BreakdownItem.OTHER))
+                }
             }
 
             // Discount
