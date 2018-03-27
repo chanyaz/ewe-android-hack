@@ -10,6 +10,7 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItinCardDataHotel
+import com.expedia.bookings.itin.common.ItinBaseActivity
 import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
@@ -26,7 +27,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.mobiata.android.Log
 
-class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraIdleListener {
+class HotelItinExpandedMapActivity : ItinBaseActivity(), OnMapReadyCallback, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraIdleListener {
 
     override fun onCameraIdle() {
         if (moveStarted) {
@@ -91,7 +92,7 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
 
     override fun onResume() {
         super.onResume()
-        updateItinCardDataHotel()
+        onSyncFinish()
     }
 
     companion object {
@@ -165,7 +166,7 @@ class HotelItinExpandedMapActivity : HotelItinBaseActivity(), OnMapReadyCallback
         currentZoom = MAP_ZOOM_LEVEL
     }
 
-    override fun updateItinCardDataHotel() {
+    override fun onSyncFinish() {
         val freshItinCardDataHotel = getItineraryManager().getItinCardDataFromItinId(intent.getStringExtra(ID_EXTRA)) as ItinCardDataHotel?
         if (freshItinCardDataHotel == null) {
             finish()

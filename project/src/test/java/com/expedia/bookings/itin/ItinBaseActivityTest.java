@@ -30,7 +30,7 @@ import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder;
 import junit.framework.Assert;
 
 @RunWith(RobolectricRunner.class)
-public class HotelItinBaseActivityTest {
+public class ItinBaseActivityTest {
 
 	private TestHotelItinDetailsActivity testHotelItinDetailsActivity;
 	private ItinCardDataHotel itinCardDataHotel;
@@ -77,7 +77,7 @@ public class HotelItinBaseActivityTest {
 		}
 
 		@Override
-		public void updateItinCardDataHotel() {
+		public void onSyncFinish() {
 			this.itinCardDataHotel.getProperty().setItinBedType("Room with a view");
 		}
 

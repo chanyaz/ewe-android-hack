@@ -3,8 +3,8 @@ package com.expedia.bookings.itin.flight.manageBooking
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
+import com.expedia.bookings.itin.common.ItinBaseActivity
 import com.expedia.bookings.itin.flight.common.FlightItinToolbarViewModel
 import com.expedia.bookings.itin.common.ItinModifyReservationWidget
 import com.expedia.bookings.itin.common.ItinToolbar
@@ -13,7 +13,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 
-class FlightItinManageBookingActivity : AppCompatActivity() {
+class FlightItinManageBookingActivity : ItinBaseActivity() {
 
     companion object {
         private const val ITIN_ID = "ITIN_ID"
@@ -88,12 +88,12 @@ class FlightItinManageBookingActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        finishActivity()
-    }
-
     fun finishActivity() {
         finish()
         overridePendingTransition(R.anim.slide_in_left_complete, R.anim.slide_out_right_no_fill_after)
+    }
+
+    override fun onSyncFinish() {
+        viewModel.setUp()
     }
 }

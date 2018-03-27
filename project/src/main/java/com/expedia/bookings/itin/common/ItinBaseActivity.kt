@@ -1,4 +1,4 @@
-package com.expedia.bookings.itin.hotel.common
+package com.expedia.bookings.itin.common
 
 import android.content.Intent
 import android.support.annotation.VisibleForTesting
@@ -8,7 +8,7 @@ import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.utils.Constants
 
-abstract class HotelItinBaseActivity : AppCompatActivity() {
+abstract class ItinBaseActivity : AppCompatActivity() {
     val syncListener: ItinSyncListener = ItinSyncListener()
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -27,11 +27,11 @@ abstract class HotelItinBaseActivity : AppCompatActivity() {
     inner class ItinSyncListener : ItineraryManager.ItinerarySyncAdapter() {
         override fun onSyncFinished(trips: MutableCollection<Trip>?) {
             super.onSyncFinished(trips)
-            updateItinCardDataHotel()
+            onSyncFinish()
         }
     }
 
-    abstract fun updateItinCardDataHotel()
+    abstract fun onSyncFinish()
 
     override fun onResume() {
         super.onResume()

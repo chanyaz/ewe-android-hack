@@ -10,13 +10,13 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItinCardDataHotel
-import com.expedia.bookings.itin.hotel.common.HotelItinBaseActivity
+import com.expedia.bookings.itin.common.ItinBaseActivity
 import com.expedia.bookings.itin.hotel.common.HotelItinToolbar
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.squareup.phrase.Phrase
 
-class HotelItinManageBookingActivity : HotelItinBaseActivity() {
+class HotelItinManageBookingActivity : ItinBaseActivity() {
 
     val toolbar by bindView<HotelItinToolbar>(R.id.widget_hotel_itin_toolbar)
     lateinit var itinCardDataHotel: ItinCardDataHotel
@@ -78,7 +78,7 @@ class HotelItinManageBookingActivity : HotelItinBaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        updateItinCardDataHotel()
+        onSyncFinish()
     }
 
     fun setUpWidgets() {
@@ -89,7 +89,7 @@ class HotelItinManageBookingActivity : HotelItinBaseActivity() {
         }
     }
 
-    override fun updateItinCardDataHotel() {
+    override fun onSyncFinish() {
         val freshItinCardDataHotel = getItineraryManager().getItinCardDataFromItinId(intent.getStringExtra(ID_EXTRA)) as ItinCardDataHotel?
         if (freshItinCardDataHotel == null) {
             finish()

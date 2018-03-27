@@ -4,10 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.TripComponent
+import com.expedia.bookings.itin.common.ItinBaseActivity
 import com.expedia.bookings.itin.utils.ItinShareTripHelper
 import com.expedia.bookings.itin.flight.common.FlightItinToolbarViewModel
 import com.expedia.bookings.itin.common.ItinConfirmationWidget
@@ -20,7 +20,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import kotlin.properties.Delegates
 
-class FlightItinDetailsActivity : AppCompatActivity() {
+class FlightItinDetailsActivity : ItinBaseActivity() {
 
     companion object {
         private const val FLIGHT_ITIN_ID = "FLIGHT_ITIN_ID"
@@ -100,8 +100,6 @@ class FlightItinDetailsActivity : AppCompatActivity() {
         }
     }
 
-    private var trackingFired = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Ui.getApplication(this).defaultTripComponents()
@@ -121,12 +119,12 @@ class FlightItinDetailsActivity : AppCompatActivity() {
         viewModel.onResume()
     }
 
-    override fun onBackPressed() {
-        finishActivity()
-    }
-
     fun finishActivity() {
         finish()
         overridePendingTransition(R.anim.slide_in_left_complete, R.anim.slide_out_right_no_fill_after)
+    }
+
+    override fun onSyncFinish() {
+        viewModel.onResume()
     }
 }

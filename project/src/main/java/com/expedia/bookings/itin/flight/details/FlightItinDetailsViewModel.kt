@@ -6,6 +6,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
+import com.expedia.bookings.data.trips.ItineraryManagerInterface
 import com.expedia.bookings.itin.common.ItinConfirmationViewModel
 import com.expedia.bookings.itin.flight.common.FlightItinOmnitureUtils
 import com.expedia.bookings.itin.common.ItinToolbarViewModel
@@ -20,7 +21,7 @@ import org.joda.time.DateTime
 
 class FlightItinDetailsViewModel(private val context: Context, private val itinId: String) {
 
-    var itineraryManager: ItineraryManager = ItineraryManager.getInstance()
+    var itineraryManager: ItineraryManagerInterface = ItineraryManager.getInstance()
     private var trackingFired = false
 
     val itinCardDataFlightObservable = PublishSubject.create<ItinCardDataFlight>()

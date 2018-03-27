@@ -1,5 +1,6 @@
 package com.expedia.bookings.itin.flight.details
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.support.v4.app.ActivityOptionsCompat
@@ -12,6 +13,7 @@ import com.expedia.bookings.itin.common.ItinLinkOffCardViewViewModel
 import com.expedia.bookings.itin.common.ItinLinkOffCardView
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import kotlinx.android.synthetic.main.widget_flight_itin_booking_details_widget.view.booking_info_container
@@ -34,12 +36,12 @@ class FlightItinBookingDetailsWidget(context: Context, attr: AttributeSet?) : Li
 
     private fun setPriceOnClick(intent: Intent?) = priceSummaryCard.setOnClickListener {
         OmnitureTracking.trackItinFlightPriceSummary()
-        if (intent != null) context.startActivity(intent, ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_up_partially, 0).toBundle())
+        if (intent != null) (context as Activity).startActivityForResult(intent, Constants.ITIN_WEBVIEW_REFRESH_ON_EXIT_CODE, ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_up_partially, 0).toBundle())
     }
 
     private fun setAdditionalOnClick(intent: Intent?) = additionalInfoCard.setOnClickListener {
         OmnitureTracking.trackItinFlightAdditionalInfo()
-        if (intent != null) context.startActivity(intent, ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_up_partially, 0).toBundle())
+        if (intent != null) (context as Activity).startActivityForResult(intent, Constants.ITIN_WEBVIEW_REFRESH_ON_EXIT_CODE, ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_up_partially, 0).toBundle())
     }
 
     private fun setTravelerInfoOnClick(intent: Intent?) = travelerInfoCard.setOnClickListener {

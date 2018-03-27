@@ -95,7 +95,7 @@ import retrofit2.HttpException;
  * <p/>
  * For more information, check out the Operation enum comments.
  */
-public class ItineraryManager implements JSONable {
+public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 	private static final long ONE_MINUTE = TimeUnit.MINUTES.toMillis(1);
 	private static final long FIVE_MINUTES = TimeUnit.MINUTES.toMillis(5);
@@ -278,6 +278,7 @@ public class ItineraryManager implements JSONable {
 	 *
 	 * @return first ItinCardData found matching the passed id or null
 	 */
+	@Override
 	public ItinCardData getItinCardDataFromItinId(String itinId) {
 
 		synchronized (mItinCardDatas) {

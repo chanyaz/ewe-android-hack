@@ -3,8 +3,11 @@ package com.expedia.bookings.itin.activity
 import android.content.Intent
 import android.text.format.DateUtils
 import com.expedia.bookings.OmnitureTestUtils
+import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.ItinCardDataFlight
+import com.expedia.bookings.data.trips.ItineraryManagerInterface
 import com.expedia.bookings.itin.flight.details.FlightItinDetailsActivity
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -21,7 +24,9 @@ class FlightItinDetailsActivityTest {
 
     private lateinit var activity: FlightItinDetailsActivity
     private lateinit var itinCardData: ItinCardDataFlight
+    private lateinit var itinCardDataTwo: ItinCardDataFlight
     private val flightBuilder = ItinCardDataFlightBuilder()
+    private val itinCardDataSubscriber = TestObserver<ItinCardDataFlight>()
 
     @Before
     fun setup() {
@@ -29,6 +34,7 @@ class FlightItinDetailsActivityTest {
         intent.putExtra("FLIGHT_ITIN_ID", "FLIGHT_ITIN_ID")
         activity = Robolectric.buildActivity(FlightItinDetailsActivity::class.java, intent).create().get()
         itinCardData = flightBuilder.build()
+        itinCardDataTwo = flightBuilder.build(multiSegment = true)
         activity.toolbarViewModel.itinCardData = itinCardData
     }
 
@@ -56,5 +62,28 @@ class FlightItinDetailsActivityTest {
         val expectedShareText = "I'm flying to Las Vegas on $formattedStartTime! http://e.xp.co"
 
         assertEquals(expectedShareText, intent.getStringExtra(Intent.EXTRA_TEXT))
+    }
+
+    @Test
+    fun onSyncFinishTest() {
+        activity.viewModel.itineraryManager = TestItinManager()
+        activity.viewModel.itinCardDataFlightObservable.subscribe(itinCardDataSubscriber)
+        itinCardDataSubscriber.assertNoValues()
+        activity.onSyncFinish()
+        itinCardDataSubscriber.assertValuesAndClear(itinCardData)
+        activity.onSyncFinish()
+        itinCardDataSubscriber.assertValue(itinCardDataTwo)
+    }
+
+    inner class TestItinManager : ItineraryManagerInterface {
+        var first = true
+        override fun getItinCardDataFromItinId(id: String?): ItinCardData {
+            return if (first) {
+                first = false
+                itinCardData
+            } else {
+                itinCardDataTwo
+            }
+        }
     }
 }

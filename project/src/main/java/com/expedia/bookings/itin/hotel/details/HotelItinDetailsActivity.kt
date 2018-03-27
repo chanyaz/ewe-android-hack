@@ -12,7 +12,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.TripHotelRoom
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.data.trips.ItinCardDataHotel
-import com.expedia.bookings.itin.hotel.common.HotelItinBaseActivity
+import com.expedia.bookings.itin.common.ItinBaseActivity
 import com.expedia.bookings.itin.hotel.common.HotelItinToolbar
 import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.Ui
@@ -20,7 +20,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.squareup.phrase.Phrase
 
-open class HotelItinDetailsActivity : HotelItinBaseActivity() {
+open class HotelItinDetailsActivity : ItinBaseActivity() {
 
     val locationDetailsView by bindView<HotelItinLocationDetails>(R.id.widget_hotel_itin_location_details)
     val hotelImageView by bindView<HotelItinImageWidget>(R.id.hotel_itin_image)
@@ -57,10 +57,10 @@ open class HotelItinDetailsActivity : HotelItinBaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        updateItinCardDataHotel()
+        onSyncFinish()
     }
 
-    override fun updateItinCardDataHotel() {
+    override fun onSyncFinish() {
         val freshItinCardDataHotel = getItineraryManager().getItinCardDataFromItinId(intent.getStringExtra(UNIQUE_ID_EXTRA)) as ItinCardDataHotel?
         if (freshItinCardDataHotel == null) {
             finish()
