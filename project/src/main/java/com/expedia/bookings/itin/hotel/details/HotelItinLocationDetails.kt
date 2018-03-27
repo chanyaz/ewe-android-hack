@@ -40,6 +40,7 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
                 context.startActivity(HotelItinExpandedMapActivity.createIntent(context, itinCardDataHotel.id), ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_in_right, R.anim.slide_out_left_complete).toBundle())
                 TripsTracking.trackItinHotelExpandMap()
             }
+            directionsButton.contentDescription = context.getString(R.string.itin_action_directions)
             directionsButton.setOnClickListener {
                 context.startActivity(HotelItinExpandedMapActivity.createIntent(context, itinCardDataHotel.id), ActivityOptionsCompat.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete).toBundle())
                 TripsTracking.trackItinHotelDirections()

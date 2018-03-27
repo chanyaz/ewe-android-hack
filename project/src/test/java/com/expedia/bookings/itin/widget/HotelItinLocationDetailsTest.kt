@@ -35,6 +35,7 @@ class HotelItinLocationDetailsTest {
         locationDetailsWidget.setupWidget(itinCardDataHotel)
         assertEquals(View.VISIBLE, locationDetailsWidget.mapView.visibility)
         assertEquals(View.VISIBLE, locationDetailsWidget.directionsButton.visibility)
+        assertEquals(activity.getString(R.string.itin_action_directions), locationDetailsWidget.directionsButton.contentDescription)
         assertEquals(locationDetailsWidget.addressLine1.text, itinCardDataHotel.propertyLocation.streetAddressString)
         assertEquals(locationDetailsWidget.addressLine2.text, itinCardDataHotel.propertyLocation.toTwoLineAddressFormattedString())
         locationDetailsWidget.address.performClick()
