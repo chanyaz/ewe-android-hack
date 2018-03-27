@@ -54,6 +54,13 @@
     <!-- Ally Description for individual map pins on hotel results. Ex. Show information for hotel of price $543 below, Button-->
     <string name="hotel_map_pin_price_cont_desc_TEMPLATE">Show information for hotel of price {price} below, Button</string>
 
+    <!-- Text on Floating Action Pill to switch to the map view of hotel search results -->
+    <string name="hotel_results_map_button">Map</string>
+    <!-- Text on Floating Action Pill to switch to the list view of hotel search results -->
+    <string name="hotel_results_list_button">List</string>
+    <!-- Text on Floating Action Pill to add/remove filters for hotel search results -->
+    <string name="hotel_results_filters_button">Filters</string>
+
     <!-- Hotel sold out label on the results hotel card -->
     <string name="hotel_sold_out_label">We are sold out</string>
 
@@ -143,8 +150,6 @@
     </plurals>
     <!-- Accessibility announcement requesting user to fix errors on checkout forms. -->
     <string name="accessibility_announcement_please_review_and_resubmit">Please review and resubmit.</string>
-    <!--Accessibility content description for lock icon on checkout. -->
-    <string name="secure_lock_accessibility">Lock icon, secure checkout</string>
     <!--Legal booking statement for flights on checkout-->
     <string name="flight_booking_statement_TEMPLATE">By completing this booking I agree that I have read and accept the &lt;a href=\"{website_url}\""&gt;Rules and Restrictions, the Terms and Conditions, the Privacy Policy, and Fare Information&lt;/a&gt;.</string>
 
@@ -828,6 +833,7 @@
     <string name="nav_packages">Bundle Deals</string>
     <string name="nav_hotel_plus_flight_deals">Hotel + Flight Deals</string>
     <string name="nav_hotel_plus_flight">Hotel + Flight</string>
+    <string name="nav_hotel_plus_flight_plus_car">Hotel + Flight + Car</string>
     <string name="nav_flight_plus_hotel">Flight + Hotel</string>
     <!-- Rail -->
     <string name="nav_rail">Trains</string>
@@ -1371,6 +1377,12 @@
     <string name="itin_hotel_details_manage_booking_subheading">Change, cancel and support</string>
     <!--Hotel itin card price summary heading-->
     <string name="itin_hotel_details_price_summary_heading">Price summary</string>
+    <!--Hotel itin card price summary and rewards heading-->
+    <string name="itin_hotel_details_price_summary_rewards_heading">Pricing and Rewards</string>
+    <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
+    <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">{amount} total amount paid</string>
+    <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
+    <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">{amount} total due at hotel</string>
     <!--Hotel itin card additional info heading-->
     <string name="itin_hotel_details_additional_info_heading">Additional information</string>
     <!--Hotel itin checkin text-->
@@ -1459,6 +1471,8 @@
     <string name="itin_hotel_manage_booking_room_tab_title_TEMPLATE">Room {number}</string>
     <!--Hotel itin manage booking total rooms text TEMPLATE. {number} total rooms (e.g., 2 total rooms)-->
     <string name="itin_hotel_manage_booking_total_rooms_text_TEMPLATE">{number} total rooms</string>
+    <!--Hotel itin price and rewards expedia title -->
+    <string name="itin_hotel_price_reward_title">Pricing and rewards</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Share Itinerary</string>
@@ -1849,9 +1863,7 @@
     <string name="flights_fee_added_based_on_payment">An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment.</string>
     <!-- There may be an additional fee based on payment method
          Example: There may be an additional fee based on your payment method -->
-    <string name="flights_there_maybe_additional_fee_TEMPLATE">There may be an &lt;a href=\"{airline_fee_url}\"&gt;additional fee&lt;/a&gt;, based on your payment method.</string>
-    <!-- There may be an additional fee based on payment method without linking to webview -->
-    <string name="flights_there_maybe_additional_fee">There may be an additional fee, based on your payment method.</string>
+    <string name="flights_there_maybe_additional_fee_TEMPLATE">There may be an &lt;a href=\"{airline_fee_url}\"&gt;additional fee&lt;/a&gt; based on your payment method.</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">Debit cards are not accepted.</string>
     <!-- Flights Sold out error screen:- warning message -->
@@ -2250,6 +2262,8 @@
     <string name="save_traveler">Save Traveller</string>
     <!-- no thanks -->
     <string name="no_thanks">No Thanks</string>
+    <!--Advanced flight traveler options, explicitly telling user that they can add frequent flyer number anytime before the flight -->
+    <string name="add_anytime_before_your_flight">Add any time before your flight.</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">Advanced (optional)</string>
     <!--Contact airline message on flight checkout traveler details -->
@@ -2737,6 +2751,14 @@
     <!-- The label for the hotel cell of the hotel you selected on results. -->
     <string name="you_picked_this_hotel_label">You picked this hotel</string>
 
+    <!-- Guest Ratring Filter strings -->
+    <!-- 3.0 and above -->
+    <string name="guest_rating_three_and_above">3.0 +</string>
+    <!-- 4.0 and above -->
+    <string name="guest_rating_four_and_above">4.0 +</string>
+    <!-- 5.0 -->
+    <string name="guest_rating_five">5.0</string>
+
     <!-- Amenity strings -->
     <!-- Business center amenity -->
     <string name="amenity_business_center">Business Centre</string>
@@ -2901,8 +2923,6 @@
     <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
          e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
     <string name="package_hotel_results_header_TEMPLATE">Total price return, per person. includes hotel and flights • {total_price_result_count_header}</string>
-    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay -->
-    <string name="package_hotel_results_header">Total price return, per person • includes hotel and flights</string>
 
     <!-- Urgency message indicating percent of hotels remaining in a region-->
     <string name="urgency_only_x_hotels_left_TEMPLATE">We only have {percent}% of hotels left!</string>
@@ -3007,6 +3027,10 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to open account settings screen -->
     <string name="account_settings_menu_label">Account</string>
+    <!-- Label for menu item to edit account settings screen -->
+    <string name="account_settings_edit_label">Edit account info</string>
+    <!-- Label for webview to edit account settings -->
+    <string name="account_settings_edit_webview_label">My Account</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Sign in</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
@@ -3441,7 +3465,7 @@
     <string name="country_ht">Haiti</string>
     <string name="country_va">Holy See (Vatican City State)</string>
     <string name="country_hn">Honduras</string>
-    <string name="country_hk">Hong Kong</string>
+    <string name="country_hk">Hong Kong SAR</string>
     <string name="country_hu">Hungary</string>
     <string name="country_is">Iceland</string>
     <string name="country_in">India</string>
@@ -3472,7 +3496,7 @@
     <string name="country_li">Liechtenstein</string>
     <string name="country_lt">Lithuania</string>
     <string name="country_lu">Luxembourg</string>
-    <string name="country_mo">Macao</string>
+    <string name="country_mo">Macao SAR</string>
     <string name="country_mk">Macedonia, the former Yugoslav Republic of</string>
     <string name="country_mg">Madagascar</string>
     <string name="country_mw">Malawi</string>
@@ -3820,6 +3844,7 @@
     <string name="neighborhoods">Areas</string>
     <string name="amenities">Amenities</string>
     <string name="star_rating">Star Rating</string>
+    <string name="guest_rating">Guest Rating</string>
     <!-- Hotel Filters One star rating content description -->
     <string name="star_rating_one_cont_desc">One Star Rating</string>
     <!-- Hotel Filters Two star rating content description -->
@@ -4642,6 +4667,19 @@
     <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights. Cannot be deselected, all flight results are NonStop. -->
     <string name="packages_flight_filter_checkbox_disabled_cont_desc_TEMPLATE">{filter_results} available {filter_name} flights. Cannot be deselected, all flight results are {filter_name}.\u0020</string>
 
+
+   <!--    Example #1: 3 available NonStop flights starting from $200.
+           Example #2: 2 available Hawaiian Airlines flights starting from $200. -->
+    <string name="flight_filter_checkbox_with_price_and_count_cont_desc_TEMPLATE">{filter_results} available {filter_name} flights starting from {price}\u0020</string>
+    <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights starting from $200. Cannot be deselected, all flight results are NonStop. -->
+    <string name="flight_filter_checkbox_disabled_with_price_and_count_cont_desc_TEMPLATE">{filter_results} available {filter_name} flights starting from {price}. Cannot be deselected, all flight results are {filter_name}.\u0020</string>
+
+    <!-- Example #1: NonStop flights starting from $200.
+         Example #2: Hawaiian Airlines flights starting from $200. -->
+    <string name="flight_filter_checkbox_with_price_cont_desc_TEMPLATE">{filter_name} flights starting from {price}\u0020</string>
+    <!-- Content Description for diabled filter option on Sort Filter Page. Example: NonStop flights starting from $200. Cannot be deselected, all flight results are NonStop. -->
+    <string name="flight_filter_checkbox_disabled_with_price__cont_desc_TEMPLATE">{filter_name} flights starting from {price}. Cannot be deselected, all flight results are {filter_name}.\u0020</string>
+
     <!-- Status displayed in a modal dialog while insurance is being added -->
     <string name="insurance_adding">Adding trip protection…</string>
     <!-- Error message displayed when insurance fails to be added to a trip -->
@@ -4839,6 +4877,7 @@
     <string name="find_guest_add_email_address_hint">Email</string>
     <!-- Hint to type in itinerary number -->
     <string name="find_guest_add_itinerary_number_hint">Itinerary number</string>
+    <string name="itin_toolbar">Trips</string>
 
     <!-- Booking successful alert text-->
     <string name="booking_successful">Booking Successful!</string>
@@ -4980,8 +5019,8 @@
         <item quantity="one">Offer expires in {no_of_days} day</item>
         <item quantity="other">Offer expires in {no_of_days} days</item>
     </plurals>
-    <!-- Shop hotels now-->
-    <string name="shop_hotels_now">Shop hotels now</string>
+    <!-- See all hotels -->
+    <string name="see_all_hotels">See all hotels</string>
     <!--Up to 55% off-->
     <string name="krazyglue_offer">Up to 55% off</string>
     <!-- Showing the header for the coupon widget to show the saved coupon -->
@@ -5015,10 +5054,18 @@
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">Regular Price {ticket_type} {activity_original_price}. Discounted price {ticket_type} {activity_price}</string>
     <string name="hotel_2x_points_search_title">Double Expedia Rewards Points!</string>
     <string name="hotel_2x_points_search_content">You\'ll earn double points just for booking in the app!</string>
+    <!-- Accessibility announcement for when home screen navigation tab is selected. -->
+    <string name="tab_selected_announcement">Tab Selected</string>
+
+    <!-- Recent search - Date searched On string e.g. as of Nov 10 -->
+    <string name="flight_recent_search_date_searched_TEMPLATE">as of {searchdate}</string>
     <!-- Recent search header string -->
     <string name="flight_recent_search_label">Recent Searches</string>
 
     <!-- Brand reward name -->
     <string name="brand_reward_name">Expedia Rewards</string>
+
+    <!--Accessibility Content Description for Member Pricing Discount Percentage Eg. Member Pricing Discount: 10%-->
+    <string name="lx_member_pricing_discount_percent_TEMPLATE">Member Pricing Discount: {discount}%</string>
 
 </resources>
