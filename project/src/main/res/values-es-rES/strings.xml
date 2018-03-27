@@ -54,6 +54,13 @@
     <!-- Ally Description for individual map pins on hotel results. Ex. Show information for hotel of price $543 below, Button-->
     <string name="hotel_map_pin_price_cont_desc_TEMPLATE">Botón para mostrar información sobre el hotel con el precio {price}</string>
 
+    <!-- Text on Floating Action Pill to switch to the map view of hotel search results -->
+    <string name="hotel_results_map_button">Mapa</string>
+    <!-- Text on Floating Action Pill to switch to the list view of hotel search results -->
+    <string name="hotel_results_list_button">Lista</string>
+    <!-- Text on Floating Action Pill to add/remove filters for hotel search results -->
+    <string name="hotel_results_filters_button">Filtros</string>
+
     <!-- Hotel sold out label on the results hotel card -->
     <string name="hotel_sold_out_label">Agotado</string>
 
@@ -143,8 +150,6 @@
     </plurals>
     <!-- Accessibility announcement requesting user to fix errors on checkout forms. -->
     <string name="accessibility_announcement_please_review_and_resubmit">Revisa el formulario y vuelve a enviarlo.</string>
-    <!--Accessibility content description for lock icon on checkout. -->
-    <string name="secure_lock_accessibility">Icono de un candado, pago seguro</string>
     <!--Legal booking statement for flights on checkout-->
     <string name="flight_booking_statement_TEMPLATE">Al completar esta reserva, confirmo que he leído y acepto las &lt;a href=\"{website_url}\""&gt;reglas y restricciones, los términos y condiciones, la política de privacidad y la información sobre tarifas&lt;/a&gt;.</string>
 
@@ -612,9 +617,9 @@
     <!-- Message for voucherless offers  -->
     <string name="lx_print_voucher_offer">Se requiere cupón impreso</string>
     <!-- LX Error Activity Price Changed -->
-    <string name="lx_error_price_changed">Lo sentimos, pero el precio de esta actividad ha cambiado. Vuelve a intentarlo.</string>
+    <string name="lx_error_price_changed">El precio de esta actividad ha cambiado. Vuelve a intentarlo.</string>
     <!-- LX Error Limited Inventory -->
-    <string name="lx_error_limited_inventory">Lo sentimos, no tenemos billetes suficientes para la fecha seleccionada. Elige otra fecha o selecciona un número menor de billetes.</string>
+    <string name="lx_error_limited_inventory">No tenemos billetes suficientes para la fecha seleccionada. Elige otra fecha o selecciona un número menor de billetes.</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">Hemos enviado tus billetes a</string>
     <!-- LX reservation confirmation text -->
@@ -828,6 +833,7 @@
     <string name="nav_packages">Ofertas de paquetes</string>
     <string name="nav_hotel_plus_flight_deals">Ofertas de vuelo + hotel</string>
     <string name="nav_hotel_plus_flight">Vuelo + hotel</string>
+    <string name="nav_hotel_plus_flight_plus_car">Vuelo + hotel + coche</string>
     <string name="nav_flight_plus_hotel">Vuelo + hotel</string>
     <!-- Rail -->
     <string name="nav_rail">Trenes</string>
@@ -1371,6 +1377,12 @@
     <string name="itin_hotel_details_manage_booking_subheading">Cambios, cancelaciones y ayuda</string>
     <!--Hotel itin card price summary heading-->
     <string name="itin_hotel_details_price_summary_heading">Resumen del precio</string>
+    <!--Hotel itin card price summary and rewards heading-->
+    <string name="itin_hotel_details_price_summary_rewards_heading">Precio y recompensas</string>
+    <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
+    <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">Total pagado: {amount}</string>
+    <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
+    <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">Total a pagar en el hotel: {amount}</string>
     <!--Hotel itin card additional info heading-->
     <string name="itin_hotel_details_additional_info_heading">Información adicional</string>
     <!--Hotel itin checkin text-->
@@ -1459,6 +1471,8 @@
     <string name="itin_hotel_manage_booking_room_tab_title_TEMPLATE">Habitación {number}</string>
     <!--Hotel itin manage booking total rooms text TEMPLATE. {number} total rooms (e.g., 2 total rooms)-->
     <string name="itin_hotel_manage_booking_total_rooms_text_TEMPLATE">{number} habitaciones en total</string>
+    <!--Hotel itin price and rewards expedia title -->
+    <string name="itin_hotel_price_reward_title">Precio y recompensas</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Compartir itinerario</string>
@@ -1850,8 +1864,6 @@
     <!-- There may be an additional fee based on payment method
          Example: There may be an additional fee based on your payment method -->
     <string name="flights_there_maybe_additional_fee_TEMPLATE">Es posible que se cobre un &lt;a href=\"{airline_fee_url}\"&gt;recargo&lt;/a&gt; según el método de pago utilizado.</string>
-    <!-- There may be an additional fee based on payment method without linking to webview -->
-    <string name="flights_there_maybe_additional_fee">Es posible que se cobre un recargo según el método de pago utilizado.</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">No se aceptan tarjetas de débito.</string>
     <!-- Flights Sold out error screen:- warning message -->
@@ -1890,7 +1902,7 @@
     <!-- "Select" button label, for selecting a particular leg of a flight -->
     <string name="select">Seleccionar</string>
     <!-- Template string for error when we simple can't connect to E3 servers-->
-    <string name="error_server_TEMPLATE">Lo sentimos, no hemos podido conectar con los servidores de {brand}.  Vuelve a intentarlo más tarde.</string>
+    <string name="error_server_TEMPLATE">No hemos podido conectar con los servidores de {brand}.  Vuelve a intentarlo más tarde.</string>
     <!-- Sort by departure timelabel -->
     <string name="sort_description_departure">Hora de salida</string>
     <!-- Sort by arrival time label -->
@@ -2250,6 +2262,8 @@
     <string name="save_traveler">Guardar pasajero</string>
     <!-- no thanks -->
     <string name="no_thanks">No, gracias</string>
+    <!--Advanced flight traveler options, explicitly telling user that they can add frequent flyer number anytime before the flight -->
+    <string name="add_anytime_before_your_flight">Puedes añadir esta información en cualquier momento antes de tu viaje.</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">Detalles avanzados (opcional)</string>
     <!--Contact airline message on flight checkout traveler details -->
@@ -2478,7 +2492,7 @@
     <!-- Error shown to user if their hotel is no longer available (sold out, session expired, whatever) -->
     <string name="error_hotel_no_longer_available">La sesión ha caducado, debes iniciarla de nuevo para poder reservar esta habitación</string>
     <!-- Text for hotel error unknown -->
-    <string name="error_hotel_unhandled">Lo sentimos, no podemos procesar tu pedido en este momento. Vuelve a intentarlo.</string>
+    <string name="error_hotel_unhandled">No podemos procesar tu pedido en este momento. Vuelve a intentarlo.</string>
     <!-- Error Screen toolbar title for payment failed screen -->
     <string name="payment_failed_label">No se ha podido procesar el pago</string>
     <!-- Text for error toolbar session expired-->
@@ -2596,7 +2610,7 @@
     <!-- Expedia ETP book now/pay later search results -->
     <string name="book_now_pay_later">Reserva ahora y paga después</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
-    <string name="hotel_search_range_error_TEMPLATE">Lo sentimos, pero no podemos buscar estancias de hoteles superiores a %1$s días.</string>
+    <string name="hotel_search_range_error_TEMPLATE">No podemos buscar estancias de hoteles superiores a %1$s días.</string>
     <!-- Search Error title text "Search Error" -->
     <string name="search_error">Error de búsqueda</string>
     <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
@@ -2652,7 +2666,7 @@
     <!-- Message displayed when room is sold out -->
     <string name="error_room_sold_out">Vaya, ya no quedan más habitaciones.</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
-    <string name="error_hotel_is_now_sold_out_TEMPLATE">Lo sentimos, este hotel ya no está disponible en {brand}.</string>
+    <string name="error_hotel_is_now_sold_out_TEMPLATE">Este hotel ya no está disponible en {brand}.</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
@@ -2736,6 +2750,14 @@
 
     <!-- The label for the hotel cell of the hotel you selected on results. -->
     <string name="you_picked_this_hotel_label">Has seleccionado este hotel</string>
+
+    <!-- Guest Ratring Filter strings -->
+    <!-- 3.0 and above -->
+    <string name="guest_rating_three_and_above">3,0 o más</string>
+    <!-- 4.0 and above -->
+    <string name="guest_rating_four_and_above">4,0 o más</string>
+    <!-- 5.0 -->
+    <string name="guest_rating_five">5,0</string>
 
     <!-- Amenity strings -->
     <!-- Business center amenity -->
@@ -2901,8 +2923,6 @@
     <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
          e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
     <string name="package_hotel_results_header_TEMPLATE">Precio total por viaje de ida y vuelta por persona. Incluye hotel y vuelo • {total_price_result_count_header}</string>
-    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay -->
-    <string name="package_hotel_results_header">Precio total de ida y vuelta por persona • Incluye hotel y vuelos</string>
 
     <!-- Urgency message indicating percent of hotels remaining in a region-->
     <string name="urgency_only_x_hotels_left_TEMPLATE">¡Solo nos queda un {percent} % de hoteles disponibles!</string>
@@ -3007,6 +3027,10 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to open account settings screen -->
     <string name="account_settings_menu_label">Cuenta</string>
+    <!-- Label for menu item to edit account settings screen -->
+    <string name="account_settings_edit_label">Editar información de la cuenta</string>
+    <!-- Label for webview to edit account settings -->
+    <string name="account_settings_edit_webview_label">Mi cuenta</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Iniciar sesión</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
@@ -3052,23 +3076,23 @@
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
     <string name="coupon_error_price_change">El coste de la reserva ha cambiado. Comprueba el nuevo total e inténtalo otra vez.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
-    <string name="coupon_error_invalid_region">Lo sentimos, pero este código de descuento no es válido en tu país.</string>
+    <string name="coupon_error_invalid_region">Este código de descuento no es válido en tu país.</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
     <string name="coupon_error_min_stay_not_met">Debes seleccionar un número mínimo de noches.</string>
     <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
-    <string name="coupon_error_invalid_travel_dates">Lo sentimos, pero este código de descuento no es válido para estas fechas.</string>
+    <string name="coupon_error_invalid_travel_dates">Este código de descuento no es válido para estas fechas.</string>
     <!-- Error when applying coupon - the hotel does not accept any coupons -->
-    <string name="coupon_error_invalid_product">Lo sentimos, pero este hotel no acepta cupones de descuento.</string>
+    <string name="coupon_error_invalid_product">Este hotel no acepta cupones de descuento.</string>
     <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
-    <string name="coupon_error_min_purchase_amount_not_met">Lo sentimos, pero tu reserva no cumple con el gasto mínimo establecido.</string>
+    <string name="coupon_error_min_purchase_amount_not_met">Tu reserva no cumple con el gasto mínimo establecido.</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
-    <string name="coupon_error_hotel_excluded">Lo sentimos, pero este hotel no acepta cupones de descuento.</string>
+    <string name="coupon_error_hotel_excluded">Este hotel no acepta cupones de descuento.</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
     <string name="coupon_error_invalid_hotel">No se puede aplicar el cupón de descuento a esta reserva de hotel.</string>
     <!-- Error when applying coupon - the package does not accept coupons -->
     <string name="coupon_error_invalid_booking">No se puede aplicar el cupón de descuento a esta reserva.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
-    <string name="coupon_error_service_down">Lo sentimos, pero no podemos aplicar cupones de descuento en este momento. Vuelve a intentarlo.</string>
+    <string name="coupon_error_service_down">No podemos aplicar cupones de descuento en este momento. Vuelve a intentarlo.</string>
     <!-- Error when applying coupon - Invalid Stay Dates -->
     <string name="coupon_error_invalid_stay_dates">Este código de descuento no es válido para estas fechas de viaje.</string>
     <!-- Error when applying coupon - Exceeded Earn Limit -->
@@ -3076,7 +3100,7 @@
     <!-- Error when applying coupon - Invalid Average Price -->
     <string name="coupon_error_invalid_average_price">El precio medio por noche no cumple con los requisitos mínimos de este cupón.</string>
     <!-- Error when applying coupon - Not Active -->
-    <string name="coupon_error_not_active">Lo sentimos, pero este código de descuento ha caducado.</string>
+    <string name="coupon_error_not_active">Este código de descuento ha caducado.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -3306,11 +3330,11 @@
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
     <string name="e3_error_checkout_booking_succeeded_with_errors_TEMPLATE">¡Has hecho la reserva con éxito! Si necesitas un itinerario inmediatamente, llama al servicio de atención al cliente de {brand}.</string>
     <!-- The hotel room is no longer available -->
-    <string name="e3_error_checkout_hotel_room_unavailable">Lo sentimos, pero la habitación que has solicitado ya no está disponible.</string>
+    <string name="e3_error_checkout_hotel_room_unavailable">La habitación que has solicitado ya no está disponible.</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
     <string name="e3_error_checkout_invalid_input">Corrige la información no válida.</string>
     <!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
-    <string name="e3_error_checkout_payment_failed">Lo sentimos, no se puede procesar el pago. Verifica que has escrito la información correctamente.</string>
+    <string name="e3_error_checkout_payment_failed">No se puede procesar el pago. Verifica que has escrito la información correctamente.</string>
     <!-- There is invalid expiration date for the credit card used. Please fix it. -->
     <string name="e3_error_checkout_invalid_expiration">Fecha de caducidad no válida</string>
     <!-- Error message displayed when the traveler information is invalid -->
@@ -3320,20 +3344,20 @@
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_search_results_hotel_service_failure">Lo sentimos, pero no se puede completar la búsqueda. Vuelve a intentarlo.</string>
+    <string name="e3_error_search_results_hotel_service_failure">No se puede completar la búsqueda. Vuelve a intentarlo.</string>
     <!-- There were no results matching the input -->
-    <string name="e3_error_search_results_invalid_input">Lo sentimos, pero no hemos podido mostrar resultados para los términos de tu búsqueda. Vuelve a intentarlo.</string>
+    <string name="e3_error_search_results_invalid_input">No se han encontrado resultados para los términos de tu búsqueda. Vuelve a intentarlo.</string>
     <!-- There were no results matching the input -->
-    <string name="e3_error_search_results_invalid_input_unknown">Lo sentimos, pero no hemos podido mostrar resultados para los términos de tu búsqueda. Vuelve a intentarlo.</string>
+    <string name="e3_error_search_results_invalid_input_unknown">No se han encontrado resultados para los términos de tu búsqueda. Vuelve a intentarlo.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_search_results_unknown_error">Lo sentimos, pero no se puede completar la búsqueda. Vuelve a intentarlo.</string>
+    <string name="e3_error_search_results_unknown_error">No se puede completar la búsqueda. Vuelve a intentarlo.</string>
 
     <!-- HotelOffers API method -->
     <!-- The hotel offer is no longer available -->
     <string name="e3_error_hotel_offers_hotel_offer_unavailable">Lo sentimos. La promoción para esta habitación ha terminado, pero hay otras ofertas disponibles.</string>
-    <string name="e3_error_hotel_offers_hotel_room_unavailable">Lo sentimos, pero la habitación que has solicitado ya no está disponible.</string>
+    <string name="e3_error_hotel_offers_hotel_room_unavailable">La habitación que has solicitado ya no está disponible.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure_TEMPLATE">Lo sentimos, pero no hemos podido conectar con {brand}. Vuelve a intentarlo.</string>
+    <string name="e3_error_hotel_offers_hotel_service_failure_TEMPLATE">No hemos podido conectar con {brand}. Vuelve a intentarlo.</string>
     <!-- There are no longer any rooms for the hotel offer -->
     <string name="e3_error_hotel_offers_invalid_input">Lo sentimos. La promoción para esta habitación ha terminado, pero hay otras ofertas disponibles.</string>
     <!-- There are no longer any rooms for the hotel offer -->
@@ -3441,7 +3465,7 @@
     <string name="country_ht">Haití</string>
     <string name="country_va">Santa Sede (Estado de la Ciudad del Vaticano)</string>
     <string name="country_hn">Honduras</string>
-    <string name="country_hk">Hong Kong</string>
+    <string name="country_hk">Hong Kong RAE</string>
     <string name="country_hu">Hungría</string>
     <string name="country_is">Islandia</string>
     <string name="country_in">India</string>
@@ -3472,7 +3496,7 @@
     <string name="country_li">Liechtenstein</string>
     <string name="country_lt">Lituania</string>
     <string name="country_lu">Luxemburgo</string>
-    <string name="country_mo">Macao</string>
+    <string name="country_mo">Macao RAE</string>
     <string name="country_mk">Macedonia</string>
     <string name="country_mg">Madagascar</string>
     <string name="country_mw">Malawi</string>
@@ -3820,6 +3844,7 @@
     <string name="neighborhoods">Zonas</string>
     <string name="amenities">Servicios</string>
     <string name="star_rating">Clasificación</string>
+    <string name="guest_rating">Puntuación de los huéspedes</string>
     <!-- Hotel Filters One star rating content description -->
     <string name="star_rating_one_cont_desc">Hotel de una estrella</string>
     <!-- Hotel Filters Two star rating content description -->
@@ -4305,7 +4330,7 @@
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
 
     <!-- rail search error for date out of range  e.g.. more than 30 days apart -->
-    <string name="rail_search_range_error_TEMPLATE">Lo sentimos, pero no podemos buscar vuelos de ida y vuelta para dentro de más de %1$s días.</string>
+    <string name="rail_search_range_error_TEMPLATE">No podemos buscar vuelos de ida y vuelta con un intervalo superior a %1$s días.</string>
 
     <string name="rail_location_hint">Ciudad o estación</string>
     <string name="error_same_station_departure_arrival">Las estaciones de salida y llegada deben ser distintas.</string>
@@ -4642,6 +4667,19 @@
     <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights. Cannot be deselected, all flight results are NonStop. -->
     <string name="packages_flight_filter_checkbox_disabled_cont_desc_TEMPLATE">{filter_results} vuelos {filter_name} disponibles. No es posible eliminar la selección. Todos los resultados corresponden a vuelos {filter_name}.\u0020</string>
 
+
+   <!--    Example #1: 3 available NonStop flights starting from $200.
+           Example #2: 2 available Hawaiian Airlines flights starting from $200. -->
+    <string name="flight_filter_checkbox_with_price_and_count_cont_desc_TEMPLATE">{filter_results} vuelos disponibles ({filter_name}) desde {price}\u0020</string>
+    <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights starting from $200. Cannot be deselected, all flight results are NonStop. -->
+    <string name="flight_filter_checkbox_disabled_with_price_and_count_cont_desc_TEMPLATE">{filter_results} vuelos disponibles ({filter_name}) desde {price}. No es posible eliminar la selección. Todos los resultados corresponden a vuelos {filter_name}.\u0020</string>
+
+    <!-- Example #1: NonStop flights starting from $200.
+         Example #2: Hawaiian Airlines flights starting from $200. -->
+    <string name="flight_filter_checkbox_with_price_cont_desc_TEMPLATE">Vuelos {filter_name} desde {price}\u0020</string>
+    <!-- Content Description for diabled filter option on Sort Filter Page. Example: NonStop flights starting from $200. Cannot be deselected, all flight results are NonStop. -->
+    <string name="flight_filter_checkbox_disabled_with_price__cont_desc_TEMPLATE">Vuelos {filter_name} desde {price}. No es posible eliminar la selección. Todos los resultados corresponden a vuelos {filter_name}.\u0020</string>
+
     <!-- Status displayed in a modal dialog while insurance is being added -->
     <string name="insurance_adding">Añadiendo un seguro de viaje…</string>
     <!-- Error message displayed when insurance fails to be added to a trip -->
@@ -4839,6 +4877,7 @@
     <string name="find_guest_add_email_address_hint">Correo electrónico</string>
     <!-- Hint to type in itinerary number -->
     <string name="find_guest_add_itinerary_number_hint">Número de itinerario</string>
+    <string name="itin_toolbar">Viajes</string>
 
     <!-- Booking successful alert text-->
     <string name="booking_successful">¡Reserva realizada!</string>
@@ -4980,8 +5019,8 @@
         <item quantity="one">La oferta caduca en {no_of_days} día</item>
         <item quantity="other">La oferta caduca en {no_of_days} días</item>
     </plurals>
-    <!-- Shop hotels now-->
-    <string name="shop_hotels_now">Ver hoteles ahora</string>
+    <!-- See all hotels -->
+    <string name="see_all_hotels">Ver todos los hoteles</string>
     <!--Up to 55% off-->
     <string name="krazyglue_offer">Hasta un 55 % de descuento</string>
     <!-- Showing the header for the coupon widget to show the saved coupon -->
@@ -5015,10 +5054,18 @@
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">El precio regular {ticket_type} es de {activity_original_price}. El precio con descuento {ticket_type} es de {activity_price}.</string>
     <string name="hotel_2x_points_search_title">¡Acumula el doble de puntos de Expedia Rewards!</string>
     <string name="hotel_2x_points_search_content">Conseguirás el doble de puntos solo por reservar en la aplicación.</string>
+    <!-- Accessibility announcement for when home screen navigation tab is selected. -->
+    <string name="tab_selected_announcement">Pestaña seleccionada</string>
+
+    <!-- Recent search - Date searched On string e.g. as of Nov 10 -->
+    <string name="flight_recent_search_date_searched_TEMPLATE">a {searchdate}</string>
     <!-- Recent search header string -->
     <string name="flight_recent_search_label">Búsquedas recientes</string>
 
     <!-- Brand reward name -->
     <string name="brand_reward_name">Expedia Rewards</string>
+
+    <!--Accessibility Content Description for Member Pricing Discount Percentage Eg. Member Pricing Discount: 10%-->
+    <string name="lx_member_pricing_discount_percent_TEMPLATE">Descuento del precio para miembros: {discount} %</string>
 
 </resources>

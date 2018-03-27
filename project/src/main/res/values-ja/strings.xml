@@ -28,9 +28,9 @@
     <!-- Hotels summary rating template-->
     <string name="hotel_rating_summary_Template">{rating} - {attribute}</string>
     <!-- Hotels rating room cleanliness string -->
-    <string name="hotel_rating_room_cleanliness">客室の清潔度</string>
+    <string name="hotel_rating_room_cleanliness">部屋の清潔度</string>
     <!-- Hotels rating room comfort string -->
-    <string name="hotel_rating_room_comfort">客室の快適度</string>
+    <string name="hotel_rating_room_comfort">部屋の快適度</string>
     <!-- Hotels rating service and staff string -->
     <string name="hotel_rating_service_and_staff">サービス &amp; スタッフ</string>
     <!-- Hotels rating hotel condition string -->
@@ -53,6 +53,13 @@
     <string name="hotel_map_pin_cluster_cont_desc_TEMPLATE">{hotel_count}を表示しています</string>
     <!-- Ally Description for individual map pins on hotel results. Ex. Show information for hotel of price $543 below, Button-->
     <string name="hotel_map_pin_price_cont_desc_TEMPLATE">タップすると、{price} 以下のホテルの詳細が表示されます</string>
+
+    <!-- Text on Floating Action Pill to switch to the map view of hotel search results -->
+    <string name="hotel_results_map_button">マップ</string>
+    <!-- Text on Floating Action Pill to switch to the list view of hotel search results -->
+    <string name="hotel_results_list_button">リスト</string>
+    <!-- Text on Floating Action Pill to add/remove filters for hotel search results -->
+    <string name="hotel_results_filters_button">絞り込み</string>
 
     <!-- Hotel sold out label on the results hotel card -->
     <string name="hotel_sold_out_label">完売</string>
@@ -143,8 +150,6 @@
     </plurals>
     <!-- Accessibility announcement requesting user to fix errors on checkout forms. -->
     <string name="accessibility_announcement_please_review_and_resubmit">ご確認の上、再度送信してください。</string>
-    <!--Accessibility content description for lock icon on checkout. -->
-    <string name="secure_lock_accessibility">鍵アイコン、カンタン・安心決済</string>
     <!--Legal booking statement for flights on checkout-->
     <string name="flight_booking_statement_TEMPLATE">この予約の完了をもって、&lt;a href=\"{website_url}\""&gt;規則および制限事項、利用規約、プライバシーポリシー、および料金情報&lt;/a&gt;を読み、その内容に同意したものとみなされます。</string>
 
@@ -271,7 +276,7 @@
     <string name="ticket_type_minibus">ミニバス</string>
     <string name="ticket_type_helicopter">ヘリコプター</string>
     <string name="ticket_type_device">デバイス</string>
-    <string name="ticket_type_room">客室</string>
+    <string name="ticket_type_room">部屋</string>
     <string name="ticket_type_carriage">馬車</string>
     <string name="ticket_type_buggy">バギー</string>
     <string name="ticket_type_atv">ATV</string>
@@ -279,7 +284,7 @@
     <string name="ticket_type_scooter">スクーター</string>
     <string name="ticket_type_scooter_car">スクーター カー</string>
     <string name="ticket_type_snowmobile">スノーモービル</string>
-    <string name="ticket_type_day">デイ</string>
+    <string name="ticket_type_day">日</string>
     <string name="ticket_type_bike">自転車</string>
     <string name="ticket_type_week">週</string>
     <string name="ticket_type_subscription">登録</string>
@@ -508,7 +513,7 @@
     <string name="per_ticket_type_minibus">/ ミニバス</string>
     <string name="per_ticket_type_helicopter">/ ヘリコプター</string>
     <string name="per_ticket_type_device">/ デバイス</string>
-    <string name="per_ticket_type_room">/ 客室</string>
+    <string name="per_ticket_type_room">/ 部屋</string>
     <string name="per_ticket_type_carriage">/ 馬車</string>
     <string name="per_ticket_type_buggy">/ バギー</string>
     <string name="per_ticket_type_atv">/ ATV</string>
@@ -828,6 +833,7 @@
     <string name="nav_packages">ホテル + 航空券</string>
     <string name="nav_hotel_plus_flight_deals">お得なホテル + 航空券</string>
     <string name="nav_hotel_plus_flight">ホテル+航空券</string>
+    <string name="nav_hotel_plus_flight_plus_car">ホテル + 航空券 + レンタカー</string>
     <string name="nav_flight_plus_hotel">航空券 + ホテル</string>
     <!-- Rail -->
     <string name="nav_rail">鉄道</string>
@@ -1306,10 +1312,10 @@
     <string name="itin_card_details_guests">宿泊者</string>
     <string name="itin_card_details_details">追加情報</string>
     <!-- Label for button to cancel Hotel booking -->
-    <string name="itin_card_details_cancel_hotel_room">客室をキャンセルする</string>
+    <string name="itin_card_details_cancel_hotel_room">部屋をキャンセルする</string>
     <string name="itin_card_flight_checkin_title">フライトのチェックイン</string>
     <!-- Label for button to edit Hotel booking -->
-    <string name="itin_card_edit_hotel_room_info">客室情報を編集</string>
+    <string name="itin_card_edit_hotel_room_info">部屋情報を編集</string>
 
     <string name="itin_card_flight_checkin_details">%sのサイトを表示する</string>
     <string name="itin_card_details_pick_up">借出</string>
@@ -1348,9 +1354,9 @@
     <string name="itin_card_details_remove_itin">旅程から削除</string>
 
     <!--Hotel itin card room details heading-->
-    <string name="itin_hotel_details_room_details_title_text">客室</string>
+    <string name="itin_hotel_details_room_details_title_text">部屋</string>
     <!--Hotel itin card room details heading - multiple rooms-->
-    <string name="itin_hotel_details_room_details_multi_room_title_text">客室</string>
+    <string name="itin_hotel_details_room_details_multi_room_title_text">部屋</string>
     <!--Hotel itin card booking details heading-->
     <string name="itin_hotel_details_booking_details_title_text">予約情報</string>
     <!--Hotel itin card Room details (room type and bed type). {roomtype}, {bedtype} (e.g., Standard Room, 1 Queen Bed)-->
@@ -1371,6 +1377,12 @@
     <string name="itin_hotel_details_manage_booking_subheading">変更、キャンセル、お問い合わせ</string>
     <!--Hotel itin card price summary heading-->
     <string name="itin_hotel_details_price_summary_heading">料金の概要</string>
+    <!--Hotel itin card price summary and rewards heading-->
+    <string name="itin_hotel_details_price_summary_rewards_heading">料金と会員プログラム</string>
+    <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
+    <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">お支払い済みの合計金額 : {amount}</string>
+    <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
+    <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">ホテルでお支払いいただく合計金額 : {amount}</string>
     <!--Hotel itin card additional info heading-->
     <string name="itin_hotel_details_additional_info_heading">追加情報</string>
     <!--Hotel itin checkin text-->
@@ -1384,9 +1396,9 @@
     <!--Hotel itin checkin checkout to arrow content description-->
     <string name="itin_hotel_details_checkout_to_arrow_cont_desc">から</string>
     <!--Hotel itin manage booking button to change or cancel room-->
-    <string name="itin_hotel_manage_booking_cancel_change_header">客室の変更またはキャンセル</string>
+    <string name="itin_hotel_manage_booking_cancel_change_header">部屋の変更またはキャンセル</string>
     <!--Hotel itin manage booking webview title-->
-    <string name="itin_hotel_manage_booking_webview_title">客室の変更またはキャンセル</string>
+    <string name="itin_hotel_manage_booking_webview_title">部屋の変更またはキャンセル</string>
     <!--Hotel itin manage booking room details header-->
     <string name="itin_hotel_manage_booking_header">予約の管理</string>
     <!--Hotel itin manage booking hotel help heading-->
@@ -1416,7 +1428,7 @@
     <!--Hotel itin room details requests header-->
     <string name="itin_hotel_room_details_requests_header">リクエスト内容</string>
     <!--Hotel itin room details requests disclaimer-->
-    <string name="itin_hotel_room_details_requests_disclaimer">これらの客室リクエストはホテルに伝えられますが、確約ではなく、チェックイン時の空室状況によってはご希望に添えない場合があります。</string>
+    <string name="itin_hotel_room_details_requests_disclaimer">これらの部屋リクエストはホテルに伝えられますが、確約ではなく、チェックイン時の空室状況によってはご希望に添えない場合があります。</string>
     <!--Hotel itin room details no requests selected-->
     <string name="itin_hotel_room_details_no_requests_selected">お支払い時に未選択</string>
     <!--Hotel itin room request for extra adult bed-->
@@ -1456,9 +1468,11 @@
     <!--Label and dialog heading for change and cancellation rules button and dialog-->
     <string name="itin_hotel_check_cancel_rules_label">変更およびキャンセル規則</string>
     <!--Hotel itin manage booking room tabs title TEMPLATE. Room {number} (e.g., Room 1)-->
-    <string name="itin_hotel_manage_booking_room_tab_title_TEMPLATE">客室 {number}</string>
+    <string name="itin_hotel_manage_booking_room_tab_title_TEMPLATE">部屋 {number}</string>
     <!--Hotel itin manage booking total rooms text TEMPLATE. {number} total rooms (e.g., 2 total rooms)-->
     <string name="itin_hotel_manage_booking_total_rooms_text_TEMPLATE">合計 {number} 室</string>
+    <!--Hotel itin price and rewards expedia title -->
+    <string name="itin_hotel_price_reward_title">料金と会員プログラム</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">旅程をシェアする</string>
@@ -1849,9 +1863,7 @@
     <string name="flights_fee_added_based_on_payment">カードの種類によって異なる金額の航空会社の手数料が追加されます。これらの手数料は合計料金に追加されます。</string>
     <!-- There may be an additional fee based on payment method
          Example: There may be an additional fee based on your payment method -->
-    <string name="flights_there_maybe_additional_fee_TEMPLATE">お支払い方法に応じて&lt;a href=\"{airline_fee_url}\"&gt;追加手数料&lt;/a&gt;が課金される場合があります。</string>
-    <!-- There may be an additional fee based on payment method without linking to webview -->
-    <string name="flights_there_maybe_additional_fee">お支払い方法に応じて追加手数料が課金される場合があります。</string>
+    <string name="flights_there_maybe_additional_fee_TEMPLATE">お支払い方法によっては&lt;a href=\"{airline_fee_url}\"&gt;追加手数料&lt;/a&gt;が課金される場合があります。</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">デビットカードはご利用いただけません。</string>
     <!-- Flights Sold out error screen:- warning message -->
@@ -2250,6 +2262,8 @@
     <string name="save_traveler">旅行者を保存する</string>
     <!-- no thanks -->
     <string name="no_thanks">いいえ</string>
+    <!--Advanced flight traveler options, explicitly telling user that they can add frequent flyer number anytime before the flight -->
+    <string name="add_anytime_before_your_flight">フライトの出発前までに追加してください。</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">その他 (オプション)</string>
     <!--Contact airline message on flight checkout traveler details -->
@@ -2476,7 +2490,7 @@
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">入力したクレジットカード名義人がクレジットカードに記載された名前と異なります。もう一度お試しください。</string>
     <!-- Error shown to user if their hotel is no longer available (sold out, session expired, whatever) -->
-    <string name="error_hotel_no_longer_available">申し訳ありません。保留中の客室が無効になりました</string>
+    <string name="error_hotel_no_longer_available">申し訳ありません。保留中の部屋が無効になりました</string>
     <!-- Text for hotel error unknown -->
     <string name="error_hotel_unhandled">申し訳ありません。現在お客様のご予約を完了できません。もう一度お試しください。</string>
     <!-- Error Screen toolbar title for payment failed screen -->
@@ -2648,9 +2662,9 @@
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels_hundreds">ホテル検索中…</string>
     <!-- Title displayed when room is sold out -->
-    <string name="select_another_room">他の客室を選択</string>
+    <string name="select_another_room">他の部屋を選択</string>
     <!-- Message displayed when room is sold out -->
-    <string name="error_room_sold_out">この客室は完売しました。</string>
+    <string name="error_room_sold_out">この部屋は完売しました。</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
     <string name="error_hotel_is_now_sold_out_TEMPLATE">申し訳ありません。{brand}ではこのホテルはご利用いただけません。</string>
 
@@ -2715,7 +2729,7 @@
     <!-- Title for VIP Access message -->
     <string name="vip_access">+VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">+VIP Access 提携ホテルでは、+シルバー 会員および +ゴールド 会員は、客室無料アップグレードおよびその他の特典をご利用いただけます (チェックイン時の利用状況による)。</string>
+    <string name="vip_access_message">+VIP Access 提携ホテルでは、+シルバー会員および +ゴールド会員は、部屋の無料アップグレードおよびその他の特典をご利用いただけます (チェックイン時の利用状況による)。</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">+VIP Access 提携ホテルのみ</string>
     <!-- Title for VIP Access message for Hotel Results -->
@@ -2736,6 +2750,14 @@
 
     <!-- The label for the hotel cell of the hotel you selected on results. -->
     <string name="you_picked_this_hotel_label">選択したホテル</string>
+
+    <!-- Guest Ratring Filter strings -->
+    <!-- 3.0 and above -->
+    <string name="guest_rating_three_and_above">3.0 以上</string>
+    <!-- 4.0 and above -->
+    <string name="guest_rating_four_and_above">4.0 以上</string>
+    <!-- 5.0 -->
+    <string name="guest_rating_five">5.0</string>
 
     <!-- Amenity strings -->
     <!-- Business center amenity -->
@@ -2901,8 +2923,6 @@
     <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
          e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
     <string name="package_hotel_results_header_TEMPLATE">往復 (1 名あたり) の最低料金。航空券 + ホテルを含む • {total_price_result_count_header}</string>
-    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay -->
-    <string name="package_hotel_results_header">往復 (1 名あたり) の合計料金 • 航空券 + ホテルを含む</string>
 
     <!-- Urgency message indicating percent of hotels remaining in a region-->
     <string name="urgency_only_x_hotels_left_TEMPLATE">空室のあるホテルは残り {percent}% です !</string>
@@ -2910,7 +2930,7 @@
     <string name="urgency_book_soon">今すぐ予約して、宿泊場所を確保しましょう。</string>
 
     <!-- Accessibility label for the text we use to show room info for expanded room -->
-    <string name="room_information_button_cont_desc">客室情報</string>
+    <string name="room_information_button_cont_desc">部屋情報</string>
     <!-- The text we use to message that the room in non-refundable -->
     <string name="non_refundable">返金不可</string>
     <!-- Label for free nights -->
@@ -2918,11 +2938,11 @@
     <!-- Delimiter for multiple bed types in hotel offer-->
     <string name="delimiter_multiple_bed">あるいは</string>
     <!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms -->
-    <string name="common_value_add_template">全客室に共通の設備やサービス : %s</string>
+    <string name="common_value_add_template">全室に共通の設備やサービス : %s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
-    <string name="select_a_room_instruction">客室を選択</string>
+    <string name="select_a_room_instruction">部屋を選択</string>
     <!-- Content description for hotel map's select room button. Example: Select a room from $10 button -->
-    <string name="map_select_a_room_cont_desc_TEMPLATE">{price} 以上の客室を選択するボタン</string>
+    <string name="map_select_a_room_cont_desc_TEMPLATE">{price} 以上の部屋を選択するボタン</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">キャンセル手数料無料</string>
     <!-- Top line of resort fee text -->
@@ -2934,13 +2954,13 @@
     <!-- Label to indicate that hotel fees (e.g. resort fees) are not included in the room price shown to the user -->
     <string name="not_included_in_the_price">料金に含まれない</string>
     <!-- View Room button text -->
-    <string name="view_room_button_text">客室を見る</string>
+    <string name="view_room_button_text">部屋を見る</string>
     <!-- Book Room button text; verb; as in book a hotel room -->
     <string name="book_room_button_text">予約</string>
     <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
     <string name="value_add_template">含まれているもの : %s</string>
     <!-- Room description alert dialog title -->
-    <string name="room_description_title">客室の詳細</string>
+    <string name="room_description_title">部屋の詳細</string>
     <!-- Renovation Notice -->
     <string name="renovation_notice">改装工事のお知らせ</string>
     <!-- This property is undergoing renovations -->
@@ -3007,6 +3027,10 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to open account settings screen -->
     <string name="account_settings_menu_label">アカウント</string>
+    <!-- Label for menu item to edit account settings screen -->
+    <string name="account_settings_edit_label">アカウント情報を編集</string>
+    <!-- Label for webview to edit account settings -->
+    <string name="account_settings_edit_webview_label">アカウント登録内容</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">ログイン</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
@@ -3306,7 +3330,7 @@
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
     <string name="e3_error_checkout_booking_succeeded_with_errors_TEMPLATE">ホテルのご予約が完了しました。すぐに旅程が必要な場合は、{brand}のカスタマーサポートまでお電話ください。</string>
     <!-- The hotel room is no longer available -->
-    <string name="e3_error_checkout_hotel_room_unavailable">申し訳ありません。ご希望の客室はご利用いただけません。</string>
+    <string name="e3_error_checkout_hotel_room_unavailable">申し訳ありません。ご希望の部屋はご利用いただけません。</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
     <string name="e3_error_checkout_invalid_input">無効な情報を修正してください。</string>
     <!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
@@ -3330,14 +3354,14 @@
 
     <!-- HotelOffers API method -->
     <!-- The hotel offer is no longer available -->
-    <string name="e3_error_hotel_offers_hotel_offer_unavailable">申し訳ありません。この客室のプロモーションは終了しましたが、他の割引をご利用いただけます。</string>
-    <string name="e3_error_hotel_offers_hotel_room_unavailable">申し訳ありません。ご希望の客室はご利用いただけません。</string>
+    <string name="e3_error_hotel_offers_hotel_offer_unavailable">申し訳ありません。この部屋のプロモーションは終了しましたが、他の割引をご利用いただけます。</string>
+    <string name="e3_error_hotel_offers_hotel_room_unavailable">申し訳ありません。ご希望の部屋はご利用いただけません。</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
     <string name="e3_error_hotel_offers_hotel_service_failure_TEMPLATE">申し訳ありません。{brand}に接続することができませんでした。もう一度お試しください。</string>
     <!-- There are no longer any rooms for the hotel offer -->
-    <string name="e3_error_hotel_offers_invalid_input">申し訳ありません。この客室のプロモーションは終了しましたが、他の割引をご利用いただけます。</string>
+    <string name="e3_error_hotel_offers_invalid_input">申し訳ありません。この部屋のプロモーションは終了しましたが、他の割引をご利用いただけます。</string>
     <!-- There are no longer any rooms for the hotel offer -->
-    <string name="e3_error_hotel_offers_unknown_error">申し訳ありません。この客室のプロモーションは終了しましたが、他の割引をご利用いただけます。</string>
+    <string name="e3_error_hotel_offers_unknown_error">申し訳ありません。この部屋のプロモーションは終了しましたが、他の割引をご利用いただけます。</string>
 
     <!-- HotelProduct API method -->
     <string name="e3_error_hotel_product_unknown_error">原因不明のエラーが発生しました。</string>
@@ -3441,7 +3465,7 @@
     <string name="country_ht">ハイチ</string>
     <string name="country_va">教皇領 (バチカン市国)</string>
     <string name="country_hn">ホンジュラス</string>
-    <string name="country_hk">香港</string>
+    <string name="country_hk">香港特別行政区</string>
     <string name="country_hu">ハンガリー</string>
     <string name="country_is">アイスランド</string>
     <string name="country_in">インド</string>
@@ -3472,7 +3496,7 @@
     <string name="country_li">リヒテンシュタイン</string>
     <string name="country_lt">リトアニア</string>
     <string name="country_lu">ルクセンブルグ</string>
-    <string name="country_mo">マカオ</string>
+    <string name="country_mo">マカオ特別行政区</string>
     <string name="country_mk">マケドニア旧ユーゴスラビア共和国</string>
     <string name="country_mg">マダガスカル</string>
     <string name="country_mw">マラウイ</string>
@@ -3820,6 +3844,7 @@
     <string name="neighborhoods">周辺</string>
     <string name="amenities">設備</string>
     <string name="star_rating">星評価</string>
+    <string name="guest_rating">ゲスト評価</string>
     <!-- Hotel Filters One star rating content description -->
     <string name="star_rating_one_cont_desc">1 つ星</string>
     <!-- Hotel Filters Two star rating content description -->
@@ -4157,7 +4182,7 @@
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">ホテルを変更する</string>
     <!-- Package Change hotel room description -->
-    <string name="package_change_hotel_room">客室を変更する</string>
+    <string name="package_change_hotel_room">部屋を変更する</string>
     <!-- Package Change flight description -->
     <string name="package_change_flight">フライトを変更する</string>
     <!-- Package Start Over -->
@@ -4638,9 +4663,22 @@
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->
-    <string name="packages_flight_filter_checkbox_cont_desc_TEMPLATE">利用できる {filter_name}のフライトが {filter_results} 便あります。\u0020</string>
+    <string name="packages_flight_filter_checkbox_cont_desc_TEMPLATE">利用できる{filter_name}のフライトが {filter_results} 便あります。\u0020</string>
     <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights. Cannot be deselected, all flight results are NonStop. -->
-    <string name="packages_flight_filter_checkbox_disabled_cont_desc_TEMPLATE">利用できる{filter_results}のフライトが {filter_name} 便あります。すべて{filter_name}のフライトのため、この絞り込み条件を解除できません\u0020</string>
+    <string name="packages_flight_filter_checkbox_disabled_cont_desc_TEMPLATE">利用できる{filter_name}のフライトが {filter_results} 便あります。すべて{filter_name}のフライトのため、この絞り込み条件を解除できません\u0020</string>
+
+
+   <!--    Example #1: 3 available NonStop flights starting from $200.
+           Example #2: 2 available Hawaiian Airlines flights starting from $200. -->
+    <string name="flight_filter_checkbox_with_price_and_count_cont_desc_TEMPLATE">利用できる{filter_name}のフライトが {filter_results} 便あります ({price} ～)\u0020</string>
+    <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights starting from $200. Cannot be deselected, all flight results are NonStop. -->
+    <string name="flight_filter_checkbox_disabled_with_price_and_count_cont_desc_TEMPLATE">利用できる{filter_name}のフライトが {filter_results} 便あります ({price} ～)。すべて{filter_name}のフライトのため、この絞り込み条件を解除できません。\u0020</string>
+
+    <!-- Example #1: NonStop flights starting from $200.
+         Example #2: Hawaiian Airlines flights starting from $200. -->
+    <string name="flight_filter_checkbox_with_price_cont_desc_TEMPLATE">利用できる{filter_name}のフライトがあります ({price} ～)\u0020</string>
+    <!-- Content Description for diabled filter option on Sort Filter Page. Example: NonStop flights starting from $200. Cannot be deselected, all flight results are NonStop. -->
+    <string name="flight_filter_checkbox_disabled_with_price__cont_desc_TEMPLATE">利用できる{filter_name}のフライトがあります ({price} ～)。すべて{filter_name}のフライトのため、この絞り込み条件を解除できません。\u0020</string>
 
     <!-- Status displayed in a modal dialog while insurance is being added -->
     <string name="insurance_adding">旅行保険を追加しています…</string>
@@ -4839,6 +4877,7 @@
     <string name="find_guest_add_email_address_hint">Eメール</string>
     <!-- Hint to type in itinerary number -->
     <string name="find_guest_add_itinerary_number_hint">旅程番号</string>
+    <string name="itin_toolbar">予約確認</string>
 
     <!-- Booking successful alert text-->
     <string name="booking_successful">予約完了 !</string>
@@ -4923,7 +4962,7 @@
     <string name="account_signup_TEMPLATE">{brand}アカウントを作成</string>
 
     <!--App shortcut for hotel search-->
-    <string name="get_a_room">客室を予約</string>
+    <string name="get_a_room">部屋を予約</string>
     <!--App shortcut for hotel search long version-->
     <string name="find_a_hotel_tonight">今晩のホテルを検索</string>
     <!--App shortcut for sharing flight info-->
@@ -4980,8 +5019,8 @@
         <item quantity="one">プロモーション終了まであと {no_of_days} 日</item>
         <item quantity="other">プロモーション終了まであと {no_of_days} 日</item>
     </plurals>
-    <!-- Shop hotels now-->
-    <string name="shop_hotels_now">今すぐホテルを予約する</string>
+    <!-- See all hotels -->
+    <string name="see_all_hotels">すべてのホテルを見る</string>
     <!--Up to 55% off-->
     <string name="krazyglue_offer">最大 55% OFF</string>
     <!-- Showing the header for the coupon widget to show the saved coupon -->
@@ -5015,10 +5054,18 @@
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">通常料金 {activity_original_price} ({ticket_type})。割引適用後の料金 {activity_price} ({ticket_type})</string>
     <string name="hotel_2x_points_search_title">エクスペディア会員プログラム ポイント 2 倍 !</string>
     <string name="hotel_2x_points_search_content">アプリで予約するだけで、ポイント 2 倍獲得 !</string>
+    <!-- Accessibility announcement for when home screen navigation tab is selected. -->
+    <string name="tab_selected_announcement">タブ選択済み</string>
+
+    <!-- Recent search - Date searched On string e.g. as of Nov 10 -->
+    <string name="flight_recent_search_date_searched_TEMPLATE">{searchdate} 現在</string>
     <!-- Recent search header string -->
     <string name="flight_recent_search_label">最近の検索履歴</string>
 
     <!-- Brand reward name -->
     <string name="brand_reward_name">エクスペディア会員プログラム</string>
+
+    <!--Accessibility Content Description for Member Pricing Discount Percentage Eg. Member Pricing Discount: 10%-->
+    <string name="lx_member_pricing_discount_percent_TEMPLATE">会員価格割引 : {discount}%</string>
 
 </resources>

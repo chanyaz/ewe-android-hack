@@ -98,7 +98,7 @@
     <!-- User Denied email permission Heading -->
     <string name="acct__fb_user_denied_email_heading">電子郵件授權</string>
     <!-- User Denied email permission re-request message -->
-    <string name="acct__fb_user_denied_email_message">若要以 Facebook 帳號登入，我們需要獲得授權以確認您的電子郵件地址。\n\n請輕觸下方的 Facebook 按鈕以授權 {brand} 確認您的電子郵件地址。謝謝您！</string>
+    <string name="acct__fb_user_denied_email_message">若要以 Facebook 帳號登入，我們需要獲得授權以確認您的電子郵件地址。\n\n請點選下方的 Facebook 按鈕以授權 {brand} 確認您的電子郵件地址。謝謝您！</string>
     <!-- User's facebook account missing email address Heading -->
     <string name="acct__fb_user_missing_email_heading">無法驗證電子郵件地址</string>
     <!-- User's facebook account missing email address message -->

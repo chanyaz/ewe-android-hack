@@ -128,11 +128,11 @@
     <!-- Creating a new {Expedia} account via Facebook login -->
     <string name="acct__fb_creating_a_new_brand_account">Luodaan uutta {brand}-tiliä…</string>
     <!-- Message to the user requesting the user to enter email/password to link with Facebook -->
-    <string name="acct__fb_enter_your_brand_credentials">Anna {brand}n tilisi käyttäjätiedot alle, ja se liitetään Facebook-tiliisi.</string>
+    <string name="acct__fb_enter_your_brand_credentials">Anna {brand}n tilisi käyttäjätiedot alle, niin se liitetään Facebook-tiliisi.</string>
     <!-- Label for information for users who had previously used Google sign-in -->
     <string name="acct__google_account_change_string">Halusitko kirjautua sisään Googlen kautta?</string>
     <!-- Content for dialog explaining that Google sign-in is no longer available and how to retrieve account details -->
-    <string name="acct__google_account_change_message_TEMPLATE">Emme enää tue Google-kirjautumista, mutta meillä on edelleen {brand}n matkustustietosi! Voidaksesi kirjautua sisään, sinun täytyy asettaa salasana Googlen sähköpostiosoitetta käyttäen sivuillamme</string>
+    <string name="acct__google_account_change_message_TEMPLATE">Emme enää tue Google-kirjautumista, mutta meillä on edelleen {brand}n matkustustietosi! Voidaksesi kirjautua sisään sivustollemme sinun täytyy asettaa salasana käyttäen Googlen sähköpostiosoitetta</string>
 
     <!--Accessibility-->
     <!-- Content description for Checkbox types, state Checked -->

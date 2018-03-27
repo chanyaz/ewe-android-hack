@@ -13,9 +13,9 @@
     <!-- Divider text between Sign In and Create Account -->
     <string name="acct__or">ou</string>
     <!-- Button text for Sign In -->
-    <string name="acct__Sign_In">Conectar</string>
+    <string name="acct__Sign_In">Fazer login</string>
     <!-- Button text for Sign in With Facebook -->
-    <string name="acct__Sign_In_with_Facebook">Conecte-se com o Facebook</string>
+    <string name="acct__Sign_In_with_Facebook">Faça login com o Facebook</string>
     <!-- Back button content description -->
     <string name="acct__Toolbar_nav_back_icon_cont_desc">Voltar</string>
     <!-- "X" button content description -->
@@ -76,7 +76,7 @@
     <!-- Title on "Account already exists" dialog box -->
     <string name="acct__Brand_account_already_exists_TITLE">Já existe uma conta da {brand} com este endereço de e-mail</string>
     <!-- Option for "Account already exists" dialog box -->
-    <string name="acct__Sign_in_to_my_existing_account">Conecte-se a uma conta existente</string>
+    <string name="acct__Sign_in_to_my_existing_account">Faça login em uma conta existente</string>
     <!-- Option for "Account already exists" dialog box -->
     <string name="acct__Create_a_new_account_with_different_email">Use outro e-mail</string>
     <!-- Error telling the user that the entered email address appears to be invalid (not a real email address) -->
@@ -88,7 +88,7 @@
     <!-- Error telling the user that the entered last name is not accepted -->
     <string name="acct__invalid_last_name">Sobrenome inválido. Tente novamente.</string>
     <!-- Error telling the user that they are not connected to the internet -->
-    <string name="acct__no_network_connection">Conecte-se a uma rede Wi-Fi ou\n rede de dados celulares para continuar</string>
+    <string name="acct__no_network_connection">Faça login em uma rede Wi-Fi ou\n rede de dados celulares para continuar</string>
     <!-- Error telling the user that the entered email and password cannot be identical-->
     <string name="acct__email_password_identical">A senha não pode ser seu endereço de e-mail</string>
     <!-- Error telling the user that the entered password is in a common password list-->
@@ -98,7 +98,7 @@
     <!-- User Denied email permission Heading -->
     <string name="acct__fb_user_denied_email_heading">Permissão para e-mail</string>
     <!-- User Denied email permission re-request message -->
-    <string name="acct__fb_user_denied_email_message">Para se conectar com o Facebook, precisamos de permissão para verificar seu endereço de e-mail. \n\nToque no botão do Facebook abaixo para conceder à {brand} a permissão para verificar seu endereço de e-mail. Obrigado!</string>
+    <string name="acct__fb_user_denied_email_message">Para fazer login com o Facebook, precisamos de permissão para verificar seu endereço de e-mail. \n\nToque no botão do Facebook abaixo para conceder à {brand} a permissão para verificar seu endereço de e-mail. Obrigado!</string>
     <!-- User's facebook account missing email address Heading -->
     <string name="acct__fb_user_missing_email_heading">Impossível verificar o endereço de e-mail</string>
     <!-- User's facebook account missing email address message -->
@@ -108,9 +108,9 @@
     <!-- We've found your user account -->
     <string name="acct__fb_weve_found_your_account">Olá &lt;b&gt;{email_address}&lt;/b&gt;, parece que encontramos sua conta da {brand} Digite suas credenciais da {brand} abaixo para vincular seu Facebook e suas contas da {brand}.</string>
     <!-- Attempting to sign you in with Facebook credentials -->
-    <string name="acct__fb_attempting_sign_in">Tentando conectar com suas credenciais do Facebook…</string>
+    <string name="acct__fb_attempting_sign_in">Tentando fazer login com suas credenciais do Facebook…</string>
     <!-- Unable to sign in to Facebook -->
-    <string name="acct__fb_unable_to_sign_into_facebook">Não é possível se conectar ao Facebook.</string>
+    <string name="acct__fb_unable_to_sign_into_facebook">Não é possível fazer login com o Facebook.</string>
     <!-- Facebook connect {Expedia} password hint -->
     <string name="acct__fb_brand_password_hint">Senha da {brand}</string>
     <!-- Linking your accounts -->
@@ -120,7 +120,7 @@
     <!-- Error message: Error signing in to {Expedia} account -->
     <string name="acct__fb_link_existing_failed">Não foi possível acessar a sua conta da {brand}, não conseguimos vincular sua conta com o Facebook.</string>
     <!-- Facebook/{Expedia} account not found: dialog box description text -->
-    <string name="acct__fb_notLinked_description_TEMPLATE">Não foi possível encontrar seu endereço de e-mail do Facebook ({email_address}) na {brand}. Gostaria de criar uma nova conta da {brand} ou conectar-se à conta da {brand} existente?</string>
+    <string name="acct__fb_notLinked_description_TEMPLATE">Não foi possível encontrar seu endereço de e-mail do Facebook ({email_address}) na {brand}. Gostaria de criar uma nova conta da {brand} ou fazer login na conta da {brand} existente?</string>
     <!-- Facebook/{Expedia} account not found: create a new account button -->
     <string name="acct__fb_notLinked_new_button">Nova</string>
     <!-- Facebook/{Expedia} account not found: sign in to existing account button -->

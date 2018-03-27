@@ -54,6 +54,13 @@
     <!-- Ally Description for individual map pins on hotel results. Ex. Show information for hotel of price $543 below, Button-->
     <string name="hotel_map_pin_price_cont_desc_TEMPLATE">아래에서 금액이 {price}인 호텔에 대한 정보 보기, 버튼</string>
 
+    <!-- Text on Floating Action Pill to switch to the map view of hotel search results -->
+    <string name="hotel_results_map_button">지도</string>
+    <!-- Text on Floating Action Pill to switch to the list view of hotel search results -->
+    <string name="hotel_results_list_button">목록</string>
+    <!-- Text on Floating Action Pill to add/remove filters for hotel search results -->
+    <string name="hotel_results_filters_button">필터</string>
+
     <!-- Hotel sold out label on the results hotel card -->
     <string name="hotel_sold_out_label">매진됨</string>
 
@@ -143,8 +150,6 @@
     </plurals>
     <!-- Accessibility announcement requesting user to fix errors on checkout forms. -->
     <string name="accessibility_announcement_please_review_and_resubmit">검토하고 다시 제출해 주세요.</string>
-    <!--Accessibility content description for lock icon on checkout. -->
-    <string name="secure_lock_accessibility">자물쇠 아이콘, 보안 결제</string>
     <!--Legal booking statement for flights on checkout-->
     <string name="flight_booking_statement_TEMPLATE">이 예약을 완료함으로써 본인은 &lt;a href=\"{website_url}\""&gt;규칙과 제한 사항, 이용약관, 개인정보 보호정책 및 요금 정보&lt;/a&gt;를 읽었고 이에 동의함을 명시합니다.</string>
 
@@ -828,6 +833,7 @@
     <string name="nav_packages">패키지 특가 상품</string>
     <string name="nav_hotel_plus_flight_deals">호텔+항공 특가 상품</string>
     <string name="nav_hotel_plus_flight">호텔+항공</string>
+    <string name="nav_hotel_plus_flight_plus_car">호텔+항공+렌터카</string>
     <string name="nav_flight_plus_hotel">항공+호텔</string>
     <!-- Rail -->
     <string name="nav_rail">기차</string>
@@ -1371,6 +1377,12 @@
     <string name="itin_hotel_details_manage_booking_subheading">변경, 취소 또는 지원 요청</string>
     <!--Hotel itin card price summary heading-->
     <string name="itin_hotel_details_price_summary_heading">요금 요약</string>
+    <!--Hotel itin card price summary and rewards heading-->
+    <string name="itin_hotel_details_price_summary_rewards_heading">요금 및 회원혜택</string>
+    <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
+    <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">총 {amount} 결제됨</string>
+    <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
+    <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">호텔에서 결제할 총금액 {amount}</string>
     <!--Hotel itin card additional info heading-->
     <string name="itin_hotel_details_additional_info_heading">추가 정보</string>
     <!--Hotel itin checkin text-->
@@ -1459,6 +1471,8 @@
     <string name="itin_hotel_manage_booking_room_tab_title_TEMPLATE">객실 {number}</string>
     <!--Hotel itin manage booking total rooms text TEMPLATE. {number} total rooms (e.g., 2 total rooms)-->
     <string name="itin_hotel_manage_booking_total_rooms_text_TEMPLATE">총 객실 {number}개</string>
+    <!--Hotel itin price and rewards expedia title -->
+    <string name="itin_hotel_price_reward_title">요금 및 회원혜택</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">일정 공유</string>
@@ -1849,9 +1863,7 @@
     <string name="flights_fee_added_based_on_payment">카드 종류에 따라 항공사 수수료가 결제 시 추가됩니다. 이러한 요금은 결제 시 총 요금에 추가됩니다.</string>
     <!-- There may be an additional fee based on payment method
          Example: There may be an additional fee based on your payment method -->
-    <string name="flights_there_maybe_additional_fee_TEMPLATE">결제 방법에 따라 &lt;a href=\"{airline_fee_url}\"&gt;추가 수수료&lt;/a&gt;가 있을 수 있습니다.</string>
-    <!-- There may be an additional fee based on payment method without linking to webview -->
-    <string name="flights_there_maybe_additional_fee">결제 방법에 따라 추가 수수료가 있을 수 있습니다.</string>
+    <string name="flights_there_maybe_additional_fee_TEMPLATE">결제 방법에 따라 &lt;a href=\"{airline_fee_url}\"&gt;추가 수수료&lt;/a&gt;가 발생할 수 있습니다.</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">직불카드로는 결제하실 수 없습니다.</string>
     <!-- Flights Sold out error screen:- warning message -->
@@ -2072,9 +2084,9 @@
     <!-- Launch screen 2x messaging signed-out title-->
     <string name="launch_screen_sign_in_2x_title">로그인하고 다양한 혜택을 누리세요!</string>
     <!-- Launch screen 2x messaging for signed-out subtitle-->
-    <string name="launch_screen_sign_in_2x_subtitle">회원가로 수천 개 호텔을 지금 즉시 평균 17% 이상 할인받으실 수 있어요. 게다가 앱에서는 모든 예약에서 포인트가 두 배로 적립됩니다!</string>
+    <string name="launch_screen_sign_in_2x_subtitle">회원가로 수천 개 호텔을 지금 즉시 평균 17% 이상 할인받으실 수 있어요. 앱에서는 모든 예약 시 포인트가 두 배로 적립됩니다!</string>
     <!-- Launch screen 2x banner messaging for signed-in users -->
-    <string name="launch_screen_2x_banner">게다가 앱에서는 모든 예약에서 포인트가 두 배로 적립됩니다!</string>
+    <string name="launch_screen_2x_banner">앱에서는 모든 예약 시 포인트가 두 배로 적립됩니다!</string>
     <!-- Checkout sign in button for 2x messaging -->
     <string name="checkout_sign_in_2x_messaging">로그인하고 포인트를 더블 적립하세요!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
@@ -2250,6 +2262,8 @@
     <string name="save_traveler">여행객 저장</string>
     <!-- no thanks -->
     <string name="no_thanks">나중에 하기</string>
+    <!--Advanced flight traveler options, explicitly telling user that they can add frequent flyer number anytime before the flight -->
+    <string name="add_anytime_before_your_flight">탑승 전에 언제든 정보를 추가해 주세요.</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">추가 사항(선택 사항)</string>
     <!--Contact airline message on flight checkout traveler details -->
@@ -2737,6 +2751,14 @@
     <!-- The label for the hotel cell of the hotel you selected on results. -->
     <string name="you_picked_this_hotel_label">이 호텔을 고르셨습니다.</string>
 
+    <!-- Guest Ratring Filter strings -->
+    <!-- 3.0 and above -->
+    <string name="guest_rating_three_and_above">3.0 이상</string>
+    <!-- 4.0 and above -->
+    <string name="guest_rating_four_and_above">4.0 이상</string>
+    <!-- 5.0 -->
+    <string name="guest_rating_five">5.0</string>
+
     <!-- Amenity strings -->
     <!-- Business center amenity -->
     <string name="amenity_business_center">비즈니스 센터</string>
@@ -2901,8 +2923,6 @@
     <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay + number of results
          e.g Total price roundtrip, per person. includes hotel and flights • 1 Result -->
     <string name="package_hotel_results_header_TEMPLATE">총 왕복 요금 - 1인당, 호텔 및 항공 포함 • {total_price_result_count_header}</string>
-    <!-- Label for package hotel search results representing package includes hotel, flight + Total price of stay -->
-    <string name="package_hotel_results_header">1인당 왕복 총 요금 • 호텔 및 항공 포함</string>
 
     <!-- Urgency message indicating percent of hotels remaining in a region-->
     <string name="urgency_only_x_hotels_left_TEMPLATE">호텔이 {percent}%만 남았어요!</string>
@@ -3007,6 +3027,10 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to open account settings screen -->
     <string name="account_settings_menu_label">계정</string>
+    <!-- Label for menu item to edit account settings screen -->
+    <string name="account_settings_edit_label">계정 정보 수정</string>
+    <!-- Label for webview to edit account settings -->
+    <string name="account_settings_edit_webview_label">내 계정</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">로그인</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
@@ -3441,7 +3465,7 @@
     <string name="country_ht">아이티</string>
     <string name="country_va">바티칸 시티</string>
     <string name="country_hn">온두라스</string>
-    <string name="country_hk">홍콩</string>
+    <string name="country_hk">홍콩 특별행정구</string>
     <string name="country_hu">헝가리</string>
     <string name="country_is">아이슬란드</string>
     <string name="country_in">인도</string>
@@ -3472,7 +3496,7 @@
     <string name="country_li">리히텐슈타인</string>
     <string name="country_lt">리투아니아</string>
     <string name="country_lu">룩셈부르크</string>
-    <string name="country_mo">마카오</string>
+    <string name="country_mo">마카오 특별행정구</string>
     <string name="country_mk">마케도니아(구유고슬라비아공화국)</string>
     <string name="country_mg">마다가스카</string>
     <string name="country_mw">말라위</string>
@@ -3820,6 +3844,7 @@
     <string name="neighborhoods">주변</string>
     <string name="amenities">편의 시설</string>
     <string name="star_rating">호텔 등급</string>
+    <string name="guest_rating">고객 평점</string>
     <!-- Hotel Filters One star rating content description -->
     <string name="star_rating_one_cont_desc">1성급</string>
     <!-- Hotel Filters Two star rating content description -->
@@ -4642,6 +4667,19 @@
     <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights. Cannot be deselected, all flight results are NonStop. -->
     <string name="packages_flight_filter_checkbox_disabled_cont_desc_TEMPLATE">{filter_name} 항공편 {filter_results}개 이용 가능. 선택 해제할 수 없으며, 모든 항공편 결과는 {filter_name}입니다.\u0020</string>
 
+
+   <!--    Example #1: 3 available NonStop flights starting from $200.
+           Example #2: 2 available Hawaiian Airlines flights starting from $200. -->
+    <string name="flight_filter_checkbox_with_price_and_count_cont_desc_TEMPLATE">{filter_results}개 항공편. {filter_name}. 시작가: {price}\u0020</string>
+    <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights starting from $200. Cannot be deselected, all flight results are NonStop. -->
+    <string name="flight_filter_checkbox_disabled_with_price_and_count_cont_desc_TEMPLATE">{filter_results}개 항공편. {filter_name}. 시작가: {price}. 선택 해제할 수 없으며, 모든 항공편 결과는 {filter_name}입니다.\u0020</string>
+
+    <!-- Example #1: NonStop flights starting from $200.
+         Example #2: Hawaiian Airlines flights starting from $200. -->
+    <string name="flight_filter_checkbox_with_price_cont_desc_TEMPLATE">{filter_name} 항공편. 시작가: {price}\u0020</string>
+    <!-- Content Description for diabled filter option on Sort Filter Page. Example: NonStop flights starting from $200. Cannot be deselected, all flight results are NonStop. -->
+    <string name="flight_filter_checkbox_disabled_with_price__cont_desc_TEMPLATE">{filter_name} 항공편. 시작가: {price}. 선택 해제할 수 없으며, 모든 항공편 결과는 {filter_name}입니다.\u0020</string>
+
     <!-- Status displayed in a modal dialog while insurance is being added -->
     <string name="insurance_adding">여행자 보험 추가 중…</string>
     <!-- Error message displayed when insurance fails to be added to a trip -->
@@ -4839,6 +4877,7 @@
     <string name="find_guest_add_email_address_hint">이메일</string>
     <!-- Hint to type in itinerary number -->
     <string name="find_guest_add_itinerary_number_hint">일정 번호</string>
+    <string name="itin_toolbar">일정</string>
 
     <!-- Booking successful alert text-->
     <string name="booking_successful">예약 성공!</string>
@@ -4977,11 +5016,11 @@
 
     <!-- See more section offer string which would look like Offer expires in 2 days -->
     <plurals name="krazy_glue_offer_expire_TEMPLATE">
-        <item quantity="one">{no_of_days}일 후 혜택이 만료됩니다!</item>
-        <item quantity="other">{no_of_days}일 후 혜택이 만료됩니다!</item>
+        <item quantity="one">{no_of_days}일 후 혜택 만료</item>
+        <item quantity="other">{no_of_days}일 후 혜택 만료</item>
     </plurals>
-    <!-- Shop hotels now-->
-    <string name="shop_hotels_now">지금 바로 호텔 검색</string>
+    <!-- See all hotels -->
+    <string name="see_all_hotels">호텔 모두 보기</string>
     <!--Up to 55% off-->
     <string name="krazyglue_offer">최대 55% 할인</string>
     <!-- Showing the header for the coupon widget to show the saved coupon -->
@@ -5015,10 +5054,18 @@
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">{ticket_type} 일반 요금은 {activity_original_price}입니다. {ticket_type} 할인된 요금은 {activity_price}입니다.</string>
     <string name="hotel_2x_points_search_title">익스피디아 리워드 포인트 두 배 적립!</string>
     <string name="hotel_2x_points_search_content">앱에서 예약하시면 포인트가 두 배로 적립됩니다!</string>
+    <!-- Accessibility announcement for when home screen navigation tab is selected. -->
+    <string name="tab_selected_announcement">탭 선택됨</string>
+
+    <!-- Recent search - Date searched On string e.g. as of Nov 10 -->
+    <string name="flight_recent_search_date_searched_TEMPLATE">{searchdate} 현재</string>
     <!-- Recent search header string -->
     <string name="flight_recent_search_label">최근 검색</string>
 
     <!-- Brand reward name -->
     <string name="brand_reward_name">익스피디아 리워드</string>
+
+    <!--Accessibility Content Description for Member Pricing Discount Percentage Eg. Member Pricing Discount: 10%-->
+    <string name="lx_member_pricing_discount_percent_TEMPLATE">회원가 할인: {discount}%</string>
 
 </resources>
