@@ -1,10 +1,8 @@
 package com.expedia.bookings.test
 
 import android.app.Application
-import android.support.annotation.StringRes
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.analytics.AnalyticsProvider
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.ABTest
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.abacus.AbacusVariant
@@ -15,7 +13,6 @@ import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.AbacusTestUtils
-import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -143,23 +140,23 @@ class HotelCheckoutInfoTrackingTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testSavedCouponBucketedTrackingCallFired() {
         enableABTestWithRemoteFeatureFlag(true, AbacusUtils.EBAndroidAppSavedCoupons)
-        trackPageLoadHotelCheckoutInfo()
 
-        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withAbacusTestBucketed(AbacusUtils.EBAndroidAppSavedCoupons.key), mockAnalyticsProvider)
+        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+
+        OmnitureTracking.trackUserEnterCouponWidget()
+
+        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withAbacusTestBucketed(AbacusUtils.EBAndroidAppSavedCoupons.key), mockAnalyticsProvider)
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testSavedCouponUnbucketedTrackingCallFired() {
         enableABTestWithRemoteFeatureFlag(false, AbacusUtils.EBAndroidAppSavedCoupons)
-        trackPageLoadHotelCheckoutInfo()
+        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
 
-        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withAbacusTestControl(AbacusUtils.EBAndroidAppSavedCoupons.key), mockAnalyticsProvider)
-    }
+        OmnitureTracking.trackUserEnterCouponWidget()
 
-    private fun enableABTest(enable: Boolean, ABTestKey: Int) {
-        Db.sharedInstance.abacusResponse.updateABTestForDebug(ABTestKey,
-                if (enable) AbacusVariant.BUCKETED.value else AbacusVariant.CONTROL.value)
+        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withAbacusTestControl(AbacusUtils.EBAndroidAppSavedCoupons.key), mockAnalyticsProvider)
     }
 
     private fun enableABTestWithRemoteFeatureFlag(enable: Boolean, abTest: ABTest) {
@@ -171,9 +168,5 @@ class HotelCheckoutInfoTrackingTest {
         createTripResponse = mockHotelServiceTestRule.getHappyCreateTripResponse()
         val params = HotelPresenterTestUtil.getDummyHotelSearchParams(context)
         HotelTracking.trackPageLoadHotelCheckoutInfo(createTripResponse, params, PageUsableData())
-    }
-
-    private fun enableFeatureFlag(enable: Boolean, @StringRes featureKey: Int) {
-        SettingUtils.save(context, featureKey, enable)
     }
 }

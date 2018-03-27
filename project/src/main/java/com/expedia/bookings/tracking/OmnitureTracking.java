@@ -569,6 +569,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackLinkEvent(APP_CKO_ENTER_COUPON);
 		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelMaterialForms);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppSavedCoupons);
 		s.trackLink(UNIVERSAL_CHECKOUT);
 	}
 
@@ -1202,7 +1203,6 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackPageLoadEventBase(HOTELS_CHECKOUT_INFO);
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppDisabledSTPStateHotels);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppSavedCoupons);
 
 		StringBuilder events = new StringBuilder("event70");
 		if (trip.isRewardsRedeemable()) {
