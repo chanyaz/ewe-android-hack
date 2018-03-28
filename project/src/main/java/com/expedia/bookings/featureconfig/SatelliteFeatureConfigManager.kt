@@ -1,9 +1,11 @@
 package com.expedia.bookings.featureconfig
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.support.annotation.VisibleForTesting
 import com.expedia.bookings.activity.ExpediaBookingApp
+import com.expedia.bookings.appstartup.SatelliteDataChangeBroadcastReceiver
 import com.expedia.bookings.utils.CookiesUtils
 import com.expedia.bookings.utils.Ui
 import com.mobiata.android.Log
@@ -107,6 +109,7 @@ class SatelliteFeatureConfigManager {
 
                 override fun onComplete() {
                     isFetchingFeatureConfig = false
+                    context.sendBroadcast(Intent(context, SatelliteDataChangeBroadcastReceiver::class.java))
                 }
 
                 override fun onError(e: Throwable) {

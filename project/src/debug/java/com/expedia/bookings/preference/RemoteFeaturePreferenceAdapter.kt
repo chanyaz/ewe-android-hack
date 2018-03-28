@@ -1,6 +1,7 @@
 package com.expedia.bookings.preference
 
 import android.content.Context
+import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.support.v7.widget.RecyclerView
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.appstartup.SatelliteDataChangeBroadcastReceiver
 import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager
 import com.expedia.bookings.features.Feature
 import com.mobiata.android.util.SettingUtils
@@ -74,6 +76,8 @@ class RemoteFeaturePreferenceAdapter(val context: Context, val feature: Feature)
             Handler(Looper.getMainLooper()).post {
                 notifyDataSetChanged()
             }
+
+            context.sendBroadcast(Intent(context, SatelliteDataChangeBroadcastReceiver::class.java))
         }
     }
 

@@ -484,6 +484,11 @@
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name="com.expedia.bookings.appstartup.SatelliteDataChangeBroadcastReceiver"
+            android:enabled="true"
+            android:exported="false"/>
+
     </application>
 
 </manifest>
