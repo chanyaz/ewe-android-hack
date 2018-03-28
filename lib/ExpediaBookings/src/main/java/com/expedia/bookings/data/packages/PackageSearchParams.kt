@@ -38,14 +38,7 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
 
     val destinationId: String?
         get() {
-            //Send gaiaId as the region id for destination to get the correct hotels
-            //Destination on pkgs can be a non-airport too For e.g. Zion national park,UT
-            //and Send airport region id for all POI suggestions types
-            if (destination?.type == "POI" ) {
-                return destination.hierarchyInfo?.airport?.multicity
-            } else {
-                return destination?.gaiaId ?: destination?.hierarchyInfo?.airport?.regionId
-            }
+            return destination?.gaiaId ?: destination?.hierarchyInfo?.airport?.regionId
         }
 
     val childAges: String?

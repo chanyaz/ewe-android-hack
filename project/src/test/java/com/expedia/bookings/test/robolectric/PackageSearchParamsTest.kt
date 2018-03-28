@@ -164,8 +164,8 @@ class PackageSearchParamsTest {
                 .build() as PackageSearchParams
 
         val paramsMap = params.toQueryMap()
-        assertEquals("456", paramsMap["destinationId"])
-        assertEquals("456", params.destinationId)
+        assertEquals("1011", paramsMap["destinationId"])
+        assertEquals("1011", params.destinationId)
     }
 
     @Test
