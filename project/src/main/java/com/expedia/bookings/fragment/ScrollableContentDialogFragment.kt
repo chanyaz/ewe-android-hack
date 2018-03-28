@@ -43,8 +43,7 @@ class ScrollableContentDialogFragment : DialogFragment() {
         alertDialogBuilder.setTitle(arguments.getString(TITLE_KEY) ?: "")
         alertDialogBuilder.setView(view)
         val content = arguments.getString(CONTENT_KEY) ?: ""
-        contentText.text = if (getSpannableString(content) == null) content else removeUnderline(getSpannableString(content))
-        contentText.movementMethod = LinkMovementMethod.getInstance()
+        contentText.text = if (getSpannableString(content) == null) content else removeUnderline(getSpannableString(content), contentText)
         val secondaryTitleText = view.findViewById<TextView>(R.id.fragment_dialog_second_heading)
         val secondaryContentText = view.findViewById<TextView>(R.id.fragment_dialog_scrollable_second_text_content)
         setSecondaryContent(secondaryTitleText, secondaryContentText)
@@ -62,13 +61,14 @@ class ScrollableContentDialogFragment : DialogFragment() {
             secondaryTitleText.visibility = View.VISIBLE
             secondaryContentText.visibility = View.VISIBLE
             secondaryTitleText.text = secondaryTitle
-            secondaryContentText.text = if (getSpannableString(secondaryContent) == null) secondaryContent else removeUnderline(getSpannableString(secondaryContent))
+            secondaryContentText.text = if (getSpannableString(secondaryContent) == null) secondaryContent else removeUnderline(getSpannableString(secondaryContent), secondaryContentText)
         }
     }
 
-    private fun removeUnderline(spannableString: SpannableString?): SpannableString? {
+    private fun removeUnderline(spannableString: SpannableString?, textview: TextView): SpannableString? {
         val spans = spannableString?.getSpans(0, spannableString.length, URLSpan::class.java)
-        if (spans != null) {
+        if (spans != null && spans.isNotEmpty()) {
+            textview.movementMethod = LinkMovementMethod.getInstance()
             for (span in spans) {
                 val start = spannableString.getSpanStart(span)
                 val end = spannableString.getSpanEnd(span)
