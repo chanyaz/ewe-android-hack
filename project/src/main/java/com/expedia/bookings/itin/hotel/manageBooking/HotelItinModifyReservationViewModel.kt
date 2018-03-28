@@ -13,7 +13,6 @@ import com.expedia.bookings.tracking.TripsTracking
 class HotelItinModifyReservationViewModel(val context: Context) : ItinModifyReservationViewModel() {
 
     override val itinType: String = "HOTEL_ITIN"
-    var tripNumber: String = ""
 
     init {
         itinCardSubject.subscribe {
@@ -35,12 +34,12 @@ class HotelItinModifyReservationViewModel(val context: Context) : ItinModifyRese
         }
 
         cancelTextViewClickSubject.subscribe {
-            webViewRefreshOnExitIntentSubject.onNext(buildWebViewIntent(R.string.itin_flight_modify_widget_cancel_reservation_text, cancelUrl, tripNumber))
+            webViewIntentSubject.onNext(buildWebViewIntent(R.string.itin_flight_modify_widget_cancel_reservation_text, cancelUrl, tripId))
             TripsTracking.trackHotelItinCancelHotel()
         }
 
         changeTextViewClickSubject.subscribe {
-            webViewRefreshOnExitIntentSubject.onNext(buildWebViewIntent(R.string.itin_flight_modify_widget_change_reservation_text, changeUrl, tripNumber))
+            webViewIntentSubject.onNext(buildWebViewIntent(R.string.itin_flight_modify_widget_change_reservation_text, changeUrl, tripId))
             TripsTracking.trackHotelItinChangeHotel()
         }
 
@@ -57,13 +56,13 @@ class HotelItinModifyReservationViewModel(val context: Context) : ItinModifyRese
         val data = itinCardData as ItinCardDataHotel
         val hotelTrip = data.tripComponent as TripHotel
         customerSupportNumber = data.tripComponent.parentTrip.customerSupport.supportPhoneNumberDomestic
-        tripNumber = data.tripNumber
+        tripId = data.tripNumber
         val cancelable = !cancelUrl.isNullOrEmpty() && hotelTrip.action != null && hotelTrip.action.isCancellable
         val changeable = !changeUrl.isNullOrEmpty() && hotelTrip.action != null && hotelTrip.action.isChangeable
         setupCancelAndChange(cancelable, changeable)
     }
 
-    fun buildWebViewIntent(title: Int, url: String?, tripId: String): Intent {
+    fun buildWebViewIntent(title: Int, url: String?, tripId: String?): Intent {
         val builder: WebViewActivity.IntentBuilder = WebViewActivity.IntentBuilder(context)
         builder.setTitle(title)
         builder.setUrl(url)

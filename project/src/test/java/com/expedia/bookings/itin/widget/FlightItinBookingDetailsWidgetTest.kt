@@ -99,7 +99,8 @@ class FlightItinBookingDetailsWidgetTest {
                 "Jim Bob",
                 isShared,
                 null,
-                testItinCardData.id
+                testItinCardData.id,
+                testItinCardData.tripNumber
         )
         sut.viewModel.updateBookingInfoWidget(params)
     }

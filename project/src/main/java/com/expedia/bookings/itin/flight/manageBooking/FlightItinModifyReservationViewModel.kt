@@ -20,11 +20,11 @@ class FlightItinModifyReservationViewModel(val context: Context) : ItinModifyRes
         }
         cancelTextViewClickSubject.subscribe {
             OmnitureTracking.trackFlightItinCancelFlight()
-            webViewIntentSubject.onNext(buildWebViewIntent(R.string.itin_flight_modify_widget_cancel_reservation_text, cancelUrl))
+            webViewIntentSubject.onNext(buildWebViewIntent(R.string.itin_flight_modify_widget_cancel_reservation_text, cancelUrl, tripId))
         }
         changeTextViewClickSubject.subscribe {
             OmnitureTracking.trackFlightItinChangeFlight()
-            webViewIntentSubject.onNext(buildWebViewIntent(R.string.itin_flight_modify_widget_change_reservation_text, changeUrl))
+            webViewIntentSubject.onNext(buildWebViewIntent(R.string.itin_flight_modify_widget_change_reservation_text, changeUrl, tripId))
         }
         cancelLearnMoreClickSubject.subscribe {
             OmnitureTracking.trackItinFlightCancelLearnMore()
@@ -38,6 +38,7 @@ class FlightItinModifyReservationViewModel(val context: Context) : ItinModifyRes
         val data = itinCardData as ItinCardDataFlight
         val flightTrip = (data.tripComponent as TripFlight).flightTrip
         changeUrl = flightTrip.webChangePathURL
+        tripId = data.tripNumber
         customerSupportNumber = itinCardData.tripComponent.parentTrip.customerSupport.supportPhoneNumberDomestic
         cancelUrl = flightTrip.webCancelPathURL
         val cancelable = !cancelUrl.isNullOrEmpty() && flightTrip.action.isCancellable
@@ -45,12 +46,13 @@ class FlightItinModifyReservationViewModel(val context: Context) : ItinModifyRes
         setupCancelAndChange(cancelable, changeable)
     }
 
-    fun buildWebViewIntent(title: Int, url: String?): Intent {
+    fun buildWebViewIntent(title: Int, url: String?, tripId: String?): Intent {
         val builder: WebViewActivity.IntentBuilder = WebViewActivity.IntentBuilder(context)
         builder.setTitle(title)
         builder.setUrl(url)
         builder.setInjectExpediaCookies(true)
         builder.setAllowMobileRedirects(true)
+        builder.setItinTripIdForRefresh(tripId)
         return builder.intent
     }
 }

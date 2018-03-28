@@ -24,6 +24,7 @@ class FlightItinBookingInfoViewModelTest {
     private lateinit var url: String
     private lateinit var context: Context
 
+    private val tripId = "12332"
     private val createWidgetSharedSubject = TestObserver<Boolean>()
     private val createAdditionalInfoSubject = TestObserver<ItinLinkOffCardViewViewModel.CardViewParams>()
     private val createTravelerlInfoSubject = TestObserver<ItinLinkOffCardViewViewModel.CardViewParams>()
@@ -55,7 +56,8 @@ class FlightItinBookingInfoViewModelTest {
                 "Jim Bob",
                 false,
                 "expedia.com",
-                testItinCardData.id
+                testItinCardData.id,
+                testItinCardData.tripId
         ))
         createWidgetSharedSubject.assertValue(false)
         createTravelerlInfoSubject.assertValueCount(1)
@@ -66,16 +68,20 @@ class FlightItinBookingInfoViewModelTest {
 
     @Test
     fun testIntentForPriceSummary() {
-        val intent = sut.buildWebViewIntent(R.string.itin_hotel_details_price_summary_heading, url, "price-summary")!!.intent
+        val intent = sut.buildWebViewIntent(R.string.itin_hotel_details_price_summary_heading, url, "price-summary", tripId)!!.intent
         assertEquals(context.getString(R.string.itin_hotel_details_price_summary_heading), intent.extras.getString("ARG_TITLE"))
         assertTrue(intent.extras.getString("ARG_URL").startsWith(url))
         assertTrue(intent.extras.getString("ARG_URL").endsWith("#price-summary"))
+        assertEquals(intent.extras.getString("ITIN_WEBVIEW_REFRESH_ON_EXIT_TRIP_NUMBER"), tripId)
+        assertTrue(intent.getBooleanExtra("ARG_RETURN_FROM_HOTEL_ITIN_WEBVIEW", false))
     }
 
     @Test
     fun testIntentForAdditionalInfo() {
-        val intent = sut.buildWebViewIntent(R.string.itin_hotel_details_additional_info_heading, url, null)!!.intent
+        val intent = sut.buildWebViewIntent(R.string.itin_hotel_details_additional_info_heading, url, null, tripId)!!.intent
         assertEquals(context.getString(R.string.itin_hotel_details_additional_info_heading), intent.extras.getString("ARG_TITLE"))
         assertTrue(intent.extras.getString("ARG_URL").startsWith(url))
+        assertEquals(intent.extras.getString("ITIN_WEBVIEW_REFRESH_ON_EXIT_TRIP_NUMBER"), tripId)
+        assertTrue(intent.getBooleanExtra("ARG_RETURN_FROM_HOTEL_ITIN_WEBVIEW", false))
     }
 }

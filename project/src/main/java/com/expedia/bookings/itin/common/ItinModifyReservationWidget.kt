@@ -35,9 +35,6 @@ class ItinModifyReservationWidget(context: Context, attrs: AttributeSet) : Linea
             setUpCancelWidget()
         }
         vm.webViewIntentSubject.subscribe {
-            context.startActivity(it, ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_up_partially, 0).toBundle())
-        }
-        vm.webViewRefreshOnExitIntentSubject.subscribe {
             val animation = ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_up_partially, 0).toBundle()
             (context as AppCompatActivity).startActivityForResult(it, Constants.ITIN_WEBVIEW_REFRESH_ON_EXIT_CODE, animation)
         }

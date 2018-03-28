@@ -265,7 +265,8 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
                 travelerNames,
                 isShared,
                 dataFlight.detailsUrl,
-                dataFlight.id
+                dataFlight.id,
+                dataFlight.tripNumber
         ))
     }
 

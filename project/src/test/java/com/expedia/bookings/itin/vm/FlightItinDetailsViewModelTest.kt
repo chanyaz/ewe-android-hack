@@ -361,7 +361,8 @@ class FlightItinDetailsViewModelTest {
                 name,
                 false,
                 "https://www.expedia.com/trips/7238007847306",
-                testItinCardData.id
+                testItinCardData.id,
+                testItinCardData.tripNumber
         ))
     }
 
