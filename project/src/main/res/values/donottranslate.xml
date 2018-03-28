@@ -125,7 +125,6 @@
     <string name="preference_abacus_setting_show_price_and_logo_with_count">Show price and logo with Count</string>
     <string name="preference_enable_chuck_notification">preference_enable_chuck_notification</string>
     <string name="preference_chuck_show_ui">preference_chuck_show_ui</string>
-    <string name="preference_server_debug_tracing">preference_server_debug_tracing</string>
     <string name="preference_enable_tune">preference_enable_tune</string>
     <string name="preference_user_has_seen_review_prompt">preference_user_has_seen_review_prompt</string>
     <string name="preference_user_has_booked_hotel_or_flight">preference_user_has_booked_hotel_or_flight</string>
@@ -139,7 +138,6 @@
     <string name="preference_abacus_setting_route_happy">Complete Feature</string>
     <string name="preference_abacus_setting_recent_search_vertical">Vertical tiles</string>
     <string name="preference_abacus_setting_recent_search_horizontal">Horizontal tiles</string>
-    <string name="preference_toggle_server_debug_tracing">preference_toggle_server_debug_tracing</string>
 
     <!-- Preference keys for feature toggle -->
     <string name="preference_open_remote_feature_toggle_settings">preference_open_remote_feature_toggle_settings</string>

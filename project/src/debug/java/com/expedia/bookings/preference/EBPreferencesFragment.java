@@ -26,7 +26,6 @@ import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.TNSServices;
-import com.expedia.bookings.trace.fragment.ServerDebugTracingPreferenceFragment;
 import com.expedia.bookings.utils.ChuckShim;
 import com.expedia.bookings.utils.UniqueIdentifierPersistenceProvider;
 import com.expedia.bookings.utils.Ui;
@@ -280,14 +279,6 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 				}
 			});
 			builder.create().show();
-			return true;
-		}
-		else if (getString(R.string.preference_server_debug_tracing).equals(key)) {
-			getFragmentManager()
-				.beginTransaction()
-				.replace(R.id.fragment_container, new ServerDebugTracingPreferenceFragment())
-				.addToBackStack(ServerDebugTracingPreferenceFragment.class.getName())
-				.commit();
 			return true;
 		}
 
