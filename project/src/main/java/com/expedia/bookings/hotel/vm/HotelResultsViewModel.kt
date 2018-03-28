@@ -49,7 +49,6 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
         private set
 
     private var isFilteredSearch = false
-    private var cachedParams: HotelSearchParams? = null
     private var apiSubscriptions = CompositeDisposable()
 
     private val hotelCalendarRules by lazy { HotelCalendarRules(context) }
@@ -81,7 +80,7 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
             val builder = HotelSearchParams.Builder(hotelCalendarRules.getMaxDateRange(), hotelCalendarRules.getMaxSearchDurationDays())
             builder.from(cachedParams!!).startDate(stayDates.getStartDate()).endDate(stayDates.getEndDate())
             val newParams = builder.build()
-            doSearch(newParams, isChangeDateSearch = true)
+            doSearch(newParams, isFilteredSearch = newParams.filterOptions?.isNotEmpty() == true, isChangeDateSearch = true)
             paramChangedSubject.onNext(newParams)
         })
 
@@ -197,7 +196,7 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
             searchBuilder.vipOnly(filterParams.isVipOnlyAccess)
         }
         if (filterParams.neighborhoods.isNotEmpty()) {
-            searchBuilder.neighborhood(filterParams.neighborhoods.elementAt(0).id)
+            searchBuilder.neighborhood(filterParams.neighborhoods.elementAt(0))
         }
 
         searchBuilder.amenities(filterParams.amenities)

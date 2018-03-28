@@ -62,4 +62,8 @@ class HotelAmenityGridItem(context: Context, val amenity: Amenity) : LinearLayou
         icon.isEnabled = true
         textView.isEnabled = true
     }
+
+    fun isAmenityEnabled(): Boolean {
+        return icon.isEnabled
+    }
 }

@@ -2,6 +2,7 @@ package com.expedia.bookings.unit.hotels
 
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.data.hotels.Neighborhood
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
@@ -310,16 +311,18 @@ class HotelSearchParamsTest {
 
     @Test
     fun testFromFilterOptions_neighborhood() {
-        val expectedNeighborId = "12345"
+        val expectedNeighborhood = Neighborhood()
+        expectedNeighborhood.name = "name"
+        expectedNeighborhood.id = "12345"
         val testParams = firstParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
                 .adults(1).children(listOf(1)).build() as HotelSearchParams
 
         val testFilterOptions = HotelSearchParams.HotelFilterOptions()
-        testFilterOptions.filterByNeighborhoodId = expectedNeighborId
+        testFilterOptions.filterByNeighborhood = expectedNeighborhood
         testParams.filterOptions = testFilterOptions
 
         val fromParams = secondParamBuilder.from(testParams).build()
-        assertEquals(expectedNeighborId, fromParams.filterOptions?.filterByNeighborhoodId)
+        assertEquals(expectedNeighborhood, fromParams.filterOptions?.filterByNeighborhood)
     }
 
     @Test

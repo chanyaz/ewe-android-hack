@@ -236,6 +236,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
         if (!response.isFilteredResponse) {
             filterViewModel.setHotelList(response)
+            baseViewModel.cachedParams?.filterOptions?.let { filterOptions ->
+                filterViewModel.updatePresetOptions(filterOptions)
+            }
         }
         filterViewModel.availableAmenityOptionsObservable.onNext(response.amenityFilterOptions.keys)
         mapWidget.newResults(response, updateBounds = true)
@@ -289,7 +292,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         adapter = getHotelListAdapter()
 
         recyclerView.adapter = adapter
-        filterView.setViewModel(filterViewModel)
+        filterView.initViewModel(filterViewModel)
         filterViewModel.filterObservable.subscribe(filterObserver)
 
         filterViewModel.showPreviousResultsObservable.subscribe {

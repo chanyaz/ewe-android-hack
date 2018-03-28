@@ -198,9 +198,9 @@ open class HotelServices(endpoint: String, satelliteEndpoint: String, okHttpClie
             params.suggestion.gaiaId
         } else null
         val filterOptions = params.filterOptions
-        if (filterOptions != null && !filterOptions.filterByNeighborhoodId.isNullOrEmpty()) {
+        if (!filterOptions?.filterByNeighborhood?.id.isNullOrBlank()) {
             // Override default regionId for neighborhood search
-            regionId = params.filterOptions?.filterByNeighborhoodId
+            regionId = params.filterOptions?.filterByNeighborhood?.id
         }
         return regionId
     }

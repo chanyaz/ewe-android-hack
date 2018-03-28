@@ -25,6 +25,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelSearchParams;
 import com.expedia.bookings.data.hotels.NearbyHotelParams;
+import com.expedia.bookings.data.hotels.Neighborhood;
 import com.expedia.bookings.data.hotels.NewHotelSearchResponse;
 import com.expedia.bookings.data.payment.PointsAndCurrency;
 import com.expedia.bookings.data.payment.PointsType;
@@ -129,8 +130,11 @@ public class HotelServicesTest {
 		SuggestionV4 suggestion = new SuggestionV4();
 		suggestion.gaiaId = "7732025862";
 		suggestion.coordinates = new SuggestionV4.LatLng();
+		Neighborhood expectedNeighborhood = new Neighborhood();
+		expectedNeighborhood.name = "name";
+		expectedNeighborhood.id = expectedNeighborhoodId;
 		HotelSearchParams hotelSearchParams = (HotelSearchParams) new HotelSearchParams.Builder(0, 0)
-			.neighborhood(expectedNeighborhoodId)
+			.neighborhood(expectedNeighborhood)
 			.destination(suggestion)
 			.startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(15)).adults(2).build();
 

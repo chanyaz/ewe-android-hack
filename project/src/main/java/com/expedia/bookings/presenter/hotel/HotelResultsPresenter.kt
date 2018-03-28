@@ -180,6 +180,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         vm.locationParamsSubject.subscribe { params ->
             filterView.sortByObserver.onNext(params.isCurrentLocationSearch && !params.isGoogleSuggestionSearch)
             filterViewModel.clearObservable.onNext(Unit)
+            viewModel.clearCachedParamsFilterOptions()
         }
 
         vm.filterParamsSubject.subscribe {
@@ -395,6 +396,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     fun showFilterCachedResults() {
         filterViewModel.clearObservable.onNext(Unit)
+        viewModel.clearCachedParamsFilterOptions()
         val cachedFilterResponse = filterViewModel.originalResponse ?: adapter.resultsSubject.value
         viewModel.hotelResultsObservable.onNext(cachedFilterResponse)
     }

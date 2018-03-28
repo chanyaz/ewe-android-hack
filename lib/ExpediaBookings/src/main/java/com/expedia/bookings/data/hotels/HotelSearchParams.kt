@@ -82,7 +82,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
         private var priceRange: PriceRange? = null
         private var hotelName: String? = null
         private var starRatings: List<Int> = emptyList()
-        private var neighborhoodRegionId: String? = null
+        private var neighborhoodRegion: Neighborhood? = null
         private var vipOnly: Boolean = false
         private var userSort: SortType? = null
         private var amenities: HashSet<Int> = HashSet()
@@ -123,8 +123,8 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
             return this
         }
 
-        fun neighborhood(neighborhoodRegionId: String): Builder {
-            this.neighborhoodRegionId = neighborhoodRegionId
+        fun neighborhood(neighborhoodRegion: Neighborhood): Builder {
+            this.neighborhoodRegion = neighborhoodRegion
             return this
         }
 
@@ -156,7 +156,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
                 filterOptions.filterStarRatings.let { starRatings(it) }
                 filterOptions.filterPrice?.let { priceRange(it) }
                 vipOnly(filterOptions.filterVipOnly)
-                filterOptions.filterByNeighborhoodId?.let { neighborhood(it) }
+                filterOptions.filterByNeighborhood?.let { neighborhood(it) }
                 filterOptions.userSort?.let { userSort(it) }
                 filterOptions.amenities.let { amenities(it) }
             }
@@ -197,7 +197,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
             filterOptions.filterStarRatings = starRatings
             filterOptions.filterPrice = priceRange
             filterOptions.filterVipOnly = vipOnly
-            filterOptions.filterByNeighborhoodId = neighborhoodRegionId
+            filterOptions.filterByNeighborhood = neighborhoodRegion
             filterOptions.userSort = userSort
             filterOptions.amenities = amenities
             return filterOptions
@@ -209,7 +209,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
         var filterStarRatings: List<Int> = emptyList()
         var filterPrice: PriceRange? = null
         var filterVipOnly: Boolean = false
-        var filterByNeighborhoodId: String? = null
+        var filterByNeighborhood: Neighborhood? = null
         var userSort: SortType? = null
         var amenities: HashSet<Int> = HashSet()
 

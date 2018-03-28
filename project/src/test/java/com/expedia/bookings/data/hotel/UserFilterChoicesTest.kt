@@ -123,6 +123,11 @@ class UserFilterChoicesTest {
         searchOptions.userSort = HotelSearchParams.SortType.DISTANCE
         searchOptions.filterVipOnly = true
         searchOptions.amenities = hashSetOf(1, 3)
+        searchOptions.filterPrice = HotelSearchParams.PriceRange(10, 20)
+        val neighborhood = Neighborhood()
+        neighborhood.name = "name"
+        neighborhood.id = "id"
+        searchOptions.filterByNeighborhood = neighborhood
 
         val filterOptions = UserFilterChoices.fromHotelFilterOptions(searchOptions)
         assertEquals(hotelName, filterOptions.name)
@@ -136,6 +141,12 @@ class UserFilterChoicesTest {
         assertFalse(filterOptions.hotelStarRating.three)
         assertTrue(filterOptions.amenities.contains(1))
         assertTrue(filterOptions.amenities.contains(3))
+
+        assertEquals(10, filterOptions.minPrice)
+        assertEquals(20, filterOptions.maxPrice)
+        assertEquals(1, filterOptions.neighborhoods.count())
+        assertEquals("name", filterOptions.neighborhoods.first().name)
+        assertEquals("id", filterOptions.neighborhoods.first().id)
     }
 
     @Test
@@ -150,5 +161,8 @@ class UserFilterChoicesTest {
         assertEquals(starRating, filterOptions.hotelStarRating)
         val guestRating = UserFilterChoices.GuestRatings()
         assertEquals(guestRating, filterOptions.hotelGuestRating)
+        assertEquals(0, filterOptions.minPrice)
+        assertEquals(0, filterOptions.maxPrice)
+        assertTrue(filterOptions.neighborhoods.isEmpty())
     }
 }

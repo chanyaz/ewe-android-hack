@@ -45,11 +45,21 @@ class HotelStarRatingFilterView(context: Context, attrs: AttributeSet?) : CardVi
     }
 
     fun update(hotelStarRating: UserFilterChoices.StarRatings) {
-        if (hotelStarRating.one) toggleStarOne()
-        if (hotelStarRating.two) toggleStarTwo()
-        if (hotelStarRating.three) toggleStarThree()
-        if (hotelStarRating.four) toggleStarFour()
-        if (hotelStarRating.five) toggleStarFive()
+        if (hotelStarRating.one != starRatings.one) {
+            toggleStarOne()
+        }
+        if (hotelStarRating.two != starRatings.two) {
+            toggleStarTwo()
+        }
+        if (hotelStarRating.three != starRatings.three) {
+            toggleStarThree()
+        }
+        if (hotelStarRating.four != starRatings.four) {
+            toggleStarFour()
+        }
+        if (hotelStarRating.five != starRatings.five) {
+            toggleStarFive()
+        }
     }
 
     private fun toggleStarOne() {

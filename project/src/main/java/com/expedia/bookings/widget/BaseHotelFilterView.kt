@@ -45,8 +45,8 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
     val amenitiesGridView: GridLayout by bindView(R.id.filter_amenities_grid_layout)
     val hotelNameFilterView: HotelNameFilterView by bindView(R.id.hotel_filter_name_view)
 
+    protected val priceRangeView: HotelPriceFilterView by bindView(R.id.price_range_filter_view)
     private val priceHeader: View by bindView(R.id.price)
-    private val priceRangeView: HotelPriceFilterView by bindView(R.id.price_range_filter_view)
     private val filterContainer: ViewGroup by bindView(R.id.filter_container)
 
     val doneButton: Button by lazy {
@@ -90,7 +90,7 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
         hotelSortOptionsView.updateSortItems(sortList)
     }
 
-    private lateinit var viewModel: BaseHotelFilterViewModel
+    protected lateinit var viewModel: BaseHotelFilterViewModel
 
     init {
         inflate()
@@ -123,7 +123,7 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
         resetGuestRating()
     }
 
-    fun setViewModel(viewModel: BaseHotelFilterViewModel) {
+    fun initViewModel(viewModel: BaseHotelFilterViewModel) {
         this.viewModel = viewModel
         bindViewModel(viewModel)
     }
@@ -192,12 +192,13 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
             } else {
                 neighborhoodLabel.visibility = View.GONE
                 neighborhoodView.visibility = View.GONE
+                neighborhoodView.updateNeighborhoods(emptyList())
             }
         }
 
         vm.sortContainerVisibilityObservable.subscribeVisibility(hotelSortOptionsView)
 
-        priceRangeView.viewModel = viewModel
+        priceRangeView.viewModel = vm
     }
 
     private fun bindStarRating(vm: BaseHotelFilterViewModel) {

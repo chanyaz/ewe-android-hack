@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.data.hotel.PriceRange
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FilterRangeSeekBar
 import com.expedia.bookings.widget.HotelPriceRangeSeekBar
@@ -17,8 +18,12 @@ class HotelPriceFilterView(context: Context, attrs: AttributeSet?) : LinearLayou
     private val priceRangeMaxText: TextView by bindView(R.id.price_range_max_text)
     private val priceRangeBar: HotelPriceRangeSeekBar by bindView(R.id.price_range_bar)
 
+    private var cachedPriceRange: PriceRange? = null
+
     var viewModel: BaseHotelFilterViewModel by notNullAndObservable { vm ->
         vm.newPriceRangeObservable.subscribe { priceRange ->
+            cachedPriceRange = priceRange
+
             priceRangeBar.currentA11yStartValue = priceRange.defaultMinPriceText
             priceRangeBar.currentA11yEndValue = priceRange.defaultMaxPriceText
 
@@ -28,23 +33,22 @@ class HotelPriceFilterView(context: Context, attrs: AttributeSet?) : LinearLayou
 
             priceRangeBar.setOnRangeSeekBarChangeListener(object : FilterRangeSeekBar.OnRangeSeekBarChangeListener {
                 override fun onRangeSeekBarDragChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int) {
-                    val minPrice = priceRange.formatValue(minValue)
-                    val maxPrice = priceRange.formatValue(maxValue)
-                    priceRangeMinText.text = minPrice
-                    priceRangeMaxText.text = maxPrice
+                    val minPrice = priceRange.toPrice(minValue)
+                    val maxPrice = priceRange.toPrice(maxValue)
 
-                    vm.priceRangeChangedObserver.onNext(priceRange.getUpdatedPriceRange(minValue, maxValue))
+                    updatePrice(priceRange, minPrice, maxPrice)
                 }
 
                 override fun onRangeSeekBarValuesChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int, thumb: FilterRangeSeekBar.Thumb) {
-                    val minPrice = priceRange.formatValue(minValue)
-                    val maxPrice = priceRange.formatValue(maxValue)
-                    priceRangeMinText.text = minPrice
-                    priceRangeMaxText.text = maxPrice
-                    priceRangeBar.currentA11yStartValue = minPrice
-                    priceRangeBar.currentA11yEndValue = maxPrice
+                    val minPrice = priceRange.toPrice(minValue)
+                    val maxPrice = priceRange.toPrice(maxValue)
+
+                    priceRangeBar.currentA11yStartValue = priceRange.formatPrice(minPrice)
+                    priceRangeBar.currentA11yEndValue = priceRange.formatPrice(maxPrice)
+
+                    updatePrice(priceRange, minPrice, maxPrice)
+
                     announceForAccessibility(priceRangeBar.getAccessibilityText(thumb))
-                    vm.priceRangeChangedObserver.onNext(priceRange.getUpdatedPriceRange(minValue, maxValue))
                 }
             })
         }
@@ -52,5 +56,22 @@ class HotelPriceFilterView(context: Context, attrs: AttributeSet?) : LinearLayou
 
     init {
         View.inflate(context, R.layout.hotel_price_range_seekbar, this)
+    }
+
+    fun setMinMaxPrice(minPrice: Int, maxPrice: Int) {
+        cachedPriceRange?.let { priceRange ->
+            val maxPriceToUse = if (maxPrice == 0) priceRange.maxPrice else maxPrice
+
+            priceRangeBar.minValue = priceRange.toValue(minPrice)
+            priceRangeBar.maxValue = priceRange.toValue(maxPriceToUse)
+            updatePrice(priceRange, minPrice, maxPriceToUse)
+        }
+    }
+
+    private fun updatePrice(priceRange: PriceRange, minPrice: Int, maxPrice: Int) {
+        priceRangeMinText.text = priceRange.formatPrice(minPrice)
+        priceRangeMaxText.text = priceRange.formatPrice(maxPrice)
+
+        viewModel.priceRangeChangedObserver.onNext(priceRange.getUpdatedPriceRange(minPrice, maxPrice))
     }
 }

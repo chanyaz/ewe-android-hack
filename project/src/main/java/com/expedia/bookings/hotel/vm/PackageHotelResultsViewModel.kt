@@ -11,8 +11,6 @@ import com.squareup.phrase.Phrase
 class PackageHotelResultsViewModel(context: Context) :
         BaseHotelResultsViewModel(context) {
 
-    private var cachedParams: HotelSearchParams? = null
-
     init {
         paramsSubject.subscribe(endlessObserver { params ->
             doSearch(params)

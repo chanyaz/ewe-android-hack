@@ -22,10 +22,17 @@ open class BaseHotelResultsViewModel(protected val context: Context) {
     val subtitleContDescSubject = PublishSubject.create<String>()
     val showHotelSearchViewObservable = PublishSubject.create<Unit>()
 
+    var cachedParams: HotelSearchParams? = null
+        protected set
+
     init {
         hotelResultsObservable.subscribe {
             trackAdImpression(it.pageViewBeaconPixelUrl)
         }
+    }
+
+    fun clearCachedParamsFilterOptions() {
+        cachedParams?.filterOptions = HotelSearchParams.HotelFilterOptions()
     }
 
     protected fun trackAdImpression(url: String) {

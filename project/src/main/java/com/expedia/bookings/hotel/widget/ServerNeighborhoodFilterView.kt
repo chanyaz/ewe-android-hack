@@ -22,6 +22,28 @@ class ServerNeighborhoodFilterView(context: Context, attrs: AttributeSet?) : Bas
         }
     }
 
+    fun selectNeighborhood(neighborhood: Neighborhood) {
+        if (neighborhoodGroup.childCount == 0) {
+            neighborhoodOffSubject.onNext(neighborhood)
+            return
+        }
+        var neighborhoodToSelectId = -1
+        for (i in 0 until neighborhoodGroup.childCount) {
+            val radioButton = neighborhoodGroup.getChildAt(i) as RadioButton
+            if (radioButton.text == neighborhood.name) {
+                neighborhoodToSelectId = radioButton.id
+                break
+            }
+        }
+        if (neighborhoodToSelectId == -1) {
+            neighborhoodOffSubject.onNext(neighborhood)
+            return
+        }
+
+        neighborhoodGroup.check(neighborhoodToSelectId)
+        neighborhoodOnSubject.onNext(neighborhood)
+    }
+
     override fun updateNeighborhoods(list: List<Neighborhood>) {
         super.updateNeighborhoods(list)
         neighborhoodGroup.removeAllViews()

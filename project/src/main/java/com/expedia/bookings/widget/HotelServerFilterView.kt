@@ -101,14 +101,23 @@ class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelF
     }
 
     private fun updatePresetFilterChoices(filterOptions: UserFilterChoices) {
-        if (!filterOptions.name.isNullOrEmpty()) hotelNameFilterView.updateName(filterOptions.name)
+        hotelNameFilterView.updateName(filterOptions.name)
+        hotelSortOptionsView.setSort(filterOptions.userSort)
         filterVipView.update(filterOptions.isVipOnlyAccess)
         starRatingView.update(filterOptions.hotelStarRating)
         guestRatingView.update(filterOptions.hotelGuestRating)
+        priceRangeView.setMinMaxPrice(filterOptions.minPrice, filterOptions.maxPrice)
         amenityViews.forEach { amenityView ->
-            if (filterOptions.amenities.contains(Amenity.getSearchKey(amenityView.amenity))) {
+            if (amenityView.isAmenityEnabled() && filterOptions.amenities.contains(Amenity.getSearchKey(amenityView.amenity))) {
                 amenityView.select()
             }
+        }
+        if (filterOptions.neighborhoods.isNotEmpty()) {
+            (neighborhoodView as ServerNeighborhoodFilterView).selectNeighborhood(filterOptions.neighborhoods.first())
+        }
+
+        (viewModel as? HotelFilterViewModel)?.let { vm ->
+            vm.setPreviousFilterChoices(vm.userFilterChoices.copy())
         }
     }
 }

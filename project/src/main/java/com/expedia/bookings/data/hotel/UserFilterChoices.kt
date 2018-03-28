@@ -61,7 +61,13 @@ data class UserFilterChoices(var userSort: DisplaySort = DisplaySort.getDefaultS
             if (searchOptions.filterStarRatings.isNotEmpty()) {
                 filterChoices.hotelStarRating = StarRatings.fromParamList(searchOptions.filterStarRatings)
             }
+
+            filterChoices.minPrice = searchOptions.filterPrice?.minPrice ?: 0
+            filterChoices.maxPrice = searchOptions.filterPrice?.maxPrice ?: 0
             filterChoices.amenities = searchOptions.amenities
+            searchOptions.filterByNeighborhood?.let { neighborhood ->
+                filterChoices.neighborhoods.add(neighborhood)
+            }
 
             return filterChoices
         }

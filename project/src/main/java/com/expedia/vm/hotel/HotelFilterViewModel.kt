@@ -65,6 +65,10 @@ class HotelFilterViewModel(context: Context) : BaseHotelFilterViewModel(context)
         return false
     }
 
+    fun setPreviousFilterChoices(filterChoices: UserFilterChoices) {
+        previousFilterChoices = filterChoices
+    }
+
     private fun sameFilterOptions(): Boolean {
         if (previousFilterChoices != null) {
             return userFilterChoices == previousFilterChoices

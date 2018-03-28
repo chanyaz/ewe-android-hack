@@ -171,7 +171,7 @@ class HotelFilterViewTest {
     private fun initViewModel() {
         hotelFilterView = android.view.LayoutInflater.from(activity).inflate(R.layout.hotel_filter_view_test, null) as HotelServerFilterView
         viewModel = HotelFilterViewModel(activity)
-        hotelFilterView.setViewModel(viewModel)
+        hotelFilterView.initViewModel(viewModel)
         hotelFilterView.shopWithPointsViewModel = shopWithPointsViewModel
     }
 
