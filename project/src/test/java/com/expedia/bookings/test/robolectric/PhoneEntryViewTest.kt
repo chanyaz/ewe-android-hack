@@ -3,6 +3,7 @@ package com.expedia.bookings.test.robolectric
 import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.autofill.AutofillValue
 import android.widget.EditText
 import com.expedia.account.BuildConfig
 import com.expedia.bookings.R
@@ -13,6 +14,7 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.expedia.bookings.utils.CountryCodeUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
 import com.expedia.bookings.widget.traveler.PhoneEntryView
@@ -30,7 +32,6 @@ import org.robolectric.shadows.ShadowAlertDialog
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import com.expedia.testutils.AndroidAssert.Companion.assertViewFocusabilityIsFalse
-import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class, ShadowAlertDialog::class),
@@ -239,9 +240,22 @@ class PhoneEntryViewTest {
     }
 
     @Test
-    fun testMaterialCountryCodeNotImportantForAutoFill() {
-        val phoneCountryCode = widget.findViewById<View>(R.id.material_edit_phone_number_country_code) as EditText
-        assertTrue(phoneCountryCode.importantForAutofill == View.IMPORTANT_FOR_AUTOFILL_NO)
+    fun testCountryCodeAutoFilledFromPhoneNumber() {
+        val phoneCountryCode = widget.phoneEditBox as AccessibleEditTextForSpinner
+        val number = "5103776273"
+        CountryCodeUtil.countryCodes.map { code ->
+            phoneCountryCode.autofill(AutofillValue.forText("$code$number"))
+            assertEquals("+$code", phoneCountryCode.text.toString())
+        }
+    }
+
+    @Test
+    fun testCountryCodeNotAutoFilledWhenPhoneNumberHasNoCountryCode() {
+        val phoneCountryCode = widget.phoneEditBox as AccessibleEditTextForSpinner
+        val number = "8323786273"
+        val defaultCountryCodeNumber = phoneCountryCode.text.toString()
+        phoneCountryCode.autofill(AutofillValue.forText(number))
+        assertEquals(defaultCountryCodeNumber, phoneCountryCode.text.toString())
     }
 
     private fun setupViewModelWithPhone(): TravelerPhoneViewModel {

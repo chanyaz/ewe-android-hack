@@ -27,6 +27,7 @@ import io.reactivex.subjects.BehaviorSubject
 import java.util.ArrayList
 import android.view.autofill.AutofillManager
 import android.view.autofill.AutofillValue
+import com.expedia.bookings.utils.CountryCodeUtil
 
 class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(context, attrs), View.OnFocusChangeListener {
     var valid = true
@@ -154,13 +155,26 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
         }
     }
 
-    /**
-     * This function validates the field after it's auto-filled. We are doing this because the error was sometimes
-     * popping up after auto-filling as if the field was empty.
-     */
     override fun autofill(value: AutofillValue?) {
-        super.autofill(value)
+        var autofillValue =
+        if (id == R.id.edit_phone_number) {
+            AutofillValue.forText(getPhoneNumberWithoutCountryCode(value))
+        } else {
+            value
+        }
+        super.autofill(autofillValue)
         viewModel.validate()
+    }
+
+    private fun getPhoneNumberWithoutCountryCode(value: AutofillValue?): String {
+        var phoneNumber = value?.textValue?.toString()
+        phoneNumber?.let { number ->
+            val countryCode = CountryCodeUtil.getCountryCode(number)
+            if (countryCode.isNotEmpty()) {
+                phoneNumber = number.replaceFirst(countryCode, "")
+            }
+        }
+        return phoneNumber ?: ""
     }
 
     private inner class TravelerTextWatcher : TextWatcher {

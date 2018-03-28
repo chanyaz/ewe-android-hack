@@ -2,7 +2,6 @@ package com.expedia.bookings.widget.traveler
 
 import android.app.AlertDialog
 import android.content.Context
-import android.os.Build
 import android.telephony.PhoneNumberUtils
 import android.util.AttributeSet
 import android.view.View
@@ -67,9 +66,6 @@ class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
     init {
         View.inflate(context, R.layout.material_phone_entry_view, this)
         phoneEditBox = findViewById<AccessibleEditTextForSpinner>(R.id.material_edit_phone_number_country_code)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            phoneEditBox?.importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
-        }
         orientation = HORIZONTAL
     }
 }
