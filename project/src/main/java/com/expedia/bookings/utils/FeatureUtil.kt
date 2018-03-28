@@ -131,3 +131,8 @@ fun shouldShowUrgencyMessaging(context: Context): Boolean {
 fun checkIfTripFoldersEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.TripFoldersFragment)
 }
+
+fun isHideMiniMapOnResultBucketed(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isBucketedForTest(context,
+            AbacusUtils.HotelHideMiniMapOnResult)
+}

@@ -20,6 +20,7 @@ import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.HotelClientFilterView
 import com.expedia.bookings.hotel.widget.adapter.HotelMapCarouselAdapter
+import com.expedia.bookings.utils.isHideMiniMapOnResultBucketed
 import com.expedia.bookings.widget.packages.BundleTotalPriceTopWidget
 import com.expedia.bookings.widget.packages.PackageHotelListAdapter
 import com.expedia.util.endlessObserver
@@ -32,7 +33,9 @@ import io.reactivex.Observer
 class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
 
     override fun getRecyclerYTranslation(): Float {
-        return resources.getDimension(R.dimen.package_bundle_widget_height)
+        if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context) && isHideMiniMapOnResultBucketed(context)) {
+            return resources.getDimension(R.dimen.package_bundle_widget_height)
+        } else return 0f
     }
 
     override val filterHeight by lazy { resources.getDimension(R.dimen.footer_button_height) }

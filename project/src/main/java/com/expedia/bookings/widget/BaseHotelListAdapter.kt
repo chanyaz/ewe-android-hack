@@ -10,10 +10,8 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.data.HotelAdapterItem
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.AdImpressionTracking
@@ -34,6 +32,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.hotel.widget.Earn2xCardViewHolder
 import com.expedia.bookings.hotel.widget.HotelUrgencyViewHolder
+import com.expedia.bookings.utils.isHideMiniMapOnResultBucketed
 
 abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>,
                                     val headerSubject: PublishSubject<Unit>,
@@ -220,11 +219,6 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
             }
             return holder
         }
-    }
-
-    private fun isHideMiniMapOnResultBucketed(context: Context): Boolean {
-        return AbacusFeatureConfigManager.isBucketedForTest(context,
-                AbacusUtils.HotelHideMiniMapOnResult)
     }
 
     override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
