@@ -92,6 +92,21 @@ public class MoneyTests {
 		Assert.assertEquals("-" + EURO + " 23", money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
 	}
 
+	@Test
+	public void testForNegationOfNegativePrefix() {
+		Money money = new Money("-0.45", "USD");
+		Assert.assertEquals("$0", money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
+
+		money = new Money("-0.49", "USD");
+		Assert.assertEquals("$0", money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
+
+		money = new Money("-0.5", "USD");
+		Assert.assertEquals("-$1", money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
+
+		money = new Money("-0.7", "USD");
+		Assert.assertEquals("-$1", money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
+	}
+
 	@After
 	public void resetLocale() {
 		setLocale("en", "US");

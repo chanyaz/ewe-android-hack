@@ -33,8 +33,7 @@ public class PackageOfferModel {
 
 		Money deltaPricePerPerson = multiItemOffer.getPrice().deltaPricePerPerson();
 		if (deltaPricePerPerson != null) {
-			price.differentialPriceFormatted = deltaPricePerPerson.getFormattedMoney(Money.F_NO_DECIMAL);
-			price.deltaPositive = BigDecimal.ZERO.compareTo(deltaPricePerPerson.amount) <= 0;
+			setDeltaPriceAsPerFormat(deltaPricePerPerson, Money.F_NO_DECIMAL);
 		}
 
 		PackageDeal packageDeal = multiItemOffer.getPackageDeal();
@@ -46,6 +45,15 @@ public class PackageOfferModel {
 			brandedDealData.savingsAmount = Double.toString(packageDeal.getSavingsAmount());
 			brandedDealData.savingPercentageOverPackagePrice = Double.toString(packageDeal.getSavingsPercentage());
 			brandedDealData.freeNights = packageDeal.getDeal().getMagnitude();
+		}
+	}
+
+	private void setDeltaPriceAsPerFormat(Money deltaPricePerPerson, int flag) {
+		price.differentialPriceFormatted = deltaPricePerPerson.getFormattedMoney(flag);
+		//For values -0.5<{val}<0, since differentialPriceFormatted comes out to be 0,
+		// we need to have deltaPositive as true, since -0 does not makes sense
+		if (flag == Money.F_NO_DECIMAL) {
+			price.deltaPositive = deltaPricePerPerson.amount.compareTo(BigDecimal.valueOf(-0.5)) >= 0;
 		}
 	}
 
