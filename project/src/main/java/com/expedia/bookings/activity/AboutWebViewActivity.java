@@ -22,6 +22,7 @@ public class AboutWebViewActivity extends WebViewActivity {
 		public IntentBuilder(Context context) {
 			super(context);
 			getIntent().setClass(context, AboutWebViewActivity.class);
+			this.setDomStorage(true);
 		}
 
 		public IntentBuilder setShowEmailButton(boolean showEmailButton) {
