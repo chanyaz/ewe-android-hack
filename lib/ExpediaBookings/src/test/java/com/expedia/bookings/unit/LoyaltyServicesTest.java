@@ -83,7 +83,7 @@ public class LoyaltyServicesTest {
 	}
 
 	private ApiError.Code getCalculatePointsError(TestObserver<CalculatePointsResponse> observer) {
-		return observer.values().get(0).getFirstError().errorCode;
+		return observer.values().get(0).getFirstError().getErrorCode();
 	}
 
 	private void setupCalculatePoints(String tripId, TestObserver<CalculatePointsResponse> observer) throws IOException {

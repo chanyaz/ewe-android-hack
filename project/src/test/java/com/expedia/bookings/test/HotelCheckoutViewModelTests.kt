@@ -55,7 +55,7 @@ class HotelCheckoutViewModelTests {
         sut.getCheckoutResponseObserver().onNext(mockHotelTestServiceRule.getUnknownErrorCheckoutResponse())
 
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.HOTEL_CHECKOUT_UNKNOWN, testSubscriber.values()[0].errorCode)
+        assertEquals(ApiError.Code.HOTEL_CHECKOUT_UNKNOWN, testSubscriber.values()[0].getErrorCode())
     }
 
     @Test
@@ -66,7 +66,7 @@ class HotelCheckoutViewModelTests {
         sut.getCheckoutResponseObserver().onNext(mockHotelTestServiceRule.getInvalidTravelerInputCheckoutResponse())
 
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.HOTEL_CHECKOUT_TRAVELLER_DETAILS, testSubscriber.values()[0].errorCode)
+        assertEquals(ApiError.Code.HOTEL_CHECKOUT_TRAVELLER_DETAILS, testSubscriber.values()[0].getErrorCode())
     }
 
     @Test
@@ -77,7 +77,7 @@ class HotelCheckoutViewModelTests {
         sut.getCheckoutResponseObserver().onNext(mockHotelTestServiceRule.getInvalidCardNumberInputCheckoutResponse())
 
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS, testSubscriber.values()[0].errorCode)
+        assertEquals(ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS, testSubscriber.values()[0].getErrorCode())
     }
 
     @Test
@@ -88,7 +88,7 @@ class HotelCheckoutViewModelTests {
         sut.getCheckoutResponseObserver().onNext(mockHotelTestServiceRule.getPaymentFailedCheckoutResponse())
 
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.PAYMENT_FAILED, testSubscriber.values()[0].errorCode)
+        assertEquals(ApiError.Code.PAYMENT_FAILED, testSubscriber.values()[0].getErrorCode())
     }
 
     @Test
@@ -99,7 +99,7 @@ class HotelCheckoutViewModelTests {
         sut.getCheckoutResponseObserver().onNext(mockHotelTestServiceRule.getSessionTimeoutCheckoutResponse())
 
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.SESSION_TIMEOUT, testSubscriber.values()[0].errorCode)
+        assertEquals(ApiError.Code.SESSION_TIMEOUT, testSubscriber.values()[0].getErrorCode())
     }
 
     @Test
@@ -110,7 +110,7 @@ class HotelCheckoutViewModelTests {
         sut.getCheckoutResponseObserver().onNext(mockHotelTestServiceRule.getTripAlreadyBookedCheckoutResponse())
 
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.TRIP_ALREADY_BOOKED, testSubscriber.values()[0].errorCode)
+        assertEquals(ApiError.Code.TRIP_ALREADY_BOOKED, testSubscriber.values()[0].getErrorCode())
     }
 
     @Test

@@ -138,7 +138,7 @@ public class LXServicesTest {
 		observer.assertNoValues();
 		observer.assertError(ApiError.class);
 		ApiError apiError = (ApiError)observer.errors().get(0);
-		assertEquals(ApiError.Code.LX_SEARCH_NO_RESULTS, apiError.errorCode);
+		assertEquals(ApiError.Code.LX_SEARCH_NO_RESULTS, apiError.getErrorCode());
 	}
 
 	// Details.
@@ -205,7 +205,7 @@ public class LXServicesTest {
 		observer.assertNoValues();
 		observer.assertError(ApiError.class);
 		ApiError apiError = (ApiError)observer.errors().get(0);
-		assertEquals(ApiError.Code.UNKNOWN_ERROR, apiError.errorCode);
+		assertEquals(ApiError.Code.UNKNOWN_ERROR, apiError.getErrorCode());
 	}
 
 	@Test
@@ -220,7 +220,7 @@ public class LXServicesTest {
 		observer.assertNoValues();
 		observer.assertError(ApiError.class);
 		ApiError apiError = (ApiError)observer.errors().get(0);
-		assertEquals(ApiError.Code.INVALID_INPUT, apiError.errorCode);
+		assertEquals(ApiError.Code.INVALID_INPUT, apiError.getErrorCode());
 	}
 
 	@Test
@@ -293,7 +293,7 @@ public class LXServicesTest {
 		observer.assertNoValues();
 		observer.assertError(ApiError.class);
 		ApiError apiError = (ApiError) observer.errors().get(0);
-		assertEquals(ApiError.Code.INVALID_INPUT, apiError.errorCode);
+		assertEquals(ApiError.Code.INVALID_INPUT, apiError.getErrorCode());
 		assertNotNull(apiError.errorInfo.field);
 		assertNotNull(apiError.errorInfo.summary);
 	}
@@ -311,7 +311,7 @@ public class LXServicesTest {
 		observer.assertError(ApiError.class);
 
 		ApiError apiError = (ApiError) observer.errors().get(0);
-		assertEquals(ApiError.Code.PAYMENT_FAILED, apiError.errorCode);
+		assertEquals(ApiError.Code.PAYMENT_FAILED, apiError.getErrorCode());
 		assertNotNull(apiError.errorInfo.field);
 		assertNotNull(apiError.errorInfo.summary);
 	}

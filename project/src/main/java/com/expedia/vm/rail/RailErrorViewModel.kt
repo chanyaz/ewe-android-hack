@@ -28,7 +28,7 @@ class RailErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
 
     override fun searchErrorHandler(): Observer<ApiError> {
         return endlessObserver { error ->
-            when (error.errorCode) {
+            when (error.getErrorCode()) {
                 ApiError.Code.RAIL_SEARCH_NO_RESULTS -> {
                     imageObservable.onNext(R.drawable.error_search)
                     errorMessageObservable.onNext(context.getString(R.string.error_no_result_message))
@@ -71,7 +71,7 @@ class RailErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
                 defaultErrorObservable.onNext(Unit)
             }
 
-            when (error.errorCode) {
+            when (error.getErrorCode()) {
                 ApiError.Code.INVALID_INPUT, ApiError.Code.RAIL_UNKNOWN_CKO_ERROR -> {
                     errorMessageObservable.onNext(context.resources.getString(R.string.rail_cko_retry_error_message))
                     subscribeActionToButtonPress(showCheckoutForm)

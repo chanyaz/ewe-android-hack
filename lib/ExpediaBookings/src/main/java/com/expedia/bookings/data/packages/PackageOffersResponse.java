@@ -29,7 +29,7 @@ public class PackageOffersResponse extends BaseApiResponse implements BundleHote
 	@NotNull
 	@Override
 	public ApiError.Code getRoomResponseFirstErrorCode() {
-		return getFirstError().errorCode;
+		return getFirstError().getErrorCode();
 	}
 
 	public void setCheckInDate(String checkInDate) {

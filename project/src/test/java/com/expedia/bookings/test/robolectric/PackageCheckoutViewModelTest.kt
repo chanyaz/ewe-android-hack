@@ -135,7 +135,7 @@ class PackageCheckoutViewModelTest {
 
         testSubscriber.assertValueCount(1)
         val packageCheckoutResponse = testSubscriber.values()[0] as ApiError
-        assertEquals(ApiError.Code.PACKAGE_CHECKOUT_UNKNOWN, packageCheckoutResponse.errorCode)
+        assertEquals(ApiError.Code.PACKAGE_CHECKOUT_UNKNOWN, packageCheckoutResponse.getErrorCode())
     }
 
     @Test
@@ -147,7 +147,7 @@ class PackageCheckoutViewModelTest {
         testViewModel.makeCheckoutResponseObserver().onNext(getCheckoutErrorResponse(ApiError.Code.INVALID_CARD_NUMBER))
 
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.INVALID_CARD_NUMBER, testSubscriber.values()[0].errorCode)
+        assertEquals(ApiError.Code.INVALID_CARD_NUMBER, testSubscriber.values()[0].getErrorCode())
     }
 
     @Test
@@ -160,7 +160,7 @@ class PackageCheckoutViewModelTest {
         testViewModel.makeCheckoutResponseObserver().onNext(getCheckoutErrorResponse(ApiError.Code.TRIP_ALREADY_BOOKED))
 
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.TRIP_ALREADY_BOOKED, testSubscriber.values()[0].first.errors[0].errorCode)
+        assertEquals(ApiError.Code.TRIP_ALREADY_BOOKED, testSubscriber.values()[0].first.errors[0].getErrorCode())
     }
 
     @Test
@@ -292,8 +292,7 @@ class PackageCheckoutViewModelTest {
 
     private fun getCheckoutErrorResponse(errorCode: ApiError.Code): PackageCheckoutResponse {
         var checkoutErrorResponse: PackageCheckoutResponse = PackageCheckoutResponse()
-        var error = ApiError()
-        error.errorCode = errorCode
+        var error = ApiError(errorCode)
         var list = listOf<ApiError>(error)
         checkoutErrorResponse.errors = list
         return checkoutErrorResponse

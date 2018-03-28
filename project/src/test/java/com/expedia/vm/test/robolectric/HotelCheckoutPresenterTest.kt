@@ -1128,8 +1128,7 @@ class HotelCheckoutPresenterTest {
     }
 
     private fun onCouponError() {
-        val error = ApiError()
-        error.errorCode = ApiError.Code.APPLY_COUPON_ERROR
+        val error = ApiError(ApiError.Code.APPLY_COUPON_ERROR)
         error.errorInfo = ApiError.ErrorInfo()
         error.errorInfo.couponErrorType = "Expired"
 

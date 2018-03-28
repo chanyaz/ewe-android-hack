@@ -31,7 +31,7 @@ class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>
     private val pwpUnknownError = context.getString(R.string.pwp_unknown_error)
 
     private fun amountToPointsConversionAPIErrorString(apiError: ApiError): String {
-        when (apiError.errorCode) {
+        when (apiError.getErrorCode()) {
             ApiError.Code.POINTS_CONVERSION_UNAUTHENTICATED_ACCESS -> return pointsConversionUnauthenticatedAccess
             ApiError.Code.TRIP_SERVICE_ERROR -> return tripServiceError
             else -> {
@@ -41,7 +41,7 @@ class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>
     }
 
     private fun amountToPointsConversionAPIErrorTracking(apiError: ApiError): PayWithPointsErrorTrackingEnum {
-        when (apiError.errorCode) {
+        when (apiError.getErrorCode()) {
             ApiError.Code.POINTS_CONVERSION_UNAUTHENTICATED_ACCESS -> return PayWithPointsErrorTrackingEnum.UNAUTHENTICATED_ACCESS
             ApiError.Code.TRIP_SERVICE_ERROR -> return PayWithPointsErrorTrackingEnum.TRIP_SERVICE_ERROR
             else -> {

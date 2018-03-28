@@ -381,7 +381,7 @@ open class HotelTracking {
         fun createCheckoutError(error: ApiError): String {
             val errorType = "CKO:"
             val eSource = if (!error.errorInfo?.source.isNullOrEmpty()) "${error.errorInfo?.source}:" else ":"
-            val eSourceErrorId = error.errorInfo?.sourceErrorId ?: error.errorCode
+            val eSourceErrorId = error.errorInfo?.sourceErrorId ?: error.getErrorCode()
             return "$errorType$eSource$eSourceErrorId"
         }
 

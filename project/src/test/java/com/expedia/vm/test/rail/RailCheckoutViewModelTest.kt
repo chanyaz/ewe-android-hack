@@ -142,7 +142,7 @@ class RailCheckoutViewModelTest {
         testViewModel.checkoutParams.onNext(buildMockCheckoutParams("invalidinput"))
 
         assertNotNull(errorTestSub.values()[0])
-        assertEquals(ApiError.Code.INVALID_INPUT, errorTestSub.values()[0].errorCode)
+        assertEquals(ApiError.Code.INVALID_INPUT, errorTestSub.values()[0].getErrorCode())
     }
 
     @Test
@@ -153,7 +153,7 @@ class RailCheckoutViewModelTest {
         testViewModel.checkoutParams.onNext(buildMockCheckoutParams("unknownpayment"))
 
         assertNotNull(errorTestSub.values()[0])
-        assertEquals(ApiError.Code.RAIL_UNKNOWN_CKO_ERROR, errorTestSub.values()[0].errorCode)
+        assertEquals(ApiError.Code.RAIL_UNKNOWN_CKO_ERROR, errorTestSub.values()[0].getErrorCode())
     }
 
     @Test
@@ -164,7 +164,7 @@ class RailCheckoutViewModelTest {
         testViewModel.checkoutParams.onNext(buildMockCheckoutParams("unknown"))
 
         assertNotNull(errorTestSub.values()[0])
-        assertEquals(ApiError.Code.UNKNOWN_ERROR, errorTestSub.values()[0].errorCode)
+        assertEquals(ApiError.Code.UNKNOWN_ERROR, errorTestSub.values()[0].getErrorCode())
     }
 
     @Test

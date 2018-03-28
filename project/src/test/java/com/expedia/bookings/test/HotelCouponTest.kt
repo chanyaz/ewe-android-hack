@@ -399,6 +399,6 @@ class HotelCouponTest {
         testSubscriberCouponRemoveErrorDialog.assertValueCount(1)
         testSubscriberCouponObservable.assertValueCount(0)
 
-        assertEquals(expectedErrorCode, testSubscriberCouponRemoveErrorDialog.values()[0].errorCode)
+        assertEquals(expectedErrorCode, testSubscriberCouponRemoveErrorDialog.values()[0].getErrorCode())
     }
 }

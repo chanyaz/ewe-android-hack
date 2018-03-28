@@ -685,7 +685,7 @@ class HotelDetailViewModelTest {
 
         testSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.UNKNOWN_ERROR, testSubscriber.values()[0].errorCode)
+        assertEquals(ApiError.Code.UNKNOWN_ERROR, testSubscriber.values()[0].getErrorCode())
     }
 
     @Test

@@ -123,7 +123,7 @@ class LxCheckoutErrorTests {
     fun testUnknownError() {
         performLxCheckoutError("UnknownError")
 
-        assertEquals(ApiError.Code.UNKNOWN_ERROR, apiError.errorCode)
+        assertEquals(ApiError.Code.UNKNOWN_ERROR, apiError.getErrorCode())
         assertEquals(View.VISIBLE, errorWidget.visibility)
         assertEquals(View.VISIBLE, errorImage.visibility)
         assertEquals(activity.getResources().getString(R.string.lx_error_text), errorToolbar.title)
@@ -156,7 +156,7 @@ class LxCheckoutErrorTests {
     fun testTripAlreadyBooked() {
         performLxCheckoutError("AlreadyBooked")
 
-        assertEquals(ApiError.Code.TRIP_ALREADY_BOOKED, apiError.errorCode)
+        assertEquals(ApiError.Code.TRIP_ALREADY_BOOKED, apiError.getErrorCode())
         assertEquals(View.VISIBLE, errorWidget.visibility)
         assertEquals(View.VISIBLE, errorImage.visibility)
         assertEquals(activity.getResources().getString(R.string.lx_duplicate_trip_text), errorToolbar.title)

@@ -82,7 +82,7 @@ class FlightCheckoutErrorTest {
 
         testSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.TRIP_ALREADY_BOOKED, testSubscriber.values()[0].errorCode)
+        assertEquals(ApiError.Code.TRIP_ALREADY_BOOKED, testSubscriber.values()[0].getErrorCode())
     }
 
     @Test
@@ -94,7 +94,7 @@ class FlightCheckoutErrorTest {
 
         testSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.PAYMENT_FAILED, testSubscriber.values()[0].errorCode)
+        assertEquals(ApiError.Code.PAYMENT_FAILED, testSubscriber.values()[0].getErrorCode())
     }
 
     @Test
@@ -106,7 +106,7 @@ class FlightCheckoutErrorTest {
 
         testSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.SESSION_TIMEOUT, testSubscriber.values()[0].errorCode)
+        assertEquals(ApiError.Code.SESSION_TIMEOUT, testSubscriber.values()[0].getErrorCode())
     }
 
     @Test
@@ -118,7 +118,7 @@ class FlightCheckoutErrorTest {
 
         testSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.UNKNOWN_ERROR, testSubscriber.values()[0].errorCode)
+        assertEquals(ApiError.Code.UNKNOWN_ERROR, testSubscriber.values()[0].getErrorCode())
     }
 
     @Test
@@ -130,7 +130,7 @@ class FlightCheckoutErrorTest {
 
         testSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.INVALID_INPUT, testSubscriber.values()[0].errorCode)
+        assertEquals(ApiError.Code.INVALID_INPUT, testSubscriber.values()[0].getErrorCode())
     }
 
     private fun createCheckoutParams(transactionId: String, tripId: String, billingInfo: String) {

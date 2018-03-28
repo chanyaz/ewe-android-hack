@@ -32,7 +32,7 @@ open class HotelInfoManager(private val hotelServices: HotelServices) {
 
         override fun onNext(hotelOffersResponse: HotelOffersResponse) {
             if (hotelOffersResponse.hasErrors()
-                    && hotelOffersResponse.firstError.errorCode == ApiError.Code.HOTEL_ROOM_UNAVAILABLE) {
+                    && hotelOffersResponse.firstError.getErrorCode() == ApiError.Code.HOTEL_ROOM_UNAVAILABLE) {
                 soldOutSubject.onNext(Unit)
             } else if (!hotelOffersResponse.hasErrors()) {
                 offerSuccessSubject.onNext(hotelOffersResponse)

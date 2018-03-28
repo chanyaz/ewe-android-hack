@@ -454,7 +454,7 @@ class FlightCheckoutViewModelTest {
 
         testSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.UNKNOWN_ERROR, testSubscriber.values()[0].errorCode)
+        assertEquals(ApiError.Code.UNKNOWN_ERROR, testSubscriber.values()[0].getErrorCode())
     }
 
     @Test

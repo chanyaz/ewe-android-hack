@@ -343,8 +343,7 @@ class HotelErrorViewModelTest {
         val errorButtonObservableTestSubscriber = TestObserver.create<String>()
         subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
 
-        val error = ApiError()
-        error.errorCode = ApiError.Code.REGION_BLOCKED
+        val error = ApiError(ApiError.Code.REGION_BLOCKED)
         subjectUnderTest.infositeApiErrorObserver.onNext(error)
 
         errorImageObservableTestSubscriber.assertValues(imageId)
@@ -455,7 +454,7 @@ class HotelErrorViewModelTest {
 
         val checkoutError = HotelTracking.createCheckoutError(apiError)
 
-        assertEquals(validateError(apiError.errorCode!!, apiError.errorInfo.source, apiError.errorInfo.sourceErrorId), checkoutError)
+        assertEquals(validateError(apiError.getErrorCode()!!, apiError.errorInfo.source, apiError.errorInfo.sourceErrorId), checkoutError)
 
         subjectUnderTest.apiErrorObserver.onNext(apiError)
         subjectUnderTest.errorButtonClickedObservable.onNext(Unit)

@@ -266,7 +266,7 @@ class FlightOffersViewModelTest {
         observer.onNext(flightSearchResponse)
 
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.FLIGHT_SEARCH_NO_RESULTS, testSubscriber.values()[0].errorCode)
+        assertEquals(ApiError.Code.FLIGHT_SEARCH_NO_RESULTS, testSubscriber.values()[0].getErrorCode())
     }
 
     @Test

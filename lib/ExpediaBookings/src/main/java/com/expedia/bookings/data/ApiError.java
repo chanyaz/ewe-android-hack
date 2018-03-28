@@ -125,9 +125,7 @@ public class ApiError extends RuntimeException {
 		}
 	}
 
-	@Nullable
-	public Code errorCode;
-
+	private String errorCode = "";
 	public DetailCode errorDetailCode;
 	public int diagnosticId;
 	public ErrorInfo errorInfo;
@@ -136,11 +134,21 @@ public class ApiError extends RuntimeException {
 
 	public ApiError(Code code) {
 		super(code.name());
-		errorCode = code;
+		errorCode = code.name();
 	}
 
 	public ApiError() {
 		// ignore
+	}
+
+	@Nullable
+	public Code getErrorCode() {
+		try {
+			return Code.valueOf(errorCode);
+		}
+		catch (IllegalArgumentException e) {
+			return null;
+		}
 	}
 
 	@Override

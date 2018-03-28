@@ -299,7 +299,7 @@ class PackageErrorViewModelTest {
 
         assertEquals("CKO:Atlantis:K2401", checkoutError)
 
-        subjectUnderTest.hotelOffersApiErrorObserver.onNext(apiError.errorCode!!)
+        subjectUnderTest.hotelOffersApiErrorObserver.onNext(apiError.getErrorCode()!!)
         subjectUnderTest.defaultErrorObservable.onNext(Unit)
 
         hotelOfferErrorObservableTestSubscriber.assertValues(Unit)

@@ -80,7 +80,7 @@ class HotelCreateTripViewModelTests {
         sut.getCreateTripResponseObserver().onNext(mockHotelServicesTestRule.getUnknownErrorResponse())
 
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.UNKNOWN_ERROR, testSubscriber.values()[0].errorCode)
+        assertEquals(ApiError.Code.UNKNOWN_ERROR, testSubscriber.values()[0].getErrorCode())
     }
 
     @Test
@@ -92,7 +92,7 @@ class HotelCreateTripViewModelTests {
         sut.getCreateTripResponseObserver().onNext(happyCreateTripResponse)
 
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.HOTEL_PRODUCT_KEY_EXPIRY, testSubscriber.values()[0].errorCode)
+        assertEquals(ApiError.Code.HOTEL_PRODUCT_KEY_EXPIRY, testSubscriber.values()[0].getErrorCode())
     }
 
     @Test

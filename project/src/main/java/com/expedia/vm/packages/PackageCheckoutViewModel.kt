@@ -82,7 +82,7 @@ class PackageCheckoutViewModel(context: Context, var packageServices: PackageSer
             override fun onNext(response: PackageCheckoutResponse) {
                 showCheckoutDialogObservable.onNext(false)
                 if (response.hasErrors()) {
-                    when (response.firstError.errorCode) {
+                    when (response.firstError.getErrorCode()) {
                         ApiError.Code.INVALID_INPUT -> {
                             val field = response.firstError.errorInfo.field
                             val apiError: ApiError

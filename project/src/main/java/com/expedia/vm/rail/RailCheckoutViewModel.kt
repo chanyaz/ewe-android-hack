@@ -272,7 +272,7 @@ class RailCheckoutViewModel(val context: Context) {
 
     private fun handleCheckoutReturned(response: RailCheckoutResponse) {
         if (response.hasErrors()) {
-            when (response.firstError.errorCode) {
+            when (response.firstError.getErrorCode()) {
                 ApiError.Code.INVALID_INPUT -> {
                     checkoutErrorObservable.onNext(ApiError(ApiError.Code.INVALID_INPUT))
                     RailTracking().trackCheckoutInvalidInputError()
@@ -289,7 +289,7 @@ class RailCheckoutViewModel(val context: Context) {
 
     private fun handleNewCreateTripReturned(response: RailCreateTripResponse) {
         if (response.hasErrors()) {
-            when (response.firstError.errorCode) {
+            when (response.firstError.getErrorCode()) {
                 ApiError.Code.PRICE_CHANGE -> {
                     val oldTotalPrice = tripResponseObservable.value.totalPrice
                     priceChangeObservable.onNext(Pair(response.totalPrice, oldTotalPrice))

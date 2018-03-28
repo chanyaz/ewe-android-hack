@@ -522,7 +522,7 @@ public class LXResultsPresenter extends Presenter {
 	@Subscribe
 	public void onLXSearchError(Events.LXShowSearchError event) {
 		if (event.searchType.equals(SearchType.DEFAULT_SEARCH)
-			&& event.error.errorCode != ApiError.Code.LX_SEARCH_NO_RESULTS) {
+			&& event.error.getErrorCode() != ApiError.Code.LX_SEARCH_NO_RESULTS) {
 			toolBarDetailText.setText(getResources().getString(R.string.lx_error_current_location_toolbar_text));
 			toolBarSubtitleText.setVisibility(View.GONE);
 		}

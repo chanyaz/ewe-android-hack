@@ -73,12 +73,12 @@ public class LXErrorWidget extends FrameLayout {
 	}
 
 	public void bind(final ApiError error, final SearchType searchType) {
-		if (error == null || error.errorCode == null) {
+		if (error == null || error.getErrorCode() == null) {
 			showDefaultError();
 			return;
 		}
 
-		switch (error.errorCode) {
+		switch (error.getErrorCode()) {
 
 		case INVALID_INPUT:
 			String message = Phrase.from(getContext(), R.string.error_server_TEMPLATE).put("brand", BuildConfig.brand)

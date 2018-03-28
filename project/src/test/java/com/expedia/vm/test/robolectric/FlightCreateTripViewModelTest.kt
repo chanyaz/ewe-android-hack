@@ -96,7 +96,7 @@ class FlightCreateTripViewModelTest {
         errorSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
         tripResponseSubscriber.assertValueCount(0)
         errorSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.INVALID_INPUT, errorSubscriber.values()[0].errorCode)
+        assertEquals(ApiError.Code.INVALID_INPUT, errorSubscriber.values()[0].getErrorCode())
         showCreateTripDialogSubscriber.assertValues(true, false)
     }
 

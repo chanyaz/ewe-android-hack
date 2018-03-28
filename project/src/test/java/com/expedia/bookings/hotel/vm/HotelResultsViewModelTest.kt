@@ -139,7 +139,7 @@ class HotelResultsViewModelTest {
 
         testSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.HOTEL_SEARCH_NO_RESULTS, testSubscriber.values()[0].errorCode)
+        assertEquals(ApiError.Code.HOTEL_SEARCH_NO_RESULTS, testSubscriber.values()[0].getErrorCode())
     }
 
     @Test

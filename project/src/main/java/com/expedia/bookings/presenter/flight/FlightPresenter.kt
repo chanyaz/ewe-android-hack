@@ -355,7 +355,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
         checkoutViewModel.checkoutErrorObservable.subscribe(errorPresenter.viewmodel.checkoutApiErrorObserver)
         checkoutViewModel.checkoutErrorObservable
-                .filter { it.errorCode != ApiError.Code.TRIP_ALREADY_BOOKED }
+                .filter { it.getErrorCode() != ApiError.Code.TRIP_ALREADY_BOOKED }
                 .subscribe { show(errorPresenter) }
         presenter
     }

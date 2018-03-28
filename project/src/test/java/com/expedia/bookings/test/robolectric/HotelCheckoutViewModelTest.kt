@@ -48,6 +48,6 @@ class HotelCheckoutViewModelTest {
         subjectUnderTest.checkoutParams.onNext(checkoutParams)
         errorObservableTestSubscriber.awaitValueCount(1, 10, TimeUnit.SECONDS)
 
-        errorObservableTestSubscriber.assertValue(ApiError(ApiError.Code.HOTEL_ROOM_UNAVAILABLE))
+        errorObservableTestSubscriber.assertValue { ApiError.Code.HOTEL_ROOM_UNAVAILABLE == it.errorCode }
     }
 }

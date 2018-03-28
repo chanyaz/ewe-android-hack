@@ -30,7 +30,7 @@ class PackageErrorViewModel(context: Context) : AbstractErrorViewModel(context) 
         clickBack.subscribe(errorButtonClickedObservable)
 
         errorButtonClickedObservable.subscribe {
-            when (error.errorCode) {
+            when (error.getErrorCode()) {
                 ApiError.Code.PACKAGE_CHECKOUT_CARD_DETAILS,
                 ApiError.Code.INVALID_CARD_NUMBER,
                 ApiError.Code.CID_DID_NOT_MATCHED,
@@ -155,7 +155,7 @@ class PackageErrorViewModel(context: Context) : AbstractErrorViewModel(context) 
         return endlessObserver {
             error = it
             PackagesTracking().trackCheckoutError(error)
-            when (error.errorCode) {
+            when (error.getErrorCode()) {
                 ApiError.Code.PACKAGE_CHECKOUT_CARD_DETAILS -> {
                     imageObservable.onNext(R.drawable.error_payment)
                     if (error.errorInfo?.field == "nameOnCard") {

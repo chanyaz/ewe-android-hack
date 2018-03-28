@@ -156,7 +156,7 @@ open class HotelCheckoutViewModel(val context: Context, val hotelServices: Hotel
         return object : DisposableObserver<HotelCheckoutResponse>() {
             override fun onNext(checkout: HotelCheckoutResponse) {
                 if (checkout.hasErrors()) {
-                    when (checkout.firstError.errorCode) {
+                    when (checkout.firstError.getErrorCode()) {
                         ApiError.Code.PRICE_CHANGE -> {
                             val hotelCreateTripResponse = Db.getTripBucket().hotelV2.updateAfterCheckoutPriceChange(checkout)
                             priceChangeResponseObservable.onNext(hotelCreateTripResponse)

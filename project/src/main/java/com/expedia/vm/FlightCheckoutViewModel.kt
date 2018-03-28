@@ -130,7 +130,7 @@ open class FlightCheckoutViewModel(context: Context) : AbstractCardFeeEnabledChe
             override fun onNext(response: FlightCheckoutResponse) {
                 showCheckoutDialogObservable.onNext(false)
                 if (response.hasErrors()) {
-                    when (response.firstError.errorCode) {
+                    when (response.firstError.getErrorCode()) {
                         ApiError.Code.PRICE_CHANGE -> {
                             checkoutPriceChangeObservable.onNext(response)
                         }

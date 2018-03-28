@@ -20,7 +20,7 @@ public class BaseApiResponse {
 	}
 
 	public boolean hasPriceChange() {
-		return hasErrors() && getFirstError().errorCode == ApiError.Code.PRICE_CHANGE;
+		return hasErrors() && getFirstError().getErrorCode() == ApiError.Code.PRICE_CHANGE;
 	}
 
 	public String errorsToString() {

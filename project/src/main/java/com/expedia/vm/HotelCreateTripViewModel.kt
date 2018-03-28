@@ -42,7 +42,7 @@ open class HotelCreateTripViewModel(val hotelServices: HotelServices, val paymen
                 if (response.hasErrors()) {
                     if (response.firstError.errorInfo.field == "productKey") {
                         errorObservable.onNext(ApiError(ApiError.Code.HOTEL_PRODUCT_KEY_EXPIRY))
-                    } else if (response.firstError.errorCode == ApiError.Code.HOTEL_ROOM_UNAVAILABLE) {
+                    } else if (response.firstError.getErrorCode() == ApiError.Code.HOTEL_ROOM_UNAVAILABLE) {
                         errorObservable.onNext(ApiError(ApiError.Code.HOTEL_ROOM_UNAVAILABLE))
                     } else {
                         errorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))

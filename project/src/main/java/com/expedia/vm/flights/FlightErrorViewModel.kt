@@ -46,7 +46,7 @@ class FlightErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
             if (isFromSearch) {
                 defaultErrorObservable.onNext(Unit)
             } else {
-                when (error.errorCode) {
+                when (error.getErrorCode()) {
                     ApiError.Code.PAYMENT_FAILED, ApiError.Code.INVALID_INPUT -> errorButtonClickedObservable.onNext(Unit)
                     else -> defaultErrorObservable.onNext(Unit)
                 }
@@ -67,7 +67,7 @@ class FlightErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
         return endlessObserver {
             isSearchError.onNext(true)
             error = it
-            when (it.errorCode) {
+            when (it.getErrorCode()) {
                 ApiError.Code.FLIGHT_SEARCH_NO_RESULTS -> {
                     imageObservable.onNext(R.drawable.error_search)
                     errorMessageObservable.onNext(context.getString(R.string.error_no_result_message))
@@ -105,7 +105,7 @@ class FlightErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
         return endlessObserver {
             error = it
             isSearchError.onNext(false)
-            when (it.errorCode) {
+            when (it.getErrorCode()) {
                 ApiError.Code.UNKNOWN_ERROR -> {
                     retryCreateTripErrorHandler()
                     FlightsV2Tracking.trackFlightShoppingError(ApiCallFailing.FlightCreateTrip(it.errorCode.toString()))
@@ -148,7 +148,7 @@ class FlightErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
             error = it
             isSearchError.onNext(false)
             FlightsV2Tracking.trackFlightCheckoutError(error)
-            when (it.errorCode) {
+            when (it.getErrorCode()) {
                 ApiError.Code.UNKNOWN_ERROR -> {
                     handleCheckoutUnknownError()
                 }

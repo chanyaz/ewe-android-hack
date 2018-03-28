@@ -460,7 +460,7 @@ public class HotelServicesTest {
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 		observer.assertComplete();
 		ApiError apiError = observer.values().get(0).getFirstError();
-		assertEquals(ApiError.Code.APPLY_COUPON_ERROR, apiError.errorCode);
+		assertEquals(ApiError.Code.APPLY_COUPON_ERROR, apiError.getErrorCode());
 	}
 
 	@Test
