@@ -6,6 +6,8 @@ import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripBucketItemFlightV2
 import com.expedia.bookings.data.abacus.ABTest
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightTripDetails
@@ -102,6 +104,32 @@ class OmnitureTrackingFlightTest {
 
         val appState = "App.Flight.Checkout.Confirmation"
         assertWebFlightConfirmationStateTracked(appState, expectedEvars, expectedProps, expectedProducts, expectedEvents)
+    }
+
+    @Test
+    fun testTrackWebFlightConfirmationTracksHiddenConfirmationXTestBucketed() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppConfirmationToolbarXHidden)
+
+        val pageUsableData = PageUsableData()
+        pageUsableData.markPageLoadStarted(10000)
+        pageUsableData.markAllViewsLoaded(10000)
+
+        OmnitureTracking.trackWebFlightCheckoutConfirmation(getFlightItinDetailsResponse(), pageUsableData)
+
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withAbacusTestBucketed(AbacusUtils.EBAndroidAppConfirmationToolbarXHidden.key), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackWebFlightConfirmationTracksHiddenConfirmationXTestControl() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppConfirmationToolbarXHidden, AbacusVariant.CONTROL.value)
+
+        val pageUsableData = PageUsableData()
+        pageUsableData.markPageLoadStarted(10000)
+        pageUsableData.markAllViewsLoaded(10000)
+
+        OmnitureTracking.trackWebFlightCheckoutConfirmation(getFlightItinDetailsResponse(), pageUsableData)
+
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withAbacusTestControl(AbacusUtils.EBAndroidAppConfirmationToolbarXHidden.key), mockAnalyticsProvider)
     }
 
     @Test

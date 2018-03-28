@@ -5341,6 +5341,7 @@ public class OmnitureTracking {
 		addPageLoadTimeTrackingEvents(s, pageUsableData);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsKrazyglue);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppConfirmationToolbarXHidden);
 
 		s.track();
 	}
@@ -5400,7 +5401,7 @@ public class OmnitureTracking {
 		addPageLoadTimeTrackingEvents(s, pageUsableData);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsKrazyglue);
-
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppConfirmationToolbarXHidden);
 		s.track();
 	}
 

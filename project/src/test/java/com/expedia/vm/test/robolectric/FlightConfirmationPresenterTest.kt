@@ -85,6 +85,15 @@ class FlightConfirmationPresenterTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testFlightConfirmationXHiddenOnABTestBucketed() {
+        AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppConfirmationToolbarXHidden, 1)
+        setupPresenter()
+        givenCheckoutResponse()
+        assertEquals(null, presenter.toolbar.navigationIcon)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testFlightConfirmationVisibility() {
         setupPresenter()
         givenCheckoutResponse()

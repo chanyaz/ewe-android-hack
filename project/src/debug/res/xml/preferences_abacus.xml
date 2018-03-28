@@ -402,6 +402,14 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
+            android:key="25171"
+            android:title="Hide Flights Confirmation X - 25171" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:summary="%s"
             android:key="24632"
             android:title="Frequent flier tooltip - 24632" />
 

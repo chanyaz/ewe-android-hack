@@ -62,13 +62,17 @@ class FlightConfirmationToolbar(context: Context, attrs: AttributeSet?) : Toolba
     }
 
     private fun setupCloseIcon() {
-        val navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
-        navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
-        navigationIcon = navIcon
-        setNavigationContentDescription(R.string.toolbar_nav_icon_close_cont_desc)
-        navigationIcon?.setVisible(true, true)
-        setNavigationOnClickListener {
-            NavUtils.goToLaunchScreen(context)
+        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppConfirmationToolbarXHidden)) {
+            navigationIcon = null
+        } else {
+            val navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
+            navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
+            navigationIcon = navIcon
+            setNavigationContentDescription(R.string.toolbar_nav_icon_close_cont_desc)
+            navigationIcon?.setVisible(true, true)
+            setNavigationOnClickListener {
+                NavUtils.goToLaunchScreen(context)
+            }
         }
     }
 
