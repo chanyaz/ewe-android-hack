@@ -24,6 +24,7 @@ import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.extensions.setInverseVisibility
 import com.expedia.bookings.extensions.setVisibility
+import com.expedia.bookings.features.Features
 import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.LayoutUtils
 import com.expedia.bookings.utils.bindView
@@ -148,15 +149,19 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
         }
     }
 
+    private fun isGenericAttachEnabled(): Boolean {
+        return Features.all.genericAttach.enabled()
+    }
+
     private fun updateAirAttach() {
-        airAttachContainer.setVisibility(viewModel.showAirAttachWithDiscountLabel)
-        airAttachSWPImage.setVisibility(viewModel.showAirAttachIconWithoutDiscountLabel)
+        airAttachContainer.setVisibility(!isGenericAttachEnabled() && viewModel.showAirAttachWithDiscountLabel)
+        airAttachSWPImage.setVisibility(!isGenericAttachEnabled() && viewModel.showAirAttachIconWithoutDiscountLabel)
         airAttachDiscount.text = viewModel.hotelDiscountPercentage
     }
 
     private fun updateDiscountPercentage() {
         discountPercentage.text = viewModel.hotelDiscountPercentage
-        if (viewModel.hasMemberDeal()) {
+        if (viewModel.hasMemberDeal() || (isGenericAttachEnabled() && viewModel.hasAttach)) {
             discountPercentage.setBackgroundResource(R.drawable.member_only_discount_percentage_background)
             discountPercentage.setTextColor(ContextCompat.getColor(itemView.context, R.color.member_pricing_text_color))
         } else {

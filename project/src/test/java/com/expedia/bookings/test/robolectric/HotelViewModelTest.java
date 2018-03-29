@@ -164,7 +164,7 @@ public class HotelViewModelTest {
 		BundleSearchResponse response = observer.values().get(0);
 		Hotel firstHotel = response.getHotels().get(0);
 
-		HotelViewModel vm = new HotelViewModel(getContext());
+		HotelViewModel vm = new HotelViewModel(getContext(), true);
 		vm.bindHotelData(firstHotel);
 		assertEquals("$538", vm.getHotelStrikeThroughPriceFormatted().toString());
 	}
@@ -186,7 +186,7 @@ public class HotelViewModelTest {
 		BundleSearchResponse response = observer.values().get(0);
 		Hotel firstHotel = response.getHotels().get(1);
 
-		HotelViewModel vm = new HotelViewModel(getContext());
+		HotelViewModel vm = new HotelViewModel(getContext(), false);
 		vm.bindHotelData(firstHotel);
 		assertNull(vm.getHotelStrikeThroughPriceFormatted());
 	}
@@ -396,6 +396,130 @@ public class HotelViewModelTest {
 	}
 
 	@Test
+	public void discountPercentageIsShownForGenericAttachEnabledWithAirAttached() {
+		hotel.lowRateInfo.discountPercent = 12;
+		hotel.lowRateInfo.airAttached = true;
+		setupSystemUnderTest();
+
+		assertTrue(vm.getShowDiscount());
+		assertFalse(vm.getLoyaltyAvailable());
+	}
+
+	@Test
+	public void discountPercentageIsNotShownForGenericAttachDisabledWithAirAttached() {
+		hotel.lowRateInfo.discountPercent = 12;
+		hotel.lowRateInfo.airAttached = true;
+		setupSystemUnderTestGenericAttachNotEnabled();
+
+		assertFalse(vm.getShowDiscount());
+		assertFalse(vm.getLoyaltyAvailable());
+	}
+
+	@Test
+	public void discountPercentageIsNotShownOnGenericAttachEnabledWithoutAirAttached() {
+		hotel.lowRateInfo.discountPercent = 12;
+		hotel.lowRateInfo.airAttached = false;
+		setupSystemUnderTest();
+
+		assertTrue(vm.getShowDiscount());
+		assertFalse(vm.getLoyaltyAvailable());
+	}
+
+	@Test
+	public void discountPercentageIsShownOnGenericAttachDisabledWithoutAirAttached() {
+		hotel.lowRateInfo.discountPercent = 12;
+		hotel.lowRateInfo.airAttached = false;
+		setupSystemUnderTestGenericAttachNotEnabled();
+
+		assertTrue(vm.getShowDiscount());
+		assertFalse(vm.getLoyaltyAvailable());
+	}
+
+	@Test
+	public void notShowAirAttachWithDiscountLabelTestOnSWPWithAirAttahced() {
+		hotel.lowRateInfo.airAttached = true;
+		hotel.lowRateInfo.discountPercent = 11;
+		givenHotelWithShopWithPointsAvailable();
+		setupSystemUnderTest();
+
+		assertFalse(vm.getShowAirAttachWithDiscountLabel());
+		assertTrue(vm.getLoyaltyAvailable());
+	}
+
+	@Test
+	public void notShowAirAttachWithDiscountLabelTestOnSWPWithoutAirAttached() {
+		hotel.lowRateInfo.airAttached = false;
+		hotel.lowRateInfo.discountPercent = 11;
+		givenHotelWithShopWithPointsAvailable();
+		setupSystemUnderTest();
+
+		assertFalse(vm.getShowAirAttachWithDiscountLabel());
+		assertTrue(vm.getLoyaltyAvailable());
+	}
+
+	@Test
+	public void showAirAttachWithDiscountLabelTestWithAirAttached() {
+		hotel.lowRateInfo.airAttached = true;
+		hotel.lowRateInfo.discountPercent = 11;
+		setupSystemUnderTest();
+
+		assertTrue(vm.getShowAirAttachWithDiscountLabel());
+		assertFalse(vm.getLoyaltyAvailable());
+	}
+
+	@Test
+	public void notShowAirAttachWithDiscountLabelTestWithoutAirAttached() {
+		hotel.lowRateInfo.airAttached = false;
+		hotel.lowRateInfo.discountPercent = 11;
+		setupSystemUnderTest();
+
+		assertFalse(vm.getShowAirAttachWithDiscountLabel());
+		assertFalse(vm.getLoyaltyAvailable());
+	}
+
+	@Test
+	public void showAirAttachIconWithoutDiscountLabelTestOnSWPWithAirAttahced() {
+		hotel.lowRateInfo.airAttached = true;
+		hotel.lowRateInfo.discountPercent = 11;
+		givenHotelWithShopWithPointsAvailable();
+		setupSystemUnderTest();
+
+		assertTrue(vm.getShowAirAttachIconWithoutDiscountLabel());
+		assertTrue(vm.getLoyaltyAvailable());
+	}
+
+	@Test
+	public void notShowAirAttachIconWithoutDiscountLabelTestOnSWPWithoutAirAttached() {
+		hotel.lowRateInfo.airAttached = false;
+		hotel.lowRateInfo.discountPercent = 11;
+		givenHotelWithShopWithPointsAvailable();
+		setupSystemUnderTest();
+
+		assertFalse(vm.getShowAirAttachIconWithoutDiscountLabel());
+		assertTrue(vm.getLoyaltyAvailable());
+	}
+
+	@Test
+	public void notShowShowAirAttachIconWithoutDiscountLabelTestWithAirAttached() {
+		hotel.lowRateInfo.airAttached = true;
+		hotel.lowRateInfo.discountPercent = 11;
+		setupSystemUnderTest();
+
+		assertFalse(vm.getShowAirAttachIconWithoutDiscountLabel());
+		assertFalse(vm.getLoyaltyAvailable());
+	}
+
+	@Test
+	public void notShowAirAttachIconWithoutDiscountLabelTestWithoutAirAttached() {
+		hotel.lowRateInfo.airAttached = false;
+		hotel.lowRateInfo.discountPercent = 11;
+		setupSystemUnderTest();
+
+		assertFalse(vm.getShowAirAttachIconWithoutDiscountLabel());
+		assertFalse(vm.getLoyaltyAvailable());
+	}
+
+	@Test
 	public void packageHotelThumbnailNotSetIfMissing() {
 		hotel.isPackage = true;
 		setupSystemUnderTest();
@@ -504,7 +628,13 @@ public class HotelViewModelTest {
 
 	private void setupSystemUnderTest() {
 		Application applicationContext = RuntimeEnvironment.application;
-		vm = new HotelViewModel(applicationContext);
+		vm = new HotelViewModel(applicationContext, true);
+		vm.bindHotelData(hotel);
+	}
+
+	private void setupSystemUnderTestGenericAttachNotEnabled() {
+		Application applicationContext = RuntimeEnvironment.application;
+		vm = new HotelViewModel(applicationContext, false);
 		vm.bindHotelData(hotel);
 	}
 

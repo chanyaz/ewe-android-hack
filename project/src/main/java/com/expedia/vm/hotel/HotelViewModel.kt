@@ -12,6 +12,7 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extensions.isShowAirAttached
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
+import com.expedia.bookings.features.Features
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.utils.HotelUtils
@@ -24,7 +25,7 @@ import com.expedia.util.LoyaltyUtil
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject
 
-open class HotelViewModel(private val context: Context) {
+open class HotelViewModel(private val context: Context, private val isGenericAttachEnabled: Boolean = Features.all.genericAttach.enabled()) {
 
     var isHotelSoldOut = false
 
@@ -46,7 +47,7 @@ open class HotelViewModel(private val context: Context) {
 
     val topAmenityTitle: String get() = getTopAmenityTitle(resources)
     val loyaltyAvailable: Boolean get() = hotel.lowRateInfo?.loyaltyInfo?.isBurnApplied ?: false
-    val showDiscount: Boolean get() = (hotel.lowRateInfo?.isDiscountPercentNotZero ?: false) && !(hotel.lowRateInfo?.airAttached ?: false) && !loyaltyAvailable
+    val showDiscount: Boolean get() = (hotel.lowRateInfo?.isDiscountPercentNotZero ?: false) && (!hasAttach || isGenericAttachEnabled) && !loyaltyAvailable
     val hotelDiscountPercentage: String get() = Phrase.from(resources, R.string.hotel_discount_percent_Template).put("discount", hotel.lowRateInfo?.discountPercent?.toInt() ?: 0).format().toString()
 
     val hotelStarRating: Float get() = hotel.hotelStarRating
@@ -59,8 +60,9 @@ open class HotelViewModel(private val context: Context) {
 
     val earnMessage: String get() = LoyaltyUtil.getEarnMessagingString(context, hotel.isPackage, hotel.lowRateInfo?.loyaltyInfo?.earn, hotel.packageOfferModel?.loyaltyInfo?.earn)
     val showEarnMessage: Boolean get() = LoyaltyUtil.shouldShowEarnMessage(earnMessage, hotel.isPackage)
-    val showAirAttachWithDiscountLabel: Boolean get() = (hotel.lowRateInfo?.isShowAirAttached() ?: false) && !loyaltyAvailable
-    val showAirAttachIconWithoutDiscountLabel: Boolean get() = (hotel.lowRateInfo?.isShowAirAttached() ?: false) && loyaltyAvailable
+    val hasAttach: Boolean get() = hotel.lowRateInfo?.isShowAirAttached() ?: false
+    val showAirAttachWithDiscountLabel: Boolean get() = hasAttach && !loyaltyAvailable
+    val showAirAttachIconWithoutDiscountLabel: Boolean get() = hasAttach && loyaltyAvailable
     val neighborhoodName: String get() = hotel.neighborhoodName ?: ""
     val showSoldOutOverlay: Boolean get() = isHotelSoldOut && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelSoldOutOnHSRTreatment)
 
@@ -147,6 +149,11 @@ open class HotelViewModel(private val context: Context) {
     fun getHighestPriorityUrgencyMessage(): UrgencyMessage? {
         if (isHotelSoldOut) {
             return null
+        }
+
+        val genericAttachUrgency = getGenericAttachMessage()
+        if (genericAttachUrgency != null) {
+            return genericAttachUrgency
         }
 
         val memberDealUrgency = getMemberDealUrgencyMessage()
@@ -252,6 +259,14 @@ open class HotelViewModel(private val context: Context) {
         } else {
             return false
         }
+    }
+
+    private fun getGenericAttachMessage(): UrgencyMessage? {
+        if (isGenericAttachEnabled && hasAttach) {
+            return UrgencyMessage(R.drawable.ic_generic_attach, R.color.member_pricing_bg_color,
+                    resources.getString(R.string.bundled_savings), R.color.member_pricing_text_color)
+        }
+        return null
     }
 
     private fun getMemberDealUrgencyMessage(): UrgencyMessage? {
