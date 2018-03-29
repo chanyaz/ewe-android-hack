@@ -430,7 +430,10 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 detailPresenter.hotelDetailView.resetViews()
                 val countryCode = PointOfSale.getPointOfSale().threeLetterCountryCode
                 val currencyCode = CurrencyUtils.currencyForLocale(countryCode)
+                val zero = Money(BigDecimal(0), currencyCode)
                 bundleSlidingWidget.bundlePriceWidget.viewModel.pricePerPersonObservable.onNext(Money(BigDecimal("0.00"), currencyCode).formattedMoney)
+                bundleSlidingWidget.bundlePriceFooter.viewModel.total.onNext(zero)
+                bundleSlidingWidget.bundlePriceFooter.viewModel.savings.onNext(zero)
                 Db.sharedInstance.clearPackageHotelRoomSelection()
             } else {
                 detailPresenter.hotelDetailView.refresh()

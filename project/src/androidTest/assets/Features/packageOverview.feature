@@ -1,5 +1,28 @@
 Feature: Package Overview
 
+  @Packages @PackageOverview @Prod
+    Scenario: Validate Package Overview bundle total details when user gets back to HSR from HIS
+      Given I launch the App
+      And I launch "Bundle Deals" LOB
+      When I make a packages search with following parameters
+        | source              | KTM                            |
+        | destination         | SFO                            |
+        | source_suggest      | KTM - Tribhuvan Intl.          |
+        | destination_suggest | San Francisco, CA              |
+        | start_date          | 5                              |
+        | end_date            | 10                             |
+        | adults              | 2                              |
+        | child               | 2                              |
+      And I select hotel at position 1 on HSR screen
+      And I store the hotel name in "varHotelName"
+      And I press back
+      And I click on View your bundle
+      And on POS Validate that Package Overview Screen is displayed
+      And validate bundle total widget
+        | bundle_total_text         | getValueBasedOnBrand           |
+        | additional_text           | includes hotel and flights     |
+        | bundle_total_value        | $0                             |
+
   @Packages @PackageOverview
   Scenario: Validate bundle Package Overview Screen details with outbound flight selected
     Given I launch the App

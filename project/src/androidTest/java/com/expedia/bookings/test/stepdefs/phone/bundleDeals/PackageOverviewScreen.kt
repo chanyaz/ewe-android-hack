@@ -293,9 +293,11 @@ class PackageOverviewScreen {
         onView(allOf<View>(withId(R.id.bundle_total_price),
                 isDescendantOfA(withId(R.id.total_price_widget))))
                 .check(matches(withText(parameters["bundle_total_value"])))
-        onView(allOf<View>(withId(R.id.bundle_total_savings),
-                isDescendantOfA(withId(R.id.total_price_widget))))
-                .check(matches(withText(parameters["savings"])))
+        if (parameters["savings"] != null) {
+            onView(allOf<View>(withId(R.id.bundle_total_savings),
+                    isDescendantOfA(withId(R.id.total_price_widget))))
+                    .check(matches(withText(parameters["savings"])))
+        }
     }
 
     @Then("^validate package inbound flight widget view")
