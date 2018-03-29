@@ -637,14 +637,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="14655"
-            android:summary="%s"
-            android:title="Trips - New Flights Design - 14655" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
             android:key="25224"
             android:summary="%s"
             android:title="Trips - Trip Folders - 25224" />

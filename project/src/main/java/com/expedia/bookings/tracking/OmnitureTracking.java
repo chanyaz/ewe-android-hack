@@ -2914,7 +2914,6 @@ public class OmnitureTracking {
 				s.setEvar(5, String.valueOf(trip.get("daysUntilTrip")));
 			}
 		}
-		trackAbacusTest(s, AbacusUtils.TripsFlightsNewDesign);
 		s.setProp(2, "itinerary");
 		s.setEvar(2, "D=c2");
 		s.track();

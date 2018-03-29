@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment;
 
 import java.util.Collection;
 import java.util.List;
+
 import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
@@ -26,21 +27,19 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
+import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.itin.common.ItinPageUsableTracking;
 import com.expedia.bookings.itin.common.NewAddGuestItinActivity;
 import com.expedia.bookings.itin.flight.details.FlightItinDetailsActivity;
 import com.expedia.bookings.itin.hotel.details.HotelItinDetailsActivity;
-import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.presenter.trips.ItinSignInPresenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FeatureUtilKt;
@@ -330,13 +329,11 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	}
 
 	public void goToItin(String itinId) {
-		Boolean isFlightDetailOn = AbacusFeatureConfigManager
-			.isBucketedForTest(getContext(), AbacusUtils.TripsFlightsNewDesign);
 		ItinCardData data = ItineraryManager.getInstance().getItinCardDataFromItinId(itinId);
 		if (data instanceof ItinCardDataHotel) {
 			startActivity(HotelItinDetailsActivity.createIntent(getContext(), data.getId(), data.getTripId()));
 		}
-		else if (data instanceof ItinCardDataFlight && isFlightDetailOn) {
+		else if (data instanceof ItinCardDataFlight) {
 			startActivity(FlightItinDetailsActivity.createIntent(getContext(), data.getId()));
 		}
 		else {

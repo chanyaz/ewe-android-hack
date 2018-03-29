@@ -15,16 +15,14 @@ import android.widget.ListView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataAdapter;
 import com.expedia.bookings.data.trips.ItinCardDataRails;
 import com.expedia.bookings.data.trips.TripComponent;
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
-import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.itin.common.LegacyItinCardDataActivity;
 import com.expedia.bookings.itin.flight.details.FlightItinDetailsActivity;
 import com.expedia.bookings.itin.hotel.details.HotelItinDetailsActivity;
-import com.expedia.bookings.itin.common.LegacyItinCardDataActivity;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.mobiata.android.Log;
 
 @SuppressWarnings("rawtypes")
@@ -366,8 +364,6 @@ public class ItinListView extends ListView implements OnItemClickListener {
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		ItinCardData data = mAdapter.getItem(position);
 
-		Boolean isFlightItinCardDetailBucketed = AbacusFeatureConfigManager.isBucketedForTest(getContext(), AbacusUtils.TripsFlightsNewDesign);
-
 		if (data != null) {
 			if (view instanceof ItinButtonCard) {
 				// Do nothing
@@ -387,7 +383,7 @@ public class ItinListView extends ListView implements OnItemClickListener {
 						.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete)
 						.toBundle());
 			}
-			else if (data.hasDetailData() && data.getTripComponentType() == TripComponent.Type.FLIGHT && isFlightItinCardDetailBucketed) {
+			else if (data.hasDetailData() && data.getTripComponentType() == TripComponent.Type.FLIGHT) {
 				getContext().startActivity(FlightItinDetailsActivity.createIntent(getContext(), data.getId()),
 						ActivityOptionsCompat
 							.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete)
