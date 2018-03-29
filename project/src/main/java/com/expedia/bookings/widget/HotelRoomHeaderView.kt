@@ -60,6 +60,11 @@ class HotelRoomHeaderView(context: Context, val viewModel: HotelRoomHeaderViewMo
         roomInfoIcon.setInverseVisibility(viewModel.roomDescriptionString.isNullOrEmpty())
 
         bedTypeTextView.text = viewModel.bedTypeString
+        if (bedTypeTextView.text.isEmpty()) {
+            bedTypeTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+        } else {
+            bedTypeTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.room_bed, 0, 0, 0)
+        }
 
         if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelRoomImageGallery)) {
             roomPhotoCountView.setVisibility(viewModel.hasRoomImages())
