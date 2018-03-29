@@ -5,7 +5,6 @@
     android:clipToPadding="false">
 
     <LinearLayout
-        android:id="@+id/container_for_messaging"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"

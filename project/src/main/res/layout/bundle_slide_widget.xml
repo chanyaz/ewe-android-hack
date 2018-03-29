@@ -52,7 +52,6 @@
                     android:layout_height="match_parent" />
 
                 <Space
-                    android:id="@+id/space_view"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/footer_button_height" />
 

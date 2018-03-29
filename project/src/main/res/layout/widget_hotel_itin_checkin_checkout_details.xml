@@ -24,7 +24,6 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
-                android:id="@+id/itin_check_in_details"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -32,7 +31,6 @@
                 android:orientation="vertical">
 
                 <com.expedia.bookings.widget.TextView
-                    android:id="@+id/hotel_itin_checkin_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/itin_hotel_details_checkin_text"
@@ -63,7 +61,6 @@
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/hotel_itin_arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -73,7 +70,6 @@
                 app:srcCompat="@drawable/itin_arrow_icon" />
 
             <LinearLayout
-                android:id="@+id/itin_check_out_details"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -82,7 +78,6 @@
                 android:orientation="vertical">
 
                 <com.expedia.bookings.widget.TextView
-                    android:id="@+id/hotel_itin_checkout_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/itin_hotel_details_checkout_text"

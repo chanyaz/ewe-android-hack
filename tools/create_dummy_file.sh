@@ -25,7 +25,7 @@ public class GeneratedDummyFileToHandleKotlinLintError {
 	private static final int[] USED_RESOURCES = {
 EOM
 
-RESOURCE_PATTERN="\(android\.\)\?R\.\(string\|layout\|drawable\|color\|raw\|menu\|dimen\|anim\|array\|integer\|plurals\|style\)\.[a-zA-Z0-9_]\+"
+RESOURCE_PATTERN="\(android\.\)\?R\.\(string\|layout\|drawable\|color\|raw\|menu\|dimen\|anim\|array\|integer\|plurals\|style\|id\)\.[a-zA-Z0-9_]\+"
 grep --only-matching --no-filename -R --include="*\.kt" "$RESOURCE_PATTERN" .. | grep -v "android." | uniq | sed -e "s/^/		com.expedia.bookings./" -e "s/$/,/"
 
 cat << EOM

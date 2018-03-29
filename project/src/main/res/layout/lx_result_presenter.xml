@@ -160,7 +160,6 @@
     <include layout="@layout/widget_theme_results" />
 
     <LinearLayout
-        android:id="@+id/sort_filter_widget_container"
         android:layout_width="@dimen/match_parent"
         android:layout_height="@dimen/match_parent"
         android:orientation="vertical">

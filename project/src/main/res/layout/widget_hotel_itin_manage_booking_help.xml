@@ -36,7 +36,6 @@
                 tools:text="For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver" />
 
             <View
-                android:id="@+id/itin_hotel_manage_booking_hotel_separator"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginBottom="16dp"

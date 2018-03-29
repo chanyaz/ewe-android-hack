@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/dialog_pending_points"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -12,7 +11,6 @@
     android:shrinkColumns="0">
 
     <TextView
-        android:id="@+id/pending_pts_info"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="wrap_content"
@@ -23,7 +21,6 @@
 
     <TableRow>
         <TextView
-            android:id="@+id/lob_column_view"
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:textStyle="bold"
@@ -34,7 +31,6 @@
             android:layout_gravity="left"/>
 
         <TextView
-            android:id="@+id/days_column_view"
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:textStyle="bold"
@@ -49,7 +45,6 @@
 
     <TableRow android:id="@+id/flight_points_row">
         <TextView
-            android:id="@+id/flights_pp"
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -160,7 +155,6 @@
 
     <TableRow android:id="@+id/cars_points_row">
         <TextView
-        android:id="@+id/cars_pp"
         android:layout_width="wrap_content"
         android:layout_weight="1"
         android:layout_height="wrap_content"

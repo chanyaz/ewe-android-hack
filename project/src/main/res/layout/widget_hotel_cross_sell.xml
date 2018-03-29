@@ -14,7 +14,6 @@
         android:clickable="true">
 
         <LinearLayout
-            android:id="@+id/air_attach_plane_container"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal"
@@ -46,7 +45,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/itin_button_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="6"
@@ -58,7 +56,6 @@
             android:layout_marginLeft="4dp">
 
             <TextView
-                android:id="@+id/itin_air_attach_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/air_attach_crystal_text_color"
@@ -67,7 +64,6 @@
                 android:text="@string/air_attach_alert" />
 
             <TextView
-                android:id="@+id/itin_air_attach_savings_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12dp"
@@ -83,7 +79,6 @@
 
 
                 <com.expedia.bookings.widget.TextView
-                    android:id="@+id/itin_air_attach_expires_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12dp"
@@ -135,7 +130,6 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageView2"
                 android:tint="@color/air_attach_crystal_text_color"
                 android:src="@drawable/bundle_forward_arrow" />
         </LinearLayout>

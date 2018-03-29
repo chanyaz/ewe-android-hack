@@ -18,7 +18,6 @@
         android:labelFor="@+id/filter_hotel_name_edit_text"/>
 
     <RelativeLayout
-        android:id="@+id/filter_hotel_name_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"

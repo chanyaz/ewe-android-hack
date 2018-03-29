@@ -10,7 +10,6 @@
     android:foreground="?android:attr/selectableItemBackground">
 
     <FrameLayout
-        android:id="@+id/result_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -67,7 +66,6 @@
     </FrameLayout>
 
     <LinearLayout
-        android:id="@+id/activity_info_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/lx_search_details_recommendation_container_height"
         android:layout_marginTop="?attr/card_list_image_container_height"

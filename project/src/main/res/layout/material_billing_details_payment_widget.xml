@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ScrollView android:id="@+id/scrollview"
-        xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:isScrollContainer="true">
@@ -265,7 +265,6 @@
                             </android.support.design.widget.TextInputLayout>
 
                             <android.support.design.widget.TextInputLayout
-                                android:id="@+id/material_edit_creditcard_cvv"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -288,7 +287,6 @@
                         </LinearLayout>
 
                         <android.support.design.widget.TextInputLayout
-                            android:id="@+id/edit_name_on_card_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/cardholder_name_hint"

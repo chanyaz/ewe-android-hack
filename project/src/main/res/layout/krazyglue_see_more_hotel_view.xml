@@ -31,7 +31,6 @@
             android:orientation="vertical">
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/hotel_offer_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2dp"
@@ -43,7 +42,6 @@
                 android:textStyle="normal" />
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/see_all_hotels"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="9dp"

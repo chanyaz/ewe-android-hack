@@ -24,7 +24,6 @@
             android:paddingTop="10dp" />
 
         <LinearLayout
-            android:id="@+id/discount_loyalty_messaging_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -183,7 +182,6 @@
             android:textColor="@color/hotel_detail_earn_message_text_color" />
 
         <LinearLayout
-            android:id="@+id/hotel_search_info_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -587,7 +585,6 @@
             app:textStyle="medium" />
 
         <com.expedia.bookings.widget.TextView
-            android:id="@+id/renovation_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/renovation_title"

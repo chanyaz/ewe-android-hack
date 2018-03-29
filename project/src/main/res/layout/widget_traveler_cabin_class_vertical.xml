@@ -25,7 +25,6 @@
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
-        android:id="@+id/flight_cabin_class_card_view"
         style="@style/MaterialCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

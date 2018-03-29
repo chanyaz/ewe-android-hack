@@ -18,7 +18,6 @@
         android:orientation="vertical">
 
         <FrameLayout
-            android:id="@+id/upper_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -80,7 +79,6 @@
         </FrameLayout>
 
         <LinearLayout
-            android:id="@+id/deals_text_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -101,7 +99,6 @@
                 android:textColor="@color/member_deals_destination_card_text" />
 
             <LinearLayout
-                android:id="@+id/deals_price_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"

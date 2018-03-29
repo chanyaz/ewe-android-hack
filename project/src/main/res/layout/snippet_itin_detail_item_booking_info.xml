@@ -8,7 +8,6 @@
     android:padding="0dp" >
 
     <com.expedia.bookings.widget.TextView
-        android:id="@+id/booking_info_label"
         style="@style/TextView.Itin.SectionHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,7 +18,6 @@
         android:visibility="visible" />
 
     <com.expedia.bookings.widget.TextView
-        android:id="@+id/cancel_hotel_room"
         style="?attr/itin_card_detail_section_text_capitalize_blue_style"
         android:visibility="gone"
         android:layout_width="match_parent"
@@ -33,7 +31,7 @@
         android:padding="8dp"
         android:text="@string/itin_card_details_cancel_hotel_room" />
 
-    <include android:id="@+id/cancel_hotel_divider"
+    <include
              android:visibility="gone"
         layout="@layout/include_itin_card_divider_hotel" />
 
@@ -54,7 +52,6 @@
     <include android:id="@+id/divider" layout="@layout/include_itin_card_divider_hotel" />
 
     <com.expedia.bookings.widget.TextView
-        android:id="@+id/edit_hotel_room_info"
         style="@style/TextView.Itin.SectionText"
         android:visibility="gone"
         android:layout_width="match_parent"
@@ -68,7 +65,7 @@
         android:padding="8dp"
         android:text="@string/itin_card_edit_hotel_room_info" />
 
-    <include android:id="@+id/divider_edit_hotel_room_info"
+    <include
              android:visibility="gone"
              layout="@layout/include_itin_card_divider_hotel" />
 

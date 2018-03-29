@@ -85,7 +85,6 @@
                         android:contentDescription="@string/remove_child_traveler_cont_desc"/>
 
                     <LinearLayout
-                        android:id="@+id/children_container"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/traveler_plus_minus_size"
                         android:layout_weight="5"
@@ -100,7 +99,6 @@
                             android:textSize="16dp" />
 
                         <com.expedia.bookings.widget.TextView
-                            android:id="@+id/children_age_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/children_age_label"
@@ -129,7 +127,6 @@
                     app:textStyle="medium" />
 
                 <LinearLayout
-                    android:id="@+id/children_ages"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"

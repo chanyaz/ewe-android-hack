@@ -22,6 +22,8 @@
         <ignore path="build/generated/res/google-services/**" />
     </issue>
 
+    <issue id="UnusedIds" severity="error" />
+
     <!-- datePickerMode=spinner, Android framework ignores the attributes for us pre lollipop-->
     <issue id="UnusedAttribute" severity="error">
         <ignore path="src/main/res/layout/spinner_date_picker.xml"/>

@@ -9,7 +9,6 @@
     android:orientation="vertical">
 
     <com.expedia.bookings.widget.TextView
-        android:id="@+id/country_label"
         style="@style/AccountDashboardLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,7 +38,6 @@
             tools:text="USA" />
 
         <ImageView
-            android:id="@+id/posa_chevron"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_keyboard_arrow_down_white_24dp"/>

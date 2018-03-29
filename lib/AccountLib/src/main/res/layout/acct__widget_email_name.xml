@@ -21,7 +21,6 @@
         app:acct__eit_errorContDesc="@string/acct__Must_enter_valid_email"/>
 
     <LinearLayout
-        android:id="@+id/first_last_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"

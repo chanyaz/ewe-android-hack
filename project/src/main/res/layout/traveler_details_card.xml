@@ -5,14 +5,12 @@
     android:layout_height="match_parent">
 
     <com.expedia.bookings.widget.ContactInitialsImageView
-        android:id="@+id/traveler_icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="4dp" />
 
     <LinearLayout
-        android:id="@+id/traveler_summary_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"

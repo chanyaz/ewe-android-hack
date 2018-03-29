@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/form_textbox"
         android:layout_alignBottom="@+id/form_checkbox"
+        tools:ignore="UnusedIds"
         android:layout_alignParentTop="true"
         android:gravity="center"
         tools:text="text"/>

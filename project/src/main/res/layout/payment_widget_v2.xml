@@ -74,7 +74,6 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/total_due_today"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -197,7 +196,6 @@
                 android:orientation="horizontal">
 
                 <FrameLayout
-                    android:id="@+id/credit_card_number_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
