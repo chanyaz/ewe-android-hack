@@ -70,7 +70,7 @@ public class FlightDetailsScreenSteps {
 
 	@And("^price displayed on flight details is \"([^\"]*)\"$")
 	public void verifyPriceOnOverview(String price) throws Throwable {
-		onView(withId(R.id.flight_overview_urgency_messaging))
+		onView(allOf(withId(R.id.flight_overview_urgency_messaging), isDescendantOfA(withId(R.id.widget_flight_outbound))))
 			.check(matches(withText(containsString(price))));
 
 	}

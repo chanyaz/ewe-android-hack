@@ -66,7 +66,7 @@ public class SearchResultsScreenSteps {
 
 	@And("^I wait for results to load$")
 	public void waitForResultsToLoad() throws Throwable {
-		onView(withId(R.id.sort_filter_button)).perform(waitFor(isDisplayed(), 40, TimeUnit.SECONDS));
+		onView(allOf(withId(R.id.sort_filter_button), isDescendantOfA(withId(R.id.widget_flight_outbound)))).perform(waitFor(isDisplayed(), 40, TimeUnit.SECONDS));
 	}
 
 	@And("^I wait for inbound flights results to load$")
@@ -85,7 +85,7 @@ public class SearchResultsScreenSteps {
 
 	@And("^Validate that flight search results are displayed$")
 	public void validateThatFlightSearchResultsDisplayed() throws Throwable {
-		onView(withId(R.id.list_view)).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.list_view), isDescendantOfA(withId(R.id.widget_flight_outbound)))).check(matches(isDisplayed()));
 	}
 
 	@And("^Validate that flight search results are displayed for inbound flights$")
@@ -99,7 +99,7 @@ public class SearchResultsScreenSteps {
 	@Then("^I click on search icon to go to search form$")
 	public void clickOnSearchIcon() throws Throwable {
 		waitForResultsToLoad();
-		onView(withId(R.id.menu_search)).perform(click());
+		onView(allOf(withId(R.id.menu_search), isDescendantOfA(withId(R.id.widget_flight_outbound)))).perform(click());
 	}
 
 	@And("^I click on sort and filter icon and isOutBound : (true|false)$")

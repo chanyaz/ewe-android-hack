@@ -467,8 +467,8 @@ Feature: Flights Search
       | source_suggest      | LAS - McCarran Intl.                     |
       | destination_suggest | San Francisco, CA                        |
     And I pick dates for flights
-      | start_date | 10 |
-      | end_date   | 19 |
+      | start_date | 30 |
+      | end_date   | 39 |
     And I click on class widget
     Then I click on <preferredClass> as preferred class
     And I click on Done button
