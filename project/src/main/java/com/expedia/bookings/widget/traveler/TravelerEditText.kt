@@ -27,9 +27,8 @@ import io.reactivex.subjects.BehaviorSubject
 import java.util.ArrayList
 import android.view.autofill.AutofillManager
 import android.view.autofill.AutofillValue
-import com.expedia.bookings.utils.CountryCodeUtil
 
-class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(context, attrs), View.OnFocusChangeListener {
+open class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(context, attrs), View.OnFocusChangeListener {
     var valid = true
     var preErrorDrawable: Drawable? = null
 
@@ -156,25 +155,14 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
     }
 
     override fun autofill(value: AutofillValue?) {
-        var autofillValue =
-        if (id == R.id.edit_phone_number) {
-            AutofillValue.forText(getPhoneNumberWithoutCountryCode(value))
-        } else {
-            value
-        }
+        var autofillValue = getAutofillValue(value)
         super.autofill(autofillValue)
         viewModel.validate()
     }
 
-    private fun getPhoneNumberWithoutCountryCode(value: AutofillValue?): String {
-        var phoneNumber = value?.textValue?.toString()
-        phoneNumber?.let { number ->
-            val countryCode = CountryCodeUtil.getCountryCode(number)
-            if (countryCode.isNotEmpty()) {
-                phoneNumber = number.replaceFirst(countryCode, "")
-            }
-        }
-        return phoneNumber ?: ""
+    // PhoneNumberEditText which extends this class retrieves autofill value in a different manner
+    open fun getAutofillValue(value: AutofillValue?): AutofillValue? {
+        return value
     }
 
     private inner class TravelerTextWatcher : TextWatcher {

@@ -8,9 +8,8 @@ import android.view.autofill.AutofillManager
 import android.view.autofill.AutofillValue
 import com.expedia.bookings.R
 import com.expedia.bookings.extensions.getParentTextInputLayout
-import com.expedia.bookings.utils.CountryCodeUtil
 
-class AccessibleEditTextForSpinner(context: Context, attributeSet: AttributeSet) : AccessibleEditText(context, attributeSet) {
+open class AccessibleEditTextForSpinner(context: Context, attributeSet: AttributeSet) : AccessibleEditText(context, attributeSet) {
 
     private var autoFillManager: AutofillManager? = null
 
@@ -45,21 +44,12 @@ class AccessibleEditTextForSpinner(context: Context, attributeSet: AttributeSet)
     }
 
     override fun autofill(value: AutofillValue?) {
-        var autofillValue =
-        if (id == R.id.material_edit_phone_number_country_code) {
-            getAutofillValueWithCountryCode(value)
-        } else {
-            value
-        }
+        var autofillValue = getAutofillValue(value)
         super.autofill(autofillValue)
     }
 
-    private fun getAutofillValueWithCountryCode(value: AutofillValue?): AutofillValue? {
-        val countryCode = CountryCodeUtil.getCountryCode(value?.textValue?.toString() ?: "")
-        return if (countryCode.isEmpty()) {
-            AutofillValue.forText(this.text.toString())
-        } else {
-            AutofillValue.forText("+$countryCode")
-        }
+    // AccessibleCountryCodeEditTextForSpinner which extends this class retrieves autofill value in a different manner
+    open fun getAutofillValue(value: AutofillValue?): AutofillValue? {
+        return value
     }
 }

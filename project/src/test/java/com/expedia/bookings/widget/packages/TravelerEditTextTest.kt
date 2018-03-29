@@ -9,10 +9,8 @@ import com.expedia.account.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.CountryCodeUtil
 import com.expedia.bookings.widget.traveler.TravelerEditText
 import com.expedia.vm.traveler.LastNameViewModel
-import com.expedia.vm.traveler.PhoneViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -76,7 +74,13 @@ class TravelerEditTextTest {
     }
 
     @Test
-    fun testAutoFillWorkspWhenFieldIsEmptyAndSelected() {
+    fun testEditTextAutoFill() {
+        editText.autofill(AutofillValue.forText("blah"))
+        assertEquals("blah", editText.text.toString())
+    }
+
+    @Test
+    fun testAutoFillWorksWhenFieldIsEmptyAndSelected() {
         editText.setText("")
         editText.requestFocus()
         assertTrue(editText.autofillType == View.AUTOFILL_TYPE_TEXT)
@@ -88,31 +92,5 @@ class TravelerEditTextTest {
         editText.viewModel.errorSubject.subscribe(errorSubjectTestObserver)
         editText.autofill(AutofillValue.forText("blah"))
         assertTrue(editText.viewModel.isValid())
-    }
-
-    @Test
-    fun testPhoneNumberCountryCodeRemovedWhenAutoFilled() {
-        setupPhoneEditText()
-        val number = "5103776273"
-        CountryCodeUtil.countryCodes.map { code ->
-            editText.autofill(AutofillValue.forText("$code$number"))
-            assertEquals("5103776273", editText.text.toString())
-        }
-    }
-
-    @Test
-    fun testSmallPhoneNotRemovedWhenAutoFilled() {
-        setupPhoneEditText()
-        val number = "123"
-        editText.autofill(AutofillValue.forText(number))
-        assertEquals("123", editText.text.toString())
-    }
-
-    private fun setupPhoneEditText() {
-        val activity = Robolectric.buildActivity(AppCompatActivity::class.java).create().get()
-        activity.setTheme(R.style.V2_Theme_Packages)
-        editText = LayoutInflater.from(activity).inflate(R.layout.test_traveler_edit_text, null) as TravelerEditText
-        editText.viewModel = PhoneViewModel()
-        editText.id = R.id.edit_phone_number
     }
 }

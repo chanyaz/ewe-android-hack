@@ -16,6 +16,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.CountryCodeUtil
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.widget.accessibility.AccessibleCountryCodeEditTextForSpinner
 import com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
 import com.expedia.bookings.widget.traveler.PhoneEntryView
 import com.expedia.bookings.widget.traveler.TravelerEditText
@@ -241,7 +242,7 @@ class PhoneEntryViewTest {
 
     @Test
     fun testCountryCodeAutoFilledFromPhoneNumber() {
-        val phoneCountryCode = widget.phoneEditBox as AccessibleEditTextForSpinner
+        val phoneCountryCode = widget.phoneEditBox as AccessibleCountryCodeEditTextForSpinner
         val number = "5103776273"
         CountryCodeUtil.countryCodes.map { code ->
             phoneCountryCode.autofill(AutofillValue.forText("$code$number"))
@@ -251,11 +252,29 @@ class PhoneEntryViewTest {
 
     @Test
     fun testCountryCodeNotAutoFilledWhenPhoneNumberHasNoCountryCode() {
-        val phoneCountryCode = widget.phoneEditBox as AccessibleEditTextForSpinner
+        val phoneCountryCode = widget.phoneEditBox as AccessibleCountryCodeEditTextForSpinner
         val number = "8323786273"
         val defaultCountryCodeNumber = phoneCountryCode.text.toString()
         phoneCountryCode.autofill(AutofillValue.forText(number))
         assertEquals(defaultCountryCodeNumber, phoneCountryCode.text.toString())
+    }
+
+    @Test
+    fun testPhoneNumberCountryCodeRemovedWhenAutoFilled() {
+        val phoneNumberEditText = widget.phoneNumber
+        val number = "5103776273"
+        CountryCodeUtil.countryCodes.map { code ->
+            phoneNumberEditText.autofill(AutofillValue.forText("$code$number"))
+            assertEquals("510-377-6273", phoneNumberEditText.text.toString())
+        }
+    }
+
+    @Test
+    fun testSmallPhoneNumberNotRemovedWhenAutoFilled() {
+        val phoneNumberEditText = widget.phoneNumber
+        val number = "123"
+        phoneNumberEditText.autofill(AutofillValue.forText(number))
+        assertEquals("123", phoneNumberEditText.text.toString())
     }
 
     private fun setupViewModelWithPhone(): TravelerPhoneViewModel {

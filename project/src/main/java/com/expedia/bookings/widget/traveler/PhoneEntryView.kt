@@ -11,13 +11,13 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extensions.subscribeMaterialFormsError
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TelephoneSpinnerAdapter
-import com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
+import com.expedia.bookings.widget.accessibility.AccessibleCountryCodeEditTextForSpinner
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.traveler.TravelerPhoneViewModel
 
 class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
-    var phoneEditBox: AccessibleEditTextForSpinner? = null
-    val phoneNumber: TravelerEditText by bindView(R.id.edit_phone_number)
+    var phoneEditBox: AccessibleCountryCodeEditTextForSpinner? = null
+    val phoneNumber: PhoneNumberEditText by bindView(R.id.edit_phone_number)
     val phoneAdapter: TelephoneSpinnerAdapter by lazy {
         val adapter = TelephoneSpinnerAdapter(context, R.layout.material_item)
         adapter.currentPosition = adapter.getPositionFromName(viewModel.phoneCountryNameSubject.value)
@@ -65,7 +65,7 @@ class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
 
     init {
         View.inflate(context, R.layout.material_phone_entry_view, this)
-        phoneEditBox = findViewById<AccessibleEditTextForSpinner>(R.id.material_edit_phone_number_country_code)
+        phoneEditBox = findViewById(R.id.material_edit_phone_number_country_code)
         orientation = HORIZONTAL
     }
 }
