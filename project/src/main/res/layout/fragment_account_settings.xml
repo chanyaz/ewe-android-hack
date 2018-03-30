@@ -167,8 +167,10 @@
                         android:layout_marginLeft="20dp"
                         android:layout_toRightOf="@+id/center"
                         android:drawablePadding="8dp"
+                        android:accessibilityTraversalAfter="@id/points_monetary_value_label"
                         android:gravity="center_vertical"
-                        android:ellipsize="end" />
+                        android:ellipsize="end"
+                        tools:ignore="UnusedAttribute"/>
 
                     <include
                         android:id="@+id/first_row_country"
