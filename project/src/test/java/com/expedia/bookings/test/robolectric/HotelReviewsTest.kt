@@ -3,6 +3,7 @@ package com.expedia.bookings.test
 import com.expedia.bookings.data.hotels.HotelReviewsResponse
 import com.expedia.bookings.data.hotels.HotelReviewsResponse.ReviewSummary
 import com.expedia.bookings.data.hotels.ReviewSort
+import com.expedia.bookings.hotel.data.TranslatedReview
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.vm.HotelReviewsAdapterViewModel
@@ -14,6 +15,7 @@ import com.expedia.bookings.services.TestObserver
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class HotelReviewsTest {
 
@@ -91,19 +93,20 @@ class HotelReviewsTest {
 
     @Test
     fun testReviewTranslation() {
-        val testSubscriber = TestObserver<HotelReviewsResponse.Review>()
-        vm.reviewTranslatedObservable.subscribe(testSubscriber)
-        vm.translateReviewIdObserver.onNext("5a2cc5ffa6ffd10dd50e1844")
+        val testSubscriber = TestObserver<String>()
+        vm.translationUpdatedObservable.subscribe(testSubscriber)
+        vm.toggleReviewTranslationObserver.onNext("5a2cc5ffa6ffd10dd50e1844")
         testSubscriber.assertValueCount(1)
     }
 
     @Test
     fun testReviewAlreadyTranslated() {
-        val testSubscriber = TestObserver<HotelReviewsResponse.Review>()
-        vm.reviewTranslatedObservable.subscribe(testSubscriber)
-        vm.translationMap.put("a1", HotelReviewsResponse.Review())
-        vm.translateReviewIdObserver.onNext("a1")
-        testSubscriber.assertValueCount(1)
+        val testSubscriber = TestObserver<String>()
+        vm.translationUpdatedObservable.subscribe(testSubscriber)
+        vm.translationMap["a1"] = TranslatedReview(HotelReviewsResponse.Review(), false)
+        vm.toggleReviewTranslationObserver.onNext("a1")
+        testSubscriber.assertValue("a1")
+        assertTrue(vm.translationMap["a1"]!!.showToUser)
     }
 
     private fun getExpectedReviewRequestStr(startParam: Int): String {

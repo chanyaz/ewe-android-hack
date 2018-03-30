@@ -2854,6 +2854,8 @@
     <string name="user_review_see_translation">See Translation</string>
     <!-- Text for button while the review is being translated -->
     <string name="user_review_translation_loading">Loading&#8230;</string>
+    <!-- Text for button to see original, untranslated review text -->
+    <string name="user_review_see_original">See Original</string>
 
     <!-- HOtel V2A number of reviews -->
     <plurals name="hotel_number_of_reviews">

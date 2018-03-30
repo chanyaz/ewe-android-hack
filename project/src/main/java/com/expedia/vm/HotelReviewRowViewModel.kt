@@ -8,6 +8,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelReviewsResponse.Review
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.hotel.data.TranslatedReview
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.util.endlessObserver
 import io.reactivex.subjects.BehaviorSubject
@@ -21,17 +22,19 @@ class HotelReviewRowViewModel(val context: Context) {
     val submissionDateObservable = BehaviorSubject.create<String>()
     val reviewBodyObservable = BehaviorSubject.create<String>()
     val translateButtonTextObservable = BehaviorSubject.create<String>()
-    val translateReviewIdObservable = BehaviorSubject.create<String>()
+    val toggleReviewTranslationObservable = BehaviorSubject.create<String>()
     val onTranslateClick = endlessObserver<Unit> {
         review?.let { review ->
-            translateReviewIdObservable.onNext(review.reviewId)
             translateButtonTextObservable.onNext(context.getString(R.string.user_review_translation_loading))
+            toggleReviewTranslationObservable.onNext(review.reviewId)
         }
     }
 
-    val translatedReviewObserver = endlessObserver<Review> { review ->
-        showingTranslated = true
-        updateViews(review)
+    val translatedReviewObserver = endlessObserver<TranslatedReview> { translatedReview ->
+        if (translatedReview.showToUser) {
+            showingTranslated = true
+            updateViews(translatedReview.review)
+        }
     }
 
     val reviewObserver = endlessObserver<Review> { review ->
@@ -47,7 +50,7 @@ class HotelReviewRowViewModel(val context: Context) {
     fun reviewInDifferentLanguage(): Boolean {
         if (review != null && review!!.contentLocale.length >= 2) {
             val reviewLanguage = review!!.contentLocale.substring(0, 2)
-            return Locale.getDefault().language != reviewLanguage && !showingTranslated
+            return Locale.getDefault().language != reviewLanguage
         }
         return false
     }
@@ -88,8 +91,12 @@ class HotelReviewRowViewModel(val context: Context) {
     }
 
     private fun updateTranslationButton() {
-        if (reviewHasText() && reviewInDifferentLanguage() && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HoteUGCTranslatations)) {
-            translateButtonTextObservable.onNext(context.getString(R.string.user_review_see_translation))
+        if (reviewHasText() && reviewInDifferentLanguage() && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelUGCTranslations)) {
+            if (showingTranslated) {
+                translateButtonTextObservable.onNext(context.getString(R.string.user_review_see_original))
+            } else {
+                translateButtonTextObservable.onNext(context.getString(R.string.user_review_see_translation))
+            }
         } else {
             translateButtonTextObservable.onNext("")
         }

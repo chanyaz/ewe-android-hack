@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelReviewsResponse
+import com.expedia.bookings.hotel.data.TranslatedReview
 import com.expedia.bookings.widget.HotelReviewsLoadingWidget
 import com.expedia.bookings.widget.HotelReviewsSummaryWidget
 import com.expedia.bookings.widget.RecyclerDividerDecoration
@@ -34,14 +35,14 @@ class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : Recycler
 
         var moreReviewsAvailable = false
 
-        val translateReviewIdSubject = PublishSubject.create<String>()
-        val reviewTranslatedSubject = endlessObserver<HotelReviewsResponse.Review> { translatedReview ->
-            val reviewIndex = reviews.indexOfFirst { reviewInList -> reviewInList.reviewId == translatedReview.reviewId }
+        val toggleReviewTranslationSubject = PublishSubject.create<String>()
+        val translationUpdatedSubject = endlessObserver<String> { reviewId ->
+            val reviewIndex = reviews.indexOfFirst { reviewInList -> reviewInList.reviewId == reviewId }
             if (reviewIndex >= 0) {
                 notifyItemChanged(reviewIndex + 1)
             }
         }
-        var translationMap: HashMap<String, HotelReviewsResponse.Review>? = null
+        var translationMap: HashMap<String, TranslatedReview>? = null
 
         private var reviews: ArrayList<HotelReviewsResponse.Review> = arrayListOf()
         private var reviewsSummary: HotelReviewsResponse.ReviewSummary = HotelReviewsResponse.ReviewSummary()
@@ -74,7 +75,7 @@ class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : Recycler
                     translationMap?.get(reviews[position - 1].reviewId)?.let { translatedReview ->
                         hotelReviewRowViewModel.translatedReviewObserver.onNext(translatedReview)
                     }
-                    hotelReviewRowViewModel.translateReviewIdObservable.subscribe(translateReviewIdSubject)
+                    hotelReviewRowViewModel.toggleReviewTranslationObservable.subscribe(toggleReviewTranslationSubject)
                     holder.itemView.bindData(hotelReviewRowViewModel)
                 }
                 is HotelReviewsLoadingWidget -> loadMoreReviews()

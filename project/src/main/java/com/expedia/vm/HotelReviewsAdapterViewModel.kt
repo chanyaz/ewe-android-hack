@@ -5,6 +5,7 @@ import com.expedia.bookings.data.hotels.HotelReviewsResponse
 import com.expedia.bookings.data.hotels.HotelReviewsResponse.Review
 import com.expedia.bookings.data.hotels.HotelReviewsResponse.ReviewSummary
 import com.expedia.bookings.data.hotels.ReviewSort
+import com.expedia.bookings.hotel.data.TranslatedReview
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.util.endlessObserver
@@ -24,18 +25,19 @@ class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: Rev
     val favorableReviewsObservable = PublishSubject.create<List<Review>>()
     val criticalReviewsObservable = PublishSubject.create<List<Review>>()
     val newestReviewsObservable = PublishSubject.create<List<Review>>()
-    val reviewTranslatedObservable = PublishSubject.create<Review>()
+    val translationUpdatedObservable = PublishSubject.create<String>()
 
-    var translationMap: HashMap<String, HotelReviewsResponse.Review> = HashMap()
+    var translationMap: HashMap<String, TranslatedReview> = HashMap()
 
     private val reviewsDownloadsObservable = PublishSubject.create<Observable<Pair<ReviewSort, HotelReviewsResponse>>>()
     private val orderedReviewsObservable = Observable.concat(reviewsDownloadsObservable)
     private val reviewsObservable = PublishSubject.create<Pair<ReviewSort, HotelReviewsResponse>>()
 
-    val translateReviewIdObserver = endlessObserver<String> { reviewId ->
+    val toggleReviewTranslationObserver = endlessObserver<String> { reviewId ->
         val alreadyTranslatedReview = translationMap[reviewId]
         if (alreadyTranslatedReview != null) {
-            reviewTranslatedObservable.onNext(alreadyTranslatedReview)
+            alreadyTranslatedReview.showToUser = !alreadyTranslatedReview.showToUser
+            translationUpdatedObservable.onNext(reviewId)
         } else {
             getReviewFromApi(reviewId)
         }
@@ -92,9 +94,10 @@ class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: Rev
     }
 
     private fun getReviewFromApi(reviewId: String) {
-        reviewsServices.translate(reviewId, Locale.getDefault().language).subscribe ({ translatedReview ->
+        reviewsServices.translate(reviewId, Locale.getDefault().language).subscribe ({ review ->
+            val translatedReview = TranslatedReview(review)
             translationMap[reviewId] = translatedReview
-            reviewTranslatedObservable.onNext(translatedReview)
+            translationUpdatedObservable.onNext(reviewId)
         }, { /* TODO: handle unhappy path */ })
     }
 }

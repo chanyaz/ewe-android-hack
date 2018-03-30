@@ -70,8 +70,7 @@
             style="@style/Core.Text.200.PrimaryColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="6dp"
-            android:paddingBottom="6dp" />
+            android:paddingBottom="12dp" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/reviewer"

@@ -3,6 +3,7 @@ package com.expedia.bookings.hotel.vm
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelReviewsResponse
+import com.expedia.bookings.hotel.data.TranslatedReview
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
@@ -69,7 +70,7 @@ class HotelReviewRowViewModelTest {
 
     @Test
     fun testShowTranslationButton() {
-        AbacusTestUtils.bucketTests(AbacusUtils.HoteUGCTranslatations)
+        AbacusTestUtils.bucketTests(AbacusUtils.HotelUGCTranslations)
         val textObserver = TestObserver<String>()
         viewModel.translateButtonTextObservable.subscribe(textObserver)
         viewModel.reviewObserver.onNext(reviewOtherLanguage)
@@ -78,7 +79,7 @@ class HotelReviewRowViewModelTest {
 
     @Test
     fun testDoTranslation() {
-        AbacusTestUtils.bucketTests(AbacusUtils.HoteUGCTranslatations)
+        AbacusTestUtils.bucketTests(AbacusUtils.HotelUGCTranslations)
         val buttonTextObserver = TestObserver<String>()
         val titleTextObserver = TestObserver<String>()
         val reviewTextObserver = TestObserver<String>()
@@ -87,23 +88,44 @@ class HotelReviewRowViewModelTest {
         viewModel.translateButtonTextObservable.subscribe(buttonTextObserver)
         viewModel.titleTextObservable.subscribe(titleTextObserver)
         viewModel.reviewBodyObservable.subscribe(reviewTextObserver)
-        viewModel.translateReviewIdObservable.subscribe(reviewIdObserver)
+        viewModel.toggleReviewTranslationObservable.subscribe(reviewIdObserver)
 
         viewModel.reviewObserver.onNext(reviewOtherLanguage)
         viewModel.onTranslateClick.onNext(Unit)
-        viewModel.reviewObserver.onNext(reviewNativeLanguage)
+        viewModel.translatedReviewObserver.onNext(TranslatedReview(reviewNativeLanguage, true))
+        viewModel.onTranslateClick.onNext(Unit)
 
         buttonTextObserver.assertValues(context.getString(R.string.user_review_see_translation),
                 context.getString(R.string.user_review_translation_loading),
-                "")
+                context.getString(R.string.user_review_see_original),
+                context.getString(R.string.user_review_translation_loading))
         titleTextObserver.assertValues("Title in a different language", "Title")
         reviewTextObserver.assertValues("Content in a different language", "Content")
-        reviewIdObserver.assertValue("1")
+        reviewIdObserver.assertValues("1", "1")
+    }
+
+    @Test
+    fun testIgnoreTranslation() {
+        AbacusTestUtils.bucketTests(AbacusUtils.HotelUGCTranslations)
+        val buttonTextObserver = TestObserver<String>()
+        val titleTextObserver = TestObserver<String>()
+        val reviewTextObserver = TestObserver<String>()
+
+        viewModel.translateButtonTextObservable.subscribe(buttonTextObserver)
+        viewModel.titleTextObservable.subscribe(titleTextObserver)
+        viewModel.reviewBodyObservable.subscribe(reviewTextObserver)
+
+        viewModel.reviewObserver.onNext(reviewOtherLanguage)
+        viewModel.translatedReviewObserver.onNext(TranslatedReview(reviewNativeLanguage, false))
+
+        buttonTextObserver.assertValue(context.getString(R.string.user_review_see_translation))
+        titleTextObserver.assertValues("Title in a different language")
+        reviewTextObserver.assertValues("Content in a different language")
     }
 
     @Test
     fun testDoNotShowTranslationButton() {
-        AbacusTestUtils.bucketTests(AbacusUtils.HoteUGCTranslatations)
+        AbacusTestUtils.bucketTests(AbacusUtils.HotelUGCTranslations)
         val textObserver = TestObserver<String>()
         viewModel.translateButtonTextObservable.subscribe(textObserver)
         viewModel.reviewObserver.onNext(reviewNativeLanguage)
@@ -112,7 +134,7 @@ class HotelReviewRowViewModelTest {
 
     @Test
     fun testBadLocale() {
-        AbacusTestUtils.bucketTests(AbacusUtils.HoteUGCTranslatations)
+        AbacusTestUtils.bucketTests(AbacusUtils.HotelUGCTranslations)
         val textObserver = TestObserver<String>()
         viewModel.translateButtonTextObservable.subscribe(textObserver)
         viewModel.reviewObserver.onNext(reviewBadLocale)
@@ -121,7 +143,7 @@ class HotelReviewRowViewModelTest {
 
     @Test
     fun testNotBucketedForTranslations() {
-        AbacusTestUtils.unbucketTests(AbacusUtils.HoteUGCTranslatations)
+        AbacusTestUtils.unbucketTests(AbacusUtils.HotelUGCTranslations)
         val textObserver = TestObserver<String>()
         viewModel.translateButtonTextObservable.subscribe(textObserver)
         viewModel.reviewObserver.onNext(reviewNativeLanguage)
@@ -130,7 +152,7 @@ class HotelReviewRowViewModelTest {
 
     @Test
     fun testInDifferentLanguage() {
-        AbacusTestUtils.bucketTests(AbacusUtils.HoteUGCTranslatations)
+        AbacusTestUtils.bucketTests(AbacusUtils.HotelUGCTranslations)
         assertFalse(viewModel.reviewInDifferentLanguage())
 
         viewModel.reviewObserver.onNext(reviewOtherLanguage)
@@ -140,10 +162,6 @@ class HotelReviewRowViewModelTest {
         assertFalse(viewModel.reviewInDifferentLanguage())
 
         viewModel.reviewObserver.onNext(reviewBadLocale)
-        assertFalse(viewModel.reviewInDifferentLanguage())
-
-        viewModel.reviewObserver.onNext(reviewOtherLanguage)
-        viewModel.translatedReviewObserver.onNext(reviewNativeLanguage)
         assertFalse(viewModel.reviewInDifferentLanguage())
     }
 
