@@ -963,6 +963,39 @@ class HotelCheckoutPresenterTest {
     }
 
     @Test
+    fun testTravelerFocusedOnReturnToCheckout() {
+        setup()
+        goToCheckout()
+        checkout.createTripViewmodel.tripResponseObservable.onNext(mockHotelServices.getHappyCreateTripEmailOptOutResponse())
+        checkout.mainContactInfoCardView.performClick()
+        checkout.show(CheckoutBasePresenter.Ready())
+
+        assertTrue(checkout.mainContactInfoCardView.isFocused)
+    }
+
+    @Test
+    fun testMaterialTravelerCardFocusedOnReturnToCheckout() {
+        setupHotelMaterialForms()
+        goToCheckout()
+        checkout.travelerSummaryCardView.performClick()
+        checkout.travelersPresenter.closeSubject.onNext(Unit)
+
+        assertTrue(checkout.travelerSummaryCard.isFocused)
+    }
+
+    @Test
+    fun testPaymentWidgetFocusedOnReturnToCheckout() {
+        setupHotelMaterialForms()
+        goToCheckout()
+        checkout.show(CheckoutBasePresenter.Ready())
+        checkout.paymentInfoCardView.performClick()
+        checkout.paymentInfoCardView.showPaymentForm(false)
+        checkout.show(CheckoutBasePresenter.Ready())
+
+        assertTrue(checkout.paymentInfoCardView.isFocused)
+    }
+
+    @Test
     fun testFocusElementOnCouponCardViewExpand() {
         setupHotelMaterialForms()
         goToCheckout()

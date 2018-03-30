@@ -600,12 +600,12 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			if (forward) {
 				resetMenuButton();
 				checkoutFormWasUpdated();
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar);
 			}
 			else {
 				animateInSlideToPurchase(false);
 			}
 			listenToScroll = true;
-			AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar);
 		}
 	};
 
@@ -629,11 +629,11 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			updateMaterialBackgroundColor(forward);
 			if (forward) {
 				toolbar.getViewModel().getVisibleMenuWithTitleDone().onNext(Unit.INSTANCE);
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar);
 			}
 			else {
 				Ui.hideKeyboard(travelersPresenter);
-				AccessibilityUtil.setFocusForView(travelersPresenter);
-				AccessibilityUtil.setFocusForView(travelerSummaryCard);
+				AccessibilityUtil.requestFocusForView(travelerSummaryCard);
 				travelersPresenter.getToolbarNavIconContDescSubject().onNext(getResources().getString(R.string.toolbar_nav_icon_cont_desc));
 				travelersPresenter.getViewModel().updateCompletionStatus();
 				resetMenuButton();
@@ -756,6 +756,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				paymentInfoCardView.setVisibility(paymentInfoCardView.isCreditCardRequired() ? VISIBLE : GONE);
 				Ui.hideKeyboard(CheckoutBasePresenter.this);
 				resetMenuButton();
+				AccessibilityUtil.requestFocusForView(paymentInfoCardView);
 			}
 			else {
 				AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar);
@@ -798,6 +799,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				paymentInfoCardView.setVisibility(paymentInfoCardView.isCreditCardRequired() ? VISIBLE : GONE);
 				Ui.hideKeyboard(CheckoutBasePresenter.this);
 				resetMenuButton();
+				AccessibilityUtil.requestFocusForView(paymentInfoCardView);
 			}
 			else {
 				if (FeatureUtilKt.isPopulateCardholderNameEnabled(getContext())) {
