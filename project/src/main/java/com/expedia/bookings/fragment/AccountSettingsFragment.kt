@@ -452,6 +452,9 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
     }
 
     private fun getCopyrightString(): String {
+        if (BuildConfig.brand == "Expedia") {
+            return Phrase.from(context, R.string.expedia_group_copyright_TEMPLATE).put("year", Calendar.getInstance().get(Calendar.YEAR)).format().toString()
+        }
         return Phrase.from(context, R.string.copyright_TEMPLATE).put("brand", BuildConfig.brand).put("year", Calendar.getInstance().get(Calendar.YEAR)).format().toString()
     }
 

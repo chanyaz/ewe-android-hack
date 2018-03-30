@@ -204,15 +204,24 @@ class AccountSettingsFragmentTest {
         givenSignedInAsUser(getNonRewardsMember())
         givenFragmentSetup()
 
-        var expected = Phrase.from(activity, R.string.copyright_TEMPLATE)
+        val multiBrandExpected = Phrase.from(activity, R.string.copyright_TEMPLATE)
                 .put("brand", BuildConfig.brand)
                 .put("year", Calendar.getInstance().get(Calendar.YEAR))
                 .format()
                 .toString()
+        val expediaExpected = Phrase.from(activity, R.string.expedia_group_copyright_TEMPLATE)
+                .put("year", Calendar.getInstance().get(Calendar.YEAR))
+                .format()
+                .toString()
         val copyrightView = fragment.view?.findViewById<TextView>(R.id.copyright_info)
-        assertEquals(expected, copyrightView?.text)
 
-        expected = activity.getString(R.string.this_app_makes_use_of_the_following) + " " +
+        if (BuildConfig.brand != "Expedia") {
+            assertEquals(multiBrandExpected, copyrightView?.text)
+        } else {
+            assertEquals(expediaExpected, copyrightView?.text)
+        }
+
+        val expected = activity.getString(R.string.this_app_makes_use_of_the_following) + " " +
                 activity.getString(R.string.open_source_names)
         val ossView = fragment.view?.findViewById<TextView>(R.id.open_source_credits_textview)
         assertEquals(expected, ossView?.text)
