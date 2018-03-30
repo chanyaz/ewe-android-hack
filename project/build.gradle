@@ -450,7 +450,6 @@ android {
 
     fork {
         testPackage = GradleUtil.getPropertyWithDefault(project, 'package', "com.expedia.bookings.test")
-        excludedAnnotation = "@ExcludeFromFork"
         totalAllowedRetryQuota = 99
         retryPerTestCaseQuota = 2
         testOutputTimeout = 90000
