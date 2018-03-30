@@ -61,7 +61,8 @@ dependencies {
     debugImplementation "com.android.support:preference-v7:${rootProject.ext.supportLibVersion}"
     debugImplementation "com.android.support:preference-v14:${rootProject.ext.supportLibVersion}"
 
-    implementation "android.arch.lifecycle:extensions:1.1.0"
+    implementation "android.arch.lifecycle:extensions:${lifecyle_version}"
+    implementation "android.arch.lifecycle:common-java8:${lifecyle_version}"
 
     implementation "com.google.android.gms:play-services-maps:${rootProject.ext.googlePlayServicesVersion}"
     implementation "com.google.android.gms:play-services-location:${rootProject.ext.googlePlayServicesVersion}"

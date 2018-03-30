@@ -9,10 +9,11 @@ import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.itin.common.ItinToolbarViewModel
+import com.expedia.bookings.itin.utils.StringSource
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.PublishSubject
 
-open class FlightItinTravelerViewModel(private val context: Context, private val itinId: String) : TabLayout.OnTabSelectedListener {
+open class FlightItinTravelerViewModel(val strings: StringSource, private val itinId: String) : TabLayout.OnTabSelectedListener {
     override fun onTabReselected(tab: TabLayout.Tab?) {
         return
     }
@@ -48,9 +49,8 @@ open class FlightItinTravelerViewModel(private val context: Context, private val
     fun updateToolbar() {
         val destinationCity = itinCardDataFlight.flightLeg.lastWaypoint?.airport?.mCity ?: ""
         updateToolbarSubject.onNext(ItinToolbarViewModel.ToolbarParams(
-                context.getString(R.string.itin_flight_traveler_info),
-                Phrase.from(context, R.string.itin_flight_toolbar_title_TEMPLATE)
-                        .put("destination", destinationCity).format().toString(),
+                strings.fetch(R.string.itin_flight_traveler_info),
+                strings.fetchWithPhrase(R.string.itin_flight_toolbar_title_TEMPLATE, mapOf("destination" to destinationCity)),
                 false
         ))
     }
