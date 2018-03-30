@@ -270,11 +270,11 @@ class PhoneEntryViewTest {
     }
 
     @Test
-    fun testSmallPhoneNumberNotRemovedWhenAutoFilled() {
+    fun testCountryCodeNotRemovedFromTenDigitNumberOrLessWhenAutoFilled() {
         val phoneNumberEditText = widget.phoneNumber
-        val number = "123"
+        val number = "4083333333"
         phoneNumberEditText.autofill(AutofillValue.forText(number))
-        assertEquals("123", phoneNumberEditText.text.toString())
+        assertEquals("408-333-3333", phoneNumberEditText.text.toString())
     }
 
     private fun setupViewModelWithPhone(): TravelerPhoneViewModel {

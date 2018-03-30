@@ -227,7 +227,7 @@ class CountryCodeUtil {
 
         @JvmStatic
         fun getCountryCode(numberString: String): String {
-            if (numberString.length <= 3) return ""
+            if (numberString.length <= 10) return ""
             (1..3).map { i ->
                 val countryCode = numberString.substring(0, i).toInt()
                 if (countryCodes.contains(countryCode)) return countryCode.toString()
