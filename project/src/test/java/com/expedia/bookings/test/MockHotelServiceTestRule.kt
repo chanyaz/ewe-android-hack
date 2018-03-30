@@ -48,6 +48,14 @@ class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::clas
         return getCreateTripResponse("happypath_0")
     }
 
+    fun getHappyCreateTripResponseWithMandatoryFeeUKPOS(): HotelCreateTripResponse {
+        return getCreateTripResponse("happypath_with_mandatory_fee_uk")
+    }
+
+    fun getHappyCreateTripResponseUKPOS(): HotelCreateTripResponse {
+        return getCreateTripResponse("happypath_uk")
+    }
+
     fun getGuestHappyCreateTripResponse(): HotelCreateTripResponse {
         return getCreateTripResponse("happypath_guest_0")
     }

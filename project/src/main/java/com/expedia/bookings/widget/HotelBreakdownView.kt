@@ -13,6 +13,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.HotelBreakDownViewModel
 import com.expedia.vm.HotelBreakDownViewModel.BreakdownItem
+import com.squareup.phrase.Phrase
 
 class HotelBreakDownView(context: Context, attrs: AttributeSet?) : ScrollView(context, attrs) {
     val linearLayout: LinearLayout by bindView(R.id.breakdown_container)
@@ -32,6 +33,8 @@ class HotelBreakDownView(context: Context, attrs: AttributeSet?) : ScrollView(co
                     BreakdownItem.DISCOUNT -> linearLayout.addView(createRow(breakdown, true))
 
                     BreakdownItem.OTHER -> linearLayout.addView(createRow(breakdown, false))
+
+                    BreakdownItem.LOCALCURRENCY -> linearLayout.addView(createLocalCurrencyRow(breakdown))
                 }
             }
         }
@@ -52,6 +55,15 @@ class HotelBreakDownView(context: Context, attrs: AttributeSet?) : ScrollView(co
         } else {
             priceValue.text = breakdown.cost
         }
+        return row
+    }
+
+    private fun createLocalCurrencyRow(breakdown: HotelBreakDownViewModel.Breakdown): View {
+        val row = LayoutInflater.from(context).inflate(R.layout.hotel_local_currency_row, null)
+        val localCurrencyDisplay = row.findViewById<TextView>(R.id.local_currency_display)
+        localCurrencyDisplay.text = Phrase.from(context, R.string.local_currency_TEMPLATE)
+                .put("cost", breakdown.cost)
+                .format().toString()
         return row
     }
 

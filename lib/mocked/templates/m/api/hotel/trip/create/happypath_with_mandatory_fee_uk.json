@@ -1,0 +1,230 @@
+{"tripId": "9d93f958-8980-435b-8c0e-5abcd60bae8f",
+  "userId": 153090873,
+  "originalHotelProductResponse": {},
+  "newHotelProductResponse": {
+    "checkInDate": "2018-05-04",
+    "checkOutDate": "2018-05-05",
+    "checkInTime": "23:00",
+    "checkOutTime": "23:00",
+    "adultCount": "1",
+    "numberOfNights": "1",
+    "numberOfRooms": "1",
+    "hotelId": "15930",
+    "hotelName": "TI - Treasure Island Hotel and Casino",
+    "localizedHotelName": "TI - Treasure Island Hotel and Casino",
+    "nonLocalizedHotelName": "TI - Treasure Island Hotel and Casino",
+    "largeThumbnailUrl": "/hotels/1000000/20000/16000/15930/15930_193_d.jpg",
+    "thumbnailUrl": "/hotels/1000000/20000/16000/15930/15930_193_n.jpg",
+    "hotelAddress": "3300 Las Vegas Blvd S",
+    "hotelCity": "Las Vegas",
+    "hotelStateProvince": "NV",
+    "hotelCountry": "USA",
+    "hotelStarRating": "4.0",
+    "shortDescription": "",
+    "hotelRoomResponse": {
+      "productKey": "00000000-0000-0000-0000-000000000000_V3",
+      "bedTypes": [
+        {
+          "id": "14",
+          "description": "1 king bed"
+        },
+        {
+          "id": "23",
+          "description": "2 queen beds"
+        }
+      ],
+      "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the property charges such fees in accordance with its own policies, the cost will be passed on to you. TI - Treasure Island Hotel and Casino charges the following cancellation and change fees.<\/p><p>Cancellations or changes made after 15:00 (property local time) on 1 May 2018 or no-shows are subject to a property fee equal to 100% of the total amount paid for the reservation.<\/p><p>Your room/unit will be guaranteed for late arrival.<\/p><p>Hotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate properties.<\/p>",
+      "currentAllotment": "0",
+      "depositRequired": false,
+      "freeCancellationWindowDate": "2018-05-01 08:00",
+      "guaranteeRequired": false,
+      "hasFreeCancellation": true,
+      "immediateChargeRequired": true,
+      "isDiscountRestrictedToCurrentSourceType": false,
+      "isPayLater": false,
+      "isSameDayDRR": false,
+      "minGuestAge": "0",
+      "nonRefundable": false,
+      "promoDescription": "24 hour deal: save 30%",
+      "promotionDetails": {
+        "promoId": "270014623",
+        "minStay": 1,
+        "promoExpirationDate": "2018-04-02T23:59:00-07:00",
+        "promoAdjustmentAmount": "-0.30",
+        "promoAdjustmentType": "PERCENT_ADJUSTMENT",
+        "isPromoPartiallyApplied": false
+      },
+      "quotedOccupancy": "4",
+      "rateChange": false,
+      "rateDescription": "Run of the House Room",
+      "rateInfo": {
+        "priceBreakdown": true,
+        "promo": true,
+        "rateChange": false,
+        "chargeableRateInfo": {
+          "maxNightlyRate": "139.81",
+          "averageRate": "139.81",
+          "taxStatusType": "ESTIMATED",
+          "surchargeTotal": "18.70",
+          "surchargeTotalForEntireStay": "18.70",
+          "averageBaseRate": "199.72",
+          "nightlyRateTotal": "139.81",
+          "discountPercent": -30,
+          "total": "158.51",
+          "currencyCode": "GBP",
+          "currencySymbol": "",
+          "surcharges": [
+            {
+              "amount": "14.40",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "14.40",
+              "type": "TAX_OTHER"
+            },
+            {
+              "amount": "4.30",
+              "type": "FEE_ALL"
+            },
+            {
+              "amount": "4.30",
+              "type": "FEE_MISC"
+            }
+          ],
+          "surchargesForEntireStay": [
+            {
+              "amount": "14.40",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "14.40",
+              "type": "TAX_OTHER"
+            },
+            {
+              "amount": "4.30",
+              "type": "FEE_ALL"
+            },
+            {
+              "amount": "4.30",
+              "type": "FEE_MISC"
+            }
+          ],
+          "nightlyRatesPerRoom": [
+            {
+              "promo": "true",
+              "baseRate": "199.72",
+              "rate": "139.81"
+            }
+          ],
+          "priceToShowUsers": "140",
+          "strikethroughPriceToShowUsers": "200",
+          "strikethroughPriceWithTaxesAndFeesToShowUsers": "218",
+          "totalMandatoryFees": "29.93",
+          "mandatoryFees": [
+            {
+              "feeName": "Resort fee",
+              "amount": "29.93"
+            }
+          ],
+          "mandatoryFeesInPOSuCurrency": [
+            {
+              "feeName": "Resort fee",
+              "amount": "41.95"
+            }
+          ],
+          "POSuCurrency": "USD",
+          "POSaCurrency": "GBP",
+          "totalPriceWithMandatoryFees": "158.51",
+          "formattedTotalPriceWithMandatoryFees": "£ 158.51",
+          "userPriceType": "PerNightRateNoTaxes",
+          "priceAdjustments": [],
+          "checkoutPriceType": "total",
+          "airAttached": false,
+          "roomTypeCode": "1615",
+          "ratePlanCode": "1615",
+          "showResortFeeMessage": true,
+          "resortFeeInclusion": false,
+          "dailyMandatoryFee": "29.93"
+        }
+      },
+      "rateOccupancyPerRoom": "7",
+      "ratePlanCode": "1615",
+      "roomThumbnailUrlArray": [],
+      "roomTypeCode": "1615",
+      "roomTypeDescription": "Run of the House Room",
+      "smokingPreferences": "NS",
+      "supplierType": "MERCHANT",
+      "valueAdds": [
+        {
+          "id": "2195",
+          "description": "Free Valet Parking"
+        }
+      ]
+    },
+    "supplierType": "MERCHANT",
+    "accessibilityAmenities": [
+      {
+        "id": "2420",
+        "description": "Accessible bathroom"
+      },
+      {
+        "id": "2421",
+        "description": "Roll-in shower"
+      },
+      {
+        "id": "2423",
+        "description": "In-room accessibility"
+      }
+    ],
+    "isVipAccess": true,
+    "tealeafTransactionId": "32cea36ad3c840f99f7ad226828fcfd8",
+    "bigImageUrl": "/hotels/1000000/20000/16000/15930/15930_193_b.jpg",
+    "regionId": "2008"
+  },
+  "airAttachedProductResponse": {},
+  "loyaltyPoints": {
+    "totalLoyaltyPoints": 317,
+    "loyaltyPointInfoList": [
+      {
+        "pointValue": 317,
+        "pointType": "basePoint"
+      }
+    ]
+  },
+  "expediaRewards": {
+    "totalPointsToEarn": 317,
+    "isActiveRewardsMember": false,
+    "rewardsMembershipTierName": "Invalid Tier"
+  },
+  "rewards": {
+    "programName": "ExpediaRewards",
+    "totalPointsToEarn": 317,
+    "isActiveRewardsMember": false,
+    "rewardsMembershipTierName": "Invalid Tier"
+  },
+  "tealeafTransactionId": "32cea36ad3c840f99f7ad226828fcfd8",
+  "validFormsOfPayment": [
+    {
+      "name": "AmericanExpress"
+    },
+    {
+      "name": "Diner's Club International"
+    },
+    {
+      "name": "Maestro"
+    },
+    {
+      "name": "MasterCard"
+    },
+    {
+      "name": "Visa"
+    },
+    {
+      "name": "Visa Electron"
+    }
+  ],
+  "guestUserPromoEmailOptInStatus": "CONSENT_TO_OPT_OUT",
+  "paymentRules": {
+    "maxPaymentInstrumentsForBooking": 1
+  }
+}

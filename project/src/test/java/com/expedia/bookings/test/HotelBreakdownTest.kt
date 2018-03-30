@@ -180,7 +180,45 @@ class HotelBreakdownTest {
         expected.add(arrayListOf(Breakdown("1 Night", "$72.96", BreakdownItem.OTHER),
                 Breakdown("6/29/2016", "$72.96", BreakdownItem.DATE),
                 Breakdown("Taxes & Fees", "Included", BreakdownItem.OTHER),
-                Breakdown("Trip total", "$72.96", BreakdownItem.TRIPTOTAL)))
+                Breakdown("Total Due Today", "$72.96", BreakdownItem.TRIPTOTAL)))
+
+        testSubscriber.assertValueSequence(expected)
+        testSubscriber.dispose()
+    }
+
+    @Test
+    fun verifyCostBreakdownForUKPOSWithMandatoryFee() {
+        fetchHappyCreateTripResponseWithMandatoryFeeForUKPOS()
+        val testSubscriber = TestObserver<List<Breakdown>>()
+        vm.addRows.subscribe(testSubscriber)
+
+        executeTest(testSubscriber)
+
+        val expected = arrayListOf<List<Breakdown>>()
+        expected.add(arrayListOf(Breakdown("1 Night", "GBP139.81", BreakdownItem.OTHER),
+        Breakdown("5/04/2018", "GBP139.81", BreakdownItem.DATE),
+        Breakdown("Taxes & Fees", "GBP18.70", BreakdownItem.OTHER),
+        Breakdown("Total Due Today", "GBP158.51", BreakdownItem.TRIPTOTAL),
+        Breakdown("Due at hotel", "GBP29.93", BreakdownItem.OTHER),
+        Breakdown("", "$41.95", BreakdownItem.LOCALCURRENCY)))
+
+        testSubscriber.assertValueSequence(expected)
+        testSubscriber.dispose()
+    }
+
+    @Test
+    fun verifyCostBreakdownForUKPOS() {
+        fetchHappyCreateTripResponseUKPOS()
+        val testSubscriber = TestObserver<List<Breakdown>>()
+        vm.addRows.subscribe(testSubscriber)
+
+        executeTest(testSubscriber)
+
+        val expected = arrayListOf<List<Breakdown>>()
+        expected.add(arrayListOf(Breakdown("1 Night", "GBP128.41", BreakdownItem.OTHER),
+                Breakdown("5/04/2018", "GBP128.41", BreakdownItem.DATE),
+                Breakdown("Taxes & Fees", "GBP21.48", BreakdownItem.OTHER),
+                Breakdown("Trip total", "GBP149.89", BreakdownItem.TRIPTOTAL)))
 
         testSubscriber.assertValueSequence(expected)
         testSubscriber.dispose()
@@ -227,5 +265,13 @@ class HotelBreakdownTest {
 
     private fun givenHappyCreateTripResponse() {
         createTripResponse = mockHotelServiceTestRule.getHappyCreateTripResponse()
+    }
+
+    private fun fetchHappyCreateTripResponseWithMandatoryFeeForUKPOS() {
+        createTripResponse = mockHotelServiceTestRule.getHappyCreateTripResponseWithMandatoryFeeUKPOS()
+    }
+
+    private fun fetchHappyCreateTripResponseUKPOS() {
+        createTripResponse = mockHotelServiceTestRule.getHappyCreateTripResponseUKPOS()
     }
 }

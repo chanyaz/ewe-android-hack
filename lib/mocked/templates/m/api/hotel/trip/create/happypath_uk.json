@@ -1,0 +1,201 @@
+{
+  "tripId": "4cadd634-4f83-419b-ab97-a18cbaf2e609",
+  "userId": 153092046,
+  "originalHotelProductResponse": {},
+  "newHotelProductResponse": {
+    "checkInDate": "2018-05-04",
+    "checkOutDate": "2018-05-05",
+    "checkInTime": "23:00",
+    "checkOutTime": "23:00",
+    "adultCount": "1",
+    "numberOfNights": "1",
+    "numberOfRooms": "1",
+    "hotelId": "8737",
+    "hotelName": "San Francisco Marriott Marquis",
+    "localizedHotelName": "San Francisco Marriott Marquis",
+    "nonLocalizedHotelName": "San Francisco Marriott Marquis",
+    "largeThumbnailUrl": "/hotels/1000000/10000/8800/8737/1bcd8d1c_d.jpg",
+    "thumbnailUrl": "/hotels/1000000/10000/8800/8737/1bcd8d1c_n.jpg",
+    "hotelAddress": "780 Mission Street",
+    "hotelCity": "San Francisco",
+    "hotelStateProvince": "CA",
+    "hotelCountry": "USA",
+    "hotelStarRating": "4.0",
+    "shortDescription": "",
+    "hotelRoomResponse": {
+      "productKey": "00000000-0000-0000-0000-000000000000_V3",
+      "bedTypes": [
+        {
+          "id": "14",
+          "description": "1 king bed"
+        }
+      ],
+      "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the property charges such fees in accordance with its own policies, the cost will be passed on to you. San Francisco Marriott Marquis charges the following cancellation and change fees.<\/p><p><span class=\"rr-bold\">The room/unit type and rate selected are non-refundable.<\/span> Should you change or cancel this reservation for any reason, your payment will not be refunded.<\/p><p>No refunds will be issued for late check-in or early check-out.<\/p><p>Stay extensions require a new reservation.<\/p><p>Your room/unit will be guaranteed for late arrival.<\/p><p>Hotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate properties.<\/p>",
+      "currentAllotment": "0",
+      "depositRequired": false,
+      "guaranteeRequired": false,
+      "hasFreeCancellation": false,
+      "immediateChargeRequired": true,
+      "isDiscountRestrictedToCurrentSourceType": false,
+      "isPayLater": false,
+      "isSameDayDRR": false,
+      "minGuestAge": "0",
+      "nonRefundable": true,
+      "promoDescription": "",
+      "promotionDetails": {
+        "promoId": "201157277",
+        "minStay": 1,
+        "promoExpirationDate": "2079-06-06T23:59:00-07:00",
+        "promoAdjustmentAmount": "0.00",
+        "promoAdjustmentType": "PERCENT_ADJUSTMENT",
+        "isPromoPartiallyApplied": false
+      },
+      "quotedOccupancy": "4",
+      "rateChange": false,
+      "rateDescription": "Room, 1 King Bed",
+      "rateInfo": {
+        "priceBreakdown": true,
+        "promo": true,
+        "rateChange": false,
+        "chargeableRateInfo": {
+          "maxNightlyRate": "128.41",
+          "averageRate": "128.41",
+          "taxStatusType": "ESTIMATED",
+          "surchargeTotal": "21.48",
+          "surchargeTotalForEntireStay": "21.48",
+          "averageBaseRate": "128.41",
+          "nightlyRateTotal": "128.41",
+          "discountPercent": 0,
+          "total": "149.89",
+          "currencyCode": "GBP",
+          "currencySymbol": "",
+          "surcharges": [
+            {
+              "amount": "18.77",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "18.77",
+              "type": "TAX_OTHER"
+            },
+            {
+              "amount": "2.71",
+              "type": "FEE_ALL"
+            },
+            {
+              "amount": "2.71",
+              "type": "FEE_MISC"
+            }
+          ],
+          "surchargesForEntireStay": [
+            {
+              "amount": "18.77",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "18.77",
+              "type": "TAX_OTHER"
+            },
+            {
+              "amount": "2.71",
+              "type": "FEE_ALL"
+            },
+            {
+              "amount": "2.71",
+              "type": "FEE_MISC"
+            }
+          ],
+          "nightlyRatesPerRoom": [
+            {
+              "promo": "false",
+              "baseRate": "128.41",
+              "rate": "128.41"
+            }
+          ],
+          "priceToShowUsers": "128",
+          "strikethroughPriceToShowUsers": "128",
+          "strikethroughPriceWithTaxesAndFeesToShowUsers": "150",
+          "totalMandatoryFees": "0.00",
+          "totalPriceWithMandatoryFees": "149.89",
+          "formattedTotalPriceWithMandatoryFees": "£ 149.89",
+          "userPriceType": "PerNightRateNoTaxes",
+          "priceAdjustments": [],
+          "checkoutPriceType": "total",
+          "airAttached": false,
+          "roomTypeCode": "6170",
+          "ratePlanCode": "200656102",
+          "showResortFeeMessage": false,
+          "resortFeeInclusion": false
+        }
+      },
+      "rateOccupancyPerRoom": "7",
+      "ratePlanCode": "200656102",
+      "roomThumbnailUrlArray": [],
+      "roomTypeCode": "6170",
+      "roomTypeDescription": "Room, 1 King Bed",
+      "smokingPreferences": "NS",
+      "supplierType": "MERCHANT"
+    },
+    "supplierType": "MERCHANT",
+    "accessibilityAmenities": [
+      {
+        "id": "2420",
+        "description": "Accessible bathroom"
+      },
+      {
+        "id": "2423",
+        "description": "In-room accessibility"
+      }
+    ],
+    "isVipAccess": false,
+    "tealeafTransactionId": "3f7ce3c73cda4136bf34862aa85784ba",
+    "bigImageUrl": "/hotels/1000000/10000/8800/8737/1bcd8d1c_b.jpg",
+    "regionId": "160166"
+  },
+  "airAttachedProductResponse": {},
+  "loyaltyPoints": {
+    "totalLoyaltyPoints": 300,
+    "loyaltyPointInfoList": [
+      {
+        "pointValue": 300,
+        "pointType": "basePoint"
+      }
+    ]
+  },
+  "expediaRewards": {
+    "totalPointsToEarn": 300,
+    "isActiveRewardsMember": false,
+    "rewardsMembershipTierName": "Invalid Tier"
+  },
+  "rewards": {
+    "programName": "ExpediaRewards",
+    "totalPointsToEarn": 300,
+    "isActiveRewardsMember": false,
+    "rewardsMembershipTierName": "Invalid Tier"
+  },
+  "tealeafTransactionId": "3f7ce3c73cda4136bf34862aa85784ba",
+  "validFormsOfPayment": [
+    {
+      "name": "AmericanExpress"
+    },
+    {
+      "name": "Diner's Club International"
+    },
+    {
+      "name": "Maestro"
+    },
+    {
+      "name": "MasterCard"
+    },
+    {
+      "name": "Visa"
+    },
+    {
+      "name": "Visa Electron"
+    }
+  ],
+  "guestUserPromoEmailOptInStatus": "CONSENT_TO_OPT_OUT",
+  "paymentRules": {
+    "maxPaymentInstrumentsForBooking": 1
+  }
+}

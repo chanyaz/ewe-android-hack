@@ -75,11 +75,21 @@ class HotelBreakDownViewModel(val context: Context, hotelCheckoutSummaryViewMode
                 breakdowns.add(Breakdown(context.getString(R.string.fees_paid_at_hotel), hotelCheckoutSummaryViewModel.feesPaidAtHotel.value, BreakdownItem.OTHER))
             }
 
-            // Total
-            breakdowns.add(Breakdown(context.getString(R.string.total_price_label), hotelCheckoutSummaryViewModel.tripTotalPrice.value, BreakdownItem.TRIPTOTAL))
+            val isMandatoryFeePresent = hotelCheckoutSummaryViewModel.isResortCase.value
+            val isCheckoutPriceTypeTotal = hotelCheckoutSummaryViewModel.isCheckoutPriceTypeTotal.value
+
+            createTotalRow(breakdowns, isMandatoryFeePresent, isCheckoutPriceTypeTotal, hotelCheckoutSummaryViewModel.tripTotalPrice.value)
+
+            if (isMandatoryFeePresent && isCheckoutPriceTypeTotal) {
+                breakdowns.add(Breakdown(context.getString(R.string.cost_summary_due_at_hotel), hotelCheckoutSummaryViewModel.feesPaidAtHotel.value, BreakdownItem.OTHER))
+            }
+
+            if (isMandatoryFeePresent && hotelCheckoutSummaryViewModel.showFeesPaidAtHotelinPOSuCurrency.value != null && isCheckoutPriceTypeTotal) {
+                breakdowns.add(Breakdown("", hotelCheckoutSummaryViewModel.showFeesPaidAtHotelinPOSuCurrency.value, BreakdownItem.LOCALCURRENCY))
+            }
 
             // Show amount to be paid today in resort or ETP cases
-            if (hotelCheckoutSummaryViewModel.isResortCase.value || hotelCheckoutSummaryViewModel.isPayLater.value) {
+            if ((isMandatoryFeePresent && !isCheckoutPriceTypeTotal) || hotelCheckoutSummaryViewModel.isPayLater.value) {
                 var dueTodayText: String
                 if (hotelCheckoutSummaryViewModel.isDepositV2.value) {
                     dueTodayText = Phrase.from(context, R.string.due_to_brand_today_today_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
@@ -92,12 +102,22 @@ class HotelBreakDownViewModel(val context: Context, hotelCheckoutSummaryViewMode
         }
     }
 
+    private fun createTotalRow(breakdowns: ArrayList<Breakdown>, isMandatoryFeePresent: Boolean, isCheckoutPriceTypeTotal: Boolean, totalPrice: String) {
+        val stringToRepresentTotal = if (isMandatoryFeePresent && isCheckoutPriceTypeTotal) {
+            context.getString(R.string.cost_summary_breakdown_total_due_today)
+        } else {
+            context.getString(R.string.total_price_label)
+        }
+        breakdowns.add(Breakdown(stringToRepresentTotal, totalPrice, BreakdownItem.TRIPTOTAL))
+    }
+
     data class Breakdown(val title: String, val cost: String, val breakdownItem: BreakdownItem)
 
     enum class BreakdownItem {
         DATE,
         DISCOUNT,
         TRIPTOTAL,
+        LOCALCURRENCY,
         OTHER
     }
 }

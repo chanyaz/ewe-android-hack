@@ -73,6 +73,8 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
     val createTripResponseObservable = PublishSubject.create<HotelCreateTripResponse>()
     val checkinDateFormattedByEEEMMDD = PublishSubject.create<String>()
     val checkoutDateFormattedByEEEMMDD = PublishSubject.create<String>()
+    val isCheckoutPriceTypeTotal = BehaviorSubject.createDefault<Boolean>(false)
+    val showFeesPaidAtHotelinPOSuCurrency = BehaviorSubject.create<String>()
 
     init {
 
@@ -166,10 +168,16 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
 
             //TODO remove dependency on .value(BehaviorSubjects here)
             isPayLater.onNext(it.room.isPayLater)
-            isResortCase.onNext(it.rate.totalMandatoryFees != 0f && Strings.equals(it.rate.checkoutPriceType, "totalPriceWithMandatoryFees"))
-            isPayLaterOrResortCase.onNext(isPayLater.value || isResortCase.value)
+            isCheckoutPriceTypeTotal.onNext(!Strings.equals(it.rate.checkoutPriceType, "totalPriceWithMandatoryFees"))
+            isResortCase.onNext(it.rate.totalMandatoryFees != 0f)
+            isPayLaterOrResortCase.onNext(isPayLater.value || (isResortCase.value && !isCheckoutPriceTypeTotal.value))
             isDepositV2.onNext(it.room.depositRequired)
-            showFeesPaidAtHotel.onNext(isResortCase.value)
+            val mandatoryFeesInPOSu = it.rate.mandatoryFeesInPOSuCurrency
+            val currencyCodePOSu = it.rate.posuCurrency
+            if (mandatoryFeesInPOSu != null && !currencyCodePOSu.isNullOrEmpty()) {
+                showFeesPaidAtHotelinPOSuCurrency.onNext(Money(BigDecimal(mandatoryFeesInPOSu.first().amount.toDouble()), currencyCodePOSu).formattedMoney)
+            }
+            showFeesPaidAtHotel.onNext(isResortCase.value && !isCheckoutPriceTypeTotal.value)
 
             if (it.isExpediaRewardsRedeemable && !it.paymentSplitsType.equals(PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD)) {
                 dueNowAmount.onNext(it.payingWithCard.amount.formattedMoneyFromAmountAndCurrencyCode)

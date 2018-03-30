@@ -4815,6 +4815,9 @@
     <!-- Gallery Image count e.g. "1/14" -->
     <string name="gallery_photo_count_TEMPLATE">{index}/{count}</string>
 
+    <!-- e.g. "$33 in local currency" -->
+    <string name="local_currency_TEMPLATE">({cost} in local currency)</string>
+
     <!-- Content description for hotel image gallery -->
     <string name="gallery_cont_desc">"Image gallery"</string>
     <string name="collapsed_gallery_photo_click_cont_desc">Browse images</string>
@@ -5057,5 +5060,8 @@
 
     <!--Accessibility Content Description for Member Pricing Discount Percentage Eg. Member Pricing Discount: 10%-->
     <string name="lx_member_pricing_discount_percent_TEMPLATE">Member Pricing Discount: {discount}%</string>
+
+    <!--Due at hotel-->
+    <string name="cost_summary_due_at_hotel">Due at hotel</string>
 
 </resources>
