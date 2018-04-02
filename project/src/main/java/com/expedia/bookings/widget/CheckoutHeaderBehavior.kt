@@ -64,11 +64,9 @@ class CheckoutHeaderBehavior(val context: Context, attrs: AttributeSet) : Coordi
 
     private fun setupValues(child: CheckoutOverviewHeader, dependency: View) {
         val toolbar = dependency.findViewById<CheckoutToolbar>(R.id.checkout_toolbar)
-        val fullWidth = child.width
         toolBarRightX = getLocation(toolbar.getChildAt(0))[0] + toolbar.getChildAt(0).width
         child.destinationText.maxWidth = child.width - (toolBarRightX * 2)
         textViewWidth = child.destinationText.width
-        child.destinationText.x = (fullWidth / 2f) - (textViewWidth / 2f)
         textViewLeftX = getLocation(child.destinationText)[0]
         AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar)
     }
