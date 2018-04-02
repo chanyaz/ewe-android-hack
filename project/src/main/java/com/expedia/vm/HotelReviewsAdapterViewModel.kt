@@ -98,6 +98,8 @@ class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: Rev
             val translatedReview = TranslatedReview(review)
             translationMap[reviewId] = translatedReview
             translationUpdatedObservable.onNext(reviewId)
-        }, { /* TODO: handle unhappy path */ })
+        }, {
+            translationUpdatedObservable.onNext(reviewId)
+        })
     }
 }

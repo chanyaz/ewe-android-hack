@@ -124,6 +124,28 @@ class HotelReviewRowViewModelTest {
     }
 
     @Test
+    fun testTranslationFailure() {
+        AbacusTestUtils.bucketTests(AbacusUtils.HotelUGCTranslations)
+        val buttonTextObserver = TestObserver<String>()
+        val titleTextObserver = TestObserver<String>()
+        val reviewTextObserver = TestObserver<String>()
+
+        viewModel.translateButtonTextObservable.subscribe(buttonTextObserver)
+        viewModel.titleTextObservable.subscribe(titleTextObserver)
+        viewModel.reviewBodyObservable.subscribe(reviewTextObserver)
+
+        viewModel.reviewObserver.onNext(reviewOtherLanguage)
+        viewModel.onTranslateClick.onNext(Unit)
+        viewModel.reviewObserver.onNext(reviewOtherLanguage)
+
+        buttonTextObserver.assertValues(context.getString(R.string.user_review_see_translation),
+                context.getString(R.string.user_review_translation_loading),
+                context.getString(R.string.user_review_see_translation))
+        titleTextObserver.assertValues("Title in a different language", "Title in a different language")
+        reviewTextObserver.assertValues("Content in a different language", "Content in a different language")
+    }
+
+    @Test
     fun testDoNotShowTranslationButton() {
         AbacusTestUtils.bucketTests(AbacusUtils.HotelUGCTranslations)
         val textObserver = TestObserver<String>()

@@ -97,6 +97,16 @@ class HotelReviewsTest {
         vm.translationUpdatedObservable.subscribe(testSubscriber)
         vm.toggleReviewTranslationObserver.onNext("5a2cc5ffa6ffd10dd50e1844")
         testSubscriber.assertValueCount(1)
+        assertEquals(vm.translationMap.size, 1)
+    }
+
+    @Test
+    fun testReviewTranslationFail() {
+        val testSubscriber = TestObserver<String>()
+        vm.translationUpdatedObservable.subscribe(testSubscriber)
+        vm.toggleReviewTranslationObserver.onNext("")
+        testSubscriber.assertValueCount(1)
+        assertEquals(vm.translationMap.size, 0)
     }
 
     @Test

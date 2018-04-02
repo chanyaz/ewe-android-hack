@@ -187,7 +187,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
             return dispatchReviews()
         }
 
-        if (request.path.startsWith("/api/hotelreview")) {
+        if (request.path.contains(Regex("/api/hotelreview/\\w+/\\w\\w"))) {
             return dispatchReview()
         }
 

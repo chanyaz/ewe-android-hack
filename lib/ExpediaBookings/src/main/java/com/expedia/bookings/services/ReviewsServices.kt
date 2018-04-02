@@ -16,6 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import io.reactivex.Observable
 import io.reactivex.Scheduler
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 class ReviewsServices(endPoint: String, client: OkHttpClient, interceptor: Interceptor, private val observeOn: Scheduler, private val subscribeOn: Scheduler) {
 
@@ -53,6 +54,7 @@ class ReviewsServices(endPoint: String, client: OkHttpClient, interceptor: Inter
 
     fun translate(reviewId: String, targetLanguage: String): Observable<HotelReviewsResponse.Review> {
         return reviewsApi.translate(reviewId, targetLanguage)
+                .timeout(2L, TimeUnit.SECONDS)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { translationResponse -> translationResponse.review }
