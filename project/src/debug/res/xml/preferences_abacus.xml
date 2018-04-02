@@ -123,7 +123,7 @@
             android:key="25533"
             android:summary="%s"
             android:title="Hotels Guest Ratings Filter - 25533" />
-            
+
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
@@ -637,9 +637,9 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="25224"
+            android:key="25538"
             android:summary="%s"
-            android:title="Trips - Trip Folders - 25224" />
+            android:title="Trips - Trip Folders - 25538" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -677,9 +677,9 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="25068"
+            android:key="25537"
             android:summary="%s"
-            android:title="Trips - Hotel Pricing and Rewards - 25068" />
+            android:title="Trips - Hotel Pricing and Rewards - 25537" />
 
     </PreferenceCategory>
 
