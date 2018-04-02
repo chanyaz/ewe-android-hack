@@ -4,8 +4,6 @@ import android.content.Context
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.hotel.ValueAddsEnum
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
@@ -14,11 +12,9 @@ import com.expedia.bookings.data.payment.PointsEarnInfo
 import com.expedia.bookings.data.payment.PriceEarnInfo
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
-import com.expedia.bookings.test.robolectric.RoboTestHelper.getContext
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.ApiDateUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.testutils.JSONResourceReader
@@ -94,7 +90,6 @@ class HotelRoomDetailViewModelTest {
 
     @Test
     fun testRoomPriceContentDescription() {
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppPackagesMidApi, AbacusVariant.CONTROL.value)
         var roomResponse = createRoomResponse()
         roomResponse.rateInfo.chargeableRateInfo.strikethroughPriceToShowUsers = 200f
 
@@ -771,25 +766,12 @@ class HotelRoomDetailViewModelTest {
 
     @Test
     fun testPricePerDescriptorStringPerPerson() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesMidApi)
-
         val roomResponse = createRoomResponse()
         val viewModel = createViewModel(roomResponse, -1)
         roomResponse.packageHotelDeltaPrice = Money("23", "USD")
 
         assertTrue(roomResponse.isPackage)
         assertEquals("/person", viewModel.pricePerDescriptorString)
-    }
-
-    @Test
-    fun testPricePerDescriptorStringPerNightForPSS() {
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppPackagesMidApi, AbacusVariant.CONTROL.value)
-        val roomResponse = createRoomResponse()
-        val viewModel = createViewModel(roomResponse, -1)
-        roomResponse.packageHotelDeltaPrice = Money("23", "USD")
-
-        assertTrue(roomResponse.isPackage)
-        assertEquals("/night", viewModel.pricePerDescriptorString)
     }
 
     @Test

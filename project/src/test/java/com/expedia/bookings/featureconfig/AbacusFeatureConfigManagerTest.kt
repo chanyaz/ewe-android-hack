@@ -92,23 +92,6 @@ class AbacusFeatureConfigManagerTest {
     }
 
     @Test
-    fun testIsMIDUndeterminedForTestTrue() {
-        val abTest = ABTest(12345)
-        AbacusTestUtils.updateABTest(abTest, AbacusVariant.NO_BUCKET.value)
-        assertTrue(AbacusFeatureConfigManager.isMIDABTestUndetermined(abTest))
-    }
-
-    @Test
-    fun testIsMIDUndeterminedForTestFalse() {
-        val abTest = ABTest(12345)
-        AbacusTestUtils.updateABTest(abTest, AbacusVariant.BUCKETED.value)
-        assertFalse(AbacusFeatureConfigManager.isMIDABTestUndetermined(abTest))
-
-        AbacusTestUtils.updateABTest(abTest, AbacusVariant.CONTROL.value)
-        assertFalse(AbacusFeatureConfigManager.isMIDABTestUndetermined(abTest))
-    }
-
-    @Test
     fun testShouldTrackIfRemoteAndEnabled() {
         val abTest = ABTest(12345, true)
         assertTrue(AbacusFeatureConfigManager.shouldTrackTest(context, abTest))
