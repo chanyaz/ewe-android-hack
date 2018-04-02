@@ -28,9 +28,7 @@
                 android:id="@+id/icon"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:layout_marginRight="4dp"
-                android:src="@drawable/urgency"
-                android:tint="@color/hotel_urgency_icon_color" />
+                android:layout_marginRight="4dp" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/title"

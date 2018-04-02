@@ -8,6 +8,7 @@ sealed class HotelAdapterItem(val key: Int) {
     class Spacer() : HotelAdapterItem(ItemKey.SPACER)
     class Loading() : HotelAdapterItem(ItemKey.LOADING)
     class Earn2x() : HotelAdapterItem(ItemKey.EARN_2X)
+    class GenericAttached() : HotelAdapterItem(ItemKey.GENERIC_ATTACHED)
 
     companion object ItemKey {
         val TRANSPARENT_MAPVIEW = 0
@@ -17,5 +18,6 @@ sealed class HotelAdapterItem(val key: Int) {
         val SPACER = 4
         val LOADING = 5
         val EARN_2X = 6
+        val GENERIC_ATTACHED = 7
     }
 }

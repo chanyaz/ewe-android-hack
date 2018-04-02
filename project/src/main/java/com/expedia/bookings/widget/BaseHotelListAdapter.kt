@@ -30,8 +30,10 @@ import android.text.Spannable
 import android.text.style.ImageSpan
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extensions.subscribeVisibility
+import com.expedia.bookings.features.Features
 import com.expedia.bookings.hotel.widget.Earn2xCardViewHolder
 import com.expedia.bookings.hotel.widget.HotelUrgencyViewHolder
+import com.expedia.bookings.hotel.widget.GenericAttachViewHolder
 import com.expedia.bookings.utils.isHideMiniMapOnResultBucketed
 
 abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>,
@@ -46,6 +48,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
     var firstHotelIndex = 0
     val FILTER_PROMPT_POSITION = 15
     val URGENCY_POSITION = 4
+    val GENERIC_ATTACH_POSITION = 1
 
     val allViewsLoadedTimeObservable = PublishSubject.create<Unit>()
 
@@ -75,6 +78,8 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
     private var compressionMessage: String? = null
     private var newResultsConsumed = false
     private var pinnedSearch = false
+    private var isGenericAttachedEnabled = Features.all.genericAttach.enabled()
+    private var isAirAttached = false
 
     init {
         resultsSubject.subscribe { response ->
@@ -84,10 +89,13 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
             firstHotelIndex = data.size
             response.hotelList.forEach { hotel ->
                 data.add(HotelAdapterItem.Hotel(hotel))
+                if (hotel.lowRateInfo?.airAttached ?: false) {
+                    isAirAttached = true
+                }
             }
             data.add(HotelAdapterItem.Spacer())
             compressionMessage?.let { message -> insertUrgency(HotelAdapterItem.Urgency(message)) }
-
+            if (isAirAttached && isGenericAttachedEnabled) insertGenericAttach()
             hotelListItemsMetadata.clear()
             newResultsConsumed = false
             notifyDataSetChanged()
@@ -120,6 +128,14 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
     fun showLoading() {
         loadingSubject.onNext(Unit)
         notifyDataSetChanged()
+    }
+
+    fun insertGenericAttach() {
+        if (firstHotelIndex + GENERIC_ATTACH_POSITION < data.size - 1) {
+            data.add(firstHotelIndex + GENERIC_ATTACH_POSITION, HotelAdapterItem.GenericAttached())
+        } else {
+            data.add(data.size - 1, HotelAdapterItem.GenericAttached())
+        }
     }
 
     private fun insertUrgency(item: HotelAdapterItem.Urgency) {
@@ -212,6 +228,8 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
             return HotelUrgencyViewHolder.create(parent)
         } else if (viewType == HotelAdapterItem.EARN_2X) {
             return Earn2xCardViewHolder.create(parent)
+        } else if (viewType == HotelAdapterItem.GENERIC_ATTACHED) {
+            return GenericAttachViewHolder.create(parent)
         } else {
             val holder: AbstractHotelCellViewHolder = getHotelCellHolder(parent)
             holder.hotelClickedSubject.subscribe { position ->

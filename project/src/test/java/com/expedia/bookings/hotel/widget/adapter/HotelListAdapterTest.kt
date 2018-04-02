@@ -137,6 +137,33 @@ class HotelListAdapterTest {
         assertNotEquals(testAdapter.getItemViewType(2), HotelAdapterItem.EARN_2X)
     }
 
+    @Test
+    fun testGenericAttachedOneResult() {
+        val response = getMockSearchResponse(1, false)
+        testAdapter.resultsSubject.onNext(response)
+        assertNotEquals(testAdapter.getItemViewType(3), HotelAdapterItem.GENERIC_ATTACHED)
+        testAdapter.insertGenericAttach()
+        assertEquals(testAdapter.getItemViewType(3), HotelAdapterItem.GENERIC_ATTACHED)
+    }
+
+    @Test
+    fun testGenericAttachedtwoResults() {
+        val response = getMockSearchResponse(2, false)
+        assertNotEquals(testAdapter.getItemViewType(3), HotelAdapterItem.GENERIC_ATTACHED)
+        testAdapter.resultsSubject.onNext(response)
+        testAdapter.insertGenericAttach()
+        assertEquals(testAdapter.getItemViewType(3), HotelAdapterItem.GENERIC_ATTACHED)
+    }
+
+    @Test
+    fun testGenericAttachedManyResults() {
+        val response = getMockSearchResponse(10, false)
+        assertNotEquals(testAdapter.getItemViewType(3), HotelAdapterItem.GENERIC_ATTACHED)
+        testAdapter.resultsSubject.onNext(response)
+        testAdapter.insertGenericAttach()
+        assertEquals(testAdapter.getItemViewType(3), HotelAdapterItem.GENERIC_ATTACHED)
+    }
+
     fun getMockSearchResponse(hotelCount: Int, pinned: Boolean?): HotelSearchResponse {
         val response: HotelSearchResponse
         if (pinned == null) {

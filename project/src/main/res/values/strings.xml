@@ -5067,6 +5067,10 @@
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">Regular Price {ticket_type} {activity_original_price}. Discounted price {ticket_type} {activity_price}</string>
     <string name="hotel_2x_points_search_title">Double Expedia Rewards Points!</string>
     <string name="hotel_2x_points_search_content">You\'ll earn double points just for booking in the app!</string>
+    <!-- Generic attach slim card title on hotel search result to show: You have earned bundled savings on hotels-->
+    <string name="generic_attach_slim_card_title">You\'ve earned bundled savings on hotels</string>
+    <!-- Generic attach slim card content on hotel search result to show: Your purchase unlocked savings for your trip -->
+    <string name="generic_attach_slim_card_content">Your purchase unlocked savings for your trip</string>
     <!-- Accessibility announcement for when home screen navigation tab is selected. -->
     <string name="tab_selected_announcement">Tab Selected</string>
 
