@@ -30,7 +30,7 @@ platform :android do
     adb(command: "install -r project/build/outputs/apk/androidTest/expedia/debug/project-expedia-debug-androidTest.apk")
 
     # Run competitor startup time test
-    adb(command: "shell am instrument -w -r   -e debug false -e class com.expedia.bookings.test.espresso.CompetitorStartupTimeTest com.expedia.bookings.test/com.expedia.bookings.test.espresso.InstrumentationTestRunner")
+    adb(command: "shell am instrument -w -r   -e debug false -e class com.expedia.bookings.competitors.CompetitorStartupTimeTest com.expedia.bookings.test/com.expedia.bookings.test.espresso.InstrumentationTestRunner")
 
     # Retrieve Data
     adb(command: "shell run-as com.expedia.bookings.debug cat files/startupTime/competitorStartupTimeResults.txt")

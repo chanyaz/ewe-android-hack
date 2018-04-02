@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.espresso
+package com.expedia.bookings.competitors
 
 import android.content.Context
 import android.support.test.InstrumentationRegistry
@@ -22,7 +22,6 @@ import java.io.IOException
 
 @RunWith(AndroidJUnit4::class)
 class CompetitorStartupTimeTest {
-    annotation class ExcludeFromFork
 
     var classWatchman: TestRule = object : TestWatcher() {
         override fun succeeded(description: Description?) {
@@ -71,8 +70,8 @@ class CompetitorStartupTimeTest {
         grantReadWritePermission()
     }
 
+    @Test
     @Throws(Throwable::class)
-    @Test @ExcludeFromFork
     fun testStartupTimeOfAllApps() {
         val testRepetition = 3
 
