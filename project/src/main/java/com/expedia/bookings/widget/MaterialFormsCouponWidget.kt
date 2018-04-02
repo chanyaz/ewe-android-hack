@@ -82,7 +82,7 @@ class MaterialFormsCouponWidget(context: Context, attrs: AttributeSet?) : Abstra
         }
 
         viewmodel.onCouponWidgetExpandSubject.subscribe { expandCouponWidget ->
-            if (expandCouponWidget) {
+            if (expandCouponWidget && storedCouponWidget.storedCouponRecyclerView.adapter.itemCount > 0) {
                 viewmodel.storedCouponViewModel.clearStoredCouponError.onNext(Unit)
             }
         }

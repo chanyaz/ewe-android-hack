@@ -88,11 +88,23 @@ class MaterialFormsHotelCouponTest {
     fun testStoredCouponErrorClearedOnExpanded() {
         val errorMessageTestObserver = TestObserver<String>()
         couponWidget.viewmodel.storedCouponViewModel.errorMessageObservable.subscribe(errorMessageTestObserver)
+        couponWidget.storedCouponWidget.viewModel.storedCouponsSubject.onNext(CouponTestUtil.createStoredCouponAdapterData())
 
         couponWidget.viewmodel.onCouponWidgetExpandSubject.onNext(true)
 
         errorMessageTestObserver.assertValueCount(1)
         assertEquals("", errorMessageTestObserver.values()[0])
+    }
+
+    @Test
+    fun testStoredCouponErrorNotClearedOnExpandWithNoCoupons() {
+        val errorMessageTestObserver = TestObserver<String>()
+        couponWidget.viewmodel.storedCouponViewModel.errorMessageObservable.subscribe(errorMessageTestObserver)
+        couponWidget.storedCouponWidget.viewModel.storedCouponsSubject.onNext(listOf())
+
+        couponWidget.viewmodel.onCouponWidgetExpandSubject.onNext(true)
+
+        errorMessageTestObserver.assertValueCount(0)
     }
 
     @Test
