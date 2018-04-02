@@ -5,8 +5,8 @@ import com.mobiata.mocke3.ExpediaDispatcher;
 import java.io.IOException;
 import java.net.InetAddress;
 import okhttp3.HttpUrl;
-import okhttp3.internal.tls.SslClient;
 import okhttp3.mockwebserver.MockWebServer;
+import okhttp3.mockwebserver.internal.tls.SslClient;
 
 public final class ExpediaMockWebServer {
 

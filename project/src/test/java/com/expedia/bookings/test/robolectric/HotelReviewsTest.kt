@@ -107,6 +107,6 @@ class HotelReviewsTest {
     }
 
     private fun getExpectedReviewRequestStr(startParam: Int): String {
-        return "/api/hotelreviews/hotel/%s?sortBy=RATINGASC&start=%d&items=25&locale=en_US".format(HOTEL_ID, startParam) + "&clientid=expedia.app.android.phone:6.9.0"
+        return "/api/hotelreviews/hotel/%s?sortBy=RATINGASC&start=%d&items=25&locale=en_US".format(HOTEL_ID, startParam) + "&clientid=expedia.app.android.phone%3A6.9.0"
     }
 }
