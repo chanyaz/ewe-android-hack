@@ -1,11 +1,11 @@
 package com.expedia.bookings.data.abacus;
 
-import com.expedia.bookings.utils.Strings;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.expedia.bookings.utils.Strings;
 
 public class AbacusResponse {
 
@@ -107,6 +107,7 @@ public class AbacusResponse {
 	}
 
 	public Boolean isOverriddenForTest(@NotNull ABTest abTest) {
-		return abacusTestDebugMap.get(abTest.getKey()) != null;
+		AbacusTest abacusTest = abacusTestDebugMap.get(abTest.getKey());
+		return abacusTest != null && abacusTest.getBucketVariate() != AbacusVariant.DEBUG.getValue();
 	}
 }
