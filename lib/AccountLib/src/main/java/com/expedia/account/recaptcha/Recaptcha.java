@@ -17,8 +17,11 @@ import com.mobiata.android.Log;
 
 public class Recaptcha {
 
-	static public void recaptchaCheck(Activity context, String recaptchaAPIKey, final RecaptchaHandler handler) {
+	private static Exception lastRecaptchaException = null;
+
+	public static void recaptchaCheck(Activity context, String recaptchaAPIKey, final RecaptchaHandler handler) {
 		try {
+			lastRecaptchaException = null;
 			SafetyNet.getClient(context).verifyWithRecaptcha(recaptchaAPIKey)
 				.addOnSuccessListener(context,
 					new OnSuccessListener<SafetyNetApi.RecaptchaTokenResponse>() {
@@ -41,13 +44,19 @@ public class Recaptcha {
 						else {
 							Log.e("RECAPTCHA: FAILURE", e);
 						}
+						lastRecaptchaException = e;
 						handler.onFailure();
 					}
 				});
 		}
 		catch (Exception e) {
 			Log.e("RECAPTCHA: SDK EXCEPTION", e);
+			lastRecaptchaException = e;
 			handler.onFailure();
 		}
+	}
+
+	public static Exception getLastRecaptchaException() {
+		return lastRecaptchaException;
 	}
 }

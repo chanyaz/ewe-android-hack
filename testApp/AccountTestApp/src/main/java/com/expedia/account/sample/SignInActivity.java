@@ -208,6 +208,10 @@ public class SignInActivity extends FragmentActivity {
 		@Override
 		public void onFacebookClicked(){
 		}
+
+		@Override
+		public void onRecaptchaError(Throwable e) {
+		}
 	};
 
 	private void showStatus(@StringRes int title, @StringRes int message) {

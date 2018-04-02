@@ -206,6 +206,8 @@ public class AccountView extends BufferedPresenter {
 
 		public abstract void onForgotPassword();
 
+		public abstract void onRecaptchaError(Throwable e);
+
 		void onOverallProgress(boolean forward, float percent) {
 		}
 
@@ -1063,6 +1065,11 @@ public class AccountView extends BufferedPresenter {
 			errorMessage = R.string.acct__Sign_in_failed;
 			errorTitle = R.string.acct__Sign_in_failed_TITLE;
 		}
+		else if (signInError == AccountResponse.SignInError.RECAPTCHA_TOKEN_MISSING) {
+			errorMessage = R.string.acct__Sign_in_failed_generic;
+			errorTitle = R.string.acct__Sign_in_failed_TITLE;
+			reportRecaptchaError();
+		}
 		else {
 			errorMessage = R.string.acct__Sign_in_failed_generic;
 			errorTitle = R.string.acct__Sign_in_failed_TITLE;
@@ -1075,6 +1082,22 @@ public class AccountView extends BufferedPresenter {
 			.setPositiveButton(android.R.string.ok, null)
 			.create()
 			.show();
+	}
+
+	private void reportRecaptchaError() {
+		if (mConfig != null) {
+			Listener listener = mConfig.getListener();
+			if (listener != null) {
+				Throwable recaptchaError = Recaptcha.getLastRecaptchaException();
+				if (recaptchaError != null) {
+					recaptchaError = new Exception("Recaptcha failed sign-in with SDK exception", recaptchaError);
+				}
+				else {
+					recaptchaError = new Exception("Recaptcha failed sign-in. No SDK error reported");
+				}
+				listener.onRecaptchaError(recaptchaError);
+			}
+		}
 	}
 
 	///////////////////////////////////////////////////////////////////////////

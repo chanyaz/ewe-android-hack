@@ -37,6 +37,7 @@ public class AccountResponse {
 	public enum SignInError {
 		INVALID_CREDENTIALS,
 		ACCOUNT_LOCKED,
+		RECAPTCHA_TOKEN_MISSING,
 		GENERIC
 	}
 
@@ -58,6 +59,9 @@ public class AccountResponse {
 			}
 			else if (detailedStatusMsg.equalsIgnoreCase("EmailNotFound") || detailedStatusMsg.equalsIgnoreCase("WrongPassword")) {
 				return SignInError.INVALID_CREDENTIALS;
+			}
+			else if (detailedStatusMsg.equalsIgnoreCase("missing-input-response")) {
+				return SignInError.RECAPTCHA_TOKEN_MISSING;
 			}
 		}
 		return SignInError.GENERIC;

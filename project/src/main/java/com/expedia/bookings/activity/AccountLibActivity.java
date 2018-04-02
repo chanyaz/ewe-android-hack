@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.crashlytics.android.Crashlytics;
 import com.expedia.account.AccountView;
 import com.expedia.account.AnalyticsListener;
 import com.expedia.account.Config;
@@ -385,6 +386,12 @@ public class AccountLibActivity extends AppCompatActivity
 			builder.setInjectExpediaCookies(true);
 			builder.setTitle(getString(R.string.title_forgot_password));
 			startActivity(builder.getIntent());
+		}
+
+		@Override
+		public void onRecaptchaError(Throwable e) {
+			((ExpediaBookingApp)getBaseContext().getApplicationContext()).setCrashlyticsMetadata();
+			Crashlytics.logException(e);
 		}
 	}
 
