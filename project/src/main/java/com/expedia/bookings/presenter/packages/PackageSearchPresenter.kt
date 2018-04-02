@@ -27,6 +27,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.utils.isFHCPackageWebViewEnabled
+import com.expedia.bookings.utils.isPackagesMISRealWorldGeoEnabled
 import com.expedia.bookings.widget.FlightCabinClassWidget
 import com.expedia.bookings.widget.TravelerWidgetV2
 import com.expedia.bookings.widget.packages.PackageSuggestionAdapter
@@ -172,7 +173,14 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
     }
 
     override fun getSuggestionHistoryFileName(): String {
-        return if (isCustomerSelectingOrigin) SuggestionV4Utils.RECENT_PACKAGE_DEPARTURE_SUGGESTIONS_FILE else SuggestionV4Utils.RECENT_PACKAGE_ARRIVAL_SUGGESTIONS_FILE
+        val isRWGEnabled = isPackagesMISRealWorldGeoEnabled(context)
+        if (isCustomerSelectingOrigin) {
+            if (isRWGEnabled) return SuggestionV4Utils.RECENT_PACKAGE_DEPARTURE_SUGGESTIONS_FILE_V2
+            else return SuggestionV4Utils.RECENT_PACKAGE_DEPARTURE_SUGGESTIONS_FILE
+        } else {
+            if (isRWGEnabled) return SuggestionV4Utils.RECENT_PACKAGE_ARRIVAL_SUGGESTIONS_FILE_V2
+            else return SuggestionV4Utils.RECENT_PACKAGE_ARRIVAL_SUGGESTIONS_FILE
+        }
     }
 
     override fun getSuggestionViewModel(): BaseSuggestionAdapterViewModel {

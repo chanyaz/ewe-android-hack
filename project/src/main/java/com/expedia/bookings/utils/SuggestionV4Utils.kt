@@ -15,7 +15,9 @@ object SuggestionV4Utils {
 
     val RECENT_HOTEL_SUGGESTIONS_FILE = "recent-hotel-suggest-list.dat"
     val RECENT_PACKAGE_DEPARTURE_SUGGESTIONS_FILE = "recent-package-departure-suggest-list.dat"
+    val RECENT_PACKAGE_DEPARTURE_SUGGESTIONS_FILE_V2 = "recent-package-departure-suggest-list-v2.dat"
     val RECENT_PACKAGE_ARRIVAL_SUGGESTIONS_FILE = "recent-package-arrival-suggest-list.dat"
+    val RECENT_PACKAGE_ARRIVAL_SUGGESTIONS_FILE_V2 = "recent-package-arrival-suggest-list-v2.dat"
     val RECENT_AIRPORT_SUGGESTIONS_FILE = "recent-airport-suggest-list.dat"
     val RECENT_CAR_SUGGESTIONS_FILE = "recent-cars-airport-routes-list-v4.dat"
     val RECENT_RAIL_SUGGESTIONS_FILE = "recent-rail-suggest-list.dat"
