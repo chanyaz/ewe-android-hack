@@ -187,7 +187,7 @@ class AbstractFlightListAdapterTest {
         var flightViewHolder = bindFlightViewHolderAndModel()
 
         assertEquals(flightViewHolder.flightCell.urgencyMessageContainer.visibility, View.VISIBLE)
-        assertEquals(flightViewHolder.flightCell.urgencyMessageTextView.text, "4 left at this price")
+        assertEquals(flightViewHolder.flightCell.urgencyMessageTextView.text, "4 seats left")
 
         //When seatsLeftUrgencyMessage are more than 6
         createFlightLegWithUrgencyMessage(8)

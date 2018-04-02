@@ -4080,11 +4080,6 @@
     <!-- Accessibility label for flight minutes duration template e.g.42 minutes -->
     <string name="flight_min_duration_template_cont_desc">{m} minutes</string>
 
-    <!-- Label for Flight seats left urgency message. Example: 4 left at this price -->
-    <plurals name="flight_seats_left_urgency_message_TEMPLATE">
-        <item quantity="one">{seats} left at this price</item>
-        <item quantity="other">{seats} left at this price</item>
-    </plurals>
     <!-- Flight seats left urgency message on checkout e.g. We have 4 seats left at this price -->
     <plurals name="flight_seats_left_urgency_message_on_checkout_TEMPLATE">
         <item quantity="one">We have {seats} seat left at this price</item>
