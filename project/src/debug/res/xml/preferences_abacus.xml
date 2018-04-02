@@ -174,9 +174,9 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="12763"
+            android:key="25529"
             android:summary="%s"
-            android:title="Flight Seat Class And Booking Code View - 12763" />
+            android:title="Flight Seat Class And Booking Code View - 25529" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -294,9 +294,9 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_flight_filter_choices"
             android:entryValues="@array/abacus_itin_share_button_choice_values"
-            android:key="24758"
+            android:key="25526"
             android:summary="%s"
-            android:title="Filter Variants on flights - 24758" />
+            android:title="Filter Variants on flights - 25526" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -318,17 +318,17 @@
             android:defaultValue="-1"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_air_attach_choice_values"
-            android:key="24766"
+            android:key="25528"
             android:summary="%s"
-            android:title="Flights Loading State v1 - 24766"/>
+            android:title="Flights Loading State v1 - 25528"/>
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_fl_recent_variant_choices"
             android:entryValues="@array/abacus_meso_variant_choice_values"
-            android:key="24765"
+            android:key="25527"
             android:summary="%s"
-            android:title="Flights Recent Search - 24765" />
+            android:title="Flights Recent Search - 25527" />
     </PreferenceCategory>
 
     <PreferenceCategory

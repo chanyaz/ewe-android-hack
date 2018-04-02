@@ -37,7 +37,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppHotelMaterialForms = new ABTest(24870, true);
 	public static final ABTest EBAndroidLXNotifications = new ABTest(24888);
 	public static final ABTest EBAndroidAppSavedCoupons = new ABTest(16365, true);
-	public static final ABTest EBAndroidAppFlightsFiltersPriceAndLogo = new ABTest(24758, true);
+	public static final ABTest EBAndroidAppFlightsFiltersPriceAndLogo = new ABTest(25526, true);
 	public static final ABTest DownloadableFonts = new ABTest(25071, true);
 	public static final ABTest EBAndroidAppSeatsLeftUrgencyMessaging = new ABTest(25037, true);
 
@@ -57,7 +57,7 @@ public class AbacusUtils {
 	// Flight tests
 	public static final ABTest EBAndroidAppOfferInsuranceInFlightSummary = new ABTest(12268);
 	public static final ABTest EBAndroidAppFlightByotSearch = new ABTest(13202);
-	public static final ABTest EBAndroidAppFlightsSeatClassAndBookingCode = new ABTest(12763, true);
+	public static final ABTest EBAndroidAppFlightsSeatClassAndBookingCode = new ABTest(25529, true);
 	public static final ABTest EBAndroidAppSimplifyFlightShopping = new ABTest(13514);
 	public static final ABTest EBAndroidAppFlightsMoreInfoOnOverview = new ABTest(13505);
 	public static final ABTest EBAndroidAppFlightsCrossSellPackageOnFSR = new ABTest(14183);
@@ -76,8 +76,8 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppFlightsBaggageWebViewHideAd = new ABTest(16334);
 	public static final ABTest EBAndroidAppFlightsGreedySearchCall = new ABTest(15962, true);
 	public static final ABTest EBAndroidAppFlightsAPIKongEndPoint = new ABTest(16382, true);
-	public static final ABTest EBAndroidAppFLightLoadingStateV1 = new ABTest(24766, true);
-	public static final ABTest EBAndroidAppFlightsRecentSearch = new ABTest(24765, true);
+	public static final ABTest EBAndroidAppFLightLoadingStateV1 = new ABTest(25528, true);
+	public static final ABTest EBAndroidAppFlightsRecentSearch = new ABTest(25527, true);
 	public static final ABTest EBAndroidAppFlightsRouteHappy = new ABTest(25165, true);
 
 	// Hotel tests
