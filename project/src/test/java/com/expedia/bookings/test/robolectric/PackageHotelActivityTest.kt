@@ -3,14 +3,10 @@ package com.expedia.bookings.test.robolectric
 import android.content.Intent
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse
 import com.expedia.bookings.data.multiitem.MultiItemError
 import com.expedia.bookings.data.multiitem.ProductType
-import com.expedia.bookings.test.robolectric.RoboTestHelper.getContext
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.ui.PackageHotelActivity
@@ -34,25 +30,12 @@ class PackageHotelActivityTest {
     @Test
     fun testMidEnabledDeeplinkedHotelResetsDbPackageResponse() {
         setupPackageDb(baseMidResponse, midResponseWithError)
-        givenPackageHotelActivity(enableMidTest = true)
-
+        givenPackageHotelActivity()
         assertNotEquals(midResponseWithError.errors?.size, (Db.getPackageResponse() as MultiItemApiSearchResponse).errors?.size)
         assertEquals(baseMidResponse.errors?.size, (Db.getPackageResponse() as MultiItemApiSearchResponse).errors?.size)
     }
 
-    @Test
-    fun testMidDisabledDeeplinkedHotelDoesNotResetDbPackageResponse() {
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppPackagesMidApi, AbacusVariant.CONTROL.value)
-        setupPackageDb(baseMidResponse, midResponseWithError)
-        givenPackageHotelActivity(enableMidTest = false)
-
-        assertEquals(midResponseWithError.errors?.size, (Db.getPackageResponse() as MultiItemApiSearchResponse).errors?.size)
-    }
-
-    private fun givenPackageHotelActivity(enableMidTest: Boolean) {
-        if (enableMidTest) {
-            AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesMidApi)
-        }
+    private fun givenPackageHotelActivity() {
         Ui.getApplication(context).defaultPackageComponents()
         val intent = Intent(context, PackageHotelActivity::class.java)
         intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true)

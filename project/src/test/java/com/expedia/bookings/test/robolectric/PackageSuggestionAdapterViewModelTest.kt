@@ -4,9 +4,7 @@ import com.expedia.bookings.data.GaiaSuggestion
 import com.expedia.bookings.data.GaiaSuggestionRequest
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.services.ISuggestionV4Services
-import com.expedia.bookings.test.robolectric.RoboTestHelper.getContext
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.vm.packages.PackageSuggestionAdapterViewModel
 import io.reactivex.Observable
@@ -15,7 +13,6 @@ import io.reactivex.disposables.Disposable
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -24,16 +21,6 @@ class PackageSuggestionAdapterViewModelTest {
     @Test
     fun isMISForRealWorldEnabledTrue() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesMISRealWorldGeo)
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppPackagesMidApi, AbacusVariant.CONTROL.value)
-        val mockSuggestionV4Services = MockSuggestionV4Services()
-        val viewModel = PackageSuggestionAdapterViewModel(RuntimeEnvironment.application, mockSuggestionV4Services, true, null)
-        assertFalse(viewModel.isMISForRealWorldEnabled())
-    }
-
-    @Test
-    fun isMISForRealWorldEnabledTrueForMID() {
-        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesMidApi, AbacusUtils.EBAndroidAppPackagesMISRealWorldGeo)
-
         val mockSuggestionV4Services = MockSuggestionV4Services()
         val viewModel = PackageSuggestionAdapterViewModel(RuntimeEnvironment.application, mockSuggestionV4Services, true, null)
         assertTrue(viewModel.isMISForRealWorldEnabled())

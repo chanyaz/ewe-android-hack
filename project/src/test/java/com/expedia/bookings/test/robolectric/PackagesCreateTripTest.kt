@@ -9,8 +9,6 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
@@ -24,9 +22,7 @@ import com.expedia.bookings.test.MockPackageServiceTestRule
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.RunForBrands
-import com.expedia.bookings.test.robolectric.RoboTestHelper.getContext
 import com.expedia.bookings.testrule.ServicesRule
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.ui.PackageActivity
 import org.hamcrest.Matchers
@@ -89,6 +85,7 @@ class PackagesCreateTripTest {
         }
     }
 
+/*
     @Test
     fun testMultiItemCreateTripFiredWhenMIDAPIOFF() {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppPackagesMidApi, AbacusVariant.CONTROL.value)
@@ -108,11 +105,11 @@ class PackagesCreateTripTest {
         testSubscriber.awaitValueCount(1, 10, TimeUnit.SECONDS)
         testSubscriber.assertValueCount(1)
     }
+*/
 
     @Test
     fun testMultiItemCreateTripFiredWhenMIDAPION() {
         val createTripSubscriber = TestObserver<MultiItemApiCreateTripResponse>()
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesMidApi)
         activity.packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel().multiItemResponseSubject.subscribe(createTripSubscriber)
         setUpPackageDb()
         val hotelResponse = mockPackageServiceRule.getPSSHotelSearchResponse()
@@ -135,7 +132,6 @@ class PackagesCreateTripTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMidCreateTripErrorTracking() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesMidApi)
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
 
         activity.packagePresenter.bundlePresenter.showCheckout()
@@ -152,7 +148,6 @@ class PackagesCreateTripTest {
 
     @Test
     fun testMultiItemCreateTripErrorHandled() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesMidApi)
         val showErrorAlertObserver = TestObserver<String>()
         val createTripViewModel = activity.packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel()
         createTripViewModel.midCreateTripErrorObservable.subscribe(showErrorAlertObserver)
@@ -168,8 +163,6 @@ class PackagesCreateTripTest {
 
     @Test
     fun testShowMIDCreateTripErrorDialogDisplayed() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesMidApi)
-
         activity.packagePresenter.bundlePresenter.showCheckout()
         val createTripViewModel = activity.packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel()
         val testCreateTripObserver = TestObserver<Unit>()
@@ -191,7 +184,6 @@ class PackagesCreateTripTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMIDCreateTripShowErrorPresenter() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesMidApi)
         val showErrorPresenterTestSubscriber = TestObserver<ApiError>()
         val createTripViewModel = activity.packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel()
         createTripViewModel.createTripErrorObservable.subscribe(showErrorPresenterTestSubscriber)

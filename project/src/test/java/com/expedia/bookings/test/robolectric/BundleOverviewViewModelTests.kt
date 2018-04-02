@@ -4,14 +4,12 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.TestObserver
-import com.expedia.bookings.test.robolectric.RoboTestHelper.getContext
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.vm.packages.BundleOverviewViewModel
@@ -41,11 +39,11 @@ class BundleOverviewViewModelTests {
 
     @Test
     fun testHotels() {
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppPackagesMidApi, AbacusVariant.CONTROL.value)
         val resultsSubscriber = TestObserver<PackageSearchType>()
         sut.autoAdvanceObservable.subscribe(resultsSubscriber)
+        val params = setUpParams("happy")
 
-        sut.hotelParamsObservable.onNext(setUpParams())
+        sut.hotelParamsObservable.onNext(params)
 
         resultsSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
         resultsSubscriber.assertNotTerminated()
@@ -57,7 +55,6 @@ class BundleOverviewViewModelTests {
 
     @Test
     fun testHotelsError() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesMidApi)
         val errorSubscriber = TestObserver<PackageApiError.Code>()
         sut.errorObservable.subscribe(errorSubscriber)
 
@@ -72,11 +69,11 @@ class BundleOverviewViewModelTests {
 
     @Test
     fun testFlightsInbound() {
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppPackagesMidApi, AbacusVariant.CONTROL.value)
         val resultsSubscriber = TestObserver<PackageSearchType>()
         sut.autoAdvanceObservable.subscribe(resultsSubscriber)
-
-        sut.flightParamsObservable.onNext(setUpParams())
+        val params = setUpParams()
+        params.selectedLegId = "flight_outbound_happy"
+        sut.flightParamsObservable.onNext(params)
 
         resultsSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
         resultsSubscriber.assertNotTerminated()
@@ -88,8 +85,6 @@ class BundleOverviewViewModelTests {
 
     @Test
     fun testFlightsInboundError() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesMidApi)
-
         val errorSubscriber = TestObserver<PackageApiError.Code>()
         sut.errorObservable.subscribe(errorSubscriber)
 
@@ -106,12 +101,10 @@ class BundleOverviewViewModelTests {
 
     @Test
     fun testFlightsOutbound() {
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppPackagesMidApi, AbacusVariant.CONTROL.value)
         val resultsSubscriber = TestObserver<PackageSearchType>()
         sut.autoAdvanceObservable.subscribe(resultsSubscriber)
         val params = setUpParams()
-        params.packagePIID = "happy_outbound_flight"
-        params.currentFlights = arrayOf("legs")
+        params.latestSelectedOfferInfo.ratePlanCode = "flight_outbound_happy"
         sut.flightParamsObservable.onNext(params)
 
         resultsSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
@@ -124,8 +117,6 @@ class BundleOverviewViewModelTests {
 
     @Test
     fun testFlightsOutboundError() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesMidApi)
-
         val errorSubscriber = TestObserver<PackageApiError.Code>()
         sut.errorObservable.subscribe(errorSubscriber)
 
@@ -165,7 +156,6 @@ class BundleOverviewViewModelTests {
     @Test
     fun testStepTitleWithBreadcrumbs() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesBreadcrumbsForNav)
-
         val stepOneTestSubscriber = TestObserver<String>()
         val stepTwoTestSubscriber = TestObserver<String>()
         val stepThreeTestSubscriber = TestObserver<String>()

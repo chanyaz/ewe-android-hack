@@ -17,7 +17,6 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.test.MockPackageServiceTestRule
 import com.expedia.bookings.test.MultiBrand
@@ -52,8 +51,7 @@ class PackageHotelPresenterTest {
     @Test
     fun testPackageSearchParamsTracked() {
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppPackagesMidApi, AbacusVariant.CONTROL.value)
-        hotelResponse = mockPackageServiceRule.getPSSHotelSearchResponse()
+        hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
 
         widget = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_presenter,
                 null) as PackageHotelPresenter
@@ -64,7 +62,7 @@ class PackageHotelPresenterTest {
         widget.trackEventSubject.onNext(Unit)
 
         val expectedEvars = mapOf(
-                47 to "PKG|1R|RT|A1|C3|L1"
+                47 to "PKG|1R|RT|A1|C3|L1|E"
         )
         OmnitureTestUtils.assertStateTracked(withEvars(expectedEvars), mockAnalyticsProvider)
     }
@@ -72,8 +70,7 @@ class PackageHotelPresenterTest {
     @Test
     fun testPackageSearchParamsTrackedWithNewTravelerForm() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppPackagesMidApi, AbacusVariant.CONTROL.value)
-        hotelResponse = mockPackageServiceRule.getPSSHotelSearchResponse()
+        hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
 
         widget = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_presenter,
                 null) as PackageHotelPresenter
@@ -84,7 +81,7 @@ class PackageHotelPresenterTest {
         widget.trackEventSubject.onNext(Unit)
 
         val expectedEvars = mapOf(
-                47 to "PKG|1R|RT|A1|C1|YTH1|IL1|IS0"
+                47 to "PKG|1R|RT|A1|C1|YTH1|IL1|IS0|E"
         )
         OmnitureTestUtils.assertStateTracked(withEvars(expectedEvars), mockAnalyticsProvider)
     }

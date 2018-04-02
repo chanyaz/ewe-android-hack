@@ -52,10 +52,6 @@ class AbacusFeatureConfigManager {
             return isInVariant(abacusTest, variant)
         }
 
-        fun isMIDABTestUndetermined(abacusTest: ABTest): Boolean {
-            return Db.sharedInstance.abacusResponse.isMIDUndetermined(abacusTest)
-        }
-
         private fun isUserInVariantForRemoteTest(context: Context, abacusTest: ABTest,
                                                  variant: AbacusVariant): Boolean {
             if (SatelliteFeatureConfigManager.isABTestEnabled(context, abacusTest.key)) {

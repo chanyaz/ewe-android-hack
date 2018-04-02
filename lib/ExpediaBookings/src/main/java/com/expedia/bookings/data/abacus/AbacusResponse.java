@@ -20,15 +20,6 @@ public class AbacusResponse {
 		return AbacusVariant.CONTROL.getValue();
 	}
 
-	// To be removed up once we clean up the MID AB test
-	public boolean isMIDUndetermined(ABTest abTest) {
-		AbacusTest test = testForKey(abTest);
-		if (test == null || test.getBucketVariate() == AbacusVariant.NO_BUCKET.getValue()) {
-			return true;
-		}
-		return false;
-	}
-
 	public String getAnalyticsString(ABTest abTest) {
 		AbacusTest test = testForKey(abTest);
 		return AbacusUtils.getAnalyticsString(test);
