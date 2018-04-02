@@ -83,7 +83,11 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
 
     fun updateBaggageInfoUrl(dataFlight: ItinCardDataFlight) {
         val url = dataFlight.baggageInfoUrl
-        createBaggageInfoWebviewWidgetSubject.onNext(url)
+        if (url != null) {
+            createBaggageInfoWebviewWidgetSubject.onNext(url)
+        } else {
+            createBaggageInfoWebviewWidgetSubject.onNext("")
+        }
     }
 
     fun createOmnitureTrackingValues(dataFlight: ItinCardDataFlight): HashMap<String, String?> {

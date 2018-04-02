@@ -508,6 +508,31 @@
               "duration": "PT5H12M"
             }
           ],
+          "rules": {
+            "cancellationFeeLegalText": "A non-refundable administration fee will be applied for changes and cancellations of bookings. Customers will be informed of the administration fee by their Customer Support Centre Agent at the time of their call.",
+            "cancelChangeIntroductionText": "We understand that sometimes plans change. We do not charge a cancel or change fee. When the airline charges such fees in accordance with its own policies, the cost will be passed on to you.",
+            "feeChangeRefundIntroductionText": "When the airline charges any cancellation or change fees in accordance with its own policies, the cost will be passed on to you.",
+            "refundabilityText": "Tickets are nonrefundable, nontransferable and name changes are not allowed.",
+            "completePenaltyRules": {
+              "text": "Rules and restrictions as imposed by the airline will be applicable to your fare should you need to change or cancel your flight.",
+              "url": "https://www.expedia.com/Fare-Rules?tripid=53a6459c-822c-4425-9e14-3eea43f38a97",
+              "textAndURL": "Please read the <a id=\"complete_penalty_rules_for_changes_and_cancellations_link\" href=\"https://www.expedia.com/Fare-Rules?tripid=53a6459c-822c-4425-9e14-3eea43f38a97\" class=\"tooltip\" target=\"rulesAndRestrictions\">complete penalty rules for changes and cancellations <span class=\"visually-hidden\" style=\"display:none;\">(Opens a new window) </span> </a> applicable to this fare.",
+              "apiURL": "https://www.expedia.com/api/trips/7238007847306/items/5B4874B5-3A4D-4B05-AC6A-81088EBAD678_0/gdsFareRulesText?useCache=true"
+            },
+            "additionalAirlineFees": {
+              "text": "The airline may charge additional fees for checked baggage or other optional services.",
+              "url": "https://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=LAS&cabinclass=3&mktgcarrier=UA&opcarrier=&farebasis=GAA4AKEN&bookingclass=G&travelDate=2017-09-05&flightNumber=681",
+              "textAndURL": "The airline may charge <a href=\"https://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=LAS&cabinclass=3&mktgcarrier=UA&opcarrier=&farebasis=GAA4AKEN&bookingclass=G&travelDate=2017-09-05&flightNumber=681\" class=\"tooltip\" target=\"rulesAndRestrictions\">additional fees <span class=\"visually-hidden\" style=\"display:none;\" >(Opens a new window) </span> </a> for checked baggage or other optional services."
+            },
+            "airlineLiabilityLimitations": {
+              "text": "Please read important information regarding airline liability limitations.",
+              "url": "https://www.expedia.com/p/info-main/warsaw?",
+              "textAndURL": "Please read important information regarding <a id=\"airline_liability_limitations_link\" href=\"https://www.expedia.com/p/info-main/warsaw?\" class=\"tooltip\" target=\"rulesAndRestrictions\">airline liability limitations<span class=\"visually-hidden\" style=\"display:none;\" >(Opens a new window) </span></a>."
+            },
+            "airlineCheckInInstructionText": "Remember to bring your itinerary and government-issued photo ID for airport check-in and security.",
+            "railFeederMessages": [],
+            "expediaChangeFeeChargeable": false
+          },
           "airlineCheckInURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/trips/airline/checkin?airlineCode=WW&firstName=sandi&lastName=ma&confirmation=DL5HBGT&departureAirport=BOS&flightNumber=126&email=sptest%40expedia.com&ticketNumber=&flightDay=27&flightMonth=1",
           "sharableItemDetailURL": "https://www.expedia.com/api/trips/shared/9wODx0vGI3nZFtzlflGSniTguNtBrsomygGG1QO_oXoT4CVaDIV3l6MAmnjTM9quADdEIlr_pdtUQ8G4dauhfaX8qzxa5ZYnYK9DCvYcz1M7nkfGMpNuW45-jpNeURf3"
         }

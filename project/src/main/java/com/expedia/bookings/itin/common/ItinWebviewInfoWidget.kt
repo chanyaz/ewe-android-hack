@@ -32,11 +32,9 @@ class ItinWebviewInfoWidget(context: Context, attrs: AttributeSet?) : LinearLayo
                 if (color != null) {
                     buttonText.setTextColor(ContextCompat.getColor(context, color))
                 }
-                if (url != null) {
-                    card_view.setOnClickListener {
-                        context.startActivity(buildWebViewIntent(text, url).intent, ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_up_partially, 0).toBundle())
-                        OmnitureTracking.trackItinFlightBaggageInfoClicked()
-                    }
+                card_view.setOnClickListener {
+                    context.startActivity(buildWebViewIntent(text, url!!).intent, ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_up_partially, 0).toBundle())
+                    OmnitureTracking.trackItinFlightBaggageInfoClicked()
                 }
             } else {
                 this.visibility = View.GONE

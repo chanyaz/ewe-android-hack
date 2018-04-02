@@ -6,6 +6,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.TicketingStatus
+import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.itin.common.ItinConfirmationViewModel
 import com.expedia.bookings.itin.common.ItinToolbarViewModel
 import com.expedia.bookings.itin.flight.details.FlightItinBookingInfoViewModel
@@ -396,6 +397,16 @@ class FlightItinDetailsViewModelTest {
         sut.updateBaggageInfoUrl(testItinCardData)
         createBaggageInfoWebviewSubcriber.assertValueCount(1)
         createBaggageInfoWebviewSubcriber.assertValue(testItinCardData.baggageInfoUrl)
+    }
+
+    @Test
+    fun baggageInfoWebViewWhenNull() {
+        sut.createBaggageInfoWebviewWidgetSubject.subscribe(createBaggageInfoWebviewSubcriber)
+        val testItinCardData = ItinCardDataFlightBuilder().build()
+        (testItinCardData.tripComponent as TripFlight).additionalAirlineFees = null
+        sut.updateBaggageInfoUrl(testItinCardData)
+        createBaggageInfoWebviewSubcriber.assertValueCount(1)
+        createBaggageInfoWebviewSubcriber.assertValue("")
     }
 
     @Test
