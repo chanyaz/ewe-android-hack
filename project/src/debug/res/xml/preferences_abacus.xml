@@ -112,33 +112,33 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="24951"
+            android:key="25534"
             android:summary="%s"
-            android:title="Hotels satellite search - 24951" />
+            android:title="Hotels satellite search - 25534" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="25123"
+            android:key="25533"
             android:summary="%s"
-            android:title="Hotels Guest Ratings Filter - 25123" />
+            android:title="Hotels Guest Ratings Filter - 25533" />
             
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="25302"
+            android:key="25532"
             android:summary="%s"
-            android:title="Hotels UGC Translations - 25302" />
+            android:title="Hotels UGC Translations - 25532" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="25187"
+            android:key="25531"
             android:summary="%s"
-            android:title="HSR Floating Action Pill - 25187" />
+            android:title="HSR Floating Action Pill - 25531" />
 
     </PreferenceCategory>
 

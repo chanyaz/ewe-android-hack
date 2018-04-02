@@ -97,10 +97,10 @@ public class AbacusUtils {
 	public static final ABTest HotelRecentSearch = new ABTest(15832, true);
 	public static final ABTest HotelResultChangeDate = new ABTest(24743, true);
 	public static final ABTest HotelEarn2xMessaging = new ABTest(24742, true);
-	public static final ABTest HotelSatelliteSearch = new ABTest(24951, true);
-	public static final ABTest HotelGuestRatingFilter = new ABTest(25123, true);
-	public static final ABTest HotelSearchResultsFloatingActionPill = new ABTest(25187, true);
-	public static final ABTest HoteUGCTranslatations = new ABTest(25302, true);
+	public static final ABTest HotelSatelliteSearch = new ABTest(25534, true);
+	public static final ABTest HotelGuestRatingFilter = new ABTest(25533, true);
+	public static final ABTest HotelSearchResultsFloatingActionPill = new ABTest(25531, true);
+	public static final ABTest HoteUGCTranslatations = new ABTest(25532, true);
 
 	// Cars Web View Tests
 	public static final ABTest EBAndroidAppCarsFlexView = new ABTest(14632);
