@@ -7,14 +7,15 @@ import android.view.LayoutInflater
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.extensions.isShowAirAttached
+import com.expedia.bookings.features.Features
+import com.expedia.bookings.hotel.widget.adapter.priceFormatter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.hotel.widget.adapter.priceFormatter
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.maps.android.ui.IconGenerator
 
-class HotelMarkerIconGenerator (context: Context) {
+class HotelMarkerIconGenerator(context: Context) {
 
     val iconFactory = IconGenerator(context)
 
@@ -46,11 +47,15 @@ class HotelMarkerIconGenerator (context: Context) {
                 } else {
                     priceFormatter(context.resources, hotel.lowRateInfo, false, !hotel.isPackage)
                 }
-        val isAirAttached = if (hotel.isSoldOut) false else hotel.lowRateInfo.isShowAirAttached()
-        val outputBitmap = getBitmap(context, isSelected, isAirAttached, hotel.isSoldOut)
+        val shouldShowAirAttached = if (hotel.isSoldOut || isGenericAttachEnabled()) false else hotel.lowRateInfo.isShowAirAttached()
+        val outputBitmap = getBitmap(context, isSelected, shouldShowAirAttached, hotel.isSoldOut)
         iconFactory.setBackground(outputBitmap)
         hotelMarkerTextView.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
         iconFactory.setTextAppearance(R.style.MarkerTextAppearance)
         return BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon(hotelPriceText.toString()))
+    }
+
+    private fun isGenericAttachEnabled(): Boolean {
+        return Features.all.genericAttach.enabled()
     }
 }
