@@ -364,8 +364,8 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
-            android:key="24528"
-            android:title="Show bottom navigation tabs - 24528" />
+            android:key="25549"
+            android:title="Show bottom navigation tabs - 25549" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -380,8 +380,8 @@
             android:entries="@array/abacus_meso_variant_choices"
             android:entryValues="@array/abacus_meso_variant_choice_values"
             android:summary="%s"
-            android:key="15842"
-            android:title="Show Meso Destination Card - 15842" />
+            android:key="25552"
+            android:title="Show Meso Destination Card - 25552" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -560,8 +560,8 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
-            android:key="24532"
-            android:title="Enable Edit Account Web View - 24532" />
+            android:key="25551"
+            android:title="Enable Edit Account Web View - 25551" />
 
     </PreferenceCategory>
 
