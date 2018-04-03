@@ -1378,7 +1378,7 @@
     <!--Hotel itin card price summary heading-->
     <string name="itin_hotel_details_price_summary_heading">Price summary</string>
     <!--Hotel itin card price summary and rewards heading-->
-    <string name="itin_hotel_details_price_summary_rewards_heading">Pricing and Rewards</string>
+    <string name="itin_hotel_details_price_summary_rewards_heading">Pricing and rewards</string>
     <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">{amount} total amount paid</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
@@ -2166,8 +2166,6 @@
     <string name="phone_number_country_code_dropdown_cont_desc">Country code</string>
     <!-- Country Code hint for material traveler form -->
     <string name="phone_number_country_code_hint">Country Code</string>
-    <!-- Born on colored -->
-    <string name="born_on_colored_TEMPLATE">Born %1$s</string>
 
     <!-- Section edit contact -->
     <!-- name on card hint -->
@@ -3033,8 +3031,6 @@
     <string name="account_settings_edit_webview_label">My Account</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Sign in</string>
-    <!-- Progress dialog text when we are signing the user into Expedia -->
-    <string name="signing_in">Signing in…</string>
     <!-- Label for sign out confirmation -->
     <string name="sign_out_confirmation_TEMPLATE">Are you sure you want to sign out of your {brand} account?</string>
     <!-- Label for loading user profile from Expedia -->
@@ -3302,12 +3298,6 @@
     <string name="unit_miles">mi</string>
     <!-- Abbreviated kilometers (used in distance_template) -->
     <string name="unit_kilometers">km</string>
-    <!-- Miles (used in distance_template) -->
-    <string name="unit_miles_full">miles</string>
-    <!-- Kilometers (used in distance template) -->
-    <string name="unit_kilometers_full">kilometres</string>
-    <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
-    <string name="distance_template">%1$s %2$s away</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->

@@ -2166,8 +2166,6 @@
     <string name="phone_number_country_code_dropdown_cont_desc">Mã quốc gia</string>
     <!-- Country Code hint for material traveler form -->
     <string name="phone_number_country_code_hint">Mã quốc gia</string>
-    <!-- Born on colored -->
-    <string name="born_on_colored_TEMPLATE">Sinh %1$s</string>
 
     <!-- Section edit contact -->
     <!-- name on card hint -->
@@ -3033,8 +3031,6 @@
     <string name="account_settings_edit_webview_label">Tài khoản của tôi</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Đăng nhập</string>
-    <!-- Progress dialog text when we are signing the user into Expedia -->
-    <string name="signing_in">Đang đăng nhập…</string>
     <!-- Label for sign out confirmation -->
     <string name="sign_out_confirmation_TEMPLATE">Quý vị có chắc chắn muốn thoát khỏi tài khoản {brand} không?</string>
     <!-- Label for loading user profile from Expedia -->
@@ -3302,12 +3298,6 @@
     <string name="unit_miles">dặm</string>
     <!-- Abbreviated kilometers (used in distance_template) -->
     <string name="unit_kilometers">km</string>
-    <!-- Miles (used in distance_template) -->
-    <string name="unit_miles_full">dặm</string>
-    <!-- Kilometers (used in distance template) -->
-    <string name="unit_kilometers_full">km</string>
-    <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
-    <string name="distance_template">cách %1$s %2$s</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
