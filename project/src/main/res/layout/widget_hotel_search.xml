@@ -154,7 +154,8 @@
                 <ViewStub
                     android:id="@+id/swp_stub"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/default_search_card_height"
+                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/default_search_card_height"
                     android:layout="@layout/swp_search_widget" />
             </LinearLayout>
 
