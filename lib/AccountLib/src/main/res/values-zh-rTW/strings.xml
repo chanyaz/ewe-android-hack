@@ -68,7 +68,7 @@
     <!-- Account locked dialog box message -->
     <string name="acct__Sign_in_locked">由於多次嘗試登入失敗，我們暫時鎖定您的帳戶。請檢查您的密碼，並於 1 小時後再試一次。</string>
     <!-- Generic sign in failure dialog box message -->
-    <string name="acct__Sign_in_failed_generic">唉呀！登入時出現錯誤。</string>
+    <string name="acct__Sign_in_failed_generic">很抱歉！登入時出現錯誤。</string>
     <!-- Title of error dialog box -->
     <string name="acct__Create_account_failed_TITLE">註冊帳戶失敗</string>
     <!-- Generic sign in failure dialog box message -->

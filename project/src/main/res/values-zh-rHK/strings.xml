@@ -2166,8 +2166,6 @@
     <string name="phone_number_country_code_dropdown_cont_desc">國家地區代碼</string>
     <!-- Country Code hint for material traveler form -->
     <string name="phone_number_country_code_hint">國家地區代碼</string>
-    <!-- Born on colored -->
-    <string name="born_on_colored_TEMPLATE">出生日期：%1$s</string>
 
     <!-- Section edit contact -->
     <!-- name on card hint -->
@@ -3033,8 +3031,6 @@
     <string name="account_settings_edit_webview_label">我的帳戶</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">登入</string>
-    <!-- Progress dialog text when we are signing the user into Expedia -->
-    <string name="signing_in">正在登入…</string>
     <!-- Label for sign out confirmation -->
     <string name="sign_out_confirmation_TEMPLATE">您確定要登出您的 {brand} 帳戶嗎？</string>
     <!-- Label for loading user profile from Expedia -->
@@ -3302,16 +3298,10 @@
     <string name="unit_miles">英里</string>
     <!-- Abbreviated kilometers (used in distance_template) -->
     <string name="unit_kilometers">公里</string>
-    <!-- Miles (used in distance_template) -->
-    <string name="unit_miles_full">英里</string>
-    <!-- Kilometers (used in distance template) -->
-    <string name="unit_kilometers_full">公里</string>
-    <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
-    <string name="distance_template">%1$s %2$s外</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{currency}{amount}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">設定</string>

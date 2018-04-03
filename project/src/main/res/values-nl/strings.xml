@@ -1863,7 +1863,7 @@
     <string name="flights_fee_added_based_on_payment">Op basis van het kaarttype wordt een airlinetoeslag toegevoegd bij het afrekenen. Deze toeslag wordt toegevoegd aan het totale boekingsbedrag.</string>
     <!-- There may be an additional fee based on payment method
          Example: There may be an additional fee based on your payment method -->
-    <string name="flights_there_maybe_additional_fee_TEMPLATE">Mogelijk gelden er &lt;a href=\"{airline_fee_url}\"&gt;transactiekosten&lt;/a&gt; op basis van je betalingsmethode.</string>
+    <string name="flights_there_maybe_additional_fee_TEMPLATE">Mogelijk gelden er &lt;a href=\"{airline_fee_url}\"&gt;extra kosten&lt;/a&gt; op basis van je betalingsmethode.</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">Betaalpassen worden niet aanvaard.</string>
     <!-- Flights Sold out error screen:- warning message -->
@@ -2166,8 +2166,6 @@
     <string name="phone_number_country_code_dropdown_cont_desc">Landcode</string>
     <!-- Country Code hint for material traveler form -->
     <string name="phone_number_country_code_hint">Landcode</string>
-    <!-- Born on colored -->
-    <string name="born_on_colored_TEMPLATE">Geboren op %1$s</string>
 
     <!-- Section edit contact -->
     <!-- name on card hint -->
@@ -3033,8 +3031,6 @@
     <string name="account_settings_edit_webview_label">Mijn account</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Aanmelden</string>
-    <!-- Progress dialog text when we are signing the user into Expedia -->
-    <string name="signing_in">Bezig met aanmelden …</string>
     <!-- Label for sign out confirmation -->
     <string name="sign_out_confirmation_TEMPLATE">Ben je zeker dat je je wilt afmelden bij je {brand}-account?</string>
     <!-- Label for loading user profile from Expedia -->
@@ -3302,12 +3298,6 @@
     <string name="unit_miles">mijl</string>
     <!-- Abbreviated kilometers (used in distance_template) -->
     <string name="unit_kilometers">km</string>
-    <!-- Miles (used in distance_template) -->
-    <string name="unit_miles_full">mijl</string>
-    <!-- Kilometers (used in distance template) -->
-    <string name="unit_kilometers_full">kilometer</string>
-    <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
-    <string name="distance_template">op %1$s %2$s</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
