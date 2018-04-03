@@ -38,7 +38,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     val filterButton: FlightFilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     private lateinit var flightLoader: ViewStub
     private lateinit var flightLoadingWidget: FlightLoadingWidget
-    private lateinit var flightProgressBar: ProgressBar
+    lateinit var flightProgressBar: ProgressBar
     private lateinit var flightListAdapter: AbstractFlightListAdapter
     var trackScrollDepthSubscription: Disposable? = null
 
@@ -130,11 +130,17 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
                     .subscribe {
                         setPaymentLegalMessage(it)
                     }
+            vm.updateFlightsStream.subscribe {
+                if (isShowingOutboundResults) {
+                    completeProgressBarAnimation()
+                }
+            }
         } else {
             vm.airlineChargesFeesSubject.subscribe { showAirlineChargesFees ->
                 setPaymentLegalMessage(showAirlineChargesFees)
             }
         }
+        vm.updateFlightsStream.subscribe { flightListAdapter.notifyItemRangeChanged(0, it) }
     }
 
     val listResultsObserver = endlessObserver<List<FlightLeg>> {
@@ -143,7 +149,9 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
             if (isShowingOutboundResults) {
                 flightProgressBar.clearAnimation()
                 flightLoadingWidget.setResultReceived()
-                progressBarAnimation(1000, flightProgressBar.progress.toFloat(), FLIGHT_PROGRESS_BAR_MAX.toFloat(), true)
+                if (!resultsViewModel.showRichContent) {
+                    completeProgressBarAnimation()
+                }
             } else {
                 showPaymentLegalMessageSubject.onNext(Unit)
                 flightLoadingWidget.visibility = View.GONE
@@ -156,6 +164,10 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     private fun setFilterButtonVisibility() {
         filterButton.visibility = if (showFilterButton) View.VISIBLE else View.GONE
+    }
+
+    private fun completeProgressBarAnimation() {
+        progressBarAnimation(1000, flightProgressBar.progress.toFloat(), FLIGHT_PROGRESS_BAR_MAX.toFloat(), true)
     }
 
     private fun progressBarAnimation(duration: Long, fromProgress: Float, toProgress: Float, resultsReceived: Boolean) {
