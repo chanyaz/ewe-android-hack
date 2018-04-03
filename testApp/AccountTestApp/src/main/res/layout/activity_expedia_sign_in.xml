@@ -12,7 +12,8 @@
         android:layout_height="match_parent"
         android:src="@drawable/bg_mtfuji_crop"
         app:acct__piv_panFrom="0.1"
-        app:acct__piv_panTo="0.55"/>
+        app:acct__piv_panTo="0.55"
+        android:visibility="gone"/>
 
     <LinearLayout
         android:id="@+id/white_background"
@@ -55,7 +56,21 @@
         app:acct__logo_text_drawable="@drawable/logo_text"
         app:acct__logo_text_drawable_margin_left="6dp"
         app:acct__logo_text_drawable_margin_top="5dp"
-        app:acct__brand="@string/brand" />
+        app:acct__brand="@string/brand"
+        android:visibility="gone" />
+    
+    <com.expedia.account.sample.MockNewAccountView
+        android:id="@+id/new_account_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        app:acct__brand_string="@string/brand"
+        app:acct__header_color="@color/brand_primary"
+        app:acct__tab_indicator_color="@color/exp_launch_yellow"
+        app:acct__tab_text_color="#8CFFFFFF"
+        app:acct__tab_text_selected_color="#FFFFFF"
+        app:acct__cancel_drawable="@drawable/com_facebook_button_like_icon_selected"
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/sign_in_status_frame"

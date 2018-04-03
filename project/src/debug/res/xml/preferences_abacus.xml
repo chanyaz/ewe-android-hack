@@ -595,6 +595,14 @@
             android:key="25566"
             android:title="Enable Edit Account Web View - 25566" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
+            android:key="24581"
+            android:title="New Single Page Sign In - 24581" />
+
     </PreferenceCategory>
 
 

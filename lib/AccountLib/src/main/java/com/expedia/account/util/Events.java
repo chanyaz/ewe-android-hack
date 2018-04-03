@@ -135,6 +135,22 @@ public class Events {
 	public static class LinkFromFacebookFired {
 	}
 
+	public static class NewForgotPasswordButtonClicked {
+	}
+
+	public static class NewCreateAccountButtonClicked {
+	}
+
+	public static class NewAccountSignInButtonClicked {
+		public String email;
+		public String password;
+
+		public NewAccountSignInButtonClicked(String email, String password) {
+			this.email = email;
+			this.password = password;
+		}
+	}
+
 	public static class KeyBoardVisibilityChanged {
 		public boolean isVisible;
 		public KeyBoardVisibilityChanged(boolean isVisible) {

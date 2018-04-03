@@ -14,4 +14,8 @@
     <color name="user_info_text_color">#ffffff</color>
     <color name="welcome_text_color">#ffffff</color>
     <color name="acct__bg_input_text_hint">#80849a</color>
+
+    <color name="brand_primary_dark">#022b4b</color>
+    <color name="brand_primary">#00355F</color>
+    <color name="exp_launch_yellow">#FFED18</color>
 </resources>

@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.expedia.account.Config;
+import com.expedia.account.NewAccountView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ActivityKillReceiver;
@@ -159,6 +160,14 @@ public class NavUtils {
 			intent.putExtra(PhoneLaunchActivity.ARG_ITIN_NUM, itinNum);
 		}
 		context.startActivity(intent);
+	}
+
+	public static void goToAccount(Activity activity, NewAccountView.AccountTab initialTab) {
+		Bundle args = AccountLibActivity
+				.createArgumentsBundle(LineOfBusiness.PROFILE, initialTab,
+						new ItinerarySyncLoginExtender());
+
+		getUserStateManager(activity).signIn(activity, args);
 	}
 
 	public static void goToAccount(Activity activity, Config.InitialState initialState) {

@@ -6,7 +6,10 @@
     <color name="acct__gray900_50">#801F1F1F</color>
 
     <color name="acct__white">#FFFFFF</color>
+    <color name="acct__black">#000000</color>
     <color name="acct__exp_launch_blue">#0063BB</color>
     <color name="acct__grey_1">@color/acct__gray700</color>
     <color name="acct__blue_1">#1369B3</color>
+    <color name="acct__blue_2">#0947b2</color>
+
 </resources>
