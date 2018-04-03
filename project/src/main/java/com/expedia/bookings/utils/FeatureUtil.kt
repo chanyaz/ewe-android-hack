@@ -133,6 +133,10 @@ fun checkIfTripFoldersEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.TripFoldersFragment)
 }
 
+fun isFlightsUrgencyMeassagingEnabled(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsUrgencyMessaging)
+}
+
 fun isHideMiniMapOnResultBucketed(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelHideMiniMapOnResult)
 }

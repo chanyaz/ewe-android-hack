@@ -29,10 +29,12 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
     val obFeeDetailsUrlObservable = PublishSubject.create<String>()
     val e3EndpointUrl = Ui.getApplication(context).appComponent().endpointProvider().e3EndpointUrl
     val earnMessage = BehaviorSubject.create<String>()
+    val bottomUrgencyMessageSubject = PublishSubject.create<String>()
 
     abstract val showBundlePriceSubject: BehaviorSubject<Boolean>
     abstract val showEarnMessage: BehaviorSubject<Boolean>
 
+    abstract fun shouldShowUrgencyMessaging(): Boolean
     abstract fun shouldShowSeatingClassAndBookingCode(): Boolean
     abstract fun convertTooltipInfo(selectedFlight: FlightLeg): List<FlightLeg.BasicEconomyTooltipInfo>
     abstract fun shouldShowDeltaPositive(): Boolean
@@ -63,7 +65,7 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
 
     fun updateUrgencyMessage(selectedFlight: FlightLeg) {
         val urgencyMessage = StringBuilder()
-        if (selectedFlight.packageOfferModel.urgencyMessage != null) {
+        if (selectedFlight.packageOfferModel.urgencyMessage != null && !shouldShowUrgencyMessaging()) {
             val ticketsLeft = selectedFlight.packageOfferModel.urgencyMessage.ticketsLeft
             if (ticketsLeft in 1..5) {
                 urgencyMessage.append(Phrase.from(context.resources

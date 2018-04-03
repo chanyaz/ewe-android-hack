@@ -6,7 +6,9 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extensions.getEarnMessage
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
+import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.isFlightsUrgencyMeassagingEnabled
 import com.expedia.vm.AbstractFlightOverviewViewModel
 import io.reactivex.subjects.BehaviorSubject
 
@@ -25,6 +27,10 @@ class FlightOverviewViewModel(context: Context) : AbstractFlightOverviewViewMode
 
     override fun shouldShowBasicEconomyMessage(selectedFlight: FlightLeg): Boolean {
         return selectedFlight.isBasicEconomy
+    }
+
+    override fun shouldShowUrgencyMessaging(): Boolean {
+        return isFlightsUrgencyMeassagingEnabled(context)
     }
 
     override fun shouldShowDeltaPositive(): Boolean {
@@ -46,6 +52,9 @@ class FlightOverviewViewModel(context: Context) : AbstractFlightOverviewViewMode
             showEarnMessage.onNext(
                     Strings.isNotEmpty(earnMessage.value) && (PointOfSale.getPointOfSale().isEarnMessageEnabledForFlights)
             )
+            if (shouldShowUrgencyMessaging()) {
+                bottomUrgencyMessageSubject.onNext(FlightV2Utils.getSeatsLeftUrgencyMessage(context, selectedFlight))
+            }
         }
     }
 }

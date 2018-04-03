@@ -59,6 +59,22 @@
                             android:layout_marginBottom="15dp"
                             android:layout_marginTop="14dp" />
 
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@color/cardview_divider_lines_gray" />
+
+                        <com.expedia.bookings.widget.TextView
+                            android:id="@+id/urgency_message"
+                            android:layout_width="match_parent"
+                            android:layout_height="36dp"
+                            android:gravity="right|center_vertical"
+                            android:paddingRight="13dp"
+                            android:textColor="@color/flight_seats_left_urgency_message_color"
+                            android:textSize="11sp"
+                            app:textStyle="medium"
+                            android:visibility="gone" />
+
                         <com.expedia.bookings.widget.TextView
                             android:id="@+id/flight_total_duration"
                             style="@style/PackagesFlightTotalDuration"

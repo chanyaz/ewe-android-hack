@@ -13,6 +13,7 @@ import com.expedia.bookings.data.DeprecatedHotelSearchParams
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightServiceClassType
@@ -23,6 +24,7 @@ import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.TextView
@@ -247,6 +249,22 @@ class FlightInboundPresenterTest {
         flightLeg.packageOfferModel.urgencyMessage.ticketsLeft = 6
         flightInboundPresenter.overviewPresenter.vm.selectedFlightLegSubject.onNext(flightLeg)
         assertEquals("$646.80 per person", flightInboundPresenter.overviewPresenter.vm.urgencyMessagingSubject.value)
+        assertEquals(View.VISIBLE, urgencyTextView.visibility)
+    }
+
+    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testFlightHeaderUrgencyMessageWhenBucketed() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsUrgencyMessaging, 1)
+        val flightLeg = setupFlightLeg()
+
+        flightInboundPresenter.overviewPresenter.urgencyMessagingText
+        val urgencyTextView = flightInboundPresenter.overviewPresenter.findViewById<View>(R.id.flight_overview_urgency_messaging)
+        flightInboundPresenter.overviewPresenter.vm.numberOfTravelers.onNext(1)
+        flightLeg.packageOfferModel.urgencyMessage.ticketsLeft = 1
+        flightLeg.flightSegments = ArrayList<FlightLeg.FlightSegment>()
+        flightLeg.flightSegments.add(createFlightSegment("Honolulu", "HNL", "Tokyo", "NRT", 1, 34))
+        flightInboundPresenter.overviewPresenter.vm.selectedFlightLegSubject.onNext(flightLeg)
+        assertEquals("$646.80", flightInboundPresenter.overviewPresenter.vm.urgencyMessagingSubject.value)
         assertEquals(View.VISIBLE, urgencyTextView.visibility)
     }
 

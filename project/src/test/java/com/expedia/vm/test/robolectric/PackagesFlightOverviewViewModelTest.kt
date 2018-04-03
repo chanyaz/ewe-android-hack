@@ -1,18 +1,20 @@
 package com.expedia.vm.test.robolectric
 
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.pos.PointOfSaleId
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.vm.packages.FlightOverviewViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -83,6 +85,18 @@ class PackagesFlightOverviewViewModelTest {
         flightLeg.packageOfferModel.urgencyMessage.ticketsLeft = 2
         sut.selectedFlightLegSubject.onNext(flightLeg)
         assertEquals("2 seats left, +$646.00 per person", sut.urgencyMessagingSubject.value)
+    }
+
+    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testFlightHeaderUrgencyMessageWhenBucketed() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsUrgencyMessaging, 1)
+        setupSystemUnderTest()
+        setupFlightLeg()
+
+        sut.numberOfTravelers.onNext(1)
+        flightLeg.packageOfferModel.urgencyMessage.ticketsLeft = 1
+        sut.selectedFlightLegSubject.onNext(flightLeg)
+        assertEquals("1 seat left, $646.00", sut.urgencyMessagingSubject.value)
     }
 
     @Test

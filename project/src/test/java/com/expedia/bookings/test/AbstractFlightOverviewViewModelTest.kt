@@ -1,6 +1,7 @@
 package com.expedia.bookings.test
 
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
@@ -17,6 +18,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.utils.AbacusTestUtils
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 
@@ -46,6 +48,38 @@ class AbstractFlightOverviewViewModelTest {
         sut.selectedFlightLegSubject.onNext(flightLeg)
         assertEquals(false, flightLeg.airlineMessageModel.hasAirlineWithCCfee)
         testSubscriber.assertValues("", "https://www.expedia.co.uk/p/regulatory/obfees", "")
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testUrgencyMessageLinkWhenBucketed() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsUrgencyMessaging, 1)
+        setFlightOverviewModel(false)
+        val urgencyMessageTestSubscriber = TestObserver<String>()
+        sut.bottomUrgencyMessageSubject.subscribe(urgencyMessageTestSubscriber)
+        setupFlightLeg()
+        setSeatsLeftInLeg(3)
+        sut.selectedFlightLegSubject.onNext(flightLeg)
+
+        setSeatsLeftInLeg(6)
+        sut.selectedFlightLegSubject.onNext(flightLeg)
+        urgencyMessageTestSubscriber.assertValues("3 seats left", "")
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testUrgencyMessageLinkWhenControlled() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppFlightsUrgencyMessaging)
+        setFlightOverviewModel(false)
+        val urgencyMessageTestSubscriber = TestObserver<String>()
+        sut.bottomUrgencyMessageSubject.subscribe(urgencyMessageTestSubscriber)
+        setupFlightLeg()
+        setSeatsLeftInLeg(3)
+        sut.selectedFlightLegSubject.onNext(flightLeg)
+
+        setSeatsLeftInLeg(6)
+        sut.selectedFlightLegSubject.onNext(flightLeg)
+        urgencyMessageTestSubscriber.assertValueCount(0)
     }
 
     @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
@@ -106,6 +140,10 @@ class AbstractFlightOverviewViewModelTest {
         flightLeg.airlineMessageModel = FlightLeg.AirlineMessageModel()
         flightLeg.airlineMessageModel.hasAirlineWithCCfee = false
         flightLeg.airlineMessageModel.airlineFeeLink = "p/regulatory/obfees"
+    }
+
+    private fun setSeatsLeftInLeg(ticketsLeft: Int) {
+        flightLeg.packageOfferModel.urgencyMessage.ticketsLeft = ticketsLeft
     }
 
     private fun addObFees() {
