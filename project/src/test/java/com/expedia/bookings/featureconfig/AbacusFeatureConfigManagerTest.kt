@@ -42,6 +42,13 @@ class AbacusFeatureConfigManagerTest {
     }
 
     @Test
+    fun testSatelliteManagedDisabledWithAbacusEnabledTest() {
+        val abTest = ABTest(99999, true)
+        Db.sharedInstance.abacusResponse.forceUpdateABTest(9999, AbacusVariant.BUCKETED.value)
+        assertFalse(AbacusFeatureConfigManager.isBucketedForTest(context, abTest))
+    }
+
+    @Test
     fun testNonSatelliteABTestIsBucketed() {
         val abTest = ABTest(12345)
         AbacusTestUtils.updateABTest(abTest, AbacusVariant.BUCKETED.value)
