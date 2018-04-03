@@ -364,8 +364,8 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
-            android:key="25549"
-            android:title="Show bottom navigation tabs - 25549" />
+            android:key="25565"
+            android:title="Show bottom navigation tabs - 25565" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -560,8 +560,8 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
-            android:key="25551"
-            android:title="Enable Edit Account Web View - 25551" />
+            android:key="25566"
+            android:title="Enable Edit Account Web View - 25566" />
 
     </PreferenceCategory>
 
