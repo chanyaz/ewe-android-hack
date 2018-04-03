@@ -31,6 +31,7 @@ import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.shared.widget.SuggestionAdapter
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.AccessibilityUtil.setFocusForView
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.AnimationUtils.animateView
 import com.expedia.bookings.utils.SuggestionV4Utils
@@ -231,6 +232,11 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
                         travelerWidgetV2.traveler.getViewModel().isInfantInLapObservable.onNext(params.infantSeatingInLap)
                     }
                     vm.setupViewModelFromPastSearch(params)
+                    if (vm.getParamsBuilder().hasValidDates()) {
+                        setFocusForView(searchButton)
+                    } else {
+                        setFocusForView(calendarWidgetV2)
+                    }
                     vm.isModifySearchFormAllowed = true
                     vm.hasPreviousSearchParams = false
                     animatorLeft.start()

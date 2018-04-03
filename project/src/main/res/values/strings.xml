@@ -5061,6 +5061,15 @@
     <!-- Recent search header string -->
     <string name="flight_recent_search_label">Recent Searches</string>
 
+    <!--Recent Search card content description template. Eg. 1 SFO to LAS oneway search for 31st July for 2 travelers Economy class Price starting from $150 per person-->
+    <string name="flight_recent_search_item_cont_desc_TEMPLATE">{source} to {destination}, {trip_type} search, from {date}, for {travelers}, {cabin_class} class, Price starting from {amount} per person \u0020</string>  
+
+    <!--Recent Search travelers card content description template. Eg. 1 traveler, 2 travelers-->
+    <plurals name="recent_search_travelers_cont_desc_TEMPLATE">
+        <item quantity="one">{travelers} traveler</item>
+        <item quantity="other">{travelers} travelers</item>
+    </plurals>
+
     <!-- Brand reward name -->
     <string name="brand_reward_name">Expedia Rewards</string>
 

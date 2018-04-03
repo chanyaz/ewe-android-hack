@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeContentDescription
 import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.utils.LayoutUtils
 import com.expedia.bookings.utils.bindView
@@ -40,6 +41,7 @@ class RecentSearchViewHolder(context: Context, itemView: View) : RecyclerView.Vi
                 LayoutUtils.setSVG(arrowIcon, R.raw.flight_recent_search_one_way)
             }
         }
+        vm.contentDescriptionObservable.subscribeContentDescription(itemView)
         vm
     }
 }
