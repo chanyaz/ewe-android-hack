@@ -98,12 +98,7 @@ public class CopyrightFragment extends Fragment {
 		}
 		mAppName = context.getString(args.getInt(ARG_NAME));
 
-		if (args.containsKey(ARG_LOGO)) {
-			mLogo = args.getInt(ARG_LOGO);
-		}
-		else {
-			mLogo = R.drawable.mobiata;
-		}
+		mLogo = args.getInt(ARG_LOGO);
 
 		mSuppressVersionCode = args.getBoolean(ARG_SUPPRESS_VERSION_CODE, false);
 
