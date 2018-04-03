@@ -5,20 +5,14 @@ import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.analytics.AnalyticsProvider
-import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.itin.hotel.details.HotelItinDetailsActivity
 import com.expedia.bookings.data.trips.ItinCardDataHotel
 import com.expedia.bookings.itin.hotel.details.HotelItinBookingDetails
 import com.expedia.bookings.itin.hotel.details.HotelItinCheckInCheckOutDetails
+import com.expedia.bookings.itin.hotel.details.HotelItinDetailsActivity
 import com.expedia.bookings.itin.hotel.details.HotelItinImageWidget
 import com.expedia.bookings.itin.hotel.details.HotelItinRoomDetails
-import com.expedia.bookings.test.MultiBrand
-import com.expedia.bookings.test.OmnitureMatchers
-import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -40,11 +34,6 @@ class HotelItinDetailsActivityTest {
         itinCardDataHotel = ItinCardDataHotelBuilder().build()
         intentBuilder = WebViewActivity.IntentBuilder(RuntimeEnvironment.application)
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-    }
-
-    @After
-    fun tearDown() {
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppTripsMessageHotel)
     }
 
     @Test
@@ -160,53 +149,5 @@ class HotelItinDetailsActivityTest {
         room2.collapsedRoomDetails.performClick()
         assertEquals(View.GONE, room1.expandedRoomDetails.visibility)
         assertEquals(View.VISIBLE, room2.expandedRoomDetails.visibility)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun hotelMessagingTestsBucketedWithURL() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppTripsMessageHotel)
-
-        val itinCardDataHotelWithMessaging = ItinCardDataHotelBuilder().build()
-        itinCardDataHotelWithMessaging.property.epcConversationUrl = "https://google.com"
-        activity.itinCardDataHotel = itinCardDataHotelWithMessaging
-        activity.setUpWidgets()
-
-        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withAbacusTestBucketed(AbacusUtils.EBAndroidAppTripsMessageHotel.key), mockAnalyticsProvider)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun hotelMessagingTestsBucketedNoURL() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppTripsMessageHotel)
-
-        val itinCardDataHotelNoMessaging = ItinCardDataHotelBuilder().build()
-        activity.itinCardDataHotel = itinCardDataHotelNoMessaging
-        activity.setUpWidgets()
-
-        OmnitureTestUtils.assertStateNotTracked(OmnitureMatchers.withAbacusTestBucketed(AbacusUtils.EBAndroidAppTripsMessageHotel.key), mockAnalyticsProvider)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun hotelMessagingTestsUnBucketedWithURL() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppTripsMessageHotel, 0)
-        val itinCardDataHotelWithMessaging = ItinCardDataHotelBuilder().build()
-        itinCardDataHotelWithMessaging.property.epcConversationUrl = "https://google.com"
-        activity.itinCardDataHotel = itinCardDataHotelWithMessaging
-        activity.setUpWidgets()
-
-        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withAbacusTestControl(AbacusUtils.EBAndroidAppTripsMessageHotel.key), mockAnalyticsProvider)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun hotelMessagingTestsUnBucketetNoURL() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppTripsMessageHotel, 0)
-        val itinCardDataHotelNoMessaging = ItinCardDataHotelBuilder().build()
-        activity.itinCardDataHotel = itinCardDataHotelNoMessaging
-        activity.setUpWidgets()
-
-        OmnitureTestUtils.assertStateNotTracked(OmnitureMatchers.withAbacusTestBucketed(AbacusUtils.EBAndroidAppTripsMessageHotel.key), mockAnalyticsProvider)
     }
 }

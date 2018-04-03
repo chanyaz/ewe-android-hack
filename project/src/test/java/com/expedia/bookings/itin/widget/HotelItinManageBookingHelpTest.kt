@@ -4,11 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.itin.hotel.manageBooking.HotelItinManageBookingActivity
 import com.expedia.bookings.itin.hotel.manageBooking.HotelItinManageBookingHelp
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.ClipboardUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import com.squareup.phrase.Phrase
@@ -65,10 +63,9 @@ class HotelItinManageBookingHelpTest {
     }
 
     @Test
-    fun testMessageHotelTestOnUrlAvailable() {
+    fun testMessageHotelUrlAvailable() {
         val itinCardDataHotel = ItinCardDataHotelBuilder().build()
         itinCardDataHotel.property.epcConversationUrl = "google.com"
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppTripsMessageHotel)
         manageBookingHelpWidget.setUpWidget(itinCardDataHotel)
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         val messageHotelWidget = manageBookingHelpWidget.itin_hotel_manage_booking_message_hotel
@@ -79,22 +76,9 @@ class HotelItinManageBookingHelpTest {
     }
 
     @Test
-    fun testMessageHotelTestOff() {
-        val itinCardDataHotel = ItinCardDataHotelBuilder().build()
-        itinCardDataHotel.property.epcConversationUrl = "google.com"
-        manageBookingHelpWidget.setUpWidget(itinCardDataHotel)
-        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        val messageHotelWidget = manageBookingHelpWidget.itin_hotel_manage_booking_message_hotel
-        assertEquals(messageHotelWidget.visibility, View.GONE)
-        messageHotelWidget.performClick()
-        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
-    }
-
-    @Test
-    fun testMessageHotelTestOnNoURL() {
+    fun testMessageHotelNoURL() {
         val itinCardDataHotel = ItinCardDataHotelBuilder().build()
         itinCardDataHotel.property.epcConversationUrl = ""
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppTripsMessageHotel)
         manageBookingHelpWidget.setUpWidget(itinCardDataHotel)
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         val messageHotelWidget = manageBookingHelpWidget.itin_hotel_manage_booking_message_hotel

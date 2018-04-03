@@ -653,14 +653,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="16176"
-            android:summary="%s"
-            android:title="Trips - Message Hotel - 16176" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
             android:key="24601"
             android:summary="%s"
             android:title="Trips - Hotels M2 - 24601" />

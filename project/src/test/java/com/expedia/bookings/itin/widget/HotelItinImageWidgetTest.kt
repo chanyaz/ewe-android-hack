@@ -5,11 +5,9 @@ import android.view.View
 import com.expedia.bookings.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelMedia
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.itin.hotel.details.HotelItinDetailsActivity
 import com.expedia.bookings.itin.hotel.details.HotelItinImageWidget
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import org.junit.Before
 import org.junit.Test
@@ -87,7 +85,6 @@ class HotelItinImageWidgetTest {
 
     @Test
     fun testHotelHasMessaging() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppTripsMessageHotel)
         itinCardDataHotel.property.epcConversationUrl = "google.com"
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         hotelItinImageWidget.setUpWidget(itinCardDataHotel)
@@ -101,17 +98,7 @@ class HotelItinImageWidgetTest {
 
     @Test
     fun testHotelHasNoMessaging() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppTripsMessageHotel)
         itinCardDataHotel.property.epcConversationUrl = ""
-        hotelItinImageWidget.setUpWidget(itinCardDataHotel)
-        val messsageButton = hotelItinImageWidget.actionButtons.rightLayout
-
-        assertEquals(View.GONE, messsageButton.visibility)
-    }
-
-    @Test
-    fun testHotelMessagingTestOff() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppTripsMessageHotel, 0)
         hotelItinImageWidget.setUpWidget(itinCardDataHotel)
         val messsageButton = hotelItinImageWidget.actionButtons.rightLayout
 

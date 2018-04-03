@@ -5,14 +5,9 @@ import android.support.v4.app.ActivityOptionsCompat
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
-import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.tracking.TripsTracking
 
 object MessageHotelUtil {
-
-    fun isHotelMessagingEnabled(context: Context): Boolean =
-            AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppTripsMessageHotel)
 
     fun getClickListener(url: String, context: Context, fromManageBooking: Boolean = false): View.OnClickListener =
             View.OnClickListener {

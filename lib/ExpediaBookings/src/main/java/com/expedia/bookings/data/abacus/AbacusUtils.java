@@ -48,7 +48,6 @@ public class AbacusUtils {
 
 	// Trips tests
 	public static final ABTest TripsNewFlightAlerts = new ABTest(16205, true);
-	public static final ABTest EBAndroidAppTripsMessageHotel = new ABTest(16176, true);
 	public static final ABTest TripsHotelsM2 = new ABTest(24601, true);
 	public static final ABTest EBAndroidAppTripsUserReviews = new ABTest(24499, true);
 	public static final ABTest EBAndroidAppTripsHotelPricing = new ABTest(25537, true);
@@ -221,7 +220,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppSavedCoupons.getKey());
 		testIDs.add(PackagesBackFlowFromOverview.getKey());
 		testIDs.add(EBAndroidAppFlightsAPIKongEndPoint.getKey());
-		testIDs.add(EBAndroidAppTripsMessageHotel.getKey());
 		testIDs.add(HotelAmenityFilter.getKey());
 		testIDs.add(EBAndroidAppPackagesDisplayFlightSeatingClass.getKey());
 		testIDs.add(TripsHotelsM2.getKey());

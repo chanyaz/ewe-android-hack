@@ -100,7 +100,7 @@ open class HotelItinDetailsActivity : ItinBaseActivity() {
             toolbar.showShare()
         }
 
-        TripsTracking.trackItinHotel(hotelHasMessagingURL())
+        TripsTracking.trackItinHotel()
     }
 
     private fun addRoomsToContainer(rooms: MutableList<TripHotelRoom?>) {
@@ -126,6 +126,4 @@ open class HotelItinDetailsActivity : ItinBaseActivity() {
             multiRoomContainer.addView(roomDetailsView)
         }
     }
-
-    private fun hotelHasMessagingURL(): Boolean = itinCardDataHotel.property.hasHotelMessagingUrl()
 }

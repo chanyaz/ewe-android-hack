@@ -147,12 +147,9 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
         internalTrackLink(ITIN_HOTEL_INFO)
     }
 
-    fun trackItinHotel(hasHotelMessagingURL: Boolean?) {
+    fun trackItinHotel() {
         Log.d(TAG, "Tracking \"$ITIN_HOTEL\" pageLoad")
         val s = createTrackPageLoadEventBase(ITIN_HOTEL)
-        if (hasHotelMessagingURL!!) {
-            trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsMessageHotel)
-        }
         s.appendEvents("event63")
         s.track()
     }
