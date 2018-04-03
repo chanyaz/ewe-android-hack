@@ -152,7 +152,7 @@
             <LinearLayout
                 android:id="@+id/flight_message_container"
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="-4dp"
                 android:orientation="vertical"
                 android:visibility="gone"
