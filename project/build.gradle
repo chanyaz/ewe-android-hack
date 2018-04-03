@@ -61,7 +61,8 @@ dependencies {
     debugImplementation "com.android.support:preference-v7:${rootProject.ext.supportLibVersion}"
     debugImplementation "com.android.support:preference-v14:${rootProject.ext.supportLibVersion}"
 
-    implementation "android.arch.lifecycle:extensions:1.1.0"
+    implementation "android.arch.lifecycle:extensions:${lifecyle_version}"
+    implementation "android.arch.lifecycle:common-java8:${lifecyle_version}"
 
     implementation "com.google.android.gms:play-services-maps:${rootProject.ext.googlePlayServicesVersion}"
     implementation "com.google.android.gms:play-services-location:${rootProject.ext.googlePlayServicesVersion}"
@@ -149,6 +150,12 @@ dependencies {
     testImplementation "org.robolectric:shadows-supportv4:${robolectric_version}"
     testImplementation 'org.mockito:mockito-core:2.0.31-beta'
     testImplementation 'org.khronos:opengl-api:gl1.1-android-2.1_r1' // required to fill robolectric gap: https://github.com/robolectric/robolectric/issues/1932
+
+    testCompile("android.arch.core:core-testing:$lifecyle_version", {
+        exclude group: 'com.android.support', module: 'support-compat'
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'support-core-utils'
+    })
 
     def espressoVersion = '3.0.1'
     androidTestImplementation ('com.android.support.test:runner:1.0.1') {

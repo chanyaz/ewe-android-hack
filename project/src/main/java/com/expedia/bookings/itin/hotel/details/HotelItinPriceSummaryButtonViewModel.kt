@@ -3,6 +3,7 @@ package com.expedia.bookings.itin.hotel.details
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.itin.common.ItinBookingInfoCardViewModel
+import com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingRewardsActivity
 import com.expedia.bookings.itin.scopes.HasAbacusProvider
 import com.expedia.bookings.itin.scopes.HasActivityLauncher
 import com.expedia.bookings.itin.scopes.HasHotel
@@ -47,7 +48,7 @@ class HotelItinPriceSummaryButtonViewModel<S>(scope: S) : ItinBookingInfoCardVie
         val tripNumber = scope.itin.tripNumber
         cardClickListener = {
             if (scope.abacus.isBucketedForTest(AbacusUtils.EBAndroidAppTripsHotelPricing)) {
-                scope.activityLauncher.launchActivity()
+                scope.activityLauncher.launchActivity(HotelItinPricingRewardsActivity, scope.itin.tripId!!)
             } else if (detailsUrl != null && tripNumber != null) {
                 scope.webViewLauncher.launchWebViewActivity(R.string.itin_hotel_details_price_summary_heading, detailsUrl, "price-header", tripNumber)
             }
