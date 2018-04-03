@@ -754,8 +754,8 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="-1"
             android:summary="%s"
-            android:key="25352"
-            android:title="Packages MISRealWorldGeo: RWG Migration - 25352"/>
+            android:key="25558"
+            android:title="Packages MISRealWorldGeo: RWG Migration - 25558"/>
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
@@ -786,8 +786,8 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="-1"
             android:summary="%s"
-            android:key="24803"
-            android:title="Packages Flight Fare Family Class - 24803"/>
+            android:key="25557"
+            android:title="Packages Flight Fare Premium Class - 25557"/>
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
@@ -801,9 +801,9 @@
             android:defaultValue="-1"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="25042"
+            android:key="25555"
             android:summary="%s"
-            android:title="FHC Package WebView - 25042" />
+            android:title="FHC Package WebView - 25555" />
 
     </PreferenceCategory>
 
