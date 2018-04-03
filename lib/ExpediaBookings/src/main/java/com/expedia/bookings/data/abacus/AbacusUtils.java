@@ -123,13 +123,13 @@ public class AbacusUtils {
 	// Account
 	public static final ABTest EBAndroidAppAccountRecaptcha = new ABTest(15652, true);
 	public static final ABTest EBAndroidAppAccountsAPIKongEndPoint = new ABTest(24860, true);
-	public static final ABTest EBAndroidAppAccountsEditWebView = new ABTest(24532, true);
+	public static final ABTest EBAndroidAppAccountsEditWebView = new ABTest(25551, true);
 
 	// Launch
 	public static final ABTest EBAndroidAppBrandColors = new ABTest(15846);
-	public static final ABTest MesoAd = new ABTest(15842, true);
+	public static final ABTest MesoAd = new ABTest(25552, true);
 	public static final ABTest RewardLaunchCard = new ABTest(25001, true);
-	public static final ABTest EBAndroidAppBottomNavTabs = new ABTest(24528, true);
+	public static final ABTest EBAndroidAppBottomNavTabs = new ABTest(25549, true);
 	public static final ABTest DisableSignInPageAsFirstScreen = new ABTest(25030, true);
 
 	// Soft Prompt
