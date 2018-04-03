@@ -2853,8 +2853,6 @@
     <!-- All inclusive Options -->
     <string name="filter_all_inclusive">All Inclusive Options</string>
 
-
-
     <!-- User Reviews list strings -->
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">Recent</string>

@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.robolectric
 
 import android.content.Context
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.OmnitureTestUtils
@@ -50,6 +51,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import java.math.BigDecimal
 import java.text.DecimalFormat
@@ -80,7 +82,8 @@ class HotelDetailViewModelTest {
     private val mockHotelSearchManager = Mockito.mock(HotelSearchManager::class.java)
     private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
-    @Before fun before() {
+    @Before
+    fun before() {
         context = RuntimeEnvironment.application
         vm = HotelDetailViewModel(context, mockHotelInfoManager, mockHotelSearchManager)
 
@@ -182,11 +185,13 @@ class HotelDetailViewModelTest {
         vm.ratingContainerBackground.subscribe(testSubscriber)
 
         vm.isUserRatingAvailableObservable.onNext(true)
-        assertEquals(ContextCompat.getDrawable(context, R.drawable.gray_background_ripple), testSubscriber.values()[0],
+        assertEquals(R.drawable.white_back_gray_ripple,
+                Shadows.shadowOf(testSubscriber.values()[0]).createdFromResId,
                 "FAILURE: Rating available needs a clickable ripple background")
 
         vm.isUserRatingAvailableObservable.onNext(false)
-        assertEquals(ContextCompat.getDrawable(context, R.color.gray100), testSubscriber.values()[1],
+        assertEquals(ContextCompat.getColor(context, R.color.white),
+                (testSubscriber.values()[1] as ColorDrawable).color,
                 "FAILURE: No rating available needs a static background")
     }
 
@@ -201,7 +206,8 @@ class HotelDetailViewModelTest {
         assertEquals("$" + df.format(chargeableRateInfo.strikethroughPriceToShowUsers), vm.strikeThroughPriceObservable.value.toString())
     }
 
-    @Test fun strikeThroughPriceLessThanPriceToShowUsersDontShow() {
+    @Test
+    fun strikeThroughPriceLessThanPriceToShowUsersDontShow() {
         val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
         chargeableRateInfo.priceToShowUsers = 110f
         chargeableRateInfo.strikethroughPriceToShowUsers = chargeableRateInfo.priceToShowUsers - 10f
@@ -209,7 +215,8 @@ class HotelDetailViewModelTest {
         assertNull(vm.strikeThroughPriceObservable.value)
     }
 
-    @Test fun strikeThroughPriceSameAsPriceToShowUsersDontShow() {
+    @Test
+    fun strikeThroughPriceSameAsPriceToShowUsersDontShow() {
         val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
         chargeableRateInfo.priceToShowUsers = 110f
         chargeableRateInfo.strikethroughPriceToShowUsers = 0f
@@ -217,7 +224,8 @@ class HotelDetailViewModelTest {
         assertNull(vm.strikeThroughPriceObservable.value)
     }
 
-    @Test fun getHotelPriceContentDescriptionTestWithStrikeThrough() {
+    @Test
+    fun getHotelPriceContentDescriptionTestWithStrikeThrough() {
         val testSubscriberText = TestObserver<CharSequence>()
         val chargeableRateInfo = offer2.hotelRoomResponse[0].rateInfo.chargeableRateInfo
         chargeableRateInfo.priceToShowUsers = 110f
@@ -268,13 +276,15 @@ class HotelDetailViewModelTest {
         assertEquals(Amenity.POOL, testAmenitySubscriber.values()[0][0])
     }
 
-    @Test fun discountPercentageShouldNotShowForPackages() {
+    @Test
+    fun discountPercentageShouldNotShowForPackages() {
         val hotelOffer = HotelOffersResponse()
         vm.hotelOffersSubject.onNext(hotelOffer)
         assertFalse(vm.showDiscountPercentageObservable.value)
     }
 
-    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun resortFeeShowUKPOS() {
         CurrencyUtils.initMap(RuntimeEnvironment.application)
         setPOS(PointOfSaleId.UNITED_KINGDOM)
@@ -288,7 +298,8 @@ class HotelDetailViewModelTest {
         assertEquals("total fee", context.getString(vm.getFeeTypeText()))
     }
 
-    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun resortFeeShowUSPOS() {
         CurrencyUtils.initMap(RuntimeEnvironment.application)
         setPOS(PointOfSaleId.UNITED_STATES)
@@ -332,7 +343,8 @@ class HotelDetailViewModelTest {
         vm.addViewsAfterTransition()
     }
 
-    @Test fun discountPercentageShouldNotShowForSWP() {
+    @Test
+    fun discountPercentageShouldNotShowForSWP() {
         offer1.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = true
         val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
         val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(null, null), true)
@@ -342,14 +354,16 @@ class HotelDetailViewModelTest {
         assertFalse(vm.showAirAttachSWPImageObservable.value)
     }
 
-    @Test fun zeroDiscountPercentageIsNotShown() {
+    @Test
+    fun zeroDiscountPercentageIsNotShown() {
         val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
         chargeableRateInfo.discountPercent = 0f
         vm.hotelOffersSubject.onNext(offer1)
         assertFalse(vm.showDiscountPercentageObservable.value)
     }
 
-    @Test fun airAttachSWPImageShownForSWP() {
+    @Test
+    fun airAttachSWPImageShownForSWP() {
         offer1.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = true
         val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
         val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(null, null), true)
@@ -403,7 +417,8 @@ class HotelDetailViewModelTest {
         }
     }
 
-    @Test fun earnMessagePointsIsNotShown() {
+    @Test
+    fun earnMessagePointsIsNotShown() {
         PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_hotel_earn_messaging_disabled.json")
         val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
         val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(PointsEarnInfo(320, 100, 420), null), true)
@@ -424,22 +439,26 @@ class HotelDetailViewModelTest {
         offer1.hotelRoomResponse[0].isMemberDeal = isMemberDeal
     }
 
-    @Test fun testMemberDeal() {
+    @Test
+    fun testMemberDeal() {
         setMemberDeal(true, true)
         assertTrue(vm.hasMemberDeal(offer1.hotelRoomResponse[0]))
     }
 
-    @Test fun testNoMemberDeal() {
+    @Test
+    fun testNoMemberDeal() {
         setMemberDeal(true, false)
         assertFalse(vm.hasMemberDeal(offer1.hotelRoomResponse[0]))
     }
 
-    @Test fun testNoUserMemberDeal() {
+    @Test
+    fun testNoUserMemberDeal() {
         setMemberDeal(false, true)
         assertFalse(vm.hasMemberDeal(offer1.hotelRoomResponse[0]))
     }
 
-    @Test fun testNoUserNoMemberDeal() {
+    @Test
+    fun testNoUserNoMemberDeal() {
         setMemberDeal(false, false)
         assertFalse(vm.hasMemberDeal(offer1.hotelRoomResponse[0]))
     }
@@ -453,7 +472,8 @@ class HotelDetailViewModelTest {
         assertEquals(expectedPrice, vm.totalPriceObservable.value)
     }
 
-    @Test fun reviewsClicking() {
+    @Test
+    fun reviewsClicking() {
         val testSub = TestObserver.create<String>()
         val expected = listOf("hotel1", "hotel2", "hotel1", "hotel2", "hotel2", "hotel2")
 
@@ -485,7 +505,8 @@ class HotelDetailViewModelTest {
         testSub.assertValueSequence(expected)
     }
 
-    @Test fun allRoomsSoldOutSignal() {
+    @Test
+    fun allRoomsSoldOutSignal() {
         vm.hotelOffersSubject.onNext(offer1)
 
         val hotelSoldOutTestSubscriber = TestObserver.create<Boolean>()
@@ -505,7 +526,8 @@ class HotelDetailViewModelTest {
         hotelSoldOutTestSubscriber.assertValues(false, false, true)
     }
 
-    @Test fun hotelSoldOutSignal() {
+    @Test
+    fun hotelSoldOutSignal() {
         val hotelSoldOutTestSubscriber = TestObserver.create<Boolean>()
         vm.hotelSoldOut.subscribe(hotelSoldOutTestSubscriber)
 

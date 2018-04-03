@@ -28,14 +28,13 @@ import android.widget.RelativeLayout
 import android.widget.Space
 import android.widget.TableLayout
 import android.widget.TableRow
-import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.animation.AnimationListenerAdapter
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.LatLong
 import com.expedia.bookings.data.hotels.HotelOffersResponse
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
+import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.extensions.subscribeBackground
 import com.expedia.bookings.extensions.subscribeBackgroundResource
 import com.expedia.bookings.extensions.subscribeContentDescription
@@ -45,6 +44,7 @@ import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.extensions.subscribeTextColor
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.extensions.unsubscribeOnClick
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.activity.HotelGalleryActivity
 import com.expedia.bookings.hotel.activity.HotelGalleryGridActivity
 import com.expedia.bookings.hotel.animation.AlphaCalculator
@@ -253,9 +253,11 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         vm.userRatingObservable.subscribeText(userRating)
         vm.isUserRatingAvailableObservable.subscribeVisibility(userRatingRecommendationText)
         vm.userRatingRecommendationTextObservable.subscribeText(userRatingRecommendationText)
-        vm.isUserRatingAvailableObservable.map { !it }.subscribeVisibility(noGuestRating)
+        vm.isUserRatingAvailableObservable.subscribeInverseVisibility(noGuestRating)
 
         vm.numberOfReviewsObservable.subscribeText(numberOfReviews)
+        vm.isUserRatingAvailableObservable.subscribeVisibility(numberOfReviews)
+
         vm.hotelLatLngObservable.subscribe { values ->
             miniMapView.setLocation(LatLong(values[0], values[1]))
         }
