@@ -71,7 +71,7 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
         calendarWidgetV2.viewModel = vm
         travelerWidgetV2.travelersSubject.subscribe(vm.travelersObservable)
         travelerWidgetV2.traveler.getViewModel().isInfantInLapObservable.subscribe(vm.isInfantInLapObserver)
-        if (isMidAPIEnabled(context) && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesFlightCabinClass)) {
+        if (isMidAPIEnabled(context) && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesFFPremiumClass)) {
             flightCabinClassWidget.flightCabinClassView.viewmodel.flightCabinClassObservable.subscribe(vm.flightCabinClassObserver)
         }
         vm.formattedOriginObservable.subscribe {
@@ -115,7 +115,7 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
                 travelerWidgetV2.traveler.getViewModel().isInfantInLapObservable.onNext(params.infantSeatingInLap)
             }
             val cabinClass = params.flightCabinClass
-            if (cabinClass != null && isMidAPIEnabled(context) && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesFlightCabinClass)) {
+            if (cabinClass != null && isMidAPIEnabled(context) && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesFFPremiumClass)) {
                 flightCabinClassWidget.flightCabinClassView.viewmodel.flightCabinClassObservable.onNext(FlightServiceClassType.getCabinCodeFromMIDParam(cabinClass))
             }
         }

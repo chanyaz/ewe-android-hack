@@ -110,14 +110,14 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppPackagesEnablePOS = new ABTest(24551);
 	public static final ABTest EBAndroidAppPackagesBreadcrumbsForNav = new ABTest(15835);
 	public static final ABTest EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs = new ABTest(16223);
-	public static final ABTest EBAndroidAppPackagesMISRealWorldGeo = new ABTest(25352, true);
+	public static final ABTest EBAndroidAppPackagesMISRealWorldGeo = new ABTest(25558, true);
 	public static final ABTest EBAndroidAppPackagesShowForceUpdateDialog = new ABTest(16283);
 	public static final ABTest PackagesBackFlowFromOverview = new ABTest(16163);
 	public static final ABTest EBAndroidAppPackagesDisplayFlightSeatingClass = new ABTest(16300);
 	public static final ABTest EBAndroidAppPackagesDisplayBasicEconomyTooltip = new ABTest(24678);
-	public static final ABTest EBAndroidAppPackagesFlightCabinClass = new ABTest(24803, true);
+	public static final ABTest EBAndroidAppPackagesFFPremiumClass = new ABTest(25557, true);
 	public static final ABTest CardExpiryDateFormField = new ABTest(24734, true);
-	public static final ABTest EBAndroidAppPackagesWebviewFHC = new ABTest(25042, true);
+	public static final ABTest EBAndroidAppPackagesWebviewFHC = new ABTest(25555, true);
 
 	// Account
 	public static final ABTest EBAndroidAppAccountRecaptcha = new ABTest(15652, true);
@@ -236,7 +236,7 @@ public class AbacusUtils {
 		testIDs.add(HotelResultChangeDate.getKey());
 		testIDs.add(HotelEarn2xMessaging.getKey());
 		testIDs.add(CardExpiryDateFormField.getKey());
-		testIDs.add(EBAndroidAppPackagesFlightCabinClass.getKey());
+		testIDs.add(EBAndroidAppPackagesFFPremiumClass.getKey());
 		testIDs.add(EBAndroidAppBottomNavTabs.getKey());
 		testIDs.add(EBAndroidAppTripsUserReviews.getKey());
 		testIDs.add(DownloadableFonts.getKey());
