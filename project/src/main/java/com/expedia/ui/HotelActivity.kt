@@ -1,11 +1,13 @@
 package com.expedia.ui
 
+import android.content.ComponentCallbacks2
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
+import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.dagger.HotelComponentInjector
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
@@ -21,7 +23,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.util.PermissionsUtils.requestLocationPermission
 import com.google.android.gms.maps.MapView
 
-class HotelActivity : AbstractAppCompatActivity() {
+class HotelActivity : AbstractAppCompatActivity(), ComponentCallbacks2 {
     val hotelPresenter by bindView<HotelPresenter>(R.id.hotel_presenter)
 
     val resultsMapView: MapView by lazy {
@@ -126,6 +128,17 @@ class HotelActivity : AbstractAppCompatActivity() {
         resultsMapView.onLowMemory()
         detailsMapView.onLowMemory()
         super.onLowMemory()
+    }
+
+    override fun onTrimMemory(level: Int) {
+        super.onTrimMemory(level)
+        when (level) {
+            ComponentCallbacks2.TRIM_MEMORY_RUNNING_MODERATE,
+            ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW,
+            ComponentCallbacks2.TRIM_MEMORY_RUNNING_CRITICAL -> {
+                PicassoHelper.clearCache()
+            }
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {

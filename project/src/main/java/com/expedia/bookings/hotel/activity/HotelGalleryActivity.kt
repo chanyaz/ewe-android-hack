@@ -1,5 +1,6 @@
 package com.expedia.bookings.hotel.activity
 
+import android.content.ComponentCallbacks2
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 
@@ -12,8 +13,9 @@ import com.expedia.bookings.hotel.widget.HotelGalleryToolbar
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.vm.HotelInfoToolbarViewModel
+import com.squareup.picasso.Picasso
 
-class HotelGalleryActivity : AppCompatActivity() {
+class HotelGalleryActivity : AppCompatActivity(), ComponentCallbacks2 {
     private val toolbar by bindView<HotelGalleryToolbar>(R.id.hotel_gallery_toolbar)
     private val galleryView by bindView<HotelDetailGalleryView>(R.id.fullscreen_hotel_gallery)
 
@@ -45,7 +47,7 @@ class HotelGalleryActivity : AppCompatActivity() {
             // https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/8612
             finish()
         } else {
-            galleryView.setGalleryItems(galleryManager.fetchMediaList(galleryConfig.roomCode))
+            galleryView.setGalleryItems(galleryItems)
             galleryView.scrollTo(scrollPosition)
             if (galleryConfig.showDescription) {
                 galleryView.expand()
@@ -58,6 +60,24 @@ class HotelGalleryActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
         outState?.putInt(HotelExtras.GALLERY_SCROLL_POSITION, galleryView.getCurrentIndex())
+    }
+
+    override fun onTrimMemory(level: Int) {
+        super.onTrimMemory(level)
+        when (level) {
+            ComponentCallbacks2.TRIM_MEMORY_RUNNING_MODERATE,
+            ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW,
+            ComponentCallbacks2.TRIM_MEMORY_RUNNING_CRITICAL -> {
+                val galleryItems = galleryManager.fetchMediaList(galleryConfig.roomCode)
+                val picasso = Picasso.with(this)
+                galleryItems.forEach { media ->
+                    val urls = media.getBestUrls(galleryView.width / 2)
+                    urls.forEach { url ->
+                        picasso.invalidate(url)
+                    }
+                }
+            }
+        }
     }
 
     private fun initToolbar() {

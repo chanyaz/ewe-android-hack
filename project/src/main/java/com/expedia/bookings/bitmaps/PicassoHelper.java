@@ -13,6 +13,7 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.mobiata.android.util.SettingUtils;
 import com.squareup.picasso.Callback;
+import com.squareup.picasso.LruCache;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
@@ -48,16 +49,20 @@ public class PicassoHelper implements Target, Callback {
 
 	private Picasso mPicasso;
 
+	private static LruCache mPicassoLruCache;
+
 	public static void init(Context context, OkHttpClient client) {
 		if (!ExpediaBookingApp.isAutomation()) {
 
 			OkHttp3Downloader okHttpDownloader = new OkHttp3Downloader(client);
+			mPicassoLruCache = new LruCache(context);
 
 			boolean isLoggingEnabled = SettingUtils
 				.get(context, context.getString(R.string.preference_enable_picasso_logging), false);
 
 			Picasso picasso = new Picasso.Builder(context)
 				.downloader(okHttpDownloader)
+				.memoryCache(mPicassoLruCache)
 				.build();
 			picasso.setLoggingEnabled(isLoggingEnabled);
 			Picasso.setSingletonInstance(picasso);
@@ -67,6 +72,12 @@ public class PicassoHelper implements Target, Callback {
 	private PicassoHelper(Context context) {
 		mContext = context;
 		mPicasso = Picasso.with(context);
+	}
+
+	public static void clearCache() {
+		if (mPicassoLruCache != null) {
+			mPicassoLruCache.clear();
+		}
 	}
 
 	public void load(List<String> urls) {
