@@ -14,7 +14,7 @@ class ItinLxRepo(private val itinId: String, private val jsonUtil: IJsonToItinUt
 
     override val liveDataLx: MutableLiveData<ItinLx> = MutableLiveData()
     override val liveDataItin: MutableLiveData<Itin> = MutableLiveData()
-    val invalidDataSubject: PublishSubject<Unit> = PublishSubject.create()
+    override val invalidDataSubject: PublishSubject<Unit> = PublishSubject.create()
 
     val syncObserver = object : DisposableObserver<MutableList<ItinCardData>>() {
         override fun onComplete() {
@@ -47,7 +47,7 @@ class ItinLxRepo(private val itinId: String, private val jsonUtil: IJsonToItinUt
         observable.subscribe(syncObserver)
     }
 
-    fun dispose() {
+    override fun dispose() {
         syncObserver.dispose()
     }
 }

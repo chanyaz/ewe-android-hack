@@ -6,6 +6,7 @@ import com.expedia.bookings.itin.lx.ItinLxRepoInterface
 import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinHotel
 import com.expedia.bookings.itin.tripstore.data.ItinLx
+import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.itin.utils.AbacusSource
 import com.expedia.bookings.itin.utils.IActivityLauncher
 import com.expedia.bookings.itin.utils.IWebViewLauncher
@@ -54,4 +55,12 @@ interface HasLxRepo {
 
 interface HasLx {
     val lx: ItinLx
+}
+
+interface HasJsonUtil {
+    val jsonUtil: IJsonToItinUtil
+}
+
+interface HasItinId {
+    val id: String
 }

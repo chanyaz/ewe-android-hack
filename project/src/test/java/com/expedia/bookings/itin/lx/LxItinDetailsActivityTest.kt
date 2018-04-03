@@ -3,12 +3,13 @@ package com.expedia.bookings.itin.lx
 import android.content.Intent
 import com.expedia.bookings.itin.lx.details.LxItinDetailsActivity
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import junit.framework.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.Shadows
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class LxItinDetailsActivityTest {
@@ -24,8 +25,8 @@ class LxItinDetailsActivityTest {
     @Test
     fun testFinishActivity() {
         val shadow = Shadows.shadowOf(sut)
-        Assert.assertFalse(shadow.isFinishing)
-        sut.finishActivity()
-        Assert.assertTrue(shadow.isFinishing)
+        assertFalse(shadow.isFinishing)
+        sut.lifecycleObserver.finishSubject.onNext(Unit)
+        assertTrue(shadow.isFinishing)
     }
 }
