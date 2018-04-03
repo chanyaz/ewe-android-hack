@@ -1,0 +1,169 @@
+{
+  "apiVersion": "1.0",
+  "responseType": "TRIP_DETAILS",
+  "responseData": {
+    "levelOfDetail": "FULL",
+    "tripId": "b9739936-62a8-49a1-af12-fdbe85d78e5f",
+    "webDetailsURL": "",
+    "tripNumber": 71196729802,
+    "orderNumber": 8104062917948,
+    "title": "New York, United States",
+    "updateTripNameDescPathURL": "https://wwwexpediacom.trunk.sb.karmalab.net/api/trips/b9739936-62a8-49a1-af12-fdbe85d78e5f/updateTripNameDescription",
+    "startTime": {
+      "raw": "2018-10-24T09:30:00-07:00",
+      "localized": "Oct 24, 2018 9:30:00 AM",
+      "epochSeconds": 1540398600,
+      "timeZoneOffsetSeconds": -25200,
+      "localizedShortDate": "10/24/2018",
+      "localizedMediumDate": "Oct 24",
+      "localizedFullDate": "Wed, Oct 24",
+      "localizedLongDate": "Oct 24, 2018",
+      "localizedShortTime": "9:30am"
+    },
+    "endTime": {
+      "raw": "2018-10-24T09:30:00-07:00",
+      "localized": "Oct 24, 2018 9:30:00 AM",
+      "epochSeconds": 1540398600,
+      "timeZoneOffsetSeconds": -25200,
+      "localizedShortDate": "10/24/2018",
+      "localizedMediumDate": "Oct 24",
+      "localizedFullDate": "Wed, Oct 24",
+      "localizedLongDate": "Oct 24, 2018",
+      "localizedShortTime": "9:30am"
+    },
+    "ownerId": 6429319,
+    "bookingStatus": "BOOKED",
+    "sharableDetailsURL": "https://wwwexpediacom.trunk.sb.karmalab.net/api/trips/shared/Ej3GwUvDPQCPgYEL4wqUusCAxWnx_ppy1JPYu2eQN_hHj6B-UzUGEgUkz6iX8iditJFEYwyq93bh2dL4L7HhU4Av",
+    "isBookedUsingForeignCurrency": false,
+    "activities": [
+      {
+        "uniqueID": "200E974C-C7DA-445E-A392-DD12578A96A0_0_358734_358736",
+        "bookingStatus": "BOOKED",
+        "bookingStatusText": "Confirmed",
+        "bookingStatusMessage": "Your activity is booked. Please check your voucher for details.",
+        "supplierReferenceNumber": "71196729802",
+        "bookingDate": {
+          "epochSeconds": 1482796800,
+          "timeZoneOffsetSeconds": 0
+        },
+        "startTime": {
+          "epochSeconds": 1484578800,
+          "timeZoneOffsetSeconds": -28800
+        },
+        "endTime": {
+          "epochSeconds": 1484622000,
+          "timeZoneOffsetSeconds": -28800
+        },
+        "paymentModel": "MERCHANT",
+        "price": {
+          "pricePerCategory": {
+            "Adult": {
+              "keyForCategory": "Adult",
+              "numberOfPassengers": 2,
+              "totalBasePrice": {
+                "amount": 678,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              },
+              "perPassengerBasePrice": {
+                "amount": 339,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              }
+            },
+            "Child": {
+              "keyForCategory": "Child",
+              "numberOfPassengers": 3,
+              "totalBasePrice": {
+                "amount": 897,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              },
+              "perPassengerBasePrice": {
+                "amount": 299,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              }
+            }
+          },
+          "currency": "USD",
+          "base": "1575.0",
+          "baseFormatted": "$1,575.00",
+          "taxes": "0.0",
+          "taxesFormatted": "$0.00",
+          "total": "1575.0",
+          "totalFormatted": "$1,575.00"
+        },
+        "activityCategoryID": 2,
+        "activityId": 358734,
+        "activityTitle": "Day Trip to New York by Train with Hop-on Hop-Off Pass: Full-Day Excursion",
+        "voucherType": "Print",
+        "activityDescription": "Spend a day in the Empire City with a ride on the railroad that takes you to the heart of New York. A relaxing trip aboard an Amtrak regional train brings you right to Midtown Manhattan, where a hop-on hop-off bus tour shows you some of the most iconic sights in the city.\n\nGet started at 30th Street Station in the morning, where an Amtrak regional train carries you out for the ride up to New York. With a mid-morning arrival in Penn Station, you're free to enjoy the sights in the heart of Manhattan. Hop on a double-decker bus for a tour that takes you around the island and across the river to Brooklyn, and hop off at any number of stops near famous museums, observatories, theaters, zoos, boat rides, and more.\n\nComplete with a delicious and entertaining meal at Hard Rock Café, this is your chance to see famous sites such as Central Park, Radio City, the Village, South Street Seaport, and the Statue of Liberty. Head all the way into Brooklyn if you like, and then finish a day of shopping, sightseeing, and dining back at Penn Station for the return trip to Philadelphia.",
+        "activityItemTitle": "Day Trips & Excursions",
+        "voucherless": false,
+        "activityItemTitleEnglish": "Day Trip to New York by Train with Hop-on Hop-Off Pass: Full-Day Excursion",
+        "image": {
+          "url": "https://s3.amazonaws.com/mediavault.le/media/35670cca90aebdafe2e140239bdf0188abfe3f02.jpeg",
+          "caption": "",
+          "creditString": ""
+        },
+        "activityDetailsURL": "https://wwwexpediacom.trunk.sb.karmalab.net/lx/activity/358734/",
+        "activityLocation": {
+          "name1": "California Academy of Sciences",
+          "latitude": 37.76974,
+          "longitude": -122.46614,
+          "addressLine1": "55 Music Concourse Drive",
+          "city": "San Francisco",
+          "countrySubdivisionCode": "CA",
+          "postalCode": "94118",
+          "countryCode": "USA",
+          "fullAddress": "California Academy of Sciences: 55 Music Concourse Drive, San Francisco, CA, 94118, USA"
+        },
+        "locationMapURL": "//maps.googleapis.com/maps/api/staticmap?client=gme-expedia&channel=expedia-LXVoucher&zoom=17&size=640x360&maptype=roadmap&sensor=false&format=png8&scale=2&center=39.95572,-75.1819&markers=color:blue%7C39.95572,-75.1819&markers=color:red%7C40.71279,-74.00594&signature=NmnjkjoTTbiO4FX4w2ONlwTzBhY=",
+        "travelerCount": 5,
+        "durationInMillis": 43200000,
+        "travelerCountDescription": "2 Adults, 3 Children",
+        "travelers": [
+          {
+            "isRedeemer": true,
+            "firstName": "Expedia",
+            "lastName": "IMT",
+            "fullName": "Expedia IMT"
+          }
+        ],
+        "termsAndConditions": {},
+        "voucherPrintURL": "https://wwwexpediacom.trunk.sb.karmalab.net/itinerary-print?tripid=b9739936-62a8-49a1-af12-fdbe85d78e5f&itineraryNumber=71196729802",
+        "lxVoucherPrintURL": "https://wwwexpediacom.trunk.sb.karmalab.net/things-to-do/voucher/?tripid=b9739936-62a8-49a1-af12-fdbe85d78e5f",
+        "regionId": "178297",
+        "destinationRegionId": "178293",
+        "unbookedPackageV2": false,
+        "highResImage": {
+          "width": 500,
+          "height": 281,
+          "url": "https://s3.amazonaws.com/mediavault.le/media/d845b674a00c4ec7dc685942d31f955b2e354f73.jpeg",
+          "caption": "",
+          "creditString": ""
+        }
+      }
+    ],
+    "totalTripPrice": {
+      "currency": "USD",
+      "total": "1575.0",
+      "totalFormatted": "$1,575.00"
+    },
+    "isCouponApplied": false,
+    "readTripError": false,
+    "tripSource": "expedia",
+    "zetaTrip": false,
+    "isMRP": false,
+    "fromCloud": [
+      "activities"
+    ],
+    "tripDataSource": "HYBRID",
+    "isTripUpgradable": false
+  }
+}

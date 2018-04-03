@@ -8,11 +8,15 @@ import android.view.View
 import android.widget.Toolbar
 import com.expedia.bookings.R
 import com.expedia.bookings.extensions.subscribeVisibility
+import com.expedia.bookings.itin.scopes.ToolBarViewModelSetter
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 
-class ItinToolbar(context: Context, attr: AttributeSet?) : Toolbar(context, attr) {
+class ItinToolbar(context: Context, attr: AttributeSet?) : Toolbar(context, attr), ToolBarViewModelSetter {
+    override fun setUpViewModel(vm: NewItinToolbarViewModel) {
+        viewModel = vm
+    }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     val toolbarTitleText: TextView by bindView(R.id.itin_toolbar_title)
