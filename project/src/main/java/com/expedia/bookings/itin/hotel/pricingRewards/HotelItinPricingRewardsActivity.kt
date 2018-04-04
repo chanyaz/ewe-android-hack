@@ -30,7 +30,7 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
         }
     }
 
-    val toolbar: ItinToolbar by bindView(R.id.widget_hotel_itin_toolbar)
+    val toolbar: ItinToolbar by bindView(R.id.widget_itin_toolbar)
     val pricingSummaryView: HotelItinPricingSummaryView by bindView(R.id.hotel_itin_pricing_summary_view)
 
     lateinit var jsonUtil: IJsonToItinUtil

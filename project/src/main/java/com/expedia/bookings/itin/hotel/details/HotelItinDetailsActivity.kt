@@ -25,7 +25,7 @@ open class HotelItinDetailsActivity : ItinBaseActivity() {
     val locationDetailsView by bindView<HotelItinLocationDetails>(R.id.widget_hotel_itin_location_details)
     val hotelImageView by bindView<HotelItinImageWidget>(R.id.hotel_itin_image)
     val checkinCheckoutView by bindView<HotelItinCheckInCheckOutDetails>(R.id.widget_hotel_itin_checkin_checkout_details)
-    val toolbar by bindView<HotelItinToolbar>(R.id.widget_hotel_itin_toolbar)
+    val toolbar by bindView<HotelItinToolbar>(R.id.widget_itin_toolbar)
     val hotelBookingDetailsView by bindView<HotelItinBookingDetails>(R.id.widget_hotel_itin_booking_details)
 
     val roomDetailsHeader by bindView<TextView>(R.id.itin_hotel_room_details_header)

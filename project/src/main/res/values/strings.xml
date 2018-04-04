@@ -1121,8 +1121,6 @@
     <string name="trips_expand_button_label_cont_desc">Button to expand trip</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">Hotel Confirmation Code</string>
-    <!-- Passengers Label -->
-    <string name="passengers_label">Passengers</string>
     <!-- Booking info label -->
     <string name="booking_info">Booking Info</string>
     <!-- Itin flight generic terminal and gate template -->

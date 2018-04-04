@@ -13,6 +13,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.pagemodels.lx.LXScreen;
 import com.expedia.bookings.test.pagemodels.common.LogInScreen;
+import com.expedia.bookings.test.pagemodels.trips.TripDetailsScreen;
 import com.expedia.bookings.test.stepdefs.phone.HomeScreenSteps;
 import com.expedia.bookings.test.pagemodels.trips.TripsScreen;
 
@@ -23,14 +24,10 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withChild;
-import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.data.abacus.AbacusUtils.EBAndroidAppLXNavigateToSRP;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithContentDescription;
-import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTextIsDisplayed;
 import static com.expedia.bookings.test.espresso.EspressoUtils.getListItemValues;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.Matchers.containsString;
@@ -77,35 +74,35 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		DataInteraction outboundFlightRow = TripsScreen.tripsListItem().atPosition(2);
 		outboundFlightRow.onChildView(withId(R.id.flight_status_bottom_line)).check(matches(withText("From SFO at 11:32 AM")));
 		outboundFlightRow.onChildView(withId(R.id.header_text_date_view)).perform(click());
-		onView(allOf(withId(R.id.itin_overflow_image_button), isDisplayed()))
-			.check(matches(withContentDescription("Press to view itinerary sharing options")));
-		assertViewWithTextIsDisplayed(R.id.departure_time, "11:32 AM");
-		assertViewWithTextIsDisplayed(R.id.departure_time_tz, isOutboundFlightDepartureAtStandardOffset ? "Depart (PST)" : "Depart (PDT)");
-		assertViewWithTextIsDisplayed(R.id.arrival_time, "6:04 PM");
-		assertViewWithTextIsDisplayed(R.id.arrival_time_tz, isOutboundFlightArrivalAtStandardOffset ? "Arrive (EST)" : "Arrive (EDT)");
-		onView(withText("San Francisco Int'l Airport")).perform(scrollTo());
-		assertViewWithTextIsDisplayed("San Francisco Int'l Airport");
-		onView(withText("1102138068718")).perform(scrollTo());
-		// TODO - investigate why flight name differs locally to buildbot #4657
-		//assertViewWithTextIsDisplayed(R.id.airline_text_view, "Delta Air Lines 745");
-		assertViewWithTextIsDisplayed(R.id.departure_time_text_view, "11:32 AM");
-		assertViewWithTextIsDisplayed(R.id.arrival_time_text_view, "6:04 PM");
-		assertViewWithTextIsDisplayed("Detroit Metropolitan Wayne County Airport");
-		onView(allOf(withId(R.id.terminal_map_or_directions_btn), hasSibling(withChild(withText("San Francisco Int'l Airport")))))
-			.check(matches(withContentDescription("Terminal Maps and Directions")));
-		assertViewWithTextIsDisplayed(R.id.passengers_label, "Passengers");
-		assertViewWithTextIsDisplayed(R.id.passenger_name_list, "Philip J. Fry, Turanga Leela");
-		assertViewWithTextIsDisplayed("Airline Confirmation");
-		assertViewWithTextIsDisplayed("1102138068718");
-		assertViewWithTextIsDisplayed("Directions");
-		onView(withText("Reload Flight Info")).perform(scrollTo());
-		onView(withId(R.id.booking_info)).perform(click());
-		onView(allOf(withText("Additional Information"),isDescendantOfA(withId(R.id.toolbar)))).check(matches(isDisplayed()));
-		Common.pressBack();
 
-		assertViewWithContentDescription(onView(withId(R.id.summary_left_button)), "Directions Button");
-		assertViewWithContentDescription(onView(withId(R.id.summary_right_button)), "GWF4NY Button");
-		onView(withId(R.id.close_image_button)).perform(click());
+		TripDetailsScreen.Toolbar.verifyShareButtonDescription("Press to view itinerary sharing options");
+
+		TripDetailsScreen.FlightConfirmation.verifyConfirmationCode("GWF4NY");
+		TripDetailsScreen.FlightConfirmation.assertConfirmationCodeIsClickable();
+
+		TripDetailsScreen.FlightSummary.verifyAirlineName("Delta Air Lines 745");
+		TripDetailsScreen.FlightSummary.verifyDepartureTime("11:32 am");
+		TripDetailsScreen.FlightSummary.verifyDepartureAirport("San Francisco (SFO)");
+		TripDetailsScreen.FlightSummary.verifyArrivalTime("6:04 pm");
+		TripDetailsScreen.FlightSummary.verifyArrivalAirport("Detroit (DTW)");
+		TripDetailsScreen.FlightSummary.verifySeating("No seats selected");
+		TripDetailsScreen.FlightSummary.verifyCabinClass(" • Economy / Coach");
+
+		TripDetailsScreen.FlightDuration.verifyFlightDuration("Total duration: 4h 32m");
+
+		//This Scrolls all the way to the bottom
+		TripDetailsScreen.FlightBookingInformation.scrollToAdditionalInformation();
+
+		TripDetailsScreen.FlightMap.assertMapIsDisplayed();
+		TripDetailsScreen.FlightMap.verifyTerminalMapsButtonLabel("Terminal maps");
+		TripDetailsScreen.FlightMap.verifyDirectionsButtonLabel("Directions");
+
+		TripDetailsScreen.FlightBookingInformation.verifyTravelerInformationHeading("Traveler information");
+		TripDetailsScreen.FlightBookingInformation.verifyTravelerInformationSubheading("Philip J. Fry, Turanga Leela");
+		TripDetailsScreen.FlightBookingInformation.verifyAdditionalInformationIsDisplayed();
+
+		TripDetailsScreen.Toolbar.clickBackButton();
+
 		// Car assertions
 		DataInteraction carRow = TripsScreen.tripsListItem().atPosition(4);
 		String carTitle = getListItemValues(carRow, R.id.header_text_view);
@@ -122,7 +119,7 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertEquals("From DTW at 6:59 PM", returnFlightAirportTimeStr);
 		returnFlightRow.onChildView(withId(R.id.header_text_date_view)).perform(click());
 
-		onView(withText(returnFlightAirportTimeStr)).perform(click());
+		TripDetailsScreen.Toolbar.clickBackButton();
 
 		// Lx assertions
 		DataInteraction lxRow = TripsScreen.tripsListItem().atPosition(6);
@@ -144,25 +141,35 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertEquals("From SFO at 4:00 AM", pckgOutboundFlightAirportTimeStr);
 		pckgOutboundFlightRow.onChildView(withId(R.id.header_text_date_view)).perform(click());
 
-		assertViewWithTextIsDisplayed(R.id.departure_time, "4:00 AM");
-		assertViewWithTextIsDisplayed(R.id.departure_time_tz, isPackageOutboundFlightDepartureAtStandardOffset ? "Depart (PST)" : "Depart (PDT)");
-		assertViewWithTextIsDisplayed(R.id.arrival_time, "6:04 AM");
-		assertViewWithTextIsDisplayed(R.id.arrival_time_tz, isPackageOutboundFlightArrivalAtStandardOffset ? "Arrive (PST)" : "Arrive (PDT)");
-		onView(withText("San Francisco Int'l Airport")).perform(scrollTo());
-		assertViewWithTextIsDisplayed("San Francisco Int'l Airport");
-		onView(withText("11590764196")).perform(scrollTo());
-		assertViewWithTextIsDisplayed(R.id.departure_time_text_view, "4:00 AM");
-		assertViewWithTextIsDisplayed("McCarran Int'l Airport");
-		assertViewWithTextIsDisplayed(R.id.passengers_label, "Passengers");
-		assertViewWithTextIsDisplayed(R.id.passenger_name_list, "android qa");
-		assertViewWithTextIsDisplayed("Airline Confirmation");
-		assertViewWithTextIsDisplayed("11590764196");
-		assertViewWithTextIsDisplayed("Directions");
-		onView(withText("Reload Flight Info")).perform(scrollTo());
-		onView(withId(R.id.booking_info)).perform(click());
-		onView(allOf(withText("Additional Information"),isDescendantOfA(withId(R.id.toolbar)))).check(matches(isDisplayed()));
-		Common.pressBack();
-		onView(withId(R.id.close_image_button)).perform(click());
+		TripDetailsScreen.Toolbar.verifyShareButtonDescription("Press to view itinerary sharing options");
+
+		TripDetailsScreen.FlightConfirmation.verifyConfirmationCode("PRWVRU");
+		TripDetailsScreen.FlightConfirmation.assertConfirmationCodeIsClickable();
+
+		TripDetailsScreen.FlightSummary.verifyAirlineName("JetBlue Airways 2288");
+		TripDetailsScreen.FlightSummary.verifyDepartureTime("4:00 am");
+		TripDetailsScreen.FlightSummary.verifyDepartureAirport("San Francisco (SFO)");
+		TripDetailsScreen.FlightSummary.verifyDepartureTerminalGate("Terminal I");
+		TripDetailsScreen.FlightSummary.verifyArrivalTime("6:04 am");
+		TripDetailsScreen.FlightSummary.verifyArrivalAirport("Las Vegas (LAS)");
+		TripDetailsScreen.FlightSummary.verifyArrivalTerminalGate("Terminal 3");
+		TripDetailsScreen.FlightSummary.verifySeating("No seats selected");
+		TripDetailsScreen.FlightSummary.verifyCabinClass(" • Economy / Coach");
+
+		TripDetailsScreen.FlightDuration.verifyFlightDuration("Total duration: 1h 36m");
+
+		//This Scrolls all the way to the bottom
+		TripDetailsScreen.FlightBookingInformation.scrollToAdditionalInformation();
+
+		TripDetailsScreen.FlightMap.assertMapIsDisplayed();
+		TripDetailsScreen.FlightMap.verifyTerminalMapsButtonLabel("Terminal maps");
+		TripDetailsScreen.FlightMap.verifyDirectionsButtonLabel("Directions");
+
+		TripDetailsScreen.FlightBookingInformation.verifyTravelerInformationHeading("Traveler information");
+		TripDetailsScreen.FlightBookingInformation.verifyTravelerInformationSubheading("android qa");
+		TripDetailsScreen.FlightBookingInformation.verifyAdditionalInformationIsDisplayed();
+
+		TripDetailsScreen.Toolbar.clickBackButton();
 
 		// Package hotel assertions
 		DataInteraction pckgHotelRow = TripsScreen.tripsListItem().atPosition(8);
@@ -178,7 +185,7 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertEquals("From LAS at 10:00 AM", pckgReturnFlightAirportTimeStr);
 		pckgReturnFlightRow.onChildView(withId(R.id.header_text_date_view)).perform(click());
 
-		onView(withText(pckgReturnFlightAirportTimeStr)).perform(click());
+		TripDetailsScreen.Toolbar.clickBackButton();
 
 		// Rails
 		DataInteraction railsRow = TripsScreen.tripsListItem().atPosition(11);

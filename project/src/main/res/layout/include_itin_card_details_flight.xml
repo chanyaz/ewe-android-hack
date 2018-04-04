@@ -120,15 +120,6 @@
     <!-- Passengers -->
 
     <com.expedia.bookings.widget.TextView
-        android:id="@+id/passengers_label"
-        style="@style/TextView.Itin.SectionHeader"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:text="@string/passengers_label" />
-
-    <com.expedia.bookings.widget.TextView
         android:id="@+id/passenger_name_list"
         style="@style/TextView.Itin.SectionText"
         android:layout_width="match_parent"

@@ -273,6 +273,7 @@
         {
           "uniqueID": "3E9915B0-B622-4A5E-9953-95374B242BB2_0",
           "bookingStatus": "BOOKED",
+          "ticketingStatus": "COMPLETE",
           "orderNumber": "8106875184294",
           "confirmationNumbers": [
             {
@@ -1272,7 +1273,8 @@
           "orderNumber": "8106875184294",
           "confirmationNumbers": [
             {
-              "airlineName": "Delta"
+              "airlineName": "Delta",
+              "number": "ASDFG"
             }
           ],
           "fareTotal": {

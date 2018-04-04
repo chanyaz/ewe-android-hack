@@ -77,7 +77,7 @@ class HotelItinExpandedMapActivity : ItinBaseActivity(), OnMapReadyCallback, Goo
     private var panTracked = false
     private var moveStarted = false
     private var currentZoom = 0f
-    private val toolbar by bindView<HotelItinToolbar>(R.id.widget_hotel_itin_toolbar)
+    private val toolbar by bindView<HotelItinToolbar>(R.id.widget_itin_toolbar)
     private val LOGGING_TAG = "HotelItinExpandedMapActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
