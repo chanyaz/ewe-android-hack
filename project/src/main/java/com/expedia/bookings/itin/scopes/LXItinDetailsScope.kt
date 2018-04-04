@@ -34,7 +34,8 @@ data class LxLifeCycleObserverScope(override val strings: StringSource,
                                     override val jsonUtil: IJsonToItinUtil,
                                     override val id: String,
                                     override val manageBooking: ManageBookingWidgetViewModelSetter,
-                                    override val toolbar: ToolBarViewModelSetter) : HasStringProvider, HasWebViewLauncher, HasActivityLauncher, HasJsonUtil, HasItinId, HasToolbarViewModelSetter, HasManageBookingWidgetViewModelSetter
+                                    override val toolbar: ToolBarViewModelSetter,
+                                    override val tripsTracking: ITripsTracking) : HasStringProvider, HasWebViewLauncher, HasActivityLauncher, HasJsonUtil, HasItinId, HasToolbarViewModelSetter, HasManageBookingWidgetViewModelSetter, HasTripsTracking
 
 class PriceSummaryCardScope(override val strings: StringSource,
                             override val webViewLauncher: IWebViewLauncher,
