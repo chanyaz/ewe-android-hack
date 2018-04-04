@@ -46,9 +46,10 @@ class HotelItinPriceSummaryButtonViewModel<S>(scope: S) : ItinBookingInfoCardVie
 
         val detailsUrl = scope.itin.webDetailsURL
         val tripNumber = scope.itin.tripNumber
+        val tripId = scope.itin.tripId
         cardClickListener = {
-            if (scope.abacus.isBucketedForTest(AbacusUtils.EBAndroidAppTripsHotelPricing)) {
-                scope.activityLauncher.launchActivity(HotelItinPricingRewardsActivity, scope.itin.tripId!!)
+            if (scope.abacus.isBucketedForTest(AbacusUtils.EBAndroidAppTripsHotelPricing) && tripId != null) {
+                scope.activityLauncher.launchActivity(HotelItinPricingRewardsActivity, tripId)
             } else if (detailsUrl != null && tripNumber != null) {
                 scope.webViewLauncher.launchWebViewActivity(R.string.itin_hotel_details_price_summary_heading, detailsUrl, "price-header", tripNumber)
             }
