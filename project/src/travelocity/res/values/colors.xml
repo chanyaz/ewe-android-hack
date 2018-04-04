@@ -52,6 +52,7 @@
     <color name="old_checkout_account_button_text_color">@android:color/white</color>
     <color name="cvv_book_button_text_color">@android:color/white</color>
     <color name="checkout_screen_error_message_color">@color/error_color</color>
+    <color name="price_change_air_attach">#C55302</color>
 
     <!--Account Screen-->
     <color name="account_toolbar_text_color">@android:color/white</color>
