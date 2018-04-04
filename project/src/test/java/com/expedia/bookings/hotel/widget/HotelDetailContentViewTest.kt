@@ -96,11 +96,11 @@ class HotelDetailContentViewTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testAirAttachVisibility() {
-        testVM.showAirAttachSWPImageObservable.onNext(false)
-        assertGone(contentView.airAttachSWPImage)
+        testVM.showAirAttachedObservable.onNext(false)
+        assertGone(contentView.airAttachImage)
 
-        testVM.showAirAttachSWPImageObservable.onNext(true)
-        assertVisible(contentView.airAttachSWPImage)
+        testVM.showAirAttachedObservable.onNext(true)
+        assertVisible(contentView.airAttachImage)
     }
 
     @Test
@@ -277,6 +277,6 @@ class HotelDetailContentViewTest {
         testVM.promoMessageObservable.onNext("")
         testVM.hotelSoldOut.onNext(!visible) // sold out easiest way to change the output
         testVM.hasRegularLoyaltyPointsAppliedObservable.onNext(false)
-        testVM.showAirAttachSWPImageObservable.onNext(false)
+        testVM.showAirAttachedObservable.onNext(false)
     }
 }

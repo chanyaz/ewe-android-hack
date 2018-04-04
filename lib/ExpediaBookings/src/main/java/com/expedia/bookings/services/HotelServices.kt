@@ -224,9 +224,12 @@ open class HotelServices(endpoint: String, satelliteEndpoint: String, okHttpClie
                 roomResponse.rateInfo.chargeableRateInfo.depositAmountToShowUsers = "0"
             }
 
-            if (roomResponse.rateInfo?.chargeableRateInfo?.loyaltyInfo?.isBurnApplied ?: false) {
-                response.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = true
-                return
+            if (roomResponse.rateInfo?.chargeableRateInfo?.loyaltyInfo?.isBurnApplied == true) {
+                response.doesAnyRoomHaveBurnApplied = true
+            }
+
+            if (roomResponse.rateInfo?.chargeableRateInfo?.airAttached == true) {
+                response.doesAnyRoomHaveAttach = true
             }
         }
     }

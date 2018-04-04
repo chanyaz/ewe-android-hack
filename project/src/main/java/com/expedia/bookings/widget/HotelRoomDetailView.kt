@@ -19,7 +19,6 @@ import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.util.LoyaltyUtil
 import com.expedia.vm.HotelRoomDetailViewModel
 import io.reactivex.subjects.PublishSubject
 
@@ -32,6 +31,7 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
     private val earnMessageTextView: TextView by bindView(R.id.earn_message_text_view)
     private val mandatoryFeeTextView: TextView by bindView(R.id.mandatory_fee_text_view)
     private val memberOnlyDealTag: ImageView by bindView(R.id.member_only_deal_tag)
+    private val genericAttachImage: ImageView by bindView(R.id.generic_attach_image)
     private val discountPercentageTextView: TextView by bindView(R.id.discount_percentage_text_view)
     private val payLaterPriceTextView: TextView by bindView(R.id.pay_later_price_text_view)
     private val depositTermsTextView: TextView by bindView(R.id.deposit_terms_text_view)
@@ -83,20 +83,14 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
         earnMessageTextView.setTextAndVisibility(viewModel.earnMessageString)
         mandatoryFeeTextView.setTextAndVisibility(viewModel.mandatoryFeeString)
         memberOnlyDealTag.setVisibility(viewModel.showMemberOnlyDealTag)
+        genericAttachImage.setVisibility(viewModel.showGenericAttachImage)
         discountPercentageTextView.setTextAndVisibility(viewModel.discountPercentageString)
         discountPercentageTextView.setBackground(viewModel.discountPercentageBackground)
         discountPercentageTextView.setTextColor(viewModel.discountPercentageTextColor)
         payLaterPriceTextView.setTextAndVisibility(viewModel.payLaterPriceString)
         depositTermsTextView.setVisibility(viewModel.showDepositTerm)
         depositTermsTextView.subscribeOnClick(depositTermsClickedSubject)
-
-        val isShopWithPoints = LoyaltyUtil.isShopWithPoints(viewModel.hotelRoomResponse.rateInfo.chargeableRateInfo)
-        val isAirAttached = viewModel.hotelRoomResponse.rateInfo.chargeableRateInfo.airAttached
-
-        if (isShopWithPoints || !isAirAttached) {
-            strikeThroughTextView.setTextAndVisibility(viewModel.strikeThroughString)
-        }
-
+        strikeThroughTextView.setTextAndVisibility(viewModel.strikeThroughString)
         priceTextView.setTextAndVisibility(viewModel.priceString)
         pricePerDescriptorTextView.setVisibility(viewModel.showPerNight)
         priceTextView.contentDescription = viewModel.getRoomPriceContentDescription()

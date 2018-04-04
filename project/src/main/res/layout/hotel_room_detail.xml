@@ -93,6 +93,12 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_member_only_tag_bg" />
 
+            <ImageView
+                android:id="@+id/generic_attach_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_generic_attach_with_background" />
+
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/discount_percentage_text_view"
                 style="@style/Core.Text.100.Medium"
@@ -155,9 +161,9 @@
                 style="@style/Core.Text.200.LightColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/primary_color"
                 android:importantForAccessibility="no"
-                android:text="@string/per_night" />
+                android:text="@string/per_night"
+                android:textColor="?attr/primary_color" />
         </LinearLayout>
 
         <com.expedia.bookings.widget.HotelRoomRateActionButton

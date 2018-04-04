@@ -404,6 +404,52 @@ class HotelRoomDetailViewModelTest {
     }
 
     @Test
+    fun testShowMemberOnlyDealTagGenericAttach() {
+        mockSignIn()
+        val roomResponse = createRoomResponse()
+        roomResponse.isMemberDeal = true
+        roomResponse.rateInfo.chargeableRateInfo.airAttached = true
+        val viewModel = createViewModel(roomResponse, -1, true)
+        assertFalse(viewModel.showMemberOnlyDealTag)
+    }
+
+    @Test
+    fun testShowGenericAttachImage() {
+        val roomResponse = createRoomResponse()
+        roomResponse.rateInfo.chargeableRateInfo.airAttached = true
+        roomResponse.rateInfo.chargeableRateInfo.discountPercent = 20f
+        val viewModel = createViewModel(roomResponse, -1, true)
+        assertTrue(viewModel.showGenericAttachImage)
+    }
+
+    @Test
+    fun testShowGenericAttachImageFeatureNotEnabled() {
+        val roomResponse = createRoomResponse()
+        roomResponse.rateInfo.chargeableRateInfo.airAttached = true
+        roomResponse.rateInfo.chargeableRateInfo.discountPercent = 20f
+        val viewModel = createViewModel(roomResponse, -1)
+        assertFalse(viewModel.showGenericAttachImage)
+    }
+
+    @Test
+    fun testShowGenericAttachImageNotAirAttach() {
+        val roomResponse = createRoomResponse()
+        roomResponse.rateInfo.chargeableRateInfo.airAttached = false
+        roomResponse.rateInfo.chargeableRateInfo.discountPercent = 20f
+        val viewModel = createViewModel(roomResponse, -1, true)
+        assertFalse(viewModel.showGenericAttachImage)
+    }
+
+    @Test
+    fun testShowGenericAttachImageZeroPercentDiscount() {
+        val roomResponse = createRoomResponse()
+        roomResponse.rateInfo.chargeableRateInfo.airAttached = true
+        roomResponse.rateInfo.chargeableRateInfo.discountPercent = 0f
+        val viewModel = createViewModel(roomResponse, -1, true)
+        assertFalse(viewModel.showGenericAttachImage)
+    }
+
+    @Test
     fun testZeroDiscountPercentageString() {
         val roomResponse = createRoomResponse()
         roomResponse.rateInfo.chargeableRateInfo.loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(null, null), false)
@@ -434,6 +480,17 @@ class HotelRoomDetailViewModelTest {
         val viewModel = createViewModel(roomResponse, 3)
 
         assertNull(viewModel.discountPercentageString)
+    }
+
+    @Test
+    fun testGenericAttachDiscountPercentageString() {
+        val roomResponse = createRoomResponse()
+        roomResponse.rateInfo.chargeableRateInfo.loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(null, null), false)
+        roomResponse.rateInfo.chargeableRateInfo.airAttached = true
+        roomResponse.rateInfo.chargeableRateInfo.discountPercent = 10.0.toFloat()
+        val viewModel = createViewModel(roomResponse, 3, true)
+
+        assertEquals("-10%", viewModel.discountPercentageString)
     }
 
     @Test
@@ -475,6 +532,15 @@ class HotelRoomDetailViewModelTest {
     }
 
     @Test
+    fun testDiscountPercentageBackgroundGenericAttach() {
+        val roomResponse = createRoomResponse()
+        roomResponse.rateInfo.chargeableRateInfo.airAttached = true
+        val viewModel = createViewModel(roomResponse, -1, true)
+        val expectedBackground = ContextCompat.getDrawable(context, R.drawable.member_only_discount_percentage_background)
+        assertEquals(expectedBackground, viewModel.discountPercentageBackground)
+    }
+
+    @Test
     fun testDiscountPercentageTextColor() {
         val roomResponse = createRoomResponse()
         val viewModel = createViewModel(roomResponse, -1)
@@ -489,6 +555,15 @@ class HotelRoomDetailViewModelTest {
         val roomResponse = createRoomResponse()
         roomResponse.isMemberDeal = true
         val viewModel = createViewModel(roomResponse, -1)
+        val expectedColor = ContextCompat.getColor(context, R.color.brand_primary)
+        assertEquals(expectedColor, viewModel.discountPercentageTextColor)
+    }
+
+    @Test
+    fun testDiscountPercentageTextColorGenericAttach() {
+        val roomResponse = createRoomResponse()
+        roomResponse.rateInfo.chargeableRateInfo.airAttached = true
+        val viewModel = createViewModel(roomResponse, -1, true)
         val expectedColor = ContextCompat.getColor(context, R.color.brand_primary)
         assertEquals(expectedColor, viewModel.discountPercentageTextColor)
     }
@@ -802,8 +877,10 @@ class HotelRoomDetailViewModelTest {
         return roomResponse
     }
 
-    private fun createViewModel(roomResponse: HotelOffersResponse.HotelRoomResponse, optionIndex: Int): HotelRoomDetailViewModel {
-        return HotelRoomDetailViewModel(context, roomResponse, "id", 0, optionIndex, false)
+    private fun createViewModel(roomResponse: HotelOffersResponse.HotelRoomResponse,
+                                optionIndex: Int,
+                                isGenericAttachEnabled: Boolean = false): HotelRoomDetailViewModel {
+        return HotelRoomDetailViewModel(context, roomResponse, "id", 0, optionIndex, false, isGenericAttachEnabled)
     }
 
     private fun createLoyaltyInformation(): LoyaltyInformation {

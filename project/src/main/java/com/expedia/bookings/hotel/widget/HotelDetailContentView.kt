@@ -88,7 +88,8 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
     @VisibleForTesting val promoMessage: TextView by bindView(R.id.promo_text)
     val memberOnlyDealTag: ImageView by bindView(R.id.member_only_deal_tag)
     @VisibleForTesting val discountPercentage: TextView by bindView(R.id.discount_percentage)
-    @VisibleForTesting val airAttachSWPImage: ImageView by bindView(R.id.air_attach_swp_image_details)
+    @VisibleForTesting val airAttachImage: ImageView by bindView(R.id.air_attach_image)
+    @VisibleForTesting val genericAttachImage: ImageView by bindView(R.id.generic_attach_image)
     @VisibleForTesting val vipAccessMessageContainer: LinearLayout by bindView(R.id.vip_access_message_container)
 
     private val vipLoyaltyMessage: TextView by bindView(R.id.vip_loyalty_message_details)
@@ -221,7 +222,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
             updateRooms(etpRoomList.first, true)
         }
 
-        vm.hasVipAccessLoyaltyObservable.filter { it }.subscribe {
+        vm.hasVipLoyaltyPointsAppliedObservable.filter { it }.subscribe {
             displayRoomRateHeader()
             roomRateVIPLoyaltyAppliedContainer.visibility = View.VISIBLE
         }
@@ -272,12 +273,13 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         vm.discountPercentageTextColorObservable.subscribeTextColor(discountPercentage)
 
         vm.showDiscountPercentageObservable.subscribeVisibility(discountPercentage)
-        vm.showAirAttachSWPImageObservable.subscribeVisibility(airAttachSWPImage)
+        vm.showAirAttachedObservable.subscribeVisibility(airAttachImage)
+        vm.showGenericAttachedObservable.subscribeVisibility(genericAttachImage)
 
         vipAccessMessageContainer.subscribeOnClick(vm.vipAccessInfoObservable)
 
         vm.hasVipAccessObservable.subscribeVisibility(vipAccessMessageContainer)
-        vm.hasVipAccessLoyaltyObservable.subscribeVisibility(vipLoyaltyMessage)
+        vm.hasVipLoyaltyPointsAppliedObservable.subscribeVisibility(vipLoyaltyMessage)
         vm.hasRegularLoyaltyPointsAppliedObservable.subscribeVisibility(regularLoyaltyMessage)
         vm.promoMessageObservable.subscribeText(promoMessage)
         vm.earnMessageObservable.subscribeText(earnMessage)
@@ -695,7 +697,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         viewModel.roomResponseListObservable.onNext(Pair(viewModel.hotelOffersResponse.hotelRoomResponse,
                 viewModel.uniqueValueAddForRooms))
 
-        if (viewModel.hasVipAccessLoyaltyObservable.value) {
+        if (viewModel.hasVipLoyaltyPointsAppliedObservable.value) {
             displayRoomRateHeader()
             roomRateVIPLoyaltyAppliedContainer.visibility = View.VISIBLE
         } else if (viewModel.hasRegularLoyaltyPointsAppliedObservable.value) {

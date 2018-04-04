@@ -123,7 +123,7 @@ class HotelShopWithPointsServicesTest {
         testObserver.assertValueCount(1)
 
         val offersResponse = testObserver.values()[0]
-        assertFalse(offersResponse.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo)
+        assertFalse(offersResponse.doesAnyRoomHaveBurnApplied)
     }
 
     // Loyalty earn in ExpediaRewards is in Points
@@ -147,7 +147,7 @@ class HotelShopWithPointsServicesTest {
 
         val offersResponse = testObserver.values()[0]
         val loyaltyInfo = offersResponse.hotelRoomResponse[0].rateInfo.chargeableRateInfo.loyaltyInfo
-        assertTrue(offersResponse.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo)
+        assertTrue(offersResponse.doesAnyRoomHaveBurnApplied)
         assertNotNull(loyaltyInfo.burn)
         assertNotNull(loyaltyInfo.earn)
         assertNotNull(loyaltyInfo.earn.points)
@@ -176,7 +176,7 @@ class HotelShopWithPointsServicesTest {
 
         val offersResponse = testObserver.values()[0]
         val loyaltyInfo = offersResponse.hotelRoomResponse[0].rateInfo.chargeableRateInfo.loyaltyInfo
-        assertTrue(offersResponse.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo)
+        assertTrue(offersResponse.doesAnyRoomHaveBurnApplied)
         assertNotNull(loyaltyInfo.burn)
         assertNotNull(loyaltyInfo.earn)
         assertNull(loyaltyInfo.earn.points)

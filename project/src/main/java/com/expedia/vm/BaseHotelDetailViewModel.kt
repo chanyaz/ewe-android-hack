@@ -13,7 +13,7 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extensions.ObservableOld
-import com.expedia.bookings.extensions.isShowAirAttached
+import com.expedia.bookings.features.Features
 import com.expedia.bookings.hotel.DEFAULT_HOTEL_GALLERY_CODE
 import com.expedia.bookings.hotel.data.Amenity
 import com.expedia.bookings.hotel.util.HotelResortFeeFormatter
@@ -132,10 +132,10 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     val discountPercentageObservable = BehaviorSubject.create<Pair<String, String>>()
     val showDiscountPercentageObservable = BehaviorSubject.createDefault<Boolean>(false)
     val shopWithPointsObservable = PublishSubject.create<Boolean>()
-    val showAirAttachedObservable = PublishSubject.create<Boolean>()
-    val showAirAttachSWPImageObservable = BehaviorSubject.createDefault<Boolean>(false)
+    val showAirAttachedObservable = BehaviorSubject.createDefault<Boolean>(false)
+    val showGenericAttachedObservable = BehaviorSubject.createDefault<Boolean>(false)
     val hasVipAccessObservable = BehaviorSubject.createDefault<Boolean>(false)
-    val hasVipAccessLoyaltyObservable = BehaviorSubject.createDefault<Boolean>(false)
+    val hasVipLoyaltyPointsAppliedObservable = BehaviorSubject.createDefault<Boolean>(false)
     val hasRegularLoyaltyPointsAppliedObservable = BehaviorSubject.createDefault<Boolean>(false)
     val promoMessageObservable = BehaviorSubject.createDefault<String>("")
     val earnMessageObservable = BehaviorSubject.create<String>()
@@ -203,9 +203,9 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         HotelTracking.trackHotelEtpInfo()
     }
 
-    val strikeThroughPriceVisibility = ObservableOld.combineLatest(strikeThroughPriceGreaterThanPriceToShowUsersObservable, hotelSoldOut, shopWithPointsObservable, showAirAttachedObservable) {
-        strikeThroughPriceGreaterThanPriceToShowUsers, hotelSoldOut, shopWithPointsObservable, showAirAttachedObservable ->
-        (strikeThroughPriceGreaterThanPriceToShowUsers && !hotelSoldOut) && (shopWithPointsObservable || !showAirAttachedObservable)
+    val strikeThroughPriceVisibility = ObservableOld.combineLatest(strikeThroughPriceGreaterThanPriceToShowUsersObservable, hotelSoldOut, shopWithPointsObservable, showAirAttachedObservable, showGenericAttachedObservable) {
+        strikeThroughPriceGreaterThanPriceToShowUsers, hotelSoldOut, shopWithPointsObservable, showAirAttachedObservable, showGenericAttachedObservable ->
+        (strikeThroughPriceGreaterThanPriceToShowUsers && !hotelSoldOut) && (shopWithPointsObservable || !showAirAttachedObservable || showGenericAttachedObservable)
     }
 
     val perNightVisibility = ObservableOld.combineLatest(onlyShowTotalPrice, hotelSoldOut) { onlyShowTotalPrice, hotelSoldOut ->
@@ -214,9 +214,9 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
 
     val payByPhoneContainerVisibility = ObservableOld.combineLatest(showBookByPhoneObservable, hotelSoldOut) { showBookByPhoneObservable, hotelSoldOut -> showBookByPhoneObservable && !hotelSoldOut }
 
-    val hotelMessagingContainerVisibility = ObservableOld.combineLatest(showDiscountPercentageObservable, hasVipAccessObservable, promoMessageObservable, hotelSoldOut, hasRegularLoyaltyPointsAppliedObservable, showAirAttachSWPImageObservable) {
-        hasDiscount, hasVipAccess, promoMessage, hotelSoldOut, hasRegularLoyaltyPointsApplied, shouldShowAirAttachSWPImage ->
-        (hasDiscount || hasVipAccess || Strings.isNotEmpty(promoMessage) || hasRegularLoyaltyPointsApplied || shouldShowAirAttachSWPImage) && !hotelSoldOut
+    val hotelMessagingContainerVisibility = ObservableOld.combineLatest(showDiscountPercentageObservable, hasVipAccessObservable, promoMessageObservable, hotelSoldOut, hasRegularLoyaltyPointsAppliedObservable, showAirAttachedObservable, showGenericAttachedObservable) {
+        hasDiscount, hasVipAccess, promoMessage, hotelSoldOut, hasRegularLoyaltyPointsApplied, showAirAttached, showGenericAttached ->
+        (hasDiscount || hasVipAccess || Strings.isNotEmpty(promoMessage) || hasRegularLoyaltyPointsApplied || showAirAttached || showGenericAttached) && !hotelSoldOut
     }
 
     val etpContainerVisibility = ObservableOld.combineLatest(hasETPObservable, hotelSoldOut) { hasETPOffer, hotelSoldOut -> hasETPOffer && !hotelSoldOut }
@@ -416,23 +416,26 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
             totalPriceObservable.onNext(Money(BigDecimal(rate.priceToShowUsers.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
 
             val hasMemberDeal = hasMemberDeal(firstHotelRoomResponse)
-            memberOnlyDealTagVisibilityObservable.onNext(hasMemberDeal)
+            memberOnlyDealTagVisibilityObservable.onNext(!offerResponse.doesAnyRoomHaveAttach && hasMemberDeal)
             val discountPercentageBackground = when {
-                rate.isShowAirAttached() -> R.drawable.air_attach_background
+                shouldUseGenericAttach(offerResponse) -> R.drawable.member_only_discount_percentage_background
+                shouldUseLegacyAttach(offerResponse) -> R.drawable.air_attach_background
                 hasMemberDeal(firstHotelRoomResponse) -> R.drawable.member_only_discount_percentage_background
                 else -> R.drawable.discount_percentage_background
             }
             discountPercentageBackgroundObservable.onNext(discountPercentageBackground)
 
             val discountPercentageTextColor = when {
+                shouldUseGenericAttach(offerResponse) -> ContextCompat.getColor(context, R.color.member_pricing_text_color)
+                shouldUseLegacyAttach(offerResponse) -> ContextCompat.getColor(context, R.color.white)
                 hasMemberDeal -> ContextCompat.getColor(context, R.color.member_pricing_text_color)
                 else -> ContextCompat.getColor(context, R.color.white)
             }
             discountPercentageTextColorObservable.onNext(discountPercentageTextColor)
-
-            showAirAttachSWPImageObservable.onNext(rate.loyaltyInfo?.isBurnApplied ?: false && rate.isShowAirAttached())
-            showAirAttachedObservable.onNext(rate.isShowAirAttached())
         }
+
+        showAirAttachedObservable.onNext(shouldUseLegacyAttach(offerResponse))
+        showGenericAttachedObservable.onNext(shouldUseGenericAttach(offerResponse))
 
         userRatingObservable.onNext(offerResponse.hotelGuestRating.toString())
         userRatingRecommendationTextObservable.onNext(getGuestRatingText(offerResponse.hotelGuestRating.toFloat(), context.resources))
@@ -445,7 +448,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
 
         val chargeableRateInfo = offerResponse.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo
         val packageLoyaltyInformation = offerResponse.hotelRoomResponse?.firstOrNull()?.packageLoyaltyInformation
-        val isRateShopWithPoints = chargeableRateInfo?.loyaltyInfo?.isBurnApplied ?: false
+        val isRateShopWithPoints = offerResponse.doesAnyRoomHaveBurnApplied
         val discountPercentage: Int? = chargeableRateInfo?.discountPercent?.toInt()
         discountPercentageObservable.onNext(Pair(Phrase.from(context.resources, R.string.hotel_discount_percent_Template)
                 .put("discount", discountPercentage ?: 0).format().toString(),
@@ -456,9 +459,9 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         shopWithPointsObservable.onNext(isRateShopWithPoints)
         val isVipAccess = offerResponse.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess()
         hasVipAccessObservable.onNext(isVipAccess)
-        hasVipAccessLoyaltyObservable.onNext(isVipAccess && offerResponse.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo)
-        hasRegularLoyaltyPointsAppliedObservable.onNext(!isVipAccess && offerResponse.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo)
-        promoMessageObservable.onNext(getPromoText(firstHotelRoomResponse))
+        hasVipLoyaltyPointsAppliedObservable.onNext(isVipAccess && offerResponse.doesAnyRoomHaveBurnApplied)
+        hasRegularLoyaltyPointsAppliedObservable.onNext(!isVipAccess && offerResponse.doesAnyRoomHaveBurnApplied)
+        promoMessageObservable.onNext(getPromoText(offerResponse))
         val earnMessage = LoyaltyUtil.getEarnMessagingString(context, offerResponse.isPackage, chargeableRateInfo?.loyaltyInfo?.earn, packageLoyaltyInformation?.earn)
         val earnMessageVisibility = LoyaltyUtil.shouldShowEarnMessage(earnMessage, offerResponse.isPackage)
         earnMessageObservable.onNext(earnMessage)
@@ -532,23 +535,27 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         return CollectionUtils.isNotEmpty(response.hotelRoomResponse) && response.hotelRoomResponse.any { it.hasFreeCancellation == true }
     }
 
-    private fun getPromoText(roomOffer: HotelOffersResponse.HotelRoomResponse?): String {
-        // NOTE: Any changes to this logic should also be made in HotelViewModel (see: urgencyMessageObservable)
+    private fun getPromoText(offerResponse: HotelOffersResponse): String {
+        // NOTE: Any changes to this logic should also be made in HotelViewModel (see: getHighestPriorityUrgencyMessage)
+        val roomOffer = offerResponse.hotelRoomResponse?.firstOrNull()
         if (roomOffer == null) {
             return ""
         }
 
         val roomsLeft = roomOffer.currentAllotment.toInt()
-        return if (hasMemberDeal(roomOffer)) {
-            context.resources.getString(R.string.member_pricing)
-        } else if (roomsLeft in 1..ROOMS_LEFT_CUTOFF) {
-            context.resources.getQuantityString(R.plurals.num_rooms_left, roomsLeft, roomsLeft)
-        } else if (roomOffer.isSameDayDRR) {
-            context.resources.getString(R.string.tonight_only)
-        } else if (roomOffer.isDiscountRestrictedToCurrentSourceType) {
-            context.resources.getString(R.string.mobile_exclusive)
-        } else {
-            ""
+        return when {
+            shouldUseGenericAttach(offerResponse) ->
+                context.resources.getString(R.string.bundled_savings)
+            hasMemberDeal(roomOffer) ->
+                context.resources.getString(R.string.member_pricing)
+            roomsLeft in 1..ROOMS_LEFT_CUTOFF ->
+                context.resources.getQuantityString(R.plurals.num_rooms_left, roomsLeft, roomsLeft)
+            roomOffer.isSameDayDRR ->
+                context.resources.getString(R.string.tonight_only)
+            roomOffer.isDiscountRestrictedToCurrentSourceType ->
+                context.resources.getString(R.string.mobile_exclusive)
+            else ->
+                ""
         }
     }
 
@@ -567,5 +574,17 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
             list.add(placeHolder)
         }
         galleryObservable.onNext(list)
+    }
+
+    private fun shouldUseGenericAttach(offerResponse: HotelOffersResponse): Boolean {
+        return offerResponse.doesAnyRoomHaveAttach && isGenericAttachEnabled()
+    }
+
+    private fun shouldUseLegacyAttach(offerResponse: HotelOffersResponse): Boolean {
+        return offerResponse.doesAnyRoomHaveAttach && !isGenericAttachEnabled()
+    }
+
+    private fun isGenericAttachEnabled(): Boolean {
+        return Features.all.genericAttach.enabled()
     }
 }

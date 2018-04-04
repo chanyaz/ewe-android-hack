@@ -19,7 +19,6 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:paddingBottom="10dp"
-            android:paddingLeft="18dp"
             android:paddingRight="18dp"
             android:paddingTop="10dp" />
 
@@ -28,9 +27,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:gravity="center"
+            android:layout_toLeftOf="@+id/promo_text"
+            android:gravity="center_vertical|left"
             android:paddingLeft="18dp"
-            android:paddingRight="18dp">
+            android:paddingRight="4dp">
 
             <ImageView
                 android:id="@+id/member_only_deal_tag"
@@ -38,6 +38,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="4dp"
                 android:src="@drawable/ic_member_only_tag_bg" />
+
+            <ImageView
+                android:id="@+id/generic_attach_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
+                android:src="@drawable/ic_generic_attach_with_background" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/discount_percentage"
@@ -55,7 +62,7 @@
                 android:textColor="@color/white" />
 
             <ImageView
-                android:id="@+id/air_attach_swp_image_details"
+                android:id="@+id/air_attach_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -69,14 +76,14 @@
                 android:id="@+id/vip_access_message_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="10dp">
+                android:gravity="center">
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/vip_access_message"
                     style="@style/Core.Text.200.LightColor"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:maxLines="1"
                     android:text="@string/vip" />
 
                 <com.expedia.bookings.widget.TextView
@@ -85,6 +92,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@id/vip_access_message"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:paddingLeft="2dp"
                     android:text="@string/vip_loyalty_applied_message" />
 
@@ -96,8 +105,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
-                android:layout_alignRight="@id/air_attach_swp_image_details"
+                android:layout_alignRight="@id/air_attach_image"
+                android:ellipsize="end"
                 android:gravity="center_vertical"
+                android:maxLines="1"
                 android:text="@string/regular_loyalty_applied_message" />
         </LinearLayout>
 

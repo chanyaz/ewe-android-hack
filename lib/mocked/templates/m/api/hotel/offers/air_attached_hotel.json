@@ -199,6 +199,116 @@
         {
             "bedTypes": [
                 {
+                    "description": "Air Attached with loyalty",
+                    "id": "14"
+                }
+            ],
+            "currentAllotment": "40",
+            "hasFreeCancellation": false,
+            "nonRefundable": false,
+            "productKey": "${hotelId}_3",
+            "promoDescription": "",
+            "rateChange": false,
+            "rateDescription": "Deluxe Air Attached Room with loyalty",
+            "rateInfo": {
+                "chargeableRateInfo": {
+                    "airAttached": true,
+                    "averageBaseRate": "284.00",
+                    "averageRate": "241.40",
+                    "checkoutPriceType": "total",
+                    "currencyCode": "USD",
+                    "currencySymbol": "$",
+                    "discountPercent": -15,
+                    "formattedTotalPriceWithMandatoryFees": "$ 561.02",
+                    "maxNightlyRate": "262.65",
+                    "nightlyRateTotal": "482.80",
+                    "nightlyRatesPerRoom": [
+                        {
+                            "baseRate": "309.00",
+                            "promo": "true",
+                            "rate": "262.65"
+                        },
+                        {
+                            "baseRate": "259.00",
+                            "promo": "true",
+                            "rate": "220.15"
+                        }
+                    ],
+                    "priceAdjustments": [],
+                    "priceToShowUsers": "241",
+                    "ratePlanCode": "203077072",
+                    "strikethroughPriceToShowUsers": "284",
+                    "strikethroughPriceWithTaxesAndFeesToShowUsers": "646",
+                    "surchargeTotal": "39.11",
+                    "surchargeTotalForEntireStay": "78.22",
+                    "surcharges": [
+                        {
+                            "amount": "39.11",
+                            "type": "TAX_ALL"
+                        },
+                        {
+                            "amount": "35.61",
+                            "type": "TAX_SALES"
+                        },
+                        {
+                            "amount": "3.50",
+                            "type": "TAX_OTHER"
+                        }
+                    ],
+                    "surchargesForEntireStay": [
+                        {
+                            "amount": "78.22",
+                            "type": "TAX_ALL"
+                        },
+                        {
+                            "amount": "71.22",
+                            "type": "TAX_SALES"
+                        },
+                        {
+                            "amount": "7.00",
+                            "type": "TAX_OTHER"
+                        }
+                    ],
+                    "taxStatusType": "ESTIMATED",
+                    "total": "561.02",
+                    "totalMandatoryFees": "0.00",
+                    "totalPriceWithMandatoryFees": "561.02",
+                    "userPriceType": "PerNightRateNoTaxes",
+                    "loyaltyInfo": {
+                        "burn": {
+                            "type": "REGULAR",
+                            "amount": {
+                                "amount": "-41.50",
+                                "formattedPrice": "($41.50)",
+                                "formattedWholePrice": "($42)",
+                                "currencyCode": "USD"
+                            }
+                        },
+                        "earn": {
+                            "points": {
+                                "base": 100,
+                                "bonus": 200,
+                                "total": 300
+                            }
+                        },
+                        "isBurnApplied": true
+                    }
+                },
+                "priceBreakdown": true,
+                "promo": true,
+                "rateChange": false
+            },
+            "rateOccupancyPerRoom": "3",
+            "roomLongDescription": "1 king bed with pillowtop mattress, down comforter with duvet, and 300-thread-count triple sheeting. 300 square feet. Bay style window. High-speed Internet access (surcharge). Cable/satellite TV with Internet access, pay movies, and video games (surcharges). Complimentary weekday newspaper. Coffee/tea maker. Bathroom with marble vanity, Bath and Body brand toiletries, makeup/shaving mirror, and phone. Nonsmoking.",
+            "roomThumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_119_d.jpg",
+            "roomTypeDescription": "Air attached with loyalty, Four dollars off!",
+            "smokingPreferences": "NS",
+            "supplierType": "MERCHANT",
+            "valueAdds": []
+        },
+        {
+            "bedTypes": [
+                {
                     "description": "One Expired Bed",
                     "id": "14"
                 }

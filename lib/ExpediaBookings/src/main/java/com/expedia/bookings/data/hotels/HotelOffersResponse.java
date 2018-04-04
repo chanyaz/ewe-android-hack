@@ -54,7 +54,8 @@ public class HotelOffersResponse extends BaseApiResponse {
 	public HotelText hotelRenovationText;
 
 	public boolean isPackage;
-	public boolean doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo;
+	public boolean doesAnyRoomHaveBurnApplied;
+	public boolean doesAnyRoomHaveAttach;
 
 	public static class HotelAmenities {
 		public String id;

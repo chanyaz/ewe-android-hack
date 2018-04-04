@@ -16,6 +16,7 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.extensions.isShowAirAttached
+import com.expedia.bookings.features.Features
 import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.ApiDateUtils
 import com.expedia.bookings.utils.HotelUtils
@@ -29,7 +30,13 @@ import java.math.BigDecimal
 import java.util.ArrayList
 import java.util.TreeSet
 
-class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, val hotelId: String, val rowIndex: Int, val optionIndex: Int, val hasETP: Boolean) {
+class HotelRoomDetailViewModel(val context: Context,
+                               val hotelRoomResponse: HotelOffersResponse.HotelRoomResponse,
+                               val hotelId: String,
+                               val rowIndex: Int,
+                               val optionIndex: Int,
+                               val hasETP: Boolean,
+                               private val isGenericAttachEnabled: Boolean = Features.all.genericAttach.enabled()) {
 
     val isPackage: Boolean get() = hotelRoomResponse.isPackage
 
@@ -43,19 +50,21 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
 
     val mandatoryFeeString: String? get() = createMandatoryFeeString()
 
-    val showMemberOnlyDealTag: Boolean get() = hotelRoomResponse.isMemberDeal && Ui.getApplication(context).appComponent().userStateManager().isUserAuthenticated()
+    val showMemberOnlyDealTag: Boolean get() = createShowMemberOnlyDealTag()
+
+    val showGenericAttachImage: Boolean get() = isGenericAttachEnabled && chargeableRateInfo.isShowAirAttached()
 
     val discountPercentageString: String? get() = createDiscountPercentageString()
 
     val discountPercentageBackground: Drawable
-        get() = if (showMemberOnlyDealTag) {
+        get() = if (showMemberOnlyDealTag || showGenericAttachImage) {
             ContextCompat.getDrawable(context, R.drawable.member_only_discount_percentage_background)
         } else {
             ContextCompat.getDrawable(context, R.drawable.discount_percentage_background)
         }
 
     val discountPercentageTextColor: Int
-        get() = if (showMemberOnlyDealTag) {
+        get() = if (showMemberOnlyDealTag || showGenericAttachImage) {
             ContextCompat.getColor(context, R.color.member_pricing_text_color)
         } else {
             ContextCompat.getColor(context, R.color.white)
@@ -188,8 +197,12 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
         return null
     }
 
+    private fun createShowMemberOnlyDealTag(): Boolean {
+        return !showGenericAttachImage && hotelRoomResponse.isMemberDeal && Ui.getApplication(context).appComponent().userStateManager().isUserAuthenticated()
+    }
+
     private fun createDiscountPercentageString(): String? {
-        val isApplyingDiscount = (hotelLoyaltyInfo?.isBurnApplied ?: false) || chargeableRateInfo.isShowAirAttached()
+        val isApplyingDiscount = (hotelLoyaltyInfo?.isBurnApplied ?: false) || (!isGenericAttachEnabled && chargeableRateInfo.isShowAirAttached())
         if (!isPackage && chargeableRateInfo.isDiscountPercentNotZero && !isApplyingDiscount) {
             return context.resources.getString(R.string.percent_off_TEMPLATE, HotelUtils.getDiscountPercent(chargeableRateInfo))
         } else {

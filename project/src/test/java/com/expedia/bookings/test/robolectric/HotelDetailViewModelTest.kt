@@ -345,13 +345,13 @@ class HotelDetailViewModelTest {
 
     @Test
     fun discountPercentageShouldNotShowForSWP() {
-        offer1.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = true
+        offer1.doesAnyRoomHaveBurnApplied = true
         val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
         val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(null, null), true)
         chargeableRateInfo.loyaltyInfo = loyaltyInfo
         vm.hotelOffersSubject.onNext(offer1)
         assertFalse(vm.showDiscountPercentageObservable.value)
-        assertFalse(vm.showAirAttachSWPImageObservable.value)
+        assertFalse(vm.showAirAttachedObservable.value)
     }
 
     @Test
@@ -363,15 +363,16 @@ class HotelDetailViewModelTest {
     }
 
     @Test
-    fun airAttachSWPImageShownForSWP() {
-        offer1.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = true
+    fun airAttachImageShownForSWP() {
+        offer1.doesAnyRoomHaveBurnApplied = true
+        offer1.doesAnyRoomHaveAttach = true
         val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
         val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(null, null), true)
         chargeableRateInfo.loyaltyInfo = loyaltyInfo
         chargeableRateInfo.airAttached = true
         vm.hotelOffersSubject.onNext(offer1)
         assertFalse(vm.showDiscountPercentageObservable.value)
-        assertTrue(vm.showAirAttachSWPImageObservable.value)
+        assertTrue(vm.showAirAttachedObservable.value)
     }
 
     @Test
@@ -541,31 +542,31 @@ class HotelDetailViewModelTest {
     fun regularAndVIPLoyaltyPointsAppliedHeaderVisibility() {
 
         //Non VIP hotel and one of the hotel room has loyality info (isBurnApplied = true)
-        offer1.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = true
+        offer1.doesAnyRoomHaveBurnApplied = true
         offer1.isVipAccess = false
         vm.hotelOffersSubject.onNext(offer1)
         assertTrue(vm.hasRegularLoyaltyPointsAppliedObservable.value)
-        assertFalse(vm.hasVipAccessLoyaltyObservable.value)
+        assertFalse(vm.hasVipLoyaltyPointsAppliedObservable.value)
 
         //Non VIP hotel and none of the hotel room has loyality info (isBurnApplied = false)
-        offer1.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = false
+        offer1.doesAnyRoomHaveBurnApplied = false
         offer1.isVipAccess = false
         vm.hotelOffersSubject.onNext(offer1)
         assertFalse(vm.hasRegularLoyaltyPointsAppliedObservable.value)
-        assertFalse(vm.hasVipAccessLoyaltyObservable.value)
+        assertFalse(vm.hasVipLoyaltyPointsAppliedObservable.value)
 
         //VIP hotel and one of the hotel room has loyality info (isBurnApplied = true)
-        offer1.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = true
+        offer1.doesAnyRoomHaveBurnApplied = true
         offer1.isVipAccess = true
         vm.hotelOffersSubject.onNext(offer1)
-        assertTrue(vm.hasVipAccessLoyaltyObservable.value)
+        assertTrue(vm.hasVipLoyaltyPointsAppliedObservable.value)
         assertFalse(vm.hasRegularLoyaltyPointsAppliedObservable.value)
 
         //VIP hotel and none of the hotel room has loyality info (isBurnApplied = false)
-        offer1.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = false
+        offer1.doesAnyRoomHaveBurnApplied = false
         offer1.isVipAccess = true
         vm.hotelOffersSubject.onNext(offer1)
-        assertFalse(vm.hasVipAccessLoyaltyObservable.value)
+        assertFalse(vm.hasVipLoyaltyPointsAppliedObservable.value)
         assertFalse(vm.hasRegularLoyaltyPointsAppliedObservable.value)
     }
 
@@ -861,7 +862,7 @@ class HotelDetailViewModelTest {
         vm.promoMessageObservable.onNext(promoMessage)
         vm.hotelSoldOut.onNext(soldOut)
         vm.hasRegularLoyaltyPointsAppliedObservable.onNext(loyaltyApplied)
-        vm.showAirAttachSWPImageObservable.onNext(airAttach)
+        vm.showAirAttachedObservable.onNext(airAttach)
     }
 
     private fun createRoomResponse(roomTypeCode: String?, priceToShowUser: Float): HotelOffersResponse.HotelRoomResponse {

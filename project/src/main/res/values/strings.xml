@@ -2622,7 +2622,7 @@
     <!-- Expedia Member Discount for a given property, AB test -->
     <string name="member_pricing">Member Pricing</string>
     <!-- Expedia Generic Attach Bundled Savings for a given property, AB test -->
-    <string name="bundled_savings">Bundled Savings</string>
+    <string name="bundled_savings">Bundled savings</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
