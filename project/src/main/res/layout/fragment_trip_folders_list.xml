@@ -15,4 +15,25 @@
         app:title="@string/itin_toolbar"
         app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
         app:titleTextColor="@color/white" />
+
+    <Button
+        android:id="@+id/load_more_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="LOAD MORE"
+        android:textColor="@color/white" />
+
+    <com.expedia.bookings.widget.DisableableViewPager
+        android:id="@+id/trip_list_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/trip_list_tablayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top" />
+
+    </com.expedia.bookings.widget.DisableableViewPager>
+
 </LinearLayout>
