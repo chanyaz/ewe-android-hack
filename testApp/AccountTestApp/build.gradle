@@ -93,6 +93,7 @@ android {
     }
 
     lintOptions {
+        ignoreWarnings true
         abortOnError false
     }
 }
