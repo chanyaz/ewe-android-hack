@@ -39,14 +39,18 @@ class RecentSearchWidgetContainer(context: Context, attr: AttributeSet?) : Linea
             recyclerView.setHasFixedSize(false)
         }
         recyclerView.adapter = RecentSearchListAdapter(viewModel.recentSearchesObservable, context, viewModel.selectedRecentSearch)
-        recentSearchHeaderContainer.setOnClickListener {
-            if (isRecentSearchViewExpanded()) {
-                collapsedRecentSearchView()
-            } else {
-                expandedRecentSearchView()
+        if (abacusVariant == AbacusVariant.TWO.value) {
+            recentSearchChevron.visibility = View.GONE
+        } else {
+            recentSearchHeaderContainer.setOnClickListener {
+                if (isRecentSearchViewExpanded()) {
+                    collapsedRecentSearchView()
+                } else {
+                    expandedRecentSearchView()
+                }
             }
+            AnimUtils.rotate(recentSearchChevron)
         }
-        AnimUtils.rotate(recentSearchChevron)
     }
 
     override fun onFinishInflate() {

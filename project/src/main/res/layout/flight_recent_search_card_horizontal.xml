@@ -49,7 +49,7 @@
             android:layout_weight="1"
             app:invalidColor="@color/gray500"
             app:invalidStyle="1"
-            android:textColor="@color/gray700"
+            android:textColor="@color/gray900"
             android:textSize="13sp"/>
 
         <com.expedia.bookings.widget.TextView
@@ -59,7 +59,7 @@
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
             android:text="\u2022"
-            android:textColor="@color/gray700"
+            android:textColor="@color/gray900"
             android:textSize="13sp"
             app:textStyle="medium" />
 
@@ -68,7 +68,7 @@
             android:layout_height="12dp"
             android:layout_gravity="center"
             android:src="@drawable/search_form_icon_person"
-            android:tint="@color/gray700" />
+            android:tint="@color/gray900" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/recent_search_traveler_count"
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="6dp"
-            android:textColor="@color/gray700"
+            android:textColor="@color/gray900"
             android:textSize="13sp"
             app:textStyle="normal" />
 
@@ -87,7 +87,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textColor="@color/gray700"
+        android:textColor="@color/gray900"
         android:textSize="13sp"
         app:textStyle="normal" />
 
@@ -114,7 +114,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="4dp"
-            android:textColor="@color/gray600"
+            android:textColor="@color/gray900"
             android:text="@string/flight_recent_search_per_person"
             android:textSize="@dimen/type_200_text_size" />
 

@@ -31,6 +31,7 @@ import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.shared.widget.SuggestionAdapter
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.AccessibilityUtil.setFocusForView
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.AnimationUtils.animateView
 import com.expedia.bookings.utils.SuggestionV4Utils
@@ -233,6 +234,11 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
                     }
                     vm.setupViewModelFromPastSearch(params)
                     vm.shouldTrackEditSearchForm = true
+                    if (vm.getParamsBuilder().hasValidDates()) {
+                        setFocusForView(searchButton)
+                    } else {
+                        setFocusForView(calendarWidgetV2)
+                    }
                     vm.hasPreviousSearchParams = false
                     animatorLeft.start()
                 }
