@@ -8,6 +8,7 @@ import com.expedia.bookings.itin.helpers.MockActivityLauncher
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
 import com.expedia.bookings.itin.helpers.MockLxRepo
 import com.expedia.bookings.itin.helpers.MockStringProvider
+import com.expedia.bookings.itin.helpers.MockTripsTracking
 import com.expedia.bookings.itin.helpers.MockWebViewLauncher
 import com.expedia.bookings.itin.lx.LxItinToolbarViewModel
 import com.expedia.bookings.itin.lx.MockItinLxToolbarScope
@@ -17,6 +18,7 @@ import com.expedia.bookings.itin.scopes.HasJsonUtil
 import com.expedia.bookings.itin.scopes.HasManageBookingWidgetViewModelSetter
 import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.scopes.HasToolbarViewModelSetter
+import com.expedia.bookings.itin.scopes.HasTripsTracking
 import com.expedia.bookings.itin.scopes.HasWebViewLauncher
 import com.expedia.bookings.itin.scopes.LxItinManageBookingWidgetScope
 import com.expedia.bookings.itin.scopes.ManageBookingWidgetViewModelSetter
@@ -26,6 +28,7 @@ import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.itin.utils.IActivityLauncher
 import com.expedia.bookings.itin.utils.IWebViewLauncher
 import com.expedia.bookings.itin.utils.StringSource
+import com.expedia.bookings.tracking.ITripsTracking
 import io.reactivex.observers.TestObserver
 import org.junit.Before
 import org.junit.Rule
@@ -61,11 +64,13 @@ class LxItinDetailsActivityLifecycleObserverTest {
 
         assertFalse(scope.mockMangeBooking.called)
         assertFalse(scope.toolbarMock.called)
-
+        assertFalse(scope.tripsTracker.trackItinLxCalled)
+        
         sut.onCreate(cycle)
 
         assertTrue(scope.mockMangeBooking.called)
         assertTrue(scope.toolbarMock.called)
+        assertTrue(scope.tripsTracker.trackItinLxCalled)
         testObserver.assertNoValues()
 
         sut.repo.invalidDataSubject.onNext(Unit)
@@ -88,7 +93,9 @@ class LxItinDetailsActivityLifecycleObserverTest {
         testObserver.assertValue(Unit)
     }
 
-    class TestLifeCycleObsScope : HasStringProvider, HasWebViewLauncher, HasActivityLauncher, HasJsonUtil, HasItinId, HasToolbarViewModelSetter, HasManageBookingWidgetViewModelSetter {
+    class TestLifeCycleObsScope : HasStringProvider, HasWebViewLauncher, HasActivityLauncher, HasJsonUtil, HasItinId, HasToolbarViewModelSetter, HasManageBookingWidgetViewModelSetter, HasTripsTracking {
+        val tripsTracker = MockTripsTracking()
+        override val tripsTracking: ITripsTracking = tripsTracker
         override val strings: StringSource = MockStringProvider()
         override val webViewLauncher: IWebViewLauncher = MockWebViewLauncher()
         override val activityLauncher: IActivityLauncher = MockActivityLauncher()

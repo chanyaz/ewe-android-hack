@@ -94,7 +94,7 @@ public class FlightSearchPresenterTest {
 		Mockito.when(mockAnalyticsProvider.getUrlWithVisitorData(Mockito.anyString())).thenAnswer(new Answer() {
 			@Override
 			public String answer(InvocationOnMock invocation) throws Throwable {
-				return invocation.getArgumentAt(0, String.class);
+				return invocation.getArgument(0);
 			}
 		});
 	}
