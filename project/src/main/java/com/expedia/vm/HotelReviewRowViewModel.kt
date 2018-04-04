@@ -10,6 +10,7 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.hotel.data.TranslatedReview
 import com.expedia.bookings.text.HtmlCompat
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.util.endlessObserver
 import io.reactivex.subjects.BehaviorSubject
 import java.util.Locale
@@ -25,6 +26,7 @@ class HotelReviewRowViewModel(val context: Context) {
     val toggleReviewTranslationObservable = BehaviorSubject.create<String>()
     val onTranslateClick = endlessObserver<Unit> {
         review?.let { review ->
+            OmnitureTracking.trackHotelReviewTranslate(showingTranslated)
             translateButtonTextObservable.onNext(context.getString(R.string.user_review_translation_loading))
             toggleReviewTranslationObservable.onNext(review.reviewId)
         }

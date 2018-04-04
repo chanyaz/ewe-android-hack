@@ -1164,6 +1164,20 @@ public class OmnitureTracking {
 		s.track();
 	}
 
+	public static void trackHotelReviewTranslate(boolean seeOriginalDisplayed) {
+		String pageName;
+		if (seeOriginalDisplayed) {
+			pageName = HOTELSV2_REVIEWS + ".SeeOriginal";
+		}
+		else {
+			pageName = HOTELSV2_REVIEWS + ".SeeTranslation";
+		}
+
+		Log.d(TAG, "Tracking \"" + pageName + "\" click...");
+		ADMS_Measurement s = createTrackLinkEvent(pageName);
+		s.trackLink("Translate User Review");
+	}
+
 	public static void trackHotelV2ReviewsCategories(String category) {
 		String pageName = HOTELSV2_REVIEWS + "." + category;
 		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad...");
