@@ -24,6 +24,11 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
+    lintOptions {
+        disable 'TypographyQuotes'
+        abortOnError false
+    }
+    
     testOptions {
         unitTests {
             includeAndroidResources = true

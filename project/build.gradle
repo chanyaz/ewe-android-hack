@@ -208,6 +208,7 @@ android {
 
     lintOptions {
         disable 'NewerVersionAvailable'
+        disable 'TypographyQuotes'
         checkReleaseBuilds false
         checkGeneratedSources true
         checkDependencies true

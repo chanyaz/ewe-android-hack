@@ -597,9 +597,9 @@
     <!-- Adult age label on flight checkout summary card-->
     <string name="flight_checkout_adult_age_label">18+</string>
     <!-- Youth age label on flight checkout traveler summary card -->
-    <string name="flight_checkout_youth_age_label">12-17</string>
+    <string name="flight_checkout_youth_age_label">12–17</string>
     <!-- Children age label on flight checkout traveler summary card-->
-    <string name="flight_checkout_children_age_label">2-11</string>
+    <string name="flight_checkout_children_age_label">2–11</string>
     <!-- Infant age label on flight checkout traveler summary card-->
     <string name="flight_checkout_infant_age_label">under 2</string>
     <!-- Text informing guest that main travler is checking into hotel-->
@@ -3806,17 +3806,17 @@
     <string name="lob_not_supported_error_message">Sorry, but {lob} booking is not yet available in your location.</string>
 
     <!-- Adult age label on rail search -->
-    <string name="rail_adult_age_label">(26-59 years old)</string>
+    <string name="rail_adult_age_label">(26–59 years old)</string>
     <!-- Adult age label desc on rail search -->
     <string name="rail_adult_age_label_desc">(26 to 59 years old)</string>
 
     <!-- Children age label on rail search -->
-    <string name="rail_children_age_label">(0-15 years old)</string>
+    <string name="rail_children_age_label">(0–15 years old)</string>
     <!-- Children age label on rail search -->
     <string name="rail_children_age_label_desc">(0 to 15 years old)</string>
 
     <!-- Youth age label on rail search -->
-    <string name="rail_youth_age_label">(16-25 years old)</string>
+    <string name="rail_youth_age_label">(16–25 years old)</string>
 
     <!-- Youth age label on rail search -->
     <string name="rail_youth_age_label_desc">(16 to 25 years old)</string>
@@ -3825,7 +3825,7 @@
     <string name="rail_senior_age_label">(60 years old +)</string>
 
     <!-- Children age label on hotel search -->
-    <string name="children_age_label">(0-17 years old)</string>
+    <string name="children_age_label">(0–17 years old)</string>
 
     <!-- Children age label content description -->
     <string name="children_age_label_cont_desc">(0 to 17 years old)</string>
@@ -3833,11 +3833,11 @@
     <!-- Adult age label on flight search -->
     <string name="flight_adult_age_label">(18+ years old)</string>
     <!-- Youth age label on flight search -->
-    <string name="flight_youth_age_label">(12-17 years old)</string>
+    <string name="flight_youth_age_label">(12–17 years old)</string>
     <!-- Youth age label desc on flight search -->
     <string name="flight_youth_age_label_desc">(12 to 17 years old)</string>
     <!-- Children age label on flight search -->
-    <string name="flight_children_age_label">(2-11 years old)</string>
+    <string name="flight_children_age_label">(2–11 years old)</string>
     <!-- Children age label desc on flight search -->
     <string name="flight_children_age_label_desc">(2 to 11 years old)</string>
 
