@@ -249,6 +249,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         startupTimer.addSplit("Check trigger location prompt")
         val lastLocation = LocationServices.getLastBestLocation(this, 0)
 
+        CarnivalUtils.getInstance().setupListener(supportFragmentManager)
         CarnivalUtils.getInstance().trackLaunch(
                 havePermissionToAccessLocation(this), userStateManager.isUserAuthenticated(),
                 userStateManager.userSource.user?.primaryTraveler, ItineraryManager.getInstance().trips,

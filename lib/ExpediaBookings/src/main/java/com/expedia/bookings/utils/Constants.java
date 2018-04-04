@@ -108,4 +108,9 @@ public class Constants {
 	public static final String NO_INTERNET_ERROR_CODE = "NO_INTERNET";
 	public static final String UNKNOWN_ERROR_CODE = "UNKNOWN_ERROR";
 
+	//Carnival
+	public static final String CARNIVAL_MESSAGE_DATA = "carnival_message";
+	public static final String CARNIVAL_IN_APP_BUTTON1_LABEL = "showButtonTitle";
+	public static final String CARNIVAL_IN_APP_BUTTON2_LABEL = "cancelButtonTitle";
+
 }
