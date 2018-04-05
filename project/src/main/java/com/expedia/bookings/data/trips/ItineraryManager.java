@@ -1629,8 +1629,8 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 				json = tripsServices.getTripDetails(trip.getTripId(), !deepRefresh);
 			}
 			TripDetailsResponse response = (new TripDetailsResponseHandler()).handleJson(json);
-			if (json != null && response != null && !response.hasErrors()) {
-				writeTripJsonResponseToFile(trip, json);
+			if (json != null && response != null && !response.hasErrors() && response.getTrip() != null) {
+				writeTripJsonResponseToFile(response.getTrip(), json);
 			}
 			return response;
 		}

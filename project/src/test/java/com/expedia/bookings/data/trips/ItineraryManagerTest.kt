@@ -261,17 +261,20 @@ class ItineraryManagerTest {
         var response = itinManager.SyncTask(mockTripServices, null).getTripDetailsResponse(trip, false)
         assertTrue(response.isSuccess)
         assertEquals("7238007847306", response.trip.tripNumber)
+        assertEquals("53a6459c-822c-4425-9e14-3eea43f38a97", response.trip.tripId)
         //shared
         trip.shareInfo.sharableDetailsUrl = "https://www.expedia.com/m/trips/shared/3onkuf_eBckddgmkNz3BNcCAqKW-p7rd4kTA4H5YkcUoaVhITa7YLZksqAi7kIDkO9f2Of33KaNUvN-pzL704LOL"
         trip.setIsShared(true)
         response = itinManager.SyncTask(mockTripServices, null).getTripDetailsResponse(trip, false)
         assertTrue(response.isSuccess)
         assertEquals("1103274148635", response.trip.tripNumber)
+        assertEquals("https://www.expedia.com/m/trips/shared/pIKlUOQoG9oOTMrSCQKbBQOvgzOArmMlOrDMFACXvO_6jYldmVbMU54aZwdZbn7e", response.trip.shareInfo.sharableDetailsUrl)
         //guest
         trip = Trip("test123@123.com", "7313989476663")
         response = itinManager.SyncTask(mockTripServices, null).getTripDetailsResponse(trip, false)
         assertTrue(response.isSuccess)
         assertEquals("7313989476663", response.trip.tripNumber)
+        assertEquals("4d0385c3-9d0e-42ca-b7de-103d423f583c", response.trip.tripId)
 
         //ERROR RESPONSE
         response = itinManager.SyncTask(MockTripServices(true), null).getTripDetailsResponse(trip, false)
