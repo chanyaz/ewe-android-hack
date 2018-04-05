@@ -8,6 +8,7 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.Shadows
 import kotlin.test.assertFalse
+import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -25,7 +26,10 @@ class HotelItinPricingRewardsActivityTest {
     fun testFinishActivity() {
         val shadow = Shadows.shadowOf(sut)
         assertFalse(shadow.isFinishing)
-        sut.finishActivity()
+        shadow.overridePendingTransition(-1, -1)
+        sut.finish()
+        assertNotEquals(-1, shadow.pendingTransitionEnterAnimationResourceId)
+        assertNotEquals(-1, shadow.pendingTransitionExitAnimationResourceId)
         assertTrue(shadow.isFinishing)
     }
 }

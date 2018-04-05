@@ -8,12 +8,18 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.extensions.LiveDataObserver
 import com.expedia.bookings.itin.common.ItinToolbar
+import com.expedia.bookings.itin.common.ItinViewReceiptWidget
 import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepo
 import com.expedia.bookings.itin.scopes.HotelItinPricingSummaryScope
 import com.expedia.bookings.itin.scopes.HotelItinToolbarScope
+import com.expedia.bookings.itin.scopes.HotelItinViewReceiptScope
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
+import com.expedia.bookings.itin.utils.IWebViewLauncher
 import com.expedia.bookings.itin.utils.Intentable
 import com.expedia.bookings.itin.utils.StringSource
+import com.expedia.bookings.itin.utils.WebViewLauncher
+import com.expedia.bookings.tracking.ITripsTracking
+import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
@@ -32,6 +38,7 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
 
     val toolbar: ItinToolbar by bindView(R.id.widget_itin_toolbar)
     val pricingSummaryView: HotelItinPricingSummaryView by bindView(R.id.hotel_itin_pricing_summary_view)
+    val receiptButton: ItinViewReceiptWidget by bindView(R.id.widget_itin_view_receipt)
 
     lateinit var jsonUtil: IJsonToItinUtil
     lateinit var hotelRepo: ItinHotelRepo
@@ -39,12 +46,13 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
 
     var toolbarViewModel: HotelItinPricingRewardsToolbarViewModel<HotelItinToolbarScope> by notNullAndObservable { vm ->
         vm.navigationBackPressedSubject.subscribe {
-            finishActivity()
+            finish()
         }
     }
     lateinit var summaryViewModel: HotelItinPricingSummaryViewModel<HotelItinPricingSummaryScope>
-
     val itineraryManager: ItineraryManager = ItineraryManager.getInstance()
+    val tripsTracking: ITripsTracking = TripsTracking
+    val webViewLauncher: IWebViewLauncher = WebViewLauncher(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,14 +71,18 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
         summaryViewModel = HotelItinPricingSummaryViewModel(summaryScope)
         pricingSummaryView.viewModel = summaryViewModel
 
+        val viewReceiptScope = HotelItinViewReceiptScope(stringProvider, hotelRepo, this, tripsTracking, webViewLauncher)
+        val viewReceiptViewModel = HotelItinViewReceiptViewModel(viewReceiptScope)
+        receiptButton.viewModel = viewReceiptViewModel
+
         hotelRepo.liveDataInvalidItin.observe(this, LiveDataObserver {
-            finishActivity()
+            finish()
         })
     }
 
-    fun finishActivity() {
+    override fun finish() {
+        super.finish()
         hotelRepo.dispose()
-        finish()
         overridePendingTransition(R.anim.slide_in_left_complete, R.anim.slide_out_right_no_fill_after)
     }
 }

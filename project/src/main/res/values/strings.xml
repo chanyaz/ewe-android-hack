@@ -1361,6 +1361,9 @@
     <string name="itin_card_details_reload_hotel">Reload Hotel Info</string>
     <string name="itin_card_details_reload_cruise">Reload Cruise Info</string>
     <string name="itin_card_details_remove_itin">Remove from Itinerary</string>
+    <!--Hotel itin card room details heading-->
+    <string name="itin_view_receipt_text">View receipt</string>
+
 
     <!--Trip Folders-->
     <!--Trip folder upcoming tab title-->
@@ -1494,6 +1497,9 @@
     <string name="itin_hotel_manage_booking_total_rooms_text_TEMPLATE">{number} total rooms</string>
     <!--Hotel itin price and rewards expedia title -->
     <string name="itin_hotel_price_reward_title">Pricing and rewards</string>
+    <!--Hotel itin view receipt title. (e.g. Receipt for Hilton) -->
+    <string name="itin_hotel_view_receipt_title_TEMPLATE">Receipt for {hotelname}</string>
+
 
     <!--LX itin redesign-->
     <!--LX toolbar title template. (e.g. Activity in San Francisco)-->

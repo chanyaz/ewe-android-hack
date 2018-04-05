@@ -5,4 +5,5 @@ interface ITripsTracking {
     fun trackItinLx(trip: HashMap<String, String?>)
     fun trackTripFolderAbTest()
     fun trackTripListVisit(tabPosition: Int)
+    fun trackItinHotelViewReceipt()
 }

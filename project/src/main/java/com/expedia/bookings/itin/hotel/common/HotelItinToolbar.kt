@@ -37,6 +37,7 @@ class HotelItinToolbar(context: Context, attr: AttributeSet?) : Toolbar(context,
         this.itinCardDataHotel = itinCardDataHotel
         mItinContentGenerator = ItinContentGenerator.createGenerator(context, itinCardDataHotel)
         this.navigationIcon = context.getDrawable(R.drawable.ic_arrow_back_white_24dp)
+        toolbarSubtitleTextView.visibility = View.VISIBLE
         this.navigationContentDescription = context.getText(R.string.toolbar_nav_icon_cont_desc)
         if (toolbarSubtitle == null) {
             buildToolbarSubtitleForDates(itinCardDataHotel)

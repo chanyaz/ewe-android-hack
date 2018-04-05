@@ -5,6 +5,12 @@ import com.expedia.bookings.tracking.ITripsTracking
 class MockTripsTracking : ITripsTracking {
 
     var trackItinLxCalled = false
+    var trackItinHotelViewReceiptCalled = false
+
+    override fun trackItinHotelViewReceipt() {
+        trackItinHotelViewReceiptCalled = true
+    }
+
     var trackHotelItinPricingRewardsClicked = false
     var trackTripListVisited = false
     var trackTripFolderAbTest = false

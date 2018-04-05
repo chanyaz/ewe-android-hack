@@ -24,10 +24,18 @@ data class HotelItinToolbarScope(
         override val strings: StringSource,
         override val itinHotelRepo: ItinHotelRepo,
         override val lifecycleOwner: LifecycleOwner
-        ) : HasStringProvider, HasHotelRepo, HasLifecycleOwner
+) : HasStringProvider, HasHotelRepo, HasLifecycleOwner
 
 data class HotelItinPricingSummaryScope(
         override val itinHotelRepo: ItinHotelRepo,
         override val strings: StringSource,
         override val lifecycleOwner: LifecycleOwner
 ) : HasLifecycleOwner, HasStringProvider, HasHotelRepo
+
+data class HotelItinViewReceiptScope(
+        override val strings: StringSource,
+        override val itinHotelRepo: ItinHotelRepo,
+        override val lifecycleOwner: LifecycleOwner,
+        override val tripsTracking: ITripsTracking,
+        override val webViewLauncher: IWebViewLauncher
+) : HasStringProvider, HasHotelRepo, HasLifecycleOwner, HasTripsTracking, HasWebViewLauncher
