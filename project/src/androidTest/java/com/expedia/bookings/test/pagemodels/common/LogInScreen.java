@@ -109,7 +109,7 @@ public class LogInScreen {
 
 	public static class FacebookWebConfirmLogin {
 		public static void waitForViewToLoad() {
-			mDevice.wait(Until.findObject(By.res("m-future-page-header-title").text("Confirm Login")), 30000);
+			mDevice.wait(Until.findObject(By.res("m-future-page-header-title").desc("Confirm Login")), 30000);
 			mDevice.waitForIdle(3000); //Needed, because the view loads before the progress bar.
 		}
 

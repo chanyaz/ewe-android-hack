@@ -3,10 +3,6 @@ Feature: View Elements on Trip Details page
   @Prod @RC_TripDetails
   Scenario Outline: Verify UI elements on the trip details page of a hotel booking
     Given I launch the App
-    And I set bucketing rules for A/B tests as
-      | EBAndroidAppTripsMessageHotel | BUCKETED |
-      | TripsHotelsM2                 | BUCKETED |
-
     When I tap on "Account" tab
     And I login with user, which has
       | tier | Blue |

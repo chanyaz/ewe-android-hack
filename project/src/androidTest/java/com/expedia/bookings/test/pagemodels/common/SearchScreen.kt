@@ -17,12 +17,16 @@ import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils
 import com.expedia.bookings.test.espresso.ViewActions
 import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.containsString
 import org.hamcrest.Matchers.not
 import org.hamcrest.core.Is.`is`
 
 object SearchScreen {
-
     private val suggestionList = withId(R.id.suggestion_list)
+    @JvmField val didYouMeanAlert = allOf(
+            isDescendantOfA(withId(R.id.action_bar_root)), withId(R.id.parentPanel),
+            hasDescendant(withId(R.id.alertTitle)), hasDescendant(withText("Did you mean…"))
+    )
 
     @JvmStatic fun suggestionList(): ViewInteraction {
         return onView(suggestionList)
@@ -174,9 +178,9 @@ object SearchScreen {
 
     @JvmStatic fun didYouMeanAlertSuggestion(suggestionHasText: String): ViewInteraction {
         return onView(allOf(
-                isDescendantOfA(withId(R.id.action_bar_root)),
+                isDescendantOfA(didYouMeanAlert),
                 withId(R.id.select_dialog_listview),
-                hasDescendant(withText(suggestionHasText))
+                hasDescendant(withText(containsString(suggestionHasText)))
         ))
     }
 }

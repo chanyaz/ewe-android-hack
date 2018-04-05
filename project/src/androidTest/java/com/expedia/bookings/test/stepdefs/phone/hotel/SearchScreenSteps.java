@@ -1,8 +1,10 @@
 package com.expedia.bookings.test.stepdefs.phone.hotel;
 
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 
@@ -64,6 +66,7 @@ public class SearchScreenSteps {
 
 	@Given("^I click on \"(.*?)\" within 'Did You Mean...' popup$")
 	public void clickOnDidYouMeanPopupSuggestion(String suggestionOption) throws Throwable {
+		EspressoUtils.waitForViewNotYetInLayoutToDisplay(SearchScreen.didYouMeanAlert, 5, TimeUnit.SECONDS);
 		SearchScreen.didYouMeanAlertSuggestion(suggestionOption).perform(click());
 	}
 }
