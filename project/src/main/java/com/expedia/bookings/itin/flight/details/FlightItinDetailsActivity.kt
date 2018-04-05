@@ -80,7 +80,7 @@ class FlightItinDetailsActivity : ItinBaseActivity() {
     }
 
     private val itinConfirmationWidget by bindView<ItinConfirmationWidget>(R.id.widget_itin_flight_confirmation_cardview)
-    private val itinToolbar by bindView<ItinToolbar>(R.id.widget_flight_itin_toolbar)
+    private val itinToolbar by bindView<ItinToolbar>(R.id.widget_itin_toolbar)
     private val flightBookingDetailsWidget: FlightItinBookingDetailsWidget by bindView(R.id.widget_flight_itin_booking_details)
     private val flightSummaryContainer by bindView<LinearLayout>(R.id.flight_itin_summary_container)
     private val flightTotalDurationWidget: ItinTimeDurationWidget by bindView(R.id.widget_itin_flight_total_duration_cardview)

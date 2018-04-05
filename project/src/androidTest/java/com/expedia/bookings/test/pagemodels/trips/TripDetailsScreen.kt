@@ -2,9 +2,12 @@ package com.expedia.bookings.test.pagemodels.trips
 
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions.click
+import android.support.test.espresso.action.ViewActions.scrollTo
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.isClickable
 import android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
+import android.support.test.espresso.matcher.ViewMatchers.isEnabled
+import android.support.test.espresso.matcher.ViewMatchers.isFocusable
 import android.support.test.espresso.matcher.ViewMatchers.withChild
 import android.support.test.espresso.matcher.ViewMatchers.withClassName
 import android.support.test.espresso.matcher.ViewMatchers.withContentDescription
@@ -15,7 +18,9 @@ import android.support.test.uiautomator.BySelector
 import android.support.test.uiautomator.Until
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.Common
+import com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDisplayed
 import com.expedia.bookings.test.espresso.EspressoUtils.waitForViewNotYetInLayoutToDisplay
+import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.core.StringEndsWith.endsWith
 import org.joda.time.format.DateTimeFormat
@@ -34,26 +39,36 @@ object TripDetailsScreen {
     }
 
     object Toolbar {
-        val toolbar = withId(R.id.widget_hotel_itin_toolbar)
+        val toolbar = withId(R.id.widget_itin_toolbar)
         val backButton = allOf(isDescendantOfA(toolbar),
                 withContentDescription("Back"))
         val title = withId(R.id.itin_toolbar_title)
         val subTitle = withId(R.id.itin_toolbar_subtitle)
         val shareButton = withId(R.id.itin_share_button)
 
-        fun verifyHotelName(hotelName: String) {
+        @JvmStatic fun verifyHotelName(hotelName: String) {
             onView(title).check(matches(withText(hotelName)))
         }
 
-        fun verifyDates(from: String, to: String) {
+        @JvmStatic fun verifyDates(from: String, to: String) {
             onView(subTitle).check(matches(withText(
                     getFormattedDate(from, "MMM d") + " - " +
                             getFormattedDate(to, "MMM d")
             )))
         }
 
-        fun clickShareButton() {
+        @JvmStatic fun verifyShareButtonDescription(description: String) {
+            onView(shareButton)
+                    .perform(waitForViewToDisplay())
+                    .check(matches(withContentDescription(description)))
+        }
+
+        @JvmStatic fun clickShareButton() {
             onView(shareButton).perform(click())
+        }
+
+        @JvmStatic fun clickBackButton() {
+            onView(backButton).perform(click())
         }
     }
 
@@ -63,15 +78,15 @@ object TripDetailsScreen {
         val hotelName = withId(R.id.hotel_name)
         val phoneNumberButton = allOf(isDescendantOfA(section), withId(R.id.summary_left_button))
 
-        fun verifyHotelName(name: String) {
+        @JvmStatic fun verifyHotelName(name: String) {
             onView(hotelName).check(matches(withText(name)))
         }
 
-        fun verifyPhoneNumberText(phNumber: String) {
+        @JvmStatic fun verifyPhoneNumberText(phNumber: String) {
             onView(phoneNumberButton).check(matches(withText(phNumber)))
         }
 
-        fun verifyPhoneNumberButtonIsClickable() {
+        @JvmStatic fun verifyPhoneNumberButtonIsClickable() {
             onView(phoneNumberButton).check(matches(isClickable()))
         }
     }
@@ -89,19 +104,19 @@ object TripDetailsScreen {
         val checkInPolicies = allOf(isDescendantOfA(checkInCheckOutDetails),
                 withId(R.id.hotel_itin_check_in_check_out_policies_container))
 
-        fun verifyCheckInDate(checkInDate: String) {
+        @JvmStatic fun verifyCheckInDate(checkInDate: String) {
             onView(checkInDateText).check(matches(withText(getFormattedDate(checkInDate, "E, MMM d"))))
         }
 
-        fun verifyCheckOutDate(checkOutDate: String) {
+        @JvmStatic fun verifyCheckOutDate(checkOutDate: String) {
             onView(checkOutDateText).check(matches(withText(getFormattedDate(checkOutDate, "E, MMM d"))))
         }
 
-        fun verifyCheckInTime(text: String) {
+        @JvmStatic fun verifyCheckInTime(text: String) {
             onView(checkInTimeText).check(matches(withText(text)))
         }
 
-        fun verifyCheckOutTime(text: String) {
+        @JvmStatic fun verifyCheckOutTime(text: String) {
             onView(checkOutTimeText).check(matches(withText(text)))
         }
     }
@@ -120,7 +135,7 @@ object TripDetailsScreen {
         val detailsChevron = withId(R.id.itin_hotel_room_details_chevron)
     }
 
-    object BookingInformation {
+    object HotelBookingInformation {
         val container = withId(R.id.widget_hotel_itin_booking_details)
         val manageBooking = withId(R.id.itin_hotel_manage_booking_card_view)
         val manageBookingHeading = allOf(isDescendantOfA(manageBooking),
@@ -135,7 +150,168 @@ object TripDetailsScreen {
                 withId(R.id.link_off_card_heading))
     }
 
-    object ShareOptions {
+    object FlightConfirmation {
+        val confirmationWidgetContainer = withId(R.id.itin_flight_confirmation_container)
+        val confirmationLabel = allOf(isDescendantOfA(confirmationWidgetContainer),
+                withId(R.id.confirmation_status_text_view)
+        )
+        val confirmationCodeField = allOf(isDescendantOfA(confirmationWidgetContainer),
+                withId(R.id.confirmation_code_text_view)
+        )
+
+        @JvmStatic fun verifyConfirmationCode(confirmaitonCode: String) {
+            onView(confirmationCodeField).check(matches(withText(confirmaitonCode)))
+        }
+
+        @JvmStatic fun assertConfirmationCodeIsClickable() {
+            onView(confirmationCodeField).check(matches(isClickable()))
+            onView(confirmationCodeField).check(matches(isEnabled()))
+            onView(confirmationCodeField).check(matches(isFocusable()))
+        }
+    }
+
+    object FlightSummary {
+        //Container Hierarchy
+        val summaryWidgetContainer = withId(R.id.flight_itin_summary_container)
+        val departureDetailsContainer = allOf(isDescendantOfA(summaryWidgetContainer),
+                withId(R.id.flight_itin_departure_details)
+        )
+        val arrivalDetailsContainer = allOf(isDescendantOfA(summaryWidgetContainer),
+                withId(R.id.flight_itin_arrival_details)
+        )
+        val seatingContainer = allOf(isDescendantOfA(summaryWidgetContainer),
+                withId(R.id.seating_container)
+        )
+        //Resulting Objects
+        val airlineName = allOf(isDescendantOfA(summaryWidgetContainer), withId(R.id.flight_itin_airline_name))
+        val departureAirport = allOf(isDescendantOfA(departureDetailsContainer), withId(R.id.flight_itin_departure_airport))
+        val departureTerminalGate = allOf(isDescendantOfA(departureDetailsContainer), withId(R.id.flight_itin_departure_terminal_gate))
+        val departureTime = allOf(isDescendantOfA(departureDetailsContainer), withId(R.id.flight_itin_departure_time))
+        val arrivalAirport = allOf(isDescendantOfA(arrivalDetailsContainer), withId(R.id.flight_itin_arrival_airport))
+        val arrivalTerminalGate = allOf(isDescendantOfA(arrivalDetailsContainer), withId(R.id.flight_itin_arrival_terminal_gate))
+        val arrivalTime = allOf(isDescendantOfA(arrivalDetailsContainer), withId(R.id.flight_itin_arrival_time))
+        val seating = allOf(isDescendantOfA(seatingContainer), withId(R.id.flight_itin_seating))
+        val cabinClass = allOf(isDescendantOfA(seatingContainer), withId(R.id.flight_itin_cabin))
+
+        @JvmStatic fun verifyAirlineName(name: String) {
+            onView(airlineName).check(matches(withText(name)))
+        }
+
+        @JvmStatic fun verifyDepartureTime(time: String) {
+            onView(departureTime).check(matches(withText(time)))
+        }
+        @JvmStatic fun verifyDepartureAirport(airportName: String) {
+            onView(departureAirport).check(matches(withText(airportName)))
+        }
+        @JvmStatic fun verifyDepartureTerminalGate(terminalGateText: String) {
+            onView(departureTerminalGate).check(matches(withText(terminalGateText)))
+        }
+
+        @JvmStatic fun verifyArrivalTime(time: String) {
+            onView(arrivalTime).check(matches(withText(time)))
+        }
+        @JvmStatic fun verifyArrivalAirport(airportName: String) {
+            onView(arrivalAirport).check(matches(withText(airportName)))
+        }
+        @JvmStatic fun verifyArrivalTerminalGate(terminalGateText: String) {
+            onView(arrivalTerminalGate).check(matches(withText(terminalGateText)))
+        }
+
+        @JvmStatic fun verifySeating(seatingText: String) {
+            onView(seating).check(matches(withText(seatingText)))
+        }
+        @JvmStatic fun verifyCabinClass(cabinClassText: String) {
+            onView(cabinClass).check(matches(withText(cabinClassText)))
+        }
+    }
+
+    object FlightDuration {
+        val durationWidgetContainer = withId(R.id.widget_itin_flight_total_duration_cardview)
+        val durationText = allOf(isDescendantOfA(durationWidgetContainer), withId(R.id.itin_duration_text))
+
+        @JvmStatic fun verifyFlightDuration(text: String) {
+            onView(durationText).check(matches(withText(text)))
+        }
+    }
+
+    object FlightBaggageInformation {
+        val baggageInformationContainer = withId(R.id.widget_itin_webview_info_cardview)
+    }
+
+    object FlightMap {
+        val container = withId(R.id.widget_itin_flight_map)
+        val actionButtonsContainer = allOf(isDescendantOfA(container), withId(R.id.itinActionButtons))
+
+        val map = allOf(isDescendantOfA(container), withId(R.id.google_maps_lite_mapview))
+        val terminalMapsButton = allOf(isDescendantOfA(actionButtonsContainer),
+                withId(R.id.itin_action_button_left),
+                withContentDescription("Terminal maps Button")
+        )
+        val directionsButton = allOf(isDescendantOfA(actionButtonsContainer),
+                withId(R.id.itin_action_button_right),
+                withContentDescription("Directions Button")
+        )
+        val terminalMapsButtonLabel = allOf(isDescendantOfA(terminalMapsButton), withId(R.id.itin_action_button_left_text))
+        val directionsButtonLabel = allOf(isDescendantOfA(directionsButton), withId(R.id.itin_action_button_right_text))
+
+        @JvmStatic fun assertMapIsDisplayed() {
+            assertViewIsDisplayed(map)
+        }
+
+        @JvmStatic fun verifyTerminalMapsButtonLabel(text: String) {
+            onView(terminalMapsButtonLabel).check(matches(withText(text)))
+        }
+
+        @JvmStatic fun clickTerminalMaps() {
+            onView(terminalMapsButton).perform(click())
+        }
+
+        @JvmStatic fun verifyDirectionsButtonLabel(text: String) {
+            onView(directionsButtonLabel).check(matches(withText(text)))
+        }
+
+        @JvmStatic fun clickDirections() {
+            onView(directionsButton).perform(click())
+        }
+    }
+
+    object FlightBookingInformation {
+        val container = withId(R.id.widget_flight_itin_booking_details)
+        val manageBooking = withId(R.id.itin_flight_manage_booking_card_view)
+        val manageBookingHeading = allOf(isDescendantOfA(manageBooking),
+                withId(R.id.link_off_card_heading))
+        val manageBookingSubHeading = allOf(isDescendantOfA(manageBooking),
+                withId(R.id.link_off_card_subheading))
+        val travelerInformation = withId(R.id.itin_flight_traveler_info_card_view)
+        val travelerInformationHeading = allOf(isDescendantOfA(travelerInformation),
+                withId(R.id.link_off_card_heading))
+        val travelerInformationSubHeading = allOf(isDescendantOfA(travelerInformation),
+                withId(R.id.link_off_card_subheading))
+        val priceSummary = withId(R.id.itin_flight_price_summary_card_view)
+        val priceSummaryHeading = allOf(isDescendantOfA(priceSummary),
+                withId(R.id.link_off_card_heading))
+        val additionalInformation = withId(R.id.itin_flight_additional_info_card_view)
+        val additionalInformationHeading = allOf(isDescendantOfA(additionalInformation),
+                withId(R.id.link_off_card_heading))
+
+        @JvmStatic fun verifyTravelerInformationHeading(text: String) {
+            onView(travelerInformationHeading).check(matches(withText(text)))
+        }
+
+        @JvmStatic fun verifyTravelerInformationSubheading(text: String) {
+            onView(travelerInformationSubHeading).check(matches(withText(text)))
+        }
+
+        @JvmStatic fun scrollToAdditionalInformation() {
+            onView(additionalInformation).perform(scrollTo())
+        }
+
+        @JvmStatic fun verifyAdditionalInformationIsDisplayed() {
+            assertViewIsDisplayed(additionalInformation)
+        }
+    }
+
+    object AndroidNativeShareOptions {
         val device = Common.getUiDevice()
         private val timeout: Long = 30000
         private val optionsListSelector = By.res("android:id/resolver_list")
@@ -152,23 +328,23 @@ object TripDetailsScreen {
                             .desc("Sign up for LINE, Free messaging")))
         }
 
-        fun waitForShareSuggestionsListToLoad() {
+        @JvmStatic fun waitForShareSuggestionsListToLoad() {
             device.wait(Until.findObject(optionsListSelector), timeout)
         }
 
-        fun clickOnIconWithText(appName: String) {
+        @JvmStatic fun clickOnIconWithText(appName: String) {
             device.findObject(By.res("android:id/text1").text(appName)).click()
         }
 
-        fun waitForAppToLoad(appName: String) {
+        @JvmStatic fun waitForAppToLoad(appName: String) {
             device.wait(Until.findObject(getBySelectorForAppName(appName.toUpperCase())), timeout)
         }
 
-        fun getBySelectorForAppName(appName: String): BySelector {
+        @JvmStatic fun getBySelectorForAppName(appName: String): BySelector {
             return appList.get(appName.toUpperCase())?.bySelector!!
         }
 
-        fun getPackageNameForAppName(appName: String): String {
+        @JvmStatic fun getPackageNameForAppName(appName: String): String {
             return appList.get(appName.toUpperCase())?.packageName!!
         }
 

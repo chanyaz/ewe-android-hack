@@ -47,20 +47,20 @@ class TripDetailsScreenSteps {
     @Throws(Throwable::class)
     fun iTapOnShareIcon() {
         TripDetailsScreen.Toolbar.clickShareButton()
-        TripDetailsScreen.ShareOptions.waitForShareSuggestionsListToLoad()
+        TripDetailsScreen.AndroidNativeShareOptions.waitForShareSuggestionsListToLoad()
     }
 
     @Then("^I tap on (Facebook|Gmail|KakaoTalk|LINE) and verify the app has opened")
     @Throws(Throwable::class)
     fun iTapOnSpecificAppIconAndVerifyAppOpened(appName: String) {
-        TripDetailsScreen.ShareOptions.clickOnIconWithText(appName)
-        TripDetailsScreen.ShareOptions.waitForAppToLoad(appName)
+        TripDetailsScreen.AndroidNativeShareOptions.clickOnIconWithText(appName)
+        TripDetailsScreen.AndroidNativeShareOptions.waitForAppToLoad(appName)
     }
 
     @Then("^I force-stop process of (Facebook|Gmail|KakaoTalk|LINE) app")
     @Throws(Throwable::class)
     fun iForceStopProcessOfApp(appName: String) {
-        val packageName = TripDetailsScreen.ShareOptions.getPackageNameForAppName(appName)
+        val packageName = TripDetailsScreen.AndroidNativeShareOptions.getPackageNameForAppName(appName)
         Common.forceStopProcess(packageName)
     }
 }

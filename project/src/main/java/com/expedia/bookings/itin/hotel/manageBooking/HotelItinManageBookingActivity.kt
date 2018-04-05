@@ -18,7 +18,7 @@ import com.squareup.phrase.Phrase
 
 class HotelItinManageBookingActivity : ItinBaseActivity() {
 
-    val toolbar by bindView<HotelItinToolbar>(R.id.widget_hotel_itin_toolbar)
+    val toolbar by bindView<HotelItinToolbar>(R.id.widget_itin_toolbar)
     lateinit var itinCardDataHotel: ItinCardDataHotel
 
     val manageRoomContainer by bindView<LinearLayout>(R.id.widget_hotel_manage_room_container)
