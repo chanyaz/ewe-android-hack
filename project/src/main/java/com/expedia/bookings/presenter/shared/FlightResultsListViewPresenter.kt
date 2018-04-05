@@ -14,6 +14,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.extensions.subscribeInverseVisibility
+import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FlightFilterButtonWithCountWidget
@@ -44,6 +45,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     // input
     val flightSelectedSubject = PublishSubject.create<FlightLeg>()
     val outboundFlightSelectedSubject = PublishSubject.create<FlightLeg>()
+    val showPaymentLegalMessageSubject = PublishSubject.create<Unit>()
 
     // outputs
     val showSortAndFilterViewSubject = PublishSubject.create<Unit>()
@@ -120,8 +122,15 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
         vm.isOutboundResults.subscribe { isShowingOutboundResults = it }
         vm.isOutboundResults.subscribeInverseVisibility(dockedOutboundFlightSelection)
         vm.isOutboundResults.subscribeInverseVisibility(dockedOutboundFlightShadow)
-        vm.airlineChargesFeesSubject.subscribe { showAirlineChargesFees ->
-            setPaymentLegalMessage(showAirlineChargesFees)
+        if (vm.showLoadingStateV1) {
+            showPaymentLegalMessageSubject.withLatestFrom(vm.airlineChargesFeesSubject, { _, showAirlineChargesFees -> showAirlineChargesFees })
+                    .subscribe {
+                        setPaymentLegalMessage(it)
+                    }
+        } else {
+            vm.airlineChargesFeesSubject.subscribe { showAirlineChargesFees ->
+                setPaymentLegalMessage(showAirlineChargesFees)
+            }
         }
         if (vm.showLoadingStateV1) {
             flightLoader = findViewById(R.id.flight_loading_screen)
@@ -138,6 +147,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
                 flightLoadingWidget.setResultReceived()
                 progressBarAnimation(1000, flightProgressBar.progress.toFloat(), FLIGHT_PROGRESS_BAR_MAX.toFloat(), true)
             } else {
+                showPaymentLegalMessageSubject.onNext(Unit)
                 flightLoadingWidget.visibility = View.GONE
                 filterButton.visibility = if (showFilterButton) View.VISIBLE else View.GONE
             }
@@ -156,6 +166,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
                     super.onAnimationEnd(animation)
                     flightProgressBar.animate().translationYBy(-30f).alpha(0f).setDuration(300).withEndAction {
                         flightProgressBar.visibility = View.GONE
+                        showPaymentLegalMessageSubject.onNext(Unit)
                     }
                     filterButton.visibility = if (showFilterButton) View.VISIBLE else View.GONE
                 }
