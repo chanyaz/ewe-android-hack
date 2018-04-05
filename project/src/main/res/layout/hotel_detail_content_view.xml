@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     tools:parentTag="RelativeLayout">
 
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/promo_messaging_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -16,21 +16,25 @@
             style="@style/Core.Text.200.LightColor"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:paddingBottom="10dp"
             android:paddingRight="18dp"
-            android:paddingTop="10dp" />
+            android:paddingTop="10dp"
+            app:layout_constraintRight_toRightOf="@+id/promo_messaging_container"
+            app:layout_constraintTop_toTopOf="@+id/promo_messaging_container"
+            app:layout_constraintBottom_toBottomOf="@+id/promo_messaging_container"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/promo_text"
             android:gravity="center_vertical|left"
             android:paddingLeft="18dp"
-            android:paddingRight="4dp">
+            android:paddingRight="4dp"
+            app:layout_constraintLeft_toLeftOf="@+id/promo_messaging_container"
+            app:layout_constraintTop_toTopOf="@+id/promo_messaging_container"
+            app:layout_constraintBottom_toBottomOf="@+id/promo_messaging_container">
 
             <ImageView
                 android:id="@+id/member_only_deal_tag"
@@ -112,7 +116,7 @@
                 android:text="@string/regular_loyalty_applied_message" />
         </LinearLayout>
 
-    </RelativeLayout>
+    </android.support.constraint.ConstraintLayout>
 
     <RelativeLayout
         android:id="@+id/price_widget"
@@ -573,7 +577,7 @@
         android:layout_below="@+id/common_amenities_divider"
         android:orientation="vertical" />
 
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/renovation_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -589,17 +593,16 @@
             android:id="@+id/renovation_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:text="@string/renovation_notice"
             android:textColor="@color/hotelsv2_checkout_text_color"
+            app:layout_constraintLeft_toLeftOf="@+id/renovation_container"
             android:textSize="13sp"
             app:textStyle="medium" />
 
         <com.expedia.bookings.widget.TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/renovation_title"
-            android:layout_below="@+id/renovation_title"
+            app:layout_constraintTop_toBottomOf="@+id/renovation_title"
             android:text="@string/property_undergoing_renovations"
             android:textColor="@color/hotelsv2_checkout_text_color"
             android:textSize="11sp"
@@ -608,12 +611,14 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/details_info" />
+            android:src="@drawable/details_info"
+            app:layout_constraintRight_toRightOf="@+id/renovation_container"
+            app:layout_constraintTop_toTopOf="@+id/renovation_container"
+            app:layout_constraintBottom_toBottomOf="@+id/renovation_container"/>
 
-    </RelativeLayout>
+    </android.support.constraint.ConstraintLayout>
 
     <View
         android:id="@+id/renovation_bottom_divider"

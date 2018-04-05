@@ -24,7 +24,7 @@
                 android:layout_centerHorizontal="true"
                 android:text="Confirmations"
                 android:textColor="@color/gray900"
-                android:textSize="18sp" />
+                android:textSize="18sp"/>
 
             <com.expedia.bookings.widget.shared.FormSpinnerWidget
                 android:id="@+id/confirmation_status_spinner"
@@ -46,7 +46,7 @@
                 android:layout_centerHorizontal="true"
                 android:text="Summary"
                 android:textColor="@color/gray900"
-                android:textSize="18sp" />
+                android:textSize="18sp"/>
 
             <com.expedia.bookings.widget.shared.FormCheckBoxWidget
                 android:id="@+id/red_eye_cb"
@@ -171,7 +171,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:text="Do Magic"
                 android:textColor="@color/error_red"
-                android:textSize="26sp" />
+                android:textSize="26sp"/>
 
         </RelativeLayout>
     </com.expedia.bookings.widget.ScrollView>

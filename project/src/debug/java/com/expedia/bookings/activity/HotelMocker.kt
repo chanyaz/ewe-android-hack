@@ -15,7 +15,7 @@ import com.expedia.bookings.server.TripParser
 import com.expedia.bookings.utils.Ui
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
-import kotlinx.android.synthetic.main.activity_hotel_mocker.*
+import kotlinx.android.synthetic.debug.activity_hotel_mocker.*
 import org.json.JSONObject
 import java.io.InputStreamReader
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-	xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools">
 	<item
 		android:id="@+id/debug_menu_settings"
 		android:icon="@android:drawable/ic_menu_manage"
@@ -17,5 +17,6 @@
     <item
         android:icon="@android:drawable/ic_menu_info_details"
         android:id="@+id/debug_menu_git_hash"
-        android:title="hash" />
+        android:title="hash"
+		tools:ignore="HardcodedText" />
 </menu>

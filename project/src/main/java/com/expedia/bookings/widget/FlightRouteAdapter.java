@@ -21,6 +21,7 @@ import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
+import com.squareup.phrase.Phrase;
 
 public class FlightRouteAdapter extends BaseAdapter {
 
@@ -370,11 +371,15 @@ public class FlightRouteAdapter extends BaseAdapter {
 			else {
 				setDropDownRowBackground(holder, R.drawable.bg_textview_divider_small_dark);
 			}
-
-			holder.mAirportLocationTextView.setText(mAirport.mName + ", " + mAirport.mCountryCode);
+			holder.mAirportLocationTextView.setText(Phrase.from(mContext, R.string.flight_dropdown_airport_location_TEMPLATE)
+				.put("airport", mAirport.mName)
+				.put("country", mAirport.mCountryCode)
+				.format());
 			Airport fullAirport = FlightStatsDbUtils.getAirport(mAirport.mAirportCode);
-			holder.mAirportDetailsTextView.setText(mAirport.mAirportCode + " - " + fullAirport.mName);
-
+			holder.mAirportDetailsTextView.setText(Phrase.from(mContext, R.string.flight_dropdown_airport_details_TEMPLATE)
+				.put("airport_code", mAirport.mAirportCode)
+				.put("airport_name", fullAirport.mName)
+				.format());
 			return convertView;
 		}
 

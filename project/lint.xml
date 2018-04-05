@@ -22,8 +22,9 @@
         <ignore path="build/generated/res/google-services/**" />
     </issue>
 
-    <issue id="UnusedIds" severity="error" />
-
+    <issue id="UnusedIds" severity="error" >
+        <ignore path="src/debug/res/*" />
+    </issue>
     <!-- datePickerMode=spinner, Android framework ignores the attributes for us pre lollipop-->
     <issue id="UnusedAttribute" severity="error">
         <ignore path="src/main/res/layout/spinner_date_picker.xml"/>
@@ -168,4 +169,10 @@
     <issue id="MissingVersion" severity="error" />
     <issue id="Orientation" severity="error" />
     <issue id="PxUsage" severity="error" />
+    <issue id="HardcodedText" severity="error">
+        <!-- Ignore all debug resources  -->
+        <ignore path="src/debug/res/*" />
+    </issue>
+    <issue id="RelativeOverlap" severity="error"></issue>
+    <issue id="SetTextI18n" severity="error"></issue>
 </lint>

@@ -108,8 +108,8 @@
             android:layout_gravity="center"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:text="\u2022"
             android:textColor="@color/gray900"
+            android:text="@string/bullet"
             android:textSize="@dimen/type_400_text_size"
             app:textStyle="medium" />
 

@@ -48,7 +48,8 @@
                     <TextView
                         android:layout_width="1px"
                         android:layout_height="1px"
-                        android:text=" " />
+                        android:text=" "
+                        tools:ignore="HardcodedText"/>
 
                     <ImageButton
                         android:id="@+id/adults_minus"

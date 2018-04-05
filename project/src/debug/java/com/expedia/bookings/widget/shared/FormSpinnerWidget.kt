@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import kotlinx.android.synthetic.main.form_spinner_widget.view.*
+import kotlinx.android.synthetic.debug.form_spinner_widget.view.*
 
 class FormSpinnerWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 

@@ -15,7 +15,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import com.mobiata.android.json.JSONUtils
 import com.mobiata.flightlib.data.Seat
-import kotlinx.android.synthetic.main.activity_flight_mocker.*
+import kotlinx.android.synthetic.debug.activity_flight_mocker.*
 import org.json.JSONObject
 import java.io.InputStreamReader
 

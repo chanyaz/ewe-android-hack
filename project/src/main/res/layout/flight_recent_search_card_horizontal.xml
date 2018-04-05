@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginBottom="@dimen/flight_recent_search_item_margin_bottom"
     android:layout_marginRight="10dp"
     android:background="@drawable/flight_recent_search_border"
@@ -58,8 +58,8 @@
             android:layout_gravity="center"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
-            android:text="\u2022"
             android:textColor="@color/gray900"
+            android:text="@string/bullet"
             android:textSize="13sp"
             app:textStyle="medium" />
 

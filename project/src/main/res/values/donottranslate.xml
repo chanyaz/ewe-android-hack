@@ -476,5 +476,5 @@
 
     <!--Carnival OLACID Template-->
     <string name="carnival_default_olacid_TEMPLATE">OLA.{brand}-{pos}.PUSH-EVENT-TRIG.CARNIVAL.UNSPECIFIED.GENERIC</string>
-
+    <string name="bullet">\u2022</string>
 </resources>

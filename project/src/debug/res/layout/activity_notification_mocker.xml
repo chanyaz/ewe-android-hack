@@ -52,7 +52,6 @@
     <EditText
         android:layout_below="@id/notification_expanded_body"
         android:id="@+id/expanded_body_edit_text"
-        tools:ignore="UnusedIds"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"/>
@@ -63,7 +62,6 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/shenanigans_text_view"
-        tools:ignore="UnusedIds"
         android:textSize="18sp"
         android:textColor="@color/hotelsv2_discount_green"
         android:text="Do Shenanigans"/>

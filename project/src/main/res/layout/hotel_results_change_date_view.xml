@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/change_date_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/hotel_results_change_date_height"
@@ -18,7 +19,10 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
             android:src="@drawable/search_form_icon_calendar"
-            android:tint="@color/hotel_search_info_selectable_color" />
+            android:tint="@color/hotel_search_info_selectable_color"
+            app:layout_constraintLeft_toLeftOf="@+id/change_date_container"
+            app:layout_constraintTop_toTopOf="@+id/change_date_container"
+            app:layout_constraintBottom_toBottomOf="@+id/change_date_container"/>
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/change_date_calendar_text_view"
@@ -26,27 +30,34 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:layout_toRightOf="@+id/change_date_calendar_icon"
-            android:textColor="@color/hotel_search_info_selectable_color" />
+            android:textColor="@color/hotel_search_info_selectable_color"
+            app:layout_constraintLeft_toRightOf="@+id/change_date_calendar_icon"
+            app:layout_constraintTop_toTopOf="@+id/change_date_container"
+            app:layout_constraintBottom_toBottomOf="@+id/change_date_container"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="12dp"
-            android:layout_toLeftOf="@+id/change_date_guest_text_view"
             android:src="@drawable/search_form_icon_person"
-            android:tint="@color/search_screen_icon_color_v2" />
+            android:tint="@color/search_screen_icon_color_v2"
+            app:layout_constraintRight_toLeftOf="@+id/change_date_guest_text_view"
+            app:layout_constraintTop_toTopOf="@+id/change_date_container"
+            app:layout_constraintBottom_toBottomOf="@+id/change_date_container"/>
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/change_date_guest_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="16dp" />
+            android:layout_marginRight="16dp"
+            app:layout_constraintRight_toRightOf="@+id/change_date_container"
+            app:layout_constraintTop_toTopOf="@+id/change_date_container"
+            app:layout_constraintBottom_toBottomOf="@+id/change_date_container"
+            />
 
-    </RelativeLayout>
+    </android.support.constraint.ConstraintLayout>
 
     <View
         android:layout_width="match_parent"

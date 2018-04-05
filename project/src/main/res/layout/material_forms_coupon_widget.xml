@@ -31,7 +31,7 @@
         android:paddingLeft="16dp"
         android:paddingTop="12dp">
 
-        <RelativeLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -42,8 +42,9 @@
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/material_applied_coupon_message"
                 android:textColor="@color/hotelsv2_coupon_applied_color"
+                app:layout_constraintLeft_toLeftOf="parent"
                 android:textSize="14sp"
-                app:textStyle="normal" />
+                app:textStyle="normal"/>
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/applied_coupon_subtitle_text"
@@ -55,21 +56,26 @@
                 android:paddingRight="84dp"
                 android:paddingTop="2dp"
                 android:textColor="@color/gray900"
+                app:layout_constraintTop_toBottomOf="@+id/applied_coupon_text"
                 android:textSize="12sp"
                 android:textStyle="normal" />
 
             <ImageButton
                 android:id="@+id/remove_coupon_button"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:background="@drawable/bg_clickable_row"
                 android:contentDescription="@string/remove_coupon_button_content_description"
                 android:paddingRight="19dp"
-                android:src="@drawable/widget_close" />
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/applied_coupon_text"
+                app:layout_constraintBottom_toBottomOf="@id/applied_coupon_subtitle_text"
+                android:src="@drawable/widget_close"/>
 
-        </RelativeLayout>
+        </android.support.constraint.ConstraintLayout>
 
     </LinearLayout>
 

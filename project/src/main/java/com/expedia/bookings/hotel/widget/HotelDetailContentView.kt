@@ -11,6 +11,7 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Handler
 import android.support.annotation.VisibleForTesting
+import android.support.constraint.ConstraintLayout
 import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
@@ -84,7 +85,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
     val requestFocusOnRoomsSubject = PublishSubject.create<Unit>()
 
-    @VisibleForTesting val hotelMessagingContainer: RelativeLayout by bindView(R.id.promo_messaging_container)
+    @VisibleForTesting val hotelMessagingContainer: ConstraintLayout by bindView(R.id.promo_messaging_container)
     @VisibleForTesting val promoMessage: TextView by bindView(R.id.promo_text)
     val memberOnlyDealTag: ImageView by bindView(R.id.member_only_deal_tag)
     @VisibleForTesting val discountPercentage: TextView by bindView(R.id.discount_percentage)

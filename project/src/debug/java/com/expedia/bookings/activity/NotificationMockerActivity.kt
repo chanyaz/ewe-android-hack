@@ -9,10 +9,10 @@ import android.support.v4.app.NotificationCompat
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.expedia.bookings.R
-import kotlinx.android.synthetic.main.activity_notification_mocker.small_body_edit_text
-import kotlinx.android.synthetic.main.activity_notification_mocker.shenanigans_text_view
-import kotlinx.android.synthetic.main.activity_notification_mocker.title_edit_text
-import kotlinx.android.synthetic.main.activity_notification_mocker.expanded_body_edit_text
+import kotlinx.android.synthetic.debug.activity_notification_mocker.small_body_edit_text
+import kotlinx.android.synthetic.debug.activity_notification_mocker.shenanigans_text_view
+import kotlinx.android.synthetic.debug.activity_notification_mocker.title_edit_text
+import kotlinx.android.synthetic.debug.activity_notification_mocker.expanded_body_edit_text
 
 class NotificationMockerActivity : AppCompatActivity() {
 

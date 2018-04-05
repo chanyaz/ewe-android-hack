@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget;
 
 import java.util.List;
+import java.util.Locale;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -442,7 +443,7 @@ public class FilterRangeSeekBar extends CustomSeekBarView {
 
 			// Fill in the text field and restore normal input focus behavior when it gets focus.
 			final EditText percentage = (EditText) mRootView.findViewById(R.id.seek_bar_level);
-			percentage.setText(Integer.toString(realToPercent()));
+			percentage.setText(String.format(Locale.getDefault(), "%d", realToPercent()));
 			percentage.setOnFocusChangeListener(new OnFocusChangeListener() {
 				@Override
 				public void onFocusChange(View v, boolean hasFocus) {

@@ -2,12 +2,12 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import android.graphics.PorterDuff
+import android.support.constraint.ConstraintLayout
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.hotel.animation.TranslateYAnimator
@@ -23,7 +23,7 @@ class HotelResultsChangeDateView(context: Context, attrs: AttributeSet?) : Linea
     // Output
     val calendarClickedSubject = PublishSubject.create<Unit>()
 
-    private val changeDateContainer: RelativeLayout by bindView(R.id.change_date_container)
+    private val changeDateContainer: ConstraintLayout by bindView(R.id.change_date_container)
     private val changeDateCalendarIcon: ImageView by bindView(R.id.change_date_calendar_icon)
     private val changeDateCalendarTextView: TextView by bindView(R.id.change_date_calendar_text_view)
     private val changeDateGuestTextView: TextView by bindView(R.id.change_date_guest_text_view)
