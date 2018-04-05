@@ -167,7 +167,7 @@
     <!-- Show to user when their phone number is invalid -->
     <string name="reservation_invalid_phone">Phone number length must be between 4 and 20.</string>
     <!-- Error button text indicating that the user should search again -->
-    <string name= "search_again">Search Again</string>
+    <string name="search_again">Search Again</string>
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">Hmm&#8230;Your payment didn\'t go through. Please double check your payment details and try again.</string>
@@ -1574,9 +1574,9 @@
     <string name="itin_flight_leg_detail_widget_rules_and_restrictions">Airline rules and restrictions</string>
     <!-- flight leg detail widget, pluralization for number of stops (eg., 1 stop) -->
     <plurals name="itin_flight_leg_detail_widget_stops_TEMPLATE">
-    <item quantity="zero">Nonstop</item>
-    <item quantity="one">%s stop</item>
-    <item quantity="other">%s stops</item>
+        <item quantity="zero">Nonstop</item>
+        <item quantity="one">%s stop</item>
+        <item quantity="other">%s stops</item>
     </plurals>
 
     <!--Flight itin, flight leg detail widget's split ticket text-->
@@ -2569,7 +2569,7 @@
 
     <!-- This is a special case for rails senior age greater than 62 -->
     <string name="senior_age_greater_than_sixth_two">&lt;b&gt;62+&lt;/b&gt; years old</string>
-    
+
     <!-- Search Activity -->
     <!-- Label for "start search" button -->
     <string name="search">Search</string>
@@ -2578,7 +2578,7 @@
     <!-- Title for "flight type" view -->
     <string name="flight_type">Flight Type</string>
     <!-- Advance Search Cont Description Template. Example: Advanced Search Button to expand filter options -->
-    <string name= "advance_search_cont_desc_TEMPLATE">Advanced Search {expandstate}</string>
+    <string name="advance_search_cont_desc_TEMPLATE">Advanced Search {expandstate}</string>
     <!-- Cont Description to . Example: Advanced Search Button to expand filter options -->
     <string name="row_collapse_button_description">Expand button. Double tap to collapse.</string>
     <!-- Title for non stop filter on advance search view -->
@@ -2830,7 +2830,6 @@
     <string name="filter_pets_allowed">Pets Allowed</string>
     <!-- All inclusive Options -->
     <string name="filter_all_inclusive">All Inclusive Options</string>
-
 
 
     <!-- User Reviews list strings -->
@@ -4204,7 +4203,7 @@
         <item quantity="one">{seats} seat left</item>
         <item quantity="other">{seats} seats left</item>
     </plurals>
-        <string name="package_flight_overview_baggage_fees">Baggage fee information</string>
+    <string name="package_flight_overview_baggage_fees">Baggage fee information</string>
     <string name="package_flight_overview_select_flight">Select this flight</string>
     <string name="package_flight_overview_bundle_total_label">Bundle Total</string>
     <string name="package_flight_overview_per_person_TEMPLATE">{money}/person</string>
@@ -4387,9 +4386,9 @@
     <!--Rails content description for results card Railcard applied portion -->
     <string name="rail_railcard_applied_cont_desc">Railcard Applied</string>
     <!--Rails content description for results card showing starting fare, e.g. Fares from $100 -->
-   <string name="rail_result_card_price_from_cont_desc_TEMPLATE">Fares from {price}</string>
-   <!-- Rail selected outbound content description on the outbound results -->
-   <string name="rail_selected_outbound_cont_desc">Selected outbound:</string>
+    <string name="rail_result_card_price_from_cont_desc_TEMPLATE">Fares from {price}</string>
+    <!-- Rail selected outbound content description on the outbound results -->
+    <string name="rail_selected_outbound_cont_desc">Selected outbound:</string>
 
     <!-- Accessibility infroms user selected rail cards are applied, Railcard Applied: Child Disability, Veteran Card -->
     <string name="rail_railcard_applied_cont_desc_TEMPLATE">Railcard Applied: {railcards}</string>
@@ -4398,11 +4397,11 @@
         Ex. Total, payment and fess may apply, $120. Cost Breakdown dialog. Button.-->
     <string name="rail_cost_breakdown_button_cont_desc_TEMPLATE">{costsummary}. Cost breakdown dialog. Button.</string>
 
-   <string name="pwp_points_conversion_unauthenticated_access">We\'re sorry but we experienced a server problem. Please try again.</string>
-   <string name="pwp_trip_service_error">We\'re sorry but we experienced a server problem. Please try again.</string>
-   <string name="pwp_unknown_error">An unknown error occurred. Please try again.</string>
+    <string name="pwp_points_conversion_unauthenticated_access">We\'re sorry but we experienced a server problem. Please try again.</string>
+    <string name="pwp_trip_service_error">We\'re sorry but we experienced a server problem. Please try again.</string>
+    <string name="pwp_unknown_error">An unknown error occurred. Please try again.</string>
 
-   <!-- New Hotel Search screen -->
+    <!-- New Hotel Search screen -->
     <string name="enter_destination_hint">Enter Destination</string>
     <!-- New Hotel Content description for destination button, e.g- Enter Destination. Button-->
     <string name="enter_destination_cont_desc">Enter Destination. Button</string>
@@ -4663,7 +4662,7 @@
     <string name="packages_flight_filter_checkbox_disabled_cont_desc_TEMPLATE">{filter_results} available {filter_name} flights. Cannot be deselected, all flight results are {filter_name}.\u0020</string>
 
 
-   <!--    Example #1: 3 available NonStop flights starting from $200.
+    <!--    Example #1: 3 available NonStop flights starting from $200.
            Example #2: 2 available Hawaiian Airlines flights starting from $200. -->
     <string name="flight_filter_checkbox_with_price_and_count_cont_desc_TEMPLATE">{filter_results} available {filter_name} flights starting from {price}\u0020</string>
     <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights starting from $200. Cannot be deselected, all flight results are NonStop. -->
@@ -4989,8 +4988,10 @@
     </plurals>
     <!-- Cont Desc for fare family item Example: Classic, cabin Econonmy--> 
     <string name="fare_family_item_cont_desc_TEMPLATE">{fare_family_name}, cabin {cabin_code}. \u0020</string> 
-    <!-- Cont Desc for fare family item Example: This fare is available for an additional $20, roundtrip for 2 travelers--> 
-    <string name="fare_family_item_cont_desc_price_TEMPLATE">This fare is available for an additional {delta}, {trip_type} for {guests}. \u0020</string>  
+    <!-- Cont Desc for fare family item Example: This fare is available for an additional $20, roundtrip for 2 travelers-->
+     
+    <string name="fare_family_item_cont_desc_price_TEMPLATE">This fare is available for an additional {delta}, {trip_type} for {guests}. \u0020</string>
+      
     <!-- Amenity Show More String -->
     <string name="amenity_show_more">show more</string>
 

@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.inject.Named;
 
+import org.jetbrains.annotations.NotNull;
+
 import android.content.Context;
 
 import com.expedia.bookings.dagger.tags.HotelScope;
@@ -26,6 +28,9 @@ import com.expedia.bookings.services.travelgraph.TravelGraphServices;
 import com.expedia.bookings.services.urgency.UrgencyServices;
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder;
 import com.expedia.bookings.utils.HMACInterceptor;
+import com.expedia.cko.repository.IConfirmationRepository;
+import com.expedia.cko.repository.hotel.HotelConfirmationRepository;
+import com.expedia.cko.viewmodel.IConfirmationViewModel;
 import com.expedia.model.UserLoginStateChangedModel;
 import com.expedia.vm.BucksViewModel;
 import com.expedia.vm.PayWithPointsViewModel;
@@ -44,6 +49,26 @@ import okhttp3.OkHttpClient;
 
 @Module
 public final class HotelModule {
+
+	@Provides
+	@HotelScope
+	IConfirmationRepository provideConfirmationRepository(HotelServices hotelServices) {
+		return new HotelConfirmationRepository(hotelServices);
+	}
+
+	@Provides
+	@HotelScope
+	IConfirmationViewModel provideConfirmationViewModel(final IConfirmationRepository confirmationRepository) {
+		return new IConfirmationViewModel() {
+
+			@NotNull
+			@Override
+			public IConfirmationRepository getConfirmationRepository() {
+				return confirmationRepository;
+			}
+		};
+	}
+
 	@Provides
 	@HotelScope
 	HotelServices provideHotelServices(Context context, EndpointProvider endpointProvider, OkHttpClient client,

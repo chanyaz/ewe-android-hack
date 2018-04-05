@@ -5,6 +5,9 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.ComponentName;
@@ -71,6 +74,7 @@ import com.expedia.bookings.utils.MockModeShim;
 import com.expedia.bookings.utils.ShortcutUtils;
 import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.utils.UserAccountRefresher;
+import com.expedia.cko.dagger.component.ConfirmationComponent;
 import com.expedia.util.LanguageHelper;
 import com.facebook.FacebookSdk;
 import com.facebook.applinks.AppLinkData;
@@ -632,5 +636,12 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		if (userStateManager.getUserSource().getUser() != null) {
 			refresher.forceAccountRefresh();
 		}
+	}
+
+	public ConfirmationComponent defaultConfirmationComponent(String lineOfBusiness) {
+		if (("hotels").equals(lineOfBusiness)) {
+			return hotelComponent();
+		}
+		throw new UnsupportedOperationException(lineOfBusiness + "doesn't currently support confirmation component");
 	}
 }

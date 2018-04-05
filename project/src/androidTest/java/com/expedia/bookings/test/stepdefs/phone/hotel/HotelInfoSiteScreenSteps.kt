@@ -13,7 +13,7 @@ class HotelInfoSiteScreenSteps {
     @Then("^I verify the VIP Access header text$")
     @Throws(Throwable::class)
     fun iVerifyLabelOnInfositeVIPAccessPage(cucumberTable: Map<String, String>) {
-        VIPAccess.verifyHeaderText(cucumberTable["headerText"].toString())
+        VIPAccess.verifyHeaderText(cucumberTable["bookingSubHeader"].toString())
     }
 
     @And("^I verify the body text on VIP Access page$")

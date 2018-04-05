@@ -22,6 +22,7 @@ import com.expedia.bookings.widget.PayWithPointsWidget;
 import com.expedia.bookings.widget.PaymentWidgetV2;
 import com.expedia.bookings.widget.ShopWithPointsWidget;
 import com.expedia.bookings.widget.itin.HotelItinContentGenerator;
+import com.expedia.cko.dagger.component.ConfirmationComponent;
 import com.expedia.vm.HotelConfirmationViewModel;
 import com.expedia.vm.HotelSearchViewModel;
 import com.expedia.vm.interfaces.IPayWithPointsViewModel;
@@ -30,7 +31,7 @@ import dagger.Component;
 
 @HotelScope
 @Component(dependencies = {AppComponent.class}, modules = {HotelModule.class})
-public interface HotelComponent {
+public interface HotelComponent extends ConfirmationComponent {
 	void inject(HotelPresenter presenter);
 	void inject(HotelSearchPresenter presenter);
 	void inject(HotelItinContentGenerator presenter);
