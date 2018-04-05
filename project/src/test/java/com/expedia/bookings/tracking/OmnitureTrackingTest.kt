@@ -203,22 +203,6 @@ class OmnitureTrackingTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testLoggingForSeatingClassABTest() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesDisplayFlightSeatingClass)
-        OmnitureTracking.trackPackagesFlightRoundTripOutLoad(null)
-        assertStateTracked(withProps(mapOf(34 to "16300.0.1")), mockAnalyticsProvider)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testLoggingForSeatingClassABTestControlled() {
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesDisplayFlightSeatingClass)
-        OmnitureTracking.trackPackagesFlightRoundTripOutLoad(null)
-        assertStateTracked(withProps(mapOf(34 to "16300.0.0")), mockAnalyticsProvider)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testLoggingForPackagesBackFlowABTest() {
         AbacusTestUtils.bucketTests(AbacusUtils.PackagesBackFlowFromOverview)
         OmnitureTracking.trackPackagesBundlePageLoad(getPackageDetails().pricing.packageTotal.amount.toDouble(), null)

@@ -85,10 +85,6 @@ private fun isPackageForceUpdateEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesShowForceUpdateDialog)
 }
 
-fun isDisplayFlightSeatingClassForShoppingEnabled(context: Context): Boolean {
-    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesDisplayFlightSeatingClass)
-}
-
 fun isDisplayBasicEconomyTooltipForPackagesEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesDisplayBasicEconomyTooltip)
 }

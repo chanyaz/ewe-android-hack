@@ -6,7 +6,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightTripDetails
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.FlightSegmentBreakdownView
 import com.expedia.bookings.widget.TextView
 import com.expedia.vm.FlightSegmentBreakdown
@@ -50,8 +49,7 @@ class FlightSegmentBreakdownViewTest {
     }
 
     @Test
-    fun testSeatClassAndBookingCodeViewForPackagesSeatClassAbacusTest() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesDisplayFlightSeatingClass)
+    fun testSeatClassAndBookingCodeView() {
         seatClassAndBookingCodeTestCases()
     }
 
@@ -105,19 +103,6 @@ class FlightSegmentBreakdownViewTest {
         assertEquals(View.VISIBLE, seatClassAndBookingCodeTextView.visibility)
 
         RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode)
-        //Cabin Code is coach
-        seatClassAndBookingCodeTextView = getTextViewForSeatClassAndBookingCode("coach", false)
-        assertEquals(View.GONE, seatClassAndBookingCodeTextView.visibility)
-    }
-
-    @Test
-    fun testSeatClassAndBookingCodeViewVisibilityForPackagesSeatClassAbacusTest() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesDisplayFlightSeatingClass)
-        //Cabin Code is coach
-        seatClassAndBookingCodeTextView = getTextViewForSeatClassAndBookingCode("coach", true)
-        assertEquals(View.VISIBLE, seatClassAndBookingCodeTextView.visibility)
-
-        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppPackagesDisplayFlightSeatingClass)
         //Cabin Code is coach
         seatClassAndBookingCodeTextView = getTextViewForSeatClassAndBookingCode("coach", false)
         assertEquals(View.GONE, seatClassAndBookingCodeTextView.visibility)

@@ -114,7 +114,6 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppPackagesMISRealWorldGeo = new ABTest(25558, true);
 	public static final ABTest EBAndroidAppPackagesShowForceUpdateDialog = new ABTest(16283);
 	public static final ABTest PackagesBackFlowFromOverview = new ABTest(16163);
-	public static final ABTest EBAndroidAppPackagesDisplayFlightSeatingClass = new ABTest(16300);
 	public static final ABTest EBAndroidAppPackagesDisplayBasicEconomyTooltip = new ABTest(24678);
 	public static final ABTest EBAndroidAppPackagesFFPremiumClass = new ABTest(25557, true);
 	public static final ABTest CardExpiryDateFormField = new ABTest(24734, true);
@@ -221,7 +220,6 @@ public class AbacusUtils {
 		testIDs.add(PackagesBackFlowFromOverview.getKey());
 		testIDs.add(EBAndroidAppFlightsAPIKongEndPoint.getKey());
 		testIDs.add(HotelAmenityFilter.getKey());
-		testIDs.add(EBAndroidAppPackagesDisplayFlightSeatingClass.getKey());
 		testIDs.add(TripsHotelsM2.getKey());
 		testIDs.add(EBAndroidAppTripsHotelPricing.getKey());
 		testIDs.add(HotelNewFilterCtaText.getKey());

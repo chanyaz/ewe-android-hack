@@ -4825,8 +4825,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesFlightRoundTripOutLoad(PageUsableData pageUsableData) {
-		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_RT_OUT_RESULTS, pageUsableData,
-			AbacusUtils.EBAndroidAppPackagesDisplayFlightSeatingClass);
+		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_RT_OUT_RESULTS, pageUsableData);
 	}
 
 	public static void trackPackagesFlightRoundTripOutDetailsLoad(PageUsableData pageUsableData, FlightLeg flight) {
