@@ -17,7 +17,8 @@ class TripListView(context: Context) : LinearLayout(context) {
     //val recyclerView by bindView<RecyclerView>(R.id.recycler_view_test_fragment)
 
     init {
-        View.inflate(getContext(), R.layout.fragment_trip_list_test, this)
+        this.orientation = LinearLayout.VERTICAL
+        View.inflate(getContext(), R.layout.trip_list_view, this)
 
         val textView = findViewById<TextView>(R.id.text_view_test_fragment)
         textView.text = "abc"
