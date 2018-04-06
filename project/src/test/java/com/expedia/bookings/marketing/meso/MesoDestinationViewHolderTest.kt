@@ -2,7 +2,7 @@ package com.expedia.bookings.marketing.meso
 
 import android.app.Activity
 import android.view.LayoutInflater
-import com.expedia.bookings.OmnitureTestUtils
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.analytics.AnalyticsProvider

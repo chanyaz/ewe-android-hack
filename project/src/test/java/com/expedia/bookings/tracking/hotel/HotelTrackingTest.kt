@@ -1,6 +1,6 @@
 package com.expedia.bookings.tracking.hotel
 
-import com.expedia.bookings.OmnitureTestUtils
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.test.OmnitureMatchers

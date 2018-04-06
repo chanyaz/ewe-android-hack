@@ -1,7 +1,7 @@
 package com.expedia.bookings.itin
 
-import com.expedia.bookings.OmnitureTestUtils
-import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateTracked
+import com.expedia.bookings.analytics.OmnitureTestUtils
+import com.expedia.bookings.analytics.OmnitureTestUtils.Companion.assertStateTracked
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.TripComponent

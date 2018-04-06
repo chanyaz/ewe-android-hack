@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import com.expedia.bookings.ADMS_Measurement
+import com.expedia.bookings.analytics.AppAnalytics
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.user.User
@@ -50,7 +50,7 @@ class TuneTrackingProviderImpl(private val tune: Tune, app: Application, private
             tune.existingUser = true
         }
 
-        tune.userId = ADMS_Measurement().visitorID
+        tune.userId = AppAnalytics().visitorID
         tune.googleUserId = userStateManager.userSource.user?.expediaUserId ?: ""
         tune.setDebugMode(BuildConfig.DEBUG && SettingUtils.get(context, context.getString(R.string.preference_enable_tune), false))
         tune.registerDeeplinkListener(this)

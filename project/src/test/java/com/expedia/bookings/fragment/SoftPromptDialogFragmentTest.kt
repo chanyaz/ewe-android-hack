@@ -3,8 +3,8 @@ package com.expedia.bookings.fragment
 import android.Manifest
 import android.content.pm.PackageManager
 import android.widget.Button
-import com.expedia.bookings.OmnitureTestUtils
-import com.expedia.bookings.OmnitureTestUtils.Companion.assertLinkTracked
+import com.expedia.bookings.analytics.OmnitureTestUtils
+import com.expedia.bookings.analytics.OmnitureTestUtils.Companion.assertLinkTracked
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity

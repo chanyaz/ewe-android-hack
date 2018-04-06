@@ -2,7 +2,7 @@ package com.expedia.vm.test.robolectric
 
 import android.content.Context
 import android.view.LayoutInflater
-import com.expedia.bookings.OmnitureTestUtils
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.FlightFilter

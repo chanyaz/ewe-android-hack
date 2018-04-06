@@ -1,7 +1,7 @@
 package com.expedia.bookings.hotel.widget
 
 import android.content.Intent
-import com.expedia.bookings.OmnitureTestUtils
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.hotel.activity.HotelGalleryGridActivity
 import com.expedia.bookings.hotel.data.HotelGalleryAnalyticsData

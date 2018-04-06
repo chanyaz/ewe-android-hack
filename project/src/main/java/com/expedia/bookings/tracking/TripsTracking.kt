@@ -1,6 +1,6 @@
 package com.expedia.bookings.tracking
 
-import com.expedia.bookings.ADMS_Measurement
+import com.expedia.bookings.analytics.AppAnalytics
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.trips.TripUtils
 import com.mobiata.android.Log
@@ -53,7 +53,7 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     }
 
     fun trackItinHotelMessage(isManageBooking: Boolean?) {
-        val s: ADMS_Measurement
+        val s: AppAnalytics
         if (isManageBooking!!) {
             s = createTrackLinkEvent(ITIN_HOTEL_MANAGE_BOOKING_MESSAGE)
         } else {

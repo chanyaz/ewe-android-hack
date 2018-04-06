@@ -13,7 +13,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.LinearLayout
 import android.widget.ProgressBar
-import com.expedia.bookings.ADMS_Measurement
+import com.expedia.bookings.analytics.AppAnalytics
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.utils.Ui
@@ -86,7 +86,7 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
 
     open var viewModel: WebViewViewModel by notNullAndObservable { vm ->
         vm.webViewURLObservable.subscribe { url ->
-            webView.loadUrl(ADMS_Measurement.getUrlWithVisitorData(url))
+            webView.loadUrl(AppAnalytics.getUrlWithVisitorData(url))
         }
     }
 

@@ -3,7 +3,7 @@ package com.expedia.vm.test.robolectric
 import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
-import com.expedia.bookings.OmnitureTestUtils
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
 import com.expedia.bookings.data.AbstractItinDetailsResponse

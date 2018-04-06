@@ -2,7 +2,7 @@ package com.expedia.bookings.itin.activity
 
 import android.content.Intent
 import android.text.format.DateUtils
-import com.expedia.bookings.OmnitureTestUtils
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManagerInterface

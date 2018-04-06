@@ -7,7 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import com.carnival.sdk.AttributeMap
 import com.carnival.sdk.Message
-import com.expedia.bookings.OmnitureTestUtils
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler

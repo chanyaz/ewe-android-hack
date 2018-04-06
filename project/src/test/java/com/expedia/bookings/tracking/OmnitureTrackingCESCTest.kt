@@ -1,6 +1,6 @@
 package com.expedia.bookings.tracking
 
-import com.expedia.bookings.ADMS_Measurement
+import com.expedia.bookings.analytics.AppAnalytics
 import com.expedia.bookings.analytics.cesc.CESCTrackingUtil
 import com.expedia.bookings.analytics.cesc.PersistingCESCDataUtil
 import org.joda.time.DateTime
@@ -9,7 +9,7 @@ import org.junit.Test
 import kotlin.test.assertEquals
 
 class OmnitureTrackingCESCTest {
-    private lateinit var adms: ADMS_Measurement
+    private lateinit var adms: AppAnalytics
     private lateinit var dateNow: DateTime
     private lateinit var validVisitTime: DateTime
     private lateinit var validMarketingTime: DateTime
@@ -24,7 +24,7 @@ class OmnitureTrackingCESCTest {
         persistingDataUtil = PersistingCESCDataUtil(MockCESCPersistenceProvider())
         cescTrackingUtil = CESCTrackingUtil(persistingDataUtil)
         deepLinkArgs = HashMap()
-        adms = ADMS_Measurement()
+        adms = AppAnalytics()
         dateNow = DateTime.now()
         validVisitTime = dateNow.minusMinutes(20)
         validMarketingTime = dateNow.minusDays(20)

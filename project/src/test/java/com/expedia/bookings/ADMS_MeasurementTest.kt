@@ -1,5 +1,7 @@
 package com.expedia.bookings
 
+import com.expedia.bookings.analytics.AppAnalytics
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.test.CustomMatchers.Companion.hasEntries
 import com.expedia.bookings.test.CustomMatchers.Companion.matchesPattern
 import com.expedia.bookings.test.NullSafeMockitoHamcrest.mapThat
@@ -15,11 +17,11 @@ import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
 class ADMS_MeasurementTest {
-    lateinit var adms: ADMS_Measurement
+    lateinit var adms: AppAnalytics
 
     @Before
     fun setup() {
-        adms = ADMS_Measurement()
+        adms = AppAnalytics()
     }
 
     @Test

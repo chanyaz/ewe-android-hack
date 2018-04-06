@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.expedia.bookings.ADMS_Measurement;
+import com.expedia.bookings.analytics.AppAnalytics;
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.WebViewFragment;
 import com.expedia.bookings.utils.Constants;
@@ -58,7 +58,7 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 
 		public IntentBuilder setUrl(String url) {
 			if (url != null) {
-				mIntent.putExtra(ARG_URL, ADMS_Measurement.getUrlWithVisitorData(url));
+				mIntent.putExtra(ARG_URL, AppAnalytics.getUrlWithVisitorData(url));
 			}
 			return this;
 		}
@@ -66,7 +66,7 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 		public IntentBuilder setUrlWithAnchor(String url, String anchor) {
 			if (url != null && anchor != null) {
 				mIntent.putExtra(ARG_URL, Phrase.from(mContext, R.string.itin_hotel_details_price_summary_url_TEMPLATE)
-					.put("url", ADMS_Measurement.getUrlWithVisitorData(url))
+					.put("url", AppAnalytics.getUrlWithVisitorData(url))
 					.put("anchor", anchor)
 					.format().toString());
 			}

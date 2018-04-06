@@ -1,10 +1,8 @@
-package com.expedia.bookings
+package com.expedia.bookings.analytics
 
 import android.app.Activity
-import com.expedia.bookings.analytics.AnalyticsProvider
-import com.expedia.bookings.analytics.OmnitureAnalyticsProvider
 
-open class ADMS_Measurement {
+open class AppAnalytics {
 
     var appState: String? = null
 
@@ -112,9 +110,10 @@ open class ADMS_Measurement {
         private var testAnalyticsProvider: AnalyticsProvider? = null
 
         private val analyticsProvider: AnalyticsProvider
-                get() = testAnalyticsProvider ?: defaultAnalyticsProvider
+            get() = testAnalyticsProvider ?: defaultAnalyticsProvider
 
-        @JvmStatic fun getUrlWithVisitorData(url: String?): String = analyticsProvider.getUrlWithVisitorData(url)
+        @JvmStatic
+        fun getUrlWithVisitorData(url: String?): String = analyticsProvider.getUrlWithVisitorData(url)
 
         @JvmStatic protected fun setAnalyticsProviderForTest(provider: AnalyticsProvider?) {
             testAnalyticsProvider = provider

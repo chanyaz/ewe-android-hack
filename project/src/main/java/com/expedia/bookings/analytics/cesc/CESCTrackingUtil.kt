@@ -1,6 +1,6 @@
 package com.expedia.bookings.analytics.cesc
 
-import com.expedia.bookings.ADMS_Measurement
+import com.expedia.bookings.analytics.AppAnalytics
 import org.joda.time.DateTime
 
 class CESCTrackingUtil(private val cescDataUtil: PersistingCESCDataUtil) {
@@ -21,7 +21,7 @@ class CESCTrackingUtil(private val cescDataUtil: PersistingCESCDataUtil) {
             "olacid" to Pair("oladtl", "ola"),
             "semcid" to Pair("kword", "sem"))
 
-    fun setEvars(s: ADMS_Measurement, dateNow: DateTime) {
+    fun setEvars(s: AppAnalytics, dateNow: DateTime) {
         setAffEvars(s, dateNow)
         setBrandEvars(s, dateNow)
         setEmlEvars(s, dateNow)
@@ -58,53 +58,53 @@ class CESCTrackingUtil(private val cescDataUtil: PersistingCESCDataUtil) {
         }
     }
 
-    private fun setAffEvars(s: ADMS_Measurement, dateNow: DateTime) {
+    private fun setAffEvars(s: AppAnalytics, dateNow: DateTime) {
         setCidEvars(s, dateNow)
         setLidOrDtlEvar(16, "aff", s, dateNow)
     }
 
-    private fun setBrandEvars(s: ADMS_Measurement, dateNow: DateTime) {
+    private fun setBrandEvars(s: AppAnalytics, dateNow: DateTime) {
         setCidEvars(s, dateNow)
     }
 
-    private fun setEmlEvars(s: ADMS_Measurement, dateNow: DateTime) {
+    private fun setEmlEvars(s: AppAnalytics, dateNow: DateTime) {
         setCidEvars(s, dateNow)
         setLidOrDtlEvar(13, "eml", s, dateNow)
     }
 
-    private fun setIcmEvars(s: ADMS_Measurement, dateNow: DateTime) {
+    private fun setIcmEvars(s: AppAnalytics, dateNow: DateTime) {
         setCidEvars(s, dateNow)
         setLidOrDtlEvar(21, "icm", s, dateNow)
     }
 
-    private fun setMdpEvars(s: ADMS_Measurement, dateNow: DateTime) {
+    private fun setMdpEvars(s: AppAnalytics, dateNow: DateTime) {
         setCidEvars(s, dateNow)
         setLidOrDtlEvar(14, "dps", s, dateNow)
     }
 
-    private fun setOlaEvars(s: ADMS_Measurement, dateNow: DateTime) {
+    private fun setOlaEvars(s: AppAnalytics, dateNow: DateTime) {
         setCidEvars(s, dateNow)
         setLidOrDtlEvar(19, "ola", s, dateNow)
     }
 
-    private fun setSemEvars(s: ADMS_Measurement, dateNow: DateTime) {
+    private fun setSemEvars(s: AppAnalytics, dateNow: DateTime) {
         setCidEvars(s, dateNow)
         setLidOrDtlEvar(36, "semdtl", s, dateNow)
     }
 
-    private fun setKwordEvar(s: ADMS_Measurement, dateNow: DateTime) {
+    private fun setKwordEvar(s: AppAnalytics, dateNow: DateTime) {
         setLidOrDtlEvar(15, "sem", s, dateNow)
     }
 
-    private fun setSeoCid(s: ADMS_Measurement, dateNow: DateTime) {
+    private fun setSeoCid(s: AppAnalytics, dateNow: DateTime) {
         setCidEvars(s, dateNow)
     }
 
-    private fun setGcLid(s: ADMS_Measurement, dateNow: DateTime) {
+    private fun setGcLid(s: AppAnalytics, dateNow: DateTime) {
         setLidOrDtlEvar(26, "gclid", s, dateNow)
     }
 
-    private fun setPushCid(s: ADMS_Measurement, dateNow: DateTime) {
+    private fun setPushCid(s: AppAnalytics, dateNow: DateTime) {
         if (cescDataUtil.shouldTrackStoredCidVisit(dateNow, "push")) {
             val evarValue = cescDataUtil.getEvarValue("push")!!
             cescDataUtil.add("push", evarValue, dateNow)
@@ -112,7 +112,7 @@ class CESCTrackingUtil(private val cescDataUtil: PersistingCESCDataUtil) {
         }
     }
 
-    private fun setCidEvars(s: ADMS_Measurement, dateNow: DateTime) {
+    private fun setCidEvars(s: AppAnalytics, dateNow: DateTime) {
         if (cescDataUtil.shouldTrackStoredCidVisit(dateNow)) {
             cescDataUtil.getEvarValue("cidVisit")?.let { evarValue ->
                 s.setEvar(0, evarValue)
@@ -126,7 +126,7 @@ class CESCTrackingUtil(private val cescDataUtil: PersistingCESCDataUtil) {
         }
     }
 
-    private fun setLidOrDtlEvar(evarNum: Int, cesc: String, s: ADMS_Measurement, dateNow: DateTime) {
+    private fun setLidOrDtlEvar(evarNum: Int, cesc: String, s: AppAnalytics, dateNow: DateTime) {
         if (cescDataUtil.shouldTrackStoredCesc(dateNow, cesc)) {
             s.setEvar(evarNum, cescDataUtil.getEvarValue(cesc))
         }

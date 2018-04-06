@@ -4,10 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.support.design.widget.TabLayout
 import android.view.View
-import com.expedia.bookings.OmnitureTestUtils
-import com.expedia.bookings.OmnitureTestUtils.Companion.assertLinkTracked
-import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateNotTracked
-import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateTracked
+import com.expedia.bookings.analytics.OmnitureTestUtils
+import com.expedia.bookings.analytics.OmnitureTestUtils.Companion.assertLinkTracked
+import com.expedia.bookings.analytics.OmnitureTestUtils.Companion.assertStateNotTracked
+import com.expedia.bookings.analytics.OmnitureTestUtils.Companion.assertStateTracked
 import com.expedia.bookings.activity.DeepLinkWebViewActivity
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.abacus.AbacusUtils

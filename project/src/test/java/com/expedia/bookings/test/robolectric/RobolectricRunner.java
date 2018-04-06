@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.expedia.bookings.BuildConfig;
-import com.expedia.bookings.OmnitureTestUtils;
+import com.expedia.bookings.analytics.OmnitureTestUtils;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.test.RunForBrands;

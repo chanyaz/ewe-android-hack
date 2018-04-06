@@ -1,8 +1,8 @@
 package com.expedia.bookings.tracking
 
-import com.expedia.bookings.OmnitureTestUtils
-import com.expedia.bookings.OmnitureTestUtils.Companion.assertStateTracked
-import com.expedia.bookings.OmnitureTestUtils.Companion.assertLinkTracked
+import com.expedia.bookings.analytics.OmnitureTestUtils
+import com.expedia.bookings.analytics.OmnitureTestUtils.Companion.assertStateTracked
+import com.expedia.bookings.analytics.OmnitureTestUtils.Companion.assertLinkTracked
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.payment.PaymentSplitsType

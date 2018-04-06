@@ -3,7 +3,7 @@ package com.expedia.bookings.test.robolectric
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
-import com.expedia.bookings.OmnitureTestUtils
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db

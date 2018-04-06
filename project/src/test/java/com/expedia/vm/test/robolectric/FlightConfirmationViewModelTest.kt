@@ -2,7 +2,7 @@ package com.expedia.vm.test.robolectric
 
 import android.app.Activity
 import android.support.v7.app.AppCompatActivity
-import com.expedia.bookings.OmnitureTestUtils
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripDetails

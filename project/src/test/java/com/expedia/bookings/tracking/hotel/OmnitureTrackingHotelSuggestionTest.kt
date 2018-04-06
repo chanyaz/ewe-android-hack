@@ -1,7 +1,7 @@
 package com.expedia.bookings.tracking.hotel
 
-import com.expedia.bookings.OmnitureTestUtils
-import com.expedia.bookings.OmnitureTestUtils.Companion.assertLinkTracked
+import com.expedia.bookings.analytics.OmnitureTestUtils
+import com.expedia.bookings.analytics.OmnitureTestUtils.Companion.assertLinkTracked
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.hotel.tracking.SuggestionTrackingData
 import com.expedia.bookings.test.MultiBrand

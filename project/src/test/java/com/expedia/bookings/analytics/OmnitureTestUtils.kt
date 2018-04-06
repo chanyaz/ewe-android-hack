@@ -1,6 +1,5 @@
-package com.expedia.bookings
+package com.expedia.bookings.analytics
 
-import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.test.CustomMatchers.Companion.hasEntries
 import com.expedia.bookings.test.NullSafeMockitoHamcrest.mapThat
 import org.hamcrest.Matcher
@@ -9,7 +8,7 @@ import org.mockito.Mockito
 import org.mockito.exceptions.base.MockitoAssertionError
 import org.mockito.exceptions.verification.junit.ArgumentsAreDifferent
 
-class OmnitureTestUtils : ADMS_Measurement() {
+class OmnitureTestUtils : AppAnalytics() {
     companion object {
         @JvmStatic
         fun setMockAnalyticsProvider(): AnalyticsProvider {

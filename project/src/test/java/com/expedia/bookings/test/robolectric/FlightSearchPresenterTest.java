@@ -33,7 +33,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.expedia.bookings.OmnitureTestUtils;
+import com.expedia.bookings.analytics.OmnitureTestUtils;
 import com.expedia.bookings.R;
 import com.expedia.bookings.analytics.AnalyticsProvider;
 import com.expedia.bookings.data.SuggestionV4;

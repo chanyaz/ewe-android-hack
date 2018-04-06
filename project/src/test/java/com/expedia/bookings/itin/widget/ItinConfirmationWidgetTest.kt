@@ -5,7 +5,7 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.view.LayoutInflater
 import android.view.View
-import com.expedia.bookings.OmnitureTestUtils
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.flight.details.FlightItinConfirmationViewModel
 import com.expedia.bookings.itin.common.ItinConfirmationWidget

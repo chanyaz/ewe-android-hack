@@ -1,7 +1,7 @@
 package com.expedia.bookings.itin
 
 import android.content.Context
-import com.expedia.bookings.OmnitureTestUtils
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.Traveler

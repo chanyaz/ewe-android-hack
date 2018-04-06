@@ -1,7 +1,7 @@
 package com.expedia.bookings.itin
 
 import android.net.Uri
-import com.expedia.bookings.OmnitureTestUtils
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.hotel.common.HotelItinExpandedMapActivity
 import com.expedia.bookings.data.trips.ItinCardDataHotel
