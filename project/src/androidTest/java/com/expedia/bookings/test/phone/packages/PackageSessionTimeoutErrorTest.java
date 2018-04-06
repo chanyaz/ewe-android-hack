@@ -1,7 +1,5 @@
 package com.expedia.bookings.test.phone.packages;
 
-import org.junit.Test;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
@@ -17,7 +15,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 public class PackageSessionTimeoutErrorTest extends PackageTestCase {
-	@Test
 	public void testPackageSessionTimeOut() throws Throwable {
 		PackageScreen.searchPackage();
 		Common.delay(1);

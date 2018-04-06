@@ -1,7 +1,6 @@
 package com.expedia.bookings.test.phone.accessibility.packages;
 
 import org.joda.time.LocalDate;
-import org.junit.Test;
 
 import android.support.test.espresso.Espresso;
 
@@ -20,7 +19,6 @@ import static com.expedia.bookings.test.espresso.CustomMatchers.withInfoText;
 
 public class PackagesCheckoutTest extends PackageTestCase {
 
-	@Test
 	public void testTravelerWidget() throws Throwable {
 		PackageScreen.doPackageSearch();
 		PackageScreen.checkout().perform(click());
@@ -48,7 +46,6 @@ public class PackagesCheckoutTest extends PackageTestCase {
 		Common.pressBack();
 	}
 
-	@Test
 	public void testPaymentWidget() throws Throwable {
 		PackageScreen.doPackageSearch();
 		PackageScreen.checkout().perform(click());

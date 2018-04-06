@@ -1,7 +1,6 @@
 package com.expedia.bookings.test.phone.packages;
 
 import org.joda.time.LocalDate;
-import org.junit.Test;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
@@ -22,7 +21,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class PackageFlightsResultsTest extends PackageTestCase {
 
-	@Test
 	public void testPackageFlightsResultsTest() throws Throwable {
 		SearchScreenActions.selectPackageOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);

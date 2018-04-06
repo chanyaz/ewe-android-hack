@@ -1,7 +1,6 @@
 package com.expedia.bookings.test.phone.accessibility.packages;
 
 import org.joda.time.LocalDate;
-import org.junit.Test;
 
 import android.support.test.espresso.matcher.ViewMatchers;
 
@@ -30,7 +29,6 @@ import static org.hamcrest.core.AllOf.allOf;
 
 public class PackagesFlightsTest extends PackageTestCase {
 
-	@Test
 	public void testPackageFlightsOverview() throws Throwable {
 		SearchScreenActions.selectPackageOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
@@ -51,7 +49,6 @@ public class PackagesFlightsTest extends PackageTestCase {
 		onView(allOf(withId(R.id.flight_duration), hasSibling(withText("Hawaiian Airlines 497 • Boeing 737-900")))).check(matches(withContentDescription("4 hour 37 minutes")));
 	}
 
-	@Test
 	public void testPackageFlightsFilters() throws Throwable {
 		SearchScreenActions.selectPackageOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);

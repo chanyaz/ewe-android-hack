@@ -1,7 +1,6 @@
 package com.expedia.bookings.test.phone.packages;
 
 import org.joda.time.LocalDate;
-import org.junit.Test;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
@@ -26,7 +25,6 @@ import static org.hamcrest.CoreMatchers.not;
 
 public class PackageCostBreakdownTest extends PackageTestCase {
 
-	@Test
 	public void testPackageCostBreakdown() throws Throwable {
 		SearchScreenActions.selectPackageOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);

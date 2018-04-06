@@ -1,7 +1,6 @@
 package com.expedia.bookings.test.phone.packages;
 
 import org.joda.time.LocalDate;
-import org.junit.Test;
 
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
@@ -26,7 +25,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class PackageSearchErrorTest extends PackageTestCase {
 
-	@Test
 	public void testSearchError() throws Throwable {
 		SearchScreen.origin().perform(click());
 		SearchScreen.waitForSearchEditText().perform(typeText(TestValues.TYPE_TEXT_GGW));
@@ -46,7 +44,6 @@ public class PackageSearchErrorTest extends PackageTestCase {
 		SearchScreen.searchButton().check(matches(isDisplayed()));
 	}
 
-	@Test
 	public void testHotelOffersSearchError() throws Throwable {
 		SearchScreenActions.selectPackageOriginAndDestination();
 

@@ -3,7 +3,6 @@ package com.expedia.bookings.test.phone.packages;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matchers;
 import org.joda.time.LocalDate;
-import org.junit.Test;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
@@ -28,7 +27,6 @@ import static org.hamcrest.CoreMatchers.allOf;
 
 public class PackageFlightsOverviewTest extends PackageTestCase {
 
-	@Test
 	public void testPackageFlightsOverview() throws Throwable {
 		SearchScreenActions.selectPackageOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);

@@ -1,7 +1,6 @@
 package com.expedia.bookings.test.phone.accessibility.packages;
 
 import org.joda.time.LocalDate;
-import org.junit.Test;
 
 import android.support.test.espresso.ViewInteraction;
 
@@ -31,7 +30,6 @@ import static org.hamcrest.Matchers.not;
 
 public class PackagesBundleOverviewTest extends PackageTestCase {
 
-	@Test
 	public void testBundleOverviewFlow() throws Throwable {
 		PackageScreen.searchPackage();
 

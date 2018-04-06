@@ -2,7 +2,6 @@ package com.expedia.bookings.test.happy;
 
 import org.hamcrest.CoreMatchers;
 import org.joda.time.LocalDate;
-import org.junit.Test;
 
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.matcher.RootMatchers;
@@ -12,15 +11,15 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PackageTestCase;
-import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
-import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails;
-import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
-import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
-import com.expedia.bookings.test.phone.newflights.FlightTestHelpers;
-import com.expedia.bookings.test.pagemodels.flights.FlightsResultsScreen;
-import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
 import com.expedia.bookings.test.pagemodels.common.CheckoutScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
+import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails;
+import com.expedia.bookings.test.pagemodels.flights.FlightsResultsScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
+import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
+import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
+import com.expedia.bookings.test.phone.newflights.FlightTestHelpers;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -123,7 +122,6 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		assertConfirmation();
 	}*/
 
-	@Test
 	public void testPackagePhoneHappyPathSignedIn() throws Throwable {
 		SearchScreenActions.selectPackageOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);

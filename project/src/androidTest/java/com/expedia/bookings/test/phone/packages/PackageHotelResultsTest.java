@@ -2,7 +2,6 @@ package com.expedia.bookings.test.phone.packages;
 
 import org.hamcrest.CoreMatchers;
 import org.joda.time.LocalDate;
-import org.junit.Test;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.PackageTestCase;
@@ -24,13 +23,11 @@ import static org.hamcrest.Matchers.not;
 
 public class PackageHotelResultsTest extends PackageTestCase {
 
-	@Test
 	public void testResultsHeader() throws Throwable {
 		PackageScreen.searchPackage();
 		PackageScreen.hotelResultsHeader().check(matches(withText("48 Results  ")));
 	}
 
-	@Test
 	public void testFilterBtn() throws Throwable {
 		PackageScreen.searchPackage();
 		onView(withId(R.id.filter_text)).check(matches(not(isDisplayed())));
@@ -46,7 +43,6 @@ public class PackageHotelResultsTest extends PackageTestCase {
 		assertViewWithTextIsDisplayed(R.id.filter_count_text, "1");
 	}
 
-	@Test
 	public void testToolbarText() throws Throwable {
 		PackageScreen.searchPackageFor(2, 1);
 		PackageScreen.hotelResultsToolbar().check(matches(hasDescendant(CoreMatchers.allOf(

@@ -1,7 +1,6 @@
 package com.expedia.bookings.test.phone.packages;
 
 import org.hamcrest.CoreMatchers;
-import org.junit.Test;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
@@ -23,7 +22,6 @@ import static org.hamcrest.CoreMatchers.allOf;
 
 public class PackageHotelDetailsTest extends PackageTestCase {
 
-	@Test
 	public void testHideStandaloneHotelPricing() throws Throwable {
 		PackageScreen.searchPackage();
 		Common.delay(2);
@@ -43,7 +41,6 @@ public class PackageHotelDetailsTest extends PackageTestCase {
 		HotelInfoSiteScreen.pricePerDescriptorViewWithTextAndPrice("/night", "-$3.21").check(matches(isDisplayed()));
 	}
 
-	@Test
 	public void testHotelDetailsToolbarText() throws Throwable {
 		PackageScreen.searchPackageFor(2, 1);
 		Common.delay(1);
@@ -58,7 +55,6 @@ public class PackageHotelDetailsTest extends PackageTestCase {
 		onView(withId(R.id.hotel_search_info_guests)).check(matches(withText("3 guests")));
 	}
 
-	@Test
 	public void testVIPHotel() throws Throwable {
 		PackageScreen.searchPackage();
 		Common.delay(1);
@@ -72,7 +68,6 @@ public class PackageHotelDetailsTest extends PackageTestCase {
 		EspressoUtils.assertViewIsDisplayed(R.id.vip_access_message_container);
 	}
 
-	@Test
 	public void testRenoHotel() throws Throwable {
 		PackageScreen.searchPackage();
 		HotelResultsScreen.selectHotel("Package Happy Path");

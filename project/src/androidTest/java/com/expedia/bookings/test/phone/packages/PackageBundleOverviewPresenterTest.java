@@ -4,7 +4,6 @@ import org.hamcrest.CoreMatchers;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.junit.Test;
 
 import android.support.test.espresso.matcher.ViewMatchers;
 
@@ -31,7 +30,6 @@ import static org.hamcrest.Matchers.not;
 
 public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 
-	@Test
 	public void testBundleOverviewCheckoutFlow() throws Throwable {
 		PackageScreen.searchPackage();
 
@@ -104,7 +102,6 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 			ViewMatchers.Visibility.GONE)));
 	}
 
-	@Test
 	public void testHotelBundleOverviewFlow() throws Throwable {
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
@@ -151,7 +148,6 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		PackageScreen.hotelBundleWidget().check(matches(not(isCompletelyDisplayed())));
 	}
 
-	@Test
 	public void testHotelOverview() throws Throwable {
 		PackageScreen.searchPackage();
 		HotelResultsScreen.selectHotel("Package Happy Path");
@@ -180,7 +176,6 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		PackageScreen.hotelRoomImageView().check(matches(CoreMatchers.not(isDisplayed())));
 	}
 
-	@Test
 	public void testFlightOverview() throws Throwable {
 		PackageScreen.doPackageSearch();
 

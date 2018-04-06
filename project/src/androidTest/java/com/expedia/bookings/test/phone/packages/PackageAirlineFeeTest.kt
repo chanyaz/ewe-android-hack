@@ -15,12 +15,10 @@ import com.expedia.bookings.test.pagemodels.common.CheckoutScreen
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen
 import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen
-import org.junit.Test
 import java.util.concurrent.TimeUnit
 
 class PackageAirlineFeeTest : PackageTestCase() {
 
-    @Test
     fun testAirlineFees() {
         PackageScreen.searchPackage()
         HotelResultsScreen.selectHotel("Package Happy Path")
