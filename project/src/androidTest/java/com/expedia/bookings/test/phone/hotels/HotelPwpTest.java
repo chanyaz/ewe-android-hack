@@ -87,34 +87,4 @@ public class HotelPwpTest extends HotelTestCase {
 		PaymentOptionsScreen.assertCardSectionEnabled();
 		PaymentOptionsScreen.assertCardSelectionMatches("Saved Visa 1111", 0);
 	}
-
-	/**
-	 * PwP(Pay with points) - Editing amount for point calculation and validate checkout screen
-	 *
-	 * @throws Throwable
-	 * @author lsagar@
-	 */
-	@Test
-	public void testPwPCalculatePoints() throws Throwable {
-		SearchScreenActions.doGenericHotelSearch();
-		HotelResultsScreen.selectHotel("happypath_pwp");
-		Common.delay(1);
-		HotelInfoSiteScreen.clickStickySelectRoom();
-		HotelInfoSiteScreen.bookRoomType("happypath_pwp_points_with_card");
-		CheckoutScreen.signInOnCheckout("singlecard@mobiata.com", "password");
-		CheckoutScreen.clickPaymentInfo();
-		PaymentOptionsScreen.clickAmountForPointsCalculation();
-		PaymentOptionsScreen.enterAmountForPointsCalculation("100");
-		PaymentOptionsScreen.tapPointsAppliedLabel();
-		Common.delay(1);
-		PaymentOptionsScreen.assertPointsAppliedMatches("100");
-		PaymentOptionsScreen.assertRemainingDueMatches("$4,294.88");
-		PaymentOptionsScreen.assertMenuDoneClickable();
-		PaymentOptionsScreen.assertCardSectionEnabled();
-		PaymentOptionsScreen.clickMenuDone();
-		CheckoutScreen.assertEarnPointsText("earn 4,295 points");
-		CheckoutScreen.assertCardInfoText("Paying with Points & Visa 1111");
-		CheckoutScreen.assertPurchaseTotalText("You are using 100 ($100.00) Expedia Rewards points\nYour card will be charged $4,294.88");
-		CheckoutScreen.assertSlideToPurchaseDisplayed();
-	}
 }
