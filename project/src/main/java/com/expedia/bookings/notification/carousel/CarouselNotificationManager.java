@@ -102,8 +102,8 @@ public class CarouselNotificationManager {
 			PendingIntent pi = PendingIntent.getActivity(_oContext, 0, newIntent, 0);
 
 
-			remoteViews.setContentDescription(R.id.tv_title, model.title);
-			remoteViews.setContentDescription(R.id.tv_desc, model.contentText);
+			remoteViews.setTextViewText(R.id.tv_title, model.title);
+			remoteViews.setTextViewText(R.id.tv_desc, model.contentText);
 
 			remoteViews.setOnClickPendingIntent(R.id.left,
 				PendingIntent.getService(_oContext,10,leftButtonIntent,PendingIntent.FLAG_UPDATE_CURRENT));

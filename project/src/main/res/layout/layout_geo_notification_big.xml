@@ -20,36 +20,40 @@
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
+        android:padding="10sp"
+        android:background="#80000000"
         android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/tv_desc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:textColor="@color/black_50"
-        android:textSize="12sp" />
 
     <ImageView
         android:id="@+id/left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|left"
-        android:background="#000"
-        android:padding="6dp"
-        android:src="@drawable/ic_arrow_back_white_24dp"
+        android:background="#80000000"
+        android:padding="12dp"
+        android:rotation="180"
+        android:src="@drawable/ic_itin_next_chevron"
         android:textColor="@android:color/black" />
-
 
     <ImageView
         android:id="@+id/right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|right"
-        android:background="#ffffff"
-        android:padding="6dp"
-        android:src="@drawable/ic_arrow_forward_black_24dp"
+        android:background="#80000000"
+        android:padding="12dp"
+        android:src="@drawable/ic_itin_next_chevron"
         android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/tv_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#80000000"
+        android:padding="10dp"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
 
 </FrameLayout>
