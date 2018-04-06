@@ -21,8 +21,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
-        android:drawableLeft="@drawable/brand_logo_white"
+        android:drawableLeft="@drawable/ic_expedia_traveler_logo"
         android:drawablePadding="4dp"
+        android:gravity="center_vertical"
         android:padding="10sp"
         android:background="#60000000"
         android:textSize="16sp" />
