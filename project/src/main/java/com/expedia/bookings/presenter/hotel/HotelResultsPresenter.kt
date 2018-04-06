@@ -71,6 +71,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     override val loadingOverlay: MapLoadingOverlayWidget by bindView(R.id.map_loading_overlay)
     private var narrowFilterPromptSubscription: Disposable? = null
     private var swpEnabled = false
+    private var isSearchThisAreaJustTapped = false
 
     val filterCountObserver: Observer<Int> = endlessObserver { numberOfFilters ->
         filterBtnWithCountWidget.showNumberOfFilters(numberOfFilters)
@@ -258,6 +259,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         //We don't want to show the searchThisArea button unless the map has just moved.
         searchThisArea.visibility = View.GONE
         searchThisArea.setOnClickListener {
+            isSearchThisAreaJustTapped = true
             getFloatingButton().isEnabled = false
             animateMapCarouselOut()
             hideSearchThisArea()
@@ -283,8 +285,12 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         mapWidget.cameraChangeSubject.subscribe {
             if (currentState?.equals(ResultsMap::class.java.name) == true
                     && searchThisArea.visibility == View.GONE) {
-                searchThisArea.visibility = View.VISIBLE
-                ObjectAnimator.ofFloat(searchThisArea, "alpha", 0f, 1f).setDuration(DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION).start()
+                if (!isSearchThisAreaJustTapped) {
+                    searchThisArea.visibility = View.VISIBLE
+                }
+                isSearchThisAreaJustTapped = false
+                ObjectAnimator.ofFloat(searchThisArea, "alpha", 0f, 1f).setDuration(
+                        DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION).start()
             }
         }
     }
