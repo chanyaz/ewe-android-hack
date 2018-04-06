@@ -12,6 +12,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.itin.helpers.MockTripsTracking
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
+import com.expedia.bookings.utils.LaunchNavBucketCache
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -81,7 +82,7 @@ class TripListFragmentTest {
 
     @Test
     fun toolbarVisibilityBottomNavUnbucketed() {
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppBottomNavTabs)
+        LaunchNavBucketCache.cacheBucket(activity, 0)
         loadTripListFragment()
 
         val controlToolbar = testFragment.view!!.findViewById<Toolbar>(R.id.trip_list_toolbar)
@@ -90,7 +91,7 @@ class TripListFragmentTest {
 
     @Test
     fun toolbarVisibilityBottomNavBucketed() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppBottomNavTabs)
+        LaunchNavBucketCache.cacheBucket(activity, 1)
         loadTripListFragment()
 
         val variantToolbar = testFragment.view!!.findViewById<Toolbar>(R.id.trip_list_toolbar)

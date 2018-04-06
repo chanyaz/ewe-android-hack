@@ -36,6 +36,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
+import com.expedia.bookings.utils.LaunchNavBucketCache
 import com.expedia.bookings.utils.Ui
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
@@ -275,6 +276,30 @@ class AccountSettingsFragmentTest {
         val dialog = ShadowAlertDialog.getLatestAlertDialog()
         val stringToTest = dialog.findViewById<TextView>(R.id.packages_pp)
         assertEquals("Hotel + Flight Deals", stringToTest.text.toString())
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun accountToolbarIsShown_givenUserIsBucketedIntoBottomNav() {
+        LaunchNavBucketCache.cacheBucket(activity, 1)
+        givenFragmentSetup()
+        assertViewIsEffectivelyVisibile(R.id.account_toolbar)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun accountToolbarIsHidden_givenUserIsNotBucketedIntoBottomNav() {
+        LaunchNavBucketCache.cacheBucket(activity, 0)
+        givenFragmentSetup()
+        assertViewIsEffectivelyGone(R.id.account_toolbar)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun accountToolbarIsHidden_givenUserIsInUnbucketedState() {
+        LaunchNavBucketCache.cacheBucket(activity, -1)
+        givenFragmentSetup()
+        assertViewIsEffectivelyGone(R.id.account_toolbar)
     }
 
     private fun doCountryTest(pointOfSaleId: PointOfSaleId, expectedCountryCode: String, expectedFlagResId: Int) {

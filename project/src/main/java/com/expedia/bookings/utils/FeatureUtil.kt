@@ -118,7 +118,7 @@ fun shouldShowRewardLaunchCard(context: Context): Boolean {
 }
 
 fun isBottomNavigationBarEnabled(context: Context): Boolean {
-    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppBottomNavTabs)
+    return LaunchNavBucketCache.isBucketed(context)
 }
 
 fun isShowClassAndBookingCodeEnabled(context: Context): Boolean {
