@@ -21,8 +21,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
+        android:drawableLeft="@drawable/brand_logo_white"
+        android:drawablePadding="4dp"
         android:padding="10sp"
-        android:background="#80000000"
+        android:background="#60000000"
         android:textSize="16sp" />
 
     <ImageView
@@ -30,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|left"
-        android:background="#80000000"
+        android:background="#60000000"
         android:padding="12dp"
         android:rotation="180"
         android:src="@drawable/ic_itin_next_chevron"
@@ -41,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|right"
-        android:background="#80000000"
+        android:background="#60000000"
         android:padding="12dp"
         android:src="@drawable/ic_itin_next_chevron"
         android:textColor="@android:color/black" />
@@ -51,7 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="#80000000"
+        android:background="#60000000"
         android:padding="10dp"
         android:textColor="@color/white"
         android:textSize="12sp" />
