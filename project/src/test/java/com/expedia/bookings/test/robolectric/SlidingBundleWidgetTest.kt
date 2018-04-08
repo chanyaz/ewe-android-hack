@@ -171,12 +171,11 @@ class SlidingBundleWidgetTest {
         val bundleTotalText = packageHotelPresenter.findViewById<TextView>(R.id.bundle_total_text)
         val bundleWidgetTopShadow = packageHotelPresenter.findViewById<View>(R.id.bundle_price_widget_shadow)
 
-        assertEquals(packageHotelPresenter.bundleSlidingWidget.isMoving, true)
         assertEquals(View.VISIBLE, bundleTitle.visibility)
         assertEquals(View.VISIBLE, bundleSubtitle.visibility)
-        assertEquals(View.VISIBLE, bundleTotalPrice.visibility)
-        assertEquals(View.VISIBLE, bundleTotalIncludes.visibility)
-        assertEquals(View.VISIBLE, bundleTotalText.visibility)
+        assertEquals(View.GONE, bundleTotalPrice.visibility)
+        assertEquals(View.GONE, bundleTotalIncludes.visibility)
+        assertEquals(View.GONE, bundleTotalText.visibility)
         assertEquals(View.GONE, bundleWidgetTopShadow.visibility)
     }
 
@@ -194,9 +193,8 @@ class SlidingBundleWidgetTest {
         val bundleTotalText = packageHotelPresenter.findViewById<TextView>(R.id.bundle_total_text)
         val bundleWidgetTopShadow = packageHotelPresenter.findViewById<View>(R.id.bundle_price_widget_shadow)
 
-        assertEquals(packageHotelPresenter.bundleSlidingWidget.isMoving, true)
-        assertEquals(View.VISIBLE, bundleTitle.visibility)
-        assertEquals(View.VISIBLE, bundleSubtitle.visibility)
+        assertEquals(View.GONE, bundleTitle.visibility)
+        assertEquals(View.GONE, bundleSubtitle.visibility)
         assertEquals(View.VISIBLE, bundleTotalPrice.visibility)
         assertEquals(View.VISIBLE, bundleTotalIncludes.visibility)
         assertEquals(View.VISIBLE, bundleTotalText.visibility)
