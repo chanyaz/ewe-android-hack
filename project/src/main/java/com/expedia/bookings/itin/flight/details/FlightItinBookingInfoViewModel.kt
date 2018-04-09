@@ -15,15 +15,18 @@ open class FlightItinBookingInfoViewModel(private val context: Context, private 
             val isShared: Boolean,
             val url: String?,
             val cardId: String,
-            val tripId: String
+            val tripId: String?
     )
 
     fun updateBookingInfoWidget(widgetParams: WidgetParams) {
-        widgetSharedSubject.onNext(widgetParams.isShared)
-        updateCardViewVMs(widgetParams.travelerNames, widgetParams.url, widgetParams.cardId, widgetParams.tripId)
+        val isSharedItin = widgetParams.isShared
+        widgetSharedSubject.onNext(isSharedItin)
+        if (!isSharedItin) {
+            updateCardViewVMs(widgetParams.travelerNames, widgetParams.url, widgetParams.cardId, widgetParams.tripId)
+        }
     }
 
-    private fun updateCardViewVMs(travelerNames: CharSequence, url: String?, cardId: String, tripId: String) {
+    private fun updateCardViewVMs(travelerNames: CharSequence, url: String?, cardId: String, tripId: String?) {
         additionalInfoCardViewWidgetVM.updateCardView(params = ItinLinkOffCardViewViewModel.CardViewParams(
                 context.getString(R.string.itin_hotel_details_additional_info_heading),
                 null,
@@ -65,12 +68,14 @@ open class FlightItinBookingInfoViewModel(private val context: Context, private 
     val widgetSharedSubject: PublishSubject<Boolean> = PublishSubject.create<Boolean>()
 
     @VisibleForTesting
-    fun buildWebViewIntent(title: Int, url: String?, anchor: String?, tripId: String): WebViewActivity.IntentBuilder? {
+    fun buildWebViewIntent(title: Int, url: String?, anchor: String?, tripId: String?): WebViewActivity.IntentBuilder? {
         if (url != null) {
             val builder: WebViewActivity.IntentBuilder = WebViewActivity.IntentBuilder(context)
             if (anchor != null) builder.setUrlWithAnchor(url, anchor) else builder.setUrl(url)
             builder.setTitle(title)
-            builder.setItinTripIdForRefresh(tripId)
+            if (!tripId.isNullOrEmpty()) {
+                builder.setItinTripIdForRefresh(tripId)
+            }
             builder.setInjectExpediaCookies(true)
             builder.setAllowMobileRedirects(true)
             return builder
