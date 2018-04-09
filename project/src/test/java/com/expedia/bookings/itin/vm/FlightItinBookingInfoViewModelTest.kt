@@ -14,6 +14,7 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -83,5 +84,52 @@ class FlightItinBookingInfoViewModelTest {
         assertTrue(intent.extras.getString("ARG_URL").startsWith(url))
         assertEquals(intent.extras.getString("ITIN_WEBVIEW_REFRESH_ON_EXIT_TRIP_NUMBER"), tripId)
         assertTrue(intent.getBooleanExtra("ARG_RETURN_FROM_HOTEL_ITIN_WEBVIEW", false))
+    }
+
+    @Test
+    fun `hide widget for shared itin`() {
+        sut.widgetSharedSubject.subscribe(createWidgetSharedSubject)
+        sut.additionalInfoCardViewWidgetVM.cardViewParamsSubject.subscribe(createAdditionalInfoSubject)
+        sut.priceSummaryCardViewWidgetVM.cardViewParamsSubject.subscribe(createPriceSummarySubject)
+        sut.manageBookingCardViewWidgetVM.cardViewParamsSubject.subscribe(createManageBookingSubject)
+        sut.travelerInfoCardViewWidgetVM.cardViewParamsSubject.subscribe(createTravelerlInfoSubject)
+
+        createWidgetSharedSubject.assertNoValues()
+        createAdditionalInfoSubject.assertNoValues()
+        createPriceSummarySubject.assertNoValues()
+        createManageBookingSubject.assertNoValues()
+        createTravelerlInfoSubject.assertNoValues()
+
+        sut.updateBookingInfoWidget(FlightItinBookingInfoViewModel.WidgetParams(
+                "Jim Bob",
+                true,
+                "expedia.com",
+                "asda",
+                "12312"
+        ))
+
+        createWidgetSharedSubject.assertValue(true)
+        createAdditionalInfoSubject.assertNoValues()
+        createPriceSummarySubject.assertNoValues()
+        createManageBookingSubject.assertNoValues()
+        createTravelerlInfoSubject.assertNoValues()
+    }
+
+    @Test
+    fun `build webview intent trip number is null`() {
+        val intent = sut.buildWebViewIntent(R.string.itin_hotel_details_additional_info_heading, url, null, null)!!.intent
+        assertEquals(context.getString(R.string.itin_hotel_details_additional_info_heading), intent.extras.getString("ARG_TITLE"))
+        assertTrue(intent.extras.getString("ARG_URL").startsWith(url))
+        assertEquals(intent.extras.getString("ITIN_WEBVIEW_REFRESH_ON_EXIT_TRIP_NUMBER"), null)
+        assertFalse(intent.getBooleanExtra("ARG_RETURN_FROM_HOTEL_ITIN_WEBVIEW", false))
+    }
+
+    @Test
+    fun `build webview intent trip number is empty`() {
+        val intent = sut.buildWebViewIntent(R.string.itin_hotel_details_additional_info_heading, url, null, "")!!.intent
+        assertEquals(context.getString(R.string.itin_hotel_details_additional_info_heading), intent.extras.getString("ARG_TITLE"))
+        assertTrue(intent.extras.getString("ARG_URL").startsWith(url))
+        assertEquals(intent.extras.getString("ITIN_WEBVIEW_REFRESH_ON_EXIT_TRIP_NUMBER"), null)
+        assertFalse(intent.getBooleanExtra("ARG_RETURN_FROM_HOTEL_ITIN_WEBVIEW", false))
     }
 }
