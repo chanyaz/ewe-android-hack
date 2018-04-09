@@ -77,7 +77,7 @@ public class CommonSteps {
 	}
 
 	@Given("^I launch the App$")
-	public void validateHomeScreenAppears() throws Throwable {
+	public static void validateHomeScreenAppears() throws Throwable {
 		LaunchScreen.hotelsLaunchButton().perform(ViewActions.waitForViewToCompletelyDisplay());
 		LaunchScreen.shopButton().perform(waitForViewToDisplay(), click());
 	}
