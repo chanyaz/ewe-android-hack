@@ -24,3 +24,12 @@ Feature: View Elements on Trip Details page
     Examples:
       | hotelName               | phoneNumber    | checkInDate | checkOutDate | checkInTime | checkOutTime |
       | Longhorn Casino & Hotel | +1-702-4358888 | 2019-05-01  | 2019-05-02   | 3 pm        | 11 am        |
+
+
+    @Prod @RC_TripDetails @wip
+      Scenario: https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/11778
+      Given I navigate to Trips
+      And I tap on trip item with name "Longhorn Casino & Hotel"
+      And I tap on the map
+      And I verify marker exists
+      And I verify direction button is clickable

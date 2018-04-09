@@ -29,9 +29,14 @@ import java.util.concurrent.TimeUnit
 object TripDetailsScreen {
     val bodyScrollableContainer = allOf(withChild(withId(R.id.container)),
             withClassName(endsWith("ScrollView")))
+    val directionsButton = withId(R.id.expanded_map_view_hotel)
 
     fun waitUntilLoaded() {
         waitForViewNotYetInLayoutToDisplay(bodyScrollableContainer, 30, TimeUnit.SECONDS)
+    }
+
+    fun waitForMapToLoad() {
+        waitForViewNotYetInLayoutToDisplay(directionsButton, 30, TimeUnit.SECONDS)
     }
 
     private fun getFormattedDate(date: String, formatTo: String, inputFormat: String = "YYYY-MM-dd"): String {

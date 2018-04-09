@@ -2,7 +2,13 @@ package com.expedia.bookings.test.stepdefs.phone
 
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.pagemodels.trips.TripDetailsScreen
+import com.expedia.bookings.test.pagemodels.trips.TripsScreen
+import com.expedia.bookings.test.pagemodels.trips.TripsScreen.clickDirectionButton
+import com.expedia.bookings.test.pagemodels.trips.TripsScreen.verifyMapMarker
+import com.expedia.bookings.test.pagemodels.trips.TripsScreen.clickOnTripMap
+import com.expedia.bookings.test.stepdefs.phone.HomeScreenSteps.switchToTab
 import cucumber.api.java.en.Then
+import cucumber.api.java.en.When
 
 class TripDetailsScreenSteps {
     @Then("^I verify the hotel name in the tool bar is \"(.*?)\"")
@@ -57,10 +63,38 @@ class TripDetailsScreenSteps {
         TripDetailsScreen.AndroidNativeShareOptions.waitForAppToLoad(appName)
     }
 
+    @When("^I tap on my hotel with the name ^Longhorn ^Casino & ^Hotel")
+    @Throws(Throwable::class)
+    fun iTapHotel(itemName: String) {
+        switchToTab("Trips")
+        TripsScreen.waitForTripsViewToLoad()
+        TripsScreen.clickOnTripItemWithName(itemName)
+        TripDetailsScreen.waitUntilLoaded()
+    }
+
     @Then("^I force-stop process of (Facebook|Gmail|KakaoTalk|LINE) app")
     @Throws(Throwable::class)
     fun iForceStopProcessOfApp(appName: String) {
         val packageName = TripDetailsScreen.AndroidNativeShareOptions.getPackageNameForAppName(appName)
         Common.forceStopProcess(packageName)
+    }
+
+    @When("^I tap on the map")
+    @Throws(Throwable::class)
+    fun iTapOnMap() {
+        clickOnTripMap()
+        TripDetailsScreen.waitForMapToLoad()
+    }
+
+    @When("^I verify marker exists")
+    @Throws(Throwable::class)
+    fun iVerifyMarkerExists() {
+        verifyMapMarker()
+    }
+
+    @When("^I verify direction button is clickable")
+    @Throws(Throwable::class)
+    fun iVerifyDirectionButtonIsClickable() {
+        clickDirectionButton()
     }
 }
