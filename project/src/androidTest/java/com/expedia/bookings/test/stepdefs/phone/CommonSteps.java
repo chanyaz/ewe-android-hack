@@ -70,6 +70,9 @@ public class CommonSteps {
 			case "South Korea":
 				Common.setPOS(PointOfSaleId.SOUTH_KOREA);
 				break;
+			case "Mexico":
+				Common.setPOS(PointOfSaleId.MEXICO);
+				break;
 		}
 	}
 

@@ -149,6 +149,14 @@ class PackageUtilTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testPackageLOBTitleStringMexico() {
+        assertPackageTitle(posId = PointOfSaleId.MEXICO,
+                expectedPackagesLobTitleABTestEnabled = false,
+                expectedPackageTitle = "Hotel + Flight")
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPackageLOBTitleStringFallback() {
         assertPackageTitle(posId = PointOfSaleId.FINLAND,
                 expectedPackagesLobTitleABTestEnabled = false,

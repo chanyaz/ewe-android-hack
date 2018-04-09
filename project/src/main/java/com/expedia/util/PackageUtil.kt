@@ -18,6 +18,7 @@ object PackageUtil {
         get() {
             val pointOfSaleId = PointOfSale.getPointOfSale().pointOfSaleId
             return pointOfSaleId == PointOfSaleId.SOUTH_KOREA ||
+                    pointOfSaleId == PointOfSaleId.MEXICO ||
                     pointOfSaleId == PointOfSaleId.EBOOKERS_FRANCE
         }
 
@@ -48,6 +49,7 @@ object PackageUtil {
                 pointOfSaleId == PointOfSaleId.ITALY ||
                 pointOfSaleId == PointOfSaleId.FRANCE ||
                 pointOfSaleId == PointOfSaleId.SOUTH_KOREA ||
+                pointOfSaleId == PointOfSaleId.MEXICO ||
                 pointOfSaleId == PointOfSaleId.AIRASIAGO_SINGAPORE ||
                 pointOfSaleId == PointOfSaleId.AIRASIAGO_JAPAN ||
                 pointOfSaleId == PointOfSaleId.AIRASIAGO_MALAYSIA ||

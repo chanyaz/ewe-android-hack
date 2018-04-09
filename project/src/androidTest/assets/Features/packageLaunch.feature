@@ -56,3 +56,4 @@ Feature: Package Launch
     Examples:
       | point_of_sale |
       | South Korea   |
+      | Mexico        |
