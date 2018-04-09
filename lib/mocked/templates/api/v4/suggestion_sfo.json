@@ -6,7 +6,7 @@
     {
       "@type": "gaiaRegionResult",
       "index": "0",
-      "gaiaId": "6000581",
+      "gaiaId": "happy",
       "type": "AIRPORT",
       "regionNames": {
         "fullName": "San Francisco, CA, United States (SFO-San Francisco Intl.)",
@@ -20,7 +20,7 @@
       },
       "hierarchyInfo": {
         "airport": {
-          "airportCode": "SFO",
+          "airportCode": "happy",
           "metrocode": "QSF",
           "multicity": "178305"
         },

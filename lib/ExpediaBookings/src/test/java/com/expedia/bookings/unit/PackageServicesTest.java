@@ -98,12 +98,12 @@ public class PackageServicesTest {
 		observer.assertComplete();
 		observer.assertValueCount(1);
 		BundleSearchResponse response = observer.values().get(0);
-		Assert.assertEquals(49, response.getHotels().size());
+		Assert.assertEquals(50, response.getHotels().size());
 		Assert.assertEquals(100, response.getFlightLegs().size());
 
 		List<Hotel> hotels = response.getHotels();
 		Set<Hotel> uniqueHotels = new HashSet<>(hotels);
-		Assert.assertEquals(49, uniqueHotels.size());
+		Assert.assertEquals(50, uniqueHotels.size());
 
 		List<FlightLeg> flightLegs = response.getFlightLegs();
 		Set<FlightLeg> uniqueOutboundFlightLegs = new HashSet<>();
@@ -177,8 +177,8 @@ public class PackageServicesTest {
 		observer.assertComplete();
 		observer.assertValueCount(1);
 		BundleSearchResponse response = observer.values().get(0);
-		Assert.assertEquals(50, response.getHotels().size());
-		Assert.assertEquals(100, response.getFlightLegs().size());
+		Assert.assertEquals(67, response.getHotels().size());
+		Assert.assertEquals(134, response.getFlightLegs().size());
 
 		List<Hotel> hotels = response.getHotels();
 		Set<Hotel> uniqueHotels = new HashSet<>(hotels);
@@ -193,8 +193,8 @@ public class PackageServicesTest {
 		for (int index = 1; index < flightLegs.size(); index += 2) {
 			uniqueInboundFlightLegs.add(flightLegs.get(index));
 		}
-		Assert.assertEquals(50, uniqueOutboundFlightLegs.size());
-		Assert.assertEquals(24, uniqueInboundFlightLegs.size());
+		Assert.assertEquals(67, uniqueOutboundFlightLegs.size());
+		Assert.assertEquals(9, uniqueInboundFlightLegs.size());
 	}
 
 	@Test
@@ -258,8 +258,8 @@ public class PackageServicesTest {
 		observer.assertComplete();
 		observer.assertValueCount(1);
 		BundleSearchResponse response = observer.values().get(0);
-		Assert.assertEquals(50, response.getHotels().size());
-		Assert.assertEquals(100, response.getFlightLegs().size());
+		Assert.assertEquals(53, response.getHotels().size());
+		Assert.assertEquals(106, response.getFlightLegs().size());
 
 		List<Hotel> hotels = response.getHotels();
 		Set<Hotel> uniqueHotels = new HashSet<>(hotels);
@@ -275,7 +275,7 @@ public class PackageServicesTest {
 			uniqueInboundFlightLegs.add(flightLegs.get(index));
 		}
 		Assert.assertEquals(1, uniqueOutboundFlightLegs.size());
-		Assert.assertEquals(50, uniqueInboundFlightLegs.size());
+		Assert.assertEquals(53, uniqueInboundFlightLegs.size());
 	}
 
 	@Test
@@ -339,7 +339,7 @@ public class PackageServicesTest {
 
 		MultiItemApiSearchResponse response = observer.values().get(0);
 
-		Assert.assertEquals("3052.42", response.getOffers().get(0).getPrice().getBasePrice().getAmount().toString());
+		Assert.assertEquals("3241", response.getOffers().get(0).getPrice().getBasePrice().getAmount().toString());
 	}
 
 	@Test
@@ -430,7 +430,7 @@ public class PackageServicesTest {
 		observer.assertComplete();
 		observer.assertValueCount(1);
 		BundleSearchResponse response = observer.values().get(0);
-		Assert.assertEquals("v5-45dc0add4d92f2116bdcde80d6c383cc-46-1-st-v5-a2573d67403439fd314f60b92e69c5d0-37-1", response.getSelectedFlightPIID("484e6292832e2ace56acb0c2d202c6fd", "6dbea58f27ddc792f812ab18982fb2bc"));
+		Assert.assertEquals("mid_create_trip", response.getSelectedFlightPIID("flight_inbound_happy", "52eb781f016058f4a517e8e802331956"));
 		Assert.assertNull(response.getSelectedFlightPIID(null, null));
 		Assert.assertNull(response.getSelectedFlightPIID("484e6292832e2ace56acb0c2d202c6fd", "wrong_id"));
 	}
@@ -456,7 +456,9 @@ public class PackageServicesTest {
 		observer.assertComplete();
 		observer.assertValueCount(1);
 		BundleSearchResponse response = observer.values().get(0);
-		Assert.assertEquals("v5-2ffc9fc94429c83825cd8181f0e6afdd-37-36-1", response.getFlightPIIDFromSelectedHotel(response.getHotels().get(0).hotelPid));
+		Assert.assertEquals(
+			"v5-714439a54a9f7dd58e1b4298a5025d0e-0-0-1~0.S~AQoCCAESBwjUBBABGAEgASAHIA0gDCgD~AQpDCh8Iw7QBEgM2NjAYsnEggmgom7GLATC1uYsBOFZAAFgBCiAIw7QBEgQ2MDY3GIJoIOpkKO-9iwEwisCLAThLQABYAQpjCh8IzaoBEgM3NTgY6mQgijMoueSLATDl5YsBOFNAAFgBCh8IzaoBEgM3NDcYijMgrzUowuqLATCK7IsBOEJAAVgBCh8IzaoBEgM1ODkYrzUgsnEojO2LATC-8osBOFNAAVgBEgoIARABGAEqAkNaGAEiBAgBEAEoAigDKAQwAg",
+			response.getFlightPIIDFromSelectedHotel(response.getHotels().get(0).hotelPid));
 		Assert.assertNull(response.getFlightPIIDFromSelectedHotel("hotel-ZERO"));
 		Assert.assertNull(response.getFlightPIIDFromSelectedHotel(null));
 	}

@@ -405,8 +405,10 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
                 "PACKAGES" -> {
                     if (request.path.startsWith("/api/v4/typeahead/del?")) {
                         return makeResponse("/api/v4/suggestion_packages_del.json")
-                    }
-                    return makeResponse("/api/v4/suggestion.json")
+                    } else if (request.path.startsWith("/api/v4/typeahead/sfo?")) {
+                        return makeResponse("/api/v4/suggestion_sfo.json")
+                    } else
+                        return makeResponse("/api/v4/suggestion.json")
                 }
                 else -> {
                     val requestPath = request.path

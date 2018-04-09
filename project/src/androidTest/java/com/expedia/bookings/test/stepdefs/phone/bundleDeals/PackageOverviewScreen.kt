@@ -17,6 +17,7 @@ import android.view.View
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.CustomMatchers
+import com.expedia.bookings.test.espresso.CustomMatchers.withIndex
 import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen
@@ -27,6 +28,7 @@ import cucumber.api.java.en.And
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 import org.hamcrest.CoreMatchers
+import org.hamcrest.Matcher
 import org.hamcrest.Matchers.containsString
 import org.hamcrest.Matchers.not
 import org.hamcrest.core.AllOf
@@ -190,15 +192,13 @@ class PackageOverviewScreen {
 
     @Then("^verify package outbound flight icon is displayed")
     fun validateOutboundFlightIcon() {
-        onView(allOf<View>(withId(R.id.imageView),
-                isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))))
+        onView(getViewAtIndexInFlightOutboundWidget(R.id.imageView, 0))
                 .check(matches(CustomMatchers.withImageDrawable(R.drawable.flights_details_icon_flight)))
     }
 
     @Then("^verify package inbound flight icon is displayed")
     fun validateInboundFlightIcon1() {
-        onView(allOf<View>(withId(R.id.imageView),
-                isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))))
+        onView(getViewAtIndexInFlightInboundWidget(R.id.imageView, 0))
                 .check(matches(CustomMatchers.withImageDrawable(R.drawable.flights_details_icon_flight)))
     }
 
@@ -224,47 +224,44 @@ class PackageOverviewScreen {
 
     @Then("^validate package outbound flight details$")
     fun validateOutboundFlightData(parameters: Map<String, String>) {
-        onView(allOf<View>(withId(R.id.departure_arrival_time),
-                isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))))
+        onView(getViewAtIndexInFlightOutboundWidget(R.id.departure_arrival_time, 0))
                 .check(matches(withText(parameters["departure_arrival_time"])))
-        onView(allOf<View>(withId(R.id.departure_arrival_airport),
-                isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))))
+        onView(getViewAtIndexInFlightOutboundWidget(R.id.departure_arrival_airport, 0))
                 .check(matches(withText(parameters["departure_arrival_airport"])))
-        onView(allOf<View>(withId(R.id.airline_airplane_type),
-                isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))))
+        onView(getViewAtIndexInFlightOutboundWidget(R.id.airline_airplane_type, 0))
                 .check(matches(withText(containsString(parameters["airline"]))))
-        onView(allOf<View>(withId(R.id.airline_airplane_type),
-                isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))))
+        onView(getViewAtIndexInFlightOutboundWidget(R.id.airline_airplane_type, 0))
                 .check(matches(withText(containsString(parameters["airplane_type"]))))
-        onView(allOf<View>(withId(R.id.flight_duration),
-                isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))))
+        onView(getViewAtIndexInFlightOutboundWidget(R.id.flight_duration, 0))
                 .check(matches(withText(parameters["flight_duration"])))
+    }
+
+    fun getViewAtIndexInFlightOutboundWidget(viewId: Int, index: Int): Matcher<View> {
+        return withIndex(allOf<View>(withId(viewId), isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))), index)
     }
 
     @Then("^validate package outbound flight details seating class$")
     fun validateOutboundFlightDataSeatingClass(parameters: Map<String, String>) {
-        onView(allOf<View>(withId(R.id.flight_seat_class_booking_code),
-                isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))))
+        onView(getViewAtIndexInFlightOutboundWidget(R.id.flight_seat_class_booking_code, 0))
                 .check(matches(withText(parameters["seatingClass"])))
     }
 
     @Then("^validate package inbound flight details")
     fun validateInboundFlightData(parameters: Map<String, String>) {
-        onView(allOf<View>(withId(R.id.departure_arrival_time),
-                isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))))
+        onView(getViewAtIndexInFlightInboundWidget(R.id.departure_arrival_time, 0))
                 .check(matches(withText(parameters["departure_arrival_time"])))
-        onView(allOf<View>(withId(R.id.departure_arrival_airport),
-                isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))))
+        onView(getViewAtIndexInFlightInboundWidget(R.id.departure_arrival_airport, 0))
                 .check(matches(withText(parameters["departure_arrival_airport"])))
-        onView(allOf<View>(withId(R.id.airline_airplane_type),
-                isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))))
+        onView(getViewAtIndexInFlightInboundWidget(R.id.airline_airplane_type, 0))
                 .check(matches(withText(containsString(parameters["airline"]))))
-        onView(allOf<View>(withId(R.id.airline_airplane_type),
-                isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))))
+        onView(getViewAtIndexInFlightInboundWidget(R.id.airline_airplane_type, 0))
                 .check(matches(withText(containsString(parameters["airplane_type"]))))
-        onView(allOf<View>(withId(R.id.flight_duration),
-                isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))))
+        onView(getViewAtIndexInFlightInboundWidget(R.id.flight_duration, 0))
                 .check((matches(withText(parameters["flight_duration"]))))
+    }
+
+    fun getViewAtIndexInFlightInboundWidget(viewId: Int, index: Int): Matcher<View> {
+        return withIndex(allOf<View>(withId(viewId), isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))), index)
     }
 
     @Then("^validate package outbound flight total duration")

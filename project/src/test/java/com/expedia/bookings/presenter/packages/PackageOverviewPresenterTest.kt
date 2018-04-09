@@ -178,7 +178,7 @@ class PackageOverviewPresenterTest {
         overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
 
         val currentURLIndex = testSubscriber.valueCount() - 1
-        assertEquals("https://www.expedia.com/MultiItemCheckout?tripid=fd713193-3ec1-4773-9f0d-4ff51cc8c19f", testSubscriber.values()[currentURLIndex])
+        assertEquals("https://www.expedia.com/MultiItemCheckout?tripid=859b3288-4dcf-46e5-a545-8e9daaa3be45", testSubscriber.values()[currentURLIndex])
     }
 
     @Test
