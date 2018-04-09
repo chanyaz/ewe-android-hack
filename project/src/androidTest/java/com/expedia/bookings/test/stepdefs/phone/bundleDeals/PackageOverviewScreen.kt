@@ -4,19 +4,23 @@ import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers
+import android.support.test.espresso.matcher.ViewMatchers.hasDescendant
 import android.support.test.espresso.matcher.ViewMatchers.hasSibling
 import android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import android.support.test.espresso.matcher.ViewMatchers.isEnabled
+import android.support.test.espresso.matcher.ViewMatchers.withChild
 import android.support.test.espresso.matcher.ViewMatchers.withContentDescription
 import android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withParent
+import android.support.test.espresso.matcher.ViewMatchers.withParentIndex
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import android.view.View
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.CustomMatchers
+import com.expedia.bookings.test.espresso.CustomMatchers.withIndex
 import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen
@@ -191,15 +195,15 @@ class PackageOverviewScreen {
 
     @Then("^verify package outbound flight icon is displayed")
     fun validateOutboundFlightIcon() {
-        onView(allOf<View>(withId(R.id.imageView),
-                isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))))
+        onView(withIndex(allOf<View>(withId(R.id.imageView),
+                isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))), 0))
                 .check(matches(CustomMatchers.withImageDrawable(R.drawable.flights_details_icon_flight)))
     }
 
     @Then("^verify package inbound flight icon is displayed")
     fun validateInboundFlightIcon1() {
-        onView(allOf<View>(withId(R.id.imageView),
-                isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))))
+        onView(withIndex(allOf<View>(withId(R.id.imageView),
+                isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))), 0))
                 .check(matches(CustomMatchers.withImageDrawable(R.drawable.flights_details_icon_flight)))
     }
 
@@ -225,46 +229,46 @@ class PackageOverviewScreen {
 
     @Then("^validate package outbound flight details$")
     fun validateOutboundFlightData(parameters: Map<String, String>) {
-        onView(allOf<View>(withId(R.id.departure_arrival_time),
-                isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))))
+        onView(withIndex(allOf<View>(withId(R.id.departure_arrival_time),
+                isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))), 0))
                 .check(matches(withText(parameters["departure_arrival_time"])))
-        onView(allOf<View>(withId(R.id.departure_arrival_airport),
-                isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))))
+        onView(withIndex(allOf<View>(withId(R.id.departure_arrival_airport),
+                isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))), 0))
                 .check(matches(withText(parameters["departure_arrival_airport"])))
-        onView(allOf<View>(withId(R.id.airline_airplane_type),
-                isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))))
+        onView(withIndex(allOf<View>(withId(R.id.airline_airplane_type),
+                isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))), 0))
                 .check(matches(withText(containsString(parameters["airline"]))))
-        onView(allOf<View>(withId(R.id.airline_airplane_type),
-                isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))))
+        onView(withIndex(allOf<View>(withId(R.id.airline_airplane_type),
+                isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))), 0))
                 .check(matches(withText(containsString(parameters["airplane_type"]))))
-        onView(allOf<View>(withId(R.id.flight_duration),
-                isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))))
+        onView(withIndex(allOf<View>(withId(R.id.flight_duration),
+                isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))), 0))
                 .check(matches(withText(parameters["flight_duration"])))
     }
 
     @Then("^validate package outbound flight details seating class$")
     fun validateOutboundFlightDataSeatingClass(parameters: Map<String, String>) {
-        onView(allOf<View>(withId(R.id.flight_seat_class_booking_code),
-                isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))))
+        onView(withIndex(allOf<View>(withId(R.id.flight_seat_class_booking_code),
+                isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))), 0))
                 .check(matches(withText(parameters["seatingClass"])))
     }
 
     @Then("^validate package inbound flight details")
     fun validateInboundFlightData(parameters: Map<String, String>) {
-        onView(allOf<View>(withId(R.id.departure_arrival_time),
-                isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))))
+        onView(withIndex(allOf<View>(withId(R.id.departure_arrival_time),
+                isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))), 0))
                 .check(matches(withText(parameters["departure_arrival_time"])))
-        onView(allOf<View>(withId(R.id.departure_arrival_airport),
-                isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))))
+        onView(withIndex(allOf<View>(withId(R.id.departure_arrival_airport),
+                isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))), 0))
                 .check(matches(withText(parameters["departure_arrival_airport"])))
-        onView(allOf<View>(withId(R.id.airline_airplane_type),
-                isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))))
+        onView(withIndex(allOf<View>(withId(R.id.airline_airplane_type),
+                isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))), 0))
                 .check(matches(withText(containsString(parameters["airline"]))))
-        onView(allOf<View>(withId(R.id.airline_airplane_type),
-                isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))))
+        onView(withIndex(allOf<View>(withId(R.id.airline_airplane_type),
+                isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))), 0))
                 .check(matches(withText(containsString(parameters["airplane_type"]))))
-        onView(allOf<View>(withId(R.id.flight_duration),
-                isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))))
+        onView(withIndex(allOf<View>(withId(R.id.flight_duration),
+                isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))), 0))
                 .check((matches(withText(parameters["flight_duration"]))))
     }
 

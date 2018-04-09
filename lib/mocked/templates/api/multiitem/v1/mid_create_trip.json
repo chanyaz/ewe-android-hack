@@ -1,8 +1,19 @@
 {
-  "tripId": "fd713193-3ec1-4773-9f0d-4ff51cc8c19f",
+  "tripId": "859b3288-4dcf-46e5-a545-8e9daaa3be45",
   "messageInfo": {
-    "transactionGUID": "b7d73d3a-1ab8-4143-8239-6b945fdb8d6f",
-    "userGUID": "99405be1-6abc-48ae-b0ca-11ccad09807c",
-    "tuid": 1319218340
+    "transactionGUID": "3500f972-8058-44fd-875e-c8d19845fe2d",
+    "userGUID": "7dc672f7-2004-41ec-a44b-780dd5b137db",
+    "tuid": 1343592744
+  },
+  "priceChange": {
+    "previousPrice": {
+      "amount": 1401.28,
+      "currency": "USD"
+    },
+    "currentPrice": {
+      "amount": 1407.04,
+      "currency": "USD"
+    },
+    "priceChangeReason": "PRICE_INCREASED"
   }
 }

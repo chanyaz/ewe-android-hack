@@ -3,43 +3,56 @@
     {
       "price": {
         "basePrice": {
-          "amount": 3052.42,
+          "amount": 3241,
           "currency": "USD"
         },
         "taxesAndFees": {
-          "amount": 614.61,
+          "amount": 1185.96,
           "currency": "USD"
         },
         "totalPrice": {
-          "amount": 3667.03,
+          "amount": 4426.96,
           "currency": "USD"
         },
         "referenceBasePrice": {
-          "amount": 3550.15,
+          "amount": 3139.75,
           "currency": "USD"
         },
         "referenceTaxesAndFees": {
-          "amount": 757.23,
+          "amount": 1170,
           "currency": "USD"
         },
         "referenceTotalPrice": {
-          "amount": 4307.38,
+          "amount": 4309.75,
           "currency": "USD"
         },
         "savings": {
-          "amount": 640.35,
+          "amount": -117.21,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgPricePerPerson": {
-          "amount": 3667.03,
+          "amount": 1106.74,
           "currency": "USD"
         },
-        "showSavings": false,         "avgReferencePricePerPerson": {
-          "amount": 4307.38,
+        "avgReferencePricePerPerson": {
+          "amount": 1077.44,
           "currency": "USD"
         },
         "deltaAvgPricePerPerson": {
-          "amount": 0.00,
+          "amount": 0,
+          "currency": "USD"
+        },
+        "avgPricePerNight": {
+          "amount": 1475.65,
+          "currency": "USD"
+        },
+        "avgReferencePricePerNight": {
+          "amount": 1436.58,
+          "currency": "USD"
+        },
+        "deltaAvgPricePerNight": {
+          "amount": 0,
           "currency": "USD"
         }
       },
@@ -53,117 +66,75 @@
           "productKey": "flight-0"
         }
       ],
-      "packageDeal": {
-        "markers": [
-          {
-            "sticker": "FreeFlight",
-            "magnitude": 0.0,
-            "content": {
-              "description": "Book this and <strong>save 100% on your flight</strong>",
-              "title": "Unreal Deal",
-              "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of your airfare."
-            },
-            "contentVariants": {
-
-            }
-          },
-          {
-            "sticker": "FreeHotelNights",
-            "magnitude": 1.0,
-            "content": {
-              "description": "<strong>Get 1 night free</strong> by booking together.",
-              "title": "Unreal Deal",
-              "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of 1 hotel night."
-            },
-            "contentVariants": {
-
-            }
-          },
-          {
-            "sticker": "FlightDeal",
-            "magnitude": 0.0,
-            "content": {
-              "description": "Book this and save $640 (14%)",
-              "title": "Unreal Deal",
-              "legal": ""
-            },
-            "contentVariants": {
-
-            }
-          },
-          {
-            "sticker": "HotelSavingsFreeNights",
-            "magnitude": 1.0,
-            "content": {
-              "description": "<strong>Get 1 night free</strong> by booking together.",
-              "title": "Unreal Deal",
-              "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of 1 hotel night."
-            },
-            "contentVariants": {
-
-            }
-          }
-        ],
-        "savingsPercentage": 14.87,
-        "savingsAmount": 640.35,
-        "rank": 0
-      },
       "loyaltyInfo": {
         "earn": {
           "points": {
-            "base": 7334,
-            "bonus": 7334,
-            "total": 14668
+            "base": 8854,
+            "bonus": 8854,
+            "total": 17708
           }
         }
       },
-      "detailsUrl": "/Details?action=UnifiedDetailsWidget@showDetailsForDeepLink&ptyp=multiitem&langid=1033&crom=1&cadt=R1:1&dcty=L1:SEA%7CL2:SFO&acty=L1:SFO%7CL2:SEA&ddte=L1:2017-11-08%7CL2:2017-11-15&destinationId=178305&hotelId=18723252&ratePlanCode=210772335&roomTypeCode=202065745&inventoryType=1&checkInDate=2017-11-08&checkOutDate=2017-11-15&tokens=AQogCh4IwaYBEgQxNTA0GJIBILJxKOTbezDh3Hs4UkAAWAEKIAoeCMGmARIEMTUyMxiycSCSASjasHww1rF8OFJAAFgBEgoIARABGAEqAkFTGAEiBAgBEAEoBCgDKAEoAjAC&price=3667.03&ccyc=USD",
-      "changeHotelUrl": "/changehotel?packageType=fh&langid=1033&originId=178307&ftla=SEA&destinationId=178305&ttla=SFO&fromDate=2017-11-08&toDate=2017-11-15&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=18723252&flightPIID=v5-2ffc9fc94429c83825cd8181f0e6afdd-37-36-1&hotelPIID=18723252,210772335,202065745&adjustedCheckin=2017-11-08&hotelInventoryType=MERCHANT",
-      "changeRoomUrl": "/hotel.h18723252.Hotel-Information?packageType=fh&langid=1033&originId=178307&ftla=SEA&destinationId=178305&ttla=SFO&fromDate=2017-11-08&toDate=2017-11-15&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=18723252&action=changeRoom&hotelId=18723252&currentRatePlan=202065745210772335&flightPIID=v5-2ffc9fc94429c83825cd8181f0e6afdd-37-36-1&hotelPIID=18723252,210772335,202065745&adjustedCheckin=2017-11-08&hotelInventoryType=MERCHANT",
+      "detailsUrl": "/Details?action=UnifiedDetailsWidget@showDetailsForDeepLink&ptyp=multiitem&langid=1033&crom=1&cadt=R1:2&cchl=R1:2&ages=R1:10%7CR1:10&dcty=L1:SFO%7CL2:KTM&acty=L1:KTM%7CL2:SFO&ddte=L1:2018-04-20%7CL2:2018-04-25&destinationId=180066&hotelId=531192&ratePlanCode=206241176&roomTypeCode=225416&inventoryType=1&checkInDate=2018-04-22&checkOutDate=2018-04-25&tokens=AQpDCh8Iw7QBEgM2NTgYsnEggmgo_4yKATDbk4oBOFFAAFgBCiAIw7QBEgQ2MDY3GIJoIOpkKI-VigEwqpeKAThQQABYAQpDCiAIw7QBEgQzMDY4GOpkIIJoKP2-igEw-cCKAThQQABYAQofCMO0ARIDNjU5GIJoILJxKOHDigEwg8uKAThVQABYARIKCAEQARgBKgJDWhgEIgQIARACIgQIAhACKAIoAygEMAI&price=4426.96&ccyc=USD",
+      "changeHotelUrl": "/changehotel?packageType=fh&langid=1033&originId=5195347&ftla=SFO&destinationId=180066&ttla=KTM&fromDate=2018-04-20&toDate=2018-04-25&numberOfRooms=1&adultsPerRoom%5B1%5D=2&childrenPerRoom%5B1%5D=2&childAges%5B1%5D%5B1%5D=10&childAges%5B1%5D%5B2%5D=10&hotelIds=531192&flightPIID=v5-fd92d58d4608b1fd4ce440be5745b46a-0-0-1~0.S~AQoCCAESBwjUBBABGAEgASAHIA0gDCgD~AQpDCh8Iw7QBEgM2NTgYsnEggmgo_4yKATDbk4oBOFFAAFgBCiAIw7QBEgQ2MDY3GIJoIOpkKI-VigEwqpeKAThQQABYAQpDCiAIw7QBEgQzMDY4GOpkIIJoKP2-igEw-cCKAThQQABYAQofCMO0ARIDNjU5GIJoILJxKOHDigEwg8uKAThVQABYARIKCAEQARgBKgJDWhgEIgQIARACIgQIAhACKAIoAygEMAI&hotelPIID=531192,206241176,225416&adjustedCheckin=2018-04-22&hotelInventoryType=MERCHANT",
+      "changeRoomUrl": "/hotel.h531192.Hotel-Information?packageType=fh&langid=1033&originId=5195347&ftla=SFO&destinationId=180066&ttla=KTM&fromDate=2018-04-20&toDate=2018-04-25&numberOfRooms=1&adultsPerRoom%5B1%5D=2&childrenPerRoom%5B1%5D=2&childAges%5B1%5D%5B1%5D=10&childAges%5B1%5D%5B2%5D=10&hotelIds=531192&action=changeRoom&hotelId=531192&currentRatePlan=225416206241176&flightPIID=v5-fd92d58d4608b1fd4ce440be5745b46a-0-0-1~0.S~AQoCCAESBwjUBBABGAEgASAHIA0gDCgD~AQpDCh8Iw7QBEgM2NTgYsnEggmgo_4yKATDbk4oBOFFAAFgBCiAIw7QBEgQ2MDY3GIJoIOpkKI-VigEwqpeKAThQQABYAQpDCiAIw7QBEgQzMDY4GOpkIIJoKP2-igEw-cCKAThQQABYAQofCMO0ARIDNjU5GIJoILJxKOHDigEwg8uKAThVQABYARIKCAEQARgBKgJDWhgEIgQIARACIgQIAhACKAIoAygEMAI&hotelPIID=531192,206241176,225416&adjustedCheckin=2018-04-22&hotelInventoryType=MERCHANT",
       "cancellationPolicy": {
-        "freeCancellationAvailable": false
+        "freeCancellationAvailable": true
       }
     },
     {
       "price": {
         "basePrice": {
-          "amount": 3052.42,
+          "amount": 3241,
           "currency": "USD"
         },
         "taxesAndFees": {
-          "amount": 614.61,
+          "amount": 1185.96,
           "currency": "USD"
         },
         "totalPrice": {
-          "amount": 3667.03,
+          "amount": 4426.96,
           "currency": "USD"
         },
         "referenceBasePrice": {
-          "amount": 3550.15,
+          "amount": 3139.75,
           "currency": "USD"
         },
         "referenceTaxesAndFees": {
-          "amount": 757.23,
+          "amount": 1170,
           "currency": "USD"
         },
         "referenceTotalPrice": {
-          "amount": 4307.38,
+          "amount": 4309.75,
           "currency": "USD"
         },
         "savings": {
-          "amount": 640.35,
+          "amount": -117.21,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgPricePerPerson": {
-          "amount": 3667.03,
+          "amount": 1106.74,
           "currency": "USD"
         },
-        "showSavings": false,         "avgReferencePricePerPerson": {
-          "amount": 4307.38,
+        "avgReferencePricePerPerson": {
+          "amount": 1077.44,
           "currency": "USD"
         },
         "deltaAvgPricePerPerson": {
-          "amount": 0.00,
+          "amount": 0,
+          "currency": "USD"
+        },
+        "avgPricePerNight": {
+          "amount": 1475.65,
+          "currency": "USD"
+        },
+        "avgReferencePricePerNight": {
+          "amount": 1436.58,
+          "currency": "USD"
+        },
+        "deltaAvgPricePerNight": {
+          "amount": 0,
           "currency": "USD"
         }
       },
@@ -177,117 +148,75 @@
           "productKey": "flight-0"
         }
       ],
-      "packageDeal": {
-        "markers": [
-          {
-            "sticker": "FreeFlight",
-            "magnitude": 0.0,
-            "content": {
-              "description": "Book this and <strong>save 100% on your flight</strong>",
-              "title": "Unreal Deal",
-              "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of your airfare."
-            },
-            "contentVariants": {
-
-            }
-          },
-          {
-            "sticker": "FreeHotelNights",
-            "magnitude": 1.0,
-            "content": {
-              "description": "<strong>Get 1 night free</strong> by booking together.",
-              "title": "Unreal Deal",
-              "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of 1 hotel night."
-            },
-            "contentVariants": {
-
-            }
-          },
-          {
-            "sticker": "FlightDeal",
-            "magnitude": 0.0,
-            "content": {
-              "description": "Book this and save $640 (14%)",
-              "title": "Unreal Deal",
-              "legal": ""
-            },
-            "contentVariants": {
-
-            }
-          },
-          {
-            "sticker": "HotelSavingsFreeNights",
-            "magnitude": 1.0,
-            "content": {
-              "description": "<strong>Get 1 night free</strong> by booking together.",
-              "title": "Unreal Deal",
-              "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of 1 hotel night."
-            },
-            "contentVariants": {
-
-            }
-          }
-        ],
-        "savingsPercentage": 14.87,
-        "savingsAmount": 640.35,
-        "rank": 1
-      },
       "loyaltyInfo": {
         "earn": {
           "points": {
-            "base": 7334,
-            "bonus": 7334,
-            "total": 14668
+            "base": 8854,
+            "bonus": 8854,
+            "total": 17708
           }
         }
       },
-      "detailsUrl": "/Details?action=UnifiedDetailsWidget@showDetailsForDeepLink&ptyp=multiitem&langid=1033&crom=1&cadt=R1:1&dcty=L1:SEA%7CL2:SFO&acty=L1:SFO%7CL2:SEA&ddte=L1:2017-11-08%7CL2:2017-11-15&destinationId=178305&hotelId=18723252&ratePlanCode=210772336&roomTypeCode=202065747&inventoryType=1&checkInDate=2017-11-08&checkOutDate=2017-11-15&tokens=AQogCh4IwaYBEgQxNTA0GJIBILJxKOTbezDh3Hs4UkAAWAEKIAoeCMGmARIEMTUyMxiycSCSASjasHww1rF8OFJAAFgBEgoIARABGAEqAkFTGAEiBAgBEAEoBCgDKAEoAjAC&price=3667.03&ccyc=USD",
-      "changeHotelUrl": "/changehotel?packageType=fh&langid=1033&originId=178307&ftla=SEA&destinationId=178305&ttla=SFO&fromDate=2017-11-08&toDate=2017-11-15&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=18723252&flightPIID=v5-2ffc9fc94429c83825cd8181f0e6afdd-37-36-1&hotelPIID=18723252,210772336,202065747&adjustedCheckin=2017-11-08&hotelInventoryType=MERCHANT",
-      "changeRoomUrl": "/hotel.h18723252.Hotel-Information?packageType=fh&langid=1033&originId=178307&ftla=SEA&destinationId=178305&ttla=SFO&fromDate=2017-11-08&toDate=2017-11-15&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=18723252&action=changeRoom&hotelId=18723252&currentRatePlan=202065747210772336&flightPIID=v5-2ffc9fc94429c83825cd8181f0e6afdd-37-36-1&hotelPIID=18723252,210772336,202065747&adjustedCheckin=2017-11-08&hotelInventoryType=MERCHANT",
+      "detailsUrl": "/Details?action=UnifiedDetailsWidget@showDetailsForDeepLink&ptyp=multiitem&langid=1033&crom=1&cadt=R1:2&cchl=R1:2&ages=R1:10%7CR1:10&dcty=L1:SFO%7CL2:KTM&acty=L1:KTM%7CL2:SFO&ddte=L1:2018-04-20%7CL2:2018-04-25&destinationId=180066&hotelId=531192&ratePlanCode=206241175&roomTypeCode=225415&inventoryType=1&checkInDate=2018-04-22&checkOutDate=2018-04-25&tokens=AQpDCh8Iw7QBEgM2NTgYsnEggmgo_4yKATDbk4oBOFFAAFgBCiAIw7QBEgQ2MDY3GIJoIOpkKI-VigEwqpeKAThQQABYAQpDCiAIw7QBEgQzMDY4GOpkIIJoKP2-igEw-cCKAThQQABYAQofCMO0ARIDNjU5GIJoILJxKOHDigEwg8uKAThVQABYARIKCAEQARgBKgJDWhgEIgQIARACIgQIAhACKAIoAygEMAI&price=4426.96&ccyc=USD",
+      "changeHotelUrl": "/changehotel?packageType=fh&langid=1033&originId=5195347&ftla=SFO&destinationId=180066&ttla=KTM&fromDate=2018-04-20&toDate=2018-04-25&numberOfRooms=1&adultsPerRoom%5B1%5D=2&childrenPerRoom%5B1%5D=2&childAges%5B1%5D%5B1%5D=10&childAges%5B1%5D%5B2%5D=10&hotelIds=531192&flightPIID=v5-fd92d58d4608b1fd4ce440be5745b46a-0-0-1~0.S~AQoCCAESBwjUBBABGAEgASAHIA0gDCgD~AQpDCh8Iw7QBEgM2NTgYsnEggmgo_4yKATDbk4oBOFFAAFgBCiAIw7QBEgQ2MDY3GIJoIOpkKI-VigEwqpeKAThQQABYAQpDCiAIw7QBEgQzMDY4GOpkIIJoKP2-igEw-cCKAThQQABYAQofCMO0ARIDNjU5GIJoILJxKOHDigEwg8uKAThVQABYARIKCAEQARgBKgJDWhgEIgQIARACIgQIAhACKAIoAygEMAI&hotelPIID=531192,206241175,225415&adjustedCheckin=2018-04-22&hotelInventoryType=MERCHANT",
+      "changeRoomUrl": "/hotel.h531192.Hotel-Information?packageType=fh&langid=1033&originId=5195347&ftla=SFO&destinationId=180066&ttla=KTM&fromDate=2018-04-20&toDate=2018-04-25&numberOfRooms=1&adultsPerRoom%5B1%5D=2&childrenPerRoom%5B1%5D=2&childAges%5B1%5D%5B1%5D=10&childAges%5B1%5D%5B2%5D=10&hotelIds=531192&action=changeRoom&hotelId=531192&currentRatePlan=225415206241175&flightPIID=v5-fd92d58d4608b1fd4ce440be5745b46a-0-0-1~0.S~AQoCCAESBwjUBBABGAEgASAHIA0gDCgD~AQpDCh8Iw7QBEgM2NTgYsnEggmgo_4yKATDbk4oBOFFAAFgBCiAIw7QBEgQ2MDY3GIJoIOpkKI-VigEwqpeKAThQQABYAQpDCiAIw7QBEgQzMDY4GOpkIIJoKP2-igEw-cCKAThQQABYAQofCMO0ARIDNjU5GIJoILJxKOHDigEwg8uKAThVQABYARIKCAEQARgBKgJDWhgEIgQIARACIgQIAhACKAIoAygEMAI&hotelPIID=531192,206241175,225415&adjustedCheckin=2018-04-22&hotelInventoryType=MERCHANT",
       "cancellationPolicy": {
-        "freeCancellationAvailable": false
+        "freeCancellationAvailable": true
       }
     },
     {
       "price": {
         "basePrice": {
-          "amount": 3344.88,
+          "amount": 3307,
           "currency": "USD"
         },
         "taxesAndFees": {
-          "amount": 672.07,
+          "amount": 1199.97,
           "currency": "USD"
         },
         "totalPrice": {
-          "amount": 4016.95,
+          "amount": 4506.97,
           "currency": "USD"
         },
         "referenceBasePrice": {
-          "amount": 3890.15,
+          "amount": 3189.25,
           "currency": "USD"
         },
         "referenceTaxesAndFees": {
-          "amount": 828.45,
+          "amount": 1180.53,
           "currency": "USD"
         },
         "referenceTotalPrice": {
-          "amount": 4718.60,
+          "amount": 4369.78,
           "currency": "USD"
         },
         "savings": {
-          "amount": 701.65,
+          "amount": -137.19,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgPricePerPerson": {
-          "amount": 4016.95,
+          "amount": 1126.74,
           "currency": "USD"
         },
-        "showSavings": false,         "avgReferencePricePerPerson": {
-          "amount": 4718.60,
+        "avgReferencePricePerPerson": {
+          "amount": 1092.45,
           "currency": "USD"
         },
         "deltaAvgPricePerPerson": {
-          "amount": 349.92,
+          "amount": 20,
+          "currency": "USD"
+        },
+        "avgPricePerNight": {
+          "amount": 1502.32,
+          "currency": "USD"
+        },
+        "avgReferencePricePerNight": {
+          "amount": 1456.59,
+          "currency": "USD"
+        },
+        "deltaAvgPricePerNight": {
+          "amount": 26.67,
           "currency": "USD"
         }
       },
@@ -301,117 +230,75 @@
           "productKey": "flight-0"
         }
       ],
-      "packageDeal": {
-        "markers": [
-          {
-            "sticker": "FreeFlight",
-            "magnitude": 0.0,
-            "content": {
-              "description": "Book this and <strong>save 100% on your flight</strong>",
-              "title": "Unreal Deal",
-              "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of your airfare."
-            },
-            "contentVariants": {
-
-            }
-          },
-          {
-            "sticker": "FreeHotelNights",
-            "magnitude": 1.0,
-            "content": {
-              "description": "<strong>Get 1 night free</strong> by booking together.",
-              "title": "Unreal Deal",
-              "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of 1 hotel night."
-            },
-            "contentVariants": {
-
-            }
-          },
-          {
-            "sticker": "FlightDeal",
-            "magnitude": 0.0,
-            "content": {
-              "description": "Book this and save $701 (14%)",
-              "title": "Unreal Deal",
-              "legal": ""
-            },
-            "contentVariants": {
-
-            }
-          },
-          {
-            "sticker": "HotelSavingsFreeNights",
-            "magnitude": 1.0,
-            "content": {
-              "description": "<strong>Get 1 night free</strong> by booking together.",
-              "title": "Unreal Deal",
-              "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of 1 hotel night."
-            },
-            "contentVariants": {
-
-            }
-          }
-        ],
-        "savingsPercentage": 14.87,
-        "savingsAmount": 701.65,
-        "rank": 2
-      },
       "loyaltyInfo": {
         "earn": {
           "points": {
-            "base": 8034,
-            "bonus": 8034,
-            "total": 16068
+            "base": 9014,
+            "bonus": 9014,
+            "total": 18028
           }
         }
       },
-      "detailsUrl": "/Details?action=UnifiedDetailsWidget@showDetailsForDeepLink&ptyp=multiitem&langid=1033&crom=1&cadt=R1:1&dcty=L1:SEA%7CL2:SFO&acty=L1:SFO%7CL2:SEA&ddte=L1:2017-11-08%7CL2:2017-11-15&destinationId=178305&hotelId=18723252&ratePlanCode=210772334&roomTypeCode=202065743&inventoryType=1&checkInDate=2017-11-08&checkOutDate=2017-11-15&tokens=AQogCh4IwaYBEgQxNTA0GJIBILJxKOTbezDh3Hs4UkAAWAEKIAoeCMGmARIEMTUyMxiycSCSASjasHww1rF8OFJAAFgBEgoIARABGAEqAkFTGAEiBAgBEAEoBCgDKAEoAjAC&price=4016.95&ccyc=USD",
-      "changeHotelUrl": "/changehotel?packageType=fh&langid=1033&originId=178307&ftla=SEA&destinationId=178305&ttla=SFO&fromDate=2017-11-08&toDate=2017-11-15&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=18723252&flightPIID=v5-2ffc9fc94429c83825cd8181f0e6afdd-37-36-1&hotelPIID=18723252,210772334,202065743&adjustedCheckin=2017-11-08&hotelInventoryType=MERCHANT",
-      "changeRoomUrl": "/hotel.h18723252.Hotel-Information?packageType=fh&langid=1033&originId=178307&ftla=SEA&destinationId=178305&ttla=SFO&fromDate=2017-11-08&toDate=2017-11-15&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=18723252&action=changeRoom&hotelId=18723252&currentRatePlan=202065743210772334&flightPIID=v5-2ffc9fc94429c83825cd8181f0e6afdd-37-36-1&hotelPIID=18723252,210772334,202065743&adjustedCheckin=2017-11-08&hotelInventoryType=MERCHANT",
+      "detailsUrl": "/Details?action=UnifiedDetailsWidget@showDetailsForDeepLink&ptyp=multiitem&langid=1033&crom=1&cadt=R1:2&cchl=R1:2&ages=R1:10%7CR1:10&dcty=L1:SFO%7CL2:KTM&acty=L1:KTM%7CL2:SFO&ddte=L1:2018-04-20%7CL2:2018-04-25&destinationId=180066&hotelId=531192&ratePlanCode=206241172&roomTypeCode=208820&inventoryType=1&checkInDate=2018-04-22&checkOutDate=2018-04-25&tokens=AQpDCh8Iw7QBEgM2NTgYsnEggmgo_4yKATDbk4oBOFFAAFgBCiAIw7QBEgQ2MDY3GIJoIOpkKI-VigEwqpeKAThQQABYAQpDCiAIw7QBEgQzMDY4GOpkIIJoKP2-igEw-cCKAThQQABYAQofCMO0ARIDNjU5GIJoILJxKOHDigEwg8uKAThVQABYARIKCAEQARgBKgJDWhgEIgQIARACIgQIAhACKAIoAygEMAI&price=4506.97&ccyc=USD",
+      "changeHotelUrl": "/changehotel?packageType=fh&langid=1033&originId=5195347&ftla=SFO&destinationId=180066&ttla=KTM&fromDate=2018-04-20&toDate=2018-04-25&numberOfRooms=1&adultsPerRoom%5B1%5D=2&childrenPerRoom%5B1%5D=2&childAges%5B1%5D%5B1%5D=10&childAges%5B1%5D%5B2%5D=10&hotelIds=531192&flightPIID=v5-fd92d58d4608b1fd4ce440be5745b46a-0-0-1~0.S~AQoCCAESBwjUBBABGAEgASAHIA0gDCgD~AQpDCh8Iw7QBEgM2NTgYsnEggmgo_4yKATDbk4oBOFFAAFgBCiAIw7QBEgQ2MDY3GIJoIOpkKI-VigEwqpeKAThQQABYAQpDCiAIw7QBEgQzMDY4GOpkIIJoKP2-igEw-cCKAThQQABYAQofCMO0ARIDNjU5GIJoILJxKOHDigEwg8uKAThVQABYARIKCAEQARgBKgJDWhgEIgQIARACIgQIAhACKAIoAygEMAI&hotelPIID=531192,206241172,208820&adjustedCheckin=2018-04-22&hotelInventoryType=MERCHANT",
+      "changeRoomUrl": "/hotel.h531192.Hotel-Information?packageType=fh&langid=1033&originId=5195347&ftla=SFO&destinationId=180066&ttla=KTM&fromDate=2018-04-20&toDate=2018-04-25&numberOfRooms=1&adultsPerRoom%5B1%5D=2&childrenPerRoom%5B1%5D=2&childAges%5B1%5D%5B1%5D=10&childAges%5B1%5D%5B2%5D=10&hotelIds=531192&action=changeRoom&hotelId=531192&currentRatePlan=208820206241172&flightPIID=v5-fd92d58d4608b1fd4ce440be5745b46a-0-0-1~0.S~AQoCCAESBwjUBBABGAEgASAHIA0gDCgD~AQpDCh8Iw7QBEgM2NTgYsnEggmgo_4yKATDbk4oBOFFAAFgBCiAIw7QBEgQ2MDY3GIJoIOpkKI-VigEwqpeKAThQQABYAQpDCiAIw7QBEgQzMDY4GOpkIIJoKP2-igEw-cCKAThQQABYAQofCMO0ARIDNjU5GIJoILJxKOHDigEwg8uKAThVQABYARIKCAEQARgBKgJDWhgEIgQIARACIgQIAhACKAIoAygEMAI&hotelPIID=531192,206241172,208820&adjustedCheckin=2018-04-22&hotelInventoryType=MERCHANT",
       "cancellationPolicy": {
-        "freeCancellationAvailable": false
+        "freeCancellationAvailable": true
       }
     },
     {
       "price": {
         "basePrice": {
-          "amount": 3344.88,
+          "amount": 3307,
           "currency": "USD"
         },
         "taxesAndFees": {
-          "amount": 672.07,
+          "amount": 1199.97,
           "currency": "USD"
         },
         "totalPrice": {
-          "amount": 4016.95,
+          "amount": 4506.97,
           "currency": "USD"
         },
         "referenceBasePrice": {
-          "amount": 3890.15,
+          "amount": 3189.25,
           "currency": "USD"
         },
         "referenceTaxesAndFees": {
-          "amount": 828.45,
+          "amount": 1180.53,
           "currency": "USD"
         },
         "referenceTotalPrice": {
-          "amount": 4718.60,
+          "amount": 4369.78,
           "currency": "USD"
         },
         "savings": {
-          "amount": 701.65,
+          "amount": -137.19,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgPricePerPerson": {
-          "amount": 4016.95,
+          "amount": 1126.74,
           "currency": "USD"
         },
-        "showSavings": false,         "avgReferencePricePerPerson": {
-          "amount": 4718.60,
+        "avgReferencePricePerPerson": {
+          "amount": 1092.45,
           "currency": "USD"
         },
         "deltaAvgPricePerPerson": {
-          "amount": 349.92,
+          "amount": 20,
+          "currency": "USD"
+        },
+        "avgPricePerNight": {
+          "amount": 1502.32,
+          "currency": "USD"
+        },
+        "avgReferencePricePerNight": {
+          "amount": 1456.59,
+          "currency": "USD"
+        },
+        "deltaAvgPricePerNight": {
+          "amount": 26.67,
           "currency": "USD"
         }
       },
@@ -425,117 +312,75 @@
           "productKey": "flight-0"
         }
       ],
-      "packageDeal": {
-        "markers": [
-          {
-            "sticker": "FreeFlight",
-            "magnitude": 0.0,
-            "content": {
-              "description": "Book this and <strong>save 100% on your flight</strong>",
-              "title": "Unreal Deal",
-              "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of your airfare."
-            },
-            "contentVariants": {
-
-            }
-          },
-          {
-            "sticker": "FreeHotelNights",
-            "magnitude": 1.0,
-            "content": {
-              "description": "<strong>Get 1 night free</strong> by booking together.",
-              "title": "Unreal Deal",
-              "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of 1 hotel night."
-            },
-            "contentVariants": {
-
-            }
-          },
-          {
-            "sticker": "FlightDeal",
-            "magnitude": 0.0,
-            "content": {
-              "description": "Book this and save $701 (14%)",
-              "title": "Unreal Deal",
-              "legal": ""
-            },
-            "contentVariants": {
-
-            }
-          },
-          {
-            "sticker": "HotelSavingsFreeNights",
-            "magnitude": 1.0,
-            "content": {
-              "description": "<strong>Get 1 night free</strong> by booking together.",
-              "title": "Unreal Deal",
-              "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of 1 hotel night."
-            },
-            "contentVariants": {
-
-            }
-          }
-        ],
-        "savingsPercentage": 14.87,
-        "savingsAmount": 701.65,
-        "rank": 3
-      },
       "loyaltyInfo": {
         "earn": {
           "points": {
-            "base": 8034,
-            "bonus": 8034,
-            "total": 16068
+            "base": 9014,
+            "bonus": 9014,
+            "total": 18028
           }
         }
       },
-      "detailsUrl": "/Details?action=UnifiedDetailsWidget@showDetailsForDeepLink&ptyp=multiitem&langid=1033&crom=1&cadt=R1:1&dcty=L1:SEA%7CL2:SFO&acty=L1:SFO%7CL2:SEA&ddte=L1:2017-11-08%7CL2:2017-11-15&destinationId=178305&hotelId=18723252&ratePlanCode=210772333&roomTypeCode=202065742&inventoryType=1&checkInDate=2017-11-08&checkOutDate=2017-11-15&tokens=AQogCh4IwaYBEgQxNTA0GJIBILJxKOTbezDh3Hs4UkAAWAEKIAoeCMGmARIEMTUyMxiycSCSASjasHww1rF8OFJAAFgBEgoIARABGAEqAkFTGAEiBAgBEAEoBCgDKAEoAjAC&price=4016.95&ccyc=USD",
-      "changeHotelUrl": "/changehotel?packageType=fh&langid=1033&originId=178307&ftla=SEA&destinationId=178305&ttla=SFO&fromDate=2017-11-08&toDate=2017-11-15&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=18723252&flightPIID=v5-2ffc9fc94429c83825cd8181f0e6afdd-37-36-1&hotelPIID=18723252,210772333,202065742&adjustedCheckin=2017-11-08&hotelInventoryType=MERCHANT",
-      "changeRoomUrl": "/hotel.h18723252.Hotel-Information?packageType=fh&langid=1033&originId=178307&ftla=SEA&destinationId=178305&ttla=SFO&fromDate=2017-11-08&toDate=2017-11-15&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=18723252&action=changeRoom&hotelId=18723252&currentRatePlan=202065742210772333&flightPIID=v5-2ffc9fc94429c83825cd8181f0e6afdd-37-36-1&hotelPIID=18723252,210772333,202065742&adjustedCheckin=2017-11-08&hotelInventoryType=MERCHANT",
+      "detailsUrl": "/Details?action=UnifiedDetailsWidget@showDetailsForDeepLink&ptyp=multiitem&langid=1033&crom=1&cadt=R1:2&cchl=R1:2&ages=R1:10%7CR1:10&dcty=L1:SFO%7CL2:KTM&acty=L1:KTM%7CL2:SFO&ddte=L1:2018-04-20%7CL2:2018-04-25&destinationId=180066&hotelId=531192&ratePlanCode=206241173&roomTypeCode=208821&inventoryType=1&checkInDate=2018-04-22&checkOutDate=2018-04-25&tokens=AQpDCh8Iw7QBEgM2NTgYsnEggmgo_4yKATDbk4oBOFFAAFgBCiAIw7QBEgQ2MDY3GIJoIOpkKI-VigEwqpeKAThQQABYAQpDCiAIw7QBEgQzMDY4GOpkIIJoKP2-igEw-cCKAThQQABYAQofCMO0ARIDNjU5GIJoILJxKOHDigEwg8uKAThVQABYARIKCAEQARgBKgJDWhgEIgQIARACIgQIAhACKAIoAygEMAI&price=4506.97&ccyc=USD",
+      "changeHotelUrl": "/changehotel?packageType=fh&langid=1033&originId=5195347&ftla=SFO&destinationId=180066&ttla=KTM&fromDate=2018-04-20&toDate=2018-04-25&numberOfRooms=1&adultsPerRoom%5B1%5D=2&childrenPerRoom%5B1%5D=2&childAges%5B1%5D%5B1%5D=10&childAges%5B1%5D%5B2%5D=10&hotelIds=531192&flightPIID=v5-fd92d58d4608b1fd4ce440be5745b46a-0-0-1~0.S~AQoCCAESBwjUBBABGAEgASAHIA0gDCgD~AQpDCh8Iw7QBEgM2NTgYsnEggmgo_4yKATDbk4oBOFFAAFgBCiAIw7QBEgQ2MDY3GIJoIOpkKI-VigEwqpeKAThQQABYAQpDCiAIw7QBEgQzMDY4GOpkIIJoKP2-igEw-cCKAThQQABYAQofCMO0ARIDNjU5GIJoILJxKOHDigEwg8uKAThVQABYARIKCAEQARgBKgJDWhgEIgQIARACIgQIAhACKAIoAygEMAI&hotelPIID=531192,206241173,208821&adjustedCheckin=2018-04-22&hotelInventoryType=MERCHANT",
+      "changeRoomUrl": "/hotel.h531192.Hotel-Information?packageType=fh&langid=1033&originId=5195347&ftla=SFO&destinationId=180066&ttla=KTM&fromDate=2018-04-20&toDate=2018-04-25&numberOfRooms=1&adultsPerRoom%5B1%5D=2&childrenPerRoom%5B1%5D=2&childAges%5B1%5D%5B1%5D=10&childAges%5B1%5D%5B2%5D=10&hotelIds=531192&action=changeRoom&hotelId=531192&currentRatePlan=208821206241173&flightPIID=v5-fd92d58d4608b1fd4ce440be5745b46a-0-0-1~0.S~AQoCCAESBwjUBBABGAEgASAHIA0gDCgD~AQpDCh8Iw7QBEgM2NTgYsnEggmgo_4yKATDbk4oBOFFAAFgBCiAIw7QBEgQ2MDY3GIJoIOpkKI-VigEwqpeKAThQQABYAQpDCiAIw7QBEgQzMDY4GOpkIIJoKP2-igEw-cCKAThQQABYAQofCMO0ARIDNjU5GIJoILJxKOHDigEwg8uKAThVQABYARIKCAEQARgBKgJDWhgEIgQIARACIgQIAhACKAIoAygEMAI&hotelPIID=531192,206241173,208821&adjustedCheckin=2018-04-22&hotelInventoryType=MERCHANT",
       "cancellationPolicy": {
-        "freeCancellationAvailable": false
+        "freeCancellationAvailable": true
       }
     },
     {
       "price": {
         "basePrice": {
-          "amount": 4151.91,
+          "amount": 3466,
           "currency": "USD"
         },
         "taxesAndFees": {
-          "amount": 830.63,
+          "amount": 1233.66,
           "currency": "USD"
         },
         "totalPrice": {
-          "amount": 4982.54,
+          "amount": 4699.66,
           "currency": "USD"
         },
         "referenceBasePrice": {
-          "amount": 4869.14,
+          "amount": 3297.25,
           "currency": "USD"
         },
         "referenceTaxesAndFees": {
-          "amount": 1033.50,
+          "amount": 1205.16,
           "currency": "USD"
         },
         "referenceTotalPrice": {
-          "amount": 5902.64,
+          "amount": 4502.41,
           "currency": "USD"
         },
         "savings": {
-          "amount": 920.10,
+          "amount": -197.25,
           "currency": "USD"
         },
+        "showSavings": false,
         "avgPricePerPerson": {
-          "amount": 4982.54,
+          "amount": 1174.92,
           "currency": "USD"
         },
-        "showSavings": false,         "avgReferencePricePerPerson": {
-          "amount": 5902.64,
+        "avgReferencePricePerPerson": {
+          "amount": 1125.6,
           "currency": "USD"
         },
         "deltaAvgPricePerPerson": {
-          "amount": 1315.51,
+          "amount": 68.18,
+          "currency": "USD"
+        },
+        "avgPricePerNight": {
+          "amount": 1566.55,
+          "currency": "USD"
+        },
+        "avgReferencePricePerNight": {
+          "amount": 1500.8,
+          "currency": "USD"
+        },
+        "deltaAvgPricePerNight": {
+          "amount": 90.9,
           "currency": "USD"
         }
       },
@@ -549,126 +394,319 @@
           "productKey": "flight-0"
         }
       ],
-      "packageDeal": {
-        "markers": [
-          {
-            "sticker": "FreeFlight",
-            "magnitude": 0.0,
-            "content": {
-              "description": "Book this and <strong>save 100% on your flight</strong>",
-              "title": "Unreal Deal",
-              "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of your airfare."
-            },
-            "contentVariants": {
-
-            }
-          },
-          {
-            "sticker": "FreeHotelNights",
-            "magnitude": 1.0,
-            "content": {
-              "description": "<strong>Get 1 night free</strong> by booking together.",
-              "title": "Unreal Deal",
-              "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of 1 hotel night."
-            },
-            "contentVariants": {
-
-            }
-          },
-          {
-            "sticker": "FlightDeal",
-            "magnitude": 0.0,
-            "content": {
-              "description": "Book this and save $920 (15%)",
-              "title": "Unreal Deal",
-              "legal": ""
-            },
-            "contentVariants": {
-
-            }
-          },
-          {
-            "sticker": "HotelSavingsFreeNights",
-            "magnitude": 1.0,
-            "content": {
-              "description": "<strong>Get 1 night free</strong> by booking together.",
-              "title": "Unreal Deal",
-              "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of 1 hotel night."
-            },
-            "contentVariants": {
-
-            }
-          }
-        ],
-        "savingsPercentage": 15.59,
-        "savingsAmount": 920.1,
-        "rank": 4
-      },
       "loyaltyInfo": {
         "earn": {
           "points": {
-            "base": 9965,
-            "bonus": 9965,
-            "total": 19930
+            "base": 9399,
+            "bonus": 9399,
+            "total": 18798
           }
         }
       },
-      "detailsUrl": "/Details?action=UnifiedDetailsWidget@showDetailsForDeepLink&ptyp=multiitem&langid=1033&crom=1&cadt=R1:1&dcty=L1:SEA%7CL2:SFO&acty=L1:SFO%7CL2:SEA&ddte=L1:2017-11-08%7CL2:2017-11-15&destinationId=178305&hotelId=18723252&ratePlanCode=210772337&roomTypeCode=202065748&inventoryType=1&checkInDate=2017-11-08&checkOutDate=2017-11-15&tokens=AQogCh4IwaYBEgQxNTA0GJIBILJxKOTbezDh3Hs4UkAAWAEKIAoeCMGmARIEMTUyMxiycSCSASjasHww1rF8OFJAAFgBEgoIARABGAEqAkFTGAEiBAgBEAEoBCgDKAEoAjAC&price=4982.54&ccyc=USD",
-      "changeHotelUrl": "/changehotel?packageType=fh&langid=1033&originId=178307&ftla=SEA&destinationId=178305&ttla=SFO&fromDate=2017-11-08&toDate=2017-11-15&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=18723252&flightPIID=v5-2ffc9fc94429c83825cd8181f0e6afdd-37-36-1&hotelPIID=18723252,210772337,202065748&adjustedCheckin=2017-11-08&hotelInventoryType=MERCHANT",
-      "changeRoomUrl": "/hotel.h18723252.Hotel-Information?packageType=fh&langid=1033&originId=178307&ftla=SEA&destinationId=178305&ttla=SFO&fromDate=2017-11-08&toDate=2017-11-15&numberOfRooms=1&adultsPerRoom%5B1%5D=1&hotelIds=18723252&action=changeRoom&hotelId=18723252&currentRatePlan=202065748210772337&flightPIID=v5-2ffc9fc94429c83825cd8181f0e6afdd-37-36-1&hotelPIID=18723252,210772337,202065748&adjustedCheckin=2017-11-08&hotelInventoryType=MERCHANT",
+      "detailsUrl": "/Details?action=UnifiedDetailsWidget@showDetailsForDeepLink&ptyp=multiitem&langid=1033&crom=1&cadt=R1:2&cchl=R1:2&ages=R1:10%7CR1:10&dcty=L1:SFO%7CL2:KTM&acty=L1:KTM%7CL2:SFO&ddte=L1:2018-04-20%7CL2:2018-04-25&destinationId=180066&hotelId=531192&ratePlanCode=206241174&roomTypeCode=208822&inventoryType=1&checkInDate=2018-04-22&checkOutDate=2018-04-25&tokens=AQpDCh8Iw7QBEgM2NTgYsnEggmgo_4yKATDbk4oBOFFAAFgBCiAIw7QBEgQ2MDY3GIJoIOpkKI-VigEwqpeKAThQQABYAQpDCiAIw7QBEgQzMDY4GOpkIIJoKP2-igEw-cCKAThQQABYAQofCMO0ARIDNjU5GIJoILJxKOHDigEwg8uKAThVQABYARIKCAEQARgBKgJDWhgEIgQIARACIgQIAhACKAIoAygEMAI&price=4699.66&ccyc=USD",
+      "changeHotelUrl": "/changehotel?packageType=fh&langid=1033&originId=5195347&ftla=SFO&destinationId=180066&ttla=KTM&fromDate=2018-04-20&toDate=2018-04-25&numberOfRooms=1&adultsPerRoom%5B1%5D=2&childrenPerRoom%5B1%5D=2&childAges%5B1%5D%5B1%5D=10&childAges%5B1%5D%5B2%5D=10&hotelIds=531192&flightPIID=v5-fd92d58d4608b1fd4ce440be5745b46a-0-0-1~0.S~AQoCCAESBwjUBBABGAEgASAHIA0gDCgD~AQpDCh8Iw7QBEgM2NTgYsnEggmgo_4yKATDbk4oBOFFAAFgBCiAIw7QBEgQ2MDY3GIJoIOpkKI-VigEwqpeKAThQQABYAQpDCiAIw7QBEgQzMDY4GOpkIIJoKP2-igEw-cCKAThQQABYAQofCMO0ARIDNjU5GIJoILJxKOHDigEwg8uKAThVQABYARIKCAEQARgBKgJDWhgEIgQIARACIgQIAhACKAIoAygEMAI&hotelPIID=531192,206241174,208822&adjustedCheckin=2018-04-22&hotelInventoryType=MERCHANT",
+      "changeRoomUrl": "/hotel.h531192.Hotel-Information?packageType=fh&langid=1033&originId=5195347&ftla=SFO&destinationId=180066&ttla=KTM&fromDate=2018-04-20&toDate=2018-04-25&numberOfRooms=1&adultsPerRoom%5B1%5D=2&childrenPerRoom%5B1%5D=2&childAges%5B1%5D%5B1%5D=10&childAges%5B1%5D%5B2%5D=10&hotelIds=531192&action=changeRoom&hotelId=531192&currentRatePlan=208822206241174&flightPIID=v5-fd92d58d4608b1fd4ce440be5745b46a-0-0-1~0.S~AQoCCAESBwjUBBABGAEgASAHIA0gDCgD~AQpDCh8Iw7QBEgM2NTgYsnEggmgo_4yKATDbk4oBOFFAAFgBCiAIw7QBEgQ2MDY3GIJoIOpkKI-VigEwqpeKAThQQABYAQpDCiAIw7QBEgQzMDY4GOpkIIJoKP2-igEw-cCKAThQQABYAQofCMO0ARIDNjU5GIJoILJxKOHDigEwg8uKAThVQABYARIKCAEQARgBKgJDWhgEIgQIARACIgQIAhACKAIoAygEMAI&hotelPIID=531192,206241174,208822&adjustedCheckin=2018-04-22&hotelInventoryType=MERCHANT",
       "cancellationPolicy": {
-        "freeCancellationAvailable": false
+        "freeCancellationAvailable": true
+      }
+    },
+    {
+      "price": {
+        "basePrice": {
+          "amount": 3466,
+          "currency": "USD"
+        },
+        "taxesAndFees": {
+          "amount": 1233.66,
+          "currency": "USD"
+        },
+        "totalPrice": {
+          "amount": 4699.66,
+          "currency": "USD"
+        },
+        "referenceBasePrice": {
+          "amount": 3297.25,
+          "currency": "USD"
+        },
+        "referenceTaxesAndFees": {
+          "amount": 1205.16,
+          "currency": "USD"
+        },
+        "referenceTotalPrice": {
+          "amount": 4502.41,
+          "currency": "USD"
+        },
+        "savings": {
+          "amount": -197.25,
+          "currency": "USD"
+        },
+        "showSavings": false,
+        "avgPricePerPerson": {
+          "amount": 1174.92,
+          "currency": "USD"
+        },
+        "avgReferencePricePerPerson": {
+          "amount": 1125.6,
+          "currency": "USD"
+        },
+        "deltaAvgPricePerPerson": {
+          "amount": 68.18,
+          "currency": "USD"
+        },
+        "avgPricePerNight": {
+          "amount": 1566.55,
+          "currency": "USD"
+        },
+        "avgReferencePricePerNight": {
+          "amount": 1500.8,
+          "currency": "USD"
+        },
+        "deltaAvgPricePerNight": {
+          "amount": 90.9,
+          "currency": "USD"
+        }
+      },
+      "searchedOffer": {
+        "productType": "Hotel",
+        "productKey": "hotel-5"
+      },
+      "packagedOffers": [
+        {
+          "productType": "Air",
+          "productKey": "flight-0"
+        }
+      ],
+      "loyaltyInfo": {
+        "earn": {
+          "points": {
+            "base": 9399,
+            "bonus": 9399,
+            "total": 18798
+          }
+        }
+      },
+      "detailsUrl": "/Details?action=UnifiedDetailsWidget@showDetailsForDeepLink&ptyp=multiitem&langid=1033&crom=1&cadt=R1:2&cchl=R1:2&ages=R1:10%7CR1:10&dcty=L1:SFO%7CL2:KTM&acty=L1:KTM%7CL2:SFO&ddte=L1:2018-04-20%7CL2:2018-04-25&destinationId=180066&hotelId=531192&ratePlanCode=206296146&roomTypeCode=201300586&inventoryType=1&checkInDate=2018-04-22&checkOutDate=2018-04-25&tokens=AQpDCh8Iw7QBEgM2NTgYsnEggmgo_4yKATDbk4oBOFFAAFgBCiAIw7QBEgQ2MDY3GIJoIOpkKI-VigEwqpeKAThQQABYAQpDCiAIw7QBEgQzMDY4GOpkIIJoKP2-igEw-cCKAThQQABYAQofCMO0ARIDNjU5GIJoILJxKOHDigEwg8uKAThVQABYARIKCAEQARgBKgJDWhgEIgQIARACIgQIAhACKAIoAygEMAI&price=4699.66&ccyc=USD",
+      "changeHotelUrl": "/changehotel?packageType=fh&langid=1033&originId=5195347&ftla=SFO&destinationId=180066&ttla=KTM&fromDate=2018-04-20&toDate=2018-04-25&numberOfRooms=1&adultsPerRoom%5B1%5D=2&childrenPerRoom%5B1%5D=2&childAges%5B1%5D%5B1%5D=10&childAges%5B1%5D%5B2%5D=10&hotelIds=531192&flightPIID=v5-fd92d58d4608b1fd4ce440be5745b46a-0-0-1~0.S~AQoCCAESBwjUBBABGAEgASAHIA0gDCgD~AQpDCh8Iw7QBEgM2NTgYsnEggmgo_4yKATDbk4oBOFFAAFgBCiAIw7QBEgQ2MDY3GIJoIOpkKI-VigEwqpeKAThQQABYAQpDCiAIw7QBEgQzMDY4GOpkIIJoKP2-igEw-cCKAThQQABYAQofCMO0ARIDNjU5GIJoILJxKOHDigEwg8uKAThVQABYARIKCAEQARgBKgJDWhgEIgQIARACIgQIAhACKAIoAygEMAI&hotelPIID=531192,206296146,201300586&adjustedCheckin=2018-04-22&hotelInventoryType=MERCHANT",
+      "changeRoomUrl": "/hotel.h531192.Hotel-Information?packageType=fh&langid=1033&originId=5195347&ftla=SFO&destinationId=180066&ttla=KTM&fromDate=2018-04-20&toDate=2018-04-25&numberOfRooms=1&adultsPerRoom%5B1%5D=2&childrenPerRoom%5B1%5D=2&childAges%5B1%5D%5B1%5D=10&childAges%5B1%5D%5B2%5D=10&hotelIds=531192&action=changeRoom&hotelId=531192&currentRatePlan=201300586206296146&flightPIID=v5-fd92d58d4608b1fd4ce440be5745b46a-0-0-1~0.S~AQoCCAESBwjUBBABGAEgASAHIA0gDCgD~AQpDCh8Iw7QBEgM2NTgYsnEggmgo_4yKATDbk4oBOFFAAFgBCiAIw7QBEgQ2MDY3GIJoIOpkKI-VigEwqpeKAThQQABYAQpDCiAIw7QBEgQzMDY4GOpkIIJoKP2-igEw-cCKAThQQABYAQofCMO0ARIDNjU5GIJoILJxKOHDigEwg8uKAThVQABYARIKCAEQARgBKgJDWhgEIgQIARACIgQIAhACKAIoAygEMAI&hotelPIID=531192,206296146,201300586&adjustedCheckin=2018-04-22&hotelInventoryType=MERCHANT",
+      "cancellationPolicy": {
+        "freeCancellationAvailable": true
+      }
+    },
+    {
+      "price": {
+        "basePrice": {
+          "amount": 3511,
+          "currency": "USD"
+        },
+        "taxesAndFees": {
+          "amount": 1243.23,
+          "currency": "USD"
+        },
+        "totalPrice": {
+          "amount": 4754.23,
+          "currency": "USD"
+        },
+        "referenceBasePrice": {
+          "amount": 3331,
+          "currency": "USD"
+        },
+        "referenceTaxesAndFees": {
+          "amount": 1212.87,
+          "currency": "USD"
+        },
+        "referenceTotalPrice": {
+          "amount": 4543.87,
+          "currency": "USD"
+        },
+        "savings": {
+          "amount": -210.36,
+          "currency": "USD"
+        },
+        "showSavings": false,
+        "avgPricePerPerson": {
+          "amount": 1188.56,
+          "currency": "USD"
+        },
+        "avgReferencePricePerPerson": {
+          "amount": 1135.97,
+          "currency": "USD"
+        },
+        "deltaAvgPricePerPerson": {
+          "amount": 81.82,
+          "currency": "USD"
+        },
+        "avgPricePerNight": {
+          "amount": 1584.74,
+          "currency": "USD"
+        },
+        "avgReferencePricePerNight": {
+          "amount": 1514.62,
+          "currency": "USD"
+        },
+        "deltaAvgPricePerNight": {
+          "amount": 109.09,
+          "currency": "USD"
+        }
+      },
+      "searchedOffer": {
+        "productType": "Hotel",
+        "productKey": "hotel-6"
+      },
+      "packagedOffers": [
+        {
+          "productType": "Air",
+          "productKey": "flight-0"
+        }
+      ],
+      "loyaltyInfo": {
+        "earn": {
+          "points": {
+            "base": 9508,
+            "bonus": 9508,
+            "total": 19016
+          }
+        }
+      },
+      "detailsUrl": "/Details?action=UnifiedDetailsWidget@showDetailsForDeepLink&ptyp=multiitem&langid=1033&crom=1&cadt=R1:2&cchl=R1:2&ages=R1:10%7CR1:10&dcty=L1:SFO%7CL2:KTM&acty=L1:KTM%7CL2:SFO&ddte=L1:2018-04-20%7CL2:2018-04-25&destinationId=180066&hotelId=531192&ratePlanCode=206296157&roomTypeCode=201300587&inventoryType=1&checkInDate=2018-04-22&checkOutDate=2018-04-25&tokens=AQpDCh8Iw7QBEgM2NTgYsnEggmgo_4yKATDbk4oBOFFAAFgBCiAIw7QBEgQ2MDY3GIJoIOpkKI-VigEwqpeKAThQQABYAQpDCiAIw7QBEgQzMDY4GOpkIIJoKP2-igEw-cCKAThQQABYAQofCMO0ARIDNjU5GIJoILJxKOHDigEwg8uKAThVQABYARIKCAEQARgBKgJDWhgEIgQIARACIgQIAhACKAIoAygEMAI&price=4754.23&ccyc=USD",
+      "changeHotelUrl": "/changehotel?packageType=fh&langid=1033&originId=5195347&ftla=SFO&destinationId=180066&ttla=KTM&fromDate=2018-04-20&toDate=2018-04-25&numberOfRooms=1&adultsPerRoom%5B1%5D=2&childrenPerRoom%5B1%5D=2&childAges%5B1%5D%5B1%5D=10&childAges%5B1%5D%5B2%5D=10&hotelIds=531192&flightPIID=v5-fd92d58d4608b1fd4ce440be5745b46a-0-0-1~0.S~AQoCCAESBwjUBBABGAEgASAHIA0gDCgD~AQpDCh8Iw7QBEgM2NTgYsnEggmgo_4yKATDbk4oBOFFAAFgBCiAIw7QBEgQ2MDY3GIJoIOpkKI-VigEwqpeKAThQQABYAQpDCiAIw7QBEgQzMDY4GOpkIIJoKP2-igEw-cCKAThQQABYAQofCMO0ARIDNjU5GIJoILJxKOHDigEwg8uKAThVQABYARIKCAEQARgBKgJDWhgEIgQIARACIgQIAhACKAIoAygEMAI&hotelPIID=531192,206296157,201300587&adjustedCheckin=2018-04-22&hotelInventoryType=MERCHANT",
+      "changeRoomUrl": "/hotel.h531192.Hotel-Information?packageType=fh&langid=1033&originId=5195347&ftla=SFO&destinationId=180066&ttla=KTM&fromDate=2018-04-20&toDate=2018-04-25&numberOfRooms=1&adultsPerRoom%5B1%5D=2&childrenPerRoom%5B1%5D=2&childAges%5B1%5D%5B1%5D=10&childAges%5B1%5D%5B2%5D=10&hotelIds=531192&action=changeRoom&hotelId=531192&currentRatePlan=201300587206296157&flightPIID=v5-fd92d58d4608b1fd4ce440be5745b46a-0-0-1~0.S~AQoCCAESBwjUBBABGAEgASAHIA0gDCgD~AQpDCh8Iw7QBEgM2NTgYsnEggmgo_4yKATDbk4oBOFFAAFgBCiAIw7QBEgQ2MDY3GIJoIOpkKI-VigEwqpeKAThQQABYAQpDCiAIw7QBEgQzMDY4GOpkIIJoKP2-igEw-cCKAThQQABYAQofCMO0ARIDNjU5GIJoILJxKOHDigEwg8uKAThVQABYARIKCAEQARgBKgJDWhgEIgQIARACIgQIAhACKAIoAygEMAI&hotelPIID=531192,206296157,201300587&adjustedCheckin=2018-04-22&hotelInventoryType=MERCHANT",
+      "cancellationPolicy": {
+        "freeCancellationAvailable": true
+      }
+    },
+    {
+      "price": {
+        "basePrice": {
+          "amount": 4351,
+          "currency": "USD"
+        },
+        "taxesAndFees": {
+          "amount": 1421.4,
+          "currency": "USD"
+        },
+        "totalPrice": {
+          "amount": 5772.4,
+          "currency": "USD"
+        },
+        "referenceBasePrice": {
+          "amount": 3972.25,
+          "currency": "USD"
+        },
+        "referenceTaxesAndFees": {
+          "amount": 1359,
+          "currency": "USD"
+        },
+        "referenceTotalPrice": {
+          "amount": 5331.25,
+          "currency": "USD"
+        },
+        "savings": {
+          "amount": -441.15,
+          "currency": "USD"
+        },
+        "showSavings": false,
+        "avgPricePerPerson": {
+          "amount": 1443.1,
+          "currency": "USD"
+        },
+        "avgReferencePricePerPerson": {
+          "amount": 1332.81,
+          "currency": "USD"
+        },
+        "deltaAvgPricePerPerson": {
+          "amount": 336.36,
+          "currency": "USD"
+        },
+        "avgPricePerNight": {
+          "amount": 1924.13,
+          "currency": "USD"
+        },
+        "avgReferencePricePerNight": {
+          "amount": 1777.08,
+          "currency": "USD"
+        },
+        "deltaAvgPricePerNight": {
+          "amount": 448.48,
+          "currency": "USD"
+        }
+      },
+      "searchedOffer": {
+        "productType": "Hotel",
+        "productKey": "hotel-7"
+      },
+      "packagedOffers": [
+        {
+          "productType": "Air",
+          "productKey": "flight-0"
+        }
+      ],
+      "loyaltyInfo": {
+        "earn": {
+          "points": {
+            "base": 11545,
+            "bonus": 11545,
+            "total": 23090
+          }
+        }
+      },
+      "detailsUrl": "/Details?action=UnifiedDetailsWidget@showDetailsForDeepLink&ptyp=multiitem&langid=1033&crom=1&cadt=R1:2&cchl=R1:2&ages=R1:10%7CR1:10&dcty=L1:SFO%7CL2:KTM&acty=L1:KTM%7CL2:SFO&ddte=L1:2018-04-20%7CL2:2018-04-25&destinationId=180066&hotelId=531192&ratePlanCode=206296168&roomTypeCode=201300588&inventoryType=1&checkInDate=2018-04-22&checkOutDate=2018-04-25&tokens=AQpDCh8Iw7QBEgM2NTgYsnEggmgo_4yKATDbk4oBOFFAAFgBCiAIw7QBEgQ2MDY3GIJoIOpkKI-VigEwqpeKAThQQABYAQpDCiAIw7QBEgQzMDY4GOpkIIJoKP2-igEw-cCKAThQQABYAQofCMO0ARIDNjU5GIJoILJxKOHDigEwg8uKAThVQABYARIKCAEQARgBKgJDWhgEIgQIARACIgQIAhACKAIoAygEMAI&price=5772.40&ccyc=USD",
+      "changeHotelUrl": "/changehotel?packageType=fh&langid=1033&originId=5195347&ftla=SFO&destinationId=180066&ttla=KTM&fromDate=2018-04-20&toDate=2018-04-25&numberOfRooms=1&adultsPerRoom%5B1%5D=2&childrenPerRoom%5B1%5D=2&childAges%5B1%5D%5B1%5D=10&childAges%5B1%5D%5B2%5D=10&hotelIds=531192&flightPIID=v5-fd92d58d4608b1fd4ce440be5745b46a-0-0-1~0.S~AQoCCAESBwjUBBABGAEgASAHIA0gDCgD~AQpDCh8Iw7QBEgM2NTgYsnEggmgo_4yKATDbk4oBOFFAAFgBCiAIw7QBEgQ2MDY3GIJoIOpkKI-VigEwqpeKAThQQABYAQpDCiAIw7QBEgQzMDY4GOpkIIJoKP2-igEw-cCKAThQQABYAQofCMO0ARIDNjU5GIJoILJxKOHDigEwg8uKAThVQABYARIKCAEQARgBKgJDWhgEIgQIARACIgQIAhACKAIoAygEMAI&hotelPIID=531192,206296168,201300588&adjustedCheckin=2018-04-22&hotelInventoryType=MERCHANT",
+      "changeRoomUrl": "/hotel.h531192.Hotel-Information?packageType=fh&langid=1033&originId=5195347&ftla=SFO&destinationId=180066&ttla=KTM&fromDate=2018-04-20&toDate=2018-04-25&numberOfRooms=1&adultsPerRoom%5B1%5D=2&childrenPerRoom%5B1%5D=2&childAges%5B1%5D%5B1%5D=10&childAges%5B1%5D%5B2%5D=10&hotelIds=531192&action=changeRoom&hotelId=531192&currentRatePlan=201300588206296168&flightPIID=v5-fd92d58d4608b1fd4ce440be5745b46a-0-0-1~0.S~AQoCCAESBwjUBBABGAEgASAHIA0gDCgD~AQpDCh8Iw7QBEgM2NTgYsnEggmgo_4yKATDbk4oBOFFAAFgBCiAIw7QBEgQ2MDY3GIJoIOpkKI-VigEwqpeKAThQQABYAQpDCiAIw7QBEgQzMDY4GOpkIIJoKP2-igEw-cCKAThQQABYAQofCMO0ARIDNjU5GIJoILJxKOHDigEwg8uKAThVQABYARIKCAEQARgBKgJDWhgEIgQIARACIgQIAhACKAIoAygEMAI&hotelPIID=531192,206296168,201300588&adjustedCheckin=2018-04-22&hotelInventoryType=MERCHANT",
+      "cancellationPolicy": {
+        "freeCancellationAvailable": true
       }
     }
   ],
   "hotels": {
     "hotel-0": {
-      "thumbnailUrl": "/hotels/19000000/18730000/18723300/18723252/6f918648_t.jpg",
-      "roomRatePlanDescription": "Premier Room, 1 King Bed",
-      "roomLongDescription": " 1 King Bed  260-sq-foot (24-sq-meter) room with city views   Internet  - Free WiFi    Entertainment  - 50-inch flat-screen TV, premium channels, and tablet computer  Food & Drink  - 24-hour room service and minibar  Sleep  - Pillowtop bed and premium bedding   Bathroom  - Private bathroom, bathrobes, and a shower with a rainfall showerhead  Practical  - Laptop-compatible safe, iron/ironing board, and desk; free cribs/infant beds available on request  Comfort  - Air conditioning and daily housekeeping Non-Smoking &nbsp;",
-      "ratePlanCode": "210772335",
-      "roomTypeCode": "202065745",
+      "thumbnailUrl": "/hotels/1000000/540000/531200/531192/531192_118_t.jpg",
+      "roomRatePlanDescription": "flight_outbound_happy",
+      "roomLongDescription": " 2 Twin Beds  388-sq-foot (36-sq-meter) soundproofed room with mountain and garden views   Internet  - Free WiFi and wired Internet access   Entertainment  - 39-inch LED TV with premium channels  Food & Drink  - Coffee/tea maker, minibar, 24-hour room service, and free bottled water  Sleep  - Pillowtop bed, premium bedding, blackout drapes/curtains, and turndown service   Bathroom  - Private bathroom, deep soaking bathtub, and separate shower with a rainfall showerhead  Practical  - Phone, safe, and free newspaper; rollaway/extra beds and free cribs/infant beds available on request  Comfort  - Air conditioning and daily housekeeping Smoking/Non Smoking Connecting/adjoining rooms can be requested, subject to availability   ",
+      "ratePlanCode": "flight_outbound_happy",
+      "roomTypeCode": "225416",
       "vip": false,
       "bedTypes": [
         {
-          "id": 6194,
-          "name": "1 king bed\r"
+          "id": 6239,
+          "name": "2 twin beds"
         }
       ],
-      "roomsLeft": 22,
+      "roomsLeft": 80,
       "referenceBasePrice": {
-        "amount": 3440.39,
+        "amount": 303.75,
         "currency": "USD"
       },
       "referenceTaxesAndFees": {
-        "amount": 720.59,
+        "amount": 69.96,
         "currency": "USD"
       },
       "referenceTotalPrice": {
-        "amount": 4160.98,
+        "amount": 373.71,
         "currency": "USD"
       },
-      "checkInDate": "2017-11-08",
-      "checkOutDate": "2017-11-15",
-      "nights": 7,
+      "checkInDate": "2018-04-22",
+      "checkOutDate": "2018-04-25",
+      "nights": 3,
       "avgReferencePricePerNight": {
-        "amount": 594.43,
+        "amount": 124.57,
         "currency": "USD"
       },
-      "rateRuleId": 232050728,
-      "inventoryType": "MERCHANT",
-      "mandatoryFees": {
-        "displayType": "NONE"
+      "avgDisplayReferencePricePerNight": {
+        "amount": 101.25,
+        "currency": "USD"
       },
+      "rateRuleId": 212723271,
+      "inventoryType": "MERCHANT",
       "memberDeal": false,
       "sourceTypeRestricted": false,
       "sameDayDRR": false
     },
     "hotel-1": {
-      "roomRatePlanDescription": "Premier Room, 1 King Bed, Accessible",
-      "roomLongDescription": " 1 King Bed  260-sq-foot (24-sq-meter) room with city views   Internet  - Free WiFi    Entertainment  - 50-inch flat-screen TV, premium channels, and tablet computer  Food & Drink  - 24-hour room service and minibar  Sleep  - Pillowtop bed and premium bedding   Bathroom  - Private bathroom, bathrobes, and a shower with a rainfall showerhead  Practical  - Laptop-compatible safe, iron/ironing board, and desk; free cribs/infant beds available on request  Comfort  - Air conditioning and daily housekeeping Non-Smoking &nbsp;",
-      "ratePlanCode": "210772336",
-      "roomTypeCode": "202065747",
+      "thumbnailUrl": "/hotels/1000000/540000/531200/531192/531192_119_t.jpg",
+      "roomRatePlanDescription": "Guest Room, 1 King Bed",
+      "roomLongDescription": " 1 King Bed  388-sq-foot (36-sq-meter) soundproofed room with mountain and garden views   Internet  - Free WiFi and wired Internet access   Entertainment  - 39-inch LED TV with premium channels  Food & Drink  - Coffee/tea maker, minibar, 24-hour room service, and free bottled water  Sleep  - Pillowtop bed, premium bedding, blackout drapes/curtains, and turndown service   Bathroom  - Private bathroom, deep soaking bathtub, and separate shower with a rainfall showerhead  Practical  - Phone, safe, and free newspaper; rollaway/extra beds and free cribs/infant beds available on request  Comfort  - Air conditioning and daily housekeeping Smoking/Non Smoking Connecting/adjoining rooms can be requested, subject to availability   ",
+      "ratePlanCode": "206241175",
+      "roomTypeCode": "225415",
       "vip": false,
       "bedTypes": [
         {
@@ -676,40 +714,42 @@
           "name": "1 king bed\r"
         }
       ],
-      "roomsLeft": 4,
+      "roomsLeft": 13,
       "referenceBasePrice": {
-        "amount": 3440.39,
+        "amount": 303.75,
         "currency": "USD"
       },
       "referenceTaxesAndFees": {
-        "amount": 720.59,
+        "amount": 69.96,
         "currency": "USD"
       },
       "referenceTotalPrice": {
-        "amount": 4160.98,
+        "amount": 373.71,
         "currency": "USD"
       },
-      "checkInDate": "2017-11-08",
-      "checkOutDate": "2017-11-15",
-      "nights": 7,
+      "checkInDate": "2018-04-22",
+      "checkOutDate": "2018-04-25",
+      "nights": 3,
       "avgReferencePricePerNight": {
-        "amount": 594.43,
+        "amount": 124.57,
         "currency": "USD"
       },
-      "rateRuleId": 232050728,
-      "inventoryType": "MERCHANT",
-      "mandatoryFees": {
-        "displayType": "NONE"
+      "avgDisplayReferencePricePerNight": {
+        "amount": 101.25,
+        "currency": "USD"
       },
+      "rateRuleId": 212723270,
+      "inventoryType": "MERCHANT",
       "memberDeal": false,
       "sourceTypeRestricted": false,
       "sameDayDRR": false
     },
     "hotel-2": {
-      "roomRatePlanDescription": "Junior Suite, Accessible",
-      "roomLongDescription": " 1 King Bed  350-sq-foot (33-sq-meter) room with city views   Internet  - Free WiFi    Entertainment  - 50-inch flat-screen TV, premium channels, and tablet computer  Food & Drink  - 24-hour room service and minibar  Sleep  - Pillowtop bed and premium bedding   Bathroom  - Private bathroom, bathrobes, and a shower with a rainfall showerhead  Practical  - Laptop-compatible safe, iron/ironing board, and desk; free cribs/infant beds available on request  Comfort  - Air conditioning and daily housekeeping Non-Smoking &nbsp;",
-      "ratePlanCode": "210772334",
-      "roomTypeCode": "202065743",
+      "thumbnailUrl": "/hotels/1000000/540000/531200/531192/531192_119_t.jpg",
+      "roomRatePlanDescription": "Room, 1 King Bed (Stupa View)",
+      "roomLongDescription": " 1 King Bed  388-sq-foot (36-sq-meter) soundproofed room with mountain and garden views   Internet  - Free WiFi and wired Internet access   Entertainment  - 39-inch LED TV with premium channels  Food & Drink  - Coffee/tea maker, minibar, 24-hour room service, and free bottled water  Sleep  - Pillowtop bed, premium bedding, blackout drapes/curtains, and turndown service   Bathroom  - Private bathroom, deep soaking bathtub, and separate shower with a rainfall showerhead  Practical  - Phone, safe, and free newspaper; rollaway/extra beds and free cribs/infant beds available on request  Comfort  - Air conditioning and daily housekeeping Smoking/Non Smoking Connecting/adjoining rooms can be requested, subject to availability   ",
+      "ratePlanCode": "206241172",
+      "roomTypeCode": "208820",
       "vip": false,
       "bedTypes": [
         {
@@ -717,41 +757,85 @@
           "name": "1 king bed\r"
         }
       ],
-      "roomsLeft": 2,
+      "roomsLeft": 18,
       "referenceBasePrice": {
-        "amount": 3780.39,
+        "amount": 353.25,
         "currency": "USD"
       },
       "referenceTaxesAndFees": {
-        "amount": 791.81,
+        "amount": 80.49,
         "currency": "USD"
       },
       "referenceTotalPrice": {
-        "amount": 4572.20,
+        "amount": 433.74,
         "currency": "USD"
       },
-      "checkInDate": "2017-11-08",
-      "checkOutDate": "2017-11-15",
-      "nights": 7,
+      "checkInDate": "2018-04-22",
+      "checkOutDate": "2018-04-25",
+      "nights": 3,
       "avgReferencePricePerNight": {
-        "amount": 653.17,
+        "amount": 144.58,
         "currency": "USD"
       },
-      "rateRuleId": 232050728,
-      "inventoryType": "MERCHANT",
-      "mandatoryFees": {
-        "displayType": "NONE"
+      "avgDisplayReferencePricePerNight": {
+        "amount": 117.75,
+        "currency": "USD"
       },
+      "rateRuleId": 212723267,
+      "inventoryType": "MERCHANT",
       "memberDeal": false,
       "sourceTypeRestricted": false,
       "sameDayDRR": false
     },
     "hotel-3": {
-      "thumbnailUrl": "/hotels/19000000/18730000/18723300/18723252/6f918648_t.jpg",
-      "roomRatePlanDescription": "Junior Suite",
-      "roomLongDescription": " 1 King Bed  350-sq-foot (33-sq-meter) room with city views   Internet  - Free WiFi    Entertainment  - 50-inch flat-screen TV, premium channels, and tablet computer  Food & Drink  - 24-hour room service and minibar  Sleep  - Pillowtop bed and premium bedding   Bathroom  - Private bathroom, bathrobes, and a shower with a rainfall showerhead  Practical  - Laptop-compatible safe, iron/ironing board, and desk; free cribs/infant beds available on request  Comfort  - Air conditioning and daily housekeeping Non-Smoking &nbsp;",
-      "ratePlanCode": "210772333",
-      "roomTypeCode": "202065742",
+      "thumbnailUrl": "/hotels/1000000/540000/531200/531192/531192_118_t.jpg",
+      "roomRatePlanDescription": "Room, 2 Twin Beds (Stupa View)",
+      "roomLongDescription": " 2 Twin Beds  388-sq-foot (36-sq-meter) soundproofed room with mountain and garden views   Internet  - Free WiFi and wired Internet access   Entertainment  - 39-inch LED TV with premium channels  Food & Drink  - Coffee/tea maker, minibar, 24-hour room service, and free bottled water  Sleep  - Pillowtop bed, premium bedding, blackout drapes/curtains, and turndown service   Bathroom  - Private bathroom, deep soaking bathtub, and separate shower with a rainfall showerhead  Practical  - Phone, safe, and free newspaper; rollaway/extra beds and free cribs/infant beds available on request  Comfort  - Air conditioning and daily housekeeping Smoking/Non Smoking Connecting/adjoining rooms can be requested, subject to availability   ",
+      "ratePlanCode": "206241173",
+      "roomTypeCode": "208821",
+      "vip": false,
+      "bedTypes": [
+        {
+          "id": 6239,
+          "name": "2 twin beds\r"
+        }
+      ],
+      "roomsLeft": 13,
+      "referenceBasePrice": {
+        "amount": 353.25,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 80.49,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 433.74,
+        "currency": "USD"
+      },
+      "checkInDate": "2018-04-22",
+      "checkOutDate": "2018-04-25",
+      "nights": 3,
+      "avgReferencePricePerNight": {
+        "amount": 144.58,
+        "currency": "USD"
+      },
+      "avgDisplayReferencePricePerNight": {
+        "amount": 117.75,
+        "currency": "USD"
+      },
+      "rateRuleId": 212723268,
+      "inventoryType": "MERCHANT",
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-4": {
+      "thumbnailUrl": "/hotels/1000000/540000/531200/531192/531192_119_t.jpg",
+      "roomRatePlanDescription": "Club Room, 1 King Bed",
+      "roomLongDescription": " 1 King Bed  387-sq-foot (36-sq-meter) soundproofed room with mountain and garden views   Club Level  - Club Lounge access, continental breakfast, light refreshments, Internet access in the lounge, and 1 hour of meeting room use (subject to availability)  Internet  - Free WiFi and wired Internet access   Entertainment  - 39-inch LED TV with premium channels  Food & Drink  - Coffee/tea maker, minibar, 24-hour room service, and free bottled water  Sleep  - Pillowtop bed, premium bedding, blackout drapes/curtains, and turndown service   Bathroom  - Private bathroom, deep soaking bathtub, and separate shower with a rainfall showerhead  Practical  - Phone, safe, and free newspaper; rollaway/extra beds and free cribs/infant beds available on request  Comfort  - Air conditioning and daily housekeeping Smoking/Non Smoking Connecting/adjoining rooms can be requested, subject to availability   ",
+      "ratePlanCode": "206241174",
+      "roomTypeCode": "208822",
       "vip": false,
       "bedTypes": [
         {
@@ -759,42 +843,98 @@
           "name": "1 king bed\r"
         }
       ],
-      "roomsLeft": 2,
+      "roomsLeft": 24,
       "referenceBasePrice": {
-        "amount": 3780.39,
+        "amount": 461.25,
         "currency": "USD"
       },
       "referenceTaxesAndFees": {
-        "amount": 791.81,
+        "amount": 105.12,
         "currency": "USD"
       },
       "referenceTotalPrice": {
-        "amount": 4572.20,
+        "amount": 566.37,
         "currency": "USD"
       },
-      "checkInDate": "2017-11-08",
-      "checkOutDate": "2017-11-15",
-      "nights": 7,
+      "checkInDate": "2018-04-22",
+      "checkOutDate": "2018-04-25",
+      "nights": 3,
       "avgReferencePricePerNight": {
-        "amount": 653.17,
+        "amount": 188.79,
         "currency": "USD"
       },
-      "rateRuleId": 232050728,
-      "inventoryType": "MERCHANT",
-      "mandatoryFees": {
-        "displayType": "NONE"
+      "avgDisplayReferencePricePerNight": {
+        "amount": 153.75,
+        "currency": "USD"
       },
+      "rateRuleId": 212723269,
+      "inventoryType": "MERCHANT",
       "memberDeal": false,
       "sourceTypeRestricted": false,
       "sameDayDRR": false
     },
-    "hotel-4": {
-      "thumbnailUrl": "/hotels/19000000/18730000/18723300/18723252/6f918648_t.jpg",
-      "roomRatePlanDescription": "Premier Suite",
-      "roomLongDescription": " 1 King Bed  635-sq-foot (59-sq-meter) room with city views   Layout  - Separate living room  Internet  - Free WiFi    Entertainment  - 50-inch flat-screen TV, premium channels, and tablet computer  Food & Drink  - 24-hour room service and minibar  Sleep  - Pillowtop bed and premium bedding   Bathroom  - Private bathroom, bathrobes, and a shower with a rainfall showerhead  Practical  - Laptop-compatible safe, iron/ironing board, and desk; free cribs/infant beds available on request  Comfort  - Air conditioning and daily housekeeping Non-Smoking &nbsp;",
-      "ratePlanCode": "210772337",
-      "roomTypeCode": "202065748",
+    "hotel-5": {
+      "thumbnailUrl": "/hotels/1000000/540000/531200/531192/531192_118_t.jpg",
+      "roomRatePlanDescription": "Club Room, 2 Twin Beds",
+      "roomLongDescription": " 2 Twin Beds  388-sq-foot (36-sq-meter) room with garden views   Internet  - Free WiFi and wired Internet access   Entertainment  - 39-inch LED TV with premium channels  Food & Drink  - Coffee/tea maker, minibar, 24-hour room service, and free bottled water  Sleep  - Pillowtop bed, premium bedding, blackout drapes/curtains, and turndown service   Bathroom  - Private bathroom, deep soaking bathtub, and separate shower with a rainfall showerhead  Practical  - Safe, free newspaper, and iron/ironing board; rollaway/extra beds and free cribs/infant beds available on request  Comfort  - Air conditioning and daily housekeeping Smoking/Non Smoking Connecting/adjoining rooms can be requested, subject to availability   ",
+      "ratePlanCode": "206296146",
+      "roomTypeCode": "201300586",
       "vip": false,
+      "roomAmenities": [
+        {
+          "id": 2192,
+          "name": "Free Wireless Internet"
+        }
+      ],
+      "bedTypes": [
+        {
+          "id": 6239,
+          "name": "2 twin beds\r"
+        }
+      ],
+      "roomsLeft": 2,
+      "referenceBasePrice": {
+        "amount": 461.25,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 105.12,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 566.37,
+        "currency": "USD"
+      },
+      "checkInDate": "2018-04-22",
+      "checkOutDate": "2018-04-25",
+      "nights": 3,
+      "avgReferencePricePerNight": {
+        "amount": 188.79,
+        "currency": "USD"
+      },
+      "avgDisplayReferencePricePerNight": {
+        "amount": 153.75,
+        "currency": "USD"
+      },
+      "rateRuleId": 212899876,
+      "inventoryType": "MERCHANT",
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-6": {
+      "thumbnailUrl": "/hotels/1000000/540000/531200/531192/c0e76cf5_t.jpg",
+      "roomRatePlanDescription": "Deluxe Room, 1 King Bed (Club Access)",
+      "roomLongDescription": " 1 King Bed  388-sq-foot (36-sq-meter) room with garden views   Internet  - Free WiFi and wired Internet access   Entertainment  - 39-inch LED TV with premium channels  Food & Drink  - Coffee/tea maker, minibar, 24-hour room service, and free bottled water  Sleep  - Pillowtop bed, premium bedding, blackout drapes/curtains, and turndown service   Bathroom  - Private bathroom, deep soaking bathtub, and separate shower with a rainfall showerhead  Practical  - Safe, free newspaper, and iron/ironing board; rollaway/extra beds and free cribs/infant beds available on request  Comfort  - Air conditioning and daily housekeeping Smoking/Non Smoking Connecting/adjoining rooms can be requested, subject to availability   ",
+      "ratePlanCode": "206296157",
+      "roomTypeCode": "201300587",
+      "vip": false,
+      "roomAmenities": [
+        {
+          "id": 2192,
+          "name": "Free Wireless Internet"
+        }
+      ],
       "bedTypes": [
         {
           "id": 6194,
@@ -803,29 +943,79 @@
       ],
       "roomsLeft": 5,
       "referenceBasePrice": {
-        "amount": 4759.38,
+        "amount": 495,
         "currency": "USD"
       },
       "referenceTaxesAndFees": {
-        "amount": 996.86,
+        "amount": 112.83,
         "currency": "USD"
       },
       "referenceTotalPrice": {
-        "amount": 5756.24,
+        "amount": 607.83,
         "currency": "USD"
       },
-      "checkInDate": "2017-11-08",
-      "checkOutDate": "2017-11-15",
-      "nights": 7,
+      "checkInDate": "2018-04-22",
+      "checkOutDate": "2018-04-25",
+      "nights": 3,
       "avgReferencePricePerNight": {
-        "amount": 822.32,
+        "amount": 202.61,
         "currency": "USD"
       },
-      "rateRuleId": 232050728,
-      "inventoryType": "MERCHANT",
-      "mandatoryFees": {
-        "displayType": "NONE"
+      "avgDisplayReferencePricePerNight": {
+        "amount": 165,
+        "currency": "USD"
       },
+      "rateRuleId": 212899887,
+      "inventoryType": "MERCHANT",
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-7": {
+      "thumbnailUrl": "/hotels/1000000/540000/531200/531192/531192_119_t.jpg",
+      "roomRatePlanDescription": "Regency, Suite, 1 King Bed",
+      "roomLongDescription": " 1 King Bed  861-sq-foot (80-sq-meter) room with garden views   Internet  - Free WiFi and wired Internet access   Entertainment  - 39-inch LED TV with premium channels  Food & Drink  - Coffee/tea maker, minibar, 24-hour room service, and free bottled water  Sleep  - Pillowtop bed, premium bedding, blackout drapes/curtains, and turndown service   Bathroom  - Private bathroom, deep soaking bathtub, and separate shower with a rainfall showerhead  Practical  - Safe, free newspaper, and iron/ironing board; rollaway/extra beds and free cribs/infant beds available on request  Comfort  - Air conditioning and daily housekeeping Smoking/Non Smoking Connecting/adjoining rooms can be requested, subject to availability   ",
+      "ratePlanCode": "206296168",
+      "roomTypeCode": "201300588",
+      "vip": false,
+      "roomAmenities": [
+        {
+          "id": 2192,
+          "name": "Free Wireless Internet"
+        }
+      ],
+      "bedTypes": [
+        {
+          "id": 6194,
+          "name": "1 king bed\r"
+        }
+      ],
+      "roomsLeft": 5,
+      "referenceBasePrice": {
+        "amount": 1136.25,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 258.96,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 1395.21,
+        "currency": "USD"
+      },
+      "checkInDate": "2018-04-22",
+      "checkOutDate": "2018-04-25",
+      "nights": 3,
+      "avgReferencePricePerNight": {
+        "amount": 465.07,
+        "currency": "USD"
+      },
+      "avgDisplayReferencePricePerNight": {
+        "amount": 378.75,
+        "currency": "USD"
+      },
+      "rateRuleId": 212899898,
+      "inventoryType": "MERCHANT",
       "memberDeal": false,
       "sourceTypeRestricted": false,
       "sameDayDRR": false
@@ -833,99 +1023,168 @@
   },
   "flights": {
     "flight-0": {
-      "piid": "v5-2ffc9fc94429c83825cd8181f0e6afdd-37-36-1",
+      "piid": "v5-fd92d58d4608b1fd4ce440be5745b46a-0-0-1~0.S~AQoCCAESBwjUBBABGAEgASAHIA0gDCgD~AQpDCh8Iw7QBEgM2NTgYsnEggmgo_4yKATDbk4oBOFFAAFgBCiAIw7QBEgQ2MDY3GIJoIOpkKI-VigEwqpeKAThQQABYAQpDCiAIw7QBEgQzMDY4GOpkIIJoKP2-igEw-cCKAThQQABYAQofCMO0ARIDNjU5GIJoILJxKOHDigEwg8uKAThVQABYARIKCAEQARgBKgJDWhgEIgQIARACIgQIAhACKAIoAygEMAI",
       "productTokens": [
-        "AQogCh4IwaYBEgQxNTA0GJIBILJxKOTbezDh3Hs4UkAAWAEKIAoeCMGmARIEMTUyMxiycSCSASjasHww1rF8OFJAAFgBEgoIARABGAEqAkFTGAEiBAgBEAEoBCgDKAEoAjAC"
+        "AQpDCh8Iw7QBEgM2NTgYsnEggmgo_4yKATDbk4oBOFFAAFgBCiAIw7QBEgQ2MDY3GIJoIOpkKI-VigEwqpeKAThQQABYAQpDCiAIw7QBEgQzMDY4GOpkIIJoKP2-igEw-cCKAThQQABYAQofCMO0ARIDNjU5GIJoILJxKOHDigEwg8uKAThVQABYARIKCAEQARgBKgJDWhgEIgQIARACIgQIAhACKAIoAygEMAI"
       ],
       "legIds": [
-        "74c11adec83c899dd857d52def7addf6",
-        "e91010014bd7ac1906f9477e22624a88"
+        "4f200826921ef6b8e5fd00310683ca4e",
+        "94a68e173c08294a189bd8fdf598d73e"
       ],
       "referenceBasePrice": {
-        "amount": 109.76,
+        "amount": 2836,
         "currency": "USD"
       },
       "referenceTaxesAndFees": {
-        "amount": 36.64,
+        "amount": 1100.04,
         "currency": "USD"
       },
       "referenceTotalPrice": {
-        "amount": 146.40,
+        "amount": 3936.04,
         "currency": "USD"
       },
       "splitTicket": false,
-      "seatsLeft": 3,
-      "bookingSeatCount": 1
+      "seatsLeft": 11,
+      "bookingSeatCount": 4
     }
   },
   "flightLegs": {
-    "74c11adec83c899dd857d52def7addf6": {
+    "4f200826921ef6b8e5fd00310683ca4e": {
       "segments": [
         {
-          "departureAirportCode": "SEA",
-          "arrivalAirportCode": "SFO",
-          "departureCity": "Seattle",
-          "arrivalCity": "San Francisco",
-          "departureDateTime": "2017-11-08T07:00:00.000-08:00",
-          "arrivalDateTime": "2017-11-08T09:05:00.000-08:00",
-          "flightNumber": "1504",
-          "airlineCode": "AS",
-          "bookingCode": " R",
-          "airlineName": "Alaska Airlines",
-          "operatingAirlineCode": "VX",
-          "operatedByAirlineName": "/VIRGIN AMERICA",
-          "flightDuration": "PT2H5M",
-          "distance": {
-            "unit": "mi",
-            "distance": 679.0
+          "departureAirportCode": "SFO",
+          "arrivalAirportCode": "CAN",
+          "departureCity": "San Francisco",
+          "arrivalCity": "Guangzhou",
+          "departureDateTime": "2018-04-20T23:55:00.000-07:00",
+          "arrivalDateTime": "2018-04-22T05:15:00.000+08:00",
+          "flightNumber": "658",
+          "airlineCode": "CZ",
+          "bookingCode": " Q",
+          "airlineName": "China Southern Airlines",
+          "duration": {
+            "minutes": 20,
+            "hours": 14
           },
+          "layoverDuration": {
+            "minutes": 0,
+            "hours": 3
+          },
+          "elapsedDays": 2,
+          "cabinClass": "coach",
+          "airplaneType": {
+            "code": "77W",
+            "description": "BOEING 777-300ER"
+          },
+          "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/CZ.gif"
+        },
+        {
+          "departureAirportCode": "CAN",
+          "arrivalAirportCode": "KTM",
+          "departureCity": "Guangzhou",
+          "arrivalCity": "Kathmandu",
+          "departureDateTime": "2018-04-22T08:15:00.000+08:00",
+          "arrivalDateTime": "2018-04-22T10:40:00.000+05:42",
+          "flightNumber": "6067",
+          "airlineCode": "CZ",
+          "bookingCode": " P",
+          "airlineName": "China Southern Airlines",
+          "duration": {
+            "minutes": 43,
+            "hours": 4
+          },
+          "elapsedDays": 0,
           "cabinClass": "coach",
           "airplaneType": {
             "code": "319",
             "description": "Airbus A319"
           },
-          "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
+          "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/CZ.gif"
         }
       ],
-      "stops": 0
+      "stops": 1,
+      "hasObFees": false,
+      "baggageFeesUrl": "/Flights-BagFeesFilterByAC?originapt=SFO&destinationapt=KTM&cabinclass=coach&mktgcarrier=CZ&bookingclass=+Q&farebasis=Q2JRCUS&opcarrier=CZ&traveldate=2018-04-20&flightnumber=658",
+      "airlineCode": "CZ",
+      "airlineName": "China Southern Airlines",
+      "duration": {
+        "minutes": 3,
+        "hours": 22
+      },
+      "elapsedDays": 2,
+      "isBasicEconomy": false
     },
-    "e91010014bd7ac1906f9477e22624a88": {
+    "94a68e173c08294a189bd8fdf598d73e": {
       "segments": [
         {
-          "departureAirportCode": "SFO",
-          "arrivalAirportCode": "SEA",
-          "departureCity": "San Francisco",
-          "arrivalCity": "Seattle",
-          "departureDateTime": "2017-11-15T20:10:00.000-08:00",
-          "arrivalDateTime": "2017-11-15T22:14:00.000-08:00",
-          "flightNumber": "1523",
-          "airlineCode": "AS",
-          "bookingCode": " R",
-          "airlineName": "Alaska Airlines",
-          "operatingAirlineCode": "VX",
-          "operatedByAirlineName": "/VIRGIN AMERICA",
-          "flightDuration": "PT2H4M",
-          "distance": {
-            "unit": "mi",
-            "distance": 679.0
+          "departureAirportCode": "KTM",
+          "arrivalAirportCode": "CAN",
+          "departureCity": "Kathmandu",
+          "arrivalCity": "Guangzhou",
+          "departureDateTime": "2018-04-25T23:15:00.000+05:42",
+          "arrivalDateTime": "2018-04-26T05:45:00.000+08:00",
+          "flightNumber": "3068",
+          "airlineCode": "CZ",
+          "bookingCode": " P",
+          "airlineName": "China Southern Airlines",
+          "duration": {
+            "minutes": 12,
+            "hours": 4
           },
+          "layoverDuration": {
+            "minutes": 0,
+            "hours": 6
+          },
+          "elapsedDays": 1,
           "cabinClass": "coach",
           "airplaneType": {
-            "code": "320",
-            "description": "Airbus A320"
+            "code": "319",
+            "description": "Airbus A319"
           },
-          "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
+          "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/CZ.gif"
+        },
+        {
+          "departureAirportCode": "CAN",
+          "arrivalAirportCode": "SFO",
+          "departureCity": "Guangzhou",
+          "arrivalCity": "San Francisco",
+          "departureDateTime": "2018-04-26T11:45:00.000+08:00",
+          "arrivalDateTime": "2018-04-26T12:15:00.000-07:00",
+          "flightNumber": "659",
+          "airlineCode": "CZ",
+          "bookingCode": " U",
+          "airlineName": "China Southern Airlines",
+          "duration": {
+            "minutes": 30,
+            "hours": 15
+          },
+          "elapsedDays": 0,
+          "cabinClass": "coach",
+          "airplaneType": {
+            "code": "77W",
+            "description": "BOEING 777-300ER"
+          },
+          "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/CZ.gif"
         }
       ],
-      "stops": 0
+      "stops": 2,
+      "hasObFees": false,
+      "baggageFeesUrl": "/Flights-BagFeesFilterByAC?originapt=KTM&destinationapt=SFO&cabinclass=coach&mktgcarrier=CZ&bookingclass=+P&farebasis&opcarrier=CZ&traveldate=2018-04-25&flightnumber=3068",
+      "airlineCode": "CZ",
+      "airlineName": "China Southern Airlines",
+      "duration": {
+        "minutes": 42,
+        "hours": 25
+      },
+      "elapsedDays": 1,
+      "isBasicEconomy": false
     }
   },
-  "cars": {
-
-  },
+  "cars": {},
+  "dxProducts": {},
   "messageInfo": {
-    "transactionGUID": "35950673-0bbe-4a3c-a8fb-b22426ee060e",
-    "userGUID": "39206f09-1e50-4114-a8c1-39bf121a300d",
-    "tuid": 1296026686
+    "transactionGUID": "5495a0fe-60d0-48d9-8f18-3a6c4ca589f5",
+    "userGUID": "5440972f-4665-4ba0-815e-06721d69c082",
+    "tuid": -1
   }
 }

@@ -3,7 +3,7 @@
 
 # Defaults
 debug="false" # Making debug by default as false
-declare -i maxReRuns=2 # integer, 0 is the first run, 1 is the rerun, etc...
+declare -i maxReRuns=0 # integer, 0 is the first run, 1 is the rerun, etc...
 
 while echo $1 | grep -q ^-; do
     eval $( echo $1 | sed 's/^-//' )=$2
