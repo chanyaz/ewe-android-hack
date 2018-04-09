@@ -64,7 +64,7 @@ class PackageOverviewPresenterTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testBundleTotalTextBeforeCreateTripForJapanPOS() {
         val initialPOSID = PointOfSale.getPointOfSale().pointOfSaleId
         setPointOfSale(PointOfSaleId.JAPAN)
@@ -75,7 +75,7 @@ class PackageOverviewPresenterTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testMenuItemsWhenBackflowIsBucketed() {
         val testSubscriber = TestObserver.create<PackageCreateTripResponse>()
         val params = PackageCreateTripParams("create_trip", "1234", 1, false, emptyList())
@@ -87,7 +87,7 @@ class PackageOverviewPresenterTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testMenuItemsWhenBackflowIsControlled() {
         val testSubscriber = TestObserver.create<PackageCreateTripResponse>()
         val params = PackageCreateTripParams("create_trip", "1234", 1, false, emptyList())
@@ -98,7 +98,7 @@ class PackageOverviewPresenterTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testPackageCheckoutViewOpenedWithMIDCheckoutEnabled() {
         setupOverviewPresenter()
         overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
@@ -111,7 +111,7 @@ class PackageOverviewPresenterTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testPackageCheckoutViewOpenedWithMIDCheckoutDisabled() {
         setupOverviewPresenter()
         overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
@@ -122,7 +122,7 @@ class PackageOverviewPresenterTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testPackageBundleWidgetTitleTextFromMultiItemResponse() {
         val stepOneTestSubscriber = TestObserver<String>()
         val stepTwoTestSubscriber = TestObserver<String>()
@@ -139,7 +139,7 @@ class PackageOverviewPresenterTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testBundleHotelWidgetDatesAndGuestTextForMID() {
         setupOverviewPresenter()
 
@@ -148,7 +148,7 @@ class PackageOverviewPresenterTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testBundleTotalTextAfterCreateTrip() {
         val initialPOSID = PointOfSale.getPointOfSale().pointOfSaleId
         val testSubscriber = TestObserver.create<PackageCreateTripResponse>()
@@ -167,7 +167,7 @@ class PackageOverviewPresenterTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testWebURLForCreateTripWithMIDTurnedOn() {
         val testSubscriber = TestObserver.create<String>()
         setupOverviewPresenter()
@@ -181,7 +181,7 @@ class PackageOverviewPresenterTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testPackageOverviewHeaderFromMultiItemResponse() {
         setupOverviewPresenter()
         overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
@@ -219,7 +219,7 @@ class PackageOverviewPresenterTest {
     }*/
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testBundleTotalPriceMIDDailyPointOfSale() {
         assertTotalPriceDisplayedForMID(MandatoryFees.DisplayType.DAILY,
                 MandatoryFees.DisplayCurrency.POINT_OF_SALE,
@@ -227,7 +227,7 @@ class PackageOverviewPresenterTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testBundleTotalPriceMIDDailyPointOfSupply() {
         assertTotalPriceDisplayedForMID(MandatoryFees.DisplayType.DAILY,
                 MandatoryFees.DisplayCurrency.POINT_OF_SUPPLY,
@@ -235,7 +235,7 @@ class PackageOverviewPresenterTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testBundleTotalPriceMIDTotalPointOfSale() {
         assertTotalPriceDisplayedForMID(MandatoryFees.DisplayType.TOTAL,
                 MandatoryFees.DisplayCurrency.POINT_OF_SALE,
@@ -243,7 +243,7 @@ class PackageOverviewPresenterTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testBundleTotalPriceMIDTotalPointOfSupply() {
         assertTotalPriceDisplayedForMID(MandatoryFees.DisplayType.TOTAL,
                 MandatoryFees.DisplayCurrency.POINT_OF_SUPPLY,
@@ -251,7 +251,7 @@ class PackageOverviewPresenterTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testCacheResponseUsedOnChangeHotelRoomBack() {
         setupOverviewPresenter()
         overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
@@ -270,7 +270,7 @@ class PackageOverviewPresenterTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testCacheResponseUsedOnChangeHotelBack() {
         setupOverviewPresenter()
         overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
@@ -300,7 +300,7 @@ class PackageOverviewPresenterTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testMidCheckoutViewShowsAfterGoingBackFromOverviewScreenToCheckout() {
         setupOverviewPresenter()
         overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().packageServices = packageServiceRule.services!!
@@ -319,7 +319,47 @@ class PackageOverviewPresenterTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testMaskActivityWhenGoingFromOverviewToWebView() {
+        setupOverviewPresenter()
+        val maskWebCheckoutActivityObservable = TestObserver.create<Boolean>()
+        overviewPresenter.webCheckoutView.viewModel.showWebViewObservable.subscribe(maskWebCheckoutActivityObservable)
+        overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().packageServices = packageServiceRule.services!!
+
+        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
+
+        overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
+        overviewPresenter.show(overviewPresenter.webCheckoutView)
+        Db.setPackageParams(PackageTestUtil.getMIDPackageSearchParams())
+        overviewPresenter.checkoutButton.performClick()
+
+        maskWebCheckoutActivityObservable.assertValue(true)
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testDontMaskActivityWhenGoingFromWebViewToOverview() {
+        setupOverviewPresenter()
+        val maskWebCheckoutActivityObservable = TestObserver.create<Boolean>()
+        overviewPresenter.webCheckoutView.viewModel.showWebViewObservable.subscribe(maskWebCheckoutActivityObservable)
+        overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().packageServices = packageServiceRule.services!!
+
+        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
+
+        overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
+        overviewPresenter.show(overviewPresenter.webCheckoutView)
+        Db.setPackageParams(PackageTestUtil.getMIDPackageSearchParams())
+        overviewPresenter.checkoutButton.performClick()
+
+        overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
+        overviewPresenter.webCheckoutView.viewModel.backObservable.onNext(Unit)
+        overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
+
+        maskWebCheckoutActivityObservable.assertValues(true, false)
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testMIDCloseWebViewOnOverviewScreenDoesNothing() {
         setupOverviewPresenter()
         overviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())

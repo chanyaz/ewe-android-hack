@@ -39,7 +39,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
-class WebCheckoutViewTest {
+class HotelWebCheckoutViewTest {
 
     lateinit var hotelPresenter: HotelPresenter
     lateinit var activity: Activity
@@ -64,14 +64,14 @@ class WebCheckoutViewTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun webCheckoutUsed() {
         getToWebCheckoutView()
         webCheckoutViewObservable.assertValueCount(1)
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun webCheckoutNotUsedOnUnsupportedPOS() {
         givenHotelDetailsScreen(setPOSWithWebCheckoutABTestEnabled = false)
                 .whenHotelRoomSelected()
@@ -79,7 +79,7 @@ class WebCheckoutViewTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun webCheckoutNotUsedWhenNotBucketed() {
         givenHotelDetailsScreen(bucketWebCheckoutABTest = false, setPOSWithWebCheckoutABTestEnabled = true)
                 .whenHotelRoomSelected()
@@ -87,7 +87,7 @@ class WebCheckoutViewTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun webCheckoutUsedOnSupportedPOSWhenBucketed() {
         givenHotelDetailsScreen(bucketWebCheckoutABTest = true, setPOSWithWebCheckoutABTestEnabled = true)
                 .whenHotelRoomSelected()
@@ -95,7 +95,7 @@ class WebCheckoutViewTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun webCheckoutNotUsedWhenBucketedButPOSDisabled() {
         bucketWebCheckoutABTest(true)
         setPOSWithWebCheckoutABTestEnabled(false)
@@ -113,7 +113,7 @@ class WebCheckoutViewTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun webViewTripIDOnSuccessfulBooking() {
         val bookingTripIDSubscriber = TestObserver<String>()
         val fectchTripIDSubscriber = TestObserver<String>()
@@ -139,7 +139,7 @@ class WebCheckoutViewTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testWebviewDoesNotFetchTripIdWithoutValidConfirmationUrl() {
         val bookingTripIDSubscriber = TestObserver<String>()
         val fectchTripIDSubscriber = TestObserver<String>()
@@ -165,7 +165,7 @@ class WebCheckoutViewTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun webViewRefreshUserOnBackPress() {
         val closeViewSubscriber = TestObserver<Unit>()
         setPOSWithWebCheckoutEnabled(true)
@@ -184,7 +184,7 @@ class WebCheckoutViewTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun webViewURLWithoutParamsContainsAppVID() {
         getToWebCheckoutView()
         val testURL = "abcdefg"
@@ -193,7 +193,7 @@ class WebCheckoutViewTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun webViewURLWithParamsContainsAppVID() {
         getToWebCheckoutView()
         val testURL = "abcdefg?ab=c"
@@ -202,7 +202,7 @@ class WebCheckoutViewTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testTelephoneUrlLoadsPhoneActivity() {
         getToWebCheckoutView()
         val phoneUrl = "tel:800-423-5498"
@@ -216,7 +216,7 @@ class WebCheckoutViewTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun webViewClearsPageGoingBack() {
         val closeViewSubscriber = TestObserver<Unit>()
         val urlSubscriber = TestObserver<String>()
@@ -233,7 +233,7 @@ class WebCheckoutViewTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     @Config(qualifiers = "sw600dp")
     fun testUserAgentStringHasTabletInfo() {
         setPOSWithWebCheckoutEnabled(true)
@@ -242,11 +242,36 @@ class WebCheckoutViewTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testUserAgentStringHasPhoneInfo() {
         setPOSWithWebCheckoutEnabled(true)
         setUpTestToStartAtDetailsScreen()
         assertEquals("Android " + WebViewUtils.userAgentString + " app.webview.phone", hotelPresenter.webCheckoutView.webView.settings.userAgentString)
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testMaskActivityWhenGoingToWebView() {
+        getToWebCheckoutView()
+        val maskWebCheckoutActivityObservable = TestObserver.create<Boolean>()
+        hotelPresenter.webCheckoutView.viewModel.showWebViewObservable.subscribe(maskWebCheckoutActivityObservable)
+        hotelPresenter.show(hotelPresenter.webCheckoutView)
+        maskWebCheckoutActivityObservable.assertValue(true)
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testDontMaskActivityWhenGoingFromWebViewBackToHotelDetails() {
+        getToWebCheckoutView()
+        val maskWebCheckoutActivityObservable = TestObserver.create<Boolean>()
+        hotelPresenter.webCheckoutView.viewModel.showWebViewObservable.subscribe(maskWebCheckoutActivityObservable)
+        hotelPresenter.show(hotelPresenter.webCheckoutView)
+
+        // Transition doesn't happen if not done like this
+        hotelPresenter.show(hotelPresenter.detailPresenter)
+        hotelPresenter.webCheckoutView.viewModel.backObservable.onNext(Unit)
+        hotelPresenter.show(hotelPresenter.detailPresenter)
+        maskWebCheckoutActivityObservable.assertValues(true, false)
     }
 
     private fun getToWebCheckoutView() {

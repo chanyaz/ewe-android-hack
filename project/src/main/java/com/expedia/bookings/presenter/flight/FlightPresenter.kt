@@ -713,6 +713,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             super.endTransition(forward)
             transitionToWebView(forward)
             inboundPresenter.setInverseVisibility(forward)
+            webCheckoutView.viewModel.showWebViewObservable.onNext(forward)
         }
     }
 
@@ -721,6 +722,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             super.endTransition(forward)
             transitionToWebView(forward)
             outBoundPresenter.setInverseVisibility(forward)
+            webCheckoutView.viewModel.showWebViewObservable.onNext(forward)
         }
     }
 

@@ -1,10 +1,12 @@
 package com.expedia.bookings.widget.shared
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
 import android.util.AttributeSet
 import android.view.View
+import android.view.WindowManager
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.widget.LinearLayout
@@ -47,6 +49,14 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
         })
         vm.showLoadingObservable.subscribe {
             toggleLoading(true)
+        }
+        vm.showWebViewObservable.subscribe { isShown ->
+            val window = (context as Activity).window
+            if (isShown) {
+                window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
+            } else {
+                window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
+            }
         }
     }
 
