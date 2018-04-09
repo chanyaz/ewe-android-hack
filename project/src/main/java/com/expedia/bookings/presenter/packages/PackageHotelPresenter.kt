@@ -24,6 +24,7 @@ import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.convertPackageToSearchParams
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse
+import com.expedia.bookings.data.multiitem.PackageErrorDetails
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.packages.PackagesPageUsableData
@@ -315,10 +316,12 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         ).subscribe(makeResponseObserver())
     }
 
-    private fun handleRoomResponseErrors(errorCode: ApiError.Code) {
+    private fun handleRoomResponseErrors(errorDetails: PackageErrorDetails.ApiErrorDetails, isHotelInfositeCallError: Boolean = false) {
         val activity = (context as Activity)
         val resultIntent = Intent()
-        resultIntent.putExtra(Constants.PACKAGE_HOTEL_OFFERS_ERROR, errorCode.name)
+        resultIntent.putExtra(Constants.PACKAGE_HOTEL_OFFERS_ERROR_KEY, errorDetails.key)
+        resultIntent.putExtra(Constants.PACKAGE_HOTEL_OFFERS_ERROR, errorDetails.errorCode.name)
+        resultIntent.putExtra(Constants.PACKAGE_HOTEL_DID_INFOSITE_CALL_FAIL, isHotelInfositeCallError)
         activity.setResult(Activity.RESULT_OK, resultIntent)
         activity.finish()
     }
@@ -332,7 +335,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                         val midError = Gson().fromJson(response?.charStream(), MultiItemApiSearchResponse::class.java)
                         handleRoomResponseErrors(midError.roomResponseFirstErrorCode)
                     } catch (e: Exception) {
-                        handleRoomResponseErrors(ApiError.Code.PACKAGE_SEARCH_ERROR)
+                        handleRoomResponseErrors(PackageErrorDetails.ApiErrorDetails(Constants.UNKNOWN_ERROR_CODE, ApiError.Code.PACKAGE_SEARCH_ERROR))
                     }
                 } else {
                     handleError(throwable)
@@ -342,8 +345,9 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             override fun onNext(t: Pair<MultiItemApiSearchResponse, HotelOffersResponse>) {
                 val (packageRoomsResponse, hotelInfoResponse) = t
                 if (hotelInfoResponse.hasErrors()) {
-                    handleRoomResponseErrors(hotelInfoResponse.firstError?.errorCode
-                            ?: ApiError.Code.PACKAGE_SEARCH_ERROR)
+                    val errorCode = hotelInfoResponse.firstError.errorCode ?: ApiError.Code.PACKAGE_SEARCH_ERROR
+                    val errorKey = if (errorCode == ApiError.Code.PACKAGE_SEARCH_ERROR) Constants.UNKNOWN_ERROR_CODE else hotelInfoResponse.firstError.errorKey
+                    handleRoomResponseErrors(PackageErrorDetails.ApiErrorDetails(errorKey, errorCode), true)
                     return
                 }
                 val hotelOffers = HotelOffersResponse.convertToHotelOffersResponse(hotelInfoResponse, packageRoomsResponse.getBundleRoomResponse(), packageRoomsResponse.getHotelCheckInDate(), packageRoomsResponse.getHotelCheckOutDate())

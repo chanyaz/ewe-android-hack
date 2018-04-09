@@ -146,7 +146,7 @@ public class PackageServicesTest {
 			MultiItemApiSearchResponse midError = new Gson()
 				.fromJson(response.charStream(), MultiItemApiSearchResponse.class);
 			Assert.assertNotNull(midError);
-			Assert.assertEquals(PackageApiError.Code.mid_could_not_find_results, midError.getFirstError());
+			Assert.assertEquals(PackageApiError.Code.mid_could_not_find_results, midError.getFirstError().getErrorCode());
 		}
 		else {
 			Assert.fail("Error should be of type HttpException");
@@ -226,7 +226,7 @@ public class PackageServicesTest {
 			MultiItemApiSearchResponse midError = new Gson()
 				.fromJson(response.charStream(), MultiItemApiSearchResponse.class);
 			Assert.assertNotNull(midError);
-			Assert.assertEquals(PackageApiError.Code.mid_could_not_find_results, midError.getFirstError());
+			Assert.assertEquals(PackageApiError.Code.mid_could_not_find_results, midError.getFirstError().getErrorCode());
 		}
 		else {
 			Assert.fail("Error should be of type HttpException");
@@ -308,7 +308,7 @@ public class PackageServicesTest {
 			MultiItemApiSearchResponse midError = new Gson()
 				.fromJson(response.charStream(), MultiItemApiSearchResponse.class);
 			Assert.assertNotNull(midError);
-			Assert.assertEquals(PackageApiError.Code.mid_could_not_find_results, midError.getFirstError());
+			Assert.assertEquals(PackageApiError.Code.mid_could_not_find_results, midError.getFirstError().getErrorCode());
 		}
 		else {
 			Assert.fail("Error should be of type HttpException");
@@ -369,7 +369,7 @@ public class PackageServicesTest {
 			MultiItemApiSearchResponse midError = new Gson()
 				.fromJson(response.charStream(), MultiItemApiSearchResponse.class);
 			Assert.assertNotNull(midError);
-			Assert.assertEquals(ApiError.Code.PACKAGE_SEARCH_ERROR, midError.getRoomResponseFirstErrorCode());
+			Assert.assertEquals(ApiError.Code.PACKAGE_SEARCH_ERROR, midError.getRoomResponseFirstErrorCode().getErrorCode());
 		}
 		else {
 			Assert.fail("Error should be of type HttpException");

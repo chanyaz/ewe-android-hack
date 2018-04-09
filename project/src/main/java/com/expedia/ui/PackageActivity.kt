@@ -8,7 +8,6 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity
@@ -16,6 +15,7 @@ import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
 import com.expedia.bookings.presenter.packages.PackagePresenter
+import com.expedia.bookings.tracking.ApiCallFailing
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
@@ -105,10 +105,6 @@ class PackageActivity : AbstractAppCompatActivity() {
                 }
                 return
             }
-            Constants.PACKAGE_API_ERROR_RESULT_CODE -> {
-                val errorCode = (data?.extras?.getSerializable(Constants.PACKAGE_API_ERROR) as? PackageApiError.Code) ?: PackageApiError.Code.pkg_error_code_not_mapped
-                packagePresenter.bundlePresenter.bundleWidget.viewModel.errorObservable.onNext(errorCode)
-            }
         }
 
         when (requestCode) {
@@ -116,8 +112,16 @@ class PackageActivity : AbstractAppCompatActivity() {
                 Activity.RESULT_OK -> {
                     val errorString = data?.extras?.getString(Constants.PACKAGE_HOTEL_OFFERS_ERROR)
                     if (errorString != null) {
+                        val errorKey = data.extras.getString(Constants.PACKAGE_HOTEL_OFFERS_ERROR_KEY)
+                        val isErrorFromInfositeCall = data.extras.getBoolean(Constants.PACKAGE_HOTEL_DID_INFOSITE_CALL_FAIL)
+                        val isChangePackageSearch = Db.sharedInstance.packageParams.isChangePackageSearch()
+
+                        val apiCallFailing = when {
+                            isErrorFromInfositeCall -> if (isChangePackageSearch) ApiCallFailing.PackageHotelInfositeChange(errorKey) else ApiCallFailing.PackageHotelInfosite(errorKey)
+                            else -> if (isChangePackageSearch) ApiCallFailing.PackageHotelRoomChange(errorKey) else ApiCallFailing.PackageHotelRoom(errorKey)
+                        }
                         val errorCode = if (ApiError.Code.PACKAGE_SEARCH_ERROR.name == errorString) ApiError.Code.PACKAGE_SEARCH_ERROR else ApiError.Code.UNKNOWN_ERROR
-                        packagePresenter.hotelOffersErrorObservable.onNext(errorCode)
+                        packagePresenter.hotelOffersErrorObservable.onNext(Pair(errorCode, apiCallFailing))
                     } else {
                         //is is change hotel search, call createTrip, otherwise start outbound flight search
                         val changePackageSearch = Db.sharedInstance.packageParams.isChangePackageSearch()

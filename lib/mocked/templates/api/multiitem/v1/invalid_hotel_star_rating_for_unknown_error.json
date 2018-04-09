@@ -1,0 +1,292 @@
+{
+  "offers": [
+    {
+      "price": {
+        "basePrice": {
+          "amount": 3052.42,
+          "currency": "USD"
+        },
+        "taxesAndFees": {
+          "amount": 614.61,
+          "currency": "USD"
+        },
+        "totalPrice": {
+          "amount": 3667.03,
+          "currency": "USD"
+        },
+        "referenceBasePrice": {
+          "amount": 3550.15,
+          "currency": "USD"
+        },
+        "referenceTaxesAndFees": {
+          "amount": 757.23,
+          "currency": "USD"
+        },
+        "referenceTotalPrice": {
+          "amount": 4307.38,
+          "currency": "USD"
+        },
+        "savings": {
+          "amount": 640.35,
+          "currency": "USD"
+        },
+        "avgPricePerPerson": {
+          "amount": 3667.03,
+          "currency": "USD"
+        },
+        "avgReferencePricePerPerson": {
+          "amount": 4307.38,
+          "currency": "USD"
+        },
+        "showSavings": true
+      },
+      "searchedOffer": {
+        "productType": "Hotel",
+        "productKey": "hotel-0"
+      },
+      "packagedOffers": [
+        {
+          "productType": "Air",
+          "productKey": "flight-0"
+        }
+      ],
+      "packageDeal": {
+        "markers": [
+          {
+            "sticker": "FreeFlight",
+            "magnitude": 0.0,
+            "content": {
+              "description": "Book this and <strong>save 100% on your flight</strong>",
+              "title": "Unreal Deal",
+              "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of your airfare."
+            },
+            "contentVariants": {
+            }
+          },
+          {
+            "sticker": "FreeHotelNights",
+            "magnitude": 1.0,
+            "content": {
+              "description": "<strong>Get 1 night free</strong> by booking together.",
+              "title": "Unreal Deal",
+              "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of 1 hotel night."
+            },
+            "contentVariants": {
+            }
+          },
+          {
+            "sticker": "FlightDeal",
+            "magnitude": 0.0,
+            "content": {
+              "description": "Book this and save $640 (14%)",
+              "title": "Unreal Deal",
+              "legal": ""
+            },
+            "contentVariants": {
+            }
+          },
+          {
+            "sticker": "HotelSavingsFreeNights",
+            "magnitude": 1.0,
+            "content": {
+              "description": "<strong>Get 1 night free</strong> by booking together.",
+              "title": "Unreal Deal",
+              "legal": "Over 271,000 hotels and 400 airlines compete for your business every day. When you book a flight and hotel together, we negotiate incredible deals and pass the savings on to you. The savings can be so great they cover the cost of 1 hotel night."
+            },
+            "contentVariants": {
+            }
+          }
+        ],
+        "savingsPercentage": 14.87,
+        "savingsAmount": 640.35,
+        "rank": 0
+      },
+      "loyaltyInfo": {
+        "earn": {
+          "points": {
+            "base": 7334,
+            "bonus": 7334,
+            "total": 14668
+          }
+        }
+      },
+      "detailsUrl": "/Details?action=UnifiedDetailsWidget@showDetailsForDeepLink&ptyp=multiitem&langid=1033&crom=1&cadt=R1:1&dcty=L1:SEA%7CL2:SFO&acty=L1:SFO%7CL2:SEA&ddte=L1:2017-11-08%7CL2:2017-11-15&destinationId=178305&hotelId=18723252&ratePlanCode=210772335&roomTypeCode=202065745&inventoryType=1&checkInDate=2017-11-08&checkOutDate=2017-11-15&tokens=AQogCh4IwaYBEgQxNTA0GJIBILJxKOTbezDh3Hs4UkAAWAEKIAoeCMGmARIEMTUyMxiycSCSASjasHww1rF8OFJAAFgBEgoIARABGAEqAkFTGAEiBAgBEAEoBCgDKAEoAjAC&price=3667.03&ccyc=USD",
+      "changeHotelUrl": "/changehotel?packageType=fh&langid=1033&originId=178307&ftla=SEA&destinationId=178305&ttla=SFO&fromDate=2017-11-08&toDate=2017-11-15&numberOfRooms=1&adultsPerRoom%5B1%5D=1&flightPIID=v5-2ffc9fc94429c83825cd8181f0e6afdd-37-36-1&hotelPIID=18723252,210772335,202065745&adjustedCheckin=2017-11-08&hotelInventoryType=MERCHANT",
+      "changeRoomUrl": "/hotel.h18723252.Hotel-Information?packageType=fh&langid=1033&originId=178307&ftla=SEA&destinationId=178305&ttla=SFO&fromDate=2017-11-08&toDate=2017-11-15&numberOfRooms=1&adultsPerRoom%5B1%5D=1&action=changeRoom&hotelId=18723252&currentRatePlan=202065745210772335&flightPIID=v5-2ffc9fc94429c83825cd8181f0e6afdd-37-36-1&hotelPIID=18723252,210772335,202065745&adjustedCheckin=2017-11-08&hotelInventoryType=MERCHANT",
+      "cancellationPolicy": {
+        "freeCancellationAvailable": false
+      }
+    }
+  ],
+  "hotels": {
+    "hotel-0": {
+      "id": "18723252",
+      "name": "San Francisco Proper Hotel",
+      "englishName": "San Francisco Proper Hotel",
+      "shortDescription": "Located in Downtown San Francisco, this hotel is within a 5-minute walk of San Francisco Federal Building, Golden Gate Theatre, and Warfield Theater. United Nations Plaza and Orpheum Theater are also within 5 minutes. ",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "1100 Market Street",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94102",
+        "latitude": 37.78087,
+        "longitude": -122.41242
+      },
+      "starRating": "invalid_star",
+      "averageReview": 4.5,
+      "reviewCount": 2,
+      "recommendationPercentage": 100.0,
+      "thumbnailUrl": "/hotels/19000000/18730000/18723300/18723252/4bd1d2ce_t.jpg",
+      "roomRatePlanDescription": "Premier Room, 1 King Bed",
+      "ratePlanCode": "210772335",
+      "roomTypeCode": "202065745",
+      "vip": false,
+      "neighborhood": "",
+      "roomsLeft": 22,
+      "referenceBasePrice": {
+        "amount": 3440.39,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 720.59,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 4160.98,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 594.43,
+        "currency": "USD"
+      },
+      "rateRuleId": 232050728,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    }
+  },
+  "flights": {
+    "flight-0": {
+      "piid": "v5-2ffc9fc94429c83825cd8181f0e6afdd-37-36-1",
+      "productTokens": [
+        "AQogCh4IwaYBEgQxNTA0GJIBILJxKOTbezDh3Hs4UkAAWAEKIAoeCMGmARIEMTUyMxiycSCSASjasHww1rF8OFJAAFgBEgoIARABGAEqAkFTGAEiBAgBEAEoBCgDKAEoAjAC"
+      ],
+      "legIds": [
+        "74c11adec83c899dd857d52def7addf6",
+        "e91010014bd7ac1906f9477e22624a88"
+      ],
+      "referenceBasePrice": {
+        "amount": 109.76,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 36.64,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 146.40,
+        "currency": "USD"
+      },
+      "splitTicket": false,
+      "seatsLeft": 3,
+      "bookingSeatCount": 1
+    }
+  },
+  "flightLegs": {
+    "74c11adec83c899dd857d52def7addf6": {
+      "segments": [
+        {
+          "departureAirportCode": "SEA",
+          "arrivalAirportCode": "SFO",
+          "departureCity": "Seattle",
+          "arrivalCity": "San Francisco",
+          "departureDateTime": "2017-11-08T07:00:00.000-08:00",
+          "arrivalDateTime": "2017-11-08T09:05:00.000-08:00",
+          "flightNumber": "1504",
+          "airlineCode": "AS",
+          "bookingCode": " R",
+          "airlineName": "Alaska Airlines",
+          "operatingAirlineCode": "VX",
+          "operatedByAirlineName": "/VIRGIN AMERICA",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
+          "distance": {
+            "unit": "mi",
+            "distance": 679.0
+          },
+          "cabinClass": "coach",
+          "airplaneType": {
+            "code": "319",
+            "description": "Airbus A319"
+          },
+          "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
+        }
+      ],
+      "stops": 0,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
+    },
+    "e91010014bd7ac1906f9477e22624a88": {
+      "segments": [
+        {
+          "departureAirportCode": "SFO",
+          "arrivalAirportCode": "SEA",
+          "departureCity": "San Francisco",
+          "arrivalCity": "Seattle",
+          "departureDateTime": "2017-11-15T20:10:00.000-08:00",
+          "arrivalDateTime": "2017-11-15T22:14:00.000-08:00",
+          "flightNumber": "1523",
+          "airlineCode": "AS",
+          "bookingCode": " R",
+          "airlineName": "Alaska Airlines",
+          "operatingAirlineCode": "VX",
+          "operatedByAirlineName": "/VIRGIN AMERICA",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
+          "distance": {
+            "unit": "mi",
+            "distance": 679.0
+          },
+          "cabinClass": "coach",
+          "airplaneType": {
+            "code": "320",
+            "description": "Airbus A320"
+          },
+          "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
+        }
+      ],
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0,
+      "stops": 0
+    }
+  },
+  "cars": {
+  },
+  "messageInfo": {
+    "transactionGUID": "3da13db1-b48d-41b4-aca4-3105976c0502",
+    "userGUID": "39206f09-1e50-4114-a8c1-39bf121a300d",
+    "tuid": 1296026686
+  }
+}

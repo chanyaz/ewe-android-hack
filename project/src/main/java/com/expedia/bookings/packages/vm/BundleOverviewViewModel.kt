@@ -6,6 +6,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse
+import com.expedia.bookings.data.multiitem.PackageErrorDetails
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
@@ -14,6 +15,7 @@ import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.ProductSearchType
 import com.expedia.bookings.extensions.subscribeObserver
+import com.expedia.bookings.tracking.ApiCallFailing
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.RetrofitUtils
@@ -38,7 +40,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
     val hotelParamsObservable = PublishSubject.create<PackageSearchParams>()
     val flightParamsObservable = PublishSubject.create<PackageSearchParams>()
     val createTripObservable = PublishSubject.create<PackageCreateTripResponse>()
-    val errorObservable = PublishSubject.create<PackageApiError.Code>()
+    val errorObservable = PublishSubject.create<Pair<PackageApiError.Code, ApiCallFailing>>()
     val cancelSearchObservable = PublishSubject.create<Unit>()
     val showSearchObservable = PublishSubject.create<Unit>()
     val searchParamsChangeObservable = PublishSubject.create<Unit>()
@@ -73,7 +75,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     .put("guests", StrUtils.formatTravelerString(context, params.guests))
                     .format().toString())
 
-            searchPackageSubscriber = packageServices?.packageSearch(params, ProductSearchType.MultiItemHotels)?.subscribeObserver(makeResultsObserver(PackageSearchType.HOTEL))
+            searchPackageSubscriber = packageServices?.packageSearch(params, ProductSearchType.MultiItemHotels)?.subscribeObserver(makeResultsObserver(PackageSearchType.HOTEL, params.isChangePackageSearch()))
         }
 
         flightParamsObservable.subscribe { params ->
@@ -86,7 +88,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     .format().toString())
             val type = if (params.isOutboundSearch(isMidAPIEnabled(context))) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT
 
-            searchPackageSubscriber = packageServices?.packageSearch(params, getProductSearchType(params.isOutboundSearch(isMidAPIEnabled(context))))?.subscribeObserver(makeResultsObserver(type))
+            searchPackageSubscriber = packageServices?.packageSearch(params, getProductSearchType(params.isOutboundSearch(isMidAPIEnabled(context))))?.subscribeObserver(makeResultsObserver(type, params.isChangePackageSearch()))
         }
 
         searchParamsChangeObservable.subscribe {
@@ -159,13 +161,21 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
         else -> ""
     }
 
-    fun makeResultsObserver(type: PackageSearchType): Observer<BundleSearchResponse> {
+    private fun getApiCallFailingDetails(type: PackageSearchType, isChangeSearch: Boolean, errorDetails: PackageErrorDetails.PackageAPIErrorDetails): Pair<PackageApiError.Code, ApiCallFailing> {
+        val apiCallFailingDetails = when (type) {
+            PackageSearchType.HOTEL -> if (isChangeSearch) ApiCallFailing.PackageHotelChange(errorDetails.errorKey) else ApiCallFailing.PackageHotelSearch(errorDetails.errorKey)
+            PackageSearchType.OUTBOUND_FLIGHT -> if (isChangeSearch) ApiCallFailing.PackageFlightOutboundChange(errorDetails.errorKey) else ApiCallFailing.PackageFlightOutbound(errorDetails.errorKey)
+            PackageSearchType.INBOUND_FLIGHT -> if (isChangeSearch) ApiCallFailing.PackageFlightInboundChange(errorDetails.errorKey) else ApiCallFailing.PackageFlightInbound(errorDetails.errorKey)
+        }
+        return Pair(errorDetails.errorCode, apiCallFailingDetails)
+    }
+
+    private fun makeResultsObserver(type: PackageSearchType, isChangeSearch: Boolean): Observer<BundleSearchResponse> {
         return object : DisposableObserver<BundleSearchResponse>() {
             override fun onNext(response: BundleSearchResponse) {
-                if (response.hasErrors()) {
-                    errorObservable.onNext(response.firstError)
-                } else if (response.getHotels().isEmpty()) {
-                    errorObservable.onNext(PackageApiError.Code.search_response_null)
+                if (response.getHotels().isEmpty()) {
+                    val errorCode = PackageApiError.Code.search_response_null
+                    errorObservable.onNext(getApiCallFailingDetails(type, isChangeSearch, PackageErrorDetails.PackageAPIErrorDetails(errorCode.name, errorCode)))
                 } else {
                     Db.setPackageResponse(response)
                     if (type == PackageSearchType.HOTEL) {
@@ -199,13 +209,14 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     throwable is HttpException -> try {
                         val response = throwable.response().errorBody()
                         val midError = Gson().fromJson(response?.charStream(), MultiItemApiSearchResponse::class.java)
-                        errorObservable.onNext(midError.firstError)
+                        errorObservable.onNext(getApiCallFailingDetails(type, isChangeSearch, midError.firstError))
                     } catch (e: Exception) {
-                        errorObservable.onNext(PackageApiError.Code.pkg_error_code_not_mapped)
+                        val errorCode = PackageApiError.Code.pkg_error_code_not_mapped
+                        errorObservable.onNext(getApiCallFailingDetails(type, isChangeSearch, PackageErrorDetails.PackageAPIErrorDetails(errorCode.name, errorCode)))
                     }
                     RetrofitUtils.isNetworkError(throwable) -> {
                         val retryFun = fun() {
-                            if (type.equals(PackageSearchType.HOTEL)) {
+                            if (type == PackageSearchType.HOTEL) {
                                 logWhenNotAutomation("onNext() called on hotelParamsObservable in BundleOverviewViewModel.")
                                 hotelParamsObservable.onNext(Db.sharedInstance.packageParams)
                             } else {
@@ -217,7 +228,10 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                         }
                         DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
                     }
-                    else -> errorObservable.onNext(PackageApiError.Code.pkg_error_code_not_mapped)
+                    else -> {
+                        val errorCode = PackageApiError.Code.pkg_error_code_not_mapped
+                        errorObservable.onNext(getApiCallFailingDetails(type, isChangeSearch, PackageErrorDetails.PackageAPIErrorDetails(errorCode.name, errorCode)))
+                    }
                 }
             }
         }

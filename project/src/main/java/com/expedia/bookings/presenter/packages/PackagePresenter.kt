@@ -36,6 +36,7 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.services.PackageServices
+import com.expedia.bookings.tracking.ApiCallFailing
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
@@ -217,7 +218,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         }
         presenter
     }
-    val hotelOffersErrorObservable = PublishSubject.create<ApiError.Code>()
+    val hotelOffersErrorObservable = PublishSubject.create<Pair<ApiError.Code, ApiCallFailing>>()
 
     private val ANIMATION_DURATION = 400
 

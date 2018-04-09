@@ -136,26 +136,28 @@ data class MultiItemApiSearchResponse(
             )
         }
 
-    override val firstError: PackageApiError.Code
+    override val firstError: PackageErrorDetails.PackageAPIErrorDetails
         get() {
             if (errors == null || errors.isEmpty()) {
                 throw RuntimeException("No errors to get!")
             }
-            val errorCode = errors.first().key
-            if (midCouldNotFindResultsErrors.contains(errorCode)) {
-                return PackageApiError.Code.mid_could_not_find_results
-            } else if (errorCode == "MIS_ORIGIN_RESOLUTION_ERROR" ||
-                    errorCode == "MIS_AMBIGUOUS_ORIGIN_ERROR") {
-                return PackageApiError.Code.pkg_origin_resolution_failed
-            } else if (errorCode == "MIS_DESTINATION_RESOLUTION_ERROR" ||
-                    errorCode == "MIS_PROHIBITED_DESTINATION_ERROR" ||
-                    errorCode == "MIS_AMBIGUOUS_DESTINATION_ERROR") {
-                return PackageApiError.Code.pkg_destination_resolution_failed
-            } else if (errorCode == "FSS_HOTEL_UNAVAILABLE_FOR_RED_EYE_FLIGHT") {
-                return PackageApiError.Code.mid_fss_hotel_unavailable_for_red_eye_flight
+            val errorKey = errors.first().key
+            var errorCode: PackageApiError.Code
+            if (midCouldNotFindResultsErrors.contains(errorKey)) {
+                errorCode = PackageApiError.Code.mid_could_not_find_results
+            } else if (errorKey == "MIS_ORIGIN_RESOLUTION_ERROR" ||
+                    errorKey == "MIS_AMBIGUOUS_ORIGIN_ERROR") {
+                errorCode = PackageApiError.Code.pkg_origin_resolution_failed
+            } else if (errorKey == "MIS_DESTINATION_RESOLUTION_ERROR" ||
+                    errorKey == "MIS_PROHIBITED_DESTINATION_ERROR" ||
+                    errorKey == "MIS_AMBIGUOUS_DESTINATION_ERROR") {
+                errorCode = PackageApiError.Code.pkg_destination_resolution_failed
+            } else if (errorKey == "FSS_HOTEL_UNAVAILABLE_FOR_RED_EYE_FLIGHT") {
+                errorCode = PackageApiError.Code.mid_fss_hotel_unavailable_for_red_eye_flight
             } else {
-                return PackageApiError.Code.mid_internal_server_error
+                errorCode = PackageApiError.Code.mid_internal_server_error
             }
+            return PackageErrorDetails.PackageAPIErrorDetails(errorKey, errorCode)
         }
 
     // MARK :- Hotel Room Response
@@ -174,18 +176,20 @@ data class MultiItemApiSearchResponse(
         return errors?.isNotEmpty() ?: false
     }
 
-    override val roomResponseFirstErrorCode: ApiError.Code
+    override val roomResponseFirstErrorCode: PackageErrorDetails.ApiErrorDetails
         get() {
             if (errors == null || errors.isEmpty()) {
                 throw RuntimeException("No errors to get!")
             }
 
-            val errorCode = errors.first().key
-            if (midCouldNotFindResultsErrors.contains(errorCode)) {
-                return ApiError.Code.PACKAGE_SEARCH_ERROR
+            val errorKey = errors.first().key
+            var errorCode: ApiError.Code
+            if (midCouldNotFindResultsErrors.contains(errorKey)) {
+                errorCode = ApiError.Code.PACKAGE_SEARCH_ERROR
             } else {
-                return ApiError.Code.UNKNOWN_ERROR
+                errorCode = ApiError.Code.UNKNOWN_ERROR
             }
+            return PackageErrorDetails.ApiErrorDetails(errorKey, errorCode)
         }
 
     override fun getSelectedFlightPIID(outboundLegId: String?, inboundLegId: String?): String? {
