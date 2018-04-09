@@ -7,6 +7,8 @@ import com.expedia.bookings.itin.triplist.TripListFragment.Companion.TAB_CANCELL
 import com.expedia.bookings.itin.triplist.TripListFragment.Companion.TAB_PAST
 import com.expedia.bookings.itin.triplist.TripListFragment.Companion.TAB_UPCOMING
 
+var someFragment: TestFragment? = null
+
 class CustomFragmentPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment {
@@ -14,6 +16,7 @@ class CustomFragmentPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapte
             TAB_UPCOMING -> {
                 val frag1 = TestFragment()
                 frag1.number = TAB_UPCOMING
+                someFragment = frag1
                 frag1
             }
             TAB_PAST -> {

@@ -8,6 +8,8 @@ import com.expedia.bookings.itin.triplist.TripListFragment.Companion.TAB_CANCELL
 import com.expedia.bookings.itin.triplist.TripListFragment.Companion.TAB_PAST
 import com.expedia.bookings.itin.triplist.TripListFragment.Companion.TAB_UPCOMING
 
+var someView: View? = null
+
 class CustomViewPagerAdapter(val context: Context) : PagerAdapter() {
     override fun isViewFromObject(view: View, obj: Any): Boolean {
         return view == obj
@@ -20,6 +22,7 @@ class CustomViewPagerAdapter(val context: Context) : PagerAdapter() {
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val triplistView = TripListView(context)
         container.addView(triplistView)
+        if (position == 0) someView = triplistView
         return triplistView
     }
 

@@ -51,7 +51,7 @@ class TripListFragment : Fragment() {
         //viewPager.adapter = customFragmentPagerAdapter
         viewPager.adapter = customViewPagerAdapter
 
-        viewPager.offscreenPageLimit = 2
+        viewPager.offscreenPageLimit = 1
         viewPager.setPageSwipingEnabled(false)
         tabs.setupWithViewPager(viewPager)
         tabs.setOnTabSelectedListener(TabListener())
