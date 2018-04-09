@@ -61,6 +61,12 @@ class FlightSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayout(
         vm.outboundBundleBaggageUrlSubject.subscribe {
             outboundFlightWidget.viewModel.baggageUrl = it
         }
+
+        vm.isFareFamilyUpgraded.subscribe {
+            outboundFlightWidget.viewModel.isFareFamilyUpgraded.onNext(it)
+            inboundFlightWidget.viewModel.isFareFamilyUpgraded.onNext(it)
+        }
+
         vm.inboundBundleBaggageUrlSubject.subscribe {
             inboundFlightWidget.viewModel.baggageUrl = it
         }

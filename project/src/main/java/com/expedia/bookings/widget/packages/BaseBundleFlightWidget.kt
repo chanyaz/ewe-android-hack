@@ -64,6 +64,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
     val forwardArrow: ImageView by bindView(R.id.flight_forward_arrow_icon)
     val flightDetailsContainer: ViewGroup by bindView(R.id.flight_details_container)
     val flightSegmentWidget: FlightSegmentBreakdownView by bindView(R.id.segment_breakdown)
+    val urgencyMessageText: TextView by bindView(R.id.urgency_message_cont)
     val totalDurationText: TextView by bindView(R.id.flight_total_duration)
 
     val baggagePaymentDivider: View by bindView(R.id.baggage_payment_divider)
@@ -107,6 +108,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
         vm.showLoadingStateObservable.subscribeInverseVisibility(travelInfoText)
         vm.flightInfoContainerObservable.subscribeEnabled(flightInfoContainer)
         vm.totalDurationObserver.subscribeText(totalDurationText)
+        vm.urgencyMessageObservable.subscribeTextAndVisibility(urgencyMessageText)
         vm.totalDurationContDescObserver.subscribeContentDescription(totalDurationText)
         vm.flightIconImageObservable.subscribe { pair: Pair<Int, Int> ->
             flightIcon.setImageResource(pair.first)

@@ -12,6 +12,7 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.FlightV2Utils
+import com.expedia.bookings.utils.isFlightsUrgencyMeassagingEnabled
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.tracking.OmnitureTracking
@@ -43,6 +44,8 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
     val flightInfoContainerObservable = BehaviorSubject.create<Boolean>()
     val selectedFlightLegObservable = BehaviorSubject.create<FlightLeg>()
     val totalDurationObserver = BehaviorSubject.create<CharSequence>()
+    val urgencyMessageObservable = PublishSubject.create<String>()
+    val isFareFamilyUpgraded = PublishSubject.create<Boolean>()
     val totalDurationContDescObserver = BehaviorSubject.create<String>()
     val searchParams = BehaviorSubject.create<BaseSearchParams>()
     val showRowContainerWithMoreInfo = BehaviorSubject.createDefault<Boolean>(AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
@@ -55,6 +58,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
     val showBaggageInfoSubject = PublishSubject.create<FlightLeg>()
     lateinit var baggageUrl: String
     lateinit var updatedFlightLeg: FlightLeg
+    val showUrgencyMessaging = isFlightsUrgencyMeassagingEnabled(context) && (lob == LineOfBusiness.FLIGHTS_V2)
 
     init {
         ObservableOld.combineLatest(searchTypeStateObservable, suggestion, date, guests, { searchType, suggestion, date, guests ->
@@ -96,6 +100,10 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
             }
         }
 
+        if (showUrgencyMessaging) {
+            isFareFamilyUpgraded.filter { it }.subscribe { urgencyMessageObservable.onNext("") }
+        }
+
         ObservableOld.combineLatest(selectedFlightObservable, flight, suggestion, date, guests, { searchType, flight, _, _, guests ->
             baggageUrl = flight.baggageFeesUrl
             updatedFlightLeg = flight
@@ -128,7 +136,9 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
                 OmnitureTracking.trackFlightBaggageFeesClick()
                 showBaggageInfoSubject.onNext(updatedFlightLeg)
             }
-
+            if (showUrgencyMessaging) {
+                urgencyMessageObservable.onNext(FlightV2Utils.getSeatsLeftUrgencyMessage(context, flight))
+            }
             totalDurationContDescObserver.onNext(totalDurationContentDescription)
             totalDurationObserver.onNext(FlightV2Utils.getStylizedFlightDurationString(context, flight, R.color.packages_total_duration_text))
             selectedFlightLegObservable.onNext(flight)

@@ -375,6 +375,48 @@ class FlightOverviewPresenterTest {
     }
 
     @Test
+    fun testOutboundWidgetUrgencyMessageWithoutFareFamilyWhenBucketed() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(RuntimeEnvironment.application, AbacusUtils.EBAndroidAppFlightsUrgencyMessaging, 1)
+        createExpectedFlightLeg()
+        setUrgencyData(3)
+        val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
+        outboundFlightWidget.viewModel = BundleFlightViewModel(context, LineOfBusiness.FLIGHTS_V2)
+        prepareBundleWidgetViewModel(outboundFlightWidget.viewModel)
+        val outboundFlightUrgencyMessaging = outboundFlightWidget.urgencyMessageText
+        assertEquals(View.VISIBLE, outboundFlightUrgencyMessaging.visibility)
+        assertEquals(outboundFlightUrgencyMessaging.text, "3 seats left")
+
+        setUrgencyData(7)
+        prepareBundleWidgetViewModel(outboundFlightWidget.viewModel)
+        assertEquals(View.GONE, outboundFlightWidget.urgencyMessageText.visibility)
+    }
+
+    @Test
+    fun testOutboundWidgetUrgencyMessageWhenControlled() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppFlightsUrgencyMessaging)
+        createExpectedFlightLeg()
+        setUrgencyData(3)
+        val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
+        outboundFlightWidget.viewModel = BundleFlightViewModel(context, LineOfBusiness.FLIGHTS_V2)
+        prepareBundleWidgetViewModel(outboundFlightWidget.viewModel)
+        assertEquals(View.GONE, outboundFlightWidget.urgencyMessageText.visibility)
+    }
+
+    @Test
+    fun testOutboundWidgetUrgencyMessageAfterApplyingFareFamily() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(RuntimeEnvironment.application, AbacusUtils.EBAndroidAppFlightsUrgencyMessaging, 1)
+        createExpectedFlightLeg()
+        setUrgencyData(3)
+        val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
+        outboundFlightWidget.viewModel = BundleFlightViewModel(context, LineOfBusiness.FLIGHTS_V2)
+        prepareBundleWidgetViewModel(outboundFlightWidget.viewModel)
+        assertEquals(View.VISIBLE, outboundFlightWidget.urgencyMessageText.visibility)
+
+        outboundFlightWidget.viewModel.isFareFamilyUpgraded.onNext(true)
+        assertEquals(View.GONE, outboundFlightWidget.urgencyMessageText.visibility)
+    }
+
+    @Test
     fun testInboundWidgetBaggageInfoPaymentInfoButtonVisibility() {
         createExpectedFlightLeg()
         val inboundFlightWidget = widget.flightSummary.inboundFlightWidget
@@ -681,6 +723,11 @@ class FlightOverviewPresenterTest {
         list.add(createFlightSegment())
         flightLeg.flightSegments = list
         flightLeg.segments = list
+    }
+
+    private fun setUrgencyData(ticketsLeft: Int) {
+        flightLeg.packageOfferModel.urgencyMessage = PackageOfferModel.UrgencyMessage()
+        flightLeg.packageOfferModel.urgencyMessage.ticketsLeft = ticketsLeft
     }
 
     private fun createFlightSegment(): FlightLeg.FlightSegment {

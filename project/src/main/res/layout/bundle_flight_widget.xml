@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
         android:id="@+id/flight_loading_bar"
@@ -128,6 +129,22 @@
                 android:layout_gravity="left"
                 android:layout_marginLeft="30dp"
                 android:text="@string/package_flight_overview_baggage_fees" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/cardview_divider_lines_gray" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/urgency_message_cont"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:gravity="right|center_vertical"
+                android:paddingRight="13dp"
+                android:textColor="@color/flight_seats_left_urgency_message_color"
+                android:textSize="11sp"
+                app:textStyle="medium"
+                android:visibility="gone" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/flight_total_duration"

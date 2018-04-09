@@ -28,6 +28,7 @@ class FlightOverviewSummaryViewModel(val context: Context) {
     val inboundBundleBaggageUrlSubject = PublishSubject.create<String>()
     val freeCancellationInfoClickSubject = PublishSubject.create<Unit>()
     val freeCancellationInfoSubject = PublishSubject.create<Boolean>()
+    val isFareFamilyUpgraded = PublishSubject.create<Boolean>()
 
     init {
         freeCancellationInfoClickSubject
@@ -72,6 +73,7 @@ class FlightOverviewSummaryViewModel(val context: Context) {
                 updatedInboundFlightLegSubject.onNext(it.trip.details.getLegs()[1])
                 updateInboundSeatClassAndCodeSubject.onNext(it.trip.details.offer.offersSeatClassAndBookingCode.last())
             }
+            isFareFamilyUpgraded.onNext(it.trip.isFareFamilyUpgraded)
         }
     }
 }
