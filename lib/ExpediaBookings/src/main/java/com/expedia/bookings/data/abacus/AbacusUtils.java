@@ -77,7 +77,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppFlightsAPIKongEndPoint = new ABTest(16382, true);
 	public static final ABTest EBAndroidAppFLightLoadingStateV1 = new ABTest(25528, true);
 	public static final ABTest EBAndroidAppFlightsRecentSearch = new ABTest(25527, true);
-	public static final ABTest EBAndroidAppFlightsRouteHappy = new ABTest(25165, true);
+	public static final ABTest EBAndroidAppFlightsRouteHappy = new ABTest(25580, true);
 	public static final ABTest EBAndroidAppFlightsUrgencyMessaging = new ABTest(25449, true);
 
 	// Hotel tests
