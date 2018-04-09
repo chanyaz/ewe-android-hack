@@ -1013,11 +1013,11 @@
     <!-- Expedia Itinerary -->
     <string name="itinerary_TEMPLATE">{brand} Itinerary #</string>
     <!-- Label for exclusive phone number for base tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
-    <string name="rewards_base_tier_customer_support">Expedia +blue Customer Support</string>
+    <string name="rewards_base_tier_customer_support">Expedia blue Customer Support</string>
     <!-- Label for exclusive phone number for middle tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
-    <string name="rewards_middle_tier_customer_support">Expedia +silver Customer Support</string>
+    <string name="rewards_middle_tier_customer_support">Expedia silver Customer Support</string>
     <!-- Label for exclusive phone number for top tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
-    <string name="rewards_top_tier_customer_support">Expedia +gold Customer Support</string>
+    <string name="rewards_top_tier_customer_support">Expedia gold Customer Support</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">No upcoming trips.</string>
     <!-- Enter itinerary number -->
@@ -2733,7 +2733,7 @@
     <!-- Title for VIP Access message -->
     <string name="vip_access">+VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">At +VIP Access hotels, +silver and +gold members receive free room upgrades and other perks on availability at check-in.</string>
+    <string name="vip_access_message">At +VIP Access hotels, silver and gold members receive free room upgrades and other perks on availability at check-in.</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">Only +VIP Access Hotels</string>
     <!-- Title for VIP Access message for Hotel Results -->
@@ -4498,17 +4498,17 @@
 
     <!-- Rewards -->
     <!-- Long name for rewards base tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_base_tier_name_long">Expedia +blue</string>
+    <string name="reward_base_tier_name_long">Expedia blue</string>
     <!-- Long name for rewards middle tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_middle_tier_name_long">Expedia +silver</string>
+    <string name="reward_middle_tier_name_long">Expedia silver</string>
     <!-- Long name for rewards top tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_top_tier_name_long">Expedia +gold</string>
+    <string name="reward_top_tier_name_long">Expedia gold</string>
     <!-- Short name for rewards base tier -->
-    <string name="reward_base_tier_name_short">+blue</string>
+    <string name="reward_base_tier_name_short">blue</string>
     <!-- Short name for rewards middle tier -->
-    <string name="reward_middle_tier_name_short">+silver</string>
+    <string name="reward_middle_tier_name_short">silver</string>
     <!-- Short name for rewards top tier -->
-    <string name="reward_top_tier_name_short">+gold</string>
+    <string name="reward_top_tier_name_short">gold</string>
 
     <!--Packages search accessibility -->
     <!-- Best Flight card view content description for accessibility.-->
