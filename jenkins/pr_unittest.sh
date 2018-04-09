@@ -21,7 +21,7 @@ function prepareLocalMavenRepo() {
 
 function setUpForPythonScripts() {
 # do python scripts related setup only if we are running in CI context and a special feature requiring python setup is asked for
-  if [[ $isJenkins && ("$isPRPoliceEnabled" == "true" || "$isUnitTestsFeedbackBotEnabled" == "true") ]]; then
+  if [[ ${isJenkins} && ("$isPRPoliceEnabled" == "true" || "$isUnitTestsFeedbackBotEnabled" == "true") ]]; then
     source tools/setup_python_env.sh enum "github3.py==1.0.0.a4" slackclient "lxml==3.5.0" python-dateutil
 
     # exit if finds 'needs-human' label
@@ -70,15 +70,15 @@ function runUnitTests() {
 }
 
 function runFeedbackAndCoverageReports() {
-  if [[ $isJenkins && "$isUnitTestsFeedbackBotEnabled" == "true" ]]; then
+  if [[ ${isJenkins} && "$isUnitTestsFeedbackBotEnabled" == "true" ]]; then
     python ./jenkins/pr_unit_feedback.py $GITHUB_ACCESS_TOKEN $ghprbGhRepository $ghprbPullId $SLACK_ACCESS_TOKEN
   fi
 
   if [[ "$flavor" == "Expedia" ]]; then
-      if [[ $isJenkins && $unitTestStatus -eq 0 && $isUnitTestsFeedbackBotEnabled == "true" ]]; then
+      if [[ ${isJenkins} && ${unitTestStatus} -eq 0 && $isUnitTestsFeedbackBotEnabled == "true" ]]; then
         BUILD_URL="https://jenkins-ewe-mobile-android-master.tools.expedia.com/job/$JOB_NAME/$BUILD_NUMBER"
         python ./jenkins/report_missing_code_coverage.py $GITHUB_ACCESS_TOKEN $ghprbPullId $BUILD_URL project/build/reports/jacoco/jacocoExpediaDebug/jacocoExpediaDebug.xml lib/ExpediaBookings/build/reports/jacoco/test/jacocoTestReport.xml
-        ./jenkins/pr_coveralls.sh
+        ./jenkins/pr_codecov.sh
         coverageBotStatus=$?
       else
         echo "Either script was not run on Jenkins or the unit tests failed. Not invoking Coverage Bot."
@@ -96,15 +96,15 @@ function printTestStatus() {
 }
 
 function printResultsAndExit() {
-  if [[ "$flavor" == "Expedia" && ($prPoliceStatus -ne 0) ]]; then
+  if [[ "$flavor" == "Expedia" && (${prPoliceStatus} -ne 0) ]]; then
     echo "WARNING: PR Police has flagged potential problems."
   fi
-  if [[ "$flavor" == "Expedia" && $unitTestStatus -ne 0 ]]; then
-    printTestStatus $unitTestStatus "Unit tests"
+  if [[ "$flavor" == "Expedia" && ${unitTestStatus} -ne 0 ]]; then
+    printTestStatus ${unitTestStatus} "Unit tests"
     echo "============ FAILURE - PLEASE SEE DETAILS ABOVE ============"
     exit 1
-  elif [[ ($unitTestStatus -ne 0) ]]; then
-      printTestStatus $unitTestStatus "Unit tests"
+  elif [[ (${unitTestStatus} -ne 0) ]]; then
+      printTestStatus ${unitTestStatus} "Unit tests"
       echo "============ FAILURE - PLEASE SEE DETAILS ABOVE ============"
       exit 1
   else

@@ -1,0 +1,11 @@
+codecov:
+  bot: ewe-mergebot
+coverage:
+  status:
+    project:
+      default:
+        target: '0'
+    patch:
+      default:
+        target: 90%
+      changes: false
