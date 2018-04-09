@@ -23,7 +23,7 @@ class FlightCellWidget(context: Context, showPrice: Boolean = true) : FrameLayou
     val flightEarnMessage: TextView by bindView(R.id.flight_earn_message_text_view)
     val flightCabinCodeTextView: TextView by bindView(R.id.flight_class_text_view)
     val urgencyMessageTextView: TextView by bindView(R.id.urgency_message)
-    val urgencyMessageContainer: LinearLayout by bindView(R.id.urgency_message_layout)
+    val flightMessageContainer: LinearLayout by bindView(R.id.flight_message_container)
     val flightToggleIcon: ImageView by bindView(R.id.flight_overview_expand_icon)
     lateinit var viewModel: AbstractFlightViewModel
 
@@ -49,10 +49,10 @@ class FlightCellWidget(context: Context, showPrice: Boolean = true) : FrameLayou
             }
         }
         if (viewModel.getUrgencyMessageVisibility(viewModel.seatsLeftUrgencyMessage)) {
-            urgencyMessageContainer.visibility = View.VISIBLE
+            flightMessageContainer.visibility = View.VISIBLE
             urgencyMessageTextView.text = viewModel.seatsLeftUrgencyMessage
         } else {
-            urgencyMessageContainer.visibility = View.GONE
+            flightMessageContainer.visibility = View.GONE
         }
         if (viewModel.isEarnMessageVisible(viewModel.earnMessage)) {
             flightEarnMessage.text = viewModel.earnMessage

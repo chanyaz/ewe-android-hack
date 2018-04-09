@@ -123,6 +123,9 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
         vm.isOutboundResults.subscribeInverseVisibility(dockedOutboundFlightSelection)
         vm.isOutboundResults.subscribeInverseVisibility(dockedOutboundFlightShadow)
         if (vm.showLoadingStateV1) {
+            flightLoader = findViewById(R.id.flight_loading_screen)
+            flightLoader.visibility = View.VISIBLE
+            flightLoadingWidget = findViewById(R.id.flight_loading_view)
             showPaymentLegalMessageSubject.withLatestFrom(vm.airlineChargesFeesSubject, { _, showAirlineChargesFees -> showAirlineChargesFees })
                     .subscribe {
                         setPaymentLegalMessage(it)
@@ -131,11 +134,6 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
             vm.airlineChargesFeesSubject.subscribe { showAirlineChargesFees ->
                 setPaymentLegalMessage(showAirlineChargesFees)
             }
-        }
-        if (vm.showLoadingStateV1) {
-            flightLoader = findViewById(R.id.flight_loading_screen)
-            flightLoader.visibility = View.VISIBLE
-            flightLoadingWidget = findViewById(R.id.flight_loading_view)
         }
     }
 
@@ -149,11 +147,15 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
             } else {
                 showPaymentLegalMessageSubject.onNext(Unit)
                 flightLoadingWidget.visibility = View.GONE
-                filterButton.visibility = if (showFilterButton) View.VISIBLE else View.GONE
+                setFilterButtonVisibility()
             }
         } else {
-            filterButton.visibility = if (showFilterButton) View.VISIBLE else View.GONE
+            setFilterButtonVisibility()
         }
+    }
+
+    private fun setFilterButtonVisibility() {
+        filterButton.visibility = if (showFilterButton) View.VISIBLE else View.GONE
     }
 
     private fun progressBarAnimation(duration: Long, fromProgress: Float, toProgress: Float, resultsReceived: Boolean) {

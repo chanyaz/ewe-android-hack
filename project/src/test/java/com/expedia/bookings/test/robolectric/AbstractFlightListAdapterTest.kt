@@ -186,13 +186,13 @@ class AbstractFlightListAdapterTest {
         createFlightLegWithUrgencyMessage(4)
         var flightViewHolder = bindFlightViewHolderAndModel()
 
-        assertEquals(flightViewHolder.flightCell.urgencyMessageContainer.visibility, View.VISIBLE)
+        assertEquals(flightViewHolder.flightCell.flightMessageContainer.visibility, View.VISIBLE)
         assertEquals(flightViewHolder.flightCell.urgencyMessageTextView.text, "4 seats left")
 
         //When seatsLeftUrgencyMessage are more than 6
         createFlightLegWithUrgencyMessage(8)
         flightViewHolder = bindFlightViewHolderAndModel()
-        assertEquals(flightViewHolder.flightCell.urgencyMessageContainer.visibility, View.GONE)
+        assertEquals(flightViewHolder.flightCell.flightMessageContainer.visibility, View.GONE)
     }
 
     @Test
