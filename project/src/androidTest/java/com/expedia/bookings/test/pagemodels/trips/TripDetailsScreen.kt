@@ -15,7 +15,10 @@ import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import android.support.test.uiautomator.By
 import android.support.test.uiautomator.BySelector
+import android.support.test.uiautomator.UiObjectNotFoundException
+import android.support.test.uiautomator.UiSelector
 import android.support.test.uiautomator.Until
+import android.widget.FrameLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDisplayed
@@ -27,6 +30,7 @@ import org.joda.time.format.DateTimeFormat
 import java.util.concurrent.TimeUnit
 
 object TripDetailsScreen {
+    val device = Common.getUiDevice()
     val bodyScrollableContainer = allOf(withChild(withId(R.id.container)),
             withClassName(endsWith("ScrollView")))
 
@@ -123,9 +127,39 @@ object TripDetailsScreen {
 
     object HotelMap {
         val section = withId(R.id.widget_hotel_itin_location_details)
-        val map = withId(R.id.widget_hotel_itin_map)
         val addressLine1 = withId(R.id.widget_hotel_itin_address_line_1)
         val addressLine2 = withId(R.id.widget_hotel_itin_address_line_2)
+
+        val directionsButton = withId(R.id.expanded_map_view_hotel)
+        val tripMap = withId(R.id.widget_hotel_itin_map)
+
+        @Throws(UiObjectNotFoundException::class)
+        @JvmStatic
+        fun verifyMapDirectionButtonIsClickable() {
+            val selector = UiSelector().className(FrameLayout::class.java)
+            device.findObject(selector).isClickable
+        }
+
+        @Throws(UiObjectNotFoundException::class)
+        @JvmStatic
+        fun verifyMapMarkerPresent(hotelName: String) {
+            device.waitForIdle(3000)
+            val selector = UiSelector().descriptionContains(hotelName)
+            val marker = device.findObject(selector)
+            if (!marker.waitForExists(10000))
+                throw UiObjectNotFoundException("marker not found")
+        }
+
+        @JvmStatic
+        fun clickOnMap() {
+            device.waitForIdle(3000)
+            onView(tripMap).perform(scrollTo())
+            onView(tripMap).perform(click())
+        }
+
+        fun waitForMapToLoad() {
+            waitForViewNotYetInLayoutToDisplay(directionsButton, 30, TimeUnit.SECONDS)
+        }
     }
 
     object BookedRoomDetails {
@@ -312,7 +346,6 @@ object TripDetailsScreen {
     }
 
     object AndroidNativeShareOptions {
-        val device = Common.getUiDevice()
         private val timeout: Long = 30000
         private val optionsListSelector = By.res("android:id/resolver_list")
         private val appList = HashMap<String, AppInfo>()
