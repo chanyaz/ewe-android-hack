@@ -2,7 +2,9 @@ package com.expedia.bookings.test.espresso;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import android.app.Instrumentation;
 import android.app.UiAutomation;
@@ -13,7 +15,9 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
+import android.support.test.uiautomator.BySelector;
 import android.support.test.uiautomator.UiDevice;
+import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -23,8 +27,12 @@ import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
 
+import org.hamcrest.Matcher;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class Common {
@@ -136,5 +144,34 @@ public class Common {
 			return false;
 		}
 		return true;
+	}
+
+	public static Boolean waitForOneOfViewsToDisplay(ArrayList listOfMatchers, long time, TimeUnit timeUnit) {
+		long timeoutTime = System.currentTimeMillis() + TimeUnit.MILLISECONDS.convert(time, timeUnit);
+
+		while (System.currentTimeMillis() <= timeoutTime) {
+			for (int i = 0; i < listOfMatchers.size(); i++) {
+				try {
+					if (listOfMatchers.get(i) instanceof Matcher) {
+						onView((Matcher<View>) listOfMatchers.get(i)).check(matches(isDisplayed()));
+						return true; //If the check didn't error out, that means the view is displayed.
+					}
+					else if (listOfMatchers.get(i) instanceof BySelector) {
+						return getUiDevice().findObject((BySelector) listOfMatchers.get(i)).isEnabled();
+
+					}
+				}
+				catch (Exception ignored) { }
+			}
+
+			try {
+				//Wait half a second between checks. This will reduce executing system CPU load
+				Thread.sleep(500);
+			}
+			catch (Exception ignored) { }
+
+		}
+
+		return false;
 	}
 }

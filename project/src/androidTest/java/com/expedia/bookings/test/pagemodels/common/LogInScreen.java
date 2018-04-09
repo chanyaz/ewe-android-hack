@@ -5,6 +5,7 @@ import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.web.sugar.Web;
 import android.support.test.espresso.web.webdriver.Locator;
 import android.support.test.uiautomator.By;
+import android.support.test.uiautomator.BySelector;
 import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject2;
 import android.support.test.uiautomator.Until;
@@ -15,6 +16,9 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.mobiata.android.Log;
 
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -24,6 +28,7 @@ import static android.support.test.espresso.web.sugar.Web.onWebView;
 import static android.support.test.espresso.web.webdriver.DriverAtoms.findElement;
 import static android.support.test.espresso.web.webdriver.DriverAtoms.webClick;
 import static android.support.test.espresso.web.webdriver.DriverAtoms.webKeys;
+import static com.expedia.bookings.test.espresso.Common.waitForOneOfViewsToDisplay;
 import static org.hamcrest.Matchers.allOf;
 
 public class LogInScreen {
@@ -109,7 +114,13 @@ public class LogInScreen {
 
 	public static class FacebookWebConfirmLogin {
 		public static void waitForViewToLoad() {
-			mDevice.wait(Until.findObject(By.res("m-future-page-header-title").desc("Confirm Login")), 30000);
+			ArrayList views = new ArrayList<BySelector>();
+			//Facebook has a set of parameters, that keep on rotating at random.
+			//This will make sure that at least one of them is a match.
+			views.add(By.res("m-future-page-header-title").desc("Confirm Login"));
+			views.add(By.res("m-future-page-header-title").text("Confirm Login"));
+			waitForOneOfViewsToDisplay(views, 30, TimeUnit.SECONDS);
+
 			mDevice.waitForIdle(3000); //Needed, because the view loads before the progress bar.
 		}
 

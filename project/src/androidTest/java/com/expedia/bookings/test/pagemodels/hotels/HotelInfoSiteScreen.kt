@@ -15,6 +15,7 @@ import android.support.test.espresso.matcher.ViewMatchers.withChild
 import android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withParent
+import android.support.test.espresso.matcher.ViewMatchers.withParentIndex
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import android.view.View
 import com.expedia.bookings.R
@@ -35,10 +36,7 @@ import org.joda.time.LocalDate
 import java.util.concurrent.TimeUnit
 
 object HotelInfoSiteScreen {
-    //Matchers
-    //Containers
     private val detailContainer = withId(R.id.detail_container)
-    //Individual Objects
     private val plusVIPContainer = withId(R.id.vip_access_message_container)
     private val plusVIPLabel = withId(R.id.vip_access_message)
     private val travelDates = withId(R.id.hotel_search_info)
@@ -48,17 +46,113 @@ object HotelInfoSiteScreen {
     private val headerLabelText = allOf(isDescendantOfA(withId(R.id.hotel_details_toolbar)),
             withId(R.id.hotel_name_text), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
 
+    enum class RoomIndex(val index: Int) {
+        DEFAULT(0),
+        ONE(0),
+        TWO(2),
+        THREE(4),
+        FOUR(6),
+        FIVE(8)
+    }
+
+    /**
+     * This Class instantiates individual rooms. Every object inside belongs only to that room instance
+     * The default room selection is the very first available room. Passing a RoomIndex to the constructor
+     * will change the room being used.
+     * When adding new objects, make sure each includes isDescendantOfA(room) or any other descendants,
+     * which reference the room scope.
+     * Each new item also must have the capability to handle multiple price options, if applicable, for a case when
+     * a room has more than one price. This happens in cases such as when the room has non-cancellable
+     * price, free cancellation price, all inclusive price, and/or others.
+     *
+     * Sample Usages:
+     *
+     * HotelInfoSiteScreen.Room().clickBookButton()
+     *
+     * HotelInfoSiteScreen.Room().clickBookButton(safeguardEnabled = true)
+     *
+     * roomIndex = HotelInfoSiteScreen.RoomIndex.ONE
+     * HotelInfoSiteScreen.Room(roomIndex).clickBookButton()
+     *
+     * val priceOption = HotelInfoSiteScreen.Room.PriceOption.ONE
+     * HotelInfoSiteScreen.Room().setOptionNumber(priceOption)
+     * HotelInfoSiteScreen.Room().clickBookButton()
+     */
+    class Room(val roomIndex: RoomIndex = RoomIndex.DEFAULT) {
+        private val roomListContainer = withId(R.id.room_container)
+        private val innerRoomInfoContainer = withId(R.id.hotel_room_info_container)
+        private val room = allOf(withChild(innerRoomInfoContainer), withParentIndex(roomIndex.index))
+        private val roomImage = allOf(isDescendantOfA(room), withId(R.id.header_image_view))
+        private val roomType = allOf(isDescendantOfA(room), withId(R.id.room_type_text_view))
+        private val bedType = allOf(isDescendantOfA(room), withId(R.id.bed_type_text_view))
+        private val infoIcon = allOf(isDescendantOfA(room), withId(R.id.room_info_icon))
+        private val priceContainer = allOf(isDescendantOfA(room), withParent(innerRoomInfoContainer),
+                withChild(withId(R.id.price_button_container)))
+        private val discountPercentage = allOf(isDescendantOfA(priceContainer), withId(R.id.discount_percentage_text_view))
+        private var option: Matcher<View>? = null
+
+        fun setPriceOption(priceOption: PriceOption = PriceOption.DEFAULT) {
+            this.option = allOf(
+                    priceContainer,
+                    withChild(withChild(withText(priceOption.option)))
+            )
+        }
+
+        fun isContainingMultiplePriceOptions(): Boolean {
+            try {
+                onView(allOf(
+                        priceContainer,
+                        withChild(withChild(withText(PriceOption.ONE.option)))
+                )).check(matches(isDisplayed()))
+                return true
+            } catch (ignored: Exception) { }
+            return false
+        }
+
+        /**
+         * @param:  safeguardEnabled Use this to force this method to click on a book button, regardless
+         * of whether the multi-price options are displayed or not. Useful when the test doesn't care
+         * for multiple options, and is looking to click on book button in order to progress to the next view
+         */
+        fun clickBookButton(safeguardEnabled: Boolean = false) {
+            var bookButton: ViewInteraction? = null
+            var scrollable: ViewInteraction? = null
+
+            if (option != null || isContainingMultiplePriceOptions()) {
+                //Case when there are multiple options per room, each containing a book button
+                if (option == null && safeguardEnabled) { setPriceOption(PriceOption.DEFAULT) } //Safeguard. Ideally it should be already set
+                bookButton = onView(allOf(isDescendantOfA(option), withId(R.id.hotel_book_button)))
+                scrollable = onView(option)
+            } else {
+                //Case when there is only one book button per room
+                bookButton = onView(allOf(isDescendantOfA(priceContainer), withId(R.id.hotel_book_button)))
+                scrollable = onView(priceContainer)
+            }
+
+            scrollable.perform(scrollTo())
+            Common.delay(1)
+            scrollable.perform(swipeUp())
+            if (!EspressoUtils.existsOnScreen(bookButton)) {
+                scrollable.perform(scrollTo(), swipeUp())
+            }
+            if (!EspressoUtils.existsOnScreen(bookButton)) {
+                scrollable.perform(scrollTo(), swipeDown())
+            }
+
+            bookButton.perform(click())
+        }
+
+        enum class PriceOption(val option: String) {
+            DEFAULT("Option 1"),
+            ONE("Option 1"),
+            TWO("Option 2"),
+            THREE("Option 3"),
+            FOUR("Option 4"),
+            FIVE("Option 5")
+        }
+    }
+
     // Views
-    @JvmStatic
-    fun infositeDetailContainer(): ViewInteraction {
-        return onView(detailContainer)
-    }
-
-    @JvmStatic
-    fun plusVIPlabel(): ViewInteraction {
-        return onView(plusVIPLabel)
-    }
-
     @JvmStatic
     fun travelDates(): ViewInteraction {
         return onView(travelDates)

@@ -79,7 +79,7 @@ class HotelInfoSiteScreenSteps {
     @When("^I book first room$")
     @Throws(Throwable::class)
     fun iBookFirstRoom() {
-        HotelInfoSiteScreen.bookFirstRoom()
+        HotelInfoSiteScreen.Room().clickBookButton(true)
     }
 
     @And("^I verify PayNowPayLater Tab is Present$")
