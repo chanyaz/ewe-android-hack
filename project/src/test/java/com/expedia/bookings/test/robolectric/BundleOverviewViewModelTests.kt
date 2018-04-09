@@ -11,6 +11,7 @@ import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.bookings.tracking.ApiCallFailing
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.vm.packages.BundleOverviewViewModel
 import com.expedia.vm.packages.PackageSearchType
@@ -55,7 +56,7 @@ class BundleOverviewViewModelTests {
 
     @Test
     fun testHotelsError() {
-        val errorSubscriber = TestObserver<PackageApiError.Code>()
+        val errorSubscriber = TestObserver<Pair<PackageApiError.Code, ApiCallFailing>>()
         sut.errorObservable.subscribe(errorSubscriber)
 
         sut.hotelParamsObservable.onNext(setUpParams("error"))
@@ -64,7 +65,8 @@ class BundleOverviewViewModelTests {
         errorSubscriber.assertNotTerminated()
         errorSubscriber.assertNoErrors()
 
-        assertEquals(PackageApiError.Code.mid_could_not_find_results, errorSubscriber.values()[0])
+        assertEquals(PackageApiError.Code.mid_could_not_find_results, errorSubscriber.values()[0].first)
+        //TODO Add
     }
 
     @Test
@@ -85,7 +87,7 @@ class BundleOverviewViewModelTests {
 
     @Test
     fun testFlightsInboundError() {
-        val errorSubscriber = TestObserver<PackageApiError.Code>()
+        val errorSubscriber = TestObserver<Pair<PackageApiError.Code, ApiCallFailing>>()
         sut.errorObservable.subscribe(errorSubscriber)
 
         val params = setUpParams()
@@ -96,7 +98,8 @@ class BundleOverviewViewModelTests {
         errorSubscriber.assertNotTerminated()
         errorSubscriber.assertNoErrors()
 
-        assertEquals(PackageApiError.Code.mid_could_not_find_results, errorSubscriber.values()[0])
+        assertEquals(PackageApiError.Code.mid_could_not_find_results, errorSubscriber.values()[0].first)
+        // TODO add
     }
 
     @Test
@@ -117,7 +120,7 @@ class BundleOverviewViewModelTests {
 
     @Test
     fun testFlightsOutboundError() {
-        val errorSubscriber = TestObserver<PackageApiError.Code>()
+        val errorSubscriber = TestObserver<Pair<PackageApiError.Code, ApiCallFailing>>()
         sut.errorObservable.subscribe(errorSubscriber)
 
         val params = setUpParams()
@@ -128,7 +131,8 @@ class BundleOverviewViewModelTests {
         errorSubscriber.assertNotTerminated()
         errorSubscriber.assertNoErrors()
 
-        assertEquals(PackageApiError.Code.mid_could_not_find_results, errorSubscriber.values()[0])
+        assertEquals(PackageApiError.Code.mid_could_not_find_results, errorSubscriber.values()[0].first)
+        //TODO Add
     }
 
     @Test

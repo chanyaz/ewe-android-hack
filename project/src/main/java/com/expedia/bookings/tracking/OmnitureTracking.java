@@ -4498,7 +4498,7 @@ public class OmnitureTracking {
 	private static final String PACKAGES_FLIGHT_AIRLINES = "App.Package.Flight.Search.Filter.Airline";
 
 	private static final String PACKAGES_INFOSITE_ERROR = "App.Package.Infosite.Error";
-	private static final String PACKAGES_SEARCH_ERROR = "App.Package.Hotels-Search.NoResults";
+	private static final String PACKAGES_SHOPPING_ERROR = "App.Package.Shopping.Error";
 	private static final String PACKAGES_CHECKOUT_ERROR = "App.Package.Checkout.Error";
 	private static final String PACKAGES_CHECKOUT_ERROR_RETRY = "App.Package.CKO.Error.Retry";
 	private static final String PACKAGES_MID_SERVER_ERROR = "App.Package.Checkout.Error";
@@ -5019,10 +5019,10 @@ public class OmnitureTracking {
 		createAndTrackLinkEvent(PACKAGES_HOTEL_DETAILS_MAP_SELECT_ROOM, "Infosite Map");
 	}
 
-	public static void trackPackagesSearchError(String errorType) {
-		Log.d(TAG, "Tracking \"" + PACKAGES_SEARCH_ERROR + "\" pageLoad...");
-		AppAnalytics s = createTrackPageLoadEventBase(PACKAGES_SEARCH_ERROR);
-		s.setProp(36, errorType);
+	public static void trackPackagesShoppingError(String errorInfo) {
+		Log.d(TAG, "Tracking \"" + PACKAGES_SHOPPING_ERROR + "\" pageLoad...");
+		AppAnalytics s = createTrackPageLoadEventBase(PACKAGES_SHOPPING_ERROR);
+		s.setProp(36, errorInfo);
 		s.track();
 	}
 

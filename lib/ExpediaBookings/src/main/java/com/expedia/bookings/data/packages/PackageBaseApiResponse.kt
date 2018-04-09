@@ -1,5 +1,7 @@
 package com.expedia.bookings.data.packages
 
+import com.expedia.bookings.data.multiitem.PackageErrorDetails
+
 open class PackageBaseApiResponse {
     var errors: List<PackageApiError.Code?> = emptyList()
 
@@ -7,11 +9,13 @@ open class PackageBaseApiResponse {
         return errors.isNotEmpty()
     }
 
-    val firstError: PackageApiError.Code
+    val firstError: PackageErrorDetails.PackageAPIErrorDetails
         get() {
             if (!hasErrors()) {
                 throw RuntimeException("No errors to get!")
             }
-            return errors[0] ?: PackageApiError.Code.pkg_error_code_not_mapped
+
+            val error = errors[0] ?: PackageApiError.Code.pkg_error_code_not_mapped
+            return PackageErrorDetails.PackageAPIErrorDetails(error.name, error)
         }
 }

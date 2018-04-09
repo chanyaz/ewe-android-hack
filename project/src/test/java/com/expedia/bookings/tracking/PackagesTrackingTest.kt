@@ -520,7 +520,7 @@ class PackagesTrackingTest {
         OmnitureTestUtils.assertLinkTracked("Infosite Map", "App.Package.IS.Map.SelectRoom", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
     }
 
-    @Test
+    /*@Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackSearchError() {
         sut.trackSearchError("ErrorType")
@@ -534,7 +534,7 @@ class PackagesTrackingTest {
         sut.trackInfositeError("ErrorType")
         val controlEvar = mapOf(18 to "App.Package.Infosite.Error")
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
-    }
+    }*/
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))

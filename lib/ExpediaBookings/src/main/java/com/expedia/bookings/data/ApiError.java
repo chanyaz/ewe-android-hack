@@ -125,6 +125,7 @@ public class ApiError extends RuntimeException {
 		}
 	}
 
+	//TODO Rename this to indicate it is error key from API.
 	private String errorCode = "";
 	public DetailCode errorDetailCode;
 	public int diagnosticId;
@@ -149,6 +150,10 @@ public class ApiError extends RuntimeException {
 		catch (IllegalArgumentException e) {
 			return null;
 		}
+	}
+
+	public String getErrorKey() {
+		return errorCode;
 	}
 
 	@Override

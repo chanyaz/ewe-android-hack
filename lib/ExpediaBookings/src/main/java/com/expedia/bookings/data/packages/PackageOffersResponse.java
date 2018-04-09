@@ -8,6 +8,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.BaseApiResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.multiitem.BundleHotelRoomResponse;
+import com.expedia.bookings.data.multiitem.PackageErrorDetails;
 import com.expedia.bookings.data.payment.LoyaltyInformation;
 
 public class PackageOffersResponse extends BaseApiResponse implements BundleHotelRoomResponse {
@@ -28,8 +29,9 @@ public class PackageOffersResponse extends BaseApiResponse implements BundleHote
 
 	@NotNull
 	@Override
-	public ApiError.Code getRoomResponseFirstErrorCode() {
-		return getFirstError().getErrorCode();
+	public PackageErrorDetails.ApiErrorDetails getRoomResponseFirstErrorCode() {
+		ApiError apiError = getFirstError();
+		return new PackageErrorDetails.ApiErrorDetails(apiError.getErrorKey(), apiError.getErrorCode());
 	}
 
 	public void setCheckInDate(String checkInDate) {

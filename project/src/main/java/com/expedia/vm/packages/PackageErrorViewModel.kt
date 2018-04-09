@@ -10,6 +10,7 @@ import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.bookings.extensions.withLatestFrom
+import com.expedia.bookings.tracking.ApiCallFailing
 import com.expedia.util.endlessObserver
 import com.expedia.vm.AbstractErrorViewModel
 import com.squareup.phrase.Phrase
@@ -22,8 +23,8 @@ class PackageErrorViewModel(context: Context) : AbstractErrorViewModel(context) 
     var error: ApiError by Delegates.notNull()
 
     // inputs
-    val packageSearchApiErrorObserver = PublishSubject.create<PackageApiError.Code>()
-    val hotelOffersApiErrorObserver = PublishSubject.create<ApiError.Code>()
+    val packageSearchApiErrorObserver = PublishSubject.create<Pair<PackageApiError.Code, ApiCallFailing>>()
+    val hotelOffersApiErrorObserver = PublishSubject.create<Pair<ApiError.Code, ApiCallFailing>>()
     val paramsSubject = PublishSubject.create<PackageSearchParams>()
 
     init {
@@ -63,18 +64,20 @@ class PackageErrorViewModel(context: Context) : AbstractErrorViewModel(context) 
             }
         }
 
-        packageSearchApiErrorObserver.withLatestFrom(paramsSubject, { errorCode, searchParams ->
+        packageSearchApiErrorObserver.withLatestFrom(paramsSubject, { errorDetails, searchParams ->
             object {
-                val errorCode = errorCode
+                val errorCode = errorDetails.first
+                val apiCallFailing = errorDetails.second
                 val searchParams = searchParams
             }
         }).subscribe {
             error = ApiError(ApiError.Code.PACKAGE_SEARCH_ERROR)
-            if (it.errorCode != PackageApiError.Code.pkg_error_code_not_mapped) {
-                PackagesTracking().trackSearchError(it.errorCode.toString())
+            PackagesTracking().trackShoppingError(it.apiCallFailing)
+            /*if (it.errorCode != PackageApiError.Code.pkg_error_code_not_mapped) {
+                PackagesTracking().trackShoppingError(it.errorCode.toString())
             } else {
                 PackagesTracking().trackSearchError("Error Code is null")
-            }
+            }*/
             when (it.errorCode) {
                 PackageApiError.Code.pkg_unknown_error,
                 PackageApiError.Code.search_response_null,
@@ -123,9 +126,11 @@ class PackageErrorViewModel(context: Context) : AbstractErrorViewModel(context) 
         }
 
         hotelOffersApiErrorObserver.subscribe {
+            val (errorCode, apiCallFailing) = it
+            // TODO Check why is this hardcoded? Ideally it should be errorCode
             error = ApiError(ApiError.Code.PACKAGE_SEARCH_ERROR)
-            PackagesTracking().trackInfositeError(it.toString())
-            when (it) {
+            PackagesTracking().trackShoppingError(apiCallFailing)
+            when (errorCode) {
                 ApiError.Code.PACKAGE_SEARCH_ERROR -> {
                     imageObservable.onNext(R.drawable.error_search)
                     errorMessageObservable.onNext(context.getString(R.string.error_package_search_message))
