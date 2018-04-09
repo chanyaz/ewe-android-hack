@@ -9,6 +9,7 @@ import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.tracking.ApiCallFailing
 import com.expedia.bookings.tracking.PackagesTracking
 import org.joda.time.LocalDate
 import org.junit.Test
@@ -42,10 +43,14 @@ class PackageErrorViewModelTest {
         observableEmissionsOnSearchError(PackageApiError.Code.mid_fss_hotel_unavailable_for_red_eye_flight)
     }
 
+    private fun getSearchAPIErrorDetails(errorCode: PackageApiError.Code): Pair<PackageApiError.Code, ApiCallFailing> {
+        return Pair(errorCode, ApiCallFailing.PackageHotelSearch(errorCode.name))
+    }
+
     fun observableEmissionsOnSearchError(apiError: PackageApiError.Code) {
         val subjectUnderTest = PackageErrorViewModel(RuntimeEnvironment.application)
 
-        val searchApiObservableTestSubscriber = TestObserver.create<PackageApiError.Code>()
+        val searchApiObservableTestSubscriber = TestObserver.create<Pair<PackageApiError.Code, ApiCallFailing>>()
         subjectUnderTest.packageSearchApiErrorObserver.subscribe(searchApiObservableTestSubscriber)
 
         val errorMessageObservableTestSubscriber = TestObserver.create<String>()
@@ -53,7 +58,7 @@ class PackageErrorViewModelTest {
 
         subjectUnderTest.paramsSubject.onNext(getPackageSearchParams())
 
-        subjectUnderTest.packageSearchApiErrorObserver.onNext(apiError)
+        subjectUnderTest.packageSearchApiErrorObserver.onNext(getSearchAPIErrorDetails(apiError))
         val expectedErrorMessage = when (apiError) {
             PackageApiError.Code.pkg_piid_expired,
             PackageApiError.Code.pkg_pss_downstream_service_timeout -> RuntimeEnvironment.application.getString(R.string.reservation_time_out)
@@ -289,7 +294,7 @@ class PackageErrorViewModelTest {
         val errorButtonObservableTestSubscriber = TestObserver.create<String>()
         subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
 
-        val apiError = ApiError(ApiError.Code.PACKAGE_SEARCH_ERROR)
+        var apiError = ApiError(ApiError.Code.PACKAGE_SEARCH_ERROR)
         apiError.errorInfo = ApiError.ErrorInfo()
         apiError.errorInfo.source = "Atlantis"
         apiError.errorInfo.sourceErrorId = "K2401"
@@ -298,12 +303,16 @@ class PackageErrorViewModelTest {
 
         assertEquals("CKO:Atlantis:K2401", checkoutError)
 
-        subjectUnderTest.hotelOffersApiErrorObserver.onNext(apiError.getErrorCode()!!)
+        subjectUnderTest.hotelOffersApiErrorObserver.onNext(Pair(apiError.errorCode!!, ApiCallFailing.PackageHotelRoom(apiError.errorCode!!.name)))
         subjectUnderTest.defaultErrorObservable.onNext(Unit)
 
-        hotelOfferErrorObservableTestSubscriber.assertValues(Unit)
-        errorImageObservableTestSubscriber.assertValues(R.drawable.error_search)
-        errorMessageObservableTestSubscriber.assertValues(getContext().getString(R.string.error_package_search_message))
-        errorButtonObservableTestSubscriber.assertValues(getContext().getString(R.string.edit_search))
+        apiError = ApiError(ApiError.Code.UNKNOWN_ERROR)
+        subjectUnderTest.hotelOffersApiErrorObserver.onNext(Pair(apiError.errorCode!!, ApiCallFailing.PackageHotelRoom(apiError.errorCode!!.name)))
+        subjectUnderTest.defaultErrorObservable.onNext(Unit)
+
+        hotelOfferErrorObservableTestSubscriber.assertValues(Unit, Unit)
+        errorImageObservableTestSubscriber.assertValues(R.drawable.error_search, R.drawable.error_default)
+        errorMessageObservableTestSubscriber.assertValues(getContext().getString(R.string.error_package_search_message), getContext().getString(R.string.package_error_server))
+        errorButtonObservableTestSubscriber.assertValues(getContext().getString(R.string.edit_search), getContext().getString(R.string.retry))
     }
 }

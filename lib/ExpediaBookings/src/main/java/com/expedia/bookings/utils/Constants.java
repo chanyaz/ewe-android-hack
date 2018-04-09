@@ -22,6 +22,8 @@ public class Constants {
 	public static final String PACKAGE_CHANGE_FLIGHT = "CHANGE_FLIGHT";
 	public static final String PACKAGE_FILTER_CHANGE_FLIGHT = "filterChangeFlight";
 	public static final String PACKAGE_HOTEL_OFFERS_ERROR = "package hotel offers error";
+	public static final String PACKAGE_HOTEL_OFFERS_ERROR_KEY = "package hotel offers error key";
+	public static final String PACKAGE_HOTEL_DID_INFOSITE_CALL_FAIL = "package hotel did infosite call fail";
 	public static final String PACKAGE_API_ERROR = "packageApiError";
 
 	// itin airline code for check in

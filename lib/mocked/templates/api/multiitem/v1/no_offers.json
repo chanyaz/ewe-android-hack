@@ -1,0 +1,3125 @@
+{
+  "offers": [],
+  "hotels": {
+    "hotel-0": {
+      "id": "18723252",
+      "name": "San Francisco Proper Hotel",
+      "englishName": "San Francisco Proper Hotel",
+      "shortDescription": "Located in Downtown San Francisco, this hotel is within a 5-minute walk of San Francisco Federal Building, Golden Gate Theatre, and Warfield Theater. United Nations Plaza and Orpheum Theater are also within 5 minutes. ",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "1100 Market Street",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94102",
+        "latitude": 37.78087,
+        "longitude": -122.41242
+      },
+      "starRating": 4.0,
+      "averageReview": 4.5,
+      "reviewCount": 2,
+      "recommendationPercentage": 100.0,
+      "thumbnailUrl": "/hotels/19000000/18730000/18723300/18723252/4bd1d2ce_t.jpg",
+      "roomRatePlanDescription": "Premier Room, 1 King Bed",
+      "ratePlanCode": "210772335",
+      "roomTypeCode": "202065745",
+      "vip": false,
+      "neighborhood": "",
+      "roomsLeft": 22,
+      "referenceBasePrice": {
+        "amount": 3440.39,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 720.59,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 4160.98,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 594.43,
+        "currency": "USD"
+      },
+      "rateRuleId": 232050728,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-1": {
+      "id": "6666",
+      "name": "Handlery Union Square Hotel",
+      "englishName": "Handlery Union Square Hotel",
+      "shortDescription": "A half-block from cable cars, this hotel is 2 blocks from Westfield San Francisco Shopping Centre; the Moscone Center and the San Francisco Museum of Modern Art are 8 blocks away.",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "351 Geary St",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94102",
+        "latitude": 37.78733,
+        "longitude": -122.40902
+      },
+      "starRating": 3.5,
+      "averageReview": 3.988711,
+      "reviewCount": 4607,
+      "recommendationPercentage": 86.05341,
+      "thumbnailUrl": "/hotels/1000000/10000/6700/6666/b9b43d8b_t.jpg",
+      "roomRatePlanDescription": "Standard Room, 1 Double Bed",
+      "ratePlanCode": "831901",
+      "roomTypeCode": "284216",
+      "vip": false,
+      "neighborhood": "",
+      "roomAmenities": [
+        {
+          "id": 2048,
+          "name": "Free Wireless Internet"
+        }
+      ],
+      "roomsLeft": 16,
+      "referenceBasePrice": {
+        "amount": 1969.92,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 324.13,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 2294.05,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 327.72,
+        "currency": "USD"
+      },
+      "rateRuleId": 206405759,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-2": {
+      "id": "12539",
+      "name": "Parc 55 San Francisco - A Hilton Hotel",
+      "englishName": "Parc 55 San Francisco - A Hilton Hotel",
+      "shortDescription": "Just off Market Street, downtown San Francisco's major thoroughfare, this contemporary 32-story hotel is 1 block from San Francisco Centre shops and 3 blocks from the Moscone Convention Center.",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "55 Cyril Magnin St",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94102",
+        "latitude": 37.78458,
+        "longitude": -122.40854
+      },
+      "starRating": 4.0,
+      "averageReview": 4.228325,
+      "reviewCount": 11326,
+      "recommendationPercentage": 88.01294,
+      "thumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_423_t.jpg",
+      "roomRatePlanDescription": "Deluxe View - 2 Double Beds - No-Refunds",
+      "ratePlanCode": "204591589",
+      "roomTypeCode": "200906978",
+      "vip": true,
+      "neighborhood": "",
+      "roomsLeft": -1,
+      "referenceBasePrice": {
+        "amount": 1984.99,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 334.94,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 2319.93,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 331.42,
+        "currency": "USD"
+      },
+      "rateRuleId": 208489789,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-3": {
+      "id": "25027",
+      "name": "White Swan Inn",
+      "englishName": "White Swan Inn",
+      "shortDescription": "The English-style inn is on San Francisco's Nob Hill, 2 blocks from a cable car line, 4 blocks from Union Square and Chinatown, and 1 mile from Moscone Center and the San Francisco Museum of Modern Art.",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "845 Bush St",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94108",
+        "latitude": 37.78993,
+        "longitude": -122.41115
+      },
+      "starRating": 3.5,
+      "averageReview": 4.4839873,
+      "reviewCount": 812,
+      "recommendationPercentage": 93.766235,
+      "thumbnailUrl": "/hotels/1000000/30000/25100/25027/25027_85_t.jpg",
+      "roomRatePlanDescription": "Deluxe Room, 1 Queen Bed, Fireplace",
+      "ratePlanCode": "46690",
+      "roomTypeCode": "18031",
+      "vip": false,
+      "neighborhood": "",
+      "roomAmenities": [
+        {
+          "id": 2,
+          "name": "Continental Breakfast"
+        },
+        {
+          "id": 2048,
+          "name": "Free Wireless Internet"
+        }
+      ],
+      "roomsLeft": 9,
+      "referenceBasePrice": {
+        "amount": 1846.43,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 303.65,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 2150.08,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 307.15,
+        "currency": "USD"
+      },
+      "rateRuleId": 67039,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-4": {
+      "id": "15769",
+      "name": "The Marker San Francisco, a Joie de Vivre Hotel",
+      "englishName": "The Marker San Francisco, a Joie de Vivre Hotel",
+      "shortDescription": "Eclectically decorated The Marker San Francisco, a 1910 Beaux Arts building, is within 2 blocks of Union Square and the Curran and ACT theaters. Moscone Convention Center is within a few blocks of the hotel.",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "501 Geary St",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94102",
+        "latitude": 37.78698,
+        "longitude": -122.41171
+      },
+      "starRating": 4.0,
+      "averageReview": 4.4068847,
+      "reviewCount": 2121,
+      "recommendationPercentage": 90.4936,
+      "thumbnailUrl": "/hotels/1000000/20000/15800/15769/38f0df54_t.jpg",
+      "roomRatePlanDescription": "Room, 1 Queen Bed",
+      "ratePlanCode": "205740324",
+      "roomTypeCode": "201212768",
+      "vip": true,
+      "neighborhood": "",
+      "roomsLeft": 2,
+      "referenceBasePrice": {
+        "amount": 2303.00,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 378.70,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 2681.70,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 383.10,
+        "currency": "USD"
+      },
+      "rateRuleId": 226256279,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "totalMandatoryFeesSupplyCurrency": {
+          "amount": 154.00,
+          "currency": "USD"
+        },
+        "dailyResortFeePOSCurrency": {
+          "amount": 22.00,
+          "currency": "USD"
+        },
+        "displayType": "DAILY"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-5": {
+      "id": "12493",
+      "name": "Serrano Hotel",
+      "englishName": "Serrano Hotel",
+      "shortDescription": "The Serrano Hotel is steps away from Union Square, perfectly positioned in the Theater District of San Francisco, 2 blocks from the Powell Street cable car.",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "405 Taylor St",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94102",
+        "latitude": 37.786182,
+        "longitude": -122.411366
+      },
+      "starRating": 4.0,
+      "averageReview": 4.0358105,
+      "reviewCount": 4329,
+      "recommendationPercentage": 79.97712,
+      "thumbnailUrl": "/hotels/1000000/20000/12500/12493/12493_248_t.jpg",
+      "roomRatePlanDescription": "Room, 1 Queen Bed, City View",
+      "ratePlanCode": "207088789",
+      "roomTypeCode": "201430468",
+      "vip": true,
+      "neighborhood": "",
+      "roomsLeft": 1,
+      "referenceBasePrice": {
+        "amount": 2438.00,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 397.75,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 2835.75,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 405.11,
+        "currency": "USD"
+      },
+      "rateRuleId": 217272957,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "totalMandatoryFeesSupplyCurrency": {
+          "amount": 207.48,
+          "currency": "USD"
+        },
+        "dailyResortFeePOSCurrency": {
+          "amount": 29.64,
+          "currency": "USD"
+        },
+        "displayType": "DAILY"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-6": {
+      "id": "5425",
+      "name": "Villa Florence San Francisco on Union Square",
+      "englishName": "Villa Florence San Francisco on Union Square",
+      "shortDescription": "Infused with the spirit of Italy, this romantic downtown San Francisco retreat is on the Powell Street cable car line, less than a block from Union Square; theaters and Market Street are two blocks away.",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "225 Powell St",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94102",
+        "latitude": 37.786865,
+        "longitude": -122.408155
+      },
+      "starRating": 4.0,
+      "averageReview": 4.0242977,
+      "reviewCount": 3415,
+      "recommendationPercentage": 75.833336,
+      "thumbnailUrl": "/hotels/1000000/10000/5500/5425/1e4fb880_t.jpg",
+      "roomRatePlanDescription": "Deluxe Room, 1 King Bed",
+      "ratePlanCode": "207783377",
+      "roomTypeCode": "163194",
+      "vip": true,
+      "neighborhood": "",
+      "roomAmenities": [
+        {
+          "id": 2048,
+          "name": "Free Wireless Internet"
+        }
+      ],
+      "roomsLeft": 1,
+      "referenceBasePrice": {
+        "amount": 2330.10,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 383.31,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 2713.41,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 387.63,
+        "currency": "USD"
+      },
+      "rateRuleId": 230128765,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "totalMandatoryFeesSupplyCurrency": {
+          "amount": 271.32,
+          "currency": "USD"
+        },
+        "dailyResortFeePOSCurrency": {
+          "amount": 33.06,
+          "currency": "USD"
+        },
+        "displayType": "DAILY"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-7": {
+      "id": "5883",
+      "name": "Grand Hyatt San Francisco Union Square",
+      "englishName": "Grand Hyatt San Francisco Union Square",
+      "shortDescription": "Rising 36 stories above Union Square, this sleek, contemporary hotel is 1 block from cable cars, 3 blocks from Westfield San Francisco Centre shopping mall, and 4 blocks from the Financial District.",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "345 Stockton St",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94108",
+        "latitude": 37.78911,
+        "longitude": -122.40682
+      },
+      "starRating": 4.0,
+      "averageReview": 4.369495,
+      "reviewCount": 3609,
+      "recommendationPercentage": 91.0594,
+      "thumbnailUrl": "/hotels/1000000/10000/5900/5883/5883_230_t.jpg",
+      "roomRatePlanDescription": "Standard Room, 2 Double Beds, City View - Bed and Breakfast",
+      "ratePlanCode": "200917864",
+      "roomTypeCode": "200162451",
+      "vip": false,
+      "neighborhood": "",
+      "roomAmenities": [
+        {
+          "id": 2048,
+          "name": "Free Wireless Internet"
+        },
+        {
+          "id": 8192,
+          "name": "Breakfast for 2"
+        }
+      ],
+      "roomsLeft": 10,
+      "referenceBasePrice": {
+        "amount": 3554.95,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 584.71,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 4139.66,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 591.38,
+        "currency": "USD"
+      },
+      "rateRuleId": 201581827,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-8": {
+      "id": "23581",
+      "name": "Axiom Hotel San Francisco",
+      "englishName": "Axiom Hotel San Francisco",
+      "shortDescription": "Located in Downtown San Francisco, this hotel is within a 15-minute walk of Westfield San Francisco Centre, San Francisco Museum of Modern Art, and Asian Art Museum of San Francisco. Louise Davies Symphony Hall and TransAmerica Pyramid are also within 1 mi (2 km). ",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "28 Cyril Magnin Street",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94102",
+        "latitude": 37.78488,
+        "longitude": -122.408599
+      },
+      "starRating": 4.0,
+      "averageReview": 4.3879676,
+      "reviewCount": 482,
+      "recommendationPercentage": 93.29609,
+      "thumbnailUrl": "/hotels/1000000/30000/23600/23581/1c322e45_t.jpg",
+      "roomRatePlanDescription": "Deluxe Room, 1 King Bed",
+      "ratePlanCode": "206735692",
+      "roomTypeCode": "201367002",
+      "vip": false,
+      "neighborhood": "",
+      "roomAmenities": [
+        {
+          "id": 2048,
+          "name": "Free Wireless Internet"
+        }
+      ],
+      "roomsLeft": 33,
+      "referenceBasePrice": {
+        "amount": 3194.40,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 525.44,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 3719.84,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 531.41,
+        "currency": "USD"
+      },
+      "rateRuleId": 231005186,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-9": {
+      "id": "23406",
+      "name": "Hotel Nikko San Francisco",
+      "englishName": "Hotel Nikko San Francisco",
+      "shortDescription": "The Asian-inspired Hotel Nikko San Francisco is located downtown, a 4-minute walk from Union Square and the designer shops of Westfield San Francisco Centre. Guests can catch a cable car 2 blocks south, and both Curran Theatre and American Conservatory Theater are right around the corner.",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "222 Mason St",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94102",
+        "latitude": 37.785683,
+        "longitude": -122.409575
+      },
+      "starRating": 4.0,
+      "averageReview": 4.3346686,
+      "reviewCount": 6363,
+      "recommendationPercentage": 89.90883,
+      "thumbnailUrl": "/hotels/1000000/30000/23500/23406/23406_130_t.jpg",
+      "roomRatePlanDescription": "Petite Queen - Non-Refundable",
+      "ratePlanCode": "201661002",
+      "roomTypeCode": "14738",
+      "vip": true,
+      "neighborhood": "",
+      "roomsLeft": 7,
+      "referenceBasePrice": {
+        "amount": 2807.45,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 462.40,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 3269.85,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 467.12,
+        "currency": "USD"
+      },
+      "rateRuleId": 230714487,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-10": {
+      "id": "23774",
+      "name": "Hyatt Regency San Francisco",
+      "englishName": "Hyatt Regency San Francisco",
+      "shortDescription": "The 17-story Hyatt Regency is located on the Embarcadero waterfront, across from the Ferry Building Marketplace, close to the Embarcadero Center, Union Square, and Moscone Convention Center.",
+      "regionId": 6056710,
+      "address": {
+        "firstAddressLine": "5 Embarcadero Center",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94111",
+        "latitude": 37.79372,
+        "longitude": -122.39644
+      },
+      "starRating": 4.0,
+      "averageReview": 4.3130183,
+      "reviewCount": 3364,
+      "recommendationPercentage": 87.703804,
+      "thumbnailUrl": "/hotels/1000000/30000/23800/23774/23774_158_t.jpg",
+      "roomRatePlanDescription": "Business Plan, 2 Double Beds",
+      "ratePlanCode": "204772221",
+      "roomTypeCode": "200978226",
+      "vip": false,
+      "neighborhood": "Financial District",
+      "roomsLeft": 8,
+      "referenceBasePrice": {
+        "amount": 3162.95,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 521.01,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 3683.96,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 526.28,
+        "currency": "USD"
+      },
+      "rateRuleId": 208851633,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-11": {
+      "id": "26760",
+      "name": "The Westin St. Francis San Francisco on Union Square",
+      "englishName": "The Westin St. Francis San Francisco on Union Square",
+      "shortDescription": "This elegant and historic 1904 hotel offers a prime location across from San Francisco's Union Square; cable cars stop right at the front door, and the Financial District and Chinatown are both just 4 blocks away.",
+      "regionId": 800129,
+      "address": {
+        "firstAddressLine": "335 Powell Street",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94102",
+        "latitude": 37.78773,
+        "longitude": -122.40822
+      },
+      "starRating": 4.0,
+      "averageReview": 4.1828704,
+      "reviewCount": 5061,
+      "recommendationPercentage": 84.12132,
+      "thumbnailUrl": "/hotels/1000000/30000/26800/26760/1a4c8f78_t.jpg",
+      "roomRatePlanDescription": "Landmark Grand Deluxe King Room, Union Square View",
+      "ratePlanCode": "206477582",
+      "roomTypeCode": "200351644",
+      "vip": false,
+      "neighborhood": "Union Square",
+      "roomAmenities": [
+        {
+          "id": 2048,
+          "name": "Free Wireless Internet"
+        }
+      ],
+      "roomsLeft": 46,
+      "referenceBasePrice": {
+        "amount": 2948.27,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 486.20,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 3434.47,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 490.64,
+        "currency": "USD"
+      },
+      "rateRuleId": 231790229,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-12": {
+      "id": "27274",
+      "name": "Palace Hotel, a Luxury Collection Hotel, San Francisco",
+      "englishName": "Palace Hotel, a Luxury Collection Hotel, San Francisco",
+      "shortDescription": "A member of The Luxury Collection of Starwood Hotels and Resorts, this legendary 1909 hotel in downtown San Francisco is 1 block from the Financial District, 3 blocks from Union Square, and 4 blocks from Moscone Center.",
+      "regionId": 160166,
+      "address": {
+        "firstAddressLine": "2 New Montgomery St",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94105",
+        "latitude": 37.788682,
+        "longitude": -122.401919
+      },
+      "starRating": 5.0,
+      "averageReview": 4.469655,
+      "reviewCount": 3460,
+      "recommendationPercentage": 91.38135,
+      "thumbnailUrl": "/hotels/1000000/30000/27300/27274/60769b54_t.jpg",
+      "roomRatePlanDescription": "Deluxe Room, 2 Double Beds",
+      "ratePlanCode": "202394035",
+      "roomTypeCode": "200410795",
+      "vip": false,
+      "neighborhood": "South of Market",
+      "roomsLeft": 92,
+      "referenceBasePrice": {
+        "amount": 3663.19,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 604.41,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 4267.60,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 609.66,
+        "currency": "USD"
+      },
+      "rateRuleId": 204153226,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-13": {
+      "id": "15254",
+      "name": "Kimpton Sir Francis Drake Hotel",
+      "englishName": "Kimpton Sir Francis Drake Hotel",
+      "shortDescription": "This 1928 hotel is a half-block from San Francisco's Union Square, 3 blocks from the theater district, and a half-mile from the Financial District and Moscone Center.",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "450 Powell Street",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94102",
+        "latitude": 37.788911,
+        "longitude": -122.40857
+      },
+      "starRating": 4.0,
+      "averageReview": 3.9251964,
+      "reviewCount": 4091,
+      "recommendationPercentage": 78.99207,
+      "thumbnailUrl": "/hotels/1000000/20000/15300/15254/8a048159_t.jpg",
+      "roomRatePlanDescription": "Historic Queen",
+      "ratePlanCode": "207534053",
+      "roomTypeCode": "200077215",
+      "vip": false,
+      "neighborhood": "",
+      "roomsLeft": 2,
+      "referenceBasePrice": {
+        "amount": 2275.00,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 374.14,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 2649.14,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 378.45,
+        "currency": "USD"
+      },
+      "rateRuleId": 222290059,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "totalMandatoryFeesSupplyCurrency": {
+          "amount": 179.34,
+          "currency": "USD"
+        },
+        "dailyResortFeePOSCurrency": {
+          "amount": 25.62,
+          "currency": "USD"
+        },
+        "displayType": "DAILY"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-14": {
+      "id": "5338",
+      "name": "Executive Hotel Vintage Court",
+      "englishName": "Executive Hotel Vintage Court",
+      "shortDescription": "Executive Hotel Vintage Court places guests a 5-minute walk from Union Square shops like Tiffany & Co and Saks Fifth Avenue. Dim sum and Chinatown bargain shopping is 8 minutes away on foot. It’s a 20-minute cable-car ride to Fisherman's Wharf.",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "650 Bush Street",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94108",
+        "latitude": 37.79033,
+        "longitude": -122.40806
+      },
+      "starRating": 3.0,
+      "averageReview": 3.8132043,
+      "reviewCount": 3461,
+      "recommendationPercentage": 83.14473,
+      "thumbnailUrl": "/hotels/1000000/10000/5400/5338/63b40fac_t.jpg",
+      "roomRatePlanDescription": "Executive Room, 1 Queen Bed - Non-Refundable",
+      "ratePlanCode": "200087300",
+      "roomTypeCode": "579",
+      "vip": false,
+      "neighborhood": "",
+      "roomsLeft": 15,
+      "referenceBasePrice": {
+        "amount": 1995.36,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 324.27,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 2319.63,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 331.38,
+        "currency": "USD"
+      },
+      "rateRuleId": 232376198,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": true,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-15": {
+      "id": "225819",
+      "name": "Hotel Zelos San Francisco",
+      "englishName": "Hotel Zelos San Francisco",
+      "shortDescription": "This downtown SoMa area Art Deco hotel nestles in the heart of San Francisco near Union Square, adjacent to the Westfield San Francisco Centre, Moscone Convention Center, and the San Francisco Museum of Modern Art. ",
+      "regionId": 160166,
+      "address": {
+        "firstAddressLine": "12 4th St.",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94103",
+        "latitude": 37.785398,
+        "longitude": -122.40539
+      },
+      "starRating": 4.0,
+      "averageReview": 4.400001,
+      "reviewCount": 1935,
+      "recommendationPercentage": 90.392426,
+      "thumbnailUrl": "/hotels/1000000/230000/225900/225819/bab5f594_t.jpg",
+      "roomRatePlanDescription": "Deluxe Double Room",
+      "ratePlanCode": "208778764",
+      "roomTypeCode": "201759940",
+      "vip": false,
+      "neighborhood": "South of Market",
+      "roomsLeft": 9,
+      "referenceBasePrice": {
+        "amount": 2547.30,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 418.79,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 2966.09,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 423.73,
+        "currency": "USD"
+      },
+      "rateRuleId": 222598885,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "totalMandatoryFeesSupplyCurrency": {
+          "amount": 154.00,
+          "currency": "USD"
+        },
+        "dailyResortFeePOSCurrency": {
+          "amount": 22.00,
+          "currency": "USD"
+        },
+        "displayType": "DAILY"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-16": {
+      "id": "1766605",
+      "name": "InterContinental San Francisco",
+      "englishName": "InterContinental San Francisco",
+      "shortDescription": "Opened in 2008, this downtown San Francisco hotel is adjacent to the Moscone Center and about 6 blocks from Union Square.",
+      "regionId": 160166,
+      "address": {
+        "firstAddressLine": "888 Howard Street",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94103",
+        "latitude": 37.78171,
+        "longitude": -122.4047
+      },
+      "starRating": 4.5,
+      "averageReview": 4.480331,
+      "reviewCount": 2771,
+      "recommendationPercentage": 88.845406,
+      "thumbnailUrl": "/hotels/2000000/1770000/1766700/1766605/1766605_492_t.jpg",
+      "roomRatePlanDescription": "Deluxe Room",
+      "ratePlanCode": "200448778",
+      "roomTypeCode": "440830",
+      "vip": false,
+      "neighborhood": "South of Market",
+      "roomsLeft": -1,
+      "referenceBasePrice": {
+        "amount": 3296.36,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 542.26,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 3838.62,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 548.37,
+        "currency": "USD"
+      },
+      "rateRuleId": 200774384,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-17": {
+      "id": "25622",
+      "name": "Hilton San Francisco Union Square",
+      "englishName": "Hilton San Francisco Union Square",
+      "shortDescription": "Iconic, AAA 4-Diamond hotel a few steps from Union Square, Cable Car station, theatre district, BART, Chinatown, SFMOMA, and Moscone Center. Upgraded rooms offer stunning views of the city and the Bay.",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "333 O'Farrell St.",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94102",
+        "latitude": 37.78616,
+        "longitude": -122.41018
+      },
+      "starRating": 4.0,
+      "averageReview": 3.9692242,
+      "reviewCount": 8223,
+      "recommendationPercentage": 79.83826,
+      "thumbnailUrl": "/hotels/1000000/30000/25700/25622/e6c58ddf_t.jpg",
+      "roomRatePlanDescription": "1 King Bed Junior Suite",
+      "ratePlanCode": "1135049",
+      "roomTypeCode": "162843",
+      "vip": false,
+      "neighborhood": "",
+      "roomsLeft": -1,
+      "referenceBasePrice": {
+        "amount": 2919.00,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 484.63,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 3403.63,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 486.23,
+        "currency": "USD"
+      },
+      "rateRuleId": 1534125,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-18": {
+      "id": "693658",
+      "name": "Marriott Courtyard San Francisco Downtown",
+      "englishName": "Marriott Courtyard San Francisco Downtown",
+      "shortDescription": "This 18-story downtown San Francisco hotel is tucked away on a pleasantly quiet street in the SoMa (South of Market) district, 3 blocks from the Moscone Center and 4 blocks from baseball's AT&T Park.",
+      "regionId": 160166,
+      "address": {
+        "firstAddressLine": "299 2nd St",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94105",
+        "latitude": 37.785816,
+        "longitude": -122.396965
+      },
+      "starRating": 3.5,
+      "averageReview": 4.2739882,
+      "reviewCount": 1803,
+      "recommendationPercentage": 91.12426,
+      "thumbnailUrl": "/hotels/1000000/700000/693700/693658/8c68bfee_t.jpg",
+      "roomRatePlanDescription": "Room, 1 King Bed with Sofa bed, City View - Best Available",
+      "ratePlanCode": "201095396",
+      "roomTypeCode": "200865",
+      "vip": false,
+      "neighborhood": "South of Market",
+      "roomAmenities": [
+        {
+          "id": 1024,
+          "name": "Free High-Speed Internet"
+        }
+      ],
+      "roomsLeft": 4,
+      "referenceBasePrice": {
+        "amount": 2648.03,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 443.07,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 3091.10,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 441.59,
+        "currency": "USD"
+      },
+      "rateRuleId": 201870819,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-19": {
+      "id": "1047",
+      "name": "Holiday Inn San Francisco-Fisherman's Wharf",
+      "englishName": "Holiday Inn San Francisco-Fisherman's Wharf",
+      "shortDescription": "Located just 1 mile from Union Square, this Holiday Inn is within 2 blocks of Fisherman's Wharf and Ghirardelli Square.",
+      "regionId": 800128,
+      "address": {
+        "firstAddressLine": "1300 Columbus Ave",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94133",
+        "latitude": 37.80603,
+        "longitude": -122.41844
+      },
+      "starRating": 3.5,
+      "averageReview": 3.9080837,
+      "reviewCount": 4874,
+      "recommendationPercentage": 85.22427,
+      "thumbnailUrl": "/hotels/1000000/10000/1100/1047/5646c64f_t.jpg",
+      "roomRatePlanDescription": "Room, 2 Double Beds, Non Smoking",
+      "ratePlanCode": "791616",
+      "roomTypeCode": "274545",
+      "vip": false,
+      "neighborhood": "Fisherman's Wharf",
+      "roomsLeft": -1,
+      "referenceBasePrice": {
+        "amount": 2063.00,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 343.32,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 2406.32,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 343.76,
+        "currency": "USD"
+      },
+      "rateRuleId": 1040133,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-20": {
+      "id": "20488",
+      "name": "Marriott San Francisco Fisherman's Wharf",
+      "englishName": "Marriott San Francisco Fisherman's Wharf",
+      "shortDescription": "Clattering cable cars, fun-filled Fisherman&#39;s Wharf, and the tasty temptations of Ghirardelli Square are within 2 blocks of this hotel; the Financial District and Union Square are less than 2 miles away.",
+      "regionId": 800128,
+      "address": {
+        "firstAddressLine": "1250 Columbus Ave",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94133",
+        "latitude": 37.80561,
+        "longitude": -122.41781
+      },
+      "starRating": 3.5,
+      "averageReview": 4.221331,
+      "reviewCount": 1744,
+      "recommendationPercentage": 88.68313,
+      "thumbnailUrl": "/hotels/1000000/30000/20500/20488/8d6643d4_t.jpg",
+      "roomRatePlanDescription": "Room, 1 King Bed - Advance Purchase",
+      "ratePlanCode": "200508686",
+      "roomTypeCode": "5809",
+      "vip": false,
+      "neighborhood": "Fisherman's Wharf",
+      "roomsLeft": 5,
+      "referenceBasePrice": {
+        "amount": 2421.03,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 398.14,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 2819.17,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 402.74,
+        "currency": "USD"
+      },
+      "rateRuleId": 231275586,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-21": {
+      "id": "10266",
+      "name": "Staypineapple at The Alise San Francisco",
+      "englishName": "Staypineapple at The Alise San Francisco",
+      "shortDescription": "Built in 1913, this handsomely updated boutique hotel is in the midst of San Francisco's Union Square district, 2 blocks from the Curran and ACT theaters, and 3 from the Golden Gate Theatre.",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "580 Geary St",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94102",
+        "latitude": 37.78685,
+        "longitude": -122.41285
+      },
+      "starRating": 4.0,
+      "averageReview": 4.196765,
+      "reviewCount": 587,
+      "recommendationPercentage": 93.50649,
+      "thumbnailUrl": "/hotels/1000000/20000/10300/10266/ab1920bc_t.jpg",
+      "roomRatePlanDescription": "Room, 1 Queen Bed (Persona)",
+      "ratePlanCode": "206948701",
+      "roomTypeCode": "201405722",
+      "vip": false,
+      "neighborhood": "",
+      "roomsLeft": 1,
+      "referenceBasePrice": {
+        "amount": 2575.00,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 423.49,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 2998.49,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 428.36,
+        "currency": "USD"
+      },
+      "rateRuleId": 215181310,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "totalMandatoryFeesSupplyCurrency": {
+          "amount": 122.08,
+          "currency": "USD"
+        },
+        "dailyResortFeePOSCurrency": {
+          "amount": 17.44,
+          "currency": "USD"
+        },
+        "displayType": "DAILY"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-22": {
+      "id": "26015",
+      "name": "The Cartwright Hotel - Union Square BW Premier Collection",
+      "englishName": "The Cartwright Hotel - Union Square BW Premier Collection",
+      "shortDescription": "A half-block from the Powell Street cable car line, and within 2 blocks of Union Square, the Cartwright Hotel - Union Square BW Premier Collection is a quiet oasis on an otherwise busy block of downtown San Francisco.",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "524 Sutter Street",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94102",
+        "latitude": 37.78919,
+        "longitude": -122.40901
+      },
+      "starRating": 3.5,
+      "averageReview": 3.9420671,
+      "reviewCount": 2710,
+      "recommendationPercentage": 84.07225,
+      "thumbnailUrl": "/hotels/1000000/30000/26100/26015/30580fb3_t.jpg",
+      "roomRatePlanDescription": "Standard Room, 1 King Bed, Non Smoking - Advanced Purchase",
+      "ratePlanCode": "207836465",
+      "roomTypeCode": "201555286",
+      "vip": false,
+      "neighborhood": "",
+      "roomAmenities": [
+        {
+          "id": 1024,
+          "name": "Free High-Speed Internet"
+        }
+      ],
+      "roomsLeft": 7,
+      "referenceBasePrice": {
+        "amount": 1702.54,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 277.75,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 1980.29,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 282.90,
+        "currency": "USD"
+      },
+      "rateRuleId": 218531013,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-23": {
+      "id": "24620",
+      "name": "InterContinental Mark Hopkins",
+      "englishName": "InterContinental Mark Hopkins",
+      "shortDescription": "This San Francisco hotel sits atop Nob Hill, next to 3 cable car lines; Chinatown is 3 blocks away, and Union Square is 5 blocks away.",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "999 California Street",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94108",
+        "latitude": 37.791865,
+        "longitude": -122.410716
+      },
+      "starRating": 4.0,
+      "averageReview": 4.2806025,
+      "reviewCount": 2459,
+      "recommendationPercentage": 85.16129,
+      "thumbnailUrl": "/hotels/1000000/30000/24700/24620/24620_422_t.jpg",
+      "roomRatePlanDescription": "Deluxe Room",
+      "ratePlanCode": "201386578",
+      "roomTypeCode": "413045",
+      "vip": false,
+      "neighborhood": "",
+      "roomsLeft": -1,
+      "referenceBasePrice": {
+        "amount": 3146.40,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 517.29,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 3663.69,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 523.38,
+        "currency": "USD"
+      },
+      "rateRuleId": 231958108,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-24": {
+      "id": "287112",
+      "name": "W San Francisco",
+      "englishName": "W San Francisco",
+      "shortDescription": "Located in the trendy South of Market district (SoMa), the downtown hotel is adjacent to the San Francisco Museum of Modern Art (SFMOMA), across from the Moscone Center, and five blocks from Union Square.",
+      "regionId": 160166,
+      "address": {
+        "firstAddressLine": "181 3rd St",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94103",
+        "latitude": 37.785148,
+        "longitude": -122.400555
+      },
+      "starRating": 4.0,
+      "averageReview": 4.2233624,
+      "reviewCount": 1267,
+      "recommendationPercentage": 83.0,
+      "thumbnailUrl": "/hotels/1000000/290000/287200/287112/fa6d1ab2_t.jpg",
+      "roomRatePlanDescription": "Spectacular Room, 2 Double Beds",
+      "ratePlanCode": "206477862",
+      "roomTypeCode": "200824243",
+      "vip": false,
+      "neighborhood": "South of Market",
+      "roomsLeft": 52,
+      "referenceBasePrice": {
+        "amount": 3617.32,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 596.89,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 4214.21,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 602.03,
+        "currency": "USD"
+      },
+      "rateRuleId": 221852883,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-25": {
+      "id": "578899",
+      "name": "Holiday Inn Express and Suites Fisherman's Wharf",
+      "englishName": "Holiday Inn Express and Suites Fisherman's Wharf",
+      "shortDescription": "This San Francisco hotel is within 2 blocks of Fisherman's Wharf and less than 2 miles from the Union Square District.",
+      "regionId": 800128,
+      "address": {
+        "firstAddressLine": "550 N Point St",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94133",
+        "latitude": 37.80625,
+        "longitude": -122.416214
+      },
+      "starRating": 2.5,
+      "averageReview": 4.2297487,
+      "reviewCount": 2901,
+      "recommendationPercentage": 93.11378,
+      "thumbnailUrl": "/hotels/1000000/580000/578900/578899/bd1bb1df_t.jpg",
+      "roomRatePlanDescription": "Room, 1 Queen Bed, Non Smoking",
+      "ratePlanCode": "792067",
+      "roomTypeCode": "274659",
+      "vip": false,
+      "neighborhood": "Fisherman's Wharf",
+      "roomAmenities": [
+        {
+          "id": 2,
+          "name": "Continental Breakfast"
+        }
+      ],
+      "roomsLeft": -1,
+      "referenceBasePrice": {
+        "amount": 2403.00,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 397.10,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 2800.10,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 400.01,
+        "currency": "USD"
+      },
+      "rateRuleId": 226761063,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-26": {
+      "id": "425098",
+      "name": "The Andrews Hotel",
+      "englishName": "The Andrews Hotel",
+      "shortDescription": "Located in Downtown San Francisco, this hotel is within a 15-minute walk of Westfield San Francisco Centre and San Francisco Museum of Modern Art. Lombard Street and Asian Art Museum of San Francisco are also within 1 mi (2 km). ",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "624 Post St",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94109",
+        "latitude": 37.787845,
+        "longitude": -122.412258
+      },
+      "starRating": 3.0,
+      "averageReview": 3.7767441,
+      "reviewCount": 1290,
+      "recommendationPercentage": 84.75894,
+      "thumbnailUrl": "/hotels/1000000/430000/425100/425098/425098_49_t.jpg",
+      "roomRatePlanDescription": "Standard Room, 1 Queen Bed",
+      "ratePlanCode": "205626037",
+      "roomTypeCode": "201189865",
+      "vip": false,
+      "neighborhood": "",
+      "roomAmenities": [
+        {
+          "id": 2,
+          "name": "Continental Breakfast"
+        },
+        {
+          "id": 2048,
+          "name": "Free Wireless Internet"
+        }
+      ],
+      "roomsLeft": 2,
+      "referenceBasePrice": {
+        "amount": 1854.33,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 301.39,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 2155.72,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 307.96,
+        "currency": "USD"
+      },
+      "rateRuleId": 229873942,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": true,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-27": {
+      "id": "24625",
+      "name": "Sheraton Fisherman's Wharf Hotel",
+      "englishName": "Sheraton Fisherman's Wharf Hotel",
+      "shortDescription": "This smoke-free San Francisco Sheraton is within 2 blocks of the cable car turnaround and Pier 39, 5 blocks from Ghirardelli Square, and within 1 mile of Lombard Street and Chinatown.",
+      "regionId": 800128,
+      "address": {
+        "firstAddressLine": "2500 Mason St",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94133",
+        "latitude": 37.80688,
+        "longitude": -122.4138
+      },
+      "starRating": 4.0,
+      "averageReview": 3.8693106,
+      "reviewCount": 5295,
+      "recommendationPercentage": 80.46648,
+      "thumbnailUrl": "/hotels/1000000/30000/24700/24625/fc4e292c_t.jpg",
+      "roomRatePlanDescription": "Traditional Double Room",
+      "ratePlanCode": "208672133",
+      "roomTypeCode": "201745511",
+      "vip": false,
+      "neighborhood": "Fisherman's Wharf",
+      "roomsLeft": 241,
+      "referenceBasePrice": {
+        "amount": 2048.00,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 336.78,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 2384.78,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 340.68,
+        "currency": "USD"
+      },
+      "rateRuleId": 224403255,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": true,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-28": {
+      "id": "1236230",
+      "name": "Lombard Motor Inn",
+      "englishName": "Lombard Motor Inn",
+      "shortDescription": "Situated on famous Lombard Street in San Francisco's Marina District, this budget hotel is less than 1 mile from Fisherman's Wharf, and 1.5 miles from the Palace of Fine Arts.",
+      "regionId": 130032,
+      "address": {
+        "firstAddressLine": "1475 Lombard Street",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94123",
+        "latitude": 37.801108,
+        "longitude": -122.42618
+      },
+      "starRating": 2.5,
+      "averageReview": 3.9532468,
+      "reviewCount": 1786,
+      "recommendationPercentage": 90.48316,
+      "thumbnailUrl": "/hotels/2000000/1240000/1236300/1236230/1236230_18_t.jpg",
+      "roomRatePlanDescription": "Standard Room, 1 King Bed",
+      "ratePlanCode": "516033",
+      "roomTypeCode": "64955",
+      "vip": false,
+      "neighborhood": "Marina District",
+      "roomAmenities": [
+        {
+          "id": 128,
+          "name": "Free Parking"
+        },
+        {
+          "id": 1024,
+          "name": "Free High-Speed Internet"
+        }
+      ],
+      "roomsLeft": 1,
+      "referenceBasePrice": {
+        "amount": 1220.40,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 183.78,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 1404.18,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 200.60,
+        "currency": "USD"
+      },
+      "rateRuleId": 685234,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-29": {
+      "id": "9868852",
+      "name": "Hotel Zephyr",
+      "englishName": "Hotel Zephyr",
+      "shortDescription": "This family-friendly San Francisco hotel is located on the waterfront, within a 5-minute walk of Wax Museum at Fisherman's Wharf, Pier 39, and Ripley's Believe It Or Not Museum. Aquarium of the Bay and Ghirardelli Square are also within 15 minutes. ",
+      "regionId": 800128,
+      "address": {
+        "firstAddressLine": "250 Beach Street",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94133",
+        "latitude": 37.807601,
+        "longitude": -122.41317
+      },
+      "starRating": 3.5,
+      "averageReview": 4.193678,
+      "reviewCount": 2135,
+      "recommendationPercentage": 86.00212,
+      "thumbnailUrl": "/hotels/10000000/9870000/9868900/9868852/9868852_43_t.jpg",
+      "roomRatePlanDescription": "Room, 2 Double Beds",
+      "ratePlanCode": "207843672",
+      "roomTypeCode": "201286661",
+      "vip": false,
+      "neighborhood": "Fisherman's Wharf",
+      "roomsLeft": 1,
+      "referenceBasePrice": {
+        "amount": 3970.40,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 652.96,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 4623.36,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 660.48,
+        "currency": "USD"
+      },
+      "rateRuleId": 218561497,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "totalMandatoryFeesSupplyCurrency": {
+          "amount": 146.72,
+          "currency": "USD"
+        },
+        "dailyResortFeePOSCurrency": {
+          "amount": 20.96,
+          "currency": "USD"
+        },
+        "displayType": "DAILY"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-30": {
+      "id": "1515923",
+      "name": "Orchard Garden Hotel",
+      "englishName": "Orchard Garden Hotel",
+      "shortDescription": "Orchard Garden Hotel is right next to San Francisco's Chinatown Gate, about a block from the Financial District, and 2 blocks from Union Square's world-class shopping.",
+      "regionId": 6056710,
+      "address": {
+        "firstAddressLine": "466 Bush St",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94108",
+        "latitude": 37.790679,
+        "longitude": -122.405191
+      },
+      "starRating": 4.0,
+      "averageReview": 4.4840555,
+      "reviewCount": 1756,
+      "recommendationPercentage": 94.86082,
+      "thumbnailUrl": "/hotels/2000000/1520000/1516000/1515923/68e34df9_t.jpg",
+      "roomRatePlanDescription": "Superior Double Room, 2 Double Beds",
+      "ratePlanCode": "209781968",
+      "roomTypeCode": "201929805",
+      "vip": false,
+      "neighborhood": "Financial District",
+      "roomsLeft": 2,
+      "referenceBasePrice": {
+        "amount": 2351.70,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 393.91,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 2745.61,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 392.23,
+        "currency": "USD"
+      },
+      "rateRuleId": 215964687,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-31": {
+      "id": "1110785",
+      "name": "Bay Landing San Francisco Airport Hotel",
+      "englishName": "Bay Landing San Francisco Airport Hotel",
+      "shortDescription": "Adjacent to San Francisco Bay, this hotel sits on a quiet strip across from a bayside park and jogging path, 1 mile from a BART station, and 3 miles from the San Francisco airport.",
+      "regionId": 800127,
+      "address": {
+        "firstAddressLine": "1550 Bayshore Hwy",
+        "secondAddressLine": "",
+        "city": "Burlingame",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94010",
+        "latitude": 37.597986,
+        "longitude": -122.36624
+      },
+      "starRating": 3.0,
+      "averageReview": 4.478596,
+      "reviewCount": 4812,
+      "recommendationPercentage": 95.82216,
+      "thumbnailUrl": "/hotels/2000000/1120000/1110800/1110785/1110785_19_t.jpg",
+      "roomRatePlanDescription": "Deluxe Room, 1 King Bed",
+      "ratePlanCode": "202492681",
+      "roomTypeCode": "50400",
+      "vip": true,
+      "neighborhood": "San Francisco International Airport (SFO)",
+      "roomAmenities": [
+        {
+          "id": 2,
+          "name": "Continental Breakfast"
+        },
+        {
+          "id": 128,
+          "name": "Free Parking"
+        },
+        {
+          "id": 32768,
+          "name": "Free Airport Shuttle"
+        }
+      ],
+      "roomsLeft": 46,
+      "referenceBasePrice": {
+        "amount": 1218.46,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 146.22,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 1364.68,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 194.95,
+        "currency": "USD"
+      },
+      "rateRuleId": 225022742,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-32": {
+      "id": "10538",
+      "name": "Holiday Inn Golden Gateway",
+      "englishName": "Holiday Inn Golden Gateway",
+      "shortDescription": "This San Francisco hotel is less than 1 block from the end of the California St. cable-car line, which runs east-west. Union Square, the theater district, and Nob Hill are all about 0.8 mi away.",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "1500 Van Ness Ave",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94109",
+        "latitude": 37.789856,
+        "longitude": -122.42215
+      },
+      "starRating": 3.5,
+      "averageReview": 4.012792,
+      "reviewCount": 1915,
+      "recommendationPercentage": 86.742424,
+      "thumbnailUrl": "/hotels/1000000/20000/10600/10538/9e3c93d5_t.jpg",
+      "roomRatePlanDescription": "Room, 2 Double Beds, Non Smoking - Advance Purchase Offers",
+      "ratePlanCode": "791699",
+      "roomTypeCode": "274559",
+      "vip": false,
+      "neighborhood": "",
+      "roomsLeft": -1,
+      "referenceBasePrice": {
+        "amount": 2009.98,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 338.35,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 2348.33,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 335.48,
+        "currency": "USD"
+      },
+      "rateRuleId": 1040227,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-33": {
+      "id": "17616",
+      "name": "Kensington Park Hotel",
+      "englishName": "Kensington Park Hotel",
+      "shortDescription": "Built in a Spanish Gothic style, this boutique hotel on San Francisco's Powell Street Cable Car Line lies in the theater and shopping district, 3 blocks from the Curran and ACT theaters.",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "450 Post St",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94102",
+        "latitude": 37.788238,
+        "longitude": -122.409353
+      },
+      "starRating": 3.5,
+      "averageReview": 4.147311,
+      "reviewCount": 2084,
+      "recommendationPercentage": 88.18061,
+      "thumbnailUrl": "/hotels/1000000/20000/17700/17616/5bb06f6c_t.jpg",
+      "roomRatePlanDescription": "Deluxe Room, 1 Queen Bed",
+      "ratePlanCode": "207624730",
+      "roomTypeCode": "201518936",
+      "vip": false,
+      "neighborhood": "",
+      "roomAmenities": [
+        {
+          "id": 2048,
+          "name": "Free Wireless Internet"
+        }
+      ],
+      "roomsLeft": 3,
+      "referenceBasePrice": {
+        "amount": 2176.34,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 355.14,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 2531.48,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 361.64,
+        "currency": "USD"
+      },
+      "rateRuleId": 220202990,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-34": {
+      "id": "5901",
+      "name": "Kimpton Buchanan Hotel",
+      "englishName": "Kimpton Buchanan Hotel",
+      "shortDescription": "This stylish, modern hotel is in San Francisco's Japantown, less than 2 miles from Chinatown and Union Square.",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "1800 Sutter St",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94115",
+        "latitude": 37.786532,
+        "longitude": -122.430119
+      },
+      "starRating": 3.5,
+      "averageReview": 4.113605,
+      "reviewCount": 2051,
+      "recommendationPercentage": 89.18239,
+      "thumbnailUrl": "/hotels/1000000/10000/6000/5901/5901_122_t.jpg",
+      "roomRatePlanDescription": "Room, 2 Queen Beds, City View",
+      "ratePlanCode": "207921485",
+      "roomTypeCode": "200853970",
+      "vip": false,
+      "neighborhood": "",
+      "roomsLeft": 14,
+      "referenceBasePrice": {
+        "amount": 2445.00,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 373.10,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 2818.10,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 402.59,
+        "currency": "USD"
+      },
+      "rateRuleId": 218827033,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-35": {
+      "id": "22148",
+      "name": "The Ritz-Carlton, San Francisco",
+      "englishName": "The Ritz-Carlton, San Francisco",
+      "shortDescription": "This Nob Hill hotel is adjacent to the California Street Cable Car line, and just steps away from the Financial District and the heart of Union Square.\r\n\r\n",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "600 Stockton St",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94108",
+        "latitude": 37.791712,
+        "longitude": -122.407436
+      },
+      "starRating": 5.0,
+      "averageReview": 4.467463,
+      "reviewCount": 753,
+      "recommendationPercentage": 86.27907,
+      "thumbnailUrl": "/hotels/1000000/30000/22200/22148/22148_127_t.jpg",
+      "roomRatePlanDescription": "Junior Suite, 1 King Bed",
+      "ratePlanCode": "209992558",
+      "roomTypeCode": "130992",
+      "vip": false,
+      "neighborhood": "",
+      "roomsLeft": 3,
+      "referenceBasePrice": {
+        "amount": 4733.07,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 777.87,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 5510.94,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 787.28,
+        "currency": "USD"
+      },
+      "rateRuleId": 231274926,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-36": {
+      "id": "15399261",
+      "name": "Hotel 32One",
+      "englishName": "Hotel 32One",
+      "shortDescription": "Located in Downtown San Francisco, this hotel is within a 10-minute walk of Academy of Art University, San Francisco Museum of Modern Art, and Westfield San Francisco Centre. TransAmerica Pyramid and Coit Tower are also within 1 mi (2 km). ",
+      "regionId": 6056710,
+      "address": {
+        "firstAddressLine": "321 Grant Avenue",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94108",
+        "latitude": 37.790012,
+        "longitude": -122.405544
+      },
+      "starRating": 3.0,
+      "averageReview": 3.826087,
+      "reviewCount": 230,
+      "recommendationPercentage": 78.125,
+      "thumbnailUrl": "/hotels/16000000/15400000/15399300/15399261/5a0d1951_t.jpg",
+      "roomRatePlanDescription": "Standard Room, 1 Full Bed",
+      "ratePlanCode": "207957491",
+      "roomTypeCode": "201582584",
+      "vip": false,
+      "neighborhood": "Financial District",
+      "roomAmenities": [
+        {
+          "id": 2048,
+          "name": "Free Wireless Internet"
+        }
+      ],
+      "roomsLeft": 7,
+      "referenceBasePrice": {
+        "amount": 1835.30,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 301.86,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 2137.16,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 305.31,
+        "currency": "USD"
+      },
+      "rateRuleId": 218606066,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-37": {
+      "id": "15740559",
+      "name": "The Urban",
+      "englishName": "The Urban",
+      "shortDescription": "Located in Downtown San Francisco, this hotel is within a 10-minute walk of Academy of Art University, San Francisco Museum of Modern Art, and TransAmerica Pyramid. Westfield San Francisco Centre and Coit Tower are also within 1 mi (2 km). ",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "507 Bush Street",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94108",
+        "latitude": 37.790325,
+        "longitude": -122.405835
+      },
+      "starRating": 2.5,
+      "averageReview": 3.579096,
+      "reviewCount": 177,
+      "recommendationPercentage": 77.33333,
+      "thumbnailUrl": "/hotels/16000000/15750000/15740600/15740559/8aa93f5d_t.jpg",
+      "roomRatePlanDescription": "Room, 1 Twin Bed, Shared Bathroom (Extended Stay)",
+      "ratePlanCode": "208271012",
+      "roomTypeCode": "201656988",
+      "vip": false,
+      "neighborhood": "",
+      "roomAmenities": [
+        {
+          "id": 2048,
+          "name": "Free Wireless Internet"
+        }
+      ],
+      "roomsLeft": 12,
+      "referenceBasePrice": {
+        "amount": 873.32,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 143.57,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 1016.89,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 145.27,
+        "currency": "USD"
+      },
+      "rateRuleId": 220343118,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-38": {
+      "id": "2681602",
+      "name": "Motel Capri",
+      "englishName": "Motel Capri",
+      "shortDescription": "Located in Cow Hollow, this motel is within 1 mi (2 km) of Fort Mason, Lombard Street, and Ghirardelli Square. Palace of Fine Arts and Pier 39 are also within 2 mi (3 km). ",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "2015 Greenwich St",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94123",
+        "latitude": 37.799376,
+        "longitude": -122.432588
+      },
+      "starRating": 2.0,
+      "averageReview": 3.4460535,
+      "reviewCount": 1381,
+      "recommendationPercentage": 74.170616,
+      "thumbnailUrl": "/hotels/3000000/2690000/2681700/2681602/2681602_22_t.jpg",
+      "roomRatePlanDescription": "Standard Room, 2 Queen Beds - Non-Refundable",
+      "ratePlanCode": "209656698",
+      "roomTypeCode": "201914766",
+      "vip": false,
+      "neighborhood": "",
+      "roomAmenities": [
+        {
+          "id": 2,
+          "name": "Continental Breakfast"
+        },
+        {
+          "id": 128,
+          "name": "Free Parking"
+        },
+        {
+          "id": 1024,
+          "name": "Free High-Speed Internet"
+        }
+      ],
+      "roomsLeft": 5,
+      "referenceBasePrice": {
+        "amount": 1139.49,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 171.60,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 1311.09,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 187.30,
+        "currency": "USD"
+      },
+      "rateRuleId": 231573521,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "totalMandatoryFeesSupplyCurrency": {
+          "amount": 35.00,
+          "currency": "USD"
+        },
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-39": {
+      "id": "2063",
+      "name": "JW Marriott San Francisco Union Square",
+      "englishName": "JW Marriott San Francisco Union Square",
+      "shortDescription": "Located within 2 blocks of 4 theaters, this hotel is 1 block from Union Square and 4 blocks from the Financial District and a half-mile from the Moscone Center and San Francisco Museum of Modern Art.",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "515 Mason Street",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94102",
+        "latitude": 37.788377,
+        "longitude": -122.410148
+      },
+      "starRating": 4.0,
+      "averageReview": 4.3590045,
+      "reviewCount": 883,
+      "recommendationPercentage": 89.07217,
+      "thumbnailUrl": "/hotels/1000000/10000/2100/2063/2063_241_t.jpg",
+      "roomRatePlanDescription": "Room, 2 Queen Beds",
+      "ratePlanCode": "209419351",
+      "roomTypeCode": "200229898",
+      "vip": false,
+      "neighborhood": "",
+      "roomsLeft": 1,
+      "referenceBasePrice": {
+        "amount": 3593.03,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 601.82,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 4194.85,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 599.26,
+        "currency": "USD"
+      },
+      "rateRuleId": 225593722,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-40": {
+      "id": "26225",
+      "name": "Inn at the Opera",
+      "englishName": "Inn at the Opera",
+      "shortDescription": "This San Francisco hotel is located in the performing arts district, across the street from the War Memorial Opera House, 1 block from San Francisco City Hall, and 1 mile from Union Square.",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "333 Fulton St",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94102",
+        "latitude": 37.77894,
+        "longitude": -122.42226
+      },
+      "starRating": 3.5,
+      "averageReview": 4.1486206,
+      "reviewCount": 471,
+      "recommendationPercentage": 89.671364,
+      "thumbnailUrl": "/hotels/1000000/30000/26300/26225/bc98e402_t.jpg",
+      "roomRatePlanDescription": "Junior Suite, 1 Queen Bed",
+      "ratePlanCode": "210252644",
+      "roomTypeCode": "202010516",
+      "vip": false,
+      "neighborhood": "",
+      "roomAmenities": [
+        {
+          "id": 2,
+          "name": "Continental Breakfast"
+        },
+        {
+          "id": 2048,
+          "name": "Free Wireless Internet"
+        }
+      ],
+      "roomsLeft": 1,
+      "referenceBasePrice": {
+        "amount": 1865.60,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 281.01,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 2146.61,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 306.66,
+        "currency": "USD"
+      },
+      "rateRuleId": 230783985,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-41": {
+      "id": "57255",
+      "name": "da Vinci Villa",
+      "englishName": "da Vinci Villa",
+      "shortDescription": "da Vinci Villa is in the Russian Hill neighborhood, 1 mile from Fisherman's Wharf. It’s a 10-minute stroll to the hairpin turns of Lombard Street, and 10 minutes to the boutiques at Ghirardelli Square. For a tour of the famous prison, guests can take an 8-minute cab ride to Alcatraz Cruises.",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "2550 Van Ness Ave",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94109",
+        "latitude": 37.799447,
+        "longitude": -122.424086
+      },
+      "starRating": 3.5,
+      "averageReview": 3.5861015,
+      "reviewCount": 2619,
+      "recommendationPercentage": 71.48399,
+      "thumbnailUrl": "/hotels/1000000/60000/57300/57255/1d3d98d3_t.jpg",
+      "roomRatePlanDescription": "Standard 2 Queen Beds",
+      "ratePlanCode": "206405588",
+      "roomTypeCode": "200099330",
+      "vip": false,
+      "neighborhood": "",
+      "roomsLeft": 7,
+      "referenceBasePrice": {
+        "amount": 1649.70,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 271.28,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 1920.98,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 274.43,
+        "currency": "USD"
+      },
+      "rateRuleId": 230441614,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": true,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-42": {
+      "id": "27629",
+      "name": "Alexis Park Hotel",
+      "englishName": "Alexis Park Hotel",
+      "shortDescription": "Located in Downtown San Francisco, this hotel is within a 10-minute walk of Great American Music Hall, Asian Art Museum of San Francisco, and Louise Davies Symphony Hall. Westfield San Francisco Centre and San Francisco Museum of Modern Art are also within 1 mi (2 km). ",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "825 Polk Street",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94109",
+        "latitude": 37.78447,
+        "longitude": -122.41944
+      },
+      "starRating": 2.0,
+      "averageReview": 3.2791142,
+      "reviewCount": 1039,
+      "recommendationPercentage": 67.06949,
+      "thumbnailUrl": "/hotels/1000000/30000/27700/27629/f67c124e_t.jpg",
+      "roomRatePlanDescription": "Standard Room, 1 King Bed",
+      "ratePlanCode": "209670194",
+      "roomTypeCode": "319509",
+      "vip": false,
+      "neighborhood": "",
+      "roomAmenities": [
+        {
+          "id": 128,
+          "name": "Free Parking"
+        },
+        {
+          "id": 2048,
+          "name": "Free Wireless Internet"
+        }
+      ],
+      "roomsLeft": 2,
+      "referenceBasePrice": {
+        "amount": 1206.41,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 196.02,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 1402.43,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 200.35,
+        "currency": "USD"
+      },
+      "rateRuleId": 228715617,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-43": {
+      "id": "6649235",
+      "name": "Casa Loma Hotel",
+      "englishName": "Casa Loma Hotel",
+      "shortDescription": "Located in Western Addition, this hotel is within a 15-minute walk of Painted Ladies and Louise Davies Symphony Hall. University of San Francisco and Asian Art Museum of San Francisco are also within 2 mi (3 km). ",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "610 Fillmore St",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94117",
+        "latitude": 37.775001,
+        "longitude": -122.430973
+      },
+      "starRating": 2.0,
+      "averageReview": 3.3540716,
+      "reviewCount": 1093,
+      "recommendationPercentage": 75.0,
+      "thumbnailUrl": "/hotels/7000000/6650000/6649300/6649235/e9b4456e_t.jpg",
+      "roomRatePlanDescription": "Standard Room, 1 Queen Bed, Shared Bathroom",
+      "ratePlanCode": "209652673",
+      "roomTypeCode": "200361075",
+      "vip": false,
+      "neighborhood": "",
+      "roomAmenities": [
+        {
+          "id": 2048,
+          "name": "Free Wireless Internet"
+        }
+      ],
+      "roomsLeft": 7,
+      "referenceBasePrice": {
+        "amount": 755.71,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 122.79,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 878.50,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 125.50,
+        "currency": "USD"
+      },
+      "rateRuleId": 221574828,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-44": {
+      "id": "491",
+      "name": "The Park Central San Francisco",
+      "englishName": "The Park Central San Francisco",
+      "shortDescription": "Located in the heart of the South of Market district (SoMa), The Park Central San Francisco is across from Yerba Buena Gardens and close to the San Francisco Museum of Modern Art, the Ferry Building, Moscone Center, Union Square, Financial District, and Chinatown. The area also offers many restaurants and nightlife.",
+      "regionId": 160166,
+      "address": {
+        "firstAddressLine": "50 3rd St",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94103",
+        "latitude": 37.78681,
+        "longitude": -122.40261
+      },
+      "starRating": 4.0,
+      "averageReview": 4.292452,
+      "reviewCount": 7391,
+      "recommendationPercentage": 87.23255,
+      "thumbnailUrl": "/hotels/1000000/10000/500/491/491_364_t.jpg",
+      "roomRatePlanDescription": "Traditional Room, 1 King Bed",
+      "ratePlanCode": "209173599",
+      "roomTypeCode": "200541735",
+      "vip": false,
+      "neighborhood": "South of Market",
+      "roomsLeft": 52,
+      "referenceBasePrice": {
+        "amount": 2613.38,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 437.08,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 3050.46,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 435.78,
+        "currency": "USD"
+      },
+      "rateRuleId": 224205059,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "totalMandatoryFeesSupplyCurrency": {
+          "amount": 312.20,
+          "currency": "USD"
+        },
+        "dailyResortFeePOSCurrency": {
+          "amount": 44.60,
+          "currency": "USD"
+        },
+        "displayType": "DAILY"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-45": {
+      "id": "9382",
+      "name": "Queen Anne Hotel",
+      "englishName": "Queen Anne Hotel",
+      "shortDescription": "This historic, Victorian-style hotel is located in the charming Pacific Heights neighborhood, 10 blocks from Union Square and Nob Hill.",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "1590 Sutter St",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94109",
+        "latitude": 37.787,
+        "longitude": -122.4266
+      },
+      "starRating": 3.0,
+      "averageReview": 4.1981535,
+      "reviewCount": 974,
+      "recommendationPercentage": 86.15385,
+      "thumbnailUrl": "/hotels/1000000/10000/9400/9382/9382_168_t.jpg",
+      "roomRatePlanDescription": "Superior Room, 1 King Bed",
+      "ratePlanCode": "203473163",
+      "roomTypeCode": "200682788",
+      "vip": false,
+      "neighborhood": "",
+      "roomAmenities": [
+        {
+          "id": 2,
+          "name": "Continental Breakfast"
+        },
+        {
+          "id": 1024,
+          "name": "Free High-Speed Internet"
+        }
+      ],
+      "roomsLeft": 1,
+      "referenceBasePrice": {
+        "amount": 2113.51,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 322.46,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 2435.97,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 348.00,
+        "currency": "USD"
+      },
+      "rateRuleId": 205061894,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-46": {
+      "id": "11771",
+      "name": "Hotel Diva",
+      "englishName": "Hotel Diva",
+      "shortDescription": "This downtown San Francisco hotel is surrounded by shopping, restaurants and theaters, only 2 blocks from Union Square, and just a few blocks from Moscone Convention Center, Chinatown and the Embarcadero.",
+      "regionId": 0,
+      "address": {
+        "firstAddressLine": "440 Geary St",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94102",
+        "latitude": 37.78716,
+        "longitude": -122.41049
+      },
+      "starRating": 3.5,
+      "averageReview": 3.8956585,
+      "reviewCount": 2741,
+      "recommendationPercentage": 80.187416,
+      "thumbnailUrl": "/hotels/1000000/20000/11800/11771/11771_76_t.jpg",
+      "roomRatePlanDescription": "Executive Room, 1 King Bed",
+      "ratePlanCode": "207359651",
+      "roomTypeCode": "201473523",
+      "vip": false,
+      "neighborhood": "",
+      "roomsLeft": 8,
+      "referenceBasePrice": {
+        "amount": 2730.40,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 448.99,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 3179.39,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 454.20,
+        "currency": "USD"
+      },
+      "rateRuleId": 227860656,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "totalMandatoryFeesSupplyCurrency": {
+          "amount": 159.60,
+          "currency": "USD"
+        },
+        "dailyResortFeePOSCurrency": {
+          "amount": 22.80,
+          "currency": "USD"
+        },
+        "displayType": "DAILY"
+      },
+      "memberDeal": true,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-47": {
+      "id": "5984",
+      "name": "Comfort Inn by the Bay",
+      "englishName": "Comfort Inn by the Bay",
+      "shortDescription": "This 11-story San Francisco hotel is 3 blocks from a cable-car stop, 6 blocks from Ghirardelli Square and Fisherman's Wharf, and within 2 miles of Union Square and Chinatown.",
+      "regionId": 130032,
+      "address": {
+        "firstAddressLine": "2775 Van Ness Ave",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94109",
+        "latitude": 37.801192,
+        "longitude": -122.425195
+      },
+      "starRating": 2.5,
+      "averageReview": 3.8820584,
+      "reviewCount": 2196,
+      "recommendationPercentage": 86.0587,
+      "thumbnailUrl": "/hotels/1000000/10000/6000/5984/9b8d0f87_t.jpg",
+      "roomRatePlanDescription": "Traditional Room, 1 Queen Bed, No View",
+      "ratePlanCode": "204395368",
+      "roomTypeCode": "200866457",
+      "vip": false,
+      "neighborhood": "Marina District",
+      "roomAmenities": [
+        {
+          "id": 1073742786,
+          "name": "Free Breakfast"
+        },
+        {
+          "id": 2048,
+          "name": "Free Wireless Internet"
+        }
+      ],
+      "roomsLeft": -1,
+      "referenceBasePrice": {
+        "amount": 2043.00,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 336.01,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 2379.01,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 339.86,
+        "currency": "USD"
+      },
+      "rateRuleId": 207912277,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-48": {
+      "id": "1853240",
+      "name": "Fairmont Heritage Place, Ghirardelli Square",
+      "englishName": "Fairmont Heritage Place, Ghirardelli Square",
+      "shortDescription": "This family-friendly San Francisco hotel is located in the historical district, just steps from San Francisco Maritime National Historical Park and Ghirardelli Square. Lombard Street and Pier 39 are also within 15 minutes. ",
+      "regionId": 800128,
+      "address": {
+        "firstAddressLine": "900 N Point Street",
+        "secondAddressLine": "",
+        "city": "San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94109",
+        "latitude": 37.80551,
+        "longitude": -122.42206
+      },
+      "starRating": 5.0,
+      "averageReview": 4.703704,
+      "reviewCount": 189,
+      "recommendationPercentage": 94.79167,
+      "thumbnailUrl": "/hotels/2000000/1860000/1853300/1853240/1853240_105_t.jpg",
+      "roomRatePlanDescription": "One Bedroom Bay View Residence",
+      "ratePlanCode": "209235882",
+      "roomTypeCode": "201317539",
+      "vip": false,
+      "neighborhood": "Fisherman's Wharf",
+      "roomsLeft": 1,
+      "referenceBasePrice": {
+        "amount": 5943.00,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 965.72,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 6908.72,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 986.96,
+        "currency": "USD"
+      },
+      "rateRuleId": 224551716,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    },
+    "hotel-49": {
+      "id": "287665",
+      "name": "Larkspur Landing South San Francisco - An All-Suite Hotel",
+      "englishName": "Larkspur Landing South San Francisco - An All-Suite Hotel",
+      "shortDescription": "This all-suite hotel is conveniently located on a quiet street in an office park in South San Francisco, less than 4 miles from San Francisco International Airport.  \r\n\r\n",
+      "regionId": 800127,
+      "address": {
+        "firstAddressLine": "690 Gateway Blvd",
+        "secondAddressLine": "",
+        "city": "South San Francisco",
+        "provinceCode": "CA",
+        "threeLetterCountryCode": "USA",
+        "postalCode": "94080",
+        "latitude": 37.658668,
+        "longitude": -122.39756
+      },
+      "starRating": 3.0,
+      "averageReview": 4.219031,
+      "reviewCount": 2349,
+      "recommendationPercentage": 89.20087,
+      "thumbnailUrl": "/hotels/1000000/290000/287700/287665/331b5e23_t.jpg",
+      "roomRatePlanDescription": "Studio Suite with Breakfast",
+      "ratePlanCode": "201183660",
+      "roomTypeCode": "200207573",
+      "vip": false,
+      "neighborhood": "San Francisco International Airport (SFO)",
+      "roomAmenities": [
+        {
+          "id": 1024,
+          "name": "Free High-Speed Internet"
+        }
+      ],
+      "roomsLeft": 43,
+      "referenceBasePrice": {
+        "amount": 1635.45,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 188.07,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 1823.52,
+        "currency": "USD"
+      },
+      "checkInDate": "2017-11-08",
+      "checkOutDate": "2017-11-15",
+      "nights": 7,
+      "avgReferencePricePerNight": {
+        "amount": 260.50,
+        "currency": "USD"
+      },
+      "rateRuleId": 225428491,
+      "inventoryType": "MERCHANT",
+      "mandatoryFees": {
+        "displayType": "NONE"
+      },
+      "memberDeal": false,
+      "sourceTypeRestricted": false,
+      "sameDayDRR": false
+    }
+  },
+  "flights": {
+    "flight-0": {
+      "piid": "v5-2ffc9fc94429c83825cd8181f0e6afdd-37-36-1",
+      "productTokens": [
+        "AQogCh4IwaYBEgQxNTA0GJIBILJxKOTbezDh3Hs4UkAAWAEKIAoeCMGmARIEMTUyMxiycSCSASjasHww1rF8OFJAAFgBEgoIARABGAEqAkFTGAEiBAgBEAEoBCgDKAEoAjAC"
+      ],
+      "legIds": [
+        "74c11adec83c899dd857d52def7addf6",
+        "e91010014bd7ac1906f9477e22624a88"
+      ],
+      "referenceBasePrice": {
+        "amount": 109.76,
+        "currency": "USD"
+      },
+      "referenceTaxesAndFees": {
+        "amount": 36.64,
+        "currency": "USD"
+      },
+      "referenceTotalPrice": {
+        "amount": 146.40,
+        "currency": "USD"
+      },
+      "splitTicket": false,
+      "seatsLeft": 3,
+      "bookingSeatCount": 1
+    }
+  },
+  "flightLegs": {
+    "74c11adec83c899dd857d52def7addf6": {
+      "segments": [
+        {
+          "departureAirportCode": "SEA",
+          "arrivalAirportCode": "SFO",
+          "departureCity": "Seattle",
+          "arrivalCity": "San Francisco",
+          "departureDateTime": "2017-11-08T07:00:00.000-08:00",
+          "arrivalDateTime": "2017-11-08T09:05:00.000-08:00",
+          "flightNumber": "1504",
+          "airlineCode": "AS",
+          "bookingCode": " R",
+          "airlineName": "Alaska Airlines",
+          "operatingAirlineCode": "VX",
+          "operatedByAirlineName": "/VIRGIN AMERICA",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
+          "distance": {
+            "unit": "mi",
+            "distance": 679.0
+          },
+          "cabinClass": "coach",
+          "airplaneType": {
+            "code": "319",
+            "description": "Airbus A319"
+          },
+          "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
+        }
+      ],
+      "stops": 0,
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0
+    },
+    "e91010014bd7ac1906f9477e22624a88": {
+      "segments": [
+        {
+          "departureAirportCode": "SFO",
+          "arrivalAirportCode": "SEA",
+          "departureCity": "San Francisco",
+          "arrivalCity": "Seattle",
+          "departureDateTime": "2017-11-15T20:10:00.000-08:00",
+          "arrivalDateTime": "2017-11-15T22:14:00.000-08:00",
+          "flightNumber": "1523",
+          "airlineCode": "AS",
+          "bookingCode": " R",
+          "airlineName": "Alaska Airlines",
+          "operatingAirlineCode": "VX",
+          "operatedByAirlineName": "/VIRGIN AMERICA",
+          "duration": {
+            "minutes": 20,
+            "hours": 2
+          },
+          "elapsedDays": 0,
+          "distance": {
+            "unit": "mi",
+            "distance": 679.0
+          },
+          "cabinClass": "coach",
+          "airplaneType": {
+            "code": "320",
+            "description": "Airbus A320"
+          },
+          "airlineLogoUrl": "/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/AS.gif"
+        }
+      ],
+      "duration": {
+        "minutes": 20,
+        "hours": 2
+      },
+      "elapsedDays": 0,
+      "stops": 0
+    }
+  },
+  "cars": {
+  },
+  "messageInfo": {
+    "transactionGUID": "3da13db1-b48d-41b4-aca4-3105976c0502",
+    "userGUID": "39206f09-1e50-4114-a8c1-39bf121a300d",
+    "tuid": 1296026686
+  }
+}

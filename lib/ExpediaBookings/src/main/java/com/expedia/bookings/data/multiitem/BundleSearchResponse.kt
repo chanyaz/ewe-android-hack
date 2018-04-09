@@ -1,10 +1,8 @@
 package com.expedia.bookings.data.multiitem
 
-import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
-import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageOfferModel
 
 interface BundleSearchResponse {
@@ -23,8 +21,8 @@ interface BundleSearchResponse {
     fun hasErrors(): Boolean
     fun getRatePlanCode(): String?
     fun getRoomTypeCode(): String?
-    val firstError: PackageApiError.Code
+    val firstError: PackageErrorDetails.PackageAPIErrorDetails
     fun getBundleRoomResponse(): List<HotelOffersResponse.HotelRoomResponse>
     fun hasRoomResponseErrors(): Boolean
-    val roomResponseFirstErrorCode: ApiError.Code
+    val roomResponseFirstErrorCode: PackageErrorDetails.ApiErrorDetails
 }
