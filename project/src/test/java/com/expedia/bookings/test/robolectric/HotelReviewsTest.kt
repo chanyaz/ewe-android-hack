@@ -12,6 +12,8 @@ import org.junit.Rule
 import org.junit.Test
 import io.reactivex.Observable
 import com.expedia.bookings.services.TestObserver
+import org.hamcrest.CoreMatchers
+import org.junit.Assert.assertThat
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -23,42 +25,12 @@ class HotelReviewsTest {
         @Rule get
 
     private val HOTEL_ID = "26650"
-    private val NUMBER_FAVOURABLE_REVIEWS: Int = 9
-    private val NUMBER_CRITICAL_REVIEWS: Int = 11
 
     var vm: HotelReviewsAdapterViewModel by Delegates.notNull()
 
     @Before
     fun before() {
         vm = HotelReviewsAdapterViewModel(HOTEL_ID, reviewServicesRule.services!!, "en_US")
-    }
-
-    @Test
-    fun reviewsBySortParam() {
-        val numberOfCriticalReviewsSubscriber = TestObserver<Int>()
-        val numberOfNewestReviewsSubscriber = TestObserver<Int>()
-        val numberOfFavorableReviewsSubscriber = TestObserver<Int>()
-
-        vm.criticalReviewsObservable.take(1).map { it.count() }.subscribe(numberOfCriticalReviewsSubscriber)
-        vm.newestReviewsObservable.take(2).map { it.count() }.subscribe(numberOfNewestReviewsSubscriber)
-        vm.favorableReviewsObservable.take(2).map { it.count() }.subscribe(numberOfFavorableReviewsSubscriber)
-
-        // Fetch reviews by lowest rating first.
-        // Fetch reviews by highest rating twice.
-        Observable.concat(
-                Observable.just(ReviewSort.LOWEST_RATING_FIRST, ReviewSort.HIGHEST_RATING_FIRST, ReviewSort.HIGHEST_RATING_FIRST),
-                Observable.never())
-                .subscribe(vm.reviewsObserver)
-
-        numberOfCriticalReviewsSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
-        numberOfCriticalReviewsSubscriber.assertValueSequence(listOf(NUMBER_CRITICAL_REVIEWS))
-
-        numberOfFavorableReviewsSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
-        numberOfFavorableReviewsSubscriber.assertComplete()
-        numberOfFavorableReviewsSubscriber.assertValueSequence(listOf(NUMBER_FAVOURABLE_REVIEWS, NUMBER_FAVOURABLE_REVIEWS))
-
-        numberOfNewestReviewsSubscriber.awaitTerminalEvent(5, TimeUnit.SECONDS)
-        numberOfNewestReviewsSubscriber.assertNotTerminated()
     }
 
     @Test
@@ -74,6 +46,30 @@ class HotelReviewsTest {
         assertEquals(getExpectedReviewRequestStr(25), recordedRequest2.path)
         val recordedRequest3 = reviewServicesRule.server.takeRequest()
         assertEquals(getExpectedReviewRequestStr(50), recordedRequest3.path)
+    }
+
+    @Test
+    fun testGetReviewSort() {
+        Observable.concat(
+                Observable.just(ReviewSort.LOWEST_RATING_FIRST, ReviewSort.HIGHEST_RATING_FIRST, ReviewSort.NEWEST_REVIEW_FIRST),
+                Observable.never())
+                .subscribe(vm.reviewsObserver)
+
+        var recordedRequest = reviewServicesRule.server.takeRequest()
+        assertThat(recordedRequest.path, CoreMatchers.containsString("RATINGASC"))
+
+        recordedRequest = reviewServicesRule.server.takeRequest()
+        assertThat(recordedRequest.path, CoreMatchers.containsString("RATINGDESC"))
+
+        recordedRequest = reviewServicesRule.server.takeRequest()
+        assertThat(recordedRequest.path, CoreMatchers.containsString("DATEDESCWITHLANGBUCKETS"))
+    }
+
+    @Test
+    fun testStartDownloads() {
+        val testSubscriber = TestObserver<ReviewSort>()
+        vm.reviewsObservable.map { it.first }.subscribe(testSubscriber)
+        testSubscriber.assertValueSet(listOf(ReviewSort.LOWEST_RATING_FIRST, ReviewSort.HIGHEST_RATING_FIRST, ReviewSort.NEWEST_REVIEW_FIRST))
     }
 
     @Test

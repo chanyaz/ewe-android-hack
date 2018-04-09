@@ -66,7 +66,7 @@ class HotelReviewsView(context: Context, attrs: AttributeSet) : FrameLayout(cont
 
     fun endTransition(forward: Boolean) {
         if (forward) {
-            adapter.startDownloads()
+            hotelReviewsAdapterViewModel.startDownloads()
             viewModel.trackReviewPageLoad()
         }
     }

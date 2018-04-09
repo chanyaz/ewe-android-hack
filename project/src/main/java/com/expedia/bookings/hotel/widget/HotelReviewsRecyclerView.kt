@@ -8,17 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelReviewsResponse
-import com.expedia.bookings.hotel.data.TranslatedReview
 import com.expedia.bookings.widget.HotelReviewsLoadingWidget
 import com.expedia.bookings.widget.HotelReviewsSummaryBoxRatingWidget
 import com.expedia.bookings.widget.HotelReviewsSummaryWidget
 import com.expedia.bookings.widget.RecyclerDividerDecoration
-import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelReviewRowViewModel
 import com.expedia.vm.HotelReviewsSummaryBoxRatingViewModel
+import com.expedia.vm.HotelReviewsAdapterViewModel
 import com.expedia.vm.HotelReviewsSummaryViewModel
 import io.reactivex.subjects.BehaviorSubject
-import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 
 class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : RecyclerView(context, attrs) {
@@ -28,7 +26,7 @@ class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : Recycler
         addItemDecoration(RecyclerDividerDecoration(getContext(), 0, 0, 0, 0, 0, resources.getDimensionPixelSize(R.dimen.hotel_review_divider_height), true))
     }
 
-    class HotelReviewsRecyclerAdapter(val isBucketedToUseBoxRating: Boolean) : RecyclerView.Adapter<HotelReviewsViewHolder>() {
+    class HotelReviewsRecyclerAdapter(val isBucketedToUseBoxRating: Boolean, private val viewModel: HotelReviewsAdapterViewModel) : RecyclerView.Adapter<HotelReviewsViewHolder>() {
         val VIEW_TYPE_HEADER = 0
         val VIEW_TYPE_REVIEW = 1
         val VIEW_TYPE_LOADING = 2
@@ -38,17 +36,20 @@ class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : Recycler
 
         var moreReviewsAvailable = false
 
-        val toggleReviewTranslationSubject = PublishSubject.create<String>()
-        val translationUpdatedSubject = endlessObserver<String> { reviewId ->
+        private fun translationUpdated(reviewId: String) {
             val reviewIndex = reviews.indexOfFirst { reviewInList -> reviewInList.reviewId == reviewId }
             if (reviewIndex >= 0) {
                 notifyItemChanged(reviewIndex + 1)
             }
         }
-        var translationMap: HashMap<String, TranslatedReview>? = null
 
         private var reviews: ArrayList<HotelReviewsResponse.Review> = arrayListOf()
         private var reviewsSummary: HotelReviewsResponse.ReviewSummary = HotelReviewsResponse.ReviewSummary()
+
+        init {
+            viewModel.translationUpdatedObservable.subscribe(this::translationUpdated)
+            viewModel.reviewsSummaryObservable.subscribe(this::updateSummary)
+        }
 
         override fun getItemCount(): Int {
             // Summary and loading progress footer should count
@@ -80,10 +81,10 @@ class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : Recycler
                 is HotelReviewRowView -> {
                     val hotelReviewRowViewModel = HotelReviewRowViewModel(holder.itemView.context)
                     hotelReviewRowViewModel.reviewObserver.onNext(reviews[position - 1])
-                    translationMap?.get(reviews[position - 1].reviewId)?.let { translatedReview ->
+                    viewModel.translationMap[reviews[position - 1].reviewId]?.let { translatedReview ->
                         hotelReviewRowViewModel.translatedReviewObserver.onNext(translatedReview)
                     }
-                    hotelReviewRowViewModel.toggleReviewTranslationObservable.subscribe(toggleReviewTranslationSubject)
+                    hotelReviewRowViewModel.toggleReviewTranslationObservable.subscribe(viewModel.toggleReviewTranslationObserver)
                     holder.itemView.bindData(hotelReviewRowViewModel)
                 }
                 is HotelReviewsLoadingWidget -> loadMoreReviews()

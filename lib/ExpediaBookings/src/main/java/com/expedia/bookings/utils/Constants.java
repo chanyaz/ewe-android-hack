@@ -113,4 +113,6 @@ public class Constants {
 	public static final String CARNIVAL_IN_APP_BUTTON1_LABEL = "showButtonTitle";
 	public static final String CARNIVAL_IN_APP_BUTTON2_LABEL = "cancelButtonTitle";
 
+	// Hotel Reviews Page
+	public static final int HOTEL_REVIEWS_PAGE_SIZE = 25;
 }
