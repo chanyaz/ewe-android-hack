@@ -1121,8 +1121,6 @@
     <string name="trips_expand_button_label_cont_desc">旅行拡大ボタン</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">ホテルの確認番号</string>
-    <!-- Passengers Label -->
-    <string name="passengers_label">乗客</string>
     <!-- Booking info label -->
     <string name="booking_info">予約情報</string>
     <!-- Itin flight generic terminal and gate template -->
@@ -1379,6 +1377,8 @@
     <string name="itin_hotel_details_price_summary_heading">料金の概要</string>
     <!--Hotel itin card price summary and rewards heading-->
     <string name="itin_hotel_details_price_summary_rewards_heading">料金と会員プログラム</string>
+    <!--Hotel itin card price summary line item label for room price-->
+    <string name="itin_hotel_details_cost_summary_room_price_text">宿泊料金</string>
     <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">お支払い済みの合計金額 : {amount}</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
@@ -1473,6 +1473,10 @@
     <string name="itin_hotel_manage_booking_total_rooms_text_TEMPLATE">合計 {number} 室</string>
     <!--Hotel itin price and rewards expedia title -->
     <string name="itin_hotel_price_reward_title">料金と会員プログラム</string>
+
+    <!--LX itin redesign-->
+    <!--LX toolbar title template. (e.g. Activity in San Francisco)-->
+    <string name="itin_lx_toolbar_title_TEMPLATE">{location}の現地ツアー</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">旅程をシェアする</string>
@@ -2615,6 +2619,8 @@
     <string name="search_hotel_id_TEMPLATE">ホテル %s</string>
     <!-- Expedia Member Discount for a given property, AB test -->
     <string name="member_pricing">会員価格</string>
+    <!-- Expedia Generic Attach Bundled Savings for a given property, AB test -->
+    <string name="bundled_savings">同時予約割引</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -2743,6 +2749,20 @@
     <string name="hotel_guest_recommend_wonderful_superlative">/5 - とても素晴らしい</string>
     <string name="hotel_guest_recommend_exceptional_superlative">/5 - 最高に素晴らしい</string>
 
+    <!-- Flights Score results -->
+    <!-- Route Happy AB Test: Example: 9/10 - Excellent! -->
+    <string name="flight_score_excellent_superlative_TEMPLATE">{flight_score}/10 - 素晴らしい !</string>
+    <!-- Route Happy AB Test: Example: 8.1/10 - Very Good! -->
+    <string name="flight_score_very_good_superlative_TEMPLATE">{flight_score}/10 - とても良い !</string>
+    <!-- Route Happy AB Test: Example: 7.5/10 - Good! -->
+    <string name="flight_score_good_superlative_TEMPLATE">{flight_score}/10 - 良い !</string>
+    <!-- Route Happy AB Test: Example: 7/10 - Okay! -->
+    <string name="flight_score_okay_superlative_TEMPLATE">{flight_score}/10 - 普通</string>
+    <!-- Route Happy AB Test: Example: 6/10 - Fair! -->
+    <string name="flight_score_fair_superlative_TEMPLATE">{flight_score}/10 - まあまあ</string>
+    <!-- Route Happy AB Test: Example: 5.5/10 - Poor! -->
+    <string name="flight_score_poor_superlative_TEMPLATE">{flight_score}/10 - 不満</string>
+
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
@@ -2831,8 +2851,6 @@
     <!-- All inclusive Options -->
     <string name="filter_all_inclusive">オールインクルーシブ\nオプション</string>
 
-
-
     <!-- User Reviews list strings -->
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">最近</string>
@@ -2843,6 +2861,13 @@
     <!-- Read more of the review -->
     <!-- Special case for 0 reviews -->
     <string name="no_reviews">口コミなし</string>
+
+    <!-- Text for button to translate a hotel review into user's language -->
+    <string name="user_review_see_translation">翻訳を見る</string>
+    <!-- Text for button while the review is being translated -->
+    <string name="user_review_translation_loading">読み込み中…</string>
+    <!-- Text for button to see original, untranslated review text -->
+    <string name="user_review_see_original">原文を見る</string>
 
     <!-- HOtel V2A number of reviews -->
     <plurals name="hotel_number_of_reviews">
@@ -3141,6 +3166,9 @@
     <string name="info_label_privacy_policy">プライバシー ポリシー</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nAll rights reserved.</string>
+    <!-- Expedia Group Copyright information -->
+    <!-- © Copyright 2012-2018 Expedia Group All rights reserved. -->
+    <string name="expedia_group_copyright_TEMPLATE">© Copyright 2012-{year} Expedia, Inc.\nAll rights reserved.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">オープン ソース ソフトウェアのライセンス承諾</string>
     <!-- String for error message if open source software license page fails to open -->
@@ -4050,11 +4078,6 @@
     <!-- Accessibility label for flight minutes duration template e.g.42 minutes -->
     <string name="flight_min_duration_template_cont_desc">{m} 分</string>
 
-    <!-- Label for Flight seats left urgency message. Example: 4 left at this price -->
-    <plurals name="flight_seats_left_urgency_message_TEMPLATE">
-        <item quantity="one">この料金の座席は残り {seats} 席</item>
-        <item quantity="other">この料金の座席は残り {seats} 席</item>
-    </plurals>
     <!-- Flight seats left urgency message on checkout e.g. We have 4 seats left at this price -->
     <plurals name="flight_seats_left_urgency_message_on_checkout_TEMPLATE">
         <item quantity="one">当サイトでこの料金の座席は残り {seats} 席</item>
@@ -5044,11 +5067,15 @@
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">通常料金 {activity_original_price} ({ticket_type})。割引適用後の料金 {activity_price} ({ticket_type})</string>
     <string name="hotel_2x_points_search_title">エクスペディア会員プログラム ポイント 2 倍 !</string>
     <string name="hotel_2x_points_search_content">アプリで予約するだけで、ポイント 2 倍獲得 !</string>
+    <!-- Generic attach slim card title on hotel search result to show: You have earned bundled savings on hotels-->
+    <string name="generic_attach_slim_card_title">ホテルも同時予約がお得</string>
+    <!-- Generic attach slim card content on hotel search result to show: Your purchase unlocked savings for your trip -->
+    <string name="generic_attach_slim_card_content">旅行の他のアイテムにも同時予約割引がご利用いただけます</string>
     <!-- Accessibility announcement for when home screen navigation tab is selected. -->
     <string name="tab_selected_announcement">タブ選択済み</string>
 
-    <!-- Recent search - Date searched On string e.g. as of Nov 10 -->
-    <string name="flight_recent_search_date_searched_TEMPLATE">{searchdate} 現在</string>
+    <string name="flight_recent_search_per_person">1 名あたり</string>
+
     <!-- Recent search header string -->
     <string name="flight_recent_search_label">最近の検索履歴</string>
 
