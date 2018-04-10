@@ -597,9 +597,9 @@
     <!-- Adult age label on flight checkout summary card-->
     <string name="flight_checkout_adult_age_label">18+ anni</string>
     <!-- Youth age label on flight checkout traveler summary card -->
-    <string name="flight_checkout_youth_age_label">12-17 anni</string>
+    <string name="flight_checkout_youth_age_label">12–17 anni</string>
     <!-- Children age label on flight checkout traveler summary card-->
-    <string name="flight_checkout_children_age_label">2-11 anni</string>
+    <string name="flight_checkout_children_age_label">2–11 anni</string>
     <!-- Infant age label on flight checkout traveler summary card-->
     <string name="flight_checkout_infant_age_label">Meno di 2 anni</string>
     <!-- Text informing guest that main travler is checking into hotel-->
@@ -1121,8 +1121,6 @@
     <string name="trips_expand_button_label_cont_desc">Pulsante per espandere l\&apos;itinerario</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">Codice di conferma dell\&apos;agenzia</string>
-    <!-- Passengers Label -->
-    <string name="passengers_label">Passeggeri</string>
     <!-- Booking info label -->
     <string name="booking_info">Dati prenotazione</string>
     <!-- Itin flight generic terminal and gate template -->
@@ -1379,6 +1377,8 @@
     <string name="itin_hotel_details_price_summary_heading">Riepilogo del prezzo</string>
     <!--Hotel itin card price summary and rewards heading-->
     <string name="itin_hotel_details_price_summary_rewards_heading">Tariffe e programma fedeltà</string>
+    <!--Hotel itin card price summary line item label for room price-->
+    <string name="itin_hotel_details_cost_summary_room_price_text">Prezzo camera</string>
     <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">Importo pagato: {amount}</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
@@ -1473,6 +1473,10 @@
     <string name="itin_hotel_manage_booking_total_rooms_text_TEMPLATE">{number} camere in tutto</string>
     <!--Hotel itin price and rewards expedia title -->
     <string name="itin_hotel_price_reward_title">Tariffe e programma fedeltà</string>
+
+    <!--LX itin redesign-->
+    <!--LX toolbar title template. (e.g. Activity in San Francisco)-->
+    <string name="itin_lx_toolbar_title_TEMPLATE">Attività a {location}</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Condividi itinerario</string>
@@ -2615,6 +2619,8 @@
     <string name="search_hotel_id_TEMPLATE">Hotel %s</string>
     <!-- Expedia Member Discount for a given property, AB test -->
     <string name="member_pricing">Tariffa per soli iscritti</string>
+    <!-- Expedia Generic Attach Bundled Savings for a given property, AB test -->
+    <string name="bundled_savings">Sconto accumulato</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -2743,6 +2749,20 @@
     <string name="hotel_guest_recommend_wonderful_superlative">su 5 - fantastico!</string>
     <string name="hotel_guest_recommend_exceptional_superlative">su 5 - eccezionale!</string>
 
+    <!-- Flights Score results -->
+    <!-- Route Happy AB Test: Example: 9/10 - Excellent! -->
+    <string name="flight_score_excellent_superlative_TEMPLATE">{flight_score} su 10 - eccellente!</string>
+    <!-- Route Happy AB Test: Example: 8.1/10 - Very Good! -->
+    <string name="flight_score_very_good_superlative_TEMPLATE">{flight_score} su 10 - molto buono!</string>
+    <!-- Route Happy AB Test: Example: 7.5/10 - Good! -->
+    <string name="flight_score_good_superlative_TEMPLATE">{flight_score} su 10 - buono!</string>
+    <!-- Route Happy AB Test: Example: 7/10 - Okay! -->
+    <string name="flight_score_okay_superlative_TEMPLATE">{flight_score} su 10 - soddisfacente</string>
+    <!-- Route Happy AB Test: Example: 6/10 - Fair! -->
+    <string name="flight_score_fair_superlative_TEMPLATE">{flight_score} su 10 - discreto</string>
+    <!-- Route Happy AB Test: Example: 5.5/10 - Poor! -->
+    <string name="flight_score_poor_superlative_TEMPLATE">{flight_score} su 10 - deludente</string>
+
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
@@ -2831,8 +2851,6 @@
     <!-- All inclusive Options -->
     <string name="filter_all_inclusive">Opzioni all inclusive</string>
 
-
-
     <!-- User Reviews list strings -->
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">Recenti</string>
@@ -2843,6 +2861,13 @@
     <!-- Read more of the review -->
     <!-- Special case for 0 reviews -->
     <string name="no_reviews">Nessuna recensione</string>
+
+    <!-- Text for button to translate a hotel review into user's language -->
+    <string name="user_review_see_translation">Visualizza traduzione</string>
+    <!-- Text for button while the review is being translated -->
+    <string name="user_review_translation_loading">Caricamento in corso…</string>
+    <!-- Text for button to see original, untranslated review text -->
+    <string name="user_review_see_original">Visualizza originale</string>
 
     <!-- HOtel V2A number of reviews -->
     <plurals name="hotel_number_of_reviews">
@@ -3141,6 +3166,9 @@
     <string name="info_label_privacy_policy">Informativa sulla Privacy</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nTutti i diritti riservati.</string>
+    <!-- Expedia Group Copyright information -->
+    <!-- © Copyright 2012-2018 Expedia Group All rights reserved. -->
+    <string name="expedia_group_copyright_TEMPLATE">© Copyright 2012-{year} Expedia Group\nTutti i diritti riservati.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">Consulta le licenze del software open source</string>
     <!-- String for error message if open source software license page fails to open -->
@@ -3778,17 +3806,17 @@
     <string name="lob_not_supported_error_message">Siamo spiacenti, la prenotazione di {lob} non è al momento disponibile nella località in cui ti trovi.</string>
 
     <!-- Adult age label on rail search -->
-    <string name="rail_adult_age_label">(26-59 anni)</string>
+    <string name="rail_adult_age_label">(26–59 anni)</string>
     <!-- Adult age label desc on rail search -->
     <string name="rail_adult_age_label_desc">(da 26 a 59 anni)</string>
 
     <!-- Children age label on rail search -->
-    <string name="rail_children_age_label">(0-15 anni)</string>
+    <string name="rail_children_age_label">(0–15 anni)</string>
     <!-- Children age label on rail search -->
     <string name="rail_children_age_label_desc">(da 0 a 15 anni)</string>
 
     <!-- Youth age label on rail search -->
-    <string name="rail_youth_age_label">(16-25 anni)</string>
+    <string name="rail_youth_age_label">(16–25 anni)</string>
 
     <!-- Youth age label on rail search -->
     <string name="rail_youth_age_label_desc">(da 16 a 25 anni)</string>
@@ -3797,7 +3825,7 @@
     <string name="rail_senior_age_label">(60+ anni)</string>
 
     <!-- Children age label on hotel search -->
-    <string name="children_age_label">(0-17 anni)</string>
+    <string name="children_age_label">(0–17 anni)</string>
 
     <!-- Children age label content description -->
     <string name="children_age_label_cont_desc">(da 0 a 17 anni)</string>
@@ -3805,11 +3833,11 @@
     <!-- Adult age label on flight search -->
     <string name="flight_adult_age_label">(18+ anni)</string>
     <!-- Youth age label on flight search -->
-    <string name="flight_youth_age_label">(12-17 anni)</string>
+    <string name="flight_youth_age_label">(12–17 anni)</string>
     <!-- Youth age label desc on flight search -->
     <string name="flight_youth_age_label_desc">(da 12 a 17 anni)</string>
     <!-- Children age label on flight search -->
-    <string name="flight_children_age_label">(2-11 anni)</string>
+    <string name="flight_children_age_label">(2–11 anni)</string>
     <!-- Children age label desc on flight search -->
     <string name="flight_children_age_label_desc">(da 2 a 11 anni)</string>
 
@@ -4050,11 +4078,6 @@
     <!-- Accessibility label for flight minutes duration template e.g.42 minutes -->
     <string name="flight_min_duration_template_cont_desc">{m} minuti</string>
 
-    <!-- Label for Flight seats left urgency message. Example: 4 left at this price -->
-    <plurals name="flight_seats_left_urgency_message_TEMPLATE">
-        <item quantity="one">Solo {seats} posto rimasto a questo prezzo</item>
-        <item quantity="other">Solo {seats} posti rimasti a questo prezzo</item>
-    </plurals>
     <!-- Flight seats left urgency message on checkout e.g. We have 4 seats left at this price -->
     <plurals name="flight_seats_left_urgency_message_on_checkout_TEMPLATE">
         <item quantity="one">Ci resta a disposizione {seats} posto a questo prezzo</item>
@@ -5044,11 +5067,15 @@
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">Prezzo intero {ticket_type} {activity_original_price}. Prezzo scontato {ticket_type} {activity_price}</string>
     <string name="hotel_2x_points_search_title">Ottieni il doppio dei punti Expedia Rewards!</string>
     <string name="hotel_2x_points_search_content">Ti basta prenotare con l\&apos;app per guadagnare il doppio dei punti!</string>
+    <!-- Generic attach slim card title on hotel search result to show: You have earned bundled savings on hotels-->
+    <string name="generic_attach_slim_card_title">Hai ottenuto uno sconto sull\&apos;hotel</string>
+    <!-- Generic attach slim card content on hotel search result to show: Your purchase unlocked savings for your trip -->
+    <string name="generic_attach_slim_card_content">Grazie a questo acquisto potrai risparmiare sul tuo viaggio</string>
     <!-- Accessibility announcement for when home screen navigation tab is selected. -->
     <string name="tab_selected_announcement">Scheda selezionata</string>
 
-    <!-- Recent search - Date searched On string e.g. as of Nov 10 -->
-    <string name="flight_recent_search_date_searched_TEMPLATE">come in data {searchdate}</string>
+    <string name="flight_recent_search_per_person">a persona</string>
+
     <!-- Recent search header string -->
     <string name="flight_recent_search_label">Ricerche recenti</string>
 

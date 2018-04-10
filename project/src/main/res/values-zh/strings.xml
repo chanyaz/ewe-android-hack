@@ -597,9 +597,9 @@
     <!-- Adult age label on flight checkout summary card-->
     <string name="flight_checkout_adult_age_label">18+</string>
     <!-- Youth age label on flight checkout traveler summary card -->
-    <string name="flight_checkout_youth_age_label">12-17</string>
+    <string name="flight_checkout_youth_age_label">12–17</string>
     <!-- Children age label on flight checkout traveler summary card-->
-    <string name="flight_checkout_children_age_label">2-11</string>
+    <string name="flight_checkout_children_age_label">2–11</string>
     <!-- Infant age label on flight checkout traveler summary card-->
     <string name="flight_checkout_infant_age_label">2 岁以下</string>
     <!-- Text informing guest that main travler is checking into hotel-->
@@ -1121,8 +1121,6 @@
     <string name="trips_expand_button_label_cont_desc">展开行程按钮</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">酒店确认代码</string>
-    <!-- Passengers Label -->
-    <string name="passengers_label">乘客</string>
     <!-- Booking info label -->
     <string name="booking_info">预订信息</string>
     <!-- Itin flight generic terminal and gate template -->
@@ -1379,6 +1377,8 @@
     <string name="itin_hotel_details_price_summary_heading">价格摘要</string>
     <!--Hotel itin card price summary and rewards heading-->
     <string name="itin_hotel_details_price_summary_rewards_heading">定价和会员计划</string>
+    <!--Hotel itin card price summary line item label for room price-->
+    <string name="itin_hotel_details_cost_summary_room_price_text">客房价格</string>
     <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">{amount} 总额已付</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
@@ -1473,6 +1473,10 @@
     <string name="itin_hotel_manage_booking_total_rooms_text_TEMPLATE">共 {number} 间房</string>
     <!--Hotel itin price and rewards expedia title -->
     <string name="itin_hotel_price_reward_title">定价和会员计划</string>
+
+    <!--LX itin redesign-->
+    <!--LX toolbar title template. (e.g. Activity in San Francisco)-->
+    <string name="itin_lx_toolbar_title_TEMPLATE">{location}旅游活动</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">分享行程</string>
@@ -2615,6 +2619,8 @@
     <string name="search_hotel_id_TEMPLATE">酒店%s</string>
     <!-- Expedia Member Discount for a given property, AB test -->
     <string name="member_pricing">会员价</string>
+    <!-- Expedia Generic Attach Bundled Savings for a given property, AB test -->
+    <string name="bundled_savings">打包预订折扣</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -2743,6 +2749,20 @@
     <string name="hotel_guest_recommend_wonderful_superlative">/5 - 卓越！</string>
     <string name="hotel_guest_recommend_exceptional_superlative">/5 - 超赞！</string>
 
+    <!-- Flights Score results -->
+    <!-- Route Happy AB Test: Example: 9/10 - Excellent! -->
+    <string name="flight_score_excellent_superlative_TEMPLATE">{flight_score}/10 - 极好！</string>
+    <!-- Route Happy AB Test: Example: 8.1/10 - Very Good! -->
+    <string name="flight_score_very_good_superlative_TEMPLATE">{flight_score}/10 - 很好！</string>
+    <!-- Route Happy AB Test: Example: 7.5/10 - Good! -->
+    <string name="flight_score_good_superlative_TEMPLATE">{flight_score}/10 - 不错！</string>
+    <!-- Route Happy AB Test: Example: 7/10 - Okay! -->
+    <string name="flight_score_okay_superlative_TEMPLATE">{flight_score}/10 - 一般！</string>
+    <!-- Route Happy AB Test: Example: 6/10 - Fair! -->
+    <string name="flight_score_fair_superlative_TEMPLATE">{flight_score}/10 - 尚可！</string>
+    <!-- Route Happy AB Test: Example: 5.5/10 - Poor! -->
+    <string name="flight_score_poor_superlative_TEMPLATE">{flight_score}/10 - 很差！</string>
+
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
@@ -2831,8 +2851,6 @@
     <!-- All inclusive Options -->
     <string name="filter_all_inclusive">全包选项</string>
 
-
-
     <!-- User Reviews list strings -->
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">最近</string>
@@ -2843,6 +2861,13 @@
     <!-- Read more of the review -->
     <!-- Special case for 0 reviews -->
     <string name="no_reviews">没有点评</string>
+
+    <!-- Text for button to translate a hotel review into user's language -->
+    <string name="user_review_see_translation">查看翻译</string>
+    <!-- Text for button while the review is being translated -->
+    <string name="user_review_translation_loading">正在加载…</string>
+    <!-- Text for button to see original, untranslated review text -->
+    <string name="user_review_see_original">查看原文</string>
 
     <!-- HOtel V2A number of reviews -->
     <plurals name="hotel_number_of_reviews">
@@ -3141,6 +3166,9 @@
     <string name="info_label_privacy_policy">隐私政策</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© 版权所有 2012-{year} {brand}, Inc.\n保留所有权利。</string>
+    <!-- Expedia Group Copyright information -->
+    <!-- © Copyright 2012-2018 Expedia Group All rights reserved. -->
+    <string name="expedia_group_copyright_TEMPLATE">© 版权所有 2012–{year} Expedia 集团\n保留所有权利。</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">确认开源软件许可</string>
     <!-- String for error message if open source software license page fails to open -->
@@ -3783,12 +3811,12 @@
     <string name="rail_adult_age_label_desc">（26 至 59 岁）</string>
 
     <!-- Children age label on rail search -->
-    <string name="rail_children_age_label">（0-15 岁）</string>
+    <string name="rail_children_age_label">（0–15 岁）</string>
     <!-- Children age label on rail search -->
     <string name="rail_children_age_label_desc">（0 至 15 岁）</string>
 
     <!-- Youth age label on rail search -->
-    <string name="rail_youth_age_label">（16-25 岁）</string>
+    <string name="rail_youth_age_label">（16–25 岁）</string>
 
     <!-- Youth age label on rail search -->
     <string name="rail_youth_age_label_desc">（16 至 25 岁）</string>
@@ -3797,7 +3825,7 @@
     <string name="rail_senior_age_label">（60 岁以上）</string>
 
     <!-- Children age label on hotel search -->
-    <string name="children_age_label">（0-17 岁）</string>
+    <string name="children_age_label">（0–17 岁）</string>
 
     <!-- Children age label content description -->
     <string name="children_age_label_cont_desc">（0 至 17 岁）</string>
@@ -3805,11 +3833,11 @@
     <!-- Adult age label on flight search -->
     <string name="flight_adult_age_label">（18 岁以上）</string>
     <!-- Youth age label on flight search -->
-    <string name="flight_youth_age_label">（12-17 岁）</string>
+    <string name="flight_youth_age_label">（12–17 岁）</string>
     <!-- Youth age label desc on flight search -->
     <string name="flight_youth_age_label_desc">（12 至 17 岁）</string>
     <!-- Children age label on flight search -->
-    <string name="flight_children_age_label">（2-11 岁）</string>
+    <string name="flight_children_age_label">（2–11 岁）</string>
     <!-- Children age label desc on flight search -->
     <string name="flight_children_age_label_desc">（2 至 11 岁）</string>
 
@@ -4050,11 +4078,6 @@
     <!-- Accessibility label for flight minutes duration template e.g.42 minutes -->
     <string name="flight_min_duration_template_cont_desc">{m} 分钟</string>
 
-    <!-- Label for Flight seats left urgency message. Example: 4 left at this price -->
-    <plurals name="flight_seats_left_urgency_message_TEMPLATE">
-        <item quantity="one">此价格的机票还剩 {seats} 张</item>
-        <item quantity="other">此价格的机票还剩 {seats} 张</item>
-    </plurals>
     <!-- Flight seats left urgency message on checkout e.g. We have 4 seats left at this price -->
     <plurals name="flight_seats_left_urgency_message_on_checkout_TEMPLATE">
         <item quantity="one">此价格还剩 {seats} 个座位</item>
@@ -5044,11 +5067,15 @@
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">原价{ticket_type} {activity_original_price}。折扣价{ticket_type} {activity_price}</string>
     <string name="hotel_2x_points_search_title">累积双倍 Expedia Rewards 积分！</string>
     <string name="hotel_2x_points_search_content">因为在 App 中预订，您将累积双倍积分！</string>
+    <!-- Generic attach slim card title on hotel search result to show: You have earned bundled savings on hotels-->
+    <string name="generic_attach_slim_card_title">您预订酒店已获得打包预订折扣</string>
+    <!-- Generic attach slim card content on hotel search result to show: Your purchase unlocked savings for your trip -->
+    <string name="generic_attach_slim_card_content">因为您已预订，现在可享其他旅行优惠</string>
     <!-- Accessibility announcement for when home screen navigation tab is selected. -->
     <string name="tab_selected_announcement">已选中该页</string>
 
-    <!-- Recent search - Date searched On string e.g. as of Nov 10 -->
-    <string name="flight_recent_search_date_searched_TEMPLATE">截至 {searchdate}</string>
+    <string name="flight_recent_search_per_person">每人</string>
+
     <!-- Recent search header string -->
     <string name="flight_recent_search_label">近期搜索</string>
 
