@@ -12,7 +12,6 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
-import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.AnimationListenerAdapter
 import com.expedia.bookings.data.ApiError
@@ -32,6 +31,7 @@ import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.dialog.DialogFactory
+import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.extensions.setAccessibilityHoverFocus
 import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.extensions.subscribeTextAndVisibility
@@ -324,36 +324,23 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.sharedInstance.packageParams, resources.getInteger(R.integer.calendar_max_days_package_stay), resources.getInteger(R.integer.max_calendar_selectable_date_range)))
         val hotelOffersObservable = packageServices.hotelInfo(hotelId)
 
-        ObservableOld.zip(packageHotelOffersObservable.doOnError {}, hotelOffersObservable.doOnError {},
+        ObservableOld.zip(packageHotelOffersObservable, hotelOffersObservable,
                 { packageHotelOffers, hotelOffersResponse ->
-                    if (packageHotelOffers.hasRoomResponseErrors()) {
-                        handleRoomResponseErrors(packageHotelOffers.roomResponseFirstErrorCode)
-                        return@zip
-                    }
-                    val hotelOffers = HotelOffersResponse.convertToHotelOffersResponse(hotelOffersResponse, packageHotelOffers.getBundleRoomResponse(), packageHotelOffers.getHotelCheckInDate(), packageHotelOffers.getHotelCheckOutDate())
-
-                    PackageResponseUtils.saveHotelOfferResponse(context, hotelOffers, PackageResponseUtils.RECENT_PACKAGE_HOTEL_OFFER_FILE)
-                    loadingOverlay.animate(false)
-                    detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(hotelOffers)
-                    detailPresenter.hotelMapView.viewmodel.offersObserver.onNext(hotelOffers)
-                    show(detailPresenter)
-                    detailPresenter.showDefault()
-                    PackagesPageUsableData.HOTEL_INFOSITE.pageUsableData.markAllViewsLoaded()
-                    reviewsView.viewModel.resetTracking()
+                    Pair(packageHotelOffers, hotelOffersResponse)
                 }
-        ).subscribe(makeErrorSubscriber(true))
+        ).subscribe(makeResponseObserver())
     }
 
     private fun handleRoomResponseErrors(errorCode: ApiError.Code) {
-        val activity = (context as AppCompatActivity)
+        val activity = (context as Activity)
         val resultIntent = Intent()
         resultIntent.putExtra(Constants.PACKAGE_HOTEL_OFFERS_ERROR, errorCode.name)
         activity.setResult(Activity.RESULT_OK, resultIntent)
         activity.finish()
     }
 
-    private fun makeErrorSubscriber(showErrorDialog: Boolean): DisposableObserver<Any> {
-        return object : DisposableObserver<Any>() {
+    private fun makeResponseObserver(): DisposableObserver<Pair<BundleHotelRoomResponse, HotelOffersResponse>> {
+        return object : DisposableObserver<Pair<BundleHotelRoomResponse, HotelOffersResponse>>() {
             override fun onError(throwable: Throwable) {
                 if (throwable is HttpException) {
                     try {
@@ -363,12 +350,32 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                     } catch (e: Exception) {
                         handleRoomResponseErrors(ApiError.Code.PACKAGE_SEARCH_ERROR)
                     }
-                } else if (showErrorDialog) {
+                } else {
                     handleError(throwable)
                 }
             }
 
-            override fun onNext(t: Any) {
+            override fun onNext(t: Pair<BundleHotelRoomResponse, HotelOffersResponse>) {
+                val (packageHotelOffers, hotelOffersResponse) = t
+                if (packageHotelOffers.hasRoomResponseErrors()) {
+                    handleRoomResponseErrors(packageHotelOffers.roomResponseFirstErrorCode)
+                    return
+                }
+                if (hotelOffersResponse.hasErrors()) {
+                    handleRoomResponseErrors(hotelOffersResponse.firstError?.errorCode
+                            ?: ApiError.Code.PACKAGE_SEARCH_ERROR)
+                    return
+                }
+                val hotelOffers = HotelOffersResponse.convertToHotelOffersResponse(hotelOffersResponse, packageHotelOffers.getBundleRoomResponse(), packageHotelOffers.getHotelCheckInDate(), packageHotelOffers.getHotelCheckOutDate())
+
+                PackageResponseUtils.saveHotelOfferResponse(context, hotelOffers, PackageResponseUtils.RECENT_PACKAGE_HOTEL_OFFER_FILE)
+                loadingOverlay.animate(false)
+                detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(hotelOffers)
+                detailPresenter.hotelMapView.viewmodel.offersObserver.onNext(hotelOffers)
+                show(detailPresenter)
+                detailPresenter.showDefault()
+                PackagesPageUsableData.HOTEL_INFOSITE.pageUsableData.markAllViewsLoaded()
+                reviewsView.viewModel.resetTracking()
             }
 
             override fun onComplete() {
