@@ -58,7 +58,7 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
 
     open fun onPageFinished(url: String) {
         preventLoadingOfDivClass(HEADER_CLASS)
-        preventLoadingOfDivClass(FACEBOOK_LOGIN_CLASS)
+//        preventLoadingOfDivClass(FACEBOOK_LOGIN_CLASS)
         toggleLoading(false)
     }
 
