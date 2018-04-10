@@ -18,7 +18,7 @@ import com.expedia.bookings.rail.widget.RailSearchPagerAdapter
 import com.expedia.bookings.rail.widget.RailSearchWidget
 import com.expedia.bookings.rail.widget.RailTravelerWidgetV2
 import com.expedia.bookings.services.SuggestionV4Services
-import com.expedia.bookings.shared.widget.SuggestionAdapter
+import com.expedia.bookings.rail.widget.RailSuggestionAdapter
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -41,8 +41,8 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
         return Ui.getToolbarSize(context)
     }
 
-    private lateinit var originSuggestionAdapter: SuggestionAdapter
-    private lateinit var destinationSuggestionAdapter: SuggestionAdapter
+    private lateinit var originRailSuggestionAdapter: RailSuggestionAdapter
+    private lateinit var destinationRailSuggestionAdapter: RailSuggestionAdapter
     private val searchWidget by bindView<RailSearchWidget>(R.id.rail_search_widget)
 
     override val tabs: PositionObservableTabLayout by bindView(R.id.tabs)
@@ -61,7 +61,7 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
     }
 
     override fun getSuggestionAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder> {
-        return if (isCustomerSelectingOrigin) originSuggestionAdapter else destinationSuggestionAdapter
+        return if (isCustomerSelectingOrigin) originRailSuggestionAdapter else destinationRailSuggestionAdapter
     }
 
     override fun getSearchViewModel(): BaseSearchViewModel {
@@ -93,8 +93,8 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
         // we dont want to do current location now - TODO future enhancement
         originSuggestionViewModel = RailSuggestionAdapterViewModel(context, suggestionServices, false, null)
         destinationSuggestionViewModel = RailSuggestionAdapterViewModel(context, suggestionServices, true, null)
-        originSuggestionAdapter = SuggestionAdapter(originSuggestionViewModel)
-        destinationSuggestionAdapter = SuggestionAdapter(destinationSuggestionViewModel)
+        originRailSuggestionAdapter = RailSuggestionAdapter(originSuggestionViewModel)
+        destinationRailSuggestionAdapter = RailSuggestionAdapter(destinationSuggestionViewModel)
 
         vm.formattedOriginObservable.subscribeText(originCardView)
         vm.formattedDestinationObservable.subscribeText(destinationCardView)

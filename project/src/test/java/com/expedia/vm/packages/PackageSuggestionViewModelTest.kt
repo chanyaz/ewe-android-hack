@@ -43,7 +43,7 @@ class PackageSuggestionViewModelTest {
         val suggestion = basicSuggestBuilder().child(true).iconType(SuggestionV4.IconType.HISTORY_ICON)
                 .regionShortName("Midway").build()
         assertNotNull(suggestion.regionNames.shortName, "FAILURE: Required for test to be valid.")
-        val titleObserver = TestObserver<String>()
+        val titleObserver = TestObserver<CharSequence>()
         destVM.titleObservable.subscribe(titleObserver)
 
         destVM.bind(suggestion)
@@ -55,7 +55,7 @@ class PackageSuggestionViewModelTest {
         val suggestion = basicSuggestBuilder().child(false).iconType(SuggestionV4.IconType.HISTORY_ICON)
                 .regionDisplayName("Title").build()
         assertNotNull(suggestion.regionNames.shortName, "FAILURE: Required for test to be valid.")
-        val titleObserver = TestObserver<String>()
+        val titleObserver = TestObserver<CharSequence>()
         destVM.titleObservable.subscribe(titleObserver)
 
         destVM.bind(suggestion)

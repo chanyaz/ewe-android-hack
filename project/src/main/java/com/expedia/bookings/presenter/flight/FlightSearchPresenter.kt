@@ -25,10 +25,10 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.extensions.setAccessibilityHoverFocus
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
+import com.expedia.bookings.flights.widget.adapter.FlightsSuggestionAdapter
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
-import com.expedia.bookings.shared.widget.SuggestionAdapter
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AccessibilityUtil.setFocusForView
@@ -285,8 +285,8 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         originSuggestionViewModel = FlightSuggestionAdapterViewModel(getContext(), suggestionServices, false, CurrentLocationObservable.create(getContext()))
         destinationSuggestionViewModel = FlightSuggestionAdapterViewModel(getContext(), suggestionServices, true, null)
 
-        originSuggestionAdapter = SuggestionAdapter(originSuggestionViewModel)
-        destinationSuggestionAdapter = SuggestionAdapter(destinationSuggestionViewModel)
+        originSuggestionAdapter = FlightsSuggestionAdapter(originSuggestionViewModel)
+        destinationSuggestionAdapter = FlightsSuggestionAdapter(destinationSuggestionViewModel)
 
         setContentDescriptionToolbarTabs(context, tabs)
 
@@ -297,8 +297,8 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         }
     }
 
-    private lateinit var originSuggestionAdapter: SuggestionAdapter
-    private lateinit var destinationSuggestionAdapter: SuggestionAdapter
+    private lateinit var originSuggestionAdapter: FlightsSuggestionAdapter
+    private lateinit var destinationSuggestionAdapter: FlightsSuggestionAdapter
     override val delayBeforeShowingDestinationSuggestions = 5L
     override val waitForOtherSuggestionListeners = 5L
 

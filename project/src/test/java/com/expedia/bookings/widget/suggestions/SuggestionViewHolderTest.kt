@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.shared.vm.SuggestionViewModel
+import com.expedia.bookings.rail.vm.RailSuggestionViewModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.testutils.builder.TestSuggestionV4Builder
 import org.junit.Before
@@ -28,7 +28,7 @@ class SuggestionViewHolderTest {
 
     @Test
     fun testRecentChildSuggestion() {
-        val testVM = SuggestionViewModel(context)
+        val testVM = RailSuggestionViewModel(context)
 
         testViewHolder = SuggestionViewHolder(rootView, testVM)
         testVM.isChildObservable.onNext(false)
@@ -39,7 +39,7 @@ class SuggestionViewHolderTest {
 
     @Test
     fun testChildSuggestion() {
-        val testVM = SuggestionViewModel(context)
+        val testVM = RailSuggestionViewModel(context)
 
         testViewHolder = SuggestionViewHolder(rootView, testVM)
 
@@ -51,7 +51,7 @@ class SuggestionViewHolderTest {
 
     @Test
     fun testSuggestionIconTypeContentDescription() {
-        val testVM = SuggestionViewModel(context)
+        val testVM = RailSuggestionViewModel(context)
 
         testViewHolder = SuggestionViewHolder(rootView, testVM)
 

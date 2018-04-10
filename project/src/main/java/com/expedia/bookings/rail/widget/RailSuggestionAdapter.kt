@@ -1,13 +1,13 @@
-package com.expedia.bookings.shared.widget
+package com.expedia.bookings.rail.widget
 
 import android.content.Context
 import com.expedia.bookings.shared.vm.BaseSuggestionViewModel
-import com.expedia.bookings.shared.vm.SuggestionViewModel
+import com.expedia.bookings.rail.vm.RailSuggestionViewModel
 import com.expedia.bookings.widget.suggestions.BaseSuggestionAdapter
 import com.expedia.vm.BaseSuggestionAdapterViewModel
 
-class SuggestionAdapter(viewModel: BaseSuggestionAdapterViewModel) : BaseSuggestionAdapter(viewModel) {
+class RailSuggestionAdapter(viewModel: BaseSuggestionAdapterViewModel) : BaseSuggestionAdapter(viewModel) {
     override fun getSuggestionViewModel(context: Context): BaseSuggestionViewModel {
-        return SuggestionViewModel(context)
+        return RailSuggestionViewModel(context)
     }
 }

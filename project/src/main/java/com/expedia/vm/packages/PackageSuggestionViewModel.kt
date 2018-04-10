@@ -29,13 +29,11 @@ class PackageSuggestionViewModel(private val isOrigin: Boolean, context: Context
     }
 
     override fun getIcon(): Int {
-        if (suggestion.isHistoryItem) {
-            return R.drawable.recents
-        } else if (suggestion.iconType == SuggestionV4.IconType.CURRENT_LOCATION_ICON) {
-            return R.drawable.ic_suggest_current_location
-        } else if (isOrigin) {
-            return R.drawable.airport_suggest
+        when {
+            suggestion.isHistoryItem -> return R.drawable.recents
+            suggestion.iconType == SuggestionV4.IconType.CURRENT_LOCATION_ICON -> return R.drawable.ic_suggest_current_location
+            isOrigin -> return R.drawable.airport_suggest
+            else -> return R.drawable.search_type_icon
         }
-        return R.drawable.search_type_icon
     }
 }

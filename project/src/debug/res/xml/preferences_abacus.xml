@@ -337,6 +337,14 @@
             android:key="25527"
             android:summary="%s"
             android:title="Flights Recent Search - 25527" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="25639"
+            android:summary="%s"
+            android:title="Content Hightlight In TypeAhead - 25639" />
     </PreferenceCategory>
 
     <PreferenceCategory

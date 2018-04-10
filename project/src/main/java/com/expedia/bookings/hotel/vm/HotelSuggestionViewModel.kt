@@ -31,20 +31,13 @@ open class HotelSuggestionViewModel(context: Context) : BaseSuggestionViewModel(
     }
 
     override fun getIcon(): Int {
-        if (suggestion.isHistoryItem) {
-            return R.drawable.search_type_icon
-        } else if (suggestion.isRecentSearchItem) {
-            return R.drawable.recents
-        } else if (suggestion.iconType == SuggestionV4.IconType.CURRENT_LOCATION_ICON) {
-            return R.drawable.ic_suggest_current_location
-        } else if (suggestion.iconType == SuggestionV4.IconType.MAGNIFYING_GLASS_ICON) {
-            return R.drawable.google_search
-        } else if (suggestion.type == "HOTEL") {
-            return R.drawable.hotel_suggest
-        } else if (suggestion.type == "AIRPORT") {
-            return R.drawable.airport_suggest
-        } else {
-            return R.drawable.search_type_icon
+        return when {
+            suggestion.isHistoryItem -> R.drawable.search_type_icon
+            suggestion.isRecentSearchItem -> R.drawable.recents
+            suggestion.iconType == SuggestionV4.IconType.MAGNIFYING_GLASS_ICON -> R.drawable.google_search
+            suggestion.type == "HOTEL" -> R.drawable.hotel_suggest
+            suggestion.type == "AIRPORT" -> R.drawable.airport_suggest
+            else -> super.getIcon()
         }
     }
 }

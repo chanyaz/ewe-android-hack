@@ -5715,6 +5715,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsGreedySearchCall);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsAPIKongEndPoint);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFLightLoadingStateV1);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsContentHighlightInTypeahead);
 		s.track();
 	}
 

@@ -2,6 +2,7 @@ package com.expedia.bookings.shared.vm
 
 import android.content.Context
 import android.support.annotation.VisibleForTesting
+import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.travelgraph.SearchInfo
 import com.expedia.bookings.text.HtmlCompat
@@ -12,7 +13,7 @@ import io.reactivex.subjects.PublishSubject
 abstract class BaseSuggestionViewModel(val context: Context) {
 
     // Outputs
-    val titleObservable = BehaviorSubject.create<String>()
+    val titleObservable = BehaviorSubject.create<CharSequence>()
     val subtitleObservable = BehaviorSubject.create<String>()
     val isChildObservable = BehaviorSubject.create<Boolean>()
     val iconObservable = BehaviorSubject.create<Int>()
@@ -23,9 +24,8 @@ abstract class BaseSuggestionViewModel(val context: Context) {
     protected lateinit var suggestion: SuggestionV4
     protected var searchInfo: SearchInfo? = null
 
-    protected abstract fun getTitle(): String
+    protected abstract fun getTitle(): CharSequence
     protected abstract fun getSubTitle(): String
-    protected abstract fun getIcon(): Int
 
     fun bind(suggestion: SuggestionV4) {
         this.suggestion = suggestion
@@ -36,6 +36,14 @@ abstract class BaseSuggestionViewModel(val context: Context) {
         isChildObservable.onNext(isChild(suggestion) && !suggestion.isHistoryItem)
         iconObservable.onNext(getIcon())
         iconContentDescriptionObservable.onNext(getIconContentDescription())
+    }
+
+    open fun getIcon(): Int {
+        return when {
+            suggestion.isHistoryItem -> R.drawable.recents
+            suggestion.iconType == SuggestionV4.IconType.CURRENT_LOCATION_ICON -> R.drawable.ic_suggest_current_location
+            else -> R.drawable.search_type_icon
+        }
     }
 
     fun bind(searchInfo: SearchInfo) {
