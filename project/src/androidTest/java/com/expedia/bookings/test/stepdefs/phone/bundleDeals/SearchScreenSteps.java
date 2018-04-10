@@ -44,6 +44,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.isFocusable;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -445,5 +446,10 @@ public class SearchScreenSteps {
 	@Then("^Validate that FHC WebView screen is displayed$")
 	public void validateFHCPackageWebview() {
 		PackageScreen.webView().check(matches(isDisplayed()));
+	}
+
+	@Then("^Validate content description of hotel results description header$")
+	public void validateContentDescriptionOfHSRHeader() {
+		HotelResultsScreen.hotelResultsDescHeader().check(matches(withContentDescription("50 Results   Button")));
 	}
 }
