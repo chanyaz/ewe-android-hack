@@ -33,8 +33,8 @@ class FlightOutboundPresenter(context: Context, attrs: AttributeSet) : AbstractM
             resultsPresenter.setLoadingState()
         }
         flightOfferViewModel.outboundResultsObservable.subscribe(resultsPresenter.resultsViewModel.flightResultsObservable)
-        overviewPresenter.vm.selectedFlightClickedSubject.subscribe(flightOfferViewModel.confirmedOutboundFlightSelection)
-        overviewPresenter.vm.selectedFlightLegSubject.subscribe(flightOfferViewModel.outboundSelected)
+        detailsPresenter.vm.selectedFlightClickedSubject.subscribe(flightOfferViewModel.confirmedOutboundFlightSelection)
+        detailsPresenter.vm.selectedFlightLegSubject.subscribe(flightOfferViewModel.outboundSelected)
     }
 
     override fun isOutboundResultsPresenter(): Boolean {

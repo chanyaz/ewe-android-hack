@@ -8,15 +8,8 @@ import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.Button
-import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.R
-import com.expedia.bookings.presenter.Presenter
-import com.expedia.bookings.text.HtmlCompat
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.BasicEconomyToolTipView
-import com.expedia.bookings.widget.FlightSegmentBreakdownView
-import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.extensions.setRightDrawable
 import com.expedia.bookings.extensions.subscribeContentDescription
 import com.expedia.bookings.extensions.subscribeOnClick
@@ -24,6 +17,13 @@ import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.extensions.subscribeTextAndVisibilityInvisible
 import com.expedia.bookings.extensions.subscribeVisibility
+import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.text.HtmlCompat
+import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.BasicEconomyToolTipView
+import com.expedia.bookings.widget.FlightSegmentBreakdownView
+import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.AbstractFlightOverviewViewModel
 import com.expedia.vm.FlightSegmentBreakdown
@@ -31,7 +31,7 @@ import com.expedia.vm.FlightSegmentBreakdownViewModel
 import com.expedia.vm.flights.BasicEconomyTooltipViewModel
 import io.reactivex.subjects.PublishSubject
 
-class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presenter(context, attrs) {
+class FlightDetailsPresenter(context: Context, attrs: AttributeSet?) : Presenter(context, attrs) {
 
     val bundlePriceTextView: TextView by bindView(R.id.bundle_price)
     val bundlePriceLabelTextView: TextView by bindView(R.id.bundle_price_label)

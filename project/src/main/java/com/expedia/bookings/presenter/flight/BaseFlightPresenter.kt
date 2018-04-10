@@ -21,7 +21,7 @@ import com.expedia.bookings.extensions.setFocusForView
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
-import com.expedia.bookings.presenter.shared.FlightOverviewPresenter
+import com.expedia.bookings.presenter.shared.FlightDetailsPresenter
 import com.expedia.bookings.presenter.shared.FlightResultsListViewPresenter
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
@@ -107,9 +107,9 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         presenter
     }
 
-    val overviewPresenter: FlightOverviewPresenter by lazy {
+    val detailsPresenter: FlightDetailsPresenter by lazy {
         val viewStub = findViewById<ViewStub>(R.id.overview_stub)
-        val presenter = viewStub.inflate() as FlightOverviewPresenter
+        val presenter = viewStub.inflate() as FlightDetailsPresenter
         presenter.vm = makeFlightOverviewModel()
         presenter.baggageFeeShowSubject.subscribe { url ->
             baggageFeeInfoWebView.viewModel.webViewURLObservable.onNext(url)
@@ -168,7 +168,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
             toolbarViewModel.refreshToolBar.onNext(forward)
             viewBundleSetVisibility(forward)
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
-            overviewPresenter.visibility = if (forward) View.GONE else View.VISIBLE
+            detailsPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             baggageFeeInfoWebView.visibility = View.GONE
             paymentFeeInfoWebView.visibility = View.GONE
             resultsPresenter.recyclerView.isEnabled = true
@@ -178,7 +178,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         }
     }
 
-    open class OverviewTransition(override val presenter: BaseFlightPresenter) : ScaleTransition(presenter, FlightResultsListViewPresenter::class.java, FlightOverviewPresenter::class.java) {
+    open class OverviewTransition(override val presenter: BaseFlightPresenter) : ScaleTransition(presenter, FlightResultsListViewPresenter::class.java, FlightDetailsPresenter::class.java) {
         @CallSuper override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             // Disable filter button and recycler view clicks while transitioning to overview screen.
@@ -200,12 +200,12 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
 
     open val overviewTransition = object : OverviewTransition(this) {}
 
-    private val baggageFeeTransition = object : Transition(FlightOverviewPresenter::class.java, BaggageFeeInfoWebView::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
+    private val baggageFeeTransition = object : Transition(FlightDetailsPresenter::class.java, BaggageFeeInfoWebView::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             toolbar.visibility = if (forward) View.GONE else View.VISIBLE
             viewBundleSetVisibility(false)
-            overviewPresenter.visibility = if (!forward) View.VISIBLE else View.GONE
+            detailsPresenter.visibility = if (!forward) View.VISIBLE else View.GONE
             paymentFeeInfoWebView.visibility = View.GONE
             baggageFeeInfoWebView.visibility = if (!forward) View.GONE else View.VISIBLE
             if (forward) {
@@ -216,11 +216,11 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         }
     }
 
-    private val paymentFeeTransition = object : Transition(FlightOverviewPresenter::class.java, PaymentFeeInfoWebView::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
+    private val paymentFeeTransition = object : Transition(FlightDetailsPresenter::class.java, PaymentFeeInfoWebView::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             toolbar.visibility = if (forward) View.GONE else View.VISIBLE
-            overviewPresenter.visibility = if (!forward) View.VISIBLE else View.GONE
+            detailsPresenter.visibility = if (!forward) View.VISIBLE else View.GONE
             baggageFeeInfoWebView.visibility = View.GONE
             paymentFeeInfoWebView.visibility = if (!forward) View.GONE else View.VISIBLE
             AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar)
@@ -263,8 +263,8 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
 
     val selectedFlightResults = object : DisposableObserver<FlightLeg>() {
         override fun onNext(flight: FlightLeg) {
-            show(overviewPresenter)
-            overviewPresenter.vm.selectedFlightLegSubject.onNext(flight)
+            show(detailsPresenter)
+            detailsPresenter.vm.selectedFlightLegSubject.onNext(flight)
             trackFlightOverviewLoad(flight)
         }
 

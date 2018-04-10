@@ -27,7 +27,7 @@ import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.presenter.flight.BaseFlightPresenter
-import com.expedia.bookings.presenter.shared.FlightOverviewPresenter
+import com.expedia.bookings.presenter.shared.FlightDetailsPresenter
 import com.expedia.bookings.presenter.shared.FlightResultsListViewPresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
@@ -146,24 +146,24 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
             resultsPresenter.outboundFlightSelectedSubject.onNext(Db.sharedInstance.packageSelectedOutboundFlight)
         }
         val numTravelers = Db.sharedInstance.packageParams.guests
-        overviewPresenter.vm.selectedFlightLegSubject.subscribe { selectedFlight ->
+        detailsPresenter.vm.selectedFlightLegSubject.subscribe { selectedFlight ->
             if (selectedFlight.outbound) {
                 PackagesPageUsableData.FLIGHT_OUTBOUND_DETAILS.pageUsableData.markPageLoadStarted()
             } else {
                 PackagesPageUsableData.FLIGHT_INBOUND_DETAILS.pageUsableData.markPageLoadStarted()
             }
 
-            overviewPresenter.paymentFeesMayApplyTextView.setOnClickListener {
+            detailsPresenter.paymentFeesMayApplyTextView.setOnClickListener {
                 if (!selectedFlight.airlineMessageModel?.airlineFeeLink.isNullOrBlank()) {
-                    overviewPresenter.showPaymentFeesObservable.onNext(true)
+                    detailsPresenter.showPaymentFeesObservable.onNext(true)
                 } else {
-                    overviewPresenter.paymentFeesMayApplyTextView.background = null
-                    overviewPresenter.showPaymentFeesObservable.onNext(false)
+                    detailsPresenter.paymentFeesMayApplyTextView.background = null
+                    detailsPresenter.showPaymentFeesObservable.onNext(false)
                 }
             }
         }
-        overviewPresenter.vm.numberOfTravelers.onNext(numTravelers)
-        overviewPresenter.vm.selectedFlightClickedSubject.subscribe(flightOverviewSelected)
+        detailsPresenter.vm.numberOfTravelers.onNext(numTravelers)
+        detailsPresenter.vm.selectedFlightClickedSubject.subscribe(flightOverviewSelected)
         val destinationOrOrigin = if (isOutboundResultsPresenter()) Db.sharedInstance.packageParams.destination else Db.sharedInstance.packageParams.origin
         toolbarViewModel.isOutboundSearch.onNext(isOutboundResultsPresenter())
         toolbarViewModel.regionNames.onNext(Optional(destinationOrOrigin?.regionNames))
@@ -175,7 +175,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
             bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
             bundleSlidingWidget.bundlePriceFooter.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
         }
-        overviewPresenter.vm.obFeeDetailsUrlObservable.subscribe(paymentFeeInfoWebView.viewModel.webViewURLObservable)
+        detailsPresenter.vm.obFeeDetailsUrlObservable.subscribe(paymentFeeInfoWebView.viewModel.webViewURLObservable)
         Db.sharedInstance.packageParams.flightLegList = allFlights
         trackFlightResultsLoad()
         if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
@@ -247,7 +247,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         addDefaultTransition(backFlowDefaultTransition)
         addTransition(backFlowOverviewTransition)
         show(resultsPresenter)
-        show(overviewPresenter)
+        show(detailsPresenter)
     }
 
     override fun isOutboundResultsPresenter(): Boolean = Db.sharedInstance.packageParams?.isOutboundSearch(isMidAPIEnabled(context)) ?: false
@@ -281,15 +281,15 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
             toolbarViewModel.refreshToolBar.onNext(forward)
             filter.visibility = View.GONE
             resultsPresenter.visibility = View.INVISIBLE
-            overviewPresenter.visibility = View.VISIBLE
+            detailsPresenter.visibility = View.VISIBLE
         }
     }
 
-    private val backFlowOverviewTransition = object : Transition(FlightResultsListViewPresenter::class.java, FlightOverviewPresenter::class.java) {
+    private val backFlowOverviewTransition = object : Transition(FlightResultsListViewPresenter::class.java, FlightDetailsPresenter::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             toolbarViewModel.refreshToolBar.onNext(!forward)
-            overviewPresenter.visibility = if (forward) View.VISIBLE else View.INVISIBLE
+            detailsPresenter.visibility = if (forward) View.VISIBLE else View.INVISIBLE
             resultsPresenter.visibility = if (forward) View.INVISIBLE else View.VISIBLE
             viewBundleSetVisibility(!forward)
             if (!forward) {

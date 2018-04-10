@@ -198,7 +198,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
 
         if (isByotEnabled) {
-            presenter.overviewPresenter.vm.selectedFlightClickedSubject.subscribe {
+            presenter.detailsPresenter.vm.selectedFlightClickedSubject.subscribe {
                 searchTrackingBuilder.markSearchClicked()
                 searchTrackingBuilder.searchParams(Db.getFlightSearchParams())
             }
@@ -282,8 +282,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                     presenter.viewModel.splitTicketBaggageFeesLinksObservable.onNext(baggageFeesTextWithColoredClickableLinks)
                 }).subscribe()
 
-        inboundPresenter.overviewPresenter.vm.selectedFlightClickedSubject.subscribe(presenter.flightSummary.inboundFlightWidget.viewModel.flight)
-        outBoundPresenter.overviewPresenter.vm.selectedFlightClickedSubject.subscribe(presenter.flightSummary.outboundFlightWidget.viewModel.flight)
+        inboundPresenter.detailsPresenter.vm.selectedFlightClickedSubject.subscribe(presenter.flightSummary.inboundFlightWidget.viewModel.flight)
+        outBoundPresenter.detailsPresenter.vm.selectedFlightClickedSubject.subscribe(presenter.flightSummary.outboundFlightWidget.viewModel.flight)
 
         searchViewModel.searchParamsObservable.map { it.arrivalAirport }
                 .subscribe(presenter.flightSummary.outboundFlightWidget.viewModel.suggestion)

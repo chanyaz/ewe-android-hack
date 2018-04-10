@@ -82,7 +82,7 @@ class AbstractMaterialFlightResultsPresenterTest {
         createSystemUnderTest(isOutboundPresenter = true)
         sut.resultsPresenter.flightSelectedSubject.onNext(createFlightLeg("leg0"))
 
-        assertEquals(com.expedia.bookings.presenter.shared.FlightOverviewPresenter::class.java.name, sut.currentState)
+        assertEquals(com.expedia.bookings.presenter.shared.FlightDetailsPresenter::class.java.name, sut.currentState)
     }
 
     @Test
@@ -102,7 +102,7 @@ class AbstractMaterialFlightResultsPresenterTest {
         createSystemUnderTest(false)
         sut.flightOfferViewModel.outboundSelected.onNext(createFlightLeg("leg0"))
 
-        assertEquals(View.GONE, sut.overviewPresenter.paymentFeesMayApplyTextView.visibility)
+        assertEquals(View.GONE, sut.detailsPresenter.paymentFeesMayApplyTextView.visibility)
     }
 
     @Test
@@ -111,7 +111,7 @@ class AbstractMaterialFlightResultsPresenterTest {
         sut.flightOfferViewModel.outboundSelected.onNext(createFlightLeg("leg0"))
         sut.flightOfferViewModel.inboundSelected.onNext(createFlightLeg("leg0"))
 
-        assertEquals(View.GONE, sut.overviewPresenter.paymentFeesMayApplyTextView.visibility)
+        assertEquals(View.GONE, sut.detailsPresenter.paymentFeesMayApplyTextView.visibility)
     }
 
     @Test

@@ -193,62 +193,62 @@ class FlightInboundPresenterTest {
     @Test
     fun validateBaggageFeeAndSelectFlightButton() {
         invokeSetupComplete()
-        assertEquals(View.VISIBLE, flightInboundPresenter.overviewPresenter.selectFlightButton.visibility)
-        assertTrue(flightInboundPresenter.overviewPresenter.selectFlightButton.isEnabled)
-        assertEquals("Select this flight", flightInboundPresenter.overviewPresenter.selectFlightButton.text)
+        assertEquals(View.VISIBLE, flightInboundPresenter.detailsPresenter.selectFlightButton.visibility)
+        assertTrue(flightInboundPresenter.detailsPresenter.selectFlightButton.isEnabled)
+        assertEquals("Select this flight", flightInboundPresenter.detailsPresenter.selectFlightButton.text)
 
-        assertEquals(View.VISIBLE, flightInboundPresenter.overviewPresenter.showBaggageFeesButton.visibility)
-        assertTrue(flightInboundPresenter.overviewPresenter.showBaggageFeesButton.isEnabled)
-        assertEquals("Baggage fee information", flightInboundPresenter.overviewPresenter.showBaggageFeesButton.text)
+        assertEquals(View.VISIBLE, flightInboundPresenter.detailsPresenter.showBaggageFeesButton.visibility)
+        assertTrue(flightInboundPresenter.detailsPresenter.showBaggageFeesButton.isEnabled)
+        assertEquals("Baggage fee information", flightInboundPresenter.detailsPresenter.showBaggageFeesButton.text)
     }
 
     @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testFlightUrgencyMessage() {
         val flightLeg = setupFlightLeg()
 
-        flightInboundPresenter.overviewPresenter.urgencyMessagingText
-        val urgencyTextView = flightInboundPresenter.overviewPresenter.findViewById<View>(R.id.flight_overview_urgency_messaging)
-        flightInboundPresenter.overviewPresenter.vm.numberOfTravelers.onNext(1)
+        flightInboundPresenter.detailsPresenter.urgencyMessagingText
+        val urgencyTextView = flightInboundPresenter.detailsPresenter.findViewById<View>(R.id.flight_overview_urgency_messaging)
+        flightInboundPresenter.detailsPresenter.vm.numberOfTravelers.onNext(1)
         flightLeg.packageOfferModel.urgencyMessage.ticketsLeft = 1
         flightLeg.flightSegments = ArrayList<FlightLeg.FlightSegment>()
         flightLeg.flightSegments.add(createFlightSegment("San Francisco", "SFO", "Honolulu", "HNL", 1, 34))
         flightLeg.flightSegments.add(createFlightSegment("Honolulu", "HNL", "Tokyo", "NRT", 1, 34))
-        flightInboundPresenter.overviewPresenter.vm.selectedFlightLegSubject.onNext(flightLeg)
-        assertEquals("1 seat left, $646.80", flightInboundPresenter.overviewPresenter.vm.urgencyMessagingSubject.value)
+        flightInboundPresenter.detailsPresenter.vm.selectedFlightLegSubject.onNext(flightLeg)
+        assertEquals("1 seat left, $646.80", flightInboundPresenter.detailsPresenter.vm.urgencyMessagingSubject.value)
         assertEquals(View.VISIBLE, urgencyTextView.visibility)
 
-        flightInboundPresenter.overviewPresenter.vm.numberOfTravelers.onNext(3)
+        flightInboundPresenter.detailsPresenter.vm.numberOfTravelers.onNext(3)
         flightLeg.packageOfferModel.urgencyMessage.ticketsLeft = 2
-        flightInboundPresenter.overviewPresenter.vm.selectedFlightLegSubject.onNext(flightLeg)
-        assertEquals("2 seats left, $646.80 per person", flightInboundPresenter.overviewPresenter.vm.urgencyMessagingSubject.value)
+        flightInboundPresenter.detailsPresenter.vm.selectedFlightLegSubject.onNext(flightLeg)
+        assertEquals("2 seats left, $646.80 per person", flightInboundPresenter.detailsPresenter.vm.urgencyMessagingSubject.value)
         assertEquals(View.VISIBLE, urgencyTextView.visibility)
 
         flightLeg.packageOfferModel.urgencyMessage.ticketsLeft = 6
-        flightInboundPresenter.overviewPresenter.vm.selectedFlightLegSubject.onNext(flightLeg)
-        assertEquals("$646.80 per person", flightInboundPresenter.overviewPresenter.vm.urgencyMessagingSubject.value)
+        flightInboundPresenter.detailsPresenter.vm.selectedFlightLegSubject.onNext(flightLeg)
+        assertEquals("$646.80 per person", flightInboundPresenter.detailsPresenter.vm.urgencyMessagingSubject.value)
         assertEquals(View.VISIBLE, urgencyTextView.visibility)
 
         flightLeg.packageOfferModel.urgencyMessage.ticketsLeft = 0
-        flightInboundPresenter.overviewPresenter.vm.selectedFlightLegSubject.onNext(flightLeg)
-        assertEquals("$646.80 per person", flightInboundPresenter.overviewPresenter.vm.urgencyMessagingSubject.value)
+        flightInboundPresenter.detailsPresenter.vm.selectedFlightLegSubject.onNext(flightLeg)
+        assertEquals("$646.80 per person", flightInboundPresenter.detailsPresenter.vm.urgencyMessagingSubject.value)
         assertEquals(View.VISIBLE, urgencyTextView.visibility)
 
-        flightInboundPresenter.overviewPresenter.vm.numberOfTravelers.onNext(1)
+        flightInboundPresenter.detailsPresenter.vm.numberOfTravelers.onNext(1)
         flightLeg.packageOfferModel.urgencyMessage.ticketsLeft = 3
-        flightInboundPresenter.overviewPresenter.vm.selectedFlightLegSubject.onNext(flightLeg)
-        assertEquals("3 seats left, $646.80", flightInboundPresenter.overviewPresenter.vm.urgencyMessagingSubject.value)
+        flightInboundPresenter.detailsPresenter.vm.selectedFlightLegSubject.onNext(flightLeg)
+        assertEquals("3 seats left, $646.80", flightInboundPresenter.detailsPresenter.vm.urgencyMessagingSubject.value)
         assertEquals(View.VISIBLE, urgencyTextView.visibility)
 
-        flightInboundPresenter.overviewPresenter.vm.numberOfTravelers.onNext(3)
+        flightInboundPresenter.detailsPresenter.vm.numberOfTravelers.onNext(3)
         flightLeg.packageOfferModel.urgencyMessage.ticketsLeft = 2
-        flightInboundPresenter.overviewPresenter.vm.selectedFlightLegSubject.onNext(flightLeg)
-        assertEquals("2 seats left, $646.80 per person", flightInboundPresenter.overviewPresenter.vm.urgencyMessagingSubject.value)
+        flightInboundPresenter.detailsPresenter.vm.selectedFlightLegSubject.onNext(flightLeg)
+        assertEquals("2 seats left, $646.80 per person", flightInboundPresenter.detailsPresenter.vm.urgencyMessagingSubject.value)
         assertEquals(View.VISIBLE, urgencyTextView.visibility)
 
-        flightInboundPresenter.overviewPresenter.vm.numberOfTravelers.onNext(3)
+        flightInboundPresenter.detailsPresenter.vm.numberOfTravelers.onNext(3)
         flightLeg.packageOfferModel.urgencyMessage.ticketsLeft = 6
-        flightInboundPresenter.overviewPresenter.vm.selectedFlightLegSubject.onNext(flightLeg)
-        assertEquals("$646.80 per person", flightInboundPresenter.overviewPresenter.vm.urgencyMessagingSubject.value)
+        flightInboundPresenter.detailsPresenter.vm.selectedFlightLegSubject.onNext(flightLeg)
+        assertEquals("$646.80 per person", flightInboundPresenter.detailsPresenter.vm.urgencyMessagingSubject.value)
         assertEquals(View.VISIBLE, urgencyTextView.visibility)
     }
 
@@ -257,21 +257,21 @@ class FlightInboundPresenterTest {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsUrgencyMessaging, 1)
         val flightLeg = setupFlightLeg()
 
-        flightInboundPresenter.overviewPresenter.urgencyMessagingText
-        val urgencyTextView = flightInboundPresenter.overviewPresenter.findViewById<View>(R.id.flight_overview_urgency_messaging)
-        flightInboundPresenter.overviewPresenter.vm.numberOfTravelers.onNext(1)
+        flightInboundPresenter.detailsPresenter.urgencyMessagingText
+        val urgencyTextView = flightInboundPresenter.detailsPresenter.findViewById<View>(R.id.flight_overview_urgency_messaging)
+        flightInboundPresenter.detailsPresenter.vm.numberOfTravelers.onNext(1)
         flightLeg.packageOfferModel.urgencyMessage.ticketsLeft = 1
         flightLeg.flightSegments = ArrayList<FlightLeg.FlightSegment>()
         flightLeg.flightSegments.add(createFlightSegment("Honolulu", "HNL", "Tokyo", "NRT", 1, 34))
-        flightInboundPresenter.overviewPresenter.vm.selectedFlightLegSubject.onNext(flightLeg)
-        assertEquals("$646.80", flightInboundPresenter.overviewPresenter.vm.urgencyMessagingSubject.value)
+        flightInboundPresenter.detailsPresenter.vm.selectedFlightLegSubject.onNext(flightLeg)
+        assertEquals("$646.80", flightInboundPresenter.detailsPresenter.vm.urgencyMessagingSubject.value)
         assertEquals(View.VISIBLE, urgencyTextView.visibility)
     }
 
     @Test
     fun testPaymentFeeMayApplyVisibility() {
         invokeSetupComplete()
-        assertEquals(View.GONE, flightInboundPresenter.overviewPresenter.paymentFeesMayApplyTextView.visibility)
+        assertEquals(View.GONE, flightInboundPresenter.detailsPresenter.paymentFeesMayApplyTextView.visibility)
     }
 
     private fun createFlightSegment(departureCity: String, departureAirport: String, arrivalCity: String, arrivalAirport: String, layoverHrs: Int, layoverMins: Int): FlightLeg.FlightSegment {
@@ -358,7 +358,7 @@ class FlightInboundPresenterTest {
         Db.setFlightSearchParams(flightSearchParams)
         val flightLegs = ArrayList<FlightLeg>()
         flightInboundPresenter.resultsPresenter.resultsViewModel.flightResultsObservable.onNext(flightLegs)
-        flightInboundPresenter.overviewPresenter.vm.numberOfTravelers.subscribe(travellerCountSubscriber)
+        flightInboundPresenter.detailsPresenter.vm.numberOfTravelers.subscribe(travellerCountSubscriber)
     }
 
     private fun invokeSetupComplete() {

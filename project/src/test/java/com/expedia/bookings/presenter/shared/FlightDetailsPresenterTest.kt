@@ -6,6 +6,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -14,23 +15,22 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
 import java.util.ArrayList
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
 @RunWith(RobolectricRunner::class)
-class FlightOverviewPresenterTest {
+class FlightDetailsPresenterTest {
 
     val context = RuntimeEnvironment.application
     val BAGGAGE_FEES_URL_PATH = "BaggageFees"
 
-    lateinit var sut: FlightOverviewPresenter
+    lateinit var sut: FlightDetailsPresenter
     lateinit var flightLeg: FlightLeg
 
     @Before
     fun setup() {
-        sut = LayoutInflater.from(context).inflate(R.layout.test_flight_overview_presenter, null) as FlightOverviewPresenter
+        sut = LayoutInflater.from(context).inflate(R.layout.test_flight_overview_presenter, null) as FlightDetailsPresenter
         sut.vm = FlightOverviewViewModel(context)
     }
 

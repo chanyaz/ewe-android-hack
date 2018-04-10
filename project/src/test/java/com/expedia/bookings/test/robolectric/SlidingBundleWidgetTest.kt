@@ -216,7 +216,7 @@ class SlidingBundleWidgetTest {
         setPackageResponseOutboundFlight()
 
         packageFlightPresenter = getFlightPresneter()
-        packageFlightPresenter.overviewPresenter.vm.selectedFlightLegSubject.onNext(flightResponse.getFlightLegs()[0])
+        packageFlightPresenter.detailsPresenter.vm.selectedFlightLegSubject.onNext(flightResponse.getFlightLegs()[0])
 
         assertEquals(packageFlightPresenter.bundleSlidingWidget.bundleOverViewWidget.outboundFlightWidget.travelInfoText.alpha, 1f)
         assertEquals(packageFlightPresenter.bundleSlidingWidget.bundleOverViewWidget.outboundFlightWidget.flightCardText.alpha, 1f)

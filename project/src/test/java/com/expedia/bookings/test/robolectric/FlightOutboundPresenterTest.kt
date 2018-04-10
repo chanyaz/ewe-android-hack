@@ -80,7 +80,7 @@ class FlightOutboundPresenterTest {
     @Test
     fun testPaymentFeeMayApplyVisibility() {
         invokeSetupComplete()
-        assertEquals(View.GONE, flightOutboundPresenter.overviewPresenter.paymentFeesMayApplyTextView.visibility)
+        assertEquals(View.GONE, flightOutboundPresenter.detailsPresenter.paymentFeesMayApplyTextView.visibility)
     }
 
     private fun invokeSetupComplete() {

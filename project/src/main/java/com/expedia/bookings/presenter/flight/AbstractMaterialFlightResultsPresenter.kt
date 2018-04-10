@@ -32,7 +32,7 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
         resultsPresenter.resultsViewModel.flightResultsObservable.subscribe {
             val travelerParams = Db.getFlightSearchParams()
             if (travelerParams != null) {
-                overviewPresenter.vm.numberOfTravelers.onNext(travelerParams.guests)
+                detailsPresenter.vm.numberOfTravelers.onNext(travelerParams.guests)
             }
             show(resultsPresenter, FLAG_CLEAR_BACKSTACK)
             flightListAdapter.initializeScrollDepthMap()
@@ -47,8 +47,8 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
         toolbarViewModel.isOutboundSearch.onNext(isOutboundResultsPresenter())
         if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppSimplifyFlightShopping)) {
             resultsPresenter.flightSelectedSubject.subscribe {
-                overviewPresenter.vm.selectedFlightLegSubject.onNext(it)
-                overviewPresenter.vm.selectFlightClickObserver.onNext(Unit)
+                detailsPresenter.vm.selectedFlightLegSubject.onNext(it)
+                detailsPresenter.vm.selectFlightClickObserver.onNext(Unit)
             }
         }
     }
@@ -58,7 +58,7 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
         if (mayChargePaymentFees) {
             paymentFeeText = context.resources.getString(R.string.airline_additional_fee_notice)
         }
-        overviewPresenter.vm.airlinePaymentFeesHeaderSubject.onNext(paymentFeeText)
+        detailsPresenter.vm.airlinePaymentFeesHeaderSubject.onNext(paymentFeeText)
         resultsPresenter.resultsViewModel.airlineChargesFeesSubject.onNext(mayChargePaymentFees)
     }
 
