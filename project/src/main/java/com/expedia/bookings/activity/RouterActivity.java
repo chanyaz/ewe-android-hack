@@ -7,6 +7,8 @@ import javax.inject.Inject;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.arch.lifecycle.Lifecycle;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -24,6 +26,8 @@ import com.airbnb.lottie.LottieDrawable;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.ActivityTransitionCircularRevealHelper;
+import com.expedia.bookings.appstartup.persistence.SharedPreferencesSplashScreenAnimationProvider;
+import com.expedia.bookings.appstartup.persistence.SplashScreenAnimationProvider;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.abacus.AbacusEvaluateQuery;
 import com.expedia.bookings.data.abacus.AbacusResponse;
@@ -52,9 +56,8 @@ import com.mobiata.android.util.TimingLogger;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import io.reactivex.CompletableObserver;
 import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableObserver;
 
 public class RouterActivity extends AppCompatActivity implements UserAccountRefresher.IUserAccountRefreshListener {
@@ -83,8 +86,12 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 	@InjectView(R.id.end_animation_view)
 	LottieAnimationView endAnimationView;
 
+	protected SplashScreenAnimationProvider splashScreenAnimationProvider;
+
 	boolean loadSignInView = false;
-	boolean isUserLoadComplete;
+	boolean userLoadIsComplete;
+	protected boolean splashLoadingAnimationShouldRun;
+	protected boolean splashLoadingWasInterrupted;
 
 	private enum LaunchDestination {
 		SIGN_IN,
@@ -94,11 +101,12 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		TimingLogger startupTimer = new TimingLogger("Router Activity", " Router on create startUp");
+		setIfSplashLoadingAnimationShouldRun();
 
-		if (ProductFlavorFeatureConfiguration.getInstance().isSplashLoadingAnimationEnabled()) {
+		if (splashLoadingAnimationShouldRun) {
 			setTheme(R.style.SplashThemeForLoadingAnimation);
 			super.onCreate(savedInstanceState);
-			setupActivityForAnimationsAndBeginAnimation();
+			setupActivityForSplashLoadingAnimationAndPlayAnimation();
 		}
 		else {
 			super.onCreate(savedInstanceState);
@@ -141,18 +149,37 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 		startupTimer.dumpToLog();
 	}
 
-	public void setupActivityForAnimationsAndBeginAnimation() {
+	protected void setIfSplashLoadingAnimationShouldRun() {
+		splashScreenAnimationProvider =
+			new SharedPreferencesSplashScreenAnimationProvider(this);
+
+		splashLoadingAnimationShouldRun =
+			ProductFlavorFeatureConfiguration.getInstance().isSplashLoadingAnimationEnabled() &&
+				Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP &&
+				splashScreenAnimationProvider.shouldSplashAnimationRun();
+
+		if (splashLoadingAnimationShouldRun) {
+			disableSplashScreenAnimationFromRunningOnNextLaunchToPreventPossibleCrashes();
+		}
+	}
+
+	private void disableSplashScreenAnimationFromRunningOnNextLaunchToPreventPossibleCrashes() {
+		splashScreenAnimationProvider.put(false);
+	}
+
+	private void enableSplashScreenAnimationForNextLaunchBecauseAnimationWasSuccessfullyCompleted() {
+		splashScreenAnimationProvider.put(Features.Companion.getAll().getShowSplashLoadingAnimationScreen().enabled());
+	}
+
+	public void setupActivityForSplashLoadingAnimationAndPlayAnimation() {
 		setContentView(R.layout.activity_router_launch_animation);
 		ButterKnife.inject(this);
 
-		// Setup the splash screen animations
-		setupAnimations();
-
-		// Start the first animation
+		setupLottieSplashLoadingAnimations();
 		startAnimationView.playAnimation();
 	}
 
-	private void setupAnimations() {
+	private void setupLottieSplashLoadingAnimations() {
 		initStartAnimation(R.raw.splash_intro_60);
 		initLoopAnimation(R.raw.splash_loop_60);
 		initEndAnimation(R.raw.splash_exit_60);
@@ -166,7 +193,7 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 				super.onAnimationEnd(animation);
 				startAnimationView.setVisibility(View.GONE);
 
-				if (isUserLoadComplete) {
+				if (userLoadIsComplete) {
 					endAnimationView.setVisibility(View.VISIBLE);
 					endAnimationView.playAnimation();
 				}
@@ -185,7 +212,7 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 			@Override
 			public void onAnimationRepeat(Animator animation) {
 				super.onAnimationRepeat(animation);
-				if (isUserLoadComplete) {
+				if (userLoadIsComplete) {
 					loopAnimationView.cancelAnimation();
 					loopAnimationView.setVisibility(View.GONE);
 					endAnimationView.setVisibility(View.VISIBLE);
@@ -201,13 +228,13 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 			@Override
 			public void onAnimationEnd(Animator animation) {
 				super.onAnimationEnd(animation);
-				launchNextActivityWithLoadingAnimationScreen(endAnimationView);
+				launchNextActivityWithSplashLoadingAnimation(endAnimationView);
 			}
 		});
 	}
 
 	@VisibleForTesting
-	protected void notifyAnimationsThatDataHasLoaded() {
+	protected void notifySplashLoadingAnimationsThatDataHasLoaded() {
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
@@ -224,7 +251,7 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 					endAnimationView.playAnimation();
 				}
 				else {
-					isUserLoadComplete = true;
+					userLoadIsComplete = true;
 				}
 			}
 		});
@@ -310,25 +337,14 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 				AbacusHelperUtils.updateAbacus(new AbacusResponse(), RouterActivity.this);
 				cacheLaunchNavBucket(0);
 			}
-
-			if (ProductFlavorFeatureConfiguration.getInstance().isSplashLoadingAnimationEnabled()) {
-				notifyAnimationsThatDataHasLoaded();
-			}
-			else {
-				launchNextActivityWithStaticScreen();
-			}
+			routeToNextScreen();
 		}
 
 		@Override
 		public void onNext(AbacusResponse abacusResponse) {
 			cacheLaunchNavBucket(abacusResponse.variateForTest(AbacusUtils.EBAndroidAppBottomNavTabs));
 			AbacusHelperUtils.updateAbacus(abacusResponse, RouterActivity.this);
-			if (ProductFlavorFeatureConfiguration.getInstance().isSplashLoadingAnimationEnabled()) {
-				notifyAnimationsThatDataHasLoaded();
-			}
-			else {
-				launchNextActivityWithStaticScreen();
-			}
+			routeToNextScreen();
 		}
 	};
 
@@ -341,6 +357,15 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 		}
 		else {
 			LaunchNavBucketCache.cacheBucket(RouterActivity.this, testValue);
+		}
+	}
+
+	private void routeToNextScreen() {
+		if (splashLoadingAnimationShouldRun) {
+			notifySplashLoadingAnimationsThatDataHasLoaded();
+		}
+		else {
+			launchNextActivityWithStaticScreen();
 		}
 	}
 
@@ -394,21 +419,34 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 		}
 	}
 
-	public void launchNextActivityWithLoadingAnimationScreen(View sharedView) {
-		LaunchDestination destination = getLaunchDestination();
-		int revealX = (int) (sharedView.getX() + sharedView.getWidth() / 2);
-		int revealY = (int) (sharedView.getY() + sharedView.getHeight() / 2);
-		int backgroundColor = ActivityTransitionCircularRevealHelper.Companion.getViewBackgroundColor(rootLayout);
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (splashLoadingWasInterrupted) {
+			if (splashLoadingAnimationShouldRun) {
+				endAnimationView.playAnimation();
+			}
+			else {
+				launchNextActivityWithStaticScreen();
+			}
+		}
+	}
 
-		ActivityOptionsCompat options = ActivityTransitionCircularRevealHelper.Companion
-			.getSceneTransitionAnimationAndSubscribe(this, sharedView, "transition",
-				new CompletableObserver() {
-					@Override
-					public void onSubscribe(Disposable d) {
-					}
+	public void launchNextActivityWithSplashLoadingAnimation(View sharedView) {
+		if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
+			LaunchDestination destination = getLaunchDestination();
+			int revealX = (int) (sharedView.getX() + sharedView.getWidth() / 2);
+			int revealY = (int) (sharedView.getY() + sharedView.getHeight() / 2);
+			int backgroundColor = ActivityTransitionCircularRevealHelper.Companion.getViewBackgroundColor(rootLayout);
 
+			ActivityOptionsCompat options = ActivityTransitionCircularRevealHelper.Companion
+				.getSceneTransitionAnimation(this, sharedView, "transition");
+
+			ActivityTransitionCircularRevealHelper.Companion.subscribeToAnimationEnd(
+				new DisposableCompletableObserver() {
 					@Override
 					public void onComplete() {
+						enableSplashScreenAnimationForNextLaunchBecauseAnimationWasSuccessfullyCompleted();
 						finish();
 					}
 
@@ -418,39 +456,48 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 					}
 				});
 
-		if (showNewUserOnboarding()) {
-			NavUtils.goToOnboardingScreen(this, options.toBundle(), revealX, revealY, backgroundColor);
-		}
-		else if (destination == LaunchDestination.SIGN_IN) {
-			NavUtils.goToSignIn(RouterActivity.this);
+			if (showNewUserOnboarding()) {
+				NavUtils.goToOnboardingScreen(this, options.toBundle(), revealX, revealY, backgroundColor);
+			}
+			else if (destination == LaunchDestination.SIGN_IN) {
+				NavUtils.goToSignIn(RouterActivity.this);
+			}
+			else {
+				NavUtils.goToLaunchScreen(RouterActivity.this, options.toBundle(), revealX, revealY, backgroundColor);
+			}
+
+			overridePendingTransition(R.anim.hold, R.anim.hold);
 		}
 		else {
-			NavUtils.goToLaunchScreen(RouterActivity.this, options.toBundle(), revealX, revealY, backgroundColor);
+			splashLoadingWasInterrupted = true;
 		}
-
-		overridePendingTransition(R.anim.hold, R.anim.hold);
 	}
 
 	public void launchNextActivityWithStaticScreen() {
-		final LaunchDestination destination = getLaunchDestination();
-		Handler handler = new Handler(Looper.getMainLooper());
-		handler.postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				if (showNewUserOnboarding()) {
-					NavUtils.goToOnboardingScreen(RouterActivity.this);
-				}
-				else if (destination == LaunchDestination.LAUNCH_SCREEN) {
-					NavUtils.goToLaunchScreen(RouterActivity.this);
-				}
-				else {
-					NavUtils.goToSignIn(RouterActivity.this);
-				}
+		if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
+			final LaunchDestination destination = getLaunchDestination();
+			Handler handler = new Handler(Looper.getMainLooper());
+			handler.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					if (showNewUserOnboarding()) {
+						NavUtils.goToOnboardingScreen(RouterActivity.this);
+					}
+					else if (destination == LaunchDestination.LAUNCH_SCREEN) {
+						NavUtils.goToLaunchScreen(RouterActivity.this);
+					}
+					else {
+						NavUtils.goToSignIn(RouterActivity.this);
+					}
 
-				finish();
-				overridePendingTransition(R.anim.hold, R.anim.slide_down_splash);
-			}
-		}, getResources().getInteger(android.R.integer.config_longAnimTime));
+					finish();
+					overridePendingTransition(R.anim.hold, R.anim.slide_down_splash);
+				}
+			}, getResources().getInteger(android.R.integer.config_longAnimTime));
+		}
+		else {
+			splashLoadingWasInterrupted = true;
+		}
 	}
 
 	private LaunchDestination getLaunchDestination() {
@@ -465,6 +512,4 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 		return ExpediaBookingApp.isFirstLaunchEver() && ProductFlavorFeatureConfiguration.getInstance()
 			.isAppIntroEnabled();
 	}
-
-
 }

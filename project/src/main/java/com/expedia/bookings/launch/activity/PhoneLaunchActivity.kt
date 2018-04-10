@@ -28,6 +28,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItinCardData
+import com.expedia.bookings.data.trips.ItinCardDataHotel
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.ClearPrivateDataDialog
@@ -38,12 +39,12 @@ import com.expedia.bookings.fragment.AccountSettingsFragment
 import com.expedia.bookings.fragment.ItinItemListFragment
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
 import com.expedia.bookings.fragment.SoftPromptDialogFragment
-import com.expedia.bookings.data.trips.ItinCardDataHotel
 import com.expedia.bookings.itin.triplist.TripListFragment
 import com.expedia.bookings.launch.fragment.PhoneLaunchFragment
 import com.expedia.bookings.launch.widget.LaunchListLogic
 import com.expedia.bookings.launch.widget.LaunchTabView
 import com.expedia.bookings.launch.widget.PhoneLaunchToolbar
+import com.expedia.bookings.marketing.carnival.CarnivalUtils
 import com.expedia.bookings.model.PointOfSaleStateModel
 import com.expedia.bookings.notification.Notification
 import com.expedia.bookings.notification.NotificationManager
@@ -55,7 +56,6 @@ import com.expedia.bookings.tracking.RouterToLaunchTimeLogger
 import com.expedia.bookings.tracking.RouterToSignInTimeLogger
 import com.expedia.bookings.utils.AbacusHelperUtils
 import com.expedia.bookings.utils.AboutUtils
-import com.expedia.bookings.marketing.carnival.CarnivalUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.DebugMenuFactory
@@ -65,8 +65,8 @@ import com.expedia.bookings.utils.LaunchNavBucketCache
 import com.expedia.bookings.utils.PlayStoreUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isBrandColorEnabled
 import com.expedia.bookings.utils.checkIfTripFoldersEnabled
+import com.expedia.bookings.utils.isBrandColorEnabled
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.setContentDescriptionToolbarTabs
 import com.expedia.bookings.widget.DisableableViewPager
@@ -628,6 +628,11 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         return !havePermissionToAccessLocation(this)
                 && !isLocationPermissionPending
                 && SettingUtils.get(this, PREF_LOCATION_PERMISSION_PROMPT_TIMES, 0) < Constants.LOCATION_PROMPT_LIMIT
+    }
+
+    override fun onPause() {
+        super.onPause()
+        ActivityTransitionCircularRevealHelper.clearObservers()
     }
 
     override fun onStop() {

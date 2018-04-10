@@ -20,13 +20,13 @@ import com.expedia.bookings.R
 import com.expedia.bookings.animation.ActivityTransitionCircularRevealHelper
 import com.expedia.bookings.animation.AnimationListenerAdapter
 import com.expedia.bookings.enums.OnboardingPagerState
+import com.expedia.bookings.marketing.carnival.CarnivalUtils
 import com.expedia.bookings.onboarding.LeftRightFlingListener
 import com.expedia.bookings.onboarding.adapter.OnboardingPagerAdapter
 import com.expedia.bookings.services.IClientLogServices
 import com.expedia.bookings.tracking.AppStartupTimeClientLog
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.RouterToOnboardingTimeLogger
-import com.expedia.bookings.marketing.carnival.CarnivalUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.navigation.NavUtils
@@ -229,6 +229,11 @@ class OnboardingActivity : AppCompatActivity() {
         })
         subtitle.startAnimation(animateView1)
         title.startAnimation(animateView2)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        ActivityTransitionCircularRevealHelper.clearObservers()
     }
 
     override fun onDestroy() {

@@ -69,7 +69,7 @@ public class FeatureConfiguration extends BaseFeatureConfiguration {
 
 	@Override
 	public boolean isSplashLoadingAnimationEnabled() {
-		return false;
+		return true;
 	}
 
 	public boolean isAppIntroEnabled() {
