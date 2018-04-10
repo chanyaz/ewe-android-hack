@@ -46,7 +46,7 @@ import com.expedia.bookings.widget.FlightTravelerWidgetV2
 import com.expedia.bookings.widget.TravelerWidgetV2
 import com.expedia.bookings.widget.flights.RecentSearchWidgetContainer
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.AirportSuggestionViewModel
+import com.expedia.vm.FlightSuggestionAdapterViewModel
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.BaseSuggestionAdapterViewModel
 import com.expedia.vm.FlightSearchViewModel
@@ -282,8 +282,8 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             calendarWidgetV2.setEndDrawable(if (hasValidDates) null else errorDrawable)
         }
 
-        originSuggestionViewModel = AirportSuggestionViewModel(getContext(), suggestionServices, false, CurrentLocationObservable.create(getContext()))
-        destinationSuggestionViewModel = AirportSuggestionViewModel(getContext(), suggestionServices, true, null)
+        originSuggestionViewModel = FlightSuggestionAdapterViewModel(getContext(), suggestionServices, false, CurrentLocationObservable.create(getContext()))
+        destinationSuggestionViewModel = FlightSuggestionAdapterViewModel(getContext(), suggestionServices, true, null)
 
         originSuggestionAdapter = SuggestionAdapter(originSuggestionViewModel)
         destinationSuggestionAdapter = SuggestionAdapter(destinationSuggestionViewModel)
