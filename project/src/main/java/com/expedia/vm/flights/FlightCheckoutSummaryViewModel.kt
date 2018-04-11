@@ -24,6 +24,7 @@ class FlightCheckoutSummaryViewModel(val context: Context) {
     val evolableTermsConditionTextObservable = PublishSubject.create<SpannableStringBuilder>()
     val evolableTermsConditionSubject = PublishSubject.create<FlightTripDetails.FlightOffer>()
     val obFeeDetailsUrlObservable = PublishSubject.create<String>()
+    val showWebviewObservable = PublishSubject.create<Unit>()
 
     init {
         evolableTermsConditionSubject.filter { flightOffer ->

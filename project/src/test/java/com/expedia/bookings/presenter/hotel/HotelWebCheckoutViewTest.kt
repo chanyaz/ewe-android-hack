@@ -254,7 +254,7 @@ class HotelWebCheckoutViewTest {
     fun testMaskActivityWhenGoingToWebView() {
         getToWebCheckoutView()
         val maskWebCheckoutActivityObservable = TestObserver.create<Boolean>()
-        hotelPresenter.webCheckoutView.viewModel.showWebViewObservable.subscribe(maskWebCheckoutActivityObservable)
+        hotelPresenter.webCheckoutView.viewModel.webViewVisibilityObservable.subscribe(maskWebCheckoutActivityObservable)
         hotelPresenter.show(hotelPresenter.webCheckoutView)
         maskWebCheckoutActivityObservable.assertValue(true)
     }
@@ -264,7 +264,7 @@ class HotelWebCheckoutViewTest {
     fun testDontMaskActivityWhenGoingFromWebViewBackToHotelDetails() {
         getToWebCheckoutView()
         val maskWebCheckoutActivityObservable = TestObserver.create<Boolean>()
-        hotelPresenter.webCheckoutView.viewModel.showWebViewObservable.subscribe(maskWebCheckoutActivityObservable)
+        hotelPresenter.webCheckoutView.viewModel.webViewVisibilityObservable.subscribe(maskWebCheckoutActivityObservable)
         hotelPresenter.show(hotelPresenter.webCheckoutView)
 
         // Transition doesn't happen if not done like this

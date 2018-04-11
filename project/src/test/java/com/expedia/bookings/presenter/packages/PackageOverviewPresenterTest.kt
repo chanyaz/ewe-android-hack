@@ -323,7 +323,7 @@ class PackageOverviewPresenterTest {
     fun testMaskActivityWhenGoingFromOverviewToWebView() {
         setupOverviewPresenter()
         val maskWebCheckoutActivityObservable = TestObserver.create<Boolean>()
-        overviewPresenter.webCheckoutView.viewModel.showWebViewObservable.subscribe(maskWebCheckoutActivityObservable)
+        overviewPresenter.webCheckoutView.viewModel.webViewVisibilityObservable.subscribe(maskWebCheckoutActivityObservable)
         overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().packageServices = packageServiceRule.services!!
 
         overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
@@ -341,7 +341,7 @@ class PackageOverviewPresenterTest {
     fun testDontMaskActivityWhenGoingFromWebViewToOverview() {
         setupOverviewPresenter()
         val maskWebCheckoutActivityObservable = TestObserver.create<Boolean>()
-        overviewPresenter.webCheckoutView.viewModel.showWebViewObservable.subscribe(maskWebCheckoutActivityObservable)
+        overviewPresenter.webCheckoutView.viewModel.webViewVisibilityObservable.subscribe(maskWebCheckoutActivityObservable)
         overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().packageServices = packageServiceRule.services!!
 
         overviewPresenter.performMIDCreateTripSubject.onNext(Unit)

@@ -50,9 +50,9 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
         vm.showLoadingObservable.subscribe {
             toggleLoading(true)
         }
-        vm.showWebViewObservable.subscribe { isShown ->
+        vm.webViewVisibilityObservable.subscribe { isVisible ->
             val window = (context as Activity).window
-            if (isShown) {
+            if (isVisible) {
                 window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
             } else {
                 window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)

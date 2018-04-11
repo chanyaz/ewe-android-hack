@@ -425,7 +425,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
             checkoutPresenter.setInverseVisibility(forward)
             bundleOverviewHeader.setInverseVisibility(forward)
             webCheckoutView.setVisibility(forward)
-            webCheckoutView.viewModel.showWebViewObservable.onNext(forward)
+            webCheckoutView.viewModel.webViewVisibilityObservable.onNext(forward)
         }
     }
 

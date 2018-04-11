@@ -35,6 +35,7 @@ import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isShowFlightsNativeRateDetailsWebviewCheckoutEnabled
 import com.expedia.bookings.widget.FareFamilyCardView
 import com.expedia.bookings.widget.InsuranceWidget
 import com.expedia.bookings.widget.flights.FlightFareFamilyWidget
@@ -88,6 +89,15 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
             show(flightFareFamilyDetailsWidget)
         }
         widget
+    }
+
+    override fun showCheckout() {
+        if (isShowFlightsNativeRateDetailsWebviewCheckoutEnabled(context)) {
+            resetCheckoutState()
+            viewModel.showWebviewObservable.onNext(Unit)
+        } else {
+            super.showCheckout()
+        }
     }
 
     init {

@@ -695,7 +695,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             webCheckoutView.toolbar.visibility = if (forward) View.VISIBLE else View.GONE
             webCheckoutView.visibility = if (forward) View.VISIBLE else View.GONE
             AccessibilityUtil.setFocusToToolbarNavigationIcon(webCheckoutView.toolbar)
-            webCheckoutView.viewModel.showWebViewObservable.onNext(forward)
+            webCheckoutView.viewModel.webViewVisibilityObservable.onNext(forward)
         }
     }
 
