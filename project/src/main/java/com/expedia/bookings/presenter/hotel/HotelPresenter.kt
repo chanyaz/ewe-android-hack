@@ -145,9 +145,12 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     }
 
     val webCheckoutViewStub: ViewStub by bindView(R.id.web_checkout_view_stub)
+
+    lateinit var hotelWebCheckoutViewViewModel: HotelWebCheckoutViewViewModel
+        @Inject set
+
     val webCheckoutView: WebCheckoutView by lazy {
         val webCheckoutView = webCheckoutViewStub.inflate() as WebCheckoutView
-        val hotelWebCheckoutViewViewModel = HotelWebCheckoutViewViewModel(context)
         hotelWebCheckoutViewViewModel.createTripViewModel = HotelCreateTripViewModel(hotelServices, null)
         setUpCreateTripErrorHandling(hotelWebCheckoutViewViewModel.createTripViewModel)
         webCheckoutView.viewModel = hotelWebCheckoutViewViewModel
@@ -408,8 +411,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     }
 
     private fun shouldUseWebCheckout() = PointOfSale.getPointOfSale().shouldShowWebCheckout() ||
-            (PointOfSale.getPointOfSale().isHotelsWebCheckoutABTestEnabled
-                    && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelsWebCheckout))
+            AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelsWebCheckout)
 
     fun setDefaultTransition(screen: Screen) {
         val defaultTransition = when (screen) {

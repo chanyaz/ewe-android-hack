@@ -449,9 +449,9 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="15823"
+            android:key="25618"
             android:summary="%s"
-            android:title="Hotels Web Checkout AB text - 15823" />
+            android:title="Hotels Web Checkout AB text - 25618" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"

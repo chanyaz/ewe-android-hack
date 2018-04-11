@@ -4,12 +4,13 @@ import android.content.Context
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.server.EndpointProvider
 import com.expedia.util.notNullAndObservable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
+import javax.inject.Inject
 
-class HotelWebCheckoutViewViewModel(var context: Context) : WebCheckoutViewViewModel(context) {
+class HotelWebCheckoutViewViewModel @Inject constructor(var context: Context, val endpointProvider: EndpointProvider) : WebCheckoutViewViewModel(context) {
 
     var hotelSearchParamsObservable = BehaviorSubject.create<HotelSearchParams>()
     var offerObservable = BehaviorSubject.create<HotelOffersResponse.HotelRoomResponse>()
@@ -17,7 +18,7 @@ class HotelWebCheckoutViewViewModel(var context: Context) : WebCheckoutViewViewM
 
     var createTripViewModel by notNullAndObservable<HotelCreateTripViewModel> {
         it.tripResponseObservable.subscribe { createTripResponse ->
-            webViewURLObservable.onNext("${PointOfSale.getPointOfSale().hotelsWebCheckoutURL}?tripid=${createTripResponse.tripId}")
+            webViewURLObservable.onNext( endpointProvider.getE3EndpointUrlWithPath("HotelCheckout?tripid=${createTripResponse.tripId}"))
         }
     }
 
