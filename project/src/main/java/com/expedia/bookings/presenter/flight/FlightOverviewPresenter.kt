@@ -218,10 +218,8 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
     override val defaultTransition = object : TwoScreenOverviewDefaultTransition() {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
-            val offerInsuranceInFlightSummary = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary)
             flightSummary.freeCancellationMoreInfoTextView.visibility = View.GONE
             flightSummary.freeCancellationMoreInfoIcon.clearAnimation()
-            insuranceWidget.viewModel.widgetVisibilityAllowedObservable.onNext(offerInsuranceInFlightSummary)
             flightFareFamilyDetailsWidget.visibility = View.INVISIBLE
         }
     }

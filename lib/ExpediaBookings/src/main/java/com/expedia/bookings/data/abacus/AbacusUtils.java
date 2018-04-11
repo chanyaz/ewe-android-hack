@@ -54,7 +54,6 @@ public class AbacusUtils {
 	public static final ABTest TripFoldersFragment = new ABTest(25538, true);
 
 	// Flight tests
-	public static final ABTest EBAndroidAppOfferInsuranceInFlightSummary = new ABTest(12268);
 	public static final ABTest EBAndroidAppFlightByotSearch = new ABTest(13202);
 	public static final ABTest EBAndroidAppFlightsSeatClassAndBookingCode = new ABTest(25529, true);
 	public static final ABTest EBAndroidAppSimplifyFlightShopping = new ABTest(13514);
@@ -151,7 +150,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppLXCrossSellOnHotelConfirmationTest.getKey());
 		testIDs.add(EBAndroidAppFrequentFlierTooltip.getKey());
 		testIDs.add(EBAndroidAppDisabledSTPStateHotels.getKey());
-		testIDs.add(EBAndroidAppOfferInsuranceInFlightSummary.getKey());
 		testIDs.add(EBAndroidAppBringUniversalCheckoutToLX.getKey());
 		testIDs.add(EBAndroidAppLXFilterSearch.getKey());
 		testIDs.add(EBAndroidAppFlightsFiltersPriceAndLogo.getKey());
