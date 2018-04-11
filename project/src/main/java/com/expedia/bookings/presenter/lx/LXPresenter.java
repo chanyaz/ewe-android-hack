@@ -3,11 +3,15 @@ package com.expedia.bookings.presenter.lx;
 import javax.inject.Inject;
 
 import android.animation.ArgbEvaluator;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
@@ -16,6 +20,7 @@ import android.widget.FrameLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.TransitionElement;
+import com.expedia.bookings.data.AbstractItinDetailsResponse;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.extensions.LineOfBusinessExtensions;
@@ -24,6 +29,7 @@ import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
+import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.Ui;
@@ -31,12 +37,15 @@ import com.expedia.bookings.widget.LXConfirmationWidget;
 import com.expedia.bookings.widget.LoadingOverlayWidget;
 import com.expedia.vm.LXMapViewModel;
 import com.google.android.gms.maps.MapView;
+import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
+import kotlin.Unit;
 
 public class LXPresenter extends Presenter {
 
@@ -83,6 +92,10 @@ public class LXPresenter extends Presenter {
 	@Inject
 	LXState lxState;
 
+	ItinTripServices itinTripServices;
+
+	AlertDialog bookingSuccessDialog;
+
 	@Override
 	public void onFinishInflate() {
 		super.onFinishInflate();
@@ -93,7 +106,7 @@ public class LXPresenter extends Presenter {
 			checkoutPresenter = (LXCheckoutPresenter) checkoutPresenterViewStub.inflate();
 		}
 		Ui.getApplication(getContext()).lxComponent().inject(this);
-
+		itinTripServices = Ui.getApplication(getContext()).lxComponent().itinTripService();
 		searchParamsWidget.setSearchViewModel(new LXSearchViewModel(getContext()));
 
 		addTransition(searchParamsToResults);
@@ -113,13 +126,14 @@ public class LXPresenter extends Presenter {
 		show(resultsPresenter);
 		resultsPresenter.setVisibility(VISIBLE);
 
-		int[] attrs = {R.attr.skin_lxPrimaryColor};
+		int[] attrs = { R.attr.skin_lxPrimaryColor };
 		TypedArray ta = getContext().getTheme().obtainStyledAttributes(attrs);
 		loadingOverlay.setBackgroundAttr(ta.getDrawable(0));
 
 		searchParamsWidget.getSearchViewModel().getSearchParamsObservable().subscribe(lxSearchParamsObserver);
 		detailsPresenter.fullscreenMapView.setViewmodel(new LXMapViewModel(getContext()));
 		setLxDetailMap();
+		bookingSuccessDialog = createBookingSuccessDialog();
 	}
 
 	private Observer<LxSearchParams> lxSearchParamsObserver = new Observer<LxSearchParams>() {
@@ -141,7 +155,36 @@ public class LXPresenter extends Presenter {
 		}
 	};
 
-	TransitionElement searchBackgroundColor = new TransitionElement(ContextCompat.getColor(getContext(), R.color.search_anim_background), Color.TRANSPARENT);
+	public Observer<AbstractItinDetailsResponse> makeNewItinResponseObserver() {
+		return new DisposableObserver<AbstractItinDetailsResponse>() {
+			@Override
+			public void onNext(AbstractItinDetailsResponse itinDetailsResponse) {
+				if (itinDetailsResponse.getErrors() != null) {
+					bookingSuccessDialog.show();
+				}
+				else {
+					// Need Tracking
+					confirmationWidget.viewModel.getItinDetailsResponseObservable().onNext(itinDetailsResponse);
+					confirmationWidget.viewModel.getLxStateObservable().onNext(lxState);
+					confirmationWidget.viewModel.getConfirmationScreenUiObservable().onNext(Unit.INSTANCE);
+					show(confirmationWidget, FLAG_CLEAR_BACKSTACK);
+				}
+			}
+
+			@Override
+			public void onError(Throwable e) {
+				Log.d("ERROR", "Error fetching itin:" + e.getStackTrace());
+				bookingSuccessDialog.show();
+			}
+
+			@Override
+			public void onComplete() {
+			}
+		};
+	}
+
+	TransitionElement searchBackgroundColor = new TransitionElement(
+		ContextCompat.getColor(getContext(), R.color.search_anim_background), Color.TRANSPARENT);
 	ArgbEvaluator searchArgbEvaluator = new ArgbEvaluator();
 
 	private Transition searchParamsToResults = new Transition(LXSearchPresenter.class,
@@ -179,7 +222,8 @@ public class LXPresenter extends Presenter {
 		}
 	};
 
-	private Transition detailsToCheckout = new VisibilityTransition(this, LXDetailsPresenter.class, LXCheckoutPresenter.class) {
+	private Transition detailsToCheckout = new VisibilityTransition(this, LXDetailsPresenter.class,
+		LXCheckoutPresenter.class) {
 		@Override
 		public void endTransition(boolean forward) {
 			super.endTransition(forward);
@@ -189,7 +233,8 @@ public class LXPresenter extends Presenter {
 		}
 	};
 
-	private Transition detailsToCheckoutV2 = new VisibilityTransition(this, LXDetailsPresenter.class, LXOverviewPresenter.class) {
+	private Transition detailsToCheckoutV2 = new VisibilityTransition(this, LXDetailsPresenter.class,
+		LXOverviewPresenter.class) {
 		@Override
 		public void endTransition(boolean forward) {
 			super.endTransition(forward);
@@ -308,7 +353,8 @@ public class LXPresenter extends Presenter {
 		}
 	};
 
-	private Transition detailsToSearch = new VisibilityTransition(this, LXDetailsPresenter.class, LXSearchPresenter.class) {
+	private Transition detailsToSearch = new VisibilityTransition(this, LXDetailsPresenter.class,
+		LXSearchPresenter.class) {
 		@Override
 		public void endTransition(boolean forward) {
 			super.endTransition(forward);
@@ -321,9 +367,11 @@ public class LXPresenter extends Presenter {
 		}
 	};
 
-	private Transition checkoutToConfirmation = new VisibilityTransition(this, LXCheckoutPresenter.class, LXConfirmationWidget.class);
+	private Transition checkoutToConfirmation = new VisibilityTransition(this, LXCheckoutPresenter.class,
+		LXConfirmationWidget.class);
 
-	private Transition checkoutToResults = new VisibilityTransition(this, LXCheckoutPresenter.class, LXResultsPresenter.class) {
+	private Transition checkoutToResults = new VisibilityTransition(this, LXCheckoutPresenter.class,
+		LXResultsPresenter.class) {
 		@Override
 		public void endTransition(boolean forward) {
 			super.endTransition(forward);
@@ -420,6 +468,7 @@ public class LXPresenter extends Presenter {
 	public void setUserBucketedForCategoriesTest(boolean isUserBucketedForTest) {
 		resultsPresenter.setUserBucketedForCategoriesTest(isUserBucketedForTest);
 	}
+
 	public void setUserBucketedForRTRTest(boolean userBucketedForRTRTest) {
 		detailsPresenter.details.setUserBucketedForRTRTest(userBucketedForRTRTest);
 		resultsPresenter.searchResultsWidget.setUserBucketedForRTRTest(userBucketedForRTRTest);
@@ -443,5 +492,27 @@ public class LXPresenter extends Presenter {
 		detailsPresenter.fullscreenMapView.setMap(detailsMapView);
 		detailsPresenter.fullscreenMapView.getMapView().getMapAsync(detailsPresenter.fullscreenMapView);
 		detailsPresenter.fullscreenMapView.getMapView().setVisibility(VISIBLE);
+	}
+
+	private AlertDialog createBookingSuccessDialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+		builder
+			.setTitle(getContext().getString(R.string.booking_successful))
+			.setMessage(getContext().getString(R.string.check_your_email_for_itin))
+			.setPositiveButton(getContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					((Activity) getContext()).finish();
+					dialog.dismiss();
+				}
+			});
+		AlertDialog dialog = builder.create();
+		dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialog) {
+				// Need Tracking
+			}
+		});
+		return dialog;
 	}
 }

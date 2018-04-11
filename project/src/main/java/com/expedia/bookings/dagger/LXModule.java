@@ -7,6 +7,7 @@ import android.content.Context;
 import com.expedia.bookings.dagger.tags.LXScope;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.server.EndpointProvider;
+import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.services.LxServices;
 import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.vm.PaymentViewModel;
@@ -64,4 +65,10 @@ public class LXModule {
 		return new PaymentViewModel(context);
 	}
 
+	@Provides
+	@LXScope
+	ItinTripServices provideItinTripServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
+		final String endpoint = endpointProvider.getE3EndpointUrl();
+		return new ItinTripServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
+	}
 }

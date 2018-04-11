@@ -622,6 +622,10 @@
     <string name="lx_error_limited_inventory">Sorry, we don\&apos;t have enough tickets for the selected date. Please try a different date or select fewer tickets.</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">Your tickets have been sent to</string>
+    <!-- LX confirmation itin text no email -->
+    <string name="lx_successful_checkout_no_email_label">The tickets have been sent to</string>
+    <!-- LX default when no email -->
+    <string name="lx_default_when_no_email">your email.</string>
     <!-- LX reservation confirmation text -->
     <string name="lx_successful_checkout_reservation_label">Your reservation is confirmed!</string>
     <!-- Text for getting current location suggestion -->

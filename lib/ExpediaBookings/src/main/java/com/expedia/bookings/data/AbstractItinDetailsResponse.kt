@@ -37,6 +37,7 @@ abstract class AbstractItinDetailsResponse {
         lateinit var localizedShortDate: String
         lateinit var localizedMediumDate: String
         lateinit var localizedShortTime: String
+        lateinit var localizedFullDate: String
         lateinit var raw: String
     }
 

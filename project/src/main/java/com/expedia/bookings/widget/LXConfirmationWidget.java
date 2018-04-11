@@ -31,11 +31,16 @@ import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.navigation.NavUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.vm.lx.LXConfirmationWidgetViewModel;
+import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+import kotlin.Unit;
 
 public class LXConfirmationWidget extends android.widget.LinearLayout {
 
@@ -44,8 +49,11 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 
 	public LXConfirmationWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		viewModel = new LXConfirmationWidgetViewModel(context);
 		inflate(context, R.layout.widget_lx_confirmation, this);
 	}
+
+	public LXConfirmationWidgetViewModel viewModel;
 
 	@InjectView(R.id.confirmation_image_view)
 	ImageView confirmationImageView;
@@ -99,6 +107,7 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 			}
 		});
 		toolbar.setNavigationContentDescription(R.string.toolbar_nav_icon_close_cont_desc);
+		initializeSubscriptions();
 	}
 
 	@Override
@@ -131,14 +140,6 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 			lxState.activity.regionId, lxState.selectedTicketsCount(), lxState.selectedChildTicketsCount());
 
 		final Resources res = getResources();
-		List<String> imageURLs = Images
-			.getLXImageURLBasedOnWidth(lxState.activity.getImages(), AndroidUtils.getDisplaySize(getContext()).x);
-		new PicassoHelper.Builder(confirmationImageView)
-			.fade()
-			.fit()
-			.centerCrop()
-			.build()
-			.load(imageURLs);
 		title.setText(lxState.activity.title);
 		tickets.setText(lxState.selectedTicketsCountSummary(getContext()));
 		location.setText(lxState.activity.location);
@@ -150,16 +151,54 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 		reservationConfirmation.setText(res.getString(R.string.lx_successful_checkout_reservation_label));
 		itineraryNumber.setText(res.getString(R.string.successful_checkout_TEMPLATE, event.checkoutResponse.newTrip.itineraryNumber));
 
-		int statusBarHeight = Ui.getStatusBarHeight(getContext());
-		toolbar.setPadding(0, statusBarHeight, 0, 0);
-		textContainer.setPadding(0, statusBarHeight, 0, 0);
-
-		FontCache.setTypeface(confirmationText, FontCache.Font.ROBOTO_LIGHT);
-		FontCache.setTypeface(emailText, FontCache.Font.ROBOTO_LIGHT);
-		AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar);
+		viewModel.getConfirmationScreenUiObservable().onNext(Unit.INSTANCE);
 	}
 
 	public void setIsFromGroundTransport(boolean isGroundTransport) {
 		this.isGroundTransport = isGroundTransport;
+	}
+
+	private void initializeSubscriptions() {
+		viewModel.getTitleTextObservable().subscribe(RxTextView.text(title));
+		viewModel.getTicketsTextObservable().subscribe(RxTextView.text(tickets));
+		viewModel.getLocationTextObservable().subscribe(RxTextView.text(location));
+		viewModel.getDateTextObservable().subscribe(RxTextView.text(date));
+		viewModel.getEmailTextObservable().subscribe(RxTextView.text(emailText));
+		viewModel.getConfirmationTextObservable().subscribe(RxTextView.text(confirmationText));
+		viewModel.getReservationConfirmationTextObservable().subscribe(RxTextView.text(reservationConfirmation));
+		viewModel.getItineraryNumberTextObservable().subscribe(RxTextView.text(itineraryNumber));
+		viewModel.getConfirmationScreenUiObservable().subscribe(new Observer<Unit>() {
+			@Override
+			public void onSubscribe(Disposable d) {
+			}
+
+			@Override
+			public void onNext(Unit unit) {
+				List<String> imageURLs = Images
+					.getLXImageURLBasedOnWidth(lxState.activity.getImages(), AndroidUtils.getDisplaySize(getContext()).x);
+				new PicassoHelper.Builder(confirmationImageView)
+					.fade()
+					.fit()
+					.centerCrop()
+					.build()
+					.load(imageURLs);
+
+				int statusBarHeight = Ui.getStatusBarHeight(getContext());
+				toolbar.setPadding(0, statusBarHeight, 0, 0);
+				textContainer.setPadding(0, statusBarHeight, 0, 0);
+
+				FontCache.setTypeface(confirmationText, FontCache.Font.ROBOTO_LIGHT);
+				FontCache.setTypeface(emailText, FontCache.Font.ROBOTO_LIGHT);
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar);
+			}
+
+			@Override
+			public void onError(Throwable e) {
+			}
+
+			@Override
+			public void onComplete() {
+			}
+		});
 	}
 }

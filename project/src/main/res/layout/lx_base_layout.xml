@@ -8,11 +8,15 @@
     <include
         android:id="@+id/search_list_presenter"
         layout="@layout/lx_result_presenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:visibility="gone" />
 
     <include
         android:id="@+id/activity_details_presenter"
         layout="@layout/lx_details_presenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:visibility="gone" />
 
     <FrameLayout

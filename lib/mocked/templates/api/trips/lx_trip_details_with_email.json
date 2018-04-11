@@ -1,0 +1,257 @@
+{
+  "apiVersion": "1.0",
+  "responseType": "TRIP_DETAILS",
+  "responseData": {
+    "levelOfDetail": "FULL",
+    "tripId": "dd5682e8-bfb5-46f3-92b7-b3cd3be4764b",
+    "webDetailsURL": "https://www.expedia.com/trips/7344467767254?email=tripscall@successful.com",
+    "itineraryReceiptURL": "https://www.expedia.com/itinerary-receipt?tripid=dd5682e8-bfb5-46f3-92b7-b3cd3be4764b",
+    "tripNumber": 7344467767254,
+    "title": "Yosemite National Park, United States",
+    "updateTripNameDescPathURL": "https://www.expedia.com/api/trips/dd5682e8-bfb5-46f3-92b7-b3cd3be4764b/updateTripNameDescription",
+    "startTime": {
+      "raw": "2018-04-13T06:30:00-07:00",
+      "localized": "Apr 13, 2018 6:30:00 AM",
+      "epochSeconds": 1523626200,
+      "timeZoneOffsetSeconds": -25200,
+      "localizedShortDate": "4/13/2018",
+      "localizedMediumDate": "Apr 13",
+      "localizedFullDate": "Fri, Apr 13",
+      "localizedLongDate": "Apr 13, 2018",
+      "localizedShortTime": "6:30am"
+    },
+    "endTime": {
+      "raw": "2018-04-13T20:30:00-07:00",
+      "localized": "Apr 13, 2018 8:30:00 PM",
+      "epochSeconds": 1523676600,
+      "timeZoneOffsetSeconds": -25200,
+      "localizedShortDate": "4/13/2018",
+      "localizedMediumDate": "Apr 13",
+      "localizedFullDate": "Fri, Apr 13",
+      "localizedLongDate": "Apr 13, 2018",
+      "localizedShortTime": "8:30pm"
+    },
+    "tripCreatedTime": {
+      "raw": "2018-04-11T21:13:10Z",
+      "localized": "Apr 11, 2018 9:13:10 PM",
+      "epochSeconds": 1523481190,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Wed, 11 Apr",
+      "localizedMediumDate": "Apr 11, 2018",
+      "localizedFullDate": "Wednesday, April 11, 2018",
+      "localizedLongDate": "April 11, 2018",
+      "localizedShortTime": "9:13 PM"
+    },
+    "tripUpdatedTime": {
+      "raw": "2018-04-11T21:13:20Z",
+      "localized": "Apr 11, 2018 9:13:20 PM",
+      "epochSeconds": 1523481200,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Wed, 11 Apr",
+      "localizedMediumDate": "Apr 11, 2018",
+      "localizedFullDate": "Wednesday, April 11, 2018",
+      "localizedLongDate": "April 11, 2018",
+      "localizedShortTime": "9:13 PM"
+    },
+    "tripCacheUpdatedTime": {
+      "raw": "2018-04-11T21:13:22Z",
+      "localized": "Apr 11, 2018 9:13:22 PM",
+      "epochSeconds": 1523481202,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Wed, 11 Apr",
+      "localizedMediumDate": "Apr 11, 2018",
+      "localizedFullDate": "Wednesday, April 11, 2018",
+      "localizedLongDate": "April 11, 2018",
+      "localizedShortTime": "9:13 PM"
+    },
+    "ownerId": 968314230,
+    "bookingStatus": "SAVED",
+    "rewardList": [
+      {
+        "totalPoints": 3590.00,
+        "basePoints": 3590.00,
+        "bonusPoints": [],
+        "logoUrl": "/static/default/default/images/myrewards/RewardsLogo_193x76.png",
+        "signUpUrl": "",
+        "viewStatementURL": "/user/rewards",
+        "programName": "ExpediaRewards"
+      }
+    ],
+    "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/bR1go1VOEcCCSxXzMbDIBcCAmu7VmQhX-nSfj8JK5zcFcCH99ZPc9U9My5dxgOyt35fbyVqyvAvROMmXR6MZRmuj",
+    "customerSupport": {
+      "customerSupportURL": "https://www.expedia.com/service/",
+      "customerSupportPhoneNumberDomestic": "+1-877-787-3117",
+      "customerSupportPhoneNumberInternational": "+1-877-787-3117",
+      "customerSupportPhoneInfoForEmail": [
+        "Call Expedia Rewards blue Customer Care at 1-877-787-3117.",
+        "For faster service, mention <strong>itinerary #7344467767254 </strong>"
+      ],
+      "termsAndConditionsURL": ""
+    },
+    "isBookedUsingForeignCurrency": false,
+    "activities": [
+      {
+        "uniqueID": "6AD8D378-9D5C-4B4A-ACB5-38DAD83F6DE4_0_485051_485062",
+        "bookingStatus": "SAVED",
+        "bookingStatusText": "Not Booked",
+        "bookingStatusMessage": "This reservation is not booked. Book now to guarantee price and availability.",
+        "startTime": {
+          "raw": "2018-04-13T06:30:00-07:00",
+          "localized": "Apr 13, 2018 6:30:00 AM",
+          "epochSeconds": 1523626200,
+          "timeZoneOffsetSeconds": -25200,
+          "localizedShortDate": "4/13/2018",
+          "localizedMediumDate": "Apr 13",
+          "localizedFullDate": "Fri, Apr 13",
+          "localizedLongDate": "Apr 13, 2018",
+          "localizedShortTime": "6:30am"
+        },
+        "endTime": {
+          "raw": "2018-04-13T20:30:00-07:00",
+          "localized": "Apr 13, 2018 8:30:00 PM",
+          "epochSeconds": 1523676600,
+          "timeZoneOffsetSeconds": -25200,
+          "localizedShortDate": "4/13/2018",
+          "localizedMediumDate": "Apr 13",
+          "localizedFullDate": "Fri, Apr 13",
+          "localizedLongDate": "Apr 13, 2018",
+          "localizedShortTime": "8:30pm"
+        },
+        "paymentModel": "MERCHANT",
+        "price": {
+          "pricePerCategory": {
+            "Adult": {
+              "keyForCategory": "Adult",
+              "numberOfPassengers": 4,
+              "totalBasePrice": {
+                "amount": 780.00,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              },
+              "perPassengerBasePrice": {
+                "amount": 195.00,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              }
+            },
+            "Child": {
+              "keyForCategory": "Child",
+              "numberOfPassengers": 7,
+              "totalBasePrice": {
+                "amount": 1015.00,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              },
+              "perPassengerBasePrice": {
+                "amount": 145.00,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              }
+            }
+          },
+          "localisedPriceAndPassengerCount": [
+            {
+              "totalBasePriceForSorting": {
+                "amount": 195.00,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              },
+              "localisedPassengerTypeAndCount": "4 Adults",
+              "localisedPrice": "$780.00"
+            },
+            {
+              "totalBasePriceForSorting": {
+                "amount": 145.00,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              },
+              "localisedPassengerTypeAndCount": "7 Children",
+              "localisedPrice": "$1,015.00"
+            }
+          ],
+          "currency": "USD",
+          "base": "1795.0",
+          "baseFormatted": "$1,795.00",
+          "taxes": "0.0",
+          "taxesFormatted": "$0.00",
+          "total": "1795.0",
+          "totalFormatted": "$1,795.00"
+        },
+        "activityCategoryID": 2,
+        "activityId": 485051,
+        "activityTitle": "6:30 AM, Total Yosemite Experience from San Jose in English",
+        "activityDescription": "The Yosemite National Park tour from San Jose is an experience that will leave a memorable impression for people of all ages.\n\nThe Giant Sequoias have inhabited the park for millions of years, along with many colossal granite cliffs. Board this one-day Yosemite tour from San Jose and trust our vastly knowledgeable Expedition Leaders to excite and inform everyone about the geology, history and wildlife that make this glacier one of North America's most awesome sights to behold.\n\nThis tour from San Jose begins with a pick up from the Fairmont Hotel San Jose and then departs east through California's lush San Joaquin (also known as Central) Valley into the precipitous Sierra Nevada mountain range. Become a modern-day prospect and venture through a 150-year-old mining town learning of its rich history.\n\nThis tour is the only tour that one can experience the serenity of Tuolumne Grove's giant sequoias! These arboreal wonders are the biggest living inhabitants on Earth. You’re going to need some great angles to that huge amount awesomeness in your selfie with these giants.\n\nThe beauty of Yosemite Valley. It is so Gorgeous and a variety of stops around Inspiration Point and the EL Capitan Meadow.Also breathtaking!!! Selfies are highly encouraged at Half Dome, Yosemite Falls, and the nostalgic Bridalveil Falls.",
+        "activityItemTitle": "Day Trips & Excursions",
+        "voucherless": false,
+        "activityItemTitleEnglish": "",
+        "image": {
+          "url": "https://cdn.lemediavault.com/images/fcfe15dd91f4ffcd77317a8d7a70b6c4.jpeg",
+          "caption": "",
+          "creditString": ""
+        },
+        "durationInMillis": 50400000,
+        "termsAndConditions": {
+          "terms": " ",
+          "minFreeCancellationHoursPackageV2": 0,
+          "freeCancellationAvailablePackageV2": false
+        },
+        "destinationRegionId": "6023769",
+        "unbookedPackageV2": false
+      }
+    ],
+    "totalTripPrice": {
+      "currency": "USD",
+      "total": "1795.0",
+      "totalFormatted": "$1,795.00",
+      "totalWithoutInsurance": "1795.0",
+      "totalWithoutInsuranceFormatted": "$1,795.00"
+    },
+    "isCouponApplied": false,
+    "paymentSummary": {
+      "totalPaidPrice": {
+        "amount": 1795.00,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "totalPaidTaxAndFees": {
+        "amount": 0.00,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "subTotalPaid": {
+        "amount": 1795.00,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "totalPropertyFee": {
+        "amount": 0.00,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "totalPaidLocalizedPrice": "$1,795.00",
+      "totalPaidTaxAndFeesLocalizedPrice": "$0.00",
+      "subTotalPaidLocalizedPrice": "$1,795.00",
+      "totalPropertyFeeLocalizedPrice": ""
+    },
+    "readTripError": false,
+    "tripSource": "expedia",
+    "zetaTrip": false,
+    "showCurrencyName": false,
+    "isMRP": false,
+    "tripDataSource": "LUNA-PARTIAL",
+    "isTripUpgradable": false,
+    "isRewardsPointsBooking": false,
+    "billPayMethod": "false",
+    "customerCareCustomerType": "Blue"
+  }
+}
