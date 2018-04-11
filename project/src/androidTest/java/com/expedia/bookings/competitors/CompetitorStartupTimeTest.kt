@@ -3,14 +3,15 @@ package com.expedia.bookings.competitors
 import android.content.Context
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
-import android.support.test.uiautomator.UiDevice
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import android.support.test.uiautomator.By
+import android.support.test.uiautomator.BySelector
 import android.support.test.uiautomator.UiObject
 import android.support.test.uiautomator.UiObject2
 import android.support.test.uiautomator.UiSelector
+import android.support.test.uiautomator.Until
 import android.util.Log
 import com.expedia.bookings.tracking.TimeLogger
 import org.junit.rules.TestWatcher
@@ -19,6 +20,9 @@ import org.junit.Rule
 import org.junit.runner.Description
 import java.io.File
 import java.io.IOException
+import com.expedia.bookings.test.espresso.Common.isOneOfUiObjectsPresent
+import com.expedia.bookings.test.espresso.Common.uiAutomation
+import com.expedia.bookings.test.espresso.Common.device
 
 @RunWith(AndroidJUnit4::class)
 class CompetitorStartupTimeTest {
@@ -30,7 +34,6 @@ class CompetitorStartupTimeTest {
     }
         @Rule get
 
-    private lateinit var device: UiDevice
     private lateinit var context: Context
 
     private val startupTimeMapping = HashMap<String, ArrayList<Long>>()
@@ -39,21 +42,21 @@ class CompetitorStartupTimeTest {
         val appInfoList = ArrayList<AppInfo>()
 
         appInfoList.add(AppInfo("Expedia", "com.expedia.bookings",
-                arrayListOf(ReadyTrigger.EXPEDIA)))
+                arrayListOf(ReadyTrigger.HOTELS)))
         appInfoList.add(AppInfo("Priceline", "com.priceline.android.negotiator",
-                arrayListOf(ReadyTrigger.PERMISSION)))
-        appInfoList.add(AppInfo("Booking", "com.booking",
-                arrayListOf(ReadyTrigger.SIGNIN)))
+                arrayListOf(ReadyTrigger.HOTELS)))
+        appInfoList.add(AppInfo("Booking.com Hotels", "com.booking",
+                arrayListOf(ReadyTrigger.SEARCH)))
         appInfoList.add(AppInfo("KAYAK", "com.kayak.android",
-                arrayListOf(ReadyTrigger.SIGNIN)))
+                arrayListOf(ReadyTrigger.FLIGHTS_UCASE)))
         appInfoList.add(AppInfo("Agoda", "com.agoda.mobile.consumer",
-                arrayListOf(ReadyTrigger.PERMISSION)))
+                arrayListOf(ReadyTrigger.FLIGHTS)))
         appInfoList.add(AppInfo("Skyscanner", "net.skyscanner.android.main",
-                arrayListOf(ReadyTrigger.SKYSCANNER)))
+                arrayListOf(ReadyTrigger.HOTELS)))
         appInfoList.add(AppInfo("TripAdvisor", "com.tripadvisor.tripadvisor",
-                arrayListOf(ReadyTrigger.CONTINUE, ReadyTrigger.TRIPADVISOR)))
+                arrayListOf(ReadyTrigger.HOTELS)))
         appInfoList.add(AppInfo("Airbnb", "com.airbnb.android",
-                arrayListOf(ReadyTrigger.CONTINUEWITH)))
+                arrayListOf(ReadyTrigger.AIRBNB)))
 
         return appInfoList
     }
@@ -62,11 +65,11 @@ class CompetitorStartupTimeTest {
 
     private val CrashTimeValue: Long = -1
     private val TimeOutTimeValue: Long = -2
+    private val AppNotFoundTimeValue: Long = -3
 
     @Before
     fun setup() {
         context = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext
-        device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         grantReadWritePermission()
     }
 
@@ -74,11 +77,12 @@ class CompetitorStartupTimeTest {
     @Throws(Throwable::class)
     fun testStartupTimeOfAllApps() {
         val testRepetition = 3
+        clearRecentApps()
 
         for (appInfo in appInfoList) {
             for (i in 0 until testRepetition) {
                 try {
-                    testColdStartupTime(appInfo)
+                    testStartupTime(appInfo)
                 } catch (e: Exception) {
                     Log.d("StartupTime", appInfo.name + ": failed to run: " + e.localizedMessage)
                     if (startupTimeMapping[appInfo.name] == null) {
@@ -90,25 +94,19 @@ class CompetitorStartupTimeTest {
         }
     }
 
-    private fun testColdStartupTime(appInfo: AppInfo) {
-        clearRecentApps()
-
+    private fun testStartupTime(appInfo: AppInfo) {
         val timeLogger = TimeLogger(pageName = appInfo.name)
         val appToTest = findAppInHomeScreen(appInfo.name)
 
-        if (!appToTest.exists()) {
+        if (appToTest == null) {
             Log.d("StartupTime", appInfo.name + ": app not found")
+            startupTimeMapping[appInfo.name]!!.add(AppNotFoundTimeValue)
             return
         }
-
         forceStopAppProcess(appInfo.packageName)
-        Thread.sleep(1000)
-        clearAppData(appInfo.packageName)
-        // Need a small wait, sometime app fail to launch right after clearing data
-        Thread.sleep(1000)
-        appToTest.click()
 
         timeLogger.startTime = System.currentTimeMillis()
+        appToTest.click()
         val view = waitForAppToLoad(appInfo)
         timeLogger.endTime = System.currentTimeMillis()
         if (startupTimeMapping[appInfo.name] == null) {
@@ -119,66 +117,76 @@ class CompetitorStartupTimeTest {
         } else {
             startupTimeMapping[appInfo.name]!!.add(timeLogger.calculateTotalTime())
         }
+
+        clearRecentApps()
+        forceStopAppProcess(appInfo.packageName)
     }
 
     private fun clearRecentApps() {
+        val noRecentItemsSelectorCollection: ArrayList<BySelector> = ArrayList()
+        noRecentItemsSelectorCollection.add(By.text("No recent"))
+        noRecentItemsSelectorCollection.add(By.text("No recent items"))
+        noRecentItemsSelectorCollection.add(By.text("No recent applications"))
+        noRecentItemsSelectorCollection.add(By.text("No recently used apps"))
+
+        val recentsViewSelector = By.res("com.android.systemui:id/recents_view")
+
         device.pressHome()
         device.pressRecentApps()
+        device.wait(Until.findObject(recentsViewSelector), 10000)
 
-        val noRecent = device.findObject(UiSelector().textContains("No recent"))
-        if (noRecent.exists()) {
+        if (isOneOfUiObjectsPresent(noRecentItemsSelectorCollection)) {
             device.pressHome()
-            return
-        }
-
-        val closeAllButton = device.findObject(UiSelector().textContains("CLOSE ALL"))
-        if (closeAllButton.exists()) {
-            closeAllButton.click()
-            device.pressHome()
+            device.wait(Until.gone(recentsViewSelector), 10000)
             return
         }
 
         val height = device.displayHeight
         val width = device.displayWidth
 
-        val maxScrollAttempt = 2
-        var currentAttempt = 0
-        var clearAllButton = device.findObject(UiSelector().textContains("CLEAR ALL"))
-        while (!clearAllButton.exists() && currentAttempt < maxScrollAttempt) {
-            device.swipe(width / 2, height / 4, width / 2, height, 25)
-            clearAllButton = device.findObject(UiSelector().textContains("CLEAR ALL"))
-            currentAttempt++
-        }
+        //Swipe To The Right while
+        var swipeCounter = 0
+        while (device.findObject(recentsViewSelector) != null && swipeCounter < 50) {
+            device.swipe(width / 8, height / 2, width, height / 2, 5)
+            swipeCounter++
+            Thread.sleep(300)
 
-        if (clearAllButton.exists()) {
-            clearAllButton.click()
+            if (isOneOfUiObjectsPresent(noRecentItemsSelectorCollection)) {
+                device.pressHome()
+                device.wait(Until.gone(recentsViewSelector), 10000)
+                return
+            }
         }
-
-        device.pressHome()
     }
 
     private fun waitForAppToLoad(appInfo: AppInfo): UiObject2? {
         val readyTriggerList = appInfo.readyTriggerList
         val startTime = System.currentTimeMillis()
         val timeout = 30000
+        var view: UiObject2? = null
+        var bySelector: BySelector
+        var uiSelector: UiSelector
 
         while (System.currentTimeMillis() - startTime < timeout) {
             for (readyTrigger in readyTriggerList) {
-                val view = device.findObject(By.textContains(readyTrigger.triggerString))
-                if (view != null) {
-                    return view
+                bySelector = By.text(readyTrigger.triggerString)
+                uiSelector = UiSelector().text(readyTrigger.triggerString)
+
+                if (device.findObject(bySelector) != null &&
+                        device.findObject(uiSelector) != null &&
+                        device.findObject(bySelector).isEnabled &&
+                        device.findObject(uiSelector).exists() &&
+                        device.findObject(uiSelector).isEnabled) {
+                    return device.findObject(bySelector)
                 }
             }
         }
         return null
     }
 
-    private fun clearAppData(packageName: String) {
-        InstrumentationRegistry.getInstrumentation().uiAutomation.executeShellCommand("pm clear $packageName")
-    }
-
     private fun forceStopAppProcess(packageName: String) {
-        InstrumentationRegistry.getInstrumentation().uiAutomation.executeShellCommand("am force-stop $packageName")
+        uiAutomation.executeShellCommand("am force-stop $packageName")
+        Thread.sleep(3000)
     }
 
     private fun grantReadWritePermission() {
@@ -186,13 +194,15 @@ class CompetitorStartupTimeTest {
         InstrumentationRegistry.getInstrumentation().uiAutomation.executeShellCommand("pm grant \"com.expedia.bookings.debug\" android.permission.WRITE_EXTERNAL_STORAGE")
     }
 
-    private fun findAppInHomeScreen(appName: String): UiObject {
+    private fun findAppInHomeScreen(appName: String): UiObject? {
         val maxPageAttempt = 2
         var currentAttempt = 0
-        var appToTest = device.findObject(UiSelector().textMatches(appName))
-        while (!appToTest.exists() && currentAttempt < maxPageAttempt) {
+        val appToTest = device.findObject(UiSelector().textMatches(appName))
+        while (currentAttempt < maxPageAttempt) {
+            if (appToTest.exists()) {
+                break
+            }
             goNextPage()
-            appToTest = device.findObject(UiSelector().textStartsWith(appName))
             currentAttempt++
         }
         return appToTest
@@ -215,7 +225,7 @@ class CompetitorStartupTimeTest {
             startupTimeDirectory.mkdirs()
         }
         val file = File(startupTimePath + filerName)
-        var stringBuilder = StringBuilder("")
+        val stringBuilder = StringBuilder("")
         for ((appName, timeList) in startupTimeMapping) {
             stringBuilder.append(appName)
             stringBuilder.append(System.getProperty("line.separator"))
@@ -227,6 +237,9 @@ class CompetitorStartupTimeTest {
                     stringBuilder.append(", ")
                 } else if (time == TimeOutTimeValue) {
                     stringBuilder.append("timeout")
+                    stringBuilder.append(", ")
+                } else if (time == AppNotFoundTimeValue) {
+                    stringBuilder.append("appNotFound")
                     stringBuilder.append(", ")
                 } else {
                     stringBuilder.append(time)
@@ -244,14 +257,12 @@ class CompetitorStartupTimeTest {
     }
 
     private enum class ReadyTrigger(val triggerString: String) {
-        PERMISSION("ALLOW"),
-        SIGNIN("Sign in"),
-        CONTINUEWITH("Continue with"),
-        CONTINUE("CONTINUE"),
-        EXPEDIA("Book on the go"),
-        SKYSCANNER("The world’s travel search engine"),
-        TRIPADVISOR("Meet your ultimate travel companion"),
-        SPLASHSCREENNEXT("Next")
+        HOTELS("Hotels"),
+        HOTELS_UCASE("HOTELS"),
+        FLIGHTS("Flights"),
+        FLIGHTS_UCASE("FLIGHTS"),
+        SEARCH("Search"),
+        AIRBNB("Explore Airbnb")
     }
 
     private data class AppInfo(val name: String, val packageName: String, var readyTriggerList: ArrayList<ReadyTrigger> = ArrayList<ReadyTrigger>())
