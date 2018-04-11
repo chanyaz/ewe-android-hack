@@ -96,12 +96,12 @@ class HotelWebCheckoutViewTest {
 
     @Test
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
-    fun webCheckoutNotUsedWhenBucketedButPOSDisabled() {
+    fun webCheckoutUsedWhenABTestBucketed() {
         bucketWebCheckoutABTest(true)
         setPOSWithWebCheckoutABTestEnabled(false)
         setUpTestToStartAtDetailsScreen()
         selectHotelRoom()
-        webCheckoutViewObservable.assertValueCount(0)
+        webCheckoutViewObservable.assertValueCount(1)
     }
 
     private fun bucketWebCheckoutABTest(enable: Boolean) {
