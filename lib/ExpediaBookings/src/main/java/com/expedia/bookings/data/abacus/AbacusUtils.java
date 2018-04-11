@@ -77,6 +77,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppFlightsRecentSearch = new ABTest(25527, true);
 	public static final ABTest EBAndroidAppFlightsRouteHappy = new ABTest(25580, true);
 	public static final ABTest EBAndroidAppFlightsUrgencyMessaging = new ABTest(25449, true);
+	public static final ABTest EBAndroidFlightsNativeRateDetailsWebviewCheckout = new ABTest(25620, true);
 
 	// Hotel tests
 	public static final ABTest EBAndroidAppHotelPinnedSearch = new ABTest(15082);
@@ -157,6 +158,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightsConfirmationItinSharing.getKey());
 		testIDs.add(EBAndroidAppFlightByotSearch.getKey());
 		testIDs.add(EBAndroidAppShowAirAttachMessageOnLaunchScreen.getKey());
+		testIDs.add(EBAndroidFlightsNativeRateDetailsWebviewCheckout.getKey());
 		testIDs.add(EBAndroidAppLXNavigateToSRP.getKey());
 		testIDs.add(EBAndroidAppLastMinuteDeals.getKey());
 		testIDs.add(EBAndroidAppFlightsCrossSellPackageOnFSR.getKey());

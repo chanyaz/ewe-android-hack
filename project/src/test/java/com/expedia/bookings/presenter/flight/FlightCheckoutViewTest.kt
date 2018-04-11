@@ -86,6 +86,7 @@ class FlightCheckoutViewTest {
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
         activity = Robolectric.buildActivity(PlaygroundActivity::class.java, styledIntent).create().visible().get()
         setupDb()
+        AbacusTestUtils.resetABTests()
     }
 
     @Test
@@ -110,6 +111,99 @@ class FlightCheckoutViewTest {
         flightPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_activity, null) as FlightPresenter
         setupTestToOpenInFlightOutboundPresenter()
         flightPresenter.flightOfferViewModel.flightProductId.onNext("12345")
+
+        assertTrue(flightPresenter.webCheckoutView.visibility == View.VISIBLE)
+        assertTrue(flightPresenter.flightOverviewPresenter.visibility == View.GONE)
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testShouldShowFlightsWebviewNativeRateDetailsBucketed() {
+        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(activity,
+                AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckout,
+                AbacusUtils.EBAndroidAppShowFlightsCheckoutWebview)
+        setPOSToIndia()
+        flightPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_activity, null) as FlightPresenter
+
+        assertFalse(flightPresenter.shouldShowWebCheckoutWithoutNativeRateDetails())
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testShouldShowFlightsWebviewNativeRateDetailsControl() {
+        setPOSToIndia()
+        turnOnABTest()
+        flightPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_activity, null) as FlightPresenter
+
+        assertTrue(flightPresenter.shouldShowWebCheckoutWithoutNativeRateDetails())
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testShouldShowFlightsWebviewNativeRateDetailsControlNonINPos() {
+        turnOnABTest()
+        flightPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_activity, null) as FlightPresenter
+
+        assertFalse(flightPresenter.shouldShowWebCheckoutWithoutNativeRateDetails())
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testDontShowFlightsWebviewAllControl() {
+        flightPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_activity, null) as FlightPresenter
+        assertFalse(flightPresenter.shouldShowWebCheckoutWithoutNativeRateDetails())
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testOpeningOfWebCheckoutViewFromOverviewPresenter() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckout)
+        flightPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_activity, null) as FlightPresenter
+        val testShowWebviewSubscriber = TestObserver.create<Unit>()
+        val maskWebCheckoutActivityObservable = TestObserver.create<Boolean>()
+        setupTestToOpenInFlightOutboundPresenter()
+        flightPresenter.flightOverviewPresenter.viewModel.showWebviewCheckoutObservable.subscribe(testShowWebviewSubscriber)
+        flightPresenter.webCheckoutView.viewModel.showWebViewObservable.subscribe(maskWebCheckoutActivityObservable)
+        flightPresenter.flightOfferViewModel.flightProductId.onNext("12345")
+
+        assertTrue(flightPresenter.webCheckoutView.visibility == View.GONE)
+        assertTrue(flightPresenter.flightOverviewPresenter.visibility == View.VISIBLE)
+        flightPresenter.flightOverviewPresenter.checkoutButton.performClick()
+
+        testShowWebviewSubscriber.assertValue(Unit)
+        maskWebCheckoutActivityObservable.assertValue(true)
+        assertTrue(flightPresenter.webCheckoutView.visibility == View.VISIBLE)
+        assertTrue(flightPresenter.flightOverviewPresenter.visibility == View.GONE)
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testClosingWebviewWithWebviewCko() {
+        setPOSToIndia()
+        turnOnABTest()
+        flightPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_activity, null) as FlightPresenter
+        setupTestToOpenInFlightOutboundPresenter()
+        flightPresenter.flightOfferViewModel.flightProductId.onNext("12345")
+        val testBlankUrlSubscriber = TestObserver.create<String>()
+        flightPresenter.webCheckoutView.viewModel.webViewURLObservable.subscribe(testBlankUrlSubscriber)
+
+        (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).closeView.onNext(Unit)
+
+        assertTrue(flightPresenter.webCheckoutView.clearHistory)
+        testBlankUrlSubscriber.assertValue("about:blank")
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testNativeRateDetailsWebviewCkoBlankView() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckout)
+        flightPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_activity, null) as FlightPresenter
+        setupTestToOpenInFlightOutboundPresenter()
+        flightPresenter.flightOfferViewModel.flightProductId.onNext("12345")
+        flightPresenter.flightOverviewPresenter.checkoutButton.performClick()
+
+        assertTrue(flightPresenter.webCheckoutView.loadingWebview.visibility == View.GONE)
+        (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).blankViewObservable.onNext(Unit)
 
         assertTrue(flightPresenter.webCheckoutView.visibility == View.VISIBLE)
         assertTrue(flightPresenter.flightOverviewPresenter.visibility == View.GONE)
@@ -233,7 +327,7 @@ class FlightCheckoutViewTest {
         testPerformCreateTripSubscriber.assertValueCount(1)
         tripResponseSubscriber.assertValueCount(1)
         assertEquals("happy_round_trip", (tripResponseSubscriber.values()[0] as FlightCreateTripResponse).newTrip?.tripId)
-        testUrlSubscriber.assertValue("${PointOfSale.getPointOfSale().flightsWebCheckoutUrl}?tripid=happy_round_trip")
+        testUrlSubscriber.assertValue(webCheckoutViewModel.endpointProvider.getE3EndpointUrlWithPath("FlightCheckout?tripid=happy_round_trip"))
     }
 
     @Test
