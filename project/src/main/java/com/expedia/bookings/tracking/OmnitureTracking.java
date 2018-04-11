@@ -5889,7 +5889,6 @@ public class OmnitureTracking {
 		LocalDate returnDate = flightSearchParams.getReturnDate();
 
 		setDateValues(s, departureDate, returnDate);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsBaggageWebViewHideAd);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightRateDetailsFromCache);
 

@@ -1,11 +1,5 @@
 package com.expedia.bookings.test.happy;
 
-import java.lang.reflect.Method;
-import java.util.concurrent.TimeUnit;
-
-import org.joda.time.LocalDate;
-import org.junit.Test;
-
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.support.test.espresso.Espresso;
@@ -14,22 +8,25 @@ import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
-import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.data.abacus.AbacusVariant;
-import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.NewFlightTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.common.CheckoutScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.test.pagemodels.common.TravelerModel.SaveTravelerPrompt;
 import com.expedia.bookings.test.pagemodels.common.TravelerModel.TravelerDetails;
-import com.expedia.bookings.test.phone.newflights.FlightTestHelpers;
 import com.expedia.bookings.test.pagemodels.flights.FlightsResultsScreen;
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen;
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen;
-import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.phone.newflights.FlightTestHelpers;
+
+import org.joda.time.LocalDate;
+import org.junit.Test;
+
+import java.lang.reflect.Method;
+import java.util.concurrent.TimeUnit;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -102,7 +99,6 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("9:00 pm - 11:00 pm (2h 0m)");
 		FlightsResultsScreen.assertDeltaPrice("$696");
 		FlightsScreen.selectFlight(FlightsScreen.inboundFlightList(), 0);
-		assertInsuranceVisibilityTests();
 		FlightsScreen.selectInboundFlight().perform(click());
 
 		assertCheckoutOverview();
@@ -363,28 +359,6 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 		PackageScreen.bundleTotalFooterWidget().check((matches(withContentDescription(
 			"Trip total is $696. Includes taxes and fees. . Cost Breakdown dialog. Button."))));
-	}
-
-	private void assertInsuranceVisibilityTests() {
-		// insurance visibility in flight summary screen (Abacus 12268)
-		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary,
-			AbacusVariant.BUCKETED.getValue());
-		FlightsScreen.selectInboundFlight().perform(click());
-		assertInsuranceIsVisible();
-		PackageScreen.checkout().perform(click());
-		assertInsuranceIsNotVisible();
-		Common.pressBack();
-		Common.pressBack();
-
-		// insurance visibility in checkout screen (control)
-		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary,
-				AbacusVariant.CONTROL.getValue());
-		FlightsScreen.selectInboundFlight().perform(click());
-		assertInsuranceIsNotVisible();
-		PackageScreen.checkout().perform(click());
-		assertInsuranceIsVisible();
-		Common.pressBack();
-		Common.pressBack();
 	}
 
 	private void assertInsuranceBenefits() {

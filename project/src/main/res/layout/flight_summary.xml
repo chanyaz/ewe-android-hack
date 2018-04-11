@@ -128,17 +128,6 @@
 
     </LinearLayout>
 
-    <com.expedia.bookings.widget.InsuranceWidget
-        android:id="@+id/insurance_widget"
-        style="@style/MaterialCardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/card_view_container_margin"
-        android:layout_marginRight="@dimen/card_view_container_margin"
-        android:gravity="center_vertical"
-        android:visibility="gone"
-        app:cardUseCompatPadding="true" />
-
     <include
         android:id="@+id/split_ticket_info_container"
         layout="@layout/split_ticket_info_phone_dialog_content"
