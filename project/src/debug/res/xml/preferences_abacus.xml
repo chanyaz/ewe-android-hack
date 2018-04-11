@@ -198,9 +198,9 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="13202"
+            android:key="25624"
             android:summary="%s"
-            android:title="Flight Byot Search - 13202" />
+            android:title="Flight Byot Search - 25624" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
