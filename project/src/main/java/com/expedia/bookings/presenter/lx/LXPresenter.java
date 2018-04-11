@@ -23,8 +23,10 @@ import com.expedia.bookings.animation.TransitionElement;
 import com.expedia.bookings.data.AbstractItinDetailsResponse;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.extensions.LineOfBusinessExtensions;
 import com.expedia.bookings.data.lx.LxSearchParams;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
@@ -36,7 +38,9 @@ import com.expedia.bookings.utils.ApiDateUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LXConfirmationWidget;
 import com.expedia.bookings.widget.LoadingOverlayWidget;
+import com.expedia.bookings.widget.shared.WebCheckoutView;
 import com.expedia.vm.LXMapViewModel;
+import com.expedia.vm.LXWebCheckoutViewViewModel;
 import com.google.android.gms.maps.MapView;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
@@ -67,7 +71,7 @@ public class LXPresenter extends Presenter {
 	MapView detailsMapView;
 
 	@InjectView(R.id.activity_details_presenter)
-	LXDetailsPresenter detailsPresenter;
+	public LXDetailsPresenter detailsPresenter;
 
 	@InjectView(R.id.details_loading_overlay)
 	LoadingOverlayWidget loadingOverlay;
@@ -75,10 +79,17 @@ public class LXPresenter extends Presenter {
 	@InjectView(R.id.confirmation)
 	LXConfirmationWidget confirmationWidget;
 
+	@InjectView(R.id.web_checkout_view_stub)
+	ViewStub webCheckoutViewStub;
 
 	LXCheckoutPresenter checkoutPresenter;
 
 	LXOverviewPresenter overviewPresenter;
+
+	public WebCheckoutView webCheckoutView;
+
+	@Inject
+	LXWebCheckoutViewViewModel webCheckoutViewViewModel;
 
 	private static class LXParamsOverlay {
 		// ignore
@@ -124,6 +135,13 @@ public class LXPresenter extends Presenter {
 			addTransition(checkoutToConfirmation);
 			addTransition(checkoutToResults);
 		}
+
+		if (showWebCheckoutView()) {
+			webCheckoutView = (WebCheckoutView) webCheckoutViewStub.inflate();
+			addTransition(detailsToWebCheckout);
+			setWebCheckoutView();
+		}
+
 		show(resultsPresenter);
 		resultsPresenter.setVisibility(VISIBLE);
 
@@ -230,6 +248,19 @@ public class LXPresenter extends Presenter {
 			super.endTransition(forward);
 			if (!forward) {
 				AccessibilityUtil.setFocusToToolbarNavigationIcon(detailsPresenter.toolbar);
+			}
+		}
+	};
+
+	private Transition detailsToWebCheckout = new VisibilityTransition(this, LXDetailsPresenter.class,
+		WebCheckoutView.class) {
+		@Override
+		public void endTransition(boolean forward) {
+			super.endTransition(forward);
+			detailsPresenter.setVisibility(forward ? GONE : VISIBLE);
+			webCheckoutView.setVisibility(forward ? VISIBLE : GONE);
+			if (forward) {
+				webCheckoutViewViewModel.doCreateTrip();
 			}
 		}
 	};
@@ -434,7 +465,10 @@ public class LXPresenter extends Presenter {
 
 	@Subscribe
 	public void onOfferBooked(Events.LXOfferBooked event) {
-		if (isUniversalCheckout()) {
+		if (showWebCheckoutView()) {
+			show(webCheckoutView);
+		}
+		else if (isUniversalCheckout()) {
 			show(overviewPresenter);
 		}
 		else {
@@ -519,4 +553,77 @@ public class LXPresenter extends Presenter {
 		});
 		return dialog;
 	}
+
+	private void setWebCheckoutView() {
+		webCheckoutView.setViewModel(webCheckoutViewViewModel);
+		webCheckoutViewViewModel.getCloseView().subscribe(onCloseWebView);
+		webCheckoutViewViewModel.getBackObservable().subscribe(onBackClickObserver);
+		webCheckoutViewViewModel.getBlankViewObservable().subscribe(blankViewObserver);
+	}
+
+	private Boolean showWebCheckoutView() {
+		return AbacusFeatureConfigManager.isBucketedForTest(getContext(), AbacusUtils.EBAndroidAppLxWebCheckoutView);
+	}
+
+	private Observer<Unit> onCloseWebView = new DisposableObserver<Unit>() {
+		@Override
+		public void onComplete() {
+		}
+
+		@Override
+		public void onError(Throwable e) {
+		}
+
+		@Override
+		public void onNext(Unit e) {
+			webCheckoutView.clearHistory();
+			webCheckoutViewViewModel.getWebViewURLObservable().onNext("about:blank");
+		}
+	};
+
+	private Observer<Unit> onBackClickObserver = new DisposableObserver<Unit>() {
+		@Override
+		public void onComplete() {
+		}
+
+		@Override
+		public void onError(Throwable e) {
+		}
+
+		@Override
+		public void onNext(Unit e) {
+			back();
+		}
+	};
+
+	private Observer<Unit> blankViewObserver = new DisposableObserver<Unit>() {
+		@Override
+		public void onComplete() {
+		}
+
+		@Override
+		public void onError(Throwable e) {
+		}
+
+		@Override
+		public void onNext(Unit e) {
+			LXPresenter.super.back();
+		}
+	};
+
+	@Override
+	public boolean back() {
+		if (getCurrentState() == WebCheckoutView.class.getName()) {
+			webCheckoutView.back();
+			return true;
+		}
+		else if (loadingOverlay.getVisibility() != View.VISIBLE) {
+			return super.back();
+		}
+		else {
+			super.back();
+			return true;
+		}
+	}
 }
+
