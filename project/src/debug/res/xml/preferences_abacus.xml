@@ -895,6 +895,13 @@
             android:key="24888"
             android:title="LX Notifications for Hotel Customers - 24888" />
 
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
+            android:key="25622"
+            android:title="LX Web checkout view - 25622" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

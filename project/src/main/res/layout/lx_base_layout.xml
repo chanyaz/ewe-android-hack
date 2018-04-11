@@ -59,6 +59,13 @@
         android:inflatedId="@+id/widget_bundle_overview"
         android:layout="@layout/lx_overview_stub" />
 
+    <ViewStub
+        android:id="@+id/web_checkout_view_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inflatedId="@+id/web_checkout_view"
+        android:layout="@layout/web_checkout_view_stub" />
+
     <com.expedia.bookings.widget.LXConfirmationWidget
         android:id="@+id/confirmation"
         android:layout_width="match_parent"
