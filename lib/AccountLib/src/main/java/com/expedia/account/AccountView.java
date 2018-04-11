@@ -1549,6 +1549,7 @@ public class AccountView extends BufferedPresenter {
 		if (mConfig.enableRecaptcha) {
 			SigninHandler handler = new SigninHandler(e.email, e.password);
 			Recaptcha.recaptchaCheck((Activity) getContext(), mConfig.recaptchaAPIKey, handler);
+			vSignInLayout.enableButtons();
 		}
 		else {
 			doSignIn(e.email, e.password, null);
