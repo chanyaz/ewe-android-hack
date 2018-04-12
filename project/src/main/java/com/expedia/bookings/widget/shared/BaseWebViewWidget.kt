@@ -11,6 +11,7 @@ import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import com.expedia.bookings.analytics.AppAnalytics
@@ -24,15 +25,25 @@ import com.expedia.vm.WebViewViewModel
 open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
     val HEADER_CLASS = "site-header-primary"
-    val FACEBOOK_LOGIN_CLASS = "facebook-login-pane"
 
     val toolbar: Toolbar by bindView(R.id.toolbar)
+
+    var webViewPopUp: WebView? = null
+
+    val container by bindView<FrameLayout>(R.id.web_container)
     val webView: WebView by bindView(R.id.web_view)
     val progressView: ProgressBar by bindView(R.id.webview_progress_view)
     val statusBarHeight by lazy { Ui.getStatusBarHeight(context) }
 
     var webClient = object : WebViewClient() {
-        override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+        override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
+            val url = request.url.toString()
+            if (url.contains("facebook")) {
+                webViewPopUp?.visibility = View.VISIBLE
+            } else {
+                hideWebViewPopUp()
+                webView.loadUrl(url)
+            }
             return false
         }
 
@@ -56,9 +67,16 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
         }
     }
 
+    protected fun hideWebViewPopUp() {
+        webViewPopUp?.let {
+            webViewPopUp!!.visibility = View.GONE
+            container.removeView(webViewPopUp)
+            webViewPopUp = null
+        }
+    }
+
     open fun onPageFinished(url: String) {
         preventLoadingOfDivClass(HEADER_CLASS)
-        preventLoadingOfDivClass(FACEBOOK_LOGIN_CLASS)
         toggleLoading(false)
     }
 
@@ -77,6 +95,7 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
         setToolbarPadding()
         webView.webViewClient = webClient
         webView.settings.javaScriptEnabled = true
+        webView.settings.setSupportMultipleWindows(true)
 
         webView.setDownloadListener { url, _, _, _, _ ->
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
