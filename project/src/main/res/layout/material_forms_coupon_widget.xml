@@ -99,7 +99,7 @@
             android:baselineAligned="false">
 
             <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"

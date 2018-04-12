@@ -89,7 +89,8 @@
                     style="@style/FilterSortLabelTheme"
                     android:layout_weight="1"
                     android:focusable="true"
-                    android:text="@string/stops" />
+                    android:text="@string/stops"
+                    android:layout_width="0dp" />
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/price_label_stops"
@@ -161,7 +162,8 @@
                     android:layout_weight="1"
                     android:focusable="true"
                     android:paddingBottom="@dimen/sort_filter_padding_small"
-                    android:text="@string/airlines" />
+                    android:text="@string/airlines"
+                    android:layout_width="0dp" />
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/price_label_airline"

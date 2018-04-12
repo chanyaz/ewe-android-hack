@@ -9,7 +9,7 @@
     <com.expedia.bookings.widget.TextView
         android:id="@+id/insurance_name"
         style="@style/TextView.Itin.SectionText"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center_vertical"
