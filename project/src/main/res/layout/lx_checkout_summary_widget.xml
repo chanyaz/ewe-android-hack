@@ -19,7 +19,6 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:orientation="vertical"
         android:layout_weight="3">
 
@@ -96,7 +95,6 @@
             android:id="@+id/grand_total_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_gravity="right"
             android:text="@string/total_with_tax"
             android:textSize="11sp" />
@@ -105,8 +103,6 @@
             android:id="@+id/price_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/grand_total_text"
             android:layout_gravity="right"
             android:drawablePadding="6dp"
             android:drawableRight="@drawable/info"

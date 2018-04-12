@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
@@ -68,7 +69,6 @@
                 android:id="@+id/package_hotel_details_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/hotel_info_container"
                 android:layout_gravity="center"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="9dp"
@@ -80,7 +80,6 @@
                 android:id="@+id/package_hotel_select_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/hotel_info_container"
                 android:layout_gravity="center"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="9dp"

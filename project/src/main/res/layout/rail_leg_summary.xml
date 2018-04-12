@@ -81,7 +81,6 @@
                 android:id="@+id/rail_leg_details_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/times_view"
                 android:layout_gravity="top"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="9dp"

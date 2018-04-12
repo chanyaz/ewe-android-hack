@@ -177,4 +177,5 @@
     <issue id="SetTextI18n" severity="error"></issue>
     <issue id="DrawAllocation" severity="error" />
     <issue id="Recycle" severity="error" />
+    <issue id="ObsoleteLayoutParam" severity="error" />
 </lint>

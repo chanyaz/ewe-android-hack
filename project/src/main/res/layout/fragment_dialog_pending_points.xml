@@ -90,7 +90,6 @@
         android:layout_width="wrap_content"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:layout_below="@id/packages_pp"
         android:text="@string/activities"
         android:importantForAccessibility="no"
         android:textColor="@color/gray800" />
@@ -100,7 +99,6 @@
         android:layout_width="wrap_content"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:layout_below="@id/packages_days"
         android:gravity="right"
         tools:text="30 days"
         android:importantForAccessibility="no"
@@ -113,7 +111,6 @@
         android:layout_width="wrap_content"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:layout_below="@id/activities_pp"
         android:text="@string/nav_hotels"
         android:importantForAccessibility="no"
         android:textColor="@color/gray800" />
@@ -123,7 +120,6 @@
         android:layout_width="wrap_content"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:layout_below="@id/activities_days"
         android:gravity="right"
         tools:text="35 days"
         android:importantForAccessibility="no"
@@ -136,7 +132,6 @@
         android:layout_width="wrap_content"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:layout_below="@id/hotels_pp"
         android:text="@string/cruises"
         android:importantForAccessibility="no"
         android:textColor="@color/gray800" />
@@ -146,7 +141,6 @@
         android:layout_width="wrap_content"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:layout_below="@id/hotels_days"
         android:gravity="right"
         tools:text="45 days"
         android:importantForAccessibility="no"
@@ -158,7 +152,6 @@
         android:layout_width="wrap_content"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:layout_below="@id/cruises_pp"
         android:text="@string/cars"
         android:importantForAccessibility="no"
         android:textColor="@color/gray800" />
@@ -168,7 +161,6 @@
         android:layout_width="wrap_content"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:layout_below="@id/cruises_days"
         android:gravity="right"
         tools:text="90 days"
         android:importantForAccessibility="no"

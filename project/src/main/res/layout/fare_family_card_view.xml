@@ -64,7 +64,6 @@
                 style="@style/Core.Text.300.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/traveller"
                 tools:text="$0.00" />
 
             <com.expedia.bookings.widget.TextView

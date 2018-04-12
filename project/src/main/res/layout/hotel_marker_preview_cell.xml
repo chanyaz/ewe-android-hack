@@ -60,7 +60,6 @@
             android:layout_marginBottom="@dimen/hotel_preview_margin_large"
             android:layout_marginRight="@dimen/hotel_preview_margin_large"
             android:layout_marginTop="@dimen/hotel_preview_margin_top"
-            android:layout_toRightOf="@id/hotel_preview_image"
             android:layout_weight="1"
             android:orientation="vertical">
 

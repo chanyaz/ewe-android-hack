@@ -68,7 +68,6 @@
                             android:id="@+id/toolbar_email"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/toolbar_name"
                             android:textColor="@color/account_toolbar_text_color"
                             android:textSize="@dimen/account_toolbar_subtitle_text_size"
                             app:textStyle="normal"
@@ -253,7 +252,6 @@
                     android:id="@+id/account_sign_in"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
                     android:layout_marginLeft="6dp"
                     android:layout_marginRight="6dp"
                     android:layout_marginTop="8dp"
@@ -277,7 +275,6 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginRight="8dp"
-                            android:layout_toLeftOf="@+id/sign_in_text_view"
                             android:scaleType="center"
                             android:src="@drawable/brand_logo"/>
 
@@ -285,7 +282,6 @@
                             android:id="@+id/sign_in_text_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
                             android:layout_gravity="center_vertical"
                             style="@style/Core.Text.400.Medium"
                             android:textColor="@color/account_sign_in_button_text_color"/>

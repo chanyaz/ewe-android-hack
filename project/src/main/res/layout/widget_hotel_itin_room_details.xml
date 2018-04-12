@@ -42,7 +42,6 @@
                 android:id="@+id/itin_hotel_room_details_chevron"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_alignBaseline="@+id/itin_hotel_details_room_details_text"
                 android:layout_gravity="right"
                 android:gravity="center"
                 android:layout_marginRight="10dp"

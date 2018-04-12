@@ -156,7 +156,6 @@
                 android:id="@+id/full_tile_strikethrough_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_gravity="right"
                 android:textColor="@color/launch_list_strikethrough_txt"
                 style="@style/Core.Text.300"/>
@@ -165,7 +164,6 @@
                 android:id="@+id/full_tile_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_gravity="bottom"
                 android:textColor="@color/launch_list_txt"
                 style="@style/Core.Text.500"

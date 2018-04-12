@@ -34,7 +34,6 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/card_info_container"
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/temporary_medium_padding"
             android:layout_marginRight="@dimen/temporary_medium_padding"
