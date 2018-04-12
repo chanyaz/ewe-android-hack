@@ -738,15 +738,14 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
         for (index in 0..amenityList.size - 1) {
 
-            val amenityLayout = com.mobiata.android.util.Ui.inflate<LinearLayout>(R.layout.new_amenity_row, amenityContainer, false)
-            val amenityTextView = amenityLayout.findViewById<android.widget.TextView>(R.id.amenity_label)
-            val amenityIconView = amenityLayout.findViewById<ImageView>(R.id.amenity_icon)
-            amenityIconView.setLayerType(View.LAYER_TYPE_HARDWARE, paint)
+            val amenityTextView = com.mobiata.android.util.Ui.inflate<android.widget.TextView>(R.layout.new_amenity_row, amenityContainer, false)
+            amenityTextView.setLayerType(View.LAYER_TYPE_HARDWARE, paint)
             val amenityStr = context.getString(amenityList[index].propertyDescriptionId)
-
             amenityTextView.text = amenityStr
-            amenityIconView.setImageDrawable(ContextCompat.getDrawable(context, amenityList[index].drawableRes))
-            amenityContainer.addView(amenityLayout)
+            val topDrawable = ContextCompat.getDrawable(context, amenityList[index].drawableRes)
+            topDrawable.setBounds(0, 0, topDrawable.minimumWidth, topDrawable.minimumHeight)
+            amenityTextView.setCompoundDrawables(null, topDrawable, null, null)
+            amenityContainer.addView(amenityTextView)
         }
         amenityContainer.scheduleLayoutAnimation()
     }

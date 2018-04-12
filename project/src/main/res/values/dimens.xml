@@ -27,7 +27,7 @@
     <dimen name="launch_tile_hotel_sale_vertical_padding">4dp</dimen>
     <dimen name="launch_tile_hotel_sale_drawable_padding">5dp</dimen>
     <dimen name="launch_tile_hotel_sale_right_margin">@dimen/home_screen_card_view_container_margin</dimen>
-    <dimen name="launch_lob_height">103dp</dimen>
+    <dimen name="launch_lob_height">46dp</dimen>
     <dimen name="launch_tile_margin_bottom">@dimen/home_screen_card_view_container_margin</dimen>
     <dimen name="launch_tile_margin_side">@dimen/home_screen_card_view_container_margin</dimen>
     <dimen name="launch_tile_margin_middle">@dimen/home_screen_card_view_container_margin</dimen>

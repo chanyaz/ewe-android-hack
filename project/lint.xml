@@ -179,4 +179,5 @@
     <issue id="Recycle" severity="error" />
     <issue id="ObsoleteLayoutParam" severity="error" />
     <issue id="ObsoleteSdkInt" severity="error" />
+    <issue id="UseCompoundDrawables" severity="error" />
 </lint>
