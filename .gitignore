@@ -27,6 +27,7 @@ build
 *.iml
 *.ipr
 *.iws
+projectFilesBackup/
 
 # OS generated files
 .DS_Store
