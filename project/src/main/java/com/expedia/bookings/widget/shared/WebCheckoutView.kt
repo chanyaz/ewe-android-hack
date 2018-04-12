@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Message
 import android.util.AttributeSet
 import android.view.View
 import android.view.WindowManager
@@ -21,6 +22,8 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.vm.WebCheckoutViewViewModel
 import com.expedia.vm.WebViewViewModel
 import com.mobiata.android.util.AndroidUtils
+import android.view.ViewGroup
+import android.widget.FrameLayout
 
 class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget(context, attrs) {
 
@@ -29,6 +32,29 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
     var clearHistory = false
 
     val chromeClient: WebChromeClient = object : WebChromeClient() {
+
+        override fun onCreateWindow(view: WebView, isDialog: Boolean,
+                                    isUserGesture: Boolean, resultMsg: Message): Boolean {
+            webViewPopUp = WebView(context)
+            webViewPopUp!!.run {
+                isVerticalScrollBarEnabled = false
+                isHorizontalScrollBarEnabled = false
+                settings.javaScriptCanOpenWindowsAutomatically = true
+                webViewClient = webClient
+                settings.setJavaScriptEnabled(true)
+                settings.setSavePassword(false)
+                layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT)
+                visibility = View.GONE
+            }
+            container.addView(webViewPopUp)
+            val transport = resultMsg.obj as WebView.WebViewTransport
+            transport.webView = webViewPopUp
+            resultMsg.sendToTarget()
+
+            return true
+        }
+
         override fun onProgressChanged(view: WebView?, loadProgress: Int) {
             super.onProgressChanged(view, loadProgress)
             if (loadProgress > 33 && loadingWebview.visibility == View.VISIBLE) {
@@ -100,6 +126,11 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
     }
 
     fun back() {
+        if (webViewPopUp != null) {
+            hideWebViewPopUp()
+            return
+        }
+
         if (!previousURLIsAboutBlank() && webView.canGoBack()) {
             webView.goBack()
             return
