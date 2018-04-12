@@ -41,7 +41,7 @@ public class ContactInitialsImageView extends ImageView {
 				ContactDetailsCompletenessStatus.DEFAULT.ordinal())];
 			mStatus = direction;
 		}
-
+		ta.recycle();
 		setStatus(mStatus);
 		setTraveler(null);
 	}

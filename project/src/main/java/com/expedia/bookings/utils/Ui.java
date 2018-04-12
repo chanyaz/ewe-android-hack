@@ -286,7 +286,9 @@ public class Ui extends com.mobiata.android.util.Ui {
 		TypedValue typedValue = new TypedValue();
 		int[] textSizeAttr = new int[] { android.R.attr.actionBarSize };
 		TypedArray a = context.obtainStyledAttributes(typedValue.data, textSizeAttr);
-		return (int) a.getDimension(0, 44);
+		int toolBarSize = (int) a.getDimension(0, 44);
+		a.recycle();
+		return toolBarSize;
 	}
 
 	public static int toolbarSizeWithStatusBar(Context context) {

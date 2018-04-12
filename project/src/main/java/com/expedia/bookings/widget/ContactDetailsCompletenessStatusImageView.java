@@ -37,7 +37,7 @@ public class ContactDetailsCompletenessStatusImageView extends ImageView {
 					ContactDetailsCompletenessStatus.DEFAULT.ordinal())];
 			mStatus = checkoutStatus;
 		}
-
+		ta.recycle();
 		setStatus(mStatus);
 		setImageDrawable(new CheckoutInfoStatusDrawable());
 	}
