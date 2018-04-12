@@ -23,7 +23,6 @@
         <com.expedia.bookings.widget.RoundedCornerFrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_gravity="center_vertical|right"
             app:radius="2dp">
 
