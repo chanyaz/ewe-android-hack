@@ -178,4 +178,5 @@
     <issue id="DrawAllocation" severity="error" />
     <issue id="Recycle" severity="error" />
     <issue id="ObsoleteLayoutParam" severity="error" />
+    <issue id="ObsoleteSdkInt" severity="error" />
 </lint>

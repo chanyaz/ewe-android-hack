@@ -1,7 +1,5 @@
 <resources>
-    <style name="acct__Account.Widget.BorderlessButton" parent="Widget.AppCompat.Button.Borderless">
-        <item name="android:background">@drawable/acct__bg_btn_borderless_kitkat</item>
-    </style>
+    <style name="acct__Account.Widget.BorderlessButton" parent="android:Widget.Material.Button.Borderless" />
 
     <style name="acct__TextInputLayoutStyle" parent="Widget.Design.TextInputLayout">
         <item name="colorControlNormal">@color/acct__single_page_separate_line_color</item>

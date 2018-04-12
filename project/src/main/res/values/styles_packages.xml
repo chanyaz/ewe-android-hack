@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="V2.Theme.Packages" parent="Whitelabel.PackageTheme.Base" />
+    <style name="V2.Theme.Packages" parent="Whitelabel.PackageTheme.Base">
+        <item name="android:alertDialogTheme">@style/Theme.AlertDialog</item>
+    </style>
 
     <!--
         Override this theme in whitelabels to provide whitelabel specific theme values.

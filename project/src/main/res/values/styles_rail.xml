@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.Rail" parent="Base.Rail"/>
+    <style name="Theme.Rail" parent="Base.Rail">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@color/app_status_bar_color</item>
+    </style>
 
     <style name="Base.Rail" parent="AppTheme.Base">
         <item name="android:colorButtonNormal">@color/rail_primary_color</item>

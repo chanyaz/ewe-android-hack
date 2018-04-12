@@ -222,8 +222,7 @@
     <style name="ProgressBar.AddGuestItin" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
         <item name="android:indeterminateOnly">true</item>
     </style>
-
-    <style name="ProgressBar.AddGuestItinNewScreen" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
+    <style name="ProgressBar.AddGuestItinNewScreen" parent="@android:style/Widget.Material.ProgressBar.Horizontal">
         <item name="android:indeterminateOnly">true</item>
     </style>
 
@@ -623,14 +622,12 @@
     <style name="FlightWarningBarRed" parent="WarningBar">
         <item name="android:background">@color/flight_red_warning_bar_color</item>
     </style>
-
-    <!-- Borderless button for "Enter Itinerary Number" in login screen -->
-    <style name="Widget.BorderlessButton" parent="Widget.AppCompat.Button.Borderless">
+    <style name="Widget.BorderlessButton" parent="android:Widget.Material.Button.Borderless">
         <item name="android:background">@drawable/bg_btn_borderless</item>
     </style>
 
     <style name="Widget.BorderlessButton.Crystal">
-        <item name="android:background">@drawable/bg_btn_borderless_crystal_theme</item>
+        <item name="android:background">@drawable/bg_btn_borderless_ripple</item>
     </style>
 
     <style name="Widget.InfoIconButton" parent="Widget.AppCompat.Button.Borderless">

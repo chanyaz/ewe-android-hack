@@ -1,4 +1,0 @@
-<resources>
-    <style name="acct__Account.Widget.BorderlessButton" parent="android:Widget.Material.Button.Borderless">
-    </style>
-</resources>

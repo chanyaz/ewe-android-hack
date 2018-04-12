@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="acct__btn_facebook_normal">#3b5998</color>
-    <color name="acct__btn_facebook_pressed">#667cab</color>
-    <color name="acct__btn_facebook_focused">#4e679d</color>
     <color name="acct__btn_facebook_text">@color/acct__white</color>
 
     <color name="acct__btn_borderless_normal">#00ffffff</color>
