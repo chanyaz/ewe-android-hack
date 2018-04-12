@@ -1,7 +1,6 @@
 package com.mobiata.android.time.widget;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -137,6 +136,9 @@ public class MonthView extends View {
 	private float startCenterY = 0;
 	private float endCenterX = 0;
 	private float endCenterY = 0;
+	private RectF drawRect;
+	private Paint first;
+	private Paint second;
 
 	public MonthView(Context context) {
 		this(context, null);
@@ -183,6 +185,9 @@ public class MonthView extends View {
 		// Accessibility
 		mTouchHelper = new MonthTouchHelper(this);
 		ViewCompat.setAccessibilityDelegate(this, mTouchHelper);
+		drawRect = new RectF();
+		first = new Paint();
+		second = new Paint();
 	}
 
 	public void setDaysTypeface(Typeface typeface) {
@@ -285,9 +290,6 @@ public class MonthView extends View {
 
 		if (DEBUG_DRAW) {
 			// Draw cell backgrounds alternating colors; may jump (don't care to fix really)
-			RectF drawRect = new RectF();
-			Paint first = new Paint();
-			Paint second = new Paint();
 			first.setColor(Color.RED);
 			second.setColor(Color.BLUE);
 			for (int week = 0; week < numRowsToDraw; week++) {

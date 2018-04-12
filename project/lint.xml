@@ -175,4 +175,5 @@
     </issue>
     <issue id="RelativeOverlap" severity="error"></issue>
     <issue id="SetTextI18n" severity="error"></issue>
+    <issue id="DrawAllocation" severity="error" />
 </lint>

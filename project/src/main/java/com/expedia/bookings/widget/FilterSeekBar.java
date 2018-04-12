@@ -18,6 +18,7 @@ public class FilterSeekBar extends CustomSeekBarView {
 	private OnSeekBarChangeListener listener;
 	private String a11yName;
 	private String currentA11yValue;
+	private RectF rectf;
 
 	public FilterSeekBar(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -40,6 +41,7 @@ public class FilterSeekBar extends CustomSeekBarView {
 
 			}
 		});
+		rectf = new RectF();
 	}
 
 	public int getMaxValue() {
@@ -118,7 +120,6 @@ public class FilterSeekBar extends CustomSeekBarView {
 	public void onDraw(@NonNull Canvas canvas) {
 		super.onDraw(canvas);
 
-		RectF rectf = new RectF();
 		rectf.top = (getHeight() - barHeight) / 2.0f;
 		rectf.bottom = (getHeight() + barHeight) / 2.0f;
 

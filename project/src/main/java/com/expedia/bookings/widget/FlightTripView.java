@@ -58,6 +58,7 @@ public class FlightTripView extends View {
 	private boolean mIsRoundTrip = false;
 
 	private List<DrawComponent> mDrawComponents = new ArrayList<DrawComponent>();
+	float[] pts;
 
 	private enum DrawType {
 		AIRPORT_START_END,
@@ -214,8 +215,6 @@ public class FlightTripView extends View {
 		float circleBottom = (height - mWaypointTextTopMargin) / 2.0f;
 		float circleCenter = (height - mWaypointTextTopMargin) / 4.0f;
 		float halfStrokeWidth = mTripPaint.getStrokeWidth() / 2;
-		int numPoints = getNumPoints();
-		float[] pts = new float[numPoints];
 		int numPts = 0;
 
 		for (DrawComponent drawComponent : mDrawComponents) {
@@ -382,6 +381,7 @@ public class FlightTripView extends View {
 			mDrawComponents.add(returnLine);
 			mDrawComponents.add(returnEnd);
 		}
+		pts = new float[getNumPoints()];
 	}
 
 	private void calculateWidths() {
@@ -555,6 +555,7 @@ public class FlightTripView extends View {
 		if (DEBUG) {
 			Log.d("FlightTripView calc: " + ((System.nanoTime() - start) / 1000) + " microseconds");
 		}
+		pts = new float[getNumPoints()];
 	}
 
 	/**

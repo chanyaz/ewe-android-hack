@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.LinearGradient;
@@ -67,6 +68,7 @@ public class FadingImageView extends ImageView {
 		}
 	}
 
+	@SuppressLint("DrawAllocation")
 	@Override
 	protected void onDraw(Canvas canvas) {
 		Rect rect = mBounds;

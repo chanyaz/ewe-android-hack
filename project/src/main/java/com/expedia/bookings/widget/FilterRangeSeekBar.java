@@ -44,12 +44,14 @@ public class FilterRangeSeekBar extends CustomSeekBarView {
 
 	public String a11yEndName;
 	public String currentA11yEndValue;
+	private RectF rectf;
 
 	public FilterRangeSeekBar(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		mTouchHelper = new FilterRangeSeekBarTouchHelper(this);
 		setKeyProgressIncrement(1);
 		ViewCompat.setAccessibilityDelegate(this, mTouchHelper);
+		rectf = new RectF();
 	}
 
 	@Override
@@ -144,7 +146,6 @@ public class FilterRangeSeekBar extends CustomSeekBarView {
 	public void onDraw(@NonNull Canvas canvas) {
 		super.onDraw(canvas);
 
-		RectF rectf = new RectF();
 		rectf.top = (getHeight() - barHeight) / 2.0f;
 		rectf.bottom = (getHeight() + barHeight) / 2.0f;
 
