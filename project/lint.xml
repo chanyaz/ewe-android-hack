@@ -181,4 +181,5 @@
     <issue id="ObsoleteSdkInt" severity="error" />
     <issue id="UseCompoundDrawables" severity="error" />
     <issue id="AnimatorKeep" severity="error" />
+    <issue id="UseSparseArrays" severity="error" />
 </lint>
