@@ -16,6 +16,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.Keep;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -230,7 +231,7 @@ public class RingedCountView extends View {
 	 * Animates the count and ring percent to the passed values.
 	 *
 	 * @param count
-	 * @param float percent
+	 * @param percent
 	 */
 	public void animateTo(int count, float percent) {
 		if (mAnimator != null && mAnimator.isRunning()) {
@@ -411,6 +412,7 @@ public class RingedCountView extends View {
 			return tf;
 		}
 
+		@Keep
 		public void setPercent(float filled) {
 			mFilledPercent = filled;
 			invalidateSelf();
@@ -420,6 +422,7 @@ public class RingedCountView extends View {
 			return mFilledPercent;
 		}
 
+		@Keep
 		public void setCount(float count) {
 			mCountText = null;
 			if (count != mCount) {

@@ -9,6 +9,7 @@ import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.Keep;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -240,6 +241,7 @@ public class SlidingRadioGroup extends RadioGroup implements RadioGroup.OnChecke
 		}
 
 		// This is used by ObjectAnimator.ofFloat(this, "rectTransit", ...) above.
+		@Keep
 		@SuppressWarnings("unused")
 		public void setRectTransit(float percent) {
 			mRectExposed.top = transit(mRectFrom.top, mRectTo.top, percent);
