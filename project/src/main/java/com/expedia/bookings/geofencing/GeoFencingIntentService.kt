@@ -101,39 +101,43 @@ class GeoFencingIntentService : IntentService("GeoFencingIntentService"),
 
                 //set geo fences here
                 t.response.groups.get(0).items.forEach {
-                    val builder = GeofencingRequest.Builder()
+                    try {
+                        val builder = GeofencingRequest.Builder()
 
-                    builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER)
-                    builder.addGeofence(Geofence.Builder()
-                            .setRequestId(it.venue.id)
-                            .setCircularRegion(
-                                    it.venue.location.lat,
-                                    it.venue.location.lng,
-                                    5000f
-                            )
-                            .setExpirationDuration(172800000L)
-                            .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
-                            .build())
+                        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER)
+                        builder.addGeofence(Geofence.Builder()
+                                .setRequestId(it.venue.id)
+                                .setCircularRegion(
+                                        it.venue.location.lat,
+                                        it.venue.location.lng,
+                                        5000f
+                                )
+                                .setExpirationDuration(172800000L)
+                                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
+                                .build())
 
-                    val geoReq = builder.build()
+                        val geoReq = builder.build()
 
-                    if (!mGoogleApiClient!!.isConnected()) {
-                        return
-                    }
+                        if (!mGoogleApiClient!!.isConnected()) {
+                            return
+                        }
 
-                    val result = LocationServices.getGeofencingClient(this@GeoFencingIntentService)
-                            .addGeofences(geoReq, getPIforGeoFence(it, t.response.groups.get(0).items.indexOf(it)))
+                        val result = LocationServices.getGeofencingClient(this@GeoFencingIntentService)
+                                .addGeofences(geoReq, getPIforGeoFence(it, t.response.groups.get(0).items.indexOf(it)))
 
-                    result.addOnSuccessListener {
-                        Log.d("GeoFencingIntentService", "Success")
-                    }
+                        result.addOnSuccessListener {
+                            Log.d("GeoFencingIntentService", "Success")
+                        }
 
-                    result.addOnCompleteListener {
-                        Log.d("GeoFencingIntentService", "Complete")
-                    }
+                        result.addOnCompleteListener {
+                            Log.d("GeoFencingIntentService", "Complete")
+                        }
 
-                    result.addOnFailureListener {
-                        Log.d("GeoFencingIntentService", "Failed")
+                        result.addOnFailureListener {
+                            Log.d("GeoFencingIntentService", "Failed")
+                        }
+                    } catch (ex: Exception){
+                        Log.d("GeoFencingIntentService", ex.toString() + " : exception in adding new geofence")
                     }
 
                 }
@@ -145,18 +149,22 @@ class GeoFencingIntentService : IntentService("GeoFencingIntentService"),
     private fun removeOldGeofences() {
         val oldResponse = FoursquareResponseUtil.loadResponse(this@GeoFencingIntentService)
         oldResponse?.response?.groups?.get(0)?.items?.forEach {
-            val res = LocationServices.getGeofencingClient(this@GeoFencingIntentService).removeGeofences(getPIforGeoFence(it, oldResponse.response.groups.get(0).items.indexOf(it)))
+            try {
+                val res = LocationServices.getGeofencingClient(this@GeoFencingIntentService).removeGeofences(getPIforGeoFence(it, oldResponse.response.groups.get(0).items.indexOf(it)))
 
-            res.addOnSuccessListener {
-                Log.d("GeoFencingIntentService", "Successfully removed")
-            }
+                res.addOnSuccessListener {
+                    Log.d("GeoFencingIntentService", "Successfully removed")
+                }
 
-            res.addOnCompleteListener {
-                Log.d("GeoFencingIntentService", "Completed removing")
-            }
+                res.addOnCompleteListener {
+                    Log.d("GeoFencingIntentService", "Completed removing")
+                }
 
-            res.addOnFailureListener {
-                Log.d("GeoFencingIntentService", "Failed removng old geofence")
+                res.addOnFailureListener {
+                    Log.d("GeoFencingIntentService", "Failed removng old geofence")
+                }
+            } catch (ex: Exception){
+                Log.d("GeoFencingIntentService", ex.toString() + " : exception in removing old geofence")
             }
         }
     }
