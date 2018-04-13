@@ -19,6 +19,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.WebViewViewModel
 
@@ -40,6 +41,10 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
             val url = request.url.toString()
             if (url.contains("facebook")) {
                 webViewPopUp?.visibility = View.VISIBLE
+            } else if (url.endsWith("/user/signin")) {
+                view.stopLoading()
+                NavUtils.showAccountSignIn(context)
+                return true
             } else {
                 hideWebViewPopUp()
                 webView.loadUrl(url)
@@ -77,7 +82,17 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
 
     open fun onPageFinished(url: String) {
         preventLoadingOfDivClass(HEADER_CLASS)
+        redirectSigninClick()
         toggleLoading(false)
+    }
+
+    private fun redirectSigninClick() {
+        webView.evaluateJavascript("document.querySelectorAll('#user-account, #user-account-top')" +
+                ".forEach(function(element) {" +
+                    "element.onclick = function(event) {" +
+                        "event.stopPropagation();" +
+                        "document.location.href = '/user/signin';" +
+                "}});", {})
     }
 
     private fun preventLoadingOfDivClass(className: String) {
