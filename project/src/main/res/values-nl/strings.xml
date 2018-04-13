@@ -597,9 +597,9 @@
     <!-- Adult age label on flight checkout summary card-->
     <string name="flight_checkout_adult_age_label">18+</string>
     <!-- Youth age label on flight checkout traveler summary card -->
-    <string name="flight_checkout_youth_age_label">12-17</string>
+    <string name="flight_checkout_youth_age_label">12–17</string>
     <!-- Children age label on flight checkout traveler summary card-->
-    <string name="flight_checkout_children_age_label">2-11</string>
+    <string name="flight_checkout_children_age_label">2–11</string>
     <!-- Infant age label on flight checkout traveler summary card-->
     <string name="flight_checkout_infant_age_label">&lt;2</string>
     <!-- Text informing guest that main travler is checking into hotel-->
@@ -1121,8 +1121,6 @@
     <string name="trips_expand_button_label_cont_desc">Knop om reis uit te vouwen</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">Bevestigingsnr. hotel</string>
-    <!-- Passengers Label -->
-    <string name="passengers_label">Passagiers</string>
     <!-- Booking info label -->
     <string name="booking_info">Boekingsinfo</string>
     <!-- Itin flight generic terminal and gate template -->
@@ -1379,6 +1377,8 @@
     <string name="itin_hotel_details_price_summary_heading">Prijsoverzicht</string>
     <!--Hotel itin card price summary and rewards heading-->
     <string name="itin_hotel_details_price_summary_rewards_heading">Prijzen en loyaliteit</string>
+    <!--Hotel itin card price summary line item label for room price-->
+    <string name="itin_hotel_details_cost_summary_room_price_text">Kamerprijs</string>
     <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">Totaal betaalde bedrag: {amount}</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
@@ -1473,6 +1473,10 @@
     <string name="itin_hotel_manage_booking_total_rooms_text_TEMPLATE">Totaal {number} kamers</string>
     <!--Hotel itin price and rewards expedia title -->
     <string name="itin_hotel_price_reward_title">Prijzen en loyaliteit</string>
+
+    <!--LX itin redesign-->
+    <!--LX toolbar title template. (e.g. Activity in San Francisco)-->
+    <string name="itin_lx_toolbar_title_TEMPLATE">Activiteit in {location}</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Deel reisplan</string>
@@ -2615,6 +2619,8 @@
     <string name="search_hotel_id_TEMPLATE">Hotel %s</string>
     <!-- Expedia Member Discount for a given property, AB test -->
     <string name="member_pricing">Ledenprijzen</string>
+    <!-- Expedia Generic Attach Bundled Savings for a given property, AB test -->
+    <string name="bundled_savings">Pakketbesparingen</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -2743,6 +2749,20 @@
     <string name="hotel_guest_recommend_wonderful_superlative">/5 - Fantastisch!</string>
     <string name="hotel_guest_recommend_exceptional_superlative">/5 - Superieur!</string>
 
+    <!-- Flights Score results -->
+    <!-- Route Happy AB Test: Example: 9/10 - Excellent! -->
+    <string name="flight_score_excellent_superlative_TEMPLATE">{flight_score}/10 - Uitstekend!</string>
+    <!-- Route Happy AB Test: Example: 8.1/10 - Very Good! -->
+    <string name="flight_score_very_good_superlative_TEMPLATE">{flight_score}/10 - Zeer goed!</string>
+    <!-- Route Happy AB Test: Example: 7.5/10 - Good! -->
+    <string name="flight_score_good_superlative_TEMPLATE">{flight_score}/10 - Goed!</string>
+    <!-- Route Happy AB Test: Example: 7/10 - Okay! -->
+    <string name="flight_score_okay_superlative_TEMPLATE">{flight_score}/10 - Voldoende</string>
+    <!-- Route Happy AB Test: Example: 6/10 - Fair! -->
+    <string name="flight_score_fair_superlative_TEMPLATE">{flight_score}/10 - Matig</string>
+    <!-- Route Happy AB Test: Example: 5.5/10 - Poor! -->
+    <string name="flight_score_poor_superlative_TEMPLATE">{flight_score}/10 - Slecht</string>
+
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
@@ -2831,8 +2851,6 @@
     <!-- All inclusive Options -->
     <string name="filter_all_inclusive">All-inclusive opties</string>
 
-
-
     <!-- User Reviews list strings -->
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">Recent</string>
@@ -2843,6 +2861,13 @@
     <!-- Read more of the review -->
     <!-- Special case for 0 reviews -->
     <string name="no_reviews">Geen beoordelingen</string>
+
+    <!-- Text for button to translate a hotel review into user's language -->
+    <string name="user_review_see_translation">Vertaling weergeven</string>
+    <!-- Text for button while the review is being translated -->
+    <string name="user_review_translation_loading">Laden …</string>
+    <!-- Text for button to see original, untranslated review text -->
+    <string name="user_review_see_original">Origineel weergeven</string>
 
     <!-- HOtel V2A number of reviews -->
     <plurals name="hotel_number_of_reviews">
@@ -3141,6 +3166,9 @@
     <string name="info_label_privacy_policy">Privacybeleid</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nAlle rechten voorbehouden.</string>
+    <!-- Expedia Group Copyright information -->
+    <!-- © Copyright 2012-2018 Expedia Group All rights reserved. -->
+    <string name="expedia_group_copyright_TEMPLATE">© Copyright 2012-{year} Expedia Group\nAlle rechten voorbehouden.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">Erkenning Open Source Software-licenties</string>
     <!-- String for error message if open source software license page fails to open -->
@@ -3778,17 +3806,17 @@
     <string name="lob_not_supported_error_message">Sorry, boekingen van {lob} zijn nog niet beschikbaar voor jouw regio.</string>
 
     <!-- Adult age label on rail search -->
-    <string name="rail_adult_age_label">(26-59 jaar oud)</string>
+    <string name="rail_adult_age_label">(26–59 jaar oud)</string>
     <!-- Adult age label desc on rail search -->
     <string name="rail_adult_age_label_desc">(26 tot 59 jaar oud)</string>
 
     <!-- Children age label on rail search -->
-    <string name="rail_children_age_label">(0-15 jaar oud)</string>
+    <string name="rail_children_age_label">(0–15 jaar oud)</string>
     <!-- Children age label on rail search -->
     <string name="rail_children_age_label_desc">(0 tot 15 jaar oud)</string>
 
     <!-- Youth age label on rail search -->
-    <string name="rail_youth_age_label">(16-25 jaar oud)</string>
+    <string name="rail_youth_age_label">(16–25 jaar oud)</string>
 
     <!-- Youth age label on rail search -->
     <string name="rail_youth_age_label_desc">(16 tot 25 jaar oud)</string>
@@ -3797,7 +3825,7 @@
     <string name="rail_senior_age_label">(60+ jaar oud)</string>
 
     <!-- Children age label on hotel search -->
-    <string name="children_age_label">(0-17 jaar oud)</string>
+    <string name="children_age_label">(0–17 jaar oud)</string>
 
     <!-- Children age label content description -->
     <string name="children_age_label_cont_desc">(0 tot 17 jaar oud)</string>
@@ -3805,11 +3833,11 @@
     <!-- Adult age label on flight search -->
     <string name="flight_adult_age_label">(18+ jaar oud)</string>
     <!-- Youth age label on flight search -->
-    <string name="flight_youth_age_label">(12-17 jaar oud)</string>
+    <string name="flight_youth_age_label">(12–17 jaar oud)</string>
     <!-- Youth age label desc on flight search -->
     <string name="flight_youth_age_label_desc">(12 tot 17 jaar oud)</string>
     <!-- Children age label on flight search -->
-    <string name="flight_children_age_label">(2-11 jaar oud)</string>
+    <string name="flight_children_age_label">(2–11 jaar oud)</string>
     <!-- Children age label desc on flight search -->
     <string name="flight_children_age_label_desc">(2 tot 11 jaar oud)</string>
 
@@ -4050,11 +4078,6 @@
     <!-- Accessibility label for flight minutes duration template e.g.42 minutes -->
     <string name="flight_min_duration_template_cont_desc">{m} minuten</string>
 
-    <!-- Label for Flight seats left urgency message. Example: 4 left at this price -->
-    <plurals name="flight_seats_left_urgency_message_TEMPLATE">
-        <item quantity="one">{seats} over voor deze prijs</item>
-        <item quantity="other">{seats} over voor deze prijs</item>
-    </plurals>
     <!-- Flight seats left urgency message on checkout e.g. We have 4 seats left at this price -->
     <plurals name="flight_seats_left_urgency_message_on_checkout_TEMPLATE">
         <item quantity="one">We hebben nog {seats} stoel over voor deze prijs</item>
@@ -5044,11 +5067,15 @@
     <string name="activity_price_per_travelertype_with_discount_cont_desc_new_TEMPLATE">Standaardprijs {ticket_type}{activity_original_price}. Kortingsprijs {ticket_type} {activity_price}</string>
     <string name="hotel_2x_points_search_title">2x zo veel Expedia Rewards-punten!</string>
     <string name="hotel_2x_points_search_content">Verzamel 2x zo veel punten door via de app te boeken!</string>
+    <!-- Generic attach slim card title on hotel search result to show: You have earned bundled savings on hotels-->
+    <string name="generic_attach_slim_card_title">Je hebt al bespaard op hotels</string>
+    <!-- Generic attach slim card content on hotel search result to show: Your purchase unlocked savings for your trip -->
+    <string name="generic_attach_slim_card_content">Er zijn besparingen beschikbaar voor je reis</string>
     <!-- Accessibility announcement for when home screen navigation tab is selected. -->
     <string name="tab_selected_announcement">Tab is geselecteerd</string>
 
-    <!-- Recent search - Date searched On string e.g. as of Nov 10 -->
-    <string name="flight_recent_search_date_searched_TEMPLATE">op {searchdate}</string>
+    <string name="flight_recent_search_per_person">per persoon</string>
+
     <!-- Recent search header string -->
     <string name="flight_recent_search_label">Recente zoekopdrachten</string>
 
