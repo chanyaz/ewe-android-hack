@@ -46,7 +46,7 @@ import com.expedia.util.endlessObserver
 import com.expedia.vm.AbstractFlightOverviewViewModel
 import com.expedia.vm.PackageResultsViewModel
 import com.expedia.vm.PackageToolbarViewModel
-import com.expedia.vm.packages.FlightOverviewViewModel
+import com.expedia.vm.packages.PackageFlightOverviewViewModel
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 
@@ -240,7 +240,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
     }
 
     override fun makeFlightOverviewModel(): AbstractFlightOverviewViewModel {
-        return FlightOverviewViewModel(context)
+        return PackageFlightOverviewViewModel(context)
     }
 
     private fun addBackFlowTransition() {

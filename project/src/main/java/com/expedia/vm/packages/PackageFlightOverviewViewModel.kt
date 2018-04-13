@@ -10,7 +10,7 @@ import io.reactivex.subjects.BehaviorSubject
 import com.squareup.phrase.Phrase
 import java.util.Arrays.asList
 
-class FlightOverviewViewModel(context: Context) : AbstractFlightOverviewViewModel(context) {
+class PackageFlightOverviewViewModel(context: Context) : AbstractFlightOverviewViewModel(context) {
 
     init {
         selectedFlightLegSubject.subscribe { selectedFlight ->

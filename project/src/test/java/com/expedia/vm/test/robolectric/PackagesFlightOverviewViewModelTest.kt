@@ -11,7 +11,7 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
-import com.expedia.vm.packages.FlightOverviewViewModel
+import com.expedia.vm.packages.PackageFlightOverviewViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
@@ -22,11 +22,11 @@ class PackagesFlightOverviewViewModelTest {
 
     private val context = RuntimeEnvironment.application
 
-    private lateinit var sut: FlightOverviewViewModel
+    private lateinit var sut: PackageFlightOverviewViewModel
     private lateinit var flightLeg: FlightLeg
 
     private fun setupSystemUnderTest() {
-        sut = FlightOverviewViewModel(context)
+        sut = PackageFlightOverviewViewModel(context)
     }
 
     private fun setupFlightLeg(mayChargeObFees: Boolean = true) {

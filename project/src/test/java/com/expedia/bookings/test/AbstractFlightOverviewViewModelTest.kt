@@ -19,6 +19,8 @@ import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.utils.AbacusTestUtils
+import com.expedia.vm.flights.FlightOverviewViewModel
+import com.expedia.vm.packages.PackageFlightOverviewViewModel
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 
@@ -158,9 +160,9 @@ class AbstractFlightOverviewViewModelTest {
 
     private fun setFlightOverviewModel(isPackages: Boolean) {
         if (isPackages) {
-            sut = com.expedia.vm.packages.FlightOverviewViewModel(context)
+            sut = PackageFlightOverviewViewModel(context)
         } else {
-            sut = com.expedia.vm.flights.FlightOverviewViewModel(context)
+            sut = FlightOverviewViewModel(context)
         }
     }
 }

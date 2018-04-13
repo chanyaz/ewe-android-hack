@@ -11,6 +11,7 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.flights.FlightOverviewViewModel
+import com.expedia.vm.packages.PackageFlightOverviewViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -144,7 +145,7 @@ class FlightDetailsPresenterTest {
 
     @Test
     fun basicEconomyTooltipDialogTestForPackages() {
-        sut.vm = com.expedia.vm.packages.FlightOverviewViewModel(context)
+        sut.vm = PackageFlightOverviewViewModel(context)
         val toolTipRulesTestSubscriber = TestObserver<Array<String>>()
         val toolTipTitleTestSubscriber = TestObserver<String>()
         sut.basicEconomyToolTipInfoView.viewmodel.basicEconomyTooltipTitle.subscribe(toolTipTitleTestSubscriber)
@@ -162,7 +163,7 @@ class FlightDetailsPresenterTest {
 
     @Test
     fun basicEconomyTooltipDialogTestForPackagesWithUnknownFareRules() {
-        sut.vm = com.expedia.vm.packages.FlightOverviewViewModel(context)
+        sut.vm = PackageFlightOverviewViewModel(context)
         val toolTipRulesTestSubscriber = TestObserver<Array<String>>()
         val toolTipTitleTestSubscriber = TestObserver<String>()
         sut.basicEconomyToolTipInfoView.viewmodel.basicEconomyTooltipTitle.subscribe(toolTipTitleTestSubscriber)
@@ -180,7 +181,7 @@ class FlightDetailsPresenterTest {
 
     @Test
     fun basicEconomyTooltipDialogTestForPackagesWithEmptyFareRules() {
-        sut.vm = com.expedia.vm.packages.FlightOverviewViewModel(context)
+        sut.vm = PackageFlightOverviewViewModel(context)
         val toolTipRulesTestSubscriber = TestObserver<Array<String>>()
         val toolTipTitleTestSubscriber = TestObserver<String>()
         sut.basicEconomyToolTipInfoView.viewmodel.basicEconomyTooltipTitle.subscribe(toolTipTitleTestSubscriber)
