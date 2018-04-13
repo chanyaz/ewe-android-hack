@@ -48,7 +48,7 @@ import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
 import com.expedia.vm.flights.FlightFareFamilyViewModel
 import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
 import com.expedia.vm.flights.FlightOverviewSummaryViewModel
-import com.expedia.vm.packages.FlightTotalPriceViewModel
+import com.expedia.vm.flights.FlightTotalPriceViewModel
 import com.squareup.phrase.Phrase
 import io.reactivex.Observable
 import java.util.Locale

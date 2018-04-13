@@ -1,10 +1,11 @@
-package com.expedia.vm.packages
+package com.expedia.vm.flights
 
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
+import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
 import com.squareup.phrase.Phrase
 
 class FlightTotalPriceViewModel(context: Context) : AbstractUniversalCKOTotalPriceViewModel(context) {

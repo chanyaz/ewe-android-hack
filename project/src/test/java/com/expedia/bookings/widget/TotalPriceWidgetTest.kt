@@ -7,7 +7,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.vm.packages.FlightTotalPriceViewModel
+import com.expedia.vm.flights.FlightTotalPriceViewModel
 import com.expedia.vm.packages.PackageTotalPriceViewModel
 import org.junit.Before
 import org.junit.Test
