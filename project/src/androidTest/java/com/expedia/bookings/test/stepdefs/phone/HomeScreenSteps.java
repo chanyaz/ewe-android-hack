@@ -42,7 +42,7 @@ public class HomeScreenSteps {
 	}
 
 	@And("^I login with user, which has$")
-	public void logInGivenParameters(Map<String, String> searchParams) throws Throwable {
+	public static void logInGivenParameters(Map<String, String> searchParams) throws Throwable {
 		User user = new Users().findUser(searchParams);
 		logInToTheApp(user);
 	}

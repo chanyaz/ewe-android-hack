@@ -1,5 +1,10 @@
 package com.expedia.bookings.test.pagemodels.trips;
 
+import java.util.concurrent.TimeUnit;
+
+import org.hamcrest.Matcher;
+import org.jetbrains.annotations.NotNull;
+
 import android.support.test.espresso.DataInteraction;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.matcher.ViewMatchers;
@@ -7,11 +12,6 @@ import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.EspressoUtils;
-
-import org.hamcrest.Matcher;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.concurrent.TimeUnit;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -29,7 +29,6 @@ public class TripsScreen {
 	private static final int LOG_IN_TEXT_VIEW_ID = R.id.login_text_view;
 	private static final Matcher<View> tripsScreen = withId(R.id.card_layout);
 	private static final Matcher<View> tripsItemName = withId(R.id.header_text_view);
-
 	public static ViewInteraction addGuestItinButton() {
 		return onView(withId(R.id.add_guest_itin_text_view));
 	}

@@ -179,6 +179,7 @@ class HotelItinExpandedMapActivity : ItinBaseActivity(), OnMapReadyCallback, Goo
     private fun addMarker(map: GoogleMap) {
         val marker = MarkerOptions()
         marker.position(getHotelLatLong())
+        marker.title(itinCardDataHotel.propertyName)
         marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.map_marker_blue))
         map.addMarker(marker)
     }

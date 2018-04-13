@@ -24,3 +24,16 @@ Feature: View Elements on Trip Details page
     Examples:
       | hotelName               | phoneNumber    | checkInDate | checkOutDate | checkInTime | checkOutTime |
       | Longhorn Casino & Hotel | +1-702-4358888 | 2019-05-01  | 2019-05-02   | 3 pm        | 11 am        |
+
+
+    @Prod @RC_TripDetails
+    Scenario Outline: Verify map marker exists and direction button is clickable
+      Given I navigate to Trips
+      And I tap on trip item with name "<hotelName>"
+      And I tap on the map
+      And I verify marker exists with name "<hotelName>"
+      And I verify the map direction button is clickable
+
+      Examples:
+        | hotelName |
+        | Longhorn Casino & Hotel |
