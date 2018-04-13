@@ -35,8 +35,8 @@ class RouterActivityTest {
     @Test
     fun splashAnimationShouldShowWhenEnabled() {
         mockRouterActivity.splashLoadingAnimationShouldRun = true
-        activityController.setup()
         ShadowLooper.runUiThreadTasksIncludingDelayedTasks()
+        activityController.setup()
         val nextIntentStarted = ShadowApplication.getInstance().nextStartedActivity
 
         assertTrue {
