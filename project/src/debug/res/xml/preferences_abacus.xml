@@ -214,14 +214,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="13505"
-            android:summary="%s"
-            android:title="Show more info on flight overview - 13505" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
             android:key="14241"
             android:summary="%s"
             android:title="AA test for flights - 14241" />

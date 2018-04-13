@@ -4007,8 +4007,6 @@
     <string name="select_flight_selected_cont_desc_TEMPLATE">You have selected flight to {flight} on {datetraveler}. {expandstate} flight details.</string>
     <!-- Bundle Overview collapsed flight card with more info accessibility content description-->
     <string name="row_expand_button_description">Collapsed button. Double tap to expand.</string>
-    <!-- Bundle Overview expanded flight card accessibility content description. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. Expanded button. Double tap to collapse. -->
-    <string name="bundle_overview_detailed_button_description_TEMPLATE">{rowdescription} Expanded button. Double tap to collapse.</string>
     <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. Collapsed button. Double tap to expand. -->
     <string name="bundle_overview_free_canellation_collapsed_button_description_TEMPLATE">{rowdescription}. Collapsed button. Double tap to expand.</string>
     <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. After 24 hours, standard flight rules apply. Expanded button. Double tap to collapse. -->

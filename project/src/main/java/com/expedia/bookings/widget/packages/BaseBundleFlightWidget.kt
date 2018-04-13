@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.extensions.setAccessibilityHoverFocus
 import com.expedia.bookings.extensions.setFocusForView
 import com.expedia.bookings.extensions.subscribeContentDescription
 import com.expedia.bookings.extensions.subscribeEnabled
@@ -22,7 +21,6 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
@@ -36,7 +34,6 @@ import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.vm.FlightSegmentBreakdownViewModel
 import com.expedia.vm.flights.BaggageInfoView
 import com.expedia.vm.flights.BaggageInfoViewModel
-import com.expedia.vm.flights.FlightOverviewRowViewModel
 import com.expedia.vm.packages.BundleFlightViewModel
 import com.squareup.phrase.Phrase
 
@@ -48,18 +45,16 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
     abstract fun rowClicked()
     abstract fun isInboundFlight(): Boolean
     var showFlightCabinClass = false
-    var showCollapseIcon: Boolean = false
 
     protected val opacity: Float = 0.25f
 
     val flightLoadingBar: ImageView by bindView(R.id.flight_loading_bar)
-    lateinit var rowContainer: ViewGroup
+    val rowContainer: ViewGroup by bindView(R.id.row_container)
     val flightInfoContainer: ViewGroup by bindView(R.id.flight_info_container)
     val flightCardText: TextView by bindView(R.id.flight_card_view_text)
     val travelInfoText: TextView by bindView(R.id.travel_info_view_text)
     val flightIcon: ImageView by bindView(R.id.package_flight_icon)
-    lateinit var flightDetailsIcon: ImageView
-    var flightCollapseIcon: ImageView? = null
+    val flightDetailsIcon: ImageView by bindView(R.id.package_flight_details_icon)
 
     val forwardArrow: ImageView by bindView(R.id.flight_forward_arrow_icon)
     val flightDetailsContainer: ViewGroup by bindView(R.id.flight_details_container)
@@ -71,29 +66,6 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
     lateinit var baggageInfoView: BaggageInfoView
 
     var viewModel: BundleFlightViewModel by notNullAndObservable { vm ->
-        vm.showRowContainerWithMoreInfo.subscribe {
-            when (it) {
-                true -> {
-                    rowContainer = this.findViewById<ViewGroup>(R.id.detailed_row_container)
-                    rowContainer.visibility = VISIBLE
-                    val flightCell = FlightCellWidget(context, false)
-                    rowContainer.addView(flightCell)
-                    flightDetailsContainer.setOnClickListener {
-                        if (isFlightSegmentDetailsExpanded()) {
-                            collapseFlightDetails(true)
-                        }
-                    }
-                    flightDetailsIcon = rowContainer.findViewById<ImageView>(R.id.flight_overview_expand_icon)
-                }
-                false -> {
-                    rowContainer = this.findViewById<ViewGroup>(R.id.row_container)
-                    rowContainer.visibility = VISIBLE
-                    flightDetailsIcon = this.findViewById<ImageView>(R.id.package_flight_details_icon)
-                }
-            }
-            showCollapseIcon = it
-        }
-
         vm.flightTextObservable.subscribeText(flightCardText)
         vm.flightTextColorObservable.subscribeTextColor(flightCardText)
         vm.flightTravelInfoColorObservable.subscribeTextColor(travelInfoText)
@@ -145,11 +117,9 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
         }
 
         vm.selectedFlightLegObservable.subscribe { selectedFlight ->
-            showCollapseIcon = vm.showRowContainerWithMoreInfo.value
             val segmentBreakdowns = arrayListOf<FlightSegmentBreakdown>()
             for (segment in selectedFlight.flightSegments) {
-                segmentBreakdowns.add(FlightSegmentBreakdown(segment, selectedFlight.hasLayover, showFlightCabinClass, showCollapseIcon))
-                showCollapseIcon = false
+                segmentBreakdowns.add(FlightSegmentBreakdown(segment, selectedFlight.hasLayover, showFlightCabinClass))
             }
             flightSegmentWidget.viewmodel.addSegmentRowsObserver.onNext(segmentBreakdowns)
 
@@ -159,18 +129,6 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
                 } else {
                     collapseFlightDetails(true)
                 }
-            }
-
-            if (vm.showRowContainerWithMoreInfo.value) {
-                val flightOverviewRowViewModel = FlightOverviewRowViewModel(context, selectedFlight)
-                val flightCellWidget = rowContainer.getChildAt(0) as FlightCellWidget
-                flightCellWidget.bind(flightOverviewRowViewModel)
-                viewModel.updateUpsellClassPreference.map {
-                    selectedFlight.isBasicEconomy = it.second
-                    selectedFlight.seatClassAndBookingCodeList = it.first
-                    FlightV2Utils.getFlightCabinPreferences(context, selectedFlight)
-                }.subscribe(flightCellWidget.viewModel.updateflightCabinPreferenceObservable)
-                flightCollapseIcon = flightSegmentWidget.linearLayout.getChildAt(0).findViewById<ImageView>(R.id.flight_overview_collapse_icon)
             }
             this.selectedCardObservable.onNext(Unit)
         }
@@ -202,11 +160,6 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
 
     fun expandFlightDetails(trackClick: Boolean = true) {
         viewModel.flightsRowExpanded.onNext(Unit)
-        if (viewModel.showRowContainerWithMoreInfo.value && flightCollapseIcon != null) {
-            rowContainer.visibility = Presenter.GONE
-            AnimUtils.rotate(flightCollapseIcon)
-            flightDetailsContainer.setAccessibilityHoverFocus(100)
-        }
         flightDetailsContainer.visibility = Presenter.VISIBLE
         if (flightDetailsIcon.visibility == View.VISIBLE) {
             AnimUtils.rotate(flightDetailsIcon)
@@ -219,11 +172,6 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
 
     fun collapseFlightDetails(trackClick: Boolean = false) {
         flightDetailsContainer.visibility = Presenter.GONE
-        if (viewModel.showRowContainerWithMoreInfo.value && flightCollapseIcon != null) {
-            rowContainer.visibility = Presenter.VISIBLE
-            AnimUtils.reverseRotate(flightCollapseIcon)
-            rowContainer.setAccessibilityHoverFocus(100)
-        }
         if (flightDetailsIcon.visibility == View.VISIBLE) {
             AnimUtils.reverseRotate(flightDetailsIcon)
         }
@@ -307,9 +255,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
         val searchParams = viewModel.searchParams.value
         logWhenNotAutomation("selectedCardContentDescription() called in BaseBundleFlightWidget. value of searchParams is " + if (searchParams == null) "null" else "not null")
         val travelInfoText = viewModel.travelInfoTextObservable.value
-        if (viewModel.showRowContainerWithMoreInfo.value) {
-            return (rowContainer.getChildAt(0) as FlightCellWidget).cardView.contentDescription?.toString() ?: ""
-        } else if (searchParams != null && travelInfoText != null) {
+        if (searchParams != null && travelInfoText != null) {
             val expandState = if (flightDetailsContainer.visibility == Presenter.VISIBLE) context.getString(R.string.accessibility_cont_desc_role_button_collapse) else context.getString(R.string.accessibility_cont_desc_role_button_expand)
             return Phrase.from(context, R.string.select_flight_selected_cont_desc_TEMPLATE)
                     .put("flight", StrUtils.formatAirportCodeCityName(if (isInboundFlight()) searchParams.origin else searchParams.destination))

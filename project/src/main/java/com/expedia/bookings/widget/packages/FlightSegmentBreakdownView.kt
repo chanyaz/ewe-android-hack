@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightServiceClassType
@@ -57,7 +56,6 @@ class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) : Linea
         val operatedBy = row.findViewById<TextView>(R.id.operating_airline_name)
         val seatClassAndBookingCode = row.findViewById<TextView>(R.id.flight_seat_class_booking_code)
         val segmentDuration = row.findViewById<TextView>(R.id.flight_duration)
-        val rowCollapseIcon = row.findViewById<ImageView>(R.id.flight_overview_collapse_icon)
         departureArrivalTime.text = FlightV2Utils.getFlightDepartureArrivalTimeAndDays(context,
                 breakdown.segment.departureDateTimeISO, breakdown.segment.arrivalDateTimeISO, breakdown.segment.elapsedDays)
         airlineAirplaneType.text = FlightV2Utils.getFlightAirlineAndAirplaneType(context, breakdown.segment)
@@ -74,9 +72,6 @@ class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) : Linea
             seatClassAndBookingCode.text = seatClassAndBookingCodeText
         } else {
             seatClassAndBookingCode.visibility = GONE
-        }
-        if (breakdown.showCollapseIcon) {
-            rowCollapseIcon.visibility = View.VISIBLE
         }
         return row
     }

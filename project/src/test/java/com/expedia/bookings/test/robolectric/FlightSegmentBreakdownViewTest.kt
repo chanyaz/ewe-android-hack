@@ -34,15 +34,6 @@ class FlightSegmentBreakdownViewTest {
     }
 
     @Test
-    fun testVisibiltyOfCollapseIcon() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
-        sut.viewmodel.addSegmentRowsObserver.onNext(getFlightSegmentBreakdownList("coach", true, true))
-        assertEquals(View.VISIBLE, sut.linearLayout.findViewById<View>(R.id.flight_overview_collapse_icon).visibility)
-        sut.viewmodel.addSegmentRowsObserver.onNext(getFlightSegmentBreakdownList("coach", false, false))
-        assertEquals(View.GONE, sut.linearLayout.findViewById<View>(R.id.flight_overview_collapse_icon).visibility)
-    }
-
-    @Test
     fun testSeatClassAndBookingCodeViewForSeatClassAbacusTest() {
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode)
         seatClassAndBookingCodeTestCases()
@@ -127,7 +118,7 @@ class FlightSegmentBreakdownViewTest {
 
     private fun getFlightSegmentBreakdownList(seatClass: String, showSeatClassAndBookingCode: Boolean, showCollapseIcon: Boolean = false, hasLayover: Boolean = false): List<FlightSegmentBreakdown> {
         val flightSegment = createFlightSegment(seatClass)
-        val breakdown = FlightSegmentBreakdown(flightSegment, hasLayover, showSeatClassAndBookingCode, showCollapseIcon)
+        val breakdown = FlightSegmentBreakdown(flightSegment, hasLayover, showSeatClassAndBookingCode)
         val list: ArrayList<FlightSegmentBreakdown> = ArrayList()
         list.add(breakdown)
         if (hasLayover) {

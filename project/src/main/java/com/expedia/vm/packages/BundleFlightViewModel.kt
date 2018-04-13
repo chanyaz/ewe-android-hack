@@ -7,10 +7,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.BaseSearchParams
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightTripDetails
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
@@ -45,8 +43,6 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
     val totalDurationObserver = BehaviorSubject.create<CharSequence>()
     val totalDurationContDescObserver = BehaviorSubject.create<String>()
     val searchParams = BehaviorSubject.create<BaseSearchParams>()
-    val showRowContainerWithMoreInfo = BehaviorSubject.createDefault<Boolean>(AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
-            && (lob == LineOfBusiness.FLIGHTS_V2))
     val updateUpsellClassPreference = PublishSubject.create<Pair<List<FlightTripDetails.SeatClassAndBookingCode>, Boolean>>()
     val showBaggageInfoLinkObservable = PublishSubject.create<Boolean>()
     val baggageInfoUrlSubject = PublishSubject.create<String>()
@@ -116,11 +112,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
                 flightIconImageObservable.onNext(Pair(R.drawable.packages_flight2_checkmark_icon, 0))
             }
 
-            val totalDurationContentDescription = if (showRowContainerWithMoreInfo.value) {
-                FlightV2Utils.getFlightLegDurationWithButtonInfoContentDescription(context, flight)
-            } else {
-                FlightV2Utils.getFlightLegDurationContentDescription(context, flight)
-            }
+            val totalDurationContentDescription = FlightV2Utils.getFlightLegDurationContentDescription(context, flight)
 
             showBaggageInfoLinkObservable.onNext(lob == LineOfBusiness.FLIGHTS_V2)
 
