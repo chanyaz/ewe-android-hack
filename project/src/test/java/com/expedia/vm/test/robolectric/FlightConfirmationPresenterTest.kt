@@ -224,7 +224,7 @@ class FlightConfirmationPresenterTest {
         setupPresenter()
         givenCheckoutResponse()
         val itinNumber = presenter.itinNumber
-        assertEquals("Confirmation Number: 12345", itinNumber.contentDescription)
+        assertEquals("#12345 sent to test@mail.com", itinNumber.contentDescription)
     }
 
     @Test

@@ -98,10 +98,7 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
                     .put("email", email)
                     .format().toString()
             itinNumberMessageObservable.onNext(itinNumberMessage)
-            val itinContentDescription = Phrase.from(context, R.string.confirmation_number_TEMPLATE)
-                    .put("number", itinNumber)
-                    .format().toString()
-            itinNumContentDescriptionObservable.onNext(itinContentDescription)
+            itinNumContentDescriptionObservable.onNext(itinNumberMessage)
             if (!userStateManager.isUserAuthenticated()) {
                 ItineraryManager.getInstance().addGuestTrip(email, itinNumber)
             }
@@ -154,10 +151,7 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
                     .put("itinerary", itinNumber)
                     .format().toString()
             itinNumberMessageObservable.onNext(itinNumberMessage)
-            val itinContentDescription = Phrase.from(context, R.string.confirmation_number_TEMPLATE)
-                    .put("number", itinNumber)
-                    .format().toString()
-            itinNumContentDescriptionObservable.onNext(itinContentDescription)
+            itinNumContentDescriptionObservable.onNext(itinNumberMessage)
             if (!userStateManager.isUserAuthenticated() && !ExpediaBookingApp.isRobolectric()) {
                 ItineraryManager.getInstance().addGuestTrip(email, itinNumber)
             }

@@ -3028,8 +3028,6 @@
     <!-- Confirmation activity -->
     <!-- Confirmation number label -->
     <string name="confirmation_number">Confirmation #</string>
-    <!-- Confirmation number accessibility template eg. Confirmation Number: 12345-->
-    <string name="confirmation_number_TEMPLATE">Confirmation Number: {number}</string>
     <!-- Itinerary number label -->
     <string name="itinerary_number">Itinerary #</string>
     <!-- Itinerary number label content description -->
