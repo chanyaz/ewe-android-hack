@@ -1,4 +1,4 @@
-package com.expedia.vm.packages
+package com.expedia.vm.flights
 
 import android.content.Context
 import com.expedia.bookings.R

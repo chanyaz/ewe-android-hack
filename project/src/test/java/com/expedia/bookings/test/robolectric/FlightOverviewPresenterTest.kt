@@ -39,7 +39,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.util.Optional
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.packages.BundleFlightViewModel
-import com.expedia.vm.packages.FlightOverviewSummaryViewModel
+import com.expedia.vm.flights.FlightOverviewSummaryViewModel
 import com.expedia.vm.packages.PackageSearchType
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
