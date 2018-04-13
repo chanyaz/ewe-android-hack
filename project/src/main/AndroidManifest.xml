@@ -311,6 +311,13 @@
             android:screenOrientation="sensor"
             tools:ignore="UnusedAttribute" />
 
+        <activity android:name=".hotel.activity.HotelFavoritesActivity"
+            android:label="Hotels"
+            android:resizeableActivity="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Hotels.Favorites"
+            tools:ignore="UnusedAttribute" />
+
         <activity
             android:name="com.expedia.bookings.rail.activity.RailActivity"
             android:label="Trains"

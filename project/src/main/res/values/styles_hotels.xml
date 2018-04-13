@@ -74,6 +74,10 @@
         <item name="android:windowEnterTransition">@transition/gallery_grid_enter_transition</item>
     </style>
 
+    <style name="Theme.Hotels.Favorites" parent="Base.Hotels.Default">
+        <item name="android:statusBarColor">@color/app_status_bar_color</item>
+    </style>
+
     <style name="Theme.Hotels.Gallery" parent="Base.Hotels.Default">
         <item name="android:statusBarColor">@color/gray900</item>
         <item name="android:windowBackground">@color/transparent</item>
