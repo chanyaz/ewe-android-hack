@@ -37,7 +37,7 @@ import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
-import com.expedia.bookings.hotel.vm.PackageHotelResultsViewModel
+import com.expedia.bookings.packages.vm.PackageHotelResultsViewModel
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
@@ -64,7 +64,7 @@ import com.expedia.ui.PackageHotelActivity
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelMapViewModel
 import com.expedia.vm.HotelReviewsViewModel
-import com.expedia.vm.packages.PackageHotelDetailViewModel
+import com.expedia.bookings.packages.vm.PackageHotelDetailViewModel
 import com.google.android.gms.maps.MapView
 import com.google.gson.Gson
 import io.reactivex.Observable

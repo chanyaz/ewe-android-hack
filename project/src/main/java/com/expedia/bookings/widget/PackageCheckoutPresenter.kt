@@ -14,8 +14,8 @@ import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.Optional
 import com.expedia.vm.BaseCreateTripViewModel
-import com.expedia.vm.packages.PackageCheckoutViewModel
-import com.expedia.vm.packages.PackageCreateTripViewModel
+import com.expedia.bookings.packages.vm.PackageCheckoutViewModel
+import com.expedia.bookings.packages.vm.PackageCreateTripViewModel
 import com.expedia.vm.traveler.FlightTravelersViewModel
 import com.expedia.vm.traveler.TravelersViewModel
 import com.squareup.otto.Subscribe

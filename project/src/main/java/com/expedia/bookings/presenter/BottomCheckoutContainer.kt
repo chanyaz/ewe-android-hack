@@ -26,7 +26,7 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.TotalPriceWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
-import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
+import com.expedia.bookings.packages.vm.AbstractUniversalCKOTotalPriceViewModel
 
 class BottomCheckoutContainer(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs), SlideToWidgetLL.ISlideToListener {
     /** Slide to purchase **/

@@ -43,7 +43,7 @@ import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.bookings.widget.FlightTravelerEntryWidget
 import com.expedia.bookings.widget.PackageCheckoutPresenter
-import com.expedia.vm.packages.BundleOverviewViewModel
+import com.expedia.bookings.packages.vm.BundleOverviewViewModel
 import com.expedia.vm.test.traveler.MockTravelerProvider
 import com.expedia.vm.traveler.TravelerSelectItemViewModel
 import okhttp3.mockwebserver.MockWebServer

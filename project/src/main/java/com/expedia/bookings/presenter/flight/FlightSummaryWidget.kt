@@ -17,7 +17,7 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.packages.InboundFlightWidget
 import com.expedia.bookings.widget.packages.OutboundFlightWidget
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.packages.BundleFlightViewModel
+import com.expedia.bookings.packages.vm.BundleFlightViewModel
 import com.expedia.vm.flights.FlightOverviewSummaryViewModel
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.PublishSubject

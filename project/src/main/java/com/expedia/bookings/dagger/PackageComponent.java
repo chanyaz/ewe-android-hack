@@ -9,7 +9,7 @@ import com.expedia.bookings.services.PackageServices;
 import com.expedia.bookings.services.ReviewsServices;
 import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.bookings.widget.PackageCheckoutPresenter;
-import com.expedia.vm.packages.PackageCheckoutViewModel;
+import com.expedia.bookings.packages.vm.PackageCheckoutViewModel;
 
 import dagger.Component;
 

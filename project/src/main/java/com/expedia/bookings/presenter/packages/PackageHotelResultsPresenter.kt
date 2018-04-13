@@ -10,7 +10,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.extensions.subscribeContentDescription
 import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.hotel.animation.transition.VerticalTranslateTransition
-import com.expedia.bookings.hotel.vm.PackageHotelResultsViewModel
+import com.expedia.bookings.packages.vm.PackageHotelResultsViewModel
 import com.expedia.bookings.presenter.hotel.BaseHotelResultsPresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
@@ -25,7 +25,7 @@ import com.expedia.bookings.widget.packages.BundleTotalPriceTopWidget
 import com.expedia.bookings.widget.packages.PackageHotelListAdapter
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.PackageFilterViewModel
+import com.expedia.bookings.packages.vm.PackageFilterViewModel
 import com.expedia.vm.hotel.BaseHotelFilterViewModel
 import com.squareup.phrase.Phrase
 import io.reactivex.Observer

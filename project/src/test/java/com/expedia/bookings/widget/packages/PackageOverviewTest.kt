@@ -30,7 +30,7 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.PackageCheckoutPresenter
-import com.expedia.vm.packages.BundleOverviewViewModel
+import com.expedia.bookings.packages.vm.BundleOverviewViewModel
 import com.squareup.phrase.Phrase
 import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.LocalDate

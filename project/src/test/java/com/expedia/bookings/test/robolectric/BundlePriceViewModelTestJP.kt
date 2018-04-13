@@ -7,7 +7,7 @@ import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
-import com.expedia.vm.packages.PackageTotalPriceViewModel
+import com.expedia.bookings.packages.vm.PackageTotalPriceViewModel
 import com.squareup.phrase.Phrase
 import org.junit.Before
 import org.junit.Test

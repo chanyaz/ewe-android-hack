@@ -11,7 +11,7 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.flights.FlightOverviewViewModel
-import com.expedia.vm.packages.PackageFlightOverviewViewModel
+import com.expedia.bookings.packages.vm.PackageFlightOverviewViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

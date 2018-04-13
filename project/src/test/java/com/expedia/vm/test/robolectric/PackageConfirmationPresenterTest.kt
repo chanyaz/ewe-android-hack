@@ -26,7 +26,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
-import com.expedia.vm.PackageWebCheckoutViewViewModel
+import com.expedia.bookings.packages.vm.PackageWebCheckoutViewViewModel
 import com.expedia.vm.WebCheckoutViewViewModel
 import io.reactivex.schedulers.Schedulers
 import org.junit.Before

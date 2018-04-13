@@ -19,7 +19,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.ConfirmationRowCardView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.packages.PackageConfirmationViewModel
+import com.expedia.bookings.packages.vm.PackageConfirmationViewModel
 
 class PackageConfirmationPresenter(context: Context, attributeSet: AttributeSet) : Presenter(context, attributeSet) {
     val itinNumber: TextView by bindView(R.id.itin_number)

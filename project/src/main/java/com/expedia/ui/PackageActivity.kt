@@ -23,7 +23,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBackFlowFromOverviewEnabled
 import com.expedia.bookings.utils.isFlexEnabled
 import com.expedia.bookings.utils.isMidAPIEnabled
-import com.expedia.vm.packages.PackageSearchType
+import com.expedia.bookings.packages.vm.PackageSearchType
 
 class PackageActivity : AbstractAppCompatActivity() {
     var changedOutboundFlight = false

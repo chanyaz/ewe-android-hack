@@ -44,9 +44,9 @@ import com.expedia.bookings.widget.packages.PackageFlightListAdapter
 import com.expedia.util.Optional
 import com.expedia.util.endlessObserver
 import com.expedia.vm.AbstractFlightOverviewViewModel
-import com.expedia.vm.PackageResultsViewModel
-import com.expedia.vm.PackageToolbarViewModel
-import com.expedia.vm.packages.PackageFlightOverviewViewModel
+import com.expedia.bookings.packages.vm.PackageResultsViewModel
+import com.expedia.bookings.packages.vm.PackageToolbarViewModel
+import com.expedia.bookings.packages.vm.PackageFlightOverviewViewModel
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 

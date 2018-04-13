@@ -12,8 +12,8 @@ import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
-import com.expedia.vm.packages.BundleOverviewViewModel
-import com.expedia.vm.packages.PackageSearchType
+import com.expedia.bookings.packages.vm.BundleOverviewViewModel
+import com.expedia.bookings.packages.vm.PackageSearchType
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule

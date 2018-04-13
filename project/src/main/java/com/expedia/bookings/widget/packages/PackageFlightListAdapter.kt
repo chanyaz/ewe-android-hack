@@ -9,7 +9,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
-import com.expedia.vm.packages.PackageFlightViewModel
+import com.expedia.bookings.packages.vm.PackageFlightViewModel
 import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 

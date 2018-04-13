@@ -31,7 +31,7 @@ import com.expedia.util.endlessObserver
 import com.expedia.vm.AbstractCardFeeEnabledCheckoutViewModel
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.expedia.vm.WebViewViewModel
-import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
+import com.expedia.bookings.packages.vm.AbstractUniversalCKOTotalPriceViewModel
 import io.reactivex.disposables.Disposable
 
 abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {

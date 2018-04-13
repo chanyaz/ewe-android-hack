@@ -28,8 +28,8 @@ import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.ui.PackageHotelActivity
-import com.expedia.vm.PackageWebCheckoutViewViewModel
-import com.expedia.vm.packages.BundleOverviewViewModel
+import com.expedia.bookings.packages.vm.PackageWebCheckoutViewViewModel
+import com.expedia.bookings.packages.vm.BundleOverviewViewModel
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule

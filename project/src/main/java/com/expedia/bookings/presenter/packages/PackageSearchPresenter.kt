@@ -36,8 +36,8 @@ import com.expedia.util.PackageUtil
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.BaseSuggestionAdapterViewModel
-import com.expedia.vm.packages.PackageSearchViewModel
-import com.expedia.vm.packages.PackageSuggestionAdapterViewModel
+import com.expedia.bookings.packages.vm.PackageSearchViewModel
+import com.expedia.bookings.packages.vm.PackageSuggestionAdapterViewModel
 import com.squareup.phrase.Phrase
 import kotlin.properties.Delegates
 

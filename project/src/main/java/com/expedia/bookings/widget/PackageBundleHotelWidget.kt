@@ -28,7 +28,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.ui.PackageHotelActivity
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.packages.BundleHotelViewModel
+import com.expedia.bookings.packages.vm.BundleHotelViewModel
 import com.squareup.phrase.Phrase
 
 class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : AccessibleCardView(context, attrs) {

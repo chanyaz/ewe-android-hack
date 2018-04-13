@@ -2,7 +2,7 @@ package com.expedia.vm.flights
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
+import com.expedia.bookings.packages.vm.AbstractUniversalCKOTotalPriceViewModel
 import com.squareup.phrase.Phrase
 
 class FareFamilyTotalPriceViewModel(context: Context) : AbstractUniversalCKOTotalPriceViewModel(context) {

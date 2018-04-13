@@ -20,7 +20,7 @@ import org.robolectric.RuntimeEnvironment
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.vm.flights.FlightOverviewViewModel
-import com.expedia.vm.packages.PackageFlightOverviewViewModel
+import com.expedia.bookings.packages.vm.PackageFlightOverviewViewModel
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 

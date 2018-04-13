@@ -6,7 +6,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
 import com.expedia.bookings.presenter.packages.PackagePresenter
 import com.expedia.bookings.utils.Ui
-import com.expedia.vm.packages.PackageCheckoutViewModel
+import com.expedia.bookings.packages.vm.PackageCheckoutViewModel
 import org.junit.Before
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric

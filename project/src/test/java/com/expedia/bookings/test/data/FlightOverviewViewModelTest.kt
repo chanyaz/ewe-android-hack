@@ -15,7 +15,7 @@ import org.robolectric.RuntimeEnvironment
 import java.math.BigDecimal
 import kotlin.test.assertEquals
 import com.expedia.vm.flights.FlightOverviewViewModel as FlightsOverviewViewModel
-import com.expedia.vm.packages.PackageFlightOverviewViewModel as PackagesOverviewViewModel
+import com.expedia.bookings.packages.vm.PackageFlightOverviewViewModel as PackagesOverviewViewModel
 
 @RunWith(RobolectricRunner::class)
 class FlightOverviewViewModelTest {

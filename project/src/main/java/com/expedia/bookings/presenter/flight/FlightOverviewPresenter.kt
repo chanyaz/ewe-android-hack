@@ -46,7 +46,7 @@ import com.expedia.vm.InsuranceViewModel
 import com.expedia.vm.flights.FlightCheckoutSummaryViewModel
 import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
 import com.expedia.vm.flights.FlightFareFamilyViewModel
-import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
+import com.expedia.bookings.packages.vm.AbstractUniversalCKOTotalPriceViewModel
 import com.expedia.vm.flights.FlightOverviewSummaryViewModel
 import com.expedia.vm.flights.FlightTotalPriceViewModel
 import com.squareup.phrase.Phrase

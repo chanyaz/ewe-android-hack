@@ -50,11 +50,11 @@ import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.utils.CrashlyticsLoggingUtil.logWhenNotAutomation
 import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.expedia.ui.PackageActivity
-import com.expedia.vm.PackageWebCheckoutViewViewModel
-import com.expedia.vm.packages.BundleOverviewViewModel
-import com.expedia.vm.packages.PackageConfirmationViewModel
-import com.expedia.vm.packages.PackageErrorViewModel
-import com.expedia.vm.packages.PackageSearchViewModel
+import com.expedia.bookings.packages.vm.PackageWebCheckoutViewViewModel
+import com.expedia.bookings.packages.vm.BundleOverviewViewModel
+import com.expedia.bookings.packages.vm.PackageConfirmationViewModel
+import com.expedia.bookings.packages.vm.PackageErrorViewModel
+import com.expedia.bookings.packages.vm.PackageSearchViewModel
 import com.mobiata.android.Log
 import io.reactivex.Observer
 import io.reactivex.observers.DisposableObserver

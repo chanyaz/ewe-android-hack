@@ -3,7 +3,7 @@ package com.expedia.bookings.test.robolectric
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
-import com.expedia.vm.packages.PackageTotalPriceViewModel
+import com.expedia.bookings.packages.vm.PackageTotalPriceViewModel
 import com.squareup.phrase.Phrase
 import org.junit.Test
 import org.junit.runner.RunWith

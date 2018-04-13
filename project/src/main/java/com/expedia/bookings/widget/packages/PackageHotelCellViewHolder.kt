@@ -10,7 +10,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.shared.AbstractHotelCellViewHolder
 import com.expedia.vm.hotel.HotelViewModel
-import com.expedia.vm.packages.PackageHotelViewModel
+import com.expedia.bookings.packages.vm.PackageHotelViewModel
 
 class PackageHotelCellViewHolder(root: ViewGroup) : AbstractHotelCellViewHolder(root) {
     val unrealDealMessageContainer: LinearLayout by bindView(R.id.unreal_deal_container)

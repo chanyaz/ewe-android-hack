@@ -11,7 +11,7 @@ import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
-import com.expedia.vm.packages.BundleFlightViewModel
+import com.expedia.bookings.packages.vm.BundleFlightViewModel
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import org.junit.Before

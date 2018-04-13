@@ -17,15 +17,16 @@ import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.extensions.subscribeTextColor
 import com.expedia.bookings.extensions.subscribeVisibility
+import com.expedia.bookings.packages.vm.BundleFlightViewModel
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.CrashlyticsLoggingUtil.logWhenNotAutomation
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.CrashlyticsLoggingUtil.logWhenNotAutomation
 import com.expedia.bookings.widget.AccessibleCardView
 import com.expedia.bookings.widget.FlightSegmentBreakdownView
 import com.expedia.bookings.widget.TextView
@@ -34,7 +35,6 @@ import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.vm.FlightSegmentBreakdownViewModel
 import com.expedia.vm.flights.BaggageInfoView
 import com.expedia.vm.flights.BaggageInfoViewModel
-import com.expedia.vm.packages.BundleFlightViewModel
 import com.squareup.phrase.Phrase
 
 abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : AccessibleCardView(context, attrs) {

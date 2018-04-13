@@ -29,9 +29,9 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
 import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.utils.CrashlyticsLoggingUtil.logWhenNotAutomation
-import com.expedia.vm.packages.BundleOverviewViewModel
-import com.expedia.vm.packages.PackageSearchType
-import com.expedia.vm.packages.PackageTotalPriceViewModel
+import com.expedia.bookings.packages.vm.BundleOverviewViewModel
+import com.expedia.bookings.packages.vm.PackageSearchType
+import com.expedia.bookings.packages.vm.PackageTotalPriceViewModel
 import io.reactivex.subjects.PublishSubject
 import java.math.BigDecimal
 

@@ -4,7 +4,7 @@ import android.content.Context
 import com.expedia.bookings.shared.vm.BaseSuggestionViewModel
 import com.expedia.bookings.widget.suggestions.BaseSuggestionAdapter
 import com.expedia.vm.BaseSuggestionAdapterViewModel
-import com.expedia.vm.packages.PackageSuggestionViewModel
+import com.expedia.bookings.packages.vm.PackageSuggestionViewModel
 
 class PackageSuggestionAdapter(viewModel: BaseSuggestionAdapterViewModel,
                                private val isOrigin: Boolean) : BaseSuggestionAdapter(viewModel) {

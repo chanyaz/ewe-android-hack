@@ -67,7 +67,7 @@ import com.expedia.vm.flights.FlightCreateTripViewModel
 import com.expedia.vm.flights.FlightErrorViewModel
 import com.expedia.vm.flights.FlightOffersViewModel
 import com.expedia.vm.flights.FlightOffersViewModelByot
-import com.expedia.vm.packages.PackageSearchType
+import com.expedia.bookings.packages.vm.PackageSearchType
 import com.mobiata.android.Log
 import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase

@@ -19,10 +19,10 @@ import com.expedia.bookings.widget.PackageBundleHotelWidget
 import com.expedia.bookings.widget.packages.InboundFlightWidget
 import com.expedia.bookings.widget.packages.OutboundFlightWidget
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.packages.BundleFlightViewModel
-import com.expedia.vm.packages.BundleHotelViewModel
-import com.expedia.vm.packages.BundleOverviewViewModel
-import com.expedia.vm.packages.PackageSearchType
+import com.expedia.bookings.packages.vm.BundleFlightViewModel
+import com.expedia.bookings.packages.vm.BundleHotelViewModel
+import com.expedia.bookings.packages.vm.BundleOverviewViewModel
+import com.expedia.bookings.packages.vm.PackageSearchType
 import io.reactivex.subjects.BehaviorSubject
 
 class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
