@@ -15,7 +15,7 @@ data class MultiItemApiSearchResponse(
         val flights: Map<String, FlightOffer>,
         val flightLegs: Map<String, MultiItemFlightLeg>,
         val errors: List<MultiItemError>?
-) : BundleSearchResponse, BundleHotelRoomResponse {
+) : BundleSearchResponse {
 
     private lateinit var sortedHotels: List<Hotel>
     private lateinit var sortedFlights: List<FlightLeg>

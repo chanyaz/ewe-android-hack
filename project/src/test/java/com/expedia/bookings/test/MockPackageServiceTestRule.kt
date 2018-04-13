@@ -8,18 +8,15 @@ import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
-import com.expedia.bookings.data.packages.PackageCheckoutParams
-import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
-import com.expedia.bookings.data.packages.PackageOffersResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.ProductSearchType
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.testrule.ServicesRule
-import com.expedia.bookings.utils.Constants
 import org.joda.time.LocalDate
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
@@ -27,72 +24,7 @@ import kotlin.properties.Delegates
 class MockPackageServiceTestRule : ServicesRule<PackageServices>(PackageServices::class.java) {
 
     var activity: Activity by Delegates.notNull()
-
-    fun getPSSHotelSearchResponse(): BundleSearchResponse {
-        val observer = TestObserver<BundleSearchResponse>()
-        val params = PackageSearchParams.Builder(26, 329)
-                .flightCabinClass("coach")
-                .infantSeatingInLap(true)
-                .origin(getOriginDestSuggestions().second)
-                .destination(getOriginDestSuggestions().first)
-                .startDate(LocalDate.now())
-                .endDate(LocalDate.now().plusDays(1))
-                .adults(1)
-                .children(listOf(16, 10, 1))
-                .build() as PackageSearchParams
-
-        Db.setPackageParams(params)
-
-        services?.packageSearch(params, ProductSearchType.OldPackageSearch)!!.subscribe(observer)
-        observer.awaitTerminalEvent()
-
-        return observer.values()[0]
-    }
-
-    fun getPSSOffersSearchResponse(fileName: String): PackageOffersResponse {
-        val observer = TestObserver<PackageOffersResponse>()
-        val params = PackageSearchParams.Builder(0, 0).destination(getOriginDestSuggestions().first).origin(getOriginDestSuggestions().second)
-                .adults(1).children(listOf(12, 14)).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(2)).build() as PackageSearchParams
-        params.packagePIID = fileName
-        Db.setPackageParams(params)
-
-        services?.hotelOffer(params.packagePIID!!, params.startDate.toString(), params.endDate.toString(),
-                params.latestSelectedOfferInfo.ratePlanCode, params.latestSelectedOfferInfo.roomTypeCode, params.adults, params.childAges!![0].toInt())!!.subscribe(observer)
-        observer.awaitTerminalEvent()
-
-        return observer.values()[0]
-    }
-
-    fun getPSSFlightOutboundSearchResponse(fileName: String): BundleSearchResponse? {
-        val observer = TestObserver<BundleSearchResponse>()
-        val params = PackageSearchParams.Builder(0, 0).destination(getOriginDestSuggestions().first).origin(getOriginDestSuggestions().second)
-                .adults(1).children(listOf(12, 14)).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(2)).build() as PackageSearchParams
-        params.packagePIID = fileName
-        params.searchProduct = Constants.PRODUCT_FLIGHT
-        params.currentFlights = arrayOf("legs")
-        Db.setPackageParams(params)
-
-        services?.packageSearch(params, ProductSearchType.OldPackageSearch)!!.subscribe(observer)
-        services?.packageSearch(params, ProductSearchType.OldPackageSearch)!!.subscribe(observer)
-        observer.awaitTerminalEvent()
-
-        return observer.values()[0]
-    }
-
-    fun getPSSFlightInboundSearchResponse(fileName: String): BundleSearchResponse? {
-        val observer = TestObserver<BundleSearchResponse>()
-        val params = PackageSearchParams.Builder(0, 0).destination(getOriginDestSuggestions().first).origin(getOriginDestSuggestions().second)
-                .adults(1).children(listOf(12, 14)).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(2)).build() as PackageSearchParams
-        params.packagePIID = fileName
-        params.searchProduct = Constants.PRODUCT_FLIGHT
-        params.selectedLegId = "happy"
-        Db.setPackageParams(params)
-
-        services?.packageSearch(params, ProductSearchType.OldPackageSearch)!!.subscribe(observer)
-        observer.awaitTerminalEvent()
-
-        return observer.values()[0]
-    }
+    lateinit var hotelRooms: List<HotelOffersResponse.HotelRoomResponse>
 
     fun getPSSCreateTripResponse(fileName: String): PackageCreateTripResponse? {
         val observer = TestObserver<PackageCreateTripResponse>()
@@ -103,44 +35,69 @@ class MockPackageServiceTestRule : ServicesRule<PackageServices>(PackageServices
         return observer.values()[0]
     }
 
-    fun getPSSCheckoutResponse(): PackageCheckoutResponse? {
-        val obsever = TestObserver<PackageCheckoutResponse>()
-        val travelers = arrayListOf(getTraveler(), getTraveler(), getTraveler())
-        val billing = getBillingInfo()
-        billing.storedCard = getStoredCard()
-        val builder = PackageCheckoutParams.Builder()
-                .billingInfo(billing)
-                .travelers(travelers)
-                .cvv("123") as PackageCheckoutParams.Builder
-        val params = builder.bedType("")
-                .expectedFareCurrencyCode("")
-                .expectedTotalFare("")
-                .tripId("")
-                .build()
-        services?.checkout(params.toQueryMap())!!.subscribe(obsever)
-        obsever.awaitTerminalEvent(10, TimeUnit.SECONDS)
-        return obsever.values()[0]
-    }
-
     fun getMIDHotelResponse(): BundleSearchResponse {
         val observer = TestObserver<BundleSearchResponse>()
-        val params = PackageSearchParams.Builder(26, 329)
-                .flightCabinClass("coach")
-                .infantSeatingInLap(true)
-                .origin(getOriginDestSuggestions("happy", "happy").second)
-                .destination(getOriginDestSuggestions("happy", "happy").first)
-                .startDate(LocalDate.now())
-                .endDate(LocalDate.now().plusDays(1))
-                .adults(1)
-                .children(listOf(16, 10, 1))
-                .build() as PackageSearchParams
-
+        val params = getPackageParams("happy")
         Db.setPackageParams(params)
 
         services?.packageSearch(params, ProductSearchType.MultiItemHotels)?.subscribe(observer)
         observer.awaitTerminalEvent()
+        Db.setPackageResponse(observer.values()[0])
 
         return observer.values()[0]
+    }
+
+    fun getMIDRoomsResponse(): BundleSearchResponse {
+        val observer = TestObserver<BundleSearchResponse>()
+        val params = getPackageParams()
+        params.latestSelectedOfferInfo.hotelId = "happy_room"
+        Db.setPackageParams(params)
+
+        services?.multiItemRoomSearch(params)?.subscribe(observer)
+        observer.awaitTerminalEvent()
+        Db.setPackageResponse(observer.values()[0])
+
+        return observer.values()[0]
+    }
+
+    fun getMIDFlightsResponse(): BundleSearchResponse {
+        val observer = TestObserver<BundleSearchResponse>()
+        val params = getPackageParams()
+        params.latestSelectedOfferInfo.ratePlanCode = "flight_outbound_happy"
+        Db.setPackageParams(params)
+
+        services?.packageSearch(params, ProductSearchType.MultiItemOutboundFlights)?.subscribe(observer)
+        observer.awaitTerminalEvent()
+        Db.setPackageResponse(observer.values()[0])
+
+        return observer.values()[0]
+    }
+
+    fun getPackageParams(originAirportCode: String = ""): PackageSearchParams {
+        val packageParams = PackageSearchParams.Builder(26, 329)
+                .flightCabinClass("coach")
+                .infantSeatingInLap(true)
+                .children(listOf(16, 10, 1))
+                .origin(getDummySuggestion(originAirportCode))
+                .destination(getDummySuggestion("LHR"))
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1))
+                .build() as PackageSearchParams
+        return packageParams
+    }
+
+    private fun getDummySuggestion(airportCode: String = ""): SuggestionV4 {
+        val suggestion = SuggestionV4()
+        suggestion.gaiaId = ""
+        suggestion.regionNames = SuggestionV4.RegionNames()
+        suggestion.regionNames.displayName = airportCode
+        suggestion.regionNames.fullName = airportCode
+        suggestion.regionNames.shortName = airportCode
+        suggestion.hierarchyInfo = SuggestionV4.HierarchyInfo()
+        suggestion.hierarchyInfo!!.airport = SuggestionV4.Airport()
+        suggestion.hierarchyInfo!!.airport!!.airportCode = airportCode
+        suggestion.hierarchyInfo!!.airport!!.multicity = "happy"
+        return suggestion
     }
 
     private fun getBillingInfo(): BillingInfo {

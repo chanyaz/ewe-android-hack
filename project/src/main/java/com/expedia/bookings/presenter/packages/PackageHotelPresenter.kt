@@ -22,7 +22,6 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.convertPackageToSearchParams
-import com.expedia.bookings.data.multiitem.BundleHotelRoomResponse
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
@@ -56,7 +55,6 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
-import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.widget.LoadingOverlayWidget
 import com.expedia.bookings.widget.SlidingBundleWidget
 import com.expedia.bookings.widget.SlidingBundleWidgetListener
@@ -265,11 +263,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         PackagesPageUsableData.HOTEL_INFOSITE.pageUsableData.markPageLoadStarted()
         selectedPackageHotel = hotel
         val params = Db.sharedInstance.packageParams
-        val packageRoomsObservable = if (isMidAPIEnabled(context)) {
-            getMIDRoomSearch(params)
-        } else {
-            getPSSRoomSearch(hotel.packageOfferModel.piid, params.startDate.toString(), params.endDate.toString(), Db.sharedInstance.packageSelectedRoom?.ratePlanCode, Db.sharedInstance.packageSelectedRoom?.roomTypeCode, params.adults, params.children.firstOrNull())
-        }
+        val packageRoomsObservable = getMIDRoomSearch(params)
         getDetails(hotel.hotelId, packageRoomsObservable)
         bundleSlidingWidget.updateBundleViews(Constants.PRODUCT_HOTEL)
     }
@@ -294,23 +288,13 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
     }
 
-    private fun getPSSRoomSearch(piid: String, checkIn: String, checkOut: String, ratePlanCode: String?, roomTypeCode: String?, numberOfAdultTravelers: Int, childTravelerAge: Int?): Observable<BundleHotelRoomResponse> {
-        return packageServices
-                .hotelOffer(piid, checkIn, checkOut, ratePlanCode, roomTypeCode, numberOfAdultTravelers, childTravelerAge)
-                .map { packageHotelOffers ->
-                    packageHotelOffers.setCheckInDate(checkIn)
-                    packageHotelOffers.setCheckOutDate(checkOut)
-                    packageHotelOffers
-                }
-    }
-
-    private fun getMIDRoomSearch(params: PackageSearchParams): Observable<BundleHotelRoomResponse> {
+    private fun getMIDRoomSearch(params: PackageSearchParams): Observable<MultiItemApiSearchResponse> {
         return packageServices
                 .multiItemRoomSearch(params)
                 .map { it }
     }
 
-    private fun getDetails(hotelId: String, packageRoomsObservable: Observable<BundleHotelRoomResponse>) {
+    private fun getDetails(hotelId: String, packageRoomsObservable: Observable<MultiItemApiSearchResponse>) {
         loadingOverlay.visibility = View.VISIBLE
         AccessibilityUtil.delayedFocusToView(loadingOverlay, 0)
         loadingOverlay.setAccessibilityHoverFocus()
@@ -339,8 +323,8 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         activity.finish()
     }
 
-    private fun makeResponseObserver(): DisposableObserver<Pair<BundleHotelRoomResponse, HotelOffersResponse>> {
-        return object : DisposableObserver<Pair<BundleHotelRoomResponse, HotelOffersResponse>>() {
+    private fun makeResponseObserver(): DisposableObserver<Pair<MultiItemApiSearchResponse, HotelOffersResponse>> {
+        return object : DisposableObserver<Pair<MultiItemApiSearchResponse, HotelOffersResponse>>() {
             override fun onError(throwable: Throwable) {
                 if (throwable is HttpException) {
                     try {
@@ -355,7 +339,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 }
             }
 
-            override fun onNext(t: Pair<BundleHotelRoomResponse, HotelOffersResponse>) {
+            override fun onNext(t: Pair<MultiItemApiSearchResponse, HotelOffersResponse>) {
                 val (packageRoomsResponse, hotelInfoResponse) = t
                 if (hotelInfoResponse.hasErrors()) {
                     handleRoomResponseErrors(hotelInfoResponse.firstError?.errorCode

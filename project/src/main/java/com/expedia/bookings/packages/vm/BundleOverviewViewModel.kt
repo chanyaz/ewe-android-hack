@@ -73,7 +73,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     .put("guests", StrUtils.formatTravelerString(context, params.guests))
                     .format().toString())
 
-            searchPackageSubscriber = packageServices?.packageSearch(params, if (isMidAPIEnabled(context)) ProductSearchType.MultiItemHotels else ProductSearchType.OldPackageSearch)?.subscribeObserver(makeResultsObserver(PackageSearchType.HOTEL))
+            searchPackageSubscriber = packageServices?.packageSearch(params, ProductSearchType.MultiItemHotels)?.subscribeObserver(makeResultsObserver(PackageSearchType.HOTEL))
         }
 
         flightParamsObservable.subscribe { params ->
@@ -145,14 +145,10 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
     }
 
     private fun getProductSearchType(isOutboundSearch: Boolean): ProductSearchType {
-        if (isMidAPIEnabled(context)) {
-            if (isOutboundSearch) {
-                return ProductSearchType.MultiItemOutboundFlights
-            } else {
-                return ProductSearchType.MultiItemInboundFlights
-            }
+        if (isOutboundSearch) {
+            return ProductSearchType.MultiItemOutboundFlights
         } else {
-            return ProductSearchType.OldPackageSearch
+            return ProductSearchType.MultiItemInboundFlights
         }
     }
 

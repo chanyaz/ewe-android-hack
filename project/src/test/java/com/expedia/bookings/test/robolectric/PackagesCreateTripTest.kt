@@ -112,7 +112,7 @@ class PackagesCreateTripTest {
         val createTripSubscriber = TestObserver<MultiItemApiCreateTripResponse>()
         activity.packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel().multiItemResponseSubject.subscribe(createTripSubscriber)
         setUpPackageDb()
-        val hotelResponse = mockPackageServiceRule.getPSSHotelSearchResponse()
+        val hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
         Db.setPackageResponse(hotelResponse)
         val params = getDummySearchParams()
         Db.setPackageParams(params)

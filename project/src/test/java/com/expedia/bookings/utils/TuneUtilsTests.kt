@@ -24,9 +24,9 @@ import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
-import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.data.user.User
 import com.expedia.bookings.services.HotelCheckoutResponse
+import com.expedia.bookings.test.MockPackageServiceTestRule
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingData
@@ -35,6 +35,7 @@ import com.tune.TuneEvent
 import org.joda.time.LocalDate
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.math.BigDecimal
@@ -48,6 +49,9 @@ import kotlin.test.assertTrue
 class TuneUtilsTests {
     private lateinit var provider: TestTuneTrackingProviderImpl
     private lateinit var baseStartDate: LocalDate
+
+    val mockPackageServiceRule: MockPackageServiceTestRule = MockPackageServiceTestRule()
+        @Rule get
 
     @Before
     fun setup() {
@@ -326,31 +330,17 @@ class TuneUtilsTests {
     @Test
     fun testTrackHotelSearchPackageResults() {
         setupTuneProvider()
-        val searchResponse = PackageSearchResponse()
-        searchResponse.packageInfo = PackageSearchResponse.PackageInfo()
-        searchResponse.packageInfo.hotelCheckinDate = PackageSearchResponse.HotelCheckinDate()
-        searchResponse.packageInfo.hotelCheckinDate.isoDate = "2025-11-23"
-        searchResponse.packageInfo.hotelCheckoutDate = PackageSearchResponse.HotelCheckoutDate()
-        searchResponse.packageInfo.hotelCheckoutDate.isoDate = "2025-11-26"
-        searchResponse.packageResult = PackageSearchResponse.PackageResult()
-        searchResponse.packageResult.hotelsPackage = PackageSearchResponse.HotelPackage()
-
-        val hotel1 = generateHotelSearchObject("123", "Holiday Inn", "Denver", 125.00f, 8.0)
-        val hotel2 = generateHotelSearchObject("124", "Marriott", "Denver", 145.00f, 7.0)
-        val hotel3 = generateHotelSearchObject("125", "Motel 8", "Denver", 76.00f, 5.0)
-
-        searchResponse.packageResult.hotelsPackage.hotels = listOf(hotel1, hotel2, hotel3)
-
+        val searchResponse = mockPackageServiceRule.getMIDHotelResponse()
         TuneUtils.trackPackageHotelSearchResults(searchResponse)
 
         assertEquals("package_search_results", provider.trackedEvent?.eventName)
         assertEquals("package_search_result_item", provider.trackedEvent?.eventItems?.first()?.itemname)
         assertEquals("hotel", provider.trackedEvent?.searchString)
-        assertEquals(LocalDate(2025, 11, 23).toDate(), provider.trackedEvent?.date1)
-        assertEquals(LocalDate(2025, 11, 26).toDate(), provider.trackedEvent?.date2)
-        assertEquals("Denver", provider.trackedEvent?.eventItems?.first()?.attribute1)
-        assertEquals("123,124,125", provider.trackedEvent?.eventItems?.first()?.attribute4)
-        assertEquals("123|Holiday Inn|\$|125.0|0.0|8.0:124|Marriott|\$|145.0|0.0|7.0:125|Motel 8|\$|76.0|0.0|5.0", provider.trackedEvent?.eventItems?.first()?.attribute5)
+        assertEquals(LocalDate(2017, 11, 8).toDate(), provider.trackedEvent?.date1)
+        assertEquals(LocalDate(2017, 11, 15).toDate(), provider.trackedEvent?.date2)
+        assertEquals("San Francisco", provider.trackedEvent?.eventItems?.first()?.attribute1)
+        assertEquals("18723252,6666,12539,25027,15769", provider.trackedEvent?.eventItems?.first()?.attribute4)
+        assertEquals("18723252|San Francisco Proper Hotel|USD|0.0|4.0|0:6666|Handlery Union Square Hotel|USD|0.0|3.5|0:12539|Parc 55 San Francisco - A Hilton Hotel|USD|0.0|4.0|0:25027|White Swan Inn|USD|0.0|3.5|0:15769|The Marker San Francisco, a Joie de Vivre Hotel|USD|0.0|4.0|0", provider.trackedEvent?.eventItems?.first()?.attribute5)
     }
 
     @Test

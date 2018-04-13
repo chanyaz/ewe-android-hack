@@ -28,7 +28,6 @@ import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.PackageServices;
 import com.expedia.bookings.services.ProductSearchType;
 import com.expedia.bookings.services.TestObserver;
-import com.expedia.bookings.utils.Constants;
 import com.google.gson.Gson;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
@@ -71,39 +70,11 @@ public class PackageServicesTest {
 			.endDate(LocalDate.now().plusDays(1))
 			.build();
 
-		service.packageSearch(params, ProductSearchType.OldPackageSearch).subscribe(observer);
+		service.packageSearch(params, ProductSearchType.MultiItemHotels).subscribe(observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoValues();
 		observer.assertError(IOException.class);
-	}
-
-	@Test
-	public void testMockPSSSearchWorks() throws Throwable {
-		String root = new File("../mocked/templates").getCanonicalPath();
-		FileSystemOpener opener = new FileSystemOpener(root);
-		server.setDispatcher(new ExpediaDispatcher(opener));
-
-		TestObserver<BundleSearchResponse> observer = new TestObserver<>();
-		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
-			.origin(getDummySuggestion())
-			.destination(getDummySuggestion())
-			.startDate(LocalDate.now())
-			.endDate(LocalDate.now().plusDays(1))
-			.build();
-
-		service.packageSearch(params, ProductSearchType.OldPackageSearch).subscribe(observer);
-		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
-
-		observer.assertNoErrors();
-		observer.assertComplete();
-		observer.assertValueCount(1);
-		BundleSearchResponse response = observer.values().get(0);
-		Assert.assertEquals(48, response.getHotels().size());
-		Assert.assertEquals(2, response.getFlightLegs().size());
-		System.out.println(response.getFlightLegs().get(0).flightSegments.get(0).airlineLogoURL);
-		Assert.assertEquals(Constants.AIRLINE_SQUARE_LOGO_BASE_URL.replace("**", "b6"), response.getFlightLegs().get(0).flightSegments.get(0).airlineLogoURL);
-		Assert.assertEquals(null, response.getFlightLegs().get(0).flightSegments.get(1).airlineLogoURL);
 	}
 
 	@Test

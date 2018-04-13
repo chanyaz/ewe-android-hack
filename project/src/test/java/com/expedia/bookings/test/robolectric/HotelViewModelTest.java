@@ -1,8 +1,5 @@
 package com.expedia.bookings.test.robolectric;
 
-import java.util.concurrent.TimeUnit;
-
-import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -21,7 +18,6 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelRate;
 import com.expedia.bookings.data.multiitem.BundleSearchResponse;
-import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo;
 import com.expedia.bookings.data.payment.LoyaltyInformation;
 import com.expedia.bookings.data.payment.PointsEarnInfo;
@@ -31,23 +27,18 @@ import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.services.PackageServices;
-import com.expedia.bookings.services.ProductSearchType;
+import com.expedia.bookings.test.MockPackageServiceTestRule;
 import com.expedia.bookings.test.MultiBrand;
 import com.expedia.bookings.test.PointOfSaleTestConfiguration;
 import com.expedia.bookings.test.RunForBrands;
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB;
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM;
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager;
-import com.expedia.bookings.testrule.ServicesRule;
 import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.vm.hotel.HotelViewModel;
 import com.mobiata.android.util.SettingUtils;
-
-import com.expedia.bookings.services.TestObserver;
-import io.reactivex.schedulers.Schedulers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -58,8 +49,7 @@ import static org.junit.Assert.assertTrue;
 @Config(shadows = { ShadowGCM.class, ShadowUserManager.class, ShadowAccountManagerEB.class })
 public class HotelViewModelTest {
 	@Rule
-	public ServicesRule<PackageServices> serviceRule = new ServicesRule<>(PackageServices.class, Schedulers.trampoline(),
-		"../lib/mocked/templates", true);
+	public MockPackageServiceTestRule mockPackageServiceTestRule = new MockPackageServiceTestRule();
 
 	HotelViewModel vm;
 	Hotel hotel;
@@ -147,48 +137,13 @@ public class HotelViewModelTest {
 	}
 
 	@Test
-	@RunForBrands(brands = { MultiBrand.EXPEDIA, MultiBrand.ORBITZ })
-	public void strikeThroughPriceShowForPackages() {
-		TestObserver<BundleSearchResponse> observer = new TestObserver<>();
-		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
-			.origin(getDummySuggestion())
-			.destination(getDummySuggestion())
-			.startDate(LocalDate.now())
-			.endDate(LocalDate.now().plusDays(1))
-			.build();
-
-		serviceRule.getServices().packageSearch(params, ProductSearchType.OldPackageSearch).subscribe(observer);
-		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
-
-		observer.assertValueCount(1);
-		BundleSearchResponse response = observer.values().get(0);
-		Hotel firstHotel = response.getHotels().get(0);
-
-		HotelViewModel vm = new HotelViewModel(getContext(), true);
-		vm.bindHotelData(firstHotel);
-		assertEquals("$538", vm.getHotelStrikeThroughPriceFormatted().toString());
-	}
-
-	@Test
-	public void strikeThroughPriceDontShowForPackages() {
-		TestObserver<BundleSearchResponse> observer = new TestObserver<>();
-		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
-			.origin(getDummySuggestion())
-			.destination(getDummySuggestion())
-			.startDate(LocalDate.now())
-			.endDate(LocalDate.now().plusDays(1))
-			.build();
-
-		serviceRule.getServices().packageSearch(params, ProductSearchType.OldPackageSearch).subscribe(observer);
-		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
-
-		observer.assertValueCount(1);
-		BundleSearchResponse response = observer.values().get(0);
+	public void strikeThroughPriceShownForPackages() {
+		BundleSearchResponse response = mockPackageServiceTestRule.getMIDHotelResponse();
 		Hotel firstHotel = response.getHotels().get(1);
 
 		HotelViewModel vm = new HotelViewModel(getContext(), false);
 		vm.bindHotelData(firstHotel);
-		assertNull(vm.getHotelStrikeThroughPriceFormatted());
+		assertEquals("$2,440", vm.getHotelStrikeThroughPriceFormatted().toString());
 	}
 
 	private SuggestionV4 getDummySuggestion() {

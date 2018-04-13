@@ -131,9 +131,9 @@ class PackageConfirmationViewModelTest {
         assertEquals(destinationTestSubscriber.values()[0], "London")
         assertEquals(destinationTitleTestSubscriber.values()[0], "London")
         assertEquals(destinationSubTitleTestSubscriber.values()[0], "Feb 2 - Feb 4, 4 guests")
-        assertEquals(outboundFlightCardTestSubscriber.values()[0], "Flight to (happyDestination) London")
+        assertEquals("Flight to (LHR) LHR", outboundFlightCardTestSubscriber.values()[0])
         assertEquals(outboundFlightCardSubTitleTestSubscriber.values()[0], "Jul 10 at 08:20:00, 4 travelers")
-        assertEquals(inboundFlightCardTitleTestSubscriber.values()[0], "Flight to (happyOrigin) Paris")
+        assertEquals(inboundFlightCardTitleTestSubscriber.values()[0], "Flight to (happy) happy")
         assertEquals(inboundFlightCardSubTitleTestSubscriber.values()[0], "Jul 22 at 08:20:00, 4 travelers")
         assertEquals(itinNumberMessageOTestSubscriber.values()[0], "#11111111 sent to expedia.imt@gmail.com")
     }
@@ -157,7 +157,7 @@ class PackageConfirmationViewModelTest {
     }
 
     private fun setUpConfirmationData() {
-        hotelResponse = mockPackageServiceRule.getPSSHotelSearchResponse()
+        hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
         Db.setPackageResponse(hotelResponse)
         setupTripBucket()
         setUpSelectedFlight()

@@ -7,13 +7,19 @@ import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse
 import com.expedia.bookings.data.multiitem.MultiItemError
 import com.expedia.bookings.data.multiitem.ProductType
+import com.expedia.bookings.test.MockPackageServiceTestRule
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.ui.PackageFlightActivity
 import com.expedia.ui.PackageHotelActivity
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
@@ -27,12 +33,33 @@ class PackageHotelActivityTest {
             hotels = mapOf("1" to PackageTestUtil.dummyMidHotelRoomOffer()),
             errors = arrayListOf(MultiItemError("description", "MIS_FLIGHT_PRODUCT_NOT_FOUND", ProductType.Bundle)))
 
+    val mockPackageServiceRule: MockPackageServiceTestRule = MockPackageServiceTestRule()
+        @Rule get
+
     @Test
     fun testMidEnabledDeeplinkedHotelResetsDbPackageResponse() {
         setupPackageDb(baseMidResponse, midResponseWithError)
         givenPackageHotelActivity()
         assertNotEquals(midResponseWithError.errors?.size, (Db.getPackageResponse() as MultiItemApiSearchResponse).errors?.size)
         assertEquals(baseMidResponse.errors?.size, (Db.getPackageResponse() as MultiItemApiSearchResponse).errors?.size)
+    }
+
+    @Test
+    fun testHotelResponseLoadedFromResponseStaticFile() {
+        val expectedPackageSearchResponse = mockPackageServiceRule.getMIDHotelResponse()
+        val latch = CountDownLatch(1)
+        PackageResponseUtils.savePackageResponse(context, expectedPackageSearchResponse, PackageResponseUtils.RECENT_PACKAGE_HOTELS_FILE, { _ ->
+            latch.countDown()
+        })
+        latch.await(2, TimeUnit.SECONDS)
+        fireActivityIntent()
+        assertEquals(expectedPackageSearchResponse, Db.getPackageResponse())
+    }
+
+    private fun fireActivityIntent() {
+        val intent = Intent(context, PackageFlightActivity::class.java)
+        intent.putExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM, true)
+        Robolectric.buildActivity(PackageHotelActivity::class.java, intent).create().get()
     }
 
     private fun givenPackageHotelActivity() {

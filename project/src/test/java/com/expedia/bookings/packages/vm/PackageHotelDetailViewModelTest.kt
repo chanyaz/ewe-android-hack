@@ -8,9 +8,9 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.data.packages.PackageOffersResponse
+import com.expedia.bookings.data.hotels.convertPackageToSearchParams
 import com.expedia.bookings.data.packages.PackageSearchParams
-import com.expedia.bookings.data.packages.PackageSearchResponse
+
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.services.TestObserver
@@ -31,7 +31,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import java.math.BigDecimal
+import com.expedia.bookings.test.MockPackageServiceTestRule
+import org.junit.Rule
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -45,8 +46,10 @@ class PackageHotelDetailViewModelTest {
     private var offer1: HotelOffersResponse by Delegates.notNull()
     private val expectedTotalPriceWithMandatoryFees = 42f
 
-    @Before
-    fun before() {
+    val mockPackageServiceRule: MockPackageServiceTestRule = MockPackageServiceTestRule()
+        @Rule get
+
+    @Before fun before() {
         context = RuntimeEnvironment.application
         testViewModel = PackageHotelDetailViewModel(context)
 
@@ -63,23 +66,18 @@ class PackageHotelDetailViewModelTest {
 
     @Test
     fun packageSearchInfoShouldShow() {
-        val searchParams = createSearchParams()
-        searchParams.forPackage = true
-        val response = PackageSearchResponse()
-        response.packageInfo = PackageSearchResponse.PackageInfo()
-        response.packageInfo.hotelCheckinDate = PackageSearchResponse.HotelCheckinDate()
-        response.packageInfo.hotelCheckinDate.isoDate = "2016-09-07"
-        response.packageInfo.hotelCheckoutDate = PackageSearchResponse.HotelCheckoutDate()
-        response.packageInfo.hotelCheckoutDate.isoDate = "2016-09-08"
+        val params = convertPackageToSearchParams(mockPackageServiceRule.getPackageParams(), 26, 329)
+        val response = mockPackageServiceRule.getMIDHotelResponse()
         Db.setPackageResponse(response)
-        testViewModel.paramsSubject.onNext(searchParams)
+
+        testViewModel.paramsSubject.onNext(params)
         val dtf = DateTimeFormat.forPattern("yyyy-MM-dd")
 
         val dates = LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckInDate())) + " - " +
                 LocaleBasedDateFormatUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckOutDate()))
         assertEquals(dates, testViewModel.searchDatesObservable.value)
         assertEquals(dates, testViewModel.searchInfoObservable.value)
-        assertEquals("${searchParams.guests} guests", testViewModel.searchInfoGuestsObservable.value)
+        assertEquals("${params.guests} guests", testViewModel.searchInfoGuestsObservable.value)
     }
 
     @Test
@@ -167,7 +165,7 @@ class PackageHotelDetailViewModelTest {
 
         makeResortFeeResponse(vm)
 
-        assertEquals("$20", testSubscriber.values()[1])
+        assertEquals("$221.10", testSubscriber.values()[1])
         assertEquals("per night", context.getString(vm.getFeeTypeText()))
     }
 
@@ -186,22 +184,7 @@ class PackageHotelDetailViewModelTest {
                 .origin(SuggestionV4())
                 .build() as PackageSearchParams
 
-        val packageOffer = PackageOffersResponse()
-
-        val packageHotelOffer = PackageOffersResponse.PackageHotelOffer()
-        packageHotelOffer.hotelOffer = makeHotel().first()
-        packageHotelOffer.packagePricing = PackageOffersResponse.PackagePricing()
-        packageHotelOffer.packagePricing.hotelPricing = PackageOffersResponse.HotelPricing()
-        packageHotelOffer.packagePricing.hotelPricing.mandatoryFees = PackageOffersResponse.MandatoryFees()
-        packageHotelOffer.packagePricing.hotelPricing.mandatoryFees.feeTotal = Money(20, "USD")
-        packageHotelOffer.cancellationPolicy = PackageOffersResponse.CancellationPolicy()
-        packageHotelOffer.cancellationPolicy.hasFreeCancellation = false
-        packageHotelOffer.pricePerPerson = Money()
-        packageHotelOffer.pricePerPerson.amount = BigDecimal(25.00)
-        packageHotelOffer.pricePerPerson.currencyCode = "USD"
-        packageOffer.packageHotelOffers = arrayListOf(packageHotelOffer)
-
-        val offer = HotelOffersResponse.convertToHotelOffersResponse(offer1, HotelOffersResponse.convertPSSHotelRoomResponse(packageOffer), packageSearchParams.startDate.toString(), packageSearchParams.endDate.toString())
+        val offer = HotelOffersResponse.convertToHotelOffersResponse(offer1, mockPackageServiceRule.getMIDRoomsResponse().getBundleRoomResponse(), packageSearchParams.startDate.toString(), packageSearchParams.endDate.toString())
 
         vm.hotelOffersSubject.onNext(offer)
         vm.addViewsAfterTransition()

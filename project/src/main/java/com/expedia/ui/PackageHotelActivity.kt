@@ -42,7 +42,7 @@ class PackageHotelActivity : AbstractAppCompatActivity() {
 
         if (intent.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM)) {
             // back to hotel room, should also be able to back to hotel results
-            Db.setPackageResponse(PackageResponseUtils.loadPackageResponse(this, PackageResponseUtils.RECENT_PACKAGE_HOTELS_FILE, isMidAPIEnabled(this)))
+            Db.setPackageResponse(PackageResponseUtils.loadPackageResponse(this, PackageResponseUtils.RECENT_PACKAGE_HOTELS_FILE))
             val hotelOffers = PackageResponseUtils.loadHotelOfferResponse(this, PackageResponseUtils.RECENT_PACKAGE_HOTEL_OFFER_FILE)
             if (hotelOffers != null) {
                 hotelsPresenter.selectedPackageHotel = Db.getPackageSelectedHotel()
@@ -56,7 +56,7 @@ class PackageHotelActivity : AbstractAppCompatActivity() {
         } else if (intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
             // change hotel room
             if (isMidAPIEnabled(this)) {
-                Db.setPackageResponse(PackageResponseUtils.loadPackageResponse(this, PackageResponseUtils.RECENT_PACKAGE_HOTELS_FILE, isMidAPIEnabled(this)))
+                Db.setPackageResponse(PackageResponseUtils.loadPackageResponse(this, PackageResponseUtils.RECENT_PACKAGE_HOTELS_FILE))
             }
             hotelsPresenter.defaultTransitionObserver.onNext(Screen.DETAILS_ONLY)
             hotelsPresenter.hotelSelectedObserver.onNext(Db.getPackageSelectedHotel())

@@ -58,7 +58,7 @@ class PackagesTrackingTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackHotelSearchResultLoadWithFlightCabinClass() {
-        sut.trackHotelSearchResultLoad(mockPackageServiceRule.getPSSHotelSearchResponse(), PageUsableData())
+        sut.trackHotelSearchResultLoad(mockPackageServiceRule.getMIDHotelResponse(), PageUsableData())
         val controlEvar = mapOf(47 to "PKG|1R|RT|A1|C3|L1|E")
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
     }

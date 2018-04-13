@@ -7,34 +7,26 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
-import com.expedia.bookings.data.packages.PackageOffersResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.presenter.packages.PackageFlightPresenter
 import com.expedia.bookings.presenter.packages.PackageHotelPresenter
-import com.expedia.bookings.services.PackageServices
-import com.expedia.bookings.services.ProductSearchType
-import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.test.MockPackageServiceTestRule
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
-import com.expedia.bookings.testrule.ServicesRule
-import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.TextView
-import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class) @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
@@ -44,16 +36,10 @@ class SlidingBundleWidgetTest {
     private lateinit var activity: Activity
     lateinit var params: PackageSearchParams
     lateinit var flightResponse: BundleSearchResponse
-    lateinit var hotelResponse: BundleSearchResponse
-    lateinit var roomResponse: PackageOffersResponse
     val context = RuntimeEnvironment.application
 
-    val packageServiceRule = ServicesRule(PackageServices::class.java)
+    val mockPackageServiceRule: MockPackageServiceTestRule = MockPackageServiceTestRule()
         @Rule get
-
-    var hotelObserver = TestObserver<BundleSearchResponse>()
-    var flightObserver = TestObserver<BundleSearchResponse>()
-    var offerObserver = TestObserver<PackageOffersResponse>()
 
     @Before
     fun setup() {
@@ -66,7 +52,7 @@ class SlidingBundleWidgetTest {
 
     @Test
     fun testBundleWidgetViewsVisibilityStartBundleTransitionForward() {
-        setPackageResponseHotels()
+        mockPackageServiceRule.getMIDHotelResponse()
         packageHotelPresenter = getHotelPresenter()
 
         packageHotelPresenter.bundleSlidingWidget.bundlePriceWidget.viewTreeObserver.dispatchOnGlobalLayout()
@@ -90,7 +76,7 @@ class SlidingBundleWidgetTest {
 
     @Test
     fun testBundleWidgetViewsVisibilityStartBundleTransitionBackward() {
-        setPackageResponseHotels()
+        mockPackageServiceRule.getMIDHotelResponse()
         packageHotelPresenter = getHotelPresenter()
         packageHotelPresenter.bundleSlidingWidget.startBundleTransition(false)
 
@@ -112,8 +98,8 @@ class SlidingBundleWidgetTest {
 
     @Test
     fun testBundleWidgetViewsVisibilitySEndBundleTransitionForward() {
-        setPackageResponseHotels()
-
+        params = mockPackageServiceRule.getPackageParams()
+        mockPackageServiceRule.getMIDHotelResponse()
         packageHotelPresenter = getHotelPresenter()
         packageHotelPresenter.bundleSlidingWidget.finalizeBundleTransition(true)
 
@@ -130,13 +116,12 @@ class SlidingBundleWidgetTest {
         assertEquals(View.GONE, bundleTotalText.visibility)
         assertEquals(packageHotelPresenter.bundleSlidingWidget.isMoving, false)
         assertEquals(packageHotelPresenter.bundleSlidingWidget.translationY, Ui.getStatusBarHeight(context).toFloat())
-        assertEquals(packageHotelPresenter.bundleSlidingWidget.bundlePriceWidget.contentDescription, "Trip to London. $contentDescDates, 4 travelers")
+        assertEquals("Trip to LHR. $contentDescDates, 4 travelers", packageHotelPresenter.bundleSlidingWidget.bundlePriceWidget.contentDescription)
     }
 
     @Test
     fun testBundleWidgetViewsVisibilityEndBundleTransitionBackward() {
-        setPackageResponseHotels()
-
+        mockPackageServiceRule.getMIDHotelResponse()
         packageHotelPresenter = getHotelPresenter()
         packageHotelPresenter.bundleSlidingWidget.finalizeBundleTransition(false)
 
@@ -159,8 +144,7 @@ class SlidingBundleWidgetTest {
 
     @Test
     fun testBundleWidgetViewsInOpenBundleOverviewState() {
-        setPackageResponseHotels()
-
+        mockPackageServiceRule.getMIDHotelResponse()
         packageHotelPresenter = getHotelPresenter()
         packageHotelPresenter.bundleSlidingWidget.openBundleOverview()
 
@@ -181,8 +165,7 @@ class SlidingBundleWidgetTest {
 
     @Test
     fun testBundleWidgetViewsInCloseBundleOverviewState() {
-        setPackageResponseHotels()
-
+        mockPackageServiceRule.getMIDHotelResponse()
         packageHotelPresenter = getHotelPresenter()
         packageHotelPresenter.bundleSlidingWidget.closeBundleOverview()
 
@@ -204,16 +187,19 @@ class SlidingBundleWidgetTest {
     @Test
     fun testBundlePriceWidgetStringForJPPoS() {
         RoboTestHelper.setPOS(PointOfSaleId.JAPAN)
-        setPackageResponseHotels()
+        mockPackageServiceRule.getMIDHotelResponse()
 
-        packageHotelPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_presenter,
-                null) as PackageHotelPresenter
+        packageHotelPresenter = getHotelPresenter()
         assertEquals(StrUtils.bundleTotalWithTaxesString(context).toString(), packageHotelPresenter.bundleSlidingWidget.bundlePriceFooter.bundleTotalText.text.toString())
     }
 
     @Test
     fun testBundleWidgetViewsUpdatedOnOutboundFlightSelection() {
-        setPackageResponseOutboundFlight()
+        val roomResponse = mockPackageServiceRule.getMIDRoomsResponse().getBundleRoomResponse()[0]
+        addCurrentOfferToDB(roomResponse)
+        Db.setPackageSelectedHotel(mockPackageServiceRule.getMIDHotelResponse().getHotels()[0], roomResponse)
+        flightResponse = mockPackageServiceRule.getMIDFlightsResponse()
+        flightResponse.setCurrentOfferPrice(flightResponse.getFlightLegs()[0].packageOfferModel.price)
 
         packageFlightPresenter = getFlightPresneter()
         packageFlightPresenter.detailsPresenter.vm.selectedFlightLegSubject.onNext(flightResponse.getFlightLegs()[0])
@@ -227,83 +213,7 @@ class SlidingBundleWidgetTest {
 
         assertEquals(packageFlightPresenter.bundleSlidingWidget.bundlePriceFooter.bundleTotalPrice.text.toString(), Money(flightResponse.getFlightLegs()[0].packageOfferModel.price.packageTotalPrice.amount.toString(), flightResponse.getFlightLegs()[0].packageOfferModel.price.packageTotalPrice.currency).formattedMoney)
         assertEquals(packageFlightPresenter.bundleSlidingWidget.bundlePriceFooter.bundleSavings.text.toString(), Money(flightResponse.getFlightLegs()[0].packageOfferModel.price.tripSavings.amount.toString(), flightResponse.getFlightLegs()[0].packageOfferModel.price.tripSavings.currency).formattedMoney + " Saved")
-        assertEquals(packageFlightPresenter.bundleSlidingWidget.bundlePriceWidget.contentDescription, "Bundle price is $2,105.95 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.")
-    }
-
-    private fun getDummySuggestion(): SuggestionV4 {
-        val suggestion = SuggestionV4()
-        suggestion.gaiaId = ""
-        suggestion.regionNames = SuggestionV4.RegionNames()
-        suggestion.regionNames.displayName = "London"
-        suggestion.regionNames.fullName = ""
-        suggestion.regionNames.shortName = ""
-        suggestion.hierarchyInfo = SuggestionV4.HierarchyInfo()
-        suggestion.hierarchyInfo!!.airport = SuggestionV4.Airport()
-        suggestion.hierarchyInfo!!.airport!!.airportCode = "happy"
-        suggestion.hierarchyInfo!!.airport!!.multicity = "happy"
-        return suggestion
-    }
-
-    private fun buildPackagesSearchParams() {
-        params = PackageSearchParams.Builder(26, 329)
-                .infantSeatingInLap(true)
-                .origin(getDummySuggestion())
-                .destination(getDummySuggestion())
-                .startDate(LocalDate.now())
-                .endDate(LocalDate.now().plusDays(1))
-                .adults(1)
-                .children(listOf(16, 10, 1))
-                .build() as PackageSearchParams
-    }
-
-    private fun setPackageResponseHotels() {
-        buildPackagesSearchParams()
-        Db.setPackageParams(params)
-        searchHotels()
-        hotelResponse = hotelObserver.values().get(0)
-        Db.setPackageResponse(hotelResponse)
-    }
-
-    private fun setPackageResponseOutboundFlight() {
-        buildPackagesSearchParams()
-        searchHotels()
-        hotelResponse = hotelObserver.values().get(0)
-        Db.setPackageResponse(hotelResponse)
-
-        params.packagePIID = hotelResponse.getHotels()[0].hotelId
-        params.currentFlights = arrayOf("legs")
-        params.latestSelectedOfferInfo.ratePlanCode = "flight_outbound_happy"
-        params.latestSelectedOfferInfo.roomTypeCode = "flight_outbound_happy"
-        searchRooms()
-        roomResponse = offerObserver.values()[0]
-        addCurrentOfferToDB(roomResponse.getBundleRoomResponse()[0])
-        Db.setPackageSelectedHotel(hotelResponse.getHotels().get(0), roomResponse.getBundleRoomResponse()[0])
-
-        params.packagePIID = "happy_outbound_flight"
-        params.numberOfRooms = "1"
-        params.searchProduct = Constants.PRODUCT_FLIGHT
-        params.currentFlights = arrayOf("legs")
-        params.isOutboundSearch(true)
-        Db.setPackageParams(params)
-        searchFLights()
-        flightResponse = flightObserver.values().get(0)
-        flightResponse.setCurrentOfferPrice(flightObserver.values()[0].getFlightLegs()[0].packageOfferModel.price)
-        Db.setPackageResponse(flightResponse)
-    }
-
-    private fun searchRooms() {
-        packageServiceRule.services!!.hotelOffer(params.packagePIID!!, params.startDate.toString(), params.endDate.toString(), params.latestSelectedOfferInfo.ratePlanCode!!, params.latestSelectedOfferInfo.roomTypeCode, params.adults, params.childAges!![0].toInt()).subscribe(offerObserver)
-        offerObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
-    }
-
-    private fun searchHotels() {
-        packageServiceRule.services!!.packageSearch(params, ProductSearchType.OldPackageSearch).subscribe(hotelObserver)
-        hotelObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
-    }
-
-    private fun searchFLights() {
-        packageServiceRule.services!!.packageSearch(params, ProductSearchType.OldPackageSearch).subscribe(flightObserver)
-        flightObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
+        assertEquals(packageFlightPresenter.bundleSlidingWidget.bundlePriceWidget.contentDescription, "Bundle price is ${flightResponse.getFlightLegs()[0].packageOfferModel.price.pricePerPersonFormatted} per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.")
     }
 
     private fun addCurrentOfferToDB(offer: HotelOffersResponse.HotelRoomResponse) {

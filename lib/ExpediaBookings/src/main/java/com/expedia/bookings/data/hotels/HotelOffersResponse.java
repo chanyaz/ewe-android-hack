@@ -11,7 +11,6 @@ import com.expedia.bookings.data.multiitem.Amenity;
 import com.expedia.bookings.data.multiitem.HotelOffer;
 import com.expedia.bookings.data.multiitem.MandatoryFees;
 import com.expedia.bookings.data.multiitem.MultiItemOffer;
-import com.expedia.bookings.data.packages.PackageOffersResponse;
 import com.expedia.bookings.data.payment.LoyaltyInformation;
 import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.Strings;
@@ -199,38 +198,6 @@ public class HotelOffersResponse extends BaseApiResponse {
 		hotelOffer.hotelRoomResponse = hotelRoomResponse;
 		hotelOffer.isPackage = true;
 		return hotelOffer;
-	}
-
-	public static List<HotelRoomResponse> convertPSSHotelRoomResponse(PackageOffersResponse packageOffer) {
-		List<HotelRoomResponse> hotelRoomResponse = new ArrayList<>();
-		for (PackageOffersResponse.PackageHotelOffer packageHotelOffer : packageOffer.packageHotelOffers) {
-			packageHotelOffer.hotelOffer.productKey = packageHotelOffer.packageProductId;
-			if (packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo == null) {
-				packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo = new HotelRate();
-			}
-			if (packageHotelOffer.priceDifferencePerNight != null) {
-				packageHotelOffer.hotelOffer.packageHotelDeltaPrice = packageHotelOffer.priceDifferencePerNight;
-				packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.priceToShowUsers = packageHotelOffer.hotelOffer.packageHotelDeltaPrice.amount
-					.floatValue();
-				packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.currencyCode = packageHotelOffer.hotelOffer.packageHotelDeltaPrice.currencyCode;
-				packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.strikethroughPriceToShowUsers = 0;
-				packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.userPriceType = Constants.PACKAGE_HOTEL_DELTA_PRICE_TYPE;
-			}
-			if (packageHotelOffer.packagePricing.hotelPricing != null) {
-				packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.showResortFeeMessage = true;
-				packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.totalMandatoryFees = packageHotelOffer.packagePricing.hotelPricing.mandatoryFees.feeTotal.amount
-					.floatValue();
-			}
-			packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.packagePricePerPerson = packageHotelOffer.pricePerPerson;
-			packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.packageSavings = packageHotelOffer.packagePricing.savings;
-			packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.packageTotalPrice = packageHotelOffer.packagePricing.packageTotal;
-			packageHotelOffer.hotelOffer.hasFreeCancellation = packageHotelOffer.cancellationPolicy.hasFreeCancellation;
-			if (packageHotelOffer.loyaltyInfo != null) {
-				packageHotelOffer.hotelOffer.packageLoyaltyInformation = packageHotelOffer.loyaltyInfo;
-			}
-			hotelRoomResponse.add(packageHotelOffer.hotelOffer);
-		}
-		return hotelRoomResponse;
 	}
 
 	public static HotelRoomResponse convertMidHotelRoomResponse(HotelOffer roomOffer, MultiItemOffer room) {
