@@ -19,13 +19,6 @@
         android:layout_marginTop="3dp"
         android:clickable="true" />
 
-    <com.expedia.bookings.itin.common.ItinLinkOffCardView
-        android:id="@+id/itin_hotel_price_summary_card_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:visibility="gone" />
-
     <com.expedia.bookings.itin.common.ItinBookingInfoCardView
         android:id="@+id/itin_hotel_booking_info_price_summary"
         android:layout_width="match_parent"

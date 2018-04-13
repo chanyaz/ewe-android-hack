@@ -19,8 +19,6 @@ import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
-import com.expedia.bookings.features.Feature;
-import com.expedia.bookings.features.Features;
 import com.expedia.bookings.itin.tripstore.utils.ITripsJsonFileUtils;
 import com.expedia.bookings.itin.utils.NotificationScheduler;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
@@ -292,17 +290,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		return null;
 	}
 
-	private Feature itineraryManagerStoreTripsJsonFeature = Features.Companion.getAll().getItineraryManagerStoreTripsJson();
-
-	private boolean isStoreJsonToTripStoreEnabled() {
-		return itineraryManagerStoreTripsJsonFeature.enabled();
-	}
-
-	@VisibleForTesting
-	void setItineraryManagerStoreTripsJsonFeature(Feature feature) {
-		this.itineraryManagerStoreTripsJsonFeature = feature;
-	}
-
 	/**
 	 * Clear all data from the itinerary manager.  Used on sign out or
 	 * when private data is cleared.
@@ -329,9 +316,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 			file.delete();
 		}
 
-		if (isStoreJsonToTripStoreEnabled()) {
-			tripsJsonFileUtils.deleteTripStore();
-		}
+		tripsJsonFileUtils.deleteTripStore();
 
 		mStartTimes.clear();
 		mEndTimes.clear();
@@ -1636,24 +1621,20 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		}
 
 		void writeTripJsonResponseToFile(Trip trip, JSONObject json) {
-			if (isStoreJsonToTripStoreEnabled()) {
-				if (trip.isShared()) {
-					tripsJsonFileUtils.writeTripToFile(trip.getShareInfo().getSharableDetailsUrl(), json.toString());
-				}
-				else {
-					tripsJsonFileUtils.writeTripToFile(trip.getTripId(), json.toString());
-				}
+			if (trip.isShared()) {
+				tripsJsonFileUtils.writeTripToFile(trip.getShareInfo().getSharableDetailsUrl(), json.toString());
+			}
+			else {
+				tripsJsonFileUtils.writeTripToFile(trip.getTripId(), json.toString());
 			}
 		}
 
 		void deleteTripJsonFromFile(Trip trip) {
-			if (isStoreJsonToTripStoreEnabled()) {
-				if (trip.isShared()) {
-					tripsJsonFileUtils.deleteTripFile(trip.getShareInfo().getSharableDetailsUrl());
-				}
-				else {
-					tripsJsonFileUtils.deleteTripFile(trip.getTripId());
-				}
+			if (trip.isShared()) {
+				tripsJsonFileUtils.deleteTripFile(trip.getShareInfo().getSharableDetailsUrl());
+			}
+			else {
+				tripsJsonFileUtils.deleteTripFile(trip.getTripId());
 			}
 		}
 

@@ -1,8 +1,8 @@
 package com.expedia.bookings.itin.widget
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
@@ -40,7 +40,7 @@ class HotelItinBookingDetailsTest {
 
     @Before
     fun before() {
-        val activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        val activity = Robolectric.buildActivity(AppCompatActivity::class.java).create().get()
         activity.setTheme(R.style.ItinTheme)
         context = RuntimeEnvironment.application
         bookingDetailsWidget = LayoutInflater.from(activity).inflate(R.layout.test_hotel_itin_booking_details, null) as HotelItinBookingDetails
@@ -51,13 +51,15 @@ class HotelItinBookingDetailsTest {
 
     @Test
     fun priceSummaryToolbarAndUrlAreCorrect() {
+        bookingDetailsWidget.readJsonUtil = MockReadJsonUtil
         bookingDetailsWidget.setUpWidget(itinCardDataHotel)
-        bookingDetailsWidget.priceSummaryCard.performClick()
+        bookingDetailsWidget.newPriceSummaryCard.performClick()
+
         intent = shadowActivity.nextStartedActivity
         assertEquals(WebViewActivity::class.java.name, intent.component.className)
         assertEquals("Price summary", intent.extras.getString("ARG_TITLE"))
         // we cannot check against the Visitor ID stuff that gets added to the URL, because it adds unique data every time it is called
-        assertTrue(intent.extras.getString("ARG_URL").startsWith(itinCardDataHotel.detailsUrl))
+        assertTrue(intent.extras.getString("ARG_URL").startsWith("https://www.expedia.com/trips/7280999576135"))
         assertTrue(intent.extras.getString("ARG_URL").endsWith("#price-header"))
     }
 
@@ -65,6 +67,7 @@ class HotelItinBookingDetailsTest {
     fun additionalInfoToolbarAndUrlAreCorrect() {
         bookingDetailsWidget.setUpWidget(itinCardDataHotel)
         bookingDetailsWidget.additionalInfoCard.performClick()
+
         intent = shadowActivity.nextStartedActivity
         assertEquals(WebViewActivity::class.java.name, intent.component.className)
         assertEquals("Additional information", intent.extras.getString("ARG_TITLE"))
@@ -75,38 +78,18 @@ class HotelItinBookingDetailsTest {
     @Test
     fun testPriceSummaryButtonHappy() {
         bookingDetailsWidget.readJsonUtil = MockReadJsonUtil
-
-        bookingDetailsWidget.checkIfWriteJsonEnabled = false
-        bookingDetailsWidget.checkIfReadJsonEnabled = false
         bookingDetailsWidget.setUpWidget(itinCardDataHotel)
-        assertEquals(View.VISIBLE, bookingDetailsWidget.priceSummaryCard.visibility)
-        assertEquals("Pricing and rewards", bookingDetailsWidget.priceSummaryCard.heading.text)
-        assertEquals(View.GONE, bookingDetailsWidget.newPriceSummaryCard.visibility)
 
-        bookingDetailsWidget.checkIfWriteJsonEnabled = true
-        bookingDetailsWidget.checkIfReadJsonEnabled = false
-        bookingDetailsWidget.setUpWidget(itinCardDataHotel)
-        assertEquals(View.VISIBLE, bookingDetailsWidget.priceSummaryCard.visibility)
-        assertEquals("Pricing and rewards", bookingDetailsWidget.priceSummaryCard.heading.text)
-        assertEquals(View.GONE, bookingDetailsWidget.newPriceSummaryCard.visibility)
-
-        bookingDetailsWidget.checkIfWriteJsonEnabled = true
-        bookingDetailsWidget.checkIfReadJsonEnabled = true
-        bookingDetailsWidget.setUpWidget(itinCardDataHotel)
         assertEquals(View.VISIBLE, bookingDetailsWidget.newPriceSummaryCard.visibility)
         assertEquals("Pricing and rewards", bookingDetailsWidget.newPriceSummaryCard.heading.text)
         assertEquals("₹3,500.00 total due at hotel", bookingDetailsWidget.newPriceSummaryCard.subheading.text)
-        assertEquals(View.GONE, bookingDetailsWidget.priceSummaryCard.visibility)
     }
 
     @Test
     fun testPriceSummaryButtonNoItin() {
         bookingDetailsWidget.readJsonUtil = FaultyReadJsonUtil
-
-        bookingDetailsWidget.checkIfWriteJsonEnabled = true
-        bookingDetailsWidget.checkIfReadJsonEnabled = true
         bookingDetailsWidget.setUpWidget(itinCardDataHotel)
-        assertEquals(View.GONE, bookingDetailsWidget.priceSummaryCard.visibility)
+
         assertEquals(View.GONE, bookingDetailsWidget.newPriceSummaryCard.visibility)
     }
 
@@ -117,7 +100,7 @@ class HotelItinBookingDetailsTest {
     }
 
     object FaultyReadJsonUtil : IJsonToItinUtil {
-        override fun getItin(tinId: String?): Itin? {
+        override fun getItin(itinId: String?): Itin? {
             return null
         }
     }

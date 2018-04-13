@@ -1,6 +1,5 @@
 package com.expedia.bookings.data.trips
 
-import com.expedia.bookings.features.Feature
 import com.expedia.bookings.itin.tripstore.utils.TripsJsonFileUtils
 import org.json.JSONObject
 import org.junit.After
@@ -31,7 +30,6 @@ class ItinManagerReadWriteTripsJsonTest {
         testFileDirectory = File("TRIPS_FILES_DIRECTORY")
         testFileDirectory.mkdir()
         tripJsonFileUtils = TripsJsonFileUtils(testFileDirectory)
-        itinManager.setItineraryManagerStoreTripsJsonFeature(StoreJsonFeature())
         itinManager.setTripsJsonFileUtils(tripJsonFileUtils)
         syncTask = itinManager.SyncTask(null, null)
         sharedTripFile = File(testFileDirectory, tripJsonFileUtils.hashString(SHARED_TRIP_FILENAME))
@@ -110,12 +108,5 @@ class ItinManagerReadWriteTripsJsonTest {
         trip.setIsShared(true)
         trip.shareInfo.sharableDetailsUrl = SHARED_TRIP_FILENAME
         return trip
-    }
-
-    private class StoreJsonFeature : Feature {
-        override val name: String
-            get() = "StoreJsonFeature"
-
-        override fun enabled() = true
     }
 }
