@@ -66,4 +66,9 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/room_tab_indicator_color</item>
     </style>
+
+    <style name="TripFolderTabs">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>
