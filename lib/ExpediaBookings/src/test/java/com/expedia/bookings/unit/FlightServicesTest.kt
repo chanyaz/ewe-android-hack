@@ -13,6 +13,8 @@ import org.junit.Test
 
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
+import com.expedia.bookings.data.flights.FlightCreateTripParams
+import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightSearchResponse
 import com.expedia.bookings.interceptors.MockInterceptor
@@ -36,10 +38,10 @@ class FlightServicesTest {
         @Rule get
 
     var service: FlightServices? = null
+    val logger = HttpLoggingInterceptor()
 
     @Before
     fun before() {
-        val logger = HttpLoggingInterceptor()
         logger.level = HttpLoggingInterceptor.Level.BODY
         service = FlightServices("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(), listOf(MockInterceptor()),
@@ -103,6 +105,48 @@ class FlightServicesTest {
         Assert.assertEquals("coach", response.offers[0].offersSeatClassAndBookingCode[0][0].seatClass)
         Assert.assertEquals("-3.00", response.offers[0].discountAmount.amount.toString())
         Assert.assertEquals(Constants.AIRLINE_SQUARE_LOGO_BASE_URL.replace("**", "AA"), response.legs[0].segments[0].airlineLogoURL)
+    }
+
+    @Test
+    fun testOldCreateTripWorks() {
+        val root = File("../mocked/templates").canonicalPath
+        val opener = FileSystemOpener(root)
+        server.setDispatcher(ExpediaDispatcher(opener))
+        val observer = TestObserver<FlightCreateTripResponse>()
+        val params = FlightCreateTripParams.Builder()
+                .productKey("happy_round_trip")
+                .build()
+
+        service!!.createTrip(params, observer)
+        observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
+
+        observer.assertNoErrors()
+        observer.assertComplete()
+        observer.assertValueCount(1)
+    }
+
+    @Test
+    fun testNewCreateTripWorks() {
+        service = FlightServices("http://localhost:" + server.port,
+                OkHttpClient.Builder().addInterceptor(logger).build(), listOf(MockInterceptor()),
+                Schedulers.trampoline(), Schedulers.trampoline(), true)
+        val root = File("../mocked/templates").canonicalPath
+        val opener = FileSystemOpener(root)
+        server.setDispatcher(ExpediaDispatcher(opener))
+        val observer = TestObserver<FlightCreateTripResponse>()
+        val params = FlightCreateTripParams.Builder()
+                .productKey("happy_round_trip")
+                .setNumberOfAdultTravelers(2)
+                .setChildTravelerAge(listOf(1, 10))
+                .setInfantSeatingInLap(true)
+                .build()
+
+        service!!.createTrip(params, observer)
+        observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
+
+        observer.assertNoErrors()
+        observer.assertComplete()
+        observer.assertValueCount(1)
     }
 
     @Test

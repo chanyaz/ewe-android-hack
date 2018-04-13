@@ -72,7 +72,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppFlightsEvolable = new ABTest(16345);
 	public static final ABTest EBAndroidAppFlightsBaggageWebViewHideAd = new ABTest(16334);
 	public static final ABTest EBAndroidAppFlightsGreedySearchCall = new ABTest(15962, true);
-	public static final ABTest EBAndroidAppFlightsAPIKongEndPoint = new ABTest(16382, true);
+	public static final ABTest EBAndroidAppFlightsAPIKongEndPoint = new ABTest(25680, true);
 	public static final ABTest EBAndroidAppFLightLoadingStateV1 = new ABTest(25528, true);
 	public static final ABTest EBAndroidAppFlightsRecentSearch = new ABTest(25527, true);
 	public static final ABTest EBAndroidAppFlightsRichContent = new ABTest(25580, true);

@@ -44,7 +44,8 @@ public interface FlightApi {
 		@FieldMap Map<String, Object> queryParams,
 		@Query("featureOverride") String featureOverride,
 		@Query("fareFamilyCode") String fareFamilyCode,
-		@Query("fareFamilyTotalPrice") BigDecimal fareFamilyTotalPrice);
+		@Query("fareFamilyTotalPrice") BigDecimal fareFamilyTotalPrice,
+		@Field("childTravelerAge") List<Integer> childTravelerAge);
 
 	@FormUrlEncoded
 	@POST("api/flight/checkout")

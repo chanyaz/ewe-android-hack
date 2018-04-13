@@ -35,7 +35,9 @@ class FlightApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fi
                 getMockResponse(FlightApiMockResponseGenerator.getSearchResponseFilePath(params, isCachedSearch), params)
             }
 
-            FlightApiRequestMatcher.isCreateTripRequest(urlPath) -> getMockResponse(FlightApiMockResponseGenerator.getCreateTripResponseFilePath(params), params)
+            FlightApiRequestMatcher.isOldCreateTripRequest(urlPath) -> getMockResponse(FlightApiMockResponseGenerator.getCreateTripResponseFilePath(params), params)
+
+            FlightApiRequestMatcher.isNewCreateTripRequest(urlPath) -> getMockResponse(FlightApiMockResponseGenerator.getCreateTripResponseFilePath(params), params)
 
             FlightApiRequestMatcher.isCheckoutRequest(urlPath) -> getMockResponse(FlightApiMockResponseGenerator.getCheckoutResponseFilePath(requestBody, params), params)
 
@@ -236,8 +238,12 @@ class FlightApiRequestMatcher() {
             return doesItMatch("^/api/flight/search.*$", urlPath)
         }
 
-        fun isCreateTripRequest(urlPath: String): Boolean {
+        fun isOldCreateTripRequest(urlPath: String): Boolean {
             return doesItMatch("^/api/flight/trip/create.*$", urlPath)
+        }
+
+        fun isNewCreateTripRequest(urlPath: String): Boolean {
+            return doesItMatch("^/api/flight/trip.*$", urlPath)
         }
 
         fun isCheckoutRequest(urlPath: String): Boolean {
