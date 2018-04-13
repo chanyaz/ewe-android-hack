@@ -22,7 +22,7 @@ Feature: +VIP labels and functionality on HSR and HIS pages
     Then I verify the VIP Access header text
       | headerText | +VIP Access |
     And I verify the body text on VIP Access page
-      | bodyText | At +VIP Access hotels, +silver and +gold members receive free room upgrades and other perks on availability at check-in. |
+      | bodyText | At +VIP Access hotels, silver and gold members receive free room upgrades and other perks on availability at check-in. |
 
     Examples:
       | tier   | type     | location      | searchSuggestion  |
