@@ -13,7 +13,6 @@ import com.expedia.bookings.features.Features
 import com.expedia.bookings.itin.common.ItinBookingInfoCardView
 import com.expedia.bookings.itin.common.ItinLinkOffCardView
 import com.expedia.bookings.itin.hotel.manageBooking.HotelItinManageBookingActivity
-import com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingRewardsActivity
 import com.expedia.bookings.itin.scopes.HotelItinDetailsScope
 import com.expedia.bookings.itin.tripstore.extensions.firstHotel
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
@@ -62,7 +61,7 @@ class HotelItinBookingDetails(context: Context, attr: AttributeSet?) : LinearLay
                     itin.firstHotel()?.let { hotel ->
                         newPriceSummaryCard.visibility = View.VISIBLE
                         priceSummaryCard.visibility = View.GONE
-                        val activityLauncher = ActivityLauncher(context, HotelItinPricingRewardsActivity, itinCardDataHotel.tripId)
+                        val activityLauncher = ActivityLauncher(context)
                         val scope = HotelItinDetailsScope(itin, hotel, stringProvider, webViewLauncher, tripsTracking, activityLauncher, abacusProvider)
                         val vm = HotelItinPriceSummaryButtonViewModel(scope)
                         newPriceSummaryCard.viewModel = vm

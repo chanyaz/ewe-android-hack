@@ -1,5 +1,6 @@
 package com.expedia.bookings.itin.lx
 
+import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.LifecycleOwner
 import com.expedia.bookings.itin.helpers.ItinMocker
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
@@ -12,9 +13,13 @@ import com.expedia.bookings.itin.tripstore.extensions.firstLx
 import com.expedia.bookings.itin.utils.StringSource
 import com.expedia.bookings.services.TestObserver
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
 class LxItinToolbarViewModelTest {
+    @Rule
+    @JvmField
+    val rule = InstantTaskExecutorRule()
     private val toolbarTitleTestObserver = TestObserver<String>()
     private val toolbarSubTitleTestObserver = TestObserver<String>()
 

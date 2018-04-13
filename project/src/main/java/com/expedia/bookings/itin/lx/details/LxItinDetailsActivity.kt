@@ -5,20 +5,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
-import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.itin.common.ItinToolbar
-import com.expedia.bookings.itin.flight.common.ItinOmnitureUtils
-import com.expedia.bookings.itin.lx.ItinLxRepo
-import com.expedia.bookings.itin.lx.LxItinToolbarViewModel
-import com.expedia.bookings.itin.scopes.LxItinToolbarScope
-import com.expedia.bookings.itin.tripstore.extensions.firstLx
-import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
+import com.expedia.bookings.itin.scopes.LxLifeCycleObserverScope
+import com.expedia.bookings.itin.utils.ActivityLauncher
+import com.expedia.bookings.itin.utils.IWebViewLauncher
 import com.expedia.bookings.itin.utils.Intentable
-import com.expedia.bookings.itin.utils.StringSource
+import com.expedia.bookings.itin.utils.WebViewLauncher
 import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.util.notNullAndObservable
 
 class LxItinDetailsActivity : AppCompatActivity() {
 
@@ -34,45 +29,31 @@ class LxItinDetailsActivity : AppCompatActivity() {
     }
 
     val toolbar: ItinToolbar by bindView(R.id.widget_lx_itin_toolbar)
-    val itineraryManager: ItineraryManager = ItineraryManager.getInstance()
+    val manageBookingWidget: LxItinManageBookingWidget by bindView(R.id.widget_manage_booking)
 
-    lateinit var jsonUtil: IJsonToItinUtil
-    lateinit var stringProvider: StringSource
-    lateinit var lxRepo: ItinLxRepo
-
-    var toolbarViewModel: LxItinToolbarViewModel<LxItinToolbarScope> by notNullAndObservable { vm ->
-        vm.navigationBackPressedSubject.subscribe {
-            finishActivity()
-        }
+    val lifecycleObserver: LxItinDetailsActivityLifecycleObserver<LxLifeCycleObserverScope> by lazy {
+        val stringProvider = Ui.getApplication(this).appComponent().stringProvider()
+        val jsonUtil = Ui.getApplication(this).tripComponent().jsonUtilProvider()
+        val webViewLauncher: IWebViewLauncher = WebViewLauncher(this)
+        val activityLauncher = ActivityLauncher(this)
+        val itinId = intent.getStringExtra(LX_ITIN_ID)
+        val tripsTracking = TripsTracking
+        val scope = LxLifeCycleObserverScope(stringProvider, webViewLauncher, activityLauncher, jsonUtil, itinId, manageBookingWidget, toolbar, tripsTracking)
+        LxItinDetailsActivityLifecycleObserver(scope)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.lx_itin_card_details)
         Ui.getApplication(this).defaultTripComponents()
-
-        stringProvider = Ui.getApplication(this).appComponent().stringProvider()
-        jsonUtil = Ui.getApplication(this).tripComponent().jsonUtilProvider()
-        lxRepo = ItinLxRepo(intent.getStringExtra(LX_ITIN_ID), jsonUtil, itineraryManager.syncFinishObservable)
-
-        val toolbarScope = LxItinToolbarScope(stringProvider, lxRepo, this)
-        toolbarViewModel = LxItinToolbarViewModel(toolbarScope)
-        toolbar.viewModel = toolbarViewModel
-        lxRepo.invalidDataSubject.subscribe {
-            finishActivity()
-        }
-        val itin = jsonUtil.getItin(intent.getStringExtra(LX_ITIN_ID))
-        itin?.let { trip ->
-            trip.firstLx()?.let {
-                val omnitureValues = ItinOmnitureUtils.createOmnitureTrackingValuesNew(trip, ItinOmnitureUtils.LOB.LX)
-                TripsTracking.trackItinLx(omnitureValues)
-            }
+        this.lifecycle.addObserver(lifecycleObserver)
+        lifecycleObserver.finishSubject.subscribe {
+            finish()
         }
     }
 
-    fun finishActivity() {
-        lxRepo.dispose()
-        finish()
+    override fun finish() {
+        super.finish()
         overridePendingTransition(R.anim.slide_in_left_complete, R.anim.slide_out_right_no_fill_after)
     }
 }

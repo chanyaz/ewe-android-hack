@@ -170,8 +170,7 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
         s.track()
     }
 
-    @JvmStatic
-    fun trackItinLx(trip: HashMap<String, String?>) {
+    override fun trackItinLx(trip: HashMap<String, String?>) {
         Log.d(TAG, "Tracking \"$ITIN_ACTIVITY\" pageLoad")
         val s = createTrackPageLoadEventBase(ITIN_ACTIVITY)
         val userTrips = getUsersTrips()
