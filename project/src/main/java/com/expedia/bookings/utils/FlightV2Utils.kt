@@ -45,12 +45,6 @@ object FlightV2Utils {
         return getTotalDurationString(context, flightDuration)
     }
 
-    @JvmStatic fun getFlightLegDurationWithButtonInfoContentDescription(context: Context, flightLeg: FlightLeg): String {
-        return Phrase.from(context.resources.getString(R.string.bundle_overview_detailed_button_description_TEMPLATE))
-                .put("rowdescription", getFlightLegDurationContentDescription(context, flightLeg))
-                .format().toString()
-    }
-
     private fun getTotalDurationString(context: Context, flightDuration: String): String {
         return Phrase.from(context.resources.getString(R.string.package_flight_overview_total_duration_TEMPLATE))
                 .put("duration", flightDuration)

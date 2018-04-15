@@ -18,8 +18,6 @@ class FlightOverviewSummaryViewModel(val context: Context) {
     val outboundFlightTitle = PublishSubject.create<String>()
     val inboundFlightTitle = PublishSubject.create<String>()
     val tripResponse = PublishSubject.create<FlightTripResponse>()
-    val outboundBundleWidgetClassObservable = PublishSubject.create<Pair<List<FlightTripDetails.SeatClassAndBookingCode>, Boolean>>()
-    val inboundBundleWidgetClassObservable = PublishSubject.create<Pair<List<FlightTripDetails.SeatClassAndBookingCode>, Boolean>>()
     val outboundBundleBaggageUrlSubject = PublishSubject.create<String>()
     val updatedOutboundFlightLegSubject = PublishSubject.create<FlightLeg>()
     val updatedInboundFlightLegSubject = PublishSubject.create<FlightLeg>()
@@ -63,12 +61,10 @@ class FlightOverviewSummaryViewModel(val context: Context) {
                 val trip = tripResponse
             }
         }).subscribe {
-            outboundBundleWidgetClassObservable.onNext(Pair(it.trip.details.offer.offersSeatClassAndBookingCode[0], it.trip.details.getLegs()[0].isBasicEconomy))
             outboundBundleBaggageUrlSubject.onNext(it.trip.details.getLegs()[0].baggageFeesUrl)
             updateOutboundSeatClassAndCodeSubject.onNext(it.trip.details.offer.offersSeatClassAndBookingCode.first())
             updatedOutboundFlightLegSubject.onNext(it.trip.details.getLegs()[0])
             if (it.params?.returnDate != null && it.trip.details.getLegs().size > 1) {
-                inboundBundleWidgetClassObservable.onNext(Pair(it.trip.details.offer.offersSeatClassAndBookingCode[1], it.trip.details.getLegs()[1].isBasicEconomy))
                 inboundBundleBaggageUrlSubject.onNext(it.trip.details.getLegs()[1].baggageFeesUrl)
                 updatedInboundFlightLegSubject.onNext(it.trip.details.getLegs()[1])
                 updateInboundSeatClassAndCodeSubject.onNext(it.trip.details.offer.offersSeatClassAndBookingCode.last())

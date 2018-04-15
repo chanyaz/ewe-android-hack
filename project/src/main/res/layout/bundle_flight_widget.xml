@@ -25,8 +25,7 @@
             android:paddingBottom="12dp"
             android:paddingLeft="18dp"
             android:paddingRight="12dp"
-            android:paddingTop="12dp"
-            android:visibility="gone">
+            android:paddingTop="12dp">
 
             <ImageView
                 android:id="@+id/package_flight_icon"
@@ -87,7 +86,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/detailed_row_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"

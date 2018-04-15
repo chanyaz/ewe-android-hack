@@ -33,14 +33,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
-
-            <ImageView
-                android:id="@+id/flight_overview_collapse_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/read_more_without_padding"
-                android:tint="@color/package_bundle_icon_color"
-                android:visibility="gone"/>
         </LinearLayout>
 
         <com.expedia.bookings.widget.TextView

@@ -36,8 +36,6 @@ import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.DateRangeUtils
 import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.packages.FlightCellWidget
-import com.expedia.bookings.widget.packages.OutboundFlightWidget
 import com.expedia.util.Optional
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.packages.BundleFlightViewModel
@@ -311,20 +309,6 @@ class FlightOverviewPresenterTest {
     }
 
     @Test
-    fun testFlightSummaryWidgets() {
-        setShowMoreInfoTest()
-        val flightSummaryWidget = widget.findViewById<View>(R.id.flight_summary) as FlightSummaryWidget
-        flightSummaryWidget.viewmodel = FlightOverviewSummaryViewModel(context)
-        flightSummaryWidget.viewmodel.params.onNext(setupFlightSearchParams(false))
-        assertEquals(View.VISIBLE, flightSummaryWidget.outboundFlightTitle.visibility)
-        assertEquals(View.GONE, flightSummaryWidget.inboundFlightTitle.visibility)
-
-        flightSummaryWidget.viewmodel.params.onNext(setupFlightSearchParams(true))
-        assertEquals(View.VISIBLE, flightSummaryWidget.outboundFlightTitle.visibility)
-        assertEquals(View.VISIBLE, flightSummaryWidget.inboundFlightTitle.visibility)
-    }
-
-    @Test
     fun testFreeCancellationInfo() {
         val flightSummaryWidget = widget.findViewById<View>(R.id.flight_summary) as FlightSummaryWidget
         widget.viewModel.showFreeCancellationObservable.onNext(true)
@@ -337,28 +321,6 @@ class FlightOverviewPresenterTest {
         assertEquals("After 24 hours, standard flight rules apply.", flightSummaryWidget.freeCancellationMoreInfoTextView.text)
         flightSummaryWidget.freeCancellationInfoContainer.performClick()
         assertEquals(View.GONE, flightSummaryWidget.freeCancellationMoreInfoTextView.visibility)
-    }
-
-    @Test
-    fun testRowContainerWidgetsWhenBucketedForMoreInfoTest() {
-        setShowMoreInfoTest()
-        val flightSummaryWidget = widget.findViewById<View>(R.id.flight_summary) as FlightSummaryWidget
-        val outboundFlightWidget = flightSummaryWidget.findViewById<View>(R.id.package_bundle_outbound_flight_widget) as OutboundFlightWidget
-        outboundFlightWidget.viewModel = BundleFlightViewModel(context, LineOfBusiness.FLIGHTS_V2)
-        outboundFlightWidget.viewModel.searchParams.onNext(setupFlightSearchParams())
-        outboundFlightWidget.viewModel.travelInfoTextObservable.onNext("")
-        createExpectedFlightLeg()
-        outboundFlightWidget.viewModel.selectedFlightLegObservable.onNext(flightLeg)
-
-        assertEquals(outboundFlightWidget.rowContainer.getChildAt(0).javaClass.name, FlightCellWidget::class.java.name)
-
-        outboundFlightWidget.rowContainer.performClick()
-        assertEquals(View.VISIBLE, outboundFlightWidget.flightDetailsContainer.visibility)
-        assertEquals(View.GONE, outboundFlightWidget.rowContainer.visibility)
-
-        outboundFlightWidget.flightDetailsContainer.performClick()
-        assertEquals(View.GONE, outboundFlightWidget.flightDetailsContainer.visibility)
-        assertEquals(View.VISIBLE, outboundFlightWidget.rowContainer.visibility)
     }
 
     @Test
@@ -791,10 +753,6 @@ class FlightOverviewPresenterTest {
         createTripResponse.totalPriceIncludingFees = Money(233, "USD")
         createTripResponse.details.oldOffer = FlightTripDetails.FlightOffer()
         createTripResponse.details.oldOffer.totalPrice = Money(223, "USD")
-    }
-
-    private fun setShowMoreInfoTest() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
     }
 
     private fun makeBaggageInfoResponse(): BaggageInfoResponse {

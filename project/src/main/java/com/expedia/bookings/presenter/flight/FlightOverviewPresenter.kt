@@ -60,8 +60,6 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
 
     val flightSummary: FlightSummaryWidget by bindView(R.id.flight_summary)
     val viewModel = FlightCheckoutSummaryViewModel(getContext())
-    val isBucketedForShowMoreDetailsOnOverview = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
-    val showCollapsedToolbar = isBucketedForShowMoreDetailsOnOverview
 
     val flightCostSummaryObservable = (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable
     val overviewPageUsableData = PageUsableData()
@@ -99,7 +97,6 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         getCheckoutPresenter().getCheckoutViewModel().createTripResponseObservable.safeSubscribeOptional(flightCostSummaryObservable)
         scrollSpaceView = flightSummary.scrollSpaceView
         bundleOverviewHeader.checkoutOverviewFloatingToolbar.visibility = View.INVISIBLE
-        bundleOverviewHeader.isExpandable = !showCollapsedToolbar
         val params = bundleOverviewHeader.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
         val behavior = params.behavior as AppBarLayout.Behavior
         behavior.setDragCallback(object : AppBarLayout.Behavior.DragCallback() {
@@ -202,17 +199,10 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
             show ->
             if (show) {
                 flightSummary.basicEconomyMessageTextView.visibility = View.GONE
-            } else if (showCollapsedToolbar) {
-                bundleOverviewHeader.translateDatesTitleForHeaderToolbar()
             }
         }
         addTransition(overviewToBasicEconomyInfoWebView)
         addTransition(overviewToFamilyFare)
-        if (isBucketedForShowMoreDetailsOnOverview) {
-            bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel.subTitleText.filter { Strings.isNotEmpty(it) }.subscribe {
-                bundleOverviewHeader.checkoutOverviewHeaderToolbar.checkInOutDates.text = it
-            }
-        }
     }
 
     override val defaultTransition = object : TwoScreenOverviewDefaultTransition() {
@@ -278,13 +268,8 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
     override fun resetCheckoutState() {
         bottomCheckoutContainer.slideToPurchase.resetSlider()
         if (currentState == BundleDefault::class.java.name) {
-            bundleOverviewHeader.toggleOverviewHeader(!showCollapsedToolbar)
+            bundleOverviewHeader.toggleOverviewHeader(true)
         }
-    }
-
-    override fun translateHeader(f: Float, forward: Boolean) {
-        if (!showCollapsedToolbar)
-            super.translateHeader(f, forward)
     }
 
     override fun getCostSummaryBreakdownViewModel(): FlightCostSummaryBreakdownViewModel {
