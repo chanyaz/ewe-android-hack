@@ -148,6 +148,14 @@
             android:summary="%s"
             android:title="Hotel Travel Pulse Lists - 25630" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="25455"
+            android:summary="%s"
+            android:title="UGC reviews design update - 25455" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

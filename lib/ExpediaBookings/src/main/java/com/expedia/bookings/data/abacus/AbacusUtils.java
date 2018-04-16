@@ -101,6 +101,7 @@ public class AbacusUtils {
 	public static final ABTest HotelSearchResultsFloatingActionPill = new ABTest(25531, true);
 	public static final ABTest HotelUGCTranslations = new ABTest(25532, true);
 	public static final ABTest HotelTravelPulseLists = new ABTest(25630, true);
+	public static final ABTest HotelUGCReviewsBoxRatingDesign = new ABTest(25455, true);
 
 	// Cars Web View Tests
 	public static final ABTest EBAndroidAppCarsFlexView = new ABTest(14632);
@@ -246,6 +247,7 @@ public class AbacusUtils {
 		testIDs.add(HotelSearchResultsFloatingActionPill.getKey());
 		testIDs.add(HotelUGCTranslations.getKey());
 		testIDs.add(HotelTravelPulseLists.getKey());
+		testIDs.add(HotelUGCReviewsBoxRatingDesign.getKey());
 		return testIDs;
 	}
 

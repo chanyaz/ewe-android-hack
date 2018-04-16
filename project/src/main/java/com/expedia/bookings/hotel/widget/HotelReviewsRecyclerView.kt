@@ -10,10 +10,12 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelReviewsResponse
 import com.expedia.bookings.hotel.data.TranslatedReview
 import com.expedia.bookings.widget.HotelReviewsLoadingWidget
+import com.expedia.bookings.widget.HotelReviewsSummaryBoxRatingWidget
 import com.expedia.bookings.widget.HotelReviewsSummaryWidget
 import com.expedia.bookings.widget.RecyclerDividerDecoration
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelReviewRowViewModel
+import com.expedia.vm.HotelReviewsSummaryBoxRatingViewModel
 import com.expedia.vm.HotelReviewsSummaryViewModel
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
@@ -26,10 +28,11 @@ class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : Recycler
         addItemDecoration(RecyclerDividerDecoration(getContext(), 0, 0, 0, 0, 0, resources.getDimensionPixelSize(R.dimen.hotel_review_divider_height), true))
     }
 
-    class HotelReviewsRecyclerAdapter : RecyclerView.Adapter<HotelReviewsViewHolder>() {
+    class HotelReviewsRecyclerAdapter(val isBucketedToUseBoxRating: Boolean) : RecyclerView.Adapter<HotelReviewsViewHolder>() {
         val VIEW_TYPE_HEADER = 0
         val VIEW_TYPE_REVIEW = 1
         val VIEW_TYPE_LOADING = 2
+        val VIEW_TYPE_HEADER_BOX_RATING = 3
 
         val loadMoreObservable = BehaviorSubject.create<Unit>()
 
@@ -56,6 +59,7 @@ class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : Recycler
             val view: View
             when (viewType) {
                 VIEW_TYPE_HEADER -> view = HotelReviewsSummaryWidget(parent.context)
+                VIEW_TYPE_HEADER_BOX_RATING -> view = HotelReviewsSummaryBoxRatingWidget(parent.context)
                 VIEW_TYPE_LOADING -> view = HotelReviewsLoadingWidget(parent.context)
                 else -> view = HotelReviewRowView(parent.context)
             }
@@ -67,6 +71,10 @@ class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : Recycler
                 is HotelReviewsSummaryWidget -> {
                     val hotelReviewsSummaryViewModel = HotelReviewsSummaryViewModel(holder.itemView.context)
                     hotelReviewsSummaryViewModel.reviewsSummaryObserver.onNext(reviewsSummary)
+                    holder.itemView.bindData(hotelReviewsSummaryViewModel)
+                }
+                is HotelReviewsSummaryBoxRatingWidget -> {
+                    val hotelReviewsSummaryViewModel = HotelReviewsSummaryBoxRatingViewModel(holder.itemView.context, reviewsSummary)
                     holder.itemView.bindData(hotelReviewsSummaryViewModel)
                 }
                 is HotelReviewRowView -> {
@@ -83,7 +91,7 @@ class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : Recycler
         }
 
         override fun getItemViewType(position: Int): Int {
-            if (position == 0) return VIEW_TYPE_HEADER
+            if (position == 0) return if (isBucketedToUseBoxRating) VIEW_TYPE_HEADER_BOX_RATING else VIEW_TYPE_HEADER
             if (position >= reviews.size + 1) return VIEW_TYPE_LOADING
             return VIEW_TYPE_REVIEW
         }

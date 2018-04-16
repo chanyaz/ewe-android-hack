@@ -7,7 +7,9 @@ import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.extensions.subscribeVisibility
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.widget.HotelReviewsRecyclerView
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.hotel.widget.HotelReviewsRecyclerView.HotelReviewsRecyclerAdapter
@@ -18,7 +20,7 @@ class HotelReviewsPageView(context: Context) : LinearLayout(context) {
 
     val messageProgressLoading: MessageProgressView by bindView(R.id.message_progress_loading)
     val recyclerView: HotelReviewsRecyclerView by bindView(android.R.id.list)
-    val recyclerAdapter: HotelReviewsRecyclerAdapter = HotelReviewsRecyclerAdapter()
+    val recyclerAdapter: HotelReviewsRecyclerAdapter = HotelReviewsRecyclerAdapter(AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelUGCReviewsBoxRatingDesign))
     val animation: ObjectAnimator
 
     init {
