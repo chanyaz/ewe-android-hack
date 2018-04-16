@@ -204,7 +204,7 @@ Feature: Package Search
     And I select inbound flight to source at position 1
     And Close price change Alert dialog if it is visible
     And I click on checkout button
-    And I validate that checkout screen is displayed
+    And I validate that web checkout screen is displayed
 
   @Packages @PackageSearch @Prod
   Scenario: Verify consistency of traveler details on HSR and FSR toolbar of packages
@@ -235,7 +235,7 @@ Feature: Package Search
     And I select inbound flight to source at position 1
     And Close price change Alert dialog if it is visible
     And I click on checkout button
-    And I validate that checkout screen is displayed
+    And I validate that web checkout screen is displayed
 
   @Packages @PackageSearch @Prod
   Scenario: Verify consistency of traveler details on package overview screen
@@ -276,7 +276,7 @@ Feature: Package Search
     Given I launch the App
     And I launch "Bundle Deals" LOB
     And I want to intercept these calls for packages
-      | GetPackagesV1 |
+      | MIDV1 |
     When I make a packages search with following parameters
       | source              | SFO                            |
       | destination         | LAS                            |
@@ -287,21 +287,13 @@ Feature: Package Search
       | adults              | 2                              |
       | child               | 2                              |
     Then Validate the getPackages API request query data for following parameters for packages
-      | forceNoRedir                | 1                          |
-      | packageType                 | fh                         |
-    Then Validate the getPackages API request form data for following parameters
       | fromDate                | 20                          |
       | destinationId           | 800045                      |
-      | ttla                    | LAS                         |
-      | ftla                    | SFO                         |
-      | packageTripType         | 2                           |
-      | adultsPerRoom[1]        | 2                           |
-      | numberOfRooms           | 1                           |
+      | adults                  | 2                           |
       | toDate                  | 30                          |
-      | originId                | 5195347                      |
-      | childrenPerRoom[1]      | 2                           |
-      | childAges[1][1]         | 10                          |
-      | childAges[1][2]         | 10                          |
+      | originId                | 5195347                     |
+      | childAges               | 10,10                       |
+      | packageType             | fh                          |
 
 
   @Packages @PackageSearch @Prod

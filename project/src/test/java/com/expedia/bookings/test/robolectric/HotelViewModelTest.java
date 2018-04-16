@@ -143,7 +143,7 @@ public class HotelViewModelTest {
 
 		HotelViewModel vm = new HotelViewModel(getContext(), false);
 		vm.bindHotelData(firstHotel);
-		assertEquals("$2,440", vm.getHotelStrikeThroughPriceFormatted().toString());
+		assertEquals("$2,098", vm.getHotelStrikeThroughPriceFormatted().toString());
 	}
 
 	private SuggestionV4 getDummySuggestion() {

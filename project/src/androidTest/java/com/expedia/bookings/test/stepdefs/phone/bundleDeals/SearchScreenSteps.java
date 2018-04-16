@@ -237,9 +237,9 @@ public class SearchScreenSteps {
 		validateTravelersCountFlightInboundWidget(parameters.get("Total_Travelers"));
 	}
 
-	@Then("^I validate that checkout screen is displayed$")
-	public void validateCheckoutScreenVisible() throws Throwable {
-		onView(withId(R.id.login_widget)).perform(waitForViewToDisplay()).check(matches(isDisplayed()));
+	@Then("^I validate that web checkout screen is displayed$")
+	public void validateWebCheckoutScreenVisible() throws Throwable {
+		onView(withId(R.id.package_web_checkout)).perform(waitForViewToDisplay()).check(matches(isDisplayed()));
 	}
 
 	@Then("^I type \"(.*?)\" and select the location \"(.*?)\"$")
@@ -262,7 +262,12 @@ public class SearchScreenSteps {
 
 	@Then("^Validate the getPackages API request query data for following parameters for packages")
 	public void validateGetPackageRequest(Map<String, String> expParameters) throws Throwable {
-		validateRequestParams(expParameters, apiRequestData);
+		Map<String, String> params = new HashMap<>(expParameters);
+		String startDate = TestUtil.getDateInyyyyMMdd(expParameters.get("fromDate"));
+		params.put("fromDate", startDate);
+		String endDate = TestUtil.getDateInyyyyMMdd(expParameters.get("toDate"));
+		params.put("toDate", endDate);
+		validateRequestParams(params, apiRequestData);
 	}
 
 	private void selectTravelers(Map<String, String> parameters) {

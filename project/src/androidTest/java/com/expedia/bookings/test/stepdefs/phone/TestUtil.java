@@ -206,6 +206,12 @@ public class TestUtil {
 		return dateFormatter.format(startDate.toDate());
 	}
 
+	public static String getDateInyyyyMMdd(String days) {
+		LocalDate startDate = LocalDate.now().plusDays(Integer.parseInt(days));
+		Format dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+		return dateFormatter.format(startDate.toDate());
+	}
+
 	public static String getDateInEEEMMMdd(String days) {
 		LocalDate startDate = LocalDate.now().plusDays(Integer.parseInt(days));
 		Format dateFormatter = new SimpleDateFormat("EEE, MMM d", Locale.US);

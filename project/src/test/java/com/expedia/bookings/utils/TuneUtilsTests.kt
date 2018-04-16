@@ -336,11 +336,11 @@ class TuneUtilsTests {
         assertEquals("package_search_results", provider.trackedEvent?.eventName)
         assertEquals("package_search_result_item", provider.trackedEvent?.eventItems?.first()?.itemname)
         assertEquals("hotel", provider.trackedEvent?.searchString)
-        assertEquals(LocalDate(2017, 11, 8).toDate(), provider.trackedEvent?.date1)
-        assertEquals(LocalDate(2017, 11, 15).toDate(), provider.trackedEvent?.date2)
-        assertEquals("San Francisco", provider.trackedEvent?.eventItems?.first()?.attribute1)
-        assertEquals("18723252,6666,12539,25027,15769", provider.trackedEvent?.eventItems?.first()?.attribute4)
-        assertEquals("18723252|San Francisco Proper Hotel|USD|0.0|4.0|0:6666|Handlery Union Square Hotel|USD|0.0|3.5|0:12539|Parc 55 San Francisco - A Hilton Hotel|USD|0.0|4.0|0:25027|White Swan Inn|USD|0.0|3.5|0:15769|The Marker San Francisco, a Joie de Vivre Hotel|USD|0.0|4.0|0", provider.trackedEvent?.eventItems?.first()?.attribute5)
+        assertEquals(LocalDate(2018, 5, 7).toDate(), provider.trackedEvent?.date1)
+        assertEquals(LocalDate(2018, 5, 10).toDate(), provider.trackedEvent?.date2)
+        assertEquals("Kathmandu", provider.trackedEvent?.eventItems?.first()?.attribute1)
+        assertEquals("happy_room,5857498,531192,5421636,9787693", provider.trackedEvent?.eventItems?.first()?.attribute4)
+        assertEquals("happy_room|happy_room|USD|0.0|4.0|0:5857498|The Dwarika's Hotel|USD|0.0|5.0|0:531192|Hyatt Regency Kathmandu|USD|0.0|5.0|0:5421636|Hotel Yak & Yeti|USD|0.0|5.0|0:9787693|Dalai-La Boutique Hotel|USD|0.0|3.5|0", provider.trackedEvent?.eventItems?.first()?.attribute5)
     }
 
     @Test

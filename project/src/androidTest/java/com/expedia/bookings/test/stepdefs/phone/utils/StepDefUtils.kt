@@ -17,7 +17,7 @@ class StepDefUtils private constructor() {
             val apiCallAliases = HashMap<String, String>()
             apiCallAliases["FlightSearch"] = "/api/flight/search"
             apiCallAliases["FlightCreateTrip"] = "/api/flight/trip/create"
-            apiCallAliases["GetPackagesV1"] = "/getpackages/v1"
+            apiCallAliases["MIDV1"] = "/api/multiitem/v1/hotels"
             apiCallAliases["TypeAheadSFO"] = "/api/v4/typeahead/sfo"
             apiCallAliases["TypeAheadLAS"] = "/api/v4/typeahead/LAS"
             apiCallAliases
