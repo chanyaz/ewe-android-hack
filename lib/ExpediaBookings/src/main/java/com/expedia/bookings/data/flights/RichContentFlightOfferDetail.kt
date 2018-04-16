@@ -2,14 +2,14 @@ package com.expedia.bookings.data.flights
 
 import com.google.gson.annotations.SerializedName
 
-class RouteHappyFlightOfferDetail {
+class RichContentFlightOfferDetail {
     @SerializedName("od")
-    var flightOfferList: List<RouteHappyFlightOffer> = emptyList()
+    var flightOfferList: List<RichContentFlightOffer> = emptyList()
 
-    class RouteHappyFlightOffer {
+    class RichContentFlightOffer {
         @SerializedName("id")
         var naturalKey = ""
         @SerializedName("legList")
-        var flightLegDetail: RouteHappyFlightLegDetail? = null
+        var flightLegDetail: RichContentFlightLegDetail? = null
     }
 }

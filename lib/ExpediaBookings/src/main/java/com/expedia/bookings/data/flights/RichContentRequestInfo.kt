@@ -1,6 +1,6 @@
 package com.expedia.bookings.data.flights
 
-class RouteHappyRequestInfo {
+class RichContentRequestInfo {
     var tpid = ""
     var eapid = ""
     var tuid = -1L

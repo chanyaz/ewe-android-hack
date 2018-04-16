@@ -2,9 +2,9 @@ package com.expedia.bookings.data.flights
 
 import com.google.gson.annotations.SerializedName
 
-class RouteHappyRequest {
+class RichContentRequest {
     @SerializedName("messageInfo")
-    var requestInfo: RouteHappyRequestInfo? = null
+    var requestInfo: RichContentRequestInfo? = null
     @SerializedName("richInfoList")
-    var richInfoDetail: RouteHappyRichInfoDetail? = null
+    var richInfoDetail: RichContentDetail? = null
 }

@@ -3,13 +3,13 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.flights.RouteHappyResponse
+import com.expedia.bookings.data.flights.RichContentResponse
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.services.KongFlightServices
-import com.expedia.bookings.utils.RouteHappyUtils
+import com.expedia.bookings.utils.RichContentUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.isRouteHappyEnabled
-import com.expedia.bookings.data.flights.RouteHappyRichContent
+import com.expedia.bookings.utils.isRichContentEnabled
+import com.expedia.bookings.data.flights.RichContent
 import com.expedia.bookings.extensions.ObservableOld
 import io.reactivex.Observer
 import io.reactivex.observers.DisposableObserver
@@ -22,8 +22,8 @@ class FlightResultsViewModel(context: Context) : BaseResultsViewModel() {
         @Inject set
 
     override val showLoadingStateV1 = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFLightLoadingStateV1)
-    override val showRichContent = isRouteHappyEnabled(context)
-    val richContentStream = PublishSubject.create<Map<String, RouteHappyRichContent>>()
+    override val showRichContent = isRichContentEnabled(context)
+    val richContentStream = PublishSubject.create<Map<String, RichContent>>()
 
     override fun getLineOfBusiness(): LineOfBusiness {
         return LineOfBusiness.FLIGHTS_V2
@@ -32,9 +32,9 @@ class FlightResultsViewModel(context: Context) : BaseResultsViewModel() {
     init {
         Ui.getApplication(context).flightComponent().inject(this)
         flightResultsObservable.subscribe { flightLegs ->
-            if (isRouteHappyEnabled(context) && flightLegs.isNotEmpty()) {
-                val routeHappyRequestPayload = RouteHappyUtils.getRouteHappyRequestPayload(context, flightLegs)
-                kongFlightServices.getFlightRouteHappy(routeHappyRequestPayload, makeRouteHappyObserver())
+            if (isRichContentEnabled(context) && flightLegs.isNotEmpty()) {
+                val richContentRequestPayload = RichContentUtils.getRichContentRequestPayload(context, flightLegs)
+                kongFlightServices.getFlightRichContent(richContentRequestPayload, makeRichContentObserver())
             }
         }
         if (showRichContent) {
@@ -50,24 +50,24 @@ class FlightResultsViewModel(context: Context) : BaseResultsViewModel() {
         }
     }
 
-    fun makeRouteHappyObserver(): Observer<RouteHappyResponse> {
-        return object : DisposableObserver<RouteHappyResponse>() {
+    fun makeRichContentObserver(): Observer<RichContentResponse> {
+        return object : DisposableObserver<RichContentResponse>() {
             override fun onComplete() {
                 // DO Nothing...
             }
 
-            override fun onNext(resp: RouteHappyResponse) {
+            override fun onNext(resp: RichContentResponse) {
                 richContentStream.onNext(getRichContentMap(resp.richContentList))
             }
 
             override fun onError(error: Throwable) {
-                richContentStream.onNext(emptyMap<String, RouteHappyRichContent>())
+                richContentStream.onNext(emptyMap<String, RichContent>())
             }
         }
     }
 
-    fun getRichContentMap(richContentList: List<RouteHappyRichContent>): MutableMap<String, RouteHappyRichContent> {
-        val richContentMap = mutableMapOf<String, RouteHappyRichContent>()
+    fun getRichContentMap(richContentList: List<RichContent>): MutableMap<String, RichContent> {
+        val richContentMap = mutableMapOf<String, RichContent>()
         for (richContent in richContentList) {
             richContentMap.put(richContent.legId, richContent)
         }

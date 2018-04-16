@@ -5768,7 +5768,7 @@ public class OmnitureTracking {
 		}
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSubpubChange);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsEvolable);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsRouteHappy);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsRichContent);
 
 		// This is added to collect data and will be removed by Feb'18. Card# 8787
 		if (searchTrackingData.getReturnDate() == null) {

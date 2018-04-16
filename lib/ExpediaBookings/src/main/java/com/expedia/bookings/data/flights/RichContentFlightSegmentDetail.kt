@@ -2,15 +2,15 @@ package com.expedia.bookings.data.flights
 
 import com.google.gson.annotations.SerializedName
 
-class RouteHappyFlightSegmentDetail {
+class RichContentFlightSegmentDetail {
     @SerializedName("segment")
-    var flightSegmentList: List<RouteHappyFlightSegment> = emptyList()
+    var flightSegmentList: List<RichContentFlightSegment> = emptyList()
 
-    class RouteHappyFlightSegment {
+    class RichContentFlightSegment {
         var id = ""
         var carrierCode = ""
         var flightNumber = ""
         var bookingCode = ""
-        var flightCriteria: RouteHappyFlightSegmentCriteria? = null
+        var flightCriteria: RichContentFlightSegmentCriteria? = null
     }
 }

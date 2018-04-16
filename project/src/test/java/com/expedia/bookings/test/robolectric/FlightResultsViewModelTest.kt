@@ -1,12 +1,12 @@
 package com.expedia.bookings.test.robolectric
 
 import android.content.Context
-import com.expedia.bookings.data.flights.RouteHappyResponse
-import com.expedia.bookings.data.flights.RouteHappyRichContent
+import com.expedia.bookings.data.flights.RichContentResponse
+import com.expedia.bookings.data.flights.RichContent
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
-import com.expedia.bookings.utils.RouteHappyUtils
+import com.expedia.bookings.utils.RichContentUtils
 import com.expedia.vm.FlightResultsViewModel
 import org.junit.Before
 import org.junit.Test
@@ -28,9 +28,9 @@ class FlightResultsViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testRichContentObserver() {
-        val richContentObserver = TestObserver<Map<String, RouteHappyRichContent>>()
+        val richContentObserver = TestObserver<Map<String, RichContent>>()
         sut.richContentStream.subscribe(richContentObserver)
-        sut.makeRouteHappyObserver().onNext(getRichContentResponse())
+        sut.makeRichContentObserver().onNext(getRichContentResponse())
         richContentObserver.assertValueCount(1)
     }
 
@@ -43,24 +43,24 @@ class FlightResultsViewModelTest {
         val richContent = richContentMap.values.first()
         assertEquals(FLIGHT_LEG_ID, richContent.legId)
         assertEquals(7.9F, richContent.score)
-        assertEquals(RouteHappyUtils.ScoreExpression.VERY_GOOD.name, richContent.scoreExpression)
+        assertEquals(RichContentUtils.ScoreExpression.VERY_GOOD.name, richContent.scoreExpression)
     }
 
-    private fun getRichContentResponse(): RouteHappyResponse {
-        val richContentResponse = RouteHappyResponse()
+    private fun getRichContentResponse(): RichContentResponse {
+        val richContentResponse = RichContentResponse()
         richContentResponse.richContentList = getRichContentList()
         return richContentResponse
     }
 
-    private fun getRichContentList(): List<RouteHappyRichContent> {
+    private fun getRichContentList(): List<RichContent> {
         return listOf(getRichContentRichContent())
     }
 
-    private fun getRichContentRichContent(): RouteHappyRichContent {
-        val richContent = RouteHappyRichContent()
+    private fun getRichContentRichContent(): RichContent {
+        val richContent = RichContent()
         richContent.legId = FLIGHT_LEG_ID
         richContent.score = 7.9F
-        richContent.scoreExpression = RouteHappyUtils.ScoreExpression.VERY_GOOD.name
+        richContent.scoreExpression = RichContentUtils.ScoreExpression.VERY_GOOD.name
         return richContent
     }
 }

@@ -21,7 +21,7 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowDateFormat
 import com.expedia.bookings.utils.AbacusTestUtils
-import com.expedia.bookings.utils.RouteHappyUtils
+import com.expedia.bookings.utils.RichContentUtils
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.flights.DockedOutboundFlightWidgetV2
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
@@ -123,7 +123,7 @@ class FlightResultsListViewPresenterTest {
 
     @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testRichContentInFlightLeg() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsRouteHappy)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsRichContent)
         inflateAndSetViewModel()
 
         val flightLeg = createFakeFlightLeg()
@@ -135,7 +135,7 @@ class FlightResultsListViewPresenterTest {
         val flightRichContent = processedFlightLeg.richContent
         assertNotNull(flightRichContent)
         assertEquals(8.1F, flightRichContent.score)
-        assertEquals(RouteHappyUtils.ScoreExpression.VERY_GOOD.name, flightRichContent.scoreExpression)
+        assertEquals(RichContentUtils.ScoreExpression.VERY_GOOD.name, flightRichContent.scoreExpression)
 
         val flightLegAmenities = flightRichContent.legAmenities
         assertTrue(flightLegAmenities!!.wifi)
@@ -146,7 +146,7 @@ class FlightResultsListViewPresenterTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testProgressBarStatusForRichContent() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsRouteHappy)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsRichContent)
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFLightLoadingStateV1)
         inflateAndSetViewModel()
         addFlightSearchParams()

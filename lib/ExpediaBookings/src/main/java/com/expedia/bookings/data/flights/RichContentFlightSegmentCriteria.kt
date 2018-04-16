@@ -1,6 +1,6 @@
 package com.expedia.bookings.data.flights
 
-class RouteHappyFlightSegmentCriteria {
+class RichContentFlightSegmentCriteria {
     var origin = ""
     var destination = ""
     var date = ""
