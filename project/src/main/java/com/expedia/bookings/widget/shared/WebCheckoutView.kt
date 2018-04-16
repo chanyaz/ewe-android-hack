@@ -24,6 +24,8 @@ import com.expedia.vm.WebViewViewModel
 import com.mobiata.android.util.AndroidUtils
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 
 class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget(context, attrs) {
 
@@ -156,10 +158,11 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
     }
 
     private fun urlHasPOSWebBookingConfirmationUrl(url: String): Boolean {
-        return (!PointOfSale.getPointOfSale().hotelsWebBookingConfirmationURL.isNullOrBlank()
-                && url.startsWith(PointOfSale.getPointOfSale().hotelsWebBookingConfirmationURL)) ||
+        return ((PointOfSale.getPointOfSale().shouldShowWebCheckout() ||
+                AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelsWebCheckout))
+                && url.contains(context.getString(R.string.hotel_confirmation_url_tag)) ||
                 (!PointOfSale.getPointOfSale().flightsWebBookingConfirmationURL.isNullOrBlank()
-                && url.startsWith(PointOfSale.getPointOfSale().flightsWebBookingConfirmationURL))
+                        && url.startsWith(PointOfSale.getPointOfSale().flightsWebBookingConfirmationURL)))
     }
 
     private fun urlIsMIDConfirmation(url: String): Boolean {

@@ -18,6 +18,8 @@
     <!-- MID CKO Confirmation Tag -->
     <string name="mid_confirmation_url_tag">MultiItemBookingConfirmation</string>
 
+    <string name="hotel_confirmation_url_tag">HotelBookingConfirmation</string>
+
     <!-- Generic strings/characters we use in various places that don't need translation -->
     <string name="debug_settings">Debug Settings</string>
     <string name="forward_slash">/</string>
