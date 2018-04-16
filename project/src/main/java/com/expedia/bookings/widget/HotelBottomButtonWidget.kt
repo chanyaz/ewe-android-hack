@@ -42,7 +42,7 @@ class HotelBottomButtonWidget(context: Context, attrs: AttributeSet) : LinearLay
     fun showChangeDates() {
         action = Action.CHANGE_DATES
         buttonBottom.setText(R.string.change_dates)
-        buttonBottom.setBackgroundColor(ContextCompat.getColor(context, R.color.gray600))
+        buttonBottom.setBackgroundColor(ContextCompat.getColor(context, R.color.app_primary))
     }
 
     fun showSelectDates() {

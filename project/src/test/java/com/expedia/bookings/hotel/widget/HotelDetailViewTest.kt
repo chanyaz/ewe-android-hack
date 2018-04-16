@@ -56,7 +56,7 @@ class HotelDetailViewTest {
         testVM.hotelSoldOut.onNext(true)
         assertEquals("Change Dates", contentView.bottomButtonWidget.buttonBottom.text)
         assertEquals((contentView.bottomButtonWidget.buttonBottom.background as ColorDrawable).color,
-                ContextCompat.getColor(activity, R.color.gray600))
+                ContextCompat.getColor(activity, R.color.app_primary))
     }
 
     @Test
