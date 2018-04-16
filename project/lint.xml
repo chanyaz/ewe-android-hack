@@ -179,6 +179,7 @@
     <issue id="Recycle" severity="error" />
     <issue id="ObsoleteLayoutParam" severity="error" />
     <issue id="ObsoleteSdkInt" severity="error" />
+    <issue id="UnusedNamespace" severity="error" />
     <issue id="UseCompoundDrawables" severity="error" />
     <issue id="AnimatorKeep" severity="error" />
     <issue id="UseSparseArrays" severity="error" />
