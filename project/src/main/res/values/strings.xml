@@ -2333,9 +2333,11 @@
     <string name="male">Male</string>
     <!-- female -->
     <string name="female">Female</string>
-    <!-- next page buttn -->
+    <!-- next page button -->
     <string name="next">Next</string>
     <string name="next_cont_desc">Next button</string>
+    <!-- previous page button -->
+    <string name="previous">Previous</string>
     <!-- Passport country placeholder for passport country spinner -->
     <string name="country">Country</string>
     <!-- Passport country label -->

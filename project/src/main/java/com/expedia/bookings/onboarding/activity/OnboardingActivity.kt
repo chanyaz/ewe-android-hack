@@ -84,6 +84,8 @@ class OnboardingActivity : AppCompatActivity() {
         val scroller = FixedSpeedScroller(this, DecelerateInterpolator())
         mScroller.set(viewPager, scroller)
 
+        previousButton.contentDescription = getString(R.string.previous)
+        nextButton.contentDescription = getString(R.string.next)
         previousButton.setOnClickListener { showPrevious() }
         nextButton.setOnClickListener { showNext() }
         flingListener.leftFlingSubject.subscribe { showPrevious() }
