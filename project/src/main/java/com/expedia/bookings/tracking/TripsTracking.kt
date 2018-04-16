@@ -3,12 +3,30 @@ package com.expedia.bookings.tracking
 import com.expedia.bookings.analytics.AppAnalytics
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.trips.TripUtils
+import com.expedia.bookings.itin.triplist.TripListFragment
 import com.mobiata.android.Log
 
 object TripsTracking : OmnitureTracking(), ITripsTracking {
 
     //Tags
     private val TAG = "TripsTracking"
+
+    //Trip List Tracking
+    private val ITIN_LIST_UPCOMING_TAB = "App.Trips.Upcoming"
+    private val ITIN_LIST_PAST_TAB = "App.Trips.Past"
+    private val ITIN_LIST_CANCELLED_TAB = "App.Trips.Cancelled"
+
+    override fun trackTripListVisit(tabPosition: Int) {
+        var pageName = ""
+        when (tabPosition) {
+            TripListFragment.UPCOMING_TAB -> pageName = ITIN_LIST_UPCOMING_TAB
+            TripListFragment.PAST_TAB -> pageName = ITIN_LIST_PAST_TAB
+            TripListFragment.CANCELLED_TAB -> pageName = ITIN_LIST_CANCELLED_TAB
+        }
+        val s = createTrackPageLoadEventBase(pageName)
+        s.appendEvents("event63")
+        s.track()
+    }
 
     //Hotel Tracking
     private val ITIN_HOTEL_CALL_EXPEDIA = "App.Itinerary.Hotel.Manage.Call.Expedia"
@@ -33,9 +51,6 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     private val ITIN_HOTEL_MAP_ZOOM_IN = "App.Map.Directions.ZoomIn"
     private val ITIN_HOTEL_MAP_ZOOM_OUT = "App.Map.Directions.ZoomOut"
     private val ITIN_HOTEL = "App.Itinerary.Hotel"
-
-    //LX Tracking
-    private val ITIN_ACTIVITY = "App.Itinerary.Activity"
 
     fun trackItinHotelCallSupport() {
         val s = createTrackLinkEvent(ITIN_HOTEL_CALL_EXPEDIA)
@@ -169,6 +184,9 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
         s.appendEvents("event63")
         s.track()
     }
+
+    //LX Tracking
+    private val ITIN_ACTIVITY = "App.Itinerary.Activity"
 
     override fun trackItinLx(trip: HashMap<String, String?>) {
         Log.d(TAG, "Tracking \"$ITIN_ACTIVITY\" pageLoad")

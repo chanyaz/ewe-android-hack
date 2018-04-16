@@ -87,7 +87,7 @@ import org.joda.time.LocalDate
 import javax.inject.Inject
 
 class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.LaunchFragmentListener, AccountSettingsFragment.AccountFragmentListener,
-        ItinItemListFragment.ItinItemListFragmentListener, LoginConfirmLogoutDialogFragment.DoLogoutListener, AboutSectionFragment.AboutSectionFragmentListener
+        ItinItemListFragment.ItinItemListFragmentListener, TripListFragment.TripListFragmentListener, LoginConfirmLogoutDialogFragment.DoLogoutListener, AboutSectionFragment.AboutSectionFragmentListener
         , AboutUtils.CountrySelectDialogListener, ClearPrivateDataDialog.ClearPrivateDataDialogListener, CopyrightFragment.CopyrightFragmentListener {
     private var pagerSelectedPosition = PAGER_POS_LAUNCH
 
@@ -122,6 +122,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     private var itinListFragment: ItinItemListFragment? = null
     private var accountFragment: AccountSettingsFragment? = null
     private var phoneLaunchFragment: PhoneLaunchFragment? = null
+    private var tripListFragment: TripListFragment? = null
     private var softPromptDialogFragment: SoftPromptDialogFragment? = null
     var isLocationPermissionPending = false
     val isTripFoldersEnabled: Boolean by lazy {
@@ -465,11 +466,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
                             val itinPageUsablePerformanceModel = tripComponent.itinPageUsableTracking()
                             itinPageUsablePerformanceModel.markSuccessfulStartTime(System.currentTimeMillis())
                         }
-                        if (isTripFoldersEnabled) {
-                            goToTripList()
-                        } else {
-                            gotoItineraries()
-                        }
+                        gotoItineraries()
                     }
                     PAGER_POS_ACCOUNT -> {
                         pagerPosition = PAGER_POS_ACCOUNT
@@ -493,34 +490,42 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         }
     }
 
-    @Synchronized private fun gotoItineraries() {
-        itinListFragment?.setIsFromConfirmation(isFromConfirmation)
+    @Synchronized
+    private fun gotoItineraries() {
+        if (isTripFoldersEnabled) {
+            goToTripList()
+        } else {
+            itinListFragment?.setIsFromConfirmation(isFromConfirmation)
 
-        if (pagerPosition != PAGER_POS_ITIN) {
+            if (pagerPosition != PAGER_POS_ITIN) {
 
-            itinListFragment?.resetTrackingState()
-            itinListFragment?.enableLoadItins()
+                itinListFragment?.resetTrackingState()
+                itinListFragment?.enableLoadItins()
 
-            pagerPosition = PAGER_POS_ITIN
-            viewPager.currentItem = PAGER_POS_ITIN
+                pagerPosition = PAGER_POS_ITIN
+                viewPager.currentItem = PAGER_POS_ITIN
 
-            if (hasMenu) {
-                invalidateOptionsMenu()
+                if (hasMenu) {
+                    invalidateOptionsMenu()
+                }
             }
-        }
 
-        if (jumpToItinId != null) {
-            if (jumpToItinId != "-1") {
-                itinListFragment?.goToItin(jumpToItinId)
+            if (jumpToItinId != null) {
+                if (jumpToItinId != "-1") {
+                    itinListFragment?.goToItin(jumpToItinId)
+                }
+                jumpToItinId = null
             }
-            jumpToItinId = null
         }
     }
 
-    @Synchronized fun goToTripList() {
+    @Synchronized
+    fun goToTripList() {
         if (pagerPosition != PAGER_POS_ITIN) {
             pagerPosition = PAGER_POS_ITIN
             viewPager.currentItem = PAGER_POS_ITIN
+
+            tripListFragment?.trackTripListVisit()
         }
 
         if (hasMenu) {
@@ -745,6 +750,10 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
 
     override fun onLaunchFragmentAttached(frag: PhoneLaunchFragment) {
         phoneLaunchFragment = frag
+    }
+
+    override fun onTripListFragmentAttached(frag: TripListFragment) {
+        tripListFragment = frag
     }
 
     override fun onLogoClick() {

@@ -15,6 +15,7 @@ import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.user.RestrictedProfileSource
 import com.expedia.bookings.fragment.AccountSettingsFragment
 import com.expedia.bookings.fragment.ItinItemListFragment
+import com.expedia.bookings.itin.helpers.MockTripsTracking
 import com.expedia.bookings.itin.triplist.TripListFragment
 import com.expedia.bookings.notification.Notification
 import com.expedia.bookings.test.CustomMatchers
@@ -43,6 +44,7 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
@@ -276,6 +278,21 @@ class PhoneLaunchActivityTest {
         activity.viewPager.currentItem = PhoneLaunchActivity.PAGER_POS_ITIN
         activity.goToTripList()
         assertEquals(PhoneLaunchActivity.PAGER_POS_ITIN, activity.viewPager.currentItem)
+    }
+
+    @Test
+    fun `test tracking goToTripList`() {
+        AbacusTestUtils.bucketTests(AbacusUtils.TripFoldersFragment)
+        val activity = Robolectric.buildActivity(PhoneLaunchActivity::class.java).create().start().get()
+        val tripListFragment: TripListFragment = activity.pagerAdapter.getItem(PhoneLaunchActivity.PAGER_POS_ITIN) as TripListFragment
+        val mockTripsTracking = MockTripsTracking()
+        tripListFragment.tripsTracking = mockTripsTracking
+        activity.viewPager.currentItem = PhoneLaunchActivity.PAGER_POS_LAUNCH
+        activity.supportFragmentManager.beginTransaction().add(tripListFragment, "TRIP_LIST_FRAGMENT").commitNow()
+
+        assertFalse(mockTripsTracking.trackTripListVisited)
+        activity.goToTripList()
+        assertTrue(mockTripsTracking.trackTripListVisited)
     }
 
     @Test

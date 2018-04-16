@@ -1355,6 +1355,14 @@
     <string name="itin_card_details_reload_cruise">Reload Cruise Info</string>
     <string name="itin_card_details_remove_itin">Remove from Itinerary</string>
 
+    <!--Trip Folders-->
+    <!--Trip folder upcoming tab title-->
+    <string name="trip_folder_upcoming_tab_title">Upcoming</string>
+    <!--Trip folder past tab title-->
+    <string name="trip_folder_past_tab_title">Past</string>
+    <!--Trip folder cancelled tab title-->
+    <string name="trip_folder_cancelled_tab_title">Cancelled</string>
+
     <!--Hotel itin card room details heading-->
     <string name="itin_hotel_details_room_details_title_text">Your room</string>
     <!--Hotel itin card room details heading - multiple rooms-->
