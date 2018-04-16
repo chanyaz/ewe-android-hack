@@ -1,38 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/button_action_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="56dp"
+    android:layout_marginLeft="?attr/itin_cross_sell_card_margin_left_right"
+    android:layout_marginRight="?attr/itin_cross_sell_card_margin_left_right"
+    android:orientation="horizontal"
+    android:background="?attr/itin_card_list_cross_sell_bg"
+    android:gravity="center"
     android:paddingBottom="8dp"
     android:paddingLeft="12dp"
     android:paddingRight="12dp"
     android:paddingTop="8dp">
 
-    <LinearLayout
-        android:id="@+id/button_action_layout"
-        android:layout_width="match_parent"
+    <FrameLayout
+        android:id="@+id/itin_button_layout"
+        android:layout_width="0dp"
         android:layout_height="56dp"
-        android:layout_marginLeft="?attr/itin_cross_sell_card_margin_left_right"
-        android:layout_marginRight="?attr/itin_cross_sell_card_margin_left_right"
-        android:orientation="horizontal"
-        android:background="?attr/itin_card_list_cross_sell_bg"
-        android:gravity="center">
+        android:layout_weight="1"/>
 
-        <FrameLayout
-            android:id="@+id/itin_button_layout"
-            android:layout_width="0dp"
-            android:layout_height="56dp"
-            android:layout_weight="1"/>
+    <ImageView
+        android:id="@+id/dismiss_image_view"
+        android:layout_width="48dp"
+        android:layout_height="match_parent"
+        android:background="?attr/skin_itinDismissListSelectorDrawable"
+        android:contentDescription="@string/hide_menu_btn_cont_desc"
+        android:src="?attr/itin_air_attach_action_overflow"
+        android:scaleType="centerInside"/>
 
-        <ImageView
-            android:id="@+id/dismiss_image_view"
-            android:layout_width="48dp"
-            android:layout_height="match_parent"
-            android:background="?attr/skin_itinDismissListSelectorDrawable"
-            android:contentDescription="@string/hide_menu_btn_cont_desc"
-            android:src="?attr/itin_air_attach_action_overflow"
-            android:scaleType="centerInside"/>
-
-    </LinearLayout>
-
-</FrameLayout>
+</LinearLayout>

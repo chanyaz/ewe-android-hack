@@ -181,6 +181,8 @@
     <issue id="ObsoleteSdkInt" severity="error" />
     <issue id="UnusedNamespace" severity="error" />
     <issue id="UselessLeaf" severity="error" />
+    <issue id="Overdraw" severity="error" />
+    <issue id="UselessParent" severity="error" />
     <issue id="UseCompoundDrawables" severity="error" />
     <issue id="AnimatorKeep" severity="error" />
     <issue id="UseSparseArrays" severity="error" />

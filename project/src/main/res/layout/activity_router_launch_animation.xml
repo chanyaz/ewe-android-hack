@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/root_layout"
-    android:background="@color/brand_secondary">
+    android:background="@color/brand_secondary"
+    tools:ignore="Overdraw">
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/start_animation_view"

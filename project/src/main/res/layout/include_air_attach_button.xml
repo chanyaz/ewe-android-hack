@@ -1,158 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/itin_button_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="8dp"
-    android:paddingLeft="8dp"
-    android:paddingRight="8dp"
-    android:paddingTop="8dp">
+    android:background="?attr/itin_air_attach_background"
+    android:orientation="vertical"
+    android:layout_margin="8dp">
 
     <LinearLayout
-        android:id="@+id/itin_button_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/itin_air_attach_background"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:background="@drawable/itin_orange">
 
-                <FrameLayout
+                <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/itin_orange">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingBottom="27dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="27dp"
+                    android:src="@drawable/itin_plane" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:paddingBottom="27dp"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="10dp"
-                        android:paddingTop="27dp"
-                        android:src="@drawable/itin_plane" />
+            </FrameLayout>
 
-                </FrameLayout>
+            <com.larvalabs.svgandroid.widget.SVGView
+                android:id="@+id/air_attach_curve"
+                android:layout_width="9dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="0dp"
+                app:src="@raw/curve" />
 
-                <com.larvalabs.svgandroid.widget.SVGView
-                    android:id="@+id/air_attach_curve"
-                    android:layout_width="9dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="0dp"
-                    app:src="@raw/curve" />
+        </LinearLayout>
 
-            </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical"
+            android:padding="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/itin_air_attach_text_color"
+                android:textStyle="bold"
+                android:text="@string/air_attach_alert" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/itin_air_attach_text_color"
+                android:text="@string/air_attach_potential_savings" />
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:id="@+id/air_attach_countdown_view"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:layout_gravity="center_vertical"
-                android:padding="12dp">
+                android:orientation="horizontal"
+                android:visibility="visible">
+
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="?attr/itin_air_attach_text_color"
-                    android:textStyle="bold"
-                    android:text="@string/air_attach_alert" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="?attr/itin_air_attach_text_color"
-                    android:text="@string/air_attach_potential_savings" />
-
-                <LinearLayout
-                    android:id="@+id/air_attach_countdown_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:visibility="visible">
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="?attr/itin_air_attach_expiration_text_color"
-                        android:textSize="11dp"
-                        android:text="@string/air_attach_expires" />
-
-                    <TextView
-                        android:id="@+id/itin_air_attach_expiration_date_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/airattach_countdown"
-                        android:drawablePadding="4dp"
-                        android:padding="4dp"
-                        android:textColor="?attr/itin_air_attach_expires_in_text_color"
-                        android:textSize="11dp" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/air_attach_expires_today_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/air_attach_expires_today"
-                    android:textColor="?attr/itin_air_attach_expires_in_text_color"
+                    android:textColor="?attr/itin_air_attach_expiration_text_color"
                     android:textSize="11dp"
-                    android:visibility="gone" />
+                    android:text="@string/air_attach_expires" />
+
+                <TextView
+                    android:id="@+id/itin_air_attach_expiration_date_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/airattach_countdown"
+                    android:drawablePadding="4dp"
+                    android:padding="4dp"
+                    android:textColor="?attr/itin_air_attach_expires_in_text_color"
+                    android:textSize="11dp" />
 
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/dismiss_image_view"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:contentDescription="@string/hide_menu_btn_cont_desc"
-                android:gravity="top"
-                android:scaleType="centerInside"
-                android:src="?attr/itin_air_attach_action_overflow"
+            <TextView
+                android:id="@+id/air_attach_expires_today_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/air_attach_expires_today"
+                android:textColor="?attr/itin_air_attach_expires_in_text_color"
+                android:textSize="11dp"
                 android:visibility="gone" />
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="?attr/itin_air_attach_banner_divider_margin_left"
-            android:layout_marginRight="?attr/itin_air_attach_banner_divider_margin_right"
-            android:background="?attr/itin_air_attach_banner_divider_color" />
-
-        <LinearLayout
-            android:id="@+id/button_action_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
+        <ImageView
+            android:id="@+id/dismiss_image_view"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:background="?android:attr/selectableItemBackground"
-            android:clickable="true">
-
-            <TextView
-                android:id="@+id/action_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_margin="4dp"
-                android:padding="8dp"
-                android:text="@string/add_hotel_air_attach"
-                android:textAllCaps="true"
-                android:textColor="?attr/itin_air_attach_action_text_color"
-                android:textSize="12dp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
+            android:contentDescription="@string/hide_menu_btn_cont_desc"
+            android:gravity="top"
+            android:scaleType="centerInside"
+            android:src="?attr/itin_air_attach_action_overflow"
+            android:visibility="gone" />
 
     </LinearLayout>
 
-</FrameLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="?attr/itin_air_attach_banner_divider_margin_left"
+        android:layout_marginRight="?attr/itin_air_attach_banner_divider_margin_right"
+        android:background="?attr/itin_air_attach_banner_divider_color" />
+
+    <LinearLayout
+        android:id="@+id/button_action_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true">
+
+        <TextView
+            android:id="@+id/action_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_margin="4dp"
+            android:padding="8dp"
+            android:text="@string/add_hotel_air_attach"
+            android:textAllCaps="true"
+            android:textColor="?attr/itin_air_attach_action_text_color"
+            android:textSize="12dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</LinearLayout>

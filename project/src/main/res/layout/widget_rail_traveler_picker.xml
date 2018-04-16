@@ -12,91 +12,84 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp">
 
-            <LinearLayout
+            <com.expedia.bookings.widget.shared.TravelerCountSelector
+                android:id="@+id/adult_count_selector"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp">
+                android:layout_marginBottom="@dimen/rail_traveler_table_margin"
+                android:orientation="horizontal"
+                app:traveler_age_label="@string/rail_adult_age_label"
+                app:traveler_age_label_desc="@string/rail_adult_age_label_desc"
+                app:traveler_minus="@string/remove_adult_traveler_cont_desc"
+                app:traveler_plus="@string/add_adult_traveler_cont_desc"/>
 
-                <com.expedia.bookings.widget.shared.TravelerCountSelector
-                    android:id="@+id/adult_count_selector"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/rail_traveler_table_margin"
-                    android:orientation="horizontal"
-                    app:traveler_age_label="@string/rail_adult_age_label"
-                    app:traveler_age_label_desc="@string/rail_adult_age_label_desc"
-                    app:traveler_minus="@string/remove_adult_traveler_cont_desc"
-                    app:traveler_plus="@string/add_adult_traveler_cont_desc"/>
+            <com.expedia.bookings.widget.shared.TravelerCountSelector
+                android:id="@+id/child_count_selector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/traveler_table_margin"
+                android:orientation="horizontal"
+                app:traveler_age_label="@string/rail_children_age_label"
+                app:traveler_age_label_desc="@string/rail_children_age_label_desc"
+                app:traveler_minus="@string/remove_child_traveler_cont_desc"
+                app:traveler_plus="@string/add_child_traveler_cont_desc"/>
 
-                <com.expedia.bookings.widget.shared.TravelerCountSelector
-                    android:id="@+id/child_count_selector"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/traveler_table_margin"
-                    android:orientation="horizontal"
-                    app:traveler_age_label="@string/rail_children_age_label"
-                    app:traveler_age_label_desc="@string/rail_children_age_label_desc"
-                    app:traveler_minus="@string/remove_child_traveler_cont_desc"
-                    app:traveler_plus="@string/add_child_traveler_cont_desc"/>
+            <com.expedia.bookings.widget.shared.TravelerPickerSpinnersContainer
+                android:id="@+id/child_spinners_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/traveler_table_margin"
+                android:orientation="horizontal"
+                app:traveler_age_label="@string/rail_children_age_label"
+                app:traveler_minus="@string/remove_child_traveler_cont_desc"
+                app:traveler_plus="@string/add_child_traveler_cont_desc"/>
 
-                <com.expedia.bookings.widget.shared.TravelerPickerSpinnersContainer
-                    android:id="@+id/child_spinners_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/traveler_table_margin"
-                    android:orientation="horizontal"
-                    app:traveler_age_label="@string/rail_children_age_label"
-                    app:traveler_minus="@string/remove_child_traveler_cont_desc"
-                    app:traveler_plus="@string/add_child_traveler_cont_desc"/>
+            <com.expedia.bookings.widget.shared.TravelerCountSelector
+                android:id="@+id/youth_count_selector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/traveler_table_margin"
+                android:orientation="horizontal"
+                app:traveler_age_label="@string/rail_youth_age_label"
+                app:traveler_age_label_desc="@string/rail_youth_age_label_desc"
+                app:traveler_minus="@string/rails_remove_youth_traveler_cont_desc"
+                app:traveler_plus="@string/rails_add_youth_traveler_cont_desc"/>
 
-                <com.expedia.bookings.widget.shared.TravelerCountSelector
-                    android:id="@+id/youth_count_selector"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/traveler_table_margin"
-                    android:orientation="horizontal"
-                    app:traveler_age_label="@string/rail_youth_age_label"
-                    app:traveler_age_label_desc="@string/rail_youth_age_label_desc"
-                    app:traveler_minus="@string/rails_remove_youth_traveler_cont_desc"
-                    app:traveler_plus="@string/rails_add_youth_traveler_cont_desc"/>
+            <com.expedia.bookings.widget.shared.TravelerPickerSpinnersContainer
+                android:id="@+id/youth_spinners_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/traveler_table_margin"
+                android:orientation="horizontal"
+                app:traveler_age_label="@string/rail_children_age_label"
+                app:traveler_minus="@string/remove_child_traveler_cont_desc"
+                app:traveler_plus="@string/add_child_traveler_cont_desc"/>
 
-                <com.expedia.bookings.widget.shared.TravelerPickerSpinnersContainer
-                    android:id="@+id/youth_spinners_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/traveler_table_margin"
-                    android:orientation="horizontal"
-                    app:traveler_age_label="@string/rail_children_age_label"
-                    app:traveler_minus="@string/remove_child_traveler_cont_desc"
-                    app:traveler_plus="@string/add_child_traveler_cont_desc"/>
+            <com.expedia.bookings.widget.shared.TravelerCountSelector
+                android:id="@+id/senior_count_selector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/traveler_table_margin"
+                android:orientation="horizontal"
+                app:traveler_age_label="@string/rail_senior_age_label"
+                app:traveler_age_label_desc="@string/rail_senior_age_label"
+                app:traveler_minus="@string/rails_remove_senior_traveler_cont_desc"
+                app:traveler_plus="@string/rails_add_senior_traveler_cont_desc"/>
 
-                <com.expedia.bookings.widget.shared.TravelerCountSelector
-                    android:id="@+id/senior_count_selector"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/traveler_table_margin"
-                    android:orientation="horizontal"
-                    app:traveler_age_label="@string/rail_senior_age_label"
-                    app:traveler_age_label_desc="@string/rail_senior_age_label"
-                    app:traveler_minus="@string/rails_remove_senior_traveler_cont_desc"
-                    app:traveler_plus="@string/rails_add_senior_traveler_cont_desc"/>
-
-                <com.expedia.bookings.widget.shared.TravelerPickerSpinnersContainer
-                    android:id="@+id/senior_spinners_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/traveler_table_margin"
-                    android:orientation="horizontal"
-                    app:traveler_age_label="@string/rail_children_age_label"
-                    app:traveler_minus="@string/remove_child_traveler_cont_desc"
-                    app:traveler_plus="@string/add_child_traveler_cont_desc"/>
-                </LinearLayout>
-
+            <com.expedia.bookings.widget.shared.TravelerPickerSpinnersContainer
+                android:id="@+id/senior_spinners_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/traveler_table_margin"
+                android:orientation="horizontal"
+                app:traveler_age_label="@string/rail_children_age_label"
+                app:traveler_minus="@string/remove_child_traveler_cont_desc"
+                app:traveler_plus="@string/add_child_traveler_cont_desc"/>
         </LinearLayout>
 
     </ScrollView>

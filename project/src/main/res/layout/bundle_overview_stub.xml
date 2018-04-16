@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.packages.presenter.PackageOverviewPresenter
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.presenter.packages.PackageOverviewPresenter xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/gray100"
-    android:visibility="gone" />
+    android:visibility="gone"
+    tools:ignore="Overdraw" />

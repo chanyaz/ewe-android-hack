@@ -3,45 +3,41 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/launch_header_height"
+    android:foreground="?android:attr/selectableItemBackground"
     android:importantForAccessibility="no"
-    android:orientation="vertical">
+    android:orientation="horizontal"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/launch_header_height"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:layout_marginBottom="@dimen/list_card_header_bottom_margin">
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/launch_list_header_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="left|center_vertical"
+        android:textColor="@color/launch_list_header_title_color"
+        style="@style/Core.Text.400.Medium"/>
+
+    <com.expedia.bookings.widget.RoundedCornerFrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|right"
+        app:radius="2dp">
 
         <com.expedia.bookings.widget.TextView
-            android:id="@+id/launch_list_header_title"
+            android:id="@+id/see_all_hotels_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|center_vertical"
-            android:textColor="@color/launch_list_header_title_color"
-            style="@style/Core.Text.500.Medium"/>
+            android:layout_height="24dp"
+            android:background="@color/hotel_lob_btn"
+            android:gravity="center"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="@string/nearby_deals_expand"
+            android:textAllCaps="true"
+            android:visibility="gone"
+            style="@style/Core.Text.200.WhiteColor"/>
 
-        <com.expedia.bookings.widget.RoundedCornerFrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|right"
-            app:radius="2dp">
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/see_all_hotels_button"
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:background="@color/hotel_lob_btn"
-                android:gravity="center"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:text="@string/nearby_deals_expand"
-                android:textAllCaps="true"
-                android:visibility="gone"
-                style="@style/Core.Text.200.WhiteColor"/>
-
-        </com.expedia.bookings.widget.RoundedCornerFrameLayout>
-
-    </FrameLayout>
+    </com.expedia.bookings.widget.RoundedCornerFrameLayout>
 
 </LinearLayout>
