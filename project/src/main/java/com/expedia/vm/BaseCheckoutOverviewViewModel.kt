@@ -6,7 +6,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.DateRangeUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.squareup.phrase.Phrase
-import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
@@ -26,8 +25,6 @@ open class BaseCheckoutOverviewViewModel(context: Context) {
     val subTitleText = BehaviorSubject.create<String>()
     val subTitleContDesc = BehaviorSubject.create<String>()
 
-    var shouldResetBehavior = false
-
     init {
         city.subscribe(cityTitle)
 
@@ -45,10 +42,6 @@ open class BaseCheckoutOverviewViewModel(context: Context) {
         guests.subscribe { travelers ->
             val text = context.resources.getQuantityString(R.plurals.number_of_travelers_TEMPLATE, travelers, travelers)
             travelersTitle.onNext(text)
-        }
-
-        Observable.merge(city, checkInAndCheckOutDate, checkInWithoutCheckoutDate, guests).subscribe() {
-            shouldResetBehavior = true
         }
 
         ObservableOld.combineLatest(datesTitle, travelersTitle) { datesTitle, travelersTitle ->

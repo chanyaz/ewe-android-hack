@@ -15,6 +15,7 @@ class CheckoutHeaderBehavior(val context: Context, attrs: AttributeSet) : Coordi
     var textViewLeftX = 0
     var textViewWidth = 0
     val toolbarHeight = Ui.getStatusBarHeight(context)
+    var numOfLines = 1
 
     override fun layoutDependsOn(parent: CoordinatorLayout, child: CheckoutOverviewHeader, dependency: View): Boolean {
         return dependency is AppBarLayout
@@ -29,9 +30,8 @@ class CheckoutHeaderBehavior(val context: Context, attrs: AttributeSet) : Coordi
             child.checkInOutDates.alpha = 1 - (percentage * 2)
             child.travelers.alpha = 1 - (percentage * 2)
 
-            if (child.viewmodel.shouldResetBehavior) {
+            if (numOfLines != child.destinationText.lineCount) {
                 resetValues()
-                child.viewmodel.shouldResetBehavior = false
             }
 
             if (percentage == 0f && (textViewLeftX <= 0 || toolBarRightX <= 0
@@ -69,6 +69,7 @@ class CheckoutHeaderBehavior(val context: Context, attrs: AttributeSet) : Coordi
         textViewWidth = child.destinationText.width
         textViewLeftX = getLocation(child.destinationText)[0]
         AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar)
+        numOfLines = child.destinationText.lineCount
     }
 
     private fun getLocation(view: View): IntArray {
