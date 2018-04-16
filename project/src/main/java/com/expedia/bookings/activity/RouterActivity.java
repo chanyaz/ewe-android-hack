@@ -93,7 +93,7 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 	protected boolean splashLoadingAnimationShouldRun;
 	protected boolean splashLoadingWasInterrupted;
 
-	private enum LaunchDestination {
+	protected enum LaunchDestination {
 		SIGN_IN,
 		LAUNCH_SCREEN
 	}
@@ -501,7 +501,7 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 		}
 	}
 
-	private LaunchDestination getLaunchDestination() {
+	protected LaunchDestination getLaunchDestination() {
 		return (loadSignInView &&
 			!ExpediaBookingApp.isInstrumentation() &&
 			!AbacusFeatureConfigManager.isBucketedForTest(this, AbacusUtils.DisableSignInPageAsFirstScreen))
@@ -509,7 +509,7 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 			: LaunchDestination.LAUNCH_SCREEN;
 	}
 
-	private boolean showNewUserOnboarding() {
+	protected boolean showNewUserOnboarding() {
 		return ExpediaBookingApp.isFirstLaunchEver() && ProductFlavorFeatureConfiguration.getInstance()
 			.isAppIntroEnabled();
 	}
