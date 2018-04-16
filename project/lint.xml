@@ -183,6 +183,9 @@
     <issue id="UselessLeaf" severity="error" />
     <issue id="Overdraw" severity="error" />
     <issue id="UselessParent" severity="error" />
+    <issue id="MergeRootFrame" severity="error" >
+        <ignore path="src/debug/res/*" />
+    </issue>
     <issue id="UseCompoundDrawables" severity="error" />
     <issue id="AnimatorKeep" severity="error" />
     <issue id="UseSparseArrays" severity="error" />

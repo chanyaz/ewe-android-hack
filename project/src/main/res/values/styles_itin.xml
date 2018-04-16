@@ -74,5 +74,6 @@
 
     <style name="TripTaxiCard" parent="ItinTheme">
         <item name="android:statusBarColor">@color/gray800</item>
+        <item name="android:windowBackground">@color/gray800</item>
     </style>
 </resources>
