@@ -366,6 +366,32 @@ public class OmnitureTracking {
 		trackKrazyglueError("FailToLoad");
 	}
 
+	public static void trackLXBookingConfirmationDialog(String lxActivityId, LocalDate lxActivityStartDate, int selectedTicketsCount) {
+		AppAnalytics s = getFreshTrackingObject();
+		s.setAppState(CONFIRMATION_BOOKING_DIALOG_PAGE_NAME);
+		s.setEvar(18, LX_CHECKOUT_CONFIRMATION_SLIM);
+
+		// LOB Search
+		s.setEvar(2, "D=c2");
+		s.setProp(2, LX_LOB);
+
+		s.setEvents("purchase");
+
+		s.setProducts(addLXProducts(lxActivityId, selectedTicketsCount, null));
+
+		String activityStartDateString = lxActivityStartDate.toString(LX_CONFIRMATION_PROP_DATE_FORMAT);
+
+		String activityEndDateString = lxActivityStartDate.toString(LX_CONFIRMATION_PROP_DATE_FORMAT);
+
+		// e.g LX:20160622-20160622:N, N/Y if we have used coupon.
+		s.setEvar(30, "LX:" + activityStartDateString + "-" + activityEndDateString + ":N");
+
+		setLXDateValues(lxActivityStartDate, s);
+
+		// Send the tracking data
+		s.track();
+	}
+
 	public static void trackFlightsBookingConfirmationDialog(PageUsableData pageUsableData) {
 		String pageName = CONFIRMATION_BOOKING_DIALOG_PAGE_NAME;
 		String lobPageName = FLIGHT_CONFIRMATION_BOOKING_DIALOG;
@@ -1909,6 +1935,7 @@ public class OmnitureTracking {
 	private static final String LX_SEARCH_FILTER = "App.LX.Search.Filter";
 	private static final String LX_SEARCH_FILTER_CLEAR = "App.LX.Search.Filter.Clear";
 	private static final String LX_CHECKOUT_CONFIRMATION = "App.LX.Checkout.Confirmation";
+	private static final String LX_CHECKOUT_CONFIRMATION_SLIM = "App.LX.Checkout.Confirmation.Slim";
 	private static final String LX_GT_CHECKOUT_CONFIRMATION = "App.LX-GT.Checkout.Confirmation";
 	private static final String LX_TICKET_SELECT = "App.LX.Ticket.Select";
 	private static final String LX_GT_TICKET_SELECT = "App.LX-GT.Ticket.Select";
@@ -2217,7 +2244,7 @@ public class OmnitureTracking {
 
 		AppAnalytics s = internalTrackAppLX(isGroundTransport ? LX_GT_CHECKOUT_INFO : LX_CHECKOUT_INFO);
 		s.setEvents("event75");
-		s.setProducts(addLXProducts(lxActivityId, totalPriceFormattedTo2DecimalPlaces, selectedTicketsCount));
+		s.setProducts(addLXProducts(lxActivityId, selectedTicketsCount, totalPriceFormattedTo2DecimalPlaces));
 
 		if (Features.Companion.getAll().getUniversalCheckoutOnLx().enabled()) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppBringUniversalCheckoutToLX);
@@ -2247,7 +2274,7 @@ public class OmnitureTracking {
 		s.setProp(72, orderId);
 		s.setProp(71, travelRecordLocator);
 		s.setCurrencyCode(currencyCode);
-		s.setProducts(addLXProducts(lxActivityId, totalMoney, selectedTicketsCount));
+		s.setProducts(addLXProducts(lxActivityId, selectedTicketsCount, totalMoney));
 
 		String activityStartDateString = lxActivityStartDate.toString(LX_CONFIRMATION_PROP_DATE_FORMAT);
 
@@ -2304,7 +2331,7 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	private static String addLXProducts(String activityId, String totalMoney, int ticketCount) {
+	private static String addLXProducts(String activityId, int ticketCount, String totalMoney) {
 		return "LX;Merchant LX:" + activityId + ";" + ticketCount + ";" + totalMoney;
 	}
 

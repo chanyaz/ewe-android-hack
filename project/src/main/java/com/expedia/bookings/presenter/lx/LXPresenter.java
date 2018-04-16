@@ -32,6 +32,7 @@ import com.expedia.bookings.presenter.VisibilityTransition;
 import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
+import com.expedia.bookings.utils.ApiDateUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LXConfirmationWidget;
 import com.expedia.bookings.widget.LoadingOverlayWidget;
@@ -510,7 +511,10 @@ public class LXPresenter extends Presenter {
 		dialog.setOnShowListener(new DialogInterface.OnShowListener() {
 			@Override
 			public void onShow(DialogInterface dialog) {
-				// Need Tracking
+				OmnitureTracking.trackLXBookingConfirmationDialog(lxState.activity.id,
+					ApiDateUtils.yyyyMMddHHmmssToLocalDate(
+						lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate),
+					lxState.selectedTicketsCount());
 			}
 		});
 		return dialog;
