@@ -171,6 +171,22 @@ class NewFlightSearchParamsTest {
     }
 
     @Test
+    fun testChildrenString() {
+        builder.adults(expectedNumAdults)
+        builder.startDate(tomorrow)
+        builder.endDate(expectedReturnDate)
+        builder.origin(expectedOrigin)
+        builder.destination(expectedDestination)
+
+        var params = builder.build()
+        assertEquals("", params.childrenString)
+
+        builder.children(children)
+        params = builder.build()
+        assertEquals(expectedChildrenString, params.childrenString)
+    }
+
+    @Test
     fun testEndOfTripOneWay() {
         builder.adults(expectedNumAdults)
         builder.startDate(tomorrow)

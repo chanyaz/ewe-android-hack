@@ -50,22 +50,49 @@ class PackageSearchParamsTest {
     }
 
     @Test
-    fun testGuestString() {
-        val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
+    fun testNumberOfGuestsForMultipleRooms() {
+        val paramsBuilder = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
+                activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
+                .origin(getDummySuggestion("123"))
+                .destination(getDummySuggestion("456"))
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1)) as PackageSearchParams.Builder
+
+        val paramsForSingleRoomOnlyAdults = paramsBuilder.multiRoomAdults(mapOf(1 to 1)).multiRoomChildren(emptyMap()).build()
+        assertEquals(1, paramsForSingleRoomOnlyAdults.guests)
+
+        val paramsForSingleRoomMultipleAdultsAndSingleChild = paramsBuilder.multiRoomAdults(mapOf(1 to 2)).multiRoomChildren(mapOf(1 to listOf(10))).build()
+        assertEquals(3, paramsForSingleRoomMultipleAdultsAndSingleChild.guests)
+
+        val paramsForSingleRoomMultipleAdultsAndMultipleChildren = paramsBuilder.multiRoomAdults(mapOf(1 to 2)).multiRoomChildren(mapOf(1 to listOf(10, 14))).build()
+        assertEquals(4, paramsForSingleRoomMultipleAdultsAndMultipleChildren.guests)
+
+        val paramsForMultipleRoomAdultsOnly = paramsBuilder.multiRoomAdults(mapOf(1 to 1, 2 to 2)).multiRoomChildren(emptyMap()).build()
+        assertEquals(3, paramsForMultipleRoomAdultsOnly.guests)
+
+        val paramsForMultipleRoomMultipleAdultsAndSingleChild = paramsBuilder.multiRoomAdults(mapOf(1 to 2, 2 to 1)).multiRoomChildren(mapOf(1 to listOf(10))).build()
+        assertEquals(4, paramsForMultipleRoomMultipleAdultsAndSingleChild.guests)
+
+        val paramsForMultipleRoomMultipleAdultsAndMultipleChildren = paramsBuilder.multiRoomAdults(mapOf(1 to 2, 2 to 1)).multiRoomChildren(mapOf(1 to listOf(10, 14), 2 to listOf(14))).build()
+        assertEquals(6, paramsForMultipleRoomMultipleAdultsAndMultipleChildren.guests)
+    }
+
+    @Test
+    fun testEmptyChildString() {
+        val paramsBuilder = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
                 activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
                 .origin(getDummySuggestion("123"))
                 .destination(getDummySuggestion("456"))
                 .adults(1)
-                .children(listOf(10, 2))
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(1))
-                .build() as PackageSearchParams
 
-        assertEquals("1,10,2", params.guestString)
+        var params = paramsBuilder.build() as PackageSearchParams
+        assertNull(params.childAges)
     }
 
     @Test
-    fun testChildAgesString() {
+    fun testAdultsAndChildString() {
         val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
                 activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
                 .infantSeatingInLap(false)
@@ -77,8 +104,47 @@ class PackageSearchParamsTest {
                 .endDate(LocalDate.now().plusDays(1))
                 .build() as PackageSearchParams
 
+        assertEquals(1, params.adults)
+        assertEquals("1", params.adultsQueryParam)
         assertEquals("10,2", params.childAges)
         assertNull(params.infantsInSeats)
+    }
+
+    @Test
+    fun testAdultChildAgesStringForMultipleRooms() {
+        val paramsBuilder = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
+                activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
+                .infantSeatingInLap(false)
+                .origin(getDummySuggestion("123"))
+                .destination(getDummySuggestion("456"))
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1)) as PackageSearchParams.Builder
+
+        val paramsForSingleRoomOnlyAdults = paramsBuilder.multiRoomAdults(mapOf(1 to 1)).multiRoomChildren(emptyMap()).build()
+        checkAdultsAndChildrenQueryString(paramsForSingleRoomOnlyAdults, "1", null)
+
+        val paramsForSingleRoomMultipleAdultsAndSingleChild = paramsBuilder.multiRoomAdults(mapOf(1 to 2)).multiRoomChildren(mapOf(1 to listOf(10))).build()
+        checkAdultsAndChildrenQueryString(paramsForSingleRoomMultipleAdultsAndSingleChild, "2", "10__")
+
+        val paramsForSingleRoomMultipleAdultsAndMultipleChildren = paramsBuilder.multiRoomAdults(mapOf(1 to 2)).multiRoomChildren(mapOf(1 to listOf(10, 14))).build()
+        checkAdultsAndChildrenQueryString(paramsForSingleRoomMultipleAdultsAndMultipleChildren, "2", "10,14__")
+
+        val paramsForMultipleRoomAdultsOnly = paramsBuilder.multiRoomAdults(mapOf(1 to 1, 2 to 2)).multiRoomChildren(emptyMap()).build()
+        checkAdultsAndChildrenQueryString(paramsForMultipleRoomAdultsOnly, "1,2", null)
+
+        val paramsForMultipleRoomMultipleAdultsAndSingleChild = paramsBuilder.multiRoomAdults(mapOf(1 to 2, 2 to 1)).multiRoomChildren(mapOf(2 to listOf(10))).build()
+        checkAdultsAndChildrenQueryString(paramsForMultipleRoomMultipleAdultsAndSingleChild, "2,1", "_10_")
+
+        val paramsForMultipleRoomMultipleAdultsAndMultipleChildren = paramsBuilder.multiRoomAdults(mapOf(1 to 1, 2 to 1, 3 to 1)).multiRoomChildren(mapOf(1 to listOf(10), 3 to listOf(14))).build()
+        checkAdultsAndChildrenQueryString(paramsForMultipleRoomMultipleAdultsAndMultipleChildren, "1,1,1", "10__14")
+
+        val paramsForMultipleRoomMultipleAdultsAndMultipleChildrenInSecondRoom = paramsBuilder.multiRoomAdults(mapOf(1 to 2, 2 to 1)).multiRoomChildren(mapOf(2 to listOf(10, 14))).build()
+        checkAdultsAndChildrenQueryString(paramsForMultipleRoomMultipleAdultsAndMultipleChildrenInSecondRoom, "2,1", "_10,14_")
+    }
+
+    private fun checkAdultsAndChildrenQueryString(params: PackageSearchParams, expectedAdults: String, expectedChildren: String?) {
+        assertEquals(expectedAdults, params.adultsQueryParam)
+        assertEquals(expectedChildren, params.childAges)
     }
 
     @Test
@@ -111,7 +177,7 @@ class PackageSearchParamsTest {
                 .endDate(LocalDate.now().plusDays(1))
                 .build() as PackageSearchParams
 
-        assertEquals("10,2", params.childrenString)
+        assertEquals("10,2", params.childAges)
     }
 
     @Test

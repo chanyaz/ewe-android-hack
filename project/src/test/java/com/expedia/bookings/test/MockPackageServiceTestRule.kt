@@ -32,7 +32,7 @@ class MockPackageServiceTestRule : ServicesRule<PackageServices>(PackageServices
         val observer = TestObserver<MultiItemApiCreateTripResponse>()
         val packagePrice = PackageOfferModel.PackagePrice()
         packagePrice.packageTotalPrice = Money()
-        val params = MultiItemCreateTripParams("mid_create_trip", "", "", "", "", packagePrice, "", "", 0, null, null)
+        val params = MultiItemCreateTripParams("mid_create_trip", "", "", "", "", packagePrice, "", "", "0", null, null)
 
         services?.multiItemCreateTrip(params)!!.subscribe(observer)
         observer.awaitTerminalEvent(10, TimeUnit.SECONDS)

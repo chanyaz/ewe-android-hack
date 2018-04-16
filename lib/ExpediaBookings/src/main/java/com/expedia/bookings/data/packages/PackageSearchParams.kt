@@ -10,7 +10,10 @@ import org.joda.time.Days
 import org.joda.time.LocalDate
 import kotlin.properties.Delegates
 
-open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?, startDate: LocalDate, endDate: LocalDate?, adults: Int, children: List<Int>, infantSeatingInLap: Boolean, val flightCabinClass: String? = null) : AbstractFlightSearchParams(origin, destination, adults, children, startDate, endDate, infantSeatingInLap) {
+open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?, startDate: LocalDate, endDate: LocalDate?, adults: Int, children: List<Int>, infantSeatingInLap: Boolean, val flightCabinClass: String? = null, val multiRoomAdults: Map<Int, Int> = emptyMap(), val multiRoomChildren: Map<Int, List<Int>> = emptyMap()) : AbstractFlightSearchParams(origin, destination, adults, children, startDate, endDate, infantSeatingInLap) {
+
+    override val guests: Int
+        get() = if (isMultiRoomSearch()) multiRoomAdults.map { it.value }.sum() + multiRoomChildren.map { it.value.size }.sum() else super.guests
 
     var pageType: String? = null
     var selectedLegId: String? = null
@@ -35,10 +38,29 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
 
     val childAges: String?
         get() {
-            if (children.isEmpty()) {
+            if (children.isEmpty() && multiRoomChildren.isEmpty()) {
                 return null
             }
-            return children.joinToString(separator = ",")
+            return if (isMultiRoomSearch()) getChildrenStringForMultipleRooms() else children.joinToString(separator = ",")
+        }
+
+    private fun getChildrenStringForMultipleRooms(): String? {
+        if (multiRoomChildren.isEmpty()) return null
+
+        val childString = StringBuilder()
+        for (i in 1..Constants.PACKAGE_MAX_ROOMS_ALLOWED_TO_BOOK) {
+            val childrenInRoom = multiRoomChildren[i]
+            if (childrenInRoom != null && childrenInRoom.isNotEmpty()) {
+                childString.append(childrenInRoom.joinToString(","))
+            }
+            if (i != Constants.PACKAGE_MAX_ROOMS_ALLOWED_TO_BOOK) childString.append("_")
+        }
+        return childString.toString()
+    }
+
+    val adultsQueryParam: String
+        get() {
+            return if (isMultiRoomSearch()) multiRoomAdults.values.joinToString(",") else adults.toString()
         }
 
     val infantsInSeats: Boolean?
@@ -57,20 +79,29 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
         return BaseHotelFilterOptions.SortType.EXPERT_PICKS
     }
 
+    private fun isMultiRoomSearch(): Boolean {
+        return multiRoomAdults.isNotEmpty()
+    }
+
     class Builder(maxStay: Int, maxRange: Int) : AbstractFlightSearchParams.Builder(maxStay, maxRange) {
 
         private var flightCabinClass: String? = null
+
         private var hotelName: String? = null
         private var starRatings: List<Int> = emptyList()
         private var vipOnly: Boolean = false
         private var userSort: BaseHotelFilterOptions.SortType? = null
+
+        var multiRoomAdults: Map<Int, Int> = emptyMap()
+        var multiRoomChildren: Map<Int, List<Int>> = emptyMap()
 
         override fun build(): PackageSearchParams {
             val flightOrigin = originLocation ?: throw IllegalArgumentException()
             val flightDestination = destinationLocation ?: throw IllegalArgumentException()
             val checkInDate = startDate ?: throw IllegalArgumentException()
             val checkOutDate = endDate ?: throw IllegalArgumentException()
-            val params = PackageSearchParams(flightOrigin, flightDestination, checkInDate, checkOutDate, adults, children, infantSeatingInLap, flightCabinClass)
+
+            val params = PackageSearchParams(flightOrigin, flightDestination, checkInDate, checkOutDate, adults, children, infantSeatingInLap, flightCabinClass, multiRoomAdults, multiRoomChildren)
             params.filterOptions = buildFilterOptions()
             return params
         }
@@ -98,6 +129,16 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
 
         fun flightCabinClass(cabinClass: String?): PackageSearchParams.Builder {
             this.flightCabinClass = cabinClass
+            return this
+        }
+
+        fun multiRoomAdults(multiRoomAdults: Map<Int, Int>): PackageSearchParams.Builder {
+            this.multiRoomAdults = multiRoomAdults
+            return this
+        }
+
+        fun multiRoomChildren(multiRoomChildren: Map<Int, List<Int>>): PackageSearchParams.Builder {
+            this.multiRoomChildren = multiRoomChildren
             return this
         }
 

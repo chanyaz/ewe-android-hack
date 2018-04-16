@@ -61,7 +61,7 @@ class PackagesCreateTripTest {
         val date = LocalDate.now()
 
         assertEquals("mid_create_trip", fromPackageSearchParams.flightPIID)
-        assertEquals(1, fromPackageSearchParams.adults)
+        assertEquals("1", fromPackageSearchParams.adultsQueryParam)
         assertEquals(date.plusDays(2).toString(), fromPackageSearchParams.startDate)
         assertEquals(date.plusDays(4).toString(), fromPackageSearchParams.endDate)
         assertEquals("hotelID", fromPackageSearchParams.hotelID)
@@ -192,7 +192,7 @@ class PackagesCreateTripTest {
 
         val packagePrice = PackageOfferModel.PackagePrice()
         packagePrice.packageTotalPrice = Money()
-        val errorParams = MultiItemCreateTripParams("", "", "", "", "", packagePrice, "", "", 0, null, null)
+        val errorParams = MultiItemCreateTripParams("", "", "", "", "", packagePrice, "", "", "0", null, null)
         showErrorPresenterTestSubscriber.assertValueCount(0)
 
         createTripViewModel.packageServices.multiItemCreateTrip(errorParams).subscribe(createTripViewModel.makeMultiItemCreateTripResponseObserver())

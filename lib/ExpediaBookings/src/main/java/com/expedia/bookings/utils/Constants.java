@@ -13,6 +13,8 @@ public class Constants {
 	public static final int PACKAGE_HOTEL_OFFERS_API_ERROR_RESULT_CODE = 107;
 	public static final int PACKAGE_HOTEL_INFOSITE_API_ERROR_RESULT_CODE = 108;
 	public static final int PACKAGE_HOTEL_FILTER_API_ERROR_RESULT_CODE = 109;
+	public static final int PACKAGE_MAX_ROOMS_ALLOWED_TO_BOOK = 3;
+
 	public static final String APP_DATABASE_NAME = "app-database";
 
 	//For more info on Package trip type https://confluence/display/POS/GetPackages+API

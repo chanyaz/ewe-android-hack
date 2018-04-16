@@ -19,6 +19,8 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
         MULTI_DEST
     }
 
+    val childrenString = children.joinToString(",")
+
     class Builder(maxStay: Int, maxRange: Int) : AbstractFlightSearchParams.Builder(maxStay, maxRange) {
         private var flightCabinClass: String? = null
         private var legNo: Int? = null

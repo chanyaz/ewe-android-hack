@@ -6,8 +6,6 @@ import org.joda.time.LocalDate
 open class BaseSearchParams(val origin: SuggestionV4?, val destination: SuggestionV4?, val adults: Int, val children: List<Int>, val startDate: LocalDate, val endDate: LocalDate?) {
 
     open val guests = children.size + adults
-    open val guestString = listOf(adults).plus(children).joinToString(",")
-    val childrenString = children.joinToString(",")
 
     abstract class Builder(var maxStay: Int, val maxStartRange: Int) {
         protected var originLocation: SuggestionV4? = null

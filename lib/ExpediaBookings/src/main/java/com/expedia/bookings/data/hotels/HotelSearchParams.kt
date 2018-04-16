@@ -16,6 +16,8 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
     var updateSearchDestination = false
     var isDatelessSearch = false
 
+    val guestString = listOf(adults).plus(children).joinToString(",")
+
     fun isCurrentLocationSearch(): Boolean {
         return suggestion.isCurrentLocationSearch
     }

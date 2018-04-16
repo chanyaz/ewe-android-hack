@@ -15,7 +15,6 @@ class RailSearchRequest(val searchType: SearchType, origin: SuggestionV4, destin
     }
 
     override val guests = adults + children.size + youths.size + seniors.size
-    override val guestString = listOf(adults).plus(children).plus(youths).plus(seniors).joinToString(",")
 
     fun isRoundTripSearch(): Boolean {
         return this.searchType == SearchType.ROUND_TRIP

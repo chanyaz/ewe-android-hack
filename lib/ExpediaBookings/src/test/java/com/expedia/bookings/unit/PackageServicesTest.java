@@ -386,7 +386,7 @@ public class PackageServicesTest {
 		TestObserver<MultiItemApiCreateTripResponse> observer = new TestObserver<>();
 		PackagePrice packagePrice = new PackagePrice();
 		packagePrice.packageTotalPrice = new Money();
-		MultiItemCreateTripParams params = new MultiItemCreateTripParams("mid_create_trip", "", "", "", "", packagePrice, "", "", 0, null, null);
+		MultiItemCreateTripParams params = new MultiItemCreateTripParams("mid_create_trip", "", "", "", "", packagePrice, "", "", "0", null, null);
 		service.multiItemCreateTrip(params).subscribe(observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 		observer.assertNoErrors();
