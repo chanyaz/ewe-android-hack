@@ -85,14 +85,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:focusable="true"
-            android:orientation="vertical"
-            android:visibility="gone" />
-
-        <LinearLayout
             android:id="@+id/flight_details_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
