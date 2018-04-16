@@ -176,7 +176,7 @@ object TripDetailsScreen {
                 withId(R.id.link_off_card_heading))
         val manageBookingSubHeading = allOf(isDescendantOfA(manageBooking),
                 withId(R.id.link_off_card_subheading))
-        val priceSummary = withId(R.id.itin_hotel_price_summary_card_view)
+        val priceSummary = withId(R.id.itin_hotel_booking_info_price_summary)
         val priceSummaryHeading = allOf(isDescendantOfA(priceSummary),
                 withId(R.id.link_off_card_heading))
         val additionalInformation = withId(R.id.itin_hotel_additional_info_card_view)
