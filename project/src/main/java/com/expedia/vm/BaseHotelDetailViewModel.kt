@@ -441,10 +441,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         userRatingRecommendationTextObservable.onNext(getGuestRatingText(offerResponse.hotelGuestRating.toFloat(), context.resources))
         isUserRatingAvailableObservable.onNext(offerResponse.hotelGuestRating > 0)
 
-        numberOfReviewsObservable.onNext(
-                if (offerResponse.totalReviews > 0)
-                    context.resources.getQuantityString(R.plurals.hotel_number_of_reviews, offerResponse.totalReviews, HotelUtils.formattedReviewCount(offerResponse.totalReviews))
-                else context.resources.getString(R.string.zero_reviews))
+        numberOfReviewsObservable.onNext(context.resources.getQuantityString(R.plurals.hotel_number_of_reviews, offerResponse.totalReviews, HotelUtils.formattedReviewCount(offerResponse.totalReviews)))
 
         val chargeableRateInfo = offerResponse.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo
         val packageLoyaltyInformation = offerResponse.hotelRoomResponse?.firstOrNull()?.packageLoyaltyInformation

@@ -2754,6 +2754,19 @@
     <string name="vip">+VIP</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
+
+    <!-- display guest rating out of 5: Example: 4.6/5 -->
+    <string name="hotel_guest_rating_out_of_five_TEMPLATE">{rating}/5</string>
+    <!-- indicate hotel guest rating for guest rating -->
+    <string name="hotel_guest_rating">" - guest rating"</string>
+    <!-- hotel guest rating superlative suffixe
+    s for guest rating -->
+    <string name="hotel_guest_recommend_good">&#160;- Good!</string>
+    <string name="hotel_guest_recommend_very_good">&#160;- Very Good!</string>
+    <string name="hotel_guest_recommend_excellent">&#160;- Excellent!</string>
+    <string name="hotel_guest_recommend_wonderful">&#160;- Wonderful!</string>
+    <string name="hotel_guest_recommend_exceptional">&#160;- Exceptional!</string>
+
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">/5 - guest rating</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
@@ -2883,16 +2896,15 @@
     <!-- Text for button to see original, untranslated review text -->
     <string name="user_review_see_original">See Original</string>
 
-    <!-- HOtel V2A number of reviews -->
+    <!-- Hotel V2A number of reviews -->
     <plurals name="hotel_number_of_reviews">
-        <item quantity="zero">No Reviews</item>
+        <item quantity="zero">0 Reviews</item>
         <item quantity="one">View %s Review</item>
         <item quantity="two">View %s Reviews</item>
         <item quantity="many">View %s Reviews</item>
         <item quantity="other">View %s Reviews</item>
     </plurals>
 
-    <string name="zero_reviews">0 Reviews</string>
     <!--
          User review name and place review signature eg (John from San Diego, CA)
         1$ is the user name
