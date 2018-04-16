@@ -51,6 +51,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isFlexEnabled
 import com.expedia.bookings.utils.isFlightGreedySearchEnabled
 import com.expedia.bookings.utils.isRecentSearchesForFlightsEnabled
+import com.expedia.bookings.utils.isShowFlightsNativeRateDetailsWebviewCheckoutEnabled
 import com.expedia.bookings.utils.isShowFlightsCheckoutWebview
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.bookings.widget.shared.WebCheckoutView
@@ -85,6 +86,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
     lateinit var searchTrackingBuilder: FlightSearchTrackingDataBuilder
         @Inject set
+    lateinit var webCheckoutViewModel: FlightWebCheckoutViewViewModel
+        @Inject set
 
     val itinTripServices: ItinTripServices by lazy {
         Ui.getApplication(context).flightComponent().itinTripService()
@@ -97,6 +100,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     val pageUsableData = PageUsableData()
     val EBAndroidAppFlightSubpubChange = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSubpubChange)
     val isUserEvolableBucketed = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsEvolable)
+    val isNativeRateDetailsWebviewCheckoutEnabled = isShowFlightsNativeRateDetailsWebviewCheckoutEnabled(context)
 
     val errorPresenter: FlightErrorPresenter by lazy {
         val viewStub = findViewById<ViewStub>(R.id.error_presenter_stub)
@@ -106,7 +110,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             show(searchPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
         }
         presenter.getViewModel().fireRetryCreateTrip.subscribe {
-            if (shouldShowWebCheckoutView()) {
+            if (shouldShowWebCheckoutWithoutNativeRateDetails()) {
                 (webCheckoutView.viewModel as FlightWebCheckoutViewViewModel).doCreateTrip()
                 show(webCheckoutView)
             } else {
@@ -343,6 +347,13 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             FlightsV2Tracking.trackCheckoutConfirmationPageLoad(flightCheckoutResponse, pageUsableData, presenter.flightSummary)
         }
 
+        presenter.viewModel.showWebviewCheckoutObservable.subscribe {
+            show(webCheckoutView)
+            webCheckoutView.visibility = View.VISIBLE
+            webCheckoutView.viewModel.showWebViewObservable.onNext(true)
+            flightOverviewPresenter.visibility = View.GONE
+        }
+
         val createTripViewModel = presenter.getCheckoutPresenter().getCreateTripViewModel()
         createTripViewModel.createTripResponseObservable.safeSubscribeOptional { trip ->
             val expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
@@ -390,11 +401,14 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 createTripBuilder.setFeatureOverride(Constants.FEATURE_EVOLABLE)
             }
             flightCreateTripViewModel.tripParams.onNext(createTripBuilder.build())
-            if (shouldShowWebCheckoutView()) {
+            if (shouldShowWebCheckoutWithoutNativeRateDetails()) {
                 (webCheckoutView.viewModel as FlightWebCheckoutViewViewModel).doCreateTrip()
                 show(webCheckoutView)
                 webCheckoutView.visibility = View.VISIBLE
             } else {
+                if (isNativeRateDetailsWebviewCheckoutEnabled) {
+                    (webCheckoutView.viewModel as FlightWebCheckoutViewViewModel).doCreateTrip()
+                }
                 flightOverviewPresenter.overviewPageUsableData.markPageLoadStarted(System.currentTimeMillis())
                 show(flightOverviewPresenter)
                 flightOverviewPresenter.visibility = View.VISIBLE
@@ -487,15 +501,21 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     val webCheckoutView: WebCheckoutView by lazy {
         val viewStub = findViewById<ViewStub>(R.id.flight_web_checkout_stub)
         val webCheckoutView = viewStub.inflate() as WebCheckoutView
-        val flightWebCheckoutViewModel = FlightWebCheckoutViewViewModel(context)
+        val flightWebCheckoutViewModel = webCheckoutViewModel
         flightWebCheckoutViewModel.flightCreateTripViewModel = flightCreateTripViewModel
         flightWebCheckoutViewModel.flightCreateTripViewModel.createTripErrorObservable.subscribe(errorPresenter.viewmodel.createTripErrorObserverable)
         flightWebCheckoutViewModel.flightCreateTripViewModel.createTripErrorObservable.subscribe { show(errorPresenter) }
         webCheckoutView.viewModel = flightWebCheckoutViewModel
 
         flightWebCheckoutViewModel.closeView.subscribe {
-            webCheckoutView.clearHistory()
-            flightWebCheckoutViewModel.webViewURLObservable.onNext("about:blank")
+            if (isNativeRateDetailsWebviewCheckoutEnabled) {
+                if (webCheckoutView.visibility == View.VISIBLE) {
+                    super.back()
+                }
+            } else {
+                webCheckoutView.clearHistory()
+                flightWebCheckoutViewModel.webViewURLObservable.onNext("about:blank")
+            }
         }
 
         flightWebCheckoutViewModel.backObservable.subscribe {
@@ -503,7 +523,11 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
 
         flightWebCheckoutViewModel.blankViewObservable.subscribe {
-            super.back()
+            if (isNativeRateDetailsWebviewCheckoutEnabled) {
+                webCheckoutView.toggleLoading(true)
+            } else {
+                super.back()
+            }
         }
 
         flightWebCheckoutViewModel.fetchItinObservable.subscribe { bookedTripID ->
@@ -585,15 +609,25 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         addTransition(searchToInbound)
         addTransition(errorToConfirmation)
         addTransition(inboundToError)
-        if (shouldShowWebCheckoutView()) {
-            addTransition(inboundToWebCheckoutView)
-            addTransition(outboundToWebCheckoutView)
-            addTransition(flightWebViewToError)
-            addTransition(webCheckoutViewToConfirmation)
-        } else {
-            addTransition(inboundFlightToOverview)
-            addTransition(outboundFlightToOverview)
-            addTransition(overviewToConfirmation)
+        when {
+            isNativeRateDetailsWebviewCheckoutEnabled -> {
+                addTransition(overviewToWebCheckoutView)
+                addTransition(inboundFlightToOverview)
+                addTransition(outboundFlightToOverview)
+                addTransition(flightWebViewToError)
+                addTransition(webCheckoutViewToConfirmation)
+            }
+            shouldShowWebCheckoutWithoutNativeRateDetails() -> {
+                addTransition(inboundToWebCheckoutView)
+                addTransition(outboundToWebCheckoutView)
+                addTransition(flightWebViewToError)
+                addTransition(webCheckoutViewToConfirmation)
+            }
+            else -> {
+                addTransition(inboundFlightToOverview)
+                addTransition(outboundFlightToOverview)
+                addTransition(overviewToConfirmation)
+            }
         }
 
         if (BuildConfig.DEBUG && SettingUtils.get(context, R.string.preference_enable_retain_prev_flight_search_params, false)) {
@@ -689,6 +723,14 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
     }
 
+    private val overviewToWebCheckoutView = object : Transition(FlightOverviewPresenter::class.java, WebCheckoutView::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            transitionToWebView(forward)
+            flightOverviewPresenter.setInverseVisibility(forward)
+        }
+    }
+
     private val flightWebViewToError = object : Presenter.Transition(WebCheckoutView::class.java, FlightErrorPresenter::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
@@ -713,7 +755,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             super.endTransition(forward)
             transitionToWebView(forward)
             inboundPresenter.setInverseVisibility(forward)
-            webCheckoutView.viewModel.showWebViewObservable.onNext(forward)
         }
     }
 
@@ -722,7 +763,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             super.endTransition(forward)
             transitionToWebView(forward)
             outBoundPresenter.setInverseVisibility(forward)
-            webCheckoutView.viewModel.showWebViewObservable.onNext(forward)
         }
     }
 
@@ -932,13 +972,14 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
     }
 
-    private fun shouldShowWebCheckoutView(): Boolean {
-        return PointOfSale.getPointOfSale().shouldShowWebCheckout() && isShowFlightsCheckoutWebview(context)
+    fun shouldShowWebCheckoutWithoutNativeRateDetails(): Boolean {
+        return PointOfSale.getPointOfSale().shouldShowWebCheckout() && isShowFlightsCheckoutWebview(context) && !isNativeRateDetailsWebviewCheckoutEnabled
     }
 
     private fun transitionToWebView(forward: Boolean) {
         webCheckoutView.setVisibility(forward)
         webCheckoutView.toolbar.setVisibility(forward)
+        webCheckoutView.viewModel.showWebViewObservable.onNext(forward)
         AccessibilityUtil.setFocusToToolbarNavigationIcon(webCheckoutView.toolbar)
     }
 }

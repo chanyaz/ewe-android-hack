@@ -19,6 +19,7 @@ import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder;
 import com.expedia.bookings.utils.HMACInterceptor;
 import com.expedia.vm.FlightCheckoutViewModel;
+import com.expedia.vm.FlightWebCheckoutViewViewModel;
 import com.expedia.vm.PaymentViewModel;
 import com.expedia.vm.flights.FlightCreateTripViewModel;
 
@@ -104,6 +105,12 @@ public final class FlightModule {
 	KrazyglueServices provideKrazyglueServices(EndpointProvider endpointProvider, OkHttpClient client) {
 		final String endpoint = endpointProvider.getKrazyglueEndpointUrl();
 		return new KrazyglueServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io());
+	}
+
+	@Provides
+	@FlightScope
+	FlightWebCheckoutViewViewModel provideFlightWebCheckoutViewViewModel(Context context, EndpointProvider endpointProvider) {
+		return new FlightWebCheckoutViewViewModel(context, endpointProvider);
 	}
 
 	@Provides
