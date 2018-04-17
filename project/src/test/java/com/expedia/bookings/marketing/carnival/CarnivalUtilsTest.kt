@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.support.v4.app.FragmentActivity
+import android.support.v4.app.FragmentManager
 import com.carnival.sdk.AttributeMap
 import com.carnival.sdk.Message
 import com.expedia.bookings.analytics.OmnitureTestUtils
@@ -26,6 +28,7 @@ import com.expedia.bookings.data.rail.responses.RailTripProduct
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.data.trips.TripComponent
 import com.expedia.bookings.marketing.carnival.model.CarnivalConstants
+import com.expedia.bookings.marketing.carnival.model.CarnivalMessage
 import com.expedia.bookings.marketing.carnival.model.CarnivalNotificationTypeConstants
 import com.expedia.bookings.marketing.carnival.persistence.MockCarnivalPersistenceProvider
 import com.expedia.bookings.services.HotelCheckoutResponse
@@ -40,6 +43,7 @@ import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.shadow.api.Shadow
 import org.robolectric.shadows.ShadowPendingIntent
@@ -55,13 +59,39 @@ class CarnivalUtilsTest : CarnivalUtils() {
     private val context = RuntimeEnvironment.application
     private lateinit var persistenceProvider: MockCarnivalPersistenceProvider
     private lateinit var mockAnalyticsProvider: AnalyticsProvider
+    private lateinit var fragmentManager: FragmentManager
 
     @Before
     fun setup() {
+        val activity = Robolectric.buildActivity(FragmentActivity::class.java).create().get()
+        fragmentManager = activity.supportFragmentManager
         persistenceProvider = MockCarnivalPersistenceProvider()
         initialize(context, persistenceProvider)
         attributesToSend = AttributeMap()
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+    }
+
+    @Test
+    fun messageListenerListens() {
+        this.setupListener(fragmentManager)
+        assert(supportFragmentManager != null)
+    }
+
+    @Test
+    fun messageQueueWorks() {
+        this.setupListener(fragmentManager)
+        supportFragmentManager = null
+        this.createInAppNotification(supportFragmentManager, CarnivalMessage())
+
+        assert(messageQueue.any())
+    }
+
+    @Test
+    fun messageQueueClears() {
+        this.setupListener(fragmentManager)
+        this.checkForStaleMessages()
+
+        assert(!messageQueue.any())
     }
 
     @Test
@@ -519,6 +549,10 @@ class CarnivalUtilsTest : CarnivalUtils() {
         //Don't actually set these user values on carnival
         userIdToLog = userId
         userEmailToLog = userEmail
+    }
+
+    override fun buildDialog(carnivalMessage: CarnivalMessage) {
+        //don't actually build anything since the sdk message is not accessible.
     }
 
     private fun getMockCarnivalAttributesAsJsonObject(): AttributeMap {
