@@ -66,7 +66,6 @@ dependencies {
 
     implementation "com.google.android.gms:play-services-maps:${rootProject.ext.googlePlayServicesVersion}"
     implementation "com.google.android.gms:play-services-location:${rootProject.ext.googlePlayServicesVersion}"
-    implementation "com.google.android.gms:play-services-auth:${rootProject.ext.googlePlayServicesVersion}"
     implementation "com.google.android.gms:play-services-gcm:${rootProject.ext.googlePlayServicesVersion}"
 
     implementation "android.arch.persistence.room:runtime:${room_persistence_version}"
