@@ -1185,6 +1185,8 @@ public class OmnitureTracking {
 		s.setEvar(2, "D=c2");
 		s.setProp(2, HOTELV2_LOB);
 
+		trackAbacusTest(s, AbacusUtils.HotelUGCTranslations);
+
 		// Send the tracking data
 		s.track();
 	}
@@ -5073,7 +5075,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesHotelReviewPageLoad() {
-		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_DETAILS_REVIEWS, null);
+		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_DETAILS_REVIEWS, null, AbacusUtils.HotelUGCTranslations);
 	}
 
 	public static void trackPackagesHotelReviewCategoryChange(String category) {
