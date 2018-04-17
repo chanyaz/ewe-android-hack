@@ -5,10 +5,12 @@ import com.expedia.bookings.analytics.OmnitureTestUtils.Companion.assertStateTra
 import com.expedia.bookings.analytics.OmnitureTestUtils.Companion.assertStateTrackedNumTimes
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
 import org.hamcrest.Matchers
 import org.junit.Before
 import org.junit.Test
@@ -100,6 +102,42 @@ class HotelReviewsViewModelTest {
         vm.trackReviewPageLoad()
 
         assertReviewTracked(2)
+    }
+
+    @Test
+    fun testTranslationTrackingOn() {
+        AbacusTestUtils.bucketTests(AbacusUtils.HotelUGCTranslations)
+        val vm = HotelReviewsViewModel(context)
+        vm.trackReviewPageLoad()
+        assertStateTracked("App.Hotels.Reviews", Matchers.allOf(
+                OmnitureMatchers.withEvars(mapOf(34 to "25532.0.1"))), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTranslationTrackingOff() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.HotelUGCTranslations)
+        val vm = HotelReviewsViewModel(context)
+        vm.trackReviewPageLoad()
+        assertStateTracked("App.Hotels.Reviews", Matchers.allOf(
+                OmnitureMatchers.withEvars(mapOf(34 to "25532.0.0"))), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTranslationTrackingPackagesOn() {
+        AbacusTestUtils.bucketTests(AbacusUtils.HotelUGCTranslations)
+        val vm = HotelReviewsViewModel(context, LineOfBusiness.PACKAGES)
+        vm.trackReviewPageLoad()
+        assertStateTracked("App.Package.Reviews", Matchers.allOf(
+                OmnitureMatchers.withEvars(mapOf(34 to "25532.0.1"))), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTranslationTrackingPackagesOff() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.HotelUGCTranslations)
+        val vm = HotelReviewsViewModel(context, LineOfBusiness.PACKAGES)
+        vm.trackReviewPageLoad()
+        assertStateTracked("App.Package.Reviews", Matchers.allOf(
+                OmnitureMatchers.withEvars(mapOf(34 to "25532.0.0"))), mockAnalyticsProvider)
     }
 
     private fun assertReviewTracked(numInvocation: Int) {
