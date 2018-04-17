@@ -29,6 +29,7 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
     // inputs
     val tripObservable = BehaviorSubject.create<FlightTripResponse>()
     val userInitiatedToggleObservable = PublishSubject.create<Boolean>()
+    val widgetVisibilityAllowedObservable = PublishSubject.create<Boolean>()
 
     // outputs
     val benefitsObservable = BehaviorSubject.create<Spanned>()
@@ -39,6 +40,7 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
     val widgetVisibilityObservable = PublishSubject.create<Boolean>()
     val toggleSwitchEnabledObservable = PublishSubject.create<Boolean>()
 
+    private var canWidgetBeDisplayed: Boolean = true
     private val haveProduct: Boolean get() = product?.terms?.url != null
     private var product: InsuranceProduct? = null
 
@@ -93,6 +95,11 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
                         .subscribe(insuranceSelectionUpdatedObserver)
             }
             FlightsV2Tracking.trackInsuranceUpdated(if (isSelected) InsuranceAction.ADD else InsuranceAction.REMOVE)
+        }
+
+        widgetVisibilityAllowedObservable.subscribe {
+            canWidgetBeDisplayed = it
+            updateVisibility()
         }
     }
 
@@ -193,6 +200,6 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
     }
 
     fun updateVisibility() {
-        widgetVisibilityObservable.onNext(haveProduct)
+        widgetVisibilityObservable.onNext(canWidgetBeDisplayed && haveProduct)
     }
 }

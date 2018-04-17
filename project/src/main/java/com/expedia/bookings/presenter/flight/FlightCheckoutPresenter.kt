@@ -178,6 +178,20 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
                 }).subscribe()
     }
 
+    override val defaultTransition = object : DefaultCheckoutTransition() {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            insuranceWidget.viewModel.widgetVisibilityAllowedObservable.onNext(forward)
+        }
+    }
+
+    override val defaultToPayment = object : DefaultToPayment(this) {
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            insuranceWidget.viewModel.widgetVisibilityAllowedObservable.onNext(!forward)
+        }
+    }
+
     override fun createTravelersViewModel(): TravelersViewModel {
         return FlightTravelersViewModel(context, getLineOfBusiness(), showMainTravelerMinimumAgeMessaging())
     }
