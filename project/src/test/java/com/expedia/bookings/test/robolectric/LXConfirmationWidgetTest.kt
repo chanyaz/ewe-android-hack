@@ -14,11 +14,14 @@ import android.widget.Button
 import android.widget.TextView
 
 import com.expedia.bookings.R
+import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.presenter.lx.LXPresenter
 import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
@@ -50,6 +53,7 @@ class LXConfirmationWidgetTest {
     var serviceRule = ServicesRule(ItinTripServices::class.java, Schedulers.trampoline(), "../lib/mocked/templates")
         @Rule get
 
+    lateinit var mockAnalyticsProvider: AnalyticsProvider
     lateinit var confirmationWidget: LXConfirmationWidget
     lateinit var activity: Activity
     lateinit var presenter: LXPresenter
@@ -165,6 +169,26 @@ class LXConfirmationWidgetTest {
         assertBookingSuccessDialogDisplayed()
     }
 
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testWebCKOToConfirmationOmnitureTracking() {
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        mockConfirmationLXState(doCheckout = false)
+
+        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
+        val makeItinResponseObserver = presenter.makeNewItinResponseObserver()
+        confirmationWidget.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
+        serviceRule.services!!.getTripDetails("lx_trip_details_without_email", makeItinResponseObserver)
+        testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
+
+        val appState = "App.LX.Checkout.Confirmation"
+        val expectedEvars = mapOf(2 to "D=c2", 30 to "LX:20150224-20150408:N", 18 to "App.LX.Checkout.Confirmation")
+        val expectedProps = mapOf(2 to "local expert", 5 to "2015-02-24", 72 to "8104062917948")
+        val expectedProducts = "LX;Merchant LX:183615;4;1795.0"
+        val expectedEvents = "purchase"
+        assertWebCKOToConfirmationTracking(appState, expectedEvars, expectedProps, expectedProducts, expectedEvents)
+    }
+
     private fun mockConfirmationLXState(doCheckout: Boolean) {
         LXStateTestUtil.searchParamsState()
         LXStateTestUtil.selectActivityState()
@@ -183,5 +207,12 @@ class LXConfirmationWidgetTest {
         assertEquals("Booking Successful!", shadowOfAlertDialog.title)
         assertEquals("Please check your email for the itinerary.", message.text)
         assertEquals("OK", okButton.text)
+    }
+
+    private fun assertWebCKOToConfirmationTracking(appState: String, expectedEvars: Map<Int, String>, expectedProps: Map<Int, String>, expectedProducts: String, expectedEvents: String) {
+        OmnitureTestUtils.assertStateTracked(appState, OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked(appState, OmnitureMatchers.withProps(expectedProps), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked(appState, OmnitureMatchers.withProductsString(expectedProducts), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked(appState, OmnitureMatchers.withEventsString(expectedEvents), mockAnalyticsProvider)
     }
 }
