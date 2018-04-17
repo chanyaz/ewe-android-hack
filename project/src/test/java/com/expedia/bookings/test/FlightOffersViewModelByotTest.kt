@@ -2,6 +2,7 @@ package com.expedia.bookings.test
 
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightTripDetails
@@ -22,6 +23,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.utils.AbacusTestUtils
 import io.reactivex.schedulers.Schedulers
 import java.io.File
 import java.util.concurrent.TimeUnit
@@ -56,6 +58,93 @@ class FlightOffersViewModelByotTest {
         val response = testSubscriber.values()[0]
         assertNotNull(response)
         assertEquals(response.size, 3)
+    }
+
+    @Test
+    fun testHappyOutboundSearchResponseForGreedy() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsGreedySearchCall, 1)
+        sut = FlightOffersViewModelByot(context, flightServices)
+        val normalResultsTestSubscriber = TestObserver<List<FlightLeg>>()
+        val greedyResultsTestSubscriber = TestObserver<List<FlightLeg>>()
+
+        sut.isOutboundSearch = true
+        sut.outboundResultsObservable.subscribe(normalResultsTestSubscriber)
+        sut.greedyOutboundResultsObservable.subscribe(greedyResultsTestSubscriber)
+        performGreedyFlightSearch(false)
+
+        greedyResultsTestSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
+        greedyResultsTestSubscriber.assertValueCount(1)
+        normalResultsTestSubscriber.assertValueCount(0)
+        val response = greedyResultsTestSubscriber.values()[0]
+        assertNotNull(response)
+        assertEquals(3, response.size)
+
+        //If greedy call is aborted
+        sut.isGreedyCallAborted = true
+        performGreedyFlightSearch(false)
+        greedyResultsTestSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
+        greedyResultsTestSubscriber.assertValueCount(1)
+        normalResultsTestSubscriber.assertValueCount(1)
+    }
+
+    @Test
+    fun testHappyInboundSearchResponseForGreedy() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsGreedySearchCall, 1)
+        sut = FlightOffersViewModelByot(context, flightServices)
+        Db.setFlightSearchParams(giveSearchParams(true).build())
+        val flightLeg = FlightLeg()
+        flightLeg.legId = "leg-Id"
+
+        val normalResultsTestSubscriber = TestObserver<List<FlightLeg>>()
+        sut.inboundResultsObservable.subscribe(normalResultsTestSubscriber)
+        sut.outboundSelected.onNext(flightLeg)
+        sut.confirmedOutboundFlightSelection.onNext(flightLeg)
+
+        normalResultsTestSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
+        normalResultsTestSubscriber.assertValueCount(1)
+        val response = normalResultsTestSubscriber.values()[0]
+        assertNotNull(response)
+        assertEquals(4, response.size)
+    }
+
+    @Test
+    fun testHasUserClickedSearchForGreedySearch() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsGreedySearchCall, 1)
+        sut = FlightOffersViewModelByot(context, flightServices)
+        val searchClickedTestSubscriber = TestObserver<Boolean>()
+
+        sut.isOutboundSearch = true
+        sut.hasUserClickedSearchObservable.subscribe(searchClickedTestSubscriber)
+
+        //When user is on search screen only
+        performGreedyFlightSearch(false)
+        searchClickedTestSubscriber.assertValueAt(0, false)
+
+        //When user is has clicked search button and reached result screen
+        sut.searchParamsObservable.onNext(Db.getFlightSearchParams())
+        performGreedyFlightSearch(false)
+        searchClickedTestSubscriber.assertValueAt(1, true)
+    }
+
+    @Test
+    fun testOutboundSearchResponseWhenGreedyIsAborted() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsGreedySearchCall, 1)
+        sut = FlightOffersViewModelByot(context, flightServices)
+        val normalResultsTestSubscriber = TestObserver<List<FlightLeg>>()
+        val greedyResultsTestSubscriber = TestObserver<List<FlightLeg>>()
+
+        sut.isOutboundSearch = true
+        sut.isGreedyCallAborted = true
+        sut.outboundResultsObservable.subscribe(normalResultsTestSubscriber)
+        sut.greedyOutboundResultsObservable.subscribe(greedyResultsTestSubscriber)
+        performGreedyFlightSearch(false)
+
+        normalResultsTestSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
+        greedyResultsTestSubscriber.assertValueCount(0)
+        normalResultsTestSubscriber.assertValueCount(1)
+        val response = normalResultsTestSubscriber.values()[0]
+        assertNotNull(response)
+        assertEquals(3, response.size)
     }
 
     @Test
@@ -116,6 +205,12 @@ class FlightOffersViewModelByotTest {
     private fun performFlightSearch(isInbound: Boolean) {
         val paramsBuilder = giveSearchParams(isInbound)
         sut.searchParamsObservable.onNext(paramsBuilder.build())
+        Db.setFlightSearchParams(paramsBuilder.build())
+    }
+
+    private fun performGreedyFlightSearch(isInbound: Boolean) {
+        val paramsBuilder = giveSearchParams(isInbound)
+        sut.greedyFlightSearchObservable.onNext(paramsBuilder.build())
         Db.setFlightSearchParams(paramsBuilder.build())
     }
 

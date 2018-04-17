@@ -54,7 +54,7 @@ public class AbacusUtils {
 	public static final ABTest TripFoldersFragment = new ABTest(25538, true);
 
 	// Flight tests
-	public static final ABTest EBAndroidAppFlightByotSearch = new ABTest(13202);
+	public static final ABTest EBAndroidAppFlightByotSearch = new ABTest(25624, true);
 	public static final ABTest EBAndroidAppFlightsSeatClassAndBookingCode = new ABTest(25529, true);
 	public static final ABTest EBAndroidAppSimplifyFlightShopping = new ABTest(13514);
 	public static final ABTest EBAndroidAppFlightsCrossSellPackageOnFSR = new ABTest(14183);
