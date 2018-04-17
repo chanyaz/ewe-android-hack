@@ -56,6 +56,7 @@ import org.robolectric.Shadows
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
+import java.net.URLDecoder
 import java.util.Calendar
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -517,7 +518,7 @@ class AccountSettingsFragmentTest {
     private fun assertIntentFiredToDialPhone(phoneNumber: String?) {
         val actualIntent = Shadows.shadowOf(activity).nextStartedActivity
         assertEquals(Intent.ACTION_VIEW, actualIntent.action)
-        val actualPhoneNumber = actualIntent.data.toString().replace("[^0-9]".toRegex(), "")
+        val actualPhoneNumber = URLDecoder.decode(actualIntent.data.toString(), "UTF-8").replace("[^0-9]".toRegex(), "")
         val expectedPhoneNumber = phoneNumber?.replace("[^0-9]".toRegex(), "")
         assertEquals(expectedPhoneNumber, actualPhoneNumber)
     }
