@@ -200,11 +200,12 @@ public class AppModule {
 			@Override
 			public Response intercept(Interceptor.Chain chain) throws IOException {
 				HttpUrl.Builder url = chain.request().url().newBuilder();
-				Request.Builder request = chain.request().newBuilder();
+				Request.Builder requestBuilder = chain.request().newBuilder();
 				url.setEncodedQueryParameter("siteid", ServicesUtil.generateSiteId());
-				request.url(url.build());
+				requestBuilder.addHeader("Host", "www.expedia.com");
+				requestBuilder.url(url.build());
 
-				return chain.proceed(request.build());
+				return chain.proceed(requestBuilder.build());
 			}
 		};
 	}

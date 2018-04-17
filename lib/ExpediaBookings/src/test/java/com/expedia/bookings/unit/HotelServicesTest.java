@@ -24,9 +24,9 @@ import com.expedia.bookings.data.hotels.HotelCreateTripParams;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelSearchParams;
+import com.expedia.bookings.data.hotels.HotelSearchResponse;
 import com.expedia.bookings.data.hotels.NearbyHotelParams;
 import com.expedia.bookings.data.hotels.Neighborhood;
-import com.expedia.bookings.data.hotels.NewHotelSearchResponse;
 import com.expedia.bookings.data.payment.PointsAndCurrency;
 import com.expedia.bookings.data.payment.PointsType;
 import com.expedia.bookings.data.payment.ProgramName;
@@ -212,33 +212,35 @@ public class HotelServicesTest {
 	public void testFastSearchHappyResponse() throws Throwable {
 		givenServerUsingMockResponses();
 
-		TestObserver<NewHotelSearchResponse> observer = new TestObserver<>();
+		TestObserver<HotelSearchResponse> observer = new TestObserver<>();
 		PublishSubject testSubject = PublishSubject.create();
 
 		HotelSearchParams params = givenHappyHotelSearchParams();
 
-		service.fastSearch(params, testSubject).subscribe(observer);
+		service.setBucketedForHotelSatelliteSearch(true);
+		service.search(params, testSubject).subscribe(observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
 		observer.assertComplete();
 		observer.assertValueCount(1);
 
-		NewHotelSearchResponse response = observer.values().get(0);
-		assertEquals(100, response.getHotels().size());
-		assertNotNull(response.getPageSummaryData());
+		HotelSearchResponse response = observer.values().get(0);
+		assertEquals(25, response.hotelList.size());
+		assertEquals(26, response.allNeighborhoodsInSearchRegion.size());
 	}
 
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testFastSearchHitsAllInterceptors() throws Throwable {
 		givenServerUsingMockResponses();
-		TestObserver<NewHotelSearchResponse> observer = new TestObserver<>();
+		TestObserver<HotelSearchResponse> observer = new TestObserver<>();
 		PublishSubject testSubject = PublishSubject.create();
 
 		HotelSearchParams params = givenHappyHotelSearchParams();
 
-		service.fastSearch(params, testSubject).subscribe(observer);
+		service.setBucketedForHotelSatelliteSearch(true);
+		service.search(params, testSubject).subscribe(observer);
 		observer.awaitTerminalEvent();
 		observer.assertComplete();
 

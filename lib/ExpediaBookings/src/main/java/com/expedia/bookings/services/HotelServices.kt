@@ -31,7 +31,7 @@ import java.util.HashMap
 import java.util.concurrent.TimeUnit
 
 open class HotelServices(endpoint: String, satelliteEndpoint: String, okHttpClient: OkHttpClient,
-                         interceptor: Interceptor, satelliteInterceptors: List<Interceptor>, bucketedForHotelSatelliteSearch: Boolean,
+                         interceptor: Interceptor, satelliteInterceptors: List<Interceptor>, var bucketedForHotelSatelliteSearch: Boolean,
                          val observeOn: Scheduler, val subscribeOn: Scheduler) {
     private val TIME_OUT_SECONDS = 30L
 
@@ -80,6 +80,14 @@ open class HotelServices(endpoint: String, satelliteEndpoint: String, okHttpClie
     }
 
     open fun search(params: HotelSearchParams, resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Observable<HotelSearchResponse> {
+        return if (bucketedForHotelSatelliteSearch) {
+            fastSearch(params, resultsResponseReceivedObservable)
+        } else {
+            legacySearch(params, resultsResponseReceivedObservable)
+        }
+    }
+
+    private fun legacySearch(params: HotelSearchParams, resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Observable<HotelSearchResponse> {
         val lat = getLatitude(params.suggestion)
         val long = getLongitude(params.suggestion)
         val regionId = getRegionId(params)
@@ -101,8 +109,7 @@ open class HotelServices(endpoint: String, satelliteEndpoint: String, okHttpClie
                 }
     }
 
-    //TODO exposed for testing for now.  Mingle card 11028 to add a fork and convert to Old Hotel Response
-    fun fastSearch(params: HotelSearchParams, resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Observable<NewHotelSearchResponse> {
+    private fun fastSearch(params: HotelSearchParams, resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Observable<HotelSearchResponse> {
         val lat = getLatitude(params.suggestion)
         val long = getLongitude(params.suggestion)
         val regionId = getRegionId(params)
@@ -119,8 +126,8 @@ open class HotelServices(endpoint: String, satelliteEndpoint: String, okHttpClie
                 .doOnNext {
                     resultsResponseReceivedObservable?.onNext(Unit)
                 }
-                .doOnNext { response ->
-                    //TODO convert to old hotel search response
+                .map { response ->
+                    convertToLegacySearchResponse(response)
                 }
     }
 
@@ -258,6 +265,10 @@ open class HotelServices(endpoint: String, satelliteEndpoint: String, okHttpClie
         response.hotelList.map { it.isSoldOut = !it.isHotelAvailable }
 
         response.setHasLoyaltyInformation()
+    }
+
+    private fun convertToLegacySearchResponse(newHotelResponse: NewHotelSearchResponse): HotelSearchResponse {
+        return newHotelResponse.convertToLegacySearchResponse()
     }
 
     private fun getUserPriceType(hotels: List<Hotel>?): HotelRate.UserPriceType {

@@ -141,6 +141,14 @@ public class ApiError extends RuntimeException {
 		// ignore
 	}
 
+	public String getApiErrorMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
 	@Nullable
 	public Code getErrorCode() {
 		try {

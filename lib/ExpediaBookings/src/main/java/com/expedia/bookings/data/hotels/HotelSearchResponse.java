@@ -48,6 +48,10 @@ public class HotelSearchResponse extends BaseApiResponse {
 		hasLoyaltyInformation = false;
 	}
 
+	public void setHasPinnedHotel(Boolean hasPinnedHotel) {
+		this.hasPinnedHotel = hasPinnedHotel;
+	}
+
 	public boolean isPinnedSearch() {
 		return hasPinnedHotel != null;
 	}

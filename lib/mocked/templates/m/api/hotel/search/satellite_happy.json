@@ -1,334 +1,279 @@
 {
     "error": [],
     "pageData": {
-        "availableHotelCount": "97",
-        "totalHotelCount": "606",
-        "regionName": "Las Vegas (and vicinity), Nevada, United States of America",
-        "regionId": "178276",
-        "checkInDate": "2018-06-06",
-        "checkOutDate": "2018-06-08",
-        "guests": "1",
-        "cityName": "Las Vegas (and vicinity)",
-        "countryName": " United States of America",
+        "activityID": "a5873a2d-83af-4180-95e3-1485818e70e4",
+        "availableHotelCount": "190",
+        "totalHotelCount": "275",
+        "regionName": "NYC-All Airports",
+        "regionId": "6139058",
+        "checkInDate": "2018-05-25",
+        "checkOutDate": "2018-05-26",
+        "guests": "2",
+        "cityName": "NYC-All Airports",
         "currentPageNumber": "1",
-        "totalPages": "3",
-        "pageSize": "200",
-        "pricingScheme": {
-            "priceType": "TOTAL",
-            "taxIncluded": true,
-            "feeIncluded": true
-        },
+        "totalPages": "11",
+        "pageSize": "25",
         "priceFilters": {
-            "minPrice": "75",
-            "maxPrice": "300"
+            "minPrice": "0",
+            "maxPrice": "0"
         },
         "amenityFilters": {
             "amenityOptionList": [
                 {
-                    "id": "airConditioning",
-                    "name": "Air conditioning"
+                    "id": "2112",
+                    "name": "Casino"
                 },
                 {
-                    "id": "babysittingService",
-                    "name": "Baby Sitting Service"
-                },
-                {
-                    "id": "businessServices",
-                    "name": "Business services"
-                },
-                {
-                    "id": "childCare",
-                    "name": "Childcare"
-                },
-                {
-                    "id": "childClub",
-                    "name": "Children's club"
-                },
-                {
-                    "id": "childPool",
-                    "name": "Children's pool"
-                },
-                {
-                    "id": "dryCleaningService",
-                    "name": "Dry cleaning/laundry service"
-                },
-                {
-                    "id": "localExpert",
-                    "name": "Expedia Local Expert"
-                },
-                {
-                    "id": "fitnessEquip",
-                    "name": "Fitness equipment"
-                },
-                {
-                    "id": "freeAirportTransport",
+                    "id": "66",
                     "name": "Free airport transportation"
                 },
                 {
-                    "id": "freeBreakfast",
-                    "name": "Free breakfast"
+                    "id": "69",
+                    "name": "Babysitting service"
                 },
                 {
-                    "id": "freeNewspaper",
-                    "name": "Free newspaper"
+                    "id": "71",
+                    "name": "Children's club"
                 },
                 {
-                    "id": "freeParking",
-                    "name": "Free parking"
+                    "id": "7",
+                    "name": "Swimming pool"
                 },
                 {
-                    "id": "hairDryer",
-                    "name": "Hair dryer"
+                    "id": "72",
+                    "name": "Childcare"
                 },
                 {
-                    "id": "highSpeedInternet",
-                    "name": "High-speed Internet"
-                },
-                {
-                    "id": "kitchen",
-                    "name": "Kitchen"
-                },
-                {
-                    "id": "kitchenette",
-                    "name": "Kitchenette"
-                },
-                {
-                    "id": "laundryFacility",
-                    "name": "Laundry facilities"
-                },
-                {
-                    "id": "petsAllowed",
-                    "name": "Pets allowed (conditions apply)"
-                },
-                {
-                    "id": "restaurantInHotel",
+                    "id": "9",
                     "name": "Restaurant in hotel"
                 },
                 {
-                    "id": "roomService",
+                    "id": "11",
+                    "name": "Fitness equipment"
+                },
+                {
+                    "id": "12",
+                    "name": "Business services"
+                },
+                {
+                    "id": "13",
                     "name": "Room service"
                 },
                 {
-                    "id": "spaOnSite",
+                    "id": "14",
+                    "name": "Free parking"
+                },
+                {
+                    "id": "15",
                     "name": "Spa services on site"
                 },
                 {
-                    "id": "pool",
-                    "name": "Swimming pool"
+                    "id": "16",
+                    "name": "Free breakfast"
+                },
+                {
+                    "id": "17",
+                    "name": "Pets allowed (conditions apply)"
+                },
+                {
+                    "id": "18",
+                    "name": "Free newspaper"
+                },
+                {
+                    "id": "19",
+                    "name": "High-speed Internet"
+                },
+                {
+                    "id": "2070",
+                    "name": "Dry cleaning/laundry service"
+                },
+                {
+                    "id": "26",
+                    "name": "Hair dryer"
+                },
+                {
+                    "id": "27",
+                    "name": "Air conditioning"
+                },
+                {
+                    "id": "32",
+                    "name": "Expedia Local Expert"
+                },
+                {
+                    "id": "2158",
+                    "name": "Kitchen"
+                },
+                {
+                    "id": "369",
+                    "name": "Laundry facilities"
+                },
+                {
+                    "id": "312",
+                    "name": "Kitchenette"
                 }
             ],
             "accessibilityOptionList": [
                 {
-                    "id": "accessibleBathroom",
+                    "id": "58",
                     "name": "Accessible bathroom"
                 },
                 {
-                    "id": "handicapParking",
+                    "id": "61",
                     "name": "Handicapped parking"
                 },
                 {
-                    "id": "inRoomAccessible",
+                    "id": "62",
                     "name": "In-room accessibility"
                 },
                 {
-                    "id": "rollInShower",
+                    "id": "63",
                     "name": "Roll-in shower"
                 }
             ]
         },
         "neighborhoodFilters": [
             {
-                "id": "74228",
-                "name": "Apex"
+                "id": "178293",
+                "name": "New York (and vicinity)"
             },
             {
-                "id": "74507",
-                "name": "Arden"
+                "id": "129440",
+                "name": "Manhattan"
             },
             {
-                "id": "76704",
-                "name": "Bard"
+                "id": "6203489",
+                "name": "Midtown"
             },
             {
-                "id": "80924",
-                "name": "Blue Diamond"
+                "id": "149004",
+                "name": "Queens"
             },
             {
-                "id": "6019",
-                "name": "Boulder City"
+                "id": "6142489",
+                "name": "Chelsea"
             },
             {
-                "id": "6325016",
-                "name": "Boulder City, NV (BLD-Boulder City Municipal)"
+                "id": "6141525",
+                "name": "Midtown East"
             },
             {
-                "id": "82198",
-                "name": "Bracken"
+                "id": "553248633938969338",
+                "name": "Central New York City"
             },
             {
-                "id": "6159642",
-                "name": "Chinatown"
+                "id": "6142503",
+                "name": "SoHo"
             },
             {
-                "id": "800047",
-                "name": "Downtown Las Vegas"
+                "id": "800075",
+                "name": "Upper West Side"
             },
             {
-                "id": "6324829",
-                "name": "Enterprise"
+                "id": "6157019",
+                "name": "Theater District"
             },
             {
-                "id": "6340864",
-                "name": "Fremont Street"
+                "id": "6141524",
+                "name": "Midtown West"
             },
             {
-                "id": "553248635074841839",
-                "name": "Grandview"
+                "id": "800076",
+                "name": "Upper East Side"
             },
             {
-                "id": "6004152",
-                "name": "Green Valley"
+                "id": "6142500",
+                "name": "East Village"
             },
             {
-                "id": "7586",
-                "name": "Henderson"
+                "id": "175056",
+                "name": "Williamsburg"
             },
             {
-                "id": "6028419",
-                "name": "Henderson, NV (HSH-Henderson Executive)"
+                "id": "553248621555566047",
+                "name": "Tribeca"
             },
             {
-                "id": "6054169",
-                "name": "Lake Las Vegas"
+                "id": "6140148",
+                "name": "Downtown Brooklyn"
             },
             {
-                "id": "2008",
-                "name": "Las Vegas"
+                "id": "553248633429418894",
+                "name": "Financial District"
             },
             {
-                "id": "5456204",
-                "name": "Las Vegas, NV (LAS-McCarran Intl.)"
+                "id": "6141723",
+                "name": "Bowery"
             },
             {
-                "id": "6032904",
-                "name": "Las Vegas, NV (VGT-North Las Vegas)"
+                "id": "6227808",
+                "name": "Battery Park City"
             },
             {
-                "id": "135584",
-                "name": "Mount Charleston"
+                "id": "6226054",
+                "name": "Flatiron District"
             },
             {
-                "id": "553248634983077537",
-                "name": "Nellis Air Force Base"
+                "id": "6203474",
+                "name": "Hell's Kitchen"
             },
             {
-                "id": "9169",
-                "name": "North Las Vegas"
+                "id": "6142495",
+                "name": "Union Square"
             },
             {
-                "id": "143393",
-                "name": "Paradise"
+                "id": "6141727",
+                "name": "Meatpacking District"
             },
             {
-                "id": "158930",
-                "name": "Sloan"
+                "id": "6004547",
+                "name": "Brooklyn Heights"
             },
             {
-                "id": "6004153",
-                "name": "Spring Valley"
+                "id": "6004568",
+                "name": "Park Slope"
             },
             {
-                "id": "6054171",
-                "name": "Summerlin"
-            },
-            {
-                "id": "553248634983078596",
-                "name": "Summerlin South"
-            },
-            {
-                "id": "6004154",
-                "name": "Sunrise Manor"
-            },
-            {
-                "id": "165607",
-                "name": "The Lakes"
-            },
-            {
-                "id": "6004156",
-                "name": "Tule Springs"
-            },
-            {
-                "id": "169454",
-                "name": "Vegas Heights"
-            },
-            {
-                "id": "553248634983123731",
-                "name": "Whitney"
-            },
-            {
-                "id": "175488",
-                "name": "Winchester"
+                "id": "112757",
+                "name": "Harlem"
             }
         ]
     },
     "hotels": [
         {
-            "id": "18443",
-            "localizedHotelName": "Super 8 Las Vegas Strip Area at Ellis Island Casino",
+            "id": "41307",
+            "localizedHotelName": "Harrah's Hotel and Casino Las Vegas",
             "isPinned": false,
             "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "roomsLeftAtThisPrice": 4,
-            "starRating": 2,
-            "guestRating": "3.3036785",
+            "hasFreeCancel": true,
+            "hasPayLater": false,
+            "roomsLeftAtThisPrice": 402,
+            "starRating": 3.5,
+            "guestRating": "0.0",
             "price": {
-                "displayPrice": "9.78",
-                "strikeThroughPrice": "12.32",
-                "discountPercentage": "21",
-                "currencyCode": "USD"
+                "displayPrice": "89",
+                "strikeThroughPrice": "119",
+                "discountPercentage": "-25",
+                "currencySymbol": "$",
+                "currencyCode": "USD",
+                "pricingScheme": {
+                    "priceType": "nightly",
+                    "taxIncluded": false,
+                    "feeIncluded": false
+                }
             },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/20000/18500/18443/bac8f6b8_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/20000/18500/18443/bac8f6b8_t.jpg",
+            "vip": false,
+            "imageUrl": "/hotels/1000000/50000/41400/41307/e59e23b3_d.jpg",
+            "lowResImageUrl": "/hotels/1000000/50000/41400/41307/e59e23b3_n.jpg",
             "latLong": [
-                "36.111772",
-                "-115.163907"
+                "36.11881",
+                "-115.17265"
             ],
-            "regionId": "2008",
+            "regionName": "NYC-All Airports",
+            "regionId": "6139058",
             "directDistance": {
-                "value": "0.867",
-                "unit": "km"
+                "value": "0.0",
+                "unit": "Miles"
             },
-            "isAvailable": true
-        },
-        {
-            "id": "19",
-            "localizedHotelName": "Plaza Hotel and Casino - Las Vegas",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
-            "starRating": 3,
-            "guestRating": "3.6526737",
-            "price": {
-                "displayPrice": "34.44",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/10000/100/19/19_59_z.jpg",
-            "lowResImageUrl": "/hotels/1000000/10000/100/19/19_59_t.jpg",
-            "latLong": [
-                "36.171617",
-                "-115.146375"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "6.765",
-                "unit": "km"
-            },
-            "neighborhoodId": 800047,
-            "neighborhoodName": "Downtown Las Vegas",
             "isAvailable": true
         },
         {
@@ -336,1662 +281,35 @@
             "localizedHotelName": "South Point Hotel, Casino, and Spa",
             "isPinned": false,
             "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
+            "hasFreeCancel": true,
+            "hasPayLater": false,
+            "roomsLeftAtThisPrice": 81,
             "starRating": 4,
-            "guestRating": "4.3844852",
+            "guestRating": "0.0",
             "price": {
-                "displayPrice": "59.01",
-                "currencyCode": "USD"
+                "displayPrice": "109",
+                "strikeThroughPrice": "139",
+                "discountPercentage": "-22",
+                "currencySymbol": "$",
+                "currencyCode": "USD",
+                "pricingScheme": {
+                    "priceType": "nightly",
+                    "taxIncluded": false,
+                    "feeIncluded": false
+                }
             },
-            "vip": "false",
-            "imageUrl": "/hotels/2000000/1310000/1309600/1309521/1309521_170_w.jpg",
-            "lowResImageUrl": "/hotels/2000000/1310000/1309600/1309521/1309521_170_t.jpg",
+            "vip": false,
+            "imageUrl": "/hotels/2000000/1310000/1309600/1309521/1309521_170_d.jpg",
+            "lowResImageUrl": "/hotels/2000000/1310000/1309600/1309521/1309521_170_n.jpg",
             "latLong": [
                 "36.011975",
                 "-115.17254"
             ],
-            "regionId": "2008",
+            "regionName": "NYC-All Airports",
+            "regionId": "6139058",
             "directDistance": {
-                "value": "11.418",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "1619187",
-            "localizedHotelName": "Polo Towers by Diamond Resorts",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "false",
-            "hasPayLater": "false",
-            "starRating": 3.5,
-            "guestRating": "4.1616254",
-            "price": {
-                "displayPrice": "87.36",
-                "strikeThroughPrice": "116.48",
-                "discountPercentage": "25",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/2000000/1620000/1619200/1619187/1619187_65_w.jpg",
-            "lowResImageUrl": "/hotels/2000000/1620000/1619200/1619187/1619187_65_t.jpg",
-            "latLong": [
-                "36.106669",
-                "-115.172808"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "0.889",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "41081",
-            "localizedHotelName": "Stratosphere Hotel, Casino & Tower, BW Premier Collection",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "starRating": 3.5,
-            "guestRating": "3.5676048",
-            "price": {
-                "displayPrice": "44.99",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/50000/41100/41081/01f780d1_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/50000/41100/41081/01f780d1_t.jpg",
-            "latLong": [
-                "36.146989",
-                "-115.155298"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "3.925",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "16427768",
-            "localizedHotelName": "Lucky Dragon Las Vegas",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "starRating": 3.5,
-            "guestRating": "3.8457837",
-            "price": {
-                "displayPrice": "65.96",
-                "currencyCode": "USD"
-            },
-            "vip": "true",
-            "imageUrl": "/hotels/17000000/16430000/16427800/16427768/1ad7b117_w.jpg",
-            "lowResImageUrl": "/hotels/17000000/16430000/16427800/16427768/1ad7b117_t.jpg",
-            "latLong": [
-                "36.14409",
-                "-115.16078"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "3.447",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "1443",
-            "localizedHotelName": "The Venetian Las Vegas",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "false",
-            "hasPayLater": "false",
-            "starRating": 5,
-            "guestRating": "4.5393085",
-            "price": {
-                "displayPrice": "184.0",
-                "currencyCode": "USD"
-            },
-            "vip": "true",
-            "imageUrl": "/hotels/1000000/10000/1500/1443/d73823db_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/10000/1500/1443/d73823db_t.jpg",
-            "latLong": [
-                "36.12209",
-                "-115.17139"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "0.836",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "7859638",
-            "localizedHotelName": "Jet Luxury at the Vdara Condo Hotel",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "starRating": 5,
-            "guestRating": "4.185743",
-            "price": {
-                "displayPrice": "142.0",
-                "strikeThroughPrice": "177.5",
-                "discountPercentage": "20",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/8000000/7860000/7859700/7859638/7859638_3_z.jpg",
-            "lowResImageUrl": "/hotels/8000000/7860000/7859700/7859638/7859638_3_t.jpg",
-            "latLong": [
-                "36.108969",
-                "-115.177263"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "0.746",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "7611",
-            "localizedHotelName": "Bally's Las Vegas - Hotel & Casino",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
-            "starRating": 3.5,
-            "guestRating": "3.8267248",
-            "price": {
-                "displayPrice": "75.0",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/10000/7700/7611/deb99288_z.jpg",
-            "lowResImageUrl": "/hotels/1000000/10000/7700/7611/deb99288_t.jpg",
-            "latLong": [
-                "36.113579",
-                "-115.172792"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "0.121",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "1769973",
-            "localizedHotelName": "The Palazzo Las Vegas",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "false",
-            "hasPayLater": "false",
-            "starRating": 5,
-            "guestRating": "4.5804067",
-            "price": {
-                "displayPrice": "184.0",
-                "currencyCode": "USD"
-            },
-            "vip": "true",
-            "imageUrl": "/hotels/2000000/1770000/1770000/1769973/a842d02c_w.jpg",
-            "lowResImageUrl": "/hotels/2000000/1770000/1770000/1769973/a842d02c_t.jpg",
-            "latLong": [
-                "36.124777",
-                "-115.169646"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "1.161",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "43312",
-            "localizedHotelName": "Golden Nugget Las Vegas Hotel & Casino",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
-            "starRating": 4,
-            "guestRating": "4.140394",
-            "price": {
-                "displayPrice": "59.0",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/50000/43400/43312/43312_83_y.jpg",
-            "lowResImageUrl": "/hotels/1000000/50000/43400/43312/43312_83_t.jpg",
-            "latLong": [
-                "36.16996",
-                "-115.144606"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "6.651",
-                "unit": "km"
-            },
-            "neighborhoodId": 800047,
-            "neighborhoodName": "Downtown Las Vegas",
-            "isAvailable": true
-        },
-        {
-            "id": "203613",
-            "localizedHotelName": "Mandalay Bay Resort And Casino",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
-            "starRating": 4,
-            "guestRating": "4.2478137",
-            "price": {
-                "displayPrice": "108.0",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/210000/203700/203613/273ad265_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/210000/203700/203613/273ad265_t.jpg",
-            "latLong": [
-                "36.091961",
-                "-115.173037"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "2.525",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "41313",
-            "localizedHotelName": "The Orleans Hotel & Casino",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
-            "starRating": 3.5,
-            "guestRating": "4.185803",
-            "price": {
-                "displayPrice": "61.11",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/50000/41400/41313/c1021b84_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/50000/41400/41313/c1021b84_t.jpg",
-            "latLong": [
-                "36.100939",
-                "-115.201549"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "2.994",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "1445791",
-            "localizedHotelName": "Tahiti Village Resort & Spa",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "false",
-            "hasPayLater": "false",
-            "starRating": 3.5,
-            "guestRating": "4.3086014",
-            "price": {
-                "displayPrice": "144.53",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/2000000/1450000/1445800/1445791/3c7df4c6_w.jpg",
-            "lowResImageUrl": "/hotels/2000000/1450000/1445800/1445791/3c7df4c6_t.jpg",
-            "latLong": [
-                "36.059167",
-                "-115.172216"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "6.171",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "41307",
-            "localizedHotelName": "Harrah's Hotel and Casino Las Vegas",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
-            "roomsLeftAtThisPrice": 2,
-            "starRating": 3.5,
-            "guestRating": "3.713459",
-            "price": {
-                "displayPrice": "55.0",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/50000/41400/41307/e59e23b3_y.jpg",
-            "lowResImageUrl": "/hotels/1000000/50000/41400/41307/e59e23b3_t.jpg",
-            "latLong": [
-                "36.11881",
-                "-115.17265"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "0.461",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "460435",
-            "localizedHotelName": "Four Seasons Hotel Las Vegas",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "starRating": 5,
-            "guestRating": "4.75404",
-            "price": {
-                "displayPrice": "239.0",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/470000/460500/460435/460435_221_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/470000/460500/460435/460435_221_t.jpg",
-            "latLong": [
-                "36.089835",
-                "-115.173022"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "2.761",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "215776",
-            "localizedHotelName": "Club De Soleil All-Suite Resort",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "false",
-            "hasPayLater": "false",
-            "starRating": 3,
-            "guestRating": "3.8707523",
-            "price": {
-                "displayPrice": "86.33",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/220000/215800/215776/215776_24_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/220000/215800/215776/215776_24_t.jpg",
-            "latLong": [
-                "36.100287",
-                "-115.21777"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "4.339",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "14362",
-            "localizedHotelName": "Alexis Park All Suite Resort",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "starRating": 3,
-            "guestRating": "3.636088",
-            "price": {
-                "displayPrice": "45.51",
-                "strikeThroughPrice": "67.59",
-                "discountPercentage": "33",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/20000/14400/14362/ae63e7b2_z.jpg",
-            "lowResImageUrl": "/hotels/1000000/20000/14400/14362/ae63e7b2_t.jpg",
-            "latLong": [
-                "36.107999",
-                "-115.156475"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "1.649",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "913050",
-            "localizedHotelName": "Arizona Charlie's Decatur - Casino Hotel & Suites",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
-            "starRating": 3,
-            "guestRating": "3.3673608",
-            "price": {
-                "displayPrice": "49.99",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/920000/913100/913050/1cb4505e_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/920000/913100/913050/1cb4505e_t.jpg",
-            "latLong": [
-                "36.164719",
-                "-115.206063"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "6.313",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "1857289",
-            "localizedHotelName": "Trump International Hotel Las Vegas",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "false",
-            "hasPayLater": "false",
-            "starRating": 5,
-            "guestRating": "4.5052934",
-            "price": {
-                "displayPrice": "224.25",
-                "strikeThroughPrice": "299.0",
-                "discountPercentage": "25",
-                "currencyCode": "USD"
-            },
-            "vip": "true",
-            "imageUrl": "/hotels/2000000/1860000/1857300/1857289/011c64fe_w.jpg",
-            "lowResImageUrl": "/hotels/2000000/1860000/1857300/1857289/011c64fe_t.jpg",
-            "latLong": [
-                "36.128837",
-                "-115.17244"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "1.576",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "7414",
-            "localizedHotelName": "Platinum Hotel",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "starRating": 4,
-            "guestRating": "4.4620376",
-            "price": {
-                "displayPrice": "135.0",
-                "currencyCode": "USD"
-            },
-            "vip": "true",
-            "imageUrl": "/hotels/1000000/10000/7500/7414/7414_159_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/10000/7500/7414/7414_159_t.jpg",
-            "latLong": [
-                "36.114415",
-                "-115.163226"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "0.867",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "41076",
-            "localizedHotelName": "Gold Coast Hotel and Casino",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
-            "starRating": 3,
-            "guestRating": "3.8297088",
-            "price": {
-                "displayPrice": "48.0",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/50000/41100/41076/41076_279_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/50000/41100/41076/41076_279_t.jpg",
-            "latLong": [
-                "36.115636",
-                "-115.19146"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "1.673",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "19837",
-            "localizedHotelName": "Rio All-Suite Hotel & Casino",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
-            "starRating": 4,
-            "guestRating": "3.7992115",
-            "price": {
-                "displayPrice": "59.0",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/20000/19900/19837/19837_123_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/20000/19900/19837/19837_123_t.jpg",
-            "latLong": [
-                "36.115299",
-                "-115.187083"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "1.278",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "43319",
-            "localizedHotelName": "Sam's Town Hotel & Gambling Hall",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
-            "starRating": 3.5,
-            "guestRating": "4.1839075",
-            "price": {
-                "displayPrice": "40.74",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/50000/43400/43319/18608227_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/50000/43400/43319/18608227_t.jpg",
-            "latLong": [
-                "36.110943",
-                "-115.062021"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "9.966",
-                "unit": "km"
-            },
-            "neighborhoodId": 6004154,
-            "neighborhoodName": "Sunrise Manor",
-            "isAvailable": true
-        },
-        {
-            "id": "852937",
-            "localizedHotelName": "Tuscany Suites & Casino",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "starRating": 3,
-            "guestRating": "4.2713284",
-            "price": {
-                "displayPrice": "76.63",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/860000/853000/852937/49ec811e_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/860000/853000/852937/49ec811e_t.jpg",
-            "latLong": [
-                "36.114344",
-                "-115.161827"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "0.993",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "1551651",
-            "localizedHotelName": "Royal Resort",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "false",
-            "hasPayLater": "false",
-            "starRating": 2.5,
-            "guestRating": "3.597162",
-            "price": {
-                "displayPrice": "57.75",
-                "strikeThroughPrice": "82.5",
-                "discountPercentage": "30",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/2000000/1560000/1551700/1551651/1551651_56_w.jpg",
-            "lowResImageUrl": "/hotels/2000000/1560000/1551700/1551651/1551651_56_t.jpg",
-            "latLong": [
-                "36.132295",
-                "-115.163057"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "2.149",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "41245",
-            "localizedHotelName": "Caesars Palace - Resort & Casino",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
-            "starRating": 4.5,
-            "guestRating": "4.0948544",
-            "price": {
-                "displayPrice": "209.0",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/50000/41300/41245/8640cd6f_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/50000/41300/41245/8640cd6f_t.jpg",
-            "latLong": [
-                "36.117367",
-                "-115.172988"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "0.301",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "1062879",
-            "localizedHotelName": "Grandview at Las Vegas",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
-            "starRating": 3,
-            "guestRating": "4.396949",
-            "price": {
-                "displayPrice": "153.33",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/2000000/1070000/1062900/1062879/1062879_24_z.jpg",
-            "lowResImageUrl": "/hotels/2000000/1070000/1062900/1062879/1062879_24_t.jpg",
-            "latLong": [
-                "36.010028",
-                "-115.174048"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "11.635",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "198225",
-            "localizedHotelName": "Hard Rock Hotel & Casino",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "starRating": 4,
-            "guestRating": "3.854519",
-            "price": {
-                "displayPrice": "109.0",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/200000/198300/198225/80270de4_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/200000/198300/198225/80270de4_t.jpg",
-            "latLong": [
-                "36.10897",
-                "-115.152376"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "1.947",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "15117",
-            "localizedHotelName": "Planet Hollywood Resort & Casino",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
-            "starRating": 4,
-            "guestRating": "3.9029024",
-            "price": {
-                "displayPrice": "142.5",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/20000/15200/15117/8be67c43_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/20000/15200/15117/8be67c43_t.jpg",
-            "latLong": [
-                "36.110415",
-                "-115.172851"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "0.473",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "1155984",
-            "localizedHotelName": "Tahiti All-Suite Resort",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "false",
-            "hasPayLater": "false",
-            "starRating": 3,
-            "guestRating": "4.2651954",
-            "price": {
-                "displayPrice": "96.03",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/2000000/1160000/1156000/1155984/f655fa9e_w.jpg",
-            "lowResImageUrl": "/hotels/2000000/1160000/1156000/1155984/f655fa9e_t.jpg",
-            "latLong": [
-                "36.100676",
-                "-115.210489"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "3.72",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "41308",
-            "localizedHotelName": "Excalibur Hotel Casino",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
-            "starRating": 3,
-            "guestRating": "3.6207724",
-            "price": {
-                "displayPrice": "42.0",
-                "strikeThroughPrice": "60.0",
-                "discountPercentage": "30",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/50000/41400/41308/b7dcda98_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/50000/41400/41308/b7dcda98_t.jpg",
-            "latLong": [
-                "36.099212",
-                "-115.1731"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "1.718",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "460434",
-            "localizedHotelName": "Silver Sevens Hotel & Casino",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "starRating": 3,
-            "guestRating": "3.4980023",
-            "price": {
-                "displayPrice": "52.86",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/470000/460500/460434/460434_73_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/470000/460500/460434/460434_73_t.jpg",
-            "latLong": [
-                "36.113214",
-                "-115.153625"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "1.736",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "7867463",
-            "localizedHotelName": "Jet Luxury Resorts @ The Signature Condo Hotel",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "starRating": 4.5,
-            "guestRating": "4.2693667",
-            "price": {
-                "displayPrice": "98.08",
-                "strikeThroughPrice": "136.22",
-                "discountPercentage": "28",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/8000000/7870000/7867500/7867463/cd729f28_w.jpg",
-            "lowResImageUrl": "/hotels/8000000/7870000/7867500/7867463/cd729f28_t.jpg",
-            "latLong": [
-                "36.108022",
-                "-115.166245"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "0.949",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "12628",
-            "localizedHotelName": "MGM Grand Hotel & Casino",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
-            "starRating": 4,
-            "guestRating": "3.9540317",
-            "price": {
-                "displayPrice": "119.0",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/20000/12700/12628/12628_172_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/20000/12700/12628/12628_172_t.jpg",
-            "latLong": [
-                "36.10117",
-                "-115.1728"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "1.501",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "15237",
-            "localizedHotelName": "Luxor Hotel and Casino",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
-            "starRating": 3.5,
-            "guestRating": "3.6299815",
-            "price": {
-                "displayPrice": "74.01",
-                "strikeThroughPrice": "105.73",
-                "discountPercentage": "30",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/20000/15300/15237/e2b95d01_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/20000/15300/15237/e2b95d01_t.jpg",
-            "latLong": [
-                "36.09659",
-                "-115.173085"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "2.01",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "792446",
-            "localizedHotelName": "The Palms Casino Resort",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "starRating": 4,
-            "guestRating": "3.968793",
-            "price": {
-                "displayPrice": "119.0",
-                "currencyCode": "USD"
-            },
-            "vip": "true",
-            "imageUrl": "/hotels/1000000/800000/792500/792446/792446_94_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/800000/792500/792446/792446_94_t.jpg",
-            "latLong": [
-                "36.115437",
-                "-115.194823"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "1.974",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "8753178",
-            "localizedHotelName": "The LINQ Hotel & Casino",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
-            "starRating": 4,
-            "guestRating": "3.794029",
-            "price": {
-                "displayPrice": "64.0",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/9000000/8760000/8753200/8753178/63fb68e8_w.jpg",
-            "lowResImageUrl": "/hotels/9000000/8760000/8753200/8753178/63fb68e8_t.jpg",
-            "latLong": [
-                "36.117608",
-                "-115.172808"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "0.327",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "2565824",
-            "localizedHotelName": "Vdara Hotel & Spa",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
-            "starRating": 5,
-            "guestRating": "4.4963646",
-            "price": {
-                "displayPrice": "166.0",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/3000000/2570000/2565900/2565824/a24ae3e2_w.jpg",
-            "lowResImageUrl": "/hotels/3000000/2570000/2565900/2565824/a24ae3e2_t.jpg",
-            "latLong": [
-                "36.10905",
-                "-115.17788"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "0.77",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "202850",
-            "localizedHotelName": "Desert Paradise Resort by Diamond Resorts",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "false",
-            "hasPayLater": "false",
-            "starRating": 3,
-            "guestRating": "4.6128874",
-            "price": {
-                "displayPrice": "96.0",
-                "strikeThroughPrice": "128.0",
-                "discountPercentage": "25",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/210000/202900/202850/202850_108_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/210000/202900/202850/202850_108_t.jpg",
-            "latLong": [
-                "36.096295",
-                "-115.207988"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "3.758",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "13945",
-            "localizedHotelName": "Flamingo Las Vegas - Hotel & Casino",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
-            "starRating": 3.5,
-            "guestRating": "3.4301429",
-            "price": {
-                "displayPrice": "12.6",
-                "strikeThroughPrice": "126.0",
-                "discountPercentage": "90",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/20000/14000/13945/46d47170_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/20000/14000/13945/46d47170_t.jpg",
-            "latLong": [
-                "36.115316",
-                "-115.172766"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "0.073",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "41080",
-            "localizedHotelName": "New York-New York Hotel & Casino",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
-            "starRating": 4,
-            "guestRating": "4.0723295",
-            "price": {
-                "displayPrice": "116.0",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/50000/41100/41080/41080_213_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/50000/41100/41080/41080_213_t.jpg",
-            "latLong": [
-                "36.103148",
-                "-115.173208"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "1.281",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "140596",
-            "localizedHotelName": "Bellagio",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
-            "starRating": 5,
-            "guestRating": "4.4228783",
-            "price": {
-                "displayPrice": "254.0",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/150000/140600/140596/c9a936a0_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/150000/140600/140596/c9a936a0_t.jpg",
-            "latLong": [
-                "36.11125",
-                "-115.17314"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "0.381",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "3581003",
-            "localizedHotelName": "La Quinta Inn & Suites Las Vegas Airport South",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "roomsLeftAtThisPrice": 2,
-            "starRating": 2.5,
-            "guestRating": "4.481818",
-            "price": {
-                "displayPrice": "114.0",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/4000000/3590000/3581100/3581003/747a7a2b_w.jpg",
-            "lowResImageUrl": "/hotels/4000000/3590000/3581100/3581003/747a7a2b_t.jpg",
-            "latLong": [
-                "36.070756",
-                "-115.123752"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "6.581",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "1418701",
-            "localizedHotelName": "The Signature at MGM Grand",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
-            "starRating": 4.5,
-            "guestRating": "4.5864825",
-            "price": {
-                "displayPrice": "138.0",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/2000000/1420000/1418800/1418701/b64bc826_w.jpg",
-            "lowResImageUrl": "/hotels/2000000/1420000/1418800/1418701/b64bc826_t.jpg",
-            "latLong": [
-                "36.107947",
-                "-115.165874"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "0.976",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "1877035",
-            "localizedHotelName": "Luxury Suites International At The Signature",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "false",
-            "hasPayLater": "false",
-            "starRating": 4.5,
-            "guestRating": "4.228295",
-            "price": {
-                "displayPrice": "107.0",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/2000000/1880000/1877100/1877035/1877035_153_w.jpg",
-            "lowResImageUrl": "/hotels/2000000/1880000/1877100/1877035/1877035_153_t.jpg",
-            "latLong": [
-                "36.107972",
-                "-115.165749"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "0.982",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "3016186",
-            "localizedHotelName": "Mandarin Oriental, Las Vegas",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
-            "starRating": 5,
-            "guestRating": "4.7913785",
-            "price": {
-                "displayPrice": "249.0",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/4000000/3020000/3016200/3016186/06caf718_w.jpg",
-            "lowResImageUrl": "/hotels/4000000/3020000/3016200/3016186/06caf718_t.jpg",
-            "latLong": [
-                "36.105943",
-                "-115.173178"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "0.97",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "62860",
-            "localizedHotelName": "Desert Rose Resort",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "false",
-            "hasPayLater": "false",
-            "starRating": 3,
-            "guestRating": "4.257316",
-            "price": {
-                "displayPrice": "91.14",
-                "strikeThroughPrice": "147.0",
-                "discountPercentage": "38",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/70000/62900/62860/d7e52efd_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/70000/62900/62860/d7e52efd_t.jpg",
-            "latLong": [
-                "36.098159",
-                "-115.166628"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "1.919",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "40797",
-            "localizedHotelName": "Palace Station Hotel and Casino",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "starRating": 3,
-            "guestRating": "3.2995985",
-            "price": {
-                "displayPrice": "50.92",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/50000/40800/40797/40797_105_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/50000/40800/40797/40797_105_t.jpg",
-            "latLong": [
-                "36.144199",
-                "-115.175396"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "3.292",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "67273",
-            "localizedHotelName": "Fremont Hotel & Casino",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
-            "starRating": 3,
-            "guestRating": "3.6441813",
-            "price": {
-                "displayPrice": "48.5",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/70000/67300/67273/67273_176_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/70000/67300/67273/67273_176_t.jpg",
-            "latLong": [
-                "36.171462",
-                "-115.143553"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "6.842",
-                "unit": "km"
-            },
-            "neighborhoodId": 800047,
-            "neighborhoodName": "Downtown Las Vegas",
-            "isAvailable": true
-        },
-        {
-            "id": "40922",
-            "localizedHotelName": "Four Queens Hotel and Casino",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "starRating": 3,
-            "guestRating": "3.787695",
-            "price": {
-                "displayPrice": "37.83",
-                "strikeThroughPrice": "50.83",
-                "discountPercentage": "26",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/50000/41000/40922/40922_80_z.jpg",
-            "lowResImageUrl": "/hotels/1000000/50000/41000/40922/40922_80_t.jpg",
-            "latLong": [
-                "36.170482",
-                "-115.144174"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "6.72",
-                "unit": "km"
-            },
-            "neighborhoodId": 800047,
-            "neighborhoodName": "Downtown Las Vegas",
-            "isAvailable": true
-        },
-        {
-            "id": "10600",
-            "localizedHotelName": "La Quinta Inn & Suites Las Vegas Airport North Convention",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "starRating": 2.5,
-            "guestRating": "3.376735",
-            "price": {
-                "displayPrice": "78.99",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/20000/10600/10600/156238c2_y.jpg",
-            "lowResImageUrl": "/hotels/1000000/20000/10600/10600/156238c2_t.jpg",
-            "latLong": [
-                "36.11674",
-                "-115.154659"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "1.652",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "905990",
-            "localizedHotelName": "El Cortez Hotel and Casino",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "starRating": 3,
-            "guestRating": "3.6537635",
-            "price": {
-                "displayPrice": "32.98",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/910000/906000/905990/905990_103_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/910000/906000/905990/905990_103_t.jpg",
-            "latLong": [
-                "36.16868",
-                "-115.139357"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "6.718",
-                "unit": "km"
-            },
-            "neighborhoodId": 800047,
-            "neighborhoodName": "Downtown Las Vegas",
-            "isAvailable": true
-        },
-        {
-            "id": "2565776",
-            "localizedHotelName": "ARIA Resort & Casino",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
-            "starRating": 5,
-            "guestRating": "4.485148",
-            "price": {
-                "displayPrice": "265.5",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/3000000/2570000/2565800/2565776/2565776_133_w.jpg",
-            "lowResImageUrl": "/hotels/3000000/2570000/2565800/2565776/2565776_133_t.jpg",
-            "latLong": [
-                "36.106678",
-                "-115.173173"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "0.889",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "15575",
-            "localizedHotelName": "Mirage Resort & Casino",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
-            "starRating": 4,
-            "guestRating": "4.18953",
-            "price": {
-                "displayPrice": "165.0",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/20000/15600/15575/15575_191_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/20000/15600/15575/15575_191_t.jpg",
-            "latLong": [
-                "36.122197",
-                "-115.171625"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "0.845",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "24715",
-            "localizedHotelName": "Circus Circus Hotel, Casino & Theme Park",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
-            "starRating": 3,
-            "guestRating": "3.302181",
-            "price": {
-                "displayPrice": "34.0",
-                "strikeThroughPrice": "56.67",
-                "discountPercentage": "40",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/30000/24800/24715/53e3775e_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/30000/24800/24715/53e3775e_t.jpg",
-            "latLong": [
-                "36.136361",
-                "-115.162247"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "2.594",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "41277",
-            "localizedHotelName": "the D Las Vegas",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "starRating": 3.5,
-            "guestRating": "3.7136307",
-            "price": {
-                "displayPrice": "35.89",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/50000/41300/41277/41277_203_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/50000/41300/41277/41277_203_t.jpg",
-            "latLong": [
-                "36.168864",
-                "-115.142385"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "6.619",
-                "unit": "km"
-            },
-            "neighborhoodId": 800047,
-            "neighborhoodName": "Downtown Las Vegas",
-            "isAvailable": true
-        },
-        {
-            "id": "58184",
-            "localizedHotelName": "Motel 6 Las Vegas - Tropicana",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "starRating": 2,
-            "guestRating": "3.203329",
-            "price": {
-                "displayPrice": "51.99",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/60000/58200/58184/58184_64_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/60000/58200/58184/58184_64_t.jpg",
-            "latLong": [
-                "36.100843",
-                "-115.164113"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "1.727",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "529239",
-            "localizedHotelName": "Suncoast Hotel and Casino",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "starRating": 4,
-            "guestRating": "4.227744",
-            "price": {
-                "displayPrice": "63.05",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/530000/529300/529239/529239_220_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/530000/529300/529239/529239_220_t.jpg",
-            "latLong": [
-                "36.167556",
-                "-115.289784"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "12.033",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "42630",
-            "localizedHotelName": "Sunset Station Hotel & Casino",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "starRating": 3.5,
-            "guestRating": "4.126811",
-            "price": {
-                "displayPrice": "60.62",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/50000/42700/42630/42630_64_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/50000/42700/42630/42630_64_t.jpg",
-            "latLong": [
-                "36.063629",
-                "-115.04035"
-            ],
-            "regionId": "7586",
-            "directDistance": {
-                "value": "13.191",
-                "unit": "km"
-            },
-            "neighborhoodId": 6004152,
-            "neighborhoodName": "Green Valley",
-            "isAvailable": true
-        },
-        {
-            "id": "40820",
-            "localizedHotelName": "Boulder Station Hotel and Casino",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "starRating": 3.5,
-            "guestRating": "3.8855114",
-            "price": {
-                "displayPrice": "41.22",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/50000/40900/40820/40820_62_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/50000/40900/40820/40820_62_t.jpg",
-            "latLong": [
-                "36.131586",
-                "-115.085295"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "8.087",
-                "unit": "km"
-            },
-            "neighborhoodId": 6004154,
-            "neighborhoodName": "Sunrise Manor",
-            "isAvailable": true
-        },
-        {
-            "id": "41078",
-            "localizedHotelName": "The Cromwell",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
-            "starRating": 4.5,
-            "guestRating": "4.205129",
-            "price": {
-                "displayPrice": "170.0",
-                "currencyCode": "USD"
-            },
-            "vip": "true",
-            "imageUrl": "/hotels/1000000/50000/41100/41078/41078_74_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/50000/41100/41078/41078_74_t.jpg",
-            "latLong": [
-                "36.115024",
-                "-115.172749"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "0.041",
-                "unit": "km"
+                "value": "0.0",
+                "unit": "Miles"
             },
             "isAvailable": true
         },
@@ -2000,337 +318,183 @@
             "localizedHotelName": "California Hotel and Casino",
             "isPinned": false,
             "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
-            "starRating": 3.5,
-            "guestRating": "3.8840263",
+            "hasFreeCancel": true,
+            "hasPayLater": false,
+            "roomsLeftAtThisPrice": 42,
+            "starRating": 3,
+            "guestRating": "0.0",
             "price": {
-                "displayPrice": "53.35",
-                "currencyCode": "USD"
+                "displayPrice": "95",
+                "strikeThroughPrice": "125",
+                "discountPercentage": "-24",
+                "currencySymbol": "$",
+                "currencyCode": "USD",
+                "pricingScheme": {
+                    "priceType": "nightly",
+                    "taxIncluded": false,
+                    "feeIncluded": false
+                }
             },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/670000/661800/661793/a3070bec_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/670000/661800/661793/a3070bec_t.jpg",
+            "vip": false,
+            "imageUrl": "/hotels/1000000/670000/661800/661793/661793_155_d.jpg",
+            "lowResImageUrl": "/hotels/1000000/670000/661800/661793/661793_155_n.jpg",
             "latLong": [
                 "36.172627",
                 "-115.144991"
             ],
-            "regionId": "2008",
+            "regionName": "NYC-All Airports",
+            "regionId": "6139058",
             "directDistance": {
-                "value": "6.914",
-                "unit": "km"
-            },
-            "neighborhoodId": 800047,
-            "neighborhoodName": "Downtown Las Vegas",
-            "isAvailable": true
-        },
-        {
-            "id": "21415",
-            "localizedHotelName": "Best Western McCarran Inn",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "false",
-            "hasPayLater": "false",
-            "roomsLeftAtThisPrice": 1,
-            "starRating": 2.5,
-            "guestRating": "3.7747328",
-            "price": {
-                "displayPrice": "83.99",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/30000/21500/21415/2bfea3c5_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/30000/21500/21415/2bfea3c5_t.jpg",
-            "latLong": [
-                "36.100043",
-                "-115.149482"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "2.657",
-                "unit": "km"
+                "value": "0.0",
+                "unit": "Miles"
             },
             "isAvailable": true
         },
         {
-            "id": "5692398",
-            "localizedHotelName": "Howard Johnson on East Tropicana, Las Vegas Near the Strip",
+            "id": "1443",
+            "localizedHotelName": "The Venetian Las Vegas",
             "isPinned": false,
             "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "roomsLeftAtThisPrice": 4,
-            "starRating": 2,
-            "guestRating": "3.0409458",
-            "price": {
-                "displayPrice": "35.5",
-                "strikeThroughPrice": "50.0",
-                "discountPercentage": "29",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/6000000/5700000/5692400/5692398/5692398_98_w.jpg",
-            "lowResImageUrl": "/hotels/6000000/5700000/5692400/5692398/5692398_98_t.jpg",
-            "latLong": [
-                "36.100786",
-                "-115.165843"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "1.667",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "455218",
-            "localizedHotelName": "La Quinta Inn & Suites Las Vegas Tropicana",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "roomsLeftAtThisPrice": 3,
-            "starRating": 2.5,
-            "guestRating": "4.121648",
-            "price": {
-                "displayPrice": "98.99",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/460000/455300/455218/3177e24f_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/460000/455300/455218/3177e24f_t.jpg",
-            "latLong": [
-                "36.100214",
-                "-115.189872"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "2.217",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "1248211",
-            "localizedHotelName": "Delano Las Vegas at Mandalay Bay",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
+            "hasFreeCancel": false,
+            "hasPayLater": false,
+            "roomsLeftAtThisPrice": 47,
             "starRating": 5,
-            "guestRating": "4.3156824",
+            "guestRating": "0.0",
             "price": {
-                "displayPrice": "177.0",
-                "currencyCode": "USD"
+                "displayPrice": "188",
+                "strikeThroughPrice": "209",
+                "discountPercentage": "-10",
+                "currencySymbol": "$",
+                "currencyCode": "USD",
+                "pricingScheme": {
+                    "priceType": "nightly",
+                    "taxIncluded": false,
+                    "feeIncluded": false
+                }
             },
-            "vip": "false",
-            "imageUrl": "/hotels/2000000/1250000/1248300/1248211/7654827c_w.jpg",
-            "lowResImageUrl": "/hotels/2000000/1250000/1248300/1248211/7654827c_t.jpg",
+            "vip": true,
+            "imageUrl": "/hotels/1000000/10000/1500/1443/d73823db_d.jpg",
+            "lowResImageUrl": "/hotels/1000000/10000/1500/1443/d73823db_n.jpg",
             "latLong": [
-                "36.091574",
-                "-115.17303"
+                "36.12209",
+                "-115.17139"
             ],
-            "regionId": "2008",
+            "regionName": "NYC-All Airports",
+            "regionId": "6139058",
             "directDistance": {
-                "value": "2.568",
-                "unit": "km"
+                "value": "0.0",
+                "unit": "Miles"
             },
             "isAvailable": true
         },
         {
-            "id": "1353440",
-            "localizedHotelName": "Hooters Casino Hotel",
+            "id": "203613",
+            "localizedHotelName": "Mandalay Bay Resort And Casino",
             "isPinned": false,
             "isSponsored": false,
-            "hasFreeCancel": "false",
-            "hasPayLater": "false",
-            "starRating": 3,
-            "guestRating": "3.0765626",
-            "price": {
-                "displayPrice": "38.03",
-                "strikeThroughPrice": "47.83",
-                "discountPercentage": "20",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/2000000/1360000/1353500/1353440/bf03c49e_w.jpg",
-            "lowResImageUrl": "/hotels/2000000/1360000/1353500/1353440/bf03c49e_t.jpg",
-            "latLong": [
-                "36.100773",
-                "-115.167508"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "1.618",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "894235",
-            "localizedHotelName": "Wyndham Grand Desert",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
-            "starRating": 3.5,
-            "guestRating": "4.2600718",
-            "price": {
-                "displayPrice": "160.0",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/900000/894300/894235/894235_55_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/900000/894300/894235/894235_55_t.jpg",
-            "latLong": [
-                "36.107992",
-                "-115.161895"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "1.234",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "12817927",
-            "localizedHotelName": "The Signature Suites by AirPads",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "false",
-            "hasPayLater": "true",
-            "roomsLeftAtThisPrice": 6,
-            "starRating": 4.5,
-            "guestRating": "3.5769231",
-            "price": {
-                "displayPrice": "134.83",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/13000000/12820000/12818000/12817927/12817927_96_w.jpg",
-            "lowResImageUrl": "/hotels/13000000/12820000/12818000/12817927/12817927_96_t.jpg",
-            "latLong": [
-                "36.107998",
-                "-115.166444"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "0.94",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "10790",
-            "localizedHotelName": "Downtown Grand Las Vegas",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "false",
-            "hasPayLater": "false",
-            "starRating": 3.5,
-            "guestRating": "4.151974",
-            "price": {
-                "displayPrice": "41.65",
-                "strikeThroughPrice": "49.0",
-                "discountPercentage": "15",
-                "currencyCode": "USD"
-            },
-            "vip": "true",
-            "imageUrl": "/hotels/1000000/20000/10800/10790/c2ee61ff_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/20000/10800/10790/c2ee61ff_t.jpg",
-            "latLong": [
-                "36.17146",
-                "-115.142086"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "6.893",
-                "unit": "km"
-            },
-            "neighborhoodId": 800047,
-            "neighborhoodName": "Downtown Las Vegas",
-            "isAvailable": true
-        },
-        {
-            "id": "14323",
-            "localizedHotelName": "Tropicana Las Vegas - a DoubleTree by Hilton Hotel",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "false",
-            "hasPayLater": "false",
+            "hasFreeCancel": true,
+            "hasPayLater": false,
+            "roomsLeftAtThisPrice": 4999,
             "starRating": 4,
-            "guestRating": "3.9673884",
+            "guestRating": "0.0",
             "price": {
-                "displayPrice": "89.0",
-                "currencyCode": "USD"
+                "displayPrice": "179",
+                "strikeThroughPrice": "199",
+                "discountPercentage": "-10",
+                "currencySymbol": "$",
+                "currencyCode": "USD",
+                "pricingScheme": {
+                    "priceType": "nightly",
+                    "taxIncluded": false,
+                    "feeIncluded": false
+                }
             },
-            "vip": "true",
-            "imageUrl": "/hotels/1000000/20000/14400/14323/14323_380_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/20000/14400/14323/14323_380_t.jpg",
+            "vip": false,
+            "imageUrl": "/hotels/1000000/210000/203700/203613/273ad265_d.jpg",
+            "lowResImageUrl": "/hotels/1000000/210000/203700/203613/273ad265_n.jpg",
             "latLong": [
-                "36.100669",
-                "-115.172846"
+                "36.091961",
+                "-115.173037"
             ],
-            "regionId": "2008",
+            "regionName": "NYC-All Airports",
+            "regionId": "6139058",
             "directDistance": {
-                "value": "1.556",
-                "unit": "km"
+                "value": "0.0",
+                "unit": "Miles"
             },
             "isAvailable": true
         },
         {
-            "id": "688912",
-            "localizedHotelName": "Fiesta Henderson Hotel and Casino",
+            "id": "18443",
+            "localizedHotelName": "Super 8 Las Vegas Strip Area at Ellis Island Casino",
             "isPinned": false,
             "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "starRating": 3,
-            "guestRating": "3.5887032",
-            "price": {
-                "displayPrice": "56.74",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/690000/689000/688912/688912_90_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/690000/689000/688912/688912_90_t.jpg",
-            "latLong": [
-                "36.033985",
-                "-115.009712"
-            ],
-            "regionId": "7586",
-            "directDistance": {
-                "value": "17.19",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "41280",
-            "localizedHotelName": "Days Inn Las Vegas At Wild Wild West Gambling Hall",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "roomsLeftAtThisPrice": 6,
+            "hasFreeCancel": true,
+            "hasPayLater": true,
+            "roomsLeftAtThisPrice": 3,
             "starRating": 2,
-            "guestRating": "3.2191198",
+            "guestRating": "0.0",
             "price": {
-                "displayPrice": "24.0",
-                "currencyCode": "USD"
+                "displayPrice": "41",
+                "strikeThroughPrice": "47",
+                "discountPercentage": "-14",
+                "currencySymbol": "$",
+                "currencyCode": "USD",
+                "pricingScheme": {
+                    "priceType": "nightly",
+                    "taxIncluded": false,
+                    "feeIncluded": false
+                }
             },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/50000/41300/41280/41280_50_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/50000/41300/41280/41280_50_t.jpg",
+            "vip": false,
+            "imageUrl": "/hotels/1000000/20000/18500/18443/bac8f6b8_d.jpg",
+            "lowResImageUrl": "/hotels/1000000/20000/18500/18443/bac8f6b8_n.jpg",
             "latLong": [
-                "36.10077",
-                "-115.184501"
+                "36.111772",
+                "-115.163907"
             ],
-            "regionId": "2008",
+            "regionName": "NYC-All Airports",
+            "regionId": "6139058",
             "directDistance": {
-                "value": "1.865",
-                "unit": "km"
+                "value": "0.0",
+                "unit": "Miles"
+            },
+            "isAvailable": true
+        },
+        {
+            "id": "1857289",
+            "localizedHotelName": "Trump International Hotel Las Vegas",
+            "isPinned": false,
+            "isSponsored": false,
+            "hasFreeCancel": false,
+            "hasPayLater": false,
+            "roomsLeftAtThisPrice": -1,
+            "starRating": 5,
+            "guestRating": "0.0",
+            "price": {
+                "displayPrice": "149",
+                "strikeThroughPrice": "199",
+                "discountPercentage": "-25",
+                "currencySymbol": "$",
+                "currencyCode": "USD",
+                "pricingScheme": {
+                    "priceType": "nightly",
+                    "taxIncluded": false,
+                    "feeIncluded": false
+                }
+            },
+            "vip": true,
+            "imageUrl": "/hotels/2000000/1860000/1857300/1857289/011c64fe_d.jpg",
+            "lowResImageUrl": "/hotels/2000000/1860000/1857300/1857289/011c64fe_n.jpg",
+            "latLong": [
+                "36.128837",
+                "-115.17244"
+            ],
+            "regionName": "NYC-All Airports",
+            "regionId": "6139058",
+            "directDistance": {
+                "value": "0.0",
+                "unit": "Miles"
             },
             "isAvailable": true
         },
@@ -2339,217 +503,442 @@
             "localizedHotelName": "TI - Treasure Island Hotel and Casino",
             "isPinned": false,
             "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
+            "hasFreeCancel": true,
+            "hasPayLater": false,
+            "roomsLeftAtThisPrice": 99,
             "starRating": 4,
-            "guestRating": "4.0587897",
+            "guestRating": "0.0",
             "price": {
-                "displayPrice": "193.95",
-                "currencyCode": "USD"
+                "displayPrice": "240",
+                "strikeThroughPrice": "240",
+                "discountPercentage": "0",
+                "currencySymbol": "$",
+                "currencyCode": "USD",
+                "pricingScheme": {
+                    "priceType": "nightly",
+                    "taxIncluded": false,
+                    "feeIncluded": false
+                }
             },
-            "vip": "true",
-            "imageUrl": "/hotels/1000000/20000/16000/15930/15930_193_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/20000/16000/15930/15930_193_t.jpg",
+            "vip": true,
+            "imageUrl": "/hotels/1000000/20000/16000/15930/15930_193_d.jpg",
+            "lowResImageUrl": "/hotels/1000000/20000/16000/15930/15930_193_n.jpg",
             "latLong": [
                 "36.123377",
                 "-115.170818"
             ],
-            "regionId": "2008",
+            "regionName": "NYC-All Airports",
+            "regionId": "6139058",
             "directDistance": {
-                "value": "0.986",
-                "unit": "km"
+                "value": "0.0",
+                "unit": "Miles"
             },
             "isAvailable": true
         },
         {
-            "id": "3818880",
-            "localizedHotelName": "The Cosmopolitan Of Las Vegas",
+            "id": "140596",
+            "localizedHotelName": "Bellagio",
             "isPinned": false,
             "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
+            "hasFreeCancel": true,
+            "hasPayLater": false,
+            "roomsLeftAtThisPrice": 4952,
             "starRating": 5,
-            "guestRating": "4.4484925",
+            "guestRating": "0.0",
             "price": {
-                "displayPrice": "245.0",
-                "currencyCode": "USD"
+                "displayPrice": "229",
+                "strikeThroughPrice": "254",
+                "discountPercentage": "-10",
+                "currencySymbol": "$",
+                "currencyCode": "USD",
+                "pricingScheme": {
+                    "priceType": "nightly",
+                    "taxIncluded": false,
+                    "feeIncluded": false
+                }
             },
-            "vip": "false",
-            "imageUrl": "/hotels/4000000/3820000/3818900/3818880/3818880_243_w.jpg",
-            "lowResImageUrl": "/hotels/4000000/3820000/3818900/3818880/3818880_243_t.jpg",
+            "vip": false,
+            "imageUrl": "/hotels/1000000/150000/140600/140596/c9a936a0_d.jpg",
+            "lowResImageUrl": "/hotels/1000000/150000/140600/140596/c9a936a0_n.jpg",
             "latLong": [
-                "36.109118",
-                "-115.173163"
+                "36.11125",
+                "-115.17314"
             ],
-            "regionId": "2008",
+            "regionName": "NYC-All Airports",
+            "regionId": "6139058",
             "directDistance": {
-                "value": "0.617",
-                "unit": "km"
+                "value": "0.0",
+                "unit": "Miles"
             },
             "isAvailable": true
         },
         {
-            "id": "43289",
-            "localizedHotelName": "Texas Station Gambling Hall and Hotel",
+            "id": "852937",
+            "localizedHotelName": "Tuscany Suites & Casino",
             "isPinned": false,
             "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
+            "hasFreeCancel": true,
+            "hasPayLater": true,
+            "roomsLeftAtThisPrice": 283,
             "starRating": 3,
-            "guestRating": "3.6508281",
+            "guestRating": "0.0",
             "price": {
-                "displayPrice": "51.89",
-                "currencyCode": "USD"
+                "displayPrice": "129",
+                "strikeThroughPrice": "129",
+                "discountPercentage": "0",
+                "currencySymbol": "$",
+                "currencyCode": "USD",
+                "pricingScheme": {
+                    "priceType": "nightly",
+                    "taxIncluded": false,
+                    "feeIncluded": false
+                }
             },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/50000/43300/43289/43289_74_z.jpg",
-            "lowResImageUrl": "/hotels/1000000/50000/43300/43289/43289_74_t.jpg",
+            "vip": false,
+            "imageUrl": "/hotels/1000000/860000/853000/852937/49ec811e_d.jpg",
+            "lowResImageUrl": "/hotels/1000000/860000/853000/852937/49ec811e_n.jpg",
             "latLong": [
-                "36.1963",
-                "-115.192951"
+                "36.114344",
+                "-115.161827"
             ],
-            "regionId": "9169",
+            "regionName": "NYC-All Airports",
+            "regionId": "6139058",
             "directDistance": {
-                "value": "9.254",
-                "unit": "km"
+                "value": "0.0",
+                "unit": "Miles"
             },
             "isAvailable": true
         },
         {
-            "id": "970030",
-            "localizedHotelName": "Cannery Hotel & Casino",
+            "id": "41081",
+            "localizedHotelName": "Stratosphere Hotel, Casino & Tower, BW Premier Collection",
             "isPinned": false,
             "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "roomsLeftAtThisPrice": 8,
+            "hasFreeCancel": false,
+            "hasPayLater": false,
+            "roomsLeftAtThisPrice": 783,
             "starRating": 3.5,
-            "guestRating": "3.9214287",
+            "guestRating": "0.0",
             "price": {
-                "displayPrice": "74.23",
-                "strikeThroughPrice": "87.73",
-                "discountPercentage": "15",
-                "currencyCode": "USD"
+                "displayPrice": "98",
+                "strikeThroughPrice": "140",
+                "discountPercentage": "-30",
+                "currencySymbol": "$",
+                "currencyCode": "USD",
+                "pricingScheme": {
+                    "priceType": "nightly",
+                    "taxIncluded": false,
+                    "feeIncluded": false
+                }
             },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/980000/970100/970030/970030_17_y.jpg",
-            "lowResImageUrl": "/hotels/1000000/980000/970100/970030/970030_17_t.jpg",
+            "vip": false,
+            "imageUrl": "/hotels/1000000/50000/41100/41081/01f780d1_d.jpg",
+            "lowResImageUrl": "/hotels/1000000/50000/41100/41081/01f780d1_n.jpg",
             "latLong": [
-                "36.239758",
-                "-115.119038"
+                "36.146989",
+                "-115.155298"
             ],
-            "regionId": "9169",
+            "regionName": "NYC-All Airports",
+            "regionId": "6139058",
             "directDistance": {
-                "value": "14.724",
-                "unit": "km"
+                "value": "0.0",
+                "unit": "Miles"
             },
             "isAvailable": true
         },
         {
-            "id": "425241",
-            "localizedHotelName": "Santa Fe Station Hotel & Casino",
+            "id": "19",
+            "localizedHotelName": "Plaza Hotel and Casino - Las Vegas",
             "isPinned": false,
             "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
+            "hasFreeCancel": true,
+            "hasPayLater": false,
+            "roomsLeftAtThisPrice": 361,
             "starRating": 3,
-            "guestRating": "3.5731363",
+            "guestRating": "0.0",
             "price": {
-                "displayPrice": "40.25",
-                "currencyCode": "USD"
+                "displayPrice": "113",
+                "strikeThroughPrice": "125",
+                "discountPercentage": "-10",
+                "currencySymbol": "$",
+                "currencyCode": "USD",
+                "pricingScheme": {
+                    "priceType": "nightly",
+                    "taxIncluded": false,
+                    "feeIncluded": false
+                }
             },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/430000/425300/425241/425241_53_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/430000/425300/425241/425241_53_t.jpg",
+            "vip": false,
+            "imageUrl": "/hotels/1000000/10000/100/19/19_59_d.jpg",
+            "lowResImageUrl": "/hotels/1000000/10000/100/19/19_59_n.jpg",
             "latLong": [
-                "36.250892",
-                "-115.242972"
+                "36.171617",
+                "-115.146375"
             ],
-            "regionId": "2008",
+            "regionName": "NYC-All Airports",
+            "regionId": "6139058",
             "directDistance": {
-                "value": "16.401",
-                "unit": "km"
+                "value": "0.0",
+                "unit": "Miles"
             },
             "isAvailable": true
         },
         {
-            "id": "1661921",
-            "localizedHotelName": "Baymont Inn & Suites Las Vegas South Strip",
+            "id": "2565824",
+            "localizedHotelName": "Vdara Hotel & Spa",
             "isPinned": false,
             "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "starRating": 2,
-            "guestRating": "3.8692894",
-            "price": {
-                "displayPrice": "101.5",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/2000000/1670000/1662000/1661921/1661921_131_w.jpg",
-            "lowResImageUrl": "/hotels/2000000/1670000/1662000/1661921/1661921_131_t.jpg",
-            "latLong": [
-                "36.049667",
-                "-115.169871"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "7.232",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "6133862",
-            "localizedHotelName": "Nobu Hotel",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
+            "hasFreeCancel": true,
+            "hasPayLater": false,
+            "roomsLeftAtThisPrice": 4999,
             "starRating": 5,
-            "guestRating": "4.1924205",
+            "guestRating": "0.0",
             "price": {
-                "displayPrice": "209.0",
-                "currencyCode": "USD"
+                "displayPrice": "159",
+                "strikeThroughPrice": "177",
+                "discountPercentage": "-10",
+                "currencySymbol": "$",
+                "currencyCode": "USD",
+                "pricingScheme": {
+                    "priceType": "nightly",
+                    "taxIncluded": false,
+                    "feeIncluded": false
+                }
             },
-            "vip": "true",
-            "imageUrl": "/hotels/7000000/6140000/6133900/6133862/6133862_103_w.jpg",
-            "lowResImageUrl": "/hotels/7000000/6140000/6133900/6133862/6133862_103_t.jpg",
+            "vip": false,
+            "imageUrl": "/hotels/3000000/2570000/2565900/2565824/a24ae3e2_d.jpg",
+            "lowResImageUrl": "/hotels/3000000/2570000/2565900/2565824/a24ae3e2_n.jpg",
             "latLong": [
-                "36.117367",
-                "-115.172977"
+                "36.10905",
+                "-115.17788"
             ],
-            "regionId": "2008",
+            "regionName": "NYC-All Airports",
+            "regionId": "6139058",
             "directDistance": {
-                "value": "0.3",
-                "unit": "km"
+                "value": "0.0",
+                "unit": "Miles"
             },
             "isAvailable": true
         },
         {
-            "id": "20194",
-            "localizedHotelName": "SLS Las Vegas a Tribute Portfolio Resort",
+            "id": "198225",
+            "localizedHotelName": "Hard Rock Hotel & Casino",
             "isPinned": false,
             "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
+            "hasFreeCancel": true,
+            "hasPayLater": true,
+            "roomsLeftAtThisPrice": 50,
             "starRating": 4,
-            "guestRating": "3.9833963",
+            "guestRating": "0.0",
             "price": {
-                "displayPrice": "108.03",
-                "currencyCode": "USD"
+                "displayPrice": "149",
+                "strikeThroughPrice": "149",
+                "discountPercentage": "0",
+                "currencySymbol": "$",
+                "currencyCode": "USD",
+                "pricingScheme": {
+                    "priceType": "nightly",
+                    "taxIncluded": false,
+                    "feeIncluded": false
+                }
             },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/30000/20200/20194/72548add_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/30000/20200/20194/72548add_t.jpg",
+            "vip": false,
+            "imageUrl": "/hotels/1000000/200000/198300/198225/80270de4_d.jpg",
+            "lowResImageUrl": "/hotels/1000000/200000/198300/198225/80270de4_n.jpg",
             "latLong": [
-                "36.142852",
-                "-115.157754"
+                "36.10897",
+                "-115.152376"
             ],
-            "regionId": "2008",
+            "regionName": "NYC-All Airports",
+            "regionId": "6139058",
             "directDistance": {
-                "value": "3.415",
-                "unit": "km"
+                "value": "0.0",
+                "unit": "Miles"
+            },
+            "isAvailable": true
+        },
+        {
+            "id": "15575",
+            "localizedHotelName": "Mirage Resort & Casino",
+            "isPinned": false,
+            "isSponsored": false,
+            "hasFreeCancel": true,
+            "hasPayLater": false,
+            "roomsLeftAtThisPrice": -1,
+            "starRating": 4,
+            "guestRating": "0.0",
+            "price": {
+                "displayPrice": "143",
+                "strikeThroughPrice": "177",
+                "discountPercentage": "-19",
+                "currencySymbol": "$",
+                "currencyCode": "USD",
+                "pricingScheme": {
+                    "priceType": "nightly",
+                    "taxIncluded": false,
+                    "feeIncluded": false
+                }
+            },
+            "vip": false,
+            "imageUrl": "/hotels/1000000/20000/15600/15575/15575_191_d.jpg",
+            "lowResImageUrl": "/hotels/1000000/20000/15600/15575/15575_191_n.jpg",
+            "latLong": [
+                "36.122197",
+                "-115.171625"
+            ],
+            "regionName": "NYC-All Airports",
+            "regionId": "6139058",
+            "directDistance": {
+                "value": "0.0",
+                "unit": "Miles"
+            },
+            "isAvailable": true
+        },
+        {
+            "id": "1155984",
+            "localizedHotelName": "Tahiti All-Suite Resort",
+            "isPinned": false,
+            "isSponsored": false,
+            "hasFreeCancel": true,
+            "hasPayLater": false,
+            "roomsLeftAtThisPrice": 30,
+            "starRating": 3,
+            "guestRating": "0.0",
+            "price": {
+                "displayPrice": "107",
+                "strikeThroughPrice": "119",
+                "discountPercentage": "-10",
+                "currencySymbol": "$",
+                "currencyCode": "USD",
+                "pricingScheme": {
+                    "priceType": "nightly",
+                    "taxIncluded": false,
+                    "feeIncluded": false
+                }
+            },
+            "vip": false,
+            "imageUrl": "/hotels/2000000/1160000/1156000/1155984/f655fa9e_d.jpg",
+            "lowResImageUrl": "/hotels/2000000/1160000/1156000/1155984/f655fa9e_n.jpg",
+            "latLong": [
+                "36.100676",
+                "-115.210489"
+            ],
+            "regionName": "NYC-All Airports",
+            "regionId": "6139058",
+            "directDistance": {
+                "value": "0.0",
+                "unit": "Miles"
+            },
+            "isAvailable": true
+        },
+        {
+            "id": "3016186",
+            "localizedHotelName": "Mandarin Oriental, Las Vegas",
+            "isPinned": false,
+            "isSponsored": false,
+            "hasFreeCancel": true,
+            "hasPayLater": false,
+            "roomsLeftAtThisPrice": -1,
+            "starRating": 5,
+            "guestRating": "0.0",
+            "price": {
+                "displayPrice": "279",
+                "strikeThroughPrice": "279",
+                "discountPercentage": "0",
+                "currencySymbol": "$",
+                "currencyCode": "USD",
+                "pricingScheme": {
+                    "priceType": "nightly",
+                    "taxIncluded": false,
+                    "feeIncluded": false
+                }
+            },
+            "vip": false,
+            "imageUrl": "/hotels/4000000/3020000/3016200/3016186/06caf718_d.jpg",
+            "lowResImageUrl": "/hotels/4000000/3020000/3016200/3016186/06caf718_n.jpg",
+            "latLong": [
+                "36.105943",
+                "-115.173178"
+            ],
+            "regionName": "NYC-All Airports",
+            "regionId": "6139058",
+            "directDistance": {
+                "value": "0.0",
+                "unit": "Miles"
+            },
+            "isAvailable": true
+        },
+        {
+            "id": "1445791",
+            "localizedHotelName": "Tahiti Village Resort & Spa",
+            "isPinned": false,
+            "isSponsored": false,
+            "hasFreeCancel": false,
+            "hasPayLater": false,
+            "roomsLeftAtThisPrice": 50,
+            "starRating": 3.5,
+            "guestRating": "0.0",
+            "price": {
+                "displayPrice": "169",
+                "strikeThroughPrice": "169",
+                "discountPercentage": "0",
+                "currencySymbol": "$",
+                "currencyCode": "USD",
+                "pricingScheme": {
+                    "priceType": "nightly",
+                    "taxIncluded": false,
+                    "feeIncluded": false
+                }
+            },
+            "vip": false,
+            "imageUrl": "/hotels/2000000/1450000/1445800/1445791/3c7df4c6_d.jpg",
+            "lowResImageUrl": "/hotels/2000000/1450000/1445800/1445791/3c7df4c6_n.jpg",
+            "latLong": [
+                "36.059167",
+                "-115.172216"
+            ],
+            "regionName": "NYC-All Airports",
+            "regionId": "6139058",
+            "directDistance": {
+                "value": "0.0",
+                "unit": "Miles"
+            },
+            "isAvailable": true
+        },
+        {
+            "id": "40922",
+            "localizedHotelName": "Four Queens Hotel and Casino",
+            "isPinned": false,
+            "isSponsored": false,
+            "hasFreeCancel": true,
+            "hasPayLater": true,
+            "roomsLeftAtThisPrice": 258,
+            "starRating": 3,
+            "guestRating": "0.0",
+            "price": {
+                "displayPrice": "119",
+                "strikeThroughPrice": "159",
+                "discountPercentage": "-25",
+                "currencySymbol": "$",
+                "currencyCode": "USD",
+                "pricingScheme": {
+                    "priceType": "nightly",
+                    "taxIncluded": false,
+                    "feeIncluded": false
+                }
+            },
+            "vip": false,
+            "imageUrl": "/hotels/1000000/50000/41000/40922/40922_80_d.jpg",
+            "lowResImageUrl": "/hotels/1000000/50000/41000/40922/40922_80_n.jpg",
+            "latLong": [
+                "36.170482",
+                "-115.144174"
+            ],
+            "regionName": "NYC-All Airports",
+            "regionId": "6139058",
+            "directDistance": {
+                "value": "0.0",
+                "unit": "Miles"
             },
             "isAvailable": true
         },
@@ -2558,498 +947,223 @@
             "localizedHotelName": "Westgate Las Vegas Resort & Casino",
             "isPinned": false,
             "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
+            "hasFreeCancel": true,
+            "hasPayLater": true,
+            "roomsLeftAtThisPrice": 511,
             "starRating": 4,
-            "guestRating": "3.6173396",
+            "guestRating": "0.0",
             "price": {
-                "displayPrice": "149.97",
-                "currencyCode": "USD"
+                "displayPrice": "186",
+                "strikeThroughPrice": "186",
+                "discountPercentage": "0",
+                "currencySymbol": "$",
+                "currencyCode": "USD",
+                "pricingScheme": {
+                    "priceType": "nightly",
+                    "taxIncluded": false,
+                    "feeIncluded": false
+                }
             },
-            "vip": "true",
-            "imageUrl": "/hotels/1000000/20000/19600/19558/19558_410_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/20000/19600/19558/19558_410_t.jpg",
+            "vip": true,
+            "imageUrl": "/hotels/1000000/20000/19600/19558/19558_410_d.jpg",
+            "lowResImageUrl": "/hotels/1000000/20000/19600/19558/19558_410_n.jpg",
             "latLong": [
                 "36.136033",
                 "-115.154706"
             ],
-            "regionId": "2008",
+            "regionName": "NYC-All Airports",
+            "regionId": "6139058",
             "directDistance": {
-                "value": "2.882",
-                "unit": "km"
+                "value": "0.0",
+                "unit": "Miles"
             },
             "isAvailable": true
         },
         {
-            "id": "200710",
-            "localizedHotelName": "Paris Las Vegas Resort & Casino",
+            "id": "12628",
+            "localizedHotelName": "MGM Grand Hotel & Casino",
             "isPinned": false,
             "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "false",
+            "hasFreeCancel": true,
+            "hasPayLater": false,
+            "roomsLeftAtThisPrice": 4995,
             "starRating": 4,
-            "guestRating": "4.0076203",
+            "guestRating": "0.0",
             "price": {
-                "displayPrice": "149.0",
-                "currencyCode": "USD"
+                "displayPrice": "170",
+                "strikeThroughPrice": "189",
+                "discountPercentage": "-10",
+                "currencySymbol": "$",
+                "currencyCode": "USD",
+                "pricingScheme": {
+                    "priceType": "nightly",
+                    "taxIncluded": false,
+                    "feeIncluded": false
+                }
             },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/210000/200800/200710/f89df92f_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/210000/200800/200710/f89df92f_t.jpg",
+            "vip": false,
+            "imageUrl": "/hotels/1000000/20000/12700/12628/12628_172_d.jpg",
+            "lowResImageUrl": "/hotels/1000000/20000/12700/12628/12628_172_n.jpg",
             "latLong": [
-                "36.111525",
-                "-115.17274"
+                "36.10117",
+                "-115.1728"
             ],
-            "regionId": "2008",
+            "regionName": "NYC-All Airports",
+            "regionId": "6139058",
             "directDistance": {
-                "value": "0.349",
-                "unit": "km"
+                "value": "0.0",
+                "unit": "Miles"
             },
             "isAvailable": true
         },
         {
-            "id": "846020",
-            "localizedHotelName": "Green Valley Ranch Resort and Spa",
+            "id": "1877035",
+            "localizedHotelName": "Luxury Suites International At The Signature",
             "isPinned": false,
             "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
+            "hasFreeCancel": false,
+            "hasPayLater": false,
+            "roomsLeftAtThisPrice": 16,
             "starRating": 4.5,
-            "guestRating": "4.4382625",
+            "guestRating": "0.0",
             "price": {
-                "displayPrice": "194.0",
-                "currencyCode": "USD"
+                "displayPrice": "143",
+                "strikeThroughPrice": "159",
+                "discountPercentage": "-10",
+                "currencySymbol": "$",
+                "currencyCode": "USD",
+                "pricingScheme": {
+                    "priceType": "nightly",
+                    "taxIncluded": false,
+                    "feeIncluded": false
+                }
             },
-            "vip": "true",
-            "imageUrl": "/hotels/1000000/850000/846100/846020/3da353e5_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/850000/846100/846020/3da353e5_t.jpg",
+            "vip": false,
+            "imageUrl": "/hotels/2000000/1880000/1877100/1877035/1877035_132_d.jpg",
+            "lowResImageUrl": "/hotels/2000000/1880000/1877100/1877035/1877035_132_n.jpg",
             "latLong": [
-                "36.019701",
-                "-115.091352"
+                "36.107972",
+                "-115.165749"
             ],
-            "regionId": "7586",
+            "regionName": "NYC-All Airports",
+            "regionId": "6139058",
             "directDistance": {
-                "value": "12.852",
-                "unit": "km"
-            },
-            "neighborhoodId": 6004152,
-            "neighborhoodName": "Green Valley",
-            "isAvailable": true
-        },
-        {
-            "id": "1380135",
-            "localizedHotelName": "Red Rock Casino, Resort and Spa",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "starRating": 5,
-            "guestRating": "4.4626746",
-            "price": {
-                "displayPrice": "231.83",
-                "currencyCode": "USD"
-            },
-            "vip": "true",
-            "imageUrl": "/hotels/2000000/1390000/1380200/1380135/1380135_120_w.jpg",
-            "lowResImageUrl": "/hotels/2000000/1390000/1380200/1380135/1380135_120_t.jpg",
-            "latLong": [
-                "36.157418",
-                "-115.333523"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "15.189",
-                "unit": "km"
+                "value": "0.0",
+                "unit": "Miles"
             },
             "isAvailable": true
         },
         {
-            "id": "41842",
-            "localizedHotelName": "Americas Best Value Inn & Suites",
+            "id": "15237",
+            "localizedHotelName": "Luxor Hotel and Casino",
             "isPinned": false,
             "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "starRating": 2,
-            "guestRating": "2.8654344",
-            "price": {
-                "displayPrice": "35.1",
-                "strikeThroughPrice": "39.0",
-                "discountPercentage": "10",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/50000/41900/41842/41842_75_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/50000/41900/41842/41842_75_t.jpg",
-            "latLong": [
-                "36.100784",
-                "-115.164893"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "1.702",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "126802",
-            "localizedHotelName": "Eastside Cannery Casino & Hotel",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "false",
-            "hasPayLater": "false",
-            "starRating": 3,
-            "guestRating": "4.121093",
-            "price": {
-                "displayPrice": "51.93",
-                "strikeThroughPrice": "61.38",
-                "discountPercentage": "15",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/130000/126900/126802/126802_62_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/130000/126900/126802/126802_62_t.jpg",
-            "latLong": [
-                "36.108127",
-                "-115.05884"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "10.269",
-                "unit": "km"
-            },
-            "neighborhoodId": 6004154,
-            "neighborhoodName": "Sunrise Manor",
-            "isAvailable": true
-        },
-        {
-            "id": "1535578",
-            "localizedHotelName": "Best Western Plus St. Rose Pkwy/las Vegas South Hotel",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "starRating": 2.5,
-            "guestRating": "4.41239",
-            "price": {
-                "displayPrice": "129.0",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/2000000/1540000/1535600/1535578/1535578_180_y.jpg",
-            "lowResImageUrl": "/hotels/2000000/1540000/1535600/1535578/1535578_180_t.jpg",
-            "latLong": [
-                "35.999783",
-                "-115.122357"
-            ],
-            "regionId": "7586",
-            "directDistance": {
-                "value": "13.557",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "58201",
-            "localizedHotelName": "Monte Carlo Resort and Casino",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "false",
-            "hasPayLater": "false",
-            "starRating": 3,
-            "guestRating": "3.7054288",
-            "price": {
-                "displayPrice": "182.87",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/60000/58300/58201/2b672613_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/60000/58300/58201/2b672613_t.jpg",
-            "latLong": [
-                "36.103914",
-                "-115.173202"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "1.196",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "921745",
-            "localizedHotelName": "Hilton Grand Vacations on the Las Vegas Strip",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
+            "hasFreeCancel": true,
+            "hasPayLater": false,
+            "roomsLeftAtThisPrice": 4998,
             "starRating": 3.5,
-            "guestRating": "4.474524",
+            "guestRating": "0.0",
             "price": {
-                "displayPrice": "229.0",
-                "currencyCode": "USD"
+                "displayPrice": "115",
+                "strikeThroughPrice": "183",
+                "discountPercentage": "-37",
+                "currencySymbol": "$",
+                "currencyCode": "USD",
+                "pricingScheme": {
+                    "priceType": "nightly",
+                    "taxIncluded": false,
+                    "feeIncluded": false
+                }
             },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/930000/921800/921745/8f614869_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/930000/921800/921745/8f614869_t.jpg",
+            "vip": false,
+            "imageUrl": "/hotels/1000000/20000/15300/15237/15237_227_d.jpg",
+            "lowResImageUrl": "/hotels/1000000/20000/15300/15237/15237_227_n.jpg",
             "latLong": [
-                "36.139918",
-                "-115.159964"
+                "36.09659",
+                "-115.173085"
             ],
-            "regionId": "2008",
+            "regionName": "NYC-All Airports",
+            "regionId": "6139058",
             "directDistance": {
-                "value": "3.038",
-                "unit": "km"
+                "value": "0.0",
+                "unit": "Miles"
             },
             "isAvailable": true
         },
         {
-            "id": "1217263",
-            "localizedHotelName": "Marriott's Grand Chateau",
+            "id": "41308",
+            "localizedHotelName": "Excalibur Hotel Casino",
             "isPinned": false,
             "isSponsored": false,
-            "hasFreeCancel": "false",
-            "hasPayLater": "false",
-            "roomsLeftAtThisPrice": 5,
-            "starRating": 3.5,
-            "guestRating": "4.5762362",
-            "price": {
-                "displayPrice": "178.0",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/2000000/1220000/1217300/1217263/ffe7ff92_w.jpg",
-            "lowResImageUrl": "/hotels/2000000/1220000/1217300/1217263/ffe7ff92_t.jpg",
-            "latLong": [
-                "36.107939",
-                "-115.169971"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "0.792",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "15490",
-            "localizedHotelName": "Mardi Gras Hotel & Casino",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
+            "hasFreeCancel": true,
+            "hasPayLater": false,
+            "roomsLeftAtThisPrice": 4999,
             "starRating": 3,
-            "guestRating": "2.913119",
+            "guestRating": "0.0",
             "price": {
-                "displayPrice": "50.38",
-                "strikeThroughPrice": "83.96",
-                "discountPercentage": "40",
-                "currencyCode": "USD"
+                "displayPrice": "96",
+                "strikeThroughPrice": "153",
+                "discountPercentage": "-37",
+                "currencySymbol": "$",
+                "currencyCode": "USD",
+                "pricingScheme": {
+                    "priceType": "nightly",
+                    "taxIncluded": false,
+                    "feeIncluded": false
+                }
             },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/20000/15500/15490/68bb2641_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/20000/15500/15490/68bb2641_t.jpg",
+            "vip": false,
+            "imageUrl": "/hotels/1000000/50000/41400/41308/41308_135_d.jpg",
+            "lowResImageUrl": "/hotels/1000000/50000/41400/41308/41308_135_n.jpg",
             "latLong": [
-                "36.125218",
-                "-115.154841"
+                "36.099212",
+                "-115.1731"
             ],
-            "regionId": "2008",
+            "regionName": "NYC-All Airports",
+            "regionId": "6139058",
             "directDistance": {
-                "value": "2.0",
-                "unit": "km"
+                "value": "0.0",
+                "unit": "Miles"
             },
             "isAvailable": true
         },
         {
-            "id": "7293",
-            "localizedHotelName": "The Westin Las Vegas Hotel & Spa",
+            "id": "1769973",
+            "localizedHotelName": "The Palazzo Las Vegas",
             "isPinned": false,
             "isSponsored": false,
-            "hasFreeCancel": "false",
-            "hasPayLater": "false",
-            "starRating": 4,
-            "guestRating": "4.078482",
-            "price": {
-                "displayPrice": "299.0",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/10000/7300/7293/b7621c78_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/10000/7300/7293/b7621c78_t.jpg",
-            "latLong": [
-                "36.114599",
-                "-115.165369"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "0.674",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "1184243",
-            "localizedHotelName": "Wynn Las Vegas",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
+            "hasFreeCancel": true,
+            "hasPayLater": false,
+            "roomsLeftAtThisPrice": 50,
             "starRating": 5,
-            "guestRating": "4.657638",
+            "guestRating": "0.0",
             "price": {
-                "displayPrice": "269.09",
-                "strikeThroughPrice": "298.99",
-                "discountPercentage": "10",
-                "currencyCode": "USD"
+                "displayPrice": "179",
+                "strikeThroughPrice": "249",
+                "discountPercentage": "-28",
+                "currencySymbol": "$",
+                "currencyCode": "USD",
+                "pricingScheme": {
+                    "priceType": "nightly",
+                    "taxIncluded": false,
+                    "feeIncluded": false
+                }
             },
-            "vip": "false",
-            "imageUrl": "/hotels/2000000/1190000/1184300/1184243/50106fcc_w.jpg",
-            "lowResImageUrl": "/hotels/2000000/1190000/1184300/1184243/50106fcc_t.jpg",
+            "vip": true,
+            "imageUrl": "/hotels/2000000/1770000/1770000/1769973/a842d02c_d.jpg",
+            "lowResImageUrl": "/hotels/2000000/1770000/1770000/1769973/a842d02c_n.jpg",
             "latLong": [
-                "36.127548",
-                "-115.167795"
+                "36.124777",
+                "-115.169646"
             ],
-            "regionId": "2008",
+            "regionName": "NYC-All Airports",
+            "regionId": "6139058",
             "directDistance": {
-                "value": "1.503",
-                "unit": "km"
+                "value": "0.0",
+                "unit": "Miles"
             },
             "isAvailable": true
-        },
-        {
-            "id": "2223789",
-            "localizedHotelName": "Encore at Wynn Las Vegas",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "true",
-            "hasPayLater": "true",
-            "starRating": 5,
-            "guestRating": "4.6477084",
-            "price": {
-                "displayPrice": "269.09",
-                "strikeThroughPrice": "298.99",
-                "discountPercentage": "10",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/3000000/2230000/2223800/2223789/e17096a2_w.jpg",
-            "lowResImageUrl": "/hotels/3000000/2230000/2223800/2223789/e17096a2_t.jpg",
-            "latLong": [
-                "36.12759",
-                "-115.16774"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "1.509",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "215728",
-            "localizedHotelName": "The Westin Lake Las Vegas Resort & Spa",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "false",
-            "hasPayLater": "false",
-            "starRating": 4,
-            "guestRating": "4.2241106",
-            "price": {
-                "displayPrice": "119.0",
-                "currencyCode": "USD"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/220000/215800/215728/1eb94611_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/220000/215800/215728/1eb94611_t.jpg",
-            "latLong": [
-                "36.112997",
-                "-114.924764"
-            ],
-            "regionId": "7586",
-            "directDistance": {
-                "value": "22.287",
-                "unit": "km"
-            },
-            "isAvailable": true
-        },
-        {
-            "id": "1847179",
-            "localizedHotelName": "Palms Place Hotel and Spa at the Palms Las Vegas",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "false",
-            "hasPayLater": "false",
-            "starRating": 4.5,
-            "guestRating": "4.2157764",
-            "price": {
-                "displayPrice": "0.0"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/2000000/1850000/1847200/1847179/1847179_102_z.jpg",
-            "lowResImageUrl": "/hotels/2000000/1850000/1847200/1847179/1847179_102_t.jpg",
-            "latLong": [
-                "36.11542",
-                "-115.19906"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "2.354",
-                "unit": "km"
-            },
-            "isAvailable": false
-        },
-        {
-            "id": "23130",
-            "localizedHotelName": "Travelodge Las Vegas Airport North/Near The Strip",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "false",
-            "hasPayLater": "false",
-            "starRating": 2,
-            "guestRating": "3.4807606",
-            "price": {
-                "displayPrice": "0.0"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/30000/23200/23130/23130_152_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/30000/23200/23130/23130_152_t.jpg",
-            "latLong": [
-                "36.098158",
-                "-115.163874"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "2.006",
-                "unit": "km"
-            },
-            "isAvailable": false
-        },
-        {
-            "id": "21385",
-            "localizedHotelName": "Travelodge Las Vegas Center Strip",
-            "isPinned": false,
-            "isSponsored": false,
-            "hasFreeCancel": "false",
-            "hasPayLater": "false",
-            "starRating": 1.5,
-            "guestRating": "3.231667",
-            "price": {
-                "displayPrice": "0.0"
-            },
-            "vip": "false",
-            "imageUrl": "/hotels/1000000/30000/21400/21385/e8ade310_w.jpg",
-            "lowResImageUrl": "/hotels/1000000/30000/21400/21385/e8ade310_t.jpg",
-            "latLong": [
-                "36.10724",
-                "-115.17278"
-            ],
-            "regionId": "2008",
-            "directDistance": {
-                "value": "0.826",
-                "unit": "km"
-            },
-            "isAvailable": false
         }
-    ]
+    ],
+    "source": "expweb"
 }
