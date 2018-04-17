@@ -7,6 +7,7 @@ class MockTripsTracking : ITripsTracking {
     var trackItinLxCalled = false
     var trackHotelItinPricingRewardsClicked = false
     var trackTripListVisited = false
+    var trackTripFolderAbTest = false
 
     override fun trackHotelItinPricingRewardsClick() {
         trackHotelItinPricingRewardsClicked = true
@@ -18,5 +19,9 @@ class MockTripsTracking : ITripsTracking {
 
     override fun trackTripListVisit(tabPosition: Int) {
         trackTripListVisited = true
+    }
+
+    override fun trackTripFolderAbTest() {
+        trackTripFolderAbTest = true
     }
 }

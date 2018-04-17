@@ -270,18 +270,20 @@ class PhoneLaunchActivityTest {
 
     @Test
     fun testGoToTripList() {
+        AbacusTestUtils.bucketTests(AbacusUtils.TripFoldersFragment)
         val activity = Robolectric.buildActivity(PhoneLaunchActivity::class.java).create().start().get()
+
         activity.viewPager.currentItem = PhoneLaunchActivity.PAGER_POS_LAUNCH
-        activity.goToTripList()
+        activity.toolbar.tabLayout.getTabAt(1)?.select()
         assertEquals(PhoneLaunchActivity.PAGER_POS_ITIN, activity.viewPager.currentItem)
 
         activity.viewPager.currentItem = PhoneLaunchActivity.PAGER_POS_ITIN
-        activity.goToTripList()
+        activity.toolbar.tabLayout.getTabAt(1)?.select()
         assertEquals(PhoneLaunchActivity.PAGER_POS_ITIN, activity.viewPager.currentItem)
     }
 
     @Test
-    fun `test tracking goToTripList`() {
+    fun testTabTrackingInTripList() {
         AbacusTestUtils.bucketTests(AbacusUtils.TripFoldersFragment)
         val activity = Robolectric.buildActivity(PhoneLaunchActivity::class.java).create().start().get()
         val tripListFragment: TripListFragment = activity.pagerAdapter.getItem(PhoneLaunchActivity.PAGER_POS_ITIN) as TripListFragment
@@ -291,8 +293,29 @@ class PhoneLaunchActivityTest {
         activity.supportFragmentManager.beginTransaction().add(tripListFragment, "TRIP_LIST_FRAGMENT").commitNow()
 
         assertFalse(mockTripsTracking.trackTripListVisited)
-        activity.goToTripList()
+        activity.toolbar.tabLayout.getTabAt(1)?.select()
         assertTrue(mockTripsTracking.trackTripListVisited)
+    }
+
+    @Test
+    fun testTripFoldersAbTestTracking() {
+        val activity = Robolectric.buildActivity(PhoneLaunchActivity::class.java).create().start().get()
+        val mockTripsTracking = MockTripsTracking()
+        activity.tripsTracking = mockTripsTracking
+
+        AbacusTestUtils.bucketTests(AbacusUtils.TripFoldersFragment)
+        assertFalse(mockTripsTracking.trackTripFolderAbTest)
+        activity.toolbar.tabLayout.getTabAt(1)?.select()
+        assertTrue(mockTripsTracking.trackTripFolderAbTest)
+
+        //reset test conditions
+        mockTripsTracking.trackTripFolderAbTest = false
+        activity.toolbar.tabLayout.getTabAt(0)?.select()
+
+        AbacusTestUtils.unbucketTests(AbacusUtils.TripFoldersFragment)
+        assertFalse(mockTripsTracking.trackTripFolderAbTest)
+        activity.toolbar.tabLayout.getTabAt(1)?.select()
+        assertTrue(mockTripsTracking.trackTripFolderAbTest)
     }
 
     @Test

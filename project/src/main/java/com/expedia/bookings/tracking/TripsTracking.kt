@@ -12,9 +12,16 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     private val TAG = "TripsTracking"
 
     //Trip List Tracking
+    private val ITIN_LIST = "App.Trips"
     private val ITIN_LIST_UPCOMING_TAB = "App.Trips.Upcoming"
     private val ITIN_LIST_PAST_TAB = "App.Trips.Past"
     private val ITIN_LIST_CANCELLED_TAB = "App.Trips.Cancelled"
+
+    override fun trackTripFolderAbTest() {
+        val s = createTrackLinkEvent(ITIN_LIST)
+        trackAbacusTest(s, AbacusUtils.TripFoldersFragment)
+        s.trackLink("Itinerary Action")
+    }
 
     override fun trackTripListVisit(tabPosition: Int) {
         var pageName = ""

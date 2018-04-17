@@ -2,8 +2,10 @@ package com.expedia.bookings.tracking
 
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.analytics.OmnitureTestUtils
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -32,5 +34,18 @@ class TripsTrackingTest {
 
         TripsTracking.trackTripListVisit(-1)
         OmnitureTestUtils.assertStateTracked("", OmnitureMatchers.withEventsString("event63"), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackTripFolderAbTest() {
+        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+
+        AbacusTestUtils.bucketTests(AbacusUtils.TripFoldersFragment)
+        TripsTracking.trackTripFolderAbTest()
+        OmnitureTestUtils.assertLinkTrackedWithAbTestExposure("Itinerary Action", "App.Trips", "25538.0.1", mockAnalyticsProvider)
+
+        AbacusTestUtils.unbucketTests(AbacusUtils.TripFoldersFragment)
+        TripsTracking.trackTripFolderAbTest()
+        OmnitureTestUtils.assertLinkTrackedWithAbTestExposure("Itinerary Action", "App.Trips", "25538.0.0", mockAnalyticsProvider)
     }
 }

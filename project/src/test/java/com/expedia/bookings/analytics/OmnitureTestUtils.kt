@@ -71,6 +71,19 @@ class OmnitureTestUtils : AppAnalytics() {
         }
 
         @JvmStatic
+        fun assertLinkTrackedWithAbTestExposure(linkName: String, rfrrId: String, analyticsString: String, mockAnalyticsProvider: AnalyticsProvider) {
+            val expectedData = mapOf(
+                    "&&linkType" to "o",
+                    "&&linkName" to linkName,
+                    "&&v28" to rfrrId,
+                    "&&c16" to rfrrId,
+                    "&&v34" to analyticsString,
+                    "&&c34" to analyticsString
+            )
+            Mockito.verify(mockAnalyticsProvider).trackAction(Mockito.eq(linkName), mapThat(allOf(hasEntries(expectedData))))
+        }
+
+        @JvmStatic
         fun assertStateTracked(matcher: Matcher<Map<String, Any>>, mockAnalyticsProvider: AnalyticsProvider) {
             Mockito.verify(mockAnalyticsProvider).trackState(Mockito.anyString(), mapThat(matcher))
         }

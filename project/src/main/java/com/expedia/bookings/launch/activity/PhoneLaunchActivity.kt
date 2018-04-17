@@ -51,9 +51,11 @@ import com.expedia.bookings.notification.NotificationManager
 import com.expedia.bookings.services.IClientLogServices
 import com.expedia.bookings.tracking.AppStartupTimeClientLog
 import com.expedia.bookings.tracking.AppStartupTimeLogger
+import com.expedia.bookings.tracking.ITripsTracking
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.RouterToLaunchTimeLogger
 import com.expedia.bookings.tracking.RouterToSignInTimeLogger
+import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.AbacusHelperUtils
 import com.expedia.bookings.utils.AboutUtils
 import com.expedia.bookings.utils.Constants
@@ -123,6 +125,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     private var accountFragment: AccountSettingsFragment? = null
     private var phoneLaunchFragment: PhoneLaunchFragment? = null
     private var tripListFragment: TripListFragment? = null
+    var tripsTracking: ITripsTracking = TripsTracking
     private var softPromptDialogFragment: SoftPromptDialogFragment? = null
     var isLocationPermissionPending = false
     val isTripFoldersEnabled: Boolean by lazy {
@@ -517,10 +520,11 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
                 jumpToItinId = null
             }
         }
+        tripsTracking.trackTripFolderAbTest()
     }
 
     @Synchronized
-    fun goToTripList() {
+    private fun goToTripList() {
         if (pagerPosition != PAGER_POS_ITIN) {
             pagerPosition = PAGER_POS_ITIN
             viewPager.currentItem = PAGER_POS_ITIN
