@@ -1,6 +1,7 @@
 package com.expedia.bookings.presenter.shared
 
 import android.content.Context
+import android.support.annotation.VisibleForTesting
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
@@ -37,7 +38,8 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     private val airlineChargesFeesTextView: TextView by bindView(R.id.airline_charges_fees_header)
     val filterButton: FlightFilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     private lateinit var flightLoader: ViewStub
-    private lateinit var flightLoadingWidget: FlightLoadingWidget
+    @VisibleForTesting
+    lateinit var flightLoadingWidget: FlightLoadingWidget
     private lateinit var flightProgressBar: ProgressBar
     private lateinit var flightListAdapter: AbstractFlightListAdapter
     var trackScrollDepthSubscription: Disposable? = null
@@ -136,6 +138,9 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
             flightLoader = findViewById(R.id.flight_loading_screen)
             flightLoader.visibility = View.VISIBLE
             flightLoadingWidget = findViewById(R.id.flight_loading_view)
+            if(!isShowingOutboundResults){
+                flightLoadingWidget.visibility = View.GONE
+            }
         }
     }
 

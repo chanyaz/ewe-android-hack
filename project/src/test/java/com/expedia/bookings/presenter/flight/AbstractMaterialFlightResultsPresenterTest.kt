@@ -70,6 +70,14 @@ class AbstractMaterialFlightResultsPresenterTest {
     }
 
     @Test
+    fun testLoadingWidgetVisibility() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFLightLoadingStateV1)
+        sut.resultsPresenter.isShowingOutboundResults = true
+        createSystemUnderTest(isOutboundPresenter = true)
+        assertTrue(sut.resultsPresenter.flightLoadingWidget.visibility == View.VISIBLE)
+    }
+
+    @Test
     fun showResultsOnNewResults() {
         createSystemUnderTest(isOutboundPresenter = true)
         sut.resultsPresenter.resultsViewModel.flightResultsObservable.onNext(emptyList())
