@@ -153,6 +153,25 @@ class PackageConfirmationPresenterTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testShouldNotMaskScreenAfterWebCheckoutToNativeConfirmation() {
+        setupMIDWebCheckout()
+
+        val shouldMaskScreenTestObserver = TestObserver.create<Boolean>()
+        packagePresenter.bundlePresenter.webCheckoutView.viewModel.showWebViewObservable.subscribe(shouldMaskScreenTestObserver)
+
+        (packagePresenter.bundlePresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userAccountRefresher = userAccountRefresherMock
+        packagePresenter.bundlePresenter.show(packagePresenter.bundlePresenter.webCheckoutView)
+        Mockito.verify(userAccountRefresherMock, Mockito.times(0)).forceAccountRefreshForWebView()
+        val tripID = "mid_trip_details"
+        packagePresenter.bundlePresenter.webCheckoutView.onWebPageStarted(packagePresenter.bundlePresenter.webCheckoutView.webView, "https://www.expedia.com/MultiItemBookingConfirmation" + "?tripid=$tripID", null)
+        Mockito.verify(userAccountRefresherMock, Mockito.times(1)).forceAccountRefreshForWebView()
+        (packagePresenter.bundlePresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).onUserAccountRefreshed()
+
+        shouldMaskScreenTestObserver.assertValue(false)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMIDShowBookingSuccessDialogOnItinResponseError() {
         setupMIDWebCheckout()
         Db.setPackageParams(getPackageSearchParams())
