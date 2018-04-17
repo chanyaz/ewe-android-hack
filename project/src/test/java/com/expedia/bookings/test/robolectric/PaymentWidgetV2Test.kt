@@ -37,7 +37,6 @@ import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.isCreditCardMessagingForPayLaterEnabled
 import com.expedia.bookings.utils.isShowSavedCoupons
 import com.expedia.bookings.widget.PaymentWidgetV2
 import com.expedia.bookings.widget.StoredCreditCardList
@@ -391,20 +390,6 @@ class PaymentWidgetV2Test {
         assertEquals(4, sut.validCardsList.childCount)
 
         assertCardTypeDisplayed(createValidFormOfPaymentList())
-    }
-
-    @Test
-    fun testIsCreditCardMessagingFeatureEnabledForPayLaterHotel() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppHotelPayLaterCreditCardMessaging, AbacusVariant.BUCKETED.value)
-
-        assertTrue(isCreditCardMessagingForPayLaterEnabled(activity))
-    }
-
-    @Test
-    fun testIsCreditCardMessagingFeatureDisabledForPayLaterHotel() {
-        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppHotelPayLaterCreditCardMessaging)
-
-        assertFalse(isCreditCardMessagingForPayLaterEnabled(activity))
     }
 
     @Test

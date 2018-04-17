@@ -85,7 +85,6 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppHotelSuperSearch = new ABTest(14911);
 	public static final ABTest EBAndroidAppHotelsWebCheckout = new ABTest(25618, true);
 	public static final ABTest EBAndroidAppHotelCheckinCheckoutDatesInline = new ABTest(15344);
-	public static final ABTest EBAndroidAppHotelPayLaterCreditCardMessaging = new ABTest(15925, true);
 	public static final ABTest HotelRoomImageGallery = new ABTest(14927, true);
 	public static final ABTest HotelAmenityFilter = new ABTest(24541, true);
 	public static final ABTest HotelNewFilterCtaText = new ABTest(24583, true);
@@ -145,7 +144,6 @@ public class AbacusUtils {
 	// Test ID's that we are bucketing the user for.
 	public static List<Integer> getActiveTests() {
 		List<Integer> testIDs = new ArrayList<>();
-		testIDs.add(EBAndroidAppHotelPayLaterCreditCardMessaging.getKey());
 		testIDs.add(ExpediaAndroidAppAATestSep2015.getKey());
 		testIDs.add(EBAndroidAppLXCategoryABTest.getKey());
 		testIDs.add(EBAndroidAppLXFirstActivityListingExpanded.getKey());

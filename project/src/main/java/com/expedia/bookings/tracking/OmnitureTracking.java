@@ -1310,10 +1310,6 @@ public class OmnitureTracking {
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline);
 
-		if (isPayLaterHotel(trip)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelPayLaterCreditCardMessaging);
-		}
-
 		s.setProducts(
 			"Hotel;" + properCaseSupplierType + " Hotel:" + hotelProductResponse.hotelId + ";" + numOfNights + ";"
 				+ price);
@@ -1321,12 +1317,6 @@ public class OmnitureTracking {
 
 		addStandardHotelV2Fields(s, searchParams);
 		s.track();
-	}
-
-	private static boolean isPayLaterHotel(HotelCreateTripResponse trip) {
-		boolean isPayLater = trip.newHotelProductResponse.hotelRoomResponse.isPayLater;
-		boolean hasDeposit = trip.newHotelProductResponse.hotelRoomResponse.depositRequired;
-		return isPayLater && !hasDeposit;
 	}
 
 	public static void trackTripSummaryClick() {
