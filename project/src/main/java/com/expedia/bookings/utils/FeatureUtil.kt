@@ -4,6 +4,7 @@ import android.content.Context
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.abacus.AbacusVariant
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
@@ -153,4 +154,9 @@ fun isRouteHappyShowAmenityEnabled(): Boolean {
 fun isRouteHappyShowFlightScoreEnabled(): Boolean {
     val routeHappyVariant = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.EBAndroidAppFlightsRouteHappy)
     return (routeHappyVariant == AbacusVariant.TWO.value || routeHappyVariant == AbacusVariant.THREE.value)
+}
+
+fun shouldShowCustomerFirstGuarantee(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.CustomerFirstGuarantee) &&
+            PointOfSale.getPointOfSale().shouldShowCustomerFirstGuarantee()
 }

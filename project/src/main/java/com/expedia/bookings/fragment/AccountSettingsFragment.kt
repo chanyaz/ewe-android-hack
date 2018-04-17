@@ -40,6 +40,7 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.DebugMenuFactory
+import com.expedia.bookings.utils.shouldShowCustomerFirstGuarantee
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
@@ -47,6 +48,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isAccountEditWebViewEnabled
 import com.expedia.bookings.utils.isBottomNavigationBarEnabled
 import com.expedia.bookings.utils.isBrandColorEnabled
+import com.expedia.bookings.utils.navigation.NavUtils
 import com.mobiata.android.SocialUtils
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
@@ -241,7 +243,11 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
 
             builder.addRow(ROW_EXPEDIA_WEBSITE, getPOSSpecificWebsiteSupportString(), Phrase.from(context, R.string.a11y_button_TEMPLATE).put("description", getPOSSpecificWebsiteSupportString()).format().toString())
 
-            builder.addRow(ROW_BOOKING_SUPPORT, R.string.booking_support, Phrase.from(context, R.string.a11y_button_TEMPLATE).put("description", getString(R.string.booking_support)).format().toString())
+            if (shouldShowCustomerFirstGuarantee(context)) {
+                builder.addRow(ROW_BOOKING_SUPPORT, R.string.customer_first_chat_with_us_now, Phrase.from(context, R.string.a11y_button_TEMPLATE).put("description", getString(R.string.customer_first_chat_with_us_now)).format().toString())
+            } else {
+                builder.addRow(ROW_BOOKING_SUPPORT, R.string.booking_support, Phrase.from(context, R.string.a11y_button_TEMPLATE).put("description", getString(R.string.booking_support)).format().toString())
+            }
 
             builder.addRow(ROW_APP_SUPPORT, R.string.app_support, Phrase.from(context, R.string.a11y_button_TEMPLATE).put("description", getString(R.string.app_support)).format().toString())
 
@@ -601,9 +607,14 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
                 return true
             }
             ROW_BOOKING_SUPPORT -> {
-                OmnitureTracking.trackClickSupportBooking()
-                val contactExpediaDialog = aboutUtils.createContactExpediaDialog()
-                contactExpediaDialog.show(activity.supportFragmentManager, "contactExpediaDialog")
+                if (shouldShowCustomerFirstGuarantee(context)) {
+                    OmnitureTracking.trackCustomerFirstAccountLinkClick()
+                    NavUtils.goToCustomerFirstSupportActivity(context)
+                } else {
+                    OmnitureTracking.trackClickSupportBooking()
+                    val contactExpediaDialog = aboutUtils.createContactExpediaDialog()
+                    contactExpediaDialog.show(activity.supportFragmentManager, "contactExpediaDialog")
+                }
                 return true
             }
             ROW_EXPEDIA_WEBSITE -> {

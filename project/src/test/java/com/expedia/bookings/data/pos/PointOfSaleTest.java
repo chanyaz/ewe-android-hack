@@ -27,6 +27,7 @@ public class PointOfSaleTest {
 	UserLoyaltyMembershipInformation mockLoyaltyInfo = Mockito.mock(UserLoyaltyMembershipInformation.class);
 
 	private final String expediaSharedFilePath = "ExpediaSharedData/ExpediaPointOfSaleConfig.json";
+	private final String travelocitySharedFilePath = "ExpediaSharedData/TravelocityPointOfSaleConfig.json";
 
 	@Before
 	public void setup() {
@@ -278,6 +279,13 @@ public class PointOfSaleTest {
 		assertShouldShowCarsCrossSellButton(PointOfSaleId.FINLAND.getId(), true);
 	}
 
+	@Test
+	@RunForBrands(brands = { MultiBrand.TRAVELOCITY })
+	public void shouldShowCustomerFirstGuarantee() {
+		assertShouldShowCustomerFirstGuarantee(PointOfSaleId.TRAVELOCITY.getId(), true);
+		assertShouldShowCustomerFirstGuarantee(PointOfSaleId.TRAVELOCITY_CA.getId(), false);
+	}
+
 	private void assertVipAccessForPOSKey(int posKey, boolean enabled) {
 		PointOfSaleTestConfiguration.configurePOS(context, expediaSharedFilePath, Integer.toString(posKey), false);
 		PointOfSale pos = PointOfSale.getPointOfSale();
@@ -300,5 +308,11 @@ public class PointOfSaleTest {
 		PointOfSaleTestConfiguration.configurePOS(context, expediaSharedFilePath, Integer.toString(posKey), false);
 		PointOfSale pos = PointOfSale.getPointOfSale();
 		assertEquals(enabled, pos.shouldShowCarsCrossSellButton());
+	}
+
+	private void assertShouldShowCustomerFirstGuarantee(int posKey, boolean enabled) {
+		PointOfSaleTestConfiguration.configurePOS(context, travelocitySharedFilePath, Integer.toString(posKey), false);
+		PointOfSale pos = PointOfSale.getPointOfSale();
+		assertEquals(enabled, pos.shouldShowCustomerFirstGuarantee());
 	}
 }
