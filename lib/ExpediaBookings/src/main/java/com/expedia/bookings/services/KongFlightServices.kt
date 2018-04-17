@@ -1,7 +1,7 @@
 package com.expedia.bookings.services
 
-import com.expedia.bookings.data.flights.RouteHappyRequest
-import com.expedia.bookings.data.flights.RouteHappyResponse
+import com.expedia.bookings.data.flights.RichContentRequest
+import com.expedia.bookings.data.flights.RichContentResponse
 import com.expedia.bookings.extensions.subscribeObserver
 import com.google.gson.GsonBuilder
 import io.reactivex.Observer
@@ -36,14 +36,14 @@ class KongFlightServices(val endpoint: String, okHttpClient: OkHttpClient, inter
         adapter.create(KongFlightApi::class.java)
     }
 
-    var routeHappySubscription: Disposable? = null
+    var richContentSubscription: Disposable? = null
 
-    fun getFlightRouteHappy(requestPayload: RouteHappyRequest, observer: Observer<RouteHappyResponse>): Disposable {
-        routeHappySubscription?.dispose()
-        routeHappySubscription = flightKongApi.routeHappy(requestPayload)
+    fun getFlightRichContent(requestPayload: RichContentRequest, observer: Observer<RichContentResponse>): Disposable {
+        richContentSubscription?.dispose()
+        richContentSubscription = flightKongApi.richContent(requestPayload)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .subscribeObserver(observer)
-        return routeHappySubscription as Disposable
+        return richContentSubscription as Disposable
     }
 }

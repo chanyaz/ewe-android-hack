@@ -56,7 +56,7 @@ public class FlightLeg {
 	public int legRank;
 	public BaggageInfoFormData jsonBaggageFeesUrl;
 	public String naturalKey;
-	public RouteHappyRichContent richContent;
+	public RichContent richContent;
 
 	public boolean isFreeCancellable() {
 		return freeCancellationBy != null;

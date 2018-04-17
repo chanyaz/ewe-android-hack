@@ -5,11 +5,11 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
-import com.expedia.bookings.data.flights.RouteHappyRichContent
+import com.expedia.bookings.data.flights.RichContent
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
-import com.expedia.bookings.utils.RouteHappyUtils
+import com.expedia.bookings.utils.RichContentUtils
 import com.expedia.vm.flights.FlightViewModel
 import org.junit.Before
 import org.junit.Test
@@ -35,8 +35,8 @@ class FlightCellWidgetTest {
 
     @Test
     fun testFlightLegRichContentForCompleteFeatureVariant() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsRouteHappy)
-        AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsRouteHappy, 3)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsRichContent)
+        AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsRichContent, 3)
         sut.bind(FlightViewModel(context, flightLeg))
 
         assertEquals(View.VISIBLE, sut.richContentDividerView.visibility)
@@ -49,8 +49,8 @@ class FlightCellWidgetTest {
 
     @Test
     fun testFlightLegRichContentForShowAmenitiesVariant() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsRouteHappy)
-        AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsRouteHappy, 1)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsRichContent)
+        AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsRichContent, 1)
         sut.bind(FlightViewModel(context, flightLeg))
 
         assertEquals(View.VISIBLE, sut.richContentDividerView.visibility)
@@ -63,8 +63,8 @@ class FlightCellWidgetTest {
 
     @Test
     fun testFlightLegRichContentForShowRouteScoreVariant() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsRouteHappy)
-        AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsRouteHappy, 2)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsRichContent)
+        AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsRichContent, 2)
         sut.bind(FlightViewModel(context, flightLeg))
 
         assertEquals(View.GONE, sut.richContentDividerView.visibility)
@@ -102,18 +102,18 @@ class FlightCellWidgetTest {
         flightLeg.airlines = airlines
     }
 
-    private fun getRichContentRichContent(): RouteHappyRichContent {
-        val richContent = RouteHappyRichContent()
+    private fun getRichContentRichContent(): RichContent {
+        val richContent = RichContent()
         richContent.legId = ""
         richContent.score = 7.9F
         richContent.legAmenities = getRichContentAmenities()
-        richContent.scoreExpression = RouteHappyUtils.ScoreExpression.VERY_GOOD.name
+        richContent.scoreExpression = RichContentUtils.ScoreExpression.VERY_GOOD.name
         richContent.segmentAmenitiesList = listOf(getRichContentAmenities())
         return richContent
     }
 
-    private fun getRichContentAmenities(): RouteHappyRichContent.RouteHappyAmenity {
-        val amenities = RouteHappyRichContent.RouteHappyAmenity()
+    private fun getRichContentAmenities(): RichContent.RichContentAmenity {
+        val amenities = RichContent.RichContentAmenity()
         amenities.wifi = true
         amenities.entertainment = false
         amenities.power = true

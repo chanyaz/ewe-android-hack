@@ -1,7 +1,7 @@
 package com.expedia.bookings.services
 
-import com.expedia.bookings.data.flights.RouteHappyRequest
-import com.expedia.bookings.data.flights.RouteHappyResponse
+import com.expedia.bookings.data.flights.RichContentRequest
+import com.expedia.bookings.data.flights.RichContentResponse
 import io.reactivex.Observable
 import retrofit2.http.Body
 import retrofit2.http.Headers
@@ -11,5 +11,5 @@ import retrofit2.http.POST
 interface KongFlightApi {
     @Headers("Content-Type: application/json")
     @POST("/m/api/flight/getRichContent")
-    fun routeHappy(@Body request: RouteHappyRequest): Observable<RouteHappyResponse>
+    fun richContent(@Body request: RichContentRequest): Observable<RichContentResponse>
 }

@@ -2,7 +2,7 @@ package com.expedia.bookings.data.flights
 
 import com.google.gson.annotations.SerializedName
 
-class RouteHappyFlightTravelerCategory {
+class RichContentFlightTravelerCategory {
     @SerializedName("airTravelerCategoryCode")
     var travelerCode = ""
     @SerializedName("airTravelerCategoryCount")

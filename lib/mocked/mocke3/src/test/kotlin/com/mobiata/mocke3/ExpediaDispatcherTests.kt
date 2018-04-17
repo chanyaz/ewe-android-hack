@@ -288,8 +288,8 @@ class ExpediaDispatcherTests {
     }
 
     @Test
-    fun testRequestWithRouteHappyPathReturnsMatchingReponse() {
-        assertPathReturnsMockBodyWithString("m/api/flight/getRichContent", null, "m/api/flight/routehappy/flight_route_happy.json")
+    fun testRequestWithRichContentPathReturnsMatchingReponse() {
+        assertPathReturnsMockBodyWithString("m/api/flight/getRichContent", null, "m/api/flight/richcontent/flight_rich_content.json")
     }
 
     @Test

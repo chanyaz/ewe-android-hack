@@ -10,7 +10,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isRouteHappyEnabled
+import com.expedia.bookings.utils.isRichContentEnabled
 import com.expedia.bookings.widget.TextView
 import com.expedia.vm.AbstractFlightViewModel
 
@@ -65,7 +65,7 @@ class FlightCellWidget(context: Context, showPrice: Boolean = true) : FrameLayou
             flightEarnMessage.text = viewModel.earnMessage
             flightEarnMessage.visibility = View.VISIBLE
         }
-        if (isRouteHappyEnabled(context)) {
+        if (isRichContentEnabled(context)) {
             richContentDividerView.visibility = if (viewModel.richContentDividerViewVisibility) View.VISIBLE else View.GONE
             richContentWifiView.visibility = if (viewModel.richContentWifiViewVisibility) View.VISIBLE else View.GONE
             richContentEntertainmentView.visibility = if (viewModel.richContentEntertainmentViewVisibility) View.VISIBLE else View.GONE

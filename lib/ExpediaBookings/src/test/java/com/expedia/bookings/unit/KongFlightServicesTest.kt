@@ -1,8 +1,8 @@
 package com.expedia.bookings.unit
 
-import com.expedia.bookings.data.flights.RouteHappyRequestInfo
-import com.expedia.bookings.data.flights.RouteHappyRequest
-import com.expedia.bookings.data.flights.RouteHappyResponse
+import com.expedia.bookings.data.flights.RichContentRequestInfo
+import com.expedia.bookings.data.flights.RichContentRequest
+import com.expedia.bookings.data.flights.RichContentResponse
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.KongFlightServices
 import com.expedia.bookings.services.TestObserver
@@ -40,10 +40,10 @@ class KongFlightServicesTest {
 
     @Test
     @Throws(Throwable::class)
-    fun testGetRouteHappy() {
-        val observer = TestObserver<RouteHappyResponse>()
-        val routeHappyRequest = getRouteHappyRequest()
-        kongService.getFlightRouteHappy(routeHappyRequest, observer)
+    fun testGetRichContent() {
+        val observer = TestObserver<RichContentResponse>()
+        val richContentRequest = getRichContentRequest()
+        kongService.getFlightRichContent(richContentRequest, observer)
         observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
         observer.assertNoErrors()
         observer.assertComplete()
@@ -67,15 +67,15 @@ class KongFlightServicesTest {
         assertTrue(segmentAmenities.power)
     }
 
-    private fun getRouteHappyRequest(): RouteHappyRequest {
-        val routeHappyRequest = RouteHappyRequest()
+    private fun getRichContentRequest(): RichContentRequest {
+        val richContentRequest = RichContentRequest()
 
-        val requestInfo = RouteHappyRequestInfo()
+        val requestInfo = RichContentRequestInfo()
         requestInfo.eapid = "-1"
         requestInfo.tpid = "1"
         requestInfo.tuid = -1
-        routeHappyRequest.requestInfo = requestInfo
+        richContentRequest.requestInfo = requestInfo
 
-        return routeHappyRequest
+        return richContentRequest
     }
 }

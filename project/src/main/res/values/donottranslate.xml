@@ -136,9 +136,9 @@
     <string name="preference_abacus_setting_meso_destination">Meso Destination</string>
     <string name="preference_abacus_setting_urgency_50">50% hotels left or less</string>
     <string name="preference_abacus_setting_urgency_70">30% hotels left or less</string>
-    <string name="preference_abacus_setting_route_happy_show_amenities">Show Amenities</string>
-    <string name="preference_abacus_setting_route_happy_show_flight_score">Show Flight Score</string>
-    <string name="preference_abacus_setting_route_happy">Complete Feature</string>
+    <string name="preference_abacus_setting_rich_content_show_amenities">Show Amenities</string>
+    <string name="preference_abacus_setting_rich_content_show_route_score">Show Route Score</string>
+    <string name="preference_abacus_setting_rich_content">Complete Feature</string>
     <string name="preference_abacus_setting_recent_search_vertical">Vertical tiles</string>
     <string name="preference_abacus_setting_recent_search_horizontal">Horizontal tiles</string>
     <string name="preference_toggle_server_debug_tracing">preference_toggle_server_debug_tracing</string>

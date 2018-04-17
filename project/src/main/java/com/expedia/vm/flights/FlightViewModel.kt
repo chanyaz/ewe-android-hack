@@ -5,18 +5,18 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.utils.RouteHappyUtils
+import com.expedia.bookings.utils.RichContentUtils
 import com.expedia.bookings.utils.Strings
-import com.expedia.bookings.utils.isRouteHappyEnabled
-import com.expedia.bookings.utils.isRouteHappyShowAmenityEnabled
-import com.expedia.bookings.utils.isRouteHappyShowFlightScoreEnabled
+import com.expedia.bookings.utils.isRichContentEnabled
+import com.expedia.bookings.utils.isRichContentShowRouteScoreEnabled
+import com.expedia.bookings.utils.isRichContentShowAmenityEnabled
 import com.expedia.vm.AbstractFlightViewModel
 import com.squareup.phrase.Phrase
 
 open class FlightViewModel(context: Context, flightLeg: FlightLeg, val isOutboundSearch: Boolean = true) : AbstractFlightViewModel(context, flightLeg) {
 
     init {
-        if (isRouteHappyEnabled(context)) {
+        if (isRichContentEnabled(context)) {
             setRichContentVisibility()
         }
     }
@@ -52,7 +52,7 @@ open class FlightViewModel(context: Context, flightLeg: FlightLeg, val isOutboun
     private fun setRichContentVisibility() {
         val legRichContent = flightLeg.richContent
         if (legRichContent != null) {
-            if (isRouteHappyShowAmenityEnabled()) {
+            if (isRichContentShowAmenityEnabled()) {
                 val legAmenities = legRichContent.legAmenities
                 if (legAmenities != null) {
                     richContentWifiViewVisibility = legAmenities.wifi
@@ -61,9 +61,9 @@ open class FlightViewModel(context: Context, flightLeg: FlightLeg, val isOutboun
                     richContentDividerViewVisibility = (richContentWifiViewVisibility || richContentEntertainmentViewVisibility || richContentPowerViewVisibility)
                 }
             }
-            if (isRouteHappyShowFlightScoreEnabled()) {
-                routeScoreText = Phrase.from(context, RouteHappyUtils.ScoreExpression.valueOf(legRichContent.scoreExpression).stringResId)
-                        .put("flight_score", legRichContent.score.toString())
+            if (isRichContentShowRouteScoreEnabled()) {
+                routeScoreText = Phrase.from(context, RichContentUtils.ScoreExpression.valueOf(legRichContent.scoreExpression).stringResId)
+                        .put("route_score", legRichContent.score.toString())
                         .format().toString()
                 routeScoreViewVisibility = true
             }

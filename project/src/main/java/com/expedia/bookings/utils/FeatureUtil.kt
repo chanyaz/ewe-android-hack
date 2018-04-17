@@ -141,16 +141,16 @@ fun isHideMiniMapOnResultBucketed(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelHideMiniMapOnResult)
 }
 
-fun isRouteHappyEnabled(context: Context): Boolean {
-    return AbacusFeatureConfigManager.isBucketedInAnyVariant(context, AbacusUtils.EBAndroidAppFlightsRouteHappy)
+fun isRichContentEnabled(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isBucketedInAnyVariant(context, AbacusUtils.EBAndroidAppFlightsRichContent)
 }
 
-fun isRouteHappyShowAmenityEnabled(): Boolean {
-    val routeHappyVariant = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.EBAndroidAppFlightsRouteHappy)
-    return (routeHappyVariant == AbacusVariant.ONE.value || routeHappyVariant == AbacusVariant.THREE.value)
+fun isRichContentShowAmenityEnabled(): Boolean {
+    val richContentVariant = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.EBAndroidAppFlightsRichContent)
+    return (richContentVariant == AbacusVariant.ONE.value || richContentVariant == AbacusVariant.THREE.value)
 }
 
-fun isRouteHappyShowFlightScoreEnabled(): Boolean {
-    val routeHappyVariant = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.EBAndroidAppFlightsRouteHappy)
-    return (routeHappyVariant == AbacusVariant.TWO.value || routeHappyVariant == AbacusVariant.THREE.value)
+fun isRichContentShowRouteScoreEnabled(): Boolean {
+    val richContentVariant = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.EBAndroidAppFlightsRichContent)
+    return (richContentVariant == AbacusVariant.TWO.value || richContentVariant == AbacusVariant.THREE.value)
 }

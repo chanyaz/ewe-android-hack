@@ -2,10 +2,10 @@ package com.expedia.bookings.data.flights
 
 import com.google.gson.annotations.SerializedName
 
-class RouteHappyFlightSearch {
+class RichContentFlightSearch {
     @SerializedName("tripGeometry")
     var tripType = ""
-    var flightCriteria: RouteHappyFlightCriteria? = null
+    var flightCriteria: RichContentFlightCriteria? = null
 }
 
 enum class TripType(val type: String) {

@@ -13,8 +13,8 @@ class FlightMApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(f
         }
 
         return when {
-            FlightMApiRequestMatcher.isRouteHappyRequest(urlPath) ->
-                getMockResponse(FlightMApiMockResponseGenerator.getRouteHappyResponseFilePath())
+            FlightMApiRequestMatcher.isRichContentRequest(urlPath) ->
+                getMockResponse(FlightMApiMockResponseGenerator.getRichContentResponseFilePath())
 
             else -> make404()
         }
@@ -23,10 +23,10 @@ class FlightMApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(f
 
 class FlightMApiMockResponseGenerator {
     companion object {
-        val ROUTE_HAPPY = "flight_route_happy"
+        val RICH_CONTENT = "flight_rich_content"
 
-        fun getRouteHappyResponseFilePath(): String {
-            return "m/api/flight/routehappy/$ROUTE_HAPPY.json"
+        fun getRichContentResponseFilePath(): String {
+            return "m/api/flight/richcontent/$RICH_CONTENT.json"
         }
     }
 }
@@ -37,7 +37,7 @@ class FlightMApiRequestMatcher() {
             return doesItMatch("^/m/api/flight/.*$", urlPath)
         }
 
-        fun isRouteHappyRequest(urlPath: String): Boolean {
+        fun isRichContentRequest(urlPath: String): Boolean {
             return doesItMatch("^/m/api/flight/getRichContent.*$", urlPath)
         }
     }

@@ -18,7 +18,7 @@ import org.robolectric.Robolectric
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-class RouteHappyUtilsTest {
+class RichContentUtilsTest {
     private lateinit var activity: Activity
 
     @Before
@@ -29,11 +29,11 @@ class RouteHappyUtilsTest {
     }
 
     @Test
-    fun testRouteHappyResponse() {
+    fun testRichContentResponse() {
         setupDb()
-        val routeHappyRequest = RouteHappyUtils.getRouteHappyRequestPayload(activity, getFlightLegs())
+        val richContentRequest = RichContentUtils.getRichContentRequestPayload(activity, getFlightLegs())
 
-        val richInfoDetail = routeHappyRequest.richInfoDetail!!.richInfoList[0]
+        val richInfoDetail = richContentRequest.richInfoDetail!!.richInfoList[0]
         assertEquals(TripType.ROUND_TRIP.type, richInfoDetail.flightSearch!!.tripType)
 
         val travelCategoryList = richInfoDetail.flightSearch!!.flightCriteria!!.travelerDetail!!.travelerCategoryList
@@ -63,12 +63,12 @@ class RouteHappyUtilsTest {
 
     @Test
     fun testScoreExpression() {
-        assertEquals("9.5/10 - Excellent!", getFlightScoreExpression(RouteHappyUtils.ScoreExpression.EXCELLENT.stringResId))
-        assertEquals("8.2/10 - Very Good!", getFlightScoreExpression(RouteHappyUtils.ScoreExpression.VERY_GOOD.stringResId))
-        assertEquals("7.8/10 - Good!", getFlightScoreExpression(RouteHappyUtils.ScoreExpression.GOOD.stringResId))
-        assertEquals("7/10 - Fair!", getFlightScoreExpression(RouteHappyUtils.ScoreExpression.FAIR.stringResId))
-        assertEquals("6.8/10 - Okay!", getFlightScoreExpression(RouteHappyUtils.ScoreExpression.OKAY.stringResId))
-        assertEquals("5/10 - Poor!", getFlightScoreExpression(RouteHappyUtils.ScoreExpression.POOR.stringResId))
+        assertEquals("9.5/10 - Excellent!", getRouteScoreExpression(RichContentUtils.ScoreExpression.EXCELLENT.stringResId))
+        assertEquals("8.2/10 - Very Good!", getRouteScoreExpression(RichContentUtils.ScoreExpression.VERY_GOOD.stringResId))
+        assertEquals("7.8/10 - Good!", getRouteScoreExpression(RichContentUtils.ScoreExpression.GOOD.stringResId))
+        assertEquals("7/10 - Fair!", getRouteScoreExpression(RichContentUtils.ScoreExpression.FAIR.stringResId))
+        assertEquals("6.8/10 - Okay!", getRouteScoreExpression(RichContentUtils.ScoreExpression.OKAY.stringResId))
+        assertEquals("5/10 - Poor!", getRouteScoreExpression(RichContentUtils.ScoreExpression.POOR.stringResId))
     }
 
     private fun setupDb() {
@@ -100,15 +100,15 @@ class RouteHappyUtilsTest {
         return flightLegs
     }
 
-    private fun getFlightScoreExpression(stringResId: Int): String {
+    private fun getRouteScoreExpression(stringResId: Int): String {
         val scoreExpPhrase = Phrase.from(activity, stringResId)
         when (stringResId) {
-            R.string.flight_score_very_good_superlative_TEMPLATE -> scoreExpPhrase.put("flight_score", "8.2")
-            R.string.flight_score_good_superlative_TEMPLATE -> scoreExpPhrase.put("flight_score", "7.8")
-            R.string.flight_score_fair_superlative_TEMPLATE -> scoreExpPhrase.put("flight_score", "7")
-            R.string.flight_score_okay_superlative_TEMPLATE -> scoreExpPhrase.put("flight_score", "6.8")
-            R.string.flight_score_poor_superlative_TEMPLATE -> scoreExpPhrase.put("flight_score", "5")
-            else -> scoreExpPhrase.put("flight_score", "9.5")
+            R.string.route_score_very_good_superlative_TEMPLATE -> scoreExpPhrase.put("route_score", "8.2")
+            R.string.route_score_good_superlative_TEMPLATE -> scoreExpPhrase.put("route_score", "7.8")
+            R.string.route_score_fair_superlative_TEMPLATE -> scoreExpPhrase.put("route_score", "7")
+            R.string.route_score_okay_superlative_TEMPLATE -> scoreExpPhrase.put("route_score", "6.8")
+            R.string.route_score_poor_superlative_TEMPLATE -> scoreExpPhrase.put("route_score", "5")
+            else -> scoreExpPhrase.put("route_score", "9.5")
         }
         return scoreExpPhrase.format().toString()
     }
