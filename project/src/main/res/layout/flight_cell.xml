@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout android:id="@id/root"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@id/root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/packages_result_background">
@@ -62,8 +62,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/flight_time_detail_text_view"
@@ -78,7 +78,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/flight_overview_expand_icon"
@@ -87,7 +87,7 @@
                         android:layout_marginRight="1dp"
                         android:src="@drawable/read_more_without_padding"
                         android:tint="@color/package_bundle_icon_color"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -120,14 +120,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/flight_duration_text_view"
                         style="@style/Core.Text.200.LightColor"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                        tools:text="11h 13m" />
+
+                    <include
+                        layout="@layout/flight_aminities_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
 
                 <com.expedia.bookings.widget.TextView
@@ -135,16 +141,16 @@
                     style="@style/Core.Text.200.LightColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:layout_marginTop="4dp"
                     android:visibility="gone"
                     tools:text="Flight Cabin Class text: this message is to test the max length of string"
                     tools:visibility="visible" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/urgency_message_layout"
+                android:id="@+id/flight_message_container"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:layout_marginTop="-4dp"
@@ -157,16 +163,37 @@
                     android:layout_height="1px"
                     android:background="@color/cardview_divider_lines_gray" />
 
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/urgency_message"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="right|center_vertical"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="13dp"
                     android:paddingRight="13dp"
-                    android:textColor="@color/flight_seats_left_urgency_message_color"
-                    android:textSize="11sp"
-                    app:textStyle="medium"
-                    tools:text="Urgency Message" />
+                    android:weightSum="1">
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/textView_route_score"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="8dp"
+                        android:textColor="@color/gray900"
+                        android:textSize="11sp"
+                        app:textStyle="medium"
+                        tools:text="8.4/10 - Very Good!" />
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/urgency_message"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:textColor="@color/flight_seats_left_urgency_message_color"
+                        android:textSize="11sp"
+                        app:textStyle="medium"
+                        tools:text="Urgency Message" />
+                </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>

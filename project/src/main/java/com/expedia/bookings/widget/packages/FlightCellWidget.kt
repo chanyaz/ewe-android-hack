@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isRouteHappyEnabled
 import com.expedia.bookings.widget.TextView
 import com.expedia.vm.AbstractFlightViewModel
 
@@ -23,9 +24,15 @@ class FlightCellWidget(context: Context, showPrice: Boolean = true) : FrameLayou
     val flightEarnMessage: TextView by bindView(R.id.flight_earn_message_text_view)
     val flightCabinCodeTextView: TextView by bindView(R.id.flight_class_text_view)
     val urgencyMessageTextView: TextView by bindView(R.id.urgency_message)
-    val urgencyMessageContainer: LinearLayout by bindView(R.id.urgency_message_layout)
+    val flightMessageContainer: LinearLayout by bindView(R.id.flight_message_container)
     val flightToggleIcon: ImageView by bindView(R.id.flight_overview_expand_icon)
+    val richContentDividerView: View by bindView(R.id.rich_content_divider)
+    val richContentWifiView: ImageView by bindView(R.id.rich_content_wifi)
+    val richContentEntertainmentView: ImageView by bindView(R.id.rich_content_entertainment)
+    val richContentPowerView: ImageView by bindView(R.id.rich_content_power)
+    val routeScoreTextView: TextView by bindView(R.id.textView_route_score)
     lateinit var viewModel: AbstractFlightViewModel
+    private var urgencyMessageVisibility = false
 
     init {
         View.inflate(context, R.layout.flight_cell, this)
@@ -49,15 +56,23 @@ class FlightCellWidget(context: Context, showPrice: Boolean = true) : FrameLayou
             }
         }
         if (viewModel.getUrgencyMessageVisibility(viewModel.seatsLeftUrgencyMessage)) {
-            urgencyMessageContainer.visibility = View.VISIBLE
+            urgencyMessageVisibility = true
             urgencyMessageTextView.text = viewModel.seatsLeftUrgencyMessage
         } else {
-            urgencyMessageContainer.visibility = View.GONE
+            urgencyMessageVisibility = false
         }
         if (viewModel.isEarnMessageVisible(viewModel.earnMessage)) {
             flightEarnMessage.text = viewModel.earnMessage
             flightEarnMessage.visibility = View.VISIBLE
         }
+        if (isRouteHappyEnabled(context)) {
+            richContentDividerView.visibility = if (viewModel.richContentDividerViewVisibility) View.VISIBLE else View.GONE
+            richContentWifiView.visibility = if (viewModel.richContentWifiViewVisibility) View.VISIBLE else View.GONE
+            richContentEntertainmentView.visibility = if (viewModel.richContentEntertainmentViewVisibility) View.VISIBLE else View.GONE
+            richContentPowerView.visibility = if (viewModel.richContentPowerViewVisibility) View.VISIBLE else View.GONE
+            routeScoreTextView.text = if (viewModel.routeScoreViewVisibility) viewModel.routeScoreText else ""
+        }
+        flightMessageContainer.visibility = if (urgencyMessageVisibility || viewModel.routeScoreViewVisibility) View.VISIBLE else View.GONE
         cardView.contentDescription = viewModel.getFlightContentDesc(bestFlightView.visibility == View.VISIBLE)
     }
 
