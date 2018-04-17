@@ -434,9 +434,9 @@ class FlightConfirmationPresenterTest {
 
     private fun setRoundTripFlight(isRoundTrip: Boolean) {
         val flightSearch = if (isRoundTrip) FlightSearchParams(SuggestionV4(), SuggestionV4(), LocalDate(), LocalDate(), 5,
-                ArrayList(), false, "", 5, "", true, true, "")
+                ArrayList(), false, "", 5, "", true, true, "", null)
         else FlightSearchParams(SuggestionV4(), SuggestionV4(), LocalDate(), null, 5,
-                ArrayList(), false, "", 5, "", true, true, "")
+                ArrayList(), false, "", 5, "", true, true, "", null)
         Db.setFlightSearchParams(flightSearch)
     }
 }

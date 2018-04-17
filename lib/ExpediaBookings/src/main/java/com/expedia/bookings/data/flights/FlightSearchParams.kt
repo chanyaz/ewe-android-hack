@@ -9,7 +9,7 @@ import org.joda.time.LocalDate
 
 class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport: SuggestionV4, val departureDate: LocalDate, val returnDate: LocalDate?, adults: Int,
                          children: List<Int>, infantSeatingInLap: Boolean, val flightCabinClass: String?, val legNo: Int?, val selectedOutboundLegId: String?,
-                         val showRefundableFlight: Boolean?, val nonStopFlight: Boolean?, val featureOverride: String?) :
+                         val showRefundableFlight: Boolean?, val nonStopFlight: Boolean?, val featureOverride: String?, val maxOfferCount: Int?) :
         AbstractFlightSearchParams(departureAirport, arrivalAirport, adults, children, departureDate, returnDate, infantSeatingInLap) {
 
     class Builder(maxStay: Int, maxRange: Int) : AbstractFlightSearchParams.Builder(maxStay, maxRange) {
@@ -22,6 +22,8 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
         private var showNonStopFlight: Boolean? = null
         private var featureOverride: String? = null
 
+        private var maxOfferCount: Int = Constants.DEFAULT_MAX_OFFER_COUNT
+
         override fun build(): FlightSearchParams {
             val departureAirport = originLocation ?: throw IllegalArgumentException()
             val arrivalAirport = destinationLocation ?: throw IllegalArgumentException()
@@ -31,13 +33,14 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
             if (endDate != null && legNo != null) {
                 if ((legNo == 0 && Strings.isEmpty(selectedOutboundLegId)) || (legNo == 1 && Strings.isNotEmpty(selectedOutboundLegId))) {
                     searchLegNo = legNo
+                    maxOfferCount = Constants.BYOT_MAX_OFFER_COUNT
                 } else {
                     throw IllegalArgumentException("In BYOT if you are searching for outbound then legNo should be 0 and selectedOutboundLegId should be empty " +
                             "or if for inbound then legNo should be 1 and selectedOutboundLegId should be non-empty ")
                 }
             }
             return FlightSearchParams(departureAirport, arrivalAirport, departureDate, endDate, adults, children, infantSeatingInLap, flightCabinClass,
-                    searchLegNo, selectedOutboundLegId, showRefundableFlight, showNonStopFlight, featureOverride)
+                    searchLegNo, selectedOutboundLegId, showRefundableFlight, showNonStopFlight, featureOverride, maxOfferCount)
         }
 
         override fun areRequiredParamsFilled(): Boolean {

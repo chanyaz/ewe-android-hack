@@ -272,7 +272,7 @@ class TuneUtilsTests {
         setupTuneProvider()
 
         val flightSearchParams = FlightSearchParams(generateFlightSuggestionV4("DTW", "12005"), generateFlightSuggestionV4("SFO", "00887"),
-                baseStartDate, baseStartDate.plusDays(3), 1, listOf(), false, "first class", 1, "1350", false, true, null)
+                baseStartDate, baseStartDate.plusDays(3), 1, listOf(), false, "first class", 1, "1350", false, true, null, null)
 
         val flightCreateTripResponse = FlightCreateTripResponse()
         flightCreateTripResponse.details = FlightTripDetails()
@@ -309,7 +309,7 @@ class TuneUtilsTests {
         flightCheckoutResponse.flightAggregatedResponse?.flightsDetailResponse = listOf(flightTripDetails)
 
         val flightSearchParams = FlightSearchParams(generateFlightSuggestionV4("DTW", "12345"), generateFlightSuggestionV4("MCO", "8675"),
-                baseStartDate, baseStartDate.plusDays(5), 2, listOf(), false, "first class", 2, "123", false, true, null)
+                baseStartDate, baseStartDate.plusDays(5), 2, listOf(), false, "first class", 2, "123", false, true, null, null)
 
         TuneUtils.trackFlightV2Booked(flightCheckoutResponse, flightSearchParams)
 

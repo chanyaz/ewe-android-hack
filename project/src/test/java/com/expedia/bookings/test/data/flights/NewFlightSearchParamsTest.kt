@@ -228,6 +228,7 @@ class NewFlightSearchParamsTest {
         assertEquals(1, inboundSearchParams.legNo)
         assertNull(inboundSearchParams.flightCabinClass)
         assertEquals("outboundleg", inboundSearchParams.selectedOutboundLegId)
+        assertEquals(6400, inboundSearchParams.maxOfferCount)
     }
 
     @Test
@@ -260,6 +261,7 @@ class NewFlightSearchParamsTest {
     fun testSubpubEvolableSearchParams() {
         val flightSearchParams = giveSearchParams(Constants.FEATURE_SUBPUB, Constants.FEATURE_EVOLABLE)
         assertEquals("SubPub,GetEvolable", flightSearchParams.featureOverride)
+        assertEquals(1600, flightSearchParams.maxOfferCount)
     }
 
     private fun giveSearchParams(vararg overrides: String): FlightSearchParams {

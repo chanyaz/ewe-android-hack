@@ -18,14 +18,15 @@ import io.reactivex.Observable;
 public interface FlightApi {
 
 	@FormUrlEncoded
-	@POST("api/flight/search?maxOfferCount=1600&lccAndMerchantFareCheckoutAllowed=true")
+	@POST("api/flight/search?lccAndMerchantFareCheckoutAllowed=true")
 	Observable<FlightSearchResponse> flightSearch(
 		@FieldMap Map<String, Object> queryParams, @Query("childTravelerAge") List<Integer> childAges,
 		@Query("cabinClassPreference") String cabinClass, @Field("ul") Integer legNo,
 		@Field("fl0") String selectedOutboundId,
 		@Query("showRefundableFlight") Boolean showRefundableFlight,
 		@Query("nonStopFlight") Boolean nonStopFlight,
-		@Query("featureOverride") String featureOverride);
+		@Query("featureOverride") String featureOverride,
+		@Field("maxOfferCount") Integer maxOfferCount);
 
 	@FormUrlEncoded
 	@POST("api/flight/trip/create?withInsurance=true")

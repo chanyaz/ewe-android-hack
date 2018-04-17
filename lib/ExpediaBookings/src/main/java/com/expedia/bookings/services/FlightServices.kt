@@ -87,7 +87,7 @@ open class FlightServices(val endpoint: String, okHttpClient: OkHttpClient, inte
 
     private fun doFlightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>, resultsResponseReceivedObservable: PublishSubject<Unit>? = null, searchType: FlightSearchType): Disposable {
         return flightApi.flightSearch(params.toQueryMap(), params.children, params.flightCabinClass, params.legNo,
-                params.selectedOutboundLegId, params.showRefundableFlight, params.nonStopFlight, params.featureOverride)
+                params.selectedOutboundLegId, params.showRefundableFlight, params.nonStopFlight, params.featureOverride, params.maxOfferCount)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext { resultsResponseReceivedObservable?.onNext(Unit) }

@@ -242,7 +242,7 @@ class FlightFareFamilyViewModelTest {
             checkOut = LocalDate().plusDays(3)
         }
 
-        return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, adultCount, childList, false, null, null, null, null, null, null)
+        return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, adultCount, childList, false, null, null, null, null, null, null, null)
     }
 
     private fun createFlightLegWithSegments(segmentAirlineNames: ArrayList<String>): FlightLeg {

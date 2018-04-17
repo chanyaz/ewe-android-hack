@@ -101,7 +101,7 @@ class RecentSearchViewHolderViewModel(val context: Context) {
         val infantInLap = recentSearch.isInfantInLap
         val flightCabinClass = recentSearch.flightClass
         return FlightSearchParams(sourceSuggestion, destinationSuggestion, departureDate, returnDate, adults, children,
-                infantInLap, flightCabinClass, null, null, null, null, null)
+                infantInLap, flightCabinClass, null, null, null, null, null, null)
     }
 
     fun getObjectFromJSON(json: String): SuggestionV4 {
