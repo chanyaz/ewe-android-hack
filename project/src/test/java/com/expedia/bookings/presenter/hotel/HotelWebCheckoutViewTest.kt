@@ -303,6 +303,26 @@ class HotelWebCheckoutViewTest {
         maskWebCheckoutActivityObservable.assertValues(true, false)
     }
 
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testShouldNotMaskScreenAfterWebCheckoutToNativeConfirmation() {
+        setPOSWithWebCheckoutEnabled(true)
+        setUpTestToStartAtDetailsScreen()
+
+        val shouldMaskScreenTestObserver = TestObserver.create<Boolean>()
+        hotelPresenter.webCheckoutView.viewModel.showWebViewObservable.subscribe(shouldMaskScreenTestObserver)
+
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userAccountRefresher = userAccountRefresherMock
+        selectHotelRoom()
+        val tripID = "testing-for-confirmation"
+        verify(userAccountRefresherMock, times(0)).forceAccountRefreshForWebView()
+        hotelPresenter.webCheckoutView.onWebPageStarted(hotelPresenter.webCheckoutView.webView, PointOfSale.getPointOfSale().hotelsWebBookingConfirmationURL + "?tripid=$tripID", null)
+        verify(userAccountRefresherMock, times(1)).forceAccountRefreshForWebView()
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).onUserAccountRefreshed()
+
+        shouldMaskScreenTestObserver.assertValue(false)
+    }
+
     private fun getToWebCheckoutView() {
         setPOSWithWebCheckoutEnabled(true)
         setUpTestToStartAtDetailsScreen()
