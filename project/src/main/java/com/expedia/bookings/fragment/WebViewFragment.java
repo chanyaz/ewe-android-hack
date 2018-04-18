@@ -84,6 +84,7 @@ public class WebViewFragment extends DialogFragment {
 
 	private String mUrl;
 	protected String mHtmlData;
+	private String mBaseUrl;
 	private boolean enableSignIn;
 	private boolean mLoadCookies;
 	private boolean mAllowUseableNetRedirects;
@@ -111,11 +112,14 @@ public class WebViewFragment extends DialogFragment {
 		return frag;
 	}
 
-	public static WebViewFragment newInstance(String htmlData) {
+	public static WebViewFragment newInstance(String htmlData, String baseUrl) {
 		WebViewFragment frag = new WebViewFragment();
 
 		Bundle args = new Bundle();
 		args.putString(ARG_HTML_DATA, htmlData);
+		if (baseUrl != null) {
+			args.putString(Constants.ARG_BASE_URL, baseUrl);
+		}
 		frag.setArguments(args);
 		frag.setRetainInstance(true);
 
@@ -146,6 +150,9 @@ public class WebViewFragment extends DialogFragment {
 		else {
 			mUrl = args.getString(ARG_URL);
 		}
+
+		mBaseUrl = args.getString(Constants.ARG_BASE_URL, null);
+
 		enableSignIn = args.getBoolean(ARG_ENABLE_LOGIN, false);
 
 		String name = args.getString(ARG_TRACKING_NAME);
@@ -295,7 +302,7 @@ public class WebViewFragment extends DialogFragment {
 			}
 			// Using .loadData() sometimes fails with unescaped html.
 			// .loadDataWithBaseURL() does not seem to save the data across configuration changes, so must always reload
-			mWebView.loadDataWithBaseURL(null, mHtmlData, "text/html", "UTF-8", null);
+			mWebView.loadDataWithBaseURL(mBaseUrl, mHtmlData, "text/html", "UTF-8", null);
 		}
 	}
 
@@ -380,6 +387,7 @@ public class WebViewFragment extends DialogFragment {
 				super.onPageFinished(webview, url);
 				//Stop progress spinner
 				mWebViewLoaded = true;
+				mListener.newUrlLoaded(url);
 				if (mListener != null) {
 					mListener.setLoading(false);
 				}
@@ -499,6 +507,7 @@ public class WebViewFragment extends DialogFragment {
 	public interface WebViewFragmentListener {
 		void setLoading(boolean loading);
 		void setScrapedTitle(String title);
+		void newUrlLoaded(String url);
 	}
 
 	@Override

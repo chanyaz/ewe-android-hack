@@ -109,6 +109,10 @@ public class Constants {
 
 	public static final String NO_INTERNET_ERROR_CODE = "NO_INTERNET";
 	public static final String UNKNOWN_ERROR_CODE = "UNKNOWN_ERROR";
+	public static final String ARG_HTML_DATA = "ARG_HTML_DATA";
+	public static final String ARG_ORIGINAL_URL = "ARG_ORIGINAL_URL";
+	public static final String ARG_BASE_URL = "ARG_BASE_URL";
+	public static final String ARG_USE_WEB_VIEW_TITLE = "ARG_USE_WEB_VIEW_TITLE";
 
 	//Carnival
 	public static final String CARNIVAL_MESSAGE_DATA = "carnival_message";

@@ -3,6 +3,7 @@ package com.expedia.bookings.utils
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
+import com.expedia.bookings.http.CaptchaRedirectInterceptor
 import com.expedia.bookings.server.EndPoint
 import com.expedia.bookings.server.EndpointProvider
 import com.expedia.bookings.services.PersistentCookiesCookieJar
@@ -34,6 +35,8 @@ open class InsecureOKHttpClientFactory(context: Context, cookieManager: Persiste
         if (ExpediaBookingApp.isRobolectric()) {
             client.addNetworkInterceptor(DenyExternalRequestInterceptor())
         }
+
+        client.addInterceptor(CaptchaRedirectInterceptor(context))
 
         if (!ExpediaBookingApp.isAutomation()) {
             val chuckInterceptor = ChuckInterceptor(context)

@@ -233,7 +233,8 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 		if (extras.containsKey(ARG_HTML_DATA)) {
 			String htmlData = extras.getString(ARG_HTML_DATA);
 			Log.v("WebView html data: " + htmlData);
-			fragment = WebViewFragment.newInstance(htmlData);
+			String baseUrl = extras.getString(Constants.ARG_BASE_URL, null);
+			fragment = WebViewFragment.newInstance(htmlData, baseUrl);
 		}
 		else {
 			String url = extras.getString(ARG_URL);
@@ -287,6 +288,10 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 		if (useOriginalTitle) {
 			setTitle(title);
 		}
+	}
+
+	@Override
+	public void newUrlLoaded(String url) {
 	}
 
 	private boolean shouldBail() {
