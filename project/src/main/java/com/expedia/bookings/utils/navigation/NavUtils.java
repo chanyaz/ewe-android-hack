@@ -212,6 +212,10 @@ public class NavUtils {
 		getUserStateManager(context).signIn((Activity) context, bundle);
 	}
 
+	public static void showAccountSignIn(Context context) {
+		getUserStateManager(context).signIn((Activity) context);
+	}
+
 	public static void goToTransport(Context context, Bundle animOptions, int expediaFlags) {
 		sendKillActivityBroadcast(context);
 		Intent intent = new Intent(context, LXBaseActivity.class);
