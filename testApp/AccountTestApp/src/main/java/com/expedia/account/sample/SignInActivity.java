@@ -25,7 +25,6 @@ import com.mobiata.android.Log;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.zip.ZipEntry;
@@ -120,19 +119,8 @@ public class SignInActivity extends FragmentActivity {
 		showTransparentStatusBar();
 		ButterKnife.inject(this);
 
-		try {
-			ApplicationInfo ai = this.getPackageManager().getApplicationInfo(this.getPackageName(), 0);
-			ZipFile zf = new ZipFile(ai.sourceDir);
-			ZipEntry ze = zf.getEntry("classes.dex");
-			long time = ze.getTime();
-
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US);
-			sdf.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
-
-			vBuildDate.setText(String.format("Built %s in San Francisco", sdf.format(new Date(time))));
-		}
-		catch (Exception ignored) {
-		}
+		String timeString = getAppBuildTimeString();
+		vBuildDate.setText(String.format("Built %s", timeString));
 
 		new AlertDialog.Builder(this)
 			.setTitle("Sign Up Path")
@@ -149,6 +137,22 @@ public class SignInActivity extends FragmentActivity {
 			.show();
 
 		vAccountView.setWhiteBackgroundFromActivity(vWhiteBackground);
+	}
+
+	private String getAppBuildTimeString() {
+		SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm z", Locale.US);
+
+		try {
+			ApplicationInfo ai = this.getPackageManager().getApplicationInfo(this.getPackageName(), 0);
+			ZipFile zf = new ZipFile(ai.sourceDir);
+			ZipEntry ze = zf.getEntry("classes.dex");
+			long time = ze.getTime();
+
+			return dateTimeFormatter.format(time);
+		}
+		catch (Exception e) {
+			return "with love";
+		}
 	}
 
 	@Override
