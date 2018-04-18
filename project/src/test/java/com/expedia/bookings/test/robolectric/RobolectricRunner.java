@@ -1,14 +1,10 @@
 package com.expedia.bookings.test.robolectric;
 
-import android.app.Application;
-import android.support.annotation.NonNull;
-import android.view.View;
-
-import com.expedia.bookings.BuildConfig;
-import com.expedia.bookings.analytics.OmnitureTestUtils;
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.abacus.AbacusResponse;
-import com.expedia.bookings.test.RunForBrands;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -24,11 +20,15 @@ import org.robolectric.res.Fs;
 import org.robolectric.res.FsFile;
 import org.robolectric.util.ReflectionHelpers;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import android.app.Application;
+import android.support.annotation.NonNull;
+import android.view.View;
+
+import com.expedia.bookings.BuildConfig;
+import com.expedia.bookings.analytics.OmnitureTestUtils;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.abacus.AbacusResponse;
+import com.expedia.bookings.test.RunForBrands;
 
 public class RobolectricRunner extends RobolectricTestRunner {
 
@@ -41,7 +41,7 @@ public class RobolectricRunner extends RobolectricTestRunner {
 		String brandName = BuildConfig.FLAVOR;
 
 		FsFile mani = Fs.fileFromPath("build/intermediates/manifests/full/" + brandName + "/debug/AndroidManifest.xml");
-		FsFile res = Fs.fileFromPath("build/intermediates/res/merged/" + brandName + "/debug/");
+		FsFile res = Fs.fileFromPath("build/intermediates/merged-not-compiled-resources/" + brandName + "/debug/");
 		FsFile assets = Fs.fileFromPath("build/intermediates/assets/" + brandName + "/debug/");
 
 		return new AndroidManifest(mani, res, assets, "com.expedia.bookings");
