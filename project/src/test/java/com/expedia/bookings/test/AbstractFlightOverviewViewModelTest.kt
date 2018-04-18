@@ -130,6 +130,21 @@ class AbstractFlightOverviewViewModelTest {
         showEarnMessageTestSubscriber.assertValue(true)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testUrgencyMessageVisibilityWithRouteScore() {
+        val bottomUrgencyMessageTestSubscriber = TestObserver<Boolean>()
+        setFlightOverviewModel(false)
+        setupFlightLeg()
+        setSeatsLeftInLeg(2)
+        sut.selectedFlightLegSubject.onNext(flightLeg)
+        sut.flightMessageContainerStream.subscribe(bottomUrgencyMessageTestSubscriber)
+        sut.routeScoreStream.onNext("7.9/10 - Very Good!")
+        bottomUrgencyMessageTestSubscriber.assertValuesAndClear(true)
+        sut.bottomUrgencyMessageSubject.onNext("2 seats left")
+        bottomUrgencyMessageTestSubscriber.assertValue(true)
+    }
+
     private fun setupFlightLeg() {
         flightLeg = FlightLeg()
         flightLeg.packageOfferModel = PackageOfferModel()
@@ -141,7 +156,31 @@ class AbstractFlightOverviewViewModelTest {
         flightLeg.packageOfferModel.price.averageTotalPricePerTicket = Money("42.00", "USD")
         flightLeg.airlineMessageModel = FlightLeg.AirlineMessageModel()
         flightLeg.airlineMessageModel.hasAirlineWithCCfee = false
+        flightLeg.flightSegments = listOf(createFlightSegment("coach"))
         flightLeg.airlineMessageModel.airlineFeeLink = "p/regulatory/obfees"
+    }
+
+    private fun createFlightSegment(seatClass: String): FlightLeg.FlightSegment {
+        val airlineSegment = FlightLeg.FlightSegment()
+        airlineSegment.flightNumber = "51"
+        airlineSegment.airplaneType = "Airbus A320"
+        airlineSegment.carrier = "United Airlines"
+        airlineSegment.operatingAirlineCode = ""
+        airlineSegment.operatingAirlineName = ""
+        airlineSegment.departureDateTimeISO = ""
+        airlineSegment.arrivalDateTimeISO = ""
+        airlineSegment.departureCity = "San Francisco"
+        airlineSegment.arrivalCity = "Honolulu"
+        airlineSegment.departureAirportCode = "SFO"
+        airlineSegment.arrivalAirportCode = "SEA"
+        airlineSegment.durationHours = 2
+        airlineSegment.durationMinutes = 2
+        airlineSegment.layoverDurationHours = 0
+        airlineSegment.layoverDurationMinutes = 0
+        airlineSegment.elapsedDays = 0
+        airlineSegment.seatClass = seatClass
+        airlineSegment.bookingCode = "O"
+        return airlineSegment
     }
 
     private fun setSeatsLeftInLeg(ticketsLeft: Int) {

@@ -3,13 +3,18 @@ package com.expedia.vm.flights
 import android.content.Context
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.flights.RichContent
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extensions.getEarnMessage
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
+import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.FlightV2Utils
+import com.expedia.bookings.utils.RichContentUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.isFlightsUrgencyMeassagingEnabled
+import com.expedia.bookings.utils.isRichContentShowRouteScoreEnabled
 import com.expedia.vm.AbstractFlightOverviewViewModel
+import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject
 
 class FlightOverviewViewModel(context: Context) : AbstractFlightOverviewViewModel(context) {
@@ -54,6 +59,21 @@ class FlightOverviewViewModel(context: Context) : AbstractFlightOverviewViewMode
             )
             if (shouldShowUrgencyMessaging()) {
                 bottomUrgencyMessageSubject.onNext(FlightV2Utils.getSeatsLeftUrgencyMessage(context, selectedFlight))
+            }
+            val segmentAmenities: List<RichContent.RichContentAmenity>? = selectedFlight.richContent?.segmentAmenitiesList
+            for ((index, segment) in selectedFlight.flightSegments.withIndex()) {
+                if (CollectionUtils.isNotEmpty(segmentAmenities)) {
+                    segment.flightAmenities = segmentAmenities!![index]
+                }
+            }
+            if (isRichContentShowRouteScoreEnabled()) {
+                var routeScore = ""
+                if (selectedFlight.richContent != null) {
+                    routeScore = Phrase.from(context, RichContentUtils.ScoreExpression.valueOf(selectedFlight.richContent.scoreExpression).stringResId)
+                            .put("route_score", selectedFlight.richContent.score.toString())
+                            .format().toString()
+                }
+                routeScoreStream.onNext(routeScore)
             }
         }
     }

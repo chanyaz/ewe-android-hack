@@ -176,6 +176,8 @@ public class FlightLeg {
 		public String seatClass;
 		public String bookingCode;
 
+		public RichContent.RichContentAmenity flightAmenities;
+
 		public static FlightSegment convertMultiItemFlightSegment(MultiItemFlightSegment multiItemFlightSegment) {
 			FlightSegment flightSegment = new FlightSegment();
 			if (multiItemFlightSegment.getAirplaneType() != null) {
