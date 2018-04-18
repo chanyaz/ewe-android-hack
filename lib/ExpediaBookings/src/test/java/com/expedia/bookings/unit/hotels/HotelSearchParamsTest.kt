@@ -43,16 +43,18 @@ class HotelSearchParamsTest {
         testParamBuilder
                 .hotelName(name)
                 .starRatings(listOf(10, 20))
+                .guestRatings(listOf(3, 4, 5))
                 .priceRange(HotelSearchParams.PriceRange(10, 30))
                 .amenities(hashSetOf(4, 16))
 
         val searchParams = testParamBuilder.build()
         val map = searchParams.filterOptions!!.getFiltersQueryMap()
-        assertEquals(4, map.size)
+        assertEquals(5, map.size)
         assertEquals(name, map["filterHotelName"])
         assertEquals("10,20", map["filterStarRatings"])
         assertEquals("10,30", map["filterPrice"])
         assertEquals("4,16", map["filterAmenities"])
+        assertEquals("3,4,5", map["guestRatingFilterItems"])
     }
 
     @Test

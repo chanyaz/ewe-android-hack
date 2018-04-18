@@ -18,7 +18,7 @@ data class UserFilterChoices(var userSort: DisplaySort = DisplaySort.getDefaultS
     fun filterCount(): Int {
         var count = 0
         count += hotelStarRating.getStarRatingParamsAsList().size
-        count += hotelGuestRating.getGuestRatingParamsAsList().size
+        if (hotelGuestRating.getGuestRatingParamAsList().isNotEmpty()) count++
         if (isVipOnlyAccess) count++
         if (name.isNotEmpty()) count++
         if (neighborhoods.isNotEmpty()) count += neighborhoods.size
@@ -64,6 +64,11 @@ data class UserFilterChoices(var userSort: DisplaySort = DisplaySort.getDefaultS
 
             filterChoices.minPrice = searchOptions.filterPrice?.minPrice ?: 0
             filterChoices.maxPrice = searchOptions.filterPrice?.maxPrice ?: 0
+
+            if (searchOptions.filterGuestRatings.isNotEmpty()) {
+                filterChoices.hotelGuestRating = GuestRatings.fromParamList(searchOptions.filterGuestRatings)
+            }
+
             filterChoices.amenities = searchOptions.amenities
             searchOptions.filterByNeighborhood?.let { neighborhood ->
                 filterChoices.neighborhoods.add(neighborhood)
@@ -100,13 +105,36 @@ data class UserFilterChoices(var userSort: DisplaySort = DisplaySort.getDefaultS
     }
 
     data class GuestRatings(var three: Boolean = false, var four: Boolean = false, var five: Boolean = false) {
-        //TODO Need to update to the valid values from API
-        fun getGuestRatingParamsAsList(): List<Int> {
+        fun getGuestRatingParamAsList(): List<Int> {
             val guestRatings = ArrayList<Int>()
-            if (three) guestRatings.add(60)
-            if (four) guestRatings.add(70)
-            if (five) guestRatings.add(80)
+            when {
+                three -> {
+                    guestRatings.add(3)
+                    guestRatings.add(4)
+                    guestRatings.add(5)
+                }
+                four -> {
+                    guestRatings.add(4)
+                    guestRatings.add(5)
+                }
+                five -> guestRatings.add(5)
+            }
             return guestRatings
+        }
+
+        companion object {
+            @JvmStatic
+            fun fromParamList(ratingList: List<Int>): GuestRatings {
+                val guestRatings = GuestRatings()
+                if (ratingList.contains(3)) {
+                    guestRatings.three = true
+                } else if (ratingList.contains(4)) {
+                    guestRatings.four = true
+                } else if (ratingList.contains(5)) {
+                    guestRatings.five = true
+                }
+                return guestRatings
+            }
         }
     }
 }
