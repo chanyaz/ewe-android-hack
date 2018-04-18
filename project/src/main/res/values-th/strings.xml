@@ -1013,11 +1013,11 @@
     <!-- Expedia Itinerary -->
     <string name="itinerary_TEMPLATE">หมายเลขแผนการเดินทาง {brand}</string>
     <!-- Label for exclusive phone number for base tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
-    <string name="rewards_base_tier_customer_support">ฝ่ายบริการลูกค้า Expedia +blue</string>
+    <string name="rewards_base_tier_customer_support">ฝ่ายบริการลูกค้า Expedia blue</string>
     <!-- Label for exclusive phone number for middle tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
-    <string name="rewards_middle_tier_customer_support">ฝ่ายบริการลูกค้า Expedia +silver</string>
+    <string name="rewards_middle_tier_customer_support">ฝ่ายบริการลูกค้า Expedia silver</string>
     <!-- Label for exclusive phone number for top tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
-    <string name="rewards_top_tier_customer_support">ฝ่ายบริการลูกค้า Expedia +gold</string>
+    <string name="rewards_top_tier_customer_support">ฝ่ายบริการลูกค้า Expedia gold</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">ไม่มีการเดินทางในเร็วๆ นี้</string>
     <!-- Enter itinerary number -->
@@ -1477,6 +1477,8 @@
     <!--LX itin redesign-->
     <!--LX toolbar title template. (e.g. Activity in San Francisco)-->
     <string name="itin_lx_toolbar_title_TEMPLATE">กิจกรรมใน {location}</string>
+    <string name="itin_lx_more_info_heading">ความช่วยเหลือเพิ่มเติม</string>
+    <string name="itin_lx_more_info_subheading">ข้อมูลฝ่ายบริการลูกค้า</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">แชร์แผนการเดินทาง</string>
@@ -2733,7 +2735,7 @@
     <!-- Title for VIP Access message -->
     <string name="vip_access">+VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">ที่โรงแรม +VIP Access สมาชิก +silver และ +gold จะได้รับการอัพเกรดห้องพักฟรี รวมถึงสิทธิประโยชน์อื่นๆ ที่มีพร้อมบริการขณะเข้าเช็คอิน</string>
+    <string name="vip_access_message">ที่โรงแรม +VIP Access สมาชิกระดับ silver และ gold จะได้รับการอัพเกรดห้องพักฟรี รวมถึงสิทธิประโยชน์อื่นๆ ที่มีพร้อมให้บริการในขณะเข้าเช็คอิน</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">โรงแรม +VIP Access เท่านั้น</string>
     <!-- Title for VIP Access message for Hotel Results -->
@@ -4499,17 +4501,17 @@
 
     <!-- Rewards -->
     <!-- Long name for rewards base tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_base_tier_name_long">Expedia +blue</string>
+    <string name="reward_base_tier_name_long">Expedia blue</string>
     <!-- Long name for rewards middle tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_middle_tier_name_long">Expedia +silver</string>
+    <string name="reward_middle_tier_name_long">Expedia silver</string>
     <!-- Long name for rewards top tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_top_tier_name_long">Expedia +gold</string>
+    <string name="reward_top_tier_name_long">Expedia gold</string>
     <!-- Short name for rewards base tier -->
-    <string name="reward_base_tier_name_short">+blue</string>
+    <string name="reward_base_tier_name_short">blue</string>
     <!-- Short name for rewards middle tier -->
-    <string name="reward_middle_tier_name_short">+silver</string>
+    <string name="reward_middle_tier_name_short">silver</string>
     <!-- Short name for rewards top tier -->
-    <string name="reward_top_tier_name_short">+gold</string>
+    <string name="reward_top_tier_name_short">gold</string>
 
     <!--Packages search accessibility -->
     <!-- Best Flight card view content description for accessibility.-->
@@ -5079,6 +5081,15 @@
 
     <!-- Recent search header string -->
     <string name="flight_recent_search_label">การค้นหาล่าสุด</string>
+
+    <!--Recent Search card content description template. Eg. 1 SFO to LAS oneway search for 31st July for 2 travelers Economy class Price starting from $150 per person-->
+    <string name="flight_recent_search_item_cont_desc_TEMPLATE">{source} ไปยัง {destination}, การค้นหาแบบ{trip_type}, วันที่ {date}, สำหรับ {travelers} คน, ชั้น{cabin_class}, ราคาเริ่มต้นที่ {amount} ต่อคน \u0020</string>  
+
+    <!--Recent Search travelers card content description template. Eg. 1 traveler, 2 travelers-->
+    <plurals name="recent_search_travelers_cont_desc_TEMPLATE">
+        <item quantity="one">ผู้เดินทาง {travelers} คน</item>
+        <item quantity="other">ผู้เดินทาง {travelers} คน</item>
+    </plurals>
 
     <!-- Brand reward name -->
     <string name="brand_reward_name">Expedia Rewards</string>
