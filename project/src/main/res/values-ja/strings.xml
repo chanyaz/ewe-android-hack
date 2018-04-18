@@ -1013,11 +1013,11 @@
     <!-- Expedia Itinerary -->
     <string name="itinerary_TEMPLATE">{brand}旅程番号</string>
     <!-- Label for exclusive phone number for base tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
-    <string name="rewards_base_tier_customer_support">Expedia+ ブルー会員専用サポート</string>
+    <string name="rewards_base_tier_customer_support">エクスペディア ブルー会員専用サポート</string>
     <!-- Label for exclusive phone number for middle tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
-    <string name="rewards_middle_tier_customer_support">Expedia+ シルバー会員専用サポート</string>
+    <string name="rewards_middle_tier_customer_support">エクスペディア シルバー会員専用サポート</string>
     <!-- Label for exclusive phone number for top tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
-    <string name="rewards_top_tier_customer_support">Expedia+ ゴールド会員専用サポート</string>
+    <string name="rewards_top_tier_customer_support">エクスペディア ゴールド会員専用サポート</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">予約された旅行はありません。</string>
     <!-- Enter itinerary number -->
@@ -1477,6 +1477,8 @@
     <!--LX itin redesign-->
     <!--LX toolbar title template. (e.g. Activity in San Francisco)-->
     <string name="itin_lx_toolbar_title_TEMPLATE">{location}の現地ツアー</string>
+    <string name="itin_lx_more_info_heading">お問い合わせ</string>
+    <string name="itin_lx_more_info_subheading">カスタマーサポート情報</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">旅程をシェアする</string>
@@ -2733,7 +2735,7 @@
     <!-- Title for VIP Access message -->
     <string name="vip_access">+VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">+VIP Access 提携ホテルでは、+シルバー会員および +ゴールド会員は、部屋の無料アップグレードおよびその他の特典をご利用いただけます (チェックイン時の利用状況による)。</string>
+    <string name="vip_access_message">+VIP Access 提携ホテルでは、シルバー会員およびゴールド会員は、部屋の無料アップグレードおよびその他の特典をご利用いただけます (チェックイン時の利用状況による)。</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">+VIP Access 提携ホテルのみ</string>
     <!-- Title for VIP Access message for Hotel Results -->
@@ -3513,7 +3515,7 @@
     <string name="country_ly">リビア アラブ国</string>
     <string name="country_li">リヒテンシュタイン</string>
     <string name="country_lt">リトアニア</string>
-    <string name="country_lu">ルクセンブルグ</string>
+    <string name="country_lu">ルクセンブルク</string>
     <string name="country_mo">マカオ特別行政区</string>
     <string name="country_mk">マケドニア旧ユーゴスラビア共和国</string>
     <string name="country_mg">マダガスカル</string>
@@ -4498,17 +4500,17 @@
 
     <!-- Rewards -->
     <!-- Long name for rewards base tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_base_tier_name_long">Expedia+ ブルー</string>
+    <string name="reward_base_tier_name_long">エクスペディア ブルー</string>
     <!-- Long name for rewards middle tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_middle_tier_name_long">Expedia+ シルバー</string>
+    <string name="reward_middle_tier_name_long">エクスペディア シルバー</string>
     <!-- Long name for rewards top tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_top_tier_name_long">Expedia+ ゴールド</string>
+    <string name="reward_top_tier_name_long">エクスペディア ゴールド</string>
     <!-- Short name for rewards base tier -->
-    <string name="reward_base_tier_name_short">+ブルー</string>
+    <string name="reward_base_tier_name_short">ブルー</string>
     <!-- Short name for rewards middle tier -->
-    <string name="reward_middle_tier_name_short">+シルバー</string>
+    <string name="reward_middle_tier_name_short">シルバー</string>
     <!-- Short name for rewards top tier -->
-    <string name="reward_top_tier_name_short">+ゴールド</string>
+    <string name="reward_top_tier_name_short">ゴールド</string>
 
     <!--Packages search accessibility -->
     <!-- Best Flight card view content description for accessibility.-->
@@ -5078,6 +5080,15 @@
 
     <!-- Recent search header string -->
     <string name="flight_recent_search_label">最近の検索履歴</string>
+
+    <!--Recent Search card content description template. Eg. 1 SFO to LAS oneway search for 31st July for 2 travelers Economy class Price starting from $150 per person-->
+    <string name="flight_recent_search_item_cont_desc_TEMPLATE">{source}発{destination}行、{trip_type}の検索結果、出発日 {date}、{travelers}、{cabin_class}クラス、料金 1 名あたり {amount} から \u0020</string>  
+
+    <!--Recent Search travelers card content description template. Eg. 1 traveler, 2 travelers-->
+    <plurals name="recent_search_travelers_cont_desc_TEMPLATE">
+        <item quantity="one">旅行者 {travelers} 名</item>
+        <item quantity="other">旅行者 {travelers} 名</item>
+    </plurals>
 
     <!-- Brand reward name -->
     <string name="brand_reward_name">エクスペディア会員プログラム</string>
