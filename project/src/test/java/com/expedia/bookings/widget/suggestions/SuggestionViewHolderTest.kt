@@ -57,7 +57,7 @@ class SuggestionViewHolderTest {
 
         val suggestion = TestSuggestionV4Builder().regionDisplayName("notnull").iconType(SuggestionV4.IconType.SEARCH_TYPE_ICON).build()
         testVM.bind(suggestion)
-
-        assertEquals("SEARCH_TYPE_ICON", testViewHolder.icon.contentDescription)
+        val iconContentDescription = if (testVM.isIconContentDescriptionRequired()) "SEARCH_TYPE_ICON" else ""
+        assertEquals(iconContentDescription, testViewHolder.icon.contentDescription)
     }
 }

@@ -27,6 +27,8 @@ abstract class BaseSuggestionViewModel(val context: Context) {
     protected abstract fun getTitle(): CharSequence
     protected abstract fun getSubTitle(): String
 
+    open fun isIconContentDescriptionRequired() = false
+
     fun bind(suggestion: SuggestionV4) {
         this.suggestion = suggestion
 
@@ -35,7 +37,11 @@ abstract class BaseSuggestionViewModel(val context: Context) {
         titleFontObservable.onNext(if (getSubTitle().isEmpty()) FontCache.Font.ROBOTO_REGULAR else FontCache.Font.ROBOTO_MEDIUM)
         isChildObservable.onNext(isChild(suggestion) && !suggestion.isHistoryItem)
         iconObservable.onNext(getIcon())
-        iconContentDescriptionObservable.onNext(getIconContentDescription())
+        if (isIconContentDescriptionRequired()) {
+            iconContentDescriptionObservable.onNext(getIconContentDescription())
+        } else {
+            iconContentDescriptionObservable.onNext("")
+        }
     }
 
     open fun getIcon(): Int {

@@ -57,7 +57,8 @@ class FlightsSuggestionViewModelTest {
 
         assertFalse(testSubscriber.values()[0], "FAILURE: History items can not be children")
         testIconObserver.assertValue(R.drawable.recents)
-        testIconContentDescriptionObserver.assertValue("HISTORY_ICON")
+        val iconContentDescription = if (viewModel.isIconContentDescriptionRequired()) "HISTORY_ICON" else ""
+        testIconContentDescriptionObserver.assertValue(iconContentDescription)
     }
 
     @Test
@@ -132,7 +133,8 @@ class FlightsSuggestionViewModelTest {
         val suggestion = suggestionBuilder().iconType(SuggestionV4.IconType.CURRENT_LOCATION_ICON).build()
         viewModel.bind(suggestion)
         testIconObserver.assertValue(R.drawable.ic_suggest_current_location)
-        testIconContentDescriptionObserver.assertValue("CURRENT_LOCATION_ICON")
+        val iconContentDescription = if (viewModel.isIconContentDescriptionRequired()) "CURRENT_LOCATION_ICON" else ""
+        testIconContentDescriptionObserver.assertValue(iconContentDescription)
     }
 
     private fun suggestionBuilder(): TestSuggestionV4Builder {

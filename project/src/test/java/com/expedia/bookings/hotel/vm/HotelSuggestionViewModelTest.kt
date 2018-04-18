@@ -62,7 +62,8 @@ class HotelSuggestionViewModelTest {
                 .iconType(SuggestionV4.IconType.HISTORY_ICON).build()
         testVM.bind(suggestion)
         testIconObserver.assertValue(R.drawable.search_type_icon)
-        testIconContentDescriptionObserver.assertValue("HISTORY_ICON")
+        val iconContentDescription = if (testVM.isIconContentDescriptionRequired()) "HISTORY_ICON" else ""
+        testIconContentDescriptionObserver.assertValue(iconContentDescription)
     }
 
     @Test
@@ -71,7 +72,8 @@ class HotelSuggestionViewModelTest {
                 .iconType(SuggestionV4.IconType.RECENT_SEARCH_ICON).build()
         testVM.bind(suggestion)
         testIconObserver.assertValue(R.drawable.recents)
-        testIconContentDescriptionObserver.assertValue("RECENT_SEARCH_ICON")
+        val iconContentDescription = if (testVM.isIconContentDescriptionRequired()) "RECENT_SEARCH_ICON" else ""
+        testIconContentDescriptionObserver.assertValue(iconContentDescription)
     }
 
     @Test
@@ -80,7 +82,8 @@ class HotelSuggestionViewModelTest {
                 .iconType(SuggestionV4.IconType.CURRENT_LOCATION_ICON).build()
         testVM.bind(suggestion)
         testIconObserver.assertValue(R.drawable.ic_suggest_current_location)
-        testIconContentDescriptionObserver.assertValue("CURRENT_LOCATION_ICON")
+        val iconContentDescription = if (testVM.isIconContentDescriptionRequired()) "CURRENT_LOCATION_ICON" else ""
+        testIconContentDescriptionObserver.assertValue(iconContentDescription)
     }
 
     @Test
@@ -89,7 +92,8 @@ class HotelSuggestionViewModelTest {
                 .iconType(SuggestionV4.IconType.MAGNIFYING_GLASS_ICON).build()
         testVM.bind(suggestion)
         testIconObserver.assertValue(R.drawable.google_search)
-        testIconContentDescriptionObserver.assertValue("MAGNIFYING_GLASS_ICON")
+        val iconContentDescription = if (testVM.isIconContentDescriptionRequired()) "MAGNIFYING_GLASS_ICON" else ""
+        testIconContentDescriptionObserver.assertValue(iconContentDescription)
     }
 
     @Test
@@ -98,7 +102,8 @@ class HotelSuggestionViewModelTest {
                 .type("HOTEL").build()
         testVM.bind(suggestion)
         testIconObserver.assertValue(R.drawable.hotel_suggest)
-        testIconContentDescriptionObserver.assertValue("HOTEL_ICON")
+        val iconContentDescription = if (testVM.isIconContentDescriptionRequired()) "HOTEL_ICON" else ""
+        testIconContentDescriptionObserver.assertValue(iconContentDescription)
     }
 
     @Test
@@ -107,7 +112,8 @@ class HotelSuggestionViewModelTest {
                 .type("AIRPORT").build()
         testVM.bind(suggestion)
         testIconObserver.assertValue(R.drawable.airport_suggest)
-        testIconContentDescriptionObserver.assertValue("AIRPORT_ICON")
+        val iconContentDescription = if (testVM.isIconContentDescriptionRequired()) "AIRPORT_ICON" else ""
+        testIconContentDescriptionObserver.assertValue(iconContentDescription)
     }
 
     @Test
@@ -115,7 +121,8 @@ class HotelSuggestionViewModelTest {
         val suggestion = TestSuggestionV4Builder().regionDisplayName("notnull").build()
         testVM.bind(suggestion)
         testIconObserver.assertValue(R.drawable.search_type_icon)
-        testIconContentDescriptionObserver.assertValue("SEARCH_TYPE_ICON")
+        val iconContentDescription = if (testVM.isIconContentDescriptionRequired()) "SEARCH_TYPE_ICON" else ""
+        testIconContentDescriptionObserver.assertValue(iconContentDescription)
     }
 
     @Test
