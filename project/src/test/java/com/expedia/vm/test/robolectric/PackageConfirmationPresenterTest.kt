@@ -58,6 +58,7 @@ class PackageConfirmationPresenterTest {
 
     @Before
     fun setup() {
+        Db.sharedInstance.clear()
         Ui.getApplication(RuntimeEnvironment.application).defaultPackageComponents()
         Ui.getApplication(RuntimeEnvironment.application).defaultTravelerComponent()
         val intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.package_activity)
@@ -170,6 +171,9 @@ class PackageConfirmationPresenterTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMIDShowBookingSuccessDialogOnItinResponseContainingErrors() {
         setupMIDWebCheckout()
+        Db.setPackageParams(getPackageSearchParams())
+        Db.setPackageSelectedOutboundFlight(PackageTestUtil.getPackageSelectedOutboundFlight())
+        PackageTestUtil.setDbPackageSelectedHotel()
 
         val makeItinResponseObserver = packagePresenter.makeNewItinResponseObserver()
 
