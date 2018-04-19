@@ -104,10 +104,15 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
     }
 
     override fun onWebPageStarted(view: WebView, url: String, favicon: Bitmap?) {
-        if (urlHasPOSWebBookingConfirmationUrl(url) || urlIsMIDConfirmation(url)) {
+        if (urlHasPOSWebBookingConfirmationUrl(url) || urlIsMIDConfirmation(url) || urlIsLXConfirmation(url)) {
             view.stopLoading()
             (viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.onNext(Uri.parse(url).getQueryParameter("tripid"))
         }
+    }
+
+    private fun urlIsLXConfirmation(url: String): Boolean {
+        return (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppLxWebCheckoutView)
+                && (url.contains(context.getString(R.string.mid_confirmation_url_tag)) || (url.contains(context.getString(R.string.lx_confirmation_url_tag)))))
     }
 
     override fun setExitButtonOnClickListener(listener: OnClickListener) {
