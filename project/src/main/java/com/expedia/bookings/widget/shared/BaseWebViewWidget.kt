@@ -4,9 +4,11 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import android.net.http.SslError
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
+import android.webkit.SslErrorHandler
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -14,6 +16,7 @@ import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.ProgressBar
+import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.analytics.AppAnalytics
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
@@ -22,6 +25,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.WebViewViewModel
+import com.mobiata.android.util.SettingUtils
 
 open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
@@ -64,6 +68,15 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
             } else {
                 view.stopLoading()
                 context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+            }
+        }
+
+        override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
+            val httpsSecurityDisabled = SettingUtils.get(context, context.getString(R.string.preference_disable_modern_https_security), false)
+            if (BuildConfig.DEBUG && httpsSecurityDisabled) {
+                handler?.proceed()
+            } else {
+                super.onReceivedSslError(view, handler, error)
             }
         }
 
