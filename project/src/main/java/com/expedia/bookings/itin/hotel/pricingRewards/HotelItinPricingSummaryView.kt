@@ -1,44 +1,63 @@
 package com.expedia.bookings.itin.hotel.pricingRewards
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.itin.scopes.HotelItinPricingSummaryScope
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 
 class HotelItinPricingSummaryView(context: Context?, attrs: AttributeSet?) : CardView(context, attrs) {
-    var viewModel: HotelItinPricingSummaryViewModel<HotelItinPricingSummaryScope> by notNullAndObservable {
-        it.lineItemViewModelSubject.subscribe { summaries ->
+    val containerView: LinearLayout by bindView(R.id.hotel_itin_pricing_summary_container)
+
+    var viewModel: IHotelItinPricingSummaryViewModel by notNullAndObservable {
+        it.clearPriceSummaryContainerSubject.subscribe {
             containerView.removeAllViews()
+        }
 
-            summaries.forEach { summary ->
-                val totalItemView: HotelItinLineItemView = Ui.inflate(R.layout.hotel_itin_total_line_item_view, containerView, false)
-                totalItemView.labelTextView.text = summary.totalLineItem.labelString
-                totalItemView.priceTextView.text = summary.totalLineItem.priceString
+        it.roomPriceBreakdownSubject.subscribe { roomPrices ->
+            roomPrices.forEach { roomPrice ->
+                val totalRoomPriceView: PriceSummaryItemView = Ui.inflate(R.layout.hotel_itin_price_summary_item_view, containerView, false)
+                totalRoomPriceView.labelTextView.text = roomPrice.totalRoomPriceItem.labelString
+                totalRoomPriceView.priceTextView.text = roomPrice.totalRoomPriceItem.priceString
+                totalRoomPriceView.setPriceColor(roomPrice.totalRoomPriceItem.colorRes)
 
-                containerView.addView(totalItemView)
+                containerView.addView(totalRoomPriceView)
 
-                for (item in summary.perDayLineItems) {
-                    val itemView: HotelItinLineItemView = Ui.inflate(R.layout.hotel_itin_line_item_view, containerView, false)
-                    itemView.labelTextView.text = item.labelString
-                    itemView.priceTextView.text = item.priceString
+                for (perDayPrice in roomPrice.perDayRoomPriceItems) {
+                    val roomPricePerDayView: PriceSummaryItemView = Ui.inflate(R.layout.hotel_itin_price_summary_item_view, containerView, false)
+                    roomPricePerDayView.labelTextView.text = perDayPrice.labelString
+                    roomPricePerDayView.priceTextView.text = perDayPrice.priceString
+                    roomPricePerDayView.setPriceColor(perDayPrice.colorRes)
 
-                    containerView.addView(itemView)
+                    containerView.addView(roomPricePerDayView)
                 }
             }
         }
-    }
 
-    val containerView: LinearLayout by bindView(R.id.hotel_itin_pricing_summary_container)
+        it.priceLineItemSubject.subscribe { item ->
+            val priceLineItem: PriceSummaryItemView = Ui.inflate(R.layout.hotel_itin_price_summary_item_view, containerView, false)
+            priceLineItem.labelTextView.text = item.labelString
+            priceLineItem.priceTextView.text = item.priceString
+            priceLineItem.setPriceColor(item.colorRes)
+
+            containerView.addView(priceLineItem)
+        }
+    }
 }
 
-class HotelItinLineItemView(context: Context?, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
+class PriceSummaryItemView(context: Context?, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
     val labelTextView: TextView by bindView(R.id.hotel_itin_line_item_view_label_text)
     val priceTextView: TextView by bindView(R.id.hotel_itin_line_item_view_price_text)
+
+    fun setPriceColor(colorRes: Int) {
+        val color = ContextCompat.getColor(context, colorRes)
+        labelTextView.setTextColor(color)
+        priceTextView.setTextColor(color)
+    }
 }

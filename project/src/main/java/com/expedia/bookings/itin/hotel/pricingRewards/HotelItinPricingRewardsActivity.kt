@@ -34,9 +34,7 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
     val pricingSummaryView: HotelItinPricingSummaryView by bindView(R.id.hotel_itin_pricing_summary_view)
 
     lateinit var jsonUtil: IJsonToItinUtil
-
     lateinit var hotelRepo: ItinHotelRepo
-
     lateinit var stringProvider: StringSource
 
     var toolbarViewModel: HotelItinPricingRewardsToolbarViewModel<HotelItinToolbarScope> by notNullAndObservable { vm ->
@@ -44,7 +42,6 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
             finishActivity()
         }
     }
-
     lateinit var summaryViewModel: HotelItinPricingSummaryViewModel<HotelItinPricingSummaryScope>
 
     val itineraryManager: ItineraryManager = ItineraryManager.getInstance()
