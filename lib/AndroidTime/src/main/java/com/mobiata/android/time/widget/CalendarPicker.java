@@ -32,6 +32,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnPreDrawListener;
+import android.view.accessibility.AccessibilityEvent;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -478,7 +479,7 @@ public class CalendarPicker extends LinearLayout {
 		String currMonth = monthYearFormatter.print(mState.mDisplayYearMonth);
 		mCurrentMonthTextView.setText(currMonth);
 		mCurrentMonthTextView.setContentDescription(context.getString(R.string.cd_month_current_TEMPLATE, currMonth));
-
+		mCurrentMonthTextView.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_HOVER_ENTER);
 		mNextMonthView.setContentDescription(context.getString(R.string.cd_month_next_TEMPLATE,
 			monthYearFormatter.print(mState.mDisplayYearMonth.plusMonths(1))));
 
