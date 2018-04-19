@@ -86,6 +86,10 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
                 window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
             }
         }
+        vm.reloadUrlObservable.subscribe {
+            webView.reload()
+            webView.clearHistory()
+        }
     }
 
     override fun onFinishInflate() {

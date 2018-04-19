@@ -16,6 +16,7 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.WebViewUtils
@@ -230,6 +231,34 @@ class HotelWebCheckoutViewTest {
         closeViewSubscriber.assertValueCount(1)
         urlSubscriber.assertValueCount(1)
         urlSubscriber.assertValue("about:blank")
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testLoginStateChangedReloadsUrlWithLoggedInUser() {
+        getToWebCheckoutView()
+        val userStateManager = Ui.getApplication(activity).appComponent().userStateManager()
+        val testUser = UserLoginTestUtil.mockUser()
+        testUser.primaryTraveler.email = "test@expedia.com"
+        userStateManager.addUserToAccountManager(testUser)
+        UserLoginTestUtil.setupUserAndMockLogin(testUser)
+        val testReloadSubscriber = TestObserver<Unit>()
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).reloadUrlObservable.subscribe(testReloadSubscriber)
+
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userLoginStateChangedModel.userLoginStateChanged.onNext(true)
+
+        testReloadSubscriber.assertValueCount(1)
+        assertFalse(hotelPresenter.webCheckoutView.webView.canGoBack())
+    }
+
+    @Test
+    fun testLoginStateChangedDoesNotReloadUrlWithLoggedOutUser() {
+        getToWebCheckoutView()
+        val testReloadSubscriber = TestObserver<Unit>()
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).reloadUrlObservable.subscribe(testReloadSubscriber)
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userLoginStateChangedModel.userLoginStateChanged.onNext(true)
+
+        testReloadSubscriber.assertNoValues()
     }
 
     @Test

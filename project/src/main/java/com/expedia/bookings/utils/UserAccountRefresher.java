@@ -52,6 +52,10 @@ public class UserAccountRefresher {
 		userAccountRefreshListener = listener;
 	}
 
+	public UserLoginStateChangedModel getUserLoginStateChangedModel() {
+		return userLoginStateChangedModel;
+	}
+
 	private final BackgroundDownloader.Download<SignInResponse> mRefreshUserDownload = new BackgroundDownloader.Download<SignInResponse>() {
 		@Override
 		public SignInResponse doDownload() {

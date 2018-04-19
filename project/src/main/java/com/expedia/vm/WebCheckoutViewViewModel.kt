@@ -16,8 +16,16 @@ abstract class WebCheckoutViewViewModel(context: Context) : WebViewViewModel(), 
     val fetchItinObservable = PublishSubject.create<String>()
     val closeView = PublishSubject.create<Unit>()
     val showLoadingObservable = PublishSubject.create<Unit>()
+    val reloadUrlObservable = PublishSubject.create<Unit>()
 
     private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
+    val userLoginStateChangedModel = userAccountRefresher.userLoginStateChangedModel
+
+    init {
+        userLoginStateChangedModel.userLoginStateChanged
+                .filter { it && userStateManager.isUserAuthenticated() }
+                .subscribe { reloadUrlObservable.onNext(Unit) }
+    }
 
     abstract fun doCreateTrip()
 
