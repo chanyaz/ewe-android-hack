@@ -1,6 +1,7 @@
 package com.expedia.bookings.travelPulse.vm
 
 import android.content.Context
+import android.widget.Toast
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.travelpulse.TravelPulseFetchResponse
 import com.expedia.bookings.services.TravelPulseServices
@@ -30,13 +31,13 @@ class TravelPulseViewModel(private val context: Context, private val travelPulse
     private fun createTravelPulseResponseObserver(): Observer<TravelPulseFetchResponse> {
         return object : DisposableObserver<TravelPulseFetchResponse>() {
             override fun onNext(response: TravelPulseFetchResponse) {
-                System.out.println(response)
+                Toast.makeText(context, "passed $response", Toast.LENGTH_SHORT).show()
             }
 
             override fun onComplete() {}
 
             override fun onError(e: Throwable) {
-                System.out.println(e)
+                Toast.makeText(context, "failed $e", Toast.LENGTH_SHORT).show()
             }
         }
     }

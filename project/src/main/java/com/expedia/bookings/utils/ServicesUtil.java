@@ -206,9 +206,9 @@ public class ServicesUtil {
 
 	public static String getTravelPulseClientToken(Context context, EndPoint endPoint) {
 //      use production token once prod endpoint works
-//		if (endPoint == EndPoint.PRODUCTION) {
-//			return context.getResources().getString(R.string.travel_pulse_prod_client_token);
-//		}
+		if (endPoint == EndPoint.PRODUCTION) {
+			return context.getResources().getString(R.string.travel_pulse_prod_client_token);
+		}
 		return context.getResources().getString(R.string.travel_pulse_test_client_token);
 	}
 }

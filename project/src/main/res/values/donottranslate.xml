@@ -483,7 +483,7 @@
     <!--Travel Pulse Values-->
     <string name="travel_pulse_test_client_token">YjNlMmM2YzYtYTJhNS00NDEwLWE1NjMtMTI4MmRmNTc2MTcy</string>
     <!-- uncomment once prod endpoint works-->
-    <!--<string name="travel_pulse_prod_client_token">MTA3ZTc3ZmYtZjZiMi00M2IxLWFjODEtYzY3ZjcwMmFlY2Iy</string>-->
+    <string name="travel_pulse_prod_client_token">MTA3ZTc3ZmYtZjZiMi00M2IxLWFjODEtYzY3ZjcwMmFlY2Iy</string>
     <string name="travel_pulse_client_id">androidHotel</string>
 
 </resources>

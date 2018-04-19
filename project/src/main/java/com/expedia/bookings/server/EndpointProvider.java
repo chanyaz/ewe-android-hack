@@ -213,9 +213,9 @@ public class EndpointProvider {
 		String endpoint;
 		switch (getEndPoint()) {
 //      use production endpoint once prod endpoint works
-//		case PRODUCTION:
-//			endpoint = "https://universal-curation-service.us-east-1.prod.expedia.com/";
-//			break;
+		case PRODUCTION:
+			endpoint = "https://universal-curation-service.us-east-1.prod.expedia.com/";
+			break;
 		default:
 			endpoint = "https://universal-curation-service.us-west-2.test.expedia.com/";
 		}
