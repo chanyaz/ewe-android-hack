@@ -100,16 +100,16 @@ class GeoFencingIntentService : IntentService("GeoFencingIntentService"),
                 FoursquareResponseUtil.saveResponse(this@GeoFencingIntentService, t)
 
                 //set geo fences here
-                t.response.groups.get(0).items.forEach {
+                t.response.groups.get(0).items.forEach { item ->
                     try {
                         val builder = GeofencingRequest.Builder()
 
                         builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER)
                         builder.addGeofence(Geofence.Builder()
-                                .setRequestId(it.venue.id)
+                                .setRequestId(item.venue.id)
                                 .setCircularRegion(
-                                        it.venue.location.lat,
-                                        it.venue.location.lng,
+                                        item.venue.location.lat,
+                                        item.venue.location.lng,
                                         5000f
                                 )
                                 .setExpirationDuration(172800000L)
@@ -123,18 +123,18 @@ class GeoFencingIntentService : IntentService("GeoFencingIntentService"),
                         }
 
                         val result = LocationServices.getGeofencingClient(this@GeoFencingIntentService)
-                                .addGeofences(geoReq, getPIforGeoFence(it, t.response.groups.get(0).items.indexOf(it)))
+                                .addGeofences(geoReq, getPIforGeoFence(item, t.response.groups.get(0).items.indexOf(item)))
 
                         result.addOnSuccessListener {
-                            Log.d("GeoFencingIntentService", "Success")
+                            Log.d("GeoFencingIntentService", "Success:" + item.venue.name)
                         }
 
                         result.addOnCompleteListener {
-                            Log.d("GeoFencingIntentService", "Complete")
+                            Log.d("GeoFencingIntentService", "Complete:" + item.venue.name)
                         }
 
                         result.addOnFailureListener {
-                            Log.d("GeoFencingIntentService", "Failed")
+                            Log.d("GeoFencingIntentService", "Failed:" + item.venue.name)
                         }
                     } catch (ex: Exception){
                         Log.d("GeoFencingIntentService", ex.toString() + " : exception in adding new geofence")
