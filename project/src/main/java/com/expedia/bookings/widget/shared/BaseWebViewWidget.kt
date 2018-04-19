@@ -44,6 +44,8 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
             } else if (url.contains("/user/signin")) {
                 view.stopLoading()
                 NavUtils.showAccountSignIn(context)
+                webView.goBack()
+                webView.clearHistory()
             } else {
                 hideWebViewPopUp()
                 webView.loadUrl(url)
