@@ -5969,9 +5969,7 @@ public class OmnitureTracking {
 		s.setProp(2, "Flight");
 		s.setEvar(35, getRankEvent(outboundSelectedAndTotalLegRank, null));
 
-		if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)) {
-			setEventsForSearchTracking(s, trackingData.getPerformanceData(), "");
-		}
+		setEventsForSearchTracking(s, trackingData.getPerformanceData(), "");
 		s.track();
 	}
 

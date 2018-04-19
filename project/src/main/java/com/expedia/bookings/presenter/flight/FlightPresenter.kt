@@ -201,11 +201,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             }
         }
 
-        if (isByotEnabled) {
-            presenter.detailsPresenter.vm.selectedFlightClickedSubject.subscribe {
-                searchTrackingBuilder.markSearchClicked()
-                searchTrackingBuilder.searchParams(Db.getFlightSearchParams())
-            }
+        presenter.detailsPresenter.vm.selectedFlightClickedSubject.subscribe {
+            searchTrackingBuilder.markSearchClicked()
+            searchTrackingBuilder.searchParams(Db.getFlightSearchParams())
         }
         presenter
     }
@@ -237,19 +235,17 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             true
         })
         presenter.setupComplete()
-        if (isByotEnabled) {
-            presenter.flightOfferViewModel.inboundResultsObservable.subscribe {
-                searchTrackingBuilder.markResultsProcessed()
-                searchTrackingBuilder.searchResponse(it)
-            }
+        presenter.flightOfferViewModel.inboundResultsObservable.subscribe {
+            searchTrackingBuilder.markResultsProcessed()
+            searchTrackingBuilder.searchResponse(it)
+        }
 
-            (presenter.resultsPresenter.recyclerView.adapter as FlightListAdapter).allViewsLoadedTimeObservable.subscribe {
-                searchTrackingBuilder.markResultsUsable()
-                if (searchTrackingBuilder.isWorkComplete()) {
-                    val trackingData = searchTrackingBuilder.build()
-                    FlightsV2Tracking.trackResultInBoundFlights(trackingData, Pair(flightOfferViewModel.confirmedOutboundFlightSelection.value.legRank,
-                            flightOfferViewModel.totalOutboundResults))
-                }
+        (presenter.resultsPresenter.recyclerView.adapter as FlightListAdapter).allViewsLoadedTimeObservable.subscribe {
+            searchTrackingBuilder.markResultsUsable()
+            if (searchTrackingBuilder.isWorkComplete()) {
+                val trackingData = searchTrackingBuilder.build()
+                FlightsV2Tracking.trackResultInBoundFlights(trackingData, Pair(flightOfferViewModel.confirmedOutboundFlightSelection.value.legRank,
+                        flightOfferViewModel.totalOutboundResults))
             }
         }
         presenter
@@ -434,8 +430,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
         viewModel.inboundResultsObservable.subscribe {
             if (!isByotEnabled) {
-                searchTrackingBuilder.searchResponse(it)
-                inboundPresenter.trackFlightResultsLoad()
                 showInboundPresenter(viewModel.searchParamsObservable.value.departureAirport)
             }
         }
