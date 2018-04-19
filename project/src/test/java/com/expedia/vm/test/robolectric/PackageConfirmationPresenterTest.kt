@@ -170,6 +170,9 @@ class PackageConfirmationPresenterTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMIDShowBookingSuccessDialogOnItinResponseContainingErrors() {
         setupMIDWebCheckout()
+        Db.setPackageParams(getPackageSearchParams())
+        Db.setPackageSelectedOutboundFlight(PackageTestUtil.getPackageSelectedOutboundFlight())
+        PackageTestUtil.setDbPackageSelectedHotel()
 
         val makeItinResponseObserver = packagePresenter.makeNewItinResponseObserver()
 
