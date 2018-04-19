@@ -37,4 +37,19 @@ class EndpointProviderTest {
         SettingUtils.save(context, context.getString(R.string.preference_which_api_to_use_key), "Production")
         assertEquals("https://suggest.expedia.com/", endpointProvider.essEndpointUrl)
     }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testGetTravelPulseEndpointUrlForProduction() {
+        SettingUtils.save(context, context.getString(R.string.preference_which_api_to_use_key), "Production")
+        // use "https://universal-curation-service.us-east-1.prod.expedia.com/" once prod endpoint works
+        assertEquals("https://universal-curation-service.us-west-2.test.expedia.com/", endpointProvider.travelPulseEndpointUrl)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testGetTravelPulseEndpointUrlForNonProduction() {
+        SettingUtils.save(context, context.getString(R.string.preference_which_api_to_use_key), "Integration")
+        assertEquals("https://universal-curation-service.us-west-2.test.expedia.com/", endpointProvider.travelPulseEndpointUrl)
+    }
 }

@@ -199,4 +199,16 @@ public class ServicesUtil {
 		}
 		return context.getResources().getString(R.string.tg_prod_client_token);
 	}
+
+	public static String getTravelPulseClientId(Context context) {
+		return context.getString(R.string.travel_pulse_client_id);
+	}
+
+	public static String getTravelPulseClientToken(Context context, EndPoint endPoint) {
+//      use production token once prod endpoint works
+//		if (endPoint == EndPoint.PRODUCTION) {
+//			return context.getResources().getString(R.string.travel_pulse_prod_client_token);
+//		}
+		return context.getResources().getString(R.string.travel_pulse_test_client_token);
+	}
 }

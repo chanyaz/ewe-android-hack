@@ -25,6 +25,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
     private val osApiRequestDispatcher = OSApiRequestDispatcher(fileOpener)
     private val travelGraphRequestDispatcher = TravelGraphApiRequestDispatcher(fileOpener)
     private val flightMApiRequestDispatcher = FlightMApiRequestDispatcher(fileOpener)
+    private val travelPulseRequestDispatcher = TravelPulseApiRequestDispatcher(fileOpener)
 
     @Throws(InterruptedException::class)
     override fun dispatch(request: RecordedRequest): MockResponse {
@@ -46,9 +47,14 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
             return railApiRequestDispatcher.dispatch(request)
         }
 
-        //TravelGraph API
+        // TravelGraph API
         if (TravelGraphApiRequestMatcher.isTravelGraphRequest(request.path)) {
             return travelGraphRequestDispatcher.dispatch(request)
+        }
+
+        // TravelPulse API
+        if (TravelPulseApiRequestMatcher.isTravelPulseRequest(request.path)) {
+            return travelPulseRequestDispatcher.dispatch(request)
         }
 
         // Packages API

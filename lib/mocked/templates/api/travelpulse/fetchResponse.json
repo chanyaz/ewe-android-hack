@@ -1,0 +1,57 @@
+{
+  "metadata": {
+    "userContext": {
+      "siteId": 1,
+      "expUserId": "73956838",
+      "guid": "53f34b1d23a44f779dc2ce7c602d4f6f"
+    }
+  },
+  "results": [
+    {
+      "product": "TRAVELER_ENGAGEMENT",
+      "type": "SHORTLIST_ITEM",
+      "items": [
+        {
+          "templateName": "HOTEL",
+          "shortlistItem": {
+            "id": "1-73956838-19-hotel",
+            "itemId": "19",
+            "configId": "hotel",
+            "guid": "53f34b1d23a44f779dc2ce7c602d4f6f",
+            "uid": "73956838",
+            "expUserId": "73956838",
+            "siteId": 1,
+            "metaData": {
+              "hotelId": "19",
+              "chkIn": "20171116",
+              "chkOut": "20171122",
+              "roomConfiguration": "1"
+            },
+            "lastModifiedDate": {
+              "nano": 314000000,
+              "epochSecond": 1524087830
+            }
+          },
+          "link": "/go/hotel/info/19/2017-11-16/2017-11-22?NumRoom=1&NumAdult-Room1=1",
+          "image": "/hotels/1000000/10000/100/19/19_59_y.jpg",
+          "title": "title",
+          "blurb": "blurb",
+          "id": "1-73956838-19-hotel",
+          "name": "Plaza Hotel and Casino - Las Vegas",
+          "description": "Located in Fremont Street, this resort is within 1 mi (2 km) of Fremont Street Experience and Las Vegas Premium Outlets. Las Vegas Convention Center is 3 mi (4.8 km) away. ",
+          "media": "/hotels/1000000/10000/100/19/19_59_y.jpg",
+          "rating": "3",
+          "guestRating": "3.6540437",
+          "numberOfReviews": "13256",
+          "numberOfRooms": "1",
+          "price": "10",
+          "regionId": "2008",
+          "currency": "$",
+          "tripLocations": "tripLocations",
+          "tripDates": "2019-03-12T15:00:00+05:30",
+          "routeType": "ROUTE_TYPE"
+        }
+      ]
+    }
+  ]
+}

@@ -2,6 +2,7 @@ package com.expedia.bookings.utils
 
 import android.content.Context
 import com.expedia.bookings.data.DeviceType
+import com.expedia.bookings.server.EndPoint
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -41,5 +42,21 @@ class ServicesUtilTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun clientIsCorrectForExpedia() {
         assertEquals("expedia.app.android.phone", ServicesUtil.generateClient(context))
+    }
+
+    @Test
+    fun testGetTravelPulseClientId() {
+        assertEquals("androidHotel", ServicesUtil.getTravelPulseClientId(context))
+    }
+
+    @Test
+    fun testGetTravelPulseClientTokenProduction() {
+        // use MTA3ZTc3ZmYtZjZiMi00M2IxLWFjODEtYzY3ZjcwMmFlY2Iy once prod endpoint works
+        assertEquals("YjNlMmM2YzYtYTJhNS00NDEwLWE1NjMtMTI4MmRmNTc2MTcy", ServicesUtil.getTravelPulseClientToken(context, EndPoint.PRODUCTION))
+    }
+
+    @Test
+    fun testGetTravelPulseClientTokenNonProduction() {
+        assertEquals("YjNlMmM2YzYtYTJhNS00NDEwLWE1NjMtMTI4MmRmNTc2MTcy", ServicesUtil.getTravelPulseClientToken(context, EndPoint.INTEGRATION))
     }
 }

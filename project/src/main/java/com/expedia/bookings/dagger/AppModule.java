@@ -41,6 +41,7 @@ import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.services.PersistentCookiesCookieJar;
 import com.expedia.bookings.services.SatelliteServices;
 import com.expedia.bookings.services.TNSServices;
+import com.expedia.bookings.services.TravelPulseServices;
 import com.expedia.bookings.services.os.OfferService;
 import com.expedia.bookings.services.sos.SmartOfferService;
 import com.expedia.bookings.trace.util.ServerDebugTraceUtil;
@@ -229,6 +230,24 @@ public class AppModule {
 			}
 		};
 	}
+
+	@Provides
+	@Singleton
+	@Named("TravelPulseInterceptor")
+	Interceptor provideTravelPulseInterceptor(final Context context, final EndpointProvider endpointProvider) {
+		return new Interceptor() {
+			@Override
+			public Response intercept(Interceptor.Chain chain) throws IOException {
+				HttpUrl.Builder url = chain.request().url().newBuilder();
+				Request.Builder requestBuilder = chain.request().newBuilder();
+				requestBuilder.addHeader("client-token", ServicesUtil.getTravelPulseClientToken(context, endpointProvider.getEndPoint()));
+				requestBuilder.url(url.build());
+
+				return chain.proceed(requestBuilder.build());
+			}
+		};
+	}
+
 
 	private void clientLog(Request.Builder request, Response response, Context context) {
 		if (!request.build().url().toString().contains(ClientLogConstants.CLIENT_LOG_URL)) {
@@ -452,6 +471,19 @@ public class AppModule {
 	@Singleton
 	AppDatabase provideAppDatabase(Context context) {
 		return Room.databaseBuilder(context, AppDatabase.class, APP_DATABASE_NAME).build();
+	}
+
+	@Provides
+	@Singleton
+	TravelPulseServices provideTravelPulseServices(EndpointProvider endpointProvider,
+		OkHttpClient client,
+		Interceptor interceptor,
+		@Named("TravelPulseInterceptor") Interceptor travelPulseInterceptor) {
+		return new TravelPulseServices(endpointProvider.getTravelPulseEndpointUrl(),
+			client,
+			interceptor,
+			travelPulseInterceptor,
+			AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	private void setupDebugTracingIfEnabled(Request.Builder requestBuilder) {

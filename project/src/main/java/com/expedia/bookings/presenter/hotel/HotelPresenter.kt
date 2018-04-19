@@ -45,10 +45,12 @@ import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.services.ReviewsServices
+import com.expedia.bookings.services.TravelPulseServices
 import com.expedia.bookings.tracking.hotel.ClientLogTracker
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
+import com.expedia.bookings.travelPulse.vm.TravelPulseViewModel
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ClientLogConstants
 import com.expedia.bookings.utils.StrUtils
@@ -304,6 +306,16 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter
     }
 
+    private var travelPulseServices: TravelPulseServices by Delegates.notNull()
+    private var travelPulseViewModel: TravelPulseViewModel by Delegates.notNull()
+
+    private fun initTravelPulseViewModel() {
+        travelPulseServices = Ui.getApplication(context).appComponent().travelPulseServices()
+        travelPulseViewModel = TravelPulseViewModel(context, travelPulseServices)
+
+        travelPulseViewModel.fetchFavoriteHotels()
+    }
+
     private fun setUpCreateTripErrorHandling(createTripViewModel: HotelCreateTripViewModel) {
         createTripViewModel.errorObservable.subscribe(errorPresenter.getViewModel().apiErrorObserver)
         createTripViewModel.errorObservable.subscribe { show(errorPresenter) }
@@ -374,6 +386,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
+
+        initTravelPulseViewModel()
 
         initDetailViewModel()
 
