@@ -11,7 +11,7 @@ import retrofit2.http.Query
  */
 interface FourSquareApi {
 
-    @GET("/v2/venues/explore?section=trending&limit=50&sortByDistance=0&radius=50000&oauth_token=SBDRDZRZZLYPJLMNTU04AOCR2CWUGJU3KHBLNEW2O4NB5PNM&v=20180209")
+    @GET("/v2/venues/explore?section=trending&limit=100&sortByDistance=0&radius=50000&oauth_token=SBDRDZRZZLYPJLMNTU04AOCR2CWUGJU3KHBLNEW2O4NB5PNM&v=20180209")
     fun getTrendingPlaces(
             @Query("ll") latLong: String?,
             @Query("near") place: String?): Observable<FourSquareResponse>
