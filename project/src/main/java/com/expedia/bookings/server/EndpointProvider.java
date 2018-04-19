@@ -20,7 +20,7 @@ import com.mobiata.android.util.SettingUtils;
 
 import okhttp3.HttpUrl;
 
-public class EndpointProvider {
+public class EndpointProvider implements EndpointProviderInterface {
 
 	private EnumMap<EndPoint, String> serverUrls = new EnumMap<EndPoint, String>(EndPoint.class);
 	private Context context;
