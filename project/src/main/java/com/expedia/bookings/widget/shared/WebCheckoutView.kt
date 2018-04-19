@@ -101,7 +101,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
     }
 
     override fun toggleLoading(loading: Boolean) {
-        if (ExpediaBookingApp.isAutomation()) {
+        if (ExpediaBookingApp.isInstrumentation()) {
             return
         }
         loadingWebview.setVisibility(loading)

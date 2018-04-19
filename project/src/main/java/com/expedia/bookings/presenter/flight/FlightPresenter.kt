@@ -344,6 +344,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
 
         presenter.viewModel.showWebviewCheckoutObservable.subscribe {
+            webCheckoutView.toggleLoading(webCheckoutView.webView.progress < 33)
             show(webCheckoutView)
             webCheckoutView.visibility = View.VISIBLE
             webCheckoutView.viewModel.showWebViewObservable.onNext(true)

@@ -175,6 +175,7 @@ class FlightCheckoutViewTest {
         maskWebCheckoutActivityObservable.assertValue(true)
         assertTrue(flightPresenter.webCheckoutView.visibility == View.VISIBLE)
         assertTrue(flightPresenter.flightOverviewPresenter.visibility == View.GONE)
+        assertTrue(flightPresenter.webCheckoutView.visibility == View.VISIBLE)
     }
 
     @Test
@@ -204,11 +205,12 @@ class FlightCheckoutViewTest {
         Db.getTripBucket().add(TripBucketItemFlightV2(getFlightCreateTripResponse()))
         flightPresenter.flightOverviewPresenter.checkoutButton.performClick()
 
-        assertTrue(flightPresenter.webCheckoutView.loadingWebview.visibility == View.GONE)
+        assertTrue(flightPresenter.webCheckoutView.loadingWebview.visibility == View.VISIBLE)
         (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).blankViewObservable.onNext(Unit)
 
         assertTrue(flightPresenter.webCheckoutView.visibility == View.VISIBLE)
         assertTrue(flightPresenter.flightOverviewPresenter.visibility == View.GONE)
+        assertTrue(flightPresenter.webCheckoutView.loadingWebview.visibility == View.VISIBLE)
     }
 
     @Test
