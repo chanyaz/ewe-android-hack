@@ -47,6 +47,7 @@ class CustomerFirstSupportAdapter(private val customerFirstSupportViewModel: Cus
             textView.setCompoundDrawablesWithIntrinsicBounds(customerFirstSupportModel.iconResId, 0, 0, 0)
             textView.text = textView.context.getString(customerFirstSupportModel.titleResId)
             textView.tag = customerFirstSupportModel.ordinal
+            textView.contentDescription = customerFirstSupportModel.getCustomerSupportContDescString(itemView.context)
         }
 
         override fun onClick(view: View) {

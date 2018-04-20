@@ -500,6 +500,7 @@
     <string name="customer_first_app_not_present_TEMPLATE" />
     <string name="download" />
     <string name="open" />
+    <string name="customer_first_phone_number_cont_desc_TEMPLATE" />
 
     <!-- Package names -->
     <string name="facebook_messenger_package_name">com.facebook.orca</string>

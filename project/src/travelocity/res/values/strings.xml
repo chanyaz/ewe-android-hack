@@ -56,5 +56,6 @@
     <!-- Customer First Guarantee Confirmation before opening another app. Example: "Travelocity" wants to open "Twitter" -->
     <string name="customer_first_open_app_confirmation_TEMPLATE">\"{brand}\" wants to open \"{app_name}\"</string>
     <string name="open">Open</string>
-
+    <!-- Customer First Guarantee support phone number content description. Example: Connect with Support by Phone. 1–855–214–8324 -->
+    <string name="customer_first_phone_number_cont_desc_TEMPLATE">Connect with Support by Phone. {phone_number}</string>
 </resources>
