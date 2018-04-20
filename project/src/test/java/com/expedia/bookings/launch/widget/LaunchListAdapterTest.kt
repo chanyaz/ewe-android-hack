@@ -208,6 +208,52 @@ class LaunchListAdapterTest {
     }
 
     @Test
+    @RunForBrands(brands = [MultiBrand.TRAVELOCITY])
+    fun itemViewPosition_ShowingSignedIn_CustomerFirstLaunchCard() {
+        givenCustomerSignedIn()
+        givenCustomerFirstGuaranteeCardEnabled()
+        createSystemUnderTest()
+
+        println(shouldShowRewardLaunchCard(context))
+        println(AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.CustomerFirstGuarantee))
+        println(Ui.getApplication(context).appComponent().userStateManager().isUserAuthenticated())
+
+        val firstPosition = adapterUnderTest.getItemViewType(0)
+        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
+
+        val secondPosition = adapterUnderTest.getItemViewType(1)
+        assertEquals(LaunchDataItem.CUSTOMER_FIRST_GUARANTEE, secondPosition)
+
+        val thirdPosition = adapterUnderTest.getItemViewType(2)
+        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, thirdPosition)
+
+        val fourthPosition = adapterUnderTest.getItemViewType(3)
+        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.TRAVELOCITY])
+    fun itemViewPosition_ShowingCustomerFirstLaunchCard() {
+        givenCustomerFirstGuaranteeCardEnabled()
+        createSystemUnderTest()
+
+        println(shouldShowRewardLaunchCard(context))
+        println(AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.CustomerFirstGuarantee))
+
+        val firstPosition = adapterUnderTest.getItemViewType(0)
+        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
+
+        val secondPosition = adapterUnderTest.getItemViewType(1)
+        assertEquals(LaunchDataItem.SIGN_IN_VIEW, secondPosition)
+
+        val thirdPosition = adapterUnderTest.getItemViewType(2)
+        assertEquals(LaunchDataItem.CUSTOMER_FIRST_GUARANTEE, thirdPosition)
+
+        val fourthPosition = adapterUnderTest.getItemViewType(3)
+        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
+    }
+
+    @Test
     fun itemViewPosition_notShowingMesoLMDSectionWithoutMesoOrLMDEnabled() {
         createSystemUnderTest()
         givenWeHaveCurrentLocationAndHotels()
@@ -910,6 +956,10 @@ class LaunchListAdapterTest {
 
     private fun givenRewardLaunchCardEnabled() {
         AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.RewardLaunchCard)
+    }
+
+    private fun givenCustomerFirstGuaranteeCardEnabled() {
+        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.CustomerFirstGuarantee)
     }
 
     private fun setSystemLanguage(lang: String) {

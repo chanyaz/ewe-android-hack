@@ -650,6 +650,27 @@ class FlightCheckoutViewTest {
         assertBookingSuccessDialogDisplayedAndFinishesActivityOnClick()
     }
 
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testShouldNotMaskScreenAfterWebCheckoutToNativeConfirmation() {
+        setPOSToIndia()
+        turnOnABTest()
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
+
+        val shouldMaskScreenTestObserver = TestObserver.create<Boolean>()
+        flightPresenter.webCheckoutView.viewModel.showWebViewObservable.subscribe(shouldMaskScreenTestObserver)
+
+        (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userAccountRefresher = userAccountRefresherMock
+        setupTestToOpenInFlightOutboundPresenter()
+        flightPresenter.flightOfferViewModel.flightProductId.onNext("happy_round_trip")
+        val tripID = "testing-for-confirmation"
+        Mockito.verify(userAccountRefresherMock, Mockito.times(0)).forceAccountRefreshForWebView()
+        flightPresenter.webCheckoutView.onWebPageStarted(flightPresenter.webCheckoutView.webView, PointOfSale.getPointOfSale().flightsWebBookingConfirmationURL + "?tripid=$tripID", null)
+
+        shouldMaskScreenTestObserver.assertValues(true, false)
+    }
+
     private fun assertBookingSuccessDialogDisplayedAndFinishesActivityOnClick() {
         val alertDialog = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
         assertTrue(alertDialog.title.contains("Booking Successful!"))

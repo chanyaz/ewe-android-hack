@@ -288,6 +288,132 @@ class OmnitureTrackingTest {
         assertStateTracked(withProps(mapOf(34 to "24734.0.0")), mockAnalyticsProvider)
     }
 
+    @Test
+    fun testCustomerFirstGuaranteeLaunchCardClick() {
+        OmnitureTracking.trackCustomerFirstAccountLinkClick()
+        OmnitureTestUtils.assertLinkTracked("Accounts", "App.Account.Support.CFG", mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackCustomerFirstTwitterClick() {
+        OmnitureTracking.trackCustomerFirstTwitterClick()
+
+        val expectedEvar = mapOf(28 to "App.Support.CFG.Twitter")
+        val expectedProp = mapOf(16 to "App.Support.CFG.Twitter")
+        OmnitureTestUtils.assertLinkTracked("Accounts", "App.Support.CFG.Twitter", OmnitureMatchers.withEvars(expectedEvar), mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked("Accounts", "App.Support.CFG.Twitter", OmnitureMatchers.withProps(expectedProp), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackCustomerFirstMessengerClick() {
+        OmnitureTracking.trackCustomerFirstMessengerClick()
+
+        val expectedEvar = mapOf(28 to "App.Support.CFG.Messenger")
+        val expectedProp = mapOf(16 to "App.Support.CFG.Messenger")
+        OmnitureTestUtils.assertLinkTracked("Accounts", "App.Support.CFG.Messenger", OmnitureMatchers.withEvars(expectedEvar), mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked("Accounts", "App.Support.CFG.Messenger", OmnitureMatchers.withProps(expectedProp), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackCustomerFirstPhoneClick() {
+        OmnitureTracking.trackCustomerFirstPhoneClick()
+
+        val expectedEvar = mapOf(28 to "App.Support.CFG.Phone")
+        val expectedProp = mapOf(16 to "App.Support.CFG.Phone")
+        OmnitureTestUtils.assertLinkTracked("Accounts", "App.Support.CFG.Phone", OmnitureMatchers.withEvars(expectedEvar), mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked("Accounts", "App.Support.CFG.Phone", OmnitureMatchers.withProps(expectedProp), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackCustomerFirstHelpTopicsClick() {
+        OmnitureTracking.trackCustomerFirstHelpTopicsClick()
+
+        val expectedEvar = mapOf(28 to "App.Support.CFG.HelpTopics")
+        val expectedProp = mapOf(16 to "App.Support.CFG.HelpTopics")
+        OmnitureTestUtils.assertLinkTracked("Accounts", "App.Support.CFG.HelpTopics", OmnitureMatchers.withEvars(expectedEvar), mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked("Accounts", "App.Support.CFG.HelpTopics", OmnitureMatchers.withProps(expectedProp), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackCustomerFirstTwitterDownloadClick() {
+        OmnitureTracking.trackCustomerFirstTwitterDownloadClick()
+
+        val expectedEvar = mapOf(28 to "App.Support.CFG.Twitter.Download")
+        val expectedProp = mapOf(16 to "App.Support.CFG.Twitter.Download")
+        OmnitureTestUtils.assertLinkTracked("Accounts", "App.Support.CFG.Twitter.Download", OmnitureMatchers.withEvars(expectedEvar), mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked("Accounts", "App.Support.CFG.Twitter.Download", OmnitureMatchers.withProps(expectedProp), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackCustomerFirstTwitterDownloadCancelClick() {
+        OmnitureTracking.trackCustomerFirstTwitterDownloadCancelClick()
+
+        val expectedEvar = mapOf(28 to "App.Support.CFG.Twitter.Download.Cancel")
+        val expectedProp = mapOf(16 to "App.Support.CFG.Twitter.Download.Cancel")
+        OmnitureTestUtils.assertLinkTracked("Accounts", "App.Support.CFG.Twitter.Download.Cancel", OmnitureMatchers.withEvars(expectedEvar), mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked("Accounts", "App.Support.CFG.Twitter.Download.Cancel", OmnitureMatchers.withProps(expectedProp), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackCustomerFirstTwitterOpenClick() {
+        OmnitureTracking.trackCustomerFirstTwitterOpenClick()
+
+        val expectedProp = mapOf(16 to "App.Support.CFG.Twitter.Open")
+        val expectedEvar = mapOf(28 to "App.Support.CFG.Twitter.Open")
+        OmnitureTestUtils.assertLinkTracked("Accounts", "App.Support.CFG.Twitter.Open", OmnitureMatchers.withEvars(expectedEvar), mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked("Accounts", "App.Support.CFG.Twitter.Open", OmnitureMatchers.withProps(expectedProp), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackCustomerFirstTwitterOpenCancelClick() {
+        OmnitureTracking.trackCustomerFirstTwitterOpenCancelClick()
+
+        val expectedEvar = mapOf(28 to "App.Support.CFG.Twitter.Open.Cancel")
+        val expectedProp = mapOf(16 to "App.Support.CFG.Twitter.Open.Cancel")
+        OmnitureTestUtils.assertLinkTracked("Accounts", "App.Support.CFG.Twitter.Open.Cancel", OmnitureMatchers.withEvars(expectedEvar), mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked("Accounts", "App.Support.CFG.Twitter.Open.Cancel", OmnitureMatchers.withProps(expectedProp), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackCustomerFirstMessengerDownloadClick() {
+        OmnitureTracking.trackCustomerFirstMessengerDownloadClick()
+
+        val expectedEvar = mapOf(28 to "App.Support.CFG.Messenger.Download")
+        val expectedProp = mapOf(16 to "App.Support.CFG.Messenger.Download")
+        OmnitureTestUtils.assertLinkTracked("Accounts", "App.Support.CFG.Messenger.Download", OmnitureMatchers.withEvars(expectedEvar), mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked("Accounts", "App.Support.CFG.Messenger.Download", OmnitureMatchers.withProps(expectedProp), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackCustomerFirstMessengerDownloadCancelClick() {
+        OmnitureTracking.trackCustomerFirstMessengerDownloadCancelClick()
+
+        val expectedEvar = mapOf(28 to "App.Support.CFG.Messenger.Download.Cancel")
+        val expectedProp = mapOf(16 to "App.Support.CFG.Messenger.Download.Cancel")
+        OmnitureTestUtils.assertLinkTracked("Accounts", "App.Support.CFG.Messenger.Download.Cancel", OmnitureMatchers.withEvars(expectedEvar), mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked("Accounts", "App.Support.CFG.Messenger.Download.Cancel", OmnitureMatchers.withProps(expectedProp), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackCustomerFirstMessengerOpenClick() {
+        OmnitureTracking.trackCustomerFirstMessengerOpenClick()
+
+        val expectedProp = mapOf(16 to "App.Support.CFG.Messenger.Open")
+        val expectedEvar = mapOf(28 to "App.Support.CFG.Messenger.Open")
+        OmnitureTestUtils.assertLinkTracked("Accounts", "App.Support.CFG.Messenger.Open", OmnitureMatchers.withEvars(expectedEvar), mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked("Accounts", "App.Support.CFG.Messenger.Open", OmnitureMatchers.withProps(expectedProp), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackCustomerFirstMessengerOpenCancelClick() {
+        OmnitureTracking.trackCustomerFirstMessengerOpenCancelClick()
+
+        val expectedEvar = mapOf(28 to "App.Support.CFG.Messenger.Open.Cancel")
+        val expectedProp = mapOf(16 to "App.Support.CFG.Messenger.Open.Cancel")
+        OmnitureTestUtils.assertLinkTracked("Accounts", "App.Support.CFG.Messenger.Open.Cancel", OmnitureMatchers.withEvars(expectedEvar), mockAnalyticsProvider)
+        OmnitureTestUtils.assertLinkTracked("Accounts", "App.Support.CFG.Messenger.Open.Cancel", OmnitureMatchers.withProps(expectedProp), mockAnalyticsProvider)
+    }
+
     private fun getPackageDetails(): PackageCreateTripResponse.PackageDetails {
         Db.setPackageParams(PackageTestUtil.getPackageSearchParams(destinationCityName = "<B>New</B> <B>York</B>, NY, United States <ap>(JFK-John F. Kennedy Intl.)</ap>",
                 childCount = emptyList()))

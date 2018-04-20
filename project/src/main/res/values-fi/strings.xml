@@ -836,7 +836,7 @@
     <string name="nav_hotel_plus_flight_plus_car">Hotelli + lento + vuokra-auto</string>
     <string name="nav_flight_plus_hotel">Lento + hotelli</string>
     <!-- Rail -->
-    <string name="nav_rail">Junat</string>
+    <string name="nav_rail">Junamatkat</string>
     <string name="add_rail_card">Lisää juna-alennuskortti</string>
     <string name="select_rail_card_hint">Valitse juna-alennuskortti</string>
     <!-- Rail card type quantity dropdown hint. Using short form as space is limited -->
@@ -1013,11 +1013,11 @@
     <!-- Expedia Itinerary -->
     <string name="itinerary_TEMPLATE">{brand}n matkasuunnitelman numero</string>
     <!-- Label for exclusive phone number for base tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
-    <string name="rewards_base_tier_customer_support">Expedia +blue -asiakaspalvelu</string>
+    <string name="rewards_base_tier_customer_support">Expedia blue -asiakaspalvelu</string>
     <!-- Label for exclusive phone number for middle tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
-    <string name="rewards_middle_tier_customer_support">Expedia +silver -asiakaspalvelu</string>
+    <string name="rewards_middle_tier_customer_support">Expedia silver -asiakaspalvelu</string>
     <!-- Label for exclusive phone number for top tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
-    <string name="rewards_top_tier_customer_support">Expedia +gold -asiakaspalvelu</string>
+    <string name="rewards_top_tier_customer_support">Expedia gold -asiakaspalvelu</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Ei tulevia matkoja.</string>
     <!-- Enter itinerary number -->
@@ -1438,7 +1438,7 @@
     <!--Hotel itin room request for extra infant bed-->
     <string name="itin_hotel_room_request_extra_infant_bed">Lisävuode vauvalle</string>
     <!--Hotel itin room request for non-smoking-->
-    <string name="non_smoking">Tupakoimaton</string>
+    <string name="non_smoking">Savuton</string>
     <!--Hotel itin room request for smoking-->
     <string name="smoking">Tupakointi sallittu</string>
     <!--Hotel itin room details reserved for-->
@@ -1477,6 +1477,8 @@
     <!--LX itin redesign-->
     <!--LX toolbar title template. (e.g. Activity in San Francisco)-->
     <string name="itin_lx_toolbar_title_TEMPLATE">Aktiviteetti kohteessa {location}</string>
+    <string name="itin_lx_more_info_heading">Lisäapua</string>
+    <string name="itin_lx_more_info_subheading">Asiakaspalvelun yhteystiedot</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Jaa matkasuunnitelma</string>
@@ -2128,7 +2130,7 @@
     <!-- Done menu item -->
     <string name="menu_done">Valmis</string>
     <!-- unable to load traveler details message -->
-    <string name="unable_to_load_traveler_message">Tämän matkustajan tietoja ei voitu ladata. Tarkista internet-yhteytesi ja yritä uudelleen.</string>
+    <string name="unable_to_load_traveler_message">Tämän matkustajan tietoja ei voitu ladata. Tarkista internetyhteytesi ja yritä uudelleen.</string>
 
     <!-- Cost breakdown dialog -->
     <!-- Cost Summary -->
@@ -2373,7 +2375,7 @@
     <!-- Deaf with hearing dog -->
     <string name="deaf_with_hearing_dog">Kuuro opaskoiran kanssa</string>
     <!-- Wheelchair needed -->
-    <string name="wheel_chair_needed">Rullatuoli tarvitaan</string>
+    <string name="wheel_chair_needed">Pyörätuoli tarvitaan</string>
     <!-- Cannot climb/descend stairs -->
     <string name="cannot_climb_stairs">Ei voi nousta/laskeutua portaita</string>
     <!-- Can climb/descent stairs -->
@@ -2381,11 +2383,11 @@
     <!-- Immobile -->
     <string name="immobile">Liikuntakyvytön</string>
     <!-- Wheelchair needed (cannot climb/descend stairs) -->
-    <string name="wheelchair_no_stairs">Rullatuoli tarvitaan (ei voi nousta/laskeutua portaita)</string>
+    <string name="wheelchair_no_stairs">Pyörätuoli tarvitaan (ei voi nousta/laskeutua portaita)</string>
     <!-- Wheelchair needed (can climb/descend stairs) -->
-    <string name="wheelchair_stairs_ok">Rullatuoli tarvitaan (voi nousta/laskeutua portaita)</string>
+    <string name="wheelchair_stairs_ok">Pyörätuoli tarvitaan (voi nousta/laskeutua portaita)</string>
     <!-- Wheelchair (immobile) -->
-    <string name="wheelchair_immobile">Rullatuoli (liikuntakyvytön)</string>
+    <string name="wheelchair_immobile">Pyörätuoli (liikuntakyvytön)</string>
 
     <!-- Flight confirmation page -->
     <!-- Title for flight confirmation page -->
@@ -2576,7 +2578,7 @@
 
     <!-- Search Activity -->
     <!-- Label for "start search" button -->
-    <string name="search">Etsi</string>
+    <string name="search">Hae</string>
     <!-- Label for "advanced search" view -->
     <string name="advanced_search">Tarkennettu haku</string>
     <!-- Title for "flight type" view -->
@@ -2612,7 +2614,7 @@
     <!-- Expedia ETP book now/pay later search results -->
     <string name="book_now_pay_later">Varaa nyt, maksa myöhemmin</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
-    <string name="hotel_search_range_error_TEMPLATE">Pahoittelemme, mutta emme pysty hakemaan hotelleja yli %1$s päivän yöpymiselle.</string>
+    <string name="hotel_search_range_error_TEMPLATE">Pahoittelemme mutta emme pysty hakemaan hotelleja yli %1$s päivän yöpymiselle.</string>
     <!-- Search Error title text "Search Error" -->
     <string name="search_error">Hakuvirhe</string>
     <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
@@ -2733,7 +2735,7 @@
     <!-- Title for VIP Access message -->
     <string name="vip_access">+VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">+VIP Access -hotelleissa, +silver- ja +gold-jäsenet saavat ilmaisen huoneluokan korotuksen ja muita sisäänkirjautumishetkellä saatavilla olevia etuja.</string>
+    <string name="vip_access_message">+VIP Access -hotelleissa silver- ja gold-jäsenet saavat ilmaisen huoneluokan korotuksen ja muita sisäänkirjautumishetkellä saatavilla olevia etuja.</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">Vain +VIP Access -hotellit</string>
     <!-- Title for VIP Access message for Hotel Results -->
@@ -4242,7 +4244,7 @@
     <string name="itinerary_sent_to_your_email_confirmation_TEMPLATE">Matkasuunnitelma {itinerary} lähetetty sähköpostiisi.</string>
 
     <!--Rail search screen title-->
-    <string name="trains">Junat</string>
+    <string name="trains">Junamatkat</string>
 
     <!--used on the rail search screen - this is equivalent to a one way air ticket -->
     <string name="rail_one_way">Yhdensuuntainen</string>
@@ -4498,17 +4500,17 @@
 
     <!-- Rewards -->
     <!-- Long name for rewards base tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_base_tier_name_long">Expedia +blue</string>
+    <string name="reward_base_tier_name_long">Expedia blue</string>
     <!-- Long name for rewards middle tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_middle_tier_name_long">Expedia +silver</string>
+    <string name="reward_middle_tier_name_long">Expedia silver</string>
     <!-- Long name for rewards top tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_top_tier_name_long">Expedia +gold</string>
+    <string name="reward_top_tier_name_long">Expedia gold</string>
     <!-- Short name for rewards base tier -->
-    <string name="reward_base_tier_name_short">+blue</string>
+    <string name="reward_base_tier_name_short">blue</string>
     <!-- Short name for rewards middle tier -->
-    <string name="reward_middle_tier_name_short">+silver</string>
+    <string name="reward_middle_tier_name_short">silver</string>
     <!-- Short name for rewards top tier -->
-    <string name="reward_top_tier_name_short">+gold</string>
+    <string name="reward_top_tier_name_short">gold</string>
 
     <!--Packages search accessibility -->
     <!-- Best Flight card view content description for accessibility.-->
@@ -5078,6 +5080,15 @@
 
     <!-- Recent search header string -->
     <string name="flight_recent_search_label">Viimeaikaiset haut</string>
+
+    <!--Recent Search card content description template. Eg. 1 SFO to LAS oneway search for 31st July for 2 travelers Economy class Price starting from $150 per person-->
+    <string name="flight_recent_search_item_cont_desc_TEMPLATE">Lentokentältä {source} lentokentälle {destination}, {trip_type}, päivämäärälle: {date}, {travelers}, lentoluokka: {cabin_class}, hinta alkaen {amount} per henkilö \u0020</string>  
+
+    <!--Recent Search travelers card content description template. Eg. 1 traveler, 2 travelers-->
+    <plurals name="recent_search_travelers_cont_desc_TEMPLATE">
+        <item quantity="one">{travelers} matkustaja</item>
+        <item quantity="other">{travelers} matkustajaa</item>
+    </plurals>
 
     <!-- Brand reward name -->
     <string name="brand_reward_name">Expedia Rewards</string>

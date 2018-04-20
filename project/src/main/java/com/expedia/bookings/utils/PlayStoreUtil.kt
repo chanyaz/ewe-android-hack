@@ -1,6 +1,5 @@
 package com.expedia.bookings.utils
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -13,9 +12,9 @@ class PlayStoreUtil {
 
     companion object {
         @JvmStatic
-        fun openPlayStore(mActivity: Activity) {
+        fun openPlayStore(context: Context, packageName: String) {
 
-            val uri = Uri.parse("market://details?id=" + mActivity.getPackageName())
+            val uri = Uri.parse("market://details?id=" + packageName)
             val goToMarket = Intent(Intent.ACTION_VIEW, uri)
 
             // To count with Play market backstack, After pressing back button,
@@ -26,10 +25,10 @@ class PlayStoreUtil {
                     Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
 
             try {
-                mActivity.startActivity(goToMarket)
+                context.startActivity(goToMarket)
             } catch (e: ActivityNotFoundException) {
-                mActivity.startActivity(Intent(Intent.ACTION_VIEW,
-                        Uri.parse("http://play.google.com/store/apps/details?id=" + mActivity.getPackageName())))
+                context.startActivity(Intent(Intent.ACTION_VIEW,
+                        Uri.parse("http://play.google.com/store/apps/details?id=" + packageName)))
             }
         }
 
@@ -39,7 +38,7 @@ class PlayStoreUtil {
             val builder = AlertDialog.Builder(context)
             builder.setTitle(R.string.packages_invalid_user_title_label)
             builder.setMessage(R.string.packages_invalid_user_text_label)
-            builder.setPositiveButton(R.string.update, { _, _ -> PlayStoreUtil.openPlayStore(context as Activity); PackagesTracking().trackAppUpgradeClick() })
+            builder.setPositiveButton(R.string.update, { _, _ -> PlayStoreUtil.openPlayStore(context, context.getPackageName()); PackagesTracking().trackAppUpgradeClick() })
             builder.setNegativeButton(R.string.location_soft_prompt_disable, { dialog, _ -> dialog.dismiss() })
             builder.show()
         }

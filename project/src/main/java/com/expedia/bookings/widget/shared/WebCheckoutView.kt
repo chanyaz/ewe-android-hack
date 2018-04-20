@@ -110,6 +110,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
     override fun onWebPageStarted(view: WebView, url: String, favicon: Bitmap?) {
         if (urlHasPOSWebBookingConfirmationUrl(url) || urlIsMIDConfirmation(url)) {
             view.stopLoading()
+            viewModel.showWebViewObservable.onNext(false)
             (viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.onNext(Uri.parse(url).getQueryParameter("tripid"))
         }
     }
