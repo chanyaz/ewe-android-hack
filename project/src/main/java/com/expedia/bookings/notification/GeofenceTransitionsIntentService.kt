@@ -64,7 +64,7 @@ class GeofenceTransitionsIntentService(val TAG: String = "GeofenceTransitionsIS"
         val item = oldResponse?.response?.groups?.first()?.items?.find { it.venue.id.equals(venueId) }
 
         if (item != null) {
-            searchSubscriber = fourSquareService?.getImages(venueId)?.subscribeObserver(makeResultsObserver(item.tips.get(0).text, "google.navigation:q=" + item.venue.location.lat + "," + item.venue.location.lng))
+            searchSubscriber = fourSquareService?.getImages(venueId)?.subscribeObserver(makeResultsObserver(item.venue.name + ": " + item.tips.get(0).text, "google.navigation:q=" + item.venue.location.lat + "," + item.venue.location.lng))
         }
     }
 

@@ -110,7 +110,7 @@ class GeoFencingIntentService : IntentService("GeoFencingIntentService"),
                                 .setCircularRegion(
                                         item.venue.location.lat,
                                         item.venue.location.lng,
-                                        5000f
+                                        500f
                                 )
                                 .setExpirationDuration(172800000L)
                                 .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
