@@ -32,6 +32,7 @@ import com.expedia.bookings.notification.carousel.CarouselNotificationManager
 import com.expedia.bookings.notification.carousel.NotificationModel
 import com.expedia.bookings.utils.FoursquareResponseUtil
 import java.util.Arrays
+import java.util.Date
 
 
 /**
@@ -101,7 +102,7 @@ class GeofenceTransitionsIntentService(val TAG: String = "GeofenceTransitionsIS"
         }
 
         val carouselNotificationManager = CarouselNotificationManager(applicationContext)
-        carouselNotificationManager.processGCMImageCarousel(1, model)
+        carouselNotificationManager.processGCMImageCarousel(((Date().getTime() / 1000L) % Integer.MAX_VALUE) as Int, model)
 
 
         //=======================================================
