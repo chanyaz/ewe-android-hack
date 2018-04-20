@@ -4,6 +4,8 @@ import android.support.test.espresso.action.ViewActions.scrollTo
 import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen.VIPAccess
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen.MandatoryFeesAndTaxes
+import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen.AdditionalFeeInfo
 import cucumber.api.java.en.And
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
@@ -76,6 +78,24 @@ class HotelInfoSiteScreenSteps {
         HotelInfoSiteScreen.verifyHotelFeesAppear()
     }
 
+    @Then("^I click on hotel fees info icon$")
+    @Throws(Throwable::class)
+    fun clickHotelResortFeesInfo() {
+        HotelInfoSiteScreen.clickHotelFeesInfo()
+    }
+
+    @Then("^I verify additional hotel fees screen is displayed$")
+    @Throws(Throwable::class)
+    fun iVerifyHotelFeesScreenAppear() {
+        AdditionalFeeInfo.verifyAdditionalFeeContainerAppear()
+    }
+
+    @Then("^I verify deposit and resort fees on additional hotel fees screen$")
+    @Throws(Throwable::class)
+    fun iVerifyDepositAndResortFeeOnFeesScreen() {
+        AdditionalFeeInfo.verifyDepositAndResortFeesContent("Deposit: USD ", "Resort fee: USD ")
+    }
+
     @When("^I book first room$")
     @Throws(Throwable::class)
     fun iBookFirstRoom() {
@@ -99,5 +119,15 @@ class HotelInfoSiteScreenSteps {
     @Throws(Throwable::class)
     fun verifyETPTextIsNotDisplayed() {
         HotelInfoSiteScreen.etpTextIsNotPresent()
+    }
+
+    @Then("^I verify the (deposit terms|resort fees) text is (displayed|not displayed)$")
+    @Throws(Throwable::class)
+    fun iVerifyIfTermsAndFeeAreDisplayed(feeType: String, isDisplayed: String) {
+        if (feeType.equals("deposit terms")) {
+            MandatoryFeesAndTaxes.verifyBodyText("Deposit: USD ", isDisplayed)
+        } else {
+            MandatoryFeesAndTaxes.verifyBodyText("Resort fee: USD ", isDisplayed)
+        }
     }
 }
