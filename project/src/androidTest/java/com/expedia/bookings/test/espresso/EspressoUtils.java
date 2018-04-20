@@ -187,7 +187,8 @@ public class EspressoUtils {
 		));
 	}
 
-	public static void assertViewWithTextIsDisplayedAtPosition(ViewInteraction viewInteraction, int position, int id, String text) {
+	public static void assertViewWithTextIsDisplayedAtPosition(ViewInteraction viewInteraction, int position, int id,
+		String text) {
 		viewInteraction.check(
 			RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(
 				CoreMatchers.allOf(withId(id), isDisplayed(), withText(text)))));
