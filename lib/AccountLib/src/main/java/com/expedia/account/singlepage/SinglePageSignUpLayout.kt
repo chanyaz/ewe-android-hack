@@ -90,16 +90,6 @@ class SinglePageSignUpLayout(context: Context, attrs: AttributeSet) : FrameLayou
         currentKeyboardHeight = keyboardHeight
     }
 
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        Events.register(this)
-    }
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        Events.unregister(this)
-    }
-
     fun styleizeFromAccountView(a: TypedArray) {
         vTOSLayout.styleizeFromAccountView(a)
     }

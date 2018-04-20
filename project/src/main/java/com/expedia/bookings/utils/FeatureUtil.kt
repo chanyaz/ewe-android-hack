@@ -160,3 +160,7 @@ fun shouldShowCustomerFirstGuarantee(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.CustomerFirstGuarantee) &&
             PointOfSale.getPointOfSale().shouldShowCustomerFirstGuarantee()
 }
+
+fun isNewSignInEnabled(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppAccountNewSignIn)
+}

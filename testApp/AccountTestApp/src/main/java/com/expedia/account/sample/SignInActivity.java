@@ -17,7 +17,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.expedia.account.AccountService;
-import com.expedia.account.AccountView;
+import com.expedia.account.AccountSignInListener;
 import com.expedia.account.Config;
 import com.expedia.account.PanningImageView;
 import com.mobiata.android.Log;
@@ -39,6 +39,9 @@ public class SignInActivity extends FragmentActivity {
 
 	@InjectView(R.id.account_view)
 	public MockAccountView vAccountView;
+
+	@InjectView(R.id.new_account_view)
+	public MockNewAccountView newAccountView;
 
 	@InjectView(R.id.background)
 	public PanningImageView vBackground;
@@ -69,6 +72,7 @@ public class SignInActivity extends FragmentActivity {
 				break;
 			case "Mock Mode":
 				config.setService(new AccountService(new MockExpediaAccountApi(), siteId, langId, clientId));
+				newAccountView.setMockMode(true);
 				vAccountView.setMockMode(true);
 				break;
 			default:
@@ -82,13 +86,13 @@ public class SignInActivity extends FragmentActivity {
 
 	private DialogInterface.OnClickListener signupPathListener = new DialogInterface.OnClickListener() {
 		public void onClick(DialogInterface dialog, int which) {
-			if (getResources().getStringArray(R.array.signuppath)[which].equals("Single Page")) {
-				config.setEnableSinglePageSignUp(true);
-			}
-			else {
-				config.setEnableSinglePageSignUp(false);
+			if (getResources().getStringArray(R.array.signuppath)[which].equals("New Account Page")) {
+				newAccountView.setVisibility(View.VISIBLE);
+				getWindow().setStatusBarColor(getResources().getColor(R.color.brand_primary_dark));
+
 			}
 			vAccountView.configure(config);
+			newAccountView.setConfig(config);
 		}
 	};
 
@@ -105,10 +109,10 @@ public class SignInActivity extends FragmentActivity {
 			.setSignInMessagingText(getString(R.string.sign_in_messaging))
 			.setFacebookAppId(getString(R.string.facebook_app_id))
 			.setRewardsText(Html.fromHtml(getString(R.string.loyalty_terms_of_service)))
+			.setNewTermsText(Html.fromHtml(getString(R.string.new_account_terms_text)))
 			.setListener(mAccountViewListener)
 			.setAnalyticsListener(null)
 			.setInitialState(Config.InitialState.SignIn);
-
 	}
 
 	@Override
@@ -116,7 +120,6 @@ public class SignInActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_expedia_sign_in);
-		showTransparentStatusBar();
 		ButterKnife.inject(this);
 
 		String timeString = getAppBuildTimeString();
@@ -177,12 +180,7 @@ public class SignInActivity extends FragmentActivity {
 		vAccountView.onActivityResult(requestCode, resultCode, data);
 	}
 
-	private void showTransparentStatusBar() {
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-			WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-	}
-
-	AccountView.Listener mAccountViewListener = new AccountView.Listener() {
+	AccountSignInListener mAccountViewListener = new AccountSignInListener() {
 		@Override
 		public void onSignInSuccessful() {
 			showStatus(R.string.Success, R.string.Youre_all_signed_in);
@@ -246,6 +244,4 @@ public class SignInActivity extends FragmentActivity {
 		catch (NoSuchAlgorithmException e) {
 		}
 	}
-
-
 }

@@ -65,4 +65,14 @@
         <attr name="acct__logo_text_drawable_margin_top" format="dimension|reference" />
     </declare-styleable>
 
+    <declare-styleable name="acct__NewAccountView">
+        <!-- Colors -->
+        <attr name="acct__header_color" format="color|reference" />
+        <attr name="acct__tab_text_selected_color" format="color|reference" />
+        <attr name="acct__tab_text_color" format="color|reference" />
+        <attr name="acct__tab_indicator_color" format="color|reference" />
+        <attr name="acct__brand_string" format="string|reference" />
+        <attr name="acct__cancel_drawable" format="reference" />
+    </declare-styleable>
+
 </resources>

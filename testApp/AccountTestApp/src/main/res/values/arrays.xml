@@ -7,7 +7,7 @@
     </string-array>
     <string-array name="signuppath">
         <item>Original</item>
-        <item>Single Page</item>
+        <item>New Account Page</item>
     </string-array>
     <string-array name="mock_emails">
         <item>success@test.com</item>

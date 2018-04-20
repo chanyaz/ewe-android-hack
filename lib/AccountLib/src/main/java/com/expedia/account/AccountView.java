@@ -166,7 +166,7 @@ public class AccountView extends BufferedPresenter {
 		mConfig.setAnalyticsListener(analyticsListener);
 	}
 
-	public void setListener(Listener listener) {
+	public void setAccountSignInListener(AccountSignInListener listener) {
 		mConfig.setListener(listener);
 	}
 
@@ -192,28 +192,6 @@ public class AccountView extends BufferedPresenter {
 			return false;
 		}
 	};
-
-	public abstract static class Listener {
-		public abstract void onSignInSuccessful();
-
-		public abstract void onFacebookSignInSuccess();
-
-		public abstract void onSignInCancelled();
-
-		public abstract void onFacebookRequested();
-
-		public abstract void onFacebookClicked();
-
-		public abstract void onForgotPassword();
-
-		public abstract void onRecaptchaError(Throwable e);
-
-		void onOverallProgress(boolean forward, float percent) {
-		}
-
-		void onObscureBackgroundDesired(float amount) {
-		}
-	}
 
 	public static final String STATE_SIGN_IN = "STATE_SIGN_IN";
 	public static final String STATE_EMAIL_NAME = "STATE_EMAIL_NAME";
@@ -964,7 +942,7 @@ public class AccountView extends BufferedPresenter {
 		boolean result = super.back();
 		if (!result) {
 			if (mConfig != null) {
-				Listener listener = mConfig.getListener();
+				AccountSignInListener listener = mConfig.getAccountSignInListener();
 				if (listener != null) {
 					listener.onSignInCancelled();
 				}
@@ -1086,7 +1064,7 @@ public class AccountView extends BufferedPresenter {
 
 	private void reportRecaptchaError() {
 		if (mConfig != null) {
-			Listener listener = mConfig.getListener();
+			AccountSignInListener listener = mConfig.getAccountSignInListener();
 			if (listener != null) {
 				Throwable recaptchaError = Recaptcha.getLastRecaptchaException();
 				if (recaptchaError != null) {
@@ -1132,13 +1110,7 @@ public class AccountView extends BufferedPresenter {
 			if (analyticsListener != null) {
 				analyticsListener.userReceivedErrorOnAccountCreationAttempt("Account:local");
 			}
-			if (mConfig.enableSinglePageSignUp) {
-				show(STATE_SINGLE_PAGE_SIGN_UP, FLAG_CLEAR_TOP);
-			}
-			else {
-				show(STATE_TOS, FLAG_CLEAR_TOP);
-			}
-
+			show(STATE_SINGLE_PAGE_SIGN_UP, FLAG_CLEAR_TOP);
 		}
 		showCreateAccountErrorGeneric();
 	}
@@ -1156,12 +1128,7 @@ public class AccountView extends BufferedPresenter {
 					analyticsListener.userReceivedErrorOnAccountCreationAttempt("Account:server");
 				}
 			}
-			if (mConfig.enableSinglePageSignUp) {
-				show(STATE_SINGLE_PAGE_SIGN_UP, FLAG_CLEAR_TOP);
-			}
-			else {
-				show(STATE_TOS, FLAG_CLEAR_TOP);
-			}
+			show(STATE_SINGLE_PAGE_SIGN_UP, FLAG_CLEAR_TOP);
 		}
 		if (response != null) {
 
@@ -1244,12 +1211,7 @@ public class AccountView extends BufferedPresenter {
 				case CREATE_ACCOUNT:
 					createNew = true;
 					user.email = null;
-					if (mConfig.enableSinglePageSignUp) {
-						show(STATE_SINGLE_PAGE_SIGN_UP, FLAG_CLEAR_TOP);
-					}
-					else {
-						show(STATE_EMAIL_NAME, FLAG_CLEAR_TOP);
-					}
+					show(STATE_SINGLE_PAGE_SIGN_UP, FLAG_CLEAR_TOP);
 					break;
 				}
 				if (mConfig != null) {
@@ -1266,12 +1228,8 @@ public class AccountView extends BufferedPresenter {
 			getContext(), R.string.acct__Brand_account_already_exists_TITLE, mBrand)
 			.format();
 
-		if (mConfig != null && mConfig.enableSinglePageSignUp) {
-			show(STATE_SINGLE_PAGE_SIGN_UP, FLAG_CLEAR_TOP);
-		}
-		else {
-			show(STATE_TOS, FLAG_CLEAR_TOP);
-		}
+		show(STATE_SINGLE_PAGE_SIGN_UP, FLAG_CLEAR_TOP);
+
 		new AlertDialog.Builder(getContext())
 			.setTitle(title)
 			.setItems(items, listener)
@@ -1280,19 +1238,12 @@ public class AccountView extends BufferedPresenter {
 	}
 
 	private void showErrorEmail() {
-		if (mConfig != null && mConfig.enableSinglePageSignUp) {
-			show(STATE_SINGLE_PAGE_SIGN_UP, FLAG_CLEAR_TOP);
-		}
-		else {
-			show(STATE_TOS, FLAG_CLEAR_TOP);
-		}
+		show(STATE_SINGLE_PAGE_SIGN_UP, FLAG_CLEAR_TOP);
+
 		mFocusEmailAddress = true;
 		DialogInterface.OnClickListener okButton = new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				if (mConfig != null && !mConfig.enableSinglePageSignUp) {
-					show(STATE_EMAIL_NAME, FLAG_CLEAR_TOP);
-				}
 			}
 		};
 		new AlertDialog.Builder(getContext())
@@ -1304,19 +1255,11 @@ public class AccountView extends BufferedPresenter {
 	}
 
 	private void showErrorPassword(AccountResponse.ErrorCode errorCode) {
-		if (mConfig != null && mConfig.enableSinglePageSignUp) {
-			show(STATE_SINGLE_PAGE_SIGN_UP, FLAG_CLEAR_TOP);
-		}
-		else {
-			show(STATE_TOS, FLAG_CLEAR_TOP);
-		}
+		show(STATE_SINGLE_PAGE_SIGN_UP, FLAG_CLEAR_TOP);
 
 		DialogInterface.OnClickListener okButton = new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				if (mConfig != null && !mConfig.enableSinglePageSignUp) {
-					show(STATE_PASSWORD, FLAG_CLEAR_TOP);
-				}
 			}
 		};
 
@@ -1341,12 +1284,8 @@ public class AccountView extends BufferedPresenter {
 	}
 
 	private void showErrorFirstName() {
-		if (mConfig != null && mConfig.enableSinglePageSignUp) {
-			show(STATE_SINGLE_PAGE_SIGN_UP, FLAG_CLEAR_TOP);
-		}
-		else {
-			show(STATE_TOS, FLAG_CLEAR_TOP);
-		}
+		show(STATE_SINGLE_PAGE_SIGN_UP, FLAG_CLEAR_TOP);
+
 		mFocusFirstName = true;
 		DialogInterface.OnClickListener okButton = new DialogInterface.OnClickListener() {
 			@Override
@@ -1364,12 +1303,8 @@ public class AccountView extends BufferedPresenter {
 	}
 
 	private void showErrorLastName() {
-		if (mConfig != null && mConfig.enableSinglePageSignUp) {
-			show(STATE_SINGLE_PAGE_SIGN_UP, FLAG_CLEAR_TOP);
-		}
-		else {
-			show(STATE_TOS, FLAG_CLEAR_TOP);
-		}
+		show(STATE_SINGLE_PAGE_SIGN_UP, FLAG_CLEAR_TOP);
+
 		mFocusLastName = true;
 		DialogInterface.OnClickListener okButton = new DialogInterface.OnClickListener() {
 			@Override
@@ -1432,7 +1367,7 @@ public class AccountView extends BufferedPresenter {
 
 	public void doSignInSuccessful() {
 		if (mConfig != null) {
-			Listener listener = mConfig.getListener();
+			AccountSignInListener listener = mConfig.getAccountSignInListener();
 			if (listener != null) {
 				listener.onSignInSuccessful();
 			}
@@ -1441,7 +1376,7 @@ public class AccountView extends BufferedPresenter {
 
 	public void doFacebookSignInSuccessful() {
 		if (mConfig != null) {
-			Listener listener = mConfig.getListener();
+			AccountSignInListener listener = mConfig.getAccountSignInListener();
 			if (listener != null) {
 				listener.onFacebookSignInSuccess();
 			}
@@ -1517,24 +1452,24 @@ public class AccountView extends BufferedPresenter {
 		}
 
 		@Override
-		public void onSuccess(String recaptchaResponseToken) {
+		public void onRecaptchaSuccess(String recaptchaResponseToken) {
 			doSignIn(email, password, recaptchaResponseToken);
 		}
 
 		@Override
-		public void onFailure() {
+		public void onRecaptchaFailure() {
 			doSignIn(email, password, null);
 		}
 	}
 
 	private class CreateAccountHandler implements RecaptchaHandler {
 		@Override
-		public void onSuccess(String recaptchaResponseToken) {
+		public void onRecaptchaSuccess(String recaptchaResponseToken) {
 			doCreateAccount(recaptchaResponseToken);
 		}
 
 		@Override
-		public void onFailure() {
+		public void onRecaptchaFailure() {
 			doCreateAccount(null);
 		}
 	}
@@ -1564,7 +1499,7 @@ public class AccountView extends BufferedPresenter {
 			return;
 		}
 
-		Listener listener = mConfig.getListener();
+		AccountSignInListener listener = mConfig.getAccountSignInListener();
 		if (listener == null) {
 			return;
 		}
@@ -1583,7 +1518,7 @@ public class AccountView extends BufferedPresenter {
 	@Subscribe
 	public void otto(Events.ForgotPasswordButtonClicked e) {
 		if (mConfig != null) {
-			Listener listener = mConfig.getListener();
+			AccountSignInListener listener = mConfig.getAccountSignInListener();
 			if (listener != null) {
 				listener.onForgotPassword();
 				vHeaderLayout.showSpecialMessage(false);
@@ -1593,12 +1528,7 @@ public class AccountView extends BufferedPresenter {
 
 	@Subscribe
 	public void otto(Events.CreateAccountButtonClicked e) {
-		if (mConfig != null && mConfig.enableSinglePageSignUp) {
-			show(STATE_SINGLE_PAGE_SIGN_UP);
-		}
-		else {
-			show(STATE_EMAIL_NAME);
-		}
+		show(STATE_SINGLE_PAGE_SIGN_UP);
 		vHeaderLayout.showSpecialMessage(false);
 	}
 
@@ -1665,10 +1595,6 @@ public class AccountView extends BufferedPresenter {
 	@Subscribe
 	public void otto(Events.ObscureBackgroundDesired e) {
 		if (mConfig != null) {
-			Listener listener = mConfig.getListener();
-			if (listener != null) {
-				listener.onObscureBackgroundDesired(e.amount);
-			}
 			if (mConfig.background != null && mConfig.background.get() != null) {
 				mConfig.background.get().setObscure(e.amount);
 			}
@@ -1678,10 +1604,6 @@ public class AccountView extends BufferedPresenter {
 	@Subscribe
 	public void otto(Events.OverallProgress e) {
 		if (mConfig != null) {
-			Listener listener = mConfig.getListener();
-			if (listener != null) {
-				listener.onOverallProgress(e.forward, e.progress);
-			}
 			if (mConfig.background != null && mConfig.background.get() != null) {
 				mConfig.background.get().setPan(e.progress);
 			}

@@ -15,4 +15,9 @@
         <item name="android:textColor">@color/acct__single_page_error_color</item>
         <item name="android:textSize">12sp</item>
     </style>
+
+    <style name="acct__TabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+    </style>
+
 </resources>

@@ -8,7 +8,7 @@ import okhttp3.OkHttpClient;
  * Holds the configuration for AccountView. Config uses a builder pattern:
  * <p/>
  * <pre class="prettyprint">
- * vAccountView.configure(Config.build()
+ * vAccountView.setConfig(Config.build()
  * .setService(api, 0, 0, "accountstest.phone.android")
  * .setBackgroundImageView(vBackground)
  * .setPOSEnableSpamByDefault(true)
@@ -44,21 +44,22 @@ public class Config {
 	boolean enableSpamByDefault = false;
 	boolean enableFacebookButton = true;
 	boolean enableSignInMessaging = false;
-	boolean enableSinglePageSignUp = false;
 	boolean hasUserRewardsEnrollmentCheck = false;
 	boolean enableRecaptcha = false;
 	CharSequence tosText;
 	CharSequence marketingText;
 	CharSequence signInMessagingText;
 	CharSequence rewardsText;
+	CharSequence newTermsText;
 	String initialState = AccountView.STATE_SIGN_IN;
+	NewAccountView.AccountTab initialTab;
 	String signupString;
 
 	String facebookAppId;
 	String recaptchaAPIKey;
 
 	private AnalyticsListener analyticsListener;
-	private AccountView.Listener accountViewListener;
+	private AccountSignInListener accountSignInListener;
 
 	private AccountService service;
 
@@ -127,11 +128,6 @@ public class Config {
 		return this;
 	}
 
-	public Config setEnableSinglePageSignUp(boolean enableSinglePageSignUp) {
-		this.enableSinglePageSignUp = enableSinglePageSignUp;
-		return this;
-	}
-
 	/**
 	 * Sets the text for the Terms of Service. This text can have clickable
 	 * links (ClickableSpan) in it; and if so, it will automatically have
@@ -172,6 +168,11 @@ public class Config {
 		return this;
 	}
 
+	public Config setNewTermsText(CharSequence newTermsText) {
+		this.newTermsText = newTermsText;
+		return this;
+	}
+
 	public Config setFacebookAppId(String appId) {
 		this.facebookAppId = appId;
 		return this;
@@ -182,13 +183,18 @@ public class Config {
 		return this;
 	}
 
-	public Config setListener(AccountView.Listener listener) {
-		this.accountViewListener = listener;
+	public Config setListener(AccountSignInListener listener) {
+		this.accountSignInListener = listener;
 		return this;
 	}
 
 	public Config setInitialState(InitialState initialState) {
 		this.initialState = initialState.state;
+		return this;
+	}
+
+	public Config setInitialTab(NewAccountView.AccountTab initialTab) {
+		this.initialTab = initialTab;
 		return this;
 	}
 
@@ -211,8 +217,8 @@ public class Config {
 		return analyticsListener;
 	}
 
-	public AccountView.Listener getListener() {
-		return accountViewListener;
+	public AccountSignInListener getAccountSignInListener() {
+		return accountSignInListener;
 	}
 
 	public void clearPointers() {

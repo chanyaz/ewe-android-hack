@@ -7,11 +7,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
-
 import com.crashlytics.android.Crashlytics;
+import com.expedia.account.AccountSignInListener;
 import com.expedia.account.AccountView;
 import com.expedia.account.AnalyticsListener;
 import com.expedia.account.Config;
+import com.expedia.account.NewAccountView;
 import com.expedia.account.PanningImageView;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
@@ -33,6 +34,7 @@ import com.expedia.bookings.tracking.AppStartupTimeClientLog;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.tracking.RouterToSignInTimeLogger;
 import com.expedia.bookings.marketing.carnival.CarnivalUtils;
+import com.expedia.bookings.utils.FeatureUtilKt;
 import com.expedia.bookings.utils.LoginExtender;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.StrUtils;
@@ -41,19 +43,16 @@ import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.utils.navigation.NavUtils;
 import com.expedia.bookings.widget.TextView;
 import com.squareup.phrase.Phrase;
-import com.mobiata.android.Log;
-
 import javax.inject.Inject;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class AccountLibActivity extends AppCompatActivity
-	implements UserAccountRefresher.IUserAccountRefreshListener, LoginExtenderListener {
+public class AccountLibActivity extends AppCompatActivity implements UserAccountRefresher.IUserAccountRefreshListener, LoginExtenderListener {
 	private static final String ARG_BUNDLE = "ARG_BUNDLE";
 	private static final String ARG_PATH_MODE = "ARG_PATH_MODE";
 	private static final String ARG_LOGIN_FRAGMENT_EXTENDER = "ARG_LOGIN_FRAGMENT_EXTENDER";
 	private static final String ARG_INITIAL_STATE = "ARG_INITIAL_STATE";
+	private static final String ARG_INITIAL_TAB = "ARG_INITIAL_TAB";
 
 	@InjectView(R.id.parallax_view)
 	public PanningImageView background;
@@ -63,6 +62,9 @@ public class AccountLibActivity extends AppCompatActivity
 
 	@InjectView(R.id.account_view)
 	public AccountView accountView;
+
+	@InjectView(R.id.new_account_view)
+	protected NewAccountView newAccountView;
 
 	@InjectView(R.id.login_extension_container)
 	public LinearLayout loginExtenderContainer;
@@ -77,12 +79,14 @@ public class AccountLibActivity extends AppCompatActivity
 	IClientLogServices clientLogServices;
 
 	private UserStateManager userStateManager;
-
 	private LineOfBusiness lob = LineOfBusiness.HOTELS;
 	private LoginExtender loginExtender;
+	private Config.InitialState startState = Config.InitialState.SignIn;
+	protected NewAccountView.AccountTab initialTab = NewAccountView.AccountTab.SIGN_IN;
 	private UserAccountRefresher userAccountRefresher;
 	private boolean userLoggedInWithFacebook = false;
 	private Listener listener = new Listener();
+	private NavigationListener navigationListener = new NavigationListener();
 
 	public static Intent createIntent(Context context, Bundle bundle) {
 		Intent loginIntent = new Intent(context, AccountLibActivity.class);
@@ -106,11 +110,19 @@ public class AccountLibActivity extends AppCompatActivity
 		return bundle;
 	}
 
+	public static Bundle createArgumentsBundle(LineOfBusiness pathMode, NewAccountView.AccountTab initialTab, LoginExtender extender) {
+		Bundle bundle = new Bundle();
+		bundle.putString(ARG_PATH_MODE, pathMode.name());
+		bundle.putString(ARG_INITIAL_TAB, initialTab.name());
+		if (extender != null) {
+			bundle.putBundle(ARG_LOGIN_FRAGMENT_EXTENDER, extender.buildStateBundle());
+		}
+		return bundle;
+	}
+
 	@Override
 	protected void onResume() {
 		super.onResume();
-		accountView.setListener(listener);
-		accountView.setAnalyticsListener(analyticsListener);
 		if (routerToSignInTimeLogger.getShouldGoToSignIn()) {
 			routerToSignInTimeLogger.setEndTime();
 			AppStartupTimeClientLog.trackTimeLogger(routerToSignInTimeLogger, clientLogServices);
@@ -125,9 +137,7 @@ public class AccountLibActivity extends AppCompatActivity
 
 		userStateManager = Ui.getApplication(this).appComponent().userStateManager();
 
-		Config.InitialState startState = Config.InitialState.SignIn;
 		CarnivalUtils.getInstance().toggleNotifications(false);
-
 		Intent intent = getIntent();
 		if (intent.hasExtra(ARG_BUNDLE)) {
 			Bundle args = intent.getBundleExtra(ARG_BUNDLE);
@@ -140,6 +150,9 @@ public class AccountLibActivity extends AppCompatActivity
 			if (args.containsKey(ARG_LOGIN_FRAGMENT_EXTENDER)) {
 				loginExtender = LoginExtender.buildLoginExtenderFromState(args.getBundle(ARG_LOGIN_FRAGMENT_EXTENDER));
 			}
+			if (args.containsKey(ARG_INITIAL_TAB)) {
+				initialTab = NewAccountView.AccountTab.valueOf(args.getString(ARG_INITIAL_TAB));
+			}
 		}
 
 		if (lob == LineOfBusiness.CARS || lob == LineOfBusiness.LX) {
@@ -147,59 +160,83 @@ public class AccountLibActivity extends AppCompatActivity
 		}
 
 		setContentView(R.layout.account_lib_activity);
-		Ui.showTransparentStatusBar(this);
 		ButterKnife.inject(this);
-
-		int statusBarHeight = Ui.getStatusBarHeight(this);
-		accountView.setPadding(accountView.getPaddingLeft(), statusBarHeight, accountView.getPaddingRight(),
-			accountView.getPaddingBottom());
-
-		int backgroundDrawableResId = R.drawable.bg_account_creation;
-		new PicassoHelper.Builder(background)
-			.setPlaceholder(backgroundDrawableResId)
-			.build()
-			.load(backgroundDrawableResId);
-
-		Config config = Config.build()
-			.setService(ServicesUtil.generateAccountService(this))
-			.setBackgroundImageView(background)
-			.setPOSEnableSpamByDefault(PointOfSale.getPointOfSale().shouldEnableMarketingOptIn())
-			.setPOSShowSpamOptIn(PointOfSale.getPointOfSale().shouldShowMarketingOptIn())
-			.setEnableFacebookButton(
-				ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled())
-			.setListener(listener)
-			.setTOSText(StrUtils.generateAccountCreationLegalLink(this))
-			.setMarketingText(PointOfSale.getPointOfSale().getMarketingText())
-			.setAnalyticsListener(analyticsListener)
-			.setFacebookAppId(getString(R.string.facebook_app_id))
-			.setInitialState(startState)
-			.setUserRewardsEnrollmentCheck(ProductFlavorFeatureConfiguration.getInstance().showUserRewardsEnrollmentCheck())
-			.setRewardsText(StrUtils.generateLoyaltyRewardsLegalLink(this))
-			.setSignupString(Phrase.from(this, R.string.account_signup_TEMPLATE).put("brand", BuildConfig.brand).format().toString());
-
-		accountView.setWhiteBackgroundFromActivity(whiteBackground);
-		config.setEnableSinglePageSignUp(true);
-
-		// Logic to determine if we should show the reCaptcha check locally.
-		// We want it to "fail on" if either satellite or abacus calls fails, so that the user isn't blocked from
-		// signing in if the reCaptcha token is enforced in the API
-		if (ProductFlavorFeatureConfiguration.getInstance().isRecaptchaEnabled()
-				&& isRecaptchaSatelliteEnabled()
-				&& isRecaptchaABTestEnabled()
-				&& !ExpediaBookingApp.isAutomation()) {
-					config.setEnableRecaptcha(true);
-					config.setRecaptchaAPIKey(getString(R.string.recaptcha_sdk_site_key));
-		}
-
-		Log.i("RECAPTCHA", "Satellite Enabled Status = " + String.valueOf(isRecaptchaSatelliteEnabled()));
-		Log.i("RECAPTCHA", "AB Test Enabled Status = " + String.valueOf(isRecaptchaABTestEnabled()));
-
-		accountView.configure(config);
+		setupAccountViewBasedOnBucketing();
 
 		userAccountRefresher = new UserAccountRefresher(this, lob, this);
-
 		OmnitureTracking.trackLoginScreen();
 		userLoggedInWithFacebook = false;
+	}
+
+	private void setupAccountViewBasedOnBucketing() {
+		if (FeatureUtilKt.isNewSignInEnabled(this)) {
+			newAccountView.setVisibility(View.VISIBLE);
+			newAccountView.setNavigationOnClickListener(navigationListener);
+			getWindow().setStatusBarColor(getResources().getColor(R.color.brand_primary_dark));
+			newAccountView.setConfig(buildConfigBasedOnBucketing());
+			accountView.setVisibility(View.GONE);
+		}
+		else {
+			Ui.showTransparentStatusBar(this);
+			int statusBarHeight = Ui.getStatusBarHeight(this);
+			accountView.setVisibility(View.VISIBLE);
+			background.setVisibility(View.VISIBLE);
+			accountView.setPadding(accountView.getPaddingLeft(), statusBarHeight, accountView.getPaddingRight(), accountView.getPaddingBottom());
+			int backgroundDrawableResId = R.drawable.bg_account_creation;
+			new PicassoHelper.Builder(background)
+					.setPlaceholder(backgroundDrawableResId)
+					.build()
+					.load(backgroundDrawableResId);
+			accountView.setWhiteBackgroundFromActivity(whiteBackground);
+			accountView.configure(buildConfigBasedOnBucketing());
+			newAccountView.setVisibility(View.GONE);
+		}
+	}
+
+	private Config buildConfigBasedOnBucketing() {
+		Config config;
+		if (FeatureUtilKt.isNewSignInEnabled(this)) {
+			config = Config.build()
+					.setInitialTab(initialTab)
+					.setService(ServicesUtil.generateAccountService(this))
+					.setPOSEnableSpamByDefault(PointOfSale.getPointOfSale().shouldEnableMarketingOptIn())
+					.setPOSShowSpamOptIn(PointOfSale.getPointOfSale().shouldShowMarketingOptIn())
+					.setEnableFacebookButton(
+							ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled())
+					.setListener(listener)
+					.setMarketingText(PointOfSale.getPointOfSale().getMarketingText())
+					.setAnalyticsListener(analyticsListener)
+					.setFacebookAppId(getString(R.string.facebook_app_id))
+					.setNewTermsText(StrUtils.generateNewTermsRewardLegalLink(this));
+		}
+		else {
+			config = Config.build()
+					.setService(ServicesUtil.generateAccountService(this))
+					.setBackgroundImageView(background)
+					.setPOSEnableSpamByDefault(PointOfSale.getPointOfSale().shouldEnableMarketingOptIn())
+					.setPOSShowSpamOptIn(PointOfSale.getPointOfSale().shouldShowMarketingOptIn())
+					.setEnableFacebookButton(
+							ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled())
+					.setListener(listener)
+					.setTOSText(StrUtils.generateAccountCreationLegalLink(this))
+					.setMarketingText(PointOfSale.getPointOfSale().getMarketingText())
+					.setAnalyticsListener(analyticsListener)
+					.setFacebookAppId(getString(R.string.facebook_app_id))
+					.setInitialState(startState)
+					.setUserRewardsEnrollmentCheck(ProductFlavorFeatureConfiguration.getInstance().showUserRewardsEnrollmentCheck())
+					.setRewardsText(StrUtils.generateLoyaltyRewardsLegalLink(this))
+					.setSignupString(Phrase.from(this, R.string.account_signup_TEMPLATE).put("brand", BuildConfig.brand).format().toString())
+					.setNewTermsText(StrUtils.generateNewTermsRewardLegalLink(this));
+		}
+		if (shouldEnableRecaptcha()) {
+			config.setEnableRecaptcha(true).setRecaptchaAPIKey(getString(R.string.recaptcha_sdk_site_key));
+		}
+		return config;
+	}
+
+	private boolean shouldEnableRecaptcha() {
+		return ProductFlavorFeatureConfiguration.getInstance().isRecaptchaEnabled()
+				&& isRecaptchaSatelliteEnabled() && isRecaptchaABTestEnabled() && !ExpediaBookingApp.isAutomation();
 	}
 
 	@Override
@@ -341,7 +378,14 @@ public class AccountLibActivity extends AppCompatActivity
 		}
 	};
 
-	public class Listener extends AccountView.Listener {
+	public class NavigationListener implements View.OnClickListener {
+		@Override
+		public void onClick(View v) {
+			finish();
+		}
+	}
+
+	public class Listener implements AccountSignInListener {
 
 		@Override
 		public void onSignInSuccessful() {
@@ -393,10 +437,6 @@ public class AccountLibActivity extends AppCompatActivity
 			((ExpediaBookingApp)getBaseContext().getApplicationContext()).setCrashlyticsMetadata();
 			Crashlytics.logException(e);
 		}
-	}
-
-	public interface LogInListener {
-		void onLoginCompleted();
 	}
 
 	private boolean isRecaptchaSatelliteEnabled() {
