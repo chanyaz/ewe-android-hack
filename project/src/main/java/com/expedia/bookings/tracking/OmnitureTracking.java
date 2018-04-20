@@ -5750,6 +5750,7 @@ public class OmnitureTracking {
 		setDateValues(s, takeoffDates.first, takeoffDates.second);
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSeatsLeftUrgencyMessaging);
+		trackAbacusTest(s, AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckout);
 		s.track();
 	}
 

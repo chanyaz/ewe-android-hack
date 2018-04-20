@@ -165,6 +165,7 @@ class FlightCheckoutViewTest {
         flightPresenter.flightOverviewPresenter.viewModel.showWebviewCheckoutObservable.subscribe(testShowWebviewSubscriber)
         flightPresenter.webCheckoutView.viewModel.showWebViewObservable.subscribe(maskWebCheckoutActivityObservable)
         flightPresenter.flightOfferViewModel.flightProductId.onNext("12345")
+        Db.getTripBucket().add(TripBucketItemFlightV2(getFlightCreateTripResponse()))
 
         assertTrue(flightPresenter.webCheckoutView.visibility == View.GONE)
         assertTrue(flightPresenter.flightOverviewPresenter.visibility == View.VISIBLE)
@@ -200,6 +201,7 @@ class FlightCheckoutViewTest {
         flightPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_activity, null) as FlightPresenter
         setupTestToOpenInFlightOutboundPresenter()
         flightPresenter.flightOfferViewModel.flightProductId.onNext("12345")
+        Db.getTripBucket().add(TripBucketItemFlightV2(getFlightCreateTripResponse()))
         flightPresenter.flightOverviewPresenter.checkoutButton.performClick()
 
         assertTrue(flightPresenter.webCheckoutView.loadingWebview.visibility == View.GONE)
