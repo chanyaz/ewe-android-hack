@@ -176,9 +176,9 @@ open class FlightServices(val endpoint: String, okHttpClient: OkHttpClient, inte
         createTripRequestSubscription?.dispose()
 
         val createTripObservable = if (isUserBucketedForAPIMAuth) {
-            flightApi.createTrip(params.flexEnabled, params.toQueryMap(), params.featureOverride, params.fareFamilyCode, params.fareFamilyTotalPrice)
+            flightApi.createTrip(params.flexEnabled, params.queryParamsForNewCreateTrip(), params.featureOverride, params.fareFamilyCode, params.fareFamilyTotalPrice, params.childTravelerAge)
         } else {
-            flightApi.oldCreateTrip(params.flexEnabled, params.toQueryMap(), params.featureOverride, params.fareFamilyCode, params.fareFamilyTotalPrice)
+            flightApi.oldCreateTrip(params.flexEnabled, params.queryParamsForOldCreateTrip(), params.featureOverride, params.fareFamilyCode, params.fareFamilyTotalPrice)
         }
         createTripRequestSubscription = createTripObservable.observeOn(observeOn)
                 .subscribeOn(subscribeOn)

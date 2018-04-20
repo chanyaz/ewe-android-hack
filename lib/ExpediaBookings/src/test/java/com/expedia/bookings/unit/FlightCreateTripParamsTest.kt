@@ -30,6 +30,23 @@ class FlightCreateTripParamsTest {
         FlightCreateTripParams.Builder().productKey(null).build()
     }
 
+    @Test
+    fun testNewCreateTripQueryParams() {
+        val params = getCreateTripParamsBuilderWithTravellerInformation(2, listOf(10, 12), false)
+        val queryParams = params.queryParamsForNewCreateTrip()
+        assertEquals(2, queryParams["numberOfAdultTravelers"])
+        assertEquals(false, queryParams["infantSeatingInLap"])
+        assertEquals(listOf(10, 12), params.childTravelerAge)
+    }
+
+    @Test
+    fun testOldCreateTripQueryParams() {
+        val params = getCreateTripParamsBuilder()
+        val expectedParams = HashMap<String, String>()
+        expectedParams["productKey"] = "happy"
+        assertEquals(expectedParams, params.queryParamsForOldCreateTrip())
+    }
+
     private fun getCreateTripParamsBuilder(vararg overrides: String): FlightCreateTripParams {
         val paramsBuilder = FlightCreateTripParams.Builder()
         if (overrides.isNotEmpty()) {
@@ -42,6 +59,18 @@ class FlightCreateTripParamsTest {
                 .setFlexEnabled(true)
                 .fareFamilyCode("Eco")
                 .fareFamilyTotalPrice(BigDecimal(100))
+                .build()
+    }
+
+    private fun getCreateTripParamsBuilderWithTravellerInformation(numberOfAdultTraveller: Int, childTravelerAge: List<Int>, infantSeatingInLap: Boolean): FlightCreateTripParams {
+        val paramsBuilder = FlightCreateTripParams.Builder()
+        return paramsBuilder.productKey("happy")
+                .setFlexEnabled(true)
+                .fareFamilyCode("Eco")
+                .fareFamilyTotalPrice(BigDecimal(100))
+                .setNumberOfAdultTravelers(numberOfAdultTraveller)
+                .setChildTravelerAge(childTravelerAge)
+                .setInfantSeatingInLap(infantSeatingInLap)
                 .build()
     }
 }

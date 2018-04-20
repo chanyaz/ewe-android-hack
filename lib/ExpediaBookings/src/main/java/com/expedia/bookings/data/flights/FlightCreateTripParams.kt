@@ -4,7 +4,8 @@ import java.math.BigDecimal
 import java.util.HashMap
 
 class FlightCreateTripParams(val productKey: String, val flexEnabled: Boolean, val featureOverride: String?,
-                            val fareFamilyCode: String?, val fareFamilyTotalPrice: BigDecimal?) {
+                            val fareFamilyCode: String?, val fareFamilyTotalPrice: BigDecimal?, private val numberOfAdultTravelers: Int?,
+                             val childTravelerAge: List<Int>?, val infantSeatingInLap: Boolean?) {
 
     class Builder {
         private var productKey: String? = null
@@ -12,9 +13,13 @@ class FlightCreateTripParams(val productKey: String, val flexEnabled: Boolean, v
         private var featureOverride: String? = null
         private var fareFamilyCode: String? = null
         private var fareFamilyTotalPrice: BigDecimal? = null
+        private var numberOfAdultTravelers: Int? = null
+        private var childTravelerAge: List<Int>? = emptyList()
+        private var infantSeatingInLap: Boolean? = null
 
         fun build(): FlightCreateTripParams {
-            return FlightCreateTripParams(productKey ?: throw IllegalArgumentException(), isFlexEnabled, featureOverride, fareFamilyCode, fareFamilyTotalPrice)
+            return FlightCreateTripParams(productKey ?: throw IllegalArgumentException(), isFlexEnabled, featureOverride, fareFamilyCode, fareFamilyTotalPrice,
+                    numberOfAdultTravelers, childTravelerAge, infantSeatingInLap)
         }
 
         fun productKey(productKey: String?): Builder {
@@ -48,11 +53,38 @@ class FlightCreateTripParams(val productKey: String, val flexEnabled: Boolean, v
             this.fareFamilyTotalPrice = fareFamilyTotalPrice
             return this
         }
+
+        fun setNumberOfAdultTravelers(numberOfAdultTravelers: Int): Builder {
+            this.numberOfAdultTravelers = numberOfAdultTravelers
+            return this
+        }
+
+        fun setChildTravelerAge(childTravelerAge: List<Int>): Builder {
+            this.childTravelerAge = childTravelerAge
+            return this
+        }
+
+        fun setInfantSeatingInLap(infantSeatingInLap: Boolean): Builder {
+            this.infantSeatingInLap = infantSeatingInLap
+            return this
+        }
     }
 
-    fun toQueryMap(): Map<String, Any> {
+    private fun commonQueryParamsForCreateTrip(): HashMap<String, Any> {
         val params = HashMap<String, Any>()
-        params.put("productKey", productKey)
+        params["productKey"] = productKey
+        return params
+    }
+
+    fun queryParamsForOldCreateTrip(): Map<String, Any> {
+        return commonQueryParamsForCreateTrip()
+    }
+
+    fun queryParamsForNewCreateTrip(): Map<String, Any> {
+        var params = HashMap<String, Any>()
+        params = commonQueryParamsForCreateTrip()
+        params["numberOfAdultTravelers"] = numberOfAdultTravelers!!
+        params["infantSeatingInLap"] = infantSeatingInLap!!
         return params
     }
 }

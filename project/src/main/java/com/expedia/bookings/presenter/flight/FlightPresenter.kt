@@ -394,6 +394,11 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             createTripBuilder = FlightCreateTripParams.Builder()
             createTripBuilder.productKey(productKey)
             createTripBuilder.setFlexEnabled(isFlexEnabled(context))
+            if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsAPIKongEndPoint)) {
+                createTripBuilder.setNumberOfAdultTravelers(Db.getFlightSearchParams().adults)
+                createTripBuilder.setChildTravelerAge(Db.getFlightSearchParams().children)
+                createTripBuilder.setInfantSeatingInLap(Db.getFlightSearchParams().infantSeatingInLap)
+            }
             if (EBAndroidAppFlightSubpubChange) {
                 createTripBuilder.setFeatureOverride(Constants.FEATURE_SUBPUB)
             }
