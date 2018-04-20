@@ -30,6 +30,7 @@ import `in`.mamga.carousalnotification.CarousalItem
 import com.expedia.bookings.data.foursquare.Items
 import com.expedia.bookings.notification.carousel.CarouselNotificationManager
 import com.expedia.bookings.notification.carousel.NotificationModel
+import com.expedia.bookings.utils.FoursquareResponseUtil
 import java.util.Arrays
 
 
@@ -56,18 +57,14 @@ class GeofenceTransitionsIntentService(val TAG: String = "GeofenceTransitionsIS"
             return
         }
 
-        val item = intent?.getStringExtra(NOTIFICATION_DESC) as String
-        Log.d("GeoFenceNoti", item)
+        val oldResponse = FoursquareResponseUtil.loadResponse(this)
 
-        val venueId = intent?.getStringExtra(VENUE_ID) as String
-        val venueLoc = intent?.getStringExtra(VENUE_LOC) as String
+        val venueId = GeofencingEvent.fromIntent(intent).triggeringGeofences.first().requestId
 
-//        val newIntent = Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=" + venueLoc))
+        val item = oldResponse?.response?.groups?.first()?.items?.find { it.venue.id.equals(venueId) }
 
-//        val pi = PendingIntent.getActivity(this, 0, newIntent, 0)
-
-        if (venueId.isNotEmpty()) {
-            searchSubscriber = fourSquareService?.getImages(venueId)?.subscribeObserver(makeResultsObserver(item, "google.navigation:q=" + venueLoc))
+        if (item != null) {
+            searchSubscriber = fourSquareService?.getImages(venueId)?.subscribeObserver(makeResultsObserver(item.tips.get(0).text, "google.navigation:q=" + item.venue.location.lat + "," + item.venue.location.lng))
         }
     }
 
@@ -159,14 +156,9 @@ class GeofenceTransitionsIntentService(val TAG: String = "GeofenceTransitionsIS"
         val VENUE_LOC = "VENUE_LOC"
 
         @JvmStatic
-        fun generateSchedulePendingIntent(context: Context, item: Item_, index: Int): PendingIntent {
+        fun generateSchedulePendingIntent(context: Context): PendingIntent {
             val intent = Intent(context, GeofenceTransitionsIntentService::class.java)
-            val bundle = Bundle()
-            bundle.putString(VENUE_ID, item.venue.id)
-            bundle.putString(NOTIFICATION_DESC, item.venue.name + ": " + item.tips.get(0).text)
-            bundle.putString(VENUE_LOC, "" + item.venue.location.lat + "," + item.venue.location.lng)
-            intent.putExtras(bundle)
-            return PendingIntent.getService(context, index, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            return PendingIntent.getService(context, 5, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         }
     }
 }

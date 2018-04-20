@@ -177,7 +177,7 @@ class GeoFencingIntentService : IntentService("GeoFencingIntentService"),
     }
 
     private fun getPIforGeoFence(item: Item_, index: Int): PendingIntent {
-        return GeofenceTransitionsIntentService.generateSchedulePendingIntent(this, item, index)
+        return GeofenceTransitionsIntentService.generateSchedulePendingIntent(this)
     }
 
     private fun getLocFromTrip(trip: Trip): String? {
