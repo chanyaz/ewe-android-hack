@@ -26,6 +26,7 @@ class MemberDealsArchViewModel(val service: ISmartOfferService, val request: Mem
         liveData
     }
 
+    @Suppress("UNCHECKED_CAST")
     class Factory(private val service: ISmartOfferService, private val request: MemberDealsRequest) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return MemberDealsArchViewModel(service, request) as T

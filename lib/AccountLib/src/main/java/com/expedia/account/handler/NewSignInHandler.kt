@@ -37,7 +37,7 @@ class NewSignInHandler(val context: Context, val config: Config, private val ema
                     override fun onError(e: Throwable) {
                         accountLoadingDisposable?.dispose()
                         accountLoadingDisposable = null
-                        showSignInError(e)
+                        showSignInError()
                     }
 
                     override fun onSubscribe(d: Disposable) {
@@ -60,14 +60,14 @@ class NewSignInHandler(val context: Context, val config: Config, private val ema
     }
 
     // Networking error
-    private fun showSignInError(throwable: Throwable) {
+    private fun showSignInError() {
         config.analyticsListener?.userReceivedErrorOnSignInAttempt("Account:local")
         showSignInErrorGeneric()
     }
 
     // API returned !success
     private fun showSignInError(response: AccountResponse) {
-        config.analyticsListener?.userReceivedErrorOnSignInAttempt("Account:" + response.errors?.get(0)?.errorInfo?.cause ?: "server")
+        config.analyticsListener?.userReceivedErrorOnSignInAttempt("Account:" + (response.errors?.get(0)?.errorInfo?.cause ?: "server"))
         showSignInErrorGeneric(response.SignInFailureError())
     }
 

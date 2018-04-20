@@ -248,7 +248,7 @@ class PackageActivity : AbstractAppCompatActivity() {
         Db.sharedInstance.packageParams.pageType = null
         changedOutboundFlight = false
 
-        if (isMidAPIEnabled(this)) {
+        if (isMidAPIEnabled()) {
             packagePresenter.bundlePresenter.performMIDCreateTripSubject.onNext(Unit)
         } else {
             val params = PackageCreateTripParams.fromPackageSearchParams(Db.sharedInstance.packageParams)

@@ -78,7 +78,7 @@ class HotelRoomDetailViewModel(val context: Context,
 
     val showPerNight: Boolean get() = !isPayLater && !isTotalPrice
 
-    val pricePerDescriptorString: String get() = if (isPackage && isMidAPIEnabled(context)) context.getString(R.string.price_per_person) else context.getString(R.string.per_night)
+    val pricePerDescriptorString: String get() = if (isPackage && isMidAPIEnabled()) context.getString(R.string.price_per_person) else context.getString(R.string.per_night)
 
     val priceString: String? get() = createPriceString()
 

@@ -33,7 +33,7 @@ class LegacyItinCardDataActivity : AppCompatActivity(), ItinCard.OnItinCardClick
 
     override fun onResume() {
         super.onResume()
-        val data = ItineraryManager.getInstance().getItinCardDataFromItinId(intent.getStringExtra(ITIN_ID_EXTRA))
+        val data: ItinCardData? = ItineraryManager.getInstance().getItinCardDataFromItinId(intent.getStringExtra(ITIN_ID_EXTRA))
         if (data == null) {
             finish()
             return

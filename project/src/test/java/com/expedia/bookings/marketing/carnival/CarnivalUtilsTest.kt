@@ -37,7 +37,6 @@ import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.ApiDateUtils
-import junit.framework.Assert
 import org.hamcrest.Matchers
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -526,7 +525,7 @@ class CarnivalUtilsTest : CarnivalUtils() {
         val parameterizedUri = this.createParameterizedDeeplinkWithStoredValues(mockUri)
         val expectedUri = Uri.parse("expda://hotelSearch?location=Disney World&checkInDate=2018-01-30")
 
-        Assert.assertEquals(expectedUri, parameterizedUri)
+        assertEquals(expectedUri, parameterizedUri)
     }
 
     private fun getIntent(pendingIntent: PendingIntent): Intent {

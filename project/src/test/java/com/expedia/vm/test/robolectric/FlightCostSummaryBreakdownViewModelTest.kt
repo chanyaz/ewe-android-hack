@@ -350,7 +350,6 @@ class FlightCostSummaryBreakdownViewModelTest {
         val tripId = "1234"
         val tealeafTransactionId = "tealeaf-1234"
         val priceString = "55.00"
-        val currencyCode = currencyCode
         val totalPrice = Money(priceString, currencyCode)
         val adultCategory = FlightTripDetails.PassengerCategory.ADULT
         val taxesPrice = Money("5.00", currencyCode)

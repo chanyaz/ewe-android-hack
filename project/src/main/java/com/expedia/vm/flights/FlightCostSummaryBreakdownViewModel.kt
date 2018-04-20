@@ -76,17 +76,17 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
             }
 
             if (flightOffer.fees != null) {
-                val flightOffer = flightDetails.offer
-                if (flightOffer != null && flightOffer.isEvolable && isEvolableEnabled()) {
+                val offer = flightDetails.offer
+                if (offer != null && offer.isEvolable && isEvolableEnabled()) {
                     title = context.getString(R.string.booking_fee)
                 } else {
                     title = Phrase.from(context, R.string.brand_booking_fee).put("brand", ProductFlavorFeatureConfiguration.getInstance().getPOSSpecificBrandName(context)).format().toString()
                 }
-                breakdowns.add(CostSummaryBreakdownRow.Builder().title(title).cost(flightOffer.bookingFee.formattedMoneyFromAmountAndCurrencyCode).build())
+                breakdowns.add(CostSummaryBreakdownRow.Builder().title(title).cost(offer.bookingFee.formattedMoneyFromAmountAndCurrencyCode).build())
 
                 // insurance
-                if (flightOffer.selectedInsuranceProduct != null) {
-                    val insurance = flightOffer.selectedInsuranceProduct
+                if (offer.selectedInsuranceProduct != null) {
+                    val insurance = offer.selectedInsuranceProduct
                     val insuranceTitle = context.getString(R.string.cost_summary_breakdown_flight_insurance)
 
                     breakdowns.add(CostSummaryBreakdownRow.Builder().title(insuranceTitle)

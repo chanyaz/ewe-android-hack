@@ -53,7 +53,7 @@ class NewCreateAccountHandler(private val context: Context, private val config: 
                     override fun onError(e: Throwable) {
                         accountLoadingDisposable?.dispose()
                         accountLoadingDisposable = null
-                        showCreateAccountError(e)
+                        showCreateAccountError()
                     }
 
                     override fun onSubscribe(d: Disposable) {
@@ -75,7 +75,7 @@ class NewCreateAccountHandler(private val context: Context, private val config: 
         config.accountSignInListener?.onSignInSuccessful()
     }
 
-    private fun showCreateAccountError(throwable: Throwable) {
+    private fun showCreateAccountError() {
         config.analyticsListener?.userReceivedErrorOnAccountCreationAttempt("Account:local")
         showCreateAccountErrorGeneric()
     }
@@ -90,7 +90,7 @@ class NewCreateAccountHandler(private val context: Context, private val config: 
     }
 
     private fun showCreateAccountError(response: AccountResponse) {
-        config.analyticsListener?.userReceivedErrorOnAccountCreationAttempt("Account" + response.errors[0].errorInfo?.cause ?: "server")
+        config.analyticsListener?.userReceivedErrorOnAccountCreationAttempt("Account" + (response.errors[0].errorInfo?.cause ?: "server"))
 
         if (response.hasError(AccountResponse.ErrorCode.EMAIL_PASSWORD_IDENTICAL_ERROR)) {
             showErrorPasswordDialog(AccountResponse.ErrorCode.EMAIL_PASSWORD_IDENTICAL_ERROR)

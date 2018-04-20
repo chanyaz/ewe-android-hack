@@ -571,7 +571,7 @@ class LaunchListAdapterTest {
         var fourthPosition = adapterUnderTest.getItemViewType(3)
         assertEquals(LaunchDataItem.COLLECTION_VIEW, fourthPosition)
 
-        adapterUnderTest.setLaunchListLogic(TestLaunchListLogic(context, isItinLaunchCardEnabled = true))
+        adapterUnderTest.setLaunchListLogic(TestLaunchListLogic(isItinLaunchCardEnabled = true))
         mockItineraryManager.onSyncFinished(ArrayList<Trip>())
 
         firstPosition = adapterUnderTest.getItemViewType(0)
@@ -598,7 +598,7 @@ class LaunchListAdapterTest {
         assertFalse(adapterUnderTest.isStaticCardAlreadyShown(LaunchDataItem.ITIN_VIEW))
         assertFalse(adapterUnderTest.isStaticCardAlreadyShown(LaunchDataItem.AIR_ATTACH_VIEW))
 
-        adapterUnderTest.setLaunchListLogic(TestLaunchListLogic(context, isItinLaunchCardEnabled = true))
+        adapterUnderTest.setLaunchListLogic(TestLaunchListLogic(isItinLaunchCardEnabled = true))
         givenAirAttachCardEnabled()
         givenCustomerSignedIn()
         givenWeHaveStaffPicks()
@@ -919,7 +919,7 @@ class LaunchListAdapterTest {
     }
 
     private fun createSystemUnderTest(isItinLaunchCardEnabled: Boolean = false, recentAirAttachFlightTrip: Trip? = Trip()) {
-        val testLaunchListLogic = TestLaunchListLogic(context, isItinLaunchCardEnabled, null, recentAirAttachFlightTrip)
+        val testLaunchListLogic = TestLaunchListLogic(isItinLaunchCardEnabled, null, recentAirAttachFlightTrip)
         adapterUnderTest = TestLaunchListAdapter(context, headerView, testLaunchListLogic)
         adapterUnderTest.onCreateViewHolder(parentView, 0)
     }
@@ -978,7 +978,7 @@ class LaunchListAdapterTest {
         }
     }
 
-    inner class TestLaunchListLogic(context: Context, var isItinLaunchCardEnabled: Boolean = false, val trips: List<Trip>? = null, var recentAirAttachFlightTrip: Trip? = Trip()) : LaunchListLogic() {
+    inner class TestLaunchListLogic(var isItinLaunchCardEnabled: Boolean = false, val trips: List<Trip>? = null, var recentAirAttachFlightTrip: Trip? = Trip()) : LaunchListLogic() {
         override fun showItinCard(): Boolean {
             return isItinLaunchCardEnabled
         }

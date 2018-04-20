@@ -33,7 +33,7 @@ class FrequentFlyerAdapterViewModel(var traveler: Traveler) {
         }).subscribe()
     }
 
-    private fun updateFrequentFlyerData(legs: List<FlightLeg>, plans: FlightCreateTripResponse.FrequentFlyerPlans) {
+    private fun updateFrequentFlyerData(legs: List<FlightLeg>?, plans: FlightCreateTripResponse.FrequentFlyerPlans?) {
         if (legs != null && plans != null) {
             viewHolderViewModels.clear()
             val validAirlines = createFrequentFlyerCards(legs, plans)

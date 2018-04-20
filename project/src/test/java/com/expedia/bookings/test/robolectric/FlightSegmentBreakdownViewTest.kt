@@ -47,7 +47,7 @@ class FlightSegmentBreakdownViewTest {
     @Test
     fun testSeatClassAndBookingCodeViewUpdationWithLayover() {
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode)
-        sut.viewmodel.addSegmentRowsObserver.onNext(getFlightSegmentBreakdownList("coach", true, true, true))
+        sut.viewmodel.addSegmentRowsObserver.onNext(getFlightSegmentBreakdownList("coach", true, true))
         sut.viewmodel.updateSeatClassAndCodeSubject.onNext(getSegmentAttributesList(listOf("business", "coach")))
 
         seatClassAndBookingCodeTextView = sut.linearLayout.getChildAt(0).findViewById<View>(R.id.flight_seat_class_booking_code) as TextView
@@ -116,7 +116,7 @@ class FlightSegmentBreakdownViewTest {
         return sut.linearLayout.findViewById<View>(R.id.flight_seat_class_booking_code) as TextView
     }
 
-    private fun getFlightSegmentBreakdownList(seatClass: String, showSeatClassAndBookingCode: Boolean, showCollapseIcon: Boolean = false, hasLayover: Boolean = false): List<FlightSegmentBreakdown> {
+    private fun getFlightSegmentBreakdownList(seatClass: String, showSeatClassAndBookingCode: Boolean, hasLayover: Boolean = false): List<FlightSegmentBreakdown> {
         val flightSegment = createFlightSegment(seatClass)
         val breakdown = FlightSegmentBreakdown(flightSegment, hasLayover, showSeatClassAndBookingCode)
         val list: ArrayList<FlightSegmentBreakdown> = ArrayList()

@@ -126,7 +126,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         }
 
         bundleSlidingWidget.setupBundleViews(Constants.PRODUCT_FLIGHT)
-        val isOutboundSearch = Db.sharedInstance.packageParams?.isOutboundSearch(isMidAPIEnabled(context)) ?: false
+        val isOutboundSearch = Db.sharedInstance.packageParams?.isOutboundSearch(isMidAPIEnabled()) ?: false
         val bestPlusAllFlights = Db.getPackageResponse().getFlightLegs().filter { it.outbound == isOutboundSearch && it.packageOfferModel != null }
 
         // move bestFlight to the first place of the list
@@ -250,10 +250,10 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         show(detailsPresenter)
     }
 
-    override fun isOutboundResultsPresenter(): Boolean = Db.sharedInstance.packageParams?.isOutboundSearch(isMidAPIEnabled(context)) ?: false
+    override fun isOutboundResultsPresenter(): Boolean = Db.sharedInstance.packageParams?.isOutboundSearch(isMidAPIEnabled()) ?: false
 
     override fun trackFlightOverviewLoad(flight: FlightLeg) {
-        val isOutboundSearch = Db.sharedInstance.packageParams?.isOutboundSearch(isMidAPIEnabled(context)) ?: false
+        val isOutboundSearch = Db.sharedInstance.packageParams?.isOutboundSearch(isMidAPIEnabled()) ?: false
 
         if (isOutboundSearch) {
             PackagesPageUsableData.FLIGHT_OUTBOUND_DETAILS.pageUsableData.markAllViewsLoaded()
@@ -271,7 +271,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
     }
 
     override fun trackFlightResultsLoad() {
-        val isOutboundSearch = Db.sharedInstance.packageParams?.isOutboundSearch(isMidAPIEnabled(context)) ?: false
+        val isOutboundSearch = Db.sharedInstance.packageParams?.isOutboundSearch(isMidAPIEnabled()) ?: false
         PackagesTracking().trackFlightRoundTripLoad(isOutboundSearch, Db.sharedInstance.packageParams, if (isOutboundSearch) PackagesPageUsableData.FLIGHT_OUTBOUND.pageUsableData else PackagesPageUsableData.FLIGHT_INBOUND.pageUsableData)
     }
 

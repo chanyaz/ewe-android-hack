@@ -361,7 +361,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     private fun setupTopNav() {
         toolbar.visibility = View.VISIBLE
         toolbar.tabLayout.setupWithViewPager(viewPager)
-        toolbar.tabLayout.setOnTabSelectedListener(pageChangeListener)
+        toolbar.tabLayout.addOnTabSelectedListener(pageChangeListener)
         setContentDescriptionToolbarTabs(this, toolbar.tabLayout)
 
         bottomTabLayout.visibility = View.GONE

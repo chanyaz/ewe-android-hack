@@ -42,7 +42,7 @@ class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingS
             }
 
             //extra guest charges
-            val extraGuestCharges = hotel?.totalPriceDetails?.extraGuestChargesFormatted
+            val extraGuestCharges = hotel.totalPriceDetails?.extraGuestChargesFormatted
             if (extraGuestCharges != null && !extraGuestCharges.isBlank()) {
                 val extraGuestChargesItem = HotelItinPriceLineItem(scope.strings.fetch(R.string.itin_hotel_price_summary_multiple_guest_fees_label), extraGuestCharges, R.color.itin_price_summary_label_gray_light)
                 priceLineItemSubject.onNext(extraGuestChargesItem)
@@ -51,14 +51,14 @@ class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingS
             //property fee
 
             //taxes and fees
-            val taxesAndFees = hotel?.totalPriceDetails?.taxesAndFeesFormatted
+            val taxesAndFees = hotel.totalPriceDetails?.taxesAndFeesFormatted
             if (taxesAndFees != null && !taxesAndFees.isBlank()) {
                 val taxesAndFeesItem = HotelItinPriceLineItem(scope.strings.fetch(R.string.itin_hotel_price_summary_taxes_and_fees_label), taxesAndFees, R.color.itin_price_summary_label_gray_dark)
                 priceLineItemSubject.onNext(taxesAndFeesItem)
             }
 
             //coupons
-            val adjustmentsForCoupons = hotel?.totalPriceDetails?.adjustmentForCouponFormatted
+            val adjustmentsForCoupons = hotel.totalPriceDetails?.adjustmentForCouponFormatted
             if (adjustmentsForCoupons != null && !adjustmentsForCoupons.isBlank()) {
                 val couponItem = HotelItinPriceLineItem(scope.strings.fetch(R.string.itin_hotel_price_summary_coupons_label), adjustmentsForCoupons, R.color.itin_price_summary_label_green)
                 priceLineItemSubject.onNext(couponItem)

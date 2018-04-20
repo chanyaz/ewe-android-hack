@@ -10,11 +10,11 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowDateFormat
 import com.expedia.bookings.utils.DateRangeUtils
 
-import junit.framework.Assert.assertEquals
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.robolectric.annotation.Config
 import java.util.concurrent.TimeUnit
+import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class DateRangeUtilsTest {

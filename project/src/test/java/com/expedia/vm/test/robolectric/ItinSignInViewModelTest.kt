@@ -15,7 +15,7 @@ import com.expedia.vm.itin.ItinSignInViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
 import org.robolectric.Robolectric
 import com.expedia.bookings.services.TestObserver
@@ -114,10 +114,10 @@ class ItinSignInViewModelTest {
         setUpItinLogin()
         givenCustomerNotAuthenticated()
 
-        Mockito.verify(mockItinPageUsablePerformanceModel, Mockito.never()).markSuccessfulStartTime(Matchers.anyLong())
+        Mockito.verify(mockItinPageUsablePerformanceModel, Mockito.never()).markSuccessfulStartTime(ArgumentMatchers.anyLong())
         testItinSignInViewModel.signInClickSubject.onNext(Unit)
 
-        Mockito.verify(mockItinPageUsablePerformanceModel, Mockito.times(1)).markSuccessfulStartTime(Matchers.anyLong())
+        Mockito.verify(mockItinPageUsablePerformanceModel, Mockito.times(1)).markSuccessfulStartTime(ArgumentMatchers.anyLong())
     }
 
     private fun setUpItinLogin() {

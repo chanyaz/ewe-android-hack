@@ -28,6 +28,7 @@ import android.widget.FrameLayout
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 
+@Suppress("DEPRECATION")
 class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget(context, attrs) {
 
     val loadingWebview: LinearLayout by bindView(R.id.webview_loading_screen)
@@ -179,7 +180,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
     }
 
     private fun urlIsMIDConfirmation(url: String): Boolean {
-        return isMidAPIEnabled(context) && url.contains(context.getString(R.string.mid_confirmation_url_tag))
+        return isMidAPIEnabled() && url.contains(context.getString(R.string.mid_confirmation_url_tag))
     }
 
     private fun setUserAgentString(isTabletDevice: Boolean) {

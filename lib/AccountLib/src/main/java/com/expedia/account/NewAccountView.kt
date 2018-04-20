@@ -148,6 +148,7 @@ open class NewAccountView(context: Context, attrs: AttributeSet) : LinearLayout(
         }
     }
 
+    @Suppress("UNUSED_PARAMETER")
     @Subscribe
     fun otto(event: Events.NewForgotPasswordButtonClicked) {
         config?.accountSignInListener?.onForgotPassword()

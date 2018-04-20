@@ -22,6 +22,7 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
+@Suppress("DEPRECATION")
 @RunWith(RobolectricRunner::class)
 class RailCardPickerViewModelTest {
 

@@ -99,7 +99,7 @@ open class PaymentViewModel(val context: Context) {
 
     init {
         statusUpdate.subscribe { it ->
-            billingInfoAndStatusUpdate.onNext(Pair(billingInfoAndStatusUpdate.value?.first ?: null, it))
+            billingInfoAndStatusUpdate.onNext(Pair(billingInfoAndStatusUpdate.value?.first, it))
         }
 
         ObservableOld.combineLatest(billingInfoAndStatusUpdate, isRedeemable, splitsType, shouldShowPayLaterMessaging) {

@@ -130,6 +130,10 @@ subprojects {
         }
     }
 
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+        kotlinOptions.allWarningsAsErrors = true
+    }
+
 }
 
 dependencyUpdates.resolutionStrategy = {
@@ -160,9 +164,6 @@ dependencies {
     ktlint 'com.github.shyiko:ktlint:0.15.0'
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    kotlinOptions.allWarningsAsErrors = true
-}
 
 task ktlint(type: JavaExec, group: "verification") {
     description = "Check Kotlin code style"

@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.design.widget.TabLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.TripFlight
@@ -61,7 +62,7 @@ open class FlightItinTravelerViewModel(private val context: Context, private val
     }
 
     fun updateItinCardDataFlight() {
-        val freshItinCardDataFlight = itineraryManager.getItinCardDataFromItinId(itinId)
+        val freshItinCardDataFlight: ItinCardData? = itineraryManager.getItinCardDataFromItinId(itinId)
         if (freshItinCardDataFlight != null && freshItinCardDataFlight is ItinCardDataFlight) {
             itinCardDataFlight = freshItinCardDataFlight
             itinCardUpdatedSubject.onNext(Unit)
