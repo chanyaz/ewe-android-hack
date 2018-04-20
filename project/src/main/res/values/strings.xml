@@ -2783,6 +2783,9 @@
     <string name="hotel_guest_recommend_wonderful_superlative">/5 - Wonderful!</string>
     <string name="hotel_guest_recommend_exceptional_superlative">/5 - Exceptional!</string>
 
+    <!-- User rating number out of five on review page-->
+    <string name="hotel_user_review_rating_out_of_five">/5</string>
+
     <!-- Flights Score results -->
     <!-- Route Happy AB Test: Example: 9/10 - Excellent! -->
     <string name="route_score_excellent_superlative_TEMPLATE">{route_score}/10 - Excellent!</string>

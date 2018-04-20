@@ -24,6 +24,7 @@ class HotelReviewRowViewModel(val context: Context) {
     val reviewBodyObservable = BehaviorSubject.create<String>()
     val translateButtonTextObservable = BehaviorSubject.create<String>()
     val toggleReviewTranslationObservable = BehaviorSubject.create<String>()
+    val userReviewRatingTextObservable = BehaviorSubject.create<Float>()
     val onTranslateClick = endlessObserver<Unit> {
         review?.let { review ->
             OmnitureTracking.trackHotelReviewTranslate(showingTranslated)
@@ -62,8 +63,12 @@ class HotelReviewRowViewModel(val context: Context) {
 
     private fun updateViews(review: Review) {
         titleTextObservable.onNext(HtmlCompat.fromHtml(review.title).toString())
+        if (isHotelUGCReviewsBoxRatingDesignEnabled()) {
+            userReviewRatingTextObservable.onNext(review.ratingOverall.toFloat())
+        } else {
+            ratingObservable.onNext(review.ratingOverall.toFloat())
+        }
         reviewerTextObservable.onNext(getReviewerText(review))
-        ratingObservable.onNext(review.ratingOverall.toFloat())
         submissionDateObservable.onNext(getSubmissionDate(review))
         reviewBodyObservable.onNext(HtmlCompat.fromHtml(review.reviewText).toString())
         updateTranslationButton()
@@ -102,5 +107,9 @@ class HotelReviewRowViewModel(val context: Context) {
         } else {
             translateButtonTextObservable.onNext("")
         }
+    }
+
+    private fun isHotelUGCReviewsBoxRatingDesignEnabled(): Boolean {
+        return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelUGCReviewsBoxRatingDesign)
     }
 }
