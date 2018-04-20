@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Point
 import android.graphics.PorterDuff
@@ -42,6 +43,7 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.extensions.setFocusForView
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
+import com.expedia.bookings.hotel.activity.HotelFavoritesActivity
 import com.expedia.bookings.hotel.animation.transition.HorizontalTranslateTransition
 import com.expedia.bookings.hotel.animation.transition.VerticalFadeTransition
 import com.expedia.bookings.hotel.animation.transition.VerticalTranslateTransition
@@ -91,6 +93,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     open val floatingPill: HotelSearchFloatingActionPill? = null
 
     open val filterMenuItem by lazy { toolbar.menu.findItem(R.id.menu_filter) }
+
+    open val favoritesMenuItem by lazy { toolbar.menu.findItem(R.id.menu_favorites) }
 
     var filterCountText: TextView by Delegates.notNull()
     var filterPlaceholderImageView: ImageView by Delegates.notNull()
@@ -360,7 +364,15 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
         toolbar.inflateMenu(R.menu.menu_filter_item)
 
+        favoritesMenuItem.setOnMenuItemClickListener {
+            val intent = Intent(context, HotelFavoritesActivity::class.java)
+            context.startActivity(intent)
+            true
+        }
+
         filterMenuItem.isVisible = false
+
+        favoritesMenuItem.isVisible = false
 
         toolbar.setNavigationOnClickListener {
             if (!transitionRunning) {

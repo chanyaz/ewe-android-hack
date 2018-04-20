@@ -101,6 +101,13 @@
         <item quantity="other">{number} Results</item>
     </plurals>
 
+    <!-- Title message displayed when there are no items in the user's favorite hotels list -->
+    <string name="hotel_favorites_page_empty_title">Save your favorites</string>
+    <!-- Subtitle message displayed when there are no items in the user's favorites hotels list -->
+    <string name="hotel_favorites_page_empty_subtitle">When you find something you like, use the heart to save your favorites.</string>
+    <!-- Title at the top of the Hotel Favorites page containing the user's saved hotels -->
+    <string name="hotel_favorites_page_toolbar_title">Saved Hotels</string>
+
     <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
     <plurals name="number_results_announcement_text_TEMPLATE">
         <item quantity="one">{number} Result Filtered</item>

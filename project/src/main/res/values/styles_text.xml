@@ -101,6 +101,10 @@
         <item name="android:textSize">@dimen/type_600_text_size</item>
     </style>
 
+    <style name="Core.Text.600.Medium">
+        <item name="textStyle">medium</item>
+    </style>
+
     <style name="Core.Text.700">
         <item name="android:textSize">@dimen/type_700_text_size</item>
     </style>
