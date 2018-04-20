@@ -85,15 +85,15 @@ class PackageConfirmationPresenterTest {
         setupMIDWebCheckout()
 
         val bookingTripIDSubscriber = TestObserver<String>()
-        val fectchTripIDSubscriber = TestObserver<String>()
+        val fetchTripIDSubscriber = TestObserver<String>()
         (packagePresenter.bundlePresenter.webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).bookedTripIDObservable.subscribe(bookingTripIDSubscriber)
-        (packagePresenter.bundlePresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).fetchItinObservable.subscribe(fectchTripIDSubscriber)
+        (packagePresenter.bundlePresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).fetchItinObservable.subscribe(fetchTripIDSubscriber)
         (packagePresenter.bundlePresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userAccountRefresher = userAccountRefresherMock
 
         packagePresenter.bundlePresenter.show(packagePresenter.bundlePresenter.webCheckoutView)
 
         bookingTripIDSubscriber.assertValueCount(0)
-        fectchTripIDSubscriber.assertValueCount(0)
+        fetchTripIDSubscriber.assertValueCount(0)
         Mockito.verify(userAccountRefresherMock, Mockito.times(0)).forceAccountRefreshForWebView()
         val tripID = "mid_trip_details"
 
@@ -101,8 +101,8 @@ class PackageConfirmationPresenterTest {
         Mockito.verify(userAccountRefresherMock, Mockito.times(1)).forceAccountRefreshForWebView()
         bookingTripIDSubscriber.assertValueCount(1)
         (packagePresenter.bundlePresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).onUserAccountRefreshed()
-        fectchTripIDSubscriber.assertValueCount(1)
-        fectchTripIDSubscriber.assertValue(tripID)
+        fetchTripIDSubscriber.assertValueCount(1)
+        fetchTripIDSubscriber.assertValue(tripID)
         bookingTripIDSubscriber.assertValue(tripID)
     }
 

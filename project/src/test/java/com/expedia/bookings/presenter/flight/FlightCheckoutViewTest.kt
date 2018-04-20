@@ -178,6 +178,44 @@ class FlightCheckoutViewTest {
 
     @Test
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testConfirmationUrlForNonINPosBucketedNativeRateDetailsWebview() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckout)
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
+        Db.getTripBucket().add(TripBucketItemFlightV2(getFlightCreateTripResponse()))
+
+        val bookingTripIDSubscriber = TestObserver<String>()
+        val fetchTripIDSubscriber = TestObserver<String>()
+        val webviewVisibilitySubscriber = TestObserver<Boolean>()
+        (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.subscribe(bookingTripIDSubscriber)
+        (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).fetchItinObservable.subscribe(fetchTripIDSubscriber)
+        (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).showWebViewObservable.subscribe(webviewVisibilitySubscriber)
+        (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userAccountRefresher = userAccountRefresherMock
+        setupTestToOpenInFlightOutboundPresenter()
+
+        flightPresenter.flightOfferViewModel.flightProductId.onNext("12345")
+        bookingTripIDSubscriber.assertValueCount(0)
+        fetchTripIDSubscriber.assertValueCount(0)
+        webviewVisibilitySubscriber.assertValueCount(0)
+        Mockito.verify(userAccountRefresherMock, Mockito.times(0)).forceAccountRefreshForWebView()
+        val tripID = "testing-for-confirmation"
+
+        flightPresenter.flightOverviewPresenter.checkoutButton.performClick()
+        webviewVisibilitySubscriber.assertValue(true)
+
+        flightPresenter.webCheckoutView.onWebPageStarted(flightPresenter.webCheckoutView.webView, activity.getString(R.string.flight_confirmation_url_tag) + "?tripid=$tripID", null)
+        Mockito.verify(userAccountRefresherMock, Mockito.times(1)).forceAccountRefreshForWebView()
+        bookingTripIDSubscriber.assertValueCount(1)
+        webviewVisibilitySubscriber.assertValues(true, false)
+
+        (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).onUserAccountRefreshed()
+        fetchTripIDSubscriber.assertValueCount(1)
+        fetchTripIDSubscriber.assertValue(tripID)
+        bookingTripIDSubscriber.assertValue(tripID)
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testClosingWebviewWithWebviewCko() {
         setPOSToIndia()
         turnOnABTest()
@@ -339,15 +377,15 @@ class FlightCheckoutViewTest {
         setFlightPresenterAndFlightServices()
 
         val bookingTripIDSubscriber = TestObserver<String>()
-        val fectchTripIDSubscriber = TestObserver<String>()
+        val fetchTripIDSubscriber = TestObserver<String>()
         (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.subscribe(bookingTripIDSubscriber)
-        (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).fetchItinObservable.subscribe(fectchTripIDSubscriber)
+        (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).fetchItinObservable.subscribe(fetchTripIDSubscriber)
         (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userAccountRefresher = userAccountRefresherMock
         setupTestToOpenInFlightOutboundPresenter()
 
         flightPresenter.flightOfferViewModel.flightProductId.onNext("happy_round_trip")
         bookingTripIDSubscriber.assertValueCount(0)
-        fectchTripIDSubscriber.assertValueCount(0)
+        fetchTripIDSubscriber.assertValueCount(0)
         val tripID = "testing-for-confirmation"
         Mockito.verify(userAccountRefresherMock, Mockito.times(0)).forceAccountRefreshForWebView()
 
@@ -355,8 +393,8 @@ class FlightCheckoutViewTest {
         Mockito.verify(userAccountRefresherMock, Mockito.times(1)).forceAccountRefreshForWebView()
         bookingTripIDSubscriber.assertValueCount(1)
         (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).onUserAccountRefreshed()
-        fectchTripIDSubscriber.assertValueCount(1)
-        fectchTripIDSubscriber.assertValue(tripID)
+        fetchTripIDSubscriber.assertValueCount(1)
+        fetchTripIDSubscriber.assertValue(tripID)
         bookingTripIDSubscriber.assertValue(tripID)
     }
 

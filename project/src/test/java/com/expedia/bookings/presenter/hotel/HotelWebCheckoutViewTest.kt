@@ -117,16 +117,16 @@ class HotelWebCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun webViewTripIDOnSuccessfulBooking() {
         val bookingTripIDSubscriber = TestObserver<String>()
-        val fectchTripIDSubscriber = TestObserver<String>()
+        val fetchTripIDSubscriber = TestObserver<String>()
         setPOSWithWebCheckoutEnabled(true)
         setUpTestToStartAtDetailsScreen()
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.subscribe(bookingTripIDSubscriber)
-        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).fetchItinObservable.subscribe(fectchTripIDSubscriber)
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).fetchItinObservable.subscribe(fetchTripIDSubscriber)
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userAccountRefresher = userAccountRefresherMock
         selectHotelRoom()
         webCheckoutViewObservable.assertValueCount(1)
         bookingTripIDSubscriber.assertValueCount(0)
-        fectchTripIDSubscriber.assertValueCount(0)
+        fetchTripIDSubscriber.assertValueCount(0)
         val tripID = "testing-for-confirmation"
         verify(userAccountRefresherMock, times(0)).forceAccountRefreshForWebView()
 
@@ -134,8 +134,8 @@ class HotelWebCheckoutViewTest {
         verify(userAccountRefresherMock, times(1)).forceAccountRefreshForWebView()
         bookingTripIDSubscriber.assertValueCount(1)
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).onUserAccountRefreshed()
-        fectchTripIDSubscriber.assertValueCount(1)
-        fectchTripIDSubscriber.assertValue(tripID)
+        fetchTripIDSubscriber.assertValueCount(1)
+        fetchTripIDSubscriber.assertValue(tripID)
         bookingTripIDSubscriber.assertValue(tripID)
     }
 
@@ -143,14 +143,14 @@ class HotelWebCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testWebviewDoesNotFetchTripIdWithoutValidConfirmationUrl() {
         val bookingTripIDSubscriber = TestObserver<String>()
-        val fectchTripIDSubscriber = TestObserver<String>()
+        val fetchTripIDSubscriber = TestObserver<String>()
         val closeViewSubscriber = TestObserver<Unit>()
 
         setPOSWithWebCheckoutABTestEnabled(true)
         bucketWebCheckoutABTest(true)
         setUpTestToStartAtDetailsScreen()
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.subscribe(bookingTripIDSubscriber)
-        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).fetchItinObservable.subscribe(fectchTripIDSubscriber)
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).fetchItinObservable.subscribe(fetchTripIDSubscriber)
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).closeView.subscribe(closeViewSubscriber)
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userAccountRefresher = userAccountRefresherMock
         assertFalse(PointOfSale.getPointOfSale().hotelsWebBookingConfirmationURL.isNullOrBlank())
@@ -161,7 +161,7 @@ class HotelWebCheckoutViewTest {
         verify(userAccountRefresherMock, times(0)).forceAccountRefreshForWebView()
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).onUserAccountRefreshed()
         bookingTripIDSubscriber.assertValueCount(0)
-        fectchTripIDSubscriber.assertValueCount(0)
+        fetchTripIDSubscriber.assertValueCount(0)
         closeViewSubscriber.assertValueCount(1)
     }
 
