@@ -18,6 +18,7 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.data.AbstractItinDetailsResponse;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.otto.Events;
@@ -167,6 +168,28 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 		viewModel.getConfirmationTextObservable().subscribe(RxTextView.text(confirmationText));
 		viewModel.getReservationConfirmationTextObservable().subscribe(RxTextView.text(reservationConfirmation));
 		viewModel.getItineraryNumberTextObservable().subscribe(RxTextView.text(itineraryNumber));
+		viewModel.getItinDetailsResponseObservable().subscribe(new Observer<AbstractItinDetailsResponse>() {
+			@Override
+			public void onSubscribe(Disposable d) {
+			}
+
+			@Override
+			public void onNext(AbstractItinDetailsResponse itinDetailsResponse) {
+				OmnitureTracking.trackAppLXConfirmationFromTripsResponse(itinDetailsResponse, isGroundTransport,
+					lxState.activity.id, lxState.selectedTicketsCount(),
+					ApiDateUtils.yyyyMMddHHmmssToLocalDate(lxState
+						.offer.availabilityInfoOfSelectedDate.availabilities.valueDate),
+					lxState.searchParams.getActivityEndDate());
+			}
+
+			@Override
+			public void onError(Throwable e) {
+			}
+
+			@Override
+			public void onComplete() {
+			}
+		});
 		viewModel.getConfirmationScreenUiObservable().subscribe(new Observer<Unit>() {
 			@Override
 			public void onSubscribe(Disposable d) {

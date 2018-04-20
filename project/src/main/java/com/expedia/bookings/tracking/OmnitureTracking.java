@@ -44,6 +44,7 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.analytics.cesc.CESCTrackingUtil;
 import com.expedia.bookings.analytics.cesc.PersistingCESCDataUtil;
 import com.expedia.bookings.analytics.cesc.SharedPrefsCESCPersistenceProvider;
+import com.expedia.bookings.data.AbstractItinDetailsResponse;
 import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightItinDetailsResponse;
@@ -2287,6 +2288,34 @@ public class OmnitureTracking {
 		setLXDateValues(lxActivityStartDate, s);
 
 		// Send the tracking data
+		s.track();
+	}
+
+	public static void trackAppLXConfirmationFromTripsResponse(AbstractItinDetailsResponse itinDetailsResponse,
+		boolean isGroundTransport, String lxActivityId, int selectedTicketsCount, LocalDate lxActivityStartDate,
+		LocalDate lxActivityEndDate) {
+		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_CONFIRMATION + "\" pageLoad...");
+
+		AppAnalytics s = internalTrackAppLX(
+			isGroundTransport ? LX_GT_CHECKOUT_CONFIRMATION : LX_CHECKOUT_CONFIRMATION);
+		Long orderId = itinDetailsResponse.getResponseDataForItin().getOrderNumber();
+
+		s.setEvents("purchase");
+
+		if (orderId != null) {
+			s.setPurchaseID("onum" + orderId);
+			s.setProp(72, orderId.toString());
+		}
+		s.setCurrencyCode(itinDetailsResponse.getResponseDataForItin().getTotalTripPrice().getCurrency());
+		s.setProducts(addLXProducts(lxActivityId, selectedTicketsCount,
+			itinDetailsResponse.getResponseDataForItin().getTotalTripPrice().getTotal()));
+
+		String activityStartDateString = lxActivityStartDate.toString(LX_CONFIRMATION_PROP_DATE_FORMAT);
+		String activityEndDateString = lxActivityEndDate.toString(LX_CONFIRMATION_PROP_DATE_FORMAT);
+
+		s.setEvar(30, "LX:" + activityStartDateString + "-" + activityEndDateString + ":N");
+		setLXDateValues(lxActivityStartDate, s);
+
 		s.track();
 	}
 
