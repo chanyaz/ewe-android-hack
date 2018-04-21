@@ -1,6 +1,7 @@
 package com.expedia.bookings.itin.hotel.pricingRewards
 
 import android.app.Activity
+import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.mobiata.mocke3.mockObject
 import io.reactivex.Observable
 import io.reactivex.Observer
+import io.reactivex.subjects.PublishSubject
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -31,19 +33,25 @@ class HotelItinPricingSummaryViewTest {
     private val activity = Robolectric.buildActivity(Activity::class.java).create().start().get()
     private val testView = LayoutInflater.from(activity).inflate(R.layout.test_hotel_itin_pricing_summary_container, null) as HotelItinPricingSummaryView
 
-    lateinit var observer: TestObserver<List<HotelItinPricingSummary>>
+    lateinit var roomObserver: TestObserver<List<HotelItinRoomPrices>>
+    lateinit var containerObserver: TestObserver<Unit>
+    lateinit var priceLineItemObserver: TestObserver<HotelItinPriceLineItem>
 
     private val ViewGroup.views: List<View>
         get() = (0 until childCount).map { getChildAt(it) }
 
     @Before
     fun setup() {
-        observer = TestObserver()
+        roomObserver = TestObserver()
+        containerObserver = TestObserver()
+        priceLineItemObserver = TestObserver()
     }
 
     @After
     fun tearDown() {
-        observer.dispose()
+        roomObserver.dispose()
+        containerObserver.dispose()
+        priceLineItemObserver.dispose()
     }
 
     @Test
@@ -51,24 +59,56 @@ class HotelItinPricingSummaryViewTest {
         val viewModel = viewModelWithMultipleRooms()
         testView.viewModel = viewModel
 
-        observer.assertEmpty()
+        roomObserver.assertEmpty()
         viewModel.observer.onChanged(viewModel.scope.itinHotelRepo.liveDataHotel.value)
 
-        assertEquals(14, getAllLineItemViews().size)
+        assertEquals(17, getAllLineItemViews().size)
 
         viewModel.observer.onChanged(getScope(true).itinHotelRepo.liveDataHotel.value)
 
         assertEquals(5, getAllLineItemViews().size)
     }
 
-    private fun getAllLineItemViews(): List<HotelItinLineItemView> {
-        return testView.containerView.views.filter { it is HotelItinLineItemView }.map { it as HotelItinLineItemView }
+    @Test
+    fun testViewContainerSubjectRemovesAllViews() {
+        val viewModel = MockPriceSummaryViewModel()
+        viewModel.clearPriceSummaryContainerSubject.subscribe(containerObserver)
+        testView.viewModel = viewModel
+
+        viewModel.priceLineItemSubject.onNext(HotelItinPriceLineItem("test", "test", R.color.itin_price_summary_label_gray_dark))
+        assertEquals(1, getAllLineItemViews().size)
+        containerObserver.assertEmpty()
+        viewModel.clearPriceSummaryContainerSubject.onNext(Unit)
+        containerObserver.assertValueCount(1)
+        assertEquals(0, getAllLineItemViews().size)
+    }
+
+    @Test
+    fun testViewPriceLineSubject() {
+        val viewModel = MockPriceSummaryViewModel()
+        viewModel.priceLineItemSubject.subscribe(priceLineItemObserver)
+        testView.viewModel = viewModel
+
+        priceLineItemObserver.assertEmpty()
+        assertEquals(0, getAllLineItemViews().size)
+        viewModel.priceLineItemSubject.onNext(HotelItinPriceLineItem("test", "test", R.color.itin_price_summary_label_gray_dark))
+        priceLineItemObserver.assertValueCount(1)
+        assertEquals(1, getAllLineItemViews().size)
+        val view = getAllLineItemViews()[0]
+        assertEquals("test", view.labelTextView.text)
+        assertEquals("test", view.priceTextView.text)
+        assertEquals(ContextCompat.getColor(activity, R.color.itin_price_summary_label_gray_dark), view.labelTextView.currentTextColor)
+        assertEquals(ContextCompat.getColor(activity, R.color.itin_price_summary_label_gray_dark), view.priceTextView.currentTextColor)
+    }
+
+    private fun getAllLineItemViews(): List<PriceSummaryItemView> {
+        return testView.containerView.views.filter { it is PriceSummaryItemView }.map { it as PriceSummaryItemView }
     }
 
     private fun viewModelWithMultipleRooms(): HotelItinPricingSummaryViewModel<HotelItinPricingSummaryScope> {
         val viewModel = HotelItinPricingSummaryViewModel(getScope())
 
-        viewModel.lineItemViewModelSubject.subscribe(observer)
+        viewModel.roomPriceBreakdownSubject.subscribe(roomObserver)
 
         return viewModel
     }
@@ -104,5 +144,11 @@ class HotelItinPricingSummaryViewTest {
 
     object TestObservable : Observable<MutableList<ItinCardData>>() {
         override fun subscribeActual(observer: Observer<in MutableList<ItinCardData>>?) {}
+    }
+
+    class MockPriceSummaryViewModel : IHotelItinPricingSummaryViewModel {
+        override val clearPriceSummaryContainerSubject = PublishSubject.create<Unit>()
+        override val roomPriceBreakdownSubject = PublishSubject.create<List<HotelItinRoomPrices>>()
+        override val priceLineItemSubject = PublishSubject.create<HotelItinPriceLineItem>()
     }
 }
