@@ -35,6 +35,7 @@ import com.expedia.bookings.hotel.widget.Earn2xCardViewHolder
 import com.expedia.bookings.hotel.widget.HotelUrgencyViewHolder
 import com.expedia.bookings.hotel.widget.GenericAttachViewHolder
 import com.expedia.bookings.utils.isHideMiniMapOnResultBucketed
+import com.squareup.phrase.Phrase
 
 abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>,
                                     val headerSubject: PublishSubject<Unit>,
@@ -285,6 +286,9 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
                 if (faqUrl.isNotEmpty() && !resultDescriptionSpannable.toString().equals(root.context.resources.getString(R.string.progress_searching_hotels_hundreds))) {
                     resultDescriptionSpannable.append("  ")
                     resultDescriptionSpannable.setSpan(ImageSpan(root.context, R.drawable.details_info), resultDescriptionSpannable.length - 1, resultDescriptionSpannable.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+                    resultsDescriptionHeader.contentDescription = Phrase.from(root.context, R.string.accessibility_cont_desc_role_button_TEMPLATE)
+                            .put("button_label", resultDescriptionSpannable.toString())
+                            .format().toString()
                 }
                 resultsDescriptionHeader.setText(resultDescriptionSpannable, android.widget.TextView.BufferType.SPANNABLE)
             }
