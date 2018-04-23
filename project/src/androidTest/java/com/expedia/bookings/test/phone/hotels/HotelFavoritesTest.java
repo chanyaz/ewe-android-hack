@@ -24,7 +24,7 @@ public class HotelFavoritesTest extends PhoneTestCase {
 
 	@Test
 	public void testFavoritesButtonShown() throws Throwable {
-		AbacusTestUtils.bucketTests(AbacusUtils.HotelTravelPulseLists);
+		AbacusTestUtils.bucketTests(AbacusUtils.HotelShortlist);
 		getSearchResults();
 		onView(withId(R.id.menu_favorites)).perform(click());
 		assertViewIsDisplayed(R.id.hotel_favorites_toolbar);
@@ -34,7 +34,7 @@ public class HotelFavoritesTest extends PhoneTestCase {
 
 	@Test
 	public void testFavoritesButtonNotShownNoAbTest() throws Throwable {
-		AbacusTestUtils.updateABTest(AbacusUtils.HotelTravelPulseLists, AbacusVariant.CONTROL.getValue());
+		AbacusTestUtils.updateABTest(AbacusUtils.HotelShortlist, AbacusVariant.CONTROL.getValue());
 		getSearchResults();
 		onView(withId(R.id.menu_favorites)).check(doesNotExist());
 	}

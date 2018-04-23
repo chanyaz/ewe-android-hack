@@ -294,7 +294,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             }
         }
 
-        favoritesMenuItem.isVisible = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelTravelPulseLists)
+        favoritesMenuItem.isVisible = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelShortlist)
     }
 
     override fun inflate() {
