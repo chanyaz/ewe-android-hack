@@ -1,10 +1,14 @@
 package com.expedia.bookings.tracking
 
+import android.support.annotation.VisibleForTesting
+
 abstract class AbstractTrackingDataBuilder<T : AbstractSearchTrackingData> {
     protected abstract var trackingData: T
 
-    protected var paramsPopulated = false
-    protected var responsePopulated = false
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    var paramsPopulated = false
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    var responsePopulated = false
     protected var responseTimePopulated = false
 
     fun markSearchClicked() {
