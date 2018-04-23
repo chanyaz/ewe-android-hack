@@ -23,6 +23,7 @@ abstract class WebCheckoutViewViewModel(context: Context) : WebViewViewModel(), 
 
     init {
         userLoginStateChangedModel.userLoginStateChanged
+                .distinctUntilChanged()
                 .filter { it && userStateManager.isUserAuthenticated() }
                 .subscribe { reloadUrlObservable.onNext(Unit) }
     }

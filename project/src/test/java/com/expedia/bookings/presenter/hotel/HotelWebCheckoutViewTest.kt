@@ -237,14 +237,9 @@ class HotelWebCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testLoginStateChangedReloadsUrlWithLoggedInUser() {
         getToWebCheckoutView()
-        val userStateManager = Ui.getApplication(activity).appComponent().userStateManager()
-        val testUser = UserLoginTestUtil.mockUser()
-        testUser.primaryTraveler.email = "test@expedia.com"
-        userStateManager.addUserToAccountManager(testUser)
-        UserLoginTestUtil.setupUserAndMockLogin(testUser)
+        loginMockUser()
         val testReloadSubscriber = TestObserver<Unit>()
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).reloadUrlObservable.subscribe(testReloadSubscriber)
-
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userLoginStateChangedModel.userLoginStateChanged.onNext(true)
 
         testReloadSubscriber.assertValueCount(1)
@@ -252,13 +247,19 @@ class HotelWebCheckoutViewTest {
     }
 
     @Test
-    fun testLoginStateChangedDoesNotReloadUrlWithLoggedOutUser() {
+    fun testDoNotReloadUrlUntilStatusChangedToTrueAndLoggedIn() {
         getToWebCheckoutView()
         val testReloadSubscriber = TestObserver<Unit>()
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).reloadUrlObservable.subscribe(testReloadSubscriber)
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userLoginStateChangedModel.userLoginStateChanged.onNext(false)
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userLoginStateChangedModel.userLoginStateChanged.onNext(true)
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userLoginStateChangedModel.userLoginStateChanged.onNext(false)
 
         testReloadSubscriber.assertNoValues()
+
+        loginMockUser()
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userLoginStateChangedModel.userLoginStateChanged.onNext(true)
+        testReloadSubscriber.assertValueCount(1)
     }
 
     @Test
@@ -327,6 +328,14 @@ class HotelWebCheckoutViewTest {
         setPOSWithWebCheckoutEnabled(true)
         setUpTestToStartAtDetailsScreen()
         selectHotelRoom()
+    }
+
+    private fun loginMockUser() {
+        val userStateManager = Ui.getApplication(activity).appComponent().userStateManager()
+        val testUser = UserLoginTestUtil.mockUser()
+        testUser.primaryTraveler.email = "test@expedia.com"
+        userStateManager.addUserToAccountManager(testUser)
+        UserLoginTestUtil.setupUserAndMockLogin(testUser)
     }
 
     private fun selectHotelRoom() {
