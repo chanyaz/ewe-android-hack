@@ -22,6 +22,7 @@ import android.widget.ImageView;
  *
  * Created by doug on 5/8/15.
  */
+@SuppressLint("AppCompatCustomView")
 public class PanningImageView extends ImageView {
 
 	private float mScale = 1f;

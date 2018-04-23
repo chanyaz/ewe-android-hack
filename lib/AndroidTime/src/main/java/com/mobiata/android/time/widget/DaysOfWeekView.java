@@ -208,7 +208,7 @@ public class DaysOfWeekView extends View {
 		}
 
 		private String getDescriptionForVirtualViewId(int virtualViewId) {
-			return getContext().getString(R.string.cd_day_of_week_TEMPLATE, virtualViewId + 1,
+			return getContext().getString(R.string.cd_day_of_week_TEMPLATE, String.valueOf(virtualViewId + 1),
 					mDaysOfWeek[virtualViewId].getAsText());
 		}
 
