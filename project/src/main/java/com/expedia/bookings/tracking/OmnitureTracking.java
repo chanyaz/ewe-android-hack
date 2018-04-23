@@ -195,6 +195,7 @@ public class OmnitureTracking {
 		sMarketingDate = SettingUtils
 			.get(sContext, sContext.getString(R.string.preference_marketing_date), sMarketingDate);
 		cescTrackingUtil = new CESCTrackingUtil(new PersistingCESCDataUtil(new SharedPrefsCESCPersistenceProvider(sContext)));
+		CESCTrackingUtil.class.getAnnotationsByType(Deprecated.class);
 	}
 
 	private static final Application.ActivityLifecycleCallbacks sOmnitureActivityCallbacks = new Application.ActivityLifecycleCallbacks() {
