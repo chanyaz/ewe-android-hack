@@ -40,6 +40,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppFlightsFiltersPriceAndLogo = new ABTest(25526, true);
 	public static final ABTest DownloadableFonts = new ABTest(25071, true);
 	public static final ABTest EBAndroidAppSeatsLeftUrgencyMessaging = new ABTest(25037, true);
+	public static final ABTest EBAndroidAppLxWebCheckoutView = new ABTest(25622, true);
 
 	// Rail tests
 	public static final ABTest EBAndroidRailHybridAppForDEEnabled = new ABTest(15102);
@@ -258,6 +259,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightsContentHighlightInTypeahead.getKey());
 		testIDs.add(EBAndroidAppAccountNewSignIn.getKey());
 		testIDs.add(HotelMapSmallSoldOutPins.getKey());
+		testIDs.add(EBAndroidAppLxWebCheckoutView.getKey());
 		return testIDs;
 	}
 
