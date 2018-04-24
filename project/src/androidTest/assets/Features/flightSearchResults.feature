@@ -75,10 +75,11 @@ Feature: Flights Search Results
 
 
 
-  @Flights @CALocale @Prod @EBOnlySet2
+  @Flights @Prod @EBOnlySet2
   Scenario: POS and locale combination
     Given I launch the App
     And I set the POS to "Canada"
+    And I set the Locale to "en" language of "CA" dialect
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |
