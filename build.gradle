@@ -5,7 +5,7 @@ buildscript {
     ext.retrofit_version = '2.4.0'
     ext.rxjava_version = '2.1.5'
     ext.dagger_version = '2.14.1'
-    ext.robolectric_version = '3.5.1'
+    ext.robolectric_version = '3.6.1'
     ext.room_persistence_version = '1.0.0'
     ext.checkstyle_version = '8.8'
     ext.lifecyle_version = '1.1.1'

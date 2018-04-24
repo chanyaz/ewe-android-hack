@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.DrawableRes
@@ -68,11 +69,13 @@ class AccountSettingsFragmentTest {
 
     lateinit var fragment: AccountSettingsFragment
     lateinit var activity: FragmentUtilActivity
+    lateinit var context: Context
 
     @Before
     fun before() {
         activity = Robolectric.setupActivity(FragmentUtilActivity::class.java)
         activity.setTheme(R.style.LaunchTheme)
+        context = RuntimeEnvironment.application
     }
 
     @Test
@@ -236,7 +239,8 @@ class AccountSettingsFragmentTest {
 
     @Test
     fun appSupportEmailUs() {
-        val webViewActivity = Robolectric.buildActivity(AboutWebViewActivity::class.java).create().get()
+        val webViewActivityIntent: Intent = AboutWebViewActivity.IntentBuilder(context).intent
+        val webViewActivity = Robolectric.buildActivity(AboutWebViewActivity::class.java, webViewActivityIntent).create().get()
         val webView = LayoutInflater.from(webViewActivity).inflate(R.layout.web_view_toolbar, null) as FrameLayout
         val toolbarView = webView.findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar)
 

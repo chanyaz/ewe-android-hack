@@ -16,6 +16,7 @@ import com.expedia.bookings.utils.StrUtils
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.annotation.Config
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -23,6 +24,7 @@ class PackageCheckoutOverviewViewModelTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @Config(qualifiers = "w480dp-h800dp")
     fun packageViewModelTest() {
         val viewmodel = PackageCheckoutOverviewViewModel(getContext())
         val trip = PackageCreateTripResponse()
