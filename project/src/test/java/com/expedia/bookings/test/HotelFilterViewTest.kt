@@ -11,6 +11,7 @@ import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.services.LoyaltyServices
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
@@ -25,7 +26,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -43,7 +43,8 @@ class HotelFilterViewTest {
 
     private lateinit var viewModel: HotelFilterViewModel
 
-    @Before fun before() {
+    @Before
+    fun before() {
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         shopWithPointsViewModel = ShopWithPointsViewModel(RuntimeEnvironment.application, paymentModel, UserLoginStateChangedModel())
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
@@ -138,15 +139,21 @@ class HotelFilterViewTest {
     fun testUpdateStarsWithSearchOptions() {
         initViewModel()
 
-        val testSubscriber = TestObserver<UserFilterChoices.StarRatings>()
-        hotelFilterView.starRatingView.starRatingsSubject.subscribe(testSubscriber)
+        val testSubscriber1 = TestObserver<Unit>()
+        val testSubscriber2 = TestObserver<Unit>()
+        val testSubscriber3 = TestObserver<Unit>()
+        hotelFilterView.starRatingView.oneStarSubject.subscribe(testSubscriber1)
+        hotelFilterView.starRatingView.twoStarSubject.subscribe(testSubscriber2)
+        hotelFilterView.starRatingView.threeStarSubject.subscribe(testSubscriber3)
 
         val userFilters = UserFilterChoices()
-        val stars = UserFilterChoices.StarRatings(true, true, true, true, true)
+        val stars = UserFilterChoices.StarRatings(true, true, false, false, false)
         userFilters.hotelStarRating = stars
         viewModel.presetFilterOptionsUpdatedSubject.onNext(userFilters)
 
-        assertEquals(stars, testSubscriber.values()[0])
+        testSubscriber1.assertValueCount(1)
+        testSubscriber2.assertValueCount(1)
+        testSubscriber3.assertValueCount(0)
     }
 
     @Test

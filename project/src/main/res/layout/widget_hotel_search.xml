@@ -132,25 +132,6 @@
                         android:layout="@layout/traveler_search_widget" />
                 </FrameLayout>
 
-                <FrameLayout
-                    android:id="@+id/advanced_options_card_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/small_margin"
-                    android:background="@drawable/card_background">
-
-                    <com.expedia.bookings.widget.shared.SearchInputTextView
-                        android:id="@+id/advanced_options_view"
-                        style="@style/MaterialCardTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/default_search_card_height"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        app:input_icon="@drawable/sort"
-                        app:input_icon_tint_color="@color/search_screen_icon_color_v2"
-                        app:input_text="@string/advanced_options" />
-                </FrameLayout>
-
                 <ViewStub
                     android:id="@+id/swp_stub"
                     android:layout_width="match_parent"
@@ -173,13 +154,6 @@
             android:layout_height="wrap_content" />
 
     </LinearLayout>
-
-    <com.expedia.bookings.hotel.widget.AdvancedSearchOptionsView
-        android:id="@+id/search_options_details_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/suggestion_list"

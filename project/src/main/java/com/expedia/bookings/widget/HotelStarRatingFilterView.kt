@@ -10,7 +10,6 @@ import com.expedia.bookings.utils.bindView
 import io.reactivex.subjects.PublishSubject
 
 class HotelStarRatingFilterView(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
-    val starRatingsSubject = PublishSubject.create<UserFilterChoices.StarRatings>()
     val oneStarSubject = PublishSubject.create<Unit>()
     val twoStarSubject = PublishSubject.create<Unit>()
     val threeStarSubject = PublishSubject.create<Unit>()
@@ -65,35 +64,30 @@ class HotelStarRatingFilterView(context: Context, attrs: AttributeSet?) : CardVi
     private fun toggleStarOne() {
         filterOne.toggle()
         starRatings.one = !starRatings.one
-        starRatingsSubject.onNext(starRatings)
         oneStarSubject.onNext(Unit)
     }
 
     private fun toggleStarTwo() {
         filterTwo.toggle()
         starRatings.two = !starRatings.two
-        starRatingsSubject.onNext(starRatings)
         twoStarSubject.onNext(Unit)
     }
 
     private fun toggleStarThree() {
         filterThree.toggle()
         starRatings.three = !starRatings.three
-        starRatingsSubject.onNext(starRatings)
         threeStarSubject.onNext(Unit)
     }
 
     private fun toggleStarFour() {
         filterFour.toggle()
         starRatings.four = !starRatings.four
-        starRatingsSubject.onNext(starRatings)
         fourStarSubject.onNext(Unit)
     }
 
     private fun toggleStarFive() {
         filterFive.toggle()
         starRatings.five = !starRatings.five
-        starRatingsSubject.onNext(starRatings)
         fiveStarSubject.onNext(Unit)
     }
 }

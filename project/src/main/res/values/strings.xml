@@ -3956,22 +3956,7 @@
     <string name="coupon_error_remove_dialog_title">Coupon Removal Failed</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">There was a problem with your coupon. Please try entering it again.</string>
-    <!-- Hotel Advanced Search Options card title -->
-    <string name="advanced_options">Advanced Options</string>
-    <!-- VIP only search options on advanced options card title -->
-    <string name="vip_only">VIP only</string>
-    <!-- Sort by search option on advanced options card title -->
-    <string name="hotel_sort_by_search_option_TEMPLATE">Sort by {sortby}</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="one_star">1 star</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="two_star">2 star</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="three_star">3 star</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="four_star">4 star</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="five_star">5 star</string>
+
     <!-- Prompt to use filter after scrolling hotel results -->
     <string name="narrow_your_results">Narrow your results</string>
     <!-- Prompt to try new filter after scrolling hotel results  -->

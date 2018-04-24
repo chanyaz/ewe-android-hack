@@ -7,11 +7,11 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.PaymentSplitsType
+import com.expedia.bookings.marketing.carnival.CarnivalUtils
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.tracking.FacebookEvents
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.PayWithPointsErrorTrackingEnum
-import com.expedia.bookings.marketing.carnival.CarnivalUtils
 import com.expedia.bookings.utils.TuneUtils
 
 open class HotelTracking {
@@ -80,27 +80,6 @@ open class HotelTracking {
 
         fun trackLinkHotelFilterGuestRating(rating: String) {
             OmnitureTracking.trackLinkHotelV2GuestRating(rating)
-        }
-
-        fun trackHotelSuperSearchFilter() {
-            OmnitureTracking.trackHotelV2SuperSearchFilter()
-        }
-
-        fun trackHotelSuperSearchSortBy(type: String) {
-            OmnitureTracking.trackHotelV2SuperSearchSortBy(type)
-        }
-
-        fun trackLinkHotelSuperSearchStarRating(rating: String) {
-            OmnitureTracking.trackLinkHotelV2SuperSearchStarRating(rating + "Star")
-        }
-
-        fun trackLinkHotelSuperSearchVip(isChecked: Boolean) {
-            val state = if (isChecked) "On" else "Off"
-            OmnitureTracking.trackLinkHotelV2SuperSearchVip(state)
-        }
-
-        fun trackLinkHotelSuperSearchClearFilter() {
-            OmnitureTracking.trackLinkHotelV2SuperSearchClearFilter()
         }
 
         fun trackLinkHotelFilterNeighbourhood() {

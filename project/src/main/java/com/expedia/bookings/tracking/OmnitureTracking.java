@@ -259,11 +259,6 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_SEARCH_FILTER_BY_NAME = "App.Hotels.Search.HotelName";
 	private static final String HOTELSV2_CLEAR_FILTER = "App.Hotels.Search.ClearFilter";
 	private static final String HOTELSV2_RESULT_CHANGE_DATE = "App.Hotels.Search.ChangeDates";
-	private static final String HOTELSV2_SUPER_SEARCH_FILTER = "App.Hotels.Dest-Search.Filter";
-	private static final String HOTELSV2_SUPER_SEARCH_SORT_BY = "App.Hotels.Dest-Search.Sort.";
-	private static final String HOTELSV2_SUPER_SEARCH_STAR_RATING = "App.Hotels.Dest-Search.Filter.";
-	private static final String HOTELSV2_SUPER_SEARCH_FILTER_VIP = "App.Hotels.Dest-Search.Filter.VIP.";
-	private static final String HOTELSV2_SUPER_SEARCH_CLEAR_FILTER = "App.Hotels.Dest-Search.ClearFilter";
 	private static final String HOTELSV2_SEARCH_MAP = "App.Hotels.Search.Map";
 	private static final String HOTELSV2_RESULT_MAP_CHANGE_DATE = "App.Hotels.Search.Map.ChangeDates";
 	private static final String HOTELSV2_SEARCH_MAP_TO_LIST = "App.Hotels.Search.Expand.List";
@@ -489,7 +484,6 @@ public class OmnitureTracking {
 			s.appendEvents("event118");
 		}
 
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelSuperSearch);
 		trackAbacusTest(s, AbacusUtils.HotelRecentSearch);
 		// Send the tracking data
 		s.track();
@@ -776,41 +770,6 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + HOTELS_SPONSORED_LISTING_CLICK + "\" click...");
 		AppAnalytics s = createTrackLinkEvent(HOTELS_SPONSORED_LISTING_CLICK);
 		s.trackLink("Sponsored Click");
-	}
-
-	public static void trackHotelV2SuperSearchFilter() {
-		Log.d(TAG, "Tracking \"" + HOTELSV2_SUPER_SEARCH_FILTER + "\" pageLoad...");
-
-		AppAnalytics s = getFreshTrackingObject();
-
-		s.setAppState(HOTELSV2_SUPER_SEARCH_FILTER);
-		s.setEvar(18, HOTELSV2_SUPER_SEARCH_FILTER);
-
-		// LOB Search
-		s.setEvar(2, "D=c2");
-		s.setProp(2, HOTELV2_LOB);
-
-		// Send the tracking data
-		s.track();
-	}
-
-	public static void trackHotelV2SuperSearchSortBy(String type) {
-		String pageName = HOTELSV2_SUPER_SEARCH_SORT_BY + type;
-		createAndTrackLinkEvent(pageName, "Super Search Sort By");
-	}
-
-	public static void trackLinkHotelV2SuperSearchStarRating(String rating) {
-		String pageName = HOTELSV2_SUPER_SEARCH_STAR_RATING + rating;
-		createAndTrackLinkEvent(pageName, "Super Search Star Rating");
-	}
-
-	public static void trackLinkHotelV2SuperSearchVip(String state) {
-		String pageName = HOTELSV2_SUPER_SEARCH_FILTER_VIP + state;
-		createAndTrackLinkEvent(pageName, "Super Search Vip");
-	}
-
-	public static void trackLinkHotelV2SuperSearchClearFilter() {
-		createAndTrackLinkEvent(HOTELSV2_SUPER_SEARCH_CLEAR_FILTER, "Super Search Clear Filter");
 	}
 
 	public static void trackHotelNarrowSearchPrompt() {

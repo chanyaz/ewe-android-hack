@@ -5,21 +5,14 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
-import android.widget.FrameLayout
-import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.travelgraph.SearchInfo
 import com.expedia.bookings.extensions.setAccessibilityHoverFocus
-import com.expedia.bookings.extensions.setInverseVisibility
-import com.expedia.bookings.extensions.setVisibility
-import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.tracking.SuggestionTrackingData
-import com.expedia.bookings.hotel.widget.AdvancedSearchOptionsView
 import com.expedia.bookings.hotel.widget.adapter.HotelSuggestionAdapter
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseSearchPresenter
@@ -29,31 +22,20 @@ import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.travelgraph.vm.TravelGraphViewModel
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
-
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.ShopWithPointsWidget
-import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.BaseSuggestionAdapterViewModel
 import com.expedia.vm.HotelSearchViewModel
 import com.expedia.vm.HotelSuggestionAdapterViewModel
-import com.expedia.vm.hotel.AdvancedSearchOptionsViewModel
 import com.squareup.phrase.Phrase
 import javax.inject.Inject
 
 class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPresenter(context, attrs) {
     lateinit var searchTrackingBuilder: HotelSearchTrackingDataBuilder
         @Inject set
-
-    private val mainContainer: LinearLayout by bindView(R.id.main_container)
-    private val advancedOptionsContainerCard: FrameLayout by bindView(R.id.advanced_options_card_view)
-    private val advancedOptionsView: SearchInputTextView by bindView(R.id.advanced_options_view)
-    private val advancedOptionsDetails: AdvancedSearchOptionsView by bindView(R.id.search_options_details_view)
-
-    private val advancedOptionsViewModel = AdvancedSearchOptionsViewModel(context)
 
     var searchViewModel: HotelSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
@@ -96,8 +78,6 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
             calendarWidgetV2.setAccessibilityHoverFocus()
         }
 
-        advancedOptionsViewModel.searchOptionsSubject.subscribe(searchViewModel.advancedOptionsObserver)
-
         searchButton.setOnClickListener {
             searchTrackingBuilder.markSearchClicked()
             val lastSuggestionV4 = suggestionViewModel.getLastSelectedSuggestion()
@@ -127,7 +107,6 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
             val suggestion = searchSuggestion.suggestionV4
             searchViewModel.destinationLocationObserver.onNext(suggestion)
             SuggestionV4Utils.saveSuggestionHistory(context, suggestion, getSuggestionHistoryFileName(), shouldSaveSuggestionHierarchyChildInfo())
-            updateSearchOptions(suggestion)
 
             showDefault()
         }
@@ -169,23 +148,6 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
             suggestionViewModel.setUserSearchHistory(searchHistory.getRecentSearchInfos())
         }
 
-        advancedOptionsDetails.viewModel = advancedOptionsViewModel
-        addTransition(searchToAdvancedOptions)
-
-        advancedOptionsView.setOnClickListener {
-            show(advancedOptionsDetails)
-            HotelTracking.trackHotelSuperSearchFilter()
-        }
-
-        advancedOptionsViewModel.doneClickedSubject.subscribe {
-            showDefault()
-        }
-
-        advancedOptionsViewModel.searchOptionsSummarySubject.subscribeText(advancedOptionsView)
-
-        val showAdvancedOptions = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelSuperSearch)
-        advancedOptionsContainerCard.setVisibility(showAdvancedOptions)
-
         fetchUserSearchHistory()
     }
 
@@ -194,14 +156,6 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         if (!forward) {
             fetchUserSearchHistory()
         }
-    }
-
-    override fun back(): Boolean {
-        if (AdvancedSearchOptionsView::class.java.name == currentState) {
-            advancedOptionsViewModel.doneObservable.onNext(Unit)
-            return back(0)
-        }
-        return super.back()
     }
 
     fun resetSuggestionTracking() {
@@ -237,12 +191,6 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         return LineOfBusiness.HOTELS
     }
 
-    fun resetSearchOptions() {
-        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelSuperSearch)) {
-            advancedOptionsViewModel.resetSearchOptionsObservable.onNext(Unit)
-        }
-    }
-
     private fun fetchUserSearchHistory() {
         if (isUserSearchHistoryEnabled()) {
             suggestionViewModel.setUserSearchHistory(emptyList())
@@ -252,17 +200,6 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
 
     private fun isUserSearchHistoryEnabled(): Boolean =
             AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelRecentSearch)
-
-    private fun updateSearchOptions(suggestion: SuggestionV4) {
-        if (!AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelSuperSearch)) {
-            return
-        }
-
-        if (suggestion.isPinnedHotelSearch) {
-            resetSearchOptions()
-        }
-        advancedOptionsContainerCard.setInverseVisibility(suggestion.isPinnedHotelSearch)
-    }
 
     private fun updateDestinationText(locationText: String) {
         destinationCardView.setText(locationText)
@@ -275,12 +212,5 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         searchViewModel.datesUpdated(searchInfo.startDate, searchInfo.endDate)
         searchViewModel.destinationLocationObserver.onNext(searchInfo.destination)
         selectTravelers(TravelerParams(searchInfo.travelers.numOfAdults, searchInfo.travelers.agesOfChildren, emptyList(), emptyList()))
-    }
-
-    private val searchToAdvancedOptions = object : Transition(InputSelectionState::class.java, AdvancedSearchOptionsView::class.java) {
-        override fun endTransition(forward: Boolean) {
-            advancedOptionsDetails.setVisibility(forward)
-            mainContainer.setInverseVisibility(forward)
-        }
     }
 }
