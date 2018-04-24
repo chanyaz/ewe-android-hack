@@ -422,7 +422,9 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
             if (roomContainer.childCount >= 0) {
                 val roomRateView = roomContainer.getChildAt(0)
                 roomRateView?.let { roomView ->
-                    roomView.requestFocus()
+                    val view = roomView.findViewById<View>(R.id.room_type_text_view)
+                    view?.clearFocus()
+                    view?.requestFocus()
                 }
             }
         }, 400L)
