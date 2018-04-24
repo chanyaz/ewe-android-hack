@@ -51,6 +51,14 @@ class ActivityTransitionCircularRevealHelperTests {
     }
 
     @Test
+    fun testObserverCompletedWithManualComplete() {
+        val disposableCompletableObserver = getMockDisposableCompletableObserver()
+        ActivityTransitionCircularRevealHelper.subscribeToAnimationEnd(disposableCompletableObserver)
+        ActivityTransitionCircularRevealHelper.completeObservers()
+        assertTrue { ActivityTransitionCircularRevealHelper.animationIsComplete() }
+    }
+
+    @Test
     fun testObserverIsCleared() {
         val disposableCompletableObserver = getMockDisposableCompletableObserver()
         ActivityTransitionCircularRevealHelper.subscribeToAnimationEnd(disposableCompletableObserver)

@@ -17,9 +17,6 @@ import com.expedia.bookings.R
 import io.reactivex.observers.DisposableCompletableObserver
 import io.reactivex.subjects.CompletableSubject
 
-/**
- * Created by cplachta on 2/16/18.
- */
 class ActivityTransitionCircularRevealHelper {
     companion object {
         const val ARG_CIRCULAR_REVEAL_X = "ARG_CIRCULAR_REVEAL_X"
@@ -39,11 +36,11 @@ class ActivityTransitionCircularRevealHelper {
         }
 
         fun subscribeToAnimationEnd(disposableCompletableObserver: DisposableCompletableObserver) {
-            reInitializeAndCompleteExistingObservers()
+            reInitializeAndClearExistingObservers()
             this.disposableCompletableObserver = doneAnimatingCompletable.subscribeWith(disposableCompletableObserver)
         }
 
-        private fun reInitializeAndCompleteExistingObservers() {
+        private fun reInitializeAndClearExistingObservers() {
             clearObservers()
 
             if (animationIsComplete()) {
@@ -58,6 +55,12 @@ class ActivityTransitionCircularRevealHelper {
         fun clearObservers() {
             if (doneAnimatingCompletable.hasObservers()) {
                 disposableCompletableObserver?.dispose()
+                doneAnimatingCompletable.onComplete()
+            }
+        }
+
+        fun completeObservers() {
+            if (doneAnimatingCompletable.hasObservers()) {
                 doneAnimatingCompletable.onComplete()
             }
         }

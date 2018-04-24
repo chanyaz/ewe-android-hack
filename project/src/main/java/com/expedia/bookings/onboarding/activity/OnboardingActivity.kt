@@ -233,9 +233,9 @@ class OnboardingActivity : AppCompatActivity() {
         title.startAnimation(animateView2)
     }
 
-    override fun onPause() {
-        super.onPause()
-        ActivityTransitionCircularRevealHelper.clearObservers()
+    override fun onStop() {
+        super.onStop()
+        ActivityTransitionCircularRevealHelper.completeObservers()
     }
 
     override fun onDestroy() {
