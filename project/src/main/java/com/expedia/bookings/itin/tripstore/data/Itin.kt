@@ -1,5 +1,7 @@
 package com.expedia.bookings.itin.tripstore.data
 
+import com.google.gson.annotations.SerializedName
+
 data class Itin(
         val tripId: String?,
         val webDetailsURL: String?,
@@ -17,10 +19,30 @@ data class Itin(
         val cruises: List<ItinCruise>?,
         val rails: List<ItinRail>?,
         val packages: List<ItinPackage>?,
-        val rewardList: List<Reward>?
+        val rewardList: List<Reward>?,
+        val paymentDetails: PaymentDetails?
 )
 
 data class Reward(
         val totalPoints: String?,
         val basePoints: String?
+)
+
+data class PaymentDetails(
+        val priceByFormOfPayment: PriceByFormOfPayment?
+)
+
+data class PriceByFormOfPayment(
+        @SerializedName("Points")
+        val points: Points?,
+        @SerializedName("CreditCard")
+        val creditCard: CreditCard?
+)
+
+data class Points(
+        val localizedPaidPrice: String?
+)
+
+data class CreditCard(
+        val paidLocalizedPrice: String?
 )

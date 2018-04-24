@@ -34,8 +34,10 @@ class HotelItinPricingSummaryViewTest {
     private val testView = LayoutInflater.from(activity).inflate(R.layout.test_hotel_itin_pricing_summary_container, null) as HotelItinPricingSummaryView
 
     lateinit var roomObserver: TestObserver<List<HotelItinRoomPrices>>
-    lateinit var containerObserver: TestObserver<Unit>
-    lateinit var priceLineItemObserver: TestObserver<HotelItinPriceLineItem>
+    lateinit var multipleGuestItemObserver: TestObserver<HotelItinPriceLineItem>
+    lateinit var taxesAndFeesItemObeserver: TestObserver<HotelItinPriceLineItem>
+    lateinit var couponViewItemObserver: TestObserver<HotelItinPriceLineItem>
+    lateinit var pointViewItemObserver: TestObserver<HotelItinPriceLineItem>
 
     private val ViewGroup.views: List<View>
         get() = (0 until childCount).map { getChildAt(it) }
@@ -43,66 +45,115 @@ class HotelItinPricingSummaryViewTest {
     @Before
     fun setup() {
         roomObserver = TestObserver()
-        containerObserver = TestObserver()
-        priceLineItemObserver = TestObserver()
+        multipleGuestItemObserver = TestObserver()
+        taxesAndFeesItemObeserver = TestObserver()
+        couponViewItemObserver = TestObserver()
+        pointViewItemObserver = TestObserver()
     }
 
     @After
     fun tearDown() {
         roomObserver.dispose()
-        containerObserver.dispose()
-        priceLineItemObserver.dispose()
+        multipleGuestItemObserver.dispose()
+        taxesAndFeesItemObeserver.dispose()
+        couponViewItemObserver.dispose()
+        pointViewItemObserver.dispose()
     }
 
     @Test
-    fun testViewRefreshesLineItemsWhenViewModelUpdates() {
+    fun testRoomViewRefreshesLineItemsWhenViewModelUpdates() {
         val viewModel = viewModelWithMultipleRooms()
         testView.viewModel = viewModel
 
         roomObserver.assertEmpty()
-        viewModel.observer.onChanged(viewModel.scope.itinHotelRepo.liveDataHotel.value)
+        assertEquals(0, getAllLineItemViews().size)
+        viewModel.hotelObserver.onChanged(viewModel.scope.itinHotelRepo.liveDataHotel.value)
 
-        assertEquals(17, getAllLineItemViews().size)
+        assertEquals(14, getAllLineItemViews().size)
 
-        viewModel.observer.onChanged(getScope(true).itinHotelRepo.liveDataHotel.value)
+        viewModel.hotelObserver.onChanged(getScope(true).itinHotelRepo.liveDataHotel.value)
 
         assertEquals(5, getAllLineItemViews().size)
     }
 
     @Test
-    fun testViewContainerSubjectRemovesAllViews() {
+    fun testMultipleGuestItemSubject() {
         val viewModel = MockPriceSummaryViewModel()
-        viewModel.clearPriceSummaryContainerSubject.subscribe(containerObserver)
+        val view = testView.multipleGuestView
+        viewModel.multipleGuestItemSubject.subscribe(multipleGuestItemObserver)
         testView.viewModel = viewModel
 
-        viewModel.priceLineItemSubject.onNext(HotelItinPriceLineItem("test", "test", R.color.itin_price_summary_label_gray_dark))
-        assertEquals(1, getAllLineItemViews().size)
-        containerObserver.assertEmpty()
-        viewModel.clearPriceSummaryContainerSubject.onNext(Unit)
-        containerObserver.assertValueCount(1)
-        assertEquals(0, getAllLineItemViews().size)
-    }
+        assertEquals(View.GONE, view.visibility)
+        multipleGuestItemObserver.assertEmpty()
 
-    @Test
-    fun testViewPriceLineSubject() {
-        val viewModel = MockPriceSummaryViewModel()
-        viewModel.priceLineItemSubject.subscribe(priceLineItemObserver)
-        testView.viewModel = viewModel
-
-        priceLineItemObserver.assertEmpty()
-        assertEquals(0, getAllLineItemViews().size)
-        viewModel.priceLineItemSubject.onNext(HotelItinPriceLineItem("test", "test", R.color.itin_price_summary_label_gray_dark))
-        priceLineItemObserver.assertValueCount(1)
-        assertEquals(1, getAllLineItemViews().size)
-        val view = getAllLineItemViews()[0]
+        viewModel.multipleGuestItemSubject.onNext(HotelItinPriceLineItem("test", "test", R.color.itin_price_summary_label_gray_dark))
+        multipleGuestItemObserver.assertValueCount(1)
         assertEquals("test", view.labelTextView.text)
         assertEquals("test", view.priceTextView.text)
+        assertEquals(View.VISIBLE, view.visibility)
         assertEquals(ContextCompat.getColor(activity, R.color.itin_price_summary_label_gray_dark), view.labelTextView.currentTextColor)
         assertEquals(ContextCompat.getColor(activity, R.color.itin_price_summary_label_gray_dark), view.priceTextView.currentTextColor)
     }
 
+    @Test
+    fun testTaxesAndFeesItemSubject() {
+        val viewModel = MockPriceSummaryViewModel()
+        val view = testView.taxesAndFeesView
+        viewModel.taxesAndFeesItemSubject.subscribe(taxesAndFeesItemObeserver)
+        testView.viewModel = viewModel
+
+        assertEquals(View.GONE, view.visibility)
+        taxesAndFeesItemObeserver.assertEmpty()
+
+        viewModel.taxesAndFeesItemSubject.onNext(HotelItinPriceLineItem("test", "test", R.color.itin_price_summary_label_gray_dark))
+        taxesAndFeesItemObeserver.assertValueCount(1)
+        assertEquals("test", view.labelTextView.text)
+        assertEquals("test", view.priceTextView.text)
+        assertEquals(View.VISIBLE, view.visibility)
+        assertEquals(ContextCompat.getColor(activity, R.color.itin_price_summary_label_gray_dark), view.labelTextView.currentTextColor)
+        assertEquals(ContextCompat.getColor(activity, R.color.itin_price_summary_label_gray_dark), view.priceTextView.currentTextColor)
+    }
+
+    @Test
+    fun testCouponViewItemSubject() {
+        val viewModel = MockPriceSummaryViewModel()
+        val view = testView.couponsView
+        viewModel.couponsItemSubject.subscribe(couponViewItemObserver)
+        testView.viewModel = viewModel
+
+        assertEquals(View.GONE, view.visibility)
+        couponViewItemObserver.assertEmpty()
+
+        viewModel.couponsItemSubject.onNext(HotelItinPriceLineItem("test", "test", R.color.itin_price_summary_label_green))
+        couponViewItemObserver.assertValueCount(1)
+        assertEquals("test", view.labelTextView.text)
+        assertEquals("test", view.priceTextView.text)
+        assertEquals(View.VISIBLE, view.visibility)
+        assertEquals(ContextCompat.getColor(activity, R.color.itin_price_summary_label_green), view.labelTextView.currentTextColor)
+        assertEquals(ContextCompat.getColor(activity, R.color.itin_price_summary_label_green), view.priceTextView.currentTextColor)
+    }
+
+    @Test
+    fun testPointsViewItemSubject() {
+        val viewModel = MockPriceSummaryViewModel()
+        val view = testView.pointsView
+        viewModel.pointsItemSubject.subscribe(pointViewItemObserver)
+        testView.viewModel = viewModel
+
+        assertEquals(View.GONE, view.visibility)
+        pointViewItemObserver.assertEmpty()
+
+        viewModel.pointsItemSubject.onNext(HotelItinPriceLineItem("test", "test", R.color.itin_price_summary_label_green))
+        pointViewItemObserver.assertValueCount(1)
+        assertEquals("test", view.labelTextView.text)
+        assertEquals("test", view.priceTextView.text)
+        assertEquals(View.VISIBLE, view.visibility)
+        assertEquals(ContextCompat.getColor(activity, R.color.itin_price_summary_label_green), view.labelTextView.currentTextColor)
+        assertEquals(ContextCompat.getColor(activity, R.color.itin_price_summary_label_green), view.priceTextView.currentTextColor)
+    }
+
     private fun getAllLineItemViews(): List<PriceSummaryItemView> {
-        return testView.containerView.views.filter { it is PriceSummaryItemView }.map { it as PriceSummaryItemView }
+        return testView.roomContainerView.views.filter { it is PriceSummaryItemView }.map { it as PriceSummaryItemView }
     }
 
     private fun viewModelWithMultipleRooms(): HotelItinPricingSummaryViewModel<HotelItinPricingSummaryScope> {
@@ -147,8 +198,10 @@ class HotelItinPricingSummaryViewTest {
     }
 
     class MockPriceSummaryViewModel : IHotelItinPricingSummaryViewModel {
-        override val clearPriceSummaryContainerSubject = PublishSubject.create<Unit>()
         override val roomPriceBreakdownSubject = PublishSubject.create<List<HotelItinRoomPrices>>()
-        override val priceLineItemSubject = PublishSubject.create<HotelItinPriceLineItem>()
+        override val multipleGuestItemSubject = PublishSubject.create<HotelItinPriceLineItem>()
+        override val taxesAndFeesItemSubject = PublishSubject.create<HotelItinPriceLineItem>()
+        override val couponsItemSubject = PublishSubject.create<HotelItinPriceLineItem>()
+        override val pointsItemSubject = PublishSubject.create<HotelItinPriceLineItem>()
     }
 }

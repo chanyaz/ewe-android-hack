@@ -52,11 +52,37 @@
                 app:cardUseCompatPadding="true">
 
                 <LinearLayout
-                    android:id="@+id/hotel_itin_pricing_summary_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp" />
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:id="@+id/hotel_itin_pricing_summary_room_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+
+                    <include
+                        android:id="@+id/hotel_itin_pricing_summary_multiple_guest_view"
+                        layout="@layout/hotel_itin_price_summary_item_view"
+                        android:visibility="gone" />
+
+                    <include
+                        android:id="@+id/hotel_itin_pricing_summary_taxes_fees_view"
+                        layout="@layout/hotel_itin_price_summary_item_view"
+                        android:visibility="gone" />
+
+                    <include
+                        android:id="@+id/hotel_itin_pricing_summary_coupons_view"
+                        layout="@layout/hotel_itin_price_summary_item_view"
+                        android:visibility="gone" />
+
+                    <include
+                        android:id="@+id/hotel_itin_pricing_summary_points_view"
+                        layout="@layout/hotel_itin_price_summary_item_view"
+                        android:visibility="gone" />
+                </LinearLayout>
             </com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingSummaryView>
 
             <com.expedia.bookings.itin.common.ItinViewReceiptWidget

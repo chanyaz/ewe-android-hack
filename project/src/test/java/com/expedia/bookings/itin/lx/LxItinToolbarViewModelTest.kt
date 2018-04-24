@@ -2,6 +2,7 @@ package com.expedia.bookings.itin.lx
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.LifecycleOwner
+import com.expedia.bookings.R
 import com.expedia.bookings.itin.helpers.ItinMocker
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
 import com.expedia.bookings.itin.helpers.MockLxRepo
@@ -48,7 +49,7 @@ class LxItinToolbarViewModelTest {
         sut.toolbarTitleSubject.subscribe(toolbarTitleTestObserver)
         toolbarTitleTestObserver.assertNoValues()
         sut.itinLxObserver.onChanged(lx)
-        toolbarTitleTestObserver.assertValue("somePhraseString")
+        toolbarTitleTestObserver.assertValue((R.string.itin_lx_toolbar_title_TEMPLATE).toString().plus(mapOf("location" to "San Francisco")))
     }
 }
 

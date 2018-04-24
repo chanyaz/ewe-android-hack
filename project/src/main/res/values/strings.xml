@@ -1407,6 +1407,10 @@
     <string name="itin_hotel_price_summary_taxes_and_fees_label">Taxes &amp; fees</string>
     <!--Hotel itin card price summary line item label for coupons-->
     <string name="itin_hotel_price_summary_coupons_label">Coupon applied</string>
+    <!--Hotel itin card price summary line item label for points applied-->
+    <string name="itin_hotel_price_summary_points_label">Points applied</string>
+    <!--Hotel itin card price summary line item value for points applied template. -{points} (e.g., -$30)-->
+    <string name="itin_hotel_price_summary_points_value_TEMPLATE">-{points}</string>
     <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">{amount} total amount paid</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->

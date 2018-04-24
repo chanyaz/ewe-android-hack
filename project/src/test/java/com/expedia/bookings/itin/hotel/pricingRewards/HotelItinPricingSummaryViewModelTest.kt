@@ -1,80 +1,85 @@
 package com.expedia.bookings.itin.hotel.pricingRewards
 
-import android.content.Context
+import android.arch.lifecycle.LifecycleOwner
 import com.expedia.bookings.R
-import com.expedia.bookings.data.trips.ItinCardData
+import com.expedia.bookings.itin.helpers.ItinMocker
+import com.expedia.bookings.itin.helpers.MockHotelRepo
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
-import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepo
-import com.expedia.bookings.itin.scopes.HotelItinPricingSummaryScope
-import com.expedia.bookings.itin.tripstore.data.Itin
-import com.expedia.bookings.itin.tripstore.data.ItinDetailsResponse
-import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
+import com.expedia.bookings.itin.helpers.MockStringProvider
+import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepoInterface
+import com.expedia.bookings.itin.scopes.HasHotelRepo
+import com.expedia.bookings.itin.scopes.HasLifecycleOwner
+import com.expedia.bookings.itin.scopes.HasStringProvider
+import com.expedia.bookings.itin.tripstore.extensions.firstHotel
 import com.expedia.bookings.itin.utils.StringSource
 import com.expedia.bookings.services.TestObserver
-import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.mobiata.mocke3.mockObject
-import io.reactivex.Observable
-import io.reactivex.Observer
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-@RunWith(RobolectricRunner::class)
 class HotelItinPricingSummaryViewModelTest {
-    val context: Context = RuntimeEnvironment.application
-    lateinit var testRoomObserver: TestObserver<List<HotelItinRoomPrices>>
-    lateinit var testPriceLineObserver: TestObserver<HotelItinPriceLineItem>
-    lateinit var testClearContainerObserver: TestObserver<Unit>
+    private val mockItinSingleRoom = ItinMocker.hotelDetailsHappy
+    private val mockItinMultipleRoom = ItinMocker.hotelDetailsHappyMultipleRooms
+    private val mockHotelSingleRoom = mockItinSingleRoom.firstHotel()
+    private val mockHotelMultipleRooms = mockItinMultipleRoom.firstHotel()
+
+    private lateinit var roomItemObserver: TestObserver<List<HotelItinRoomPrices>>
+    private lateinit var multipleGuestItemObserver: TestObserver<HotelItinPriceLineItem>
+    private lateinit var taxesAndFeesItemObserver: TestObserver<HotelItinPriceLineItem>
+    private lateinit var couponItemObserver: TestObserver<HotelItinPriceLineItem>
+    private lateinit var pointsItemObserver: TestObserver<HotelItinPriceLineItem>
 
     @Before
     fun setup() {
-        testRoomObserver = TestObserver()
-        testPriceLineObserver = TestObserver()
-        testClearContainerObserver = TestObserver()
+        roomItemObserver = TestObserver()
+        multipleGuestItemObserver = TestObserver()
+        taxesAndFeesItemObserver = TestObserver()
+        couponItemObserver = TestObserver()
+        pointsItemObserver = TestObserver()
     }
 
     @After
     fun tearDown() {
-        testRoomObserver.dispose()
-        testClearContainerObserver.dispose()
-        testPriceLineObserver.dispose()
+        roomItemObserver.dispose()
+        multipleGuestItemObserver.dispose()
+        taxesAndFeesItemObserver.dispose()
+        couponItemObserver.dispose()
+        pointsItemObserver.dispose()
     }
 
     @Test
     fun testSingleRoomOutputsSingleSummary() {
-        val viewModel = viewModelWithSingleRoom()
+        val viewModel = getViewModel()
+        roomItemObserver.assertEmpty()
 
-        testRoomObserver.assertEmpty()
-        viewModel.observer.onChanged(viewModel.scope.itinHotelRepo.liveDataHotel.value)
-        assertEquals(1, testRoomObserver.values().firstOrNull()?.size)
+        viewModel.hotelObserver.onChanged(mockHotelSingleRoom)
+
+        assertEquals(1, roomItemObserver.values().firstOrNull()?.size)
     }
 
     @Test
     fun testMultipleRoomsOutputsMultipleSummaries() {
-        val viewModel = viewModelWithMultipleRooms()
+        val viewModel = getViewModel()
+        roomItemObserver.assertEmpty()
 
-        testRoomObserver.assertEmpty()
-        viewModel.observer.onChanged(viewModel.scope.itinHotelRepo.liveDataHotel.value)
-        assertEquals(3, testRoomObserver.values().firstOrNull()?.size)
+        viewModel.hotelObserver.onChanged(mockHotelMultipleRooms)
+
+        assertEquals(3, roomItemObserver.values().firstOrNull()?.size)
     }
 
     @Test
     fun testMultipleSummaryCounts() {
-        val viewModel = viewModelWithMultipleRooms()
+        val viewModel = getViewModel()
+        roomItemObserver.assertEmpty()
 
-        testRoomObserver.assertEmpty()
-        viewModel.observer.onChanged(viewModel.scope.itinHotelRepo.liveDataHotel.value)
-        val summaries = testRoomObserver.values().firstOrNull()
+        viewModel.hotelObserver.onChanged(mockHotelMultipleRooms)
 
+        val summaries = roomItemObserver.values().firstOrNull()
         assertNotNull(summaries)
         assertEquals(3, summaries?.size)
-
         val expectedCounts = listOf(4, 4, 3)
-
         if (summaries != null) {
             for ((idx, summary) in summaries.withIndex()) {
                 assertEquals(expectedCounts[idx], summary.perDayRoomPriceItems.size)
@@ -84,23 +89,21 @@ class HotelItinPricingSummaryViewModelTest {
 
     @Test
     fun testSummaryValues() {
-        val viewModel = viewModelWithSingleRoom()
+        val viewModel = getViewModel()
+        roomItemObserver.assertEmpty()
 
-        testRoomObserver.assertEmpty()
-        viewModel.observer.onChanged(viewModel.scope.itinHotelRepo.liveDataHotel.value)
-        val summary = testRoomObserver.values().firstOrNull()?.firstOrNull()
+        viewModel.hotelObserver.onChanged(mockHotelSingleRoom)
 
+        val summary = roomItemObserver.values().firstOrNull()?.firstOrNull()
         assertNotNull(summary)
-        assertEquals("Room price", summary?.totalRoomPriceItem?.labelString)
+        assertEquals((R.string.itin_hotel_details_cost_summary_room_price_text).toString(), summary?.totalRoomPriceItem?.labelString)
         assertEquals("₹3,500.00", summary?.totalRoomPriceItem?.priceString)
 
         val lineItems = summary?.perDayRoomPriceItems
-
         assertNotNull(lineItems)
         assertEquals(4, lineItems?.size)
 
         val expectedLabels = listOf("Mon, Mar 12", "Tue, Mar 13", "Wed, Mar 14", "Thu, Mar 15")
-
         if (lineItems != null) {
             for ((idx, item) in lineItems.withIndex()) {
                 assertEquals(expectedLabels[idx], item.labelString)
@@ -111,85 +114,92 @@ class HotelItinPricingSummaryViewModelTest {
 
     @Test
     fun testPriceLineItemsWithoutFees() {
-        val noFeesViewModel = viewModelWithSingleRoom()
-        testPriceLineObserver.assertEmpty()
+        val noFeesViewModel = getViewModel()
+        multipleGuestItemObserver.assertEmpty()
+        taxesAndFeesItemObserver.assertEmpty()
+        couponItemObserver.assertEmpty()
+        pointsItemObserver.assertEmpty()
 
-        noFeesViewModel.observer.onChanged(noFeesViewModel.scope.itinHotelRepo.liveDataHotel.value)
-        testPriceLineObserver.assertEmpty()
+        noFeesViewModel.hotelObserver.onChanged(mockHotelSingleRoom)
+        noFeesViewModel.itinObserver.onChanged(mockItinSingleRoom)
+        multipleGuestItemObserver.assertEmpty()
+        taxesAndFeesItemObserver.assertEmpty()
+        couponItemObserver.assertEmpty()
+        pointsItemObserver.assertEmpty()
     }
 
     @Test
-    fun testPriceLineItemsWithFees() {
-        val feesViewModel = viewModelWithMultipleRooms()
-        testPriceLineObserver.assertEmpty()
-        feesViewModel.observer.onChanged(feesViewModel.scope.itinHotelRepo.liveDataHotel.value)
-        testPriceLineObserver.assertValueCount(3)
-        val multiGuestFeeItem = testPriceLineObserver.values()[0]
-        assertEquals("₹8.50", multiGuestFeeItem.priceString)
-        assertEquals("Multiple guest fee", multiGuestFeeItem.labelString)
-        assertEquals(R.color.itin_price_summary_label_gray_light, multiGuestFeeItem.colorRes)
+    fun testMultipleGuestFeeSubject() {
+        val feesViewModel = getViewModel()
+        multipleGuestItemObserver.assertEmpty()
 
-        val taxesAndFeesItem = testPriceLineObserver.values()[1]
-        assertEquals("₹3.50", taxesAndFeesItem.priceString)
-        assertEquals("Taxes & fees", taxesAndFeesItem.labelString)
-        assertEquals(R.color.itin_price_summary_label_gray_dark, taxesAndFeesItem.colorRes)
+        feesViewModel.hotelObserver.onChanged(mockHotelMultipleRooms)
 
-        val couponAppliedItem = testPriceLineObserver.values()[2]
-        assertEquals("-₹300.00", couponAppliedItem.priceString)
-        assertEquals("Coupon applied", couponAppliedItem.labelString)
-        assertEquals(R.color.itin_price_summary_label_green, couponAppliedItem.colorRes)
+        multipleGuestItemObserver.assertValueCount(1)
+        val multiGuestFeeItem = multipleGuestItemObserver.values()
+        assertEquals("₹8.50", multiGuestFeeItem[0].priceString)
+        assertEquals((R.string.itin_hotel_price_summary_multiple_guest_fees_label).toString(), multiGuestFeeItem[0].labelString)
+        assertEquals(R.color.itin_price_summary_label_gray_light, multiGuestFeeItem[0].colorRes)
     }
 
-    private fun viewModelWithSingleRoom(): HotelItinPricingSummaryViewModel<HotelItinPricingSummaryScope> {
-        val viewModel = HotelItinPricingSummaryViewModel(getScope(true))
+    @Test
+    fun testTaxesAndFeesSubject() {
+        val feesViewModel = getViewModel()
+        taxesAndFeesItemObserver.assertEmpty()
 
-        viewModel.roomPriceBreakdownSubject.subscribe(testRoomObserver)
-        viewModel.priceLineItemSubject.subscribe(testPriceLineObserver)
-        viewModel.clearPriceSummaryContainerSubject.subscribe(testClearContainerObserver)
+        feesViewModel.hotelObserver.onChanged(mockHotelMultipleRooms)
+
+        taxesAndFeesItemObserver.assertValueCount(1)
+        val taxesAndFeesItem = taxesAndFeesItemObserver.values()
+        assertEquals("₹3.50", taxesAndFeesItem[0].priceString)
+        assertEquals((R.string.itin_hotel_price_summary_taxes_and_fees_label).toString(), taxesAndFeesItem[0].labelString)
+        assertEquals(R.color.itin_price_summary_label_gray_dark, taxesAndFeesItem[0].colorRes)
+    }
+
+    @Test
+    fun testCouponItemSubject() {
+        val feesViewModel = getViewModel()
+        couponItemObserver.assertEmpty()
+
+        feesViewModel.hotelObserver.onChanged(mockHotelMultipleRooms)
+
+        couponItemObserver.assertValueCount(1)
+        val couponItem = couponItemObserver.values()
+        assertEquals("-₹300.00", couponItem[0].priceString)
+        assertEquals((R.string.itin_hotel_price_summary_coupons_label).toString(), couponItem[0].labelString)
+        assertEquals(R.color.itin_price_summary_label_green, couponItem[0].colorRes)
+    }
+
+    @Test
+    fun testPointsItemSubject() {
+        val feesViewModel = getViewModel()
+        pointsItemObserver.assertEmpty()
+
+        feesViewModel.itinObserver.onChanged(mockItinMultipleRoom)
+
+        pointsItemObserver.assertValueCount(1)
+        val pointsItem = pointsItemObserver.values()
+        val expected = (R.string.itin_hotel_price_summary_points_value_TEMPLATE).toString().plus(mapOf("points" to "$208.56"))
+        assertEquals(expected, pointsItem[0].priceString)
+        assertEquals((R.string.itin_hotel_price_summary_points_label).toString(), pointsItem[0].labelString)
+        assertEquals(R.color.itin_price_summary_label_green, pointsItem[0].colorRes)
+    }
+
+    private fun getViewModel(): HotelItinPricingSummaryViewModel<MockHotelItinPricingSummaryScope> {
+        val viewModel = HotelItinPricingSummaryViewModel(MockHotelItinPricingSummaryScope())
+
+        viewModel.roomPriceBreakdownSubject.subscribe(roomItemObserver)
+        viewModel.multipleGuestItemSubject.subscribe(multipleGuestItemObserver)
+        viewModel.taxesAndFeesItemSubject.subscribe(taxesAndFeesItemObserver)
+        viewModel.couponsItemSubject.subscribe(couponItemObserver)
+        viewModel.pointsItemSubject.subscribe(pointsItemObserver)
 
         return viewModel
     }
 
-    private fun viewModelWithMultipleRooms(): HotelItinPricingSummaryViewModel<HotelItinPricingSummaryScope> {
-        val viewModel = HotelItinPricingSummaryViewModel(getScope())
-
-        viewModel.roomPriceBreakdownSubject.subscribe(testRoomObserver)
-        viewModel.priceLineItemSubject.subscribe(testPriceLineObserver)
-        viewModel.clearPriceSummaryContainerSubject.subscribe(testClearContainerObserver)
-
-        return viewModel
-    }
-
-    private fun getScope(forSingleRoom: Boolean = false): HotelItinPricingSummaryScope {
-        val itinId = if (forSingleRoom) "single" else ""
-        val repo = ItinHotelRepo(itinId, MockReadJsonUtil, TestObservable)
-
-        return HotelItinPricingSummaryScope(repo, MockStringProvider, MockLifecycleOwner())
-    }
-
-    object MockStringProvider : StringSource {
-        override fun fetchWithPhrase(stringResource: Int, map: Map<String, String>): String {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        }
-
-        override fun fetch(stringResource: Int): String {
-            return RuntimeEnvironment.application.getString(stringResource)
-        }
-    }
-
-    object MockReadJsonUtil : IJsonToItinUtil {
-        override fun getItin(itinId: String?): Itin? {
-            var mockName = "api/trips/hotel_trip_details_with_multiple_rooms_for_mocker.json"
-
-            if (itinId == "single") {
-                mockName = "api/trips/hotel_trip_details_for_mocker.json"
-            }
-
-            return mockObject(ItinDetailsResponse::class.java, mockName)?.itin
-        }
-    }
-
-    object TestObservable : Observable<MutableList<ItinCardData>>() {
-        override fun subscribeActual(observer: Observer<in MutableList<ItinCardData>>?) {}
+    class MockHotelItinPricingSummaryScope : HasHotelRepo, HasStringProvider, HasLifecycleOwner {
+        override val strings: StringSource = MockStringProvider()
+        override val itinHotelRepo: ItinHotelRepoInterface = MockHotelRepo()
+        override val lifecycleOwner: LifecycleOwner = MockLifecycleOwner()
     }
 }
