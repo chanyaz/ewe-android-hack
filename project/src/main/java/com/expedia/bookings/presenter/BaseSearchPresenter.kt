@@ -264,7 +264,8 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
             })
 
             val searchPlate = searchLocationEditText?.findViewById<View>(android.support.v7.appcompat.R.id.search_plate)
-            searchPlate?.setBackgroundColor(android.R.color.transparent)
+            val transparentColor = ContextCompat.getColor(context, android.R.color.transparent)
+            searchPlate?.setBackgroundColor(transparentColor)
 
             val imgViewSearchView = searchLocationEditText?.findViewById<ImageView?>(android.support.v7.appcompat.R.id.search_mag_icon)
             imgViewSearchView?.setImageResource(0)

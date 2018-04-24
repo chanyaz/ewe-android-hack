@@ -15,6 +15,7 @@ import kotlin.properties.Delegates
 class RailResultsTimelineWidget(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
     val separatorDrawable: Drawable
+    val iconRect: Rect
     var horizontalSpacing by Delegates.notNull<Int>()
     var drawableHeight by Delegates.notNull<Int>()
     var caretPadding by Delegates.notNull<Int>()
@@ -24,6 +25,7 @@ class RailResultsTimelineWidget(context: Context, attrs: AttributeSet?) : View(c
     init {
         separatorDrawable = ContextCompat.getDrawable(context, R.drawable.caret)
         horizontalSpacing = resources.getDimension(R.dimen.rail_timeline_spacing).toInt()
+        iconRect = Rect(0, 0, 0, 0)
     }
 
     fun updateLeg(leg: RailLegOption) {
@@ -37,7 +39,7 @@ class RailResultsTimelineWidget(context: Context, attrs: AttributeSet?) : View(c
         drawableHeight = measuredHeight
         caretPadding = (measuredHeight.toFloat() / 5.0f).toInt()
 
-        val iconRect = Rect(0, 0, 0, drawableHeight)
+        iconRect.set(0, 0, 0, drawableHeight)
         var first = true
 
         leg.travelSegmentList.forEach { segment ->

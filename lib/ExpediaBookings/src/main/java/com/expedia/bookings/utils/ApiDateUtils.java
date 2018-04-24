@@ -1,5 +1,7 @@
 package com.expedia.bookings.utils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -123,8 +125,8 @@ public class ApiDateUtils {
 	 * Parse the duration string in MM/dd/yyyy
 	 */
 	@SuppressWarnings("SimpleDateFormat")
-	public static String toMMddyyyy(String dateTimeString) {
-		Date date = new Date(dateTimeString);
+	public static String toMMddyyyy(String dateTimeString) throws ParseException {
+		Date date = DateFormat.getDateInstance(DateFormat.DEFAULT, Locale.US).parse(dateTimeString);
 		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
 		return formatter.format(date);
 	}

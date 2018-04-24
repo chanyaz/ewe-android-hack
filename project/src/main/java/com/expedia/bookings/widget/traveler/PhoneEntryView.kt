@@ -14,6 +14,7 @@ import com.expedia.bookings.widget.TelephoneSpinnerAdapter
 import com.expedia.bookings.widget.accessibility.AccessibleCountryCodeEditTextForSpinner
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.traveler.TravelerPhoneViewModel
+import com.squareup.phrase.Phrase
 
 class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     var phoneEditBox: AccessibleCountryCodeEditTextForSpinner? = null
@@ -42,7 +43,8 @@ class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
     var viewModel: TravelerPhoneViewModel by notNullAndObservable { vm ->
         phoneNumber.viewModel = vm.phoneViewModel
         vm.phoneCountryCodeSubject.subscribe { countryCode ->
-            phoneEditBox?.setText("+$countryCode")
+            phoneEditBox?.setText(Phrase.from(context, R.string.country_code_TEMPLATE)
+                    .put("countrycode", countryCode).format().toString())
         }
 
         phoneNumber.subscribeMaterialFormsError(phoneNumber.viewModel.errorSubject, R.string.phone_validation_error_message)

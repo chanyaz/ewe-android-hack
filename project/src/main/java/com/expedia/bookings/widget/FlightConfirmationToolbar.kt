@@ -84,7 +84,7 @@ class FlightConfirmationToolbar(context: Context, attrs: AttributeSet?) : Toolba
 
         SettingUtils.save(context, "TripType", "Flight")
 
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
             context.startActivity(shareIntent)
         } else {
             val receiver = Intent(context, FlightConfirmationShareBroadcastReceiver::class.java)

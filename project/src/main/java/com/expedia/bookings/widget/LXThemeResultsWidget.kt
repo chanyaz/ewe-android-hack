@@ -26,6 +26,7 @@ class LXThemeResultsWidget(context: Context, attrs: AttributeSet) : FrameLayout(
     private val LIST_DIVIDER_HEIGHT = 14
 
     override fun onFinishInflate() {
+        super.onFinishInflate()
         val layoutManager = LinearLayoutManager(context)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         layoutManager.scrollToPosition(0)

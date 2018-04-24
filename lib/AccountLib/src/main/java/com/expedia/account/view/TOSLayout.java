@@ -44,7 +44,6 @@ public class TOSLayout extends FrameLayout {
 	private boolean mUserModifiedSpamOptIn = false;
 	private boolean mSystemModifyingSpamOptIn = false;
 
-	protected int mCheckedColorResId = R.color.acct__tos_checkbox_checked;
 	protected int mUncheckedColorResId = R.color.acct__tos_checkbox;
 
 	public TOSLayout(Context context, AttributeSet attrs) {

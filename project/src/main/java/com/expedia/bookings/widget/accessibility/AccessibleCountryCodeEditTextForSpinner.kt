@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget.accessibility
 
+import android.annotation.TargetApi
 import android.content.Context
 import android.util.AttributeSet
 import android.view.autofill.AutofillValue
@@ -11,6 +12,7 @@ class AccessibleCountryCodeEditTextForSpinner(context: Context, attributeSet: At
         return getAutofillValueWithCountryCode(value)
     }
 
+    @TargetApi(26)
     private fun getAutofillValueWithCountryCode(value: AutofillValue?): AutofillValue? {
         val countryCode = CountryCodeUtil.getCountryCode(value?.textValue?.toString() ?: "")
         return if (countryCode.isEmpty()) {

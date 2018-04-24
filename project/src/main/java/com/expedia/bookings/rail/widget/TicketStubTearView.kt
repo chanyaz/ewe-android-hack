@@ -12,16 +12,17 @@ import android.view.View
 import com.expedia.bookings.R
 
 class TicketStubTearView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
-    var leftArcBounds = RectF()
-    var rightArcBounds = RectF()
+    private var leftArcBounds = RectF()
+    private var rightArcBounds = RectF()
 
-    val topLeftPoint = PointF(0f, 0f)
-    var bottomRightPoint = PointF()
+    private val topLeftPoint = PointF(0f, 0f)
+    private var bottomRightPoint = PointF()
 
-    var tearLineBounds = RectF()
+    private var tearLineBounds = RectF()
 
-    val fillPaint: Paint
-    val tearLinePaint: Paint
+    private val fillPaint: Paint
+    private val tearLinePaint: Paint
+    private val arcedPath: Path
 
     init {
         fillPaint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -31,6 +32,7 @@ class TicketStubTearView(context: Context, attrs: AttributeSet?) : View(context,
         tearLinePaint = Paint(Paint.ANTI_ALIAS_FLAG)
         tearLinePaint.color = ContextCompat.getColor(context, R.color.rail_divider_bar_color)
         tearLinePaint.style = Paint.Style.STROKE
+        arcedPath = Path()
     }
 
     override fun onSizeChanged(newW: Int, newH: Int, odlW: Int, oldH: Int) {
@@ -51,7 +53,7 @@ class TicketStubTearView(context: Context, attrs: AttributeSet?) : View(context,
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        val arcedPath = Path()
+        arcedPath.reset()
 
         arcedPath.moveTo(topLeftPoint.x, topLeftPoint.y)
         arcedPath.arcTo(leftArcBounds, 270f, 180f, true)

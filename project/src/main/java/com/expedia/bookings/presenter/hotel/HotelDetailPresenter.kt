@@ -37,6 +37,7 @@ class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
     }
 
     override fun onFinishInflate() {
+        super.onFinishInflate()
         addTransition(detailToDescription)
         addTransition(detailToPayLaterInfo)
         addTransition(detailToDepositInfo)

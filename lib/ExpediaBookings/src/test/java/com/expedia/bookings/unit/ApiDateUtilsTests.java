@@ -1,6 +1,7 @@
 package com.expedia.bookings.unit;
 
 
+import java.text.ParseException;
 import java.util.concurrent.TimeUnit;
 
 import org.joda.time.DateTime;
@@ -144,7 +145,7 @@ public class ApiDateUtilsTests {
 	}
 
 	@Test
-	public void testToMMddyyyy() {
+	public void testToMMddyyyy() throws ParseException {
 		assertEquals("03/10/2018", ApiDateUtils.toMMddyyyy("March 10, 2018 9:41:00 AM"));
 	}
 }

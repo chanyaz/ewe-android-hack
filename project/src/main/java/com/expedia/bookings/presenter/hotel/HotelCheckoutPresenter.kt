@@ -70,6 +70,7 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
     }
 
     override fun onFinishInflate() {
+        super.onFinishInflate()
         addTransition(checkoutToCvv)
         addDefaultTransition(defaultCheckoutTransition)
         hotelCheckoutWidget.hotelCheckoutMainViewModel.emailOptInStatus.subscribe { status ->

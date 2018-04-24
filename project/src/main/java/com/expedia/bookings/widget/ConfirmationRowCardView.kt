@@ -30,8 +30,8 @@ open class ConfirmationRowCardView(context: Context, attrs: AttributeSet?) : Lin
         vm.departureDateTitleSubject.subscribeTextAndVisibility(titleSupplement)
         vm.urlSubject.subscribe { url ->
             if (!url.isNullOrBlank()) {
-                val fallbackDrawable = context.obtainStyledAttributes(attrs, R.styleable.ConfirmationRow, 0, 0)
-                        .getResourceId(R.styleable.ConfirmationRow_row_icon, R.drawable.packages_flight1_icon)
+                val fallbackDrawable = context.obtainStyledAttributes(attrs, R.styleable.ConfirmationRowCardView, 0, 0)
+                        .getResourceId(R.styleable.ConfirmationRowCardView_row_icon, R.drawable.packages_flight1_icon)
                 PicassoHelper.Builder(icon)
                         .setError(fallbackDrawable)
                         .build()
@@ -47,13 +47,13 @@ open class ConfirmationRowCardView(context: Context, attrs: AttributeSet?) : Lin
 
     init {
         View.inflate(context, R.layout.confirmation_row, this)
-        val ta = context.obtainStyledAttributes(attrs, R.styleable.ConfirmationRow, 0, 0)
+        val ta = context.obtainStyledAttributes(attrs, R.styleable.ConfirmationRowCardView, 0, 0)
         try {
-            title.text = ta.getString(R.styleable.ConfirmationRow_row_title)
-            subTitle.text = ta.getString(R.styleable.ConfirmationRow_row_subTitle)
-            title.maxLines = ta.getInt(R.styleable.ConfirmationRow_row_title_max_lines, 1)
-            val drawable = ta.getDrawable(R.styleable.ConfirmationRow_row_icon)
-            val color = ta.getColor(R.styleable.ConfirmationRow_row_icon_tint_color, 0)
+            title.text = ta.getString(R.styleable.ConfirmationRowCardView_row_title)
+            subTitle.text = ta.getString(R.styleable.ConfirmationRowCardView_row_subTitle)
+            title.maxLines = ta.getInt(R.styleable.ConfirmationRowCardView_row_title_max_lines, 1)
+            val drawable = ta.getDrawable(R.styleable.ConfirmationRowCardView_row_icon)
+            val color = ta.getColor(R.styleable.ConfirmationRowCardView_row_icon_tint_color, 0)
             drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
             icon.setImageDrawable(drawable)
         } finally {

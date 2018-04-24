@@ -13,6 +13,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.HotelBreakDownViewModel
 import com.expedia.vm.HotelBreakDownViewModel.BreakdownItem
+import com.squareup.phrase.Phrase
 
 class HotelBreakDownView(context: Context, attrs: AttributeSet?) : ScrollView(context, attrs) {
     val linearLayout: LinearLayout by bindView(R.id.breakdown_container)
@@ -47,7 +48,8 @@ class HotelBreakDownView(context: Context, attrs: AttributeSet?) : ScrollView(co
         val priceValue = row.findViewById<TextView>(R.id.price_text_view)
         priceDescription.text = breakdown.title
         if (isDiscount) {
-            priceValue.text = "(" + breakdown.cost + ")"
+            priceValue.text = Phrase.from(context, R.string.price_value_TEMPLATE)
+                    .put("price", breakdown.cost).format().toString()
             priceValue.setTextColor(ContextCompat.getColor(context, R.color.hotels_primary_color))
         } else {
             priceValue.text = breakdown.cost

@@ -1,5 +1,6 @@
 package com.expedia.vm
 
+import android.annotation.SuppressLint
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.pos.PointOfSale
@@ -26,6 +27,7 @@ class RailCardPickerViewModel(val railServices: RailServices, val context: Conte
     val validationError: PublishSubject<String> = PublishSubject.create()
     val validationSuccess: PublishSubject<Unit> = PublishSubject.create()
 
+    @SuppressLint("UseSparseArrays")
     val cardsAndQuantitySelectionDetails = HashMap<Int, RailCardSelected>()
     val cardsListForSearchParams: PublishSubject<List<RailCard>> = PublishSubject.create()
 

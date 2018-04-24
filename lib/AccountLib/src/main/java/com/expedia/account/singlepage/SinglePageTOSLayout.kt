@@ -44,7 +44,6 @@ class SinglePageTOSLayout(context: Context, attrs: AttributeSet) : TOSLayout(con
         vEnrollInLoyaltyText.setLinkTextColor(singlePageTOSTextColorStateList)
         vSpamOptInText.setTextColor(singlePageTOSTextColorStateList)
         vSpamOptInText.setLinkTextColor(singlePageTOSTextColorStateList)
-        mCheckedColorResId = ContextCompat.getColor(context, R.color.acct__single_page_checkbox_checked_color)
     }
 
     override fun fixupColors(v: CheckBox) {

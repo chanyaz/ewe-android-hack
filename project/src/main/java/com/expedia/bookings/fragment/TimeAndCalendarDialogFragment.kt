@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.DialogInterface
 import android.graphics.PorterDuff
@@ -24,6 +25,7 @@ import com.expedia.vm.SearchViewModelWithTimeSliderCalendar
 import io.reactivex.disposables.Disposable
 import kotlin.properties.Delegates
 
+@SuppressLint("ValidFragment")
 class TimeAndCalendarDialogFragment(val viewModel: SearchViewModelWithTimeSliderCalendar,
                                     rules: CalendarRules) : CalendarDialogFragment(viewModel, rules) {
 

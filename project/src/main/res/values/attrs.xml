@@ -193,7 +193,7 @@
         <attr name="layover_background" format="reference"/>
     </declare-styleable>
 
-    <declare-styleable name="SearchInput">
+    <declare-styleable name="SearchInputTextView">
         <attr name="input_icon" format="reference" />
         <attr name="input_icon_tint_color" format="color" />
         <attr name="input_text" format="string|reference" />
@@ -203,7 +203,7 @@
         <attr name="error_cont_desc" format="string" />
     </declare-styleable>
 
-    <declare-styleable name="ConfirmationRow">
+    <declare-styleable name="ConfirmationRowCardView">
         <attr name="row_title" format="string" />
         <attr name="row_title_max_lines" format="integer"/>
         <attr name="row_icon" format="reference" />

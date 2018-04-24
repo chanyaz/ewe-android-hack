@@ -3,6 +3,7 @@ package com.expedia.bookings.utils
 import android.content.Context
 import android.support.annotation.StringRes
 import android.support.design.widget.TabLayout
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
@@ -28,7 +29,8 @@ object AccessibilityUtil {
                     v.isFocusableInTouchMode = true
                     v.isFocusable = true
                     v.requestFocus()
-                    v.setBackgroundColor(android.R.color.transparent)
+                    val transparentColor = ContextCompat.getColor(toolbar.context, android.R.color.transparent)
+                    v.setBackgroundColor(transparentColor)
                     v.setAccessibilityHoverFocus()
                     break
                 }

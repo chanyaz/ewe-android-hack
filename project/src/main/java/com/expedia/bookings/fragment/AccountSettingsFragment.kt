@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
@@ -328,6 +329,7 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
         // All done
         ft.commit()
 
+        @SuppressLint("SetTextI18n")
         openSourceCredits.text = getString(R.string.this_app_makes_use_of_the_following) + " " + getString(R.string.open_source_names)
 
         signInTextView.text = Phrase.from(context, R.string.Sign_in_with_TEMPLATE).putOptional("brand", BuildConfig.brand).format().toString()

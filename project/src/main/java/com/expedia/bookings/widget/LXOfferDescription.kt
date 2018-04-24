@@ -31,6 +31,7 @@ class LXOfferDescription(context: Context, attrs: AttributeSet) : LinearLayout(c
     }
 
     override fun onFinishInflate() {
+        super.onFinishInflate()
         setOnClickListener(this)
     }
 

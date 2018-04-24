@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
@@ -33,10 +34,12 @@ open class CalendarDialogFragment() : DialogFragment() {
     var rules: CalendarRules? = null
     var isShowInitiated = false
 
+    @SuppressLint("ValidFragment")
     constructor(vm: BaseSearchViewModel, rules: CalendarRules) : this() {
         baseSearchViewModel = vm
         this.rules = rules
     }
+
     var oldCalendarSelection: Pair<LocalDate, LocalDate>? = null
     var userTappedDone = false
 

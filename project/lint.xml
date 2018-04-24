@@ -191,4 +191,8 @@
     <issue id="UseSparseArrays" severity="error" />
     <issue id="DisableBaselineAlignment" severity="error" />
     <issue id="InefficientWeight" severity="error" />
+    <issue id="GradleDependency" severity="ignore" />
+    <issue id="ProtectedPermissions" severity="error">
+        <ignore path="src/debug/*" />
+    </issue>
 </lint>

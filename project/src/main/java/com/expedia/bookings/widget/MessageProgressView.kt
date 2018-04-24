@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
+import android.support.annotation.Keep
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
@@ -34,6 +35,7 @@ open class MessageProgressView(context: Context, attrs: AttributeSet?) : View(co
     private var isDimensionSet = false
 
     var progress: Float = 0f
+        @Keep
         set(value) {
             field = value
 

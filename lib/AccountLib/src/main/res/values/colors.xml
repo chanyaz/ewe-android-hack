@@ -11,7 +11,6 @@
     <color name="acct__btn_text_default">#000000</color>
 
     <color name="acct__tos_checkbox">#b3ffffff</color>
-    <color name="acct__tos_checkbox_checked">#80cbc4</color>
 
     <color name="acct__default_bg_input_text_default">#80ffffff</color>
     <color name="acct__default_bg_input_text_error">#db4437</color>

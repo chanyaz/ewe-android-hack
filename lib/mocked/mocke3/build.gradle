@@ -10,16 +10,16 @@ repositories {
 }
 
 dependencies {
-    compile "com.squareup.okhttp3:mockwebserver:${okhttp_version}"
-    compile 'joda-time:joda-time:2.8.1'
-    compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
-    testCompile "org.jetbrains.kotlin:kotlin-test:${kotlin_version}"
-    testCompile 'org.mockito:mockito-core:2.0.31-beta'
-    compile 'com.google.code.gson:gson:2.8.0'
-    compile (project(':lib:ExpediaBookings')) {
+    implementation "com.squareup.okhttp3:mockwebserver:${okhttp_version}"
+    implementation 'joda-time:joda-time:2.8.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
+    testImplementation "org.jetbrains.kotlin:kotlin-test:${kotlin_version}"
+    testImplementation 'org.mockito:mockito-core:2.0.31-beta'
+    implementation 'com.google.code.gson:gson:2.8.0'
+    implementation (project(':lib:ExpediaBookings')) {
         exclude group: 'org.json'
     }
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
 }
 
 compileKotlin {

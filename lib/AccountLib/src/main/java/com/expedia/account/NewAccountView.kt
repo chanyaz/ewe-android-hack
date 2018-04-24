@@ -1,5 +1,6 @@
 package com.expedia.account
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -59,6 +60,7 @@ open class NewAccountView(context: Context, attrs: AttributeSet) : FrameLayout(c
         }
     }
 
+    @SuppressLint("CustomViewStyleable")
     private fun stylize(context: Context, attrs: AttributeSet) {
         val attributes = context.obtainStyledAttributes(attrs, R.styleable.acct__NewAccountView)
         verifyRequiredAttrs(attributes)

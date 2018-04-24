@@ -86,6 +86,12 @@
     <string name="krazy_glue_base_url_TEMPLATE">{baseurl}?partnerId={partnerid}&amp;outboundEndDateTime={arrivaldatetime}&amp;returnStartDateTime={returndatetime}&amp;destinationTla={destinationcode}&amp;numOfAdults={numofadults}&amp;numOfChildren={numofchildren}&amp;childAges={childages}&amp;fencedResponse=true</string>
     <string name="krazy_glue_signed_url_TEMPLATE">{urlwithparams}&amp;signature={signature}</string>
 
+    <!--Hotel breakdown view price template-->
+    <string name="price_value_TEMPLATE">({price})</string>
+
+    <!--Phone Country code template-->
+    <string name="country_code_TEMPLATE">+{countrycode}</string>
+
     <!-- Preference keys -->
     <string name="PointOfSaleKey">point_of_sale_key</string>
     <string name="preference_launch_screen_overflow">preference_launch_screen_overflow</string>
