@@ -1,10 +1,10 @@
 Feature: Flights Search
 
-  @Flights @FlightSearchSet1 @Prod
+  @Flights @FlightSearchSet1 @Prod @WIP2
   Scenario: Verifying if round trip International search works
 
     Given I launch the App
-    And I launch "Flights" LOB
+    And I launch "Flig" LOB
     When I enter source and destination for flights
       | source              | sfo                                      |
       | destination         | DEL                                      |
