@@ -1,4 +1,4 @@
-package com.expedia.ui
+package com.expedia.bookings.packages.activity
 
 import android.app.Activity
 import android.content.Intent
@@ -24,6 +24,7 @@ import com.expedia.bookings.utils.isBackFlowFromOverviewEnabled
 import com.expedia.bookings.utils.isFlexEnabled
 import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.packages.vm.PackageSearchType
+import com.expedia.ui.AbstractAppCompatActivity
 
 class PackageActivity : AbstractAppCompatActivity() {
     var changedOutboundFlight = false

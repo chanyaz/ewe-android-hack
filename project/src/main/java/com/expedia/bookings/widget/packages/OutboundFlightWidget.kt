@@ -11,7 +11,7 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.CrashlyticsLoggingUtil.logWhenNotAutomation
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
-import com.expedia.ui.PackageFlightActivity
+import com.expedia.bookings.packages.activity.PackageFlightActivity
 import com.squareup.phrase.Phrase
 
 class OutboundFlightWidget(context: Context, attrs: AttributeSet?) : BaseBundleFlightWidget(context, attrs) {

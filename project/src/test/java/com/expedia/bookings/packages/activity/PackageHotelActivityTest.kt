@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.robolectric
+package com.expedia.bookings.packages.activity
 
 import android.content.Intent
 import com.expedia.bookings.data.Codes
@@ -11,8 +11,8 @@ import com.expedia.bookings.test.MockPackageServiceTestRule
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.ui.PackageFlightActivity
-import com.expedia.ui.PackageHotelActivity
+import com.expedia.bookings.test.robolectric.PackageTestUtil
+import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

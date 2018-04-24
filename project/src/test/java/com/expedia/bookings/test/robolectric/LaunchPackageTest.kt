@@ -7,7 +7,7 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.NavigationHelper
-import com.expedia.ui.PackageActivity
+import com.expedia.bookings.packages.activity.PackageActivity
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

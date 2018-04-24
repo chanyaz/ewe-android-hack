@@ -1,4 +1,4 @@
-package com.expedia.ui
+package com.expedia.bookings.packages.activity
 
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -13,6 +13,7 @@ import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isMidAPIEnabled
+import com.expedia.ui.AbstractAppCompatActivity
 import com.google.android.gms.maps.MapView
 
 class PackageHotelActivity : AbstractAppCompatActivity() {

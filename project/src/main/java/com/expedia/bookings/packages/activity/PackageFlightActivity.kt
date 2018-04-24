@@ -1,4 +1,4 @@
-package com.expedia.ui
+package com.expedia.bookings.packages.activity
 
 import android.os.Bundle
 import com.expedia.bookings.R
@@ -7,6 +7,7 @@ import com.expedia.bookings.presenter.packages.PackageFlightPresenter
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.ui.AbstractAppCompatActivity
 
 class PackageFlightActivity : AbstractAppCompatActivity() {
 

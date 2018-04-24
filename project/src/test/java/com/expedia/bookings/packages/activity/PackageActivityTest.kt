@@ -1,14 +1,14 @@
-package com.expedia.bookings.test.robolectric
+package com.expedia.bookings.packages.activity
 
 import android.app.Activity
 import android.content.Intent
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.test.robolectric.PackageTestUtil
+import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.tracking.ApiCallFailing
 import com.expedia.bookings.utils.Constants
-import com.expedia.ui.PackageActivity
-import com.expedia.ui.PackageHotelActivity
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

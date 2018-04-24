@@ -10,7 +10,7 @@ import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
-import com.expedia.ui.PackageFlightActivity
+import com.expedia.bookings.packages.activity.PackageFlightActivity
 import com.squareup.phrase.Phrase
 
 class InboundFlightWidget(context: Context, attrs: AttributeSet?) : BaseBundleFlightWidget(context, attrs) {

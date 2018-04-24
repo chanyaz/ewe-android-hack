@@ -24,7 +24,7 @@ import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Constants
-import com.expedia.ui.PackageActivity
+import com.expedia.bookings.packages.activity.PackageActivity
 import org.hamcrest.Matchers
 import org.joda.time.LocalDate
 import org.junit.Assert.assertEquals

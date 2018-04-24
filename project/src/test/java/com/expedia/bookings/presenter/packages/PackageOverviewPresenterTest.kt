@@ -27,7 +27,7 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.ui.PackageHotelActivity
+import com.expedia.bookings.packages.activity.PackageHotelActivity
 import com.expedia.bookings.packages.vm.PackageWebCheckoutViewViewModel
 import com.expedia.bookings.packages.vm.BundleOverviewViewModel
 import org.junit.Assert.assertEquals

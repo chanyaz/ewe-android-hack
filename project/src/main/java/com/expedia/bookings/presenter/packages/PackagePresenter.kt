@@ -50,7 +50,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.utils.CrashlyticsLoggingUtil.logWhenNotAutomation
 import com.expedia.bookings.widget.shared.WebCheckoutView
-import com.expedia.ui.PackageActivity
+import com.expedia.bookings.packages.activity.PackageActivity
 import com.expedia.bookings.packages.vm.PackageWebCheckoutViewViewModel
 import com.expedia.bookings.packages.vm.BundleOverviewViewModel
 import com.expedia.bookings.packages.vm.PackageConfirmationViewModel

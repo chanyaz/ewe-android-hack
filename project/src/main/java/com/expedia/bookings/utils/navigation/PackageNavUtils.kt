@@ -6,7 +6,7 @@ import android.os.Bundle
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.shouldPackageForceUpdateBeVisible
-import com.expedia.ui.PackageActivity
+import com.expedia.bookings.packages.activity.PackageActivity
 
 class PackageNavUtils : NavUtils() {
     companion object {
