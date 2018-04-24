@@ -3721,6 +3721,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.DownloadableFonts);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountsEditWebView);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountNewSignIn);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppBottomNavTabs);
 		if (ProductFlavorFeatureConfiguration.getInstance().getDefaultPOS().equals(PointOfSaleId.ORBITZ)) {
 			trackAbacusTest(s, AbacusUtils.RewardLaunchCard);
 		}
