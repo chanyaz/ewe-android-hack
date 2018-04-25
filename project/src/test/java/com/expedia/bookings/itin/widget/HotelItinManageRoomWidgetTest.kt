@@ -5,13 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.itin.hotel.manageBooking.HotelItinManageRoomViewModel
 import com.expedia.bookings.itin.hotel.manageBooking.HotelItinManageRoomWidget
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.AbacusTestUtils
-import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import com.squareup.phrase.Phrase
@@ -20,7 +17,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric.buildActivity
 import org.robolectric.RuntimeEnvironment
-import org.robolectric.Shadows
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -80,36 +76,5 @@ class HotelItinManageRoomWidgetTest {
         assertEquals(phoneNumber, manageRoomWidget.hotelCustomerSupportDetailsView.callSupportActionButton.text)
         val supportSite = Phrase.from(activity, R.string.itin_hotel_customer_support_site_header_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
         assertEquals(supportSite, manageRoomWidget.hotelCustomerSupportDetailsView.customerSupportSiteButton.text)
-    }
-
-    @Test
-    fun bucketedShouldSeeWidgetTest() {
-        val context = RuntimeEnvironment.application
-        manageRoomWidget.manageBookingButton.visibility = View.GONE
-        manageRoomWidget.modifyReservationWidget.visibility = View.GONE
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.TripsHotelsM2)
-        manageRoomWidget.setupReservationModifications()
-        assertEquals(View.GONE, manageRoomWidget.manageBookingButton.visibility)
-        assertEquals(View.VISIBLE, manageRoomWidget.modifyReservationWidget.visibility)
-    }
-
-    @Test
-    fun unbucketedShouldSeeButtonTest() {
-        manageRoomWidget.manageBookingButton.visibility = View.GONE
-        manageRoomWidget.modifyReservationWidget.visibility = View.GONE
-        manageRoomWidget.setupReservationModifications()
-        assertEquals(View.VISIBLE, manageRoomWidget.manageBookingButton.visibility)
-        assertEquals(View.GONE, manageRoomWidget.modifyReservationWidget.visibility)
-    }
-
-    @Test
-    fun manageBookingChangeOrCancelButtonLaunchWebview() {
-        val itinCardDataHotel = ItinCardDataHotelBuilder().build()
-        manageRoomViewModel.itinCardDataHotelSubject.onNext(itinCardDataHotel)
-        val shadowActivity = Shadows.shadowOf(activity)
-        manageRoomWidget.manageBookingButton.performClick()
-        val intent = shadowActivity.peekNextStartedActivityForResult()
-        assertEquals(Constants.ITIN_WEBVIEW_REFRESH_ON_EXIT_CODE, intent.requestCode)
-        assertEquals(itinCardDataHotel.tripNumber, intent.intent.getStringExtra(Constants.ITIN_WEBVIEW_REFRESH_ON_EXIT_TRIP_NUMBER))
     }
 }

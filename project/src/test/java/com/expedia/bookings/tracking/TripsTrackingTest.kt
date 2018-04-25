@@ -48,4 +48,11 @@ class TripsTrackingTest {
         TripsTracking.trackTripFolderAbTest()
         OmnitureTestUtils.assertLinkTrackedWithAbTestExposure("Itinerary Action", "App.Trips", "25538.0.0", mockAnalyticsProvider)
     }
+
+    @Test
+    fun testTrackHotelItinManageBookingClick() {
+        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+        TripsTracking.trackHotelItinManageBookingClick()
+        OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Hotel.ManageBooking", mockAnalyticsProvider)
+    }
 }

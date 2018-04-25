@@ -1420,10 +1420,6 @@
     <string name="hotel_summary_checkout_text">Check-out:</string>
     <!--Hotel itin checkin checkout to arrow content description-->
     <string name="itin_hotel_details_checkout_to_arrow_cont_desc">To</string>
-    <!--Hotel itin manage booking button to change or cancel room-->
-    <string name="itin_hotel_manage_booking_cancel_change_header">change or cancel room</string>
-    <!--Hotel itin manage booking webview title-->
-    <string name="itin_hotel_manage_booking_webview_title">Change Or Cancel Room</string>
     <!--Hotel itin manage booking room details header-->
     <string name="itin_hotel_manage_booking_header">Manage booking</string>
     <!--Hotel itin manage booking hotel help heading-->
