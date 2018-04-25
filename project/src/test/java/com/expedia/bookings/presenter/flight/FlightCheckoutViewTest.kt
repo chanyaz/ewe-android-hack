@@ -9,6 +9,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
 import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.FlightTripResponse
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TripBucketItemFlightV2
 import com.expedia.bookings.data.TripResponse
@@ -158,15 +160,20 @@ class FlightCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testOpeningOfWebCheckoutViewFromOverviewPresenter() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckout)
-        flightPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_activity, null) as FlightPresenter
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
         val testShowWebviewSubscriber = TestObserver.create<Unit>()
         val maskWebCheckoutActivityObservable = TestObserver.create<Boolean>()
+        val testUrlSubscriber = TestObserver.create<String>()
         setupTestToOpenInFlightOutboundPresenter()
         flightPresenter.flightOverviewPresenter.viewModel.showWebviewCheckoutObservable.subscribe(testShowWebviewSubscriber)
         flightPresenter.webCheckoutView.viewModel.showWebViewObservable.subscribe(maskWebCheckoutActivityObservable)
-        flightPresenter.flightOfferViewModel.flightProductId.onNext("12345")
+        flightPresenter.webCheckoutView.viewModel.webViewURLObservable.subscribe(testUrlSubscriber)
         Db.getTripBucket().add(TripBucketItemFlightV2(getFlightCreateTripResponse()))
+        flightPresenter.flightOfferViewModel.flightProductId.onNext("happy_round_trip")
 
+        testUrlSubscriber.assertValues("https://www.expedia.com/FlightCheckout?tripid=happy_round_trip",
+                "about:blank", "https://www.expedia.com/FlightCheckout?tripid=happy_round_trip")
         assertTrue(flightPresenter.webCheckoutView.visibility == View.GONE)
         assertTrue(flightPresenter.flightOverviewPresenter.visibility == View.VISIBLE)
         flightPresenter.flightOverviewPresenter.checkoutButton.performClick()
@@ -175,7 +182,25 @@ class FlightCheckoutViewTest {
         maskWebCheckoutActivityObservable.assertValue(true)
         assertTrue(flightPresenter.webCheckoutView.visibility == View.VISIBLE)
         assertTrue(flightPresenter.flightOverviewPresenter.visibility == View.GONE)
-        assertTrue(flightPresenter.webCheckoutView.visibility == View.VISIBLE)
+        assertFalse(flightPresenter.webCheckoutView.webView.canGoBack())
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testUpdateFareFamilyClearsWebViewHistory() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckout)
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
+        setupTestToOpenInFlightOutboundPresenter()
+        val testUrlObserver = TestObserver.create<String>()
+        flightPresenter.webCheckoutViewModel.webViewURLObservable.subscribe(testUrlObserver)
+        flightPresenter.createTripBuilder = FlightCreateTripParams.Builder()
+
+        flightPresenter.flightOverviewPresenter.fareFamilyCardView.viewModel.updateTripObserver
+                .onNext(Pair("test", getFareFamilyDetails(className = "coach")))
+
+        testUrlObserver.assertValue("about:blank")
+        assertFalse(flightPresenter.webCheckoutView.webView.canGoBack())
     }
 
     @Test
@@ -420,6 +445,32 @@ class FlightCheckoutViewTest {
         flightPresenter.errorPresenter.getViewModel().fireRetryCreateTrip.onNext(Unit)
 
         assertTrue(flightPresenter.webCheckoutView.visibility == View.VISIBLE)
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testFireRetryCreateTripNativeRateDetailsBucketed() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckout)
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
+        setupTestToOpenInFlightOutboundPresenter()
+        val testUrlSubscriber = TestObserver.create<String>()
+        flightPresenter.webCheckoutView.viewModel.webViewURLObservable.subscribe(testUrlSubscriber)
+
+        flightPresenter.flightCreateTripViewModel.tripParams.onNext(createTripParams("custom_error_create_trip"))
+        flightPresenter.flightOfferViewModel.flightProductId.onNext("custom_error_create_trip")
+
+        testUrlSubscriber.assertValuesAndClear("about:blank")
+        assertTrue(flightPresenter.errorPresenter.visibility == View.VISIBLE)
+
+        flightPresenter.flightCreateTripViewModel.tripParams.onNext(createTripParams("create_trip_price_increase"))
+        flightPresenter.errorPresenter.getViewModel().fireRetryCreateTrip.onNext(Unit)
+
+        testUrlSubscriber.assertValues("https://www.expedia.com/FlightCheckout?tripid=happy_one_way",
+                "about:blank",
+                "https://www.expedia.com/FlightCheckout?tripid=happy_one_way")
+        assertTrue(flightPresenter.flightOverviewPresenter.visibility == View.VISIBLE)
+        assertFalse(flightPresenter.webCheckoutView.webView.canGoBack())
     }
 
     @Test
@@ -871,5 +922,10 @@ class FlightCheckoutViewTest {
     private fun createTripParams(productKey: String): FlightCreateTripParams {
         val builder = FlightCreateTripParams.Builder()
         return builder.productKey(productKey).build()
+    }
+
+    private fun getFareFamilyDetails(className: String): FlightTripResponse.FareFamilyDetails {
+        return FlightTripResponse.FareFamilyDetails(className, className, className,
+                Money("210.00", "USD"), Money(1, "USD"), true, HashMap())
     }
 }
