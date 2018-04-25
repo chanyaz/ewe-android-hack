@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView android:id="@+id/section_title_text_view"
+<com.expedia.bookings.widget.TextView android:id="@+id/section_title_text_view"
     style="@style/Core.Text.500.Medium"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="left|center_vertical"
-    android:layout_marginTop="@dimen/small_margin"
-    android:layout_marginBottom="@dimen/default_margin"
-    android:textColor="@color/light_text_color"
+    android:layout_marginTop="@dimen/launch_card_header_top_margin"
+    android:layout_marginBottom="@dimen/launch_card_header_bottom_margin"
+    android:textColor="@color/gray700"
     tools:text="@string/launch_section_get_inspired" />
-

@@ -10,7 +10,8 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/launch_header_height"
-        android:foreground="?android:attr/selectableItemBackground">
+        android:foreground="?android:attr/selectableItemBackground"
+        android:layout_marginBottom="@dimen/list_card_header_bottom_margin">
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/launch_list_header_title"
@@ -18,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left|center_vertical"
             android:textColor="@color/launch_list_header_title_color"
-            style="@style/Core.Text.400.Medium"/>
+            style="@style/Core.Text.500.Medium"/>
 
         <com.expedia.bookings.widget.RoundedCornerFrameLayout
             android:layout_width="wrap_content"

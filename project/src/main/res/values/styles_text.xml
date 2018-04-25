@@ -90,6 +90,10 @@
     </style>
 
     <style name="Core.Text.500.Medium">
+        <item name="textStyle">medium</item>
+    </style>
+
+    <style name="Core.Text.500.Bold">
         <item name="android:textStyle">bold</item>
     </style>
 
