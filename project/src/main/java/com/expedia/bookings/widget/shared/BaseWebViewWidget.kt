@@ -42,14 +42,15 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
 
     var webClient = object : WebViewClient() {
         override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
+            val endPointURL = Ui.getApplication(context).appComponent().endpointProvider().e3EndpointUrl
             val url = request.url.toString()
-            if (url.contains("facebook")) {
-                webViewPopUp?.visibility = View.VISIBLE
-            } else if (url.contains("/user/signin")) {
+            if (url.contains("/user/signin")) {
                 view.stopLoading()
                 NavUtils.showAccountSignIn(context)
                 webView.goBack()
                 webView.clearHistory()
+            } else if (!url.startsWith(endPointURL) && url.startsWith("http")) {
+                webViewPopUp?.visibility = View.VISIBLE
             } else {
                 hideWebViewPopUp()
                 webView.loadUrl(url)
