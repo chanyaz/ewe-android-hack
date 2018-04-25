@@ -101,6 +101,13 @@
         <item quantity="other">{number} resultaten</item>
     </plurals>
 
+    <!-- Title message displayed when there are no items in the user's favorite hotels list -->
+    <string name="hotel_favorites_page_empty_title">Je favorieten opslaan</string>
+    <!-- Subtitle message displayed when there are no items in the user's favorites hotels list -->
+    <string name="hotel_favorites_page_empty_subtitle">Wanneer je iets leuk vindt, gebruik het hart om je favorieten op te slaan.</string>
+    <!-- Title at the top of the Hotel Favorites page containing the user's saved hotels -->
+    <string name="hotel_favorites_page_toolbar_title">Opgeslagen hotels</string>
+
     <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
     <plurals name="number_results_announcement_text_TEMPLATE">
         <item quantity="one">{number} resultaat gefilterd</item>
@@ -622,6 +629,10 @@
     <string name="lx_error_limited_inventory">Sorry, we hebben niet genoeg tickets voor de geselecteerde datum. Probeer het met een andere datum of selecteer minder tickets.</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">Jouw tickets werden verzonden naar</string>
+    <!-- LX confirmation itin text no email -->
+    <string name="lx_successful_checkout_no_email_label">De tickets werden verzonden naar</string>
+    <!-- LX default when no email -->
+    <string name="lx_default_when_no_email">je e-mailadres.</string>
     <!-- LX reservation confirmation text -->
     <string name="lx_successful_checkout_reservation_label">Jouw reservering is bevestigd!</string>
     <!-- Text for getting current location suggestion -->
@@ -1350,6 +1361,14 @@
     <string name="itin_card_details_reload_hotel">Hotelinfo opnieuw laden</string>
     <string name="itin_card_details_reload_cruise">Cruise-info opnieuw laden</string>
     <string name="itin_card_details_remove_itin">Verwijderen uit reisplan</string>
+
+    <!--Trip Folders-->
+    <!--Trip folder upcoming tab title-->
+    <string name="trip_folder_upcoming_tab_title">Toekomstig</string>
+    <!--Trip folder past tab title-->
+    <string name="trip_folder_past_tab_title">Voltooid</string>
+    <!--Trip folder cancelled tab title-->
+    <string name="trip_folder_cancelled_tab_title">Geannuleerd</string>
 
     <!--Hotel itin card room details heading-->
     <string name="itin_hotel_details_room_details_title_text">Jouw kamer</string>
@@ -2742,6 +2761,19 @@
     <string name="vip">+VIP</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
+
+    <!-- display guest rating out of 5: Example: 4.6/5 -->
+    <string name="hotel_guest_rating_out_of_five_TEMPLATE">{rating}/5</string>
+    <!-- indicate hotel guest rating for guest rating -->
+    <string name="hotel_guest_rating">“ - gastenscore”</string>
+    <!-- hotel guest rating superlative suffixe
+    s for guest rating -->
+    <string name="hotel_guest_recommend_good">- Goed!</string>
+    <string name="hotel_guest_recommend_very_good">- Zeer goed!</string>
+    <string name="hotel_guest_recommend_excellent">- Uitstekend!</string>
+    <string name="hotel_guest_recommend_wonderful">- Fantastisch!</string>
+    <string name="hotel_guest_recommend_exceptional">- Superieur!</string>
+
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">/5 - gastenscore</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
@@ -2751,19 +2783,22 @@
     <string name="hotel_guest_recommend_wonderful_superlative">/5 - Fantastisch!</string>
     <string name="hotel_guest_recommend_exceptional_superlative">/5 - Superieur!</string>
 
+    <!-- User rating number out of five on review page-->
+    <string name="hotel_user_review_rating_out_of_five">/5</string>
+
     <!-- Flights Score results -->
     <!-- Route Happy AB Test: Example: 9/10 - Excellent! -->
-    <string name="flight_score_excellent_superlative_TEMPLATE">{flight_score}/10 - Uitstekend!</string>
+    <string name="route_score_excellent_superlative_TEMPLATE">{route_score}/10 - Uitstekend!</string>
     <!-- Route Happy AB Test: Example: 8.1/10 - Very Good! -->
-    <string name="flight_score_very_good_superlative_TEMPLATE">{flight_score}/10 - Zeer goed!</string>
+    <string name="route_score_very_good_superlative_TEMPLATE">{route_score}/10 - Zeer goed!</string>
     <!-- Route Happy AB Test: Example: 7.5/10 - Good! -->
-    <string name="flight_score_good_superlative_TEMPLATE">{flight_score}/10 - Goed!</string>
+    <string name="route_score_good_superlative_TEMPLATE">{route_score}/10 - Goed!</string>
     <!-- Route Happy AB Test: Example: 7/10 - Okay! -->
-    <string name="flight_score_okay_superlative_TEMPLATE">{flight_score}/10 - Voldoende</string>
+    <string name="route_score_okay_superlative_TEMPLATE">{route_score}/10 - Voldoende</string>
     <!-- Route Happy AB Test: Example: 6/10 - Fair! -->
-    <string name="flight_score_fair_superlative_TEMPLATE">{flight_score}/10 - Matig</string>
+    <string name="route_score_fair_superlative_TEMPLATE">{route_score}/10 - Matig</string>
     <!-- Route Happy AB Test: Example: 5.5/10 - Poor! -->
-    <string name="flight_score_poor_superlative_TEMPLATE">{flight_score}/10 - Slecht</string>
+    <string name="route_score_poor_superlative_TEMPLATE">{route_score}/10 - Slecht</string>
 
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
@@ -2871,16 +2906,15 @@
     <!-- Text for button to see original, untranslated review text -->
     <string name="user_review_see_original">Origineel weergeven</string>
 
-    <!-- HOtel V2A number of reviews -->
+    <!-- Hotel V2A number of reviews -->
     <plurals name="hotel_number_of_reviews">
-        <item quantity="zero">Geen beoordelingen</item>
+        <item quantity="zero">0 beoordelingen</item>
         <item quantity="one">Zie %s beoordeling</item>
         <item quantity="two">Zie %s beoordelingen</item>
         <item quantity="many">Zie %s beoordelingen</item>
         <item quantity="other">Zie %s beoordelingen</item>
     </plurals>
 
-    <string name="zero_reviews">0 beoordelingen</string>
     <!--
          User review name and place review signature eg (John from San Diego, CA)
         1$ is the user name
@@ -3024,8 +3058,6 @@
     <!-- Confirmation activity -->
     <!-- Confirmation number label -->
     <string name="confirmation_number">Bevestigingsnr.</string>
-    <!-- Confirmation number accessibility template eg. Confirmation Number: 12345-->
-    <string name="confirmation_number_TEMPLATE">Bevestigingsnummer: {number}</string>
     <!-- Itinerary number label -->
     <string name="itinerary_number">Reisplannr.</string>
     <!-- Itinerary number label content description -->
@@ -3800,8 +3832,9 @@
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">Ik heb de {terms_of_use} en het {privacy_policy} gelezen en goedgekeurd.</string>
     <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Sluit je nu aan bij {brand_reward_name}. Door me te registreren voor {brand_reward_name} aanvaard ik alle {terms_and_conditions}.</string>
-
+    <string name="account_creation_legal_rewards_TEMPLATE">Sluit je nu aan bij {brand_reward_name}. Door me te registreren voor {brand_reward_name} accepteer ik alle {terms_and_conditions}.</string>
+    <!--Account creation legal template for terms and reward eg: By creating an account, I accept the Expedia Rewards Terms & Conditions, and have read and accept the Terms of Use and the Privacy Policy.-->
+    <string name="account_creation_new_terms_reward_TEMPLATE">Door een account aan te maken, accepteer ik de {terms_and_conditions} van {brand_reward_name} en heb ik de {terms_of_use} en het {privacy_policy} gelezen en goedgekeurd.</string>
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Selecteer de leeftijd van elk kind</string>
 
@@ -4009,8 +4042,6 @@
     <string name="select_flight_selected_cont_desc_TEMPLATE">Je hebt vluchten geselecteerd naar {flight} op {datetraveler}. {expandstate} vluchtgegevens.</string>
     <!-- Bundle Overview collapsed flight card with more info accessibility content description-->
     <string name="row_expand_button_description">Samengevouwen knop. Tik dubbel om uit te vouwen.</string>
-    <!-- Bundle Overview expanded flight card accessibility content description. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. Expanded button. Double tap to collapse. -->
-    <string name="bundle_overview_detailed_button_description_TEMPLATE">{rowdescription} Uitgevouwen knop. Tik dubbel om samen te vouwen.</string>
     <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. Collapsed button. Double tap to expand. -->
     <string name="bundle_overview_free_canellation_collapsed_button_description_TEMPLATE">{rowdescription}. Samengevouwen knop. Tik dubbel om uit te vouwen.</string>
     <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. After 24 hours, standard flight rules apply. Expanded button. Double tap to collapse. -->
@@ -5095,5 +5126,10 @@
 
     <!--Accessibility Content Description for Member Pricing Discount Percentage Eg. Member Pricing Discount: 10%-->
     <string name="lx_member_pricing_discount_percent_TEMPLATE">Ledenkorting: {discount}%</string>
+
+    <!--Flight dropdown location template Eg. Brisbane, Australia-->
+    <string name="flight_dropdown_airport_location_TEMPLATE">{airport}, {country}</string>
+    <!--Flight dropdown airport Eg. BNE - Brisbane Airport-->
+    <string name="flight_dropdown_airport_details_TEMPLATE">{airport_code} - {airport_name}</string>
 
 </resources>

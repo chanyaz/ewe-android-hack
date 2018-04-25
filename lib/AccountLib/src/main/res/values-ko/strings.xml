@@ -143,4 +143,6 @@
 
     <!--Single Page Sign Up-->
     <string name="acct__single_page_sign_up_title">무료 회원가입</string>
+
+    <string name="acct__new_create_account_text">회원가입</string>
 </resources>

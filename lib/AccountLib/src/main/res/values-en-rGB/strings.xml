@@ -13,7 +13,7 @@
     <!-- Divider text between Sign In and Create Account -->
     <string name="acct__or">or</string>
     <!-- Button text for Sign In -->
-    <string name="acct__Sign_In">Sign In</string>
+    <string name="acct__Sign_In">Sign in</string>
     <!-- Button text for Sign in With Facebook -->
     <string name="acct__Sign_In_with_Facebook">Sign in with Facebook</string>
     <!-- Back button content description -->
@@ -143,4 +143,6 @@
 
     <!--Single Page Sign Up-->
     <string name="acct__single_page_sign_up_title">Create Your Free Account</string>
+
+    <string name="acct__new_create_account_text">Create account</string>
 </resources>

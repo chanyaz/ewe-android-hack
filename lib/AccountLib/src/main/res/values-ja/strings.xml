@@ -143,4 +143,6 @@
 
     <!--Single Page Sign Up-->
     <string name="acct__single_page_sign_up_title">アカウントを作成 (無料)</string>
+
+    <string name="acct__new_create_account_text">アカウントを作成</string>
 </resources>

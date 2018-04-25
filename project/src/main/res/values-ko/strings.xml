@@ -101,6 +101,13 @@
         <item quantity="other">{number}개 결과</item>
     </plurals>
 
+    <!-- Title message displayed when there are no items in the user's favorite hotels list -->
+    <string name="hotel_favorites_page_empty_title">즐겨찾기 저장</string>
+    <!-- Subtitle message displayed when there are no items in the user's favorites hotels list -->
+    <string name="hotel_favorites_page_empty_subtitle">마음에 드는 상품을 찾으신 경우 하트 표시를 사용해 즐겨찾기에 저장하실 수 있어요.</string>
+    <!-- Title at the top of the Hotel Favorites page containing the user's saved hotels -->
+    <string name="hotel_favorites_page_toolbar_title">저장된 호텔</string>
+
     <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
     <plurals name="number_results_announcement_text_TEMPLATE">
         <item quantity="one">{number}개 결과 필터링됨</item>
@@ -593,7 +600,7 @@
     <!-- Traveler title label for checkout toolbar and traveler summary card. Eg. Traveler 1 (Adult 18+) -->
     <string name="checkout_traveler_title_TEMPLATE">여행객 {travelernumber} ({passengerycategory})</string>
     <!-- Traveler category age range seen in checkout toolbar and Travelery Summary card. Eg. Infant under 2 -->
-    <string name="traveler_age_range_TEMPLATE">{category} {range}</string>
+    <string name="traveler_age_range_TEMPLATE">{category}({range})</string>
     <!-- Adult age label on flight checkout summary card-->
     <string name="flight_checkout_adult_age_label">만 18+</string>
     <!-- Youth age label on flight checkout traveler summary card -->
@@ -622,6 +629,10 @@
     <string name="lx_error_limited_inventory">죄송합니다. 선택하신 날짜에 티켓이 충분하지 않습니다. 다른 날짜를 선택하시거나 티켓 수를 줄여 선택해 주세요.</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">고객님의 티켓을 다음 주소로 보내드렸습니다:</string>
+    <!-- LX confirmation itin text no email -->
+    <string name="lx_successful_checkout_no_email_label">티켓을 고객님의 이메일 주소로</string>
+    <!-- LX default when no email -->
+    <string name="lx_default_when_no_email">보내드렸습니다.</string>
     <!-- LX reservation confirmation text -->
     <string name="lx_successful_checkout_reservation_label">고객님 예약이 확정되었습니다!</string>
     <!-- Text for getting current location suggestion -->
@@ -1350,6 +1361,14 @@
     <string name="itin_card_details_reload_hotel">호텔 정보 다시 로드하기</string>
     <string name="itin_card_details_reload_cruise">크루즈 정보 다시 로드하기</string>
     <string name="itin_card_details_remove_itin">일정에서 삭제</string>
+
+    <!--Trip Folders-->
+    <!--Trip folder upcoming tab title-->
+    <string name="trip_folder_upcoming_tab_title">예정</string>
+    <!--Trip folder past tab title-->
+    <string name="trip_folder_past_tab_title">이전</string>
+    <!--Trip folder cancelled tab title-->
+    <string name="trip_folder_cancelled_tab_title">취소됨</string>
 
     <!--Hotel itin card room details heading-->
     <string name="itin_hotel_details_room_details_title_text">내 객실 정보</string>
@@ -2742,6 +2761,19 @@
     <string name="vip">+VIP</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
+
+    <!-- display guest rating out of 5: Example: 4.6/5 -->
+    <string name="hotel_guest_rating_out_of_five_TEMPLATE">{rating}/5</string>
+    <!-- indicate hotel guest rating for guest rating -->
+    <string name="hotel_guest_rating">" - 고객 평점"</string>
+    <!-- hotel guest rating superlative suffixe
+    s for guest rating -->
+    <string name="hotel_guest_recommend_good">- 좋음!</string>
+    <string name="hotel_guest_recommend_very_good">- 매우 좋음!</string>
+    <string name="hotel_guest_recommend_excellent">- 훌륭함!</string>
+    <string name="hotel_guest_recommend_wonderful">- 매우 훌륭함!</string>
+    <string name="hotel_guest_recommend_exceptional">- 최고 좋음!</string>
+
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">/ 5 – 고객 평점</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
@@ -2751,19 +2783,22 @@
     <string name="hotel_guest_recommend_wonderful_superlative">/ 5 - 매우 훌륭함!</string>
     <string name="hotel_guest_recommend_exceptional_superlative">/ 5 - 최고 좋음!</string>
 
+    <!-- User rating number out of five on review page-->
+    <string name="hotel_user_review_rating_out_of_five">/5</string>
+
     <!-- Flights Score results -->
     <!-- Route Happy AB Test: Example: 9/10 - Excellent! -->
-    <string name="flight_score_excellent_superlative_TEMPLATE">{flight_score}/10 - 훌륭함!</string>
+    <string name="route_score_excellent_superlative_TEMPLATE">{route_score}/10 - 훌륭함!</string>
     <!-- Route Happy AB Test: Example: 8.1/10 - Very Good! -->
-    <string name="flight_score_very_good_superlative_TEMPLATE">{flight_score}/10 - 매우 좋음!</string>
+    <string name="route_score_very_good_superlative_TEMPLATE">{route_score}/10 - 매우 좋음!</string>
     <!-- Route Happy AB Test: Example: 7.5/10 - Good! -->
-    <string name="flight_score_good_superlative_TEMPLATE">{flight_score}/10 - 좋음!</string>
+    <string name="route_score_good_superlative_TEMPLATE">{route_score}/10 - 좋음!</string>
     <!-- Route Happy AB Test: Example: 7/10 - Okay! -->
-    <string name="flight_score_okay_superlative_TEMPLATE">{flight_score}/10 - 괜찮음!</string>
+    <string name="route_score_okay_superlative_TEMPLATE">{route_score}/10 - 괜찮음!</string>
     <!-- Route Happy AB Test: Example: 6/10 - Fair! -->
-    <string name="flight_score_fair_superlative_TEMPLATE">{flight_score}/10 - 보통!</string>
+    <string name="route_score_fair_superlative_TEMPLATE">{route_score}/10 - 보통!</string>
     <!-- Route Happy AB Test: Example: 5.5/10 - Poor! -->
-    <string name="flight_score_poor_superlative_TEMPLATE">{flight_score}/10 - 별로</string>
+    <string name="route_score_poor_superlative_TEMPLATE">{route_score}/10 - 별로</string>
 
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
@@ -2871,16 +2906,15 @@
     <!-- Text for button to see original, untranslated review text -->
     <string name="user_review_see_original">원문 보기</string>
 
-    <!-- HOtel V2A number of reviews -->
+    <!-- Hotel V2A number of reviews -->
     <plurals name="hotel_number_of_reviews">
-        <item quantity="zero">이용 후기 없음</item>
+        <item quantity="zero">0개 이용 후기</item>
         <item quantity="one">%s개 이용 후기 보기</item>
         <item quantity="two">%s개 이용 후기 보기</item>
         <item quantity="many">%s개 이용 후기 보기</item>
         <item quantity="other">%s개 이용 후기 보기</item>
     </plurals>
 
-    <string name="zero_reviews">0개 이용 후기</string>
     <!--
          User review name and place review signature eg (John from San Diego, CA)
         1$ is the user name
@@ -3024,8 +3058,6 @@
     <!-- Confirmation activity -->
     <!-- Confirmation number label -->
     <string name="confirmation_number">확인 번호</string>
-    <!-- Confirmation number accessibility template eg. Confirmation Number: 12345-->
-    <string name="confirmation_number_TEMPLATE">확인 번호: {number}</string>
     <!-- Itinerary number label -->
     <string name="itinerary_number">일정 번호</string>
     <!-- Itinerary number label content description -->
@@ -3801,7 +3833,8 @@
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">{terms_of_use} 및 {privacy_policy} 내용을 읽었고 이에 동의합니다.</string>
     <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">오늘 바로 {brand_reward_name}에 가입하세요. {brand_reward_name}에 가입함으로써 본인은 모든 {terms_and_conditions}에 동의합니다.</string>
-
+    <!--Account creation legal template for terms and reward eg: By creating an account, I accept the Expedia Rewards Terms & Conditions, and have read and accept the Terms of Use and the Privacy Policy.-->
+    <string name="account_creation_new_terms_reward_TEMPLATE">회원가입함으로써 본인은 {brand_reward_name} {terms_and_conditions}에 동의하며, {terms_of_use} 및 {privacy_policy} 내용을 읽고 이를 수락함을 명시합니다.</string>
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">각 아동의 나이 선택</string>
 
@@ -4009,8 +4042,6 @@
     <string name="select_flight_selected_cont_desc_TEMPLATE">{datetraveler}에 대해 {flight}행 항공편을 선택하셨습니다. 항공편 세부 정보를 {expandstate}.</string>
     <!-- Bundle Overview collapsed flight card with more info accessibility content description-->
     <string name="row_expand_button_description">접힘 버튼입니다. 펼치려면 두 번 탭하세요.</string>
-    <!-- Bundle Overview expanded flight card accessibility content description. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. Expanded button. Double tap to collapse. -->
-    <string name="bundle_overview_detailed_button_description_TEMPLATE">{rowdescription} 펼침 버튼입니다. 접으려면 두 번 탭하세요.</string>
     <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. Collapsed button. Double tap to expand. -->
     <string name="bundle_overview_free_canellation_collapsed_button_description_TEMPLATE">{rowdescription}. 접힘 버튼입니다. 펼치려면 두 번 탭하세요.</string>
     <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. After 24 hours, standard flight rules apply. Expanded button. Double tap to collapse. -->
@@ -4339,7 +4370,7 @@
     <string name="rail_station_info_TEMPLATE">{departure} 출발 {arrival} 도착</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
-    <string name="rail_fare_info_TEMPLATE">{fareclass} {serviceclass}</string>
+    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
 
     <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
@@ -4416,7 +4447,7 @@
 
     <!-- Accessibility string describing button opens cost breakdown dialog.
         Ex. Total, payment and fess may apply, $120. Cost Breakdown dialog. Button.-->
-    <string name="rail_cost_breakdown_button_cont_desc_TEMPLATE">{costsummary} 요금 내역 대화상자. 버튼.</string>
+    <string name="rail_cost_breakdown_button_cont_desc_TEMPLATE">{costsummary}. 요금 내역 대화상자. 버튼.</string>
 
    <string name="pwp_points_conversion_unauthenticated_access">죄송합니다. 서버 문제가 발생했습니다. 다시 시도해 주세요.</string>
    <string name="pwp_trip_service_error">죄송합니다. 서버 문제가 발생했습니다. 다시 시도해 주세요.</string>
@@ -5095,5 +5126,10 @@
 
     <!--Accessibility Content Description for Member Pricing Discount Percentage Eg. Member Pricing Discount: 10%-->
     <string name="lx_member_pricing_discount_percent_TEMPLATE">회원가 할인: {discount}%</string>
+
+    <!--Flight dropdown location template Eg. Brisbane, Australia-->
+    <string name="flight_dropdown_airport_location_TEMPLATE">{airport}, {country}</string>
+    <!--Flight dropdown airport Eg. BNE - Brisbane Airport-->
+    <string name="flight_dropdown_airport_details_TEMPLATE">{airport_code} - {airport_name}</string>
 
 </resources>
