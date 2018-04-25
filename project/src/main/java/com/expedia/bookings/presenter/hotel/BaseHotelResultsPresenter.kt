@@ -14,6 +14,9 @@ import android.location.Address
 import android.support.annotation.CallSuper
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.AccessibilityDelegateCompat
+import android.support.v4.view.ViewCompat
+import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -326,6 +329,14 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             filterViewModel.sortContainerVisibilityObservable.onNext(true)
             filterView.toolbar.title = resources.getString(R.string.sort_and_filter)
         }
+
+        // Set the accessibility traversal order for mapWidget to be after the fab
+        ViewCompat.setAccessibilityDelegate(mapWidget, object : AccessibilityDelegateCompat() {
+            override fun onInitializeAccessibilityNodeInfo(v: View, info: AccessibilityNodeInfoCompat) {
+                super.onInitializeAccessibilityNodeInfo(v, info)
+                info.setTraversalAfter(fab)
+            }
+        })
     }
 
     protected fun hideMapLoadingOverlay() {
