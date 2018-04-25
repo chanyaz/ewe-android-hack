@@ -69,7 +69,6 @@ public class LXTicketPicker extends LinearLayout {
 		announceForAccessibility(Phrase.from(getContext(), R.string.lx_ticket_added_announce_accessibility_TEMPLATE)
 				.put("traveler", LXDataUtils.ticketDisplayName(getContext(), ticket.code))
 				.format());
-		setTicketCount();
 		bind(ticket, offerId, ticket.count, isGroundTransport);
 	}
 
@@ -85,7 +84,6 @@ public class LXTicketPicker extends LinearLayout {
 		announceForAccessibility(Phrase.from(getContext(), R.string.lx_ticket_removed_announce_accessibility_TEMPLATE)
 				.put("traveler", LXDataUtils.ticketDisplayName(getContext(), ticket.code))
 				.format());
-		setTicketCount();
 		bind(ticket, offerId, ticket.count, isGroundTransport);
 	}
 
@@ -179,22 +177,27 @@ public class LXTicketPicker extends LinearLayout {
 		ticketRemove.setColorFilter(enabledTicketSelectorColor, PorterDuff.Mode.SRC_IN);
 		ticketAdd.setColorFilter(enabledTicketSelectorColor, PorterDuff.Mode.SRC_IN);
 		if (ticket.count == MIN_TICKET_COUNT) {
-			ticketRemove.setEnabled(false);
-			ticketRemove.setColorFilter(disabledTicketSelectorColor,
-				PorterDuff.Mode.SRC_IN);
+			ticketAdd.setEnabled(true);
+			setViewDisableProperty(ticketRemove);
 		}
 		else if (ticket.prices != null && ticket.count == ticket.prices.get(ticket.prices.size() - 1).travellerNum) {
-			ticketAdd.setEnabled(false);
-			ticketAdd.setColorFilter(disabledTicketSelectorColor, PorterDuff.Mode.SRC_IN);
+			ticketRemove.setEnabled(true);
+			setViewDisableProperty(ticketAdd);
 		}
 		else if (ticket.count == MAX_TICKET_COUNT) {
-			ticketAdd.setEnabled(false);
-			ticketAdd.setColorFilter(disabledTicketSelectorColor, PorterDuff.Mode.SRC_IN);
+			ticketRemove.setEnabled(true);
+			setViewDisableProperty(ticketAdd);
 		}
 		else {
 			ticketAdd.setEnabled(true);
 			ticketRemove.setEnabled(true);
 		}
 		Events.post(new Events.LXTicketCountChanged(ticket, offerId));
+	}
+
+	private void setViewDisableProperty(ImageButton imageButton) {
+		imageButton.setEnabled(false);
+		imageButton.setColorFilter(disabledTicketSelectorColor,
+			PorterDuff.Mode.SRC_IN);
 	}
 }
