@@ -22,7 +22,7 @@ import com.expedia.bookings.data.TravelerName;
 import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.PassengerCategory;
-import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter;
+import com.expedia.bookings.presenter.shared.AbstractTravelersPresenter;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.espresso.EspressoUtils;

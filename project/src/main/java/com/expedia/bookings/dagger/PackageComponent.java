@@ -1,9 +1,9 @@
 package com.expedia.bookings.dagger;
 
 import com.expedia.bookings.dagger.tags.PackageScope;
-import com.expedia.bookings.presenter.packages.PackageHotelPresenter;
-import com.expedia.bookings.presenter.packages.PackageOverviewPresenter;
-import com.expedia.bookings.presenter.packages.PackagePresenter;
+import com.expedia.bookings.packages.presenter.PackageHotelPresenter;
+import com.expedia.bookings.packages.presenter.PackageOverviewPresenter;
+import com.expedia.bookings.packages.presenter.PackagePresenter;
 import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.services.PackageServices;
 import com.expedia.bookings.services.ReviewsServices;

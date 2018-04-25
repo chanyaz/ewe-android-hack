@@ -12,7 +12,7 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.enums.PassengerCategory
-import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter
+import com.expedia.bookings.presenter.shared.AbstractTravelersPresenter
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner

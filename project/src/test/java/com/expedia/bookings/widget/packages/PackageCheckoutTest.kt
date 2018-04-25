@@ -27,7 +27,7 @@ import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.presenter.Presenter
-import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
+import com.expedia.bookings.packages.presenter.PackageOverviewPresenter
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand

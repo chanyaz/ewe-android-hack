@@ -15,7 +15,7 @@ import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
 import com.expedia.bookings.data.packages.MultiItemCreateTripParams
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
-import com.expedia.bookings.presenter.packages.PackagePresenter
+import com.expedia.bookings.packages.presenter.PackagePresenter
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MockPackageServiceTestRule

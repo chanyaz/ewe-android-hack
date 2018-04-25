@@ -1,4 +1,4 @@
-package com.expedia.bookings.presenter.packages
+package com.expedia.bookings.presenter.flight
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.extensions.subscribeVisibility
+import com.expedia.bookings.presenter.shared.AbstractTravelersPresenter
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FlightTravelerEntryWidget
 import com.expedia.bookings.widget.TextView

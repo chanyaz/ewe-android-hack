@@ -15,6 +15,7 @@ import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.trips.TripBucketItemPackages
+import com.expedia.bookings.packages.presenter.PackageOverviewPresenter
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.TestObserver

@@ -1,4 +1,4 @@
-package com.expedia.bookings.presenter.packages
+package com.expedia.bookings.widget.packages
 
 import android.content.Context
 import android.text.method.LinkMovementMethod
@@ -16,8 +16,6 @@ import com.expedia.bookings.utils.CrashlyticsLoggingUtil.logWhenNotAutomation
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.widget.PackageBundleHotelWidget
-import com.expedia.bookings.widget.packages.InboundFlightWidget
-import com.expedia.bookings.widget.packages.OutboundFlightWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.bookings.packages.vm.BundleFlightViewModel
 import com.expedia.bookings.packages.vm.BundleHotelViewModel

@@ -17,7 +17,7 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
-import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
+import com.expedia.bookings.packages.presenter.PackageOverviewPresenter
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand

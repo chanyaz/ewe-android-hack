@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.otto.Events
-import com.expedia.bookings.presenter.packages.LXTravelersPresenter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.vm.AbstractCheckoutViewModel

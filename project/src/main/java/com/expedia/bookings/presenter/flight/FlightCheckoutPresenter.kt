@@ -18,7 +18,6 @@ import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.otto.Events
-import com.expedia.bookings.presenter.packages.FlightTravelersPresenter
 import com.expedia.bookings.services.InsuranceServices
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.AnimUtils

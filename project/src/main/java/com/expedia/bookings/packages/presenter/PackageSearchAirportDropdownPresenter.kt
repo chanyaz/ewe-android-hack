@@ -1,4 +1,4 @@
-package com.expedia.bookings.presenter.packages
+package com.expedia.bookings.packages.presenter
 
 import android.content.Context
 import android.support.v4.content.ContextCompat

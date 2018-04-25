@@ -10,7 +10,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.presenter.packages.PackageSearchPresenter
+import com.expedia.bookings.packages.presenter.PackageSearchPresenter
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.FlightTravelerPickerView

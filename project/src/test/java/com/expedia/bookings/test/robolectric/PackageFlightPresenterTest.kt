@@ -10,7 +10,7 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageSearchParams
-import com.expedia.bookings.presenter.packages.PackageFlightPresenter
+import com.expedia.bookings.packages.presenter.PackageFlightPresenter
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MockPackageServiceTestRule
 import com.expedia.bookings.test.PointOfSaleTestConfiguration

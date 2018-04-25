@@ -1,4 +1,4 @@
-package com.expedia.bookings.presenter.packages
+package com.expedia.bookings.packages.presenter
 
 import android.app.AlertDialog
 import android.app.Dialog
@@ -46,6 +46,7 @@ import com.expedia.bookings.packages.vm.OverviewHeaderData
 import com.expedia.bookings.packages.vm.PackageCheckoutOverviewViewModel
 import com.expedia.bookings.packages.vm.PackageCostSummaryBreakdownViewModel
 import com.expedia.bookings.packages.vm.PackageTotalPriceViewModel
+import com.expedia.bookings.widget.packages.BundleWidget
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.PublishSubject
 import org.joda.time.format.DateTimeFormat
