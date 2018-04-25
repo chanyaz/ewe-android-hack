@@ -45,8 +45,8 @@ class PackageFlightOverviewViewModel(context: Context) : AbstractFlightOverviewV
     override fun convertTooltipInfo(selectedFlight: FlightLeg): List<FlightLeg.BasicEconomyTooltipInfo> {
         val tooltipInfo = FlightLeg.BasicEconomyTooltipInfo()
         tooltipInfo.fareRulesTitle = getTooltipHeader(selectedFlight.carrierName)
-        if (selectedFlight.basicEconomyRuleLocIds.isNotEmpty()) {
-            tooltipInfo.fareRules = selectedFlight.basicEconomyRuleLocIds.map { getRuleFromKey(it) }.filter { it.isNotEmpty() }.toTypedArray()
+        if (selectedFlight.basicEconomyRules.isNotEmpty()) {
+            tooltipInfo.fareRules = selectedFlight.basicEconomyRules.toTypedArray()
         } else {
             tooltipInfo.fareRules = arrayOf<String>()
         }
@@ -72,18 +72,6 @@ class PackageFlightOverviewViewModel(context: Context) : AbstractFlightOverviewV
                 val airlineFeeWarningText = context.resources.getString(R.string.airline_additional_fee_notice)
                 airlineFeesWarningTextSubject.onNext(airlineFeeWarningText)
             }
-        }
-    }
-
-    private fun getRuleFromKey(key: String): String {
-        when (key) {
-            "seatsAssignedAtCheckin" -> return context.getString(R.string.basic_economy_rule_1)
-            "seatsAssignedAfterCheckin" -> return context.getString(R.string.basic_economy_rule_2)
-            "changesNotPermitted" -> return context.getString(R.string.basic_economy_rule_3)
-            "boardInLastGroup" -> return context.getString(R.string.basic_economy_rule_4)
-            "noUpgrades" -> return context.getString(R.string.basic_economy_rule_5)
-            "onePersonalItemNoOverheadAccess" -> return context.getString(R.string.basic_economy_rule_6)
-            else -> return ""
         }
     }
 

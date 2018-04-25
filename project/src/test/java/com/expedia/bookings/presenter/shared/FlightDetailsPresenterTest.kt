@@ -228,26 +228,8 @@ class FlightDetailsPresenterTest {
         sut.vm.selectedFlightLegSubject.onNext(flightLeg)
         sut.vm.basicEconomyMessagingToolTipInfo.onNext(sut.vm.convertTooltipInfo(flightLeg))
         assertEquals(2, toolTipRulesTestSubscriber.values()[0].size)
-        assertEquals("1 personal item only, no access to overhead bin.", toolTipRulesTestSubscriber.values()[0][0])
-        assertEquals("Seats assigned at check-in.", toolTipRulesTestSubscriber.values()[0][1])
-        assertEquals("United Airlines Basic Economy Fare", toolTipTitleTestSubscriber.values()[0])
-        assertNotEquals(null, sut.basicEconomyTooltip.compoundDrawables[2])
-    }
-
-    @Test
-    fun basicEconomyTooltipDialogTestForPackagesWithUnknownFareRules() {
-        sut.vm = PackageFlightOverviewViewModel(context)
-        val toolTipRulesTestSubscriber = TestObserver<Array<String>>()
-        val toolTipTitleTestSubscriber = TestObserver<String>()
-        sut.basicEconomyToolTipInfoView.viewmodel.basicEconomyTooltipTitle.subscribe(toolTipTitleTestSubscriber)
-        sut.basicEconomyToolTipInfoView.viewmodel.basicEconomyTooltipFareRules.subscribe(toolTipRulesTestSubscriber)
-        createSelectedFlightLeg()
-        createBasicEconomyRulesForPackages(getFareRulesWithUnknowns())
-        sut.vm.selectedFlightLegSubject.onNext(flightLeg)
-        sut.vm.basicEconomyMessagingToolTipInfo.onNext(sut.vm.convertTooltipInfo(flightLeg))
-        assertEquals(2, toolTipRulesTestSubscriber.values()[0].size)
-        assertEquals("1 personal item only, no access to overhead bin.", toolTipRulesTestSubscriber.values()[0][0])
-        assertEquals("Seats assigned at check-in.", toolTipRulesTestSubscriber.values()[0][1])
+        assertEquals("Seats assigned after check-in.", toolTipRulesTestSubscriber.values()[0][0])
+        assertEquals("Changes and refunds are not permitted.", toolTipRulesTestSubscriber.values()[0][1])
         assertEquals("United Airlines Basic Economy Fare", toolTipTitleTestSubscriber.values()[0])
         assertNotEquals(null, sut.basicEconomyTooltip.compoundDrawables[2])
     }
@@ -269,12 +251,10 @@ class FlightDetailsPresenterTest {
 
     private fun createBasicEconomyRulesForPackages(fareRules: List<String>) {
         flightLeg.isBasicEconomy = true
-        flightLeg.basicEconomyRuleLocIds = fareRules
+        flightLeg.basicEconomyRules = fareRules
     }
 
-    private fun getFareRules(): List<String> = listOf<String>("onePersonalItemNoOverheadAccess", "seatsAssignedAtCheckin")
-
-    private fun getFareRulesWithUnknowns(): List<String> = listOf<String>("onePersonalItemNoOverheadAccess", "seatsAssignedAtCheckin", "unknown")
+    private fun getFareRules(): List<String> = listOf<String>("Seats assigned after check-in.", "Changes and refunds are not permitted.")
 
     private fun getEmptyFareRules(): List<String> = listOf<String>()
 }

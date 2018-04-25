@@ -4636,12 +4636,6 @@
     <!-- Label for change fare class subtext,  Example. Change fare class -->
     <string name="flight_change_fare_class">Change fare class</string>
 
-    <string name="basic_economy_rule_1">Seats assigned at check-in.</string>
-    <string name="basic_economy_rule_2">Seats assigned after check-in.</string>
-    <string name="basic_economy_rule_3">Changes and refunds are not permitted.</string>
-    <string name="basic_economy_rule_4">Board in last group.</string>
-    <string name="basic_economy_rule_5">No upgrades.</string>
-    <string name="basic_economy_rule_6">1 personal item only, no access to overhead bin.</string>
     <!-- Label for basic economy tool tip info title. Example. Delta Basic Economy Fare-->
     <string name="basic_economy_tooltip_header_TEMPLATE">{airlineshortname} Basic Economy Fare</string>
 

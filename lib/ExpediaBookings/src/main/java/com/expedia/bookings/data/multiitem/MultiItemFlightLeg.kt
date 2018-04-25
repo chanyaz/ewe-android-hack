@@ -9,5 +9,5 @@ data class MultiItemFlightLeg(
         val duration: Duration,
         val elapsedDays: Int,
         var isBasicEconomy: Boolean,
-        val basicEconomyRuleLocIds: List<String>?
+        val basicEconomyRules: List<String>?
 )

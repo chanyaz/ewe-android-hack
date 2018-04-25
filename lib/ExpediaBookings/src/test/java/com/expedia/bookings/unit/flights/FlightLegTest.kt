@@ -24,6 +24,7 @@ class FlightLegTest {
         assertNotNull(flightLeg.packageOfferModel.urgencyMessage)
         assertNotNull(flightLeg.flightSegments)
         assertNotNull(flightLeg.airlines.size)
+        assertNotNull(flightLeg.basicEconomyRules)
 
         assertEquals(flightLeg.packageOfferModel.price.packageTotalPrice, Money("2387.61", "USD"))
         assertEquals(flightLeg.packageOfferModel.price.tripSavings, Money("237.48", "USD"))
@@ -67,6 +68,8 @@ class FlightLegTest {
         assertEquals(flightLeg.flightSegments[0].layoverDurationHours, 1)
         assertEquals(flightLeg.flightSegments[0].layoverDurationMinutes, 16)
         assertEquals(flightLeg.flightSegments[0].elapsedDays, 0)
+        assertEquals(flightLeg.basicEconomyRules[0], "Seats assigned after check-in.")
+        assertEquals(flightLeg.basicEconomyRules[1], "Changes and refunds are not permitted.")
     }
 
     @Test
@@ -114,6 +117,10 @@ class FlightLegTest {
     private fun dummyMultiItemFlightLeg(): MultiItemFlightLeg {
         val multiItemFlightLeg = """
         {
+          "basicEconomyRules": [
+            "Seats assigned after check-in.",
+            "Changes and refunds are not permitted."
+          ],
           "segments": [
             {
               "departureAirportCode": "LAS",
