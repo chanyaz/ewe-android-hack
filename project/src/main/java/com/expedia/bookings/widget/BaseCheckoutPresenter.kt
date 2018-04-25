@@ -277,7 +277,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     private fun setupViewModels() {
         ckoViewModel = makeCheckoutViewModel()
         tripViewModel = makeCreateTripViewModel()
-        getCreateTripViewModel().createTripResponseObservable.filter { it.value != null }.subscribe(getCheckoutViewModel().createTripResponseObservable)
+        getCreateTripViewModel().createTripResponseObservable.subscribe(getCheckoutViewModel().createTripResponseObservable)
         getCheckoutViewModel().cardFeeTripResponse.map { Optional(it) }.subscribe(getCreateTripViewModel().createTripResponseObservable)
         getCheckoutViewModel().clearCvvObservable.subscribe {
             paymentWidget.clearCVV()
