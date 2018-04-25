@@ -845,6 +845,13 @@
             android:summary="%s"
             android:title="FHC Package WebView - 25555" />
 
+        <ListPreference
+            android:defaultValue="-1"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="25714"
+            android:summary="%s"
+            android:title="Packages AA Test - 25714" />
     </PreferenceCategory>
 
     <PreferenceCategory
