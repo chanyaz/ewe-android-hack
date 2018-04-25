@@ -143,4 +143,6 @@
 
     <!--Single Page Sign Up-->
     <string name="acct__single_page_sign_up_title">Tạo tài khoản miễn phí</string>
+
+    <string name="acct__new_create_account_text">Tạo tài khoản</string>
 </resources>

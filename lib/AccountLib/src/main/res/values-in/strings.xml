@@ -143,4 +143,6 @@
 
     <!--Single Page Sign Up-->
     <string name="acct__single_page_sign_up_title">Buat Akun Gratis Anda</string>
+
+    <string name="acct__new_create_account_text">Buat akun</string>
 </resources>

@@ -101,6 +101,13 @@
         <item quantity="other">{number} tulosta</item>
     </plurals>
 
+    <!-- Title message displayed when there are no items in the user's favorite hotels list -->
+    <string name="hotel_favorites_page_empty_title">Tallenna suosikkisi</string>
+    <!-- Subtitle message displayed when there are no items in the user's favorites hotels list -->
+    <string name="hotel_favorites_page_empty_subtitle">Kun löydät jotain, josta pidät, napauta sydäntä tallentaaksesi suosikkisi.</string>
+    <!-- Title at the top of the Hotel Favorites page containing the user's saved hotels -->
+    <string name="hotel_favorites_page_toolbar_title">Tallennetut hotellit</string>
+
     <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
     <plurals name="number_results_announcement_text_TEMPLATE">
         <item quantity="one">{number} tulos suodatettu</item>
@@ -151,7 +158,7 @@
     <!-- Accessibility announcement requesting user to fix errors on checkout forms. -->
     <string name="accessibility_announcement_please_review_and_resubmit">Tarkista ja lähetä uudelleen.</string>
     <!--Legal booking statement for flights on checkout-->
-    <string name="flight_booking_statement_TEMPLATE">Tekemällä tämän varauksen loppuun vahvistan, että olen lukenut ja hyväksyn &lt;a href=\"{website_url}\""&gt;säännöt ja rajoitukset, ehdot, tietosuojakäytännön ja hintatiedot&lt;/a&gt;.</string>
+    <string name="flight_booking_statement_TEMPLATE">Tekemällä tämän varauksen loppuun vahvistan, että olen lukenut ja hyväksyn &lt;a href=\"{website_url}\""&gt;ehdot ja rajoitukset, ehdot, tietosuojakäytännön ja hintatiedot&lt;/a&gt;.</string>
 
     <!-- error strings -->
     <!-- Message for user that date is too far out.  -->
@@ -622,6 +629,10 @@
     <string name="lx_error_limited_inventory">Valitettavasti meillä ei ole tarpeeksi lippuja valitsemallesi päivälle. Kokeile toista päivää tai valitse pienempi määrä lippuja.</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">Lippusi on lähetetty osoitteeseen</string>
+    <!-- LX confirmation itin text no email -->
+    <string name="lx_successful_checkout_no_email_label">Liput on lähetetty</string>
+    <!-- LX default when no email -->
+    <string name="lx_default_when_no_email">sähköpostiisi.</string>
     <!-- LX reservation confirmation text -->
     <string name="lx_successful_checkout_reservation_label">Varauksesi on vahvistettu!</string>
     <!-- Text for getting current location suggestion -->
@@ -1350,6 +1361,14 @@
     <string name="itin_card_details_reload_hotel">Lataa hotellitiedot uudelleen</string>
     <string name="itin_card_details_reload_cruise">Lataa risteilytiedot uudelleen</string>
     <string name="itin_card_details_remove_itin">Poista matkasuunnitelmasta</string>
+
+    <!--Trip Folders-->
+    <!--Trip folder upcoming tab title-->
+    <string name="trip_folder_upcoming_tab_title">Tulevat</string>
+    <!--Trip folder past tab title-->
+    <string name="trip_folder_past_tab_title">Menneet</string>
+    <!--Trip folder cancelled tab title-->
+    <string name="trip_folder_cancelled_tab_title">Peruutetut</string>
 
     <!--Hotel itin card room details heading-->
     <string name="itin_hotel_details_room_details_title_text">Huoneesi</string>
@@ -2461,9 +2480,9 @@
     <!-- Legal information header -->
     <string name="legal_information">Lakitiedot</string>
     <!-- Rules and Restrictions for flight -->
-    <string name="rules_and_restrictions">Ehdot ja rajoitukset</string>
+    <string name="rules_and_restrictions">Säännöt ja rajoitukset</string>
     <!-- Terms and Conditions for flight -->
-    <string name="terms_and_conditions">Ehdot</string>
+    <string name="terms_and_conditions">Ehdot ja rajoitukset</string>
     <!-- Terms of Booking for some POSes (UK, IT) -->
     <string name="Terms_of_Booking">Varauksen ehdot</string>
     <!-- Privacy policy -->
@@ -2742,6 +2761,19 @@
     <string name="vip">+VIP</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
+
+    <!-- display guest rating out of 5: Example: 4.6/5 -->
+    <string name="hotel_guest_rating_out_of_five_TEMPLATE">{rating} / 5</string>
+    <!-- indicate hotel guest rating for guest rating -->
+    <string name="hotel_guest_rating">” – asiakasarvostelu”</string>
+    <!-- hotel guest rating superlative suffixe
+    s for guest rating -->
+    <string name="hotel_guest_recommend_good">– Hyvä!</string>
+    <string name="hotel_guest_recommend_very_good">– Erittäin hyvä!</string>
+    <string name="hotel_guest_recommend_excellent">– Erinomainen!</string>
+    <string name="hotel_guest_recommend_wonderful">– Upea!</string>
+    <string name="hotel_guest_recommend_exceptional">– Loistava!</string>
+
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">/ 5 – asiakasluokitus</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
@@ -2751,19 +2783,22 @@
     <string name="hotel_guest_recommend_wonderful_superlative">/ 5 – Upea!</string>
     <string name="hotel_guest_recommend_exceptional_superlative">/ 5 – Loistava!</string>
 
+    <!-- User rating number out of five on review page-->
+    <string name="hotel_user_review_rating_out_of_five">/ 5</string>
+
     <!-- Flights Score results -->
     <!-- Route Happy AB Test: Example: 9/10 - Excellent! -->
-    <string name="flight_score_excellent_superlative_TEMPLATE">{flight_score} / 10 – Erinomainen!</string>
+    <string name="route_score_excellent_superlative_TEMPLATE">{route_score} / 10 – Erinomainen!</string>
     <!-- Route Happy AB Test: Example: 8.1/10 - Very Good! -->
-    <string name="flight_score_very_good_superlative_TEMPLATE">{flight_score} / 10 – Erittäin hyvä!</string>
+    <string name="route_score_very_good_superlative_TEMPLATE">{route_score} / 10 – Erittäin hyvä!</string>
     <!-- Route Happy AB Test: Example: 7.5/10 - Good! -->
-    <string name="flight_score_good_superlative_TEMPLATE">{flight_score} / 10 – Hyvä!</string>
+    <string name="route_score_good_superlative_TEMPLATE">{route_score} / 10 – Hyvä!</string>
     <!-- Route Happy AB Test: Example: 7/10 - Okay! -->
-    <string name="flight_score_okay_superlative_TEMPLATE">{flight_score} / 10 – Keskinkertainen</string>
+    <string name="route_score_okay_superlative_TEMPLATE">{route_score} / 10 – Keskinkertainen</string>
     <!-- Route Happy AB Test: Example: 6/10 - Fair! -->
-    <string name="flight_score_fair_superlative_TEMPLATE">{flight_score} / 10 – Kohtalainen</string>
+    <string name="route_score_fair_superlative_TEMPLATE">{route_score} / 10 – Kohtalainen</string>
     <!-- Route Happy AB Test: Example: 5.5/10 - Poor! -->
-    <string name="flight_score_poor_superlative_TEMPLATE">{flight_score} / 10 – Huono</string>
+    <string name="route_score_poor_superlative_TEMPLATE">{route_score} / 10 – Huono</string>
 
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount} %</string>
@@ -2871,16 +2906,15 @@
     <!-- Text for button to see original, untranslated review text -->
     <string name="user_review_see_original">Katso alkuperäinen</string>
 
-    <!-- HOtel V2A number of reviews -->
+    <!-- Hotel V2A number of reviews -->
     <plurals name="hotel_number_of_reviews">
-        <item quantity="zero">Ei arvosteluja</item>
+        <item quantity="zero">0 arvostelua</item>
         <item quantity="one">Lue %s arvostelu</item>
         <item quantity="two">Lue %s arvostelua</item>
         <item quantity="many">Lue %s arvostelua</item>
         <item quantity="other">Lue %s arvostelua</item>
     </plurals>
 
-    <string name="zero_reviews">0 arvostelua</string>
     <!--
          User review name and place review signature eg (John from San Diego, CA)
         1$ is the user name
@@ -3024,8 +3058,6 @@
     <!-- Confirmation activity -->
     <!-- Confirmation number label -->
     <string name="confirmation_number">Vahvistusnumero</string>
-    <!-- Confirmation number accessibility template eg. Confirmation Number: 12345-->
-    <string name="confirmation_number_TEMPLATE">Vahvistusnumero: {number}</string>
     <!-- Itinerary number label -->
     <string name="itinerary_number">Matkasuunnitelman numero</string>
     <!-- Itinerary number label content description -->
@@ -3801,7 +3833,8 @@
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">Vahvistan, että olen lukenut ja hyväksyn {terms_of_use} ja {privacy_policy}.</string>
     <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">Liity {brand_reward_name} -ohjelmaan nyt. Liittymällä {brand_reward_name} -ohjelmaan hyväksyt {terms_and_conditions}.</string>
-
+    <!--Account creation legal template for terms and reward eg: By creating an account, I accept the Expedia Rewards Terms & Conditions, and have read and accept the Terms of Use and the Privacy Policy.-->
+    <string name="account_creation_new_terms_reward_TEMPLATE">Luomalla tilin hyväksyt {brand_reward_name} -ohjelman {terms_and_conditions} ja olet lukenut ja hyväksyt {terms_of_use} ja {privacy_policy}.</string>
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Valitse jokaisen lapsen ikä</string>
 
@@ -4009,8 +4042,6 @@
     <string name="select_flight_selected_cont_desc_TEMPLATE">Olet valinnut lennon kohteeseen {flight}, {datetraveler}. {expandstate} lentotiedot.</string>
     <!-- Bundle Overview collapsed flight card with more info accessibility content description-->
     <string name="row_expand_button_description">Pienennetty-painike. Napauta kahdesti avataksesi.</string>
-    <!-- Bundle Overview expanded flight card accessibility content description. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. Expanded button. Double tap to collapse. -->
-    <string name="bundle_overview_detailed_button_description_TEMPLATE">{rowdescription} Suurennettu-painike. Napauta kahdesti pienentääksesi.</string>
     <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. Collapsed button. Double tap to expand. -->
     <string name="bundle_overview_free_canellation_collapsed_button_description_TEMPLATE">{rowdescription}. Pienennetty-painike. Napauta kahdesti avataksesi.</string>
     <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. After 24 hours, standard flight rules apply. Expanded button. Double tap to collapse. -->
@@ -4170,7 +4201,7 @@
     <string name="slide_to_book_text">Liu\&apos;uta ostaaksesi</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
     <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia Rewards Points -->
-    <string name="confirmation_reward_points_TEMPLATE">{rewardpoints} {brand_reward_name}-pistettä</string>
+    <string name="confirmation_reward_points_TEMPLATE">{rewardpoints} {brand_reward_name} -pistettä</string>
     <!-- Confirmation Text in new Flights Confirmation Summary widget indicating rewards earned for the booked flight E.g. 183 points earned-->
     <string name="confirmation_flight_reward_points_earned_TEMPLATE">{rewardpoints} pistettä ansaittu</string>
 
@@ -4696,7 +4727,7 @@
     <string name="flight_filter_checkbox_disabled_with_price__cont_desc_TEMPLATE">lennot, {filter_name}, alkaen {price}. Et voi poistaa valintaa, jokainen lentohakutulos on {filter_name}.\u0020</string>
 
     <!-- Status displayed in a modal dialog while insurance is being added -->
-    <string name="insurance_adding">Lisätään matkavakuutusta…</string>
+    <string name="insurance_adding">Matkavakuutusta lisätään…</string>
     <!-- Error message displayed when insurance fails to be added to a trip -->
     <string name="insurance_add_error">Valitettavasti emme pystyneet lisäämään tätä matkavakuutusta. Yritä uudelleen tai jatka varauksen tekemistä ilman matkavakuutusta.</string>
     <!-- Benefits of purchasing insurance for domestic flights -->
@@ -5095,5 +5126,10 @@
 
     <!--Accessibility Content Description for Member Pricing Discount Percentage Eg. Member Pricing Discount: 10%-->
     <string name="lx_member_pricing_discount_percent_TEMPLATE">Jäsenille tarkoitettu alennus: {discount} %</string>
+
+    <!--Flight dropdown location template Eg. Brisbane, Australia-->
+    <string name="flight_dropdown_airport_location_TEMPLATE">{airport}, {country}</string>
+    <!--Flight dropdown airport Eg. BNE - Brisbane Airport-->
+    <string name="flight_dropdown_airport_details_TEMPLATE">{airport_code} – {airport_name}</string>
 
 </resources>

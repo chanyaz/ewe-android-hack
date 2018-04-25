@@ -101,6 +101,13 @@
         <item quantity="other">{number} ผลลัพธ์</item>
     </plurals>
 
+    <!-- Title message displayed when there are no items in the user's favorite hotels list -->
+    <string name="hotel_favorites_page_empty_title">บันทึกรายการโปรดของคุณ</string>
+    <!-- Subtitle message displayed when there are no items in the user's favorites hotels list -->
+    <string name="hotel_favorites_page_empty_subtitle">เมื่อเจอโรงแรมถูกใจ คลิกที่ไอคอนรูปหัวใจเพื่อบันทึกเป็นรายการโปรดได้เลย</string>
+    <!-- Title at the top of the Hotel Favorites page containing the user's saved hotels -->
+    <string name="hotel_favorites_page_toolbar_title">โรงแรมที่บันทึกไว้</string>
+
     <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
     <plurals name="number_results_announcement_text_TEMPLATE">
         <item quantity="one">{number} ผลลัพธ์ที่ถูกกรอง</item>
@@ -622,6 +629,10 @@
     <string name="lx_error_limited_inventory">ขออภัย เรามีตั๋วไม่พอสำหรับวันที่เลือก โปรดลองเลือกวันอื่นหรือลดจำนวนตั๋วลง</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">ตั๋วของคุณส่งไปยัง</string>
+    <!-- LX confirmation itin text no email -->
+    <string name="lx_successful_checkout_no_email_label">เราได้ส่งตั๋วไปที่</string>
+    <!-- LX default when no email -->
+    <string name="lx_default_when_no_email">อีเมลของคุณแล้ว</string>
     <!-- LX reservation confirmation text -->
     <string name="lx_successful_checkout_reservation_label">การจองของคุณได้รับการยืนยันแล้ว!</string>
     <!-- Text for getting current location suggestion -->
@@ -1350,6 +1361,14 @@
     <string name="itin_card_details_reload_hotel">โหลดข้อมูลโรงแรมใหม่</string>
     <string name="itin_card_details_reload_cruise">โหลดข้อมูลทริปล่องเรือใหม่</string>
     <string name="itin_card_details_remove_itin">ลบออกจากแผนการเดินทาง</string>
+
+    <!--Trip Folders-->
+    <!--Trip folder upcoming tab title-->
+    <string name="trip_folder_upcoming_tab_title">ที่กำลังจะถึง</string>
+    <!--Trip folder past tab title-->
+    <string name="trip_folder_past_tab_title">ที่ผ่านมา</string>
+    <!--Trip folder cancelled tab title-->
+    <string name="trip_folder_cancelled_tab_title">ยกเลิก</string>
 
     <!--Hotel itin card room details heading-->
     <string name="itin_hotel_details_room_details_title_text">ห้องของคุณ</string>
@@ -2742,6 +2761,19 @@
     <string name="vip">+VIP</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
+
+    <!-- display guest rating out of 5: Example: 4.6/5 -->
+    <string name="hotel_guest_rating_out_of_five_TEMPLATE">{rating}/5</string>
+    <!-- indicate hotel guest rating for guest rating -->
+    <string name="hotel_guest_rating">" - คะแนนจากผู้เข้าพัก"</string>
+    <!-- hotel guest rating superlative suffixe
+    s for guest rating -->
+    <string name="hotel_guest_recommend_good">- ดี!</string>
+    <string name="hotel_guest_recommend_very_good">- ดีมาก!</string>
+    <string name="hotel_guest_recommend_excellent">- ดีเลิศ!</string>
+    <string name="hotel_guest_recommend_wonderful">- ยอดเยี่ยม!</string>
+    <string name="hotel_guest_recommend_exceptional">- ไร้ที่ติ!</string>
+
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">/5 - คะแนนจากผู้เข้าพัก</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
@@ -2751,19 +2783,22 @@
     <string name="hotel_guest_recommend_wonderful_superlative">/5 - ยอดเยี่ยม!</string>
     <string name="hotel_guest_recommend_exceptional_superlative">/5 - ไร้ที่ติ!</string>
 
+    <!-- User rating number out of five on review page-->
+    <string name="hotel_user_review_rating_out_of_five">/5</string>
+
     <!-- Flights Score results -->
     <!-- Route Happy AB Test: Example: 9/10 - Excellent! -->
-    <string name="flight_score_excellent_superlative_TEMPLATE">{flight_score}/10 - ดีเลิศ!</string>
+    <string name="route_score_excellent_superlative_TEMPLATE">{route_score}/10 - ดีเลิศ!</string>
     <!-- Route Happy AB Test: Example: 8.1/10 - Very Good! -->
-    <string name="flight_score_very_good_superlative_TEMPLATE">{flight_score}/10 - ดีมาก!</string>
+    <string name="route_score_very_good_superlative_TEMPLATE">{route_score}/10 - ดีมาก!</string>
     <!-- Route Happy AB Test: Example: 7.5/10 - Good! -->
-    <string name="flight_score_good_superlative_TEMPLATE">{flight_score}/10 - ดี!</string>
+    <string name="route_score_good_superlative_TEMPLATE">{route_score}/10 - ดี!</string>
     <!-- Route Happy AB Test: Example: 7/10 - Okay! -->
-    <string name="flight_score_okay_superlative_TEMPLATE">{flight_score}/10 - ปานกลาง</string>
+    <string name="route_score_okay_superlative_TEMPLATE">{route_score}/10 - ปานกลาง</string>
     <!-- Route Happy AB Test: Example: 6/10 - Fair! -->
-    <string name="flight_score_fair_superlative_TEMPLATE">{flight_score}/10 - พอใช้</string>
+    <string name="route_score_fair_superlative_TEMPLATE">{route_score}/10 - พอใช้</string>
     <!-- Route Happy AB Test: Example: 5.5/10 - Poor! -->
-    <string name="flight_score_poor_superlative_TEMPLATE">{flight_score}/10 - แย่
+    <string name="route_score_poor_superlative_TEMPLATE">{route_score}/10 - แย่
 </string>
 
     <!-- new material Hotel results cell discount percentage -->
@@ -2872,16 +2907,15 @@
     <!-- Text for button to see original, untranslated review text -->
     <string name="user_review_see_original">ดูต้นฉบับ</string>
 
-    <!-- HOtel V2A number of reviews -->
+    <!-- Hotel V2A number of reviews -->
     <plurals name="hotel_number_of_reviews">
-        <item quantity="zero">ไม่มีรีวิว</item>
+        <item quantity="zero">0 รีวิว</item>
         <item quantity="one">ดู %s รีวิว</item>
         <item quantity="two">ดู %s รีวิว</item>
         <item quantity="many">ดู %s รีวิว</item>
         <item quantity="other">ดู %s รีวิว</item>
     </plurals>
 
-    <string name="zero_reviews">0 รีวิว</string>
     <!--
          User review name and place review signature eg (John from San Diego, CA)
         1$ is the user name
@@ -3025,8 +3059,6 @@
     <!-- Confirmation activity -->
     <!-- Confirmation number label -->
     <string name="confirmation_number">รหัสการยืนยัน</string>
-    <!-- Confirmation number accessibility template eg. Confirmation Number: 12345-->
-    <string name="confirmation_number_TEMPLATE">หมายเลขยืนยัน: {number}</string>
     <!-- Itinerary number label -->
     <string name="itinerary_number">หมายเลขแผนการเดินทาง</string>
     <!-- Itinerary number label content description -->
@@ -3802,7 +3834,8 @@
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">ฉันได้อ่านและยอมรับ{terms_of_use}และ{privacy_policy}</string>
     <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">สมัคร {brand_reward_name} วันนี้ โดยการเข้าร่วม {brand_reward_name} ฉันยอมรับ{terms_and_conditions}ทั้งหมด</string>
-
+    <!--Account creation legal template for terms and reward eg: By creating an account, I accept the Expedia Rewards Terms & Conditions, and have read and accept the Terms of Use and the Privacy Policy.-->
+    <string name="account_creation_new_terms_reward_TEMPLATE">ในการสร้างบัญชีนี้ ฉันยอมรับ {terms_and_conditions} {brand_reward_name} และฉันได้อ่านและยอมรับ {terms_of_use} และ {privacy_policy} แล้ว</string>
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">โปรดระบุอายุเด็ก</string>
 
@@ -4010,8 +4043,6 @@
     <string name="select_flight_selected_cont_desc_TEMPLATE">คุณได้เลือกเที่ยวบินไป {flight} วันที่ {datetraveler} รายละเอียดเที่ยวบิน {expandstate}</string>
     <!-- Bundle Overview collapsed flight card with more info accessibility content description-->
     <string name="row_expand_button_description">ปุ่มยุบ แตะสองครั้งเพื่อขยาย</string>
-    <!-- Bundle Overview expanded flight card accessibility content description. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. Expanded button. Double tap to collapse. -->
-    <string name="bundle_overview_detailed_button_description_TEMPLATE">{rowdescription} ปุ่มขยาย แตะสองครั้งเพื่อยุบ</string>
     <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. Collapsed button. Double tap to expand. -->
     <string name="bundle_overview_free_canellation_collapsed_button_description_TEMPLATE">{rowdescription} ปุ่มย่อ แตะสองครั้งเพื่อขยาย</string>
     <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. After 24 hours, standard flight rules apply. Expanded button. Double tap to collapse. -->
@@ -5096,5 +5127,10 @@
 
     <!--Accessibility Content Description for Member Pricing Discount Percentage Eg. Member Pricing Discount: 10%-->
     <string name="lx_member_pricing_discount_percent_TEMPLATE">ส่วนลดราคาสำหรับสมาชิก: {discount}%</string>
+
+    <!--Flight dropdown location template Eg. Brisbane, Australia-->
+    <string name="flight_dropdown_airport_location_TEMPLATE">{airport}, {country}</string>
+    <!--Flight dropdown airport Eg. BNE - Brisbane Airport-->
+    <string name="flight_dropdown_airport_details_TEMPLATE">{airport_code} - {airport_name}</string>
 
 </resources>

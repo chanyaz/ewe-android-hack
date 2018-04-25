@@ -101,6 +101,13 @@
         <item quantity="other">{number} résultats</item>
     </plurals>
 
+    <!-- Title message displayed when there are no items in the user's favorite hotels list -->
+    <string name="hotel_favorites_page_empty_title">Enregistrez vos favoris</string>
+    <!-- Subtitle message displayed when there are no items in the user's favorites hotels list -->
+    <string name="hotel_favorites_page_empty_subtitle">Lorsque vous trouvez quelque chose que vous aimez, utilisez le cœur pour l\&apos;enregistrer dans vos favoris.</string>
+    <!-- Title at the top of the Hotel Favorites page containing the user's saved hotels -->
+    <string name="hotel_favorites_page_toolbar_title">Hôtels enregistrés</string>
+
     <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
     <plurals name="number_results_announcement_text_TEMPLATE">
         <item quantity="one">{number} résultat filtré</item>
@@ -622,6 +629,10 @@
     <string name="lx_error_limited_inventory">Désolés, nous n\&apos;avons pas assez de billets à la date sélectionnée. Veuillez sélectionner une autre date ou réduire le nombre de billets.</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">Vos billets ont été envoyés à cette adresse :</string>
+    <!-- LX confirmation itin text no email -->
+    <string name="lx_successful_checkout_no_email_label">Vos billets ont été envoyés à</string>
+    <!-- LX default when no email -->
+    <string name="lx_default_when_no_email">votre adresse e-mail.</string>
     <!-- LX reservation confirmation text -->
     <string name="lx_successful_checkout_reservation_label">Votre réservation est confirmée !</string>
     <!-- Text for getting current location suggestion -->
@@ -1350,6 +1361,14 @@
     <string name="itin_card_details_reload_hotel">Mettre à jour</string>
     <string name="itin_card_details_reload_cruise">Mettre à jour</string>
     <string name="itin_card_details_remove_itin">Supprimer du voyage</string>
+
+    <!--Trip Folders-->
+    <!--Trip folder upcoming tab title-->
+    <string name="trip_folder_upcoming_tab_title">À venir</string>
+    <!--Trip folder past tab title-->
+    <string name="trip_folder_past_tab_title">Passé</string>
+    <!--Trip folder cancelled tab title-->
+    <string name="trip_folder_cancelled_tab_title">Annulé</string>
 
     <!--Hotel itin card room details heading-->
     <string name="itin_hotel_details_room_details_title_text">Votre chambre</string>
@@ -2742,6 +2761,19 @@
     <string name="vip">+VIP</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
+
+    <!-- display guest rating out of 5: Example: 4.6/5 -->
+    <string name="hotel_guest_rating_out_of_five_TEMPLATE">{rating}/5</string>
+    <!-- indicate hotel guest rating for guest rating -->
+    <string name="hotel_guest_rating">- Note des clients</string>
+    <!-- hotel guest rating superlative suffixe
+    s for guest rating -->
+    <string name="hotel_guest_recommend_good">- Bien !</string>
+    <string name="hotel_guest_recommend_very_good">- Très bien !</string>
+    <string name="hotel_guest_recommend_excellent">- Excellent !</string>
+    <string name="hotel_guest_recommend_wonderful">- Superbe !</string>
+    <string name="hotel_guest_recommend_exceptional">- Exceptionnel !</string>
+
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">sur 5 - Note des clients</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
@@ -2751,19 +2783,22 @@
     <string name="hotel_guest_recommend_wonderful_superlative">/5 - Superbe !</string>
     <string name="hotel_guest_recommend_exceptional_superlative">/5 - Exceptionnel !</string>
 
+    <!-- User rating number out of five on review page-->
+    <string name="hotel_user_review_rating_out_of_five">/5</string>
+
     <!-- Flights Score results -->
     <!-- Route Happy AB Test: Example: 9/10 - Excellent! -->
-    <string name="flight_score_excellent_superlative_TEMPLATE">{flight_score}/10 - Excellent !</string>
+    <string name="route_score_excellent_superlative_TEMPLATE">{route_score}/10 - Excellent !</string>
     <!-- Route Happy AB Test: Example: 8.1/10 - Very Good! -->
-    <string name="flight_score_very_good_superlative_TEMPLATE">{flight_score}/10 - Très bien !</string>
+    <string name="route_score_very_good_superlative_TEMPLATE">{route_score}/10 - Très bien !</string>
     <!-- Route Happy AB Test: Example: 7.5/10 - Good! -->
-    <string name="flight_score_good_superlative_TEMPLATE">{flight_score}/10 - Bien !</string>
+    <string name="route_score_good_superlative_TEMPLATE">{route_score}/10 - Bien !</string>
     <!-- Route Happy AB Test: Example: 7/10 - Okay! -->
-    <string name="flight_score_okay_superlative_TEMPLATE">{flight_score}/10 - O.K !</string>
+    <string name="route_score_okay_superlative_TEMPLATE">{route_score}/10 - O.K !</string>
     <!-- Route Happy AB Test: Example: 6/10 - Fair! -->
-    <string name="flight_score_fair_superlative_TEMPLATE">{flight_score}/10 - Correct !</string>
+    <string name="route_score_fair_superlative_TEMPLATE">{route_score}/10 - Correct !</string>
     <!-- Route Happy AB Test: Example: 5.5/10 - Poor! -->
-    <string name="flight_score_poor_superlative_TEMPLATE">{flight_score}/10 - Médiocre !</string>
+    <string name="route_score_poor_superlative_TEMPLATE">{route_score}/10 - Médiocre !</string>
 
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
@@ -2871,16 +2906,15 @@
     <!-- Text for button to see original, untranslated review text -->
     <string name="user_review_see_original">Voir l\&apos;original</string>
 
-    <!-- HOtel V2A number of reviews -->
+    <!-- Hotel V2A number of reviews -->
     <plurals name="hotel_number_of_reviews">
-        <item quantity="zero">Aucun avis</item>
+        <item quantity="zero">0 avis</item>
         <item quantity="one">Afficher %s avis</item>
         <item quantity="two">Afficher %s avis</item>
         <item quantity="many">Afficher %s avis</item>
         <item quantity="other">Afficher %s avis</item>
     </plurals>
 
-    <string name="zero_reviews">0 avis</string>
     <!--
          User review name and place review signature eg (John from San Diego, CA)
         1$ is the user name
@@ -3024,8 +3058,6 @@
     <!-- Confirmation activity -->
     <!-- Confirmation number label -->
     <string name="confirmation_number">N° de confirmation</string>
-    <!-- Confirmation number accessibility template eg. Confirmation Number: 12345-->
-    <string name="confirmation_number_TEMPLATE">Numéro de confirmation : {number}</string>
     <!-- Itinerary number label -->
     <string name="itinerary_number">N° de voyage</string>
     <!-- Itinerary number label content description -->
@@ -3801,7 +3833,8 @@
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">J\&apos;ai lu et j\&apos;accepte les {terms_of_use} et la {privacy_policy}.</string>
     <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">Inscrivez-vous à {brand_reward_name} aujourd\&apos;hui. En rejoignant {brand_reward_name}, j\&apos;accepte l\&apos;ensemble des {terms_and_conditions}.</string>
-
+    <!--Account creation legal template for terms and reward eg: By creating an account, I accept the Expedia Rewards Terms & Conditions, and have read and accept the Terms of Use and the Privacy Policy.-->
+    <string name="account_creation_new_terms_reward_TEMPLATE">En créant un compte, j\&apos;accepte les {terms_and_conditions} {brand_reward_name} et je reconnais avoir lu et accepté les {terms_of_use} et la {privacy_policy}.</string>
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Sélectionnez l\&apos;âge de tous les enfants</string>
 
@@ -4009,8 +4042,6 @@
     <string name="select_flight_selected_cont_desc_TEMPLATE">Vous avez sélectionné un vol pour {flight} le {datetraveler}. {expandstate} les détails du vol.</string>
     <!-- Bundle Overview collapsed flight card with more info accessibility content description-->
     <string name="row_expand_button_description">Bouton réduit. Appuyez deux fois pour développer.</string>
-    <!-- Bundle Overview expanded flight card accessibility content description. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. Expanded button. Double tap to collapse. -->
-    <string name="bundle_overview_detailed_button_description_TEMPLATE">{rowdescription}. Bouton développé. Appuyez deux fois pour réduire.</string>
     <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. Collapsed button. Double tap to expand. -->
     <string name="bundle_overview_free_canellation_collapsed_button_description_TEMPLATE">{rowdescription}. Bouton réduit. Appuyez deux fois pour développer.</string>
     <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. After 24 hours, standard flight rules apply. Expanded button. Double tap to collapse. -->
@@ -5095,5 +5126,10 @@
 
     <!--Accessibility Content Description for Member Pricing Discount Percentage Eg. Member Pricing Discount: 10%-->
     <string name="lx_member_pricing_discount_percent_TEMPLATE">Réduction tarifs membres : {discount} %</string>
+
+    <!--Flight dropdown location template Eg. Brisbane, Australia-->
+    <string name="flight_dropdown_airport_location_TEMPLATE">{airport}, {country}</string>
+    <!--Flight dropdown airport Eg. BNE - Brisbane Airport-->
+    <string name="flight_dropdown_airport_details_TEMPLATE">{airport_code} - {airport_name}</string>
 
 </resources>
