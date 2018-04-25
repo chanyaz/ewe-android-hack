@@ -201,11 +201,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             }
         }
 
-        if (isByotEnabled) {
-            presenter.detailsPresenter.vm.selectedFlightClickedSubject.subscribe {
-                searchTrackingBuilder.markSearchClicked()
-                searchTrackingBuilder.searchParams(Db.getFlightSearchParams())
-            }
+        presenter.detailsPresenter.vm.selectedFlightClickedSubject.subscribe {
+            searchTrackingBuilder.markSearchClicked()
+            searchTrackingBuilder.searchParams(Db.getFlightSearchParams())
         }
         presenter
     }
@@ -237,19 +235,17 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             true
         })
         presenter.setupComplete()
-        if (isByotEnabled) {
-            presenter.flightOfferViewModel.inboundResultsObservable.subscribe {
-                searchTrackingBuilder.markResultsProcessed()
-                searchTrackingBuilder.searchResponse(it)
-            }
+        presenter.flightOfferViewModel.inboundResultsObservable.subscribe {
+            searchTrackingBuilder.markResultsProcessed()
+            searchTrackingBuilder.searchResponse(it)
+        }
 
-            (presenter.resultsPresenter.recyclerView.adapter as FlightListAdapter).allViewsLoadedTimeObservable.subscribe {
-                searchTrackingBuilder.markResultsUsable()
-                if (searchTrackingBuilder.isWorkComplete()) {
-                    val trackingData = searchTrackingBuilder.build()
-                    FlightsV2Tracking.trackResultInBoundFlights(trackingData, Pair(flightOfferViewModel.confirmedOutboundFlightSelection.value.legRank,
-                            flightOfferViewModel.totalOutboundResults))
-                }
+        (presenter.resultsPresenter.recyclerView.adapter as FlightListAdapter).allViewsLoadedTimeObservable.subscribe {
+            searchTrackingBuilder.markResultsUsable()
+            if (searchTrackingBuilder.isWorkComplete()) {
+                val trackingData = searchTrackingBuilder.build()
+                FlightsV2Tracking.trackResultInBoundFlights(trackingData, Pair(flightOfferViewModel.confirmedOutboundFlightSelection.value.legRank,
+                        flightOfferViewModel.totalOutboundResults))
             }
         }
         presenter
@@ -348,6 +344,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
 
         presenter.viewModel.showWebviewCheckoutObservable.subscribe {
+            webCheckoutView.toggleLoading(webCheckoutView.webView.progress < 33)
             show(webCheckoutView)
             webCheckoutView.visibility = View.VISIBLE
             webCheckoutView.viewModel.showWebViewObservable.onNext(true)
@@ -394,6 +391,11 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             createTripBuilder = FlightCreateTripParams.Builder()
             createTripBuilder.productKey(productKey)
             createTripBuilder.setFlexEnabled(isFlexEnabled(context))
+            if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsAPIKongEndPoint)) {
+                createTripBuilder.setNumberOfAdultTravelers(Db.getFlightSearchParams().adults)
+                createTripBuilder.setChildTravelerAge(Db.getFlightSearchParams().children)
+                createTripBuilder.setInfantSeatingInLap(Db.getFlightSearchParams().infantSeatingInLap)
+            }
             if (EBAndroidAppFlightSubpubChange) {
                 createTripBuilder.setFeatureOverride(Constants.FEATURE_SUBPUB)
             }
@@ -429,8 +431,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
         viewModel.inboundResultsObservable.subscribe {
             if (!isByotEnabled) {
-                searchTrackingBuilder.searchResponse(it)
-                inboundPresenter.trackFlightResultsLoad()
                 showInboundPresenter(viewModel.searchParamsObservable.value.departureAirport)
             }
         }

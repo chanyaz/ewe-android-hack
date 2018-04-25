@@ -128,6 +128,13 @@ class AbstractMaterialFlightResultsPresenterTest {
         assertFalse(sut.toolbarViewModel.isOutboundSearch.value)
     }
 
+    @Test
+    fun testLoadingWidgetVisibilityForInbound() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFLightLoadingStateV1)
+        createSystemUnderTest(isOutboundPresenter = false)
+        assertEquals(View.GONE, sut.resultsPresenter.flightLoadingWidget.visibility)
+    }
+
     private fun createSystemUnderTest(isOutboundPresenter: Boolean) {
         val activity = Robolectric.buildActivity(FragmentActivity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Packages)

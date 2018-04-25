@@ -17,8 +17,7 @@
 
     <!-- MID CKO Confirmation Tag -->
     <string name="mid_confirmation_url_tag">MultiItemBookingConfirmation</string>
-
-    <!-- Hotel CKO Confirmation Tag -->
+    <string name="flight_confirmation_url_tag">Confirmation-Flight</string>
     <string name="hotel_confirmation_url_tag">HotelBookingConfirmation</string>
 
     <!-- LX Web Confirmation Tag -->
@@ -483,4 +482,15 @@
     <!--Carnival OLACID Template-->
     <string name="carnival_default_olacid_TEMPLATE">OLA.{brand}-{pos}.PUSH-EVENT-TRIG.CARNIVAL.UNSPECIFIED.GENERIC</string>
     <string name="bullet">\u2022</string>
+
+    <!-- Customer First Guarantee for Travelocity only -->
+    <string name="customer_first_chat_with_us_now" />
+    <string name="customer_first_we_are_here_for_you" />
+    <string name="customer_first_support_toolbar_title" />
+
+    <!-- Hotel Shortlist Values-->
+    <string name="hotel_shortlist_test_client_token">YjNlMmM2YzYtYTJhNS00NDEwLWE1NjMtMTI4MmRmNTc2MTcy</string>
+    <string name="hotel_shortlist_prod_client_token">MTA3ZTc3ZmYtZjZiMi00M2IxLWFjODEtYzY3ZjcwMmFlY2Iy</string>
+    <string name="hotel_shortlist_client_id">androidHotel</string>
+
 </resources>

@@ -7,6 +7,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.TextView
 import com.google.android.gms.maps.GoogleMap
@@ -92,6 +94,9 @@ class HotelMapClusterRenderer(private val context: Context, map: GoogleMap?, clu
 
     private fun getClusterBackground(isSoldOutCluster: Boolean): Drawable {
         if (isSoldOutCluster) {
+            if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelMapSmallSoldOutPins)) {
+                return ContextCompat.getDrawable(context, R.drawable.cluster_red_pin)
+            }
             return ContextCompat.getDrawable(context, R.drawable.sold_out_pin)
         } else {
             return ContextCompat.getDrawable(context, Ui.obtainThemeResID(context, R.attr.hotel_map_tooltip_drawable))

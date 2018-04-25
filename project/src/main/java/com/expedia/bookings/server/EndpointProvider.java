@@ -209,6 +209,24 @@ public class EndpointProvider {
 		return endpoint;
 	}
 
+	public String getHotelShortlistEndpointUrl() {
+		String endpoint;
+		switch (getEndPoint()) {
+		case MOCK_MODE:
+			endpoint = getCustomServerAddress();
+			break;
+		case INTEGRATION:
+			endpoint = "https://wwwexpediacom.integration.sb.karmalab.net/";
+			break;
+		case PRODUCTION:
+			endpoint = "https://www.expedia.com/";
+			break;
+		default:
+			endpoint = "https://www.expedia.com/";
+		}
+		return endpoint;
+	}
+
 	//TODO: switch to satelliteEndpointUrl above once things are stable in prod.
 	public String getSatelliteHotelEndpointUrl() {
 		String endpoint;

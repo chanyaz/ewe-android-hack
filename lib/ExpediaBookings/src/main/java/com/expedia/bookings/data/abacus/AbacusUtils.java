@@ -50,6 +50,7 @@ public class AbacusUtils {
 	// Trips tests
 	public static final ABTest TripsNewFlightAlerts = new ABTest(16205, true);
 	public static final ABTest TripsHotelsM2 = new ABTest(24601, true);
+	public static final ABTest EBAndroidAppHotelTripTaxiCard = new ABTest(25484, true);
 	public static final ABTest EBAndroidAppTripsUserReviews = new ABTest(24499, true);
 	public static final ABTest EBAndroidAppTripsHotelPricing = new ABTest(25537, true);
 	public static final ABTest TripFoldersFragment = new ABTest(25538, true);
@@ -73,7 +74,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppFlightsEvolable = new ABTest(16345);
 	public static final ABTest EBAndroidAppFlightsBaggageWebViewHideAd = new ABTest(16334);
 	public static final ABTest EBAndroidAppFlightsGreedySearchCall = new ABTest(15962, true);
-	public static final ABTest EBAndroidAppFlightsAPIKongEndPoint = new ABTest(16382, true);
+	public static final ABTest EBAndroidAppFlightsAPIKongEndPoint = new ABTest(25680, true);
 	public static final ABTest EBAndroidAppFLightLoadingStateV1 = new ABTest(25528, true);
 	public static final ABTest EBAndroidAppFlightsRecentSearch = new ABTest(25527, true);
 	public static final ABTest EBAndroidAppFlightsRichContent = new ABTest(25580, true);
@@ -102,8 +103,9 @@ public class AbacusUtils {
 	public static final ABTest HotelGuestRatingFilter = new ABTest(25533, true);
 	public static final ABTest HotelSearchResultsFloatingActionPill = new ABTest(25531, true);
 	public static final ABTest HotelUGCTranslations = new ABTest(25532, true);
-	public static final ABTest HotelTravelPulseLists = new ABTest(25630, true);
+	public static final ABTest HotelShortlist = new ABTest(25630, true);
 	public static final ABTest HotelUGCReviewsBoxRatingDesign = new ABTest(25455, true);
+	public static final ABTest HotelMapSmallSoldOutPins = new ABTest(25410, true);
 
 	// Cars Web View Tests
 	public static final ABTest EBAndroidAppCarsFlexView = new ABTest(14632);
@@ -121,11 +123,13 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppPackagesFFPremiumClass = new ABTest(25557, true);
 	public static final ABTest CardExpiryDateFormField = new ABTest(24734, true);
 	public static final ABTest EBAndroidAppPackagesWebviewFHC = new ABTest(25555, true);
+	public static final ABTest EBAndroidAppPackagesAATest = new ABTest(25714, true);
 
 	// Account
 	public static final ABTest EBAndroidAppAccountRecaptcha = new ABTest(15652, true);
 	public static final ABTest EBAndroidAppAccountsAPIKongEndPoint = new ABTest(24860, true);
 	public static final ABTest EBAndroidAppAccountsEditWebView = new ABTest(25566, true);
+	public static final ABTest EBAndroidAppAccountNewSignIn = new ABTest(24581, true);
 
 	// Launch
 	public static final ABTest EBAndroidAppBrandColors = new ABTest(15846);
@@ -133,6 +137,7 @@ public class AbacusUtils {
 	public static final ABTest RewardLaunchCard = new ABTest(25001, true);
 	public static final ABTest EBAndroidAppBottomNavTabs = new ABTest(25565, true);
 	public static final ABTest DisableSignInPageAsFirstScreen = new ABTest(25030, true);
+	public static final ABTest CustomerFirstGuarantee = new ABTest(25382, true);
 
 	// Soft Prompt
 	public static final ABTest EBAndroidAppSoftPromptLocation = new ABTest(15119);
@@ -204,6 +209,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppBrandColors.getKey());
 		testIDs.add(MesoAd.getKey());
 		testIDs.add(RewardLaunchCard.getKey());
+		testIDs.add(CustomerFirstGuarantee.getKey());
 		testIDs.add(DisableSignInPageAsFirstScreen.getKey());
 		testIDs.add(EBAndroidAppFlightsKrazyglue.getKey());
 		testIDs.add(HotelRoomImageGallery.getKey());
@@ -224,6 +230,7 @@ public class AbacusUtils {
 		testIDs.add(HotelAmenityFilter.getKey());
 		testIDs.add(TripsHotelsM2.getKey());
 		testIDs.add(EBAndroidAppTripsHotelPricing.getKey());
+		testIDs.add(EBAndroidAppHotelTripTaxiCard.getKey());
 		testIDs.add(HotelNewFilterCtaText.getKey());
 		testIDs.add(HotelDatelessInfosite.getKey());
 		testIDs.add(HotelUrgencyV2.getKey());
@@ -248,10 +255,13 @@ public class AbacusUtils {
 		testIDs.add(HotelGuestRatingFilter.getKey());
 		testIDs.add(HotelSearchResultsFloatingActionPill.getKey());
 		testIDs.add(HotelUGCTranslations.getKey());
-		testIDs.add(HotelTravelPulseLists.getKey());
+		testIDs.add(HotelShortlist.getKey());
 		testIDs.add(HotelUGCReviewsBoxRatingDesign.getKey());
 		testIDs.add(EBAndroidAppFlightsContentHighlightInTypeahead.getKey());
+		testIDs.add(EBAndroidAppAccountNewSignIn.getKey());
+		testIDs.add(HotelMapSmallSoldOutPins.getKey());
 		testIDs.add(EBAndroidAppLxWebCheckoutView.getKey());
+		testIDs.add(EBAndroidAppPackagesAATest.getKey());
 		return testIDs;
 	}
 

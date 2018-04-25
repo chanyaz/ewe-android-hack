@@ -16,8 +16,11 @@ import com.expedia.bookings.hotel.util.HotelInfoManager;
 import com.expedia.bookings.hotel.util.HotelReviewsDataProvider;
 import com.expedia.bookings.hotel.util.HotelSearchManager;
 import com.expedia.bookings.hotel.util.HotelSearchParamsProvider;
+import com.expedia.bookings.http.HotelShortlistRequestInterceptor;
+import com.expedia.bookings.http.TravelGraphRequestInterceptor;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.HotelServices;
+import com.expedia.bookings.services.HotelShortlistServices;
 import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.services.LoyaltyServices;
 import com.expedia.bookings.services.ReviewsServices;
@@ -96,12 +99,36 @@ public final class HotelModule {
 	}
 
 	@Provides
+	@Named("TravelGraphInterceptor")
+	Interceptor provideTravelGraphInterceptor(final Context context, final EndpointProvider endpointProvider) {
+		return new TravelGraphRequestInterceptor(context, endpointProvider);
+	}
+
+	@Provides
 	@HotelScope
 	TravelGraphServices provideTravelGraphServices(EndpointProvider endpointProvider, OkHttpClient client,
 		Interceptor interceptor,
 		@Named("TravelGraphInterceptor") Interceptor tgRequestInterceptor) {
 		final String endpoint = endpointProvider.getTravelGraphEndpointUrl();
 		return new TravelGraphServices(endpoint, client, interceptor, tgRequestInterceptor,
+			AndroidSchedulers.mainThread(), Schedulers.io());
+	}
+
+	@Provides
+	@Named("HotelShortlistInterceptor")
+	Interceptor provideHotelShortlistInterceptor(final Context context, final EndpointProvider endpointProvider) {
+		return new HotelShortlistRequestInterceptor(context, endpointProvider);
+	}
+
+	@Provides
+	HotelShortlistServices provideHotelShortlistServices(EndpointProvider endpointProvider,
+		OkHttpClient client,
+		Interceptor interceptor,
+		@Named("HotelShortlistInterceptor") Interceptor hotelShortlistInterceptor) {
+		return new HotelShortlistServices(endpointProvider.getHotelShortlistEndpointUrl(),
+			client,
+			interceptor,
+			hotelShortlistInterceptor,
 			AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 

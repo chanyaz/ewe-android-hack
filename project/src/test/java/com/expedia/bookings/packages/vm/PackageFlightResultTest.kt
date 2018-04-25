@@ -1,17 +1,16 @@
 package com.expedia.bookings.packages.vm
 
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
-import com.expedia.bookings.data.packages.PackageSearchResponse
-import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.test.MockPackageServiceTestRule
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowDateFormat
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
@@ -19,7 +18,6 @@ import org.robolectric.annotation.Config
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowDateFormat::class))
@@ -27,6 +25,9 @@ class PackageFlightResultTest {
     var vm: PackageFlightViewModel by Delegates.notNull()
     var flight: FlightLeg by Delegates.notNull()
     val context = RuntimeEnvironment.application
+
+    val mockPackageServiceRule: MockPackageServiceTestRule = MockPackageServiceTestRule()
+        @Rule get
 
     @Before
     fun before() {
@@ -90,27 +91,6 @@ class PackageFlightResultTest {
         assertEquals(vm.duration, "25h 10m (Nonstop)")
     }
 
-    @Test
-    fun testFlightSortByPrice() {
-        val searchResponse = PackageSearchResponse()
-        searchResponse.packageResult = PackageSearchResponse.PackageResult()
-        searchResponse.packageResult.flightsPackage = PackageSearchResponse.FlightPackage()
-        searchResponse.packageResult.flightsPackage.flights = makeFlightList()
-        Db.setPackageResponse(searchResponse)
-
-        val resultsVM = PackageResultsViewModel(context)
-        val testSubscriber = TestObserver<List<FlightLeg>>()
-        resultsVM.flightResultsObservable.subscribe(testSubscriber)
-        resultsVM.flightResultsObservable.onNext(searchResponse.packageResult.flightsPackage.flights)
-        val testSubscriberResult = testSubscriber.values()[0]
-
-        for (i in 2..testSubscriberResult.size - 1) {
-            val current = testSubscriberResult[i].packageOfferModel.price.packageTotalPrice.amount
-            val previous = testSubscriberResult[i - 1].packageOfferModel.price.packageTotalPrice.amount
-            assertTrue(current.compareTo(previous) > 0, "Expected $current >= $previous")
-        }
-    }
-
     fun makeFlight(): FlightLeg {
         val flight = FlightLeg()
         flight.flightSegments = ArrayList()
@@ -134,17 +114,5 @@ class PackageFlightResultTest {
         airlines.add(airline2)
         flight.airlines = airlines
         return flight
-    }
-
-    fun makeFlightList(): List<FlightLeg> {
-        val flightList = ArrayList<FlightLeg>()
-        val flight1 = makeFlight()
-        val flight2 = makeFlight()
-        flight2.packageOfferModel.price.packageTotalPrice = Money("100", "USD")
-        flight.packageOfferModel.price.deltaPositive = true
-        flight.packageOfferModel.price.differentialPriceFormatted = "$0"
-        flightList.add(flight1)
-        flightList.add(flight2)
-        return flightList
     }
 }

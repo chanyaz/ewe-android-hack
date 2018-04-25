@@ -232,12 +232,8 @@ class PackagesTracking {
         OmnitureTracking.trackPackagesHotelMapSelectRoomClick()
     }
 
-    fun trackSearchError(errorType: String) {
-        OmnitureTracking.trackPackagesSearchError(errorType)
-    }
-
-    fun trackInfositeError(errorType: String) {
-        OmnitureTracking.trackPackagesInfositeError(errorType)
+    fun trackShoppingError(apiCallFailing: ApiCallFailing) {
+        OmnitureTracking.trackPackagesShoppingError(apiCallFailing.getErrorStringForTracking())
     }
 
     fun trackCheckoutError(error: ApiError) {

@@ -92,6 +92,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
     override fun showCheckout() {
         if (isShowFlightsNativeRateDetailsWebviewCheckoutEnabled(context)) {
             resetCheckoutState()
+            trackCheckoutPageLoad()
             viewModel.showWebviewCheckoutObservable.onNext(Unit)
         } else {
             super.showCheckout()

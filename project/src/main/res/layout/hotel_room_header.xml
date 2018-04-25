@@ -43,6 +43,7 @@
         android:layout_marginTop="@dimen/hotel_room_top_padding"
         android:layout_toLeftOf="@+id/room_info_icon"
         android:ellipsize="end"
+        android:focusableInTouchMode="true"
         android:maxLines="2" />
 
     <ImageView

@@ -44,6 +44,7 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.analytics.cesc.CESCTrackingUtil;
 import com.expedia.bookings.analytics.cesc.PersistingCESCDataUtil;
 import com.expedia.bookings.analytics.cesc.SharedPrefsCESCPersistenceProvider;
+import com.expedia.bookings.data.AbstractItinDetailsResponse;
 import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightItinDetailsResponse;
@@ -268,7 +269,6 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_SEARCH_MAP_TO_LIST = "App.Hotels.Search.Expand.List";
 	private static final String HOTELSV2_SEARCH_MAP_TAP_PIN = "App.Hotels.Search.TapPin";
 	private static final String HOTELSV2_SEARCH_THIS_AREA = "App.Hotels.Search.AreaSearch";
-	private static final String HOTELSV2_SEARCH_HIDE_MINI_MAP = "App.Hotels.Search.HideMiniMap";
 	private static final String HOTELSV2_DETAILS_PAGE = "App.Hotels.Infosite";
 	private static final String HOTELSV2_SOLD_OUT_PAGE = "App.Hotels.Infosite.SoldOut";
 	private static final String HOTELSV2_DETAILS_ERROR = "App.Hotels.Infosite.Error";
@@ -915,6 +915,7 @@ public class OmnitureTracking {
 			s.setEvents("event118");
 		}
 
+		trackAbacusTest(s, AbacusUtils.HotelMapSmallSoldOutPins);
 		// Send the tracking data
 		s.track();
 	}
@@ -1183,6 +1184,8 @@ public class OmnitureTracking {
 		// LOB Search
 		s.setEvar(2, "D=c2");
 		s.setProp(2, HOTELV2_LOB);
+
+		trackAbacusTest(s, AbacusUtils.HotelUGCTranslations);
 
 		// Send the tracking data
 		s.track();
@@ -2290,6 +2293,34 @@ public class OmnitureTracking {
 		s.track();
 	}
 
+	public static void trackAppLXConfirmationFromTripsResponse(AbstractItinDetailsResponse itinDetailsResponse,
+		boolean isGroundTransport, String lxActivityId, int selectedTicketsCount, LocalDate lxActivityStartDate,
+		LocalDate lxActivityEndDate) {
+		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_CONFIRMATION + "\" pageLoad...");
+
+		AppAnalytics s = internalTrackAppLX(
+			isGroundTransport ? LX_GT_CHECKOUT_CONFIRMATION : LX_CHECKOUT_CONFIRMATION);
+		Long orderId = itinDetailsResponse.getResponseDataForItin().getOrderNumber();
+
+		s.setEvents("purchase");
+
+		if (orderId != null) {
+			s.setPurchaseID("onum" + orderId);
+			s.setProp(72, orderId.toString());
+		}
+		s.setCurrencyCode(itinDetailsResponse.getResponseDataForItin().getTotalTripPrice().getCurrency());
+		s.setProducts(addLXProducts(lxActivityId, selectedTicketsCount,
+			itinDetailsResponse.getResponseDataForItin().getTotalTripPrice().getTotal()));
+
+		String activityStartDateString = lxActivityStartDate.toString(LX_CONFIRMATION_PROP_DATE_FORMAT);
+		String activityEndDateString = lxActivityEndDate.toString(LX_CONFIRMATION_PROP_DATE_FORMAT);
+
+		s.setEvar(30, "LX:" + activityStartDateString + "-" + activityEndDateString + ":N");
+		setLXDateValues(lxActivityStartDate, s);
+
+		s.track();
+	}
+
 	private static void trackAppLXCheckoutTraveler(LineOfBusiness lob) {
 		boolean isGroundTransport = lob.equals(LineOfBusiness.TRANSPORT);
 
@@ -2414,6 +2445,7 @@ public class OmnitureTracking {
 	private static final String MESO_HOTEL_AD = MESO_BASE + ".B2P.Ad";
 	private static final String MESO_DESTINATION_AD = MESO_BASE + ".Dest";
 	private static final String REWARD_LAUNCH_TILE = "App.Orbitz.Rewards";
+	private static final String CUSTOMER_FIRST_GUARANTEE_LAUNCH_TILE = "App.LS.CFG";
 
 	public static void trackLaunchSignIn() {
 		AppAnalytics s = createTrackLinkEvent(LAUNCH_SIGN_IN);
@@ -2460,6 +2492,12 @@ public class OmnitureTracking {
 	public static void trackTapRewardLaunchTile() {
 		AppAnalytics s = createTrackLinkEvent(REWARD_LAUNCH_TILE);
 		s.setEvar(12, REWARD_LAUNCH_TILE);
+		s.trackLink("App Landing");
+	}
+
+	public static void trackTapCustomerFirstGuaranteeLaunchTile() {
+		AppAnalytics s = createTrackLinkEvent(CUSTOMER_FIRST_GUARANTEE_LAUNCH_TILE);
+		s.setEvar(12, CUSTOMER_FIRST_GUARANTEE_LAUNCH_TILE);
 		s.trackLink("App Landing");
 	}
 
@@ -3355,6 +3393,20 @@ public class OmnitureTracking {
 	private static final String PENDING_POINTS_TAP = "App.PointsToolTip.Tap";
 	private static final String LEGACY_USER_APP_UPDATE_TAP = "App.LS.Package.AppUpdate";
 	private static final String CARNIVAL_PUSH_NOTIFICATION = "App.Carnival.Push.Notification";
+	private static final String CUSTOMER_FIRST_ACCOUNT_LINK_TAP = "App.Account.Support.CFG";
+	private static final String CUSTOMER_FIRST_SUPPORT_PAGE_LOAD = "App.Support.CFG";
+	private static final String CUSTOMER_FIRST_SUPPORT_TWITTER_TAP = "App.Support.CFG.Twitter";
+	private static final String CUSTOMER_FIRST_SUPPORT_MESSENGER_TAP = "App.Support.CFG.Messenger";
+	private static final String CUSTOMER_FIRST_SUPPORT_PHONE_TAP = "App.Support.CFG.Phone";
+	private static final String CUSTOMER_FIRST_SUPPORT_HELP_TOPICS_TAP = "App.Support.CFG.HelpTopics";
+	private static final String CUSTOMER_FIRST_SUPPORT_TWITTER_OPEN = "App.Support.CFG.Twitter.Open";
+	private static final String CUSTOMER_FIRST_SUPPORT_TWITTER_OPEN_CANCEL = "App.Support.CFG.Twitter.Open.Cancel";
+	private static final String CUSTOMER_FIRST_SUPPORT_MESSENGER_OPEN = "App.Support.CFG.Messenger.Open";
+	private static final String CUSTOMER_FIRST_SUPPORT_MESSENGER_OPEN_CANCEL = "App.Support.CFG.Messenger.Open.Cancel";
+	private static final String CUSTOMER_FIRST_SUPPORT_TWITTER_DOWNLOAD = "App.Support.CFG.Twitter.Download";
+	private static final String CUSTOMER_FIRST_SUPPORT_TWITTER_DOWNLOAD_CANCEL = "App.Support.CFG.Twitter.Download.Cancel";
+	private static final String CUSTOMER_FIRST_SUPPORT_MESSENGER_DOWNLOAD = "App.Support.CFG.Messenger.Download";
+	private static final String CUSTOMER_FIRST_SUPPORT_MESSENGER_DOWNLOAD_CANCEL = "App.Support.CFG.Messenger.Download.Cancel";
 
 	public static void trackLoginSuccess() {
 		AppAnalytics s = createTrackLinkEvent(LOGIN_SUCCESS);
@@ -3504,6 +3556,78 @@ public class OmnitureTracking {
 		s.track();
 	}
 
+	public static void trackCustomerFirstAccountLinkClick() {
+		AppAnalytics s = createTrackLinkEvent(CUSTOMER_FIRST_ACCOUNT_LINK_TAP);
+		s.trackLink("Accounts");
+	}
+
+	public static void trackCustomerFirstSupportPageLoad() {
+		AppAnalytics s = getFreshTrackingObject();
+		s.setAppState(CUSTOMER_FIRST_SUPPORT_PAGE_LOAD);
+		s.setEvar(18, "D=" + CUSTOMER_FIRST_SUPPORT_PAGE_LOAD);
+		s.track();
+	}
+
+	public static void trackCustomerFirstTwitterClick() {
+		AppAnalytics s = createTrackLinkEvent(CUSTOMER_FIRST_SUPPORT_TWITTER_TAP);
+		s.trackLink("Accounts");
+	}
+
+	public static void trackCustomerFirstMessengerClick() {
+		AppAnalytics s = createTrackLinkEvent(CUSTOMER_FIRST_SUPPORT_MESSENGER_TAP);
+		s.trackLink("Accounts");
+	}
+
+	public static void trackCustomerFirstPhoneClick() {
+		AppAnalytics s = createTrackLinkEvent(CUSTOMER_FIRST_SUPPORT_PHONE_TAP);
+		s.trackLink("Accounts");
+	}
+
+	public static void trackCustomerFirstHelpTopicsClick() {
+		AppAnalytics s = createTrackLinkEvent(CUSTOMER_FIRST_SUPPORT_HELP_TOPICS_TAP);
+		s.trackLink("Accounts");
+	}
+
+	public static void trackCustomerFirstTwitterOpenClick() {
+		AppAnalytics s = createTrackLinkEvent(CUSTOMER_FIRST_SUPPORT_TWITTER_OPEN);
+		s.trackLink("Accounts");
+	}
+
+	public static void trackCustomerFirstTwitterOpenCancelClick() {
+		AppAnalytics s = createTrackLinkEvent(CUSTOMER_FIRST_SUPPORT_TWITTER_OPEN_CANCEL);
+		s.trackLink("Accounts");
+	}
+
+	public static void trackCustomerFirstTwitterDownloadClick() {
+		AppAnalytics s = createTrackLinkEvent(CUSTOMER_FIRST_SUPPORT_TWITTER_DOWNLOAD);
+		s.trackLink("Accounts");
+	}
+
+	public static void trackCustomerFirstTwitterDownloadCancelClick() {
+		AppAnalytics s = createTrackLinkEvent(CUSTOMER_FIRST_SUPPORT_TWITTER_DOWNLOAD_CANCEL);
+		s.trackLink("Accounts");
+	}
+
+	public static void trackCustomerFirstMessengerOpenClick() {
+		AppAnalytics s = createTrackLinkEvent(CUSTOMER_FIRST_SUPPORT_MESSENGER_OPEN);
+		s.trackLink("Accounts");
+	}
+
+	public static void trackCustomerFirstMessengerOpenCancelClick() {
+		AppAnalytics s = createTrackLinkEvent(CUSTOMER_FIRST_SUPPORT_MESSENGER_OPEN_CANCEL);
+		s.trackLink("Accounts");
+	}
+
+	public static void trackCustomerFirstMessengerDownloadClick() {
+		AppAnalytics s = createTrackLinkEvent(CUSTOMER_FIRST_SUPPORT_MESSENGER_DOWNLOAD);
+		s.trackLink("Accounts");
+	}
+
+	public static void trackCustomerFirstMessengerDownloadCancelClick() {
+		AppAnalytics s = createTrackLinkEvent(CUSTOMER_FIRST_SUPPORT_MESSENGER_DOWNLOAD_CANCEL);
+		s.trackLink("Accounts");
+	}
+
 	public static void trackMarketingOptIn(boolean optIn) {
 		AppAnalytics s = createTrackLinkEvent(optIn ? LOGIN_MARKETING_OPT_IN : LOGIN_MARKETING_OPT_OUT);
 		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
@@ -3596,8 +3720,12 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountsAPIKongEndPoint);
 		trackAbacusTest(s, AbacusUtils.DownloadableFonts);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountsEditWebView);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountNewSignIn);
 		if (ProductFlavorFeatureConfiguration.getInstance().getDefaultPOS().equals(PointOfSaleId.ORBITZ)) {
 			trackAbacusTest(s, AbacusUtils.RewardLaunchCard);
+		}
+		if (PointOfSale.getPointOfSale().shouldShowCustomerFirstGuarantee()) {
+			trackAbacusTest(s, AbacusUtils.CustomerFirstGuarantee);
 		}
 
 		s.appendEvents(getEventStringFromEventList(pageEvents));
@@ -4524,8 +4652,7 @@ public class OmnitureTracking {
 	private static final String PACKAGES_FLIGHT_FILTER_STOPS_TEMPLATE = "App.Package.Flight.Search.Filter.";
 	private static final String PACKAGES_FLIGHT_AIRLINES = "App.Package.Flight.Search.Filter.Airline";
 
-	private static final String PACKAGES_INFOSITE_ERROR = "App.Package.Infosite.Error";
-	private static final String PACKAGES_SEARCH_ERROR = "App.Package.Hotels-Search.NoResults";
+	private static final String PACKAGES_SHOPPING_ERROR = "App.Package.Shopping.Error";
 	private static final String PACKAGES_CHECKOUT_ERROR = "App.Package.Checkout.Error";
 	private static final String PACKAGES_CHECKOUT_ERROR_RETRY = "App.Package.CKO.Error.Retry";
 	private static final String PACKAGES_MID_SERVER_ERROR = "App.Package.Checkout.Error";
@@ -4688,6 +4815,7 @@ public class OmnitureTracking {
 	public static void trackPackagesDestinationSearchInit(PageUsableData pageUsableData) {
 		List<ABTest> abTests = new ArrayList<>();
 		abTests.add(AbacusUtils.EBAndroidAppPackagesWebviewFHC);
+		abTests.add(AbacusUtils.EBAndroidAppPackagesAATest);
 		if (isMidAPIEnabled(sContext)) {
 			abTests.add(AbacusUtils.EBAndroidAppPackagesMISRealWorldGeo);
 			abTests.add(AbacusUtils.EBAndroidAppPackagesFFPremiumClass);
@@ -4948,7 +5076,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesHotelReviewPageLoad() {
-		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_DETAILS_REVIEWS, null);
+		trackPackagesPageLoadWithDPageName(PACKAGES_HOTEL_DETAILS_REVIEWS, null, AbacusUtils.HotelUGCTranslations);
 	}
 
 	public static void trackPackagesHotelReviewCategoryChange(String category) {
@@ -5046,17 +5174,10 @@ public class OmnitureTracking {
 		createAndTrackLinkEvent(PACKAGES_HOTEL_DETAILS_MAP_SELECT_ROOM, "Infosite Map");
 	}
 
-	public static void trackPackagesSearchError(String errorType) {
-		Log.d(TAG, "Tracking \"" + PACKAGES_SEARCH_ERROR + "\" pageLoad...");
-		AppAnalytics s = createTrackPageLoadEventBase(PACKAGES_SEARCH_ERROR);
-		s.setProp(36, errorType);
-		s.track();
-	}
-
-	public static void trackPackagesInfositeError(String errorType) {
-		Log.d(TAG, "Tracking \"" + PACKAGES_INFOSITE_ERROR + "\" pageLoad...");
-		AppAnalytics s = createTrackPageLoadEventBase(PACKAGES_INFOSITE_ERROR);
-		s.setProp(36, errorType);
+	public static void trackPackagesShoppingError(String errorInfo) {
+		Log.d(TAG, "Tracking \"" + PACKAGES_SHOPPING_ERROR + "\" pageLoad...");
+		AppAnalytics s = createTrackPageLoadEventBase(PACKAGES_SHOPPING_ERROR);
+		s.setProp(36, errorInfo);
 		s.track();
 	}
 
@@ -5622,6 +5743,7 @@ public class OmnitureTracking {
 		setDateValues(s, takeoffDates.first, takeoffDates.second);
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSeatsLeftUrgencyMessaging);
+		trackAbacusTest(s, AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckout);
 		s.track();
 	}
 
@@ -5841,9 +5963,7 @@ public class OmnitureTracking {
 		s.setProp(2, "Flight");
 		s.setEvar(35, getRankEvent(outboundSelectedAndTotalLegRank, null));
 
-		if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)) {
-			setEventsForSearchTracking(s, trackingData.getPerformanceData(), "");
-		}
+		setEventsForSearchTracking(s, trackingData.getPerformanceData(), "");
 		s.track();
 	}
 

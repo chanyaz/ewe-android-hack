@@ -101,6 +101,13 @@
         <item quantity="other">{number} Results</item>
     </plurals>
 
+    <!-- Title message displayed when there are no items in the user's favorite hotels list -->
+    <string name="hotel_favorites_page_empty_title">Save your favorites</string>
+    <!-- Subtitle message displayed when there are no items in the user's favorites hotels list -->
+    <string name="hotel_favorites_page_empty_subtitle">When you find something you like, use the heart to save your favorites.</string>
+    <!-- Title at the top of the Hotel Favorites page containing the user's saved hotels -->
+    <string name="hotel_favorites_page_toolbar_title">Saved Hotels</string>
+
     <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
     <plurals name="number_results_announcement_text_TEMPLATE">
         <item quantity="one">{number} Result Filtered</item>
@@ -1391,6 +1398,12 @@
     <string name="itin_hotel_details_price_summary_rewards_heading">Pricing and rewards</string>
     <!--Hotel itin card price summary line item label for room price-->
     <string name="itin_hotel_details_cost_summary_room_price_text">Room price</string>
+    <!--Hotel itin card price summary line item label for multiple guest fees-->
+    <string name="itin_hotel_price_summary_multiple_guest_fees_label">Multiple guest fee</string>
+    <!--Hotel itin card price summary line item label for taxes & fees-->
+    <string name="itin_hotel_price_summary_taxes_and_fees_label">Taxes &amp; fees</string>
+    <!--Hotel itin card price summary line item label for coupons-->
+    <string name="itin_hotel_price_summary_coupons_label">Coupon applied</string>
     <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">{amount} total amount paid</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
@@ -2320,9 +2333,11 @@
     <string name="male">Male</string>
     <!-- female -->
     <string name="female">Female</string>
-    <!-- next page buttn -->
+    <!-- next page button -->
     <string name="next">Next</string>
     <string name="next_cont_desc">Next button</string>
+    <!-- previous page button -->
+    <string name="previous">Previous</string>
     <!-- Passport country placeholder for passport country spinner -->
     <string name="country">Country</string>
     <!-- Passport country label -->
@@ -2775,6 +2790,9 @@
     <string name="hotel_guest_recommend_excellent_superlative">/5 - Excellent!</string>
     <string name="hotel_guest_recommend_wonderful_superlative">/5 - Wonderful!</string>
     <string name="hotel_guest_recommend_exceptional_superlative">/5 - Exceptional!</string>
+
+    <!-- User rating number out of five on review page-->
+    <string name="hotel_user_review_rating_out_of_five">/5</string>
 
     <!-- Flights Score results -->
     <!-- Route Happy AB Test: Example: 9/10 - Excellent! -->
@@ -3823,7 +3841,8 @@
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">I have read and agree to the {terms_of_use} and the {privacy_policy}.</string>
     <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">Join {brand_reward_name} today. By joining {brand_reward_name}, I accept all {terms_and_conditions}.</string>
-
+    <!--Account creation legal template for terms and reward eg: By creating an account, I accept the Expedia Rewards Terms & Conditions, and have read and accept the Terms of Use and the Privacy Policy.-->
+    <string name="account_creation_new_terms_reward_TEMPLATE">By creating an account, I accept the {brand_reward_name} {terms_and_conditions}, and have read and accept the {terms_of_use} and the {privacy_policy}.</string>
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Select each child\'s age</string>
 

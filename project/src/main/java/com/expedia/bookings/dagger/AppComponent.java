@@ -84,9 +84,6 @@ public interface AppComponent {
 	@Named("ESSInterceptor")
 	Interceptor essRequestInterceptor();
 
-	@Named("TravelGraphInterceptor")
-	Interceptor travelGraphInterceptor();
-
 	@Named("SatelliteInterceptor")
 	Interceptor satelliteRequestInterceptor();
 

@@ -38,7 +38,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.PackageCheckoutPresenter
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.shared.WebCheckoutView
-import com.expedia.ui.PackageHotelActivity
+import com.expedia.bookings.packages.activity.PackageHotelActivity
 import com.expedia.util.PackageUtil
 import com.expedia.bookings.packages.vm.PackageWebCheckoutViewViewModel
 import com.expedia.bookings.packages.vm.AbstractUniversalCKOTotalPriceViewModel

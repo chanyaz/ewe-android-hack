@@ -6,7 +6,8 @@
     <com.expedia.bookings.hotel.map.HotelResultsMapWidget
         android:id="@+id/results_map_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:importantForAccessibility="yes" />
 
     <LinearLayout
         android:id="@+id/hotel_carousel_container"

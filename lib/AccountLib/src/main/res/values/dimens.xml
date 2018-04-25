@@ -43,4 +43,6 @@
 
     <dimen name="acct__single_page_tos_bottom_margin">10dp</dimen>
 
+    <dimen name="acct__new_account_btn_padding">20dp</dimen>
+
 </resources>

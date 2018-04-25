@@ -16,6 +16,7 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.WebViewUtils
@@ -116,16 +117,16 @@ class HotelWebCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun webViewTripIDOnSuccessfulBooking() {
         val bookingTripIDSubscriber = TestObserver<String>()
-        val fectchTripIDSubscriber = TestObserver<String>()
+        val fetchTripIDSubscriber = TestObserver<String>()
         setPOSWithWebCheckoutEnabled(true)
         setUpTestToStartAtDetailsScreen()
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.subscribe(bookingTripIDSubscriber)
-        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).fetchItinObservable.subscribe(fectchTripIDSubscriber)
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).fetchItinObservable.subscribe(fetchTripIDSubscriber)
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userAccountRefresher = userAccountRefresherMock
         selectHotelRoom()
         webCheckoutViewObservable.assertValueCount(1)
         bookingTripIDSubscriber.assertValueCount(0)
-        fectchTripIDSubscriber.assertValueCount(0)
+        fetchTripIDSubscriber.assertValueCount(0)
         val tripID = "testing-for-confirmation"
         verify(userAccountRefresherMock, times(0)).forceAccountRefreshForWebView()
 
@@ -133,8 +134,8 @@ class HotelWebCheckoutViewTest {
         verify(userAccountRefresherMock, times(1)).forceAccountRefreshForWebView()
         bookingTripIDSubscriber.assertValueCount(1)
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).onUserAccountRefreshed()
-        fectchTripIDSubscriber.assertValueCount(1)
-        fectchTripIDSubscriber.assertValue(tripID)
+        fetchTripIDSubscriber.assertValueCount(1)
+        fetchTripIDSubscriber.assertValue(tripID)
         bookingTripIDSubscriber.assertValue(tripID)
     }
 
@@ -142,14 +143,14 @@ class HotelWebCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testWebviewDoesNotFetchTripIdWithoutValidConfirmationUrl() {
         val bookingTripIDSubscriber = TestObserver<String>()
-        val fectchTripIDSubscriber = TestObserver<String>()
+        val fetchTripIDSubscriber = TestObserver<String>()
         val closeViewSubscriber = TestObserver<Unit>()
 
         setPOSWithWebCheckoutABTestEnabled(true)
         bucketWebCheckoutABTest(true)
         setUpTestToStartAtDetailsScreen()
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.subscribe(bookingTripIDSubscriber)
-        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).fetchItinObservable.subscribe(fectchTripIDSubscriber)
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).fetchItinObservable.subscribe(fetchTripIDSubscriber)
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).closeView.subscribe(closeViewSubscriber)
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userAccountRefresher = userAccountRefresherMock
         assertFalse(PointOfSale.getPointOfSale().hotelsWebBookingConfirmationURL.isNullOrBlank())
@@ -160,7 +161,7 @@ class HotelWebCheckoutViewTest {
         verify(userAccountRefresherMock, times(0)).forceAccountRefreshForWebView()
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).onUserAccountRefreshed()
         bookingTripIDSubscriber.assertValueCount(0)
-        fectchTripIDSubscriber.assertValueCount(0)
+        fetchTripIDSubscriber.assertValueCount(0)
         closeViewSubscriber.assertValueCount(1)
     }
 
@@ -234,6 +235,35 @@ class HotelWebCheckoutViewTest {
 
     @Test
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testLoginStateChangedReloadsUrlWithLoggedInUser() {
+        getToWebCheckoutView()
+        loginMockUser()
+        val testReloadSubscriber = TestObserver<Unit>()
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).reloadUrlObservable.subscribe(testReloadSubscriber)
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userLoginStateChangedModel.userLoginStateChanged.onNext(true)
+
+        testReloadSubscriber.assertValueCount(1)
+        assertFalse(hotelPresenter.webCheckoutView.webView.canGoBack())
+    }
+
+    @Test
+    fun testDoNotReloadUrlUntilStatusChangedToTrueAndLoggedIn() {
+        getToWebCheckoutView()
+        val testReloadSubscriber = TestObserver<Unit>()
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).reloadUrlObservable.subscribe(testReloadSubscriber)
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userLoginStateChangedModel.userLoginStateChanged.onNext(false)
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userLoginStateChangedModel.userLoginStateChanged.onNext(true)
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userLoginStateChangedModel.userLoginStateChanged.onNext(false)
+
+        testReloadSubscriber.assertNoValues()
+
+        loginMockUser()
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userLoginStateChangedModel.userLoginStateChanged.onNext(true)
+        testReloadSubscriber.assertValueCount(1)
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     @Config(qualifiers = "sw600dp")
     fun testUserAgentStringHasTabletInfo() {
         setPOSWithWebCheckoutEnabled(true)
@@ -274,10 +304,38 @@ class HotelWebCheckoutViewTest {
         maskWebCheckoutActivityObservable.assertValues(true, false)
     }
 
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testShouldNotMaskScreenAfterWebCheckoutToNativeConfirmation() {
+        setPOSWithWebCheckoutEnabled(true)
+        setUpTestToStartAtDetailsScreen()
+
+        val shouldMaskScreenTestObserver = TestObserver.create<Boolean>()
+        hotelPresenter.webCheckoutView.viewModel.showWebViewObservable.subscribe(shouldMaskScreenTestObserver)
+
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userAccountRefresher = userAccountRefresherMock
+        selectHotelRoom()
+        val tripID = "testing-for-confirmation"
+        verify(userAccountRefresherMock, times(0)).forceAccountRefreshForWebView()
+        hotelPresenter.webCheckoutView.onWebPageStarted(hotelPresenter.webCheckoutView.webView, PointOfSale.getPointOfSale().hotelsWebBookingConfirmationURL + "?tripid=$tripID", null)
+        verify(userAccountRefresherMock, times(1)).forceAccountRefreshForWebView()
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).onUserAccountRefreshed()
+
+        shouldMaskScreenTestObserver.assertValue(false)
+    }
+
     private fun getToWebCheckoutView() {
         setPOSWithWebCheckoutEnabled(true)
         setUpTestToStartAtDetailsScreen()
         selectHotelRoom()
+    }
+
+    private fun loginMockUser() {
+        val userStateManager = Ui.getApplication(activity).appComponent().userStateManager()
+        val testUser = UserLoginTestUtil.mockUser()
+        testUser.primaryTraveler.email = "test@expedia.com"
+        userStateManager.addUserToAccountManager(testUser)
+        UserLoginTestUtil.setupUserAndMockLogin(testUser)
     }
 
     private fun selectHotelRoom() {

@@ -1,6 +1,7 @@
 package com.expedia.bookings.itin.hotel.pricingRewards
 
 import android.content.Context
+import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
 import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepo
@@ -25,43 +26,49 @@ import kotlin.test.assertNotNull
 @RunWith(RobolectricRunner::class)
 class HotelItinPricingSummaryViewModelTest {
     val context: Context = RuntimeEnvironment.application
-    lateinit var observer: TestObserver<List<HotelItinPricingSummary>>
+    lateinit var testRoomObserver: TestObserver<List<HotelItinRoomPrices>>
+    lateinit var testPriceLineObserver: TestObserver<HotelItinPriceLineItem>
+    lateinit var testClearContainerObserver: TestObserver<Unit>
 
     @Before
     fun setup() {
-        observer = TestObserver()
+        testRoomObserver = TestObserver()
+        testPriceLineObserver = TestObserver()
+        testClearContainerObserver = TestObserver()
     }
 
     @After
     fun tearDown() {
-        observer.dispose()
+        testRoomObserver.dispose()
+        testClearContainerObserver.dispose()
+        testPriceLineObserver.dispose()
     }
 
     @Test
     fun testSingleRoomOutputsSingleSummary() {
         val viewModel = viewModelWithSingleRoom()
 
-        observer.assertEmpty()
+        testRoomObserver.assertEmpty()
         viewModel.observer.onChanged(viewModel.scope.itinHotelRepo.liveDataHotel.value)
-        assertEquals(1, observer.values().firstOrNull()?.size)
+        assertEquals(1, testRoomObserver.values().firstOrNull()?.size)
     }
 
     @Test
     fun testMultipleRoomsOutputsMultipleSummaries() {
         val viewModel = viewModelWithMultipleRooms()
 
-        observer.assertEmpty()
+        testRoomObserver.assertEmpty()
         viewModel.observer.onChanged(viewModel.scope.itinHotelRepo.liveDataHotel.value)
-        assertEquals(3, observer.values().firstOrNull()?.size)
+        assertEquals(3, testRoomObserver.values().firstOrNull()?.size)
     }
 
     @Test
     fun testMultipleSummaryCounts() {
         val viewModel = viewModelWithMultipleRooms()
 
-        observer.assertEmpty()
+        testRoomObserver.assertEmpty()
         viewModel.observer.onChanged(viewModel.scope.itinHotelRepo.liveDataHotel.value)
-        val summaries = observer.values().firstOrNull()
+        val summaries = testRoomObserver.values().firstOrNull()
 
         assertNotNull(summaries)
         assertEquals(3, summaries?.size)
@@ -70,7 +77,7 @@ class HotelItinPricingSummaryViewModelTest {
 
         if (summaries != null) {
             for ((idx, summary) in summaries.withIndex()) {
-                assertEquals(expectedCounts[idx], summary.perDayLineItems.size)
+                assertEquals(expectedCounts[idx], summary.perDayRoomPriceItems.size)
             }
         }
     }
@@ -79,15 +86,15 @@ class HotelItinPricingSummaryViewModelTest {
     fun testSummaryValues() {
         val viewModel = viewModelWithSingleRoom()
 
-        observer.assertEmpty()
+        testRoomObserver.assertEmpty()
         viewModel.observer.onChanged(viewModel.scope.itinHotelRepo.liveDataHotel.value)
-        val summary = observer.values().firstOrNull()?.firstOrNull()
+        val summary = testRoomObserver.values().firstOrNull()?.firstOrNull()
 
         assertNotNull(summary)
-        assertEquals("Room price", summary?.totalLineItem?.labelString)
-        assertEquals("₹3,500.00", summary?.totalLineItem?.priceString)
+        assertEquals("Room price", summary?.totalRoomPriceItem?.labelString)
+        assertEquals("₹3,500.00", summary?.totalRoomPriceItem?.priceString)
 
-        val lineItems = summary?.perDayLineItems
+        val lineItems = summary?.perDayRoomPriceItems
 
         assertNotNull(lineItems)
         assertEquals(4, lineItems?.size)
@@ -102,10 +109,43 @@ class HotelItinPricingSummaryViewModelTest {
         }
     }
 
+    @Test
+    fun testPriceLineItemsWithoutFees() {
+        val noFeesViewModel = viewModelWithSingleRoom()
+        testPriceLineObserver.assertEmpty()
+
+        noFeesViewModel.observer.onChanged(noFeesViewModel.scope.itinHotelRepo.liveDataHotel.value)
+        testPriceLineObserver.assertEmpty()
+    }
+
+    @Test
+    fun testPriceLineItemsWithFees() {
+        val feesViewModel = viewModelWithMultipleRooms()
+        testPriceLineObserver.assertEmpty()
+        feesViewModel.observer.onChanged(feesViewModel.scope.itinHotelRepo.liveDataHotel.value)
+        testPriceLineObserver.assertValueCount(3)
+        val multiGuestFeeItem = testPriceLineObserver.values()[0]
+        assertEquals("₹8.50", multiGuestFeeItem.priceString)
+        assertEquals("Multiple guest fee", multiGuestFeeItem.labelString)
+        assertEquals(R.color.itin_price_summary_label_gray_light, multiGuestFeeItem.colorRes)
+
+        val taxesAndFeesItem = testPriceLineObserver.values()[1]
+        assertEquals("₹3.50", taxesAndFeesItem.priceString)
+        assertEquals("Taxes & fees", taxesAndFeesItem.labelString)
+        assertEquals(R.color.itin_price_summary_label_gray_dark, taxesAndFeesItem.colorRes)
+
+        val couponAppliedItem = testPriceLineObserver.values()[2]
+        assertEquals("-₹300.00", couponAppliedItem.priceString)
+        assertEquals("Coupon applied", couponAppliedItem.labelString)
+        assertEquals(R.color.itin_price_summary_label_green, couponAppliedItem.colorRes)
+    }
+
     private fun viewModelWithSingleRoom(): HotelItinPricingSummaryViewModel<HotelItinPricingSummaryScope> {
         val viewModel = HotelItinPricingSummaryViewModel(getScope(true))
 
-        viewModel.lineItemViewModelSubject.subscribe(observer)
+        viewModel.roomPriceBreakdownSubject.subscribe(testRoomObserver)
+        viewModel.priceLineItemSubject.subscribe(testPriceLineObserver)
+        viewModel.clearPriceSummaryContainerSubject.subscribe(testClearContainerObserver)
 
         return viewModel
     }
@@ -113,7 +153,9 @@ class HotelItinPricingSummaryViewModelTest {
     private fun viewModelWithMultipleRooms(): HotelItinPricingSummaryViewModel<HotelItinPricingSummaryScope> {
         val viewModel = HotelItinPricingSummaryViewModel(getScope())
 
-        viewModel.lineItemViewModelSubject.subscribe(observer)
+        viewModel.roomPriceBreakdownSubject.subscribe(testRoomObserver)
+        viewModel.priceLineItemSubject.subscribe(testPriceLineObserver)
+        viewModel.clearPriceSummaryContainerSubject.subscribe(testClearContainerObserver)
 
         return viewModel
     }

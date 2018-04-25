@@ -36,4 +36,26 @@
     <string name="earn_rewards_and_unlock_deals">Receive an additional 50% off select hotels!</string>
     <!-- Member only deals for launch screen -->
     <string name="member_deal_title">Member Discounts</string>
+
+    <!-- Customer First Guarantee strings -->
+    <string name="customer_first_chat_with_us_now">Chat with us now</string>
+    <string name="customer_first_we_are_here_for_you">We Are Here For You 24/7!\nChat With Us Now</string>
+    <string name="customer_first_support_toolbar_title">Support</string>
+    <string name="customer_first_guarantee_title">Customer 1st Guarantee</string>
+    <string name="customer_first_guarantee_subtitle">Receive 24/7 support with a Customer 1st Guarantee Specialist</string>
+    <string name="customer_first_connect_with_twitter">Connect with Twitter</string>
+    <string name="customer_first_connect_with_fb">Connect with Facebook Messenger</string>
+    <string name="customer_first_phone_number">1–855–214–8324</string>
+    <string name="customer_first_browse_solutions">Browse Solutions</string>
+    <string name="customer_first_help_topics">Help Topics</string>
+    <!-- Customer First Guarantee checks whether Twitter or Facebook Messenger Apps are present on device. Example: Don't have Twitter? Download it here to message us. -->
+    <string name="customer_first_app_not_present_TEMPLATE">Don\'t have {app_name}? Download it here to message us.</string>
+    <string name="download">Download</string>
+    <string name="twitter">Twitter</string>
+    <string name="facebook_messenger">Facebook Messenger</string>
+    <!-- Customer First Guarantee Confirmation before opening another app. Example: "Travelocity" wants to open "Twitter" -->
+    <string name="customer_first_open_app_confirmation_TEMPLATE">\"{brand}\" wants to open \"{app_name}\"</string>
+    <string name="open">Open</string>
+    <!-- Customer First Guarantee support phone number content description. Example: Connect with Support by Phone. 1–855–214–8324 -->
+    <string name="customer_first_phone_number_cont_desc_TEMPLATE">Connect with Support by Phone. {phone_number}</string>
 </resources>

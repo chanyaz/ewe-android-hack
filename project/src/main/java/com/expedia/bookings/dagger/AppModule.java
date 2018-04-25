@@ -21,7 +21,6 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.http.TravelGraphRequestInterceptor;
 import com.expedia.bookings.itin.flight.common.FlightRegistrationHandler;
 import com.expedia.bookings.itin.tripstore.utils.ITripsJsonFileUtils;
 import com.expedia.bookings.itin.tripstore.utils.TripsJsonFileUtils;
@@ -354,12 +353,6 @@ public class AppModule {
 	@Provides
 	UserAgentInterceptor provideUserAgentInterceptor() {
 		return new UserAgentInterceptor();
-	}
-
-	@Provides
-	@Named("TravelGraphInterceptor")
-	Interceptor provideTravelGraphInterceptor(final Context context, final EndpointProvider endpointProvider) {
-		return new TravelGraphRequestInterceptor(context, endpointProvider);
 	}
 
 	@Provides

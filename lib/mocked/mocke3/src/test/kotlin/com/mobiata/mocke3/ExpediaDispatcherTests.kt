@@ -356,6 +356,11 @@ class ExpediaDispatcherTests {
         assertEquals(0, dispatcher.numOfTravelAdRequests("/travel"))
     }
 
+    @Test
+    fun testRequestHotelShortlistPathReturnsMatchingResponse() {
+        assertPathReturnsMockBodyWithString("api/ucs/shortlist/detail/fetch/", null, "api/hotelshortlist/hotelShortlistFetchResponse.json")
+    }
+
     private fun assertEmptyResponseForPath(path: String) {
         assertTrue(path.isNotEmpty(), "path should not be empty.")
 

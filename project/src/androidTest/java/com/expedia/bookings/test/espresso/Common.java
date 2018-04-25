@@ -17,6 +17,7 @@ import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.uiautomator.BySelector;
 import android.support.test.uiautomator.UiDevice;
+import android.support.test.uiautomator.UiSelector;
 import android.view.View;
 
 import com.expedia.bookings.R;
@@ -37,8 +38,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class Common {
 	private static Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
-	private static UiDevice device = UiDevice.getInstance(instrumentation);
-	private static UiAutomation uiAutomation = instrumentation.getUiAutomation();
+	public static UiDevice device = UiDevice.getInstance(instrumentation);
+	public static UiAutomation uiAutomation = instrumentation.getUiAutomation();
 
 	public static UiDevice getUiDevice() {
 		return device;
@@ -150,18 +151,8 @@ public class Common {
 		long timeoutTime = System.currentTimeMillis() + TimeUnit.MILLISECONDS.convert(time, timeUnit);
 
 		while (System.currentTimeMillis() <= timeoutTime) {
-			for (int i = 0; i < listOfMatchers.size(); i++) {
-				try {
-					if (listOfMatchers.get(i) instanceof Matcher) {
-						onView((Matcher<View>) listOfMatchers.get(i)).check(matches(isDisplayed()));
-						return true; //If the check didn't error out, that means the view is displayed.
-					}
-					else if (listOfMatchers.get(i) instanceof BySelector) {
-						return getUiDevice().findObject((BySelector) listOfMatchers.get(i)).isEnabled();
-
-					}
-				}
-				catch (Exception ignored) { }
+			if (isOneOfUiObjectsPresent(listOfMatchers)) {
+				return true;
 			}
 
 			try {
@@ -169,9 +160,30 @@ public class Common {
 				Thread.sleep(500);
 			}
 			catch (Exception ignored) { }
-
 		}
+		return false;
+	}
 
+	public static Boolean isOneOfUiObjectsPresent(ArrayList listOfMatchers) {
+		for (int i = 0; i < listOfMatchers.size(); i++) {
+			try {
+				if (listOfMatchers.get(i) instanceof Matcher) {
+					onView((Matcher<View>) listOfMatchers.get(i)).check(matches(isDisplayed()));
+					return true; //If the check didn't error out, that means the view is displayed.
+				}
+				else if (listOfMatchers.get(i) instanceof BySelector) {
+					if (getUiDevice().findObject((BySelector) listOfMatchers.get(i)) != null) {
+						return true;
+					}
+				}
+				else if (listOfMatchers.get(i) instanceof UiSelector) {
+					if (getUiDevice().findObject((UiSelector) listOfMatchers.get(i)).exists()) {
+						return true;
+					}
+				}
+			}
+			catch (Exception ignored) { }
+		}
 		return false;
 	}
 }

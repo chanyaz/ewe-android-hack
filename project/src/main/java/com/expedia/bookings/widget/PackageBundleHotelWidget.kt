@@ -26,7 +26,7 @@ import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.ui.PackageHotelActivity
+import com.expedia.bookings.packages.activity.PackageHotelActivity
 import com.expedia.util.notNullAndObservable
 import com.expedia.bookings.packages.vm.BundleHotelViewModel
 import com.squareup.phrase.Phrase

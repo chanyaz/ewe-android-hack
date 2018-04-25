@@ -331,6 +331,7 @@
         <item name="skin_acctLogoTextDrawableMarginLeft">6dp</item>
         <item name="skin_acctLogoTextDrawableMarginTop">5dp</item>
         <item name="skin_acctInputTextHintColor">?android:textColorHint</item>
+        <item name="android:windowBackground">@color/white</item>
     </style>
 
     <!--

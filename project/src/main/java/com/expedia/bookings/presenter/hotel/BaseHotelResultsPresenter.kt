@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Point
 import android.graphics.PorterDuff
@@ -13,6 +14,9 @@ import android.location.Address
 import android.support.annotation.CallSuper
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.AccessibilityDelegateCompat
+import android.support.v4.view.ViewCompat
+import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -42,6 +46,7 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.extensions.setFocusForView
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
+import com.expedia.bookings.hotel.activity.HotelFavoritesActivity
 import com.expedia.bookings.hotel.animation.transition.HorizontalTranslateTransition
 import com.expedia.bookings.hotel.animation.transition.VerticalFadeTransition
 import com.expedia.bookings.hotel.animation.transition.VerticalTranslateTransition
@@ -91,6 +96,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     open val floatingPill: HotelSearchFloatingActionPill? = null
 
     open val filterMenuItem by lazy { toolbar.menu.findItem(R.id.menu_filter) }
+
+    open val favoritesMenuItem by lazy { toolbar.menu.findItem(R.id.menu_favorites) }
 
     var filterCountText: TextView by Delegates.notNull()
     var filterPlaceholderImageView: ImageView by Delegates.notNull()
@@ -322,6 +329,14 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             filterViewModel.sortContainerVisibilityObservable.onNext(true)
             filterView.toolbar.title = resources.getString(R.string.sort_and_filter)
         }
+
+        // Set the accessibility traversal order for mapWidget to be after the fab
+        ViewCompat.setAccessibilityDelegate(mapWidget, object : AccessibilityDelegateCompat() {
+            override fun onInitializeAccessibilityNodeInfo(v: View, info: AccessibilityNodeInfoCompat) {
+                super.onInitializeAccessibilityNodeInfo(v, info)
+                info.setTraversalAfter(fab)
+            }
+        })
     }
 
     protected fun hideMapLoadingOverlay() {
@@ -360,7 +375,15 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
         toolbar.inflateMenu(R.menu.menu_filter_item)
 
+        favoritesMenuItem.setOnMenuItemClickListener {
+            val intent = Intent(context, HotelFavoritesActivity::class.java)
+            context.startActivity(intent)
+            true
+        }
+
         filterMenuItem.isVisible = false
+
+        favoritesMenuItem.isVisible = false
 
         toolbar.setNavigationOnClickListener {
             if (!transitionRunning) {

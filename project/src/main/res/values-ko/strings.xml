@@ -1013,11 +1013,11 @@
     <!-- Expedia Itinerary -->
     <string name="itinerary_TEMPLATE">{brand} 일정 번호</string>
     <!-- Label for exclusive phone number for base tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
-    <string name="rewards_base_tier_customer_support">익스피디아 +blue 고객 지원</string>
+    <string name="rewards_base_tier_customer_support">익스피디아 blue 고객 지원</string>
     <!-- Label for exclusive phone number for middle tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
-    <string name="rewards_middle_tier_customer_support">익스피디아 +silver 고객 지원</string>
+    <string name="rewards_middle_tier_customer_support">익스피디아 silver 고객 지원</string>
     <!-- Label for exclusive phone number for top tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
-    <string name="rewards_top_tier_customer_support">익스피디아 +gold 고객 지원</string>
+    <string name="rewards_top_tier_customer_support">익스피디아 gold 고객 지원</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">예정된 여행이 없습니다.</string>
     <!-- Enter itinerary number -->
@@ -1477,6 +1477,8 @@
     <!--LX itin redesign-->
     <!--LX toolbar title template. (e.g. Activity in San Francisco)-->
     <string name="itin_lx_toolbar_title_TEMPLATE">{location}의 즐길거리</string>
+    <string name="itin_lx_more_info_heading">추가 지원</string>
+    <string name="itin_lx_more_info_subheading">고객 지원 정보</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">일정 공유</string>
@@ -2733,7 +2735,7 @@
     <!-- Title for VIP Access message -->
     <string name="vip_access">+VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">+VIP Access 호텔에서 +silver 및 +gold 회원은 체크인 시 이용 가능한 경우 무료 객실 업그레이드와 기타 특전을 받으시게 됩니다.</string>
+    <string name="vip_access_message">+VIP Access 호텔에서 silver 및 gold 회원은 체크인 시 이용 가능한 경우 무료 객실 업그레이드와 기타 특전을 받으시게 됩니다.</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">+VIP Access 호텔만</string>
     <!-- Title for VIP Access message for Hotel Results -->
@@ -4337,7 +4339,7 @@
     <string name="rail_station_info_TEMPLATE">{departure} 출발 {arrival} 도착</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
-    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
+    <string name="rail_fare_info_TEMPLATE">{fareclass} {serviceclass}</string>
 
     <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
@@ -4498,17 +4500,17 @@
 
     <!-- Rewards -->
     <!-- Long name for rewards base tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_base_tier_name_long">익스피디아 +blue</string>
+    <string name="reward_base_tier_name_long">Expedia blue</string>
     <!-- Long name for rewards middle tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_middle_tier_name_long">익스피디아 +silver</string>
+    <string name="reward_middle_tier_name_long">Expedia silver</string>
     <!-- Long name for rewards top tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_top_tier_name_long">익스피디아 +gold</string>
+    <string name="reward_top_tier_name_long">Expedia gold</string>
     <!-- Short name for rewards base tier -->
-    <string name="reward_base_tier_name_short">+blue</string>
+    <string name="reward_base_tier_name_short">blue</string>
     <!-- Short name for rewards middle tier -->
-    <string name="reward_middle_tier_name_short">+silver</string>
+    <string name="reward_middle_tier_name_short">silver</string>
     <!-- Short name for rewards top tier -->
-    <string name="reward_top_tier_name_short">+gold</string>
+    <string name="reward_top_tier_name_short">gold</string>
 
     <!--Packages search accessibility -->
     <!-- Best Flight card view content description for accessibility.-->
@@ -5078,6 +5080,15 @@
 
     <!-- Recent search header string -->
     <string name="flight_recent_search_label">최근 검색</string>
+
+    <!--Recent Search card content description template. Eg. 1 SFO to LAS oneway search for 31st July for 2 travelers Economy class Price starting from $150 per person-->
+    <string name="flight_recent_search_item_cont_desc_TEMPLATE">{source}발 {destination}행, {trip_type} 검색, {date}, {travelers}명, {cabin_class}, 요금은 1인당 {amount}부터 \u0020</string>  
+
+    <!--Recent Search travelers card content description template. Eg. 1 traveler, 2 travelers-->
+    <plurals name="recent_search_travelers_cont_desc_TEMPLATE">
+        <item quantity="one">{travelers}명</item>
+        <item quantity="other">{travelers}명</item>
+    </plurals>
 
     <!-- Brand reward name -->
     <string name="brand_reward_name">익스피디아 리워드</string>

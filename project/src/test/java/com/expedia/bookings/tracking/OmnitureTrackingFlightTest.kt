@@ -153,6 +153,26 @@ class OmnitureTrackingFlightTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testNativeRateDetailsWebviewCheckoutTestBucketed() {
+        val mockResponse = getCreateTripMockResponse()
+
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckout)
+        OmnitureTracking.trackFlightCheckoutInfoPageLoad(mockResponse)
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withProps(mapOf(34 to "25620.0.1")), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testNativeRateDetailsWebviewCheckoutTestControl() {
+        val mockResponse = getCreateTripMockResponse()
+
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckout, 0)
+        OmnitureTracking.trackFlightCheckoutInfoPageLoad(mockResponse)
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withProps(mapOf(34 to "25620.0.0")), mockAnalyticsProvider)
+    }
+
+    @Test
     fun testTrackNumberOfTicketsFromAggregatedResponse() {
         val pageUsableData = PageUsableData()
         pageUsableData.markPageLoadStarted(10000)

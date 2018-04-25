@@ -165,6 +165,7 @@ class FlightCheckoutViewTest {
         flightPresenter.flightOverviewPresenter.viewModel.showWebviewCheckoutObservable.subscribe(testShowWebviewSubscriber)
         flightPresenter.webCheckoutView.viewModel.showWebViewObservable.subscribe(maskWebCheckoutActivityObservable)
         flightPresenter.flightOfferViewModel.flightProductId.onNext("12345")
+        Db.getTripBucket().add(TripBucketItemFlightV2(getFlightCreateTripResponse()))
 
         assertTrue(flightPresenter.webCheckoutView.visibility == View.GONE)
         assertTrue(flightPresenter.flightOverviewPresenter.visibility == View.VISIBLE)
@@ -174,6 +175,45 @@ class FlightCheckoutViewTest {
         maskWebCheckoutActivityObservable.assertValue(true)
         assertTrue(flightPresenter.webCheckoutView.visibility == View.VISIBLE)
         assertTrue(flightPresenter.flightOverviewPresenter.visibility == View.GONE)
+        assertTrue(flightPresenter.webCheckoutView.visibility == View.VISIBLE)
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testConfirmationUrlForNonINPosBucketedNativeRateDetailsWebview() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckout)
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
+        Db.getTripBucket().add(TripBucketItemFlightV2(getFlightCreateTripResponse()))
+
+        val bookingTripIDSubscriber = TestObserver<String>()
+        val fetchTripIDSubscriber = TestObserver<String>()
+        val webviewVisibilitySubscriber = TestObserver<Boolean>()
+        (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.subscribe(bookingTripIDSubscriber)
+        (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).fetchItinObservable.subscribe(fetchTripIDSubscriber)
+        (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).showWebViewObservable.subscribe(webviewVisibilitySubscriber)
+        (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userAccountRefresher = userAccountRefresherMock
+        setupTestToOpenInFlightOutboundPresenter()
+
+        flightPresenter.flightOfferViewModel.flightProductId.onNext("12345")
+        bookingTripIDSubscriber.assertValueCount(0)
+        fetchTripIDSubscriber.assertValueCount(0)
+        webviewVisibilitySubscriber.assertValueCount(0)
+        Mockito.verify(userAccountRefresherMock, Mockito.times(0)).forceAccountRefreshForWebView()
+        val tripID = "testing-for-confirmation"
+
+        flightPresenter.flightOverviewPresenter.checkoutButton.performClick()
+        webviewVisibilitySubscriber.assertValue(true)
+
+        flightPresenter.webCheckoutView.onWebPageStarted(flightPresenter.webCheckoutView.webView, activity.getString(R.string.flight_confirmation_url_tag) + "?tripid=$tripID", null)
+        Mockito.verify(userAccountRefresherMock, Mockito.times(1)).forceAccountRefreshForWebView()
+        bookingTripIDSubscriber.assertValueCount(1)
+        webviewVisibilitySubscriber.assertValues(true, false)
+
+        (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).onUserAccountRefreshed()
+        fetchTripIDSubscriber.assertValueCount(1)
+        fetchTripIDSubscriber.assertValue(tripID)
+        bookingTripIDSubscriber.assertValue(tripID)
     }
 
     @Test
@@ -200,13 +240,15 @@ class FlightCheckoutViewTest {
         flightPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_activity, null) as FlightPresenter
         setupTestToOpenInFlightOutboundPresenter()
         flightPresenter.flightOfferViewModel.flightProductId.onNext("12345")
+        Db.getTripBucket().add(TripBucketItemFlightV2(getFlightCreateTripResponse()))
         flightPresenter.flightOverviewPresenter.checkoutButton.performClick()
 
-        assertTrue(flightPresenter.webCheckoutView.loadingWebview.visibility == View.GONE)
+        assertTrue(flightPresenter.webCheckoutView.loadingWebview.visibility == View.VISIBLE)
         (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).blankViewObservable.onNext(Unit)
 
         assertTrue(flightPresenter.webCheckoutView.visibility == View.VISIBLE)
         assertTrue(flightPresenter.flightOverviewPresenter.visibility == View.GONE)
+        assertTrue(flightPresenter.webCheckoutView.loadingWebview.visibility == View.VISIBLE)
     }
 
     @Test
@@ -339,15 +381,15 @@ class FlightCheckoutViewTest {
         setFlightPresenterAndFlightServices()
 
         val bookingTripIDSubscriber = TestObserver<String>()
-        val fectchTripIDSubscriber = TestObserver<String>()
+        val fetchTripIDSubscriber = TestObserver<String>()
         (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.subscribe(bookingTripIDSubscriber)
-        (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).fetchItinObservable.subscribe(fectchTripIDSubscriber)
+        (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).fetchItinObservable.subscribe(fetchTripIDSubscriber)
         (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userAccountRefresher = userAccountRefresherMock
         setupTestToOpenInFlightOutboundPresenter()
 
         flightPresenter.flightOfferViewModel.flightProductId.onNext("happy_round_trip")
         bookingTripIDSubscriber.assertValueCount(0)
-        fectchTripIDSubscriber.assertValueCount(0)
+        fetchTripIDSubscriber.assertValueCount(0)
         val tripID = "testing-for-confirmation"
         Mockito.verify(userAccountRefresherMock, Mockito.times(0)).forceAccountRefreshForWebView()
 
@@ -355,8 +397,8 @@ class FlightCheckoutViewTest {
         Mockito.verify(userAccountRefresherMock, Mockito.times(1)).forceAccountRefreshForWebView()
         bookingTripIDSubscriber.assertValueCount(1)
         (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).onUserAccountRefreshed()
-        fectchTripIDSubscriber.assertValueCount(1)
-        fectchTripIDSubscriber.assertValue(tripID)
+        fetchTripIDSubscriber.assertValueCount(1)
+        fetchTripIDSubscriber.assertValue(tripID)
         bookingTripIDSubscriber.assertValue(tripID)
     }
 
@@ -648,6 +690,27 @@ class FlightCheckoutViewTest {
         makeAnItinsCall("error_trip_details_response")
 
         assertBookingSuccessDialogDisplayedAndFinishesActivityOnClick()
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testShouldNotMaskScreenAfterWebCheckoutToNativeConfirmation() {
+        setPOSToIndia()
+        turnOnABTest()
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
+
+        val shouldMaskScreenTestObserver = TestObserver.create<Boolean>()
+        flightPresenter.webCheckoutView.viewModel.showWebViewObservable.subscribe(shouldMaskScreenTestObserver)
+
+        (flightPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userAccountRefresher = userAccountRefresherMock
+        setupTestToOpenInFlightOutboundPresenter()
+        flightPresenter.flightOfferViewModel.flightProductId.onNext("happy_round_trip")
+        val tripID = "testing-for-confirmation"
+        Mockito.verify(userAccountRefresherMock, Mockito.times(0)).forceAccountRefreshForWebView()
+        flightPresenter.webCheckoutView.onWebPageStarted(flightPresenter.webCheckoutView.webView, PointOfSale.getPointOfSale().flightsWebBookingConfirmationURL + "?tripid=$tripID", null)
+
+        shouldMaskScreenTestObserver.assertValues(true, false)
     }
 
     private fun assertBookingSuccessDialogDisplayedAndFinishesActivityOnClick() {

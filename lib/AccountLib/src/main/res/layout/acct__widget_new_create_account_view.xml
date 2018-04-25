@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/acct__white"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="20dp"
+            android:orientation="vertical"
+            android:focusable="false"
+            android:focusableInTouchMode="true" >
+
+            <com.expedia.account.singlepage.SinglePageEmailNamePasswordLayout
+                android:id="@+id/new_create_account_email_name_password_layout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:id="@+id/new_agree_to_spam_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/new_agree_to_spam_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="20dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:enabled="true"/>
+
+                <TextView
+                    android:id="@+id/new_agree_to_spam_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/acct__single_page_tos_text_color"
+                    android:textColorLink="@color/acct__single_page_tos_text_color"
+                    android:focusable="true"
+                    android:enabled="true"
+                    android:importantForAccessibility="no"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/new_create_account_terms_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:textColor="@color/acct__single_page_tos_text_color"
+                android:textColorLink="@color/acct__single_page_tos_text_color" />
+
+            <Button
+                android:id="@+id/new_create_account_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/acct__new_account_btn_bg_color"
+                android:padding="@dimen/acct__new_account_btn_padding"
+                android:text="@string/acct__new_create_account_text"
+                android:textColor="@color/acct__white"
+                android:textSize="14sp"
+                android:textAllCaps="false" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</merge>

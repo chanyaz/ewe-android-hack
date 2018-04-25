@@ -11,9 +11,11 @@ import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.bookings.tracking.ApiCallFailing
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.packages.vm.BundleOverviewViewModel
 import com.expedia.bookings.packages.vm.PackageSearchType
+import com.expedia.bookings.utils.Constants
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
@@ -54,17 +56,67 @@ class BundleOverviewViewModelTests {
     }
 
     @Test
-    fun testHotelsError() {
-        val errorSubscriber = TestObserver<PackageApiError.Code>()
+    fun testHotelSearchError() {
+        val errorSubscriber = TestObserver<Pair<PackageApiError.Code, ApiCallFailing>>()
         sut.errorObservable.subscribe(errorSubscriber)
 
-        sut.hotelParamsObservable.onNext(setUpParams("error"))
+        var params = setUpParams("error")
+        sut.hotelParamsObservable.onNext(params)
 
         errorSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
         errorSubscriber.assertNotTerminated()
         errorSubscriber.assertNoErrors()
 
-        assertEquals(PackageApiError.Code.mid_could_not_find_results, errorSubscriber.values()[0])
+        var apiCallFailingDetails = errorSubscriber.values()[0].second
+
+        assertEquals(PackageApiError.Code.mid_could_not_find_results, errorSubscriber.values()[0].first)
+        assertEquals("MIS_INVALID_REQUEST", apiCallFailingDetails.errorCode)
+        assertEquals("PACKAGE_HOTEL_SEARCH", apiCallFailingDetails.apiCall)
+
+        // Change Hotel
+        params.pageType = Constants.PACKAGE_CHANGE_FLIGHT
+        sut.hotelParamsObservable.onNext(params)
+        errorSubscriber.awaitValueCount(2, 1, TimeUnit.SECONDS)
+
+        apiCallFailingDetails = errorSubscriber.values()[1].second
+
+        assertEquals(PackageApiError.Code.mid_could_not_find_results, errorSubscriber.values()[1].first)
+        assertEquals("MIS_INVALID_REQUEST", apiCallFailingDetails.errorCode)
+        assertEquals("PACKAGE_HOTEL_SEARCH_CHANGE", apiCallFailingDetails.apiCall)
+    }
+
+    @Test
+    fun testResponseWithNoOffers() {
+        val errorSubscriber = TestObserver<Pair<PackageApiError.Code, ApiCallFailing>>()
+        sut.errorObservable.subscribe(errorSubscriber)
+
+        var params = setUpParams("no_offers")
+        sut.hotelParamsObservable.onNext(params)
+
+        errorSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
+
+        var apiCallFailingDetails = errorSubscriber.values()[0].second
+
+        assertEquals(PackageApiError.Code.search_response_null, errorSubscriber.values()[0].first)
+        assertEquals("search_response_null", apiCallFailingDetails.errorCode)
+        assertEquals("PACKAGE_HOTEL_SEARCH", apiCallFailingDetails.apiCall)
+    }
+
+    @Test
+    fun testUnknownErrorThrown() {
+        val errorSubscriber = TestObserver<Pair<PackageApiError.Code, ApiCallFailing>>()
+        sut.errorObservable.subscribe(errorSubscriber)
+
+        var params = setUpParams("invalid_hotel_star_rating_for_unknown_error")
+        sut.hotelParamsObservable.onNext(params)
+
+        errorSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
+
+        var apiCallFailingDetails = errorSubscriber.values()[0].second
+
+        assertEquals(PackageApiError.Code.pkg_error_code_not_mapped, errorSubscriber.values()[0].first)
+        assertEquals("pkg_error_code_not_mapped", apiCallFailingDetails.errorCode)
+        assertEquals("PACKAGE_HOTEL_SEARCH", apiCallFailingDetails.apiCall)
     }
 
     @Test
@@ -85,7 +137,7 @@ class BundleOverviewViewModelTests {
 
     @Test
     fun testFlightsInboundError() {
-        val errorSubscriber = TestObserver<PackageApiError.Code>()
+        val errorSubscriber = TestObserver<Pair<PackageApiError.Code, ApiCallFailing>>()
         sut.errorObservable.subscribe(errorSubscriber)
 
         val params = setUpParams()
@@ -96,7 +148,22 @@ class BundleOverviewViewModelTests {
         errorSubscriber.assertNotTerminated()
         errorSubscriber.assertNoErrors()
 
-        assertEquals(PackageApiError.Code.mid_could_not_find_results, errorSubscriber.values()[0])
+        var apiCallFailingDetails = errorSubscriber.values()[0].second
+
+        assertEquals(PackageApiError.Code.mid_could_not_find_results, errorSubscriber.values()[0].first)
+        assertEquals("MIS_INVALID_REQUEST", apiCallFailingDetails.errorCode)
+        assertEquals("PACKAGE_FLIGHT_INBOUND", apiCallFailingDetails.apiCall)
+
+        // Change inbound flight
+        params.pageType = Constants.PACKAGE_CHANGE_FLIGHT
+        sut.flightParamsObservable.onNext(params)
+        errorSubscriber.awaitValueCount(2, 1, TimeUnit.SECONDS)
+
+        apiCallFailingDetails = errorSubscriber.values()[1].second
+
+        assertEquals(PackageApiError.Code.mid_could_not_find_results, errorSubscriber.values()[1].first)
+        assertEquals("MIS_INVALID_REQUEST", apiCallFailingDetails.errorCode)
+        assertEquals("PACKAGE_FLIGHT_INBOUND_CHANGE", apiCallFailingDetails.apiCall)
     }
 
     @Test
@@ -117,7 +184,7 @@ class BundleOverviewViewModelTests {
 
     @Test
     fun testFlightsOutboundError() {
-        val errorSubscriber = TestObserver<PackageApiError.Code>()
+        val errorSubscriber = TestObserver<Pair<PackageApiError.Code, ApiCallFailing>>()
         sut.errorObservable.subscribe(errorSubscriber)
 
         val params = setUpParams()
@@ -128,7 +195,22 @@ class BundleOverviewViewModelTests {
         errorSubscriber.assertNotTerminated()
         errorSubscriber.assertNoErrors()
 
-        assertEquals(PackageApiError.Code.mid_could_not_find_results, errorSubscriber.values()[0])
+        var apiCallFailingDetails = errorSubscriber.values()[0].second
+
+        assertEquals(PackageApiError.Code.mid_could_not_find_results, errorSubscriber.values()[0].first)
+        assertEquals("MIS_INVALID_REQUEST", apiCallFailingDetails.errorCode)
+        assertEquals("PACKAGE_FLIGHT_OUTBOUND", apiCallFailingDetails.apiCall)
+
+        // Change outbound flight
+        params.pageType = Constants.PACKAGE_CHANGE_FLIGHT
+        sut.flightParamsObservable.onNext(params)
+        errorSubscriber.awaitValueCount(2, 1, TimeUnit.SECONDS)
+
+        apiCallFailingDetails = errorSubscriber.values()[1].second
+
+        assertEquals(PackageApiError.Code.mid_could_not_find_results, errorSubscriber.values()[1].first)
+        assertEquals("MIS_INVALID_REQUEST", apiCallFailingDetails.errorCode)
+        assertEquals("PACKAGE_FLIGHT_OUTBOUND_CHANGE", apiCallFailingDetails.apiCall)
     }
 
     @Test

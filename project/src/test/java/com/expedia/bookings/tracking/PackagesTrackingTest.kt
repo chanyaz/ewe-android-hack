@@ -58,7 +58,7 @@ class PackagesTrackingTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackHotelSearchResultLoadWithFlightCabinClass() {
-        sut.trackHotelSearchResultLoad(mockPackageServiceRule.getPSSHotelSearchResponse(), PageUsableData())
+        sut.trackHotelSearchResultLoad(mockPackageServiceRule.getMIDHotelResponse(), PageUsableData())
         val controlEvar = mapOf(47 to "PKG|1R|RT|A1|C3|L1|E")
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
     }
@@ -522,18 +522,16 @@ class PackagesTrackingTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testTrackSearchError() {
-        sut.trackSearchError("ErrorType")
-        val controlEvar = mapOf(18 to "App.Package.Hotels-Search.NoResults")
-        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
-    }
+    fun testTrackShoppingError() {
 
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testTrackInfositeError() {
-        sut.trackInfositeError("ErrorType")
-        val controlEvar = mapOf(18 to "App.Package.Infosite.Error")
+        val errorDetails = ApiCallFailing.PackageHotelSearch("UNKNOWN_ERROR")
+        val controlEvar = mapOf(18 to "App.Package.Shopping.Error")
+        val prop36 = mapOf(36 to "UNKNOWN_ERROR|PACKAGE_HOTEL_SEARCH")
+
+        sut.trackShoppingError(errorDetails)
+
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withProps(prop36), mockAnalyticsProvider)
     }
 
     @Test

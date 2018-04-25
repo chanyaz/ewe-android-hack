@@ -1,0 +1,177 @@
+{
+  "metadata": {
+    "userContext": {
+      "siteId": 1,
+      "expUserId": "55931541",
+      "guid": "27b551b8-5243-49fa-89d3-4f8bac095071"
+    }
+  },
+  "results": [
+    {
+      "product": "TRAVELER_ENGAGEMENT",
+      "type": "SHORTLIST_ITEM",
+      "items": [
+        {
+          "templateName": "HOTEL",
+          "shortlistItem": {
+            "id": "1-55931541-15930-hotel",
+            "itemId": "15930",
+            "configId": "hotel",
+            "guid": "b6b8358f-de73-4bcf-9fd9-83a92b045303",
+            "uid": "55931541",
+            "expUserId": "55931541",
+            "siteId": 1,
+            "metaData": {
+              "chkOut": "20171108",
+              "roomConfiguration": "2",
+              "chkIn": "20171104",
+              "hotelId": "15930"
+            },
+            "lastModifiedDate": {
+              "nano": 0,
+              "epochSecond": 1506019852
+            }
+          },
+          "link": "/go/hotel/info/15930/2017-11-04/2017-11-08?NumRoom=1&NumAdult-Room1=2",
+          "image": null,
+          "title": null,
+          "blurb": null,
+          "id": "1-55931541-15930-hotel",
+          "name": "TI - Treasure Island Hotel and Casino",
+          "description": "Treasure Island - TI Hotel & Casino is connected to the Fashion Show shopping mall by bridge as well as The Mirage by tram, and within easy walking distance of Wynn/Encore, the Sands Expo, and Venetian/Palazzo.",
+          "media": "/hotels/1000000/20000/16000/15930/15930_193_y.jpg",
+          "rating": "4",
+          "guestRating": "4.065955",
+          "numberOfReviews": "42707",
+          "numberOfRooms": "",
+          "price": "",
+          "regionId": "2008",
+          "currency": "",
+          "tripLocations": null,
+          "tripDates": null,
+          "routeType": null
+        },
+        {
+          "templateName": "HOTEL",
+          "shortlistItem": {
+            "id": "1-55931541-1443-hotel",
+            "itemId": "1443",
+            "configId": "hotel",
+            "guid": "b6b8358f-de73-4bcf-9fd9-83a92b045303",
+            "uid": "55931541",
+            "expUserId": "55931541",
+            "siteId": 1,
+            "metaData": {
+              "chkOut": "20171108",
+              "roomConfiguration": "2",
+              "chkIn": "20171104",
+              "hotelId": "1443"
+            },
+            "lastModifiedDate": {
+              "nano": 0,
+              "epochSecond": 1506019865
+            }
+          },
+          "link": "/go/hotel/info/1443/2017-11-04/2017-11-08?NumRoom=1&NumAdult-Room1=2",
+          "image": null,
+          "title": null,
+          "blurb": null,
+          "id": "1-55931541-1443-hotel",
+          "name": "The Venetian Las Vegas",
+          "description": "This all-suite resort and casino on the Las Vegas Strip is a short drive from Fashion Show Mall, the convention center,  Downtown, and McCarran Airport.",
+          "media": "/hotels/1000000/10000/1500/1443/d73823db_y.jpg",
+          "rating": "5",
+          "guestRating": "4.5531573",
+          "numberOfReviews": "24983",
+          "numberOfRooms": "",
+          "price": "",
+          "regionId": "2008",
+          "currency": "",
+          "tripLocations": null,
+          "tripDates": null,
+          "routeType": null
+        },
+        {
+          "templateName": "HOTEL",
+          "shortlistItem": {
+            "id": "1-55931541-6452-hotel",
+            "itemId": "6452",
+            "configId": "hotel",
+            "guid": "68ea713d-3ddb-46ee-b1c9-e80fa04163f5",
+            "uid": "55931541",
+            "expUserId": "55931541",
+            "siteId": 1,
+            "metaData": {
+              "hotelId": "6452",
+              "chkIn": "20171108",
+              "chkOut": "20171109",
+              "roomConfiguration": "2"
+            },
+            "lastModifiedDate": {
+              "nano": 0,
+              "epochSecond": 1510085968
+            }
+          },
+          "link": "/go/hotel/info/6452/2017-11-08/2017-11-09?NumRoom=1&NumAdult-Room1=2",
+          "image": null,
+          "title": null,
+          "blurb": null,
+          "id": "1-55931541-6452-hotel",
+          "name": "Congress Plaza Hotel",
+          "description": "Built in 1893, this downtown Chicago hotel offers a convenient location across from Grant Park and close to Lake Michigan.",
+          "media": "/hotels/1000000/10000/6500/6452/6452_60_y.jpg",
+          "rating": "3",
+          "guestRating": "3.5952609",
+          "numberOfReviews": "2110",
+          "numberOfRooms": "",
+          "price": "",
+          "regionId": "829",
+          "currency": "",
+          "tripLocations": null,
+          "tripDates": null,
+          "routeType": null
+        },
+        {
+          "templateName": "HOTEL",
+          "shortlistItem": {
+            "id": "1-55931541-23838-hotel",
+            "itemId": "23838",
+            "configId": "hotel",
+            "guid": "ffada33c-8574-4ed8-98e4-86eec7c28103",
+            "uid": "55931541",
+            "expUserId": "55931541",
+            "siteId": 1,
+            "metaData": {
+              "hotelId": "23838",
+              "chkIn": "20180308",
+              "chkOut": "20180315",
+              "roomConfiguration": ""
+            },
+            "lastModifiedDate": {
+              "nano": 0,
+              "epochSecond": 1515598655
+            }
+          },
+          "link": "/go/hotel/info/23838/2018-03-08/2018-03-15?NumRoom=1",
+          "image": null,
+          "title": null,
+          "blurb": null,
+          "id": "1-55931541-23838-hotel",
+          "name": "San Francisco Airport Marriott Waterfront",
+          "description": "Located on the San Francisco Bay, this hotel is within 1 mile of the international airport, which has a BART rapid-transit line that connects to downtown San Francisco, 15 miles away.",
+          "media": "/hotels/1000000/30000/23900/23838/23838_124_y.jpg",
+          "rating": "4",
+          "guestRating": "4.196743",
+          "numberOfReviews": "1474",
+          "numberOfRooms": "",
+          "price": "",
+          "regionId": "7146",
+          "currency": "",
+          "tripLocations": null,
+          "tripDates": null,
+          "routeType": null
+        }
+      ]
+    }
+  ]
+}

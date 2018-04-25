@@ -1,6 +1,7 @@
 package com.expedia.bookings.presenter.shared
 
 import android.content.Context
+import android.support.annotation.VisibleForTesting
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
@@ -14,6 +15,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.extensions.subscribeInverseVisibility
+import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.bindView
@@ -37,8 +39,10 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     private val airlineChargesFeesTextView: TextView by bindView(R.id.airline_charges_fees_header)
     val filterButton: FlightFilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     private lateinit var flightLoader: ViewStub
-    private lateinit var flightLoadingWidget: FlightLoadingWidget
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    lateinit var flightLoadingWidget: FlightLoadingWidget
     lateinit var flightProgressBar: ProgressBar
+
     private lateinit var flightListAdapter: AbstractFlightListAdapter
     var trackScrollDepthSubscription: Disposable? = null
 
@@ -135,6 +139,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
                     completeProgressBarAnimation()
                 }
             }
+            vm.isOutboundResults.subscribeVisibility(flightLoadingWidget)
         } else {
             vm.airlineChargesFeesSubject.subscribe { showAirlineChargesFees ->
                 setPaymentLegalMessage(showAirlineChargesFees)

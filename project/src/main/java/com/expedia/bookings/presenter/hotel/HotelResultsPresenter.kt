@@ -293,6 +293,8 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
                         DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION).start()
             }
         }
+
+        favoritesMenuItem.isVisible = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelShortlist)
     }
 
     override fun inflate() {

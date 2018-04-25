@@ -86,6 +86,10 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
                 window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
             }
         }
+        vm.reloadUrlObservable.subscribe {
+            webView.reload()
+            webView.clearHistory()
+        }
     }
 
     override fun onFinishInflate() {
@@ -97,22 +101,18 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
     }
 
     override fun toggleLoading(loading: Boolean) {
-        if (ExpediaBookingApp.isAutomation()) {
+        if (ExpediaBookingApp.isInstrumentation()) {
             return
         }
         loadingWebview.setVisibility(loading)
     }
 
     override fun onWebPageStarted(view: WebView, url: String, favicon: Bitmap?) {
-        if (urlHasPOSWebBookingConfirmationUrl(url) || urlIsMIDConfirmation(url) || urlIsLXConfirmation(url)) {
+        if (urlIsMIDConfirmation(url) || (urlIsLOBBookingConfirmation(url) && isUserBucketedIntoWebCheckout())) {
             view.stopLoading()
+            viewModel.showWebViewObservable.onNext(false)
             (viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.onNext(Uri.parse(url).getQueryParameter("tripid"))
         }
-    }
-
-    private fun urlIsLXConfirmation(url: String): Boolean {
-        return (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppLxWebCheckoutView)
-                && (url.contains(context.getString(R.string.mid_confirmation_url_tag)) || (url.contains(context.getString(R.string.lx_confirmation_url_tag)))))
     }
 
     override fun setExitButtonOnClickListener(listener: OnClickListener) {
@@ -162,12 +162,16 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
         return false
     }
 
-    private fun urlHasPOSWebBookingConfirmationUrl(url: String): Boolean {
-        return ((PointOfSale.getPointOfSale().shouldShowWebCheckout() ||
-                AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelsWebCheckout))
-                && url.contains(context.getString(R.string.hotel_confirmation_url_tag)) ||
-                (!PointOfSale.getPointOfSale().flightsWebBookingConfirmationURL.isNullOrBlank()
-                        && url.startsWith(PointOfSale.getPointOfSale().flightsWebBookingConfirmationURL)))
+    private fun urlIsLOBBookingConfirmation(url: String): Boolean {
+        return url.contains(context.getString(R.string.hotel_confirmation_url_tag)) || url.contains(context.getString(R.string.flight_confirmation_url_tag)) || (url.contains(context.getString(R.string.mid_confirmation_url_tag)) ||
+                (url.contains(context.getString(R.string.lx_confirmation_url_tag))))
+    }
+
+    private fun isUserBucketedIntoWebCheckout(): Boolean {
+        return PointOfSale.getPointOfSale().shouldShowWebCheckout() ||
+                AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelsWebCheckout) ||
+                AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckout) ||
+                AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppLxWebCheckoutView)
     }
 
     private fun urlIsMIDConfirmation(url: String): Boolean {

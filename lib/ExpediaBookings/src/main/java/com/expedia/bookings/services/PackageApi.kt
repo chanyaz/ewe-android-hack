@@ -4,8 +4,6 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
-import com.expedia.bookings.data.packages.PackageOffersResponse
-import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
 
 import io.reactivex.Observable
@@ -19,21 +17,6 @@ import retrofit2.http.Query
 import java.math.BigDecimal
 
 interface PackageApi {
-
-    @FormUrlEncoded
-    @POST("/getpackages/v1?forceNoRedir=1&packageType=fh")
-    fun packageSearch(
-            @FieldMap queryParams: Map<String, @JvmSuppressWildcards Any?>): Observable<PackageSearchResponse>
-
-    @GET("/api/packages/hotelOffers")
-    fun packageHotelOffers(
-            @Query("productKey") productKey: String,
-            @Query("checkInDate") checkInDate: String,
-            @Query("checkOutDate") checkOutDate: String,
-            @Query("ratePlanCode") ratePlanCode: String?,
-            @Query("roomTypeCode") roomTypeCode: String?,
-            @Query("numberOfAdultTravelers") numberOfAdultTravelers: Int?,
-            @Query("childTravelerAge") childTravelerAge: Int?): Observable<PackageOffersResponse>
 
     @GET("/m/api/hotel/info")
     fun hotelInfo(

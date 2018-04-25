@@ -21,4 +21,12 @@
     <!--Carnival SDK Key-->
     <string name="carnival_sdk_key">d24ea2b0bbf59caf76082879a49bb306ad86c99c</string>
 
+    <!-- Package names -->
+    <string name="facebook_messenger_package_name">com.facebook.orca</string>
+    <string name="twitter_package_name">com.twitter.android</string>
+
+    <!-- Customer First Guarantee URI -->
+    <string name="customer_first_facebook_messenger_uri">fb-messenger://user-thread/83669531845</string>
+    <string name="customer_first_twitter_uri">twitter://messages/compose?recipient_id=1877047459</string>
+    <string name="customer_first_help_topics_url">https://www.travelocity.com/service/</string>
 </resources>

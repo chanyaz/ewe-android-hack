@@ -33,4 +33,6 @@
     <color name="acct__single_page_selected_color">@color/acct__blue_1</color>
     <color name="acct__single_page_text_color">@color/acct__gray900</color>
     <color name="acct__single_page_disabled_color">@color/acct__gray900_50</color>
+
+    <color name="acct__new_account_btn_bg_color">@color/acct__blue_2</color>
 </resources>

@@ -8,7 +8,6 @@ import com.expedia.bookings.data.multiitem.HotelOffer
 import com.expedia.bookings.data.multiitem.FlightOffer
 import com.expedia.bookings.data.multiitem.MultiItemFlightLeg
 import com.expedia.bookings.data.multiitem.MultiItemError
-import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Test
@@ -38,25 +37,13 @@ class PackageResponseUtilsTest {
             latch.countDown()
         })
         latch.await(2, TimeUnit.SECONDS)
-        val packageSearchResponse = sut.loadPackageResponse(context, sut.RECENT_PACKAGE_HOTELS_FILE, true)
+        val packageSearchResponse = sut.loadPackageResponse(context, sut.RECENT_PACKAGE_HOTELS_FILE)
         assertEquals(expectedPackageSearchResponse, packageSearchResponse)
     }
 
     @Test
-    fun testLoadPackageResponseWhenMidAPIDisabled() {
-        var expectedPackageSearchResponse = PackageSearchResponse()
-        val latch = CountDownLatch(1)
-        sut.savePackageResponse(context, expectedPackageSearchResponse, sut.RECENT_PACKAGE_HOTELS_FILE, { _ ->
-            latch.countDown()
-        })
-        latch.await(2, TimeUnit.SECONDS)
-        val packageSearchResponse = sut.loadPackageResponse(context, sut.RECENT_PACKAGE_HOTELS_FILE, false) as PackageSearchResponse
-        assertEquals(expectedPackageSearchResponse.packageResult, packageSearchResponse.packageResult)
-    }
-
-    @Test
     fun testLoadPackageResponseWhenSavePackageResponseIsNotCalled() {
-        val packageSearchResponse = sut.loadPackageResponse(context, sut.RECENT_PACKAGE_HOTELS_FILE, false)
+        val packageSearchResponse = sut.loadPackageResponse(context, sut.RECENT_PACKAGE_HOTELS_FILE)
         assertEquals(null, packageSearchResponse)
     }
 

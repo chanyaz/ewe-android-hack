@@ -17,7 +17,7 @@ import com.expedia.bookings.utils.FlightsV2DataUtil
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.ui.FlightActivity
 import com.expedia.ui.HotelActivity
-import com.expedia.ui.PackageActivity
+import com.expedia.bookings.packages.activity.PackageActivity
 import com.expedia.util.ForceBucketPref
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import org.junit.Test

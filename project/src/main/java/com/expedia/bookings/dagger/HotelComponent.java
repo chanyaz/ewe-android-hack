@@ -1,5 +1,7 @@
 package com.expedia.bookings.dagger;
 
+import javax.inject.Named;
+
 import org.jetbrains.annotations.NotNull;
 
 import com.expedia.bookings.dagger.tags.HotelScope;
@@ -12,6 +14,7 @@ import com.expedia.bookings.presenter.hotel.HotelCheckoutPresenter;
 import com.expedia.bookings.presenter.hotel.HotelPresenter;
 import com.expedia.bookings.presenter.hotel.HotelResultsPresenter;
 import com.expedia.bookings.presenter.hotel.HotelSearchPresenter;
+import com.expedia.bookings.services.HotelShortlistServices;
 import com.expedia.bookings.services.ReviewsServices;
 import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.bookings.services.travelgraph.TravelGraphServices;
@@ -27,6 +30,7 @@ import com.expedia.vm.HotelSearchViewModel;
 import com.expedia.vm.interfaces.IPayWithPointsViewModel;
 
 import dagger.Component;
+import okhttp3.Interceptor;
 
 @HotelScope
 @Component(dependencies = {AppComponent.class}, modules = {HotelModule.class})
@@ -46,8 +50,14 @@ public interface HotelComponent {
 	void inject(HotelSearchViewModel hotelSearchViewModel);
 	void inject(HotelResultsPresenter hotelResultsPresenter);
 
+	@Named("TravelGraphInterceptor")
+	Interceptor travelGraphInterceptor();
+	@Named("HotelShortlistInterceptor")
+	Interceptor hotelShortlistInterceptor();
+
 	SuggestionV4Services suggestionsService();
 	TravelGraphServices travelGraphServices();
+	HotelShortlistServices hotelShortlistServices();
 	ReviewsServices reviewsServices();
 	IPayWithPointsViewModel payWithPointsViewModel();
 

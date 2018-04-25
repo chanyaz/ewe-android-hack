@@ -26,7 +26,10 @@ data class HotelRoom(
 data class TotalPriceDetails(
         val totalFormatted: String?,
         val priceDetailsPerDay: List<HotelRoomPriceDetails>?,
-        val base: String?
+        val base: String?,
+        val extraGuestChargesFormatted: String?,
+        val taxesAndFeesFormatted: String?,
+        val adjustmentForCouponFormatted: String?
 )
 
 data class HotelPropertyInfo(

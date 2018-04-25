@@ -199,4 +199,15 @@ public class ServicesUtil {
 		}
 		return context.getResources().getString(R.string.tg_prod_client_token);
 	}
+
+	public static String getHotelShortlistClientId(Context context) {
+		return context.getString(R.string.hotel_shortlist_client_id);
+	}
+
+	public static String getHotelShortlistClientToken(Context context, EndPoint endPoint) {
+		if (endPoint == EndPoint.INTEGRATION) {
+			return context.getResources().getString(R.string.hotel_shortlist_test_client_token);
+		}
+		return context.getResources().getString(R.string.hotel_shortlist_prod_client_token);
+	}
 }

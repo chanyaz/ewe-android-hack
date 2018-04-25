@@ -21,6 +21,7 @@
         android:layout_gravity="center_vertical"
         android:ellipsize="marquee"
         android:maxLines="1"
-        app:textStyle="light"
+        app:textStyle="normal"
+        android:textColor="@color/gray700"
         android:textSize="18sp" />
 </LinearLayout>

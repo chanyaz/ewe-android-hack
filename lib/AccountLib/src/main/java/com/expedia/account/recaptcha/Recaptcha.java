@@ -28,7 +28,7 @@ public class Recaptcha {
 						@Override
 						public void onSuccess(SafetyNetApi.RecaptchaTokenResponse response) {
 							String userResponseToken = response.getTokenResult();
-							handler.onSuccess(userResponseToken);
+							handler.onRecaptchaSuccess(userResponseToken);
 							Log.i("RECAPTCHA", "Successful Token Acquired: " + userResponseToken);
 						}
 					})
@@ -45,14 +45,14 @@ public class Recaptcha {
 							Log.e("RECAPTCHA: FAILURE", e);
 						}
 						lastRecaptchaException = e;
-						handler.onFailure();
+						handler.onRecaptchaFailure();
 					}
 				});
 		}
 		catch (Exception e) {
 			Log.e("RECAPTCHA: SDK EXCEPTION", e);
 			lastRecaptchaException = e;
-			handler.onFailure();
+			handler.onRecaptchaFailure();
 		}
 	}
 

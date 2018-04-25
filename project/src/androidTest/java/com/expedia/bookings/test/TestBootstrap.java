@@ -43,11 +43,6 @@ public class TestBootstrap extends ActivityInstrumentationTestCase2<RouterActivi
 		Settings.setServer("Production");
 	}
 
-	@Before("@CALocale")
-	public void setLocaleToCanada() throws Exception {
-		Common.setLocale(Locale.CANADA);
-	}
-
 	@Before
 	public void setUp() throws Exception {
 		//clear private data

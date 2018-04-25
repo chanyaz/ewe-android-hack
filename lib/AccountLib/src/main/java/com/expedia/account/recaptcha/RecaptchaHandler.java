@@ -5,7 +5,7 @@ package com.expedia.account.recaptcha;
  */
 
 public interface RecaptchaHandler {
-	void onSuccess(String recaptchaResponseToken);
-	void onFailure();
+	void onRecaptchaSuccess(String recaptchaResponseToken);
+	void onRecaptchaFailure();
 }
 

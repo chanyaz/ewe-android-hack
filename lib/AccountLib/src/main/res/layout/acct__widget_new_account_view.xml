@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/new_account_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:navigationContentDescription="@string/acct__Toolbar_nav_close_icon_cont_desc"/>
+
+    <FrameLayout
+        android:id="@+id/new_account_tabs_container"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize" >
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/new_account_tabs"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            app:tabTextAppearance="@style/acct__TabTextAppearance"
+            app:tabGravity="fill"
+            app:tabMode="fixed" />
+
+    </FrameLayout>
+
+    <com.expedia.account.SwipeDisabledViewPager
+        android:id="@+id/new_account_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.expedia.account.newsignin.NewSignInLayout
+            android:id="@+id/new_account_signin_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </com.expedia.account.newsignin.NewSignInLayout>
+
+        <com.expedia.account.newsignin.NewCreateAccountLayout
+            android:id="@+id/new_account_create_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </com.expedia.account.newsignin.NewCreateAccountLayout>
+
+    </com.expedia.account.SwipeDisabledViewPager>
+
+</LinearLayout>

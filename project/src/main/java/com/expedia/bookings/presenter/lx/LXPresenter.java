@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 
@@ -65,7 +66,7 @@ public class LXPresenter extends Presenter {
 	public LXSearchPresenter searchParamsWidget;
 
 	@InjectView(R.id.search_list_presenter)
-	LXResultsPresenter resultsPresenter;
+	public LXResultsPresenter resultsPresenter;
 
 	@InjectView(R.id.details_map_view)
 	MapView detailsMapView;
@@ -74,7 +75,7 @@ public class LXPresenter extends Presenter {
 	public LXDetailsPresenter detailsPresenter;
 
 	@InjectView(R.id.details_loading_overlay)
-	LoadingOverlayWidget loadingOverlay;
+	public LoadingOverlayWidget loadingOverlay;
 
 	@InjectView(R.id.confirmation)
 	LXConfirmationWidget confirmationWidget;
@@ -565,14 +566,13 @@ public class LXPresenter extends Presenter {
 		return AbacusFeatureConfigManager.isBucketedForTest(getContext(), AbacusUtils.EBAndroidAppLxWebCheckoutView);
 	}
 
-	private Observer<Unit> onCloseWebView = new DisposableObserver<Unit>() {
+	@VisibleForTesting
+	public Observer<Unit> onCloseWebView = new DisposableObserver<Unit>() {
 		@Override
-		public void onComplete() {
-		}
+		public void onComplete() { }
 
 		@Override
-		public void onError(Throwable e) {
-		}
+		public void onError(Throwable e) { }
 
 		@Override
 		public void onNext(Unit e) {
@@ -581,14 +581,13 @@ public class LXPresenter extends Presenter {
 		}
 	};
 
-	private Observer<Unit> onBackClickObserver = new DisposableObserver<Unit>() {
+	@VisibleForTesting
+	public Observer<Unit> onBackClickObserver = new DisposableObserver<Unit>() {
 		@Override
-		public void onComplete() {
-		}
+		public void onComplete() { }
 
 		@Override
-		public void onError(Throwable e) {
-		}
+		public void onError(Throwable e) { }
 
 		@Override
 		public void onNext(Unit e) {
@@ -596,14 +595,13 @@ public class LXPresenter extends Presenter {
 		}
 	};
 
-	private Observer<Unit> blankViewObserver = new DisposableObserver<Unit>() {
+	@VisibleForTesting
+	public Observer<Unit> blankViewObserver = new DisposableObserver<Unit>() {
 		@Override
-		public void onComplete() {
-		}
+		public void onComplete() { }
 
 		@Override
-		public void onError(Throwable e) {
-		}
+		public void onError(Throwable e) { }
 
 		@Override
 		public void onNext(Unit e) {

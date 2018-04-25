@@ -37,4 +37,32 @@ class EndpointProviderTest {
         SettingUtils.save(context, context.getString(R.string.preference_which_api_to_use_key), "Production")
         assertEquals("https://suggest.expedia.com/", endpointProvider.essEndpointUrl)
     }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testGetHotelShortlistEndpointUrlForMockMode() {
+        SettingUtils.save(context, context.getString(R.string.preference_which_api_to_use_key), "Mock Mode")
+        assertEquals("https://localhost:3000/", endpointProvider.hotelShortlistEndpointUrl)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testGetHotelShortlistEndpointUrlForProduction() {
+        SettingUtils.save(context, context.getString(R.string.preference_which_api_to_use_key), "Production")
+        assertEquals("https://www.expedia.com/", endpointProvider.hotelShortlistEndpointUrl)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testGetHotelShortlistEndpointUrlForIntegration() {
+        SettingUtils.save(context, context.getString(R.string.preference_which_api_to_use_key), "Integration")
+        assertEquals("https://wwwexpediacom.integration.sb.karmalab.net/", endpointProvider.hotelShortlistEndpointUrl)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testGetHotelShortlistEndpointUrlForOthers() {
+        SettingUtils.save(context, context.getString(R.string.preference_which_api_to_use_key), "Dev")
+        assertEquals("https://www.expedia.com/", endpointProvider.hotelShortlistEndpointUrl)
+    }
 }

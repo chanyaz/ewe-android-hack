@@ -146,7 +146,7 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:key="25630"
             android:summary="%s"
-            android:title="Hotel Travel Pulse Lists - 25630" />
+            android:title="Hotel Hotel Shortlist - 25630" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -155,6 +155,14 @@
             android:key="25455"
             android:summary="%s"
             android:title="UGC reviews design update - 25455" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="25410"
+            android:summary="%s"
+            android:title="Hotel Map Small Sold Out Pin  - 25410" />
 
     </PreferenceCategory>
 
@@ -318,9 +326,9 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="16382"
+            android:key="25680"
             android:summary="%s"
-            android:title="Moving flights endpoint to Kong - 16382" />
+            android:title="Moving flights endpoint to Kong - 25680" />
 
         <ListPreference
             android:defaultValue="-1"
@@ -406,6 +414,14 @@
             android:summary="%s"
             android:key="25001"
             android:title="Show Orbitz Reward Launch Card - 25001" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
+            android:key="25382"
+            android:title="Show Customer First Guarantee - 25382" />
 
     </PreferenceCategory>
 
@@ -587,6 +603,14 @@
             android:key="25566"
             android:title="Enable Edit Account Web View - 25566" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
+            android:key="24581"
+            android:title="New Single Page Sign In - 24581" />
+
     </PreferenceCategory>
 
 
@@ -688,6 +712,14 @@
             android:key="24499"
             android:summary="%s"
             android:title="Trips - Hotel Review - 24499" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="25484"
+            android:summary="%s"
+            android:title="Trips - Taxi card - 25484" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -813,6 +845,13 @@
             android:summary="%s"
             android:title="FHC Package WebView - 25555" />
 
+        <ListPreference
+            android:defaultValue="-1"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="25714"
+            android:summary="%s"
+            android:title="Packages AA Test - 25714" />
     </PreferenceCategory>
 
     <PreferenceCategory

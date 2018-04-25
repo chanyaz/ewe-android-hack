@@ -18,6 +18,7 @@ import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.AboutWebViewActivity
 import com.expedia.bookings.activity.OpenSourceLicenseWebViewActivity
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
@@ -28,7 +29,9 @@ import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.mia.activity.CustomerFirstActivity
 import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
@@ -38,10 +41,12 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.LaunchNavBucketCache
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.shouldShowCustomerFirstGuarantee
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
 import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
+import org.hamcrest.Matchers
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -51,6 +56,7 @@ import org.robolectric.Shadows
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
+import java.net.URLDecoder
 import java.util.Calendar
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -309,13 +315,24 @@ class AccountSettingsFragmentTest {
 
         assertCountryViewDisplayed(expectedCountryCode, expectedFlagResId, R.id.second_row_country)
 
-        clickViewWithTextInSection(activity.resources.getString(R.string.booking_support), R.id.section_contact_us)
-        clickPhoneSupportButton()
+        if (shouldShowCustomerFirstGuarantee(activity)) {
+            clickViewWithTextInSection(activity.resources.getString(R.string.customer_first_chat_with_us_now), R.id.section_contact_us)
 
-        val userStateManager = Ui.getApplication(RuntimeEnvironment.application).appComponent().userStateManager()
-        val user = userStateManager.userSource.user
+            val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+            OmnitureTestUtils.assertLinkTracked("Accounts", "App.Account.Support.CFG", Matchers.allOf(
+                    OmnitureMatchers.withProps(mapOf(16 to "App.Account.Support.CFG")),
+                    OmnitureMatchers.withEvars(mapOf(28 to "App.Account.Support.CFG"))), mockAnalyticsProvider)
 
-        assertIntentFiredToDialPhone(PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(user))
+            assertIntentFiredToOpenActivity(CustomerFirstActivity::class.java.name)
+        } else {
+            clickViewWithTextInSection(activity.resources.getString(R.string.booking_support), R.id.section_contact_us)
+            clickPhoneSupportButton()
+
+            val userStateManager = Ui.getApplication(RuntimeEnvironment.application).appComponent().userStateManager()
+            val user = userStateManager.userSource.user
+
+            assertIntentFiredToDialPhone(PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(user))
+        }
     }
 
     private fun givenFragmentSetup() {
@@ -501,9 +518,14 @@ class AccountSettingsFragmentTest {
     private fun assertIntentFiredToDialPhone(phoneNumber: String?) {
         val actualIntent = Shadows.shadowOf(activity).nextStartedActivity
         assertEquals(Intent.ACTION_VIEW, actualIntent.action)
-        val actualPhoneNumber = actualIntent.data.toString().replace("[^0-9]".toRegex(), "")
+        val actualPhoneNumber = URLDecoder.decode(actualIntent.data.toString(), "UTF-8").replace("[^0-9]".toRegex(), "")
         val expectedPhoneNumber = phoneNumber?.replace("[^0-9]".toRegex(), "")
         assertEquals(expectedPhoneNumber, actualPhoneNumber)
+    }
+
+    private fun assertIntentFiredToOpenActivity(className: String?) {
+        val actualIntent = Shadows.shadowOf(activity).nextStartedActivity
+        assertEquals(className, actualIntent.component.className)
     }
 
     private fun assertStartsWith(expected: String?, actual: String?) {

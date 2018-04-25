@@ -62,5 +62,10 @@ class HotelResultsScreen {
             hotelResultsList().perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(hasDescendant(withText(name)), click()))
             HotelInfoSiteScreen.waitForDetailsLoaded()
         }
+
+        @JvmStatic
+        fun hotelResultsDescHeader(): ViewInteraction {
+            return onView(withId(R.id.results_description_header))
+        }
     }
 }

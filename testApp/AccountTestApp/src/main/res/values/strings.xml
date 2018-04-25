@@ -32,4 +32,6 @@
     <!-- Description text of "I agree to terms of service" checkbox -->
     <string name="loyalty_terms_of_service">By joining Expedia Rewards, I accept all &lt;a href="http://www.google.com"&gt;terms &amp; conditions&lt;/a&gt;.</string>
 
+    <!--New Terms Text for Single Page-->
+    <string name="new_account_terms_text">By creating an account, I accept the Expialidocious Rewards &lt;a href="http://www.google.com"&gt;Terms &amp; Conditions&lt;/a&gt;, and have read and accept the Terms of Use and the Privacy Policy.</string>
 </resources>

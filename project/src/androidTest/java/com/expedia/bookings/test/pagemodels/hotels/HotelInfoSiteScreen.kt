@@ -32,6 +32,7 @@ import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.instanceOf
 import org.hamcrest.Matchers.isEmptyString
 import org.hamcrest.Matchers.not
+import org.hamcrest.Matchers.containsString
 import org.joda.time.LocalDate
 import java.util.concurrent.TimeUnit
 
@@ -287,6 +288,12 @@ object HotelInfoSiteScreen {
     }
 
     @JvmStatic
+    fun clickHotelFeesInfo() {
+        verifyHotelFeesAppear()
+        resortFeesText().perform(click())
+    }
+
+    @JvmStatic
     fun clickRenoInfo() {
         onView(withId(R.id.renovation_container)).perform(scrollTo(), click())
     }
@@ -382,6 +389,56 @@ object HotelInfoSiteScreen {
         @JvmStatic
         fun verifyBodyText(text: String) {
             viewBodyText().check(matches(allOf(withText(text), isDisplayed())))
+        }
+    }
+
+    object MandatoryFeesAndTaxes {
+        private var headerTitle = allOf(withId(R.id.info_header), withText("Mandatory Fees and Taxes"))
+        private var sectionContainer = withChild(headerTitle)
+        private var sectionBodyText = allOf(withParent(sectionContainer), withId(R.id.info_text))
+
+        // View and Data Interactions
+        @JvmStatic
+        fun sectionBodyText(): ViewInteraction {
+            return onView(sectionBodyText)
+        }
+
+        // Actions
+        @JvmStatic
+        fun verifyBodyText(text: String, isDisplayed: String) {
+            if (isDisplayed.equals("displayed")) {
+                sectionBodyText().check(matches(withText(containsString(text))))
+            } else {
+                sectionBodyText().check(matches(not(withText(containsString(text)))))
+            }
+        }
+    }
+
+    object AdditionalFeeInfo {
+        private var sectionContainer = withId(R.id.hotel_detail_desc)
+        private var sectionBodyText = withId(R.id.content_description)
+
+        // View and Data Interactions
+        @JvmStatic
+        fun sectionContainer(): ViewInteraction {
+            return onView(sectionContainer)
+        }
+
+        @JvmStatic
+        fun sectionBodyText(): ViewInteraction {
+            return onView(sectionBodyText)
+        }
+
+        // Actions
+        @JvmStatic
+        fun verifyAdditionalFeeContainerAppear() {
+            sectionContainer().check(matches(isDisplayed()))
+        }
+
+        @JvmStatic
+        fun verifyDepositAndResortFeesContent(depositText: String, resortFeeText: String) {
+            sectionBodyText().check(matches(withText(containsString(depositText))))
+            sectionBodyText().check(matches(withText(containsString(resortFeeText))))
         }
     }
 

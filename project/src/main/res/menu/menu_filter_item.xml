@@ -7,4 +7,10 @@
         android:title="@string/sort_and_filter"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/menu_favorites"
+        android:title="@string/hotel_favorites_page_toolbar_title"
+        android:icon="@drawable/hotel_favorites_hsr_toolbar_icon"
+        app:showAsAction="always" />
+
 </menu>

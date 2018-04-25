@@ -95,7 +95,7 @@ class PackageHotelPresenterTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun testBundleTotalPriceWidgetTopVisibility() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs)
-        hotelResponse = mockPackageServiceRule.getPSSHotelSearchResponse()
+        hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
         Db.setPackageResponse(hotelResponse)
 
         widget = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_presenter,
@@ -112,7 +112,7 @@ class PackageHotelPresenterTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testBundleWidgetTapTracking() {
-        hotelResponse = mockPackageServiceRule.getPSSHotelSearchResponse()
+        hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
         widget = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_presenter,
                 null) as PackageHotelPresenter
 
@@ -131,7 +131,7 @@ class PackageHotelPresenterTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testBundleWidgetTopTapTracking() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs)
-        hotelResponse = mockPackageServiceRule.getPSSHotelSearchResponse()
+        hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
         widget = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_presenter,
                 null) as PackageHotelPresenter
 
@@ -189,8 +189,10 @@ class PackageHotelPresenterTest {
         val shadowActivity = Shadows.shadowOf(activity)
         assertEquals(Activity.RESULT_OK, shadowActivity.resultCode)
 
-        val errorString = shadowActivity.resultIntent.extras?.getString(Constants.PACKAGE_HOTEL_OFFERS_ERROR)
-        assertEquals("PACKAGE_SEARCH_ERROR", errorString)
+        val errorCode = shadowActivity.resultIntent.extras?.getString(Constants.PACKAGE_HOTEL_OFFERS_ERROR)
+        val errorKey = shadowActivity.resultIntent.extras?.getString(Constants.PACKAGE_HOTEL_OFFERS_ERROR_KEY)
+        assertEquals("PACKAGE_SEARCH_ERROR", errorCode)
+        assertEquals("UNKNOWN_ERROR", errorKey)
     }
 
     @Test
@@ -215,8 +217,10 @@ class PackageHotelPresenterTest {
         val shadowActivity = Shadows.shadowOf(activity)
         assertEquals(Activity.RESULT_OK, shadowActivity.resultCode)
 
-        val errorString = shadowActivity.resultIntent.extras?.getString(Constants.PACKAGE_HOTEL_OFFERS_ERROR)
-        assertEquals("PACKAGE_SEARCH_ERROR", errorString)
+        val errorCode = shadowActivity.resultIntent.extras?.getString(Constants.PACKAGE_HOTEL_OFFERS_ERROR)
+        val errorKey = shadowActivity.resultIntent.extras?.getString(Constants.PACKAGE_HOTEL_OFFERS_ERROR_KEY)
+        assertEquals("PACKAGE_SEARCH_ERROR", errorCode)
+        assertEquals("UNKNOWN_ERROR", errorKey)
     }
 
     @Test

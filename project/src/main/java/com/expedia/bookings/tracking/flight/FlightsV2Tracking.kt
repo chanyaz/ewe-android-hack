@@ -213,7 +213,7 @@ object FlightsV2Tracking {
     }
 
     fun trackFlightShoppingError(apiCallFailing: ApiCallFailing) {
-        OmnitureTracking.trackFlightShoppingError("${apiCallFailing.errorCode}|${apiCallFailing.apiCall}")
+        OmnitureTracking.trackFlightShoppingError(apiCallFailing.getErrorStringForTracking())
     }
 
     fun trackFlightCheckoutError(error: ApiError) {

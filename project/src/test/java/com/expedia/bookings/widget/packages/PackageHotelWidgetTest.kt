@@ -11,7 +11,7 @@ import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.PackageBundleHotelWidget
-import com.expedia.ui.PackageHotelActivity
+import com.expedia.bookings.packages.activity.PackageHotelActivity
 import com.expedia.bookings.packages.vm.BundleHotelViewModel
 import org.joda.time.LocalDate
 import org.junit.Before

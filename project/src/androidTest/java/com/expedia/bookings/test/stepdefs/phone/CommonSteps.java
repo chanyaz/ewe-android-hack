@@ -4,6 +4,7 @@ import android.support.test.InstrumentationRegistry;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import com.expedia.bookings.data.Db;
@@ -74,6 +75,11 @@ public class CommonSteps {
 				Common.setPOS(PointOfSaleId.MEXICO);
 				break;
 		}
+	}
+
+	@And("^I set the Locale to \"(.*?)\" language of \"(.*?)\" dialect$")
+	public void setLocale(String langCode, String dialectCode) throws Throwable {
+		Common.setLocale(new Locale(langCode, dialectCode));
 	}
 
 	@Given("^I launch the App$")

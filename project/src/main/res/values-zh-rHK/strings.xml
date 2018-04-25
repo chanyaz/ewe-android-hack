@@ -1013,11 +1013,11 @@
     <!-- Expedia Itinerary -->
     <string name="itinerary_TEMPLATE">{brand} 行程編號</string>
     <!-- Label for exclusive phone number for base tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
-    <string name="rewards_base_tier_customer_support">Expedia +blue 客戶支援</string>
+    <string name="rewards_base_tier_customer_support">Expedia blue 客戶支援</string>
     <!-- Label for exclusive phone number for middle tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
-    <string name="rewards_middle_tier_customer_support">Expedia +silver 客戶支援</string>
+    <string name="rewards_middle_tier_customer_support">Expedia silver 客戶支援</string>
     <!-- Label for exclusive phone number for top tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
-    <string name="rewards_top_tier_customer_support">Expedia +gold 客戶支援</string>
+    <string name="rewards_top_tier_customer_support">Expedia gold 客戶支援</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">沒有即將進行的旅程。</string>
     <!-- Enter itinerary number -->
@@ -1477,6 +1477,8 @@
     <!--LX itin redesign-->
     <!--LX toolbar title template. (e.g. Activity in San Francisco)-->
     <string name="itin_lx_toolbar_title_TEMPLATE">{location}的活動</string>
+    <string name="itin_lx_more_info_heading">其他協助</string>
+    <string name="itin_lx_more_info_subheading">客戶支援訊息</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">分享行程</string>
@@ -2733,7 +2735,7 @@
     <!-- Title for VIP Access message -->
     <string name="vip_access">+VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">於 +VIP Access 酒店，+silver 及 +gold 會員可視乎入住時的供應情況而享有免費客房升級及其他優惠。</string>
+    <string name="vip_access_message">於 +VIP Access 酒店，silver 及 gold 會員可視乎入住時的供應情況而享有免費客房升級及其他禮遇。</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">只查看 +VIP Access 酒店</string>
     <!-- Title for VIP Access message for Hotel Results -->
@@ -4498,17 +4500,17 @@
 
     <!-- Rewards -->
     <!-- Long name for rewards base tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_base_tier_name_long">Expedia +blue</string>
+    <string name="reward_base_tier_name_long">Expedia blue</string>
     <!-- Long name for rewards middle tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_middle_tier_name_long">Expedia +silver</string>
+    <string name="reward_middle_tier_name_long">Expedia silver</string>
     <!-- Long name for rewards top tier; note that brand name is not parameterized here as other brands will need to completely override this string -->
-    <string name="reward_top_tier_name_long">Expedia +gold</string>
+    <string name="reward_top_tier_name_long">Expedia gold</string>
     <!-- Short name for rewards base tier -->
-    <string name="reward_base_tier_name_short">+blue</string>
+    <string name="reward_base_tier_name_short">blue</string>
     <!-- Short name for rewards middle tier -->
-    <string name="reward_middle_tier_name_short">+silver</string>
+    <string name="reward_middle_tier_name_short">silver</string>
     <!-- Short name for rewards top tier -->
-    <string name="reward_top_tier_name_short">+gold</string>
+    <string name="reward_top_tier_name_short">gold</string>
 
     <!--Packages search accessibility -->
     <!-- Best Flight card view content description for accessibility.-->
@@ -5078,6 +5080,15 @@
 
     <!-- Recent search header string -->
     <string name="flight_recent_search_label">近期的搜尋</string>
+
+    <!--Recent Search card content description template. Eg. 1 SFO to LAS oneway search for 31st July for 2 travelers Economy class Price starting from $150 per person-->
+    <string name="flight_recent_search_item_cont_desc_TEMPLATE">{source} 往 {destination}, {trip_type}搜尋, {date}, {travelers}, {cabin_class}等級, 價格由 {amount} 一位起 \u0020</string>  
+
+    <!--Recent Search travelers card content description template. Eg. 1 traveler, 2 travelers-->
+    <plurals name="recent_search_travelers_cont_desc_TEMPLATE">
+        <item quantity="one">{travelers} 位旅客</item>
+        <item quantity="other">{travelers} 位旅客</item>
+    </plurals>
 
     <!-- Brand reward name -->
     <string name="brand_reward_name">Expedia Rewards</string>

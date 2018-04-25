@@ -247,7 +247,7 @@ android {
     defaultConfig {
 
         def major = 18
-        def minor = 17
+        def minor = 18
         def patch = 0
         def build = 0
         versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -428,8 +428,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     checkstyle {

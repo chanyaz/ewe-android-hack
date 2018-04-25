@@ -24,7 +24,7 @@ import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Constants
-import com.expedia.ui.PackageActivity
+import com.expedia.bookings.packages.activity.PackageActivity
 import org.hamcrest.Matchers
 import org.joda.time.LocalDate
 import org.junit.Assert.assertEquals
@@ -112,7 +112,7 @@ class PackagesCreateTripTest {
         val createTripSubscriber = TestObserver<MultiItemApiCreateTripResponse>()
         activity.packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel().multiItemResponseSubject.subscribe(createTripSubscriber)
         setUpPackageDb()
-        val hotelResponse = mockPackageServiceRule.getPSSHotelSearchResponse()
+        val hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
         Db.setPackageResponse(hotelResponse)
         val params = getDummySearchParams()
         Db.setPackageParams(params)

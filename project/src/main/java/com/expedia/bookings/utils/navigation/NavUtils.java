@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.expedia.account.Config;
+import com.expedia.account.NewAccountView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ActivityKillReceiver;
@@ -27,6 +28,7 @@ import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
+import com.expedia.bookings.mia.activity.CustomerFirstActivity;
 import com.expedia.bookings.mia.activity.MemberDealsActivity;
 import com.expedia.bookings.onboarding.activity.OnboardingActivity;
 import com.expedia.bookings.rail.activity.RailActivity;
@@ -160,6 +162,14 @@ public class NavUtils {
 		context.startActivity(intent);
 	}
 
+	public static void goToAccount(Activity activity, NewAccountView.AccountTab initialTab) {
+		Bundle args = AccountLibActivity
+				.createArgumentsBundle(LineOfBusiness.PROFILE, initialTab,
+						new ItinerarySyncLoginExtender());
+
+		getUserStateManager(activity).signIn(activity, args);
+	}
+
 	public static void goToAccount(Activity activity, Config.InitialState initialState) {
 		Bundle args = AccountLibActivity
 			.createArgumentsBundle(LineOfBusiness.PROFILE, initialState,
@@ -171,6 +181,11 @@ public class NavUtils {
 	public static void goToMemberPricing(Context context) {
 		sendKillActivityBroadcast(context);
 		Intent intent = new Intent(context, MemberDealsActivity.class);
+		context.startActivity(intent);
+	}
+
+	public static void goToCustomerFirstSupportActivity(Context context) {
+		Intent intent = new Intent(context, CustomerFirstActivity.class);
 		context.startActivity(intent);
 	}
 

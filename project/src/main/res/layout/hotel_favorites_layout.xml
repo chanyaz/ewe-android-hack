@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.expedia.bookings.hotel.activity.HotelFavoritesActivity"
+    android:background="@color/gray100">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/hotel_favorites_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_primary"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        app:contentInsetStartWithNavigation="0dp"
+        app:navigationContentDescription="@string/toolbar_nav_icon_close_cont_desc"
+        app:navigationIcon="@drawable/ic_close_white_24dp"
+        app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+        app:title="@string/hotel_favorites_page_toolbar_title"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="76dp"
+        android:layout_marginRight="76dp"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="84dp"
+            android:layout_height="84dp"
+            android:src="@drawable/favorites_empty_heart"
+            android:tint="@color/gray300"/>
+
+        <com.expedia.bookings.widget.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="26dp"
+            android:text="@string/hotel_favorites_page_empty_title"
+            style="@style/Core.Text.600.Medium"
+            android:textColor="@color/gray600"
+            android:gravity="center" />
+
+        <com.expedia.bookings.widget.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:text="@string/hotel_favorites_page_empty_subtitle"
+            style="@style/Core.Text.300"
+            android:textColor="@color/gray600"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+</RelativeLayout>

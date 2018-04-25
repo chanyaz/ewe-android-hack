@@ -14,6 +14,7 @@ import com.expedia.account.input.rules.ExpediaNameInputRule
 import com.expedia.account.input.rules.ExpediaPasswordInputRule
 import com.expedia.account.util.CombiningFakeObservable
 import com.expedia.account.util.InvalidCharacterTextWatcher
+import com.expedia.account.util.Utils
 import io.reactivex.subjects.BehaviorSubject
 
 class SinglePageEmailNamePasswordLayout(context: Context, attrs: AttributeSet) : LinearLayout (context, attrs) {
@@ -64,12 +65,10 @@ class SinglePageEmailNamePasswordLayout(context: Context, attrs: AttributeSet) :
         vEmailAddress.setValidator(object : InputValidator(ExpediaEmailInputRule()) {})
         vPassword.setValidator(object : InputValidator(ExpediaPasswordInputRule()) {})
         vPassword.setOnEditorActionListener { _, actionId, _ ->
-            var handled = false
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 vPassword.doneCheck()
-                handled = true
             }
-            handled
+            false
         }
     }
 
@@ -85,5 +84,39 @@ class SinglePageEmailNamePasswordLayout(context: Context, attrs: AttributeSet) :
         vFirstNameInput.brandIt(brand)
         vLastNameInput.brandIt(brand)
         vPassword.brandIt(brand)
+    }
+
+    fun focusEmailAddress() {
+        this.post {
+            focusView(vEmailAddress)
+        }
+    }
+
+    fun focusFirstName() {
+        this.post {
+            focusView(vFirstNameInput)
+        }
+    }
+
+    fun focusLastName() {
+        this.post {
+            focusView(vLastNameInput)
+        }
+    }
+
+    fun focusPassword() {
+        this.post {
+            focusView(vPassword)
+        }
+    }
+
+    private fun focusView(view: View): Boolean {
+        if (this.visibility == View.VISIBLE) {
+            view.requestFocus()
+            Utils.showKeyboard(view, null)
+            return true
+        } else {
+            return false
+        }
     }
 }

@@ -27,7 +27,7 @@
           "currency": "USD"
         },
         "savings": {
-          "amount": 0.00,
+          "amount": 2.00,
           "currency": "USD"
         },
         "avgPricePerPerson": {
@@ -37,6 +37,22 @@
         "showSavings": false,
         "avgReferencePricePerPerson": {
           "amount": 2243.35,
+          "currency": "USD"
+        },
+        "deltaAvgPricePerPerson": {
+          "amount": -97.62,
+          "currency": "USD"
+        },
+        "avgPricePerNight": {
+          "amount": 1508.56,
+          "currency": "USD"
+        },
+        "avgReferencePricePerNight": {
+          "amount": 1506.05,
+          "currency": "USD"
+        },
+        "deltaAvgPricePerNight": {
+          "amount": -130.16,
           "currency": "USD"
         }
       },
