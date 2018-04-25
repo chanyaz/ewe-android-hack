@@ -513,14 +513,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="15371"
-            android:summary="%s"
-            android:title="Show Flights Checkout Webview - 15371" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
             android:key="15925"
             android:summary="%s"
             android:title="Show Pay Later Messaging - 15925" />

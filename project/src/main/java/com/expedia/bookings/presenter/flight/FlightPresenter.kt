@@ -52,7 +52,6 @@ import com.expedia.bookings.utils.isFlexEnabled
 import com.expedia.bookings.utils.isFlightGreedySearchEnabled
 import com.expedia.bookings.utils.isRecentSearchesForFlightsEnabled
 import com.expedia.bookings.utils.isShowFlightsNativeRateDetailsWebviewCheckoutEnabled
-import com.expedia.bookings.utils.isShowFlightsCheckoutWebview
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.expedia.ui.FlightActivity
@@ -973,7 +972,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     }
 
     fun shouldShowWebCheckoutWithoutNativeRateDetails(): Boolean {
-        return PointOfSale.getPointOfSale().shouldShowWebCheckout() && isShowFlightsCheckoutWebview(context) && !isNativeRateDetailsWebviewCheckoutEnabled
+        return PointOfSale.getPointOfSale().shouldShowWebCheckout() && !isNativeRateDetailsWebviewCheckoutEnabled
     }
 
     private fun transitionToWebView(forward: Boolean) {
