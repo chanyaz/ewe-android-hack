@@ -206,10 +206,10 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
 
         if (product == Constants.PRODUCT_FLIGHT) {
             bundleOverViewWidget.viewModel.flightParamsObservable.onNext(Db.sharedInstance.packageParams)
-            val type = if (Db.sharedInstance.packageParams.isOutboundSearch(isMidAPIEnabled(context))) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT
+            val type = if (Db.sharedInstance.packageParams.isOutboundSearch(isMidAPIEnabled())) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT
             bundleOverViewWidget.viewModel.flightResultsObservable.onNext(type)
 
-            if (!Db.sharedInstance.packageParams.isOutboundSearch(isMidAPIEnabled(context)) && Db.sharedInstance.packageSelectedOutboundFlight != null) {
+            if (!Db.sharedInstance.packageParams.isOutboundSearch(isMidAPIEnabled()) && Db.sharedInstance.packageSelectedOutboundFlight != null) {
                 bundleOverViewWidget.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
                 bundleOverViewWidget.outboundFlightWidget.viewModel.flight.onNext(Db.sharedInstance.packageSelectedOutboundFlight)
                 bundleOverViewWidget.outboundFlightWidget.toggleFlightWidget(1f, true)

@@ -4816,7 +4816,7 @@ public class OmnitureTracking {
 		List<ABTest> abTests = new ArrayList<>();
 		abTests.add(AbacusUtils.EBAndroidAppPackagesWebviewFHC);
 		abTests.add(AbacusUtils.EBAndroidAppPackagesAATest);
-		if (isMidAPIEnabled(sContext)) {
+		if (isMidAPIEnabled()) {
 			abTests.add(AbacusUtils.EBAndroidAppPackagesMISRealWorldGeo);
 			abTests.add(AbacusUtils.EBAndroidAppPackagesFFPremiumClass);
 		}
@@ -4872,7 +4872,7 @@ public class OmnitureTracking {
 					.append("L" + (packageSearchParams.getChildren().size() - Db.sharedInstance.getPackageParams()
 						.getNumberOfSeatedChildren()));
 			}
-			if (isMidAPIEnabled(sContext) && packageSearchParams.getFlightCabinClass() != null) {
+			if (isMidAPIEnabled() && packageSearchParams.getFlightCabinClass() != null) {
 				String cabinCodeName = FlightServiceClassType
 					.getCabinCodeFromMIDParam(packageSearchParams.getFlightCabinClass()).name();
 				evar47String.append("|" + FlightServiceClassType.getCabinClassTrackCode(cabinCodeName));

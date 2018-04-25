@@ -18,7 +18,7 @@ fun isPopulateCardholderNameEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidPopulateCardholderName)
 }
 
-fun isMidAPIEnabled(context: Context): Boolean {
+fun isMidAPIEnabled(): Boolean {
     return true
 }
 
@@ -27,7 +27,7 @@ fun isFHCPackageWebViewEnabled(context: Context): Boolean {
 }
 
 fun shouldPackageForceUpdateBeVisible(context: Context): Boolean {
-    return !isMidAPIEnabled(context) && isPackageForceUpdateEnabled(context)
+    return !isMidAPIEnabled() && isPackageForceUpdateEnabled(context)
 }
 
 fun isAllowUnknownCardTypesEnabled(context: Context): Boolean {
@@ -71,7 +71,7 @@ fun isBreadcrumbsMoveBundleOverviewPackagesEnabled(context: Context): Boolean {
 }
 
 fun isPackagesMISRealWorldGeoEnabled(context: Context): Boolean {
-    return isMidAPIEnabled(context) && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesMISRealWorldGeo)
+    return isMidAPIEnabled() && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesMISRealWorldGeo)
 }
 
 fun isFlightGreedySearchEnabled(context: Context): Boolean {
