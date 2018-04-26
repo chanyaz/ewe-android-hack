@@ -3,17 +3,20 @@ package com.expedia.bookings.test.phone.hotels
 import android.content.ComponentName
 import android.content.Intent
 import android.net.Uri
-import android.test.ActivityInstrumentationTestCase2
+import android.support.test.rule.ActivityTestRule
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.DeepLinkRouterActivity
-import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen
 import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen
+import org.junit.Rule
 import org.junit.Test
 
-class HotelDeepLinkTest : ActivityInstrumentationTestCase2<DeepLinkRouterActivity>(DeepLinkRouterActivity::class.java) {
+class HotelDeepLinkTest {
+
+    @Rule @JvmField
+    val activityRule = ActivityTestRule(DeepLinkRouterActivity::class.java)
 
     @Test
     @Throws(Throwable::class)
@@ -25,8 +28,7 @@ class HotelDeepLinkTest : ActivityInstrumentationTestCase2<DeepLinkRouterActivit
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         intent.component = ComponentName(BuildConfig.APPLICATION_ID,
                 "com.expedia.bookings.activity.DeepLinkRouterActivity")
-        setActivityIntent(intent)
-        activity
+        activityRule.launchActivity(intent)
 
         HotelResultsScreen.waitForResultsLoaded()
         EspressoUtils.assertViewIsDisplayed(R.id.widget_hotel_results)
@@ -42,8 +44,7 @@ class HotelDeepLinkTest : ActivityInstrumentationTestCase2<DeepLinkRouterActivit
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         intent.component = ComponentName(BuildConfig.APPLICATION_ID,
                 "com.expedia.bookings.activity.DeepLinkRouterActivity")
-        setActivityIntent(intent)
-        activity
+        activityRule.launchActivity(intent)
 
         HotelResultsScreen.waitForResultsLoaded()
         EspressoUtils.assertViewIsDisplayed(R.id.widget_hotel_results)
@@ -61,8 +62,7 @@ class HotelDeepLinkTest : ActivityInstrumentationTestCase2<DeepLinkRouterActivit
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         intent.component = ComponentName(BuildConfig.APPLICATION_ID,
                 "com.expedia.bookings.activity.DeepLinkRouterActivity")
-        setActivityIntent(intent)
-        activity
+        activityRule.launchActivity(intent)
 
         HotelResultsScreen.waitForResultsLoaded()
         EspressoUtils.assertViewIsDisplayed(R.id.widget_hotel_results)
@@ -78,27 +78,9 @@ class HotelDeepLinkTest : ActivityInstrumentationTestCase2<DeepLinkRouterActivit
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         intent.component = ComponentName(BuildConfig.APPLICATION_ID,
                 "com.expedia.bookings.activity.DeepLinkRouterActivity")
-        setActivityIntent(intent)
-        activity
+        activityRule.launchActivity(intent)
 
         HotelInfoSiteScreen.waitForDetailsLoaded()
         EspressoUtils.assertViewIsDisplayed(R.id.hotel_detail)
-    }
-
-    @Throws(Exception::class)
-    override fun tearDown() {
-        val a = activity
-        if (a != null) {
-            var currentWaitTime = 0
-            a.finish()
-            while (!a.isDestroyed) {
-                Common.delay(1)
-                if (currentWaitTime++ > 10) {
-                    throw RuntimeException("The activity: " + a.localClassName + " could not be destroyed within 10 seconds.")
-                }
-            }
-            activity = null
-        }
-        super.tearDown()
     }
 }

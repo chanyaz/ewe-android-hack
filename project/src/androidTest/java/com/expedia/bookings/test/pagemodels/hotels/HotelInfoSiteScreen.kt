@@ -29,10 +29,10 @@ import com.expedia.bookings.test.espresso.ViewActions.swipeUp
 import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.containsString
 import org.hamcrest.Matchers.instanceOf
 import org.hamcrest.Matchers.isEmptyString
 import org.hamcrest.Matchers.not
-import org.hamcrest.Matchers.containsString
 import org.joda.time.LocalDate
 import java.util.concurrent.TimeUnit
 
@@ -79,17 +79,11 @@ object HotelInfoSiteScreen {
      * HotelInfoSiteScreen.Room().setOptionNumber(priceOption)
      * HotelInfoSiteScreen.Room().clickBookButton()
      */
-    class Room(val roomIndex: RoomIndex = RoomIndex.DEFAULT) {
-        private val roomListContainer = withId(R.id.room_container)
+    class Room(roomIndex: RoomIndex = RoomIndex.DEFAULT) {
         private val innerRoomInfoContainer = withId(R.id.hotel_room_info_container)
         private val room = allOf(withChild(innerRoomInfoContainer), withParentIndex(roomIndex.index))
-        private val roomImage = allOf(isDescendantOfA(room), withId(R.id.header_image_view))
-        private val roomType = allOf(isDescendantOfA(room), withId(R.id.room_type_text_view))
-        private val bedType = allOf(isDescendantOfA(room), withId(R.id.bed_type_text_view))
-        private val infoIcon = allOf(isDescendantOfA(room), withId(R.id.room_info_icon))
         private val priceContainer = allOf(isDescendantOfA(room), withParent(innerRoomInfoContainer),
                 withChild(withId(R.id.price_button_container)))
-        private val discountPercentage = allOf(isDescendantOfA(priceContainer), withId(R.id.discount_percentage_text_view))
         private var option: Matcher<View>? = null
 
         fun setPriceOption(priceOption: PriceOption = PriceOption.DEFAULT) {
@@ -116,8 +110,8 @@ object HotelInfoSiteScreen {
          * for multiple options, and is looking to click on book button in order to progress to the next view
          */
         fun clickBookButton(safeguardEnabled: Boolean = false) {
-            var bookButton: ViewInteraction? = null
-            var scrollable: ViewInteraction? = null
+            val bookButton: ViewInteraction
+            val scrollable: ViewInteraction
 
             if (option != null || isContainingMultiplePriceOptions()) {
                 //Case when there are multiple options per room, each containing a book button

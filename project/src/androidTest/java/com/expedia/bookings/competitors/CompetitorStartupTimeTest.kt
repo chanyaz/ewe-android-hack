@@ -163,7 +163,6 @@ class CompetitorStartupTimeTest {
         val readyTriggerList = appInfo.readyTriggerList
         val startTime = System.currentTimeMillis()
         val timeout = 30000
-        var view: UiObject2? = null
         var bySelector: BySelector
         var uiSelector: UiSelector
 

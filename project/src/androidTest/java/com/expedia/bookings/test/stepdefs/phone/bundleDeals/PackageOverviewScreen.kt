@@ -31,7 +31,6 @@ import org.hamcrest.Matchers.containsString
 import org.hamcrest.Matchers.not
 import org.hamcrest.core.AllOf
 import org.hamcrest.core.AllOf.allOf
-import java.util.Map
 import java.util.concurrent.TimeUnit
 
 class PackageOverviewScreen {
@@ -374,10 +373,10 @@ class PackageOverviewScreen {
         if (value!!.contains("Hotel")) {
             onView(allOf<View>(withId(resId), isDescendantOfA(withId(R.id.package_bundle_hotel_widget))))
                     .check(matches(isDisplayed()))
-        } else if (value!!.contains("Flight Outbound")) {
+        } else if (value.contains("Flight Outbound")) {
             onView(allOf<View>(withId(resId), isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))))
                     .check(matches(isDisplayed()))
-        } else if (value!!.contains("Flight Inbound")) {
+        } else if (value.contains("Flight Inbound")) {
             onView(allOf<View>(withId(resId), isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))))
                     .check(matches(isDisplayed()))
         }
@@ -416,9 +415,9 @@ class PackageOverviewScreen {
         }
     }
 
-    @When("^I tap on \"(.*?)\" on bundle overview screen$")
+    @When("^I tap on hotels bar on bundle overview screen$")
     @Throws(Throwable::class)
-    fun launchHotelsFromBO(arg1: String) {
+    fun launchHotelsFromBO() {
         PackageScreen.hotelBundleContainer().perform(click())
     }
 

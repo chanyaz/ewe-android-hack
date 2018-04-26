@@ -5,16 +5,20 @@ import android.content.Intent
 import android.net.Uri
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.withText
-import android.test.ActivityInstrumentationTestCase2
+import android.support.test.rule.ActivityTestRule
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.activity.DeepLinkRouterActivity
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
 import com.expedia.bookings.test.pagemodels.lx.LXScreen
 import com.expedia.bookings.utils.ApiDateUtils
 import org.joda.time.LocalDate
+import org.junit.Rule
 import org.junit.Test
 
-class LxDeepLinkTest : ActivityInstrumentationTestCase2<DeepLinkRouterActivity>(DeepLinkRouterActivity::class.java) {
+class LxDeepLinkTest {
+
+    @Rule @JvmField
+    val activityRule = ActivityTestRule(DeepLinkRouterActivity::class.java)
 
     @Test
     fun testDeeplinkForLXSearchControlState() {
@@ -25,8 +29,7 @@ class LxDeepLinkTest : ActivityInstrumentationTestCase2<DeepLinkRouterActivity>(
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         intent.component = ComponentName(BuildConfig.APPLICATION_ID,
                 "com.expedia.bookings.activity.DeepLinkRouterActivity")
-        setActivityIntent(intent)
-        activity
+        activityRule.launchActivity(intent)
 
         LXScreen.didNotGoToResults()
         SearchScreen.selectDestinationTextView().check(matches(withText("San Francisco")))

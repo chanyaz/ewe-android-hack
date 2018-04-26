@@ -6,8 +6,8 @@ import android.support.test.runner.AndroidJUnit4
 import com.expedia.bookings.data.AppDatabase
 import com.expedia.bookings.data.flights.RecentSearch
 import com.expedia.bookings.data.flights.RecentSearchDAO
-import junit.framework.Assert
 import org.junit.After
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -17,18 +17,18 @@ class RecentSearchDAOTest {
 
     private lateinit var testDb: AppDatabase
     private lateinit var recentSearchDAO: RecentSearchDAO
-    val recentSearch1 = RecentSearch("SFO", "LAS", "{\"coordinates\"}".toByteArray(),
+    private val recentSearch1 = RecentSearch("SFO", "LAS", "{\"coordinates\"}".toByteArray(),
             "{\"coordinates\"}".toByteArray(), "2018-05-03", "2018-05-31", "COACH",
             1519277785754, 668, "USD", 1, "",
             false, true)
-    val recentSearch2 = RecentSearch("DEL", "BLR", "{\"coordinates\"}".toByteArray(),
+    private val recentSearch2 = RecentSearch("DEL", "BLR", "{\"coordinates\"}".toByteArray(),
             "{\"coordinates\"}".toByteArray(), "2018-05-05", "", "PREMIUM_ECONOMY", 1519277785754, 200, "USD", 1, "",
             false, false)
-    val recentSearch3 = RecentSearch("LHR", "LAS", "{\"coordinates\"}".toByteArray(),
+    private val recentSearch3 = RecentSearch("LHR", "LAS", "{\"coordinates\"}".toByteArray(),
             "{\"coordinates\"}".toByteArray() , "2018-05-07", "2018-05-29", "BUSINESS",
             1519277785754, 500, "USD", 1, "10",
             false, true)
-    val recentSearch4 = RecentSearch("BLR", "LAS", "{\"coordinates\"}".toByteArray(),
+    private val recentSearch4 = RecentSearch("BLR", "LAS", "{\"coordinates\"}".toByteArray(),
             "{\"coordinates\"}".toByteArray() , "2018-05-09", "", "COACH",
             1519277785754, 400, "USD", 1, "10,12",
             false, false)

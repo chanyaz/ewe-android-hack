@@ -49,7 +49,7 @@ Feature: Bundle Overview with packages details
       | child               | 2                              |
     And I wait for hotels results for packages to load
     And I tap on bundle overview sliding widget bar at the bottom
-    And I tap on "hotels bar" on bundle overview screen
+    And I tap on hotels bar on bundle overview screen
     Then Hotels SRP is displayed
 
 
