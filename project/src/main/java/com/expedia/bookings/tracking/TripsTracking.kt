@@ -57,6 +57,7 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     private val ITIN_HOTEL_MAP_PAN = "App.Map.Directions.Pan"
     private val ITIN_HOTEL_MAP_ZOOM_IN = "App.Map.Directions.ZoomIn"
     private val ITIN_HOTEL_MAP_ZOOM_OUT = "App.Map.Directions.ZoomOut"
+    private val ITIN_HOTEL_VIEW_RECEIPT = "App.Itinerary.Hotel.PricingRewards.ViewReceipt"
     private val ITIN_HOTEL = "App.Itinerary.Hotel"
 
     fun trackItinHotelCallSupport() {
@@ -144,6 +145,11 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     @JvmStatic
     fun trackItinHotelDirections() {
         val s = createTrackLinkEvent(ITIN_HOTEL_DIRECTIONS)
+        s.trackLink("Itinerary Action")
+    }
+
+    override fun trackItinHotelViewReceipt() {
+        val s = createTrackLinkEvent(ITIN_HOTEL_VIEW_RECEIPT)
         s.trackLink("Itinerary Action")
     }
 

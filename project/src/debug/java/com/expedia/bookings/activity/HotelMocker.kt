@@ -42,7 +42,7 @@ class HotelMocker : AppCompatActivity() {
     }
 
     private fun setupMockButton() {
-        val a = AnimationUtils.loadAnimation(this, R.anim.scale)
+        val a = AnimationUtils.loadAnimation(this, R.anim.flip)
         a.reset()
         mock_build_btn.clearAnimation()
         mock_build_btn.startAnimation(a)

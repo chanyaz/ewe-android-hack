@@ -32,33 +32,38 @@
             <com.expedia.bookings.widget.TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:paddingBottom="12dp"
+                android:paddingTop="20dp"
                 android:text="@string/itin_hotel_details_price_summary_heading"
                 android:textColor="@color/gray750"
                 android:textSize="18sp"
-                android:layout_marginLeft="12dp"
-                android:paddingTop="20dp"
-                android:paddingBottom="12dp"
                 app:textStyle="medium" />
 
             <com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingSummaryView
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                style="@style/MaterialCardView"
                 android:id="@+id/hotel_itin_pricing_summary_view"
+                style="@style/MaterialCardView"
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:background="@color/white"
                 app:cardUseCompatPadding="true">
 
                 <LinearLayout
+                    android:id="@+id/hotel_itin_pricing_summary_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/hotel_itin_pricing_summary_container"
                     android:orientation="vertical"
-                    android:padding="16dp"/>
+                    android:padding="16dp" />
             </com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingSummaryView>
 
+            <com.expedia.bookings.itin.common.ItinViewReceiptWidget
+                android:id="@+id/widget_itin_view_receipt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp" />
         </LinearLayout>
 
     </com.expedia.bookings.widget.ScrollView>

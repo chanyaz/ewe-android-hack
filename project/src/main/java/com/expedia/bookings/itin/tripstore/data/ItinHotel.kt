@@ -33,7 +33,7 @@ data class TotalPriceDetails(
 )
 
 data class HotelPropertyInfo(
-        val name: String?
+        var name: String?
 )
 
 data class HotelRoomPriceDetails(val amountFormatted: String?, val localizedDay: LocalizedDay?) {
