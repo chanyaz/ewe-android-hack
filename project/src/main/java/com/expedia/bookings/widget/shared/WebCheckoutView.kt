@@ -114,7 +114,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
     }
 
     override fun onWebPageStarted(view: WebView, url: String, favicon: Bitmap?) {
-        if (urlIsMIDConfirmation(url) || (urlIsLOBBookingConfirmation(url) && isUserBucketedIntoWebCheckout())) {
+        if (shouldShowNativeConfirmation(url)) {
             view.stopLoading()
             viewModel.showWebViewObservable.onNext(false)
             (viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.onNext(Uri.parse(url).getQueryParameter("tripid"))
@@ -168,18 +168,26 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
         return false
     }
 
-    private fun urlIsLOBBookingConfirmation(url: String): Boolean {
-        return url.contains(context.getString(R.string.hotel_confirmation_url_tag)) || url.contains(context.getString(R.string.flight_confirmation_url_tag))
+    private fun shouldShowNativeConfirmation(url: String) =
+            shouldShowNativePackageConfirmation(url) || shouldShowNativeHotelConfirmation(url) || shouldShowNativeFlightConfirmation(url) || shouldShowNativeLXConfirmation(url)
+
+    private fun shouldShowNativePackageConfirmation(url: String): Boolean {
+        return isMidAPIEnabled() && url.contains(context.getString(R.string.mid_confirmation_url_tag))
     }
 
-    private fun isUserBucketedIntoWebCheckout(): Boolean {
-        return PointOfSale.getPointOfSale().shouldShowWebCheckout() ||
-                AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelsWebCheckout) ||
-                AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckout)
+    private fun shouldShowNativeHotelConfirmation(url: String): Boolean {
+        return url.contains(context.getString(R.string.hotel_confirmation_url_tag)) &&
+                (PointOfSale.getPointOfSale().shouldShowWebCheckout() || AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelsWebCheckout))
     }
 
-    private fun urlIsMIDConfirmation(url: String): Boolean {
-        return isMidAPIEnabled(context) && url.contains(context.getString(R.string.mid_confirmation_url_tag))
+    private fun shouldShowNativeFlightConfirmation(url: String): Boolean {
+        return url.contains(context.getString(R.string.flight_confirmation_url_tag)) &&
+                (PointOfSale.getPointOfSale().shouldShowWebCheckout() || AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckout))
+    }
+
+    private fun shouldShowNativeLXConfirmation(url: String): Boolean {
+        return (url.contains(context.getString(R.string.lx_confirmation_url_tag)) || url.contains(context.getString(R.string.mid_confirmation_url_tag))) &&
+                AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppLxWebCheckoutView)
     }
 
     private fun setUserAgentString(isTabletDevice: Boolean) {

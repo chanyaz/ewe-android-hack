@@ -86,7 +86,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(params.endDate!!))
                     .put("guests", StrUtils.formatTravelerString(context, params.guests))
                     .format().toString())
-            val type = if (params.isOutboundSearch(isMidAPIEnabled(context))) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT
+            val type = if (params.isOutboundSearch(isMidAPIEnabled())) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT
 
             searchPackageSubscriber = packageServices?.packageSearch(params, getProductSearchType(params.isOutboundSearch(isMidAPIEnabled(context))))?.subscribeObserver(makeResultsObserver(type, params.isChangePackageSearch()))
         }
@@ -131,7 +131,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
         stepTwoTextObservable.onNext(stepTwo)
         stepThreeTextObservale.onNext("")
         setAirlineFeeTextOnBundleOverview()
-        if (isMidAPIEnabled(context)) {
+        if (isMidAPIEnabled()) {
             setSplitTicketMessagingOnBundleOverview(Db.sharedInstance.packageParams)
         }
     }

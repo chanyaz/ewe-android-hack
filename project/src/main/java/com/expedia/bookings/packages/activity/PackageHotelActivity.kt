@@ -56,7 +56,7 @@ class PackageHotelActivity : AbstractAppCompatActivity() {
             }
         } else if (intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
             // change hotel room
-            if (isMidAPIEnabled(this)) {
+            if (isMidAPIEnabled()) {
                 Db.setPackageResponse(PackageResponseUtils.loadPackageResponse(this, PackageResponseUtils.RECENT_PACKAGE_HOTELS_FILE))
             }
             hotelsPresenter.defaultTransitionObserver.onNext(Screen.DETAILS_ONLY)

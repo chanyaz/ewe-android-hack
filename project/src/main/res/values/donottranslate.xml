@@ -29,6 +29,9 @@
     <string name="debug_screens_sub_menu">Test Screens</string>
     <string name="debug_install_shortcuts">>Install Shortcuts</string>
 
+    <!-- LX Web Confirmation Tag -->
+    <string name="lx_confirmation_url_tag">trips</string>
+
     <!-- Names of the open source libraries we use -->
     <!-- The translators should not translate these proper names and when they came back from loc they didn't touch them anyways -->
     <string name="open_source_names">ActiveAndroid, ButterKnife, Dagger, FlowLayout, Gson, JodaTime, joda-time-android, OkHttp, Okio, Otto, Phrase, Picasso, Retrofit, RxAndroid, RxJava, ShareEverywhere, svg-android</string>

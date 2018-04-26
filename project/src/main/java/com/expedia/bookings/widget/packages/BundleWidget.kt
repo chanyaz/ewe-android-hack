@@ -75,7 +75,7 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
                 inboundFlightWidget.refreshTravelerInfoOnChangeFlights()
                 inboundFlightWidget.disable()
             }
-            if (param.isOutboundSearch(isMidAPIEnabled(context))) {
+            if (param.isOutboundSearch(isMidAPIEnabled())) {
                 outboundFlightWidget.showLoading()
                 inboundFlightWidget.toggleFlightWidget(opacity, false)
             } else {

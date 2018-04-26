@@ -201,7 +201,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
             true
         })
 
-        if (isMidAPIEnabled(context)) {
+        if (isMidAPIEnabled()) {
             addTransition(overviewToWebCheckoutView)
         } else {
             addTransition(checkoutTransition)
@@ -217,7 +217,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
             })
         }
 
-        if (isMidAPIEnabled(context)) {
+        if (isMidAPIEnabled()) {
             performMIDCreateTripSubject.subscribe {
                 webCheckoutView.clearHistory()
                 webCheckoutView.webView.clearHistory()
@@ -229,7 +229,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
     }
 
     private fun cancelMIDCreateTripCall() {
-        if (isMidAPIEnabled(context)) {
+        if (isMidAPIEnabled()) {
             val vm = webCheckoutView.viewModel
             if (vm is PackageWebCheckoutViewViewModel) {
                 vm.packageCreateTripViewModel.cancelMultiItemCreateTripSubject.onNext(Unit)
@@ -431,7 +431,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
     }
 
     override fun showCheckout() {
-        if (isMidAPIEnabled(context)) {
+        if (isMidAPIEnabled()) {
             show(webCheckoutView)
         } else {
             super.showCheckout()

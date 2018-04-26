@@ -80,7 +80,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
     val confirmationViewStub: ViewStub by bindView(R.id.widget_package_confirmation_view_stub)
     val errorViewStub: ViewStub by bindView(R.id.widget_package_error_view_stub)
     val pageUsableData = PageUsableData()
-    val midAPIEnabled = isMidAPIEnabled(context)
+    val midAPIEnabled = isMidAPIEnabled()
 
     val searchPresenter: PackageSearchPresenter by lazy {
         if (displayFlightDropDownRoutes()) {
@@ -118,7 +118,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         checkoutPresenter.getCheckoutViewModel().checkoutRequestStartTimeObservable.subscribe { startTime ->
             pageUsableData.markPageLoadStarted(startTime)
         }
-        presenter.bundleWidget.viewModel.showBundleTotalObservable.filter { !isMidAPIEnabled(context) || it }.subscribe {
+        presenter.bundleWidget.viewModel.showBundleTotalObservable.filter { !isMidAPIEnabled() || it }.subscribe {
             val packagePrice = Db.getPackageResponse().getCurrentOfferPrice()
             if (packagePrice != null) {
                 val packageSavings = Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
