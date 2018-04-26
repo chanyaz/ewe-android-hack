@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 
@@ -276,6 +277,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	 *
 	 * @return first ItinCardData found matching the passed id or null
 	 */
+	@Nullable
 	@Override
 	public ItinCardData getItinCardDataFromItinId(String itinId) {
 
