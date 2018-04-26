@@ -160,3 +160,7 @@ fun shouldShowCustomerFirstGuarantee(context: Context): Boolean {
 fun isNewSignInEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppAccountNewSignIn)
 }
+
+fun isServerSideFilteringEnabledForPackages(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesServerSideFiltering)
+}

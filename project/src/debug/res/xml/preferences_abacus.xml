@@ -836,6 +836,14 @@
             android:key="25714"
             android:summary="%s"
             android:title="Packages AA Test - 25714" />
+
+        <ListPreference
+            android:defaultValue="-1"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="25814"
+            android:summary="%s"
+            android:title="Packages Server Side Filtering - 25814" />
     </PreferenceCategory>
 
     <PreferenceCategory

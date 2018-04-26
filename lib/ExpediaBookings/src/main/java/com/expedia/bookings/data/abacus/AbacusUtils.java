@@ -122,6 +122,7 @@ public class AbacusUtils {
 	public static final ABTest CardExpiryDateFormField = new ABTest(24734, true);
 	public static final ABTest EBAndroidAppPackagesWebviewFHC = new ABTest(25555, true);
 	public static final ABTest EBAndroidAppPackagesAATest = new ABTest(25714, true);
+	public static final ABTest EBAndroidAppPackagesServerSideFiltering = new ABTest(25814, true);
 
 	// Account
 	public static final ABTest EBAndroidAppAccountRecaptcha = new ABTest(15652, true);
@@ -258,6 +259,7 @@ public class AbacusUtils {
 		testIDs.add(HotelMapSmallSoldOutPins.getKey());
 		testIDs.add(EBAndroidAppLxWebCheckoutView.getKey());
 		testIDs.add(EBAndroidAppPackagesAATest.getKey());
+		testIDs.add(EBAndroidAppPackagesServerSideFiltering.getKey());
 		return testIDs;
 	}
 

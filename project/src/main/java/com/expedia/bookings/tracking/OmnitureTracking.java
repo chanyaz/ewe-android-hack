@@ -4870,7 +4870,7 @@ public class OmnitureTracking {
 			s.setProp(2, "D=c2");
 			s.setProp(36, response.getFirstError().toString());
 		}
-
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppPackagesServerSideFiltering);
 		s.track();
 	}
 

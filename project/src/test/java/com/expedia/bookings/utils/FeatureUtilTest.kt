@@ -49,4 +49,16 @@ class FeatureUtilTest {
         AbacusTestUtils.unbucketTests(AbacusUtils.TripFoldersFragment)
         assertFalse(checkIfTripFoldersEnabled(context))
     }
+
+    @Test
+    fun testPackagesServerSideFilteringDisabled() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesServerSideFiltering)
+        assertFalse(isServerSideFilteringEnabledForPackages(context))
+    }
+
+    @Test
+    fun testPackagesServerSideFilteringEnabled() {
+        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesServerSideFiltering)
+        assertTrue(isServerSideFilteringEnabledForPackages(context))
+    }
 }
