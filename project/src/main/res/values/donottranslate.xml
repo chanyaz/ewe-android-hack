@@ -14,6 +14,7 @@
 
     <string name="app_copyright_logo_url">http://www.expedia.com</string>
     <string name="app_copyright_name">@string/launcher_name</string>
+    <string name="clear_webview_url">about:blank</string>
 
     <!-- MID CKO Confirmation Tag -->
     <string name="mid_confirmation_url_tag">MultiItemBookingConfirmation</string>

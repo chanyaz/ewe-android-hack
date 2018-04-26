@@ -7,4 +7,5 @@ open class WebViewViewModel {
     val blankViewObservable = PublishSubject.create<Unit>()
     val backObservable = PublishSubject.create<Unit>()
     val showWebViewObservable = PublishSubject.create<Boolean>()
+    val showNativeSearchObservable = PublishSubject.create<Unit>()
 }

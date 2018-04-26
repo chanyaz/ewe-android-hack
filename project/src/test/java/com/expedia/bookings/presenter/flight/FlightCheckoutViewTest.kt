@@ -737,6 +737,59 @@ class FlightCheckoutViewTest {
     }
 
     @Test
+    fun testShowNativeSignInFromWebViewError() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckout)
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
+        setupTestToOpenInFlightOutboundPresenter()
+        Db.getTripBucket().add(TripBucketItemFlightV2(getFlightCreateTripResponse()))
+        val testShowNativeObserver = TestObserver.create<Unit>()
+        val testShowWebViewObserver = TestObserver.create<Boolean>()
+        val testUrlSubscriber = TestObserver.create<String>()
+        flightPresenter.webCheckoutViewModel.showWebViewObservable.subscribe(testShowWebViewObserver)
+        flightPresenter.webCheckoutViewModel.showNativeSearchObservable.subscribe(testShowNativeObserver)
+        flightPresenter.webCheckoutViewModel.webViewURLObservable.subscribe(testUrlSubscriber)
+        flightPresenter.show(flightPresenter.flightOverviewPresenter)
+        flightPresenter.show(flightPresenter.webCheckoutView)
+
+        flightPresenter.webCheckoutView.goToSearchAndClearWebView()
+
+        testShowNativeObserver.assertValueCount(1)
+        testShowWebViewObserver.assertValues(true, false)
+        testUrlSubscriber.assertValue("about:blank")
+        assertFalse(flightPresenter.webCheckoutView.webView.canGoBack())
+        assertTrue(flightPresenter.searchPresenter.visibility == View.VISIBLE)
+        assertTrue(flightPresenter.webCheckoutView.visibility == View.GONE)
+    }
+
+    @Test
+    fun testShowNativeSignInOnBackFromWebViewErrorUrl() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckout)
+        createMockFlightServices()
+        setFlightPresenterAndFlightServices()
+        setupTestToOpenInFlightOutboundPresenter()
+        Db.getTripBucket().add(TripBucketItemFlightV2(getFlightCreateTripResponse()))
+        val testShowNativeObserver = TestObserver.create<Unit>()
+        val testShowWebViewObserver = TestObserver.create<Boolean>()
+        val testUrlSubscriber = TestObserver.create<String>()
+        flightPresenter.webCheckoutViewModel.showWebViewObservable.subscribe(testShowWebViewObserver)
+        flightPresenter.webCheckoutViewModel.showNativeSearchObservable.subscribe(testShowNativeObserver)
+        flightPresenter.webCheckoutViewModel.webViewURLObservable.subscribe(testUrlSubscriber)
+        flightPresenter.show(flightPresenter.flightOverviewPresenter)
+        flightPresenter.show(flightPresenter.webCheckoutView)
+
+        flightPresenter.webCheckoutView.webView.loadUrl("www.expedia.com/CheckoutError")
+        flightPresenter.webCheckoutView.back()
+
+        testShowNativeObserver.assertValueCount(1)
+        testShowWebViewObserver.assertValues(true, false)
+        testUrlSubscriber.assertValues("about:blank")
+        assertFalse(flightPresenter.webCheckoutView.webView.canGoBack())
+        assertTrue(flightPresenter.searchPresenter.visibility == View.VISIBLE)
+        assertTrue(flightPresenter.webCheckoutView.visibility == View.GONE)
+    }
+
+    @Test
     fun testSearchParamsReachesKrazyglueViewModel() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsKrazyglue)
         createMockFlightServices()
