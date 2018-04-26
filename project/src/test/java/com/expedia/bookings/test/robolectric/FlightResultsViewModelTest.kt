@@ -53,10 +53,10 @@ class FlightResultsViewModelTest {
     }
 
     private fun getRichContentList(): List<RichContent> {
-        return listOf(getRichContentRichContent())
+        return listOf(getRichContent())
     }
 
-    private fun getRichContentRichContent(): RichContent {
+    private fun getRichContent(): RichContent {
         val richContent = RichContent()
         richContent.legId = FLIGHT_LEG_ID
         richContent.score = 7.9F

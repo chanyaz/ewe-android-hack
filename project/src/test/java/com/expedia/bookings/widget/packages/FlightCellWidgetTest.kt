@@ -92,7 +92,7 @@ class FlightCellWidgetTest {
         flightLeg.packageOfferModel.price.averageTotalPricePerTicket = Money("200", "USD")
         flightLeg.packageOfferModel.price.averageTotalPricePerTicket.roundedAmount = BigDecimal(200)
         flightLeg.baggageFeesUrl = BAGGAGE_FEES_URL_PATH
-        flightLeg.richContent = getRichContentRichContent()
+        flightLeg.richContent = getRichContent()
 
         val airlines = ArrayList<Airline>()
         val airline1 = Airline("United", null)
@@ -102,7 +102,7 @@ class FlightCellWidgetTest {
         flightLeg.airlines = airlines
     }
 
-    private fun getRichContentRichContent(): RichContent {
+    private fun getRichContent(): RichContent {
         val richContent = RichContent()
         richContent.legId = ""
         richContent.score = 7.9F
