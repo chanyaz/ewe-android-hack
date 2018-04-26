@@ -11,9 +11,9 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class HotelSearchParamsTest {
-    val maxStay = 26
-    val maxRange = 329
-    val testParamBuilder = HotelSearchParams.Builder(maxStay, maxRange)
+    private val maxStay = 26
+    private val maxRange = 329
+    private val testParamBuilder = HotelSearchParams.Builder(maxStay, maxRange)
 
     private val firstParamBuilder = HotelSearchParams.Builder(maxStay, maxRange)
     private val secondParamBuilder = HotelSearchParams.Builder(maxStay, maxRange)
@@ -204,9 +204,9 @@ class HotelSearchParamsTest {
     @Test
     fun testPrefetchNotEqual_Children() {
         firstParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
-                .children(listOf(1))
+                .children(listOf(1, 2, 1))
         secondParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
-                .children(listOf(1, 1))
+                .children(listOf(1, 1, 1))
 
         val firstParams = firstParamBuilder.build()
         assertTrue(firstParams.equalForPrefetch(firstParams)) //sanity check
@@ -232,12 +232,12 @@ class HotelSearchParamsTest {
         assertTrue(firstParams.equalForPrefetch(firstParams)) //sanity check
         assertFalse(firstParams.equalForPrefetch(secondParamBuilder.build()), "Error: If either param has any filter value not equal for greedy")
 
-        val newfirstParams = firstParamBuilder.hotelName("ADVANCED_OPTION").build()
+        val newFirstParams = firstParamBuilder.hotelName("ADVANCED_OPTION").build()
         val newSecondParams = HotelSearchParams.Builder(maxStay, maxRange)
                 .destination(dummySuggestion).startDate(today).endDate(today)
                 .build() as HotelSearchParams
         assertTrue(newSecondParams.equalForPrefetch(newSecondParams)) //sanity check
-        assertFalse(newfirstParams.equalForPrefetch(newSecondParams), "Error: If either param has any filter value not equal for greedy")
+        assertFalse(newFirstParams.equalForPrefetch(newSecondParams), "Error: If either param has any filter value not equal for greedy")
     }
 
     @Test
@@ -249,6 +249,101 @@ class HotelSearchParamsTest {
 
         assertTrue(firstParams.equalForPrefetch(firstParams)) //sanity check
         assertTrue(firstParams.equalForPrefetch(secondParams))
+    }
+
+    @Test
+    fun testEqualIgnoringFilterDifferentSuggestion() {
+        val builder = HotelSearchParams.Builder(maxStay, maxRange)
+        val params1 = builder.destination(getDummySuggestion("chicago", "Chi", "gaia1"))
+                .startDate(today).endDate(today.plusDays(1))
+                .build() as HotelSearchParams
+        val params2 = builder.destination(getDummySuggestion("chicago", "Chi", "gaia2"))
+                .startDate(today).endDate(today.plusDays(1))
+                .build() as HotelSearchParams
+
+        assertFalse(params1.equalIgnoringFilter(params2))
+    }
+
+    @Test
+    fun testEqualIgnoringFilterDifferentStartDate() {
+        firstParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
+        secondParamBuilder.destination(dummySuggestion).startDate(today.plusDays(1)).endDate(today)
+
+        val params1 = firstParamBuilder.build()
+        val params2 = secondParamBuilder.build()
+        assertFalse(params1.equalIgnoringFilter(params2))
+    }
+
+    @Test
+    fun testEqualIgnoringFilterDifferentEndDate() {
+        firstParamBuilder.destination(dummySuggestion).startDate(today).endDate(today.plusDays(1))
+        secondParamBuilder.destination(dummySuggestion).startDate(today).endDate(today.plusDays(2))
+
+        val params1 = firstParamBuilder.build()
+        val params2 = secondParamBuilder.build()
+        assertFalse(params1.equalIgnoringFilter(params2))
+    }
+
+    @Test
+    fun testEqualIgnoringFilterDifferentAdults() {
+        firstParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
+                .adults(1)
+        secondParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
+                .adults(2)
+
+        val params1 = firstParamBuilder.build()
+        val params2 = secondParamBuilder.build()
+        assertFalse(params1.equalIgnoringFilter(params2))
+    }
+
+    @Test
+    fun testEqualIgnoringFilterDifferentChildren() {
+        firstParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
+                .children(listOf(1, 2, 1))
+        secondParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
+                .children(listOf(1, 1, 1))
+
+        val params1 = firstParamBuilder.build()
+        val params2 = secondParamBuilder.build()
+        assertFalse(params1.equalIgnoringFilter(params2))
+    }
+
+    @Test
+    fun testEqualIgnoringFilterDifferentSwp() {
+        firstParamBuilder.shopWithPoints(false).destination(dummySuggestion).startDate(today).endDate(today)
+        secondParamBuilder.shopWithPoints(true).destination(dummySuggestion).startDate(today).endDate(today)
+
+        val params1 = firstParamBuilder.build()
+        val params2 = secondParamBuilder.build()
+        assertFalse(params1.equalIgnoringFilter(params2))
+    }
+
+    @Test
+    fun testEqualIgnoringFilterDifferentFilterOptions() {
+        firstParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
+        secondParamBuilder.userSort(HotelSearchParams.SortType.STARS).destination(dummySuggestion).startDate(today).endDate(today)
+
+        val params1 = firstParamBuilder.build()
+        val params2 = secondParamBuilder.build()
+        assertTrue(params1.equalIgnoringFilter(params2))
+    }
+
+    @Test
+    fun testEqualIgnoringFilterSameParams() {
+        val firstParams = firstParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
+                .adults(1).children(listOf(1)).build() as HotelSearchParams
+        val secondParams = secondParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
+                .adults(1).children(listOf(1)).build() as HotelSearchParams
+
+        assertTrue(firstParams.equalIgnoringFilter(secondParams))
+    }
+
+    @Test
+    fun testEqualIgnoringFilterNullParams() {
+        val firstParams = firstParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
+                .adults(1).children(listOf(1)).build() as HotelSearchParams
+
+        assertFalse(firstParams.equalIgnoringFilter(null))
     }
 
     @Test

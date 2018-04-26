@@ -26,7 +26,7 @@ class HotelFilterViewModel(context: Context) : BaseHotelFilterViewModel(context)
             } else if (sameFilterOptions()) {
                 showPreviousResultsObservable.onNext(Unit)
             } else {
-                filterByParamsObservable.onNext(userFilterChoices)
+                filterChoicesObservable.onNext(userFilterChoices)
             }
             previousFilterChoices = userFilterChoices.copy()
         }

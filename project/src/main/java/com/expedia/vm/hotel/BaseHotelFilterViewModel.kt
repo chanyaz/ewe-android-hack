@@ -17,13 +17,14 @@ import java.util.HashSet
 
 abstract class BaseHotelFilterViewModel(val context: Context) {
     var originalResponse: HotelSearchResponse? = null
+    var lastUnfilteredSearchParams: HotelSearchParams? = null
     var userFilterChoices = UserFilterChoices()
 
     val doneObservable = PublishSubject.create<Unit>()
     val doneButtonEnableObservable = PublishSubject.create<Boolean>()
     val clearObservable = PublishSubject.create<Unit>()
     val filterObservable = PublishSubject.create<HotelSearchResponse>()
-    val filterByParamsObservable = PublishSubject.create<UserFilterChoices>()
+    val filterChoicesObservable = PublishSubject.create<UserFilterChoices>()
     val updateDynamicFeedbackWidget = BehaviorSubject.create<Int>()
     val showPreviousResultsObservable = PublishSubject.create<Unit>()
 

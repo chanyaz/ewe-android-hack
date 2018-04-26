@@ -242,6 +242,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             recyclerView.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
         }
         if (!response.isFilteredResponse) {
+            filterViewModel.lastUnfilteredSearchParams = baseViewModel.cachedParams
             filterViewModel.setHotelList(response)
             baseViewModel.cachedParams?.filterOptions?.let { filterOptions ->
                 filterViewModel.updatePresetOptions(filterOptions)

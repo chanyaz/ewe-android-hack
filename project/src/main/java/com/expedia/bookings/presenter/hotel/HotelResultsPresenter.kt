@@ -87,8 +87,8 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     lateinit var urgencyViewModel: UrgencyViewModel
 
     init {
-        filterViewModel.filterByParamsObservable.subscribe { params ->
-            viewModel.filterParamsSubject.onNext(params)
+        filterViewModel.filterChoicesObservable.subscribe { filterChoices ->
+            viewModel.filterChoicesSubject.onNext(filterChoices)
         }
 
         floatingPill.filterButton.setOnClickListener {
@@ -184,7 +184,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             viewModel.clearCachedParamsFilterOptions()
         }
 
-        vm.filterParamsSubject.subscribe {
+        vm.filterChoicesSubject.subscribe {
             if (previousWasList) {
                 show(ResultsList(), Presenter.FLAG_CLEAR_TOP)
                 resetListOffset()
@@ -402,11 +402,26 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         mapWidget.markSoldOutHotel(hotelId)
     }
 
-    fun showFilterCachedResults() {
+    fun showUnfilteredResults() {
         filterViewModel.clearObservable.onNext(Unit)
         viewModel.clearCachedParamsFilterOptions()
-        val cachedFilterResponse = filterViewModel.originalResponse ?: adapter.resultsSubject.value
-        viewModel.hotelResultsObservable.onNext(cachedFilterResponse)
+
+        val currentSearchParams = viewModel.getSearchParams()
+        val cachedUnfilteredResponse = filterViewModel.originalResponse
+
+        if (cachedUnfilteredResponse == null) {
+            if (currentSearchParams == null) {
+                viewModel.hotelResultsObservable.onNext(adapter.resultsSubject.value)
+            } else {
+                viewModel.paramsSubject.onNext(currentSearchParams)
+            }
+        } else {
+            if (currentSearchParams != null && !currentSearchParams.equalIgnoringFilter(filterViewModel.lastUnfilteredSearchParams)) {
+                viewModel.paramsSubject.onNext(currentSearchParams)
+            } else {
+                viewModel.hotelResultsObservable.onNext(cachedUnfilteredResponse)
+            }
+        }
     }
 
     fun showCachedResults() {
