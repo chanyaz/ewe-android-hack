@@ -2,6 +2,7 @@
 import json
 import os.path
 import sys
+import traceback
 from sets import Set
 
 def write_to_error_file(string_to_write):
@@ -143,7 +144,7 @@ def generateStepsHTML(testcaseStepsJson, testExecutionTime, testcaseStatus, isAf
                         <div class="rTableCell width-10">{stepStatus}</div>
                         <div class="rTableCell width-20">{errorMessage}</div>
                     </div>
-			""".format(stepStatus=stepStatus, stepKeyword=stepKeyword, stepDataHTML=stepDataHTML.encode('utf-8'),
+			""".format(stepStatus=stepStatus, stepKeyword=stepKeyword, stepDataHTML=stepDataHTML,
                        stepName=stepName.encode('utf-8'), stepDuration=stepDuration / 1e9,
                        errorMessage=errorMessage.encode('utf-8')))
 
@@ -157,8 +158,9 @@ def generateStepDataHTML(step_rows_json):
         cell_json = step_row['cells']
         singleRow = ""
         for row in cell_json:
-            singleRow = singleRow + " - " + row
-            singleRow = singleRow.replace(u'\xa0',' ')
+            row = row.encode('utf-8')
+            singleRow = singleRow + " - " + row.decode('utf-8')
+            singleRow = singleRow.encode('utf-8')
         print "{singleRow}".format(singleRow=singleRow)
         stepRowData.append("""\n
                     <br>{singleRow}</b>
@@ -362,12 +364,13 @@ def main():
                         """.format(deviceIdentifier=deviceIdentifier, featureName=featureName,
                                    allTestCasesHTML=allTestCasesHTML))
             except Exception, e:
+                print(traceback.format_exc())
                 allFeatureResults.append("""\n
                     <div class="cucumber-feature">
                         <div class="feature-title failed"><span>Something went wrong for tag : {deviceIdentifier}</span></div>
                     </div>
                     """.format(deviceIdentifier=deviceIdentifier))
-                write_to_error_file('Something went wrong for tag : ' + deviceIdentifier)
+                write_to_error_file('Something went wrong for tag : ' + deviceIdentifier + " : " + traceback.format_exc())
                 failedTags+="," + str(deviceIdentifier)
         else:
             allFeatureResults.append("""\n
