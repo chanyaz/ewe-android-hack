@@ -179,6 +179,14 @@
             android:screenOrientation="portrait"/>
 
         <activity
+            android:name="com.expedia.bookings.itin.hotel.taxi.HotelItinTaxiActivity"
+            android:launchMode="singleTop"
+            android:resizeableActivity="false"
+            android:theme="@style/ItinTheme"
+            tools:ignore="UnusedAttribute"
+            android:screenOrientation="landscape"/>
+
+        <activity
             android:name="com.expedia.bookings.itin.hotel.common.HotelItinExpandedMapActivity"
             android:launchMode="singleTop"
             android:resizeableActivity="false"

@@ -4,6 +4,7 @@ import android.arch.lifecycle.LifecycleOwner
 import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepo
 import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinHotel
+import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.itin.utils.AbacusSource
 import com.expedia.bookings.itin.utils.ActivityLauncher
 import com.expedia.bookings.itin.utils.IWebViewLauncher
@@ -39,3 +40,9 @@ data class HotelItinViewReceiptScope(
         override val tripsTracking: ITripsTracking,
         override val webViewLauncher: IWebViewLauncher
 ) : HasStringProvider, HasHotelRepo, HasLifecycleOwner, HasTripsTracking, HasWebViewLauncher
+
+data class HotelItinTaxiObserverScope(
+        override val jsonUtil: IJsonToItinUtil,
+        override val id: String,
+        override val lifecycleOwner: LifecycleOwner
+) : HasJsonUtil, HasItinId, HasLifecycleOwner

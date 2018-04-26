@@ -13,7 +13,7 @@ class ItinHotelRepo(private val itinId: String, private val jsonUtil: IJsonToIti
 
     override val liveDataHotel: MutableLiveData<ItinHotel> = MutableLiveData()
     override val liveDataItin: MutableLiveData<Itin> = MutableLiveData()
-    val liveDataInvalidItin: MutableLiveData<Unit> = MutableLiveData()
+    override val liveDataInvalidItin: MutableLiveData<Unit> = MutableLiveData()
 
     val syncObserver = object : DisposableObserver<MutableList<ItinCardData>>() {
         override fun onComplete() {
@@ -41,9 +41,15 @@ class ItinHotelRepo(private val itinId: String, private val jsonUtil: IJsonToIti
     private fun fetchHotel(): ItinHotel? = jsonUtil.getItin(itinId)?.firstHotel()
 
     init {
-        liveDataHotel.value = fetchHotel()
-        liveDataItin.value = fetchItin()
-        observable.subscribe(syncObserver)
+        val hotel = fetchHotel()
+        val itin = fetchItin()
+        if (hotel != null && itin != null) {
+            liveDataHotel.value = hotel
+            liveDataItin.value = itin
+            observable.subscribe(syncObserver)
+        } else {
+            liveDataInvalidItin.postValue(Unit)
+        }
     }
 
     fun dispose() {
