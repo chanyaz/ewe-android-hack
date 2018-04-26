@@ -18,6 +18,7 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 
 @RunWith(RobolectricRunner :: class)
 class LXWebCheckoutViewTest {
@@ -36,10 +37,12 @@ class LXWebCheckoutViewTest {
     @Test
     fun testLXWebConfirmationPageInterceptedBeforeLoading() {
         val testBookedTripIdSubscriber = TestObserver.create<String>()
+
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppLxWebCheckoutView)
         webCheckoutView.viewModel = LXWebCheckoutViewViewModel(activity, Ui.getApplication(activity).appComponent().endpointProvider(), LXCreateTripViewModel(activity))
 
         (webCheckoutView.viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.subscribe(testBookedTripIdSubscriber)
+
         webCheckoutView.onWebPageStarted(webCheckoutView.webView, "https://wwwexpediacouk.trunk.sb.karmalab.net/trips/790170356787?tripnumber=790170356787&itinerarynumber=790170356787&tripid=f93e7d80-8a9f-4394-b1b6-af35fee7821a&frdr=true", null)
 
         assertEquals(1, testBookedTripIdSubscriber.values().size)
@@ -47,5 +50,21 @@ class LXWebCheckoutViewTest {
         webCheckoutView.onWebPageStarted(webCheckoutView.webView, "https://wwwexpediacom.trunk.sb.karmalab.net/MultiItemBookingConfirmation/790170356787?tripnumber=790170356787&itinerarynumber=790170356787&tripid=f93e7d80-8a9f-4394-b1b6-af35fee7821a&frdr=true", null)
 
         assertEquals(2, testBookedTripIdSubscriber.values().size)
+    }
+
+    @Test
+    fun testWebCheckoutViewHiddenOnHittingLXConfirmationURL() {
+        val testShowWebViewObservableIdSubscriber = TestObserver.create<Boolean>()
+
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppLxWebCheckoutView)
+        webCheckoutView.viewModel = LXWebCheckoutViewViewModel(activity, Ui.getApplication(activity).appComponent().endpointProvider(), LXCreateTripViewModel(activity))
+
+        (webCheckoutView.viewModel as WebCheckoutViewViewModel).showWebViewObservable.subscribe(testShowWebViewObservableIdSubscriber)
+
+        webCheckoutView.onWebPageStarted(webCheckoutView.webView, "https://wwwexpediacom.trunk.sb.karmalab.net/trips", null)
+
+        (webCheckoutView.viewModel as WebCheckoutViewViewModel).onUserAccountRefreshed()
+        assertEquals(1, testShowWebViewObservableIdSubscriber.values().size)
+        assertFalse(testShowWebViewObservableIdSubscriber.values()[0])
     }
 }

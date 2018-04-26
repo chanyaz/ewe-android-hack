@@ -78,7 +78,8 @@ public class LXPresenter extends Presenter {
 	public LoadingOverlayWidget loadingOverlay;
 
 	@InjectView(R.id.confirmation)
-	LXConfirmationWidget confirmationWidget;
+	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+	public LXConfirmationWidget confirmationWidget;
 
 	@InjectView(R.id.web_checkout_view_stub)
 	ViewStub webCheckoutViewStub;
@@ -140,6 +141,7 @@ public class LXPresenter extends Presenter {
 		if (showWebCheckoutView()) {
 			webCheckoutView = (WebCheckoutView) webCheckoutViewStub.inflate();
 			addTransition(detailsToWebCheckout);
+			addTransition(webCheckoutToConfirmation);
 			setWebCheckoutView();
 		}
 
@@ -154,6 +156,13 @@ public class LXPresenter extends Presenter {
 		detailsPresenter.fullscreenMapView.setViewmodel(new LXMapViewModel(getContext()));
 		setLxDetailMap();
 		bookingSuccessDialog = createBookingSuccessDialog();
+
+		if (showWebCheckoutView()) {
+			((LXWebCheckoutViewViewModel) webCheckoutView.getViewModel()).getFetchItinObservable()
+				.subscribe(bookedTripID ->
+					itinTripServices.getTripDetails(bookedTripID, makeNewItinResponseObserver())
+				);
+		}
 	}
 
 	private Observer<LxSearchParams> lxSearchParamsObserver = new Observer<LxSearchParams>() {
@@ -183,7 +192,6 @@ public class LXPresenter extends Presenter {
 					bookingSuccessDialog.show();
 				}
 				else {
-					// Need Tracking
 					confirmationWidget.viewModel.getItinDetailsResponseObservable().onNext(itinDetailsResponse);
 					confirmationWidget.viewModel.getLxStateObservable().onNext(lxState);
 					confirmationWidget.viewModel.getConfirmationScreenUiObservable().onNext(Unit.INSTANCE);
@@ -242,6 +250,9 @@ public class LXPresenter extends Presenter {
 		}
 	};
 
+	private Transition webCheckoutToConfirmation = new VisibilityTransition(this, WebCheckoutView.class,
+		LXConfirmationWidget.class);
+	
 	private Transition detailsToCheckout = new VisibilityTransition(this, LXDetailsPresenter.class,
 		LXCheckoutPresenter.class) {
 		@Override
