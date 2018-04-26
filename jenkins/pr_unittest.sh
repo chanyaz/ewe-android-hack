@@ -87,6 +87,15 @@ function runFeedbackAndCoverageReports() {
   fi
 }
 
+function compileUiTests() {
+    if [[ "$flavor" == "Expedia" ]]; then
+        ./gradlew "assemble${flavor}DebugAndroidTest"
+        if [[ (${?} -ne 0) ]]; then
+            exit 1
+        fi
+    fi
+}
+
 function printTestStatus() {
     if [ "$1" -ne 0 ]; then
         echo "$2: FAILED"
@@ -96,20 +105,21 @@ function printTestStatus() {
 }
 
 function printResultsAndExit() {
-  if [[ "$flavor" == "Expedia" && (${prPoliceStatus} -ne 0) ]]; then
-    echo "WARNING: PR Police has flagged potential problems."
-  fi
-  if [[ "$flavor" == "Expedia" && ${unitTestStatus} -ne 0 ]]; then
-    printTestStatus ${unitTestStatus} "Unit tests"
-    echo "============ FAILURE - PLEASE SEE DETAILS ABOVE ============"
-    exit 1
-  elif [[ (${unitTestStatus} -ne 0) ]]; then
-      printTestStatus ${unitTestStatus} "Unit tests"
-      echo "============ FAILURE - PLEASE SEE DETAILS ABOVE ============"
-      exit 1
-  else
-    exit 0
-  fi
+    if [[ "$flavor" == "Expedia" && (${prPoliceStatus} -ne 0) ]]; then
+        echo "WARNING: PR Police has flagged potential problems."
+    fi
+
+    if [[ "$flavor" == "Expedia" && ${unitTestStatus} -ne 0 ]]; then
+        printTestStatus ${unitTestStatus} "Unit tests"
+        echo "============ FAILURE - PLEASE SEE DETAILS ABOVE ============"
+        exit 1
+    elif [[ (${unitTestStatus} -ne 0) ]]; then
+        printTestStatus ${unitTestStatus} "Unit tests"
+        echo "============ FAILURE - PLEASE SEE DETAILS ABOVE ============"
+        exit 1
+    else
+        exit 0
+    fi
 }
 
 if [ "$flavor" == "" ]; then
@@ -124,6 +134,7 @@ if [ "$flavor" == "Expedia" ]; then
     runPRPolice
 fi
 sdkManagerWorkAround
+compileUiTests
 runUnitTests
 runFeedbackAndCoverageReports
 printResultsAndExit
