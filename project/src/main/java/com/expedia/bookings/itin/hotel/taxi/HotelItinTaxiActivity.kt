@@ -18,7 +18,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 
-class HotelItinTaxiActivity: AppCompatActivity() {
+class HotelItinTaxiActivity : AppCompatActivity() {
 
     companion object : Intentable {
         private const val ID_EXTRA = "ITINID"
@@ -65,6 +65,6 @@ class HotelItinTaxiActivity: AppCompatActivity() {
 
     override fun finish() {
         super.finish()
-       // overridePendingTransition(1, R.anim.slide)
+        // overridePendingTransition(1, R.anim.slide)
     }
 }

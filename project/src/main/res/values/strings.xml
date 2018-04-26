@@ -1509,7 +1509,8 @@
     <string name="itin_hotel_price_reward_title">Pricing and rewards</string>
     <!--Hotel itin view receipt title. (e.g. Receipt for Hilton) -->
     <string name="itin_hotel_view_receipt_title_TEMPLATE">Receipt for {hotelname}</string>
-
+    <!--Hotel itin taxi card -->
+    <string name="itin_hotel_taxi_card">Translate address</string>
 
     <!--LX itin redesign-->
     <!--LX toolbar title template. (e.g. Activity in San Francisco)-->
