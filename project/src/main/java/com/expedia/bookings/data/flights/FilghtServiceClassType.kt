@@ -66,4 +66,14 @@ object FlightServiceClassType {
             else -> CabinCode.COACH
         }
     }
+
+    @JvmStatic fun getCabinCodeForRichContent(cabinCodeParam: String): String {
+        return when (cabinCodeParam) {
+            "coach" -> "ECONOMY"
+            "premium coach" -> "PREMIUM_COACH"
+            "business" -> "BUSINESS"
+            "first" -> "FIRST"
+            else -> "ECONOMY"
+        }
+    }
 }

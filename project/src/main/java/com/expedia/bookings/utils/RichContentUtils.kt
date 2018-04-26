@@ -42,7 +42,7 @@ object RichContentUtils {
     fun getRichContentRequestPayload(context: Context, flightLegList: List<FlightLeg>): RichContentRequest {
         val richContentRequestPayload = RichContentRequest()
         richContentRequestPayload.requestInfo = getRequestInfo(context)
-        richContentRequestPayload.richInfoDetail = getRichInfoDetail(context, flightLegList)
+        richContentRequestPayload.richInfoDetail = getRichInfoDetail(flightLegList)
         return richContentRequestPayload
     }
 
@@ -59,16 +59,16 @@ object RichContentUtils {
         return requestInfo
     }
 
-    private fun getRichInfoDetail(context: Context, flightLegList: List<FlightLeg>): RichContentDetail {
+    private fun getRichInfoDetail(flightLegList: List<FlightLeg>): RichContentDetail {
         val richInfoDetail = RichContentDetail()
-        richInfoDetail.richInfoList = getRichInfoList(context, flightLegList)
+        richInfoDetail.richInfoList = getRichInfoList(flightLegList)
         return richInfoDetail
     }
 
-    private fun getRichInfoList(context: Context, flightLegList: List<FlightLeg>): List<RichContentInfo> {
+    private fun getRichInfoList(flightLegList: List<FlightLeg>): List<RichContentInfo> {
         val richInfo = RichContentInfo()
         richInfo.flightSearch = getSearchContext()
-        richInfo.flightOfferDetail = getFlightOfferDetail(context, flightLegList)
+        richInfo.flightOfferDetail = getFlightOfferDetail(flightLegList)
 
         val richInfoList = ArrayList<RichContentInfo>()
         richInfoList.add(richInfo)
@@ -79,7 +79,7 @@ object RichContentUtils {
         val flightSearchParams = Db.getFlightSearchParams()
         val searchContext = RichContentFlightSearch()
         if (flightSearchParams != null) {
-            searchContext.tripType = if (flightSearchParams.isRoundTrip()) TripType.ROUND_TRIP.type else TripType.ONEWAY.type
+            searchContext.tripType = TripType.ONEWAY.type
             searchContext.flightCriteria = getFlightCriteria(flightSearchParams)
         }
         return searchContext
@@ -111,48 +111,48 @@ object RichContentUtils {
         return travelerDetail
     }
 
-    private fun getFlightOfferDetail(context: Context, flightLegList: List<FlightLeg>): RichContentFlightOfferDetail {
+    private fun getFlightOfferDetail(flightLegList: List<FlightLeg>): RichContentFlightOfferDetail {
         val flightOfferDetail = RichContentFlightOfferDetail()
-        flightOfferDetail.flightOfferList = getFlightOfferList(context, flightLegList)
+        flightOfferDetail.flightOfferList = getFlightOfferList(flightLegList)
         return flightOfferDetail
     }
 
-    private fun getFlightOfferList(context: Context, flightLegList: List<FlightLeg>): List<RichContentFlightOffer> {
+    private fun getFlightOfferList(flightLegList: List<FlightLeg>): List<RichContentFlightOffer> {
         val flightOfferList = ArrayList<RichContentFlightOffer>()
         for (flightLeg in flightLegList) {
             val flightOffer = RichContentFlightOffer()
             flightOffer.naturalKey = flightLeg.naturalKey
-            flightOffer.flightLegDetail = getFlightLegDetail(context, flightLeg)
+            flightOffer.flightLegDetail = getFlightLegDetail(flightLeg)
             flightOfferList.add(flightOffer)
         }
         return flightOfferList
     }
 
-    private fun getFlightLegDetail(context: Context, flightLeg: FlightLeg): RichContentFlightLegDetail {
+    private fun getFlightLegDetail(flightLeg: FlightLeg): RichContentFlightLegDetail {
         val flightLegDetail = RichContentFlightLegDetail()
-        flightLegDetail.flightLegList = getFlightLegList(context, flightLeg)
+        flightLegDetail.flightLegList = getFlightLegList(flightLeg)
         return flightLegDetail
     }
 
-    private fun getFlightLegList(context: Context, flightLeg: FlightLeg): List<RichContentFlightLeg> {
+    private fun getFlightLegList(flightLeg: FlightLeg): List<RichContentFlightLeg> {
         val richContentFlightLegList = ArrayList<RichContentFlightLeg>()
         val richContentFlightLeg = RichContentFlightLeg()
         richContentFlightLeg.id = flightLeg.legId
         if (CollectionUtils.isNotEmpty(flightLeg.segments)) {
-            richContentFlightLeg.flightSegmentDetail = getFlightSegmentDetail(context, flightLeg.segments, flightLeg.seatClassAndBookingCodeList)
+            richContentFlightLeg.flightSegmentDetail = getFlightSegmentDetail(flightLeg.segments, flightLeg.seatClassAndBookingCodeList)
         }
         richContentFlightLegList.add(richContentFlightLeg)
         return richContentFlightLegList
     }
 
-    private fun getFlightSegmentDetail(context: Context, flightSegmentList: List<FlightLeg.FlightSegment>,
+    private fun getFlightSegmentDetail(flightSegmentList: List<FlightLeg.FlightSegment>,
                                        seatClassBookingCodeList: List<FlightTripDetails.SeatClassAndBookingCode>): RichContentFlightSegmentDetail {
         val flightSegmentDetail = RichContentFlightSegmentDetail()
-        flightSegmentDetail.flightSegmentList = getFlightSegmentList(context, flightSegmentList, seatClassBookingCodeList)
+        flightSegmentDetail.flightSegmentList = getFlightSegmentList(flightSegmentList, seatClassBookingCodeList)
         return flightSegmentDetail
     }
 
-    private fun getFlightSegmentList(context: Context, flightSegmentList: List<FlightLeg.FlightSegment>,
+    private fun getFlightSegmentList(flightSegmentList: List<FlightLeg.FlightSegment>,
                                      seatClassBookingCodeList: List<FlightTripDetails.SeatClassAndBookingCode>): List<RichContentFlightSegment> {
         val richContentFlightSegmentList = ArrayList<RichContentFlightSegment>()
         for ((index, flightSegment) in flightSegmentList.withIndex()) {
@@ -161,20 +161,19 @@ object RichContentUtils {
             richContentFlightSegment.carrierCode = flightSegment.airlineCode
             richContentFlightSegment.flightNumber = flightSegment.flightNumber
             richContentFlightSegment.bookingCode = seatClassBookingCodeList[index].bookingCode
-            richContentFlightSegment.flightCriteria = getFlightCriteria(context, index, flightSegment, seatClassBookingCodeList)
+            richContentFlightSegment.flightCriteria = getFlightCriteria(index, flightSegment, seatClassBookingCodeList)
             richContentFlightSegmentList.add(richContentFlightSegment)
         }
         return richContentFlightSegmentList
     }
 
-    private fun getFlightCriteria(context: Context, index: Int, flightSegment: FlightLeg.FlightSegment,
+    private fun getFlightCriteria(index: Int, flightSegment: FlightLeg.FlightSegment,
                                   seatClassBookingCodeList: List<FlightTripDetails.SeatClassAndBookingCode>): RichContentFlightSegmentCriteria {
         val flightCriteria = RichContentFlightSegmentCriteria()
         flightCriteria.origin = flightSegment.departureAirportCode
         flightCriteria.destination = flightSegment.arrivalAirportCode
         flightCriteria.date = flightSegment.departureTimeRaw.split("T")[0]
-        flightCriteria.cabinClass = context.resources.getString(
-                FlightServiceClassType.getCabinCodeResourceId(seatClassBookingCodeList[index].seatClass)).toUpperCase()
+        flightCriteria.cabinClass = FlightServiceClassType.getCabinCodeForRichContent(seatClassBookingCodeList[index].seatClass)
         return flightCriteria
     }
 }
