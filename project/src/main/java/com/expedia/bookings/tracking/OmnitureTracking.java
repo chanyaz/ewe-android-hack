@@ -6016,8 +6016,6 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsBaggageWebViewHideAd);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightRateDetailsFromCache);
 
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowFlightsCheckoutWebview);
-
 		String products = getFlightProductString(false);
 		if (hasSubPub) {
 			products = getFlightSubpubProductString(products);

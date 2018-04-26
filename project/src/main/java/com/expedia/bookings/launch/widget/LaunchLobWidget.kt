@@ -20,7 +20,6 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.PlayStoreUtil
 import com.expedia.bookings.utils.isBrandColorEnabled
 import com.expedia.bookings.utils.shouldPackageForceUpdateBeVisible
-import com.expedia.bookings.utils.isShowFlightsCheckoutWebview
 import com.expedia.bookings.widget.GridLinesItemDecoration
 import com.expedia.util.notNullAndObservable
 import io.reactivex.subjects.PublishSubject
@@ -54,7 +53,7 @@ class LaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(conte
                     nav.goToHotels(animOptions)
                 }
                 LineOfBusiness.FLIGHTS -> {
-                    if (PointOfSale.getPointOfSale().supports(LineOfBusiness.FLIGHTS) || isShowFlightsCheckoutWebview(context)) {
+                    if (PointOfSale.getPointOfSale().supports(LineOfBusiness.FLIGHTS)) {
                         nav.goToFlights(null)
                     } else {
                         flightNotSupportedDialog.show()
