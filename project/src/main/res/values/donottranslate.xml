@@ -20,6 +20,9 @@
     <string name="flight_confirmation_url_tag">Confirmation-Flight</string>
     <string name="hotel_confirmation_url_tag">HotelBookingConfirmation</string>
 
+    <!-- LX Web Confirmation Tag -->
+    <string name="lx_confirmation_url_tag">trips</string>
+
     <!-- Generic strings/characters we use in various places that don't need translation -->
     <string name="debug_settings">Debug Settings</string>
     <string name="forward_slash">/</string>
