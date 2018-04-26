@@ -13,9 +13,10 @@ import com.expedia.bookings.services.BaggageInfoService;
 import com.expedia.bookings.services.FlightServices;
 import com.expedia.bookings.services.HolidayCalendarService;
 import com.expedia.bookings.services.ItinTripServices;
-import com.expedia.bookings.services.KongFlightServices;
 import com.expedia.bookings.services.KrazyglueServices;
+import com.expedia.bookings.services.RichContentService;
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder;
+import com.expedia.bookings.utils.HMACInterceptor;
 import com.expedia.vm.FlightCheckoutViewModel;
 import com.expedia.vm.FlightWebCheckoutViewViewModel;
 import com.expedia.vm.PaymentViewModel;
@@ -98,10 +99,12 @@ public final class FlightModule {
 
 	@Provides
 	@FlightScope
-	KongFlightServices provideKongFlightServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
+	RichContentService provideRichContentService(EndpointProvider endpointProvider, OkHttpClient client,
+		Interceptor interceptor, HMACInterceptor hmacInterceptor) {
 		List<Interceptor> interceptorList = new ArrayList<>();
 		interceptorList.add(interceptor);
-		return new KongFlightServices(endpointProvider.getKongEndpointUrl(), client, interceptorList,
+		interceptorList.add(hmacInterceptor);
+		return new RichContentService(endpointProvider.getKongEndpointUrl(), client, interceptorList,
 			AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 

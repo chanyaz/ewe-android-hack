@@ -1,10 +1,10 @@
 package com.expedia.bookings.unit
 
-import com.expedia.bookings.data.flights.RichContentRequestInfo
 import com.expedia.bookings.data.flights.RichContentRequest
+import com.expedia.bookings.data.flights.RichContentRequestInfo
 import com.expedia.bookings.data.flights.RichContentResponse
 import com.expedia.bookings.interceptors.MockInterceptor
-import com.expedia.bookings.services.KongFlightServices
+import com.expedia.bookings.services.RichContentService
 import com.expedia.bookings.services.TestObserver
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
@@ -20,17 +20,17 @@ import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class KongFlightServicesTest {
+class RichContentServiceTest {
     var server: MockWebServer = MockWebServer()
         @Rule get
 
-    private lateinit var kongService: KongFlightServices
+    private lateinit var richContentService: RichContentService
 
     @Before
     fun before() {
         val logger = HttpLoggingInterceptor()
         logger.level = HttpLoggingInterceptor.Level.BODY
-        kongService = KongFlightServices("http://localhost:" + server.port,
+        richContentService = RichContentService("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
                 listOf(MockInterceptor()), Schedulers.trampoline(), Schedulers.trampoline())
         val root = File("../mocked/templates").canonicalPath
@@ -43,7 +43,7 @@ class KongFlightServicesTest {
     fun testGetRichContent() {
         val observer = TestObserver<RichContentResponse>()
         val richContentRequest = getRichContentRequest()
-        kongService.getFlightRichContent(richContentRequest, observer)
+        richContentService.getFlightRichContent(richContentRequest, observer)
         observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
         observer.assertNoErrors()
         observer.assertComplete()

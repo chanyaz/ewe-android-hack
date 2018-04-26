@@ -15,7 +15,7 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.interceptors.MockInterceptor
-import com.expedia.bookings.services.KongFlightServices
+import com.expedia.bookings.services.RichContentService
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -59,7 +59,7 @@ class FlightResultsListViewPresenterTest {
     private lateinit var flightSelectedSubject: PublishSubject<FlightLeg>
     private lateinit var isRoundTripSubject: BehaviorSubject<Boolean>
     private lateinit var activity: Activity
-    private lateinit var kongService: KongFlightServices
+    private lateinit var kongService: RichContentService
     var server: MockWebServer = MockWebServer()
         @Rule get
     val FLIGHT_LEG_ID = "ab64aefca28e772ca024d4a00e6ae131"
@@ -72,7 +72,7 @@ class FlightResultsListViewPresenterTest {
         val logger = HttpLoggingInterceptor()
         logger.level = HttpLoggingInterceptor.Level.BODY
         server.setDispatcher(ExpediaDispatcher(opener))
-        kongService = KongFlightServices("http://localhost:" + server.port,
+        kongService = RichContentService("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
                 listOf(interceptor), Schedulers.trampoline(), Schedulers.trampoline())
         activity = Robolectric.buildActivity(AppCompatActivity::class.java).create().get()
@@ -85,7 +85,7 @@ class FlightResultsListViewPresenterTest {
     fun inflateAndSetViewModel() {
         sut = LayoutInflater.from(activity).inflate(R.layout.package_flight_results_presenter_stub, null) as FlightResultsListViewPresenter
         val flightResultsViewModel = FlightResultsViewModel(context)
-        flightResultsViewModel.kongFlightServices = kongService
+        flightResultsViewModel.richContentService = kongService
         sut.resultsViewModel = flightResultsViewModel
         createTestFlightListAdapter()
         sut.setAdapter(testFlightAdapter)
