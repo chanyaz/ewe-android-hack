@@ -1,0 +1,427 @@
+{
+    "reviewSummaryCollection": {
+        "reviewSummary": [
+            {
+                "id": "565746-expedia",
+                "hotelId": "565746",
+                "totalReviewCnt": 6038,
+                "avgOverallRating": 4.2588615,
+                "cleanliness": 4.468367,
+                "serviceAndStaff": 4.3915277,
+                "roomComfort": 4.084492,
+                "hotelCondition": 4.2782664,
+                "convenienceOfLocation": 4.668602,
+                "neighborhoodSatisfaction": 4.5205193,
+                "roomQuality": 0,
+                "targetedBrand": "Expedia",
+                "originSummary": [
+                    {
+                        "origin": "CheapTickets",
+                        "reviewCnt": 59,
+                        "recommendedPercent": 96.55172,
+                        "avgOverallRating": 4.220339,
+                        "cleanliness": 4.576271,
+                        "serviceAndStaff": 4.40678,
+                        "roomComfort": 4.2542377,
+                        "hotelCondition": 4.3333335,
+                        "convenienceOfLocation": 4.7,
+                        "neighborhoodSatisfaction": 0,
+                        "valueForMoney": 4.319999,
+                        "roomQuality": 0,
+                        "categoryCounts": {
+                            "Everyone": 9,
+                            "Couples": 16,
+                            "BusinessTravelers": 14,
+                            "Families": 2,
+                            "Other": 11,
+                            "GetawayWithFriends": 7
+                        },
+                        "roomTypeIdCounts": {
+                            "200257663": 2,
+                            "200257666": 1,
+                            "200257668": 6
+                        },
+                        "languageCounts": {
+                            "en": 59
+                        }
+                    },
+                    {
+                        "origin": "Ebookers",
+                        "reviewCnt": 6,
+                        "recommendedPercent": 100,
+                        "avgOverallRating": 3.6666667,
+                        "cleanliness": 3.8333333,
+                        "serviceAndStaff": 4.5,
+                        "roomComfort": 3.3333333,
+                        "hotelCondition": 3,
+                        "convenienceOfLocation": 4.75,
+                        "neighborhoodSatisfaction": 0,
+                        "valueForMoney": 4.5,
+                        "roomQuality": 0,
+                        "categoryCounts": {
+                            "Everyone": 1,
+                            "Couples": 5
+                        },
+                        "roomTypeIdCounts": {
+                            "200257668": 1,
+                            "200257669": 1
+                        },
+                        "languageCounts": {
+                            "de": 3,
+                            "en": 2,
+                            "fr": 1
+                        }
+                    },
+                    {
+                        "origin": "Expedia",
+                        "reviewCnt": 985,
+                        "recommendedPercent": 85.873985,
+                        "avgOverallRating": 4.126908,
+                        "cleanliness": 4.3634434,
+                        "serviceAndStaff": 4.430458,
+                        "roomComfort": 3.941117,
+                        "hotelCondition": 4.088324,
+                        "convenienceOfLocation": 0,
+                        "neighborhoodSatisfaction": 0,
+                        "valueForMoney": 0,
+                        "roomQuality": 0,
+                        "categoryCounts": {
+                            "ãã¹ã¦ã®äº": 1,
+                            "Everyone": 868,
+                            "Business Travelers": 9,
+                            "Couples": 27,
+                            "BusinessTravelers": 60,
+                            "Families": 7,
+                            "Iedereen": 1,
+                            "Students": 5,
+                            "åºåµè": 1,
+                            "Parejas": 1,
+                            "Tutti": 1,
+                            "Todos": 1,
+                            "Other": 3
+                        },
+                        "roomTypeIdCounts": {
+                            "200257663": 156,
+                            "200257666": 45,
+                            "200257668": 472,
+                            "200257669": 17
+                        },
+                        "languageCounts": {
+                            "de": 16,
+                            "pt": 5,
+                            "ja": 26,
+                            "en": 908,
+                            "it": 3,
+                            "fr": 11,
+                            "es": 12,
+                            "nl": 3,
+                            "zh": 1
+                        }
+                    },
+                    {
+                        "origin": "HotelClub",
+                        "reviewCnt": 21,
+                        "recommendedPercent": 100,
+                        "avgOverallRating": 4.6190476,
+                        "cleanliness": 4.6190476,
+                        "serviceAndStaff": 4.571429,
+                        "roomComfort": 4.285714,
+                        "hotelCondition": 0,
+                        "convenienceOfLocation": 4.904762,
+                        "neighborhoodSatisfaction": 0,
+                        "valueForMoney": 4.285714,
+                        "roomQuality": 0,
+                        "categoryCounts": {
+                            "Everyone": 14,
+                            "Couples": 4,
+                            "BusinessTravelers": 2,
+                            "Other": 1
+                        },
+                        "roomTypeIdCounts": {},
+                        "languageCounts": {
+                            "ja": 1,
+                            "en": 18,
+                            "it": 1,
+                            "es": 1
+                        }
+                    },
+                    {
+                        "origin": "Hotels",
+                        "reviewCnt": 4361,
+                        "recommendedPercent": 100,
+                        "avgOverallRating": 4.304977,
+                        "cleanliness": 4.484295,
+                        "serviceAndStaff": 4.382032,
+                        "roomComfort": 4.112355,
+                        "hotelCondition": 4.324474,
+                        "convenienceOfLocation": 4.6864753,
+                        "neighborhoodSatisfaction": 4.5205193,
+                        "valueForMoney": 0,
+                        "roomQuality": 0,
+                        "categoryCounts": {
+                            "RomanticGetaway": 7,
+                            "BusinessTravelers": 668,
+                            "Couples": 740,
+                            "Spa": 1,
+                            "OvernightStayBeforeDestination": 53,
+                            "Shopping": 21,
+                            "Families": 324,
+                            "PersonalEvent": 347,
+                            "GetawayWithFriends": 288,
+                            "Business": 4,
+                            "FamilyVacation": 2
+                        },
+                        "roomTypeIdCounts": {},
+                        "languageCounts": {
+                            "de": 34,
+                            "fi": 10,
+                            "ru": 2,
+                            "sv": 37,
+                            "ko": 15,
+                            "pt": 38,
+                            "el": 1,
+                            "lt": 1,
+                            "en": 4008,
+                            "it": 17,
+                            "fr": 36,
+                            "es": 54,
+                            "zh": 30,
+                            "et": 1,
+                            "nb": 16,
+                            "ja": 36,
+                            "pl": 1,
+                            "da": 16,
+                            "nl": 4,
+                            "tr": 4
+                        }
+                    },
+                    {
+                        "origin": "Orbitz",
+                        "reviewCnt": 605,
+                        "recommendedPercent": 93.874176,
+                        "avgOverallRating": 4.138841,
+                        "cleanliness": 4.515702,
+                        "serviceAndStaff": 4.38843,
+                        "roomComfort": 4.1074405,
+                        "hotelCondition": 4.0208335,
+                        "convenienceOfLocation": 4.565531,
+                        "neighborhoodSatisfaction": 0,
+                        "valueForMoney": 4.307004,
+                        "roomQuality": 0,
+                        "categoryCounts": {
+                            "Everyone": 44,
+                            "Business Travelers": 1,
+                            "Couples": 251,
+                            "BusinessTravelers": 121,
+                            "Families": 45,
+                            "Other": 93,
+                            "GetawayWithFriends": 50
+                        },
+                        "roomTypeIdCounts": {
+                            "200257663": 6,
+                            "200257666": 5,
+                            "200257668": 35,
+                            "200257669": 2
+                        },
+                        "languageCounts": {
+                            "en": 605
+                        }
+                    },
+                    {
+                        "origin": "RatesToGo",
+                        "reviewCnt": 1,
+                        "recommendedPercent": 0,
+                        "avgOverallRating": 4,
+                        "cleanliness": 4,
+                        "serviceAndStaff": 4,
+                        "roomComfort": 3,
+                        "hotelCondition": 0,
+                        "convenienceOfLocation": 5,
+                        "neighborhoodSatisfaction": 0,
+                        "valueForMoney": 4,
+                        "roomQuality": 0,
+                        "categoryCounts": {
+                            "Couples": 1
+                        },
+                        "roomTypeIdCounts": {},
+                        "languageCounts": {
+                            "fr": 1
+                        }
+                    }
+                ],
+                "recommendedPercent": 89.36799,
+                "valueForMoney": 4.3080587,
+                "halfLifeRating": 4.1883893,
+                "halfLifeRecommended": 77.285576,
+                "categoryCounts": {
+                    "ãã¹ã¦ã®äº": 1,
+                    "Everyone": 936,
+                    "Business Travelers": 10,
+                    "Couples": 1044,
+                    "BusinessTravelers": 865,
+                    "Spa": 1,
+                    "OvernightStayBeforeDestination": 53,
+                    "Families": 378,
+                    "PersonalEvent": 347,
+                    "Iedereen": 1,
+                    "FamilyVacation": 2,
+                    "RomanticGetaway": 7,
+                    "Students": 5,
+                    "åºåµè": 1,
+                    "Parejas": 1,
+                    "Shopping": 21,
+                    "Tutti": 1,
+                    "Todos": 1,
+                    "Other": 108,
+                    "GetawayWithFriends": 345,
+                    "Business": 4
+                },
+                "roomTypeIdCounts": {
+                    "200257663": 164,
+                    "200257666": 51,
+                    "200257668": 514,
+                    "200257669": 20
+                },
+                "languageCounts": {
+                    "de": 53,
+                    "fi": 10,
+                    "ru": 2,
+                    "sv": 37,
+                    "pt": 43,
+                    "ko": 15,
+                    "el": 1,
+                    "lt": 1,
+                    "en": 5600,
+                    "it": 21,
+                    "fr": 49,
+                    "es": 67,
+                    "zh": 31,
+                    "et": 1,
+                    "nb": 16,
+                    "ja": 63,
+                    "pl": 1,
+                    "da": 16,
+                    "nl": 7,
+                    "tr": 4
+                },
+                "recentReviewCounts": {
+                    "1": 1,
+                    "7": 8,
+                    "15": 10,
+                    "30": 18,
+                    "60": 40,
+                    "90": 58
+                },
+                "featuredReview": {
+                    "reviewDate": "2018-04-24T15:55:25+00:00",
+                    "title": "",
+                    "authorName": "",
+                    "authorLocation": "vancouver BC",
+                    "review": "Visiting Chicago for a squash tournament.  Easy walking or public transit to both clubs (University Club and Racquets Club of Chicago).  Not much time for tourning about but wonderful neighbourhoods for walks.  River and lakeshore walks are wonderful.  Achitecture Institute river cruise well worth doing.\r\nElephant and Castle located in the hotel had great beer and English Pub food.",
+                    "rating": 4,
+                    "locale": "en_ca",
+                    "reviewId": "5adf50d54e2a450001b093bf"
+                },
+                "pinnedHelpfulReview": {
+                    "reviewId": "59110b8fa407110d7ccf0c48",
+                    "hotelId": "565746",
+                    "reviewSubmissionTime": "2017-05-09T00:21:35Z",
+                    "lastUpdatedTime": "2018-04-25T09:37:26Z",
+                    "userNickname": "mitra",
+                    "userLocation": "New York",
+                    "campaignId": "ITINERARY_PAGE_LINK",
+                    "lastInitial": "",
+                    "userId": "713993184",
+                    "expUserId": "52455631",
+                    "featured": false,
+                    "title": "WOULD NEVER GO AGAIN!",
+                    "reviewText": "I reserved this hotel from Expedia. The pictures made it look like a decent hotel with nice large rooms, good location and had 4 stars you think it would be nice right?! Upon check in I went into the room and was shocked!! the room was so small and wasn't cleaned properly there was trash on the floor from probably previous people. Then I went into the bathroom and conditions were even worse. Bathroom was old and outdated. the shower looked so unwelcoming that I couldn't even take a shower! There was toilet paper stuck in the toilet and it wouldn't get flushed!! did they even clean this room??? I couldn't sleep properly because every time the room next to me opened or closed their door I could hear it so well and it was very loud! Then the day of check out before it was even noon and I had not yet checked out the maid came to the clean the room!!",
+                    "contentLocale": "en_us",
+                    "tpid": "1",
+                    "moderationStatus": "APPROVED",
+                    "eapid": "0",
+                    "ratingOverall": 1,
+                    "ratingRoomCleanliness": 2,
+                    "ratingService": 2,
+                    "ratingRoomComfort": 2,
+                    "ratingHotelCondition": 1,
+                    "ratingConvenienceOfLocation": 0,
+                    "ratingNeighborhoodSatisfaction": 0,
+                    "ratingValueForMoney": 0,
+                    "totalPositiveFeedbacks": 3,
+                    "brandType": "Expedia",
+                    "feedId": "bv_expediahosted_cache_feed_20170715.xml",
+                    "ratingsOnly": false,
+                    "positiveRemarks": "",
+                    "negativeRemarks": "This is not a four star hotel they need to change their ratings.",
+                    "locationRemarks": "",
+                    "orderNumber": "",
+                    "tripNumber": "",
+                    "contentCodes": "PD HMP MMD",
+                    "photos": [],
+                    "managementResponses": [],
+                    "reviewerContext": "",
+                    "bazaarvoiceId": "183079717",
+                    "moderatorId": "",
+                    "expediaActions": {},
+                    "trackingId": "61ff3995-ab45-4be6-8892-bffa816faa6c",
+                    "autoModerationStatus": "REJECTED",
+                    "autoModerationCertainty": "0.970483257585384",
+                    "couponIncentivization": "",
+                    "roomTypeId": 200257668,
+                    "autoModerationDate": "2017-05-09T00:30:04Z",
+                    "relocationInformation": "",
+                    "abacus": "ab11591v0-ab11770v0-ab11978v0",
+                    "tspid": "",
+                    "eid": "",
+                    "location": {
+                        "latitude": 41.87944,
+                        "longitude": -87.63112
+                    },
+                    "hotelPropertyTypeInfo": {
+                        "structureTypeId": 1,
+                        "brandId": 2168,
+                        "brandName": "Club Quarters"
+                    },
+                    "expireTime": "",
+                    "deviceType": "",
+                    "checkInDate": "",
+                    "checkOutDate": "",
+                    "autoSubmitted": false,
+                    "userEmailAddress": "",
+                    "reviewCategory": [
+                        "Everyone"
+                    ],
+                    "recommended": false,
+                    "reviewerTypeOtherDescription": "",
+                    "ursOriginated": true,
+                    "userDisplayName": "",
+                    "hcustomerId": "",
+                    "hpropertyId": "",
+                    "unverified": false,
+                    "relocationReview": false,
+                    "totalThanks": 3,
+                    "itinId": "7261110951069",
+                    "siteId": "1",
+                    "flaggable": false,
+                    "eligibleForManagementResponse": true,
+                    "autoModeratedApproved": false,
+                    "langId": "1033",
+                    "requestBodyForReview": "I reserved this hotel from Expedia. The pictures made it look like a decent hotel with nice large rooms, good location and had 4 stars you think it would be nice right?! Upon check in I went into the room and was shocked!! the room was so small and wasn't cleaned properly there was trash on the floor from probably previous people. Then I went into the bathroom and conditions were even worse. Bathroom was old and outdated. the shower looked so unwelcoming that I couldn't even take a shower! There was toilet paper stuck in the toilet and it wouldn't get flushed!! did they even clean this room??? I couldn't sleep properly because every time the room next to me opened or closed their door I could hear it so well and it was very loud! Then the day of check out before it was even noon and I had not yet checked out the maid came to the clean the room!! WOULD NEVER GO AGAIN!   This is not a four star hotel they need to change their ratings.",
+                    "externalLinkId": "EDCA5A171F1EFCC027CA264D3C654D7D694AB4AF",
+                    "authorId": "713993184",
+                    "ratingRoomQuality": 0,
+                    "reviewerCategories": [
+                        {
+                            "categoryId": "Everyone",
+                            "categoryLabel": "Everyone"
+                        }
+                    ],
+                    "placeHolder": false
+                },
+                "numPhotos": 31
+            }
+        ],
+        "searchReviewSummary": ""
+    }
+}

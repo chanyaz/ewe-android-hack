@@ -26,6 +26,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
     private val travelGraphRequestDispatcher = TravelGraphApiRequestDispatcher(fileOpener)
     private val flightMApiRequestDispatcher = FlightMApiRequestDispatcher(fileOpener)
     private val hotelShortlistRequestDispatcher = HotelShortlistApiRequestDispatcher(fileOpener)
+    private val hotelReviewsRequestDispatcher = HotelReviewsApiRequestDispatcher(fileOpener)
 
     @Throws(InterruptedException::class)
     override fun dispatch(request: RecordedRequest): MockResponse {
@@ -77,7 +78,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
             var params = request.body.readUtf8()
             return dispatchBaggageInfo(params.contains("4"))
         }
-        
+
         // Flights MAPI
         if (request.path.contains("/m/api/flight")) {
             return flightMApiRequestDispatcher.dispatch(request)
@@ -188,13 +189,9 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
             return dispatchTravelAd("/ads/hooklogic")
         }
 
-        // Hotel Reviews
-        if (request.path.startsWith("/api/hotelreviews")) {
-            return dispatchReviews()
-        }
-
-        if (request.path.contains(Regex("/api/hotelreview/\\w+/\\w\\w"))) {
-            return dispatchReview()
+        //Hotel Reviews Summary
+        if (HotelReviewsApiRequestMatcher.isHotelReviewsRequest(request.path)) {
+            return hotelReviewsRequestDispatcher.dispatch(request)
         }
 
         //TNS User API
@@ -426,7 +423,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         return make404()
     }
 
-    private fun dispatchBaggageInfo(isOutBound : Boolean): MockResponse {
+    private fun dispatchBaggageInfo(isOutBound: Boolean): MockResponse {
         if (isOutBound) {
             return makeResponse("api/flight/baggageFeeInfoOutbound.json")
         } else {
@@ -516,10 +513,6 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         travelAdRequests.put(endPoint, count + 1)
         return makeEmptyResponse()
     }
-
-    private fun dispatchReviews(): MockResponse = makeResponse("api/hotelreviews/hotel/happy.json")
-
-    private fun dispatchReview(): MockResponse = makeResponse("api/hotelreview/translate/happy.json")
 
     private fun dispatchCalculatePoints(request: RecordedRequest): MockResponse {
         val params = parseHttpRequest(request)

@@ -2,13 +2,13 @@ package com.expedia.vm
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.hotels.HotelReviewsResponse
+import com.expedia.bookings.data.hotels.ReviewSummary
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.NumberUtils
 import com.squareup.phrase.Phrase
 
 class HotelReviewsSummaryBoxRatingViewModel(val context: Context,
-                                            private val reviewsSummary: HotelReviewsResponse.ReviewSummary,
+                                            private val reviewsSummary: ReviewSummary,
                                             private val numberOfReviews: Int? = null) {
 
     val guestRatingString: String by lazy { createGuestRatingString() }

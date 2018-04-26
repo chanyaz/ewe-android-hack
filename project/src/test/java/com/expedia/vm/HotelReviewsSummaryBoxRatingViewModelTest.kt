@@ -1,6 +1,6 @@
 package com.expedia.vm
 
-import com.expedia.bookings.data.hotels.HotelReviewsResponse
+import com.expedia.bookings.data.hotels.ReviewSummary
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Test
@@ -141,8 +141,8 @@ class HotelReviewsSummaryBoxRatingViewModelTest {
         assertEquals(string, vm.guestRatingRecommendationString)
     }
 
-    private fun createDefaultReviewSummary(): HotelReviewsResponse.ReviewSummary {
-        return HotelReviewsResponse.ReviewSummary().apply {
+    private fun createDefaultReviewSummary(): ReviewSummary {
+        return ReviewSummary().apply {
             id = "id"
             hotelId = "hotelId"
             avgOverallRating = 3.85f
@@ -153,7 +153,7 @@ class HotelReviewsSummaryBoxRatingViewModelTest {
         }
     }
 
-    private fun createViewModel(reviewSummary: HotelReviewsResponse.ReviewSummary, numberOfReviews: Int? = null): HotelReviewsSummaryBoxRatingViewModel {
+    private fun createViewModel(reviewSummary: ReviewSummary, numberOfReviews: Int? = null): HotelReviewsSummaryBoxRatingViewModel {
         return HotelReviewsSummaryBoxRatingViewModel(context, reviewSummary, numberOfReviews)
     }
 }

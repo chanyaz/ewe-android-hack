@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelReviewsResponse
+import com.expedia.bookings.data.hotels.ReviewSummary
 import com.expedia.bookings.hotel.data.TranslatedReview
 import com.expedia.bookings.widget.HotelReviewsLoadingWidget
 import com.expedia.bookings.widget.HotelReviewsSummaryBoxRatingWidget
@@ -48,7 +49,7 @@ class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : Recycler
         var translationMap: HashMap<String, TranslatedReview>? = null
 
         private var reviews: ArrayList<HotelReviewsResponse.Review> = arrayListOf()
-        private var reviewsSummary: HotelReviewsResponse.ReviewSummary = HotelReviewsResponse.ReviewSummary()
+        private var reviewsSummary: ReviewSummary = ReviewSummary()
 
         override fun getItemCount(): Int {
             // Summary and loading progress footer should count
@@ -101,7 +102,7 @@ class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : Recycler
             notifyDataSetChanged()
         }
 
-        fun updateSummary(reviewsSummary: HotelReviewsResponse.ReviewSummary) {
+        fun updateSummary(reviewsSummary: ReviewSummary) {
             this.reviewsSummary = reviewsSummary
             notifyDataSetChanged()
         }

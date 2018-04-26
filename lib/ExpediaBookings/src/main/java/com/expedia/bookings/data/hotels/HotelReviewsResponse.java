@@ -14,20 +14,6 @@ public class HotelReviewsResponse {
 		public ReviewCollection reviewCollection;
 	}
 
-	public static class ReviewSummaryCollection {
-		public List<ReviewSummary> reviewSummary = new ArrayList<>();
-	}
-
-	public static class ReviewSummary {
-		public String id;
-		public String hotelId;
-		public float avgOverallRating;
-		public float cleanliness;
-		public float serviceAndStaff;
-		public float hotelCondition;
-		public float roomComfort;
-	}
-
 	public static class ReviewCollection {
 		public List<Review> review = new ArrayList<>();
 	}

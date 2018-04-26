@@ -361,6 +361,21 @@ class ExpediaDispatcherTests {
         assertPathReturnsMockBodyWithString("api/ucs/shortlist/detail/fetch/", null, "api/hotelshortlist/hotelShortlistFetchResponse.json")
     }
 
+    @Test
+    fun testRequestHotelReviewsSummaryPathReturnsMatchingResponse() {
+        assertPathReturnsMockBodyWithString("api/hotelreviews/hotel/565746/summary", null, "api/hotelreviews/hotel/happy-summaries.json")
+    }
+
+    @Test
+    fun testRequestHotelReviewsDetailsPathReturnsMatchingResponse() {
+        assertPathReturnsMockBodyWithString("api/hotelreviews/hotel/15214281", null, "api/hotelreviews/hotel/happy.json")
+    }
+
+    @Test
+    fun testRequestHotelReviewTranlationPathReturnsMatchingResponse() {
+        assertPathReturnsMockBodyWithString("api/hotelreview/translate/12344", null, "api/hotelreview/translate/happy.json")
+    }
+
     private fun assertEmptyResponseForPath(path: String) {
         assertTrue(path.isNotEmpty(), "path should not be empty.")
 
