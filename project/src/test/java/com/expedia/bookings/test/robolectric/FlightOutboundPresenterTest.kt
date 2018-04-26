@@ -51,7 +51,7 @@ class FlightOutboundPresenterTest {
         server.setDispatcher(ExpediaDispatcher(opener))
         service = FlightServices("http://localhost:" + server.port,
                 okhttp3.OkHttpClient.Builder().addInterceptor(logger).build(),
-                listOf(interceptor), Schedulers.trampoline(), Schedulers.trampoline(), false)
+                listOf(interceptor), Schedulers.trampoline(), Schedulers.trampoline())
 
         flightOutboundPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_outbound_stub, null) as FlightOutboundPresenter
     }

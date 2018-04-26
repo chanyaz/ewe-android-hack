@@ -9,8 +9,8 @@ import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightSearchResponse
 import com.expedia.bookings.data.flights.FlightSearchResponse.FlightSearchType
 import com.expedia.bookings.extensions.subscribeObserver
-import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.ApiDateUtils
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Strings
 import com.google.gson.GsonBuilder
 import io.reactivex.Observer
@@ -28,7 +28,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.ArrayList
 
 // "open" so we can mock for unit tests
-open class FlightServices(val endpoint: String, okHttpClient: OkHttpClient, interceptors: List<Interceptor>, val observeOn: Scheduler, val subscribeOn: Scheduler, val isUserBucketedForAPIMAuth: Boolean) {
+open class FlightServices(val endpoint: String, okHttpClient: OkHttpClient, interceptors: List<Interceptor>, val observeOn: Scheduler, val subscribeOn: Scheduler) {
     val flightApi: FlightApi by lazy {
         val gson = GsonBuilder()
                 .registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
@@ -175,16 +175,12 @@ open class FlightServices(val endpoint: String, okHttpClient: OkHttpClient, inte
     open fun createTrip(params: FlightCreateTripParams, observer: Observer<FlightCreateTripResponse>): Disposable {
         createTripRequestSubscription?.dispose()
 
-        val createTripObservable = if (isUserBucketedForAPIMAuth) {
-            flightApi.createTrip(params.flexEnabled, params.queryParamsForNewCreateTrip(), params.featureOverride, params.fareFamilyCode, params.fareFamilyTotalPrice, params.childTravelerAge)
-        } else {
-            flightApi.oldCreateTrip(params.flexEnabled, params.queryParamsForOldCreateTrip(), params.featureOverride, params.fareFamilyCode, params.fareFamilyTotalPrice)
-        }
-        createTripRequestSubscription = createTripObservable.observeOn(observeOn)
+        val createTripRequestSubscription = flightApi.oldCreateTrip(params.flexEnabled, params.queryParamsForOldCreateTrip(), params.featureOverride, params.fareFamilyCode, params.fareFamilyTotalPrice)
+                .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .subscribeObserver(observer)
-
-        return createTripRequestSubscription as Disposable
+        this.createTripRequestSubscription = createTripRequestSubscription
+        return createTripRequestSubscription
     }
 
     // open so we can use Mockito to mock FlightServices

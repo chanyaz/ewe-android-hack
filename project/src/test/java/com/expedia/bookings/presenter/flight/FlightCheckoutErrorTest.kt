@@ -58,7 +58,7 @@ class FlightCheckoutErrorTest {
         val interceptor = MockInterceptor()
         flightServices = FlightServices("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
-                listOf(interceptor), Schedulers.trampoline(), Schedulers.trampoline(), false)
+                listOf(interceptor), Schedulers.trampoline(), Schedulers.trampoline())
 
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.FlightTheme)

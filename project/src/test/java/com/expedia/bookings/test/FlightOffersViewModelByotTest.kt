@@ -241,7 +241,7 @@ class FlightOffersViewModelByotTest {
         server.setDispatcher(ExpediaDispatcher(opener))
         flightServices = FlightServices("http://localhost:" + server.port,
                 okhttp3.OkHttpClient.Builder().addInterceptor(logger).build(),
-                listOf(interceptor), Schedulers.trampoline(), Schedulers.trampoline(), false)
+                listOf(interceptor), Schedulers.trampoline(), Schedulers.trampoline())
     }
 
     private fun getDummySuggestion(): SuggestionV4 {

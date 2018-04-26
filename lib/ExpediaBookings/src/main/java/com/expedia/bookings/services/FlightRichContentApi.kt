@@ -8,7 +8,7 @@ import retrofit2.http.Headers
 import retrofit2.http.POST
 
 // Please add Kong APIs here for Flights
-interface KongFlightApi {
+interface FlightRichContentApi {
     @Headers("Content-Type: application/json")
     @POST("/m/api/flight/getRichContent")
     fun richContent(@Body request: RichContentRequest): Observable<RichContentResponse>

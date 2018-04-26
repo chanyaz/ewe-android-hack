@@ -13,10 +13,10 @@ import com.expedia.bookings.services.BaggageInfoService;
 import com.expedia.bookings.services.FlightServices;
 import com.expedia.bookings.services.HolidayCalendarService;
 import com.expedia.bookings.services.ItinTripServices;
+import com.expedia.bookings.services.KongFlightServices;
 import com.expedia.bookings.services.KrazyglueServices;
-import com.expedia.bookings.services.RichContentService;
+import com.expedia.bookings.services.FlightRichContentService;
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder;
-import com.expedia.bookings.utils.HMACInterceptor;
 import com.expedia.vm.FlightCheckoutViewModel;
 import com.expedia.vm.FlightWebCheckoutViewViewModel;
 import com.expedia.vm.PaymentViewModel;
@@ -40,10 +40,12 @@ public final class FlightModule {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		List<Interceptor> interceptorList = new ArrayList<>();
 		interceptorList.add(interceptor);
-		return new FlightServices(isUserBucketedForAPIMAuth ? kongEndpointUrl : endpoint, client,
-			interceptorList, AndroidSchedulers.mainThread(),
-			Schedulers.io(), isUserBucketedForAPIMAuth);
-
+		if (isUserBucketedForAPIMAuth) {
+			return new KongFlightServices(kongEndpointUrl, client, interceptorList, AndroidSchedulers.mainThread(), Schedulers.io());
+		}
+		else {
+			return new FlightServices(endpoint, client, interceptorList, AndroidSchedulers.mainThread(), Schedulers.io());
+		}
 	}
 
 	@Provides
@@ -99,12 +101,10 @@ public final class FlightModule {
 
 	@Provides
 	@FlightScope
-	RichContentService provideRichContentService(EndpointProvider endpointProvider, OkHttpClient client,
-		Interceptor interceptor, HMACInterceptor hmacInterceptor) {
+	FlightRichContentService provideRichContentService(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
 		List<Interceptor> interceptorList = new ArrayList<>();
 		interceptorList.add(interceptor);
-		interceptorList.add(hmacInterceptor);
-		return new RichContentService(endpointProvider.getKongEndpointUrl(), client, interceptorList,
+		return new FlightRichContentService(endpointProvider.getKongEndpointUrl(), client, interceptorList,
 			AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 

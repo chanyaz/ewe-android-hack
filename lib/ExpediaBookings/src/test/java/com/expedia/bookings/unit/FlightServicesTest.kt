@@ -45,7 +45,7 @@ class FlightServicesTest {
         logger.level = HttpLoggingInterceptor.Level.BODY
         service = FlightServices("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(), listOf(MockInterceptor()),
-                Schedulers.trampoline(), Schedulers.trampoline(), false)
+                Schedulers.trampoline(), Schedulers.trampoline())
     }
 
     @Test
@@ -129,7 +129,7 @@ class FlightServicesTest {
     fun testNewCreateTripWorks() {
         service = FlightServices("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(), listOf(MockInterceptor()),
-                Schedulers.trampoline(), Schedulers.trampoline(), true)
+                Schedulers.trampoline(), Schedulers.trampoline())
         val root = File("../mocked/templates").canonicalPath
         val opener = FileSystemOpener(root)
         server.setDispatcher(ExpediaDispatcher(opener))

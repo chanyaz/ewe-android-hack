@@ -14,8 +14,8 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-class RichContentService(val endpoint: String, okHttpClient: OkHttpClient, interceptors: List<Interceptor>, val observeOn: Scheduler, val subscribeOn: Scheduler) {
-    val flightKongApi: KongFlightApi by lazy {
+class FlightRichContentService(val endpoint: String, okHttpClient: OkHttpClient, interceptors: List<Interceptor>, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+    private val flightRichContentAPI: FlightRichContentApi by lazy {
         val gson = GsonBuilder()
                 .registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
                 .create()
@@ -33,14 +33,14 @@ class RichContentService(val endpoint: String, okHttpClient: OkHttpClient, inter
                 .client(okHttpClientBuilder.build())
                 .build()
 
-        adapter.create(KongFlightApi::class.java)
+        adapter.create(FlightRichContentApi::class.java)
     }
 
     var richContentSubscription: Disposable? = null
 
     fun getFlightRichContent(requestPayload: RichContentRequest, observer: Observer<RichContentResponse>): Disposable {
         richContentSubscription?.dispose()
-        richContentSubscription = flightKongApi.richContent(requestPayload)
+        richContentSubscription = flightRichContentAPI.richContent(requestPayload)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .subscribeObserver(observer)
