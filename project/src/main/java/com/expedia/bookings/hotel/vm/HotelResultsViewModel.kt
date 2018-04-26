@@ -26,7 +26,7 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
         BaseHotelResultsViewModel(context) {
 
     // inputs
-    val filterParamsSubject = PublishSubject.create<UserFilterChoices>()
+    val filterChoicesSubject = PublishSubject.create<UserFilterChoices>()
     val locationParamsSubject = PublishSubject.create<SuggestionV4>()
     val dateChagedParamsSubject = PublishSubject.create<HotelStayDates>()
 
@@ -67,12 +67,12 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
             paramChangedSubject.onNext(params)
         })
 
-        filterParamsSubject.subscribe(endlessObserver { filterParams ->
+        filterChoicesSubject.subscribe(endlessObserver { filterChoices ->
             val paramBuilder = newParamBuilder(cachedParams?.suggestion, cachedParams)
-            addFilterCriteria(paramBuilder, filterParams)
+            addFilterCriteria(paramBuilder, filterChoices)
             val newParams = paramBuilder.build()
             newParams.clearPinnedHotelId()
-            doSearch(newParams, isFilteredSearch = true)
+            doSearch(newParams)
             paramChangedSubject.onNext(newParams)
         })
 
@@ -80,7 +80,7 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
             val builder = HotelSearchParams.Builder(hotelCalendarRules.getMaxDateRange(), hotelCalendarRules.getMaxSearchDurationDays())
             builder.from(cachedParams!!).startDate(stayDates.getStartDate()).endDate(stayDates.getEndDate())
             val newParams = builder.build()
-            doSearch(newParams, isFilteredSearch = newParams.filterOptions?.isNotEmpty() == true, isChangeDateSearch = true)
+            doSearch(newParams, isChangeDateSearch = true)
             paramChangedSubject.onNext(newParams)
         })
 
@@ -157,9 +157,9 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
         return builder.shopWithPoints(params?.shopWithPoints ?: false)
     }
 
-    private fun doSearch(params: HotelSearchParams, isFilteredSearch: Boolean = false, isChangeDateSearch: Boolean = false) {
+    private fun doSearch(params: HotelSearchParams, isChangeDateSearch: Boolean = false) {
         cachedParams = params
-        this.isFilteredSearch = isFilteredSearch
+        isFilteredSearch = params.filterOptions?.isNotEmpty() == true
         updateTitles(params)
         updateChangeDateString(params)
         searchingForHotelsDateTime.onNext(Unit)

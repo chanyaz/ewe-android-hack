@@ -54,10 +54,17 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
     fun equalForPrefetch(other: HotelSearchParams?): Boolean {
         return other != null && suggestion.equals(other.suggestion)
                 && checkIn == other.checkIn && checkOut == other.checkOut
-                && adults == other.adults && children.size == other.children.size
+                && adults == other.adults && children == other.children
                 && shopWithPoints == other.shopWithPoints
                 && filterOptions?.let { options -> options.isEmpty() } ?: true
                 && other.filterOptions?.let { options -> options.isEmpty() } ?: true
+    }
+
+    fun equalIgnoringFilter(other: HotelSearchParams?): Boolean {
+        return other != null && suggestion == other.suggestion
+                && checkIn == other.checkIn && checkOut == other.checkOut
+                && adults == other.adults && children == other.children
+                && shopWithPoints == other.shopWithPoints
     }
 
     private fun getSortTypeFromString(sortString: String?): SortType? {

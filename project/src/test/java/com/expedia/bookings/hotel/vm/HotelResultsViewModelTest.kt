@@ -37,7 +37,7 @@ class HotelResultsViewModelTest {
     private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     val happyParams = makeHappyParams()
-    val filterParams = makeFilterParams()
+    val filterChoices = makeFilterChoices()
     lateinit var checkInDate: LocalDate
     lateinit var checkOutDate: LocalDate
 
@@ -109,7 +109,25 @@ class HotelResultsViewModelTest {
         sut.filterResultsObservable.subscribe(filteredResultsSubscriber)
 
         sut.paramsSubject.onNext(happyParams)
-        sut.filterParamsSubject.onNext(filterParams)
+        sut.filterChoicesSubject.onNext(filterChoices)
+
+        mockSearchProvider.successSubject.onNext(happyResponse)
+
+        filteredResultsSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
+        filteredResultsSubscriber.assertValueCount(1)
+        filteredResultsSubscriber.assertNotTerminated()
+    }
+
+    @Test
+    fun searchWithFilterOptions() {
+        val filteredResultsSubscriber = TestObserver<HotelSearchResponse>()
+        sut.filterResultsObservable.subscribe(filteredResultsSubscriber)
+
+        val hotelParams = happyParams
+        val filterOptions = HotelSearchParams.HotelFilterOptions()
+        filterOptions.filterHotelName = "Hyatt"
+        hotelParams.filterOptions = filterOptions
+        sut.paramsSubject.onNext(hotelParams)
 
         mockSearchProvider.successSubject.onNext(happyResponse)
 
@@ -124,7 +142,7 @@ class HotelResultsViewModelTest {
         assertTrue(happyParams.isPinnedSearch())
 
         sut.paramsSubject.onNext(happyParams)
-        sut.filterParamsSubject.onNext(filterParams)
+        sut.filterChoicesSubject.onNext(filterChoices)
 
         assertFalse(sut.getSearchParams()!!.isPinnedSearch(), "FAILURE: Filter search params should never be pinned.")
         assertTrue(happyParams.isPinnedSearch(), "FAILURE : The original params should not be mutated")
@@ -189,7 +207,7 @@ class HotelResultsViewModelTest {
         sut.searchApiErrorObservable.subscribe(testSubscriber)
 
         sut.paramsSubject.onNext(happyParams)
-        sut.filterParamsSubject.onNext(filterParams)
+        sut.filterChoicesSubject.onNext(filterChoices)
 
         mockSearchProvider.noResultsSubject.onNext(Unit)
 
@@ -310,7 +328,7 @@ class HotelResultsViewModelTest {
         return suggestion
     }
 
-    private fun makeFilterParams(): UserFilterChoices {
+    private fun makeFilterChoices(): UserFilterChoices {
         val filterParams = UserFilterChoices()
         filterParams.name = "Hyatt"
         return filterParams
