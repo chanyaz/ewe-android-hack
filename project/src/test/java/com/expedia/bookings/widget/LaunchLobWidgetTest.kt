@@ -60,13 +60,6 @@ class LaunchLobWidgetTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testFlightNotAvailableIndiaPOS() {
-        setPOS(PointOfSaleId.INDIA)
-        validateFlightNotAvailable()
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testFlightNotAvailableArgentinaPOS() {
         setPOS(PointOfSaleId.ARGENTINA)
         validateFlightNotAvailable()

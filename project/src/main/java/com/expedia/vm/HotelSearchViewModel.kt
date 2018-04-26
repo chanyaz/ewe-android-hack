@@ -4,8 +4,6 @@ import android.content.Context
 import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.hotel.DisplaySort
-import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.features.Features
 import com.expedia.bookings.hotel.util.HotelCalendarDirections
@@ -19,8 +17,8 @@ import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
-import org.joda.time.LocalDate
 import io.reactivex.subjects.PublishSubject
+import org.joda.time.LocalDate
 import javax.inject.Inject
 
 class HotelSearchViewModel(context: Context, private val hotelSearchManager: HotelSearchManager, private val isGreedySearchFeatureEnabled: Boolean = Features.all.hotelGreedySearch.enabled()) : BaseSearchViewModel(context) {
@@ -61,10 +59,6 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
         getParamsBuilder().destination(suggestion)
         locationTextObservable.onNext(HtmlCompat.stripHtml(suggestion.regionNames.displayName))
         requiredSearchParamsObserver.onNext(Unit)
-    }
-
-    val advancedOptionsObserver = endlessObserver<UserFilterChoices> { searchOptions ->
-        updateAdvancedSearchOptions(searchOptions)
     }
 
     init {
@@ -193,18 +187,6 @@ class HotelSearchViewModel(context: Context, private val hotelSearchManager: Hot
     private fun prefetchSearch(params: HotelSearchParams) {
         prefetchParams = params
         hotelSearchManager.doSearch(params, prefetchSearch = true)
-    }
-
-    private fun updateAdvancedSearchOptions(searchOptions: UserFilterChoices) {
-        val searchBuilder = getParamsBuilder()
-        searchBuilder.hotelName(searchOptions.name)
-        searchBuilder.starRatings(searchOptions.hotelStarRating.getStarRatingParamsAsList())
-        searchBuilder.vipOnly(searchOptions.isVipOnlyAccess)
-        if (searchOptions.userSort != DisplaySort.getDefaultSort()) {
-            searchBuilder.userSort(searchOptions.userSort.toServerSort())
-        } else {
-            searchBuilder.clearUserSort()
-        }
     }
 
     private fun getDateNightText(start: LocalDate, end: LocalDate, isContentDescription: Boolean): CharSequence {

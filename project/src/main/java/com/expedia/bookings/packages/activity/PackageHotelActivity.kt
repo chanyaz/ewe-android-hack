@@ -7,7 +7,7 @@ import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.convertPackageToSearchParams
-import com.expedia.bookings.presenter.packages.PackageHotelPresenter
+import com.expedia.bookings.packages.presenter.PackageHotelPresenter
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.Ui

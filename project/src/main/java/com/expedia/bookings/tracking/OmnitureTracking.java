@@ -259,11 +259,6 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_SEARCH_FILTER_BY_NAME = "App.Hotels.Search.HotelName";
 	private static final String HOTELSV2_CLEAR_FILTER = "App.Hotels.Search.ClearFilter";
 	private static final String HOTELSV2_RESULT_CHANGE_DATE = "App.Hotels.Search.ChangeDates";
-	private static final String HOTELSV2_SUPER_SEARCH_FILTER = "App.Hotels.Dest-Search.Filter";
-	private static final String HOTELSV2_SUPER_SEARCH_SORT_BY = "App.Hotels.Dest-Search.Sort.";
-	private static final String HOTELSV2_SUPER_SEARCH_STAR_RATING = "App.Hotels.Dest-Search.Filter.";
-	private static final String HOTELSV2_SUPER_SEARCH_FILTER_VIP = "App.Hotels.Dest-Search.Filter.VIP.";
-	private static final String HOTELSV2_SUPER_SEARCH_CLEAR_FILTER = "App.Hotels.Dest-Search.ClearFilter";
 	private static final String HOTELSV2_SEARCH_MAP = "App.Hotels.Search.Map";
 	private static final String HOTELSV2_RESULT_MAP_CHANGE_DATE = "App.Hotels.Search.Map.ChangeDates";
 	private static final String HOTELSV2_SEARCH_MAP_TO_LIST = "App.Hotels.Search.Expand.List";
@@ -489,7 +484,6 @@ public class OmnitureTracking {
 			s.appendEvents("event118");
 		}
 
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelSuperSearch);
 		trackAbacusTest(s, AbacusUtils.HotelRecentSearch);
 		// Send the tracking data
 		s.track();
@@ -776,41 +770,6 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + HOTELS_SPONSORED_LISTING_CLICK + "\" click...");
 		AppAnalytics s = createTrackLinkEvent(HOTELS_SPONSORED_LISTING_CLICK);
 		s.trackLink("Sponsored Click");
-	}
-
-	public static void trackHotelV2SuperSearchFilter() {
-		Log.d(TAG, "Tracking \"" + HOTELSV2_SUPER_SEARCH_FILTER + "\" pageLoad...");
-
-		AppAnalytics s = getFreshTrackingObject();
-
-		s.setAppState(HOTELSV2_SUPER_SEARCH_FILTER);
-		s.setEvar(18, HOTELSV2_SUPER_SEARCH_FILTER);
-
-		// LOB Search
-		s.setEvar(2, "D=c2");
-		s.setProp(2, HOTELV2_LOB);
-
-		// Send the tracking data
-		s.track();
-	}
-
-	public static void trackHotelV2SuperSearchSortBy(String type) {
-		String pageName = HOTELSV2_SUPER_SEARCH_SORT_BY + type;
-		createAndTrackLinkEvent(pageName, "Super Search Sort By");
-	}
-
-	public static void trackLinkHotelV2SuperSearchStarRating(String rating) {
-		String pageName = HOTELSV2_SUPER_SEARCH_STAR_RATING + rating;
-		createAndTrackLinkEvent(pageName, "Super Search Star Rating");
-	}
-
-	public static void trackLinkHotelV2SuperSearchVip(String state) {
-		String pageName = HOTELSV2_SUPER_SEARCH_FILTER_VIP + state;
-		createAndTrackLinkEvent(pageName, "Super Search Vip");
-	}
-
-	public static void trackLinkHotelV2SuperSearchClearFilter() {
-		createAndTrackLinkEvent(HOTELSV2_SUPER_SEARCH_CLEAR_FILTER, "Super Search Clear Filter");
 	}
 
 	public static void trackHotelNarrowSearchPrompt() {
@@ -2519,6 +2478,21 @@ public class OmnitureTracking {
 		return "App.LMD.Rank." + String.valueOf(position);
 	}
 
+	public static void trackLastMinuteDealsError() {
+		sendLastMinuteDealsErrorToOmniture(LAST_MINUTE_DEAL_ERROR);
+	}
+
+	public static void trackLastMinuteDealsNoResults() {
+		sendLastMinuteDealsErrorToOmniture(LAST_MINUTE_DEAL_NO_RESULTS);
+	}
+
+	private static void sendLastMinuteDealsErrorToOmniture(String error) {
+		Log.d(TAG, "Tracking \"" + LAST_MINUTE_DEAL_SCREEN + "\" error..." + "\"" + error);
+		AppAnalytics s = createTrackPageLoadEventBase(LAST_MINUTE_DEAL_SCREEN);
+		s.setProp(36, error);
+		s.track();
+	}
+
 	@VisibleForTesting
 	static void trackAbacusTest(AppAnalytics s, ABTest abTest) {
 		if (!ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
@@ -3386,6 +3360,8 @@ public class OmnitureTracking {
 	private static final String ACCOUNT_SIGN_OUT = "App.Account.Logout";
 	private static final String MEMBER_PRICING_SCREEN = "App.MemberDeals";
 	private static final String LAST_MINUTE_DEAL_SCREEN = "App.LastMinuteDeals";
+	private static final String LAST_MINUTE_DEAL_NO_RESULTS = "App.LMD.NoResults";
+	private static final String LAST_MINUTE_DEAL_ERROR = "App.LMD.Error";
 	private static final String NEW_USER_ONBOARDING_LOB = "App.Onboarding.MultiLOB";
 	private static final String NEW_USER_ONBOARDING_ITINERARY = "App.Onboarding.Itinerary";
 	private static final String NEW_USER_ONBOARDING_LOYALTY = "App.Onboarding.Loyalty";
@@ -3721,6 +3697,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.DownloadableFonts);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountsEditWebView);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountNewSignIn);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppBottomNavTabs);
 		if (ProductFlavorFeatureConfiguration.getInstance().getDefaultPOS().equals(PointOfSaleId.ORBITZ)) {
 			trackAbacusTest(s, AbacusUtils.RewardLaunchCard);
 		}
@@ -6039,8 +6016,6 @@ public class OmnitureTracking {
 		setDateValues(s, departureDate, returnDate);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsBaggageWebViewHideAd);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightRateDetailsFromCache);
-
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowFlightsCheckoutWebview);
 
 		String products = getFlightProductString(false);
 		if (hasSubPub) {

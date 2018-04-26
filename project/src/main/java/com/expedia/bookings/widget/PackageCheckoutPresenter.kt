@@ -8,7 +8,7 @@ import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.otto.Events
-import com.expedia.bookings.presenter.packages.FlightTravelersPresenter
+import com.expedia.bookings.presenter.flight.FlightTravelersPresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.Ui

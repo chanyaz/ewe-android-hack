@@ -35,7 +35,7 @@ import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
-import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter
+import com.expedia.bookings.presenter.shared.AbstractTravelersPresenter
 import com.expedia.bookings.extensions.subscribeObserver
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
@@ -277,7 +277,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     private fun setupViewModels() {
         ckoViewModel = makeCheckoutViewModel()
         tripViewModel = makeCreateTripViewModel()
-        getCreateTripViewModel().createTripResponseObservable.filter { it.value != null }.subscribe(getCheckoutViewModel().createTripResponseObservable)
+        getCreateTripViewModel().createTripResponseObservable.subscribe(getCheckoutViewModel().createTripResponseObservable)
         getCheckoutViewModel().cardFeeTripResponse.map { Optional(it) }.subscribe(getCreateTripViewModel().createTripResponseObservable)
         getCheckoutViewModel().clearCvvObservable.subscribe {
             paymentWidget.clearCVV()

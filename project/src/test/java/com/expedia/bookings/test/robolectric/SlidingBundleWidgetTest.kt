@@ -12,8 +12,8 @@ import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.pos.PointOfSaleId
-import com.expedia.bookings.presenter.packages.PackageFlightPresenter
-import com.expedia.bookings.presenter.packages.PackageHotelPresenter
+import com.expedia.bookings.packages.presenter.PackageFlightPresenter
+import com.expedia.bookings.packages.presenter.PackageHotelPresenter
 import com.expedia.bookings.test.MockPackageServiceTestRule
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands

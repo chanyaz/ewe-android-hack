@@ -3,7 +3,7 @@ package com.expedia.bookings.packages.activity
 import android.os.Bundle
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.presenter.packages.PackageFlightPresenter
+import com.expedia.bookings.packages.presenter.PackageFlightPresenter
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView

@@ -93,7 +93,6 @@ class FlightCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testOpeningOfWebCheckoutViewFromInboundPresenter() {
         setPOSToIndia()
-        turnOnABTest()
         flightPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_activity, null) as FlightPresenter
         setupTestToOpenInFlightInboundPresenter()
 
@@ -107,7 +106,6 @@ class FlightCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testOpeningOfWebCheckoutViewFromOutBoundPresenter() {
         setPOSToIndia()
-        turnOnABTest()
         flightPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_activity, null) as FlightPresenter
         setupTestToOpenInFlightOutboundPresenter()
         flightPresenter.flightOfferViewModel.flightProductId.onNext("12345")
@@ -120,8 +118,7 @@ class FlightCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testShouldShowFlightsWebviewNativeRateDetailsBucketed() {
         AbacusTestUtils.bucketTestsAndEnableRemoteFeature(activity,
-                AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckout,
-                AbacusUtils.EBAndroidAppShowFlightsCheckoutWebview)
+                AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckout)
         setPOSToIndia()
         flightPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_activity, null) as FlightPresenter
 
@@ -132,7 +129,6 @@ class FlightCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testShouldShowFlightsWebviewNativeRateDetailsControl() {
         setPOSToIndia()
-        turnOnABTest()
         flightPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_activity, null) as FlightPresenter
 
         assertTrue(flightPresenter.shouldShowWebCheckoutWithoutNativeRateDetails())
@@ -141,7 +137,6 @@ class FlightCheckoutViewTest {
     @Test
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testShouldShowFlightsWebviewNativeRateDetailsControlNonINPos() {
-        turnOnABTest()
         flightPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_activity, null) as FlightPresenter
 
         assertFalse(flightPresenter.shouldShowWebCheckoutWithoutNativeRateDetails())
@@ -220,7 +215,6 @@ class FlightCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testClosingWebviewWithWebviewCko() {
         setPOSToIndia()
-        turnOnABTest()
         flightPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_activity, null) as FlightPresenter
         setupTestToOpenInFlightOutboundPresenter()
         flightPresenter.flightOfferViewModel.flightProductId.onNext("12345")
@@ -255,7 +249,6 @@ class FlightCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testMaskActivityWhenGoingToWebViewFromOutboundPresenter() {
         setPOSToIndia()
-        turnOnABTest()
         flightPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_activity, null) as FlightPresenter
         val maskWebCheckoutActivityObservable = TestObserver.create<Boolean>()
         flightPresenter.webCheckoutView.viewModel.showWebViewObservable.subscribe(maskWebCheckoutActivityObservable)
@@ -270,7 +263,6 @@ class FlightCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testMaskActivityWhenGoingToWebViewFromInboundPresenter() {
         setPOSToIndia()
-        turnOnABTest()
         flightPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_activity, null) as FlightPresenter
         val maskWebCheckoutActivityObservable = TestObserver.create<Boolean>()
         flightPresenter.webCheckoutView.viewModel.showWebViewObservable.subscribe(maskWebCheckoutActivityObservable)
@@ -285,7 +277,6 @@ class FlightCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testDontMaskActivityWhenGoingFromWebViewToOutboundPresenter() {
         setPOSToIndia()
-        turnOnABTest()
         flightPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_activity, null) as FlightPresenter
         val maskWebCheckoutActivityObservable = TestObserver.create<Boolean>()
         flightPresenter.webCheckoutView.viewModel.showWebViewObservable.subscribe(maskWebCheckoutActivityObservable)
@@ -304,7 +295,6 @@ class FlightCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testDontMaskActivityWhenGoingFromWebViewToInboundPresenter() {
         setPOSToIndia()
-        turnOnABTest()
         flightPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_activity, null) as FlightPresenter
         val maskWebCheckoutActivityObservable = TestObserver.create<Boolean>()
         flightPresenter.webCheckoutView.viewModel.showWebViewObservable.subscribe(maskWebCheckoutActivityObservable)
@@ -348,7 +338,6 @@ class FlightCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testProductIdFiresCreateTrip() {
         setPOSToIndia()
-        turnOnABTest()
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
 
@@ -376,7 +365,6 @@ class FlightCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun webViewTripIDOnSuccessfulBooking() {
         setPOSToIndia()
-        turnOnABTest()
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
 
@@ -406,7 +394,6 @@ class FlightCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testOpeningOfErrorPresenterFromWebCheckoutView() {
         setPOSToIndia()
-        turnOnABTest()
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
         setupTestToOpenInFlightOutboundPresenter()
@@ -426,7 +413,6 @@ class FlightCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testSingleFlightOnConfirmationFromWebCheckout() {
         setPOSToIndia()
-        turnOnABTest()
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
         setupTestToOpenInFlightOutboundPresenter()
@@ -458,7 +444,6 @@ class FlightCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testRoundTripFlightOnConfirmationFromWebCheckout() {
         setPOSToIndia()
-        turnOnABTest()
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
 
@@ -479,7 +464,6 @@ class FlightCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testFlightWithRewardsConfirmationFromWebCheckout() {
         setPOSToIndia()
-        turnOnABTest()
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
         setupTestToOpenInFlightOutboundPresenter()
@@ -502,7 +486,6 @@ class FlightCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testFlightWithNoRewardsOnConfirmationFromWebCheckout() {
         setPOSToIndia()
-        turnOnABTest()
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
         setupTestToOpenInFlightOutboundPresenter()
@@ -525,7 +508,6 @@ class FlightCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testCrossSellDaysRemainingOnConfirmationFromWebCheckout() {
         setPOSToIndia()
-        turnOnABTest()
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
         setupTestToOpenInFlightOutboundPresenter()
@@ -547,7 +529,6 @@ class FlightCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testHotelCrossSellClickOnConfirmationFromWebCheckout() {
         setPOSToIndia()
-        turnOnABTest()
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
         setupTestToOpenInFlightOutboundPresenter()
@@ -572,7 +553,6 @@ class FlightCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testFlightWithCrossSellExpirationOnConfirmationFromWebCheckout() {
         setPOSToIndia()
-        turnOnABTest()
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
         setupTestToOpenInFlightOutboundPresenter()
@@ -594,7 +574,6 @@ class FlightCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testFlightWithNoAirAttachOnConfirmationFromWebCheckout() {
         setPOSToIndia()
-        turnOnABTest()
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
         setupTestToOpenInFlightOutboundPresenter()
@@ -615,7 +594,6 @@ class FlightCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testFlightWithInsuranceOnConfirmationFromWebCheckout() {
         setPOSToIndia()
-        turnOnABTest()
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
         setupTestToOpenInFlightOutboundPresenter()
@@ -632,7 +610,6 @@ class FlightCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testFlightWithNoInsuranceOnConfirmationFromWebCheckout() {
         setPOSToIndia()
-        turnOnABTest()
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
         setupTestToOpenInFlightOutboundPresenter()
@@ -649,7 +626,6 @@ class FlightCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testFlightWithNoEmailOnConfirmationFromWebCheckout() {
         setPOSToIndia()
-        turnOnABTest()
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
 
@@ -666,7 +642,6 @@ class FlightCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testShowBookingSuccessDialogOnItinResponseErrorFinishesActivity() {
         setPOSToIndia()
-        turnOnABTest()
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
 
@@ -681,7 +656,6 @@ class FlightCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testBookingSuccessDialogDisplayedOnItinResponseContainingErrors() {
         setPOSToIndia()
-        turnOnABTest()
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
 
@@ -696,7 +670,6 @@ class FlightCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testShouldNotMaskScreenAfterWebCheckoutToNativeConfirmation() {
         setPOSToIndia()
-        turnOnABTest()
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
 
@@ -728,7 +701,6 @@ class FlightCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testShowBookingSuccessDialogDoesNotFinishActivityIfWebCheckoutNotShown() {
         setPOSToIndia()
-        turnOnABTest()
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
 
@@ -747,7 +719,6 @@ class FlightCheckoutViewTest {
     @Config(qualifiers = "sw600dp")
     fun testUserAgentStringHasTabletInfo() {
         setPOSToIndia()
-        turnOnABTest()
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
         setupTestToOpenInFlightOutboundPresenter()
@@ -759,7 +730,6 @@ class FlightCheckoutViewTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testUserAgentStringHasPhoneInfo() {
         setPOSToIndia()
-        turnOnABTest()
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
 
@@ -801,10 +771,6 @@ class FlightCheckoutViewTest {
         val pointOfSale = PointOfSaleId.INDIA
         SettingUtils.save(activity, "point_of_sale_key", pointOfSale.id.toString())
         PointOfSale.onPointOfSaleChanged(activity)
-    }
-
-    private fun turnOnABTest() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppShowFlightsCheckoutWebview)
     }
 
     private fun setupDb() {

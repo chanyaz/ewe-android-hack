@@ -143,4 +143,6 @@
 
     <!--Single Page Sign Up-->
     <string name="acct__single_page_sign_up_title">Crea il tuo account gratuito</string>
+
+    <string name="acct__new_create_account_text">Crea account</string>
 </resources>

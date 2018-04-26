@@ -1,9 +1,10 @@
-package com.expedia.bookings.presenter.packages
+package com.expedia.bookings.presenter.lx
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.presenter.shared.AbstractTravelersPresenter
 import com.expedia.bookings.widget.LXTravelerEntryWidget
 import com.expedia.vm.traveler.TravelersViewModel
 

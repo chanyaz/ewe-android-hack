@@ -128,7 +128,7 @@
     <!-- Creating a new {Expedia} account via Facebook login -->
     <string name="acct__fb_creating_a_new_brand_account">Skapar ett nytt {brand}konto…</string>
     <!-- Message to the user requesting the user to enter email/password to link with Facebook -->
-    <string name="acct__fb_enter_your_brand_credentials">Ange inloggningsuppgifterna för ditt {brand}konto nedan så komemr det att länkas till ditt Facebookkonto.</string>
+    <string name="acct__fb_enter_your_brand_credentials">Ange inloggningsuppgifterna för ditt {brand}konto nedan så kommer det att länkas till ditt Facebookkonto.</string>
     <!-- Label for information for users who had previously used Google sign-in -->
     <string name="acct__google_account_change_string">Vill du logga in med Google?</string>
     <!-- Content for dialog explaining that Google sign-in is no longer available and how to retrieve account details -->
@@ -143,4 +143,6 @@
 
     <!--Single Page Sign Up-->
     <string name="acct__single_page_sign_up_title">Skapa ditt konto gratis</string>
+
+    <string name="acct__new_create_account_text">Skapa konto</string>
 </resources>

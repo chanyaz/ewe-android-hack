@@ -15,8 +15,7 @@ import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.presenter.Presenter
-import com.expedia.bookings.presenter.packages.BundleWidget
-import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
+import com.expedia.bookings.packages.presenter.PackageOverviewPresenter
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands

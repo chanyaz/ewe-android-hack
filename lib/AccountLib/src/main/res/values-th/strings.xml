@@ -143,4 +143,6 @@
 
     <!--Single Page Sign Up-->
     <string name="acct__single_page_sign_up_title">สร้างบัญชีฟรี</string>
+
+    <string name="acct__new_create_account_text">สร้างบัญชี</string>
 </resources>

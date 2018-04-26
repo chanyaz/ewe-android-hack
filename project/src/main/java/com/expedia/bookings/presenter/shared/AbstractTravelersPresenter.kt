@@ -1,4 +1,4 @@
-package com.expedia.bookings.presenter.packages
+package com.expedia.bookings.presenter.shared
 
 import android.app.AlertDialog
 import android.content.Context

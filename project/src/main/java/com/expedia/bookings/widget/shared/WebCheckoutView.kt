@@ -2,6 +2,7 @@ package com.expedia.bookings.widget.shared
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Message
@@ -48,6 +49,11 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
                 layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT)
                 visibility = View.GONE
+                setDownloadListener { url, _, _, _, _ ->
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                    context.startActivity(intent)
+                    hideWebViewPopUp()
+                }
             }
             container.addView(webViewPopUp)
             val transport = resultMsg.obj as WebView.WebViewTransport

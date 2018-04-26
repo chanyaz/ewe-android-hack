@@ -13,9 +13,10 @@ import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
-import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
-import com.expedia.bookings.presenter.packages.PackagePresenter
+
 import com.expedia.bookings.tracking.ApiCallFailing
+import com.expedia.bookings.packages.presenter.PackageOverviewPresenter
+import com.expedia.bookings.packages.presenter.PackagePresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui

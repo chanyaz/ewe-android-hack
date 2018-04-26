@@ -49,7 +49,6 @@ data class UserFilterChoices(var userSort: DisplaySort = DisplaySort.getDefaultS
     companion object {
         @JvmStatic
         fun fromHotelFilterOptions(searchOptions: HotelSearchParams.HotelFilterOptions): UserFilterChoices {
-            //advanced search options support only hotel name, vip, star ratings and sort for now
             val filterChoices = UserFilterChoices()
             filterChoices.name = searchOptions.filterHotelName ?: ""
             filterChoices.isVipOnlyAccess = searchOptions.filterVipOnly

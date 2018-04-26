@@ -143,4 +143,6 @@
 
     <!--Single Page Sign Up-->
     <string name="acct__single_page_sign_up_title">创建您的免费帐户</string>
+
+    <string name="acct__new_create_account_text">创建帐户</string>
 </resources>

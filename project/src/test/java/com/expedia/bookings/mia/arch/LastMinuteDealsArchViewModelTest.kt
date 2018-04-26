@@ -1,11 +1,15 @@
 package com.expedia.bookings.mia.arch
 
+import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.BaseDealsResponse
 import com.expedia.bookings.data.os.LastMinuteDealsRequest
 import com.expedia.bookings.data.os.LastMinuteDealsResponse
 import com.expedia.bookings.services.os.IOfferService
+import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import io.reactivex.Observer
+import org.hamcrest.Matchers
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -17,9 +21,11 @@ class LastMinuteDealsArchViewModelTest {
     private lateinit var viewModel: LastMinuteDealsArchViewModel
     lateinit var capturedObserver: Observer<LastMinuteDealsResponse>
     lateinit var capturedRequest: LastMinuteDealsRequest
+    private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     @Before
     fun setup() {
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         viewModel = LastMinuteDealsArchViewModel(MockSmartOfferService(), createMockRequest())
         viewModel.responseLiveData
     }
@@ -35,6 +41,24 @@ class LastMinuteDealsArchViewModelTest {
     fun testResponseIsPassedToLiveData() {
         capturedObserver.onNext(createMockResponse())
         assertEquals("USD", viewModel.responseLiveData.value!!.offerInfo!!.currency)
+    }
+
+    @Test
+    fun testEmptyListIsTrackedInOmniture() {
+        capturedObserver.onNext(createMockResponse())
+        OmnitureTestUtils.assertStateTracked("App.LastMinuteDeals", Matchers.allOf(
+                OmnitureMatchers.withProps(mapOf(36 to "App.LMD.NoResults")),
+                OmnitureMatchers.withEvars(mapOf(18 to "App.LastMinuteDeals"))),
+                mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testErrorIsTrackedInOmniture() {
+        capturedObserver.onError(RuntimeException("Test exception to make sure that this event was tracked in Omniture"))
+        OmnitureTestUtils.assertStateTracked("App.LastMinuteDeals", Matchers.allOf(
+                OmnitureMatchers.withProps(mapOf(36 to "App.LMD.Error")),
+                OmnitureMatchers.withEvars(mapOf(18 to "App.LastMinuteDeals"))),
+                mockAnalyticsProvider)
     }
 
     inner class MockSmartOfferService : IOfferService {

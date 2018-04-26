@@ -14,7 +14,7 @@ import com.expedia.bookings.data.TravelerName
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.enums.TravelerCheckoutStatus
-import com.expedia.bookings.presenter.packages.FlightTravelersPresenter
+import com.expedia.bookings.presenter.flight.FlightTravelersPresenter
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB

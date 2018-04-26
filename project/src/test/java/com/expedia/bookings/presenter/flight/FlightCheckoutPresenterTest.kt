@@ -8,7 +8,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.FlightAndPackagesRulesActivity
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.presenter.packages.FlightTravelersPresenter
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner

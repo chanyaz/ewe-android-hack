@@ -97,7 +97,6 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
 
     fun trackHotelItinManageBookingClick() {
         val s = createTrackLinkEvent(ITIN_HOTEL_MANAGE_BOOKING)
-        trackAbacusTest(s, AbacusUtils.TripsHotelsM2)
         s.trackLink("Itinerary Action")
     }
 

@@ -143,4 +143,6 @@
 
     <!--Single Page Sign Up-->
     <string name="acct__single_page_sign_up_title">免費註冊帳戶</string>
+
+    <string name="acct__new_create_account_text">註冊帳戶</string>
 </resources>

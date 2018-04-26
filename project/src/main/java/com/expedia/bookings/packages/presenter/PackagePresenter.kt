@@ -1,4 +1,4 @@
-package com.expedia.bookings.presenter.packages
+package com.expedia.bookings.packages.presenter
 
 import android.animation.ArgbEvaluator
 import android.app.Activity

@@ -38,10 +38,6 @@ fun isAllowCheckinCheckoutDatesInlineEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelCheckinCheckoutDatesInline)
 }
 
-fun isShowFlightsCheckoutWebview(context: Context): Boolean {
-    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppShowFlightsCheckoutWebview)
-}
-
 fun isShowFlightsNativeRateDetailsWebviewCheckoutEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidFlightsNativeRateDetailsWebviewCheckout)
 }

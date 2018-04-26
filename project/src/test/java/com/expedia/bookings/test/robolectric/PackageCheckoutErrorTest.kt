@@ -4,7 +4,7 @@ import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
-import com.expedia.bookings.presenter.packages.PackagePresenter
+import com.expedia.bookings.packages.presenter.PackagePresenter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.packages.vm.PackageCheckoutViewModel
 import org.junit.Before

@@ -382,7 +382,12 @@
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
             tools:ignore="UnusedAttribute" />
-
+        <activity
+            android:name="com.expedia.bookings.activity.CaptchaWebViewActivity"
+            android:resizeableActivity="false"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"
+            tools:ignore="UnusedAttribute" />
         <activity
             android:name="com.expedia.bookings.activity.DeepLinkWebViewActivity"
             android:parentActivityName=".launch.activity.PhoneLaunchActivity"

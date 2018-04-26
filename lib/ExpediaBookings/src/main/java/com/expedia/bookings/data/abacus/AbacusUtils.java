@@ -33,7 +33,6 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppFlightFlexEnabled = new ABTest(15247);
 	public static final ABTest EBAndroidAppLXOfferLevelCancellationPolicySupport = new ABTest(15246);
 	public static final ABTest EBAndroidAppAllowUnknownCardTypes = new ABTest(15457);
-	public static final ABTest EBAndroidAppShowFlightsCheckoutWebview = new ABTest(15371, true);
 	public static final ABTest EBAndroidAppHotelMaterialForms = new ABTest(24870, true);
 	public static final ABTest EBAndroidLXNotifications = new ABTest(24888);
 	public static final ABTest EBAndroidAppSavedCoupons = new ABTest(16365, true);
@@ -84,7 +83,6 @@ public class AbacusUtils {
 
 	// Hotel tests
 	public static final ABTest EBAndroidAppHotelPinnedSearch = new ABTest(15082);
-	public static final ABTest EBAndroidAppHotelSuperSearch = new ABTest(14911);
 	public static final ABTest EBAndroidAppHotelsWebCheckout = new ABTest(25618, true);
 	public static final ABTest EBAndroidAppHotelCheckinCheckoutDatesInline = new ABTest(15344);
 	public static final ABTest EBAndroidAppHotelPayLaterCreditCardMessaging = new ABTest(15925, true);
@@ -181,7 +179,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidLXMOD.getKey());
 		testIDs.add(EBAndroidLXMIP.getKey());
 		testIDs.add(EBAndroidAppFlightAdvanceSearch.getKey());
-		testIDs.add(EBAndroidAppHotelSuperSearch.getKey());
 		testIDs.add(EBAndroidAppAPIMAuth.getKey());
 		testIDs.add(EBAndroidAppAccountsAPIKongEndPoint.getKey());
 		testIDs.add(EBAndroidPopulateCardholderName.getKey());
@@ -201,7 +198,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppLXOfferLevelCancellationPolicySupport.getKey());
 		testIDs.add(EBAndroidAppAllowUnknownCardTypes.getKey());
 		testIDs.add(EBAndroidAppHotelCheckinCheckoutDatesInline.getKey());
-		testIDs.add(EBAndroidAppShowFlightsCheckoutWebview.getKey());
 		testIDs.add(EBAndroidAppFlightsEvolable.getKey());
 		testIDs.add(EBAndroidAppConfirmationToolbarXHidden.getKey());
 		testIDs.add(TripFoldersFragment.getKey());

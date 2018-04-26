@@ -8,8 +8,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
 import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.presenter.packages.PackageConfirmationPresenter
-import com.expedia.bookings.presenter.packages.PackagePresenter
+import com.expedia.bookings.packages.presenter.PackageConfirmationPresenter
+import com.expedia.bookings.packages.presenter.PackagePresenter
 import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand

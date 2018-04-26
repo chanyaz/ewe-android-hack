@@ -4,8 +4,8 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import com.expedia.bookings.presenter.Presenter
-import com.expedia.bookings.presenter.packages.PackageFlightPresenter
-import com.expedia.bookings.presenter.packages.PackageHotelPresenter
+import com.expedia.bookings.packages.presenter.PackageFlightPresenter
+import com.expedia.bookings.packages.presenter.PackageHotelPresenter
 import com.expedia.bookings.tracking.PackagesTracking
 
 class SlidingBundleWidgetListener (val widget: SlidingBundleWidget, val presenter: Presenter) {

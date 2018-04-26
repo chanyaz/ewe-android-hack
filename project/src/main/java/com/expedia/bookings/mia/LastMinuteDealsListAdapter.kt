@@ -27,15 +27,14 @@ class LastMinuteDealsListAdapter(val context: Context) : RecyclerView.Adapter<Re
 
     init {
         listData = generateLoadingCells(3)
-        responseObserver = LiveDataObserver {
-            response ->
-                if (response != null) {
-                    loading = false
-                    currency = response.offerInfo?.currency
-                    listData = response.offers.hotels
-                    listData = sortHotelByDiscount(listData)
-                    notifyDataSetChanged()
-                }
+        responseObserver = LiveDataObserver { response ->
+            if (response != null) {
+                loading = false
+                currency = response.offerInfo?.currency
+                listData = response.offers.hotels
+                listData = sortHotelByDiscount(listData)
+                notifyDataSetChanged()
+            }
         }
     }
 

@@ -40,7 +40,7 @@ import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.enums.TravelerCheckoutStatus;
 import com.expedia.bookings.presenter.Presenter;
-import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter;
+import com.expedia.bookings.presenter.shared.AbstractTravelersPresenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.FeatureUtilKt;
