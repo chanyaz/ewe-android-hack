@@ -620,6 +620,7 @@ public class MonthView extends View {
 	// require some additional work.
 
 	@Override
+	@SuppressWarnings("ClickableViewAccessibility")
 	public boolean onTouchEvent(MotionEvent event) {
 		boolean consumed = mDetector.onTouchEvent(event);
 		if (!consumed) {
