@@ -88,10 +88,8 @@ open class MessageProgressView(context: Context, attrs: AttributeSet?) : View(co
         setBackgroundResource(R.drawable.bg_message_loading)
 
         val ta = context.obtainStyledAttributes(attrs, R.styleable.MessageProgressView, 0, 0)
-        var bgTint: Int = -1
         try {
             linesPaint.color = ta.getColor(R.styleable.MessageProgressView_line_color, Color.rgb(250, 250, 250))
-            bgTint = ta.getColor(R.styleable.MessageProgressView_background_tint, bgTint)
         } finally {
             ta.recycle()
         }

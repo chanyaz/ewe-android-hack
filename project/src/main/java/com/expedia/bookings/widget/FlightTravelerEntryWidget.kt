@@ -112,10 +112,10 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
 
         tsaEntryView.viewModel = vm.tsaViewModel
         advancedOptionsWidget.viewModel = vm.advancedOptionsViewModel
-        vm.frequentFlyerAdapterViewModel?.let { viewModel ->
+        vm.frequentFlyerAdapterViewModel.let { viewModel ->
             setUpFrequentFlyerRecyclerView(context, viewModel)
         }
-        vm.frequentFlyerAdapterViewModel?.showFrequentFlyerObservable?.subscribeVisibility(frequentFlyerButton)
+        vm.frequentFlyerAdapterViewModel.showFrequentFlyerObservable?.subscribeVisibility(frequentFlyerButton)
         vm.passportCountrySubject.subscribe { countryCodeOptional ->
             val countryCode = countryCodeOptional.value
             val adapter = CountrySpinnerAdapter(context, CountrySpinnerAdapter.CountryDisplayType.FULL_NAME,

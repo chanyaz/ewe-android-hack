@@ -12,7 +12,7 @@ import io.reactivex.observers.DisposableObserver
 class ItinHotelRepo(private val itinId: String, private val jsonUtil: IJsonToItinUtil, observable: Observable<MutableList<ItinCardData>>) : ItinHotelRepoInterface {
 
     override val liveDataHotel: MutableLiveData<ItinHotel> = MutableLiveData()
-    val liveDataItin: MutableLiveData<Itin> = MutableLiveData()
+    override val liveDataItin: MutableLiveData<Itin> = MutableLiveData()
     val liveDataInvalidItin: MutableLiveData<Unit> = MutableLiveData()
 
     val syncObserver = object : DisposableObserver<MutableList<ItinCardData>>() {

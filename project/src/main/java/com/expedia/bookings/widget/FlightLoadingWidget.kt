@@ -44,7 +44,7 @@ class FlightLoadingWidget(context: Context, attrs: AttributeSet) : LinearLayout(
                     flightLoadingWidgetHeight = height
                     airplaneAnimatorHeight = airplaneAnimator.height
                     viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    animateWidget(flightLoadingWidgetHeight, dpToPx(context, 168), 1200, 5000, false)
+                    animateWidget(flightLoadingWidgetHeight, dpToPx(context, 168), 1200, 5000)
                 }
             }
         })
@@ -60,7 +60,7 @@ class FlightLoadingWidget(context: Context, attrs: AttributeSet) : LinearLayout(
                     flightLoadingWidgetHeight = height
                     airplaneAnimatorHeight = airplaneAnimator.height
                     viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    animateWidget(flightLoadingWidgetHeight, 0, 800, 0, true)
+                    animateWidget(flightLoadingWidgetHeight, 0, 800, 0)
                 }
             }
         })
@@ -75,7 +75,7 @@ class FlightLoadingWidget(context: Context, attrs: AttributeSet) : LinearLayout(
         LayoutUtils.setSVG(rightHandArrow, R.raw.flight_recent_search_one_way)
     }
 
-    private fun animateWidget(fromHeight: Int, toHeight: Int, animDuration: Long, startDelay: Long, isResultReceived: Boolean) {
+    private fun animateWidget(fromHeight: Int, toHeight: Int, animDuration: Long, startDelay: Long) {
         anim?.cancel()
         anim = ValueAnimator.ofInt(fromHeight, toHeight)
         anim?.duration = animDuration

@@ -144,13 +144,21 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 		}
 	}
 
+	protected void inflateView() {
+		setContentView(R.layout.web_view_toolbar);
+	}
+
+	protected void setToolBar() {
+		setSupportActionBar((android.support.v7.widget.Toolbar) findViewById(R.id.toolbar));
+	}
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Intent intent = getIntent();
 		Bundle extras = intent.getExtras();
 		setTheme(R.style.Material_WebView_Theme);
-		setContentView(R.layout.web_view_toolbar);
+		inflateView();
 		mProgressBar = findViewById(R.id.webview_progress_view);
 
 		if (shouldBail()) {
@@ -179,7 +187,7 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 
 		useOriginalTitle = extras.getBoolean(ARG_USE_WEB_VIEW_TITLE, false);
 
-		setSupportActionBar((android.support.v7.widget.Toolbar) findViewById(R.id.toolbar));
+		setToolBar();
 
 		if (!TextUtils.isEmpty(title)) {
 			setTitle(title);

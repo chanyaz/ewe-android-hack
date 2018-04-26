@@ -155,7 +155,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
             params.filterOptions?.let { filterOptions ->
                 filterOptions.filterHotelName?.let { hotelName(it) }
                 filterOptions.filterStarRatings.let { starRatings(it) }
-                filterOptions.filterGuestRatings?.let { guestRatings(it) }
+                filterOptions.filterGuestRatings.let { guestRatings(it) }
                 filterOptions.filterPrice?.let { priceRange(it) }
                 vipOnly(filterOptions.filterVipOnly)
                 filterOptions.filterByNeighborhood?.let { neighborhood(it) }

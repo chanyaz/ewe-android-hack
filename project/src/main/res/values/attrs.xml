@@ -207,7 +207,6 @@
 
     <declare-styleable name="MessageProgressView">
         <attr name="line_color" format="color" />
-        <attr name="background_tint" format="color" />
     </declare-styleable>
 
     <declare-styleable name="BoxRatingBar">

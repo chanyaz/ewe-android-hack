@@ -8,6 +8,7 @@ import org.mockito.Mockito
 import org.mockito.exceptions.base.MockitoAssertionError
 import org.mockito.exceptions.verification.junit.ArgumentsAreDifferent
 
+@Suppress("DEPRECATION")
 class OmnitureTestUtils : AppAnalytics() {
     companion object {
         @JvmStatic

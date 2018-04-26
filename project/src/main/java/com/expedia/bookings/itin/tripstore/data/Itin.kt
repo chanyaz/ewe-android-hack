@@ -3,6 +3,7 @@ package com.expedia.bookings.itin.tripstore.data
 data class Itin(
         val tripId: String?,
         val webDetailsURL: String?,
+        val itineraryReceiptURL: String?,
         val tripNumber: String?,
         val title: String?,
         val startTime: Time?,

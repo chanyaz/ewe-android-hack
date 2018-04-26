@@ -86,8 +86,8 @@ class TravelersPresenterTest {
         val flightTravelerEntryWidget = (travelersPresenter.travelerEntryWidget as FlightTravelerEntryWidget)
 
         assertEquals(View.VISIBLE, flightTravelerEntryWidget.advancedButton.visibility)
-        assertEquals(View.GONE, flightTravelerEntryWidget.frequentFlyerButton?.visibility)
-        assertEquals(View.GONE, flightTravelerEntryWidget.frequentFlyerRecycler?.visibility)
+        assertEquals(View.GONE, flightTravelerEntryWidget.frequentFlyerButton.visibility)
+        assertEquals(View.GONE, flightTravelerEntryWidget.frequentFlyerRecycler.visibility)
     }
 
     @Test

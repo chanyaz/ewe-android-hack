@@ -81,8 +81,7 @@ class FlightCreateTripParams(val productKey: String, val flexEnabled: Boolean, v
     }
 
     fun queryParamsForNewCreateTrip(): Map<String, Any> {
-        var params = HashMap<String, Any>()
-        params = commonQueryParamsForCreateTrip()
+        var params = commonQueryParamsForCreateTrip()
         params["numberOfAdultTravelers"] = numberOfAdultTravelers!!
         params["infantSeatingInLap"] = infantSeatingInLap!!
         return params

@@ -28,6 +28,7 @@ import android.widget.FrameLayout
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 
+@Suppress("DEPRECATION")
 class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget(context, attrs) {
 
     val loadingWebview: LinearLayout by bindView(R.id.webview_loading_screen)

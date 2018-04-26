@@ -50,6 +50,12 @@ class TripsTrackingTest {
     }
 
     @Test
+    fun trackItinHotelViewReceiptTest() {
+        TripsTracking.trackItinHotelViewReceipt()
+        OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Hotel.PricingRewards.ViewReceipt", mockAnalyticsProvider)
+    }
+
+    @Test
     fun testTrackHotelItinManageBookingClick() {
         OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
         TripsTracking.trackHotelItinManageBookingClick()

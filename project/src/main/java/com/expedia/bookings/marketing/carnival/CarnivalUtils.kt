@@ -516,6 +516,7 @@ open class CarnivalUtils {
             return pendingIntent
     }
 
+        @Suppress("DEPRECATION")
         override fun onMessageReceived(context: Context, bundle: Bundle, message: Message?): Boolean {
             return if (isNotificationFromCarnival(bundle)) {
                 val builder = NotificationCompat.Builder(context)

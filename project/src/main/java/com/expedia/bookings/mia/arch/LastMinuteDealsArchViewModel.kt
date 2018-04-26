@@ -30,6 +30,7 @@ class LastMinuteDealsArchViewModel(val service: IOfferService, val request: Last
         liveData
     }
 
+    @Suppress("UNCHECKED_CAST")
     class Factory(private val service: IOfferService, private val request: LastMinuteDealsRequest) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return LastMinuteDealsArchViewModel(service, request) as T

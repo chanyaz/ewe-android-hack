@@ -6,6 +6,7 @@ import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.Response
 
+@Suppress("Warnings")
 class CaptchaRedirectInterceptor(val context: Context) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain?): Response? {

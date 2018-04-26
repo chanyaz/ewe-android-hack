@@ -1,7 +1,6 @@
 package com.expedia.bookings.itin.common
 
 import android.content.Context
-import android.support.annotation.VisibleForTesting
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
@@ -18,11 +17,8 @@ class ItinToolbar(context: Context, attr: AttributeSet?) : Toolbar(context, attr
         viewModel = vm
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     val toolbarTitleText: TextView by bindView(R.id.itin_toolbar_title)
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     val toolbarSubTitleText: TextView by bindView(R.id.itin_toolbar_subtitle)
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     val toolbarShareIcon: TextView by bindView(R.id.itin_share_button)
 
     var viewModel: NewItinToolbarViewModel by notNullAndObservable {
@@ -31,6 +27,7 @@ class ItinToolbar(context: Context, attr: AttributeSet?) : Toolbar(context, attr
         }
         viewModel.toolbarSubTitleSubject.subscribe {
             toolbarSubTitleText.text = it
+            toolbarSubTitleText.visibility = View.VISIBLE
         }
         viewModel.shareIconVisibleSubject.subscribeVisibility(toolbarShareIcon)
     }
