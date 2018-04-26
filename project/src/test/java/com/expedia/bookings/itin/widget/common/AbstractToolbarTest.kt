@@ -1,9 +1,9 @@
 package com.expedia.bookings.itin.widget.common
 
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.activity.WebViewActivityWithToolbar
 import com.expedia.bookings.itin.common.AbstractToolbar
 import com.expedia.bookings.itin.helpers.MockItinToolbarViewModel
 import com.expedia.bookings.services.TestObserver
@@ -18,11 +18,11 @@ import kotlin.test.assertEquals
 class AbstractToolbarTest {
 
     lateinit var sut: AbstractToolbar
-    private lateinit var activity: WebViewActivityWithToolbar
+    private lateinit var activity: Activity
 
     @Before
     fun setup() {
-        activity = Robolectric.buildActivity(WebViewActivityWithToolbar::class.java).create().get()
+        activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.ItinTheme)
         sut = LayoutInflater.from(activity).inflate(R.layout.test_abstract_toolbar, null) as AbstractToolbar
         sut.viewModel = MockItinToolbarViewModel()
