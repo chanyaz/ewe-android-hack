@@ -18,7 +18,8 @@
             android:id="@+id/close_image_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_close_white_24dp" />
+            android:src="@drawable/ic_close_white_24dp"
+            android:contentDescription="@string/toolbar_nav_icon_close_cont_desc"/>
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/localized_location_name"

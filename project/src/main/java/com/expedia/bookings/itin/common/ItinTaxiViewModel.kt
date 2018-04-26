@@ -7,5 +7,4 @@ abstract class ItinTaxiViewModel {
     val localizedAddressSubject: PublishSubject<String> = PublishSubject.create()
     val nonLocalizedLocationNameSubject: PublishSubject<String> = PublishSubject.create()
     val nonLocalizedAddressSubject: PublishSubject<String> = PublishSubject.create()
-    val onNavigationClickedSubject: PublishSubject<Unit> = PublishSubject.create()
 }
