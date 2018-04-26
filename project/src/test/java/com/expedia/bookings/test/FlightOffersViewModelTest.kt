@@ -8,6 +8,7 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightSearchResponse
 import com.expedia.bookings.data.flights.FlightTripDetails
+import com.expedia.bookings.data.flights.RichContent
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.services.TestObserver
@@ -16,6 +17,7 @@ import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.RichContentUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.flights.FlightOffersViewModel
 import com.mobiata.mocke3.ExpediaDispatcher
@@ -487,6 +489,47 @@ class FlightOffersViewModelTest {
         sut.confirmedInboundFlightSelection.onNext(inboundFlight)
 
         ticketsLeftTestObserver.assertValue(5)
+    }
+
+    @Test
+    @RunForBrands (brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testRichContentInInboundLeg() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsRichContent, 3)
+        val firstOutboundFlightId = "leg1"
+
+        performFlightSearch(true)
+        addRichContentToFlightLeg(sut.flightMap[firstOutboundFlightId]!!.toList()[0])
+
+        val testSubscriber = TestObserver<List<FlightLeg>>()
+        sut.inboundResultsObservable.subscribe(testSubscriber)
+        sut.confirmedOutboundFlightSelection.onNext(makeFlightLeg(firstOutboundFlightId))
+
+        testSubscriber.awaitValueCount(1, 2, TimeUnit.SECONDS)
+        val inboundFlights = testSubscriber.values()[0]
+        assertEquals("leg0", inboundFlights[0].legId)
+        assertEquals(null, inboundFlights[0].richContent)
+    }
+
+    private fun addRichContentToFlightLeg(flightLeg: FlightLeg) {
+        flightLeg.richContent = getRichContent()
+    }
+
+    private fun getRichContent(): RichContent {
+        val richContent = RichContent()
+        richContent.legId = ""
+        richContent.score = 7.9F
+        richContent.legAmenities = getRichContentAmenities()
+        richContent.scoreExpression = RichContentUtils.ScoreExpression.VERY_GOOD.name
+        richContent.segmentAmenitiesList = listOf(getRichContentAmenities())
+        return richContent
+    }
+
+    private fun getRichContentAmenities(): RichContent.RichContentAmenity {
+        val amenities = RichContent.RichContentAmenity()
+        amenities.wifi = true
+        amenities.entertainment = false
+        amenities.power = true
+        return amenities
     }
 
     private fun performFlightSearch(roundTrip: Boolean) {
