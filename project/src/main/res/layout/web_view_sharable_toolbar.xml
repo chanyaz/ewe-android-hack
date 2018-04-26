@@ -33,6 +33,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:minHeight="?attr/actionBarSize"
+            app:contentInsetStartWithNavigation="0dp"
             android:paddingRight="16dp" />
     </android.support.design.widget.AppBarLayout>
 
