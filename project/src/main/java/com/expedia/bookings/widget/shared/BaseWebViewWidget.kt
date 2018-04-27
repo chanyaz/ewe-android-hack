@@ -31,7 +31,7 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
 
     val HEADER_CLASS = "site-header-primary"
 
-    val toolbar: Toolbar by bindView(R.id.toolbar)
+    val toolbar: Toolbar by bindView(R.id.web_view_toolbar)
 
     var webViewPopUp: WebView? = null
 

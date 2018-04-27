@@ -12,7 +12,6 @@ import android.view.View
 import android.view.WindowManager
 import android.webkit.WebChromeClient
 import android.webkit.WebView
-import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.pos.PointOfSale
@@ -27,13 +26,19 @@ import com.mobiata.android.util.AndroidUtils
 import android.view.ViewGroup
 import android.webkit.JavascriptInterface
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
+import com.expedia.bookings.widget.LoadingOverlayWidget
+import io.reactivex.subjects.PublishSubject
 
 @Suppress("DEPRECATION")
 class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget(context, attrs) {
 
-    val loadingWebview: LinearLayout by bindView(R.id.webview_loading_screen)
+    val loadingOverlay: LoadingOverlayWidget by bindView(R.id.details_loading_overlay)
+    val progressIndicatorLayout by bindView<LinearLayout>(R.id.webview_loading_screen)
+
+    val showLoadingIndicator = PublishSubject.create<Boolean>()
 
     var clearHistory = false
 
@@ -68,7 +73,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
 
         override fun onProgressChanged(view: WebView?, loadProgress: Int) {
             super.onProgressChanged(view, loadProgress)
-            if (loadProgress > 33 && loadingWebview.visibility == View.VISIBLE) {
+            if (loadProgress > 33 && loadingOverlay.visibility == View.VISIBLE) {
                 toggleLoading(false)
             }
         }
@@ -103,20 +108,29 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
 
     override fun onFinishInflate() {
         super.onFinishInflate()
+        toolbar.visibility = View.GONE
         toolbar.title = context.getString(R.string.secure_checkout)
         toolbar.navigationIcon = context.getDrawable(R.drawable.ic_arrow_back_white_24dp)
+
         setUserAgentString(AndroidUtils.isTablet(context))
         webView.webChromeClient = chromeClient
+
+        showLoadingIndicator.subscribe { status ->
+            toolbar.setVisibility(!status)
+            progressIndicatorLayout.setVisibility(status)
+            loadingOverlay.setVisibility(status)
+        }
     }
 
     override fun toggleLoading(loading: Boolean) {
         if (ExpediaBookingApp.isInstrumentation()) {
             return
         }
-        loadingWebview.setVisibility(loading)
+        showLoadingIndicator.onNext(loading)
     }
 
     override fun onWebPageStarted(view: WebView, url: String, favicon: Bitmap?) {
+        showLoadingIndicator.onNext(true)
         if (shouldShowNativeConfirmation(url)) {
             view.stopLoading()
             viewModel.showWebViewObservable.onNext(false)
@@ -134,6 +148,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
     }
 
     override fun onPageFinished(url: String) {
+        showLoadingIndicator.onNext(false)
         super.onPageFinished(url)
         if (clearHistory) {
             webView.clearHistory()

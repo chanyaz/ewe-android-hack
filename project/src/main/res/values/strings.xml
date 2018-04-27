@@ -3066,8 +3066,6 @@
     <string name="booking_loading">Booking…</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
     <string name="error_unable_to_send_email">We are unable to send a confirmation email.</string>
-    <!--Message displayed under loading icon while loading checkout web view-->
-    <string name="almost_there">Almost there!</string>
 
     <!-- Confirmation activity -->
     <!-- Confirmation number label -->

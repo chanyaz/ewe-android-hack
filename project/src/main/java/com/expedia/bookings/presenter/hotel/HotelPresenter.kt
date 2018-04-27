@@ -691,7 +691,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             detailPresenter.setInverseVisibility(forward)
-            webCheckoutView.toolbar.visibility = if (forward) View.VISIBLE else View.GONE
             webCheckoutView.visibility = if (forward) View.VISIBLE else View.GONE
             AccessibilityUtil.setFocusToToolbarNavigationIcon(webCheckoutView.toolbar)
             webCheckoutView.viewModel.showWebViewObservable.onNext(forward)

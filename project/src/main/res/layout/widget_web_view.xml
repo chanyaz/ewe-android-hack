@@ -3,15 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/web_view_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
         android:background="?attr/primary_color"
         android:minHeight="?attr/actionBarSize"
+        app:contentInsetStartWithNavigation="0dp"
         app:navigationIcon="@drawable/ic_close_white_24dp"
-        app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
-        app:contentInsetStartWithNavigation="0dp" />
+        app:titleTextAppearance="@style/ToolbarTitleTextAppearance">
+
+    </android.support.v7.widget.Toolbar>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -22,29 +24,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <LinearLayout
-            android:id="@+id/webview_loading_screen"
-            android:visibility="gone"
+        <com.expedia.bookings.widget.LoadingOverlayWidget
+            android:id="@+id/details_loading_overlay"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center">
-            <ProgressBar
-                android:id="@+id/webview_progress_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:indeterminate="true"
-                android:visibility="visible" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/almost_there"
-                android:textColor="?attr/primary_color"
-                android:textSize="23dp"
-                android:paddingTop="10dp" />
-
-        </LinearLayout>
+            android:visibility="gone" />
 
         <View
             android:id="@+id/toolbar_dropshadow"
