@@ -52,6 +52,6 @@ dependencies {
     testApi 'org.assertj:assertj-core:1.7.1'
     testApi 'org.mockito:mockito-core:2.0.13-beta'
     testApi "com.squareup.retrofit2:retrofit-mock:${retrofit_version}"
-    api "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    api "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation project(':lib:AndroidUtils')
 }
