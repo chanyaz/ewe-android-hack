@@ -79,6 +79,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppFlightsUrgencyMessaging = new ABTest(25449, true);
 	public static final ABTest EBAndroidFlightsNativeRateDetailsWebviewCheckout = new ABTest(25620, true);
 	public static final ABTest EBAndroidAppFlightsContentHighlightInTypeahead = new ABTest(25639, true);
+	public static final ABTest EBAndroidAppFlightsHolidayCalendar = new ABTest(25869, true);
 
 	// Hotel tests
 	public static final ABTest EBAndroidAppHotelPinnedSearch = new ABTest(15082);
@@ -231,6 +232,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFLightLoadingStateV1.getKey());
 		testIDs.add(HotelHideMiniMapOnResult.getKey());
 		testIDs.add(EBAndroidAppFlightsRecentSearch.getKey());
+		testIDs.add(EBAndroidAppFlightsHolidayCalendar.getKey());
 		testIDs.add(EBAndroidAppFlightsRichContent.getKey());
 		testIDs.add(EBAndroidAppPackagesDisplayBasicEconomyTooltip.getKey());
 		testIDs.add(HotelSoldOutOnHSRTreatment.getKey());
