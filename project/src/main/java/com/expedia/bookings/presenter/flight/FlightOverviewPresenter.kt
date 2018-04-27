@@ -23,6 +23,7 @@ import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
+import com.expedia.bookings.packages.vm.AbstractUniversalCKOTotalPriceViewModel
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
@@ -46,7 +47,6 @@ import com.expedia.vm.InsuranceViewModel
 import com.expedia.vm.flights.FlightCheckoutSummaryViewModel
 import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
 import com.expedia.vm.flights.FlightFareFamilyViewModel
-import com.expedia.bookings.packages.vm.AbstractUniversalCKOTotalPriceViewModel
 import com.expedia.vm.flights.FlightOverviewSummaryViewModel
 import com.expedia.vm.flights.FlightTotalPriceViewModel
 import com.squareup.phrase.Phrase
@@ -64,6 +64,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
 
     val flightCostSummaryObservable = (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable
     val overviewPageUsableData = PageUsableData()
+    val showCollapsedToolbar = true
 
     private val basicEconomyInfoWebView: BasicEconomyInfoWebView by lazy {
         val viewStub = findViewById<ViewStub>(R.id.basic_economy_info_web_view)
@@ -108,6 +109,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         getCheckoutPresenter().getCheckoutViewModel().createTripResponseObservable.safeSubscribeOptional(flightCostSummaryObservable)
         scrollSpaceView = flightSummary.scrollSpaceView
         bundleOverviewHeader.checkoutOverviewFloatingToolbar.visibility = View.INVISIBLE
+        bundleOverviewHeader.isExpandable = false
         val params = bundleOverviewHeader.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
         val behavior = params.behavior as AppBarLayout.Behavior
         behavior.setDragCallback(object : AppBarLayout.Behavior.DragCallback() {
@@ -214,6 +216,9 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         }
         addTransition(overviewToBasicEconomyInfoWebView)
         addTransition(overviewToFamilyFare)
+        bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel.subTitleText.filter { Strings.isNotEmpty(it) }.subscribe {
+            bundleOverviewHeader.checkoutOverviewHeaderToolbar.checkInOutDates.text = it
+        }
     }
 
     override val defaultTransition = object : TwoScreenOverviewDefaultTransition() {
@@ -279,7 +284,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
     override fun resetCheckoutState() {
         bottomCheckoutContainer.slideToPurchase.resetSlider()
         if (currentState == BundleDefault::class.java.name) {
-            bundleOverviewHeader.toggleOverviewHeader(true)
+            bundleOverviewHeader.toggleOverviewHeader(false)
         }
     }
 
@@ -328,6 +333,14 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
 
     override fun getPriceViewModel(context: Context): AbstractUniversalCKOTotalPriceViewModel {
         return FlightTotalPriceViewModel(context)
+    }
+
+    override fun translateHeader(f: Float, forward: Boolean) {
+        //do nothing
+    }
+
+    override fun isCollapsableToolbar(): Boolean {
+        return false
     }
 
     private fun shouldShowBasicEconomyMessage(tripResponse: FlightTripResponse?): Boolean {

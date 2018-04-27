@@ -17,6 +17,7 @@ import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.extensions.safeSubscribeOptional
 import com.expedia.bookings.extensions.setInverseVisibility
+import com.expedia.bookings.packages.vm.AbstractUniversalCKOTotalPriceViewModel
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
@@ -31,7 +32,6 @@ import com.expedia.util.endlessObserver
 import com.expedia.vm.AbstractCardFeeEnabledCheckoutViewModel
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.expedia.vm.WebViewViewModel
-import com.expedia.bookings.packages.vm.AbstractUniversalCKOTotalPriceViewModel
 import io.reactivex.disposables.Disposable
 
 abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
@@ -203,7 +203,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             setToolbarMenu(forward)
             setToolbarNavIcon(forward)
             bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
-            bundleOverviewHeader.toggleCollapsingToolBar(true)
+            bundleOverviewHeader.toggleCollapsingToolBar(isCollapsableToolbar())
             translationDistance = checkoutPresenter.mainContent.translationY
             val params = bundleOverviewHeader.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
             val behavior = params.behavior as AppBarLayout.Behavior
@@ -234,7 +234,9 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             }
             setBundleWidgetAndToolbar(forward)
             bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = if (forward) View.GONE else View.VISIBLE
-            bundleOverviewHeader.toggleCollapsingToolBar(!forward)
+            if (isCollapsableToolbar()) {
+                bundleOverviewHeader.toggleCollapsingToolBar(!forward)
+            }
             checkoutPresenter.mainContent.visibility = if (forward) View.VISIBLE else View.GONE
             checkoutPresenter.mainContent.translationY = 0f
             if (forward) checkoutPresenter.toolbarDropShadow.visibility = View.VISIBLE
@@ -309,6 +311,10 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             bottomCheckoutContainer.viewModel.toggleBundleTotalDrawableObservable.onNext(false)
         }
         return didHandleBack
+    }
+
+    open fun isCollapsableToolbar(): Boolean {
+        return true
     }
 
     class BundleDefault

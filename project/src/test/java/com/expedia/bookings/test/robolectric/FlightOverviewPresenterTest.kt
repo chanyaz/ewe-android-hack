@@ -9,38 +9,40 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.DeprecatedHotelSearchParams
+import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TripBucketItemFlightV2
 import com.expedia.bookings.data.TripDetails
-import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.flights.Airline
+import com.expedia.bookings.data.flights.BaggageInfoResponse
+import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
-import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.flights.FlightSearchParams
-import com.expedia.bookings.data.flights.Airline
-import com.expedia.bookings.data.flights.FlightCreateTripParams
-import com.expedia.bookings.data.flights.BaggageInfoResponse
+import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.packages.vm.BundleFlightViewModel
+import com.expedia.bookings.packages.vm.PackageSearchType
 import com.expedia.bookings.presenter.flight.FlightOverviewPresenter
 import com.expedia.bookings.presenter.flight.FlightSummaryWidget
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.text.HtmlCompat
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.DateRangeUtils
 import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.Optional
 import com.expedia.vm.FlightCheckoutOverviewViewModel
-import com.expedia.bookings.packages.vm.BundleFlightViewModel
 import com.expedia.vm.flights.FlightOverviewSummaryViewModel
-import com.expedia.bookings.packages.vm.PackageSearchType
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import org.junit.Before
@@ -51,10 +53,9 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
-import com.expedia.bookings.services.TestObserver
-import com.expedia.bookings.utils.AbacusTestUtils
 import java.math.BigDecimal
 import java.util.ArrayList
+import kotlin.collections.HashMap
 import kotlin.test.assertEquals
 
 @RunWith(RxJavaTestImmediateSchedulerRunner::class)
@@ -264,6 +265,14 @@ class FlightOverviewPresenterTest {
         flightCheckoutPresenter.getCreateTripViewModel().createTripResponseObservable.onNext(Optional(createTripResponse))
 
         assertEquals(View.VISIBLE, flightSummary.basicEconomyMessageTextView.visibility)
+    }
+
+    @Test
+    @RunForBrands(brands = [(MultiBrand.EXPEDIA)])
+    fun testDateRangeinToolbar() {
+        widget.bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel.subTitleText.onNext("Tue, Jun 05, 2018 - Wed, Jun 27, 2018, 1 traveler")
+        assertEquals("Tue, Jun 05, 2018 - Wed, Jun 27, 2018, 1 traveler",
+                widget.bundleOverviewHeader.checkoutOverviewHeaderToolbar.checkInOutDates.text)
     }
 
 //    disabling flaky test until reliable solution found
