@@ -344,7 +344,15 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:key="25639"
             android:summary="%s"
-            android:title="Content Hightlight In TypeAhead - 25639" />
+            android:title="Content Hightlight In TypeAhead - 25869" />
+
+        <ListPreference
+            android:defaultValue="-1"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_air_attach_choice_values"
+            android:key="25869"
+            android:summary="%s"
+            android:title="Holiday Calendar - 25869" />
     </PreferenceCategory>
 
     <PreferenceCategory
