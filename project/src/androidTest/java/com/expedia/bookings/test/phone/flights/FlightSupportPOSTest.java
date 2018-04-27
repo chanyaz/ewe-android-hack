@@ -23,13 +23,6 @@ public class FlightSupportPOSTest extends PhoneTestCase {
 	}
 
 	@Test
-	public void testIndiaFlights() throws Throwable {
-		Common.setPOS(PointOfSaleId.INDIA);
-		Common.delay(1);
-		launchFlights();
-	}
-
-	@Test
 	public void testArgentinaFlights() throws Throwable {
 		Common.setPOS(PointOfSaleId.ARGENTINA);
 		Common.delay(1);
