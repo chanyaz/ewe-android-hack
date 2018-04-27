@@ -2,10 +2,13 @@ package com.expedia.bookings.services
 
 import com.expedia.bookings.data.hotels.HotelReviewsParams
 import com.expedia.bookings.data.hotels.HotelReviewsResponse
+import com.expedia.bookings.data.hotels.HotelReviewsSummaryResponse
 import com.google.gson.GsonBuilder
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
+import io.reactivex.Observable
+import io.reactivex.Scheduler
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.joda.time.DateTime
@@ -13,8 +16,6 @@ import org.joda.time.format.ISODateTimeFormat
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import io.reactivex.Observable
-import io.reactivex.Scheduler
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
@@ -48,6 +49,12 @@ class ReviewsServices(endPoint: String, client: OkHttpClient, interceptor: Inter
 
     fun reviews(reviewsParams: HotelReviewsParams): Observable<HotelReviewsResponse> {
         return reviewsApi.hotelReviews(reviewsParams.hotelId, reviewsParams.sortBy, reviewsParams.pageNumber * reviewsParams.numReviewsPerPage, reviewsParams.numReviewsPerPage, reviewsParams.languageSort)
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+    }
+
+    fun reviewsSummary(hotelId: String): Observable<HotelReviewsSummaryResponse> {
+        return reviewsApi.hotelReviewsSummary(hotelId)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
     }

@@ -4,7 +4,7 @@ import android.content.Context
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import com.expedia.bookings.R
-import com.expedia.bookings.data.hotels.HotelReviewsResponse
+import com.expedia.bookings.data.hotels.ReviewSummary
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.TypefaceSpan
@@ -20,7 +20,7 @@ class HotelReviewsSummaryViewModel(val context: Context) {
     val serviceStaffObservable = BehaviorSubject.create<CharSequence>()
     val hotelConditionObservable = BehaviorSubject.create<CharSequence>()
 
-    val reviewsSummaryObserver = endlessObserver<HotelReviewsResponse.ReviewSummary> { reviewsSummary ->
+    val reviewsSummaryObserver = endlessObserver<ReviewSummary> { reviewsSummary ->
         overallRatingObservable.onNext(getDisplayRating(reviewsSummary.avgOverallRating))
         roomCleanlinessObservable.onNext(getDisplayTextForRating(R.string.hotel_rating_room_cleanliness, reviewsSummary.cleanliness))
         roomComfortObservable.onNext(getDisplayTextForRating(R.string.hotel_rating_room_comfort, reviewsSummary.roomComfort))

@@ -3,8 +3,8 @@ package com.expedia.vm
 import com.expedia.bookings.data.hotels.HotelReviewsParams
 import com.expedia.bookings.data.hotels.HotelReviewsResponse
 import com.expedia.bookings.data.hotels.HotelReviewsResponse.Review
-import com.expedia.bookings.data.hotels.HotelReviewsResponse.ReviewSummary
 import com.expedia.bookings.data.hotels.ReviewSort
+import com.expedia.bookings.data.hotels.ReviewSummary
 import com.expedia.bookings.hotel.data.TranslatedReview
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.tracking.OmnitureTracking
@@ -94,7 +94,7 @@ class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: Rev
     }
 
     private fun getReviewFromApi(reviewId: String) {
-        reviewsServices.translate(reviewId, Locale.getDefault().language).subscribe ({ review ->
+        reviewsServices.translate(reviewId, Locale.getDefault().language).subscribe({ review ->
             val translatedReview = TranslatedReview(review)
             translationMap[reviewId] = translatedReview
             translationUpdatedObservable.onNext(reviewId)

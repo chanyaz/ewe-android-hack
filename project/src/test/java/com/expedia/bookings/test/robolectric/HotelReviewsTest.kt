@@ -1,7 +1,7 @@
 package com.expedia.bookings.test
 
 import com.expedia.bookings.data.hotels.HotelReviewsResponse
-import com.expedia.bookings.data.hotels.HotelReviewsResponse.ReviewSummary
+import com.expedia.bookings.data.hotels.ReviewSummary
 import com.expedia.bookings.data.hotels.ReviewSort
 import com.expedia.bookings.hotel.data.TranslatedReview
 import com.expedia.bookings.services.ReviewsServices
