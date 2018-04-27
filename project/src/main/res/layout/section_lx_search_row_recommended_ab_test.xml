@@ -74,7 +74,8 @@
         android:orientation="horizontal"
         android:paddingBottom="2dp"
         android:paddingLeft="14dp"
-        android:paddingRight="14dp">
+        android:paddingRight="14dp"
+        android:baselineAligned="false">
 
         <LinearLayout
             android:id="@+id/recommendation_percentage_container"
@@ -112,7 +113,7 @@
 
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="right|center"
             android:layout_marginLeft="18dp"

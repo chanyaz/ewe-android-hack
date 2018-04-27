@@ -11,10 +11,10 @@ import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.FrameLayout
+import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.DeprecatedHotelSearchParams
 import com.expedia.bookings.data.HotelSearchResponse
@@ -80,7 +80,7 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
         fabAnimOut
     }
 
-    val launchError: ViewGroup by bindView(R.id.launch_error)
+    val launchError: TextView by bindView(R.id.launch_error)
     val toolbarShadow: View by bindView(R.id.toolbar_dropshadow)
     val toolBarHeight: Float by lazy {
         Ui.getToolbarSize(context).toFloat()

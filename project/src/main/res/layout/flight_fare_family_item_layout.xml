@@ -43,6 +43,7 @@
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/fare_family_class_price_delta"
                     style="@style/FareFamilyHeader"
+                    android:layout_width="0dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:gravity="right"

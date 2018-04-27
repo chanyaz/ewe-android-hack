@@ -123,48 +123,6 @@
         <attr name="pathViewColor" format="color" />
     </declare-styleable>
 
-    <declare-styleable name="RingedCountView">
-        <attr name="caption" />
-        <attr name="backgroundColor" format="color" />
-        <attr name="countTextColor" format="color" />
-        <attr name="captionTextColor" format="color" />
-        <attr name="primaryColor" format="color" />
-        <attr name="secondaryColor" format="color" />
-        <attr name="ringThickness" format="dimension" />
-        <attr name="countTextSize" format="dimension" />
-        <attr name="captionTextSize" format="dimension" />
-        <attr name="countTextStyle" format="enum">
-            <enum name="normal" value="0" />
-            <enum name="bold" value="1" />
-            <enum name="italic" value="2" />
-            <enum name="black" value="8" />
-            <enum name="condensed" value="16" />
-            <enum name="light" value="32" />
-            <enum name="medium" value="64" />
-            <enum name="thin" value="128" />
-        </attr>
-        <attr name="captionTextStyle" format="enum">
-            <enum name="normal" value="0" />
-            <enum name="bold" value="1" />
-            <enum name="italic" value="2" />
-            <enum name="black" value="8" />
-            <enum name="condensed" value="16" />
-            <enum name="light" value="32" />
-            <enum name="medium" value="64" />
-            <enum name="thin" value="128" />
-        </attr>
-        <attr name="percent" format="float" />
-    </declare-styleable>
-
-    <declare-styleable name="SlidingRadioGroup">
-        <attr name="unselectedDrawable" format="reference" />
-        <attr name="selectedDrawable" format="reference" />
-        <attr name="unselectedDividerColor" format="color" />
-        <attr name="selectedDividerColor" format="color" />
-        <attr name="dividerWidth" format="dimension" />
-        <attr name="sluggishness" format="integer" />
-    </declare-styleable>
-
     <declare-styleable name="RoundedCornerFrameLayout">
         <attr name="radius" format="dimension" />
     </declare-styleable>

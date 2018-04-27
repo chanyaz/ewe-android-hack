@@ -1,12 +1,14 @@
 package com.expedia.bookings.widget;
 
-import java.util.HashMap;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,16 +24,14 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
 import com.squareup.phrase.Phrase;
 import com.squareup.picasso.Picasso;
-
-import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -41,7 +41,7 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 
 	private static final String ROW_PICASSO_TAG = "lx_row";
 	private static boolean userBucketedForRTRTest;
-	private static HashMap<Integer, Integer> scrollDepthMap;
+	private static SparseIntArray scrollDepthMap;
 	private static int activitiesListSize;
 	private static String promoDiscountType;
 
@@ -91,8 +91,8 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 	}
 
 	public void initializeScrollDepthMap(int activitiesListSize) {
-		scrollDepthMap = new HashMap<>();
-		this.activitiesListSize = activitiesListSize;
+		scrollDepthMap = new SparseIntArray();
+		LXResultsListAdapter.activitiesListSize = activitiesListSize;
 		scrollDepthMap.put(LXDataUtils.findScrolledPosition(10, activitiesListSize), 10);
 		scrollDepthMap.put(LXDataUtils.findScrolledPosition(30, activitiesListSize), 30);
 		scrollDepthMap.put(LXDataUtils.findScrolledPosition(100, activitiesListSize), 100);
@@ -268,9 +268,9 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 				.build()
 				.load(imageURLs);
 
-			if (scrollDepthMap != null && scrollDepthMap.get(getAdapterPosition() + 1) != null) {
+			if (scrollDepthMap != null && scrollDepthMap.indexOfKey(getAdapterPosition() + 1) >= 0) {
 				OmnitureTracking.trackLXSRPScrollDepth(scrollDepthMap.get(getAdapterPosition() + 1), activitiesListSize);
-				scrollDepthMap.remove(getAdapterPosition() + 1);
+				scrollDepthMap.removeAt(getAdapterPosition() + 1);
 			}
 		}
 

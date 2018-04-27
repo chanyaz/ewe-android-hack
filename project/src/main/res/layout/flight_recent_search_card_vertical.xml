@@ -45,7 +45,8 @@
             android:id="@+id/recent_search_price"
             style="@style/RecentSearchFirstLine"
             android:layout_weight="1"
-            android:gravity="right" />
+            android:gravity="right"
+            android:layout_width="0dp" />
     </LinearLayout>
 
     <LinearLayout
