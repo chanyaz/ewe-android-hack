@@ -1,0 +1,428 @@
+{
+"apiVersion": "1.0",
+"responseType": "TRIP_DETAILS",
+"responseData": {
+"levelOfDetail": "FULL",
+"tripId": "25552d64-c2e4-43c7-8ed1-2f332d654a68",
+"webDetailsURL": "https://www.expedia.com/trips/7331525634824",
+"itineraryReceiptURL": "https://www.expedia.com/itinerary-receipt?tripid=25552d64-c2e4-43c7-8ed1-2f332d654a68",
+"tripNumber": 7331525634824,
+"orderNumber": 8136726699323,
+"title": "Hotel in Hayward",
+"updateTripNameDescPathURL": "https://www.expedia.com/api/trips/25552d64-c2e4-43c7-8ed1-2f332d654a68/updateTripNameDescription",
+"startTime": {
+"raw": "2018-09-04T15:00:00-08:00",
+"localized": "Sep 4, 2018 3:00:00 PM",
+"epochSeconds": 1536102000,
+"timeZoneOffsetSeconds": -28800,
+"localizedShortDate": "9/4/2018",
+"localizedMediumDate": "Sep 4",
+"localizedFullDate": "Tue, Sep 4",
+"localizedLongDate": "Sep 4, 2018",
+"localizedShortTime": "3:00pm"
+},
+"endTime": {
+"raw": "2018-09-05T11:00:00-08:00",
+"localized": "Sep 5, 2018 11:00:00 AM",
+"epochSeconds": 1536174000,
+"timeZoneOffsetSeconds": -28800,
+"localizedShortDate": "9/5/2018",
+"localizedMediumDate": "Sep 5",
+"localizedFullDate": "Wed, Sep 5",
+"localizedLongDate": "Sep 5, 2018",
+"localizedShortTime": "11:00am"
+},
+"tripCreatedTime": {
+"raw": "2018-02-21T23:31:22Z",
+"localized": "Feb 21, 2018 11:31:22 PM",
+"epochSeconds": 1519255882,
+"timeZoneOffsetSeconds": 0,
+"localizedShortDate": "Wed, 21 Feb",
+"localizedMediumDate": "Feb 21, 2018",
+"localizedFullDate": "Wednesday, February 21, 2018",
+"localizedLongDate": "February 21, 2018",
+"localizedShortTime": "11:31 PM"
+},
+"tripUpdatedTime": {
+"raw": "2018-04-27T18:38:44Z",
+"localized": "Apr 27, 2018 6:38:44 PM",
+"epochSeconds": 1524854324,
+"timeZoneOffsetSeconds": 0,
+"localizedShortDate": "Fri, 27 Apr",
+"localizedMediumDate": "Apr 27, 2018",
+"localizedFullDate": "Friday, April 27, 2018",
+"localizedLongDate": "April 27, 2018",
+"localizedShortTime": "6:38 PM"
+},
+"tripCacheUpdatedTime": {
+"raw": "2018-04-27T18:38:44Z",
+"localized": "Apr 27, 2018 6:38:44 PM",
+"epochSeconds": 1524854324,
+"timeZoneOffsetSeconds": 0,
+"localizedShortDate": "Fri, 27 Apr",
+"localizedMediumDate": "Apr 27, 2018",
+"localizedFullDate": "Friday, April 27, 2018",
+"localizedLongDate": "April 27, 2018",
+"localizedShortTime": "6:38 PM"
+},
+"ownerId": 1198215898,
+"bookingStatus": "BOOKED",
+"rewardList": [
+{
+"totalPoints": 458,
+"basePoints": 229,
+"bonusPoints": [
+{
+"m_pointValue": 229,
+"m_pointType": "offerPoint",
+"m_pointDescription": "App Booking Double Points",
+"m_status": "PENDING",
+"m_programId": 3
+}
+],
+"logoUrl": "/static/default/default/images/myrewards/RewardsLogo_193x76.png",
+"signUpUrl": "",
+"viewStatementURL": "/user/rewards",
+"programName": "ExpediaRewards"
+}
+],
+"sharableDetailsURL": "https://www.expedia.com/api/trips/shared/tcJCeWXhcG3aFuKEuIXTy8CAcNFWGJQX_v1UXxA52uOO3TrO8hEfVm7Yu749TBr2Zj-jHfTdqkchyupXmwkG0ZC5",
+"customerSupport": {},
+"isBookedUsingForeignCurrency": false,
+"hotels": [
+{
+"uniqueID": "55DB45F8-BC71-4735-9595-6C94D535DE47_0",
+"hotelId": "16181514",
+"checkInDateTime": {
+"raw": "2018-09-04T15:00:00-08:00",
+"localized": "Sep 4, 2018 3:00:00 PM",
+"epochSeconds": 1536102000,
+"timeZoneOffsetSeconds": -28800,
+"localizedShortDate": "9/4/2018",
+"localizedMediumDate": "Sep 4",
+"localizedFullDate": "Tue, Sep 4",
+"localizedLongDate": "Sep 4, 2018",
+"localizedShortTime": "3:00pm"
+},
+"checkOutDateTime": {
+"raw": "2018-09-05T11:00:00-08:00",
+"localized": "Sep 5, 2018 11:00:00 AM",
+"epochSeconds": 1536174000,
+"timeZoneOffsetSeconds": -28800,
+"localizedShortDate": "9/5/2018",
+"localizedMediumDate": "Sep 5",
+"localizedFullDate": "Wed, Sep 5",
+"localizedLongDate": "Sep 5, 2018",
+"localizedShortTime": "11:00am"
+},
+"checkInDate": "2018-09-04T15:00:00-08:00",
+"checkOutDate": "2018-09-05T11:00:00-08:00",
+"checkInDateLocalized": "Sep 4, 2018",
+"checkOutDateLocalized": "Sep 5, 2018",
+"numberOfNights": 1,
+"bookingStatus": "BOOKED",
+"bookingStatusText": "Confirmed",
+"bookingStatusMessage": "We have confirmed your hotel reservation with the property.",
+"bookedDate": "2018-02-21",
+"inventoryType": "DIRECT_AGENCY",
+"inventoryTypeEnum": "DIRECT_AGENCY",
+"inventorySource": "INTERNAL",
+"paymentModel": "HOTEL_COLLECT",
+"inventoryVisibility": "VISIBLE",
+"orderNumber": "8136726699323",
+"state": "PRE_START_4",
+"infositeURL": "https://www.expedia.com/itin.h16181514.Hotel-Information?langid=1033",
+"reviewSubmissionURL": "https://www.expedia.com/ReviewSubmission?ItinId=7331525634824&htid=16181514&campaignId=ITINERARY_PAGE_LINK",
+"hotelPropertyInfo": {
+"address": {
+"addressLine1": "500 W A St",
+"city": "Hayward",
+"countrySubdivisionCode": "CA",
+"postalCode": "94541",
+"countryCode": "USA",
+"countryName": " United States of America",
+"fullAddress": "500 W A St, Hayward, CA, 94541 United States of America",
+"airportCode": "OAK"
+},
+"name": "Vagabond Inn Executive Hayward",
+"starRating": "25",
+"photoThumbnailURL": "/hotels/17000000/16190000/16181600/16181514/6a0870c3_l.jpg",
+"photoThumbnail500pixURL": "/hotels/17000000/16190000/16181600/16181514/6a0870c3_y.jpg",
+"photoThumbnail1000pixURL": "/hotels/17000000/16190000/16181600/16181514/6a0870c3_z.jpg",
+"localPhone": "+1-510-7860417",
+"tollFreePhone": "1-510-7860417",
+"formattedPhoneNumbers": "Tel: 1 (510) 7860417, Fax: 1 (510) 7834531",
+"checkInPolicies": [
+"Check-in time starts at 3 PM",
+"Check-in time ends at 2 AM"
+],
+"checkInStartTimePolicy": {
+"label": "Check-in time starts at",
+"value": "3 PM"
+},
+"checkInEndTimePolicy": {
+"label": "Check-in time ends at",
+"value": "2 AM"
+},
+"checkOutTimePolicy": {
+"label": "Check-out time is",
+"value": "11 AM"
+},
+"generalRules": [
+"Check-out time is 11 AM",
+"No rollaway/extra beds available",
+"No cribs (infant beds) available"
+],
+"restrictionPolicies": [
+"No elevators"
+],
+"fees": [],
+"mandatoryFees": [
+"<p>You'll be asked to pay the following charges at the property:</p>",
+"<ul><li>Deposit: USD 50.00 per stay</li></ul>",
+"<p>We have included all charges provided to us by the property. However, charges can vary, for example, based on length of stay or the room you book. </p>"
+],
+"specialCheckInInstructions": [],
+"latitude": 37.66578,
+"longitude": -122.10979,
+"isVipAccess": false,
+"googleMapsLink": "//maps.google.com/?q=94541+Hayward%2C+500+W+A+St+",
+"regionId": "7766"
+},
+"totalPriceDetails": {
+"primaryCurrencyCode": "USD",
+"base": "109.00",
+"baseFormatted": "$109.00",
+"baseWithAdjustmentForDRRRateDiscount": "103.56",
+"baseWithAdjustmentForDRRRateDiscountFormatted": "$103.56",
+"taxesAndFees": "10.87",
+"taxesAndFeesFormatted": "$10.87",
+"adjustmentForDRRRateDiscount": "-5.44",
+"adjustmentForDRRRateDiscountFormatted": "-$5.44",
+"drrRateDiscountDescription": "Private sale: save 5%",
+"subTotalBeforeCoupon": "114.43",
+"subTotalBeforeCouponFormatted": "$114.43",
+"taxStatus": "ESTIMATED",
+"total": "114.43",
+"totalFormatted": "$114.43",
+"chargedTotalFormatted": "$114.43",
+"isCurrencyConversionEnabled": false,
+"hasFees": false,
+"expediaChangeFee": "0",
+"expediaChangeFeeFormatted": "$0.00"
+},
+"rules": {
+"cancelChangeRulesIntroduction": "If you cancel or change your plans, please cancel your reservation in accordance with the property's cancellation policies to avoid a no-show charge.",
+"cancelChangeRules": [
+"Cancellations or changes made after 6:00pm (Pacific Daylight Time (US & Canada); Tijuana) on Sep 3, 2018 or no-shows are subject to a property fee equal to 100% of the total amount paid for the reservation."
+],
+"cancellationWindowTime": {
+"raw": "2018-09-03T18:00:00-07:00",
+"localized": "Sep 3, 2018 6:00:00 PM",
+"epochSeconds": 1536022800,
+"timeZoneOffsetSeconds": -25200,
+"localizedShortDate": "Mon, 3 Sep",
+"localizedMediumDate": "Sep 3, 2018",
+"localizedFullDate": "Monday, September 3, 2018",
+"localizedLongDate": "September 3, 2018",
+"localizedShortTime": "6:00 PM"
+},
+"opaqueRules": [],
+"opaquePolicies": [],
+"lateArrivalInstructions": "If a late check-in is planned, contact this property directly for their late check-in policy.",
+"currencyDisclaimer": "Unless specified otherwise, <span class=\"rr-bold\">rates are quoted in </span><span class=\"rr-bold\" id=\"hotel_id-default-currency\">US dollars</span>.",
+"extraGuestPolicies": [
+"Availability of accommodation in the same property for extra guests is not guaranteed."
+],
+"occupancyPolicies": [
+"Base rate is for 1 guest.",
+"If rates are listed below, they may be quoted in the currency of the country where the property is located.",
+"This property considers guests of any age to be an adult."
+],
+"paymentPolicies": [],
+"roomRequestDisclaimer": "All special requests (such as in-room amenities, bed type, and smoking preference) are shared with the hotel, but requests are not guaranteed and may incur additional charges. We recommend you confirm them directly with the hotel before travel.",
+"dualCurrencyText": "Rate quotes in USD are based on current exchange rates, which may vary at time of travel. Final payment will be settled in local currency directly with the hotel.",
+"refundEligibiltyText": "Free cancellation until September 3 at 6:00 PM (Pacific Daylight Time (US & Canada); Tijuana)"
+},
+"rooms": [
+{
+"uniqueID": "55DB45F8-BC71-4735-9595-6C94D535DE47_0_989516021",
+"roomRatePlanDescription": "One King, 3rd Floor",
+"roomTypeCode": "201721930",
+"ratePlanCode": "208575053",
+"bookingStatus": "BOOKED",
+"bookingStatusEnum": "BOOKED",
+"hotelConfirmationNumber": "S9SLMYSSQ",
+"drrRateDiscountDescription": "Private sale: save 5%",
+"orderLineNumber": "1db17a66-bd63-4579-afd5-b62a1a6300ee",
+"refundabilityStatus": "REFUNDABLE",
+"availableOnAllDates": true,
+"roomCancelLink": "https://www.expedia.com/hotel-cancel-details?tripid=25552d64-c2e4-43c7-8ed1-2f332d654a68&ordernumber=8136726699323&orderlineguid=1db17a66-bd63-4579-afd5-b62a1a6300ee&roomNumber=0",
+"roomChangeLink": "https://www.expedia.com/trips/25552d64-c2e4-43c7-8ed1-2f332d654a68/ordernumber/8136726699323/orderlinenumber/1db17a66-bd63-4579-afd5-b62a1a6300ee/change",
+"roomChangeLinkForMobileWebView": "https://www.expedia.com/trips/25552d64-c2e4-43c7-8ed1-2f332d654a68/ordernumber/8136726699323/orderlinenumber/1db17a66-bd63-4579-afd5-b62a1a6300ee/change?blockHardChange=true&mobileWebView=true",
+"totalPriceDetails": {
+"primaryCurrencyCode": "USD",
+"base": "109.00",
+"baseFormatted": "$109.00",
+"baseWithAdjustmentForDRRRateDiscount": "103.56",
+"baseWithAdjustmentForDRRRateDiscountFormatted": "$103.56",
+"taxesAndFees": "10.87",
+"taxesAndFeesFormatted": "$10.87",
+"adjustmentForDRRRateDiscount": "-5.44",
+"adjustmentForDRRRateDiscountFormatted": "-$5.44",
+"subTotalBeforeCoupon": "114.43",
+"subTotalBeforeCouponFormatted": "$114.43",
+"total": "114.43",
+"totalFormatted": "$114.43",
+"chargedTotalFormatted": "$114.43",
+"isCurrencyConversionEnabled": false,
+"averagePricePerDay": "103.56",
+"averagePricePerDayFormatted": "$103.56",
+"averageTaxPerDay": "10.87",
+"averageTaxPerDayFormatted": "$10.87",
+"priceDetailsPerDay": [
+{
+"day": {
+"raw": "2018-09-04T15:00:00-08:00",
+"localized": "Sep 4, 2018 3:00:00 PM",
+"epochSeconds": 1536102000,
+"timeZoneOffsetSeconds": -28800,
+"localizedShortDate": "Tue, 4 Sep",
+"localizedMediumDate": "Sep 4, 2018",
+"localizedFullDate": "Tuesday, September 4, 2018",
+"localizedLongDate": "September 4, 2018",
+"localizedShortTime": "3:00 PM"
+},
+"primaryCurrencyCode": "USD",
+"amount": "103.56",
+"amountFormatted": "$103.56",
+"localizedDay": {
+"raw": "2018-09-04T15:00:00-08:00",
+"localized": "Sep 4, 2018 3:00:00 PM",
+"epochSeconds": 1536102000,
+"timeZoneOffsetSeconds": -28800,
+"localizedShortDate": "9/4/2018",
+"localizedMediumDate": "Sep 4",
+"localizedFullDate": "Tue, Sep 4",
+"localizedLongDate": "Sep 4, 2018",
+"localizedShortTime": "3:00pm"
+}
+}
+],
+"isSameRateForAllNights": true,
+"expediaChangeFee": "0",
+"expediaChangeFeeFormatted": "$0.00"
+},
+"roomPreferences": {
+"primaryOccupant": {
+"firstName": "Nina",
+"fullName": "Nina Ricci",
+"email": "test123@123.com",
+"phone": "1-555-8885858"
+},
+"otherOccupantInfo": {
+"adultCount": 1,
+"childCount": 0,
+"infantCount": 0,
+"childAndInfantCount": 0,
+"maxGuestCount": 0,
+"childAndInfantAges": []
+},
+"occupantSelectedRoomOptions": {
+"bedTypeName": "1 king bed",
+"defaultBedTypeName": "1 king bed",
+"smokingPreference": "NONSMOKING_ROOM",
+"accessibilityOptions": [],
+"hasExtraBedAdult": false,
+"hasExtraBedChild": false,
+"hasExtraBedInfant": false,
+"isSmokingPreferenceSelected": true,
+"isRoomOptionsAvailable": true
+},
+"availableRoomOptions": {
+"bedTypes": [
+{
+"id": "37321",
+"description": "1 King Bed",
+"selected": false
+}
+],
+"isNewBedTypes": true,
+"accessibilityOptions": [
+{
+"id": "2420",
+"description": "Accessible bathroom",
+"selected": false
+},
+{
+"id": "2421",
+"description": "Roll-in shower",
+"selected": false
+},
+{
+"id": "2423",
+"description": "In-room accessibility",
+"selected": false
+}
+],
+"isSmokingRoomAvailable": false,
+"isNonSmokingRoomAvailable": true
+}
+},
+"amenities": [
+"Continental Breakfast",
+"Free Parking",
+"Free Wireless Internet"
+],
+"amenityIds": [
+2,
+128,
+2048
+],
+"nonPricePromotionData": {},
+"hotelRatePlan": {
+"m_type": 524288
+}
+}
+],
+"isFreeCancellationAvailable": false,
+"paymentsAndCreditFees": {
+"paymentsHotelFeesAndDepositsDisclaimer": "The below fees and deposits only apply if they are not included in your selected room rate.",
+"noFeesStaticText": "The price above DOES NOT include any applicable hotel service fees, charges for optional incidentals (such as minibar snacks or telephone calls), or regulatory surcharges. The hotel will assess these fees, charges, and surcharges upon check-out.",
+"isDirectAgency": true,
+"isGDS": false,
+"isFullyCancelled": false,
+"isAnyRoomCancelled": false,
+"isDepositRequired": false,
+"isPaymentsCreditsVisible": false
+},
+"showVATDisclaimer": false,
+"action": {
+"isChangeable": true,
+"isCancellable": true
+}
+}
+],
+"totalTripPrice": {
+"currency": "USD",
+"total": "114.43",
+"totalFormatted": "$114.43",
+"totalWithoutInsurance": "114.43",
+"totalWithoutInsuranceFormatted": "$114.43"
+},
+"isCouponApplied": false,
+"readTripError": false,
+"tripSource": "expedia",
+"clientId": "expweb-luna",
+"zetaTrip": false,
+"showCurrencyName": false,
+"isMRP": false,
+"tripDataSource": "LUNA",
+"isTripUpgradable": false,
+"email": {
+"m_email": "test123@123.com"
+},
+"isRewardsPointsBooking": false,
+"billPayMethod": "false"
+}
+}

@@ -13,6 +13,7 @@ import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.tripstore.extensions.firstHotel
 import com.expedia.bookings.itin.utils.StringSource
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.utils.FontCache
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -22,14 +23,22 @@ import kotlin.test.assertNotNull
 class HotelItinPricingSummaryViewModelTest {
     private val mockItinSingleRoom = ItinMocker.hotelDetailsHappy
     private val mockItinMultipleRoom = ItinMocker.hotelDetailsHappyMultipleRooms
+    private val mockItinPosSameAsPosu = ItinMocker.hotelDetailsPosSameAsPoSu
+    private val mockItinPoints = ItinMocker.hotelDetailsPaidWithPointsPartial
+    private val mockItinExpediaCollect = ItinMocker.hotelDetailsExpediaCollect
     private val mockHotelSingleRoom = mockItinSingleRoom.firstHotel()
     private val mockHotelMultipleRooms = mockItinMultipleRoom.firstHotel()
+    private val mockHotelPosSameAsPosu = mockItinPosSameAsPosu.firstHotel()
+    private val mockHotelExpediaCollect = mockItinExpediaCollect.firstHotel()
 
     private lateinit var roomItemObserver: TestObserver<List<HotelItinRoomPrices>>
     private lateinit var multipleGuestItemObserver: TestObserver<HotelItinPriceLineItem>
     private lateinit var taxesAndFeesItemObserver: TestObserver<HotelItinPriceLineItem>
     private lateinit var couponItemObserver: TestObserver<HotelItinPriceLineItem>
     private lateinit var pointsItemObserver: TestObserver<HotelItinPriceLineItem>
+    private lateinit var currencyDisclaimerObserver: TestObserver<String>
+    private lateinit var totalPriceObserver: TestObserver<HotelItinPriceLineItem>
+    private lateinit var totalPricePosCurrencyObserver: TestObserver<HotelItinPriceLineItem>
 
     @Before
     fun setup() {
@@ -38,6 +47,9 @@ class HotelItinPricingSummaryViewModelTest {
         taxesAndFeesItemObserver = TestObserver()
         couponItemObserver = TestObserver()
         pointsItemObserver = TestObserver()
+        currencyDisclaimerObserver = TestObserver()
+        totalPriceObserver = TestObserver()
+        totalPricePosCurrencyObserver = TestObserver()
     }
 
     @After
@@ -47,6 +59,9 @@ class HotelItinPricingSummaryViewModelTest {
         taxesAndFeesItemObserver.dispose()
         couponItemObserver.dispose()
         pointsItemObserver.dispose()
+        currencyDisclaimerObserver.dispose()
+        totalPriceObserver.dispose()
+        totalPricePosCurrencyObserver.dispose()
     }
 
     @Test
@@ -161,11 +176,11 @@ class HotelItinPricingSummaryViewModelTest {
         val feesViewModel = getViewModel()
         couponItemObserver.assertEmpty()
 
-        feesViewModel.hotelObserver.onChanged(mockHotelMultipleRooms)
+        feesViewModel.hotelObserver.onChanged(mockHotelExpediaCollect)
 
         couponItemObserver.assertValueCount(1)
         val couponItem = couponItemObserver.values()
-        assertEquals("-₹300.00", couponItem[0].priceString)
+        assertEquals("-$54.00", couponItem[0].priceString)
         assertEquals((R.string.itin_hotel_price_summary_coupons_label).toString(), couponItem[0].labelString)
         assertEquals(R.color.itin_price_summary_label_green, couponItem[0].colorRes)
     }
@@ -175,14 +190,86 @@ class HotelItinPricingSummaryViewModelTest {
         val feesViewModel = getViewModel()
         pointsItemObserver.assertEmpty()
 
-        feesViewModel.itinObserver.onChanged(mockItinMultipleRoom)
+        feesViewModel.itinObserver.onChanged(mockItinPoints)
 
         pointsItemObserver.assertValueCount(1)
         val pointsItem = pointsItemObserver.values()
-        val expected = (R.string.itin_hotel_price_summary_points_value_TEMPLATE).toString().plus(mapOf("points" to "$208.56"))
+        val expected = (R.string.itin_hotel_price_summary_points_value_TEMPLATE).toString().plus(mapOf("points" to "$2.00"))
         assertEquals(expected, pointsItem[0].priceString)
         assertEquals((R.string.itin_hotel_price_summary_points_label).toString(), pointsItem[0].labelString)
         assertEquals(R.color.itin_price_summary_label_green, pointsItem[0].colorRes)
+    }
+
+    @Test
+    fun testCurrencyDisclaimerSubjectPosDiffFromPosu() {
+        val feesViewModel = getViewModel()
+        currencyDisclaimerObserver.assertEmpty()
+
+        feesViewModel.hotelObserver.onChanged(mockHotelMultipleRooms)
+
+        currencyDisclaimerObserver.assertValueCount(1)
+        val currencyText = currencyDisclaimerObserver.values()[0]
+        assertEquals("Rate quotes in USD are based on current exchange rates, which may vary at time of travel. Final payment will be settled in local currency directly with the hotel.", currencyText)
+    }
+
+    @Test
+    fun testCurrencyDisclaimerSubjectPosSameAsPosu() {
+        val feesViewModel = getViewModel()
+        currencyDisclaimerObserver.assertEmpty()
+
+        feesViewModel.hotelObserver.onChanged(mockHotelPosSameAsPosu)
+
+        currencyDisclaimerObserver.assertValueCount(1)
+        val currencyText = currencyDisclaimerObserver.values()[0]
+        assertEquals("Unless specified otherwise, <span class=\"rr-bold\">rates are quoted in </span><span class=\"rr-bold\" id=\"hotel_id-default-currency\">US dollars</span>.", currencyText)
+    }
+
+    @Test
+    fun testTotalPriceSubjectHotelCollect() {
+        val feesViewModel = getViewModel()
+        totalPriceObserver.assertEmpty()
+
+        feesViewModel.itinObserver.onChanged(mockItinMultipleRoom)
+
+        totalPriceObserver.assertValueCount(1)
+        val totalPriceItem = totalPriceObserver.values()
+        assertEquals("₹3,500.00", totalPriceItem[0].priceString)
+        assertEquals((R.string.itin_hotel_price_summary_total_amount_due_label).toString(), totalPriceItem[0].labelString)
+        assertEquals(R.color.itin_price_summary_label_gray_dark, totalPriceItem[0].colorRes)
+        assertEquals(16.0f, totalPriceItem[0].textSize)
+        assertEquals(FontCache.Font.ROBOTO_MEDIUM, totalPriceItem[0].font)
+    }
+
+    @Test
+    fun testTotalPriceSubjectExpediaCollectPartialPoints() {
+        val feesViewModel = getViewModel()
+        totalPriceObserver.assertEmpty()
+
+        feesViewModel.itinObserver.onChanged(mockItinPoints)
+
+        totalPriceObserver.assertValueCount(1)
+        val totalPriceItem = totalPriceObserver.values()
+        assertEquals("$90.01", totalPriceItem[0].priceString)
+        assertEquals((R.string.itin_hotel_price_summary_total_amount_paid_label).toString(), totalPriceItem[0].labelString)
+        assertEquals(R.color.itin_price_summary_label_gray_dark, totalPriceItem[0].colorRes)
+        assertEquals(16.0f, totalPriceItem[0].textSize)
+        assertEquals(FontCache.Font.ROBOTO_MEDIUM, totalPriceItem[0].font)
+    }
+
+    @Test
+    fun testTotalPriceSubjectExpediaCollect() {
+        val feesViewModel = getViewModel()
+        totalPriceObserver.assertEmpty()
+
+        feesViewModel.itinObserver.onChanged(mockItinExpediaCollect)
+
+        totalPriceObserver.assertValueCount(1)
+        val totalPriceItem = totalPriceObserver.values()
+        assertEquals("$260.18", totalPriceItem[0].priceString)
+        assertEquals((R.string.itin_hotel_price_summary_total_amount_paid_label).toString(), totalPriceItem[0].labelString)
+        assertEquals(R.color.itin_price_summary_label_gray_dark, totalPriceItem[0].colorRes)
+        assertEquals(16.0f, totalPriceItem[0].textSize)
+        assertEquals(FontCache.Font.ROBOTO_MEDIUM, totalPriceItem[0].font)
     }
 
     private fun getViewModel(): HotelItinPricingSummaryViewModel<MockHotelItinPricingSummaryScope> {
@@ -193,6 +280,9 @@ class HotelItinPricingSummaryViewModelTest {
         viewModel.taxesAndFeesItemSubject.subscribe(taxesAndFeesItemObserver)
         viewModel.couponsItemSubject.subscribe(couponItemObserver)
         viewModel.pointsItemSubject.subscribe(pointsItemObserver)
+        viewModel.currencyDisclaimerSubject.subscribe(currencyDisclaimerObserver)
+        viewModel.totalPriceItemSubject.subscribe(totalPriceObserver)
+        viewModel.totalPriceInPosCurrencyItemSubject.subscribe(totalPricePosCurrencyObserver)
 
         return viewModel
     }

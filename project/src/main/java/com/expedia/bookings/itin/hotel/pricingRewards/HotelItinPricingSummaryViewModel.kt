@@ -7,21 +7,27 @@ import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinHotel
+import com.expedia.bookings.itin.tripstore.data.PaymentModel
 import com.expedia.bookings.itin.tripstore.data.TotalPriceDetails
+import com.expedia.bookings.itin.tripstore.extensions.firstHotel
+import com.expedia.bookings.itin.tripstore.extensions.isPointOfSaleDifferentFromPointOfSupply
+import com.expedia.bookings.utils.FontCache.Font
 import io.reactivex.subjects.PublishSubject
 
 class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingSummaryViewModel where S : HasLifecycleOwner, S : HasStringProvider, S : HasHotelRepo {
     var itinObserver: LiveDataObserver<Itin>
     var hotelObserver: LiveDataObserver<ItinHotel>
-    override val roomPriceBreakdownSubject: PublishSubject<List<HotelItinRoomPrices>> = PublishSubject.create<List<HotelItinRoomPrices>>()
-    override val multipleGuestItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create<HotelItinPriceLineItem>()
-    override val taxesAndFeesItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create<HotelItinPriceLineItem>()
-    override val couponsItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create<HotelItinPriceLineItem>()
-    override val pointsItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create<HotelItinPriceLineItem>()
+    override val roomPriceBreakdownSubject: PublishSubject<List<HotelItinRoomPrices>> = PublishSubject.create()
+    override val multipleGuestItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create()
+    override val taxesAndFeesItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create()
+    override val couponsItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create()
+    override val pointsItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create()
+    override val totalPriceItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create()
+    override val totalPriceInPosCurrencyItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create()
+    override val currencyDisclaimerSubject: PublishSubject<String> = PublishSubject.create()
 
     init {
         hotelObserver = LiveDataObserver { hotel ->
-
             //rooms price breakdown
             val rooms = hotel?.rooms ?: return@LiveDataObserver
             val roomPrices = rooms
@@ -65,6 +71,28 @@ class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingS
                 val couponItem = HotelItinPriceLineItem(scope.strings.fetch(R.string.itin_hotel_price_summary_coupons_label), adjustmentsForCoupons, R.color.itin_price_summary_label_green)
                 couponsItemSubject.onNext(couponItem)
             }
+
+            //currency disclaimer
+            if (hotel.isPointOfSaleDifferentFromPointOfSupply()) {
+                val dualCurrencyText = hotel.rules?.dualCurrencyText
+                if (dualCurrencyText != null && !dualCurrencyText.isBlank()) {
+                    currencyDisclaimerSubject.onNext(dualCurrencyText)
+                }
+                val totalInPos = hotel.totalPriceDetails?.totalPOSFormatted
+                val posCurrencyCode = hotel.totalPriceDetails?.totalPOSCurrencyCode
+                if (posCurrencyCode != null && !posCurrencyCode.isBlank() && totalInPos != null && !totalInPos.isBlank()) {
+                    val totalPriceInPos = HotelItinPriceLineItem(
+                            scope.strings.fetchWithPhrase(R.string.itin_hotel_price_summary_total_in_pos_label_TEMPLATE, mapOf("currencycode" to posCurrencyCode)),
+                            totalInPos,
+                            R.color.itin_price_summary_label_gray_light)
+                    totalPriceInPosCurrencyItemSubject.onNext(totalPriceInPos)
+                }
+            } else {
+                val currencyDisclaimer = hotel.rules?.currencyDisclaimer
+                if (currencyDisclaimer != null && !currencyDisclaimer.isBlank()) {
+                    currencyDisclaimerSubject.onNext(currencyDisclaimer)
+                }
+            }
         }
 
         itinObserver = LiveDataObserver { itin ->
@@ -76,6 +104,40 @@ class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingS
                         scope.strings.fetchWithPhrase(R.string.itin_hotel_price_summary_points_value_TEMPLATE, mapOf("points" to points)),
                         R.color.itin_price_summary_label_green)
                 pointsItemSubject.onNext(pointsItem)
+            }
+
+            //total price
+            val paymentModel = itin?.firstHotel()?.paymentModel
+            paymentModel?.let {
+                when (it) {
+                    PaymentModel.EXPEDIA_COLLECT -> {
+                        val totalPrice = itin.paymentDetails?.priceByFormOfPayment?.creditCard?.paidLocalizedPrice
+                                ?: itin.firstHotel()?.totalPriceDetails?.totalFormatted
+                        totalPrice?.let { price ->
+                            val totalPriceItem = HotelItinPriceLineItem(
+                                    scope.strings.fetch(R.string.itin_hotel_price_summary_total_amount_paid_label),
+                                    price,
+                                    R.color.itin_price_summary_label_gray_dark,
+                                    16.0f,
+                                    Font.ROBOTO_MEDIUM
+                            )
+                            totalPriceItemSubject.onNext(totalPriceItem)
+                        }
+                    }
+                    PaymentModel.HOTEL_COLLECT -> {
+                        val totalPrice = itin.firstHotel()?.totalPriceDetails?.totalFormatted
+                        totalPrice?.let { price ->
+                            val totalPriceItem = HotelItinPriceLineItem(
+                                    scope.strings.fetch(R.string.itin_hotel_price_summary_total_amount_due_label),
+                                    price,
+                                    R.color.itin_price_summary_label_gray_dark,
+                                    16.0f,
+                                    Font.ROBOTO_MEDIUM
+                            )
+                            totalPriceItemSubject.onNext(totalPriceItem)
+                        }
+                    }
+                }
             }
         }
 
@@ -97,5 +159,5 @@ class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingS
     }
 }
 
-data class HotelItinPriceLineItem(val labelString: String, val priceString: String, val colorRes: Int)
+data class HotelItinPriceLineItem(val labelString: String, val priceString: String, val colorRes: Int, val textSize: Float = 14.0f, val font: Font = Font.ROBOTO_REGULAR)
 data class HotelItinRoomPrices(val totalRoomPriceItem: HotelItinPriceLineItem, val perDayRoomPriceItems: List<HotelItinPriceLineItem>)
