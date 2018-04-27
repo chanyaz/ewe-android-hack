@@ -520,7 +520,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 }
             } else {
                 webCheckoutView.clearHistory()
-                flightWebCheckoutViewModel.webViewURLObservable.onNext("about:blank")
+                flightWebCheckoutViewModel.webViewURLObservable.onNext(context.getString(R.string.clear_webview_url))
             }
         }
 
@@ -538,6 +538,13 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
         flightWebCheckoutViewModel.fetchItinObservable.subscribe { bookedTripID ->
             itinTripServices.getTripDetails(bookedTripID, makeNewItinResponseObserver())
+        }
+
+        flightWebCheckoutViewModel.showNativeSearchObservable.subscribe {
+            show(searchPresenter, FLAG_CLEAR_TOP)
+            webCheckoutView.visibility = View.GONE
+            webCheckoutView.viewModel.showWebViewObservable.onNext(false)
+            searchPresenter.visibility = View.VISIBLE
         }
 
         webCheckoutView
@@ -622,6 +629,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 addTransition(outboundFlightToOverview)
                 addTransition(flightWebViewToError)
                 addTransition(webCheckoutViewToConfirmation)
+                addTransition(flightWebViewErrorToSearch)
             }
             shouldShowWebCheckoutWithoutNativeRateDetails() -> {
                 addTransition(inboundToWebCheckoutView)
@@ -734,6 +742,14 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             super.endTransition(forward)
             transitionToWebView(forward)
             flightOverviewPresenter.setInverseVisibility(forward)
+        }
+    }
+
+    private val flightWebViewErrorToSearch = object : Transition(WebCheckoutView::class.java, FlightSearchPresenter::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(!forward)
+            transitionToWebView(!forward)
+            searchPresenter.setVisibility(forward)
         }
     }
 

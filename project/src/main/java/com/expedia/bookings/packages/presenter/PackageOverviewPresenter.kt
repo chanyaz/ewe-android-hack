@@ -221,7 +221,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
             performMIDCreateTripSubject.subscribe {
                 webCheckoutView.clearHistory()
                 webCheckoutView.webView.clearHistory()
-                webCheckoutView.viewModel.webViewURLObservable.onNext("about:blank")
+                webCheckoutView.viewModel.webViewURLObservable.onNext(context.getString(R.string.clear_webview_url))
                 (webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).doCreateTrip()
                 setupOverviewPresenterForMID()
             }

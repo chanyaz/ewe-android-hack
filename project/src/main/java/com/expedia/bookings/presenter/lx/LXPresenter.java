@@ -577,7 +577,7 @@ public class LXPresenter extends Presenter {
 		@Override
 		public void onNext(Unit e) {
 			webCheckoutView.clearHistory();
-			webCheckoutViewViewModel.getWebViewURLObservable().onNext("about:blank");
+			webCheckoutViewViewModel.getWebViewURLObservable().onNext(getContext().getString(R.string.clear_webview_url));
 		}
 	};
 

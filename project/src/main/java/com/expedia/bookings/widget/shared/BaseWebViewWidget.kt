@@ -64,7 +64,7 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
         }
 
         override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
-            if (url.startsWith("http") || url.startsWith("about:blank")) {
+            if (url.startsWith("http") || url.startsWith(context.getString(R.string.clear_webview_url))) {
                 onWebPageStarted(view, url, favicon)
             } else {
                 view.stopLoading()
@@ -126,6 +126,7 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
         webView.webViewClient = webClient
         webView.settings.javaScriptEnabled = true
         webView.settings.setSupportMultipleWindows(true)
+        webView.addJavascriptInterface(this, "Android")
 
         webView.setDownloadListener { url, _, _, _, _ ->
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))

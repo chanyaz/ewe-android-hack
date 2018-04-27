@@ -157,7 +157,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
         hotelWebCheckoutViewViewModel.closeView.subscribe {
             webCheckoutView.clearHistory()
-            hotelWebCheckoutViewViewModel.webViewURLObservable.onNext("about:blank")
+            hotelWebCheckoutViewViewModel.webViewURLObservable.onNext(context.getString(R.string.clear_webview_url))
         }
 
         hotelWebCheckoutViewViewModel.backObservable.subscribe {

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Message
+import android.support.annotation.VisibleForTesting
 import android.util.AttributeSet
 import android.view.View
 import android.view.WindowManager
@@ -24,6 +25,7 @@ import com.expedia.vm.WebCheckoutViewViewModel
 import com.expedia.vm.WebViewViewModel
 import com.mobiata.android.util.AndroidUtils
 import android.view.ViewGroup
+import android.webkit.JavascriptInterface
 import android.widget.FrameLayout
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
@@ -45,8 +47,8 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
                 isHorizontalScrollBarEnabled = false
                 settings.javaScriptCanOpenWindowsAutomatically = true
                 webViewClient = webClient
-                settings.setJavaScriptEnabled(true)
-                settings.setSavePassword(false)
+                settings.javaScriptEnabled = true
+                settings.savePassword = false
                 layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT)
                 visibility = View.GONE
@@ -137,6 +139,26 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
         if (url.contains("about:blank")) {
             viewModel.blankViewObservable.onNext(Unit)
         }
+        if (url.contains("CheckoutError")) {
+            webView.evaluateJavascript(onClickRedirectToSearch(), {})
+        }
+    }
+
+    @JavascriptInterface
+    fun showSearchScreen() {
+//        post to maintain thread-safety
+        webView.post({
+            goToSearchAndClearWebView()
+        })
+    }
+
+    private fun onClickRedirectToSearch(): String {
+        return "document.querySelectorAll('a')" +
+                ".forEach(function(element) {" +
+                "element.onclick = function(event) {" +
+                "event.stopPropagation();" +
+                "Android.showSearchScreen();" +
+                "}});"
     }
 
     fun back() {
@@ -144,12 +166,22 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
             hideWebViewPopUp()
             return
         }
+        if (webView.url?.contains("CheckoutError") == true) {
+            goToSearchAndClearWebView()
+        }
 
         if (!previousURLIsAboutBlank() && webView.canGoBack()) {
             webView.goBack()
             return
         }
         (viewModel as WebCheckoutViewViewModel).userAccountRefresher.forceAccountRefreshForWebView()
+    }
+
+    @VisibleForTesting
+    fun goToSearchAndClearWebView() {
+        viewModel.showNativeSearchObservable.onNext(Unit)
+        viewModel.webViewURLObservable.onNext("about:blank")
+        webView.clearHistory()
     }
 
     fun clearHistory() {
