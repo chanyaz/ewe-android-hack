@@ -58,6 +58,7 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     private val ITIN_HOTEL_MAP_ZOOM_IN = "App.Map.Directions.ZoomIn"
     private val ITIN_HOTEL_MAP_ZOOM_OUT = "App.Map.Directions.ZoomOut"
     private val ITIN_HOTEL_VIEW_RECEIPT = "App.Itinerary.Hotel.PricingRewards.ViewReceipt"
+    private val ITIN_HOTEL_TAXI_CARD = "App.Itinerary.Hotel.TaxiCard"
     private val ITIN_HOTEL = "App.Itinerary.Hotel"
 
     fun trackItinHotelCallSupport() {
@@ -103,6 +104,11 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
 
     fun trackHotelItinCheckInPoliciesDialogClick() {
         val s = createTrackLinkEvent(ITIN_HOTEL_CHECK_IN_POLICIES)
+        s.trackLink("Itinerary Action")
+    }
+
+    fun trackHotelTaxiCardClick() {
+        val s = createTrackLinkEvent(ITIN_HOTEL_TAXI_CARD)
         s.trackLink("Itinerary Action")
     }
 
@@ -194,6 +200,7 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
         s.setProp(6, trip.get("tripEndDate").toString())
         s.setEvar(5, trip.get("daysUntilTrip").toString())
         s.appendEvents("event63")
+        trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelTripTaxiCard)
         s.track()
     }
 

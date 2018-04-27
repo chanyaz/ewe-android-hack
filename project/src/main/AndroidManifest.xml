@@ -182,7 +182,7 @@
             android:name="com.expedia.bookings.itin.hotel.taxi.HotelItinTaxiActivity"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
-            android:theme="@style/ItinTheme"
+            android:theme="@style/TripTaxiCard"
             tools:ignore="UnusedAttribute"
             android:screenOrientation="reverseLandscape"/>
 
