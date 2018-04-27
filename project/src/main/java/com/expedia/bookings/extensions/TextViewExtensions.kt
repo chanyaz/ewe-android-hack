@@ -94,14 +94,6 @@ fun TextView.subscribeTextChange(observer: Observer<String>): Disposable {
     }).distinctUntilChanged().subscribeObserver(observer)
 }
 
-fun TextView.subscribeTextChangeAndVisibility(observer: Observer<String>): Disposable {
-    return RxTextView.afterTextChangeEvents(this).map({
-        val text = it.view().text.toString()
-        setInverseVisibility(text.isNullOrBlank())
-        text
-    }).distinctUntilChanged().subscribeObserver(observer)
-}
-
 class TextViewExtensions {
     companion object {
         fun setTextColorBasedOnPosition(tv: TextView, currentPosition: Int, position: Int) {

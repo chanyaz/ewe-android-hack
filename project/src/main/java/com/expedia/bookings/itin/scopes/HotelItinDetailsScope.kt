@@ -42,5 +42,6 @@ data class HotelItinViewReceiptScope(
 ) : HasStringProvider, HasHotelRepo, HasLifecycleOwner, HasTripsTracking, HasWebViewLauncher
 
 data class HotelItinTaxiViewModelScope(
-        override val itinHotelRepo: ItinHotelRepoInterface
-) : HasHotelRepo
+        override val itinHotelRepo: ItinHotelRepoInterface,
+        override val lifecycleOwner: LifecycleOwner
+) : HasHotelRepo, HasLifecycleOwner

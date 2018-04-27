@@ -3,9 +3,10 @@ package com.expedia.bookings.itin.hotel.taxi
 import com.expedia.bookings.extensions.LiveDataObserver
 import com.expedia.bookings.itin.common.ItinTaxiViewModel
 import com.expedia.bookings.itin.scopes.HasHotelRepo
+import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.tripstore.data.ItinHotel
 
-class HotelItinTaxiViewModel<out S>(val scope: S) : ItinTaxiViewModel() where S : HasHotelRepo {
+class HotelItinTaxiViewModel<out S>(val scope: S) : ItinTaxiViewModel() where S : HasHotelRepo, S : HasLifecycleOwner {
     var observer: LiveDataObserver<ItinHotel>
 
     init {
@@ -26,6 +27,9 @@ class HotelItinTaxiViewModel<out S>(val scope: S) : ItinTaxiViewModel() where S 
             if (nonLocalizedHotelName != null) {
                 nonLocalizedLocationNameSubject.onNext(nonLocalizedHotelName)
             }
+            localizedAddressSubject.onNext("नकुल आपण क्रूर आहात")
+            localizedLocationNameSubject.onNext("नकुल आपण क्रूर आहात")
         }
+        scope.itinHotelRepo.liveDataHotel.observe(scope.lifecycleOwner, observer)
     }
 }

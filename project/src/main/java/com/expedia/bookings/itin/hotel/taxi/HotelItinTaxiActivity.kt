@@ -8,7 +8,7 @@ import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.extensions.LiveDataObserver
-import com.expedia.bookings.extensions.subscribeTextChangeAndVisibility
+import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepo
 import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepoInterface
 import com.expedia.bookings.itin.scopes.HotelItinTaxiViewModelScope
@@ -44,16 +44,16 @@ class HotelItinTaxiActivity : AppCompatActivity() {
     }
 
     var viewModel: HotelItinTaxiViewModel<HotelItinTaxiViewModelScope> by notNullAndObservable { vm ->
-        localizedAddressTextView.subscribeTextChangeAndVisibility(vm.localizedAddressSubject)
-        localizedLocationNameTextView.subscribeTextChangeAndVisibility(vm.localizedLocationNameSubject)
-        nonLocalizedAddressTextView.subscribeTextChangeAndVisibility(vm.nonLocalizedAddressSubject)
-        nonLocalizedLocationNameTextView.subscribeTextChangeAndVisibility(vm.nonLocalizedLocationNameSubject)
+        vm.localizedAddressSubject.subscribeTextAndVisibility(localizedAddressTextView)
+        vm.localizedLocationNameSubject.subscribeTextAndVisibility(localizedLocationNameTextView)
+        vm.nonLocalizedAddressSubject.subscribeTextAndVisibility(nonLocalizedAddressTextView)
+        vm.nonLocalizedLocationNameSubject.subscribeTextAndVisibility(nonLocalizedLocationNameTextView)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_itin_taxi)
-        val scope = HotelItinTaxiViewModelScope(repo)
+        val scope = HotelItinTaxiViewModelScope(repo, this)
         viewModel = HotelItinTaxiViewModel(scope)
         repo.liveDataInvalidItin.observe(this, LiveDataObserver {
             finish()

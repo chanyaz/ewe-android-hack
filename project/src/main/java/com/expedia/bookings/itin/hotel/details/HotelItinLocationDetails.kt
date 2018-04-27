@@ -8,10 +8,14 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.itin.hotel.common.HotelItinExpandedMapActivity
 import com.expedia.bookings.data.trips.ItinCardDataHotel
+import com.expedia.bookings.extensions.unsubscribeOnClick
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.itin.common.GoogleMapsLiteViewModel
 import com.expedia.bookings.itin.common.GoogleMapsLiteMapView
+import com.expedia.bookings.itin.hotel.taxi.HotelItinTaxiActivity
 import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.ClipboardUtils
 import com.expedia.bookings.utils.bindView
@@ -25,6 +29,8 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
     val addressLine1: TextView by bindView(R.id.widget_hotel_itin_address_line_1)
     val addressLine2: TextView by bindView(R.id.widget_hotel_itin_address_line_2)
     val directionsButton: ImageView by bindView(R.id.hotel_directions_button)
+    val taxiButton: TextView by bindView(R.id.taxi_button)
+    val taxiContainer: LinearLayout by bindView(R.id.taxi_container)
 
     init {
         View.inflate(context, R.layout.widget_hotel_itin_location_details, this)
@@ -58,5 +64,17 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
         }
         address.contentDescription = Phrase.from(context, R.string.itin_hotel_details_address_copy_content_description_TEMPLATE)
                 .put("address", textToCopy).format().toString()
+    }
+
+    fun taxiSetup(itinId: String?) {
+        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelTripTaxiCard) && itinId != null) {
+            taxiContainer.visibility = View.VISIBLE
+            taxiButton.setOnClickListener {
+                val intent = HotelItinTaxiActivity.createIntent(context, itinId)
+                //TODO animation bundle
+                context.startActivity(intent)
+                taxiButton.unsubscribeOnClick()
+            }
+        }
     }
 }

@@ -70,6 +70,7 @@ open class HotelItinDetailsActivity : ItinBaseActivity() {
     override fun onResume() {
         super.onResume()
         onSyncFinish()
+        locationDetailsView.taxiSetup(intent.getStringExtra(ITIN_ID_EXTRA))
     }
 
     override fun onSyncFinish() {
