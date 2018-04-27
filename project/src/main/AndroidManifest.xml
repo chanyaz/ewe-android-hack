@@ -516,6 +516,19 @@
             android:enabled="true"
             android:exported="false"/>
 
+        <!-- Glassbox Service -->
+
+        <service
+            android:name="com.clarisite.mobile.ClarisiteService"
+            android:exported="false">
+            <meta-data
+                android:name="url"
+                android:value="https://report-bexmobile.glassboxcloud.com/" />
+            <meta-data
+                android:name="appid"
+                android:value="631D89AB-65E4-61A8-CFBB-4839FBBA6A35" />
+        </service>
+
     </application>
 
 </manifest>

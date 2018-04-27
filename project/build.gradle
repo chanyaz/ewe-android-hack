@@ -188,6 +188,7 @@ dependencies {
     androidTestImplementation "tools.fastlane:screengrab:0.5.5"
     androidTestImplementation "com.android.support:support-annotations:${rootProject.ext.supportLibVersion}"
     androidTestImplementation 'com.linkedin.testbutler:test-butler-library:1.2.0'
+    compile 'com.clarisite.mobile:climobile@aar'
 }
 
 if (!project.ext.has("cucumberInstrumentation")) {
@@ -206,7 +207,11 @@ android {
         }
     }
 
-
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
 
     dexOptions {
         javaMaxHeapSize "2g"

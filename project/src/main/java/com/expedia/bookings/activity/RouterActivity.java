@@ -23,6 +23,8 @@ import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.airbnb.lottie.LottieDrawable;
+import com.clarisite.mobile.ClarisiteAgent;
+import com.clarisite.mobile.exceptions.EyeViewException;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.ActivityTransitionCircularRevealHelper;
@@ -147,6 +149,12 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 
 		startupTimer.addSplit("Ensuring sanity of users");
 		startupTimer.dumpToLog();
+
+		try {
+			ClarisiteAgent.start();
+		} catch (EyeViewException e) {
+
+		}
 	}
 
 	protected void setIfSplashLoadingAnimationShouldRun() {
