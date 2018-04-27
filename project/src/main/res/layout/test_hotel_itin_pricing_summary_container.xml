@@ -1,14 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingSummaryView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingSummaryView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/hotel_itin_pricing_summary_view"
+    style="@style/MaterialCardView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:background="@color/white"
+    app:cardUseCompatPadding="true"
     tools:ignore="UnusedResources">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/hotel_itin_pricing_summary_container"
-        android:orientation="vertical" />
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:id="@+id/hotel_itin_pricing_summary_room_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+        <include
+            android:id="@+id/hotel_itin_pricing_summary_multiple_guest_view"
+            layout="@layout/hotel_itin_price_summary_item_view"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/hotel_itin_pricing_summary_taxes_fees_view"
+            layout="@layout/hotel_itin_price_summary_item_view"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/hotel_itin_pricing_summary_coupons_view"
+            layout="@layout/hotel_itin_price_summary_item_view"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/hotel_itin_pricing_summary_points_view"
+            layout="@layout/hotel_itin_price_summary_item_view"
+            android:visibility="gone" />
+    </LinearLayout>
 </com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingSummaryView>

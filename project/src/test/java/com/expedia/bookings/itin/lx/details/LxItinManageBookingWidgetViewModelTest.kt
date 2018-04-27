@@ -1,6 +1,7 @@
 package com.expedia.bookings.itin.lx.details
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
+import com.expedia.bookings.R
 import com.expedia.bookings.itin.helpers.MockActivityLauncher
 import com.expedia.bookings.itin.helpers.MockLxRepo
 import com.expedia.bookings.itin.helpers.MockStringProvider
@@ -35,13 +36,13 @@ class LxItinManageBookingWidgetViewModelTest {
 
     @Test
     fun itinMoreHelpCardViewModelTest() {
-        assertEquals("someString", sut.moreHelpViewModel.headingText)
-        assertEquals("someString", sut.moreHelpViewModel.subheadingText)
+        assertEquals((R.string.itin_lx_more_info_heading).toString(), sut.moreHelpViewModel.headingText)
+        assertEquals((R.string.itin_lx_more_info_subheading).toString(), sut.moreHelpViewModel.subheadingText)
     }
 
     @Test
     fun itinLxPriceSummaryCardViewModelHappyTest() {
-        assertEquals("someString", sut.priceSummaryViewModel.headingText)
+        assertEquals((R.string.itin_hotel_details_price_summary_heading).toString(), sut.priceSummaryViewModel.headingText)
         assertNull(sut.priceSummaryViewModel.subheadingText)
         assertNull(scope.webViewLauncerMock.lastSeenURL)
 
@@ -62,7 +63,7 @@ class LxItinManageBookingWidgetViewModelTest {
 
     @Test
     fun itinLxAdditionalInfoCardViewModelHappyTest() {
-        assertEquals("someString", sut.additionalInfoViewModel.headingText)
+        assertEquals((R.string.itin_hotel_details_additional_info_heading).toString(), sut.additionalInfoViewModel.headingText)
         assertNull(sut.additionalInfoViewModel.subheadingText)
         assertNull(scope.webViewLauncerMock.lastSeenURL)
 

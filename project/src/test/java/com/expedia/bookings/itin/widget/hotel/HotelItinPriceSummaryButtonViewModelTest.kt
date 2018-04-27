@@ -38,11 +38,9 @@ class HotelItinPriceSummaryButtonViewModelTest {
 
         assertEquals(R.drawable.ic_itin_credit_card_icon, viewModel.iconImage)
 
-        assertEquals(R.string.itin_hotel_details_price_summary_rewards_heading, scope.mockStrings.lastSeenFetchArgs)
-        assertEquals("someString", viewModel.headingText)
+        assertEquals((R.string.itin_hotel_details_price_summary_rewards_heading).toString(), viewModel.headingText)
 
         assertEquals(null, viewModel.subheadingText)
-        assertEquals(null, scope.mockStrings.lastSeenFetchWithMapArgs)
 
         viewModel.cardClickListener.invoke()
         assertEquals("7331281600686", scope.mockWebViewLauncher.lastSeenTripId)
@@ -58,11 +56,10 @@ class HotelItinPriceSummaryButtonViewModelTest {
 
         assertEquals(R.drawable.ic_itin_credit_card_icon, viewModel.iconImage)
 
-        assertEquals(R.string.itin_hotel_details_price_summary_rewards_heading, scope.mockStrings.lastSeenFetchArgs)
-        assertEquals("someString", viewModel.headingText)
+        assertEquals((R.string.itin_hotel_details_price_summary_rewards_heading).toString(), viewModel.headingText)
 
-        assertEquals("somePhraseString", viewModel.subheadingText)
-        assertEquals(Pair(R.string.itin_hotel_details_price_summary_pay_later_TEMPLATE, mapOf("amount" to ItinMocker.hotelDetailsHappy.firstHotel()?.totalPriceDetails?.totalFormatted!!)), scope.mockStrings.lastSeenFetchWithMapArgs)
+        val expected = (R.string.itin_hotel_details_price_summary_pay_later_TEMPLATE).toString().plus(mapOf("amount" to ItinMocker.hotelDetailsHappy.firstHotel()?.totalPriceDetails?.totalFormatted!!))
+        assertEquals(expected, viewModel.subheadingText)
 
         viewModel.cardClickListener.invoke()
         assertEquals("7280999576135", scope.mockWebViewLauncher.lastSeenTripId)
@@ -83,12 +80,12 @@ class HotelItinPriceSummaryButtonViewModelTest {
     }
 
     @Test
-fun testPackageHappyPath() {
+    fun testPackageHappyPath() {
         val scope = TestPackageHotelDetailsScopeHappy(true)
         val viewModel = HotelItinPriceSummaryButtonViewModel(scope)
 
-        assertEquals("somePhraseString", viewModel.subheadingText)
-        assertEquals(Pair(R.string.itin_hotel_details_price_summary_pay_now_TEMPLATE, mapOf("amount" to ItinMocker.hotelPackageHappy.packagePrice()!!)), scope.mockStrings.lastSeenFetchWithMapArgs)
+        val expected = (R.string.itin_hotel_details_price_summary_pay_now_TEMPLATE).toString().plus(mapOf("amount" to ItinMocker.hotelPackageHappy.packagePrice()!!))
+        assertEquals(expected, viewModel.subheadingText)
     }
 }
 
@@ -97,8 +94,7 @@ class TestHotelDetailsScopeNoPriceDetails : HasItin, HasHotel, HasStringProvider
     override val abacus: AbacusSource = MockAbacusSource(false)
     override val itin: Itin = ItinMocker.hotelDetailsNoPriceDetails
     override val hotel: ItinHotel = ItinMocker.hotelDetailsNoPriceDetails.firstHotel()!!
-    val mockStrings = MockStringProvider()
-    override val strings: StringSource = mockStrings
+    override val strings: StringSource = MockStringProvider()
     val mockWebViewLauncher = MockWebViewLauncher()
     override val webViewLauncher: IWebViewLauncher = mockWebViewLauncher
     val mockTripsTracking = MockTripsTracking()
@@ -111,8 +107,7 @@ class TestHotelDetailsScopeHappy(bucketed: Boolean) : HasItin, HasHotel, HasStri
     override val abacus: AbacusSource = MockAbacusSource(bucketed)
     override val itin: Itin = ItinMocker.hotelDetailsHappy
     override val hotel: ItinHotel = ItinMocker.hotelDetailsHappy.firstHotel()!!
-    val mockStrings = MockStringProvider()
-    override val strings: StringSource = mockStrings
+    override val strings: StringSource = MockStringProvider()
     val mockWebViewLauncher = MockWebViewLauncher()
     override val webViewLauncher: IWebViewLauncher = mockWebViewLauncher
     val mockTripsTracking = MockTripsTracking()
@@ -125,8 +120,7 @@ class TestPackageHotelDetailsScopeHappy(bucketed: Boolean) : HasItin, HasHotel, 
     override val abacus: AbacusSource = MockAbacusSource(bucketed)
     override val itin: Itin = ItinMocker.hotelPackageHappy
     override val hotel: ItinHotel = ItinMocker.hotelPackageHappy.firstHotel()!!
-    val mockStrings = MockStringProvider()
-    override val strings: StringSource = mockStrings
+    override val strings: StringSource = MockStringProvider()
     val mockWebViewLauncher = MockWebViewLauncher()
     override val webViewLauncher: IWebViewLauncher = mockWebViewLauncher
     val mockTripsTracking = MockTripsTracking()

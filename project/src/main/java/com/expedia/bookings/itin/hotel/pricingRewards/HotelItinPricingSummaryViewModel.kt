@@ -5,20 +5,22 @@ import com.expedia.bookings.extensions.LiveDataObserver
 import com.expedia.bookings.itin.scopes.HasHotelRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasStringProvider
+import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinHotel
 import com.expedia.bookings.itin.tripstore.data.TotalPriceDetails
 import io.reactivex.subjects.PublishSubject
 
 class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingSummaryViewModel where S : HasLifecycleOwner, S : HasStringProvider, S : HasHotelRepo {
-    var observer: LiveDataObserver<ItinHotel>
-    override val clearPriceSummaryContainerSubject: PublishSubject<Unit> = PublishSubject.create<Unit>()
+    var itinObserver: LiveDataObserver<Itin>
+    var hotelObserver: LiveDataObserver<ItinHotel>
     override val roomPriceBreakdownSubject: PublishSubject<List<HotelItinRoomPrices>> = PublishSubject.create<List<HotelItinRoomPrices>>()
-    override val priceLineItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create<HotelItinPriceLineItem>()
+    override val multipleGuestItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create<HotelItinPriceLineItem>()
+    override val taxesAndFeesItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create<HotelItinPriceLineItem>()
+    override val couponsItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create<HotelItinPriceLineItem>()
+    override val pointsItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create<HotelItinPriceLineItem>()
 
     init {
-        observer = LiveDataObserver { hotel ->
-            //remove existing views
-            clearPriceSummaryContainerSubject.onNext(Unit)
+        hotelObserver = LiveDataObserver { hotel ->
 
             //rooms price breakdown
             val rooms = hotel?.rooms ?: return@LiveDataObserver
@@ -45,7 +47,7 @@ class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingS
             val extraGuestCharges = hotel.totalPriceDetails?.extraGuestChargesFormatted
             if (extraGuestCharges != null && !extraGuestCharges.isBlank()) {
                 val extraGuestChargesItem = HotelItinPriceLineItem(scope.strings.fetch(R.string.itin_hotel_price_summary_multiple_guest_fees_label), extraGuestCharges, R.color.itin_price_summary_label_gray_light)
-                priceLineItemSubject.onNext(extraGuestChargesItem)
+                multipleGuestItemSubject.onNext(extraGuestChargesItem)
             }
 
             //property fee
@@ -54,20 +56,31 @@ class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingS
             val taxesAndFees = hotel.totalPriceDetails?.taxesAndFeesFormatted
             if (taxesAndFees != null && !taxesAndFees.isBlank()) {
                 val taxesAndFeesItem = HotelItinPriceLineItem(scope.strings.fetch(R.string.itin_hotel_price_summary_taxes_and_fees_label), taxesAndFees, R.color.itin_price_summary_label_gray_dark)
-                priceLineItemSubject.onNext(taxesAndFeesItem)
+                taxesAndFeesItemSubject.onNext(taxesAndFeesItem)
             }
 
             //coupons
             val adjustmentsForCoupons = hotel.totalPriceDetails?.adjustmentForCouponFormatted
             if (adjustmentsForCoupons != null && !adjustmentsForCoupons.isBlank()) {
                 val couponItem = HotelItinPriceLineItem(scope.strings.fetch(R.string.itin_hotel_price_summary_coupons_label), adjustmentsForCoupons, R.color.itin_price_summary_label_green)
-                priceLineItemSubject.onNext(couponItem)
+                couponsItemSubject.onNext(couponItem)
             }
-
-            //points
         }
 
-        scope.itinHotelRepo.liveDataHotel.observe(scope.lifecycleOwner, observer)
+        itinObserver = LiveDataObserver { itin ->
+            //points
+            val points = itin?.paymentDetails?.priceByFormOfPayment?.points?.localizedPaidPrice
+            if (points != null && !points.isBlank()) {
+                val pointsItem = HotelItinPriceLineItem(
+                        scope.strings.fetch(R.string.itin_hotel_price_summary_points_label),
+                        scope.strings.fetchWithPhrase(R.string.itin_hotel_price_summary_points_value_TEMPLATE, mapOf("points" to points)),
+                        R.color.itin_price_summary_label_green)
+                pointsItemSubject.onNext(pointsItem)
+            }
+        }
+
+        scope.itinHotelRepo.liveDataItin.observe(scope.lifecycleOwner, itinObserver)
+        scope.itinHotelRepo.liveDataHotel.observe(scope.lifecycleOwner, hotelObserver)
     }
 
     private fun getRoomTotalPriceItem(details: TotalPriceDetails): HotelItinPriceLineItem? {

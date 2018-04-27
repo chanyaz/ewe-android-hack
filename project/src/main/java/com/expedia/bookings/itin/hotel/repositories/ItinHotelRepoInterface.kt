@@ -5,6 +5,6 @@ import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinHotel
 
 interface ItinHotelRepoInterface {
-    val liveDataHotel: MutableLiveData<ItinHotel>
     val liveDataItin: MutableLiveData<Itin>
+    val liveDataHotel: MutableLiveData<ItinHotel>
 }

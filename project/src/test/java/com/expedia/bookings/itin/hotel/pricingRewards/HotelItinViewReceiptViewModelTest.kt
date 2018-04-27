@@ -1,6 +1,7 @@
 package com.expedia.bookings.itin.hotel.pricingRewards
 
 import android.arch.lifecycle.LifecycleOwner
+import com.expedia.bookings.R
 import com.expedia.bookings.itin.helpers.ItinMocker
 import com.expedia.bookings.itin.helpers.MockHotelRepo
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
@@ -44,7 +45,9 @@ class HotelItinViewReceiptViewModelTest {
         toolbarTitleTestObserver.assertNoValues()
 
         sut.itinHotelObserver.onChanged(ItinMocker.hotelDetailsHappy.firstHotel())
-        toolbarTitleTestObserver.assertValue("somePhraseString")
+        val hotel = ItinMocker.hotelDetailsHappy.firstHotel()
+        val name = hotel!!.hotelPropertyInfo!!.name
+        toolbarTitleTestObserver.assertValue((R.string.itin_hotel_view_receipt_title_TEMPLATE).toString().plus(mapOf("hotelname" to name)))
     }
 
     @Test
