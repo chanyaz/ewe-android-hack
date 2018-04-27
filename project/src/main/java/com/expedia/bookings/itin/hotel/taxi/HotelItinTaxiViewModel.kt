@@ -27,8 +27,6 @@ class HotelItinTaxiViewModel<out S>(val scope: S) : ItinTaxiViewModel() where S 
             if (nonLocalizedHotelName != null) {
                 nonLocalizedLocationNameSubject.onNext(nonLocalizedHotelName)
             }
-            localizedAddressSubject.onNext("नकुल आपण क्रूर आहात")
-            localizedLocationNameSubject.onNext("नकुल आपण क्रूर आहात")
         }
         scope.itinHotelRepo.liveDataHotel.observe(scope.lifecycleOwner, observer)
     }

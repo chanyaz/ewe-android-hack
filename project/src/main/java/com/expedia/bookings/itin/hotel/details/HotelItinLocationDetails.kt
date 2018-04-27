@@ -16,8 +16,11 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.itin.common.GoogleMapsLiteViewModel
 import com.expedia.bookings.itin.common.GoogleMapsLiteMapView
 import com.expedia.bookings.itin.hotel.taxi.HotelItinTaxiActivity
+import com.expedia.bookings.itin.tripstore.extensions.firstHotel
+import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.ClipboardUtils
+import com.expedia.bookings.utils.Ui.getApplication
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.google.android.gms.maps.model.LatLng
@@ -31,6 +34,7 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
     val directionsButton: ImageView by bindView(R.id.hotel_directions_button)
     val taxiButton: TextView by bindView(R.id.taxi_button)
     val taxiContainer: LinearLayout by bindView(R.id.taxi_container)
+    var gsonUtil : IJsonToItinUtil = getApplication(context).tripComponent().jsonUtilProvider()
 
     init {
         View.inflate(context, R.layout.widget_hotel_itin_location_details, this)
@@ -67,11 +71,13 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
     }
 
     fun taxiSetup(itinId: String?) {
-        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelTripTaxiCard) && itinId != null) {
+        val itinLocalLanguage = gsonUtil.getItin(itinId)?.firstHotel()?.localizedHotelPropertyInfo?.localizationLanguage
+        val eligibiltyForTaxiCard = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelTripTaxiCard) && itinLocalLanguage != null
+        if (eligibiltyForTaxiCard && itinId != null) {
             taxiContainer.visibility = View.VISIBLE
+            taxiButton.text = itinLocalLanguage
             taxiButton.setOnClickListener {
                 val intent = HotelItinTaxiActivity.createIntent(context, itinId)
-                //TODO animation bundle
                 context.startActivity(intent)
                 taxiButton.unsubscribeOnClick()
             }

@@ -87,7 +87,7 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:paddingTop="10dp"
-                    android:text="@string/itin_hotel_taxi_card" />
+                    android:textColor="@color/app_primary"/>
 
             </LinearLayout>
 
