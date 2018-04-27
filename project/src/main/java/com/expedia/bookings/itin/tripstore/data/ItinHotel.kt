@@ -7,6 +7,7 @@ data class ItinHotel(
         val hotelId: String?,
         val paymentModel: PaymentModel?,
         val totalPriceDetails: TotalPriceDetails?,
+        val rules: Rules?,
         val hotelPropertyInfo: HotelPropertyInfo?,
         val rooms: List<HotelRoom>?,
         val numberOfNights: String?
@@ -24,12 +25,15 @@ data class HotelRoom(
 )
 
 data class TotalPriceDetails(
+        val primaryCurrencyCode: String?,
+        val totalPOSCurrencyCode: String?,
         val totalFormatted: String?,
         val priceDetailsPerDay: List<HotelRoomPriceDetails>?,
         val base: String?,
         val extraGuestChargesFormatted: String?,
         val taxesAndFeesFormatted: String?,
-        val adjustmentForCouponFormatted: String?
+        val adjustmentForCouponFormatted: String?,
+        val totalPOSFormatted: String?
 )
 
 data class HotelPropertyInfo(
@@ -39,3 +43,8 @@ data class HotelPropertyInfo(
 data class HotelRoomPriceDetails(val amountFormatted: String?, val localizedDay: LocalizedDay?) {
         data class LocalizedDay(val localizedFullDate: String?)
 }
+
+data class Rules(
+        val currencyDisclaimer: String?,
+        val dualCurrencyText: String?
+)

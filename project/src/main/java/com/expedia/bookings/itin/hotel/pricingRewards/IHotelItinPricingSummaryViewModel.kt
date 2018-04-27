@@ -8,4 +8,7 @@ interface IHotelItinPricingSummaryViewModel {
     val taxesAndFeesItemSubject: PublishSubject<HotelItinPriceLineItem>
     val couponsItemSubject: PublishSubject<HotelItinPriceLineItem>
     val pointsItemSubject: PublishSubject<HotelItinPriceLineItem>
+    val totalPriceItemSubject: PublishSubject<HotelItinPriceLineItem>
+    val totalPriceInPosCurrencyItemSubject: PublishSubject<HotelItinPriceLineItem>
+    val currencyDisclaimerSubject: PublishSubject<String>
 }

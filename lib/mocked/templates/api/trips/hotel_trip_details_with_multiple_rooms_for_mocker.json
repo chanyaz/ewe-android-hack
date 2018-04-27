@@ -199,7 +199,6 @@
           "taxStatus": "INCLUDED",
           "taxesAndFeesFormatted": "₹3.50",
           "extraGuestChargesFormatted": "₹8.50",
-          "adjustmentForCouponFormatted": "-₹300.00",
           "total": "3500.00",
           "totalFormatted": "₹3,500.00",
           "chargedTotalFormatted": "₹3,500.00",
@@ -847,72 +846,6 @@
         }
       }
     ],
-    "paymentDetails": {
-      "priceByFormOfPayment": {
-        "Points": {
-          "paymentType": "Points",
-          "virtualPricePaidUsingThisPaymentType": {
-            "virtualCurrencyAmount": 29209.0,
-            "virtualCurrencyCode": "EXRP",
-            "netWorthOfVirtualCurrency": {
-              "amount": 208.56,
-              "currency": {
-                "currencyCode": "USD"
-              }
-            },
-            "virtualCurrencyAmountLocalized": "29,209",
-            "netWorthOfVirtualCurrencyLocalized": "$208.56",
-            "virtualCurrencyRewardsProgramName": "Expedia Rewards",
-            "virtualCurrencyRewardsProgramURL": "https://www.expedia.com/user/rewards"
-          },
-          "virtualPriceRefundedToThisPaymentType": {
-            "virtualCurrencyAmount": 0.0,
-            "virtualCurrencyCode": "EXRP",
-            "netWorthOfVirtualCurrency": {
-              "amount": 0.00,
-              "currency": {
-                "currencyCode": "USD"
-              }
-            },
-            "virtualCurrencyAmountLocalized": "0",
-            "netWorthOfVirtualCurrencyLocalized": "$0.00",
-            "virtualCurrencyRewardsProgramName": "Expedia Rewards",
-            "virtualCurrencyRewardsProgramURL": "https://www.expedia.com/user/rewards"
-          },
-          "totalPaidPrice": {
-            "amount": 208.56,
-            "currency": {
-              "currencyCode": "USD"
-            }
-          },
-          "totalRefundedPrice": {
-            "amount": 0.00,
-            "currency": {
-              "currencyCode": "USD"
-            }
-          },
-          "localizedPaidPrice": "$208.56",
-          "localizedRefundedPrice": "$0.00"
-        },
-        "CreditCard": {
-          "paymentType": "CreditCard",
-          "pricePaidUsingThisPaymentType": {
-            "amount": 851.67,
-            "currency": {
-              "currencyCode": "USD"
-            }
-          },
-          "priceRefundedToThisPaymentType": {
-            "amount": 0.00,
-            "currency": {
-              "currencyCode": "USD"
-            }
-          },
-          "refundedLocalizedPrice": "$0.00",
-          "paidLocalizedPrice": "$851.67"
-        }
-      }
-    },
     "totalTripPrice": {
       "currency": "USD",
       "total": "54.31",

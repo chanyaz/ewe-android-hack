@@ -1,0 +1,490 @@
+{
+  "apiVersion": "1.0",
+  "responseType": "TRIP_DETAILS",
+  "responseData": {
+    "levelOfDetail": "FULL",
+    "tripId": "dccc3186-1470-4de8-9fc2-36c2d854a6d7",
+    "webDetailsURL": "https://www.expedia.com/trips/7347575922772",
+    "itineraryReceiptURL": "https://www.expedia.com/itinerary-receipt?tripid=dccc3186-1470-4de8-9fc2-36c2d854a6d7",
+    "tripNumber": 7347575922772,
+    "orderNumber": 8112499375539,
+    "title": "Hotel in St. Louis",
+    "updateTripNameDescPathURL": "https://www.expedia.com/api/trips/dccc3186-1470-4de8-9fc2-36c2d854a6d7/updateTripNameDescription",
+    "startTime": {
+      "raw": "2018-06-15T15:00:00-06:00",
+      "localized": "Jun 15, 2018 3:00:00 PM",
+      "epochSeconds": 1529096400,
+      "timeZoneOffsetSeconds": -21600,
+      "localizedShortDate": "6/15/2018",
+      "localizedMediumDate": "Jun 15",
+      "localizedFullDate": "Fri, Jun 15",
+      "localizedLongDate": "Jun 15, 2018",
+      "localizedShortTime": "3:00pm"
+    },
+    "endTime": {
+      "raw": "2018-06-17T11:00:00-06:00",
+      "localized": "Jun 17, 2018 11:00:00 AM",
+      "epochSeconds": 1529254800,
+      "timeZoneOffsetSeconds": -21600,
+      "localizedShortDate": "6/17/2018",
+      "localizedMediumDate": "Jun 17",
+      "localizedFullDate": "Sun, Jun 17",
+      "localizedLongDate": "Jun 17, 2018",
+      "localizedShortTime": "11:00am"
+    },
+    "tripCreatedTime": {
+      "raw": "2018-04-23T16:08:32Z",
+      "localized": "Apr 23, 2018 4:08:32 PM",
+      "epochSeconds": 1524499712,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Mon, 23 Apr",
+      "localizedMediumDate": "Apr 23, 2018",
+      "localizedFullDate": "Monday, April 23, 2018",
+      "localizedLongDate": "April 23, 2018",
+      "localizedShortTime": "4:08 PM"
+    },
+    "tripUpdatedTime": {
+      "raw": "2018-04-27T21:16:28Z",
+      "localized": "Apr 27, 2018 9:16:28 PM",
+      "epochSeconds": 1524863788,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Fri, 27 Apr",
+      "localizedMediumDate": "Apr 27, 2018",
+      "localizedFullDate": "Friday, April 27, 2018",
+      "localizedLongDate": "April 27, 2018",
+      "localizedShortTime": "9:16 PM"
+    },
+    "tripCacheUpdatedTime": {
+      "raw": "2018-04-27T21:16:28Z",
+      "localized": "Apr 27, 2018 9:16:28 PM",
+      "epochSeconds": 1524863788,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Fri, 27 Apr",
+      "localizedMediumDate": "Apr 27, 2018",
+      "localizedFullDate": "Friday, April 27, 2018",
+      "localizedLongDate": "April 27, 2018",
+      "localizedShortTime": "9:16 PM"
+    },
+    "ownerId": 230309009,
+    "bookingStatus": "BOOKED",
+    "rewardList": [
+      {
+        "totalPoints": 1040.00,
+        "basePoints": 520.00,
+        "bonusPoints": [
+          {
+            "m_pointValue": 520.00,
+            "m_pointType": "offerPoint",
+            "m_pointDescription": "App Booking Double Points",
+            "m_status": "PENDING",
+            "m_programId": 3
+          }
+        ],
+        "logoUrl": "/static/default/default/images/myrewards/RewardsLogo_193x76.png",
+        "signUpUrl": "",
+        "viewStatementURL": "/user/rewards",
+        "programName": "ExpediaRewards"
+      }
+    ],
+    "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/NtsHZarbymVIHmPJYqlqj8CANC4sq3pm1tNNdNcY2E6pS8wiBYTAmBc-uniD8ErtJO4DnJxMZuUew8HZv_x0JppE",
+    "customerSupport": {
+      "customerSupportURL": "https://www.expedia.com/service/",
+      "customerSupportPhoneNumberDomestic": "+1-877-787-3117",
+      "customerSupportPhoneNumberInternational": "+1-877-787-3117",
+      "customerSupportPhoneInfoForEmail": [
+        "Call Expedia Rewards blue Customer Care at 1-877-787-3117.",
+        "For faster service, mention <strong>itinerary #7347575922772 </strong>"
+      ],
+      "termsAndConditionsURL": ""
+    },
+    "isBookedUsingForeignCurrency": false,
+    "hotels": [
+      {
+        "uniqueID": "EAD7F652-2866-4393-92BC-24390AFDAE8B_0",
+        "hotelId": "18144",
+        "checkInDateTime": {
+          "raw": "2018-06-15T15:00:00-06:00",
+          "localized": "Jun 15, 2018 3:00:00 PM",
+          "epochSeconds": 1529096400,
+          "timeZoneOffsetSeconds": -21600,
+          "localizedShortDate": "6/15/2018",
+          "localizedMediumDate": "Jun 15",
+          "localizedFullDate": "Fri, Jun 15",
+          "localizedLongDate": "Jun 15, 2018",
+          "localizedShortTime": "3:00pm"
+        },
+        "checkOutDateTime": {
+          "raw": "2018-06-17T11:00:00-06:00",
+          "localized": "Jun 17, 2018 11:00:00 AM",
+          "epochSeconds": 1529254800,
+          "timeZoneOffsetSeconds": -21600,
+          "localizedShortDate": "6/17/2018",
+          "localizedMediumDate": "Jun 17",
+          "localizedFullDate": "Sun, Jun 17",
+          "localizedLongDate": "Jun 17, 2018",
+          "localizedShortTime": "11:00am"
+        },
+        "checkInDate": "2018-06-15T15:00:00-06:00",
+        "checkOutDate": "2018-06-17T11:00:00-06:00",
+        "checkInDateLocalized": "Jun 15, 2018",
+        "checkOutDateLocalized": "Jun 17, 2018",
+        "numberOfNights": 2,
+        "bookingStatus": "BOOKED",
+        "bookingStatusText": "Booked",
+        "bookingStatusMessage": "Your reservation is booked. No need to call us to reconfirm this reservation.",
+        "inventoryType": "MERCHANT",
+        "inventoryTypeEnum": "MERCHANT",
+        "inventorySource": "INTERNAL",
+        "paymentModel": "EXPEDIA_COLLECT",
+        "inventoryVisibility": "VISIBLE",
+        "orderNumber": "8112499375539",
+        "state": "PRE_START_4",
+        "infositeURL": "https://www.expedia.com/itin.h18144.Hotel-Information?langid=1033",
+        "reviewSubmissionURL": "https://www.expedia.com/ReviewSubmission?ItinId=7347575922772&htid=18144&campaignId=ITINERARY_PAGE_LINK",
+        "epcConversationURL": "https://www.expedia.com/createConversation/create/?bookingId=847771869&bookingItemId=1025766777&itineraryId=7347575922772&checkinDate=06/15/2018&checkoutDate=06/17/2018&tpid=1&eapid=0&siteId=1&hotelId=18144&hotelName=Clayton+Plaza+Hotel&userTokenString=NgFOJ37rAlkS7zPZjTyLXZvidaLLl-ODhwlHLM504Lqb4HkhjtM-nVnL0NJ24ujjz_49o9RgI5ypzkPJkRCoebHq02J50uFVyyFm-f6Uzi-MsByX8XNP1Ws16qtqlL_YF0o",
+        "hotelPropertyInfo": {
+          "address": {
+            "addressLine1": "7750 Carondelet Avenue",
+            "city": "St. Louis",
+            "countrySubdivisionCode": "MO",
+            "postalCode": "63105",
+            "countryCode": "USA",
+            "countryName": " United States of America",
+            "fullAddress": "7750 Carondelet Avenue, St. Louis, MO, 63105 United States of America",
+            "airportCode": "STL"
+          },
+          "name": "Clayton Plaza Hotel",
+          "starRating": "35",
+          "photoThumbnailURL": "/hotels/1000000/20000/18200/18144/18144_381_l.jpg",
+          "photoThumbnail500pixURL": "/hotels/1000000/20000/18200/18144/18144_381_y.jpg",
+          "photoThumbnail1000pixURL": "/hotels/1000000/20000/18200/18144/18144_381_z.jpg",
+          "localPhone": "+1-314-726-5400",
+          "formattedPhoneNumbers": "Tel: 1 (314) 726-5400, Fax: 1 (314) 719-1126",
+          "checkInPolicies": [
+            "Check-in time starts at 4 PM",
+            "Minimum check-in age is 21"
+          ],
+          "checkInStartTimePolicy": {
+            "label": "Check-in time starts at",
+            "value": "4 PM"
+          },
+          "checkInEndTimePolicy": {
+
+          },
+          "checkOutTimePolicy": {
+            "label": "Check-out time is",
+            "value": "noon"
+          },
+          "generalRules": [
+            "Check-out time is noon"
+          ],
+          "restrictionPolicies": [
+
+          ],
+          "fees": [
+
+          ],
+          "mandatoryFees": [
+
+          ],
+          "specialCheckInInstructions": [
+            "Airport shuttle service is available during limited hours. Contact the property in advance to get details. "
+          ],
+          "latitude": 38.648842,
+          "longitude": -90.336862,
+          "isVipAccess": false,
+          "googleMapsLink": "//maps.google.com/?q=63105+St.+Louis%2C+7750+Carondelet+Avenue+",
+          "regionId": "3284"
+        },
+        "totalPriceDetails": {
+          "primaryCurrencyCode": "USD",
+          "base": "270.00",
+          "baseFormatted": "$270.00",
+          "baseWithAdjustmentForDRRRateDiscount": "270.00",
+          "baseWithAdjustmentForDRRRateDiscountFormatted": "$270.00",
+          "taxesAndFees": "44.18",
+          "taxesAndFeesFormatted": "$44.18",
+          "drrRateDiscountDescription": "",
+          "adjustmentForCoupon": "-54.00",
+          "adjustmentForCouponFormatted": "-$54.00",
+          "subTotalBeforeCoupon": "314.18",
+          "subTotalBeforeCouponFormatted": "$314.18",
+          "taxStatus": "ESTIMATED",
+          "total": "260.18",
+          "totalFormatted": "$260.18",
+          "chargedTotalFormatted": "$260.18",
+          "isCurrencyConversionEnabled": false,
+          "hasFees": true,
+          "expediaChangeFee": "0",
+          "expediaChangeFeeFormatted": "$0.00"
+        },
+        "rules": {
+          "cancelChangeRulesIntroduction": "We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the property charges such fees in accordance with its own policies, the cost will be passed on to you. Clayton Plaza Hotel charges the following cancellation and change fees.",
+          "cancelChangeRules": [
+
+          ],
+          "cancellationWindowTime": {
+            "raw": "2018-06-14T18:00:00-07:00",
+            "localized": "Jun 14, 2018 6:00:00 PM",
+            "epochSeconds": 1529024400,
+            "timeZoneOffsetSeconds": -25200,
+            "localizedShortDate": "Thu, 14 Jun",
+            "localizedMediumDate": "Jun 14, 2018",
+            "localizedFullDate": "Thursday, June 14, 2018",
+            "localizedLongDate": "June 14, 2018",
+            "localizedShortTime": "6:00 PM"
+          },
+          "opaqueRules": [
+
+          ],
+          "opaquePolicies": [
+
+          ],
+          "lateArrivalInstructions": "Your room/unit will be guaranteed for late arrival.",
+          "loyaltyPointsDisclaimer": "Hotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate properties.",
+          "currencyDisclaimer": "Unless specified otherwise, <span class=\"rr-bold\">rates are quoted in </span><span class=\"rr-bold\" id=\"hotel_id-default-currency\">US dollars</span>.",
+          "extraGuestPolicies": [
+            "Availability of accommodation in the same property for extra guests is not guaranteed."
+          ],
+          "occupancyPolicies": [
+            "Base rate is for 2 guests.",
+            "Total maximum number of guests per room/unit is 2.",
+            "Maximum number of adults per room/unit is 2.",
+            "Maximum number of children per room/unit is 1.",
+            "Maximum number of infants per room/unit is 1.",
+            "This property considers guests aged 17 and under, at time of travel, to be children."
+          ],
+          "paymentPolicies": [
+            "Your credit card is charged the total cost at time of purchase. Prices and room/unit availability are not guaranteed until full payment is received.",
+            "Some properties request that we wait to submit guest names until 7 days prior to check in. In such a case, your room/unit is reserved, but your name is not yet on file with the property."
+          ],
+          "roomRequestDisclaimer": "All special requests (such as in-room amenities, bed type, and smoking preference) are shared with the hotel, but requests are not guaranteed and may incur additional charges. We recommend you confirm them directly with the hotel before travel.",
+          "dualCurrencyText": "Rate quotes in USD are based on current exchange rates, which may vary at time of travel. Final payment will be settled in local currency directly with the hotel.",
+          "refundEligibiltyText": "Free cancellation until June 14 at 6:00 PM (Central Daylight Time (US & Canada))"
+        },
+        "appliedCoupons": [
+          {
+            "name": "ESCAPE20PERCENT US - 2018",
+            "description": "Employee Escape Standalone Coupon - 20% - US",
+            "code": "cl9tq2dkj4vww0vl",
+            "couponValue": {
+              "amount": 54.00,
+              "currency": {
+                "currencyCode": "USD"
+              }
+            }
+          }
+        ],
+        "rooms": [
+          {
+            "uniqueID": "EAD7F652-2866-4393-92BC-24390AFDAE8B_0_1025766777",
+            "roomRatePlanDescription": "Standard Room, 1 King Bed",
+            "roomTypeCode": "201259596",
+            "ratePlanCode": "206102839",
+            "bookingStatus": "BOOKED",
+            "bookingStatusEnum": "BOOKED",
+            "drrRateDiscountDescription": "",
+            "orderLineNumber": "967bc79a-08b6-43a4-8506-5e06ed3fe3d1",
+            "refundabilityStatus": "REFUNDABLE",
+            "availableOnAllDates": true,
+            "roomCancelLink": "https://www.expedia.com/hotel-cancel-details?tripid=dccc3186-1470-4de8-9fc2-36c2d854a6d7&ordernumber=8112499375539&orderlineguid=967bc79a-08b6-43a4-8506-5e06ed3fe3d1&roomNumber=0",
+            "roomChangeLink": "https://www.expedia.com/trips/dccc3186-1470-4de8-9fc2-36c2d854a6d7/ordernumber/8112499375539/orderlinenumber/967bc79a-08b6-43a4-8506-5e06ed3fe3d1/change",
+            "roomChangeLinkForMobileWebView": "https://www.expedia.com/trips/dccc3186-1470-4de8-9fc2-36c2d854a6d7/ordernumber/8112499375539/orderlinenumber/967bc79a-08b6-43a4-8506-5e06ed3fe3d1/change?blockHardChange=true&mobileWebView=true",
+            "totalPriceDetails": {
+              "primaryCurrencyCode": "USD",
+              "base": "270.00",
+              "baseFormatted": "$270.00",
+              "baseWithAdjustmentForDRRRateDiscount": "270.00",
+              "baseWithAdjustmentForDRRRateDiscountFormatted": "$270.00",
+              "taxesAndFees": "44.18",
+              "taxesAndFeesFormatted": "$44.18",
+              "adjustmentForCoupon": "-54.00",
+              "adjustmentForCouponFormatted": "-$54.00",
+              "subTotalBeforeCoupon": "314.18",
+              "subTotalBeforeCouponFormatted": "$314.18",
+              "total": "260.18",
+              "totalFormatted": "$260.18",
+              "chargedTotalFormatted": "$260.18",
+              "isCurrencyConversionEnabled": false,
+              "averagePricePerDay": "135.00",
+              "averagePricePerDayFormatted": "$135.00",
+              "averageTaxPerDay": "22.09",
+              "averageTaxPerDayFormatted": "$22.09",
+              "priceDetailsPerDay": [
+                {
+                  "day": {
+                    "raw": "2018-06-15T15:00:00-06:00",
+                    "localized": "Jun 15, 2018 3:00:00 PM",
+                    "epochSeconds": 1529096400,
+                    "timeZoneOffsetSeconds": -21600,
+                    "localizedShortDate": "Fri, 15 Jun",
+                    "localizedMediumDate": "Jun 15, 2018",
+                    "localizedFullDate": "Friday, June 15, 2018",
+                    "localizedLongDate": "June 15, 2018",
+                    "localizedShortTime": "3:00 PM"
+                  },
+                  "primaryCurrencyCode": "USD",
+                  "amount": "135.00",
+                  "amountFormatted": "$135.00",
+                  "localizedDay": {
+                    "raw": "2018-06-15T15:00:00-06:00",
+                    "localized": "Jun 15, 2018 3:00:00 PM",
+                    "epochSeconds": 1529096400,
+                    "timeZoneOffsetSeconds": -21600,
+                    "localizedShortDate": "6/15/2018",
+                    "localizedMediumDate": "Jun 15",
+                    "localizedFullDate": "Fri, Jun 15",
+                    "localizedLongDate": "Jun 15, 2018",
+                    "localizedShortTime": "3:00pm"
+                  }
+                },
+                {
+                  "day": {
+                    "raw": "2018-06-16T15:00:00-06:00",
+                    "localized": "Jun 16, 2018 3:00:00 PM",
+                    "epochSeconds": 1529182800,
+                    "timeZoneOffsetSeconds": -21600,
+                    "localizedShortDate": "Sat, 16 Jun",
+                    "localizedMediumDate": "Jun 16, 2018",
+                    "localizedFullDate": "Saturday, June 16, 2018",
+                    "localizedLongDate": "June 16, 2018",
+                    "localizedShortTime": "3:00 PM"
+                  },
+                  "primaryCurrencyCode": "USD",
+                  "amount": "135.00",
+                  "amountFormatted": "$135.00",
+                  "localizedDay": {
+                    "raw": "2018-06-16T15:00:00-06:00",
+                    "localized": "Jun 16, 2018 3:00:00 PM",
+                    "epochSeconds": 1529182800,
+                    "timeZoneOffsetSeconds": -21600,
+                    "localizedShortDate": "6/16/2018",
+                    "localizedMediumDate": "Jun 16",
+                    "localizedFullDate": "Sat, Jun 16",
+                    "localizedLongDate": "Jun 16, 2018",
+                    "localizedShortTime": "3:00pm"
+                  }
+                }
+              ],
+              "isSameRateForAllNights": true,
+              "expediaChangeFee": "0",
+              "expediaChangeFeeFormatted": "$0.00"
+            },
+            "roomPreferences": {
+              "primaryOccupant": {
+                "firstName": "Michael",
+                "fullName": "Michael Sonneville",
+                "email": "mjs9171@gmail.com",
+                "phone": "1-708-8999998"
+              },
+              "otherOccupantInfo": {
+                "adultCount": 2,
+                "childCount": 0,
+                "infantCount": 0,
+                "childAndInfantCount": 0,
+                "maxGuestCount": 0,
+                "childAndInfantAges": [
+
+                ]
+              },
+              "occupantSelectedRoomOptions": {
+                "bedTypeName": "1 king bed",
+                "defaultBedTypeName": "1 king bed",
+                "smokingPreference": "NONSMOKING_ROOM",
+                "accessibilityOptions": [
+
+                ],
+                "hasExtraBedAdult": false,
+                "hasExtraBedChild": false,
+                "hasExtraBedInfant": false,
+                "isSmokingPreferenceSelected": true,
+                "isRoomOptionsAvailable": true
+              },
+              "availableRoomOptions": {
+                "bedTypes": [
+                  {
+                    "id": "37321",
+                    "description": "1 King Bed",
+                    "selected": false
+                  }
+                ],
+                "isNewBedTypes": true,
+                "accessibilityOptions": [
+                  {
+                    "id": "2420",
+                    "description": "Accessible bathroom",
+                    "selected": false
+                  },
+                  {
+                    "id": "2421",
+                    "description": "Roll-in shower",
+                    "selected": false
+                  },
+                  {
+                    "id": "2423",
+                    "description": "In-room accessibility",
+                    "selected": false
+                  }
+                ],
+                "isSmokingRoomAvailable": false,
+                "isNonSmokingRoomAvailable": true
+              }
+            },
+            "amenities": [
+              "Breakfast Buffet",
+              "Free Wireless Internet"
+            ],
+            "amenityIds": [
+              2205,
+              2192
+            ],
+            "nonPricePromotionData": {
+
+            },
+            "hotelRatePlan": {
+              "m_type": 524288
+            }
+          }
+        ],
+        "isFreeCancellationAvailable": false,
+        "paymentsAndCreditFees": {
+          "paymentsHotelFeesAndDepositsDisclaimer": "The below fees and deposits only apply if they are not included in your selected room rate.",
+          "noFeesStaticText": "The price above DOES NOT include any applicable hotel service fees, charges for optional incidentals (such as minibar snacks or telephone calls), or regulatory surcharges. The hotel will assess these fees, charges, and surcharges upon check-out.",
+          "isDirectAgency": false,
+          "isGDS": false,
+          "isFullyCancelled": false,
+          "isAnyRoomCancelled": false,
+          "isDepositRequired": false,
+          "isPaymentsCreditsVisible": false
+        },
+        "showVATDisclaimer": false,
+        "action": {
+          "isChangeable": true,
+          "isCancellable": true
+        }
+      }
+    ],
+    "totalTripPrice": {
+      "currency": "USD",
+      "total": "260.18",
+      "totalFormatted": "$260.18",
+      "totalWithoutInsurance": "260.18",
+      "totalWithoutInsuranceFormatted": "$260.18"
+    },
+    "isCouponApplied": true,
+    "readTripError": false,
+    "tripSource": "expedia",
+    "clientId": "expweb-luna",
+    "zetaTrip": false,
+    "showCurrencyName": false,
+    "isMRP": false,
+    "tripDataSource": "LUNA",
+    "isTripUpgradable": false,
+    "email": {
+      "m_email": "mjs9171@gmail.com"
+    },
+    "isRewardsPointsBooking": false,
+    "billPayMethod": "false",
+    "customerCareCustomerType": "Blue"
+  }
+}

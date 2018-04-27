@@ -1,0 +1,505 @@
+{
+"apiVersion": "1.0",
+"responseType": "TRIP_DETAILS",
+"responseData": {
+"levelOfDetail": "FULL",
+"tripId": "c74186d1-c669-4816-8465-3431061d7a08",
+"webDetailsURL": "https://www.expedia.com/trips/7348083129249",
+"itineraryReceiptURL": "https://www.expedia.com/itinerary-receipt?tripid=c74186d1-c669-4816-8465-3431061d7a08",
+"tripNumber": 7348083129249,
+"orderNumber": 8140530020186,
+"title": "Hotel in Oakland",
+"updateTripNameDescPathURL": "https://www.expedia.com/api/trips/c74186d1-c669-4816-8465-3431061d7a08/updateTripNameDescription",
+"startTime": {
+"raw": "2018-12-04T15:00:00-08:00",
+"localized": "Dec 4, 2018 3:00:00 PM",
+"epochSeconds": 1543964400,
+"timeZoneOffsetSeconds": -28800,
+"localizedShortDate": "12/4/2018",
+"localizedMediumDate": "Dec 4",
+"localizedFullDate": "Tue, Dec 4",
+"localizedLongDate": "Dec 4, 2018",
+"localizedShortTime": "3:00pm"
+},
+"endTime": {
+"raw": "2018-12-05T11:00:00-08:00",
+"localized": "Dec 5, 2018 11:00:00 AM",
+"epochSeconds": 1544036400,
+"timeZoneOffsetSeconds": -28800,
+"localizedShortDate": "12/5/2018",
+"localizedMediumDate": "Dec 5",
+"localizedFullDate": "Wed, Dec 5",
+"localizedLongDate": "Dec 5, 2018",
+"localizedShortTime": "11:00am"
+},
+"tripCreatedTime": {
+"raw": "2018-04-25T21:38:21Z",
+"localized": "Apr 25, 2018 9:38:21 PM",
+"epochSeconds": 1524692301,
+"timeZoneOffsetSeconds": 0,
+"localizedShortDate": "Wed, 25 Apr",
+"localizedMediumDate": "Apr 25, 2018",
+"localizedFullDate": "Wednesday, April 25, 2018",
+"localizedLongDate": "April 25, 2018",
+"localizedShortTime": "9:38 PM"
+},
+"tripUpdatedTime": {
+"raw": "2018-04-27T21:05:31Z",
+"localized": "Apr 27, 2018 9:05:31 PM",
+"epochSeconds": 1524863131,
+"timeZoneOffsetSeconds": 0,
+"localizedShortDate": "Fri, 27 Apr",
+"localizedMediumDate": "Apr 27, 2018",
+"localizedFullDate": "Friday, April 27, 2018",
+"localizedLongDate": "April 27, 2018",
+"localizedShortTime": "9:05 PM"
+},
+"tripCacheUpdatedTime": {
+"raw": "2018-04-27T21:05:31Z",
+"localized": "Apr 27, 2018 9:05:31 PM",
+"epochSeconds": 1524863131,
+"timeZoneOffsetSeconds": 0,
+"localizedShortDate": "Fri, 27 Apr",
+"localizedMediumDate": "Apr 27, 2018",
+"localizedFullDate": "Friday, April 27, 2018",
+"localizedLongDate": "April 27, 2018",
+"localizedShortTime": "9:05 PM"
+},
+"ownerId": 1198215898,
+"bookingStatus": "BOOKED",
+"rewardList": [
+{
+"totalPoints": 360,
+"basePoints": 180,
+"bonusPoints": [
+{
+"m_pointValue": 180,
+"m_pointType": "offerPoint",
+"m_pointDescription": "App Booking Double Points",
+"m_status": "PENDING",
+"m_programId": 3
+}
+],
+"logoUrl": "/static/default/default/images/myrewards/RewardsLogo_193x76.png",
+"signUpUrl": "",
+"viewStatementURL": "/user/rewards",
+"programName": "ExpediaRewards"
+}
+],
+"sharableDetailsURL": "https://www.expedia.com/api/trips/shared/S6iSVihEOWISXfHDBU_LnMCAinJqOu_2YerFkNqkMCWSxPlbTzn-gK-r54oLLXZZ9Shur7Qfuqhr1lJ6-IGcLJ75",
+"customerSupport": {
+"customerSupportURL": "https://www.expedia.com/service/",
+"customerSupportPhoneNumberDomestic": "+1-877-787-3117",
+"customerSupportPhoneNumberInternational": "+1-877-787-3117",
+"customerSupportPhoneInfoForEmail": [
+"Call Expedia Rewards blue Customer Care at 1-877-787-3117.",
+"For faster service, mention <strong>itinerary #7348083129249 </strong>"
+],
+"termsAndConditionsURL": ""
+},
+"isBookedUsingForeignCurrency": false,
+"hotels": [
+{
+"uniqueID": "644E8428-9BF5-4F02-BEB8-25A6BA29CCBE_0",
+"hotelId": "1562144",
+"checkInDateTime": {
+"raw": "2018-12-04T15:00:00-08:00",
+"localized": "Dec 4, 2018 3:00:00 PM",
+"epochSeconds": 1543964400,
+"timeZoneOffsetSeconds": -28800,
+"localizedShortDate": "12/4/2018",
+"localizedMediumDate": "Dec 4",
+"localizedFullDate": "Tue, Dec 4",
+"localizedLongDate": "Dec 4, 2018",
+"localizedShortTime": "3:00pm"
+},
+"checkOutDateTime": {
+"raw": "2018-12-05T11:00:00-08:00",
+"localized": "Dec 5, 2018 11:00:00 AM",
+"epochSeconds": 1544036400,
+"timeZoneOffsetSeconds": -28800,
+"localizedShortDate": "12/5/2018",
+"localizedMediumDate": "Dec 5",
+"localizedFullDate": "Wed, Dec 5",
+"localizedLongDate": "Dec 5, 2018",
+"localizedShortTime": "11:00am"
+},
+"checkInDate": "2018-12-04T15:00:00-08:00",
+"checkOutDate": "2018-12-05T11:00:00-08:00",
+"checkInDateLocalized": "Dec 4, 2018",
+"checkOutDateLocalized": "Dec 5, 2018",
+"numberOfNights": 1,
+"bookingStatus": "BOOKED",
+"bookingStatusText": "Confirmed",
+"bookingStatusMessage": "We have confirmed your hotel reservation with the property.",
+"bookedDate": "2018-04-25",
+"inventoryType": "MERCHANT",
+"inventoryTypeEnum": "MERCHANT",
+"inventorySource": "INTERNAL",
+"paymentModel": "EXPEDIA_COLLECT",
+"inventoryVisibility": "VISIBLE",
+"orderNumber": "8140530020186",
+"state": "PRE_START_4",
+"infositeURL": "https://www.expedia.com/itin.h1562144.Hotel-Information?langid=1033",
+"reviewSubmissionURL": "https://www.expedia.com/ReviewSubmission?ItinId=7348083129249&htid=1562144&campaignId=ITINERARY_PAGE_LINK",
+"epcConversationURL": "https://www.expedia.com/createConversation/create/?bookingId=849070272&bookingItemId=1027233460&itineraryId=7348083129249&checkinDate=12/04/2018&checkoutDate=12/05/2018&tpid=1&eapid=0&siteId=1&hotelId=1562144&hotelName=Imperial+Inn&userTokenString=OjB4nSHeyq-q4SHcJzoLiGBpSZBOR4DU4_-9qSDXJ6zQ01cvaXIXPN3mYfJQTdMbRXelAVebFtLcZPRkMAj4N4uVhWB2a6KdLpzBFbu50k0Wm8Z8V0J-kA",
+"hotelPropertyInfo": {
+"address": {
+"addressLine1": "490 West MacArthur Blvd",
+"city": "Oakland",
+"countrySubdivisionCode": "CA",
+"postalCode": "94609",
+"countryCode": "USA",
+"countryName": " United States of America",
+"fullAddress": "490 West MacArthur Blvd, Oakland, CA, 94609 United States of America",
+"airportCode": "OAK"
+},
+"name": "Imperial Inn",
+"starRating": "15",
+"photoThumbnailURL": "/hotels/2000000/1570000/1562200/1562144/1562144_30_l.jpg",
+"photoThumbnail500pixURL": "/hotels/2000000/1570000/1562200/1562144/1562144_30_y.jpg",
+"photoThumbnail1000pixURL": "/hotels/2000000/1570000/1562200/1562144/1562144_30_z.jpg",
+"localPhone": "+1-510-653-4225",
+"formattedPhoneNumbers": "Tel: 1 (510) 653-4225, Fax: 1 (510) 595-6962",
+"checkInPolicies": [
+"Check-in time starts at 3 PM",
+"Check-in time ends at 3 AM"
+],
+"checkInStartTimePolicy": {
+"label": "Check-in time starts at",
+"value": "3 PM"
+},
+"checkInEndTimePolicy": {
+"label": "Check-in time ends at",
+"value": "3 AM"
+},
+"checkOutTimePolicy": {
+"label": "Check-out time is",
+"value": "11 AM"
+},
+"generalRules": [
+"Check-out time is 11 AM",
+"No rollaway/extra beds available",
+"No cribs (infant beds) available"
+],
+"restrictionPolicies": [
+"No elevators"
+],
+"fees": [],
+"mandatoryFees": [],
+"specialCheckInInstructions": [],
+"latitude": 37.826165,
+"longitude": -122.264558,
+"isVipAccess": false,
+"googleMapsLink": "//maps.google.com/?q=94609+Oakland%2C+490+West+MacArthur+Blvd+",
+"regionId": "2630"
+},
+"totalPriceDetails": {
+"primaryCurrencyCode": "USD",
+"base": "88.17",
+"baseFormatted": "$88.17",
+"baseWithAdjustmentForDRRRateDiscount": "79.40",
+"baseWithAdjustmentForDRRRateDiscountFormatted": "$79.40",
+"taxesAndFees": "12.61",
+"taxesAndFeesFormatted": "$12.61",
+"adjustmentForDRRRateDiscount": "-8.77",
+"adjustmentForDRRRateDiscountFormatted": "-$8.77",
+"drrRateDiscountDescription": "Private sale: save 10%",
+"subTotalBeforeCoupon": "92.01",
+"subTotalBeforeCouponFormatted": "$92.01",
+"taxStatus": "ESTIMATED",
+"total": "92.01",
+"totalFormatted": "$92.01",
+"chargedTotalFormatted": "$92.01",
+"isCurrencyConversionEnabled": false,
+"hasFees": true,
+"expediaChangeFee": "0",
+"expediaChangeFeeFormatted": "$0.00"
+},
+"rules": {
+"cancelChangeRulesIntroduction": "We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the property charges such fees in accordance with its own policies, the cost will be passed on to you. Imperial Inn charges the following cancellation and change fees.",
+"cancelChangeRules": [
+"Cancellations or changes made after 6:00pm (Pacific Daylight Time (US & Canada); Tijuana) on Dec 1, 2018 or no-shows are subject to a property fee equal to 100% of the total amount paid for the reservation."
+],
+"cancellationWindowTime": {
+"raw": "2018-12-01T18:00:00-08:00",
+"localized": "Dec 1, 2018 6:00:00 PM",
+"epochSeconds": 1543716000,
+"timeZoneOffsetSeconds": -28800,
+"localizedShortDate": "Sat, 1 Dec",
+"localizedMediumDate": "Dec 1, 2018",
+"localizedFullDate": "Saturday, December 1, 2018",
+"localizedLongDate": "December 1, 2018",
+"localizedShortTime": "6:00 PM"
+},
+"opaqueRules": [],
+"opaquePolicies": [],
+"lateArrivalInstructions": "Your room/unit will be guaranteed for late arrival.",
+"loyaltyPointsDisclaimer": "Hotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate properties.",
+"currencyDisclaimer": "Unless specified otherwise, <span class=\"rr-bold\">rates are quoted in </span><span class=\"rr-bold\" id=\"hotel_id-default-currency\">US dollars</span>.",
+"extraGuestPolicies": [
+"Availability of accommodation in the same property for extra guests is not guaranteed."
+],
+"occupancyPolicies": [
+"Base rate is for 2 guests.",
+"This property considers guests of any age to be an adult."
+],
+"paymentPolicies": [
+"Your credit card is charged the total cost at time of purchase. Prices and room/unit availability are not guaranteed until full payment is received.",
+"Some properties request that we wait to submit guest names until 7 days prior to check in. In such a case, your room/unit is reserved, but your name is not yet on file with the property."
+],
+"roomRequestDisclaimer": "All special requests (such as in-room amenities, bed type, and smoking preference) are shared with the hotel, but requests are not guaranteed and may incur additional charges. We recommend you confirm them directly with the hotel before travel.",
+"dualCurrencyText": "Rate quotes in USD are based on current exchange rates, which may vary at time of travel. Final payment will be settled in local currency directly with the hotel.",
+"refundEligibiltyText": "Free cancellation until December 1 at 6:00 PM (Pacific Daylight Time (US & Canada); Tijuana)"
+},
+"rooms": [
+{
+"uniqueID": "644E8428-9BF5-4F02-BEB8-25A6BA29CCBE_0_1027233460",
+"roomRatePlanDescription": "Deluxe Room, 1 King Bed",
+"roomTypeCode": "144191",
+"ratePlanCode": "201106939",
+"bookingStatus": "BOOKED",
+"bookingStatusEnum": "BOOKED",
+"hotelConfirmationNumber": "3486303",
+"drrRateDiscountDescription": "Private sale: save 10%",
+"orderLineNumber": "546e2fb5-c34c-439a-8b7a-cc9f8b43ed86",
+"refundabilityStatus": "REFUNDABLE",
+"availableOnAllDates": true,
+"roomCancelLink": "https://www.expedia.com/hotel-cancel-details?tripid=c74186d1-c669-4816-8465-3431061d7a08&ordernumber=8140530020186&orderlineguid=546e2fb5-c34c-439a-8b7a-cc9f8b43ed86&roomNumber=0",
+"roomChangeLink": "https://www.expedia.com/trips/c74186d1-c669-4816-8465-3431061d7a08/ordernumber/8140530020186/orderlinenumber/546e2fb5-c34c-439a-8b7a-cc9f8b43ed86/change",
+"roomChangeLinkForMobileWebView": "https://www.expedia.com/trips/c74186d1-c669-4816-8465-3431061d7a08/ordernumber/8140530020186/orderlinenumber/546e2fb5-c34c-439a-8b7a-cc9f8b43ed86/change?blockHardChange=true&mobileWebView=true",
+"totalPriceDetails": {
+"primaryCurrencyCode": "USD",
+"base": "88.17",
+"baseFormatted": "$88.17",
+"baseWithAdjustmentForDRRRateDiscount": "79.40",
+"baseWithAdjustmentForDRRRateDiscountFormatted": "$79.40",
+"taxesAndFees": "12.61",
+"taxesAndFeesFormatted": "$12.61",
+"adjustmentForDRRRateDiscount": "-8.77",
+"adjustmentForDRRRateDiscountFormatted": "-$8.77",
+"subTotalBeforeCoupon": "92.01",
+"subTotalBeforeCouponFormatted": "$92.01",
+"total": "92.01",
+"totalFormatted": "$92.01",
+"chargedTotalFormatted": "$92.01",
+"isCurrencyConversionEnabled": false,
+"averagePricePerDay": "79.40",
+"averagePricePerDayFormatted": "$79.40",
+"averageTaxPerDay": "12.61",
+"averageTaxPerDayFormatted": "$12.61",
+"priceDetailsPerDay": [
+{
+"day": {
+"raw": "2018-12-04T15:00:00-08:00",
+"localized": "Dec 4, 2018 3:00:00 PM",
+"epochSeconds": 1543964400,
+"timeZoneOffsetSeconds": -28800,
+"localizedShortDate": "Tue, 4 Dec",
+"localizedMediumDate": "Dec 4, 2018",
+"localizedFullDate": "Tuesday, December 4, 2018",
+"localizedLongDate": "December 4, 2018",
+"localizedShortTime": "3:00 PM"
+},
+"primaryCurrencyCode": "USD",
+"amount": "79.40",
+"amountFormatted": "$79.40",
+"localizedDay": {
+"raw": "2018-12-04T15:00:00-08:00",
+"localized": "Dec 4, 2018 3:00:00 PM",
+"epochSeconds": 1543964400,
+"timeZoneOffsetSeconds": -28800,
+"localizedShortDate": "12/4/2018",
+"localizedMediumDate": "Dec 4",
+"localizedFullDate": "Tue, Dec 4",
+"localizedLongDate": "Dec 4, 2018",
+"localizedShortTime": "3:00pm"
+}
+}
+],
+"isSameRateForAllNights": true,
+"expediaChangeFee": "0",
+"expediaChangeFeeFormatted": "$0.00"
+},
+"roomPreferences": {
+"primaryOccupant": {
+"firstName": "test",
+"fullName": "test test",
+"email": "test123@123.com",
+"phone": "1-555-8885858"
+},
+"otherOccupantInfo": {
+"adultCount": 1,
+"childCount": 0,
+"infantCount": 0,
+"childAndInfantCount": 0,
+"maxGuestCount": 0,
+"childAndInfantAges": []
+},
+"occupantSelectedRoomOptions": {
+"bedTypeName": "1 king bed",
+"defaultBedTypeName": "1 king bed",
+"smokingPreference": "NONSMOKING_ROOM",
+"accessibilityOptions": [],
+"hasExtraBedAdult": false,
+"hasExtraBedChild": false,
+"hasExtraBedInfant": false,
+"isSmokingPreferenceSelected": true,
+"isRoomOptionsAvailable": true
+},
+"availableRoomOptions": {
+"bedTypes": [
+{
+"id": "37321",
+"description": "1 King Bed",
+"selected": false
+}
+],
+"isNewBedTypes": true,
+"isSmokingRoomAvailable": true,
+"isNonSmokingRoomAvailable": true
+}
+},
+"amenities": [
+"Free Parking",
+"Free Wireless Internet"
+],
+"amenityIds": [
+2109,
+2192
+],
+"nonPricePromotionData": {},
+"hotelRatePlan": {
+"m_type": 524288
+}
+}
+],
+"isFreeCancellationAvailable": false,
+"paymentsAndCreditFees": {
+"paymentsHotelFeesAndDepositsDisclaimer": "The below fees and deposits only apply if they are not included in your selected room rate.",
+"noFeesStaticText": "The price above DOES NOT include any applicable hotel service fees, charges for optional incidentals (such as minibar snacks or telephone calls), or regulatory surcharges. The hotel will assess these fees, charges, and surcharges upon check-out.",
+"isDirectAgency": false,
+"isGDS": false,
+"isFullyCancelled": false,
+"isAnyRoomCancelled": false,
+"isDepositRequired": false,
+"isPaymentsCreditsVisible": false
+},
+"showVATDisclaimer": false,
+"action": {
+"isChangeable": true,
+"isCancellable": true
+}
+}
+],
+"paymentDetails": {
+"localisedTotalPriceForThisBooking": "$92.01",
+"totalPriceForThisBooking": {
+"amount": 92.01,
+"currency": {
+"currencyCode": "USD"
+}
+},
+"totalRefundedPrice": {
+"amount": 0,
+"currency": {
+"currencyCode": "USD"
+}
+},
+"localisedTotalRealPriceRefunded": "$0.00",
+"netPricePaidForThisBooking": {
+"amount": 90.01,
+"currency": {
+"currencyCode": "USD"
+}
+},
+"localizedNetPricePaidForThisBooking": "$90.01",
+"priceByFormOfPayment": {
+"CreditCard": {
+"paymentType": "CreditCard",
+"pricePaidUsingThisPaymentType": {
+"amount": 90.01,
+"currency": {
+"currencyCode": "USD"
+}
+},
+"priceRefundedToThisPaymentType": {
+"amount": 0,
+"currency": {
+"currencyCode": "USD"
+}
+},
+"refundedLocalizedPrice": "$0.00",
+"paidLocalizedPrice": "$90.01"
+},
+"Points": {
+"paymentType": "Points",
+"virtualPricePaidUsingThisPaymentType": {
+"virtualCurrencyAmount": 279,
+"virtualCurrencyCode": "EXRP",
+"netWorthOfVirtualCurrency": {
+"amount": 2,
+"currency": {
+"currencyCode": "USD"
+}
+},
+"virtualCurrencyAmountLocalized": "279",
+"netWorthOfVirtualCurrencyLocalized": "$2.00",
+"virtualCurrencyRewardsProgramName": "Expedia Rewards",
+"virtualCurrencyRewardsProgramURL": "https://www.expedia.com/user/rewards"
+},
+"virtualPriceRefundedToThisPaymentType": {
+"virtualCurrencyAmount": 0,
+"virtualCurrencyCode": "EXRP",
+"netWorthOfVirtualCurrency": {
+"amount": 0,
+"currency": {
+"currencyCode": "USD"
+}
+},
+"virtualCurrencyAmountLocalized": "0",
+"netWorthOfVirtualCurrencyLocalized": "$0.00",
+"virtualCurrencyRewardsProgramName": "Expedia Rewards",
+"virtualCurrencyRewardsProgramURL": "https://www.expedia.com/user/rewards"
+},
+"totalPaidPrice": {
+"amount": 2,
+"currency": {
+"currencyCode": "USD"
+}
+},
+"totalRefundedPrice": {
+"amount": 0,
+"currency": {
+"currencyCode": "USD"
+}
+},
+"localizedPaidPrice": "$2.00",
+"localizedRefundedPrice": "$0.00"
+}
+}
+},
+"totalTripPrice": {
+"currency": "USD",
+"total": "92.01",
+"totalFormatted": "$92.01",
+"totalWithoutInsurance": "92.01",
+"totalWithoutInsuranceFormatted": "$92.01"
+},
+"isCouponApplied": false,
+"readTripError": false,
+"tripSource": "expedia",
+"clientId": "expweb-luna",
+"zetaTrip": false,
+"showCurrencyName": false,
+"isMRP": false,
+"tripDataSource": "LUNA",
+"isTripUpgradable": false,
+"email": {
+"m_email": "test123@123.com"
+},
+"isRewardsPointsBooking": true,
+"billPayMethod": "false",
+"customerCareCustomerType": "Blue"
+}
+}

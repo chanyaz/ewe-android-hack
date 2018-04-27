@@ -43,5 +43,35 @@
             android:id="@+id/hotel_itin_pricing_summary_points_view"
             layout="@layout/hotel_itin_price_summary_item_view"
             android:visibility="gone" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="9dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="9dp"
+            android:background="?attr/itin_card_summary_divider_color" />
+
+        <include
+            android:id="@+id/hotel_itin_pricing_summary_total_price"
+            layout="@layout/hotel_itin_price_summary_item_view"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/hotel_itin_pricing_summary_total_price_pos_currency"
+            layout="@layout/hotel_itin_price_summary_item_view"
+            android:visibility="gone" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/hotel_itin_pricing_summary_currency_disclaimer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="9dp"
+            android:textColor="@color/itin_price_summary_label_gray_light"
+            android:textSize="14sp"
+            android:visibility="gone" />
     </LinearLayout>
 </com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingSummaryView>
