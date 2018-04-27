@@ -113,7 +113,11 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 (webCheckoutView.viewModel as FlightWebCheckoutViewViewModel).doCreateTrip()
                 show(webCheckoutView)
             } else {
-                flightOverviewPresenter.getCheckoutPresenter().getCreateTripViewModel().performCreateTrip.onNext(Unit)
+                if (isNativeRateDetailsWebviewCheckoutEnabled) {
+                    clearWebViewHistoryThenCreateTrip()
+                } else {
+                    flightOverviewPresenter.getCheckoutPresenter().getCreateTripViewModel().performCreateTrip.onNext(Unit)
+                }
                 show(flightOverviewPresenter, FLAG_CLEAR_TOP)
                 flightOverviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
             }
@@ -273,6 +277,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             createTripBuilder.fareFamilyCode(it.second.fareFamilyCode)
             createTripBuilder.fareFamilyTotalPrice(it.second.totalPrice.amount)
             flightCreateTripViewModel.tripParams.onNext(createTripBuilder.build())
+            if (isNativeRateDetailsWebviewCheckoutEnabled) {
+                clearWebViewHistory()
+            }
         }
         ObservableOld.combineLatest(flightOfferViewModel.confirmedOutboundFlightSelection,
                 flightOfferViewModel.confirmedInboundFlightSelection,
@@ -408,7 +415,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 webCheckoutView.visibility = View.VISIBLE
             } else {
                 if (isNativeRateDetailsWebviewCheckoutEnabled) {
-                    (webCheckoutView.viewModel as FlightWebCheckoutViewViewModel).doCreateTrip()
+                    clearWebViewHistoryThenCreateTrip()
                 }
                 flightOverviewPresenter.overviewPageUsableData.markPageLoadStarted(System.currentTimeMillis())
                 show(flightOverviewPresenter)
@@ -508,7 +515,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
         flightWebCheckoutViewModel.closeView.subscribe {
             if (isNativeRateDetailsWebviewCheckoutEnabled) {
-                if (webCheckoutView.visibility == View.VISIBLE) {
+                if (flightOverviewPresenter.visibility == View.GONE) {
                     super.back()
                 }
             } else {
@@ -969,6 +976,17 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             }
             return super.back()
         }
+    }
+
+    private fun clearWebViewHistoryThenCreateTrip() {
+        clearWebViewHistory()
+        webCheckoutViewModel.doCreateTrip()
+    }
+
+    private fun clearWebViewHistory() {
+        webCheckoutViewModel.webViewURLObservable.onNext("about:blank")
+        webCheckoutView.clearHistory()
+        webCheckoutView.webView.clearHistory()
     }
 
     fun shouldShowWebCheckoutWithoutNativeRateDetails(): Boolean {
