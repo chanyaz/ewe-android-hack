@@ -41,6 +41,8 @@ class FlightDetailsPresenter(context: Context, attrs: AttributeSet?) : Presenter
     val basicEconomyTooltip: TextView by bindView(R.id.flight_basic_economy_tooltip)
     val totalDurationText: TextView by bindView(R.id.flight_total_duration)
     val urgencyMessageText: TextView by bindView(R.id.urgency_message)
+    val routeScoreText: TextView by bindView(R.id.textView_route_score)
+    val flightMessageContainer: View by bindView(R.id.flight_message_container)
     val flightSegmentWidget: FlightSegmentBreakdownView by bindView(R.id.segment_breakdown)
     val showBaggageFeesButton: Button by bindView(R.id.show_baggage_fees)
     val paymentFeesMayApplyTextView: Button by bindView(R.id.show_payment_fees)
@@ -80,8 +82,10 @@ class FlightDetailsPresenter(context: Context, attrs: AttributeSet?) : Presenter
         vm.bundlePriceSubject.subscribeText(bundlePriceTextView)
         vm.earnMessage.subscribeText(earnMessageTextView)
         vm.bottomUrgencyMessageSubject.subscribeTextAndVisibility(urgencyMessageText)
+        vm.routeScoreStream.subscribeTextAndVisibility(routeScoreText)
         vm.showEarnMessage.subscribeVisibility(earnMessageTextView)
         vm.showBundlePriceSubject.subscribeVisibility(bundlePriceLabelTextView)
+        vm.flightMessageContainerStream.subscribeVisibility(flightMessageContainer)
         ObservableOld.combineLatest(vm.showEarnMessage, vm.showBundlePriceSubject, {
             showEarnMessage, showBundlePrice ->
             showEarnMessage || showBundlePrice

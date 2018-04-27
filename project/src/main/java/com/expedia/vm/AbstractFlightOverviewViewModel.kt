@@ -30,6 +30,8 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
     val e3EndpointUrl = Ui.getApplication(context).appComponent().endpointProvider().e3EndpointUrl
     val earnMessage = BehaviorSubject.create<String>()
     val bottomUrgencyMessageSubject = PublishSubject.create<String>()
+    val routeScoreStream = PublishSubject.create<String>()
+    val flightMessageContainerStream = PublishSubject.create<Boolean>()
 
     abstract val showBundlePriceSubject: BehaviorSubject<Boolean>
     abstract val showEarnMessage: BehaviorSubject<Boolean>
@@ -61,6 +63,8 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
                 basicEconomyMessagingToolTipInfo.onNext(convertTooltipInfo(selectedFlightLeg))
             }
         }).subscribe()
+
+        bottomUrgencyMessageSubject.mergeWith(routeScoreStream).map { it.isNotEmpty() }.subscribe(flightMessageContainerStream)
     }
 
     fun updateUrgencyMessage(selectedFlight: FlightLeg) {

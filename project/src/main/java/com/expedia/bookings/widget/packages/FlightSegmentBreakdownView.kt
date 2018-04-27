@@ -4,12 +4,15 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightServiceClassType
+import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isRichContentShowAmenityEnabled
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.vm.FlightSegmentBreakdownViewModel
@@ -23,6 +26,8 @@ class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) : Linea
             linearLayout.removeAllViews()
             for (segmentBreakdown in it) {
                 linearLayout.addView(createSegmentRow(segmentBreakdown))
+                val flightAmenities = segmentBreakdown.segment.flightAmenities
+                flightAmenities?.let { vm.segmentAmenitiesStream.onNext(it) }
                 if (segmentBreakdown.hasLayover && it.indexOf(segmentBreakdown) != it.size - 1) {
                     linearLayout.addView(createLayoverRow(segmentBreakdown))
                 }
@@ -73,6 +78,19 @@ class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) : Linea
         } else {
             seatClassAndBookingCode.visibility = GONE
         }
+
+        if (isRichContentShowAmenityEnabled()) {
+            val richContentDividerView = row.findViewById<View>(R.id.rich_content_divider)
+            val richContentWifiView = row.findViewById<ImageView>(R.id.rich_content_wifi)
+            val richContentEntertainmentView = row.findViewById<ImageView>(R.id.rich_content_entertainment)
+            val richContentPowerView = row.findViewById<ImageView>(R.id.rich_content_power)
+            viewmodel.seatClassAndBookingCodeVisibilityStream.onNext(seatClassAndBookingCode.visibility)
+            viewmodel.richContentDividerViewStream.subscribeVisibility(richContentDividerView)
+            viewmodel.richContentWifiViewStream.subscribeVisibility(richContentWifiView)
+            viewmodel.richContentEntertainmentViewStream.subscribeVisibility(richContentEntertainmentView)
+            viewmodel.richContentPowerViewStream.subscribeVisibility(richContentPowerView)
+        }
+
         return row
     }
 
