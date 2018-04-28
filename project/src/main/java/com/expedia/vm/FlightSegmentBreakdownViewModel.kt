@@ -17,6 +17,7 @@ class FlightSegmentBreakdownViewModel(val context: Context) {
     val richContentWifiViewStream = PublishSubject.create<Boolean>()
     val richContentEntertainmentViewStream = PublishSubject.create<Boolean>()
     val richContentPowerViewStream = PublishSubject.create<Boolean>()
+    val isFareFamilyUpgraded = PublishSubject.create<Boolean>()
 
     init {
         segmentAmenitiesStream.subscribe { flightAmenities ->
@@ -28,5 +29,11 @@ class FlightSegmentBreakdownViewModel(val context: Context) {
         ObservableOld.combineLatest(seatClassAndBookingCodeVisibilityStream, richContentAmenitiesVisibilityStream, { seatClassAndBookingCodeVisibility, richContentAmenitiesVisibility ->
             (seatClassAndBookingCodeVisibility == View.VISIBLE && richContentAmenitiesVisibility)
         }).subscribe(richContentDividerViewStream)
+        isFareFamilyUpgraded.filter { it }.subscribe {
+            richContentWifiViewStream.onNext(false)
+            richContentEntertainmentViewStream.onNext(false)
+            richContentPowerViewStream.onNext(false)
+            richContentAmenitiesVisibilityStream.onNext(false)
+        }
     }
 }

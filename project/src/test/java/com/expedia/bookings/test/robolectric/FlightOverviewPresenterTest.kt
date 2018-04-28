@@ -23,6 +23,7 @@ import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightTripDetails
+import com.expedia.bookings.data.flights.RichContent
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.packages.vm.BundleFlightViewModel
 import com.expedia.bookings.packages.vm.PackageSearchType
@@ -53,6 +54,7 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
+import com.expedia.bookings.utils.RichContentUtils
 import java.math.BigDecimal
 import java.util.ArrayList
 import kotlin.collections.HashMap
@@ -564,6 +566,33 @@ class FlightOverviewPresenterTest {
         assertEquals("$233", widget.totalPriceWidget.bundleTotalPrice.text)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testOutboundWidgetRouteScore() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsRichContent, 2)
+        createExpectedFlightLeg()
+        val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
+        outboundFlightWidget.viewModel = BundleFlightViewModel(context, LineOfBusiness.FLIGHTS_V2)
+        prepareBundleWidgetViewModel(outboundFlightWidget.viewModel)
+        assertEquals(View.VISIBLE, outboundFlightWidget.routeScoreText.visibility)
+        assertEquals("7.9/10 - Very Good!", outboundFlightWidget.routeScoreText.text)
+        assertEquals(View.VISIBLE, outboundFlightWidget.flightMessageContainer.visibility)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testOutboundWidgetRouteScoreWithFareFamily() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsRichContent, 2)
+        createExpectedFlightLeg()
+        val outboundFlightWidget = widget.flightSummary.outboundFlightWidget
+        outboundFlightWidget.viewModel = BundleFlightViewModel(context, LineOfBusiness.FLIGHTS_V2)
+        prepareBundleWidgetViewModel(outboundFlightWidget.viewModel)
+        outboundFlightWidget.viewModel.isFareFamilyUpgraded.onNext(true)
+        assertEquals(View.GONE, outboundFlightWidget.routeScoreText.visibility)
+        assertEquals("", outboundFlightWidget.routeScoreText.text)
+        assertEquals(View.GONE, outboundFlightWidget.flightMessageContainer.visibility)
+    }
+
     private fun setupFlightSearchParams(isRoundTrip: Boolean = true): FlightSearchParams {
         val departureSuggestion = SuggestionV4()
         departureSuggestion.gaiaId = "1234"
@@ -683,6 +712,7 @@ class FlightOverviewPresenterTest {
         flightLeg.packageOfferModel.price.averageTotalPricePerTicket = Money("200.0", "USD")
         flightLeg.packageOfferModel.price.averageTotalPricePerTicket.roundedAmount = BigDecimal(201)
         flightLeg.packageOfferModel.price.pricePerPerson = Money("200.0", "USD")
+        flightLeg.richContent = getRichContentRichContent()
 
         val airlines = ArrayList<Airline>()
         val airline1 = Airline("United", null)
@@ -694,6 +724,24 @@ class FlightOverviewPresenterTest {
         list.add(createFlightSegment())
         flightLeg.flightSegments = list
         flightLeg.segments = list
+    }
+
+    private fun getRichContentRichContent(): RichContent {
+        val richContent = RichContent()
+        richContent.legId = ""
+        richContent.score = 7.9F
+        richContent.legAmenities = getRichContentAmenities()
+        richContent.scoreExpression = RichContentUtils.ScoreExpression.VERY_GOOD.name
+        richContent.segmentAmenitiesList = listOf(getRichContentAmenities())
+        return richContent
+    }
+
+    private fun getRichContentAmenities(): RichContent.RichContentAmenity {
+        val amenities = RichContent.RichContentAmenity()
+        amenities.wifi = true
+        amenities.entertainment = false
+        amenities.power = true
+        return amenities
     }
 
     private fun setUrgencyData(ticketsLeft: Int) {
@@ -722,6 +770,7 @@ class FlightOverviewPresenterTest {
         airlineSegment.seatClass = "coach"
         airlineSegment.departureTime = "October 23, 2017 03:03:03 AM"
         airlineSegment.bookingCode = "O"
+        airlineSegment.flightAmenities = getRichContentAmenities()
         return airlineSegment
     }
 

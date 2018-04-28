@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
         android:id="@+id/flight_loading_bar"
@@ -131,16 +132,43 @@
                 android:layout_height="1px"
                 android:background="@color/cardview_divider_lines_gray" />
 
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/urgency_message_cont"
+            <LinearLayout
+                android:id="@+id/flight_message_container"
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:gravity="right|center_vertical"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="13dp"
                 android:paddingRight="13dp"
-                android:textColor="@color/flight_seats_left_urgency_message_color"
-                android:textSize="11sp"
-                app:textStyle="medium"
-                android:visibility="gone" />
+                android:weightSum="1"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/textView_route_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:textColor="@color/gray900"
+                    android:textSize="11sp"
+                    android:visibility="gone"
+                    app:textStyle="medium"
+                    tools:text="8.4/10 - Very Good!"
+                    tools:visibility="visible" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/urgency_message_cont"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:textColor="@color/flight_seats_left_urgency_message_color"
+                    android:textSize="11sp"
+                    android:visibility="gone"
+                    app:textStyle="medium"
+                    tools:text="3 seats left"
+                    tools:visibility="visible" />
+            </LinearLayout>
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/flight_total_duration"

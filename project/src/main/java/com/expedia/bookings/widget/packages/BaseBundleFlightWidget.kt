@@ -26,6 +26,7 @@ import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isRichContentShowRouteScoreEnabled
 import com.expedia.bookings.widget.AccessibleCardView
 import com.expedia.bookings.widget.FlightSegmentBreakdownView
 import com.expedia.bookings.widget.TextView
@@ -59,6 +60,8 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
     val flightDetailsContainer: ViewGroup by bindView(R.id.flight_details_container)
     val flightSegmentWidget: FlightSegmentBreakdownView by bindView(R.id.segment_breakdown)
     val urgencyMessageText: TextView by bindView(R.id.urgency_message_cont)
+    val flightMessageContainer: View by bindView(R.id.flight_message_container)
+    val routeScoreText: TextView by bindView(R.id.textView_route_score)
     val totalDurationText: TextView by bindView(R.id.flight_total_duration)
 
     val baggagePaymentDivider: View by bindView(R.id.baggage_payment_divider)
@@ -144,6 +147,12 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
                 baggageInfoView.baggageInfoViewModel.showLoaderSubject.onNext(true)
                 baggageInfoView.getBaggageInfo(flight)
             }
+        }
+
+        if (isRichContentShowRouteScoreEnabled()) {
+            vm.flightMessageContainerStream.subscribeVisibility(flightMessageContainer)
+            vm.routeScoreStream.subscribeTextAndVisibility(routeScoreText)
+            vm.isFareFamilyUpgraded.subscribe(flightSegmentWidget.viewmodel.isFareFamilyUpgraded)
         }
     }
 

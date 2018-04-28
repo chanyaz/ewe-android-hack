@@ -131,6 +131,22 @@ class FlightSegmentBreakdownViewTest {
         assertEquals(View.VISIBLE, richContentPowerView.visibility)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testFlightAmenitiesVisibilityWithFareFamily() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppFlightsRichContent)
+        sut.viewmodel.addSegmentRowsObserver.onNext(getFlightSegmentBreakdownList("coach", true, true))
+        sut.viewmodel.isFareFamilyUpgraded.onNext(true)
+        val richContentDividerView = sut.linearLayout.getChildAt(0).findViewById<View>(R.id.rich_content_divider) as View
+        assertEquals(View.GONE, richContentDividerView.visibility)
+        val richContentWifiView = sut.linearLayout.getChildAt(0).findViewById<View>(R.id.rich_content_wifi) as ImageView
+        assertEquals(View.GONE, richContentWifiView.visibility)
+        val richContentEntertainmentView = sut.linearLayout.getChildAt(0).findViewById<View>(R.id.rich_content_entertainment) as ImageView
+        assertEquals(View.GONE, richContentEntertainmentView.visibility)
+        val richContentPowerView = sut.linearLayout.getChildAt(0).findViewById<View>(R.id.rich_content_power) as ImageView
+        assertEquals(View.GONE, richContentPowerView.visibility)
+    }
+
     private fun getTextViewForSeatClassAndBookingCode(seatClass: String, isBucketed: Boolean): TextView {
         sut.viewmodel.addSegmentRowsObserver.onNext(getFlightSegmentBreakdownList(seatClass, isBucketed))
         return sut.linearLayout.findViewById<View>(R.id.flight_seat_class_booking_code) as TextView

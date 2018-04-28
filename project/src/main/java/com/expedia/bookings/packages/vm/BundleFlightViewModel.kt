@@ -14,7 +14,9 @@ import com.expedia.bookings.utils.isFlightsUrgencyMeassagingEnabled
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.utils.RichContentUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.isRichContentShowRouteScoreEnabled
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import org.joda.time.format.ISODateTimeFormat
@@ -30,6 +32,8 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
     val suggestion = BehaviorSubject.create<SuggestionV4>()
     val flight = BehaviorSubject.create<FlightLeg>()
     val flightsRowExpanded = PublishSubject.create<Unit>()
+    val flightMessageContainerStream = PublishSubject.create<Boolean>()
+    val routeScoreStream = PublishSubject.create<String>()
 
     //output
     val flightTextObservable = BehaviorSubject.create<String>()
@@ -96,8 +100,14 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
             }
         }
 
-        if (showUrgencyMessaging) {
-            isFareFamilyUpgraded.filter { it }.subscribe { urgencyMessageObservable.onNext("") }
+        isFareFamilyUpgraded.filter { it }.subscribe {
+            if (showUrgencyMessaging) {
+                urgencyMessageObservable.onNext("")
+            }
+            if (isRichContentShowRouteScoreEnabled()) {
+                routeScoreStream.onNext("")
+                flightMessageContainerStream.onNext(false)
+            }
         }
 
         ObservableOld.combineLatest(selectedFlightObservable, flight, suggestion, date, guests, { searchType, flight, _, _, guests ->
@@ -127,6 +137,14 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
             baggageInfoClickSubject.subscribe {
                 OmnitureTracking.trackFlightBaggageFeesClick()
                 showBaggageInfoSubject.onNext(updatedFlightLeg)
+            }
+            flightMessageContainerStream.onNext(false)
+            urgencyMessageObservable.mergeWith(routeScoreStream).filter { it.isNotEmpty() }.map { true }.subscribe(flightMessageContainerStream)
+            if (isRichContentShowRouteScoreEnabled() && flight.richContent != null) {
+                val routeScore = Phrase.from(context, RichContentUtils.ScoreExpression.valueOf(flight.richContent.scoreExpression).stringResId)
+                        .put("route_score", flight.richContent.score.toString())
+                        .format().toString()
+                routeScoreStream.onNext(routeScore)
             }
             if (showUrgencyMessaging) {
                 urgencyMessageObservable.onNext(FlightV2Utils.getSeatsLeftUrgencyMessage(context, flight))
