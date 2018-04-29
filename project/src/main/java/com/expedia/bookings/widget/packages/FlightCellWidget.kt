@@ -60,6 +60,7 @@ class FlightCellWidget(context: Context, showPrice: Boolean = true) : FrameLayou
             urgencyMessageTextView.text = viewModel.seatsLeftUrgencyMessage
         } else {
             urgencyMessageVisibility = false
+            urgencyMessageTextView.text = ""
         }
         if (viewModel.isEarnMessageVisible(viewModel.earnMessage)) {
             flightEarnMessage.text = viewModel.earnMessage
