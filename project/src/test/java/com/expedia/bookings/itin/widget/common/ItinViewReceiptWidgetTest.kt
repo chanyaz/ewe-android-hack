@@ -7,6 +7,7 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.analytics.OmnitureTestUtils
+import com.expedia.bookings.features.Features
 import com.expedia.bookings.itin.common.ItinViewReceiptWidget
 import com.expedia.bookings.itin.helpers.MockHotelRepo
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
@@ -22,6 +23,7 @@ import com.expedia.bookings.itin.scopes.HasWebViewLauncher
 import com.expedia.bookings.itin.utils.IWebViewLauncher
 import com.expedia.bookings.itin.utils.StringSource
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.FeatureTestUtils
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -48,7 +50,8 @@ class ItinViewReceiptWidgetTest {
     }
 
     @Test
-    fun testViewReceiptVisibility() {
+    fun testViewReceiptVisibilityFeatureEnabled() {
+        FeatureTestUtils.enableFeature(activity, Features.all.viewReceipt)
         assertEquals(View.GONE, viewReceiptWidget.viewReceiptButton.visibility)
         assertFalse(scope.tripsTracking.trackItinHotelViewReceiptCalled)
 
@@ -56,6 +59,16 @@ class ItinViewReceiptWidgetTest {
 
         assertEquals(View.VISIBLE, viewReceiptWidget.viewReceiptButton.visibility)
         assertEquals("View receipt Button", viewReceiptWidget.viewReceiptButton.contentDescription)
+    }
+
+    @Test
+    fun testViewReceiptVisibilityFeatureDisabled() {
+        assertEquals(View.GONE, viewReceiptWidget.viewReceiptButton.visibility)
+        assertFalse(scope.tripsTracking.trackItinHotelViewReceiptCalled)
+
+        viewReceiptWidget.viewModel.showReceipt.onNext(Unit)
+
+        assertEquals(View.GONE, viewReceiptWidget.viewReceiptButton.visibility)
     }
 
     class MockHotelItinViewReceiptScope() : HasHotelRepo, HasStringProvider, HasLifecycleOwner, HasTripsTracking, HasWebViewLauncher {

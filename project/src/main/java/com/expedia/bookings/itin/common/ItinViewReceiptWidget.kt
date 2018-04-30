@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.extensions.subscribeOnClick
+import com.expedia.bookings.features.Features
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
@@ -25,9 +26,12 @@ class ItinViewReceiptWidget(context: Context, attrs: AttributeSet) : LinearLayou
     }
 
     private fun setUpViews() {
-        AccessibilityUtil.appendRoleContDesc(viewReceiptButton, R.string.accessibility_cont_desc_role_button)
-        viewReceiptButton.visibility = View.VISIBLE
-        viewReceiptButton.alpha = 1f
-        viewReceiptButton.subscribeOnClick(viewModel.viewReceiptClickSubject)
+        val isViewReceiptFeatureEnabled = Features.all.viewReceipt.enabled()
+        if (isViewReceiptFeatureEnabled) {
+            AccessibilityUtil.appendRoleContDesc(viewReceiptButton, R.string.accessibility_cont_desc_role_button)
+            viewReceiptButton.visibility = View.VISIBLE
+            viewReceiptButton.alpha = 1f
+            viewReceiptButton.subscribeOnClick(viewModel.viewReceiptClickSubject)
+        }
     }
 }
