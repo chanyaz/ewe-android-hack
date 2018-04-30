@@ -64,7 +64,7 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 	public AccountView accountView;
 
 	@InjectView(R.id.new_account_view)
-	protected NewAccountView newAccountView;
+	public NewAccountView newAccountView;
 
 	@InjectView(R.id.login_extension_container)
 	public LinearLayout loginExtenderContainer;
@@ -173,7 +173,7 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 			newAccountView.setVisibility(View.VISIBLE);
 			newAccountView.setNavigationOnClickListener(navigationListener);
 			getWindow().setStatusBarColor(getResources().getColor(R.color.brand_primary_dark));
-			newAccountView.setConfig(buildConfigBasedOnBucketing());
+			newAccountView.setupConfig(buildConfigBasedOnBucketing());
 			accountView.setVisibility(View.GONE);
 		}
 		else {
@@ -247,8 +247,18 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 
 	@Override
 	public void onBackPressed() {
-		if (!accountView.back()) {
-			super.onBackPressed();
+		if (FeatureUtilKt.isNewSignInEnabled(this)) {
+			if (newAccountView.isOnSignInPage()) {
+				super.onBackPressed();
+			}
+			else {
+				newAccountView.cancelFacebookLinkAccountsView();
+			}
+		}
+		else {
+			if (!accountView.back()) {
+				super.onBackPressed();
+			}
 		}
 	}
 
@@ -257,7 +267,12 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 		super.onActivityResult(requestCode, resultCode, data);
 
 		// Required for Facebook
-		accountView.onActivityResult(requestCode, resultCode, data);
+		if (FeatureUtilKt.isNewSignInEnabled(this)) {
+			newAccountView.onActivityResult(requestCode, resultCode, data);
+		}
+		else {
+			accountView.onActivityResult(requestCode, resultCode, data);
+		}
 	}
 
 	// TODO - talk to Mohit (as he is the tracking dude) about this. Doesn't seem right

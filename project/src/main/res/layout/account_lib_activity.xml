@@ -63,6 +63,7 @@
         app:acct__tab_text_color="@color/actionbar_tab_text_unselected"
         app:acct__tab_text_selected_color="@color/actionbar_tab_text_selected"
         app:acct__cancel_drawable="@drawable/ic_close_white_24dp"
+        app:acct__back_drawable="@drawable/ic_arrow_back_white_24dp"
         android:visibility="gone" />
 
     <LinearLayout

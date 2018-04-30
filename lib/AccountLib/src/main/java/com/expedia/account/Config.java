@@ -8,7 +8,7 @@ import okhttp3.OkHttpClient;
  * Holds the configuration for AccountView. Config uses a builder pattern:
  * <p/>
  * <pre class="prettyprint">
- * vAccountView.setConfig(Config.build()
+ * vAccountView.setupConfig(Config.build()
  * .setService(api, 0, 0, "accountstest.phone.android")
  * .setBackgroundImageView(vBackground)
  * .setPOSEnableSpamByDefault(true)

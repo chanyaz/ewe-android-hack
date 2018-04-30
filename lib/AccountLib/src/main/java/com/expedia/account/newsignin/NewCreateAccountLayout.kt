@@ -32,6 +32,7 @@ class NewCreateAccountLayout(context: Context, attrs: AttributeSet) : FrameLayou
         refreshCheckboxColor(spamCheckbox)
         createAccountButton.setOnClickListener {
             if (emailNamePasswordLayout.allTextValidSubject.value) {
+                storeDataInNewUser()
                 Events.post(Events.NewCreateAccountButtonClicked())
             } else {
                 emailNamePasswordLayout.forceCheckAllFields()
@@ -95,7 +96,7 @@ class NewCreateAccountLayout(context: Context, attrs: AttributeSet) : FrameLayou
         }
     }
 
-    fun storeDataInNewUser() {
+    private fun storeDataInNewUser() {
         Db.getNewUser().enrollInLoyalty = true
         emailNamePasswordLayout.storeDataInNewUser()
     }

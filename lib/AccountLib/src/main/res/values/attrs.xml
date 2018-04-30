@@ -73,6 +73,7 @@
         <attr name="acct__tab_indicator_color" format="color|reference" />
         <attr name="acct__brand_string" format="string|reference" />
         <attr name="acct__cancel_drawable" format="reference" />
+        <attr name="acct__back_drawable" format="reference" />
     </declare-styleable>
 
 </resources>

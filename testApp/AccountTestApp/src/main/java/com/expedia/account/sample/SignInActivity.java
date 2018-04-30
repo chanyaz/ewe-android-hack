@@ -13,12 +13,12 @@ import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.util.Base64;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.expedia.account.AccountService;
 import com.expedia.account.AccountSignInListener;
 import com.expedia.account.Config;
+import com.expedia.account.NewAccountView;
 import com.expedia.account.PanningImageView;
 import com.mobiata.android.Log;
 
@@ -26,7 +26,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
-import java.util.TimeZone;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -53,6 +52,8 @@ public class SignInActivity extends FragmentActivity {
 	public TextView vBuildDate;
 
 	private Config config;
+
+	private boolean isNewSignInEnabled = false;
 
 	private DialogInterface.OnClickListener endpointListener = new DialogInterface.OnClickListener() {
 		public void onClick(DialogInterface dialog, int which) {
@@ -89,10 +90,13 @@ public class SignInActivity extends FragmentActivity {
 			if (getResources().getStringArray(R.array.signuppath)[which].equals("New Account Page")) {
 				newAccountView.setVisibility(View.VISIBLE);
 				getWindow().setStatusBarColor(getResources().getColor(R.color.brand_primary_dark));
-
+				config.setInitialTab(NewAccountView.AccountTab.SIGN_IN);
+				newAccountView.setupConfig(config);
+				isNewSignInEnabled = true;
+			} else {
+				vAccountView.setVisibility(View.VISIBLE);
+				vAccountView.configure(config);
 			}
-			vAccountView.configure(config);
-			newAccountView.setConfig(config);
 		}
 	};
 
@@ -160,10 +164,19 @@ public class SignInActivity extends FragmentActivity {
 
 	@Override
 	public void onBackPressed() {
-		boolean isStatusAlreadyShown = vAccountView.getVisibility() == View.VISIBLE;
-		if (!vAccountView.back() && !isStatusAlreadyShown) {
-			super.onBackPressed();
+		if (isNewSignInEnabled) {
+			if (newAccountView.isOnSignInPage()) {
+				super.onBackPressed();
+			} else {
+				newAccountView.cancelFacebookLinkAccountsView();
+			}
+		} else {
+			boolean isStatusAlreadyShown = vAccountView.getVisibility() == View.VISIBLE;
+			if (!vAccountView.back() && !isStatusAlreadyShown) {
+				super.onBackPressed();
+			}
 		}
+
 	}
 
 	@OnClick(R.id.button_done)
@@ -177,7 +190,11 @@ public class SignInActivity extends FragmentActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 
 		// Required for Facebook
-		vAccountView.onActivityResult(requestCode, resultCode, data);
+		if (isNewSignInEnabled) {
+			newAccountView.onActivityResult(requestCode, resultCode, data);
+		} else {
+			vAccountView.onActivityResult(requestCode, resultCode, data);
+		}
 	}
 
 	AccountSignInListener mAccountViewListener = new AccountSignInListener() {

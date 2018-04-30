@@ -141,6 +141,12 @@ public class Events {
 	public static class NewCreateAccountButtonClicked {
 	}
 
+	public static class NewSignInWithFacebookButtonClicked {
+	}
+
+	public static class NewLinkFromFacebookFired {
+	}
+
 	public static class NewAccountSignInButtonClicked {
 		public String email;
 		public String password;
