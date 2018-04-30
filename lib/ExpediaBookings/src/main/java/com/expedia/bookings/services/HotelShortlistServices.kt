@@ -1,10 +1,8 @@
 package com.expedia.bookings.services
 
 import com.expedia.bookings.data.hotelshortlist.HotelShortlistFetchResponse
-import com.expedia.bookings.extensions.subscribeObserver
 import io.reactivex.Observer
 import io.reactivex.Scheduler
-import io.reactivex.disposables.Disposable
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -26,11 +24,11 @@ class HotelShortlistServices(endpoint: String, okHttpClient: OkHttpClient,
         adapter.create(HotelShortlistApi::class.java)
     }
 
-    fun fetchFavoriteHotels(observer: Observer<HotelShortlistFetchResponse>): Disposable {
+    fun fetchFavoriteHotels(observer: Observer<HotelShortlistFetchResponse>) {
         val configId = "hotel"
         return hotelShortListApi.fetch(configId)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
-                .subscribeObserver(observer)
+                .subscribe(observer)
     }
 }

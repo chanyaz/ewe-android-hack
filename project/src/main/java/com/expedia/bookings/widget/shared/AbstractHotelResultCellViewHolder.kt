@@ -13,8 +13,7 @@ import com.expedia.util.getGuestRatingText
 import com.expedia.vm.hotel.HotelViewModel
 import kotlin.properties.Delegates
 
-abstract class AbstractHotelResultCellViewHolder(val root: ViewGroup) :
-        AbstractHotelCellViewHolder(root) {
+abstract class AbstractHotelResultCellViewHolder(val root: ViewGroup) : AbstractHotelCellViewHolder(root) {
 
     abstract fun createHotelViewModel(context: Context): HotelViewModel
 

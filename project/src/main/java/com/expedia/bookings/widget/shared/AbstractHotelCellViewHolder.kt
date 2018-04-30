@@ -12,7 +12,6 @@ import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
@@ -32,8 +31,7 @@ import com.larvalabs.svgandroid.widget.SVGView
 import com.squareup.picasso.Picasso
 import io.reactivex.subjects.PublishSubject
 
-abstract class AbstractHotelCellViewHolder(root: ViewGroup) :
-        RecyclerView.ViewHolder(root), View.OnClickListener {
+abstract class AbstractHotelCellViewHolder(root: ViewGroup) : RecyclerView.ViewHolder(root), View.OnClickListener {
 
     val PICASSO_TAG = "HOTEL_RESULTS_LIST"
     val DEFAULT_GRADIENT_POSITIONS = floatArrayOf(0f, .3f, .6f, 1f)
@@ -81,8 +79,8 @@ abstract class AbstractHotelCellViewHolder(root: ViewGroup) :
 
             if (imageView.width == 0) {
                 // Because of prefetch search results get bound before they are laid out.
-                var onLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
-                onLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
+                var layoutChangeListener: View.OnLayoutChangeListener? = null
+                layoutChangeListener = View.OnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
                     PicassoHelper.Builder(itemView.context)
                             .setPlaceholder(R.drawable.results_list_placeholder)
                             .setError(R.drawable.room_fallback)
@@ -90,10 +88,9 @@ abstract class AbstractHotelCellViewHolder(root: ViewGroup) :
                             .setTarget(target).setTag(PICASSO_TAG)
                             .build()
                             .load(HotelMedia(url).getBestUrls(imageView.width / 2))
-                    imageView.viewTreeObserver.removeOnGlobalLayoutListener(onLayoutListener)
+                    imageView.removeOnLayoutChangeListener(layoutChangeListener)
                 }
-
-                imageView.viewTreeObserver.addOnGlobalLayoutListener(onLayoutListener)
+                imageView.addOnLayoutChangeListener(layoutChangeListener)
             } else {
                 PicassoHelper.Builder(itemView.context)
                         .setPlaceholder(R.drawable.results_list_placeholder)
