@@ -249,9 +249,7 @@ object FlightV2Utils {
         if (flightLeg.packageOfferModel.urgencyMessage != null) {
             val seatsLeft = flightLeg.packageOfferModel.urgencyMessage.ticketsLeft
             if (seatsLeft in 1..TICKETS_LEFT_CUTOFF_FOR_DECIDING_URGENCY)
-                return Phrase.from(context.resources.getQuantityString(R.plurals.package_flight_overview_urgency_message_TEMPLATE, seatsLeft))
-                        .put("seats", seatsLeft)
-                        .format().toString()
+                return Phrase.from(context, R.string.flight_cell_urgency_messaging_TEMPLATE).put("seats", seatsLeft).format().toString()
             else return ""
         } else return ""
     }

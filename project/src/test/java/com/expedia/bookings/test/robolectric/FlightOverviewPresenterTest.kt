@@ -355,7 +355,7 @@ class FlightOverviewPresenterTest {
         prepareBundleWidgetViewModel(outboundFlightWidget.viewModel)
         val outboundFlightUrgencyMessaging = outboundFlightWidget.urgencyMessageText
         assertEquals(View.VISIBLE, outboundFlightUrgencyMessaging.visibility)
-        assertEquals(outboundFlightUrgencyMessaging.text, "3 seats left")
+        assertEquals(outboundFlightUrgencyMessaging.text, "3 left at this price")
 
         setUrgencyData(7)
         prepareBundleWidgetViewModel(outboundFlightWidget.viewModel)

@@ -65,7 +65,7 @@ class AbstractFlightOverviewViewModelTest {
 
         setSeatsLeftInLeg(6)
         sut.selectedFlightLegSubject.onNext(flightLeg)
-        urgencyMessageTestSubscriber.assertValues("3 seats left", "")
+        urgencyMessageTestSubscriber.assertValues("3 left at this price", "")
     }
 
     @Test
@@ -141,7 +141,7 @@ class AbstractFlightOverviewViewModelTest {
         sut.flightMessageContainerStream.subscribe(bottomUrgencyMessageTestSubscriber)
 
         sut.routeScoreStream.onNext("7.9/10 - Very Good!")
-        sut.bottomUrgencyMessageSubject.onNext("2 seats left")
+        sut.bottomUrgencyMessageSubject.onNext("2 left at this price")
         bottomUrgencyMessageTestSubscriber.assertValueCount(2)
         bottomUrgencyMessageTestSubscriber.assertValuesAndClear(true, true)
 
@@ -151,7 +151,7 @@ class AbstractFlightOverviewViewModelTest {
         bottomUrgencyMessageTestSubscriber.assertValuesAndClear(true)
 
         sut.routeScoreStream.onNext("")
-        sut.bottomUrgencyMessageSubject.onNext("2 seats left")
+        sut.bottomUrgencyMessageSubject.onNext("2 left at this price")
         bottomUrgencyMessageTestSubscriber.assertValueCount(1)
         bottomUrgencyMessageTestSubscriber.assertValuesAndClear(true)
 

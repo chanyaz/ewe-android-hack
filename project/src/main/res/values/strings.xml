@@ -768,7 +768,7 @@
     <!-- Header for a flight filter, showing a list of flights from different airlines -->
     <string name="airlines">Airlines</string>
     <!-- Header for a flight filter above the price on checked filters-->
-    <string name="price_label">Price</string>
+    <string name="price_label">From</string>
 
     <!-- Pluralization for number of stops (layovers) on a given flight "2 stops" -->
     <plurals name="x_Stops_TEMPLATE">
@@ -4258,7 +4258,9 @@
         <item quantity="one">{seats} seat left</item>
         <item quantity="other">{seats} seats left</item>
     </plurals>
-        <string name="package_flight_overview_baggage_fees">Baggage fee information</string>
+    <!-- Seats left message in flights cell. e.g. "3 left at this price" -->
+    <string name="flight_cell_urgency_messaging_TEMPLATE">{seats} left at this price</string>
+    <string name="package_flight_overview_baggage_fees">Baggage fee information</string>
     <string name="package_flight_overview_select_flight">Select this flight</string>
     <string name="package_flight_overview_bundle_total_label">Bundle Total</string>
     <string name="package_flight_overview_per_person_TEMPLATE">{money}/person</string>
