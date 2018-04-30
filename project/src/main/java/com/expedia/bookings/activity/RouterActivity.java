@@ -312,6 +312,7 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightsContentHighlightInTypeahead.getKey());
 			query.addExperiment(AbacusUtils.EBAndroidAppPackagesAATest.getKey());
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightsHolidayCalendar.getKey());
+			query.addExperiment(AbacusUtils.EBAndroidAppFLightLoadingStateV1.getKey());
 		}
 
 		Ui.getApplication(this).appComponent().abacus()
