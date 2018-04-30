@@ -126,7 +126,6 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
         webView.webViewClient = webClient
         webView.settings.javaScriptEnabled = true
         webView.settings.setSupportMultipleWindows(true)
-        webView.addJavascriptInterface(this, "Android")
 
         webView.setDownloadListener { url, _, _, _, _ ->
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
