@@ -24,7 +24,6 @@ import com.expedia.vm.WebCheckoutViewViewModel
 import com.expedia.vm.WebViewViewModel
 import com.mobiata.android.util.AndroidUtils
 import android.view.ViewGroup
-import android.webkit.JavascriptInterface
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -41,6 +40,8 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
     val showLoadingIndicator = PublishSubject.create<Boolean>()
 
     var clearHistory = false
+
+    var unrecoverableState = false
 
     val chromeClient: WebChromeClient = object : WebChromeClient() {
 
@@ -131,10 +132,15 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
 
     override fun onWebPageStarted(view: WebView, url: String, favicon: Bitmap?) {
         showLoadingIndicator.onNext(true)
+        if (unrecoverableState && this.visibility == View.VISIBLE) {
+            goToSearchAndClearWebView()
+        }
         if (shouldShowNativeConfirmation(url)) {
             view.stopLoading()
             viewModel.showWebViewObservable.onNext(false)
             (viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.onNext(Uri.parse(url).getQueryParameter("tripid"))
+        } else if (url.contains("CheckoutError")) {
+            unrecoverableState = true
         }
     }
 
@@ -157,26 +163,6 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
         if (url.contains("about:blank")) {
             viewModel.blankViewObservable.onNext(Unit)
         }
-        if (url.contains("CheckoutError")) {
-            webView.evaluateJavascript(onClickRedirectToSearch(), {})
-        }
-    }
-
-    @JavascriptInterface
-    fun showSearchScreen() {
-//        post to maintain thread-safety
-        webView.post({
-            goToSearchAndClearWebView()
-        })
-    }
-
-    private fun onClickRedirectToSearch(): String {
-        return "document.querySelectorAll('a')" +
-                ".forEach(function(element) {" +
-                "element.onclick = function(event) {" +
-                "event.stopPropagation();" +
-                "Android.showSearchScreen();" +
-                "}});"
     }
 
     fun back() {
@@ -184,7 +170,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
             hideWebViewPopUp()
             return
         }
-        if (webView.url?.contains("CheckoutError") == true) {
+        if (unrecoverableState) {
             goToSearchAndClearWebView()
         }
 
@@ -197,6 +183,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
 
     @VisibleForTesting
     fun goToSearchAndClearWebView() {
+        unrecoverableState = false
         viewModel.showNativeSearchObservable.onNext(Unit)
         viewModel.webViewURLObservable.onNext("about:blank")
         webView.clearHistory()
