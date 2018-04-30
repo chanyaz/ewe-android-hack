@@ -3,6 +3,7 @@ package com.expedia.bookings.widget
 import android.content.Context
 import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.CardView
 import android.support.v7.widget.GridLayout
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
@@ -14,6 +15,7 @@ import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extensions.subscribeOnClick

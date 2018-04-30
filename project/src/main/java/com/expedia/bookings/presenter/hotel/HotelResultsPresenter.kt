@@ -87,9 +87,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     lateinit var urgencyViewModel: UrgencyViewModel
 
     init {
-        filterViewModel.filterChoicesObservable.subscribe { filterChoices ->
-            viewModel.filterChoicesSubject.onNext(filterChoices)
-        }
 
         floatingPill.filterButton.setOnClickListener {
             show(ResultsFilter())
@@ -184,16 +181,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             viewModel.clearCachedParamsFilterOptions()
         }
 
-        vm.filterChoicesSubject.subscribe {
-            if (previousWasList) {
-                show(ResultsList(), Presenter.FLAG_CLEAR_TOP)
-                resetListOffset()
-            } else {
-                show(ResultsMap(), Presenter.FLAG_CLEAR_TOP)
-                getFloatingButton().isEnabled = false
-                animateMapCarouselOut()
-            }
-        }
         vm.paramsSubject.map { it.isCurrentLocationSearch() }.subscribe(filterViewModel.isCurrentLocationSearch)
 
         vm.errorObservable.subscribe { hideMapLoadingOverlay() }
@@ -402,7 +389,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         mapWidget.markSoldOutHotel(hotelId)
     }
 
-    fun showUnfilteredResults() {
+    override fun showUnfilteredResults() {
         filterViewModel.clearObservable.onNext(Unit)
         viewModel.clearCachedParamsFilterOptions()
 

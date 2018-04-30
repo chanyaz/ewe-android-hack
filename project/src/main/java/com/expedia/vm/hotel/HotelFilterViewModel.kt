@@ -10,31 +10,6 @@ import io.reactivex.subjects.PublishSubject
 
 class HotelFilterViewModel(context: Context) : BaseHotelFilterViewModel(context) {
     //out
-    val presetFilterOptionsUpdatedSubject = PublishSubject.create<UserFilterChoices>()
-
-    private var presetFilterOptions = false
-    private var previousFilterChoices: UserFilterChoices? = null
-
-    init {
-        doneButtonEnableObservable.onNext(true)
-        doneObservable.subscribe {
-            filterCountObservable.onNext(userFilterChoices.filterCount())
-            if (defaultFilterOptions() && !presetFilterOptions) {
-                originalResponse?.let {
-                    filterObservable.onNext(it)
-                }
-            } else if (sameFilterOptions()) {
-                showPreviousResultsObservable.onNext(Unit)
-            } else {
-                filterChoicesObservable.onNext(userFilterChoices)
-            }
-            previousFilterChoices = userFilterChoices.copy()
-        }
-
-        clearObservable.subscribe {
-            previousFilterChoices = null
-        }
-    }
 
     override fun updatePresetOptions(filterOptions: HotelSearchParams.HotelFilterOptions) {
         presetFilterOptions = false
@@ -65,14 +40,4 @@ class HotelFilterViewModel(context: Context) : BaseHotelFilterViewModel(context)
         return false
     }
 
-    fun setPreviousFilterChoices(filterChoices: UserFilterChoices) {
-        previousFilterChoices = filterChoices
-    }
-
-    private fun sameFilterOptions(): Boolean {
-        if (previousFilterChoices != null) {
-            return userFilterChoices == previousFilterChoices
-        }
-        return false
-    }
 }

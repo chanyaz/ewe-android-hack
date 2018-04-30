@@ -304,13 +304,12 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         filterViewModel.filterObservable.subscribe(filterObserver)
 
         filterViewModel.showPreviousResultsObservable.subscribe {
-            if (previousWasList) {
-                show(ResultsList(), Presenter.FLAG_CLEAR_TOP)
-                resetListOffset()
-            } else {
-                show(ResultsMap(), Presenter.FLAG_CLEAR_TOP)
-                animateMapCarouselOut()
-            }
+            handleHotelsResultsTransition()
+        }
+
+        filterViewModel.filterChoicesObservable.subscribe { filterChoices ->
+            baseViewModel.filterChoicesSubject.onNext(filterChoices)
+            handleHotelsResultsTransition()
         }
 
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
@@ -338,6 +337,25 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 info.setTraversalAfter(fab)
             }
         })
+    }
+
+    private fun handleHotelsResultsTransition() {
+        if (previousWasList) {
+            animateResultsList()
+        } else {
+            animateResultsMap()
+        }
+    }
+
+    private fun animateResultsList() {
+        show(ResultsList(), Presenter.FLAG_CLEAR_TOP)
+        resetListOffset()
+    }
+
+    private fun animateResultsMap() {
+        show(ResultsMap(), Presenter.FLAG_CLEAR_TOP)
+        getFloatingButton().isEnabled = false
+        animateMapCarouselOut()
     }
 
     protected fun hideMapLoadingOverlay() {
@@ -1119,5 +1137,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     abstract fun trackMapSearchAreaClick()
     abstract fun getLineOfBusiness(): LineOfBusiness
     abstract fun getHotelListAdapter(): BaseHotelListAdapter
+    abstract fun showUnfilteredResults()
     protected abstract fun getScrollListener(): BaseHotelResultsScrollListener
 }

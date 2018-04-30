@@ -47,15 +47,46 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
 
     var neighborhoodsExist = false
 
+    val presetFilterOptionsUpdatedSubject = PublishSubject.create<UserFilterChoices>()
+
+    var presetFilterOptions = false
+    var previousFilterChoices: UserFilterChoices? = null
+
+
     init {
+        doneButtonEnableObservable.onNext(!isClientSideFiltering())
+        doneObservable.subscribe {
+            filterCountObservable.onNext(userFilterChoices.filterCount())
+            if (defaultFilterOptions() && !presetFilterOptions) {
+                originalResponse?.let {
+                    filterObservable.onNext(it)
+                }
+            } else if (sameFilterOptions()) {
+                showPreviousResultsObservable.onNext(Unit)
+            } else {
+                filterChoicesObservable.onNext(userFilterChoices)
+            }
+            previousFilterChoices = userFilterChoices.copy()
+        }
+
         clearObservable.subscribe {
             resetUserFilters()
             doneButtonEnableObservable.onNext(true)
             filterCountObservable.onNext(userFilterChoices.filterCount())
             finishClear.onNext(Unit)
             sendNewPriceRange()
+
+            previousFilterChoices = null
         }
     }
+
+    private fun sameFilterOptions(): Boolean {
+        if (previousFilterChoices != null) {
+            return userFilterChoices == previousFilterChoices
+        }
+        return false
+    }
+
 
     val oneStarFilterObserver: Observer<Unit> = endlessObserver {
         if (!userFilterChoices.hotelStarRating.one) {

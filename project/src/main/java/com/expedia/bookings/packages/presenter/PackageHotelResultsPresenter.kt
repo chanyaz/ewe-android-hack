@@ -26,6 +26,8 @@ import com.expedia.bookings.widget.packages.PackageHotelListAdapter
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.bookings.packages.vm.PackageFilterViewModel
+import com.expedia.bookings.utils.isServerSideFilteringEnabledForPackages
+import com.expedia.bookings.widget.BaseHotelServerFilterView
 import com.expedia.vm.hotel.BaseHotelFilterViewModel
 import com.squareup.phrase.Phrase
 import io.reactivex.Observer
@@ -99,13 +101,19 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
     override fun onFinishInflate() {
         super.onFinishInflate()
         recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
-        (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setLob(LineOfBusiness.PACKAGES)
+        (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).
+                setLob(LineOfBusiness.PACKAGES)
         filterViewModel.priceRangeContainerVisibility.onNext(false)
     }
 
     override fun inflateFilterView(viewStub: ViewStub): BaseHotelFilterView {
-        viewStub.layoutResource = R.layout.hotel_client_filter_stub
-        return viewStub.inflate() as HotelClientFilterView
+        if (isServerSideFilteringEnabledForPackages(context)) {
+            viewStub.layoutResource = R.layout.package_hotel_server_filter_view_stub
+            return viewStub.inflate() as BaseHotelServerFilterView
+        } else {
+            viewStub.layoutResource = R.layout.hotel_client_filter_stub
+            return viewStub.inflate() as HotelClientFilterView
+        }
     }
 
     override fun hideSearchThisArea() {
@@ -144,10 +152,14 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
     }
 
     override fun createFilterViewModel(): BaseHotelFilterViewModel {
-        return PackageFilterViewModel(context)
+            return PackageFilterViewModel(context)
     }
 
     override fun getScrollListener(): BaseHotelResultsScrollListener {
         return BaseHotelResultsScrollListener()
+    }
+
+    override fun showUnfilteredResults() {
+        TODO("Handle No results / filter cancel") //To change body of created functions use File | Settings | File Templates.
     }
 }

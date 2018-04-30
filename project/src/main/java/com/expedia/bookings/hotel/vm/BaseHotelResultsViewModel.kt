@@ -2,6 +2,7 @@ package com.expedia.bookings.hotel.vm
 
 import android.content.Context
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.tracking.AdImpressionTracking
@@ -12,9 +13,13 @@ open class BaseHotelResultsViewModel(protected val context: Context) {
 
     // Inputs
     val paramsSubject = PublishSubject.create<HotelSearchParams>()
+    val filterChoicesSubject = PublishSubject.create<UserFilterChoices>()
+
 
     // Outputs
     val hotelResultsObservable = PublishSubject.create<HotelSearchResponse>()
+
+    val filterResultsObservable = PublishSubject.create<HotelSearchResponse>()
 
     val errorObservable = PublishSubject.create<ApiError>()
     val titleSubject = BehaviorSubject.create<String>()

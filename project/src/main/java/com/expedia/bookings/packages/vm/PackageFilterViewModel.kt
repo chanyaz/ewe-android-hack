@@ -6,6 +6,7 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.tracking.PackagesFilterTracker
 import com.expedia.bookings.tracking.hotel.FilterTracker
+import com.expedia.bookings.utils.isServerSideFilteringEnabledForPackages
 import com.expedia.util.endlessObserver
 import com.expedia.vm.hotel.BaseHotelFilterViewModel
 import io.reactivex.subjects.PublishSubject
@@ -48,8 +49,10 @@ class PackageFilterViewModel(context: Context) : BaseHotelFilterViewModel(contex
         sortByObservable.subscribe(sortSpinnerObservable)
         sortByObservable.subscribe(sortObserver)
 
-        doneObservable.subscribe {
-            sortByObservable.onNext(userFilterChoices.userSort)
+        if (isClientSideFiltering()) {
+            doneObservable.subscribe {
+                sortByObservable.onNext(userFilterChoices.userSort)
+            }
         }
 
         clearObservable.subscribe {
@@ -89,7 +92,7 @@ class PackageFilterViewModel(context: Context) : BaseHotelFilterViewModel(contex
     }
 
     override fun isClientSideFiltering(): Boolean {
-        return true
+        return !isServerSideFilteringEnabledForPackages(context)
     }
 
     private fun setFilteredHotelListAndRetainLoyaltyInformation(hotelList: List<Hotel>) {

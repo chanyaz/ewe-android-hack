@@ -1,6 +1,7 @@
 package com.expedia.bookings.packages.vm
 
 import android.content.Context
+import android.util.Log
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.hotel.vm.BaseHotelResultsViewModel
@@ -14,11 +15,18 @@ class PackageHotelResultsViewModel(context: Context) :
 
     init {
         paramsSubject.subscribe(endlessObserver { params ->
-            doSearch(params)
+            updateTitleSubtitleFromParams(params)
+        })
+
+        filterChoicesSubject.subscribe(endlessObserver { filterChoices ->
+            //TODO Search with new filter choices (TBD once the API changes go in)
+            //TODO Set New Params in Db
+            //TODO push params to paramsSubject
+            com.mobiata.android.Log.d("PHRVM", "Current filter:" + filterChoices)
         })
     }
 
-    private fun doSearch(params: HotelSearchParams) {
+    private fun updateTitleSubtitleFromParams(params: HotelSearchParams) {
         cachedParams = params
         titleSubject.onNext(StrUtils.formatCity(params.suggestion))
         subtitleSubject.onNext(Phrase.from(context, R.string.start_dash_end_date_range_with_guests_TEMPLATE)
