@@ -8,11 +8,11 @@ import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.widget.shared.AbstractHotelCellViewHolder
 import com.expedia.vm.hotel.HotelViewModel
 import com.expedia.bookings.packages.vm.PackageHotelViewModel
+import com.expedia.bookings.widget.shared.AbstractHotelResultCellViewHolder
 
-class PackageHotelCellViewHolder(root: ViewGroup) : AbstractHotelCellViewHolder(root) {
+class PackageHotelCellViewHolder(root: ViewGroup) : AbstractHotelResultCellViewHolder(root) {
     val unrealDealMessageContainer: LinearLayout by bindView(R.id.unreal_deal_container)
     val unrealDealMessage: TextView by bindView(R.id.unreal_deal_message)
 
