@@ -106,7 +106,7 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
     }
 
     private fun redirectSigninClick() {
-        webView.evaluateJavascript("document.querySelectorAll('#user-account, #user-account-top')" +
+        webView.evaluateJavascript("document.querySelectorAll('#login-module-title')" +
                 ".forEach(function(element) {" +
                 "element.onclick = function(event) {" +
                 "event.stopPropagation();" +
