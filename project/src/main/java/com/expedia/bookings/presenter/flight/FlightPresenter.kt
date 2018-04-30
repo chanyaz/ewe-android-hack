@@ -543,7 +543,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         flightWebCheckoutViewModel.showNativeSearchObservable.subscribe {
             show(searchPresenter, FLAG_CLEAR_TOP)
             webCheckoutView.visibility = View.GONE
-            webCheckoutView.viewModel.showWebViewObservable.onNext(false)
             searchPresenter.visibility = View.VISIBLE
         }
 
