@@ -16,22 +16,20 @@ import android.widget.TextView;
 
 import com.mobiata.android.Log;
 import com.mobiata.android.R;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 
 public class CopyrightFragment extends Fragment {
 
 	public interface CopyrightFragmentListener {
-		public boolean onLogoLongClick();
+		boolean onLogoLongClick();
 
-		public void onLogoClick();
+		void onLogoClick();
 	}
 
 	private static final String ARG_NAME = "ARG_NAME";
 	private static final String ARG_COPYRIGHT = "ARG_COPYRIGHT";
 	private static final String ARG_COPYRIGHT_STRING = "ARG_COPYRIGHT_STRING";
 	private static final String ARG_LOGO = "ARG_LOGO";
-	private static final String ARG_SUPPRESS_VERSION_CODE = "SUPPRESS_VERSION_CODE";
 
 	public static class Builder {
 		private Bundle mArgs;
@@ -60,11 +58,6 @@ public class CopyrightFragment extends Fragment {
 			return this;
 		}
 
-		public Builder suppressVersionCode(boolean suppress) {
-			mArgs.putBoolean(ARG_SUPPRESS_VERSION_CODE, suppress);
-			return this;
-		}
-
 		public CopyrightFragment build() {
 			CopyrightFragment frag = CopyrightFragment.newInstance();
 			frag.setArguments(mArgs);
@@ -84,7 +77,6 @@ public class CopyrightFragment extends Fragment {
 	private String mCopyrightString;
 	private String mAppName;
 	private int mLogo;
-	private boolean mSuppressVersionCode;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -99,8 +91,6 @@ public class CopyrightFragment extends Fragment {
 		mAppName = context.getString(args.getInt(ARG_NAME));
 
 		mLogo = args.getInt(ARG_LOGO);
-
-		mSuppressVersionCode = args.getBoolean(ARG_SUPPRESS_VERSION_CODE, false);
 
 		View root = inflater.inflate(R.layout.fragment_copyright, container, false);
 
@@ -147,20 +137,8 @@ public class CopyrightFragment extends Fragment {
 			}
 			infoStrings.add(pi.versionName);
 
-			if (!mSuppressVersionCode) {
-				String versionCode;
-				if (AndroidUtils.isRelease(getActivity())) {
-					versionCode = Integer.toString(pi.versionCode);
-				}
-				else {
-					versionCode = AndroidUtils.getAlphaBuildNumber(getActivity());
-					// If buildNumber is not defined in the manifest, just use the versionCode
-					if (TextUtils.isEmpty(versionCode) || versionCode.equals("0")) {
-						versionCode = Integer.toString(pi.versionCode);
-					}
-				}
-				infoStrings.add("(" + versionCode + ")");
-			}
+			String versionCode = Integer.toString(pi.versionCode);
+			infoStrings.add("(" + versionCode + ")");
 
 			String buildInfo = TextUtils.join(" ", infoStrings);
 			mBuildInfoView.setText(buildInfo);
