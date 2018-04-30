@@ -8,6 +8,7 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.BaggageInfoService;
 import com.expedia.bookings.services.FlightServices;
+import com.expedia.bookings.services.HolidayCalendarService;
 import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.services.KongFlightServices;
 import com.expedia.bookings.services.KrazyglueServices;
@@ -115,6 +116,14 @@ public final class FlightModule {
 		List<Interceptor> interceptorList = new ArrayList<>();
 		interceptorList.add(interceptor);
 		return new KongFlightServices(endpointProvider.getKongEndpointUrl(), client, interceptorList,
+			AndroidSchedulers.mainThread(), Schedulers.io());
+	}
+
+	@Provides
+	@FlightScope
+	HolidayCalendarService provideHolidayCalendarServices(EndpointProvider endpointProvider, OkHttpClient client,
+		Interceptor interceptor) {
+		return new HolidayCalendarService(endpointProvider.getKongEndpointUrl(), client, interceptor,
 			AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 }

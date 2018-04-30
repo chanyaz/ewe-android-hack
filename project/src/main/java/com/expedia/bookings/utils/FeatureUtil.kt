@@ -164,3 +164,7 @@ fun isNewSignInEnabled(context: Context): Boolean {
 fun isServerSideFilteringEnabledForPackages(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesServerSideFiltering)
 }
+
+fun isHolidayCalendarEnabled(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsHolidayCalendar)
+}

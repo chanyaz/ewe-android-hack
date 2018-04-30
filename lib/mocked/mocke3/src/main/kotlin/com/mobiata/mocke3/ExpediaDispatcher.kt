@@ -43,6 +43,11 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
             return cardFeeServiceRequestDispatcher.dispatch(request)
         }
 
+        //Holiday Calendar API
+        if (request.path.startsWith("/m/api/calendar")) {
+            return dispatchHolidayInfo()
+        }
+
         // Rails API
         if (RailApiRequestMatcher.isRailApiRequest(request.path)) {
             return railApiRequestDispatcher.dispatch(request)
@@ -431,6 +436,10 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         } else {
             return makeResponse("api/flight/baggageFeeInfoInbound.json")
         }
+    }
+
+    private fun dispatchHolidayInfo() : MockResponse {
+        return makeResponse("api/flight/holidayCalendar.json")
     }
 
     private fun dispatchTNSResponse(): MockResponse {

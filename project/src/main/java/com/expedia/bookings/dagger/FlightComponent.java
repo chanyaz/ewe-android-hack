@@ -7,6 +7,7 @@ import com.expedia.bookings.presenter.flight.FlightOutboundPresenter;
 import com.expedia.bookings.presenter.flight.FlightOverviewPresenter;
 import com.expedia.bookings.presenter.flight.FlightPresenter;
 import com.expedia.bookings.presenter.flight.FlightSearchPresenter;
+import com.expedia.bookings.services.HolidayCalendarService;
 import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.services.KrazyglueServices;
 import com.expedia.bookings.services.SuggestionV4Services;
@@ -33,6 +34,7 @@ public interface FlightComponent {
 	void inject(FlightResultsViewModel flightResultsViewModel);
 	void inject(RecentSearchViewModel recentSearchViewModel);
 
+	HolidayCalendarService holidayCalendarService();
 	SuggestionV4Services suggestionsService();
 	ItinTripServices itinTripService();
 	KrazyglueServices krazyglueService();
