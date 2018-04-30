@@ -515,7 +515,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
         flightWebCheckoutViewModel.closeView.subscribe {
             if (isNativeRateDetailsWebviewCheckoutEnabled) {
-                if (flightOverviewPresenter.visibility == View.GONE) {
+                if (webCheckoutView.visibility == View.VISIBLE) {
                     super.back()
                 }
             } else {
