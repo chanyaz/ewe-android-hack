@@ -64,7 +64,6 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
 
     val flightCostSummaryObservable = (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable
     val overviewPageUsableData = PageUsableData()
-    val showCollapsedToolbar = true
 
     private val basicEconomyInfoWebView: BasicEconomyInfoWebView by lazy {
         val viewStub = findViewById<ViewStub>(R.id.basic_economy_info_web_view)

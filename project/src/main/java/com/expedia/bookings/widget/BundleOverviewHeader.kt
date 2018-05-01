@@ -9,12 +9,12 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.widget.NestedScrollView
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.packages.CheckoutOverviewHeader
@@ -70,16 +70,7 @@ class BundleOverviewHeader(context: Context, attrs: AttributeSet) : CoordinatorL
         (checkoutOverviewHeaderToolbar.checkInOutDates.layoutParams as LinearLayout.LayoutParams).gravity = Gravity.LEFT
         checkoutOverviewHeaderToolbar.destinationText.pivotX = 0f
         checkoutOverviewHeaderToolbar.destinationText.pivotY = 0f
-        checkoutOverviewHeaderToolbar.destinationText.scaleX = .75f
-        checkoutOverviewHeaderToolbar.destinationText.scaleY = .75f
-    }
-
-    fun translateDatesTitleForHeaderToolbar() {
-        val destinationTextView = checkoutOverviewFloatingToolbar.destinationText
-        if (Strings.isNotEmpty(destinationTextView.text) && destinationTextView.lineCount > 0) {
-            checkoutOverviewHeaderToolbar.checkInOutDates.translationY = -((destinationTextView.height
-                    / destinationTextView.lineCount) * .25f)
-        }
+        checkoutOverviewHeaderToolbar.destinationText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
     }
 
     fun toggleOverviewHeader(show: Boolean) {
@@ -112,13 +103,11 @@ class BundleOverviewHeader(context: Context, attrs: AttributeSet) : CoordinatorL
                     }
                     checkoutOverviewHeaderToolbar.destinationText.visibility = View.VISIBLE
                     checkoutOverviewHeaderToolbar.checkInOutDates.alpha = 1f
-                    translateDatesTitleForHeaderToolbar()
                     isHideToolbarView = !isHideToolbarView
                 } else if (percentage >= .7f) {
                     checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
                     val alpha = (percentage - .7f) / .3f
                     checkoutOverviewHeaderToolbar.checkInOutDates.alpha = alpha
-                    translateDatesTitleForHeaderToolbar()
                 } else {
                     checkoutOverviewHeaderToolbar.visibility = View.GONE
                     checkoutOverviewHeaderToolbar.checkInOutDates.alpha = 0f
