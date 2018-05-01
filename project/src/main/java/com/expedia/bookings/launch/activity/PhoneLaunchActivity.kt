@@ -233,7 +233,6 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         } else if (intent.getBooleanExtra(ARG_FORCE_UPGRADE, false)) {
             PlayStoreUtil.showForceUpgradeDailogWithMessage(this)
         }
-
         startupTimer.addSplit("Time for operation related with intent")
 
         GooglePlayServicesDialog(this).startChecking()

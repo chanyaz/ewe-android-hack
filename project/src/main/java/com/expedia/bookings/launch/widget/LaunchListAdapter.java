@@ -217,9 +217,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				R.color.member_deals_background_gradient,
 				R.string.member_deal_title, R.string.member_deal_subtitle);
 			vm.setBackgroundUrl(getBigImageResizedUrl(PointOfSale.getPointOfSale().getmMemberDealCardImageUrl()));
-			BigImageLaunchViewHolder holder = new BigImageLaunchViewHolder(view);
+			BigImageLaunchViewHolder holder = new BigImageLaunchViewHolder(view, vm, false);
 			memberDealBackgroundUrlSubject.subscribe(vm.getBackgroundUrlChangeSubject());
-			holder.bind(vm);
+			holder.loadCard();
 			return holder;
 		}
 		if (viewType == LaunchDataItem.REWARD_CARD_VIEW) {
@@ -245,11 +245,11 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				R.string.last_minute_deal_subtitle);
 			vm.setBackgroundUrl(getBigImageResizedUrl(
 				PointOfSale.getPointOfSale().getmLastMinuteDealImageUrl()));
+
 			view.setOnClickListener(new LastMinuteDealClickListener());
-			vm.setBackgroundUrl(getBigImageResizedUrl(PointOfSale.getPointOfSale().getmLastMinuteDealImageUrl()));
-			BigImageLaunchViewHolder holder = new BigImageLaunchViewHolder(view);
-			holder.bind(vm);
-			return new BigImageLaunchViewHolder(view);
+			BigImageLaunchViewHolder holder = new BigImageLaunchViewHolder(view, vm, true);
+			holder.loadCard();
+			return holder;
 		}
 
 		if (viewType == LaunchDataItem.EARN_2X_MESSAGING_BANNER) {
@@ -352,12 +352,19 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 			((CollectionViewHolder) holder).bindListData(locationDataItem.getCollection(), fullWidthTile, false);
 		}
+		else if (holder instanceof BigImageLaunchViewHolder) {
+			((BigImageLaunchViewHolder) holder).startLoadingAnimation();
+		}
 	}
 
 	@Override
 	public void onViewRecycled(RecyclerView.ViewHolder holder) {
 		if (holder.getItemViewType() == LaunchDataItem.LOADING_VIEW) {
 			((LaunchLoadingViewHolder) holder).cancelAnimation();
+		}
+		else if (holder.getItemViewType() == LaunchDataItem.LAST_MINUTE_DEALS
+			|| holder.getItemViewType() == LaunchDataItem.MEMBER_ONLY_DEALS) {
+			((BigImageLaunchViewHolder) holder).cancelAnimation();
 		}
 		super.onViewRecycled(holder);
 	}
@@ -542,7 +549,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		return new BigImageLaunchViewModel(dealsIcon,
 			backgroundGradient,
 			title,
-			subtitle);
+			subtitle,
+			R.drawable.bg_itin_placeholder_cloud);
 	}
 
 	private String getBigImageResizedUrl(String imageUrl) {
