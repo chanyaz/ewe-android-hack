@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelMedia
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
+import io.reactivex.subjects.PublishSubject
 
-class HotelGalleryGridViewHolder(val root: View) : RecyclerView.ViewHolder(root) {
+class HotelGalleryGridViewHolder(val root: View, private val loadFailureCallback: PublishSubject<Unit>) : RecyclerView.ViewHolder(root) {
     private val imageView by lazy { root.findViewById<ImageView>(R.id.hotel_gallery_grid_imageview) }
 
     fun bind(media: HotelMedia, lowMemoryMode: Boolean) {
@@ -17,13 +19,24 @@ class HotelGalleryGridViewHolder(val root: View) : RecyclerView.ViewHolder(root)
         Picasso.with(root.context)
                 .load(media.getUrl(mediaSize))
                 .placeholder(R.color.gallery_grid_placeholder_color)
-                .into(imageView)
+                .into(imageView, callback)
+    }
+
+    val callback = object : Callback {
+        override fun onSuccess() {
+            Picasso.with(root.context).cancelRequest(imageView)
+        }
+
+        override fun onError() {
+            Picasso.with(root.context).cancelRequest(imageView)
+            loadFailureCallback.onNext(Unit)
+        }
     }
 
     companion object {
-        fun create(parent: ViewGroup): HotelGalleryGridViewHolder {
+        fun create(parent: ViewGroup, loadFailureCallback: PublishSubject<Unit>): HotelGalleryGridViewHolder {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_gallery_grid_item, parent, false)
-            return HotelGalleryGridViewHolder(view)
+            return HotelGalleryGridViewHolder(view, loadFailureCallback)
         }
     }
 }

@@ -147,7 +147,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                     roomCode = DEFAULT_HOTEL_GALLERY_CODE,
                     showDescription = true, startIndex = galleryView.getCurrentIndex())
             intent.putExtra(HotelExtras.GALLERY_CONFIG, galleryConfig)
-            val analyticsData = HotelGalleryAnalyticsData(System.currentTimeMillis(), viewmodel.hotelOffersResponse.isPackage)
+            val analyticsData = HotelGalleryAnalyticsData(System.currentTimeMillis(), viewmodel.hotelOffersResponse.isPackage, viewmodel.hotelOffersResponse.hotelId)
             intent.putExtra(HotelExtras.GALLERY_ANALYTICS_DATA, analyticsData)
             val bundle = ActivityOptions.makeSceneTransitionAnimation(context as Activity).toBundle()
             context.startActivity(intent, bundle)

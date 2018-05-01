@@ -536,7 +536,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
                     viewModel.hotelRatingObservable.value, roomCode,
                     showDescription = false, startIndex = 0)
             intent.putExtra(HotelExtras.GALLERY_CONFIG, galleryConfig)
-            val analyticsData = HotelGalleryAnalyticsData(System.currentTimeMillis(), viewModel.hotelOffersResponse.isPackage)
+            val analyticsData = HotelGalleryAnalyticsData(System.currentTimeMillis(), viewModel.hotelOffersResponse.isPackage, viewModel.hotelOffersResponse.hotelId)
             intent.putExtra(HotelExtras.GALLERY_ANALYTICS_DATA, analyticsData)
             val bundle = ActivityOptions.makeSceneTransitionAnimation(context as Activity).toBundle()
             context.startActivity(intent, bundle)
