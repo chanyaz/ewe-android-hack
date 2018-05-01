@@ -44,6 +44,7 @@
         android:layout_toLeftOf="@+id/room_info_icon"
         android:ellipsize="end"
         android:focusableInTouchMode="true"
+        android:focusable="true"
         android:maxLines="2" />
 
     <ImageView
