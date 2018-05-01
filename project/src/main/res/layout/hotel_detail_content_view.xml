@@ -280,11 +280,21 @@
             app:textStyle="medium" />
     </LinearLayout>
 
+    <com.expedia.bookings.hotel.widget.HotelReviewsBarRatingView
+        android:id="@+id/reviews_bar_rating_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rating_container"
+        android:orientation="vertical"
+        android:background="@color/hotel_reviews_summary_background_color"
+        android:paddingLeft="4dp"
+        android:visibility="gone"/>
+
     <View
         android:id="@+id/rating_divider"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_below="@+id/rating_container"
+        android:layout_below="@+id/reviews_bar_rating_view"
         android:background="@color/gray400" />
 
     <LinearLayout

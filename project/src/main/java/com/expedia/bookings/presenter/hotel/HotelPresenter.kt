@@ -40,6 +40,7 @@ import com.expedia.bookings.hotel.util.HotelInfoManager
 import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.hotel.util.HotelSuggestionManager
 import com.expedia.bookings.hotel.vm.HotelResultsViewModel
+import com.expedia.bookings.hotel.vm.HotelReviewsSummaryViewModel
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
@@ -215,6 +216,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
         presenter.hotelMapView.mapView = detailsMapView
         presenter.hotelMapView.mapView.getMapAsync(presenter.hotelMapView)
+
         presenter.hotelDetailView.viewmodel = hotelDetailViewModel
         hotelDetailViewModel.depositInfoContainerClickObservable.subscribe { pair: Pair<String, HotelOffersResponse.HotelRoomResponse> ->
             presenter.hotelDepositInfoObserver.onNext(pair)
@@ -242,6 +244,9 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
                 }
             }
         }
+
+        presenter.hotelDetailView.reviewsSummaryViewModel = HotelReviewsSummaryViewModel(reviewServices)
+
         presenter
     }
 
@@ -1009,6 +1014,10 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             hotelDetailViewModel.fetchInfo(hotelSearchParams, hotelId)
         } else {
             hotelDetailViewModel.fetchOffers(hotelSearchParams, hotelId)
+        }
+
+        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelUGCReviewsBoxRatingDesign)) {
+            detailPresenter.hotelDetailView.reviewsSummaryViewModel.fetchReviewsSummary(hotelId)
         }
     }
 

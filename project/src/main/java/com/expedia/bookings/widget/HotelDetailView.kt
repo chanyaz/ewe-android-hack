@@ -26,6 +26,7 @@ import com.expedia.bookings.hotel.animation.AlphaCalculator
 import com.expedia.bookings.hotel.data.HotelGalleryAnalyticsData
 import com.expedia.bookings.hotel.data.HotelGalleryConfig
 import com.expedia.bookings.hotel.deeplink.HotelExtras
+import com.expedia.bookings.hotel.vm.HotelReviewsSummaryViewModel
 import com.expedia.bookings.hotel.widget.HotelDetailContentView
 import com.expedia.bookings.hotel.widget.HotelDetailGalleryView
 import com.expedia.bookings.utils.Constants
@@ -114,6 +115,10 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         resortFeeWidget.subscribeOnClick(vm.resortFeeContainerClickObserver)
 
         contentView.viewModel = vm
+    }
+
+    var reviewsSummaryViewModel: HotelReviewsSummaryViewModel by notNullAndObservable { vm ->
+        contentView.reviewsSummaryViewModel = vm
     }
 
     private val scrollListener = ViewTreeObserver.OnScrollChangedListener {

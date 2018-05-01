@@ -7,7 +7,7 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.utils.bindView
-import com.expedia.vm.HotelReviewsSummaryViewModel
+import com.expedia.vm.HotelReviewsSummaryWidgetViewModel
 
 class HotelReviewsSummaryWidget(context: Context) : LinearLayout(context) {
 
@@ -29,7 +29,7 @@ class HotelReviewsSummaryWidget(context: Context) : LinearLayout(context) {
         setBackgroundColor(ContextCompat.getColor(context, R.color.hotel_reviews_summary_background_color))
     }
 
-    fun bindData(vm: HotelReviewsSummaryViewModel) {
+    fun bindData(vm: HotelReviewsSummaryWidgetViewModel) {
         vm.overallRatingObservable.subscribeText(overallRating)
         vm.roomCleanlinessObservable.subscribeText(roomCleanliness)
         vm.roomComfortObservable.subscribeText(roomComfort)

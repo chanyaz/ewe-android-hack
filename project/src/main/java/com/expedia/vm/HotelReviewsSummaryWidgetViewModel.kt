@@ -12,7 +12,7 @@ import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject
 
-class HotelReviewsSummaryViewModel(val context: Context) {
+class HotelReviewsSummaryWidgetViewModel(val context: Context) {
 
     val overallRatingObservable = BehaviorSubject.create<String>()
     val roomCleanlinessObservable = BehaviorSubject.create<CharSequence>()
