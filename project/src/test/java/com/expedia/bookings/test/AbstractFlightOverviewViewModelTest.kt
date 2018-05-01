@@ -139,10 +139,25 @@ class AbstractFlightOverviewViewModelTest {
         setSeatsLeftInLeg(2)
         sut.selectedFlightLegSubject.onNext(flightLeg)
         sut.flightMessageContainerStream.subscribe(bottomUrgencyMessageTestSubscriber)
+
         sut.routeScoreStream.onNext("7.9/10 - Very Good!")
-        bottomUrgencyMessageTestSubscriber.assertValuesAndClear(true)
         sut.bottomUrgencyMessageSubject.onNext("2 seats left")
-        bottomUrgencyMessageTestSubscriber.assertValue(true)
+        bottomUrgencyMessageTestSubscriber.assertValueCount(2)
+        bottomUrgencyMessageTestSubscriber.assertValuesAndClear(true, true)
+
+        sut.routeScoreStream.onNext("7.9/10 - Very Good!")
+        sut.bottomUrgencyMessageSubject.onNext("")
+        bottomUrgencyMessageTestSubscriber.assertValueCount(1)
+        bottomUrgencyMessageTestSubscriber.assertValuesAndClear(true)
+
+        sut.routeScoreStream.onNext("")
+        sut.bottomUrgencyMessageSubject.onNext("2 seats left")
+        bottomUrgencyMessageTestSubscriber.assertValueCount(1)
+        bottomUrgencyMessageTestSubscriber.assertValuesAndClear(true)
+
+        sut.routeScoreStream.onNext("")
+        sut.bottomUrgencyMessageSubject.onNext("")
+        bottomUrgencyMessageTestSubscriber.assertValueCount(0)
     }
 
     private fun setupFlightLeg() {

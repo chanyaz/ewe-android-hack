@@ -56,6 +56,8 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
             bundlePriceSubject.onNext(perPersonPrice)
             baggageFeeURLSubject.onNext(selectedFlight.baggageFeesUrl)
             showBasicEconomyTooltip.onNext(shouldShowBasicEconomyMessage(selectedFlight))
+            flightMessageContainerStream.onNext(false)
+            bottomUrgencyMessageSubject.mergeWith(routeScoreStream).filter { it.isNotEmpty() }.map { true }.subscribe(flightMessageContainerStream)
         }
 
         ObservableOld.zip(showBasicEconomyTooltip, selectedFlightLegSubject, { showBasicEconomyTooltip, selectedFlightLeg ->
@@ -63,8 +65,6 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
                 basicEconomyMessagingToolTipInfo.onNext(convertTooltipInfo(selectedFlightLeg))
             }
         }).subscribe()
-
-        bottomUrgencyMessageSubject.mergeWith(routeScoreStream).map { it.isNotEmpty() }.subscribe(flightMessageContainerStream)
     }
 
     fun updateUrgencyMessage(selectedFlight: FlightLeg) {

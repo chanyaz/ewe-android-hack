@@ -66,13 +66,10 @@ class FlightOverviewViewModel(context: Context) : AbstractFlightOverviewViewMode
                     segment.flightAmenities = segmentAmenities!![index]
                 }
             }
-            if (isRichContentShowRouteScoreEnabled()) {
-                var routeScore = ""
-                if (selectedFlight.richContent != null) {
-                    routeScore = Phrase.from(context, RichContentUtils.ScoreExpression.valueOf(selectedFlight.richContent.scoreExpression).stringResId)
-                            .put("route_score", selectedFlight.richContent.score.toString())
-                            .format().toString()
-                }
+            if (isRichContentShowRouteScoreEnabled() && selectedFlight.richContent != null) {
+                val routeScore = Phrase.from(context, RichContentUtils.ScoreExpression.valueOf(selectedFlight.richContent.scoreExpression).stringResId)
+                        .put("route_score", selectedFlight.richContent.score.toString())
+                        .format().toString()
                 routeScoreStream.onNext(routeScore)
             }
         }
