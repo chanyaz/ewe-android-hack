@@ -2,15 +2,20 @@ package com.expedia.bookings.test.robolectric
 
 import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.packages.presenter.PackagePresenter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.packages.vm.PackageCheckoutViewModel
+import com.expedia.bookings.services.TestObserver
 import org.junit.Before
+import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class PackageCheckoutErrorTest {
@@ -28,6 +33,27 @@ class PackageCheckoutErrorTest {
         activity = Robolectric.buildActivity(PlaygroundActivity::class.java, styledIntent).create().visible().get()
         presenter = LayoutInflater.from(activity).inflate(R.layout.package_activity, null) as PackagePresenter
         viewModel = presenter.bundlePresenter.getCheckoutPresenter().getCheckoutViewModel()
+    }
+
+    @Test
+    fun testWebCheckoutViewErrorShowsNativeSearch() {
+        Db.setPackageParams(PackageTestUtil.getMIDPackageSearchParams())
+        presenter.show(presenter.bundlePresenter)
+        presenter.bundlePresenter.showCheckout()
+        val testmaskWebCheckoutActivityObservable = TestObserver.create<Boolean>()
+        val testUrlObservable = TestObserver.create<String>()
+        val testShowNativeObserver = TestObserver.create<Unit>()
+        presenter.bundlePresenter.webCheckoutView.viewModel.showWebViewObservable.subscribe(testmaskWebCheckoutActivityObservable)
+        presenter.bundlePresenter.webCheckoutView.viewModel.showNativeSearchObservable.subscribe(testShowNativeObserver)
+        presenter.bundlePresenter.webCheckoutView.viewModel.webViewURLObservable.subscribe(testUrlObservable)
+
+        presenter.bundlePresenter.webCheckoutView.goToSearchAndClearWebView()
+
+        testmaskWebCheckoutActivityObservable.assertValues(false)
+        testUrlObservable.assertValues("about:blank")
+        testShowNativeObserver.assertValueCount(1)
+        assertTrue(presenter.searchPresenter.visibility == View.VISIBLE)
+        assertTrue(presenter.bundlePresenter.webCheckoutView.visibility == View.GONE)
     }
 
 //    @Test

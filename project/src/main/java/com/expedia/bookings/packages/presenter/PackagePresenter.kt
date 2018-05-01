@@ -164,6 +164,9 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
                 pageUsableData.markPageLoadStarted(System.currentTimeMillis())
                 itinTripServices.getTripDetails(bookedTripID, makeNewItinResponseObserver())
             }
+            presenter.webCheckoutView.viewModel.showNativeSearchObservable.subscribe {
+                show(searchPresenter, FLAG_CLEAR_TOP)
+            }
         }
         presenter
     }
@@ -273,6 +276,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         addTransition(errorToSearch)
         if (midAPIEnabled) {
             addTransition(webCheckoutViewToConfirmation)
+            addTransition(webCheckoutToSearch)
         }
 
         if (isCrossSellPackageOnFSREnabled) {
@@ -474,6 +478,15 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         override fun endTransition(forward: Boolean) {
             if (forward) {
                 confirmationPresenter.visibility = View.VISIBLE
+                bundlePresenter.webCheckoutView.visibility = View.GONE
+            }
+        }
+    }
+
+    private val webCheckoutToSearch = object : Transition(WebCheckoutView::class.java.name, getDefaultSearchPresenterClassName()) {
+        override fun endTransition(forward: Boolean) {
+            if (forward) {
+                searchPresenter.visibility = View.VISIBLE
                 bundlePresenter.webCheckoutView.visibility = View.GONE
             }
         }
