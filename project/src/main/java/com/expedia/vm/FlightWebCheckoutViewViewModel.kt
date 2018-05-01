@@ -13,7 +13,7 @@ class FlightWebCheckoutViewViewModel @Inject constructor(val context: Context, v
     var flightCreateTripViewModel by notNullAndObservable<FlightCreateTripViewModel> {
         it.createTripResponseObservable.safeSubscribeOptional { createTripResponse ->
             createTripResponse as FlightCreateTripResponse
-            webViewURLObservable.onNext(endpointProvider.getE3EndpointUrlWithPath("//FlightCheckoutError"))
+            webViewURLObservable.onNext(endpointProvider.getE3EndpointUrlWithPath("FlightCheckout?tripid=${createTripResponse.newTrip?.tripId}"))
         }
     }
 

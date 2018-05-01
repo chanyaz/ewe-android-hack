@@ -41,7 +41,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
 
     var clearHistory = false
 
-    var unrecoverableState = false
+    var checkoutErrorState = false
 
     val chromeClient: WebChromeClient = object : WebChromeClient() {
 
@@ -64,7 +64,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
                     hideWebViewPopUp()
                 }
             }
-            container.addView(webViewPopUp)
+            container.addView(webViewPopUp, 0)
             val transport = resultMsg.obj as WebView.WebViewTransport
             transport.webView = webViewPopUp
             resultMsg.sendToTarget()
@@ -132,7 +132,8 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
 
     override fun onWebPageStarted(view: WebView, url: String, favicon: Bitmap?) {
         showLoadingIndicator.onNext(true)
-        if (unrecoverableState && this.visibility == View.VISIBLE) {
+        if (checkoutErrorState && this.visibility == View.VISIBLE) {
+            view.stopLoading()
             goToSearchAndClearWebView()
         }
         if (shouldShowNativeConfirmation(url)) {
@@ -140,7 +141,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
             viewModel.showWebViewObservable.onNext(false)
             (viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.onNext(Uri.parse(url).getQueryParameter("tripid"))
         } else if (url.contains("CheckoutError")) {
-            unrecoverableState = true
+            checkoutErrorState = true
         }
     }
 
@@ -170,7 +171,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
             hideWebViewPopUp()
             return
         }
-        if (unrecoverableState) {
+        if (checkoutErrorState) {
             goToSearchAndClearWebView()
         }
 
@@ -183,7 +184,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
 
     @VisibleForTesting
     fun goToSearchAndClearWebView() {
-        unrecoverableState = false
+        checkoutErrorState = false
         viewModel.showNativeSearchObservable.onNext(Unit)
         viewModel.webViewURLObservable.onNext("about:blank")
         webView.clearHistory()
