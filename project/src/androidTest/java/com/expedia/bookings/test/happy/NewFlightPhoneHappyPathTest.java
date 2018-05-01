@@ -51,6 +51,7 @@ import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsCompl
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDisplayed;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsNotDisplayed;
 import static org.hamcrest.CoreMatchers.allOf;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.not;
 
 public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
@@ -331,11 +332,11 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 	}
 
 	private void assertCheckoutOverview() {
-		onView(allOf(withId(R.id.destination), withParent(withId(R.id.checkout_overview_floating_toolbar)),
+		onView(allOf(withId(R.id.destination), withParent(withId(R.id.checkout_overview_header_toolbar)),
 			withText("San Francisco, CA"))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.travelers), withParent(withId(R.id.checkout_overview_floating_toolbar)),
-			withText("1 traveler"))).check(matches(isDisplayed()));
-
+		onView(allOf(withId(R.id.check_in_out_dates), withParent(withId(R.id.checkout_overview_header_toolbar))))
+				.check(matches(isDisplayed()))
+				.check(matches(withText(containsString("1 traveler"))));
 		onView(allOf(withId(R.id.flight_card_view_text),
 			isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)))).check(
 			matches(withText("Flight to (SFO) Detroit")));
