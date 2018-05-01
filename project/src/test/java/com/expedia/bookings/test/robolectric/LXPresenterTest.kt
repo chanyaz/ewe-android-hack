@@ -1,8 +1,10 @@
 package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
+import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageButton
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -11,9 +13,12 @@ import com.expedia.bookings.data.lx.Ticket
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.lx.LXPresenter
+import com.expedia.bookings.presenter.lx.LXSearchPresenter
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.utils.AbacusTestUtils
+import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.expedia.vm.LXWebCheckoutViewViewModel
 import com.expedia.vm.WebCheckoutViewViewModel
 import com.google.gson.GsonBuilder
@@ -119,6 +124,60 @@ class LXPresenterTest {
         lxPresenter.loadingOverlay.visibility = View.VISIBLE
 
         assertTrue(lxPresenter.back())
+    }
+
+    @Test
+    fun testLxPresenterShownOnWebCheckoutViewError() {
+        setupPresenterAndBucketWebviewTest()
+        showWebCheckoutView()
+        val webView = lxPresenter.webCheckoutView
+
+        val testShowNativeSearchObserver = TestObserver.create<Unit>()
+        val testWebViewURLObserver = TestObserver.create<String>()
+        val testShowWebViewObservable = TestObserver.create<Boolean>()
+        webView.viewModel.showNativeSearchObservable.subscribe(testShowNativeSearchObserver)
+        webView.viewModel.webViewURLObservable.subscribe(testWebViewURLObserver)
+        webView.viewModel.showWebViewObservable.subscribe(testShowWebViewObservable)
+
+        lxPresenter.webCheckoutView.goToSearchAndClearWebView()
+
+        testShowNativeSearchObserver.assertValueCount(1)
+        testWebViewURLObserver.assertValue("about:blank")
+        testShowWebViewObservable.assertValue(false)
+        assertTrue(lxPresenter.webCheckoutView.visibility == View.GONE)
+        assertTrue(lxPresenter.searchParamsWidget.visibility == View.VISIBLE)
+    }
+
+    @Test
+    fun testWebViewToSearchUpdateTransition() {
+        setupPresenterAndBucketWebviewTest()
+        showWebCheckoutView()
+        val webViewToSearchTransition = lxPresenter.getTransition(WebCheckoutView::class.java.name, LXSearchPresenter::class.java.name).transition
+        val searchPresenter = lxPresenter.searchParamsWidget
+        searchPresenter.toolbarTitleTop = 1
+        webViewToSearchTransition.updateTransition(1f, true)
+
+        assertEquals(searchPresenter.background, ContextCompat.getDrawable(activity, R.color.white))
+        assertEquals(1.0f, searchPresenter.navIcon.parameter)
+        assertEquals(1.0f, searchPresenter.toolBarTitle.alpha)
+        assertEquals(1.0f, searchPresenter.alpha)
+        assertEquals(0f, searchPresenter.toolBarTitle.translationY)
+        assertEquals(0f, searchPresenter.searchButton.translationY)
+        assertEquals(0f, searchPresenter.searchContainer.translationY)
+    }
+
+    @Test
+    fun testWebViewToSearchFinalizeTransition() {
+        setupPresenterAndBucketWebviewTest()
+        showWebCheckoutView()
+        val webViewToSearchTransition = lxPresenter.getTransition(WebCheckoutView::class.java.name, LXSearchPresenter::class.java.name).transition
+        val searchPresenter = lxPresenter.searchParamsWidget
+        searchPresenter.navIcon.parameter = 0f
+
+        webViewToSearchTransition.endTransition(true)
+
+        assertEquals(ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type.toFloat(), searchPresenter.navIcon.parameter)
+        assertTrue(searchPresenter.toolbar.findFocus() is ImageButton)
     }
 
     private fun showWebCheckoutView() {

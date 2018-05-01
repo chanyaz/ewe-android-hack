@@ -142,6 +142,7 @@ public class LXPresenter extends Presenter {
 			webCheckoutView = (WebCheckoutView) webCheckoutViewStub.inflate();
 			addTransition(detailsToWebCheckout);
 			addTransition(webCheckoutToConfirmation);
+			addTransition(webCheckoutToSearch);
 			setWebCheckoutView();
 		}
 
@@ -252,6 +253,28 @@ public class LXPresenter extends Presenter {
 
 	private Transition webCheckoutToConfirmation = new VisibilityTransition(this, WebCheckoutView.class,
 		LXConfirmationWidget.class);
+
+	private Transition webCheckoutToSearch = new VisibilityTransition(this, WebCheckoutView.class,
+		LXSearchPresenter.class) {
+		@Override
+		public void startTransition(boolean forward) {
+			webCheckoutView.setVisibility(GONE);
+			searchParamsWidget.setVisibility(VISIBLE);
+			searchParamsWidget.animationStart(forward);
+		}
+
+		@Override
+		public void updateTransition(float f, boolean forward) {
+			setBackgroundColorForSearchWidget(f, forward);
+			searchParamsWidget.animationUpdate(f, forward);
+		}
+
+		@Override
+		public void endTransition(boolean forward) {
+			searchParamsWidget.animationFinalize();
+			AccessibilityUtil.setFocusToToolbarNavigationIcon(searchParamsWidget.getToolbar());
+		}
+	};
 	
 	private Transition detailsToCheckout = new VisibilityTransition(this, LXDetailsPresenter.class,
 		LXCheckoutPresenter.class) {
@@ -571,6 +594,7 @@ public class LXPresenter extends Presenter {
 		webCheckoutViewViewModel.getCloseView().subscribe(onCloseWebView);
 		webCheckoutViewViewModel.getBackObservable().subscribe(onBackClickObserver);
 		webCheckoutViewViewModel.getBlankViewObservable().subscribe(blankViewObserver);
+		webCheckoutViewViewModel.getShowNativeSearchObservable().subscribe(showNativeSearchObservable);
 	}
 
 	private Boolean showWebCheckoutView() {
@@ -617,6 +641,20 @@ public class LXPresenter extends Presenter {
 		@Override
 		public void onNext(Unit e) {
 			LXPresenter.super.back();
+		}
+	};
+
+	@VisibleForTesting
+	public Observer<Unit> showNativeSearchObservable = new DisposableObserver<Unit>() {
+		@Override
+		public void onComplete() { }
+
+		@Override
+		public void onError(Throwable e) { }
+
+		@Override
+		public void onNext(Unit e) {
+			show(searchParamsWidget, FLAG_CLEAR_TOP);
 		}
 	};
 
