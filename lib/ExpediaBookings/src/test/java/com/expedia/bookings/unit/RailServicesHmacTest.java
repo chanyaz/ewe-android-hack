@@ -62,7 +62,7 @@ public class RailServicesHmacTest {
 		logger.setLevel(HttpLoggingInterceptor.Level.BODY);
 		Interceptor interceptor = new MockInterceptor();
 		service = new RailServices("http://localhost:" + server.getPort(), new OkHttpClient.Builder().addInterceptor(logger).build(),
-			interceptor, interceptor, interceptor, true, Schedulers.trampoline(), Schedulers.trampoline());
+			interceptor, interceptor, true, Schedulers.trampoline(), Schedulers.trampoline());
 
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);

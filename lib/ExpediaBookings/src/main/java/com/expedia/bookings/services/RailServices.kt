@@ -25,7 +25,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.Collections
 import java.util.UUID
 
-open class RailServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, railRequestInterceptor: Interceptor, hmacInterceptor: Interceptor? = null, val isUserBucketedInAPIMAuth: Boolean, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+open class RailServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, railRequestInterceptor: Interceptor, val isUserBucketedInAPIMAuth: Boolean, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
     // "Session" Good enough for MVP.
     val userSession = UUID.randomUUID().toString().replace("-".toRegex(), "")
@@ -50,7 +50,7 @@ open class RailServices(endpoint: String, okHttpClient: OkHttpClient, intercepto
                 .baseUrl(endpoint)
                 .addConverterFactory(buildRailGsonConverter())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(okHttpClient.newBuilder().addInterceptor(interceptor).addInterceptor(hmacInterceptor!!).build())
+                .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
                 .build()
 
         adapter.create(RailApiHMAC::class.java)

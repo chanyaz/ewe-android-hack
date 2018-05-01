@@ -1,7 +1,5 @@
 package com.expedia.bookings.utils;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import android.Manifest;
@@ -25,8 +23,6 @@ import com.expedia.bookings.server.EndpointProvider;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
-
-import okhttp3.Interceptor;
 
 public class ServicesUtil {
 
@@ -133,13 +129,9 @@ public class ServicesUtil {
 	public static AccountService generateAccountService(Context context) {
 
 		AppComponent injectedComponents = Ui.getApplication(context).appComponent();
-		boolean isUserBucketedForAPIMAuth = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppAccountsAPIKongEndPoint);
+		boolean isUserBucketedForAPIMAuth = AbacusFeatureConfigManager
+			.isBucketedForTest(context, AbacusUtils.EBAndroidAppAccountsAPIKongEndPoint);
 		EndpointProvider endpointProvider = injectedComponents.endpointProvider();
-
-		List<Interceptor> interceptorList = new ArrayList<>();
-		if (isUserBucketedForAPIMAuth) {
-			interceptorList.add(injectedComponents.provideHmacInterceptor());
-		}
 
 		return new AccountService(
 			injectedComponents.okHttpClient(),
@@ -147,8 +139,8 @@ public class ServicesUtil {
 			PointOfSale.getPointOfSale().getSiteId(),
 			PointOfSale.getPointOfSale().getDualLanguageId(),
 			ServicesUtil.generateClientId(context),
-			generateUserAgentString(),
-			interceptorList);
+			generateUserAgentString()
+		);
 	}
 
 	public static String generateXDevLocationString(Context context) {

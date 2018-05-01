@@ -3,7 +3,6 @@ package com.expedia.bookings.utils
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
-import com.expedia.bookings.http.CaptchaRedirectInterceptor
 import com.expedia.bookings.server.EndPoint
 import com.expedia.bookings.server.EndpointProviderInterface
 import com.expedia.bookings.services.PersistentCookiesCookieJar
@@ -14,6 +13,7 @@ import com.mobiata.android.util.SettingUtils
 import com.readystatesoftware.chuck.ChuckInterceptor
 import okhttp3.Cache
 import okhttp3.ConnectionSpec
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import java.security.cert.CertificateException
@@ -23,7 +23,7 @@ import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 
-open class InsecureOKHttpClientFactory(context: Context, cookieManager: PersistentCookiesCookieJar, cache: Cache, endpointProvider: EndpointProviderInterface) : SecureOKHttpClientFactory(context, cookieManager, cache, endpointProvider) {
+open class InsecureOKHttpClientFactory(context: Context, cookieManager: PersistentCookiesCookieJar, cache: Cache, endpointProvider: EndpointProviderInterface, hmacInterceptor: Interceptor) : SecureOKHttpClientFactory(context, cookieManager, cache, endpointProvider, hmacInterceptor) {
 
     override fun addInterceptors(client: OkHttpClient.Builder) {
         super.addInterceptors(client)
@@ -35,8 +35,6 @@ open class InsecureOKHttpClientFactory(context: Context, cookieManager: Persiste
         if (ExpediaBookingApp.isRobolectric()) {
             client.addNetworkInterceptor(DenyExternalRequestInterceptor())
         }
-
-        client.addInterceptor(CaptchaRedirectInterceptor(context))
 
         if (!ExpediaBookingApp.isAutomation()) {
             val chuckInterceptor = ChuckInterceptor(context)

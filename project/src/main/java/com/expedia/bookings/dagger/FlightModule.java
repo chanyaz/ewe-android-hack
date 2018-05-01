@@ -1,9 +1,5 @@
 package com.expedia.bookings.dagger;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.inject.Named;
-
 import android.content.Context;
 
 import com.expedia.bookings.dagger.tags.FlightScope;
@@ -17,34 +13,34 @@ import com.expedia.bookings.services.KongFlightServices;
 import com.expedia.bookings.services.KrazyglueServices;
 import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder;
-import com.expedia.bookings.utils.HMACInterceptor;
 import com.expedia.vm.FlightCheckoutViewModel;
 import com.expedia.vm.FlightWebCheckoutViewViewModel;
 import com.expedia.vm.PaymentViewModel;
 import com.expedia.vm.flights.FlightCreateTripViewModel;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Named;
+
 import dagger.Module;
 import dagger.Provides;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
 
 @Module
 public final class FlightModule {
 
 	@Provides
 	@FlightScope
-	FlightServices provideFlightServices(Context context, EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor,
-		HMACInterceptor hmacInterceptor) {
+	FlightServices provideFlightServices(Context context, EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
 		boolean isUserBucketedForAPIMAuth = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsAPIKongEndPoint);
 		final String kongEndpointUrl = endpointProvider.getKongEndpointUrl();
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		List<Interceptor> interceptorList = new ArrayList<>();
 		interceptorList.add(interceptor);
-		if (isUserBucketedForAPIMAuth) {
-			interceptorList.add(hmacInterceptor);
-		}
 		return new FlightServices(isUserBucketedForAPIMAuth ? kongEndpointUrl : endpoint, client,
 			interceptorList, AndroidSchedulers.mainThread(),
 			Schedulers.io(), isUserBucketedForAPIMAuth);
@@ -115,11 +111,9 @@ public final class FlightModule {
 
 	@Provides
 	@FlightScope
-	KongFlightServices provideKongFlightServices(EndpointProvider endpointProvider, OkHttpClient client,
-		Interceptor interceptor, HMACInterceptor hmacInterceptor) {
+	KongFlightServices provideKongFlightServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
 		List<Interceptor> interceptorList = new ArrayList<>();
 		interceptorList.add(interceptor);
-		interceptorList.add(hmacInterceptor);
 		return new KongFlightServices(endpointProvider.getKongEndpointUrl(), client, interceptorList,
 			AndroidSchedulers.mainThread(), Schedulers.io());
 	}

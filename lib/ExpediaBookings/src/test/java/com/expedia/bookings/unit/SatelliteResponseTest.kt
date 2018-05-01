@@ -25,7 +25,7 @@ class SatelliteResponseTest {
         logger.level = HttpLoggingInterceptor.Level.BODY
         val interceptor = MockInterceptor()
         sat = SatelliteServices("http://localhost:" + server.port, OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, interceptor, interceptor, Schedulers.trampoline(), Schedulers.trampoline())
+                interceptor, interceptor, Schedulers.trampoline(), Schedulers.trampoline())
 
         val root = File("../mocked/templates").canonicalPath
         val opener = FileSystemOpener(root)

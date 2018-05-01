@@ -585,7 +585,6 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 
 		EndpointProvider endpointProvider = Ui.getApplication(mContext).appComponent().endpointProvider();
 		List<Interceptor> interceptorList = new ArrayList<>();
-		interceptorList.add(Ui.getApplication(mContext).appComponent().provideHmacInterceptor());
 
 		return doE3Request(endpointProvider.getKongEndpointUrl() + targetUrl, params, responseHandler,
 			flags | F_DONT_ADD_ENDPOINT, interceptorList);

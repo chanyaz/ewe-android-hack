@@ -62,7 +62,6 @@ public class HotelServicesTest {
 	private HotelServices service;
 	private HotelApplyCouponParameters couponParams;
 	private MockInterceptor satelliteInterceptor = new MockInterceptor();
-	private MockInterceptor hmacInterceptor = new MockInterceptor();
 
 	@Before
 	public void before() {
@@ -72,7 +71,6 @@ public class HotelServicesTest {
 		Interceptor interceptor = new MockInterceptor();
 		List<Interceptor> interceptors = new ArrayList<>();
 		interceptors.add(satelliteInterceptor);
-		interceptors.add(hmacInterceptor);
 
 		String endpoint = "http://localhost:" + server.getPort();
 
@@ -82,12 +80,12 @@ public class HotelServicesTest {
 	}
 
 	@Test
-	public void testSearchWithZeroLongLatAndNullRegionId() throws IOException {
+	public void testSearchWithZeroLongLatAndNullRegionId() {
 		// final array to make the test result flag/boolean accessible in the anonymous dispatch
 		final boolean[] testResult = { true, true };
 		Dispatcher dispatcher = new Dispatcher() {
 			@Override
-			public MockResponse dispatch(RecordedRequest request) throws InterruptedException {
+			public MockResponse dispatch(RecordedRequest request) {
 				boolean containsLongitudeParam = request.getPath().contains("longitude");
 				boolean containsLatitudeParam = request.getPath().contains("latitude");
 				boolean containsRegionId = request.getPath().contains("regionId");
@@ -119,7 +117,7 @@ public class HotelServicesTest {
 		final String expectedNeighborhoodId = "12345";
 		Dispatcher dispatcher = new Dispatcher() {
 			@Override
-			public MockResponse dispatch(RecordedRequest request) throws InterruptedException {
+			public MockResponse dispatch(RecordedRequest request) {
 				boolean containsRegionId = request.getPath().contains("regionId=" + expectedNeighborhoodId + "&");
 				testResult[0] = containsRegionId;
 				return new MockResponse();
@@ -146,11 +144,11 @@ public class HotelServicesTest {
 	}
 
 	@Test
-	public void testSearchWithZeroRegionId() throws IOException {
+	public void testSearchWithZeroRegionId() {
 		final boolean[] testResult = { true, true };
 		Dispatcher dispatcher = new Dispatcher() {
 			@Override
-			public MockResponse dispatch(RecordedRequest request) throws InterruptedException {
+			public MockResponse dispatch(RecordedRequest request) {
 				boolean containsLongitudeParam = request.getPath().contains("longitude");
 				boolean containsLatitudeParam = request.getPath().contains("latitude");
 				boolean containsRegionId = request.getPath().contains("regionId");
@@ -178,7 +176,7 @@ public class HotelServicesTest {
 	}
 
 	@Test
-	public void testMockSearchBlowsUp() throws Throwable {
+	public void testMockSearchBlowsUp() {
 		server.enqueue(new MockResponse()
 			.setBody("{garbage}"));
 
@@ -245,7 +243,6 @@ public class HotelServicesTest {
 		observer.assertComplete();
 
 		assertTrue(satelliteInterceptor.wasCalled());
-		assertTrue(hmacInterceptor.wasCalled());
 	}
 
 	@Test

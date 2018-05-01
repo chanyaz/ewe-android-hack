@@ -57,9 +57,9 @@ open class ServicesRule<T : Any>(val servicesClass: Class<T>, val scheduler: Sch
         client.addInterceptor(logger)
 
         if (servicesClass.equals(RailServices::class.java)) {
-            return servicesClass.getConstructor(String::class.java, OkHttpClient::class.java, Interceptor::class.java, Interceptor::class.java, Interceptor::class.java, Boolean::class.java, Scheduler::class.java,
+            return servicesClass.getConstructor(String::class.java, OkHttpClient::class.java, Interceptor::class.java, Interceptor::class.java, Boolean::class.java, Scheduler::class.java,
                     Scheduler::class.java).newInstance("http://localhost:" + server.port, client.build(), MockInterceptor(),
-                    MockInterceptor(), MockInterceptor(), false, Schedulers.trampoline(), Schedulers.trampoline())
+                    MockInterceptor(), false, Schedulers.trampoline(), Schedulers.trampoline())
         } else if (servicesClass.equals(FlightServices::class.java)) {
             return servicesClass.getConstructor(String::class.java, OkHttpClient::class.java, List::class.java, Scheduler::class.java,
                     Scheduler::class.java, Boolean::class.java).newInstance("http://localhost:" + server.port, client.build(), listOf(MockInterceptor()),

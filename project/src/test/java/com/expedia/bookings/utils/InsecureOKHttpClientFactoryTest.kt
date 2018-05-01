@@ -9,6 +9,7 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import okhttp3.Cache
 import okhttp3.Cookie
 import okhttp3.HttpUrl
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.junit.Before
 import org.junit.Test
@@ -26,7 +27,7 @@ class InsecureOKHttpClientFactoryTest {
     @Before
     fun setup() {
         context = RuntimeEnvironment.application
-        sut = InsecureOKHttpClientFactory(context, MockPersistentCookiesCookieJar(), makeCache(), MockEndpointProvider())
+        sut = InsecureOKHttpClientFactory(context, MockPersistentCookiesCookieJar(), makeCache(), MockEndpointProvider(), Interceptor { it.proceed(it.request()) })
         builder = OkHttpClient.Builder()
     }
 

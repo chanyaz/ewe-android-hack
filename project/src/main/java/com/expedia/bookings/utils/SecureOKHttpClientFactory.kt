@@ -1,12 +1,14 @@
 package com.expedia.bookings.utils
 
 import android.content.Context
+import com.expedia.bookings.http.CaptchaRedirectInterceptor
 import com.expedia.bookings.server.EndpointProviderInterface
 import com.expedia.bookings.services.PersistentCookiesCookieJar
 import com.google.android.gms.security.ProviderInstaller
 import okhttp3.Cache
 import okhttp3.ConnectionSpec
 import okhttp3.CookieJar
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.TlsVersion
 import java.security.KeyStore
@@ -16,7 +18,8 @@ import javax.net.ssl.TrustManagerFactory
 import javax.net.ssl.X509TrustManager
 
 abstract class SecureOKHttpClientFactory(protected val context: Context, private val cookieManager: PersistentCookiesCookieJar,
-                                         private val cache: Cache, protected val endpointProvider: EndpointProviderInterface) {
+                                         private val cache: Cache, protected val endpointProvider: EndpointProviderInterface,
+                                         private val hmacInterceptor: Interceptor) {
 
     fun getOkHttpClient(cookieJar: CookieJar? = null): OkHttpClient {
         val clientBuilder = makeOkHttpClientBuilder()
@@ -38,7 +41,8 @@ abstract class SecureOKHttpClientFactory(protected val context: Context, private
     }
 
     open fun addInterceptors(client: OkHttpClient.Builder) {
-        //No interceptors for secure OKHttpClient
+        client.addInterceptor(CaptchaRedirectInterceptor(context))
+        client.addNetworkInterceptor(hmacInterceptor)
     }
 
     protected open fun makeSslContext(): SSLContext {
@@ -51,7 +55,7 @@ abstract class SecureOKHttpClientFactory(protected val context: Context, private
         client.cache(cache)
         client.followRedirects(true)
         client.cookieJar(cookieManager)
-        client.connectTimeout(10, TimeUnit.SECONDS)
+        client.connectTimeout(10L, TimeUnit.SECONDS)
         client.readTimeout(60L, TimeUnit.SECONDS)
     }
 

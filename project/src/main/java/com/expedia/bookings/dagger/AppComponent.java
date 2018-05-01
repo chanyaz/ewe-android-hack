@@ -1,8 +1,5 @@
 package com.expedia.bookings.dagger;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-import org.jetbrains.annotations.NotNull;
 import android.content.Context;
 
 import com.expedia.bookings.activity.AccountLibActivity;
@@ -15,8 +12,8 @@ import com.expedia.bookings.hotel.util.HotelGalleryManager;
 import com.expedia.bookings.itin.flight.common.FlightRegistrationHandler;
 import com.expedia.bookings.itin.tripstore.utils.ITripsJsonFileUtils;
 import com.expedia.bookings.itin.utils.AbacusSource;
-import com.expedia.bookings.itin.utils.StringSource;
 import com.expedia.bookings.itin.utils.NotificationScheduler;
+import com.expedia.bookings.itin.utils.StringSource;
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.launch.widget.LaunchListWidget;
 import com.expedia.bookings.model.PointOfSaleStateModel;
@@ -34,10 +31,14 @@ import com.expedia.bookings.services.sos.SmartOfferService;
 import com.expedia.bookings.tracking.AppCreateTimeLogger;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.utils.AbacusHelperUtils;
-import com.expedia.bookings.utils.HMACInterceptor;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.utils.navigation.SearchLobToolbarCache;
 import com.expedia.model.UserLoginStateChangedModel;
+
+import org.jetbrains.annotations.NotNull;
+
+import javax.inject.Named;
+import javax.inject.Singleton;
 
 import dagger.Component;
 import okhttp3.Interceptor;
@@ -78,8 +79,6 @@ public interface AppComponent {
 
 	@Named("GaiaInterceptor")
 	Interceptor gaiaRequestInterceptor();
-
-	HMACInterceptor provideHmacInterceptor();
 
 	@Named("ESSInterceptor")
 	Interceptor essRequestInterceptor();

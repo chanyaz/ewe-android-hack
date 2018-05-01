@@ -97,7 +97,7 @@ class FlightModuleTest {
         val serverUrlPath = ProductFlavorFeatureConfiguration.getInstance().serverEndpointsConfigurationPath
         val serverUrlStream = context.assets.open(serverUrlPath)
         return FlightModule().provideFlightServices(context, EndpointProvider(context, serverUrlStream), appComponent.okHttpClient(),
-                appComponent.requestInterceptor(), appComponent.provideHmacInterceptor())
+                appComponent.requestInterceptor())
     }
 
     private fun givenSuggestionServicesInitialized(): SuggestionV4Services {

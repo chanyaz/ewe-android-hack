@@ -29,6 +29,7 @@ import com.expedia.bookings.itin.utils.AbacusSource;
 import com.expedia.bookings.itin.utils.NotificationScheduler;
 import com.expedia.bookings.itin.utils.StringProvider;
 import com.expedia.bookings.itin.utils.StringSource;
+import com.expedia.bookings.legacy.LegacyCurrentDomainSource;
 import com.expedia.bookings.model.PointOfSaleStateModel;
 import com.expedia.bookings.notification.NotificationManager;
 import com.expedia.bookings.server.EndpointProvider;
@@ -50,8 +51,10 @@ import com.expedia.bookings.tracking.RouterToOnboardingTimeLogger;
 import com.expedia.bookings.tracking.RouterToSignInTimeLogger;
 import com.expedia.bookings.utils.ClientLogConstants;
 import com.expedia.bookings.utils.CookiesUtils;
+import com.expedia.bookings.utils.DateTimeSourceImpl;
 import com.expedia.bookings.utils.HMACInterceptor;
 import com.expedia.bookings.utils.OKHttpClientFactory;
+import com.expedia.bookings.utils.SaltSourceImpl;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
@@ -131,8 +134,9 @@ public class AppModule {
 	@Provides
 	@Singleton
 	OKHttpClientFactory provideOkHttpClientFactory(Context context, PersistentCookiesCookieJar cookieManager,
-												   Cache cache, final EndpointProvider endpointProvider) {
-		return new OKHttpClientFactory(context, cookieManager, cache, endpointProvider);
+		Cache cache, final EndpointProvider endpointProvider,
+		HMACInterceptor hmacInterceptor) {
+		return new OKHttpClientFactory(context, cookieManager, cache, endpointProvider, hmacInterceptor);
 	}
 
 	@Provides
@@ -236,7 +240,7 @@ public class AppModule {
 
 			responseLogBuilder.pageName(getPageName(request.build()));
 			responseLogBuilder.eventName(
-					NetUtils.isWifiConnected(context) ? ClientLogConstants.WIFI : ClientLogConstants.MOBILE_DATA);
+				NetUtils.isWifiConnected(context) ? ClientLogConstants.WIFI : ClientLogConstants.MOBILE_DATA);
 			responseLogBuilder.deviceName(android.os.Build.MODEL);
 			responseLogBuilder.responseTime(responseTime);
 
@@ -249,7 +253,7 @@ public class AppModule {
 	private String getPageName(Request request) {
 		String pageName = request.url().encodedPath().replaceAll("/", "_");
 		if (pageName.contains("flight_search") && AbacusFeatureConfigManager
-				.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)) {
+			.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)) {
 			FormBody body = (FormBody) request.body();
 
 			for (int index = body.size(); index > 0; index--) {
@@ -271,7 +275,7 @@ public class AppModule {
 	EndpointProvider provideEndpointProvider(Context context) {
 		try {
 			String serverUrlPath = ProductFlavorFeatureConfiguration.getInstance()
-					.getServerEndpointsConfigurationPath();
+				.getServerEndpointsConfigurationPath();
 			InputStream serverUrlStream = context.getAssets().open(serverUrlPath);
 			return new EndpointProvider(context, serverUrlStream);
 		}
@@ -290,7 +294,7 @@ public class AppModule {
 	@Provides
 	@Singleton
 	IClientLogServices provideClientLog(OkHttpClient client, EndpointProvider endpointProvider,
-										Interceptor interceptor) {
+		Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		return new ClientLogServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
@@ -347,7 +351,11 @@ public class AppModule {
 
 	@Provides
 	HMACInterceptor provideHmacInterceptor(final Context context) {
-		return new HMACInterceptor(context.getResources().getString(R.string.exp_u), context.getResources().getString(R.string.exp_k));
+		return new HMACInterceptor(context.getResources().getString(R.string.exp_u),
+			context.getResources().getString(R.string.exp_k),
+			new DateTimeSourceImpl(),
+			new SaltSourceImpl(),
+			new LegacyCurrentDomainSource());
 	}
 
 	@Provides
@@ -358,7 +366,7 @@ public class AppModule {
 	@Provides
 	@Singleton
 	SmartOfferService provideSmartOfferService(EndpointProvider endpointProvider, OkHttpClient client,
-											   Interceptor interceptor) {
+		Interceptor interceptor) {
 		final String endpoint = endpointProvider.getSmartOfferServiceEndpoint();
 		return new SmartOfferService(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
@@ -366,7 +374,7 @@ public class AppModule {
 	@Provides
 	@Singleton
 	OfferService provideOfferService(EndpointProvider endpointProvider, OkHttpClient client,
-											   Interceptor interceptor) {
+		Interceptor interceptor) {
 		final String endpoint = endpointProvider.getOfferServiceEndpoint();
 		return new OfferService(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
@@ -380,26 +388,24 @@ public class AppModule {
 	@Provides
 	@Singleton
 	SatelliteServices provideSatelliteServices(EndpointProvider endpointProvider, OkHttpClient client,
-		Interceptor interceptor, @Named("SatelliteInterceptor") Interceptor satelliteInterceptor,
-		HMACInterceptor hmacInterceptor) {
+		Interceptor interceptor, @Named("SatelliteInterceptor") Interceptor satelliteInterceptor) {
 		return new SatelliteServices(endpointProvider.getSatelliteEndpointUrl(), client, interceptor,
-				satelliteInterceptor, hmacInterceptor,
-				AndroidSchedulers.mainThread(), Schedulers.io());
+			satelliteInterceptor,
+			AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides
 	@Singleton
 	TNSServices provideTNSServices(EndpointProvider endpointProvider, OkHttpClient client,
-								   HMACInterceptor hmacInterceptor,
-								   UserAgentInterceptor userAgentInterceptor) {
-		return new TNSServices(endpointProvider.getTNSEndpoint(), client, Arrays.asList(hmacInterceptor, userAgentInterceptor),
-				Schedulers.io(), Schedulers.io());
+		UserAgentInterceptor userAgentInterceptor) {
+		return new TNSServices(endpointProvider.getTNSEndpoint(), client, Arrays.asList(userAgentInterceptor),
+			Schedulers.io(), Schedulers.io());
 	}
 
 	@Provides
 	@Singleton
 	FlightRegistrationHandler provideFlightRegistrationService(TNSServices tnsServices,
-															   UserStateManager userStateManager, Context context) {
+		UserStateManager userStateManager, Context context) {
 		return new FlightRegistrationHandler(context, tnsServices, userStateManager.getUserSource());
 	}
 
@@ -427,7 +433,7 @@ public class AppModule {
 	AbacusSource provideAbacusSource(Context context) {
 		return new AbacusProvider(context);
 	}
-	
+
 	@Provides
 	@Singleton
 	NotificationScheduler provideNotificationScheduler(Context context, NotificationManager notificationManager,

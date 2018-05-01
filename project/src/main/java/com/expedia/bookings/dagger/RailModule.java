@@ -9,7 +9,6 @@ import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.server.RailCardFeeServiceProvider;
 import com.expedia.bookings.services.RailServices;
 import com.expedia.bookings.services.SuggestionV4Services;
-import com.expedia.bookings.utils.HMACInterceptor;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.vm.PaymentViewModel;
 
@@ -19,12 +18,12 @@ import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 @Module
 public final class RailModule {
@@ -32,9 +31,9 @@ public final class RailModule {
 	@Provides
 	@RailScope
 	RailServices provideRailServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor,
-		@Named("RailInterceptor") Interceptor railRequestInterceptor, HMACInterceptor hmacInterceptor) {
+		@Named("RailInterceptor") Interceptor railRequestInterceptor) {
 		boolean isUserBucketedInAPIMAuth = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppAPIMAuth);
-		return new RailServices(endpointProvider.getRailEndpointUrl(), client, interceptor, railRequestInterceptor, hmacInterceptor, isUserBucketedInAPIMAuth,
+		return new RailServices(endpointProvider.getRailEndpointUrl(), client, interceptor, railRequestInterceptor, isUserBucketedInAPIMAuth,
 				AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 

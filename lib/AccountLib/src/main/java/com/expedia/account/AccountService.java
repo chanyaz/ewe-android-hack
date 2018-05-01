@@ -1,9 +1,7 @@
 package com.expedia.account;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
@@ -62,7 +60,7 @@ public class AccountService {
 	 * @param clientId The client id ("mobile.android.flighttrack" and stuff)
 	 */
 	public AccountService(OkHttpClient client, String endpoint, int siteId, int langId, String clientId) {
-		this(client, endpoint, siteId, langId, clientId, null, new ArrayList<Interceptor>());
+		this(client, endpoint, siteId, langId, clientId, null);
 	}
 
 	/**
@@ -75,8 +73,7 @@ public class AccountService {
 	 * @param clientId The client id ("mobile.android.flighttrack" and stuff)
 	 * @param userAgent The String passed as User-Agent Header in all requests
 	 */
-	public AccountService(OkHttpClient client, String endpoint, int siteId, int langId, String clientId, final String userAgent,
-		List<Interceptor> interceptorList) {
+	public AccountService(OkHttpClient client, String endpoint, int siteId, int langId, String clientId, final String userAgent) {
 		this(null, siteId, langId, clientId);
 
 		if (!endpoint.startsWith("https")) {
@@ -87,10 +84,6 @@ public class AccountService {
 		HttpLoggingInterceptor logger = new HttpLoggingInterceptor();
 		logger.setLevel(HttpLoggingInterceptor.Level.BODY);
 		clientBuilder.addInterceptor(logger);
-
-		for (Interceptor interceptor : interceptorList) {
-			clientBuilder.addInterceptor(interceptor);
-		}
 
 		if (!TextUtils.isEmpty(userAgent)) {
 			Interceptor requestInterceptor = new Interceptor() {
