@@ -31,6 +31,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.extensions.setInverseVisibility
+import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.deeplink.HotelDeepLinkHandler
@@ -165,11 +166,15 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
 
         hotelWebCheckoutViewViewModel.blankViewObservable.subscribe {
-            super.back()
+            if (webCheckoutView.visibility == View.VISIBLE) {
+                super.back()
+            }
         }
         hotelWebCheckoutViewViewModel.fetchItinObservable.subscribe { bookedTripID ->
             itinTripServices.getTripDetails(bookedTripID, makeNewItinResponseObserver())
         }
+
+        hotelWebCheckoutViewViewModel.showNativeSearchObservable.subscribe(goToSearchScreen)
 
         webCheckoutView
     }
@@ -452,6 +457,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             addTransition(detailsToWebCheckoutView)
             addTransition(webCheckoutViewToConfirmation)
             addTransition(webCheckoutViewToError)
+            addTransition(webCheckoutViewToSearch)
         } else {
             addTransition(detailsToCheckout)
             addTransition(checkoutToConfirmation)
@@ -663,6 +669,30 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             webCheckoutView.setInverseVisibility(forward)
             errorPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             errorPresenter.animationFinalize()
+        }
+    }
+
+    private val webCheckoutViewToSearch = object : Presenter.Transition(WebCheckoutView::class.java.name, HotelSearchPresenter::class.java.name, DecelerateInterpolator(), ANIMATION_DURATION) {
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            searchPresenter.visibility = View.VISIBLE
+            webCheckoutView.visibility = View.VISIBLE
+            searchPresenter.setBackgroundColor(searchBackgroundColor.start)
+            searchPresenter.animationStart(forward)
+        }
+
+        override fun updateTransition(f: Float, forward: Boolean) {
+            super.updateTransition(f, forward)
+            searchPresenter.animationUpdate(f, forward)
+        }
+
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            searchPresenter.resetSuggestionTracking()
+            webCheckoutView.toolbar.setInverseVisibility(forward)
+            webCheckoutView.setInverseVisibility(forward)
+            searchPresenter.setVisibility(forward)
+            searchPresenter.animationFinalize(forward)
         }
     }
 

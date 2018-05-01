@@ -263,6 +263,28 @@ class HotelWebCheckoutViewTest {
     }
 
     @Test
+    fun testShowSearchScreenAfterWebCheckoutErrorRedirect() {
+        getToWebCheckoutView()
+        val (maskWebCheckoutActivityObservable, testUrlObservable, testShowNativeObserver) = setupShowNativeTestObservers()
+        hotelPresenter.show(hotelPresenter.webCheckoutView)
+        hotelPresenter.webCheckoutView.goToSearchAndClearWebView()
+
+        assertNativeHomeScreenShown(testShowNativeObserver, maskWebCheckoutActivityObservable, testUrlObservable)
+    }
+
+    @Test
+    fun testShowSearchScreenAfterWebCheckoutErrorBack() {
+        getToWebCheckoutView()
+        val (maskWebCheckoutActivityObservable, testUrlObservable, testShowNativeObserver) = setupShowNativeTestObservers()
+
+        hotelPresenter.show(hotelPresenter.webCheckoutView)
+        hotelPresenter.webCheckoutView.webView.loadUrl("www.expedia.com/CheckoutError")
+        hotelPresenter.webCheckoutView.back()
+
+        assertNativeHomeScreenShown(testShowNativeObserver, maskWebCheckoutActivityObservable, testUrlObservable)
+    }
+
+    @Test
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     @Config(qualifiers = "sw600dp")
     fun testUserAgentStringHasTabletInfo() {
@@ -378,6 +400,24 @@ class HotelWebCheckoutViewTest {
         setPOSWithWebCheckoutABTestEnabled(setPOSWithWebCheckoutABTestEnabled)
         setUpTestToStartAtDetailsScreen()
         return Action()
+    }
+
+    private fun assertNativeHomeScreenShown(testShowNativeObserver: TestObserver<Unit>,
+                                            maskWebCheckoutActivityObservable: TestObserver<Boolean>,
+                                            testUrlObservable: TestObserver<String>) {
+        testShowNativeObserver.assertValueCount(1)
+        maskWebCheckoutActivityObservable.assertValues(true, false)
+        testUrlObservable.assertValue("about:blank")
+    }
+
+    private fun setupShowNativeTestObservers(): Triple<TestObserver<Boolean>, TestObserver<String>, TestObserver<Unit>> {
+        val maskWebCheckoutActivityObservable = TestObserver.create<Boolean>()
+        val testUrlObservable = TestObserver.create<String>()
+        val testShowNativeObserver = TestObserver.create<Unit>()
+        hotelPresenter.webCheckoutView.viewModel.showWebViewObservable.subscribe(maskWebCheckoutActivityObservable)
+        hotelPresenter.webCheckoutView.viewModel.showNativeSearchObservable.subscribe(testShowNativeObserver)
+        hotelPresenter.webCheckoutView.viewModel.webViewURLObservable.subscribe(testUrlObservable)
+        return Triple(maskWebCheckoutActivityObservable, testUrlObservable, testShowNativeObserver)
     }
 
     private inner class Action {

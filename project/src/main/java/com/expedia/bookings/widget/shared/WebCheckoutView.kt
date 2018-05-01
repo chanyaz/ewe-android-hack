@@ -200,6 +200,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
         viewModel.showNativeSearchObservable.onNext(Unit)
         viewModel.webViewURLObservable.onNext("about:blank")
         webView.clearHistory()
+        viewModel.showWebViewObservable.onNext(false)
     }
 
     fun clearHistory() {
