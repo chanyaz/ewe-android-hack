@@ -102,7 +102,7 @@ class GeofenceTransitionsIntentService(val TAG: String = "GeofenceTransitionsIS"
         }
 
         val carouselNotificationManager = CarouselNotificationManager(applicationContext)
-        carouselNotificationManager.processGCMImageCarousel(((Date().getTime() / 1000L) % Integer.MAX_VALUE) as Int, model)
+        carouselNotificationManager.processGCMImageCarousel((((Date().getTime() / 1000L) % Integer.MAX_VALUE).toInt()), model)
 
 
         //=======================================================
