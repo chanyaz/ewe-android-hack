@@ -21,6 +21,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 class HotelItinPricingSummaryViewModelTest {
+    private val INR = "\u20b9"
     private val mockItinSingleRoom = ItinMocker.hotelDetailsHappy
     private val mockItinMultipleRoom = ItinMocker.hotelDetailsHappyMultipleRooms
     private val mockItinPosSameAsPosu = ItinMocker.hotelDetailsPosSameAsPoSu
@@ -100,12 +101,12 @@ class HotelItinPricingSummaryViewModelTest {
         assertEquals(17, roomItems?.size)
         //Room Total Price Item
         assertEquals((R.string.itin_hotel_details_cost_summary_room_price_text).toString(), roomItems[0].labelString)
-        assertEquals("₹3,500.00", roomItems[0].priceString)
+        assertEquals("${INR}3,500.00", roomItems[0].priceString)
         assertEquals(R.color.itin_price_summary_label_gray_dark, roomItems[0].colorRes)
 
         //Room Price Per Day Item
         assertEquals("Mon, Mar 12", roomItems[1].labelString)
-        assertEquals("₹875.00", roomItems[1].priceString)
+        assertEquals("${INR}875.00", roomItems[1].priceString)
         assertEquals(R.color.itin_price_summary_label_gray_light, roomItems[1].colorRes)
 
         //Room Property Fee
@@ -139,7 +140,7 @@ class HotelItinPricingSummaryViewModelTest {
 
         multipleGuestItemObserver.assertValueCount(1)
         val multiGuestFeeItem = multipleGuestItemObserver.values()
-        assertEquals("₹8.50", multiGuestFeeItem[0].priceString)
+        assertEquals("${INR}8.50", multiGuestFeeItem[0].priceString)
         assertEquals((R.string.itin_hotel_price_summary_multiple_guest_fees_label).toString(), multiGuestFeeItem[0].labelString)
         assertEquals(R.color.itin_price_summary_label_gray_light, multiGuestFeeItem[0].colorRes)
     }
@@ -153,7 +154,7 @@ class HotelItinPricingSummaryViewModelTest {
 
         taxesAndFeesItemObserver.assertValueCount(1)
         val taxesAndFeesItem = taxesAndFeesItemObserver.values()
-        assertEquals("₹3.50", taxesAndFeesItem[0].priceString)
+        assertEquals("${INR}3.50", taxesAndFeesItem[0].priceString)
         assertEquals((R.string.itin_hotel_price_summary_taxes_and_fees_label).toString(), taxesAndFeesItem[0].labelString)
         assertEquals(R.color.itin_price_summary_label_gray_dark, taxesAndFeesItem[0].colorRes)
     }
