@@ -9,6 +9,8 @@ import org.junit.Test;
 import com.expedia.bookings.data.Money;
 
 public class MoneyTests {
+	private static final String EURO = "\u20ac";
+
 	@Test
 	public void testFlagNoDecimalIfIntegerElseTwoPlacesAfterDecimal() {
 		Money money = new Money("23.20", "USD");
@@ -66,28 +68,28 @@ public class MoneyTests {
 	public void testPositiveAmountWithCurrencyAsPostfix() {
 		setLocale("fr", "FR");
 		Money money = new Money("23", "EUR");
-		Assert.assertEquals("23 €", money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
+		Assert.assertEquals("23 " + EURO, money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
 	}
 
 	@Test
 	public void testNegativeAmountWithCurrencyAsPostfix() {
 		setLocale("fr", "FR");
 		Money money = new Money("-23", "EUR");
-		Assert.assertEquals("-23 €", money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
+		Assert.assertEquals("-23 " + EURO, money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
 	}
 
 	@Test
 	public void testPositiveAmountForItaly() {
 		setLocale("it", "IT");
 		Money money = new Money("23", "EUR");
-		Assert.assertEquals("€ 23", money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
+		Assert.assertEquals(EURO + " 23", money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
 	}
 
 	@Test
 	public void testNegativeAmountForItaly() {
 		setLocale("it", "IT");
 		Money money = new Money("-23", "EUR");
-		Assert.assertEquals("-€ 23", money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
+		Assert.assertEquals("-" + EURO + " 23", money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
 	}
 
 	@After
