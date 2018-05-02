@@ -14,9 +14,13 @@ shutdownRunningEmulators() {
     for device in ${devices}; do
         if [[ $device == *"emulator-"* ]]; then
             echo "Shutting Down: $device"
-            adb -s $device -e emu kill
+            gtimeout 10 adb -s $device -e emu kill
         fi
     done
+
+    #Ideally this line will not have any effect on an emulator. It will only work if there are
+    # emulators, which could not shut down, and who's processes are hanging in the system.
+    pkill -9 -f emulator
 }
 
 startAllAvailableBuilderEmulators() {
@@ -32,7 +36,19 @@ startAllAvailableBuilderEmulators() {
 waitForAllDevicesBootCompleted() {
     for device in ${devices}; do
         adb -s $device wait-for-device
-        adb -s $device shell getprop sys.boot_completed
+        timer=0
+        while :
+        do
+            if [[ `adb -s $device shell getprop sys.boot_completed` -eq 1 && `adb -s $device -e shell getprop init.svc.bootanim` -eq "stopped" ]]; then
+                break
+            elif [[ $timer -ge 300 ]]; then
+                break
+            fi
+
+            sleep 1
+            timer=$((timer + 1))
+            echo "Waiting for $device, $timer seconds elapsed"
+        done
     done
 }
 
@@ -47,6 +63,6 @@ startAllAvailableBuilderEmulators
 cd $currDir
 sleep 10
 
-getRunningDevices
 waitForAllDevicesBootCompleted
+getRunningDevices
 
