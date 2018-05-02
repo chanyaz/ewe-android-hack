@@ -278,7 +278,7 @@ class HotelWebCheckoutViewTest {
         val (maskWebCheckoutActivityObservable, testUrlObservable, testShowNativeObserver) = setupShowNativeTestObservers()
 
         hotelPresenter.show(hotelPresenter.webCheckoutView)
-        hotelPresenter.webCheckoutView.webView.loadUrl("www.expedia.com/CheckoutError")
+        hotelPresenter.webCheckoutView.onWebPageStarted(hotelPresenter.webCheckoutView.webView, "https://www.expedia.com/HotelCheckoutError", null)
         hotelPresenter.webCheckoutView.back()
 
         assertNativeHomeScreenShown(testShowNativeObserver, maskWebCheckoutActivityObservable, testUrlObservable)

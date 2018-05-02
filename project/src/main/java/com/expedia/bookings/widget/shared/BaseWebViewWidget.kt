@@ -51,6 +51,7 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
                 webView.clearHistory()
             } else if (!url.startsWith(endPointURL) && url.startsWith("http")) {
                 webViewPopUp?.visibility = View.VISIBLE
+                webView.visibility = View.GONE
             } else {
                 hideWebViewPopUp()
                 webView.loadUrl(url)
@@ -90,6 +91,7 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
     protected fun hideWebViewPopUp() {
         webViewPopUp?.let {
             webViewPopUp!!.visibility = View.GONE
+            webView.visibility = View.VISIBLE
             container.removeView(webViewPopUp)
             webViewPopUp = null
         }
@@ -126,7 +128,6 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
         webView.webViewClient = webClient
         webView.settings.javaScriptEnabled = true
         webView.settings.setSupportMultipleWindows(true)
-        webView.addJavascriptInterface(this, "Android")
 
         webView.setDownloadListener { url, _, _, _, _ ->
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))

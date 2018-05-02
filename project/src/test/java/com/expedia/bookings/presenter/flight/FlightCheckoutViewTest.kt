@@ -829,7 +829,7 @@ class FlightCheckoutViewTest {
         flightPresenter.show(flightPresenter.flightOverviewPresenter)
         flightPresenter.show(flightPresenter.webCheckoutView)
 
-        flightPresenter.webCheckoutView.webView.loadUrl("www.expedia.com/CheckoutError")
+        flightPresenter.webCheckoutView.onWebPageStarted(flightPresenter.webCheckoutView.webView, "https://www.expedia.com/FlightCheckoutError", null)
         flightPresenter.webCheckoutView.back()
 
         testShowNativeObserver.assertValueCount(1)
