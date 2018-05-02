@@ -12,7 +12,6 @@ import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.extensions.subscribeVisibility
-import com.expedia.bookings.utils.CrashlyticsLoggingUtil.logWhenNotAutomation
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.widget.PackageBundleHotelWidget
@@ -43,7 +42,6 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
         vm.hotelParamsObservable.subscribe { param ->
             bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(true)
 
-            logWhenNotAutomation("updateHotelParams() of outboundFlightWidget called in BundleWidget.")
             outboundFlightWidget.updateHotelParams(param)
             inboundFlightWidget.updateHotelParams(param)
 

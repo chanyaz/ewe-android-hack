@@ -8,7 +8,6 @@ import android.util.AttributeSet
 import com.expedia.bookings.R
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.CrashlyticsLoggingUtil.logWhenNotAutomation
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.packages.activity.PackageFlightActivity
@@ -77,7 +76,6 @@ class OutboundFlightWidget(context: Context, attrs: AttributeSet?) : BaseBundleF
         }
         viewModel.date.onNext(params.startDate)
         viewModel.guests.onNext(params.guests)
-        logWhenNotAutomation("onNext() called on searchParams of BundleFlightViewModel in OutboundFlightWidget.")
         viewModel.searchParams.onNext(params)
         toggleFlightWidget(opacity, false)
     }
