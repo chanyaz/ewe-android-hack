@@ -2,8 +2,8 @@ package com.expedia.vm.test.robolectric
 
 import android.app.Activity
 import android.support.v7.app.AppCompatActivity
-import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.R
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripDetails
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -15,7 +15,6 @@ import com.expedia.bookings.data.flights.KrazyglueSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.insurance.InsuranceProduct
 import com.expedia.bookings.data.payment.Traveler
-import com.expedia.bookings.server.DateTimeParser
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
@@ -43,7 +42,6 @@ import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -300,14 +298,6 @@ class FlightConfirmationViewModelTest {
         val testReturnDateOneDayAfterArrival = DateTime.parse(testArrivalDateTimeTomorrow).plusDays(1).toString()
 
         assertKrazyglueParams(expectedReturnDateTime = testReturnDateOneDayAfterArrival, testKrazyglueSearchParams = testKrazyglueParams, withChild = false)
-    }
-
-    @Test
-    fun testOneWayKrazyglueReturnDateHasSameZoneAsArrivalDate() {
-        val testReturnDateOneDayAfterArrival = DateTime.parse(testArrivalDateTimeTomorrow).plusDays(1).toString()
-
-        assertNotEquals(DateTime.parse(testArrivalDateTimeTomorrow).zone, DateTimeParser.parseISO8601DateTimeString(testReturnDateOneDayAfterArrival).zone)
-        assertEquals(DateTime.parse(testArrivalDateTimeTomorrow).zone, DateTime.parse(testReturnDateOneDayAfterArrival).zone)
     }
 
     @Test
