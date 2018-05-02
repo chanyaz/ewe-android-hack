@@ -14,6 +14,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
+import retrofit2.http.QueryMap
 import java.math.BigDecimal
 
 interface PackageApi {
@@ -61,7 +62,8 @@ interface PackageApi {
             @Query("flightPIID") flightPIID: String? = null,
             @Query("anchorTotalPrice") anchorTotalPrice: BigDecimal? = null,
             @Query("currencyCode") currencyCode: String? = null,
-            @Query("cabinClass") cabinClass: String? = null): Observable<MultiItemApiSearchResponse>
+            @Query("cabinClass") cabinClass: String? = null,
+            @QueryMap(encoded = true) filterParams: Map<String, String>?): Observable<MultiItemApiSearchResponse>
 
     @GET("/api/multiitem/v1/createTrip")
     fun multiItemCreateTrip(@Query("flightPIID") flightPIID: String,

@@ -66,7 +66,8 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 childAges = params.childAges,
                 infantsInSeats = params.infantsInSeats,
                 flightPIID = if (params.isChangePackageSearch()) params.latestSelectedOfferInfo.flightPIID else null,
-                cabinClass = params.flightCabinClass)
+                cabinClass = params.flightCabinClass,
+                filterParams = params.filterOptions?.getFiltersQueryMap())
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext { it.setup() }
@@ -90,7 +91,8 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 flightPIID = params.latestSelectedOfferInfo.flightPIID,
                 anchorTotalPrice = params.latestSelectedOfferInfo.productOfferPrice?.packageTotalPrice?.amount,
                 currencyCode = params.latestSelectedOfferInfo.productOfferPrice?.packageTotalPrice?.currencyCode,
-                cabinClass = params.flightCabinClass)
+                cabinClass = params.flightCabinClass,
+                filterParams = emptyMap())
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
     }
@@ -114,7 +116,8 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 legIndex = 0,
                 anchorTotalPrice = params.latestSelectedOfferInfo.productOfferPrice?.packageTotalPrice?.amount,
                 currencyCode = params.latestSelectedOfferInfo.productOfferPrice?.packageTotalPrice?.currencyCode,
-                cabinClass = params.flightCabinClass)
+                cabinClass = params.flightCabinClass,
+                filterParams = emptyMap())
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext {
@@ -148,7 +151,8 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 outboundLegId = params.selectedLegId,
                 anchorTotalPrice = params.latestSelectedOfferInfo.productOfferPrice?.packageTotalPrice?.amount,
                 currencyCode = params.latestSelectedOfferInfo.productOfferPrice?.packageTotalPrice?.currencyCode,
-                cabinClass = params.flightCabinClass)
+                cabinClass = params.flightCabinClass,
+                filterParams = emptyMap())
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext {
