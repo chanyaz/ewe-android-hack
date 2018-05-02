@@ -1361,6 +1361,9 @@
     <string name="itin_card_details_reload_hotel">重新載入酒店資料</string>
     <string name="itin_card_details_reload_cruise">重新載入郵輪假期資料</string>
     <string name="itin_card_details_remove_itin">從行程中移除</string>
+    <!--Hotel itin card room details heading-->
+    <string name="itin_view_receipt_text">查看收據</string>
+
 
     <!--Trip Folders-->
     <!--Trip folder upcoming tab title-->
@@ -1398,6 +1401,16 @@
     <string name="itin_hotel_details_price_summary_rewards_heading">價格及獎賞</string>
     <!--Hotel itin card price summary line item label for room price-->
     <string name="itin_hotel_details_cost_summary_room_price_text">房價</string>
+    <!--Hotel itin card price summary line item label for multiple guest fees-->
+    <string name="itin_hotel_price_summary_multiple_guest_fees_label">多房客費</string>
+    <!--Hotel itin card price summary line item label for taxes & fees-->
+    <string name="itin_hotel_price_summary_taxes_and_fees_label">稅項及附加費</string>
+    <!--Hotel itin card price summary line item label for coupons-->
+    <string name="itin_hotel_price_summary_coupons_label">使用優惠券</string>
+    <!--Hotel itin card price summary line item label for points applied-->
+    <string name="itin_hotel_price_summary_points_label">使用積分</string>
+    <!--Hotel itin card price summary line item value for points applied template. -{points} (e.g., -$30)-->
+    <string name="itin_hotel_price_summary_points_value_TEMPLATE">-{points}</string>
     <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">合共已付 {amount}</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
@@ -1414,10 +1427,6 @@
     <string name="hotel_summary_checkout_text">退房：</string>
     <!--Hotel itin checkin checkout to arrow content description-->
     <string name="itin_hotel_details_checkout_to_arrow_cont_desc">至</string>
-    <!--Hotel itin manage booking button to change or cancel room-->
-    <string name="itin_hotel_manage_booking_cancel_change_header">更改或取消客房</string>
-    <!--Hotel itin manage booking webview title-->
-    <string name="itin_hotel_manage_booking_webview_title">更改或取消客房</string>
     <!--Hotel itin manage booking room details header-->
     <string name="itin_hotel_manage_booking_header">管理預訂</string>
     <!--Hotel itin manage booking hotel help heading-->
@@ -1492,6 +1501,9 @@
     <string name="itin_hotel_manage_booking_total_rooms_text_TEMPLATE">共 {number} 間客房</string>
     <!--Hotel itin price and rewards expedia title -->
     <string name="itin_hotel_price_reward_title">價格及獎賞</string>
+    <!--Hotel itin view receipt title. (e.g. Receipt for Hilton) -->
+    <string name="itin_hotel_view_receipt_title_TEMPLATE">{hotelname}的收據</string>
+
 
     <!--LX itin redesign-->
     <!--LX toolbar title template. (e.g. Activity in San Francisco)-->
@@ -2327,9 +2339,11 @@
     <string name="male">男</string>
     <!-- female -->
     <string name="female">女</string>
-    <!-- next page buttn -->
+    <!-- next page button -->
     <string name="next">下一頁</string>
     <string name="next_cont_desc">下一頁按鈕</string>
+    <!-- previous page button -->
+    <string name="previous">上一頁</string>
     <!-- Passport country placeholder for passport country spinner -->
     <string name="country">國家/地區</string>
     <!-- Passport country label -->
@@ -3948,22 +3962,7 @@
     <string name="coupon_error_remove_dialog_title">無法移除優惠券</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">您的優惠券出現問題。請再輸入一次。</string>
-    <!-- Hotel Advanced Search Options card title -->
-    <string name="advanced_options">進階選項</string>
-    <!-- VIP only search options on advanced options card title -->
-    <string name="vip_only">+VIP</string>
-    <!-- Sort by search option on advanced options card title -->
-    <string name="hotel_sort_by_search_option_TEMPLATE">按{sortby}排序</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="one_star">1 星</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="two_star">2 星</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="three_star">3 星</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="four_star">4 星</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="five_star">5 星</string>
+
     <!-- Prompt to use filter after scrolling hotel results -->
     <string name="narrow_your_results">收窄搜尋結果</string>
     <!-- Prompt to try new filter after scrolling hotel results  -->

@@ -1361,6 +1361,9 @@
     <string name="itin_card_details_reload_hotel">Recharger info. hôtel</string>
     <string name="itin_card_details_reload_cruise">Recharger info. croisières</string>
     <string name="itin_card_details_remove_itin">Supprimer de l\&apos;itinéraire</string>
+    <!--Hotel itin card room details heading-->
+    <string name="itin_view_receipt_text">Afficher le reçu</string>
+
 
     <!--Trip Folders-->
     <!--Trip folder upcoming tab title-->
@@ -1398,6 +1401,16 @@
     <string name="itin_hotel_details_price_summary_rewards_heading">Tarification et récompenses</string>
     <!--Hotel itin card price summary line item label for room price-->
     <string name="itin_hotel_details_cost_summary_room_price_text">Prix de la chambre</string>
+    <!--Hotel itin card price summary line item label for multiple guest fees-->
+    <string name="itin_hotel_price_summary_multiple_guest_fees_label">Frais pour voyageurs multiples</string>
+    <!--Hotel itin card price summary line item label for taxes & fees-->
+    <string name="itin_hotel_price_summary_taxes_and_fees_label">Taxes et frais</string>
+    <!--Hotel itin card price summary line item label for coupons-->
+    <string name="itin_hotel_price_summary_coupons_label">Bon de réduction appliqué</string>
+    <!--Hotel itin card price summary line item label for points applied-->
+    <string name="itin_hotel_price_summary_points_label">Points appliqués</string>
+    <!--Hotel itin card price summary line item value for points applied template. -{points} (e.g., -$30)-->
+    <string name="itin_hotel_price_summary_points_value_TEMPLATE">-{points}</string>
     <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">Total payé : {amount}</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
@@ -1414,10 +1427,6 @@
     <string name="hotel_summary_checkout_text">Départ :</string>
     <!--Hotel itin checkin checkout to arrow content description-->
     <string name="itin_hotel_details_checkout_to_arrow_cont_desc">Vers</string>
-    <!--Hotel itin manage booking button to change or cancel room-->
-    <string name="itin_hotel_manage_booking_cancel_change_header">Modifier ou annuler la chambre</string>
-    <!--Hotel itin manage booking webview title-->
-    <string name="itin_hotel_manage_booking_webview_title">Modifier ou annuler la chambre</string>
     <!--Hotel itin manage booking room details header-->
     <string name="itin_hotel_manage_booking_header">Gérer la réservation</string>
     <!--Hotel itin manage booking hotel help heading-->
@@ -1492,6 +1501,9 @@
     <string name="itin_hotel_manage_booking_total_rooms_text_TEMPLATE">{number} chambres au total</string>
     <!--Hotel itin price and rewards expedia title -->
     <string name="itin_hotel_price_reward_title">Tarification et récompenses</string>
+    <!--Hotel itin view receipt title. (e.g. Receipt for Hilton) -->
+    <string name="itin_hotel_view_receipt_title_TEMPLATE">Reçu pour {hotelname}</string>
+
 
     <!--LX itin redesign-->
     <!--LX toolbar title template. (e.g. Activity in San Francisco)-->
@@ -2117,7 +2129,7 @@
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">Vous accumulerez {reward_currency} points pour ce voyage!</string>
     <!-- Blurb text displayed on account sign in button when already signed in and has 2x earn messaging e.g. You'll earn 1234 points. That's double for booking in app!-->
-    <string name="earn_2x_rewards_currency_for_this_trip_TEMPLATE">Vous accumulerez {reward_currency} points. C\&apos;est le double parce que vous réservez dans l\&apos;application!</string>
+    <string name="earn_2x_rewards_currency_for_this_trip_TEMPLATE">Vous accumulerez {reward_currency} points, soit le double, en réservant dans l\&apos;application!</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_raised_the_total_price_TEMPLATE">Désolés, mais il semble que l\&apos;hôtel vient d\&apos;augmenter le coût total du séjour de %1$s à %2$s.</string>
     <!-- String to use when a price change alert should be shown to the user -->
@@ -2327,9 +2339,11 @@
     <string name="male">Homme</string>
     <!-- female -->
     <string name="female">Femme</string>
-    <!-- next page buttn -->
+    <!-- next page button -->
     <string name="next">Suivant</string>
     <string name="next_cont_desc">Bouton Suivant</string>
+    <!-- previous page button -->
+    <string name="previous">Précédent</string>
     <!-- Passport country placeholder for passport country spinner -->
     <string name="country">Pays</string>
     <!-- Passport country label -->
@@ -3948,22 +3962,7 @@
     <string name="coupon_error_remove_dialog_title">La suppression du bon a échoué</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">Un problème est survenu avec votre bon. Veuillez essayer de nouveau.</string>
-    <!-- Hotel Advanced Search Options card title -->
-    <string name="advanced_options">Options avancées</string>
-    <!-- VIP only search options on advanced options card title -->
-    <string name="vip_only">VIP+ seul.</string>
-    <!-- Sort by search option on advanced options card title -->
-    <string name="hotel_sort_by_search_option_TEMPLATE">Trier par {sortby}</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="one_star">1 étoile</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="two_star">2 étoiles</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="three_star">3 étoiles</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="four_star">4 étoiles</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="five_star">5 étoiles</string>
+
     <!-- Prompt to use filter after scrolling hotel results -->
     <string name="narrow_your_results">Affiner les résultats</string>
     <!-- Prompt to try new filter after scrolling hotel results  -->
