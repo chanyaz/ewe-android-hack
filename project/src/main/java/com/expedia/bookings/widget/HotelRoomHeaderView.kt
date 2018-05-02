@@ -61,7 +61,10 @@ class HotelRoomHeaderView(context: Context, val viewModel: HotelRoomHeaderViewMo
 
         bedTypeTextView.text = viewModel.bedTypeString
         if (bedTypeTextView.text.isEmpty()) {
-            bedTypeTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+            bedTypeTextView.visibility = View.GONE
+
+            val layoutParams = roomTypeTextView.layoutParams as RelativeLayout.LayoutParams
+            layoutParams.bottomMargin = resources.getDimensionPixelSize(R.dimen.hotel_room_padding)
         } else {
             bedTypeTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.room_bed, 0, 0, 0)
         }
