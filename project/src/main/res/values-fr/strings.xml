@@ -1361,6 +1361,9 @@
     <string name="itin_card_details_reload_hotel">Mettre à jour</string>
     <string name="itin_card_details_reload_cruise">Mettre à jour</string>
     <string name="itin_card_details_remove_itin">Supprimer du voyage</string>
+    <!--Hotel itin card room details heading-->
+    <string name="itin_view_receipt_text">Afficher le reçu</string>
+
 
     <!--Trip Folders-->
     <!--Trip folder upcoming tab title-->
@@ -1398,6 +1401,16 @@
     <string name="itin_hotel_details_price_summary_rewards_heading">Tarifs et points fidélité</string>
     <!--Hotel itin card price summary line item label for room price-->
     <string name="itin_hotel_details_cost_summary_room_price_text">Prix de la chambre</string>
+    <!--Hotel itin card price summary line item label for multiple guest fees-->
+    <string name="itin_hotel_price_summary_multiple_guest_fees_label">Frais pour voyageurs supplémentaires</string>
+    <!--Hotel itin card price summary line item label for taxes & fees-->
+    <string name="itin_hotel_price_summary_taxes_and_fees_label">Taxes et frais</string>
+    <!--Hotel itin card price summary line item label for coupons-->
+    <string name="itin_hotel_price_summary_coupons_label">Bon promotionnel appliqué</string>
+    <!--Hotel itin card price summary line item label for points applied-->
+    <string name="itin_hotel_price_summary_points_label">Points appliqués</string>
+    <!--Hotel itin card price summary line item value for points applied template. -{points} (e.g., -$30)-->
+    <string name="itin_hotel_price_summary_points_value_TEMPLATE">-{points}</string>
     <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">Montant total payé : {amount}</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
@@ -1414,10 +1427,6 @@
     <string name="hotel_summary_checkout_text">Départ :</string>
     <!--Hotel itin checkin checkout to arrow content description-->
     <string name="itin_hotel_details_checkout_to_arrow_cont_desc">au</string>
-    <!--Hotel itin manage booking button to change or cancel room-->
-    <string name="itin_hotel_manage_booking_cancel_change_header">Modifier ou annuler la chambre</string>
-    <!--Hotel itin manage booking webview title-->
-    <string name="itin_hotel_manage_booking_webview_title">Modifier ou annuler la chambre</string>
     <!--Hotel itin manage booking room details header-->
     <string name="itin_hotel_manage_booking_header">Gérer la réservation</string>
     <!--Hotel itin manage booking hotel help heading-->
@@ -1492,6 +1501,9 @@
     <string name="itin_hotel_manage_booking_total_rooms_text_TEMPLATE">Total : {number} chambres</string>
     <!--Hotel itin price and rewards expedia title -->
     <string name="itin_hotel_price_reward_title">Tarifs et points fidélité</string>
+    <!--Hotel itin view receipt title. (e.g. Receipt for Hilton) -->
+    <string name="itin_hotel_view_receipt_title_TEMPLATE">Reçu pour {hotelname}</string>
+
 
     <!--LX itin redesign-->
     <!--LX toolbar title template. (e.g. Activity in San Francisco)-->
@@ -2327,9 +2339,11 @@
     <string name="male">Homme</string>
     <!-- female -->
     <string name="female">Femme</string>
-    <!-- next page buttn -->
+    <!-- next page button -->
     <string name="next">Suivant</string>
     <string name="next_cont_desc">Bouton Suivant</string>
+    <!-- previous page button -->
+    <string name="previous">Précédent</string>
     <!-- Passport country placeholder for passport country spinner -->
     <string name="country">Pays</string>
     <!-- Passport country label -->
@@ -3948,22 +3962,7 @@
     <string name="coupon_error_remove_dialog_title">Échec du retrait du bon</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">Un problème est survenu avec votre bon de réduction. Veuillez le saisir à nouveau.</string>
-    <!-- Hotel Advanced Search Options card title -->
-    <string name="advanced_options">Options avancées</string>
-    <!-- VIP only search options on advanced options card title -->
-    <string name="vip_only">+VIP</string>
-    <!-- Sort by search option on advanced options card title -->
-    <string name="hotel_sort_by_search_option_TEMPLATE">Trier par {sortby}</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="one_star">1 étoile</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="two_star">2 étoiles</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="three_star">3 étoiles</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="four_star">4 étoiles</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="five_star">5 étoiles</string>
+
     <!-- Prompt to use filter after scrolling hotel results -->
     <string name="narrow_your_results">Cibler vos résultats</string>
     <!-- Prompt to try new filter after scrolling hotel results  -->

@@ -1361,6 +1361,9 @@
     <string name="itin_card_details_reload_hotel">ホテル情報をリロード</string>
     <string name="itin_card_details_reload_cruise">クルーズ情報をリロード</string>
     <string name="itin_card_details_remove_itin">旅程から削除</string>
+    <!--Hotel itin card room details heading-->
+    <string name="itin_view_receipt_text">領収書を表示</string>
+
 
     <!--Trip Folders-->
     <!--Trip folder upcoming tab title-->
@@ -1398,6 +1401,16 @@
     <string name="itin_hotel_details_price_summary_rewards_heading">料金と会員プログラム</string>
     <!--Hotel itin card price summary line item label for room price-->
     <string name="itin_hotel_details_cost_summary_room_price_text">宿泊料金</string>
+    <!--Hotel itin card price summary line item label for multiple guest fees-->
+    <string name="itin_hotel_price_summary_multiple_guest_fees_label">追加ゲスト料金</string>
+    <!--Hotel itin card price summary line item label for taxes & fees-->
+    <string name="itin_hotel_price_summary_taxes_and_fees_label">税およびサービス料</string>
+    <!--Hotel itin card price summary line item label for coupons-->
+    <string name="itin_hotel_price_summary_coupons_label">クーポン適用分</string>
+    <!--Hotel itin card price summary line item label for points applied-->
+    <string name="itin_hotel_price_summary_points_label">ポイント適用分</string>
+    <!--Hotel itin card price summary line item value for points applied template. -{points} (e.g., -$30)-->
+    <string name="itin_hotel_price_summary_points_value_TEMPLATE">- {points}</string>
     <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">お支払い済みの合計金額 : {amount}</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
@@ -1414,10 +1427,6 @@
     <string name="hotel_summary_checkout_text">チェックアウト :</string>
     <!--Hotel itin checkin checkout to arrow content description-->
     <string name="itin_hotel_details_checkout_to_arrow_cont_desc">から</string>
-    <!--Hotel itin manage booking button to change or cancel room-->
-    <string name="itin_hotel_manage_booking_cancel_change_header">部屋の変更またはキャンセル</string>
-    <!--Hotel itin manage booking webview title-->
-    <string name="itin_hotel_manage_booking_webview_title">部屋の変更またはキャンセル</string>
     <!--Hotel itin manage booking room details header-->
     <string name="itin_hotel_manage_booking_header">予約の管理</string>
     <!--Hotel itin manage booking hotel help heading-->
@@ -1492,6 +1501,9 @@
     <string name="itin_hotel_manage_booking_total_rooms_text_TEMPLATE">合計 {number} 室</string>
     <!--Hotel itin price and rewards expedia title -->
     <string name="itin_hotel_price_reward_title">料金と会員プログラム</string>
+    <!--Hotel itin view receipt title. (e.g. Receipt for Hilton) -->
+    <string name="itin_hotel_view_receipt_title_TEMPLATE">{hotelname}の領収書</string>
+
 
     <!--LX itin redesign-->
     <!--LX toolbar title template. (e.g. Activity in San Francisco)-->
@@ -2327,9 +2339,11 @@
     <string name="male">男性</string>
     <!-- female -->
     <string name="female">女性</string>
-    <!-- next page buttn -->
+    <!-- next page button -->
     <string name="next">次へ</string>
     <string name="next_cont_desc">次へボタン</string>
+    <!-- previous page button -->
+    <string name="previous">前へ</string>
     <!-- Passport country placeholder for passport country spinner -->
     <string name="country">国名</string>
     <!-- Passport country label -->
@@ -3202,7 +3216,7 @@
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nAll rights reserved.</string>
     <!-- Expedia Group Copyright information -->
     <!-- © Copyright 2012-2018 Expedia Group All rights reserved. -->
-    <string name="expedia_group_copyright_TEMPLATE">© Copyright 2012-{year} Expedia, Inc.\nAll rights reserved.</string>
+    <string name="expedia_group_copyright_TEMPLATE">© Copyright 2012-{year} Expedia Group\nAll rights reserved.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">オープン ソース ソフトウェアのライセンス承諾</string>
     <!-- String for error message if open source software license page fails to open -->
@@ -3948,22 +3962,7 @@
     <string name="coupon_error_remove_dialog_title">クーポンを削除できませんでした</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">申し訳ありません。クーポンの適用中にエラーが発生しました。もう一度入力してください。</string>
-    <!-- Hotel Advanced Search Options card title -->
-    <string name="advanced_options">詳細オプション</string>
-    <!-- VIP only search options on advanced options card title -->
-    <string name="vip_only">VIP 提携ホテルのみ</string>
-    <!-- Sort by search option on advanced options card title -->
-    <string name="hotel_sort_by_search_option_TEMPLATE">{sortby}で並べ替え</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="one_star">1 つ星</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="two_star">2 つ星</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="three_star">3 つ星</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="four_star">4 つ星</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="five_star">5 つ星</string>
+
     <!-- Prompt to use filter after scrolling hotel results -->
     <string name="narrow_your_results">検索結果を絞り込む</string>
     <!-- Prompt to try new filter after scrolling hotel results  -->
@@ -4941,10 +4940,10 @@
     <string name="member_deals_toolbar_close_cont_desc">会員価格画面を閉じる</string>
 
     <!-- Last Minute Deal -->
-    <string name="last_minute_deal_title">直前割引</string>
-    <string name="last_minute_deal_subtitle">今すぐ旅へ ! お得な直前割引をチェック</string>
-    <string name="last_minute_deals_toolbar_title">直前割引</string>
-    <string name="last_minute_deals_toolbar_close_cont_desc">直前割引画面を閉じる</string>
+    <string name="last_minute_deal_title">直前予約</string>
+    <string name="last_minute_deal_subtitle">今すぐ旅へ ! お得な直前予約をチェック</string>
+    <string name="last_minute_deals_toolbar_title">直前予約</string>
+    <string name="last_minute_deals_toolbar_close_cont_desc">直前予約画面を閉じる</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">並び替え順の定義</string>

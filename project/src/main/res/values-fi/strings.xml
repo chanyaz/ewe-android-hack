@@ -946,7 +946,7 @@
     <string name="booking_page_title">Varaa tien päällä ollessasi</string>
     <string name="booking_page_subtitle">Suunnittele matkasi milloin vain, missä vain</string>
     <string name="trip_page_title">Matkusta luottavaisin mielin</string>
-    <string name="trip_page_subtitle">Pääset käsiksi varaustietoihisi ja saat hälytyksiä tien päällä ollessasi</string>
+    <string name="trip_page_subtitle">Pääset käsiksi varaustietoihisi ja saat ilmoituksia tien päällä ollessasi</string>
     <string name="reward_page_title">Ansaitse kanta-asiakaspisteitä</string>
     <!-- Sign up for a free Expedia Rewards account and earn points on all your purchases -->
     <string name="reward_page_subtitle_TEMPLATE">Avaa ilmainen {brand_reward_name} -tili ja ansaitse pisteitä kaikista ostoksistasi</string>
@@ -957,7 +957,7 @@
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Matkat</string>
     <!-- Google play services unrecoverable error dialog message -->
-    <string name="google_play_services_unrecoverable_error">Tämä sovellus vaatii Google Play Servicesin. Asenna Google Play Servicesin viimeisin versio.</string>
+    <string name="google_play_services_unrecoverable_error">Tämä sovellus vaatii Google Play Palvelut. Asenna Google Play Palveluiden viimeisin versio.</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
@@ -1361,6 +1361,9 @@
     <string name="itin_card_details_reload_hotel">Lataa hotellitiedot uudelleen</string>
     <string name="itin_card_details_reload_cruise">Lataa risteilytiedot uudelleen</string>
     <string name="itin_card_details_remove_itin">Poista matkasuunnitelmasta</string>
+    <!--Hotel itin card room details heading-->
+    <string name="itin_view_receipt_text">Näytä kuitti</string>
+
 
     <!--Trip Folders-->
     <!--Trip folder upcoming tab title-->
@@ -1398,6 +1401,16 @@
     <string name="itin_hotel_details_price_summary_rewards_heading">Hinnat ja kanta-asiakkuus</string>
     <!--Hotel itin card price summary line item label for room price-->
     <string name="itin_hotel_details_cost_summary_room_price_text">Huonehinta</string>
+    <!--Hotel itin card price summary line item label for multiple guest fees-->
+    <string name="itin_hotel_price_summary_multiple_guest_fees_label">Lisävierasmaksu</string>
+    <!--Hotel itin card price summary line item label for taxes & fees-->
+    <string name="itin_hotel_price_summary_taxes_and_fees_label">Verot ja maksut</string>
+    <!--Hotel itin card price summary line item label for coupons-->
+    <string name="itin_hotel_price_summary_coupons_label">Lisätty kuponki</string>
+    <!--Hotel itin card price summary line item label for points applied-->
+    <string name="itin_hotel_price_summary_points_label">Lisätyt pisteet</string>
+    <!--Hotel itin card price summary line item value for points applied template. -{points} (e.g., -$30)-->
+    <string name="itin_hotel_price_summary_points_value_TEMPLATE">-{points}</string>
     <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">Maksettu kokonaissumma: {amount}</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
@@ -1414,10 +1427,6 @@
     <string name="hotel_summary_checkout_text">Lähtöpäivä:</string>
     <!--Hotel itin checkin checkout to arrow content description-->
     <string name="itin_hotel_details_checkout_to_arrow_cont_desc">viiva</string>
-    <!--Hotel itin manage booking button to change or cancel room-->
-    <string name="itin_hotel_manage_booking_cancel_change_header">muuta tai peruuta huone</string>
-    <!--Hotel itin manage booking webview title-->
-    <string name="itin_hotel_manage_booking_webview_title">Muuta tai peruuta huone</string>
     <!--Hotel itin manage booking room details header-->
     <string name="itin_hotel_manage_booking_header">Hallitse varausta</string>
     <!--Hotel itin manage booking hotel help heading-->
@@ -1492,6 +1501,9 @@
     <string name="itin_hotel_manage_booking_total_rooms_text_TEMPLATE">{number} huonetta</string>
     <!--Hotel itin price and rewards expedia title -->
     <string name="itin_hotel_price_reward_title">Hinnat ja kanta-asiakkuus</string>
+    <!--Hotel itin view receipt title. (e.g. Receipt for Hilton) -->
+    <string name="itin_hotel_view_receipt_title_TEMPLATE">Kuitti – {hotelname}</string>
+
 
     <!--LX itin redesign-->
     <!--LX toolbar title template. (e.g. Activity in San Francisco)-->
@@ -1540,7 +1552,7 @@
     <!--Flight itin baggage information text-->
     <string name="itin_baggage_info_button_text">Matkatavaratiedot</string>
     <!--Flight itin map view content description-->
-    <string name="itin_flight_details_map_view_content_description">lentomatkan yhteenveto google mapsissa</string>
+    <string name="itin_flight_details_map_view_content_description">lentomatkan yhteenveto Google Mapsissa</string>
     <!--Flight itin traveler info widget heading-->
     <string name="itin_flight_traveler_info">Matkustajan tiedot</string>
     <!--Flight itin traveler preferences heading -->
@@ -2327,9 +2339,11 @@
     <string name="male">Mies</string>
     <!-- female -->
     <string name="female">Nainen</string>
-    <!-- next page buttn -->
+    <!-- next page button -->
     <string name="next">Seuraava</string>
     <string name="next_cont_desc">Seuraava-painike</string>
+    <!-- previous page button -->
+    <string name="previous">Edellinen</string>
     <!-- Passport country placeholder for passport country spinner -->
     <string name="country">Maa</string>
     <!-- Passport country label -->
@@ -2740,7 +2754,7 @@
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
-    <string name="loading_hotels">Ladataan hotelleja…</string>
+    <string name="loading_hotels">Hotelleja ladataan…</string>
     <!-- The label for deposit terms button -->
     <string name="deposit_terms">Takuumaksuehdot</string>
 
@@ -2838,7 +2852,7 @@
     <!-- Whirlpool bath amenity -->
     <string name="amenity_whirlpool_bath">Poreallas</string>
     <!-- Breakfast amenity -->
-    <string name="amenity_breakfast">Aamupala</string>
+    <string name="amenity_breakfast">Aamiainen</string>
     <!-- Babysitting amenity -->
     <string name="amenity_babysitting">Lastenvahti</string>
     <!-- Jacuzzi amenity -->
@@ -2995,7 +3009,7 @@
     <!-- Label for free nights -->
     <string name="free">ILMAINEN!</string>
     <!-- Delimiter for multiple bed types in hotel offer-->
-    <string name="delimiter_multiple_bed">" tai "</string>
+    <string name="delimiter_multiple_bed">” tai ”</string>
     <!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms -->
     <string name="common_value_add_template">Kaikissa huoneissa on %s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
@@ -3936,9 +3950,9 @@
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
     <string name="hotels_filter_show_less_cont_desc">Näytä vähemmän alueita. Painike</string>
     <!-- Hotel V2 Coupon related -->
-    <string name="applied_coupon_message">Kuponki käytetty: säästit %1$s!</string>
+    <string name="applied_coupon_message">Kuponki lisätty: säästit %1$s!</string>
     <!-- Hotel material coupon applied text -->
-    <string name="material_applied_coupon_message">Kuponki käytetty!</string>
+    <string name="material_applied_coupon_message">Kuponki lisätty!</string>
     <!-- Hotel material coupon applied coupon code text on cko screen template e.g. 1234567 (-$25.00) -->
     <string name="material_applied_coupon_subtitle_TEMPLATE">{name} (–{discount})</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
@@ -3947,23 +3961,8 @@
     <string name="remove_coupon_button_content_description">Poista kuponki</string>
     <string name="coupon_error_remove_dialog_title">Kuponkia ei voitu poistaa</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
-    <string name="coupon_error_dialog_message">Kuponkisi käytössä ilmeni ongelmia. Koita yrittää lisätä se uudelleen.</string>
-    <!-- Hotel Advanced Search Options card title -->
-    <string name="advanced_options">Lisäasetukset</string>
-    <!-- VIP only search options on advanced options card title -->
-    <string name="vip_only">Vain +VIP</string>
-    <!-- Sort by search option on advanced options card title -->
-    <string name="hotel_sort_by_search_option_TEMPLATE">Lajittelukriteeri: {sortby}</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="one_star">1 tähti</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="two_star">2 tähteä</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="three_star">3 tähteä</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="four_star">4 tähteä</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="five_star">5 tähteä</string>
+    <string name="coupon_error_dialog_message">Kuponkisi käytössä ilmeni ongelmia. Yritä lisätä se uudelleen.</string>
+
     <!-- Prompt to use filter after scrolling hotel results -->
     <string name="narrow_your_results">Tarkenna hakutuloksia</string>
     <!-- Prompt to try new filter after scrolling hotel results  -->
@@ -3988,7 +3987,7 @@
     <!-- Accessibility - Content Description for Expiration date: decrease year -->
     <string name="decrease_year_cont_desc">Siirry vuodella taaksepäin</string>
     <!-- Accessibility - Content Description for hotel map view on hotel details -->
-    <string name="hotel_map_view_cont_desc">Hotellin sijainti Google Map -näkymässä</string>
+    <string name="hotel_map_view_cont_desc">Hotellin sijainti Google Maps -näkymässä</string>
     <!-- Accessibility - Content Description for showing map fab on hotel search result -->
     <string name="show_map">Näytä kartta</string>
     <!-- Accessibility - Content Description for showing list fab on hotel search result -->
@@ -4621,7 +4620,7 @@
     <!-- Label for fare family upgrade option. Example. Upgrade your flights from $2 for 2 travellers, Current selection is economy -->
     <string name="flight_fare_family_upgrade_round_trip_flight_cont_desc_TEMPLATE">Korota lentoluokkasi alkaen hintaan {amount} per {guest}, tämänhetkinen valintasi on {class}</string>
     <!-- Label for fare family upgrade option. Example. You have selected Economy, Double tap to change fare class-->
-    <string name="flight_fare_family_change_cont_desc_TEMPLATE">Olet valinnut luokan {fare_family_name}, kaksoisnapauta vaihtaaksesi hintaluokkaa</string>
+    <string name="flight_fare_family_change_cont_desc_TEMPLATE">Olet valinnut luokan {fare_family_name}, napauta kahdesti vaihtaaksesi hintaluokkaa</string>
     <!-- Label for fare family upgrade option. Example. Upgrade your flights -->
     <string name="flight_fare_family_upgrade_flight_oneway_label">Korota lentoluokkaasi</string>
     <!-- Label for fare family delta pricing. Example. From -->

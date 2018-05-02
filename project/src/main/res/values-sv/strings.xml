@@ -1361,6 +1361,9 @@
     <string name="itin_card_details_reload_hotel">Ladda om hotellinfo</string>
     <string name="itin_card_details_reload_cruise">Ladda om kryssningsinfo</string>
     <string name="itin_card_details_remove_itin">Ta bort från resplan</string>
+    <!--Hotel itin card room details heading-->
+    <string name="itin_view_receipt_text">Se kvitto</string>
+
 
     <!--Trip Folders-->
     <!--Trip folder upcoming tab title-->
@@ -1398,6 +1401,16 @@
     <string name="itin_hotel_details_price_summary_rewards_heading">Pris och lojalitetsprogram</string>
     <!--Hotel itin card price summary line item label for room price-->
     <string name="itin_hotel_details_cost_summary_room_price_text">Rumspris</string>
+    <!--Hotel itin card price summary line item label for multiple guest fees-->
+    <string name="itin_hotel_price_summary_multiple_guest_fees_label">Avgift för flera gäster</string>
+    <!--Hotel itin card price summary line item label for taxes & fees-->
+    <string name="itin_hotel_price_summary_taxes_and_fees_label">Skatter och avgifter</string>
+    <!--Hotel itin card price summary line item label for coupons-->
+    <string name="itin_hotel_price_summary_coupons_label">Tillämpad kupong</string>
+    <!--Hotel itin card price summary line item label for points applied-->
+    <string name="itin_hotel_price_summary_points_label">Tillämpade poäng</string>
+    <!--Hotel itin card price summary line item value for points applied template. -{points} (e.g., -$30)-->
+    <string name="itin_hotel_price_summary_points_value_TEMPLATE">-{points}</string>
     <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">Betalat totalbelopp: {amount}</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
@@ -1414,10 +1427,6 @@
     <string name="hotel_summary_checkout_text">Utcheckning:</string>
     <!--Hotel itin checkin checkout to arrow content description-->
     <string name="itin_hotel_details_checkout_to_arrow_cont_desc">till</string>
-    <!--Hotel itin manage booking button to change or cancel room-->
-    <string name="itin_hotel_manage_booking_cancel_change_header">Ändra eller avboka rum</string>
-    <!--Hotel itin manage booking webview title-->
-    <string name="itin_hotel_manage_booking_webview_title">Ändra eller avboka rum</string>
     <!--Hotel itin manage booking room details header-->
     <string name="itin_hotel_manage_booking_header">Hantera bokning</string>
     <!--Hotel itin manage booking hotel help heading-->
@@ -1492,6 +1501,9 @@
     <string name="itin_hotel_manage_booking_total_rooms_text_TEMPLATE">{number} rum totalt</string>
     <!--Hotel itin price and rewards expedia title -->
     <string name="itin_hotel_price_reward_title">Pris och lojalitetsprogram</string>
+    <!--Hotel itin view receipt title. (e.g. Receipt for Hilton) -->
+    <string name="itin_hotel_view_receipt_title_TEMPLATE">Kvitto för {hotelname}</string>
+
 
     <!--LX itin redesign-->
     <!--LX toolbar title template. (e.g. Activity in San Francisco)-->
@@ -2327,9 +2339,11 @@
     <string name="male">Man</string>
     <!-- female -->
     <string name="female">Kvinna</string>
-    <!-- next page buttn -->
+    <!-- next page button -->
     <string name="next">Nästa</string>
     <string name="next_cont_desc">Nästa knapp</string>
+    <!-- previous page button -->
+    <string name="previous">Föregående</string>
     <!-- Passport country placeholder for passport country spinner -->
     <string name="country">Land</string>
     <!-- Passport country label -->
@@ -3834,7 +3848,7 @@
     <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">Gå med i {brand_reward_name} idag. Genom att gå med i {brand_reward_name} accepterar jag samtliga {terms_and_conditions}.</string>
     <!--Account creation legal template for terms and reward eg: By creating an account, I accept the Expedia Rewards Terms & Conditions, and have read and accept the Terms of Use and the Privacy Policy.-->
-    <string name="account_creation_new_terms_reward_TEMPLATE">Genom att skapa ett konto godkänner jag {terms_and_conditions} för {brand_reward_name}, och bekräftar att jag har läst och godkänt {terms_of_use} och {privacy_policy}</string>
+    <string name="account_creation_new_terms_reward_TEMPLATE">Genom att skapa ett konto godkänner jag {terms_and_conditions} för {brand_reward_name}, och bekräftar att jag har läst och godkänt {terms_of_use} och {privacy_policy}.</string>
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Välj vardera barns ålder</string>
 
@@ -3948,22 +3962,7 @@
     <string name="coupon_error_remove_dialog_title">Kupongen kunde inte tas bort</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">Det uppstod ett problem med din kupong. Försök att ange koden igen.</string>
-    <!-- Hotel Advanced Search Options card title -->
-    <string name="advanced_options">Avancerade alternativ</string>
-    <!-- VIP only search options on advanced options card title -->
-    <string name="vip_only">VIP+</string>
-    <!-- Sort by search option on advanced options card title -->
-    <string name="hotel_sort_by_search_option_TEMPLATE">Sortera efter {sortby}</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="one_star">1 stjärna</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="two_star">2 stjärnor</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="three_star">3 stjärnor</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="four_star">4 stjärnor</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="five_star">5 stjärnor</string>
+
     <!-- Prompt to use filter after scrolling hotel results -->
     <string name="narrow_your_results">Begränsa resultaten</string>
     <!-- Prompt to try new filter after scrolling hotel results  -->

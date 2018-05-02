@@ -600,7 +600,7 @@
     <!-- Traveler title label for checkout toolbar and traveler summary card. Eg. Traveler 1 (Adult 18+) -->
     <string name="checkout_traveler_title_TEMPLATE">여행객 {travelernumber} ({passengerycategory})</string>
     <!-- Traveler category age range seen in checkout toolbar and Travelery Summary card. Eg. Infant under 2 -->
-    <string name="traveler_age_range_TEMPLATE">{category}({range})</string>
+    <string name="traveler_age_range_TEMPLATE">{category} {range}</string>
     <!-- Adult age label on flight checkout summary card-->
     <string name="flight_checkout_adult_age_label">만 18+</string>
     <!-- Youth age label on flight checkout traveler summary card -->
@@ -1361,6 +1361,9 @@
     <string name="itin_card_details_reload_hotel">호텔 정보 다시 로드하기</string>
     <string name="itin_card_details_reload_cruise">크루즈 정보 다시 로드하기</string>
     <string name="itin_card_details_remove_itin">일정에서 삭제</string>
+    <!--Hotel itin card room details heading-->
+    <string name="itin_view_receipt_text">영수증 보기</string>
+
 
     <!--Trip Folders-->
     <!--Trip folder upcoming tab title-->
@@ -1398,6 +1401,16 @@
     <string name="itin_hotel_details_price_summary_rewards_heading">요금 및 회원혜택</string>
     <!--Hotel itin card price summary line item label for room price-->
     <string name="itin_hotel_details_cost_summary_room_price_text">객실 요금</string>
+    <!--Hotel itin card price summary line item label for multiple guest fees-->
+    <string name="itin_hotel_price_summary_multiple_guest_fees_label">인원 추가 수수료</string>
+    <!--Hotel itin card price summary line item label for taxes & fees-->
+    <string name="itin_hotel_price_summary_taxes_and_fees_label">세금 및 수수료</string>
+    <!--Hotel itin card price summary line item label for coupons-->
+    <string name="itin_hotel_price_summary_coupons_label">쿠폰 적용됨</string>
+    <!--Hotel itin card price summary line item label for points applied-->
+    <string name="itin_hotel_price_summary_points_label">적용된 포인트</string>
+    <!--Hotel itin card price summary line item value for points applied template. -{points} (e.g., -$30)-->
+    <string name="itin_hotel_price_summary_points_value_TEMPLATE">-{points}</string>
     <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">총 {amount} 결제됨</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
@@ -1414,10 +1427,6 @@
     <string name="hotel_summary_checkout_text">체크아웃:</string>
     <!--Hotel itin checkin checkout to arrow content description-->
     <string name="itin_hotel_details_checkout_to_arrow_cont_desc">부터</string>
-    <!--Hotel itin manage booking button to change or cancel room-->
-    <string name="itin_hotel_manage_booking_cancel_change_header">객실 변경 또는 취소</string>
-    <!--Hotel itin manage booking webview title-->
-    <string name="itin_hotel_manage_booking_webview_title">객실 변경 또는 취소</string>
     <!--Hotel itin manage booking room details header-->
     <string name="itin_hotel_manage_booking_header">예약 관리</string>
     <!--Hotel itin manage booking hotel help heading-->
@@ -1492,6 +1501,9 @@
     <string name="itin_hotel_manage_booking_total_rooms_text_TEMPLATE">총 객실 {number}개</string>
     <!--Hotel itin price and rewards expedia title -->
     <string name="itin_hotel_price_reward_title">요금 및 회원혜택</string>
+    <!--Hotel itin view receipt title. (e.g. Receipt for Hilton) -->
+    <string name="itin_hotel_view_receipt_title_TEMPLATE">{hotelname}에 대한 영수증</string>
+
 
     <!--LX itin redesign-->
     <!--LX toolbar title template. (e.g. Activity in San Francisco)-->
@@ -2327,9 +2339,11 @@
     <string name="male">남성</string>
     <!-- female -->
     <string name="female">여성</string>
-    <!-- next page buttn -->
+    <!-- next page button -->
     <string name="next">다음</string>
     <string name="next_cont_desc">다음 버튼</string>
+    <!-- previous page button -->
+    <string name="previous">이전</string>
     <!-- Passport country placeholder for passport country spinner -->
     <string name="country">국가</string>
     <!-- Passport country label -->
@@ -3948,22 +3962,7 @@
     <string name="coupon_error_remove_dialog_title">쿠폰 삭제 실패</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">고객님 쿠폰에 문제가 있는 것 같습니다. 다시 입력해 보세요.</string>
-    <!-- Hotel Advanced Search Options card title -->
-    <string name="advanced_options">추가 선택 사항</string>
-    <!-- VIP only search options on advanced options card title -->
-    <string name="vip_only">+VIP만</string>
-    <!-- Sort by search option on advanced options card title -->
-    <string name="hotel_sort_by_search_option_TEMPLATE">정렬 기준: {sortby}</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="one_star">1성급</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="two_star">2성급</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="three_star">3성급</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="four_star">4성급</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="five_star">5성급</string>
+
     <!-- Prompt to use filter after scrolling hotel results -->
     <string name="narrow_your_results">결과 자세히 검색</string>
     <!-- Prompt to try new filter after scrolling hotel results  -->
@@ -4370,7 +4369,7 @@
     <string name="rail_station_info_TEMPLATE">{departure} 출발 {arrival} 도착</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
-    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
+    <string name="rail_fare_info_TEMPLATE">{fareclass} {serviceclass}</string>
 
     <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>

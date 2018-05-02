@@ -257,7 +257,7 @@
     <string name="ticket_type_child">兒童</string>
     <string name="ticket_type_infant">嬰兒</string>
     <string name="ticket_type_youth">青少年</string>
-    <string name="ticket_type_senior">銀髮族</string>
+    <string name="ticket_type_senior">年長者</string>
     <string name="ticket_type_group">團體</string>
     <string name="ticket_type_couple">夫妻/情侶</string>
     <string name="ticket_type_two_adults">2 位成人</string>
@@ -320,8 +320,8 @@
         <item quantity="other">%1$s 位青少年</item>
     </plurals>
     <plurals name="ticket_type_senior_TEMPLATE">
-        <item quantity="one">%1$s 位銀髮族</item>
-        <item quantity="other">%1$s 位銀髮族</item>
+        <item quantity="one">%1$s 位年長者</item>
+        <item quantity="other">%1$s 位年長者</item>
     </plurals>
     <plurals name="ticket_type_group_TEMPLATE">
         <item quantity="one">%1$s 個團體</item>
@@ -494,7 +494,7 @@
     <string name="per_ticket_type_child">每位兒童</string>
     <string name="per_ticket_type_infant">每位嬰兒</string>
     <string name="per_ticket_type_youth">每位青少年</string>
-    <string name="per_ticket_type_senior">每位銀髮族</string>
+    <string name="per_ticket_type_senior">每位年長者</string>
     <string name="per_ticket_type_group">每個團體</string>
     <string name="per_ticket_type_couple">每對夫妻/情侶</string>
     <string name="per_ticket_type_two_adults">每 2 位成人</string>
@@ -1361,6 +1361,9 @@
     <string name="itin_card_details_reload_hotel">重新載入飯店資訊</string>
     <string name="itin_card_details_reload_cruise">重新載入遊輪資訊</string>
     <string name="itin_card_details_remove_itin">自行程中移除</string>
+    <!--Hotel itin card room details heading-->
+    <string name="itin_view_receipt_text">查看收據</string>
+
 
     <!--Trip Folders-->
     <!--Trip folder upcoming tab title-->
@@ -1398,6 +1401,16 @@
     <string name="itin_hotel_details_price_summary_rewards_heading">價格和獎勵計畫</string>
     <!--Hotel itin card price summary line item label for room price-->
     <string name="itin_hotel_details_cost_summary_room_price_text">房價</string>
+    <!--Hotel itin card price summary line item label for multiple guest fees-->
+    <string name="itin_hotel_price_summary_multiple_guest_fees_label">多位旅客費用</string>
+    <!--Hotel itin card price summary line item label for taxes & fees-->
+    <string name="itin_hotel_price_summary_taxes_and_fees_label">稅金和費用</string>
+    <!--Hotel itin card price summary line item label for coupons-->
+    <string name="itin_hotel_price_summary_coupons_label">已使用優惠券</string>
+    <!--Hotel itin card price summary line item label for points applied-->
+    <string name="itin_hotel_price_summary_points_label">已使用點數</string>
+    <!--Hotel itin card price summary line item value for points applied template. -{points} (e.g., -$30)-->
+    <string name="itin_hotel_price_summary_points_value_TEMPLATE">-{points}</string>
     <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">總共已支付 {amount}</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
@@ -1414,10 +1427,6 @@
     <string name="hotel_summary_checkout_text">退房：</string>
     <!--Hotel itin checkin checkout to arrow content description-->
     <string name="itin_hotel_details_checkout_to_arrow_cont_desc">目的地</string>
-    <!--Hotel itin manage booking button to change or cancel room-->
-    <string name="itin_hotel_manage_booking_cancel_change_header">變更或取消客房</string>
-    <!--Hotel itin manage booking webview title-->
-    <string name="itin_hotel_manage_booking_webview_title">變更或取消客房</string>
     <!--Hotel itin manage booking room details header-->
     <string name="itin_hotel_manage_booking_header">管理預訂</string>
     <!--Hotel itin manage booking hotel help heading-->
@@ -1492,6 +1501,9 @@
     <string name="itin_hotel_manage_booking_total_rooms_text_TEMPLATE">總共 {number} 間客房</string>
     <!--Hotel itin price and rewards expedia title -->
     <string name="itin_hotel_price_reward_title">價格與獎勵計畫</string>
+    <!--Hotel itin view receipt title. (e.g. Receipt for Hilton) -->
+    <string name="itin_hotel_view_receipt_title_TEMPLATE">{hotelname}的收據</string>
+
 
     <!--LX itin redesign-->
     <!--LX toolbar title template. (e.g. Activity in San Francisco)-->
@@ -2327,9 +2339,11 @@
     <string name="male">男性</string>
     <!-- female -->
     <string name="female">女性</string>
-    <!-- next page buttn -->
+    <!-- next page button -->
     <string name="next">下一頁</string>
     <string name="next_cont_desc">下一頁按鈕</string>
+    <!-- previous page button -->
+    <string name="previous">上一欄</string>
     <!-- Passport country placeholder for passport country spinner -->
     <string name="country">國家</string>
     <!-- Passport country label -->
@@ -3948,22 +3962,7 @@
     <string name="coupon_error_remove_dialog_title">無法移除優惠券</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">您的優惠券出現問題。請再輸入一次。</string>
-    <!-- Hotel Advanced Search Options card title -->
-    <string name="advanced_options">進階選項</string>
-    <!-- VIP only search options on advanced options card title -->
-    <string name="vip_only">+VIP</string>
-    <!-- Sort by search option on advanced options card title -->
-    <string name="hotel_sort_by_search_option_TEMPLATE">根據{sortby}排序</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="one_star">1 星</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="two_star">2 星</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="three_star">3 星</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="four_star">4 星</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="five_star">5 星</string>
+
     <!-- Prompt to use filter after scrolling hotel results -->
     <string name="narrow_your_results">縮小搜尋範圍</string>
     <!-- Prompt to try new filter after scrolling hotel results  -->
@@ -4667,9 +4666,9 @@
     <!--Rail Traveler widget youth minus button content description-->
     <string name="rails_remove_youth_traveler_cont_desc">移除 1 位青少年旅客</string>
     <!--Rail Traveler widget senior plus button content description-->
-    <string name="rails_add_senior_traveler_cont_desc">新增 1 位銀髮族旅客</string>
+    <string name="rails_add_senior_traveler_cont_desc">新增 1 位年長者旅客</string>
     <!--Rail Traveler widget senior minus button content description-->
-    <string name="rails_remove_senior_traveler_cont_desc">移除 1 位銀髮族旅客</string>
+    <string name="rails_remove_senior_traveler_cont_desc">移除 1 位年長者旅客</string>
 
     <!--Packages and Rails search child age drop down content description Eg. "Select age for child 1."-->
     <string name="search_child_drop_down_cont_desc_TEMPLATE">選擇兒童 {childnumber} 的年齡。</string>
@@ -4678,7 +4677,7 @@
     <!--Rails search youth age drop down content description Eg. "Select age for youth 1."-->
     <string name="search_youth_drop_down_cont_desc_TEMPLATE">選擇青少年 {youthnumber} 的年齡。</string>
     <!--Rails search senior age drop down content description Eg. "Select age for senior 1."-->
-    <string name="search_senior_drop_down_cont_desc_TEMPLATE">選擇銀髮族 {seniornumber} 的年齡。</string>
+    <string name="search_senior_drop_down_cont_desc_TEMPLATE">選擇年長者 {seniornumber} 的年齡。</string>
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
     <string name="packages_flight_search_filter_show_more_cont_desc">顯示更多航空公司。按鈕</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->

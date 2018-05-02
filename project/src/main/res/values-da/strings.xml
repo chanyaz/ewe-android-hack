@@ -1361,6 +1361,9 @@
     <string name="itin_card_details_reload_hotel">Genindlæs hotelinfo</string>
     <string name="itin_card_details_reload_cruise">Genindlæs krydstogtsinfo</string>
     <string name="itin_card_details_remove_itin">Fjern fra rejseplan</string>
+    <!--Hotel itin card room details heading-->
+    <string name="itin_view_receipt_text">Se kvittering</string>
+
 
     <!--Trip Folders-->
     <!--Trip folder upcoming tab title-->
@@ -1398,6 +1401,16 @@
     <string name="itin_hotel_details_price_summary_rewards_heading">Priser og fordele</string>
     <!--Hotel itin card price summary line item label for room price-->
     <string name="itin_hotel_details_cost_summary_room_price_text">Værelsespris</string>
+    <!--Hotel itin card price summary line item label for multiple guest fees-->
+    <string name="itin_hotel_price_summary_multiple_guest_fees_label">Gebyr for flere gæster</string>
+    <!--Hotel itin card price summary line item label for taxes & fees-->
+    <string name="itin_hotel_price_summary_taxes_and_fees_label">Skatter og gebyrer</string>
+    <!--Hotel itin card price summary line item label for coupons-->
+    <string name="itin_hotel_price_summary_coupons_label">Kupon indløst</string>
+    <!--Hotel itin card price summary line item label for points applied-->
+    <string name="itin_hotel_price_summary_points_label">Point indløst</string>
+    <!--Hotel itin card price summary line item value for points applied template. -{points} (e.g., -$30)-->
+    <string name="itin_hotel_price_summary_points_value_TEMPLATE">-{points}</string>
     <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">Betalt beløb i alt: {amount}</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
@@ -1414,10 +1427,6 @@
     <string name="hotel_summary_checkout_text">Udtjekning:</string>
     <!--Hotel itin checkin checkout to arrow content description-->
     <string name="itin_hotel_details_checkout_to_arrow_cont_desc">Til</string>
-    <!--Hotel itin manage booking button to change or cancel room-->
-    <string name="itin_hotel_manage_booking_cancel_change_header">Ændr eller afbestil værelse</string>
-    <!--Hotel itin manage booking webview title-->
-    <string name="itin_hotel_manage_booking_webview_title">Ændr eller afbestil værelse</string>
     <!--Hotel itin manage booking room details header-->
     <string name="itin_hotel_manage_booking_header">Administrer reservation</string>
     <!--Hotel itin manage booking hotel help heading-->
@@ -1492,6 +1501,9 @@
     <string name="itin_hotel_manage_booking_total_rooms_text_TEMPLATE">{number} værelser i alt</string>
     <!--Hotel itin price and rewards expedia title -->
     <string name="itin_hotel_price_reward_title">Priser og fordele</string>
+    <!--Hotel itin view receipt title. (e.g. Receipt for Hilton) -->
+    <string name="itin_hotel_view_receipt_title_TEMPLATE">Kvittering for {hotelname}</string>
+
 
     <!--LX itin redesign-->
     <!--LX toolbar title template. (e.g. Activity in San Francisco)-->
@@ -2327,9 +2339,11 @@
     <string name="male">Mand</string>
     <!-- female -->
     <string name="female">Kvinde</string>
-    <!-- next page buttn -->
+    <!-- next page button -->
     <string name="next">Næste</string>
     <string name="next_cont_desc">Knappen Næste</string>
+    <!-- previous page button -->
+    <string name="previous">Forrige</string>
     <!-- Passport country placeholder for passport country spinner -->
     <string name="country">Land</string>
     <!-- Passport country label -->
@@ -3069,7 +3083,7 @@
 
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
-    <string name="taxes_and_fees">Skatter og afgifter</string>
+    <string name="taxes_and_fees">Skatter og gebyrer</string>
     <!-- Label for the property fee for a hotel room booking. -->
     <string name="property_fee">Overnatningsgebyr</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
@@ -3143,13 +3157,13 @@
     <!-- Error when applying coupon - the hotel does not accept coupons -->
     <string name="coupon_error_hotel_excluded">Beklager, men dette hotel accepterer ikke kuponer.</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
-    <string name="coupon_error_invalid_hotel">Beklager, men kuponen kan ikke anvendes på dette hotel.</string>
+    <string name="coupon_error_invalid_hotel">Beklager, men kuponen kan ikke indløses på dette hotel.</string>
     <!-- Error when applying coupon - the package does not accept coupons -->
-    <string name="coupon_error_invalid_booking">Beklager, men kuponen kan ikke anvendes på denne reservation.</string>
+    <string name="coupon_error_invalid_booking">Beklager, men kuponen kan ikke indløses på denne reservation.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
     <string name="coupon_error_service_down">Beklager, men vi kan ikke behandle kuponkoder i øjeblikket. Forsøg venligst igen.</string>
     <!-- Error when applying coupon - Invalid Stay Dates -->
-    <string name="coupon_error_invalid_stay_dates">Beklager, men kuponen kan ikke anvendes på disse rejsedatoer.</string>
+    <string name="coupon_error_invalid_stay_dates">Beklager, men kuponen kan ikke indløses på disse rejsedatoer.</string>
     <!-- Error when applying coupon - Exceeded Earn Limit -->
     <string name="coupon_error_exceeded_earn_limit">Beklager, denne kupon er blevet brugt for mange gange og kan ikke længere anvendes.</string>
     <!-- Error when applying coupon - Invalid Average Price -->
@@ -3938,7 +3952,7 @@
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Kupon indløst: Du har sparet %1$s!</string>
     <!-- Hotel material coupon applied text -->
-    <string name="material_applied_coupon_message">Kupon anvendt!</string>
+    <string name="material_applied_coupon_message">Kupon indløst!</string>
     <!-- Hotel material coupon applied coupon code text on cko screen template e.g. 1234567 (-$25.00) -->
     <string name="material_applied_coupon_subtitle_TEMPLATE">{name} (-{discount})</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
@@ -3948,22 +3962,7 @@
     <string name="coupon_error_remove_dialog_title">Det lykkedes ikke at fjerne din kupon</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">Der var et problem med din kupon. Prøv at indtaste koden igen.</string>
-    <!-- Hotel Advanced Search Options card title -->
-    <string name="advanced_options">Flere valgmuligheder</string>
-    <!-- VIP only search options on advanced options card title -->
-    <string name="vip_only">Kun VIP</string>
-    <!-- Sort by search option on advanced options card title -->
-    <string name="hotel_sort_by_search_option_TEMPLATE">Sorter efter {sortby}</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="one_star">1 stjerne</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="two_star">2 stjerner</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="three_star">3 stjerner</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="four_star">4 stjerner</string>
-    <!-- 1 star rating search option on advanced options card title -->
-    <string name="five_star">5 stjerner</string>
+
     <!-- Prompt to use filter after scrolling hotel results -->
     <string name="narrow_your_results">Begræns dine søgeresultater</string>
     <!-- Prompt to try new filter after scrolling hotel results  -->
@@ -4465,7 +4464,7 @@
     <!-- Cost summary breakdown line item for a hotel + flight package -->
     <string name="cost_summary_breakdown_hotel_flight_summary">Hotel + fly</string>
     <!-- Cost summary breakdown line item for taxes and fees that are charged separately -->
-    <string name="cost_summary_breakdown_taxes_fees">Skatter og afgifter</string>
+    <string name="cost_summary_breakdown_taxes_fees">Skatter og gebyrer</string>
     <!-- Cost summary breakdown line item for expedia discount if applicable, e.g Expedia Discount-->
     <string name="cost_summary_breakdown_discount_TEMPLATE">{brand}-rabat</string>
     <!-- Cost summary breakdown line item for taxes and fees that are included in the base price, e.g. Taxes &amp; Fees Included ($34.21) -->
@@ -4488,17 +4487,17 @@
     <string name="flight_add_infant_in_seat_number_TEMPLATE">Oplysninger for spædbarn {number} på eget sæde</string>
 
     <!-- Shop with points -->
-    <string name="loyalty_applied_excluding_taxes_and_fees_message">Expedia Rewards-point anvendt! (inkluderer ikke skatter og gebyrer)</string>
-    <string name="regular_loyalty_applied_message">Expedia Rewards-point anvendt!</string>
+    <string name="loyalty_applied_excluding_taxes_and_fees_message">Expedia Rewards-point indløst! (inkluderer ikke skatter og gebyrer)</string>
+    <string name="regular_loyalty_applied_message">Expedia Rewards-point indløst!</string>
     <string name="vip_loyalty_applied_message">2x point indløst!</string>
     <string name="vip_short_loyalty_applied_message">2X</string>
     <!-- String to be appended with +VIP in header of room rates. -->
-    <string name="vip_loyalty_applied_header_message">2x Expedia Rewards-point anvendt!</string>
+    <string name="vip_loyalty_applied_header_message">2x Expedia Rewards-point indløst!</string>
     <!-- SwP Widget you have points template. points_or_amount = it may have money (in case of Expedia) or point value (in case of Orbucks). E.g. You have 3,000 points -->
     <string name="swp_widget_points_value_TEMPLATE">Du har {points_or_amount} point</string>
-    <string name="vip_loyalty_applied_map_message">&lt;b&gt;+VIP&lt;/b&gt; 2x Expedia Rewards-point anvendt!</string>
+    <string name="vip_loyalty_applied_map_message">&lt;b&gt;+VIP&lt;/b&gt; 2x Expedia Rewards-point indløst!</string>
     <string name="swp_off_widget_header">Anvend Expedia Rewards-point</string>
-    <string name="swp_on_widget_header">Expedia Rewards-point er blevet anvendt</string>
+    <string name="swp_on_widget_header">Expedia Rewards-point er blevet indløst</string>
 
     <!-- Message telling you on confirmation screen where you've booked a package to -->
     <string name="yay_going_somewhere">Du skal til</string>
