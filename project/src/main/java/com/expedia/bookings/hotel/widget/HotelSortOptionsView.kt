@@ -1,18 +1,20 @@
 package com.expedia.bookings.hotel.widget
 
 import android.content.Context
+import android.os.Handler
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
-import android.widget.Spinner
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.utils.bindView
+import com.mobiata.android.widget.SpinnerWithCloseListener
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
@@ -21,7 +23,7 @@ class HotelSortOptionsView(context: Context, attrs: AttributeSet?) : LinearLayou
     val sortSelectedSubject = PublishSubject.create<DisplaySort>()
     val downEventSubject = PublishSubject.create<Unit>()
 
-    private val sortByButtonGroup: Spinner by bindView(R.id.sort_by_selection_spinner)
+    private val sortByButtonGroup: SpinnerWithCloseListener by bindView(R.id.sort_by_selection_spinner)
 
     private val sortByAdapter = object : ArrayAdapter<DisplaySort>(getContext(), R.layout.spinner_sort_dropdown_item) {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
@@ -56,6 +58,10 @@ class HotelSortOptionsView(context: Context, attrs: AttributeSet?) : LinearLayou
             }
         }
 
+        sortByButtonGroup.setOnSpinnerCloseListener {
+            requestAccessibilityFocusOnSortBySpinner()
+        }
+
         sortByButtonGroup.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 downEventSubject.onNext(Unit)
@@ -68,7 +74,7 @@ class HotelSortOptionsView(context: Context, attrs: AttributeSet?) : LinearLayou
         sortByAdapter.clear()
         sortByAdapter.addAll(sortList)
         sortByAdapter.notifyDataSetChanged()
-        sortByButtonGroup.setSelection(0, false)
+        sortByButtonGroup.setSelection(0)
     }
 
     //exposed for testing
@@ -81,6 +87,14 @@ class HotelSortOptionsView(context: Context, attrs: AttributeSet?) : LinearLayou
 
     fun setSort(sort: DisplaySort) {
         val position = sortByAdapter.getPosition(sort)
-        sortByButtonGroup.setSelection(position, false)
+        sortByButtonGroup.setSelection(position)
+    }
+
+    private fun requestAccessibilityFocusOnSortBySpinner() {
+        Handler().postDelayed({
+            clearFocus()
+            sortByButtonGroup.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+            sortByButtonGroup.requestFocus()
+        }, 500)
     }
 }
