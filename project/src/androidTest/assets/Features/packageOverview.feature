@@ -88,6 +88,7 @@ Feature: Package Overview
       | flight_duration           | 17h 30m                               |
     And validate package outbound flight total duration
       | flight_duration           | Total Duration: 31h 43m                |
+    And I click on package flight details icon
     And validate bundle total widget
       | bundle_total_text         | getValueBasedOnBrand                    |
       | additional_text           | includes hotel and flights              |
