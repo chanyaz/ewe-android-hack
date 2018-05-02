@@ -20,7 +20,6 @@ import org.robolectric.res.Fs;
 import org.robolectric.res.FsFile;
 import org.robolectric.util.ReflectionHelpers;
 
-import android.app.Application;
 import android.support.annotation.NonNull;
 import android.view.View;
 
@@ -34,6 +33,11 @@ public class RobolectricRunner extends RobolectricTestRunner {
 
 	public RobolectricRunner(Class<?> testClass) throws InitializationError {
 		super(testClass);
+	}
+
+	@Override
+	protected Config buildGlobalConfig() {
+		return new Config.Builder().setApplication(TestExpediaBookingApp.class).build();
 	}
 
 	@Override
@@ -54,10 +58,6 @@ public class RobolectricRunner extends RobolectricTestRunner {
 	}
 
 	public static class CustomTestLifecycle extends DefaultTestLifecycle {
-		@Override
-		public Application createApplication(final Method method, final AndroidManifest appManifest, Config config) {
-			return new TestExpediaBookingApp();
-		}
 
 		@Override
 		public void beforeTest(Method method) {

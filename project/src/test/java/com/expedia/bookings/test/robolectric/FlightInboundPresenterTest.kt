@@ -7,7 +7,6 @@ import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.DeprecatedHotelSearchParams
 import com.expedia.bookings.data.LineOfBusiness
@@ -43,7 +42,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import org.robolectric.annotation.Config
 import java.util.ArrayList
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -51,7 +49,6 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
-@Config(application = ExpediaBookingApp::class)
 class FlightInboundPresenterTest {
     private lateinit var service: FlightServices
     private lateinit var activity: Activity
