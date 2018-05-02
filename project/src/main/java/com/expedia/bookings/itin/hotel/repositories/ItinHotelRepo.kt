@@ -34,18 +34,16 @@ class ItinHotelRepo(private val itinId: String, private val jsonUtil: IJsonToIti
         }
     }
 
-    private fun fetchItin(): Itin? {
-        return jsonUtil.getItin(itinId)
-    }
+    private fun fetchItin(): Itin? = jsonUtil.getItin(itinId)
 
-    private fun fetchHotel(): ItinHotel? = jsonUtil.getItin(itinId)?.firstHotel()
+    private fun fetchHotel(): ItinHotel? = fetchItin()?.firstHotel()
 
     init {
-        val hotel = fetchHotel()
         val itin = fetchItin()
-        if (hotel != null && itin != null) {
-            liveDataHotel.value = hotel
-            liveDataItin.value = itin
+        val hotel = itin?.firstHotel()
+        if (hotel != null) {
+            liveDataHotel.postValue(hotel)
+            liveDataItin.postValue(itin)
             observable.subscribe(syncObserver)
         } else {
             liveDataInvalidItin.postValue(Unit)

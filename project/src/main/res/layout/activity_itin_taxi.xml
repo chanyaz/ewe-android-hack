@@ -28,6 +28,8 @@
             android:layout_marginTop="20dp"
             android:textColor="@color/white"
             android:textSize="36sp"
+            android:visibility="gone"
+            tools:visibility="visible"
             tools:text="Villa Kennedy" />
 
         <com.expedia.bookings.widget.TextView
@@ -36,6 +38,8 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="36sp"
+            android:visibility="gone"
+            tools:visibility="visible"
             tools:text="Kennedyallee 70, 60596 Frankfurt am Main, Deutschland" />
     </LinearLayout>
 
@@ -56,6 +60,8 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="16sp"
+            android:visibility="gone"
+            tools:visibility="visible"
             tools:text="Villa Kennedy" />
 
         <com.expedia.bookings.widget.TextView
@@ -64,6 +70,8 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="16sp"
+            android:visibility="gone"
+            tools:visibility="visible"
             tools:text="Kennedyallee 70, 60596 Frankfurt am Main, Deutschland" />
     </LinearLayout>
 </RelativeLayout>

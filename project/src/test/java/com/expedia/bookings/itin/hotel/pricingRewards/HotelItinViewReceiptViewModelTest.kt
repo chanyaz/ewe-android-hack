@@ -54,8 +54,7 @@ class HotelItinViewReceiptViewModelTest {
     fun titleSubjectNullTest() {
         sut.titleSubject.subscribe(toolbarTitleTestObserver)
         toolbarTitleTestObserver.assertNoValues()
-        val hotelWithNullTitle = ItinMocker.hotelDetailsHappy.firstHotel()
-        hotelWithNullTitle?.hotelPropertyInfo?.name = null
+        val hotelWithNullTitle = ItinMocker.hotelDetailsNoPriceDetails.firstHotel()
         sut.itinHotelObserver.onChanged(hotelWithNullTitle)
         toolbarTitleTestObserver.assertNoValues()
     }

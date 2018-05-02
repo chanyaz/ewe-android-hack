@@ -184,7 +184,7 @@
             android:resizeableActivity="false"
             android:theme="@style/TripTaxiCard"
             tools:ignore="UnusedAttribute"
-            android:screenOrientation="reverseLandscape"/>
+            android:screenOrientation="sensorLandscape"/>
 
         <activity
             android:name="com.expedia.bookings.itin.hotel.common.HotelItinExpandedMapActivity"

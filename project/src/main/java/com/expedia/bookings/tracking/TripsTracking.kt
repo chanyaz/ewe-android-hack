@@ -107,7 +107,7 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
         s.trackLink("Itinerary Action")
     }
 
-    fun trackHotelTaxiCardClick() {
+    override fun trackHotelTaxiCardClick() {
         val s = createTrackLinkEvent(ITIN_HOTEL_TAXI_CARD)
         s.trackLink("Itinerary Action")
     }

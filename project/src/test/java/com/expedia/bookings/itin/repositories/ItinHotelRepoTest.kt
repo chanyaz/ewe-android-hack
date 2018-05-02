@@ -1,22 +1,22 @@
 package com.expedia.bookings.itin.repositories
 
+import android.arch.core.executor.testing.InstantTaskExecutorRule
 import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.itin.helpers.ItinMocker
 import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepo
 import com.expedia.bookings.itin.tripstore.data.Itin
-import com.expedia.bookings.itin.tripstore.data.ItinDetailsResponse
 import com.expedia.bookings.itin.tripstore.extensions.firstHotel
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
-import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.mobiata.mocke3.mockObject
 import io.reactivex.Observer
 import io.reactivex.subjects.PublishSubject
+import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import kotlin.test.assertEquals
 
-@RunWith(RobolectricRunner::class)
 class ItinHotelRepoTest {
+    @Rule
+    @JvmField
+    val rule = InstantTaskExecutorRule()
 
     lateinit var sut: ItinHotelRepo
     val observable = PublishSubject.create<MutableList<ItinCardData>>()
@@ -24,12 +24,10 @@ class ItinHotelRepoTest {
 
     @Test
     fun onNextHappy() {
-        MockReadJsonUtil.first = true
-        sut = ItinHotelRepo("testid", MockReadJsonUtil, observable)
+        sut = ItinHotelRepo("testid", MockReadJsonUtil(), observable)
         assertEquals(ItinMocker.hotelDetailsHappy, sut.liveDataItin.value)
         assertEquals(ItinMocker.hotelDetailsHappy.firstHotel(), sut.liveDataHotel.value)
-        MockReadJsonUtil.first = false
-        sut.syncObserver.onNext(mutableListOf<ItinCardData>())
+        sut.syncObserver.onNext(mutableListOf())
         assertEquals(ItinMocker.hotelDetailsNoPriceDetails, sut.liveDataItin.value)
         assertEquals(ItinMocker.hotelDetailsNoPriceDetails.firstHotel(), sut.liveDataHotel.value)
     }
@@ -38,18 +36,33 @@ class ItinHotelRepoTest {
     fun onNextNull() {
         sut = ItinHotelRepo("testid", MockNullSendingReadJsonUtil, observable)
         observer = sut.syncObserver
+        var count = 0
+        sut.liveDataInvalidItin.observeForever {
+            count++
+        }
+        assertEquals(1, count)
         assertEquals(null, sut.liveDataItin.value)
         assertEquals(null, sut.liveDataHotel.value)
         observer.onNext(mutableListOf<ItinCardData>())
         assertEquals(null, sut.liveDataItin.value)
         assertEquals(null, sut.liveDataHotel.value)
+        assertEquals(2, count)
     }
 
-    object MockReadJsonUtil : IJsonToItinUtil {
+    @Test
+    fun nullInit() {
+        sut = ItinHotelRepo("testid", MockNullSendingReadJsonUtil, observable)
+        assertEquals(null, sut.liveDataItin.value)
+        assertEquals(null, sut.liveDataHotel.value)
+        assertEquals(Unit, sut.liveDataInvalidItin.value)
+    }
+
+    class MockReadJsonUtil : IJsonToItinUtil {
         var first = true
         override fun getItin(itinId: String?): Itin? {
             if (first) {
-                return mockObject(ItinDetailsResponse::class.java, "api/trips/hotel_trip_details_for_mocker.json")?.itin!!
+                first = false
+                return ItinMocker.hotelDetailsHappy
             } else {
                 return ItinMocker.hotelDetailsNoPriceDetails
             }

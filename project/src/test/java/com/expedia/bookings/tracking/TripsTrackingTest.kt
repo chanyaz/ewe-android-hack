@@ -21,7 +21,7 @@ class TripsTrackingTest {
 
     @Test
     fun testTrackTripListVisit() {
-        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+        assertNoTrackingHasOccurred()
 
         TripsTracking.trackTripListVisit(0)
         OmnitureTestUtils.assertStateTracked("App.Trips.Upcoming", OmnitureMatchers.withEventsString("event63"), mockAnalyticsProvider)
@@ -38,27 +38,47 @@ class TripsTrackingTest {
 
     @Test
     fun testTrackTripFolderAbTest() {
-        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+        assertNoTrackingHasOccurred()
 
         AbacusTestUtils.bucketTests(AbacusUtils.TripFoldersFragment)
         TripsTracking.trackTripFolderAbTest()
-        OmnitureTestUtils.assertLinkTrackedWithAbTestExposure("Itinerary Action", "App.Trips", "25538.0.1", mockAnalyticsProvider)
+        assertLinkTrackedWithAbTestExposure("25538.0.1")
 
         AbacusTestUtils.unbucketTests(AbacusUtils.TripFoldersFragment)
         TripsTracking.trackTripFolderAbTest()
-        OmnitureTestUtils.assertLinkTrackedWithAbTestExposure("Itinerary Action", "App.Trips", "25538.0.0", mockAnalyticsProvider)
+        assertLinkTrackedWithAbTestExposure("25538.0.0")
     }
 
     @Test
     fun trackItinHotelViewReceiptTest() {
+        assertNoTrackingHasOccurred()
         TripsTracking.trackItinHotelViewReceipt()
-        OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Hotel.PricingRewards.ViewReceipt", mockAnalyticsProvider)
+        assertItinLinkTracked("App.Itinerary.Hotel.PricingRewards.ViewReceipt")
     }
 
     @Test
     fun testTrackHotelItinManageBookingClick() {
-        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+        assertNoTrackingHasOccurred()
         TripsTracking.trackHotelItinManageBookingClick()
-        OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Hotel.ManageBooking", mockAnalyticsProvider)
+        assertItinLinkTracked("App.Itinerary.Hotel.ManageBooking")
+    }
+
+    @Test
+    fun testTrackHotelTaxiCardClick() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackHotelTaxiCardClick()
+        assertItinLinkTracked("App.Itinerary.Hotel.TaxiCard")
+    }
+
+    fun assertItinLinkTracked(rfrrId: String) {
+        OmnitureTestUtils.assertLinkTracked("Itinerary Action", rfrrId, mockAnalyticsProvider)
+    }
+
+    fun assertNoTrackingHasOccurred() {
+        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+    }
+
+    fun assertLinkTrackedWithAbTestExposure(analyticsString: String, rfrrId: String = "App.Trips") {
+        OmnitureTestUtils.assertLinkTrackedWithAbTestExposure("Itinerary Action", rfrrId, analyticsString, mockAnalyticsProvider)
     }
 }

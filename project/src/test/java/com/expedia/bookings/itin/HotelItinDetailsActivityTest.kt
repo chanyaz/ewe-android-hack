@@ -5,7 +5,9 @@ import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.ItinCardDataHotel
+import com.expedia.bookings.data.trips.ItineraryManagerInterface
 import com.expedia.bookings.itin.hotel.details.HotelItinBookingDetails
 import com.expedia.bookings.itin.hotel.details.HotelItinCheckInCheckOutDetails
 import com.expedia.bookings.itin.hotel.details.HotelItinDetailsActivity
@@ -19,6 +21,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.android.controller.ActivityController
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -27,10 +30,12 @@ class HotelItinDetailsActivityTest {
     private lateinit var itinCardDataHotel: ItinCardDataHotel
     private lateinit var intentBuilder: WebViewActivity.IntentBuilder
     private lateinit var mockAnalyticsProvider: AnalyticsProvider
+    private lateinit var controller: ActivityController<HotelItinDetailsActivity>
 
     @Before
     fun before() {
-        activity = Robolectric.buildActivity(HotelItinDetailsActivity::class.java).create().get()
+        controller = Robolectric.buildActivity(HotelItinDetailsActivity::class.java).create()
+        activity = controller.get()
         itinCardDataHotel = ItinCardDataHotelBuilder().build()
         intentBuilder = WebViewActivity.IntentBuilder(RuntimeEnvironment.application)
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
@@ -38,9 +43,8 @@ class HotelItinDetailsActivityTest {
 
     @Test
     fun sharedItinView() {
-        val sharedItin = ItinCardDataHotelBuilder().isSharedItin(true).build()
-        activity.itinCardDataHotel = sharedItin
-        activity.setUpWidgets()
+        activity.itinManager = MockItinManager()
+        controller.resume().get()
 
         val hotelImageView: HotelItinImageWidget = activity.hotelImageView
         assertEquals(View.VISIBLE, hotelImageView.visibility)
@@ -149,5 +153,11 @@ class HotelItinDetailsActivityTest {
         room2.collapsedRoomDetails.performClick()
         assertEquals(View.GONE, room1.expandedRoomDetails.visibility)
         assertEquals(View.VISIBLE, room2.expandedRoomDetails.visibility)
+    }
+
+    class MockItinManager : ItineraryManagerInterface {
+        override fun getItinCardDataFromItinId(id: String?): ItinCardData? {
+            return ItinCardDataHotelBuilder().isSharedItin(true).build()
+        }
     }
 }

@@ -19,7 +19,7 @@ class HotelItinPricingRewardsToolbarViewModelTest {
 
     private val toolbarTitleTestObserver = TestObserver<String>()
     private val toolbarSubTitleTestObserver = TestObserver<String>()
-    val hotelName: String = "Vega Hotel & Convention Center"
+    val hotelName: String = "Crest Hotel"
     lateinit var sut: HotelItinPricingRewardsToolbarViewModel<MockPricingRewardsToolbarScope>
 
     @Before
@@ -29,7 +29,7 @@ class HotelItinPricingRewardsToolbarViewModelTest {
 
     @Test
     fun updateItinTest() {
-        val hotel = ItinMocker.hotelDetailsNoPriceDetails.firstHotel()!!
+        val hotel = ItinMocker.hotelDetailsHappy.firstHotel()!!
         sut.toolbarSubTitleSubject.subscribe(toolbarSubTitleTestObserver)
         sut.toolbarTitleSubject.subscribe(toolbarTitleTestObserver)
 

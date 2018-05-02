@@ -18,7 +18,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 
-class HotelItinTaxiActivity : AppCompatActivity() {
+open class HotelItinTaxiActivity : AppCompatActivity() {
 
     companion object : Intentable {
         private const val ID_EXTRA = "ITINID"
@@ -38,7 +38,7 @@ class HotelItinTaxiActivity : AppCompatActivity() {
     val localizedAddressTextView by bindView<TextView>(R.id.localized_location_address)
     val nonLocalizedAddressTextView by bindView<TextView>(R.id.non_localized_location_address)
 
-    val repo: ItinHotelRepoInterface by lazy {
+    open val repo: ItinHotelRepoInterface by lazy {
         val jsonUtil = Ui.getApplication(this).tripComponent().jsonUtilProvider()
         ItinHotelRepo(intent.getStringExtra(ID_EXTRA), jsonUtil, ItineraryManager.getInstance().syncFinishObservable)
     }
@@ -61,10 +61,5 @@ class HotelItinTaxiActivity : AppCompatActivity() {
         navigationButton.setOnClickListener {
             finish()
         }
-    }
-
-    override fun finish() {
-        super.finish()
-        // overridePendingTransition(1, R.anim.slide)
     }
 }

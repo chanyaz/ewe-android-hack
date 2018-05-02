@@ -186,6 +186,13 @@
           "googleMapsLink": "//maps.google.com/?q=560080+Bengaluru%2C+12%2C+Achaiah+Shetty+Layout%2C+Aramane+Nagar+Mekhri+Circle",
           "regionId": "6126935"
         },
+        "localizedHotelPropertyInfo": {
+          "address": {
+            "fullAddress": "123 Some St, SomeCity, CA 94104"
+          },
+          "name": "Hotel California",
+          "localizationLanguage": "Translate to English"
+        },
         "totalPriceDetails": {
           "primaryCurrencyCode": "INR",
           "base": "10000.00",
