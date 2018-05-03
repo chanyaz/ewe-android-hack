@@ -71,6 +71,8 @@ import io.reactivex.Observer;
 import io.reactivex.observers.DisposableObserver;
 import okhttp3.HttpUrl;
 
+import static com.expedia.bookings.marketing.carnival.model.CarnivalNotificationConstants.KEY_NOTIFICATION_PROVIDER_VALUE;
+
 /**
  * This class acts as a router for incoming deep links.  It seems a lot
  * easier to just route through one Activity rather than try to handle it
@@ -192,7 +194,8 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 		clientLogServices = Ui.getApplication(this).appComponent().clientLog();
 		DeepLinkUtils.parseAndTrackDeepLink(clientLogServices, HttpUrl.parse(data.toString()), new OmnitureDeepLinkAnalytics());
 
-		if (this.getIntent().getExtras() != null && this.getIntent().getExtras().getBoolean(CarnivalUtils.CustomCarnivalListener.Companion.getKEY_NOTIFICATION_PROVIDER_VALUE(), false)) {
+		if (this.getIntent().getExtras() != null && this.getIntent().getExtras().getBoolean(
+			KEY_NOTIFICATION_PROVIDER_VALUE, false)) {
 			CarnivalUtils.getInstance().trackCarnivalPush(this, data, this.getIntent().getExtras());
 			data = CarnivalUtils.getInstance().createParameterizedDeeplinkWithStoredValues(data);
 		}

@@ -1,6 +1,5 @@
 package com.expedia.bookings.marketing.carnival
 
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -14,8 +13,9 @@ import com.carnival.sdk.AttributeMap
 import com.carnival.sdk.Carnival
 import com.carnival.sdk.Carnival.CarnivalHandler
 import com.carnival.sdk.CarnivalImpressionType
-import com.carnival.sdk.CarnivalMessageListener
-import com.carnival.sdk.Message
+import com.carnival.sdk.ContentIntentBuilder
+import com.carnival.sdk.NotificationConfig
+import com.carnival.sdk.NotificationReceivedListener
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Traveler
@@ -90,11 +90,18 @@ import com.expedia.bookings.marketing.carnival.model.CarnivalConstants.SEARCH_HO
 import com.expedia.bookings.marketing.carnival.model.CarnivalConstants.SEARCH_HOTEL_LENGTH_OF_STAY
 import com.expedia.bookings.marketing.carnival.model.CarnivalConstants.SEARCH_HOTEL_NUMBER_OF_ADULTS
 import com.expedia.bookings.marketing.carnival.model.CarnivalMessage
+import com.expedia.bookings.marketing.carnival.model.CarnivalNotificationConstants.KEY_NOTIFICATION_PROVIDER
+import com.expedia.bookings.marketing.carnival.model.CarnivalNotificationConstants.KEY_NOTIFICATION_PROVIDER_VALUE
+import com.expedia.bookings.marketing.carnival.model.CarnivalNotificationConstants.KEY_PAYLOAD_ALERT
+import com.expedia.bookings.marketing.carnival.model.CarnivalNotificationConstants.KEY_PAYLOAD_DEEPLINK
+import com.expedia.bookings.marketing.carnival.model.CarnivalNotificationConstants.KEY_PAYLOAD_MARKETING
+import com.expedia.bookings.marketing.carnival.model.CarnivalNotificationConstants.KEY_PAYLOAD_TITLE
 import com.expedia.bookings.marketing.carnival.model.CarnivalNotificationTypeConstants
 import com.expedia.bookings.marketing.carnival.persistence.CarnivalPersistenceProvider
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.ApiDateUtils
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.JodaUtils
 import com.squareup.phrase.Phrase
 import com.squareup.picasso.Picasso
@@ -117,8 +124,10 @@ open class CarnivalUtils {
         internal var messageQueue = mutableListOf<CarnivalMessage>()
         private lateinit var persistenceProvider: CarnivalPersistenceProvider
         internal var supportFragmentManager: FragmentManager? = null
+        private var pushNotificationTapped: Boolean = false
 
-        @JvmStatic @Synchronized
+        @JvmStatic
+        @Synchronized
         fun getInstance(): CarnivalUtils {
             if (carnivalUtils == null) {
                 carnivalUtils = CarnivalUtils()
@@ -137,23 +146,47 @@ open class CarnivalUtils {
                 val carnivalMessage = CarnivalMessage(message.imageURL, message.title, message.attributes, message.text)
                 carnivalMessage.messageData = message
 
-                if (!message.imageURL.isNullOrEmpty()) {
-                    Picasso.with(appContext).load(message.imageURL).fetch(object : com.squareup.picasso.Callback {
-                        override fun onSuccess() = createInAppNotification(supportFragmentManager, carnivalMessage)
+                if (!pushNotificationTapped) {
+                    if (!message.imageURL.isNullOrEmpty()) {
+                        Picasso.with(appContext).load(message.imageURL).fetch(object : com.squareup.picasso.Callback {
+                            override fun onSuccess() = createInAppNotification(supportFragmentManager, carnivalMessage)
 
-                        override fun onError() {
-                            Log.d("Carnival Failure", "Image load failed for in-app messaging.")
-                        }
-                    })
+                            override fun onError() {
+                                Log.d("Carnival Failure", "Image load failed for in-app messaging.")
+                            }
+                        })
+                    } else {
+                        createInAppNotification(supportFragmentManager, carnivalMessage)
+                    }
                 } else {
-                    createInAppNotification(supportFragmentManager, carnivalMessage)
+                    createFullPageDeal(carnivalMessage)
                 }
                 false
             }
-
-            Carnival.setMessageReceivedListener(CustomCarnivalListener::class.java)
             Carnival.startEngine(appContext, appContext.getString(R.string.carnival_sdk_key))
+
+            setupCarnivalNotificationConfig()
+
+            Carnival.addNotificationReceivedListener(CustomCarnivalListener())
+
+            Carnival.addNotificationTappedListener { _, _ -> pushNotificationTapped = true }
         }
+    }
+
+    private fun setupCarnivalNotificationConfig() {
+        val notificationExtender = CarnivalNotificationExtender()
+        val notificationConfig = NotificationConfig()
+        notificationConfig.addNotificationExtender(notificationExtender)
+        notificationConfig.setContentIntentBuilder(CarnivalContentIntentBuilder())
+        Carnival.setNotificationConfig(notificationConfig)
+    }
+
+    private fun createFullPageDeal(message: CarnivalMessage?) {
+        val intent = Intent(appContext, FullPageDealNotificationActivity::class.java)
+        intent.action = Intent.ACTION_VIEW
+        intent.putExtra(Constants.CARNIVAL_MESSAGE_DATA, message)
+        appContext.startActivity(intent)
+        pushNotificationTapped = false
     }
 
     fun setupListener(fragManager: FragmentManager) {
@@ -427,7 +460,7 @@ open class CarnivalUtils {
     }
 
     fun trackCarnivalPush(context: Context, deeplink: Uri, bundle: Bundle) {
-        val marketingCode = bundle.getString(CustomCarnivalListener.KEY_PAYLOAD_MARKETING)
+        val marketingCode = bundle.getString(KEY_PAYLOAD_MARKETING)
         val marketingOLAcidFromUri = deeplink.getQueryParameter(olacid)
         if (!marketingCode.isNullOrEmpty()) {
             OmnitureTracking.trackCarnivalPushNotificationTap(marketingCode)
@@ -486,52 +519,56 @@ open class CarnivalUtils {
         }
     }
 
-    open class CustomCarnivalListener : CarnivalMessageListener() {
-
-        companion object {
-            val KEY_PAYLOAD_DEEPLINK: String = "deeplink"
-            val KEY_PAYLOAD_ALERT: String = "alert"
-            val KEY_PAYLOAD_TITLE: String = "title"
-            val KEY_PAYLOAD_MARKETING: String = "mkt_code"
-            val KEY_NOTIFICATION_PROVIDER: String = "provider"
-            val KEY_NOTIFICATION_PROVIDER_VALUE: String = "carnival"
+    open class CustomCarnivalListener : NotificationReceivedListener {
+        override fun onNotificationReceived(context: Context, bundle: Bundle) {
         }
+    }
 
-        fun isNotificationFromCarnival(bundle: Bundle): Boolean {
+    open class CarnivalNotificationExtender : NotificationCompat.Extender {
+
+        private fun isNotificationFromCarnival(bundle: Bundle): Boolean {
             return bundle.containsKey(KEY_NOTIFICATION_PROVIDER) && bundle.getString(KEY_NOTIFICATION_PROVIDER) == KEY_NOTIFICATION_PROVIDER_VALUE
         }
 
-        fun createPendingIntent(context: Context, bundle: Bundle, deepLink: String?): PendingIntent {
+        override fun extend(builder: NotificationCompat.Builder): NotificationCompat.Builder {
+            val bundle = builder.extras
+
+            if (isNotificationFromCarnival(bundle)) {
+                builder.setContentTitle(bundle.getString(KEY_PAYLOAD_TITLE))
+                builder.setContentText(bundle.getString(KEY_PAYLOAD_ALERT))
+                builder.setSmallIcon(R.drawable.ic_stat)
+                builder.setAutoCancel(true)
+            }
+            return builder
+        }
+    }
+
+    open class CarnivalContentIntentBuilder : ContentIntentBuilder {
+
+        override fun build(context: Context?, bundle: Bundle?): PendingIntent? {
+            return createPendingIntent(context, bundle)
+        }
+
+        fun createPendingIntent(context: Context?, bundle: Bundle?): PendingIntent {
+
             val pendingIntent: PendingIntent
-            bundle.putBoolean(KEY_NOTIFICATION_PROVIDER_VALUE, true)
+            val deeplink = bundle?.getString(KEY_PAYLOAD_DEEPLINK)
+
+            bundle?.putBoolean(KEY_NOTIFICATION_PROVIDER_VALUE, true)
 
             val intent = Intent()
                     .putExtras(bundle)
                     .setAction(Intent.ACTION_VIEW)
-                    .setData(android.net.Uri.parse(if (deepLink.isNullOrEmpty()) { context.getString(R.string.deeplink_home) } else { deepLink }))
+                    .setData(android.net.Uri.parse(if (deeplink.isNullOrEmpty()) {
+                        context?.getString(R.string.deeplink_home)
+                    } else {
+                        bundle?.getString(KEY_PAYLOAD_DEEPLINK)
+                    }))
                     .addFlags(Intent.FLAG_FROM_BACKGROUND)
 
             val stackBuilder = TaskStackBuilder.create(context).addNextIntent(intent)
             pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
             return pendingIntent
-    }
-
-        @Suppress("DEPRECATION")
-        override fun onMessageReceived(context: Context, bundle: Bundle, message: Message?): Boolean {
-            return if (isNotificationFromCarnival(bundle)) {
-                val builder = NotificationCompat.Builder(context)
-                        .setContentTitle(bundle.getString(KEY_PAYLOAD_TITLE))
-                        .setContentText(bundle.getString(KEY_PAYLOAD_ALERT))
-                        .setContentIntent(createPendingIntent(context, bundle, bundle.getString(KEY_PAYLOAD_DEEPLINK)))
-                        .setSmallIcon(R.drawable.ic_stat)
-                        .setAutoCancel(true)
-
-                val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                notificationManager.notify(System.currentTimeMillis().toInt(), builder.build())
-                true
-            } else {
-                false
-            }
         }
     }
 }
