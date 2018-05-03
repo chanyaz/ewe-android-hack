@@ -65,6 +65,7 @@ dependencies {
 
     implementation "android.arch.lifecycle:extensions:1.1.0"
 
+    implementation "com.google.android.gms:play-services:${rootProject.ext.googlePlayServicesVersion}"
     implementation "com.google.android.gms:play-services-maps:${rootProject.ext.googlePlayServicesVersion}"
     implementation "com.google.android.gms:play-services-location:${rootProject.ext.googlePlayServicesVersion}"
     implementation "com.google.android.gms:play-services-auth:${rootProject.ext.googlePlayServicesVersion}"
