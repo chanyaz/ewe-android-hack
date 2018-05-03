@@ -45,6 +45,9 @@ class CustomerFirstSupportViewModel(val context: Context) {
                             .setRetryOnFailure(true)
                     NavUtils.startActivity(context, builder.intent, null)
                 }
+                else -> { // required to satisfy kotlin codestyle check
+                    // Do nothing
+                }
             }
         }
     }
