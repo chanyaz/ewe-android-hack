@@ -3,6 +3,7 @@ package com.expedia.bookings.activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.DeprecatedHotelSearchParams
 import com.expedia.bookings.data.FlightSearchParams
@@ -10,6 +11,7 @@ import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.features.Feature
 import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity
+import com.expedia.bookings.packages.activity.PackageActivity
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -17,7 +19,6 @@ import com.expedia.bookings.utils.FlightsV2DataUtil
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.ui.FlightActivity
 import com.expedia.ui.HotelActivity
-import com.expedia.bookings.packages.activity.PackageActivity
 import com.expedia.util.ForceBucketPref
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import org.junit.Test
@@ -49,6 +50,23 @@ class DeepLinkRouterActivityTest {
         assertBooleanExtraEquals(true, Codes.FROM_DEEPLINK, startedIntent)
         assertStringExtraEquals(gson.toJson(v2params), HotelExtras.EXTRA_HOTEL_SEARCH_PARAMS, startedIntent)
         assertBooleanExtraEquals(true, Codes.TAG_EXTERNAL_SEARCH_PARAMS, startedIntent)
+    }
+
+    @Test
+    fun retrieveCarnivalMessageIsCalledOnPushNotificationTap() {
+        val homeUrl = "expda://home"
+
+        val intent = createIntent(homeUrl)
+
+        val bundle = Bundle()
+        bundle.putBoolean("carnival", true)
+        intent.putExtras(bundle)
+
+        val deepLinkRouterActivityController = createSystemUnderTestWithIntent(intent)
+        val deepLinkRouterActivity = deepLinkRouterActivityController.get()
+        deepLinkRouterActivityController.setup()
+
+        assertEquals(1, deepLinkRouterActivity.retrieveCarnivalMessageCount)
     }
 
     private fun assertBooleanExtraEquals(expected: Boolean, extraName: String, startedIntent: Intent) {
@@ -236,6 +254,7 @@ class DeepLinkRouterActivityTest {
         var signInCallsCount = 0
         var supportEmailCallsCount = 0
         var memberPricingCount = 0
+        var retrieveCarnivalMessageCount = 0
         lateinit var mockItineraryManager: ItineraryManager
 
         override fun startProcessing() {
@@ -260,6 +279,10 @@ class DeepLinkRouterActivityTest {
 
         override fun goFetchSharedItinWithShortUrl(shortUrl: String, runnable: OnSharedItinUrlReceiveListener) {
             runnable.onSharedItinUrlReceiveListener("http://www.expedia.com/m/trips/shared/0y5Ht7LVY1gqSwdrngvC0MCAdQKn-QHMK5hNDlKKtt6jwSkXTR2TnYs9xISPHASFzitz_Tty083fguArrsJbxx6j")
+        }
+
+        override fun retrieveCarnivalMessage() {
+            retrieveCarnivalMessageCount++
         }
     }
 }

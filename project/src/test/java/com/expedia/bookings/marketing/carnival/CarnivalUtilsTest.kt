@@ -1,16 +1,15 @@
 package com.expedia.bookings.marketing.carnival
 
 import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
+import android.support.v4.app.NotificationCompat
 import com.carnival.sdk.AttributeMap
-import com.carnival.sdk.Message
-import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.flights.FlightLeg
@@ -29,6 +28,7 @@ import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.data.trips.TripComponent
 import com.expedia.bookings.marketing.carnival.model.CarnivalConstants
 import com.expedia.bookings.marketing.carnival.model.CarnivalMessage
+import com.expedia.bookings.marketing.carnival.model.CarnivalNotificationConstants
 import com.expedia.bookings.marketing.carnival.model.CarnivalNotificationTypeConstants
 import com.expedia.bookings.marketing.carnival.persistence.MockCarnivalPersistenceProvider
 import com.expedia.bookings.services.HotelCheckoutResponse
@@ -371,42 +371,61 @@ class CarnivalUtilsTest : CarnivalUtils() {
     }
 
     @Test
-    fun customMessageListenerListens() {
-        val listener = TestableCarnivalMessageListener()
+    fun carnivalContentIntentBuilderBuildsIntentFromBundle() {
+        val carnivalContentIntentBuilder = CarnivalContentIntentBuilder()
         val bundle = Bundle()
         bundle.putString("title", "Custom Message Title")
         bundle.putString("alert", "Custom Body Message")
         bundle.putString("deeplink", "expda://flightSearch")
 
-        listener.onMessageReceived(context, bundle, null)
+        val intent = getIntent(carnivalContentIntentBuilder.build(context, bundle))
 
-        val intent = getIntent(listener.pendingIntent as PendingIntent)
-
-        assertEquals("Custom Message Title", intent.extras.getString(CustomCarnivalListener.KEY_PAYLOAD_TITLE))
-        assertEquals("expda://flightSearch", intent.extras.getString(CustomCarnivalListener.KEY_PAYLOAD_DEEPLINK))
-        assertEquals("Custom Body Message", intent.extras.getString(CustomCarnivalListener.KEY_PAYLOAD_ALERT))
+        assertEquals("Custom Message Title", intent.extras.getString(CarnivalNotificationConstants.KEY_PAYLOAD_TITLE))
+        assertEquals("expda://flightSearch", intent.extras.getString(CarnivalNotificationConstants.KEY_PAYLOAD_DEEPLINK))
+        assertEquals("Custom Body Message", intent.extras.getString(CarnivalNotificationConstants.KEY_PAYLOAD_ALERT))
         assertEquals("expda://flightSearch", intent.data.toString())
     }
 
     @Test
-    fun customMessageListenerListensWithNoDeeplinkProvided() {
-        val listener = TestableCarnivalMessageListener()
+    fun carnivalContentIntentBuilderHandlesNullBundle() {
+        val carnivalContentIntentBuilder = CarnivalContentIntentBuilder()
+        val intent = getIntent(carnivalContentIntentBuilder.build(context, null))
+        assertEquals("expda://home", intent.data.toString())
+    }
+
+    @Test
+    fun carnivalNotificationExtenderBuildsPushNotification() {
+        val carnivalNotificationExtender = CarnivalNotificationExtender()
+
+        val builder = NotificationCompat.Builder(context, "")
+        val bundle = Bundle()
+        bundle.putString(CarnivalNotificationConstants.KEY_PAYLOAD_TITLE, "some carnival title")
+        bundle.putString(CarnivalNotificationConstants.KEY_PAYLOAD_ALERT, "some carnival alert")
+        builder.addExtras(bundle)
+
+        val configuredBuilder = carnivalNotificationExtender.extend(builder)
+
+        assertEquals("some carnival title", configuredBuilder.mContentTitle)
+        assertEquals("some carnival alert", configuredBuilder.mContentText)
+    }
+
+    @Test
+    fun defaultDeeplinkIsHomeScreen_givenNoCarnivalDeeplinkProvided() {
+        val carnivalContentIntentBuilder = CarnivalContentIntentBuilder()
         val bundle = Bundle()
         bundle.putString("title", "Custom Message Title")
         bundle.putString("alert", "Custom Body Message")
 
-        listener.onMessageReceived(context, bundle, null)
+        val intent = getIntent(carnivalContentIntentBuilder.build(context, bundle))
 
-        val intent = getIntent(listener.pendingIntent as PendingIntent)
-
-        assertEquals("Custom Message Title", intent.extras.getString(CustomCarnivalListener.KEY_PAYLOAD_TITLE))
-        assertEquals("Custom Body Message", intent.extras.getString(CustomCarnivalListener.KEY_PAYLOAD_ALERT))
+        assertEquals("Custom Message Title", intent.extras.getString(CarnivalNotificationConstants.KEY_PAYLOAD_TITLE))
+        assertEquals("Custom Body Message", intent.extras.getString(CarnivalNotificationConstants.KEY_PAYLOAD_ALERT))
         assertEquals("expda://home", intent.data.toString())
     }
 
     @Test
     fun customMessageListenerRequiresProviderKey() {
-        val listener = TestableCarnivalMessageListener()
+        val listener = CustomCarnivalListener()
         val bundle = Bundle()
         bundle.putString("title", "Custom Message Title")
         bundle.putString("alert", "Custom Body Message")
@@ -491,7 +510,7 @@ class CarnivalUtilsTest : CarnivalUtils() {
         val marketingCode = "OLA.EXPEDIA-US-MARKETING-CODE"
         val deeplink = Uri.parse("expda://hotelSearch?olacid=OLA.EXPEDIA-US-OLACID")
         val bundle = Bundle()
-        bundle.putString(CustomCarnivalListener.KEY_PAYLOAD_MARKETING, marketingCode)
+        bundle.putString(CarnivalNotificationConstants.KEY_PAYLOAD_MARKETING, marketingCode)
 
         this.trackCarnivalPush(context, deeplink, bundle)
 
@@ -505,7 +524,7 @@ class CarnivalUtilsTest : CarnivalUtils() {
         val marketingCode = ""
         val deeplink = Uri.parse("expda://hotelSearch?olacid=OLA.EXPEDIA-US-OLACID")
         val bundle = Bundle()
-        bundle.putString(CustomCarnivalListener.KEY_PAYLOAD_MARKETING, marketingCode)
+        bundle.putString(CarnivalNotificationConstants.KEY_PAYLOAD_MARKETING, marketingCode)
 
         this.trackCarnivalPush(context, deeplink, bundle)
 
@@ -529,7 +548,7 @@ class CarnivalUtilsTest : CarnivalUtils() {
         assertEquals(expectedUri, parameterizedUri)
     }
 
-    private fun getIntent(pendingIntent: PendingIntent): Intent {
+    private fun getIntent(pendingIntent: PendingIntent?): Intent {
         return (Shadow.extract(pendingIntent) as ShadowPendingIntent).savedIntent
     }
 
@@ -589,14 +608,5 @@ class CarnivalUtilsTest : CarnivalUtils() {
         mockAttributes.put(CarnivalConstants.APP_OPEN_LAUNCH_RELAUNCH_POS, "expedia.fr")
 
         return mockAttributes
-    }
-}
-
-class TestableCarnivalMessageListener : CarnivalUtils.CustomCarnivalListener() {
-    var pendingIntent: PendingIntent? = null
-
-    override fun onMessageReceived(context: Context, bundle: Bundle, message: Message?): Boolean {
-        pendingIntent = this.createPendingIntent(context, bundle, bundle.getString(KEY_PAYLOAD_DEEPLINK))
-        return true
     }
 }
