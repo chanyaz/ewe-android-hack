@@ -9,9 +9,9 @@ import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.dagger.HotelComponentInjector
+import com.expedia.bookings.data.BaseHotelFilterOptions
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.hotel.deeplink.HotelLandingPage
 import com.expedia.bookings.presenter.hotel.HotelPresenter
@@ -60,7 +60,7 @@ class HotelActivity : AbstractAppCompatActivity(), ComponentCallbacks2 {
     private fun handleDeepLink(intent: Intent) {
         val searchParams = HotelsV2DataUtil.getHotelV2SearchParamsFromJSON(intent.getStringExtra(HotelExtras.EXTRA_HOTEL_SEARCH_PARAMS))
         if (intent.hasExtra(Codes.DEALS) && searchParams != null) {
-            searchParams.sortType = HotelSearchParams.SortType.MOBILE_DEALS.sortName
+            searchParams.sortType = BaseHotelFilterOptions.SortType.MOBILE_DEALS.sortName
             searchParams.shopWithPoints = false
         }
         val landingPage = intent.getStringExtra(HotelExtras.LANDING_PAGE)

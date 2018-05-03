@@ -1,6 +1,7 @@
 package com.expedia.bookings.data.packages
 
 import com.expedia.bookings.data.AbstractFlightSearchParams
+import com.expedia.bookings.data.BaseHotelFilterOptions
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.utils.Constants
@@ -27,6 +28,7 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
     var defaultFlights: Array<String?> by Delegates.notNull()
     var numberOfRooms: String = Constants.NUMBER_OF_ROOMS
     var flightLegList: List<FlightLeg>? = null
+    var filterOptions: PackageHotelFilterOptions? = null
 
     //MID variables
     var latestSelectedOfferInfo: PackageSelectedOfferInfo = PackageSelectedOfferInfo()
@@ -57,15 +59,30 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
             return !infantSeatingInLap
         }
 
+    fun getHotelsSortOrder(): BaseHotelFilterOptions.SortType {
+        if (filterOptions?.userSort != null) {
+            return filterOptions!!.userSort!!
+        }
+
+        return BaseHotelFilterOptions.SortType.EXPERT_PICKS
+    }
+
     class Builder(maxStay: Int, maxRange: Int) : AbstractFlightSearchParams.Builder(maxStay, maxRange) {
 
         private var flightCabinClass: String? = null
+        private var hotelName: String? = null
+        private var starRatings: List<Int> = emptyList()
+        private var vipOnly: Boolean = false
+        private var userSort: BaseHotelFilterOptions.SortType? = null
+
         override fun build(): PackageSearchParams {
             val flightOrigin = originLocation ?: throw IllegalArgumentException()
             val flightDestination = destinationLocation ?: throw IllegalArgumentException()
             val checkInDate = startDate ?: throw IllegalArgumentException()
             val checkOutDate = endDate ?: throw IllegalArgumentException()
-            return PackageSearchParams(flightOrigin, flightDestination, checkInDate, checkOutDate, adults, children, infantSeatingInLap, flightCabinClass)
+            val params = PackageSearchParams(flightOrigin, flightDestination, checkInDate, checkOutDate, adults, children, infantSeatingInLap, flightCabinClass)
+            params.filterOptions = buildFilterOptions()
+            return params
         }
 
         override fun areRequiredParamsFilled(): Boolean {
@@ -92,6 +109,35 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
         fun flightCabinClass(cabinClass: String?): PackageSearchParams.Builder {
             this.flightCabinClass = cabinClass
             return this
+        }
+
+        fun hotelName(name: String): Builder {
+            this.hotelName = name
+            return this
+        }
+
+        fun starRatings(starRatings: List<Int>): Builder {
+            this.starRatings = starRatings
+            return this
+        }
+
+        fun vipOnly(vipOnly: Boolean): Builder {
+            this.vipOnly = vipOnly
+            return this
+        }
+
+        fun userSort(userSort: BaseHotelFilterOptions.SortType): Builder {
+            this.userSort = userSort
+            return this
+        }
+
+        private fun buildFilterOptions(): PackageHotelFilterOptions {
+            var filterOptions = PackageHotelFilterOptions()
+            filterOptions.filterHotelName = hotelName
+            filterOptions.filterStarRatings = starRatings
+            filterOptions.filterVipOnly = vipOnly
+            filterOptions.userSort = userSort
+            return filterOptions
         }
     }
 
@@ -132,6 +178,10 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
 
         if (pageType == Constants.PACKAGE_CHANGE_FLIGHT) {
             params.put("action", Constants.PACKAGE_FILTER_CHANGE_FLIGHT)
+        }
+
+        if (filterOptions != null) {
+            params.putAll(filterOptions!!.getFiltersQueryMap())
         }
 
         return params

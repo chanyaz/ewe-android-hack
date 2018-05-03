@@ -1,12 +1,14 @@
 package com.expedia.bookings.unit.hotels
 
+import com.expedia.bookings.data.BaseHotelFilterOptions
+import com.expedia.bookings.data.hotels.HotelFilterOptions
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import org.junit.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class HotelFilterOptionsTest {
-    val testFilterOptions = HotelSearchParams.HotelFilterOptions()
+    val testFilterOptions = HotelFilterOptions()
 
     @Test
     fun testIsEmptyHotelNameFilter() {
@@ -52,7 +54,7 @@ class HotelFilterOptionsTest {
     fun testIsEmptySort() {
         assertTrue(testFilterOptions.isEmpty()) // sanity check
 
-        testFilterOptions.userSort = HotelSearchParams.SortType.MOBILE_DEALS
+        testFilterOptions.userSort = BaseHotelFilterOptions.SortType.MOBILE_DEALS
         assertFalse(testFilterOptions.isEmpty())
     }
 
@@ -100,7 +102,7 @@ class HotelFilterOptionsTest {
     fun testNotEmptySort() {
         assertFalse(testFilterOptions.isNotEmpty()) // sanity check
 
-        testFilterOptions.userSort = HotelSearchParams.SortType.MOBILE_DEALS
+        testFilterOptions.userSort = BaseHotelFilterOptions.SortType.MOBILE_DEALS
         assertTrue(testFilterOptions.isNotEmpty())
     }
 

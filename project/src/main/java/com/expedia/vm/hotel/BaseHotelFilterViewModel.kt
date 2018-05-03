@@ -1,6 +1,7 @@
 package com.expedia.vm.hotel
 
 import android.content.Context
+import com.expedia.bookings.data.BaseHotelFilterOptions
 import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.hotel.PriceRange
 import com.expedia.bookings.data.hotel.UserFilterChoices
@@ -334,5 +335,5 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         userFilterChoices.neighborhoods = HashSet()
     }
 
-    open fun updatePresetOptions(filterOptions: HotelSearchParams.HotelFilterOptions) {}
+    open fun updatePresetOptions(filterOptions: BaseHotelFilterOptions) {}
 }

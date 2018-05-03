@@ -6,6 +6,7 @@ import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotel.UserFilterChoices
+import com.expedia.bookings.data.hotels.HotelFilterOptions
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.hotel.util.HotelSearchManager
@@ -124,7 +125,7 @@ class HotelResultsViewModelTest {
         sut.filterResultsObservable.subscribe(filteredResultsSubscriber)
 
         val hotelParams = happyParams
-        val filterOptions = HotelSearchParams.HotelFilterOptions()
+        val filterOptions = HotelFilterOptions()
         filterOptions.filterHotelName = "Hyatt"
         hotelParams.filterOptions = filterOptions
         sut.paramsSubject.onNext(hotelParams)

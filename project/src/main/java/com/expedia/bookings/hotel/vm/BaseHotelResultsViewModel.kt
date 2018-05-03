@@ -2,6 +2,7 @@ package com.expedia.bookings.hotel.vm
 
 import android.content.Context
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.hotels.HotelFilterOptions
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.tracking.AdImpressionTracking
@@ -32,7 +33,7 @@ open class BaseHotelResultsViewModel(protected val context: Context) {
     }
 
     fun clearCachedParamsFilterOptions() {
-        cachedParams?.filterOptions = HotelSearchParams.HotelFilterOptions()
+        cachedParams?.filterOptions = HotelFilterOptions()
     }
 
     protected fun trackAdImpression(url: String) {

@@ -1,6 +1,6 @@
 package com.expedia.bookings.data.hotel
 
-import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.data.hotels.HotelFilterOptions
 import com.expedia.bookings.data.hotels.Neighborhood
 import java.util.ArrayList
 import java.util.HashSet
@@ -48,7 +48,7 @@ data class UserFilterChoices(var userSort: DisplaySort = DisplaySort.getDefaultS
 
     companion object {
         @JvmStatic
-        fun fromHotelFilterOptions(searchOptions: HotelSearchParams.HotelFilterOptions): UserFilterChoices {
+        fun fromHotelFilterOptions(searchOptions: HotelFilterOptions): UserFilterChoices {
             val filterChoices = UserFilterChoices()
             filterChoices.name = searchOptions.filterHotelName ?: ""
             filterChoices.isVipOnlyAccess = searchOptions.filterVipOnly

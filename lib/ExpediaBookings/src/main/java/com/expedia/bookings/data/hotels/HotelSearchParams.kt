@@ -1,10 +1,10 @@
 package com.expedia.bookings.data.hotels
 
+import com.expedia.bookings.data.BaseHotelFilterOptions
 import com.expedia.bookings.data.BaseSearchParams
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.packages.PackageSearchParams
 import org.joda.time.LocalDate
-import java.util.HashMap
 
 open class HotelSearchParams(val suggestion: SuggestionV4,
                              val checkIn: LocalDate, val checkOut: LocalDate,
@@ -35,20 +35,20 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
      *  else if current location search - set to distance
      *  otherwise default to expert picks
      */
-    fun getSortOrder(): SortType {
+    fun getSortOrder(): BaseHotelFilterOptions.SortType {
         if (filterOptions?.userSort != null) {
             return filterOptions?.userSort!!
         }
 
-        val sort: SortType? = getSortTypeFromString(sortType)
+        val sort: BaseHotelFilterOptions.SortType? = getSortTypeFromString(sortType)
 
         if (sort != null) {
             return sort
         } else if (isCurrentLocationSearch()) {
-            return SortType.DISTANCE
+            return BaseHotelFilterOptions.SortType.DISTANCE
         }
 
-        return SortType.EXPERT_PICKS
+        return BaseHotelFilterOptions.SortType.EXPERT_PICKS
     }
 
     fun equalForPrefetch(other: HotelSearchParams?): Boolean {
@@ -67,14 +67,14 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
                 && shopWithPoints == other.shopWithPoints
     }
 
-    private fun getSortTypeFromString(sortString: String?): SortType? {
+    private fun getSortTypeFromString(sortString: String?): BaseHotelFilterOptions.SortType? {
         if (sortString != null) {
             when (sortString.toLowerCase()) {
-                "discounts" -> return SortType.MOBILE_DEALS
-                "deals" -> return SortType.MOBILE_DEALS
-                "price" -> return SortType.PRICE
-                "rating" -> return SortType.REVIEWS
-                "guestrating" -> return SortType.REVIEWS
+                "discounts" -> return BaseHotelFilterOptions.SortType.MOBILE_DEALS
+                "deals" -> return BaseHotelFilterOptions.SortType.MOBILE_DEALS
+                "price" -> return BaseHotelFilterOptions.SortType.PRICE
+                "rating" -> return BaseHotelFilterOptions.SortType.REVIEWS
+                "guestrating" -> return BaseHotelFilterOptions.SortType.REVIEWS
                 else -> {
                     return null
                 }
@@ -92,7 +92,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
         private var neighborhoodRegion: Neighborhood? = null
         private var guestRatings: List<Int> = emptyList()
         private var vipOnly: Boolean = false
-        private var userSort: SortType? = null
+        private var userSort: BaseHotelFilterOptions.SortType? = null
         private var amenities: HashSet<Int> = HashSet()
         private var isDatelessSearch: Boolean = false
 
@@ -141,7 +141,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
             return this
         }
 
-        fun userSort(userSort: SortType): Builder {
+        fun userSort(userSort: BaseHotelFilterOptions.SortType): Builder {
             this.userSort = userSort
             return this
         }
@@ -212,69 +212,6 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
             filterOptions.amenities = amenities
             return filterOptions
         }
-    }
-
-    class HotelFilterOptions {
-        var filterHotelName: String? = null
-        var filterStarRatings: List<Int> = emptyList()
-        var filterGuestRatings: List<Int> = emptyList()
-        var filterPrice: PriceRange? = null
-        var filterVipOnly: Boolean = false
-        var filterByNeighborhood: Neighborhood? = null
-        var userSort: SortType? = null
-        var amenities: HashSet<Int> = HashSet()
-
-        fun getFiltersQueryMap(): Map<String, String> {
-            val params = HashMap<String, String>()
-            if (!filterHotelName.isNullOrEmpty()) {
-                params.put("filterHotelName", filterHotelName!!)
-            }
-
-            if (filterStarRatings.isNotEmpty()) {
-                params.put("filterStarRatings", filterStarRatings.joinToString(","))
-            }
-
-            if (filterGuestRatings.isNotEmpty()) {
-                params.put("guestRatingFilterItems", filterGuestRatings.joinToString(","))
-            }
-
-            if (filterPrice != null && filterPrice!!.isValid()) {
-                params.put("filterPrice", filterPrice!!.getPriceBuckets())
-            }
-
-            if (filterVipOnly) {
-                params.put("vipOnly", filterVipOnly.toString())
-            }
-
-            if (!amenities.isEmpty()) {
-                params.put("filterAmenities", amenities.joinToString(","))
-            }
-
-            return params
-        }
-
-        fun isEmpty(): Boolean {
-            return filterHotelName.isNullOrEmpty()
-                    && filterStarRatings.isEmpty()
-                    && filterGuestRatings.isEmpty()
-                    && (filterPrice == null || !filterPrice!!.isValid())
-                    && !filterVipOnly
-                    && userSort == null
-                    && amenities.isEmpty()
-        }
-
-        fun isNotEmpty(): Boolean {
-            return !isEmpty()
-        }
-    }
-
-    enum class SortType(val sortName: String) {
-        EXPERT_PICKS("ExpertPicks"),
-        STARS("StarRatingDesc"),
-        PRICE("PriceAsc"),
-        REVIEWS("Reviews"),
-        DISTANCE("Distance"),
-        MOBILE_DEALS("Deals")
     }
 
     data class PriceRange(val minPrice: Int, val maxPrice: Int) {

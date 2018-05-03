@@ -2,6 +2,7 @@ package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
 import com.expedia.bookings.R
+import com.expedia.bookings.data.BaseHotelFilterOptions
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.utils.Ui
@@ -278,6 +279,48 @@ class PackageSearchParamsTest {
         noDatesSubscriber.assertValueSequence(expectedDates)
         maxRangeSubscriber.assertValueSequence(expectedRangeErrors)
         noOriginSubscriber.assertValueSequence(expectedOrigins)
+    }
+
+    @Test
+    fun testFilterOptions() {
+        val name = "Hyatt"
+        val builder = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
+                activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
+                .hotelName(name)
+                .starRatings(listOf(1, 2))
+                .vipOnly(true)
+                .userSort(BaseHotelFilterOptions.SortType.MOBILE_DEALS)
+                .origin(getDummySuggestion("123"))
+                .destination(getDummySuggestion("456"))
+                .adults(1)
+                .children(listOf(10, 2))
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1)) as PackageSearchParams.Builder
+
+        val params = builder.build()
+        val map = params.filterOptions!!.getFiltersQueryMap()
+
+        assertEquals(4, map.size)
+        assertEquals(name, map["hotelName"])
+        assertEquals("1,2", map["stars"])
+        assertEquals("true", map["vipOnly"])
+        assertEquals("PACKAGE_SAVINGS", map["hotelSortOrder"])
+        assertEquals(params.getHotelsSortOrder(), BaseHotelFilterOptions.SortType.MOBILE_DEALS)
+    }
+
+    @Test
+    fun testGetDefaultSortType() {
+        val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
+                activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
+                .origin(getDummySuggestion("123"))
+                .destination(getDummySuggestion("456"))
+                .adults(1)
+                .children(listOf(10, 2))
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1))
+                .build() as PackageSearchParams
+
+        assertEquals(params.getHotelsSortOrder(), BaseHotelFilterOptions.SortType.EXPERT_PICKS)
     }
 
     private fun getDummySuggestion(code: String): SuggestionV4 {

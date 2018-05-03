@@ -1,6 +1,8 @@
 package com.expedia.bookings.unit.hotels
 
+import com.expedia.bookings.data.BaseHotelFilterOptions
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.hotels.HotelFilterOptions
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.Neighborhood
 import org.joda.time.LocalDate
@@ -60,47 +62,47 @@ class HotelSearchParamsTest {
     @Test
     fun testSortDefault() {
         val searchParams = testParamBuilder.build()
-        assertEquals(HotelSearchParams.SortType.EXPERT_PICKS, searchParams.getSortOrder())
+        assertEquals(BaseHotelFilterOptions.SortType.EXPERT_PICKS, searchParams.getSortOrder())
     }
 
     @Test
     fun testSortWithUserPreference() {
-        testParamBuilder.userSort(HotelSearchParams.SortType.REVIEWS)
+        testParamBuilder.userSort(BaseHotelFilterOptions.SortType.REVIEWS)
         val searchParams = testParamBuilder.build()
 
-        assertEquals(HotelSearchParams.SortType.REVIEWS, searchParams.getSortOrder())
+        assertEquals(BaseHotelFilterOptions.SortType.REVIEWS, searchParams.getSortOrder())
 
         searchParams.sortType = "Price"
-        assertEquals(HotelSearchParams.SortType.REVIEWS, searchParams.getSortOrder())
+        assertEquals(BaseHotelFilterOptions.SortType.REVIEWS, searchParams.getSortOrder())
     }
 
     @Test
     fun testSortTypesMatchAPIExpectations() {
-        assertEquals("ExpertPicks", HotelSearchParams.SortType.EXPERT_PICKS.sortName)
-        assertEquals("StarRatingDesc", HotelSearchParams.SortType.STARS.sortName)
-        assertEquals("PriceAsc", HotelSearchParams.SortType.PRICE.sortName)
-        assertEquals("Reviews", HotelSearchParams.SortType.REVIEWS.sortName)
-        assertEquals("Distance", HotelSearchParams.SortType.DISTANCE.sortName)
-        assertEquals("Deals", HotelSearchParams.SortType.MOBILE_DEALS.sortName)
+        assertEquals("ExpertPicks", BaseHotelFilterOptions.SortType.EXPERT_PICKS.sortName)
+        assertEquals("StarRatingDesc", BaseHotelFilterOptions.SortType.STARS.sortName)
+        assertEquals("PriceAsc", BaseHotelFilterOptions.SortType.PRICE.sortName)
+        assertEquals("Reviews", BaseHotelFilterOptions.SortType.REVIEWS.sortName)
+        assertEquals("Distance", BaseHotelFilterOptions.SortType.DISTANCE.sortName)
+        assertEquals("Deals", BaseHotelFilterOptions.SortType.MOBILE_DEALS.sortName)
     }
 
     @Test
     fun testSortWithSortType() {
         val searchParams = testParamBuilder.build()
         searchParams.sortType = "Price"
-        assertEquals(HotelSearchParams.SortType.PRICE, searchParams.getSortOrder())
+        assertEquals(BaseHotelFilterOptions.SortType.PRICE, searchParams.getSortOrder())
         searchParams.sortType = "Discounts"
-        assertEquals(HotelSearchParams.SortType.MOBILE_DEALS, searchParams.getSortOrder())
+        assertEquals(BaseHotelFilterOptions.SortType.MOBILE_DEALS, searchParams.getSortOrder())
         searchParams.sortType = "Deals"
-        assertEquals(HotelSearchParams.SortType.MOBILE_DEALS, searchParams.getSortOrder())
+        assertEquals(BaseHotelFilterOptions.SortType.MOBILE_DEALS, searchParams.getSortOrder())
         searchParams.sortType = "Rating"
-        assertEquals(HotelSearchParams.SortType.REVIEWS, searchParams.getSortOrder())
+        assertEquals(BaseHotelFilterOptions.SortType.REVIEWS, searchParams.getSortOrder())
         searchParams.sortType = "guestRating"
-        assertEquals(HotelSearchParams.SortType.REVIEWS, searchParams.getSortOrder())
+        assertEquals(BaseHotelFilterOptions.SortType.REVIEWS, searchParams.getSortOrder())
         searchParams.sortType = ""
-        assertEquals(HotelSearchParams.SortType.EXPERT_PICKS, searchParams.getSortOrder())
+        assertEquals(BaseHotelFilterOptions.SortType.EXPERT_PICKS, searchParams.getSortOrder())
         searchParams.sortType = null
-        assertEquals(HotelSearchParams.SortType.EXPERT_PICKS, searchParams.getSortOrder())
+        assertEquals(BaseHotelFilterOptions.SortType.EXPERT_PICKS, searchParams.getSortOrder())
     }
 
     @Test
@@ -113,7 +115,7 @@ class HotelSearchParamsTest {
                 .startDate(tomorrow)
                 .endDate(checkoutDate)
         val searchParams = paramBuilder.build()
-        assertEquals(HotelSearchParams.SortType.DISTANCE, searchParams.getSortOrder())
+        assertEquals(BaseHotelFilterOptions.SortType.DISTANCE, searchParams.getSortOrder())
     }
 
     @Test
@@ -321,7 +323,7 @@ class HotelSearchParamsTest {
     @Test
     fun testEqualIgnoringFilterDifferentFilterOptions() {
         firstParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
-        secondParamBuilder.userSort(HotelSearchParams.SortType.STARS).destination(dummySuggestion).startDate(today).endDate(today)
+        secondParamBuilder.userSort(BaseHotelFilterOptions.SortType.STARS).destination(dummySuggestion).startDate(today).endDate(today)
 
         val params1 = firstParamBuilder.build()
         val params2 = secondParamBuilder.build()
@@ -368,7 +370,7 @@ class HotelSearchParamsTest {
         val expectedName = "Oscar Inn"
         val testParams = firstParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
                 .adults(1).children(listOf(1)).build() as HotelSearchParams
-        val testFilterOptions = HotelSearchParams.HotelFilterOptions()
+        val testFilterOptions = HotelFilterOptions()
         testFilterOptions.filterHotelName = expectedName
 
         testParams.filterOptions = testFilterOptions
@@ -383,7 +385,7 @@ class HotelSearchParamsTest {
         val testParams = firstParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
                 .adults(1).children(listOf(1)).build() as HotelSearchParams
 
-        val testFilterOptions = HotelSearchParams.HotelFilterOptions()
+        val testFilterOptions = HotelFilterOptions()
         testFilterOptions.filterStarRatings = expectedStar
         testParams.filterOptions = testFilterOptions
 
@@ -396,7 +398,7 @@ class HotelSearchParamsTest {
         val expectedPriceRange = HotelSearchParams.PriceRange(0, 100)
         val testParams = firstParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
                 .adults(1).children(listOf(1)).build() as HotelSearchParams
-        val testFilterOptions = HotelSearchParams.HotelFilterOptions()
+        val testFilterOptions = HotelFilterOptions()
         testFilterOptions.filterPrice = expectedPriceRange
 
         testParams.filterOptions = testFilterOptions
@@ -414,7 +416,7 @@ class HotelSearchParamsTest {
         val testParams = firstParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
                 .adults(1).children(listOf(1)).build() as HotelSearchParams
 
-        val testFilterOptions = HotelSearchParams.HotelFilterOptions()
+        val testFilterOptions = HotelFilterOptions()
         testFilterOptions.filterByNeighborhood = expectedNeighborhood
         testParams.filterOptions = testFilterOptions
 
@@ -427,7 +429,7 @@ class HotelSearchParamsTest {
         val testParams = firstParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
                 .adults(1).children(listOf(1)).build() as HotelSearchParams
 
-        val testFilterOptions = HotelSearchParams.HotelFilterOptions()
+        val testFilterOptions = HotelFilterOptions()
         testFilterOptions.filterVipOnly = true
         testParams.filterOptions = testFilterOptions
 
@@ -439,13 +441,13 @@ class HotelSearchParamsTest {
     fun testFromFilterOptions_sort() {
         val testParams = firstParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
                 .adults(1).children(listOf(1)).build() as HotelSearchParams
-        val testFilterOptions = HotelSearchParams.HotelFilterOptions()
-        testFilterOptions.userSort = HotelSearchParams.SortType.PRICE
+        val testFilterOptions = HotelFilterOptions()
+        testFilterOptions.userSort = BaseHotelFilterOptions.SortType.PRICE
 
         testParams.filterOptions = testFilterOptions
 
         val fromParams = secondParamBuilder.from(testParams).build()
-        assertEquals(HotelSearchParams.SortType.PRICE, fromParams.filterOptions?.userSort)
+        assertEquals(BaseHotelFilterOptions.SortType.PRICE, fromParams.filterOptions?.userSort)
     }
 
     private fun getDummySuggestion(city: String, airport: String, gaiaId: String = "123"): SuggestionV4 {

@@ -1,5 +1,7 @@
 package com.expedia.bookings.data.hotel
 
+import com.expedia.bookings.data.BaseHotelFilterOptions
+import com.expedia.bookings.data.hotels.HotelFilterOptions
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.Neighborhood
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -118,10 +120,10 @@ class UserFilterChoicesTest {
     @Test
     fun testFromHotelFilterOptions() {
         val hotelName = "Dingy Paradise"
-        val searchOptions = HotelSearchParams.HotelFilterOptions()
+        val searchOptions = HotelFilterOptions()
         searchOptions.filterHotelName = hotelName
         searchOptions.filterStarRatings = listOf(10, 40, 50)
-        searchOptions.userSort = HotelSearchParams.SortType.DISTANCE
+        searchOptions.userSort = BaseHotelFilterOptions.SortType.DISTANCE
         searchOptions.filterVipOnly = true
         searchOptions.amenities = hashSetOf(1, 3)
         searchOptions.filterPrice = HotelSearchParams.PriceRange(10, 20)
@@ -152,7 +154,7 @@ class UserFilterChoicesTest {
 
     @Test
     fun testFromEmptyHotelFilterOptions() {
-        val searchOptions = HotelSearchParams.HotelFilterOptions()
+        val searchOptions = HotelFilterOptions()
 
         val filterOptions = UserFilterChoices.fromHotelFilterOptions(searchOptions)
         assertEquals("", filterOptions.name)

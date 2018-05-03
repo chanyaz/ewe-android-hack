@@ -1,9 +1,10 @@
 package com.expedia.vm.hotel
 
 import android.content.Context
+import com.expedia.bookings.data.BaseHotelFilterOptions
 import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.hotel.UserFilterChoices
-import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.data.hotels.HotelFilterOptions
 import com.expedia.bookings.tracking.hotel.FilterTracker
 import com.expedia.bookings.tracking.hotel.HotelFilterTracker
 import io.reactivex.subjects.PublishSubject
@@ -36,9 +37,9 @@ class HotelFilterViewModel(context: Context) : BaseHotelFilterViewModel(context)
         }
     }
 
-    override fun updatePresetOptions(filterOptions: HotelSearchParams.HotelFilterOptions) {
+    override fun updatePresetOptions(filterOptions: BaseHotelFilterOptions) {
         presetFilterOptions = false
-        if (filterOptions.isNotEmpty()) {
+        if (filterOptions.isNotEmpty() && filterOptions is HotelFilterOptions) {
             val filterChoices = UserFilterChoices.fromHotelFilterOptions(filterOptions)
             previousFilterChoices = filterChoices
             presetFilterOptions = true
