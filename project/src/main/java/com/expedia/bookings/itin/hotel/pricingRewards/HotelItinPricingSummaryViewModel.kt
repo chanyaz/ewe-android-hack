@@ -111,7 +111,7 @@ class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingS
             paymentModel?.let {
                 when (it) {
                     PaymentModel.EXPEDIA_COLLECT -> {
-                        val totalPrice = itin.paymentDetails?.priceByFormOfPayment?.creditCard?.paidLocalizedPrice
+                        val totalPrice = itin.paymentDetails?.localizedNetPricePaidForThisBooking
                                 ?: itin.firstHotel()?.totalPriceDetails?.totalFormatted
                         totalPrice?.let { price ->
                             val totalPriceItem = HotelItinPriceLineItem(
