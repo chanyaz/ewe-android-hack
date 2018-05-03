@@ -3,6 +3,7 @@ package com.expedia.bookings.shared.vm
 import android.content.Context
 import android.support.annotation.VisibleForTesting
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.ExpediaBookingApp.isAutomation
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.travelgraph.SearchInfo
 import com.expedia.bookings.text.HtmlCompat
@@ -27,7 +28,7 @@ abstract class BaseSuggestionViewModel(val context: Context) {
     protected abstract fun getTitle(): CharSequence
     protected abstract fun getSubTitle(): String
 
-    open fun isIconContentDescriptionRequired() = false
+    open fun isIconContentDescriptionRequired() = isAutomation()
 
     fun bind(suggestion: SuggestionV4) {
         this.suggestion = suggestion
