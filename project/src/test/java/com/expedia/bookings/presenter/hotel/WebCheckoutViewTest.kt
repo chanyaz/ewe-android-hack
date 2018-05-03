@@ -3,6 +3,7 @@ package com.expedia.bookings.presenter.hotel
 import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
+import android.webkit.WebView
 import com.expedia.bookings.R
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -42,6 +43,23 @@ class WebCheckoutViewTest {
         webCheckoutView.webClient.onPageFinished(webCheckoutView.webView, "www.Google.com")
 
         assertEquals(View.GONE, webCheckoutView.loadingOverlay.visibility)
+    }
+
+    @Test
+    fun testOnWebPageStartedHidesWebViewIfPopUpAvailable() {
+        webCheckoutView.webViewPopUp = WebView(activity)
+
+        webCheckoutView.onWebPageStarted(webCheckoutView.webView, "www.Google.com", null)
+
+        assertEquals(View.GONE, webCheckoutView.webView.visibility)
+
+        assertEquals(View.VISIBLE, webCheckoutView.webViewPopUp!!.visibility)
+    }
+
+    @Test
+    fun testOnWebPageStartedShowsWebViewIfPopUpNotAvailable() {
+        webCheckoutView.onWebPageStarted(webCheckoutView.webView, "www.Google.com", null)
+        assertEquals(View.VISIBLE, webCheckoutView.webView.visibility)
     }
 
     @Test

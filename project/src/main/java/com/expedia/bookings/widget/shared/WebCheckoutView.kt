@@ -143,6 +143,12 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
         } else if (url.contains("CheckoutError")) {
             checkoutErrorState = true
         }
+        if (webViewPopUp == null) {
+            webView.visibility = View.VISIBLE
+        } else {
+            webView.visibility = View.GONE
+            webViewPopUp!!.visibility = View.VISIBLE
+        }
     }
 
     private fun shouldShowNativeConfirmation(url: String) =

@@ -51,6 +51,7 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
                 webView.clearHistory()
             } else if (!url.startsWith(endPointURL) && url.startsWith("http")) {
                 webViewPopUp?.visibility = View.VISIBLE
+                webViewPopUp?.loadUrl(url)
                 webView.visibility = View.GONE
             } else {
                 hideWebViewPopUp()
