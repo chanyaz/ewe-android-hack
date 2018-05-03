@@ -22,6 +22,7 @@ import com.expedia.bookings.extensions.safePrint
 import com.expedia.bookings.extensions.safePutInt
 import com.expedia.bookings.extensions.safePutString
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.features.Features
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingData
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingData
@@ -60,19 +61,32 @@ class FacebookEvents {
         private const val FB_ORIGIN_AIRPORT = "fb_origin_airport"
         private const val FB_DESTINATION_AIRPORT = "fb_destination_airport"
 
-        @JvmField var userStateManager: UserStateManager? = null
-        @JvmField var facebookLogger: AppEventsLogger? = null
+        @JvmField
+        var userStateManager: UserStateManager? = null
+        @JvmField
+        var facebookLogger: AppEventsLogger? = null
 
         @JvmStatic
         fun init(app: Application) {
-            if (ProductFlavorFeatureConfiguration.getInstance().isFacebookTrackingEnabled) {
+            if (isFacebookTrackingEnabled()) {
                 userStateManager = Ui.getApplication(app).appComponent().userStateManager()
                 facebookLogger = AppEventsLogger.newLogger(app)
                 AppEventsLogger.activateApp(app)
+            } else {
+                // null out the logger since it's a static field, it seems to survive when toggling the feature flag
+                facebookLogger = null
             }
         }
 
+        private fun isFacebookTrackingEnabled(): Boolean {
+            return Features.all.facebookAdTracking.enabled()
+                    && ProductFlavorFeatureConfiguration.getInstance().isFacebookTrackingEnabled
+        }
+
         private fun track(event: String, parameters: Bundle) {
+            if (!isFacebookTrackingEnabled()) {
+                return
+            }
             val keys = parameters.keySet()
 
             if (keys.size > 10) {
@@ -160,8 +174,9 @@ class FacebookEvents {
         parameters.safePutString(FB_PURCHASE_CURRENCY, hotelCheckoutResponse.currencyCode)
         parameters.safePutString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, hotelCheckoutResponse.checkoutResponse.productResponse.hotelId)
         parameters.safePutString(AppEventsConstants.EVENT_PARAM_CURRENCY, hotelCheckoutResponse.currencyCode)
-
-        facebookLogger?.logPurchase(BigDecimal(hotelCheckoutResponse.totalCharges), Currency.getInstance(hotelCheckoutResponse.currencyCode), parameters)
+        if (isFacebookTrackingEnabled()) {
+            facebookLogger?.logPurchase(BigDecimal(hotelCheckoutResponse.totalCharges), Currency.getInstance(hotelCheckoutResponse.currencyCode), parameters)
+        }
     }
 
     fun trackFlightV2Search(searchTrackingData: FlightSearchTrackingData) {
@@ -240,8 +255,9 @@ class FacebookEvents {
         parameters.safePutString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, airLineCode)
         parameters.safePutString(AppEventsConstants.EVENT_PARAM_CURRENCY, totalCharges?.currencyCode)
         parameters.safePutString(FB_PURCHASE_CURRENCY, totalCharges?.currencyCode)
-
-        facebookLogger?.logPurchase(totalCharges?.amount, Currency.getInstance(totalCharges?.currencyCode), parameters)
+        if (isFacebookTrackingEnabled()) {
+            facebookLogger?.logPurchase(totalCharges?.amount, Currency.getInstance(totalCharges?.currencyCode), parameters)
+        }
     }
 
     fun trackLXSearch(searchParams: LxSearchParams, lxSearchResponse: LXSearchResponse) {
@@ -298,7 +314,9 @@ class FacebookEvents {
         parameters.safePutString(BOOKING_VALUE, totalPrice.getAmount().toString())
         parameters.safePutInt(NUM_PEOPLE, ticketCount)
         parameters.safePutInt(NUM_CHILDREN, childTicketCount)
-        facebookLogger?.logPurchase(totalPrice.getAmount(), Currency.getInstance(totalPrice.currencyCode), parameters)
+        if (isFacebookTrackingEnabled()) {
+            facebookLogger?.logPurchase(totalPrice.getAmount(), Currency.getInstance(totalPrice.currencyCode), parameters)
+        }
     }
 
     private fun getBookingWindow(time: LocalDate?): Int {
