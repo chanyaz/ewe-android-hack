@@ -24,7 +24,8 @@ class HotelItinPricingSummaryViewModelTest {
     private val mockItinSingleRoom = ItinMocker.hotelDetailsHappy
     private val mockItinMultipleRoom = ItinMocker.hotelDetailsHappyMultipleRooms
     private val mockItinPosSameAsPosu = ItinMocker.hotelDetailsPosSameAsPoSu
-    private val mockItinPoints = ItinMocker.hotelDetailsPaidWithPointsPartial
+    private val mockItinPartialPoints = ItinMocker.hotelDetailsPaidWithPointsPartial
+    private val mockItinFullPoints = ItinMocker.hotelDetailsPaidWithPointsFull
     private val mockItinExpediaCollect = ItinMocker.hotelDetailsExpediaCollect
     private val mockHotelSingleRoom = mockItinSingleRoom.firstHotel()
     private val mockHotelMultipleRooms = mockItinMultipleRoom.firstHotel()
@@ -190,7 +191,7 @@ class HotelItinPricingSummaryViewModelTest {
         val feesViewModel = getViewModel()
         pointsItemObserver.assertEmpty()
 
-        feesViewModel.itinObserver.onChanged(mockItinPoints)
+        feesViewModel.itinObserver.onChanged(mockItinPartialPoints)
 
         pointsItemObserver.assertValueCount(1)
         val pointsItem = pointsItemObserver.values()
@@ -245,11 +246,27 @@ class HotelItinPricingSummaryViewModelTest {
         val feesViewModel = getViewModel()
         totalPriceObserver.assertEmpty()
 
-        feesViewModel.itinObserver.onChanged(mockItinPoints)
+        feesViewModel.itinObserver.onChanged(mockItinPartialPoints)
 
         totalPriceObserver.assertValueCount(1)
         val totalPriceItem = totalPriceObserver.values()
         assertEquals("$90.01", totalPriceItem[0].priceString)
+        assertEquals((R.string.itin_hotel_price_summary_total_amount_paid_label).toString(), totalPriceItem[0].labelString)
+        assertEquals(R.color.itin_price_summary_label_gray_dark, totalPriceItem[0].colorRes)
+        assertEquals(16.0f, totalPriceItem[0].textSize)
+        assertEquals(FontCache.Font.ROBOTO_MEDIUM, totalPriceItem[0].font)
+    }
+
+    @Test
+    fun testTotalPriceSubjectExpediaCollectFullPoints() {
+        val feesViewModel = getViewModel()
+        totalPriceObserver.assertEmpty()
+
+        feesViewModel.itinObserver.onChanged(mockItinFullPoints)
+
+        totalPriceObserver.assertValueCount(1)
+        val totalPriceItem = totalPriceObserver.values()
+        assertEquals("$0.00", totalPriceItem[0].priceString)
         assertEquals((R.string.itin_hotel_price_summary_total_amount_paid_label).toString(), totalPriceItem[0].labelString)
         assertEquals(R.color.itin_price_summary_label_gray_dark, totalPriceItem[0].colorRes)
         assertEquals(16.0f, totalPriceItem[0].textSize)

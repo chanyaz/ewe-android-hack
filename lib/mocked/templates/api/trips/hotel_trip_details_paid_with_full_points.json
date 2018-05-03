@@ -1,0 +1,484 @@
+{
+  "apiVersion": "1.0",
+  "responseType": "TRIP_DETAILS",
+  "responseData": {
+    "levelOfDetail": "FULL",
+    "tripId": "12e18f84-188f-4bee-869f-df7dabd420fd",
+    "webDetailsURL": "https://www.expedia.com/trips/7349065076869",
+    "itineraryReceiptURL": "https://www.expedia.com/itinerary-receipt?tripid=12e18f84-188f-4bee-869f-df7dabd420fd",
+    "tripNumber": 7349065076869,
+    "orderNumber": 8159502713885,
+    "title": "Hotel in Bangkok",
+    "updateTripNameDescPathURL": "https://www.expedia.com/api/trips/12e18f84-188f-4bee-869f-df7dabd420fd/updateTripNameDescription",
+    "startTime": {
+      "raw": "2018-05-12T15:00:00+07:00",
+      "localized": "May 12, 2018 3:00:00 PM",
+      "epochSeconds": 1526112000,
+      "timeZoneOffsetSeconds": 25200,
+      "localizedShortDate": "5/12/2018",
+      "localizedMediumDate": "May 12",
+      "localizedFullDate": "Sat, May 12",
+      "localizedLongDate": "May 12, 2018",
+      "localizedShortTime": "3:00pm"
+    },
+    "endTime": {
+      "raw": "2018-05-13T11:00:00+07:00",
+      "localized": "May 13, 2018 11:00:00 AM",
+      "epochSeconds": 1526184000,
+      "timeZoneOffsetSeconds": 25200,
+      "localizedShortDate": "5/13/2018",
+      "localizedMediumDate": "May 13",
+      "localizedFullDate": "Sun, May 13",
+      "localizedLongDate": "May 13, 2018",
+      "localizedShortTime": "11:00am"
+    },
+    "tripCreatedTime": {
+      "raw": "2018-04-30T18:35:36Z",
+      "localized": "Apr 30, 2018 6:35:36 PM",
+      "epochSeconds": 1525113336,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Mon, 30 Apr",
+      "localizedMediumDate": "Apr 30, 2018",
+      "localizedFullDate": "Monday, April 30, 2018",
+      "localizedLongDate": "April 30, 2018",
+      "localizedShortTime": "6:35 PM"
+    },
+    "tripUpdatedTime": {
+      "raw": "2018-05-02T21:55:42Z",
+      "localized": "May 2, 2018 9:55:42 PM",
+      "epochSeconds": 1525298142,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Wed, 2 May",
+      "localizedMediumDate": "May 2, 2018",
+      "localizedFullDate": "Wednesday, May 2, 2018",
+      "localizedLongDate": "May 2, 2018",
+      "localizedShortTime": "9:55 PM"
+    },
+    "tripCacheUpdatedTime": {
+      "raw": "2018-05-02T21:55:42Z",
+      "localized": "May 2, 2018 9:55:42 PM",
+      "epochSeconds": 1525298142,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Wed, 2 May",
+      "localizedMediumDate": "May 2, 2018",
+      "localizedFullDate": "Wednesday, May 2, 2018",
+      "localizedLongDate": "May 2, 2018",
+      "localizedShortTime": "9:55 PM"
+    },
+    "ownerId": 1198215898,
+    "bookingStatus": "BOOKED",
+    "rewardList": [
+      {
+        "totalPoints": 0,
+        "basePoints": 0,
+        "bonusPoints": [
+          {
+            "m_pointValue": 0,
+            "m_pointType": "offerPoint",
+            "m_pointDescription": "09152016_mobile_2x_purchase_bonus",
+            "m_status": "CANCELLED",
+            "m_programId": 3
+          }
+        ],
+        "logoUrl": "/static/default/default/images/myrewards/RewardsLogo_193x76.png",
+        "signUpUrl": "",
+        "viewStatementURL": "/user/rewards",
+        "programName": "ExpediaRewards"
+      }
+    ],
+    "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/CrjRtsG8lPO1EhFojR_Kf8CA0dxNmPiBPFWcl1G7RYb7L5JVi7cA0KDrAcqkmzR6IXg_djKCf3pC9IQ3j4XDvP_q",
+    "customerSupport": {
+      "customerSupportURL": "https://www.expedia.com/service/",
+      "customerSupportPhoneNumberDomestic": "+1-877-787-3117",
+      "customerSupportPhoneNumberInternational": "+1-877-787-3117",
+      "customerSupportPhoneInfoForEmail": [
+        "Call Expedia Rewards blue Customer Care at 1-877-787-3117.",
+        "For faster service, mention <strong>itinerary #7349065076869 </strong>"
+      ],
+      "termsAndConditionsURL": ""
+    },
+    "isBookedUsingForeignCurrency": false,
+    "hotels": [
+      {
+        "uniqueID": "DD2EDCBE-FB7C-4817-BD95-896775420102_0",
+        "hotelId": "8630621",
+        "checkInDateTime": {
+          "raw": "2018-05-12T15:00:00+07:00",
+          "localized": "May 12, 2018 3:00:00 PM",
+          "epochSeconds": 1526112000,
+          "timeZoneOffsetSeconds": 25200,
+          "localizedShortDate": "5/12/2018",
+          "localizedMediumDate": "May 12",
+          "localizedFullDate": "Sat, May 12",
+          "localizedLongDate": "May 12, 2018",
+          "localizedShortTime": "3:00pm"
+        },
+        "checkOutDateTime": {
+          "raw": "2018-05-13T11:00:00+07:00",
+          "localized": "May 13, 2018 11:00:00 AM",
+          "epochSeconds": 1526184000,
+          "timeZoneOffsetSeconds": 25200,
+          "localizedShortDate": "5/13/2018",
+          "localizedMediumDate": "May 13",
+          "localizedFullDate": "Sun, May 13",
+          "localizedLongDate": "May 13, 2018",
+          "localizedShortTime": "11:00am"
+        },
+        "checkInDate": "2018-05-12T15:00:00+07:00",
+        "checkOutDate": "2018-05-13T11:00:00+07:00",
+        "checkInDateLocalized": "May 12, 2018",
+        "checkOutDateLocalized": "May 13, 2018",
+        "numberOfNights": 1,
+        "bookingStatus": "BOOKED",
+        "bookingStatusText": "Confirmed",
+        "bookingStatusMessage": "We have confirmed your hotel reservation with the property.",
+        "bookedDate": "2018-04-30",
+        "inventoryType": "MERCHANT",
+        "inventoryTypeEnum": "MERCHANT",
+        "inventorySource": "INTERNAL",
+        "paymentModel": "EXPEDIA_COLLECT",
+        "inventoryVisibility": "VISIBLE",
+        "orderNumber": "8159502713885",
+        "state": "PRE_START_4",
+        "infositeURL": "https://www.expedia.com/itin.h8630621.Hotel-Information?langid=1033",
+        "reviewSubmissionURL": "https://www.expedia.com/ReviewSubmission?ItinId=7349065076869&htid=8630621&campaignId=ITINERARY_PAGE_LINK",
+        "hotelPropertyInfo": {
+          "address": {
+            "addressLine1": "Charansanitwong Soi 40, Bang Yi Khan",
+            "addressLine2": "Bang Phlat",
+            "city": "Bangkok",
+            "countrySubdivisionCode": "",
+            "postalCode": "10700",
+            "countryCode": "THA",
+            "countryName": " Thailand",
+            "fullAddress": "Charansanitwong Soi 40, Bang Yi Khan, Bangkok, 10700 Thailand",
+            "airportCode": "BKK"
+          },
+          "name": "The Overstay Hostel",
+          "starRating": "10",
+          "photoThumbnailURL": "/hotels/9000000/8640000/8630700/8630621/7bad7092_l.jpg",
+          "photoThumbnail500pixURL": "/hotels/9000000/8640000/8630700/8630621/7bad7092_y.jpg",
+          "photoThumbnail1000pixURL": "/hotels/9000000/8640000/8630700/8630621/7bad7092_z.jpg",
+          "localPhone": "+66-64-7234975",
+          "tollFreePhone": "66-64-7234975",
+          "formattedPhoneNumbers": "Tel: 66 (64) 7234975, Fax: 66 (2) 8834836",
+          "checkInPolicies": [],
+          "checkInStartTimePolicy": {},
+          "checkInEndTimePolicy": {},
+          "checkOutTimePolicy": {
+            "label": "Check-out time is",
+            "value": "noon"
+          },
+          "generalRules": [
+            "Check-out time is noon",
+            "No cribs (infant beds) available"
+          ],
+          "restrictionPolicies": [
+            "No elevators"
+          ],
+          "fees": [],
+          "mandatoryFees": [],
+          "specialCheckInInstructions": [],
+          "latitude": 13.775838,
+          "longitude": 100.483959,
+          "isVipAccess": false,
+          "googleMapsLink": "//maps.google.com/?q=10700+Bangkok%2C+Charansanitwong+Soi+40%2C+Bang+Yi+Khan+Bang+Phlat",
+          "regionId": "-1294278133"
+        },
+        "localizedHotelPropertyInfo": {
+          "address": {
+            "addressLine1": "ซ.จรัญสนิทวงศ์ 40 บางยี่ขัน",
+            "addressLine2": "บางพลัด",
+            "city": "กรุงเทพ",
+            "countrySubdivisionCode": "",
+            "postalCode": "10700",
+            "countryCode": "THA",
+            "countryName": "",
+            "fullAddress": "ซ.จรัญสนิทวงศ์ 40 บางยี่ขัน, กรุงเทพ, 10700"
+          },
+          "name": "ดิ โอเวอร์สเตย์ โฮสเทล",
+          "localizationLanguage": "Translate to Thai"
+        },
+        "totalPriceDetails": {
+          "primaryCurrencyCode": "USD",
+          "base": "3.85",
+          "baseFormatted": "$3.85",
+          "baseWithAdjustmentForDRRRateDiscount": "3.85",
+          "baseWithAdjustmentForDRRRateDiscountFormatted": "$3.85",
+          "drrRateDiscountDescription": "",
+          "subTotalBeforeCoupon": "3.85",
+          "subTotalBeforeCouponFormatted": "$3.85",
+          "taxStatus": "INCLUDED",
+          "total": "3.85",
+          "totalFormatted": "$3.85",
+          "chargedTotalFormatted": "$3.85",
+          "isCurrencyConversionEnabled": false,
+          "hasFees": false,
+          "expediaChangeFee": "0",
+          "expediaChangeFeeFormatted": "$0.00"
+        },
+        "rules": {
+          "cancelChangeWarning": "This reservation is non-refundable and cannot be cancelled or changed.",
+          "cancelChangeRulesIntroduction": "We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the property charges such fees in accordance with its own policies, the cost will be passed on to you. The Overstay Hostel charges the following cancellation and change fees.",
+          "cancelChangeRules": [
+            "<span class=\"rr-bold\">The room/unit type and rate selected are non-refundable.</span> Should you change or cancel this reservation for any reason, your payment will not be refunded.",
+            "No refunds will be issued for late check-in or early check-out.",
+            "Stay extensions require a new reservation."
+          ],
+          "cancellationWindowTime": {
+            "raw": "2018-04-01T03:00:00-07:00",
+            "localized": "Apr 1, 2018 3:00:00 AM",
+            "epochSeconds": 1522576800,
+            "timeZoneOffsetSeconds": -25200,
+            "localizedShortDate": "Sun, 1 Apr",
+            "localizedMediumDate": "Apr 1, 2018",
+            "localizedFullDate": "Sunday, April 1, 2018",
+            "localizedLongDate": "April 1, 2018",
+            "localizedShortTime": "3:00 AM"
+          },
+          "opaqueRules": [],
+          "opaquePolicies": [],
+          "lateArrivalInstructions": "Your room/unit will be guaranteed for late arrival.",
+          "loyaltyPointsDisclaimer": "Hotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate properties.",
+          "currencyDisclaimer": "Unless specified otherwise, <span class=\"rr-bold\">rates are quoted in </span><span class=\"rr-bold\" id=\"hotel_id-default-currency\">US dollars</span>.",
+          "extraGuestPolicies": [
+            "Availability of accommodation in the same property for extra guests is not guaranteed."
+          ],
+          "occupancyPolicies": [
+            "Base rate is for 1 guest.",
+            "This property considers guests of any age to be an adult."
+          ],
+          "paymentPolicies": [
+            "Your credit card is charged the total cost at time of purchase. Prices and room/unit availability are not guaranteed until full payment is received.",
+            "Some properties request that we wait to submit guest names until 7 days prior to check in. In such a case, your room/unit is reserved, but your name is not yet on file with the property."
+          ],
+          "roomRequestDisclaimer": "All special requests (such as in-room amenities, bed type, and smoking preference) are shared with the hotel, but requests are not guaranteed and may incur additional charges. We recommend you confirm them directly with the hotel before travel.",
+          "dualCurrencyText": "Rate quotes in USD are based on current exchange rates, which may vary at time of travel. Final payment will be settled in local currency directly with the hotel."
+        },
+        "rooms": [
+          {
+            "uniqueID": "DD2EDCBE-FB7C-4817-BD95-896775420102_0_1029925415",
+            "roomRatePlanDescription": "Dormitory ",
+            "roomTypeCode": "200728122",
+            "ratePlanCode": "203617429",
+            "bookingStatus": "BOOKED",
+            "bookingStatusEnum": "BOOKED",
+            "hotelConfirmationNumber": "15381098",
+            "drrRateDiscountDescription": "",
+            "orderLineNumber": "8191851d-7935-4a14-bcde-7d5b69b87c9b",
+            "refundabilityStatus": "NONREFUNDABLE_RATE",
+            "availableOnAllDates": true,
+            "roomChangeLink": "https://www.expedia.com/trips/12e18f84-188f-4bee-869f-df7dabd420fd/ordernumber/8159502713885/orderlinenumber/8191851d-7935-4a14-bcde-7d5b69b87c9b/change",
+            "roomChangeLinkForMobileWebView": "https://www.expedia.com/trips/12e18f84-188f-4bee-869f-df7dabd420fd/ordernumber/8159502713885/orderlinenumber/8191851d-7935-4a14-bcde-7d5b69b87c9b/change?blockHardChange=true&mobileWebView=true",
+            "totalPriceDetails": {
+              "primaryCurrencyCode": "USD",
+              "base": "3.85",
+              "baseFormatted": "$3.85",
+              "baseWithAdjustmentForDRRRateDiscount": "3.85",
+              "baseWithAdjustmentForDRRRateDiscountFormatted": "$3.85",
+              "subTotalBeforeCoupon": "3.85",
+              "subTotalBeforeCouponFormatted": "$3.85",
+              "total": "3.85",
+              "totalFormatted": "$3.85",
+              "chargedTotalFormatted": "$3.85",
+              "isCurrencyConversionEnabled": false,
+              "averagePricePerDay": "3.85",
+              "averagePricePerDayFormatted": "$3.85",
+              "priceDetailsPerDay": [
+                {
+                  "day": {
+                    "raw": "2018-05-12T15:00:00+07:00",
+                    "localized": "May 12, 2018 3:00:00 PM",
+                    "epochSeconds": 1526112000,
+                    "timeZoneOffsetSeconds": 25200,
+                    "localizedShortDate": "Sat, 12 May",
+                    "localizedMediumDate": "May 12, 2018",
+                    "localizedFullDate": "Saturday, May 12, 2018",
+                    "localizedLongDate": "May 12, 2018",
+                    "localizedShortTime": "3:00 PM"
+                  },
+                  "primaryCurrencyCode": "USD",
+                  "amount": "3.85",
+                  "amountFormatted": "$3.85",
+                  "localizedDay": {
+                    "raw": "2018-05-12T15:00:00+07:00",
+                    "localized": "May 12, 2018 3:00:00 PM",
+                    "epochSeconds": 1526112000,
+                    "timeZoneOffsetSeconds": 25200,
+                    "localizedShortDate": "5/12/2018",
+                    "localizedMediumDate": "May 12",
+                    "localizedFullDate": "Sat, May 12",
+                    "localizedLongDate": "May 12, 2018",
+                    "localizedShortTime": "3:00pm"
+                  }
+                }
+              ],
+              "isSameRateForAllNights": true,
+              "expediaChangeFee": "0",
+              "expediaChangeFeeFormatted": "$0.00"
+            },
+            "roomPreferences": {
+              "primaryOccupant": {
+                "firstName": "test",
+                "fullName": "test test",
+                "email": "test123@123.com",
+                "phone": "1-555-8885858"
+              },
+              "otherOccupantInfo": {
+                "adultCount": 1,
+                "childCount": 0,
+                "infantCount": 0,
+                "childAndInfantCount": 0,
+                "maxGuestCount": 0,
+                "childAndInfantAges": []
+              },
+              "occupantSelectedRoomOptions": {
+                "bedTypeName": "1 single bed",
+                "defaultBedTypeName": "1 single bed",
+                "smokingPreference": "NONSMOKING_ROOM",
+                "accessibilityOptions": [],
+                "hasExtraBedAdult": false,
+                "hasExtraBedChild": false,
+                "hasExtraBedInfant": false,
+                "isSmokingPreferenceSelected": true,
+                "isRoomOptionsAvailable": true
+              },
+              "availableRoomOptions": {
+                "bedTypes": [
+                  {
+                    "id": "37336",
+                    "description": "1 Twin Bed",
+                    "selected": false
+                  }
+                ],
+                "isNewBedTypes": true,
+                "isSmokingRoomAvailable": false,
+                "isNonSmokingRoomAvailable": true
+              }
+            },
+            "amenities": [
+              "Free Parking",
+              "Free Wireless Internet"
+            ],
+            "amenityIds": [
+              2109,
+              2192
+            ],
+            "nonPricePromotionData": {},
+            "hotelRatePlan": {
+              "m_type": 524288
+            }
+          }
+        ],
+        "isFreeCancellationAvailable": false,
+        "paymentsAndCreditFees": {
+          "paymentsHotelFeesAndDepositsDisclaimer": "The below fees and deposits only apply if they are not included in your selected room rate.",
+          "noFeesStaticText": "The price above DOES NOT include any applicable hotel service fees, charges for optional incidentals (such as minibar snacks or telephone calls), or regulatory surcharges. The hotel will assess these fees, charges, and surcharges upon check-out.",
+          "isDirectAgency": false,
+          "isGDS": false,
+          "isFullyCancelled": false,
+          "isAnyRoomCancelled": false,
+          "isDepositRequired": false,
+          "isPaymentsCreditsVisible": false
+        },
+        "showVATDisclaimer": false,
+        "action": {
+          "isChangeable": false,
+          "isCancellable": false
+        }
+      }
+    ],
+    "paymentDetails": {
+      "localisedTotalPriceForThisBooking": "$3.85",
+      "totalPriceForThisBooking": {
+        "amount": 3.85,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "totalRefundedPrice": {
+        "amount": 0.00,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "localisedTotalRealPriceRefunded": "$0.00",
+      "netPricePaidForThisBooking": {
+        "amount": 0.00,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "localizedNetPricePaidForThisBooking": "$0.00",
+      "priceByFormOfPayment": {
+        "Points": {
+          "paymentType": "Points",
+          "virtualPricePaidUsingThisPaymentType": {
+            "virtualCurrencyAmount": 538.0,
+            "virtualCurrencyCode": "EXRP",
+            "netWorthOfVirtualCurrency": {
+              "amount": 3.85,
+              "currency": {
+                "currencyCode": "USD"
+              }
+            },
+            "virtualCurrencyAmountLocalized": "538",
+            "netWorthOfVirtualCurrencyLocalized": "$3.85",
+            "virtualCurrencyRewardsProgramName": "Expedia Rewards",
+            "virtualCurrencyRewardsProgramURL": "https://www.expedia.com/user/rewards"
+          },
+          "virtualPriceRefundedToThisPaymentType": {
+            "virtualCurrencyAmount": 0.0,
+            "virtualCurrencyCode": "EXRP",
+            "netWorthOfVirtualCurrency": {
+              "amount": 0.00,
+              "currency": {
+                "currencyCode": "USD"
+              }
+            },
+            "virtualCurrencyAmountLocalized": "0",
+            "netWorthOfVirtualCurrencyLocalized": "$0.00",
+            "virtualCurrencyRewardsProgramName": "Expedia Rewards",
+            "virtualCurrencyRewardsProgramURL": "https://www.expedia.com/user/rewards"
+          },
+          "totalPaidPrice": {
+            "amount": 3.85,
+            "currency": {
+              "currencyCode": "USD"
+            }
+          },
+          "totalRefundedPrice": {
+            "amount": 0.00,
+            "currency": {
+              "currencyCode": "USD"
+            }
+          },
+          "localizedPaidPrice": "$3.85",
+          "localizedRefundedPrice": "$0.00"
+        }
+      }
+    },
+    "totalTripPrice": {
+      "currency": "USD",
+      "total": "3.85",
+      "totalFormatted": "$3.85",
+      "totalWithoutInsurance": "3.85",
+      "totalWithoutInsuranceFormatted": "$3.85"
+    },
+    "isCouponApplied": false,
+    "readTripError": false,
+    "tripSource": "expedia",
+    "clientId": "expweb-luna",
+    "zetaTrip": false,
+    "showCurrencyName": false,
+    "isMRP": false,
+    "tripDataSource": "LUNA",
+    "isTripUpgradable": false,
+    "email": {
+      "m_email": "test123@123.com"
+    },
+    "isRewardsPointsBooking": true,
+    "billPayMethod": "false",
+    "customerCareCustomerType": "Blue"
+  }
+}

@@ -29,6 +29,7 @@ data class Reward(
 )
 
 data class PaymentDetails(
+        val localizedNetPricePaidForThisBooking: String?,
         val priceByFormOfPayment: PriceByFormOfPayment?
 )
 
