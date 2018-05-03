@@ -22,7 +22,8 @@ class PackageApiError {
         //TODO to be removed, needs to be handled properly
         mid_could_not_find_results,
         mid_internal_server_error,
-        mid_fss_hotel_unavailable_for_red_eye_flight
+        mid_fss_hotel_unavailable_for_red_eye_flight,
+        mid_no_offers_post_filtering
     }
 
     val errorCode: Code = Code.pkg_unknown_error

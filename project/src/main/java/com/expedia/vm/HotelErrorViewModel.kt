@@ -26,7 +26,6 @@ class HotelErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
 
     // Handle different errors
     val searchErrorObservable = BehaviorSubject.create<Unit>()
-    val filterNoResultsObservable = BehaviorSubject.create<Unit>()
 
     val pinnedNotFoundToNearByHotelObservable = PublishSubject.create<Unit>()
 

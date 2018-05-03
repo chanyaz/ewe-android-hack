@@ -85,6 +85,13 @@ class MultiItemSearchResponseTests {
         assertEquals(ApiError.Code.UNKNOWN_ERROR, midResponse.roomResponseFirstErrorCode.errorCode)
     }
 
+    @Test
+    fun testNoResultsPostFilterError() {
+        val midResponse = mockMIDResponse(errors = arrayListOf(MultiItemError("description", "MIS_POST_PROCESS_ALL_OFFERS_FILTERED", ProductType.Bundle)))
+        assertNotNull(midResponse.firstError)
+        assertEquals(PackageApiError.Code.mid_no_offers_post_filtering, midResponse.firstError.errorCode)
+    }
+
     private fun mockMIDResponse(offers: List<MultiItemOffer> = emptyList(),
                                 hotels: Map<String, HotelOffer> = emptyMap(),
                                 flights: Map<String, FlightOffer> = emptyMap(),

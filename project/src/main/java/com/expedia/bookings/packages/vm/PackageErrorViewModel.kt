@@ -57,6 +57,9 @@ class PackageErrorViewModel(context: Context) : AbstractErrorViewModel(context) 
                     createTripUnknownErrorObservable.onNext(Unit)
                     PackagesTracking().trackCheckoutErrorRetry()
                 }
+                ApiError.Code.PACKAGE_HOTEL_NO_RESULTS_POST_FILTER -> {
+                    filterNoResultsObservable.onNext(Unit)
+                }
                 else -> {
                     defaultErrorObservable.onNext(Unit)
                     PackagesTracking().trackCheckoutErrorRetry()
@@ -113,6 +116,12 @@ class PackageErrorViewModel(context: Context) : AbstractErrorViewModel(context) 
                     imageObservable.onNext(R.drawable.error_default)
                     errorMessageObservable.onNext(context.getString(R.string.error_package_search_red_eye_flight_message))
                     buttonOneTextObservable.onNext(context.getString(R.string.retry))
+                }
+                PackageApiError.Code.mid_no_offers_post_filtering -> {
+                    error = ApiError(ApiError.Code.PACKAGE_HOTEL_NO_RESULTS_POST_FILTER)
+                    imageObservable.onNext(R.drawable.error_search)
+                    errorMessageObservable.onNext(context.getString(R.string.error_no_filter_result_message))
+                    buttonOneTextObservable.onNext(context.getString(R.string.reset_filter))
                 }
                 else -> {
                     couldNotConnectToServerError()

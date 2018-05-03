@@ -191,6 +191,9 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
                 searchPresenter.showDefault()
             }
         }
+        presenter.getViewModel().filterNoResultsObservable.subscribe() {
+            // TODO call and implement showUnfilteredResults()
+        }
 
         hotelOffersErrorObservable.subscribe(presenter.getViewModel().hotelOffersApiErrorObserver)
         presenter.getViewModel().checkoutUnknownErrorObservable.subscribe {

@@ -41,6 +41,7 @@ class PackageErrorViewModelTest {
         observableEmissionsOnSearchError(PackageApiError.Code.pkg_piid_expired)
         observableEmissionsOnSearchError(PackageApiError.Code.pkg_pss_downstream_service_timeout)
         observableEmissionsOnSearchError(PackageApiError.Code.mid_fss_hotel_unavailable_for_red_eye_flight)
+        observableEmissionsOnSearchError(PackageApiError.Code.mid_no_offers_post_filtering)
     }
 
     private fun getSearchAPIErrorDetails(errorCode: PackageApiError.Code): Pair<PackageApiError.Code, ApiCallFailing> {
@@ -65,6 +66,7 @@ class PackageErrorViewModelTest {
             PackageApiError.Code.mid_fss_hotel_unavailable_for_red_eye_flight -> RuntimeEnvironment.application.getString(R.string.error_package_search_red_eye_flight_message)
             PackageApiError.Code.pkg_destination_resolution_failed -> "Sorry, we could not resolve the entered destination for $destinationShortName. Please retry."
             PackageApiError.Code.pkg_origin_resolution_failed -> "Sorry, we could not resolve the entered origin for $originShortName. Please retry."
+            PackageApiError.Code.mid_no_offers_post_filtering -> RuntimeEnvironment.application.getString(R.string.error_no_filter_result_message)
             else -> RuntimeEnvironment.application.getString(R.string.error_package_search_message)
         }
 

@@ -154,6 +154,8 @@ data class MultiItemApiSearchResponse(
                 errorCode = PackageApiError.Code.pkg_destination_resolution_failed
             } else if (errorKey == "FSS_HOTEL_UNAVAILABLE_FOR_RED_EYE_FLIGHT") {
                 errorCode = PackageApiError.Code.mid_fss_hotel_unavailable_for_red_eye_flight
+            } else if (errorKey == "MIS_POST_PROCESS_ALL_OFFERS_FILTERED") {
+                errorCode = PackageApiError.Code.mid_no_offers_post_filtering
             } else {
                 errorCode = PackageApiError.Code.mid_internal_server_error
             }
