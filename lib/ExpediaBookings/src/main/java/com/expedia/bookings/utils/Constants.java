@@ -118,6 +118,15 @@ public class Constants {
 	public static final String CARNIVAL_MESSAGE_DATA = "carnival_message";
 	public static final String CARNIVAL_IN_APP_BUTTON1_LABEL = "showButtonTitle";
 	public static final String CARNIVAL_IN_APP_BUTTON2_LABEL = "cancelButtonTitle";
+	public static final String CARNIVAL_TITLE = "dealTitle";
+	public static final String CARNIVAL_DEAL_INSTRUCTIONS = "dealInstructions";
+	public static final String CARNIVAL_PROMO_CODE_TEXT = "codeText";
+	public static final String CARNIVAL_DETAILS_TITLE = "detailsTitle";
+	public static final String CARNIVAL_DETAILS_DESCRIPTION = "detailsDescription";
+	public static final String CARNIVAL_TERMS_TITLE = "termsTitle";
+	public static final String CARNIVAL_TERMS_DESCRIPTION = "termsDescription";
+	public static final String CARNIVAL_SHOP_BUTTON_TITLE = "shopButtonTitle";
+	public static final String CARNIVAL_DEEPLINK = "deeplink";
 
 	public static final int DEFAULT_MAX_OFFER_COUNT = 1600;
 	public static final int BYOT_MAX_OFFER_COUNT = 6400;
