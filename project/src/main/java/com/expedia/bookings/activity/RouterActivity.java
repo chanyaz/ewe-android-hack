@@ -129,11 +129,11 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 
 		startupTimer.addSplit("ItineraryManager sync");
 
-		//Hi Facebook!
-		facebookInstallTracking();
-
-		startupTimer.addSplit("Facebook install tracking");
-
+		if (isFacebookTrackingEnabled()) {
+			//Hi Facebook!
+			facebookInstallTracking();
+			startupTimer.addSplit("Facebook install tracking");
+		}
 		cleanupOldCookies();
 		cleanupOldSuggestions();
 
@@ -380,6 +380,10 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 	@VisibleForTesting
 	protected void facebookInstallTracking() {
 		AppEventsLogger.activateApp(this);
+	}
+
+	private boolean isFacebookTrackingEnabled() {
+		return Features.Companion.getAll().getFacebookAdTracking().enabled();
 	}
 
 	private static final String COOKIE_FILE_V2 = "cookies-2.dat";

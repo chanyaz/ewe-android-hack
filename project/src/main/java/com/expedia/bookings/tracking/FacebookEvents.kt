@@ -22,6 +22,7 @@ import com.expedia.bookings.extensions.safePrint
 import com.expedia.bookings.extensions.safePutInt
 import com.expedia.bookings.extensions.safePutString
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.features.Features
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingData
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingData
@@ -60,16 +61,23 @@ class FacebookEvents {
         private const val FB_ORIGIN_AIRPORT = "fb_origin_airport"
         private const val FB_DESTINATION_AIRPORT = "fb_destination_airport"
 
-        @JvmField var userStateManager: UserStateManager? = null
-        @JvmField var facebookLogger: AppEventsLogger? = null
+        @JvmField
+        var userStateManager: UserStateManager? = null
+        @JvmField
+        var facebookLogger: AppEventsLogger? = null
 
         @JvmStatic
         fun init(app: Application) {
-            if (ProductFlavorFeatureConfiguration.getInstance().isFacebookTrackingEnabled) {
+            if (isFacebookTrackingEnabled()) {
                 userStateManager = Ui.getApplication(app).appComponent().userStateManager()
                 facebookLogger = AppEventsLogger.newLogger(app)
                 AppEventsLogger.activateApp(app)
             }
+        }
+
+        private fun isFacebookTrackingEnabled(): Boolean {
+            return Features.all.facebookAdTracking.enabled()
+                    && ProductFlavorFeatureConfiguration.getInstance().isFacebookTrackingEnabled
         }
 
         private fun track(event: String, parameters: Bundle) {
