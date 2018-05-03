@@ -89,7 +89,7 @@ subprojects {
     }
 
     tasks.withType(Test) {
-        maxParallelForks = 2
+        maxParallelForks = 4
         testLogging {
             def buildNumber = "${System.env.BUILD_NUMBER}"
             def verboseLogging = buildNumber != null && !buildNumber.isEmpty() && buildNumber != "null"
