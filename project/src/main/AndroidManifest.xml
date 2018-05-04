@@ -111,8 +111,6 @@
 
         <!-- Phone New launch -->
 
-        <activity android:name=".activity.MockLocationActivity"/>
-
         <activity
             android:name="com.expedia.bookings.launch.activity.PhoneLaunchActivity"
             android:launchMode="singleTop"

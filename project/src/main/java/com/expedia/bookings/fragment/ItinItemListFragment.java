@@ -28,7 +28,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
-import com.expedia.bookings.activity.MockLocationActivity;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
@@ -53,7 +52,6 @@ import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
 import com.expedia.bookings.widget.itin.ItinListView;
 import com.expedia.util.PermissionsUtils;
 import com.expedia.vm.UserReviewDialogViewModel;
-import com.google.android.gms.location.LocationServices;
 import com.mobiata.android.app.SimpleDialogFragment;
 
 import io.reactivex.functions.Consumer;
@@ -243,14 +241,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 		mOrEnterNumberTv.setVisibility(View.VISIBLE);
 		mFindItineraryButton.setVisibility(View.GONE);
-
-		Ui.findView(view, R.id.add_geofences_button).setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(getActivity(), MockLocationActivity.class);
-				startActivity(intent);
-			}
-		});
 
 		return view;
 	}
