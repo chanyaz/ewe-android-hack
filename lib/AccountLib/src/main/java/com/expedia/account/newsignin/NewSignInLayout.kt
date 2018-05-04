@@ -9,7 +9,7 @@ import android.widget.FrameLayout
 import com.expedia.account.R
 import com.expedia.account.input.InputValidator
 import com.expedia.account.input.rules.ExpediaEmailInputRule
-import com.expedia.account.input.rules.ExpediaPasswordInputRule
+import com.expedia.account.input.rules.ExpediaPasswordSignInInputRule
 import com.expedia.account.singlepage.SinglePageInputTextPresenter
 import com.expedia.account.util.CombiningFakeObservable
 import com.expedia.account.util.Events
@@ -51,7 +51,7 @@ class NewSignInLayout(context: Context, attributeSet: AttributeSet) : FrameLayou
     override fun onFinishInflate() {
         super.onFinishInflate()
         emailInput.setValidator(object : InputValidator(ExpediaEmailInputRule()) {})
-        passwordInput.setValidator(object : InputValidator(ExpediaPasswordInputRule()) {})
+        passwordInput.setValidator(object : InputValidator(ExpediaPasswordSignInInputRule()) {})
         passwordInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 passwordInput.doneCheck()

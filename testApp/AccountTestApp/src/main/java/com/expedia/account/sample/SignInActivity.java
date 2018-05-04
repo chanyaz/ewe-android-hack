@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.expedia.account.AccountService;
 import com.expedia.account.AccountSignInListener;
 import com.expedia.account.Config;
+import com.expedia.account.NewAccountView;
 import com.expedia.account.PanningImageView;
 import com.mobiata.android.Log;
 
@@ -87,6 +88,7 @@ public class SignInActivity extends FragmentActivity {
 	private DialogInterface.OnClickListener signupPathListener = new DialogInterface.OnClickListener() {
 		public void onClick(DialogInterface dialog, int which) {
 			if (getResources().getStringArray(R.array.signuppath)[which].equals("New Account Page")) {
+				config.setInitialTab(NewAccountView.AccountTab.SIGN_IN);
 				newAccountView.setVisibility(View.VISIBLE);
 				getWindow().setStatusBarColor(getResources().getColor(R.color.brand_primary_dark));
 
