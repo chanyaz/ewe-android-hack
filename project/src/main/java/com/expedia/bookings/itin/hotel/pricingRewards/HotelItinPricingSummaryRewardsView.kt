@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
 import com.expedia.bookings.R
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
@@ -19,7 +20,10 @@ class HotelItinPricingSummaryRewardsView(context: Context?, attrs: AttributeSet?
 
     var viewModel: IHotelPricingRewardsViewModel by notNullAndObservable {
         it.logoSubject.subscribe {
-            //Picasso.with(context).load(it).into(rewardsLogoView)
+            val endpointProvider = Ui.getApplication(context).appComponent().endpointProvider()
+            val endPoint = endpointProvider.e3EndpointUrl.removeSuffix("/")
+            Picasso.with(context).load(endPoint.plus(it)).into(rewardsLogoView)
+            rewardsLogoView.visibility = View.VISIBLE
         }
 
         it.earnedPointsSubject.subscribe {

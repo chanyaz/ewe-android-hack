@@ -11,6 +11,7 @@
         android:id="@+id/hotel_itin_pricing_rewards_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
         android:visibility="gone"
         tools:visibility="visible" />
 
