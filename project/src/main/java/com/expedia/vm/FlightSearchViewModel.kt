@@ -1,6 +1,7 @@
 package com.expedia.vm
 
 import android.content.Context
+import android.support.annotation.VisibleForTesting
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
@@ -27,6 +28,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isFlightGreedySearchEnabled
 import com.expedia.bookings.utils.isHolidayCalendarEnabled
 import com.expedia.bookings.utils.isRecentSearchesForFlightsEnabled
+import com.expedia.bookings.utils.toListOfDates
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.ui.FlightActivity
 import com.expedia.util.FlightCalendarRules
@@ -48,10 +50,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     override fun getCalendarRules(): CalendarRules {
         return if (isRoundTripSearchObservable.value) roundTripRules else oneWayRules
     }
-    val holidayCalendarService: HolidayCalendarService by lazy {
-        Ui.getApplication(context).flightComponent().holidayCalendarService()
-    }
-
+    lateinit var holidayCalendarService: HolidayCalendarService
     lateinit var travelerValidator: TravelerValidator
         @Inject set
 
@@ -157,6 +156,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         Ui.getApplication(context).travelerComponent().inject(this)
 
         if (isHolidayCalendarEnabled(context)) {
+            holidayCalendarService = Ui.getApplication(context).flightComponent().holidayCalendarService()
             getHolidayInfo()
         }
 
@@ -250,7 +250,8 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         }
     }
 
-    private fun getHolidayInfo() {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun getHolidayInfo() {
         val twoLetterCountryCode = PointOfSale.getPointOfSale().twoLetterCountryCode.toUpperCase()
         val langId = PointOfSale.getPointOfSale().localeIdentifier
         holidayCalendarService.getHoliday(twoLetterCountryCode, langId, makeHolidayCalendarInfoObserver())
@@ -460,11 +461,11 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     private fun makeHolidayCalendarInfoObserver(): Observer<HolidayCalendarResponse> {
         return object : DisposableObserver<HolidayCalendarResponse>() {
             override fun onNext(response: HolidayCalendarResponse) {
-                //Will consume response in next PR
+                holidayCalendarDateList = response.toListOfDates()
             }
 
             override fun onError(e: Throwable) {
-                //Will consume response in next PR
+                //do nothing
             }
 
             override fun onComplete() {

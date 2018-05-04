@@ -21,6 +21,7 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
@@ -76,7 +77,7 @@ public class MonthView extends View {
 	private static final int SELECTION_SHADE_ALPHA = 30;
 
 	// The percentage of a cell that the selection should take up
-	private static final float SELECTION_PERCENT = .8f;
+	private static final float SELECTION_PERCENT = .9f;
 
 	private static final int ROWS = 6;
 	private static final int COLS = 7;
@@ -97,6 +98,8 @@ public class MonthView extends View {
 	private Paint mSelectionWeekStrokePaint;
 	private Paint mSelectionWeekFillPaint;
 	private Paint mSelectionDayFillPaint;
+	private Paint dotFillPaintOnSelectableDate;
+	private Paint dotFillPaintOnDisabledDate;
 
 	// Touch events
 	private GestureDetectorCompat mDetector;
@@ -136,10 +139,12 @@ public class MonthView extends View {
 	private float startCenterY = 0;
 	private float endCenterX = 0;
 	private float endCenterY = 0;
+	private float dotCenterX = 0;
+	private float dotCenterY = 0;
 	private RectF drawRect;
 	private Paint first;
 	private Paint second;
-
+	
 	public MonthView(Context context) {
 		this(context, null);
 	}
@@ -176,7 +181,11 @@ public class MonthView extends View {
 		mSelectionWeekStrokePaint.setStrokeCap(Cap.ROUND);
 
 		mSelectionWeekFillPaint = new Paint(mSelectionDayStrokePaint);
+		dotFillPaintOnSelectableDate = new Paint(mSelectionWeekStrokePaint);
+		dotFillPaintOnDisabledDate = new Paint(mSelectionWeekStrokePaint);
 		mSelectionWeekFillPaint.setStyle(Style.FILL);
+		dotFillPaintOnSelectableDate.setStyle(Style.FILL);
+		dotFillPaintOnDisabledDate.setStyle(Style.FILL);
 
 		mSelectionDayFillPaint = new Paint();
 		mSelectionDayFillPaint.setAntiAlias(true);
@@ -355,7 +364,6 @@ public class MonthView extends View {
 						endCell[0] = week;
 						endCell[1] = dayOfWeek;
 					}
-
 				}
 			}
 
@@ -454,6 +462,7 @@ public class MonthView extends View {
 				canvas.drawCircle(startCenterX, startCenterY, mCircleRadius, mSelectionDayFillPaint);
 				canvas.drawCircle(startCenterX, startCenterY, mCircleRadius, mSelectionDayStrokePaint);
 			}
+
 			if (endCenterX != 0 && endCenterY != 0) {
 				canvas.drawCircle(endCenterX, endCenterY, mCircleRadius, mSelectionDayFillPaint);
 				canvas.drawCircle(endCenterX, endCenterY, mCircleRadius, mSelectionDayStrokePaint);
@@ -475,12 +484,14 @@ public class MonthView extends View {
 		LocalDate lastDayOfMonth = monthInterval.getEnd().toLocalDate().minusDays(1); // monthInterval.getEnd() actually returns the first of the next month
 		boolean lookForToday = monthInterval.contains(today.toDateTimeAtStartOfDay());
 		TextPaint paint;
+		Paint dotPaint;
 		for (int week = 0; week < numRowsToDraw; week++) {
 			for (int dayOfWeek = 0; dayOfWeek < COLS; dayOfWeek++) {
 				LocalDate date = mDaysVisible[week][dayOfWeek];
 
 				float centerX = mColCenters[dayOfWeek];
 				float centerY = mRowCenters[week];
+				boolean equalsDottedDate = mState.shouldDateBeDotted(date);
 
 				if (datesAreEqual && (date.isEqual(startDate) || date.isEqual(endDate)) && !mState.isSingleDateMode()) {
 					paint = mTextEqualDatesPaint;
@@ -502,6 +513,13 @@ public class MonthView extends View {
 				else {
 					paint = mTextPaint;
 				}
+				//check if we need to draw the dot over date
+				if (equalsDottedDate) {
+					dotCenterX = mColCenters[dayOfWeek];
+					dotCenterY = getDotCoordinateY(mRowCenters[week]);
+					dotPaint = isDateDisabled(today, date)? dotFillPaintOnDisabledDate : dotFillPaintOnSelectableDate;
+					canvas.drawCircle(dotCenterX, dotCenterY, getDotRadius(mCircleRadius), dotPaint);
+				}
 
 				canvas.drawText(Integer.toString(date.getDayOfMonth()), centerX, centerY + mTextOffset, paint);
 
@@ -513,6 +531,10 @@ public class MonthView extends View {
 		if (mDrawTimes % PROFILE_DRAW_STEP == 0) {
 			Log.d("MonthView.onDraw() avg draw time: " + (mTotalDrawTime / (mDrawTimes * 1000)) + " ns");
 		}
+	}
+
+	private Boolean isDateDisabled(LocalDate today, LocalDate date) {
+		return today.isAfter(date);
 	}
 
 	private RectF getNextHighlightRect() {
@@ -539,6 +561,21 @@ public class MonthView extends View {
 
 	public void setTextEqualDatesColor(int color) {
 		mTextEqualDatesPaint.setColor(color);
+	}
+
+	private float getDotCoordinateY(float rowCenter) {
+		return rowCenter - mCellHeight/4;
+	}
+
+	private float getDotRadius(float circleRadius) {
+		return circleRadius/7;
+	}
+
+	public void setDotColor(@ColorInt int dotSelectableDateColor, @ColorInt int dotDisabledDateColor) {
+		dotFillPaintOnSelectableDate.setColor(dotSelectableDateColor);
+		dotFillPaintOnSelectableDate.setAlpha(255);
+		dotFillPaintOnDisabledDate.setColor(dotDisabledDateColor);
+		dotFillPaintOnDisabledDate.setAlpha(255);
 	}
 
 	/**

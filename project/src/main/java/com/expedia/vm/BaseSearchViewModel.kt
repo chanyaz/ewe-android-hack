@@ -36,7 +36,7 @@ abstract class BaseSearchViewModel(val context: Context) {
     val travelersObservable = BehaviorSubject.create<TravelerParams>()
     val errorOriginSameAsDestinationObservable = PublishSubject.create<String>()
     val hasValidDatesObservable = PublishSubject.create<Boolean>()
-
+    var holidayCalendarDateList = emptyList<LocalDate>()
     val formattedOriginObservable = PublishSubject.create<String>()
     val formattedDestinationObservable = PublishSubject.create<String>()
 

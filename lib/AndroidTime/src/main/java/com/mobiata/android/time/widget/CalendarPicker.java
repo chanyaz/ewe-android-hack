@@ -1,5 +1,8 @@
 package com.mobiata.android.time.widget;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.joda.time.Weeks;
@@ -44,6 +47,8 @@ import com.mobiata.android.graphics.CaretDrawable.Direction;
 import com.mobiata.android.time.R;
 import com.mobiata.android.time.util.JodaUtils;
 import com.mobiata.android.util.Ui;
+
+import static java.util.Collections.emptyList;
 
 /**
  * A calendar date picker.
@@ -267,6 +272,7 @@ public class CalendarPicker extends LinearLayout {
 		mMonthView.setHighlightColor(mHighlightColor);
 		mMonthView.setHighlightInverseColor(mHighlightInverseColor);
 		mMonthView.setSelectionDayColor(mSelectionDayFillColor);
+		mMonthView.setDotColor(mTodayColor, mInvalidColor);
 		mMonthView.setSelectionWeekHighlightColor(mSelectionWeekHighlightColor);
 		mMonthView.setTodayColor(mTodayColor);
 		mMonthView.setInvalidDayColor(mInvalidColor);
@@ -419,6 +425,10 @@ public class CalendarPicker extends LinearLayout {
 	 */
 	public void setSelectableDateRange(LocalDate minDate, LocalDate maxDate) {
 		mState.setSelectableDateRange(minDate, maxDate);
+	}
+
+	public void setDottedDatesList(List<LocalDate> dottedDatesList) {
+		mState.setDottedDatesList(dottedDatesList);
 	}
 
 	public void setMaxSelectableDateRange(int numDays) {
@@ -752,6 +762,7 @@ public class CalendarPicker extends LinearLayout {
 
 		private LocalDate mMinSelectableDate;
 		private LocalDate mMaxSelectableDate;
+		private List<LocalDate> dottedDatesList = emptyList();
 
 		private int mMaxSelectableDateRange;
 
@@ -807,6 +818,16 @@ public class CalendarPicker extends LinearLayout {
 				mMaxSelectableDate = maxDate;
 				validateAndSyncState();
 			}
+		}
+
+		public void setDottedDatesList(List<LocalDate> dottedDatesList) {
+			if (dottedDatesList != null) {
+				this.dottedDatesList = dottedDatesList;
+			}
+		}
+
+		public boolean shouldDateBeDotted(LocalDate localDate) {
+			return dottedDatesList.contains(localDate);
 		}
 
 		/**
