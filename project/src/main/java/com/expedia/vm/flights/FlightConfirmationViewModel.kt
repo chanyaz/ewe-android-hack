@@ -21,7 +21,6 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.HMACUtil
 import com.expedia.bookings.utils.RewardsUtil
 import com.expedia.bookings.utils.StrUtils
-import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.isKrazyglueOnFlightsConfirmationEnabled
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.util.Optional
@@ -76,14 +75,11 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
         }
 
         setRewardsPoints.subscribe { points ->
-            points.value?.let {
+            val rewardsPoints = points.value ?: "0"
                 if (userStateManager.isUserAuthenticated() && PointOfSale.getPointOfSale().shouldShowRewards()) {
-                    val rewardPointText = RewardsUtil.buildRewardText(context, it, ProductFlavorFeatureConfiguration.getInstance(), isFlights = true)
-                    if (Strings.isNotEmpty(rewardPointText)) {
-                        rewardPointsObservable.onNext(rewardPointText)
-                    }
+                    val rewardsPointsText = RewardsUtil.buildRewardText(context, rewardsPoints, ProductFlavorFeatureConfiguration.getInstance(), isFlights = true)
+                    rewardPointsObservable.onNext(rewardsPointsText)
                 }
-            }
         }
     }
 

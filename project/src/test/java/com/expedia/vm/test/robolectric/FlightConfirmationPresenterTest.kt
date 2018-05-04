@@ -4,6 +4,7 @@ import android.graphics.drawable.ColorDrawable
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.View.VISIBLE
 import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.R
@@ -35,6 +36,7 @@ import com.expedia.bookings.utils.isKrazyglueOnFlightsConfirmationEnabled
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.Optional
 import com.expedia.vm.flights.FlightConfirmationViewModel
+import io.reactivex.observers.TestObserver
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -121,6 +123,32 @@ class FlightConfirmationPresenterTest {
         assertEquals(VISIBLE, tripTotalText.visibility)
         assertEquals((activity.getDrawable(R.color.flights_confirmation_itin_bar_color) as ColorDrawable).color,
                 (presenter.itinNumber.background as ColorDrawable).color)
+    }
+
+    @Test
+    fun testRewardsPointsGoneWithUpdatedZeroPoints() {
+        setupPresenter()
+        val testRewardsObserver = TestObserver.create<String>()
+        presenter.viewModel.rewardPointsObservable.subscribe(testRewardsObserver)
+        givenCheckoutResponse()
+
+        testRewardsObserver.assertValue("999 points earned")
+        presenter.viewModel.setRewardsPoints.onNext(Optional("0"))
+
+        assertEmptyRewardsPoints(testRewardsObserver)
+    }
+
+    @Test
+    fun testRewardsPointsGoneWithUpdatedNullPoints() {
+        setupPresenter()
+        val testRewardsObserver = TestObserver.create<String>()
+        presenter.viewModel.rewardPointsObservable.subscribe(testRewardsObserver)
+        givenCheckoutResponse()
+
+        testRewardsObserver.assertValue("999 points earned")
+        presenter.viewModel.setRewardsPoints.onNext(Optional(null))
+
+        assertEmptyRewardsPoints(testRewardsObserver)
     }
 
     @Test
@@ -438,5 +466,11 @@ class FlightConfirmationPresenterTest {
         else FlightSearchParams(SuggestionV4(), SuggestionV4(), LocalDate(), null, 5,
                 ArrayList(), false, "", 5, "", true, true, "", null)
         Db.setFlightSearchParams(flightSearch)
+    }
+
+    private fun assertEmptyRewardsPoints(testRewardsObserver: TestObserver<String>) {
+        testRewardsObserver.assertValueCount(2)
+        testRewardsObserver.assertValueAt(1, "")
+        assertEquals(GONE, presenter.flightSummary.pointsEarned.visibility)
     }
 }

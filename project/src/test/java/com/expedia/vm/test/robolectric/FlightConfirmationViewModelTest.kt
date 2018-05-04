@@ -185,7 +185,7 @@ class FlightConfirmationViewModelTest {
         vm.rewardPointsObservable.subscribe(expediaPointsSubscriber)
         vm.setRewardsPoints.onNext(Optional(userPoints))
 
-        expediaPointsSubscriber.assertValueCount(0)
+        expediaPointsSubscriber.assertValue("")
     }
 
     @Test
@@ -198,7 +198,7 @@ class FlightConfirmationViewModelTest {
         vm.rewardPointsObservable.subscribe(expediaPointsSubscriber)
         vm.setRewardsPoints.onNext(Optional(userPoints))
 
-        expediaPointsSubscriber.assertValueCount(0)
+        expediaPointsSubscriber.assertValue("")
     }
 
     @Test
