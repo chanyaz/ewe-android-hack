@@ -11,6 +11,7 @@ import com.expedia.bookings.itin.common.ItinToolbar
 import com.expedia.bookings.itin.common.ItinViewReceiptWidget
 import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepo
 import com.expedia.bookings.itin.scopes.HotelItinPricingSummaryScope
+import com.expedia.bookings.itin.scopes.HotelItinRewardsScope
 import com.expedia.bookings.itin.scopes.HotelItinToolbarScope
 import com.expedia.bookings.itin.scopes.HotelItinViewReceiptScope
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
@@ -18,6 +19,7 @@ import com.expedia.bookings.itin.utils.IWebViewLauncher
 import com.expedia.bookings.itin.utils.Intentable
 import com.expedia.bookings.itin.utils.StringSource
 import com.expedia.bookings.itin.utils.WebViewLauncher
+import com.expedia.bookings.server.EndpointProvider
 import com.expedia.bookings.tracking.ITripsTracking
 import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.Ui
@@ -44,6 +46,7 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
     lateinit var jsonUtil: IJsonToItinUtil
     lateinit var hotelRepo: ItinHotelRepo
     lateinit var stringProvider: StringSource
+    lateinit var endpointProvider: EndpointProvider
 
     var toolbarViewModel: HotelItinPricingRewardsToolbarViewModel<HotelItinToolbarScope> by notNullAndObservable { vm ->
         vm.navigationBackPressedSubject.subscribe {
@@ -51,7 +54,7 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
         }
     }
     lateinit var summaryViewModel: HotelItinPricingSummaryViewModel<HotelItinPricingSummaryScope>
-    lateinit var rewardsViewModel: HotelItinPricingSummaryRewardsViewModel<HotelItinPricingSummaryScope>
+    lateinit var rewardsViewModel: HotelItinPricingSummaryRewardsViewModel<HotelItinRewardsScope>
 
     val itineraryManager: ItineraryManager = ItineraryManager.getInstance()
     val tripsTracking: ITripsTracking = TripsTracking
@@ -65,6 +68,7 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
         stringProvider = Ui.getApplication(this).appComponent().stringProvider()
         jsonUtil = Ui.getApplication(this).tripComponent().jsonUtilProvider()
         hotelRepo = ItinHotelRepo(intent.getStringExtra(ID_EXTRA), jsonUtil, itineraryManager.syncFinishObservable)
+        endpointProvider = Ui.getApplication(this).appComponent().endpointProvider()
 
         val toolbarScope = HotelItinToolbarScope(stringProvider, hotelRepo, this)
         toolbarViewModel = HotelItinPricingRewardsToolbarViewModel(toolbarScope)
@@ -78,7 +82,8 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
         val viewReceiptViewModel = HotelItinViewReceiptViewModel(viewReceiptScope)
         receiptButton.viewModel = viewReceiptViewModel
 
-        rewardsViewModel = HotelItinPricingSummaryRewardsViewModel(summaryScope)
+        val rewardsScope = HotelItinRewardsScope(stringProvider, hotelRepo, this, tripsTracking, webViewLauncher, endpointProvider)
+        rewardsViewModel = HotelItinPricingSummaryRewardsViewModel(rewardsScope)
         rewardsView.viewModel = rewardsViewModel
 
         hotelRepo.liveDataInvalidItin.observe(this, LiveDataObserver {

@@ -1425,6 +1425,8 @@
     <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">{amount} total due at hotel</string>
     <!--Hotel itin card price summary rewards section title text-->
     <string name="itin_hotel_details_price_summary_rewards_title">Rewards</string>
+    <!--Hotel itin card price summary rewards section view rewards button text-->
+    <string name="itin_hotel_details_price_summary_rewards_button">See all your rewards</string>
     <!--Hotel itin card price summary rewards section earned points template. You earned {points} {program} points (eg., You earned 177 Expedia Rewards points)-->
     <string name="itin_hotel_details_price_summary_rewards_earned_points_TEMPLATE">You earned {points} {program} points</string>
     <!--Hotel itin card price summary rewards section base points template. {points} base points for this trip (eg., 48 base points for this trip)-->
