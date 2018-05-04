@@ -14,7 +14,7 @@ class MockTripsTracking : ITripsTracking {
     var trackHotelItinPricingRewardsClicked = false
     var trackTripListVisited = false
     var trackTripFolderAbTest = false
-
+    var trackHotelTaxiClick = false
     override fun trackHotelItinPricingRewardsClick() {
         trackHotelItinPricingRewardsClicked = true
     }
@@ -29,5 +29,9 @@ class MockTripsTracking : ITripsTracking {
 
     override fun trackTripFolderAbTest() {
         trackTripFolderAbTest = true
+    }
+
+    override fun trackHotelTaxiCardClick() {
+        trackHotelTaxiClick = true
     }
 }

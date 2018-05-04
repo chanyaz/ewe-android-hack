@@ -1510,7 +1510,6 @@
     <!--Hotel itin view receipt title. (e.g. Receipt for Hilton) -->
     <string name="itin_hotel_view_receipt_title_TEMPLATE">Receipt for {hotelname}</string>
 
-
     <!--LX itin redesign-->
     <!--LX toolbar title template. (e.g. Activity in San Francisco)-->
     <string name="itin_lx_toolbar_title_TEMPLATE">Activity in {location}</string>

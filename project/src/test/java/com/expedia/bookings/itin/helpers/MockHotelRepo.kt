@@ -6,6 +6,7 @@ import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinHotel
 
 class MockHotelRepo : ItinHotelRepoInterface {
+    override val liveDataInvalidItin: MutableLiveData<Unit> = MutableLiveData()
     override val liveDataHotel: MutableLiveData<ItinHotel> = MutableLiveData()
     override val liveDataItin: MutableLiveData<Itin> = MutableLiveData()
 }

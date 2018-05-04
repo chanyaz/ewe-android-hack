@@ -12,6 +12,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.TripHotelRoom
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.data.trips.ItinCardDataHotel
+import com.expedia.bookings.data.trips.ItineraryManager
+import com.expedia.bookings.data.trips.ItineraryManagerInterface
 import com.expedia.bookings.itin.common.ItinBaseActivity
 import com.expedia.bookings.itin.flight.common.ItinOmnitureUtils
 import com.expedia.bookings.itin.hotel.common.HotelItinToolbar
@@ -35,6 +37,8 @@ open class HotelItinDetailsActivity : ItinBaseActivity() {
     val multiRoomContainer by bindView<LinearLayout>(R.id.hotel_itin_details_multi_room_container)
 
     val container by bindView<ViewGroup>(R.id.container)
+
+    var itinManager: ItineraryManagerInterface = ItineraryManager.getInstance()
 
     lateinit var itinCardDataHotel: ItinCardDataHotel
 
@@ -65,6 +69,7 @@ open class HotelItinDetailsActivity : ItinBaseActivity() {
                 TripsTracking.trackItinHotel(omnitureValues)
             }
         }
+        locationDetailsView.taxiSetup(intent.getStringExtra(ITIN_ID_EXTRA))
     }
 
     override fun onResume() {
@@ -73,7 +78,7 @@ open class HotelItinDetailsActivity : ItinBaseActivity() {
     }
 
     override fun onSyncFinish() {
-        val freshItinCardDataHotel = getItineraryManager().getItinCardDataFromItinId(intent.getStringExtra(UNIQUE_ID_EXTRA)) as ItinCardDataHotel?
+        val freshItinCardDataHotel = itinManager.getItinCardDataFromItinId(intent.getStringExtra(UNIQUE_ID_EXTRA)) as ItinCardDataHotel?
         if (freshItinCardDataHotel == null) {
             finish()
         } else {

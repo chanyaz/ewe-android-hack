@@ -8,12 +8,20 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.itin.hotel.common.HotelItinExpandedMapActivity
 import com.expedia.bookings.data.trips.ItinCardDataHotel
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.itin.common.GoogleMapsLiteViewModel
 import com.expedia.bookings.itin.common.GoogleMapsLiteMapView
+import com.expedia.bookings.itin.hotel.taxi.HotelItinTaxiActivity
+import com.expedia.bookings.itin.tripstore.extensions.firstHotel
+import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
+import com.expedia.bookings.tracking.ITripsTracking
 import com.expedia.bookings.tracking.TripsTracking
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ClipboardUtils
+import com.expedia.bookings.utils.Ui.getApplication
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.google.android.gms.maps.model.LatLng
@@ -25,6 +33,10 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
     val addressLine1: TextView by bindView(R.id.widget_hotel_itin_address_line_1)
     val addressLine2: TextView by bindView(R.id.widget_hotel_itin_address_line_2)
     val directionsButton: ImageView by bindView(R.id.hotel_directions_button)
+    val taxiButton: TextView by bindView(R.id.taxi_button)
+    val taxiContainer: LinearLayout by bindView(R.id.taxi_container)
+    var gsonUtil: IJsonToItinUtil = getApplication(context).tripComponent().jsonUtilProvider()
+    var tripTracking: ITripsTracking = TripsTracking
 
     init {
         View.inflate(context, R.layout.widget_hotel_itin_location_details, this)
@@ -58,5 +70,20 @@ class HotelItinLocationDetails(context: Context, attr: AttributeSet?) : LinearLa
         }
         address.contentDescription = Phrase.from(context, R.string.itin_hotel_details_address_copy_content_description_TEMPLATE)
                 .put("address", textToCopy).format().toString()
+    }
+
+    fun taxiSetup(itinId: String?) {
+        val itinLocalLanguage = gsonUtil.getItin(itinId)?.firstHotel()?.localizedHotelPropertyInfo?.localizationLanguage
+        val eligibiltyForTaxiCard = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelTripTaxiCard) && itinLocalLanguage != null
+        if (eligibiltyForTaxiCard && itinId != null) {
+            taxiContainer.visibility = View.VISIBLE
+            taxiButton.text = itinLocalLanguage
+            AccessibilityUtil.appendRoleContDesc(taxiButton, R.string.accessibility_cont_desc_role_button)
+            taxiButton.setOnClickListener {
+                val intent = HotelItinTaxiActivity.createIntent(context, itinId)
+                context.startActivity(intent)
+                tripTracking.trackHotelTaxiCardClick()
+            }
+        }
     }
 }

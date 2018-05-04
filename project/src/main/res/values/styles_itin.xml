@@ -71,4 +71,8 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="TripTaxiCard" parent="ItinTheme">
+        <item name="android:statusBarColor">@color/gray800</item>
+    </style>
 </resources>

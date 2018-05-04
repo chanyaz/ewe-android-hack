@@ -60,6 +60,35 @@
                     android:textColor="@color/gray900"
                     android:textSize="14sp"
                     android:textStyle="normal" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/taxi_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="12dp"
+                android:visibility="gone" >
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?attr/itin_card_summary_divider_color" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/taxi_button"
+                    android:layout_gravity="center"
+                    android:drawableLeft="@drawable/ic_taxi_card_icon"
+                    android:drawablePadding="4dp"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:textColor="@color/app_primary"/>
+
             </LinearLayout>
 
         </LinearLayout>
