@@ -5,6 +5,7 @@ import com.expedia.bookings.extensions.LiveDataObserver
 import com.expedia.bookings.itin.scopes.HasHotelRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasStringProvider
+import com.expedia.bookings.itin.tripstore.data.HotelRoom
 import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinHotel
 import com.expedia.bookings.itin.tripstore.data.PaymentModel
@@ -17,7 +18,9 @@ import io.reactivex.subjects.PublishSubject
 class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingSummaryViewModel where S : HasLifecycleOwner, S : HasStringProvider, S : HasHotelRepo {
     var itinObserver: LiveDataObserver<Itin>
     var hotelObserver: LiveDataObserver<ItinHotel>
-    override val roomPriceBreakdownSubject: PublishSubject<List<HotelItinRoomPrices>> = PublishSubject.create()
+
+    override val roomContainerClearSubject: PublishSubject<Unit> = PublishSubject.create()
+    override val roomContainerItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create()
     override val multipleGuestItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create()
     override val taxesAndFeesItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create()
     override val couponsItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create()
@@ -27,26 +30,30 @@ class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingS
     override val currencyDisclaimerSubject: PublishSubject<String> = PublishSubject.create()
 
     init {
-        hotelObserver = LiveDataObserver { hotel ->
-            //rooms price breakdown
-            val rooms = hotel?.rooms ?: return@LiveDataObserver
-            val roomPrices = rooms
-                    .mapNotNull { it.totalPriceDetails }
-                    .fold(emptyList<Pair<HotelItinPriceLineItem, List<HotelItinPriceLineItem>>>(), { accumulator, priceDetails ->
-                        val mutableAccumulator = accumulator.toMutableList()
-                        val roomPrice = getRoomTotalPriceItem(priceDetails)
-                        val roomPricesPerDay = getRoomPricePerDayItems(priceDetails)
+        hotelObserver = LiveDataObserver {
+            val hotel = it ?: return@LiveDataObserver
 
-                        if (roomPrice != null && roomPricesPerDay != null) {
-                            mutableAccumulator.add(Pair(roomPrice, roomPricesPerDay))
-                        }
+            //room price details
+            val rooms = hotel.rooms
+            roomContainerClearSubject.onNext(Unit)
+            rooms?.forEach { room ->
+                val priceDetails = room.totalPriceDetails
+                priceDetails?.let {
+                    val roomPrice = getRoomTotalPriceItem(priceDetails)
+                    if (roomPrice != null) {
+                        roomContainerItemSubject.onNext(roomPrice)
+                    }
 
-                        return@fold mutableAccumulator.toList()
-                    })
-                    .map { pair: Pair<HotelItinPriceLineItem, List<HotelItinPriceLineItem>> -> HotelItinRoomPrices(pair.first, pair.second) }
+                    val roomPricesPerDay = getRoomPricePerDayItems(priceDetails)
+                    roomPricesPerDay?.forEach {
+                        roomContainerItemSubject.onNext(it)
+                    }
 
-            if (roomPrices.isNotEmpty()) {
-                roomPriceBreakdownSubject.onNext(roomPrices)
+                    val propertyFee = getRoomPropertyFeeItem(room)
+                    if (propertyFee != null) {
+                        roomContainerItemSubject.onNext(propertyFee)
+                    }
+                }
             }
 
             //extra guest charges
@@ -55,8 +62,6 @@ class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingS
                 val extraGuestChargesItem = HotelItinPriceLineItem(scope.strings.fetch(R.string.itin_hotel_price_summary_multiple_guest_fees_label), extraGuestCharges, R.color.itin_price_summary_label_gray_light)
                 multipleGuestItemSubject.onNext(extraGuestChargesItem)
             }
-
-            //property fee
 
             //taxes and fees
             val taxesAndFees = hotel.totalPriceDetails?.taxesAndFeesFormatted
@@ -157,7 +162,11 @@ class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingS
                 .filter { it.first != null && it.second != null }
                 .map { HotelItinPriceLineItem(it.first!!, it.second!!, R.color.itin_price_summary_label_gray_light) }
     }
+
+    private fun getRoomPropertyFeeItem(details: HotelRoom): HotelItinPriceLineItem? {
+        val propertyFee = details.roomPropertyFeeFormatted ?: return null
+        return HotelItinPriceLineItem(scope.strings.fetch(R.string.itin_hotel_price_summary_property_fee_label), propertyFee, R.color.itin_price_summary_label_gray_light)
+    }
 }
 
 data class HotelItinPriceLineItem(val labelString: String, val priceString: String, val colorRes: Int, val textSize: Float = 14.0f, val font: Font = Font.ROBOTO_REGULAR)
-data class HotelItinRoomPrices(val totalRoomPriceItem: HotelItinPriceLineItem, val perDayRoomPriceItems: List<HotelItinPriceLineItem>)

@@ -1403,6 +1403,8 @@
     <string name="itin_hotel_details_cost_summary_room_price_text">Room price</string>
     <!--Hotel itin card price summary line item label for multiple guest fees-->
     <string name="itin_hotel_price_summary_multiple_guest_fees_label">Multiple guest fee</string>
+    <!--Hotel itin card price summary line item label for property fee-->
+    <string name="itin_hotel_price_summary_property_fee_label">Property fee</string>
     <!--Hotel itin card price summary line item label for taxes & fees-->
     <string name="itin_hotel_price_summary_taxes_and_fees_label">Taxes &amp; fees</string>
     <!--Hotel itin card price summary line item label for coupons-->
@@ -4922,6 +4924,7 @@
     <!-- Hint to type in itinerary number -->
     <string name="find_guest_add_itinerary_number_hint">Itinerary number</string>
     <string name="itin_toolbar">Trips</string>
+    <string name="itin_minus_price_cont_desc">minus\u0020</string>
 
     <!-- Booking successful alert text-->
     <string name="booking_successful">Booking Successful!</string>

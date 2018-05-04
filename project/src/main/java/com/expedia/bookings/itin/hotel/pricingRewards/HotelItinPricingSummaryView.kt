@@ -25,22 +25,14 @@ class HotelItinPricingSummaryView(context: Context?, attrs: AttributeSet?) : Car
     val currencyDisclaimerView by bindView<TextView>(R.id.hotel_itin_pricing_summary_currency_disclaimer)
 
     var viewModel: IHotelItinPricingSummaryViewModel by notNullAndObservable {
-        it.roomPriceBreakdownSubject.subscribe { roomPrices ->
+        it.roomContainerClearSubject.subscribe {
             roomContainerView.removeAllViews()
+        }
 
-            roomPrices.forEach { roomPrice ->
-                val totalRoomPriceView: PriceSummaryItemView = Ui.inflate(R.layout.hotel_itin_price_summary_item_view, roomContainerView, false)
-                setupPriceLineItem(totalRoomPriceView, roomPrice.totalRoomPriceItem)
-
-                roomContainerView.addView(totalRoomPriceView)
-
-                for (perDayPrice in roomPrice.perDayRoomPriceItems) {
-                    val roomPricePerDayView: PriceSummaryItemView = Ui.inflate(R.layout.hotel_itin_price_summary_item_view, roomContainerView, false)
-                    setupPriceLineItem(roomPricePerDayView, perDayPrice)
-
-                    roomContainerView.addView(roomPricePerDayView)
-                }
-            }
+        it.roomContainerItemSubject.subscribe { item ->
+            val view: PriceSummaryItemView = Ui.inflate(R.layout.hotel_itin_price_summary_item_view, roomContainerView, false)
+            setupPriceLineItem(view, item)
+            roomContainerView.addView(view)
         }
 
         it.multipleGuestItemSubject.subscribe { item ->
@@ -53,10 +45,22 @@ class HotelItinPricingSummaryView(context: Context?, attrs: AttributeSet?) : Car
 
         it.couponsItemSubject.subscribe { item ->
             setupPriceLineItem(couponsView, item)
+            if (context != null) {
+                val contDesc = StringBuilder()
+                contDesc.append(context.getString(R.string.itin_minus_price_cont_desc))
+                        .append(item.priceString.removePrefix("-")).toString()
+                couponsView.priceTextView.contentDescription = contDesc
+            }
         }
 
         it.pointsItemSubject.subscribe { item ->
             setupPriceLineItem(pointsView, item)
+            if (context != null) {
+                val contDesc = StringBuilder()
+                contDesc.append(context.getString(R.string.itin_minus_price_cont_desc))
+                        .append(item.priceString.removePrefix("-")).toString()
+                pointsView.priceTextView.contentDescription = contDesc
+            }
         }
 
         it.currencyDisclaimerSubject.subscribe { text ->
