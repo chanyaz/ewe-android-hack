@@ -227,9 +227,16 @@ class CountryCodeUtil {
 
         @JvmStatic
         fun getCountryCode(numberString: String): String {
+            var countryCodeRangeToUse = 1..3
+            var getCountryCodeStartIndex = 0
             if (numberString.length <= 10) return ""
-            (1..3).map { i ->
-                val countryCode = numberString.substring(0, i).toInt()
+
+            if (numberString.substring(0, 1) == "+") {
+                countryCodeRangeToUse = 2..4
+                getCountryCodeStartIndex = 1
+            }
+            (countryCodeRangeToUse).map { i ->
+                val countryCode = numberString.substring(getCountryCodeStartIndex, i).toInt()
                 if (countryCodes.contains(countryCode)) return countryCode.toString()
             }
             return ""
