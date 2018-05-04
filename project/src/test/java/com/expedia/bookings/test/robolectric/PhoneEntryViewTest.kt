@@ -277,6 +277,24 @@ class PhoneEntryViewTest {
         assertEquals("408-333-3333", phoneNumberEditText.text.toString())
     }
 
+    @Test
+    fun testCountryCodeWithPlusWhenAutoFilled() {
+        val phoneNumberEditText = widget.phoneNumber
+        val number = "+14083333333"
+        phoneNumberEditText.autofill(AutofillValue.forText(number))
+
+        assertEquals("408-333-3333", phoneNumberEditText.text.toString())
+    }
+
+    @Test
+    fun testAutoFillPhoneNumberWithNoCountryCodeMatch() {
+        val phoneNumberEditText = widget.phoneNumber
+        val number = "+11234567891"
+        phoneNumberEditText.autofill(AutofillValue.forText(number))
+
+        assertEquals("1-234-567-891", phoneNumberEditText.text.toString())
+    }
+
     private fun setupViewModelWithPhone(): TravelerPhoneViewModel {
         val vm = TravelerPhoneViewModel(appContext)
         val phone = Phone()

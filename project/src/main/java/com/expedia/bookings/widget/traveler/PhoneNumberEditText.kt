@@ -16,7 +16,9 @@ class PhoneNumberEditText(context: Context, attrs: AttributeSet?) : TravelerEdit
         phoneNumber?.let { number ->
             val countryCode = CountryCodeUtil.getCountryCode(number)
             if (countryCode.isNotEmpty()) {
+                val countryCodeWithPlus = number.substring(0, 1) == "+"
                 phoneNumber = number.replaceFirst(countryCode, "")
+                phoneNumber = if (countryCodeWithPlus) phoneNumber!!.replaceFirst("+", "") else phoneNumber
             }
         }
         return phoneNumber ?: ""
