@@ -1,26 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.expedia.bookings.hotel.activity.HotelFavoritesActivity"
     android:background="@color/gray100">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/hotel_favorites_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/app_primary"
-        android:minHeight="?attr/actionBarSize"
-        android:layout_alignParentTop="true"
-        app:contentInsetStartWithNavigation="0dp"
-        app:navigationContentDescription="@string/toolbar_nav_icon_close_cont_desc"
-        app:navigationIcon="@drawable/ic_close_white_24dp"
-        app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
-        app:title="@string/hotel_favorites_page_toolbar_title"/>
-
     <LinearLayout
+        android:id="@+id/hotel_favorites_empty_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="76dp"
@@ -54,5 +41,11 @@
             android:gravity="center" />
 
     </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/hotel_favorites_recycler_view"
+        android:visibility="gone"/>
 
 </RelativeLayout>

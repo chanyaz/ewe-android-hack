@@ -35,6 +35,7 @@ import com.expedia.bookings.hotel.widget.Earn2xCardViewHolder
 import com.expedia.bookings.hotel.widget.HotelUrgencyViewHolder
 import com.expedia.bookings.hotel.widget.GenericAttachViewHolder
 import com.expedia.bookings.utils.isHideMiniMapOnResultBucketed
+import com.expedia.bookings.widget.shared.AbstractHotelResultCellViewHolder
 import com.squareup.phrase.Phrase
 
 abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>,
@@ -165,7 +166,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is AbstractHotelCellViewHolder -> {
+            is AbstractHotelResultCellViewHolder -> {
                 val hotel = (data[position] as HotelAdapterItem.Hotel).hotel
                 holder.bindHotelData(hotel)
                 hotelListItemsMetadata.add(HotelListItemMetadata(holder.hotelId, holder.viewModel.soldOut))
@@ -245,7 +246,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
             (holder as LoadingViewHolder).cancelAnimation()
         } else if (holder.itemViewType == HotelAdapterItem.HOTEL) {
             val hotelItemIndex = hotelListItemsMetadata.indexOfFirst {
-                it.hotelId == (holder as AbstractHotelCellViewHolder).hotelId
+                it.hotelId == (holder as AbstractHotelResultCellViewHolder).hotelId
             }
             if (hotelItemIndex != -1) {
                 hotelListItemsMetadata.removeAt(hotelItemIndex)

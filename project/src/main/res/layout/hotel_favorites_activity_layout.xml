@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.expedia.bookings.hotel.activity.HotelFavoritesActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/hotel_favorites_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/app_primary"
+        android:minHeight="?attr/actionBarSize"
+        app:contentInsetStartWithNavigation="0dp"
+        app:navigationContentDescription="@string/toolbar_nav_icon_close_cont_desc"
+        app:navigationIcon="@drawable/ic_close_white_24dp"
+        app:title="@string/hotel_favorites_page_toolbar_title"
+        app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
+
+    <com.expedia.bookings.widget.hotel.HotelFavoritesView
+        android:id="@+id/hotel_favorites_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/hotel_favorites_toolbar" />
+
+</RelativeLayout>
