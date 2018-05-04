@@ -40,12 +40,12 @@
                 android:textSize="18sp"
                 app:textStyle="medium" />
 
-            <com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingSummaryView
+            <com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingSummaryView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/hotel_itin_pricing_summary_view"
                 style="@style/MaterialCardView"
-                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@color/white"
@@ -119,7 +119,31 @@
                 android:id="@+id/widget_itin_view_receipt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="12dp" />
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp" />
+
+            <com.expedia.bookings.widget.TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/itin_hotel_details_price_summary_rewards_title"
+                android:textColor="@color/gray750"
+                android:textSize="18sp"
+                app:textStyle="medium" />
+
+            <com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingSummaryRewardsView
+                android:id="@+id/hotel_itin_pricing_summary_rewards_view"
+                style="@style/MaterialCardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/white"
+                app:cardUseCompatPadding="true" />
         </LinearLayout>
 
     </com.expedia.bookings.widget.ScrollView>

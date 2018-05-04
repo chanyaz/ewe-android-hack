@@ -39,6 +39,7 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
     val toolbar: ItinToolbar by bindView(R.id.widget_itin_toolbar)
     val pricingSummaryView: HotelItinPricingSummaryView by bindView(R.id.hotel_itin_pricing_summary_view)
     val receiptButton: ItinViewReceiptWidget by bindView(R.id.widget_itin_view_receipt)
+    val rewardsView: HotelItinPricingSummaryRewardsView by bindView(R.id.hotel_itin_pricing_summary_rewards_view)
 
     lateinit var jsonUtil: IJsonToItinUtil
     lateinit var hotelRepo: ItinHotelRepo
@@ -50,6 +51,8 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
         }
     }
     lateinit var summaryViewModel: HotelItinPricingSummaryViewModel<HotelItinPricingSummaryScope>
+    lateinit var rewardsViewModel: HotelItinPricingSummaryRewardsViewModel<HotelItinPricingSummaryScope>
+
     val itineraryManager: ItineraryManager = ItineraryManager.getInstance()
     val tripsTracking: ITripsTracking = TripsTracking
     val webViewLauncher: IWebViewLauncher = WebViewLauncher(this)
@@ -74,6 +77,9 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
         val viewReceiptScope = HotelItinViewReceiptScope(stringProvider, hotelRepo, this, tripsTracking, webViewLauncher)
         val viewReceiptViewModel = HotelItinViewReceiptViewModel(viewReceiptScope)
         receiptButton.viewModel = viewReceiptViewModel
+
+        rewardsViewModel = HotelItinPricingSummaryRewardsViewModel(summaryScope)
+        rewardsView.viewModel = rewardsViewModel
 
         hotelRepo.liveDataInvalidItin.observe(this, LiveDataObserver {
             finish()

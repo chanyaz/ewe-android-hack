@@ -1423,6 +1423,14 @@
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">{amount} total amount paid</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
     <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">{amount} total due at hotel</string>
+    <!--Hotel itin card price summary rewards section title text-->
+    <string name="itin_hotel_details_price_summary_rewards_title">Rewards</string>
+    <!--Hotel itin card price summary rewards section earned points template. You earned {points} {program} points (eg., You earned 177 Expedia Rewards points)-->
+    <string name="itin_hotel_details_price_summary_rewards_earned_points_TEMPLATE">You earned {points} {program} points</string>
+    <!--Hotel itin card price summary rewards section base points template. {points} base points for this trip (eg., 48 base points for this trip)-->
+    <string name="itin_hotel_details_price_summary_rewards_base_points_TEMPLATE">\u2022 {points} base points for this trip</string>
+    <!--Hotel itin card price summary rewards section bonus points template. {points} bonus points for {program} (eg., 15 bonus points for +goldBonus)-->
+    <string name="itin_hotel_details_price_summary_rewards_bonus_points_TEMPLATE">\u2022 {points} bonus points for {program}</string>
     <!--Hotel itin card additional info heading-->
     <string name="itin_hotel_details_additional_info_heading">Additional information</string>
     <!--Hotel itin checkin text-->

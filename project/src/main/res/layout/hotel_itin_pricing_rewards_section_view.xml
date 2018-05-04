@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/hotel_itin_pricing_rewards_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/hotel_itin_pricing_rewards_points_earned"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/itin_price_summary_label_gray_dark"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:textStyle="medium"
+        tools:text="You earned 177 Expedia+ points"
+        tools:visibility="visible" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/hotel_itin_pricing_rewards_points_base"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:textColor="@color/itin_price_summary_label_gray_light"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:textStyle="normal"
+        tools:text="\u2022 48 base points for this trip"
+        tools:visibility="visible" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/hotel_itin_pricing_rewards_points_bonus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:textColor="@color/itin_price_summary_label_gray_light"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:textStyle="normal"
+        tools:text="\u2022 14 bonus points for +goldBonus"
+        tools:visibility="visible" />
+</LinearLayout>

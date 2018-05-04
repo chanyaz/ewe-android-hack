@@ -25,7 +25,11 @@ data class Itin(
 
 data class Reward(
         val totalPoints: String?,
-        val basePoints: String?
+        val basePoints: String?,
+        val bonusPoints: List<PointsDetails>?,
+        val logoUrl: String?,
+        val viewStatementURL: String?,
+        val programName: String?
 )
 
 data class PaymentDetails(
@@ -46,4 +50,9 @@ data class Points(
 
 data class CreditCard(
         val paidLocalizedPrice: String?
+)
+
+data class PointsDetails(
+        val m_pointValue: String?,
+        val m_pointDescription: String?
 )
