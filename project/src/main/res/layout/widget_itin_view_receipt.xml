@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:clipToPadding="false"
-    android:orientation="vertical"
-    android:paddingBottom="1dp">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/view_receipt_button"
+        style="@style/MaterialFooterRoundButtonText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/MaterialFooterRoundButtonText"
+        android:layout_marginTop="16dp"
         android:alpha="0.4"
         android:background="@drawable/exp_blue_button_round_corners"
         android:gravity="center"
@@ -22,6 +18,5 @@
         android:textSize="14sp"
         android:visibility="gone"
         tools:text="View Receipt"
-        tools:visibility="visible"/>
-
-</LinearLayout>
+        tools:visibility="visible" />
+</merge>

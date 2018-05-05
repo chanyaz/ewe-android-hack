@@ -36,14 +36,14 @@ class HotelItinPricingSummaryRewardsViewModel<out S>(val scope: S) : IHotelPrici
 
                 val totalPoints = reward.totalPoints
                 val programName = reward.programName
-                if (totalPoints != null && !totalPoints.isBlank() && programName != null && !programName.isBlank()) {
+                if (totalPoints != null && programName != null) {
                     earnedPointsSubject.onNext(scope.strings.fetchWithPhrase(
                             R.string.itin_hotel_details_price_summary_rewards_earned_points_TEMPLATE,
                             mapOf("points" to totalPoints, "program" to programName)))
                 }
 
                 val basePoints = reward.basePoints
-                if (basePoints != null && !basePoints.isBlank()) {
+                if (basePoints != null) {
                     basePointsSubject.onNext(scope.strings.fetchWithPhrase(
                             R.string.itin_hotel_details_price_summary_rewards_base_points_TEMPLATE,
                             mapOf("points" to basePoints)

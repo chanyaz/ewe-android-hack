@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.extensions.subscribeOnClick
+import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
@@ -41,15 +42,9 @@ class HotelItinPricingSummaryRewardsView(context: Context?, attrs: AttributeSet?
             }
         }
 
-        it.earnedPointsSubject.subscribe {
-            earnedPointsText.visibility = View.VISIBLE
-            earnedPointsText.text = it
-        }
+        it.earnedPointsSubject.subscribeTextAndVisibility(earnedPointsText)
 
-        it.basePointsSubject.subscribe {
-            basePointsText.visibility = View.VISIBLE
-            basePointsText.text = it
-        }
+        it.basePointsSubject.subscribeTextAndVisibility(basePointsText)
 
         it.bonusPointsSubject.subscribe { list ->
             bonusPointsContainer.visibility = View.VISIBLE
