@@ -82,7 +82,7 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
         val viewReceiptViewModel = HotelItinViewReceiptViewModel(viewReceiptScope)
         receiptButton.viewModel = viewReceiptViewModel
 
-        val rewardsScope = HotelItinRewardsScope(stringProvider, hotelRepo, this, tripsTracking, webViewLauncher, endpointProvider)
+        val rewardsScope = HotelItinRewardsScope(stringProvider, hotelRepo, this, tripsTracking, webViewLauncher, endpointProvider.e3EndpointUrl)
         rewardsViewModel = HotelItinPricingSummaryRewardsViewModel(rewardsScope)
         rewardsView.viewModel = rewardsViewModel
 

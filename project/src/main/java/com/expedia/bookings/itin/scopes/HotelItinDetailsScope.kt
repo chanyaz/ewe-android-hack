@@ -9,7 +9,6 @@ import com.expedia.bookings.itin.utils.AbacusSource
 import com.expedia.bookings.itin.utils.ActivityLauncher
 import com.expedia.bookings.itin.utils.IWebViewLauncher
 import com.expedia.bookings.itin.utils.StringSource
-import com.expedia.bookings.server.EndpointProvider
 import com.expedia.bookings.tracking.ITripsTracking
 
 data class HotelItinDetailsScope(
@@ -53,5 +52,5 @@ data class HotelItinRewardsScope(
         override val lifecycleOwner: LifecycleOwner,
         override val tripsTracking: ITripsTracking,
         override val webViewLauncher: IWebViewLauncher,
-        override val endpointProvider: EndpointProvider
-) : HasStringProvider, HasHotelRepo, HasLifecycleOwner, HasTripsTracking, HasWebViewLauncher, HasEndPointProvider
+        override val e3Endpoint: String
+) : HasStringProvider, HasHotelRepo, HasLifecycleOwner, HasTripsTracking, HasWebViewLauncher, HasE3Endpoint

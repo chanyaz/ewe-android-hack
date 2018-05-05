@@ -11,7 +11,6 @@ import com.expedia.bookings.itin.utils.AbacusSource
 import com.expedia.bookings.itin.utils.IActivityLauncher
 import com.expedia.bookings.itin.utils.IWebViewLauncher
 import com.expedia.bookings.itin.utils.StringSource
-import com.expedia.bookings.server.EndpointProvider
 import com.expedia.bookings.tracking.ITripsTracking
 
 interface HasItin {
@@ -34,8 +33,8 @@ interface HasTripsTracking {
     val tripsTracking: ITripsTracking
 }
 
-interface HasEndPointProvider {
-    val endpointProvider: EndpointProvider
+interface HasE3Endpoint {
+    val e3Endpoint: String
 }
 
 interface HasHotelRepo {

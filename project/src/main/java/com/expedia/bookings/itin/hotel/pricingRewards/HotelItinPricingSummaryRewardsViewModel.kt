@@ -2,7 +2,7 @@ package com.expedia.bookings.itin.hotel.pricingRewards
 
 import com.expedia.bookings.R
 import com.expedia.bookings.extensions.LiveDataObserver
-import com.expedia.bookings.itin.scopes.HasEndPointProvider
+import com.expedia.bookings.itin.scopes.HasE3Endpoint
 import com.expedia.bookings.itin.scopes.HasHotelRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasStringProvider
@@ -11,7 +11,7 @@ import com.expedia.bookings.itin.scopes.HasWebViewLauncher
 import com.expedia.bookings.itin.tripstore.data.Itin
 import io.reactivex.subjects.PublishSubject
 
-class HotelItinPricingSummaryRewardsViewModel<out S>(val scope: S) : IHotelPricingRewardsViewModel where S : HasLifecycleOwner, S : HasStringProvider, S : HasHotelRepo, S : HasTripsTracking, S : HasWebViewLauncher, S : HasEndPointProvider {
+class HotelItinPricingSummaryRewardsViewModel<out S>(val scope: S) : IHotelPricingRewardsViewModel where S : HasLifecycleOwner, S : HasStringProvider, S : HasHotelRepo, S : HasTripsTracking, S : HasWebViewLauncher, S : HasE3Endpoint {
     var itinObserver: LiveDataObserver<Itin>
 
     override val hideWidgetSubject: PublishSubject<Unit> = PublishSubject.create()
@@ -26,7 +26,7 @@ class HotelItinPricingSummaryRewardsViewModel<out S>(val scope: S) : IHotelPrici
         itinObserver = LiveDataObserver { itin ->
             val rewardList = itin?.rewardList
             rewardList?.firstOrNull()?.let { reward ->
-                val endPoint = scope.endpointProvider.e3EndpointUrl.removeSuffix("/")
+                val endPoint = scope.e3Endpoint.removeSuffix("/")
 
                 val logoUrl = reward.logoUrl
                 val logoEndpoint = endPoint.plus(logoUrl)
