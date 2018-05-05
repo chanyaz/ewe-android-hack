@@ -34,6 +34,8 @@ class HotelItinPricingSummaryRewardsViewTest {
         assertTrue(testView.rewardsTitleText.visibility == View.GONE)
         assertTrue(testView.rewardsSection.visibility == View.GONE)
         assertTrue(testView.rewardsButton.visibility == View.GONE)
+
+        testObserver.dispose()
     }
 
     @Test
@@ -47,6 +49,8 @@ class HotelItinPricingSummaryRewardsViewTest {
         assertTrue(testView.rewardsLogoView.visibility == View.GONE)
         viewModel.logoSubject.onNext("testpath")
         assertTrue(testView.rewardsLogoView.visibility == View.VISIBLE)
+
+        testObserver.dispose()
     }
 
     @Test
@@ -63,6 +67,8 @@ class HotelItinPricingSummaryRewardsViewTest {
         testObserver.assertValue("You earned 177 Expedia Rewards points")
         assertTrue(testView.earnedPointsText.visibility == View.VISIBLE)
         assertTrue(testView.earnedPointsText.text == "You earned 177 Expedia Rewards points")
+
+        testObserver.dispose()
     }
 
     @Test
@@ -79,6 +85,8 @@ class HotelItinPricingSummaryRewardsViewTest {
         testObserver.assertValue("177 base points for this trip")
         assertTrue(testView.basePointsText.visibility == View.VISIBLE)
         assertTrue(testView.basePointsText.text == "177 base points for this trip")
+
+        testObserver.dispose()
     }
 
     @Test
@@ -110,6 +118,8 @@ class HotelItinPricingSummaryRewardsViewTest {
         val child = testView.bonusPointsContainer.getChildAt(0)
         assertTrue(child is BonusPointsView)
         assertTrue((child as TextView).text == "test string 3")
+
+        testObserver.dispose()
     }
 
     @Test
@@ -122,6 +132,8 @@ class HotelItinPricingSummaryRewardsViewTest {
         testObserver.assertEmpty()
         testView.rewardsButton.performClick()
         testObserver.assertValueCount(1)
+
+        testObserver.dispose()
     }
 
     class MockPricingRewardsViewModel : IHotelPricingRewardsViewModel {

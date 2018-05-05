@@ -71,8 +71,8 @@ class HotelItinPricingSummaryRewardsViewModel<out S>(val scope: S) : IHotelPrici
                     val rewardsEndpoint = endPoint.plus(rewardsUrl)
                     val tripId = itin.tripId
                     if (!rewardsEndpoint.isBlank() && tripId != null && !tripId.isBlank()) {
-                        scope.webViewLauncher.launchWebViewActivity(R.string.itin_hotel_details_price_summary_rewards_title, rewardsEndpoint, null, tripId)
-                        scope.tripsTracking.trackHotelItinPricingRewardsClick()
+                        scope.webViewLauncher.launchWebViewActivity(R.string.itin_hotel_details_price_summary_rewards_title, rewardsEndpoint, null, tripId, true)
+                        scope.tripsTracking.trackItinHotelViewRewards()
                     }
                 }
             } ?: run {

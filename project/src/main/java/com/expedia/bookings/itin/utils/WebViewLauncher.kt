@@ -29,19 +29,20 @@ class WebViewLauncher(val context: Context) : IWebViewLauncher {
         return builder
     }
 
-    override fun launchWebViewActivity(title: Int, url: String, anchor: String?, tripId: String) {
+    override fun launchWebViewActivity(title: Int, url: String, anchor: String?, tripId: String, scrapTitle: Boolean) {
         val animation: Bundle = ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_up_partially, R.anim.slide_down_partially).toBundle()
-        val webViewIntent = buildWebViewIntent(title, url, anchor, tripId).intent
+        val webViewIntent = buildWebViewIntent(title, url, anchor, tripId, scrapTitle).intent
         (context as AppCompatActivity).startActivityForResult(webViewIntent, Constants.ITIN_WEBVIEW_REFRESH_ON_EXIT_CODE, animation)
     }
 
-    private fun buildWebViewIntent(title: Int, url: String, anchor: String?, tripId: String): WebViewActivity.IntentBuilder {
+    private fun buildWebViewIntent(title: Int, url: String, anchor: String?, tripId: String, scrapTitle: Boolean): WebViewActivity.IntentBuilder {
         val builder = WebViewActivity.IntentBuilder(context)
         with(builder) {
             if (anchor != null) setUrlWithAnchor(url, anchor) else setUrl(url)
             setTitle(title)
             setInjectExpediaCookies(true)
             setAllowMobileRedirects(false)
+            setOriginalWebViewTitle(scrapTitle)
             setItinTripIdForRefresh(tripId)
         }
         return builder
