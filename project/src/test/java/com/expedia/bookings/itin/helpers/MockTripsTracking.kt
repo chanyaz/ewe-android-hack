@@ -9,8 +9,8 @@ class MockTripsTracking : ITripsTracking {
 
     var trackItinHotelViewReceiptCalled = false
     var trackHotelItinPricingRewardsClicked = false
-    var trackHotelItinViewRewards = false
     var trackHotelTaxiClick = false
+    var trackHotelItinViewRewardsCalled = false
 
     var trackItinLxCalled = false
 
@@ -38,7 +38,7 @@ class MockTripsTracking : ITripsTracking {
         trackHotelTaxiClick = true
     }
 
-    override fun trackItinHotelViewRewardsClick() {
-        trackHotelItinViewRewards = true
+    override fun trackItinHotelViewRewards() {
+        trackHotelItinViewRewardsCalled = true
     }
 }

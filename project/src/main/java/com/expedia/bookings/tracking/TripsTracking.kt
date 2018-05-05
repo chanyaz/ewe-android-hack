@@ -205,7 +205,7 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
         s.track()
     }
 
-    override fun trackItinHotelViewRewardsClick() {
+    override fun trackItinHotelViewRewards() {
         val s = createTrackLinkEvent(ITIN_HOTEL_VIEW_REWARDS)
         s.trackLink("Itinerary Action")
     }
