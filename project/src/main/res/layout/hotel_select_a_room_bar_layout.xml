@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.expedia.bookings.widget.TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:text="@string/select_a_room_instruction"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="right|center_vertical"
+        android:orientation="vertical"
+        android:paddingRight="20dp">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/select_a_room_strikethrough_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alpha=".7"
+            android:gravity="right"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_width="match_parent"
+            android:orientation="horizontal">
+
+            <com.expedia.bookings.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:text="@string/select_a_room_from_price_label"
+                android:layout_marginRight="4dp"/>
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/select_a_room_price"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</merge>

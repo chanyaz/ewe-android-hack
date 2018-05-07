@@ -3015,7 +3015,7 @@
     <!-- Instruction as the header of the list to select a room from the list -->
     <string name="select_a_room_instruction">Pilih Kamar</string>
     <!-- Content description for hotel map's select room button. Example: Select a room from $10 button -->
-    <string name="map_select_a_room_cont_desc_TEMPLATE">Pilih tombol Kamar {price}</string>
+    <string name="hotel_select_a_room_cont_desc_TEMPLATE">Pilih tombol Kamar {price}</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Pembatalan gratis</string>
     <!-- Top line of resort fee text -->

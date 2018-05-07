@@ -2755,8 +2755,8 @@
     <string name="filter">Filter</string>
 
     <!-- Map -->
-    <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
-    <string name="map_snippet_price_template">From %s</string>
+    <!-- Displayed in front of room price on "Select a Room" bar -->
+    <string name="select_a_room_from_price_label">From</string>
     <!-- Button text prompting the user to search this area on the map -->
     <string name="Search_this_area">Search this area</string>
     <!-- Map pin text for sold out hotel(s)-->
@@ -3031,8 +3031,8 @@
     <string name="common_value_add_template">All rooms include %s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
     <string name="select_a_room_instruction">Select a Room</string>
-    <!-- Content description for hotel map's select room button. Example: Select a room from $10 button -->
-    <string name="map_select_a_room_cont_desc_TEMPLATE">Select a Room {price} button</string>
+    <!-- Content description for hotel map's select room button. Example: Select a Room From $10 button -->
+    <string name="hotel_select_a_room_cont_desc_TEMPLATE">Select a Room From {price} button</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Free cancellation</string>
     <!-- Top line of resort fee text -->
