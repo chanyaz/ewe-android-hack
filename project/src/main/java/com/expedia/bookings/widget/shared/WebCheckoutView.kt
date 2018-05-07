@@ -9,32 +9,32 @@ import android.os.Message
 import android.support.annotation.VisibleForTesting
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.webkit.WebChromeClient
 import android.webkit.WebView
+import android.widget.FrameLayout
+import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extensions.setVisibility
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.utils.WebViewUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isMidAPIEnabled
+import com.expedia.bookings.widget.LoadingOverlayWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.WebCheckoutViewViewModel
 import com.expedia.vm.WebViewViewModel
 import com.mobiata.android.util.AndroidUtils
-import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.LinearLayout
-import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
-import com.expedia.bookings.widget.LoadingOverlayWidget
 import io.reactivex.subjects.PublishSubject
 
 @Suppress("DEPRECATION")
 class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget(context, attrs) {
 
-    val loadingOverlay: LoadingOverlayWidget by bindView(R.id.details_loading_overlay)
+    val loadingOverlay: LoadingOverlayWidget by bindView(R.id.web_details_loading_overlay)
     val progressIndicatorLayout by bindView<LinearLayout>(R.id.webview_loading_screen)
 
     val showLoadingIndicator = PublishSubject.create<Boolean>()
