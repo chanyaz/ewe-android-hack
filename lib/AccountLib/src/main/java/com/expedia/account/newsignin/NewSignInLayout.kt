@@ -39,13 +39,11 @@ class NewSignInLayout(context: Context, attributeSet: AttributeSet) : FrameLayou
             Events.post(Events.NewForgotPasswordButtonClicked())
         }
         signInWithFacebookButton.setOnClickListener {
-            // TODO: facebook sign in
-            // Events.post(Events.SignInWithFacebookButtonClicked())
+            Events.post(Events.NewSignInWithFacebookButtonClicked())
         }
         validationObservable.addSource(emailInput.statusObservable)
         validationObservable.addSource(passwordInput.statusObservable)
         passwordInput.isPasswordVisibilityToggleEnabled(true)
-        validationObservable.subscribe(allFieldsValidSubject)
     }
 
     override fun onFinishInflate() {
@@ -58,6 +56,16 @@ class NewSignInLayout(context: Context, attributeSet: AttributeSet) : FrameLayou
             }
             false
         }
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        validationObservable.subscribe(allFieldsValidSubject)
+    }
+
+    override fun onDetachedFromWindow() {
+        validationObservable.unsubscribe(allFieldsValidSubject)
+        super.onDetachedFromWindow()
     }
 
     fun configurePOS(enableFacebookButton: Boolean) {

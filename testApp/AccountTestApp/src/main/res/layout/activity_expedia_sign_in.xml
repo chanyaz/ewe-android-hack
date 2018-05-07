@@ -12,8 +12,7 @@
         android:layout_height="match_parent"
         android:src="@drawable/bg_mtfuji_crop"
         app:acct__piv_panFrom="0.1"
-        app:acct__piv_panTo="0.55"
-        android:visibility="gone"/>
+        app:acct__piv_panTo="0.55" />
 
     <LinearLayout
         android:id="@+id/white_background"
@@ -70,6 +69,7 @@
         app:acct__tab_text_color="#8CFFFFFF"
         app:acct__tab_text_selected_color="#FFFFFF"
         app:acct__cancel_drawable="@drawable/com_facebook_button_like_icon_selected"
+        app:acct__back_drawable="@drawable/acct__white_back_arrow"
         android:visibility="gone" />
 
     <LinearLayout

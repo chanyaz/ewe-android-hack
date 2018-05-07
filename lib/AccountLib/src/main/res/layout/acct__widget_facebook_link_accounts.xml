@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/new_facebook_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:title="@string/acct__new_facebook_link_accounts_text"
+        app:navigationContentDescription="@string/acct__Toolbar_nav_back_icon_cont_desc"
+        app:navigationIcon="@drawable/acct__white_back_arrow"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/acct__white"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="24dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="24dp"
+            android:focusable="false"
+            android:focusableInTouchMode="true" >
+
+            <TextView
+                android:id="@+id/new_facebook_header_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:layout_marginBottom="24dp"
+                android:textSize="14sp"
+                android:textColor="@color/acct__black" />
+
+            <com.expedia.account.singlepage.SinglePageInputTextPresenter
+                android:id="@+id/new_facebook_email_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/acct__Email_Address"
+                android:inputType="textEmailAddress"
+                android:imeOptions="actionNext"
+                android:layout_marginBottom="20dp"
+                app:acct__eit_errorString="@string/acct__Must_enter_valid_email"
+                app:acct__eit_errorContDesc="@string/acct__Must_enter_valid_email" />
+
+            <com.expedia.account.singlepage.SinglePageInputTextPresenter
+                android:id="@+id/new_facebook_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/acct__Password"
+                android:inputType="textPassword"
+                android:imeOptions="actionDone"
+                app:acct__eit_errorStringPassword="@string/acct__Password_length_error_message"
+                app:acct__eit_errorContDesc="@string/acct__Password_length_error_message" />
+
+
+            <TextView
+                android:id="@+id/new_facebook_forgot_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:layout_gravity="center"
+                android:textSize="12sp"
+                android:text="@string/acct__Forgot_your_password"
+                android:textColor="@color/acct__blue_1"/>
+
+            <Button
+                android:id="@+id/new_facebook_link_accounts_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/acct__new_account_btn_padding"
+                android:backgroundTint="@color/acct__new_account_btn_bg_color"
+                android:textColor="@color/acct__btn_facebook_text"
+                android:text="@string/acct__new_facebook_link_accounts_text"
+                android:textSize="14sp"
+                android:textAllCaps="false" />
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

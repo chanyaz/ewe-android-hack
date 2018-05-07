@@ -28,11 +28,10 @@ public class MockAccountView extends AccountView {
 
 	public void setMockMode(boolean enabled) {
 		if (mCreateCalled) {
-			throw new RuntimeException("setFacebookMockMode() should be called before setConfig().");
+			throw new RuntimeException("setFacebookMockMode() should be called before setupConfig().");
 		}
 		mIsMockModeEnabled = enabled;
 	}
-
 
 	///////////////////////////////////////////////////////////////////////////
 	// Otto workaround

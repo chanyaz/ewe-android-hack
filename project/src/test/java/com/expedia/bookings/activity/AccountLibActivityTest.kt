@@ -1,7 +1,9 @@
 package com.expedia.bookings.activity
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.AttributeSet
 import android.view.View
 import com.expedia.account.AccountView
 import com.expedia.account.NewAccountView
@@ -14,6 +16,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.android.controller.ActivityController
 
@@ -58,40 +61,80 @@ class AccountLibActivityTest {
     fun testNewAccountViewIsVisibleWhenInBucketed() {
         givenNewSignInEnabled()
         activityController.create().start().visible()
-        assertEquals(View.VISIBLE, activity.newAccountViewForTest.visibility)
+        assertEquals(View.VISIBLE, activity.newAccountView.visibility)
     }
 
     @Test
     fun testOldAccountViewIsVisibleWhenInControl() {
         givenNewSignInDisabled()
         activityController.create().start().visible()
-        assertEquals(View.VISIBLE, activity.accountViewForTest.visibility)
+        assertEquals(View.VISIBLE, activity.accountView.visibility)
     }
 
     @Test
     fun testNewAccountViewIsGoneWhenInControl() {
         givenNewSignInDisabled()
         activityController.create().start().visible()
-        assertEquals(View.GONE, activity.newAccountViewForTest.visibility)
+        assertEquals(View.GONE, activity.newAccountView.visibility)
     }
 
     @Test
     fun testOldAccountViewIsGoneWhenInBucketed() {
         givenNewSignInEnabled()
         activityController.create().start().visible()
-        assertEquals(View.GONE, activity.accountViewForTest.visibility)
+        assertEquals(View.GONE, activity.accountView.visibility)
+    }
+
+    @Test
+    fun testOnBackPressedWhenInBucketed() {
+        givenNewSignInEnabled()
+        activityController.create().start().visible()
+        activity.newAccountView = Mockito.mock(NewAccountView::class.java)
+        Mockito.`when`(activity.newAccountView.isOnSignInPage()).thenAnswer { false }
+        activity.onBackPressed()
+        Mockito.verify(activity.newAccountView).isOnSignInPage()
+        Mockito.verify(activity.newAccountView).cancelFacebookLinkAccountsView()
+    }
+
+    @Test
+    fun testOnBackPressedWhenInControl() {
+        givenNewSignInDisabled()
+        activityController.create().start().visible()
+        activity.accountView = Mockito.mock(AccountView::class.java)
+        activity.onBackPressed()
+        Mockito.verify(activity.accountView).back()
+    }
+
+    @Test
+    fun testOnActivityResultWhenInBucketed() {
+        givenNewSignInEnabled()
+        activityController.create().start().visible()
+        activity.newAccountView = Mockito.mock(TestNewAccountView::class.java)
+        val intent = Intent()
+        activity.onActivityResult(1, 2, intent)
+        Mockito.verify(activity.newAccountView).onActivityResult(1, 2, intent)
+    }
+
+    @Test
+    fun testOnActivityResultWhenInControl() {
+        givenNewSignInDisabled()
+        activityController.create().start().visible()
+        activity.accountView = Mockito.mock(AccountView::class.java)
+        activity.onActivityResult(1, 2, null)
+        Mockito.verify(activity.accountView).onActivityResult(1, 2, null)
     }
 
     class TestAccountLibActivity : AccountLibActivity() {
         lateinit var initialTabForTest: NewAccountView.AccountTab
-        lateinit var newAccountViewForTest: NewAccountView
-        lateinit var accountViewForTest: AccountView
-
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             initialTabForTest = initialTab
-            newAccountViewForTest = newAccountView
-            accountViewForTest = accountView
         }
+    }
+
+    open class TestNewAccountView(context: Context, attrs: AttributeSet) : NewAccountView(context, attrs) {
+        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {}
+        override fun isOnSignInPage(): Boolean { return false }
+        override fun cancelFacebookLinkAccountsView() {}
     }
 }

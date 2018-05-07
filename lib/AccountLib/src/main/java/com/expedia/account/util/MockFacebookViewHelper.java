@@ -40,10 +40,6 @@ public class MockFacebookViewHelper extends FacebookViewHelper {
 		super(host);
 	}
 
-	///////////////////////////////////////////////////////////////////////////
-	// MOCK doFacebookLogin
-	///////////////////////////////////////////////////////////////////////////
-
 	@Override
 	public void doFacebookLogin() {
 		final CharSequence[] items = new CharSequence[] {
@@ -137,10 +133,6 @@ public class MockFacebookViewHelper extends FacebookViewHelper {
 		}
 	}
 
-	///////////////////////////////////////////////////////////////////////////
-	// MOCK fetchFacebookUserInfo
-	///////////////////////////////////////////////////////////////////////////
-
 	@Override
 	public void fetchFacebookUserInfo(AccessToken token) {
 		try {
@@ -156,6 +148,4 @@ public class MockFacebookViewHelper extends FacebookViewHelper {
 			Log.e(e.toString());
 		}
 	}
-
-
 }
