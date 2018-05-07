@@ -128,22 +128,20 @@ public class LXPresenter extends Presenter {
 		addTransition(searchOverlayOnResults);
 		addTransition(searchOverlayOnDetails);
 		addTransition(detailsToSearch);
-
-		if (isUniversalCheckout()) {
-			addTransition(detailsToCheckoutV2);
-		}
-		else {
-			addTransition(detailsToCheckout);
-			addTransition(checkoutToConfirmation);
-			addTransition(checkoutToResults);
-		}
-
 		if (showWebCheckoutView()) {
 			webCheckoutView = (WebCheckoutView) webCheckoutViewStub.inflate();
 			addTransition(detailsToWebCheckout);
 			addTransition(webCheckoutToConfirmation);
 			addTransition(webCheckoutToSearch);
 			setWebCheckoutView();
+		}
+		else if (isUniversalCheckout()) {
+			addTransition(detailsToCheckoutV2);
+		}
+		else {
+			addTransition(detailsToCheckout);
+			addTransition(checkoutToConfirmation);
+			addTransition(checkoutToResults);
 		}
 
 		show(resultsPresenter);
@@ -640,7 +638,9 @@ public class LXPresenter extends Presenter {
 
 		@Override
 		public void onNext(Unit e) {
-			LXPresenter.super.back();
+			if (webCheckoutView.getVisibility() == VISIBLE) {
+				LXPresenter.super.back();
+			}
 		}
 	};
 

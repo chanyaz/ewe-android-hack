@@ -15,11 +15,13 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.LXBookableItem;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.trips.TripBucketItemLX;
 import com.expedia.bookings.data.trips.TripBucketItemTransport;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.lx.LXTravelersPresenter;
@@ -255,8 +257,11 @@ public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter
 
 	@Override
 	public void doCreateTrip() {
-		cleanup();
-		createTripSubscription = lxServices.createTrip(lxState.createTripParams(getContext()), lxState.originalTotalPrice(), createTripObserver);
+		if (!AbacusFeatureConfigManager.isBucketedForTest(getContext(), AbacusUtils.EBAndroidAppLxWebCheckoutView)) {
+			cleanup();
+			createTripSubscription = lxServices
+				.createTrip(lxState.createTripParams(getContext()), lxState.originalTotalPrice(), createTripObserver);
+		}
 	}
 
 	@Override
