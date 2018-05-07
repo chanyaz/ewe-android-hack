@@ -1087,7 +1087,7 @@ public class OmnitureTracking {
 		s.trackLink("Gallery View");
 	}
 
-	public static void trackHotelDetailGalleryGridView(int imageCount, PageUsableData usableData, boolean isPackages) {
+	public static void trackHotelDetailGalleryGridView(int imageCount, PageUsableData usableData, boolean isPackages, int failedImageCount, String hotelId) {
 		AppAnalytics s = getFreshTrackingObject();
 		if (isPackages) {
 			s.setAppState(PACKAGES_GALLERY_GRID_VIEW);
@@ -1097,8 +1097,12 @@ public class OmnitureTracking {
 			s.setAppState(HOTELS_GALLERY_GRID_VIEW);
 			s.setProp(2, HOTELV2_LOB);
 		}
-		s.appendEvents("event357=" + imageCount);
+		s.appendEvents("event357=" + imageCount + ",event363=" + failedImageCount);
+		if (failedImageCount > 0) {
+			s.setProp(36, "HIS:Gallery:ImageNotFound");
+		}
 		addPageLoadTimeTrackingEvents(s, usableData);
+		s.setProducts(";Hotel:" + hotelId + ";;");
 		s.setEvar(2, "D=c2");
 		s.track();
 	}

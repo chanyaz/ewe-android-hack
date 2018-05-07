@@ -4,4 +4,4 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class HotelGalleryAnalyticsData(val creationTime: Long, val fromPackages: Boolean) : Parcelable
+data class HotelGalleryAnalyticsData(val creationTime: Long, val fromPackages: Boolean, val hotelId: String) : Parcelable

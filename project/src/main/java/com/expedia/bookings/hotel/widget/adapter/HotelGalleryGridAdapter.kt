@@ -8,6 +8,7 @@ import io.reactivex.subjects.PublishSubject
 
 class HotelGalleryGridAdapter(var lowMemoryMode: Boolean = false) : RecyclerView.Adapter<HotelGalleryGridViewHolder>() {
     val selectedImagePosition = PublishSubject.create<Int>()
+    val loadFailureCallback = PublishSubject.create<Unit>()
 
     private var mediaList: List<HotelMedia> = emptyList()
 
@@ -33,7 +34,7 @@ class HotelGalleryGridAdapter(var lowMemoryMode: Boolean = false) : RecyclerView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HotelGalleryGridViewHolder {
-        val viewHolder = HotelGalleryGridViewHolder.create(parent)
+        val viewHolder = HotelGalleryGridViewHolder.create(parent, loadFailureCallback)
         return viewHolder
     }
 }

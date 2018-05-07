@@ -18,6 +18,7 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withEvars
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withEventsString
+import com.expedia.bookings.test.OmnitureMatchers.Companion.withProductsString
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withProps
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.PackageTestUtil
@@ -242,11 +243,12 @@ class OmnitureTrackingTest {
             markPageLoadStarted(1000)
             markAllViewsLoaded(2000)
         }
-        OmnitureTracking.trackHotelDetailGalleryGridView(7, pageUsable, false)
+        OmnitureTracking.trackHotelDetailGalleryGridView(7, pageUsable, false, 8, "123")
         assertStateTracked(
                 "App.Hotels.Infosite.Gallery",
                 Matchers.allOf(
-                        withEventsString("event357=7,event220,event221=1.00"),
+                        withEventsString("event357=7,event363=8,event220,event221=1.00"),
+                        withProductsString(";Hotel:123;;"),
                         withProps(mapOf(2 to "hotels")),
                         withEvars(mapOf(2 to "D=c2"))),
                 mockAnalyticsProvider)

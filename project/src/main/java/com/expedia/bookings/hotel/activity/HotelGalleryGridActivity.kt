@@ -39,6 +39,8 @@ class HotelGalleryGridActivity : AppCompatActivity(), ComponentCallbacks2 {
     private val HD_IMAGE_MEMORY_THRESHOLD = 256
 
     private lateinit var analyticsData: HotelGalleryAnalyticsData
+    private var failedImagesCount = 0
+    private lateinit var pageUsableData: PageUsableData
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,12 +70,16 @@ class HotelGalleryGridActivity : AppCompatActivity(), ComponentCallbacks2 {
     override fun onResume() {
         super.onResume()
 
-        val pageUsableData = PageUsableData().apply {
+        pageUsableData = PageUsableData().apply {
             markPageLoadStarted(analyticsData.creationTime)
             markAllViewsLoaded()
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
         OmnitureTracking.trackHotelDetailGalleryGridView(galleryManager.fetchMediaList(galleryConfig.roomCode).size,
-                pageUsableData, analyticsData.fromPackages)
+                pageUsableData, analyticsData.fromPackages, failedImagesCount, analyticsData.hotelId)
     }
 
     override fun onTrimMemory(level: Int) {
@@ -116,6 +122,10 @@ class HotelGalleryGridActivity : AppCompatActivity(), ComponentCallbacks2 {
             intent.putExtra(HotelExtras.GALLERY_CONFIG, galleryConfig.copy(startIndex = position))
             val bundle = ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
             startActivity(intent, bundle)
+        }
+
+        adapter.loadFailureCallback.subscribe {
+            failedImagesCount++
         }
     }
 
