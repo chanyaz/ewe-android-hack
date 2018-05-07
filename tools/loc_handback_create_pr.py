@@ -3,8 +3,6 @@ parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.sys.path.insert(0,os.path.join(parentdir, "jenkins"))
 import sys
 from github3 import login
-from mingle_utils import murmurInProject, uploadAttachment
-from pr_utils import prUrl
 import subprocess
 import traceback
 
@@ -18,7 +16,6 @@ brandName = sys.argv[1]
 locHandbackChangesBranchName = sys.argv[2]
 locHandbackCommitMessage = sys.argv[3]
 gitBaseBranchName = sys.argv[4]
-mingleCardNumber = sys.argv[5]
 zipFileLocation = sys.argv[6]
 
 mingleProjectId = 'ebapp'
@@ -33,7 +30,6 @@ print "brandName = " + brandName
 print "locHandbackChangesBranchName = " + locHandbackChangesBranchName
 print "gitCommitMessage = " + locHandbackCommitMessage
 print "gitBaseBranchName = " + gitBaseBranchName
-print "mingleCardNumber = " + mingleCardNumber
 
 try:
     # Files were already "git added" in earlier add-strings step
@@ -54,11 +50,6 @@ os.system('git push origin {gitBranchName}'.format(gitBranchName=locHandbackChan
 
 print "Creating pull request"
 pr = repo.create_pull(locHandbackCommitMessage, gitBaseBranchName.replace("origin/", ""), locHandbackChangesBranchName)
-murmurMessageInMingle = '{pr_url} for card #{mingleCardNumber}'.format(pr_url=prUrl(pr), mingleCardNumber=mingleCardNumber)
-
-murmurInProject(mingleProjectId, mingleAccessId, mingleAccessSecret, murmurMessageInMingle)
-
-uploadAttachment(mingleProjectId, mingleAccessId, mingleAccessSecret, mingleCardNumber, zipFileLocation)
 
 print "Deleting local branch."
 try:
