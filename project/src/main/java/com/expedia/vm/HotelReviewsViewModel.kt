@@ -16,11 +16,15 @@ class HotelReviewsViewModel(val context: Context, val lob: LineOfBusiness = Line
     val toolbarTitleObservable = BehaviorSubject.create<String>()
     val toolbarSubtitleObservable = BehaviorSubject.create<String>()
     val hotelIdObservable = BehaviorSubject.create<String>()
+    val hotelOfferObservable = BehaviorSubject.create<HotelOffersResponse>()
+    val soldOutObservable = BehaviorSubject.create<Boolean>()
+    val scrollToRoomListener = BehaviorSubject.create<Unit>()
 
     var hotelOfferObserver: Observer<HotelOffersResponse> = endlessObserver { offer ->
         toolbarTitleObservable.onNext(offer.hotelName)
         toolbarSubtitleObservable.onNext(context.resources.getString(R.string.n_reviews_TEMPLATE, HotelUtils.formattedReviewCount(offer.totalReviews)))
         hotelIdObservable.onNext(offer.hotelId)
+        hotelOfferObservable.onNext(offer)
     }
 
     private var pageLoadTracked = false

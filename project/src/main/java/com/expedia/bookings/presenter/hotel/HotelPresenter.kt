@@ -372,6 +372,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         val viewStub = findViewById<ViewStub>(R.id.reviews_stub)
         val presenter = viewStub.inflate() as HotelReviewsView
         presenter.viewModel = HotelReviewsViewModel(getContext(), LineOfBusiness.HOTELS)
+        hotelDetailViewModel.hotelSoldOut.subscribe(presenter.viewModel.soldOutObservable)
+        presenter.viewModel.scrollToRoomListener.subscribe(hotelDetailViewModel.scrollToRoom)
         presenter.hotelReviewsTabbar.slidingTabLayout.addOnTabSelectedListener(slidingTabListener)
         presenter.reviewServices = reviewServices
         presenter

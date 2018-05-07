@@ -416,6 +416,20 @@ class OmnitureTrackingTest {
         OmnitureTestUtils.assertLinkTracked("Accounts", "App.Support.CFG.Messenger.Open.Cancel", OmnitureMatchers.withProps(expectedProp), mockAnalyticsProvider)
     }
 
+    @Test
+    fun testTrackSelectARoomClick() {
+        OmnitureTracking.trackHotelReviewSelectARoomClick()
+        OmnitureTestUtils.assertLinkTracked("Infosite Reviews", "App.Hotels.Reviews.SelectRoom", mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testSelectARoomExposureOnReviewPage() {
+        AbacusTestUtils.bucketTests(AbacusUtils.HotelReviewSelectRoomCta)
+        OmnitureTracking.trackHotelV2Reviews()
+        OmnitureTestUtils.assertStateTracked("App.Hotels.Reviews", Matchers.allOf(
+                OmnitureMatchers.withAbacusTestBucketed(AbacusUtils.HotelReviewSelectRoomCta.key)), mockAnalyticsProvider)
+    }
+
     private fun getPackageDetails(): PackageCreateTripResponse.PackageDetails {
         Db.setPackageParams(PackageTestUtil.getPackageSearchParams(destinationCityName = "<B>New</B> <B>York</B>, NY, United States <ap>(JFK-John F. Kennedy Intl.)</ap>",
                 childCount = emptyList()))

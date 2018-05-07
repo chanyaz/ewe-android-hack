@@ -11,7 +11,8 @@
         android:clipToPadding="false"
         android:orientation="vertical"
         android:focusable="true"
-        android:paddingTop="?attr/actionBarSize">
+        android:paddingTop="?attr/actionBarSize"
+        android:layout_above="@id/hotel_reviews_select_a_room_bar">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -47,7 +48,6 @@
         </FrameLayout>
     </LinearLayout>
 
-
     <android.support.v7.widget.Toolbar
         android:id="@+id/hotel_reviews_toolbar"
         android:layout_width="match_parent"
@@ -60,5 +60,16 @@
         app:subtitleTextAppearance="@style/ToolbarSubtitleTextAppearance"
         app:contentInsetStartWithNavigation="0dp" />
 
+    <com.expedia.bookings.hotel.widget.HotelSelectARoomBar
+        android:id="@+id/hotel_reviews_select_a_room_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:elevation="5dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:background="?attr/hotel_select_room_ripple_drawable"
+        android:minHeight="?attr/actionBarSize"
+        android:visibility="gone"/>
 
 </merge>
