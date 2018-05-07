@@ -127,6 +127,7 @@ class FlightResultsListViewPresenterTest {
         inflateAndSetViewModel()
 
         val flightLeg = createFakeFlightLeg()
+        sut.resultsViewModel.isOutboundResults.onNext(true)
         sut.resultsViewModel.flightResultsObservable.onNext(listOf(flightLeg))
 
         val processedFlightLeg = sut.resultsViewModel.flightResultsObservable.value[0]
@@ -156,6 +157,20 @@ class FlightResultsListViewPresenterTest {
         sut.resultsViewModel.flightResultsObservable.onNext(listOf(flightLeg))
 
         assertEquals(600, sut.flightProgressBar.progress)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testInboundFlightRichContent() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsRichContent, 3)
+        inflateAndSetViewModel()
+
+        val flightLeg = createFakeFlightLeg()
+        sut.resultsViewModel.isOutboundResults.onNext(false)
+        sut.resultsViewModel.flightResultsObservable.onNext(listOf(flightLeg))
+
+        val processedFlightLeg = sut.resultsViewModel.flightResultsObservable.value[0]
+        assertEquals(FLIGHT_LEG_ID, processedFlightLeg.legId)
     }
 
     private fun addFlightSearchParams() {

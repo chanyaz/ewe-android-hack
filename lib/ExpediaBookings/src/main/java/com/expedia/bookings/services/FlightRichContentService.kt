@@ -36,14 +36,25 @@ class FlightRichContentService(val endpoint: String, okHttpClient: OkHttpClient,
         adapter.create(FlightRichContentApi::class.java)
     }
 
-    var richContentSubscription: Disposable? = null
+    var richContentOutboundSubscription: Disposable? = null
+    var richContentInboundSubscription: Disposable? = null
 
-    fun getFlightRichContent(requestPayload: RichContentRequest, observer: Observer<RichContentResponse>): Disposable {
-        richContentSubscription?.dispose()
-        richContentSubscription = flightRichContentAPI.richContent(requestPayload)
+    fun getOutboundFlightRichContent(requestPayload: RichContentRequest, observer: Observer<RichContentResponse>): Disposable {
+        richContentOutboundSubscription?.dispose()
+        richContentOutboundSubscription = getRichContent(requestPayload, observer)
+        return richContentOutboundSubscription as Disposable
+    }
+
+    fun getInboundFlightRichContent(requestPayload: RichContentRequest, observer: Observer<RichContentResponse>): Disposable {
+        richContentInboundSubscription?.dispose()
+        richContentInboundSubscription = getRichContent(requestPayload, observer)
+        return richContentInboundSubscription as Disposable
+    }
+
+    private fun getRichContent(requestPayload: RichContentRequest, observer: Observer<RichContentResponse>): Disposable {
+        return flightRichContentAPI.richContent(requestPayload)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .subscribeObserver(observer)
-        return richContentSubscription as Disposable
     }
 }

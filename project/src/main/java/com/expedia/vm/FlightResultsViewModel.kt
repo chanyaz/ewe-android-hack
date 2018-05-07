@@ -31,13 +31,16 @@ class FlightResultsViewModel(context: Context) : BaseResultsViewModel() {
 
     init {
         Ui.getApplication(context).flightComponent().inject(this)
-        flightResultsObservable.subscribe { flightLegs ->
-            if (isRichContentEnabled(context) && flightLegs.isNotEmpty()) {
-                val richContentRequestPayload = RichContentUtils.getRichContentRequestPayload(context, flightLegs)
-                flightRichContentService.getFlightRichContent(richContentRequestPayload, makeRichContentObserver())
-            }
-        }
         if (showRichContent) {
+            ObservableOld.combineLatest(isOutboundResults, flightResultsObservable.filter { it.isNotEmpty() }, { isOutboundResult, flightLegs ->
+                val richContentRequestPayload = RichContentUtils.getRichContentRequestPayload(context, flightLegs)
+                if (isOutboundResult) {
+                    flightRichContentService.getOutboundFlightRichContent(richContentRequestPayload, makeRichContentObserver())
+                } else {
+                    flightRichContentService.getInboundFlightRichContent(richContentRequestPayload, makeRichContentObserver())
+                }
+            }).subscribe()
+
             ObservableOld.zip(richContentStream, flightResultsObservable, { richContentLegs, flightLegs ->
                 for (flightLeg in flightLegs) {
                     val richContent = richContentLegs[flightLeg.legId]
