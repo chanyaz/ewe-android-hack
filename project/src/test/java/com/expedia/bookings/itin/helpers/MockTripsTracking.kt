@@ -4,17 +4,20 @@ import com.expedia.bookings.tracking.ITripsTracking
 
 class MockTripsTracking : ITripsTracking {
 
-    var trackItinLxCalled = false
+    var trackTripListVisited = false
+    var trackTripFolderAbTest = false
+
     var trackItinHotelViewReceiptCalled = false
+    var trackHotelItinPricingRewardsClicked = false
+    var trackHotelTaxiClick = false
+    var trackHotelItinViewRewardsCalled = false
+
+    var trackItinLxCalled = false
 
     override fun trackItinHotelViewReceipt() {
         trackItinHotelViewReceiptCalled = true
     }
 
-    var trackHotelItinPricingRewardsClicked = false
-    var trackTripListVisited = false
-    var trackTripFolderAbTest = false
-    var trackHotelTaxiClick = false
     override fun trackHotelItinPricingRewardsClick() {
         trackHotelItinPricingRewardsClicked = true
     }
@@ -33,5 +36,9 @@ class MockTripsTracking : ITripsTracking {
 
     override fun trackHotelTaxiCardClick() {
         trackHotelTaxiClick = true
+    }
+
+    override fun trackItinHotelViewRewards() {
+        trackHotelItinViewRewardsCalled = true
     }
 }

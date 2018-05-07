@@ -7,4 +7,5 @@ interface ITripsTracking {
     fun trackTripListVisit(tabPosition: Int)
     fun trackItinHotelViewReceipt()
     fun trackHotelTaxiCardClick()
+    fun trackItinHotelViewRewards()
 }

@@ -33,6 +33,10 @@ interface HasTripsTracking {
     val tripsTracking: ITripsTracking
 }
 
+interface HasE3Endpoint {
+    val e3Endpoint: String
+}
+
 interface HasHotelRepo {
     val itinHotelRepo: ItinHotelRepoInterface
 }

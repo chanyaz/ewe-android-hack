@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/hotel_itin_pricing_rewards_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:text="@string/itin_hotel_details_price_summary_rewards_title"
+        android:textColor="@color/gray750"
+        android:textSize="18sp"
+        app:textStyle="medium" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/hotel_itin_pricing_rewards_section"
+        style="@style/MaterialCardView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/white"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/hotel_itin_pricing_rewards_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/hotel_itin_pricing_rewards_points_earned"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/itin_price_summary_label_gray_dark"
+                android:textSize="16sp"
+                android:visibility="gone"
+                app:textStyle="medium"
+                tools:text="You earned 177 Expedia+ points"
+                tools:visibility="visible" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/hotel_itin_pricing_rewards_points_base"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:textColor="@color/itin_price_summary_label_gray_light"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:textStyle="normal"
+                tools:text="\u2022 48 base points for this trip"
+                tools:visibility="visible" />
+
+            <LinearLayout
+                android:id="@+id/hotel_itin_pricing_rewards_points_bonus_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/hotel_itin_pricing_rewards_view_rewards_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/exp_blue_button_round_corners"
+        android:clickable="true"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="@string/itin_hotel_details_price_summary_rewards_button"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:textStyle="medium" />
+</merge>

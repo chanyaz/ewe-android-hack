@@ -59,6 +59,7 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     private val ITIN_HOTEL_MAP_ZOOM_OUT = "App.Map.Directions.ZoomOut"
     private val ITIN_HOTEL_VIEW_RECEIPT = "App.Itinerary.Hotel.PricingRewards.ViewReceipt"
     private val ITIN_HOTEL_TAXI_CARD = "App.Itinerary.Hotel.TaxiCard"
+    private val ITIN_HOTEL_VIEW_REWARDS = "App.Itinerary.Hotel.PricingRewards.ViewRewards"
     private val ITIN_HOTEL = "App.Itinerary.Hotel"
 
     fun trackItinHotelCallSupport() {
@@ -202,6 +203,11 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
         s.appendEvents("event63")
         trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelTripTaxiCard)
         s.track()
+    }
+
+    override fun trackItinHotelViewRewards() {
+        val s = createTrackLinkEvent(ITIN_HOTEL_VIEW_REWARDS)
+        s.trackLink("Itinerary Action")
     }
 
     //LX Tracking

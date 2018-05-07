@@ -45,3 +45,12 @@ data class HotelItinTaxiViewModelScope(
         override val itinHotelRepo: ItinHotelRepoInterface,
         override val lifecycleOwner: LifecycleOwner
 ) : HasHotelRepo, HasLifecycleOwner
+
+data class HotelItinRewardsScope(
+        override val strings: StringSource,
+        override val itinHotelRepo: ItinHotelRepo,
+        override val lifecycleOwner: LifecycleOwner,
+        override val tripsTracking: ITripsTracking,
+        override val webViewLauncher: IWebViewLauncher,
+        override val e3Endpoint: String
+) : HasStringProvider, HasHotelRepo, HasLifecycleOwner, HasTripsTracking, HasWebViewLauncher, HasE3Endpoint
