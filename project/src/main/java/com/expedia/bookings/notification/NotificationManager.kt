@@ -19,7 +19,7 @@ class NotificationManager(private val context: Context) : INotificationManager {
      * will not result in multiple notifications, as long as the ItinId*NotificationType remains the same.
      *
      */
-    fun scheduleNotification(notification: Notification) {
+    override fun scheduleNotification(notification: Notification) {
         val pendingIntent = NotificationReceiver.generateSchedulePendingIntent(context, notification)
         val mgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         mgr.set(AlarmManager.RTC_WAKEUP, notification.triggerTimeMillis, pendingIntent)
@@ -30,7 +30,7 @@ class NotificationManager(private val context: Context) : INotificationManager {
      *
      * @param notification
      */
-    fun cancelNotificationIntent(notification: Notification) {
+    override fun cancelNotificationIntent(notification: Notification) {
         val pendingIntent = NotificationReceiver.generateSchedulePendingIntent(context, notification)
 
         // Cancel if in the future
@@ -38,12 +38,12 @@ class NotificationManager(private val context: Context) : INotificationManager {
         mgr.cancel(pendingIntent)
     }
 
-    fun cancelAndDeleteNotification(notification: Notification) {
+    override fun cancelAndDeleteNotification(notification: Notification) {
         cancelNotificationIntent(notification)
         notification.delete()
     }
 
-    fun dismissNotification(notification: Notification) {
+    override fun dismissNotification(notification: Notification) {
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         nm.cancel(notification.uniqueId, 0)
     }
@@ -55,7 +55,7 @@ class NotificationManager(private val context: Context) : INotificationManager {
      * @param notification
      * @return
      */
-    fun findExisting(notification: Notification): Notification? {
+    override fun findExisting(notification: Notification): Notification? {
         val notifications = Select().from(Notification::class.java)
                 .where("UniqueId=? AND NotificationType=?", notification.uniqueId, notification.notificationType)
                 .limit("1").execute<Notification>()
@@ -66,7 +66,7 @@ class NotificationManager(private val context: Context) : INotificationManager {
         }
     }
 
-    fun hasExisting(notification: Notification): Boolean = findExisting(notification) != null
+    override fun hasExisting(notification: Notification): Boolean = findExisting(notification) != null
 
     /**
      * Dismiss notifications matching the UniqueId and NotificationType of the passed Notification
@@ -74,7 +74,7 @@ class NotificationManager(private val context: Context) : INotificationManager {
      * (even though that's not intended).
      * @param notification
      */
-    fun setNotificationStatusToDismissed(notification: Notification) {
+    override fun setNotificationStatusToDismissed(notification: Notification) {
         val notifications = Select().from(Notification::class.java)
                 .where("UniqueId=? AND NotificationType=?", notification.uniqueId, notification.notificationType)
                 .execute<Notification>()
@@ -98,6 +98,16 @@ class NotificationManager(private val context: Context) : INotificationManager {
             }
         }
 
+    override fun wasFired(uniqueId: String): Boolean {
+        val notifications = Select().from(Notification::class.java)
+                .where("UniqueId=?", uniqueId)
+                .limit("1").execute<Notification>()
+        val validNotifications = notifications.filter {
+            it.status != Notification.StatusType.NEW
+        }
+        return validNotifications.isNotEmpty()
+    }
+
     /**
      * Cancels all new or notified notifications, and removes them
      * from the notification bar if they've already been notified.
@@ -117,7 +127,7 @@ class NotificationManager(private val context: Context) : INotificationManager {
     /**
      * Cancels and removes _all_ notifications from the database.
      */
-    fun deleteAll() {
+    override fun deleteAll() {
         val notifications = Select().from(Notification::class.java).execute<Notification>()
 
         for (notification in notifications) {
@@ -133,7 +143,7 @@ class NotificationManager(private val context: Context) : INotificationManager {
      * Cancels and deletes all notifications related to the passed itinId.
      * @param itinId
      */
-    fun deleteAll(itinId: String) {
+    override fun deleteAll(itinId: String) {
         val notifications = Select().from(Notification::class.java).where("ItinId=?", itinId).execute<Notification>()
 
         for (notification in notifications) {

@@ -8,8 +8,9 @@ import android.content.Context;
 import com.expedia.bookings.data.user.TestFileCipher;
 import com.expedia.bookings.data.user.UserSource;
 import com.expedia.bookings.data.user.UserStateManager;
-import com.expedia.bookings.notification.NotificationManager;
+import com.expedia.bookings.notification.INotificationManager;
 import com.expedia.model.UserLoginStateChangedModel;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -18,7 +19,7 @@ public class TestUserModule {
 	@Provides
 	@Singleton
 	UserStateManager provideUserStateManager(Context context, UserLoginStateChangedModel userLoginStateChangedModel,
-		NotificationManager notificationManager) {
+		INotificationManager notificationManager) {
 		return new UserStateManager(context, userLoginStateChangedModel, notificationManager, AccountManager.get(context), new UserSource(context,
 			new TestFileCipher("", "")));
 	}

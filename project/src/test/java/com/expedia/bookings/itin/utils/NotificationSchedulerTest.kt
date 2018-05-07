@@ -266,6 +266,39 @@ class NotificationSchedulerTest {
     }
 
     open class TestNotificationManager : INotificationManager {
+        override fun scheduleNotification(notification: Notification) {
+        }
+
+        override fun cancelNotificationIntent(notification: Notification) {
+        }
+
+        override fun cancelAndDeleteNotification(notification: Notification) {
+        }
+
+        override fun dismissNotification(notification: Notification) {
+        }
+
+        override fun findExisting(notification: Notification): Notification? {
+            return notification
+        }
+
+        override fun hasExisting(notification: Notification): Boolean {
+            return true
+        }
+
+        override fun setNotificationStatusToDismissed(notification: Notification) {
+        }
+
+        override fun deleteAll() {
+        }
+
+        override fun deleteAll(itinId: String) {
+        }
+
+        override fun wasFired(uniqueId: String): Boolean {
+            return true
+        }
+
         var mNotification: Notification? = null
         override fun scheduleAll() = Unit
 

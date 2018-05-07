@@ -23,7 +23,7 @@ import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.itin.tripstore.utils.ITripsJsonFileUtils;
 import com.expedia.bookings.itin.utils.NotificationScheduler;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
-import com.expedia.bookings.notification.NotificationManager;
+import com.expedia.bookings.notification.INotificationManager;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.TripDetailsResponseHandler;
@@ -125,7 +125,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	// Should be initialized from the Application so that this does not leak a component
 	private Context mContext;
 	private UserStateManager userStateManager;
-	private NotificationManager notificationManager;
+	private INotificationManager notificationManager;
 	private ITripsJsonFileUtils tripsJsonFileUtils;
 
 	// Don't try refreshing too often

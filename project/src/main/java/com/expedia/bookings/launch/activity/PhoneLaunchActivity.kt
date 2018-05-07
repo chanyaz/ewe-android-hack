@@ -46,8 +46,8 @@ import com.expedia.bookings.launch.widget.LaunchTabView
 import com.expedia.bookings.launch.widget.PhoneLaunchToolbar
 import com.expedia.bookings.marketing.carnival.CarnivalUtils
 import com.expedia.bookings.model.PointOfSaleStateModel
+import com.expedia.bookings.notification.INotificationManager
 import com.expedia.bookings.notification.Notification
-import com.expedia.bookings.notification.NotificationManager
 import com.expedia.bookings.services.IClientLogServices
 import com.expedia.bookings.tracking.AppStartupTimeClientLog
 import com.expedia.bookings.tracking.AppStartupTimeLogger
@@ -111,7 +111,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
     lateinit var userStateManager: UserStateManager
         @Inject set
 
-    lateinit var notificationManager: NotificationManager
+    lateinit var notificationManager: INotificationManager
         @Inject set
 
     var jumpToItinId: String? = null

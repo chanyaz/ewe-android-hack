@@ -31,6 +31,7 @@ import com.expedia.bookings.itin.utils.StringProvider;
 import com.expedia.bookings.itin.utils.StringSource;
 import com.expedia.bookings.legacy.LegacyCurrentDomainSource;
 import com.expedia.bookings.model.PointOfSaleStateModel;
+import com.expedia.bookings.notification.INotificationManager;
 import com.expedia.bookings.notification.NotificationManager;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.server.PersistentCookieManagerV2;
@@ -411,7 +412,7 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	NotificationManager provideNotificationManager(Context context) {
+	INotificationManager provideNotificationManager(Context context) {
 		return new NotificationManager(context);
 	}
 
@@ -436,7 +437,7 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	NotificationScheduler provideNotificationScheduler(Context context, NotificationManager notificationManager,
+	NotificationScheduler provideNotificationScheduler(Context context, INotificationManager notificationManager,
 		UserStateManager userStateManager, TNSServices tnsServices) {
 		return new NotificationScheduler(context, notificationManager, userStateManager, tnsServices);
 	}
