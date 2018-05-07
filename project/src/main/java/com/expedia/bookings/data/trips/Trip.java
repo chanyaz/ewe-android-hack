@@ -338,20 +338,6 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 		}
 	}
 
-	/**
-	 * Used to compare guest itineraries by email/number for tracking purposes
-	 */
-	public boolean isSameGuest(Trip other) {
-		if (mGuestEmailAddress == null || mTripNumber == null || other == null) {
-			return false;
-		}
-
-		boolean sameEmail = other.getGuestEmailAddress() != null
-				&& mGuestEmailAddress.equals(other.getGuestEmailAddress());
-		boolean sameTripNumber = other.getTripNumber() != null && mTripNumber.equals(other.getTripNumber());
-		return sameEmail && sameTripNumber;
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 

@@ -35,6 +35,54 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
         s.track()
     }
 
+    //General Trips Tracking
+    private val ITIN_EMPTY = "App.Itinerary.Empty"
+    private val ITIN_NEW_SIGN_IN = "App.Itinerary.Login.Start"
+    private val ITIN_USER_REFRESH = "App.Itinerary.User.Refresh"
+    private val ITIN_CHANGE_POSA = "App.Itinerary.POSa"
+    private val ITIN_FIND_GUEST = "App.Itinerary.Find.Guest"
+    private val ITIN_ERROR = "App.Itinerary.Error"
+    private val ITIN_ADD_GUEST = "App.Itinerary.Guest.Itin"
+
+    @JvmStatic
+    fun trackItinEmpty() {
+        internalTrackPageLoadEventStandard(ITIN_EMPTY)
+    }
+
+    fun trackItinError() {
+        Log.d(TAG, "Tracking \"$ITIN_ERROR\" pageLoad")
+        val s = createTrackPageLoadEventBase(ITIN_ERROR)
+        s.appendEvents("event98")
+        s.setEvar(18, ITIN_ERROR)
+        s.setProp(36, "itin:unable to retrieve trip summary")
+        s.track()
+    }
+
+    fun trackFindGuestItin() {
+        internalTrackPageLoadEventStandard(ITIN_FIND_GUEST)
+    }
+
+    fun trackItinChangePOS() {
+        val s = createTrackLinkEvent(ITIN_CHANGE_POSA)
+        s.trackLink("Itinerary Action")
+    }
+
+    fun trackItinSignIn() {
+        val s = createTrackLinkEvent(ITIN_NEW_SIGN_IN)
+        s.trackLink("Itinerary Action")
+    }
+
+    fun trackItinRefresh() {
+        val s = createTrackLinkEvent(ITIN_USER_REFRESH)
+        s.trackLink("Itinerary Action")
+    }
+
+    @JvmStatic
+    fun trackItinGuestAdd() {
+        val s = createTrackLinkEvent(ITIN_ADD_GUEST)
+        s.trackLink("Itinerary Action")
+    }
+
     //Hotel Tracking
     private val ITIN_HOTEL_CALL_EXPEDIA = "App.Itinerary.Hotel.Manage.Call.Expedia"
     private val ITIN_HOTEL_OPEN_SUPPORT_WEBSITE = "App.Itinerary.Hotel.Manage.CSP"

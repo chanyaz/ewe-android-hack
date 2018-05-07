@@ -15,6 +15,7 @@ import com.expedia.bookings.extensions.subscribeMaterialFormsError
 import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.model.PointOfSaleStateModel
+import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
@@ -77,6 +78,7 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
                 viewModel.performGuestTripSearch.onNext(Pair(guestEmailEditText.text.toString(), itinNumberEditText.text.toString()))
                 itinPageUsablePerformanceModel.markSuccessfulStartTime(System.currentTimeMillis())
             }
+            TripsTracking.trackFindGuestItin()
         }
 
         toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_close_cont_desc)

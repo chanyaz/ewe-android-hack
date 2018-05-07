@@ -26,6 +26,7 @@ import com.expedia.bookings.itin.lx.details.LxItinDetailsActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.itin.flight.details.FlightItinDetailsActivity;
 import com.expedia.bookings.itin.hotel.details.HotelItinDetailsActivity;
+import com.expedia.bookings.tracking.TripsTracking;
 import com.mobiata.android.Log;
 
 @SuppressWarnings("rawtypes")
@@ -149,6 +150,7 @@ public class ItinListView extends ListView implements OnItemClickListener {
 			childEvent.offsetLocation(0, -child.getTop());
 			if (child.findViewById(R.id.add_guest_itin_text_view) != null) {
 				isChildConsumedTouch = true;
+				TripsTracking.trackItinGuestAdd();
 			}
 			else if (child instanceof ItinButtonCard
 				|| (child instanceof ItinAirAttachCard

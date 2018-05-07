@@ -77,6 +77,57 @@ class TripsTrackingTest {
         assertItinLinkTracked("App.Itinerary.Hotel.TaxiCard")
     }
 
+    @Test
+    fun testTrackItinEmpty() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinEmpty()
+        OmnitureTestUtils.assertStateTracked("App.Itinerary.Empty", OmnitureMatchers.withEvars(mapOf(18 to "App.Itinerary.Empty")), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackItinError() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinError()
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(mapOf(18 to "App.Itinerary.Error")), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withProps(mapOf(36 to "itin:unable to retrieve trip summary")), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEventsString("event98"), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackFindGuestItin() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackFindGuestItin()
+        OmnitureTestUtils.assertStateTracked("App.Itinerary.Find.Guest", OmnitureMatchers.withEvars(mapOf(18 to "App.Itinerary.Find.Guest")), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackItinChangePOS() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinChangePOS()
+        assertItinLinkTracked("App.Itinerary.POSa")
+    }
+
+    @Test
+    fun testTrackItinSignIn() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinSignIn()
+        assertItinLinkTracked("App.Itinerary.Login.Start")
+    }
+
+    @Test
+    fun testTrackItinRefresh() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinRefresh()
+        assertItinLinkTracked("App.Itinerary.User.Refresh")
+    }
+
+    @Test
+    fun testTrackAddGuestItin() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinGuestAdd()
+        assertItinLinkTracked("App.Itinerary.Guest.Itin")
+    }
+
     fun assertItinLinkTracked(rfrrId: String) {
         OmnitureTestUtils.assertLinkTracked("Itinerary Action", rfrrId, mockAnalyticsProvider)
     }

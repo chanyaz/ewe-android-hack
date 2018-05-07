@@ -42,6 +42,7 @@ import com.expedia.bookings.itin.flight.details.FlightItinDetailsActivity;
 import com.expedia.bookings.itin.hotel.details.HotelItinDetailsActivity;
 import com.expedia.bookings.presenter.trips.ItinSignInPresenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.tracking.TripsTracking;
 import com.expedia.bookings.utils.FeatureUtilKt;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
 import com.expedia.bookings.utils.Ui;
@@ -516,7 +517,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	@Override
 	public void onTripUpdated(Trip trip) {
-		OmnitureTracking.trackItinAdd(trip);
 		showDeepRefreshLoadingView(false);
 	}
 
@@ -615,7 +615,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			Context context = getActivity();
 			if (context != null) {
 				if (trips.size() < 0 && trackEmpty) {
-					OmnitureTracking.trackItinEmpty();
+					TripsTracking.trackItinEmpty();
 				}
 
 				//we just want to track when the user goes to the page.
