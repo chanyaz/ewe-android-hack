@@ -5,7 +5,6 @@ import android.app.Dialog
 import android.net.Uri
 import android.support.v4.app.DialogFragment
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -36,11 +35,11 @@ class InAppNotificationDialogFragment : DialogFragment() {
         ctaButton2.text = carnivalMessage.attributes.get(Constants.CARNIVAL_IN_APP_BUTTON2_LABEL)
 
         if (ctaButton1.text.isNullOrEmpty()) {
-            ctaButton1.text = resources.getString(R.string.ok)
+            ctaButton1.text = resources.getString(R.string.see_deal)
         }
 
         if (ctaButton2.text.isNullOrEmpty()) {
-            ctaButton2.visibility = View.GONE
+            ctaButton2.text = resources.getString(R.string.no_thanks)
         }
 
         ctaButton1.setOnClickListener {
