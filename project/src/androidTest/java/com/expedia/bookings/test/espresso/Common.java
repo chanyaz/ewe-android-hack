@@ -83,10 +83,14 @@ public class Common {
 	}
 
 	public static void genericPressBack() {
+		genericCloseKeyboard();
+		device.pressBack();
+	}
+
+	public static void genericCloseKeyboard() {
 		if (Common.isKeyboardDisplayed()) {
 			device.pressBack();
 		}
-		device.pressBack();
 	}
 
 	public static void setPOS(PointOfSaleId pos) {
@@ -172,15 +176,21 @@ public class Common {
 					return true; //If the check didn't error out, that means the view is displayed.
 				}
 				else if (listOfMatchers.get(i) instanceof BySelector) {
-					if (getUiDevice().findObject((BySelector) listOfMatchers.get(i)) != null) {
+					if (device.findObject((BySelector) listOfMatchers.get(i)) != null) {
 						return true;
 					}
 				}
 				else if (listOfMatchers.get(i) instanceof UiSelector) {
-					if (getUiDevice().findObject((UiSelector) listOfMatchers.get(i)).exists()) {
+					if (device.findObject((UiSelector) listOfMatchers.get(i)).exists()) {
 						return true;
 					}
 				}
+				else {
+					throw new IllegalArgumentException("Unknown Object Type!");
+				}
+			}
+			catch (IllegalArgumentException e) {
+				throw e;
 			}
 			catch (Exception ignored) { }
 		}

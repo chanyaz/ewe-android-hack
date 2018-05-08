@@ -14,7 +14,6 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.abacus.AbacusVariant;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.espresso.Common;
-import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.common.LaunchScreen;
 import com.mobiata.android.util.SettingUtils;
 
@@ -22,7 +21,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 
 import static android.support.test.espresso.action.ViewActions.click;
-import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
+import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToCompletelyDisplay;
 
 public class CommonSteps {
 	AbacusResponse abacusResponse = new AbacusResponse();
@@ -84,8 +83,8 @@ public class CommonSteps {
 
 	@Given("^I launch the App$")
 	public static void validateHomeScreenAppears() throws Throwable {
-		LaunchScreen.hotelsLaunchButton().perform(ViewActions.waitForViewToCompletelyDisplay());
-		LaunchScreen.shopButton().perform(waitForViewToDisplay(), click());
+		LaunchScreen.hotelsLaunchButton().perform(waitForViewToCompletelyDisplay());
+		LaunchScreen.shopButton().perform(waitForViewToCompletelyDisplay(), click());
 	}
 
 	@And("^I set bucketing rules for A/B tests as$")

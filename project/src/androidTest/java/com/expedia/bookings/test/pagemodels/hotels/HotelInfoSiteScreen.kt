@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.pagemodels.hotels
 
 import android.support.test.espresso.Espresso.onView
+import android.support.test.espresso.NoMatchingViewException
 import android.support.test.espresso.ViewInteraction
 import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.action.ViewActions.scrollTo
@@ -50,7 +51,7 @@ object HotelInfoSiteScreen {
     private val headerLabelText = allOf(isDescendantOfA(withId(R.id.hotel_details_toolbar)),
             withId(R.id.hotel_name_text), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
     private val selectRoomStickyBottomButton = allOf(withId(R.id.sticky_bottom_button),
-            withText("Select a Room"), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
+            withText(R.string.select_a_room_instruction), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
 
     enum class RoomIndex(val index: Int) {
         DEFAULT(0),
@@ -120,10 +121,8 @@ object HotelInfoSiteScreen {
 
             try {
                 // If sticky select is visible, click it.
-                onView(selectRoomStickyBottomButton)
-                        .check(matches(isDisplayed()))
-                        .perform(click())
-            } catch (ignored: AssertionFailedError) { }
+                onView(selectRoomStickyBottomButton).perform(click())}
+            catch (ignored: NoMatchingViewException) { }
 
             if (option != null || isContainingMultiplePriceOptions()) {
                 //Case when there are multiple options per room, each containing a book button
@@ -450,7 +449,7 @@ object HotelInfoSiteScreen {
 
     // View
     @JvmStatic
-    fun stickySelectRoomButton(): ViewInteraction {
+    fun selectRoomStickyBottomButton(): ViewInteraction {
         return onView(selectRoomStickyBottomButton)
     }
 
@@ -541,7 +540,7 @@ object HotelInfoSiteScreen {
     @JvmStatic
     fun clickStickySelectRoom() {
         waitForDetailsLoaded()
-        stickySelectRoomButton().perform(click())
+        selectRoomStickyBottomButton().perform(click())
     }
 
     @JvmStatic

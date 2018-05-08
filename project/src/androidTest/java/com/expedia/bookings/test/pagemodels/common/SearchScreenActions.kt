@@ -4,7 +4,12 @@ import android.support.test.espresso.Espresso
 import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.action.ViewActions.typeText
 import android.support.test.espresso.contrib.RecyclerViewActions
-import android.support.test.espresso.matcher.ViewMatchers
+import android.support.test.espresso.matcher.ViewMatchers.hasDescendant
+import android.support.test.espresso.matcher.ViewMatchers.Visibility.VISIBLE
+import android.support.test.espresso.matcher.ViewMatchers.withContentDescription
+import android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
+import android.support.test.espresso.matcher.ViewMatchers.withId
+import android.support.test.espresso.matcher.ViewMatchers.withText
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.expedia.bookings.R
@@ -17,10 +22,15 @@ import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen
 import com.mobiata.mocke3.FlightApiMockResponseGenerator
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
+import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.containsString
 import org.joda.time.LocalDate
 import java.util.concurrent.TimeUnit
 
 object SearchScreenActions {
+    @JvmField val MAGNIFYING_GLASS_ICON = "MAGNIFYING_GLASS_ICON"
+    @JvmField val LOCATION_ICON = "SEARCH_TYPE_ICON"
+    @JvmField val HOTEL_ICON = "HOTEL_ICON"
 
     @Throws(Throwable::class)
     @JvmStatic fun selectPackageOriginAndDestination() {
@@ -58,9 +68,9 @@ object SearchScreenActions {
     @Throws(Throwable::class)
     @JvmStatic fun selectLocation(location: String) {
         val viewMatcher = Matchers.allOf(
-                ViewMatchers.hasDescendant(ViewMatchers.withId(R.id.suggestion_text_container)),
-                ViewMatchers.hasDescendant(ViewMatchers.withText(Matchers.containsString(location))),
-                ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
+                hasDescendant(withId(R.id.suggestion_text_container)),
+                hasDescendant(withText(Matchers.containsString(location))),
+                withEffectiveVisibility(VISIBLE))
         selectSuggestion(viewMatcher)
     }
 
@@ -73,32 +83,37 @@ object SearchScreenActions {
 
     @Throws(Throwable::class)
     @JvmStatic fun selectItemWithMagnifyingGlass() {
-        val viewMatcher = Matchers.allOf(
-                ViewMatchers.hasDescendant(ViewMatchers.withContentDescription("MAGNIFYING_GLASS_ICON")),
-                ViewMatchers.hasDescendant(Matchers.allOf(ViewMatchers.withId(R.id.suggestion_text_container))))
+        val viewMatcher = allOf(
+                hasDescendant(withContentDescription(MAGNIFYING_GLASS_ICON)),
+                hasDescendant(withId(R.id.suggestion_text_container))
+        )
         selectSuggestion(viewMatcher)
     }
 
     @Throws(Throwable::class)
     @JvmStatic fun selectHotelWithText(text: String) {
-        val viewMatcher = Matchers.allOf(
-                ViewMatchers.hasDescendant(ViewMatchers.withContentDescription("HOTEL_ICON")),
-                ViewMatchers.hasDescendant(Matchers.allOf(ViewMatchers.withId(R.id.suggestion_text_container),
-                        ViewMatchers.hasDescendant(ViewMatchers.withText(Matchers.containsString(text))))))
+        val viewMatcher = allOf(
+                hasDescendant(withContentDescription(HOTEL_ICON)),
+                hasDescendant(allOf(
+                        withId(R.id.suggestion_text_container),
+                        hasDescendant(withText(containsString(text)))
+                )))
         selectSuggestion(viewMatcher)
     }
 
     @Throws(Throwable::class)
     @JvmStatic fun selectSpecificLocationWithText(text: String) {
-        val viewMatcher = Matchers.allOf(
-                ViewMatchers.hasDescendant(ViewMatchers.withContentDescription("SEARCH_TYPE_ICON")),
-                ViewMatchers.hasDescendant(Matchers.allOf(ViewMatchers.withId(R.id.suggestion_text_container),
-                        ViewMatchers.hasDescendant(ViewMatchers.withText(text)))))
+        val viewMatcher = allOf(
+                hasDescendant(withContentDescription(LOCATION_ICON)),
+                hasDescendant(allOf(
+                        withId(R.id.suggestion_text_container),
+                        hasDescendant(withText(text))
+                )))
         selectSuggestion(viewMatcher)
     }
 
     @JvmStatic private fun selectSuggestion(viewMatcher: Matcher<View>) {
-        EspressoUtils.waitForViewNotYetInLayoutToDisplay(ViewMatchers.withId(R.id.suggestion_list), 10, TimeUnit.SECONDS)
+        EspressoUtils.waitForViewNotYetInLayoutToDisplay(withId(R.id.suggestion_list), 10, TimeUnit.SECONDS)
         waitForSuggestions(viewMatcher)
         SearchScreen.suggestionList()
                 .perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(viewMatcher, click()))
@@ -151,8 +166,8 @@ object SearchScreenActions {
         Espresso.closeSoftKeyboard()
         Common.delay(1)
         SearchScreen.suggestionList().perform(com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay(),
-                RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(ViewMatchers.hasDescendant(
-                        ViewMatchers.withText(suggestionResponseType.suggestionString)), click()))
+                RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(hasDescendant(
+                        withText(suggestionResponseType.suggestionString)), click()))
 
         //Delay for the auto advance to destination picker
         Common.delay(1)

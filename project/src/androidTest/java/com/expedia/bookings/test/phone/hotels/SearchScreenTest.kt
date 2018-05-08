@@ -166,7 +166,7 @@ class SearchScreenTest : HotelTestCase() {
 
         SearchScreen.searchButton().perform(click())
         HotelInfoSiteScreen.waitForDetailsLoaded()
-        HotelInfoSiteScreen.stickySelectRoomButton().check(matches(isDisplayed()))
+        HotelInfoSiteScreen.selectRoomStickyBottomButton().check(matches(isDisplayed()))
     }
 
     private fun computeDateText(start: LocalDate?, end: LocalDate?): CharSequence {

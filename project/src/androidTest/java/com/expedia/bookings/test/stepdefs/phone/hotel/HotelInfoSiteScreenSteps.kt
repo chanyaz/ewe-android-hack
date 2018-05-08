@@ -99,6 +99,7 @@ class HotelInfoSiteScreenSteps {
     @When("^I book first room$")
     @Throws(Throwable::class)
     fun iBookFirstRoom() {
+        HotelInfoSiteScreen.waitForPageToLoad()
         HotelInfoSiteScreen.Room().clickBookButton(true)
     }
 
