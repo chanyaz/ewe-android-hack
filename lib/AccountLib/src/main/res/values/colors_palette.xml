@@ -12,4 +12,6 @@
     <color name="acct__blue_1">#1369B3</color>
     <color name="acct__blue_2">#0947b2</color>
 
+    <color name="acct__black_50">#80000000</color>
+
 </resources>

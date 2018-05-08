@@ -128,4 +128,12 @@ class SinglePageEmailNamePasswordLayout(context: Context, attrs: AttributeSet) :
         mValidationObservable.unsubscribe(allTextValidSubject)
         super.onDetachedFromWindow()
     }
+
+    fun setEnable(enable: Boolean) {
+        vFirstNameInput.isEnabled = enable
+        vLastNameInput.isEnabled = enable
+        vEmailAddress.isEnabled = enable
+        vPassword.isEnabled = enable
+        vPassword.isPasswordVisibilityToggleEnabled(enable)
+    }
 }

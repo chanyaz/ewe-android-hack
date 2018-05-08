@@ -1,6 +1,7 @@
 package com.expedia.account.view
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
@@ -26,7 +27,7 @@ class FacebookLinkAccountsLayout(context: Context, attrs: AttributeSet) : Linear
         ACCOUNT_EXISTING
     }
 
-    val toolbar: Toolbar by lazy { findViewById<Toolbar>(R.id.new_facebook_toolbar) }
+    private val toolbar: Toolbar by lazy { findViewById<Toolbar>(R.id.new_facebook_toolbar) }
     private val message: TextView by lazy { findViewById<TextView>(R.id.new_facebook_header_message) }
     private val email: SinglePageInputTextPresenter by lazy { findViewById<SinglePageInputTextPresenter>(R.id.new_facebook_email_address) }
     private val password: SinglePageInputTextPresenter by lazy { findViewById<SinglePageInputTextPresenter>(R.id.new_facebook_password) }
@@ -37,6 +38,8 @@ class FacebookLinkAccountsLayout(context: Context, attrs: AttributeSet) : Linear
 
     private var validationObservable = CombiningFakeObservable()
     private val allTextValidSubject = BehaviorSubject.create<Boolean>()
+
+    private lateinit var toolbarNavigationOnClickListener: OnClickListener
 
     init {
         View.inflate(context, R.layout.acct__widget_facebook_link_accounts, this)
@@ -117,5 +120,24 @@ class FacebookLinkAccountsLayout(context: Context, attrs: AttributeSet) : Linear
     private fun storeDataInNewUser() {
         Db.getNewUser().email = email.text
         Db.getNewUser().password = password.text
+    }
+
+    fun setNavigationOnClickListener(listener: OnClickListener) {
+        toolbarNavigationOnClickListener = listener
+        toolbar.setNavigationOnClickListener(listener)
+    }
+
+    fun stylizeToolbar(color: Int, navigationIcon: Drawable) {
+        toolbar.setBackgroundColor(color)
+        toolbar.navigationIcon = navigationIcon
+    }
+
+    fun setEnable(enable: Boolean) {
+        email.isEnabled = enable
+        password.isEnabled = enable
+        password.isPasswordVisibilityToggleEnabled(enable)
+        forgotPassword.isEnabled = enable
+        linkAccountsButton.isEnabled = enable
+        toolbar.setNavigationOnClickListener(if (enable) toolbarNavigationOnClickListener else null)
     }
 }

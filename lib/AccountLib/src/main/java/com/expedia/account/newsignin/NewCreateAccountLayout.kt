@@ -116,4 +116,10 @@ class NewCreateAccountLayout(context: Context, attrs: AttributeSet) : FrameLayou
     fun focusPassword() {
         emailNamePasswordLayout.focusPassword()
     }
+
+    fun setEnable(enable: Boolean) {
+        emailNamePasswordLayout.setEnable(enable)
+        spamCheckbox.isEnabled = enable
+        createAccountButton.isEnabled = enable
+    }
 }

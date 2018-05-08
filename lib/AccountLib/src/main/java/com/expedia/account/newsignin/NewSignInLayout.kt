@@ -71,4 +71,13 @@ class NewSignInLayout(context: Context, attributeSet: AttributeSet) : FrameLayou
     fun configurePOS(enableFacebookButton: Boolean) {
         signInWithFacebookButton.visibility = if (enableFacebookButton) View.VISIBLE else View.INVISIBLE
     }
+
+    fun setEnable(enable: Boolean) {
+        signInWithFacebookButton.isEnabled = enable
+        emailInput.isEnabled = enable
+        passwordInput.isEnabled = enable
+        passwordInput.isPasswordVisibilityToggleEnabled(enable)
+        forgotPassword.isEnabled = enable
+        signInButton.isEnabled = enable
+    }
 }

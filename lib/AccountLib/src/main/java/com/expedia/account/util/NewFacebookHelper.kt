@@ -85,6 +85,7 @@ open class NewFacebookHelper(val context: Context, val config: Config, val brand
     protected fun onFacebookLoginSuccess(context: Context, loginResult: LoginResult) {
         // A successful login from Facebook means now we're ready to try
         // connecting the Facebook account to the Expedia account.
+        newAccountView.showLoading()
         Log.d("FACEBOOK: LoginResult: onSuccess!")
         val token = loginResult.accessToken
 
@@ -146,7 +147,6 @@ open class NewFacebookHelper(val context: Context, val config: Config, val brand
         if (!user.isFacebookUser) {
             throw RuntimeException("Not a Facebook user")
         }
-
         config.service.facebookAutoLogin(user.facebookUserId, user.facebookToken)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -168,40 +168,20 @@ open class NewFacebookHelper(val context: Context, val config: Config, val brand
                             showErrorFacebookUnknown(context)
                             return
                         }
-
                         Log.d("FACEBOOK: facebookAutoLogin response: " + facebookLinkResponse.status.name)
                         when (facebookLinkResponse.status) {
                             FacebookLinkResponse.FacebookLinkResponseCode.notLinked -> showNewOrExistingAccountDialog(context)
-                            FacebookLinkResponse.FacebookLinkResponseCode.existing -> newAccountView.showFacebookLinkAccountsView(FacebookLinkAccountsLayout.SetupType.ACCOUNT_EXISTING)
                             FacebookLinkResponse.FacebookLinkResponseCode.success -> facebookSignInRefreshProfile(context)
+                            FacebookLinkResponse.FacebookLinkResponseCode.existing -> {
+                                newAccountView.cancelLoading()
+                                newAccountView.showFacebookLinkAccountsView(FacebookLinkAccountsLayout.SetupType.ACCOUNT_EXISTING)
+                            }
                             FacebookLinkResponse.FacebookLinkResponseCode.error -> showErrorFacebookUnknown(context)
                             FacebookLinkResponse.FacebookLinkResponseCode.loginFailed -> showErrorFacebookUnknown(context)
                             else -> return
                         }
                     }
                 })
-    }
-
-    private fun showNewOrExistingAccountDialog(context: Context) {
-        val message = Utils.obtainBrandedPhrase(context,
-                R.string.acct__fb_notLinked_description_TEMPLATE, brand)
-                .put("email_address", Db.getNewUser().email).format()
-
-        AlertDialog.Builder(context)
-                .setTitle(R.string.acct__fb_notLinked_title)
-                .setMessage(message)
-                .setNegativeButton(R.string.acct__fb_notLinked_new_button) { _, _ -> facebookLinkNewAccount(context) }
-                .setPositiveButton(R.string.acct__fb_notLinked_existing_button) { _, _ ->
-                    Db.getNewUser().email = ""
-                    newAccountView.showFacebookLinkAccountsView(FacebookLinkAccountsLayout.SetupType.ACCOUNT_NOT_LINKED)
-                    // We don't recognize your facebook email address,
-                    // and you choose "sign in with existing account",
-                    // meaning you want to use a different email address.
-                }
-                .setCancelable(true)
-                .setOnCancelListener { onFacebookLoginCancelled() }
-                .create()
-                .show()
     }
 
     /**
@@ -307,6 +287,32 @@ open class NewFacebookHelper(val context: Context, val config: Config, val brand
         config.accountSignInListener.onSignInSuccessful()
     }
 
+    private fun showNewOrExistingAccountDialog(context: Context) {
+        newAccountView.cancelLoading()
+        val message = Utils.obtainBrandedPhrase(context,
+                R.string.acct__fb_notLinked_description_TEMPLATE, brand)
+                .put("email_address", Db.getNewUser().email).format()
+
+        AlertDialog.Builder(context)
+                .setTitle(R.string.acct__fb_notLinked_title)
+                .setMessage(message)
+                .setNegativeButton(R.string.acct__fb_notLinked_new_button) { _, _ ->
+                    newAccountView.showLoading()
+                    facebookLinkNewAccount(context)
+                }
+                .setPositiveButton(R.string.acct__fb_notLinked_existing_button) { _, _ ->
+                    Db.getNewUser().email = ""
+                    newAccountView.showFacebookLinkAccountsView(FacebookLinkAccountsLayout.SetupType.ACCOUNT_NOT_LINKED)
+                    // We don't recognize your facebook email address,
+                    // and you choose "sign in with existing account",
+                    // meaning you want to use a different email address.
+                }
+                .setCancelable(true)
+                .setOnCancelListener { onFacebookLoginCancelled() }
+                .create()
+                .show()
+    }
+
     private fun showErrorFacebookUnknown(context: Context) {
         facebookLogOut()
         showErrorDialog(R.string.acct__Sign_in_failed_TITLE,
@@ -344,6 +350,7 @@ open class NewFacebookHelper(val context: Context, val config: Config, val brand
      * Log out from facebook when we failed signing in at our end.
      */
     private fun facebookLogOut() {
+        newAccountView.cancelLoading()
         AccountService.facebookLogOut()
     }
 }

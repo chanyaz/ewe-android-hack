@@ -55,6 +55,8 @@ public class SignInActivity extends FragmentActivity {
 
 	private boolean isNewSignInEnabled = false;
 
+	private NavigationListener navigationListener = new NavigationListener();
+
 	private DialogInterface.OnClickListener endpointListener = new DialogInterface.OnClickListener() {
 		public void onClick(DialogInterface dialog, int which) {
 
@@ -91,6 +93,7 @@ public class SignInActivity extends FragmentActivity {
 				config.setInitialTab(NewAccountView.AccountTab.SIGN_IN);
 				newAccountView.setVisibility(View.VISIBLE);
 				getWindow().setStatusBarColor(getResources().getColor(R.color.brand_primary_dark));
+				newAccountView.setNavigationOnClickListener(navigationListener);
 				config.setInitialTab(NewAccountView.AccountTab.SIGN_IN);
 				newAccountView.setupConfig(config);
 				isNewSignInEnabled = true;
@@ -117,7 +120,8 @@ public class SignInActivity extends FragmentActivity {
 			.setNewTermsText(Html.fromHtml(getString(R.string.new_account_terms_text)))
 			.setListener(mAccountViewListener)
 			.setAnalyticsListener(null)
-			.setInitialState(Config.InitialState.SignIn);
+			.setInitialState(Config.InitialState.SignIn)
+			.setInitialTab(NewAccountView.AccountTab.SIGN_IN);
 	}
 
 	@Override
@@ -260,6 +264,13 @@ public class SignInActivity extends FragmentActivity {
 		catch (PackageManager.NameNotFoundException e) {
 		}
 		catch (NoSuchAlgorithmException e) {
+		}
+	}
+
+	public class NavigationListener implements View.OnClickListener {
+		@Override
+		public void onClick(View v) {
+			finish();
 		}
 	}
 }

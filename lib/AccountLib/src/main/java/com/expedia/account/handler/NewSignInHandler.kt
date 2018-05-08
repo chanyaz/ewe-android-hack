@@ -3,6 +3,7 @@ package com.expedia.account.handler
 import android.content.Context
 import android.support.v7.app.AlertDialog
 import com.expedia.account.Config
+import com.expedia.account.NewAccountView
 import com.expedia.account.R
 import com.expedia.account.data.AccountResponse
 import com.expedia.account.recaptcha.RecaptchaHandler
@@ -12,7 +13,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class NewSignInHandler(val context: Context, val config: Config, private val email: String, private val password: String) : RecaptchaHandler {
+class NewSignInHandler(val context: Context, val config: Config, private val email: String,
+                       private val password: String, private val newAccountView: NewAccountView) : RecaptchaHandler {
 
     private var accountLoadingDisposable: Disposable? = null
 
@@ -37,7 +39,8 @@ class NewSignInHandler(val context: Context, val config: Config, private val ema
                     override fun onError(e: Throwable) {
                         accountLoadingDisposable?.dispose()
                         accountLoadingDisposable = null
-                        showSignInError()
+                        newAccountView.cancelLoading()
+                        showNetworkSignInError()
                     }
 
                     override fun onSubscribe(d: Disposable) {
@@ -46,7 +49,8 @@ class NewSignInHandler(val context: Context, val config: Config, private val ema
 
                     override fun onNext(response: AccountResponse) {
                         if (!response.success) {
-                            showSignInError(response)
+                            newAccountView.cancelLoading()
+                            showResponseSignInError(response)
                         } else {
                             doSignInSuccessful()
                         }
@@ -60,22 +64,18 @@ class NewSignInHandler(val context: Context, val config: Config, private val ema
     }
 
     // Networking error
-    private fun showSignInError() {
+    private fun showNetworkSignInError() {
         config.analyticsListener?.userReceivedErrorOnSignInAttempt("Account:local")
-        showSignInErrorGeneric()
+        showSignInErrorDialog(AccountResponse().SignInFailureError())
     }
 
     // API returned !success
-    private fun showSignInError(response: AccountResponse) {
+    private fun showResponseSignInError(response: AccountResponse) {
         config.analyticsListener?.userReceivedErrorOnSignInAttempt("Account:" + (response.errors?.get(0)?.errorInfo?.cause ?: "server"))
-        showSignInErrorGeneric(response.SignInFailureError())
+        showSignInErrorDialog(response.SignInFailureError())
     }
 
-    private fun showSignInErrorGeneric() {
-        showSignInErrorGeneric(AccountResponse().SignInFailureError())
-    }
-
-    private fun showSignInErrorGeneric(signInError: AccountResponse.SignInError) {
+    private fun showSignInErrorDialog(signInError: AccountResponse.SignInError) {
         val errorMessage: Int
         val errorTitle: Int
 

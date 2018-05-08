@@ -20,7 +20,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 class NewCreateAccountHandler(private val context: Context, private val config: Config, val brand: String?, private val createAccountLayout: NewCreateAccountLayout,
-                              private val viewPager: ViewPager) : RecaptchaHandler {
+                              private val viewPager: ViewPager, private val newAccountView: NewAccountView) : RecaptchaHandler {
 
     private var accountLoadingDisposable: Disposable? = null
 
@@ -53,7 +53,8 @@ class NewCreateAccountHandler(private val context: Context, private val config: 
                     override fun onError(e: Throwable) {
                         accountLoadingDisposable?.dispose()
                         accountLoadingDisposable = null
-                        showCreateAccountError()
+                        newAccountView.cancelLoading()
+                        showNetworkCreateAccountError()
                     }
 
                     override fun onSubscribe(d: Disposable) {
@@ -62,7 +63,8 @@ class NewCreateAccountHandler(private val context: Context, private val config: 
 
                     override fun onNext(response: AccountResponse) {
                         if (!response.success) {
-                            showCreateAccountError(response)
+                            newAccountView.cancelLoading()
+                            showResponseCreateAccountError(response)
                         } else {
                             doCreateAccountSuccessful()
                         }
@@ -75,21 +77,12 @@ class NewCreateAccountHandler(private val context: Context, private val config: 
         config.accountSignInListener?.onSignInSuccessful()
     }
 
-    private fun showCreateAccountError() {
+    private fun showNetworkCreateAccountError() {
         config.analyticsListener?.userReceivedErrorOnAccountCreationAttempt("Account:local")
-        showCreateAccountErrorGeneric()
+        showErrorNoNetworkDialog()
     }
 
-    private fun showCreateAccountErrorGeneric() {
-        showErrorMessageDialog(
-                if (Utils.isOnline(context)) {
-                    R.string.acct__Create_account_failed
-                } else {
-                    R.string.acct__no_network_connection
-                }, null)
-    }
-
-    private fun showCreateAccountError(response: AccountResponse) {
+    private fun showResponseCreateAccountError(response: AccountResponse) {
         config.analyticsListener?.userReceivedErrorOnAccountCreationAttempt("Account" + (response.errors[0].errorInfo?.cause ?: "server"))
 
         if (response.hasError(AccountResponse.ErrorCode.EMAIL_PASSWORD_IDENTICAL_ERROR)) {
@@ -131,7 +124,15 @@ class NewCreateAccountHandler(private val context: Context, private val config: 
             }
         }
         // Catch all for anything else. (E.g. reCaptcha token error, which mAPI returns a response with a null errorCode)
-        showCreateAccountErrorGeneric()
+        showErrorGeneralDialog()
+    }
+
+    private fun showErrorNoNetworkDialog() {
+        showErrorMessageDialog(R.string.acct__no_network_connection, null)
+    }
+
+    private fun showErrorGeneralDialog() {
+        showErrorMessageDialog(R.string.acct__Create_account_failed, null)
     }
 
     private fun showErrorAccountExistsDialog () {

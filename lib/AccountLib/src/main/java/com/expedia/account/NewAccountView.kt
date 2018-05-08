@@ -40,11 +40,14 @@ open class NewAccountView(context: Context, attrs: AttributeSet) : FrameLayout(c
     private val signInLayout: NewSignInLayout by lazy { findViewById<NewSignInLayout>(R.id.new_account_signin_view) }
     private val createAccountLayout: NewCreateAccountLayout by lazy { findViewById<NewCreateAccountLayout>(R.id.new_account_create_view) }
     private val facebookLinkAccountsLayout: FacebookLinkAccountsLayout by lazy { findViewById<FacebookLinkAccountsLayout>(R.id.new_account_facebook_link_accounts_view) }
+    private val loadingView: FrameLayout by lazy { findViewById<FrameLayout>(R.id.new_account_loading_view) }
 
     private val pagerAdapter = SignInPagerAdapter()
     private lateinit var brand: String
     protected lateinit var config: Config
     private val facebookHelper: NewFacebookHelper by lazy { createFacebookHelper() }
+
+    private lateinit var toolbarNavigationListener: OnClickListener
 
     init {
         View.inflate(context, R.layout.acct__widget_new_account_view, this)
@@ -55,9 +58,9 @@ open class NewAccountView(context: Context, attrs: AttributeSet) : FrameLayout(c
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        facebookLinkAccountsLayout.toolbar.setNavigationOnClickListener {
+        facebookLinkAccountsLayout.setNavigationOnClickListener(OnClickListener {
             cancelFacebookLinkAccountsView()
-        }
+        })
     }
 
     @SuppressLint("CustomViewStyleable")
@@ -71,8 +74,8 @@ open class NewAccountView(context: Context, attrs: AttributeSet) : FrameLayout(c
         tabs.setSelectedTabIndicatorColor(attributes.getColor(R.styleable.acct__NewAccountView_acct__tab_indicator_color, -1))
         tabs.setTabTextColors(attributes.getColor(R.styleable.acct__NewAccountView_acct__tab_text_color, -1),
                 attributes.getColor(R.styleable.acct__NewAccountView_acct__tab_text_selected_color, -1))
-        facebookLinkAccountsLayout.toolbar.setBackgroundColor(attributes.getColor(R.styleable.acct__NewAccountView_acct__header_color, -1))
-        facebookLinkAccountsLayout.toolbar.navigationIcon = attributes.getDrawable(R.styleable.acct__NewAccountView_acct__back_drawable)
+        facebookLinkAccountsLayout.stylizeToolbar(attributes.getColor(R.styleable.acct__NewAccountView_acct__header_color, -1),
+                attributes.getDrawable(R.styleable.acct__NewAccountView_acct__back_drawable))
         facebookLinkAccountsLayout.brand = brand
         attributes.recycle()
     }
@@ -136,10 +139,6 @@ open class NewAccountView(context: Context, attrs: AttributeSet) : FrameLayout(c
         return facebookLinkAccountsLayout.visibility != View.VISIBLE
     }
 
-    fun setNavigationOnClickListener(listener: OnClickListener) {
-        toolBar.setNavigationOnClickListener(listener)
-    }
-
     inner class SignInPagerAdapter : PagerAdapter() {
         override fun isViewFromObject(view: View?, targetObject: Any?): Boolean {
             return targetObject == view
@@ -176,7 +175,8 @@ open class NewAccountView(context: Context, attrs: AttributeSet) : FrameLayout(c
 
     @Subscribe
     open fun otto(e: Events.NewAccountSignInButtonClicked) {
-        val handler = NewSignInHandler(context, config, e.email, e.password)
+        showLoading()
+        val handler = NewSignInHandler(context, config, e.email, e.password, this@NewAccountView)
         if (config.enableRecaptcha) {
             Recaptcha.recaptchaCheck(context as Activity, config.recaptchaAPIKey, handler)
         } else {
@@ -187,7 +187,8 @@ open class NewAccountView(context: Context, attrs: AttributeSet) : FrameLayout(c
 
     @Subscribe
     open fun otto(e: Events.NewCreateAccountButtonClicked) {
-        val handler = NewCreateAccountHandler(context, config, brand, createAccountLayout, viewPager)
+        showLoading()
+        val handler = NewCreateAccountHandler(context, config, brand, createAccountLayout, viewPager, this@NewAccountView)
         if (config.enableRecaptcha) {
             Recaptcha.recaptchaCheck(context as Activity, config.recaptchaAPIKey, handler)
         } else {
@@ -210,6 +211,7 @@ open class NewAccountView(context: Context, attrs: AttributeSet) : FrameLayout(c
 
     @Subscribe
     open fun otto(e: Events.NewLinkFromFacebookFired) {
+        showLoading()
         facebookHelper.onLinkClicked(context)
         Utils.hideKeyboard(this)
     }
@@ -233,7 +235,36 @@ open class NewAccountView(context: Context, attrs: AttributeSet) : FrameLayout(c
         super.onDetachedFromWindow()
     }
 
+    fun setNavigationOnClickListener(listener: OnClickListener) {
+        toolbarNavigationListener = listener
+        toolBar.setNavigationOnClickListener(toolbarNavigationListener)
+    }
+
     open fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         facebookHelper.onActivityResult(requestCode, resultCode, data)
+    }
+
+    fun showLoading() {
+        setTabsEnable(false)
+        loadingView.visibility = View.VISIBLE
+        signInLayout.setEnable(false)
+        createAccountLayout.setEnable(false)
+        facebookLinkAccountsLayout.setEnable(false)
+        toolBar.setNavigationOnClickListener(null)
+    }
+
+    fun cancelLoading() {
+        setTabsEnable(true)
+        loadingView.visibility = View.GONE
+        signInLayout.setEnable(true)
+        createAccountLayout.setEnable(true)
+        facebookLinkAccountsLayout.setEnable(true)
+        toolBar.setNavigationOnClickListener(toolbarNavigationListener)
+    }
+
+    private fun setTabsEnable(enable: Boolean) {
+        for (i in 0 until AccountTab.values().size) {
+            (tabs.getChildAt(0) as ViewGroup).getChildAt(i).isEnabled = enable
+        }
     }
 }

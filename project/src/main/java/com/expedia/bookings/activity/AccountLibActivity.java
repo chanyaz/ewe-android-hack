@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -82,6 +83,7 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 	private LineOfBusiness lob = LineOfBusiness.HOTELS;
 	private LoginExtender loginExtender;
 	private Config.InitialState startState = Config.InitialState.SignIn;
+	@VisibleForTesting
 	protected NewAccountView.AccountTab initialTab = NewAccountView.AccountTab.SIGN_IN;
 	private UserAccountRefresher userAccountRefresher;
 	private boolean userLoggedInWithFacebook = false;
