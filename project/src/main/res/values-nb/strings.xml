@@ -768,11 +768,11 @@
     <!-- Header for a flight filter, showing a list of flights from different airlines -->
     <string name="airlines">Flyselskaper</string>
     <!-- Header for a flight filter above the price on checked filters-->
-    <string name="price_label">Pris</string>
+    <string name="price_label">Fra</string>
 
     <!-- Pluralization for number of stops (layovers) on a given flight "2 stops" -->
     <plurals name="x_Stops_TEMPLATE">
-        <item quantity="zero">Ingen mellomlanding</item>
+        <item quantity="zero">Direkte</item>
         <item quantity="one">%s stopp</item>
         <item quantity="two">%s mellomlandinger</item>
         <item quantity="few">%s mellomlandinger</item>
@@ -1403,12 +1403,20 @@
     <string name="itin_hotel_details_cost_summary_room_price_text">Rompris</string>
     <!--Hotel itin card price summary line item label for multiple guest fees-->
     <string name="itin_hotel_price_summary_multiple_guest_fees_label">Gebyr for flere gjester</string>
+    <!--Hotel itin card price summary line item label for property fee-->
+    <string name="itin_hotel_price_summary_property_fee_label">Gebyr fra overnattingsstedet</string>
     <!--Hotel itin card price summary line item label for taxes & fees-->
     <string name="itin_hotel_price_summary_taxes_and_fees_label">Skatter og avgifter</string>
     <!--Hotel itin card price summary line item label for coupons-->
     <string name="itin_hotel_price_summary_coupons_label">Kupong brukt</string>
     <!--Hotel itin card price summary line item label for points applied-->
     <string name="itin_hotel_price_summary_points_label">Poeng brukt</string>
+    <!--Hotel itin card price summary line item label for total amount paid-->
+    <string name="itin_hotel_price_summary_total_amount_paid_label">Betalt totalbeløp</string>
+    <!--Hotel itin card price summary line item label for total amount due-->
+    <string name="itin_hotel_price_summary_total_amount_due_label">Betales på hotellet</string>
+    <!--Hotel itin card price summary line item label for total amount PoS different from PoSu template. Total in {currencyCode} (eg., Total in USD)-->
+    <string name="itin_hotel_price_summary_total_in_pos_label_TEMPLATE">Totalt i {currencycode}</string>
     <!--Hotel itin card price summary line item value for points applied template. -{points} (e.g., -$30)-->
     <string name="itin_hotel_price_summary_points_value_TEMPLATE">-{points}</string>
     <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
@@ -1503,7 +1511,6 @@
     <string name="itin_hotel_price_reward_title">Priser og bonusordninger</string>
     <!--Hotel itin view receipt title. (e.g. Receipt for Hilton) -->
     <string name="itin_hotel_view_receipt_title_TEMPLATE">Kvittering for {hotelname}</string>
-
 
     <!--LX itin redesign-->
     <!--LX toolbar title template. (e.g. Activity in San Francisco)-->
@@ -3066,8 +3073,6 @@
     <string name="booking_loading">Bestiller…</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
     <string name="error_unable_to_send_email">Det var ikke mulig å sende en e-postbekreftelse.</string>
-    <!--Message displayed under loading icon while loading checkout web view-->
-    <string name="almost_there">Nesten ferdig!</string>
 
     <!-- Confirmation activity -->
     <!-- Confirmation number label -->
@@ -4254,7 +4259,9 @@
         <item quantity="one">{seats} sete igjen</item>
         <item quantity="other">{seats} seter igjen</item>
     </plurals>
-        <string name="package_flight_overview_baggage_fees">Informasjon om bagasjeavgift</string>
+    <!-- Seats left message in flights cell. e.g. "3 left at this price" -->
+    <string name="flight_cell_urgency_messaging_TEMPLATE">{seats} igjen til denne prisen</string>
+    <string name="package_flight_overview_baggage_fees">Informasjon om bagasjeavgift</string>
     <string name="package_flight_overview_select_flight">Velg denne flyreisen</string>
     <string name="package_flight_overview_bundle_total_label">Pakken totalt</string>
     <string name="package_flight_overview_per_person_TEMPLATE">{money} per person</string>
@@ -4632,12 +4639,6 @@
     <!-- Label for change fare class subtext,  Example. Change fare class -->
     <string name="flight_change_fare_class">Endre prisklasse</string>
 
-    <string name="basic_economy_rule_1">Seter tildeles ved innsjekking.</string>
-    <string name="basic_economy_rule_2">Seter tildeles etter innsjekking.</string>
-    <string name="basic_economy_rule_3">Endringer og refusjoner er ikke mulig.</string>
-    <string name="basic_economy_rule_4">Ombordstigning til sist.</string>
-    <string name="basic_economy_rule_5">Ingen oppgradering.</string>
-    <string name="basic_economy_rule_6">Kun 1 personlig gjenstand, ikke tilgang til bagasjehylle.</string>
     <!-- Label for basic economy tool tip info title. Example. Delta Basic Economy Fare-->
     <string name="basic_economy_tooltip_header_TEMPLATE">{airlineshortname} Basic Economy-pris</string>
 
@@ -4923,6 +4924,7 @@
     <!-- Hint to type in itinerary number -->
     <string name="find_guest_add_itinerary_number_hint">Reiserutenummer</string>
     <string name="itin_toolbar">Reiser</string>
+    <string name="itin_minus_price_cont_desc">minus\u0020</string>
 
     <!-- Booking successful alert text-->
     <string name="booking_successful">Bestillingen gikk igjennom!</string>

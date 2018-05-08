@@ -768,7 +768,7 @@
     <!-- Header for a flight filter, showing a list of flights from different airlines -->
     <string name="airlines">Aerolíneas</string>
     <!-- Header for a flight filter above the price on checked filters-->
-    <string name="price_label">Precio</string>
+    <string name="price_label">Desde</string>
 
     <!-- Pluralization for number of stops (layovers) on a given flight "2 stops" -->
     <plurals name="x_Stops_TEMPLATE">
@@ -1403,12 +1403,20 @@
     <string name="itin_hotel_details_cost_summary_room_price_text">Precio de la habitación</string>
     <!--Hotel itin card price summary line item label for multiple guest fees-->
     <string name="itin_hotel_price_summary_multiple_guest_fees_label">Recargo por varios huéspedes</string>
+    <!--Hotel itin card price summary line item label for property fee-->
+    <string name="itin_hotel_price_summary_property_fee_label">Tasa del establecimiento</string>
     <!--Hotel itin card price summary line item label for taxes & fees-->
     <string name="itin_hotel_price_summary_taxes_and_fees_label">Tasas e impuestos</string>
     <!--Hotel itin card price summary line item label for coupons-->
     <string name="itin_hotel_price_summary_coupons_label">Cupón canjeado</string>
     <!--Hotel itin card price summary line item label for points applied-->
     <string name="itin_hotel_price_summary_points_label">Puntos aplicados</string>
+    <!--Hotel itin card price summary line item label for total amount paid-->
+    <string name="itin_hotel_price_summary_total_amount_paid_label">Total pagado</string>
+    <!--Hotel itin card price summary line item label for total amount due-->
+    <string name="itin_hotel_price_summary_total_amount_due_label">Total a pagar en el hotel</string>
+    <!--Hotel itin card price summary line item label for total amount PoS different from PoSu template. Total in {currencyCode} (eg., Total in USD)-->
+    <string name="itin_hotel_price_summary_total_in_pos_label_TEMPLATE">Total en {currencycode}</string>
     <!--Hotel itin card price summary line item value for points applied template. -{points} (e.g., -$30)-->
     <string name="itin_hotel_price_summary_points_value_TEMPLATE">-{points}</string>
     <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
@@ -1503,7 +1511,6 @@
     <string name="itin_hotel_price_reward_title">Precio y recompensas</string>
     <!--Hotel itin view receipt title. (e.g. Receipt for Hilton) -->
     <string name="itin_hotel_view_receipt_title_TEMPLATE">Recibo de {hotelname}</string>
-
 
     <!--LX itin redesign-->
     <!--LX toolbar title template. (e.g. Activity in San Francisco)-->
@@ -3066,8 +3073,6 @@
     <string name="booking_loading">Reservando…</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
     <string name="error_unable_to_send_email">No hemos podido enviarte un correo de confirmación.</string>
-    <!--Message displayed under loading icon while loading checkout web view-->
-    <string name="almost_there">¡Ya casi estamos!</string>
 
     <!-- Confirmation activity -->
     <!-- Confirmation number label -->
@@ -4112,8 +4117,8 @@
 
     <!-- Flight seats left urgency message on checkout e.g. We have 4 seats left at this price -->
     <plurals name="flight_seats_left_urgency_message_on_checkout_TEMPLATE">
-        <item quantity="one">Hay {seats} asiento más a este precio</item>
-        <item quantity="other">Hay {seats} asientos más a este precio</item>
+        <item quantity="one">Hay {seats} asiento más a este precio.</item>
+        <item quantity="other">Hay {seats} asientos más a este precio.</item>
     </plurals>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am -1d -->
     <string name="flight_departure_arrival_time_negative_days_TEMPLATE">{departuretime} - {arrivaltime} -{elapseddays} d</string>
@@ -4252,9 +4257,11 @@
     <!-- Seats left message if 1 - 5 tickets left. e.g. "1 seat left" -->
     <plurals name="package_flight_overview_urgency_message_TEMPLATE">
         <item quantity="one">Solo queda {seats} asiento</item>
-        <item quantity="other">Solo quedan {seats} asientos</item>
+        <item quantity="other">Solo quedan {seats} asientos.</item>
     </plurals>
-        <string name="package_flight_overview_baggage_fees">Información sobre tasas de equipaje</string>
+    <!-- Seats left message in flights cell. e.g. "3 left at this price" -->
+    <string name="flight_cell_urgency_messaging_TEMPLATE">Hay {seats} más a este precio.</string>
+    <string name="package_flight_overview_baggage_fees">Información sobre tasas de equipaje</string>
     <string name="package_flight_overview_select_flight">Seleccionar este vuelo</string>
     <string name="package_flight_overview_bundle_total_label">Total del paquete</string>
     <string name="package_flight_overview_per_person_TEMPLATE">{money}/persona</string>
@@ -4579,8 +4586,8 @@
     <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">Escala de {layoverhours} y {layovermins}. \u0020</string>
     <!-- Label for seats left urgency message content description for accessibility Example. There are 2 left at this price. -->
     <plurals name="flight_detail_urgency_message_cont_desc_TEMPLATE">
-        <item quantity="one">Hay {seatsleft} más a este precio</item>
-        <item quantity="other">Hay {seatsleft} más a este precio</item>
+        <item quantity="one">Hay {seatsleft} más a este precio.</item>
+        <item quantity="other">Hay {seatsleft} más a este precio.</item>
     </plurals>
     <!--Flying to card content description Eg. Flying to. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
     <string name="search_flying_to_destination_cont_desc_TEMPLATE">Destino. Botón. {to_destination}</string>
@@ -4632,12 +4639,6 @@
     <!-- Label for change fare class subtext,  Example. Change fare class -->
     <string name="flight_change_fare_class">Modifica la clase de tarifa</string>
 
-    <string name="basic_economy_rule_1">El asiento se asigna al realizar la facturación en línea.</string>
-    <string name="basic_economy_rule_2">El asiento se asigna tras realizar la facturación en línea.</string>
-    <string name="basic_economy_rule_3">No se permiten ni cambios ni reembolsos.</string>
-    <string name="basic_economy_rule_4">Embarque con el último grupo.</string>
-    <string name="basic_economy_rule_5">No se aplican mejoras de categoría.</string>
-    <string name="basic_economy_rule_6">Solo se permite 1 bulto personal, sin acceso al compartimento superior.</string>
     <!-- Label for basic economy tool tip info title. Example. Delta Basic Economy Fare-->
     <string name="basic_economy_tooltip_header_TEMPLATE">Tarifa turista básica de {airlineshortname}</string>
 
@@ -4923,6 +4924,7 @@
     <!-- Hint to type in itinerary number -->
     <string name="find_guest_add_itinerary_number_hint">Número de itinerario</string>
     <string name="itin_toolbar">Viajes</string>
+    <string name="itin_minus_price_cont_desc">menos\u0020</string>
 
     <!-- Booking successful alert text-->
     <string name="booking_successful">¡Reserva realizada!</string>

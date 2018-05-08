@@ -118,7 +118,7 @@
     <!-- Facebook/{Expedia} account not found: dialog box title -->
     <string name="acct__fb_notLinked_title">Không tìm thấy tài khoản</string>
     <!-- Error message: Error signing in to {Expedia} account -->
-    <string name="acct__fb_link_existing_failed">Không đăng nhập được vào tài khoản {brand} của quý vị, vì vậy chúng tôi đã không thể liên kết tài khoản của quý vị với Facebook.</string>
+    <string name="acct__fb_link_existing_failed">Không đăng nhập được vào tài khoản {brand} của quý vị; vì vậy, chúng tôi không thể liên kết với tài khoản Facebook như yêu cầu.</string>
     <!-- Facebook/{Expedia} account not found: dialog box description text -->
     <string name="acct__fb_notLinked_description_TEMPLATE">Không tìm thấy địa chỉ email Facebook của quý vị, {email_address}, trên {brand}. Quý vị muốn tạo tài khoản {brand} mới hay đăng nhập vào một tài khoản {brand} đã tạo trước đây?</string>
     <!-- Facebook/{Expedia} account not found: create a new account button -->
@@ -128,11 +128,11 @@
     <!-- Creating a new {Expedia} account via Facebook login -->
     <string name="acct__fb_creating_a_new_brand_account">Đang tạo tài khoản {brand} mới…</string>
     <!-- Message to the user requesting the user to enter email/password to link with Facebook -->
-    <string name="acct__fb_enter_your_brand_credentials">Hãy nhập thông tin đăng nhập tài khoản {brand} của quý vị vào bên dưới, tài khoản này sẽ được liên kết với tài khoản Facebook của quý vị.</string>
+    <string name="acct__fb_enter_your_brand_credentials">Hãy nhập thông tin đăng nhập tài khoản {brand} bên dưới, tài khoản này sẽ được liên kết với tài khoản Facebook của quý vị.</string>
     <!-- Label for information for users who had previously used Google sign-in -->
     <string name="acct__google_account_change_string">Đăng nhập bằng Google?</string>
     <!-- Content for dialog explaining that Google sign-in is no longer available and how to retrieve account details -->
-    <string name="acct__google_account_change_message_TEMPLATE">Tuy không còn hỗ trợ đăng nhập bằng Google, nhưng chúng tôi vẫn lưu trữ thông tin chuyến đi với {brand} của quý vị! Để đăng nhập, vui lòng thêm mật khẩu bằng cách sử dụng địa chỉ email Google trên trang web của chúng tôi</string>
+    <string name="acct__google_account_change_message_TEMPLATE">Tuy không còn hỗ trợ đăng nhập bằng Google, chúng tôi vẫn lưu trữ thông tin chuyến đi với {brand} của quý vị! Để đăng nhập, vui lòng thêm mật khẩu bằng cách sử dụng địa chỉ email Google trên trang web của chúng tôi</string>
 
     <!--Accessibility-->
     <!-- Content description for Checkbox types, state Checked -->

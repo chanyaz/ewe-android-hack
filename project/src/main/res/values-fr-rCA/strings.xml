@@ -768,7 +768,7 @@
     <!-- Header for a flight filter, showing a list of flights from different airlines -->
     <string name="airlines">Cies aériennes</string>
     <!-- Header for a flight filter above the price on checked filters-->
-    <string name="price_label">Prix</string>
+    <string name="price_label">À partir de</string>
 
     <!-- Pluralization for number of stops (layovers) on a given flight "2 stops" -->
     <plurals name="x_Stops_TEMPLATE">
@@ -1403,12 +1403,20 @@
     <string name="itin_hotel_details_cost_summary_room_price_text">Prix de la chambre</string>
     <!--Hotel itin card price summary line item label for multiple guest fees-->
     <string name="itin_hotel_price_summary_multiple_guest_fees_label">Frais pour voyageurs multiples</string>
+    <!--Hotel itin card price summary line item label for property fee-->
+    <string name="itin_hotel_price_summary_property_fee_label">Frais de l\&apos;établissement</string>
     <!--Hotel itin card price summary line item label for taxes & fees-->
     <string name="itin_hotel_price_summary_taxes_and_fees_label">Taxes et frais</string>
     <!--Hotel itin card price summary line item label for coupons-->
     <string name="itin_hotel_price_summary_coupons_label">Bon de réduction appliqué</string>
     <!--Hotel itin card price summary line item label for points applied-->
     <string name="itin_hotel_price_summary_points_label">Points appliqués</string>
+    <!--Hotel itin card price summary line item label for total amount paid-->
+    <string name="itin_hotel_price_summary_total_amount_paid_label">Total payé</string>
+    <!--Hotel itin card price summary line item label for total amount due-->
+    <string name="itin_hotel_price_summary_total_amount_due_label">Total payable à l\&apos;hôtel</string>
+    <!--Hotel itin card price summary line item label for total amount PoS different from PoSu template. Total in {currencyCode} (eg., Total in USD)-->
+    <string name="itin_hotel_price_summary_total_in_pos_label_TEMPLATE">Total en {currencycode}</string>
     <!--Hotel itin card price summary line item value for points applied template. -{points} (e.g., -$30)-->
     <string name="itin_hotel_price_summary_points_value_TEMPLATE">-{points}</string>
     <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
@@ -1503,7 +1511,6 @@
     <string name="itin_hotel_price_reward_title">Tarification et récompenses</string>
     <!--Hotel itin view receipt title. (e.g. Receipt for Hilton) -->
     <string name="itin_hotel_view_receipt_title_TEMPLATE">Reçu pour {hotelname}</string>
-
 
     <!--LX itin redesign-->
     <!--LX toolbar title template. (e.g. Activity in San Francisco)-->
@@ -2129,7 +2136,7 @@
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">Vous accumulerez {reward_currency} points pour ce voyage!</string>
     <!-- Blurb text displayed on account sign in button when already signed in and has 2x earn messaging e.g. You'll earn 1234 points. That's double for booking in app!-->
-    <string name="earn_2x_rewards_currency_for_this_trip_TEMPLATE">Vous accumulerez {reward_currency} points, soit le double, en réservant dans l\&apos;application!</string>
+    <string name="earn_2x_rewards_currency_for_this_trip_TEMPLATE">Vous accumulerez {reward_currency} points. C\&apos;est le double parce que vous réservez dans l\&apos;application!</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_raised_the_total_price_TEMPLATE">Désolés, mais il semble que l\&apos;hôtel vient d\&apos;augmenter le coût total du séjour de %1$s à %2$s.</string>
     <!-- String to use when a price change alert should be shown to the user -->
@@ -3066,8 +3073,6 @@
     <string name="booking_loading">Réservation…</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
     <string name="error_unable_to_send_email">Nous n\&apos;avons pas pu envoyer de courriel de confirmation.</string>
-    <!--Message displayed under loading icon while loading checkout web view-->
-    <string name="almost_there">Vous y êtes presque!</string>
 
     <!-- Confirmation activity -->
     <!-- Confirmation number label -->
@@ -4254,7 +4259,9 @@
         <item quantity="one">{seats} siège restant</item>
         <item quantity="other">{seats} sièges restants</item>
     </plurals>
-        <string name="package_flight_overview_baggage_fees">Renseignements sur les frais de bagages</string>
+    <!-- Seats left message in flights cell. e.g. "3 left at this price" -->
+    <string name="flight_cell_urgency_messaging_TEMPLATE">{seats} restants à ce prix</string>
+    <string name="package_flight_overview_baggage_fees">Renseignements sur les frais de bagages</string>
     <string name="package_flight_overview_select_flight">Sélectionner ce vol</string>
     <string name="package_flight_overview_bundle_total_label">Total de l\&apos;offre groupée</string>
     <string name="package_flight_overview_per_person_TEMPLATE">{money} par personne</string>
@@ -4632,12 +4639,6 @@
     <!-- Label for change fare class subtext,  Example. Change fare class -->
     <string name="flight_change_fare_class">Modifier la classe</string>
 
-    <string name="basic_economy_rule_1">Sièges assignés à l\&apos;enregistrement</string>
-    <string name="basic_economy_rule_2">Sièges assignés après l\&apos;enregistrement</string>
-    <string name="basic_economy_rule_3">Modification et remboursement non disponibles</string>
-    <string name="basic_economy_rule_4">Embarquement dans le dernier groupe</string>
-    <string name="basic_economy_rule_5">Aucun surclassement</string>
-    <string name="basic_economy_rule_6">1 article personnel seulement, aucun accès au compartiment au-dessus de vous</string>
     <!-- Label for basic economy tool tip info title. Example. Delta Basic Economy Fare-->
     <string name="basic_economy_tooltip_header_TEMPLATE">Tarif Économie de base de {airlineshortname}</string>
 
@@ -4923,6 +4924,7 @@
     <!-- Hint to type in itinerary number -->
     <string name="find_guest_add_itinerary_number_hint">Numéro d\&apos;itinéraire</string>
     <string name="itin_toolbar">Voyages</string>
+    <string name="itin_minus_price_cont_desc">moins\u0020</string>
 
     <!-- Booking successful alert text-->
     <string name="booking_successful">Réservation effectuée!</string>
