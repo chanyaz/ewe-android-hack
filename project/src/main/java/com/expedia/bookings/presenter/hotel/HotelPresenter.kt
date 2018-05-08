@@ -415,8 +415,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         reviewsView.hotelReviewsTabbar.slidingTabLayout.removeOnTabSelectedListener(slidingTabListener)
     }
 
-    private fun shouldUseWebCheckout() = PointOfSale.getPointOfSale().shouldShowWebCheckout() ||
-            AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelsWebCheckout)
+    private fun shouldUseWebCheckout() = true
 
     fun setDefaultTransition(screen: Screen) {
         val defaultTransition = when (screen) {

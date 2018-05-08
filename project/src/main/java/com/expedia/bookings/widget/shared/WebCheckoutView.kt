@@ -225,8 +225,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
     }
 
     private fun shouldShowNativeHotelConfirmation(url: String): Boolean {
-        return url.contains(context.getString(R.string.hotel_confirmation_url_tag)) &&
-                (PointOfSale.getPointOfSale().shouldShowWebCheckout() || AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppHotelsWebCheckout))
+        return url.contains(context.getString(R.string.hotel_confirmation_url_tag))
     }
 
     private fun shouldShowNativeFlightConfirmation(url: String): Boolean {
