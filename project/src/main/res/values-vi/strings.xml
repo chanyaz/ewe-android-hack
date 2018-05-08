@@ -768,7 +768,7 @@
     <!-- Header for a flight filter, showing a list of flights from different airlines -->
     <string name="airlines">Hãng hàng không</string>
     <!-- Header for a flight filter above the price on checked filters-->
-    <string name="price_label">Giá</string>
+    <string name="price_label">Từ</string>
 
     <!-- Pluralization for number of stops (layovers) on a given flight "2 stops" -->
     <plurals name="x_Stops_TEMPLATE">
@@ -1403,12 +1403,20 @@
     <string name="itin_hotel_details_cost_summary_room_price_text">Giá phòng</string>
     <!--Hotel itin card price summary line item label for multiple guest fees-->
     <string name="itin_hotel_price_summary_multiple_guest_fees_label">Phụ phí khách</string>
+    <!--Hotel itin card price summary line item label for property fee-->
+    <string name="itin_hotel_price_summary_property_fee_label">Phí nơi lưu trú</string>
     <!--Hotel itin card price summary line item label for taxes & fees-->
     <string name="itin_hotel_price_summary_taxes_and_fees_label">Thuế &amp; phí</string>
     <!--Hotel itin card price summary line item label for coupons-->
     <string name="itin_hotel_price_summary_coupons_label">Đã áp dụng coupon</string>
     <!--Hotel itin card price summary line item label for points applied-->
     <string name="itin_hotel_price_summary_points_label">Đã áp dụng điểm</string>
+    <!--Hotel itin card price summary line item label for total amount paid-->
+    <string name="itin_hotel_price_summary_total_amount_paid_label">Tổng số tiền thanh toán</string>
+    <!--Hotel itin card price summary line item label for total amount due-->
+    <string name="itin_hotel_price_summary_total_amount_due_label">Tổng thanh toán tại khách sạn</string>
+    <!--Hotel itin card price summary line item label for total amount PoS different from PoSu template. Total in {currencyCode} (eg., Total in USD)-->
+    <string name="itin_hotel_price_summary_total_in_pos_label_TEMPLATE">Tổng bằng {currencycode}</string>
     <!--Hotel itin card price summary line item value for points applied template. -{points} (e.g., -$30)-->
     <string name="itin_hotel_price_summary_points_value_TEMPLATE">-{points}</string>
     <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
@@ -1503,7 +1511,6 @@
     <string name="itin_hotel_price_reward_title">Giá và điểm thưởng</string>
     <!--Hotel itin view receipt title. (e.g. Receipt for Hilton) -->
     <string name="itin_hotel_view_receipt_title_TEMPLATE">Biên nhận của {hotelname}</string>
-
 
     <!--LX itin redesign-->
     <!--LX toolbar title template. (e.g. Activity in San Francisco)-->
@@ -3066,8 +3073,6 @@
     <string name="booking_loading">Đang đặt…</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
     <string name="error_unable_to_send_email">Chúng tôi không thể gửi email xác nhận.</string>
-    <!--Message displayed under loading icon while loading checkout web view-->
-    <string name="almost_there">Gần xong rồi!</string>
 
     <!-- Confirmation activity -->
     <!-- Confirmation number label -->
@@ -3430,13 +3435,13 @@
     <string name="e3_error_hotel_offers_unknown_error">Rất tiếc! Chương trình khuyến mãi cho phòng này đã kết thúc, nhưng vẫn còn nhiều ưu đãi khác.</string>
 
     <!-- HotelProduct API method -->
-    <string name="e3_error_hotel_product_unknown_error">Đã xảy ra lỗi không xác định.</string>
-    <string name="e3_error_hotel_product_invalid_input">Đã xảy ra lỗi không xác định.</string>
+    <string name="e3_error_hotel_product_unknown_error">Có lỗi không xác định.</string>
+    <string name="e3_error_hotel_product_invalid_input">Có lỗi không xác định.</string>
 
     <!-- HotelInformation API method -->
-    <string name="e3_error_hotel_information_hotel_service_failure">Đã xảy ra lỗi không xác định.</string>
-    <string name="e3_error_hotel_information_unknown_error">Đã xảy ra lỗi không xác định.</string>
-    <string name="e3_error_hotel_information_invalid_input">Đã xảy ra lỗi không xác định.</string>
+    <string name="e3_error_hotel_information_hotel_service_failure">Có lỗi không xác định.</string>
+    <string name="e3_error_hotel_information_unknown_error">Có lỗi không xác định.</string>
+    <string name="e3_error_hotel_information_invalid_input">Có lỗi không xác định.</string>
 
     <!-- Country names -->
     <string name="country_af">Afghanistan</string>
@@ -4254,7 +4259,9 @@
         <item quantity="one">Còn {seats} chỗ</item>
         <item quantity="other">Còn {seats} chỗ</item>
     </plurals>
-        <string name="package_flight_overview_baggage_fees">Thông tin phí hành lý</string>
+    <!-- Seats left message in flights cell. e.g. "3 left at this price" -->
+    <string name="flight_cell_urgency_messaging_TEMPLATE">Còn {seats} chỗ giá này</string>
+    <string name="package_flight_overview_baggage_fees">Thông tin phí hành lý</string>
     <string name="package_flight_overview_select_flight">Chọn chuyến bay này</string>
     <string name="package_flight_overview_bundle_total_label">Tổng gói</string>
     <string name="package_flight_overview_per_person_TEMPLATE">{money}/người</string>
@@ -4450,7 +4457,7 @@
 
    <string name="pwp_points_conversion_unauthenticated_access">Rất tiếc, chúng tôi đang gặp sự cố máy chủ. Vui lòng thử lại.</string>
    <string name="pwp_trip_service_error">Rất tiếc, chúng tôi đang gặp sự cố máy chủ. Vui lòng thử lại.</string>
-   <string name="pwp_unknown_error">Đã xảy ra lỗi không xác định. Vui lòng thử lại.</string>
+   <string name="pwp_unknown_error">Có lỗi không xác định. Vui lòng thử lại.</string>
 
    <!-- New Hotel Search screen -->
     <string name="enter_destination_hint">Nhập điểm đến</string>
@@ -4632,12 +4639,6 @@
     <!-- Label for change fare class subtext,  Example. Change fare class -->
     <string name="flight_change_fare_class">Đổi hạng vé</string>
 
-    <string name="basic_economy_rule_1">Chỉ định chỗ ngồi khi làm thủ tục lên máy bay.</string>
-    <string name="basic_economy_rule_2">Chỉ định chỗ ngồi sau khi làm thủ tục lên máy bay.</string>
-    <string name="basic_economy_rule_3">Không được thay đổi và hoàn tiền.</string>
-    <string name="basic_economy_rule_4">Lên máy bay ở nhóm cuối.</string>
-    <string name="basic_economy_rule_5">Không nâng hạng.</string>
-    <string name="basic_economy_rule_6">Chỉ 1 vật dụng cá nhân. Không được dùng khoang để đồ.</string>
     <!-- Label for basic economy tool tip info title. Example. Delta Basic Economy Fare-->
     <string name="basic_economy_tooltip_header_TEMPLATE">Giá vé tiết kiệm cơ bản của {airlineshortname}</string>
 
@@ -4923,6 +4924,7 @@
     <!-- Hint to type in itinerary number -->
     <string name="find_guest_add_itinerary_number_hint">Số lịch trình</string>
     <string name="itin_toolbar">Chuyến đi</string>
+    <string name="itin_minus_price_cont_desc">trừ\u0020</string>
 
     <!-- Booking successful alert text-->
     <string name="booking_successful">Đã đặt thành công!</string>

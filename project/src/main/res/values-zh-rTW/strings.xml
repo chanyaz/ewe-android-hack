@@ -768,7 +768,7 @@
     <!-- Header for a flight filter, showing a list of flights from different airlines -->
     <string name="airlines">航空公司</string>
     <!-- Header for a flight filter above the price on checked filters-->
-    <string name="price_label">價格</string>
+    <string name="price_label">最低價</string>
 
     <!-- Pluralization for number of stops (layovers) on a given flight "2 stops" -->
     <plurals name="x_Stops_TEMPLATE">
@@ -1403,12 +1403,20 @@
     <string name="itin_hotel_details_cost_summary_room_price_text">房價</string>
     <!--Hotel itin card price summary line item label for multiple guest fees-->
     <string name="itin_hotel_price_summary_multiple_guest_fees_label">多位旅客費用</string>
+    <!--Hotel itin card price summary line item label for property fee-->
+    <string name="itin_hotel_price_summary_property_fee_label">住宿收費</string>
     <!--Hotel itin card price summary line item label for taxes & fees-->
     <string name="itin_hotel_price_summary_taxes_and_fees_label">稅金和費用</string>
     <!--Hotel itin card price summary line item label for coupons-->
     <string name="itin_hotel_price_summary_coupons_label">已使用優惠券</string>
     <!--Hotel itin card price summary line item label for points applied-->
     <string name="itin_hotel_price_summary_points_label">已使用點數</string>
+    <!--Hotel itin card price summary line item label for total amount paid-->
+    <string name="itin_hotel_price_summary_total_amount_paid_label">已支付</string>
+    <!--Hotel itin card price summary line item label for total amount due-->
+    <string name="itin_hotel_price_summary_total_amount_due_label">需於飯店支付</string>
+    <!--Hotel itin card price summary line item label for total amount PoS different from PoSu template. Total in {currencyCode} (eg., Total in USD)-->
+    <string name="itin_hotel_price_summary_total_in_pos_label_TEMPLATE">金額以 {currencycode} 計算</string>
     <!--Hotel itin card price summary line item value for points applied template. -{points} (e.g., -$30)-->
     <string name="itin_hotel_price_summary_points_value_TEMPLATE">-{points}</string>
     <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
@@ -1503,7 +1511,6 @@
     <string name="itin_hotel_price_reward_title">價格與獎勵計畫</string>
     <!--Hotel itin view receipt title. (e.g. Receipt for Hilton) -->
     <string name="itin_hotel_view_receipt_title_TEMPLATE">{hotelname}的收據</string>
-
 
     <!--LX itin redesign-->
     <!--LX toolbar title template. (e.g. Activity in San Francisco)-->
@@ -3066,8 +3073,6 @@
     <string name="booking_loading">正在預訂…</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
     <string name="error_unable_to_send_email">我們無法寄出確認電子郵件。</string>
-    <!--Message displayed under loading icon while loading checkout web view-->
-    <string name="almost_there">就快完成了！</string>
 
     <!-- Confirmation activity -->
     <!-- Confirmation number label -->
@@ -4254,7 +4259,9 @@
         <item quantity="one">剩下 {seats} 個座位</item>
         <item quantity="other">剩下 {seats} 個座位</item>
     </plurals>
-        <string name="package_flight_overview_baggage_fees">行李費用資訊</string>
+    <!-- Seats left message in flights cell. e.g. "3 left at this price" -->
+    <string name="flight_cell_urgency_messaging_TEMPLATE">此價格機票還剩 {seats} 張</string>
+    <string name="package_flight_overview_baggage_fees">行李費用資訊</string>
     <string name="package_flight_overview_select_flight">選擇此班機</string>
     <string name="package_flight_overview_bundle_total_label">套裝行程總價</string>
     <string name="package_flight_overview_per_person_TEMPLATE">{money}/人</string>
@@ -4632,12 +4639,6 @@
     <!-- Label for change fare class subtext,  Example. Change fare class -->
     <string name="flight_change_fare_class">變更票價等級</string>
 
-    <string name="basic_economy_rule_1">座位在辦理登機手續時指定。</string>
-    <string name="basic_economy_rule_2">座位在辦理登機手續後指定。</string>
-    <string name="basic_economy_rule_3">不得取消及變更。</string>
-    <string name="basic_economy_rule_4">最後登機組別。</string>
-    <string name="basic_economy_rule_5">不得升級。</string>
-    <string name="basic_economy_rule_6">只限 1 件隨身行李，不可使用艙頂行李箱。</string>
     <!-- Label for basic economy tool tip info title. Example. Delta Basic Economy Fare-->
     <string name="basic_economy_tooltip_header_TEMPLATE">{airlineshortname}基本經濟艙票價</string>
 
@@ -4923,6 +4924,7 @@
     <!-- Hint to type in itinerary number -->
     <string name="find_guest_add_itinerary_number_hint">行程編號</string>
     <string name="itin_toolbar">行程</string>
+    <string name="itin_minus_price_cont_desc">省\u0020</string>
 
     <!-- Booking successful alert text-->
     <string name="booking_successful">預訂成功！</string>

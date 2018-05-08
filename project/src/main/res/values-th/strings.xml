@@ -768,7 +768,7 @@
     <!-- Header for a flight filter, showing a list of flights from different airlines -->
     <string name="airlines">สายการบิน</string>
     <!-- Header for a flight filter above the price on checked filters-->
-    <string name="price_label">ราคา</string>
+    <string name="price_label">เริ่มที่</string>
 
     <!-- Pluralization for number of stops (layovers) on a given flight "2 stops" -->
     <plurals name="x_Stops_TEMPLATE">
@@ -938,9 +938,9 @@
     <!-- Label for button to navigate to the Activities / Things to Do line of business -->
     <string name="nav_things_to_do">กิจกรรม</string>
     <!-- Text for active itin card on signed-in user launch screen -->
-    <string name="launch_upcoming_trips_signed_in">คุณมีทริปที่กำลังจะถึง!</string>
+    <string name="launch_upcoming_trips_signed_in">ทริปของคุณกำลังจะมาถึง!</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
-    <string name="launch_upcoming_trips_subtext_signed_in">ดูแผนการเดินทางได้ทุกที่ทุกเวลาและไม่พลาดทุกการเปลี่ยนแปลง</string>
+    <string name="launch_upcoming_trips_subtext_signed_in">เช็ครายละเอียดได้ที่นี่</string>
 
     <!--Onboarding-->
     <string name="booking_page_title">จองได้ทุกที่ ทุกเวลา</string>
@@ -1403,12 +1403,20 @@
     <string name="itin_hotel_details_cost_summary_room_price_text">ราคาห้องพัก</string>
     <!--Hotel itin card price summary line item label for multiple guest fees-->
     <string name="itin_hotel_price_summary_multiple_guest_fees_label">ค่าธรรมเนียมผู้เข้าพักหลายคน</string>
+    <!--Hotel itin card price summary line item label for property fee-->
+    <string name="itin_hotel_price_summary_property_fee_label">ค่าธรรมเนียมที่พัก</string>
     <!--Hotel itin card price summary line item label for taxes & fees-->
     <string name="itin_hotel_price_summary_taxes_and_fees_label">ภาษีและค่าธรรมเนียม</string>
     <!--Hotel itin card price summary line item label for coupons-->
     <string name="itin_hotel_price_summary_coupons_label">ใช้คูปองแล้ว</string>
     <!--Hotel itin card price summary line item label for points applied-->
     <string name="itin_hotel_price_summary_points_label">ใช้คะแนนแล้ว</string>
+    <!--Hotel itin card price summary line item label for total amount paid-->
+    <string name="itin_hotel_price_summary_total_amount_paid_label">ยอดรวมที่ชำระแล้ว</string>
+    <!--Hotel itin card price summary line item label for total amount due-->
+    <string name="itin_hotel_price_summary_total_amount_due_label">ยอดรวมที่ต้องชำระที่โรงแรม</string>
+    <!--Hotel itin card price summary line item label for total amount PoS different from PoSu template. Total in {currencyCode} (eg., Total in USD)-->
+    <string name="itin_hotel_price_summary_total_in_pos_label_TEMPLATE">ราคารวมในสกุล {currencycode}</string>
     <!--Hotel itin card price summary line item value for points applied template. -{points} (e.g., -$30)-->
     <string name="itin_hotel_price_summary_points_value_TEMPLATE">-{points}</string>
     <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
@@ -1503,7 +1511,6 @@
     <string name="itin_hotel_price_reward_title">ราคาและโปรแกรมสมาชิก</string>
     <!--Hotel itin view receipt title. (e.g. Receipt for Hilton) -->
     <string name="itin_hotel_view_receipt_title_TEMPLATE">ใบเสร็จสำหรับ {hotelname}</string>
-
 
     <!--LX itin redesign-->
     <!--LX toolbar title template. (e.g. Activity in San Francisco)-->
@@ -3067,8 +3074,6 @@
     <string name="booking_loading">กำลังจอง…</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
     <string name="error_unable_to_send_email">ระบบไม่สามารถส่งอีเมลยืนยันข้อมูล</string>
-    <!--Message displayed under loading icon while loading checkout web view-->
-    <string name="almost_there">อีกนิดเดียวเท่านั้น!</string>
 
     <!-- Confirmation activity -->
     <!-- Confirmation number label -->
@@ -4255,7 +4260,9 @@
         <item quantity="one">เหลือ {seats} ที่นั่ง</item>
         <item quantity="other">เหลือ {seats} ที่นั่ง</item>
     </plurals>
-        <string name="package_flight_overview_baggage_fees">ข้อมูลค่าธรรมเนียมสัมภาระ</string>
+    <!-- Seats left message in flights cell. e.g. "3 left at this price" -->
+    <string name="flight_cell_urgency_messaging_TEMPLATE">เหลือ {seats} ที่นั่งว่างในราคานี้</string>
+    <string name="package_flight_overview_baggage_fees">ข้อมูลค่าธรรมเนียมสัมภาระ</string>
     <string name="package_flight_overview_select_flight">เลือกเที่ยวบินนี้</string>
     <string name="package_flight_overview_bundle_total_label">ยอดรวมแพ็คเกจ</string>
     <string name="package_flight_overview_per_person_TEMPLATE">{money}/คน</string>
@@ -4633,12 +4640,6 @@
     <!-- Label for change fare class subtext,  Example. Change fare class -->
     <string name="flight_change_fare_class">เปลี่ยนชั้นโดยสาร</string>
 
-    <string name="basic_economy_rule_1">คุณจะได้รับการกำหนดที่นั่งขณะเช็คอิน</string>
-    <string name="basic_economy_rule_2">คุณจะได้รับการกำหนดที่นั่งหลังจากเช็คอิน</string>
-    <string name="basic_economy_rule_3">เปลี่ยนแปลงหรือขอรับเงินคืนไม่ได้</string>
-    <string name="basic_economy_rule_4">คุณจะได้ขึ้นเครื่องเป็นกลุ่มสุดท้าย</string>
-    <string name="basic_economy_rule_5">อัพเกรดไม่ได้</string>
-    <string name="basic_economy_rule_6">นำสัมภาระส่วนตัวขึ้นเครื่องได้ 1 ชิ้น ไม่อนุญาตให้เก็บในช่องเก็บสัมภาระเหนือศีรษะ</string>
     <!-- Label for basic economy tool tip info title. Example. Delta Basic Economy Fare-->
     <string name="basic_economy_tooltip_header_TEMPLATE">ค่าโดยสาร Basic Economy ของ {airlineshortname}</string>
 
@@ -4924,6 +4925,7 @@
     <!-- Hint to type in itinerary number -->
     <string name="find_guest_add_itinerary_number_hint">หมายเลขแผนการเดินทาง</string>
     <string name="itin_toolbar">การเดินทาง</string>
+    <string name="itin_minus_price_cont_desc">ประหยัด \u0020</string>
 
     <!-- Booking successful alert text-->
     <string name="booking_successful">จองเรียบร้อยแล้ว!</string>
