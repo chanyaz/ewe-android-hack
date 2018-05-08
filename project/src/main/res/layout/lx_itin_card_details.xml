@@ -30,6 +30,11 @@
             android:paddingTop="19dp"
             android:orientation="vertical">
 
+<com.expedia.bookings.itin.lx.details.LxItinMapWidget
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/map_widget"/>
+
             <com.expedia.bookings.itin.lx.details.LxItinManageBookingWidget
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
