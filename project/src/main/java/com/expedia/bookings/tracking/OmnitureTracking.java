@@ -2630,14 +2630,7 @@ public class OmnitureTracking {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	private static final String ITIN = "App.Itinerary";
-	private static final String ITIN_EMPTY = "App.Itinerary.Empty";
-	private static final String ITIN_NEW_SIGN_IN = "App.Itinerary.Login.Start";
-	private static final String ITIN_USER_REFRESH = "App.Itinerary.User.Refresh";
-	private static final String ITIN_CHANGE_POSA = "App.Itinerary.POSa";
-	private static final String ITIN_FIND_GUEST = "App.Itinerary.Find.Guest";
-	private static final String ITIN_ERROR = "App.Itinerary.Error";
 	private static final String ITIN_RELOAD_TEMPLATE = "App.Itinerary.%s.Info.Reload";
-	private static final String ITIN_ADD_SUCCESS = "App.Itinerary.Add.Success";
 
 	private static final String ITIN_TRIP_REFRESH_CALL_MADE = "App.Itinerary.Call.Made";
 	private static final String ITIN_TRIP_REFRESH_CALL_SUCCESS = "App.Itinerary.Call.Success";
@@ -2718,33 +2711,6 @@ public class OmnitureTracking {
 		s.trackLink("Itinerary Action");
 	}
 
-	public static void trackItinEmpty() {
-		internalTrackPageLoadEventStandard(ITIN_EMPTY);
-	}
-
-	public static void trackItinError() {
-		Log.d(TAG, "Tracking \"" + ITIN_ERROR + "\" pageLoad");
-		AppAnalytics s = createTrackPageLoadEventBase(ITIN_ERROR);
-		s.appendEvents("event98");
-		s.setEvar(18, ITIN_ERROR);
-		s.setProp(36, "itin:unable to retrieve trip summary");
-		s.track();
-	}
-
-	public static void trackItinChangePOS() {
-		trackItineraryClickAction(ITIN_CHANGE_POSA);
-	}
-
-	private static void trackItineraryClickAction(String trackingId) {
-		Log.d(TAG, "Tracking \"" + trackingId + "\" click...");
-		AppAnalytics s = createTrackLinkEvent(trackingId);
-		s.trackLink("Itinerary Action");
-	}
-
-	public static void trackFindGuestItin() {
-		internalTrackPageLoadEventStandard(ITIN_FIND_GUEST);
-	}
-
 	/**
 	 * Track the itin card sharing click
 	 *
@@ -2793,6 +2759,7 @@ public class OmnitureTracking {
 		}
 	}
 
+	//This tracking is not used in the new Itin designs
 	public static void trackItinReload(Type type) {
 		String value = type.toString();
 		String formatted = value.substring(0, 1).toUpperCase(Locale.US) + value.substring(1).toLowerCase(Locale.US);
@@ -2879,23 +2846,6 @@ public class OmnitureTracking {
 
 	public static void storeDeepLinkParams(HashMap<String, String> hashMap) {
 		cescTrackingUtil.storeMarketingCode(hashMap, DateTime.now());
-	}
-
-	/**
-	 * Note: Due to the way that ItineraryManager interacts with our Fragments + Views, this extra bookkeeping is
-	 * required currently to correctly fire the single success event of adding a guest itinerary manually.
-	 * <p/>
-	 * I thought about adding this bookkeeping into ItineraryManager, but I decided not to bloat ItinManager with stuff
-	 * that is only needed for tracking purposes.
-	 */
-	private static Trip mPendingManualAddGuestItin;
-
-	public static void trackItinAdd(Trip trip) {
-		boolean track = mPendingManualAddGuestItin != null && mPendingManualAddGuestItin.isSameGuest(trip);
-		if (track) {
-			mPendingManualAddGuestItin = null;
-			internalTrackLink(ITIN_ADD_SUCCESS);
-		}
 	}
 
 	public static void trackItin(PageUsableData pageLoadTimeData) {
@@ -4210,7 +4160,7 @@ public class OmnitureTracking {
 		s.setProp(27, Integer.toString(gpsVersion));
 	}
 
-	private static void internalTrackPageLoadEventStandard(String pageName) {
+	protected static void internalTrackPageLoadEventStandard(String pageName) {
 		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
 		createTrackPageLoadEventBase(pageName).track();
 	}
@@ -6642,16 +6592,6 @@ public class OmnitureTracking {
 		AppAnalytics s = createTrackRailPageLoadEventBase(pageName);
 		s.setEvar(37, paymentType.getOmnitureTrackingCode());
 		s.track();
-	}
-
-	public static void trackItinSignIn() {
-		AppAnalytics s = createTrackLinkEvent(ITIN_NEW_SIGN_IN);
-		s.trackLink("Itinerary Action");
-	}
-
-	public static void trackItinRefresh() {
-		AppAnalytics s = createTrackLinkEvent(ITIN_USER_REFRESH);
-		s.trackLink("Itinerary Action");
 	}
 
 	public static void trackItinUserRating() {

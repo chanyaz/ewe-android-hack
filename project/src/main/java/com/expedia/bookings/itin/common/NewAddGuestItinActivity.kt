@@ -16,7 +16,7 @@ import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.presenter.trips.AddGuestItinWidget
 import com.expedia.bookings.presenter.trips.ItinFetchProgressWidget
 import com.expedia.bookings.tracking.AdTracker
-import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.AboutUtils
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ClearPrivateDataUtil
@@ -53,7 +53,7 @@ class NewAddGuestItinActivity : AppCompatActivity(), AboutUtils.CountrySelectDia
         Ui.getApplication(this).defaultTripComponents()
         setContentView(R.layout.add_guest_itin_activity)
 
-        OmnitureTracking.trackFindGuestItin()
+        TripsTracking.trackFindGuestItin()
         Ui.getApplication(this).tripComponent().inject(this)
 
         presenter.addTransition(guestItinToProgressTransition)
@@ -92,7 +92,7 @@ class NewAddGuestItinActivity : AppCompatActivity(), AboutUtils.CountrySelectDia
         Toast.makeText(this, R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show()
 
         pointOfSaleStateModel.pointOfSaleChangedSubject.onNext(PointOfSale.getPointOfSale())
-        OmnitureTracking.trackItinChangePOS()
+        TripsTracking.trackItinChangePOS()
     }
 
     override fun showDialogFragment(dialog: DialogFragment) {

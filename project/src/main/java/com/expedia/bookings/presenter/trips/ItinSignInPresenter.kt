@@ -11,7 +11,7 @@ import com.expedia.bookings.itin.common.ItinPageUsableTracking
 import com.expedia.bookings.itin.common.NewAddGuestItinActivity
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
-import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import javax.inject.Inject
@@ -41,11 +41,11 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
         showSignInWidget()
         signInWidget.viewModel.addGuestItinClickSubject.subscribe {
             showAddGuestItinScreen()
-            OmnitureTracking.trackFindGuestItin()
+            TripsTracking.trackItinGuestAdd()
         }
 
         signInWidget.viewModel.syncItinManagerSubject.subscribe {
-            OmnitureTracking.trackItinRefresh()
+            TripsTracking.trackItinRefresh()
             itinPageUsablePerformanceModel.markSuccessfulStartTime(System.currentTimeMillis())
             showItinFetchProgress()
         }

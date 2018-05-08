@@ -13,7 +13,7 @@ import com.expedia.bookings.activity.AccountLibActivity
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.itin.common.ItinPageUsableTracking
-import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender
 import com.expedia.model.UserLoginStateChangedModel
@@ -57,7 +57,7 @@ open class ItinSignInViewModel(val context: Context) {
                 loginStateSubsciption?.dispose()
             }
 
-            OmnitureTracking.trackItinSignIn()
+            TripsTracking.trackItinSignIn()
             doItinSignIn()
         }
     }

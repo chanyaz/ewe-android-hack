@@ -742,7 +742,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         accountFragment?.onNewCountrySelected(pointOfSaleId)
         pointOfSaleStateModel.pointOfSaleChangedSubject.onNext(PointOfSale.getPointOfSale())
         if (viewPager.currentItem == PAGER_POS_ITIN) {
-            OmnitureTracking.trackItinChangePOS()
+            TripsTracking.trackItinChangePOS()
         }
 
         itinListFragment?.doLogout()
