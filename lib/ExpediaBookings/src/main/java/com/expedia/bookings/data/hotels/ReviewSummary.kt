@@ -3,6 +3,7 @@ package com.expedia.bookings.data.hotels
 class ReviewSummary {
     var id: String = ""
     var hotelId: String = ""
+    var totalReviewCnt: Int = 0
     var avgOverallRating: Float = 0f
     var cleanliness: Float = 0f
     var serviceAndStaff: Float = 0f

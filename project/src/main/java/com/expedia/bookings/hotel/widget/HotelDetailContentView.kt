@@ -54,6 +54,8 @@ import com.expedia.bookings.hotel.data.HotelGalleryAnalyticsData
 import com.expedia.bookings.hotel.data.HotelGalleryConfig
 import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.hotel.fragment.ChangeDatesDialogFragment
+import com.expedia.bookings.hotel.vm.HotelReviewsSummaryBoxRatingViewModel
+import com.expedia.bookings.hotel.vm.HotelReviewsSummaryViewModel
 import com.expedia.bookings.model.HotelStayDates
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.PackagesTracking
@@ -112,6 +114,8 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
     private val userRating: TextView by bindView(R.id.user_rating)
     private val userRatingRecommendationText: TextView by bindView(R.id.user_rating_recommendation_text)
     private val numberOfReviews: TextView by bindView(R.id.number_of_reviews)
+    private val barRatingView: HotelReviewsBarRatingView by bindView(R.id.reviews_bar_rating_view)
+
     private val etpAndFreeCancellationMessagingContainer: View by bindView(R.id.etp_and_free_cancellation_messaging_container)
 
     @VisibleForTesting val singleMessageContainer: ViewGroup by bindView(R.id.single_message_container)
@@ -154,7 +158,15 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
     private var urgencyContainerLocation = IntArray(2)
 
     private val ANIMATION_DURATION_ROOM_CONTAINER = if (ExpediaBookingApp.isAutomation()) 0L else 250L
-    private val ANIMATION_DURATION = 200L
+
+    var reviewsSummaryViewModel: HotelReviewsSummaryViewModel by notNullAndObservable { vm ->
+        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelUGCReviewsBoxRatingDesign)) {
+            vm.reviewSummarySubject.subscribe(barRatingView.viewModel.reviewsSummaryObserver)
+            vm.noReviewSummarySubject.subscribe(barRatingView.viewModel.noReviewsSummaryObserver)
+        } else {
+            barRatingView.visibility = View.GONE
+        }
+    }
 
     init {
         View.inflate(context, R.layout.hotel_detail_content_view, this)
@@ -185,6 +197,8 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
         payNowPayLaterTabs.payNowClickedSubject.subscribe { payNowClicked() }
         payNowPayLaterTabs.payLaterClickedSubject.subscribe { payLaterClicked() }
+
+        barRatingView.viewModel = HotelReviewsSummaryBoxRatingViewModel(context)
     }
 
     var viewModel: BaseHotelDetailViewModel by notNullAndObservable { vm ->
@@ -251,14 +265,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
         vm.hotelPriceContentDesc.subscribeContentDescription(hotelPriceContainer)
 
-        vm.isUserRatingAvailableObservable.subscribeVisibility(userRating)
-        vm.userRatingObservable.subscribeText(userRating)
-        vm.isUserRatingAvailableObservable.subscribeVisibility(userRatingRecommendationText)
-        vm.userRatingRecommendationTextObservable.subscribeText(userRatingRecommendationText)
-        vm.isUserRatingAvailableObservable.subscribeInverseVisibility(noGuestRating)
-
-        vm.numberOfReviewsObservable.subscribeText(numberOfReviews)
-        vm.isUserRatingAvailableObservable.subscribeVisibility(numberOfReviews)
+        setUpReviewsSubscriptions(vm)
 
         vm.hotelLatLngObservable.subscribe { values ->
             miniMapView.setLocation(LatLong(values[0], values[1]))
@@ -449,6 +456,17 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
             dialogFragment.presetDates(HotelStayDates(viewModel.checkInDate, viewModel.checkOutDate))
         }
         dialogFragment.show(fragmentManager, Constants.TAG_CALENDAR_DIALOG)
+    }
+
+    private fun setUpReviewsSubscriptions(vm: BaseHotelDetailViewModel) {
+        vm.isUserRatingAvailableObservable.subscribeVisibility(userRating)
+        vm.userRatingObservable.subscribeText(userRating)
+        vm.isUserRatingAvailableObservable.subscribeVisibility(userRatingRecommendationText)
+        vm.userRatingRecommendationTextObservable.subscribeText(userRatingRecommendationText)
+        vm.isUserRatingAvailableObservable.subscribeInverseVisibility(noGuestRating)
+
+        vm.numberOfReviewsObservable.subscribeText(numberOfReviews)
+        vm.isUserRatingAvailableObservable.subscribeVisibility(numberOfReviews)
     }
 
     private fun areRoomsOffScreenAboveETPToolbar(toolbarOffset: Float): Boolean {

@@ -18,6 +18,7 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchResponse
@@ -36,7 +37,11 @@ import com.expedia.bookings.extensions.setAccessibilityHoverFocus
 import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.extensions.subscribeVisibility
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.hotel.vm.HotelReviewsSummaryViewModel
+import com.expedia.bookings.packages.activity.PackageHotelActivity
+import com.expedia.bookings.packages.vm.PackageHotelDetailViewModel
 import com.expedia.bookings.packages.vm.PackageHotelResultsViewModel
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
@@ -59,11 +64,9 @@ import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
 import com.expedia.bookings.widget.LoadingOverlayWidget
 import com.expedia.bookings.widget.SlidingBundleWidget
 import com.expedia.bookings.widget.SlidingBundleWidgetListener
-import com.expedia.bookings.packages.activity.PackageHotelActivity
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelMapViewModel
 import com.expedia.vm.HotelReviewsViewModel
-import com.expedia.bookings.packages.vm.PackageHotelDetailViewModel
 import com.google.android.gms.maps.MapView
 import com.google.gson.Gson
 import io.reactivex.Observable
@@ -150,6 +153,8 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
         presenter.hotelDetailView.viewmodel = detailsViewModel
         presenter.hotelMapView.viewmodel = HotelMapViewModel(context, detailsViewModel.scrollToRoom, detailsViewModel.hotelSoldOut, detailsViewModel.getLOB())
+
+        presenter.hotelDetailView.reviewsSummaryViewModel = HotelReviewsSummaryViewModel(reviewServices)
 
         presenter
     }
@@ -307,6 +312,11 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             resultsPresenter.bundlePriceWidgetTop.setOnClickListener(null)
         }
         detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.sharedInstance.packageParams, resources.getInteger(R.integer.calendar_max_days_package_stay), resources.getInteger(R.integer.max_calendar_selectable_date_range)))
+
+        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelUGCReviewsBoxRatingDesign)) {
+            detailPresenter.hotelDetailView.reviewsSummaryViewModel.fetchReviewsSummary(hotelId)
+        }
+
         val hotelInfoObservable = packageServices.hotelInfo(hotelId)
 
         ObservableOld.zip(packageRoomsObservable, hotelInfoObservable,

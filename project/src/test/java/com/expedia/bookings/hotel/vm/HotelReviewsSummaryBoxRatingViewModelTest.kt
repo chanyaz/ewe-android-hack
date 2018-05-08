@@ -1,13 +1,15 @@
-package com.expedia.vm
+package com.expedia.bookings.hotel.vm
 
 import com.expedia.bookings.data.hotels.ReviewSummary
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
-import kotlin.test.assertNull
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class HotelReviewsSummaryBoxRatingViewModelTest {
@@ -16,15 +18,38 @@ class HotelReviewsSummaryBoxRatingViewModelTest {
 
     private lateinit var vm: HotelReviewsSummaryBoxRatingViewModel
 
+    private lateinit var reviewSummary: ReviewSummary
+
     @Before
     fun before() {
-        val reviewSummary = createDefaultReviewSummary()
-        vm = createViewModel(reviewSummary)
+        reviewSummary = createDefaultReviewSummary()
+        vm = HotelReviewsSummaryBoxRatingViewModel(context)
     }
 
     @Test
     fun testGuestRatingString() {
-        assertEquals("3.9/5", vm.guestRatingString)
+        val testSubscriber = TestObserver.create<String>()
+        vm.guestRatingObservable.subscribe(testSubscriber)
+        vm.reviewsSummaryObserver.onNext(reviewSummary)
+        assertEquals("3.9/5", testSubscriber.values()[0])
+    }
+
+    @Test
+    fun testShouldShowRatingBar() {
+        val testSubscriber = TestObserver.create<Boolean>()
+        vm.barRatingViewVisibility.subscribe(testSubscriber)
+        vm.reviewsSummaryObserver.onNext(reviewSummary)
+        assertTrue(testSubscriber.values()[0])
+    }
+
+    @Test
+    fun testShouldHideRatingBar() {
+        val testSubscriber = TestObserver.create<Boolean>()
+        vm.barRatingViewVisibility.subscribe(testSubscriber)
+        val reviewSummary = createDefaultReviewSummary()
+        reviewSummary.totalReviewCnt = 0
+        vm.reviewsSummaryObserver.onNext(reviewSummary)
+        assertFalse(testSubscriber.values()[0])
     }
 
     @Test
@@ -78,58 +103,45 @@ class HotelReviewsSummaryBoxRatingViewModelTest {
     }
 
     @Test
-    fun testNumberOfReviewsStringZero() {
-        vm = createViewModel(createDefaultReviewSummary(), 0)
-        assertEquals("0 Reviews", vm.numberOfReviewsString)
-    }
-
-    @Test
-    fun testNumberOfReviewsStringOne() {
-        vm = createViewModel(createDefaultReviewSummary(), 1)
-        assertEquals("View 1 Review", vm.numberOfReviewsString)
-    }
-
-    @Test
-    fun testNumberOfReviewsStringTwo() {
-        vm = createViewModel(createDefaultReviewSummary(), 2)
-        assertEquals("View 2 Reviews", vm.numberOfReviewsString)
-    }
-
-    @Test
-    fun testNumberOfReviewsStringMany() {
-        vm = createViewModel(createDefaultReviewSummary(), 3)
-        assertEquals("View 3 Reviews", vm.numberOfReviewsString)
-    }
-
-    @Test
-    fun testNoNumberOfReviewsString() {
-        assertNull(vm.numberOfReviewsString)
-    }
-
-    @Test
     fun testRoomCleanlinessReviewSummary() {
-        val reviewSummaryDescriptionAndRating = vm.roomCleanlinessReviewSummary
+        val testSubscriber = TestObserver.create<HotelReviewsSummaryBoxRatingViewModel.ReviewSummaryDescriptionAndRating>()
+        vm.roomCleanlinessObservable.subscribe(testSubscriber)
+        vm.reviewsSummaryObserver.onNext(reviewSummary)
+
+        val reviewSummaryDescriptionAndRating = testSubscriber.values()[0]
         assertEquals("Room cleanliness", reviewSummaryDescriptionAndRating.description)
         assertEquals(4.1f, reviewSummaryDescriptionAndRating.rating)
     }
 
     @Test
     fun testRoomComfortReviewSummary() {
-        val reviewSummaryDescriptionAndRating = vm.roomComfortReviewSummary
+        val testSubscriber = TestObserver.create<HotelReviewsSummaryBoxRatingViewModel.ReviewSummaryDescriptionAndRating>()
+        vm.roomComfortObservable.subscribe(testSubscriber)
+        vm.reviewsSummaryObserver.onNext(reviewSummary)
+
+        val reviewSummaryDescriptionAndRating = testSubscriber.values()[0]
         assertEquals("Room comfort", reviewSummaryDescriptionAndRating.description)
         assertEquals(3.6f, reviewSummaryDescriptionAndRating.rating)
     }
 
     @Test
     fun testRoomServiceAndStaffReviewSummary() {
-        val reviewSummaryDescriptionAndRating = vm.serviceStaffReviewSummary
+        val testSubscriber = TestObserver.create<HotelReviewsSummaryBoxRatingViewModel.ReviewSummaryDescriptionAndRating>()
+        vm.serviceStaffObservable.subscribe(testSubscriber)
+        vm.reviewsSummaryObserver.onNext(reviewSummary)
+
+        val reviewSummaryDescriptionAndRating = testSubscriber.values()[0]
         assertEquals("Service & staff", reviewSummaryDescriptionAndRating.description)
         assertEquals(3.6f, reviewSummaryDescriptionAndRating.rating)
     }
 
     @Test
     fun testHotelConditionReviewSummary() {
-        val reviewSummaryDescriptionAndRating = vm.hotelConditionReviewSummary
+        val testSubscriber = TestObserver.create<HotelReviewsSummaryBoxRatingViewModel.ReviewSummaryDescriptionAndRating>()
+        vm.hotelConditionObservable.subscribe(testSubscriber)
+        vm.reviewsSummaryObserver.onNext(reviewSummary)
+
+        val reviewSummaryDescriptionAndRating = testSubscriber.values()[0]
         assertEquals("Hotel condition", reviewSummaryDescriptionAndRating.description)
         assertEquals(4.1f, reviewSummaryDescriptionAndRating.rating)
     }
@@ -137,13 +149,18 @@ class HotelReviewsSummaryBoxRatingViewModelTest {
     private fun testGuestRatingRecommendationString(rating: Float, string: String) {
         val reviewSummary = createDefaultReviewSummary()
         reviewSummary.avgOverallRating = rating
-        vm = createViewModel(reviewSummary)
-        assertEquals(string, vm.guestRatingRecommendationString)
+
+        val testSubscriber = TestObserver.create<String>()
+        vm.guestRatingRecommendationObservable.subscribe(testSubscriber)
+        vm.reviewsSummaryObserver.onNext(reviewSummary)
+
+        assertEquals(string, testSubscriber.values()[0])
     }
 
     private fun createDefaultReviewSummary(): ReviewSummary {
         return ReviewSummary().apply {
             id = "id"
+            totalReviewCnt = 10
             hotelId = "hotelId"
             avgOverallRating = 3.85f
             cleanliness = 4.07f
@@ -151,9 +168,5 @@ class HotelReviewsSummaryBoxRatingViewModelTest {
             hotelCondition = 4.14f
             roomComfort = 3.56f
         }
-    }
-
-    private fun createViewModel(reviewSummary: ReviewSummary, numberOfReviews: Int? = null): HotelReviewsSummaryBoxRatingViewModel {
-        return HotelReviewsSummaryBoxRatingViewModel(context, reviewSummary, numberOfReviews)
     }
 }

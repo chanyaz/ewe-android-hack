@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:weightSum="2">
+
+        <com.expedia.bookings.widget.ReviewSummaryBoxRating
+            android:id="@+id/room_cleanliness_review_summary_box_rating"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_weight="1" />
+
+        <com.expedia.bookings.widget.ReviewSummaryBoxRating
+            android:id="@+id/room_comfort_review_summary_box_rating"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="24dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:weightSum="2">
+
+        <com.expedia.bookings.widget.ReviewSummaryBoxRating
+            android:id="@+id/service_staff_review_summary_box_rating"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_weight="1" />
+
+        <com.expedia.bookings.widget.ReviewSummaryBoxRating
+            android:id="@+id/hotel_condition_review_summary_box_rating"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+</merge>

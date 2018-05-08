@@ -437,9 +437,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
         showAirAttachedObservable.onNext(shouldUseLegacyAttach(offerResponse))
         showGenericAttachedObservable.onNext(shouldUseGenericAttach(offerResponse))
 
-        userRatingObservable.onNext(offerResponse.hotelGuestRating.toString())
-        userRatingRecommendationTextObservable.onNext(getGuestRatingText(offerResponse.hotelGuestRating.toFloat(), context.resources))
-        isUserRatingAvailableObservable.onNext(offerResponse.hotelGuestRating > 0)
+        updateGuestRating(offerResponse)
 
         numberOfReviewsObservable.onNext(context.resources.getQuantityString(R.plurals.hotel_number_of_reviews, offerResponse.totalReviews, HotelUtils.formattedReviewCount(offerResponse.totalReviews)))
 
@@ -505,6 +503,12 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
 
     private fun getCommonValueAdds(hotelOffersResponse: HotelOffersResponse): List<String> {
         return getCommonValueAdds(getAllValueAdds(hotelOffersResponse))
+    }
+
+    private fun updateGuestRating(offerResponse: HotelOffersResponse) {
+        userRatingObservable.onNext(offerResponse.hotelGuestRating.toString())
+        userRatingRecommendationTextObservable.onNext(getGuestRatingText(offerResponse.hotelGuestRating.toFloat(), context.resources))
+        isUserRatingAvailableObservable.onNext(offerResponse.hotelGuestRating > 0)
     }
 
     private fun getAllValueAdds(hotelOffersResponse: HotelOffersResponse): List<List<String>> {

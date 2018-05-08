@@ -14,7 +14,8 @@ class HotelReviewsApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatc
 
         return when {
             HotelReviewsApiRequestMatcher.isHotelReviewsSummaryRequest(urlPath) -> {
-                return getMockResponse("api/hotelreviews/hotel/happy-summaries.json")
+                val fileName = if (isUnhappy(urlPath)) "unhappy-summaries" else "happy-summaries"
+                return getMockResponse("api/hotelreviews/hotel/$fileName.json")
             }
 
             HotelReviewsApiRequestMatcher.isHotelReviewsDetailsRequest(urlPath) -> {
@@ -26,6 +27,10 @@ class HotelReviewsApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatc
             }
             else -> make404()
         }
+    }
+
+    private fun isUnhappy(path: String): Boolean {
+        return path.contains("unhappy-summaries")
     }
 }
 

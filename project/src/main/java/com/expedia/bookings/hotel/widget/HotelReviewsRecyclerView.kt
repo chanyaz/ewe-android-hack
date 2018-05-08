@@ -11,13 +11,11 @@ import com.expedia.bookings.data.hotels.HotelReviewsResponse
 import com.expedia.bookings.data.hotels.ReviewSummary
 import com.expedia.bookings.hotel.data.TranslatedReview
 import com.expedia.bookings.widget.HotelReviewsLoadingWidget
-import com.expedia.bookings.widget.HotelReviewsSummaryBoxRatingWidget
 import com.expedia.bookings.widget.HotelReviewsSummaryWidget
 import com.expedia.bookings.widget.RecyclerDividerDecoration
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelReviewRowViewModel
-import com.expedia.vm.HotelReviewsSummaryBoxRatingViewModel
-import com.expedia.vm.HotelReviewsSummaryViewModel
+import com.expedia.vm.HotelReviewsSummaryWidgetViewModel
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
@@ -60,7 +58,7 @@ class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : Recycler
             val view: View
             when (viewType) {
                 VIEW_TYPE_HEADER -> view = HotelReviewsSummaryWidget(parent.context)
-                VIEW_TYPE_HEADER_BOX_RATING -> view = HotelReviewsSummaryBoxRatingWidget(parent.context)
+                VIEW_TYPE_HEADER_BOX_RATING -> view = HotelReviewsSummaryBoxRatingWidget(parent.context, null)
                 VIEW_TYPE_LOADING -> view = HotelReviewsLoadingWidget(parent.context)
                 else -> view = HotelReviewRowView(parent.context)
             }
@@ -70,13 +68,12 @@ class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : Recycler
         override fun onBindViewHolder(holder: HotelReviewsViewHolder, position: Int) {
             when (holder.itemView) {
                 is HotelReviewsSummaryWidget -> {
-                    val hotelReviewsSummaryViewModel = HotelReviewsSummaryViewModel(holder.itemView.context)
+                    val hotelReviewsSummaryViewModel = HotelReviewsSummaryWidgetViewModel(holder.itemView.context)
                     hotelReviewsSummaryViewModel.reviewsSummaryObserver.onNext(reviewsSummary)
                     holder.itemView.bindData(hotelReviewsSummaryViewModel)
                 }
                 is HotelReviewsSummaryBoxRatingWidget -> {
-                    val hotelReviewsSummaryViewModel = HotelReviewsSummaryBoxRatingViewModel(holder.itemView.context, reviewsSummary)
-                    holder.itemView.bindData(hotelReviewsSummaryViewModel)
+                    holder.itemView.viewModel.reviewsSummaryObserver.onNext(reviewsSummary)
                 }
                 is HotelReviewRowView -> {
                     val hotelReviewRowViewModel = HotelReviewRowViewModel(holder.itemView.context)
