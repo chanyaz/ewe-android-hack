@@ -17,6 +17,7 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
@@ -220,6 +221,26 @@ class NotificationManagerTest {
         assertEquals(0, shadowAlarmManager.scheduledAlarms.size)
         notificationManager.scheduleAll()
         assertEquals(5, shadowAlarmManager.scheduledAlarms.size)
+    }
+
+    @Test
+    fun wasFiredShouldBeFalseTest() {
+        val id = "A123"
+        val notificationA = makeNotification(id = id,
+                type = Notification.NotificationType.FLIGHT_CHECK_IN, time = frozenTime.plusDays(1).millis + 1000)
+        notificationA.status = Notification.StatusType.NEW
+        notificationA.save()
+        assertFalse(notificationManager.wasFired(id))
+    }
+
+    @Test
+    fun wasFiredShouldBeTrueTest() {
+        val id = "A123"
+        val notificationA = makeNotification(id = id,
+                type = Notification.NotificationType.FLIGHT_CHECK_IN, time = frozenTime.plusDays(1).millis + 1000)
+        notificationA.status = Notification.StatusType.DISMISSED
+        notificationA.save()
+        assertTrue(notificationManager.wasFired(id))
     }
 
     private fun makeNotification(id: String,

@@ -13,4 +13,24 @@ interface INotificationManager {
     fun cancelAllExpired()
 
     fun searchForExistingAndUpdate(notification: Notification)
+
+    fun wasFired(uniqueId: String): Boolean
+
+    fun scheduleNotification(notification: Notification)
+
+    fun cancelNotificationIntent(notification: Notification)
+
+    fun cancelAndDeleteNotification(notification: Notification)
+
+    fun dismissNotification(notification: Notification)
+
+    fun findExisting(notification: Notification): Notification?
+
+    fun hasExisting(notification: Notification): Boolean
+
+    fun setNotificationStatusToDismissed(notification: Notification)
+
+    fun deleteAll()
+
+    fun deleteAll(itinId: String)
 }

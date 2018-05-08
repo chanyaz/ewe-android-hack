@@ -6,13 +6,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.MutableDateTime;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,28 +21,24 @@ import com.expedia.bookings.bitmaps.FailedUrlCache;
 import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.SuggestionV4;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelSearchParams;
+import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripHotel;
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
-import com.expedia.bookings.data.trips.ItinCardDataHotel;
+import com.expedia.bookings.notification.HotelNotificationGenerator;
+import com.expedia.bookings.notification.INotificationManager;
 import com.expedia.bookings.notification.Notification;
-import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.services.HotelServices;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.tracking.TripsTracking;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.GoogleMapsUtil;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.ShareUtils;
-import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.navigation.NavUtils;
 import com.mobiata.android.SocialUtils;
-import com.squareup.phrase.Phrase;
 
 import io.reactivex.Observer;
 import io.reactivex.observers.DisposableObserver;
@@ -55,6 +47,11 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 	@Inject
 	public HotelServices hotelServices;
+	@Inject
+	public INotificationManager notificationManager;
+	@Inject
+	public HotelNotificationGenerator notificationGenerator;
+
 	private ItinCardDataHotel data;
 
 	public HotelItinContentGenerator(Context context, ItinCardDataHotel data, MediaCallback callback) {
@@ -62,9 +59,11 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		this.setCallback(callback);
 		this.data = data;
 
+		Ui.getApplication(getContext()).defaultHotelComponents();
+		Ui.getApplication(getContext()).defaultTripComponents();
+		Ui.getApplication(getContext()).hotelComponent().inject(this);
+
 		if (data.getProperty().getMediaList().isEmpty()) {
-			Ui.getApplication(getContext()).defaultHotelComponents();
-			Ui.getApplication(getContext()).hotelComponent().inject(this);
 			SuggestionV4 destination = new SuggestionV4();
 			destination.gaiaId = data.getProperty().getPropertyId();
 			HotelSearchParams params = (HotelSearchParams) new HotelSearchParams.Builder(28, 300)
@@ -378,286 +377,8 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 	@Override
 	public List<Notification> generateNotifications() {
-		ArrayList<Notification> notifications = new ArrayList();
-		notifications.add(generateCheckinNotification());
-		notifications.add(generateCheckoutNotification());
-		if (getItinCardData().getGuestCount() > 2 || isDurationLongerThanDays(2)) {
-			notifications.add(generateGetReadyNotification());
-			notifications.add(generateActivityCrossSellNotification());
-		}
-		OmnitureTracking.trackLXNotificationTest();
-		if (AbacusFeatureConfigManager.isBucketedForTest(getContext(), AbacusUtils.EBAndroidLXNotifications)
-				&& isDurationLongerThanDays(1)) {
-			notifications.add(generateActivityInTripNotification());
-		}
-		boolean validForHotelReviewNotification =
-			Strings.isNotEmpty(((TripHotel) getItinCardData().getTripComponent()).getReviewLink())
-			&& AbacusFeatureConfigManager.isBucketedForTest(getContext(), AbacusUtils.EBAndroidAppTripsUserReviews);
-		if (validForHotelReviewNotification) {
-			notifications.add(generateHotelReviewNotification());
-		}
-		return notifications;
+		return notificationGenerator.generateNotifications(getItinCardData());
 	}
-
-
-	private Notification generateCheckinNotification() {
-		ItinCardDataHotel data = getItinCardData();
-
-		String itinId = data.getId();
-
-		DateTime startDate = roundTime(data.getStartDate());
-		MutableDateTime trigger = startDate.toMutableDateTime();
-		trigger.addDays(-1);
-		long triggerTimeMillis = trigger.getMillis();
-
-		trigger = startDate.toMutableDateTime();
-		trigger.setHourOfDay(23);
-		trigger.setMinuteOfHour(59);
-		long expirationTimeMillis = trigger.getMillis();
-
-		Notification notification = new Notification(itinId + "_checkin", itinId, triggerTimeMillis);
-		notification.setNotificationType(NotificationType.HOTEL_CHECK_IN);
-		notification.setExpirationTimeMillis(expirationTimeMillis);
-		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_CALL);
-		notification.setIconResId(R.drawable.ic_stat_hotel);
-
-		String title = getContext().getString(R.string.check_in_notification_title);
-
-		notification.setTicker(title);
-		notification.setTitle(title);
-
-		String body = Phrase.from(getContext(), R.string.check_in_notification_body_TEMPLATE)
-			.put("hotel", data.getPropertyName())
-			.put("checkin", data.getFallbackCheckInTime(getContext()))
-			.format().toString();
-		notification.setBody(body);
-
-		notification.setImageUrls(data.getHeaderImageUrls());
-
-		return notification;
-	}
-
-	@NonNull
-	public DateTime roundTime(DateTime time) {
-		MutableDateTime trigger = time.toMutableDateTime();
-		trigger.setZoneRetainFields(DateTimeZone.getDefault());
-		trigger.setRounding(trigger.getChronology().minuteOfHour());
-		return trigger.toDateTime();
-	}
-
-	private Notification generateCheckoutNotification() {
-		ItinCardDataHotel data = getItinCardData();
-
-		String itinId = data.getId();
-
-		DateTime endDate = roundTime(data.getEndDate());
-		MutableDateTime trigger = endDate.toMutableDateTime();
-		if (isDurationLongerThanDays(2)) {
-			trigger.addDays(-1);
-		}
-		else {
-			trigger.addHours(-12);
-		}
-		long triggerTimeMillis = trigger.getMillis();
-
-		trigger = endDate.toMutableDateTime();
-		trigger.setHourOfDay(23);
-		trigger.setMinuteOfHour(59);
-		long expirationTimeMillis = trigger.getMillis();
-
-		Notification notification = new Notification(itinId + "_checkout", itinId, triggerTimeMillis);
-		notification.setNotificationType(NotificationType.HOTEL_CHECK_OUT);
-		notification.setExpirationTimeMillis(expirationTimeMillis);
-		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_CALL);
-		notification.setIconResId(R.drawable.ic_stat_hotel);
-		String title;
-		String body;
-		if (hasLastDayStarted()) {
-			title = Phrase.from(getContext(), R.string.check_out_notification_title_day_of_TEMPLATE)
-				.put("checkout", data.getFallbackCheckOutTime(getContext()))
-				.format().toString();
-			body = Phrase.from(getContext(), R.string.check_out_notification_body_day_of_TEMPLATE)
-				.put("hotel", data.getPropertyName())
-				.put("checkout", data.getFallbackCheckOutTime(getContext()))
-				.format().toString();
-		}
-		else {
-			title = Phrase.from(getContext(), R.string.check_out_notification_title_day_before_TEMPLATE)
-				.put("checkout", data.getFallbackCheckOutTime(getContext()))
-				.format().toString();
-			body = Phrase.from(getContext(), R.string.check_out_notification_body_day_before_TEMPLATE)
-				.put("hotel", data.getPropertyName())
-				.put("checkout", data.getFallbackCheckOutTime(getContext()))
-				.format().toString();
-		}
-		notification.setTicker(title);
-		notification.setTitle(title);
-		notification.setBody(body);
-
-		notification.setImageUrls(data.getHeaderImageUrls());
-
-		return notification;
-	}
-
-	@VisibleForTesting
-	public Notification generateGetReadyNotification() {
-		ItinCardDataHotel data = getItinCardData();
-
-		String itinId = data.getId();
-
-		TripHotel hotel = (TripHotel) getItinCardData().getTripComponent();
-
-
-		DateTime startDate = roundTime(data.getStartDate());
-
-		MutableDateTime trigger = startDate.toMutableDateTime();
-		trigger.addDays(-3);
-		long triggerTimeMillis = trigger.getMillis();
-
-		trigger = startDate.toMutableDateTime();
-		trigger.setHourOfDay(23);
-		trigger.setMinuteOfHour(59);
-		long expirationTimeMillis = trigger.getMillis();
-
-		Notification notification = new Notification(itinId + "_getready", itinId, triggerTimeMillis);
-		notification.setNotificationType(NotificationType.HOTEL_GET_READY);
-		notification.setExpirationTimeMillis(expirationTimeMillis);
-		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_CALL);
-		notification.setIconResId(R.drawable.ic_stat_hotel);
-
-		String title = getContext().getString(R.string.get_ready_for_trip);
-		notification.setTicker(title);
-		notification.setTitle(title);
-
-		String body = Phrase.from(getContext(), R.string.get_ready_for_trip_body_TEMPLATE)
-			.put("firstname", hotel.getPrimaryTraveler().getFirstName())
-			.put("hotel", hotel.getProperty().getName())
-			.put("startday", data.getFormattedDetailsCheckInDate(getContext()))
-			.format().toString();
-		notification.setBody(body);
-
-		notification.setImageUrls(data.getHeaderImageUrls());
-
-		return notification;
-	}
-
-	public Notification generateActivityCrossSellNotification() {
-		ItinCardDataHotel data = getItinCardData();
-
-		String itinId = data.getId();
-
-		DateTime startDate = roundTime(data.getStartDate());
-
-		MutableDateTime trigger = startDate.toMutableDateTime();
-		trigger.addDays(-7);
-		long triggerTimeMillis = trigger.getMillis();
-
-		trigger = startDate.toMutableDateTime();
-		trigger.setHourOfDay(23);
-		trigger.setMinuteOfHour(59);
-		long expirationTimeMillis = trigger.getMillis();
-
-		Notification notification = new Notification(itinId + "_activityCross", itinId, triggerTimeMillis);
-		notification.setNotificationType(NotificationType.HOTEL_ACTIVITY_CROSSSEll);
-		notification.setExpirationTimeMillis(expirationTimeMillis);
-		notification.setFlags(Notification.FLAG_LOCAL);
-		notification.setIconResId(R.drawable.ic_stat);
-
-		String title = Phrase.from(getContext(), R.string.hotel_book_activities_cross_sell_notification_title_TEMPLATE)
-			.put("destination", data.getPropertyCity())
-			.format().toString();
-
-		notification.setTicker(title);
-		notification.setTitle(title);
-
-		String body = Phrase.from(getContext(), R.string.hotel_book_activities_cross_sell_notification_body_TEMPLATE)
-			.put("destination", data.getPropertyCity())
-			.format().toString();
-		notification.setBody(body);
-
-		return notification;
-	}
-
-	public Notification generateActivityInTripNotification() {
-		ItinCardDataHotel data = getItinCardData();
-		TripHotel hotel = (TripHotel) data.getTripComponent();
-
-		String itinId = data.getId();
-
-		DateTime startDate = roundTime(data.getStartDate());
-		DateTime endDate = roundTime(data.getEndDate());
-
-		MutableDateTime trigger = startDate.toMutableDateTime();
-
-		if (startDate.getHourOfDay() <  8) {
-			trigger.setHourOfDay(10);
-		}
-		else if (startDate.getHourOfDay() >  18) {
-			trigger.addDays(1);
-			trigger.setHourOfDay(10);
-		}
-		else {
-			trigger.addHours(2);
-		}
-		long triggerTimeMillis = trigger.getMillis();
-
-		trigger = endDate.toMutableDateTime();
-		trigger.setHourOfDay(23);
-		trigger.setMinuteOfHour(59);
-		long expirationTimeMillis = trigger.getMillis();
-
-		Notification notification = new Notification(itinId + "_activityInTrip", itinId, triggerTimeMillis);
-		notification.setNotificationType(NotificationType.HOTEL_ACTIVITY_IN_TRIP);
-		notification.setExpirationTimeMillis(expirationTimeMillis);
-		notification.setFlags(Notification.FLAG_LOCAL);
-		notification.setIconResId(R.drawable.ic_stat);
-
-		String title = getContext().getString(R.string.things_to_do_near_hotel);
-
-		notification.setTicker(title);
-		notification.setTitle(title);
-
-		String body = Phrase.from(getContext(), R.string.hotel_book_activities_in_trip_notification_body_TEMPLATE)
-				.put("firstname", hotel.getPrimaryTraveler().getFirstName())
-				.format().toString();
-		notification.setBody(body);
-
-		return notification;
-	}
-
-	public Notification generateHotelReviewNotification() {
-		ItinCardDataHotel data = getItinCardData();
-		TripHotel hotel = (TripHotel) data.getTripComponent();
-		String deepLink = hotel.getReviewLink();
-
-		DateTime endDate = roundTime(data.getEndDate());
-
-		MutableDateTime trigger = endDate.toMutableDateTime();
-		trigger.addDays(1);
-
-		Long triggerTimeMillis = trigger.getMillis();
-
-		String hotelName = hotel.getProperty().getName();
-		String title = Phrase.from(getContext(), R.string.hotel_review_title_notification_TEMPLATE)
-			.put("hotelname", hotelName)
-			.format().toString();
-		String body = Phrase.from(getContext(), R.string.hotel_review_body_notification_TEMPLATE)
-			.put("firstname", hotel.getPrimaryTraveler().getFirstName())
-			.put("hotelname", hotelName)
-			.format().toString();
-
-		String itinId = data.getId();
-		Notification notification = new Notification(itinId + "_hotelReview", itinId, triggerTimeMillis);
-		notification.setNotificationType(NotificationType.HOTEL_REVIEW);
-		notification.setFlags(Notification.FLAG_LOCAL);
-		notification.setIconResId(R.drawable.ic_stat_hotel);
-		notification.setTitle(title);
-		notification.setTicker(title);
-		notification.setBody(body);
-		notification.setDeepLink(deepLink);
-		return notification;
-	}
-
 
 	@Override
 	public String getSharableImageURL() {
@@ -677,19 +398,4 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		return sharableImgURL;
 	}
-	@VisibleForTesting
-	public boolean isDurationLongerThanDays(int days) {
-		DateTime endDate = getItinCardData().getEndDate();
-		DateTime dateToCheck = data.getStartDate().plusDays(days);
-		return endDate.isAfter(dateToCheck);
-
-	}
-	@VisibleForTesting
-	public boolean hasLastDayStarted() {
-		MutableDateTime endDate = data.getEndDate().toMutableDateTime();
-		endDate.setZoneRetainFields(DateTimeZone.getDefault());
-		endDate.setMinuteOfDay(1);
-		return endDate.getMillis() < DateTime.now().getMillis();
-	}
-
 }

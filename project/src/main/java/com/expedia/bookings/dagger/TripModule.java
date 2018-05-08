@@ -1,10 +1,15 @@
 package com.expedia.bookings.dagger;
 
+import android.content.Context;
+
 import com.expedia.bookings.dagger.tags.TripScope;
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil;
 import com.expedia.bookings.itin.tripstore.utils.ITripsJsonFileUtils;
 import com.expedia.bookings.itin.tripstore.utils.JsonToItinUtil;
+import com.expedia.bookings.itin.utils.StringSource;
 import com.expedia.bookings.model.PointOfSaleStateModel;
+import com.expedia.bookings.notification.HotelNotificationGenerator;
+import com.expedia.bookings.notification.INotificationManager;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.itin.common.ItinPageUsableTracking;
 import com.expedia.bookings.services.TripShareUrlShortenService;
@@ -54,5 +59,11 @@ public final class TripModule {
 	@TripScope
 	IJsonToItinUtil provideReadJsonUtil(ITripsJsonFileUtils tripsJsonFileUtils) {
 		return new JsonToItinUtil(tripsJsonFileUtils);
+	}
+
+	@Provides
+	@TripScope
+	HotelNotificationGenerator provideHotelNotificationGenerator(Context context, StringSource stringSource, INotificationManager notificationManager) {
+		return new HotelNotificationGenerator(context, stringSource, notificationManager);
 	}
 }

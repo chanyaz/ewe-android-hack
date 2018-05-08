@@ -17,7 +17,7 @@ import com.expedia.bookings.itin.utils.StringSource;
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.launch.widget.LaunchListWidget;
 import com.expedia.bookings.model.PointOfSaleStateModel;
-import com.expedia.bookings.notification.NotificationManager;
+import com.expedia.bookings.notification.INotificationManager;
 import com.expedia.bookings.onboarding.activity.OnboardingActivity;
 import com.expedia.bookings.presenter.trips.AddGuestItinWidget;
 import com.expedia.bookings.server.EndpointProvider;
@@ -104,7 +104,7 @@ public interface AppComponent {
 
 	SearchLobToolbarCache searchLobToolbarCache();
 
-	NotificationManager notificationManager();
+	INotificationManager notificationManager();
 
 	SatelliteServices satelliteServices();
 	HotelGalleryManager hotelGalleryManager();

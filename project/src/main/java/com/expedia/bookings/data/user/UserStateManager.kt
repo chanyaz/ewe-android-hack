@@ -15,15 +15,15 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.trips.ItineraryManager
-import com.expedia.bookings.notification.NotificationManager
-import com.expedia.bookings.server.ExpediaServices
 import com.expedia.bookings.marketing.carnival.CarnivalUtils
+import com.expedia.bookings.notification.INotificationManager
+import com.expedia.bookings.server.ExpediaServices
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.model.UserLoginStateChangedModel
 
 class UserStateManager @JvmOverloads constructor(private val context: Context,
                                                  private val userLoginStateChangedModel: UserLoginStateChangedModel,
-                                                 private val notificationManager: NotificationManager,
+                                                 private val notificationManager: INotificationManager,
                                                  private val accountManager: AccountManager = AccountManager.get(context),
                                                  val userSource: UserSource = UserSource(context),
                                                  private val loggingProvider: ExceptionLoggingProvider = ExceptionLoggingProvider()) {

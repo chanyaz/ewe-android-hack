@@ -86,7 +86,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(final Context context, Intent intent) {
-		com.expedia.bookings.notification.NotificationManager notificationManager = Ui.getApplication(context).appComponent().notificationManager();
+		INotificationManager notificationManager = Ui.getApplication(context).appComponent().notificationManager();
 		Notification notification = null;
 		try {
 			Notification deserialized = makeNotification();
@@ -127,7 +127,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 		return new Notification();
 	}
 
-	protected Notification findExistingNotification(com.expedia.bookings.notification.NotificationManager notificationManager, Notification deserialized) {
+	protected Notification findExistingNotification(INotificationManager notificationManager, Notification deserialized) {
 		return notificationManager.findExisting(deserialized);
 	}
 
@@ -192,7 +192,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 	private void scheduleNotification(Collection<Trip> trips, final Notification finalNotification, Context context) {
 		// Show notification only if trip exists
-		com.expedia.bookings.notification.NotificationManager notificationManager = Ui.getApplication(context)
+		INotificationManager notificationManager = Ui.getApplication(context)
 			.appComponent().notificationManager();
 
 		boolean validTripForScheduledNotification = isValidTripForScheduledNotification(trips, finalNotification);
@@ -205,7 +205,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 		}
 	}
 
-	private void notificationUpdateAndShow(com.expedia.bookings.notification.NotificationManager notificationManager,
+	private void notificationUpdateAndShow(INotificationManager notificationManager,
 		Notification finalNotification,
 		Context context) {
 		Notification updatedNotification = findExistingNotification(notificationManager, finalNotification);

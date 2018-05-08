@@ -181,7 +181,7 @@ public class PushNotificationUtils {
 					else {
 						String uniqueId = sanitizeUniqueId(fhid + "_" + formattedMessage);
 
-						NotificationManager notificationManager = Ui.getApplication(context).appComponent().notificationManager();
+						INotificationManager notificationManager = Ui.getApplication(context).appComponent().notificationManager();
 						Notification notification = new Notification(uniqueId, itinId, triggerTimeMillis);
 						notification.setItinId(itinId);
 						notification.setNotificationType(pushApiTypeToNotificationType(typeIntStr));
@@ -248,7 +248,7 @@ public class PushNotificationUtils {
 		}
 		else {
 
-			NotificationManager notificationManager = Ui.getApplication(context).appComponent().notificationManager();
+			INotificationManager notificationManager = Ui.getApplication(context).appComponent().notificationManager();
 			Notification notification = new Notification(uniqueId, itinId, triggerTimeMillis);
 			notification.setNotificationType(notificationType);
 			notification.setFlags(Notification.FLAG_PUSH);
@@ -323,7 +323,7 @@ public class PushNotificationUtils {
 			String itinId = "";
 			long triggerTimeMillis = System.currentTimeMillis();
 
-			NotificationManager notificationManager = Ui.getApplication(context).appComponent().notificationManager();
+			INotificationManager notificationManager = Ui.getApplication(context).appComponent().notificationManager();
 			Notification notification = new Notification(uniqueId, itinId, triggerTimeMillis);
 			notification.setItinId(itinId);
 			notification.setNotificationType(pushApiTypeToNotificationType(typeIntStr));
