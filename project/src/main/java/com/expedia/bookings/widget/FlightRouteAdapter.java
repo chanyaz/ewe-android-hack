@@ -378,7 +378,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 			Airport fullAirport = FlightStatsDbUtils.getAirport(mAirport.mAirportCode);
 			holder.mAirportDetailsTextView.setText(Phrase.from(mContext, R.string.flight_dropdown_airport_details_TEMPLATE)
 				.put("airport_code", mAirport.mAirportCode)
-				.put("airport_name", fullAirport.mName)
+				.put("airport_name", fullAirport.mName == null ? mAirport.mName : fullAirport.mName)
 				.format());
 			return convertView;
 		}
