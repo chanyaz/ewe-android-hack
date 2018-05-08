@@ -149,6 +149,15 @@ class LXPresenterTest {
     }
 
     @Test
+    fun testMaskScreenWhenGoingFromDetailsToWebCko() {
+        setupPresenterAndBucketWebviewTest()
+        val testShouldMaskScreenObservable = TestObserver.create<Boolean>()
+        lxPresenter.webCheckoutView.viewModel.showWebViewObservable.subscribe(testShouldMaskScreenObservable)
+        showWebCheckoutView()
+        testShouldMaskScreenObservable.assertValue(true)
+    }
+
+    @Test
     fun testWebViewToSearchUpdateTransition() {
         setupPresenterAndBucketWebviewTest()
         showWebCheckoutView()

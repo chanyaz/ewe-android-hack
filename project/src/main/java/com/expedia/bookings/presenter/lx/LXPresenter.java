@@ -294,6 +294,7 @@ public class LXPresenter extends Presenter {
 			super.endTransition(forward);
 			detailsPresenter.setVisibility(forward ? GONE : VISIBLE);
 			webCheckoutView.setVisibility(forward ? VISIBLE : GONE);
+			webCheckoutView.getViewModel().getShowWebViewObservable().onNext(forward);
 			if (forward) {
 				webCheckoutViewViewModel.doCreateTrip();
 			}
