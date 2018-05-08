@@ -4,15 +4,18 @@ import android.content.Context
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.HolidayCalendarResponse
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightServiceClassType
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.extensions.subscribeObserver
 import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
+import com.expedia.bookings.services.HolidayCalendarService
 import com.expedia.bookings.shared.CalendarRules
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
@@ -22,6 +25,7 @@ import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isFlightGreedySearchEnabled
+import com.expedia.bookings.utils.isHolidayCalendarEnabled
 import com.expedia.bookings.utils.isRecentSearchesForFlightsEnabled
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.ui.FlightActivity
@@ -32,7 +36,9 @@ import com.expedia.vm.flights.AdvanceSearchFilter
 import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
 import io.reactivex.Observable
+import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
+import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import org.joda.time.LocalDate
@@ -41,6 +47,9 @@ import javax.inject.Inject
 class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     override fun getCalendarRules(): CalendarRules {
         return if (isRoundTripSearchObservable.value) roundTripRules else oneWayRules
+    }
+    val holidayCalendarService: HolidayCalendarService by lazy {
+        Ui.getApplication(context).flightComponent().holidayCalendarService()
     }
 
     lateinit var travelerValidator: TravelerValidator
@@ -147,6 +156,10 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     init {
         Ui.getApplication(context).travelerComponent().inject(this)
 
+        if (isHolidayCalendarEnabled(context)) {
+            getHolidayInfo()
+        }
+
         isRoundTripSearchObservable.subscribe { isRoundTripSearch ->
             getParamsBuilder().roundTrip(isRoundTripSearch)
             getParamsBuilder().maxStay = getCalendarRules().getMaxSearchDurationDays()
@@ -235,6 +248,12 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         modifySearchFormObservable.subscribe { actionLabel ->
             FlightsV2Tracking.trackRecentSearchFieldChange(actionLabel)
         }
+    }
+
+    private fun getHolidayInfo() {
+        val twoLetterCountryCode = PointOfSale.getPointOfSale().twoLetterCountryCode.toUpperCase()
+        val langId = PointOfSale.getPointOfSale().localeIdentifier
+        holidayCalendarService.getHoliday(twoLetterCountryCode, langId, makeHolidayCalendarInfoObserver())
     }
 
     private fun isReadyToFireSearchCall(): Boolean {
@@ -435,6 +454,22 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     fun trackFieldChange(actionLabel: String) {
         if (shouldTrackEditSearchForm) {
             modifySearchFormObservable.onNext(actionLabel)
+        }
+    }
+
+    private fun makeHolidayCalendarInfoObserver(): Observer<HolidayCalendarResponse> {
+        return object : DisposableObserver<HolidayCalendarResponse>() {
+            override fun onNext(response: HolidayCalendarResponse) {
+                //Will consume response in next PR
+            }
+
+            override fun onError(e: Throwable) {
+                //Will consume response in next PR
+            }
+
+            override fun onComplete() {
+                //do nothing
+            }
         }
     }
 }
