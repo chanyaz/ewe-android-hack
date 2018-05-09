@@ -1423,6 +1423,8 @@
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">{amount} total amount paid</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
     <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">{amount} total due at hotel</string>
+    <!--Hotel itin card price summary additional pricing information button-->
+    <string name="itin_hotel_details_price_summary_additional_info_button_text">Additional pricing information</string>
     <!--Hotel itin card price summary rewards section title text-->
     <string name="itin_hotel_details_price_summary_rewards_title">Rewards</string>
     <!--Hotel itin card price summary rewards section view rewards button text-->
