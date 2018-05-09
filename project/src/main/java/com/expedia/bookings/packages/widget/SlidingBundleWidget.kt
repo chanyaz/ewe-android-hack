@@ -28,7 +28,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
 import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.packages.vm.BundleOverviewViewModel
-import com.expedia.bookings.packages.vm.PackageSearchType
+import com.expedia.bookings.services.PackageProductSearchType
 import com.expedia.bookings.packages.vm.PackageTotalPriceViewModel
 import com.expedia.bookings.widget.TotalPriceWidget
 import io.reactivex.subjects.PublishSubject
@@ -204,11 +204,11 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
 
         if (product == Constants.PRODUCT_FLIGHT) {
             bundleOverViewWidget.viewModel.flightParamsObservable.onNext(Db.sharedInstance.packageParams)
-            val type = if (Db.sharedInstance.packageParams.isOutboundSearch(isMidAPIEnabled())) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT
+            val type = if (Db.sharedInstance.packageParams.isOutboundSearch(isMidAPIEnabled())) PackageProductSearchType.MultiItemOutboundFlights else PackageProductSearchType.MultiItemInboundFlights
             bundleOverViewWidget.viewModel.flightResultsObservable.onNext(type)
 
             if (!Db.sharedInstance.packageParams.isOutboundSearch(isMidAPIEnabled()) && Db.sharedInstance.packageSelectedOutboundFlight != null) {
-                bundleOverViewWidget.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
+                bundleOverViewWidget.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageProductSearchType.MultiItemOutboundFlights)
                 bundleOverViewWidget.outboundFlightWidget.viewModel.flight.onNext(Db.sharedInstance.packageSelectedOutboundFlight)
                 bundleOverViewWidget.outboundFlightWidget.toggleFlightWidget(1f, true)
             }
@@ -219,9 +219,9 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
         }
 
         if (Db.sharedInstance.packageParams?.pageType == Constants.PACKAGE_CHANGE_HOTEL) {
-            bundleOverViewWidget.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
+            bundleOverViewWidget.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageProductSearchType.MultiItemOutboundFlights)
             bundleOverViewWidget.outboundFlightWidget.viewModel.flight.onNext(Db.sharedInstance.packageSelectedOutboundFlight)
-            bundleOverViewWidget.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
+            bundleOverViewWidget.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageProductSearchType.MultiItemInboundFlights)
             bundleOverViewWidget.inboundFlightWidget.viewModel.flight.onNext(Db.getPackageFlightBundle().second)
         }
     }

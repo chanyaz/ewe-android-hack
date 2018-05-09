@@ -12,9 +12,9 @@ import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.DialogFactory
-import com.expedia.bookings.services.PackageServices
-import com.expedia.bookings.services.ProductSearchType
 import com.expedia.bookings.extensions.subscribeObserver
+import com.expedia.bookings.services.PackageServices
+import com.expedia.bookings.services.PackageProductSearchType
 import com.expedia.bookings.tracking.ApiCallFailing
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.PackageResponseUtils
@@ -45,9 +45,9 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
     val searchParamsChangeObservable = PublishSubject.create<Unit>()
 
     // Outputs
-    val autoAdvanceObservable = BehaviorSubject.create<PackageSearchType>()
+    val autoAdvanceObservable = BehaviorSubject.create<PackageProductSearchType>()
     val hotelResultsObservable = BehaviorSubject.create<Unit>()
-    val flightResultsObservable = BehaviorSubject.create<PackageSearchType>()
+    val flightResultsObservable = BehaviorSubject.create<PackageProductSearchType>()
     val showBundleTotalObservable = BehaviorSubject.create<Boolean>()
     val toolbarTitleObservable = BehaviorSubject.create<String>()
     val toolbarSubtitleObservable = BehaviorSubject.create<String>()
@@ -73,7 +73,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     .put("guests", StrUtils.formatTravelerString(context, params.guests))
                     .format().toString())
 
-            searchPackageSubscriber = packageServices?.packageSearch(params, ProductSearchType.MultiItemHotels)?.subscribeObserver(makeResultsObserver(PackageSearchType.HOTEL, params.isChangePackageSearch()))
+            searchPackageSubscriber = packageServices?.packageSearch(params, PackageProductSearchType.MultiItemHotels)?.subscribeObserver(makeResultsObserver(PackageProductSearchType.MultiItemHotels, params.isChangePackageSearch()))
         }
 
         flightParamsObservable.subscribe { params ->
@@ -84,7 +84,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(params.endDate!!))
                     .put("guests", StrUtils.formatTravelerString(context, params.guests))
                     .format().toString())
-            val type = if (params.isOutboundSearch(isMidAPIEnabled())) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT
+            val type = if (params.isOutboundSearch(isMidAPIEnabled())) PackageProductSearchType.MultiItemOutboundFlights else PackageProductSearchType.MultiItemInboundFlights
 
             searchPackageSubscriber = packageServices?.packageSearch(params, getProductSearchType(params.isOutboundSearch(isMidAPIEnabled())))?.subscribeObserver(makeResultsObserver(type, params.isChangePackageSearch()))
         }
@@ -144,11 +144,11 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
         setUpTitle(hotel.city, numOfDaysStay)
     }
 
-    private fun getProductSearchType(isOutboundSearch: Boolean): ProductSearchType {
+    private fun getProductSearchType(isOutboundSearch: Boolean): PackageProductSearchType {
         if (isOutboundSearch) {
-            return ProductSearchType.MultiItemOutboundFlights
+            return PackageProductSearchType.MultiItemOutboundFlights
         } else {
-            return ProductSearchType.MultiItemInboundFlights
+            return PackageProductSearchType.MultiItemInboundFlights
         }
     }
 
@@ -159,16 +159,16 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
         else -> ""
     }
 
-    private fun getApiCallFailingDetails(type: PackageSearchType, isChangeSearch: Boolean, errorDetails: PackageErrorDetails.PackageAPIErrorDetails): Pair<PackageApiError.Code, ApiCallFailing> {
+    private fun getApiCallFailingDetails(type: PackageProductSearchType, isChangeSearch: Boolean, errorDetails: PackageErrorDetails.PackageAPIErrorDetails): Pair<PackageApiError.Code, ApiCallFailing> {
         val apiCallFailingDetails = when (type) {
-            PackageSearchType.HOTEL -> if (isChangeSearch) ApiCallFailing.PackageHotelChange(errorDetails.errorKey) else ApiCallFailing.PackageHotelSearch(errorDetails.errorKey)
-            PackageSearchType.OUTBOUND_FLIGHT -> if (isChangeSearch) ApiCallFailing.PackageFlightOutboundChange(errorDetails.errorKey) else ApiCallFailing.PackageFlightOutbound(errorDetails.errorKey)
-            PackageSearchType.INBOUND_FLIGHT -> if (isChangeSearch) ApiCallFailing.PackageFlightInboundChange(errorDetails.errorKey) else ApiCallFailing.PackageFlightInbound(errorDetails.errorKey)
+            PackageProductSearchType.MultiItemHotels -> if (isChangeSearch) ApiCallFailing.PackageHotelChange(errorDetails.errorKey) else ApiCallFailing.PackageHotelSearch(errorDetails.errorKey)
+            PackageProductSearchType.MultiItemOutboundFlights -> if (isChangeSearch) ApiCallFailing.PackageFlightOutboundChange(errorDetails.errorKey) else ApiCallFailing.PackageFlightOutbound(errorDetails.errorKey)
+            PackageProductSearchType.MultiItemInboundFlights -> if (isChangeSearch) ApiCallFailing.PackageFlightInboundChange(errorDetails.errorKey) else ApiCallFailing.PackageFlightInbound(errorDetails.errorKey)
         }
         return Pair(errorDetails.errorCode, apiCallFailingDetails)
     }
 
-    private fun makeResultsObserver(type: PackageSearchType, isChangeSearch: Boolean): Observer<BundleSearchResponse> {
+    private fun makeResultsObserver(type: PackageProductSearchType, isChangeSearch: Boolean): Observer<BundleSearchResponse> {
         return object : DisposableObserver<BundleSearchResponse>() {
             override fun onNext(response: BundleSearchResponse) {
                 if (response.getHotels().isEmpty()) {
@@ -176,14 +176,14 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     errorObservable.onNext(getApiCallFailingDetails(type, isChangeSearch, PackageErrorDetails.PackageAPIErrorDetails(errorCode.name, errorCode)))
                 } else {
                     Db.setPackageResponse(response)
-                    if (type == PackageSearchType.HOTEL) {
+                    if (type == PackageProductSearchType.MultiItemHotels) {
                         hotelResultsObservable.onNext(Unit)
                         val currentFlights = arrayOf(response.getFlightLegs()[0].legId, response.getFlightLegs()[1].legId)
                         Db.sharedInstance.packageParams.currentFlights = currentFlights
                         Db.sharedInstance.packageParams.defaultFlights = currentFlights.copyOf()
                         PackageResponseUtils.savePackageResponse(context, response, PackageResponseUtils.RECENT_PACKAGE_HOTELS_FILE)
                     } else {
-                        if (type == PackageSearchType.OUTBOUND_FLIGHT) {
+                        if (type == PackageProductSearchType.MultiItemOutboundFlights) {
                             PackageResponseUtils.savePackageResponse(context, response, PackageResponseUtils.RECENT_PACKAGE_OUTBOUND_FLIGHT_FILE)
                         } else {
                             PackageResponseUtils.savePackageResponse(context, response, PackageResponseUtils.RECENT_PACKAGE_INBOUND_FLIGHT_FILE)
@@ -214,7 +214,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     }
                     RetrofitUtils.isNetworkError(throwable) -> {
                         val retryFun = fun() {
-                            if (type == PackageSearchType.HOTEL) {
+                            if (type == PackageProductSearchType.MultiItemHotels) {
                                 hotelParamsObservable.onNext(Db.sharedInstance.packageParams)
                             } else {
                                 flightParamsObservable.onNext(Db.sharedInstance.packageParams)

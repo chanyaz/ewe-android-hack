@@ -26,7 +26,7 @@ import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.flights.RichContent
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.packages.vm.BundleFlightViewModel
-import com.expedia.bookings.packages.vm.PackageSearchType
+import com.expedia.bookings.services.PackageProductSearchType
 import com.expedia.bookings.presenter.flight.FlightOverviewPresenter
 import com.expedia.bookings.presenter.flight.FlightSummaryWidget
 import com.expedia.bookings.services.FlightServices
@@ -794,7 +794,7 @@ class FlightOverviewPresenterTest {
     }
 
     private fun prepareBundleWidgetViewModel(bundleFlightViewModel: BundleFlightViewModel) {
-        bundleFlightViewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
+        bundleFlightViewModel.selectedFlightObservable.onNext(PackageProductSearchType.MultiItemOutboundFlights)
         bundleFlightViewModel.suggestion.onNext(getDummySuggestion("SFO"))
         bundleFlightViewModel.flight.onNext(flightLeg)
         bundleFlightViewModel.date.onNext(LocalDate())

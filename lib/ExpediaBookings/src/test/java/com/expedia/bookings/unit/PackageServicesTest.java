@@ -26,7 +26,7 @@ import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.PackageServices;
-import com.expedia.bookings.services.ProductSearchType;
+import com.expedia.bookings.services.PackageProductSearchType;
 import com.expedia.bookings.services.TestObserver;
 import com.google.gson.Gson;
 import com.mobiata.mocke3.ExpediaDispatcher;
@@ -70,7 +70,7 @@ public class PackageServicesTest {
 			.endDate(LocalDate.now().plusDays(1))
 			.build();
 
-		service.packageSearch(params, ProductSearchType.MultiItemHotels).subscribe(observer);
+		service.packageSearch(params, PackageProductSearchType.MultiItemHotels).subscribe(observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoValues();
@@ -91,7 +91,7 @@ public class PackageServicesTest {
 			.endDate(LocalDate.now().plusDays(1))
 			.build();
 
-		service.packageSearch(params, ProductSearchType.MultiItemHotels).subscribe(observer);
+		service.packageSearch(params, PackageProductSearchType.MultiItemHotels).subscribe(observer);
 		observer.awaitTerminalEvent(3, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
@@ -135,7 +135,7 @@ public class PackageServicesTest {
 			.startDate(LocalDate.now())
 			.endDate(LocalDate.now().plusDays(1))
 			.build();
-		service.packageSearch(params, ProductSearchType.MultiItemHotels).subscribe(observer);
+		service.packageSearch(params, PackageProductSearchType.MultiItemHotels).subscribe(observer);
 
 		observer.awaitTerminalEvent(3, TimeUnit.SECONDS);
 
@@ -170,7 +170,7 @@ public class PackageServicesTest {
 		params.getLatestSelectedOfferInfo().setRatePlanCode("flight_outbound_happy");
 		params.getLatestSelectedOfferInfo().setRoomTypeCode("flight_outbound_happy");
 
-		service.packageSearch(params, ProductSearchType.MultiItemOutboundFlights).subscribe(observer);
+		service.packageSearch(params, PackageProductSearchType.MultiItemOutboundFlights).subscribe(observer);
 		observer.awaitTerminalEvent(3, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
@@ -215,7 +215,7 @@ public class PackageServicesTest {
 		params.getLatestSelectedOfferInfo().setRatePlanCode("error");
 		params.getLatestSelectedOfferInfo().setRoomTypeCode("flight_outbound_happy");
 
-		service.packageSearch(params, ProductSearchType.MultiItemOutboundFlights).subscribe(observer);
+		service.packageSearch(params, PackageProductSearchType.MultiItemOutboundFlights).subscribe(observer);
 
 		observer.awaitTerminalEvent(3, TimeUnit.SECONDS);
 
@@ -251,7 +251,7 @@ public class PackageServicesTest {
 		params.getLatestSelectedOfferInfo().setRoomTypeCode("flight_outbound_happy");
 		params.setSelectedLegId("flight_inbound_happy");
 
-		service.packageSearch(params, ProductSearchType.MultiItemInboundFlights).subscribe(observer);
+		service.packageSearch(params, PackageProductSearchType.MultiItemInboundFlights).subscribe(observer);
 		observer.awaitTerminalEvent(3, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
@@ -297,7 +297,7 @@ public class PackageServicesTest {
 		params.getLatestSelectedOfferInfo().setRoomTypeCode("flight_outbound_happy");
 		params.setSelectedLegId("error");
 
-		service.packageSearch(params, ProductSearchType.MultiItemInboundFlights).subscribe(observer);
+		service.packageSearch(params, PackageProductSearchType.MultiItemInboundFlights).subscribe(observer);
 
 		observer.awaitTerminalEvent(3, TimeUnit.SECONDS);
 
@@ -423,7 +423,7 @@ public class PackageServicesTest {
 		params.getLatestSelectedOfferInfo().setRoomTypeCode("flight_outbound_happy");
 		params.setSelectedLegId("flight_inbound_happy");
 
-		service.packageSearch(params, ProductSearchType.MultiItemInboundFlights).subscribe(observer);
+		service.packageSearch(params, PackageProductSearchType.MultiItemInboundFlights).subscribe(observer);
 		observer.awaitTerminalEvent(3, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
@@ -449,7 +449,7 @@ public class PackageServicesTest {
 			.endDate(LocalDate.now().plusDays(1))
 			.build();
 
-		service.packageSearch(params, ProductSearchType.MultiItemHotels).subscribe(observer);
+		service.packageSearch(params, PackageProductSearchType.MultiItemHotels).subscribe(observer);
 		observer.awaitTerminalEvent(3, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();

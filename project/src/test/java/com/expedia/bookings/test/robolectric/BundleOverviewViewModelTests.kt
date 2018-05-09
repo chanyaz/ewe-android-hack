@@ -14,7 +14,7 @@ import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.tracking.ApiCallFailing
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.packages.vm.BundleOverviewViewModel
-import com.expedia.bookings.packages.vm.PackageSearchType
+import com.expedia.bookings.services.PackageProductSearchType
 import com.expedia.bookings.utils.Constants
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -41,7 +41,7 @@ class BundleOverviewViewModelTests {
 
     @Test
     fun testHotels() {
-        val resultsSubscriber = TestObserver<PackageSearchType>()
+        val resultsSubscriber = TestObserver<PackageProductSearchType>()
         sut.autoAdvanceObservable.subscribe(resultsSubscriber)
         val params = setUpParams("happy")
 
@@ -52,7 +52,7 @@ class BundleOverviewViewModelTests {
         resultsSubscriber.assertNoErrors()
         resultsSubscriber.assertValueCount(1)
 
-        assertEquals(PackageSearchType.HOTEL, resultsSubscriber.values()[0])
+        assertEquals(PackageProductSearchType.MultiItemHotels, resultsSubscriber.values()[0])
     }
 
     @Test
@@ -121,7 +121,7 @@ class BundleOverviewViewModelTests {
 
     @Test
     fun testFlightsInbound() {
-        val resultsSubscriber = TestObserver<PackageSearchType>()
+        val resultsSubscriber = TestObserver<PackageProductSearchType>()
         sut.autoAdvanceObservable.subscribe(resultsSubscriber)
         val params = setUpParams()
         params.selectedLegId = "flight_outbound_happy"
@@ -132,7 +132,7 @@ class BundleOverviewViewModelTests {
         resultsSubscriber.assertNoErrors()
         resultsSubscriber.assertValueCount(1)
 
-        assertEquals(PackageSearchType.INBOUND_FLIGHT, resultsSubscriber.values()[0])
+        assertEquals(PackageProductSearchType.MultiItemInboundFlights, resultsSubscriber.values()[0])
     }
 
     @Test
@@ -168,7 +168,7 @@ class BundleOverviewViewModelTests {
 
     @Test
     fun testFlightsOutbound() {
-        val resultsSubscriber = TestObserver<PackageSearchType>()
+        val resultsSubscriber = TestObserver<PackageProductSearchType>()
         sut.autoAdvanceObservable.subscribe(resultsSubscriber)
         val params = setUpParams()
         params.latestSelectedOfferInfo.ratePlanCode = "flight_outbound_happy"
@@ -179,7 +179,7 @@ class BundleOverviewViewModelTests {
         resultsSubscriber.assertNoErrors()
         resultsSubscriber.assertValueCount(1)
 
-        assertEquals(PackageSearchType.OUTBOUND_FLIGHT, resultsSubscriber.values()[0])
+        assertEquals(PackageProductSearchType.MultiItemOutboundFlights, resultsSubscriber.values()[0])
     }
 
     @Test

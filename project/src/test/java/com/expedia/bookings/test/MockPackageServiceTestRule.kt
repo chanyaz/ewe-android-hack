@@ -14,7 +14,7 @@ import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.services.PackageServices
-import com.expedia.bookings.services.ProductSearchType
+import com.expedia.bookings.services.PackageProductSearchType
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.testrule.ServicesRule
 import org.joda.time.LocalDate
@@ -40,7 +40,7 @@ class MockPackageServiceTestRule : ServicesRule<PackageServices>(PackageServices
         val params = getPackageParams("happy")
         Db.setPackageParams(params)
 
-        services?.packageSearch(params, ProductSearchType.MultiItemHotels)?.subscribe(observer)
+        services?.packageSearch(params, PackageProductSearchType.MultiItemHotels)?.subscribe(observer)
         observer.awaitTerminalEvent()
         Db.setPackageResponse(observer.values()[0])
 
@@ -66,7 +66,7 @@ class MockPackageServiceTestRule : ServicesRule<PackageServices>(PackageServices
         params.latestSelectedOfferInfo.ratePlanCode = "flight_outbound_happy"
         Db.setPackageParams(params)
 
-        services?.packageSearch(params, ProductSearchType.MultiItemOutboundFlights)?.subscribe(observer)
+        services?.packageSearch(params, PackageProductSearchType.MultiItemOutboundFlights)?.subscribe(observer)
         observer.awaitTerminalEvent()
         Db.setPackageResponse(observer.values()[0])
 

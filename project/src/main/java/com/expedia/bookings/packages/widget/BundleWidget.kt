@@ -18,7 +18,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.bookings.packages.vm.BundleFlightViewModel
 import com.expedia.bookings.packages.vm.BundleHotelViewModel
 import com.expedia.bookings.packages.vm.BundleOverviewViewModel
-import com.expedia.bookings.packages.vm.PackageSearchType
+import com.expedia.bookings.services.PackageProductSearchType
 import com.expedia.bookings.flights.widget.InboundFlightWidget
 import com.expedia.bookings.flights.widget.OutboundFlightWidget
 import io.reactivex.subjects.BehaviorSubject
@@ -47,8 +47,8 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
             inboundFlightWidget.updateHotelParams(param)
 
             if (!param.isChangePackageSearch()) {
-                outboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
-                inboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
+                outboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageProductSearchType.MultiItemOutboundFlights)
+                inboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageProductSearchType.MultiItemInboundFlights)
             }
 
             viewModel.searchParamsChangeObservable.onNext(Unit)
@@ -60,9 +60,9 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
         vm.autoAdvanceObservable.subscribe { searchType ->
             if (searchType != null) {
                 when (searchType) {
-                    PackageSearchType.HOTEL -> bundleHotelWidget.openHotels()
-                    PackageSearchType.OUTBOUND_FLIGHT -> outboundFlightWidget.openFlightsForDeparture()
-                    PackageSearchType.INBOUND_FLIGHT -> inboundFlightWidget.openFlightsForArrival()
+                    PackageProductSearchType.MultiItemHotels -> bundleHotelWidget.openHotels()
+                    PackageProductSearchType.MultiItemOutboundFlights -> outboundFlightWidget.openFlightsForDeparture()
+                    PackageProductSearchType.MultiItemInboundFlights -> inboundFlightWidget.openFlightsForArrival()
                 }
             }
         }
@@ -86,7 +86,7 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
             viewModel.searchParamsChangeObservable.onNext(Unit)
         }
         vm.flightResultsObservable.subscribe { searchType ->
-            if (searchType == PackageSearchType.OUTBOUND_FLIGHT) {
+            if (searchType == PackageProductSearchType.MultiItemOutboundFlights) {
                 outboundFlightWidget.handleResultsLoaded()
                 PackagesPageUsableData.FLIGHT_OUTBOUND.pageUsableData.markAllViewsLoaded()
             } else {

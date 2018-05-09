@@ -42,12 +42,11 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
     }
 
     //Bundle Exposed API
-    fun packageSearch(params: PackageSearchParams, type: ProductSearchType): Observable<BundleSearchResponse> {
+    fun packageSearch(params: PackageSearchParams, type: PackageProductSearchType): Observable<BundleSearchResponse> {
         return when (type) {
-            ProductSearchType.MultiItemHotels -> multiItemHotelsSearch(params)
-            ProductSearchType.MultiItemHotelRooms -> throw RuntimeException("Use `multiItemRoomSearch`for MID rooms search")
-            ProductSearchType.MultiItemOutboundFlights -> multiItemOutboundFlightsSearch(params)
-            ProductSearchType.MultiItemInboundFlights -> multiItemInboundFlightsSearch(params)
+            PackageProductSearchType.MultiItemHotels -> multiItemHotelsSearch(params)
+            PackageProductSearchType.MultiItemOutboundFlights -> multiItemOutboundFlightsSearch(params)
+            PackageProductSearchType.MultiItemInboundFlights -> multiItemInboundFlightsSearch(params)
         }
     }
 

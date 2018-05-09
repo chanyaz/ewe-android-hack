@@ -66,7 +66,7 @@ import com.expedia.vm.flights.FlightCreateTripViewModel
 import com.expedia.vm.flights.FlightErrorViewModel
 import com.expedia.vm.flights.FlightOffersViewModel
 import com.expedia.vm.flights.FlightOffersViewModelByot
-import com.expedia.bookings.packages.vm.PackageSearchType
+import com.expedia.bookings.services.PackageProductSearchType
 import com.mobiata.android.Log
 import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
@@ -257,19 +257,19 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     val flightOverviewPresenter: FlightOverviewPresenter by lazy {
         val viewStub = findViewById<ViewStub>(R.id.overview_presenter)
         val presenter = viewStub.inflate() as FlightOverviewPresenter
-        presenter.flightSummary.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
-        presenter.flightSummary.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
+        presenter.flightSummary.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageProductSearchType.MultiItemOutboundFlights)
+        presenter.flightSummary.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageProductSearchType.MultiItemInboundFlights)
         searchViewModel.searchParamsObservable.subscribe((presenter.bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel as FlightCheckoutOverviewViewModel).params)
         searchViewModel.searchParamsObservable.subscribe((presenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel as FlightCheckoutOverviewViewModel).params)
         searchViewModel.isRoundTripSearchObservable.subscribeVisibility(presenter.flightSummary.inboundFlightWidget)
         searchViewModel.searchParamsObservable.subscribe { params ->
             presenter.flightSummary.viewmodel.params.onNext(params)
             if (params.returnDate != null) {
-                presenter.flightSummary.inboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
+                presenter.flightSummary.inboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageProductSearchType.MultiItemInboundFlights)
             }
             presenter.flightSummary.outboundFlightWidget.viewModel.searchParams.onNext(params)
             presenter.flightSummary.inboundFlightWidget.viewModel.searchParams.onNext(params)
-            presenter.flightSummary.outboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
+            presenter.flightSummary.outboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageProductSearchType.MultiItemOutboundFlights)
             presenter.flightSummary.setPadding(0, 0, 0, 0)
         }
         presenter.fareFamilyCardView.viewModel.updateTripObserver.subscribe {

@@ -1,8 +1,7 @@
 package com.expedia.bookings.services
 
-enum class ProductSearchType {
+enum class PackageProductSearchType {
     MultiItemHotels,
-    MultiItemHotelRooms,
     MultiItemOutboundFlights,
     MultiItemInboundFlights
 }
