@@ -39,9 +39,11 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
     val statusBarHeight by lazy { Ui.getStatusBarHeight(context) }
 
     var webClient = object : WebViewClient() {
-        override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
+
+        //Using this deprecated API in order to support the shouldOverrideUrlLoading function for L and M devices
+        @Suppress("DEPRECATION")
+        override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
             val endPointURL = Ui.getApplication(context).appComponent().endpointProvider().e3EndpointUrl
-            val url = request.url.toString()
             if (url.contains("/user/signin")) {
                 view.stopLoading()
                 NavUtils.showAccountSignIn(context)
@@ -102,12 +104,12 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
     }
 
     private fun redirectSigninClick() {
-        webView.evaluateJavascript("document.querySelectorAll('#login-module-title')" +
-                ".forEach(function(element) {" +
-                "element.onclick = function(event) {" +
+        webView.evaluateJavascript("(function() { var elements = document.getElementById('login-module-title'); " +
+                "elements.onclick = function(event) { " +
                 "event.stopPropagation();" +
-                "document.location.href = '/user/signin';" +
-                "}});", {})
+                "document.location.href = '/user/signin'" +
+                ";}" +
+                ";})()", null)
     }
 
     open fun onWebPageStarted(view: WebView, url: String, favicon: Bitmap?) {
@@ -121,6 +123,7 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
         setToolbarPadding()
         webView.webViewClient = webClient
         webView.settings.javaScriptEnabled = true
+        webView.settings.domStorageEnabled = true
         webView.settings.setSupportMultipleWindows(true)
 
         webView.setDownloadListener { url, _, _, _, _ ->
