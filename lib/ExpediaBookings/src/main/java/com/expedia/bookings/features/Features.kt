@@ -21,4 +21,5 @@ class Features {
     val accountWebViewInjections: Feature by RemoteFeatureDelegate()
     val genericAttach: Feature by RemoteFeatureDelegate()
     val viewReceipt: Feature by RemoteFeatureDelegate()
+    val facebookAdTracking: Feature by RemoteFeatureDelegate()
 }

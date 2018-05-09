@@ -14,7 +14,6 @@ import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
-import com.facebook.FacebookSdk.getApplicationContext
 
 class FlightItinLegsDetailWidget(context: Context?, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
@@ -50,7 +49,7 @@ class FlightItinLegsDetailWidget(context: Context?, attrs: AttributeSet?) : Line
 
     private fun setUpRecyclerView(list: ArrayList<FlightItinLegsDetailData>) {
         val mAdapter = FlightItinLegsDetailAdapter(context, list)
-        val mLayoutManager = LinearLayoutManager(getApplicationContext())
+        val mLayoutManager = LinearLayoutManager(context)
         recyclerView.setLayoutManager(mLayoutManager)
         recyclerView.setAdapter(mAdapter)
     }
