@@ -97,7 +97,7 @@ class LxItinDetailsActivityLifecycleObserverTest {
     }
 
     class TestLifeCycleObsScope : HasStringProvider, HasWebViewLauncher, HasActivityLauncher, HasJsonUtil, HasItinId, HasToolbarViewModelSetter, HasManageBookingWidgetViewModelSetter, HasTripsTracking, HasMapWidgetViewModelSetter {
-        override val map: MapWidgetViewModelSetter  = MockMapSetter()
+        override val map: MapWidgetViewModelSetter = MockMapSetter()
         val tripsTracker = MockTripsTracking()
         override val tripsTracking: ITripsTracking = tripsTracker
         override val strings: StringSource = MockStringProvider()
@@ -118,12 +118,13 @@ class LxItinDetailsActivityLifecycleObserverTest {
             return ItinMocker.lxDetailsHappy
         }
     }
-     class MockMapSetter: MapWidgetViewModelSetter {
-         var called = false
-         override fun setUpViewModel(vm: ItinMapWidgetViewModel) {
-          called = true
-         }
-     }
+
+    class MockMapSetter : MapWidgetViewModelSetter {
+        var called = false
+        override fun setUpViewModel(vm: ItinMapWidgetViewModel) {
+            called = true
+        }
+    }
 
     class MockManageBookingSetter : ManageBookingWidgetViewModelSetter {
         var called = false

@@ -154,4 +154,3 @@ class TripsTrackingTest {
         OmnitureTestUtils.assertLinkTrackedWithAbTestExposure("Itinerary Action", rfrrId, analyticsString, mockAnalyticsProvider)
     }
 }
-

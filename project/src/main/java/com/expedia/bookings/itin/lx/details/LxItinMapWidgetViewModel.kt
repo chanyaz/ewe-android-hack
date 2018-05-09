@@ -9,9 +9,8 @@ import com.expedia.bookings.itin.tripstore.data.ItinLx
 import com.expedia.bookings.itin.tripstore.extensions.buildSecondaryAddress
 import com.google.android.gms.maps.model.LatLng
 
-class LxItinMapWidgetViewModel<S>(scope: S) : ItinMapWidgetViewModel() where S : HasLxRepo, S : HasLifecycleOwner, S : HasTripsTracking {
+class LxItinMapWidgetViewModel<S>(val scope: S) : ItinMapWidgetViewModel() where S : HasLxRepo, S : HasLifecycleOwner, S : HasTripsTracking {
     var itinLxObserver: LiveDataObserver<ItinLx>
-
 
     init {
         itinLxObserver = LiveDataObserver { itinLx ->
@@ -25,14 +24,13 @@ class LxItinMapWidgetViewModel<S>(scope: S) : ItinMapWidgetViewModel() where S :
                 if (location?.latitude != null && location.longitude != null) {
                     latLongSubject.onNext(LatLng(location.latitude, location.longitude))
                 }
-                directionsButtonVisibilitySubject.onNext(true)
                 directionButtonClickSubject.subscribe {
                     scope.tripsTracking.trackItinLxDetailsDirections()
-                    TODO("add expanded map view and omniture")
+                    //TODO("add expanded map view and omniture")
                 }
                 mapClickSubject.subscribe {
                     scope.tripsTracking.trackItinLxDetailsMap()
-                    TODO("add expanded map view and omniture")
+                    //TODO("add expanded map view and omniture")
                 }
             }
         }

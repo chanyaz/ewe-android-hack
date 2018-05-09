@@ -114,13 +114,7 @@
         "activityDetailsURL": "https://wwwexpediacom.trunk.sb.karmalab.net/lx/activity/358734/",
         "activityLocation": {
           "name1": "California Academy of Sciences",
-          "latitude": 37.76974,
           "longitude": -122.46614,
-          "addressLine1": "55 Music Concourse Drive",
-          "city": "San Francisco",
-          "countrySubdivisionCode": "CA",
-          "postalCode": "94118",
-          "countryCode": "USA",
           "fullAddress": "California Academy of Sciences: 55 Music Concourse Drive, San Francisco, CA, 94118, USA"
         },
         "locationMapURL": "//maps.googleapis.com/maps/api/staticmap?client=gme-expedia&channel=expedia-LXVoucher&zoom=17&size=640x360&maptype=roadmap&sensor=false&format=png8&scale=2&center=39.95572,-75.1819&markers=color:blue%7C39.95572,-75.1819&markers=color:red%7C40.71279,-74.00594&signature=NmnjkjoTTbiO4FX4w2ONlwTzBhY=",
