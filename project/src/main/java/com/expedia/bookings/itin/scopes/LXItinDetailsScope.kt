@@ -50,4 +50,5 @@ data class LxItinManageBookingWidgetScope(override val strings: StringSource,
                                           override val activityLauncher: IActivityLauncher,
                                           override val itinLxRepo: ItinLxRepoInterface) : HasWebViewLauncher, HasActivityLauncher, HasLxRepo, HasStringProvider
 data class LxItinMapWidgetViewModelScope(override val itinLxRepo: ItinLxRepoInterface,
-                                         override val lifecycleOwner: LifecycleOwner) : HasLxRepo, HasLifecycleOwner
+                                         override val lifecycleOwner: LifecycleOwner,
+                                         override val tripsTracking: ITripsTracking) : HasLxRepo, HasLifecycleOwner, HasTripsTracking

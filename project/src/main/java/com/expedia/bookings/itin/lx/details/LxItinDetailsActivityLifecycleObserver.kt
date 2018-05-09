@@ -53,7 +53,7 @@ class LxItinDetailsActivityLifecycleObserver<S>(val scope: S) : DefaultLifecycle
         val manageBookingScope = LxItinManageBookingWidgetScope(scope.strings, scope.webViewLauncher, scope.activityLauncher, repo)
         scope.manageBooking.setUpViewModel(LxItinManageBookingWidgetViewModel(manageBookingScope))
 
-        val mapWidgetScope =  LxItinMapWidgetViewModelScope(repo, owner)
+        val mapWidgetScope = LxItinMapWidgetViewModelScope(repo, owner, scope.tripsTracking)
         scope.map.setUpViewModel(LxItinMapWidgetViewModel(mapWidgetScope))
     }
 

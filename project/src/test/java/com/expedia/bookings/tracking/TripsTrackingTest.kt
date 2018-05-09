@@ -128,6 +128,20 @@ class TripsTrackingTest {
         assertItinLinkTracked("App.Itinerary.Guest.Itin")
     }
 
+    @Test
+    fun trackItinLxDetailsMapTest() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinLxDetailsMap()
+        assertItinLinkTracked("App.Itinerary.Activity.Map")
+    }
+
+    @Test
+    fun trackItinLxDetailsDirectionsTest() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinLxDetailsDirections()
+        assertItinLinkTracked("App.Itinerary.Activity.Directions")
+    }
+
     fun assertItinLinkTracked(rfrrId: String) {
         OmnitureTestUtils.assertLinkTracked("Itinerary Action", rfrrId, mockAnalyticsProvider)
     }
@@ -140,3 +154,4 @@ class TripsTrackingTest {
         OmnitureTestUtils.assertLinkTrackedWithAbTestExposure("Itinerary Action", rfrrId, analyticsString, mockAnalyticsProvider)
     }
 }
+
