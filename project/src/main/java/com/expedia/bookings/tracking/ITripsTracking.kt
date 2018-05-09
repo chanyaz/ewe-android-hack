@@ -10,4 +10,5 @@ interface ITripsTracking {
     fun trackItinHotelViewRewards()
     fun trackItinLxDetailsMap()
     fun trackItinLxDetailsDirections()
+    fun trackItinLxRedeemVoucher()
 }

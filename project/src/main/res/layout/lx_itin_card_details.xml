@@ -22,13 +22,19 @@
         android:layout_height="match_parent"
         android:background="@color/gray100"
         android:fadingEdge="none">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
+            android:orientation="vertical"
             android:paddingBottom="19dp"
-            android:paddingTop="19dp"
-            android:orientation="vertical">
+            android:paddingTop="19dp">
+
+            <com.expedia.bookings.itin.lx.details.LxItinRedeemVoucherWidget
+                android:id="@+id/widget_lx_itin_redeem_voucher"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <com.expedia.bookings.itin.common.ItinMapWidget
                 android:id="@+id/map_widget"

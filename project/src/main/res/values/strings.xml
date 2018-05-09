@@ -1535,6 +1535,8 @@
     <string name="itin_lx_toolbar_title_TEMPLATE">Activity in {location}</string>
     <string name="itin_lx_more_info_heading">More help</string>
     <string name="itin_lx_more_info_subheading">Customer support information</string>
+    <!--LX itin redeem voucher. (e.g. Activity in San Francisco)-->
+    <string name="itin_lx_redeem_voucher">Redeem voucher</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Share Itinerary</string>
