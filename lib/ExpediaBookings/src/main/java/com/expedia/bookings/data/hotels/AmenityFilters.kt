@@ -26,7 +26,10 @@ class AmenityFilters {
                 "allInclusive" to "30",
                 "freeAirportTransport" to "66")
 
-        fun mapToLegacyId(id: String): String? {
+        fun mapToLegacyId(id: String?): String? {
+            if (id == null) {
+                return null
+            }
             if (supportedAmenities.contains(id)) {
                 return id
             }
@@ -34,6 +37,6 @@ class AmenityFilters {
         }
     }
 
-    data class Amenity(val id: String, val name: String)
+    data class Amenity(val id: String?, val name: String)
     data class AccessibilityOption(val id: String, val name: String)
 }

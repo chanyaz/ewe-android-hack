@@ -92,5 +92,6 @@ class AmenityFiltersTest {
     fun testMapToLegacyIdInvalid() {
         assertNull(AmenityFilters.mapToLegacyId("randomString"))
         assertNull(AmenityFilters.mapToLegacyId("0"))
+        assertNull(AmenityFilters.mapToLegacyId(null))
     }
 }

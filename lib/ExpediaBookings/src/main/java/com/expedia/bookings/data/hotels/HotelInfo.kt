@@ -1,6 +1,7 @@
 package com.expedia.bookings.data.hotels
 
 import com.expedia.bookings.utils.NumberUtils
+import com.google.gson.annotations.SerializedName
 
 class HotelInfo {
     var id: String = ""
@@ -70,12 +71,12 @@ class HotelInfo {
     private fun populateLegacyDistance(legacyHotel: Hotel) {
         directDistance?.let { directDistance ->
             when (directDistance.unit) {
-                DistanceUnit.Km -> {
+                DistanceUnit.KM -> {
                     legacyHotel.proximityDistanceInKiloMeters = directDistance.value
                     legacyHotel.proximityDistanceInMiles = kilometersToMiles(directDistance.value)
                     legacyHotel.distanceUnit = "Kilometers"
                 }
-                DistanceUnit.Miles -> {
+                DistanceUnit.MILES -> {
                     legacyHotel.proximityDistanceInKiloMeters = milesToKilometers(directDistance.value)
                     legacyHotel.proximityDistanceInMiles = directDistance.value
                     legacyHotel.distanceUnit = "Miles"
@@ -95,7 +96,9 @@ class HotelInfo {
     data class ProximityDistance(val value: Double, val unit: DistanceUnit)
 
     enum class DistanceUnit {
-        Km,
-        Miles
+        @SerializedName("km")
+        KM,
+        @SerializedName("miles")
+        MILES
     }
 }

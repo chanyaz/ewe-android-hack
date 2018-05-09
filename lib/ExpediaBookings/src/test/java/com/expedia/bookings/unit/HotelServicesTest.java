@@ -224,8 +224,8 @@ public class HotelServicesTest {
 		observer.assertValueCount(1);
 
 		HotelSearchResponse response = observer.values().get(0);
-		assertEquals(25, response.hotelList.size());
-		assertEquals(26, response.allNeighborhoodsInSearchRegion.size());
+		assertEquals(215, response.hotelList.size());
+		assertEquals(11, response.allNeighborhoodsInSearchRegion.size());
 	}
 
 	@SuppressWarnings("unchecked")

@@ -213,7 +213,7 @@ class HotelInfoTest {
 
     @Test
     fun testConvertToLegacyHotelDistanceKilometers() {
-        hotelInfo.directDistance = HotelInfo.ProximityDistance(1.0, HotelInfo.DistanceUnit.Km)
+        hotelInfo.directDistance = HotelInfo.ProximityDistance(1.0, HotelInfo.DistanceUnit.KM)
         val hotel = hotelInfo.convertToLegacyHotel()
         assertEquals(1.0, hotel.proximityDistanceInKiloMeters)
         assertEquals(0.621371192, hotel.proximityDistanceInMiles)

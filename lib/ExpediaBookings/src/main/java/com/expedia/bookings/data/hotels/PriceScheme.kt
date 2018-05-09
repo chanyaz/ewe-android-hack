@@ -1,11 +1,7 @@
 package com.expedia.bookings.data.hotels
 
-import com.google.gson.annotations.SerializedName
-
 enum class PriceType {
-    @SerializedName("total")
     TOTAL,
-    @SerializedName("nightly")
     PER_NIGHT
 }
 

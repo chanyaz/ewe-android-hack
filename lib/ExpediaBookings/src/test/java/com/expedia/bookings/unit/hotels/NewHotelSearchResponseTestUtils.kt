@@ -32,7 +32,7 @@ class NewHotelSearchResponseTestUtils {
                 latLong = listOf(41.882199, -87.640492)
                 regionName = "regionName$index"
                 regionId = "regionId$index"
-                directDistance = HotelInfo.ProximityDistance(1.0, HotelInfo.DistanceUnit.Miles)
+                directDistance = HotelInfo.ProximityDistance(1.0, HotelInfo.DistanceUnit.MILES)
                 neighborhoodId = "neighborhoodId$index"
                 neighborhoodName = "neighborhoodName$index"
                 impressionTrackingUrl = "impressionTrackingUrl$index"
