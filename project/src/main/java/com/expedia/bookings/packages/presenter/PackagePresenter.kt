@@ -30,12 +30,18 @@ import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.extensions.safeSubscribeOptional
+import com.expedia.bookings.packages.activity.PackageActivity
+import com.expedia.bookings.packages.util.PackageServicesManager
+import com.expedia.bookings.packages.vm.BundleOverviewViewModel
+import com.expedia.bookings.packages.vm.PackageConfirmationViewModel
+import com.expedia.bookings.packages.vm.PackageErrorViewModel
+import com.expedia.bookings.packages.vm.PackageSearchViewModel
+import com.expedia.bookings.packages.vm.PackageWebCheckoutViewViewModel
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.IntentPresenter
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.ItinTripServices
-import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.tracking.ApiCallFailing
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.PackagesTracking
@@ -49,12 +55,6 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.widget.shared.WebCheckoutView
-import com.expedia.bookings.packages.activity.PackageActivity
-import com.expedia.bookings.packages.vm.PackageWebCheckoutViewViewModel
-import com.expedia.bookings.packages.vm.BundleOverviewViewModel
-import com.expedia.bookings.packages.vm.PackageConfirmationViewModel
-import com.expedia.bookings.packages.vm.PackageErrorViewModel
-import com.expedia.bookings.packages.vm.PackageSearchViewModel
 import com.mobiata.android.Log
 import io.reactivex.Observer
 import io.reactivex.observers.DisposableObserver
@@ -64,7 +64,7 @@ import java.util.Date
 import javax.inject.Inject
 
 class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(context, attrs) {
-    lateinit var packageServices: PackageServices
+    lateinit var packageServicesManager: PackageServicesManager
         @Inject set
 
     var travelerManager: TravelerManager
@@ -102,7 +102,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
     val bundlePresenter: PackageOverviewPresenter by lazy {
         val presenter = bundlePresenterViewStub.inflate() as PackageOverviewPresenter
         val checkoutPresenter = presenter.getCheckoutPresenter()
-        presenter.bundleWidget.viewModel = BundleOverviewViewModel(context, packageServices)
+        presenter.bundleWidget.viewModel = BundleOverviewViewModel(context, packageServicesManager)
         presenter.bundleWidget.viewModel.searchParamsChangeObservable.subscribe {
             checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.OTHER)
         }

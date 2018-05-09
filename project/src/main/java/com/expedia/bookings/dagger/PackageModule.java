@@ -5,6 +5,7 @@ import javax.inject.Named;
 import android.content.Context;
 
 import com.expedia.bookings.dagger.tags.PackageScope;
+import com.expedia.bookings.packages.util.PackageServicesManager;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.services.PackageServices;
@@ -51,6 +52,12 @@ public final class PackageModule {
 	@PackageScope
 	PaymentViewModel providePaymentViewModel(Context context) {
 		return new PaymentViewModel(context);
+	}
+
+	@Provides
+	@PackageScope
+	PackageServicesManager providePackageServicesManager(Context context, PackageServices packageServices) {
+		return new PackageServicesManager(context, packageServices);
 	}
 
 	@Provides

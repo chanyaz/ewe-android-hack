@@ -18,6 +18,8 @@ import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.packages.presenter.PackageOverviewPresenter
+import com.expedia.bookings.packages.util.PackageServicesManager
+import com.expedia.bookings.packages.vm.BundleOverviewViewModel
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
@@ -30,7 +32,6 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.bookings.packages.presenter.PackageCheckoutPresenter
 import com.expedia.util.Optional
-import com.expedia.bookings.packages.vm.BundleOverviewViewModel
 import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -78,7 +79,7 @@ class PackagePriceChangeTest {
         activity = Robolectric.buildActivity(PlaygroundActivity::class.java, styledIntent).create().visible().get()
         overview = activity.findViewById<View>(R.id.package_overview_presenter) as PackageOverviewPresenter
         checkout = overview.getCheckoutPresenter()
-        overview.bundleWidget.viewModel = BundleOverviewViewModel(activity.applicationContext, packageServiceRule.services!!)
+        overview.bundleWidget.viewModel = BundleOverviewViewModel(activity.applicationContext, PackageServicesManager(activity, packageServiceRule.services!!))
         overview.bundleWidget.viewModel.hotelParamsObservable.onNext(getPackageSearchParams(1, emptyList(), false))
         overview.resetAndShowTotalPriceWidget()
         checkout.getCreateTripViewModel().priceChangeAlertPriceObservable.map { it.value }.subscribe(priceChangeAlertSubscriber)

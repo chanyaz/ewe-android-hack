@@ -26,8 +26,10 @@ import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.enums.TwoScreenOverviewState
-import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.packages.presenter.PackageOverviewPresenter
+import com.expedia.bookings.packages.util.PackageServicesManager
+import com.expedia.bookings.packages.vm.BundleOverviewViewModel
+import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
@@ -43,7 +45,6 @@ import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.bookings.widget.FlightTravelerEntryWidget
 import com.expedia.bookings.packages.presenter.PackageCheckoutPresenter
-import com.expedia.bookings.packages.vm.BundleOverviewViewModel
 import com.expedia.bookings.widget.shared.BillingDetailsPaymentWidget
 import com.expedia.vm.test.traveler.MockTravelerProvider
 import com.expedia.vm.traveler.TravelerSelectItemViewModel
@@ -477,7 +478,7 @@ class PackageCheckoutTest {
         checkout.show(BaseCheckoutPresenter.CheckoutDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
         overview.getCheckoutPresenter().getCheckoutViewModel().obFeeDetailsUrlSubject.onNext("")
         overview.getCheckoutPresenter().getCheckoutViewModel().selectedFlightChargesFees.onNext("Airline Fee")
-        overview.bundleWidget.viewModel = BundleOverviewViewModel(activity.applicationContext, packageServiceRule.services!!)
+        overview.bundleWidget.viewModel = BundleOverviewViewModel(activity.applicationContext, PackageServicesManager(activity, packageServiceRule.services!!))
         overview.bundleWidget.viewModel.hotelParamsObservable.onNext(getPackageSearchParams(1, emptyList(), false))
         overview.bottomCheckoutContainer.slideToPurchaseLayout.visibility = View.VISIBLE
         overview.bottomCheckoutContainer.totalPriceWidget.visibility = View.VISIBLE

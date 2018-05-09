@@ -15,7 +15,11 @@ import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.trips.TripBucketItemPackages
+import com.expedia.bookings.packages.activity.PackageHotelActivity
 import com.expedia.bookings.packages.presenter.PackageOverviewPresenter
+import com.expedia.bookings.packages.util.PackageServicesManager
+import com.expedia.bookings.packages.vm.BundleOverviewViewModel
+import com.expedia.bookings.packages.vm.PackageWebCheckoutViewViewModel
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.TestObserver
@@ -28,9 +32,6 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.packages.activity.PackageHotelActivity
-import com.expedia.bookings.packages.vm.PackageWebCheckoutViewViewModel
-import com.expedia.bookings.packages.vm.BundleOverviewViewModel
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -43,7 +44,7 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-@RunWith(RobolectricRunner :: class)
+@RunWith(RobolectricRunner::class)
 class PackageOverviewPresenterTest {
     private var activity: FragmentActivity by Delegates.notNull()
     lateinit var overviewPresenter: PackageOverviewPresenter
@@ -316,7 +317,7 @@ class PackageOverviewPresenterTest {
         overviewPresenter.webCheckoutView.viewModel.backObservable.onNext(Unit)
         overviewPresenter.checkoutButton.performClick()
 
-        assert((Shadows.shadowOf(overviewPresenter.webCheckoutView.webView).lastLoadedUrl).contains("https://www.${ PointOfSale.getPointOfSale().url}/MultiItemCheckout?tripid="))
+        assert((Shadows.shadowOf(overviewPresenter.webCheckoutView.webView).lastLoadedUrl).contains("https://www.${PointOfSale.getPointOfSale().url}/MultiItemCheckout?tripid="))
     }
 
     @Test
@@ -395,7 +396,7 @@ class PackageOverviewPresenterTest {
     private fun setupOverviewPresenter(displayType: MandatoryFees.DisplayType = MandatoryFees.DisplayType.NONE,
                                        displayCurrency: MandatoryFees.DisplayCurrency = MandatoryFees.DisplayCurrency.POINT_OF_SALE) {
         overviewPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_overview_presenter, null) as PackageOverviewPresenter
-        overviewPresenter.bundleWidget.viewModel = BundleOverviewViewModel(activity, packageServiceRule.services!!)
+        overviewPresenter.bundleWidget.viewModel = BundleOverviewViewModel(activity, PackageServicesManager(activity, packageServiceRule.services!!))
         setUpPackageDb()
         PackageTestUtil.setDbPackageSelectedHotel(displayType, displayCurrency)
     }

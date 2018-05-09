@@ -14,8 +14,10 @@ import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.pos.PointOfSaleId
-import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.packages.presenter.PackageOverviewPresenter
+import com.expedia.bookings.packages.util.PackageServicesManager
+import com.expedia.bookings.packages.vm.BundleOverviewViewModel
+import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
@@ -29,7 +31,6 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.packages.presenter.PackageCheckoutPresenter
-import com.expedia.bookings.packages.vm.BundleOverviewViewModel
 import com.expedia.bookings.packages.widget.BundleWidget
 import com.squareup.phrase.Phrase
 import okhttp3.mockwebserver.MockWebServer
@@ -177,7 +178,7 @@ class PackageOverviewTest {
         bundleWidget = overview.bundleWidget
         checkout.getCreateTripViewModel().packageServices = packageServiceRule.services!!
         checkout.show(BaseCheckoutPresenter.CheckoutDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
-        bundleWidget.viewModel = BundleOverviewViewModel(activity.applicationContext, packageServiceRule.services!!)
+        bundleWidget.viewModel = BundleOverviewViewModel(activity.applicationContext, PackageServicesManager(activity, packageServiceRule.services!!))
         bundleWidget.viewModel.hotelParamsObservable.onNext(getPackageSearchParams(1, emptyList(), false))
         bundleWidget.outboundFlightWidget.viewModel.travelInfoTextObservable.onNext(testTravelerInfoText)
     }

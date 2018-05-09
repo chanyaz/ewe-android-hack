@@ -4,6 +4,8 @@ class PackageApiError {
 
     enum class Code {
 
+        no_internet,
+
         //Package search error
         search_response_null,
         pkg_unknown_error,
