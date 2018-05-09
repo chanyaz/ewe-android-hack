@@ -50,7 +50,7 @@ class HotelMapViewTest {
     }
 
     @Test fun testSelectARoomClicked() {
-        hotelMapView.selectRoomContainer.performClick()
+        hotelMapView.selectARoomBar.performClick()
         selectARoomTestSubscriber.assertValue(Unit)
     }
 
@@ -63,16 +63,14 @@ class HotelMapViewTest {
         assertEquals(View.VISIBLE, hotelMapView.toolBarTitle.visibility)
         assertEquals(View.VISIBLE, hotelMapView.toolBarRating.visibility)
         assertEquals(View.VISIBLE, hotelMapView.mapView.visibility)
-        assertEquals(View.VISIBLE, hotelMapView.selectRoomContainer.visibility)
-        assertEquals(View.VISIBLE, hotelMapView.selectRoomPrice.visibility)
-        assertEquals(View.VISIBLE, hotelMapView.selectRoomLabel.visibility)
-        assertEquals(View.GONE, hotelMapView.selectRoomStrikethroughPrice.visibility)
+        assertEquals(View.VISIBLE, hotelMapView.selectARoomBar.visibility)
+        assertEquals(View.VISIBLE, hotelMapView.selectARoomBar.selectRoomPrice.visibility)
+        assertEquals(View.GONE, hotelMapView.selectARoomBar.selectRoomStrikeThroughPrice.visibility)
 
         assertEquals("happypath", hotelMapView.toolBarTitle.text)
         assertEquals(4f, hotelMapView.toolBarRating.getRating())
-        assertEquals("Select a Room", hotelMapView.selectRoomLabel.text)
-        assertEquals("From $109", hotelMapView.selectRoomPrice.text.toString())
-        assertEquals("Select a Room From $109 button", hotelMapView.selectRoomContainer.contentDescription)
+        assertEquals("$109", hotelMapView.selectARoomBar.selectRoomPrice.text.toString())
+        assertEquals("Select a Room From $109 button", hotelMapView.selectARoomBar.selectRoomContainer.contentDescription)
     }
 
     @Test
@@ -84,17 +82,15 @@ class HotelMapViewTest {
         assertEquals(View.VISIBLE, hotelMapView.toolBarTitle.visibility)
         assertEquals(View.VISIBLE, hotelMapView.toolBarRating.visibility)
         assertEquals(View.VISIBLE, hotelMapView.mapView.visibility)
-        assertEquals(View.VISIBLE, hotelMapView.selectRoomContainer.visibility)
-        assertEquals(View.VISIBLE, hotelMapView.selectRoomLabel.visibility)
-        assertEquals(View.VISIBLE, hotelMapView.selectRoomPrice.visibility)
-        assertEquals(View.VISIBLE, hotelMapView.selectRoomStrikethroughPrice.visibility)
+        assertEquals(View.VISIBLE, hotelMapView.selectARoomBar.selectRoomContainer.visibility)
+        assertEquals(View.VISIBLE, hotelMapView.selectARoomBar.selectRoomPrice.visibility)
+        assertEquals(View.VISIBLE, hotelMapView.selectARoomBar.selectRoomStrikeThroughPrice.visibility)
 
         assertEquals("air_attached_hotel", hotelMapView.toolBarTitle.text)
         assertEquals(4f, hotelMapView.toolBarRating.getRating())
-        assertEquals("Select a Room", hotelMapView.selectRoomLabel.text)
-        assertEquals("From $241", hotelMapView.selectRoomPrice.text.toString())
-        assertEquals("$284", hotelMapView.selectRoomStrikethroughPrice.text.toString())
-        assertEquals("Select a Room From $241 button", hotelMapView.selectRoomContainer.contentDescription)
+        assertEquals("$241", hotelMapView.selectARoomBar.selectRoomPrice.text.toString())
+        assertEquals("$284", hotelMapView.selectARoomBar.selectRoomStrikeThroughPrice.text.toString())
+        assertEquals("Select a Room From $241 button", hotelMapView.selectARoomBar.selectRoomContainer.contentDescription)
     }
 
     @Test
@@ -106,16 +102,14 @@ class HotelMapViewTest {
         assertEquals(View.VISIBLE, hotelMapView.toolBarTitle.visibility)
         assertEquals(View.GONE, hotelMapView.toolBarRating.visibility)
         assertEquals(View.VISIBLE, hotelMapView.mapView.visibility)
-        assertEquals(View.VISIBLE, hotelMapView.selectRoomContainer.visibility)
-        assertEquals(View.VISIBLE, hotelMapView.selectRoomLabel.visibility)
-        assertEquals(View.VISIBLE, hotelMapView.selectRoomPrice.visibility)
-        assertEquals(View.VISIBLE, hotelMapView.selectRoomStrikethroughPrice.visibility)
+        assertEquals(View.VISIBLE, hotelMapView.selectARoomBar.selectRoomContainer.visibility)
+        assertEquals(View.VISIBLE, hotelMapView.selectARoomBar.selectRoomPrice.visibility)
+        assertEquals(View.VISIBLE, hotelMapView.selectARoomBar.selectRoomStrikeThroughPrice.visibility)
 
         assertEquals("zero_star_rating", hotelMapView.toolBarTitle.text)
         assertEquals(0f, hotelMapView.toolBarRating.getRating())
-        assertEquals("Select a Room", hotelMapView.selectRoomLabel.text)
-        assertEquals("From $241", hotelMapView.selectRoomPrice.text.toString())
-        assertEquals("$284", hotelMapView.selectRoomStrikethroughPrice.text.toString())
+        assertEquals("$241", hotelMapView.selectARoomBar.selectRoomPrice.text.toString())
+        assertEquals("$284", hotelMapView.selectARoomBar.selectRoomStrikeThroughPrice.text.toString())
     }
 
     @Test fun testMapViewWhenRoomOffersAreNotAvailable() {
@@ -126,15 +120,13 @@ class HotelMapViewTest {
         assertEquals(View.VISIBLE, hotelMapView.toolBarTitle.visibility)
         assertEquals(View.VISIBLE, hotelMapView.toolBarRating.visibility)
         assertEquals(View.VISIBLE, hotelMapView.mapView.visibility)
-        assertEquals(View.GONE, hotelMapView.selectRoomContainer.visibility)
-        assertEquals(View.GONE, hotelMapView.selectRoomPrice.visibility)
-        assertEquals(View.GONE, hotelMapView.selectRoomStrikethroughPrice.visibility)
+        assertEquals(View.GONE, hotelMapView.selectARoomBar.visibility)
+        assertEquals(View.GONE, hotelMapView.selectARoomBar.selectRoomStrikeThroughPrice.visibility)
 
         assertEquals("room_offers_not_available", hotelMapView.toolBarTitle.text)
         assertEquals(4f, hotelMapView.toolBarRating.getRating())
-        assertEquals("Select a Room", hotelMapView.selectRoomLabel.text)
-        assertEquals("", hotelMapView.selectRoomPrice.text.toString())
-        assertEquals("", hotelMapView.selectRoomStrikethroughPrice.text.toString())
+        assertEquals("", hotelMapView.selectARoomBar.selectRoomPrice.text.toString())
+        assertEquals("", hotelMapView.selectARoomBar.selectRoomStrikeThroughPrice.text.toString())
     }
 
     private fun givenHotelOffersResponseWhenHotelStarRatingIsZero() {

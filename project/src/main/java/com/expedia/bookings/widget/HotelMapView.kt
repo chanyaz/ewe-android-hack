@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.support.annotation.VisibleForTesting
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
@@ -18,6 +19,7 @@ import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.extensions.subscribeRating
 import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.extensions.subscribeVisibility
+import com.expedia.bookings.hotel.widget.HotelSelectARoomBar
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
@@ -41,16 +43,15 @@ class HotelMapView(context: Context, attrs: AttributeSet) : RelativeLayout(conte
     val MAP_ZOOM_LEVEL = 15f
 
     var mapView: MapView by Delegates.notNull()
-    val selectRoomContainer: View by bindView(R.id.map_view_select_room_container)
-    val selectRoomStrikethroughPrice: TextView by bindView(R.id.map_view_select_room_strikethrough_price)
-    val selectRoomPrice: TextView by bindView(R.id.map_view_select_room_price)
-    val selectRoomLabel: TextView by bindView(R.id.map_view_select_room)
 
     val toolBar: Toolbar by bindView(R.id.infosite_map_toolbar)
     val toolBarTitle: TextView by bindView(R.id.hotel_name_text)
     var toolBarRating: StarRatingBar by Delegates.notNull()
 
     var googleMap: GoogleMap? = null
+
+    @VisibleForTesting
+    val selectARoomBar: HotelSelectARoomBar by bindView(R.id.hotel_map_select_a_room_bar)
 
     private var mapReady = false
     private var queuedLatLng: LatLng? = null
@@ -88,16 +89,9 @@ class HotelMapView(context: Context, attrs: AttributeSet) : RelativeLayout(conte
         vm.hotelStarRating.subscribeRating(toolBarRating)
         vm.hotelStarRatingContentDescription.subscribeContentDescription(toolBarRating)
         vm.hotelStarRatingVisibility.subscribeVisibility(toolBarRating)
-        vm.strikethroughPrice.subscribeText(selectRoomStrikethroughPrice)
-        vm.strikethroughPriceVisibility.subscribeVisibility(selectRoomStrikethroughPrice)
-        vm.fromPrice.subscribeText(selectRoomPrice)
-        vm.fromPriceVisibility.subscribeVisibility(selectRoomPrice)
-        vm.selectARoomInvisibility.subscribeInverseVisibility(selectRoomContainer)
-        vm.selectRoomContDescription.subscribe { it ->
-            selectRoomContainer.contentDescription = it
-        }
+        vm.selectARoomInvisibility.subscribeInverseVisibility(selectARoomBar)
         //Hook inputs from View
-        selectRoomContainer.subscribeOnClick(endlessObserver<Unit> {
+        selectARoomBar.subscribeOnClick(endlessObserver<Unit> {
             (context as Activity).onBackPressed()
             vm.selectARoomObserver.onNext(Unit)
             if (viewmodel.lob == LineOfBusiness.PACKAGES) {
@@ -114,6 +108,10 @@ class HotelMapView(context: Context, attrs: AttributeSet) : RelativeLayout(conte
             } else {
                 queuedLatLng = latLng
             }
+        }
+
+        vm.roomResponseObservable.subscribe { roomResponse ->
+            selectARoomBar.bindRoomOffer(roomResponse)
         }
     }
 

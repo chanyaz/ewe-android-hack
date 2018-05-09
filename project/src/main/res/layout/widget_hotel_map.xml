@@ -72,53 +72,16 @@
         android:layout_above="@id/map_view_select_room_container"
         android:background="@drawable/map_shadow" />
 
-    <LinearLayout
-        android:id="@+id/map_view_select_room_container"
+    <com.expedia.bookings.hotel.widget.HotelSelectARoomBar
+        android:id="@+id/hotel_map_select_a_room_bar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         android:layout_alignParentBottom="true"
-        android:background="?attr/hotel_select_room_ripple_drawable"
-        android:orientation="horizontal"
+        android:elevation="5dp"
+        android:paddingTop="3dp"
         android:paddingBottom="3dp"
-        android:paddingTop="3dp">
-
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/map_view_select_room"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:paddingLeft="20dp"
-            android:text="@string/select_a_room_instruction"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="right|center_vertical"
-            android:orientation="vertical"
-            android:paddingRight="20dp">
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/map_view_select_room_strikethrough_price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:alpha=".7"
-                android:gravity="right"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                android:visibility="gone" />
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/map_view_select_room_price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
-
-        </LinearLayout>
-
-    </LinearLayout>
+        android:background="?attr/hotel_select_room_ripple_drawable"
+        android:minHeight="?attr/actionBarSize" />
 
 </merge>
