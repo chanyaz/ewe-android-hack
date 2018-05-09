@@ -140,7 +140,7 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
         return suggestApi.suggestV4(query, suggestType, isDest, features, lineOfBusiness, maxResults, guid, packageType, abTest)
     }
 
-    fun essDomainResolution(): Observable<ResponseBody> {
+    open fun essDomainResolution(): Observable<ResponseBody> {
         return suggestApi.resolveEssDomain()
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)

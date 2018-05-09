@@ -1,5 +1,8 @@
 package com.expedia.bookings.dagger;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
 
 import com.expedia.bookings.dagger.tags.FlightScope;
@@ -12,17 +15,11 @@ import com.expedia.bookings.services.HolidayCalendarService;
 import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.services.KongFlightServices;
 import com.expedia.bookings.services.KrazyglueServices;
-import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder;
 import com.expedia.vm.FlightCheckoutViewModel;
 import com.expedia.vm.FlightWebCheckoutViewViewModel;
 import com.expedia.vm.PaymentViewModel;
 import com.expedia.vm.flights.FlightCreateTripViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
@@ -53,17 +50,6 @@ public final class FlightModule {
 	BaggageInfoService provideBaggageInfoService(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		return new BaggageInfoService(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
-	}
-
-	@Provides
-	@FlightScope
-	SuggestionV4Services provideSuggestionV4Services(EndpointProvider endpointProvider, OkHttpClient client,
-		Interceptor interceptor, @Named("ESSInterceptor") Interceptor essRequestInterceptor, @Named("GaiaInterceptor") Interceptor gaiaRequestInterceptor) {
-		final String essEndpoint = endpointProvider.getEssEndpointUrl();
-		final String gaiaEndpoint = endpointProvider.getGaiaEndpointUrl();
-		return new SuggestionV4Services(essEndpoint, gaiaEndpoint, client,
-			interceptor, essRequestInterceptor, gaiaRequestInterceptor,
-			AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides

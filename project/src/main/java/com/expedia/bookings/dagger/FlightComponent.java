@@ -20,7 +20,8 @@ import com.expedia.vm.flights.RecentSearchViewModel;
 import dagger.Component;
 
 @FlightScope
-@Component(dependencies = {AppComponent.class}, modules = {FlightModule.class, FeesModule.class, InsuranceModule.class})
+@Component(dependencies = { AppComponent.class }, modules = {
+	FlightModule.class, FeesModule.class, InsuranceModule.class, FlightSuggestionModule.class })
 public interface FlightComponent {
 	void inject(FlightPresenter presenter);
 	void inject(FlightSearchPresenter flightSearchPresenter);

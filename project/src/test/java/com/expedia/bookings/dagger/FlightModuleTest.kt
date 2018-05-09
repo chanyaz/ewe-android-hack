@@ -103,7 +103,7 @@ class FlightModuleTest {
     private fun givenSuggestionServicesInitialized(): SuggestionV4Services {
         val appComponent = Ui.getApplication(context).appComponent()
 
-        return FlightModule().provideSuggestionV4Services(mockEndpointProvider, OkHttpClient(),
+        return FlightSuggestionModule().provideSuggestionV4Services(mockEndpointProvider, OkHttpClient(),
                 appComponent.requestInterceptor(), appComponent.essRequestInterceptor(),
                 appComponent.gaiaRequestInterceptor())
     }
