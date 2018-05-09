@@ -3853,6 +3853,8 @@
     <string name="yes">Yes</string>
     <!-- Dialog negative button message -->
     <string name="no">No</string>
+    <!--InApp Dialog Default-->
+    <string name="see_deal">See Deal</string>
 
     <!-- Template for generating textview clicks -->
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
