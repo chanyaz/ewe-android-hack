@@ -3383,6 +3383,7 @@ public class OmnitureTracking {
 		s.setAppState(LOGIN_SCREEN);
 		s.setEvar(18, LOGIN_SCREEN);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountRecaptcha);
+		trackAbacusTest(s, AbacusUtils.DisableSignInPageAsFirstScreen);
 		s.track();
 	}
 
