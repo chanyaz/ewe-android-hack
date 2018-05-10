@@ -39,6 +39,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.math.BigDecimal
+import java.util.UUID
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
@@ -576,6 +577,8 @@ class TuneUtilsTests {
             get() = if (isLoggedIn) "1" else "0"
         override var posData: String = ""
         override var facebookReferralUrlString: String = ""
+        override val duaid: String
+            get() = UUID.randomUUID().toString()
 
         override fun trackEvent(event: TuneEvent) {
             trackedEvent = event

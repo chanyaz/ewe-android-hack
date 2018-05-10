@@ -7,6 +7,7 @@ import android.net.Uri
 import com.expedia.bookings.analytics.AppAnalytics
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.user.UserStateManager
 import com.mobiata.android.Log
@@ -22,6 +23,7 @@ interface TuneTrackingProvider : TuneDeeplinkListener {
     val isUserLoggedInValue: String
     var posData: String
     var facebookReferralUrlString: String
+    val duaid: String
     fun trackEvent(event: TuneEvent)
 }
 
@@ -44,6 +46,8 @@ class TuneTrackingProviderImpl(private val tune: Tune, app: Application, private
     override var facebookReferralUrlString: String
         get() = tune.referralUrl
         set(value) { tune.referralUrl = value }
+    override val duaid: String
+        get() = tune.facebookUserId
 
     init {
         if (shouldSetExistingUserForTune && olderOrbitzVersionWasInstalled) {
@@ -52,6 +56,7 @@ class TuneTrackingProviderImpl(private val tune: Tune, app: Application, private
 
         tune.userId = AppAnalytics().visitorID
         tune.googleUserId = userStateManager.userSource.user?.expediaUserId ?: ""
+        tune.facebookUserId = Db.sharedInstance.abacusGuid ?: ""
         tune.setDebugMode(BuildConfig.DEBUG && SettingUtils.get(context, context.getString(R.string.preference_enable_tune), false))
         tune.registerDeeplinkListener(this)
     }
@@ -61,7 +66,7 @@ class TuneTrackingProviderImpl(private val tune: Tune, app: Application, private
     }
 
     override fun didReceiveDeeplink(deeplink: String?) {
-        Log.d("Deferred deeplink received: " + deeplink)
+        Log.d("Deferred deeplink received: $deeplink")
 
         if (!deeplink.isNullOrEmpty()) {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(deeplink))
@@ -71,6 +76,6 @@ class TuneTrackingProviderImpl(private val tune: Tune, app: Application, private
     }
 
     override fun didFailDeeplink(error: String?) {
-        Log.d("Deferred deeplink error: " + error)
+        Log.d("Deferred deeplink error: $error")
     }
 }

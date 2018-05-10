@@ -8,6 +8,7 @@ import com.tune.TuneEvent
 class MockTune : Tune() {
     val deepLinker = TuneDeeplinker("advertiser_id", "conversion_key", "package_name")
     private var userId = ""
+    private var facebookUserId = ""
     private var googleUserId = ""
     private var existingUser = false
     private var twitterUserId = ""
@@ -18,6 +19,12 @@ class MockTune : Tune() {
     }
 
     override fun getUserId(): String = userId
+
+    override fun setFacebookUserId(userId: String?) {
+        facebookUserId = userId ?: ""
+    }
+
+    override fun getFacebookUserId(): String = facebookUserId
 
     override fun setGoogleUserId(userId: String?) {
         googleUserId = userId ?: ""

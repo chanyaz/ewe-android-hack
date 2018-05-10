@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
@@ -14,6 +15,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import java.util.UUID
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
@@ -21,7 +23,7 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
+@Config(shadows = [(ShadowGCM::class), (ShadowUserManager::class), (ShadowAccountManagerEB::class)])
 class TuneTrackingProviderTests {
     @Test
     fun testAuthenticatedUserReturnsUserWhenAuthenticated() {
@@ -51,6 +53,27 @@ class TuneTrackingProviderTests {
     @Test
     fun testMembershipTierReturnsValueWhenUserAuthenticated() {
         assertEquals(LoyaltyMembershipTier.TOP.toApiValue(), givenTuneTrackingProviderWithLoggedInUser().membershipTier)
+    }
+
+    @Test
+    fun testAbacusGUIDAssignsToTuneFacebookUserId() {
+        val guid = UUID.randomUUID().toString()
+        Db.sharedInstance.abacusGuid = guid
+
+        val provider = givenTuneTrackingProvider()
+
+        assertEquals(guid, provider.duaid)
+        assertEquals(Db.sharedInstance.abacusGuid, provider.duaid)
+    }
+
+    @Test
+    fun testNullAbacusGUIDAssignsEmptyStringToTuneFacebookUserId() {
+        Db.sharedInstance.abacusGuid = null
+
+        val provider = givenTuneTrackingProvider()
+
+        assertNull(Db.sharedInstance.abacusGuid)
+        assertEquals("", provider.duaid)
     }
 
     @Test
