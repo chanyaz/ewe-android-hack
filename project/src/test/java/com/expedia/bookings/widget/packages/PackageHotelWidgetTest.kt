@@ -31,6 +31,7 @@ class PackageHotelWidgetTest {
     val activity = Robolectric.buildActivity(Activity::class.java).create().get()
 
     var testOrigin: SuggestionV4 by Delegates.notNull()
+    var testDestination: SuggestionV4 by Delegates.notNull()
     val testRegionName = "Chicago"
     val testAirportCode = "ORD"
 
@@ -47,6 +48,7 @@ class PackageHotelWidgetTest {
         testHotelWidget = PackageBundleHotelWidget(activity, null)
         testHotelWidget.viewModel = BundleHotelViewModel(activity)
         testOrigin = buildMockOriginSuggestion()
+        testDestination = buildMockDestinationSuggestion()
         setupParams()
     }
 
@@ -61,6 +63,16 @@ class PackageHotelWidgetTest {
         return origin
     }
 
+    private fun buildMockDestinationSuggestion(): SuggestionV4 {
+        val country = SuggestionV4.Country()
+        country.name = "OR"
+        val hierarchyInfo = SuggestionV4.HierarchyInfo()
+        hierarchyInfo.country = country
+        val destination = SuggestionV4()
+        destination.hierarchyInfo = hierarchyInfo
+        return destination
+    }
+
     private fun buildMockAirport(): SuggestionV4.Airport {
         val airport = Mockito.mock(SuggestionV4.Airport::class.java)
         airport.airportCode = testAirportCode
@@ -72,7 +84,7 @@ class PackageHotelWidgetTest {
                 .startDate(LocalDate.now().plusDays(1))
                 .endDate(LocalDate.now().plusDays(2))
                 .origin(testOrigin)
-                .destination(SuggestionV4())
+                .destination(testDestination)
                 .build() as PackageSearchParams
         Db.setPackageParams(packageParams)
     }
@@ -135,15 +147,8 @@ class PackageHotelWidgetTest {
 
     @Test
     fun testOnlyFreeCancellationOrNonRefundShow() {
-        val hotel = Hotel()
-        hotel.localizedName = ""
-        hotel.address = ""
-        hotel.city = ""
-        hotel.stateProvinceCode = "US"
-        val room = HotelOffersResponse.HotelRoomResponse()
-        room.roomThumbnailUrl = ""
-        room.hasFreeCancellation = true
-        room.freeCancellationWindowDate = "2016-02-01 11:59"
+        val hotel = getSelectedHotel()
+        val room = getSelectedRoom()
         Db.setPackageSelectedHotel(hotel, room)
 
         testHotelWidget.canExpand = true
@@ -159,5 +164,83 @@ class PackageHotelWidgetTest {
         testHotelWidget.viewModel.selectedHotelObservable.onNext(Unit)
         assertTrue(testHotelWidget.hotelNotRefundable.visibility.equals(Presenter.VISIBLE))
         assertTrue(testHotelWidget.hotelFreeCancellation.visibility.equals(Presenter.GONE))
+    }
+
+    @Test
+    fun testHotelCityText() {
+        val hotel = getSelectedHotel()
+        val room = getSelectedRoom()
+        Db.setPackageSelectedHotel(hotel, room)
+
+        testHotelWidget.viewModel.selectedHotelObservable.onNext(Unit)
+        assertTrue(testHotelWidget.hotelCity.visibility.equals(Presenter.VISIBLE))
+        assertEquals("sfo, CA", testHotelWidget.hotelCity.text)
+    }
+
+    @Test
+    fun testHotelCityTextWhenProvinceCodeIsNull() {
+        val hotel = getSelectedHotel()
+        hotel.stateProvinceCode = null
+        val room = getSelectedRoom()
+        Db.setPackageSelectedHotel(hotel, room)
+
+        testHotelWidget.viewModel.selectedHotelObservable.onNext(Unit)
+        assertTrue(testHotelWidget.hotelCity.visibility.equals(Presenter.VISIBLE))
+        assertEquals("sfo, OR", testHotelWidget.hotelCity.text)
+    }
+
+    @Test
+    fun testHotelCityTextWhenProvinceCodeIsEmpty() {
+        val hotel = getSelectedHotel()
+        hotel.stateProvinceCode = ""
+        val room = getSelectedRoom()
+        Db.setPackageSelectedHotel(hotel, room)
+
+        testHotelWidget.viewModel.selectedHotelObservable.onNext(Unit)
+        assertTrue(testHotelWidget.hotelCity.visibility.equals(Presenter.VISIBLE))
+        assertEquals("sfo, OR", testHotelWidget.hotelCity.text)
+    }
+
+    @Test
+    fun testHotelCityTextWhenProvinceCodeAndCountryAreNull() {
+        val hotel = getSelectedHotel()
+        hotel.stateProvinceCode = null
+        val room = getSelectedRoom()
+        Db.setPackageSelectedHotel(hotel, room)
+        Db.sharedInstance.packageParams.destination?.hierarchyInfo?.country = null
+
+        testHotelWidget.viewModel.selectedHotelObservable.onNext(Unit)
+        assertTrue(testHotelWidget.hotelCity.visibility.equals(Presenter.VISIBLE))
+        assertEquals("sfo, ", testHotelWidget.hotelCity.text)
+    }
+
+    @Test
+    fun testHotelCityTextWhenProvinceCodeAndHierarchyInfoAreNull() {
+        val hotel = getSelectedHotel()
+        hotel.stateProvinceCode = null
+        val room = getSelectedRoom()
+        Db.setPackageSelectedHotel(hotel, room)
+        Db.sharedInstance.packageParams.destination?.hierarchyInfo = null
+
+        testHotelWidget.viewModel.selectedHotelObservable.onNext(Unit)
+        assertTrue(testHotelWidget.hotelCity.visibility.equals(Presenter.VISIBLE))
+        assertEquals("sfo, ", testHotelWidget.hotelCity.text)
+    }
+
+    private fun getSelectedHotel(): Hotel {
+        val hotel = Hotel()
+        hotel.localizedName = ""
+        hotel.address = "address"
+        hotel.city = "sfo"
+        hotel.stateProvinceCode = "CA"
+        return hotel
+    }
+
+    private fun getSelectedRoom(): HotelOffersResponse.HotelRoomResponse {
+        val room = HotelOffersResponse.HotelRoomResponse()
+        room.roomThumbnailUrl = ""
+        room.hasFreeCancellation = true
+        room.freeCancellationWindowDate = "2016-02-01 11:59"
+        return room
     }
 }

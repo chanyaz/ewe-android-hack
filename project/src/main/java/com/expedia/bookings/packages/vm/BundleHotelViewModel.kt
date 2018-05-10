@@ -3,6 +3,7 @@ package com.expedia.bookings.packages.vm
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.utils.ApiDateUtils
 import com.expedia.bookings.utils.Images
@@ -82,12 +83,7 @@ class BundleHotelViewModel(val context: Context) {
             }
 
             hotelPromoTextObservable.onNext(selectHotelRoom.promoDescription ?: "")
-            val cityCountry = Phrase.from(context, R.string.hotel_city_country_TEMPLATE)
-                    .put("city", selectedHotel.city)
-                    .put("country",
-                            if (selectedHotel.stateProvinceCode.isNullOrBlank()) Db.sharedInstance.packageParams.destination?.hierarchyInfo?.country?.name else selectedHotel.stateProvinceCode)
-                    .format().toString()
-            hotelCityObservable.onNext(cityCountry)
+            hotelCityObservable.onNext(getHotelCityCountryText(selectedHotel))
         }
     }
 
@@ -102,5 +98,20 @@ class BundleHotelViewModel(val context: Context) {
         } else {
             return context.getString(R.string.free_cancellation)
         }
+    }
+
+    private fun getHotelCityCountryText(selectedHotel: Hotel): String {
+        var country: String?
+        if (!selectedHotel.stateProvinceCode.isNullOrBlank()) {
+            country = selectedHotel.stateProvinceCode
+        } else if (Db.sharedInstance.packageParams.destination?.hierarchyInfo?.country?.name != null) {
+            country = Db.sharedInstance.packageParams.destination?.hierarchyInfo?.country?.name
+        } else {
+            country = ""
+        }
+        return Phrase.from(context, R.string.hotel_city_country_TEMPLATE)
+                .put("city", selectedHotel.city)
+                .put("country", country)
+                .format().toString()
     }
 }
