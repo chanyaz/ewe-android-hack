@@ -7,6 +7,7 @@ import android.net.Uri
 import com.expedia.bookings.analytics.AppAnalytics
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.user.UserStateManager
 import com.mobiata.android.Log
@@ -54,6 +55,12 @@ class TuneTrackingProviderImpl(private val tune: Tune, app: Application, private
         tune.googleUserId = userStateManager.userSource.user?.expediaUserId ?: ""
         tune.setDebugMode(BuildConfig.DEBUG && SettingUtils.get(context, context.getString(R.string.preference_enable_tune), false))
         tune.registerDeeplinkListener(this)
+        try {
+            tune.setFacebookUserId(Db.sharedInstance.getAbacusGuid()) //facebookuserId will be used as GUID
+        } catch (ex: Exception) {
+
+        }
+
     }
 
     override fun trackEvent(event: TuneEvent) {
