@@ -212,8 +212,12 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
         }
 
         durationFilterInteractionFromUser.subscribe {
-            if (lob == LineOfBusiness.FLIGHTS_V2 && !hasTrackedDurationFilterInteraction) {
-                OmnitureTracking.trackFlightFilterDuration()
+            if (!hasTrackedDurationFilterInteraction) {
+                if (lob == LineOfBusiness.FLIGHTS_V2) {
+                    OmnitureTracking.trackFlightFilterDuration()
+                } else {
+                    PackagesTracking().trackFlightFilterDuration()
+                }
                 hasTrackedDurationFilterInteraction = true
             }
         }
@@ -294,8 +298,12 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
         userFilterChoices.minDeparture = p.first
         userFilterChoices.maxDeparture = p.second
         handleFiltering()
-        if (lob == LineOfBusiness.FLIGHTS_V2 && !hasTrackedDepartureTimeFilterInteraction) {
-            OmnitureTracking.trackFlightFilterArrivalDeparture(true)
+        if (!hasTrackedDepartureTimeFilterInteraction) {
+            if (lob == LineOfBusiness.FLIGHTS_V2) {
+                OmnitureTracking.trackFlightFilterArrivalDeparture(true)
+            } else {
+                PackagesTracking().trackFlightFilterArrivalDeparture(true)
+            }
             hasTrackedDepartureTimeFilterInteraction = true
         }
     }
@@ -304,8 +312,12 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
         userFilterChoices.minArrival = p.first
         userFilterChoices.maxArrival = p.second
         handleFiltering()
-        if (lob == LineOfBusiness.FLIGHTS_V2 && !hasTrackedArrivalTimeFilterInteraction) {
-            OmnitureTracking.trackFlightFilterArrivalDeparture(false)
+        if (!hasTrackedArrivalTimeFilterInteraction) {
+            if (lob == LineOfBusiness.FLIGHTS_V2) {
+                OmnitureTracking.trackFlightFilterArrivalDeparture(false)
+            } else {
+                PackagesTracking().trackFlightFilterArrivalDeparture(false)
+            }
             hasTrackedArrivalTimeFilterInteraction = true
         }
     }

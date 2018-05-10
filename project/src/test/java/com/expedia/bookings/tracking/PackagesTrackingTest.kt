@@ -231,6 +231,14 @@ class PackagesTrackingTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTrackHotelSortByPackageDiscount() {
+        sut.trackHotelSortBy("Discounts")
+        val controlEvar = mapOf(28 to "App.Package.Hotels.Search.Sort.Discounts")
+        OmnitureTestUtils.assertLinkTracked("Search Results Sort", "App.Package.Hotels.Search.Sort.Discounts", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackHotelFilterPriceSlider() {
         sut.trackHotelFilterPriceSlider()
         val controlEvar = mapOf(28 to "App.Package.Hotels.Search.Price")
@@ -265,8 +273,8 @@ class PackagesTrackingTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackHotelFilterByName() {
         sut.trackHotelFilterByName()
-        val controlEvar = mapOf(28 to "App.Package.Hotels.Search.PackageName")
-        OmnitureTestUtils.assertLinkTracked("Search Results Sort", "App.Package.Hotels.Search.PackageName", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+        val controlEvar = mapOf(28 to "App.Package.Hotels.Search.HotelName")
+        OmnitureTestUtils.assertLinkTracked("Search Results Sort", "App.Package.Hotels.Search.HotelName", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
     }
 
     @Test
@@ -486,6 +494,30 @@ class PackagesTrackingTest {
         sut.trackFlightFilterAirlines()
         val controlEvar = mapOf(28 to "App.Package.Flight.Search.Filter.Airline")
         OmnitureTestUtils.assertLinkTracked("Search Results Filter", "App.Package.Flight.Search.Filter.Airline", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTrackFlightFilterDeparture() {
+        sut.trackFlightFilterArrivalDeparture(true)
+        val controlEvar = mapOf(28 to "App.Package.Flight.Search.Filter.Time.Departure")
+        OmnitureTestUtils.assertLinkTracked("Search Results Filter", "App.Package.Flight.Search.Filter.Time.Departure", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTrackFlightFilterArrival() {
+        sut.trackFlightFilterArrivalDeparture(false)
+        val controlEvar = mapOf(28 to "App.Package.Flight.Search.Filter.Time.Arrival")
+        OmnitureTestUtils.assertLinkTracked("Search Results Filter", "App.Package.Flight.Search.Filter.Time.Arrival", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTrackFlightFilterDuration() {
+        sut.trackFlightFilterDuration()
+        val controlEvar = mapOf(28 to "App.Package.Flight.Search.Filter.Duration")
+        OmnitureTestUtils.assertLinkTracked("Search Results Filter", "App.Package.Flight.Search.Filter.Duration", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
     }
 
     @Test

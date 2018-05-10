@@ -176,7 +176,12 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
         hotelSortOptionsView.sortSelectedSubject.subscribe { selectedSort ->
             vm.userFilterChoices.userSort = selectedSort
 
-            val sortByString = Strings.capitalizeFirstLetter(selectedSort.toString())
+            val sortByString: String
+            if (selectedSort == DisplaySort.PACKAGE_DISCOUNT) {
+                sortByString = "Discounts"
+            } else {
+                sortByString = Strings.capitalizeFirstLetter(selectedSort.toString())
+            }
             vm.trackHotelSortBy(sortByString)
         }
 

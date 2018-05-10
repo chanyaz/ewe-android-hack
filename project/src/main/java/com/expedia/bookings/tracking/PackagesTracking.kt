@@ -212,6 +212,14 @@ class PackagesTracking {
         OmnitureTracking.trackPackagesFlightFilterAirlines()
     }
 
+    fun trackFlightFilterArrivalDeparture(isDeparture: Boolean) {
+        OmnitureTracking.trackPackagesFlightFilterArrivalDeparture(isDeparture)
+    }
+
+    fun trackFlightFilterDuration() {
+        OmnitureTracking.trackPackagesFlightFilterDuration()
+    }
+
     fun trackHotelRoomBookClick() {
         OmnitureTracking.trackPackagesHotelRoomBookClick()
     }

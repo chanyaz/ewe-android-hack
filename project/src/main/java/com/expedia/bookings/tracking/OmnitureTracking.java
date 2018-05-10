@@ -4567,7 +4567,7 @@ public class OmnitureTracking {
 	private static final String PACKAGES_HOTELS_FILTER_PRICE = "App.Package.Hotels.Search.Price";
 	private static final String PACKAGES_HOTELS_FILTER_VIP_TEMPLATE = "App.Package.Hotels.Search.Filter.VIP.";
 	private static final String PACKAGES_HOTELS_FILTER_NEIGHBOURHOOD = "App.Package.Hotels.Search.Neighborhood";
-	private static final String PACKAGES_HOTELS_FILTER_BY_NAME = "App.Package.Hotels.Search.PackageName";
+	private static final String PACKAGES_HOTELS_FILTER_BY_NAME = "App.Package.Hotels.Search.HotelName";
 	private static final String PACKAGES_HOTELS_FILTER_CLEAR = "App.Package.Hotels.Search.ClearFilter";
 
 	private static final String PACKAGES_BUNDLE_VIEW_OVERVIEW_LOAD = "App.Package.BundleView";
@@ -4582,6 +4582,8 @@ public class OmnitureTracking {
 	private static final String PACKAGES_FLIGHT_SORTBY_TEMPLATE = "App.Package.Flight.Search.Sort.";
 	private static final String PACKAGES_FLIGHT_FILTER_STOPS_TEMPLATE = "App.Package.Flight.Search.Filter.";
 	private static final String PACKAGES_FLIGHT_AIRLINES = "App.Package.Flight.Search.Filter.Airline";
+	private static final String PACKAGES_FLIGHT_FILTER_TIME_TEMPLATE = "App.Package.Flight.Search.Filter.Time.";
+	private static final String PACKAGES_FLIGHT_FILTER_DURATION = "App.Package.Flight.Search.Filter.Duration";
 
 	private static final String PACKAGES_SHOPPING_ERROR = "App.Package.Shopping.Error";
 	private static final String PACKAGES_CHECKOUT_ERROR = "App.Package.Checkout.Error";
@@ -4832,6 +4834,17 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + link + "\" click...");
 		AppAnalytics s = createTrackLinkEvent(link);
 		s.trackLink(linkName);
+	}
+
+	private static void trackFlightFilterArrivalDepartureTime(String template, boolean isDeparture) {
+		StringBuilder link = new StringBuilder(template);
+		if (isDeparture) {
+			link.append("Departure");
+		}
+		else {
+			link.append("Arrival");
+		}
+		createAndTrackLinkEvent(link.toString(), "Search Results Filter");
 	}
 
 	private static void trackPackagesHotelMapLinkEvent(String link) {
@@ -5085,6 +5098,14 @@ public class OmnitureTracking {
 		createAndTrackLinkEvent(PACKAGES_FLIGHT_AIRLINES, "Search Results Filter");
 	}
 
+	public static void trackPackagesFlightFilterArrivalDeparture(boolean isDeparture) {
+		trackFlightFilterArrivalDepartureTime(PACKAGES_FLIGHT_FILTER_TIME_TEMPLATE, isDeparture);
+	}
+
+	public static void trackPackagesFlightFilterDuration() {
+		createAndTrackLinkEvent(PACKAGES_FLIGHT_FILTER_DURATION, "Search Results Filter");
+	}
+
 	public static void trackPackagesHotelRoomBookClick() {
 		createAndTrackLinkEvent(PACKAGES_HOTEL_DETAILS_BOOK_ROOM, "Room Info");
 	}
@@ -5224,7 +5245,7 @@ public class OmnitureTracking {
 	private static final String FLIGHTS_V2_FILTER_STOPS_TEMPLATE = "App.Flight.Search.Filter.";
 	private static final String FLIGHTS_V2_FLIGHT_FILTER_ZERO_RESULTS = "App.Flight.Search.Filter.ZeroResult";
 	private static final String FLIGHTS_V2_FLIGHT_FILTER_DURATION = "App.Flight.Search.Filter.Duration";
-	private static final String FLIGHTS_V2_FLIGHT_FILTER_TIME = "App.Flight.Search.Filter.Time";
+	private static final String FLIGHTS_V2_FLIGHT_FILTER_TIME_TEMPLATE = "App.Flight.Search.Filter.Time.";
 	private static final String FLIGHTS_V2_FLIGHT_AIRLINES = "App.Flight.Search.Filter.Airline";
 	private static final String FLIGHTS_V2_RATE_DETAILS = "App.Flight.RateDetails";
 	private static final String FLIGHTS_V2_DETAILS_EXPAND = "App.Flight.RD.Details.";
@@ -5930,14 +5951,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackFlightFilterArrivalDeparture(boolean isDeparture) {
-		StringBuilder link = new StringBuilder(FLIGHTS_V2_FLIGHT_FILTER_TIME);
-		if (isDeparture) {
-			link.append(".Departure");
-		}
-		else {
-			link.append(".Arrival");
-		}
-		createAndTrackLinkEvent(link.toString(), "Search Results Filter");
+		trackFlightFilterArrivalDepartureTime(FLIGHTS_V2_FLIGHT_FILTER_TIME_TEMPLATE, isDeparture);
 	}
 
 	public static void trackShowFlightOverView(
