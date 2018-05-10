@@ -1,15 +1,19 @@
 package com.expedia.bookings.itin.flight.details
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.support.annotation.VisibleForTesting
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.itin.common.ItinLinkOffCardViewViewModel
 import com.expedia.bookings.itin.flight.manageBooking.FlightItinManageBookingActivity
 import com.expedia.bookings.itin.flight.traveler.FlightItinTravelerInfoActivity
+import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
+import com.expedia.bookings.utils.Ui
 import io.reactivex.subjects.PublishSubject
 
-open class FlightItinBookingInfoViewModel(private val context: Context, private val itinId: String) {
+open class FlightItinBookingInfoViewModel(private val context: Context, private val itinId: String, private val tripId: String = "") {
     data class WidgetParams(
             val travelerNames: String,
             val isShared: Boolean,
@@ -32,7 +36,7 @@ open class FlightItinBookingInfoViewModel(private val context: Context, private 
                 null,
                 false,
                 R.drawable.ic_itin_additional_info_icon,
-                buildWebViewIntent(R.string.itin_hotel_details_additional_info_heading, url, null, tripId)?.intent
+                buildWebViewIntent(R.string.itin_hotel_details_additional_info_heading, url, null, tripId)
         ))
 
         travelerInfoCardViewWidgetVM.updateCardView(params = ItinLinkOffCardViewViewModel.CardViewParams(
@@ -56,7 +60,7 @@ open class FlightItinBookingInfoViewModel(private val context: Context, private 
                 null,
                 false,
                 R.drawable.ic_itin_credit_card_icon,
-                buildWebViewIntent(R.string.itin_hotel_details_price_summary_heading, url, "price-summary", tripId)?.intent
+                buildWebViewIntent(R.string.itin_hotel_details_price_summary_heading, url, "price-summary", tripId)
         ))
     }
 
@@ -66,20 +70,27 @@ open class FlightItinBookingInfoViewModel(private val context: Context, private 
     val priceSummaryCardViewWidgetVM = FlightItinLinkOffCardViewViewModel()
 
     val widgetSharedSubject: PublishSubject<Boolean> = PublishSubject.create<Boolean>()
+    var readJsonUtil: IJsonToItinUtil = Ui.getApplication(context).tripComponent().jsonUtilProvider()
 
     @VisibleForTesting
-    fun buildWebViewIntent(title: Int, url: String?, anchor: String?, tripId: String?): WebViewActivity.IntentBuilder? {
+    fun buildWebViewIntent(title: Int, url: String?, anchor: String?, tripNumber: String?): Intent? {
         if (url != null) {
-            val builder: WebViewActivity.IntentBuilder = WebViewActivity.IntentBuilder(context)
-            if (anchor != null) builder.setUrlWithAnchor(url, anchor) else builder.setUrl(url)
-            builder.setTitle(title)
-            if (!tripId.isNullOrEmpty()) {
-                builder.setItinTripIdForRefresh(tripId)
+            val isGuest = readJsonUtil.getItin(tripId)?.isGuest
+            return if (isGuest != null && isGuest) {
+                Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            } else {
+                val builder: WebViewActivity.IntentBuilder = WebViewActivity.IntentBuilder(context)
+                if (anchor != null) builder.setUrlWithAnchor(url, anchor) else builder.setUrl(url)
+                builder.setTitle(title)
+                if (!tripNumber.isNullOrEmpty()) {
+                    builder.setItinTripIdForRefresh(tripNumber)
+                }
+                builder.setInjectExpediaCookies(true)
+                builder.setAllowMobileRedirects(true)
+                builder.intent
             }
-            builder.setInjectExpediaCookies(true)
-            builder.setAllowMobileRedirects(true)
-            return builder
+        } else {
+            return null
         }
-        return null
     }
 }

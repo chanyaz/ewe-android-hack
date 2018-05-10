@@ -11,14 +11,14 @@ class MockWebViewLauncher : IWebViewLauncher {
     var sharableWebviewCalled = false
     var shouldScrapTitle = false
 
-    override fun launchWebViewActivity(title: Int, url: String, anchor: String?, tripId: String, scrapeTitle: Boolean) {
+    override fun launchWebViewActivity(title: Int, url: String, anchor: String?, tripId: String, scrapeTitle: Boolean, isGuest: Boolean) {
         lastSeenTitle = title
         lastSeenURL = url
         lastSeenTripId = tripId
         shouldScrapTitle = scrapeTitle
     }
 
-    override fun launchWebViewSharableActivity(title: String, url: String, anchor: String?, tripId: String?) {
+    override fun launchWebViewSharableActivity(title: String, url: String, anchor: String?, tripId: String?, isGuest: Boolean) {
         toolbarTitle = title
         lastSeenURL = url
         lastSeenTripId = tripId

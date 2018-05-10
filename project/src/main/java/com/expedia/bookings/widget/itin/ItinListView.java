@@ -391,7 +391,7 @@ public class ItinListView extends ListView implements OnItemClickListener {
 						.toBundle());
 			}
 			else if (data.hasDetailData() && data.getTripComponentType() == TripComponent.Type.FLIGHT) {
-				getContext().startActivity(FlightItinDetailsActivity.createIntent(getContext(), data.getId()),
+				getContext().startActivity(FlightItinDetailsActivity.createIntent(getContext(), data.getId(), data.getTripId()),
 						ActivityOptionsCompat
 							.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete)
 							.toBundle());

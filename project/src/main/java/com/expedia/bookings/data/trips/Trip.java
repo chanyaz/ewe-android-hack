@@ -92,8 +92,12 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 		return mGuestEmailAddress;
 	}
 
+	public void setGuestEmailAddress(String mGuestEmailAddress) {
+		this.mGuestEmailAddress = mGuestEmailAddress;
+	}
+
 	public boolean isGuest() {
-		return !TextUtils.isEmpty(mGuestEmailAddress);
+		return Strings.isNotEmpty(mGuestEmailAddress);
 	}
 
 	public String getTripId() {

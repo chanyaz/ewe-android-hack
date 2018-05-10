@@ -335,7 +335,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			startActivity(HotelItinDetailsActivity.createIntent(getContext(), data.getId(), data.getTripId()));
 		}
 		else if (data instanceof ItinCardDataFlight) {
-			startActivity(FlightItinDetailsActivity.createIntent(getContext(), data.getId()));
+			startActivity(FlightItinDetailsActivity.createIntent(getContext(), data.getId(), data.getTripId()));
 		}
 		else {
 			showItinCard(itinId);

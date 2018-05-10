@@ -1,7 +1,9 @@
 package com.expedia.bookings.itin.flight.manageBooking
 
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
@@ -17,6 +19,7 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 import com.mobiata.android.SocialUtils
 import com.squareup.phrase.Phrase
+import kotlinx.android.synthetic.main.hotel_review_row.view.*
 
 class FlightItinCustomerSupportDetails(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
     val customerSupportTextView: TextView by bindView(R.id.customer_support_text)
@@ -50,12 +53,17 @@ class FlightItinCustomerSupportDetails(context: Context, attr: AttributeSet?) : 
         if (Strings.isNotEmpty(param.customerSupportURL)) {
             customerSupportSiteButton.visibility = View.VISIBLE
             customerSupportSiteButton.text = param.customerSupport
-            onCustomerSupportSiteButtonClick(param.customerSupportURL)
+            onCustomerSupportSiteButtonClick(param.customerSupportURL, param.isGuest)
         }
     }
 
-    private fun onCustomerSupportSiteButtonClick(url: String) = customerSupportSiteButton.setOnClickListener {
-        context.startActivity(buildWebViewIntent(R.string.itin_flight_customer_support_site_toolbar_header, url).intent)
+    private fun onCustomerSupportSiteButtonClick(url: String, isGuest: Boolean) = customerSupportSiteButton.setOnClickListener {
+        if (isGuest) {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            context.startActivity(intent)
+        } else {
+            context.startActivity(buildWebViewIntent(R.string.itin_flight_customer_support_site_toolbar_header, url).intent)
+        }
         OmnitureTracking.trackItinFlightOpenSupportWebsite()
     }
 

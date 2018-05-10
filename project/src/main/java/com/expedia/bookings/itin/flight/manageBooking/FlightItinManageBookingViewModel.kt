@@ -10,7 +10,9 @@ import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.itin.flight.common.ItinOmnitureUtils
 import com.expedia.bookings.itin.common.ItinCustomerSupportDetailsViewModel
 import com.expedia.bookings.itin.common.ItinToolbarViewModel
+import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.Ui
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.PublishSubject
 
@@ -23,6 +25,7 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
 
     lateinit var itinCardDataFlight: ItinCardDataFlight
     var itineraryManager: ItineraryManager = ItineraryManager.getInstance()
+    var readJsonUtil: IJsonToItinUtil = Ui.getApplication(context).tripComponent().jsonUtilProvider()
 
     val itinCardDataNotValidSubject: PublishSubject<Unit> = PublishSubject.create<Unit>()
     val itinCardDataFlightObservable = PublishSubject.create<ItinCardDataFlight>()
@@ -64,7 +67,12 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
         val customerSupportNumber = itinCardDataFlight.tripComponent.parentTrip.customerSupport.supportPhoneNumberDomestic
         val customerSupportButton = Phrase.from(context, R.string.itin_flight_customer_support_site_header_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
         val customerSupportURL = itinCardDataFlight.tripComponent.parentTrip.customerSupport.supportUrl
-        customerSupportDetailsSubject.onNext(ItinCustomerSupportDetailsViewModel.ItinCustomerSupportDetailsWidgetParams(header, itineraryNumb, customerSupportNumber, customerSupportButton, customerSupportURL))
+        val nullableIsGuest = readJsonUtil.getItin(itinCardDataFlight.tripId)?.isGuest
+        var isGuest = false
+        if (nullableIsGuest != null) {
+            isGuest = nullableIsGuest
+        }
+        customerSupportDetailsSubject.onNext(ItinCustomerSupportDetailsViewModel.ItinCustomerSupportDetailsWidgetParams(header, itineraryNumb, customerSupportNumber, customerSupportButton, customerSupportURL, isGuest))
     }
 
     fun createOmnitureTrackingValues(): HashMap<String, String?> {
@@ -173,6 +181,11 @@ class FlightItinManageBookingViewModel(val context: Context, private val itinId:
             customerSupportSiteText = Phrase.from(context, R.string.itin_flight_airline_support_widget_customer_support_TEMPLATE).put("airline_name", airlineName).format().toString()
         }
         val callSupportNumber = ""
-        flightItinAirlineSupportDetailsSubject.onNext(FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams(title, airlineSupport, ticketValue, confirmationValue, itineraryNumber, callSupportNumber, customerSupportSiteText, airlineSupportUrlValue))
+        val nullableIsGuest = readJsonUtil.getItin(itinCardDataFlight.tripId)?.isGuest
+        var isGuest = false
+        if (nullableIsGuest != null && nullableIsGuest) {
+            isGuest = nullableIsGuest
+        }
+        flightItinAirlineSupportDetailsSubject.onNext(FlightItinAirlineSupportDetailsViewModel.FlightItinAirlineSupportDetailsWidgetParams(title, airlineSupport, ticketValue, confirmationValue, itineraryNumber, callSupportNumber, customerSupportSiteText, airlineSupportUrlValue, isGuest))
     }
 }

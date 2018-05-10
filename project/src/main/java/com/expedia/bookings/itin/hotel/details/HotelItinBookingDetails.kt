@@ -2,6 +2,8 @@ package com.expedia.bookings.itin.hotel.details
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.support.v4.app.ActivityOptionsCompat
 import android.util.AttributeSet
 import android.view.View
@@ -71,19 +73,25 @@ class HotelItinBookingDetails(context: Context, attr: AttributeSet?) : LinearLay
                 TripsTracking.trackHotelItinManageBookingClick()
             }
             additionalInfoCard.setOnClickListener {
-                (context as Activity).startActivityForResult(buildWebViewIntent(R.string.itin_hotel_details_additional_info_heading, itinCardDataHotel.detailsUrl, null, itinCardDataHotel.tripNumber).intent, Constants.ITIN_WEBVIEW_REFRESH_ON_EXIT_CODE)
+                val isGuest = readJsonUtil.getItin(itinCardDataHotel.tripId)?.isGuest
+                if (isGuest != null && isGuest) {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(itinCardDataHotel.detailsUrl))
+                    context.startActivity(intent)
+                } else {
+                    (context as Activity).startActivityForResult(buildWebViewIntent(R.string.itin_hotel_details_additional_info_heading, itinCardDataHotel.detailsUrl, null, itinCardDataHotel.tripNumber), Constants.ITIN_WEBVIEW_REFRESH_ON_EXIT_CODE)
+                }
                 TripsTracking.trackHotelItinAdditionalInfoClick()
             }
         }
     }
 
-    private fun buildWebViewIntent(title: Int, url: String, anchor: String?, tripId: String): WebViewActivity.IntentBuilder {
+    private fun buildWebViewIntent(title: Int, url: String, anchor: String?, tripId: String): Intent {
         val builder: WebViewActivity.IntentBuilder = WebViewActivity.IntentBuilder(context)
         if (anchor != null) builder.setUrlWithAnchor(url, anchor) else builder.setUrl(url)
         builder.setTitle(title)
         builder.setInjectExpediaCookies(true)
         builder.setAllowMobileRedirects(false)
         builder.setItinTripIdForRefresh(tripId)
-        return builder
+        return builder.intent
     }
 }

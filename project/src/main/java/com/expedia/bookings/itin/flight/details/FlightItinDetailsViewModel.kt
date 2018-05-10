@@ -10,8 +10,10 @@ import com.expedia.bookings.data.trips.ItineraryManagerInterface
 import com.expedia.bookings.itin.common.ItinConfirmationViewModel
 import com.expedia.bookings.itin.flight.common.ItinOmnitureUtils
 import com.expedia.bookings.itin.common.ItinToolbarViewModel
+import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
+import com.expedia.bookings.utils.Ui
 import com.mobiata.flightlib.data.Flight
 import com.mobiata.flightlib.data.Waypoint
 import com.mobiata.flightlib.utils.FormatUtils
@@ -23,6 +25,7 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
 
     var itineraryManager: ItineraryManagerInterface = ItineraryManager.getInstance()
     private var trackingFired = false
+    var readJsonUtil: IJsonToItinUtil = Ui.getApplication(context).tripComponent().jsonUtilProvider()
 
     val itinCardDataFlightObservable = PublishSubject.create<ItinCardDataFlight>()
     val itinCardDataNotValidSubject: PublishSubject<Unit> = PublishSubject.create<Unit>()
@@ -32,7 +35,7 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
     val createTotalDurationWidgetSubject: PublishSubject<String> = PublishSubject.create<String>()
     val clearLegSummaryContainerSubject: PublishSubject<Unit> = PublishSubject.create<Unit>()
     val updateConfirmationSubject: PublishSubject<ItinConfirmationViewModel.WidgetParams> = PublishSubject.create<ItinConfirmationViewModel.WidgetParams>()
-    val createBaggageInfoWebviewWidgetSubject: PublishSubject<String> = PublishSubject.create<String>()
+    val createBaggageInfoWebviewWidgetSubject: PublishSubject<Pair<String, Boolean>> = PublishSubject.create()
     val createBookingInfoWidgetSubject: PublishSubject<FlightItinBookingInfoViewModel.WidgetParams> = PublishSubject.create<FlightItinBookingInfoViewModel.WidgetParams>()
 
     init {
@@ -83,10 +86,15 @@ class FlightItinDetailsViewModel(private val context: Context, private val itinI
 
     fun updateBaggageInfoUrl(dataFlight: ItinCardDataFlight) {
         val url = dataFlight.baggageInfoUrl
+        var isGuest = false
+        val nullableBoolean = readJsonUtil.getItin(dataFlight.tripId)?.isGuest
+        if (nullableBoolean != null) {
+            isGuest = nullableBoolean
+        }
         if (url != null) {
-            createBaggageInfoWebviewWidgetSubject.onNext(url)
+            createBaggageInfoWebviewWidgetSubject.onNext(Pair(url, isGuest))
         } else {
-            createBaggageInfoWebviewWidgetSubject.onNext("")
+            createBaggageInfoWebviewWidgetSubject.onNext(Pair("", false))
         }
     }
 

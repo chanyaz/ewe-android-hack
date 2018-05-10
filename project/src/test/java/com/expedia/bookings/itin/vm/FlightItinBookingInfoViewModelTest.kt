@@ -69,7 +69,7 @@ class FlightItinBookingInfoViewModelTest {
 
     @Test
     fun testIntentForPriceSummary() {
-        val intent = sut.buildWebViewIntent(R.string.itin_hotel_details_price_summary_heading, url, "price-summary", tripId)!!.intent
+        val intent = sut.buildWebViewIntent(R.string.itin_hotel_details_price_summary_heading, url, "price-summary", tripId)!!
         assertEquals(context.getString(R.string.itin_hotel_details_price_summary_heading), intent.extras.getString("ARG_TITLE"))
         assertTrue(intent.extras.getString("ARG_URL").startsWith(url))
         assertTrue(intent.extras.getString("ARG_URL").endsWith("#price-summary"))
@@ -79,7 +79,7 @@ class FlightItinBookingInfoViewModelTest {
 
     @Test
     fun testIntentForAdditionalInfo() {
-        val intent = sut.buildWebViewIntent(R.string.itin_hotel_details_additional_info_heading, url, null, tripId)!!.intent
+        val intent = sut.buildWebViewIntent(R.string.itin_hotel_details_additional_info_heading, url, null, tripId)!!
         assertEquals(context.getString(R.string.itin_hotel_details_additional_info_heading), intent.extras.getString("ARG_TITLE"))
         assertTrue(intent.extras.getString("ARG_URL").startsWith(url))
         assertEquals(intent.extras.getString("ITIN_WEBVIEW_REFRESH_ON_EXIT_TRIP_NUMBER"), tripId)
@@ -117,7 +117,7 @@ class FlightItinBookingInfoViewModelTest {
 
     @Test
     fun `build webview intent trip number is null`() {
-        val intent = sut.buildWebViewIntent(R.string.itin_hotel_details_additional_info_heading, url, null, null)!!.intent
+        val intent = sut.buildWebViewIntent(R.string.itin_hotel_details_additional_info_heading, url, null, null)!!
         assertEquals(context.getString(R.string.itin_hotel_details_additional_info_heading), intent.extras.getString("ARG_TITLE"))
         assertTrue(intent.extras.getString("ARG_URL").startsWith(url))
         assertEquals(intent.extras.getString("ITIN_WEBVIEW_REFRESH_ON_EXIT_TRIP_NUMBER"), null)
@@ -126,7 +126,7 @@ class FlightItinBookingInfoViewModelTest {
 
     @Test
     fun `build webview intent trip number is empty`() {
-        val intent = sut.buildWebViewIntent(R.string.itin_hotel_details_additional_info_heading, url, null, "")!!.intent
+        val intent = sut.buildWebViewIntent(R.string.itin_hotel_details_additional_info_heading, url, null, "")!!
         assertEquals(context.getString(R.string.itin_hotel_details_additional_info_heading), intent.extras.getString("ARG_TITLE"))
         assertTrue(intent.extras.getString("ARG_URL").startsWith(url))
         assertEquals(intent.extras.getString("ITIN_WEBVIEW_REFRESH_ON_EXIT_TRIP_NUMBER"), null)

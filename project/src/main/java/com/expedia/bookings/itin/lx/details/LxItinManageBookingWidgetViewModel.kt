@@ -38,8 +38,9 @@ class LxItinManageBookingWidgetViewModel<S>(scope: S) where S : HasStringProvide
         override val subheadingText: String? = null
         override val cardClickListener = {
             val itin = scope.itinLxRepo.liveDataItin.value!!
+            val isGuest = itin.isGuest
             if (!itin.webDetailsURL.isNullOrEmpty() && !itin.tripId.isNullOrEmpty()) {
-                scope.webViewLauncher.launchWebViewActivity(R.string.itin_hotel_details_price_summary_heading, itin.webDetailsURL!!, "price", itin.tripId!!)
+                scope.webViewLauncher.launchWebViewActivity(R.string.itin_hotel_details_price_summary_heading, itin.webDetailsURL!!, "price", itin.tripId!!, isGuest = isGuest)
             }
         }
     }
@@ -50,8 +51,9 @@ class LxItinManageBookingWidgetViewModel<S>(scope: S) where S : HasStringProvide
         override val subheadingText: String? = null
         override val cardClickListener = {
             val itin = scope.itinLxRepo.liveDataItin.value!!
+            val isGuest = itin.isGuest
             if (!itin.webDetailsURL.isNullOrEmpty() && !itin.tripId.isNullOrEmpty()) {
-                scope.webViewLauncher.launchWebViewActivity(R.string.itin_hotel_details_additional_info_heading, itin.webDetailsURL!!, null, itin.tripId!!)
+                scope.webViewLauncher.launchWebViewActivity(R.string.itin_hotel_details_additional_info_heading, itin.webDetailsURL!!, null, itin.tripId!!, isGuest = isGuest)
             }
         }
     }

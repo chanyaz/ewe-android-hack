@@ -21,6 +21,7 @@ abstract class ItinModifyReservationViewModel {
     val webViewIntentSubject = PublishSubject.create<Intent>()
     var changeUrl: String? = ""
     var cancelUrl: String? = ""
+    var tripNumber: String? = ""
     var tripId: String? = ""
     var helpDialogRes: Int = R.string.itin_flight_modify_widget_neither_changeable_nor_cancellable_reservation_dialog_text
 

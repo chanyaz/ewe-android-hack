@@ -13,6 +13,7 @@ import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.trips.ItinCardDataHotel
 import com.expedia.bookings.itin.hotel.common.MessageHotelUtil.getClickListener
+import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.ClipboardUtils
 import com.expedia.bookings.utils.Ui
@@ -28,6 +29,7 @@ class HotelItinImageWidget(context: Context, attr: AttributeSet?) : LinearLayout
     val hotelImageView: ImageView by bindView(R.id.hotel_image)
     val hotelNameTextView: TextView by bindView(R.id.hotel_name)
     val actionButtons: ItinActionsSection by bindView(R.id.action_button_layout)
+    val readJsonUtil: IJsonToItinUtil = Ui.getApplication(context).tripComponent().jsonUtilProvider()
 
     init {
         View.inflate(context, R.layout.hotel_itin_image_container, this)
@@ -35,7 +37,7 @@ class HotelItinImageWidget(context: Context, attr: AttributeSet?) : LinearLayout
 
     fun setUpWidget(itinCardDataHotel: ItinCardDataHotel) {
         val callActionButton = setupHotelPhone(itinCardDataHotel)
-        val messageActionButton = setupHotelMessaging(itinCardDataHotel.property.epcConversationUrl)
+        val messageActionButton = setupHotelMessaging(itinCardDataHotel.property.epcConversationUrl, itinCardDataHotel.tripId)
 
         if (!itinCardDataHotel.property?.thumbnail?.originalUrl.isNullOrBlank()) {
             val hotelMedia = HotelMedia(itinCardDataHotel.property.thumbnail.originalUrl)
@@ -80,15 +82,16 @@ class HotelItinImageWidget(context: Context, attr: AttributeSet?) : LinearLayout
         }
     }
 
-    private fun setupHotelMessaging(messagingUrl: String): SummaryButton? {
+    private fun setupHotelMessaging(messagingUrl: String, tripId: String): SummaryButton? {
         val messagingButton: SummaryButton
         val messagingTitle: String = context.getString(R.string.itin_hotel_details_message_hotel_button)
 
         if (messagingUrl.isNotEmpty()) {
+            val isGuest = readJsonUtil.getItin(tripId)?.isGuest
             messagingButton = SummaryButton(R.drawable.ic_hotel_message_icon,
                     messagingTitle,
                     messagingTitle,
-                    getClickListener(context = context, url = messagingUrl))
+                    getClickListener(context = context, url = messagingUrl, isGuest = isGuest))
             return messagingButton
         } else {
             return null

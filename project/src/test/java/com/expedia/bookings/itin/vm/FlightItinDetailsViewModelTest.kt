@@ -49,7 +49,7 @@ class FlightItinDetailsViewModelTest {
     private val createLegSummaryWidgetsSubscriber = TestObserver<FlightItinSegmentSummaryViewModel.SummaryWidgetParams>()
     private val updateConfirmationSubscriber = TestObserver<ItinConfirmationViewModel.WidgetParams>()
     private val createLayoverSubscriber = TestObserver<String>()
-    private val createBaggageInfoWebviewSubcriber = TestObserver<String>()
+    private val createBaggageInfoWebviewSubcriber = TestObserver<Pair<String, Boolean>>()
     private val createBookingInfoWidgetSubscriber = TestObserver<FlightItinBookingInfoViewModel.WidgetParams>()
 
     @Before
@@ -396,7 +396,7 @@ class FlightItinDetailsViewModelTest {
         val testItinCardData = ItinCardDataFlightBuilder().build()
         sut.updateBaggageInfoUrl(testItinCardData)
         createBaggageInfoWebviewSubcriber.assertValueCount(1)
-        createBaggageInfoWebviewSubcriber.assertValue(testItinCardData.baggageInfoUrl)
+        createBaggageInfoWebviewSubcriber.assertValue(Pair(testItinCardData.baggageInfoUrl, false))
     }
 
     @Test
@@ -406,7 +406,7 @@ class FlightItinDetailsViewModelTest {
         (testItinCardData.tripComponent as TripFlight).additionalAirlineFees = null
         sut.updateBaggageInfoUrl(testItinCardData)
         createBaggageInfoWebviewSubcriber.assertValueCount(1)
-        createBaggageInfoWebviewSubcriber.assertValue("")
+        createBaggageInfoWebviewSubcriber.assertValue(Pair("", false))
     }
 
     @Test
