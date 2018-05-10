@@ -152,7 +152,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	 * in progress it will queue the guest trip for refresh; otherwise it will only refresh this
 	 * single guest trip.
 	 */
-	public void addGuestTrip(String email, String tripNumber) {
+	public void addGuestTrip(String email, String tripNumber, String tripID) {
 		Log.i(LOGGING_TAG, "Adding guest trip, email=" + email + " tripNum=" + tripNumber);
 
 		if (mTrips == null) {
@@ -161,6 +161,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		}
 
 		Trip trip = new Trip(email, tripNumber);
+		trip.setTripId(tripID);
 		mTrips.put(tripNumber, trip);
 
 		mSyncOpQueue.add(new Task(Operation.REFRESH_TRIP, trip));
@@ -168,6 +169,18 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
 
 		startSyncIfNotInProgress();
+	}
+
+
+	/**
+	 * Adds a guest trip to the itinerary list.
+	 * <p/>
+	 * Automatically starts to try to get info on the trip from the server.  If a sync is already
+	 * in progress it will queue the guest trip for refresh; otherwise it will only refresh this
+	 * single guest trip.
+	 */
+	public void addGuestTrip(String email, String tripNumber) {
+		addGuestTrip(email, tripNumber, null);
 	}
 
 	/**

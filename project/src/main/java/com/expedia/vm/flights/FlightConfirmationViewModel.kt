@@ -149,7 +149,7 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
             itinNumberMessageObservable.onNext(itinNumberMessage)
             itinNumContentDescriptionObservable.onNext(itinNumberMessage)
             if (!userStateManager.isUserAuthenticated() && !ExpediaBookingApp.isRobolectric()) {
-                ItineraryManager.getInstance().addGuestTrip(email, itinNumber)
+                ItineraryManager.getInstance().addGuestTrip(email, itinNumber, response.responseData.tripId)
             }
             tripTotalPriceSubject.onNext(response.responseData.totalTripPrice?.totalFormatted ?: "")
 
