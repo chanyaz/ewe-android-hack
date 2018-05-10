@@ -6,6 +6,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.support.annotation.VisibleForTesting
 import android.support.v4.app.DialogFragment
+import android.support.v4.app.FragmentManager
 import android.support.v4.content.ContextCompat
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -24,6 +25,7 @@ import io.reactivex.subjects.PublishSubject
 
 class ChangeDatesDialogFragment : DialogFragment() {
     val datesChangedSubject = PublishSubject.create<HotelStayDates>()
+    var isShowInitiated = false
 
     private lateinit var rules: HotelCalendarRules
 
@@ -41,6 +43,11 @@ class ChangeDatesDialogFragment : DialogFragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         rules = HotelCalendarRules(context)
+    }
+
+    override fun show(manager: FragmentManager?, tag: String?) {
+        isShowInitiated = true
+        super.show(manager, tag)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -82,6 +89,7 @@ class ChangeDatesDialogFragment : DialogFragment() {
         super.onDestroyView()
         dateSubscription?.dispose()
         dateSubscription = null
+        isShowInitiated = false
     }
 
     override fun onDismiss(dialog: DialogInterface?) {

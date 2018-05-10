@@ -152,6 +152,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
     private val space: Space by bindView(R.id.bottom_bar_spacer)
 
     private var isHotelDescriptionExpanded = false
+    private var dialogFragment: ChangeDatesDialogFragment? = null
 
     private var priceContainerLocation = IntArray(2)
     private var roomContainerPosition = IntArray(2)
@@ -438,9 +439,13 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
     }
 
     fun showChangeDatesDialog() {
-        val dialogFragment = ChangeDatesDialogFragment()
+        if (dialogFragment?.isShowInitiated == true) {
+            return
+        }
+        dialogFragment = ChangeDatesDialogFragment()
+
         val isDateless = viewModel.isDatelessObservable.value == true
-        dialogFragment.datesChangedSubject.subscribe { stayDates ->
+        dialogFragment!!.datesChangedSubject.subscribe { stayDates ->
             val startDate = stayDates.getStartDate()
             val endDate = stayDates.getEndDate()
             if (startDate != null && endDate != null) {
@@ -453,9 +458,9 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         val fragmentManager = (context as FragmentActivity).supportFragmentManager
 
         if (!isDateless) {
-            dialogFragment.presetDates(HotelStayDates(viewModel.checkInDate, viewModel.checkOutDate))
+            dialogFragment!!.presetDates(HotelStayDates(viewModel.checkInDate, viewModel.checkOutDate))
         }
-        dialogFragment.show(fragmentManager, Constants.TAG_CALENDAR_DIALOG)
+        dialogFragment!!.show(fragmentManager, Constants.TAG_CALENDAR_DIALOG)
     }
 
     private fun setUpReviewsSubscriptions(vm: BaseHotelDetailViewModel) {
