@@ -28,8 +28,10 @@ class LxItinRedeemVoucherWidget(context: Context, attr: AttributeSet?) : LinearL
     var viewModel: ItinRedeemVoucherViewModel by notNullAndObservable { vm ->
         vm.showRedeemVoucher.subscribe {
             AccessibilityUtil.appendRoleContDesc(redeemVoucherButton, R.string.accessibility_cont_desc_role_button)
-            redeemVoucherButton.visibility = View.VISIBLE
-            redeemVoucherButton.subscribeOnClick(viewModel.redeemVoucherClickSubject)
+            with(redeemVoucherButton) {
+                visibility = View.VISIBLE
+                subscribeOnClick(viewModel.redeemVoucherClickSubject)
+            }
         }
     }
 }

@@ -3,7 +3,6 @@ package com.expedia.bookings.itin.lx.details
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.LifecycleOwner
 import com.expedia.bookings.data.trips.ItineraryManager
-import com.expedia.bookings.itin.common.LxItinRedeemVoucherViewModel
 import com.expedia.bookings.itin.common.NewItinToolbarViewModel
 import com.expedia.bookings.itin.flight.common.ItinOmnitureUtils
 import com.expedia.bookings.itin.lx.ItinLxRepo
