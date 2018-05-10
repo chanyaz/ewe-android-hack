@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget
+package com.expedia.bookings.packages.widget
 
 import android.app.Activity
 import android.content.Context
@@ -29,6 +29,8 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.packages.activity.PackageHotelActivity
 import com.expedia.util.notNullAndObservable
 import com.expedia.bookings.packages.vm.BundleHotelViewModel
+import com.expedia.bookings.widget.AccessibleCardView
+import com.expedia.bookings.widget.TextView
 import com.squareup.phrase.Phrase
 
 class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : AccessibleCardView(context, attrs) {

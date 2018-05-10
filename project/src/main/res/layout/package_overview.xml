@@ -7,12 +7,12 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true" />
 
-    <com.expedia.bookings.widget.packages.BundleWidget
+    <com.expedia.bookings.packages.widget.BundleWidget
         android:id="@+id/bundle_widget"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.expedia.bookings.widget.PackageCheckoutPresenter
+    <com.expedia.bookings.packages.presenter.PackageCheckoutPresenter
         android:id="@+id/checkout_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

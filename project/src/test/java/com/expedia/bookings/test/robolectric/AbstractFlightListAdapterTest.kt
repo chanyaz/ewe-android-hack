@@ -22,7 +22,7 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.flights.FlightListAdapter
-import com.expedia.bookings.widget.packages.FlightAirlineWidget
+import com.expedia.bookings.widget.shared.FlightAirlineWidget
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.ui.FlightActivity
 import com.expedia.vm.AbstractFlightViewModel

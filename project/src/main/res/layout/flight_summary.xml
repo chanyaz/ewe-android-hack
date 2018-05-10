@@ -17,7 +17,7 @@
         android:text="@string/flight" />
 
 
-    <com.expedia.bookings.widget.packages.OutboundFlightWidget
+    <com.expedia.bookings.flights.widget.OutboundFlightWidget
         android:id="@+id/package_bundle_outbound_flight_widget"
         style="@style/MaterialCardView"
         android:layout_width="match_parent"
@@ -42,7 +42,7 @@
         android:text="@string/flight"
         android:visibility="gone" />
 
-    <com.expedia.bookings.widget.packages.InboundFlightWidget
+    <com.expedia.bookings.flights.widget.InboundFlightWidget
         android:id="@+id/package_bundle_inbound_flight_widget"
         style="@style/MaterialCardView"
         android:layout_width="match_parent"

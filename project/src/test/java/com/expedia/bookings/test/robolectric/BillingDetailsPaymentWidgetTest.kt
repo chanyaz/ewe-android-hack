@@ -31,7 +31,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.showNewCreditCardExpiryFormField
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
-import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
+import com.expedia.bookings.widget.shared.BillingDetailsPaymentWidget
 import com.expedia.vm.PaymentViewModel
 import org.joda.time.DateTime
 import org.joda.time.LocalDate

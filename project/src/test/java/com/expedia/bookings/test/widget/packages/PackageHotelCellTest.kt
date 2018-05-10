@@ -18,7 +18,7 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
-import com.expedia.bookings.widget.packages.PackageHotelCellViewHolder
+import com.expedia.bookings.packages.widget.PackageHotelCellViewHolder
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test

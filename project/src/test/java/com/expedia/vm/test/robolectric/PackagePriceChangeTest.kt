@@ -28,7 +28,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
-import com.expedia.bookings.widget.PackageCheckoutPresenter
+import com.expedia.bookings.packages.presenter.PackageCheckoutPresenter
 import com.expedia.util.Optional
 import com.expedia.bookings.packages.vm.BundleOverviewViewModel
 import okhttp3.mockwebserver.MockWebServer

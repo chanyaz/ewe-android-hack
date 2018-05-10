@@ -62,8 +62,8 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
 import com.expedia.bookings.widget.LoadingOverlayWidget
-import com.expedia.bookings.widget.SlidingBundleWidget
-import com.expedia.bookings.widget.SlidingBundleWidgetListener
+import com.expedia.bookings.packages.widget.SlidingBundleWidget
+import com.expedia.bookings.packages.widget.SlidingBundleWidgetListener
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelMapViewModel
 import com.expedia.vm.HotelReviewsViewModel

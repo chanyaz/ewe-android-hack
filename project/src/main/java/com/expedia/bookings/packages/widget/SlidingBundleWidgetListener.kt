@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget
+package com.expedia.bookings.packages.widget
 
 import android.view.GestureDetector
 import android.view.MotionEvent

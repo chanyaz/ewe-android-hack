@@ -95,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <com.expedia.bookings.widget.packages.FlightAirlineWidget
+                    <com.expedia.bookings.widget.shared.FlightAirlineWidget
                         android:id="@+id/flight_airline_widget"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"

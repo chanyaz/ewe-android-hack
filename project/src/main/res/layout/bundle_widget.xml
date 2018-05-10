@@ -13,7 +13,7 @@
         android:layout_marginTop="11dp"
         android:text="@string/step_one" />
 
-    <com.expedia.bookings.widget.PackageBundleHotelWidget
+    <com.expedia.bookings.packages.widget.PackageBundleHotelWidget
         android:id="@+id/package_bundle_hotel_widget"
         style="@style/MaterialCardView"
         android:layout_width="match_parent"
@@ -33,7 +33,7 @@
         android:layout_gravity="center"
         android:text="@string/step_two" />
 
-    <com.expedia.bookings.widget.packages.OutboundFlightWidget
+    <com.expedia.bookings.flights.widget.OutboundFlightWidget
         android:id="@+id/package_bundle_outbound_flight_widget"
         style="@style/MaterialCardView"
         android:layout_width="match_parent"
@@ -54,7 +54,7 @@
         android:visibility="gone"
         android:text="@string/step_three" />
 
-    <com.expedia.bookings.widget.packages.InboundFlightWidget
+    <com.expedia.bookings.flights.widget.InboundFlightWidget
         android:id="@+id/package_bundle_inbound_flight_widget"
         style="@style/MaterialCardView"
         android:layout_width="match_parent"

@@ -42,7 +42,7 @@ import com.expedia.bookings.widget.PriceChangeWidget
 import com.expedia.bookings.widget.SlideToWidgetLL
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.TotalPriceWidget
-import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
+import com.expedia.bookings.widget.shared.BillingDetailsPaymentWidget
 import com.expedia.bookings.widget.shared.SlideToPurchaseWidget
 import com.expedia.bookings.widget.traveler.TravelerSummaryCard
 import com.expedia.util.Optional

@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget.packages
+package com.expedia.bookings.packages.adapter
 
 import android.content.Context
 import android.support.annotation.UiThread
@@ -10,6 +10,7 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.bookings.packages.vm.PackageFlightViewModel
+import com.expedia.bookings.widget.shared.FlightCellWidget
 import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 
@@ -34,7 +35,7 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
-        if (holder is PackageFlightListAdapter.BestFlightViewHolder) {
+        if (holder is BestFlightViewHolder) {
             holder.bind(PackageFlightViewModel(holder.itemView.context, flights[0]))
         } else {
             super.onBindViewHolder(holder, position)

@@ -7,7 +7,7 @@ import com.expedia.bookings.data.TripDetails
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.packages.HotelCrossSellViewModel
+import com.expedia.bookings.flights.vm.HotelCrossSellViewModel
 import org.joda.time.DateTime
 import org.junit.Before
 import org.junit.Test

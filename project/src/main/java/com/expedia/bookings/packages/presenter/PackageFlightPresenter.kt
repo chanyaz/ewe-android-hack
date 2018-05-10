@@ -36,11 +36,11 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
 import com.expedia.bookings.utils.isMidAPIEnabled
-import com.expedia.bookings.widget.SlidingBundleWidget
-import com.expedia.bookings.widget.SlidingBundleWidgetListener
+import com.expedia.bookings.packages.widget.SlidingBundleWidget
+import com.expedia.bookings.packages.widget.SlidingBundleWidgetListener
 import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.widget.packages.BundleTotalPriceTopWidget
-import com.expedia.bookings.widget.packages.PackageFlightListAdapter
+import com.expedia.bookings.packages.widget.BundleTotalPriceTopWidget
+import com.expedia.bookings.packages.adapter.PackageFlightListAdapter
 import com.expedia.util.Optional
 import com.expedia.util.endlessObserver
 import com.expedia.vm.AbstractFlightOverviewViewModel

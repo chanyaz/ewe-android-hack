@@ -12,7 +12,7 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.packages.PackageFlightListAdapter
+import com.expedia.bookings.packages.adapter.PackageFlightListAdapter
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.vm.FlightSearchViewModel
 import io.reactivex.subjects.PublishSubject

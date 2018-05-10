@@ -18,7 +18,7 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.packages.BundleTotalPriceTopWidget
+import com.expedia.bookings.packages.widget.BundleTotalPriceTopWidget
 import com.expedia.bookings.packages.activity.PackageFlightActivity
 import com.expedia.util.Optional
 import org.joda.time.LocalDate

@@ -34,7 +34,6 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBackFlowFromOverviewEnabled
 import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.PackageCheckoutPresenter
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.expedia.bookings.packages.activity.PackageHotelActivity
@@ -45,7 +44,7 @@ import com.expedia.bookings.packages.vm.OverviewHeaderData
 import com.expedia.bookings.packages.vm.PackageCheckoutOverviewViewModel
 import com.expedia.bookings.packages.vm.PackageCostSummaryBreakdownViewModel
 import com.expedia.bookings.packages.vm.PackageTotalPriceViewModel
-import com.expedia.bookings.widget.packages.BundleWidget
+import com.expedia.bookings.packages.widget.BundleWidget
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.PublishSubject
 import org.joda.time.format.DateTimeFormat

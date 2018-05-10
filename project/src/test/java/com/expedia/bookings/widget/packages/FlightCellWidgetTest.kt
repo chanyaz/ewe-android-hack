@@ -10,6 +10,7 @@ import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.RichContentUtils
+import com.expedia.bookings.widget.shared.FlightCellWidget
 import com.expedia.vm.flights.FlightViewModel
 import org.junit.Before
 import org.junit.Test

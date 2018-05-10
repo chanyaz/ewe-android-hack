@@ -14,8 +14,8 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isShowClassAndBookingCodeEnabled
 import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.widget.packages.InboundFlightWidget
-import com.expedia.bookings.widget.packages.OutboundFlightWidget
+import com.expedia.bookings.flights.widget.InboundFlightWidget
+import com.expedia.bookings.flights.widget.OutboundFlightWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.bookings.packages.vm.BundleFlightViewModel
 import com.expedia.vm.flights.FlightOverviewSummaryViewModel

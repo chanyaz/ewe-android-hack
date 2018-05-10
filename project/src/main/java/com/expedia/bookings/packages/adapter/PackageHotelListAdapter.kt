@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget.packages
+package com.expedia.bookings.packages.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.packages.widget.PackageHotelCellViewHolder
 import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import io.reactivex.subjects.PublishSubject

@@ -15,7 +15,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.section.CountrySpinnerAdapter;
 import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.widget.TextView;
-import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget;
+import com.expedia.bookings.widget.shared.BillingDetailsPaymentWidget;
 import com.expedia.vm.PaymentViewModel;
 
 import static junit.framework.Assert.assertFalse;

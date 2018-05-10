@@ -40,7 +40,7 @@
         android:inflatedId="@+id/widget_hotel_reviews"
         android:layout="@layout/hotel_review_presenter_stub" />
 
-    <com.expedia.bookings.widget.SlidingBundleWidget
+    <com.expedia.bookings.packages.widget.SlidingBundleWidget
         android:id="@+id/sliding_bundle_widget"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

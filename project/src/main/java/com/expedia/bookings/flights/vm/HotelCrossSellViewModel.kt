@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget.packages
+package com.expedia.bookings.flights.vm
 
 import android.content.Context
 import com.expedia.bookings.R

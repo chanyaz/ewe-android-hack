@@ -22,7 +22,7 @@ import com.expedia.bookings.extensions.getParentTextInputLayout
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
-import com.expedia.bookings.widget.packages.MaterialBillingDetailsPaymentWidget
+import com.expedia.bookings.widget.shared.MaterialBillingDetailsPaymentWidget
 import com.expedia.testutils.AndroidAssert.Companion.assertViewFocusabilityIsFalse
 import com.expedia.vm.PaymentViewModel
 import org.joda.time.LocalDate

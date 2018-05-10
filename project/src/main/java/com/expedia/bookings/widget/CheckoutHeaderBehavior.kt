@@ -8,7 +8,7 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.packages.CheckoutOverviewHeader
+import com.expedia.bookings.widget.shared.CheckoutOverviewHeader
 
 class CheckoutHeaderBehavior(val context: Context, attrs: AttributeSet) : CoordinatorLayout.Behavior<CheckoutOverviewHeader>(context, attrs) {
     var toolBarRightX = 0

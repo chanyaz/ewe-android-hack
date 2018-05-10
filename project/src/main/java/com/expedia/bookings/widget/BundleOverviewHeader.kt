@@ -17,7 +17,7 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.packages.CheckoutOverviewHeader
+import com.expedia.bookings.widget.shared.CheckoutOverviewHeader
 import com.expedia.vm.CheckoutToolbarViewModel
 
 class BundleOverviewHeader(context: Context, attrs: AttributeSet) : CoordinatorLayout(context, attrs), AppBarLayout.OnOffsetChangedListener {

@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget
+package com.expedia.bookings.packages.presenter
 
 import android.content.Context
 import android.util.AttributeSet
@@ -16,6 +16,7 @@ import com.expedia.util.Optional
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.bookings.packages.vm.PackageCheckoutViewModel
 import com.expedia.bookings.packages.vm.PackageCreateTripViewModel
+import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.vm.traveler.FlightTravelersViewModel
 import com.expedia.vm.traveler.TravelersViewModel
 import com.squareup.otto.Subscribe

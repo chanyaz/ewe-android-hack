@@ -30,7 +30,7 @@ import com.expedia.bookings.utils.isFHCPackageWebViewEnabled
 import com.expedia.bookings.utils.isPackagesMISRealWorldGeoEnabled
 import com.expedia.bookings.widget.FlightCabinClassWidget
 import com.expedia.bookings.widget.TravelerWidgetV2
-import com.expedia.bookings.widget.packages.PackageSuggestionAdapter
+import com.expedia.bookings.packages.adapter.PackageSuggestionAdapter
 import com.expedia.bookings.widget.suggestions.BaseSuggestionAdapter
 import com.expedia.util.PackageUtil
 import com.expedia.util.notNullAndObservable

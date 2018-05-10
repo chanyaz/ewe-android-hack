@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget.packages
+package com.expedia.bookings.packages.widget
 
 import android.content.Context
 import android.text.method.LinkMovementMethod
@@ -14,12 +14,13 @@ import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isMidAPIEnabled
-import com.expedia.bookings.widget.PackageBundleHotelWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.bookings.packages.vm.BundleFlightViewModel
 import com.expedia.bookings.packages.vm.BundleHotelViewModel
 import com.expedia.bookings.packages.vm.BundleOverviewViewModel
 import com.expedia.bookings.packages.vm.PackageSearchType
+import com.expedia.bookings.flights.widget.InboundFlightWidget
+import com.expedia.bookings.flights.widget.OutboundFlightWidget
 import io.reactivex.subjects.BehaviorSubject
 
 class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {

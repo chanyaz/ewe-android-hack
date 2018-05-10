@@ -16,7 +16,7 @@ import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.LayoutUtils
 import com.expedia.bookings.utils.navigation.HotelNavUtils
-import com.expedia.bookings.widget.packages.HotelCrossSellViewModel
+import com.expedia.bookings.flights.vm.HotelCrossSellViewModel
 import com.expedia.util.notNullAndObservable
 import com.larvalabs.svgandroid.widget.SVGView
 

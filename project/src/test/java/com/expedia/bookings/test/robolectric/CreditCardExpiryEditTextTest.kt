@@ -3,7 +3,7 @@ package com.expedia.bookings.test.robolectric
 import android.app.Activity
 import android.view.LayoutInflater
 import com.expedia.bookings.R
-import com.expedia.bookings.widget.packages.MaterialBillingDetailsPaymentWidget
+import com.expedia.bookings.widget.shared.MaterialBillingDetailsPaymentWidget
 import com.expedia.vm.PaymentViewModel
 import org.junit.Before
 import org.junit.Test

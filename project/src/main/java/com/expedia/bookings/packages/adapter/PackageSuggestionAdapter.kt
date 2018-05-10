@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget.packages
+package com.expedia.bookings.packages.adapter
 
 import android.content.Context
 import com.expedia.bookings.shared.vm.BaseSuggestionViewModel

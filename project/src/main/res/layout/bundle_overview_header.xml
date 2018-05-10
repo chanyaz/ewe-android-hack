@@ -37,7 +37,7 @@
                 app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
                 app:contentInsetStartWithNavigation="0dp" >
 
-                <com.expedia.bookings.widget.packages.CheckoutOverviewHeader
+                <com.expedia.bookings.widget.shared.CheckoutOverviewHeader
                     android:id="@+id/checkout_overview_header_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/overview_height"
@@ -54,7 +54,7 @@
         android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <com.expedia.bookings.widget.packages.CheckoutOverviewHeader
+    <com.expedia.bookings.widget.shared.CheckoutOverviewHeader
         android:id="@+id/checkout_overview_floating_toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/overview_height"

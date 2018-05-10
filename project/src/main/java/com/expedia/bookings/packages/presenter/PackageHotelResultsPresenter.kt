@@ -21,8 +21,8 @@ import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.HotelClientFilterView
 import com.expedia.bookings.hotel.widget.adapter.HotelMapCarouselAdapter
 import com.expedia.bookings.utils.isHideMiniMapOnResultBucketed
-import com.expedia.bookings.widget.packages.BundleTotalPriceTopWidget
-import com.expedia.bookings.widget.packages.PackageHotelListAdapter
+import com.expedia.bookings.packages.widget.BundleTotalPriceTopWidget
+import com.expedia.bookings.packages.adapter.PackageHotelListAdapter
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.bookings.packages.vm.PackageFilterViewModel

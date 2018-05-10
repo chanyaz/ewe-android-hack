@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget.packages
+package com.expedia.bookings.flights.widget
 
 import android.app.Activity
 import android.content.Context
@@ -13,9 +13,9 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.packages.activity.PackageFlightActivity
 import com.squareup.phrase.Phrase
 
-class OutboundFlightWidget(context: Context, attrs: AttributeSet?) : BaseBundleFlightWidget(context, attrs) {
+class InboundFlightWidget(context: Context, attrs: AttributeSet?) : BaseBundleFlightWidget(context, attrs) {
     override fun isInboundFlight(): Boolean {
-        return false
+        return true
     }
 
     override fun showLoading() {
@@ -27,23 +27,23 @@ class OutboundFlightWidget(context: Context, attrs: AttributeSet?) : BaseBundleF
 
     override fun handleResultsLoaded() {
         viewModel.showLoadingStateObservable.onNext(false)
-        viewModel.flightTextObservable.onNext(context.getString(R.string.select_flight_to, StrUtils.formatCityName(viewModel.searchParams.value.destination)))
+        viewModel.flightTextObservable.onNext(context.getString(R.string.select_flight_to, StrUtils.formatCityName(viewModel.searchParams.value.origin)))
         setTravelerInfoText()
     }
 
     fun setTravelerInfoText() {
         viewModel.travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
-                .put("date", LocaleBasedDateFormatUtils.localDateToMMMd(viewModel.searchParams.value.startDate))
+                .put("date", LocaleBasedDateFormatUtils.localDateToMMMd(viewModel.searchParams.value.endDate!!))
                 .put("travelers", StrUtils.formatTravelerString(context, viewModel.searchParams.value.guests)).format().toString())
     }
 
     override fun enable() {
         toggleFlightWidget(1f, true)
         viewModel.flightDetailsIconObservable.onNext(false)
-        viewModel.flightIconImageObservable.onNext(Pair(R.drawable.packages_flight1_icon, ContextCompat.getColor(context, R.color.package_bundle_icon_color)))
-        viewModel.flightTextObservable.onNext(context.getString(R.string.select_flight_to, StrUtils.formatCityName(viewModel.searchParams.value.destination)))
+        viewModel.flightIconImageObservable.onNext(Pair(R.drawable.packages_flight2_icon, ContextCompat.getColor(context, R.color.package_bundle_icon_color)))
+        viewModel.flightTextObservable.onNext(context.getString(R.string.select_flight_to, StrUtils.formatCityName(viewModel.searchParams.value.origin)))
         viewModel.travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
-                .put("date", LocaleBasedDateFormatUtils.localDateToMMMd(viewModel.searchParams.value.startDate))
+                .put("date", LocaleBasedDateFormatUtils.localDateToMMMd(viewModel.searchParams.value.endDate!!))
                 .put("travelers", StrUtils.formatTravelerString(context, viewModel.searchParams.value.guests))
                 .format()
                 .toString())
@@ -51,37 +51,43 @@ class OutboundFlightWidget(context: Context, attrs: AttributeSet?) : BaseBundleF
 
     override fun disable() {
         toggleFlightWidget(opacity, false)
-        viewModel.flightIconImageObservable.onNext(Pair(R.drawable.packages_flight1_icon, ContextCompat.getColor(context, R.color.package_bundle_icon_color)))
-        viewModel.flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatCityName(viewModel.searchParams.value.destination)))
+
+        viewModel.flightIconImageObservable.onNext(Pair(R.drawable.packages_flight2_icon, ContextCompat.getColor(context, R.color.package_bundle_icon_color)))
+        viewModel.flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatCityName(viewModel.searchParams.value.origin)))
         viewModel.flightTextColorObservable.onNext(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
         viewModel.flightTravelInfoColorObservable.onNext(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
         viewModel.flightSelectIconObservable.onNext(false)
     }
 
     override fun rowClicked() {
-        openFlightsForDeparture()
+        openFlightsForArrival()
     }
 
-    fun openFlightsForDeparture() {
+    fun openFlightsForArrival() {
         val intent = Intent(context, PackageFlightActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val activity = context as Activity
-        activity.startActivityForResult(intent, Constants.PACKAGE_FLIGHT_OUTBOUND_REQUEST_CODE, null)
+        activity.startActivityForResult(intent, Constants.PACKAGE_FLIGHT_RETURN_REQUEST_CODE, null)
         activity.overridePendingTransition(0, 0)
     }
 
     fun updateHotelParams(params: PackageSearchParams) {
-        params.destination?.let {
+        params.origin?.let {
             viewModel.suggestion.onNext(it)
         }
-        viewModel.date.onNext(params.startDate)
+        params.endDate?.let {
+            viewModel.date.onNext(it)
+        }
         viewModel.guests.onNext(params.guests)
         viewModel.searchParams.onNext(params)
         toggleFlightWidget(opacity, false)
     }
 
-    fun disableFlightIcon() {
-        flightIcon.setImageResource(R.drawable.packages_flight1_icon)
-        flightIcon.setColorFilter(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
+    fun refreshTravelerInfoOnChangeFlights() {
+        viewModel.travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
+                .put("date", LocaleBasedDateFormatUtils.localDateToMMMd(viewModel.searchParams.value.endDate!!))
+                .put("travelers", StrUtils.formatTravelerString(context, viewModel.searchParams.value.guests))
+                .format()
+                .toString())
     }
 }

@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget
+package com.expedia.bookings.packages.widget
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
@@ -20,7 +20,6 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.extensions.subscribeText
-import com.expedia.bookings.widget.packages.BundleWidget
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.StrUtils
@@ -31,6 +30,7 @@ import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.packages.vm.BundleOverviewViewModel
 import com.expedia.bookings.packages.vm.PackageSearchType
 import com.expedia.bookings.packages.vm.PackageTotalPriceViewModel
+import com.expedia.bookings.widget.TotalPriceWidget
 import io.reactivex.subjects.PublishSubject
 import java.math.BigDecimal
 

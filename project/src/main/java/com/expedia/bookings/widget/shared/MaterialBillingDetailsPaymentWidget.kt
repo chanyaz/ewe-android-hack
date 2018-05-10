@@ -1,5 +1,5 @@
 
-package com.expedia.bookings.widget.packages
+package com.expedia.bookings.widget.shared
 
 import android.app.AlertDialog
 import android.content.Context

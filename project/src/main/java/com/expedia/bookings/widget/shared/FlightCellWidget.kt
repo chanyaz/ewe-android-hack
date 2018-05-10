@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget.packages
+package com.expedia.bookings.widget.shared
 
 import android.content.Context
 import android.support.v7.widget.CardView

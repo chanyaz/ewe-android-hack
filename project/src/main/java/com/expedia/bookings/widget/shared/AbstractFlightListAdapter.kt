@@ -15,8 +15,7 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.LoadingViewHolder
 import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.widget.packages.FlightCellWidget
-import com.expedia.bookings.widget.packages.PackageBannerWidget
+import com.expedia.bookings.flights.widget.PackageBannerWidget
 import com.expedia.vm.AbstractFlightViewModel
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject

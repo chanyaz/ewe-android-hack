@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget.packages
+package com.expedia.bookings.widget.shared
 
 import android.app.Activity
 import android.app.AlertDialog
