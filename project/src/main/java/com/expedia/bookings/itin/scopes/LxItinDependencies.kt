@@ -1,5 +1,6 @@
 package com.expedia.bookings.itin.scopes
 
+import com.expedia.bookings.itin.common.ItinMapWidgetViewModel
 import com.expedia.bookings.itin.common.NewItinToolbarViewModel
 import com.expedia.bookings.itin.lx.details.LxItinManageBookingWidgetViewModel
 
@@ -11,10 +12,18 @@ interface ToolBarViewModelSetter {
     fun setUpViewModel(vm: NewItinToolbarViewModel)
 }
 
+interface MapWidgetViewModelSetter {
+    fun setUpViewModel(vm: ItinMapWidgetViewModel)
+}
+
 interface HasManageBookingWidgetViewModelSetter {
     val manageBooking: ManageBookingWidgetViewModelSetter
 }
 
 interface HasToolbarViewModelSetter {
     val toolbar: ToolBarViewModelSetter
+}
+
+interface HasMapWidgetViewModelSetter {
+    val map: MapWidgetViewModelSetter
 }

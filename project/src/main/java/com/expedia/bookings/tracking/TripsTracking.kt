@@ -9,13 +9,13 @@ import com.mobiata.android.Log
 object TripsTracking : OmnitureTracking(), ITripsTracking {
 
     //Tags
-    private val TAG = "TripsTracking"
+    private const val TAG = "TripsTracking"
 
     //Trip List Tracking
-    private val ITIN_LIST = "App.Trips"
-    private val ITIN_LIST_UPCOMING_TAB = "App.Trips.Upcoming"
-    private val ITIN_LIST_PAST_TAB = "App.Trips.Past"
-    private val ITIN_LIST_CANCELLED_TAB = "App.Trips.Cancelled"
+    private const val ITIN_LIST = "App.Trips"
+    private const val ITIN_LIST_UPCOMING_TAB = "App.Trips.Upcoming"
+    private const val ITIN_LIST_PAST_TAB = "App.Trips.Past"
+    private const val ITIN_LIST_CANCELLED_TAB = "App.Trips.Cancelled"
 
     override fun trackTripFolderAbTest() {
         val s = createTrackLinkEvent(ITIN_LIST)
@@ -84,31 +84,31 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     }
 
     //Hotel Tracking
-    private val ITIN_HOTEL_CALL_EXPEDIA = "App.Itinerary.Hotel.Manage.Call.Expedia"
-    private val ITIN_HOTEL_OPEN_SUPPORT_WEBSITE = "App.Itinerary.Hotel.Manage.CSP"
-    private val ITIN_HOTEL_CALL_HOTEL = "App.Itinerary.Hotel.Manage.Call.Hotel"
-    private val ITIN_HOTEL_MESSAGE = "App.Itinerary.Hotel.Message.Hotel"
-    private val ITIN_HOTEL_MANAGE_BOOKING_MESSAGE = "App.Itinerary.Hotel.Manage.Message.Hotel"
-    private val ITIN_HOTEL_INFO = "App.Itinerary.Hotel.Info.Additional"
-    private val ITIN_HOTEL_PRICING_REWARDS = "App.Itinerary.Hotel.PricingRewards"
-    private val ITIN_HOTEL_MANAGE_BOOKING = "App.Itinerary.Hotel.ManageBooking"
-    private val ITIN_HOTEL_CHECK_IN_POLICIES = "App.Itinerary.Hotel.Info.Check-in"
-    private val ITIN_HOTEL_CHANGE_HOTEL = "App.Itinerary.Hotel.Manage.Change"
-    private val ITIN_HOTEL_CANCEL_HOTEL = "App.Itinerary.Hotel.Manage.Cancel"
-    private val ITIN_HOTEL_CHANGE_CANCEL_RULES = "App.Itinerary.Hotel.Manage.Info.Change-Cancel"
-    private val ITIN_HOTEL_CHANGE_HOTEL_LEARN_MORE = "App.Itinerary.Hotel.Manage.Change.LearnMore"
-    private val ITIN_HOTEL_CANCEL_HOTEL_LEARN_MORE = "App.Itinerary.Hotel.Manage.Cancel.LearnMore"
-    private val ITIN_HOTEL_CALL = "App.Itinerary.Hotel.Call"
-    private val ITIN_HOTEL_MAP_OPEN = "App.Itinerary.Hotel.Map"
-    private val ITIN_HOTEL_DIRECTIONS = "App.Itinerary.Hotel.Directions"
-    private val ITIN_HOTEL_MAP_DIRECTIONS = "App.Map.Directions.Drive"
-    private val ITIN_HOTEL_MAP_PAN = "App.Map.Directions.Pan"
-    private val ITIN_HOTEL_MAP_ZOOM_IN = "App.Map.Directions.ZoomIn"
-    private val ITIN_HOTEL_MAP_ZOOM_OUT = "App.Map.Directions.ZoomOut"
-    private val ITIN_HOTEL_VIEW_RECEIPT = "App.Itinerary.Hotel.PricingRewards.ViewReceipt"
-    private val ITIN_HOTEL_TAXI_CARD = "App.Itinerary.Hotel.TaxiCard"
-    private val ITIN_HOTEL_VIEW_REWARDS = "App.Itinerary.Hotel.PricingRewards.ViewRewards"
-    private val ITIN_HOTEL = "App.Itinerary.Hotel"
+    private const val ITIN_HOTEL_CALL_EXPEDIA = "App.Itinerary.Hotel.Manage.Call.Expedia"
+    private const val ITIN_HOTEL_OPEN_SUPPORT_WEBSITE = "App.Itinerary.Hotel.Manage.CSP"
+    private const val ITIN_HOTEL_CALL_HOTEL = "App.Itinerary.Hotel.Manage.Call.Hotel"
+    private const val ITIN_HOTEL_MESSAGE = "App.Itinerary.Hotel.Message.Hotel"
+    private const val ITIN_HOTEL_MANAGE_BOOKING_MESSAGE = "App.Itinerary.Hotel.Manage.Message.Hotel"
+    private const val ITIN_HOTEL_INFO = "App.Itinerary.Hotel.Info.Additional"
+    private const val ITIN_HOTEL_PRICING_REWARDS = "App.Itinerary.Hotel.PricingRewards"
+    private const val ITIN_HOTEL_MANAGE_BOOKING = "App.Itinerary.Hotel.ManageBooking"
+    private const val ITIN_HOTEL_CHECK_IN_POLICIES = "App.Itinerary.Hotel.Info.Check-in"
+    private const val ITIN_HOTEL_CHANGE_HOTEL = "App.Itinerary.Hotel.Manage.Change"
+    private const val ITIN_HOTEL_CANCEL_HOTEL = "App.Itinerary.Hotel.Manage.Cancel"
+    private const val ITIN_HOTEL_CHANGE_CANCEL_RULES = "App.Itinerary.Hotel.Manage.Info.Change-Cancel"
+    private const val ITIN_HOTEL_CHANGE_HOTEL_LEARN_MORE = "App.Itinerary.Hotel.Manage.Change.LearnMore"
+    private const val ITIN_HOTEL_CANCEL_HOTEL_LEARN_MORE = "App.Itinerary.Hotel.Manage.Cancel.LearnMore"
+    private const val ITIN_HOTEL_CALL = "App.Itinerary.Hotel.Call"
+    private const val ITIN_HOTEL_MAP_OPEN = "App.Itinerary.Hotel.Map"
+    private const val ITIN_HOTEL_DIRECTIONS = "App.Itinerary.Hotel.Directions"
+    private const val ITIN_HOTEL_MAP_DIRECTIONS = "App.Map.Directions.Drive"
+    private const val ITIN_HOTEL_MAP_PAN = "App.Map.Directions.Pan"
+    private const val ITIN_HOTEL_MAP_ZOOM_IN = "App.Map.Directions.ZoomIn"
+    private const val ITIN_HOTEL_MAP_ZOOM_OUT = "App.Map.Directions.ZoomOut"
+    private const val ITIN_HOTEL_VIEW_RECEIPT = "App.Itinerary.Hotel.PricingRewards.ViewReceipt"
+    private const val ITIN_HOTEL_TAXI_CARD = "App.Itinerary.Hotel.TaxiCard"
+    private const val ITIN_HOTEL_VIEW_REWARDS = "App.Itinerary.Hotel.PricingRewards.ViewRewards"
+    private const val ITIN_HOTEL = "App.Itinerary.Hotel"
 
     fun trackItinHotelCallSupport() {
         val s = createTrackLinkEvent(ITIN_HOTEL_CALL_EXPEDIA)
@@ -259,7 +259,9 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     }
 
     //LX Tracking
-    private val ITIN_ACTIVITY = "App.Itinerary.Activity"
+    private const val ITIN_ACTIVITY = "App.Itinerary.Activity"
+    private const val ITIN_ACTIVITY_DETAILS_MAP = "App.Itinerary.Activity.Map"
+    private const val ITIN_ACTIVITY_DETAILS_DIRECTIONS = "App.Itinerary.Activity.Directions"
 
     override fun trackItinLx(trip: HashMap<String, String?>) {
         Log.d(TAG, "Tracking \"$ITIN_ACTIVITY\" pageLoad")
@@ -277,5 +279,15 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
         s.setEvar(5, trip.get("daysUntilTrip").toString())
         s.appendEvents("event63")
         s.track()
+    }
+
+    override fun trackItinLxDetailsMap() {
+        val s = createTrackLinkEvent(ITIN_ACTIVITY_DETAILS_MAP)
+        s.trackLink("Itinerary Action")
+    }
+
+    override fun trackItinLxDetailsDirections() {
+        val s = createTrackLinkEvent(ITIN_ACTIVITY_DETAILS_DIRECTIONS)
+        s.trackLink("Itinerary Action")
     }
 }

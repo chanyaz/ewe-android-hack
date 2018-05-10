@@ -8,4 +8,6 @@ interface ITripsTracking {
     fun trackItinHotelViewReceipt()
     fun trackHotelTaxiCardClick()
     fun trackItinHotelViewRewards()
+    fun trackItinLxDetailsMap()
+    fun trackItinLxDetailsDirections()
 }

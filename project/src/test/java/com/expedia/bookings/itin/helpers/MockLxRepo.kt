@@ -6,7 +6,7 @@ import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinLx
 import io.reactivex.subjects.PublishSubject
 
-class MockLxRepo : ItinLxRepoInterface {
+class MockLxRepo(initialize: Boolean = true) : ItinLxRepoInterface {
     override val invalidDataSubject: PublishSubject<Unit> = PublishSubject.create()
     var disposed = false
     override fun dispose() {
@@ -16,9 +16,11 @@ class MockLxRepo : ItinLxRepoInterface {
     override val liveDataLx: MutableLiveData<ItinLx> = MutableLiveData()
     override val liveDataItin: MutableLiveData<Itin> = MutableLiveData()
     init {
-        val itin = ItinMocker.lxDetailsHappy
-        liveDataItin.value = itin
-        liveDataLx.value = itin.activities!!.first()
+        if (initialize) {
+            val itin = ItinMocker.lxDetailsHappy
+            liveDataItin.value = itin
+            liveDataLx.value = itin.activities!!.first()
+        }
     }
 
     fun deleteUrl() {

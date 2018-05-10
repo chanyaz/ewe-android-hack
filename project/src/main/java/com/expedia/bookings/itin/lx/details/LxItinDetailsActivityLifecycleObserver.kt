@@ -12,17 +12,19 @@ import com.expedia.bookings.itin.scopes.HasActivityLauncher
 import com.expedia.bookings.itin.scopes.HasItinId
 import com.expedia.bookings.itin.scopes.HasJsonUtil
 import com.expedia.bookings.itin.scopes.HasManageBookingWidgetViewModelSetter
+import com.expedia.bookings.itin.scopes.HasMapWidgetViewModelSetter
 import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.scopes.HasToolbarViewModelSetter
 import com.expedia.bookings.itin.scopes.HasTripsTracking
 import com.expedia.bookings.itin.scopes.HasWebViewLauncher
 import com.expedia.bookings.itin.scopes.LxItinManageBookingWidgetScope
+import com.expedia.bookings.itin.scopes.LxItinMapWidgetViewModelScope
 import com.expedia.bookings.itin.scopes.LxItinToolbarScope
 import com.expedia.bookings.itin.tripstore.extensions.firstLx
 import com.expedia.util.notNullAndObservable
 import io.reactivex.subjects.PublishSubject
 
-class LxItinDetailsActivityLifecycleObserver<S>(val scope: S) : DefaultLifecycleObserver where S : HasActivityLauncher, S : HasWebViewLauncher, S : HasStringProvider, S : HasJsonUtil, S : HasItinId, S : HasManageBookingWidgetViewModelSetter, S : HasToolbarViewModelSetter, S : HasTripsTracking {
+class LxItinDetailsActivityLifecycleObserver<S>(val scope: S) : DefaultLifecycleObserver where S : HasActivityLauncher, S : HasWebViewLauncher, S : HasStringProvider, S : HasJsonUtil, S : HasItinId, S : HasManageBookingWidgetViewModelSetter, S : HasToolbarViewModelSetter, S : HasTripsTracking, S : HasMapWidgetViewModelSetter {
 
     val finishSubject = PublishSubject.create<Unit>()
     var repo: ItinLxRepoInterface = ItinLxRepo(scope.id, scope.jsonUtil, ItineraryManager.getInstance().syncFinishObservable)
@@ -50,6 +52,9 @@ class LxItinDetailsActivityLifecycleObserver<S>(val scope: S) : DefaultLifecycle
 
         val manageBookingScope = LxItinManageBookingWidgetScope(scope.strings, scope.webViewLauncher, scope.activityLauncher, repo)
         scope.manageBooking.setUpViewModel(LxItinManageBookingWidgetViewModel(manageBookingScope))
+
+        val mapWidgetScope = LxItinMapWidgetViewModelScope(repo, owner, scope.tripsTracking)
+        scope.map.setUpViewModel(LxItinMapWidgetViewModel(mapWidgetScope))
     }
 
     override fun onDestroy(owner: LifecycleOwner) {

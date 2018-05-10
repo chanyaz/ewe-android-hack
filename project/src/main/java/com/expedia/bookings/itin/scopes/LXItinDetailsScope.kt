@@ -35,7 +35,8 @@ data class LxLifeCycleObserverScope(override val strings: StringSource,
                                     override val id: String,
                                     override val manageBooking: ManageBookingWidgetViewModelSetter,
                                     override val toolbar: ToolBarViewModelSetter,
-                                    override val tripsTracking: ITripsTracking) : HasStringProvider, HasWebViewLauncher, HasActivityLauncher, HasJsonUtil, HasItinId, HasToolbarViewModelSetter, HasManageBookingWidgetViewModelSetter, HasTripsTracking
+                                    override val tripsTracking: ITripsTracking,
+                                    override val map: MapWidgetViewModelSetter) : HasStringProvider, HasWebViewLauncher, HasActivityLauncher, HasJsonUtil, HasItinId, HasToolbarViewModelSetter, HasManageBookingWidgetViewModelSetter, HasTripsTracking, HasMapWidgetViewModelSetter
 
 class PriceSummaryCardScope(override val strings: StringSource,
                             override val webViewLauncher: IWebViewLauncher,
@@ -48,3 +49,6 @@ data class LxItinManageBookingWidgetScope(override val strings: StringSource,
                                           override val webViewLauncher: IWebViewLauncher,
                                           override val activityLauncher: IActivityLauncher,
                                           override val itinLxRepo: ItinLxRepoInterface) : HasWebViewLauncher, HasActivityLauncher, HasLxRepo, HasStringProvider
+data class LxItinMapWidgetViewModelScope(override val itinLxRepo: ItinLxRepoInterface,
+                                         override val lifecycleOwner: LifecycleOwner,
+                                         override val tripsTracking: ITripsTracking) : HasLxRepo, HasLifecycleOwner, HasTripsTracking

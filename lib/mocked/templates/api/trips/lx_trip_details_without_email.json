@@ -203,7 +203,18 @@
           "freeCancellationAvailablePackageV2": false
         },
         "destinationRegionId": "6023769",
-        "unbookedPackageV2": false
+        "unbookedPackageV2": false,
+        "activityLocation": {
+          "name1": "California Academy of Sciences",
+          "latitude": 37.76974,
+          "longitude": -122.46614,
+          "addressLine1": "55 Music Concourse Drive",
+          "city": "San Francisco",
+          "countrySubdivisionCode": "CA",
+          "postalCode": "94118",
+          "countryCode": "USA",
+          "fullAddress": "California Academy of Sciences: 55 Music Concourse Drive, San Francisco, CA, 94118, USA"
+        }
       }
     ],
     "totalTripPrice": {

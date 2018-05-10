@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
+import com.expedia.bookings.itin.common.ItinMapWidget
 import com.expedia.bookings.itin.common.ItinToolbar
 import com.expedia.bookings.itin.scopes.LxLifeCycleObserverScope
 import com.expedia.bookings.itin.utils.ActivityLauncher
@@ -30,6 +31,7 @@ class LxItinDetailsActivity : AppCompatActivity() {
 
     val toolbar: ItinToolbar by bindView(R.id.widget_lx_itin_toolbar)
     val manageBookingWidget: LxItinManageBookingWidget by bindView(R.id.widget_manage_booking)
+    val mapWidget: ItinMapWidget by bindView(R.id.map_widget)
 
     val lifecycleObserver: LxItinDetailsActivityLifecycleObserver<LxLifeCycleObserverScope> by lazy {
         val stringProvider = Ui.getApplication(this).appComponent().stringProvider()
@@ -38,7 +40,7 @@ class LxItinDetailsActivity : AppCompatActivity() {
         val activityLauncher = ActivityLauncher(this)
         val itinId = intent.getStringExtra(LX_ITIN_ID)
         val tripsTracking = TripsTracking
-        val scope = LxLifeCycleObserverScope(stringProvider, webViewLauncher, activityLauncher, jsonUtil, itinId, manageBookingWidget, toolbar, tripsTracking)
+        val scope = LxLifeCycleObserverScope(stringProvider, webViewLauncher, activityLauncher, jsonUtil, itinId, manageBookingWidget, toolbar, tripsTracking, mapWidget)
         LxItinDetailsActivityLifecycleObserver(scope)
     }
 

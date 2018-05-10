@@ -13,6 +13,16 @@ class MockTripsTracking : ITripsTracking {
     var trackHotelItinViewRewardsCalled = false
 
     var trackItinLxCalled = false
+    var mapClicked = false
+    var directionClicked = false
+
+    override fun trackItinLxDetailsMap() {
+        mapClicked = true
+    }
+
+    override fun trackItinLxDetailsDirections() {
+        directionClicked = true
+    }
 
     override fun trackItinHotelViewReceipt() {
         trackItinHotelViewReceiptCalled = true
