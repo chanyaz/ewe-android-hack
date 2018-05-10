@@ -29,8 +29,6 @@ import com.mobiata.android.util.SettingUtils
 
 open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
-    val HEADER_CLASS = "site-header-primary"
-
     val toolbar: Toolbar by bindView(R.id.web_view_toolbar)
 
     var webViewPopUp: WebView? = null
@@ -99,13 +97,8 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
     }
 
     open fun onPageFinished(url: String) {
-        preventLoadingOfDivClass(HEADER_CLASS)
         redirectSigninClick()
         toggleLoading(false)
-    }
-
-    private fun preventLoadingOfDivClass(className: String) {
-        webView.loadUrl("javascript:(function() { var elements = document.getElementsByClassName('$className'); for (index=0; index < elements.length; index++) { elements[index].style.display=\"none\"; }; })()")
     }
 
     private fun redirectSigninClick() {
