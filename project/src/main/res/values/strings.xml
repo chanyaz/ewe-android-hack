@@ -1425,6 +1425,12 @@
     <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">{amount} total due at hotel</string>
     <!--Hotel itin card price summary additional pricing information button-->
     <string name="itin_hotel_details_price_summary_additional_info_button_text">Additional pricing information</string>
+    <!--Hotel itin card price summary additional pricing information additional hotel fees heading-->
+    <string name="itin_hotel_details_price_summary_additional_info_additional_hotel_fees">Additional hotel fees</string>
+    <!--Hotel itin card price summary additional pricing information taxes and fees heading-->
+    <string name="itin_hotel_details_price_summary_additional_info_taxes_and_fees">Taxes and fees</string>
+    <!--Hotel itin card price summary additional pricing information guest charges and room capacity heading-->
+    <string name="itin_hotel_details_price_summary_additional_info_guest_charges_room_capacity">Guest charges and room capacity</string>
     <!--Hotel itin card price summary rewards section title text-->
     <string name="itin_hotel_details_price_summary_rewards_title">Rewards</string>
     <!--Hotel itin card price summary rewards section view rewards button text-->

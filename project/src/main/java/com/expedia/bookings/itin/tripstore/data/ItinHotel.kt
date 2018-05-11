@@ -11,7 +11,8 @@ data class ItinHotel(
         val hotelPropertyInfo: HotelPropertyInfo?,
         val rooms: List<HotelRoom>?,
         val numberOfNights: String?,
-        val localizedHotelPropertyInfo: HotelPropertyInfo?
+        val localizedHotelPropertyInfo: HotelPropertyInfo?,
+        val paymentsAndCreditFees: PaymentsAndCreditFees?
 )
 
 enum class PaymentModel {
@@ -41,17 +42,28 @@ data class TotalPriceDetails(
 data class HotelPropertyInfo(
         val name: String?,
         val address: Address,
-        var localizationLanguage: String?
+        var localizationLanguage: String?,
+        val fees: List<String>?,
+        val mandatoryFees: List<String>?
 )
 
 data class HotelRoomPriceDetails(val amountFormatted: String?, val localizedDay: LocalizedDay?) {
-        data class LocalizedDay(val localizedFullDate: String?)
+    data class LocalizedDay(val localizedFullDate: String?)
 }
 
 data class Rules(
         val currencyDisclaimer: String?,
-        val dualCurrencyText: String?
+        val dualCurrencyText: String?,
+        val occupancyPolicies: List<String>?,
+        val extraGuestPolicies: List<String>,
+        val taxesAndFeesInfo: String?
 )
+
 data class Address(
         val fullAddress: String?
+)
+
+data class PaymentsAndCreditFees(
+        val paymentsHotelFeesAndDepositsDisclaimer: String?,
+        val noFeesStaticText: String?
 )
