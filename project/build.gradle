@@ -24,6 +24,7 @@ repositories {
         }
     }
     maven { url "https://github.com/carnivalmobile/maven-repository/raw/master/" }
+    maven { url "http://nexuslab.alm/nexus/content/repositories/releases" }
     google()
 }
 
@@ -482,6 +483,10 @@ android {
             jobName = "EBad-PullRequests-UITests"
         }
     }
+}
+
+dependencies {
+    expediaImplementation 'com.expedia.ux.uds:uds-android-tokens-expedia:1.7.10@aar'
 }
 
 androidExtensions {

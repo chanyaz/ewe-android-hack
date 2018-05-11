@@ -175,7 +175,7 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         viewPager.adapter = pagerAdapter
 
         if (isBrandColorEnabled(this@PhoneLaunchActivity)) {
-            window.statusBarColor = ContextCompat.getColor(this@PhoneLaunchActivity, R.color.brand_primary_dark)
+            window.statusBarColor = ContextCompat.getColor(this@PhoneLaunchActivity, R.color.brand2)
             toolbar.setBackgroundColor(ContextCompat.getColor(this@PhoneLaunchActivity, R.color.brand_primary))
         }
 

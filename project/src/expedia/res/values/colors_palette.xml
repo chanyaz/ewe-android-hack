@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- When editing/adding colors to this file please first refer to the following wiki:
+    https://github.com/ExpediaInc/ewe-android-eb/wiki/Design:-colors.xml-&-colors_palette.xml-best-practices.-->
+    <!-- LOB colors -->
+    <color name="exp_yellow">@color/brand1</color>
+    <color name="exp_lob_blue">@color/accent2</color>
+    <color name="exp_lob_dark_blue">@color/accent2</color>
+    <color name="exp_lob_ripple_blue">#09688F</color> <!--TODO: needs review-->
+
+    <color name="exp_action_required_red">@color/accent5</color>
+
+    <color name="exp_itin_bg">@color/neutral900</color>
+    <color name="exp_itin_bg_crystal_theme">@color/neutral100</color>
+    <color name="exp_itin_status_indication_success">@color/accent4</color>
+    <color name="exp_itin_status_indication_error">@color/accent5</color>
+    <color name="exp_itin_manage_booking_title">@color/neutral900</color>
+
+    <color name="blue1">@color/accent2</color>
+    <color name="blue2">@color/accent2</color>
+    <color name="blue3">@color/accent2</color>
+    <color name="blue4">@color/neutral800</color>
+    <color name="blue5">@color/neutral800</color>
+    <color name="blue6">@color/neutral800</color>
+    <color name="blue7">@color/accent2</color>
+
+    <color name="success_green">@color/accent4</color>
+    <color name="error_red">@color/accent5</color>
+
+    <color name="transparent">#00000000</color> <!--DO WE NEED THIS?-->
+
+    <color name="gray100">@color/neutral100</color>
+    <color name="gray200">@color/neutral200</color>
+    <color name="gray300">@color/neutral300</color>
+    <color name="gray400">@color/neutral400</color>
+    <color name="gray500">@color/neutral500</color>
+    <color name="gray600">@color/neutral600</color>
+    <color name="gray700">@color/neutral700</color>
+    <color name="gray800">@color/neutral800</color>
+    <color name="gray900">@color/neutral900</color>
+    <color name="black">@color/neutral900</color>
+
+    <color name="bundleTextGray">@color/neutral700</color>
+    <color name="docketOutboundWidgetGray">@color/neutral100</color>
+    <!-- alpha colors http://stackoverflow.com/questions/15852122/hex-transparency-in-colors-->
+    <!-- TODO: Design to revisit the need of this section -->
+    <!--<color name="white_19">color_white_25</color> &lt;!&ndash; Disabled white text &ndash;&gt;-->
+    <!--<color name="white_25">color_white_25</color>-->
+    <!--<color name="white_70">color_white_70</color>-->
+    <!--<color name="black_20">@color/neutral900_25</color>-->
+    <!--<color name="black_50">@color/neutral900_50</color>-->
+    <!--<color name="black_70">@color/neutral900_50</color>-->
+    <!--<color name="gray100_30">@color/neutral100_30</color>-->
+    <!--<color name="gray100_60">@color/neutral100_60</color>-->
+    <!--<color name="gray700_25">color__neutral__700_25</color>-->
+    <!--<color name="gray800_50">@color/neutralBlack</color>-->
+    <!--<color name="gray900_30">@color/neutral900_30</color>-->
+    <!--<color name="gray900_75">@color/neutral900_75</color>-->
+    <!--<color name="exp_brand_blue_65">color__brand__2_65</color>-->
+    <!--<color name="exp_launch_secondary_blue_70">color__accent__1_70</color>-->
+
+    <!-- Launch Screen colors -->
+    <color name="exp_launch_blue">@color/accent2</color>
+    <color name="exp_launch_secondary_blue">@color/accent1</color>
+    <color name="exp_launch_yellow">@color/brand1</color>
+
+    <!-- Colors on new launch screen-->
+    <color name="exp_launch_secondary">@color/accent1</color>
+    <color name="air_attach_orange">#FD8126</color> <!--TODO: WILL WE NEED AN ORANGE AFTER MIP CHANGES?-->
+    <color name="exp_signin_blue">@color/brand2</color>
+    <color name="yellow_layover">@color/brand1</color>
+</resources>

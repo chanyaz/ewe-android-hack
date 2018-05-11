@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+    This file contains colors that are defined in main for compilation purposes, but that are only actually
+    displayed in comet brands. These colors here are just dummy colors. Please ignore.
+
+    When we refactor the home screen to allow us to pull brand-specific code out of main, then we should be
+    able to clean up this file.
+    -->
+
+    <color name="reward_launch_card_background_gradient">@color/white</color>
+</resources>
