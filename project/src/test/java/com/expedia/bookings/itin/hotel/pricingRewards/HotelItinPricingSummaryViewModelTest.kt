@@ -3,14 +3,17 @@ package com.expedia.bookings.itin.hotel.pricingRewards
 import android.arch.lifecycle.LifecycleOwner
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.helpers.ItinMocker
+import com.expedia.bookings.itin.helpers.MockActivityLauncher
 import com.expedia.bookings.itin.helpers.MockHotelRepo
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
 import com.expedia.bookings.itin.helpers.MockStringProvider
 import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepoInterface
+import com.expedia.bookings.itin.scopes.HasActivityLauncher
 import com.expedia.bookings.itin.scopes.HasHotelRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.tripstore.extensions.firstHotel
+import com.expedia.bookings.itin.utils.IActivityLauncher
 import com.expedia.bookings.itin.utils.StringSource
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.utils.FontCache
@@ -18,7 +21,9 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 class HotelItinPricingSummaryViewModelTest {
     private val INR = "\u20b9"
@@ -42,6 +47,7 @@ class HotelItinPricingSummaryViewModelTest {
     private lateinit var currencyDisclaimerObserver: TestObserver<String>
     private lateinit var totalPriceObserver: TestObserver<HotelItinPriceLineItem>
     private lateinit var totalPricePosCurrencyObserver: TestObserver<HotelItinPriceLineItem>
+    private lateinit var additionalPriceInfoObserver: TestObserver<Unit>
 
     @Before
     fun setup() {
@@ -54,6 +60,7 @@ class HotelItinPricingSummaryViewModelTest {
         totalPriceObserver = TestObserver()
         totalPricePosCurrencyObserver = TestObserver()
         roomContainerClearObserver = TestObserver()
+        additionalPriceInfoObserver = TestObserver()
     }
 
     @After
@@ -67,6 +74,7 @@ class HotelItinPricingSummaryViewModelTest {
         totalPriceObserver.dispose()
         totalPricePosCurrencyObserver.dispose()
         roomContainerClearObserver.dispose()
+        additionalPriceInfoObserver.dispose()
     }
 
     @Test
@@ -276,6 +284,21 @@ class HotelItinPricingSummaryViewModelTest {
         assertEquals(FontCache.Font.ROBOTO_MEDIUM, totalPriceItem[0].font)
     }
 
+    @Test
+    fun testAdditionalPriceInfoClick() {
+        val scope = MockHotelItinPricingSummaryScope()
+        val viewModel = HotelItinPricingSummaryViewModel(scope)
+        viewModel.additionalPricingInfoSubject.subscribe(additionalPriceInfoObserver)
+        viewModel.itinObserver.onChanged(mockItinExpediaCollect)
+
+        additionalPriceInfoObserver.assertEmpty()
+        assertFalse(scope.mockActivityLauncher.launched)
+
+        viewModel.additionalPricingInfoSubject.onNext(Unit)
+        additionalPriceInfoObserver.assertValueCount(1)
+        assertTrue(scope.mockActivityLauncher.launched)
+    }
+
     private fun getViewModel(): HotelItinPricingSummaryViewModel<MockHotelItinPricingSummaryScope> {
         val viewModel = HotelItinPricingSummaryViewModel(MockHotelItinPricingSummaryScope())
 
@@ -292,9 +315,11 @@ class HotelItinPricingSummaryViewModelTest {
         return viewModel
     }
 
-    class MockHotelItinPricingSummaryScope : HasHotelRepo, HasStringProvider, HasLifecycleOwner {
+    class MockHotelItinPricingSummaryScope : HasHotelRepo, HasStringProvider, HasActivityLauncher, HasLifecycleOwner {
+        val mockActivityLauncher = MockActivityLauncher()
         override val strings: StringSource = MockStringProvider()
         override val itinHotelRepo: ItinHotelRepoInterface = MockHotelRepo()
+        override val activityLauncher: IActivityLauncher = mockActivityLauncher
         override val lifecycleOwner: LifecycleOwner = MockLifecycleOwner()
     }
 }

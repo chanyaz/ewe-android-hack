@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItinCardData
+import com.expedia.bookings.itin.helpers.MockActivityLauncher
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
 import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepo
 import com.expedia.bookings.itin.scopes.HotelItinPricingSummaryScope
@@ -269,7 +270,7 @@ class HotelItinPricingSummaryViewTest {
         val itinId = if (forSingleRoom) "single" else ""
         val repo = ItinHotelRepo(itinId, MockReadJsonUtil, TestObservable)
 
-        return HotelItinPricingSummaryScope(repo, MockStringProvider, MockLifecycleOwner())
+        return HotelItinPricingSummaryScope(repo, MockStringProvider, MockActivityLauncher(), MockLifecycleOwner())
     }
 
     object MockStringProvider : StringSource {

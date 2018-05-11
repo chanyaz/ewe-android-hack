@@ -2,6 +2,7 @@ package com.expedia.bookings.itin.hotel.pricingRewards
 
 import com.expedia.bookings.R
 import com.expedia.bookings.extensions.LiveDataObserver
+import com.expedia.bookings.itin.scopes.HasActivityLauncher
 import com.expedia.bookings.itin.scopes.HasHotelRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasStringProvider
@@ -12,10 +13,11 @@ import com.expedia.bookings.itin.tripstore.data.PaymentModel
 import com.expedia.bookings.itin.tripstore.data.TotalPriceDetails
 import com.expedia.bookings.itin.tripstore.extensions.firstHotel
 import com.expedia.bookings.itin.tripstore.extensions.isPointOfSaleDifferentFromPointOfSupply
+import com.expedia.bookings.itin.utils.AnimationDirection
 import com.expedia.bookings.utils.FontCache.Font
 import io.reactivex.subjects.PublishSubject
 
-class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingSummaryViewModel where S : HasLifecycleOwner, S : HasStringProvider, S : HasHotelRepo {
+class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingSummaryViewModel where S : HasLifecycleOwner, S : HasStringProvider, S : HasHotelRepo, S : HasActivityLauncher {
     var itinObserver: LiveDataObserver<Itin>
     var hotelObserver: LiveDataObserver<ItinHotel>
 
@@ -28,6 +30,7 @@ class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingS
     override val totalPriceItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create()
     override val totalPriceInPosCurrencyItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create()
     override val currencyDisclaimerSubject: PublishSubject<String> = PublishSubject.create()
+    override val additionalPricingInfoSubject: PublishSubject<Unit> = PublishSubject.create()
 
     init {
         hotelObserver = LiveDataObserver {
@@ -142,6 +145,14 @@ class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingS
                             totalPriceItemSubject.onNext(totalPriceItem)
                         }
                     }
+                }
+            }
+
+            //additional pricing info
+            additionalPricingInfoSubject.subscribe {
+                val tripId = itin?.tripId
+                tripId?.let {
+                    scope.activityLauncher.launchActivity(HotelItinPricingAdditionalInfoActivity, it, AnimationDirection.SLIDE_UP)
                 }
             }
         }

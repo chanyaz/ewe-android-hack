@@ -7,6 +7,7 @@ import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinHotel
 import com.expedia.bookings.itin.utils.AbacusSource
 import com.expedia.bookings.itin.utils.ActivityLauncher
+import com.expedia.bookings.itin.utils.IActivityLauncher
 import com.expedia.bookings.itin.utils.IWebViewLauncher
 import com.expedia.bookings.itin.utils.StringSource
 import com.expedia.bookings.tracking.ITripsTracking
@@ -30,8 +31,9 @@ data class HotelItinToolbarScope(
 data class HotelItinPricingSummaryScope(
         override val itinHotelRepo: ItinHotelRepo,
         override val strings: StringSource,
+        override val activityLauncher: IActivityLauncher,
         override val lifecycleOwner: LifecycleOwner
-) : HasLifecycleOwner, HasStringProvider, HasHotelRepo
+) : HasLifecycleOwner, HasStringProvider, HasHotelRepo, HasActivityLauncher
 
 data class HotelItinViewReceiptScope(
         override val strings: StringSource,
@@ -45,6 +47,12 @@ data class HotelItinTaxiViewModelScope(
         override val itinHotelRepo: ItinHotelRepoInterface,
         override val lifecycleOwner: LifecycleOwner
 ) : HasHotelRepo, HasLifecycleOwner
+
+data class HotelItinPricingAdditionalInfoScope(
+        override val itinHotelRepo: ItinHotelRepoInterface,
+        override val strings: StringSource,
+        override val lifecycleOwner: LifecycleOwner
+) : HasHotelRepo, HasStringProvider, HasLifecycleOwner
 
 data class HotelItinRewardsScope(
         override val strings: StringSource,
