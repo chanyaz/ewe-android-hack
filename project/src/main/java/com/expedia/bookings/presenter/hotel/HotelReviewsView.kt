@@ -6,26 +6,33 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
-import android.widget.FrameLayout
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.extensions.setVisibility
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
+import com.expedia.bookings.hotel.widget.HotelSelectARoomBar
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.hotel.widget.adapter.HotelReviewsAdapter
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.HotelReviewsAdapterViewModel
 import com.expedia.vm.HotelReviewsViewModel
 import kotlin.properties.Delegates
 
-class HotelReviewsView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
+class HotelReviewsView(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs) {
 
     var reviewServices: ReviewsServices by Delegates.notNull()
     val hotelReviewsTabbar: HotelReviewsTabbar by bindView(R.id.hotel_reviews_tabbar)
     val viewPager: ViewPager by bindView(R.id.viewpager)
     val toolbar: Toolbar by bindView(R.id.hotel_reviews_toolbar)
     val reviewsContainer: LinearLayout by bindView(R.id.reviews_container)
+
+    private val selectARoomBar: HotelSelectARoomBar by bindView(R.id.hotel_reviews_select_a_room_bar)
 
     var viewModel: HotelReviewsViewModel by notNullAndObservable { vm ->
         vm.toolbarTitleObservable.subscribe { hotelName ->
@@ -36,6 +43,13 @@ class HotelReviewsView(context: Context, attrs: AttributeSet) : FrameLayout(cont
         }
         vm.hotelIdObservable.subscribe { hotelId ->
             hotelReviewsAdapterViewModel = HotelReviewsAdapterViewModel(hotelId, reviewServices, PointOfSale.getPointOfSale().localeIdentifier)
+        }
+        vm.hotelOfferObservable.subscribe { offer ->
+            selectARoomBar.bindRoomOffer(offer)
+        }
+        vm.soldOutObservable.subscribe { soldOut ->
+            val bucketedForSelectARoom = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelReviewSelectRoomCta)
+            selectARoomBar.setVisibility(!soldOut && bucketedForSelectARoom)
         }
     }
 
@@ -61,6 +75,12 @@ class HotelReviewsView(context: Context, attrs: AttributeSet) : FrameLayout(cont
         toolbar.setNavigationOnClickListener {
             val activity = getContext() as AppCompatActivity
             activity.onBackPressed()
+        }
+        selectARoomBar.setOnClickListener {
+            OmnitureTracking.trackHotelReviewSelectARoomClick()
+            val activity = getContext() as AppCompatActivity
+            activity.onBackPressed()
+            viewModel.scrollToRoomListener.onNext(Unit)
         }
     }
 

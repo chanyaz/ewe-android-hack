@@ -1149,6 +1149,7 @@ public class OmnitureTracking {
 		s.setProp(2, HOTELV2_LOB);
 
 		trackAbacusTest(s, AbacusUtils.HotelUGCTranslations);
+		trackAbacusTest(s, AbacusUtils.HotelReviewSelectRoomCta);
 
 		// Send the tracking data
 		s.track();
@@ -1166,6 +1167,11 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + pageName + "\" click...");
 		AppAnalytics s = createTrackLinkEvent(pageName);
 		s.trackLink("Translate User Review");
+	}
+
+	public static void trackHotelReviewSelectARoomClick() {
+		AppAnalytics appAnalytics = createTrackLinkEvent(HOTELSV2_REVIEWS + ".SelectRoom");
+		appAnalytics.trackLink("Infosite Reviews");
 	}
 
 	public static void trackHotelV2ReviewsCategories(String category) {

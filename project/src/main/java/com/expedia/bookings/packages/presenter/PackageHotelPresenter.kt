@@ -176,6 +176,8 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         val presenter = viewStub.inflate() as HotelReviewsView
         presenter.reviewServices = reviewServices
         presenter.viewModel = HotelReviewsViewModel(getContext(), LineOfBusiness.PACKAGES)
+        detailPresenter.hotelDetailView.viewmodel.hotelSoldOut.subscribe(presenter.viewModel.soldOutObservable)
+        presenter.viewModel.scrollToRoomListener.subscribe(detailPresenter.hotelDetailView.viewmodel.scrollToRoom)
         presenter.hotelReviewsTabbar.slidingTabLayout.addOnTabSelectedListener(slidingTabLayoutListener)
         presenter
     }
