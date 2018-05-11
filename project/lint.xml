@@ -45,20 +45,20 @@
 
     <!-- Category Usability:Icons -->
     <issue id="IconNoDpi" severity="error" />
-    <issue id="IconXmlAndPng" severity="error" />
-    <!-- <issue id="IconColors" severity="error" /> -->
-    <issue id="IconLauncherShape" severity="error" />
+    <!-- <issue id="IconXmlAndPng" severity="error" /> -->
+    <issue id="IconColors" severity="error" /> -->
+    <!-- <issue id="IconLauncherShape" severity="error" /> -->
     <issue id="GifUsage" severity="error" />
     <!-- <issue id="IconDipSize" severity="error" /> -->
     <issue id="IconDuplicatesConfig" severity="error" />
-    <!-- <issue id="IconExpectedSize" severity="error" /> -->
+    <issue id="IconExpectedSize" severity="error" /> -->
     <issue id="IconLocation" severity="error" />
     <issue id="IconMixedNinePatch" severity="error" />
     <issue id="MissingApplicationIcon" severity="error" />
     <!-- <issue id="IconDensities" severity="error" /> -->
     <issue id="IconDuplicates" severity="error" />
     <issue id="IconExtension" severity="error" />
-    <!-- <issue id="IconMissingDensityFolder" severity="error" /> -->
+    <issue id="IconMissingDensityFolder" severity="error" /> -->
 
     <!-- Category Correctness -->
     <issue id="AdapterViewChildren" severity="error" />
@@ -76,7 +76,7 @@
 
     <!--removed check MissingRegistered until we 're ready to 3.1-->
     <!--https://issuetracker.google.com/issues/69711848-->
-    <!--<issue id="MissingRegistered" severity="error" />-->
+    <issue id="MissingRegistered" severity="error" />-->
     <issue id="MockLocation" severity="error" />
     <issue id="NamespaceTypo" severity="error" />
     <issue id="Proguard" severity="error" />
@@ -94,27 +94,27 @@
     <issue id="InconsistentArrays" severity="error" />
     <issue id="NestedScrolling" severity="error" />
     <issue id="ResourceAsColor" severity="error" />
-    <!-- <issue id="ScrollViewSize" severity="error" /> -->
+    <issue id="ScrollViewSize" severity="error" /> -->
     <issue id="TextViewEdits" severity="error" />
     <issue id="WebViewLayout" severity="error" />
     <issue id="AppCompatMethod" severity="error" />
-    <!-- <issue id="Assert" severity="error" /> -->
+    <issue id="Assert" severity="error" /> -->
     <issue id="CommitPrefEdits" severity="error" />
     <issue id="CustomViewStyleable" severity="error" />
     <issue id="CutPasteId" severity="error" />
     <issue id="DefaultLocale" severity="error" />
     <issue id="DuplicateDefinition" severity="error" />
-    <!-- <issue id="DuplicateIncludedIds" severity="error" /> -->
+    <issue id="DuplicateIncludedIds" severity="error" /> -->
     <issue id="GradleDeprecated" severity="error" />
     <issue id="GradleGetter" severity="error" />
-    <!-- <issue id="InconsistentLayout" severity="error" /> -->
+    <issue id="InconsistentLayout" severity="error" /> -->
     <issue id="InlinedApi" severity="error" />
     <issue id="Instantiatable" severity="error" />
     <issue id="InvalidId" severity="error" />
-    <!-- <issue id="InvalidPackage" severity="error" /> -->
+    <issue id="InvalidPackage" severity="error" /> -->
     <issue id="LibraryCustomView" severity="error" />
     <issue id="LocaleFolder" severity="error" />
-    <!-- <issue id="MissingPrefix" severity="error" /> -->
+    <issue id="MissingPrefix" severity="error" /> -->
     <issue id="MultipleUsesSdk" severity="error" />
     <issue id="NewApi" severity="error" />
     <issue id="NotSibling" severity="error" />
@@ -131,12 +131,12 @@
     <issue id="UniquePermission" severity="error" />
     <issue id="UnusedAttribute" severity="error" />
     <issue id="ValidFragment" severity="error" />
-    <!-- <issue id="WrongCall" severity="error" /> -->
+    <issue id="WrongCall" severity="error" /> -->
     <issue id="WrongManifestParent" severity="error" />
     <issue id="DuplicateActivity" severity="error" />
     <issue id="DuplicateUsesFeature" severity="error" />
     <issue id="IncludeLayoutParam" severity="error" />
-    <!-- <issue id="InflateParams" severity="error" /> -->
+    <issue id="InflateParams" severity="error" /> -->
     <issue id="ManifestOrder" severity="error" />
     <issue id="ManifestTypo" severity="error" />
     <issue id="MissingId" severity="error" />
@@ -156,13 +156,13 @@
     <issue id="RequiredSize" severity="error" />
     <issue id="WrongCase" severity="error" />
     <issue id="ExtraText" severity="error" />
-    <!-- <issue id="InnerclassSeparator" severity="error" /> -->
+    <issue id="InnerclassSeparator" severity="error" /> -->
     <issue id="LocalSuppress" severity="error" />
 
     <!-- removed check until https://code.google.com/p/android/issues/detail?id=183851 is resolved -->
-    <!--<issue id="PrivateResource" severity="error" />-->
+    <issue id="PrivateResource" severity="error" />-->
     <issue id="ProguardSplit" severity="error" />
-    <!-- <issue id="SpUsage" severity="error" /> -->
+    <issue id="SpUsage" severity="error" /> -->
     <issue id="AccidentalOctal" severity="error" />
     <issue id="Deprecated" severity="error" />
     <issue id="MangledCRLF" severity="error" />
@@ -173,8 +173,8 @@
         <!-- Ignore all debug resources  -->
         <ignore path="src/debug/res/*" />
     </issue>
-    <issue id="RelativeOverlap" severity="error"></issue>
-    <issue id="SetTextI18n" severity="error"></issue>
+    <issue id="RelativeOverlap" severity="error"/>
+    <issue id="SetTextI18n" severity="error"/>
     <issue id="DrawAllocation" severity="error" />
     <issue id="Recycle" severity="error" />
     <issue id="ObsoleteLayoutParam" severity="error" />
