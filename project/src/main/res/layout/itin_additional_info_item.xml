@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.itin.common.AdditionalInfoItemView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="8dp"
+    android:orientation="vertical">
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/additonal_info_item_heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:textStyle="medium"
+        tools:text="Additional hotel fees" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/additonal_info_item_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/gray600"
+        android:textSize="14sp"
+        app:textStyle="normal"
+        tools:text="The fees and deposits only apply if they are not included in your selected room rate.
+The price shown DOES NOT include any applicable hotel service fees, charges for optional incidentals (such as minibar snacks or telephone calls), or regulatory surcharges. The hotel will assess these fees, charges, and surcharges upon check-out." />
+</com.expedia.bookings.itin.common.AdditionalInfoItemView>
