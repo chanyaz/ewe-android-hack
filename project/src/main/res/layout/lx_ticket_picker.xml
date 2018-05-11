@@ -40,7 +40,7 @@
                 android:layout_marginRight="3dp"
                 android:importantForAccessibility="no"/>
 
-            <TextView
+            <com.expedia.bookings.widget.TextView
                 android:id="@+id/actual_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
