@@ -224,6 +224,20 @@ class FlightFilterViewModelTest {
         testDynamicFeedbackWidgetSubscriber.assertValueAt(2, Pair(3, Money("200", "USD")))
     }
 
+    @Test
+    fun testAirlineFilterTrackingForAA() {
+        setViewModel()
+        vm.selectAirline.onNext("American Airlines")
+        OmnitureTestUtils.assertLinkTracked("Search Results Filter", "App.Flight.Search.Filter.Airline.AmericanAirlines", mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testAirlineFilterTrackingForDelta() {
+        setViewModel()
+        vm.selectAirline.onNext("Delta")
+        OmnitureTestUtils.assertLinkTracked("Search Results Filter", "App.Flight.Search.Filter.Airline.Delta", mockAnalyticsProvider)
+    }
+
     private fun getFlightList(): List<FlightLeg> {
         val list = ArrayList<FlightLeg>()
         val flightLeg1 = FlightLeg()

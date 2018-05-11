@@ -491,9 +491,9 @@ class PackagesTrackingTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackFlightFilterAirlines() {
-        sut.trackFlightFilterAirlines()
-        val controlEvar = mapOf(28 to "App.Package.Flight.Search.Filter.Airline")
-        OmnitureTestUtils.assertLinkTracked("Search Results Filter", "App.Package.Flight.Search.Filter.Airline", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+        sut.trackFlightFilterAirlines("AirIndia")
+        val controlEvar = mapOf(28 to "App.Package.Flight.Search.Filter.Airline.AirIndia")
+        OmnitureTestUtils.assertLinkTracked("Search Results Filter", "App.Package.Flight.Search.Filter.Airline.AirIndia", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
     }
 
     @Test

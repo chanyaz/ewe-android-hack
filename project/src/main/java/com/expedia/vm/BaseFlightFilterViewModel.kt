@@ -407,11 +407,12 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
     val selectAirline = endlessObserver<String> { s ->
         if (userFilterChoices.airlines.isEmpty() || !userFilterChoices.airlines.contains(s)) {
             userFilterChoices.airlines.add(s)
+            val selectedAirlineTag = s.replace("\\s+".toRegex(), "")
+            trackFlightFilterAirlines(selectedAirlineTag)
         } else {
             userFilterChoices.airlines.remove(s)
         }
         handleFiltering()
-        trackFlightFilterAirlines()
     }
 
     val airlinesMoreLessObservable: Observer<Unit> = endlessObserver {
@@ -431,11 +432,11 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
         }
     }
 
-    fun trackFlightFilterAirlines() {
+    fun trackFlightFilterAirlines(selectedAirlineTag: String) {
         if (lob == LineOfBusiness.PACKAGES) {
-            PackagesTracking().trackFlightFilterAirlines()
+            PackagesTracking().trackFlightFilterAirlines(selectedAirlineTag)
         } else if (lob == LineOfBusiness.FLIGHTS_V2) {
-            FlightsV2Tracking.trackFlightFilterAirlines()
+            FlightsV2Tracking.trackFlightFilterAirlines(selectedAirlineTag)
         }
     }
 }

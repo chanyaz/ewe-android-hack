@@ -208,8 +208,8 @@ class PackagesTracking {
         OmnitureTracking.trackPackagesFlightFilterStops(processedStops)
     }
 
-    fun trackFlightFilterAirlines() {
-        OmnitureTracking.trackPackagesFlightFilterAirlines()
+    fun trackFlightFilterAirlines(selectedAirlineTag: String) {
+        OmnitureTracking.trackPackagesFlightFilterAirlines(selectedAirlineTag)
     }
 
     fun trackFlightFilterArrivalDeparture(isDeparture: Boolean) {

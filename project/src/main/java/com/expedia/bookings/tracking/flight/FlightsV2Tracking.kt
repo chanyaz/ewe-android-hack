@@ -100,8 +100,8 @@ object FlightsV2Tracking {
         OmnitureTracking.trackFlightFilterStops(processedStops)
     }
 
-    fun trackFlightFilterAirlines() {
-        OmnitureTracking.trackFlightFilterAirlines()
+    fun trackFlightFilterAirlines(selectedAirlineTag: String) {
+        OmnitureTracking.trackFlightFilterAirlines(selectedAirlineTag)
     }
 
     fun trackFlightFilterDone(flightLegs: List<FlightLeg>) {

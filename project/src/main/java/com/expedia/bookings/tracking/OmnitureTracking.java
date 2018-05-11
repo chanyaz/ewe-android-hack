@@ -4581,9 +4581,9 @@ public class OmnitureTracking {
 	private static final String PACKAGES_FLIGHT_SORT_FILTER_LOAD = "App.Package.Flight.Search.Filter";
 	private static final String PACKAGES_FLIGHT_SORTBY_TEMPLATE = "App.Package.Flight.Search.Sort.";
 	private static final String PACKAGES_FLIGHT_FILTER_STOPS_TEMPLATE = "App.Package.Flight.Search.Filter.";
-	private static final String PACKAGES_FLIGHT_AIRLINES = "App.Package.Flight.Search.Filter.Airline";
 	private static final String PACKAGES_FLIGHT_FILTER_TIME_TEMPLATE = "App.Package.Flight.Search.Filter.Time.";
 	private static final String PACKAGES_FLIGHT_FILTER_DURATION = "App.Package.Flight.Search.Filter.Duration";
+	private static final String PACKAGES_FLIGHT_FILTER_AIRLINES_TEMPLATE = "App.Package.Flight.Search.Filter.Airline.";
 
 	private static final String PACKAGES_SHOPPING_ERROR = "App.Package.Shopping.Error";
 	private static final String PACKAGES_CHECKOUT_ERROR = "App.Package.Checkout.Error";
@@ -5094,8 +5094,8 @@ public class OmnitureTracking {
 		createAndTrackLinkEvent(PACKAGES_FLIGHT_FILTER_STOPS_TEMPLATE + stops, "Search Results Filter");
 	}
 
-	public static void trackPackagesFlightFilterAirlines() {
-		createAndTrackLinkEvent(PACKAGES_FLIGHT_AIRLINES, "Search Results Filter");
+	public static void trackPackagesFlightFilterAirlines(String selectedAirlineTag) {
+		createAndTrackLinkEvent(PACKAGES_FLIGHT_FILTER_AIRLINES_TEMPLATE + selectedAirlineTag, "Search Results Filter");
 	}
 
 	public static void trackPackagesFlightFilterArrivalDeparture(boolean isDeparture) {
@@ -5246,7 +5246,7 @@ public class OmnitureTracking {
 	private static final String FLIGHTS_V2_FLIGHT_FILTER_ZERO_RESULTS = "App.Flight.Search.Filter.ZeroResult";
 	private static final String FLIGHTS_V2_FLIGHT_FILTER_DURATION = "App.Flight.Search.Filter.Duration";
 	private static final String FLIGHTS_V2_FLIGHT_FILTER_TIME_TEMPLATE = "App.Flight.Search.Filter.Time.";
-	private static final String FLIGHTS_V2_FLIGHT_AIRLINES = "App.Flight.Search.Filter.Airline";
+	private static final String FLIGHTS_V2_FLIGHT_FILTER_AIRLINES_TEMPLATE = "App.Flight.Search.Filter.Airline.";
 	private static final String FLIGHTS_V2_RATE_DETAILS = "App.Flight.RateDetails";
 	private static final String FLIGHTS_V2_DETAILS_EXPAND = "App.Flight.RD.Details.";
 	private static final String FLIGHTS_V2_FARE_FAMILY_UPGRADE_FLIGHT = "App.Flight.RD.UpgradeFlights";
@@ -5936,8 +5936,8 @@ public class OmnitureTracking {
 		createAndTrackLinkEvent(FLIGHTS_V2_FILTER_STOPS_TEMPLATE + stops, "Search Results Filter");
 	}
 
-	public static void trackFlightFilterAirlines() {
-		createAndTrackLinkEvent(FLIGHTS_V2_FLIGHT_AIRLINES, "Search Results Filter");
+	public static void trackFlightFilterAirlines(String selectedAirlineTag) {
+		createAndTrackLinkEvent(FLIGHTS_V2_FLIGHT_FILTER_AIRLINES_TEMPLATE + selectedAirlineTag, "Search Results Filter");
 	}
 
 	public static void trackFlightFilterZeroResults() {
