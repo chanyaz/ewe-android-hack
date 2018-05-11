@@ -27,20 +27,16 @@ class HotelItinPricingAdditionalInfoViewModel<out S>(val scope: S) : ItinPricing
             val paymentsAndCreditFees = hotel?.paymentsAndCreditFees
             val hotelPropertyInfo = hotel?.hotelPropertyInfo
 
-            val paymentFeeDisclaimer = paymentsAndCreditFees?.paymentsHotelFeesAndDepositsDisclaimer
-            paymentFeeDisclaimer?.let {
+            paymentsAndCreditFees?.paymentsHotelFeesAndDepositsDisclaimer?.let {
                 stringBuilder.append(it)
             }
-            val noFeesStaticText = paymentsAndCreditFees?.noFeesStaticText
-            noFeesStaticText?.let {
+            paymentsAndCreditFees?.noFeesStaticText?.let {
                 stringBuilder.append(it)
             }
-            val fees = hotelPropertyInfo?.fees
-            fees?.forEach {
+            hotelPropertyInfo?.fees?.forEach {
                 stringBuilder.append(it)
             }
-            val mandatoryFees = hotelPropertyInfo?.mandatoryFees
-            mandatoryFees?.forEach {
+            hotelPropertyInfo?.mandatoryFees?.forEach {
                 stringBuilder.append(it)
             }
 
@@ -57,8 +53,7 @@ class HotelItinPricingAdditionalInfoViewModel<out S>(val scope: S) : ItinPricing
             //taxes and fees
             stringBuilder = StringBuilder()
 
-            val taxesAndFeesInfo = rules?.taxesAndFeesInfo
-            taxesAndFeesInfo?.let {
+            rules?.taxesAndFeesInfo?.let {
                 stringBuilder.append(it)
             }
             if (!stringBuilder.isBlank()) {
@@ -69,16 +64,13 @@ class HotelItinPricingAdditionalInfoViewModel<out S>(val scope: S) : ItinPricing
                 listOfInfoItems.add(taxesAndFees)
             }
 
-
             //guest charges and room capacity
             stringBuilder = StringBuilder()
 
-            val occupancyPolicies = rules?.occupancyPolicies
-            occupancyPolicies?.forEach {
+            rules?.occupancyPolicies?.forEach {
                 stringBuilder.append(it)
             }
-            val extraGuestPolicies = rules?.extraGuestPolicies
-            extraGuestPolicies?.forEach {
+            rules?.extraGuestPolicies?.forEach {
                 stringBuilder.append(it)
             }
 

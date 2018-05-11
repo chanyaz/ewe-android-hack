@@ -7,12 +7,8 @@ import com.expedia.bookings.R
 class ActivityLauncher(val context: Context) : IActivityLauncher {
     override fun launchActivity(intentable: Intentable, id: String, animationDirection: AnimationDirection) {
         when (animationDirection) {
-            AnimationDirection.SLIDE_RIGHT -> {
-                context.startActivity(intentable.createIntent(context, id), slideRightAnimation)
-            }
-            AnimationDirection.SLIDE_UP -> {
-                context.startActivity(intentable.createIntent(context, id), slideUpAnimation)
-            }
+            AnimationDirection.SLIDE_RIGHT -> context.startActivity(intentable.createIntent(context, id), slideRightAnimation)
+            AnimationDirection.SLIDE_UP -> context.startActivity(intentable.createIntent(context, id), slideUpAnimation)
         }
     }
 
