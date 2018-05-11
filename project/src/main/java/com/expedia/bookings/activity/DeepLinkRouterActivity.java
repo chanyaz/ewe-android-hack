@@ -121,6 +121,8 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		TrackingUtils.initializeTracking(this.getApplication());
+
 		deepLinkParser = new DeepLinkParser(this.getAssets());
 		userStateManager = Ui.getApplication(this).appComponent().userStateManager();
 
@@ -134,8 +136,6 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 
 	@VisibleForTesting
 	protected void handleDeeplink() {
-		TrackingUtils.initializeTracking(this.getApplication());
-
 		if (ProductFlavorFeatureConfiguration.getInstance().isFirebaseEnabled()) {
 			handleDeeplinkFromFirebase();
 		}
