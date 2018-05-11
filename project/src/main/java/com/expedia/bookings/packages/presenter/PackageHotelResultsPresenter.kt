@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.extensions.subscribeContentDescription
 import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.hotel.animation.transition.VerticalTranslateTransition
@@ -24,10 +25,12 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
 import com.expedia.bookings.utils.isHideMiniMapOnResultBucketed
 import com.expedia.bookings.utils.isPackagesHSRPriceDisplayEnabled
+import com.expedia.bookings.utils.isServerSideFilteringEnabledForPackages
 import com.expedia.bookings.widget.BaseHotelFilterView
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.HotelClientFilterView
+import com.expedia.bookings.widget.PackageHotelServerFilterView
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.squareup.phrase.Phrase
@@ -50,6 +53,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
     var viewModel: PackageHotelResultsViewModel by notNullAndObservable { vm ->
         baseViewModel = vm
         vm.hotelResultsObservable.subscribe(listResultsObserver)
+        vm.filterResultsObservable.subscribe(listResultsObserver)
         if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
             val filterStub = findViewById<ViewStub>(R.id.filter_stub)
             val filterStubInflated = filterStub.inflate()
@@ -82,11 +86,29 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
             (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).shopWithPoints = params.shopWithPoints
 
             moveMapToDestination(params.suggestion)
-            showLoading()
-            show(ResultsList())
+            resultsLoadingAnimation()
+            params.filterOptions?.let { filterOptions ->
+                filterViewModel.updatePresetOptions(filterOptions)
+            }
+            if (isNotFilterSearch(params)) {
+                filterViewModel.clearObservable.onNext(Unit)
+                filterView.sortByObserver.onNext(params.suggestion.isCurrentLocationSearch && !params.suggestion.isGoogleSuggestionSearch)
+            }
+        }
+    }
 
-            filterView.sortByObserver.onNext(params.suggestion.isCurrentLocationSearch && !params.suggestion.isGoogleSuggestionSearch)
-            filterViewModel.clearObservable.onNext(Unit)
+    private fun isNotFilterSearch(params: HotelSearchParams): Boolean {
+        return params.filterOptions!!.isEmpty()
+    }
+
+    private fun resultsLoadingAnimation() {
+        if (previousWasList) {
+            showLoading()
+            show(ResultsList(), FLAG_CLEAR_TOP)
+        } else {
+            showMapLoadingOverlay()
+            show(ResultsMap(), FLAG_CLEAR_TOP)
+            mapWidget.clearMarkers()
         }
     }
 
@@ -107,8 +129,13 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
     }
 
     override fun inflateFilterView(viewStub: ViewStub): BaseHotelFilterView {
-        viewStub.layoutResource = R.layout.hotel_client_filter_stub
-        return viewStub.inflate() as HotelClientFilterView
+        if (isServerSideFilteringEnabledForPackages(context)) {
+            viewStub.layoutResource = R.layout.package_hotel_server_filter_view_stub
+            return viewStub.inflate() as PackageHotelServerFilterView
+        } else {
+            viewStub.layoutResource = R.layout.hotel_client_filter_stub
+            return viewStub.inflate() as HotelClientFilterView
+        }
     }
 
     override fun hideSearchThisArea() {

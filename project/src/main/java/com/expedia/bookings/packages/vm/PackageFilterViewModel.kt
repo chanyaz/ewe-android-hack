@@ -1,11 +1,14 @@
 package com.expedia.bookings.packages.vm
 
 import android.content.Context
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.data.packages.PackageHotelFilterOptions
 import com.expedia.bookings.tracking.PackagesFilterTracker
 import com.expedia.bookings.tracking.hotel.FilterTracker
+import com.expedia.bookings.utils.isServerSideFilteringEnabledForPackages
 import com.expedia.util.endlessObserver
 import com.expedia.bookings.hotel.vm.BaseHotelFilterViewModel
 import io.reactivex.subjects.PublishSubject
@@ -37,7 +40,6 @@ class PackageFilterViewModel(context: Context) : BaseHotelFilterViewModel(contex
         }
 
         if (filteredResponse.hotelList != null && filteredResponse.hotelList.isNotEmpty()) {
-            filteredResponse.isFilteredResponse = true
             filterObservable.onNext(filteredResponse)
         } else {
             filteredZeroResultObservable.onNext(Unit)
@@ -46,15 +48,20 @@ class PackageFilterViewModel(context: Context) : BaseHotelFilterViewModel(contex
 
     init {
         sortByObservable.subscribe(sortSpinnerObservable)
-        sortByObservable.subscribe(sortObserver)
-
-        doneObservable.subscribe {
-            sortByObservable.onNext(userFilterChoices.userSort)
+        if (isClientSideFiltering()) {
+            sortByObservable.subscribe(sortObserver)
+            doneObservable.subscribe {
+                sortByObservable.onNext(userFilterChoices.userSort)
+            }
         }
 
         clearObservable.subscribe {
             setFilteredHotelListAndRetainLoyaltyInformation(originalResponse?.hotelList.orEmpty())
-            previousSortType = DisplaySort.RECOMMENDED //the original response is always sorted by Recommended
+            previousSortType = DisplaySort.RECOMMENDED
+            var paramsAfterReset = Db.sharedInstance.packageParams
+            paramsAfterReset.filterOptions = PackageHotelFilterOptions()
+            Db.setPackageParams(paramsAfterReset)
+            presetFilterOptions = false
         }
     }
 
@@ -73,7 +80,9 @@ class PackageFilterViewModel(context: Context) : BaseHotelFilterViewModel(contex
         val dynamicFeedbackWidgetCount = if (filterCount > 0) filteredResponse.hotelList.size else -1
         updateDynamicFeedbackWidget.onNext(dynamicFeedbackWidgetCount)
 
-        doneButtonEnableObservable.onNext(filteredResponse.hotelList.size > 0)
+        if (isClientSideFiltering()) {
+            doneButtonEnableObservable.onNext(filteredResponse.hotelList.size > 0)
+        }
     }
 
     override fun isFilteredToZeroResults(): Boolean {
@@ -89,7 +98,7 @@ class PackageFilterViewModel(context: Context) : BaseHotelFilterViewModel(contex
     }
 
     override fun isClientSideFiltering(): Boolean {
-        return true
+        return !isServerSideFilteringEnabledForPackages(context)
     }
 
     private fun setFilteredHotelListAndRetainLoyaltyInformation(hotelList: List<Hotel>) {

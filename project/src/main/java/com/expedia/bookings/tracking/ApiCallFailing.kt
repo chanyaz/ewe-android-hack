@@ -17,6 +17,7 @@ sealed class ApiCallFailing(val apiCall: String, val errorCode: String) {
     class PackageHotelRoomChange(val code: String) : ApiCallFailing("PACKAGE_HOTEL_ROOM_CHANGE", code)
     class PackageFlightOutboundChange(val code: String) : ApiCallFailing("PACKAGE_FLIGHT_OUTBOUND_CHANGE", code)
     class PackageFlightInboundChange(val code: String) : ApiCallFailing("PACKAGE_FLIGHT_INBOUND_CHANGE", code)
+    class PackageFilterSearch(val code: String) : ApiCallFailing("PACKAGE_FILTERS_SEARCH", code)
 
     fun getErrorStringForTracking() = "$errorCode|$apiCall"
 }

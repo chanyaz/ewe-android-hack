@@ -4491,6 +4491,7 @@ public class OmnitureTracking {
 	private static final String PACKAGES_SEARCH_TRAVELER_PICKER_CLICK_TEMPLATE = "App.Package.Traveler.";
 	private static final String PACKAGES_SEATING_CLASS_SELECT = "App.Packages.DS.SeatingClass";
 	private static final String PACKAGES_HOTEL_SEARCH_RESULT_LOAD = "App.Package.Hotels.Search";
+	private static final String PACKAGES_HOTEL_SEARCH_RESULT_FILTERS_LOAD = "App.Package.Hotels.Search.Filtered";
 	private static final String PACKAGES_HOTEL_SEARCH_ZERO_RESULT_LOAD = "App.Package.Hotels-Search.NoResults";
 	private static final String PACKAGES_HOTEL_SEARCH_SPONSORED_PRESENT = "App.Package.Hotels.Search.Sponsored.YES";
 	private static final String PACKAGES_HOTEL_SEARCH_SPONSORED_NOT_PRESENT = "App.Package.Hotels.Search.Sponsored.NO";
@@ -4538,6 +4539,7 @@ public class OmnitureTracking {
 	private static final String PACKAGES_HOTELS_FILTER_NEIGHBOURHOOD = "App.Package.Hotels.Search.Neighborhood";
 	private static final String PACKAGES_HOTELS_FILTER_BY_NAME = "App.Package.Hotels.Search.HotelName";
 	private static final String PACKAGES_HOTELS_FILTER_CLEAR = "App.Package.Hotels.Search.ClearFilter";
+	private static final String PACKAGES_HOTELS_FILTER_APPLIED = "App.Package.Hotels.Search.Filter.Apply";
 
 	private static final String PACKAGES_BUNDLE_VIEW_OVERVIEW_LOAD = "App.Package.BundleView";
 	private static final String PACKAGES_BUNDLE_VIEW_TAP = "App.Package.BundleWidget.Tap";
@@ -4717,6 +4719,19 @@ public class OmnitureTracking {
 		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_SEARCH_MAP_LOAD, null);
 	}
 
+	public static void trackPackageFilteredHSRLoad(BundleSearchResponse response, PageUsableData pageUsableData) {
+		AppAnalytics s = getFreshTrackingObject();
+		if (response.getHotelResultsCount() > 0) {
+			Log.d(TAG, "Tracking \"" + PACKAGES_HOTEL_SEARCH_RESULT_FILTERS_LOAD + "\"");
+			s.setAppState(PACKAGES_HOTEL_SEARCH_RESULT_FILTERS_LOAD);
+			s.setEvar(18, PACKAGES_HOTEL_SEARCH_RESULT_FILTERS_LOAD);
+			addPackagesCommonFields(s);
+			s.setProp(1, String.valueOf(response.getHotelResultsCount()));
+			addPageLoadTimeTrackingEvents(s, pageUsableData);
+		}
+		s.track();
+	}
+
 	public static void trackPackagesHSRLoad(BundleSearchResponse response, PageUsableData pageUsableData) {
 		AppAnalytics s = getFreshTrackingObject();
 
@@ -4760,7 +4775,6 @@ public class OmnitureTracking {
 					.getCabinCodeFromMIDParam(packageSearchParams.getFlightCabinClass()).name();
 				evar47String.append("|" + FlightServiceClassType.getCabinClassTrackCode(cabinCodeName));
 			}
-
 			s.setEvar(47, evar47String.toString());
 
 			// Freeform location
@@ -5176,6 +5190,10 @@ public class OmnitureTracking {
 
 	public static void trackPackagesHotelClearFilter() {
 		createAndTrackLinkEvent(PACKAGES_HOTELS_FILTER_CLEAR, "Search Results Sort");
+	}
+
+	public static void trackPackagesHotelFilterApplied() {
+		createAndTrackLinkEvent(PACKAGES_HOTELS_FILTER_APPLIED, "Search Results Sort");
 	}
 
 	public static void trackPackagesBundleEditClick() {

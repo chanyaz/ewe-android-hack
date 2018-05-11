@@ -84,8 +84,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     var filterButtonText: TextView by Delegates.notNull()
     val recyclerView: HotelListRecyclerView by bindView(R.id.list_view)
     val mapWidget: HotelResultsMapWidget by bindView(R.id.results_map_container)
-    open val loadingOverlay: MapLoadingOverlayWidget? = null
-
+    val loadingOverlay: MapLoadingOverlayWidget by bindView(R.id.map_loading_overlay)
     val toolbar: Toolbar by bindView(R.id.hotel_results_toolbar)
     val toolbarTitle: android.widget.TextView by bindView(R.id.title)
     val toolbarSubtitle: android.widget.TextView by bindView(R.id.subtitle)
@@ -281,6 +280,28 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
     }
 
+    fun showUnfilteredResults() {
+        filterViewModel.clearObservable.onNext(Unit)
+        baseViewModel.clearCachedParamsFilterOptions()
+
+        val currentSearchParams = baseViewModel.getSearchParams()
+        val cachedUnfilteredResponse = filterViewModel.originalResponse
+
+        if (cachedUnfilteredResponse == null) {
+            if (currentSearchParams == null) {
+                baseViewModel.hotelResultsObservable.onNext(adapter.resultsSubject.value)
+            } else {
+                baseViewModel.paramsSubject.onNext(currentSearchParams)
+            }
+        } else {
+            if (currentSearchParams != null && !currentSearchParams.equalIgnoringFilter(filterViewModel.lastUnfilteredSearchParams)) {
+                baseViewModel.paramsSubject.onNext(currentSearchParams)
+            } else {
+                baseViewModel.hotelResultsObservable.onNext(cachedUnfilteredResponse)
+            }
+        }
+    }
+
     override fun back(): Boolean {
         if (ResultsFilter().javaClass.name == currentState) {
             if (filterViewModel.isFilteredToZeroResults()) {
@@ -293,7 +314,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         } else if (ResultsMap().javaClass.name == currentState) {
             trackMapToList()
         }
-
         return super.back()
     }
 
@@ -307,15 +327,13 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         recyclerView.adapter = adapter
         filterView.initViewModel(filterViewModel)
         filterViewModel.filterObservable.subscribe(filterObserver)
-
         filterViewModel.showPreviousResultsObservable.subscribe {
-            if (previousWasList) {
-                show(ResultsList(), Presenter.FLAG_CLEAR_TOP)
-                resetListOffset()
-            } else {
-                show(ResultsMap(), Presenter.FLAG_CLEAR_TOP)
-                animateMapCarouselOut()
-            }
+            handleHotelsResultsTransition()
+        }
+
+        filterViewModel.filterChoicesObservable.subscribe { filterChoices ->
+            baseViewModel.filterChoicesSubject.onNext(filterChoices)
+            handleHotelsResultsTransition()
         }
 
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
@@ -345,15 +363,39 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         })
     }
 
-    protected fun hideMapLoadingOverlay() {
-        if (loadingOverlay != null && loadingOverlay?.visibility == View.VISIBLE) {
-            loadingOverlay?.animate(false)
-            loadingOverlay?.visibility = View.GONE
+    private fun handleHotelsResultsTransition() {
+        if (previousWasList) {
+            animateResultsList()
+        } else {
+            animateResultsMap()
         }
+    }
+
+    private fun animateResultsList() {
+        show(ResultsList(), Presenter.FLAG_CLEAR_TOP)
+        resetListOffset()
+    }
+
+    private fun animateResultsMap() {
+        show(ResultsMap(), Presenter.FLAG_CLEAR_TOP)
+        animateMapCarouselOut()
+    }
+
+    protected fun hideMapLoadingOverlay() {
+        if (loadingOverlay.visibility == View.VISIBLE) {
+            loadingOverlay.animate(false)
+            loadingOverlay.visibility = View.GONE
+        }
+    }
+
+    fun showMapLoadingOverlay() {
+        loadingOverlay.animate(true)
+        loadingOverlay.visibility = View.VISIBLE
     }
 
     override fun onFinishInflate() {
         super.onFinishInflate()
+        ViewCompat.setElevation(loadingOverlay, context.resources.getDimension(R.dimen.launch_tile_margin_side))
         // add the view of same height as of status bar
         val statusBarHeight = Ui.getStatusBarHeight(context)
         if (statusBarHeight > 0) {
@@ -580,7 +622,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             recyclerView.visibility = View.VISIBLE
             resetListOffset()
 
-            loadingOverlay?.visibility = View.GONE
+            loadingOverlay.visibility = View.GONE
             mapCarouselContainer.visibility = View.INVISIBLE
             searchThisArea?.visibility = View.GONE
             fab.visibility = View.INVISIBLE

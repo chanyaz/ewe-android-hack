@@ -23,6 +23,7 @@ import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.MIDItinDetailsResponse
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.packages.PackagesPageUsableData
@@ -30,6 +31,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.extensions.safeSubscribeOptional
 import com.expedia.bookings.packages.activity.PackageActivity
+import com.expedia.bookings.packages.activity.PackageHotelActivity
 import com.expedia.bookings.packages.util.PackageServicesManager
 import com.expedia.bookings.packages.vm.BundleOverviewViewModel
 import com.expedia.bookings.packages.vm.PackageConfirmationViewModel
@@ -187,11 +189,14 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
                 searchPresenter.showDefault()
             }
         }
-        presenter.getViewModel().filterNoResultsObservable.subscribe() {
-            // TODO call and implement showUnfilteredResults()
-        }
 
         hotelOffersErrorObservable.subscribe(presenter.getViewModel().hotelOffersApiErrorObserver)
+        filterSearchErrorObservable.subscribe(presenter.getViewModel().packageSearchApiErrorObserver)
+
+        presenter.getViewModel().filterNoResultsObservable.subscribe {
+            show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
+            resetFilterSearchShowUnfilteredResults()
+        }
         presenter.getViewModel().checkoutUnknownErrorObservable.subscribe {
             show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
             bundlePresenter.showCheckout()
@@ -219,7 +224,18 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         }
         presenter
     }
+
+    private fun resetFilterSearchShowUnfilteredResults() {
+        val intent = Intent(context, PackageHotelActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+
+        val activity = context as Activity
+        activity.startActivityForResult(intent, Constants.HOTEL_REQUEST_CODE, null)
+        activity.overridePendingTransition(0, 0)
+    }
+
     val hotelOffersErrorObservable = PublishSubject.create<Pair<ApiError.Code, ApiCallFailing>>()
+    val filterSearchErrorObservable = PublishSubject.create<Pair<PackageApiError.Code, ApiCallFailing>>()
 
     private val ANIMATION_DURATION = 400
 
@@ -266,6 +282,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         if (midAPIEnabled) {
             itinTripServices = Ui.getApplication(context).packageComponent().itinTripServices()
         }
+        filterSearchErrorObservable.subscribe { show(errorPresenter) }
     }
 
     override fun onFinishInflate() {

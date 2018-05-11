@@ -234,5 +234,15 @@ fun convertPackageToSearchParams(packageParams: PackageSearchParams, maxStay: In
     val builder = HotelSearchParams.Builder(maxStay, maxRange).destination(packageParams.destination)
             .startDate(packageParams.startDate).endDate(packageParams.endDate).adults(packageParams.adults)
             .children(packageParams.children) as HotelSearchParams.Builder
-    return builder.forPackage(true).build()
+    return addPackageFilterParams(builder, packageParams.filterOptions).forPackage(true).build()
+}
+
+private fun addPackageFilterParams(builder: HotelSearchParams.Builder, filterOptions: BaseHotelFilterOptions?): HotelSearchParams.Builder {
+    filterOptions?.takeUnless { it.isEmpty() }?.let {
+        it.filterHotelName?.let { builder.hotelName(it) }
+        it.userSort?.let { builder.userSort(it) }
+        builder.vipOnly(it.filterVipOnly)
+        builder.starRatings(it.filterStarRatings)
+    }
+    return builder
 }

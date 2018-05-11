@@ -36,4 +36,8 @@ class HotelFilterTracker : FilterTracker {
     override fun trackHotelFilterAmenity(amenity: String) {
         HotelTracking.trackLinkHotelAmenityFilter(amenity)
     }
+
+    override fun trackHotelFilterApplied() {
+        //Only needed for packages
+    }
 }

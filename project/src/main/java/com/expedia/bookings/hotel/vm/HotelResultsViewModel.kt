@@ -26,15 +26,11 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
         BaseHotelResultsViewModel(context) {
 
     // inputs
-    val filterChoicesSubject = PublishSubject.create<UserFilterChoices>()
     val locationParamsSubject = PublishSubject.create<SuggestionV4>()
     val dateChangedParamsSubject = PublishSubject.create<HotelStayDates>()
 
     // outputs
     val searchInProgressSubject = PublishSubject.create<Unit>()
-
-    val filterResultsObservable = PublishSubject.create<HotelSearchResponse>()
-
     val searchingForHotelsDateTime = PublishSubject.create<Unit>()
     val resultsReceivedDateTimeObservable = PublishSubject.create<Unit>()
 
@@ -94,10 +90,6 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
 
     fun unsubscribeSearchResponse() {
         hotelSearchManager.dispose()
-    }
-
-    fun getSearchParams(): HotelSearchParams? {
-        return cachedParams
     }
 
     private fun setupSearchSubscriptions() {

@@ -5,9 +5,11 @@ import com.expedia.bookings.data.BaseHotelFilterOptions
 import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.hotel.PriceRange
 import com.expedia.bookings.data.hotel.UserFilterChoices
+import com.expedia.bookings.data.hotels.HotelFilterOptions
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.Neighborhood
+import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.hotel.data.Amenity
 import com.expedia.bookings.hotel.widget.OnHotelAmenityFilterChangedListener
 import com.expedia.bookings.hotel.widget.OnHotelNameFilterChangedListener
@@ -57,14 +59,35 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     private var shouldTrackFilterPriceSlider = true
 
     var neighborhoodsExist = false
+    val presetFilterOptionsUpdatedSubject = PublishSubject.create<UserFilterChoices>()
+    var presetFilterOptions = false
+    var previousFilterChoices: UserFilterChoices? = null
 
     init {
+        if (!isClientSideFiltering()) {
+            doneButtonEnableObservable.onNext(true)
+            doneObservable.subscribe {
+                filterCountObservable.onNext(userFilterChoices.filterCount())
+                if (defaultFilterOptions() && !presetFilterOptions) {
+                    originalResponse?.let {
+                        filterObservable.onNext(it)
+                    }
+                } else if (sameFilterOptions()) {
+                    showPreviousResultsObservable.onNext(Unit)
+                } else {
+                    filterChoicesObservable.onNext(userFilterChoices)
+                }
+                previousFilterChoices = userFilterChoices.copy()
+            }
+        }
+
         clearObservable.subscribe {
             resetUserFilters()
             doneButtonEnableObservable.onNext(true)
             filterCountObservable.onNext(userFilterChoices.filterCount())
             finishClear.onNext(Unit)
             sendNewPriceRange()
+            previousFilterChoices = null
         }
     }
 
@@ -106,6 +129,12 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
             updateFilterCountAndHandleFiltering()
         }
     }
+    private fun sameFilterOptions(): Boolean {
+        if (previousFilterChoices != null) {
+            return userFilterChoices == previousFilterChoices
+        }
+        return false
+    }
 
     val onHotelGuestRatingFilterChangedListener = object : OnHotelGuestRatingFilterChangedListener {
         override fun onHotelGuestRatingFilterChanged(guestRatingValue: GuestRatingValue, selected: Boolean, doTracking: Boolean) {
@@ -142,7 +171,6 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
                 trackHotelFilterPriceSlider()
                 shouldTrackFilterPriceSlider = false
             }
-
             updateFilterCountAndHandleFiltering()
         }
     }
@@ -152,7 +180,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
 
         override
         fun onHotelNameFilterChanged(hotelName: CharSequence, doTracking: Boolean) {
-            userFilterChoices.name = hotelName.toString()
+            userFilterChoices.name = hotelName.trim().toString()
 
             if (doTracking && hotelName.length == 1 && !trackingDone) {
                 trackingDone = true
@@ -345,6 +373,13 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         filterTracker.trackHotelFilterAmenity(amenity.toString())
     }
 
+    fun trackHotelFilterApplied() {
+        filterTracker.trackHotelFilterApplied()
+        if (!isClientSideFiltering()) {
+            PackagesPageUsableData.HOTEL_FILTERED_RESULTS.pageUsableData.markPageLoadStarted()
+        }
+    }
+
     private fun updateFilterCount() {
         filterCountObservable.onNext(userFilterChoices.filterCount())
     }
@@ -362,5 +397,13 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         userFilterChoices.neighborhoods = HashSet()
     }
 
-    open fun updatePresetOptions(filterOptions: BaseHotelFilterOptions) {}
+    fun updatePresetOptions(filterOptions: BaseHotelFilterOptions) {
+        presetFilterOptions = false
+        if (filterOptions.isNotEmpty() && filterOptions is HotelFilterOptions) {
+            val filterChoices = UserFilterChoices.fromHotelFilterOptions(filterOptions)
+            previousFilterChoices = filterChoices
+            presetFilterOptions = true
+            presetFilterOptionsUpdatedSubject.onNext(filterChoices)
+        }
+    }
 }

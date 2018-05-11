@@ -10,4 +10,5 @@ interface FilterTracker {
     fun trackHotelFilterNeighborhood()
     fun trackHotelRefineRating(rating: String)
     fun trackHotelFilterAmenity(amenity: String)
+    fun trackHotelFilterApplied()
 }

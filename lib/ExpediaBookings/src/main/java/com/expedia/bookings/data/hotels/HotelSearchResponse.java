@@ -27,10 +27,11 @@ public class HotelSearchResponse extends BaseApiResponse {
 	public static class AmenityOptions {
 	}
 
-	public static HotelSearchResponse convertPackageToSearchResponse(BundleSearchResponse packageSearchResponse) {
+	public static HotelSearchResponse convertPackageToSearchResponse(BundleSearchResponse packageSearchResponse, Boolean isFilteredResponse) {
 		HotelSearchResponse response = new HotelSearchResponse();
 		response.hotelList = packageSearchResponse.getHotels();
 		response.userPriceType = HotelRate.UserPriceType.PACKAGES;
+		response.isFilteredResponse = isFilteredResponse;
 		return response;
 	}
 

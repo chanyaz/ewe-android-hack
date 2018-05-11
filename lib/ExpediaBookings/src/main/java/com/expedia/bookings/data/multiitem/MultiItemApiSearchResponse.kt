@@ -229,6 +229,10 @@ data class MultiItemApiSearchResponse(
         return null
     }
 
+    override fun getFirstFlightPIID(): String {
+        return flights.values.first().piid
+    }
+
     override fun getSelectedFlightReferenceTotalPriceFromPIID(piid: String?): Money? {
         val flight = flights.values.firstOrNull { offer ->
             offer.piid == piid

@@ -62,7 +62,7 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
                 adults = params.adults,
                 childAges = params.childAges,
                 infantsInSeats = params.infantsInSeats,
-                flightPIID = if (params.isChangePackageSearch()) params.latestSelectedOfferInfo.flightPIID else null,
+                flightPIID = if (params.isChangePackageSearch() || params.isHotelFilterSearch()) params.latestSelectedOfferInfo.flightPIID else null,
                 cabinClass = params.flightCabinClass,
                 filterParams = params.filterOptions?.getFiltersQueryMap())
                 .observeOn(observeOn)

@@ -8,7 +8,6 @@ import android.graphics.PorterDuff
 import android.graphics.Rect
 import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
-import android.support.v4.view.ViewCompat
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
@@ -45,7 +44,6 @@ import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.HotelResultsChangeDateView
 import com.expedia.bookings.widget.HotelServerFilterView
-import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
@@ -69,7 +67,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     val filterBtnWithCountWidget: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     private val narrowResultsPromptView: TextView by bindView(R.id.narrow_result_prompt)
     override val searchThisArea: TextView by bindView(if (shouldUsePill()) R.id.search_this_area_pill else R.id.search_this_area)
-    override val loadingOverlay: MapLoadingOverlayWidget by bindView(R.id.map_loading_overlay)
     private var narrowFilterPromptSubscription: Disposable? = null
     private var swpEnabled = false
     private var isSearchThisAreaJustTapped = false
@@ -192,17 +189,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             filterViewModel.clearObservable.onNext(Unit)
             viewModel.clearCachedParamsFilterOptions()
         }
-
-        vm.filterChoicesSubject.subscribe {
-            if (previousWasList) {
-                show(ResultsList(), Presenter.FLAG_CLEAR_TOP)
-                resetListOffset()
-            } else {
-                show(ResultsMap(), Presenter.FLAG_CLEAR_TOP)
-                getFloatingButton().isEnabled = false
-                animateMapCarouselOut()
-            }
-        }
         vm.paramsSubject.map { it.isCurrentLocationSearch() }.subscribe(filterViewModel.isCurrentLocationSearch)
 
         vm.errorObservable.subscribe { hideMapLoadingOverlay() }
@@ -251,7 +237,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         if (shouldFetchUrgency()) {
             urgencyViewModel.urgencyTextSubject.subscribe { text -> adapter.addUrgency(text) }
         }
-        ViewCompat.setElevation(loadingOverlay, context.resources.getDimension(R.dimen.launch_tile_margin_side))
         val iconColor = ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color))
         FontCache.setTypeface(searchThisArea, FontCache.Font.ROBOTO_MEDIUM)
         //Fetch, color, and slightly resize the searchThisArea location pin drawable
@@ -410,28 +395,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         mapWidget.markSoldOutHotel(hotelId)
     }
 
-    fun showUnfilteredResults() {
-        filterViewModel.clearObservable.onNext(Unit)
-        viewModel.clearCachedParamsFilterOptions()
-
-        val currentSearchParams = viewModel.getSearchParams()
-        val cachedUnfilteredResponse = filterViewModel.originalResponse
-
-        if (cachedUnfilteredResponse == null) {
-            if (currentSearchParams == null) {
-                viewModel.hotelResultsObservable.onNext(adapter.resultsSubject.value)
-            } else {
-                viewModel.paramsSubject.onNext(currentSearchParams)
-            }
-        } else {
-            if (currentSearchParams != null && !currentSearchParams.equalIgnoringFilter(filterViewModel.lastUnfilteredSearchParams)) {
-                viewModel.paramsSubject.onNext(currentSearchParams)
-            } else {
-                viewModel.hotelResultsObservable.onNext(cachedUnfilteredResponse)
-            }
-        }
-    }
-
     fun showCachedResults() {
         viewModel.cachedResponse?.let {
             viewModel.hotelResultsObservable.onNext(it)
@@ -465,11 +428,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             showMapLoadingOverlay()
         }
         mapWidget.clearMarkers()
-    }
-
-    private fun showMapLoadingOverlay() {
-        loadingOverlay.animate(true)
-        loadingOverlay.visibility = View.VISIBLE
     }
 
     private fun doAreaSearch() {

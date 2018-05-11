@@ -1,15 +1,20 @@
 package com.expedia.bookings.packages.vm
 
+import android.content.Context
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotel.DisplaySort
+import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.PriceOption
 import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.testutils.JSONResourceReader
 import com.expedia.bookings.test.MockPackageServiceTestRule
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.StarRatingValue
 import org.junit.Before
 import org.junit.Rule
@@ -27,10 +32,11 @@ class PackageFilterViewModelTest {
     var vm: PackageFilterViewModel by Delegates.notNull()
     val mockPackageServiceRule: MockPackageServiceTestRule = MockPackageServiceTestRule()
         @Rule get
+    lateinit var context: Context
 
     @Before
     fun before() {
-        val context = RuntimeEnvironment.application
+        context = RuntimeEnvironment.application
         vm = PackageFilterViewModel(context)
     }
 
@@ -121,7 +127,7 @@ class PackageFilterViewModelTest {
 
     @Test
     fun sortByRecommendedMID() {
-        vm.filteredResponse = HotelSearchResponse.convertPackageToSearchResponse(mockPackageServiceRule.getMIDHotelResponse())
+        vm.filteredResponse = HotelSearchResponse.convertPackageToSearchResponse(mockPackageServiceRule.getMIDHotelResponse(), false)
         vm.sortByObservable.onNext(DisplaySort.RECOMMENDED)
         assertResultsSortedByRecommended()
     }
@@ -316,6 +322,18 @@ class PackageFilterViewModelTest {
         vm.sortByObservable.onNext(DisplaySort.DEALS)
         vm.sortByObservable.onNext(DisplaySort.RATING)
         assertEquals(expectedList, resultsList)
+    }
+
+    @Test
+    fun testOriginalResponseShownWhenDefaultFilterOptions() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesServerSideFiltering)
+        vm.userFilterChoices = UserFilterChoices()
+        vm.presetFilterOptions = false
+        vm.originalResponse = generateHotelSearchResponse()
+        val testSubscriber = TestObserver.create<HotelSearchResponse>()
+        vm.filterObservable.subscribe(testSubscriber)
+        vm.doneObservable.onNext(Unit)
+        assertEquals(vm.originalResponse, testSubscriber.values()[0])
     }
 
     private fun generateHotelSearchResponse(): HotelSearchResponse {

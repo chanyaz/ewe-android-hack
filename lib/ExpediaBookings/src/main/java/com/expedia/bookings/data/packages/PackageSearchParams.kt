@@ -149,6 +149,10 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
         return pageType == Constants.PACKAGE_CHANGE_HOTEL || pageType == Constants.PACKAGE_CHANGE_FLIGHT
     }
 
+    fun isHotelFilterSearch(): Boolean {
+        return (filterOptions != null && filterOptions!!.isNotEmpty())
+    }
+
     fun toQueryMap(): Map<String, Any?> {
         val params = HashMap<String, Any?>()
         if (pageType != null) params.put("pageType", pageType)

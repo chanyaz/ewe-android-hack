@@ -44,8 +44,8 @@ class HotelFilterOptions : BaseHotelFilterOptions() {
                 && filterStarRatings.isEmpty()
                 && filterGuestRatings.isEmpty()
                 && filterPrice?.isValid() != true
-                && !filterVipOnly
                 && userSort == null
+                && !filterVipOnly
                 && amenities.isEmpty()
     }
 }

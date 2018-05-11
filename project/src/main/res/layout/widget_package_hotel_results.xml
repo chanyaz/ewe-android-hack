@@ -152,6 +152,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <com.expedia.bookings.widget.MapLoadingOverlayWidget
+        android:id="@+id/map_loading_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
     <com.expedia.bookings.hotel.widget.HotelResultsSortFaqWebView
         android:id="@+id/sort_faq_web_view"
         android:layout_width="match_parent"

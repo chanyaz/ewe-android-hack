@@ -25,6 +25,7 @@ import com.expedia.bookings.data.hotels.convertPackageToSearchParams
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse
 import com.expedia.bookings.data.multiitem.PackageErrorDetails
+import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.packages.PackagesPageUsableData
@@ -40,6 +41,7 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.hotel.vm.HotelReviewsSummaryViewModel
 import com.expedia.bookings.packages.activity.PackageHotelActivity
+import com.expedia.bookings.packages.util.PackageServicesManager
 import com.expedia.bookings.packages.vm.PackageHotelDetailViewModel
 import com.expedia.bookings.packages.vm.PackageHotelResultsViewModel
 import com.expedia.bookings.packages.widget.SlidingBundleWidget
@@ -86,6 +88,9 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     lateinit var packageServices: PackageServices
         @Inject set
 
+    lateinit var packageServicesManager: PackageServicesManager
+        @Inject set
+
     val resultsMapView: MapView by bindView(R.id.map_view)
     val detailsMapView: MapView by bindView(R.id.details_map_view)
     val bundleSlidingWidget: SlidingBundleWidget by bindView(R.id.sliding_bundle_widget)
@@ -111,7 +116,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         resultsMapView.visibility = View.VISIBLE
         removeView(resultsMapView)
         presenter.mapWidget.setMapView(resultsMapView)
-        presenter.viewModel = PackageHotelResultsViewModel(context)
+        presenter.viewModel = PackageHotelResultsViewModel(context, packageServicesManager)
         presenter.hotelSelectedSubject.subscribe { hotel ->
             val params = Db.sharedInstance.packageParams
             params.latestSelectedOfferInfo.hotelId = hotel.hotelId
@@ -121,8 +126,19 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             PackagesTracking().trackHotelMapCarouselPropertyClick()
             hotelSelectedObserver.onNext(hotel)
         }
+        presenter.viewModel.filterSearchErrorDetailsObservable.subscribe { error -> handleFilterSearchResponseErrors(error.first) }
         presenter.hideBundlePriceOverviewSubject.subscribe(hideBundlePriceOverviewObserver)
         presenter
+    }
+
+    private fun handleFilterSearchResponseErrors(errorCode: PackageApiError.Code) {
+        val errorKey = if (errorCode == PackageApiError.Code.mid_no_offers_post_filtering) Constants.PACKAGE_FILTER_SEARCH_ERROR_KEY else Constants.UNKNOWN_ERROR_CODE
+        val activity = (context as Activity)
+        val resultIntent = Intent()
+        resultIntent.putExtra(Constants.PACKAGE_FILTER_SEARCH_ERROR_KEY, errorKey)
+        resultIntent.putExtra(Constants.PACKAGE_FILTER_SEARCH_ERROR, errorCode.name)
+        activity.setResult(Activity.RESULT_OK, resultIntent)
+        activity.finish()
     }
 
     val detailPresenter: HotelDetailPresenter by lazy {
@@ -196,8 +212,13 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         View.inflate(getContext(), R.layout.package_hotel_presenter, this)
 
         ObservableOld.combineLatest(dataAvailableSubject, trackEventSubject, { packageSearchResponse, _ -> packageSearchResponse }).subscribe {
-            PackagesPageUsableData.HOTEL_RESULTS.pageUsableData.markAllViewsLoaded()
-            trackSearchResult(it)
+            if (!resultsPresenter.viewModel.isFilteredResponse) {
+                PackagesPageUsableData.HOTEL_RESULTS.pageUsableData.markAllViewsLoaded()
+                trackSearchResult(it)
+            } else {
+                PackagesPageUsableData.HOTEL_FILTERED_RESULTS.pageUsableData.markAllViewsLoaded()
+                PackagesTracking().trackHotelFilterSearchLoad(it, PackagesPageUsableData.HOTEL_FILTERED_RESULTS.pageUsableData)
+            }
         }
     }
 
@@ -222,7 +243,8 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
 
         bundleSlidingWidget.animationFinished.subscribe {
-            resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(Db.getPackageResponse()))
+            resultsPresenter.viewModel.isFilteredResponse = false
+            resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(Db.getPackageResponse(), false))
         }
     }
 
@@ -403,6 +425,11 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             }
             DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
         }
+    }
+
+    override fun back(): Boolean {
+        Db.setPackageResponse(Db.getUnfilteredRespnse())
+        return super.back()
     }
 
     private val detailsToReview = object : ScaleTransition(this, HotelDetailPresenter::class.java, HotelReviewsView::class.java) {

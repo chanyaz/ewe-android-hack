@@ -11,6 +11,7 @@ interface BundleSearchResponse {
     fun getHotelCheckOutDate(): String
     fun getHotelResultsCount(): Int
     fun getHotels(): List<Hotel>
+    fun getFirstFlightPIID(): String
     fun getFlightLegs(): List<FlightLeg>
     fun hasSponsoredHotelListing(): Boolean
     fun getCurrencyCode(): String?

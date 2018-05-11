@@ -54,6 +54,7 @@ class BundleOverviewViewModel(val context: Context, private val packageServicesM
     init {
         successResponseHandler.subscribe { (type, response) ->
             if (type == PackageProductSearchType.MultiItemHotels) {
+                Db.setUnfilteredResponse(response)
                 hotelResultsObservable.onNext(Unit)
             } else {
                 flightResultsObservable.onNext(type)
