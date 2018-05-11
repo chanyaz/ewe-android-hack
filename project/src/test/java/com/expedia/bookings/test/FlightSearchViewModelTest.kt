@@ -6,6 +6,7 @@ import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.services.HolidayCalendarService
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -43,6 +44,7 @@ class FlightSearchViewModelTest {
 
     private lateinit var service: FlightServices
     private lateinit var sut: FlightSearchViewModel
+    private lateinit var holidayCalendarService: HolidayCalendarService
 
     @Test
     fun testFlightSearchDayWithDate() {
@@ -97,6 +99,23 @@ class FlightSearchViewModelTest {
         assertEquals("$expectedStartDate  -  $expectedEndDate", sut.dateTextObservable.value)
         // Reset it back
         Locale.setDefault(currentLocale)
+    }
+
+    @Test
+    fun testGetHolidayInfoFunction() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsHolidayCalendar)
+        val logger = HttpLoggingInterceptor()
+        val root = File("../lib/mocked/templates").canonicalPath
+        val opener = FileSystemOpener(root)
+        val interceptor = MockInterceptor()
+        logger.level = HttpLoggingInterceptor.Level.BODY
+        server.setDispatcher(ExpediaDispatcher(opener))
+        createSystemUnderTest()
+        sut.holidayCalendarService = HolidayCalendarService("http://localhost:" + server.port,
+                okhttp3.OkHttpClient.Builder().addInterceptor(logger).build(),
+                interceptor, Schedulers.trampoline(), Schedulers.trampoline())
+        sut.getHolidayInfo()
+        assertEquals(arrayListOf(LocalDate("2018-01-01"), LocalDate("2018-01-15")), sut.holidayCalendarDateList)
     }
 
     @Test

@@ -64,6 +64,7 @@ open class CalendarDialogFragment() : DialogFragment() {
         if (vm != null && rules != null) {
             val maxDate = LocalDate.now().plusDays(rules!!.getMaxDateRange())
             calendarPickerView.setSelectableDateRange(rules!!.getFirstAvailableDate(), maxDate)
+            calendarPickerView.setDottedDatesList(vm.holidayCalendarDateList)
             calendarPickerView.setMaxSelectableDateRange(rules!!.getMaxSearchDurationDays())
 
             val monthView = calendarPickerView.findViewById<MonthView>(R.id.month)
