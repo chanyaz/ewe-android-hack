@@ -2755,6 +2755,8 @@
     <string name="filter">Filter</string>
 
     <!-- Map -->
+    <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
+    <string name="map_snippet_price_template">From %s</string>
     <!-- Displayed in front of room price on "Select a Room" bar -->
     <string name="select_a_room_from_price_label">From</string>
     <!-- Button text prompting the user to search this area on the map -->
