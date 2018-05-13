@@ -277,6 +277,15 @@
             tools:ignore="UnusedAttribute"/>
 
         <activity
+            android:name="com.expedia.bookings.marketing.carnival.FullPageDealNotificationActivity"
+            android:label="Full Screen Deal Page"
+            android:launchMode="singleTop"
+            android:resizeableActivity="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullScreenDealNotificationStyle"
+            tools:ignore="UnusedAttribute"/>
+
+        <activity
             android:name="com.expedia.bookings.mia.activity.CustomerFirstActivity"
             android:label="@string/customer_first_support_toolbar_title"
             android:launchMode="singleTop"

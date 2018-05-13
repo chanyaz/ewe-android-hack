@@ -5145,4 +5145,9 @@
     <!--Flight dropdown airport Eg. BNE - Brisbane Airport-->
     <string name="flight_dropdown_airport_details_TEMPLATE">{airport_code} - {airport_name}</string>
 
+    <!-- Carnival -->
+    <string name="full_page_deal_toolbar_nav_icon_close_cont_desc">Close deal page</string>
+    <string name="full_page_deal_code_copied">Code Copied!</string>
+    <string name="full_page_deal_copy_code_button">Copy code</string>
+
 </resources>

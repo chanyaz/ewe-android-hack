@@ -80,7 +80,8 @@ class CarnivalUtilsTest : CarnivalUtils() {
     fun messageQueueWorks() {
         this.setupListener(fragmentManager)
         supportFragmentManager = null
-        this.createInAppNotification(supportFragmentManager, CarnivalMessage())
+        val carnivalMessage = CarnivalMessage("", "", HashMap(), "")
+        this.createInAppNotification(supportFragmentManager, carnivalMessage)
 
         assert(messageQueue.any())
     }

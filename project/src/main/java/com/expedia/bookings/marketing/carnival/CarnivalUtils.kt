@@ -134,7 +134,7 @@ open class CarnivalUtils {
             initialized = true
 
             Carnival.setOnInAppNotificationDisplayListener { message ->
-                val carnivalMessage = CarnivalMessage()
+                val carnivalMessage = CarnivalMessage(message.imageURL, message.title, message.attributes, message.text)
                 carnivalMessage.messageData = message
 
                 if (!message.imageURL.isNullOrEmpty()) {
@@ -181,7 +181,7 @@ open class CarnivalUtils {
     open fun buildDialog(carnivalMessage: CarnivalMessage) {
         if (supportFragmentManager != null) {
             val args = Bundle()
-            args.putParcelable("carnival_message", carnivalMessage.messageData)
+            args.putParcelable("carnival_message", carnivalMessage)
             val inAppDialogFragment = InAppNotificationDialogFragment()
             inAppDialogFragment.arguments = args
 

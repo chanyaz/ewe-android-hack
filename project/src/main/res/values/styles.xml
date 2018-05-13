@@ -418,6 +418,10 @@
         <item name="android:buttonBarButtonStyle">@style/customButtonStyle</item>
     </style>
 
+    <style name="FullScreenDealNotificationStyle" parent="AppTheme.Base">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
     <style name="CreditCardButton">
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">0dp</item>
