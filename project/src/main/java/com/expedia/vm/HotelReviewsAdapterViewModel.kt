@@ -72,6 +72,7 @@ class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: Rev
         orderedReviewsObservable.subscribe(orderedReviewsObserver)
 
         reviewsObservable
+                .filter { it.second.reviewDetails.reviewSummaryCollection.reviewSummary.isNotEmpty() }
                 .map { it.second.reviewDetails.reviewSummaryCollection.reviewSummary[0] }
                 .subscribe(reviewsSummaryObservable)
 

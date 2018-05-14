@@ -41,11 +41,16 @@ class HotelReviewsSummaryBoxRatingViewModel(val context: Context) {
     }
 
     private fun updateBarRatingVisibility(reviewsSummary: ReviewSummary) {
-        if (reviewsSummary.totalReviewCnt > 0) {
+        if (reviewsSummary.totalReviewCnt > 0 && hasAllRatingsForRatingsBar(reviewsSummary)) {
             barRatingViewVisibility.onNext(true)
         } else {
             barRatingViewVisibility.onNext(false)
         }
+    }
+
+    private fun hasAllRatingsForRatingsBar(reviewsSummary: ReviewSummary): Boolean {
+        return reviewsSummary.cleanliness > 0f && reviewsSummary.serviceAndStaff > 0f &&
+                reviewsSummary.hotelCondition > 0f && reviewsSummary.roomComfort > 0f
     }
 
     private fun createGuestRatingString(reviewsSummary: ReviewSummary): String {

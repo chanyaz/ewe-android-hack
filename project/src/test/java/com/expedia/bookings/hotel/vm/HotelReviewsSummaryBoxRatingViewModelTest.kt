@@ -46,10 +46,43 @@ class HotelReviewsSummaryBoxRatingViewModelTest {
     fun testShouldHideRatingBar() {
         val testSubscriber = TestObserver.create<Boolean>()
         vm.barRatingViewVisibility.subscribe(testSubscriber)
-        val reviewSummary = createDefaultReviewSummary()
+        var reviewSummary = createDefaultReviewSummary()
         reviewSummary.totalReviewCnt = 0
         vm.reviewsSummaryObserver.onNext(reviewSummary)
         assertFalse(testSubscriber.values()[0])
+
+        reviewSummary = createDefaultReviewSummary()
+        reviewSummary.hotelCondition = 0f
+        vm.reviewsSummaryObserver.onNext(reviewSummary)
+        assertFalse(testSubscriber.values()[0])
+
+        reviewSummary = createDefaultReviewSummary()
+        reviewSummary.cleanliness = 0f
+        vm.reviewsSummaryObserver.onNext(reviewSummary)
+        assertFalse(testSubscriber.values()[0])
+
+        reviewSummary = createDefaultReviewSummary()
+        reviewSummary.roomComfort = 0f
+        vm.reviewsSummaryObserver.onNext(reviewSummary)
+        assertFalse(testSubscriber.values()[0])
+
+        reviewSummary = createDefaultReviewSummary()
+        reviewSummary.serviceAndStaff = 0f
+        vm.reviewsSummaryObserver.onNext(reviewSummary)
+        assertFalse(testSubscriber.values()[0])
+    }
+
+    @Test
+    fun testNullRating() {
+        val testSubscriber = TestObserver.create<HotelReviewsSummaryBoxRatingViewModel.ReviewSummaryDescriptionAndRating>()
+        reviewSummary.serviceAndStaff = 0f
+
+        vm.serviceStaffObservable.subscribe(testSubscriber)
+        vm.reviewsSummaryObserver.onNext(reviewSummary)
+
+        val reviewSummaryDescriptionAndRating = testSubscriber.values()[0]
+        assertEquals("Service & staff", reviewSummaryDescriptionAndRating.description)
+        assertEquals(0.0f, reviewSummaryDescriptionAndRating.rating)
     }
 
     @Test
