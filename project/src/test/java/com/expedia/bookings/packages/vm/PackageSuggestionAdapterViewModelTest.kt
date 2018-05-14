@@ -3,9 +3,7 @@ package com.expedia.bookings.packages.vm
 import com.expedia.bookings.data.GaiaSuggestion
 import com.expedia.bookings.data.GaiaSuggestionRequest
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.services.ISuggestionV4Services
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import io.reactivex.Observable
 import io.reactivex.Observer
@@ -20,7 +18,6 @@ class PackageSuggestionAdapterViewModelTest {
 
     @Test
     fun isMISForRealWorldEnabledTrue() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesMISRealWorldGeo)
         val mockSuggestionV4Services = MockSuggestionV4Services()
         val viewModel = PackageSuggestionAdapterViewModel(RuntimeEnvironment.application, mockSuggestionV4Services, true, null)
         assertTrue(viewModel.isMISForRealWorldEnabled())
@@ -39,7 +36,7 @@ class PackageSuggestionAdapterViewModelTest {
             TODO("not implemented: suggestNearbyGaia")
         }
 
-        override fun suggestPackagesV4(query: String, isDest: Boolean, isMISForRealWorldEnabled: Boolean, observer: Observer<List<SuggestionV4>>, guid: String?): Disposable {
+        override fun suggestPackagesV4(query: String, isDest: Boolean, observer: Observer<List<SuggestionV4>>, guid: String?): Disposable {
             TODO("not implemented: suggestPackagesV4")
         }
 

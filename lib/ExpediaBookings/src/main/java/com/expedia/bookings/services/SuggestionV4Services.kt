@@ -81,26 +81,17 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
         return response.map { it.toMutableList() }
     }
 
-    override fun suggestPackagesV4(query: String, isDest: Boolean, isMISForRealWorldEnabled: Boolean, observer: Observer<List<SuggestionV4>>, guid: String?): Disposable {
-        val suggestType: Int
-        if (isMISForRealWorldEnabled) {
-            suggestType = SuggestionResultType.AIRPORT or
-                    SuggestionResultType.CITY or
-                    SuggestionResultType.MULTI_CITY or
-                    SuggestionResultType.NEIGHBORHOOD or
-                    SuggestionResultType.POINT_OF_INTEREST or
-                    SuggestionResultType.AIRPORT_METRO_CODE or
-                    SuggestionResultType.MULTI_REGION or
-                    SuggestionResultType.TRAIN_STATION
-        } else {
-            suggestType = SuggestionResultType.AIRPORT or
-                    SuggestionResultType.CITY or
-                    SuggestionResultType.MULTI_CITY or
-                    SuggestionResultType.NEIGHBORHOOD or
-                    SuggestionResultType.POINT_OF_INTEREST or
-                    SuggestionResultType.AIRPORT_METRO_CODE
-        }
-        return suggestV4(query, suggestType, isDest, "ta_hierarchy", "PACKAGES", abTest = if (isMISForRealWorldEnabled) "11996.1" else "11996.0", guid = guid, packageType = "FH")
+    override fun suggestPackagesV4(query: String, isDest: Boolean, observer: Observer<List<SuggestionV4>>, guid: String?): Disposable {
+        val suggestType: Int = SuggestionResultType.AIRPORT or
+                SuggestionResultType.CITY or
+                SuggestionResultType.MULTI_CITY or
+                SuggestionResultType.NEIGHBORHOOD or
+                SuggestionResultType.POINT_OF_INTEREST or
+                SuggestionResultType.AIRPORT_METRO_CODE or
+                SuggestionResultType.MULTI_REGION or
+                SuggestionResultType.TRAIN_STATION
+
+        return suggestV4(query, suggestType, isDest, "ta_hierarchy", "PACKAGES", abTest = "11996.1", guid = guid, packageType = "FH")
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { response -> response.suggestions ?: emptyList() }

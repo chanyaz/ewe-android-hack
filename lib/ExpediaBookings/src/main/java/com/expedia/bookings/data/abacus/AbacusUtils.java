@@ -115,7 +115,6 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppPackagesEnablePOS = new ABTest(24551);
 	public static final ABTest EBAndroidAppPackagesBreadcrumbsForNav = new ABTest(15835);
 	public static final ABTest EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs = new ABTest(16223);
-	public static final ABTest EBAndroidAppPackagesMISRealWorldGeo = new ABTest(25558, true);
 	public static final ABTest EBAndroidAppPackagesShowForceUpdateDialog = new ABTest(16283);
 	public static final ABTest PackagesBackFlowFromOverview = new ABTest(16163);
 	public static final ABTest EBAndroidAppPackagesDisplayBasicEconomyTooltip = new ABTest(24678);
@@ -217,7 +216,6 @@ public class AbacusUtils {
 		testIDs.add(TripsNewFlightAlerts.getKey());
 		testIDs.add(EBAndroidAppPackagesBreadcrumbsForNav.getKey());
 		testIDs.add(EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs.getKey());
-		testIDs.add(EBAndroidAppPackagesMISRealWorldGeo.getKey());
 		testIDs.add(EBAndroidAppFlightsGreedySearchCall.getKey());
 		testIDs.add(EBAndroidAppFlightsBaggageWebViewHideAd.getKey());
 		testIDs.add(EBAndroidLXNotifications.getKey());
