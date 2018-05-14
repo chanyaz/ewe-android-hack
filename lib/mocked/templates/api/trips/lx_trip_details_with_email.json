@@ -250,6 +250,9 @@
     "isMRP": false,
     "tripDataSource": "LUNA-PARTIAL",
     "isTripUpgradable": false,
+    "email": {
+      "m_email": "tripscall@successful.com"
+    },
     "isRewardsPointsBooking": false,
     "billPayMethod": "false",
     "customerCareCustomerType": "Blue"
