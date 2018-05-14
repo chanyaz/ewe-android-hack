@@ -42,7 +42,7 @@ class HotelReviewsView(context: Context, attrs: AttributeSet) : RelativeLayout(c
             toolbar.subtitle = subtitle
         }
         vm.hotelIdObservable.subscribe { hotelId ->
-            hotelReviewsAdapterViewModel = HotelReviewsAdapterViewModel(hotelId, reviewServices, PointOfSale.getPointOfSale().localeIdentifier)
+            hotelReviewsAdapterViewModel = HotelReviewsAdapterViewModel(hotelId, reviewServices, PointOfSale.getPointOfSale().localeIdentifier, null)
         }
         vm.hotelOfferObservable.subscribe { offer ->
             selectARoomBar.bindRoomOffer(offer)

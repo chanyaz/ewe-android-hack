@@ -381,6 +381,17 @@ class ExpediaDispatcherTests {
         assertPathReturnsMockBodyWithString("api/hotelreview/translate/12344", null, "api/hotelreview/translate/happy.json")
     }
 
+    @Test
+    fun testRequestHotelReviewsSearchPathReturnsMatchingResponseHappy() {
+        assertPathReturnsMockBodyWithString("api/hotelreviews/hotel?_type=json&searchTerm=PrivateBank", null, "api/hotelreviews/hotel/happy-search.json")
+    }
+
+    @Test
+    fun testRequestHotelReviewsSearchPathReturnsMatchingResponseUnhappy() {
+        assertPathReturnsMockBodyWithString("api/hotelreviews/hotel?_type=json&searchTerm=nice", null, "api/hotelreviews/hotel/unhappy-search.json")
+    }
+
+
     private fun assertEmptyResponseForPath(path: String) {
         assertTrue(path.isNotEmpty(), "path should not be empty.")
 

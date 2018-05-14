@@ -1,6 +1,6 @@
 package com.expedia.bookings.data.hotels
 
-class HotelReviewsParams(val hotelId: String, val sortBy: String, val pageNumber: Int, val numReviewsPerPage: Int, val languageSort: String) {
+class HotelReviewsParams(val hotelId: String, val sortBy: String, val pageNumber: Int, val numReviewsPerPage: Int, val languageSort: String, val searchTerm: String?) {
 
     class Builder {
         private var hotelId: String? = null
@@ -8,6 +8,7 @@ class HotelReviewsParams(val hotelId: String, val sortBy: String, val pageNumber
         private var pageNumber: Int? = null
         private var numReviewsPerPage: Int? = null
         private var languageSort: String? = null
+        private var searchTerm: String? = null
 
         fun hotelId(hotelId: String?): HotelReviewsParams.Builder {
             this.hotelId = hotelId
@@ -34,12 +35,18 @@ class HotelReviewsParams(val hotelId: String, val sortBy: String, val pageNumber
             return this
         }
 
+        fun searchTerm(searchTerm: String?): HotelReviewsParams.Builder {
+            this.searchTerm = searchTerm
+            return this
+        }
+
         fun build(): HotelReviewsParams {
             return HotelReviewsParams(hotelId ?: throw IllegalArgumentException(),
                     sortBy ?: throw IllegalArgumentException(),
                     pageNumber ?: throw IllegalArgumentException(),
                     numReviewsPerPage ?: throw IllegalArgumentException(),
-                    languageSort ?: throw IllegalArgumentException())
+                    languageSort ?: throw IllegalArgumentException(),
+                    searchTerm)
         }
     }
 }

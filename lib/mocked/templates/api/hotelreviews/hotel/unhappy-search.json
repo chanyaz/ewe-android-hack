@@ -1,0 +1,51 @@
+{
+  "reviewDetails": {
+    "startIndex": 0,
+    "numberOfReviewsInThisPage": 0,
+    "reviewSummaryCollection": {
+      "reviewSummary": [
+        {
+          "id": "11544584-expedia",
+          "hotelId": "11544584",
+          "totalReviewCnt": 0,
+          "avgOverallRating": 0.0,
+          "cleanliness": 0.0,
+          "serviceAndStaff": 0.0,
+          "roomComfort": 0.0,
+          "hotelCondition": 0.0,
+          "convenienceOfLocation": 0.0,
+          "neighborhoodSatisfaction": 0.0,
+          "roomQuality": 0.0,
+          "targetedBrand": "",
+          "originSummary": [],
+          "recommendedPercent": 0.0,
+          "valueForMoney": 0.0,
+          "halfLifeRating": 0.0,
+          "halfLifeRecommended": 0.0,
+          "categoryCounts": {},
+          "roomTypeIdCounts": {},
+          "languageCounts": {},
+          "recentReviewCounts": {},
+          "featuredReview": {
+            "reviewDate": "",
+            "title": "",
+            "authorName": "",
+            "authorLocation": "",
+            "review": "",
+            "rating": 0.0,
+            "locale": "",
+            "reviewId": ""
+          },
+          "pinnedHelpfulReview": "",
+          "numPhotos": 0
+        }
+      ],
+      "searchReviewSummary": {
+        "totalReviewCount": 0
+      }
+    },
+    "reviewCollection": {
+      "review": []
+    }
+  }
+}

@@ -1,0 +1,152 @@
+{
+  "reviewDetails": {
+    "startIndex": 0,
+    "numberOfReviewsInThisPage": 2,
+    "reviewSummaryCollection": {
+      "reviewSummary": [
+        {
+          "id": "11544584-expedia",
+          "hotelId": "11544584",
+          "totalReviewCnt": 0,
+          "avgOverallRating": 0.0,
+          "cleanliness": 0.0,
+          "serviceAndStaff": 0.0,
+          "roomComfort": 0.0,
+          "hotelCondition": 0.0,
+          "convenienceOfLocation": 0.0,
+          "neighborhoodSatisfaction": 0.0,
+          "roomQuality": 0.0,
+          "targetedBrand": "",
+          "originSummary": [],
+          "recommendedPercent": 0.0,
+          "valueForMoney": 0.0,
+          "halfLifeRating": 0.0,
+          "halfLifeRecommended": 0.0,
+          "categoryCounts": {},
+          "roomTypeIdCounts": {},
+          "languageCounts": {},
+          "recentReviewCounts": {},
+          "featuredReview": {
+            "reviewDate": "",
+            "title": "",
+            "authorName": "",
+            "authorLocation": "",
+            "review": "",
+            "rating": 0.0,
+            "locale": "",
+            "reviewId": ""
+          },
+          "pinnedHelpfulReview": "",
+          "numPhotos": 0
+        }
+      ],
+      "searchReviewSummary": {
+        "totalReviewCount": 2
+      }
+    },
+    "reviewCollection": {
+      "review": [
+        {
+          "isRecommended": "YES",
+          "isFlaggable": false,
+          "isUnverified": false,
+          "managementResponses": [],
+          "reviewId": "58f10e3b382a450dac8a58b6",
+          "tpid": "1",
+          "eapid": "0",
+          "hotelId": "11544584",
+          "photos": [],
+          "totalPositiveFeedbacks": 0,
+          "contentLocale": "en_us",
+          "totalThanks": 0,
+          "moderationStatus": "APPROVED",
+          "contentCodes": "",
+          "checkInDate": "",
+          "checkOutDate": "",
+          "reviewText": "Hotel was in a perfect location (especially as we were going to PrivateBank Theatre).  Room was great for our family of four - two queen beds, a pull out sofa bed and full kitchen.  Breakfast was included in price and was a good quality buffet.  Hotel has bar, which was very comfortable, with food (which we did not try).  ",
+          "lastInitial": "",
+          "userLocation": "Charlotte, NC",
+          "itinId": "1153804847043",
+          "brandType": "Expedia",
+          "campaignId": "hur",
+          "ratingOverall": 5,
+          "reviewSubmissionTime": "2017-04-14T18:00:27Z",
+          "langId": "1033",
+          "title": "Great hotel in great location",
+          "positiveRemarks": "Central location, free breakfast buffet and large rooms with full kitchen",
+          "negativeRemarks": "A door between bedroom and living area would have been nice.",
+          "locationRemarks": "Great for theatre.  Short walk to Millennium Park and Willis Tower. ",
+          "trackingId": "",
+          "roomTypeId": "",
+          "ratingRoomCleanliness": 5,
+          "ratingService": 5,
+          "ratingRoomComfort": 5,
+          "ratingHotelCondition": 5,
+          "ratingsOnly": false,
+          "userDisplayName": "",
+          "featured": false,
+          "relocationReview": false,
+          "relocationInformation": "",
+          "userNickname": "Andy",
+          "externalLinkId": "6AE832423FAE212E40AB3C647CE8308F7CA88460",
+          "reviewerCategories": [
+            {
+              "categoryId": "Everyone",
+              "categoryLabel": "Everyone"
+            }
+          ]
+        },
+        {
+          "isRecommended": "NONE",
+          "isFlaggable": false,
+          "isUnverified": false,
+          "managementResponses": [],
+          "reviewId": "175211804",
+          "tpid": "-42",
+          "eapid": "",
+          "hotelId": "11544584",
+          "photos": [],
+          "totalPositiveFeedbacks": 0,
+          "contentLocale": "en_us",
+          "totalThanks": 0,
+          "moderationStatus": "APPROVED",
+          "contentCodes": "HMP MMD",
+          "checkInDate": "",
+          "checkOutDate": "",
+          "reviewText": "The Residence Inn is in a fantastic location. We were attending \"Hamilton\" at the PrivateBank Theater and chose the hotel based on convenience of location. The staff were so friendly and helpful, the room was spacious and clean, and the breakfast was really good! The musical was amazing too! Overall, we would recommend the Residence Inn without qualification. Excellent!",
+          "lastInitial": "",
+          "userLocation": "",
+          "itinId": "8065150905345",
+          "brandType": "Hotels",
+          "campaignId": "",
+          "ratingOverall": 5,
+          "reviewSubmissionTime": "2017-02-02T15:19:41Z",
+          "langId": "1033",
+          "title": "",
+          "positiveRemarks": "",
+          "negativeRemarks": "",
+          "locationRemarks": "",
+          "trackingId": "",
+          "roomTypeId": "",
+          "ratingRoomCleanliness": 5,
+          "ratingService": 5,
+          "ratingRoomComfort": 5,
+          "ratingHotelCondition": 5,
+          "ratingsOnly": false,
+          "userDisplayName": "Catherine",
+          "featured": false,
+          "relocationReview": false,
+          "relocationInformation": "",
+          "userNickname": "Catherine",
+          "externalLinkId": "10AED6C3A7709EAED3A5663439B3355840798D0F",
+          "reviewerCategories": [
+            {
+              "categoryId": "Families",
+              "categoryLabel": "Families"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
