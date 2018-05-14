@@ -38,6 +38,7 @@ class CaptchaWebViewActivityTest {
         assertEquals(originalUrl, intent.getStringExtra("ARG_ORIGINAL_URL"))
         assertTrue(intent.getBooleanExtra("ARG_USE_WEB_VIEW_TITLE", false))
         assertEquals(baseUrl, intent.getStringExtra("ARG_BASE_URL"))
+        assertTrue(intent.flags == Intent.FLAG_ACTIVITY_NEW_TASK)
     }
 
     @Test
