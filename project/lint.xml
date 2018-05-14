@@ -94,7 +94,7 @@
     <issue id="InconsistentArrays" severity="error" />
     <issue id="NestedScrolling" severity="error" />
     <issue id="ResourceAsColor" severity="error" />
-    <!-- <issue id="ScrollViewSize" severity="error" /> -->
+    <issue id="ScrollViewSize" severity="error" />
     <issue id="TextViewEdits" severity="error" />
     <issue id="WebViewLayout" severity="error" />
     <issue id="AppCompatMethod" severity="error" />
