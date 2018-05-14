@@ -59,6 +59,19 @@ class NotificationManagerTest {
     }
 
     @Test
+    fun testUpdateScheduledNotification() {
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val shadowAlarmManager = shadowOf(alarmManager)
+
+        val activityStartNotification = makeNotification("testScheduleNotification", Notification.NotificationType.ACTIVITY_START, trigger = 1000)
+        val carPickUpNotification = makeNotification("testScheduleNotification", Notification.NotificationType.ACTIVITY_START, trigger = 2000)
+        notificationManager.scheduleNotification(activityStartNotification)
+        notificationManager.scheduleNotification(carPickUpNotification)
+        assertTrue(shadowAlarmManager.scheduledAlarms.size == 1)
+        assertEquals(2000, shadowAlarmManager.nextScheduledAlarm.triggerAtTime)
+    }
+
+    @Test
     fun testCancelNotificationIntent() {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val shadowAlarmManager = shadowOf(alarmManager)

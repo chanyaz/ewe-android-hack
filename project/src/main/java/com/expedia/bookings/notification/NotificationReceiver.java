@@ -69,7 +69,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 		intent.setData(Uri.parse(uriString));
 		intent.putExtra(EXTRA_ACTION, ACTION_SCHEDULE);
 		intent.putExtra(EXTRA_NOTIFICATION, notification.toJson().toString());
-		return PendingIntent.getBroadcast(context, 0, intent, 0);
+		return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 	}
 
 	public static PendingIntent generateDismissPendingIntent(Context context, Notification notification) {
