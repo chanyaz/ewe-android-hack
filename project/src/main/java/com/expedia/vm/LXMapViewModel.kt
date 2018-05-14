@@ -55,7 +55,7 @@ class LXMapViewModel(val context: Context) {
                 return ""
             }
             val price = response.fromPrice
-            val fromPriceString = context.getString(R.string.map_snippet_price_template, price)
+            val fromPriceString = context.getString(R.string.from_price_TEMPLATE, price)
             val fromPriceStyledString = SpannableString(fromPriceString)
             val startIndex = fromPriceString.indexOf(price)
             val endIndex = startIndex + price.length

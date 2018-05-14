@@ -27,30 +27,13 @@
             android:textSize="12sp"
             android:visibility="gone" />
 
-        <LinearLayout
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/select_a_room_price"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:layout_width="match_parent"
-            android:orientation="horizontal">
-
-            <com.expedia.bookings.widget.TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                android:text="@string/select_a_room_from_price_label"
-                android:layout_marginRight="4dp"/>
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/select_a_room_price"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="16sp" />
-
-        </LinearLayout>
+            android:textColor="@color/white"
+            android:textSize="12sp" />
 
     </LinearLayout>
 

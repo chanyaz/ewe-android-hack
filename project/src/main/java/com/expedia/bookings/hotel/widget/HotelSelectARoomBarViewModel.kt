@@ -1,6 +1,11 @@
 package com.expedia.bookings.hotel.widget
 
 import android.content.Context
+import android.graphics.Typeface
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.RelativeSizeSpan
+import android.text.style.StyleSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -25,11 +30,20 @@ class HotelSelectARoomBarViewModel(private val context: Context) {
         }
     }
 
-    fun getPriceString(): String {
+    fun getPriceString(): SpannableString {
         getChargeableRate()?.let { chargeableRate ->
-            return Money(BigDecimal(chargeableRate.displayPrice.toDouble()), chargeableRate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL)
+            val roomDailyPrice = Money(BigDecimal(chargeableRate.displayPrice.toDouble()), chargeableRate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL)
+
+            val fromPriceString = context.getString(R.string.from_price_TEMPLATE, roomDailyPrice)
+            val fromPriceStyledString = SpannableString(fromPriceString)
+            val startIndex = fromPriceString.indexOf(roomDailyPrice)
+            val endIndex = startIndex + roomDailyPrice.length
+            fromPriceStyledString.setSpan(StyleSpan(Typeface.BOLD), startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            fromPriceStyledString.setSpan(RelativeSizeSpan(1.4f), startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+            return fromPriceStyledString
         }
-        return ""
+        return SpannableString("")
     }
 
     fun getContainerContentDescription(): String = Phrase.from(context, R.string.hotel_select_a_room_cont_desc_TEMPLATE).put("price", getPriceString()).format().toString()

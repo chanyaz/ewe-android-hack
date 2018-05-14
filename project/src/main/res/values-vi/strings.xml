@@ -2746,7 +2746,7 @@
 
     <!-- Map -->
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
-    <string name="map_snippet_price_template">Từ %s</string>
+    <string name="from_price_TEMPLATE">Từ %s</string>
     <!-- Button text prompting the user to search this area on the map -->
     <string name="Search_this_area">Tìm trong khu vực này</string>
     <!-- Map pin text for sold out hotel(s)-->

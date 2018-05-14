@@ -69,7 +69,7 @@ class HotelMapViewTest {
 
         assertEquals("happypath", hotelMapView.toolBarTitle.text)
         assertEquals(4f, hotelMapView.toolBarRating.getRating())
-        assertEquals("$109", hotelMapView.selectARoomBar.selectRoomPrice.text.toString())
+        assertEquals("From $109", hotelMapView.selectARoomBar.selectRoomPrice.text.toString())
         assertEquals("Select a Room From $109 button", hotelMapView.selectARoomBar.selectRoomContainer.contentDescription)
     }
 
@@ -88,7 +88,7 @@ class HotelMapViewTest {
 
         assertEquals("air_attached_hotel", hotelMapView.toolBarTitle.text)
         assertEquals(4f, hotelMapView.toolBarRating.getRating())
-        assertEquals("$241", hotelMapView.selectARoomBar.selectRoomPrice.text.toString())
+        assertEquals("From $241", hotelMapView.selectARoomBar.selectRoomPrice.text.toString())
         assertEquals("$284", hotelMapView.selectARoomBar.selectRoomStrikeThroughPrice.text.toString())
         assertEquals("Select a Room From $241 button", hotelMapView.selectARoomBar.selectRoomContainer.contentDescription)
     }
@@ -108,7 +108,7 @@ class HotelMapViewTest {
 
         assertEquals("zero_star_rating", hotelMapView.toolBarTitle.text)
         assertEquals(0f, hotelMapView.toolBarRating.getRating())
-        assertEquals("$241", hotelMapView.selectARoomBar.selectRoomPrice.text.toString())
+        assertEquals("From $241", hotelMapView.selectARoomBar.selectRoomPrice.text.toString())
         assertEquals("$284", hotelMapView.selectARoomBar.selectRoomStrikeThroughPrice.text.toString())
     }
 

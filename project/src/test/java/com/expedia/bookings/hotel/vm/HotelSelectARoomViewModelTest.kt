@@ -30,7 +30,7 @@ class HotelSelectARoomViewModelTest {
         hotelRate?.priceToShowUsers = -10f
         val viewModel = HotelSelectARoomBarViewModel(context)
         viewModel.response = hotelOffersResponse
-        assertEquals("$0", viewModel.getPriceString())
+        assertEquals("From $0", viewModel.getPriceString().toString())
     }
 
     @Test
@@ -41,7 +41,7 @@ class HotelSelectARoomViewModelTest {
         viewModel.response = hotelOffersResponse
 
         assertEquals("", viewModel.getStrikeThroughPriceString())
-        assertEquals("$109", viewModel.getPriceString())
+        assertEquals("From $109", viewModel.getPriceString().toString())
         assertEquals("Select a Room From $109 button", viewModel.getContainerContentDescription())
     }
 
@@ -53,7 +53,7 @@ class HotelSelectARoomViewModelTest {
         viewModel.response = hotelOffersResponse
 
         assertEquals("$284", viewModel.getStrikeThroughPriceString().toString())
-        assertEquals("$241", viewModel.getPriceString())
+        assertEquals("From $241", viewModel.getPriceString().toString())
         assertEquals("Select a Room From $241 button", viewModel.getContainerContentDescription())
     }
 
@@ -69,7 +69,7 @@ class HotelSelectARoomViewModelTest {
         viewModel.response = hotelOffersResponse
 
         assertEquals("$100", viewModel.getStrikeThroughPriceString().toString())
-        assertEquals("$99", viewModel.getPriceString())
+        assertEquals("From $99", viewModel.getPriceString().toString())
         assertEquals("Select a Room From $99 button", viewModel.getContainerContentDescription())
     }
 
@@ -77,20 +77,20 @@ class HotelSelectARoomViewModelTest {
     fun testNullRoom() {
         val viewModel = HotelSelectARoomBarViewModel(context)
         assertEquals("", viewModel.getStrikeThroughPriceString())
-        assertEquals("", viewModel.getPriceString())
-        assertEquals("Select a Room From  button", viewModel.getContainerContentDescription())
+        assertEquals("", viewModel.getPriceString().toString())
+        assertEquals("Select a Room  button", viewModel.getContainerContentDescription())
 
         viewModel.response = HotelOffersResponse()
         assertEquals("", viewModel.getStrikeThroughPriceString())
-        assertEquals("", viewModel.getPriceString())
-        assertEquals("Select a Room From  button", viewModel.getContainerContentDescription())
+        assertEquals("", viewModel.getPriceString().toString())
+        assertEquals("Select a Room  button", viewModel.getContainerContentDescription())
 
         hotelOffersResponse = mockHotelServiceTestRule.getHappyHotelOffersResponse()
         hotelOffersResponse.hotelRoomResponse.firstOrNull()?.rateInfo?.chargeableRateInfo = null
         viewModel.response = hotelOffersResponse
         assertEquals("", viewModel.getStrikeThroughPriceString())
-        assertEquals("", viewModel.getPriceString())
-        assertEquals("Select a Room From  button", viewModel.getContainerContentDescription())
+        assertEquals("", viewModel.getPriceString().toString())
+        assertEquals("Select a Room  button", viewModel.getContainerContentDescription())
     }
 
     @Test fun testViewModelOutputsForViewWhenRoomOffersAreNotAvailable() {
@@ -100,7 +100,7 @@ class HotelSelectARoomViewModelTest {
         viewModel.response = hotelOffersResponse
 
         assertEquals("", viewModel.getStrikeThroughPriceString())
-        assertEquals("", viewModel.getPriceString())
-        assertEquals("Select a Room From  button", viewModel.getContainerContentDescription())
+        assertEquals("", viewModel.getPriceString().toString())
+        assertEquals("Select a Room  button", viewModel.getContainerContentDescription())
     }
 }
