@@ -41,7 +41,7 @@
                     android:layout_width="@dimen/acct__logo_small_size"
                     android:layout_height="@dimen/acct__logo_small_size"
                     android:focusable="true"
-                    android:textSize="18dp" />
+                    android:textSize="18sp" />
             </FrameLayout>
 
             <ImageView

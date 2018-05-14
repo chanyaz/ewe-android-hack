@@ -159,7 +159,7 @@
                     android:bufferType="spannable"
                     android:hint="@string/expiration_date"
                     android:nextFocusForward="@+id/edit_address_postal_code"
-                    android:textSize="18dp" />
+                    android:textSize="18sp" />
 
                 <com.expedia.bookings.section.SectionLocation
                     android:id="@+id/section_location_address"

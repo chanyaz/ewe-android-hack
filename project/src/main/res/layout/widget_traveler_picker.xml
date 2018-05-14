@@ -64,7 +64,7 @@
                         android:layout_weight="5"
                         android:gravity="center"
                         android:textColor="@color/traveler_picker_main_text"
-                        android:textSize="16dp" />
+                        android:textSize="16sp" />
 
                     <ImageButton
                         android:id="@+id/adults_plus"
@@ -97,7 +97,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/traveler_picker_main_text"
-                            android:textSize="16dp" />
+                            android:textSize="16sp" />
 
                         <com.expedia.bookings.widget.TextView
                             android:layout_width="wrap_content"

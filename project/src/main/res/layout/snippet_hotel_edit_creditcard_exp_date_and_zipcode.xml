@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:bufferType="spannable"
         android:hint="@string/expiration_date"
-        android:textSize="18dp" />
+        android:textSize="18sp" />
 
     <include
         android:id="@id/section_location_address"

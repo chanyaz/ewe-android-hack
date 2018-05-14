@@ -88,7 +88,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/result_cells_gray_text"
-                        android:textSize="17dp"
+                        android:textSize="17sp"
                         app:textStyle="medium" />
 
                 </LinearLayout>

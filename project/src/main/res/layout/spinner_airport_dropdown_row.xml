@@ -13,7 +13,7 @@
         android:paddingTop="4dp"
         android:maxLines="1"
         android:textColor="@color/spinner_airport"
-        android:textSize="14dp" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/airport_details_text_view"
@@ -23,7 +23,7 @@
         android:paddingBottom="4dp"
         android:maxLines="1"
         android:textColor="@color/spinner_airport_details"
-        android:textSize="14dp" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/header_text_view"
@@ -33,7 +33,7 @@
         android:gravity="center_vertical"
         android:maxLines="1"
         android:textColor="@color/gray600"
-        android:textSize="14dp"
+        android:textSize="14sp"
         android:textStyle="bold" />
 
 </LinearLayout>

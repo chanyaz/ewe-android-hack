@@ -45,7 +45,7 @@
         android:gravity="center_vertical"
         android:hint="@string/expiration_date"
         android:paddingLeft="5dp"
-        android:textSize="18dp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/cardholder_label"

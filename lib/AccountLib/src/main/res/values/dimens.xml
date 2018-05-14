@@ -22,7 +22,7 @@
     <dimen name="acct__button_padding_vertical_material">4dp</dimen>
     <dimen name="acct__checkmark_margin">8dp</dimen>
 
-    <dimen name="acct__welcome_text_size">24dp</dimen>
+    <dimen name="acct__welcome_text_size">24sp</dimen>
     <dimen name="acct__logo_small_size">36dp</dimen>
     <dimen name="acct__suggestion_error_text_size">12sp</dimen>
     <!-- This is 140 only for API 16 for some silly reason. It's overridden in values-v16-->

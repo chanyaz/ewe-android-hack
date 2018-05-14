@@ -164,7 +164,7 @@
     <!-- removed check until https://code.google.com/p/android/issues/detail?id=183851 is resolved -->
     <!--<issue id="PrivateResource" severity="error" />-->
     <issue id="ProguardSplit" severity="error" />
-    <!-- <issue id="SpUsage" severity="error" /> -->
+    <issue id="SpUsage" severity="error" />
     <issue id="AccidentalOctal" severity="error" />
     <issue id="Deprecated" severity="error" />
     <issue id="MangledCRLF" severity="error" />

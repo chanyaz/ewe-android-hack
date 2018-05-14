@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:maxLines="1"
         android:textColor="?attr/skin_itinCardTitleTextColor"
-        android:textSize="16dp"
+        android:textSize="16sp"
         app:textStyle="normal" />
 
 </LinearLayout>

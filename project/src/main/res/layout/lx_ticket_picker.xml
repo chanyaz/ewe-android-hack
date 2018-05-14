@@ -68,7 +68,7 @@
         android:layout_weight=".2"
         android:gravity="center"
         android:textColor="?attr/skin_lxPrimaryColor"
-        android:textSize="16dp" />
+        android:textSize="16sp" />
 
     <ImageButton
         android:id="@+id/ticket_add"

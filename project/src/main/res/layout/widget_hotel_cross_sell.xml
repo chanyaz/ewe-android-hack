@@ -60,13 +60,13 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/air_attach_crystal_text_color"
                 android:textStyle="bold"
-                android:textSize="14dp"
+                android:textSize="14sp"
                 android:text="@string/air_attach_alert" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 android:textColor="@color/air_attach_crystal_text_color"
                 android:text="@string/air_attach_potential_savings" />
 
@@ -81,7 +81,7 @@
                 <com.expedia.bookings.widget.TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12dp"
+                    android:textSize="12sp"
                     android:textColor="@color/air_attach_crystal_text_color"
                     android:text="@string/air_attach_expires" />
 
@@ -92,7 +92,7 @@
                     android:drawableLeft="@drawable/airattach_countdown"
                     android:drawablePadding="4dp"
                     android:padding="4dp"
-                    android:textSize="12dp"
+                    android:textSize="12sp"
                     android:textColor="@color/price_change_air_attach" />
 
             </LinearLayout>
@@ -103,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/air_attach_expires_today"
                 android:textColor="@color/price_change_air_attach"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 android:visibility="gone"/>
 
         </LinearLayout>

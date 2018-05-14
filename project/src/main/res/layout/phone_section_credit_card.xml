@@ -93,7 +93,7 @@
             android:text="@string/Authorized_Signature"
             android:textAllCaps="true"
             android:textColor="@color/gray200"
-            android:textSize="8dp" />
+            android:textSize="8sp" />
 
     </LinearLayout>
 
@@ -141,7 +141,7 @@
         android:maxLength="4"
         android:textColor="@color/cvv_normal"
         android:contentDescription="@string/cvv_text_field_cont_desc"
-        android:textSize="20dp" />
+        android:textSize="20sp" />
 
     <!-- "Security Code for Doug's VISA" prompt -->
 

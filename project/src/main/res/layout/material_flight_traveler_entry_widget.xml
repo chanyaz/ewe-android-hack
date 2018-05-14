@@ -84,7 +84,7 @@
                 android:contentDescription="@string/expand_advanced_button_cont_desc"
                 android:text="@string/advanced_optional"
                 android:textColor="@color/app_primary"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
             <ImageView
                 android:id="@+id/traveler_advanced_options_icon"
@@ -124,7 +124,7 @@
                     android:contentDescription="@string/expand_frequent_flyer_button_cont_desc"
                     android:text="@string/frequent_flyer_optional"
                     android:textColor="@color/app_primary"
-                    android:textSize="18dp" />
+                    android:textSize="18sp" />
 
                 <ImageView
                     android:id="@+id/traveler_frequent_flyer_program_icon"
@@ -143,7 +143,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/add_anytime_before_your_flight"
                 android:textColor="@color/gray600"
-                android:textSize="14dp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView

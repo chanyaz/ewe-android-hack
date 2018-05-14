@@ -36,7 +36,7 @@
     <dimen name="launch_big_image_card_width">336dp</dimen>
     <dimen name="launch_big_image_card_height">136dp</dimen>
     <item name="launch_sign_in_placeholder_alpha" type="dimen" format="float">0.3</item>
-    <dimen name="launch_tab_text_size">12dp</dimen>
+    <dimen name="launch_tab_text_size">12sp</dimen>
     <dimen name="launch_card_header_top_margin">4dp</dimen>
     <dimen name="launch_card_header_bottom_margin">12dp</dimen>
 
@@ -108,7 +108,7 @@
     <dimen name="data_form_section_header_text">14sp</dimen>
     <dimen name="cvv_keypad_text_size">24dp</dimen>
     <dimen name="cvv_keypad_text_padding">0dp</dimen>
-    <dimen name="cvv_keypad_book_text_size">16dp</dimen>
+    <dimen name="cvv_keypad_book_text_size">16sp</dimen>
     <dimen name="checkout_form_bottom_spacer_margin">0dp</dimen>
     <dimen name="arrow_up_down_click_padding">20dp</dimen>
     <dimen name="flight_leg_day_textview_margin_right">10dp</dimen>
@@ -155,7 +155,7 @@
 
     <dimen name="lx_checkout_cost_summary_min_height">270dp</dimen>
 
-    <dimen name="slide_to_purchase_price_text_size">13dp</dimen>z
+    <dimen name="slide_to_purchase_price_text_size">13sp</dimen>z
     <dimen name="slide_to_purchase_padding">50dp</dimen>
     <dimen name="itin_car_image_width">300dp</dimen>
     <dimen name="checkout_expanded_space_height">350dp</dimen>
@@ -191,7 +191,7 @@
     <dimen name="hotel_sticky_bottom_shadow_height">8dp</dimen>
 
     <!--Dimensions for hotel review row-->
-    <dimen name="hotel_reviewer_text_size">12dp</dimen>
+    <dimen name="hotel_reviewer_text_size">12sp</dimen>
     <dimen name="hotel_review_row_padding_top">18dp</dimen>
     <dimen name="hotel_review_row_padding_bottom">@dimen/hotel_review_row_padding_top</dimen>
     <dimen name="hotel_reviews_padding_left">20dp</dimen>
@@ -204,7 +204,7 @@
     <dimen name="hotel_review_divider_width">1dp</dimen>
 
     <!--Dimensions for hotel reviews summary-->
-    <dimen name="hotel_reviews_summary_text_size">12dp</dimen>
+    <dimen name="hotel_reviews_summary_text_size">12sp</dimen>
     <dimen name="hotel_reviews_summary_padding_bottom">10dp</dimen>
     <dimen name="hotel_reviews_rating_padding_bottom">1dp</dimen>
 

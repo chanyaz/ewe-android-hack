@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:text="Enter 0 for Control group or 1 for Bucketed"
-        android:textSize="12dp" />
+        android:textSize="12sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="Active AB Tests:"
-            android:textSize="12dp" />
+            android:textSize="12sp" />
 
         <Spinner
             android:id="@+id/app_ab_tests_spinner"

@@ -118,7 +118,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/result_cells_gray_text"
-                        android:textSize="17dp"
+                        android:textSize="17sp"
                         app:textStyle="medium" />
 
                     <com.expedia.bookings.widget.TextView
@@ -127,7 +127,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/trip_bucket_sold_out"
                         android:textColor="@color/hotelsv2_sold_out_hotel_gray"
-                        android:textSize="17dp"
+                        android:textSize="17sp"
                         android:visibility="gone" />
 
                 </LinearLayout>
