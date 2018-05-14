@@ -327,7 +327,7 @@ object HotelInfoSiteScreen {
 
     @JvmStatic
     fun clickSelectARoomInFullMap() {
-        onView(withId(R.id.map_view_select_room_container)).perform(click())
+        onView(withId(R.id.hotel_map_select_a_room_bar)).perform(click())
     }
 
     object VIPAccess {

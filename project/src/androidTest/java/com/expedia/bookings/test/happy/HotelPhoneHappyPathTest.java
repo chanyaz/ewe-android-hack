@@ -36,7 +36,7 @@ public class HotelPhoneHappyPathTest extends HotelTestCase {
 		HotelResultsScreen.selectHotel("happypath");
 		reviews();
 		launchFullMap();
-		HotelInfoSiteScreen.bookFirstRoom();
+		new HotelInfoSiteScreen.Room().clickBookButton(true);
 
 		CheckoutScreen.clickDone();
 		CheckoutScreen.enterTravelerInfo();

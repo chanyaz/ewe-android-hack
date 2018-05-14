@@ -2,6 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Used by tests only. Do not include in production apps unless necessary! -->
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
     <uses-permission android:name="android.permission.DUMP" />
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission
