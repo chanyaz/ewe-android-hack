@@ -1,17 +1,20 @@
 package com.expedia.vm.flights
 
 import android.content.Context
+import android.support.annotation.VisibleForTesting
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchResponse
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.utils.isFlightGreedySearchEnabled
+import com.expedia.bookings.utils.isRichContentEnabled
 import java.util.HashMap
 import java.util.LinkedHashSet
 
 class FlightOffersViewModel(context: Context, flightServices: FlightServices) : BaseFlightOffersViewModel(context, flightServices) {
 
-    private lateinit var flightMap: HashMap<String, LinkedHashSet<FlightLeg>>
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    lateinit var flightMap: HashMap<String, LinkedHashSet<FlightLeg>>
 
     override fun selectOutboundFlight(legId: String) {
         inboundResultsObservable.onNext(findInboundFlights(legId))
@@ -64,6 +67,9 @@ class FlightOffersViewModel(context: Context, flightServices: FlightServices) : 
     private fun findInboundFlights(outboundFlightId: String): List<FlightLeg> {
         val flights = flightMap[outboundFlightId]?.toList() ?: emptyList()
         flights.forEachIndexed { index, inbound ->
+            if (isRichContentEnabled(context)) {
+                inbound.richContent = null
+            }
             inbound.legRank = index + 1
             val offer = getFlightOffer(outboundFlightId, inbound.legId)
             if (offer != null) {
