@@ -76,7 +76,7 @@
 
     <!--removed check MissingRegistered until we 're ready to 3.1-->
     <!--https://issuetracker.google.com/issues/69711848-->
-    <!--<issue id="MissingRegistered" severity="error" />-->
+    <issue id="MissingRegistered" severity="error" />
     <issue id="MockLocation" severity="error" />
     <issue id="NamespaceTypo" severity="error" />
     <issue id="Proguard" severity="error" />
@@ -107,7 +107,9 @@
     <!-- <issue id="DuplicateIncludedIds" severity="error" /> -->
     <issue id="GradleDeprecated" severity="error" />
     <issue id="GradleGetter" severity="error" />
-    <!-- <issue id="InconsistentLayout" severity="error" /> -->
+    <issue id="InconsistentLayout" severity="error">
+        <ignore path="src/main/res/layout/simple_number_picker.xml"/>
+    </issue>
     <issue id="InlinedApi" severity="error" />
     <issue id="Instantiatable" severity="error" />
     <issue id="InvalidId" severity="error" />
