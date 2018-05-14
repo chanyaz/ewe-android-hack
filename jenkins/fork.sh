@@ -21,10 +21,12 @@ prepare_frequencies_of_flaky_ui_tests() {
 
 # run test
 ./gradlew --no-daemon -PrunProguard=false forkExpediaDebug
+exitVal=$?
 
 prepare_frequencies_of_flaky_ui_tests
 
 adb devices | tail -n +2 | cut -sf 1 | xargs -I X adb -s X shell svc data enable
 adb devices | tail -n +2 | cut -sf 1 | xargs -I X adb -s X shell svc wifi enable
 
-exit $?
+echo "exitVal is $exitVal"
+exit $exitVal
