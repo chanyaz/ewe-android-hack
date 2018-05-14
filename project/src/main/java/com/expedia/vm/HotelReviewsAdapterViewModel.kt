@@ -94,6 +94,7 @@ class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: Rev
     }
 
     private fun getReviewFromApi(reviewId: String) {
+        reviewsServices.reviewSearch(hotelId,"clean")
         reviewsServices.translate(reviewId, Locale.getDefault().language).subscribe({ review ->
             val translatedReview = TranslatedReview(review)
             translationMap[reviewId] = translatedReview

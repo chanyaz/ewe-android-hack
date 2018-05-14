@@ -27,4 +27,9 @@ interface ReviewsApi {
     @Headers("Cache-Control: no-cache")
     fun translate(@Path("reviewId") reviewId: String,
                   @Path("lang") languageCode: String): Observable<HotelReviewTranslationResponse>
+
+    @GET("/api/hotelreviews/hotel/{hotelId}?_type=json")
+    @Headers("clientid: MOBILE-APP-ANDROID", "apikey: 0601x448cd474e227077mlq964842293")
+    fun hotelReviewsSearch(@Path("hotelId") hotelId: String,
+            @Query("searchTerm") searchTerm: String): Observable<HotelReviewsResponse.ReviewCollection>
 }

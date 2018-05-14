@@ -66,4 +66,10 @@ class ReviewsServices(endPoint: String, client: OkHttpClient, interceptor: Inter
                 .subscribeOn(subscribeOn)
                 .map { translationResponse -> translationResponse.review }
     }
+
+    fun reviewSearch(hotelId: String, searchTerm: String): Observable<HotelReviewsResponse.ReviewCollection> {
+        return reviewsApi.hotelReviewsSearch(hotelId, searchTerm)
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+    }
 }
