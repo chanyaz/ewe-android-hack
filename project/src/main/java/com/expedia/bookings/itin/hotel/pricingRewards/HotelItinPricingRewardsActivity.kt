@@ -15,6 +15,8 @@ import com.expedia.bookings.itin.scopes.HotelItinRewardsScope
 import com.expedia.bookings.itin.scopes.HotelItinToolbarScope
 import com.expedia.bookings.itin.scopes.HotelItinViewReceiptScope
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
+import com.expedia.bookings.itin.utils.ActivityLauncher
+import com.expedia.bookings.itin.utils.IActivityLauncher
 import com.expedia.bookings.itin.utils.IWebViewLauncher
 import com.expedia.bookings.itin.utils.Intentable
 import com.expedia.bookings.itin.utils.StringSource
@@ -47,6 +49,7 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
     lateinit var hotelRepo: ItinHotelRepo
     lateinit var stringProvider: StringSource
     lateinit var endpointProvider: EndpointProvider
+    lateinit var activityLauncher: IActivityLauncher
 
     var toolbarViewModel: HotelItinPricingRewardsToolbarViewModel<HotelItinToolbarScope> by notNullAndObservable { vm ->
         vm.navigationBackPressedSubject.subscribe {
@@ -69,12 +72,13 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
         jsonUtil = Ui.getApplication(this).tripComponent().jsonUtilProvider()
         hotelRepo = ItinHotelRepo(intent.getStringExtra(ID_EXTRA), jsonUtil, itineraryManager.syncFinishObservable)
         endpointProvider = Ui.getApplication(this).appComponent().endpointProvider()
+        activityLauncher = ActivityLauncher(this)
 
         val toolbarScope = HotelItinToolbarScope(stringProvider, hotelRepo, this)
         toolbarViewModel = HotelItinPricingRewardsToolbarViewModel(toolbarScope)
         toolbar.viewModel = toolbarViewModel
 
-        val summaryScope = HotelItinPricingSummaryScope(hotelRepo, stringProvider, this)
+        val summaryScope = HotelItinPricingSummaryScope(hotelRepo, stringProvider, activityLauncher, this)
         summaryViewModel = HotelItinPricingSummaryViewModel(summaryScope)
         pricingSummaryView.viewModel = summaryViewModel
 

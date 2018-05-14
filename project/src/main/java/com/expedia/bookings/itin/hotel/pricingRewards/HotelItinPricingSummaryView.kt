@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -23,6 +24,7 @@ class HotelItinPricingSummaryView(context: Context?, attrs: AttributeSet?) : Car
     val totalPriceView by bindView<PriceSummaryItemView>(R.id.hotel_itin_pricing_summary_total_price)
     val totalPricePosCurrencyView by bindView<PriceSummaryItemView>(R.id.hotel_itin_pricing_summary_total_price_pos_currency)
     val currencyDisclaimerView by bindView<TextView>(R.id.hotel_itin_pricing_summary_currency_disclaimer)
+    val additionalPriceInfoButton by bindView<LinearLayout>(R.id.hotel_itin_pricing_summary_additional_pricing_info_button)
 
     var viewModel: IHotelItinPricingSummaryViewModel by notNullAndObservable {
         it.roomContainerClearSubject.subscribe {
@@ -75,6 +77,8 @@ class HotelItinPricingSummaryView(context: Context?, attrs: AttributeSet?) : Car
         it.totalPriceInPosCurrencyItemSubject.subscribe { item ->
             setupPriceLineItem(totalPricePosCurrencyView, item)
         }
+
+        additionalPriceInfoButton.subscribeOnClick(it.additionalPricingInfoSubject)
     }
 
     private fun setupPriceLineItem(view: PriceSummaryItemView, item: HotelItinPriceLineItem) {

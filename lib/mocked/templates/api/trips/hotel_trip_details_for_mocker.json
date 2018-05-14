@@ -175,8 +175,15 @@
             "No cribs (infant beds) available"
           ],
           "restrictionPolicies": [],
-          "fees": [],
-          "mandatoryFees": [],
+          "fees": [
+            "The following fees and deposits are charged by the property at time of service, check-in, or check-out.<ul>                <li>An in-room refrigerator is available for an additional fee</li><li>Rollaway beds are available for an additional fee</li>  </ul>",
+            "The above list may not be comprehensive. Fees and deposits may not include tax and are subject to change."
+          ],
+          "mandatoryFees": [
+            "<p>You'll be asked to pay the following charges at the property:</p>",
+            "<ul><li>Breakage deposit: USD 250.00 per stay</li></ul>",
+            "<p>We have included all charges provided to us by the property. However, charges can vary, for example, based on length of stay or the room you book. </p>"
+          ],
           "specialCheckInInstructions": [
             "Taxes are subject to change based on Goods and Services Tax (GST) implementation. For more details, please contact the property using the information on the reservation confirmation received after booking."
           ],
@@ -248,7 +255,8 @@
           ],
           "paymentPolicies": [],
           "roomRequestDisclaimer": "All special requests (such as in-room amenities, bed type, and smoking preference) are shared with the hotel, but requests are not guaranteed and may incur additional charges. We recommend you confirm them directly with the hotel before travel.",
-          "dualCurrencyText": "Rate quotes in USD are based on current exchange rates, which may vary at time of travel. Final payment will be settled in local currency directly with the hotel."
+          "dualCurrencyText": "Rate quotes in USD are based on current exchange rates, which may vary at time of travel. Final payment will be settled in local currency directly with the hotel.",
+          "taxesAndFeesInfo": "What are the taxes and service fees? The taxes are tax recovery charges Expedia pays to its vendor (e.g. hotels); for details, please see our Terms of Use. We retain our service fees as compensation in servicing your travel reservation."
         },
         "rooms": [
           {

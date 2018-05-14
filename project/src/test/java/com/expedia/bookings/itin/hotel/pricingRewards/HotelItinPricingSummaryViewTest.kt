@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItinCardData
+import com.expedia.bookings.itin.helpers.MockActivityLauncher
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
 import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepo
 import com.expedia.bookings.itin.scopes.HotelItinPricingSummaryScope
@@ -17,6 +18,7 @@ import com.expedia.bookings.itin.utils.StringSource
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.FontCache.Font
+import com.expedia.bookings.widget.TextView
 import com.mobiata.mocke3.mockObject
 import io.reactivex.Observable
 import io.reactivex.Observer
@@ -235,6 +237,23 @@ class HotelItinPricingSummaryViewTest {
         assertEquals(14.0f, view.labelTextView.textSize)
     }
 
+    @Test
+    fun testAdditionalInfoSubject() {
+        val testObserver = TestObserver<Unit>()
+        val viewModel = MockPriceSummaryViewModel()
+        val view = testView.additionalPriceInfoButton
+        viewModel.additionalPricingInfoSubject.subscribe(testObserver)
+        testView.viewModel = viewModel
+        val additionalPricingInfoTextView = testView.additionalPriceInfoButton.getChildAt(0) as TextView
+
+        assertEquals("Additional pricing information", additionalPricingInfoTextView.text)
+        testObserver.assertEmpty()
+        view.performClick()
+        testObserver.assertValueCount(1)
+
+        testObserver.dispose()
+    }
+
     private fun getAllLineItemViews(): List<PriceSummaryItemView> {
         return testView.roomContainerView.views.filter { it is PriceSummaryItemView }.map { it as PriceSummaryItemView }
     }
@@ -251,7 +270,7 @@ class HotelItinPricingSummaryViewTest {
         val itinId = if (forSingleRoom) "single" else ""
         val repo = ItinHotelRepo(itinId, MockReadJsonUtil, TestObservable)
 
-        return HotelItinPricingSummaryScope(repo, MockStringProvider, MockLifecycleOwner())
+        return HotelItinPricingSummaryScope(repo, MockStringProvider, MockActivityLauncher(), MockLifecycleOwner())
     }
 
     object MockStringProvider : StringSource {
@@ -290,5 +309,6 @@ class HotelItinPricingSummaryViewTest {
         override val currencyDisclaimerSubject = PublishSubject.create<String>()
         override val totalPriceItemSubject = PublishSubject.create<HotelItinPriceLineItem>()
         override val totalPriceInPosCurrencyItemSubject = PublishSubject.create<HotelItinPriceLineItem>()
+        override val additionalPricingInfoSubject = PublishSubject.create<Unit>()
     }
 }

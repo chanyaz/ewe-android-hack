@@ -12,4 +12,5 @@ interface IHotelItinPricingSummaryViewModel {
     val totalPriceItemSubject: PublishSubject<HotelItinPriceLineItem>
     val totalPriceInPosCurrencyItemSubject: PublishSubject<HotelItinPriceLineItem>
     val currencyDisclaimerSubject: PublishSubject<String>
+    val additionalPricingInfoSubject: PublishSubject<Unit>
 }

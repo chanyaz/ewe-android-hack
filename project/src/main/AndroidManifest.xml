@@ -171,6 +171,14 @@
             android:screenOrientation="portrait"/>
 
         <activity
+            android:name="com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingAdditionalInfoActivity"
+            android:launchMode="singleTop"
+            android:resizeableActivity="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/ItinTheme"
+            tools:ignore="UnusedAttribute" />
+
+        <activity
             android:name="com.expedia.bookings.itin.hotel.manageBooking.HotelItinManageBookingActivity"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
