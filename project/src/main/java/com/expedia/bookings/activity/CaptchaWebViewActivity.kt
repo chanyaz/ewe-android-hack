@@ -1,6 +1,7 @@
 package com.expedia.bookings.activity
 
 import android.content.Context
+import android.content.Intent
 import com.expedia.bookings.utils.Constants
 
 class CaptchaWebViewActivity : WebViewActivity() {
@@ -12,6 +13,7 @@ class CaptchaWebViewActivity : WebViewActivity() {
             intent.putExtra(Constants.ARG_ORIGINAL_URL, originalUrl)
             intent.putExtra(Constants.ARG_USE_WEB_VIEW_TITLE, true)
             intent.putExtra(Constants.ARG_BASE_URL, baseUrl)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
     }
 
