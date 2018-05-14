@@ -1683,7 +1683,7 @@ public class OmnitureTracking {
 		addPageLoadTimeTrackingEvents(s, pageLoadTimeData);
 
 		trackAbacusTest(s, AbacusUtils.HotelRoomImageGallery);
-
+		trackAbacusTest(s, AbacusUtils.HotelUGCReviewsBoxRatingDesign);
 		return s;
 	}
 
