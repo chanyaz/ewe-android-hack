@@ -12,7 +12,8 @@ class FlightItinAirlineSupportDetailsViewModel {
             val itinerary: String,
             val callSupport: String,
             val siteSupportText: String,
-            val siteSupportURL: String
+            val siteSupportURL: String,
+            val isGuest: Boolean = false
     )
 
     val airlineSupportDetailsWidgetSubject: PublishSubject<FlightItinAirlineSupportDetailsWidgetParams> = PublishSubject.create<FlightItinAirlineSupportDetailsWidgetParams>()

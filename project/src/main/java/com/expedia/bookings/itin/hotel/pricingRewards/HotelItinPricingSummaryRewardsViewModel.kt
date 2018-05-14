@@ -70,8 +70,9 @@ class HotelItinPricingSummaryRewardsViewModel<out S>(val scope: S) : IHotelPrici
                     val rewardsUrl = reward.viewStatementURL
                     val rewardsEndpoint = endPoint.plus(rewardsUrl)
                     val tripId = itin.tripId
+                    val isGuest: Boolean = itin.isGuest
                     if (!rewardsEndpoint.isBlank() && tripId != null && !tripId.isBlank()) {
-                        scope.webViewLauncher.launchWebViewActivity(R.string.itin_hotel_details_price_summary_rewards_title, rewardsEndpoint, null, tripId, true)
+                        scope.webViewLauncher.launchWebViewActivity(R.string.itin_hotel_details_price_summary_rewards_title, rewardsEndpoint, null, tripId, true, isGuest = isGuest)
                         scope.tripsTracking.trackItinHotelViewRewards()
                     }
                 }

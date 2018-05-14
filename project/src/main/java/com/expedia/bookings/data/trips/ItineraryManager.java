@@ -1617,13 +1617,36 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 			}
 			TripDetailsResponse response = (new TripDetailsResponseHandler()).handleJson(json);
 			if (json != null && response != null && !response.hasErrors() && response.getTrip() != null) {
+				response.getTrip().setGuestEmailAddress(trip.getGuestEmailAddress());
+				response.getTrip().setIsShared(trip.isShared());
 				writeTripJsonResponseToFile(response.getTrip(), json);
 			}
 			return response;
 		}
 
 		void writeTripJsonResponseToFile(Trip trip, JSONObject json) {
+			if (trip.isGuest()) {
+				try {
+					JSONObject itin = json.optJSONObject("responseData");
+					if (itin != null) {
+						itin.put("isGuest", true);
+					}
+				}
+				catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+
 			if (trip.isShared()) {
+				try {
+					JSONObject itin = json.optJSONObject("responseData");
+					if (itin != null) {
+						itin.put("isShared", true);
+					}
+				}
+				catch (JSONException e) {
+					e.printStackTrace();
+				}
 				tripsJsonFileUtils.writeTripToFile(trip.getShareInfo().getSharableDetailsUrl(), json.toString());
 			}
 			else {

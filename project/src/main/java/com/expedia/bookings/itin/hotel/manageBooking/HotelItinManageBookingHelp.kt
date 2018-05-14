@@ -9,8 +9,10 @@ import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItinCardDataHotel
 import com.expedia.bookings.itin.hotel.common.MessageHotelUtil.getClickListener
+import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.ClipboardUtils
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.mobiata.android.SocialUtils
@@ -21,6 +23,7 @@ class HotelItinManageBookingHelp(context: Context, attr: AttributeSet?) : Linear
     val hotelConfirmationNumber: TextView by bindView(R.id.itin_hotel_manage_booking_hotel_help_confirmation_number)
     val callHotelButton: TextView by bindView(R.id.itin_hotel_manage_booking_hotel_help_call_hotel)
     private val messageHotel: TextView by bindView(R.id.itin_hotel_manage_booking_message_hotel)
+    var readJsonUtil: IJsonToItinUtil = Ui.getApplication(context).tripComponent().jsonUtilProvider()
 
     init {
         View.inflate(context, R.layout.widget_hotel_itin_manage_booking_help, this)
@@ -38,7 +41,8 @@ class HotelItinManageBookingHelp(context: Context, attr: AttributeSet?) : Linear
 
         if (hotelMessagingUrl.isNotEmpty()) {
             messageHotel.visibility = View.VISIBLE
-            messageHotel.setOnClickListener(getClickListener(context = context, url = hotelMessagingUrl, fromManageBooking = true))
+            val isGuest = readJsonUtil.getItin(itinCardDataHotel.tripId)?.isGuest
+            messageHotel.setOnClickListener(getClickListener(context = context, url = hotelMessagingUrl, fromManageBooking = true, isGuest = isGuest))
         }
 
         helpText.text = Phrase.from(this, R.string.itin_hotel_manage_booking_hotel_help_text_TEMPLATE)

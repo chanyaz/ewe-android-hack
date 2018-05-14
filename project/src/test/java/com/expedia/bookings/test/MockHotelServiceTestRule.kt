@@ -190,7 +190,7 @@ class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::clas
     private fun getApplyCouponResponse(responseFileName: String): HotelCreateTripResponse {
         val observer = TestObserver<HotelCreateTripResponse>()
         val applyCouponParams = HotelApplyCouponParameters.Builder()
-                .couponCode(responseFileName).isFromNotSignedInToSignedIn(false).tripId("tripId")
+                .couponCode(responseFileName).isFromNotSignedInToSignedIn(false).tripId("tripNumber")
                 .userPreferencePointsDetails(listOf(UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(1000f, PointsType.BURN, Money("100", "USD")))))
                 .build()
 

@@ -30,7 +30,7 @@ class HotelItinManageRoomWidget(context: Context, attributeSet: AttributeSet?) :
 
         vm.itinCardDataHotelSubject.subscribe { itinCardDataHotel ->
             hotelManageBookingHelpView.setUpWidget(itinCardDataHotel)
-            hotelCustomerSupportDetailsView.setUpWidget(itinCardDataHotel.tripNumber)
+            hotelCustomerSupportDetailsView.setUpWidget(itinCardDataHotel.tripNumber, itinCardDataHotel.tripId)
             modifyReservationWidget.viewModel.itinCardSubject.onNext(itinCardDataHotel)
         }
     }

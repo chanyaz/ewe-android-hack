@@ -122,7 +122,7 @@ class FlightMockerActivity : AppCompatActivity(), View.OnClickListener {
         val manager = ItineraryManager.getInstance()
         card.id = "flightMock"
         manager.itinCardData.add(card)
-        this.startActivity(FlightItinDetailsActivity.createIntent(this, card.id),
+        this.startActivity(FlightItinDetailsActivity.createIntent(this, card.id, card.tripId),
                 ActivityOptionsCompat
                         .makeCustomAnimation(this, R.anim.slide_in_right, R.anim.slide_out_left_complete)
                         .toBundle())

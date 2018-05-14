@@ -1,6 +1,8 @@
 package com.expedia.bookings.itin.common
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
@@ -20,7 +22,7 @@ class ItinWebviewInfoWidget(context: Context, attrs: AttributeSet?) : LinearLayo
     val buttonText: TextView by bindView(R.id.itin_webview_button_text)
 
     var viewModel: ItinWebviewInfoButtonViewModel by notNullAndObservable { vm ->
-        vm.createWebviewButtonWidgetSubject.subscribe { (text, drawable, color, url) ->
+        vm.createWebviewButtonWidgetSubject.subscribe { (text, drawable, color, url, isGuest) ->
             if (!url.isNullOrEmpty()) {
                 if (!text.isNullOrEmpty()) {
                     buttonText.text = text
@@ -33,7 +35,12 @@ class ItinWebviewInfoWidget(context: Context, attrs: AttributeSet?) : LinearLayo
                     buttonText.setTextColor(ContextCompat.getColor(context, color))
                 }
                 card_view.setOnClickListener {
-                    context.startActivity(buildWebViewIntent(text, url!!).intent, ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_up_partially, 0).toBundle())
+                    val intent: Intent = if (isGuest) {
+                        Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                    } else {
+                        buildWebViewIntent(text, url!!).intent
+                    }
+                    context.startActivity(intent, ActivityOptionsCompat.makeCustomAnimation(context, R.anim.slide_up_partially, 0).toBundle())
                     OmnitureTracking.trackItinFlightBaggageInfoClicked()
                 }
             } else {

@@ -1,9 +1,8 @@
 package com.expedia.bookings.itin.tripstore.extensions
 
-import com.expedia.bookings.itin.tripstore.data.ItinHotel
 import com.expedia.bookings.itin.tripstore.data.Itin
+import com.expedia.bookings.itin.tripstore.data.ItinHotel
 import com.expedia.bookings.itin.tripstore.data.ItinLx
-
 import com.expedia.bookings.utils.JodaUtils
 import org.joda.time.DateTime
 

@@ -6,11 +6,12 @@ import com.expedia.bookings.itin.common.ItinWebviewInfoButtonViewModel
 
 class FlightItinBagaggeInfoViewModel(val context: Context) : ItinWebviewInfoButtonViewModel() {
 
-    override fun updateWidgetWithBaggageInfoUrl(webviewLink: String) {
+    override fun updateWidgetWithBaggageInfoUrl(webviewLink: String, isGuest: Boolean) {
         createWebviewButtonWidgetSubject.onNext(ItinWebviewInfoButtonWidgetParams(
                 context.getString(R.string.itin_baggage_info_button_text),
                 R.drawable.ic_baggage_info_icon,
                 R.color.app_primary,
-                webviewLink))
+                webviewLink,
+                isGuest))
     }
 }

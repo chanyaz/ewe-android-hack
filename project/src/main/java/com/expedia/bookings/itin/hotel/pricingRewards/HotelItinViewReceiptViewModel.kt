@@ -39,8 +39,9 @@ class HotelItinViewReceiptViewModel<S>(val scope: S) : ItinViewReceiptViewModel 
             val itin: Itin = it!!
             val tripID = itin.tripId
             val url = itin.itineraryReceiptURL
+            val isGuest: Boolean = itin.isGuest
             if (!url.isNullOrEmpty()) {
-                receiptSubject.onNext(HotelItinReceipt(url!!, tripID))
+                receiptSubject.onNext(HotelItinReceipt(url!!, tripID, isGuest))
             }
         }
 
@@ -55,11 +56,11 @@ class HotelItinViewReceiptViewModel<S>(val scope: S) : ItinViewReceiptViewModel 
         }).subscribe { obj ->
             viewReceiptClickSubject.subscribe {
                 scope.tripsTracking.trackItinHotelViewReceipt()
-                scope.webViewLauncher.launchWebViewSharableActivity(obj.title, obj.receipt.url, null, obj.receipt.tripID)
+                scope.webViewLauncher.launchWebViewSharableActivity(obj.title, obj.receipt.url, null, obj.receipt.tripID, obj.receipt.isGuest)
             }
             showReceipt.onNext(Unit)
         }
     }
 
-    data class HotelItinReceipt(var url: String, var tripID: String?)
+    data class HotelItinReceipt(var url: String, var tripID: String?, val isGuest: Boolean = false)
 }

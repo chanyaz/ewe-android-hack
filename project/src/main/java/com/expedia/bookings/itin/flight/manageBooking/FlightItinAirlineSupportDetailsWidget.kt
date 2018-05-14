@@ -1,7 +1,9 @@
 package com.expedia.bookings.itin.flight.manageBooking
 
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
@@ -68,7 +70,7 @@ class FlightItinAirlineSupportDetailsWidget(context: Context?, attrs: AttributeS
         if (Strings.isNotEmpty(param.siteSupportURL)) {
             customerSupportSiteButton.visibility = View.VISIBLE
             customerSupportSiteButton.text = param.siteSupportText
-            onCustomerSupportWebButtonClick(param.siteSupportURL)
+            onCustomerSupportWebButtonClick(param.siteSupportURL, param.isGuest)
             AccessibilityUtil.appendRoleContDesc(customerSupportSiteButton, customerSupportSiteButton.text.toString(), R.string.accessibility_cont_desc_role_button)
         }
     }
@@ -85,9 +87,14 @@ class FlightItinAirlineSupportDetailsWidget(context: Context?, attrs: AttributeS
         }
     }
 
-    private fun onCustomerSupportWebButtonClick(url: String) = customerSupportSiteButton.setOnClickListener {
+    private fun onCustomerSupportWebButtonClick(url: String, isGuest: Boolean) = customerSupportSiteButton.setOnClickListener {
         OmnitureTracking.trackFlightItinAirlineSupportWebsiteClick()
-        context.startActivity(buildWebViewIntent(R.string.itin_flight_airline_support_widget_support_webview_title, url).intent)
+        if (isGuest) {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            context.startActivity(intent)
+        } else {
+            context.startActivity(buildWebViewIntent(R.string.itin_flight_airline_support_widget_support_webview_title, url).intent)
+        }
     }
 
     private fun onTicketClick(text: String) = ticket.setOnClickListener {

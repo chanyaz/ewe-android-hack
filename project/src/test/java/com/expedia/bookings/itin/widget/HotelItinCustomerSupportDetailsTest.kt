@@ -44,7 +44,7 @@ class HotelItinCustomerSupportDetailsTest {
         intentBuilder = WebViewActivity.IntentBuilder(RuntimeEnvironment.application)
         shadowActivity = Shadows.shadowOf(activity)
         itinCardDataHotel = ItinCardDataHotelBuilder().build()
-        customerSupportWidget.setUpWidget(itinCardDataHotel.tripNumber)
+        customerSupportWidget.setUpWidget(itinCardDataHotel.tripNumber, itinCardDataHotel.tripId)
     }
 
     @Test

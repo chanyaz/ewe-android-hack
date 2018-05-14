@@ -8,10 +8,10 @@ abstract class ItinWebviewInfoButtonViewModel() {
             val text: String?,
             val drawable: Int?,
             val textColor: Int?,
-            val url: String?
+            val url: String?,
+            val isGuest: Boolean = false
     )
 
     val createWebviewButtonWidgetSubject: PublishSubject<ItinWebviewInfoButtonWidgetParams> = PublishSubject.create<ItinWebviewInfoButtonWidgetParams>()
-
-    abstract fun updateWidgetWithBaggageInfoUrl(webviewLink: String)
+    abstract fun updateWidgetWithBaggageInfoUrl(webviewLink: String, isGuest: Boolean = false)
 }

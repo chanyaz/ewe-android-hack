@@ -1,7 +1,9 @@
 package com.expedia.bookings.itin.hotel.manageBooking
 
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
@@ -10,6 +12,7 @@ import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.ClipboardUtils
 import com.expedia.bookings.utils.Ui
@@ -23,12 +26,13 @@ class HotelItinCustomerSupportDetails(context: Context, attr: AttributeSet?) : L
     val itineraryNumberTextView: TextView by bindView(R.id.itinerary_number)
     val callSupportActionButton: TextView by bindView(R.id.call_support_action_button)
     val customerSupportSiteButton: TextView by bindView(R.id.expedia_customer_support_site_button)
+    var readJsonUtil: IJsonToItinUtil = Ui.getApplication(context).tripComponent().jsonUtilProvider()
 
     init {
         View.inflate(context, R.layout.widget_hotel_itin_customer_support, this)
     }
 
-    fun setUpWidget(tripNumber: String) {
+    fun setUpWidget(tripNumber: String, tripId: String) {
         customerSupportTextView.text = Phrase.from(context, R.string.itin_hotel_customer_support_header_text_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
         itineraryNumberTextView.text = Phrase.from(context, R.string.itin_hotel_itinerary_number_TEMPLATE).put("itinnumber", tripNumber).format().toString()
         itineraryNumberTextView.contentDescription = Phrase.from(this, R.string.itin_hotel_manage_booking_itinerary_number_content_description_TEMPLATE)
@@ -60,8 +64,14 @@ class HotelItinCustomerSupportDetails(context: Context, attr: AttributeSet?) : L
         customerSupportSiteButton.text = Phrase.from(context, R.string.itin_hotel_customer_support_site_header_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
         customerSupportSiteButton.contentDescription = Phrase.from(context, R.string.itin_hotel_customer_support_site_button_content_description_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
         customerSupportSiteButton.setOnClickListener {
-            context.startActivity(buildWebViewIntent(R.string.itin_hotel_customer_support_site_toolbar_header, PointOfSale.getPointOfSale().bookingSupportUrl).intent)
-            TripsTracking.trackItinHotelOpenSupportWebsite()
+            val isGuest = readJsonUtil.getItin(tripId)?.isGuest
+            if (isGuest != null && isGuest) {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(PointOfSale.getPointOfSale().bookingSupportUrl))
+                context.startActivity(intent)
+            } else {
+                context.startActivity(buildWebViewIntent(R.string.itin_hotel_customer_support_site_toolbar_header, PointOfSale.getPointOfSale().bookingSupportUrl).intent)
+                TripsTracking.trackItinHotelOpenSupportWebsite()
+            }
         }
     }
 

@@ -25,11 +25,13 @@ class FlightItinDetailsActivity : ItinBaseActivity() {
 
     companion object {
         private const val FLIGHT_ITIN_ID = "FLIGHT_ITIN_ID"
+        private const val TRIP_ID = "TRIP_ID"
 
         @JvmStatic
-        fun createIntent(context: Context, id: String): Intent {
+        fun createIntent(context: Context, id: String, tripId: String): Intent {
             val i = Intent(context, FlightItinDetailsActivity::class.java)
             i.putExtra(FLIGHT_ITIN_ID, id)
+            i.putExtra(TRIP_ID, tripId)
             return i
         }
     }
@@ -62,9 +64,9 @@ class FlightItinDetailsActivity : ItinBaseActivity() {
             flightTotalDurationWidget.viewModel.updateWidget(totalDuration)
         }
 
-        vm.createBaggageInfoWebviewWidgetSubject.subscribe { webviewURL ->
+        vm.createBaggageInfoWebviewWidgetSubject.subscribe { (webviewURL, isGuest) ->
             flightItinBaggageInfoWidget.viewModel = FlightItinBagaggeInfoViewModel(this)
-            flightItinBaggageInfoWidget.viewModel.updateWidgetWithBaggageInfoUrl(webviewURL)
+            flightItinBaggageInfoWidget.viewModel.updateWidgetWithBaggageInfoUrl(webviewURL, isGuest)
         }
         vm.updateConfirmationSubject.subscribe { params ->
             itinConfirmationWidget.viewModel.updateWidget(params)

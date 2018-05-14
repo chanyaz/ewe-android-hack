@@ -20,7 +20,9 @@ data class Itin(
         val rails: List<ItinRail>?,
         val packages: List<ItinPackage>?,
         val rewardList: List<Reward>?,
-        val paymentDetails: PaymentDetails?
+        val paymentDetails: PaymentDetails?,
+        val isGuest: Boolean,
+        val isShared: Boolean
 )
 
 data class Reward(
