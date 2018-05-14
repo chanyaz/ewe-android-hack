@@ -27,9 +27,11 @@ import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.deeplink.ActivityDeepLink;
 import com.expedia.bookings.deeplink.DeepLink;
 import com.expedia.bookings.deeplink.DeepLinkParser;
+import com.expedia.bookings.features.Features;
 import com.expedia.bookings.test.MultiBrand;
 import com.expedia.bookings.test.RunForBrands;
 import com.expedia.bookings.utils.ApiDateUtils;
+import com.expedia.bookings.utils.FeatureTestUtils;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.Strings;
 import com.google.gson.Gson;
@@ -188,6 +190,16 @@ public class LXDataUtilsTest {
 
 		String toolbarSearchDateTextContDesc = LXDataUtils.getToolbarSearchDateText(getContext(), searchParams, true);
 		assertEquals(toolbarSearchDateTextContDesc, "Apr 23 to Apr 25");
+
+		endDate = new LocalDate(2016, 4, 23);
+		searchParams = (LxSearchParams) new LxSearchParams.Builder().location("NewYork").startDate(startDate)
+			.endDate(endDate).build();
+		toolbarSearchDateText = LXDataUtils.getToolbarSearchDateText(getContext(), searchParams, false);
+		assertEquals(toolbarSearchDateText, "Apr 23 - Apr 23");
+
+		FeatureTestUtils.enableFeature(getContext(), Features.Companion.getAll().getLxMultipleDatesSearch());
+		toolbarSearchDateText = LXDataUtils.getToolbarSearchDateText(getContext(), searchParams, false);
+		assertEquals(toolbarSearchDateText, "Apr 23");
 	}
 
 	private LxSearchParams getLxSearchParamsFromDeeplink(String expectedURL) {

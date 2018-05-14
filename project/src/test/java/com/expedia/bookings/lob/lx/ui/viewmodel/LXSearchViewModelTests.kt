@@ -4,6 +4,7 @@ import android.app.Activity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.lx.LxSearchParams
+import com.expedia.bookings.features.Features
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
@@ -13,13 +14,20 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.FeatureTestUtils
+import org.robolectric.RuntimeEnvironment
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class LXSearchViewModelTests {
+    private val context = RuntimeEnvironment.application
     var vm: LXSearchViewModel by Delegates.notNull()
     var activity: Activity by Delegates.notNull()
+
+    val testStartDate = LocalDate.now()
+    val testEndDate = testStartDate.plusDays(Constants.LX_CALENDAR_MAX_DATE_SELECTION)
 
     @Before
     fun before() {
@@ -45,16 +53,16 @@ class LXSearchViewModelTests {
         vm.searchObserver.onNext(Unit)
         expected.add(LxSearchParams.Builder()
                 .destination(suggestion)
-                .startDate(LocalDate.now())
-                .endDate(LocalDate.now().plusDays(14)).build() as LxSearchParams)
+                .startDate(testStartDate)
+                .endDate(testEndDate).build() as LxSearchParams)
 
         // Select both start date and end date and search
-        vm.datesUpdated(LocalDate.now(), LocalDate.now().plusDays(3))
+        vm.datesUpdated(testStartDate, testStartDate.plusDays(3))
         vm.searchObserver.onNext(Unit)
         expected.add(LxSearchParams.Builder()
                 .destination(suggestion)
-                .startDate(LocalDate.now())
-                .endDate(LocalDate.now().plusDays(3)).build() as LxSearchParams)
+                .startDate(testStartDate)
+                .endDate(testStartDate.plusDays(3)).build() as LxSearchParams)
 
         assertEquals(testSubscriber.values()[0].activityStartDate, expected[0].activityStartDate)
         assertEquals(testSubscriber.values()[1].activityEndDate, expected[1].activityEndDate)
@@ -85,13 +93,85 @@ class LXSearchViewModelTests {
     }
 
     @Test
+    fun testLXSearchMultipleDates() {
+        vm.datesUpdated(null, null)
+        assertEquals(context.resources.getString(R.string.select_start_date), vm.dateTextObservable.value.toString().trim())
+        assertEquals(context.resources.getString(R.string.lx_search_start_date_button_cont_desc), vm.dateAccessibilityObservable.value.toString().trim())
+
+        vm.datesUpdated(testStartDate, null)
+        val startDateText = LocaleBasedDateFormatUtils.localDateToMMMd(testStartDate)
+        val endDateText = LocaleBasedDateFormatUtils.localDateToMMMd(testEndDate)
+        assertEquals(startDateText, vm.dateTextObservable.value.toString().trim())
+        assertEquals(context.resources.getString(R.string.lx_search_start_date_button_cont_desc) + " " + startDateText, vm.dateAccessibilityObservable.value.toString())
+
+        FeatureTestUtils.enableFeature(context, Features.all.lxMultipleDatesSearch)
+        val testCalendarToolTipTextObservable = TestObserver.create<Pair<String, String>>()
+        vm.calendarTooltipTextObservable.subscribe(testCalendarToolTipTextObservable)
+
+        val testCalendarTooltipContDescObservable = TestObserver.create<String>()
+        vm.calendarTooltipContDescObservable.subscribe(testCalendarTooltipContDescObservable)
+
+        vm.datesUpdated(null, null)
+        assertEquals(context.resources.getString(R.string.select_dates), vm.dateTextObservable.value.toString().trim())
+        assertEquals(context.resources.getString(R.string.base_search_dates_button_cont_desc), vm.dateAccessibilityObservable.value.toString().trim())
+        assertEquals(context.resources.getString(R.string.select_dates_proper_case), testCalendarToolTipTextObservable.values()[0].first)
+        assertEquals(context.getString(R.string.lx_calendar_tooltip_bottom), testCalendarToolTipTextObservable.values()[0].second)
+        assertEquals(context.resources.getString(R.string.select_dates_proper_case), testCalendarTooltipContDescObservable.values()[0])
+
+        vm.datesUpdated(testStartDate, null)
+        assertEquals("$startDateText - Select trip end date", vm.dateTextObservable.value.toString().trim())
+        assertEquals(startDateText + " - Select trip end date Button. Opens dialog. ", vm.dateAccessibilityObservable.value.toString())
+        assertEquals(startDateText, testCalendarToolTipTextObservable.values()[1].first)
+        assertEquals("$startDateText. " + context.resources.getString(R.string.lx_calendar_tooltip_bottom), testCalendarTooltipContDescObservable.values()[1])
+
+        vm.datesUpdated(testStartDate, testEndDate)
+        assertEquals("$startDateText - $endDateText (15 Days)", vm.dateTextObservable.value.toString().trim())
+        assertEquals(context.resources.getString(R.string.base_search_dates_button_cont_desc) + " " + "$startDateText to $endDateText (15 Days)", vm.dateAccessibilityObservable.value.toString())
+        assertEquals("$startDateText - $endDateText", testCalendarToolTipTextObservable.values()[2].first)
+        assertEquals(context.getString(R.string.lx_calendar_tooltip_maximum_days_limit), testCalendarToolTipTextObservable.values()[2].second)
+        assertEquals("$startDateText to $endDateText. Select dates again to modify", testCalendarTooltipContDescObservable.values()[2])
+
+        val newTestEndDate = testStartDate.plusDays(3)
+        val newTestEndDateText = LocaleBasedDateFormatUtils.localDateToMMMd(newTestEndDate)
+        vm.datesUpdated(testStartDate, newTestEndDate)
+        assertEquals("$startDateText - $newTestEndDateText (4 Days)", vm.dateTextObservable.value.toString().trim())
+        assertEquals(context.resources.getString(R.string.base_search_dates_button_cont_desc) + " " + "$startDateText to $newTestEndDateText (4 Days)", vm.dateAccessibilityObservable.value.toString())
+        assertEquals("$startDateText - $newTestEndDateText", testCalendarToolTipTextObservable.values()[3].first)
+        assertEquals(context.getString(R.string.calendar_drag_to_modify), testCalendarToolTipTextObservable.values()[3].second)
+        assertEquals("$startDateText to $newTestEndDateText. Select dates again to modify", testCalendarTooltipContDescObservable.values()[3])
+    }
+
+    @Test
     fun testComputeDateInstructionText() {
-        //When user has not selected the start date
         assertEquals("Select date", vm.getDateInstructionText(null, null))
 
-        //When user has selected the start date
-        val startDate = LocalDate.now()
-        assertEquals(LocaleBasedDateFormatUtils.localDateToMMMd(startDate), vm.getDateInstructionText(startDate, null))
+        FeatureTestUtils.enableFeature(context, Features.all.lxMultipleDatesSearch)
+        assertEquals(context.resources.getString(R.string.select_lx_trip_start_dates), vm.getDateInstructionText(null, null))
+
+        val startDateText = LocaleBasedDateFormatUtils.localDateToMMMd(testStartDate)
+        val endDateText = LocaleBasedDateFormatUtils.localDateToMMMd(testEndDate)
+
+        assertEquals("$startDateText - Select trip end date", vm.getDateInstructionText(testStartDate, null))
+        assertEquals("$startDateText - $endDateText (15 Days)", vm.getDateInstructionText(testStartDate, testEndDate))
+    }
+
+    @Test
+    fun testGetToolTipContDesc() {
+        FeatureTestUtils.enableFeature(context, Features.all.lxMultipleDatesSearch)
+        assertEquals(context.getString(R.string.select_dates_proper_case), vm.getToolTipContDesc(null, null))
+
+        val startDateText = LocaleBasedDateFormatUtils.localDateToMMMd(testStartDate!!)
+        assertEquals("$startDateText. Select trip end date (optional)", vm.getToolTipContDesc(testStartDate, null))
+
+        val endDateText = LocaleBasedDateFormatUtils.localDateToMMMd(testEndDate!!)
+        assertEquals("$startDateText to $endDateText. Select dates again to modify", vm.getToolTipContDesc(testStartDate, testEndDate))
+    }
+
+    @Test
+    fun testGetNoOfDaysText() {
+        FeatureTestUtils.enableFeature(context, Features.all.lxMultipleDatesSearch)
+        val actualText = vm.getNoOfDaysText(testStartDate, testEndDate).trim()
+        assertEquals("15 Days", actualText)
     }
 
     private fun getDummySuggestion(): SuggestionV4 {

@@ -8,6 +8,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.features.Features
 import java.util.Locale
 
 fun isFlexEnabled(context: Context): Boolean {
@@ -171,4 +172,8 @@ fun isHolidayCalendarEnabled(context: Context): Boolean {
 
 fun isBetterSavingsOnRDScreenEnabledForPackages(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesBetterSavingsOnRateDetails)
+}
+
+fun isLXMultipleDatesSearchEnabled(): Boolean {
+    return Features.all.lxMultipleDatesSearch.enabled()
 }
