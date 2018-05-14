@@ -116,7 +116,7 @@
     <!-- <issue id="InvalidPackage" severity="error" /> -->
     <issue id="LibraryCustomView" severity="error" />
     <issue id="LocaleFolder" severity="error" />
-    <!-- <issue id="MissingPrefix" severity="error" /> -->
+    <issue id="MissingPrefix" severity="error" />
     <issue id="MultipleUsesSdk" severity="error" />
     <issue id="NewApi" severity="error" />
     <issue id="NotSibling" severity="error" />
