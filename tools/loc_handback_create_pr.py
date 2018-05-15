@@ -16,7 +16,7 @@ brandName = sys.argv[1]
 locHandbackChangesBranchName = sys.argv[2]
 locHandbackCommitMessage = sys.argv[3]
 gitBaseBranchName = sys.argv[4]
-zipFileLocation = sys.argv[6]
+zipFileLocation = sys.argv[5]
 
 mingleProjectId = 'ebapp'
 mingleAccessId = os.environ['MINGLE_ACCESS_ID']
