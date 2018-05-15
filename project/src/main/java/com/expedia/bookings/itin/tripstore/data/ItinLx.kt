@@ -5,10 +5,12 @@ data class ItinLx(
         val activityLocation: ActivityLocation?,
         val activityId: String?,
         val travelerCount: String?,
-        val price: LxPrice?
+        val price: LxPrice?,
+        val voucherPrintURL: String?,
+        val lxVoucherPrintURL: String?
 )
 
-data class ActivityLocation (
+data class ActivityLocation(
         val city: String?,
         val addressLine1: String?,
         val postalCode: String?,
@@ -18,6 +20,6 @@ data class ActivityLocation (
         val longitude: Double?
 )
 
-data class LxPrice (
+data class LxPrice(
         val base: String?
 )

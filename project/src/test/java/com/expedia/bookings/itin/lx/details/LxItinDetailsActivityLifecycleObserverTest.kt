@@ -3,6 +3,7 @@ package com.expedia.bookings.itin.lx.details
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.LifecycleOwner
 import com.expedia.bookings.itin.common.ItinMapWidgetViewModel
+import com.expedia.bookings.itin.common.ItinRedeemVoucherViewModel
 import com.expedia.bookings.itin.common.NewItinToolbarViewModel
 import com.expedia.bookings.itin.helpers.ItinMocker
 import com.expedia.bookings.itin.helpers.MockActivityLauncher
@@ -18,6 +19,7 @@ import com.expedia.bookings.itin.scopes.HasItinId
 import com.expedia.bookings.itin.scopes.HasJsonUtil
 import com.expedia.bookings.itin.scopes.HasManageBookingWidgetViewModelSetter
 import com.expedia.bookings.itin.scopes.HasMapWidgetViewModelSetter
+import com.expedia.bookings.itin.scopes.HasRedeemVoucherViewModelSetter
 import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.scopes.HasToolbarViewModelSetter
 import com.expedia.bookings.itin.scopes.HasTripsTracking
@@ -25,6 +27,7 @@ import com.expedia.bookings.itin.scopes.HasWebViewLauncher
 import com.expedia.bookings.itin.scopes.LxItinManageBookingWidgetScope
 import com.expedia.bookings.itin.scopes.ManageBookingWidgetViewModelSetter
 import com.expedia.bookings.itin.scopes.MapWidgetViewModelSetter
+import com.expedia.bookings.itin.scopes.RedeemVoucherViewModelSetter
 import com.expedia.bookings.itin.scopes.ToolBarViewModelSetter
 import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
@@ -68,15 +71,18 @@ class LxItinDetailsActivityLifecycleObserverTest {
         assertFalse(scope.mockMangeBooking.called)
         assertFalse(scope.toolbarMock.called)
         assertFalse(scope.tripsTracker.trackItinLxCalled)
+        assertFalse(scope.redeemVoucher.called)
 
         sut.onCreate(cycle)
 
         assertTrue(scope.mockMangeBooking.called)
         assertTrue(scope.toolbarMock.called)
         assertTrue(scope.tripsTracker.trackItinLxCalled)
+        assertTrue(scope.redeemVoucher.called)
         testObserver.assertNoValues()
 
         sut.repo.invalidDataSubject.onNext(Unit)
+
         testObserver.assertValue(Unit)
     }
 
@@ -96,7 +102,7 @@ class LxItinDetailsActivityLifecycleObserverTest {
         testObserver.assertValue(Unit)
     }
 
-    class TestLifeCycleObsScope : HasStringProvider, HasWebViewLauncher, HasActivityLauncher, HasJsonUtil, HasItinId, HasToolbarViewModelSetter, HasManageBookingWidgetViewModelSetter, HasTripsTracking, HasMapWidgetViewModelSetter {
+    class TestLifeCycleObsScope : HasStringProvider, HasWebViewLauncher, HasActivityLauncher, HasJsonUtil, HasItinId, HasToolbarViewModelSetter, HasManageBookingWidgetViewModelSetter, HasTripsTracking, HasMapWidgetViewModelSetter, HasRedeemVoucherViewModelSetter {
         override val map: MapWidgetViewModelSetter = MockMapSetter()
         val tripsTracker = MockTripsTracking()
         override val tripsTracking: ITripsTracking = tripsTracker
@@ -109,6 +115,7 @@ class LxItinDetailsActivityLifecycleObserverTest {
         override val manageBooking: ManageBookingWidgetViewModelSetter = mockMangeBooking
         val toolbarMock = MockToolbarSetter()
         override val toolbar: ToolBarViewModelSetter = toolbarMock
+        override val redeemVoucher: MockRedeemVoucherSetter = MockRedeemVoucherSetter()
     }
 
     object MockReadJsonUtil : IJsonToItinUtil {
@@ -122,6 +129,13 @@ class LxItinDetailsActivityLifecycleObserverTest {
     class MockMapSetter : MapWidgetViewModelSetter {
         var called = false
         override fun setUpViewModel(vm: ItinMapWidgetViewModel) {
+            called = true
+        }
+    }
+
+    class MockRedeemVoucherSetter : RedeemVoucherViewModelSetter {
+        var called = false
+        override fun setUpViewModel(vm: ItinRedeemVoucherViewModel) {
             called = true
         }
     }

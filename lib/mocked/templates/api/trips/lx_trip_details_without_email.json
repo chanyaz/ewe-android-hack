@@ -202,6 +202,7 @@
           "minFreeCancellationHoursPackageV2": 0,
           "freeCancellationAvailablePackageV2": false
         },
+        "lxVoucherPrintURL": "https://www.expedia.com/things-to-do/voucher/?tripid=72d43105-3cd2-4f83-ae10-55f390397ac0",
         "destinationRegionId": "6023769",
         "unbookedPackageV2": false,
         "activityLocation": {

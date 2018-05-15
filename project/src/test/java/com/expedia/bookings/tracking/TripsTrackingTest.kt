@@ -129,6 +129,13 @@ class TripsTrackingTest {
     }
 
     @Test
+    fun trackItinRedeemVoucherTest() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinLxRedeemVoucher()
+        assertItinLinkTracked("App.Itinerary.Activity.Redeem")
+    }
+
+    @Test
     fun trackItinLxDetailsMapTest() {
         assertNoTrackingHasOccurred()
         TripsTracking.trackItinLxDetailsMap()

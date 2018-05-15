@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView android:id="@+id/card_view"
+    style="@style/MaterialCardView"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="11dp"
+    android:layout_marginRight="11dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardUseCompatPadding="true"
+    tools:visibility="visible">
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/itin_lx_redeem_voucher_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:drawableLeft="@drawable/ic_redeem_voucher"
+        android:drawablePadding="8dp"
+        android:padding="16dp"
+        android:text="@string/itin_lx_redeem_voucher"
+        android:textColor="@color/app_primary"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:textStyle="medium" />
+</android.support.v7.widget.CardView>

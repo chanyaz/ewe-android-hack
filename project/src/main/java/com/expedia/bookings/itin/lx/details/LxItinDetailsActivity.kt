@@ -32,6 +32,7 @@ class LxItinDetailsActivity : AppCompatActivity() {
     val toolbar: ItinToolbar by bindView(R.id.widget_lx_itin_toolbar)
     val manageBookingWidget: LxItinManageBookingWidget by bindView(R.id.widget_manage_booking)
     val mapWidget: ItinMapWidget by bindView(R.id.map_widget)
+    val redeemVoucherWidget: LxItinRedeemVoucherWidget by bindView(R.id.widget_lx_itin_redeem_voucher)
 
     val lifecycleObserver: LxItinDetailsActivityLifecycleObserver<LxLifeCycleObserverScope> by lazy {
         val stringProvider = Ui.getApplication(this).appComponent().stringProvider()
@@ -40,7 +41,7 @@ class LxItinDetailsActivity : AppCompatActivity() {
         val activityLauncher = ActivityLauncher(this)
         val itinId = intent.getStringExtra(LX_ITIN_ID)
         val tripsTracking = TripsTracking
-        val scope = LxLifeCycleObserverScope(stringProvider, webViewLauncher, activityLauncher, jsonUtil, itinId, manageBookingWidget, toolbar, tripsTracking, mapWidget)
+        val scope = LxLifeCycleObserverScope(stringProvider, webViewLauncher, activityLauncher, jsonUtil, itinId, manageBookingWidget, toolbar, tripsTracking, mapWidget, redeemVoucherWidget)
         LxItinDetailsActivityLifecycleObserver(scope)
     }
 

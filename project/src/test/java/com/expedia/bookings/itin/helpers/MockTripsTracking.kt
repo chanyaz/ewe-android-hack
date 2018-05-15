@@ -15,9 +15,14 @@ class MockTripsTracking : ITripsTracking {
     var trackItinLxCalled = false
     var mapClicked = false
     var directionClicked = false
+    var trackRedeemVoucherCalled = false
 
     override fun trackItinLxDetailsMap() {
         mapClicked = true
+    }
+
+    override fun trackItinLxRedeemVoucher() {
+        trackRedeemVoucherCalled = true
     }
 
     override fun trackItinLxDetailsDirections() {
