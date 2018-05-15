@@ -152,17 +152,17 @@ class LxCheckoutErrorTests {
 //        assertEquals(View.VISIBLE, mainContactInfoCardView.visibility)
 //    }
 
-    @Test
-    fun testTripAlreadyBooked() {
-        performLxCheckoutError("AlreadyBooked")
-
-        assertEquals(ApiError.Code.TRIP_ALREADY_BOOKED, apiError.getErrorCode())
-        assertEquals(View.VISIBLE, errorWidget.visibility)
-        assertEquals(View.VISIBLE, errorImage.visibility)
-        assertEquals(activity.getResources().getString(R.string.lx_duplicate_trip_text), errorToolbar.title)
-        assertEquals(activity.getResources().getString(R.string.my_trips), errorButton.text)
-        assertEquals(activity.getResources().getString(R.string.reservation_already_exists), errorText.text)
-    }
+//    @Test
+//    fun testTripAlreadyBooked() {
+//        performLxCheckoutError("AlreadyBooked")
+//
+//        assertEquals(ApiError.Code.TRIP_ALREADY_BOOKED, apiError.getErrorCode())
+//        assertEquals(View.VISIBLE, errorWidget.visibility)
+//        assertEquals(View.VISIBLE, errorImage.visibility)
+//        assertEquals(activity.getResources().getString(R.string.lx_duplicate_trip_text), errorToolbar.title)
+//        assertEquals(activity.getResources().getString(R.string.my_trips), errorButton.text)
+//        assertEquals(activity.getResources().getString(R.string.reservation_already_exists), errorText.text)
+//    }
 
 //    @Test
 //    fun testSessionTimeout() {
