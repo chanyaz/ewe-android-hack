@@ -1,5 +1,7 @@
 package com.expedia.bookings.data
 
+import com.google.gson.annotations.SerializedName
+
 abstract class AbstractItinDetailsResponse {
     var responseType: String? = null
     val errors: List<Error>? = null
@@ -16,6 +18,7 @@ abstract class AbstractItinDetailsResponse {
         var updateTripNameDescPathURL: String? = null
         val sharableDetailsURL: String? = null
         var rewardList = emptyList<Rewards>()
+        val email: Email? = null
 
         lateinit var startTime: Time
         lateinit var endTime: Time
@@ -30,6 +33,11 @@ abstract class AbstractItinDetailsResponse {
 
         class Rewards {
             var totalPoints: Long? = null
+        }
+
+        class Email {
+            @SerializedName("m_email")
+            val address: String? = null
         }
     }
 
