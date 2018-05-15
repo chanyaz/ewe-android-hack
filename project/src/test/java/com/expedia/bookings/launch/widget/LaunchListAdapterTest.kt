@@ -212,9 +212,8 @@ class LaunchListAdapterTest {
     fun itemViewPosition_ShowingSignedIn_CustomerFirstLaunchCard() {
         givenCustomerSignedIn()
         givenCustomerFirstGuaranteeCardEnabled()
-        createSystemUnderTest()
+        createSystemUnderTest(isItinLaunchCardEnabled = true)
 
-        println(shouldShowRewardLaunchCard(context))
         println(AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.CustomerFirstGuarantee))
         println(Ui.getApplication(context).appComponent().userStateManager().isUserAuthenticated())
 
@@ -222,13 +221,16 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
 
         val secondPosition = adapterUnderTest.getItemViewType(1)
-        assertEquals(LaunchDataItem.CUSTOMER_FIRST_GUARANTEE, secondPosition)
+        assertEquals(LaunchDataItem.ITIN_VIEW, secondPosition)
 
         val thirdPosition = adapterUnderTest.getItemViewType(2)
-        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, thirdPosition)
+        assertEquals(LaunchDataItem.CUSTOMER_FIRST_GUARANTEE, thirdPosition)
 
         val fourthPosition = adapterUnderTest.getItemViewType(3)
-        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
+        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, fourthPosition)
+
+        val fifthPosition = adapterUnderTest.getItemViewType(4)
+        assertEquals(LaunchDataItem.HEADER_VIEW, fifthPosition)
     }
 
     @Test
@@ -237,7 +239,6 @@ class LaunchListAdapterTest {
         givenCustomerFirstGuaranteeCardEnabled()
         createSystemUnderTest()
 
-        println(shouldShowRewardLaunchCard(context))
         println(AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.CustomerFirstGuarantee))
 
         val firstPosition = adapterUnderTest.getItemViewType(0)

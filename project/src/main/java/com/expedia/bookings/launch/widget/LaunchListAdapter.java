@@ -405,11 +405,11 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			if (launchListLogic.showSignInCard()) {
 				items.add(new LaunchDataItem(LaunchDataItem.SIGN_IN_VIEW));
 			}
-			if (FeatureUtilKt.shouldShowCustomerFirstGuarantee(context)) {
-				items.add(new LaunchDataItem(LaunchDataItem.CUSTOMER_FIRST_GUARANTEE));
-			}
 			if (launchListLogic.showItinCard()) {
 				items.add(new LaunchDataItem(LaunchDataItem.ITIN_VIEW));
+			}
+			if (FeatureUtilKt.shouldShowCustomerFirstGuarantee(context)) {
+				items.add(new LaunchDataItem(LaunchDataItem.CUSTOMER_FIRST_GUARANTEE));
 			}
 			if (launchListLogic.showAirAttachMessage()) {
 				items.add(new LaunchDataItem(LaunchDataItem.AIR_ATTACH_VIEW));
