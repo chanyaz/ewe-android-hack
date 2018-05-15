@@ -370,6 +370,12 @@ public class Money {
 			}
 		}
 
+		//We don't want negative sign as prefix in case of no decimal for formatted amount as 0, ex: -0.37 -> -0
+		if (nf.getMaximumFractionDigits() == 0 && amount.compareTo(BigDecimal.valueOf(-0.5)) >= 0) {
+			nf = (DecimalFormat) nf.clone();
+			nf.setNegativePrefix("");
+		}
+
 		String formattedAmount = nf.format(amount);
 		// We are hardcoding this condition because for Java 7 euro sign appears after amount for IT
 		// TODO: Remove this once Number Format Library starts giving us correct Currency Format for IT
