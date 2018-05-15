@@ -9,6 +9,7 @@ import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.shared.CalendarRules
 import com.expedia.bookings.text.HtmlCompat
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.SpannableBuilder
@@ -130,14 +131,18 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     val searchObserver = endlessObserver<Unit> {
         if (getParamsBuilder().areRequiredParamsFilled()) {
+            val params = getParamsBuilder().build()
             if (getParamsBuilder().isOriginSameAsDestination()) {
+                if (getParamsBuilder().shouldTrackSameODPairValidationError) {
+                    PackagesTracking().trackSearchValidationError(getODPairIDsTag(params))
+                }
                 errorOriginSameAsDestinationObservable.onNext(context.getString(R.string.error_same_flight_departure_arrival))
             } else if (!getParamsBuilder().hasValidDateDuration()) {
                 errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, rules.getMaxSearchDurationDays()))
             } else if (!getParamsBuilder().isWithinDateRange()) {
                 errorMaxRangeObservable.onNext(context.getString(R.string.error_date_too_far, rules.getMaxSearchDurationDays()))
             } else {
-                performSearchObserver.onNext(getParamsBuilder().build())
+                performSearchObserver.onNext(params)
             }
         } else {
             if (!getParamsBuilder().hasOriginAndDestination()) {
@@ -233,5 +238,13 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             return context.getString(R.string.calendar_instructions_date_range_flight_select_return_date)
         }
         return context.getString(R.string.calendar_drag_to_modify)
+    }
+
+    private fun getODPairIDsTag(searchParams: PackageSearchParams): String {
+        val departureMulticity = searchParams.origin?.hierarchyInfo?.airport?.multicity ?: ""
+        val arrivalMulticity = searchParams.destination?.hierarchyInfo?.airport?.multicity ?: ""
+        val departureCode = searchParams.origin?.hierarchyInfo?.airport?.airportCode ?: ""
+        val arrivalCode = searchParams.destination?.hierarchyInfo?.airport?.airportCode ?: ""
+        return "$departureMulticity;$arrivalMulticity;$departureCode;$arrivalCode"
     }
 }

@@ -4596,6 +4596,7 @@ public class OmnitureTracking {
 	private static final String PACKAGES_CHECKOUT_ERROR = "App.Package.Checkout.Error";
 	private static final String PACKAGES_CHECKOUT_ERROR_RETRY = "App.Package.CKO.Error.Retry";
 	private static final String PACKAGES_MID_SERVER_ERROR = "App.Package.Checkout.Error";
+	private static final String PACKAGES_SEARCH_VALIDATION_ERROR = "App.Package.Search.Validation.Error";
 
 	private static final String PACKAGES_CHECKOUT_SELECT_TRAVELER = "App.Package.Checkout.Traveler.Select";
 	private static final String PACKAGES_CHECKOUT_EDIT_TRAVELER = "App.Package.Checkout.Traveler.Edit.Info";
@@ -5150,6 +5151,12 @@ public class OmnitureTracking {
 
 	public static void trackPackagesCheckoutErrorRetry() {
 		createAndTrackLinkEvent(PACKAGES_CHECKOUT_ERROR_RETRY, "Package Checkout");
+	}
+
+	public static void trackPackagesSearchValidationError(String errorTag) {
+		AppAnalytics s = createTrackPageLoadEventBase(PACKAGES_SEARCH_VALIDATION_ERROR);
+		s.setProp(36, errorTag);
+		s.track();
 	}
 
 	public static void trackPackagesCheckoutSelectTraveler() {

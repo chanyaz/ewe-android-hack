@@ -584,6 +584,17 @@ class PackagesTrackingTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTrackSearchValidationError() {
+        val tag = "1;2;3;4"
+        sut.trackSearchValidationError(tag)
+        val controlEvar = mapOf(18 to "App.Package.Search.Validation.Error")
+        val prop36 = mapOf(36 to tag)
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withProps(prop36), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackCheckoutPriceChange() {
         sut.trackCheckoutPriceChange(20)
         val controlEvar = mapOf(28 to "App.Package.CKO.PriceChange")
