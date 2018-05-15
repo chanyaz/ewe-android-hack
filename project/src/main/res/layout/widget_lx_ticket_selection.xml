@@ -12,7 +12,7 @@
     android:orientation="vertical">
 
     <com.expedia.bookings.widget.TextView
-        android:id="@+id/offer_title"
+        android:id="@+id/expanded_offer_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/lx_ticket_title_color"

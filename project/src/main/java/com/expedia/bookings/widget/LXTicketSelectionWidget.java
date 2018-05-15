@@ -56,7 +56,7 @@ public class LXTicketSelectionWidget extends LinearLayout {
 	@InjectView(R.id.lx_book_now)
 	Button bookNow;
 
-	@InjectView(R.id.offer_title)
+	@InjectView(R.id.expanded_offer_title)
 	com.expedia.bookings.widget.TextView title;
 
 	@InjectView(R.id.ticket_summary_container)

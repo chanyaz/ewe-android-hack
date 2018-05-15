@@ -65,7 +65,7 @@ public class LXTicketSelectionWidgetTest {
 		View ticketSelector = container.findViewById(R.id.ticket_picker);
 		assertNotNull(container);
 
-		TextView titleText = (TextView) widget.findViewById(R.id.offer_title);
+		TextView titleText = (TextView) widget.findViewById(R.id.expanded_offer_title);
 		TextView offerDuration = (TextView) widget.findViewById(R.id.offer_detail1);
 		TextView freeCancellation = (TextView) widget.findViewById(R.id.offer_detail2);
 		TextView redemptionType = (TextView) widget.findViewById(R.id.offer_detail3);
@@ -103,7 +103,7 @@ public class LXTicketSelectionWidgetTest {
 		widget.bind(buildGTOffer(), false);
 		widget.buildTicketPickers(singleTicketAvailability());
 
-		TextView titleText = (TextView) widget.findViewById(R.id.offer_title);
+		TextView titleText = (TextView) widget.findViewById(R.id.expanded_offer_title);
 		TextView offerDuration = (TextView) widget.findViewById(R.id.offer_detail1);
 		TextView freeCancellation = (TextView) widget.findViewById(R.id.offer_detail2);
 		TextView redemptionType = (TextView) widget.findViewById(R.id.offer_detail3);
@@ -200,7 +200,7 @@ public class LXTicketSelectionWidgetTest {
 		TextView totalPriceView = priceSummaryContainer.findViewById(R.id.actual_price);     // Tkt selection
 		TextView discountPercentView = priceSummaryContainer.findViewById(R.id.discount_percentage);
 		Button bookButton = (Button) widget.findViewById(R.id.lx_book_now);
-		TextView titleText = (TextView) widget.findViewById(R.id.offer_title);
+		TextView titleText = (TextView) widget.findViewById(R.id.expanded_offer_title);
 		LXOfferDescription descriptionWidget = (LXOfferDescription) widget.findViewById(R.id.offer_description);
 		TextView descriptionText = (TextView) descriptionWidget.findViewById(R.id.description);
 
@@ -309,7 +309,7 @@ public class LXTicketSelectionWidgetTest {
 			.getFormattedMoney();
 		String expectedBookText = activity.getResources().getString(R.string.offer_book_now_button);
 		Button bookButton = (Button) widget.findViewById(R.id.lx_book_now);
-		TextView titleText = (TextView) widget.findViewById(R.id.offer_title);
+		TextView titleText = (TextView) widget.findViewById(R.id.expanded_offer_title);
 		LXOfferDescription descriptionWidget = (LXOfferDescription) widget.findViewById(R.id.offer_description);
 		TextView descriptionText = (TextView) descriptionWidget.findViewById(R.id.description);
 

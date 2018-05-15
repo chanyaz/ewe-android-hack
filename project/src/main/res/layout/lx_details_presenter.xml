@@ -7,7 +7,13 @@
 
     <include layout="@layout/widget_activity_details" />
 
-    <include layout="@layout/toolbar_lx_details" />
+    <View
+        android:id="@+id/lx_details_gradient_top"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="@drawable/lx_details_gradient_top" />
+
+    <include layout="@layout/toolbar_lx_results_and_details" />
 
     <com.expedia.bookings.widget.LXMapView
         android:id="@+id/lx_maps_view"

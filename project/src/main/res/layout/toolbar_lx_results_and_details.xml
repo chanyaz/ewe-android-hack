@@ -2,12 +2,6 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <View
-        android:id="@+id/lx_details_gradient_top"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:background="@drawable/lx_details_gradient_top" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -72,5 +66,4 @@
             </LinearLayout>
         </FrameLayout>
     </android.support.v7.widget.Toolbar>
-
 </merge>
