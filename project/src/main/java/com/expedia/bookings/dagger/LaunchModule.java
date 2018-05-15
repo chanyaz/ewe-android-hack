@@ -1,5 +1,10 @@
 package com.expedia.bookings.dagger;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Named;
+
 import android.content.Context;
 
 import com.expedia.bookings.dagger.tags.LaunchScope;
@@ -8,11 +13,6 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.CollectionServices;
 import com.expedia.bookings.services.HotelServices;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
@@ -28,7 +28,7 @@ public final class LaunchModule {
 	HotelServices provideHotelServices(Context context, EndpointProvider endpointProvider, OkHttpClient client,
 		Interceptor interceptor, @Named("SatelliteInterceptor") Interceptor satelliteInterceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
-		final String satelliteEndpoint = endpointProvider.getSatelliteHotelEndpointUrl();
+		final String satelliteEndpoint = endpointProvider.getSatelliteEndpointUrl();
 
 		List<Interceptor> satelliteInterceptors = new ArrayList<>();
 		satelliteInterceptors.add(satelliteInterceptor);

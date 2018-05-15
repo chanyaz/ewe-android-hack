@@ -227,19 +227,6 @@ public class EndpointProvider implements EndpointProviderInterface {
 		return endpoint;
 	}
 
-	//TODO: switch to satelliteEndpointUrl above once things are stable in prod.
-	public String getSatelliteHotelEndpointUrl() {
-		String endpoint;
-		switch (getEndPoint()) {
-		case MOCK_MODE:
-			endpoint = getCustomServerAddress();
-			break;
-		default:
-			endpoint = "https://apim.int.expedia.com/";
-		}
-		return endpoint;
-	}
-
 	public String getTravelGraphEndpointUrl() {
 		String endpoint;
 		switch (getEndPoint()) {

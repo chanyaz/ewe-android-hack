@@ -1,5 +1,10 @@
 package com.expedia.bookings.dagger;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Named;
+
 import android.content.Context;
 
 import com.expedia.bookings.dagger.tags.HotelScope;
@@ -32,11 +37,6 @@ import com.expedia.vm.interfaces.IBucksViewModel;
 import com.expedia.vm.interfaces.IPayWithPointsViewModel;
 import com.expedia.vm.interfaces.IPaymentWidgetViewModel;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Named;
-
 import dagger.Module;
 import dagger.Provides;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -51,7 +51,7 @@ public final class HotelModule {
 	HotelServices provideHotelServices(Context context, EndpointProvider endpointProvider, OkHttpClient client,
 		Interceptor interceptor, @Named("SatelliteInterceptor") Interceptor satelliteInterceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
-		final String satelliteEndpoint = endpointProvider.getSatelliteHotelEndpointUrl();
+		final String satelliteEndpoint = endpointProvider.getSatelliteEndpointUrl();
 
 		List<Interceptor> satelliteInterceptors = new ArrayList<>();
 		satelliteInterceptors.add(satelliteInterceptor);
