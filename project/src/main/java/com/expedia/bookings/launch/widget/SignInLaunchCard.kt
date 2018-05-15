@@ -30,7 +30,6 @@ class BrandSignInLaunchCard(itemView: View, val context: Context) : RecyclerView
         secondLineTextView.text = vm.secondLine
         button_one.text = vm.buttonOneLabel
         button_one.contentDescription = (vm.buttonOneLabel + " " + context.getString(R.string.accessibility_cont_desc_role_button))
-        button_one.letterSpacing = .05f
     }
 
     private fun setupFonts() {
