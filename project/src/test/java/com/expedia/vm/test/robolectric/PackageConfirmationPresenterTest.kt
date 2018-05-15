@@ -65,6 +65,7 @@ class PackageConfirmationPresenterTest {
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
         activity = Robolectric.buildActivity(PlaygroundActivity::class.java, styledIntent).create().visible().get()
         packagePresenter = LayoutInflater.from(activity).inflate(R.layout.package_activity, null) as PackagePresenter
+        packagePresenter.itinTripServices = serviceRule.services!!
     }
 
     @Test
@@ -111,6 +112,9 @@ class PackageConfirmationPresenterTest {
     fun testMIDConfirmationPresenterFromWebView() {
         setupMIDWebCheckout()
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
+        Db.setPackageParams(getPackageSearchParams())
+        Db.setPackageSelectedOutboundFlight(PackageTestUtil.getPackageSelectedOutboundFlight())
+        PackageTestUtil.setDbPackageSelectedHotel()
 
         val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
         val makeItinResponseObserver = packagePresenter.makeNewItinResponseObserver()
@@ -186,20 +190,20 @@ class PackageConfirmationPresenterTest {
         assertBookingSuccessDialogDisplayed()
     }
 
-//    @Test
-//    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-//    fun testMIDShowBookingSuccessDialogOnItinResponseContainingErrors() {
-//        setupMIDWebCheckout()
-//        Db.setPackageParams(getPackageSearchParams())
-//        Db.setPackageSelectedOutboundFlight(PackageTestUtil.getPackageSelectedOutboundFlight())
-//        PackageTestUtil.setDbPackageSelectedHotel()
-//
-//        val makeItinResponseObserver = packagePresenter.makeNewItinResponseObserver()
-//
-//        serviceRule.services!!.getTripDetails("error_trip_details_response", makeItinResponseObserver)
-//
-//        assertBookingSuccessDialogDisplayed()
-//    }
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testMIDShowBookingSuccessDialogOnItinResponseContainingErrors() {
+        setupMIDWebCheckout()
+        Db.setPackageParams(getPackageSearchParams())
+        Db.setPackageSelectedOutboundFlight(PackageTestUtil.getPackageSelectedOutboundFlight())
+        PackageTestUtil.setDbPackageSelectedHotel()
+
+        val makeItinResponseObserver = packagePresenter.makeNewItinResponseObserver()
+
+        serviceRule.services!!.getTripDetails("error_trip_details_response", makeItinResponseObserver)
+
+        assertBookingSuccessDialogDisplayed()
+    }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
@@ -253,5 +257,6 @@ class PackageConfirmationPresenterTest {
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
         activity = Robolectric.buildActivity(PlaygroundActivity::class.java, styledIntent).create().visible().get()
         packagePresenter = LayoutInflater.from(activity).inflate(R.layout.package_activity, null) as PackagePresenter
+        packagePresenter.showBundleOverView()
     }
 }
