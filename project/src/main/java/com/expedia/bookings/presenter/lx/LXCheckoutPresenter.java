@@ -117,7 +117,8 @@ public class LXCheckoutPresenter extends Presenter {
 			.show();
 	}
 
-	private Observer<LXCheckoutResponse> checkoutObserver = new Observer<LXCheckoutResponse>() {
+	@VisibleForTesting
+	public Observer<LXCheckoutResponse> checkoutObserver = new Observer<LXCheckoutResponse>() {
 		@Override
 		public void onComplete() {
 		}

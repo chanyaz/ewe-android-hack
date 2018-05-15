@@ -16,10 +16,12 @@ import com.expedia.bookings.data.lx.LXCheckoutResponse
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.lx.LXCheckoutPresenter
+import com.expedia.bookings.services.LxServices
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.LXCheckoutSummaryWidget
 import com.expedia.bookings.widget.LXErrorWidget
@@ -27,10 +29,12 @@ import com.expedia.bookings.widget.PaymentWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.vm.PaymentViewModel
 import com.squareup.phrase.Phrase
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.lx_checkout_presenter.view.checkout
 import org.joda.time.LocalDate
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
@@ -59,6 +63,9 @@ class LxCheckoutErrorTests {
     lateinit var checkoutPresenter: LXCheckoutPresenter
     lateinit var checkoutToolbar: ViewGroup
 
+    private val lxServicesRule = ServicesRule(LxServices::class.java, Schedulers.trampoline(), "../mocked/templates", false)
+    @Rule get
+
     @Before
     fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
@@ -79,24 +86,24 @@ class LxCheckoutErrorTests {
         Events.unregister(checkoutPresenter)
     }
 
-//    @Test
-//    fun testPaymentFailed() {
-//        performLxCheckoutError("PaymentFailed")
-//
-//        assertEquals(ApiError.Code.PAYMENT_FAILED, apiError.errorCode)
-//        assertEquals(View.VISIBLE, errorWidget.visibility)
-//        assertEquals(View.VISIBLE, errorImage.visibility)
-//        assertEquals(activity.getResources().getString(R.string.payment_failed_label), errorToolbar.title)
-//        assertEquals(activity.getResources().getString(R.string.edit_payment), errorButton.text)
-//        assertEquals(activity.resources.getString(R.string.reservation_payment_failed), errorText.text)
-//
-//        errorButton.performClick()
-//
-//        val editbox = checkoutPresenter.findViewById<View>(R.id.edit_creditcard_number)
-//        val sectionBillingInfo = checkoutPresenter.findViewById<View>(R.id.section_billing_info)
-//        assertEquals(View.VISIBLE, sectionBillingInfo.visibility)
-//        assertEquals(View.VISIBLE, editbox.visibility)
-//    }
+    @Test
+    fun testPaymentFailed() {
+        performLxCheckoutError("PaymentFailed")
+
+        assertEquals(ApiError.Code.PAYMENT_FAILED, apiError.errorCode)
+        assertEquals(View.VISIBLE, errorWidget.visibility)
+        assertEquals(View.VISIBLE, errorImage.visibility)
+        assertEquals(activity.getResources().getString(R.string.payment_failed_label), errorToolbar.title)
+        assertEquals(activity.getResources().getString(R.string.edit_payment), errorButton.text)
+        assertEquals(activity.resources.getString(R.string.reservation_payment_failed), errorText.text)
+
+        errorButton.performClick()
+
+        val editbox = checkoutPresenter.findViewById<View>(R.id.edit_creditcard_number)
+        val sectionBillingInfo = checkoutPresenter.findViewById<View>(R.id.section_billing_info)
+        assertEquals(View.VISIBLE, sectionBillingInfo.visibility)
+        assertEquals(View.VISIBLE, editbox.visibility)
+    }
 
     @Test
     fun testPaymentFailedErrorRemovesTempCard() {
@@ -131,62 +138,61 @@ class LxCheckoutErrorTests {
         assertEquals(Phrase.from(activity, R.string.error_server_TEMPLATE).put("brand", BuildConfig.brand).format().toString(), errorText.text)
     }
 
-//    @Test
-//    fun testInvalidInput() {
-//
-//        performLxCheckoutError("InvalidInput")
-//
-//        assertEquals(ApiError.Code.INVALID_INPUT, apiError.errorCode)
-//        assertEquals(View.VISIBLE, errorWidget.visibility)
-//        assertEquals(View.VISIBLE, errorImage.visibility)
-//        assertEquals(activity.getResources().getString(R.string.lx_invalid_input_text), errorToolbar.title)
-//        assertEquals(activity.getResources().getString(R.string.edit_info), errorButton.text)
-//        assertEquals(activity.getResources().getString(R.string.reservation_invalid_name), errorText.text)
-//
-//        errorButton.performClick()
-//
-//        //Assert that Traveller details screen is displayed
-//        val checkoutToolbarTitle = checkoutToolbar.getChildAt(2) as android.widget.TextView
-//        val mainContactInfoCardView = checkoutPresenter.findViewById<View>(R.id.main_contact_info_card_view) as android.widget.FrameLayout
-//        assertEquals("Traveler details", checkoutToolbarTitle.text.toString())
-//        assertEquals(View.VISIBLE, mainContactInfoCardView.visibility)
-//    }
+    @Test
+    fun testInvalidInput() {
+        performLxCheckoutError("InvalidInput")
 
-//    @Test
-//    fun testTripAlreadyBooked() {
-//        performLxCheckoutError("AlreadyBooked")
-//
-//        assertEquals(ApiError.Code.TRIP_ALREADY_BOOKED, apiError.getErrorCode())
-//        assertEquals(View.VISIBLE, errorWidget.visibility)
-//        assertEquals(View.VISIBLE, errorImage.visibility)
-//        assertEquals(activity.getResources().getString(R.string.lx_duplicate_trip_text), errorToolbar.title)
-//        assertEquals(activity.getResources().getString(R.string.my_trips), errorButton.text)
-//        assertEquals(activity.getResources().getString(R.string.reservation_already_exists), errorText.text)
-//    }
+        assertEquals(ApiError.Code.INVALID_INPUT, apiError.errorCode)
+        assertEquals(View.VISIBLE, errorWidget.visibility)
+        assertEquals(View.VISIBLE, errorImage.visibility)
+        assertEquals(activity.getResources().getString(R.string.lx_invalid_input_text), errorToolbar.title)
+        assertEquals(activity.getResources().getString(R.string.edit_info), errorButton.text)
+        assertEquals(activity.getResources().getString(R.string.reservation_invalid_name), errorText.text)
 
-//    @Test
-//    fun testSessionTimeout() {
-//        performLxCheckoutError("SessionTimeout")
-//
-//        assertEquals(ApiError.Code.SESSION_TIMEOUT, apiError.errorCode)
-//        assertEquals(View.VISIBLE, errorWidget.visibility)
-//        assertEquals(View.VISIBLE, errorImage.visibility)
-//        assertEquals(activity.getResources().getString(R.string.session_timeout), errorToolbar.title)
-//        assertEquals(activity.getResources().getString(R.string.edit_search), errorButton.text)
-//        assertEquals(activity.getResources().getString(R.string.reservation_time_out), errorText.text)
-//    }
+        errorButton.performClick()
 
-//    @Test
-//    fun testPriceChangeErrorMessageOnErrorScreen() {
-//        performLxCheckoutWithPriceChange()
-//
-//        assertEquals(ApiError.Code.PRICE_CHANGE, checkoutResponseForPriceChange.firstError.errorCode)
-//        assertEquals(View.VISIBLE, errorWidget.visibility)
-//        assertEquals(View.VISIBLE, errorImage.visibility)
-//        assertEquals(activity.getResources().getString(R.string.lx_price_change_text), errorToolbar.title)
-//        assertEquals(activity.getResources().getString(R.string.view_price_change), errorButton.text)
-//        assertEquals(activity.resources.getString(R.string.lx_error_price_changed), errorText.text)
-//    }
+        //Assert that Traveller details screen is displayed
+        val checkoutToolbarTitle = checkoutToolbar.getChildAt(2) as android.widget.TextView
+        val mainContactInfoCardView = checkoutPresenter.findViewById<View>(R.id.main_contact_info_card_view) as android.widget.FrameLayout
+        assertEquals("Traveler details", checkoutToolbarTitle.text.toString())
+        assertEquals(View.VISIBLE, mainContactInfoCardView.visibility)
+    }
+
+    @Test
+    fun testTripAlreadyBooked() {
+        performLxCheckoutError("AlreadyBooked")
+
+        assertEquals(ApiError.Code.TRIP_ALREADY_BOOKED, apiError.getErrorCode())
+        assertEquals(View.VISIBLE, errorWidget.visibility)
+        assertEquals(View.VISIBLE, errorImage.visibility)
+        assertEquals(activity.getResources().getString(R.string.lx_duplicate_trip_text), errorToolbar.title)
+        assertEquals(activity.getResources().getString(R.string.my_trips), errorButton.text)
+        assertEquals(activity.getResources().getString(R.string.reservation_already_exists), errorText.text)
+    }
+
+    @Test
+    fun testSessionTimeout() {
+        performLxCheckoutError("SessionTimeout")
+
+        assertEquals(ApiError.Code.SESSION_TIMEOUT, apiError.errorCode)
+        assertEquals(View.VISIBLE, errorWidget.visibility)
+        assertEquals(View.VISIBLE, errorImage.visibility)
+        assertEquals(activity.getResources().getString(R.string.session_timeout), errorToolbar.title)
+        assertEquals(activity.getResources().getString(R.string.edit_search), errorButton.text)
+        assertEquals(activity.getResources().getString(R.string.reservation_time_out), errorText.text)
+    }
+
+    @Test
+    fun testPriceChangeErrorMessageOnErrorScreen() {
+        performLxCheckoutWithPriceChange()
+
+        assertEquals(ApiError.Code.PRICE_CHANGE, checkoutResponseForPriceChange.firstError.errorCode)
+        assertEquals(View.VISIBLE, errorWidget.visibility)
+        assertEquals(View.VISIBLE, errorImage.visibility)
+        assertEquals(activity.getResources().getString(R.string.lx_price_change_text), errorToolbar.title)
+        assertEquals(activity.getResources().getString(R.string.view_price_change), errorButton.text)
+        assertEquals(activity.resources.getString(R.string.lx_error_price_changed), errorText.text)
+    }
 
     @Test
     fun testPriceChangeErrorMessageOnCheckoutScreen() {
@@ -254,15 +260,13 @@ class LxCheckoutErrorTests {
 
     private fun performLxCheckoutError(errorType: String) {
         apiError = mockActivityObjects.getCheckoutError(errorType)
-        val lxKickoffCheckoutCallEvent = Events.LXKickOffCheckoutCall(mockActivityObjects.getCheckoutParams())
-        checkoutPresenter.onDoCheckoutCall(lxKickoffCheckoutCallEvent)
+        lxServicesRule.services?.lxCheckout(mockActivityObjects.getCheckoutParams(), checkoutPresenter.checkoutObserver)
         errorWidget.bind(apiError)
     }
 
     private fun performLxCheckoutWithPriceChange() {
         checkoutResponseForPriceChange = mockActivityObjects.getCheckoutResponseForPriceChange()
-        val lxKickoffCheckoutCallEvent = Events.LXKickOffCheckoutCall(mockActivityObjects.getCheckoutParams())
-        checkoutPresenter.onDoCheckoutCall(lxKickoffCheckoutCallEvent)
+        lxServicesRule.services?.lxCheckout(mockActivityObjects.getCheckoutParams(), checkoutPresenter.checkoutObserver)
         errorWidget.bind(checkoutResponseForPriceChange.firstError)
     }
 
