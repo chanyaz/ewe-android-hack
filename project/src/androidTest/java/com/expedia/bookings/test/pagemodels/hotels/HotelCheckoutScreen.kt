@@ -9,6 +9,7 @@ import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
 import com.expedia.bookings.test.pagemodels.common.CVVEntryScreen
 import com.expedia.bookings.test.pagemodels.common.CheckoutScreen
@@ -66,9 +67,10 @@ class HotelCheckoutScreen {
 
         @JvmStatic
         fun verifyFeesDisclaimerAppear() {
-            onView(
-                    withText(containsString(" resort fee will be collected at the hotel. The total price for your stay will be "))
-            ).perform(scrollTo()).check(matches(isDisplayed()))
+            val view = withId(R.id.disclaimer_text)
+            val substring = containsString(" resort fee will be collected at the hotel. The total price for your stay will be ")
+            Common.device.waitForIdle()
+            onView(view).perform(scrollTo()).check(matches(allOf(isDisplayed(), withText(substring))))
         }
     }
 }
