@@ -70,9 +70,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
     var travelerManager: TravelerManager
     lateinit var tripResponse: PackageCreateTripResponse
 
-    val itinTripServices: ItinTripServices by lazy {
-        Ui.getApplication(context).packageComponent().itinTripServices()
-    }
+    lateinit var itinTripServices: ItinTripServices
 
     var isCrossSellPackageOnFSREnabled = false
     val bundlePresenterViewStub: ViewStub by bindView(R.id.widget_bundle_overview_view_stub)
@@ -267,6 +265,9 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         }
 
         hotelOffersErrorObservable.subscribe { show(errorPresenter) }
+        if (midAPIEnabled) {
+            itinTripServices = Ui.getApplication(context).packageComponent().itinTripServices()
+        }
     }
 
     override fun onFinishInflate() {
