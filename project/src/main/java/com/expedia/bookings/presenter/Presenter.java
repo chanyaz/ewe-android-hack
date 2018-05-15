@@ -10,6 +10,7 @@ import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.content.Context;
 import android.support.annotation.CallSuper;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Pair;
@@ -364,7 +365,11 @@ public class Presenter extends FrameLayout {
 			return new TransitionWrapper(transitions.get(b).get(a), false);
 		}
 
-		throw new RuntimeException("No Transition defined for " + a + " to " + b);
+		throw missingTransitionException("No Transition defined for " + a + " to " + b);
+	}
+
+	public RuntimeException missingTransitionException(@NonNull String exceptionMessage) {
+		return new RuntimeException(exceptionMessage);
 	}
 
 	public void addTransition(Transition transition) {

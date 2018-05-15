@@ -6,11 +6,14 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.packages.activity.PackageFlightActivity
 import com.expedia.bookings.packages.presenter.PackageFlightPresenter
+import com.expedia.bookings.packages.widget.BundleTotalPriceTopWidget
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MockPackageServiceTestRule
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
@@ -18,22 +21,20 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.packages.widget.BundleTotalPriceTopWidget
-import com.expedia.bookings.packages.activity.PackageFlightActivity
 import com.expedia.util.Optional
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import com.expedia.bookings.data.Db
-import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricRunner::class)
 class PackageFlightPresenterTest {
@@ -43,6 +44,9 @@ class PackageFlightPresenterTest {
     val context = RuntimeEnvironment.application
 
     val mockPackageServiceRule: MockPackageServiceTestRule = MockPackageServiceTestRule()
+        @Rule get
+
+    val thrown: ExpectedException = ExpectedException.none()
         @Rule get
 
     @Before
@@ -231,6 +235,15 @@ class PackageFlightPresenterTest {
         assertEquals("There may be an additional fee based on your payment method.",
                 presenter.resultsPresenter.getAirlinePaymentFeesTextView().text)
         assertEquals(View.VISIBLE, presenter.resultsPresenter.getAirlinePaymentFeesTextView().visibility)
+    }
+
+    @Test
+    fun testCustomExceptionWasThrownWhenTransitionIsNotSet() {
+        mockPackageServiceRule.getMIDFlightsResponse()
+        presenter = getPackageFlightPresenter()
+        thrown.expect(PackageFlightPresenter.PackageFlightMissingTransitionException::class.java)
+        thrown.expectMessage("No Transition defined for Test screen 1 to Test screen 2")
+        presenter.getTransition("Test screen 1", "Test screen 2")
     }
 
     private fun getDummyRegionNames(): SuggestionV4.RegionNames {

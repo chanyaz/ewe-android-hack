@@ -1,5 +1,6 @@
 package com.expedia.bookings.presenter.lx;
 
+import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
 import android.animation.ArgbEvaluator;
@@ -445,6 +446,17 @@ public class LXPresenter extends Presenter {
 			}
 		}
 	};
+
+	public class LXMissingTransitionException extends RuntimeException {
+		public LXMissingTransitionException(String exceptionMessage) {
+			super(exceptionMessage);
+		}
+	}
+
+	@Override
+	public RuntimeException missingTransitionException(@Nonnull String exceptionMessage) {
+		return new LXMissingTransitionException(exceptionMessage);
+	}
 
 	@Subscribe
 	public void onNewSearchParamsAvailable(Events.LXNewSearchParamsAvailable event) {

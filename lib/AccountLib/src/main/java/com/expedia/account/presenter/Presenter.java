@@ -299,7 +299,11 @@ public class Presenter extends FrameLayout {
 			return new TransitionWrapper(transitions.get(b).get(a), false);
 		}
 
-		throw new RuntimeException("No Transition defined for " + a + " to " + b);
+		throw missingTransitionException("No Transition defined for " + a + " to " + b);
+	}
+
+	public RuntimeException missingTransitionException(@NonNull String exceptionMessage) {
+		return new RuntimeException(exceptionMessage);
 	}
 
 	public void addTransition(Transition transition) {

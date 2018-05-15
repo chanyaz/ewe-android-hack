@@ -19,13 +19,20 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackagesPageUsableData
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extensions.subscribeContentDescription
 import com.expedia.bookings.extensions.subscribeInverseVisibility
 import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.extensions.subscribeVisibility
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.packages.adapter.PackageFlightListAdapter
+import com.expedia.bookings.packages.vm.PackageFlightOverviewViewModel
+import com.expedia.bookings.packages.vm.PackageResultsViewModel
+import com.expedia.bookings.packages.vm.PackageToolbarViewModel
+import com.expedia.bookings.packages.widget.BundleTotalPriceTopWidget
+import com.expedia.bookings.packages.widget.SlidingBundleWidget
+import com.expedia.bookings.packages.widget.SlidingBundleWidgetListener
 import com.expedia.bookings.presenter.flight.BaseFlightPresenter
 import com.expedia.bookings.presenter.shared.FlightDetailsPresenter
 import com.expedia.bookings.presenter.shared.FlightResultsListViewPresenter
@@ -36,17 +43,10 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
 import com.expedia.bookings.utils.isMidAPIEnabled
-import com.expedia.bookings.packages.widget.SlidingBundleWidget
-import com.expedia.bookings.packages.widget.SlidingBundleWidgetListener
 import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.packages.widget.BundleTotalPriceTopWidget
-import com.expedia.bookings.packages.adapter.PackageFlightListAdapter
 import com.expedia.util.Optional
 import com.expedia.util.endlessObserver
 import com.expedia.vm.AbstractFlightOverviewViewModel
-import com.expedia.bookings.packages.vm.PackageResultsViewModel
-import com.expedia.bookings.packages.vm.PackageToolbarViewModel
-import com.expedia.bookings.packages.vm.PackageFlightOverviewViewModel
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 
@@ -72,6 +72,11 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
                 bundlePriceWidgetTop.isClickable = !forward
             }
         }
+    }
+
+    class PackageFlightMissingTransitionException(exceptionMessage: String) : RuntimeException(exceptionMessage)
+    override fun missingTransitionException(exceptionMessage: String): RuntimeException {
+        return PackageFlightMissingTransitionException(exceptionMessage)
     }
 
     private val flightOverviewSelected = endlessObserver<FlightLeg> { flight ->

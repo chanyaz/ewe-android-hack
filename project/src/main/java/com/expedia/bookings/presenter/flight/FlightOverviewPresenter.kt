@@ -229,6 +229,11 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         }
     }
 
+    class FlightOverviewMissingTransitionException(exceptionMessage: String) : RuntimeException(exceptionMessage)
+    override fun missingTransitionException(exceptionMessage: String): RuntimeException {
+        return FlightOverviewMissingTransitionException(exceptionMessage)
+    }
+
     val overviewToBasicEconomyInfoWebView = object : VisibilityTransition(this, BaseTwoScreenOverviewPresenter.BundleDefault::class.java, BasicEconomyInfoWebView::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)

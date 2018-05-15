@@ -57,4 +57,9 @@ class FlightInboundPresenter(context: Context, attrs: AttributeSet) : AbstractMa
         val trackingData = searchTrackingBuilder.build()
         FlightsV2Tracking.trackResultInBoundFlights(trackingData, Pair(flightOfferViewModel.confirmedOutboundFlightSelection.value.legRank, flightOfferViewModel.totalOutboundResults))
     }
+
+    class FlightInboundMissingTransitionException(exceptionMessage: String) : RuntimeException(exceptionMessage)
+    override fun missingTransitionException(exceptionMessage: String): RuntimeException {
+        return FlightInboundMissingTransitionException(exceptionMessage)
+    }
 }

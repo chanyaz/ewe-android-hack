@@ -23,7 +23,9 @@ import com.expedia.vm.LXWebCheckoutViewViewModel
 import com.expedia.vm.WebCheckoutViewViewModel
 import com.google.gson.GsonBuilder
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
@@ -35,6 +37,9 @@ import kotlin.test.assertTrue
 class LXPresenterTest {
     lateinit var lxPresenter: LXPresenter
     lateinit var activity: Activity
+
+    val thrown: ExpectedException = ExpectedException.none()
+        @Rule get
 
     @Before
     fun setup() {
@@ -198,6 +203,14 @@ class LXPresenterTest {
         Events.post(Events.LXOfferBooked(Offer(), listOf(getAdultTicket())))
 
         assertFalse(lxPresenter.backStack.contains(lxPresenter.checkoutPresenter))
+    }
+
+    @Test
+    fun testCustomExceptionWasThrownWhenTransitionIsNotSet() {
+        lxPresenter = LayoutInflater.from(activity).inflate(R.layout.lx_base_layout, null) as LXPresenter
+        thrown.expect(LXPresenter.LXMissingTransitionException::class.java)
+        thrown.expectMessage("No Transition defined for Test screen 1 to Test screen 2")
+        lxPresenter.getTransition("Test screen 1", "Test screen 2")
     }
 
     private fun showWebCheckoutView() {

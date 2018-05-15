@@ -58,6 +58,11 @@ class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
         }
     }
 
+    class HotelDetailMissingTransitionException(exceptionMessage: String) : RuntimeException(exceptionMessage)
+    override fun missingTransitionException(exceptionMessage: String): RuntimeException {
+        return HotelDetailMissingTransitionException(exceptionMessage)
+    }
+
     fun showDefault() {
         show(hotelDetailView)
     }

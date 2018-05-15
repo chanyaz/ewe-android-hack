@@ -39,6 +39,7 @@ import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.DateRangeUtils
+import com.expedia.bookings.utils.RichContentUtils
 import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.Optional
@@ -49,15 +50,14 @@ import org.joda.time.format.DateTimeFormat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
-import com.expedia.bookings.utils.RichContentUtils
 import java.math.BigDecimal
 import java.util.ArrayList
-import kotlin.collections.HashMap
 import kotlin.test.assertEquals
 
 @RunWith(RxJavaTestImmediateSchedulerRunner::class)
@@ -71,6 +71,9 @@ class FlightOverviewPresenterTest {
     lateinit var activity: FragmentActivity
 
     val flightServiceRule = ServicesRule(FlightServices::class.java)
+        @Rule get
+
+    val thrown: ExpectedException = ExpectedException.none()
         @Rule get
 
     @Before
@@ -591,6 +594,13 @@ class FlightOverviewPresenterTest {
         assertEquals(View.GONE, outboundFlightWidget.routeScoreText.visibility)
         assertEquals("", outboundFlightWidget.routeScoreText.text)
         assertEquals(View.GONE, outboundFlightWidget.flightMessageContainer.visibility)
+    }
+
+    @Test
+    fun testCustomExceptionWasThrownWhenTransitionIsNotSet() {
+        thrown.expect(FlightOverviewPresenter.FlightOverviewMissingTransitionException::class.java)
+        thrown.expectMessage("No Transition defined for Test screen 1 to Test screen 2")
+        widget.getTransition("Test screen 1", "Test screen 2")
     }
 
     private fun setupFlightSearchParams(isRoundTrip: Boolean = true): FlightSearchParams {
