@@ -131,7 +131,7 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 	}
 
 	private void buildCostBreakdownDialog(Context context, List<Ticket> tickets) {
-		View view = LayoutInflater.from(context).inflate(R.layout.cost_summary_alert, null);
+		View view = LayoutInflater.from(context).inflate(R.layout.cost_summary_alert, this, false);
 		LinearLayout ll = Ui.findView(view, R.id.cost_summary_container);
 
 		ll.addView(CheckoutSummaryWidgetUtils.addRow(context,
@@ -175,7 +175,7 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 	}
 
 	private View addDisclaimerRow(Context context, String currency) {
-		View row = LayoutInflater.from(context).inflate(R.layout.checkout_breakdown_price_disclaimer, null);
+		View row = LayoutInflater.from(context).inflate(R.layout.checkout_breakdown_price_disclaimer, this, false);
 		TextView disclaimer = Ui.findView(row, R.id.price_disclaimer);
 		disclaimer.setText(context.getResources()
 			.getString(R.string.lx_checkout_breakdown_price_disclaimer_text, currency));

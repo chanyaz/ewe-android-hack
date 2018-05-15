@@ -193,7 +193,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
     }
 
     private fun setupMenuFilter() {
-        val toolbarFilterItemActionView = LayoutInflater.from(context).inflate(R.layout.toolbar_filter_item, null) as LinearLayout
+        val toolbarFilterItemActionView = LayoutInflater.from(context).inflate(R.layout.toolbar_filter_item, this, false) as LinearLayout
         val filterCountText = toolbarFilterItemActionView.findViewById<TextView>(R.id.filter_count_text)
         val filterPlaceholderImageView = toolbarFilterItemActionView.findViewById<ImageView>(R.id.filter_placeholder_icon)
         val filterButtonText = toolbarFilterItemActionView.findViewById<TextView>(R.id.filter_text)

@@ -60,7 +60,7 @@ class ItinModifyReservationDialog : DialogFragment() {
 
     private fun getViewForDialog(): View {
         val layoutInflater = activity.layoutInflater
-        return layoutInflater.inflate(R.layout.fragment_dialog_flight_modify_reservation, null)
+        return layoutInflater.inflate(R.layout.fragment_dialog_flight_modify_reservation, this, false)
     }
 
     private fun onCustomerSupportCallButtonClick(supportNumber: String) {

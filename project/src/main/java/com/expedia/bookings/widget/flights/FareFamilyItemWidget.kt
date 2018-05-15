@@ -41,7 +41,7 @@ class FareFamilyItemWidget(context: Context, attrs: AttributeSet) : LinearLayout
     var viewModel: FareFamilyItemViewModel? = null
 
     val fareFamilyAmenitiesDialogView: FareFamilyAmenitiesDialog by lazy {
-        val fareFamilyAmenitiesDialog = LayoutInflater.from(context).inflate(R.layout.fare_family_amenities_dialog_view, null) as FareFamilyAmenitiesDialog
+        val fareFamilyAmenitiesDialog = LayoutInflater.from(context).inflate(R.layout.fare_family_amenities_dialog_view, this, false) as FareFamilyAmenitiesDialog
         fareFamilyAmenitiesDialog.viewModel = FlightFareFamilyAmenityDialogViewModel(
                 context, viewModel?.fareFamilyDetail!!.fareFamilyComponents, viewModel?.fareFamilyDetail?.totalPrice!!.currencyCode)
         fareFamilyAmenitiesDialog.prepareAmenitiesListForDisplay()

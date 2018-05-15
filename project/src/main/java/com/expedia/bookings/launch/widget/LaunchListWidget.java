@@ -44,7 +44,7 @@ public class LaunchListWidget extends RecyclerView {
 		StaggeredGridLayoutManager layoutManager = makeLayoutManager();
 		setLayoutManager(layoutManager);
 
-		header = LayoutInflater.from(getContext()).inflate(R.layout.snippet_launch_list_header, null);
+		header = LayoutInflater.from(getContext()).inflate(R.layout.snippet_launch_list_header, this, false);
 		adapter = new LaunchListAdapter(getContext(), header, LaunchListLogic.getInstance());
 		adapter.addSyncListener();
 		setAdapter(adapter);

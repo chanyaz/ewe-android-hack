@@ -18,7 +18,7 @@ class PendingPointsDialogFragment : DialogFragment() {
         alertDialogBuilder.setTitle(title)
 
         val inflater = activity.layoutInflater
-        val view = inflater.inflate(R.layout.fragment_dialog_pending_points, null)
+        val view = inflater.inflate(R.layout.fragment_dialog_pending_points, this, false)
         alertDialogBuilder.setView(view)
 
         val flightDaysText = view.findViewById<TextView>(R.id.flights_days)

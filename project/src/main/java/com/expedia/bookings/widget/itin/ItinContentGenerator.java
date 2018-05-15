@@ -484,7 +484,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	protected boolean addSharedOptions(ViewGroup container) {
 		Log.d("ITIN: addSharedOptions");
 		if (isSharedItin()) {
-			View item = getLayoutInflater().inflate(R.layout.snippet_itin_detail_item_shared_options, null);
+			View item = getLayoutInflater().inflate(R.layout.snippet_itin_detail_item_shared_options, container, false);
 			TextView removeTextView = Ui.findView(item, R.id.remove_itin);
 			AccessibilityUtil.appendRoleContDesc(removeTextView, removeTextView.getText().toString(), R.string.accessibility_cont_desc_role_button);
 			removeTextView.setOnClickListener(new OnClickListener() {
