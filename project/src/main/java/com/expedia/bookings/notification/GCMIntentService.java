@@ -137,7 +137,7 @@ public class GCMIntentService extends IntentService {
 
 							private void notify(Trip trip) {
 								PushNotificationUtils.generateNotification(GCMIntentService.this, fhid, locKey,
-									locArgs, type, titleKey, nID);
+									locArgs, titleKey, nID);
 								ItineraryManager.getInstance().removeSyncListener(this);
 							}
 						});
@@ -150,13 +150,13 @@ public class GCMIntentService extends IntentService {
 			else {
 				Log.w(LOGGING_TAG, "GCM: Generating push notification but unable to find parentTrip for fhid=" + fhid + " type=" + type
 					+ "component=" + component.toJson().toString());
-				PushNotificationUtils.generateNotification(GCMIntentService.this, fhid, locKey, locArgs, type, titleKey, nID);
+				PushNotificationUtils.generateNotification(GCMIntentService.this, fhid, locKey, locArgs, titleKey, nID);
 			}
 		}
 		else {
 			Log.w(LOGGING_TAG, "GCM: Generating push notification, but can't find the tripComponent, thus no deepRefresh called fhid="
 				+ fhid + " type=" + type);
-			PushNotificationUtils.generateNotification(GCMIntentService.this, fhid, locKey, locArgs, type, titleKey, nID);
+			PushNotificationUtils.generateNotification(GCMIntentService.this, fhid, locKey, locArgs, titleKey, nID);
 		}
 
 	}

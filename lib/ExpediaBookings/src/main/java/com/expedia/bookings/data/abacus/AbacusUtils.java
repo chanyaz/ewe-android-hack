@@ -47,7 +47,6 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidRailHybridAppForEbookersUKEnabled = new ABTest(24804);
 
 	// Trips tests
-	public static final ABTest TripsNewFlightAlerts = new ABTest(16205, true);
 	public static final ABTest EBAndroidAppHotelTripTaxiCard = new ABTest(25484, true);
 	public static final ABTest EBAndroidAppTripsUserReviews = new ABTest(24499, true);
 	public static final ABTest EBAndroidAppTripsHotelPricing = new ABTest(25537, true);
@@ -214,7 +213,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppAccountRecaptcha.getKey());
 		testIDs.add(EBAndroidAppAccountsEditWebView.getKey());
 		testIDs.add(EBAndroidAppHotelMaterialForms.getKey());
-		testIDs.add(TripsNewFlightAlerts.getKey());
 		testIDs.add(EBAndroidAppPackagesBreadcrumbsForNav.getKey());
 		testIDs.add(EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs.getKey());
 		testIDs.add(EBAndroidAppPackagesMISRealWorldGeo.getKey());

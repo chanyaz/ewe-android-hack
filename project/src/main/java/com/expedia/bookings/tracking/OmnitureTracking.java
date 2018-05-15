@@ -2691,12 +2691,9 @@ public class OmnitureTracking {
 		s.trackLink("Trips Call");
 	}
 
-	public static void trackItinTripRefreshCallSuccess(boolean tripHasFlight) {
+	public static void trackItinTripRefreshCallSuccess() {
 		AppAnalytics s = createTrackLinkEvent(ITIN_TRIP_REFRESH_CALL_SUCCESS);
 		s.appendEvents("event287");
-		if (tripHasFlight) {
-			trackAbacusTest(s, AbacusUtils.TripsNewFlightAlerts);
-		}
 		s.trackLink("Trips Call");
 	}
 
