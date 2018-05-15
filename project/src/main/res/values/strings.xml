@@ -3243,7 +3243,7 @@
     <!-- © Copyright 2012-2018 Expedia Group All rights reserved. -->
     <string name="expedia_group_copyright_TEMPLATE">© Copyright 2012-{year} Expedia Group\nAll rights reserved.</string>
     <!-- String where we link to the google play services open source licenses -->
-    <string name="open_source_software_licenses">Acknowledgements Open source software licenses</string>
+    <string name="open_source_software_licenses">Acknowledgements of open source software licenses</string>
     <!-- String for error message if open source software license page fails to open -->
     <string name="open_source_software_licenses_error">Error loading page.</string>
     <!-- String for acrediting the open source libraries we use -->
