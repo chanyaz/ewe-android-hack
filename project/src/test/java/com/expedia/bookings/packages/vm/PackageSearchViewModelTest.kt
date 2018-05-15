@@ -22,9 +22,11 @@ import org.robolectric.annotation.Config
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class PackageSearchViewModelTest {
@@ -78,6 +80,9 @@ class PackageSearchViewModelTest {
         val expectedStartDate = LocaleBasedDateFormatUtils.localDateToEEEMMMd(startDate)
         val expectedEndDate = LocaleBasedDateFormatUtils.localDateToEEEMMMd(endDate)
         val expectedNumberOfNights = JodaUtils.daysBetween(startDate, endDate)
+        assertFalse(sut.isSearchDateExpired)
+        assertNotNull(sut.startDate())
+        assertNotNull(sut.endDate())
         assertEquals("$expectedStartDate  -  $expectedEndDate ($expectedNumberOfNights nights)", sut.dateTextObservable.value)
     }
 
@@ -92,6 +97,9 @@ class PackageSearchViewModelTest {
         val expectedStartDate = LocaleBasedDateFormatUtils.localDateToEEEMMMd(startDate)
         val expectedEndDate = LocaleBasedDateFormatUtils.localDateToEEEMMMd(endDate)
         val expectedNumberOfNights = JodaUtils.daysBetween(startDate, endDate)
+        assertTrue(sut.isSearchDateExpired)
+        assertNull(sut.startDate())
+        assertNull(sut.endDate())
         assertNotEquals("$expectedStartDate  -  $expectedEndDate ($expectedNumberOfNights nights)", sut.dateTextObservable.value)
         assertNull(sut.dateTextObservable.value)
     }
