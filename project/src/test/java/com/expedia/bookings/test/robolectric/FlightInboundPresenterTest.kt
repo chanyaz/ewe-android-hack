@@ -68,7 +68,7 @@ class FlightInboundPresenterTest {
         val interceptor = MockInterceptor()
         service = FlightServices("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
-                listOf(interceptor), Schedulers.trampoline(), Schedulers.trampoline(), false)
+                listOf(interceptor), Schedulers.trampoline(), Schedulers.trampoline())
         flightInboundPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_inbound_stub, null) as FlightInboundPresenter
     }
 

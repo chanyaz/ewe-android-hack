@@ -5,7 +5,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.RichContentResponse
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
-import com.expedia.bookings.services.KongFlightServices
+import com.expedia.bookings.services.FlightRichContentService
 import com.expedia.bookings.utils.RichContentUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isRichContentEnabled
@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 class FlightResultsViewModel(context: Context) : BaseResultsViewModel() {
 
-    lateinit var kongFlightServices: KongFlightServices
+    lateinit var flightRichContentService: FlightRichContentService
         @Inject set
 
     override val showLoadingStateV1 = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFLightLoadingStateV1)
@@ -34,7 +34,7 @@ class FlightResultsViewModel(context: Context) : BaseResultsViewModel() {
         flightResultsObservable.subscribe { flightLegs ->
             if (isRichContentEnabled(context) && flightLegs.isNotEmpty()) {
                 val richContentRequestPayload = RichContentUtils.getRichContentRequestPayload(context, flightLegs)
-                kongFlightServices.getFlightRichContent(richContentRequestPayload, makeRichContentObserver())
+                flightRichContentService.getFlightRichContent(richContentRequestPayload, makeRichContentObserver())
             }
         }
         if (showRichContent) {

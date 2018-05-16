@@ -15,6 +15,7 @@ import com.expedia.bookings.services.HolidayCalendarService;
 import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.services.KongFlightServices;
 import com.expedia.bookings.services.KrazyglueServices;
+import com.expedia.bookings.services.FlightRichContentService;
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder;
 import com.expedia.vm.FlightCheckoutViewModel;
 import com.expedia.vm.FlightWebCheckoutViewViewModel;
@@ -39,10 +40,12 @@ public final class FlightModule {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		List<Interceptor> interceptorList = new ArrayList<>();
 		interceptorList.add(interceptor);
-		return new FlightServices(isUserBucketedForAPIMAuth ? kongEndpointUrl : endpoint, client,
-			interceptorList, AndroidSchedulers.mainThread(),
-			Schedulers.io(), isUserBucketedForAPIMAuth);
-
+		if (isUserBucketedForAPIMAuth) {
+			return new KongFlightServices(kongEndpointUrl, client, interceptorList, AndroidSchedulers.mainThread(), Schedulers.io());
+		}
+		else {
+			return new FlightServices(endpoint, client, interceptorList, AndroidSchedulers.mainThread(), Schedulers.io());
+		}
 	}
 
 	@Provides
@@ -98,10 +101,10 @@ public final class FlightModule {
 
 	@Provides
 	@FlightScope
-	KongFlightServices provideKongFlightServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
+	FlightRichContentService provideRichContentService(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
 		List<Interceptor> interceptorList = new ArrayList<>();
 		interceptorList.add(interceptor);
-		return new KongFlightServices(endpointProvider.getKongEndpointUrl(), client, interceptorList,
+		return new FlightRichContentService(endpointProvider.getKongEndpointUrl(), client, interceptorList,
 			AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 

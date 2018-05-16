@@ -63,8 +63,8 @@ open class ServicesRule<T : Any>(val servicesClass: Class<T>, val scheduler: Sch
                     MockInterceptor(), false, Schedulers.trampoline(), Schedulers.trampoline())
         } else if (servicesClass.equals(FlightServices::class.java)) {
             return servicesClass.getConstructor(String::class.java, OkHttpClient::class.java, List::class.java, Scheduler::class.java,
-                    Scheduler::class.java, Boolean::class.java).newInstance("http://localhost:" + server.port, client.build(), listOf(MockInterceptor()),
-                    Schedulers.trampoline(), scheduler, false)
+                    Scheduler::class.java).newInstance("http://localhost:" + server.port, client.build(), listOf(MockInterceptor()),
+                    Schedulers.trampoline(), scheduler)
         } else if (servicesClass.equals(HotelServices::class.java)) {
             val endpoint = "http://localhost:" + server.port
             return servicesClass.getConstructor(String::class.java, String::class.java, OkHttpClient::class.java, Interceptor::class.java, List::class.java,
