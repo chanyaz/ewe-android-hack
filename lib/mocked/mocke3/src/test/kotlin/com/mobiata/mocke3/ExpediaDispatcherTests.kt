@@ -357,8 +357,13 @@ class ExpediaDispatcherTests {
     }
 
     @Test
-    fun testRequestHotelShortlistPathReturnsMatchingResponse() {
-        assertPathReturnsMockBodyWithString("api/ucs/shortlist/detail/fetch/", null, "api/hotelshortlist/hotelShortlistFetchResponse.json")
+    fun testFetchHotelShortlistPathReturnsMatchingResponse() {
+        assertPathReturnsMockBodyWithString("api/ucs/shortlist/detail/fetch/", null, "api/hotelShortlist/hotelShortlistFetchResponse.json")
+    }
+
+    @Test
+    fun testSaveHotelShortlistPathReturnsMatchingResponse() {
+        assertPathReturnsMockBodyWithString("api/ucs/shortlist/save/", null, "api/hotelShortlist/hotelShortlistSaveResponse.json")
     }
 
     @Test
@@ -372,7 +377,7 @@ class ExpediaDispatcherTests {
     }
 
     @Test
-    fun testRequestHotelReviewTranlationPathReturnsMatchingResponse() {
+    fun testRequestHotelReviewTranslationPathReturnsMatchingResponse() {
         assertPathReturnsMockBodyWithString("api/hotelreview/translate/12344", null, "api/hotelreview/translate/happy.json")
     }
 

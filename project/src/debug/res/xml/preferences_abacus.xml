@@ -138,7 +138,7 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:key="25630"
             android:summary="%s"
-            android:title="Hotel Hotel Shortlist - 25630" />
+            android:title="Hotel Shortlist - 25630" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"

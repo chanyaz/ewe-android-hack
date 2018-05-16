@@ -1,6 +1,8 @@
 package com.expedia.bookings.unit
 
-import com.expedia.bookings.data.hotelshortlist.HotelShortlistFetchResponse
+import com.expedia.bookings.data.hotels.shortlist.HotelShortlistItem
+import com.expedia.bookings.data.hotels.shortlist.HotelShortlistResponse
+import com.expedia.bookings.data.hotels.shortlist.ShortlistItem
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.services.HotelShortlistServices
@@ -11,6 +13,7 @@ import org.junit.Assert.assertTrue
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer
+import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
 import java.io.File
@@ -43,8 +46,8 @@ class HotelShortlistServicesTest {
     }
 
     @Test
-    fun testUserHistoryHappyResponse() {
-        val testObserver = TestObserver<HotelShortlistFetchResponse>()
+    fun testFetchShortlistHappyResponse() {
+        val testObserver = TestObserver<HotelShortlistResponse<HotelShortlistItem>>()
         service.fetchFavoriteHotels(testObserver)
 
         testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
@@ -58,10 +61,38 @@ class HotelShortlistServicesTest {
     }
 
     @Test
-    fun hotelShortlistServicesHitAllInterceptors() {
-        val testObserver = TestObserver<HotelShortlistFetchResponse>()
+    fun hotelFetchShortlistServicesHitAllInterceptors() {
+        val testObserver = TestObserver<HotelShortlistResponse<HotelShortlistItem>>()
 
         service.fetchFavoriteHotels(testObserver)
+
+        testObserver.awaitTerminalEvent()
+        testObserver.assertComplete()
+
+        assertTrue(interceptor.wasCalled())
+        assertTrue(hotelShortlistInterceptor.wasCalled())
+    }
+
+    @Test
+    fun testSaveShortlistHappyResponse() {
+        val testObserver = TestObserver<HotelShortlistResponse<ShortlistItem>>()
+        service.saveFavoriteHotel("", LocalDate.now(), LocalDate.now(), "1", testObserver)
+
+        testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
+        testObserver.assertValueCount(1)
+
+        val response = testObserver.values()[0]
+        assertNotNull(response)
+
+        assertEquals(1, response.results.size)
+        assertTrue(response.results[0].items.isNotEmpty())
+    }
+
+    @Test
+    fun hotelSaveShortlistServicesHitAllInterceptors() {
+        val testObserver = TestObserver<HotelShortlistResponse<ShortlistItem>>()
+
+        service.saveFavoriteHotel("", LocalDate.now(), LocalDate.now(), "1", testObserver)
 
         testObserver.awaitTerminalEvent()
         testObserver.assertComplete()

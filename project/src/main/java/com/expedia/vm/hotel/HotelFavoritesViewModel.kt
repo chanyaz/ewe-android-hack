@@ -1,7 +1,8 @@
 package com.expedia.vm.hotel
 
 import android.support.annotation.VisibleForTesting
-import com.expedia.bookings.data.hotelshortlist.HotelShortlistFetchResponse
+import com.expedia.bookings.data.hotels.shortlist.HotelShortlistItem
+import com.expedia.bookings.data.hotels.shortlist.HotelShortlistResponse
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.services.HotelShortlistServices
 import io.reactivex.Observer
@@ -12,23 +13,23 @@ import io.reactivex.subjects.ReplaySubject
 class HotelFavoritesViewModel(userStateManager: UserStateManager, hotelShortlistServices: HotelShortlistServices) {
     var receivedResponseSubject = ReplaySubject.create<Unit>()
 
-    var response: HotelShortlistFetchResponse? = null
+    var response: HotelShortlistResponse<HotelShortlistItem>? = null
         @VisibleForTesting set(value) {
             field = value
             value?.results?.forEach { result -> favoritesList.addAll(result.items) }
         }
 
-    var favoritesList: ArrayList<HotelShortlistFetchResponse.HotelShortlistItem> = arrayListOf()
+    var favoritesList: ArrayList<HotelShortlistItem> = arrayListOf()
         private set
 
     @VisibleForTesting val compositeDisposable = CompositeDisposable()
 
-    private val favoritesObserver = object : Observer<HotelShortlistFetchResponse> {
+    private val favoritesObserver = object : Observer<HotelShortlistResponse<HotelShortlistItem>> {
         override fun onError(e: Throwable) {
             // TODO
         }
 
-        override fun onNext(fetchResponse: HotelShortlistFetchResponse) {
+        override fun onNext(fetchResponse: HotelShortlistResponse<HotelShortlistItem>) {
             response = fetchResponse
             receivedResponseSubject.onNext(Unit)
         }

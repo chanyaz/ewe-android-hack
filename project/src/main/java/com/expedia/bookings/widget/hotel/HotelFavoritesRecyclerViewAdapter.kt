@@ -2,9 +2,9 @@ package com.expedia.bookings.widget.hotel
 
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
-import com.expedia.bookings.data.hotelshortlist.HotelShortlistFetchResponse
+import com.expedia.bookings.data.hotels.shortlist.HotelShortlistItem
 
-class HotelFavoritesRecyclerViewAdapter(private var favoritesList: ArrayList<HotelShortlistFetchResponse.HotelShortlistItem>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class HotelFavoritesRecyclerViewAdapter(private var favoritesList: ArrayList<HotelShortlistItem>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemCount(): Int {
         return favoritesList.size

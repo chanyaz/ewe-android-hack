@@ -1,0 +1,36 @@
+{
+  "metadata": {
+    "userContext": {
+      "siteId": 1,
+      "expUserId": "-1",
+      "guid": "66c88a7a-1891-45c4-a523-8440466a6e8b"
+    }
+  },
+  "results": [
+    {
+      "product": "TRAVELER_ENGAGEMENT",
+      "type": "SHORTLIST_ITEM",
+      "items": [
+        {
+          "id": "1-66c88a7a-1891-45c4-a523-8440466a6e8b-20-hotel",
+          "itemId": "20",
+          "configId": "hotel",
+          "guid": "66c88a7a-1891-45c4-a523-8440466a6e8b",
+          "uid": "66c88a7a-1891-45c4-a523-8440466a6e8b",
+          "expUserId": "-1",
+          "siteId": 1,
+          "metaData": {
+            "hotelId": "20",
+            "chkIn": "20181116",
+            "chkOut": "20181122",
+            "roomConfiguration": "1"
+          },
+          "lastModifiedDate": {
+            "nano": 876000000,
+            "epochSecond": 1526330757
+          }
+        }
+      ]
+    }
+  ]
+}

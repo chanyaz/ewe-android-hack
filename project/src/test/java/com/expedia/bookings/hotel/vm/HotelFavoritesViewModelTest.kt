@@ -1,6 +1,8 @@
 package com.expedia.bookings.hotel.vm
 
-import com.expedia.bookings.data.hotelshortlist.HotelShortlistFetchResponse
+import com.expedia.bookings.data.hotels.shortlist.HotelShortlistItem
+import com.expedia.bookings.data.hotels.shortlist.HotelShortlistResponse
+import com.expedia.bookings.data.hotels.shortlist.HotelShortlistResult
 import com.expedia.bookings.services.HotelShortlistServices
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -62,9 +64,9 @@ class HotelFavoritesViewModelTest {
     @Test
     fun testMultipleResultListsCombined() {
         val viewModel = HotelFavoritesViewModel(userStateManager, reviewServicesRule.services!!)
-        val response = HotelShortlistFetchResponse()
-        val resultOneItem = HotelShortlistFetchResponse.HotelShortlistResult().apply {
-            items = arrayListOf(HotelShortlistFetchResponse.HotelShortlistItem())
+        val response = HotelShortlistResponse<HotelShortlistItem>()
+        val resultOneItem = HotelShortlistResult<HotelShortlistItem>().apply {
+            items = arrayListOf(HotelShortlistItem())
         }
         response.results = arrayListOf(resultOneItem, resultOneItem)
         viewModel.response = response

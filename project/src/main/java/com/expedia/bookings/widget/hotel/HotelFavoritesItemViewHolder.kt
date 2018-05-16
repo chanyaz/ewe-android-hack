@@ -3,13 +3,13 @@ package com.expedia.bookings.widget.hotel
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.expedia.bookings.R
-import com.expedia.bookings.data.hotelshortlist.HotelShortlistFetchResponse
+import com.expedia.bookings.data.hotels.shortlist.HotelShortlistItem
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.widget.shared.AbstractHotelCellViewHolder
 
 class HotelFavoritesItemViewHolder(root: ViewGroup) : AbstractHotelCellViewHolder(root) {
 
-    fun bind(item: HotelShortlistFetchResponse.HotelShortlistItem) {
+    fun bind(item: HotelShortlistItem) {
         hotelNameStarAmenityDistance.hotelNameTextView.text = item.name
         item.media?.let { media -> loadHotelImage(Images.getMediaHost() + media) }
     }
