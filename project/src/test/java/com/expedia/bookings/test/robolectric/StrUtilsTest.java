@@ -22,11 +22,14 @@ import com.expedia.bookings.data.GaiaSuggestion.LocalizedName;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
+import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.MultiBrand;
 import com.expedia.bookings.test.RunForBrands;
 import com.expedia.bookings.utils.LegalClickableSpan;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.SuggestionStrUtils;
+import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Waypoint;
 import com.squareup.phrase.Phrase;
@@ -435,5 +438,26 @@ public class StrUtilsTest {
 		formattedString = StrUtils.formatStateName("Seattle, WA (SEA-Seattle - Tacoma Intl.)");
 		assertEquals("WA", formattedString);
 
+	}
+
+	@Test
+	public void testGetAppropriateTermsAndConditionsUrlWithTermsPresentForUS() {
+		setPOS(PointOfSaleId.UNITED_STATES);
+		String termsUrl = StrUtils.getAppropriateTermsAndConditionsUrl();
+		assertEquals(PointOfSale.getPointOfSale().getTermsAndConditionsUrl(), termsUrl);
+	}
+
+	@Test
+	public void testGetAppropriateTermsAndConditionsUrlWithTermsMissingForGermany() {
+		// Ideally we'd just mock/override the termsAndConditions URLs rather than switching the POS here,
+		// but that POS class isn't really set up to be mocked
+		setPOS(PointOfSaleId.GERMANY);
+		String termsUrl = StrUtils.getAppropriateTermsAndConditionsUrl();
+		assertEquals(PointOfSale.getPointOfSale().getTermsOfBookingUrl(), termsUrl);
+	}
+
+	private void setPOS(PointOfSaleId posId) {
+		SettingUtils.save(getContext(), R.string.PointOfSaleKey, Integer.toString(posId.getId()));
+		PointOfSale.onPointOfSaleChanged(getContext());
 	}
 }

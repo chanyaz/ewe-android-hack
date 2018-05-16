@@ -21,6 +21,7 @@ import android.location.Address;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -508,7 +509,7 @@ public class StrUtils {
 		String spannedRules = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
 			rulesAndRestrictionsURL, context.getResources().getString(R.string.rules_and_restrictions));
 		String spannedTerms = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
-			PointOfSale.getPointOfSale().getTermsAndConditionsUrl(),
+			getAppropriateTermsAndConditionsUrl(),
 			context.getResources().getString(R.string.info_label_terms_conditions));
 		String spannedPrivacy = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
 			PointOfSale.getPointOfSale().getPrivacyPolicyUrl(), context.getResources().getString(
@@ -564,7 +565,7 @@ public class StrUtils {
 		SpannableStringBuilder legalTextSpan = new SpannableStringBuilder();
 
 		String spannedTerms = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
-			PointOfSale.getPointOfSale().getTermsAndConditionsUrl(),
+			getAppropriateTermsAndConditionsUrl(),
 			context.getResources().getString(R.string.info_label_terms_of_use));
 		String spannedPrivacy = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
 			PointOfSale.getPointOfSale().getPrivacyPolicyUrl(),
@@ -632,7 +633,7 @@ public class StrUtils {
 				PointOfSale.getPointOfSale().getLoyaltyTermsAndConditionsUrl(),
 				context.getResources().getString(R.string.info_label_terms_conditions));
 		String spannedTerms = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
-				PointOfSale.getPointOfSale().getTermsAndConditionsUrl(),
+				getAppropriateTermsAndConditionsUrl(),
 				context.getResources().getString(R.string.info_label_terms_of_use));
 		String spannedPrivacy = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
 				PointOfSale.getPointOfSale().getPrivacyPolicyUrl(),
@@ -886,5 +887,15 @@ public class StrUtils {
 			.put("totalstring", context.getString(R.string.packages_trip_total))
 			.put("taxesandfeesstring", appendTaxesFeesMessage)
 			.format();
+	}
+
+	@VisibleForTesting
+	public static String getAppropriateTermsAndConditionsUrl() {
+		// Some POSas (like AT and DE) don't have explicit TermsAndConditionsUrls in the shared data; their TermsAndConditions are rolled into the termsOfBookingUrl.
+		String termsAndConditionsUrl = PointOfSale.getPointOfSale().getTermsAndConditionsUrl();
+		if (termsAndConditionsUrl == null) {
+			termsAndConditionsUrl = PointOfSale.getPointOfSale().getTermsOfBookingUrl();
+		}
+		return termsAndConditionsUrl;
 	}
 }
