@@ -29,8 +29,12 @@ class ClientNeighborhoodFilterView(context: Context, attrs: AttributeSet?) : Bas
                 val neighborhoodView = LayoutInflater.from(context)
                         .inflate(R.layout.section_hotel_neighborhood_row, neighborhoodGroup, false) as HotelsNeighborhoodFilter
                 neighborhoodView.bind(list[i])
-                neighborhoodView.neighborhoodSelectedSubject.subscribe(neighborhoodOnSubject)
-                neighborhoodView.neighborhoodDeselectedSubject.subscribe(neighborhoodOffSubject)
+                neighborhoodView.neighborhoodSelectedSubject.subscribe({ neighborhood ->
+                    listener?.onHotelNeighborhoodFilterChanged(neighborhood, true, true)
+                })
+                neighborhoodView.neighborhoodDeselectedSubject.subscribe({ neighborhood ->
+                    listener?.onHotelNeighborhoodFilterChanged(neighborhood, false, true)
+                })
                 neighborhoodGroup.addView(neighborhoodView)
             }
         }

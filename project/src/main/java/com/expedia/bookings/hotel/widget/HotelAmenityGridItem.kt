@@ -1,6 +1,7 @@
 package com.expedia.bookings.hotel.widget
 
 import android.content.Context
+import android.support.annotation.VisibleForTesting
 import android.support.v7.widget.GridLayout
 import android.view.View
 import android.widget.ImageView
@@ -10,14 +11,19 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import android.util.TypedValue
 import com.expedia.bookings.hotel.data.Amenity
-import io.reactivex.subjects.PublishSubject
+
+interface OnHotelAmenityFilterChangedListener {
+    fun onHotelAmenityFilterChanged(amenity: Amenity, selected: Boolean, doTracking: Boolean)
+}
 
 class HotelAmenityGridItem(context: Context, val amenity: Amenity) : LinearLayout(context, null) {
-    val amenitySelected = PublishSubject.create<Amenity>()
-    val amenityDeselected = PublishSubject.create<Amenity>()
 
-    private val icon by bindView<ImageView>(R.id.hotel_filter_grid_item_image)
-    private val textView by bindView<TextView>(R.id.hotel_filter_grid_item_text)
+    @VisibleForTesting
+    val icon by bindView<ImageView>(R.id.hotel_filter_grid_item_image)
+    @VisibleForTesting
+    val textView by bindView<TextView>(R.id.hotel_filter_grid_item_text)
+
+    private var listener: OnHotelAmenityFilterChangedListener? = null
 
     init {
         View.inflate(context, R.layout.hotel_amenity_grid_item, this)
@@ -34,19 +40,19 @@ class HotelAmenityGridItem(context: Context, val amenity: Amenity) : LinearLayou
         icon.setImageResource(amenity.drawableRes)
         icon.setOnClickListener {
             icon.isSelected = !icon.isSelected
-            if (icon.isSelected) {
-                amenitySelected.onNext(amenity)
-            } else {
-                amenityDeselected.onNext(amenity)
-            }
+            listener?.onHotelAmenityFilterChanged(amenity, icon.isSelected, true)
         }
 
         amenity.filterDescriptionId?.let { id -> textView.text = context.getString(id) }
     }
 
+    fun setOnHotelAmenityFilterChangedListener(listener: OnHotelAmenityFilterChangedListener?) {
+        this.listener = listener
+    }
+
     fun select() {
         icon.isSelected = true
-        amenitySelected.onNext(amenity)
+        listener?.onHotelAmenityFilterChanged(amenity, icon.isSelected, false)
     }
 
     fun deselect() {

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.widget.HotelStarRatingFilterItem xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:circle_cont_desc="circle"
+    app:circle_drawable_src="@drawable/btn_filter_rating_one_circle"
+    app:star_cont_desc="rating"
+    app:star_drawable_src="@drawable/filter_1star"
+    tools:ignore="UnusedResources" />

@@ -10,6 +10,7 @@ import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.testutils.JSONResourceReader
 import com.expedia.bookings.test.MockPackageServiceTestRule
+import com.expedia.bookings.widget.StarRatingValue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -36,16 +37,16 @@ class PackageFilterViewModelTest {
     @Test
     fun filterStars() {
         vm.userFilterChoices.hotelStarRating.one = false
-        vm.oneStarFilterObserver.onNext(Unit)
+        vm.onHotelStarRatingFilterChangedListener.onHotelStarRatingFilterChanged(StarRatingValue.One, true, false)
 
         assertEquals(true, vm.userFilterChoices.hotelStarRating.one)
 
         vm.userFilterChoices.hotelStarRating.two = false
-        vm.twoStarFilterObserver.onNext(Unit)
+        vm.onHotelStarRatingFilterChangedListener.onHotelStarRatingFilterChanged(StarRatingValue.Two, true, false)
 
         assertEquals(true, vm.userFilterChoices.hotelStarRating.two)
 
-        vm.oneStarFilterObserver.onNext(Unit)
+        vm.onHotelStarRatingFilterChangedListener.onHotelStarRatingFilterChanged(StarRatingValue.One, false, false)
         assertEquals(false, vm.userFilterChoices.hotelStarRating.one)
     }
 
@@ -55,12 +56,12 @@ class PackageFilterViewModelTest {
         vm.originalResponse = ogResponse
 
         val str = "Hilton"
-        vm.filterHotelNameObserver.onNext(str)
+        vm.onHotelNameFilterChangedListener.onHotelNameFilterChanged(str, false)
 
         vm.userFilterChoices.hotelStarRating.one = false
-        vm.oneStarFilterObserver.onNext(Unit)
+        vm.onHotelStarRatingFilterChangedListener.onHotelStarRatingFilterChanged(StarRatingValue.One, true, false)
 
-        vm.vipFilteredObserver.onNext(true)
+        vm.onHotelVipFilterChangedListener.onHotelVipFilterChanged(true, false)
 
         vm.userFilterChoices.minPrice = 20
         vm.userFilterChoices.maxPrice = 50
@@ -81,27 +82,27 @@ class PackageFilterViewModelTest {
     fun filterResultsCount() {
         vm.originalResponse = fakeFilteredResponse()
         var str = "Hil"
-        vm.filterHotelNameObserver.onNext(str)
+        vm.onHotelNameFilterChangedListener.onHotelNameFilterChanged(str, false)
         assertEquals(1, vm.filteredResponse.hotelList.size)
 
         str = "junk"
-        vm.filterHotelNameObserver.onNext(str)
+        vm.onHotelNameFilterChangedListener.onHotelNameFilterChanged(str, false)
         assertEquals(0, vm.filteredResponse.hotelList.size)
 
         str = ""
-        vm.filterHotelNameObserver.onNext(str)
+        vm.onHotelNameFilterChangedListener.onHotelNameFilterChanged(str, false)
         assertEquals(3, vm.filteredResponse.hotelList.size)
 
         vm.userFilterChoices.hotelStarRating.three = false
-        vm.threeStarFilterObserver.onNext(Unit)
+        vm.onHotelStarRatingFilterChangedListener.onHotelStarRatingFilterChanged(StarRatingValue.Three, true, false)
         assertEquals(1, vm.filteredResponse.hotelList.size)
 
         vm.clearObservable.onNext(Unit)
-        vm.vipFilteredObserver.onNext(true)
+        vm.onHotelVipFilterChangedListener.onHotelVipFilterChanged(true, false)
         assertEquals(1, vm.filteredResponse.hotelList.size)
 
         vm.clearObservable.onNext(Unit)
-        vm.priceRangeChangedObserver.onNext(Pair(0, 10))
+        vm.onHotelPriceFilterChangedListener.onHotelPriceFilterChanged(0, 10, false)
         assertEquals(1, vm.filteredResponse.hotelList.size)
     }
 
@@ -187,21 +188,21 @@ class PackageFilterViewModelTest {
     fun filterCount() {
         vm.originalResponse = fakeFilteredResponse()
         val str = "Hil"
-        vm.filterHotelNameObserver.onNext(str)
+        vm.onHotelNameFilterChangedListener.onHotelNameFilterChanged(str, false)
         assertTrue(vm.filterCountObservable.value == 1)
 
         vm.userFilterChoices.hotelStarRating.three = false
-        vm.threeStarFilterObserver.onNext(Unit)
+        vm.onHotelStarRatingFilterChangedListener.onHotelStarRatingFilterChanged(StarRatingValue.Three, true, false)
         assertTrue(vm.filterCountObservable.value == 2)
 
         vm.userFilterChoices.hotelStarRating.four = false
-        vm.fourStarFilterObserver.onNext(Unit)
+        vm.onHotelStarRatingFilterChangedListener.onHotelStarRatingFilterChanged(StarRatingValue.Four, true, false)
         assertTrue(vm.filterCountObservable.value == 3)
 
-        vm.fourStarFilterObserver.onNext(Unit)
+        vm.onHotelStarRatingFilterChangedListener.onHotelStarRatingFilterChanged(StarRatingValue.Four, false, false)
         assertTrue(vm.filterCountObservable.value == 2)
 
-        vm.vipFilteredObserver.onNext(true)
+        vm.onHotelVipFilterChangedListener.onHotelVipFilterChanged(true, false)
         assertTrue(vm.filterCountObservable.value == 3)
     }
 
