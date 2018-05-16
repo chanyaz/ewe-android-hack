@@ -15,6 +15,7 @@ import com.expedia.bookings.itin.utils.Intentable
 import com.expedia.bookings.itin.utils.StringSource
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import javax.inject.Inject
 
 class HotelItinPricingAdditionalInfoActivity : AppCompatActivity() {
 
@@ -28,10 +29,13 @@ class HotelItinPricingAdditionalInfoActivity : AppCompatActivity() {
         }
     }
 
-    val additionalInfoView by bindView<ItinPricingAdditionalInfoView>(R.id.itin_addtional_info_view)
     lateinit var jsonUtil: IJsonToItinUtil
-    lateinit var hotelRepo: ItinHotelRepo
+        @Inject set
     lateinit var stringProvider: StringSource
+        @Inject set
+
+    val additionalInfoView by bindView<ItinPricingAdditionalInfoView>(R.id.itin_addtional_info_view)
+    lateinit var hotelRepo: ItinHotelRepo
     val itineraryManager: ItineraryManager = ItineraryManager.getInstance()
     val invalidDataObserver = LiveDataObserver<Unit> {
         finish()
@@ -41,9 +45,8 @@ class HotelItinPricingAdditionalInfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_itin_additional_info)
         Ui.getApplication(this).defaultTripComponents()
+        Ui.getApplication(this).tripComponent().inject(this)
 
-        stringProvider = Ui.getApplication(this).appComponent().stringProvider()
-        jsonUtil = Ui.getApplication(this).tripComponent().jsonUtilProvider()
         hotelRepo = ItinHotelRepo(intent.getStringExtra(ID_EXTRA), jsonUtil, itineraryManager.syncFinishObservable)
 
         val pricingAdditionalInfoScope = HotelItinPricingAdditionalInfoScope(hotelRepo, stringProvider, this)
@@ -59,6 +62,5 @@ class HotelItinPricingAdditionalInfoActivity : AppCompatActivity() {
     override fun finish() {
         super.finish()
         hotelRepo.dispose()
-        overridePendingTransition(R.anim.slide_in_left_complete, R.anim.slide_out_right_no_fill_after)
     }
 }

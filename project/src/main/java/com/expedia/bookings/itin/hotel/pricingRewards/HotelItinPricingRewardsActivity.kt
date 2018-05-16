@@ -27,6 +27,7 @@ import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
+import javax.inject.Inject
 
 class HotelItinPricingRewardsActivity : AppCompatActivity() {
 
@@ -46,10 +47,15 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
     val rewardsView: HotelItinPricingSummaryRewardsView by bindView(R.id.hotel_itin_pricing_summary_rewards_view)
 
     lateinit var jsonUtil: IJsonToItinUtil
-    lateinit var hotelRepo: ItinHotelRepo
+        @Inject set
     lateinit var stringProvider: StringSource
+        @Inject set
     lateinit var endpointProvider: EndpointProvider
+        @Inject set
+
+    lateinit var hotelRepo: ItinHotelRepo
     lateinit var activityLauncher: IActivityLauncher
+    lateinit var webViewLauncher: IWebViewLauncher
 
     var toolbarViewModel: HotelItinPricingRewardsToolbarViewModel<HotelItinToolbarScope> by notNullAndObservable { vm ->
         vm.navigationBackPressedSubject.subscribe {
@@ -61,18 +67,16 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
 
     val itineraryManager: ItineraryManager = ItineraryManager.getInstance()
     val tripsTracking: ITripsTracking = TripsTracking
-    val webViewLauncher: IWebViewLauncher = WebViewLauncher(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.hotel_itin_pricing_reward)
         Ui.getApplication(this).defaultTripComponents()
+        Ui.getApplication(this).tripComponent().inject(this)
 
-        stringProvider = Ui.getApplication(this).appComponent().stringProvider()
-        jsonUtil = Ui.getApplication(this).tripComponent().jsonUtilProvider()
         hotelRepo = ItinHotelRepo(intent.getStringExtra(ID_EXTRA), jsonUtil, itineraryManager.syncFinishObservable)
-        endpointProvider = Ui.getApplication(this).appComponent().endpointProvider()
         activityLauncher = ActivityLauncher(this)
+        webViewLauncher = WebViewLauncher(this)
 
         val toolbarScope = HotelItinToolbarScope(stringProvider, hotelRepo, this)
         toolbarViewModel = HotelItinPricingRewardsToolbarViewModel(toolbarScope)

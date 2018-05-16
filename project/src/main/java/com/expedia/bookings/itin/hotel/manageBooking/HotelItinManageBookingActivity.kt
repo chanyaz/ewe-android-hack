@@ -39,9 +39,9 @@ class HotelItinManageBookingActivity : ItinBaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Ui.getApplication(this).defaultTripComponents()
         setContentView(R.layout.hotel_itin_manage_booking)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        Ui.getApplication(this).defaultTripComponents()
 
         manageRoomContainer.addView(manageRoomViewModel.manageRoomWidget)
         manageRoomViewModel.closeActivitySubject.subscribe {

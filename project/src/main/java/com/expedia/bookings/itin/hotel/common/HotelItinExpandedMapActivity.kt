@@ -82,9 +82,10 @@ class HotelItinExpandedMapActivity : ItinBaseActivity(), OnMapReadyCallback, Goo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Ui.getApplication(this).defaultTripComponents()
         setContentView(R.layout.hotel_itin_expanded_map)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        Ui.getApplication(this).defaultTripComponents()
+
         mapView.onCreate(savedInstanceState)
         mapView.onResume()
         mapView.getMapAsync(this)

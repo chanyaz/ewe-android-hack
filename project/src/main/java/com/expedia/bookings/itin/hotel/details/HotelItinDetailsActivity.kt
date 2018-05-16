@@ -24,6 +24,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.squareup.phrase.Phrase
+import javax.inject.Inject
 
 open class HotelItinDetailsActivity : ItinBaseActivity() {
 
@@ -41,6 +42,8 @@ open class HotelItinDetailsActivity : ItinBaseActivity() {
     var itinManager: ItineraryManagerInterface = ItineraryManager.getInstance()
 
     lateinit var itinCardDataHotel: ItinCardDataHotel
+    lateinit var readJsonUtil: IJsonToItinUtil
+        @Inject set
 
     companion object {
         private const val UNIQUE_ID_EXTRA = "UNIQUE_ID_EXTRA"
@@ -56,11 +59,11 @@ open class HotelItinDetailsActivity : ItinBaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val readJsonUtil: IJsonToItinUtil
-        Ui.getApplication(this).defaultTripComponents()
         setContentView(R.layout.hotel_itin_card_details)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        readJsonUtil = Ui.getApplication(this).tripComponent().jsonUtilProvider()
+
+        Ui.getApplication(this).defaultTripComponents()
+        Ui.getApplication(this).tripComponent().inject(this)
 
         val itin = readJsonUtil.getItin(intent.getStringExtra(ITIN_ID_EXTRA))
         itin?.let { trip ->

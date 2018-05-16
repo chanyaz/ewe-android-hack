@@ -2,6 +2,9 @@ package com.expedia.bookings.dagger;
 
 import com.expedia.bookings.dagger.tags.TripScope;
 import com.expedia.bookings.itin.common.NewAddGuestItinActivity;
+import com.expedia.bookings.itin.hotel.details.HotelItinDetailsActivity;
+import com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingAdditionalInfoActivity;
+import com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingRewardsActivity;
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil;
 import com.expedia.bookings.presenter.trips.ItinSignInPresenter;
 import com.expedia.bookings.presenter.trips.AddGuestItinWidget;
@@ -20,6 +23,10 @@ public interface TripComponent {
 	void inject(ItinSignInViewModel itinSignInViewModel);
 	void inject(ItinSignInPresenter itinSignInPresenter);
 	void inject(AddGuestItinWidget addGuestItinWidget);
+
+	void inject(HotelItinDetailsActivity hotelItinDetailsActivity);
+	void inject(HotelItinPricingRewardsActivity hotelItinPricingRewardsActivity);
+	void inject(HotelItinPricingAdditionalInfoActivity hotelItinPricingAdditionalInfoActivity);
 
 	ItinPageUsableTracking itinPageUsableTracking();
 	TripsServicesInterface tripServices();
