@@ -140,9 +140,10 @@
     <!-- Content description for Checkbox types, state Unchecked -->
     <string name="acct__cont_desc_role_checkbox_unchecked">확인란. 체크 안 됨.</string>
 
-
     <!--Single Page Sign Up-->
     <string name="acct__single_page_sign_up_title">무료 회원가입</string>
 
+    <!--New Sign In Page-->
     <string name="acct__new_create_account_text">회원가입</string>
+    <string name="acct__new_facebook_link_accounts_text">계정 연결</string>
 </resources>

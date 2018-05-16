@@ -48,7 +48,7 @@
     <!-- checkout view toolbar title -->
     <string name="secure_checkout">Suojattu maksu</string>
     <!-- Accessibility content description for google map view on hotel results -->
-    <string name="hotel_results_map_view_cont_desc">Google Map, hotellihakutulokset näytetään kartalla</string>
+    <string name="hotel_results_map_view_cont_desc">Google Maps, hotellihakutulokset näytetään kartalla</string>
     <!-- Ally Description for clustered map pins on hotel results Ex. Zoom in on 13 Hotels-->
     <string name="hotel_map_pin_cluster_cont_desc_TEMPLATE">Tarkastele {hotel_count} lähemmin</string>
     <!-- Ally Description for individual map pins on hotel results. Ex. Show information for hotel of price $543 below, Button-->
@@ -85,7 +85,7 @@
     <string name="traveler_saved_contacts_text">Valitse tallennetuista yhteystiedoista</string>
 
     <!-- Accessibility - Content Description for activity map view on activity details -->
-    <string name="activity_map_view_cont_desc">Aktiviteetin sijainti Google Map -näkymässä</string>
+    <string name="activity_map_view_cont_desc">Aktiviteetin sijainti Google Maps -näkymässä</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">Hotellit</string>
@@ -1423,6 +1423,16 @@
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">Maksettu kokonaissumma: {amount}</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
     <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">Hotellilla maksettava kokonaissumma: {amount}</string>
+    <!--Hotel itin card price summary rewards section title text-->
+    <string name="itin_hotel_details_price_summary_rewards_title">Kanta-asiakasedut</string>
+    <!--Hotel itin card price summary rewards section view rewards button text-->
+    <string name="itin_hotel_details_price_summary_rewards_button">Katso kaikki kanta-asiakasetusi</string>
+    <!--Hotel itin card price summary rewards section earned points template. You earned {points} {program} points (eg., You earned 177 Expedia Rewards points)-->
+    <string name="itin_hotel_details_price_summary_rewards_earned_points_TEMPLATE">Ansaitsit {points} {program} -pistettä</string>
+    <!--Hotel itin card price summary rewards section base points template. {points} base points for this trip (eg., 48 base points for this trip)-->
+    <string name="itin_hotel_details_price_summary_rewards_base_points_TEMPLATE">\u2022 {points} peruspistettä tästä matkasta</string>
+    <!--Hotel itin card price summary rewards section bonus points template. {points} bonus points for {program} (eg., 15 bonus points for +goldBonus)-->
+    <string name="itin_hotel_details_price_summary_rewards_bonus_points_TEMPLATE">\u2022 {points} bonuspistettä {program} -ohjelmasta</string>
     <!--Hotel itin card additional info heading-->
     <string name="itin_hotel_details_additional_info_heading">Lisätietoja</string>
     <!--Hotel itin checkin text-->
@@ -2745,8 +2755,8 @@
     <string name="filter">Suodatin</string>
 
     <!-- Map -->
-    <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
-    <string name="map_snippet_price_template">Alkaen %s</string>
+    <!-- Displayed in front of room price on "Select a Room" bar -->
+    <string name="select_a_room_from_price_label">Alkaen</string>
     <!-- Button text prompting the user to search this area on the map -->
     <string name="Search_this_area">Hae tältä alueelta</string>
     <!-- Map pin text for sold out hotel(s)-->
@@ -2901,11 +2911,11 @@
     <!-- High Speed internet -->
     <string name="filter_high_speed_internet">Nopea internetyhteys</string>
     <!-- Free breakfast -->
-    <string name="filter_free_breakfast">Ilmainen aamupala</string>
+    <string name="filter_free_breakfast">Ilmainen aamiainen</string>
     <!-- Free airport transportation -->
     <string name="filter_free_airport_transportation">Ilmainen lentokenttäkuljetus</string>
     <!-- Pets Allowed -->
-    <string name="filter_pets_allowed">Lemmikkieläimet sallittu</string>
+    <string name="filter_pets_allowed">Lemmikit sallittu</string>
     <!-- All inclusive Options -->
     <string name="filter_all_inclusive">All inclusive -vaihtoehdot</string>
 
@@ -3021,8 +3031,8 @@
     <string name="common_value_add_template">Kaikissa huoneissa on %s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
     <string name="select_a_room_instruction">Valitse huone</string>
-    <!-- Content description for hotel map's select room button. Example: Select a room from $10 button -->
-    <string name="hotel_select_a_room_cont_desc_TEMPLATE">Valitse huone {price} -painike</string>
+    <!-- Content description for hotel map's select room button. Example: Select a Room From $10 button -->
+    <string name="hotel_select_a_room_cont_desc_TEMPLATE">Valitse huone, jonka hinta on alkaen {price}, painike</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Ilmainen peruutusoikeus</string>
     <!-- Top line of resort fee text -->
@@ -3843,6 +3853,8 @@
     <string name="yes">Kyllä</string>
     <!-- Dialog negative button message -->
     <string name="no">En</string>
+    <!--InApp Dialog Default-->
+    <string name="see_deal">Katso tarjous</string>
 
     <!-- Template for generating textview clicks -->
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
@@ -4382,7 +4394,7 @@
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
 
     <!-- rail search error for date out of range  e.g.. more than 30 days apart -->
-    <string name="rail_search_range_error_TEMPLATE">Pahoittelemme, mutta emme pysty etsimään meno-paluujunamatkoja yli %1$s päivälle.</string>
+    <string name="rail_search_range_error_TEMPLATE">Pahoittelemme, mutta emme pysty etsimään menopaluujunamatkoja yli %1$s päivälle.</string>
 
     <string name="rail_location_hint">Kaupunki tai asema</string>
     <string name="error_same_station_departure_arrival">Lähtö- ja saapumisasemat eivät saa olla samat.</string>
@@ -4992,7 +5004,7 @@
     <string name="error_no_pinned_result_message">Hakusi ei tuottanut tuloksia. Hae uudelleen eri hakuehdoilla.</string>
 
     <!-- Hotel info site mandatory fee message, example: Excludes $13.37 daily resort fee -->
-    <string name="excludes_mandatory_fee_TEMPLATE">Ei sisällä {amount} päivittäistä lomakeskusmaksua</string>
+    <string name="excludes_mandatory_fee_TEMPLATE">Ei sisällä {amount}:n päivittäistä lomakeskusmaksua</string>
 
     <!-- Hotel detail grouped room option message, example: Option 1 -->
     <string name="option_TEMPLATE">Vaihtoehto {number}</string>

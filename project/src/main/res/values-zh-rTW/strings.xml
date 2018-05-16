@@ -1423,6 +1423,16 @@
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">總共已支付 {amount}</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
     <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">需於飯店支付 {amount}</string>
+    <!--Hotel itin card price summary rewards section title text-->
+    <string name="itin_hotel_details_price_summary_rewards_title">獎勵計畫</string>
+    <!--Hotel itin card price summary rewards section view rewards button text-->
+    <string name="itin_hotel_details_price_summary_rewards_button">查看所有獎勵計畫</string>
+    <!--Hotel itin card price summary rewards section earned points template. You earned {points} {program} points (eg., You earned 177 Expedia Rewards points)-->
+    <string name="itin_hotel_details_price_summary_rewards_earned_points_TEMPLATE">您獲得了 {points} 點 {program} 點數</string>
+    <!--Hotel itin card price summary rewards section base points template. {points} base points for this trip (eg., 48 base points for this trip)-->
+    <string name="itin_hotel_details_price_summary_rewards_base_points_TEMPLATE">\u2022 本行程基本點數為 {points} 點</string>
+    <!--Hotel itin card price summary rewards section bonus points template. {points} bonus points for {program} (eg., 15 bonus points for +goldBonus)-->
+    <string name="itin_hotel_details_price_summary_rewards_bonus_points_TEMPLATE">\u2022 {program}加贈紅利點數 {points} 點</string>
     <!--Hotel itin card additional info heading-->
     <string name="itin_hotel_details_additional_info_heading">其他資訊</string>
     <!--Hotel itin checkin text-->
@@ -2745,8 +2755,8 @@
     <string name="filter">篩選</string>
 
     <!-- Map -->
-    <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
-    <string name="map_snippet_price_template">最低價 %s</string>
+    <!-- Displayed in front of room price on "Select a Room" bar -->
+    <string name="select_a_room_from_price_label">最低價</string>
     <!-- Button text prompting the user to search this area on the map -->
     <string name="Search_this_area">搜尋此地區</string>
     <!-- Map pin text for sold out hotel(s)-->
@@ -3021,8 +3031,8 @@
     <string name="common_value_add_template">所有客房都包含%s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
     <string name="select_a_room_instruction">選擇客房</string>
-    <!-- Content description for hotel map's select room button. Example: Select a room from $10 button -->
-    <string name="hotel_select_a_room_cont_desc_TEMPLATE">選擇 {price} 客房的按鈕</string>
+    <!-- Content description for hotel map's select room button. Example: Select a Room From $10 button -->
+    <string name="hotel_select_a_room_cont_desc_TEMPLATE">房價最低 {price} 起，選擇客房按鈕</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">免費取消</string>
     <!-- Top line of resort fee text -->
@@ -3090,7 +3100,7 @@
     <!-- Label for the taxes and fees for a hotel room booking. -->
     <string name="taxes_and_fees">稅金和費用</string>
     <!-- Label for the property fee for a hotel room booking. -->
-    <string name="property_fee">住宿費用</string>
+    <string name="property_fee">住宿收費</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">包含</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
@@ -3843,6 +3853,8 @@
     <string name="yes">是</string>
     <!-- Dialog negative button message -->
     <string name="no">否</string>
+    <!--InApp Dialog Default-->
+    <string name="see_deal">查看優惠</string>
 
     <!-- Template for generating textview clicks -->
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
