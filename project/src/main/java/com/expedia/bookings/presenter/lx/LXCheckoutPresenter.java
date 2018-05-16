@@ -25,6 +25,7 @@ import com.expedia.bookings.presenter.VisibilityTransition;
 import com.expedia.bookings.services.LxServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
+import com.expedia.bookings.utils.FeatureUtilKt;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CVVEntryWidget;
@@ -287,8 +288,10 @@ public class LXCheckoutPresenter extends Presenter {
 
 	@Subscribe
 	public void onOfferBooked(Events.LXOfferBooked event) {
-		checkout.showCheckout();
-		show(checkout);
+		if (!FeatureUtilKt.isLxWebViewCheckoutEnabled(getContext())) {
+			checkout.showCheckout();
+			show(checkout);
+		}
 	}
 
 	@Subscribe

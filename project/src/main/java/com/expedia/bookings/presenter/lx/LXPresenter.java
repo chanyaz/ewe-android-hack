@@ -24,10 +24,8 @@ import com.expedia.bookings.animation.TransitionElement;
 import com.expedia.bookings.data.AbstractItinDetailsResponse;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.extensions.LineOfBusinessExtensions;
 import com.expedia.bookings.data.lx.LxSearchParams;
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
@@ -36,6 +34,7 @@ import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.ApiDateUtils;
+import com.expedia.bookings.utils.FeatureUtilKt;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LXConfirmationWidget;
 import com.expedia.bookings.widget.LoadingOverlayWidget;
@@ -84,7 +83,7 @@ public class LXPresenter extends Presenter {
 	@InjectView(R.id.web_checkout_view_stub)
 	ViewStub webCheckoutViewStub;
 
-	LXCheckoutPresenter checkoutPresenter;
+	public LXCheckoutPresenter checkoutPresenter;
 
 	LXOverviewPresenter overviewPresenter;
 
@@ -597,7 +596,7 @@ public class LXPresenter extends Presenter {
 	}
 
 	private Boolean showWebCheckoutView() {
-		return AbacusFeatureConfigManager.isBucketedForTest(getContext(), AbacusUtils.EBAndroidAppLxWebCheckoutView);
+		return FeatureUtilKt.isLxWebViewCheckoutEnabled(getContext());
 	}
 
 	@VisibleForTesting
