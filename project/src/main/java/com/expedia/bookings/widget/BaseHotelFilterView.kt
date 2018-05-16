@@ -2,6 +2,7 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import android.graphics.PorterDuff
+import android.support.annotation.VisibleForTesting
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayout
 import android.support.v7.widget.Toolbar
@@ -24,7 +25,6 @@ import com.expedia.bookings.hotel.widget.HotelFilterVipView
 import com.expedia.bookings.hotel.widget.HotelNameFilterView
 import com.expedia.bookings.hotel.widget.HotelPriceFilterView
 import com.expedia.bookings.hotel.widget.HotelSortOptionsView
-import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
@@ -35,17 +35,24 @@ import io.reactivex.Observer
 open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
     val toolbar: Toolbar by bindView(R.id.filter_toolbar)
 
+    @VisibleForTesting
     val filterVipView: HotelFilterVipView by bindView(R.id.filter_vip_view)
     val optionLabel: TextView by bindView(R.id.option_label)
+    @VisibleForTesting
     val hotelSortOptionsView: HotelSortOptionsView by bindView(R.id.hotel_sort_options)
+    @VisibleForTesting
     val starRatingView: HotelStarRatingFilterView by bindView(R.id.star_rating_container)
+    @VisibleForTesting
     val guestRatingView: HotelGuestRatingFilterView by bindView(R.id.guest_rating_container)
     val guestRatingLabelView: com.expedia.bookings.widget.TextView by bindView(R.id.guest_rating_label)
     val amenitiesLabelView: com.expedia.bookings.widget.TextView by bindView(R.id.filter_amenity_label)
+    @VisibleForTesting
     val amenitiesGridView: GridLayout by bindView(R.id.filter_amenities_grid_layout)
+    @VisibleForTesting
     val hotelNameFilterView: HotelNameFilterView by bindView(R.id.hotel_filter_name_view)
+    @VisibleForTesting
+    val priceRangeView: HotelPriceFilterView by bindView(R.id.price_range_filter_view)
 
-    protected val priceRangeView: HotelPriceFilterView by bindView(R.id.price_range_filter_view)
     private val priceHeader: View by bindView(R.id.price)
     private val filterContainer: ViewGroup by bindView(R.id.filter_container)
 
@@ -94,6 +101,7 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
 
     init {
         inflate()
+
         if (PointOfSale.getPointOfSale().supportsVipAccess()) {
             filterVipView.visibility = View.VISIBLE
             optionLabel.visibility = View.VISIBLE
@@ -138,22 +146,22 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
     }
 
     protected open fun bindViewModel(vm: BaseHotelFilterViewModel) {
+        vm.clearHotelNameFocusObservable.subscribe({
+            clearHotelNameFocus()
+        })
+
         doneButton.subscribeOnClick(vm.doneObservable)
         vm.priceRangeContainerVisibility.subscribeVisibility(priceRangeView)
         vm.priceRangeContainerVisibility.subscribeVisibility(priceHeader)
 
-        filterVipView.vipCheckedSubject.subscribe { vipChecked ->
-            clearHotelNameFocus()
-            vm.vipFilteredObserver.onNext(vipChecked)
-        }
+        filterVipView.setOnHotelVipFilterChangedListener(vm.onHotelVipFilterChangedListener)
 
-        neighborhoodView.neighborhoodOnSubject.subscribe(vm.selectNeighborhood)
-        neighborhoodView.neighborhoodOffSubject.subscribe(vm.deselectNeighborhood)
+        neighborhoodView.setOnHotelNeighborhoodFilterChangedListener(vm.onHotelNeighborhoodFilterChangedListener)
 
         bindStarRating(vm)
         bindGuestRating(vm)
 
-        hotelNameFilterView.filterNameChangedSubject.subscribe(vm.filterHotelNameObserver)
+        hotelNameFilterView.setOnHotelNameChangedListener(vm.onHotelNameFilterChangedListener)
 
         vm.finishClear.subscribe {
             hotelNameFilterView.reset()
@@ -173,17 +181,7 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
             hotelSortOptionsView.setSort(sortType)
         }
 
-        hotelSortOptionsView.sortSelectedSubject.subscribe { selectedSort ->
-            vm.userFilterChoices.userSort = selectedSort
-
-            val sortByString: String
-            if (selectedSort == DisplaySort.PACKAGE_DISCOUNT) {
-                sortByString = "Discounts"
-            } else {
-                sortByString = Strings.capitalizeFirstLetter(selectedSort.toString())
-            }
-            vm.trackHotelSortBy(sortByString)
-        }
+        hotelSortOptionsView.setOnHotelSortChangedListener(vm.onHotelSortChangedListener)
 
         hotelSortOptionsView.downEventSubject.subscribe {
             clearHotelNameFocus()
@@ -203,21 +201,16 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
 
         vm.sortContainerVisibilityObservable.subscribeVisibility(hotelSortOptionsView)
 
-        priceRangeView.viewModel = vm
+        vm.newPriceRangeObservable.subscribe(priceRangeView.newPriceRangeObservable)
+        priceRangeView.setOnHotelPriceFilterChanged(vm.onHotelPriceFilterChangedListener)
     }
 
     private fun bindStarRating(vm: BaseHotelFilterViewModel) {
-        starRatingView.oneStarSubject.subscribe(vm.oneStarFilterObserver)
-        starRatingView.twoStarSubject.subscribe(vm.twoStarFilterObserver)
-        starRatingView.threeStarSubject.subscribe(vm.threeStarFilterObserver)
-        starRatingView.fourStarSubject.subscribe(vm.fourStarFilterObserver)
-        starRatingView.fiveStarSubject.subscribe(vm.fiveStarFilterObserver)
+        starRatingView.setOnHotelStarRatingFilterChangedListener(vm.onHotelStarRatingFilterChangedListener)
     }
 
     private fun bindGuestRating(vm: BaseHotelFilterViewModel) {
-        guestRatingView.threeGuestRatingSubject.subscribe(vm.guestRatingThreeFilterObserver)
-        guestRatingView.fourGuestRatingSubject.subscribe(vm.guestRatingFourFilterObserver)
-        guestRatingView.fiveGuestRatingSubject.subscribe(vm.guestRatingFiveFilterObserver)
+        guestRatingView.setOnHotelGuestRatingFilterChangedListener(vm.onHotelGuestRatingFilterChangedListener)
     }
 
     fun resetStars() {

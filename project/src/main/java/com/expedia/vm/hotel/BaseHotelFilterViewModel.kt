@@ -9,9 +9,18 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.Neighborhood
 import com.expedia.bookings.hotel.data.Amenity
+import com.expedia.bookings.hotel.widget.OnHotelAmenityFilterChangedListener
+import com.expedia.bookings.hotel.widget.OnHotelNameFilterChangedListener
+import com.expedia.bookings.hotel.widget.OnHotelNeighborhoodFilterChangedListener
+import com.expedia.bookings.hotel.widget.OnHotelPriceFilterChangedListener
+import com.expedia.bookings.hotel.widget.OnHotelSortChangedListener
+import com.expedia.bookings.hotel.widget.OnHotelVipFilterChangedListener
 import com.expedia.bookings.tracking.hotel.FilterTracker
-import com.expedia.util.endlessObserver
-import io.reactivex.Observer
+import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.widget.GuestRatingValue
+import com.expedia.bookings.widget.OnHotelGuestRatingFilterChangedListener
+import com.expedia.bookings.widget.OnHotelStarRatingFilterChangedListener
+import com.expedia.bookings.widget.StarRatingValue
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import java.util.HashSet
@@ -29,6 +38,8 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     val updateDynamicFeedbackWidget = BehaviorSubject.create<Int>()
     val showPreviousResultsObservable = PublishSubject.create<Unit>()
 
+    val clearHotelNameFocusObservable = PublishSubject.create<Unit>()
+
     val finishClear = BehaviorSubject.create<Unit>()
     val filterCountObservable = BehaviorSubject.create<Int>()
     val priceRangeContainerVisibility = BehaviorSubject.create<Boolean>()
@@ -40,7 +51,6 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     val filteredZeroResultObservable = PublishSubject.create<Unit>()
     val availableAmenityOptionsObservable = PublishSubject.create<Set<String>>()
 
-    private var trackingDone = false
     private val filterTracker: FilterTracker = createFilterTracker()
     private var searchedLocationId: String? = null
 
@@ -58,162 +68,163 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         }
     }
 
-    val oneStarFilterObserver: Observer<Unit> = endlessObserver {
-        if (!userFilterChoices.hotelStarRating.one) {
-            userFilterChoices.hotelStarRating.one = true
-            trackHotelRefineRating("1")
-        } else {
-            userFilterChoices.hotelStarRating.one = false
-        }
-
-        updateFilterCount()
-        handleFiltering()
-    }
-
-    val twoStarFilterObserver: Observer<Unit> = endlessObserver {
-        if (!userFilterChoices.hotelStarRating.two) {
-            userFilterChoices.hotelStarRating.two = true
-            trackHotelRefineRating("2")
-        } else {
-            userFilterChoices.hotelStarRating.two = false
-        }
-
-        updateFilterCount()
-        handleFiltering()
-    }
-
-    val threeStarFilterObserver: Observer<Unit> = endlessObserver {
-        if (!userFilterChoices.hotelStarRating.three) {
-            userFilterChoices.hotelStarRating.three = true
-            trackHotelRefineRating("3")
-        } else {
-            userFilterChoices.hotelStarRating.three = false
-        }
-
-        updateFilterCount()
-        handleFiltering()
-    }
-
-    val fourStarFilterObserver: Observer<Unit> = endlessObserver {
-        if (!userFilterChoices.hotelStarRating.four) {
-            userFilterChoices.hotelStarRating.four = true
-            trackHotelRefineRating("4")
-        } else {
-            userFilterChoices.hotelStarRating.four = false
-        }
-
-        updateFilterCount()
-        handleFiltering()
-    }
-
-    val fiveStarFilterObserver: Observer<Unit> = endlessObserver {
-        if (!userFilterChoices.hotelStarRating.five) {
-            userFilterChoices.hotelStarRating.five = true
-            trackHotelRefineRating("5")
-        } else {
-            userFilterChoices.hotelStarRating.five = false
-        }
-
-        updateFilterCount()
-        handleFiltering()
-    }
-
-    val guestRatingThreeFilterObserver: Observer<Unit> = endlessObserver {
-        if (!userFilterChoices.hotelGuestRating.three) {
-            userFilterChoices.hotelGuestRating.three = true
-            trackHotelFilterGuestRating("3")
-        } else {
-            userFilterChoices.hotelGuestRating.three = false
-        }
-        updateFilterCount()
-        handleFiltering()
-    }
-
-    val guestRatingFourFilterObserver: Observer<Unit> = endlessObserver {
-        if (!userFilterChoices.hotelGuestRating.four) {
-            userFilterChoices.hotelGuestRating.four = true
-            trackHotelFilterGuestRating("4")
-        } else {
-            userFilterChoices.hotelGuestRating.four = false
-        }
-        updateFilterCount()
-        handleFiltering()
-    }
-
-    val guestRatingFiveFilterObserver: Observer<Unit> = endlessObserver {
-        if (!userFilterChoices.hotelGuestRating.five) {
-            userFilterChoices.hotelGuestRating.five = true
-            trackHotelFilterGuestRating("5")
-        } else {
-            userFilterChoices.hotelGuestRating.five = false
-        }
-        updateFilterCount()
-        handleFiltering()
-    }
-
-    val priceRangeChangedObserver = endlessObserver<Pair<Int, Int>> { minMaxPair ->
-        userFilterChoices.minPrice = minMaxPair.first
-        userFilterChoices.maxPrice = minMaxPair.second
-
-        if (shouldTrackFilterPriceSlider) {
-            trackHotelFilterPriceSlider()
-            shouldTrackFilterPriceSlider = false
-        }
-
-        updateFilterCount()
-        handleFiltering()
-    }
-
-    val filterHotelNameObserver = endlessObserver<CharSequence> { s ->
-        userFilterChoices.name = s.toString()
-        if (s.length == 1 && !trackingDone) {
-            trackingDone = true
-            trackHotelFilterByName()
-        }
-        if (s.isEmpty()) trackingDone = false
-
-        updateFilterCount()
-        handleFiltering()
-    }
-
-    val vipFilteredObserver: Observer<Boolean> = endlessObserver { vipOnly ->
-        userFilterChoices.isVipOnlyAccess = vipOnly
-        updateFilterCount()
-        handleFiltering()
-        trackHotelFilterVIP(vipOnly)
-    }
-
-    val selectAmenity: Observer<Amenity> = endlessObserver { amenity ->
-        toggleAmenity(amenity, true)
-    }
-
-    val deselectAmenity: Observer<Amenity> = endlessObserver { amenity ->
-        toggleAmenity(amenity, false)
-    }
-
-    val selectNeighborhood = endlessObserver<Neighborhood> { neighborhood ->
-        if (isClientSideFiltering()) {
-            if (userFilterChoices.neighborhoods.isEmpty() || !userFilterChoices.neighborhoods.contains(neighborhood)) {
-                userFilterChoices.neighborhoods.add(neighborhood)
-                trackHotelFilterNeighborhood()
+    val onHotelStarRatingFilterChangedListener = object : OnHotelStarRatingFilterChangedListener {
+        override fun onHotelStarRatingFilterChanged(starRatingValue: StarRatingValue, selected: Boolean, doTracking: Boolean) {
+            when (starRatingValue) {
+                StarRatingValue.One -> {
+                    if (doTracking && !userFilterChoices.hotelStarRating.one) {
+                        trackHotelRefineRating(starRatingValue.trackingString)
+                    }
+                    userFilterChoices.hotelStarRating.one = selected
+                }
+                StarRatingValue.Two -> {
+                    if (doTracking && !userFilterChoices.hotelStarRating.two) {
+                        trackHotelRefineRating(starRatingValue.trackingString)
+                    }
+                    userFilterChoices.hotelStarRating.two = selected
+                }
+                StarRatingValue.Three -> {
+                    if (doTracking && !userFilterChoices.hotelStarRating.three) {
+                        trackHotelRefineRating(starRatingValue.trackingString)
+                    }
+                    userFilterChoices.hotelStarRating.three = selected
+                }
+                StarRatingValue.Four -> {
+                    if (doTracking && !userFilterChoices.hotelStarRating.four) {
+                        trackHotelRefineRating(starRatingValue.trackingString)
+                    }
+                    userFilterChoices.hotelStarRating.four = selected
+                }
+                StarRatingValue.Five -> {
+                    if (doTracking && !userFilterChoices.hotelStarRating.five) {
+                        trackHotelRefineRating(starRatingValue.trackingString)
+                    }
+                    userFilterChoices.hotelStarRating.five = selected
+                }
             }
-        } else {
-            userFilterChoices.neighborhoods.clear()
-            userFilterChoices.neighborhoods.add(neighborhood)
-            trackHotelFilterNeighborhood()
-        }
 
-        updateFilterCount()
-        handleFiltering()
+            updateFilterCountAndHandleFiltering()
+        }
     }
 
-    val deselectNeighborhood = endlessObserver<Neighborhood> { neighborhood ->
-        if (!userFilterChoices.neighborhoods.isEmpty() && userFilterChoices.neighborhoods.contains(neighborhood)) {
-            userFilterChoices.neighborhoods.remove(neighborhood)
+    val onHotelGuestRatingFilterChangedListener = object : OnHotelGuestRatingFilterChangedListener {
+        override fun onHotelGuestRatingFilterChanged(guestRatingValue: GuestRatingValue, selected: Boolean, doTracking: Boolean) {
+            when (guestRatingValue) {
+                GuestRatingValue.Three -> {
+                    if (doTracking && !userFilterChoices.hotelGuestRating.three) {
+                        trackHotelFilterGuestRating(guestRatingValue.trackingString)
+                    }
+                    userFilterChoices.hotelGuestRating.three = selected
+                }
+                GuestRatingValue.Four -> {
+                    if (doTracking && !userFilterChoices.hotelGuestRating.four) {
+                        trackHotelFilterGuestRating(guestRatingValue.trackingString)
+                    }
+                    userFilterChoices.hotelGuestRating.four = selected
+                }
+                GuestRatingValue.Five -> {
+                    if (doTracking && !userFilterChoices.hotelGuestRating.five) {
+                        trackHotelFilterGuestRating(guestRatingValue.trackingString)
+                    }
+                    userFilterChoices.hotelGuestRating.five = selected
+                }
+            }
+            updateFilterCountAndHandleFiltering()
         }
+    }
 
-        updateFilterCount()
-        handleFiltering()
+    val onHotelPriceFilterChangedListener = object : OnHotelPriceFilterChangedListener {
+        override fun onHotelPriceFilterChanged(minPrice: Int, maxPrice: Int, doTracking: Boolean) {
+            userFilterChoices.minPrice = minPrice
+            userFilterChoices.maxPrice = maxPrice
+
+            if (doTracking && shouldTrackFilterPriceSlider) {
+                trackHotelFilterPriceSlider()
+                shouldTrackFilterPriceSlider = false
+            }
+
+            updateFilterCountAndHandleFiltering()
+        }
+    }
+
+    val onHotelNameFilterChangedListener = object : OnHotelNameFilterChangedListener {
+        private var trackingDone = false
+
+        override
+        fun onHotelNameFilterChanged(hotelName: CharSequence, doTracking: Boolean) {
+            userFilterChoices.name = hotelName.toString()
+
+            if (doTracking && hotelName.length == 1 && !trackingDone) {
+                trackingDone = true
+                trackHotelFilterByName()
+            }
+            if (hotelName.isEmpty()) trackingDone = false
+
+            updateFilterCountAndHandleFiltering()
+        }
+    }
+
+    val onHotelVipFilterChangedListener = object : OnHotelVipFilterChangedListener {
+        override
+        fun onHotelVipFilterChanged(vipChecked: Boolean, doTracking: Boolean) {
+            userFilterChoices.isVipOnlyAccess = vipChecked
+            clearHotelNameFocusObservable.onNext(Unit)
+
+            if (doTracking) {
+                trackHotelFilterVIP(vipChecked)
+            }
+            updateFilterCountAndHandleFiltering()
+        }
+    }
+
+    val onHotelAmenityFilterChangedListener = object : OnHotelAmenityFilterChangedListener {
+        override
+        fun onHotelAmenityFilterChanged(amenity: Amenity, selected: Boolean, doTracking: Boolean) {
+            val id = Amenity.getSearchKey(amenity)
+            if (selected) {
+                userFilterChoices.amenities.add(id)
+            } else {
+                userFilterChoices.amenities.remove(id)
+            }
+
+            if (doTracking) {
+                trackHotelFilterAmenity(amenity)
+            }
+
+            updateFilterCountAndHandleFiltering()
+        }
+    }
+
+    val onHotelNeighborhoodFilterChangedListener = object : OnHotelNeighborhoodFilterChangedListener {
+        override
+        fun onHotelNeighborhoodFilterChanged(neighborhood: Neighborhood, selected: Boolean, doTracking: Boolean) {
+            if (selected) {
+                if (isClientSideFiltering()) {
+                    onClientSideNeighborhoodFilterSelected(neighborhood, doTracking)
+                } else {
+                    onServerSideNeighborhoodFilterSelected(neighborhood, doTracking)
+                }
+            } else {
+                onNeighborhoodFilterUnselected(neighborhood)
+            }
+            updateFilterCountAndHandleFiltering()
+        }
+    }
+
+    val onHotelSortChangedListener = object : OnHotelSortChangedListener {
+        override
+        fun onHotelSortChanged(displaySort: DisplaySort, doTracking: Boolean) {
+            userFilterChoices.userSort = displaySort
+
+            if (doTracking) {
+                val sortByString = if (displaySort == DisplaySort.PACKAGE_DISCOUNT) {
+                    "Discounts"
+                } else {
+                    Strings.capitalizeFirstLetter(displaySort.toString())
+                }
+                trackHotelSortBy(sortByString)
+            }
+        }
     }
 
     abstract fun sortItemToRemove(): DisplaySort
@@ -236,18 +247,6 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         neighborhoodListObservable.onNext(neighborhoods)
         neighborhoodsExist = neighborhoods != null && neighborhoods.size > 0
         sendNewPriceRange()
-    }
-
-    private fun toggleAmenity(amenity: Amenity, on: Boolean) {
-        val id = Amenity.getSearchKey(amenity)
-        if (on) {
-            userFilterChoices.amenities.add(id)
-        } else {
-            userFilterChoices.amenities.remove(id)
-        }
-        updateFilterCount()
-        handleFiltering()
-        trackHotelFilterAmenity(amenity)
     }
 
     private fun sendNewPriceRange() {
@@ -292,6 +291,34 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
 
     protected open fun getDefaultSort(): DisplaySort {
         return DisplaySort.getDefaultSort()
+    }
+
+    private fun updateFilterCountAndHandleFiltering() {
+        updateFilterCount()
+        handleFiltering()
+    }
+
+    private fun onClientSideNeighborhoodFilterSelected(neighborhood: Neighborhood, doTracking: Boolean) {
+        if (userFilterChoices.neighborhoods.isEmpty() || !userFilterChoices.neighborhoods.contains(neighborhood)) {
+            userFilterChoices.neighborhoods.add(neighborhood)
+            if (doTracking) {
+                trackHotelFilterNeighborhood()
+            }
+        }
+    }
+
+    private fun onServerSideNeighborhoodFilterSelected(neighborhood: Neighborhood, doTracking: Boolean) {
+        userFilterChoices.neighborhoods.clear()
+        userFilterChoices.neighborhoods.add(neighborhood)
+        if (doTracking) {
+            trackHotelFilterNeighborhood()
+        }
+    }
+
+    private fun onNeighborhoodFilterUnselected(neighborhood: Neighborhood) {
+        if (!userFilterChoices.neighborhoods.isEmpty() && userFilterChoices.neighborhoods.contains(neighborhood)) {
+            userFilterChoices.neighborhoods.remove(neighborhood)
+        }
     }
 
     private fun trackHotelFilterVIP(vipOnly: Boolean) {

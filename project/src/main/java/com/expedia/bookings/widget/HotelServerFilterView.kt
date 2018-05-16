@@ -22,7 +22,7 @@ import com.expedia.vm.hotel.HotelFilterViewModel
 class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelFilterView(context, attrs) {
     val staticClearFilterButton: CardView by bindView(R.id.hotel_server_filter_clear_pill)
 
-    private var amenityViews: ArrayList<HotelAmenityGridItem> = ArrayList()
+    val amenityViews: ArrayList<HotelAmenityGridItem> = ArrayList()
 
     init {
         staticClearFilterButton.setOnClickListener(clearFilterClickListener)
@@ -58,13 +58,8 @@ class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelF
             amenityViews.forEach { view -> view.deselect() }
         }
 
-        amenityViews.forEach {
-            it.amenitySelected.subscribe {
-                vm.selectAmenity.onNext(it)
-            }
-            it.amenityDeselected.subscribe {
-                vm.deselectAmenity.onNext(it)
-            }
+        amenityViews.forEach { amenityGridItem ->
+            amenityGridItem.setOnHotelAmenityFilterChangedListener(vm.onHotelAmenityFilterChangedListener)
         }
 
         vm.filterCountObservable.subscribe { count ->

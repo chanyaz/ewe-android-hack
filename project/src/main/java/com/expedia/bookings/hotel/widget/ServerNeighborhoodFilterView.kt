@@ -24,24 +24,31 @@ class ServerNeighborhoodFilterView(context: Context, attrs: AttributeSet?) : Bas
 
     fun selectNeighborhood(neighborhood: Neighborhood) {
         if (neighborhoodGroup.childCount == 0) {
-            neighborhoodOffSubject.onNext(neighborhood)
+            listener?.onHotelNeighborhoodFilterChanged(neighborhood, false, false)
             return
         }
         var neighborhoodToSelectId = -1
         for (i in 0 until neighborhoodGroup.childCount) {
-            val radioButton = neighborhoodGroup.getChildAt(i) as RadioButton
-            if (radioButton.text == neighborhood.name) {
+            val radioButton = getRadioButtonAtIndex(i)
+            if (radioButton != null && radioButton.text == neighborhood.name) {
                 neighborhoodToSelectId = radioButton.id
                 break
             }
         }
         if (neighborhoodToSelectId == -1) {
-            neighborhoodOffSubject.onNext(neighborhood)
+            listener?.onHotelNeighborhoodFilterChanged(neighborhood, false, false)
             return
         }
 
         neighborhoodGroup.check(neighborhoodToSelectId)
-        neighborhoodOnSubject.onNext(neighborhood)
+        listener?.onHotelNeighborhoodFilterChanged(neighborhood, true, false)
+    }
+
+    fun getRadioButtonAtIndex(i: Int): RadioButton? {
+        if (i < 0 || i >= neighborhoodGroup.childCount) {
+            return null
+        }
+        return neighborhoodGroup.getChildAt(i) as? RadioButton
     }
 
     override fun updateNeighborhoods(list: List<Neighborhood>) {
@@ -56,7 +63,7 @@ class ServerNeighborhoodFilterView(context: Context, attrs: AttributeSet?) : Bas
                 val neighborhood = list[i]
                 neighborhoodView.text = neighborhood.name
                 neighborhoodView.setOnClickListener {
-                    neighborhoodOnSubject.onNext(neighborhood)
+                    listener?.onHotelNeighborhoodFilterChanged(neighborhood, true, true)
                 }
                 neighborhoodGroup.addView(neighborhoodView)
             }

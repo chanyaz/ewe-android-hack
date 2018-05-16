@@ -2,6 +2,7 @@ package com.expedia.bookings.hotel.widget
 
 import android.content.Context
 import android.os.Handler
+import android.support.annotation.VisibleForTesting
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -19,11 +20,17 @@ import com.squareup.phrase.Phrase
 import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 
+interface OnHotelSortChangedListener {
+    fun onHotelSortChanged(displaySort: DisplaySort, doTracking: Boolean)
+}
+
 class HotelSortOptionsView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
-    val sortSelectedSubject = PublishSubject.create<DisplaySort>()
     val downEventSubject = PublishSubject.create<Unit>()
 
-    private val sortByButtonGroup: SpinnerWithCloseListener by bindView(R.id.sort_by_selection_spinner)
+    @VisibleForTesting
+    val sortByButtonGroup: SpinnerWithCloseListener by bindView(R.id.sort_by_selection_spinner)
+
+    private var listener: OnHotelSortChangedListener? = null
 
     private val sortByAdapter = object : ArrayAdapter<DisplaySort>(getContext(), R.layout.spinner_sort_dropdown_item) {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
@@ -37,6 +44,15 @@ class HotelSortOptionsView(context: Context, attrs: AttributeSet?) : LinearLayou
         }
     }
 
+    private val sortSelectedListener = object : AdapterView.OnItemSelectedListener {
+        override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+            onSortItemSelected(position, true)
+        }
+
+        override fun onNothingSelected(p0: AdapterView<*>?) {
+        }
+    }
+
     init {
         View.inflate(context, R.layout.hotel_sort_options_view, this)
 
@@ -47,16 +63,7 @@ class HotelSortOptionsView(context: Context, attrs: AttributeSet?) : LinearLayou
             updateSortItems(sortList)
         }
 
-        sortByButtonGroup.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-                sortByButtonGroup.contentDescription = Phrase.from(context, R.string.filter_sort_by_content_description_TEMPLATE)
-                        .put("sort", resources.getString(sortByAdapter.getItem(position).resId)).format().toString()
-                sortSelectedSubject.onNext(sortByAdapter.getItem(position))
-            }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-            }
-        }
+        addSortSelectedListener()
 
         sortByButtonGroup.setOnSpinnerCloseListener {
             requestAccessibilityFocusOnSortBySpinner()
@@ -70,11 +77,19 @@ class HotelSortOptionsView(context: Context, attrs: AttributeSet?) : LinearLayou
         }
     }
 
+    fun setOnHotelSortChangedListener(listener: OnHotelSortChangedListener?) {
+        this.listener = listener
+    }
+
     fun updateSortItems(sortList: List<DisplaySort>) {
         sortByAdapter.clear()
         sortByAdapter.addAll(sortList)
         sortByAdapter.notifyDataSetChanged()
-        sortByButtonGroup.setSelection(0)
+        removeSortSelectedListener()
+        val defaultPosition = 0
+        sortByButtonGroup.setSelection(defaultPosition)
+        onSortItemSelected(defaultPosition, false)
+        addSortSelectedListener()
     }
 
     //exposed for testing
@@ -87,7 +102,10 @@ class HotelSortOptionsView(context: Context, attrs: AttributeSet?) : LinearLayou
 
     fun setSort(sort: DisplaySort) {
         val position = sortByAdapter.getPosition(sort)
+        removeSortSelectedListener()
         sortByButtonGroup.setSelection(position)
+        onSortItemSelected(position, false)
+        addSortSelectedListener()
     }
 
     private fun requestAccessibilityFocusOnSortBySpinner() {
@@ -96,5 +114,20 @@ class HotelSortOptionsView(context: Context, attrs: AttributeSet?) : LinearLayou
             sortByButtonGroup.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
             sortByButtonGroup.requestFocus()
         }, 500)
+    }
+
+    private fun addSortSelectedListener() {
+        sortByButtonGroup.onItemSelectedListener = sortSelectedListener
+    }
+
+    private fun removeSortSelectedListener() {
+        sortByButtonGroup.onItemSelectedListener = null
+    }
+
+    private fun onSortItemSelected(position: Int, doTracking: Boolean) {
+        sortByButtonGroup.contentDescription = Phrase.from(context, R.string.filter_sort_by_content_description_TEMPLATE)
+                .put("sort", resources.getString(sortByAdapter.getItem(position).resId)).format().toString()
+        val displaySort = sortByAdapter.getItem(position)
+        listener?.onHotelSortChanged(displaySort, doTracking)
     }
 }

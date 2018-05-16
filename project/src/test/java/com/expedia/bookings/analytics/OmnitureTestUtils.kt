@@ -61,6 +61,17 @@ class OmnitureTestUtils : AppAnalytics() {
         }
 
         @JvmStatic
+        fun assertLinkNotTracked(linkName: String, rfrrId: String, mockAnalyticsProvider: AnalyticsProvider) {
+            val expectedData = mapOf(
+                    "&&linkType" to "o",
+                    "&&linkName" to linkName,
+                    "&&v28" to rfrrId,
+                    "&&c16" to rfrrId
+            )
+            Mockito.verify(mockAnalyticsProvider, Mockito.never()).trackAction(Mockito.eq(linkName), mapThat(hasEntries(expectedData)))
+        }
+
+        @JvmStatic
         fun assertLinkNotTracked(linkName: String, rfrrId: String, matcher: Matcher<Map<String, Any>>, mockAnalyticsProvider: AnalyticsProvider) {
             val expectedData = mapOf(
                     "&&linkType" to "o",

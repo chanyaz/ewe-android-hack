@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
+import android.support.annotation.VisibleForTesting
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
@@ -16,10 +17,13 @@ import io.reactivex.subjects.PublishSubject
 class HotelStarRatingFilterItem(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
     val clickedSubject = PublishSubject.create<Unit>()
 
-    private val filterStar: ImageButton by bindView(R.id.hotel_star_rating_image)
+    var starSelected = false
+        private set
+
+    @VisibleForTesting
+    val filterStar: ImageButton by bindView(R.id.hotel_star_rating_image)
 
     private var valueContentDescription: String? = null
-    private var starSelected = false
 
     init {
         View.inflate(context, R.layout.hotel_star_rating_filter_item, this)

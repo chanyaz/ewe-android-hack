@@ -17,6 +17,7 @@ class HotelGuestRatingFilterItem(context: Context, attrs: AttributeSet?) : Frame
     val filterGuestRating: Button by bindView(R.id.hotel_guest_rating_button)
 
     var guestRatingSelected = false
+        private set
 
     init {
         View.inflate(context, R.layout.hotel_guest_rating_filter_item, this)

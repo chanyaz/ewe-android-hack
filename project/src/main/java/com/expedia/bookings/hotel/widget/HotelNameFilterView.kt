@@ -1,6 +1,7 @@
 package com.expedia.bookings.hotel.widget
 
 import android.content.Context
+import android.support.annotation.VisibleForTesting
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
@@ -12,13 +13,19 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
-import io.reactivex.subjects.PublishSubject
+
+interface OnHotelNameFilterChangedListener {
+    fun onHotelNameFilterChanged(hotelName: CharSequence, doTracking: Boolean)
+}
 
 class HotelNameFilterView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
-    val filterNameChangedSubject = PublishSubject.create<CharSequence>()
 
-    private val filterHotelName: AccessibleEditText by bindView(R.id.filter_hotel_name_edit_text)
-    private val clearNameButton: ImageView by bindView(R.id.clear_search_button)
+    @VisibleForTesting
+    val filterHotelName: AccessibleEditText by bindView(R.id.filter_hotel_name_edit_text)
+    @VisibleForTesting
+    val clearNameButton: ImageView by bindView(R.id.clear_search_button)
+
+    private var listener: OnHotelNameFilterChangedListener? = null
 
     init {
         View.inflate(context, R.layout.hotel_filter_name_view, this)
@@ -31,7 +38,8 @@ class HotelNameFilterView(context: Context, attrs: AttributeSet?) : LinearLayout
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 clearNameButton.visibility = if (Strings.isEmpty(s)) View.GONE else View.VISIBLE
-                filterNameChangedSubject.onNext(s)
+
+                listener?.onHotelNameFilterChanged(s, filterHotelName.isFocused)
             }
         })
 
@@ -46,8 +54,11 @@ class HotelNameFilterView(context: Context, attrs: AttributeSet?) : LinearLayout
         }
     }
 
+    fun setOnHotelNameChangedListener(listener: OnHotelNameFilterChangedListener?) {
+        this.listener = listener
+    }
+
     fun reset() {
-        //check if filterHotelName is empty to avoid calling handleFiltering
         if (filterHotelName.text.length > 0) filterHotelName.text.clear()
     }
 

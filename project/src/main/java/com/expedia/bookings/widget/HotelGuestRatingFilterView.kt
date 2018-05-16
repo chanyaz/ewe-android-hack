@@ -1,32 +1,49 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
+import android.support.annotation.VisibleForTesting
 import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.utils.bindView
-import io.reactivex.subjects.PublishSubject
+
+interface OnHotelGuestRatingFilterChangedListener {
+    fun onHotelGuestRatingFilterChanged(guestRatingValue: GuestRatingValue, selected: Boolean, doTracking: Boolean)
+}
+
+enum class GuestRatingValue(val trackingString: String) {
+    Three("3"),
+    Four("4"),
+    Five("5")
+}
 
 class HotelGuestRatingFilterView(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
-    val threeGuestRatingSubject = PublishSubject.create<Unit>()
-    val fourGuestRatingSubject = PublishSubject.create<Unit>()
-    val fiveGuestRatingSubject = PublishSubject.create<Unit>()
 
-    private val filterThree: HotelGuestRatingFilterItem by bindView(R.id.hotel_filter_guest_rating_three)
-    private val filterFour: HotelGuestRatingFilterItem by bindView(R.id.hotel_filter_guest_rating_four)
-    private val filterFive: HotelGuestRatingFilterItem by bindView(R.id.hotel_filter_guest_rating_five)
+    @VisibleForTesting
+    val filterThree: HotelGuestRatingFilterItem by bindView(R.id.hotel_filter_guest_rating_three)
+    @VisibleForTesting
+    val filterFour: HotelGuestRatingFilterItem by bindView(R.id.hotel_filter_guest_rating_four)
+    @VisibleForTesting
+    val filterFive: HotelGuestRatingFilterItem by bindView(R.id.hotel_filter_guest_rating_five)
 
-    private var guestRatings = UserFilterChoices.GuestRatings()
+    @VisibleForTesting
+    var guestRatings = UserFilterChoices.GuestRatings()
+
+    private var listener: OnHotelGuestRatingFilterChangedListener? = null
 
     init {
         View.inflate(context, R.layout.hotel_guest_rating_filter_view, this)
         setUpText()
 
-        filterThree.clickedSubject.subscribe { toggleGuestRatingThree() }
-        filterFour.clickedSubject.subscribe { toggleGuestRatingFour() }
-        filterFive.clickedSubject.subscribe { toggleGuestRatingFive() }
+        filterThree.clickedSubject.subscribe { toggleGuestRatingThree(true) }
+        filterFour.clickedSubject.subscribe { toggleGuestRatingFour(true) }
+        filterFive.clickedSubject.subscribe { toggleGuestRatingFive(true) }
+    }
+
+    fun setOnHotelGuestRatingFilterChangedListener(listener: OnHotelGuestRatingFilterChangedListener?) {
+        this.listener = listener
     }
 
     fun reset() {
@@ -37,45 +54,45 @@ class HotelGuestRatingFilterView(context: Context, attrs: AttributeSet?) : CardV
     }
 
     fun update(hotelGuestRating: UserFilterChoices.GuestRatings) {
-        if (hotelGuestRating.three) toggleGuestRatingThree()
-        if (hotelGuestRating.four) toggleGuestRatingFour()
-        if (hotelGuestRating.five) toggleGuestRatingFive()
+        if (hotelGuestRating.three) toggleGuestRatingThree(false)
+        if (hotelGuestRating.four) toggleGuestRatingFour(false)
+        if (hotelGuestRating.five) toggleGuestRatingFive(false)
     }
 
-    private fun toggleGuestRatingThree() {
+    private fun toggleGuestRatingThree(doTracking: Boolean) {
         if (filterFour.guestRatingSelected) {
-            toggleGuestRatingFour()
+            toggleGuestRatingFour(doTracking)
         }
         if (filterFive.guestRatingSelected) {
-            toggleGuestRatingFive()
+            toggleGuestRatingFive(doTracking)
         }
         filterThree.toggle()
-        guestRatings.three = !guestRatings.three
-        threeGuestRatingSubject.onNext(Unit)
+        guestRatings.three = filterThree.guestRatingSelected
+        listener?.onHotelGuestRatingFilterChanged(GuestRatingValue.Three, filterThree.guestRatingSelected, doTracking)
     }
 
-    private fun toggleGuestRatingFour() {
+    private fun toggleGuestRatingFour(doTracking: Boolean) {
         if (filterThree.guestRatingSelected) {
-            toggleGuestRatingThree()
+            toggleGuestRatingThree(doTracking)
         }
         if (filterFive.guestRatingSelected) {
-            toggleGuestRatingFive()
+            toggleGuestRatingFive(doTracking)
         }
         filterFour.toggle()
-        guestRatings.four = !guestRatings.four
-        fourGuestRatingSubject.onNext(Unit)
+        guestRatings.four = filterFour.guestRatingSelected
+        listener?.onHotelGuestRatingFilterChanged(GuestRatingValue.Four, filterFour.guestRatingSelected, doTracking)
     }
 
-    private fun toggleGuestRatingFive() {
+    private fun toggleGuestRatingFive(doTracking: Boolean) {
         if (filterThree.guestRatingSelected) {
-            toggleGuestRatingThree()
+            toggleGuestRatingThree(doTracking)
         }
         if (filterFour.guestRatingSelected) {
-            toggleGuestRatingFour()
+            toggleGuestRatingFour(doTracking)
         }
         filterFive.toggle()
-        guestRatings.five = !guestRatings.five
-        fiveGuestRatingSubject.onNext(Unit)
+        guestRatings.five = filterFive.guestRatingSelected
+        listener?.onHotelGuestRatingFilterChanged(GuestRatingValue.Five, filterFive.guestRatingSelected, doTracking)
     }
 
     private fun setUpText() {
