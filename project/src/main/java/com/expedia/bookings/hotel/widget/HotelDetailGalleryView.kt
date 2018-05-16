@@ -87,11 +87,13 @@ class HotelDetailGalleryView(context: Context, attrs: AttributeSet?) : RelativeL
 
     fun expand() {
         galleryRecyclerView.updateAccessibility(collapsed = false)
+        galleryAdapter.readAsButtonA11y = false
         hotelGalleryDescriptionContainer.visibility = View.VISIBLE
     }
 
     fun collapse() {
         galleryRecyclerView.updateAccessibility(collapsed = true)
+        galleryAdapter.readAsButtonA11y = true
         hotelGalleryDescriptionContainer.visibility = View.GONE
     }
 

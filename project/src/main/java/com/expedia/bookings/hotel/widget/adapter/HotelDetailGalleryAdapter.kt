@@ -10,6 +10,7 @@ import io.reactivex.subjects.PublishSubject
 
 class HotelDetailGalleryAdapter : RecyclerView.Adapter<HotelDetailGalleryViewHolder>() {
     val galleryItemClickedSubject = PublishSubject.create<Unit>()
+    var readAsButtonA11y = true
 
     private var mediaList: List<HotelMedia> = emptyList()
     private var soldOut = false
@@ -30,6 +31,7 @@ class HotelDetailGalleryAdapter : RecyclerView.Adapter<HotelDetailGalleryViewHol
         val root = LayoutInflater.from(parent.context).inflate(R.layout.hotel_detail_gallery_view_holder, parent, false)
         val vh = HotelDetailGalleryViewHolder(root)
         root.setOnClickListener { galleryItemClickedSubject.onNext(Unit) }
+        vh.readAsButtonA11y = readAsButtonA11y
         return vh
     }
 
