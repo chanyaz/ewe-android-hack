@@ -7,8 +7,7 @@
     android:foreground="?android:attr/selectableItemBackground"
     android:importantForAccessibility="no"
     android:orientation="horizontal"
-    android:paddingTop="12dp"
-    android:paddingBottom="12dp">
+    android:paddingTop="12dp">
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/launch_list_header_title"
@@ -17,7 +16,7 @@
         android:layout_weight="1"
         android:layout_gravity="left|center_vertical"
         android:textColor="@color/launch_list_header_title_color"
-        style="@style/Core.Text.400.Medium"/>
+        style="@style/Core.Text.500.Medium"/>
 
     <com.expedia.bookings.widget.RoundedCornerFrameLayout
         android:layout_width="wrap_content"
