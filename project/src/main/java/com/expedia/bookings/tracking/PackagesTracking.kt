@@ -252,6 +252,10 @@ class PackagesTracking {
         OmnitureTracking.trackPackagesCheckoutErrorRetry()
     }
 
+    fun trackSearchValidationError(errorTag: String) {
+        OmnitureTracking.trackPackagesSearchValidationError(errorTag)
+    }
+
     fun trackCheckoutPriceChange(priceDiff: Int) {
         OmnitureTracking.trackPackagesCheckoutPriceChange(priceDiff)
     }

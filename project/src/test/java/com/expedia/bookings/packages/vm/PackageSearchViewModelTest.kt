@@ -1,16 +1,20 @@
 package com.expedia.bookings.packages.vm
 
+import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.SearchParamsHistoryUtil
 import com.expedia.bookings.utils.Ui
 import org.joda.time.LocalDate
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
@@ -27,6 +31,12 @@ class PackageSearchViewModelTest {
 
     val context = RuntimeEnvironment.application
     lateinit var sut: PackageSearchViewModel
+    private lateinit var mockAnalyticsProvider: AnalyticsProvider
+
+    @Before
+    fun before() {
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+    }
 
     @Test
     fun testRetainPackageSearchParams() {
@@ -159,6 +169,59 @@ class PackageSearchViewModelTest {
         sut.previousSearchParamsObservable.onNext(getDummyPackageSearchParams(0, 1))
 
         assertEquals(true, sut.travelerValidator.validatePassengerCategory(LocalDate(), PassengerCategory.INFANT_IN_LAP))
+    }
+
+    @Test
+    fun testParamsOriginMatchingDestinationWhenShouldNotTrack() {
+        givenDefaultTravelerComponent()
+        createSystemUnderTest()
+        val testSubscriber = TestObserver<String>()
+        sut.errorOriginSameAsDestinationObservable.subscribe(testSubscriber)
+
+        sut.getParamsBuilder()
+                .origin(getDummySuggestion())
+                .destination(getDummySuggestion())
+                .startDate(LocalDate.now())
+                .adults(1)
+                .children(listOf(1, 2, 3))
+                .endDate(LocalDate.now().plusDays(1))
+                .build() as PackageSearchParams
+        val tag = "happy;happy;happy;happy"
+        val controlEvar = mapOf(18 to "App.Package.Search.Validation.Error")
+        val prop36 = mapOf(36 to tag)
+        sut.searchObserver.onNext(Unit)
+
+        OmnitureTestUtils.assertStateNotTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateNotTracked(OmnitureMatchers.withProps(prop36), mockAnalyticsProvider)
+        testSubscriber.assertValueCount(1)
+        testSubscriber.assertValue("Please make sure your departure and arrival cities are in different places.")
+    }
+
+    @Test
+    fun testParamsOriginMatchingDestinationWhenShouldTrack() {
+        givenDefaultTravelerComponent()
+        createSystemUnderTest()
+        val testSubscriber = TestObserver<String>()
+        sut.errorOriginSameAsDestinationObservable.subscribe(testSubscriber)
+
+        sut.getParamsBuilder()
+                .origin(getDummySuggestion())
+                .destination(getDummySuggestion())
+                .startDate(LocalDate.now())
+                .adults(1)
+                .children(listOf(1, 2, 3))
+                .endDate(LocalDate.now().plusDays(1))
+                .build() as PackageSearchParams
+        val tag = "happy;happy;happy;happy"
+        val controlEvar = mapOf(18 to "App.Package.Search.Validation.Error")
+        val prop36 = mapOf(36 to tag)
+        sut.getParamsBuilder().shouldTrackSameODPairValidationError = true
+        sut.searchObserver.onNext(Unit)
+
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withProps(prop36), mockAnalyticsProvider)
+        testSubscriber.assertValueCount(1)
+        testSubscriber.assertValue("Please make sure your departure and arrival cities are in different places.")
     }
 
     private fun givenDefaultTravelerComponent() {
