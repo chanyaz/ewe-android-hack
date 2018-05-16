@@ -61,4 +61,16 @@ class FeatureUtilTest {
         AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesServerSideFiltering)
         assertTrue(isServerSideFilteringEnabledForPackages(context))
     }
+
+    @Test
+    fun testPackagesBetterSavingsOnRDScreenDisabled() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesBetterSavingsOnRateDetails)
+        assertFalse(isBetterSavingsOnRDScreenEnabledForPackages(context))
+    }
+
+    @Test
+    fun testPackagesBetterSavingsOnRDScreenEnabled() {
+        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesBetterSavingsOnRateDetails)
+        assertTrue(isBetterSavingsOnRDScreenEnabledForPackages(context))
+    }
 }

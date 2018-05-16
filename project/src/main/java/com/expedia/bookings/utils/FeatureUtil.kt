@@ -168,3 +168,7 @@ fun isServerSideFilteringEnabledForPackages(context: Context): Boolean {
 fun isHolidayCalendarEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsHolidayCalendar)
 }
+
+fun isBetterSavingsOnRDScreenEnabledForPackages(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesBetterSavingsOnRateDetails)
+}

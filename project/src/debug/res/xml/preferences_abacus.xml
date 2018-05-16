@@ -844,6 +844,14 @@
             android:key="25814"
             android:summary="%s"
             android:title="Packages Server Side Filtering - 25814" />
+
+        <ListPreference
+            android:defaultValue="-1"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="26122"
+            android:summary="%s"
+            android:title="Packages Better Savings on RD Screen - 26122" />
     </PreferenceCategory>
 
     <PreferenceCategory

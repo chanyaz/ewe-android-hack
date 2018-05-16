@@ -5065,6 +5065,7 @@ public class OmnitureTracking {
 		s.setEvents("event4");
 		addPageLoadTimeTrackingEvents(s, pageUsableData);
 		trackAbacusTest(s, AbacusUtils.PackagesBackFlowFromOverview);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppPackagesBetterSavingsOnRateDetails);
 		s.track();
 	}
 
