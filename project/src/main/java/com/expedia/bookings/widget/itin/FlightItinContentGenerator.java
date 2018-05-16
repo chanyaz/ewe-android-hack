@@ -1,5 +1,12 @@
 package com.expedia.bookings.widget.itin;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+
+import org.joda.time.DateTime;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -66,13 +73,6 @@ import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.data.Waypoint;
 import com.mobiata.flightlib.utils.FormatUtils;
-
-import org.joda.time.DateTime;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDataFlight> {
 
@@ -235,9 +235,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			View flightDurationDivider = Ui.findView(view, R.id.flight_duration_divider);
 
 			if (legDurationMins > 0) {
-				String duration = FlightUtils.formatTotalDuration(getContext(), legDurationMins);
 				String durationContDesc = FlightUtils.totalDurationContDesc(getContext(), legDurationMins);
-				flightDuration.setText(duration);
 				flightDuration.setContentDescription(durationContDesc);
 
 				flightDuration.setVisibility(View.VISIBLE);

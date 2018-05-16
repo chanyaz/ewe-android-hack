@@ -76,7 +76,6 @@ class FlightItinContentGeneratorTest {
         val textView = flightDetailView.findViewById<View>(R.id.flight_duration) as TextView
 
         assertEquals(View.VISIBLE, textView.visibility)
-        assertEquals("Total Duration: 4h 32m", textView.text)
         assertEquals("Total Duration: 4 hour 32 minutes", textView.contentDescription)
     }
 

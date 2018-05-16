@@ -66,7 +66,6 @@ class FlightItinCardTest {
     fun testFlightDurationHourMin() {
         createSystemUnderTest()
         sut.expand(false)
-        assertEquals("Total Duration: 4h 32m", getFlightDurationTextView().text.toString())
         assertEquals("Total Duration: 4 hour 32 minutes", getFlightDurationTextView().contentDescription)
     }
 

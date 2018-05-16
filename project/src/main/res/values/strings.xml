@@ -3733,8 +3733,6 @@
     <!-- Unknown Card -->
     <string name="unknown_card">Unknown Card</string>
 
-    <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
-
     <!-- <First Name>, your booking is confirmed! View it in the app. TEMPLATE -->
     <string name="S_Push_Hey_VALUE_your_booking_is_confirmed">%1$s, your booking is confirmed! View it in the app.</string>
     <!--Your booking is confirmed! View it in the app. (For when we can't or don't want to address by first name -->
@@ -5076,5 +5074,16 @@
     <string name="full_page_deal_toolbar_nav_icon_close_cont_desc">Close deal page</string>
     <string name="full_page_deal_code_copied">Code Copied!</string>
     <string name="full_page_deal_copy_code_button">Copy code</string>
+
+    <!-- formatting strings -->
+    <!-- moved from flight lib -->
+    <!-- Shorthand for a number of hours.  %d is the number of hours, eg "12h" -->
+    <string name="hours_template">%dh</string>
+    <!-- Shorthand for a number of minutes.  %d is the number of minutes, eg "25m" -->
+    <string name="minutes_template">%dm</string>
+    <!-- Shorthand for a number of hours and minutes.  First %d is the number of hours, second is the number of minutes, 12h 23m -->
+    <string name="hours_minutes_template">%1$dh %2$dm</string>
+    <!-- This is for a path between two cities, for example "San Francisco to Minneapolis".  First %s is the origin city, second %s is the destination city -->
+    <string name="path_template">%1$s to %2$s</string>
 
 </resources>
