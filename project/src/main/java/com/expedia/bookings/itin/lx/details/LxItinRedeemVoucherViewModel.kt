@@ -17,11 +17,10 @@ class LxItinRedeemVoucherViewModel<S>(scope: S) : ItinRedeemVoucherViewModel whe
     override val redeemVoucherClickSubject: PublishSubject<Unit> = PublishSubject.create<Unit>()
     override val showRedeemVoucher: PublishSubject<Unit> = PublishSubject.create()
     var itinObserver: LiveDataObserver<Itin>
-    var redeemUrl: String? = null
 
     init {
         itinObserver = LiveDataObserver { itin ->
-
+            var redeemUrl: String? = null
             val lxVoucherPrintURL = itin?.firstLx()?.lxVoucherPrintURL
             val voucherPrintURL = itin?.firstLx()?.voucherPrintURL
 
