@@ -33,7 +33,6 @@ class HotelReviewsSummaryViewModel(private val reviewsService: ReviewsServices) 
         }
 
         override fun onError(e: Throwable) {
-            //TODO unhappy path
             noReviewSummarySubject.onNext(Unit)
         }
     }
