@@ -104,58 +104,66 @@ object SearchScreen {
         return onView(withId(R.id.previous_month))
     }
 
-    @JvmStatic fun incrementAdultTravelerButton(): ViewInteraction {
-        return onView(allOf(withParent(withParent(withParent(
-                withId(R.id.adult_count_selector)))),
+    @JvmStatic
+    fun incrementAdultTravelerButton(): ViewInteraction {
+        return onView(allOf(withParent(withParent(
+                withId(R.id.adult_count_selector))),
                 withClassName(`is`(AppCompatImageButton::class.java.name)),
                 withId(R.id.traveler_plus)))
     }
 
-    @JvmStatic fun incrementYouthTravelerButton(): ViewInteraction {
-        return onView(allOf(withParent(withParent(withParent(
-                withId(R.id.youth_count_selector)))),
+    @JvmStatic
+    fun incrementYouthTravelerButton(): ViewInteraction {
+        return onView(allOf(withParent(withParent(
+                withId(R.id.youth_count_selector))),
                 withClassName(`is`(AppCompatImageButton::class.java.name)),
                 withId(R.id.traveler_plus)))
     }
 
-    @JvmStatic fun incrementChildTravelerButton(): ViewInteraction {
-        return onView(allOf(withParent(withParent(withParent(
-                withId(R.id.child_count_selector)))),
+    @JvmStatic
+    fun incrementChildTravelerButton(): ViewInteraction {
+        return onView(allOf(withParent(withParent(
+                withId(R.id.child_count_selector))),
                 withClassName(`is`(AppCompatImageButton::class.java.name)),
                 withId(R.id.traveler_plus)))
     }
 
-    @JvmStatic fun incrementInfantTravelerButton(): ViewInteraction {
-        return onView(allOf(withParent(withParent(withParent(
-                withId(R.id.infant_count_selector)))),
+    @JvmStatic
+    fun incrementInfantTravelerButton(): ViewInteraction {
+        return onView(allOf(withParent(withParent(
+                withId(R.id.infant_count_selector))),
                 withClassName(`is`(AppCompatImageButton::class.java.name)),
                 withId(R.id.traveler_plus)))
     }
 
-    @JvmStatic fun decrementAdultTravelerButton(): ViewInteraction {
-        return onView(allOf(withParent(withParent(withParent(
-                withId(R.id.adult_count_selector)))),
+    @JvmStatic
+    fun decrementAdultTravelerButton(): ViewInteraction {
+        return onView(allOf(withParent(withParent(
+                withId(R.id.adult_count_selector))),
                 withClassName(`is`(AppCompatImageButton::class.java.name)),
                 withId(R.id.traveler_minus)))
     }
 
-    @JvmStatic fun decrementYouthTravelerButton(): ViewInteraction {
-        return onView(allOf(withParent(withParent(withParent(
-                withId(R.id.youth_count_selector)))),
+    @JvmStatic
+    fun decrementYouthTravelerButton(): ViewInteraction {
+        return onView(allOf(withParent(withParent(
+                withId(R.id.youth_count_selector))),
                 withClassName(`is`(AppCompatImageButton::class.java.name)),
                 withId(R.id.traveler_minus)))
     }
 
-    @JvmStatic fun decrementChildTravelerButton(): ViewInteraction {
-        return onView(allOf(withParent(withParent(withParent(
-                withId(R.id.child_count_selector)))),
+    @JvmStatic
+    fun decrementChildTravelerButton(): ViewInteraction {
+        return onView(allOf(withParent(withParent(
+                withId(R.id.child_count_selector))),
                 withClassName(`is`(AppCompatImageButton::class.java.name)),
                 withId(R.id.traveler_minus)))
     }
 
-    @JvmStatic fun decrementInfantTravelerButton(): ViewInteraction {
-        return onView(allOf(withParent(withParent(withParent(
-                withId(R.id.infant_count_selector)))),
+    @JvmStatic
+    fun decrementInfantTravelerButton(): ViewInteraction {
+        return onView(allOf(withParent(withParent(
+                withId(R.id.infant_count_selector))),
                 withClassName(`is`(AppCompatImageButton::class.java.name)),
                 withId(R.id.traveler_minus)))
     }
