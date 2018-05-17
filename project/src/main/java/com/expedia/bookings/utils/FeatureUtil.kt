@@ -66,10 +66,6 @@ fun isBreadcrumbsMoveBundleOverviewPackagesEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs)
 }
 
-fun isPackagesMISRealWorldGeoEnabled(context: Context): Boolean {
-    return isMidAPIEnabled() && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesMISRealWorldGeo)
-}
-
 fun isFlightGreedySearchEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsGreedySearchCall)
 }

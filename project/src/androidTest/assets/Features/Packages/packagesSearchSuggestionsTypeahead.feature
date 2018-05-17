@@ -44,30 +44,9 @@ Feature: Search Suggestions for packages
     And I type "de" in the packages source search box
     Then "DEL - Indira Gandhi Intl." is listed at the top of suggestion list as recent search
 
-
-  @Packages @PackagesTypeahead @Prod
-  Scenario: Flying From field - Typeahead call is made when 3 letters are entered for
-    Given I launch the App
-    And I want to intercept these calls for packages
-      | TypeAheadSFO |
-    And I launch "Bundle Deals" LOB
-    And I click on source search button
-    And I type "sfo" and select the location "SFO - San Francisco Intl."
-    Then Validate the "TypeAhead" API request query params for following parameters for packages
-      | locale                      | en_US                          |
-      | regiontype                  | 95                             |
-      | dest                        | false                          |
-      | features                    | ta_hierarchy                   |
-      | client                      | expedia.app.android.phone      |
-      | lob                         | PACKAGES                       |
-      | sourceType                  | mobileapp                      |
-      | ab                          | 11996.0                        |
-
   @Packages @PackagesTypeahead @Prod
     Scenario: Flying From field - Typeahead call is made when 3 letters are entered (RWG enabled)
       Given I launch the App
-      And I set bucketing rules for A/B tests as
-        | EBAndroidAppPackagesMISRealWorldGeo | BUCKETED                        |
       And I want to intercept these calls for packages
         | TypeAheadSFO |
       And I launch "Bundle Deals" LOB

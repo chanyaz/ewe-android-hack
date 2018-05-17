@@ -4755,7 +4755,6 @@ public class OmnitureTracking {
 		abTests.add(AbacusUtils.EBAndroidAppPackagesWebviewFHC);
 		abTests.add(AbacusUtils.EBAndroidAppPackagesAATest);
 		if (isMidAPIEnabled()) {
-			abTests.add(AbacusUtils.EBAndroidAppPackagesMISRealWorldGeo);
 			abTests.add(AbacusUtils.EBAndroidAppPackagesFFPremiumClass);
 		}
 		trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH, pageUsableData, abTests);

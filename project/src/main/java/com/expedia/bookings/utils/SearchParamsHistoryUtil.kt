@@ -11,8 +11,7 @@ import java.io.IOException
 object SearchParamsHistoryUtil {
 
     private val FLIGHT_SEARCH_PARAMS_HISTORY_FILE = "flight-search-params-history.dat"
-    private val PACKAGE_SEARCH_PARAMS_HISTORY_FILE = "package-search-params-history.dat"
-    private val PACKAGE_SEARCH_PARAMS_HISTORY_FILE_V2 = "package-search-params-history-v2.dat"
+    private val PACKAGE_SEARCH_PARAMS_HISTORY_FILE = "package-search-params-history-v2.dat"
 
     fun saveFlightParams(context: Context, params: FlightSearchParams, saveSuccess: ((Unit) -> Unit)? = null) {
         Thread {
@@ -32,7 +31,7 @@ object SearchParamsHistoryUtil {
                 val paramsToSave = PackageSearchParamsForSaving(params.origin, params.destination, params.startDate,
                         params.endDate!!, params.adults, params.children, params.infantSeatingInLap, params.flightCabinClass)
                 val paramsJson = PackagesDataUtil.generateGson().toJson(paramsToSave)
-                val fileName = getPackagesSearchHistoryParamsFileName(context)
+                val fileName = getPackagesSearchHistoryParamsFileName()
                 IoUtils.writeStringToFile(fileName, paramsJson, context)
                 saveSuccess?.invoke(Unit)
             } catch (e: IOException) {
@@ -41,7 +40,7 @@ object SearchParamsHistoryUtil {
         }.start()
     }
 
-    private fun getPackagesSearchHistoryParamsFileName(context: Context): String = if (isPackagesMISRealWorldGeoEnabled(context)) PACKAGE_SEARCH_PARAMS_HISTORY_FILE_V2 else PACKAGE_SEARCH_PARAMS_HISTORY_FILE
+    private fun getPackagesSearchHistoryParamsFileName(): String = PACKAGE_SEARCH_PARAMS_HISTORY_FILE
 
     fun loadPreviousFlightSearchParams(context: Context, loadSuccess: ((FlightSearchParams) -> Unit)? = null, loadFailed: (() -> Unit)? = null) {
         Thread {
@@ -59,7 +58,7 @@ object SearchParamsHistoryUtil {
     fun loadPreviousPackageSearchParams(context: Context, loadSuccess: ((PackageSearchParams) -> Unit)? = null) {
         Thread {
             try {
-                val fileName = getPackagesSearchHistoryParamsFileName(context)
+                val fileName = getPackagesSearchHistoryParamsFileName()
                 val str = IoUtils.readStringFromFile(fileName, context)
                 val paramsSaved = PackagesDataUtil.generateGson().fromJson(str, PackageSearchParamsForSaving::class.java)
                 val params = PackageSearchParams(
