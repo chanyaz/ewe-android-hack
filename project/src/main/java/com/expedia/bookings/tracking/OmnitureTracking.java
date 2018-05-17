@@ -5794,7 +5794,6 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTravelerFormRevamp);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSwitchFields);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTravelerFormRevamp);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsSearchResultCaching);
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSuggestionOnOneCharacter);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSearchSuggestionLabel);
@@ -5808,7 +5807,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackResultOutBoundFlights(
-		FlightSearchTrackingData searchTrackingData, boolean isSubpub, String cacheString) {
+		FlightSearchTrackingData searchTrackingData, boolean isSubpub) {
 		String pageName =
 			searchTrackingData.getReturnDate() != null ? FLIGHT_SEARCH_ROUNDTRIP_OUT : FLIGHTS_V2_SEARCH_ONEWAY;
 
@@ -5829,13 +5828,6 @@ public class OmnitureTracking {
 		String dest = searchTrackingData.getArrivalAirport().hierarchyInfo.airport.airportCode;
 		s.setEvar(4, "D=c4");
 		s.setProp(4, dest);
-
-		if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsSearchResultCaching)
-			&& Strings.isNotEmpty(cacheString)) {
-			String cacheTrackingString = pageName + ".MobCache." + cacheString;
-			s.setEvar(28, cacheTrackingString);
-			s.setProp(16, cacheTrackingString);
-		}
 
 		// day computation date
 		LocalDate departureDate = searchTrackingData.getDepartureDate();

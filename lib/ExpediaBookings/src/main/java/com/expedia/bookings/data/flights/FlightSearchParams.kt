@@ -128,17 +128,6 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
                 .build() as FlightSearchParams
     }
 
-    fun buildParamsForCachedSearch(maxStay: Int, maxRange: Int): FlightSearchParams {
-        var overrides = if (featureOverride.isNullOrEmpty()) Constants.FEATURE_FLIGHT_CACHE else featureOverride + "," + Constants.FEATURE_FLIGHT_CACHE
-        return Builder(maxStay, maxRange).roundTrip(isRoundTrip())
-                .flightCabinClass(flightCabinClass)
-                .setFeatureOverride(overrides)
-                .origin(departureAirport)
-                .destination(arrivalAirport).startDate(departureDate).endDate(returnDate)
-                .adults(adults)
-                .build() as FlightSearchParams
-    }
-
     fun toQueryMap(): Map<String, Any?> {
         val params = HashMap<String, Any?>()
         params.put("departureAirport", departureAirport.hierarchyInfo?.airport?.airportCode)
@@ -155,9 +144,5 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
 
     fun isRoundTrip(): Boolean {
         return returnDate != null
-    }
-
-    fun hasAdvanceSearchOption(): Boolean {
-        return showRefundableFlight ?: false || nonStopFlight ?: false
     }
 }

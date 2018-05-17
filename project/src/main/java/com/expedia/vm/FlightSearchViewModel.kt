@@ -59,7 +59,6 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     // Outputs
     val searchParamsObservable = BehaviorSubject.create<FlightSearchParams>()
-    val cachedSearchParamsObservable = PublishSubject.create<FlightSearchParams>()
     val cachedEndDateObservable = BehaviorSubject.create<Optional<LocalDate>>()
     val isRoundTripSearchObservable = BehaviorSubject.createDefault<Boolean>(true)
     val deeplinkDefaultTransitionObservable = PublishSubject.create<FlightActivity.Screen>()
@@ -71,7 +70,6 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val isReadyForInteractionTracking = PublishSubject.create<Unit>()
     val searchTravelerParamsObservable = PublishSubject.create<com.expedia.bookings.data.FlightSearchParams>()
     val greedySearchParamsObservable = PublishSubject.create<FlightSearchParams>()
-    val greedyCachedSearchParamsObservable = PublishSubject.create<FlightSearchParams>()
     val abortGreedyCallObservable = PublishSubject.create<Unit>()
     val cancelGreedyCallObservable = PublishSubject.create<Unit>()
     val validDateSetObservable = PublishSubject.create<Unit>()
@@ -143,11 +141,6 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         getParamsBuilder().maxStay = maxStay
         val flightSearchParams = getParamsBuilder().build()
         greedySearchParamsObservable.onNext(flightSearchParams)
-        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching)
-                && shouldPerformCacheCalls(flightSearchParams)) {
-            val cachedSearchParams = flightSearchParams.buildParamsForCachedSearch(maxStay, getCalendarRules().getMaxDateRange())
-            greedyCachedSearchParamsObservable.onNext(cachedSearchParams)
-        }
         isGreedyCallStarted = true
         flightGreedySearchSubscription?.dispose()
     }
@@ -279,18 +272,9 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             if (BuildConfig.DEBUG && SettingUtils.get(context, R.string.preference_enable_retain_prev_flight_search_params, false)) {
                 SearchParamsHistoryUtil.saveFlightParams(context, flightSearchParams)
             }
-            if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching)
-                    && shouldPerformCacheCalls(flightSearchParams)) {
-                val cachedSearchParams = flightSearchParams.buildParamsForCachedSearch(maxStay, getCalendarRules().getMaxDateRange())
-                cachedSearchParamsObservable.onNext(cachedSearchParams)
-            }
         } else {
             concurrentSearchFormValidation()
         }
-    }
-
-    private fun shouldPerformCacheCalls(flightSearchParams: FlightSearchParams): Boolean {
-        return !flightSearchParams.hasAdvanceSearchOption() && flightSearchParams.flightCabinClass.equals(FlightServiceClassType.CabinCode.COACH.name) && flightSearchParams.children.isEmpty() && flightSearchParams.adults == 1
     }
 
     fun concurrentSearchFormValidation() {

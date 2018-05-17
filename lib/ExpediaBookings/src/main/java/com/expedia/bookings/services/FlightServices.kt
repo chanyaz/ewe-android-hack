@@ -50,10 +50,8 @@ open class FlightServices(val endpoint: String, okHttpClient: OkHttpClient, inte
         adapter.create(FlightApi::class.java)
     }
     var searchRequestSubscription: Disposable? = null
-    var cachedSearchRequestSubscription: Disposable? = null
     var createTripRequestSubscription: Disposable? = null
     var greedySearchRequestSubscription: Disposable? = null
-    var greedyCachedSearchRequestSubscription: Disposable? = null
     var checkoutRequestSubscription: Disposable? = null
 
     // open so we can use Mockito to mock FlightServices
@@ -64,25 +62,11 @@ open class FlightServices(val endpoint: String, okHttpClient: OkHttpClient, inte
         return searchRequestSubscription as Disposable
     }
 
-    open fun cachedFlightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>,
-                                resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Disposable {
-        cachedSearchRequestSubscription?.dispose()
-        cachedSearchRequestSubscription = doFlightSearch(params, observer, resultsResponseReceivedObservable, FlightSearchType.CACHED)
-        return cachedSearchRequestSubscription as Disposable
-    }
-
     open fun greedyFlightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>,
                                 resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Disposable {
         greedySearchRequestSubscription?.dispose()
         greedySearchRequestSubscription = doFlightSearch(params, observer, resultsResponseReceivedObservable, FlightSearchType.GREEDY)
         return greedySearchRequestSubscription as Disposable
-    }
-
-    open fun greedyCachedFlightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>,
-                                resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Disposable {
-        greedyCachedSearchRequestSubscription?.dispose()
-        greedyCachedSearchRequestSubscription = doFlightSearch(params, observer, resultsResponseReceivedObservable, FlightSearchType.CACHED_GREEDY)
-        return greedyCachedSearchRequestSubscription as Disposable
     }
 
     private fun doFlightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>, resultsResponseReceivedObservable: PublishSubject<Unit>? = null, searchType: FlightSearchType): Disposable {

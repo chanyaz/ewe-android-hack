@@ -58,8 +58,8 @@ object FlightsV2Tracking {
         OmnitureTracking.trackFlightLocationSwapViewClicked()
     }
 
-    fun trackResultOutBoundFlights(trackingData: FlightSearchTrackingData, isSubpub: Boolean, cacheString: String = "") {
-        OmnitureTracking.trackResultOutBoundFlights(trackingData , isSubpub, cacheString)
+    fun trackResultOutBoundFlights(trackingData: FlightSearchTrackingData, isSubpub: Boolean) {
+        OmnitureTracking.trackResultOutBoundFlights(trackingData , isSubpub)
         TuneUtils.trackFlightV2OutBoundResults(trackingData)
         FacebookEvents().trackFlightV2Search(trackingData)
     }
