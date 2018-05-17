@@ -40,10 +40,39 @@ class FlightRichContentServiceTest {
 
     @Test
     @Throws(Throwable::class)
-    fun testGetRichContent() {
+    fun testGetOutboubdFlightRichContent() {
         val observer = TestObserver<RichContentResponse>()
         val richContentRequest = getRichContentRequest()
-        flightRichContentService.getFlightRichContent(richContentRequest, observer)
+        flightRichContentService.getOutboundFlightRichContent(richContentRequest, observer)
+        observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
+        observer.assertNoErrors()
+        observer.assertComplete()
+        observer.assertValueCount(1)
+
+        val response = observer.values()[0]
+        assertEquals(2, response.richContentList.size)
+        var richContent = response.richContentList[0]
+        assertEquals(8.1f, richContent.score)
+        val legAmenities = richContent.legAmenities
+        assertTrue(legAmenities!!.wifi)
+        assertTrue(legAmenities.entertainment)
+        assertTrue(legAmenities.power)
+
+        richContent = response.richContentList[1]
+        assertEquals("VERY_GOOD", richContent.scoreExpression)
+        assertEquals(1, richContent.segmentAmenitiesList.size)
+        val segmentAmenities = richContent.segmentAmenitiesList[0]
+        assertTrue(segmentAmenities.wifi)
+        assertTrue(segmentAmenities.entertainment)
+        assertTrue(segmentAmenities.power)
+    }
+
+    @Test
+    @Throws(Throwable::class)
+    fun testGetInboundFlightRichContent() {
+        val observer = TestObserver<RichContentResponse>()
+        val richContentRequest = getRichContentRequest()
+        flightRichContentService.getInboundFlightRichContent(richContentRequest, observer)
         observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
         observer.assertNoErrors()
         observer.assertComplete()
