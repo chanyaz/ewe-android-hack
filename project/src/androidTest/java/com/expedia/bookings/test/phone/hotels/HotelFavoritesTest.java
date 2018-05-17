@@ -3,7 +3,6 @@ package com.expedia.bookings.test.phone.hotels;
 import java.util.concurrent.TimeUnit;
 
 import org.hamcrest.Matcher;
-import org.joda.time.DateTime;
 import org.junit.Test;
 
 import com.expedia.bookings.R;
@@ -13,17 +12,19 @@ import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.common.LaunchScreen;
-import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.test.stepdefs.phone.HomeScreenSteps;
 import com.expedia.bookings.test.support.User;
 import org.hamcrest.Matchers;
 
+import android.content.Context;
+import android.os.Build;
+import android.support.test.InstrumentationRegistry;
 import android.view.View;
+import android.view.autofill.AutofillManager;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -35,7 +36,7 @@ import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsNotDi
 public class HotelFavoritesTest extends PhoneTestCase {
 
 	@Test
-	public void testFavoritesButtonShown() throws Throwable {
+	public void testFavoritesButtonShown() {
 		AbacusTestUtils.bucketTests(AbacusUtils.HotelShortlist);
 		getSearchResults();
 		onView(withId(R.id.menu_favorites)).perform(click());
@@ -47,7 +48,7 @@ public class HotelFavoritesTest extends PhoneTestCase {
 	}
 
 	@Test
-	public void testFavoritesButtonNotShownNoAbTest() throws Throwable {
+	public void testFavoritesButtonNotShownNoAbTest() {
 		AbacusTestUtils.updateABTest(AbacusUtils.HotelShortlist, AbacusVariant.CONTROL.getValue());
 		getSearchResults();
 		onView(withId(R.id.menu_favorites)).check(doesNotExist());
@@ -66,18 +67,28 @@ public class HotelFavoritesTest extends PhoneTestCase {
 	}
 
 	private void login() throws Throwable {
-		HomeScreenSteps.switchToTab("Account");
+		disableAutoFill();
+		LaunchScreen.waitForLOBHeaderToBeDisplayed();
+		LaunchScreen.accountButton().perform(click());
 		HomeScreenSteps.logInToTheApp(new User("goldstatus@mobiata.com", "password", "expedia"));
-		HomeScreenSteps.switchToTab("Shop Travel");
+		LaunchScreen.shopButton().perform(click());
 	}
 
-	private void getSearchResults() throws Throwable {
+	private void getSearchResults() {
+		LaunchScreen.waitForLOBHeaderToBeDisplayed();
+		LaunchScreen.shopButton().perform(click());
 		LaunchScreen.hotelsLaunchButton().perform(click());
-		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
-		final DateTime endDateTime = startDateTime.plusDays(3);
-		SearchScreen.waitForSearchEditText().perform(typeText("SFO"));
-		SearchScreenActions.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
-		SearchScreenActions.chooseDatesWithDialog(startDateTime.toLocalDate(), endDateTime.toLocalDate());
-		SearchScreen.searchButton().perform(click());
+		SearchScreenActions.doGenericHotelSearch();
+	}
+
+	private void disableAutoFill() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			Context context = InstrumentationRegistry.getTargetContext();
+			AutofillManager autofillManager = context.getSystemService(AutofillManager.class);
+			if (autofillManager != null) {
+				autofillManager.cancel();
+				autofillManager.disableAutofillServices();
+			}
+		}
 	}
 }

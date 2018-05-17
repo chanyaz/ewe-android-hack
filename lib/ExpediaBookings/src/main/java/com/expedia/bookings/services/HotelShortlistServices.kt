@@ -8,6 +8,7 @@ import io.reactivex.Observer
 import io.reactivex.Scheduler
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.ResponseBody
 import org.joda.time.LocalDate
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -46,6 +47,13 @@ class HotelShortlistServices(endpoint: String, okHttpClient: OkHttpClient,
             this.roomConfiguration = roomConfiguration
         }
         return hotelShortListApi.save(metadata, hotelId, CONFIG_ID, PAGE_NAME)
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .subscribe(observer)
+    }
+
+    fun removeFavoriteHotel(hotelId: String, metadata: ShortlistItemMetadata, observer: Observer<ResponseBody>) {
+        return hotelShortListApi.remove(metadata, hotelId, CONFIG_ID, PAGE_NAME)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .subscribe(observer)

@@ -10,9 +10,11 @@ class HotelShortlistApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispa
 
         return when {
             HotelShortlistApiRequestMatcher.isHotelShortlistFetchRequest(path) ->
-                getMockResponse("api/hotelShortlist/hotelShortlistFetchResponse.json")
+                getMockResponse("api/hotelshortlist/hotelShortlistFetchResponse.json")
             HotelShortlistApiRequestMatcher.isHotelShortlistSaveRequest(path) ->
-                getMockResponse("api/hotelShortlist/hotelShortlistSaveResponse.json")
+                getMockResponse("api/hotelshortlist/hotelShortlistSaveResponse.json")
+            HotelShortlistApiRequestMatcher.isHotelShortlistRemoveRequest(path) ->
+                makeEmptyResponse()
             else ->
                 make404()
         }
@@ -31,6 +33,10 @@ class HotelShortlistApiRequestMatcher {
 
         fun isHotelShortlistSaveRequest(urlPath: String): Boolean {
             return urlPath.startsWith("/api/ucs/shortlist/save/")
+        }
+
+        fun isHotelShortlistRemoveRequest(urlPath: String): Boolean {
+            return urlPath.startsWith("/api/ucs/shortlist/remove")
         }
     }
 }

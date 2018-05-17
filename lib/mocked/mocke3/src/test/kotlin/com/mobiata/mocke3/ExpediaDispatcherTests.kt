@@ -358,12 +358,17 @@ class ExpediaDispatcherTests {
 
     @Test
     fun testFetchHotelShortlistPathReturnsMatchingResponse() {
-        assertPathReturnsMockBodyWithString("api/ucs/shortlist/detail/fetch/", null, "api/hotelShortlist/hotelShortlistFetchResponse.json")
+        assertPathReturnsMockBodyWithString("api/ucs/shortlist/detail/fetch/", null, "api/hotelshortlist/hotelShortlistFetchResponse.json")
     }
 
     @Test
     fun testSaveHotelShortlistPathReturnsMatchingResponse() {
-        assertPathReturnsMockBodyWithString("api/ucs/shortlist/save/", null, "api/hotelShortlist/hotelShortlistSaveResponse.json")
+        assertPathReturnsMockBodyWithString("api/ucs/shortlist/save/", null, "api/hotelshortlist/hotelShortlistSaveResponse.json")
+    }
+
+    @Test
+    fun testRemoveHotelShortlistPathReturnsMatchingResponse() {
+        assertPathReturnsNullMockBody("api/ucs/shortlist/remove/", null)
     }
 
     @Test
@@ -399,6 +404,16 @@ class ExpediaDispatcherTests {
 
         assertTrue(expectedBodyString.isNotEmpty(), "expectedBodyString should not be empty.")
         assertTrue(mockForRequest(requestWithPath(compiledPath), dispatcher).body.toString().contains(expectedBodyString, false), "Mock response body for \"$path\" does not contain \"$expectedBodyString\"")
+    }
+
+    private fun assertPathReturnsNullMockBody(path: String, parameters: Map<String, String>?, dispatcher: ExpediaDispatcher = defaultDispatcher) {
+        var compiledPath = path
+
+        if (parameters != null) {
+            compiledPath = StringBuilder("$compiledPath?").append(parameters.map { it.key + "=" + it.value }.joinToString("&")).toString()
+        }
+
+        assertNull(mockForRequest(requestWithPath(compiledPath), dispatcher).body, "Mock response body for \"$path\" is not null")
     }
 
     private fun mockForRequest(request: RecordedRequest, dispatcher: ExpediaDispatcher): MockResponse {
