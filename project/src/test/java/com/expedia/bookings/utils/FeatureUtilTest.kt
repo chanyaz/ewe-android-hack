@@ -27,6 +27,18 @@ class FeatureUtilTest {
     }
 
     @Test
+    fun testIsLxWebViewCheckoutEnabled() {
+        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppLxWebCheckoutView)
+        assertTrue(isLxWebViewCheckoutEnabled(context))
+    }
+
+    @Test
+    fun testIsLxWebViewCheckoutDisabled() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppLxWebCheckoutView)
+        assertFalse(isLxWebViewCheckoutEnabled(context))
+    }
+
+    @Test
     fun testEnableBrandColors() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppBrandColors)
         assertTrue(isBrandColorEnabled(context))

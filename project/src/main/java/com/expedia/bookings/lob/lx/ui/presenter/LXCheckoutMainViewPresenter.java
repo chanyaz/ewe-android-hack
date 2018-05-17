@@ -15,13 +15,11 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.LXBookableItem;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.trips.TripBucketItemLX;
 import com.expedia.bookings.data.trips.TripBucketItemTransport;
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.lx.LXTravelersPresenter;
@@ -30,6 +28,7 @@ import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingSuppressionUtils;
 import com.expedia.bookings.utils.ApiDateUtils;
+import com.expedia.bookings.utils.FeatureUtilKt;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
@@ -257,7 +256,7 @@ public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter
 
 	@Override
 	public void doCreateTrip() {
-		if (!AbacusFeatureConfigManager.isBucketedForTest(getContext(), AbacusUtils.EBAndroidAppLxWebCheckoutView)) {
+		if (!FeatureUtilKt.isLxWebViewCheckoutEnabled(getContext())) {
 			cleanup();
 			createTripSubscription = lxServices
 				.createTrip(lxState.createTripParams(getContext()), lxState.originalTotalPrice(), createTripObserver);

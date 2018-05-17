@@ -189,6 +189,17 @@ class LXPresenterTest {
         assertTrue(searchPresenter.toolbar.findFocus() is ImageButton)
     }
 
+    @Test
+    fun testDoNotShowNativeCheckoutWithWebviewEnabled() {
+        setupPresenterAndBucketWebviewTest()
+        Events.register(lxPresenter.checkoutPresenter)
+        lxPresenter.show(lxPresenter.resultsPresenter)
+        lxPresenter.show(lxPresenter.detailsPresenter)
+        Events.post(Events.LXOfferBooked(Offer(), listOf(getAdultTicket())))
+
+        assertFalse(lxPresenter.backStack.contains(lxPresenter.checkoutPresenter))
+    }
+
     private fun showWebCheckoutView() {
         lxPresenter.show(lxPresenter.resultsPresenter)
         lxPresenter.show(lxPresenter.detailsPresenter)
