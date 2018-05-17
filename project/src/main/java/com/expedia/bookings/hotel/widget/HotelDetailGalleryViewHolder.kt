@@ -11,6 +11,7 @@ import android.widget.ProgressBar
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoTarget
 import com.expedia.bookings.data.HotelMedia
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.squareup.phrase.Phrase
 import com.squareup.picasso.Picasso
 
@@ -22,6 +23,7 @@ class HotelDetailGalleryViewHolder(val root: View) : RecyclerView.ViewHolder(roo
     private var soldOut: Boolean = false
     private var itemPosition: Int = 0
     private var totalItemCount: Int = 0
+    var readAsButtonA11y = true
 
     private val zeroSaturationSoldOutColorFilter: ColorMatrixColorFilter by lazy {
         val colorMatrix = android.graphics.ColorMatrix()
@@ -65,6 +67,9 @@ class HotelDetailGalleryViewHolder(val root: View) : RecyclerView.ViewHolder(roo
                         .format().toString()
             }
             itemView.contentDescription = contDesc
+        }
+        if (readAsButtonA11y) {
+            AccessibilityUtil.appendRoleContDesc(itemView, itemView.contentDescription.toString(), R.string.accessibility_cont_desc_role_button)
         }
     }
 
