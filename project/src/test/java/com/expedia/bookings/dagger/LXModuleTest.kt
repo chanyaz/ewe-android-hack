@@ -4,9 +4,11 @@ import android.content.Context
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.server.EndpointProvider
 import com.expedia.bookings.services.SuggestionV4Services
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.ServicesUtil
 import com.expedia.bookings.utils.Ui
+import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -17,7 +19,6 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import com.expedia.bookings.services.TestObserver
 
 @RunWith(RobolectricRunner::class)
 class LXModuleTest {
@@ -72,9 +73,8 @@ class LXModuleTest {
 
     private fun givenSuggestionServicesInitialized(): SuggestionV4Services {
         val appComponent = Ui.getApplication(context).appComponent()
-
-        return LXModule().provideLXSuggestionV4Services(mockEndpointProvider, OkHttpClient(),
+        return SuggestionV4Services(mockEndpointProvider.essEndpointUrl, mockEndpointProvider.gaiaEndpointUrl, OkHttpClient(),
                 appComponent.requestInterceptor(), appComponent.essRequestInterceptor(),
-                appComponent.gaiaRequestInterceptor())
+                appComponent.gaiaRequestInterceptor(), Schedulers.trampoline(), Schedulers.trampoline())
     }
 }

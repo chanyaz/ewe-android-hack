@@ -43,6 +43,7 @@ import com.expedia.bookings.services.IClientLogServices;
 import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.services.PersistentCookiesCookieJar;
 import com.expedia.bookings.services.SatelliteServices;
+import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.bookings.services.TNSServices;
 import com.expedia.bookings.services.os.OfferService;
 import com.expedia.bookings.services.sos.SmartOfferService;
@@ -339,17 +340,26 @@ public class AppModule {
 	}
 
 	@Provides
+	@Singleton
 	@Named("GaiaInterceptor")
 	Interceptor provideGaiaRequestInterceptor(final Context context) {
-		return new Interceptor() {
-			@Override
-			public Response intercept(Interceptor.Chain chain) throws IOException {
-				Request.Builder request = chain.request().newBuilder();
-				request.addHeader("key", ServicesUtil.getGaiaApiKey(context));
-				Response response = chain.proceed(request.build());
-				return response;
-			}
+		return chain -> {
+			Request.Builder request = chain.request().newBuilder();
+			request.addHeader("key", ServicesUtil.getGaiaApiKey(context));
+			return chain.proceed(request.build());
 		};
+	}
+
+	@Provides
+	@Singleton
+	SuggestionV4Services provideSuggestionV4Services(EndpointProvider endpointProvider, OkHttpClient client,
+		Interceptor interceptor, @Named("ESSInterceptor") Interceptor essRequestInterceptor,
+		@Named("GaiaInterceptor") Interceptor gaiaRequestInterceptor) {
+		final String essEndpoint = endpointProvider.getEssEndpointUrl();
+		final String gaiaEndpoint = endpointProvider.getGaiaEndpointUrl();
+		return new SuggestionV4Services(essEndpoint, gaiaEndpoint, client,
+			interceptor, essRequestInterceptor, gaiaRequestInterceptor,
+			AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides

@@ -2,21 +2,22 @@ package com.expedia.bookings.test.robolectric
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.data.DeprecatedHotelSearchParams.SearchType
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.data.DeprecatedHotelSearchParams.SearchType
 import com.expedia.bookings.hotel.deeplink.HotelDeepLinkHandler
 import com.expedia.bookings.hotel.deeplink.HotelLandingPage
 import com.expedia.bookings.hotel.util.HotelSuggestionManager
 import com.expedia.bookings.services.SuggestionV4Services
+import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.test.robolectric.RoboTestHelper.getContext
+import com.expedia.bookings.utils.Ui
 import com.expedia.testutils.builder.TestSuggestionV4Builder
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
@@ -28,7 +29,9 @@ class HotelDeepLinkHandlerTest {
     val testErrorSearchSubscriber = TestObserver.create<Unit>()
 
     lateinit var handlerUnderTest: HotelDeepLinkHandler
-    private val testSuggestionManager = TestHotelSuggestionManager(Mockito.mock(SuggestionV4Services::class.java))
+    private val testSuggestionManager by lazy {
+        TestHotelSuggestionManager(Ui.getApplication(getContext()).appComponent().suggestionsService())
+    }
 
     private val expectedCurrentLocationText = RuntimeEnvironment.application.getString(R.string.current_location)
 

@@ -18,7 +18,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor,
+class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor,
                                 essInterceptor: Interceptor, gaiaInterceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) : ISuggestionV4Services {
 
     private val suggestApi: SuggestApi by lazy {
@@ -46,6 +46,10 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
                 .build()
 
         adapter.create<GaiaSuggestApi>(GaiaSuggestApi::class.java)
+    }
+
+    init {
+        essDomainResolution().subscribe({}, {})
     }
 
     override fun getLxSuggestionsV4(query: String, observer: Observer<List<SuggestionV4>>, disablePOI: Boolean): Disposable {
@@ -131,7 +135,7 @@ open class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHtt
         return suggestApi.suggestV4(query, suggestType, isDest, features, lineOfBusiness, maxResults, guid, packageType, abTest)
     }
 
-    open fun essDomainResolution(): Observable<ResponseBody> {
+    override fun essDomainResolution(): Observable<ResponseBody> {
         return suggestApi.resolveEssDomain()
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)

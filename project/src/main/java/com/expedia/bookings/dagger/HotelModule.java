@@ -24,7 +24,6 @@ import com.expedia.bookings.services.HotelShortlistServices;
 import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.services.LoyaltyServices;
 import com.expedia.bookings.services.ReviewsServices;
-import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.bookings.services.travelgraph.TravelGraphServices;
 import com.expedia.bookings.services.urgency.UrgencyServices;
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder;
@@ -58,18 +57,6 @@ public final class HotelModule {
 
 		boolean bucketed = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelSatelliteSearch);
 		return new HotelServices(endpoint, satelliteEndpoint, client, interceptor, satelliteInterceptors, bucketed, AndroidSchedulers.mainThread(), Schedulers.io());
-	}
-
-	@Provides
-	@HotelScope
-	SuggestionV4Services provideHotelSuggestionV4Services(EndpointProvider endpointProvider, OkHttpClient client,
-		Interceptor interceptor, @Named("ESSInterceptor") Interceptor essRequestInterceptor,
-		@Named("GaiaInterceptor") Interceptor gaiaRequestInterceptor) {
-		final String essEndpoint = endpointProvider.getEssEndpointUrl();
-		final String gaiaEndpoint = endpointProvider.getGaiaEndpointUrl();
-		return new SuggestionV4Services(essEndpoint, gaiaEndpoint, client,
-			interceptor, essRequestInterceptor, gaiaRequestInterceptor,
-			AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides

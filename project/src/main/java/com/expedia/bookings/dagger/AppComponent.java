@@ -1,5 +1,10 @@
 package com.expedia.bookings.dagger;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
+import org.jetbrains.annotations.NotNull;
+
 import android.content.Context;
 
 import com.expedia.bookings.activity.AccountLibActivity;
@@ -26,6 +31,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.services.IClientLogServices;
 import com.expedia.bookings.services.SatelliteServices;
+import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.bookings.services.TNSServices;
 import com.expedia.bookings.services.os.OfferService;
 import com.expedia.bookings.services.sos.SmartOfferService;
@@ -35,11 +41,6 @@ import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.utils.navigation.SearchLobToolbarCache;
 import com.expedia.model.UserLoginStateChangedModel;
-
-import org.jetbrains.annotations.NotNull;
-
-import javax.inject.Named;
-import javax.inject.Singleton;
 
 import dagger.Component;
 import okhttp3.Interceptor;
@@ -123,4 +124,6 @@ public interface AppComponent {
 	IToaster toaster();
 
 	AppDatabase provideAppDatabase();
+
+	SuggestionV4Services suggestionsService();
 }

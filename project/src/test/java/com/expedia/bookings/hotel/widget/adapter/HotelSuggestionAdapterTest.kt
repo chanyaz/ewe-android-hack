@@ -4,16 +4,16 @@ import android.support.v7.widget.RecyclerView
 import android.widget.LinearLayout
 import com.expedia.bookings.data.SearchSuggestion
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.services.SuggestionV4Services
+import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.shared.data.SuggestionDataItem
+import com.expedia.bookings.test.robolectric.RoboTestHelper.getContext
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.Ui
+import com.expedia.vm.HotelSuggestionAdapterViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import com.expedia.bookings.services.TestObserver
-import com.expedia.bookings.shared.data.SuggestionDataItem
-import com.expedia.vm.HotelSuggestionAdapterViewModel
-import org.mockito.Mockito
 import java.util.ArrayList
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -21,8 +21,10 @@ import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class HotelSuggestionAdapterTest {
-    private val testVM = HotelSuggestionAdapterViewModel(RuntimeEnvironment.application,
-            Mockito.mock(SuggestionV4Services::class.java), null)
+    private val testVM by lazy {
+        HotelSuggestionAdapterViewModel(RuntimeEnvironment.application,
+                Ui.getApplication(getContext()).appComponent().suggestionsService(), null)
+    }
     val testAdapter = HotelSuggestionAdapter(testVM)
 
     lateinit var testClickObserver: TestObserver<SearchSuggestion>

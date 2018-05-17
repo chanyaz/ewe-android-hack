@@ -21,7 +21,7 @@ import dagger.Component;
 
 @FlightScope
 @Component(dependencies = { AppComponent.class }, modules = {
-	FlightModule.class, FeesModule.class, InsuranceModule.class, FlightSuggestionModule.class })
+	FlightModule.class, FeesModule.class, InsuranceModule.class })
 public interface FlightComponent {
 	void inject(FlightPresenter presenter);
 	void inject(FlightSearchPresenter flightSearchPresenter);

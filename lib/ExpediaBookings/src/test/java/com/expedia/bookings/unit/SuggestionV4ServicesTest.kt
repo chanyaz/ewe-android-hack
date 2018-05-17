@@ -84,7 +84,7 @@ class SuggestionV4ServicesTest {
         getGaiaNearbySuggestion(3.0)
 
         assertTrue(mockInterceptor.wasCalled())
-        assertFalse(essMockInterceptor.wasCalled())
+        assertTrue(essMockInterceptor.wasCalled())
         assertTrue(gaiaMockInterceptor.wasCalled())
     }
 

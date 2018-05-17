@@ -8,6 +8,7 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
+import okhttp3.ResponseBody
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
@@ -24,6 +25,7 @@ class PackageSuggestionAdapterViewModelTest {
     }
 
     class MockSuggestionV4Services : ISuggestionV4Services {
+
         override fun getLxSuggestionsV4(query: String, observer: Observer<List<SuggestionV4>>, disablePOI: Boolean): Disposable {
             TODO("not implemented: getLxSuggestionsV4")
         }
@@ -45,6 +47,10 @@ class PackageSuggestionAdapterViewModelTest {
         }
 
         override fun getAirports(query: String, isDest: Boolean, observer: Observer<List<SuggestionV4>>, guid: String): Disposable {
+            TODO("not implemented: getAirports")
+        }
+
+        override fun essDomainResolution(): Observable<ResponseBody> {
             TODO("not implemented: getAirports")
         }
     }

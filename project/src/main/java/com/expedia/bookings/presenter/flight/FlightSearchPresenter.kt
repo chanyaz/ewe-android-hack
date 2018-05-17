@@ -45,10 +45,10 @@ import com.expedia.bookings.widget.FlightCabinClassWidget
 import com.expedia.bookings.widget.FlightTravelerWidgetV2
 import com.expedia.bookings.widget.flights.RecentSearchWidgetContainer
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.FlightSuggestionAdapterViewModel
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.BaseSuggestionAdapterViewModel
 import com.expedia.vm.FlightSearchViewModel
+import com.expedia.vm.FlightSuggestionAdapterViewModel
 import com.expedia.vm.flights.FlightAdvanceSearchViewModel
 import com.squareup.phrase.Phrase
 import javax.inject.Inject
@@ -301,9 +301,6 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
 
     init {
         Ui.getApplication(getContext()).flightComponent().inject(this)
-
-        suggestionServices.essDomainResolution()
-                .subscribe({}, {})
 
         if (isFlightAdvanceSearchTestEnabled) {
             widgetTravelerAndCabinClassStub.layoutResource = R.layout.widget_traveler_cabin_class_horizontal

@@ -14,6 +14,7 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.ServicesUtil
 import com.expedia.bookings.utils.Ui
+import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -102,9 +103,8 @@ class FlightModuleTest {
 
     private fun givenSuggestionServicesInitialized(): SuggestionV4Services {
         val appComponent = Ui.getApplication(context).appComponent()
-
-        return FlightSuggestionModule().provideSuggestionV4Services(mockEndpointProvider, OkHttpClient(),
+        return SuggestionV4Services(mockEndpointProvider.essEndpointUrl, mockEndpointProvider.gaiaEndpointUrl, OkHttpClient(),
                 appComponent.requestInterceptor(), appComponent.essRequestInterceptor(),
-                appComponent.gaiaRequestInterceptor())
+                appComponent.gaiaRequestInterceptor(), Schedulers.trampoline(), Schedulers.trampoline())
     }
 }

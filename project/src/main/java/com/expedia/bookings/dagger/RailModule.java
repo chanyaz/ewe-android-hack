@@ -1,5 +1,9 @@
 package com.expedia.bookings.dagger;
 
+import java.io.IOException;
+
+import javax.inject.Named;
+
 import android.content.Context;
 
 import com.expedia.bookings.dagger.tags.RailScope;
@@ -8,13 +12,8 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.server.RailCardFeeServiceProvider;
 import com.expedia.bookings.services.RailServices;
-import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.vm.PaymentViewModel;
-
-import java.io.IOException;
-
-import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
@@ -35,17 +34,6 @@ public final class RailModule {
 		boolean isUserBucketedInAPIMAuth = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppAPIMAuth);
 		return new RailServices(endpointProvider.getRailEndpointUrl(), client, interceptor, railRequestInterceptor, isUserBucketedInAPIMAuth,
 				AndroidSchedulers.mainThread(), Schedulers.io());
-	}
-
-	@Provides
-	@RailScope
-	SuggestionV4Services provideSuggestionV4Services(EndpointProvider endpointProvider, OkHttpClient client,
-		Interceptor interceptor, @Named("ESSInterceptor") Interceptor essRequestInterceptor, @Named("GaiaInterceptor") Interceptor gaiaRequestInterceptor) {
-		final String essEndpoint = endpointProvider.getEssEndpointUrl();
-		final String gaiaEndpoint = endpointProvider.getGaiaEndpointUrl();
-		return new SuggestionV4Services(essEndpoint, gaiaEndpoint, client,
-			interceptor, essRequestInterceptor, gaiaRequestInterceptor,
-			AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides

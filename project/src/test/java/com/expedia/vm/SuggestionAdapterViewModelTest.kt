@@ -3,11 +3,12 @@ package com.expedia.vm
 import android.content.Context
 import android.location.Location
 import com.expedia.bookings.services.SuggestionV4Services
+import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.Ui
 import io.reactivex.Observable
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -16,7 +17,9 @@ import kotlin.test.assertNull
 class SuggestionAdapterViewModelTest {
 
     private val context = RuntimeEnvironment.application
-    private val mockSuggestionService = Mockito.mock(SuggestionV4Services::class.java)
+    private val mockSuggestionService by lazy {
+        Ui.getApplication(RoboTestHelper.getContext()).appComponent().suggestionsService()
+    }
 
     @Test
     fun testLanguagesTriggeringEss() {
