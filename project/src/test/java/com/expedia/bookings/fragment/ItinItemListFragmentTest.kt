@@ -6,9 +6,9 @@ import android.content.Intent
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
+import com.expedia.bookings.R
 import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.analytics.OmnitureTestUtils.Companion.assertStateTracked
-import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
@@ -16,6 +16,7 @@ import com.expedia.bookings.data.trips.TripComponent
 import com.expedia.bookings.itin.common.ItinPageUsableTracking
 import com.expedia.bookings.itin.common.NewAddGuestItinActivity
 import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withEventsString
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -172,6 +173,28 @@ class ItinItemListFragmentTest {
         sut.userVisibleHint = true
 
         assertTrue(mockPageUsableTracking.hasStartTime())
+    }
+
+    @Test
+    fun testEmptyList() {
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        sut.mNumberOfItinCardsOfGuestUser = 1
+        sut.enableLoadItins()
+        Mockito.`when`(mockItinManager.trips).thenReturn(emptyList())
+        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+        sut.trackItins(true)
+        OmnitureTestUtils.assertStateTracked("App.Itinerary.Empty", OmnitureMatchers.withEvars(mapOf(18 to "App.Itinerary.Empty")), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testEmptyListForNonEmpty() {
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        sut.mNumberOfItinCardsOfGuestUser = 1
+        sut.enableLoadItins()
+        Mockito.`when`(mockItinManager.trips).thenReturn(listOf(Trip()))
+        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+        sut.trackItins(true)
+        OmnitureTestUtils.assertStateNotTracked("App.Itinerary.Empty", OmnitureMatchers.withEvars(mapOf(18 to "App.Itinerary.Empty")), mockAnalyticsProvider)
     }
 
     private fun givenItinsHaveBeenLoadedAlready() {
