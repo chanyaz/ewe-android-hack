@@ -140,9 +140,10 @@
     <!-- Content description for Checkbox types, state Unchecked -->
     <string name="acct__cont_desc_role_checkbox_unchecked">Ô chọn. Bỏ chọn.</string>
 
-
     <!--Single Page Sign Up-->
     <string name="acct__single_page_sign_up_title">Tạo tài khoản miễn phí</string>
 
+    <!--New Sign In Page-->
     <string name="acct__new_create_account_text">Tạo tài khoản</string>
+    <string name="acct__new_facebook_link_accounts_text">Kết nối tài khoản</string>
 </resources>

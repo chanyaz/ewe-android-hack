@@ -140,9 +140,10 @@
     <!-- Content description for Checkbox types, state Unchecked -->
     <string name="acct__cont_desc_role_checkbox_unchecked">核取方塊。未勾選。</string>
 
-
     <!--Single Page Sign Up-->
     <string name="acct__single_page_sign_up_title">免費註冊帳戶</string>
 
+    <!--New Sign In Page-->
     <string name="acct__new_create_account_text">註冊帳戶</string>
+    <string name="acct__new_facebook_link_accounts_text">連結帳戶</string>
 </resources>

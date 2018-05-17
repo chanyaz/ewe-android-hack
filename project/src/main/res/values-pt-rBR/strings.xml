@@ -1420,9 +1420,19 @@
     <!--Hotel itin card price summary line item value for points applied template. -{points} (e.g., -$30)-->
     <string name="itin_hotel_price_summary_points_value_TEMPLATE">- {points}</string>
     <!--Hotel itin card price summary total pay now template. {amount} total amount paid (eg. $750 total amount paid)-->
-    <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">{amount} valor total pago</string>
+    <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">{amount}: valor total pago</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
-    <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">{amount} total devido no hotel</string>
+    <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">{amount}: total devido no hotel</string>
+    <!--Hotel itin card price summary rewards section title text-->
+    <string name="itin_hotel_details_price_summary_rewards_title">Programa de fidelidade</string>
+    <!--Hotel itin card price summary rewards section view rewards button text-->
+    <string name="itin_hotel_details_price_summary_rewards_button">Ver todas as recompensas</string>
+    <!--Hotel itin card price summary rewards section earned points template. You earned {points} {program} points (eg., You earned 177 Expedia Rewards points)-->
+    <string name="itin_hotel_details_price_summary_rewards_earned_points_TEMPLATE">Você ganhou {points} pontos do {program}</string>
+    <!--Hotel itin card price summary rewards section base points template. {points} base points for this trip (eg., 48 base points for this trip)-->
+    <string name="itin_hotel_details_price_summary_rewards_base_points_TEMPLATE">\u2022 {points} pontos desta viagem</string>
+    <!--Hotel itin card price summary rewards section bonus points template. {points} bonus points for {program} (eg., 15 bonus points for +goldBonus)-->
+    <string name="itin_hotel_details_price_summary_rewards_bonus_points_TEMPLATE">\u2022 {points} pontos bônus do {program}</string>
     <!--Hotel itin card additional info heading-->
     <string name="itin_hotel_details_additional_info_heading">Mais informações</string>
     <!--Hotel itin checkin text-->
@@ -3021,8 +3031,8 @@
     <string name="common_value_add_template">Todos os quartos incluem %s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
     <string name="select_a_room_instruction">Selecione um quarto</string>
-    <!-- Content description for hotel map's select room button. Example: Select a room from $10 button -->
-    <string name="hotel_select_a_room_cont_desc_TEMPLATE">Botão para selecionar o quarto por {price}</string>
+    <!-- Content description for hotel map's select room button. Example: Select a Room From $10 button -->
+    <string name="hotel_select_a_room_cont_desc_TEMPLATE">Botão Selecione um quarto a partir de {price}</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Cancelamento grátis</string>
     <!-- Top line of resort fee text -->
@@ -3843,6 +3853,8 @@
     <string name="yes">Sim</string>
     <!-- Dialog negative button message -->
     <string name="no">Não</string>
+    <!--InApp Dialog Default-->
+    <string name="see_deal">Ver oferta</string>
 
     <!-- Template for generating textview clicks -->
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>

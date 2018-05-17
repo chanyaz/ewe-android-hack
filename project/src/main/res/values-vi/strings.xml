@@ -1423,6 +1423,16 @@
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">Tổng số tiền đã thanh toán: {amount}</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
     <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">Tổng thanh toán tại khách sạn: {amount}</string>
+    <!--Hotel itin card price summary rewards section title text-->
+    <string name="itin_hotel_details_price_summary_rewards_title">Điểm thưởng</string>
+    <!--Hotel itin card price summary rewards section view rewards button text-->
+    <string name="itin_hotel_details_price_summary_rewards_button">Xem tất cả điểm thưởng</string>
+    <!--Hotel itin card price summary rewards section earned points template. You earned {points} {program} points (eg., You earned 177 Expedia Rewards points)-->
+    <string name="itin_hotel_details_price_summary_rewards_earned_points_TEMPLATE">Quý vị vừa nhận {points} điểm {program}</string>
+    <!--Hotel itin card price summary rewards section base points template. {points} base points for this trip (eg., 48 base points for this trip)-->
+    <string name="itin_hotel_details_price_summary_rewards_base_points_TEMPLATE">\u2022 {points} điểm tiêu chuẩn cho chuyến đi này</string>
+    <!--Hotel itin card price summary rewards section bonus points template. {points} bonus points for {program} (eg., 15 bonus points for +goldBonus)-->
+    <string name="itin_hotel_details_price_summary_rewards_bonus_points_TEMPLATE">\u2022 {points} điểm tiêu chuẩn cho {program}</string>
     <!--Hotel itin card additional info heading-->
     <string name="itin_hotel_details_additional_info_heading">Thông tin bổ sung</string>
     <!--Hotel itin checkin text-->
@@ -3021,8 +3031,8 @@
     <string name="common_value_add_template">Tất cả phòng gồm %s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
     <string name="select_a_room_instruction">Chọn phòng</string>
-    <!-- Content description for hotel map's select room button. Example: Select a room from $10 button -->
-    <string name="hotel_select_a_room_cont_desc_TEMPLATE">Nút chọn phòng {price}</string>
+    <!-- Content description for hotel map's select room button. Example: Select a Room From $10 button -->
+    <string name="hotel_select_a_room_cont_desc_TEMPLATE">Nút chọn phòng giá từ {price}</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Hủy miễn phí</string>
     <!-- Top line of resort fee text -->
@@ -3843,6 +3853,8 @@
     <string name="yes">Có</string>
     <!-- Dialog negative button message -->
     <string name="no">Không</string>
+    <!--InApp Dialog Default-->
+    <string name="see_deal">Xem ưu đãi</string>
 
     <!-- Template for generating textview clicks -->
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>

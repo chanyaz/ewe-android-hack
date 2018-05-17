@@ -42,12 +42,22 @@ class CaptchaWebViewActivityTest {
     }
 
     @Test
-    fun newUrlLoadedTest() {
+    fun newUrlLoadedOriginalUrlEqualsTest() {
         val shadow = Shadows.shadowOf(sut)
         sut.intent = intent
         sut.newUrlLoaded("rando")
         assertFalse(shadow.isFinishing)
         sut.newUrlLoaded(originalUrl)
+        assertTrue(shadow.isFinishing)
+    }
+
+    @Test
+    fun newUrlLoadedAboutBlankTest() {
+        val shadow = Shadows.shadowOf(sut)
+        sut.intent = intent
+        sut.newUrlLoaded("rando")
+        assertFalse(shadow.isFinishing)
+        sut.newUrlLoaded("about:blank")
         assertTrue(shadow.isFinishing)
     }
 }

@@ -140,9 +140,10 @@
     <!-- Content description for Checkbox types, state Unchecked -->
     <string name="acct__cont_desc_role_checkbox_unchecked">Afkrydsningsfelt. Ikke markeret.</string>
 
-
     <!--Single Page Sign Up-->
     <string name="acct__single_page_sign_up_title">Opret din gratis konto</string>
 
+    <!--New Sign In Page-->
     <string name="acct__new_create_account_text">Opret konto</string>
+    <string name="acct__new_facebook_link_accounts_text">Forbind konti</string>
 </resources>

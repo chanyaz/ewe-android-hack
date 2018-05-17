@@ -140,9 +140,10 @@
     <!-- Content description for Checkbox types, state Unchecked -->
     <string name="acct__cont_desc_role_checkbox_unchecked">复选框。取消选中。</string>
 
-
     <!--Single Page Sign Up-->
     <string name="acct__single_page_sign_up_title">创建您的免费帐户</string>
 
+    <!--New Sign In Page-->
     <string name="acct__new_create_account_text">创建帐户</string>
+    <string name="acct__new_facebook_link_accounts_text">关联帐户</string>
 </resources>
