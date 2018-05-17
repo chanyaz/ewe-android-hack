@@ -122,6 +122,10 @@ class OmnitureTestUtils : AppAnalytics() {
             Mockito.verify(mockAnalyticsProvider, Mockito.never()).trackState(Mockito.anyString(), mapThat(matcher))
         }
 
+        fun assertStateNotTracked(appState: String, matcher: Matcher<Map<String, Any>>, mockAnalyticsProvider: AnalyticsProvider) {
+            Mockito.verify(mockAnalyticsProvider, Mockito.never()).trackState(Mockito.eq(appState), mapThat(matcher))
+        }
+
         private fun verifyWithMessage(verify: () -> Unit, errorMessage: String = "") {
             try {
                 verify()

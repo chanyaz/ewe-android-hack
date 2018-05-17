@@ -9,6 +9,7 @@ import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
@@ -94,7 +95,8 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	private String mJumpToItinId = null;
 	private UserStateManager userStateManager;
 	private boolean isAttached = false;
-	private int mNumberOfItinCardsOfGuestUser = 0;
+	@VisibleForTesting
+	public int mNumberOfItinCardsOfGuestUser = 0;
 
 	//Have we tracked this itin list view yet?
 	private boolean mItinListTracked = false;
@@ -608,13 +610,14 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mItinListTracked = false;
 	}
 
-	private void trackItins(boolean trackEmpty) {
+	@VisibleForTesting
+	public void trackItins(boolean trackEmpty) {
 		if (mAllowLoadItins) {
-			ItineraryManager im = ItineraryManager.getInstance();
+			ItineraryManager im = getItineraryManager();
 			Collection<Trip> trips = im.getTrips();
 			Context context = getActivity();
 			if (context != null) {
-				if (trips.size() < 0 && trackEmpty) {
+				if (trips.isEmpty() && trackEmpty) {
 					TripsTracking.trackItinEmpty();
 				}
 
