@@ -1,5 +1,29 @@
 package com.expedia.bookings.data.trips;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
+import java.util.TimeZone;
+import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.TimeUnit;
+
+import org.jetbrains.annotations.NotNull;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -22,9 +46,7 @@ import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.itin.tripstore.utils.ITripsJsonFileUtils;
 import com.expedia.bookings.itin.utils.NotificationScheduler;
-import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.INotificationManager;
-import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.TripDetailsResponseHandler;
 import com.expedia.bookings.services.TripsServicesInterface;
@@ -39,30 +61,6 @@ import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
-
-import org.jetbrains.annotations.NotNull;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.File;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
-import java.util.TimeZone;
-import java.util.concurrent.PriorityBlockingQueue;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -344,11 +342,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		notificationManager.deleteAll();
 
 		mTrips.clear();
-
-		// As we have no trips, we unregister all of our push notifications
-		PushNotificationUtils.unRegister(mContext,
-			GCMRegistrationKeeper.getInstance(mContext).getRegistrationId(mContext));
-		PushNotificationUtils.clearPayloadMap();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1705,7 +1698,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 				else {
 					Set<String> currentTrips = new HashSet<>(mTrips.keySet());
 
-					boolean tripHasFlight = false;
 					for (Trip trip : response.getTrips()) {
 						if (BookingStatus.filterOut(trip.getBookingStatus())) {
 							continue;
@@ -1739,9 +1731,6 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 						}
 
 						currentTrips.remove(tripKey);
-						if (trip.hasFlight()) {
-							tripHasFlight = true;
-						}
 					}
 
 					// Remove all trips that were not returned by the server (not including guest trips or imported shared trips)
@@ -1753,7 +1742,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 							mTripsRemoved++;
 						}
 					}
-					OmnitureTracking.trackItinTripRefreshCallSuccess(tripHasFlight);
+					OmnitureTracking.trackItinTripRefreshCallSuccess();
 				}
 			}
 		}

@@ -1,21 +1,17 @@
 package com.expedia.bookings.data.trips
 
-import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
-import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.itin.tripstore.utils.ITripsJsonFileUtils
 import com.expedia.bookings.services.NonFatalLoggerInterface
 import com.expedia.bookings.services.TripsServicesInterface
 import com.expedia.bookings.test.CustomMatchers.Companion.hasEntries
-import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.NullSafeMockitoHamcrest.mapThat
-import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.TimeSource
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataFlightBuilder
 import com.mobiata.android.util.SettingUtils
 import com.mobiata.mocke3.getJsonStringFromMock
@@ -117,20 +113,9 @@ class ItineraryManagerTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.LASTMINUTE, MultiBrand.TRAVELOCITY,
-            MultiBrand.ORBITZ, MultiBrand.WOTIF, MultiBrand.MRJET, MultiBrand.CHEAPTICKETS,
-            MultiBrand.EBOOKERS, MultiBrand.VOYAGES))
-    fun testOmnitureTrackingTripRefreshCallSuccessWithFlight() {
+    fun testOmnitureTrackingTripRefreshCallSuccess() {
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.TripsNewFlightAlerts)
-        OmnitureTracking.trackItinTripRefreshCallSuccess(true)
-        assertLinkTrackedWithExposure("Trips Call", "App.Itinerary.Call.Success", "event287", "16205.0.1", mockAnalyticsProvider)
-    }
-
-    @Test
-    fun testOmnitureTrackingTripRefreshCallSuccessWithoutFlight() {
-        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        OmnitureTracking.trackItinTripRefreshCallSuccess(false)
+        OmnitureTracking.trackItinTripRefreshCallSuccess()
         assertLinkTracked("Trips Call", "App.Itinerary.Call.Success", "event287", mockAnalyticsProvider)
     }
 

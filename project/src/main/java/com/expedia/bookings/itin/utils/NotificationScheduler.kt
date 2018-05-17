@@ -6,24 +6,18 @@ import com.expedia.bookings.data.Courier
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TNSFlight
 import com.expedia.bookings.data.TNSUser
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.TripComponent
 import com.expedia.bookings.data.user.UserStateManager
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.features.Features
 import com.expedia.bookings.notification.GCMRegistrationKeeper
 import com.expedia.bookings.notification.INotificationManager
-import com.expedia.bookings.notification.PushNotificationUtils
-import com.expedia.bookings.server.ExpediaServices
-import com.expedia.bookings.server.ExpediaServicesPushInterface
-import com.expedia.bookings.server.PushRegistrationResponseHandler
 import com.expedia.bookings.services.ITNSServices
 import com.expedia.bookings.utils.JodaUtils
-import com.expedia.bookings.utils.UniqueIdentifierPersistenceProvider
 import com.expedia.bookings.utils.UniqueIdentifierHelper
+import com.expedia.bookings.utils.UniqueIdentifierPersistenceProvider
 import com.expedia.bookings.widget.itin.ItinContentGenerator
 import com.expedia.util.endlessObserver
 import com.mobiata.android.Log
@@ -33,7 +27,6 @@ import io.reactivex.subjects.PublishSubject
 
 open class NotificationScheduler @JvmOverloads constructor(val context: Context,
                                                            val db: Db = Db.sharedInstance,
-                                                           val services: ExpediaServicesPushInterface = ExpediaServices(context),
                                                            var notificationManager: INotificationManager,
                                                            val userStateManager: UserStateManager,
                                                            val tnsServices: ITNSServices,
@@ -79,47 +72,18 @@ open class NotificationScheduler @JvmOverloads constructor(val context: Context,
         //we need to wait for a gcm callback before we will get a regid, so we just skip for now and wait for the next sync
         //at which time we should have a valid id (assuming network is up and running)
         val regId = gcmRegistrationKeeper.getRegistrationId(context)
-        Log.d(LOGGING_TAG, "registerForPushNotifications regId:" + regId)
+        Log.d(LOGGING_TAG, "registerForPushNotifications regId:$regId")
         if (!regId.isNullOrEmpty()) {
             Log.d(LOGGING_TAG, "registerForPushNotifications regId:$regId is not empty!")
 
             val langId = pos.dualLanguageId
             val siteId = pos.siteId
-            val userTuid: Long = 0
             val tnsUser = getTNSUser(siteId)
 
             val courier = Courier("gcm", Integer.toString(langId), BuildConfig.APPLICATION_ID, regId,
                     UniqueIdentifierHelper.getID(UniqueIdentifierPersistenceProvider(context)))
-            //use old Flight Alert system
-            if (!AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.TripsNewFlightAlerts)) {
-                val payload = PushNotificationUtils
-                        .buildPushRegistrationPayload(context, regId, siteId, userTuid,
-                                getItinFlights(itinCardDatas))
 
-                Log.d(LOGGING_TAG, "registerForPushNotifications payload:" + payload.toString())
-
-                Log.d(LOGGING_TAG, "registering with old alert system")
-                val resp = services.registerForPushNotifications(
-                        PushRegistrationResponseHandler(context), payload, regId)
-                Log.d(LOGGING_TAG,
-                        "registerForPushNotifications response:" + resp?.success)
-
-                tnsServices.deregisterForFlights(tnsUser, courier)
-            } else {
-                //use new TNS system
-                val payload = PushNotificationUtils
-                        .buildPushRegistrationPayload(context, regId, siteId, userTuid,
-                                ArrayList())
-
-                Log.d(LOGGING_TAG, "registerForPushNotifications payload:" + payload.toString())
-
-                val resp = services.registerForPushNotifications(
-                        PushRegistrationResponseHandler(context), payload, regId)
-                Log.d(LOGGING_TAG,
-                        "registerForPushNotifications response:" + resp?.success)
-
-                tnsServices.registerForFlights(tnsUser, courier, getFlightsForNewSystem(itinCardDatas))
-            }
+            tnsServices.registerForFlights(tnsUser, courier, getFlightsForNewSystem(itinCardDatas))
         }
     }
 

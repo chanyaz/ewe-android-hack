@@ -7,12 +7,8 @@ import android.content.res.Resources;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.Distance;
-import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchParams;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.flightlib.data.Waypoint;
-import com.mobiata.flightlib.utils.FormatUtils;
 import com.squareup.phrase.Phrase;
 
 public class FlightUtils {
@@ -43,22 +39,6 @@ public class FlightUtils {
 			//no gate or terminal info
 			return res.getString(R.string.Gate_To_Be_Determined_abbrev);
 		}
-	}
-
-	public static String formatDistance(Context context, FlightLeg leg, boolean longTemplate) {
-		int flags = PointOfSale.getPointOfSale().getDistanceUnit() == Distance.DistanceUnit.MILES
-			? FormatUtils.F_IMPERIAL
-			: FormatUtils.F_METRIC;
-		if (longTemplate) {
-			flags |= FormatUtils.F_LONG;
-		}
-		return FormatUtils.formatDistance(context, leg.getDistanceInMiles(), flags);
-	}
-
-	public static String formatTotalDuration(Context context, int legDuration) {
-		String hoursMinutes = DateRangeUtils.formatDuration(context.getResources(), legDuration);
-		String legDurationTime = Phrase.from(context.getString(R.string.total_duration_TEMPLATE)).put("hoursminutes", hoursMinutes).format().toString();
-		return legDurationTime;
 	}
 
 	public static String totalDurationContDesc(Context context, int legDuration) {

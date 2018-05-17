@@ -41,7 +41,6 @@ import com.expedia.bookings.dagger.TravelerComponent;
 import com.expedia.bookings.dagger.TripComponent;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.country.CountryConfig;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleConfigHelper;
@@ -51,9 +50,9 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager;
 import com.expedia.bookings.itin.flight.common.FlightRegistrationHandler;
 import com.expedia.bookings.launch.widget.LaunchListLogic;
+import com.expedia.bookings.marketing.carnival.CarnivalUtils;
 import com.expedia.bookings.marketing.carnival.persistence.SharedPreferencesCarnivalProvider;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
-import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.tracking.AdTracker;
@@ -63,7 +62,6 @@ import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.AccessibilityUtil;
-import com.expedia.bookings.marketing.carnival.CarnivalUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
@@ -76,7 +74,6 @@ import com.expedia.util.LanguageHelper;
 import com.facebook.FacebookSdk;
 import com.facebook.applinks.AppLinkData;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
@@ -279,26 +276,6 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 				}
 			);
 		}
-
-		// 2249: We were not sending push registrations to the prod push server
-		// If we are upgrading from a previous version we will send an unregister to the test push server
-		// We also don't want to bother if the user has never launched the app before
-		if (BuildConfig.RELEASE
-			&& !SettingUtils.get(this, PREF_UPGRADED_TO_PRODUCTION_PUSH, false)
-			&& SettingUtils.get(this, PREF_FIRST_LAUNCH, false)) {
-
-			final String testPushServer = PushNotificationUtils.REGISTRATION_URL_TEST;
-			final String regId = GCMRegistrationKeeper.getInstance(this).getRegistrationId(this);
-			OnDownloadComplete<PushNotificationRegistrationResponse> callback = new OnDownloadComplete<PushNotificationRegistrationResponse>() {
-				@Override
-				public void onDownload(PushNotificationRegistrationResponse result) {
-					Log.d("Unregistered from test server");
-					SettingUtils.save(ExpediaBookingApp.this, PREF_UPGRADED_TO_PRODUCTION_PUSH, true);
-				}
-			};
-			PushNotificationUtils.unRegister(this, testPushServer, regId, callback);
-		}
-		startupTimer.addSplit("Push server unregistered (if needed)");
 
 		if (SettingUtils.get(ExpediaBookingApp.this, PREF_FIRST_LAUNCH, true)) {
 			startupTimer.addSplit("AdTracker first launch tracking");

@@ -12,9 +12,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 
-import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.google.android.gms.iid.InstanceID;
-import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.IoUtils;
@@ -96,29 +94,6 @@ public class GCMRegistrationKeeper implements JSONable {
 
 		}
 
-		//Unregister old regIds with api
-		unRegisterAllExpiredIds(context);
-	}
-
-	/**
-	 * Tell the api about regids that should no longer get push notifications
-	 *
-	 * @param context
-	 */
-	private void unRegisterAllExpiredIds(final Context context) {
-		Log.d("GCMRegistrationKeeper.unRegisterAllExpiredIds");
-		for (final String oldRegId : mExpiredRegistrationIds) {
-			PushNotificationUtils.unRegister(context, oldRegId,
-				new OnDownloadComplete<PushNotificationRegistrationResponse>() {
-					@Override
-					public void onDownload(PushNotificationRegistrationResponse results) {
-						if (results != null && results.getSuccess()) {
-							onRegistrationIdSuccessfullyUnregistered(context, oldRegId);
-						}
-					}
-				}
-			);
-		}
 	}
 
 	/**
@@ -208,21 +183,6 @@ public class GCMRegistrationKeeper implements JSONable {
 		catch (Exception ex) {
 			Log.e("Exception writing GCMRegistrationKeeper file.", ex);
 		}
-	}
-
-	/**
-	 * This is used as a callback for when we get a success message back from the api
-	 * after attempting to unregister. This indicates that we have successfully unregistered
-	 * the provided regId
-	 *
-	 * @param context
-	 * @param regId
-	 */
-	public void onRegistrationIdSuccessfullyUnregistered(Context context, String regId) {
-		Log.d("GCMRegistrationKeeper.onRegistrationIdSuccessfullyUnregistered regId:" + regId);
-		mExpiredRegistrationIds.remove(regId);
-		PushNotificationUtils.removePayloadFromMap(regId);
-		writeToDisk(context);
 	}
 
 	@Override

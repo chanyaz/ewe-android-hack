@@ -1,52 +1,5 @@
 package com.expedia.bookings.server;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.text.TextUtils;
-
-import com.crashlytics.android.Crashlytics;
-import com.expedia.bookings.BuildConfig;
-import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.data.AssociateUserToTripResponse;
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightStatsFlightResponse;
-import com.expedia.bookings.data.PushNotificationRegistrationResponse;
-import com.expedia.bookings.data.Response;
-import com.expedia.bookings.data.RoutesResponse;
-import com.expedia.bookings.data.SignInResponse;
-import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.Traveler.AssistanceType;
-import com.expedia.bookings.data.Traveler.Gender;
-import com.expedia.bookings.data.TravelerCommitResponse;
-import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.data.trips.TripResponse;
-import com.expedia.bookings.data.user.UserStateManager;
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.notification.PushNotificationUtils;
-import com.expedia.bookings.services.PersistentCookiesCookieJar;
-import com.expedia.bookings.utils.OKHttpClientFactory;
-import com.expedia.bookings.utils.ServicesUtil;
-import com.expedia.bookings.utils.Strings;
-import com.expedia.bookings.utils.Ui;
-import com.larvalabs.svgandroid.SVG;
-import com.larvalabs.svgandroid.SVGParser;
-import com.mobiata.android.BackgroundDownloader.DownloadListener;
-import com.mobiata.android.Log;
-import com.mobiata.android.util.AdvertisingIdUtils;
-import com.mobiata.android.util.NetUtils;
-import com.mobiata.android.util.SettingUtils;
-import com.mobiata.flightlib.data.Flight;
-import com.mobiata.flightlib.data.FlightCode;
-
-import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.message.BasicNameValuePair;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.CookieManager;
@@ -62,6 +15,47 @@ import java.util.zip.GZIPInputStream;
 
 import javax.inject.Inject;
 
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.message.BasicNameValuePair;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.text.TextUtils;
+
+import com.crashlytics.android.Crashlytics;
+import com.expedia.bookings.BuildConfig;
+import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.data.AssociateUserToTripResponse;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightStatsFlightResponse;
+import com.expedia.bookings.data.Response;
+import com.expedia.bookings.data.RoutesResponse;
+import com.expedia.bookings.data.SignInResponse;
+import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.Traveler.AssistanceType;
+import com.expedia.bookings.data.Traveler.Gender;
+import com.expedia.bookings.data.TravelerCommitResponse;
+import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.trips.TripResponse;
+import com.expedia.bookings.data.user.UserStateManager;
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
+import com.expedia.bookings.services.PersistentCookiesCookieJar;
+import com.expedia.bookings.utils.OKHttpClientFactory;
+import com.expedia.bookings.utils.ServicesUtil;
+import com.expedia.bookings.utils.Strings;
+import com.expedia.bookings.utils.Ui;
+import com.larvalabs.svgandroid.SVG;
+import com.larvalabs.svgandroid.SVGParser;
+import com.mobiata.android.BackgroundDownloader.DownloadListener;
+import com.mobiata.android.Log;
+import com.mobiata.android.util.AdvertisingIdUtils;
+import com.mobiata.android.util.NetUtils;
+import com.mobiata.flightlib.data.Flight;
+import com.mobiata.flightlib.data.FlightCode;
+
 import okhttp3.Call;
 import okhttp3.Interceptor;
 import okhttp3.JavaNetCookieJar;
@@ -71,7 +65,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 
 @SuppressLint("SimpleDateFormat")
-public class ExpediaServices implements DownloadListener, ExpediaServicesPushInterface {
+public class ExpediaServices implements DownloadListener {
 
 	/**
 	 * Tag reserved for request URLs (or params).  Often times we're only
@@ -494,62 +488,6 @@ public class ExpediaServices implements DownloadListener, ExpediaServicesPushInt
 		if (!TextUtils.isEmpty(traveler.getKnownTravelerNumber())) {
 			query.add(new BasicNameValuePair(prefix + "knownTravelerNumber", traveler.getKnownTravelerNumber()));
 		}
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Push Notifications
-
-	public PushNotificationRegistrationResponse registerForPushNotifications(
-		String serverUrl, ResponseHandler<PushNotificationRegistrationResponse> responseHandler,
-		JSONObject payload, String regId) {
-
-		// Create the request
-		Request.Builder post = new Request.Builder().url(serverUrl);
-		String data = payload.toString();
-		RequestBody body = RequestBody.create(MediaType.parse("application/json"), data);
-
-		// Adding the body sets the Content-type header for us
-		post.post(body);
-
-		String appNameForMobiataPushNameHeader = ProductFlavorFeatureConfiguration.getInstance()
-			.getAppNameForMobiataPushNameHeader();
-		if (PushNotificationUtils.REGISTRATION_URL_PRODUCTION.equals(serverUrl)) {
-			post.addHeader("MobiataPushName", appNameForMobiataPushNameHeader);
-		}
-		else {
-			post.addHeader("MobiataPushName", appNameForMobiataPushNameHeader + "Alpha");
-		}
-
-		if (BuildConfig.RELEASE
-			|| !SettingUtils.get(mContext, mContext.getString(R.string.preference_disable_push_registration), false)) {
-
-			synchronized (PushNotificationUtils.getLockObject(regId)) {
-				//We first check to see if we have already sent this payload for this regId
-				if (PushNotificationUtils.sendPayloadCheck(regId, payload)) {
-					//If not we go ahead and do the request
-					PushNotificationRegistrationResponse response = doRequest(post, responseHandler, F_POST, new ArrayList<Interceptor>());
-					if (response == null || !response.getSuccess()) {
-						//If we failed to register, remove the payload from our map, so we dont prevent ourselves form trying again later.
-						PushNotificationUtils.removePayloadFromMap(regId);
-					}
-					return response;
-				}
-				else {
-					return null;
-				}
-			}
-		}
-		else {
-			Log.d("PushNotification registration is disabled in settings!");
-			return null;
-		}
-	}
-
-	@Override
-	public PushNotificationRegistrationResponse registerForPushNotifications(
-		ResponseHandler<PushNotificationRegistrationResponse> responseHandler, JSONObject payload, String regId) {
-		String serverUrl = PushNotificationUtils.getRegistrationUrl();
-		return registerForPushNotifications(serverUrl, responseHandler, payload, regId);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

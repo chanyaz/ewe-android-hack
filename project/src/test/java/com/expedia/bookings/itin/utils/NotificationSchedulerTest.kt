@@ -7,21 +7,17 @@ import android.view.ViewGroup
 import com.expedia.bookings.bitmaps.IMedia
 import com.expedia.bookings.data.Courier
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.PushNotificationRegistrationResponse
 import com.expedia.bookings.data.TNSFlight
 import com.expedia.bookings.data.TNSUser
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.ItinCardDataFlight
+import com.expedia.bookings.data.trips.ItinCardDataHotel
 import com.expedia.bookings.data.trips.TripComponent
 import com.expedia.bookings.data.user.UserStateManager
-import com.expedia.bookings.data.trips.ItinCardDataHotel
 import com.expedia.bookings.notification.GCMRegistrationKeeper
 import com.expedia.bookings.notification.INotificationManager
 import com.expedia.bookings.notification.Notification
-import com.expedia.bookings.server.ExpediaServicesPushInterface
-import com.expedia.bookings.server.ResponseHandler
 import com.expedia.bookings.services.ITNSServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
@@ -37,7 +33,6 @@ import com.mobiata.flightlib.data.Waypoint
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import org.joda.time.DateTime
-import org.json.JSONObject
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -57,7 +52,6 @@ class NotificationSchedulerTest {
     lateinit var sut: NotificationScheduler
     private lateinit var tnsServicesMock: TestTNSService
     private val itinDatas = listOf<ItinCardData>(ItinCardDataFlightBuilder().build(), ItinCardDataFlightBuilder().build(multiSegment = true, isShared = true))
-    private lateinit var expediaServicesMock: TestExpediaServices
     private lateinit var notificationManagerMock: TestNotificationManager
     private lateinit var userStateManager: UserStateManager
     private lateinit var pos: PointOfSale
@@ -65,7 +59,6 @@ class NotificationSchedulerTest {
     @Before
     fun setup() {
         context = RuntimeEnvironment.application
-        expediaServicesMock = Mockito.spy(TestExpediaServices())
         userStateManager = UserLoginTestUtil.getUserStateManager()
         pos = PointOfSale.getPointOfSale()
         tnsServicesMock = Mockito.spy(TestTNSService())
@@ -76,7 +69,6 @@ class NotificationSchedulerTest {
         Mockito.`when`(gcmKeeperMock.getRegistrationId(context)).thenReturn("1234")
         sut = Mockito.spy(NotificationScheduler(context = context,
                 db = dbMock,
-                services = expediaServicesMock,
                 notificationManager = notificationManagerMock,
                 userStateManager = userStateManager,
                 tnsServices = tnsServicesMock,
@@ -108,8 +100,6 @@ class NotificationSchedulerTest {
 
     @Test
     fun registerForPushNotificationsToggleOnTest() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.TripsNewFlightAlerts)
-
         Mockito.`when`(sut.getGenerator(itinDatas[0])).thenReturn(MockItinGenerator(context, itinDatas[0]))
         sut.registerForPushNotifications(itinDatas)
         Mockito.verify(sut, Mockito.times(1)).getTNSUser(pos.siteId)
@@ -117,11 +107,6 @@ class NotificationSchedulerTest {
         assertNotNull(tnsServicesMock.tnsUser)
         assertNotEquals(0, tnsServicesMock.tnsFlights?.size)
         Mockito.verify(tnsServicesMock, Mockito.times(1)).registerForFlights(tnsServicesMock.tnsUser!!, tnsServicesMock.tnsCourier!!, tnsServicesMock.tnsFlights!!)
-        assertNotNull(expediaServicesMock.handler)
-        assertNotNull(expediaServicesMock.mPayload)
-        assertNotEquals("", expediaServicesMock.mRegID)
-        Mockito.verify(expediaServicesMock, Mockito.times(1)).registerForPushNotifications(expediaServicesMock.handler!!,
-                expediaServicesMock.mPayload!!, expediaServicesMock.mRegID)
     }
 
     @After
@@ -247,21 +232,6 @@ class NotificationSchedulerTest {
 
         override fun deregisterForFlights(user: TNSUser, courier: Courier) {
             tnsFlights = null
-        }
-    }
-
-    open class TestExpediaServices : ExpediaServicesPushInterface {
-        var handler: ResponseHandler<PushNotificationRegistrationResponse>? = null
-        var mPayload: JSONObject? = null
-        var mRegID = ""
-
-        override fun registerForPushNotifications(responseHandler: ResponseHandler<PushNotificationRegistrationResponse>, payload: JSONObject, regId: String): PushNotificationRegistrationResponse? {
-            handler = responseHandler
-            mPayload = payload
-            mRegID = regId
-            val res = PushNotificationRegistrationResponse()
-            res.success = true
-            return res
         }
     }
 

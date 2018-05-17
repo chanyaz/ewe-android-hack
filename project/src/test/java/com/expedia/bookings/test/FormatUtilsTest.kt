@@ -116,16 +116,6 @@ class FormatUtilsTest {
     }
 
     @Test
-    fun formatDistanceTest() {
-        val miles = 20
-        var value = FormatUtils.formatDistance(getContext(), miles, FormatUtils.F_METRIC)
-        assertEquals("32 km", value)
-
-        value = FormatUtils.formatDistance(getContext(), miles, FormatUtils.F_LONG)
-        assertEquals("20 miles", value)
-    }
-
-    @Test
     fun formatTimeZoneTest() {
         var value = FormatUtils.formatTimeZone(null, DateTime(), 6)
         assertEquals("", value)
