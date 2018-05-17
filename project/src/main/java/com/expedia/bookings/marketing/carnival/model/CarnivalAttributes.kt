@@ -90,3 +90,12 @@ object CarnivalNotificationTypeConstants {
     const val SERV = "SERV"
     const val PROMO = "PROMO"
 }
+
+object CarnivalNotificationConstants {
+    const val KEY_PAYLOAD_DEEPLINK: String = "deeplink"
+    const val KEY_PAYLOAD_ALERT: String = "alert"
+    const val KEY_PAYLOAD_TITLE: String = "title"
+    const val KEY_PAYLOAD_MARKETING: String = "mkt_code"
+    const val KEY_NOTIFICATION_PROVIDER: String = "provider"
+    const val KEY_NOTIFICATION_PROVIDER_VALUE: String = "carnival"
+}

@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -7,7 +8,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-
+import com.carnival.sdk.Carnival;
+import com.carnival.sdk.Message;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
@@ -43,9 +45,12 @@ import com.expedia.bookings.features.Feature;
 import com.expedia.bookings.features.Features;
 import com.expedia.bookings.hotel.deeplink.HotelIntentBuilder;
 import com.expedia.bookings.marketing.carnival.CarnivalUtils;
+import com.expedia.bookings.marketing.carnival.FullPageDealNotificationActivity;
+import com.expedia.bookings.marketing.carnival.model.CarnivalMessage;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.IClientLogServices;
 import com.expedia.bookings.utils.AbacusHelperUtils;
+import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.DeepLinkUtils;
 import com.expedia.bookings.utils.LXDataUtils;
@@ -67,10 +72,10 @@ import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
-
 import io.reactivex.Observer;
 import io.reactivex.observers.DisposableObserver;
 import okhttp3.HttpUrl;
+import static com.expedia.bookings.marketing.carnival.model.CarnivalNotificationConstants.KEY_NOTIFICATION_PROVIDER_VALUE;
 
 /**
  * This class acts as a router for incoming deep links.  It seems a lot
@@ -193,9 +198,9 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 		clientLogServices = Ui.getApplication(this).appComponent().clientLog();
 		DeepLinkUtils.parseAndTrackDeepLink(clientLogServices, HttpUrl.parse(data.toString()), new OmnitureDeepLinkAnalytics());
 
-		if (this.getIntent().getExtras() != null && this.getIntent().getExtras().getBoolean(CarnivalUtils.CustomCarnivalListener.Companion.getKEY_NOTIFICATION_PROVIDER_VALUE(), false)) {
-			CarnivalUtils.getInstance().trackCarnivalPush(this, data, this.getIntent().getExtras());
-			data = CarnivalUtils.getInstance().createParameterizedDeeplinkWithStoredValues(data);
+		if (deeplinkIsFromCarnivalPush()) {
+			trackCarnivalPush(data);
+			data = createParameterizedDeeplinkWithStoredValues(data);
 		}
 
 		DeepLink deepLink = deepLinkParser.parseDeepLink(data);
@@ -251,6 +256,9 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 		}
 		else if (deepLink instanceof HomeDeepLink) {
 			NavUtils.goToLaunchScreen(this, true);
+			if (deeplinkIsFromCarnivalPush()) {
+				retrieveCarnivalMessage();
+			}
 			finish = true;
 		}
 		else if (deepLink instanceof PackageDeepLink) {
@@ -290,6 +298,48 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 
 		if (finish) {
 			finish();
+		}
+	}
+
+	@NonNull
+	private Uri createParameterizedDeeplinkWithStoredValues(Uri data) {
+		data = CarnivalUtils.getInstance().createParameterizedDeeplinkWithStoredValues(data);
+		return data;
+	}
+
+	private void trackCarnivalPush(Uri data) {
+		CarnivalUtils.getInstance().trackCarnivalPush(this, data, this.getIntent().getExtras());
+	}
+
+	private boolean deeplinkIsFromCarnivalPush() {
+		return this.getIntent().getExtras() != null && this.getIntent().getExtras().getBoolean(
+			KEY_NOTIFICATION_PROVIDER_VALUE, false);
+	}
+
+	protected void retrieveCarnivalMessage() {
+		Carnival.getMessages(new Carnival.MessagesHandler() {
+			@Override
+			public void onSuccess(ArrayList<Message> messages) {
+				showCarnivalMessage(messages);
+			}
+
+			@Override
+			public void onFailure(Error error) {
+				Log.d(TAG, "Failure getting Carnival messages: ", error);
+			}
+		});
+	}
+
+	private void showCarnivalMessage(ArrayList<Message> messages) {
+		if (!messages.isEmpty()) {
+			Message message = messages.get(0);
+			CarnivalMessage carnivalMessage = new CarnivalMessage(message.getImageURL(), message.getTitle(),
+				message.getAttributes(),
+				message.getText());
+			Intent intent = new Intent(getBaseContext(), FullPageDealNotificationActivity.class);
+			intent.putExtra(Constants.CARNIVAL_MESSAGE_DATA, carnivalMessage);
+			startActivity(intent);
+			Carnival.setMessageRead(message, null);
 		}
 	}
 
