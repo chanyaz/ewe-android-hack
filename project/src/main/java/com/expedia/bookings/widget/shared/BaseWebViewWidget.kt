@@ -104,12 +104,14 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
     }
 
     private fun redirectSigninClick() {
-        webView.evaluateJavascript("(function() { var elements = document.getElementById('login-module-title'); " +
-                "elements.onclick = function(event) { " +
-                "event.stopPropagation();" +
-                "document.location.href = '/user/signin'" +
-                ";}" +
-                ";})()", null)
+        webView.evaluateJavascript("var elements = $('a').filter(function(){ " +
+                "return(this.getAttribute('id') == 'login-module-title'" +
+                ");});" +
+                "$.each(elements, function(key, value) { " +
+                "value.onclick = function(event) { " +
+                "event.stopPropagation(); " +
+                "document.location.href = '/user/signin';" +
+                "}});", null)
     }
 
     open fun onWebPageStarted(view: WebView, url: String, favicon: Bitmap?) {
