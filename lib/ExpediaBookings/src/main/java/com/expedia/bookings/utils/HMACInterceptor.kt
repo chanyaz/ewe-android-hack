@@ -34,7 +34,10 @@ class HMACInterceptor(
 
     private fun shouldNotSignRequest(originalRequest: Request): Boolean {
         val host = originalRequest.url()?.host() ?: ""
-        return (!(host.startsWith("apim.") || host.endsWith(currentDomainSource.currentDomain())))
+        val isAPIM = host.startsWith("apim.")
+        val isMedia = host.startsWith("media.")
+        val isCurrentDomain = host.endsWith(currentDomainSource.currentDomain())
+        return !(isAPIM || isCurrentDomain) || isMedia
     }
 
     private fun getXDate(dateTime: DateTime): String {

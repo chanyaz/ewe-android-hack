@@ -70,6 +70,15 @@ class HMACInterceptorTest {
         assertNull(mockChain.lastSeenRequest.header("Authorization"))
     }
 
+    @Test
+    fun testMediaDomainNotSigned() {
+        val interceptor = injectedHMACInterceptor()
+        val mockChain = MockChain()
+        mockChain.setMockHostToReturn("media.expedia.com")
+        interceptor.intercept(mockChain)
+        assertNull(mockChain.lastSeenRequest.header("Authorization"))
+    }
+
     private fun injectedHMACInterceptor(): HMACInterceptor {
         return HMACInterceptor("fe627e29-3afb-4384-9fc0-a1d2a4dcd30c",
                 "R(Y_O/y]tn)z/m-O",
