@@ -37,8 +37,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?android:attr/selectableItemBackground"
-            android:clickable="true"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -46,6 +44,7 @@
                 android:id="@+id/widget_itin_address_line_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textIsSelectable="true"
                 android:textColor="@color/gray900"
                 android:textSize="14sp"
                 android:visibility="gone"
@@ -55,6 +54,7 @@
                 android:id="@+id/widget_itin_address_line_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textIsSelectable="true"
                 android:textColor="@color/gray900"
                 android:textSize="14sp"
                 android:visibility="gone"
