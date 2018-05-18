@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.robolectric;
+package com.expedia.bookings.utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +26,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.MultiBrand;
 import com.expedia.bookings.test.RunForBrands;
+import com.expedia.bookings.test.robolectric.RobolectricRunner;
 import com.expedia.bookings.utils.LegalClickableSpan;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.SuggestionStrUtils;
@@ -129,7 +130,6 @@ public class StrUtilsTest {
 	public void testLoyaltyLegalTextSpans() {
 		SpannableStringBuilder loyaltyLegalSpanBuilder = StrUtils.generateLoyaltyRewardsLegalLink(getContext());
 
-		String brandRewardNameLink = getContext().getString(R.string.brand_reward_name);
 		String termsText = getContext().getString(R.string.terms_and_conditions);
 
 		String loyaltyLegalText = getLoyaltyLegalText();
@@ -151,13 +151,11 @@ public class StrUtilsTest {
 		String brandRewardName = getContext().getString(R.string.brand_reward_name);
 		String termsText = getContext().getString(R.string.terms_and_conditions);
 
-		String loyaltyLegalText = Phrase.from(getContext().getResources(), R.string.account_creation_legal_rewards_TEMPLATE)
+		return Phrase.from(getContext().getResources(), R.string.account_creation_legal_rewards_TEMPLATE)
 				.putOptional("brand_reward_name_link", brandRewardName)
 				.putOptional("brand_reward_name", brandRewardName)
 				.put("terms_and_conditions", termsText)
 				.format().toString();
-
-		return loyaltyLegalText;
 	}
 
 	@Test
@@ -190,8 +188,7 @@ public class StrUtilsTest {
 		String termsText = getContext().getString(R.string.terms_and_conditions);
 		String privacyText = getContext().getString(R.string.privacy_policy);
 
-		String legalText = getContext().getString(R.string.legal_TEMPLATE, rulesText, termsText, privacyText);
-		return legalText;
+		return getContext().getString(R.string.legal_TEMPLATE, rulesText, termsText, privacyText);
 	}
 
 	@Test
@@ -215,8 +212,7 @@ public class StrUtilsTest {
 		String formattedString3 = StrUtils.formatCityStateName(displayNameResponse3);
 		assertEquals(formattedString3, "New York, NY, United States");
 
-		String displayNameResponse4 = null;
-		String formattedString4 = StrUtils.formatCityStateName(displayNameResponse4);
+		String formattedString4 = StrUtils.formatCityStateName(null);
 		assertEquals(formattedString4, "");
 	}
 
@@ -398,7 +394,6 @@ public class StrUtilsTest {
 
 	@Test
 	public void getDisplayNameForGaiaNearbyTest() {
-		String expectedDisplayName;
 		//When airport name is null for eg: HOTELS LOB
 		LocalizedName suggestionName = new LocalizedName(1043, "San Francisco, CA (SFO-San Francisco Intl.)",
 			"San Francisco, CA, United States (SFO-San Francisco Intl.)", "San Francisco, CA", null);
@@ -419,9 +414,8 @@ public class StrUtilsTest {
 
 	@Test
 	public void testFormatPackageCityName() {
-		String formattedString = StrUtils.formatPackageCityName(null);
-		assertNull(formattedString);
-		formattedString = StrUtils.formatPackageCityName(getDummySuggestion().regionNames.shortName);
+		assertNull(StrUtils.formatPackageCityName(null));
+		String formattedString = StrUtils.formatPackageCityName(getDummySuggestion().regionNames.shortName);
 		assertEquals("Chicago", formattedString);
 		formattedString = StrUtils.formatPackageCityName(getDummySuggestion().regionNames.fullName);
 		assertEquals("Chicago", formattedString);
@@ -431,9 +425,8 @@ public class StrUtilsTest {
 
 	@Test
 	public void testFormatStateName() {
-		String formattedString = StrUtils.formatStateName(null);
-		assertNull(formattedString);
-		formattedString = StrUtils.formatStateName(getDummySuggestion().regionNames.shortName);
+		assertNull(StrUtils.formatStateName(null));
+		String formattedString = StrUtils.formatStateName(getDummySuggestion().regionNames.shortName);
 		assertEquals(null, formattedString);
 		formattedString = StrUtils.formatStateName("Seattle, WA (SEA-Seattle - Tacoma Intl.)");
 		assertEquals("WA", formattedString);
