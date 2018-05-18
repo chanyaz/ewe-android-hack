@@ -19,13 +19,6 @@
             android:layout_weight="1"
             android:layout="@layout/traveler_flight_search_widget" />
 
-        <ViewStub
-            android:id="@+id/traveler_stub"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/default_search_card_height"
-            android:layout_weight="1"
-            android:layout="@layout/traveler_search_widget" />
-
         <View
             android:layout_width="1px"
             android:layout_height="48dp"

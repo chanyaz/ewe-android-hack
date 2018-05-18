@@ -4797,18 +4797,11 @@ public class OmnitureTracking {
 
 			StringBuilder evar47String = new StringBuilder("PKG|1R|RT|");
 			evar47String.append("A" + packageSearchParams.getAdults() + "|");
-			if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)) {
-				evar47String.append("C" + children + "|");
-				evar47String.append("YTH" + youth + "|");
-				evar47String.append("IL" + infantInLap + "|");
-				evar47String.append("IS" + infantInseat);
-			}
-			else {
-				evar47String.append("C" + packageSearchParams.getChildren().size() + "|");
-				evar47String
-					.append("L" + (packageSearchParams.getChildren().size() - Db.sharedInstance.getPackageParams()
-						.getNumberOfSeatedChildren()));
-			}
+			evar47String.append("C" + children + "|");
+			evar47String.append("YTH" + youth + "|");
+			evar47String.append("IL" + infantInLap + "|");
+			evar47String.append("IS" + infantInseat);
+
 			if (isMidAPIEnabled() && packageSearchParams.getFlightCabinClass() != null) {
 				String cabinCodeName = FlightServiceClassType
 					.getCabinCodeFromMIDParam(packageSearchParams.getFlightCabinClass()).name();
@@ -5790,10 +5783,7 @@ public class OmnitureTracking {
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightAATest);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightAdvanceSearch);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTravelerFormRevamp);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSwitchFields);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTravelerFormRevamp);
-
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSuggestionOnOneCharacter);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSearchSuggestionLabel);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsGreedySearchCall);
@@ -6213,10 +6203,8 @@ public class OmnitureTracking {
 		int youthCount = getYouthCount(searchTrackingData.getChildren());
 		str += searchTrackingData.getAdults();
 
-		if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)) {
-			str += "|YTH";
-			str += youthCount;
-		}
+		str += "|YTH";
+		str += youthCount;
 
 		int childrenInSeat = searchTrackingData.getChildren().size() - childrenInLap - youthCount;
 
@@ -6253,11 +6241,9 @@ public class OmnitureTracking {
 
 	private static int getYouthCount(List<Integer> children) {
 		int youthCount = 0;
-		if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)) {
-			for (int age : children) {
-				if (age > 11 && age < 18) {
-					++youthCount;
-				}
+		for (int age : children) {
+			if (age > 11 && age < 18) {
+				++youthCount;
 			}
 		}
 		return youthCount;
@@ -6265,11 +6251,9 @@ public class OmnitureTracking {
 
 	private static int getChildCount(List<Integer> children) {
 		int childCount = 0;
-		if (AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)) {
-			for (int age : children) {
-				if (age > 1 && age < 12) {
-					++childCount;
-				}
+		for (int age : children) {
+			if (age > 1 && age < 12) {
+				++childCount;
 			}
 		}
 		return childCount;

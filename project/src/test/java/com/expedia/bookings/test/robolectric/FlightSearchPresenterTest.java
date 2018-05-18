@@ -58,13 +58,11 @@ import com.expedia.bookings.widget.FlightCabinClassWidget;
 import com.expedia.bookings.widget.FlightTravelerPickerView;
 import com.expedia.bookings.widget.FlightTravelerWidgetV2;
 import com.expedia.bookings.widget.TextView;
-import com.expedia.bookings.widget.TravelerPickerView;
 import com.expedia.bookings.widget.TravelerWidgetV2;
 import com.expedia.bookings.widget.flights.DateFormatterTextView;
 import com.expedia.bookings.widget.flights.RecentSearchWidgetContainer;
 import com.expedia.bookings.widget.shared.SearchInputTextView;
 import com.expedia.vm.FlightSearchViewModel;
-import com.expedia.vm.TravelerPickerViewModel;
 import com.expedia.vm.flights.FlightAdvanceSearchViewModel;
 import com.squareup.phrase.Phrase;
 
@@ -170,126 +168,7 @@ public class FlightSearchPresenterTest {
 	}
 
 	@Test
-	public void testTravelerDialogForInfantErrorInLap() {
-		TravelerWidgetV2 travelerCard = (TravelerWidgetV2) widget.findViewById(R.id.traveler_card);
-		TravelerPickerViewModel vm = new TravelerPickerViewModel(activity);
-		travelerCard.performClick();
-		View view = travelerCard.getTravelerDialogView();
-		TravelerPickerView travelerPicker = (TravelerPickerView) view
-			.findViewById(R.id.traveler_view);
-
-		travelerPicker.getAdultPlus().performClick();
-		travelerPicker.getChildPlus().performClick();
-		travelerPicker.getChildPlus().performClick();
-
-		vm.setShowSeatingPreference(true);
-		travelerPicker.getChild1().setSelection(0);
-		travelerPicker.getChild2().setSelection(0);
-		travelerPicker.getInfantPreferenceSeatingSpinner().setSelection(0);
-		assertEquals(View.GONE, travelerPicker.getInfantError().getVisibility());
-
-		travelerPicker.getChildPlus().performClick();
-
-		travelerPicker.getChild3().setSelection(0);
-		travelerPicker.getInfantPreferenceSeatingSpinner().setSelection(0);
-		assertEquals(View.VISIBLE, travelerPicker.getInfantError().getVisibility());
-
-		travelerPicker.getChild3().setSelection(2);
-		travelerPicker.getInfantPreferenceSeatingSpinner().setSelection(0);
-		assertEquals(View.GONE, travelerPicker.getInfantError().getVisibility());
-
-		travelerPicker.getChild3().setSelection(0);
-		travelerPicker.getInfantPreferenceSeatingSpinner().setSelection(1);
-		assertEquals(View.GONE, travelerPicker.getInfantError().getVisibility());
-
-	}
-
-	@Test
-	public void testTravelerDialogForInfantErrorInSeat() {
-		TestObserver tooManyInfantsInLapTestSubscriber = new TestObserver<>();
-		TestObserver tooManyInfantsInSeatTestSubscriber = new TestObserver<>();
-		TravelerWidgetV2 travelerCard = (TravelerWidgetV2) widget.findViewById(R.id.traveler_card);
-		TravelerPickerViewModel vm = new TravelerPickerViewModel(activity);
-		travelerCard.performClick();
-		View view = travelerCard.getTravelerDialogView();
-		TravelerPickerView travelerPicker = (TravelerPickerView) view
-			.findViewById(R.id.traveler_view);
-		travelerPicker.getViewmodel().getTooManyInfantsInLap().subscribe(tooManyInfantsInLapTestSubscriber);
-		travelerPicker.getViewmodel().getTooManyInfantsInSeat().subscribe(tooManyInfantsInSeatTestSubscriber);
-
-		travelerPicker.getChildPlus().performClick();
-		travelerPicker.getChildPlus().performClick();
-
-		vm.setShowSeatingPreference(true);
-		travelerPicker.getChild1().setSelection(0);
-		travelerPicker.getChild2().setSelection(0);
-		travelerPicker.getInfantPreferenceSeatingSpinner().setSelection(1);
-		int noOfEvents = tooManyInfantsInLapTestSubscriber.values().size();
-		assertEquals(tooManyInfantsInLapTestSubscriber.values().get(noOfEvents - 1), false);
-		assertEquals(tooManyInfantsInSeatTestSubscriber.values().get(noOfEvents - 1), false);
-		assertEquals(View.GONE, travelerPicker.getInfantError().getVisibility());
-
-
-		travelerPicker.getChildPlus().performClick();
-
-		travelerPicker.getChild3().setSelection(0);
-		travelerPicker.getInfantPreferenceSeatingSpinner().setSelection(1);
-		assertEquals(View.VISIBLE, travelerPicker.getInfantError().getVisibility());
-		noOfEvents = tooManyInfantsInLapTestSubscriber.values().size();
-		assertEquals(tooManyInfantsInLapTestSubscriber.values().get(noOfEvents - 1), false);
-		assertEquals(tooManyInfantsInSeatTestSubscriber.values().get(noOfEvents - 1), true);
-
-		travelerPicker.getChildPlus().performClick();
-		travelerPicker.getChild4().setSelection(15);
-		travelerPicker.getInfantPreferenceSeatingSpinner().setSelection(1);
-		assertEquals(View.GONE, travelerPicker.getInfantError().getVisibility());
-		noOfEvents = tooManyInfantsInLapTestSubscriber.values().size();
-		assertEquals(tooManyInfantsInLapTestSubscriber.values().get(noOfEvents - 1), false);
-		assertEquals(tooManyInfantsInSeatTestSubscriber.values().get(noOfEvents - 1), false);
-	}
-
-	@Test
-	public void testTravelerDialogInfantInSeatObservable() {
-		TravelerWidgetV2 travelerCard = (TravelerWidgetV2) widget.findViewById(R.id.traveler_card);
-		TravelerPickerViewModel vm = new TravelerPickerViewModel(activity);
-		View view = travelerCard.getTravelerDialogView();
-		TravelerPickerView travelerPicker = (TravelerPickerView) view
-			.findViewById(R.id.traveler_view);
-
-		travelerPicker.setViewmodel(vm);
-		vm.getInfantInSeatObservable().onNext(true);
-		assertEquals(1, travelerPicker.getInfantPreferenceSeatingSpinner().getSelectedItemPosition());
-		vm.getInfantInSeatObservable().onNext(false);
-		assertEquals(0, travelerPicker.getInfantPreferenceSeatingSpinner().getSelectedItemPosition());
-		vm.getInfantInSeatObservable().onNext(true);
-		assertEquals(1, travelerPicker.getInfantPreferenceSeatingSpinner().getSelectedItemPosition());
-	}
-
-	@Test
-	public void testTravelDialogForChildAgeAfterDismiss() {
-		TravelerWidgetV2 travelerCard = (TravelerWidgetV2) widget.findViewById(R.id.traveler_card);
-		travelerCard.performClick();
-		View view = travelerCard.getTravelerDialogView();
-		TravelerPickerView travelerPicker = (TravelerPickerView) view
-			.findViewById(R.id.traveler_view);
-
-		travelerPicker.getChildPlus().performClick();
-
-		travelerPicker.getChild1().setSelection(2);
-		travelerCard.getTravelerDialog().getButton(DialogInterface.BUTTON_POSITIVE).performClick();
-		travelerCard.performClick();
-		assertEquals(2, travelerPicker.getChild1().getSelectedItemPosition());
-
-		travelerPicker.getChild1().setSelection(3);
-		travelerCard.getTravelerDialog().dismiss();
-
-		travelerCard.performClick();
-		assertEquals(2, travelerPicker.getChild1().getSelectedItemPosition());
-	}
-
-	@Test
 	public void testRevampFlightTravelerDialogForInfantErrorInLap() {
-		setUpFlightTravelerRevamp(true);
 		FlightTravelerWidgetV2 travelerCard = (FlightTravelerWidgetV2) widget.findViewById(R.id.traveler_card);
 		travelerCard.performClick();
 		View view = travelerCard.getTravelerDialogView();
@@ -317,12 +196,9 @@ public class FlightSearchPresenterTest {
 		travelerPicker.getInfantCountSelector().getTravelerPlus().performClick();
 		travelerPicker.getInfantInSeat().setChecked(true);
 		assertEquals(View.GONE, travelerPicker.getInfantError().getVisibility());
-		setUpFlightTravelerRevamp(false);
 	}
 
 	public void testRevampFlightTravelerDialogForInfantErrorInSeat() {
-
-		setUpFlightTravelerRevamp(true);
 		TestObserver tooManyInfantsInLapTestSubscriber = new TestObserver<>();
 		TestObserver tooManyInfantsInSeatTestSubscriber = new TestObserver<>();
 		FlightTravelerWidgetV2 travelerCard = (FlightTravelerWidgetV2) widget.findViewById(R.id.traveler_card);
@@ -357,13 +233,10 @@ public class FlightSearchPresenterTest {
 		noOfEvents = tooManyInfantsInLapTestSubscriber.values().size();
 		assertEquals(tooManyInfantsInLapTestSubscriber.values().get(noOfEvents - 1), false);
 		assertEquals(tooManyInfantsInSeatTestSubscriber.values().get(noOfEvents - 1), false);
-		setUpFlightTravelerRevamp(false);
 	}
 
 	@Test
 	public void testRevampFlightTravelDialogForChildAgeAfterDismiss() {
-		setUpFlightTravelerRevamp(true);
-
 		FlightTravelerWidgetV2 travelerCard = (FlightTravelerWidgetV2) widget.getTravelerWidgetV2();
 		travelerCard.performClick();
 		View view = travelerCard.getTravelerDialogView();
@@ -383,7 +256,6 @@ public class FlightSearchPresenterTest {
 
 		travelerCard.performClick();
 		assertEquals("[10, 10]" , travelerPicker.getViewmodel().getTravelerParamsObservable().getValue().getChildrenAges().toString());
-		setUpFlightTravelerRevamp(false);
 	}
 
 
@@ -644,8 +516,9 @@ public class FlightSearchPresenterTest {
 
 		//Abort greedy call when traveler is changed
 		travelerCard.performClick();
-		TravelerPickerView travelerPicker = view.findViewById(R.id.traveler_view);
-		travelerPicker.getAdultPlus().performClick();
+		view = travelerCard.getTravelerDialogView();
+		FlightTravelerPickerView travelerPicker = view.findViewById(R.id.flight_traveler_view);
+		travelerPicker.getAdultCountSelector().getTravelerPlus().performClick();
 		travelerCard.getTravelerDialog().getButton(DialogInterface.BUTTON_POSITIVE).performClick();
 
 		cancelGreedyCallTestSubscriber.assertValueCount(1);
@@ -980,18 +853,6 @@ public class FlightSearchPresenterTest {
 
 	private void setUpForFlightGreedySearch() {
 		AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsGreedySearchCall, 1);
-		Ui.getApplication(activity).defaultFlightComponents();
-		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
-			null);
-	}
-
-	private void setUpFlightTravelerRevamp(boolean isUserBucketed) {
-		if (isUserBucketed) {
-			AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp);
-		}
-		else {
-			AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp);
-		}
 		Ui.getApplication(activity).defaultFlightComponents();
 		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
 			null);

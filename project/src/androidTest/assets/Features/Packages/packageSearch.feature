@@ -168,13 +168,10 @@ Feature: Package Search
     And Validate plus icon for Children is disabled
     Then I increase the adult count
     And Validate plus icon for Adults is disabled
-    And equal number of age pickers are shown
-    And the default age is 10 years
     And I press done
     Then <initialNumber> traveler count is as selected by user
     When I click on guest button
     And Reduce the child count
-    Then corresponding age picker is removed
     When I press done
     Then <laterNumber> traveler count is as selected by user
 
@@ -397,8 +394,6 @@ Feature: Package Search
   @Packages @PackageSearch
   Scenario: UI fields validation for travellers on new revamp Traveler form
     Given I launch the App
-    And I set bucketing rules for A/B tests as
-      | EBAndroidAppFlightTravelerFormRevamp | BUCKETED              |
     And I launch "Bundle Deals" LOB
     When I enter source and destination for packages
       | source              | SFO                                    |

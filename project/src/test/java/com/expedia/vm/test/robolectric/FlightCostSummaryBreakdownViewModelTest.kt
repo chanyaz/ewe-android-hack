@@ -400,7 +400,6 @@ class FlightCostSummaryBreakdownViewModelTest {
         val youthCategory = FlightTripDetails.PassengerCategory.ADULT_CHILD
         val taxesPrice = Money("5.00", "USD")
         val basePrice = Money("50.00", "USD")
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
 
         val list = newTripResponse.details.PricePerPassengerCategory()
         (newTripResponse.details.offer.pricePerPassengerCategory as ArrayList<FlightTripDetails.PricePerPassengerCategory>).add(1, list)

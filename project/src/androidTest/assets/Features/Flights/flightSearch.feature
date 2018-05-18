@@ -172,13 +172,10 @@ Feature: Flights Search
       | end_date   | 10 |
     And I click on guest button
     And I increase the child count to max
-    And equal number of age pickers are shown
-    And the default age is 10 years
     And I press done
     Then <initialNumber> traveler count is as selected by user
     When I click on guest button
     And Reduce the child count
-    Then corresponding age picker is removed
     When I press done
     Then <laterNumber> traveler count is as selected by user
 

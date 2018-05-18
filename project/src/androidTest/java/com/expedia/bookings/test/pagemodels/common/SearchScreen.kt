@@ -2,16 +2,14 @@ package com.expedia.bookings.test.pagemodels.common
 
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.ViewInteraction
+import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.matcher.RootMatchers.withDecorView
 import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.hasDescendant
 import android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
-import android.support.test.espresso.matcher.ViewMatchers.withParent
-import android.support.test.espresso.matcher.ViewMatchers.withClassName
 import android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withText
-import android.support.v7.widget.AppCompatImageButton
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils
@@ -104,68 +102,36 @@ object SearchScreen {
         return onView(withId(R.id.previous_month))
     }
 
-    @JvmStatic
-    fun incrementAdultTravelerButton(): ViewInteraction {
-        return onView(allOf(withParent(withParent(
-                withId(R.id.adult_count_selector))),
-                withClassName(`is`(AppCompatImageButton::class.java.name)),
-                withId(R.id.traveler_plus)))
+    @JvmStatic fun incrementAdultTravelerButton(): ViewInteraction {
+        return onView(allOf(isDescendantOfA(withId(R.id.adult_count_selector)), withId(R.id.traveler_plus))).perform(ViewActions.waitForViewToDisplay(), click())
     }
 
-    @JvmStatic
-    fun incrementYouthTravelerButton(): ViewInteraction {
-        return onView(allOf(withParent(withParent(
-                withId(R.id.youth_count_selector))),
-                withClassName(`is`(AppCompatImageButton::class.java.name)),
-                withId(R.id.traveler_plus)))
+    @JvmStatic fun incrementYouthTravelerButton(): ViewInteraction {
+        return onView(allOf(isDescendantOfA(withId(R.id.youth_count_selector)), withId(R.id.traveler_plus))).perform(ViewActions.waitForViewToDisplay(), click())
     }
 
-    @JvmStatic
-    fun incrementChildTravelerButton(): ViewInteraction {
-        return onView(allOf(withParent(withParent(
-                withId(R.id.child_count_selector))),
-                withClassName(`is`(AppCompatImageButton::class.java.name)),
-                withId(R.id.traveler_plus)))
+    @JvmStatic fun incrementChildTravelerButton(): ViewInteraction {
+        return onView(allOf(isDescendantOfA(withId(R.id.child_count_selector)), withId(R.id.traveler_plus))).perform(ViewActions.waitForViewToDisplay(), click())
     }
 
-    @JvmStatic
-    fun incrementInfantTravelerButton(): ViewInteraction {
-        return onView(allOf(withParent(withParent(
-                withId(R.id.infant_count_selector))),
-                withClassName(`is`(AppCompatImageButton::class.java.name)),
-                withId(R.id.traveler_plus)))
+    @JvmStatic fun incrementInfantTravelerButton(): ViewInteraction {
+        return onView(allOf(isDescendantOfA(withId(R.id.infant_count_selector)), withId(R.id.traveler_plus))).perform(ViewActions.waitForViewToDisplay(), click())
     }
 
-    @JvmStatic
-    fun decrementAdultTravelerButton(): ViewInteraction {
-        return onView(allOf(withParent(withParent(
-                withId(R.id.adult_count_selector))),
-                withClassName(`is`(AppCompatImageButton::class.java.name)),
-                withId(R.id.traveler_minus)))
+    @JvmStatic fun decrementAdultTravelerButton(): ViewInteraction {
+        return onView(allOf(isDescendantOfA(withId(R.id.adult_count_selector)), withId(R.id.traveler_minus))).perform(ViewActions.waitForViewToDisplay(), click())
     }
 
-    @JvmStatic
-    fun decrementYouthTravelerButton(): ViewInteraction {
-        return onView(allOf(withParent(withParent(
-                withId(R.id.youth_count_selector))),
-                withClassName(`is`(AppCompatImageButton::class.java.name)),
-                withId(R.id.traveler_minus)))
+    @JvmStatic fun decrementYouthTravelerButton(): ViewInteraction {
+        return onView(allOf(isDescendantOfA(withId(R.id.youth_count_selector)), withId(R.id.traveler_minus))).perform(ViewActions.waitForViewToDisplay(), click())
     }
 
-    @JvmStatic
-    fun decrementChildTravelerButton(): ViewInteraction {
-        return onView(allOf(withParent(withParent(
-                withId(R.id.child_count_selector))),
-                withClassName(`is`(AppCompatImageButton::class.java.name)),
-                withId(R.id.traveler_minus)))
+    @JvmStatic fun decrementChildTravelerButton(): ViewInteraction {
+        return onView(allOf(isDescendantOfA(withId(R.id.child_count_selector)), withId(R.id.traveler_minus))).perform(ViewActions.waitForViewToDisplay(), click())
     }
 
-    @JvmStatic
-    fun decrementInfantTravelerButton(): ViewInteraction {
-        return onView(allOf(withParent(withParent(
-                withId(R.id.infant_count_selector))),
-                withClassName(`is`(AppCompatImageButton::class.java.name)),
-                withId(R.id.traveler_minus)))
+    @JvmStatic fun decrementInfantTravelerButton(): ViewInteraction {
+        return onView(allOf(isDescendantOfA(withId(R.id.infant_count_selector)), withId(R.id.traveler_minus))).perform(ViewActions.waitForViewToDisplay(), click())
     }
 
     @JvmStatic fun childAgeDropDown(childNumber: Int): ViewInteraction? {

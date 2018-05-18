@@ -4,11 +4,9 @@ import android.app.Activity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.vm.traveler.TravelerTSAViewModel
@@ -34,8 +32,6 @@ class TravelerTSAViewModelTest {
     var traveler = Traveler()
 
     val TEST_INFANT_ERROR = "This traveler must be under the age of 24 months for the entire trip to travel as an infant"
-    val TEST_CHILD_ERROR = "This traveler must be under the age of 12 for the entire trip to travel as a child"
-    val TEST_ADULT_CHILD_ERROR = "This traveler must be between 12 and 17 years old at the time of the trip"
     val TEST_ADULT_ERROR = "This traveler must be 18 years or older"
     val TEST_ADULT_CHILD_ERROR_V2 = "This traveler must be between the ages of 12 and 17 for the entire trip to travel as a youth"
     val TEST_CHILD_ERROR_V2 = "This traveler must be between the ages of 2 and 11 for the entire trip to travel as a child"
@@ -51,7 +47,6 @@ class TravelerTSAViewModelTest {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         Ui.getApplication(activity).defaultTravelerComponent()
         travelerValidator = Ui.getApplication(activity).travelerComponent().travelerValidator()
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
     }
 
     @Test
@@ -97,32 +92,6 @@ class TravelerTSAViewModelTest {
         tsaVM.dateOfBirthViewModel.dateOfBirthObserver.onNext(LocalDate.now().minusYears(10))
 
         assertEquals(TEST_INFANT_ERROR, testErrorTextSubscriber.values()[0])
-        assertTrue(testBirthDateErrorSubscriber.values()[0], "Expected Error State to be triggered")
-    }
-
-    @Test
-    fun testChildBirthDateError() {
-        setupDefaultTestModel()
-        tsaVM.dateOfBirthViewModel.birthErrorTextSubject.subscribe(testErrorTextSubscriber)
-        tsaVM.dateOfBirthViewModel.errorSubject.subscribe(testBirthDateErrorSubscriber)
-
-        setAgeEnteredAtSearch(5, PassengerCategory.CHILD)
-        tsaVM.dateOfBirthViewModel.dateOfBirthObserver.onNext(LocalDate.now().minusYears(13))
-
-        assertEquals(TEST_CHILD_ERROR, testErrorTextSubscriber.values()[0])
-        assertTrue(testBirthDateErrorSubscriber.values()[0], "Expected Error State to be triggered")
-    }
-
-    @Test
-    fun testYouthBirthDateError() {
-        setupDefaultTestModel()
-        tsaVM.dateOfBirthViewModel.birthErrorTextSubject.subscribe(testErrorTextSubscriber)
-        tsaVM.dateOfBirthViewModel.errorSubject.subscribe(testBirthDateErrorSubscriber)
-
-        setAgeEnteredAtSearch(12, PassengerCategory.ADULT_CHILD)
-        tsaVM.dateOfBirthViewModel.dateOfBirthObserver.onNext(LocalDate.now().minusYears(10))
-
-        assertEquals(TEST_ADULT_CHILD_ERROR, testErrorTextSubscriber.values()[0])
         assertTrue(testBirthDateErrorSubscriber.values()[0], "Expected Error State to be triggered")
     }
 
@@ -212,7 +181,6 @@ class TravelerTSAViewModelTest {
     }
 
     private fun setupBucketedTestModel() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
         setSearchParams()
         tsaVM = TravelerTSAViewModel(traveler, activity.applicationContext)
     }

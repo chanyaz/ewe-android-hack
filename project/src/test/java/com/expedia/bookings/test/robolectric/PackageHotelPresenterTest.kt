@@ -55,7 +55,6 @@ class PackageHotelPresenterTest {
 
     @Test
     fun testPackageSearchParamsTracked() {
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
         hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
 
         widget = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_presenter,
@@ -67,14 +66,13 @@ class PackageHotelPresenterTest {
         widget.trackEventSubject.onNext(Unit)
 
         val expectedEvars = mapOf(
-                47 to "PKG|1R|RT|A1|C3|L1|E"
+                47 to "PKG|1R|RT|A1|C1|YTH1|IL1|IS0|E"
         )
         OmnitureTestUtils.assertStateTracked(withEvars(expectedEvars), mockAnalyticsProvider)
     }
 
     @Test
     fun testPackageSearchParamsTrackedWithNewTravelerForm() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
         hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
 
         widget = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_presenter,

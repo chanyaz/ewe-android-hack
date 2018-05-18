@@ -114,17 +114,17 @@ public class SearchScreenSteps {
 
 	@And("^Validate plus icon for Adults is disabled$")
 	public void validateAdultsPlusIconDisabled() throws Throwable {
-		onView(withId(R.id.adults_plus)).check(matches(not(isEnabled())));
+		onView(allOf(isDescendantOfA(withId(R.id.adult_count_selector)), withId(R.id.traveler_plus))).check(matches(not(isEnabled())));
 	}
 
 	@And("^Validate plus icon for Children is disabled$")
 	public void validateChildrenPlusIconDisabled() throws Throwable {
-		onView(withId(R.id.children_plus)).check(matches(not(isEnabled())));
+		onView(allOf(isDescendantOfA(withId(R.id.child_count_selector)), withId(R.id.traveler_plus))).check(matches(not(isEnabled())));
 	}
 
 	@Then("^I increase the adult count$")
 	public void incrementAdultCount() throws Throwable {
-		onView(withId(R.id.adults_plus)).perform(click());
+		SearchScreen.incrementAdultTravelerButton();
 	}
 	@And("^I make a packages search with following parameters$")
 	public void packagesSearchCall(Map<String, String> parameters) throws Throwable {
@@ -275,10 +275,10 @@ public class SearchScreenSteps {
 		int child = Integer.parseInt(parameters.get("child"));
 		SearchScreen.selectGuestsButton().perform(click());
 		for (int i = 1; i < adult; i++) {
-			SearchScreenActions.clickIncrementAdultsButton();
+			SearchScreen.incrementAdultTravelerButton();
 		}
 		for (int i = 0; i < child; i++) {
-			SearchScreenActions.clickIncrementChildButton();
+			SearchScreen.incrementChildTravelerButton();
 		}
 		SearchScreen.searchAlertDialogDone().perform(click());
 	}

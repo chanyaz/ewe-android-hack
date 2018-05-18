@@ -45,7 +45,7 @@ class TravelerSelectItemTest {
         mockTravelerProvider.updateDBWithMockTravelers(1, Traveler())
         travelerSelectItemViewModel.refreshStatusObservable.onNext(Unit)
 
-        assertEquals("Edit Traveler 1 (Adult) Button", travelerSelectItem.contentDescription)
+        assertEquals("Traveler 1 (Adult 18+) Button", travelerSelectItem.contentDescription)
     }
 
     @Test

@@ -47,11 +47,7 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
 
     val travelerFlightCardViewStub: ViewStub by bindView(R.id.traveler_flight_stub)
     override val travelerWidgetV2: TravelerWidgetV2 by lazy {
-        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)) {
-            travelerFlightCardViewStub.inflate().findViewById<TravelerWidgetV2>(R.id.traveler_card)
-        } else {
-            travelerCardViewStub.inflate().findViewById<TravelerWidgetV2>(R.id.traveler_card)
-        }
+        travelerFlightCardViewStub.inflate().findViewById<TravelerWidgetV2>(R.id.traveler_card)
     }
 
     private var originSuggestionAdapter: BaseSuggestionAdapter by Delegates.notNull()

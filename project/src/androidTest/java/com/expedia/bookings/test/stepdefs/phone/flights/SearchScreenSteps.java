@@ -133,9 +133,9 @@ public class SearchScreenSteps {
 	public void changeTravellersCount() throws Throwable {
 		SearchScreen.selectGuestsButton().perform(click());
 		SearchScreen.searchAlertDialogDone().perform(waitForViewToDisplay());
-		SearchScreenActions.clickIncrementAdultsButton();
-		SearchScreenActions.clickIncrementAdultsButton();
-		SearchScreenActions.clickIncrementChildButton();
+		SearchScreen.incrementAdultTravelerButton();
+		SearchScreen.incrementAdultTravelerButton();
+		SearchScreen.incrementChildTravelerButton();
 		SearchScreen.searchAlertDialogDone().perform(click());
 	}
 
@@ -224,10 +224,10 @@ public class SearchScreenSteps {
 		SearchScreen.selectGuestsButton().perform(click());
 
 		for (int i = 1; i < adult; i++) {
-			SearchScreenActions.clickIncrementAdultsButton();
+			SearchScreen.incrementAdultTravelerButton();
 		}
 		for (int i = 0; i < child; i++) {
-			SearchScreenActions.clickIncrementChildButton();
+			SearchScreen.incrementChildTravelerButton();
 		}
 		SearchScreen.searchAlertDialogDone().perform(click());
 	}

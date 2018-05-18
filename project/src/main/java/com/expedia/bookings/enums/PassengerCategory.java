@@ -8,8 +8,6 @@ import android.util.Pair;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightSearchParams;
-import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 
 public enum PassengerCategory {
@@ -17,57 +15,47 @@ public enum PassengerCategory {
 			GuestsPickerUtils.MAX_ADULT_AGE,
 			R.string.flight_checkout_adult_age_label,
 			R.string.ticket_type_adult,
-			R.string.traveler_adult_error,
 			R.string.traveler_adult_error),
 		SENIOR(GuestsPickerUtils.MIN_ADULT_PC_AGE,
 			GuestsPickerUtils.MAX_ADULT_AGE,
 			R.string.flight_checkout_adult_age_label,
 			R.string.ticket_type_adult,
-			R.string.traveler_adult_error,
 			R.string.traveler_adult_error),
 		ADULT_CHILD(GuestsPickerUtils.MIN_ADULT_CHILD_PC_AGE,
 			GuestsPickerUtils.MIN_ADULT_PC_AGE,
 			R.string.flight_checkout_youth_age_label,
 			R.string.ticket_type_youth,
-			R.string.traveler_adult_child_error,
 			R.string.traveler_youth_error_message),
 		CHILD(GuestsPickerUtils.MIN_CHILD_PC_AGE,
 			GuestsPickerUtils.MIN_ADULT_CHILD_PC_AGE,
 			R.string.flight_checkout_children_age_label,
 			R.string.ticket_type_child,
-			R.string.traveler_child_error,
 			R.string.traveler_child_error_message),
 		INFANT_IN_SEAT(GuestsPickerUtils.MIN_RAIL_CHILD_AGE,
 			GuestsPickerUtils.MIN_CHILD_PC_AGE,
 			R.string.flight_checkout_infant_age_label,
 			R.string.ticket_type_infant,
-			R.string.traveler_infant_error,
 			R.string.traveler_infant_error),
 		INFANT_IN_LAP(GuestsPickerUtils.MIN_RAIL_CHILD_AGE,
 			GuestsPickerUtils.MIN_CHILD_PC_AGE,
 			R.string.flight_checkout_infant_age_label,
 			R.string.ticket_type_infant,
-			R.string.traveler_infant_error,
 			R.string.traveler_infant_error);
 
 
 	private Pair<Integer, Integer> ageRange;
-	private int controlErrorString;
 	private int bucketedCategoryString;
 	private int bucketedAgeString;
-	private int bucketedErrorString;
+	private int errorString;
 
-	PassengerCategory(Integer minimumAge, Integer maximumAge, int ageString, int categoryString, int controlErrorString, int bucketedErrorString) {
+	PassengerCategory(Integer minimumAge, Integer maximumAge, int ageString, int categoryString, int errorString) {
 		this.ageRange = new Pair<>(minimumAge, maximumAge);
 		this.bucketedAgeString = ageString;
 		this.bucketedCategoryString = categoryString;
-		this.controlErrorString = controlErrorString;
-		this.bucketedErrorString = bucketedErrorString;
+		this.errorString = errorString;
 	}
 
 	public String getErrorString(Context context) {
-		boolean isBucketed = AbacusFeatureConfigManager.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp);
-		int errorString = isBucketed ? bucketedErrorString : controlErrorString;
 		return context.getString(errorString);
 	}
 

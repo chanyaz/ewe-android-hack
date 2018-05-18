@@ -587,10 +587,6 @@
     <string name="traveler_age_title">Traveler Age</string>
     <!-- Text for traveler infant error-->
     <string name="traveler_infant_error">This traveler must be under the age of 24 months for the entire trip to travel as an infant</string>
-    <!-- Text for traveler child error-->
-    <string name="traveler_child_error">This traveler must be under the age of 12 for the entire trip to travel as a child</string>
-    <!-- Text for traveler adult child error-->
-    <string name="traveler_adult_child_error">This traveler must be between 12 and 17 years old at the time of the trip</string>
     <!-- Text for traveler adult error-->
     <string name="traveler_adult_error">This traveler must be 18 years or older</string>
     <!-- Text for traveler child error displayed in alert dialog message-->

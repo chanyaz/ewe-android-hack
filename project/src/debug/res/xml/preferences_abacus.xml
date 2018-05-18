@@ -270,14 +270,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="14647"
-            android:summary="%s"
-            android:title="Revamp Traveler form for Flight search - 14647" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
             android:key="16366"
             android:summary="%s"
             android:title="Show Search Suggestion label - 16366" />

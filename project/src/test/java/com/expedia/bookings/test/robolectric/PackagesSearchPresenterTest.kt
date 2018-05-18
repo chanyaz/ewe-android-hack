@@ -9,9 +9,7 @@ import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.packages.presenter.PackageSearchPresenter
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.FlightTravelerPickerView
 import org.junit.Before
@@ -41,8 +39,6 @@ class PackagesSearchPresenterTest {
 
     @Test
     fun testNewTravelerPickerSelectionOperations() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
-
         val travelerCard = widget.travelerWidgetV2
         travelerCard.performClick()
         val view = travelerCard.travelerDialogView
@@ -71,8 +67,6 @@ class PackagesSearchPresenterTest {
 
     @Test
     fun testNewTravelerPickerWidgetItemsVisiblity() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
-
         val travelerCard = widget.travelerWidgetV2
         travelerCard.performClick()
         val view = travelerCard.travelerDialogView
@@ -90,7 +84,6 @@ class PackagesSearchPresenterTest {
 
     @Test
     fun testTravelerFormSelectionsTracked() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTravelerFormRevamp)
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
 
         val travelerCard = widget.travelerWidgetV2

@@ -43,7 +43,6 @@ import com.expedia.bookings.utils.setContentDescriptionToolbarTabs
 import com.expedia.bookings.widget.FlightAdvanceSearchWidget
 import com.expedia.bookings.widget.FlightCabinClassWidget
 import com.expedia.bookings.widget.FlightTravelerWidgetV2
-import com.expedia.bookings.widget.TravelerWidgetV2
 import com.expedia.bookings.widget.flights.RecentSearchWidgetContainer
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.FlightSuggestionAdapterViewModel
@@ -88,9 +87,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
 
     val travelerFlightCardViewStub: ViewStub by bindView(R.id.traveler_flight_stub)
     override val travelerWidgetV2 by lazy {
-        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightTravelerFormRevamp))
-            travelerFlightCardViewStub.inflate().findViewById<FlightTravelerWidgetV2>(R.id.traveler_card)
-        else travelerCardViewStub.inflate().findViewById<TravelerWidgetV2>(R.id.traveler_card)
+        travelerFlightCardViewStub.inflate().findViewById<FlightTravelerWidgetV2>(R.id.traveler_card)
     }
     val isShowSuggestionLabelTestEnabled: Boolean = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSearchSuggestionLabel)
 
