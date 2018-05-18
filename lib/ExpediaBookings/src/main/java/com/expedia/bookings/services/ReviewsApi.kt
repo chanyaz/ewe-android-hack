@@ -17,7 +17,8 @@ interface ReviewsApi {
                      @Query("sortBy") sort: String,
                      @Query("start") start: Int,
                      @Query("items") items: Int,
-                     @Query("locale") locale: String): Observable<HotelReviewsResponse>
+                     @Query("locale") locale: String,
+                     @Query("searchTerm") searchTerm: String?): Observable<HotelReviewsResponse>
 
     @GET("/api/hotelreviews/hotel/{hotelId}/summary")
     @Headers("Cache-Control: no-cache")

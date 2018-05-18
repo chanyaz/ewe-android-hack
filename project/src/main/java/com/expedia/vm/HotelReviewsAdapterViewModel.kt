@@ -14,7 +14,7 @@ import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.PublishSubject
 import java.util.Locale
 
-class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: ReviewsServices, val locale: String) {
+class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: ReviewsServices, val locale: String, val searchTerm: String? = null) {
 
     private val reviewsPageNumber = IntArray(3)
 
@@ -50,6 +50,7 @@ class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: Rev
                 .numReviewsPerPage(PAGE_SIZE)
                 .sortBy(reviewSort.sortByApiParam)
                 .languageSort(locale)
+                .searchTerm(searchTerm)
                 .build()
 
         reviewsDownloadsObservable.onNext(reviewsServices.reviews(params).map { Pair(reviewSort, it) })

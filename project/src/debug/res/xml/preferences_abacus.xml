@@ -164,6 +164,14 @@
             android:summary="%s"
             android:title="Hotel Review 'Select A Room' CTA - 25777" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="25501"
+            android:summary="%s"
+            android:title="Search on UGC for keywords - 25501" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

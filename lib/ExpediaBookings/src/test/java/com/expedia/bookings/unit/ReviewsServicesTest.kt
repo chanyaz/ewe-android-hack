@@ -1,5 +1,7 @@
 package com.expedia.bookings.unit
 
+import com.expedia.bookings.data.hotels.HotelReviewsParams
+import com.expedia.bookings.data.hotels.HotelReviewsResponse
 import com.expedia.bookings.data.hotels.HotelReviewsSummaryResponse
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.ReviewsServices
@@ -16,6 +18,7 @@ import java.io.File
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
 
 class ReviewsServicesTest {
@@ -52,5 +55,79 @@ class ReviewsServicesTest {
 
         val reviewSummary = response.reviewSummaryCollection.reviewSummary[0]
         assertEquals("565746", reviewSummary.hotelId)
+    }
+
+    @Test
+    fun testReviewsSearchHappy() {
+        val testObserver = TestObserver<HotelReviewsResponse>()
+        var reviewsParams = HotelReviewsParams("11544584", "RATINGDESC", 20, 100, "", "PrivateBank")
+        service.reviewsSearch(reviewsParams).subscribe(testObserver)
+
+        testObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
+        testObserver.assertNoErrors()
+        testObserver.assertComplete()
+        testObserver.assertValueCount(1)
+
+        //Expecting happy-search.json
+        val response: HotelReviewsResponse = testObserver.values()[0]
+        assertNotNull(response)
+        assertEquals(2, response.reviewDetails.reviewCollection.review.size)
+
+        val reviewSearchResult = response.reviewDetails.reviewCollection.review[0]
+        assertEquals("11544584", reviewSearchResult.hotelId)
+    }
+
+    @Test
+    fun testReviewsSearchUnHappyEmptyResult() {
+        val testObserver = TestObserver<HotelReviewsResponse>()
+        var reviewsParams = HotelReviewsParams("11544584", "RATINGDESC", 20, 100, "", "xyz")
+        service.reviewsSearch(reviewsParams).subscribe(testObserver)
+
+        testObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
+        testObserver.assertNoErrors()
+        testObserver.assertComplete()
+        testObserver.assertValueCount(1)
+
+        //Expecting unhappy-search.json
+        val response: HotelReviewsResponse = testObserver.values()[0]
+        assertNotNull(response)
+        assertEquals(0, response.reviewDetails.reviewCollection.review.size)
+    }
+
+    @Test
+    fun testReviewsSearchUnHappyEmptyKeywordAndEmptyResult() {
+        val testObserver = TestObserver<HotelReviewsResponse>()
+        var reviewsParams = HotelReviewsParams("11544584", "RATINGDESC", 20, 100, "", "")
+        service.reviewsSearch(reviewsParams).subscribe(testObserver)
+
+        testObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
+        testObserver.assertNoErrors()
+        testObserver.assertComplete()
+        testObserver.assertValueCount(1)
+
+        //Expecting unhappy-search.json
+        val response: HotelReviewsResponse = testObserver.values()[0]
+        assertNotNull(response)
+        assertEquals(0, response.reviewDetails.reviewCollection.review.size)
+    }
+
+    @Test
+    fun testReviewsSearchUnHappySearchTermIsNull() {
+        val testObserver = TestObserver<HotelReviewsResponse>()
+        var reviewsParams = HotelReviewsParams("11544584", "RATINGDESC", 20, 100, "", null)
+        service.reviewsSearch(reviewsParams).subscribe(testObserver)
+
+        testObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
+        testObserver.assertNoErrors()
+        testObserver.assertComplete()
+        testObserver.assertValueCount(1)
+
+        //Expecting happy.json from non keyword search review service
+        val response: HotelReviewsResponse = testObserver.values()[0]
+        assertNotNull(response)
+        assertEquals(20, response.reviewDetails.reviewCollection.review.size)
+        val review = response.reviewDetails.reviewCollection.review[0]
+        assertNotEquals("11544584", review.hotelId)
+        assertEquals("26500", review.hotelId)
     }
 }

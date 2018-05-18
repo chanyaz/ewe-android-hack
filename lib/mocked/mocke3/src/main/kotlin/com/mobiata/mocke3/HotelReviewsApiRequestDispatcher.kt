@@ -18,6 +18,11 @@ class HotelReviewsApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatc
                 return getMockResponse("api/hotelreviews/hotel/$fileName.json")
             }
 
+            HotelReviewsApiRequestMatcher.isHotelReviewsSearchRequest(urlPath) -> {
+                val fileName = if (urlPath.contains("PrivateBank")) "happy-search" else "unhappy-search"
+                return getMockResponse("api/hotelreviews/hotel/$fileName.json")
+            }
+
             HotelReviewsApiRequestMatcher.isHotelReviewsDetailsRequest(urlPath) -> {
                 return getMockResponse("api/hotelreviews/hotel/happy.json")
             }
@@ -39,6 +44,8 @@ class HotelReviewsApiRequestMatcher {
         fun isHotelReviewsRequest(path: String): Boolean = path.startsWith("/api/hotelreview")
 
         fun isHotelReviewsSummaryRequest(path: String): Boolean = path.startsWith("/api/hotelreviews") && path.contains("summary")
+
+        fun isHotelReviewsSearchRequest(path: String): Boolean = path.startsWith("/api/hotelreviews") && path.contains("searchTerm")
 
         fun isHotelReviewsDetailsRequest(path: String): Boolean = path.startsWith("/api/hotelreviews")
 
