@@ -10,26 +10,25 @@ import org.junit.runner.RunWith;
 import org.robolectric.RuntimeEnvironment;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.text.SpannableStringBuilder;
 import android.text.style.BulletSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
+import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.GaiaSuggestion.LocalizedName;
 import com.expedia.bookings.data.SuggestionV4;
-import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.MultiBrand;
 import com.expedia.bookings.test.RunForBrands;
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
-import com.expedia.bookings.utils.LegalClickableSpan;
-import com.expedia.bookings.utils.StrUtils;
-import com.expedia.bookings.utils.SuggestionStrUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Waypoint;
@@ -123,6 +122,52 @@ public class StrUtilsTest {
 
 		String expectedText = getLoyaltyLegalText();
 		assertEquals(expectedText, legalText.toString());
+	}
+
+	@Test
+	@RunForBrands(brands = { MultiBrand.EXPEDIA })
+	public void newAccountCreationTermsText_textIsCorrect() {
+		String expected = "By creating an account, I accept the Expedia Rewards Terms and Conditions, and have read and accept the Terms of Use and the Privacy Policy.";
+		assertEquals(expected, StrUtils.generateNewTermsRewardLegalLink(getContext()).toString());
+	}
+
+	@Test
+	@RunForBrands(brands = { MultiBrand.EXPEDIA })
+	public void newAccountCreationTermsText_linksAreCorrect() {
+		SpannableStringBuilder termsText = StrUtils.generateNewTermsRewardLegalLink(getContext());
+
+		assertTextIsLinkedToUrl(termsText, "Terms and Conditions",
+			"https://www.expedia.com/loyaltyrewards/pages/info-rewards/expediarewards/terms.htm");
+		assertTextIsLinkedToUrl(termsText, "Terms of Use", "https://www.expedia.com/p/info-other/legal.htm");
+		assertTextIsLinkedToUrl(termsText, "Privacy Policy", "https://www.expedia.com/p/info-other/privacy-policy.htm");
+	}
+
+	private void assertTextIsLinkedToUrl(SpannableStringBuilder termsText, String substring, String expectedUrl) {
+		int substringStart = termsText.toString().indexOf(substring);
+		int substringEnd = substringStart + substring.length();
+		LegalClickableSpan[] spans = termsText.getSpans(substringStart, substringEnd, LegalClickableSpan.class);
+
+		assertEquals(1, spans.length);
+		assertEquals(expectedUrl, spans[0].getURL());
+	}
+
+	@Test
+	@RunForBrands(brands = { MultiBrand.EXPEDIA })
+	public void newAccountCreationTermsText_linksAreBold() {
+		SpannableStringBuilder termsText = StrUtils.generateNewTermsRewardLegalLink(getContext());
+
+		assertTextIsBold(termsText, "Terms and Conditions");
+		assertTextIsBold(termsText, "Terms of Use");
+		assertTextIsBold(termsText, "Privacy Policy");
+	}
+
+	private void assertTextIsBold(SpannableStringBuilder termsText, String boldedText) {
+		int substringStart = termsText.toString().indexOf(boldedText);
+		int substringEnd = substringStart + boldedText.length();
+		StyleSpan[] spans = termsText.getSpans(substringStart, substringEnd, StyleSpan.class);
+
+		assertEquals(1, spans.length);
+		assertEquals(Typeface.BOLD, spans[0].getStyle());
 	}
 
 	@Test

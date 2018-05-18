@@ -629,21 +629,15 @@ public class StrUtils {
 	public static SpannableStringBuilder generateNewTermsRewardLegalLink(Context context) {
 		SpannableStringBuilder legalTextSpan = new SpannableStringBuilder();
 
-		String spannedTermsAndConditions = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
-				PointOfSale.getPointOfSale().getLoyaltyTermsAndConditionsUrl(),
-				context.getResources().getString(R.string.info_label_terms_conditions));
-		String spannedTerms = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
-				getAppropriateTermsAndConditionsUrl(),
-				context.getResources().getString(R.string.info_label_terms_of_use));
-		String spannedPrivacy = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
-				PointOfSale.getPointOfSale().getPrivacyPolicyUrl(),
-				context.getResources().getString(R.string.privacy_policy));
+		String termsAndConditionsUrl = PointOfSale.getPointOfSale().getLoyaltyTermsAndConditionsUrl();
+		String termsOfUseUrl = getAppropriateTermsAndConditionsUrl();
+		String privacyPolicyUrl = PointOfSale.getPointOfSale().getPrivacyPolicyUrl();
 
 		legalTextSpan.append(HtmlCompat.fromHtml(Phrase.from(context.getResources(), R.string.account_creation_new_terms_reward_TEMPLATE)
-				.put("privacy_policy", spannedPrivacy)
-				.put("terms_of_use", spannedTerms)
+				.put("privacy_policy_url", privacyPolicyUrl)
+				.put("terms_of_use_url", termsOfUseUrl)
 				.putOptional("brand_reward_name", context.getString(R.string.brand_reward_name))
-				.put("terms_and_conditions", spannedTermsAndConditions)
+				.put("terms_and_conditions_url", termsAndConditionsUrl)
 				.format().toString()));
 		URLSpan[] spans = legalTextSpan.getSpans(0, legalTextSpan.length(), URLSpan.class);
 
