@@ -122,6 +122,7 @@ class HotelMapView(context: Context, attrs: AttributeSet) : RelativeLayout(conte
         googleMap?.uiSettings?.isTiltGesturesEnabled = false
         googleMap?.uiSettings?.isMapToolbarEnabled = false
         googleMap?.uiSettings?.isZoomControlsEnabled = false
+        googleMap?.uiSettings?.isMyLocationButtonEnabled = false
         googleMap?.mapType = GoogleMap.MAP_TYPE_NONE
         googleMap?.isMyLocationEnabled = havePermissionToAccessLocation(context)
         mapReady = true
