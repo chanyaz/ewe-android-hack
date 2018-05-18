@@ -8,10 +8,8 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TravelerParams
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.travelgraph.SearchInfo
 import com.expedia.bookings.extensions.setAccessibilityHoverFocus
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.tracking.SuggestionTrackingData
 import com.expedia.bookings.hotel.widget.adapter.HotelSuggestionAdapter
 import com.expedia.bookings.location.CurrentLocationObservable
@@ -193,14 +191,9 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
     }
 
     private fun fetchUserSearchHistory() {
-        if (isUserSearchHistoryEnabled()) {
-            suggestionViewModel.setUserSearchHistory(emptyList())
-            travelGraphViewModel.fetchUserHistory()
-        }
+        suggestionViewModel.setUserSearchHistory(emptyList())
+        travelGraphViewModel.fetchUserHistory()
     }
-
-    private fun isUserSearchHistoryEnabled(): Boolean =
-            AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelRecentSearch)
 
     private fun updateDestinationText(locationText: String) {
         destinationCardView.setText(locationText)

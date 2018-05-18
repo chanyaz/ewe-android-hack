@@ -486,7 +486,6 @@ public class OmnitureTracking {
 			s.appendEvents("event118");
 		}
 
-		trackAbacusTest(s, AbacusUtils.HotelRecentSearch);
 		// Send the tracking data
 		s.track();
 	}
