@@ -11,7 +11,6 @@ import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
-import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.FlightSearchViewModel
 import com.expedia.vm.flights.AdvanceSearchFilter
@@ -379,27 +378,6 @@ class FlightSearchViewModelTest {
         sut.isRoundTripSearchObservable.onNext(true)
         sut.performSearchObserver.onNext(Unit)
         assertEquals(sut.searchParamsObservable.value.legNo, 0)
-    }
-
-    @Test
-    fun testFLightCachedParams() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsSearchResultCaching)
-        givenMockServer()
-        givenDefaultTravelerComponent()
-        createSystemUnderTest()
-        givenParamsHaveDestination()
-        givenParamsHaveOrigin()
-        givenValidStartAndEndDates()
-        givenCabinClass("COACH")
-        val testSubscriber = TestObserver<FlightSearchParams>()
-        sut.cachedSearchParamsObservable.subscribe(testSubscriber)
-
-        sut.performSearchObserver.onNext(Unit)
-        testSubscriber.assertValueCount(1)
-        val cachedSearchParams = testSubscriber.values()[0]
-        assertEquals("LHR", cachedSearchParams.destination!!.hierarchyInfo!!.airport!!.airportCode)
-        assertEquals("SFO", cachedSearchParams.origin!!.hierarchyInfo!!.airport!!.airportCode)
-        assertTrue(cachedSearchParams.featureOverride!!.contains(Constants.FEATURE_FLIGHT_CACHE))
     }
 
     @Test

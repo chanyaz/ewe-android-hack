@@ -18,7 +18,6 @@ import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.isFlightGreedySearchEnabled
-import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.bookings.tracking.ApiCallFailing
 import com.expedia.bookings.utils.Constants
 import io.reactivex.Observer
@@ -50,23 +49,17 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     val obFeeDetailsUrlObservable = BehaviorSubject.create<String>()
     val cancelOutboundSearchObservable = PublishSubject.create<Unit>()
     val cancelInboundSearchObservable = PublishSubject.create<Unit>()
-    val cancelCachedSearchObservable = PublishSubject.create<Unit>()
     val cancelGreedySearchObservable = PublishSubject.create<Unit>()
-    val cancelGreedyCachedSearchObservable = PublishSubject.create<Unit>()
     val retrySearchObservable = PublishSubject.create<Unit>()
     val ticketsLeftObservable = PublishSubject.create<Int>()
 
-    val isCachedCallCompleted = PublishSubject.create<Boolean>()
     val isRoundTripSearchSubject = BehaviorSubject.create<Boolean>()
     val flightCabinClassSubject = BehaviorSubject.create<String>()
     val nonStopSearchFilterAppliedSubject = BehaviorSubject.create<Boolean>()
     val greedyOutboundResultsObservable = PublishSubject.create<List<FlightLeg>>()
     val hasUserClickedSearchObservable = PublishSubject.create<Boolean>()
     val greedyFlightSearchObservable = PublishSubject.create<FlightSearchParams>()
-    val greedyCachedFlightSearchObservable = PublishSubject.create<FlightSearchParams>()
     val refundableFilterAppliedSearchSubject = BehaviorSubject.create<Boolean>()
-    val cachedFlightSearchObservable = PublishSubject.create<FlightSearchParams>()
-    val cachedSearchTrackingString = PublishSubject.create<String>()
     val mayChargePaymentFeesSubject = PublishSubject.create<Boolean>()
 
     var isOutboundSearch = true
@@ -81,9 +74,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
 
     protected var flightOutboundSearchSubscription: Disposable? = null
     protected var flightInboundSearchSubscription: Disposable? = null
-    protected var flightCacheSearchSubscription: Disposable? = null
     protected var flightGreedySearchSubscription: Disposable? = null
-    protected var flightGreedyCacheSearchSubscription: Disposable? = null
 
     init {
         searchParamsObservable.subscribe { params ->
@@ -103,55 +94,24 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
             }
         }
 
-        cachedFlightSearchObservable.subscribe { params ->
-            isCachedCallCompleted.onNext(false)
-            if (!isFlightGreedySearchEnabled(context) || isGreedyCallAborted) {
-                flightCacheSearchSubscription = flightServices.cachedFlightSearch(params, makeResultsObserver(), resultsReceivedDateTimeObservable)
-                showDebugToast("Normal Cache Search call is triggerred")
-            }
-        }
-
         if (isFlightGreedySearchEnabled(context)) {
             greedyFlightSearchObservable.subscribe { params ->
                 flightGreedySearchSubscription = flightServices.greedyFlightSearch(params, makeResultsObserver(), resultsReceivedDateTimeObservable)
                 showDebugToast("Greedy call is triggerred")
             }
 
-            greedyCachedFlightSearchObservable.subscribe { params ->
-                isCachedCallCompleted.onNext(false)
-                flightGreedyCacheSearchSubscription = flightServices.greedyCachedFlightSearch(params, makeResultsObserver(), resultsReceivedDateTimeObservable)
-                showDebugToast("Greedy Cache call is triggerred")
-            }
-
             cancelGreedySearchObservable.subscribe {
                 flightGreedySearchSubscription?.dispose()
             }
-            cancelGreedyCachedSearchObservable.withLatestFrom(isCachedCallCompleted, { _, cachedCallCompleted -> cachedCallCompleted })
-                    .subscribe {
-                        flightGreedyCacheSearchSubscription?.dispose()
-                        if (!it) {
-                            cachedSearchTrackingString.onNext("CL")
-                        }
-                    }
         }
 
         cancelOutboundSearchObservable.subscribe {
             flightOutboundSearchSubscription?.dispose()
-            flightCacheSearchSubscription?.dispose()
         }
 
         cancelInboundSearchObservable.subscribe {
             flightInboundSearchSubscription?.dispose()
         }
-
-        cancelCachedSearchObservable.withLatestFrom(isCachedCallCompleted, { _, cachedCallCompleted -> cachedCallCompleted })
-                .filter { cachedCallCompleted -> !cachedCallCompleted }
-                .subscribe {
-                    // Normal API call returned before cache call.
-                    flightCacheSearchSubscription?.dispose()
-                    cachedSearchTrackingString.onNext("CL")
-                    showDebugToast("Normal api call returned before cached call.")
-                }
 
         isRoundTripSearchSubject.subscribe {
             isRoundTripSearch = it
@@ -244,9 +204,6 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
 
     fun cancelGreedyCalls() {
         cancelGreedySearchObservable.onNext(Unit)
-        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching)) {
-            cancelGreedyCachedSearchObservable.onNext(Unit)
-        }
     }
 
     protected fun makeResultsObserver(): Observer<FlightSearchResponse> {
@@ -256,46 +213,9 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
                 if (isFlightGreedySearchEnabled(context) && !isGreedyCallAborted) {
                     isGreedyCallCompleted =
                             when (response.searchType) {
-                                FlightSearchType.CACHED_GREEDY -> true
                                 FlightSearchType.GREEDY -> true
-                                FlightSearchType.CACHED -> false
                                 FlightSearchType.NORMAL -> false
                             }
-                }
-                if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching)) {
-                    // Check for cached api response
-                    if (response.isResponseCached()) {
-                        isCachedCallCompleted.onNext(true)
-                        if (!response.cachedResultsFound!!) {
-                            // Cache is null
-                            cachedSearchTrackingString.onNext("CN")
-                            showDebugToast("Cached results not found")
-                            return
-                        } else if (response.areCachedResultsBookable()) {
-                            // Bookable cache found
-                            cachedSearchTrackingString.onNext("B")
-                            if (isGreedyCallCompleted) {
-                                cancelGreedySearchObservable.onNext(Unit)
-                                isGreedyCallAborted = false
-                                showDebugToast("Showing greedy bookable cached results")
-                            } else {
-                                cancelOutboundSearchObservable.onNext(Unit)
-                                showDebugToast("Showing normal bookable cached results")
-                            }
-                        } else if (response.areCachedResultsNonBookable()) {
-                            // Non bookable cache found
-                            cachedSearchTrackingString.onNext("NB")
-                            showDebugToast("Non bookable cached results found but not displayed")
-                            return
-                        }
-                    } else {
-                        if (isGreedyCallCompleted) {
-                            cancelGreedyCachedSearchObservable.onNext(Unit)
-                            showDebugToast("Normal greedy results are returned before cached greedy results")
-                        } else {
-                            cancelCachedSearchObservable.onNext(Unit)
-                        }
-                    }
                 }
                 if (response.hasErrors()) {
                     if (isGreedyCallCompleted) {

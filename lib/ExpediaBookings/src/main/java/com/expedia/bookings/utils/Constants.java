@@ -70,8 +70,7 @@ public class Constants {
 	public static final String FEATURE_SUBPUB = "SubPub";
 	public static final String FEATURE_EVOLABLE = "GetEvolable";
 	public static final String FEATURE_FLEX = "Flex";
-	public static final String FEATURE_FLIGHT_CACHE = "FlightSearchCacheGet";
-	
+
 	//Location Permission Prompt Limit
 	public static final int LOCATION_PROMPT_LIMIT = 3;
 

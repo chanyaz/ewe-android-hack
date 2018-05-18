@@ -30,7 +30,6 @@ import com.expedia.bookings.extensions.safeSubscribeOptional
 import com.expedia.bookings.extensions.setInverseVisibility
 import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.extensions.subscribeVisibility
-import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.LeftToRightTransition
@@ -188,15 +187,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         })
         presenter.setupComplete()
 
-        val allViewsLoadedObservable = (presenter.resultsPresenter.recyclerView.adapter as FlightListAdapter).allViewsLoadedTimeObservable
-        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching)) {
-            allViewsLoadedObservable.withLatestFrom(presenter.flightOfferViewModel.cachedSearchTrackingString, { _, trackingString -> trackingString }).subscribe { trackingString ->
-                trackResultsLoaded(trackingString)
-            }
-        } else {
-            allViewsLoadedObservable.subscribe {
-                trackResultsLoaded()
-            }
+        (presenter.resultsPresenter.recyclerView.adapter as FlightListAdapter).allViewsLoadedTimeObservable.subscribe {
+            trackResultsLoaded()
         }
         if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFLightLoadingStateV1)) {
             presenter.flightOfferViewModel.retrySearchObservable.subscribe {
@@ -211,11 +203,11 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         presenter
     }
 
-    private fun trackResultsLoaded(cacheString: String = "") {
+    private fun trackResultsLoaded() {
         searchTrackingBuilder.markResultsUsable()
         if (searchTrackingBuilder.isWorkComplete()) {
             val trackingData = searchTrackingBuilder.build()
-            FlightsV2Tracking.trackResultOutBoundFlights(trackingData, flightOfferViewModel.isSubPub, cacheString)
+            FlightsV2Tracking.trackResultOutBoundFlights(trackingData, flightOfferViewModel.isSubPub)
         }
     }
 
@@ -495,12 +487,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             outBoundPresenter.showResults()
             show(outBoundPresenter, Presenter.FLAG_CLEAR_TOP)
         }
-        vm.cachedSearchParamsObservable.subscribe { params ->
-            flightOfferViewModel.cachedFlightSearchObservable.onNext(params)
-        }
         if (isFlightGreedySearchEnabled(context)) {
             vm.greedySearchParamsObservable.subscribe(flightOfferViewModel.greedyFlightSearchObservable)
-            vm.greedyCachedSearchParamsObservable.subscribe(flightOfferViewModel.greedyCachedFlightSearchObservable)
         }
     }
 
@@ -595,9 +583,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             searchViewModel.cancelGreedyCallObservable.subscribe {
                 flightOfferViewModel.cancelGreedySearchObservable.onNext(Unit)
                 flightOfferViewModel.isGreedyCallAborted = true
-                if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsSearchResultCaching)) {
-                    flightOfferViewModel.cancelGreedyCachedSearchObservable.onNext(Unit)
-                }
             }
             searchViewModel.trackSearchClicked.subscribe {
                 FlightsV2Tracking.trackSearchClick(Db.getFlightSearchParams(), true, flightOfferViewModel.isGreedyCallAborted)

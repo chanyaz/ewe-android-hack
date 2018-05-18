@@ -246,12 +246,6 @@ class NewFlightSearchParamsTest {
     }
 
     @Test
-    fun testCachedSearchParams() {
-        val cachedParams = giveSearchParams(Constants.FEATURE_SUBPUB).buildParamsForCachedSearch(maxStay, maxRange)
-        assertEquals("SubPub,FlightSearchCacheGet", cachedParams.featureOverride)
-    }
-
-    @Test
     fun testEvolableSearchParams() {
         val flightSearchParams = giveSearchParams(Constants.FEATURE_EVOLABLE)
         assertEquals("GetEvolable", flightSearchParams.featureOverride)

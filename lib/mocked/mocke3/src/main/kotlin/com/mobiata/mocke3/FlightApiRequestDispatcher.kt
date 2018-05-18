@@ -30,10 +30,7 @@ class FlightApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fi
         }
 
         return when {
-            FlightApiRequestMatcher.isSearchRequest(urlPath) -> {
-                val isCachedSearch = request.path.contains(Constants.FEATURE_FLIGHT_CACHE)
-                getMockResponse(FlightApiMockResponseGenerator.getSearchResponseFilePath(params, isCachedSearch), params)
-            }
+            FlightApiRequestMatcher.isSearchRequest(urlPath) -> getMockResponse(FlightApiMockResponseGenerator.getSearchResponseFilePath(params), params)
 
             FlightApiRequestMatcher.isOldCreateTripRequest(urlPath) -> getMockResponse(FlightApiMockResponseGenerator.getCreateTripResponseFilePath(params), params)
 
@@ -118,7 +115,7 @@ class FlightApiMockResponseGenerator() {
         val INVALID_INPUT = "invalidinput"
         val TRIP_ID = "tripId"
 
-        fun getSearchResponseFilePath(params: MutableMap<String, String>, isCached: Boolean = false): String {
+        fun getSearchResponseFilePath(params: MutableMap<String, String>): String {
             val departureAirport = params["departureAirport"]
             val suggestionResponseType = SuggestionResponseType.getValueOf(departureAirport!!)
 
@@ -127,10 +124,7 @@ class FlightApiMockResponseGenerator() {
             val legNo = params["ul"]
 
             val fileName =
-                    if (isCached) {
-                        suggestionResponseType.suggestionString
-                    }
-                    else if (isReturnFlightSearch) {
+                  if (isReturnFlightSearch) {
                         if (legNo != null && legNo.equals("0")) {
                             suggestionResponseType.suggestionString + "_outbound"
                         } else if (legNo != null && legNo.equals("1")) {
