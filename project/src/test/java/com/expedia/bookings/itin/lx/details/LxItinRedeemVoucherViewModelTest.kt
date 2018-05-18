@@ -33,10 +33,11 @@ class LxItinRedeemVoucherViewModelTest {
     private lateinit var sut: LxItinRedeemVoucherViewModel<MockRedeemVoucherViewModelScope>
     private lateinit var scope: MockRedeemVoucherViewModelScope
     val showRedeemObserver = TestObserver<Unit>()
-    val lxHappy = ItinMocker.lxDetailsAlsoHappy
+    val lxHappy = ItinMocker.lxDetailsHappy
     val lxNotHappy = ItinMocker.lxDetailsNoDetailsUrl
-    val voucherUrlReturned = ItinMocker.lxDetailsNoTripID
+    val noTripId = ItinMocker.lxDetailsNoTripID
     val lxvoucherUrlReturned = ItinMocker.lxDetailsNoLat
+    val voucherUrlReturned = ItinMocker.lxDetailsAlsoHappy
 
     @Before
     fun setup() {
@@ -46,34 +47,37 @@ class LxItinRedeemVoucherViewModelTest {
 
     @Test
     fun redeemUrlWhenBothUrlInResponse() {
-        assertEquals(null, sut.redeemUrl)
+        assertEquals(null, scope.webViewLauncerMock.lastSeenURL)
 
         sut.itinObserver.onChanged(lxHappy)
-        assertEquals("https://www.expedia.com/things-to-do/voucher/?tripid=72d43105-3cd2-4f83-ae10-55f390397ac0", sut.redeemUrl)
+        sut.redeemVoucherClickSubject.onNext(Unit)
+        assertEquals("https://wwwexpediacom.trunk.sb.karmalab.net/things-to-do/voucher/?tripid=b9739936-62a8-49a1-af12-fdbe85d78e5f", scope.webViewLauncerMock.lastSeenURL)
     }
 
     @Test
     fun redeemUrlWhenNoUrlInResponse() {
-        assertEquals(null, sut.redeemUrl)
+        assertEquals(null, scope.webViewLauncerMock.lastSeenURL)
 
         sut.itinObserver.onChanged(lxNotHappy)
-        assertEquals(null, sut.redeemUrl)
+        assertEquals(null, scope.webViewLauncerMock.lastSeenURL)
     }
 
     @Test
     fun redeemUrlWhenVoucherUrlIsReturned() {
-        assertEquals(null, sut.redeemUrl)
+        assertEquals(null, scope.webViewLauncerMock.lastSeenURL)
 
         sut.itinObserver.onChanged(voucherUrlReturned)
-        assertEquals("https://www.expedia.com/itinerary-print?tripid=72d43105-3cd2-4f83-ae10-55f390397ac0&itineraryNumber=7337689803181", sut.redeemUrl)
+        sut.redeemVoucherClickSubject.onNext(Unit)
+        assertEquals("https://www.expedia.com/itinerary-print?tripid=72d43105-3cd2-4f83-ae10-55f390397ac0&itineraryNumber=7337689803181", scope.webViewLauncerMock.lastSeenURL)
     }
 
     @Test
     fun redeemUrlWhenLxVoucherUrlIsReturned() {
-        assertEquals(null, sut.redeemUrl)
+        assertEquals(null, scope.webViewLauncerMock.lastSeenURL)
 
         sut.itinObserver.onChanged(lxvoucherUrlReturned)
-        assertEquals("https://www.expedia.com/things-to-do/voucher/?tripid=72d43105-3cd2-4f83-ae10-55f390397ac0", sut.redeemUrl)
+        sut.redeemVoucherClickSubject.onNext(Unit)
+        assertEquals("https://www.expedia.com/things-to-do/voucher/?tripid=72d43105-3cd2-4f83-ae10-55f390397ac0", scope.webViewLauncerMock.lastSeenURL)
     }
 
     @Test
@@ -85,15 +89,15 @@ class LxItinRedeemVoucherViewModelTest {
 
     @Test
     fun tripIdNull() {
-        sut.itinObserver.onChanged(voucherUrlReturned)
+        sut.itinObserver.onChanged(noTripId)
         sut.showRedeemVoucher.subscribe(showRedeemObserver)
         showRedeemObserver.assertNoValues()
     }
 
     @Test
     fun happyPathTest() {
-        val url = "https://www.expedia.com/things-to-do/voucher/?tripid=72d43105-3cd2-4f83-ae10-55f390397ac0"
-        val tripId = "72d43105-3cd2-4f83-ae10-55f390397ac0"
+        val url = "https://wwwexpediacom.trunk.sb.karmalab.net/things-to-do/voucher/?tripid=b9739936-62a8-49a1-af12-fdbe85d78e5f"
+        val tripId = "b9739936-62a8-49a1-af12-fdbe85d78e5f"
         sut.showRedeemVoucher.subscribe(showRedeemObserver)
         showRedeemObserver.assertNoValues()
 
