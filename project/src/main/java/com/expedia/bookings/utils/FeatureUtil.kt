@@ -22,6 +22,10 @@ fun isMidAPIEnabled(): Boolean {
     return true
 }
 
+fun isGrowthSocialSharingEnabled(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppGrowthSocialSharing)
+}
+
 fun isFHCPackageWebViewEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesWebviewFHC)
 }

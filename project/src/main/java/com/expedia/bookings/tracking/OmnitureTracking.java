@@ -950,6 +950,7 @@ public class OmnitureTracking {
 				s.appendEvents("event57,event132,event152");
 			}
 		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppGrowthSocialSharing);
 
 		// Send the tracking data
 		s.track();
@@ -962,6 +963,7 @@ public class OmnitureTracking {
 		s.appendEvents("event11");
 		s.setProducts("Hotel; Hotel:" + hotelOffersResponse.hotelId);
 		trackAbacusTest(s, AbacusUtils.HotelDatelessInfosite);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppGrowthSocialSharing);
 
 		// Send the tracking data
 		s.track();
