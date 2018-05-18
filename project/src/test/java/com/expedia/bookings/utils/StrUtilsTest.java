@@ -15,7 +15,6 @@ import android.text.SpannableStringBuilder;
 import android.text.style.BulletSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
-import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
 
 import com.expedia.bookings.R;
@@ -32,7 +31,6 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Waypoint;
-import com.squareup.phrase.Phrase;
 
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.not;
@@ -298,25 +296,6 @@ public class StrUtilsTest {
 		airport.mAirportCode = "YVR";
 		assertEquals("YVR" , StrUtils.formatAirport(airport, null));
 
-	}
-
-	@Test
-	public void testWaypointLocalizedCityOrCode() {
-		Waypoint waypoint = new Waypoint(Waypoint.ACTION_ARRIVAL);
-		waypoint.mCity = "Los Angeles";
-		assertEquals("Los Angeles" , StrUtils.getWaypointLocalizedCityOrCode(waypoint));
-
-		waypoint.mCity = "";
-		assertNull(StrUtils.getWaypointLocalizedCityOrCode(waypoint));
-	}
-
-	@Test
-	public void testCarOriginDescriptionFormatting() {
-		com.expedia.bookings.data.flights.FlightLeg flight = new com.expedia.bookings.data.flights.FlightLeg();
-		flight.destinationAirportCode = "EWR";
-		flight.destinationAirportLocalName = "Liberty Intl.";
-		String formattedString = StrUtils.formatCarOriginDescription(getContext(),flight);
-		assertEquals("EWR-Liberty Intl.", formattedString);
 	}
 
 	@Test

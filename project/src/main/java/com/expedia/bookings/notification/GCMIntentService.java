@@ -16,7 +16,6 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncAdapter;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripFlight;
-import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.Log;
 
 public class GCMIntentService extends IntentService {
@@ -31,7 +30,6 @@ public class GCMIntentService extends IntentService {
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		Log.d(LOGGING_TAG, "GCM onMessage intent:" + intent);
-		StrUtils.printIntent(intent);
 
 		Bundle extras = intent.getExtras();
 		if (extras != null) {
