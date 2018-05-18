@@ -116,12 +116,9 @@ public class StrUtilsTest {
 
 	@Test
 	@RunForBrands(brands = { MultiBrand.EXPEDIA })
-	public void testLoyaltyLegalTextContent() {
-
-		SpannableStringBuilder legalText = StrUtils.generateLoyaltyRewardsLegalLink(getContext());
-
-		String expectedText = getLoyaltyLegalText();
-		assertEquals(expectedText, legalText.toString());
+	public void loyaltyRewardsLegalText_textIsCorrect() {
+		String expectedText = "Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions.";
+		assertEquals(expectedText, StrUtils.generateLoyaltyRewardsLegalLink(getContext()).toString());
 	}
 
 	@Test
@@ -172,35 +169,17 @@ public class StrUtilsTest {
 
 	@Test
 	@RunForBrands(brands = { MultiBrand.EXPEDIA })
-	public void testLoyaltyLegalTextSpans() {
+	public void loyaltyLegalText_linksAreCorrect() {
 		SpannableStringBuilder loyaltyLegalSpanBuilder = StrUtils.generateLoyaltyRewardsLegalLink(getContext());
-
-		String termsText = getContext().getString(R.string.terms_and_conditions);
-
-		String loyaltyLegalText = getLoyaltyLegalText();
-		int termStart = loyaltyLegalText.indexOf(termsText);
-		int termEnd = termStart + termsText.length();
-
-		Object[] termsSpans = loyaltyLegalSpanBuilder.getSpans(termStart, termEnd, Object.class);
-
-		List<Object[]> spansList = new ArrayList<>();
-		spansList.add(termsSpans);
-
-		for (Object[] spans : spansList) {
-			assertEquals(spans[0].getClass(), LegalClickableSpan.class);
-			assertEquals(spans[1].getClass(), StyleSpan.class);
-		}
+		assertTextIsLinkedToUrl(loyaltyLegalSpanBuilder, "Terms and Conditions",
+			"https://www.expedia.com/loyaltyrewards/pages/info-rewards/expediarewards/terms.htm");
 	}
 
-	private String getLoyaltyLegalText() {
-		String brandRewardName = getContext().getString(R.string.brand_reward_name);
-		String termsText = getContext().getString(R.string.terms_and_conditions);
-
-		return Phrase.from(getContext().getResources(), R.string.account_creation_legal_rewards_TEMPLATE)
-				.putOptional("brand_reward_name_link", brandRewardName)
-				.putOptional("brand_reward_name", brandRewardName)
-				.put("terms_and_conditions", termsText)
-				.format().toString();
+	@Test
+	@RunForBrands(brands = { MultiBrand.EXPEDIA })
+	public void loyaltyLegalText_linksAreBold() {
+		SpannableStringBuilder loyaltyLegalSpanBuilder = StrUtils.generateLoyaltyRewardsLegalLink(getContext());
+		assertTextIsBold(loyaltyLegalSpanBuilder, "Terms and Conditions");
 	}
 
 	@Test

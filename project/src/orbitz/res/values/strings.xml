@@ -4,7 +4,7 @@
 
     <!-- Account Creation Strings -->
     <!-- Account creation legal template for reward points eg: Earn free travel rewards with Orbitz Rewards. By joining Orbitz Rewards, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Earn free travel rewards with {brand_reward_name_link}. By joining {brand_reward_name}, I accept all {terms_and_conditions}</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">Earn free travel rewards with {brand_reward_name_link}. By joining {brand_reward_name}, I accept all &lt;a href="{terms_and_conditions_url}">Terms and Conditions&lt;/a></string>
 
     <!-- Orbucks -->
     <string name="paying_with_rewards">Paying with Orbucks</string>

@@ -605,9 +605,7 @@ public class StrUtils {
 	public static SpannableStringBuilder generateLoyaltyRewardsLegalLink(Context context) {
 		SpannableStringBuilder legalTextSpan = new SpannableStringBuilder();
 
-		String spannedTermsAndConditions = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
-				PointOfSale.getPointOfSale().getLoyaltyTermsAndConditionsUrl(),
-				context.getResources().getString(R.string.info_label_terms_conditions));
+		String termsAndConditionsUrl = PointOfSale.getPointOfSale().getLoyaltyTermsAndConditionsUrl();
 		String spannedBrandRewards = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
 				PointOfSale.getPointOfSale().getRewardsInfoURL(),
 				context.getResources().getString(R.string.brand_reward_name));
@@ -619,7 +617,7 @@ public class StrUtils {
 				.putOptional("brand_reward_name_link", spannedBrandRewards)
 				.putOptional("brand_reward_currency", spannedBrandRewardsCurrency)
 				.putOptional("brand_reward_name", context.getString(R.string.brand_reward_name))
-				.put("terms_and_conditions", spannedTermsAndConditions)
+				.put("terms_and_conditions_url", termsAndConditionsUrl)
 				.format().toString()));
 		URLSpan[] spans = legalTextSpan.getSpans(0, legalTextSpan.length(), URLSpan.class);
 

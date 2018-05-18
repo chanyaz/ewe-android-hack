@@ -17,7 +17,7 @@
     <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash button -->
     <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Sign in to earn {reward} in CheapCash button</string>
     <!-- Account creation legal template for reward points eg: Earn free travel rewards with CheapCash. By joining CheapCash, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Earn free travel rewards with {brand_reward_name_link}. By joining {brand_reward_name}, I accept all {terms_and_conditions}</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">Earn free travel rewards with {brand_reward_name_link}. By joining {brand_reward_name}, I accept all &lt;a href="{terms_and_conditions_url}">Terms and Conditions&lt;/a></string>
 
     <!-- Earn Points -->
     <!-- You'll earn points in CheapCash. Eg: You'll earn $10 in CheapCash for this booking! -->

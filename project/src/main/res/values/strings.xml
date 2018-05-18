@@ -3784,7 +3784,7 @@
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">I have read and agree to the {terms_of_use} and the {privacy_policy}.</string>
     <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Join {brand_reward_name} today. By joining {brand_reward_name}, I accept all {terms_and_conditions}.</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">Join {brand_reward_name} today. By joining {brand_reward_name}, I accept all &lt;a href="{terms_and_conditions_url}">Terms and Conditions&lt;/a>.</string>
     <!--Account creation legal template for terms and reward eg: By creating an account, I accept the Expedia Rewards Terms & Conditions, and have read and accept the Terms of Use and the Privacy Policy.-->
     <string name="account_creation_new_terms_reward_TEMPLATE">By creating an account, I accept the {brand_reward_name} &lt;a href="{terms_and_conditions_url}">Terms and Conditions&lt;/a>, and have read and accept the &lt;a href="{terms_of_use_url}">Terms of Use&lt;/a> and the &lt;a href="{privacy_policy_url}">Privacy Policy&lt;/a>.</string>
     <!-- Used in hotel search for specifying traveler -->
