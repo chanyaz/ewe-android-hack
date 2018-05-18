@@ -114,21 +114,21 @@ public class StrUtilsTest {
 
 	@Test
 	@RunForBrands(brands = { MultiBrand.EXPEDIA })
-	public void loyaltyRewardsLegalText_textIsCorrect() {
+	public void loyaltyRewardsLegalTextTextIsCorrect() {
 		String expectedText = "Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions.";
 		assertEquals(expectedText, StrUtils.generateLoyaltyRewardsLegalLink(getContext()).toString());
 	}
 
 	@Test
 	@RunForBrands(brands = { MultiBrand.EXPEDIA })
-	public void newAccountCreationTermsText_textIsCorrect() {
+	public void newAccountCreationTermsTextTextIsCorrect() {
 		String expected = "By creating an account, I accept the Expedia Rewards Terms and Conditions, and have read and accept the Terms of Use and the Privacy Policy.";
 		assertEquals(expected, StrUtils.generateNewTermsRewardLegalLink(getContext()).toString());
 	}
 
 	@Test
 	@RunForBrands(brands = { MultiBrand.EXPEDIA })
-	public void newAccountCreationTermsText_linksAreCorrect() {
+	public void newAccountCreationTermsTextLinksAreCorrect() {
 		SpannableStringBuilder termsText = StrUtils.generateNewTermsRewardLegalLink(getContext());
 
 		assertTextIsLinkedToUrl(termsText, "Terms and Conditions",
@@ -148,7 +148,7 @@ public class StrUtilsTest {
 
 	@Test
 	@RunForBrands(brands = { MultiBrand.EXPEDIA })
-	public void newAccountCreationTermsText_linksAreBold() {
+	public void newAccountCreationTermsTextLinksAreBold() {
 		SpannableStringBuilder termsText = StrUtils.generateNewTermsRewardLegalLink(getContext());
 
 		assertTextIsBold(termsText, "Terms and Conditions");
@@ -167,7 +167,7 @@ public class StrUtilsTest {
 
 	@Test
 	@RunForBrands(brands = { MultiBrand.EXPEDIA })
-	public void loyaltyLegalText_linksAreCorrect() {
+	public void loyaltyLegalTextLinksAreCorrect() {
 		SpannableStringBuilder loyaltyLegalSpanBuilder = StrUtils.generateLoyaltyRewardsLegalLink(getContext());
 		assertTextIsLinkedToUrl(loyaltyLegalSpanBuilder, "Terms and Conditions",
 			"https://www.expedia.com/loyaltyrewards/pages/info-rewards/expediarewards/terms.htm");
@@ -175,7 +175,7 @@ public class StrUtilsTest {
 
 	@Test
 	@RunForBrands(brands = { MultiBrand.EXPEDIA })
-	public void loyaltyLegalText_linksAreBold() {
+	public void loyaltyLegalTextLinksAreBold() {
 		SpannableStringBuilder loyaltyLegalSpanBuilder = StrUtils.generateLoyaltyRewardsLegalLink(getContext());
 		assertTextIsBold(loyaltyLegalSpanBuilder, "Terms and Conditions");
 	}
