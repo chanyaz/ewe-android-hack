@@ -672,6 +672,12 @@
     <!-- Hint for filtering results by activity name -->
     <string name="lx_filter_hint">Keyword or phrase</string>
 
+    <!-- "LX count string to display number of results on default search results page. Eg. 132 things to do near you" -->
+    <string name="lx_activity_count_header_current_location_TEMPLATE">{activitycount} things to do near you</string>
+
+    <!-- "LX count string to display number of results on explicit search results page. Eg. 132 things to do in Vegas"-->
+    <string name="lx_activity_count_header_TEMPLATE">{activitycount} things to do in {destination}</string>
+
     <!-- Sort & Filter label -->
     <string name="sort_and_filter">Sort &amp; Filter</string>
     <!-- Accessibility content description for Sort & Filter button -->

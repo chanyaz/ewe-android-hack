@@ -166,6 +166,9 @@ public class LXPresenter extends Presenter {
 					itinTripServices.getTripDetails(bookedTripID, makeNewItinResponseObserver())
 				);
 		}
+
+		searchParamsWidget.getSearchViewModel().getDestinationShortNameObservable()
+			.subscribe(resultsPresenter.searchResultsWidget.destinationShortNameObserver);
 	}
 
 	private Observer<LxSearchParams> lxSearchParamsObserver = new Observer<LxSearchParams>() {

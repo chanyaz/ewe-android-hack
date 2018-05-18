@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.LXActivity;
+import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.Ui;
@@ -19,6 +20,7 @@ import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import io.reactivex.subjects.BehaviorSubject;
 
 public class LXSearchResultsWidget extends FrameLayout {
 
@@ -36,6 +38,7 @@ public class LXSearchResultsWidget extends FrameLayout {
 	LXErrorWidget errorScreen;
 
 	public LXResultsListAdapter adapter;
+	public BehaviorSubject<String> destinationShortNameObserver = BehaviorSubject.create();
 
 	@Override
 	protected void onFinishInflate() {
@@ -74,9 +77,13 @@ public class LXSearchResultsWidget extends FrameLayout {
 		super.onDetachedFromWindow();
 	}
 
-	public void bind(List<LXActivity> activities, String discountType) {
-		adapter.setItems(activities, discountType);
+	public void bind(List<LXActivity> activities, String discountType, SearchType searchType) {
+		adapter.setItems(activities, discountType, getDestinationName(searchType));
 		update();
+	}
+
+	private String getDestinationName(SearchType searchType) {
+		return (searchType == SearchType.EXPLICIT_SEARCH) ? destinationShortNameObserver.getValue() : "";
 	}
 
 	public void bind(List<LXActivity> activities) {

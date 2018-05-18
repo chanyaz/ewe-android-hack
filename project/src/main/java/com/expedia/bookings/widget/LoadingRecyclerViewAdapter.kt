@@ -22,7 +22,7 @@ import java.util.ArrayList
 
 abstract class LoadingRecyclerViewAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     protected abstract fun loadingLayoutResourceId(): Int
-    private var isLoading = false
+    protected var isLoading = false
     private var items: List<T> = ArrayList()
 
     private fun setItems(items: List<T>, areDummyItems: Boolean = false) {
@@ -76,5 +76,6 @@ abstract class LoadingRecyclerViewAdapter<T> : RecyclerView.Adapter<RecyclerView
     companion object {
         @JvmStatic val LOADING_VIEW: Int = 0
         @JvmStatic val DATA_VIEW: Int = 1
+        @JvmStatic val ACTIVITY_COUNT_HEADER_VIEW = 2
     }
 }

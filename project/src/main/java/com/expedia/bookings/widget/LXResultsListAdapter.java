@@ -28,6 +28,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXDataUtils;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
 import com.squareup.phrase.Phrase;
@@ -36,28 +37,65 @@ import com.squareup.picasso.Picasso;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+import static com.expedia.bookings.utils.FeatureUtilKt.isActivityCountHeaderViewEnabled;
 
 public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
-
 	private static final String ROW_PICASSO_TAG = "lx_row";
 	private static SparseIntArray scrollDepthMap;
 	private static int activitiesListSize;
 	private static String promoDiscountType;
+	private static String activityDestination;
 
-	public void setItems(List<LXActivity> items, String discountType) {
+	public void setItems(List<LXActivity> items, String discountType, String destination) {
 		setItems(items);
 		promoDiscountType = discountType;
+		activityDestination = destination;
+	}
+
+	@Override
+	public int getItemCount() {
+		return getItems().size() + adjustPosition();
+	}
+
+	private int adjustPosition() {
+		if (isLoading()) {
+			return 0;
+		}
+		else {
+			return isActivityCountHeaderViewEnabled() ? 1 : 0;
+		}
 	}
 
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		RecyclerView.ViewHolder itemViewHolder = super.onCreateViewHolder(parent, viewType);
 		if (itemViewHolder == null) {
-			View itemView = LayoutInflater.from(parent.getContext())
-				.inflate(R.layout.section_lx_search_row, parent, false);
-			itemViewHolder = new ViewHolder(itemView);
+			if (viewType == getACTIVITY_COUNT_HEADER_VIEW()) {
+				itemViewHolder = new HeaderViewHolder(LayoutInflater.from(parent.getContext())
+					.inflate(R.layout.lx_activity_count_header_cell, parent, false));
+			}
+			else if (viewType == getDATA_VIEW()) {
+				itemViewHolder = new ViewHolder(LayoutInflater.from(parent.getContext())
+					.inflate(R.layout.section_lx_search_row, parent, false));
+			}
+			else {
+				throw new UnsupportedOperationException("Did not recognise the viewType");
+			}
 		}
 		return itemViewHolder;
+	}
+
+	@Override
+	public int getItemViewType(int position) {
+		if (isLoading()) {
+			return getLOADING_VIEW();
+		}
+		else if (isActivityCountHeaderViewEnabled() && position == 0) {
+			return getACTIVITY_COUNT_HEADER_VIEW();
+		}
+		else {
+			return getDATA_VIEW();
+		}
 	}
 
 	@Override
@@ -69,9 +107,16 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 	public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 		super.onBindViewHolder(holder, position);
 		if (holder.getItemViewType() == getDATA_VIEW()) {
-			LXActivity activity = (LXActivity) getItems().get(position);
+			LXActivity activity = (LXActivity) getItems().get(getDataViewPosition(position));
 			((ViewHolder) holder).bind(activity);
 		}
+		else if (holder.getItemViewType() == getACTIVITY_COUNT_HEADER_VIEW()) {
+			((HeaderViewHolder) holder).bindActivityCount(activityDestination);
+		}
+	}
+
+	private int getDataViewPosition(int position) {
+		return isActivityCountHeaderViewEnabled() ? position - 1 : position;
 	}
 
 	public void initializeScrollDepthMap(int activitiesListSize) {
@@ -80,6 +125,24 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 		scrollDepthMap.put(LXDataUtils.findScrolledPosition(10, activitiesListSize), 10);
 		scrollDepthMap.put(LXDataUtils.findScrolledPosition(30, activitiesListSize), 30);
 		scrollDepthMap.put(LXDataUtils.findScrolledPosition(100, activitiesListSize), 100);
+	}
+
+	public class HeaderViewHolder extends RecyclerView.ViewHolder {
+
+		@InjectView(R.id.lx_activity_count_header)
+		TextView activityCountText;
+
+		private HeaderViewHolder(View itemView) {
+			super(itemView);
+			ButterKnife.inject(this, itemView);
+		}
+
+		private void bindActivityCount(String destination) {
+			String displayCountText = Strings.isEmpty(destination) ?
+				LXDataUtils.getActivityCountHeaderCurrentLocationString(itemView.getContext(), getItems().size()) :
+				LXDataUtils.getActivityCountHeaderString(itemView.getContext(), getItems().size(), destination);
+			activityCountText.setText(displayCountText);
+		}
 	}
 
 	public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

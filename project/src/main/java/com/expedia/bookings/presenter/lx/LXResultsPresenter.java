@@ -371,7 +371,7 @@ public class LXResultsPresenter extends Presenter {
 				}
 			}
 			trackLXSearch();
-			searchResultsWidget.bind(lxSearchResponse.activities, lxSearchResponse.promoDiscountType);
+			searchResultsWidget.bind(lxSearchResponse.activities, lxSearchResponse.promoDiscountType, searchType);
 			show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
 			sortFilterWidget.bind(lxSearchResponse.filterCategories);
 			if (!isGroundTransport) {

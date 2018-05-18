@@ -185,3 +185,7 @@ fun isBetterSavingsOnRDScreenEnabledForPackages(context: Context): Boolean {
 fun isLXMultipleDatesSearchEnabled(): Boolean {
     return Features.all.lxMultipleDatesSearch.enabled()
 }
+
+fun isActivityCountHeaderViewEnabled(): Boolean {
+    return Features.all.lxActivityResultsHeader.enabled()
+}

@@ -29,6 +29,7 @@ class LXSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     val lxParamsBuilder = LxSearchParams.Builder()
     val searchParamsObservable = PublishSubject.create<LxSearchParams>()
+    val destinationShortNameObservable = PublishSubject.create<String>()
 
     override var requiredSearchParamsObserver = endlessObserver<Unit> {
         searchButtonObservable.onNext(getParamsBuilder().areRequiredParamsFilled())
@@ -38,6 +39,7 @@ class LXSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         getParamsBuilder().destination(suggestion)
         locationTextObservable.onNext(HtmlCompat.stripHtml(suggestion.regionNames.displayName))
         requiredSearchParamsObserver.onNext(Unit)
+        destinationShortNameObservable.onNext(suggestion.regionNames.shortName)
     }
 
     val searchObserver = endlessObserver<Unit> {

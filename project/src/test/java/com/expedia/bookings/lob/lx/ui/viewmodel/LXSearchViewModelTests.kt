@@ -175,13 +175,25 @@ class LXSearchViewModelTests {
         assertEquals("15 Days", actualText)
     }
 
+    @Test
+    fun testDestinationShortNameValue() {
+        val testSubscriber = TestObserver<String>()
+        val expected = "Las Cruces (and vicinity)"
+        val suggestion = getDummySuggestion()
+
+        vm.destinationShortNameObservable.subscribe(testSubscriber)
+        vm.destinationShortNameObservable.onNext(suggestion.regionNames.shortName)
+
+        assertEquals(testSubscriber.values()[0], expected)
+    }
+
     private fun getDummySuggestion(): SuggestionV4 {
         val suggestion = SuggestionV4()
         suggestion.gaiaId = ""
         suggestion.regionNames = SuggestionV4.RegionNames()
         suggestion.regionNames.displayName = ""
-        suggestion.regionNames.fullName = ""
-        suggestion.regionNames.shortName = ""
+        suggestion.regionNames.fullName = "Las Cruces (and vicinity), New Mexico, United States of America"
+        suggestion.regionNames.shortName = "Las Cruces (and vicinity)"
         return suggestion
     }
 }

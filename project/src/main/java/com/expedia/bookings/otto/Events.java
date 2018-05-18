@@ -212,7 +212,7 @@ public class Events {
 
 		public LXNewSearchParamsAvailable(String locationName, LocalDate startDate, LocalDate endDate, boolean modQualified) {
 			lxSearchParams = (LxSearchParams) new LxSearchParams.Builder()
-				.searchType(SearchType.EXPLICIT_SEARCH).location(locationName).modQualified(modQualified).startDate(startDate).endDate(endDate)
+				.searchType(SearchType.DEFAULT_SEARCH).location(locationName).modQualified(modQualified).startDate(startDate).endDate(endDate)
 				.build();
 		}
 

@@ -471,6 +471,19 @@ public class LXDataUtils {
 		}
 	}
 
+	public static String getActivityCountHeaderString(Context context, int totalActivityCount, String activityDestination) {
+		return Phrase.from(context.getResources(), R.string.lx_activity_count_header_TEMPLATE)
+			.put("activitycount", totalActivityCount)
+			.put("destination", activityDestination)
+			.format().toString();
+	}
+
+	public static String getActivityCountHeaderCurrentLocationString(Context context, int activityCount) {
+		return Phrase.from(context.getResources(), R.string.lx_activity_count_header_current_location_TEMPLATE)
+			.put("activitycount", activityCount)
+			.format().toString();
+	}
+
 	public static String getToolbarSearchDateText(Context context, LxSearchParams searchParams, boolean isContDesc) {
 		if ((searchParams.getActivityEndDate().compareTo(searchParams.getActivityStartDate()) == 0)
 			&& Features.Companion.getAll().getLxMultipleDatesSearch().enabled()) {
