@@ -50,7 +50,7 @@ class FlightOffersViewModelByot(context: Context, flightServices: FlightServices
             greedyOutboundResultsObservable.onNext(outBoundFlights.toList())
             hasUserClickedSearchObservable.onNext(searchParamsObservable.value != null)
             isGreedyCallCompleted = false
-        } else {
+        } else if (searchParamsObservable.value != null) {
             outboundResultsObservable.onNext(outBoundFlights.toList())
         }
     }

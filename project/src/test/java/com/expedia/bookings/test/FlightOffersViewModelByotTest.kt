@@ -84,7 +84,7 @@ class FlightOffersViewModelByotTest {
         performGreedyFlightSearch(false)
         greedyResultsTestSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
         greedyResultsTestSubscriber.assertValueCount(1)
-        normalResultsTestSubscriber.assertValueCount(1)
+        normalResultsTestSubscriber.assertValueCount(0)
     }
 
     @Test
@@ -139,8 +139,14 @@ class FlightOffersViewModelByotTest {
         sut.greedyOutboundResultsObservable.subscribe(greedyResultsTestSubscriber)
         performGreedyFlightSearch(false)
 
+        //When no new search is done
         normalResultsTestSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
         greedyResultsTestSubscriber.assertValueCount(0)
+        normalResultsTestSubscriber.assertValueCount(0)
+
+        //When new search is performed
+        performFlightSearch(false)
+        normalResultsTestSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
         normalResultsTestSubscriber.assertValueCount(1)
         val response = normalResultsTestSubscriber.values()[0]
         assertNotNull(response)
