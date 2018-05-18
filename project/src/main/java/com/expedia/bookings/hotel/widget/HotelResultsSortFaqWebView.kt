@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget.hotel
+package com.expedia.bookings.hotel.widget
 
 import android.content.Context
 import android.util.AttributeSet

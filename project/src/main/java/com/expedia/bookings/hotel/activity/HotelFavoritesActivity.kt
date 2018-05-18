@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.hotel.HotelFavoritesView
+import com.expedia.bookings.hotel.widget.HotelFavoritesView
 
 class HotelFavoritesActivity : AppCompatActivity() {
 

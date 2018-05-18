@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget.hotel
+package com.expedia.bookings.hotel.widget
 
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.extensions.setVisibility
+import com.expedia.bookings.hotel.widget.adapter.HotelFavoritesRecyclerViewAdapter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.vm.hotel.HotelFavoritesViewModel

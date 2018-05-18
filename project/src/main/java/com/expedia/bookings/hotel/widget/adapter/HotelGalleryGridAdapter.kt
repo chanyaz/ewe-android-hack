@@ -3,7 +3,7 @@ package com.expedia.bookings.hotel.widget.adapter
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import com.expedia.bookings.data.HotelMedia
-import com.expedia.bookings.hotel.widget.HotelGalleryGridViewHolder
+import com.expedia.bookings.hotel.widget.viewholder.HotelGalleryGridViewHolder
 import io.reactivex.subjects.PublishSubject
 
 class HotelGalleryGridAdapter(var lowMemoryMode: Boolean = false) : RecyclerView.Adapter<HotelGalleryGridViewHolder>() {

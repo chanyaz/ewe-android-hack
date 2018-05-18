@@ -188,7 +188,7 @@
         android:layout_height="match_parent"
         android:visibility="gone" />
 
-    <com.expedia.bookings.widget.hotel.HotelResultsSortFaqWebView
+    <com.expedia.bookings.hotel.widget.HotelResultsSortFaqWebView
         android:id="@+id/sort_faq_web_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -1,4 +1,4 @@
-package com.expedia.bookings.hotel.widget
+package com.expedia.bookings.hotel.widget.viewholder
 
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater

@@ -5,9 +5,9 @@ import android.widget.LinearLayout
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.hotel.data.HotelAdapterItem
+import com.expedia.bookings.hotel.widget.HotelCellViewHolder
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.LoadingViewHolder
-import com.expedia.bookings.widget.hotel.HotelCellViewHolder
 import com.expedia.bookings.widget.shared.AbstractHotelCellViewHolder
 import com.expedia.testutils.JSONResourceReader
 import io.reactivex.subjects.PublishSubject

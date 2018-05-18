@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewConfiguration
 import android.view.accessibility.AccessibilityEvent
+import com.expedia.bookings.hotel.widget.viewholder.HotelDetailGalleryViewHolder
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.mobiata.android.util.AndroidUtils
 import io.reactivex.subjects.PublishSubject

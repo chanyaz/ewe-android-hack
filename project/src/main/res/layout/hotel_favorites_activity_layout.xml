@@ -19,7 +19,7 @@
         app:title="@string/hotel_favorites_page_toolbar_title"
         app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
 
-    <com.expedia.bookings.widget.hotel.HotelFavoritesView
+    <com.expedia.bookings.hotel.widget.HotelFavoritesView
         android:id="@+id/hotel_favorites_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

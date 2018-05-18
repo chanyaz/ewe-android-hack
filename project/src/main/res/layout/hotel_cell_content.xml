@@ -41,7 +41,7 @@
             android:layout_gravity="top|left"
             android:layout_marginLeft="12dp">
 
-            <com.expedia.bookings.widget.hotel.hotelCellModules.HotelCellUrgencyMessage
+            <com.expedia.bookings.hotel.widget.HotelCellUrgencyMessage
                 android:id="@+id/urgency_message_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
                 android:paddingRight="9dp"
                 android:paddingTop="5dp" />
 
-            <com.expedia.bookings.widget.hotel.hotelCellModules.HotelCellVipMessage
+            <com.expedia.bookings.hotel.widget.HotelCellVipMessage
                 android:id="@+id/vip_message_container"
                 style="@style/HotelCellVipPadding"
                 android:layout_width="wrap_content"
@@ -70,7 +70,7 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp">
 
-            <com.expedia.bookings.widget.hotel.hotelCellModules.HotelCellNameStarAmenityDistance
+            <com.expedia.bookings.hotel.widget.HotelCellNameStarAmenityDistance
                 android:id="@+id/hotel_name_star_amenity_distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -128,7 +128,7 @@
 
         </LinearLayout>
 
-        <com.expedia.bookings.widget.hotel.hotelCellModules.HotelCellPriceTopAmenity
+        <com.expedia.bookings.hotel.widget.HotelCellPriceTopAmenity
             android:id="@+id/hotel_price_top_amenity"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

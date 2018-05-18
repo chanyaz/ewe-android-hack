@@ -3,6 +3,9 @@ package com.expedia.bookings.widget
 import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ImageSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,31 +15,28 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.extensions.subscribeVisibility
+import com.expedia.bookings.features.Features
 import com.expedia.bookings.hotel.data.HotelAdapterItem
+import com.expedia.bookings.hotel.widget.viewholder.Earn2xCardViewHolder
+import com.expedia.bookings.hotel.widget.viewholder.GenericAttachViewHolder
+import com.expedia.bookings.hotel.widget.viewholder.HotelUrgencyViewHolder
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isHideMiniMapOnResultBucketed
 import com.expedia.bookings.widget.shared.AbstractHotelCellViewHolder
+import com.expedia.bookings.widget.shared.AbstractHotelResultCellViewHolder
 import com.expedia.util.endlessObserver
 import com.expedia.vm.hotel.HotelResultsPricingStructureHeaderViewModel
 import com.mobiata.android.util.AndroidUtils
+import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
-import android.text.SpannableStringBuilder
-import android.text.Spannable
-import android.text.style.ImageSpan
-import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.extensions.subscribeVisibility
-import com.expedia.bookings.features.Features
-import com.expedia.bookings.hotel.widget.Earn2xCardViewHolder
-import com.expedia.bookings.hotel.widget.HotelUrgencyViewHolder
-import com.expedia.bookings.hotel.widget.GenericAttachViewHolder
-import com.expedia.bookings.utils.isHideMiniMapOnResultBucketed
-import com.expedia.bookings.widget.shared.AbstractHotelResultCellViewHolder
-import com.squareup.phrase.Phrase
 
 abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>,
                                     val headerSubject: PublishSubject<Unit>,

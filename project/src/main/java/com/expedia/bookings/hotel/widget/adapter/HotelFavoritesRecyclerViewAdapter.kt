@@ -1,8 +1,9 @@
-package com.expedia.bookings.widget.hotel
+package com.expedia.bookings.hotel.widget.adapter
 
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import com.expedia.bookings.data.hotels.shortlist.HotelShortlistItem
+import com.expedia.bookings.hotel.widget.viewholder.HotelFavoritesItemViewHolder
 
 class HotelFavoritesRecyclerViewAdapter(private var favoritesList: ArrayList<HotelShortlistItem>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
