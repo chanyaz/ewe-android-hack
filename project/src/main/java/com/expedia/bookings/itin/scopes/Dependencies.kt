@@ -9,6 +9,7 @@ import com.expedia.bookings.itin.tripstore.data.ItinLx
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.itin.utils.AbacusSource
 import com.expedia.bookings.itin.utils.IActivityLauncher
+import com.expedia.bookings.itin.utils.IToaster
 import com.expedia.bookings.itin.utils.IWebViewLauncher
 import com.expedia.bookings.itin.utils.StringSource
 import com.expedia.bookings.tracking.ITripsTracking
@@ -67,4 +68,8 @@ interface HasJsonUtil {
 
 interface HasItinId {
     val id: String
+}
+
+interface HasToaster {
+    val toaster: IToaster
 }
