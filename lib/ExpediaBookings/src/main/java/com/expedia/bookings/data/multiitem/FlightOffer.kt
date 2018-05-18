@@ -6,10 +6,14 @@ data class FlightOffer(
         val piid: String,
         val productTokens: List<String>,
         val legIds: List<String>,
-        val referenceBasePrice: Money,
-        val referenceTaxesAndFees: Money,
-        val referenceTotalPrice: Money,
+        val referenceBasePrice: Price,
+        val referenceTaxesAndFees: Price,
+        val referenceTotalPrice: Price,
         val splitTicket: Boolean,
         val seatsLeft: Int,
         val bookingSeatCount: Int
-)
+) {
+    fun flightOfferReferenceTotalPrice(): Money {
+        return referenceTotalPrice.toMoney()
+    }
+}

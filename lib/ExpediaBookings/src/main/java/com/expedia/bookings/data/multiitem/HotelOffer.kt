@@ -1,5 +1,7 @@
 package com.expedia.bookings.data.multiitem
 
+import com.expedia.bookings.data.Money
+
 data class HotelOffer(
         val id: String,
         val name: String,
@@ -35,4 +37,8 @@ data class HotelOffer(
         val memberDeal: Boolean,
         val sourceTypeRestricted: Boolean,
         val sameDayDRR: Boolean
-)
+) {
+    fun hotelOfferReferenceTotalPrice(): Money {
+        return referenceTotalPrice.toMoney()
+    }
+}

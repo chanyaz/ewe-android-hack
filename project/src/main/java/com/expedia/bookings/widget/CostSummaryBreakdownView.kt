@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
+import android.graphics.Paint
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -22,7 +23,7 @@ class CostSummaryBreakDownView(context: Context, attrs: AttributeSet?) : ScrollV
             linearLayout.removeAllViews()
             for (breakdown in it) {
                 linearLayout.addView(
-                        if (breakdown.separator) createLine(breakdown.color)
+                        if (breakdown.separator) createLine(breakdown.separatorColor)
                         else createRow(breakdown)
                 )
             }
@@ -39,13 +40,26 @@ class CostSummaryBreakDownView(context: Context, attrs: AttributeSet?) : ScrollV
         val priceValue = row.findViewById<TextView>(R.id.price_text_view)
         priceDescription.text = breakdownRow.title
         priceValue.text = breakdownRow.cost
-        if (breakdownRow.color != null) {
-            priceDescription.setTextColor(breakdownRow.color)
-            priceValue.setTextColor(breakdownRow.color)
+        breakdownRow.titleColor?.let { color ->
+            priceDescription.setTextColor(color)
         }
-        if (breakdownRow.typeface != null) {
-            priceDescription.typeface = FontCache.getTypeface(breakdownRow.typeface)
-            priceValue.typeface = FontCache.getTypeface(breakdownRow.typeface)
+        breakdownRow.costColor?.let { color ->
+            priceValue.setTextColor(color)
+        }
+        breakdownRow.titleTypeface?.let { typeface ->
+            priceDescription.typeface = FontCache.getTypeface(typeface)
+        }
+        breakdownRow.costTypeface?.let { typeface ->
+            priceValue.typeface = FontCache.getTypeface(typeface)
+        }
+        if (breakdownRow.strikeThrough) {
+            priceValue.setPaintFlags(priceValue.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
+        }
+        breakdownRow.titleTextSize?.let { size ->
+            priceDescription.setTextSize(TypedValue.COMPLEX_UNIT_PX, size)
+        }
+        breakdownRow.costTextSize?.let { size ->
+            priceValue.setTextSize(TypedValue.COMPLEX_UNIT_PX, size)
         }
         return row
     }

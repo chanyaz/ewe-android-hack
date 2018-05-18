@@ -2128,6 +2128,10 @@
     <string name="price_changed_from_TEMPLATE">Price changed from %1$s</string>
     <!-- Price dropped from -->
     <string name="price_dropped_from_TEMPLATE">Price dropped from %1$s</string>
+    <!-- Roundtrip flights -->
+    <string name="roundtrip_flights">Roundtrip flights</string>
+    <!-- Savings for booking together -->
+    <string name="savings_for_booking_together">Savings for booking together</string>
 
     <!-- Checkout Activity -->
     <!-- Your card will be charged -->
@@ -2196,6 +2200,8 @@
     <!-- Cost breakdown dialog -->
     <!-- Cost Summary -->
     <string name="cost_summary">Cost Summary</string>
+    <!-- Price Summary -->
+    <string name="price_summary">Price Summary</string>
     <!-- Expedia booking fee -->
     <string name="brand_booking_fee">{brand} Booking Fee</string>
     <!-- Booking Fee -->
@@ -4757,6 +4763,9 @@
     <!-- Ex. Select Dates. Button. Opens dialog. Dec 22 to Dec 25 (3 nights) -->
     <!-- Ex 2. Select pick-up and drop-off dates. Button. Opens dialog. Jan 1 5:00 to Jan 5 18:00 -->
     <string name="search_dates_cont_desc_TEMPLATE">{dates_label} Button. Opens dialog. {duration_description}</string>
+
+    <!-- Discount amount shown with minus e.g. -$30 -->
+    <string name="discount_minus_amount">-{amount}</string>
     <!-- Package cost summary row snippet  e.g. 2 rooms-->
     <plurals name="number_of_room_TEMPLATE">
         <item quantity="one">{room} room</item>

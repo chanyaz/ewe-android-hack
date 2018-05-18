@@ -11,6 +11,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.multiitem.MandatoryFees
 import com.expedia.bookings.data.packages.MultiItemCreateTripParams
 import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
+import com.expedia.bookings.data.packages.PackageCostSummaryBreakdownModel
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
@@ -18,6 +19,7 @@ import com.expedia.bookings.packages.activity.PackageHotelActivity
 import com.expedia.bookings.packages.presenter.PackageOverviewPresenter
 import com.expedia.bookings.packages.util.PackageServicesManager
 import com.expedia.bookings.packages.vm.BundleOverviewViewModel
+import com.expedia.bookings.packages.vm.PackageCostSummaryBreakdownViewModel
 import com.expedia.bookings.packages.vm.PackageWebCheckoutViewViewModel
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.services.PackageServices
@@ -244,6 +246,20 @@ class PackageOverviewPresenterTest {
         assertEquals("Thu Dec 07, 2017 - Fri Dec 08, 2017", overviewPresenter.bundleOverviewHeader.checkoutOverviewFloatingToolbar.checkInOutDates.text)
         assertEquals("San Francisco", overviewPresenter.bundleOverviewHeader.checkoutOverviewFloatingToolbar.destinationText.text)
         assertEquals("2 travelers", overviewPresenter.bundleOverviewHeader.checkoutOverviewFloatingToolbar.travelers.text)
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testPackageCostSummaryBreakdown() {
+        val testSubscriber = TestObserver.create<PackageCostSummaryBreakdownModel>()
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesBetterSavingsOnRateDetails)
+        setupOverviewPresenter()
+        val vm = overviewPresenter.totalPriceWidget.breakdown.viewmodel as PackageCostSummaryBreakdownViewModel
+        vm.packageCostSummaryObservable.subscribe(testSubscriber)
+
+        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
+
+        assertEquals(PackageCostSummaryBreakdownModel(null, null, "$300.23", "$100.23", "$200"), testSubscriber.values()[0])
     }
 
     private fun assertTotalPriceDisplayedForMID(displayType: MandatoryFees.DisplayType,

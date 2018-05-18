@@ -1,6 +1,7 @@
 package com.expedia.bookings.data.multiitem
 
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -226,5 +227,23 @@ data class MultiItemApiSearchResponse(
             return flights[flightOfferReference.productKey]?.piid
         }
         return null
+    }
+
+    override fun getSelectedFlightReferenceTotalPriceFromPIID(piid: String?): Money? {
+        val flight = flights.values.firstOrNull { offer ->
+            offer.piid == piid
+        }
+        return flight?.let { it ->
+            return it.flightOfferReferenceTotalPrice()
+        }
+    }
+
+    override fun getSelectedHotelReferenceTotalPriceFromID(hotelId: String?): Money? {
+        val hotel = hotels.values.firstOrNull { offer ->
+            offer.id == hotelId
+        }
+        return hotel?.let { it ->
+            return it.hotelOfferReferenceTotalPrice()
+        }
     }
 }

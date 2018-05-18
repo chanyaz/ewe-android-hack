@@ -15,6 +15,8 @@ import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
+import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse
+import com.expedia.bookings.data.packages.PackageCostSummaryBreakdownModel
 import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
@@ -418,9 +420,9 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
     private fun setupOverviewPresenterForMID() {
         resetCheckoutState()
         bundleWidgetSetup()
-        bundleWidget.viewModel.getHotelNameAndDaysToSetUpTitle()
+        val searchResponse = Db.getPackageResponse() as MultiItemApiSearchResponse
         val hotel = Db.getPackageSelectedHotel()
-        val searchResponse = Db.getPackageResponse()
+        bundleWidget.viewModel.getHotelNameAndDaysToSetUpTitle()
         val cityName = StrUtils.formatCity(Db.sharedInstance.packageParams.destination)
 
         val headerData = OverviewHeaderData(cityName, searchResponse.getHotelCheckOutDate(),
@@ -434,14 +436,26 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         setMandatoryFee(searchResponse)
         setHotelBundleWidgetGuestsAndDatesText(searchResponse)
         searchResponse.getCurrentOfferPrice()?.let {
-            totalPriceWidget.viewModel.savings.onNext(it.tripSavings)
+            val tripSavings = it.tripSavings
+            totalPriceWidget.viewModel.savings.onNext(tripSavings)
             if (isBetterSavingsOnRDScreenEnabledForPackages(context)) {
-                totalPriceWidget.viewModel.referenceTotalPrice.onNext(it.packageReferenceTotalPrice)
-                totalPriceWidget.viewModel.shouldShowSavings.onNext(it.showTripSavings)
-                if (it.showTripSavings) {
+                val packageReferenceTotalPrice = it.packageReferenceTotalPrice
+                val shouldShowTripSavings = it.showTripSavings
+                totalPriceWidget.viewModel.referenceTotalPrice.onNext(packageReferenceTotalPrice)
+                totalPriceWidget.viewModel.shouldShowSavings.onNext(shouldShowTripSavings)
+                if (shouldShowTripSavings) {
                     totalPriceWidget.bundleSavings.visibility = View.GONE
+                    val flightPIID = Db.sharedInstance.packageParams.latestSelectedOfferInfo.flightPIID
+                    val standaloneHotelPrice = searchResponse.getSelectedHotelReferenceTotalPriceFromID(hotel.hotelId)?.formattedMoneyFromAmountAndCurrencyCode
+                    val standaloneFlightPrice = searchResponse.getSelectedFlightReferenceTotalPriceFromPIID(flightPIID)?.formattedMoneyFromAmountAndCurrencyCode
+                    val referenceTotalPrice = packageReferenceTotalPrice?.formattedMoneyFromAmountAndCurrencyCode
+                    val totalPrice = it.packageTotalPrice?.formattedMoneyFromAmountAndCurrencyCode
+                    val savings = tripSavings?.formattedMoneyFromAmountAndCurrencyCode
+                    val costSummaryBreakdown = PackageCostSummaryBreakdownModel(standaloneHotelPrice, standaloneFlightPrice, referenceTotalPrice, savings, totalPrice)
+                    val costSummaryViewModel = (totalPriceWidget.breakdown.viewmodel as PackageCostSummaryBreakdownViewModel)
+                    costSummaryViewModel.packageCostSummaryObservable.onNext(costSummaryBreakdown)
                 }
-                totalPriceWidget.toggleBundleTotalCompoundDrawable(it.showTripSavings)
+                totalPriceWidget.toggleBundleTotalCompoundDrawable(shouldShowTripSavings)
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.expedia.bookings.data.multiitem
 
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -25,4 +26,6 @@ interface BundleSearchResponse {
     fun getBundleRoomResponse(): List<HotelOffersResponse.HotelRoomResponse>
     fun hasRoomResponseErrors(): Boolean
     val roomResponseFirstErrorCode: PackageErrorDetails.ApiErrorDetails
+    fun getSelectedFlightReferenceTotalPriceFromPIID(piid: String?): Money?
+    fun getSelectedHotelReferenceTotalPriceFromID(hotelId: String?): Money?
 }

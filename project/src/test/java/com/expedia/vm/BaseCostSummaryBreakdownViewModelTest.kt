@@ -21,8 +21,10 @@ class BaseCostSummaryBreakdownViewModelTest {
         assertFalse(costSummaryBreakdownRow.separator)
         assertEquals("Title", costSummaryBreakdownRow.title)
         assertEquals("$23", costSummaryBreakdownRow.cost)
-        assertEquals(R.color.packages_primary_color, costSummaryBreakdownRow.color)
-        assertEquals(FontCache.Font.ROBOTO_BOLD, costSummaryBreakdownRow.typeface)
+        assertEquals(R.color.packages_primary_color, costSummaryBreakdownRow.titleColor)
+        assertEquals(R.color.packages_primary_color, costSummaryBreakdownRow.costColor)
+        assertEquals(FontCache.Font.ROBOTO_BOLD, costSummaryBreakdownRow.titleTypeface)
+        assertEquals(FontCache.Font.ROBOTO_BOLD, costSummaryBreakdownRow.costTypeface)
     }
 
     @Test(expected = IllegalArgumentException::class)
