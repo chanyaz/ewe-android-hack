@@ -324,21 +324,6 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 		}
 
 		@Override
-		public void contactsAccessRequested() {
-			OmnitureTracking.trackLoginContactAccess();
-		}
-
-		@Override
-		public void contactsAccessResponse(boolean b) {
-			OmnitureTracking.trackAllowContactAccess(b);
-		}
-
-		@Override
-		public void emailsQueried() {
-			OmnitureTracking.trackLoginEmailsQueried();
-		}
-
-		@Override
 		public void accountCreationAttemptWithPreexistingEmail(boolean useExisting, boolean createNew) {
 			OmnitureTracking.trackEmailPrompt();
 			OmnitureTracking.trackEmailPromptChoice(useExisting);
@@ -382,16 +367,6 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 		@Override
 		public void userReceivedErrorOnAccountCreationAttempt(String failureReason) {
 			OmnitureTracking.trackAccountCreationError(failureReason);
-		}
-
-		@Override
-		public void userAutoLoggedInBySmartPassword() {
-			OmnitureTracking.trackSmartLockPasswordAutoSignIn();
-		}
-
-		@Override
-		public void userSignedInUsingSmartPassword() {
-			OmnitureTracking.trackSmartLockPasswordSignIn();
 		}
 	};
 

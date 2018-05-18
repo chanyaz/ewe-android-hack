@@ -567,14 +567,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="11269"
-            android:summary="%s"
-            android:title="Smart Lock Sign In Test - 11269" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
             android:key="15652"
             android:summary="%s"
             android:title="reCAPTCHA during signin - 15652" />

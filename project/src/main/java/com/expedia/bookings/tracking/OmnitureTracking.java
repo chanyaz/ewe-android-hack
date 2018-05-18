@@ -3286,10 +3286,6 @@ public class OmnitureTracking {
 	private static final String LOGOUT_SELECT = "App.Account.Logout.Select";
 	private static final String LOGOUT_CANCEL = "App.Account.Logout.Cancel";
 	private static final String LOGOUT_SUCCESS = "App.Account.Logout";
-	private static final String LOGIN_CONTACT_ACCESS = "App.Account.Create.AccessInfo";
-	private static final String LOGIN_CONTACT_ACCESS_ALLOWED = "App.Account.Access.Yes";
-	private static final String LOGIN_CONTACT_ACCESS_NOT_ALLOWED = "App.Account.Access.NotNow";
-	private static final String LOGIN_SEARCH_CONTACTS = "App.Account.Create.SearchContacts";
 	private static final String LOGIN_EMAIL_PROMPT = "App.Account.Email.Prompt";
 	private static final String LOGIN_EMAIL_PROMPT_EXISTING = "App.Account.Email.SignIn";
 	private static final String LOGIN_EMAIL_PROMPT_NEW = "App.Account.Email.CreateNew";
@@ -3348,18 +3344,6 @@ public class OmnitureTracking {
 		s.trackLink("Accounts");
 	}
 
-	public static void trackSmartLockPasswordAutoSignIn() {
-		AppAnalytics s = createTrackLinkEvent(LOGIN_SUCCESS);
-		s.setEvents("event26,event216");
-		s.trackLink("Accounts");
-	}
-
-	public static void trackSmartLockPasswordSignIn() {
-		AppAnalytics s = createTrackLinkEvent(LOGIN_SUCCESS);
-		s.setEvents("event26,event218");
-		s.trackLink("Accounts");
-	}
-
 	public enum LogOut {
 		SELECT(LOGOUT_SELECT),
 		CANCEL(LOGOUT_CANCEL),
@@ -3389,21 +3373,6 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountRecaptcha);
 		trackAbacusTest(s, AbacusUtils.DisableSignInPageAsFirstScreen);
 		s.track();
-	}
-
-	public static void trackLoginContactAccess() {
-		AppAnalytics s = getFreshTrackingObject();
-		// set the pageName
-		s.setAppState(LOGIN_CONTACT_ACCESS);
-		s.setEvar(18, LOGIN_CONTACT_ACCESS);
-		s.track();
-	}
-
-	public static void trackAllowContactAccess(boolean isAllowed) {
-		AppAnalytics s = createTrackLinkEvent(
-			isAllowed ? LOGIN_CONTACT_ACCESS_ALLOWED : LOGIN_CONTACT_ACCESS_NOT_ALLOWED);
-		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
-		s.trackLink("Accounts");
 	}
 
 	public static void trackEmailPrompt() {
@@ -3456,14 +3425,6 @@ public class OmnitureTracking {
 		// set the pageName
 		s.setAppState(LOGIN_CREATE_PASSWORD);
 		s.setEvar(18, LOGIN_CREATE_PASSWORD);
-		s.track();
-	}
-
-	public static void trackLoginEmailsQueried() {
-		AppAnalytics s = getFreshTrackingObject();
-		// set the pageName
-		s.setAppState(LOGIN_SEARCH_CONTACTS);
-		s.setEvar(18, LOGIN_SEARCH_CONTACTS);
 		s.track();
 	}
 
