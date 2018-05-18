@@ -13,7 +13,7 @@ import io.reactivex.Observer
 import io.reactivex.observers.DisposableObserver
 import java.util.concurrent.TimeUnit
 
-class SatelliteFeatureConfigManager {
+class SatelliteFeatureConfigManager(private val sharedPreferences: SharedPreferences) {
 
     companion object {
         const val PREFS_FEATURE_CONFIG_LAST_UPDATED = "lastUpdated"
@@ -52,10 +52,7 @@ class SatelliteFeatureConfigManager {
 
         @VisibleForTesting
         @JvmStatic fun cacheFeatureConfig(context: Context, supportedFeatureIds: List<String>) {
-            val editor = getFeatureConfigPreferences(context).edit()
-            editor.putStringSet(PREFS_SUPPORTED_FEATURE_SET, supportedFeatureIds.toSet())
-            editor.putLong(PREFS_FEATURE_CONFIG_LAST_UPDATED, System.currentTimeMillis())
-            editor.apply()
+            SatelliteFeatureConfigManager(getFeatureConfigPreferences(context)).cacheFeatureConfig(supportedFeatureIds)
         }
 
         @VisibleForTesting
@@ -118,5 +115,17 @@ class SatelliteFeatureConfigManager {
                 }
             }
         }
+    }
+
+    fun cacheFeatureConfig(supportedFeatureIds: List<String>) {
+        val editor = sharedPreferences.edit()
+        editor.putStringSet(PREFS_SUPPORTED_FEATURE_SET, supportedFeatureIds.toSet())
+        editor.putLong(PREFS_FEATURE_CONFIG_LAST_UPDATED, System.currentTimeMillis())
+        editor.apply()
+    }
+
+    fun isEnabled(featureString: String): Boolean {
+        val supportedFeatures = sharedPreferences.getStringSet(PREFS_SUPPORTED_FEATURE_SET, emptySet())
+        return supportedFeatures.contains(featureString)
     }
 }
