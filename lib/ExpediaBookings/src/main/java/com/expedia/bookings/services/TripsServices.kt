@@ -17,7 +17,7 @@ class TripsServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: I
     private val tripsApi: TripsApi by lazy {
         val adapter = Retrofit.Builder()
                 .baseUrl(endpoint)
-                .addConverterFactory(JsonConverterFactory())
+                .addConverterFactory(JsonObjectConverterFactory())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
                 .build()
@@ -30,7 +30,7 @@ class TripsServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: I
                 null, CookiePolicy.ACCEPT_NONE)
         val adapter = Retrofit.Builder()
                 .baseUrl(endpoint)
-                .addConverterFactory(JsonConverterFactory())
+                .addConverterFactory(JsonObjectConverterFactory())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient.newBuilder().cookieJar(JavaNetCookieJar(cookieHandler)).addInterceptor(interceptor).build())
                 .build()
