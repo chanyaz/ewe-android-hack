@@ -17,8 +17,8 @@ class CaptchaWebViewActivity : WebViewActivity() {
         }
     }
 
-    override fun newUrlLoaded(url: String?) {
-        if (url == intent.getStringExtra(Constants.ARG_ORIGINAL_URL)) {
+    override fun newUrlLoaded(url: String) {
+        if (url == intent.getStringExtra(Constants.ARG_ORIGINAL_URL) || url.contains("about:blank")) {
             finish()
         }
     }

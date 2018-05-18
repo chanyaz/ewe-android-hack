@@ -140,9 +140,10 @@
     <!-- Content description for Checkbox types, state Unchecked -->
     <string name="acct__cont_desc_role_checkbox_unchecked">Casella. Non selezionata.</string>
 
-
     <!--Single Page Sign Up-->
     <string name="acct__single_page_sign_up_title">Crea il tuo account gratuito</string>
 
+    <!--New Sign In Page-->
     <string name="acct__new_create_account_text">Crea account</string>
+    <string name="acct__new_facebook_link_accounts_text">Collega gli account</string>
 </resources>
