@@ -2,6 +2,7 @@ package com.expedia.bookings.test.stepdefs.phone.flights;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
+import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
@@ -24,66 +25,66 @@ public class TravelerPickerSteps {
 
 	@Then("^I increase the adult count to max$")
 	public void increaseAdultCount() throws Throwable {
-		SearchScreen.incrementAdultTravelerButton();
+		SearchScreenActions.clickIncrementAdultTravelerButton();
 		onView(allOf(isDescendantOfA(withId(R.id.adult_count_selector)), withId(R.id.traveler_type))).check(matches(withText(containsString("Adults"))));
 		for (int i = 1; i < 5; i++) {
-			SearchScreen.incrementAdultTravelerButton();
+			SearchScreenActions.clickIncrementAdultTravelerButton();
 		}
 	}
 
 	@Then("^I increase the adult count by: (\\d+)$")
 	public void increaseAdultTravelerCount(int number) throws Throwable {
 		for (int i = 0; i < number; i++) {
-			SearchScreen.incrementAdultTravelerButton();
+			SearchScreenActions.clickIncrementAdultTravelerButton();
 		}
 	}
 
 	@Then("^I increase the youth count by: (\\d+)$")
 	public void increaseYouthTravelerCount(int number) throws Throwable {
 		for (int i = 0; i < number; i++) {
-			SearchScreen.incrementYouthTravelerButton();
+			SearchScreenActions.clickIncrementYouthTravelerButton();
 		}
 	}
 
 	@Then("^I increase the child count by: (\\d+)$")
 	public void increaseChildTravelerCount(int number) throws Throwable {
 		for (int i = 0; i < number; i++) {
-			SearchScreen.incrementChildTravelerButton();
+			SearchScreenActions.clickIncrementChildTravelerButton();
 		}
 	}
 
 	@Then("^I increase the infant count by: (\\d+)$")
 	public void increaseInfantTravelerCount(int number) throws Throwable {
 		for (int i = 0; i < number; i++) {
-			SearchScreen.incrementInfantTravelerButton();
+			SearchScreenActions.clickIncrementInfantTravelerButton();
 		}
 	}
 
 	@Then("^I decrease the adult count by: (\\d+)$")
 	public void decreaseAdultTravelerCount(int number) throws Throwable {
 		for (int i = 0; i < number; i++) {
-			SearchScreen.decrementAdultTravelerButton();
+			SearchScreenActions.clickDecrementAdultTravelerButton();
 		}
 	}
 
 	@Then("^I decrease the youth count by: (\\d+)$")
 	public void decreaseYouthTravelerCount(int number) throws Throwable {
 		for (int i = 0; i < number; i++) {
-			SearchScreen.decrementYouthTravelerButton();
+			SearchScreenActions.clickDecrementYouthTravelerButton();
 		}
 	}
 
 	@Then("^I decrease the child count by: (\\d+)$")
 	public void decreaseChildTravelerCount(int number) throws Throwable {
 		for (int i = 0; i < number; i++) {
-			SearchScreen.decrementChildTravelerButton();
+			SearchScreenActions.clickDecrementChildTravelerButton();
 		}
 	}
 
 	@Then("^I decrease the infant count by: (\\d+)$")
 	public void decreaseInfantTravelerCount(int number) throws Throwable {
 		for (int i = 0; i < number; i++) {
-			SearchScreen.decrementInfantTravelerButton();
+			SearchScreenActions.clickDecrementInfantTravelerButton();
 		}
 	}
 
@@ -94,15 +95,15 @@ public class TravelerPickerSteps {
 
 	@And("^reduce the travellers count$")
 	public void reduceNumberOfTraveler() throws Throwable {
-		SearchScreen.decrementAdultTravelerButton();
+		SearchScreenActions.clickDecrementAdultTravelerButton();
 	}
 
 	@Then("^I increase the child count to max$")
 	public void increaseChildCount() throws Throwable {
-		SearchScreen.incrementChildTravelerButton();
+		SearchScreenActions.clickIncrementChildTravelerButton();
 		onView(allOf(isDescendantOfA(withId(R.id.child_count_selector)), withId(R.id.traveler_type))).check(matches(withText(containsString("1 Child"))));
 		for (int i = 1; i < 4; i++) {
-			SearchScreen.incrementChildTravelerButton();
+			SearchScreenActions.clickIncrementChildTravelerButton();
 		}
 		onView(allOf(isDescendantOfA(withId(R.id.child_count_selector)), withId(R.id.traveler_type))).check(matches(withText(containsString("Children"))));
 	}
@@ -125,6 +126,6 @@ public class TravelerPickerSteps {
 
 	@And("^Reduce the child count$")
 	public void reduceChildCount() throws Throwable {
-		SearchScreen.decrementChildTravelerButton();
+		SearchScreenActions.clickDecrementChildTravelerButton();
 	}
 }

@@ -133,9 +133,9 @@ public class SearchScreenSteps {
 	public void changeTravellersCount() throws Throwable {
 		SearchScreen.selectGuestsButton().perform(click());
 		SearchScreen.searchAlertDialogDone().perform(waitForViewToDisplay());
-		SearchScreen.incrementAdultTravelerButton();
-		SearchScreen.incrementAdultTravelerButton();
-		SearchScreen.incrementChildTravelerButton();
+		SearchScreenActions.clickIncrementAdultTravelerButton();
+		SearchScreenActions.clickIncrementAdultTravelerButton();
+		SearchScreenActions.clickIncrementChildTravelerButton();
 		SearchScreen.searchAlertDialogDone().perform(click());
 	}
 
@@ -224,10 +224,10 @@ public class SearchScreenSteps {
 		SearchScreen.selectGuestsButton().perform(click());
 
 		for (int i = 1; i < adult; i++) {
-			SearchScreen.incrementAdultTravelerButton();
+			SearchScreenActions.clickIncrementAdultTravelerButton();
 		}
 		for (int i = 0; i < child; i++) {
-			SearchScreen.incrementChildTravelerButton();
+			SearchScreenActions.clickIncrementChildTravelerButton();
 		}
 		SearchScreen.searchAlertDialogDone().perform(click());
 	}
@@ -243,11 +243,11 @@ public class SearchScreenSteps {
 
 	private void changeNumberOfAdults(int previousNumberOfAdults) {
 		while (previousNumberOfAdults < Integer.parseInt(TestUtil.dataSet.get("adults"))) {
-			SearchScreenActions.clickIncrementAdultsButton();
+			SearchScreenActions.clickIncrementAdultTravelerButton();
 			previousNumberOfAdults++;
 		}
 		while (previousNumberOfAdults > Integer.parseInt(TestUtil.dataSet.get("adults"))) {
-			SearchScreen.removeAdultsButton().perform(click());
+			SearchScreenActions.clickDecrementAdultTravelerButton();
 			previousNumberOfAdults--;
 		}
 	}
@@ -258,11 +258,11 @@ public class SearchScreenSteps {
 		int child = Integer.parseInt(TestUtil.dataSet.get("child"));
 		this.totalTravelers = adult + child;
 		while (previousNumberOfChildren < Integer.parseInt(TestUtil.dataSet.get("child"))) {
-			SearchScreenActions.clickIncrementChildButton();
+			SearchScreenActions.clickIncrementChildTravelerButton();
 			previousNumberOfChildren++;
 		}
 		while (previousNumberOfChildren > Integer.parseInt(TestUtil.dataSet.get("child"))) {
-			SearchScreen.removeChildButton().perform(click());
+			SearchScreenActions.clickDecrementChildTravelerButton();
 			previousNumberOfChildren--;
 		}
 	}

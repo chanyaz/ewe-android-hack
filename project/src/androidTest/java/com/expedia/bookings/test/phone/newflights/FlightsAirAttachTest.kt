@@ -155,8 +155,8 @@ class FlightsAirAttachTest : NewFlightTestCase() {
         SearchScreenActions.chooseDatesWithDialog(startDate, endDate)
 
         SearchScreen.selectGuestsButton().perform(ViewActions.click())
-        SearchScreenActions.clickIncrementChildButton()
-        SearchScreenActions.clickIncrementChildButton()
+        SearchScreenActions.clickIncrementChildTravelerButton()
+        SearchScreenActions.clickIncrementChildTravelerButton()
         SearchScreen.searchAlertDialogDone().perform(ViewActions.click())
 
         SearchScreen.searchButton().perform(ViewActions.click())
@@ -186,9 +186,10 @@ class FlightsAirAttachTest : NewFlightTestCase() {
     }
 
     private fun enterNonPrimaryTravelerInfo() {
+        val childAgeText = activity.getString(R.string.flight_checkout_children_age_label)
         Espresso.onView(Matchers.allOf<View>(ViewMatchers.withId(R.id.primary_details_text),
                 ViewMatchers.isDescendantOfA(ViewMatchers.withId(R.id.additional_traveler_container)),
-                ViewMatchers.withText("Edit Traveler 2 (10 year old)"))).perform(ViewActions.click())
+                ViewMatchers.withText("Traveler 2 (Child $childAgeText)"))).perform(ViewActions.click())
 
         TravelerDetails.enterFirstName("First")
         TravelerDetails.enterLastName("Child")
@@ -199,7 +200,7 @@ class FlightsAirAttachTest : NewFlightTestCase() {
 
         Espresso.onView(Matchers.allOf<View>(ViewMatchers.withId(R.id.primary_details_text),
                 ViewMatchers.isDescendantOfA(ViewMatchers.withId(R.id.additional_traveler_container)),
-                ViewMatchers.withText("Edit Traveler 3 (10 year old)"))).perform(ViewActions.click())
+                ViewMatchers.withText("Traveler 3 (Child $childAgeText)"))).perform(ViewActions.click())
 
         TravelerDetails.enterFirstName("Second")
         TravelerDetails.enterLastName("Child")

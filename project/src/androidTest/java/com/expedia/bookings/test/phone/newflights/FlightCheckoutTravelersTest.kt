@@ -51,7 +51,7 @@ class FlightCheckoutTravelersTest : NewFlightTestCase() {
         onView(allOf(withImageDrawable(R.drawable.invalid),
                 isDescendantOfA(withId(R.id.additional_traveler_container)))).check(
                 doesNotExist())
-        EspressoUser.clickOnText("Edit Traveler 1 (Adult)")
+        EspressoUser.clickOnText("Traveler 1 (Adult 18+)")
         Espresso.closeSoftKeyboard()
         TravelerDetails.clickDone()
         Common.delay(1)
@@ -81,7 +81,7 @@ class FlightCheckoutTravelersTest : NewFlightTestCase() {
 
         onView(withText("Traveler details")).perform(waitForViewToDisplay())
         onView(allOf(isDescendantOfA(withId(R.id.main_traveler_container)), withText("11/01/1985"))).perform(click())
-        onView(withText("Edit Traveler 1 (Adult)")).perform(waitForViewToDisplay())
+        onView(withText("Traveler 1 (Adult 18+)")).perform(waitForViewToDisplay())
         Espresso.closeSoftKeyboard()
         onView(withText(R.string.first_name_validation_error_message)).check(doesNotExist())
         onView(withText(R.string.last_name_validation_error_message)).check(doesNotExist())
@@ -96,13 +96,13 @@ class FlightCheckoutTravelersTest : NewFlightTestCase() {
         onView(withText(R.string.last_name_validation_error_message)).check(matches(isDisplayed()))
 
         Common.pressBack()
-        EspressoUser.clickOnText("Edit Traveler 2 (Adult)")
+        EspressoUser.clickOnText("Traveler 2 (Adult 18+)")
         Espresso.closeSoftKeyboard()
         onView(withText(R.string.first_name_validation_error_message)).check(doesNotExist())
         onView(withText(R.string.last_name_validation_error_message)).check(doesNotExist())
         Common.pressBack()
 
-        EspressoUser.clickOnText("Edit Traveler 2 (Adult)")
+        EspressoUser.clickOnText("Traveler 2 (Adult 18+)")
         Espresso.closeSoftKeyboard()
 
         TravelerDetails.enterFirstName("FiveStar")
@@ -165,7 +165,7 @@ class FlightCheckoutTravelersTest : NewFlightTestCase() {
         onView(withText("Traveler details")).perform(waitForViewToDisplay())
         onView(allOf(isDescendantOfA(withId(R.id.main_traveler_container)), withText("Enter missing traveler details"))).perform(click())
 
-        onView(withText("Edit Traveler 1 (Adult)")).perform(waitForViewToDisplay())
+        onView(withText("Traveler 1 (Adult 18+)")).perform(waitForViewToDisplay())
         EspressoUtils.assertViewIsDisplayed(R.id.passport_country_btn)
         onView(withId(R.id.passport_country_btn)).perform(click())
         onData(allOf<String>(`is`<Any>(instanceOf<Any>(String::class.java)), `is`<String>("Afghanistan"))).perform(click())

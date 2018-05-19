@@ -124,7 +124,7 @@ public class SearchScreenSteps {
 
 	@Then("^I increase the adult count$")
 	public void incrementAdultCount() throws Throwable {
-		SearchScreen.incrementAdultTravelerButton();
+		SearchScreenActions.clickIncrementAdultTravelerButton();
 	}
 	@And("^I make a packages search with following parameters$")
 	public void packagesSearchCall(Map<String, String> parameters) throws Throwable {
@@ -275,10 +275,10 @@ public class SearchScreenSteps {
 		int child = Integer.parseInt(parameters.get("child"));
 		SearchScreen.selectGuestsButton().perform(click());
 		for (int i = 1; i < adult; i++) {
-			SearchScreen.incrementAdultTravelerButton();
+			SearchScreenActions.clickIncrementAdultTravelerButton();
 		}
 		for (int i = 0; i < child; i++) {
-			SearchScreen.incrementChildTravelerButton();
+			SearchScreenActions.clickIncrementChildTravelerButton();
 		}
 		SearchScreen.searchAlertDialogDone().perform(click());
 	}

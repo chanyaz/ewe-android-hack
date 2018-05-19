@@ -1,7 +1,8 @@
 package com.expedia.bookings.test.pagemodels.common
 
 import android.support.test.espresso.Espresso
-import android.support.test.espresso.action.ViewActions
+import android.support.test.espresso.action.ViewActions.click
+import android.support.test.espresso.action.ViewActions.typeText
 import android.support.test.espresso.contrib.RecyclerViewActions
 import android.support.test.espresso.matcher.ViewMatchers
 import android.support.v7.widget.RecyclerView
@@ -11,6 +12,7 @@ import com.expedia.bookings.test.espresso.CalendarPickerActions
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.TestValues
+import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen
 import com.mobiata.mocke3.FlightApiMockResponseGenerator
 import org.hamcrest.Matcher
@@ -22,7 +24,7 @@ object SearchScreenActions {
 
     @Throws(Throwable::class)
     @JvmStatic fun selectPackageOriginAndDestination() {
-        SearchScreen.origin().perform(ViewActions.click())
+        SearchScreen.origin().perform(click())
         Common.delay(1)
         typeAndSelectLocation(TestValues.TYPE_TEXT_SFO, TestValues.PACKAGE_ORIGIN_LOCATION_SFO)
         typeAndSelectLocation(TestValues.TYPE_TEXT_DTW, TestValues.DESTINATION_LOCATION_DTW)
@@ -30,8 +32,8 @@ object SearchScreenActions {
 
     @Throws(Throwable::class)
     @JvmStatic fun selectRailOriginAndDestination() {
-        SearchScreen.origin().perform(ViewActions.click())
-        SearchScreen.waitForSearchEditText().perform(ViewActions.typeText(TestValues.TYPE_TEXT_LONDON))
+        SearchScreen.origin().perform(click())
+        SearchScreen.waitForSearchEditText().perform(typeText(TestValues.TYPE_TEXT_LONDON))
         Espresso.closeSoftKeyboard()
         val originPosition = 17 // origin suggestion position in suggestion list
         SearchScreen.suggestionList().perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(originPosition))
@@ -39,8 +41,8 @@ object SearchScreenActions {
         //Delay from the auto advance anim
 
         SearchScreen.destination()
-                .perform(com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay(), ViewActions.click())
-        SearchScreen.waitForSearchEditText().perform(ViewActions.typeText(TestValues.TYPE_TEXT_GLASGOW))
+                .perform(com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay(), click())
+        SearchScreen.waitForSearchEditText().perform(typeText(TestValues.TYPE_TEXT_GLASGOW))
         Espresso.closeSoftKeyboard()
         val destinationPosition = 18 // destination suggestion position in suggestion list
         SearchScreen.suggestionList().perform(RecyclerViewActions
@@ -99,7 +101,7 @@ object SearchScreenActions {
         EspressoUtils.waitForViewNotYetInLayoutToDisplay(ViewMatchers.withId(R.id.suggestion_list), 10, TimeUnit.SECONDS)
         waitForSuggestions(viewMatcher)
         SearchScreen.suggestionList()
-                .perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(viewMatcher, ViewActions.click()))
+                .perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(viewMatcher, click()))
     }
 
     @JvmStatic fun waitForSuggestions(viewMatcher: Matcher<View>) {
@@ -112,7 +114,7 @@ object SearchScreenActions {
         val startDate = LocalDate.now()
         chooseDatesWithDialog(startDate, null)
 
-        SearchScreen.searchButton().perform(ViewActions.click())
+        SearchScreen.searchButton().perform(click())
     }
 
     @JvmStatic fun doGenericHotelSearchWithSwp() {
@@ -133,38 +135,38 @@ object SearchScreenActions {
         val startDate = LocalDate.now().plusDays(3)
         val endDate = LocalDate.now().plusDays(8)
         chooseDatesWithDialog(startDate, endDate)
-        SearchScreen.selectGuestsButton().perform(ViewActions.click())
+        SearchScreen.selectGuestsButton().perform(click())
         setGuests(adults, children)
         if (clickSwP) {
             HotelInfoSiteScreen.clickSwPToggle()
         }
 
-        SearchScreen.searchButton().perform(ViewActions.click())
+        SearchScreen.searchButton().perform(click())
     }
 
     @JvmStatic fun selectFlightOriginAndDestination(suggestionResponseType: FlightApiMockResponseGenerator.SuggestionResponseType,
                                                     destinationPosition: Int) {
-        SearchScreen.origin().perform(ViewActions.click())
-        SearchScreen.waitForSearchEditText().perform(ViewActions.typeText("origin"))
+        SearchScreen.origin().perform(click())
+        SearchScreen.waitForSearchEditText().perform(typeText("origin"))
         Espresso.closeSoftKeyboard()
         Common.delay(1)
         SearchScreen.suggestionList().perform(com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay(),
                 RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(ViewMatchers.hasDescendant(
-                        ViewMatchers.withText(suggestionResponseType.suggestionString)), ViewActions.click()))
+                        ViewMatchers.withText(suggestionResponseType.suggestionString)), click()))
 
         //Delay for the auto advance to destination picker
         Common.delay(1)
-        SearchScreen.waitForSearchEditText().perform(ViewActions.typeText("destination"))
+        SearchScreen.waitForSearchEditText().perform(typeText("destination"))
         Espresso.closeSoftKeyboard()
         Common.delay(1)
         SearchScreen.suggestionList().perform(com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay(),
                 RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(destinationPosition),
-                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(destinationPosition, ViewActions.click()))
+                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(destinationPosition, click()))
     }
 
     @Throws(Throwable::class)
     @JvmStatic fun typeAndSelectLocation(text: String , location: String) {
-        SearchScreen.waitForSearchEditText().perform(ViewActions.typeText(text))
+        SearchScreen.waitForSearchEditText().perform(typeText(text))
         selectLocation(location)
     }
 
@@ -186,7 +188,7 @@ object SearchScreenActions {
 
     @JvmStatic fun chooseDatesWithDialog(start: LocalDate, end: LocalDate?) {
         chooseDates(start, end)
-        SearchScreen.searchAlertDialogDone().perform(ViewActions.click())
+        SearchScreen.searchAlertDialogDone().perform(click())
     }
 
     @JvmStatic fun chooseDates(start: LocalDate, end: LocalDate?) {
@@ -200,20 +202,44 @@ object SearchScreenActions {
     @JvmStatic fun setGuests(adults: Int, children: Int) {
         //Minimum 1 ADT selected
         for (i in 1..adults - 1) {
-            clickIncrementAdultsButton()
+            clickIncrementAdultTravelerButton()
         }
 
         for (i in 0..children - 1) {
-            clickIncrementChildButton()
+            clickIncrementChildTravelerButton()
         }
-        SearchScreen.searchAlertDialogDone().perform(ViewActions.click())
+        SearchScreen.searchAlertDialogDone().perform(click())
     }
 
-    @JvmStatic fun clickIncrementChildButton() {
-        SearchScreen.incrementChildButton().perform(ViewActions.click())
+    @JvmStatic fun clickIncrementAdultTravelerButton() {
+        SearchScreen.incrementAdultTravelerButton().perform(waitForViewToDisplay(), click())
     }
 
-    @JvmStatic fun clickIncrementAdultsButton() {
-        SearchScreen.incrementAdultsButton().perform(ViewActions.click())
+    @JvmStatic fun clickIncrementYouthTravelerButton() {
+        SearchScreen.incrementYouthTravelerButton().perform(waitForViewToDisplay(), click())
+    }
+
+    @JvmStatic fun clickIncrementChildTravelerButton() {
+        SearchScreen.incrementChildTravelerButton().perform(waitForViewToDisplay(), click())
+    }
+
+    @JvmStatic fun clickIncrementInfantTravelerButton() {
+        SearchScreen.incrementInfantTravelerButton().perform(waitForViewToDisplay(), click())
+    }
+
+    @JvmStatic fun clickDecrementAdultTravelerButton() {
+        SearchScreen.decrementAdultTravelerButton().perform(waitForViewToDisplay(), click())
+    }
+
+    @JvmStatic fun clickDecrementYouthTravelerButton() {
+        SearchScreen.decrementYouthTravelerButton().perform(waitForViewToDisplay(), click())
+    }
+
+    @JvmStatic fun clickDecrementChildTravelerButton() {
+        SearchScreen.decrementChildTravelerButton().perform(waitForViewToDisplay(), click())
+    }
+
+    @JvmStatic fun clickDecrementInfantTravelerButton() {
+        SearchScreen.decrementInfantTravelerButton().perform(waitForViewToDisplay(), click())
     }
 }

@@ -65,10 +65,10 @@ public class BaseTravelerPresenterTestHelper {
 	protected final String expectedMainText = "Main Traveler";
 	protected final String expectedAdditionalText = "Additional Travelers";
 	protected final String expectedTravelerOneText = Phrase.from(InstrumentationRegistry.getTargetContext()
-		.getString(R.string.checkout_edit_traveler_TEMPLATE)).put("travelernumber", 1).put("passengerage", "Adult")
+		.getString(R.string.checkout_traveler_title_TEMPLATE)).put("travelernumber", 1).put("passengerycategory", "Adult 18+")
 		.format().toString();
 	protected final String expectedTravelerTwoText = Phrase.from(InstrumentationRegistry.getTargetContext()
-		.getString(R.string.checkout_edit_traveler_TEMPLATE)).put("travelernumber", 2).put("passengerage", "Adult")
+		.getString(R.string.checkout_traveler_title_TEMPLATE)).put("travelernumber", 2).put("passengerycategory", "Adult 18+")
 		.format().toString();
 
 	protected final String expectedFilledTravelerOneText = testFirstName + " " + testLastName;
@@ -78,7 +78,7 @@ public class BaseTravelerPresenterTestHelper {
 	protected final String expectedFilledTravelerChildText = testChildFullName;
 
 	protected final String expectedTravelerInfantText = Phrase.from(InstrumentationRegistry.getTargetContext()
-		.getString(R.string.checkout_edit_traveler_TEMPLATE)).put("travelernumber", 3).put("passengerage", "1 year old")
+		.getString(R.string.checkout_traveler_title_TEMPLATE)).put("travelernumber", 3).put("passengerycategory", "Infant under 2")
 		.format().toString();
 
 	private Context context = InstrumentationRegistry.getTargetContext();

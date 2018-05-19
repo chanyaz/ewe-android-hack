@@ -55,19 +55,19 @@ public class PackagesSearchScreenTest extends PackageTestCase {
 
 		SearchScreen.selectGuestsButton().check(matches(withContentDescription("Number of travelers. Button. Opens dialog. 1 traveler")));
 		SearchScreen.selectGuestsButton().perform(click());
-		SearchScreenActions.clickIncrementAdultsButton();
+		SearchScreenActions.clickIncrementAdultTravelerButton();
 		SearchScreen.searchAlertDialogDone().perform(click());
 		SearchScreen.selectGuestsButton().check(matches(withContentDescription("Number of travelers. Button. Opens dialog. 2 travelers")));
 		SearchScreen.selectGuestsButton().perform(click());
-		SearchScreenActions.clickIncrementChildButton();
+		SearchScreenActions.clickIncrementChildTravelerButton();
 		SearchScreen.searchAlertDialogDone().perform(click());
 		SearchScreen.selectGuestsButton().check(matches(withContentDescription("Number of travelers. Button. Opens dialog. 3 travelers")));
 		SearchScreen.selectGuestsButton().perform(click());
-		SearchScreen.removeChildButton().perform(click());
+		SearchScreenActions.clickDecrementChildTravelerButton();
 		SearchScreen.searchAlertDialogDone().perform(click());
 		SearchScreen.selectGuestsButton().check(matches(withContentDescription("Number of travelers. Button. Opens dialog. 2 travelers")));
 		SearchScreen.selectGuestsButton().perform(click());
-		SearchScreen.removeAdultsButton().perform(click());
+		SearchScreenActions.clickDecrementAdultTravelerButton();
 		SearchScreen.searchAlertDialogDone().perform(click());
 		SearchScreen.selectGuestsButton().check(matches(withContentDescription("Number of travelers. Button. Opens dialog. 1 traveler")));
 
@@ -80,18 +80,10 @@ public class PackagesSearchScreenTest extends PackageTestCase {
 
 		Common.delay(1);
 		SearchScreen.selectGuestsButton().perform(click());
-		SearchScreen.incrementAdultsButton().check(matches(ViewMatchers.withContentDescription("Add one adult traveler")));
-		SearchScreen.removeAdultsButton().check(matches(ViewMatchers.withContentDescription("Remove one adult traveler")));
-		SearchScreen.incrementChildButton().check(matches(ViewMatchers.withContentDescription("Add one child traveler")));
-		SearchScreen.removeChildButton().check(matches(ViewMatchers.withContentDescription("Remove one child traveler")));
-		SearchScreenActions.clickIncrementChildButton();
-		SearchScreen.childAgeDropDown(1).check(matches(ViewMatchers.withContentDescription("Select age for child 1. 10 years old selected.")));
-		SearchScreenActions.clickIncrementChildButton();
-		SearchScreen.childAgeDropDown(2).check(matches(ViewMatchers.withContentDescription("Select age for child 2. 10 years old selected.")));
-		SearchScreenActions.clickIncrementChildButton();
-		SearchScreen.childAgeDropDown(3).check(matches(ViewMatchers.withContentDescription("Select age for child 3. 10 years old selected.")));
-		SearchScreenActions.clickIncrementChildButton();
-		SearchScreen.childAgeDropDown(4).check(matches(ViewMatchers.withContentDescription("Select age for child 4. 10 years old selected.")));
+		SearchScreen.incrementAdultTravelerButton().check(matches(ViewMatchers.withContentDescription("Add one adult traveler")));
+		SearchScreen.decrementAdultTravelerButton().check(matches(ViewMatchers.withContentDescription("Remove one adult traveler")));
+		SearchScreen.incrementChildTravelerButton().check(matches(ViewMatchers.withContentDescription("Add one child traveler")));
+		SearchScreen.decrementChildTravelerButton().check(matches(ViewMatchers.withContentDescription("Remove one child traveler")));
 		Common.delay(1);
 	}
 

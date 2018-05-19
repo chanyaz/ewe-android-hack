@@ -2,7 +2,6 @@ package com.expedia.bookings.test.pagemodels.common
 
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.ViewInteraction
-import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.matcher.RootMatchers.withDecorView
 import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.hasDescendant
@@ -74,22 +73,6 @@ object SearchScreen {
         return onView(withId(R.id.traveler_card))
     }
 
-    @JvmStatic fun incrementAdultsButton(): ViewInteraction {
-        return onView(withId(R.id.adults_plus))
-    }
-
-    @JvmStatic fun removeAdultsButton(): ViewInteraction {
-        return onView(withId(R.id.adults_minus))
-    }
-
-    @JvmStatic fun incrementChildButton(): ViewInteraction {
-        return onView(withId(R.id.children_plus))
-    }
-
-    @JvmStatic fun removeChildButton(): ViewInteraction {
-        return onView(withId(R.id.children_minus))
-    }
-
     @JvmStatic fun calendarSubtitle(): ViewInteraction {
         return onView(withId(R.id.instructions))
     }
@@ -103,35 +86,35 @@ object SearchScreen {
     }
 
     @JvmStatic fun incrementAdultTravelerButton(): ViewInteraction {
-        return onView(allOf(isDescendantOfA(withId(R.id.adult_count_selector)), withId(R.id.traveler_plus))).perform(ViewActions.waitForViewToDisplay(), click())
+        return onView(allOf(isDescendantOfA(withId(R.id.adult_count_selector)), withId(R.id.traveler_plus)))
     }
 
     @JvmStatic fun incrementYouthTravelerButton(): ViewInteraction {
-        return onView(allOf(isDescendantOfA(withId(R.id.youth_count_selector)), withId(R.id.traveler_plus))).perform(ViewActions.waitForViewToDisplay(), click())
+        return onView(allOf(isDescendantOfA(withId(R.id.youth_count_selector)), withId(R.id.traveler_plus)))
     }
 
     @JvmStatic fun incrementChildTravelerButton(): ViewInteraction {
-        return onView(allOf(isDescendantOfA(withId(R.id.child_count_selector)), withId(R.id.traveler_plus))).perform(ViewActions.waitForViewToDisplay(), click())
+        return onView(allOf(isDescendantOfA(withId(R.id.child_count_selector)), withId(R.id.traveler_plus)))
     }
 
     @JvmStatic fun incrementInfantTravelerButton(): ViewInteraction {
-        return onView(allOf(isDescendantOfA(withId(R.id.infant_count_selector)), withId(R.id.traveler_plus))).perform(ViewActions.waitForViewToDisplay(), click())
+        return onView(allOf(isDescendantOfA(withId(R.id.infant_count_selector)), withId(R.id.traveler_plus)))
     }
 
     @JvmStatic fun decrementAdultTravelerButton(): ViewInteraction {
-        return onView(allOf(isDescendantOfA(withId(R.id.adult_count_selector)), withId(R.id.traveler_minus))).perform(ViewActions.waitForViewToDisplay(), click())
+        return onView(allOf(isDescendantOfA(withId(R.id.adult_count_selector)), withId(R.id.traveler_minus)))
     }
 
     @JvmStatic fun decrementYouthTravelerButton(): ViewInteraction {
-        return onView(allOf(isDescendantOfA(withId(R.id.youth_count_selector)), withId(R.id.traveler_minus))).perform(ViewActions.waitForViewToDisplay(), click())
+        return onView(allOf(isDescendantOfA(withId(R.id.youth_count_selector)), withId(R.id.traveler_minus)))
     }
 
     @JvmStatic fun decrementChildTravelerButton(): ViewInteraction {
-        return onView(allOf(isDescendantOfA(withId(R.id.child_count_selector)), withId(R.id.traveler_minus))).perform(ViewActions.waitForViewToDisplay(), click())
+        return onView(allOf(isDescendantOfA(withId(R.id.child_count_selector)), withId(R.id.traveler_minus)))
     }
 
     @JvmStatic fun decrementInfantTravelerButton(): ViewInteraction {
-        return onView(allOf(isDescendantOfA(withId(R.id.infant_count_selector)), withId(R.id.traveler_minus))).perform(ViewActions.waitForViewToDisplay(), click())
+        return onView(allOf(isDescendantOfA(withId(R.id.infant_count_selector)), withId(R.id.traveler_minus)))
     }
 
     @JvmStatic fun childAgeDropDown(childNumber: Int): ViewInteraction? {
