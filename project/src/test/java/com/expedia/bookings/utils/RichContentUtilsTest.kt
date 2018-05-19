@@ -34,7 +34,7 @@ class RichContentUtilsTest {
         val richContentRequest = RichContentUtils.getRichContentRequestPayload(activity, getFlightLegs())
 
         val richInfoDetail = richContentRequest.richInfoDetail!!.richInfoList[0]
-        assertEquals(TripType.ONEWAY.type, richInfoDetail.flightSearch!!.tripType)
+        assertEquals(TripType.ROUND_TRIP.type, richInfoDetail.flightSearch!!.tripType)
 
         val travelCategoryList = richInfoDetail.flightSearch!!.flightCriteria!!.travelerDetail!!.travelerCategoryList
         assertEquals(TravelerCode.ADULT.code, travelCategoryList[0].travelerCode)
