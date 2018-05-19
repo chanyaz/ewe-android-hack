@@ -9,7 +9,7 @@ abstract class BaseResultsViewModel {
     val flightResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
     val isOutboundResults = BehaviorSubject.create<Boolean>()
     val airlineChargesFeesSubject = PublishSubject.create<Boolean>()
-    val updateFlightsStream = PublishSubject.create<Int>()
+    val updateFlightsStream = PublishSubject.create<Unit>()
     open val doNotOverrideFilterButton = false
     open val showLoadingStateV1 = false
     open val showRichContent = false
