@@ -77,6 +77,10 @@ class FlightSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayout(
             outboundFlightWidget.viewModel.updatedFlightLeg = it
         }
 
+        vm.refreshOutboundBundleWidgetStream.subscribe {
+            outboundFlightWidget.viewModel.flight.onNext(outboundFlightWidget.viewModel.flight.value)
+        }
+
         if (isShowClassAndBookingCodeEnabled(context)) {
             vm.updateOutboundSeatClassAndCodeSubject.subscribe(outboundFlightWidget.flightSegmentWidget.viewmodel.updateSeatClassAndCodeSubject)
             vm.updateInboundSeatClassAndCodeSubject.subscribe(inboundFlightWidget.flightSegmentWidget.viewmodel.updateSeatClassAndCodeSubject)
