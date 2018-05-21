@@ -79,7 +79,7 @@ object RichContentUtils {
         val flightSearchParams = Db.getFlightSearchParams()
         val searchContext = RichContentFlightSearch()
         if (flightSearchParams != null) {
-            searchContext.tripType = TripType.ONEWAY.type
+            searchContext.tripType = if (flightSearchParams.isRoundTrip()) TripType.ROUND_TRIP.type else TripType.ONEWAY.type
             searchContext.flightCriteria = getFlightCriteria(flightSearchParams)
         }
         return searchContext

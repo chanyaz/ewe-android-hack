@@ -145,7 +145,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
                 setPaymentLegalMessage(showAirlineChargesFees)
             }
         }
-        vm.updateFlightsStream.subscribe { flightListAdapter.notifyItemRangeChanged(0, it) }
+        vm.updateFlightsStream.subscribe { flightListAdapter.notifyDataSetChanged() }
     }
 
     val listResultsObserver = endlessObserver<List<FlightLeg>> {

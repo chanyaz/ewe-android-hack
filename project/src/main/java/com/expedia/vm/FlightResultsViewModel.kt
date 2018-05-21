@@ -48,7 +48,7 @@ class FlightResultsViewModel(context: Context) : BaseResultsViewModel() {
                         flightLeg.richContent = richContent
                     }
                 }
-                updateFlightsStream.onNext(flightLegs.size - 1)
+                updateFlightsStream.onNext(Unit)
             }).subscribe()
         }
     }
