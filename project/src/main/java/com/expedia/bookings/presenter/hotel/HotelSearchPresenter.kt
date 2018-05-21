@@ -16,6 +16,7 @@ import com.expedia.bookings.hotel.tracking.SuggestionTrackingData
 import com.expedia.bookings.hotel.widget.adapter.HotelSuggestionAdapter
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseSearchPresenter
+import com.expedia.bookings.shared.DebounceOnClickListener
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.hotel.HotelTracking
@@ -78,7 +79,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
             calendarWidgetV2.setAccessibilityHoverFocus()
         }
 
-        searchButton.setOnClickListener {
+        searchButton.setOnClickListener(DebounceOnClickListener({
             searchTrackingBuilder.markSearchClicked()
             val lastSuggestionV4 = suggestionViewModel.getLastSelectedSuggestion()
             if (lastSuggestionV4 != null) {
@@ -87,7 +88,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
             suggestionTrackingData.suggestionsFocused = suggestionListFocused
             OmnitureTracking.trackHotelSuggestionBehavior(suggestionTrackingData)
             vm.searchObserver.onNext(Unit)
-        }
+        }))
     }
 
     private var suggestionListFocused = false
