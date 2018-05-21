@@ -1452,11 +1452,11 @@
     <!--Hotel itin manage booking room details header-->
     <string name="itin_hotel_manage_booking_header">Buchung verwalten</string>
     <!--Hotel itin manage booking hotel help heading-->
-    <string name="itin_hotel_manage_booking_hotel_help_heading">Wir helfen Ihnen gerne</string>
+    <string name="itin_more_help_heading">Wir helfen Ihnen gerne</string>
     <!--Hotel itin manage booking hotel help text. For special requests or questions about your reservation, contact {hotelname} (eg., For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver)-->
-    <string name="itin_hotel_manage_booking_hotel_help_text_TEMPLATE">Wenden Sie sich bei Sonderwünschen oder Fragen zu Ihrer Buchung bitte an {hotelname}</string>
+    <string name="itin_more_help_text_TEMPLATE">Wenden Sie sich bei Sonderwünschen oder Fragen zu Ihrer Buchung bitte an {hotelname}</string>
     <!--Hotel itin manage booking hotel help confirmation number. Confirmation # {number} (eg., Confirmation # 87654321)-->
-    <string name="itin_hotel_manage_booking_hotel_help_confirmation_number_TEMPLATE">Bestätigungsnr. {number}</string>
+    <string name="itin_more_help_confirmation_text">Bestätigungsnr. {number}</string>
     <!--Hotel itin customer support header text. (eg., If you need help managing this itinerary, contact Expedia)-->
     <string name="itin_hotel_customer_support_header_text_TEMPLATE">Wenn Sie Hilfe beim Verwalten dieses Reiseplans benötigen, kontaktieren Sie bitte {brand}</string>
     <!--Hotel itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
@@ -1472,7 +1472,7 @@
     <!--Hotel itin manage booking call support button content description. Call {brand} at {phonenumber}. Button (eg., Call Expedia at +18055437700. Button)-->
     <string name="itin_hotel_manage_booking_call_support_button_content_description_TEMPLATE">{brand} anrufen unter der Nummer {phonenumber}. Schaltfläche</string>
     <!--Hotel itin manage booking confirmation number content description. Confirmation number {number}. Click to copy (eg., Confirmation number 88888888. Click to copy)-->
-    <string name="itin_hotel_manage_booking_confirmation_number_content_description_TEMPLATE">Bestätigungsnummer {number}. Zum Kopieren anklicken</string>
+    <string name="itin_more_help_confirmation_number_content_description_TEMPLATE">Bestätigungsnummer {number}. Zum Kopieren anklicken</string>
     <!--Hotel itin manage booking itinerary number content description. Itinerary number {number}. Click to copy (eg., Itinerary number 88888888. Click to copy)-->
     <string name="itin_hotel_manage_booking_itinerary_number_content_description_TEMPLATE">Reiseplannummer {number}. Zum Kopieren anklicken</string>
     <!--Hotel itin room details requests header-->

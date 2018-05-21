@@ -2,7 +2,13 @@ package com.expedia.bookings.itin.hotel.manageBooking
 
 import android.content.Context
 import android.content.pm.PackageManager
+import android.support.v4.view.GestureDetectorCompat
 import android.util.AttributeSet
+import android.view.ActionMode
+import android.view.GestureDetector
+import android.view.Menu
+import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R

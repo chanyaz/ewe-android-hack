@@ -46,7 +46,8 @@ class HotelItinManageBookingHelpTest {
         assertEquals(itinCardDataHotel.localPhone, manageBookingHelpWidget.callHotelButton.text.toString())
         assertEquals("Call hotel at " + itinCardDataHotel.localPhone + ". Button", manageBookingHelpWidget.callHotelButton.contentDescription)
 
-        manageBookingHelpWidget.callHotelButton.performClick()
+        val touchEvent = MotionEvent.obtain(0, 0, MotionEvent.ACTION_BUTTON_PRESS, 0f, 0f, 0)
+        manageBookingHelpWidget.callHotelButton.dispatchTouchEvent(touchEvent)
         OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Hotel.Manage.Call.Hotel", mockAnalyticsProvider)
     }
 
@@ -58,6 +59,18 @@ class HotelItinManageBookingHelpTest {
         val touchEvent = MotionEvent.obtain(0, 0, MotionEvent.ACTION_DOWN, 0f, 0f, 0)
         manageBookingHelpWidget.callHotelButton.dispatchTouchEvent(touchEvent)
         assertTrue(manageBookingHelpWidget.callHotelButton.hasFocus())
+    }
+
+    fun testShowConfirmationNumberIfAvailable() {
+        var confirmationNumber = ""
+        manageBookingHelpWidget.showConfirmationNumberIfAvailable(confirmationNumber)
+        assertEquals(View.GONE, manageBookingHelpWidget.confirmationTitle.visibility)
+
+        confirmationNumber = "12345"
+        manageBookingHelpWidget.showConfirmationNumberIfAvailable(confirmationNumber)
+        assertEquals(View.VISIBLE, manageBookingHelpWidget.confirmationTitle.visibility)
+        assertEquals("12345", manageBookingHelpWidget.confirmationNumber.text.toString())
+        assertEquals("Confirmation number 12345. Double click and hold to select.", manageBookingHelpWidget.confirmationNumber.contentDescription)
     }
 
     @Test
