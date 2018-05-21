@@ -1,5 +1,6 @@
 package com.expedia.bookings.unit;
 
+import java.math.BigDecimal;
 import java.util.Locale;
 
 import org.junit.After;
@@ -94,17 +95,20 @@ public class MoneyTests {
 
 	@Test
 	public void testForNegationOfNegativePrefix() {
-		Money money = new Money("-0.45", "USD");
-		Assert.assertEquals("$0", money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
+		Assert.assertEquals("$0",
+			Money.getFormattedMoneyFromAmountAndCurrencyCode(new BigDecimal(-0.45), "USD", Money.F_NO_DECIMAL));
 
-		money = new Money("-0.49", "USD");
-		Assert.assertEquals("$0", money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
+		Assert.assertEquals("$0",
+			Money.getFormattedMoneyFromAmountAndCurrencyCode(new BigDecimal(-0.49), "USD", Money.F_NO_DECIMAL));
 
-		money = new Money("-0.5", "USD");
-		Assert.assertEquals("-$1", money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
+		Assert.assertEquals("-$1",
+			Money.getFormattedMoneyFromAmountAndCurrencyCode(new BigDecimal(-0.5), "USD", Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
 
-		money = new Money("-0.7", "USD");
-		Assert.assertEquals("-$1", money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP));
+		Assert.assertEquals("$0",
+			Money.getFormattedMoneyFromAmountAndCurrencyCode(new BigDecimal(-0.5), "USD", Money.F_NO_DECIMAL));
+
+		Assert.assertEquals("-$1",
+			Money.getFormattedMoneyFromAmountAndCurrencyCode(new BigDecimal(-0.7), "USD", Money.F_NO_DECIMAL));
 	}
 
 	@After

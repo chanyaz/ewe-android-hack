@@ -332,15 +332,7 @@ public class Money {
 			if (currency != null) {
 				nf.setCurrency(currency);
 				nf.setMaximumFractionDigits(currency.getDefaultFractionDigits());
-				String formattedAmount = nf.format(amount);
-				if (formattedAmount.endsWith(currency.getSymbol())) {
-					nf.setNegativePrefix("-");
-					nf.setNegativeSuffix(" " + currency.getSymbol());
-				}
-				else {
-					nf.setNegativePrefix("-" + currency.getSymbol());
-					nf.setNegativeSuffix("");
-				}
+				setNegativePrefixSuffix(amount, nf, currency, "-");
 			}
 
 			if ((flags & F_NO_DECIMAL) != 0) {
@@ -373,7 +365,7 @@ public class Money {
 		//We don't want negative sign as prefix in case of no decimal for formatted amount as 0, ex: -0.37 -> -0
 		if (nf.getMaximumFractionDigits() == 0 && amount.compareTo(BigDecimal.valueOf(-0.5)) >= 0) {
 			nf = (DecimalFormat) nf.clone();
-			nf.setNegativePrefix("");
+			setNegativePrefixSuffix(amount, nf, Currency.getInstance(currencyCode), "");
 		}
 
 		String formattedAmount = nf.format(amount);
@@ -401,6 +393,19 @@ public class Money {
 			}
 		}
 		return formattedAmount;
+	}
+
+	private static void setNegativePrefixSuffix(BigDecimal amount, DecimalFormat nf, Currency currency,
+		String negativePrefixSymbol) {
+		String formattedAmount = nf.format(amount);
+		if (formattedAmount.endsWith(currency.getSymbol())) {
+			nf.setNegativePrefix(negativePrefixSymbol);
+			nf.setNegativeSuffix(" " + currency.getSymbol());
+		}
+		else {
+			nf.setNegativePrefix(negativePrefixSymbol + currency.getSymbol());
+			nf.setNegativeSuffix("");
+		}
 	}
 
 	public String getCurrencySymbol() {
