@@ -1531,6 +1531,8 @@
     <string name="itin_lx_toolbar_title_TEMPLATE">Activity in {location}</string>
     <string name="itin_lx_more_info_heading">More help</string>
     <string name="itin_lx_more_info_subheading">Customer support information</string>
+    <!--Itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Activity address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
+    <string name="itin_lx_details_address_copy_content_description_TEMPLATE">Activity address. {address}. Click to copy to clipboard. Button</string>
     <!--LX itin redeem voucher.-->
     <string name="itin_lx_redeem_voucher">Redeem voucher</string>
 

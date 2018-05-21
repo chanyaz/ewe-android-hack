@@ -10,6 +10,7 @@ import com.expedia.bookings.itin.helpers.MockActivityLauncher
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
 import com.expedia.bookings.itin.helpers.MockLxRepo
 import com.expedia.bookings.itin.helpers.MockStringProvider
+import com.expedia.bookings.itin.helpers.MockToaster
 import com.expedia.bookings.itin.helpers.MockTripsTracking
 import com.expedia.bookings.itin.helpers.MockWebViewLauncher
 import com.expedia.bookings.itin.lx.LxItinToolbarViewModel
@@ -21,6 +22,7 @@ import com.expedia.bookings.itin.scopes.HasManageBookingWidgetViewModelSetter
 import com.expedia.bookings.itin.scopes.HasMapWidgetViewModelSetter
 import com.expedia.bookings.itin.scopes.HasRedeemVoucherViewModelSetter
 import com.expedia.bookings.itin.scopes.HasStringProvider
+import com.expedia.bookings.itin.scopes.HasToaster
 import com.expedia.bookings.itin.scopes.HasToolbarViewModelSetter
 import com.expedia.bookings.itin.scopes.HasTripsTracking
 import com.expedia.bookings.itin.scopes.HasWebViewLauncher
@@ -32,6 +34,7 @@ import com.expedia.bookings.itin.scopes.ToolBarViewModelSetter
 import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.itin.utils.IActivityLauncher
+import com.expedia.bookings.itin.utils.IToaster
 import com.expedia.bookings.itin.utils.IWebViewLauncher
 import com.expedia.bookings.itin.utils.StringSource
 import com.expedia.bookings.tracking.ITripsTracking
@@ -102,14 +105,16 @@ class LxItinDetailsActivityLifecycleObserverTest {
         testObserver.assertValue(Unit)
     }
 
-    class TestLifeCycleObsScope : HasStringProvider, HasWebViewLauncher, HasActivityLauncher, HasJsonUtil, HasItinId, HasToolbarViewModelSetter, HasManageBookingWidgetViewModelSetter, HasTripsTracking, HasMapWidgetViewModelSetter, HasRedeemVoucherViewModelSetter {
+    class TestLifeCycleObsScope : HasStringProvider, HasWebViewLauncher, HasActivityLauncher, HasJsonUtil, HasItinId, HasToolbarViewModelSetter, HasManageBookingWidgetViewModelSetter, HasTripsTracking, HasMapWidgetViewModelSetter, HasRedeemVoucherViewModelSetter, HasToaster {
+        val mockToaster = MockToaster()
+        override val toaster: IToaster = mockToaster
         override val map: MapWidgetViewModelSetter = MockMapSetter()
         val tripsTracker = MockTripsTracking()
         override val tripsTracking: ITripsTracking = tripsTracker
         override val strings: StringSource = MockStringProvider()
         override val webViewLauncher: IWebViewLauncher = MockWebViewLauncher()
         override val activityLauncher: IActivityLauncher = MockActivityLauncher()
-        override val jsonUtil: IJsonToItinUtil = MockReadJsonUtil
+        override val jsonUtil: IJsonToItinUtil = MockReadJsonUtil()
         override val id: String = "007"
         val mockMangeBooking = MockManageBookingSetter()
         override val manageBooking: ManageBookingWidgetViewModelSetter = mockMangeBooking
@@ -118,7 +123,7 @@ class LxItinDetailsActivityLifecycleObserverTest {
         override val redeemVoucher: MockRedeemVoucherSetter = MockRedeemVoucherSetter()
     }
 
-    object MockReadJsonUtil : IJsonToItinUtil {
+    class MockReadJsonUtil : IJsonToItinUtil {
         var called = false
         override fun getItin(itinId: String?): Itin? {
             called = true

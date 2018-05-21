@@ -40,6 +40,18 @@ class ItinMapWidgetTest {
     }
 
     @Test
+    fun addressContainerTest() {
+        sut.setUpViewModel(mockVM)
+        assertFalse(mockVM.addressContainerClicked)
+        sut.addressContainer.performClick()
+        assertTrue(mockVM.addressContainerClicked)
+
+        assertEquals(null, sut.addressContainer.contentDescription)
+        mockVM.addressContainerContentDescription.onNext("Content Description")
+        assertEquals("Content Description", sut.addressContainer.contentDescription)
+    }
+
+    @Test
     fun clickListenerTest() {
         sut.setUpViewModel(mockVM)
         assertFalse(mockVM.directionSubjectClicked)
@@ -53,6 +65,7 @@ class ItinMapWidgetTest {
     private class MockViewModel : ItinMapWidgetViewModel() {
         var mapSubjectClicked = false
         var directionSubjectClicked = false
+        var addressContainerClicked = false
 
         init {
             mapClickSubject.subscribe {
@@ -60,6 +73,9 @@ class ItinMapWidgetTest {
             }
             directionButtonClickSubject.subscribe {
                 directionSubjectClicked = true
+            }
+            addressClickSubject.subscribe {
+                addressContainerClicked = true
             }
         }
     }

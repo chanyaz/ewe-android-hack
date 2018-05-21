@@ -7,3 +7,9 @@ fun ItinLx.buildSecondaryAddress(): String {
     val nonNullArray = nullableArray.filterNotNull()
     return nonNullArray.joinToString()
 }
+
+fun ItinLx.buildFullAddress(): String {
+    val nullableArray = arrayOf(activityLocation?.addressLine1, activityLocation?.city, activityLocation?.countrySubdivisionCode, activityLocation?.countryCode, activityLocation?.postalCode)
+    val nonNullArray = nullableArray.filterNotNull()
+    return nonNullArray.joinToString()
+}

@@ -9,12 +9,14 @@ import com.expedia.bookings.itin.common.ItinMapWidget
 import com.expedia.bookings.itin.common.ItinToolbar
 import com.expedia.bookings.itin.scopes.LxLifeCycleObserverScope
 import com.expedia.bookings.itin.utils.ActivityLauncher
+import com.expedia.bookings.itin.utils.IToaster
 import com.expedia.bookings.itin.utils.IWebViewLauncher
 import com.expedia.bookings.itin.utils.Intentable
 import com.expedia.bookings.itin.utils.WebViewLauncher
 import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import javax.inject.Inject
 
 class LxItinDetailsActivity : AppCompatActivity() {
 
@@ -29,6 +31,9 @@ class LxItinDetailsActivity : AppCompatActivity() {
         }
     }
 
+    lateinit var toaster: IToaster
+        @Inject set
+
     val toolbar: ItinToolbar by bindView(R.id.widget_lx_itin_toolbar)
     val manageBookingWidget: LxItinManageBookingWidget by bindView(R.id.widget_manage_booking)
     val mapWidget: ItinMapWidget by bindView(R.id.map_widget)
@@ -41,7 +46,7 @@ class LxItinDetailsActivity : AppCompatActivity() {
         val activityLauncher = ActivityLauncher(this)
         val itinId = intent.getStringExtra(LX_ITIN_ID)
         val tripsTracking = TripsTracking
-        val scope = LxLifeCycleObserverScope(stringProvider, webViewLauncher, activityLauncher, jsonUtil, itinId, manageBookingWidget, toolbar, tripsTracking, mapWidget, redeemVoucherWidget)
+        val scope = LxLifeCycleObserverScope(stringProvider, webViewLauncher, activityLauncher, jsonUtil, itinId, manageBookingWidget, toolbar, tripsTracking, mapWidget, redeemVoucherWidget, toaster)
         LxItinDetailsActivityLifecycleObserver(scope)
     }
 
@@ -49,6 +54,7 @@ class LxItinDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.lx_itin_card_details)
         Ui.getApplication(this).defaultTripComponents()
+        Ui.getApplication(this).tripComponent().inject(this)
         this.lifecycle.addObserver(lifecycleObserver)
         lifecycleObserver.finishSubject.subscribe {
             finish()

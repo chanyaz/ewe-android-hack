@@ -9,4 +9,6 @@ abstract class ItinMapWidgetViewModel {
     val directionButtonClickSubject: PublishSubject<Unit> = PublishSubject.create()
     val mapClickSubject: PublishSubject<Unit> = PublishSubject.create()
     val latLongSubject: PublishSubject<LatLng> = PublishSubject.create()
+    val addressClickSubject: PublishSubject<Unit> = PublishSubject.create()
+    val addressContainerContentDescription: PublishSubject<String> = PublishSubject.create()
 }

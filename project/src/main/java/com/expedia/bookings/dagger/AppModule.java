@@ -26,9 +26,11 @@ import com.expedia.bookings.itin.tripstore.utils.ITripsJsonFileUtils;
 import com.expedia.bookings.itin.tripstore.utils.TripsJsonFileUtils;
 import com.expedia.bookings.itin.utils.AbacusProvider;
 import com.expedia.bookings.itin.utils.AbacusSource;
+import com.expedia.bookings.itin.utils.IToaster;
 import com.expedia.bookings.itin.utils.NotificationScheduler;
 import com.expedia.bookings.itin.utils.StringProvider;
 import com.expedia.bookings.itin.utils.StringSource;
+import com.expedia.bookings.itin.utils.Toaster;
 import com.expedia.bookings.legacy.LegacyCurrentDomainSource;
 import com.expedia.bookings.model.PointOfSaleStateModel;
 import com.expedia.bookings.notification.INotificationManager;
@@ -414,6 +416,12 @@ public class AppModule {
 	@Singleton
 	INotificationManager provideNotificationManager(Context context) {
 		return new NotificationManager(context);
+	}
+
+	@Provides
+	@Singleton
+	IToaster provideToaster(Context context) {
+		return new Toaster(context);
 	}
 
 	@Provides
