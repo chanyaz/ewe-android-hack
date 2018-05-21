@@ -429,7 +429,7 @@ class FlightCheckoutViewTest {
         assertTrue(flightPresenter.errorPresenter.visibility == View.VISIBLE)
 
         flightPresenter.flightCreateTripViewModel.tripParams.onNext(createTripParams("create_trip_price_increase"))
-        flightPresenter.errorPresenter.getViewModel().fireRetryCreateTrip.onNext(Unit)
+        flightPresenter.errorPresenter.viewmodel.fireRetryCreateTrip.onNext(Unit)
 
         assertTrue(flightPresenter.webCheckoutView.visibility == View.VISIBLE)
     }
@@ -451,7 +451,7 @@ class FlightCheckoutViewTest {
         assertTrue(flightPresenter.errorPresenter.visibility == View.VISIBLE)
 
         flightPresenter.flightCreateTripViewModel.tripParams.onNext(createTripParams("create_trip_price_increase"))
-        flightPresenter.errorPresenter.getViewModel().fireRetryCreateTrip.onNext(Unit)
+        flightPresenter.errorPresenter.viewmodel.fireRetryCreateTrip.onNext(Unit)
 
         testUrlSubscriber.assertValues("https://www.expedia.com/FlightCheckout?tripid=happy_one_way",
                 "about:blank",

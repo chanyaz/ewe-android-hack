@@ -7,20 +7,26 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.os.LastMinuteDealsRequest
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.extensions.LiveDataObserver
 import com.expedia.bookings.mia.LastMinuteDealsListAdapter
 import com.expedia.bookings.mia.arch.LastMinuteDealsArchViewModel
+import com.expedia.bookings.mia.vm.DealsErrorViewModel
+import com.expedia.bookings.presenter.DealsErrorPresenter
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBrandColorEnabled
+import com.expedia.bookings.utils.navigation.NavUtils
 
 open class LastMinuteDealsActivity : AppCompatActivity() {
 
     private val toolBar by bindView<Toolbar>(R.id.lmd_search_toolbar)
     private val recyclerView by bindView<RecyclerView>(R.id.last_minute_deal_recycler_view)
+    val errorPresenter: DealsErrorPresenter by bindView(R.id.deals_error)
 
     protected open val viewModel: LastMinuteDealsArchViewModel by lazy {
         val factory = LastMinuteDealsArchViewModel.Factory(
@@ -39,7 +45,25 @@ open class LastMinuteDealsActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
 
+        setupDealResponseObservers()
+        setupErrorPresenter()
+    }
+
+    private fun setupDealResponseObservers() {
         viewModel.responseLiveData.observe(this, adapter.responseObserver)
+        viewModel.responseLiveData.observe(this, LiveDataObserver { response ->
+            if (response?.offers?.hotels?.isEmpty() == true) {
+                errorPresenter.visibility = View.VISIBLE
+            }
+        })
+    }
+
+    private fun setupErrorPresenter() {
+        errorPresenter.viewmodel = DealsErrorViewModel(this)
+        errorPresenter.viewmodel.showLaunchScreen.subscribe {
+            NavUtils.goToLaunchScreen(this)
+            errorPresenter.viewmodel.getButtonActionSubscription()?.dispose()
+        }
     }
 
     private fun setupToolbar() {

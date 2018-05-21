@@ -12,13 +12,13 @@ import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.bookings.tracking.ApiCallFailing
 import com.expedia.util.endlessObserver
-import com.expedia.vm.AbstractErrorViewModel
+import com.expedia.vm.LobErrorViewModel
 import com.squareup.phrase.Phrase
 import io.reactivex.Observer
 import io.reactivex.subjects.PublishSubject
 import kotlin.properties.Delegates
 
-class PackageErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
+class PackageErrorViewModel(context: Context) : LobErrorViewModel(context) {
 
     var error: ApiError by Delegates.notNull()
 

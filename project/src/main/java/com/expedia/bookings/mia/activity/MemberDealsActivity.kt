@@ -7,11 +7,15 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.sos.MemberDealsRequest
+import com.expedia.bookings.extensions.LiveDataObserver
 import com.expedia.bookings.mia.MemberDealListAdapter
 import com.expedia.bookings.mia.arch.MemberDealsArchViewModel
+import com.expedia.bookings.mia.vm.DealsErrorViewModel
+import com.expedia.bookings.presenter.DealsErrorPresenter
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -22,6 +26,7 @@ import com.expedia.util.endlessObserver
 
 open class MemberDealsActivity : AppCompatActivity() {
 
+    val errorPresenter: DealsErrorPresenter by bindView(R.id.deals_error)
     private val toolBar by bindView<Toolbar>(R.id.mod_search_toolbar)
     private val recyclerView by bindView<RecyclerView>(R.id.member_deal_recycler_view)
 
@@ -45,7 +50,25 @@ open class MemberDealsActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
 
+        setupErrorPresenter()
+        setupDealResponseObservers()
+    }
+
+    private fun setupDealResponseObservers() {
         viewModel.responseLiveData.observe(this, adapter.responseObserver)
+        viewModel.responseLiveData.observe(this, LiveDataObserver { response ->
+            if (response?.destinations?.isEmpty() == true) {
+                errorPresenter.visibility = View.VISIBLE
+            }
+        })
+    }
+
+    private fun setupErrorPresenter() {
+        errorPresenter.viewmodel = DealsErrorViewModel(this)
+        errorPresenter.viewmodel.showLaunchScreen.subscribe {
+            NavUtils.goToLaunchScreen(this)
+            errorPresenter.viewmodel.getButtonActionSubscription()?.dispose()
+        }
     }
 
     private fun createServiceRequest(): MemberDealsRequest {

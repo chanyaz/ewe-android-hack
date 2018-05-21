@@ -14,7 +14,7 @@ import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import kotlin.properties.Delegates
 
-class HotelErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
+class HotelErrorViewModel(context: Context) : LobErrorViewModel(context) {
     // Inputs
     val infositeApiErrorObserver = PublishSubject.create<ApiError>()
     val apiErrorObserver = PublishSubject.create<ApiError>()

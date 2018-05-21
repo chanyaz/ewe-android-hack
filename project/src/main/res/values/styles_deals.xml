@@ -2,6 +2,10 @@
 <resources>
     <style name="Theme.Deals" parent="AppTheme.Base">
         <item name="android:statusBarColor">@color/app_status_bar_color</item>
+        <item name="primary_color">@color/app_primary</item>
+        <item name="primary_button_color">@color/app_primary</item>
+        <item name="primary_button_ripple_color">@color/app_primary_dark</item>
+        <item name="skin_errorWidgetEditButtonStyle">@style/HotelButton</item>
     </style>
 
     <style name="DealsToolbar">

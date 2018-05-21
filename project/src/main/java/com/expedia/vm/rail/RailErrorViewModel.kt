@@ -6,11 +6,11 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.rail.util.RailUtils
 import com.expedia.util.endlessObserver
-import com.expedia.vm.AbstractErrorViewModel
+import com.expedia.vm.LobErrorViewModel
 import io.reactivex.Observer
 import io.reactivex.subjects.PublishSubject
 
-class RailErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
+class RailErrorViewModel(context: Context) : LobErrorViewModel(context) {
     val showSearch = PublishSubject.create<Unit>()
     val retrySearch = PublishSubject.create<Unit>()
     val showCheckoutForm = PublishSubject.create<Unit>()

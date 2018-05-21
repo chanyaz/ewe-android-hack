@@ -324,7 +324,7 @@ public class PaymentWidgetFlowTest {
 		paymentWidget.userChoosesToSaveCard();
 
 		assertEquals("4111111111111111", Db.getBillingInfo().getNumber());
-		hotelPresenter.getErrorPresenter().getViewModel().getCheckoutPaymentFailedObservable().onNext(Unit.INSTANCE);
+		hotelPresenter.getErrorPresenter().getViewmodel().getCheckoutPaymentFailedObservable().onNext(Unit.INSTANCE);
 		assertEquals(null, Db.getBillingInfo().getNumber());
 	}
 
@@ -335,7 +335,7 @@ public class PaymentWidgetFlowTest {
 
 		assertTrue(paymentWidget.hasTempCard());
 
-		hotelPresenter.getErrorPresenter().getViewModel().getCheckoutPaymentFailedObservable().onNext(Unit.INSTANCE);
+		hotelPresenter.getErrorPresenter().getViewmodel().getCheckoutPaymentFailedObservable().onNext(Unit.INSTANCE);
 		hotelPresenter.getErrorPresenter().getErrorButton().performClick();
 
 		assertFalse(paymentWidget.hasTempCard());
@@ -349,7 +349,7 @@ public class PaymentWidgetFlowTest {
 		assertNotNull(Db.sharedInstance.getTemporarilySavedCard());
 		assertTrue(paymentWidget.hasTempCard());
 
-		hotelPresenter.getErrorPresenter().getViewModel().getCheckoutPaymentFailedObservable().onNext(Unit.INSTANCE);
+		hotelPresenter.getErrorPresenter().getViewmodel().getCheckoutPaymentFailedObservable().onNext(Unit.INSTANCE);
 		hotelPresenter.getErrorPresenter().getErrorButton().performClick();
 
 		assertNull(Db.sharedInstance.getTemporarilySavedCard());
@@ -364,7 +364,7 @@ public class PaymentWidgetFlowTest {
 		assertNotNull(Db.sharedInstance.getTemporarilySavedCard());
 		assertTrue(paymentWidget.hasTempCard());
 
-		hotelPresenter.getErrorPresenter().getViewModel().getCheckoutCardErrorObservable().onNext(Unit.INSTANCE);
+		hotelPresenter.getErrorPresenter().getViewmodel().getCheckoutCardErrorObservable().onNext(Unit.INSTANCE);
 		hotelPresenter.getErrorPresenter().getErrorButton().performClick();
 
 		assertNull(Db.sharedInstance.getTemporarilySavedCard());
@@ -379,8 +379,8 @@ public class PaymentWidgetFlowTest {
 		assertNotNull(Db.sharedInstance.getTemporarilySavedCard());
 		assertTrue(paymentWidget.hasTempCard());
 
-		hotelPresenter.getErrorPresenter().getViewModel().setError(new ApiError(ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS));
-		hotelPresenter.getErrorPresenter().getViewModel().handleCheckoutErrors();
+		hotelPresenter.getErrorPresenter().getViewmodel().setError(new ApiError(ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS));
+		hotelPresenter.getErrorPresenter().getViewmodel().handleCheckoutErrors();
 
 		assertNull(Db.sharedInstance.getTemporarilySavedCard());
 		assertFalse(paymentWidget.hasTempCard());
@@ -413,8 +413,8 @@ public class PaymentWidgetFlowTest {
 		paymentWidget.userChoosesToSaveCard();
 
 		assertNotNull(Db.sharedInstance.getTemporarilySavedCard());
-		hotelPresenter.getErrorPresenter().getViewModel().setError(new ApiError(ApiError.Code.INVALID_CARD_NUMBER));
-		hotelPresenter.getErrorPresenter().getViewModel().handleCheckoutErrors();
+		hotelPresenter.getErrorPresenter().getViewmodel().setError(new ApiError(ApiError.Code.INVALID_CARD_NUMBER));
+		hotelPresenter.getErrorPresenter().getViewmodel().handleCheckoutErrors();
 		assertNull(Db.sharedInstance.getTemporarilySavedCard());
 	}
 
@@ -424,8 +424,8 @@ public class PaymentWidgetFlowTest {
 		paymentWidget.userChoosesToSaveCard();
 
 		assertNotNull(Db.sharedInstance.getTemporarilySavedCard());
-		hotelPresenter.getErrorPresenter().getViewModel().setError(new ApiError(ApiError.Code.INVALID_CARD_EXPIRATION_DATE));
-		hotelPresenter.getErrorPresenter().getViewModel().handleCheckoutErrors();
+		hotelPresenter.getErrorPresenter().getViewmodel().setError(new ApiError(ApiError.Code.INVALID_CARD_EXPIRATION_DATE));
+		hotelPresenter.getErrorPresenter().getViewmodel().handleCheckoutErrors();
 		assertNull(Db.sharedInstance.getTemporarilySavedCard());
 	}
 
@@ -435,8 +435,8 @@ public class PaymentWidgetFlowTest {
 		paymentWidget.userChoosesToSaveCard();
 
 		assertNotNull(Db.sharedInstance.getTemporarilySavedCard());
-		hotelPresenter.getErrorPresenter().getViewModel().setError(new ApiError(ApiError.Code.CARD_LIMIT_EXCEEDED));
-		hotelPresenter.getErrorPresenter().getViewModel().handleCheckoutErrors();
+		hotelPresenter.getErrorPresenter().getViewmodel().setError(new ApiError(ApiError.Code.CARD_LIMIT_EXCEEDED));
+		hotelPresenter.getErrorPresenter().getViewmodel().handleCheckoutErrors();
 		assertNull(Db.sharedInstance.getTemporarilySavedCard());
 	}
 

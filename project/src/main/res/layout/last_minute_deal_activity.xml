@@ -13,6 +13,13 @@
 
     </android.support.v7.widget.Toolbar>
 
+    <com.expedia.bookings.presenter.DealsErrorPresenter
+        android:id="@+id/deals_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray100"
+        android:visibility="gone" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/last_minute_deal_recycler_view"
         android:layout_width="match_parent"

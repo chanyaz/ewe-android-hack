@@ -19,9 +19,9 @@ import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.AbstractErrorViewModel
+import com.expedia.vm.BaseErrorViewModel
 
-abstract class BaseErrorPresenter(context: Context, attr: AttributeSet?) : Presenter(context, attr) {
+open class BaseErrorPresenter<T : BaseErrorViewModel>(context: Context, attr: AttributeSet?) : Presenter(context, attr) {
     val root: ViewGroup by bindView(R.id.main_container)
     val errorImage: ImageView by bindView(R.id.error_image)
     val errorButton: Button by bindView(R.id.error_action_button)
@@ -29,11 +29,11 @@ abstract class BaseErrorPresenter(context: Context, attr: AttributeSet?) : Prese
     val standardToolbarContainer: LinearLayout by bindView(R.id.standard_toolbar)
     val standardToolbar: Toolbar by bindView(R.id.error_toolbar)
 
-    var viewmodel: AbstractErrorViewModel by notNullAndObservable { vm ->
+    var viewmodel: T by notNullAndObservable { vm ->
         setupViewModel(vm)
     }
 
-    protected open fun setupViewModel(vm: AbstractErrorViewModel) {
+    protected open fun setupViewModel(vm: T) {
         vm.imageObservable.subscribe { errorImage.setImageResource(it) }
         vm.buttonOneTextObservable.subscribeText(errorButton)
         vm.errorMessageObservable.subscribeText(errorText)
@@ -72,8 +72,6 @@ abstract class BaseErrorPresenter(context: Context, attr: AttributeSet?) : Prese
         viewmodel.clickBack.onNext(Unit)
         return true
     }
-
-    abstract fun getViewModel(): AbstractErrorViewModel
 
     fun animationUpdate(f: Float, forward: Boolean) {
         val factor = if (forward) f else Math.abs(1 - f)

@@ -8,12 +8,11 @@ import com.expedia.bookings.presenter.BaseErrorPresenter
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.HotelDetailsToolbar
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.AbstractErrorViewModel
 import com.expedia.vm.HotelErrorViewModel
 import com.expedia.vm.HotelInfoToolbarViewModel
 import com.expedia.bookings.hotel.vm.HotelDetailViewModel
 
-class HotelErrorPresenter(context: Context, attr: AttributeSet?) : BaseErrorPresenter(context, attr) {
+class HotelErrorPresenter(context: Context, attr: AttributeSet?) : BaseErrorPresenter<HotelErrorViewModel>(context, attr) {
 
     val hotelDetailsToolbar: HotelDetailsToolbar by bindView(R.id.hotel_details_toolbar)
 
@@ -30,24 +29,19 @@ class HotelErrorPresenter(context: Context, attr: AttributeSet?) : BaseErrorPres
             viewmodel.defaultErrorObservable.onNext(Unit)
         }
         standardToolbar.setNavigationOnClickListener {
-            getViewModel().handleCheckoutErrors()
+            viewmodel.handleCheckoutErrors()
         }
 
         hotelDetailsToolbar.setHotelDetailViewModel(hotelInfoToolbarViewModel)
         hotelDetailsToolbar.hideGradient()
     }
 
-    override fun setupViewModel(vm: AbstractErrorViewModel) {
+    override fun setupViewModel(vm: HotelErrorViewModel) {
         super.setupViewModel(vm)
-        vm as HotelErrorViewModel
         vm.hotelSoldOutErrorObservable.subscribe { isSoldOut ->
             // show appropriate toolbar
             standardToolbarContainer.visibility = if (isSoldOut) View.GONE else View.VISIBLE
             hotelDetailsToolbar.visibility = if (isSoldOut) View.VISIBLE else View.GONE
         }
-    }
-
-    override fun getViewModel(): HotelErrorViewModel {
-        return viewmodel as HotelErrorViewModel
     }
 }

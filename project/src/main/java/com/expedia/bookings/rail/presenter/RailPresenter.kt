@@ -74,7 +74,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         transitionToOutboundResults()
         outboundPresenter.viewmodel.paramsSubject.onNext(params)
         inboundPresenter.viewmodel.paramsSubject.onNext(params)
-        errorPresenter.getViewModel().paramsSubject.onNext(params)
+        errorPresenter.viewmodel.paramsSubject.onNext(params)
     }
 
     val outboundLegSelectedObserver: Observer<RailLegOption> = endlessObserver { selectedLegOption ->
@@ -375,11 +375,11 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
 
     private fun initErrorPresenter() {
         errorPresenter.viewmodel = RailErrorViewModel(context)
-        errorPresenter.getViewModel().showSearch.subscribe { show(searchPresenter, FLAG_CLEAR_BACKSTACK) }
-        errorPresenter.getViewModel().retrySearch.subscribe { searchPresenter.searchViewModel.searchObserver.onNext(Unit) }
-        errorPresenter.getViewModel().defaultErrorObservable.subscribe { show(searchPresenter, FLAG_CLEAR_BACKSTACK) }
+        errorPresenter.viewmodel.showSearch.subscribe { show(searchPresenter, FLAG_CLEAR_BACKSTACK) }
+        errorPresenter.viewmodel.retrySearch.subscribe { searchPresenter.searchViewModel.searchObserver.onNext(Unit) }
+        errorPresenter.viewmodel.defaultErrorObservable.subscribe { show(searchPresenter, FLAG_CLEAR_BACKSTACK) }
 
-        errorPresenter.getViewModel().showCheckoutForm.subscribe {
+        errorPresenter.viewmodel.showCheckoutForm.subscribe {
             show(railCheckoutPresenter, Presenter.FLAG_CLEAR_TOP)
             railCheckoutPresenter.slideToPurchaseWidget.reset()
             railCheckoutPresenter.travelersViewModel.refresh()
@@ -448,7 +448,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
 
     override fun back(): Boolean {
         if (currentState == RailErrorPresenter::class.java.name) {
-            errorPresenter.getViewModel().clickBack.onNext(Unit)
+            errorPresenter.viewmodel.clickBack.onNext(Unit)
             return true
         }
         return super.back()

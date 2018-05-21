@@ -10,7 +10,7 @@ import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.util.endlessObserver
-import com.expedia.vm.AbstractErrorViewModel
+import com.expedia.vm.LobErrorViewModel
 import com.squareup.phrase.Phrase
 import io.reactivex.Observer
 import com.expedia.bookings.extensions.withLatestFrom
@@ -19,7 +19,7 @@ import com.expedia.bookings.utils.Constants
 import io.reactivex.subjects.PublishSubject
 import kotlin.properties.Delegates
 
-class FlightErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
+class FlightErrorViewModel(context: Context) : LobErrorViewModel(context) {
 
     private val MAX_RETRY_CREATE_TRIP_ATTEMPTS = 2
     private val MAX_RETRY_ATTEMPTS = 3

@@ -3,6 +3,7 @@ package com.expedia.bookings.mia.activity
 import android.content.Intent
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.sos.DealsDestination
 import com.expedia.bookings.data.sos.MemberDealsRequest
@@ -11,6 +12,7 @@ import com.expedia.bookings.mia.arch.MemberDealsArchViewModel
 import com.expedia.bookings.services.sos.ISmartOfferService
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.ui.HotelActivity
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -35,8 +37,16 @@ class MemberDealsActivityTest {
     }
 
     @Test
+    fun errorMessageIsVisible_givenNoDealsReturned() {
+        val mockResponse = TestMemberDealsResponse(0)
+        activity.getDealsViewModel().responseLiveData.value = mockResponse
+
+        Assert.assertEquals(View.VISIBLE, activity.errorPresenter.visibility)
+    }
+
+    @Test
     fun testLiveDataIsBindToAdapterSubject() {
-        val mockResponse = TestMemberDealsResponse()
+        val mockResponse = TestMemberDealsResponse(2)
         activity.getDealsViewModel().responseLiveData.value = mockResponse
         assertEquals(3, activity.getDealsAdapter().itemCount)
     }
@@ -57,9 +67,13 @@ class MemberDealsActivityTest {
         override val viewModel = MemberDealsArchViewModel(mockOfferService, MemberDealsRequest())
     }
 
-    inner class TestMemberDealsResponse : MemberDealsResponse() {
+    inner class TestMemberDealsResponse(numberOfDestinations: Int) : MemberDealsResponse() {
         init {
-            destinations = listOf(DealsDestination(), DealsDestination())
+            val dealDestinations = ArrayList<DealsDestination>()
+            for (i in 0 until numberOfDestinations) {
+                dealDestinations.add(DealsDestination())
+            }
+            destinations = dealDestinations
         }
     }
 }

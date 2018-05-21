@@ -4897,6 +4897,8 @@
     <string name="last_minute_deal_subtitle">Wanna get away? Check out last-minute low prices</string>
     <string name="last_minute_deals_toolbar_title">Last Minute Deals</string>
     <string name="last_minute_deals_toolbar_close_cont_desc">Close last minute deal screen</string>
+    <string name="deal_error_no_result_message">Sorry, we couldn\'t find any results. Please try again later.</string>
+    <string name="deal_error_go_back">Go Back</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">How we determine sort order</string>

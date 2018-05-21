@@ -139,8 +139,8 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             }
             PackagesTracking().trackCheckoutPaymentConfirmation(response, Strings.capitalizeFirstLetter(Db.sharedInstance.packageSelectedRoom.supplierType), pageUsableData, Db.sharedInstance.packageParams)
         }
-        checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.subscribe(errorPresenter.getViewModel().checkoutApiErrorObserver)
-        checkoutPresenter.getCheckoutViewModel().checkoutErrorObservable.subscribe(errorPresenter.getViewModel().checkoutApiErrorObserver)
+        checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.subscribe(errorPresenter.viewmodel.checkoutApiErrorObserver)
+        checkoutPresenter.getCheckoutViewModel().checkoutErrorObservable.subscribe(errorPresenter.viewmodel.checkoutApiErrorObserver)
         checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.subscribe {
             if (bundlePresenter.webCheckoutView.visibility == View.VISIBLE) {
                 bundlePresenter.back()
@@ -152,7 +152,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         presenter.bundleWidget.viewModel.toolbarTitleObservable.subscribe(presenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel.cityTitle)
         presenter.bundleWidget.viewModel.toolbarSubtitleObservable.subscribe(presenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel.datesTitle)
         presenter.bundleWidget.viewModel.toolbarSubtitleObservable.subscribe(presenter.bundleOverviewHeader.toolbar.viewModel.toolbarSubtitle)
-        presenter.bundleWidget.viewModel.errorObservable.subscribe(errorPresenter.getViewModel().packageSearchApiErrorObserver)
+        presenter.bundleWidget.viewModel.errorObservable.subscribe(errorPresenter.viewmodel.packageSearchApiErrorObserver)
         presenter.bundleWidget.viewModel.errorObservable.subscribe { show(errorPresenter) }
         if (midAPIEnabled) {
             (presenter.webCheckoutView.viewModel as PackageWebCheckoutViewViewModel).fetchItinObservable.subscribe { bookedTripID ->
@@ -175,7 +175,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
     val errorPresenter: PackageErrorPresenter by lazy {
         val presenter = errorViewStub.inflate() as PackageErrorPresenter
         presenter.viewmodel = PackageErrorViewModel(context)
-        presenter.getViewModel().defaultErrorObservable.subscribe {
+        presenter.viewmodel.defaultErrorObservable.subscribe {
             bundlePresenter.bundleWidget.revertBundleViewToSelectHotel()
             bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
             bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
@@ -187,12 +187,12 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
                 searchPresenter.showDefault()
             }
         }
-        presenter.getViewModel().filterNoResultsObservable.subscribe() {
+        presenter.viewmodel.filterNoResultsObservable.subscribe() {
             // TODO call and implement showUnfilteredResults()
         }
 
-        hotelOffersErrorObservable.subscribe(presenter.getViewModel().hotelOffersApiErrorObserver)
-        presenter.getViewModel().checkoutUnknownErrorObservable.subscribe {
+        hotelOffersErrorObservable.subscribe(presenter.viewmodel.hotelOffersApiErrorObserver)
+        presenter.viewmodel.checkoutUnknownErrorObservable.subscribe {
             show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
             bundlePresenter.showCheckout()
         }
@@ -212,7 +212,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             bundlePresenter.getCheckoutPresenter().openTravelerPresenter()
         }
 
-        presenter.getViewModel().checkoutCardErrorObservable.subscribe {
+        presenter.viewmodel.checkoutCardErrorObservable.subscribe {
             show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
             bundlePresenter.showCheckout()
             bundlePresenter.getCheckoutPresenter().paymentWidget.showPaymentForm(fromPaymentError = true)
@@ -257,7 +257,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             // Starting a new search clear previous selection
             Db.sharedInstance.clearPackageSelection()
             travelerManager.updateDbTravelers(params)
-            errorPresenter.getViewModel().paramsSubject.onNext(params)
+            errorPresenter.viewmodel.paramsSubject.onNext(params)
             bundlePresenter.bundleWidget.viewModel.hotelParamsObservable.onNext(params)
             showBundleOverView()
         }

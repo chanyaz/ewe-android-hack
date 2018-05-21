@@ -29,7 +29,7 @@ class MemberDealListAdapter(private val context: Context, private val searchHote
         listData = generateLoadingCells(3)
         responseObserver = LiveDataObserver {
             response ->
-                if (response != null && response.destinations.isNotEmpty()) {
+                if (response != null) {
                     loading = false
                     currency = response.offerInfo?.currency
                     listData = response.destinations

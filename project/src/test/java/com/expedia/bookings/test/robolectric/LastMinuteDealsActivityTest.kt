@@ -1,8 +1,9 @@
 package com.expedia.bookings.test.robolectric
 
-import com.expedia.bookings.analytics.OmnitureTestUtils
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.os.LastMinuteDealsRequest
 import com.expedia.bookings.data.os.LastMinuteDealsResponse
 import com.expedia.bookings.data.sos.DealsDestination
@@ -11,6 +12,7 @@ import com.expedia.bookings.mia.arch.LastMinuteDealsArchViewModel
 import com.expedia.bookings.services.os.IOfferService
 import com.expedia.bookings.test.OmnitureMatchers
 import org.hamcrest.Matchers
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -36,8 +38,16 @@ class LastMinuteDealsActivityTest {
     }
 
     @Test
+    fun errorMessageIsVisible_givenNoDealsReturned() {
+        val mockResponse = TestLastMinuteDealsResponse(0)
+        activity.getDealsViewModel().responseLiveData.value = mockResponse
+
+        Assert.assertEquals(View.VISIBLE, activity.errorPresenter.visibility)
+    }
+
+    @Test
     fun testLiveDataIsBindToAdapterSubject() {
-        val mockResponse = TestLastMinuteDealsResponse()
+        val mockResponse = TestLastMinuteDealsResponse(1)
         activity.getDealsViewModel().responseLiveData.value = mockResponse
         assertEquals(1, activity.getDealsAdapter().itemCount)
     }
@@ -58,18 +68,28 @@ class LastMinuteDealsActivityTest {
         override val viewModel = LastMinuteDealsArchViewModel(mockOfferService, LastMinuteDealsRequest("1234"))
     }
 
-    inner class TestLastMinuteDealsResponse : LastMinuteDealsResponse() {
+    inner class TestLastMinuteDealsResponse(numberOfHotels: Int) : LastMinuteDealsResponse() {
         init {
-            val mockOffers = Offers()
-            mockOffers.hotels = listOf(DealsDestination.Hotel())
-            mockOffers.hotels[0].hotelPricingInfo = DealsDestination.Hotel.HotelPricingInfo()
-            mockOffers.hotels[0].hotelPricingInfo!!.crossOutPriceValue = 146.34
-            mockOffers.hotels[0].hotelPricingInfo!!.percentSavings = 37.5
+            val mockOffers = createHotels(numberOfHotels)
             offers = mockOffers
 
             val mockOfferInfo = OfferInfo()
             mockOfferInfo.currency = "USD"
             offerInfo = mockOfferInfo
+        }
+
+        private fun createHotels(numberOfHotels: Int): Offers {
+            val offers = Offers()
+            val hotels = ArrayList<DealsDestination.Hotel>()
+            for (i in 0 until numberOfHotels) {
+                val hotel = DealsDestination.Hotel()
+                hotel.hotelPricingInfo = DealsDestination.Hotel.HotelPricingInfo()
+                hotel.hotelPricingInfo!!.crossOutPriceValue = 146.34
+                hotel.hotelPricingInfo!!.percentSavings = 37.5
+                hotels.add(hotel)
+            }
+            offers.hotels = hotels
+            return offers
         }
     }
 }

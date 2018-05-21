@@ -4,7 +4,6 @@ import android.content.Context
 import android.support.annotation.DrawableRes
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
-import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.extensions.subscribeObserver
 import com.squareup.phrase.Phrase
 import io.reactivex.Observer
@@ -12,12 +11,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
-abstract class AbstractErrorViewModel(protected val context: Context) {
-
-    // Inputs
-    val searchApiErrorObserver = PublishSubject.create<ApiError>()
-    val checkoutApiErrorObserver = PublishSubject.create<ApiError>()
-    val createTripErrorObserverable = PublishSubject.create<ApiError>()
+abstract class BaseErrorViewModel(protected var context: Context) {
 
     // Outputs
     val imageObservable = BehaviorSubject.create<Int>()
@@ -30,28 +24,8 @@ abstract class AbstractErrorViewModel(protected val context: Context) {
 
     // handle different errors
     val defaultErrorObservable = BehaviorSubject.create<Unit>()
-    val checkoutCardErrorObservable = BehaviorSubject.create<Unit>()
-    val checkoutTravelerErrorObservable = BehaviorSubject.create<Unit>()
-    val checkoutUnknownErrorObservable = BehaviorSubject.create<Unit>()
-    val productKeyExpiryObservable = BehaviorSubject.create<Unit>()
-    val checkoutAlreadyBookedObservable = BehaviorSubject.create<Unit>()
-    val checkoutPaymentFailedObservable = BehaviorSubject.create<Unit>()
-    val sessionTimeOutObservable = BehaviorSubject.create<Unit>()
-    val soldOutObservable = BehaviorSubject.create<Unit>()
-    val createTripUnknownErrorObservable = BehaviorSubject.create<Unit>()
-    val filterNoResultsObservable = BehaviorSubject.create<Unit>()
 
     private var buttonActionSubscription: Disposable? = null
-
-    init {
-        checkoutApiErrorObserver.subscribe(checkoutApiErrorHandler())
-        createTripErrorObserverable.subscribe(createTripErrorHandler())
-        searchApiErrorObserver.subscribe(searchErrorHandler())
-    }
-
-    protected abstract fun searchErrorHandler(): Observer<ApiError>
-    protected abstract fun createTripErrorHandler(): Observer<ApiError>
-    protected abstract fun checkoutApiErrorHandler(): Observer<ApiError>
 
     protected fun subscribeActionToButtonPress(action: Observer<Unit>) {
         // Unsubscribe current button action
@@ -78,5 +52,9 @@ abstract class AbstractErrorViewModel(protected val context: Context) {
     @DrawableRes
     protected fun defaultErrorDrawable(): Int {
         return R.drawable.error_default
+    }
+
+    fun getButtonActionSubscription(): Disposable? {
+        return buttonActionSubscription
     }
 }

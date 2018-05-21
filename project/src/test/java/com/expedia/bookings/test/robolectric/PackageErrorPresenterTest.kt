@@ -34,8 +34,8 @@ class PackageErrorPresenterTest {
 
     @Test
     fun testPackageSearchErrorScreen() {
-        packagePresenter.errorPresenter.getViewModel().paramsSubject.onNext(PackageTestUtil.getPackageSearchParams())
-        packagePresenter.errorPresenter.getViewModel().packageSearchApiErrorObserver.onNext(getSearchAPIErrorDetails(PackageApiError.Code.search_response_null))
+        packagePresenter.errorPresenter.viewmodel.paramsSubject.onNext(PackageTestUtil.getPackageSearchParams())
+        packagePresenter.errorPresenter.viewmodel.packageSearchApiErrorObserver.onNext(getSearchAPIErrorDetails(PackageApiError.Code.search_response_null))
 
         Assert.assertEquals(View.VISIBLE, packagePresenter.errorPresenter.errorButton.visibility)
         Assert.assertEquals(View.VISIBLE, packagePresenter.errorPresenter.errorImage.visibility)

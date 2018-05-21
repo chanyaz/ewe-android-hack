@@ -268,7 +268,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
         })
 
-        presenter.hotelCheckoutViewModel.errorObservable.subscribe(errorPresenter.getViewModel().apiErrorObserver)
+        presenter.hotelCheckoutViewModel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
         presenter.hotelCheckoutViewModel.errorObservable.subscribe {
             checkoutDialog.dismiss()
             show(errorPresenter)
@@ -316,7 +316,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     }
 
     private fun setUpCreateTripErrorHandling(createTripViewModel: HotelCreateTripViewModel) {
-        createTripViewModel.errorObservable.subscribe(errorPresenter.getViewModel().apiErrorObserver)
+        createTripViewModel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
         createTripViewModel.errorObservable.subscribe { show(errorPresenter) }
         createTripViewModel.noResponseObservable.subscribe {
             val retryFun = fun() {
@@ -486,7 +486,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     private fun setUpErrorPresenter() {
         errorPresenter.hotelDetailViewModel = hotelDetailViewModel
         errorPresenter.viewmodel = HotelErrorViewModel(context)
-        errorPresenter.getViewModel().searchErrorObservable.subscribe {
+        errorPresenter.viewmodel.searchErrorObservable.subscribe {
             show(searchPresenter, FLAG_CLEAR_BACKSTACK)
             searchPresenter.showDefault()
         }
@@ -494,11 +494,11 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             show(searchPresenter, FLAG_CLEAR_BACKSTACK)
             searchPresenter.showDefault()
         }
-        errorPresenter.getViewModel().filterNoResultsObservable.subscribe {
+        errorPresenter.viewmodel.filterNoResultsObservable.subscribe {
             resultsPresenter.showUnfilteredResults()
             show(resultsPresenter, FLAG_CLEAR_TOP)
         }
-        errorPresenter.getViewModel().pinnedNotFoundToNearByHotelObservable.subscribe {
+        errorPresenter.viewmodel.pinnedNotFoundToNearByHotelObservable.subscribe {
             resultsPresenter.showCachedResults()
             show(resultsPresenter, FLAG_CLEAR_TOP)
         }
@@ -542,7 +542,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             show(searchPresenter, FLAG_CLEAR_TOP)
         }
 
-        geoCodeSearchModel.errorObservable.subscribe(errorPresenter.getViewModel().apiErrorObserver)
+        geoCodeSearchModel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
         geoCodeSearchModel.errorObservable.subscribe { show(errorPresenter) }
     }
 
@@ -925,7 +925,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     private fun updateSearchParams(params: HotelSearchParams) {
         hotelSearchParams = params
         searchPresenter.searchViewModel.updateWithNewDates(Pair(hotelSearchParams.checkIn, hotelSearchParams.checkOut))
-        errorPresenter.getViewModel().paramsSubject.onNext(params)
+        errorPresenter.viewmodel.paramsSubject.onNext(params)
     }
 
     private fun initDetailViewModel() {
@@ -944,7 +944,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         hotelDetailViewModel.infositeApiErrorSubject.subscribe { error ->
             loadingOverlay.animate(false)
             loadingOverlay.visibility = View.GONE
-            errorPresenter.getViewModel().infositeApiErrorObserver.onNext(error)
+            errorPresenter.viewmodel.infositeApiErrorObserver.onNext(error)
             errorPresenter.visibility = View.VISIBLE
             show(errorPresenter)
         }

@@ -106,10 +106,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         val viewStub = findViewById<ViewStub>(R.id.error_presenter_stub)
         val presenter = viewStub.inflate() as FlightErrorPresenter
         presenter.viewmodel = FlightErrorViewModel(context)
-        presenter.getViewModel().defaultErrorObservable.subscribe {
+        presenter.viewmodel.defaultErrorObservable.subscribe {
             show(searchPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
         }
-        presenter.getViewModel().fireRetryCreateTrip.subscribe {
+        presenter.viewmodel.fireRetryCreateTrip.subscribe {
             if (shouldShowWebCheckoutWithoutNativeRateDetails()) {
                 (webCheckoutView.viewModel as FlightWebCheckoutViewViewModel).doCreateTrip()
                 show(webCheckoutView)
@@ -123,33 +123,33 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 flightOverviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
             }
         }
-        presenter.getViewModel().checkoutUnknownErrorObservable.subscribe {
+        presenter.viewmodel.checkoutUnknownErrorObservable.subscribe {
             flightOverviewPresenter.showCheckout()
         }
-        presenter.getViewModel().retryCheckout.subscribe {
+        presenter.viewmodel.retryCheckout.subscribe {
             show(presenter)
             flightOverviewPresenter.showCheckout()
             val params = flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel().checkoutParams.value
             flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel().checkoutParams.onNext(params)
         }
-        presenter.getViewModel().showTravelerForm.subscribe {
+        presenter.viewmodel.showTravelerForm.subscribe {
             show(flightOverviewPresenter, Presenter.FLAG_CLEAR_TOP)
             flightOverviewPresenter.showCheckout()
             flightOverviewPresenter.getCheckoutPresenter().openTravelerPresenter()
         }
-        presenter.getViewModel().showPaymentForm.subscribe {
+        presenter.viewmodel.showPaymentForm.subscribe {
             show(flightOverviewPresenter, Presenter.FLAG_CLEAR_TOP)
             flightOverviewPresenter.showCheckout()
             flightOverviewPresenter.getCheckoutPresenter().paymentWidget.showPaymentForm(fromPaymentError = true)
         }
-        presenter.getViewModel().showConfirmation.subscribe {
+        presenter.viewmodel.showConfirmation.subscribe {
             show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
         }
-        presenter.getViewModel().showSearch.subscribe {
+        presenter.viewmodel.showSearch.subscribe {
             show(searchPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
         }
 
-        presenter.getViewModel().retrySearch.subscribe {
+        presenter.viewmodel.retrySearch.subscribe {
             searchPresenter.searchViewModel.performSearchObserver.onNext(Unit)
         }
 
@@ -489,7 +489,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             announceForAccessibility(context.getString(R.string.accessibility_announcement_searching_flights))
             flightOfferViewModel.searchParamsObservable.onNext(params)
             flightOfferViewModel.isOutboundSearch = true
-            errorPresenter.getViewModel().paramsSubject.onNext(params)
+            errorPresenter.viewmodel.paramsSubject.onNext(params)
             travelerManager.updateDbTravelers(params)
             // Starting a new search clear previous selection
             Db.sharedInstance.clearPackageFlightSelection()

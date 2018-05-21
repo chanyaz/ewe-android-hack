@@ -35,7 +35,7 @@ class HotelErrorPresenterTest {
     }
 
     @Test fun testSoldOutErrorScreen() {
-        hotelPresenter.errorPresenter.getViewModel().apiErrorObserver.onNext(ApiError(ApiError.Code.HOTEL_ROOM_UNAVAILABLE))
+        hotelPresenter.errorPresenter.viewmodel.apiErrorObserver.onNext(ApiError(ApiError.Code.HOTEL_ROOM_UNAVAILABLE))
         hotelPresenter.errorPresenter.errorButton.performClick()
 
         Assert.assertEquals(View.VISIBLE, hotelPresenter.errorPresenter.errorButton.visibility)
