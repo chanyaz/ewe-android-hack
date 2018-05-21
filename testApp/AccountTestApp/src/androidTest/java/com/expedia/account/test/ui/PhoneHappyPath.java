@@ -2,7 +2,7 @@ package com.expedia.account.test.ui;
 
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.expedia.account.sample.SignInActivity;
+import com.expedia.account.sample.MockAccountLibActivity;
 import com.expedia.account.sample.R;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -23,9 +23,9 @@ import static org.hamcrest.core.IsNot.not;
 /**
  * Created by doug on 6/18/15.
  */
-public class PhoneHappyPath extends ActivityInstrumentationTestCase2<SignInActivity> {
+public class PhoneHappyPath extends ActivityInstrumentationTestCase2<MockAccountLibActivity> {
 	public PhoneHappyPath() {
-		super(SignInActivity.class);
+		super(MockAccountLibActivity.class);
 	}
 
 	@Override

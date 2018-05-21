@@ -9,8 +9,6 @@ interface AccountSignInListener {
 
     fun onFacebookRequested()
 
-    fun onFacebookClicked()
-
     fun onForgotPassword()
 
     fun onRecaptchaError(e: Throwable)

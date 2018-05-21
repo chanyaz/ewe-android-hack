@@ -1,6 +1,17 @@
 package com.expedia.account;
 
 public interface AnalyticsListener {
+
+	void signInButtonClicked();
+
+	void facebookSignInButtonClicked();
+
+	void createButtonClicked();
+
+	void newSignInTabClicked();
+
+	void newCreateAccountTabClicked();
+
 	void signInSucceeded();
 
 	void accountCreationAttemptWithPreexistingEmail(boolean useExisting, boolean createNew);

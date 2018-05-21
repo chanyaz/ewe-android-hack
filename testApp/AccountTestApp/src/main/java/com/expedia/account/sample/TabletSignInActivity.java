@@ -1,4 +1,4 @@
 package com.expedia.account.sample;
 
-public class TabletSignInActivity extends SignInActivity {
+public class TabletSignInActivity extends MockAccountLibActivity {
 }

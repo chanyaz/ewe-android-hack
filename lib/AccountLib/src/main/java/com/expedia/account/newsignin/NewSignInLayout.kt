@@ -1,11 +1,13 @@
 package com.expedia.account.newsignin
 
 import android.content.Context
+import android.support.annotation.VisibleForTesting
 import android.util.AttributeSet
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.FrameLayout
+import com.expedia.account.Config
 import com.expedia.account.R
 import com.expedia.account.input.InputValidator
 import com.expedia.account.input.rules.ExpediaEmailInputRule
@@ -17,17 +19,21 @@ import io.reactivex.subjects.BehaviorSubject
 
 class NewSignInLayout(context: Context, attributeSet: AttributeSet) : FrameLayout(context, attributeSet) {
 
-    private val signInWithFacebookButton: Button by lazy { findViewById<Button>(R.id.new_signin_with_facebook_button) }
+    @VisibleForTesting val signInWithFacebookButton: Button by lazy { findViewById<Button>(R.id.new_signin_with_facebook_button) }
     private val emailInput: SinglePageInputTextPresenter by lazy { findViewById<SinglePageInputTextPresenter>(R.id.new_signin_email_address) }
     private val passwordInput: SinglePageInputTextPresenter by lazy { findViewById<SinglePageInputTextPresenter>(R.id.new_signin_password) }
     private val forgotPassword: View by lazy { findViewById<View>(R.id.new_signin_forgot_password) }
-    private val signInButton: Button by lazy { findViewById<Button>(R.id.new_signin_button) }
+    @VisibleForTesting val signInButton: Button by lazy { findViewById<Button>(R.id.new_signin_button) }
     private val validationObservable = CombiningFakeObservable()
     private val allFieldsValidSubject = BehaviorSubject.create<Boolean>()
 
+    @VisibleForTesting lateinit var config: Config
+
     init {
         View.inflate(context, R.layout.acct__widget_new_account_signin_view, this)
+        allFieldsValidSubject.onNext(false)
         signInButton.setOnClickListener {
+            config.analyticsListener.signInButtonClicked()
             if (allFieldsValidSubject.value) {
                 Events.post(Events.NewAccountSignInButtonClicked(emailInput.text, passwordInput.text))
             } else {
@@ -39,6 +45,7 @@ class NewSignInLayout(context: Context, attributeSet: AttributeSet) : FrameLayou
             Events.post(Events.NewForgotPasswordButtonClicked())
         }
         signInWithFacebookButton.setOnClickListener {
+            config.analyticsListener.facebookSignInButtonClicked()
             Events.post(Events.NewSignInWithFacebookButtonClicked())
         }
         validationObservable.addSource(emailInput.statusObservable)
@@ -79,5 +86,9 @@ class NewSignInLayout(context: Context, attributeSet: AttributeSet) : FrameLayou
         passwordInput.isPasswordVisibilityToggleEnabled(enable)
         forgotPassword.isEnabled = enable
         signInButton.isEnabled = enable
+    }
+
+    fun setupConfig(config: Config) {
+        this.config = config
     }
 }

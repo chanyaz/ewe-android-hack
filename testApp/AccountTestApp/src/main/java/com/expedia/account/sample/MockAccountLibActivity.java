@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.expedia.account.AccountService;
 import com.expedia.account.AccountSignInListener;
+import com.expedia.account.AnalyticsListener;
 import com.expedia.account.Config;
 import com.expedia.account.NewAccountView;
 import com.expedia.account.PanningImageView;
@@ -34,7 +35,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import okhttp3.OkHttpClient;
 
-public class SignInActivity extends FragmentActivity {
+public class MockAccountLibActivity extends FragmentActivity {
 
 	@InjectView(R.id.account_view)
 	public MockAccountView vAccountView;
@@ -119,7 +120,7 @@ public class SignInActivity extends FragmentActivity {
 			.setRewardsText(Html.fromHtml(getString(R.string.loyalty_terms_of_service)))
 			.setNewTermsText(Html.fromHtml(getString(R.string.new_account_terms_text)))
 			.setListener(mAccountViewListener)
-			.setAnalyticsListener(null)
+			.setAnalyticsListener(analyticsListener)
 			.setInitialState(Config.InitialState.SignIn)
 			.setInitialTab(NewAccountView.AccountTab.SIGN_IN);
 	}
@@ -230,10 +231,6 @@ public class SignInActivity extends FragmentActivity {
 		}
 
 		@Override
-		public void onFacebookClicked(){
-		}
-
-		@Override
 		public void onRecaptchaError(Throwable e) {
 		}
 	};
@@ -250,7 +247,7 @@ public class SignInActivity extends FragmentActivity {
 		// Add code to print out the key hash and stick that here:
 		// https://developers.facebook.com/settings/developer/sample-app/
 		try {
-			String packageName = SignInActivity.class.getPackage().getName();
+			String packageName = MockAccountLibActivity.class.getPackage().getName();
 			PackageInfo info = getPackageManager().getPackageInfo(
 				packageName, PackageManager.GET_SIGNATURES);
 			for (Signature signature : info.signatures) {
@@ -273,4 +270,51 @@ public class SignInActivity extends FragmentActivity {
 			finish();
 		}
 	}
+
+	private AnalyticsListener analyticsListener = new AnalyticsListener() {
+		@Override
+		public void signInButtonClicked() { }
+
+		@Override
+		public void facebookSignInButtonClicked() { }
+
+		@Override
+		public void createButtonClicked() { }
+
+		@Override
+		public void newSignInTabClicked() { }
+
+		@Override
+		public void newCreateAccountTabClicked() { }
+
+		@Override
+		public void signInSucceeded() { }
+
+		@Override
+		public void accountCreationAttemptWithPreexistingEmail(boolean useExisting, boolean createNew) { }
+
+		@Override
+		public void userViewedNameEntering() { }
+
+		@Override
+		public void userViewedPasswordEntering() { }
+
+		@Override
+		public void userViewedTosPage() { }
+
+		@Override
+		public void userViewedSinglePage() { }
+
+		@Override
+		public void userExplicitlyModifiedMarketingOptIn(boolean optIn) { }
+
+		@Override
+		public void userSucceededInCreatingAccount() { }
+
+		@Override
+		public void userReceivedErrorOnSignInAttempt(String failureReason) { }
+
+		@Override
+		public void userReceivedErrorOnAccountCreationAttempt(String failureReason) { }
+	};
 }

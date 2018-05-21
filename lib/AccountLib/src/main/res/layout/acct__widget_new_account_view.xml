@@ -39,14 +39,12 @@
             <com.expedia.account.newsignin.NewSignInLayout
                 android:id="@+id/new_account_signin_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </com.expedia.account.newsignin.NewSignInLayout>
+                android:layout_height="match_parent" />
 
             <com.expedia.account.newsignin.NewCreateAccountLayout
                 android:id="@+id/new_account_create_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </com.expedia.account.newsignin.NewCreateAccountLayout>
+                android:layout_height="match_parent" />
 
         </com.expedia.account.SwipeDisabledViewPager>
 

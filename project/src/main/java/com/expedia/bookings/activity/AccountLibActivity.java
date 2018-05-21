@@ -285,7 +285,7 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 
 		if (userStateManager.isUserAuthenticated()) {
 			if (userLoggedInWithFacebook) {
-				OmnitureTracking.trackLoginSuccess();
+				OmnitureTracking.trackSignInSuccess();
 				Db.sharedInstance.setSignInType(Db.SignInTypeEnum.FACEBOOK_SIGN_IN);
 			}
 			else {
@@ -316,11 +316,37 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 		extenderStatus.setText(status);
 	}
 
-	private AnalyticsListener analyticsListener = new AnalyticsListener() {
+	@VisibleForTesting
+	public AnalyticsListener analyticsListener = new AnalyticsListener() {
+
+		@Override
+		public void signInButtonClicked() {
+			OmnitureTracking.trackSignInButtonClicked();
+		}
+
+		@Override
+		public void facebookSignInButtonClicked() {
+			OmnitureTracking.trackFacebookSignInClicked();
+		}
+
+		@Override
+		public void createButtonClicked() {
+			OmnitureTracking.trackCreateAccountButtonClicked();
+		}
+
+		@Override
+		public void newSignInTabClicked() {
+			OmnitureTracking.trackSignInTabClicked();
+		}
+
+		@Override
+		public void newCreateAccountTabClicked() {
+			OmnitureTracking.trackCreateAccountTabClicked();
+		}
+
 		@Override
 		public void signInSucceeded() {
-			OmnitureTracking.trackLoginSuccess();
-			//Don't track the adtracker login here, as it happens once we fetch the profile
+			OmnitureTracking.trackSignInSuccess();
 		}
 
 		@Override
@@ -408,11 +434,6 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 
 		@Override
 		public void onFacebookRequested() {
-		}
-
-		@Override
-		public void onFacebookClicked() {
-			OmnitureTracking.trackFacebookSignIn();
 		}
 
 		@Override

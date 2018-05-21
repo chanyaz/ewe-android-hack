@@ -46,6 +46,7 @@ class SinglePageEmailNamePasswordLayout(context: Context, attrs: AttributeSet) :
         mValidationObservable.addSource(vLastNameInput.statusObservable)
         mValidationObservable.addSource(vPassword.statusObservable)
         vPassword.isPasswordVisibilityToggleEnabled(true)
+        allTextValidSubject.onNext(false)
     }
 
     fun storeDataInNewUser() {

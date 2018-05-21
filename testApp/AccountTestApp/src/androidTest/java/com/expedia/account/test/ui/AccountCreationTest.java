@@ -10,7 +10,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 
 import com.expedia.account.sample.R;
-import com.expedia.account.sample.SignInActivity;
+import com.expedia.account.sample.MockAccountLibActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
@@ -27,9 +27,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 
-public class AccountCreationTest extends ActivityInstrumentationTestCase2<SignInActivity> {
+public class AccountCreationTest extends ActivityInstrumentationTestCase2<MockAccountLibActivity> {
 	public AccountCreationTest() {
-		super(SignInActivity.class);
+		super(MockAccountLibActivity.class);
 	}
 
 	@Override

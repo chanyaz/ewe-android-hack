@@ -1504,7 +1504,10 @@ public class AccountView extends BufferedPresenter {
 			return;
 		}
 
-		listener.onFacebookClicked();
+		AnalyticsListener analyticsListener = mConfig.getAnalyticsListener();
+		if (analyticsListener != null) {
+			analyticsListener.facebookSignInButtonClicked();
+		}
 
 		if (mConfig.facebookAppId == null) {
 			listener.onFacebookRequested();

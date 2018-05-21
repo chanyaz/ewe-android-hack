@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.res.TypedArray
+import android.support.annotation.VisibleForTesting
 import android.support.design.widget.TabLayout
 import android.support.v4.view.PagerAdapter
 import android.support.v7.widget.Toolbar
@@ -36,15 +37,16 @@ open class NewAccountView(context: Context, attrs: AttributeSet) : FrameLayout(c
     private val toolBar: Toolbar by lazy { findViewById<Toolbar>(R.id.new_account_toolbar) }
     private val tabs: TabLayout by lazy { findViewById<TabLayout>(R.id.new_account_tabs) }
     private val tabsContainer: FrameLayout by lazy { findViewById<FrameLayout>(R.id.new_account_tabs_container) }
-    private val viewPager: SwipeDisabledViewPager by lazy { findViewById<SwipeDisabledViewPager>(R.id.new_account_viewpager) }
+    @VisibleForTesting val viewPager: SwipeDisabledViewPager by lazy { findViewById<SwipeDisabledViewPager>(R.id.new_account_viewpager) }
     private val signInLayout: NewSignInLayout by lazy { findViewById<NewSignInLayout>(R.id.new_account_signin_view) }
     private val createAccountLayout: NewCreateAccountLayout by lazy { findViewById<NewCreateAccountLayout>(R.id.new_account_create_view) }
     private val facebookLinkAccountsLayout: FacebookLinkAccountsLayout by lazy { findViewById<FacebookLinkAccountsLayout>(R.id.new_account_facebook_link_accounts_view) }
     private val loadingView: FrameLayout by lazy { findViewById<FrameLayout>(R.id.new_account_loading_view) }
 
     private val pagerAdapter = SignInPagerAdapter()
+    private val tabSelectedListener = SignInTabListener()
     private lateinit var brand: String
-    protected lateinit var config: Config
+    @VisibleForTesting lateinit var config: Config
     private val facebookHelper: NewFacebookHelper by lazy { createFacebookHelper() }
 
     private lateinit var toolbarNavigationListener: OnClickListener
@@ -53,6 +55,7 @@ open class NewAccountView(context: Context, attrs: AttributeSet) : FrameLayout(c
         View.inflate(context, R.layout.acct__widget_new_account_view, this)
         viewPager.adapter = pagerAdapter
         tabs.setupWithViewPager(viewPager)
+        tabs.addOnTabSelectedListener(tabSelectedListener)
         stylize(context, attrs)
     }
 
@@ -100,6 +103,8 @@ open class NewAccountView(context: Context, attrs: AttributeSet) : FrameLayout(c
 
     fun setupConfig(config: Config) {
         this.config = config
+        signInLayout.setupConfig(config)
+        createAccountLayout.setupConfig(config)
         signInLayout.configurePOS(config.enableFacebookButton)
         createAccountLayout.configurePOS(
                 config.showSpamOptIn,
@@ -173,6 +178,21 @@ open class NewAccountView(context: Context, attrs: AttributeSet) : FrameLayout(c
         }
     }
 
+    inner class SignInTabListener : TabLayout.OnTabSelectedListener {
+        override fun onTabReselected(tab: TabLayout.Tab) {
+        }
+
+        override fun onTabUnselected(tab: TabLayout.Tab) {
+        }
+
+        override fun onTabSelected(tab: TabLayout.Tab) {
+            when (tab.position) {
+                AccountTab.SIGN_IN.ordinal -> config.analyticsListener.newSignInTabClicked()
+                AccountTab.CREATE_ACCOUNT.ordinal -> config.analyticsListener.newCreateAccountTabClicked()
+            }
+        }
+    }
+
     @Subscribe
     open fun otto(e: Events.NewAccountSignInButtonClicked) {
         showLoading()
@@ -200,7 +220,6 @@ open class NewAccountView(context: Context, attrs: AttributeSet) : FrameLayout(c
     @Suppress("UNUSED_PARAMETER")
     @Subscribe
     open fun otto(e: Events.NewSignInWithFacebookButtonClicked) {
-        config.accountSignInListener.onFacebookClicked()
         if (config.facebookAppId == null) {
             config.accountSignInListener.onFacebookRequested()
         } else {

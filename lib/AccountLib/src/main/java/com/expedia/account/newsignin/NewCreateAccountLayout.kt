@@ -2,6 +2,7 @@ package com.expedia.account.newsignin
 
 import android.content.Context
 import android.graphics.PorterDuff
+import android.support.annotation.VisibleForTesting
 import android.support.v4.content.ContextCompat
 import android.text.Spannable
 import android.text.method.LinkMovementMethod
@@ -13,6 +14,7 @@ import android.widget.CheckBox
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.expedia.account.Config
 import com.expedia.account.R
 import com.expedia.account.data.Db
 import com.expedia.account.singlepage.SinglePageEmailNamePasswordLayout
@@ -25,12 +27,15 @@ class NewCreateAccountLayout(context: Context, attrs: AttributeSet) : FrameLayou
     private val spamCheckbox: CheckBox by lazy { findViewById<CheckBox>(R.id.new_agree_to_spam_checkbox) }
     private val spamOptInText: TextView by lazy { findViewById<TextView>(R.id.new_agree_to_spam_text) }
     private val newTermsTextView: TextView by lazy { findViewById<TextView>(R.id.new_create_account_terms_text) }
-    private val createAccountButton: Button by lazy { findViewById<Button>(R.id.new_create_account_button) }
+    @VisibleForTesting val createAccountButton: Button by lazy { findViewById<Button>(R.id.new_create_account_button) }
+
+    @VisibleForTesting lateinit var config: Config
 
     init {
         View.inflate(context, R.layout.acct__widget_new_create_account_view, this)
         refreshCheckboxColor(spamCheckbox)
         createAccountButton.setOnClickListener {
+            config.analyticsListener.createButtonClicked()
             if (emailNamePasswordLayout.allTextValidSubject.value) {
                 storeDataInNewUser()
                 Events.post(Events.NewCreateAccountButtonClicked())
@@ -121,5 +126,9 @@ class NewCreateAccountLayout(context: Context, attrs: AttributeSet) : FrameLayou
         emailNamePasswordLayout.setEnable(enable)
         spamCheckbox.isEnabled = enable
         createAccountButton.isEnabled = enable
+    }
+
+    fun setupConfig(config: Config) {
+        this.config = config
     }
 }

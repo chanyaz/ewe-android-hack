@@ -3,7 +3,7 @@ package com.expedia.account.test.ui;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.expedia.account.sample.R;
-import com.expedia.account.sample.SignInActivity;
+import com.expedia.account.sample.MockAccountLibActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
@@ -22,9 +22,9 @@ import static org.hamcrest.core.IsNot.not;
 /**
  * Created by doug on 6/18/15.
  */
-public class FacebookLoginTest extends ActivityInstrumentationTestCase2<SignInActivity> {
+public class FacebookLoginTest extends ActivityInstrumentationTestCase2<MockAccountLibActivity> {
 	public FacebookLoginTest() {
-		super(SignInActivity.class);
+		super(MockAccountLibActivity.class);
 	}
 
 	@Override

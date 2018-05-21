@@ -15,7 +15,7 @@ public class LaunchActivity extends AppCompatActivity {
 			startActivity(intent);
 		}
 		else {
-			Intent intent = new Intent(this, SignInActivity.class);
+			Intent intent = new Intent(this, MockAccountLibActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
 		}

@@ -148,6 +148,8 @@ public class OmnitureTracking {
 	// So we don't have to keep reloading this from settings
 	private static String sMarketingDate = "";
 
+	private static final String STRING_FOR_EVAR18 = "D=pageName";
+
 	private static final DateTimeFormatter sFormatter = DateTimeFormat.forPattern("E|hh:mma");
 
 	private static Context sContext = null;
@@ -3286,18 +3288,24 @@ public class OmnitureTracking {
 	private static final String LOGOUT_SELECT = "App.Account.Logout.Select";
 	private static final String LOGOUT_CANCEL = "App.Account.Logout.Cancel";
 	private static final String LOGOUT_SUCCESS = "App.Account.Logout";
+	private static final String LOGIN_EMAIL_SIGNIN = "App.Account.EmailSignIn";
+	private static final String LOGIN_CONTACT_ACCESS = "App.Account.Create.AccessInfo";
+	private static final String LOGIN_CONTACT_ACCESS_ALLOWED = "App.Account.Access.Yes";
+	private static final String LOGIN_CONTACT_ACCESS_NOT_ALLOWED = "App.Account.Access.NotNow";
+	private static final String LOGIN_SEARCH_CONTACTS = "App.Account.Create.SearchContacts";
 	private static final String LOGIN_EMAIL_PROMPT = "App.Account.Email.Prompt";
 	private static final String LOGIN_EMAIL_PROMPT_EXISTING = "App.Account.Email.SignIn";
 	private static final String LOGIN_EMAIL_PROMPT_NEW = "App.Account.Email.CreateNew";
 	private static final String LOGIN_CREATE_USERNAME = "App.Account.Create.UserName";
 	private static final String LOGIN_CREATE_PASSWORD = "App.Account.Create.Password";
 	private static final String LOGIN_TOS = "App.Account.Create.Terms";
-	private static final String LOGIN_SINGLE_PAGE = "App.Account.Create";
 	private static final String LOGIN_MARKETING_OPT_IN = "App.Account.Terms.Email.Opt-In";
 	private static final String LOGIN_MARKETING_OPT_OUT = "App.Account.Terms.Email.Opt-Out";
-	private static final String LOGIN_ACCOUNT_CREATE_SUCCESS = "App.Account.Create.Success";
-	private static final String LOGIN_ACCOUNT_CREATE_ERROR = "App.Account.Create.Error";
 	private static final String LOGIN_ACCOUNT_FACEBOOK_SIGN_IN = "App.Account.FacebookSignIn";
+
+	private static final String CREATE_ACCOUNT_SCREEN = "App.Account.Create";
+	private static final String CREATE_ACCOUNT = "App.Account.CreateAccount";
+
 	private static final String ACCOUNT_SCREEN = "App.Account.MyAccount";
 	private static final String ACCOUNT_COUNTRY_SETTING = "App.Account.Settings.Country";
 	private static final String ACCOUNT_SUPPORT_WEBSITE = "App.Account.Support.Website";
@@ -3439,8 +3447,8 @@ public class OmnitureTracking {
 	public static void trackSinglePage() {
 		AppAnalytics s = getFreshTrackingObject();
 		// set the pageName
-		s.setAppState(LOGIN_SINGLE_PAGE);
-		s.setEvar(18, LOGIN_SINGLE_PAGE);
+		s.setAppState(CREATE_ACCOUNT_SCREEN);
+		s.setEvar(18, STRING_FOR_EVAR18);
 		s.track();
 	}
 
@@ -3534,18 +3542,25 @@ public class OmnitureTracking {
 		AppAnalytics s = getFreshTrackingObject();
 		// set the pageName
 		String pageName;
-		pageName = LOGIN_SINGLE_PAGE;
+		pageName = CREATE_ACCOUNT_SCREEN;
 		s.setAppState(pageName);
-		s.setEvar(18, pageName);
-		s.setEvents("event25,event26");
+		s.setEvar(18, STRING_FOR_EVAR18);
+		s.setEvents("event25,event26,event61");
 		s.track();
+	}
+
+	public static void trackSignInSuccess() {
+		AppAnalytics s = createTrackLinkEvent(LOGIN_SUCCESS);
+		s.setEvents("event26");
+		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
+		s.trackLink("Accounts");
 	}
 
 	public static void trackSignInError(String error) {
 		AppAnalytics s = getFreshTrackingObject();
 		// set the pageName
 		s.setAppState(LOGIN_SCREEN);
-		s.setEvar(18, LOGIN_SCREEN);
+		s.setEvar(18, STRING_FOR_EVAR18);
 		s.setProp(36, error);
 		s.track();
 	}
@@ -3554,19 +3569,31 @@ public class OmnitureTracking {
 		AppAnalytics s = getFreshTrackingObject();
 		// set the pageName
 		String pageName;
-		pageName = LOGIN_SINGLE_PAGE;
+		pageName = CREATE_ACCOUNT_SCREEN;
 
 		s.setAppState(pageName);
-		s.setEvar(18, pageName);
+		s.setEvar(18, STRING_FOR_EVAR18);
 		s.setProp(36, error);
 		s.track();
 	}
 
-	public static void trackFacebookSignIn() {
+	public static void trackSignInButtonClicked() {
 		AppAnalytics s = getFreshTrackingObject();
 
-		s.setAppState(ACCOUNT_SCREEN);
-		s.setEvar(18, ACCOUNT_SCREEN);
+		s.setAppState(LOGIN_SCREEN);
+		s.setEvar(18, STRING_FOR_EVAR18);
+		s.setEvar(28, LOGIN_EMAIL_SIGNIN);
+		s.setProp(16, LOGIN_EMAIL_SIGNIN);
+		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
+
+		s.trackLink("Accounts");
+	}
+
+	public static void trackFacebookSignInClicked() {
+		AppAnalytics s = getFreshTrackingObject();
+
+		s.setAppState(LOGIN_SCREEN);
+		s.setEvar(18, STRING_FOR_EVAR18);
 		s.setEvar(28, LOGIN_ACCOUNT_FACEBOOK_SIGN_IN);
 		s.setProp(16, LOGIN_ACCOUNT_FACEBOOK_SIGN_IN);
 		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
@@ -3574,7 +3601,40 @@ public class OmnitureTracking {
 		s.trackLink("Accounts");
 	}
 
+	public static void trackSignInTabClicked() {
+		AppAnalytics s = getFreshTrackingObject();
 
+		s.setAppState(LOGIN_SCREEN);
+		s.setEvar(18, STRING_FOR_EVAR18);
+		s.setEvar(28, LOGIN_SCREEN);
+		s.setProp(16, LOGIN_SCREEN);
+		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
+
+		s.trackLink("Accounts");
+	}
+
+	public static void trackCreateAccountTabClicked() {
+		AppAnalytics s = getFreshTrackingObject();
+
+		s.setAppState(LOGIN_SCREEN);
+		s.setEvar(18, STRING_FOR_EVAR18);
+		s.setEvar(28, CREATE_ACCOUNT_SCREEN);
+		s.setProp(16, CREATE_ACCOUNT_SCREEN);
+		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
+
+		s.trackLink("Accounts");
+	}
+
+	public static void trackCreateAccountButtonClicked() {
+		AppAnalytics s = getFreshTrackingObject();
+
+		s.setAppState(CREATE_ACCOUNT_SCREEN);
+		s.setEvar(18, STRING_FOR_EVAR18);
+		s.setEvar(28, CREATE_ACCOUNT);
+		s.setProp(16, CREATE_ACCOUNT);
+
+		s.trackLink("Accounts");
+	}
 
 	@VisibleForTesting
 	static String getEventStringFromEventList(List<PageEvent> pageEvents) {
