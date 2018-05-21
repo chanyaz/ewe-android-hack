@@ -36,6 +36,7 @@ class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: Rev
     val toggleReviewTranslationObserver = endlessObserver<String> { reviewId ->
         val alreadyTranslatedReview = translationMap[reviewId]
         if (alreadyTranslatedReview != null) {
+            OmnitureTracking.trackHotelReviewTranslate(alreadyTranslatedReview.showToUser, false)
             alreadyTranslatedReview.showToUser = !alreadyTranslatedReview.showToUser
             translationUpdatedObservable.onNext(reviewId)
         } else {
@@ -100,8 +101,10 @@ class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: Rev
             val translatedReview = TranslatedReview(review)
             translationMap[reviewId] = translatedReview
             translationUpdatedObservable.onNext(reviewId)
+            OmnitureTracking.trackHotelReviewTranslate(false, false)
         }, {
             translationUpdatedObservable.onNext(reviewId)
+            OmnitureTracking.trackHotelReviewTranslate(false, true)
         })
     }
 }

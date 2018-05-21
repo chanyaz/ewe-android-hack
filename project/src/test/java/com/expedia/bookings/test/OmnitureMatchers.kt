@@ -14,6 +14,10 @@ class OmnitureMatchers {
                 Matchers.allOf(evars.map { Matchers.not(Matchers.hasKey("&&v" + it)) })
 
         @JvmStatic
+        fun withoutProps(vararg evars: Int): Matcher<Map<String, Any>> =
+                Matchers.allOf(evars.map { Matchers.not(Matchers.hasKey("&&c$it")) })
+
+        @JvmStatic
         fun withProps(data: Map<Int, String>): Matcher<Map<String, Any>> =
                 CustomMatchers.hasEntries(data.map { Pair("&&c" + it.key, it.value) }.toMap())
 

@@ -1,5 +1,7 @@
 package com.expedia.bookings.test
 
+import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.hotels.HotelReviewsResponse
 import com.expedia.bookings.data.hotels.ReviewSummary
 import com.expedia.bookings.data.hotels.ReviewSort
@@ -12,11 +14,14 @@ import org.junit.Rule
 import org.junit.Test
 import io.reactivex.Observable
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.test.robolectric.RobolectricRunner
+import org.junit.runner.RunWith
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+import kotlin.test.assertFalse
 
+@RunWith(RobolectricRunner::class)
 class HotelReviewsTest {
 
     var reviewServicesRule = ServicesRule(ReviewsServices::class.java)
@@ -25,12 +30,14 @@ class HotelReviewsTest {
     private val HOTEL_ID = "26650"
     private val NUMBER_FAVOURABLE_REVIEWS: Int = 9
     private val NUMBER_CRITICAL_REVIEWS: Int = 11
+    private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     var vm: HotelReviewsAdapterViewModel by Delegates.notNull()
 
     @Before
     fun before() {
         vm = HotelReviewsAdapterViewModel(HOTEL_ID, reviewServicesRule.services!!, "en_US")
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
     }
 
     @Test
@@ -98,6 +105,7 @@ class HotelReviewsTest {
         vm.toggleReviewTranslationObserver.onNext("5a2cc5ffa6ffd10dd50e1844")
         testSubscriber.assertValueCount(1)
         assertEquals(vm.translationMap.size, 1)
+        OmnitureTestUtils.assertLinkTracked("Translate User Review", "App.Hotels.Reviews.SeeTranslation", OmnitureMatchers.withoutProps(36), mockAnalyticsProvider)
     }
 
     @Test
@@ -107,16 +115,18 @@ class HotelReviewsTest {
         vm.toggleReviewTranslationObserver.onNext("")
         testSubscriber.assertValueCount(1)
         assertEquals(vm.translationMap.size, 0)
+        OmnitureTestUtils.assertLinkTracked("Translate User Review", "App.Hotels.Reviews.SeeTranslation", OmnitureMatchers.withProps(mapOf(36 to "HIS:Reviews:SeeTranslationError")), mockAnalyticsProvider)
     }
 
     @Test
     fun testReviewAlreadyTranslated() {
         val testSubscriber = TestObserver<String>()
         vm.translationUpdatedObservable.subscribe(testSubscriber)
-        vm.translationMap["a1"] = TranslatedReview(HotelReviewsResponse.Review(), false)
+        vm.translationMap["a1"] = TranslatedReview(HotelReviewsResponse.Review(), true)
         vm.toggleReviewTranslationObserver.onNext("a1")
         testSubscriber.assertValue("a1")
-        assertTrue(vm.translationMap["a1"]!!.showToUser)
+        assertFalse(vm.translationMap["a1"]!!.showToUser)
+        OmnitureTestUtils.assertLinkTracked("Translate User Review", "App.Hotels.Reviews.SeeOriginal", OmnitureMatchers.withoutProps(36), mockAnalyticsProvider)
     }
 
     private fun getExpectedReviewRequestStr(startParam: Int): String {

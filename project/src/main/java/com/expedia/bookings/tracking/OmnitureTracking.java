@@ -1156,7 +1156,7 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackHotelReviewTranslate(boolean seeOriginalDisplayed) {
+	public static void trackHotelReviewTranslate(boolean seeOriginalDisplayed, boolean apiError) {
 		String pageName;
 		if (seeOriginalDisplayed) {
 			pageName = HOTELSV2_REVIEWS + ".SeeOriginal";
@@ -1167,6 +1167,11 @@ public class OmnitureTracking {
 
 		Log.d(TAG, "Tracking \"" + pageName + "\" click...");
 		AppAnalytics s = createTrackLinkEvent(pageName);
+
+		if (apiError) {
+			s.setProp(36, "HIS:Reviews:SeeTranslationError");
+		}
+
 		s.trackLink("Translate User Review");
 	}
 
