@@ -1,5 +1,6 @@
 package com.expedia.bookings.rail.widget
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -20,7 +21,12 @@ class RailTravelerWidgetV2(context: Context, attrs: AttributeSet?) : TravelerWid
     }
 
     override val travelerDialogView: View by lazy {
-        val view = LayoutInflater.from(context).inflate(R.layout.widget_rail_traveler_search, null)
+        val view = getRailTravelerSearchView()
         view
+    }
+
+    @SuppressLint("InflateParams")
+    private fun getRailTravelerSearchView(): View {
+        return LayoutInflater.from(context).inflate(R.layout.widget_rail_traveler_search, null)
     }
 }

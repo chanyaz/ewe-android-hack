@@ -154,7 +154,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		final View view = inflater.inflate(R.layout.fragment_itinerary_list, null);
+		final View view = inflater.inflate(R.layout.fragment_itinerary_list, container, false);
 
 		mRoot = Ui.findView(view, R.id.outer_container);
 		mItinListView = Ui.findView(view, android.R.id.list);
@@ -183,7 +183,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		handleToolbarBackgroundColor();
 		handleToolbarVisibility();
 
-		View guestItinView = inflater.inflate(R.layout.add_guest_itin, null);
+		View guestItinView = inflater.inflate(R.layout.add_guest_itin, mItinListView, false);
 		mItinListView.addFooterView(guestItinView);
 		com.expedia.bookings.widget.TextView guestItinTextView = Ui.findView(view, R.id.add_guest_itin_text_view);
 

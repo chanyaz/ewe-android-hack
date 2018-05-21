@@ -53,7 +53,7 @@ class FareFamilyAmenitiesDialog(context: Context, attrs: AttributeSet) : LinearL
     }
 
     fun getPrimaryAmenityView(viewModel: FareFamilyAmenityItemViewModel): View {
-        val amenityItemWidget = LayoutInflater.from(context).inflate(R.layout.fare_family_amenity_widget, null) as FareFamilyAmenityItemWidget
+        val amenityItemWidget = LayoutInflater.from(context).inflate(R.layout.fare_family_amenity_widget, amenitiesList, false) as FareFamilyAmenityItemWidget
         amenityItemWidget.viewModel = viewModel
         return amenityItemWidget
     }

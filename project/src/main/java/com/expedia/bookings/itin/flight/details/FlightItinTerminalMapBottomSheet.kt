@@ -31,7 +31,7 @@ class FlightItinTerminalMapBottomSheet : BottomSheetDialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.flight_itin_terminal_map_bottom_sheet, null)
+        val view = inflater?.inflate(R.layout.flight_itin_terminal_map_bottom_sheet, container, false)
 
         val departureAirportCode = arguments.getString(DEPARTURE_AIRPORT_CODE, null)
         val arrivalAirportCode = arguments.getString(ARRIVAL_AIRPORT_CODE, null)

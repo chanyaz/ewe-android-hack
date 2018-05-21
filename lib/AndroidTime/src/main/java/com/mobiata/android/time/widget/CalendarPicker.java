@@ -14,6 +14,7 @@ import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.PorterDuff;
@@ -639,6 +640,7 @@ public class CalendarPicker extends LinearLayout {
 		private TextView mTopText;
 		private TextView mBottomText;
 
+		@SuppressLint("InflateParams")
 		public TooltipPopup(Context context) {
 			super(context);
 			super.setBackgroundDrawable(null);

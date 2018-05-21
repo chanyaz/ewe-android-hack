@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.joda.time.LocalDate;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -130,6 +131,7 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 		buildCostBreakdownDialog(getContext(), lxState.selectedTickets());
 	}
 
+	@SuppressLint("InflateParams")
 	private void buildCostBreakdownDialog(Context context, List<Ticket> tickets) {
 		View view = LayoutInflater.from(context).inflate(R.layout.cost_summary_alert, null);
 		LinearLayout ll = Ui.findView(view, R.id.cost_summary_container);
@@ -138,7 +140,7 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 			context.getString(R.string.lx_cost_breakdown_due_today),
 			lxState.latestTotalPrice()
 				.getFormattedMoneyFromAmountAndCurrencyCode(lxState.latestTotalPrice().getAmount(),
-					lxState.latestTotalPrice().getCurrency())));
+					lxState.latestTotalPrice().getCurrency()), ll));
 
 		String currencyCode = tickets.get(0).money.getCurrency();
 		for (Ticket ticket : lxBookableItem.tickets) {
@@ -150,17 +152,17 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 				CheckoutSummaryWidgetUtils.addRow(context,
 					LXDataUtils.ticketCountSummary(getContext(), ticket.code, ticket.count),
 					Money
-						.getFormattedMoneyFromAmountAndCurrencyCode(moneyWithoutCurrencyCode.getAmount(), currencyCode)));
+						.getFormattedMoneyFromAmountAndCurrencyCode(moneyWithoutCurrencyCode.getAmount(), currencyCode), ll));
 		}
 
 		ll.addView(CheckoutSummaryWidgetUtils.addRow(context,
-			context.getString(R.string.lx_cost_breakdown_taxes_included)));
-		ll.addView(addDisclaimerRow(context, currencyCode));
+			context.getString(R.string.lx_cost_breakdown_taxes_included), ll));
+		ll.addView(addDisclaimerRow(context, currencyCode, ll));
 		ll.addView(CheckoutSummaryWidgetUtils.addRow(context,
 			context.getString(R.string.checkout_breakdown_total_price),
 			lxState.latestTotalPrice()
 				.getFormattedMoneyFromAmountAndCurrencyCode(lxState.latestTotalPrice().getAmount(),
-					lxState.latestTotalPrice().getCurrency())));
+					lxState.latestTotalPrice().getCurrency()), ll));
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setView(view);
@@ -174,8 +176,8 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 		builder.create().show();
 	}
 
-	private View addDisclaimerRow(Context context, String currency) {
-		View row = LayoutInflater.from(context).inflate(R.layout.checkout_breakdown_price_disclaimer, null);
+	private View addDisclaimerRow(Context context, String currency, ViewGroup container) {
+		View row = LayoutInflater.from(context).inflate(R.layout.checkout_breakdown_price_disclaimer, container, false);
 		TextView disclaimer = Ui.findView(row, R.id.price_disclaimer);
 		disclaimer.setText(context.getResources()
 			.getString(R.string.lx_checkout_breakdown_price_disclaimer_text, currency));

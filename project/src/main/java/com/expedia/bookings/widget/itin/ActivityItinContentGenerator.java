@@ -185,7 +185,7 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 		if (size > 0) {
 			for (int i = 0; i < size; i++) {
 				final TextView guestView = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_guest,
-					null);
+					container, false);
 				final Traveler traveler = travelers.get(i);
 				final int resId = GUEST_ICONS[i % GUEST_ICONS.length];
 

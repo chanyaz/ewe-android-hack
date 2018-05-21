@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import org.joda.time.DateTime;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -316,6 +317,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	}
 
 	@Override
+	@SuppressLint("InflateParams")
 	public SummaryButton getSummaryRightButton() {
 		final int iconResId = Ui.obtainThemeResID(getContext(), R.attr.itin_card_summary_right_action_button_hotel_drawable);
 		final String actionText = getContext().getString(R.string.itin_action_call_hotel);

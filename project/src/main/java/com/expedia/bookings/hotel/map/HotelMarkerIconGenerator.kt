@@ -1,5 +1,6 @@
 package com.expedia.bookings.hotel.map
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -24,7 +25,12 @@ class HotelMarkerIconGenerator(context: Context) {
     private val iconFactory = IconGenerator(context)
 
     private val hotelMarkerTextView: TextView by lazy {
-        LayoutInflater.from(context).inflate(R.layout.fav_hotel_marker, null) as TextView
+        getFavHotelMarkerView(context)
+    }
+
+    @SuppressLint("InflateParams")
+    private fun getFavHotelMarkerView(context: Context): TextView {
+        return LayoutInflater.from(context).inflate(R.layout.fav_hotel_marker, null) as TextView
     }
 
     private fun getBitmap(context: Context, isSelected: Boolean, isAirAttached: Boolean, isSoldOut: Boolean): Drawable {

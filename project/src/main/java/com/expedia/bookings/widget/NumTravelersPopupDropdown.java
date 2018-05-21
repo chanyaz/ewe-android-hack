@@ -3,6 +3,7 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.BitmapDrawable;
@@ -21,6 +22,7 @@ import com.expedia.bookings.utils.Ui;
 
 public class NumTravelersPopupDropdown {
 
+	@SuppressLint("InflateParams")
 	public static PopupWindow newInstance(Context context) {
 		NumTravelersAdapter adapter = new NumTravelersAdapter(context);
 		LayoutInflater inflater = LayoutInflater.from(context);

@@ -1,5 +1,6 @@
 package com.expedia.bookings.rail.widget
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v7.app.AlertDialog
 import android.util.AttributeSet
@@ -51,9 +52,14 @@ class RailCardsPickerWidget(context: Context, attrs: AttributeSet?) : SearchInpu
     }
 
     val cardPickerDialogView: RailCardPickerView by lazy {
-        val view = LayoutInflater.from(context).inflate(R.layout.widget_rail_card_search, null) as RailCardPickerView
+        val view = getRailCardPickerView()
         view.viewModel = railCardPickerViewModel
         view
+    }
+
+    @SuppressLint("InflateParams")
+    private fun getRailCardPickerView(): RailCardPickerView {
+        return LayoutInflater.from(context).inflate(R.layout.widget_rail_card_search, null) as RailCardPickerView
     }
 
     val cardsPickerDialog: AlertDialog by lazy {

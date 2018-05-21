@@ -40,7 +40,7 @@ class FareFamilyPrimaryAmenitiesWidget(context: Context, attrs: AttributeSet) : 
     }
 
     fun addPrimaryAmenityView(viewModel: FareFamilyAmenityItemViewModel) {
-        val amenityItemWidget = LayoutInflater.from(context).inflate(R.layout.fare_family_amenity_widget, null) as FareFamilyAmenityItemWidget
+        val amenityItemWidget = LayoutInflater.from(context).inflate(R.layout.fare_family_amenity_widget, primaryAmenitiesContainer, false) as FareFamilyAmenityItemWidget
         amenityItemWidget.viewModel = viewModel
         primaryAmenitiesContainer.addView(amenityItemWidget)
     }

@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
@@ -28,7 +29,7 @@ class UserReviewRatingDialog(context: Context) {
     }
 
     val ratingDialogView: View by lazy {
-        val view = LayoutInflater.from(context).inflate(R.layout.widget_rating_dialog, null)
+        val view = getRatingDialogWidget(context)
         val reviewBtn = view.findViewById<Button>(R.id.review_btn)
         val feedbackBtn = view.findViewById<Button>(R.id.feedback_btn)
         val noThanksBtn = view.findViewById<Button>(R.id.no_btn)
@@ -38,6 +39,11 @@ class UserReviewRatingDialog(context: Context) {
         noThanksBtn.subscribeOnClick(viewModel.noSubject)
 
         view
+    }
+
+    @SuppressLint("InflateParams")
+    private fun getRatingDialogWidget(context: Context): View {
+        return LayoutInflater.from(context).inflate(R.layout.widget_rating_dialog, null)
     }
 
     fun show() {

@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v7.app.AlertDialog
 import android.util.AttributeSet
@@ -29,7 +30,12 @@ class FlightTravelerWidgetV2(context: Context, attrs: AttributeSet?) : TravelerW
     }
 
     override val travelerDialogView: View by lazy {
-        val view = LayoutInflater.from(context).inflate(R.layout.widget_flight_traveler_search, null)
+        val view = getFlightTravelerSearchView()
         view
+    }
+
+    @SuppressLint("InflateParams")
+    private fun getFlightTravelerSearchView(): View {
+        return LayoutInflater.from(context).inflate(R.layout.widget_flight_traveler_search, null)
     }
 }

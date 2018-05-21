@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v7.app.AlertDialog
 import android.util.AttributeSet
@@ -28,8 +29,13 @@ open class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInpu
     }
 
     open val travelerDialogView: View by lazy {
-        val view = LayoutInflater.from(context).inflate(R.layout.widget_hotel_traveler_search, null)
+        val view = getTravelerSearchView()
         view
+    }
+
+    @SuppressLint("InflateParams")
+    private fun getTravelerSearchView(): View {
+        return LayoutInflater.from(context).inflate(R.layout.widget_hotel_traveler_search, null)
     }
 
     open val traveler: BaseTravelerPickerView by lazy {

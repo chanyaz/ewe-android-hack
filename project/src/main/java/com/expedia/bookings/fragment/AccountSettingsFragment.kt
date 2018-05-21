@@ -153,7 +153,7 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
 
     val debugAlertDialog: AlertDialog by lazy {
         val alertDialog = AlertDialog.Builder(context)
-        val convertView = activity.layoutInflater.inflate(R.layout.alert_dialog_with_list, null)
+        val convertView = getAlertDialogWithListView()
         alertDialog.setView(convertView)
         alertDialog.setIcon(R.drawable.ic_launcher)
         alertDialog.setTitle(R.string.debug_screens_sub_menu)
@@ -169,6 +169,11 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
         alertDialog.create()
     }
 
+    @SuppressLint("InflateParams")
+    private fun getAlertDialogWithListView(): View {
+        return activity.layoutInflater.inflate(R.layout.alert_dialog_with_list, null)
+    }
+
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         Events.register(this)
@@ -181,7 +186,7 @@ open class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccou
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_account_settings, null)
+        return inflater.inflate(R.layout.fragment_account_settings, container, false)
     }
 
     override fun onDetach() {

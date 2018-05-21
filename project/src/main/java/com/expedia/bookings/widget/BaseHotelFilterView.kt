@@ -57,7 +57,7 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
     private val filterContainer: ViewGroup by bindView(R.id.filter_container)
 
     val doneButton: Button by lazy {
-        val button = LayoutInflater.from(context).inflate(R.layout.toolbar_checkmark_item, null) as Button
+        val button = LayoutInflater.from(context).inflate(R.layout.toolbar_checkmark_item, toolbar, false) as Button
         button.setTextColor(ContextCompat.getColor(context, R.color.actionbar_text_color_inverse))
         button.setText(R.string.done)
 

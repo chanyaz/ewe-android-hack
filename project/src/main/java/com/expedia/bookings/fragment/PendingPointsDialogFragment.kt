@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
@@ -12,6 +13,7 @@ import com.squareup.phrase.Phrase
 
 class PendingPointsDialogFragment : DialogFragment() {
 
+    @SuppressLint("InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val title = arguments.getString("title")
         val alertDialogBuilder = AlertDialog.Builder(activity)

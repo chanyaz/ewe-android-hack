@@ -78,7 +78,7 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
     var airlineRowExpandedHeight = 0
 
     val doneButton: Button by lazy {
-        val button = LayoutInflater.from(context).inflate(R.layout.toolbar_checkmark_item, null) as Button
+        val button = LayoutInflater.from(context).inflate(R.layout.toolbar_checkmark_item, toolbar, false) as Button
         button.setTextColor(ContextCompat.getColor(context, R.color.packages_flight_filter_text))
         button.setText(R.string.done)
 

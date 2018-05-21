@@ -1,5 +1,6 @@
 package com.expedia.bookings.marketing.carnival
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
@@ -18,6 +19,7 @@ import com.squareup.picasso.Picasso
 
 class InAppNotificationDialogFragment : DialogFragment() {
 
+    @SuppressLint("InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val alertDialogBuilder = AlertDialog.Builder(activity)
         val view = activity.layoutInflater.inflate(R.layout.fragment_dialog_in_app_notification, null)

@@ -54,8 +54,13 @@ open class CalendarDialogFragment() : DialogFragment() {
     }
 
     val calendarDialogView: View by lazy {
-        val view = LayoutInflater.from(context).inflate(R.layout.widget_calendar_search, null)
+        val view = getCalendarSearchView()
         view
+    }
+
+    @SuppressLint("InflateParams")
+    private fun getCalendarSearchView(): View {
+        return LayoutInflater.from(context).inflate(R.layout.widget_calendar_search, null)
     }
 
     val calendar: CalendarPicker by lazy {

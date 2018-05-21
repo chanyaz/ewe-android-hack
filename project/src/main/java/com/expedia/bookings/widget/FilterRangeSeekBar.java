@@ -3,6 +3,7 @@ package com.expedia.bookings.widget;
 import java.util.List;
 import java.util.Locale;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -418,6 +419,7 @@ public class FilterRangeSeekBar extends CustomSeekBarView {
 				.toString();
 		}
 
+		@SuppressLint("InflateParams")
 		private void showDialog() {
 			LayoutInflater inflater = LayoutInflater.from(getContext());
 			mRootView = inflater.inflate(R.layout.seekbar_level_dialog, null);

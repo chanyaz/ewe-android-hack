@@ -445,7 +445,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     fun getFloatingButton(): View = if (shouldUsePill() && floatingPill != null) floatingPill!! else fab
 
     private fun inflateAndSetupToolbarMenu() {
-        val toolbarFilterItemActionView = LayoutInflater.from(context).inflate(R.layout.toolbar_filter_item, null) as LinearLayout
+        val toolbarFilterItemActionView = LayoutInflater.from(context).inflate(R.layout.toolbar_filter_item, toolbar, false) as LinearLayout
         filterCountText = toolbarFilterItemActionView.findViewById<TextView>(R.id.filter_count_text)
         filterPlaceholderImageView = toolbarFilterItemActionView.findViewById<ImageView>(R.id.filter_placeholder_icon)
         filterPlaceholderImageView.setColorFilter(ContextCompat.getColor(context, R.color.toolbar_icon))

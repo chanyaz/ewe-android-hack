@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
@@ -12,6 +13,7 @@ import com.expedia.util.PermissionsUtils.requestLocationPermission
 
 class SoftPromptDialogFragment : DialogFragment() {
 
+    @SuppressLint("InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val alertDialogBuilder = AlertDialog.Builder(activity)
         val view = activity.layoutInflater.inflate(R.layout.fragment_dialog_soft_prompt, null)

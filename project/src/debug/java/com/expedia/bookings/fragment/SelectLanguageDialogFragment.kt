@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
@@ -14,6 +15,7 @@ class SelectLanguageDialogFragment : DialogFragment() {
 
     lateinit var viewModel: DebugSelectLanguageVM
 
+    @SuppressLint("InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val alertDialogBuilder = AlertDialog.Builder(activity)
         alertDialogBuilder.setTitle("Change Language")

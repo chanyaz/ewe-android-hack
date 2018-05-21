@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.pm.PackageManager
@@ -58,6 +59,7 @@ class ItinModifyReservationDialog : DialogFragment() {
         setListenerForGoBackButton(goBackButton)
     }
 
+    @SuppressLint("InflateParams")
     private fun getViewForDialog(): View {
         val layoutInflater = activity.layoutInflater
         return layoutInflater.inflate(R.layout.fragment_dialog_flight_modify_reservation, null)

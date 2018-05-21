@@ -47,7 +47,7 @@ class FlightFareFamilyWidget(context: Context, attrs: AttributeSet) : Presenter(
     var selectedFareFamilyIndex = 0
 
     val doneButton: Button by lazy {
-        val button = inflater.inflate(R.layout.toolbar_checkmark_item, null) as Button
+        val button = inflater.inflate(R.layout.toolbar_checkmark_item, toolbar, false) as Button
         button.setTextColor(ContextCompat.getColor(context, R.color.flight_cabin_class_text))
         button.setText(R.string.done)
 

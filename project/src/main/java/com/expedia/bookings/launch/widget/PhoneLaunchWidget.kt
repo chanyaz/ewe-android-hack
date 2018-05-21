@@ -94,7 +94,7 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
     val launchListWidget: LaunchListWidget by bindView(R.id.launch_list_widget)
     private val lobViewContainer: android.widget.FrameLayout by bindView(R.id.lob_view_container)
     private val lobView: LaunchLobWidget by lazy {
-        val newLaunchLobWidget = LayoutInflater.from(context).inflate(R.layout.widget_launch_lob, null, false) as LaunchLobWidget
+        val newLaunchLobWidget = LayoutInflater.from(context).inflate(R.layout.widget_launch_lob, lobViewContainer, false) as LaunchLobWidget
         newLaunchLobWidget.viewModel = LaunchLobViewModel(context, hasInternetConnection, posChangeSubject)
         newLaunchLobWidget
     }

@@ -3,6 +3,7 @@ package com.expedia.bookings.launch.widget;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
@@ -37,6 +38,7 @@ public class LaunchListWidget extends RecyclerView {
 	}
 
 	@Override
+	@SuppressLint("InflateParams")
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);

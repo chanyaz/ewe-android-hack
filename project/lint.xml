@@ -135,7 +135,7 @@
     <issue id="DuplicateActivity" severity="error" />
     <issue id="DuplicateUsesFeature" severity="error" />
     <issue id="IncludeLayoutParam" severity="error" />
-    <!-- <issue id="InflateParams" severity="error" /> -->
+    <issue id="InflateParams" severity="error" />
     <issue id="ManifestOrder" severity="error" />
     <issue id="ManifestTypo" severity="error" />
     <issue id="MissingId" severity="error" />

@@ -391,7 +391,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 			String confirmationText = ((ConfirmationNumberable) this.getItinCardData())
 				.getFormattedConfirmationNumbers();
 			int labelResId = ((ConfirmationNumberable) this.getItinCardData()).getConfirmationNumberLabelResId();
-			View view = getClickToCopyItinDetailItem(labelResId, confirmationText, true);
+			View view = getClickToCopyItinDetailItem(labelResId, confirmationText, true, container);
 			if (view != null) {
 				Log.d("ITIN: addConfirmationNumber to container");
 				container.addView(view);
@@ -409,7 +409,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 			String itineraryLabel = Phrase.from(mContext, R.string.itinerary_TEMPLATE).put("brand",
 				BuildConfig.brand).format().toString();
 
-			View view = getClickToCopyItinDetailItem(itineraryLabel, itineraryNumber, false);
+			View view = getClickToCopyItinDetailItem(itineraryLabel, itineraryNumber, false, container);
 			if (view != null) {
 				Log.d("ITIN: addItineraryNumber to container");
 				container.addView(view);
@@ -457,7 +457,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 					public void onClick(View v) {
 						SocialUtils.call(getContext(), supportPhoneNumber);
 					}
-				});
+				}, container);
 		}
 
 		else if (!TextUtils.isEmpty(supportEmail)) {
@@ -469,7 +469,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 							.email(getContext(), supportEmail, getResources().getString(R.string.support_request),
 								DebugInfoUtils.generateEmailBody(mContext));
 					}
-				});
+				}, container);
 		}
 
 		if (view == null) {
@@ -484,7 +484,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	protected boolean addSharedOptions(ViewGroup container) {
 		Log.d("ITIN: addSharedOptions");
 		if (isSharedItin()) {
-			View item = getLayoutInflater().inflate(R.layout.snippet_itin_detail_item_shared_options, null);
+			View item = getLayoutInflater().inflate(R.layout.snippet_itin_detail_item_shared_options, container, false);
 			TextView removeTextView = Ui.findView(item, R.id.remove_itin);
 			AccessibilityUtil.appendRoleContDesc(removeTextView, removeTextView.getText().toString(), R.string.accessibility_cont_desc_role_button);
 			removeTextView.setOnClickListener(new OnClickListener() {
@@ -510,11 +510,11 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		df.show(fragmentManager, ItinConfirmRemoveDialogFragment.TAG);
 	}
 
-	protected View getClickToCopyItinDetailItem(int headerResId, final String text, final boolean isConfNumber) {
-		return getClickToCopyItinDetailItem(getResources().getString(headerResId), text, isConfNumber);
+	protected View getClickToCopyItinDetailItem(int headerResId, final String text, final boolean isConfNumber, ViewGroup container) {
+		return getClickToCopyItinDetailItem(getResources().getString(headerResId), text, isConfNumber, container);
 	}
 
-	protected View getClickToCopyItinDetailItem(String label, final String text, final boolean isConfNumber) {
+	protected View getClickToCopyItinDetailItem(String label, final String text, final boolean isConfNumber, ViewGroup container) {
 
 		return getItinDetailItem(label, text, isConfNumber, new OnClickListener() {
 			@Override
@@ -525,16 +525,16 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 					OmnitureTracking.trackItinFlightCopyPNR();
 				}
 			}
-		});
+		}, container);
 	}
 
-	protected View getItinDetailItem(int headerResId, final String text, final boolean isConfNumber, OnClickListener onClickListener) {
-		return getItinDetailItem(getResources().getString(headerResId), text, isConfNumber, onClickListener);
+	protected View getItinDetailItem(int headerResId, final String text, final boolean isConfNumber, OnClickListener onClickListener, ViewGroup container) {
+		return getItinDetailItem(getResources().getString(headerResId), text, isConfNumber, onClickListener, container);
 	}
 
 	protected View getItinDetailItem(String label, final String text, final boolean isConfNumber,
-		OnClickListener onClickListener) {
-		View item = getLayoutInflater().inflate(R.layout.snippet_itin_detail_item_generic, null);
+		OnClickListener onClickListener, ViewGroup container) {
+		View item = getLayoutInflater().inflate(R.layout.snippet_itin_detail_item_generic, container, false);
 		TextView headingTv = Ui.findView(item, R.id.item_label);
 		TextView textTv = Ui.findView(item, R.id.item_text);
 		View copyToClipboardContentDescription = Ui.findView(item, R.id.copy_to_clipboard_content_description);
@@ -548,8 +548,8 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		return item;
 	}
 
-	protected View setItinDetailItemText(int headerResId, final String text) {
-		View item = getLayoutInflater().inflate(R.layout.snippet_itin_detail_item_generic, null);
+	protected View setItinDetailItemText(int headerResId, final String text, ViewGroup container) {
+		View item = getLayoutInflater().inflate(R.layout.snippet_itin_detail_item_generic, container, false);
 		TextView headingTv = Ui.findView(item, R.id.item_label);
 		TextView textTv = Ui.findView(item, R.id.item_text);
 
@@ -567,7 +567,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		if (getItinCardData() != null
 			&& (!TextUtils.isEmpty(getItinCardData().getDetailsUrl()) || isSharedItin())) {
 
-			View item = getLayoutInflater().inflate(R.layout.snippet_itin_detail_item_booking_info, null);
+			View item = getLayoutInflater().inflate(R.layout.snippet_itin_detail_item_booking_info, container, false);
 
 			TextView bookingInfoTv = Ui.findView(item, R.id.booking_info);
 			AccessibilityUtil.appendRoleContDesc(bookingInfoTv, bookingInfoTv.getText().toString(), R.string.accessibility_cont_desc_role_button);
@@ -640,7 +640,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 			return false;
 		}
 
-		View item = getLayoutInflater().inflate(R.layout.snippet_itin_detail_item_insurance, null);
+		View item = getLayoutInflater().inflate(R.layout.snippet_itin_detail_item_insurance, container, false);
 		ViewGroup insuranceContainer = Ui.findView(item, R.id.insurance_container);
 
 		int divPadding = getResources().getDimensionPixelSize(R.dimen.itin_flight_segment_divider_padding);
@@ -654,7 +654,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 				if (viewAddedCount > 0) {
 					insuranceContainer.addView(getHorizontalDividerView(divPadding));
 				}
-				View insuranceRow = getLayoutInflater().inflate(R.layout.snippet_itin_insurance_row, null);
+				View insuranceRow = getLayoutInflater().inflate(R.layout.snippet_itin_insurance_row, container, false);
 				TextView insuranceName = Ui.findView(insuranceRow, R.id.insurance_name);
 				insuranceName.setText(HtmlCompat.stripHtml(insurance.getPolicyName()));
 				AccessibilityUtil.appendRoleContDesc(insuranceName, insuranceName.getText().toString(), R.string.accessibility_cont_desc_role_button);

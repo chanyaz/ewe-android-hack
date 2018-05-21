@@ -1,5 +1,6 @@
 package com.expedia.bookings.hotel.map
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Location
 import android.support.v4.view.ViewCompat
@@ -213,6 +214,7 @@ class HotelResultsMapWidget(context: Context, attrs: AttributeSet?) : FrameLayou
         }
 
         googleMap?.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
+            @SuppressLint("InflateParams")
             override fun getInfoWindow(marker: Marker): View? {
                 val activity = context as AppCompatActivity
                 val v = activity.layoutInflater.inflate(R.layout.marker_window, null)

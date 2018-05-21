@@ -1,10 +1,12 @@
 package com.expedia.bookings.hotel.map
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -27,11 +29,16 @@ class HotelMapClusterRenderer(private val context: Context, map: GoogleMap?, clu
     private val clusterRangeText: TextView
 
     init {
-        val multiHotel = LayoutInflater.from(context).inflate(R.layout.map_multi_hotel, null)
+        val multiHotel = getMultiHotelView()
         clusterIconGenerator.setContentView(multiHotel)
         clusterIconGenerator.setTextAppearance(R.style.MarkerTextAppearance)
         clusterCountText = multiHotel.findViewById<TextView>(R.id.hotel_count)
         clusterRangeText = multiHotel.findViewById<TextView>(R.id.price_range)
+    }
+
+    @SuppressLint("InflateParams")
+    private fun getMultiHotelView(): View {
+        return LayoutInflater.from(context).inflate(R.layout.map_multi_hotel, null)
     }
 
     override fun onBeforeClusterItemRendered(hotelMapMarker: HotelMapMarker, markerOptions: MarkerOptions?) {

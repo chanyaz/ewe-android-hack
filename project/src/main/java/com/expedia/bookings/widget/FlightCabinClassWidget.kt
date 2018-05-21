@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v7.app.AlertDialog
 import android.util.AttributeSet
@@ -22,8 +23,12 @@ class FlightCabinClassWidget(context: Context, attrs: AttributeSet?) : SearchInp
     lateinit var lob: LineOfBusiness
 
     val flightCabinClassDialogView: View by lazy {
-        val view = LayoutInflater.from(context).inflate(R.layout.widget_flight_cabin_class_search, null)
-        view
+        getFlightCabinClassSearchView()
+    }
+
+    @SuppressLint("InflateParams")
+    private fun getFlightCabinClassSearchView(): View {
+        return LayoutInflater.from(context).inflate(R.layout.widget_flight_cabin_class_search, null)
     }
 
     val flightCabinClassView: FlightCabinClassPickerView by lazy {

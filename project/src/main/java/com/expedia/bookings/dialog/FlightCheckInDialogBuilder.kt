@@ -2,6 +2,7 @@ package com.expedia.bookings.dialog
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
@@ -14,6 +15,7 @@ import com.expedia.bookings.widget.TextView
 
 object FlightCheckInDialogBuilder {
 
+    @SuppressLint("InflateParams")
     @JvmStatic
     fun onCreateDialog(context: Context, airlineName: String, airlineCode: String, confirmationCode: String, isSplitTicket: Boolean, flightLegs: Int): AlertDialog {
         val dialogLayout = (context as Activity).layoutInflater.inflate(R.layout.itin_check_in_dialog, null)

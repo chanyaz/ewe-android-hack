@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget.flights
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.util.AttributeSet
@@ -41,11 +42,16 @@ class FareFamilyItemWidget(context: Context, attrs: AttributeSet) : LinearLayout
     var viewModel: FareFamilyItemViewModel? = null
 
     val fareFamilyAmenitiesDialogView: FareFamilyAmenitiesDialog by lazy {
-        val fareFamilyAmenitiesDialog = LayoutInflater.from(context).inflate(R.layout.fare_family_amenities_dialog_view, null) as FareFamilyAmenitiesDialog
+        val fareFamilyAmenitiesDialog = getDialogView()
         fareFamilyAmenitiesDialog.viewModel = FlightFareFamilyAmenityDialogViewModel(
                 context, viewModel?.fareFamilyDetail!!.fareFamilyComponents, viewModel?.fareFamilyDetail?.totalPrice!!.currencyCode)
         fareFamilyAmenitiesDialog.prepareAmenitiesListForDisplay()
         fareFamilyAmenitiesDialog
+    }
+
+    @SuppressLint("InflateParams")
+    private fun getDialogView(): FareFamilyAmenitiesDialog {
+        return LayoutInflater.from(context).inflate(R.layout.fare_family_amenities_dialog_view, null) as FareFamilyAmenitiesDialog
     }
 
     val fareFamilyAmenitiesDialog: AlertDialog by lazy {

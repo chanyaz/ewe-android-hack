@@ -292,21 +292,21 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 				boolean isLastSegment = (j == leg.getSegmentCount() - 1);
 
 				if (isFirstSegment) {
-					flightLegContainer.addView(getWayPointView(segment.getOriginWaypoint(), null, WaypointType.DEPARTURE, null));
+					flightLegContainer.addView(getWayPointView(segment.getOriginWaypoint(), null, WaypointType.DEPARTURE, null, flightLegContainer));
 					flightLegContainer.addView(getHorizontalDividerView(divPadding));
 				}
 				else {
 					flightLegContainer.addView(getWayPointView(prevSegment.getDestinationWaypoint(), segment.getOriginWaypoint(),
-							WaypointType.LAYOVER, null));
+							WaypointType.LAYOVER, null, flightLegContainer));
 					flightLegContainer.addView(getHorizontalDividerView(divPadding));
 				}
 
-				flightLegContainer.addView(getFlightView(segment, departureTimeCal, arrivalTimeCal));
+				flightLegContainer.addView(getFlightView(segment, departureTimeCal, arrivalTimeCal, flightLegContainer));
 				flightLegContainer.addView(getHorizontalDividerView(divPadding));
 
 				if (isLastSegment) {
 					flightLegContainer.addView(getWayPointView(segment.getDestinationWaypoint(), null, WaypointType.ARRIVAL,
-							segment.mBaggageClaim));
+							segment.mBaggageClaim, flightLegContainer));
 				}
 
 				prevSegment = segment;
@@ -337,7 +337,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 						public void onClick(View v) {
 							SocialUtils.call(getContext(), mAirlinePhone);
 						}
-					});
+					}, container);
 				container.addView(view, 1);
 				return true;
 			}
@@ -567,7 +567,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		if (isTicketingInProgress) {
 			int labelResId = this.getItinCardData().getConfirmationNumberLabelResId();
 			String pendingTicketing = getContext().getString(R.string.itin_flight_booking_status_pending);
-			View view = setItinDetailItemText(labelResId, pendingTicketing);
+			View view = setItinDetailItemText(labelResId, pendingTicketing, container);
 			if (view != null) {
 				Log.d("ITIN: add booking pending status");
 				container.addView(view);
@@ -584,7 +584,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 				for (FlightConfirmation conf : confs) {
 					View view = getClickToCopyItinDetailItem(
 							res.getString(R.string.flight_carrier_confirmation_code_label_TEMPLATE, conf.getCarrier()),
-							conf.getConfirmationCode(), true);
+							conf.getConfirmationCode(), true, container);
 					if (view != null) {
 						container.addView(view);
 					}
@@ -690,8 +690,8 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	}
 
 	private View getWayPointView(final Waypoint primaryWaypoint, Waypoint secondaryWaypoint, WaypointType type,
-			String baggageClaim) {
-		View v = getLayoutInflater().inflate(R.layout.snippet_itin_waypoint_row, null);
+			String baggageClaim, ViewGroup container) {
+		View v = getLayoutInflater().inflate(R.layout.snippet_itin_waypoint_row, container, false);
 		TextView firstRowText = Ui.findView(v, R.id.layover_terminal_gate_one);
 		TextView secondRowText = Ui.findView(v, R.id.layover_terminal_gate_two);
 		TextView baggageClaimTextView = Ui.findView(v, R.id.baggage_claim_text_view);
@@ -812,9 +812,9 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		return v;
 	}
 
-	private View getFlightView(Flight flight, DateTime minTime, DateTime maxTime) {
+	private View getFlightView(Flight flight, DateTime minTime, DateTime maxTime, ViewGroup container) {
 		FlightItinLegSummarySection v = (FlightItinLegSummarySection) getLayoutInflater().inflate(
-				R.layout.section_flight_leg_summary_itin, null);
+				R.layout.section_flight_leg_summary_itin, container, false);
 		v.bindFlight(flight, minTime, maxTime);
 
 		DateTime now = DateTime.now();
