@@ -174,7 +174,21 @@ class PackageServicesManagerTest {
     }
 
     @Test
-    fun testPackageSearchError() {
+    fun testPackageSearchErrorWithHTTPException() {
+        testSearchError("error", PackageApiError.Code.mid_could_not_find_results, "MIS_INVALID_REQUEST")
+    }
+
+    @Test
+    fun testPackageSearchNoInternetError() {
+        testSearchError("malformed", PackageApiError.Code.no_internet, "no_internet")
+    }
+
+    @Test
+    fun testPackageSearchErrorWithoutHTTPException() {
+        testSearchError("garbage", PackageApiError.Code.pkg_error_code_not_mapped, "pkg_error_code_not_mapped")
+    }
+
+    private fun testSearchError(selectedLegId: String, expectedErrorCode: PackageApiError.Code, expectedErrorKey: String) {
         val testSuccessHandler = TestObserver<Pair<PackageProductSearchType, BundleSearchResponse>>()
         val testErrorHandler = TestObserver<Triple<PackageProductSearchType, PackageApiError.Code, ApiCallFailing>>()
 
@@ -188,15 +202,14 @@ class PackageServicesManagerTest {
         params.latestSelectedOfferInfo.hotelId = "hotelID"
         params.latestSelectedOfferInfo.ratePlanCode = "flight_outbound_happy"
         params.latestSelectedOfferInfo.roomTypeCode = "flight_outbound_happy"
-        params.selectedLegId = "error"
+        params.selectedLegId = selectedLegId
 
         sut.doPackageSearch(params, PackageProductSearchType.MultiItemInboundFlights, successHandler, errorHandler)
 
         testErrorHandler.awaitValueCount(1, 1, TimeUnit.SECONDS)
-        assertEquals(1, testErrorHandler.valueCount())
         assertEquals(PackageProductSearchType.MultiItemInboundFlights, testErrorHandler.values()[0].first)
-        assertEquals(PackageApiError.Code.mid_could_not_find_results, testErrorHandler.values()[0].second)
+        assertEquals(expectedErrorCode, testErrorHandler.values()[0].second)
         assert(testErrorHandler.values()[0].third is ApiCallFailing.PackageFlightInbound)
-        assertEquals("MIS_INVALID_REQUEST", testErrorHandler.values()[0].third.errorCode)
+        assertEquals(expectedErrorKey, testErrorHandler.values()[0].third.errorCode)
     }
 }

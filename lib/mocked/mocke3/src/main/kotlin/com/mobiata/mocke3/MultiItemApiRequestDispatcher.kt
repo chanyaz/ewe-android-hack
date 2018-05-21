@@ -28,7 +28,12 @@ class MultiItemApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher
             }
             MultiItemApiRequestMatcher.isFlightInboundSearchRequest(urlPath) -> {
                 val productKey = urlParams["legId[0]"] ?: return make404()
-                getMockResponse("api/multiitem/v1/$productKey.json", null, if (productKey.contains("error")) 400 else 200)
+                if (productKey.equals("malformed")) {
+                    MockResponse()
+                }
+                else {
+                    getMockResponse("api/multiitem/v1/$productKey.json", null, if (productKey.contains("error")) 400 else 200)
+                }
             }
             MultiItemApiRequestMatcher.isCreateTrip(urlPath) -> {
                 val productKey = urlParams["flightPIID"] ?: return make404()
