@@ -778,14 +778,6 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="-1"
             android:summary="%s"
-            android:key="25558"
-            android:title="Packages MISRealWorldGeo: RWG Migration - 25558"/>
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="-1"
-            android:summary="%s"
             android:key="16283"
             android:title="Packages Require Force Update"/>
 
