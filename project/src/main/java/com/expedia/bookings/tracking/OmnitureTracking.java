@@ -1463,7 +1463,8 @@ public class OmnitureTracking {
 
 		int numNights = JodaUtils.daysBetween(checkInDate, checkOutDate);
 
-		String totalCost = hotelItinDetailsResponse.responseData.getTotalTripPrice().getTotalFormatted();
+		String totalCost = hotelItinDetailsResponse.responseData.getTotalTripPrice().getTotal().replace(",", ".");
+		String formattedTotalCost = String.format(Locale.US, "%.2f", Float.parseFloat(totalCost));
 
 		String supplierType = hotelItinDetailsResponse.responseData.getHotels().get(0).getInventoryType();
 		if (Strings.isEmpty(supplierType)) {
@@ -1472,7 +1473,7 @@ public class OmnitureTracking {
 		String properCaseSupplierType = Strings.splitAndCapitalizeFirstLetters(supplierType);
 
 		s.setProducts(getHotelProductString(hotelItinDetailsResponse.responseData.getHotels().get(0).getHotelId(),
-			numNights, totalCost, properCaseSupplierType));
+			numNights, formattedTotalCost, properCaseSupplierType));
 
 		// Currency code
 		s.setCurrencyCode(
