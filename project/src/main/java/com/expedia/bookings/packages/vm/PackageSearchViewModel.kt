@@ -145,9 +145,13 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
                 performSearchObserver.onNext(params)
             }
         } else {
-            if (!getParamsBuilder().hasOriginAndDestination()) {
+            if (!getParamsBuilder().hasOriginLocation()) {
+                errorNoOriginObservable.onNext(Unit)
+            }
+            if (!getParamsBuilder().hasDestinationLocation()) {
                 errorNoDestinationObservable.onNext(Unit)
-            } else if (!getParamsBuilder().hasStartAndEndDates()) {
+            }
+            if (!getParamsBuilder().hasStartAndEndDates()) {
                 errorNoDatesObservable.onNext(Unit)
             }
         }
@@ -178,6 +182,7 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         if (start != null && (end == null || end.isEqual(start))) {
             end = start.plusDays(1)
         }
+        hasValidDatesObservable.onNext(getParamsBuilder().hasStartAndEndDates())
         super.onDatesChanged(Pair(start, end))
     }
 

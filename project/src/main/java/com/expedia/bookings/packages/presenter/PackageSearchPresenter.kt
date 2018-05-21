@@ -53,6 +53,8 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
     private var originSuggestionAdapter: BaseSuggestionAdapter by Delegates.notNull()
     private var destinationSuggestionAdapter: BaseSuggestionAdapter by Delegates.notNull()
 
+    val errorDrawable = ContextCompat.getDrawable(context,
+            Ui.obtainThemeResID(context, R.attr.skin_errorIndicationExclaimationDrawable))
     val flightCabinClassStub: ViewStub by bindView(R.id.flight_cabin_class_stub)
     val flightCabinClassWidget by lazy {
         val cabinClassWidget = flightCabinClassStub.inflate().findViewById<FlightCabinClassWidget>(R.id.flight_cabin_class_widget)
@@ -72,6 +74,7 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
         vm.formattedOriginObservable.subscribe {
             text ->
             originCardView.setText(text)
+            originCardView.setEndDrawable(null)
             originCardView.contentDescription = Phrase.from(context, R.string.search_flying_from_destination_cont_desc_TEMPLATE)
                     .put("from_destination", text)
                     .format().toString()
@@ -80,6 +83,7 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
             text ->
             if (text.isNotEmpty()) {
                 destinationCardView.setText(text)
+                destinationCardView.setEndDrawable(null)
                 destinationCardView.contentDescription =
                         Phrase.from(context, R.string.search_flying_to_destination_cont_desc_TEMPLATE)
                                 .put("to_destination", text)
@@ -121,8 +125,18 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
                 searchButton.isEnabled = enable
             }
         }
-        vm.errorNoDestinationObservable.subscribe { AnimUtils.doTheHarlemShake(originCardView) }
-        vm.errorNoDatesObservable.subscribe { AnimUtils.doTheHarlemShake(calendarWidgetV2) }
+        vm.errorNoDestinationObservable.subscribe {
+            AnimUtils.doTheHarlemShake(destinationCardView)
+            destinationCardView.setEndDrawable(errorDrawable)
+        }
+        vm.errorNoOriginObservable.subscribe {
+            AnimUtils.doTheHarlemShake(originCardView)
+            originCardView.setEndDrawable(errorDrawable)
+        }
+        vm.errorNoDatesObservable.subscribe {
+            AnimUtils.doTheHarlemShake(calendarWidgetV2)
+            calendarWidgetV2.setEndDrawable(errorDrawable)
+        }
         vm.errorMaxDurationObservable.subscribe { message ->
             showErrorDialog(message)
         }
@@ -136,6 +150,11 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
 
         vm.a11yFocusSelectDatesObservable.subscribe {
             calendarWidgetV2.setAccessibilityHoverFocus()
+        }
+        vm.hasValidDatesObservable.subscribe { hasValidDates ->
+            if (hasValidDates) {
+                calendarWidgetV2.setEndDrawable(null)
+            }
         }
 
         originSuggestionViewModel = PackageSuggestionAdapterViewModel(getContext(), suggestionServices, false, CurrentLocationObservable.create(getContext()))
