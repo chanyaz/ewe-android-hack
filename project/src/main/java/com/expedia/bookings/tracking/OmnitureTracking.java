@@ -5619,17 +5619,39 @@ public class OmnitureTracking {
 		setDateValues(s, takeoffDates.first, takeoffDates.second);
 
 		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
-		String orderId = itinDetailsResponse.getResponseDataForItin().getOrderNumber().toString();
+
+		String orderNumberString = getOrderNumberFromFlightItinDetailsResponse(itinDetailsResponse);
+
 		s.setCurrencyCode(trip.totalPrice.currencyCode);
 		s.setProp(71, trip.getNewTrip().getTravelRecordLocator());
-		s.setProp(72, orderId);
+		s.setProp(72, orderNumberString);
 		s.setProp(8, getFlightConfirmationTripNumberStringFromCreateTripResponse());
-		s.setPurchaseID("onum" + orderId);
+		s.setPurchaseID("onum" + orderNumberString);
 		addPageLoadTimeTrackingEvents(s, pageUsableData);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsKrazyglue);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppConfirmationToolbarXHidden);
 		s.track();
+	}
+
+	@VisibleForTesting
+	public static String getOrderNumberFromFlightItinDetailsResponse(FlightItinDetailsResponse itinDetailsResponse) {
+		Long orderNumberFromResponseData = itinDetailsResponse.getResponseDataForItin().getOrderNumber();
+		String orderNumberString;
+		if (orderNumberFromResponseData == null) {
+			Long orderNumberFromFirstFlight = itinDetailsResponse.getResponseData().getFlights().get(0)
+				.getOrderNumber();
+			if (orderNumberFromFirstFlight == null) {
+				orderNumberString = "";
+			}
+			else {
+				orderNumberString = orderNumberFromFirstFlight.toString();
+			}
+		}
+		else {
+			orderNumberString = orderNumberFromResponseData.toString();
+		}
+		return orderNumberString;
 	}
 
 	public static void trackFlightsKrazyglueClick(int position) {

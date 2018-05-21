@@ -4,6 +4,7 @@ import android.content.Context
 import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.FlightItinDetailsResponse
 import com.expedia.bookings.data.TripBucketItemFlightV2
 import com.expedia.bookings.data.abacus.ABTest
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -24,6 +25,7 @@ import com.expedia.bookings.test.robolectric.FlightTestUtil.Companion.getFlightT
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.AbacusTestUtils
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -104,6 +106,36 @@ class OmnitureTrackingFlightTest {
 
         val appState = "App.Flight.Checkout.Confirmation"
         assertWebFlightConfirmationStateTracked(appState, expectedEvars, expectedProps, expectedProducts, expectedEvents)
+    }
+
+    @Test
+    fun testOrderNumberStringFromItinDetailsResponseTag() {
+        val flightItinDetailsResponse = FlightItinDetailsResponse()
+        flightItinDetailsResponse.responseData = FlightItinDetailsResponse.FlightResponseData()
+        flightItinDetailsResponse.responseData.orderNumber = 12343
+
+        assertEquals("12343", OmnitureTracking.getOrderNumberFromFlightItinDetailsResponse(flightItinDetailsResponse))
+    }
+
+    @Test
+    fun testOrderNumberStringFromFirstFlightsTag() {
+        val flightItinDetailsResponse = FlightItinDetailsResponse()
+        val flightResponseData = FlightItinDetailsResponse.FlightResponseData()
+        val firstFlight = FlightItinDetailsResponse.Flight()
+        firstFlight.orderNumber = 123141
+        flightResponseData.flights = arrayListOf(firstFlight)
+        flightItinDetailsResponse.responseData = flightResponseData
+
+        assertEquals("123141", OmnitureTracking.getOrderNumberFromFlightItinDetailsResponse(flightItinDetailsResponse))
+    }
+
+    @Test
+    fun testOrderNumberStringWhenOrderNumberMissing() {
+        val flightItinDetailsResponse = FlightItinDetailsResponse()
+        flightItinDetailsResponse.responseData = FlightItinDetailsResponse.FlightResponseData()
+        flightItinDetailsResponse.responseData.flights = arrayListOf(FlightItinDetailsResponse.Flight())
+
+        assertEquals("", OmnitureTracking.getOrderNumberFromFlightItinDetailsResponse(flightItinDetailsResponse))
     }
 
     @Test
