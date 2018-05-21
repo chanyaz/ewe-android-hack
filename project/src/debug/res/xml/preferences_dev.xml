@@ -254,6 +254,11 @@
             android:summary="Show details about the stored trip details json files"
             android:title="Show stored json details" />
 
+        <Preference
+            android:key="@string/preference_trips_mock_scenarios"
+            android:summary="Show options for selecting a mock trips scenario"
+            android:title="Select Trips Mock Scenario" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

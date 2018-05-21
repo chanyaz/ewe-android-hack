@@ -282,6 +282,14 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 			builder.create().show();
 			return true;
 		}
+		else if (getString(R.string.preference_trips_mock_scenarios).equals(key)) {
+			getFragmentManager()
+				.beginTransaction()
+				.replace(R.id.fragment_container, new TripsScenarioSelectFragment())
+				.addToBackStack(TripsScenarioSelectFragment.class.getName())
+				.commit();
+			return true;
+		}
 		else if (getString(R.string.preference_server_debug_tracing).equals(key)) {
 			getFragmentManager()
 				.beginTransaction()
