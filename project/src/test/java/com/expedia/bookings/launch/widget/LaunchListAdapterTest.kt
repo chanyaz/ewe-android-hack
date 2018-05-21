@@ -13,6 +13,7 @@ import android.widget.FrameLayout
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.collections.CollectionLocation
@@ -21,7 +22,6 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.data.user.UserStateManager
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.marketing.meso.model.MesoAdResponse
 import com.expedia.bookings.marketing.meso.model.MesoDestinationAdResponse
@@ -39,8 +39,6 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AbacusTestUtils
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.shouldShowRewardLaunchCard
 import com.expedia.bookings.utils.LaunchNavBucketCache
 import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.launch.SignInPlaceHolderViewModel
@@ -190,10 +188,6 @@ class LaunchListAdapterTest {
         givenRewardLaunchCardEnabled()
         createSystemUnderTest()
 
-        println(shouldShowRewardLaunchCard(context))
-        println(AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.RewardLaunchCard))
-        println(Ui.getApplication(context).appComponent().userStateManager().isUserAuthenticated())
-
         val firstPosition = adapterUnderTest.getItemViewType(0)
         assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
 
@@ -208,14 +202,32 @@ class LaunchListAdapterTest {
     }
 
     @Test
+    @RunForBrands(brands = [MultiBrand.ORBITZ])
+    fun itemViewPosition_ShowingJoinRewardsLaunchCard() {
+        givenCustomerSignedIn()
+        UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser(LoyaltyMembershipTier.NONE))
+        givenJoinRewardsLaunchCardEnabled()
+        createSystemUnderTest()
+
+        val firstPosition = adapterUnderTest.getItemViewType(0)
+        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
+
+        val secondPosition = adapterUnderTest.getItemViewType(1)
+        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, secondPosition)
+
+        val thirdPosition = adapterUnderTest.getItemViewType(2)
+        assertEquals(LaunchDataItem.JOIN_REWARDS_CARD_VIEW, thirdPosition)
+
+        val fourthPosition = adapterUnderTest.getItemViewType(3)
+        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
+    }
+
+    @Test
     @RunForBrands(brands = [MultiBrand.TRAVELOCITY])
     fun itemViewPosition_ShowingSignedIn_CustomerFirstLaunchCard() {
         givenCustomerSignedIn()
         givenCustomerFirstGuaranteeCardEnabled()
         createSystemUnderTest(isItinLaunchCardEnabled = true)
-
-        println(AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.CustomerFirstGuarantee))
-        println(Ui.getApplication(context).appComponent().userStateManager().isUserAuthenticated())
 
         val firstPosition = adapterUnderTest.getItemViewType(0)
         assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
@@ -238,8 +250,6 @@ class LaunchListAdapterTest {
     fun itemViewPosition_ShowingCustomerFirstLaunchCard() {
         givenCustomerFirstGuaranteeCardEnabled()
         createSystemUnderTest()
-
-        println(AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.CustomerFirstGuarantee))
 
         val firstPosition = adapterUnderTest.getItemViewType(0)
         assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
@@ -957,6 +967,10 @@ class LaunchListAdapterTest {
 
     private fun givenRewardLaunchCardEnabled() {
         AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.RewardLaunchCard)
+    }
+
+    private fun givenJoinRewardsLaunchCardEnabled() {
+        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.JoinRewardsLaunchCard)
     }
 
     private fun givenCustomerFirstGuaranteeCardEnabled() {

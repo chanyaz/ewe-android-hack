@@ -111,4 +111,7 @@
     <string name="reward_webview_url">https://www.orbitz.com/rewards/orbitzmobileapprewards</string>
     <string name="reward_launch_card_text_content_description">Orbitz rewards. Book on app get 5% back just like that. Double tap to learn how</string>
 
+    <!--Join Now launch card-->
+    <string name="join_now_launch_card_text">Book on app and get 5% back – just like that! Redeem instantly on hotels and travel perks.</string>
+    <string name="join_rewards_button_text">Join Rewards</string>
 </resources>

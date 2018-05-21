@@ -176,6 +176,9 @@ public class PointOfSale {
 	// Does this POS support loyalty rewards?
 	private boolean mShouldShowRewards;
 
+	/// Does this POS support joining rewards?
+	private boolean mShouldShowJoinRewardsCard;
+
 	// Does this POS require FTC warnings to be shown on checkout?
 	private boolean mShouldShowFTCResortRegulations;
 
@@ -865,6 +868,10 @@ public class PointOfSale {
 		return mShouldShowRewards;
 	}
 
+	public boolean shouldShowJoinRewardsCard() {
+		return mShouldShowJoinRewardsCard;
+	}
+
 	public boolean isDisabledForRelease() {
 		return mDisableForRelease;
 	}
@@ -1360,6 +1367,7 @@ public class PointOfSale {
 		pos.mDoesNotAcceptDebitCardsFlights = data.optBoolean("doesNotAcceptDebitCards:flights", false);
 		pos.mSupportsVipAccess = data.optBoolean("supportsVipAccess", false);
 		pos.mShouldShowRewards = data.optBoolean("shouldShowRewards", false);
+		pos.mShouldShowJoinRewardsCard = data.optBoolean("showJoinRewardsCard", false);
 		pos.mShouldShowFTCResortRegulations = data.optBoolean("shouldShowFTCResortRegulations", false);
 		pos.mDisableForRelease = data.optBoolean("disableForRelease", false);
 		pos.mShowHalfTileStrikethroughPrice = data.optBoolean("launchScreenStrikethroughEnabled", false);

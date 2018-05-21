@@ -489,6 +489,10 @@
     <string name="reward_webview_url"></string>
     <string name="reward_launch_card_text_content_description"></string>
 
+    <!--Join Now launch card (Orbitz Only)-->
+    <string name="join_now_launch_card_text"></string>
+    <string name="join_rewards_button_text"></string>
+
     <!--Carnival OLACID Template-->
     <string name="carnival_default_olacid_TEMPLATE">OLA.{brand}-{pos}.PUSH-EVENT-TRIG.CARNIVAL.UNSPECIFIED.GENERIC</string>
     <string name="bullet">\u2022</string>

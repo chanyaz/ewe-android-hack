@@ -23,6 +23,7 @@
 
     <!-- Launch screen colors -->
     <color name="launch_primary">@color/gray100</color>
+    <color name="loyalty_earn_color">@color/white</color>
 
     <!-- New launch screen colors -->
     <color name="launch_mobile_exclusive">#980351</color>

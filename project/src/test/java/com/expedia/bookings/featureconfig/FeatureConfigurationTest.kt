@@ -569,6 +569,14 @@ class FeatureConfigurationTest {
     }
 
     @Test
+    fun testShowJoinRewardsCard() {
+        when (brand) {
+            "orbitz" -> assertTrue(PointOfSale.getPointOfSale().shouldShowJoinRewardsCard())
+            else -> assertFalse(PointOfSale.getPointOfSale().shouldShowJoinRewardsCard())
+        }
+    }
+
+    @Test
     fun testSendEapidToTuneTracking() {
         when (brand) {
             "airAsiaGo" -> assertFalse(featureConfig.sendEapidToTuneTracking())

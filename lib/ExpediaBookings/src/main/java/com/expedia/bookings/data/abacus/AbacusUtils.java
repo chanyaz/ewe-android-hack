@@ -133,6 +133,7 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppBottomNavTabs = new ABTest(25565, true);
 	public static final ABTest DisableSignInPageAsFirstScreen = new ABTest(25030, true);
 	public static final ABTest CustomerFirstGuarantee = new ABTest(25382, true);
+	public static final ABTest JoinRewardsLaunchCard = new ABTest(26022, true);
 
 	// Growth
 	public static final ABTest EBAndroidAppGrowthSocialSharing = new ABTest(26166, true);
@@ -202,6 +203,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppBrandColors.getKey());
 		testIDs.add(MesoAd.getKey());
 		testIDs.add(RewardLaunchCard.getKey());
+		testIDs.add(JoinRewardsLaunchCard.getKey());
 		testIDs.add(CustomerFirstGuarantee.getKey());
 		testIDs.add(DisableSignInPageAsFirstScreen.getKey());
 		testIDs.add(EBAndroidAppFlightsKrazyglue.getKey());

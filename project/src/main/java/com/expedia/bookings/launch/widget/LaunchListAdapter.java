@@ -82,6 +82,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			|| itemViewKey == LaunchDataItem.LAST_MINUTE_DEALS
 			|| itemViewKey == LaunchDataItem.EARN_2X_MESSAGING_BANNER
 			|| itemViewKey == LaunchDataItem.REWARD_CARD_VIEW
+			|| itemViewKey == LaunchDataItem.JOIN_REWARDS_CARD_VIEW
 			|| itemViewKey == LaunchDataItem.CUSTOMER_FIRST_GUARANTEE;
 	}
 
@@ -225,6 +226,11 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		if (viewType == LaunchDataItem.REWARD_CARD_VIEW) {
 			View view = LayoutInflater.from(context).inflate(R.layout.reward_launch_card, parent, false);
 			return new RewardLaunchViewHolder(view);
+		}
+
+		if (viewType == LaunchDataItem.JOIN_REWARDS_CARD_VIEW) {
+			View view = LayoutInflater.from(context).inflate(R.layout.join_rewards_launch_card,parent, false);
+			return new JoinRewardsLaunchViewHolder(view);
 		}
 
 		if (viewType == LaunchDataItem.CUSTOMER_FIRST_GUARANTEE) {
@@ -407,6 +413,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			}
 			if (launchListLogic.showItinCard()) {
 				items.add(new LaunchDataItem(LaunchDataItem.ITIN_VIEW));
+			}
+			if (FeatureUtilKt.shouldShowJoinRewardsLaunchCard(context)) {
+				items.add(new LaunchDataItem(LaunchDataItem.JOIN_REWARDS_CARD_VIEW));
 			}
 			if (FeatureUtilKt.shouldShowCustomerFirstGuarantee(context)) {
 				items.add(new LaunchDataItem(LaunchDataItem.CUSTOMER_FIRST_GUARANTEE));

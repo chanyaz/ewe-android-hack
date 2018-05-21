@@ -2,6 +2,7 @@ package com.expedia.bookings.utils
 
 import android.content.Context
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.pos.PointOfSale
@@ -108,6 +109,17 @@ fun shouldShowRewardLaunchCard(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.RewardLaunchCard)
             && Ui.getApplication(context).appComponent().userStateManager().isUserAuthenticated()
             && ProductFlavorFeatureConfiguration.getInstance().defaultPOS == PointOfSaleId.ORBITZ
+            && Locale.getDefault().language != "es"
+            && !shouldShowJoinRewardsLaunchCard(context)
+}
+
+fun shouldShowJoinRewardsLaunchCard(context: Context): Boolean {
+    val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
+
+    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.JoinRewardsLaunchCard)
+            && userStateManager.isUserAuthenticated()
+            && userStateManager.getCurrentUserLoyaltyTier() == LoyaltyMembershipTier.NONE
+            && PointOfSale.getPointOfSale().shouldShowJoinRewardsCard()
             && Locale.getDefault().language != "es"
 }
 
