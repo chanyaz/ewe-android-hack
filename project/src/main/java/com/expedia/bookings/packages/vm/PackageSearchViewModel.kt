@@ -133,9 +133,7 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         if (getParamsBuilder().areRequiredParamsFilled()) {
             val params = getParamsBuilder().build()
             if (getParamsBuilder().isOriginSameAsDestination()) {
-                if (getParamsBuilder().shouldTrackSameODPairValidationError) {
-                    PackagesTracking().trackSearchValidationError(getODPairIDsTag(params))
-                }
+                PackagesTracking().trackSearchValidationError(getODPairIDsTag(params))
                 errorOriginSameAsDestinationObservable.onNext(context.getString(R.string.error_same_flight_departure_arrival))
             } else if (!getParamsBuilder().hasValidDateDuration()) {
                 errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, rules.getMaxSearchDurationDays()))
@@ -250,6 +248,8 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         val arrivalMulticity = searchParams.destination?.hierarchyInfo?.airport?.multicity ?: ""
         val departureCode = searchParams.origin?.hierarchyInfo?.airport?.airportCode ?: ""
         val arrivalCode = searchParams.destination?.hierarchyInfo?.airport?.airportCode ?: ""
-        return "$departureMulticity;$arrivalMulticity;$departureCode;$arrivalCode"
+        val departureGaiaId = searchParams.origin?.gaiaId ?: ""
+        val arrivalGaiaId = searchParams.destination?.gaiaId ?: ""
+        return "$departureMulticity|$arrivalMulticity|$departureCode|$arrivalCode|$departureGaiaId|$arrivalGaiaId"
     }
 }

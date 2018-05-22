@@ -74,7 +74,6 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
         private var starRatings: List<Int> = emptyList()
         private var vipOnly: Boolean = false
         private var userSort: BaseHotelFilterOptions.SortType? = null
-        var shouldTrackSameODPairValidationError = false
 
         override fun build(): PackageSearchParams {
             val flightOrigin = originLocation ?: throw IllegalArgumentException()
@@ -103,9 +102,6 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
             } else {
                 departureCity = originLocation?.hierarchyInfo?.airport?.airportCode ?: ""
                 arrivalCity = destinationLocation?.hierarchyInfo?.airport?.airportCode ?: ""
-            }
-            if (departureCity == "" && arrivalCity == "") {
-                shouldTrackSameODPairValidationError = true
             }
             return departureCity == arrivalCity
         }
