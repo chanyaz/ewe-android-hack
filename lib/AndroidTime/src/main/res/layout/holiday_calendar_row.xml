@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="8dp"
+    android:gravity="center_vertical"
+    tools:ignore="UseCompoundDrawables">
+
+    <ImageView
+        android:id="@+id/holiday_row_image"
+        android:layout_width="6dp"
+        android:layout_height="6dp"
+        android:src="@drawable/holiday_widget_dot"
+        android:layout_marginEnd="12dp" />
+
+    <TextView
+        android:id="@+id/holiday_row_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"/>
+
+</LinearLayout>

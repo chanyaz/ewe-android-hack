@@ -70,7 +70,13 @@
     <com.mobiata.android.time.widget.MonthView
         android:id="@+id/month"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="250dp"
         android:textStyle="bold" />
+
+    <ViewStub
+        android:id="@+id/holiday_widget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout="@layout/holiday_calendar_widget"/>
+
 </merge>

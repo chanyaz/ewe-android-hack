@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 class HolidayCalendarResponse {
     @SerializedName("holiday")
-    lateinit var holidays: List<HolidayEntity>
+    var holidays: List<HolidayEntity> = emptyList()
 }
 
 data class HolidayEntity(

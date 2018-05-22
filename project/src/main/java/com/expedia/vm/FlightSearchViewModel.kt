@@ -28,7 +28,6 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isFlightGreedySearchEnabled
 import com.expedia.bookings.utils.isHolidayCalendarEnabled
 import com.expedia.bookings.utils.isRecentSearchesForFlightsEnabled
-import com.expedia.bookings.utils.toListOfDates
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.ui.FlightActivity
 import com.expedia.util.FlightCalendarRules
@@ -461,7 +460,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     private fun makeHolidayCalendarInfoObserver(): Observer<HolidayCalendarResponse> {
         return object : DisposableObserver<HolidayCalendarResponse>() {
             override fun onNext(response: HolidayCalendarResponse) {
-                holidayCalendarDateList = response.toListOfDates()
+                holidayCalendarResponse = response
             }
 
             override fun onError(e: Throwable) {

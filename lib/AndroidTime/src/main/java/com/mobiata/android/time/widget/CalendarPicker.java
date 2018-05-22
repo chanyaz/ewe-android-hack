@@ -1,7 +1,7 @@
 package com.mobiata.android.time.widget;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
@@ -33,6 +33,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.view.accessibility.AccessibilityEvent;
@@ -99,6 +100,8 @@ public class CalendarPicker extends LinearLayout {
 	private DaysOfWeekView mDaysOfWeekView;
 	private MonthView mMonthView;
 	private TextView mInstructions;
+	private ViewStub holidayWidgetStub;
+	private HolidayWidget holidayWidgetLayout;
 
 	// Drawables
 	private CaretDrawable mPreviousMonthCaret;
@@ -195,6 +198,7 @@ public class CalendarPicker extends LinearLayout {
 		mDaysOfWeekView = Ui.findView(this, R.id.days_of_week);
 		mMonthView = Ui.findView(this, R.id.month);
 		mInstructions = Ui.findView(this, R.id.instructions);
+		holidayWidgetStub = Ui.findView(this, R.id.holiday_widget);
 
 		// Configure Views
 		mCurrentMonthTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mHeaderTextSize);
@@ -431,6 +435,15 @@ public class CalendarPicker extends LinearLayout {
 		mState.setDottedDatesList(dottedDatesList);
 	}
 
+	public void setDottedDateNames(Map<LocalDate, String> holidayHashMap) {
+		if (!holidayHashMap.isEmpty()) {
+			holidayWidgetStub.setVisibility(VISIBLE);
+			holidayWidgetLayout = Ui.findView(this, R.id.holiday_calendar_widget);
+			holidayWidgetLayout.setHolidayInfo(holidayHashMap);
+			holidayWidgetLayout.setDisplayedYearMonth(mState.getDisplayYearMonth());
+		}
+	}
+
 	public void setMaxSelectableDateRange(int numDays) {
 		mState.setMaxSelectableDateRange(numDays);
 	}
@@ -492,6 +505,10 @@ public class CalendarPicker extends LinearLayout {
 		mCurrentMonthTextView.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_HOVER_ENTER);
 		mNextMonthView.setContentDescription(context.getString(R.string.cd_month_next_TEMPLATE,
 			monthYearFormatter.print(mState.mDisplayYearMonth.plusMonths(1))));
+
+		if (holidayWidgetLayout != null) {
+			holidayWidgetLayout.setDisplayedYearMonth(mState.mDisplayYearMonth);
+		}
 
 		syncDisplayMonthCarets();
 	}
