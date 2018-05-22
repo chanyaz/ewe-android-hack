@@ -97,6 +97,7 @@
     <color name="launch_lx_lob_color">@color/launch_lob_color</color>
     <color name="launch_packages_lob_color">@color/launch_lob_color</color>
     <color name="launch_screen_active_itin_bg">#1f8ede</color>
+    <color name="launch_screen_selected_tab_icon">#7AC231</color>
 
     <!-- Flights V2 colors -->
     <color name="packages_primary_color">@color/launch_screen_color</color>

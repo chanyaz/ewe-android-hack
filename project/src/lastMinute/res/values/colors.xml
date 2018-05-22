@@ -98,6 +98,7 @@
     <color name="launch_screen_active_itin_bg">@color/app_primary</color>
     <color name="placeholder_card_background_color">@color/last_minute_primary_color</color>
     <color name="placeholder_card_button_text_color">@color/launch_lob_color</color>
+    <color name="launch_screen_selected_tab_icon">#E40088</color>
 
     <!-- Flights V2 colors -->
     <color name="packages_primary_color">@color/last_minute_primary_color</color>

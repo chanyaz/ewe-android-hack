@@ -86,6 +86,7 @@
     <color name="launch_toolbar_background_color">@color/launch_screen_color</color>
     <color name="launch_fab_color">@color/launch_screen_color</color>
     <color name="launch_screen_itin_ripple">@color/launch_screen_color</color>
+    <color name="launch_screen_selected_tab_icon">#003E74</color>
 
     <!-- Flights V2 colors -->
     <color name="flight_overview_color_filter">@color/lob_primary_color</color>

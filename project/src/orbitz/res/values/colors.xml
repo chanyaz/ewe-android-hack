@@ -124,6 +124,7 @@
     <color name="launch_screen_active_itin_bg">@color/app_primary</color>
     <color name="placeholder_card_background_color">@color/loyalty_earn_color</color>
     <color name="placeholder_card_button_text_color">@color/launch_lob_color</color>
+    <color name="launch_screen_selected_tab_icon">#004d7c</color>
 
     <!-- Flights V2 colors -->
     <color name="flight_overview_color_filter">@color/lob_btn_color</color>

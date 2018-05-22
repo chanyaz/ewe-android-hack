@@ -115,6 +115,7 @@
     <color name="launch_fab_color">@color/launch_screen_color</color>
     <color name="launch_screen_itin_ripple">@color/launch_screen_color</color>
     <color name="launch_screen_active_itin_bg">@color/app_primary</color>
+    <color name="launch_screen_selected_tab_icon">#116FAA</color>
 
     <!-- Flights V2 colors -->
     <color name="flight_overview_color_filter">@color/lob_btn_color</color>
