@@ -132,6 +132,12 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 	}
 
 	@Override
+	protected void onStop() {
+		super.onStop();
+		newAccountView.cancelLoading();
+	}
+
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Ui.getApplication(this).appComponent().inject(this);
