@@ -283,9 +283,17 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 			return true;
 		}
 		else if (getString(R.string.preference_trips_mock_scenarios).equals(key)) {
+			final TripsScenarioSelectFragment fragment = new TripsScenarioSelectFragment();
+			fragment.viewModel = new TripScenariosViewModel();
+			fragment.viewModel.getRestartAppSubject().subscribe(new Consumer<Unit>() {
+				@Override
+				public void accept(Unit restartApp) {
+					restartApp();
+				}
+			});
 			getFragmentManager()
 				.beginTransaction()
-				.replace(R.id.fragment_container, new TripsScenarioSelectFragment())
+				.replace(R.id.fragment_container, fragment)
 				.addToBackStack(TripsScenarioSelectFragment.class.getName())
 				.commit();
 			return true;

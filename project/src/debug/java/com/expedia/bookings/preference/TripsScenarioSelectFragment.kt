@@ -1,5 +1,6 @@
 package com.expedia.bookings.preference
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -10,18 +11,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckedTextView
 import android.widget.TextView
-import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.mobiata.android.util.SettingUtils
+import io.reactivex.subjects.PublishSubject
 
 class TripsScenarioSelectFragment : Fragment() {
     private val recyclerView: RecyclerView by bindView(R.id.trip_scenarios_select_recycler_view)
     private val scenarios: MutableList<TripMockScenarios.Scenarios> = mutableListOf()
+    lateinit var viewModel: TripScenariosViewModel
 
     override fun onStart() {
         super.onStart()
-        activity.title = "Select trip scenario"
+        activity.title = "Select mock trip scenario"
         TripMockScenarios.Scenarios.values().forEach {
             scenarios.add(it)
         }
@@ -34,15 +36,20 @@ class TripsScenarioSelectFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.closeFragmentSubject.subscribe {
+            viewModel.restartAppSubject.onNext(Unit)
+            activity.onBackPressed()
+        }
         recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
-            adapter = TripsScenariosAdapter(context, scenarios)
+            adapter = TripsScenariosAdapter(context, scenarios, viewModel)
         }
     }
 }
 
-class TripsScenariosAdapter(private val context: Context, private val scenarios: List<TripMockScenarios.Scenarios>) : RecyclerView.Adapter<TripsScenariosAdapter.ViewHolder>() {
+class TripsScenariosAdapter(private val context: Context, private val scenarios: List<TripMockScenarios.Scenarios>, private val viewModel: TripScenariosViewModel) : RecyclerView.Adapter<TripsScenariosAdapter.ViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val textView = LayoutInflater.from(parent.context).inflate(android.R.layout.simple_selectable_list_item, parent, false) as CheckedTextView
         return ViewHolder(textView)
@@ -56,9 +63,20 @@ class TripsScenariosAdapter(private val context: Context, private val scenarios:
         holder.textView.text = scenarios[position].name
         holder.itemView.setOnClickListener {
             SettingUtils.save(context, TripMockScenarios.TRIP_SCENARIOS_KEY, scenarios[position].filename)
-            Toast.makeText(context, "Mock set: " + scenarios[position], Toast.LENGTH_SHORT).show()
+            val builder = AlertDialog.Builder(context, R.style.AccountDialogTheme)
+            builder.setTitle("Mock trip scenario set")
+            builder.setMessage(scenarios[position].name + "\n\nApp needs to restart.")
+            builder.setPositiveButton(R.string.ok) { _, _ ->
+                viewModel.closeFragmentSubject.onNext(Unit)
+            }
+            builder.create().show()
         }
     }
 
     class ViewHolder(val textView: TextView) : RecyclerView.ViewHolder(textView)
+}
+
+class TripScenariosViewModel {
+    val closeFragmentSubject: PublishSubject<Unit> = PublishSubject.create()
+    val restartAppSubject: PublishSubject<Unit> = PublishSubject.create()
 }
