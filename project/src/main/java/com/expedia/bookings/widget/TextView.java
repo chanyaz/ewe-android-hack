@@ -59,7 +59,7 @@ public class TextView extends android.widget.TextView {
 		final int color = a.getColor(R.styleable.TextView_drawableTintColor, 0);
 		wrapText = a.getBoolean(R.styleable.TextView_wrapText, false);
 		cornerRadius = a.getDimensionPixelSize(R.styleable.TextView_cornerRadius, 0);
-
+		boolean hasStrikethrough = a.getBoolean(R.styleable.TextView_strikethrough, false);
 		a.recycle();
 
 		if (textStyle > 0) {
@@ -67,6 +67,9 @@ public class TextView extends android.widget.TextView {
 		}
 		if (color != 0 && getCompoundDrawables()[0] != null) {
 			setTintedDrawable(getCompoundDrawables()[0], color);
+		}
+		if (hasStrikethrough) {
+			setPaintFlags(getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 		}
 	}
 
