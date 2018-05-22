@@ -460,7 +460,7 @@ class FeatureConfigurationTest {
     fun testGetSharableFallbackImageURL() {
         when (brand) {
             "airAsiaGo" -> assertNull(featureConfig.sharableFallbackImageURL)
-            "expedia" -> assertEquals("http://media.expedia.com/mobiata/fb/exp-fb-share.png", featureConfig.sharableFallbackImageURL)
+            "expedia" -> assertEquals("http://images.trvl-media.com/mobiata/fb/exp-fb-share.png", featureConfig.sharableFallbackImageURL)
             "ebookers" -> assertNull(featureConfig.sharableFallbackImageURL)
             "cheapTickets" -> assertNull(featureConfig.sharableFallbackImageURL)
             "lastMinute" -> assertNull(featureConfig.sharableFallbackImageURL)

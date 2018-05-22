@@ -38,7 +38,7 @@ public class HotelMediaTest {
 		HotelMedia objFromJson = new HotelMedia();
 		objFromJson.fromJson(jsonObject);
 
-		assertEquals("https://media.expedia.com/hotels/1000000/50000/41300/41245/41245_228_l.jpg", objFromJson.getOriginalUrl());
+		assertEquals("https://images.trvl-media.com/hotels/1000000/50000/41300/41245/41245_228_l.jpg", objFromJson.getOriginalUrl());
 		assertFalse(objFromJson.getIsPlaceHolder());
 		assertEquals(mediaWithUrl, objFromJson);
 	}

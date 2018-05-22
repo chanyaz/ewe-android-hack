@@ -8,8 +8,8 @@
     "packagesEnabled": true,
     "flightsEnabled": true,
     "url": "thailand.airasiago.com",
-    "memberDealCardImageUrl": "https://media.expedia.com/mobiata/mobile/apps/ExpediaBooking/TabletDestinations/images/bkk.jpg",
-    "lastMinuteDealsCardImageUrl": "https://media.expedia.com/mobiata/mobile/apps/ExpediaBooking/TabletDestinations/images/mauritius.jpg",
+    "memberDealCardImageUrl": "https://images.trvl-media.com/mobiata/mobile/apps/ExpediaBooking/TabletDestinations/images/bkk.jpg",
+    "lastMinuteDealsCardImageUrl": "https://images.trvl-media.com/mobiata/mobile/apps/ExpediaBooking/TabletDestinations/images/mauritius.jpg",
     "countryCode": "THA",
     "supportedLocales": [
       {

@@ -57,7 +57,7 @@ class FlightCheckoutOverviewViewModelTest {
         assertEquals("1 traveler", titleTestSubscriber.values()[3])
         assertEquals("1989-09-06", checkInOutTestSubscriber.values()[0].first)
         assertEquals("2021-09-06", checkInOutTestSubscriber.values()[0].second)
-        assertEquals("https://media.expedia.com/mobiata/mobile/apps/ExpediaBooking/FlightDestinations/images/SEA.jpg?downsize=480px:*&crop=w:165/480xw;center,top&output-quality=60&output-format=jpeg&", urlTestSubscriber.values()[0][0].toString())
+        assertEquals("https://images.trvl-media.com/mobiata/mobile/apps/ExpediaBooking/FlightDestinations/images/SEA.jpg?downsize=480px:*&crop=w:165/480xw;center,top&output-quality=60&output-format=jpeg&", urlTestSubscriber.values()[0][0].toString())
         assertEquals("Wed Sep 06, 1989 - Mon Sep 06, 2021, 1 traveler", subTitleTestSubscriber.values()[0])
         titleTestSubscriber.assertValueCount(4)
         checkInOutTestSubscriber.assertValueCount(1)

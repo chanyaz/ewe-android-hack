@@ -23,7 +23,7 @@ import com.mobiata.android.json.JSONable;
 
 /**
  * This object represents a resolution-independent Expedia media image,
- * found on http://media.expedia.com. These are basically images of hotels.
+ * found on http://images.trvl-media.com. These are basically images of hotels.
  *
  * @author doug
  *
@@ -37,7 +37,7 @@ public class HotelMedia implements JSONable, IMedia {
 	 * tl;dr version:
 	 *
 	 * URLs look like:
-	 * http://media.expedia.com/hotels/1000000/20000/10600/10575/10575_12_b.jpg
+	 * http://images.trvl-media.com/hotels/1000000/20000/10600/10575/10575_12_b.jpg
 	 *
 	 * Last 2 letters of the filename should have the following codes:
 	 *

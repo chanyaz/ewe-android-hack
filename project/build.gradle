@@ -283,7 +283,7 @@ android {
     productFlavors {
         expedia {
             buildConfigField "String", "brand", "\"Expedia\""
-            buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
+            buildConfigField "String", "MEDIA_URL", "\"https://images.trvl-media.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"expda\""
             buildConfigField "String", "USER_AGENT", "\"ExpediaBookings\""
             applicationId "com.expedia.bookings"
@@ -294,7 +294,7 @@ android {
 
         ebookers {
             buildConfigField "String", "brand", "\"ebookers\""
-            buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
+            buildConfigField "String", "MEDIA_URL", "\"https://images.trvl-media.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"bukr\""
             buildConfigField "String", "USER_AGENT", "\"Ebookers\""
             applicationId "com.ebookers"
@@ -304,7 +304,7 @@ android {
 
         voyages {
             buildConfigField "String", "brand", "\"Agence Voyages-SNCF.com\""
-            buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
+            buildConfigField "String", "MEDIA_URL", "\"https://images.trvl-media.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"vygs\""
             buildConfigField "String", "USER_AGENT", "\"VSC\""
             applicationId "com.expedia.bookings.vsc"
@@ -324,7 +324,7 @@ android {
 
         airAsiaGo {
             buildConfigField "String", "brand", "\"AirAsiaGo\""
-            buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
+            buildConfigField "String", "MEDIA_URL", "\"https://images.trvl-media.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"aago\""
             buildConfigField "String", "USER_AGENT", "\"AirAsiaGo\""
             applicationId "com.airasiago.android"
@@ -334,7 +334,7 @@ android {
 
         wotif {
             buildConfigField "String", "brand", "\"Wotif\""
-            buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
+            buildConfigField "String", "MEDIA_URL", "\"https://images.trvl-media.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"wotf\""
             buildConfigField "String", "USER_AGENT", "\"Wotif\""
             applicationId "com.wotif.android"
@@ -344,7 +344,7 @@ android {
 
         lastMinute {
             buildConfigField "String", "brand", "\"LM AU & NZ\""
-            buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
+            buildConfigField "String", "MEDIA_URL", "\"https://images.trvl-media.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"ltmn\""
             buildConfigField "String", "USER_AGENT", "\"LM\""
             applicationId "com.lastminute.android"
@@ -354,7 +354,7 @@ android {
 
         orbitz {
             buildConfigField "String", "brand", "\"Orbitz\""
-            buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
+            buildConfigField "String", "MEDIA_URL", "\"https://images.trvl-media.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"obtz\""
             buildConfigField "String", "USER_AGENT", "\"Orbitz\""
             applicationId "com.orbitz"
@@ -364,7 +364,7 @@ android {
 
         cheapTickets {
             buildConfigField "String", "brand", "\"CheapTickets\""
-            buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
+            buildConfigField "String", "MEDIA_URL", "\"https://images.trvl-media.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"hptk\""
             buildConfigField "String", "USER_AGENT", "\"CheapTickets\""
             applicationId "com.cheaptickets"
@@ -374,7 +374,7 @@ android {
 
         mrJet {
             buildConfigField "String", "brand", "\"MrJet\""
-            buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
+            buildConfigField "String", "MEDIA_URL", "\"https://images.trvl-media.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"mret\""
             buildConfigField "String", "USER_AGENT", "\"MrJet\""
             applicationId "se.mrjet"

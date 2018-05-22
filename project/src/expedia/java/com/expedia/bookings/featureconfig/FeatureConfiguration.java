@@ -144,7 +144,7 @@ public class FeatureConfiguration extends BaseFeatureConfiguration {
 
 	@Override
 	public String getSharableFallbackImageURL() {
-		return "http://media.expedia.com/mobiata/fb/exp-fb-share.png";
+		return "http://images.trvl-media.com/mobiata/fb/exp-fb-share.png";
 	}
 
 	@Override
