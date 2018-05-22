@@ -36,6 +36,7 @@ class FlightItinDetailsResponse : AbstractItinDetailsResponse() {
     class Flight {
         lateinit var legs: List<Leg>
         lateinit var passengers: List<Passengers>
+        var isSplitTicket: Boolean = false
 
         class Leg {
             var numberOfStops: Int? = null

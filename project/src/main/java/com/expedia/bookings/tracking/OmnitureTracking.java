@@ -393,51 +393,7 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + lobPageName + "\" page load...");
 
 		AppAnalytics s = createTrackPageLoadEventBase(pageName);
-
-		// events
-		s.setEvents("purchase");
-		boolean isSplitTicket = getFlightItineraryType().equals(FlightItineraryType.SPLIT_TICKET);
-
-		// products
-		Pair<String, String> airportCodes = getFlightSearchDepartureAndArrivalAirportCodes();
-		Pair<String, String> takeoffDateStrings = getFlightSearchDepartureAndReturnDateStrings();
-		String products;
-		if (!isSplitTicket) {
-			if (takeoffDateStrings.second != null) {
-				products = String.format(Locale.ENGLISH, "%s:%s-%s:%s-%s", getFlightProductString(true),
-					airportCodes.first, airportCodes.second, takeoffDateStrings.first,
-					takeoffDateStrings.second);
-			}
-			else {
-				products = String.format(Locale.ENGLISH, "%s:%s-%s:%s%s", getFlightProductString(true),
-					airportCodes.first, airportCodes.second, takeoffDateStrings.first);
-			}
-		}
-		else {
-			products = getFlightProductString(true);
-		}
-		s.setProducts(products);
-		// miscellaneous variables
-		s.setEvar(2, "D=c2");
-		s.setProp(2, "Flight");
-		s.setEvar(3, "D=c3");
-		s.setProp(3, airportCodes.first);
-		s.setEvar(4, "D=c4");
-		s.setProp(4, airportCodes.second);
 		s.setEvar(18, lobPageName);
-
-		// date variables 5, 6
-		Pair<LocalDate, LocalDate> takeoffDates = getFlightSearchDepartureAndReturnDates();
-		setDateValues(s, takeoffDates.first, takeoffDates.second);
-
-		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
-		s.setCurrencyCode(trip.totalPrice.currencyCode);
-		s.setProp(71, trip.getNewTrip().getTravelRecordLocator());
-		s.setProp(8, getFlightConfirmationTripNumberStringFromCreateTripResponse());
-		addPageLoadTimeTrackingEvents(s, pageUsableData);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsKrazyglue);
-
 		s.track();
 	}
 
@@ -5321,15 +5277,20 @@ public class OmnitureTracking {
 	}
 
 	private static String getFlightInsuranceProductStringFromItinResponse(FlightItinDetailsResponse response) {
-		com.expedia.bookings.data.flights.FlightCreateTripResponse trip = Db.getTripBucket()
-			.getFlightV2().flightCreateTripResponse;
+		String numberOfTraveler =  Integer.toString(response.getResponseData().getFlights().get(0).passengers.size());
 		List<FlightItinDetailsResponse.FlightResponseData.Insurance> insuranceList = response.getResponseData()
 			.getInsurance();
 		if (insuranceList != null && !insuranceList.isEmpty()) {
 			FlightItinDetailsResponse.FlightResponseData.Insurance insurance = insuranceList.get(0);
-			return String.format(Locale.ENGLISH, ",;Insurance:%s;%s;%.2f",
-				insurance.getInsuranceTypeId(), trip.getDetails().offer.numberOfTickets,
-				insurance.price.total);
+			String price;
+			if (insurance.price == null) {
+				price = "";
+			} else {
+				price = formatTotalPrice(insurance.price.total);
+			}
+			return String.format(Locale.ENGLISH, ",;Insurance:%s;%s;%s",
+				insurance.getInsuranceTypeId(), numberOfTraveler,
+				price);
 		}
 		else {
 			return "";
@@ -5379,6 +5340,52 @@ public class OmnitureTracking {
 		default:
 			return "MD";
 		}
+	}
+
+	private static String getFlightProductStringFromItin(FlightItinDetailsResponse flightItinDetailsResponse) {
+		Pair<FlightSegment, FlightSegment> segments = getFirstAndLastFlightSegments();
+
+
+		String formattedTotalprice = formatTotalPrice(
+			flightItinDetailsResponse.responseData.getTotalTripPrice().getTotal());
+
+		boolean isSplitTicket = flightItinDetailsResponse.getResponseData().getFlights().get(0).isSplitTicket();
+		String numberOfTraveler =  Integer.toString(flightItinDetailsResponse.getResponseData().getFlights().get(0).passengers.size());
+
+		String evarValuesOutBound, evarValuesInBound = "";
+		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
+		String itineraryType = getFlightItineraryTypeCode();
+
+		if (!isSplitTicket) {
+			evarValuesOutBound = String.format(Locale.ENGLISH, "eVar30=%s:FLT", getFlightInventoryTypeString());
+		}
+		else {
+			Pair<String, String> airportCodes = getFlightSearchDepartureAndArrivalAirportCodes();
+			Pair<String, String> takeoffDateStrings = getFlightSearchDepartureAndReturnDateStrings();
+			String departureInfo = airportCodes.first + "-" + airportCodes.second + ":" + takeoffDateStrings.first;
+			evarValuesOutBound = String
+				.format(Locale.ENGLISH, "eVar30=%s:FLT:%s", getFlightInventoryTypeString(), departureInfo);
+
+			String arrivalInfo = airportCodes.second + "-" + airportCodes.first + ":" + takeoffDateStrings.second;
+			evarValuesInBound = String
+				.format(Locale.ENGLISH, "eVar30=%s:FLT:%s", getFlightInventoryTypeString(), arrivalInfo);
+		}
+		String outBoundFlight = String.format(Locale.ENGLISH, ";Flight:%s:%s;%s;%s;;%s", segments.first.airlineCode,
+			getFlightInventoryTypeString(), numberOfTraveler, formattedTotalprice,
+			evarValuesOutBound);
+
+		if (isSplitTicket) {
+			String inBoundFlight = String
+				.format(Locale.ENGLISH, ";Flight:%s:%s;%s;%s;;%s", segments.second.airlineCode,
+					itineraryType, numberOfTraveler, formattedTotalprice, evarValuesInBound);
+
+			return outBoundFlight + "," + inBoundFlight;
+		}
+		return outBoundFlight;
+	}
+
+	private static String formatTotalPrice(String totalPrice) {
+		return String.format(Locale.US, "%.2f", Float.parseFloat(totalPrice.replace(",", ".")));
 	}
 
 	private static String getFlightProductString(boolean isConfirmation) {
@@ -5556,7 +5563,7 @@ public class OmnitureTracking {
 
 		// events
 		s.setEvents("purchase");
-		boolean isSplitTicket = getFlightItineraryType().equals(FlightItineraryType.SPLIT_TICKET);
+		boolean isSplitTicket = itinDetailsResponse.getResponseData().getFlights().get(0).isSplitTicket();
 
 		// products
 		Pair<String, String> airportCodes = getFlightSearchDepartureAndArrivalAirportCodes();
@@ -5564,19 +5571,19 @@ public class OmnitureTracking {
 		String products;
 		if (!isSplitTicket) {
 			if (takeoffDateStrings.second != null) {
-				products = String.format(Locale.ENGLISH, "%s:%s-%s:%s-%s%s", getFlightProductString(true),
+				products = String.format(Locale.ENGLISH, "%s:%s-%s:%s-%s%s", getFlightProductStringFromItin(itinDetailsResponse),
 					airportCodes.first, airportCodes.second, takeoffDateStrings.first,
 					takeoffDateStrings.second, getFlightInsuranceProductStringFromItinResponse(itinDetailsResponse));
 			}
 			else {
-				products = String.format(Locale.ENGLISH, "%s:%s-%s:%s%s", getFlightProductString(true),
+				products = String.format(Locale.ENGLISH, "%s:%s-%s:%s%s", getFlightProductStringFromItin(itinDetailsResponse),
 					airportCodes.first, airportCodes.second, takeoffDateStrings.first,
 					getFlightInsuranceProductStringFromItinResponse(itinDetailsResponse));
 			}
 		}
 		else {
 			products =
-				getFlightProductString(true) + getFlightInsuranceProductStringFromItinResponse(itinDetailsResponse);
+				getFlightProductStringFromItin(itinDetailsResponse) + getFlightInsuranceProductStringFromItinResponse(itinDetailsResponse);
 		}
 		s.setProducts(products);
 		// miscellaneous variables
@@ -5593,12 +5600,18 @@ public class OmnitureTracking {
 		setDateValues(s, takeoffDates.first, takeoffDates.second);
 
 		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
-		String orderId = itinDetailsResponse.getResponseDataForItin().getOrderNumber().toString();
+		String orderNumber;
+		if (itinDetailsResponse.getResponseDataForItin().getOrderNumber() == null) {
+			orderNumber = "";
+		}
+		else {
+			orderNumber = itinDetailsResponse.getResponseDataForItin().getOrderNumber().toString();
+		}
 		s.setCurrencyCode(trip.totalPrice.currencyCode);
 		s.setProp(71, trip.getNewTrip().getTravelRecordLocator());
-		s.setProp(72, orderId);
+		s.setProp(72, orderNumber);
 		s.setProp(8, getFlightConfirmationTripNumberStringFromCreateTripResponse());
-		s.setPurchaseID("onum" + orderId);
+		s.setPurchaseID("onum" + orderNumber);
 		addPageLoadTimeTrackingEvents(s, pageUsableData);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsKrazyglue);
