@@ -587,10 +587,6 @@
     <string name="traveler_age_title">Matkustajan ikä</string>
     <!-- Text for traveler infant error-->
     <string name="traveler_infant_error">Vauvana matkustavan on oltava alle 24 kuukauden ikäinen koko matkan ajan</string>
-    <!-- Text for traveler child error-->
-    <string name="traveler_child_error">Lapsena matkustavan on oltava alle 12-vuotias koko matkan ajan</string>
-    <!-- Text for traveler adult child error-->
-    <string name="traveler_adult_child_error">Tämän matkustajan on oltava 12–17-vuotias matkan aikana</string>
     <!-- Text for traveler adult error-->
     <string name="traveler_adult_error">Tämän matkustajan on oltava 18-vuotias tai vanhempi</string>
     <!-- Text for traveler child error displayed in alert dialog message-->
@@ -1423,6 +1419,14 @@
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">Maksettu kokonaissumma: {amount}</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
     <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">Hotellilla maksettava kokonaissumma: {amount}</string>
+    <!--Hotel itin card price summary additional pricing information button-->
+    <string name="itin_hotel_details_price_summary_additional_info_button_text">Lisätietoja hinnoittelusta</string>
+    <!--Hotel itin card price summary additional pricing information additional hotel fees heading-->
+    <string name="itin_hotel_details_price_summary_additional_info_additional_hotel_fees">Hotellin lisämaksut</string>
+    <!--Hotel itin card price summary additional pricing information taxes and fees heading-->
+    <string name="itin_hotel_details_price_summary_additional_info_taxes_and_fees">Verot ja maksut</string>
+    <!--Hotel itin card price summary additional pricing information guest charges and room capacity heading-->
+    <string name="itin_hotel_details_price_summary_additional_info_guest_charges_room_capacity">Asiakasmaksut ja huoneiden majoituskapasiteetti</string>
     <!--Hotel itin card price summary rewards section title text-->
     <string name="itin_hotel_details_price_summary_rewards_title">Kanta-asiakasedut</string>
     <!--Hotel itin card price summary rewards section view rewards button text-->
@@ -1527,6 +1531,8 @@
     <string name="itin_lx_toolbar_title_TEMPLATE">Aktiviteetti kohteessa {location}</string>
     <string name="itin_lx_more_info_heading">Lisäapua</string>
     <string name="itin_lx_more_info_subheading">Asiakaspalvelun yhteystiedot</string>
+    <!--LX itin redeem voucher.-->
+    <string name="itin_lx_redeem_voucher">Lunasta kuponki</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Jaa matkasuunnitelma</string>
@@ -2859,7 +2865,7 @@
     <!-- Kitchen/kitchenette amenity -->
     <string name="amenity_kitchen">Keittiö</string>
     <!-- Pets allowed amenity -->
-    <string name="amenity_pets_allowed">Lemmikkieläimet</string>
+    <string name="amenity_pets_allowed">Lemmikit</string>
     <!-- Pool amenity -->
     <string name="amenity_pool">Uima-allas</string>
     <!-- Restaurant on-site amenity -->
@@ -3031,8 +3037,8 @@
     <string name="common_value_add_template">Kaikissa huoneissa on %s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
     <string name="select_a_room_instruction">Valitse huone</string>
-    <!-- Content description for hotel map's select room button. Example: Select a Room From $10 button -->
-    <string name="hotel_select_a_room_cont_desc_TEMPLATE">Valitse huone, jonka hinta on alkaen {price}, painike</string>
+    <!-- Content description for hotel map's select room button. Example: "Select a Room From $10 button" -->
+    <string name="hotel_select_a_room_cont_desc_TEMPLATE">Valitse huone {price} -painike</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Ilmainen peruutusoikeus</string>
     <!-- Top line of resort fee text -->
@@ -3723,91 +3729,6 @@
     <!-- Unknown Card -->
     <string name="unknown_card">Tuntematon kortti</string>
 
-    <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
-    <!-- Your flight to _ delayed _ hour TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR">Lentosi kohteeseen %1$s on myöhässä %2$s tunnin.</string>
-    <!-- Your flight to _ delayed _ hours TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS">Lentosi kohteeseen %1$s on myöhässä %2$s tuntia.</string>
-    <!-- Your flight to _ delayed _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE">Lentosi kohteeseen %1$s on myöhässä %2$s minuutin.</string>
-    <!-- Your flight to _ delayed _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES">Lentosi kohteeseen %1$s on myöhässä %2$s minuuttia.</string>
-    <!-- Your flight to _ delayed _ hour _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE">Lentosi kohteeseen %1$s on myöhässä %2$s tunnin %3$s minuutin.</string>
-    <!-- Your flight to _ delayed _ hour _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES">Lentosi kohteeseen %1$s on myöhässä %2$s tunnin %3$s minuuttia.</string>
-    <!-- Your flight to _ delayed _ hours _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE">Lentosi kohteeseen %1$s on myöhässä %2$s tuntia %3$s minuutin.</string>
-    <!-- Your flight to _ delayed _ hours _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES">Lentosi kohteeseen %1$s on myöhässä %2$s tuntia %3$s minuuttia.</string>
-    <!-- Your flight to _ departs _ minute early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTE">Lentosi kohteeseen %1$s lähtee %2$s minuutin etuajassa.</string>
-    <!-- Your flight to _ departs _ minutes early  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTES">Lentosi kohteeseen %1$s lähtee %2$s minuuttia etuajassa.</string>
-    <!-- Your flight to _ departs _ hour early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR">Lentosi kohteeseen %1$s lähtee %2$s tunnin etuajassa.</string>
-    <!-- Your flight to _ departs _ hours early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS">Lentosi kohteeseen %1$s lähtee %2$s tuntia etuajassa.</string>
-    <!-- Your flight to _ departs _ hour _ minute early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE">Lentosi kohteeseen %1$s lähtee %2$s tunnin %3$s minuutin etuajassa.</string>
-    <!-- Your flight to _ departs _ hours _ minute early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE">Lentosi kohteeseen %1$s lähtee %2$s tuntia %3$s minuutin etuajassa.</string>
-    <!-- Your flight to _ departs _ hour _ minutes early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES">Lentosi kohteeseen %1$s lähtee %2$s tunnin %3$s minuuttia etuajassa.</string>
-    <!-- Your flight to _ departs _ hours _ minutes early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES">Lentosi kohteeseen %1$s lähtee %2$s tuntia %3$s minuuttia etuajassa.</string>
-    <!-- Your flight to _ is delayed _ minute and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE">Lentosi kohteeseen %1$s on myöhässä %2$s minuutin ja lähtee portilta %3$s.</string>
-    <!-- Your flight to _ is delayed _ minutes and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE">Lentosi kohteeseen %1$s on myöhässä %2$s minuuttia ja lähtee portilta %3$s.</string>
-    <!-- Your flight to _ is delayed _ hour and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE">Lentosi kohteeseen %1$s on myöhässä %2$s tunnin ja lähtee portilta %3$s.</string>
-    <!-- Your flight to _ is delayed _ hours and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE">Lentosi kohteeseen %1$s on myöhässä %2$s tuntia ja lähtee portilta %3$s.</string>
-    <!-- Your flight to _ is delayed _ hour _ minute and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE">Lentosi kohteeseen %1$s on myöhässä %2$s tunnin ja %3$s minuutin ja lähtee portilta %4$s.</string>
-    <!-- Your flight to _ is delayed _ hours _ minute and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE">Lentosi kohteeseen %1$s on myöhässä %2$s tuntia ja %3$s minuutin ja lähtee portilta %4$s.</string>
-    <!-- Your flight ot _ is delayed _ hour _ minutes and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE">Lentosi kohteeseen %1$s on myöhässä %2$s tunnin ja %3$s minuuttia ja lähtee portilta %4$s.</string>
-    <!-- Your flight to _ is delayed _ hours _ minutes and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE">Lentosi kohteeseen %1$s on myöhässä %2$s tuntia ja %3$s minuuttia ja lähtee portilta %4$s.</string>
-    <!-- Your flight to _ is now departing _ minute early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE">Lentosi kohteeseen %1$s lähtee %2$s minuutin etuajassa portilta %3$s.</string>
-    <!-- Your flight to _ is now departing _ minutes early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE">Lentosi kohteeseen %1$s lähtee %2$s minuuttia etuajassa portilta %3$s.</string>
-    <!-- Your flight to _ is now departing _ hour early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE">Lentosi kohteeseen %1$s lähtee %2$s tunnin etuajassa portilta %3$s.</string>
-    <!-- Your flight to _ is now departing _ hours early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE">Lentosi kohteeseen %1$s lähtee %2$s tuntia etuajassa portilta %3$s.</string>
-    <!-- Your flight to _ is now departing _ hour _ minute early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE">Lentosi kohteeseen %1$s lähtee %2$s tunnin %3$s minuutin etuajassa portilta %4$s.</string>
-    <!-- Your flight to _ is now departing _ hours _ minute early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE">Lentosi kohteeseen %1$s lähtee %2$s tuntia %3$s minuutin etuajassa portilta %4$s.</string>
-    <!-- Your flight to _ is now departing _ hour _ minutes early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE">Lentosi kohteeseen %1$s lähtee %2$s tunnin %3$s minuutin etuajassa portilta %4$s.</string>
-    <!-- Your flight to _ is now departing _ hours _ minutes early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE">Lentosi kohteeseen %1$s lähtee %2$s tuntia %3$s minuuttia etuajassa portilta %4$s.</string>
-    <!-- Your flight from _ to _ has been cancelled TEMPLATE -->
-    <string name="S_Push_flight_from_CITY_to_CITY_cancelled">Lentosi %1$s–%2$s on peruutettu.</string>
-    <!-- Your flight to _ departs in _ hour TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR">Lentosi kohteeseen %1$s lähtee %2$s tunnin päästä.</string>
-    <!-- Your flight to _ departs in _ hours TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS">Lentosi kohteeseen %1$s lähtee %2$s tunnin päästä.</string>
-    <!-- Your flight to _ departs in _ hours _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE">Lentosi kohteeseen %1$s lähtee %2$s tunnin %3$s minuutin päästä.</string>
-    <!-- Your flight to _ departs in _ hours _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES">Lentosi kohteeseen %1$s lähtee %2$s tunnin %3$s minuutin päästä.</string>
-    <!-- Your flight to _ departs in _ hour _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE">Lentosi kohteeseen %1$s lähtee %2$s tunnin %3$s minuutin päästä.</string>
-    <!-- Your flight to _ departs in _ hour _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES">Lentosi kohteeseen %1$s lähtee %2$s tunnin %3$s minuutin päästä.</string>
-    <!-- Your flight to _ departs in _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_MINUTES">Lentosi kohteeseen %1$s lähtee %2$s minuutin päästä.</string>
-    <!-- Your flight to _ now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_gate_GATE">Lentosi kohteeseen %1$s lähtee portilta %2$s.</string>
-    <!-- Your bags will be at baggage claim _  TEMPLATE -->
-    <string name="S_Push_baggage_BAGGAGE">Matkatavarasi saapuvat alueelle %1$s.</string>
     <!-- <First Name>, your booking is confirmed! View it in the app. TEMPLATE -->
     <string name="S_Push_Hey_VALUE_your_booking_is_confirmed">%1$s, varauksesi on vahvistettu! Tarkastele sovelluksessa.</string>
     <!--Your booking is confirmed! View it in the app. (For when we can't or don't want to address by first name -->
@@ -3863,9 +3784,9 @@
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">Vahvistan, että olen lukenut ja hyväksyn {terms_of_use} ja {privacy_policy}.</string>
     <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Liity {brand_reward_name} -ohjelmaan nyt. Liittymällä {brand_reward_name} -ohjelmaan hyväksyt {terms_and_conditions}.</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">Liity {brand_reward_name} -ohjelmaan nyt. Liittymällä {brand_reward_name} -ohjelmaan hyväksyt kaikki &lt;a href="{terms_and_conditions_url}"&gt;ehdot ja rajoitukset&lt;/a&gt;.</string>
     <!--Account creation legal template for terms and reward eg: By creating an account, I accept the Expedia Rewards Terms & Conditions, and have read and accept the Terms of Use and the Privacy Policy.-->
-    <string name="account_creation_new_terms_reward_TEMPLATE">Luomalla tilin hyväksyt {brand_reward_name} -ohjelman {terms_and_conditions} ja olet lukenut ja hyväksyt {terms_of_use} ja {privacy_policy}.</string>
+    <string name="account_creation_new_terms_reward_TEMPLATE">Luomalla tilin hyväksyt {brand_reward_name} -ohjelman &lt;a href="{terms_and_conditions_url}"&gt;ehdot ja rajoitukset&lt;/a&gt; ja vahvistat, että olet lukenut ja hyväksyt &lt;a href="{terms_of_use_url}"&gt;käyttöehdot&lt;/a&gt; sekä &lt;a href="{privacy_policy_url}"&gt;tietosuojakäytännön&lt;/a&gt;.</string>
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Valitse jokaisen lapsen ikä</string>
 
@@ -4062,8 +3983,6 @@
     <string name="bundle_overview_free_canellation_collapsed_button_description_TEMPLATE">{rowdescription}. Pienennetty-painike. Napauta kahdesti avataksesi.</string>
     <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. After 24 hours, standard flight rules apply. Expanded button. Double tap to collapse. -->
     <string name="bundle_overview_free_canellation_expanded_button_description_TEMPLATE">{rowtitle}. {rowdescription} Suurennettu-painike. Napauta kahdesti pienentääksesi.</string>
-    <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
-    <string name="flight_detail_card_cont_desc_without_price_TEMPLATE">Lentoaika on {time}. Lentävä yhtiö {airline}. Lennon kesto on {hours} {minutes}, {stops} välilaskua\u0020</string>
     <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco on Jun 23, for 1 Traveler. Please select Outbound Flight first. Button. -->
     <string name="select_flight_disabled_cont_desc_TEMPLATE">Lento kohteeseen {flight}, {date}, {travelers}. Valitse {previous} ensin. Painike.</string>
     <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Outbound Flight first.-->
@@ -4524,8 +4443,6 @@
     <string name="trip_is_booked">Matkasi on varattu!</string>
     <!-- Cars cross-sell message on package confirmation -->
     <string name="rental_car_message">Tarvitsetko vuokra-auton?</string>
-    <!-- Cars cross-sell origin description template-->
-    <string name="cars_cross_sell_origin_TEMPLATE">{airport_code}-{airport_localname}</string>
     <!-- Cars cross-sell message description on package confirmation -->
     <string name="rental_car_message_desc">Varaa auto ja säästä</string>
     <!-- Fly from hint -->
@@ -5144,5 +5061,21 @@
     <string name="flight_dropdown_airport_location_TEMPLATE">{airport}, {country}</string>
     <!--Flight dropdown airport Eg. BNE - Brisbane Airport-->
     <string name="flight_dropdown_airport_details_TEMPLATE">{airport_code} – {airport_name}</string>
+
+    <!-- Carnival -->
+    <string name="full_page_deal_toolbar_nav_icon_close_cont_desc">Sulje tarjoussivu</string>
+    <string name="full_page_deal_code_copied">Koodi kopioitu!</string>
+    <string name="full_page_deal_copy_code_button">Kopioi koodi</string>
+
+    <!-- formatting strings -->
+    <!-- moved from flight lib -->
+    <!-- Shorthand for a number of hours.  %d is the number of hours, eg "12h" -->
+    <string name="hours_template">%d h</string>
+    <!-- Shorthand for a number of minutes.  %d is the number of minutes, eg "25m" -->
+    <string name="minutes_template">%d min</string>
+    <!-- Shorthand for a number of hours and minutes.  First %d is the number of hours, second is the number of minutes, 12h 23m -->
+    <string name="hours_minutes_template">%1$d h %2$d min</string>
+    <!-- This is for a path between two cities, for example "San Francisco to Minneapolis".  First %s is the origin city, second %s is the destination city -->
+    <string name="path_template">%1$s – %2$s</string>
 
 </resources>

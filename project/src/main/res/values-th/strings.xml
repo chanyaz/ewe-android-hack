@@ -587,10 +587,6 @@
     <string name="traveler_age_title">อายุผู้เดินทาง</string>
     <!-- Text for traveler infant error-->
     <string name="traveler_infant_error">ผู้เดินทางนี้ต้องอายุไม่เกิน 24 เดือนตลอดเวลาที่ร่วมทริปเพื่อที่จะเดินทางในฐานะทารก</string>
-    <!-- Text for traveler child error-->
-    <string name="traveler_child_error">ผู้เดินทางนี้ต้องอายุไม่เกิน 12 ปีตลอดเวลาที่ร่วมทริปเพื่อที่จะเดินทางในฐานะเด็ก</string>
-    <!-- Text for traveler adult child error-->
-    <string name="traveler_adult_child_error">ผู้เดินทางนี้ต้องอายุระหว่าง 12-17 ปีในเวลาที่ร่วมทริป</string>
     <!-- Text for traveler adult error-->
     <string name="traveler_adult_error">ผู้เดินทางนี้ต้องอายุอย่างน้อย 18 ปี</string>
     <!-- Text for traveler child error displayed in alert dialog message-->
@@ -1423,6 +1419,14 @@
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">ยอดรวมที่ชำระแล้ว: {amount}</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
     <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">ยอดรวมที่ต้องจ่ายที่โรงแรม: {amount}</string>
+    <!--Hotel itin card price summary additional pricing information button-->
+    <string name="itin_hotel_details_price_summary_additional_info_button_text">ข้อมูลราคาเพิ่มเติม</string>
+    <!--Hotel itin card price summary additional pricing information additional hotel fees heading-->
+    <string name="itin_hotel_details_price_summary_additional_info_additional_hotel_fees">ค่าธรรมเนียมโรงแรมเพิ่มเติม</string>
+    <!--Hotel itin card price summary additional pricing information taxes and fees heading-->
+    <string name="itin_hotel_details_price_summary_additional_info_taxes_and_fees">ภาษีและค่าธรรมเนียม</string>
+    <!--Hotel itin card price summary additional pricing information guest charges and room capacity heading-->
+    <string name="itin_hotel_details_price_summary_additional_info_guest_charges_room_capacity">ค่าใช้จ่ายและจำนวนผู้เข้าพักต่อห้อง</string>
     <!--Hotel itin card price summary rewards section title text-->
     <string name="itin_hotel_details_price_summary_rewards_title">โปรแกรมสะสมคะแนน</string>
     <!--Hotel itin card price summary rewards section view rewards button text-->
@@ -1527,6 +1531,8 @@
     <string name="itin_lx_toolbar_title_TEMPLATE">กิจกรรมใน {location}</string>
     <string name="itin_lx_more_info_heading">ความช่วยเหลือเพิ่มเติม</string>
     <string name="itin_lx_more_info_subheading">ข้อมูลฝ่ายบริการลูกค้า</string>
+    <!--LX itin redeem voucher.-->
+    <string name="itin_lx_redeem_voucher">แลกใช้คูปอง</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">แชร์แผนการเดินทาง</string>
@@ -2756,7 +2762,7 @@
 
     <!-- Map -->
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
-    <string name="from_price_TEMPLATE">เริ่มจาก %s</string>
+    <string name="from_price_TEMPLATE">เริ่มที่ %s</string>
     <!-- Button text prompting the user to search this area on the map -->
     <string name="Search_this_area">ค้นหาในบริเวณนี้</string>
     <!-- Map pin text for sold out hotel(s)-->
@@ -3032,8 +3038,8 @@
     <string name="common_value_add_template">ห้องทั้งหมดรวม%s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
     <string name="select_a_room_instruction">เลือกห้อง</string>
-    <!-- Content description for hotel map's select room button. Example: Select a Room From $10 button -->
-    <string name="hotel_select_a_room_cont_desc_TEMPLATE">เลือกห้องพักจากปุ่มราคา {price}</string>
+    <!-- Content description for hotel map's select room button. Example: "Select a Room From $10 button" -->
+    <string name="hotel_select_a_room_cont_desc_TEMPLATE">ปุ่มเลือกห้องที่มีราคาเริ่มต้นที่ {price}</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">ยกเลิกฟรี</string>
     <!-- Top line of resort fee text -->
@@ -3724,91 +3730,6 @@
     <!-- Unknown Card -->
     <string name="unknown_card">บัตรไม่ถูกต้อง</string>
 
-    <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
-    <!-- Your flight to _ delayed _ hour TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s ชั่วโมง</string>
-    <!-- Your flight to _ delayed _ hours TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s ชั่วโมง</string>
-    <!-- Your flight to _ delayed _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s นาที</string>
-    <!-- Your flight to _ delayed _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s นาที</string>
-    <!-- Your flight to _ delayed _ hour _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที</string>
-    <!-- Your flight to _ delayed _ hour _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที</string>
-    <!-- Your flight to _ delayed _ hours _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที</string>
-    <!-- Your flight to _ delayed _ hours _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที</string>
-    <!-- Your flight to _ departs _ minute early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTE">เที่ยวบินไป %1$s ของคุณออกเดินทางก่อนกำหนด %2$s นาที</string>
-    <!-- Your flight to _ departs _ minutes early  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTES">เที่ยวบินไป %1$s ของคุณออกเดินทางก่อนกำหนด %2$s นาที</string>
-    <!-- Your flight to _ departs _ hour early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR">เที่ยวบินไป %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง</string>
-    <!-- Your flight to _ departs _ hours early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS">เที่ยวบินไป %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง</string>
-    <!-- Your flight to _ departs _ hour _ minute early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE">เที่ยวบินไป %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที</string>
-    <!-- Your flight to _ departs _ hours _ minute early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE">เที่ยวบินไป %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที</string>
-    <!-- Your flight to _ departs _ hour _ minutes early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES">เที่ยวบินไป %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที</string>
-    <!-- Your flight to _ departs _ hours _ minutes early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES">เที่ยวบินไป %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที</string>
-    <!-- Your flight to _ is delayed _ minute and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s นาที และกำลังออกเดินทางจากประตู %3$s</string>
-    <!-- Your flight to _ is delayed _ minutes and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s นาที และกำลังออกเดินทางจากประตู %3$s</string>
-    <!-- Your flight to _ is delayed _ hour and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s ชั่วโมง และกำลังออกเดินทางจากประตู %3$s</string>
-    <!-- Your flight to _ is delayed _ hours and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s ชั่วโมง และกำลังออกเดินทางจากประตู %3$s</string>
-    <!-- Your flight to _ is delayed _ hour _ minute and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที และกำลังออกเดินทางจากประตู %4$s</string>
-    <!-- Your flight to _ is delayed _ hours _ minute and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที และกำลังออกเดินทางจากประตู %4$s</string>
-    <!-- Your flight ot _ is delayed _ hour _ minutes and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที และกำลังออกเดินทางจากประตู %4$s</string>
-    <!-- Your flight to _ is delayed _ hours _ minutes and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที และกำลังออกเดินทางจากประตู %4$s</string>
-    <!-- Your flight to _ is now departing _ minute early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE">เที่ยวบินไป %1$s ของคุณกำลังออกเดินทางก่อนกำหนด %2$s นาที จากประตู %3$s</string>
-    <!-- Your flight to _ is now departing _ minutes early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE">เที่ยวบินไป %1$s ของคุณกำลังออกเดินทางก่อนกำหนด %2$s นาที จากประตู %3$s</string>
-    <!-- Your flight to _ is now departing _ hour early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE">เที่ยวบินไป %1$s ของคุณกำลังออกเดินทางก่อนกำหนด %2$s ชั่วโมง จากประตู %3$s</string>
-    <!-- Your flight to _ is now departing _ hours early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE">เที่ยวบินไป %1$s ของคุณกำลังออกเดินทางก่อนกำหนด %2$s ชั่วโมง จากประตู %3$s</string>
-    <!-- Your flight to _ is now departing _ hour _ minute early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE">เที่ยวบินไป %1$s ของคุณกำลังออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที จากประตู %4$s</string>
-    <!-- Your flight to _ is now departing _ hours _ minute early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE">เที่ยวบินไป %1$s ของคุณกำลังออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที จากประตู %4$s</string>
-    <!-- Your flight to _ is now departing _ hour _ minutes early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE">เที่ยวบินไป %1$s ของคุณกำลังออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที จากประตู %4$s</string>
-    <!-- Your flight to _ is now departing _ hours _ minutes early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE">เที่ยวบินไป %1$s ของคุณกำลังออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที จากประตู %4$s</string>
-    <!-- Your flight from _ to _ has been cancelled TEMPLATE -->
-    <string name="S_Push_flight_from_CITY_to_CITY_cancelled">เที่ยวบินจาก %1$s ไป %2$s ของคุณถูกยกเลิก</string>
-    <!-- Your flight to _ departs in _ hour TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR">เที่ยวบินไป %1$s ของคุณจะออกเดินทางใน %2$s ชั่วโมง</string>
-    <!-- Your flight to _ departs in _ hours TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS">เที่ยวบินไป %1$s ของคุณจะออกเดินทางใน %2$s ชั่วโมง</string>
-    <!-- Your flight to _ departs in _ hours _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE">เที่ยวบินไป %1$s ของคุณจะออกเดินทางใน %2$s ชั่วโมง %3$s นาที</string>
-    <!-- Your flight to _ departs in _ hours _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES">เที่ยวบินไป %1$s ของคุณจะออกเดินทางใน %2$s ชั่วโมง %3$s นาที</string>
-    <!-- Your flight to _ departs in _ hour _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE">เที่ยวบินไป %1$s ของคุณจะออกเดินทางใน %2$s ชั่วโมง %3$s นาที</string>
-    <!-- Your flight to _ departs in _ hour _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES">เที่ยวบินไป %1$s ของคุณจะออกเดินทางใน %2$s ชั่วโมง %3$s นาที</string>
-    <!-- Your flight to _ departs in _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_MINUTES">เที่ยวบินไป %1$s ของคุณจะออกเดินทางใน %2$s นาที</string>
-    <!-- Your flight to _ now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_gate_GATE">ขณะนี้เที่ยวบินไป %1$s ของคุณกำลังออกจากประตู %2$s</string>
-    <!-- Your bags will be at baggage claim _  TEMPLATE -->
-    <string name="S_Push_baggage_BAGGAGE">สัมภาระของคุณจะอยู่บริเวณจุดรับสัมภาระ %1$s</string>
     <!-- <First Name>, your booking is confirmed! View it in the app. TEMPLATE -->
     <string name="S_Push_Hey_VALUE_your_booking_is_confirmed">%1$s การจองของคุณได้รับการยืนยันแล้ว! ดูการจองในแอพ</string>
     <!--Your booking is confirmed! View it in the app. (For when we can't or don't want to address by first name -->
@@ -3864,9 +3785,9 @@
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">ฉันได้อ่านและยอมรับ{terms_of_use}และ{privacy_policy}</string>
     <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
-    <string name="account_creation_legal_rewards_TEMPLATE">สมัคร {brand_reward_name} วันนี้ โดยการเข้าร่วม {brand_reward_name} ฉันยอมรับ{terms_and_conditions}ทั้งหมด</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">สมัคร {brand_reward_name} วันนี้ โดยการเข้าร่วม {brand_reward_name} ฉันยอมรับ&lt;a href="{terms_and_conditions_url}"&gt;ข้อตกลงและเงื่อนไขทั้งหมด&lt;/a&gt;</string>
     <!--Account creation legal template for terms and reward eg: By creating an account, I accept the Expedia Rewards Terms & Conditions, and have read and accept the Terms of Use and the Privacy Policy.-->
-    <string name="account_creation_new_terms_reward_TEMPLATE">ในการสร้างบัญชีนี้ ฉันยอมรับ {terms_and_conditions} {brand_reward_name} และฉันได้อ่านและยอมรับ {terms_of_use} และ {privacy_policy} แล้ว</string>
+    <string name="account_creation_new_terms_reward_TEMPLATE">ในการสร้างบัญชีนี้ ฉันยอมรับ &lt;a href="{terms_and_conditions_url}"&gt;ข้อตกลงและเงื่อนไข&lt;/a&gt;ของ {brand_reward_name} และฉันได้อ่านและยอมรับ &lt;a href="{terms_of_use_url}"&gt;ข้อตกลงการใช้งาน&lt;/a&gt; และ &lt;a href="{privacy_policy_url}"&gt;นโยบายความเป็นส่วนตัว&lt;/a&gt; แล้ว</string>
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">โปรดระบุอายุเด็ก</string>
 
@@ -4063,8 +3984,6 @@
     <string name="bundle_overview_free_canellation_collapsed_button_description_TEMPLATE">{rowdescription} ปุ่มย่อ แตะสองครั้งเพื่อขยาย</string>
     <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. After 24 hours, standard flight rules apply. Expanded button. Double tap to collapse. -->
     <string name="bundle_overview_free_canellation_expanded_button_description_TEMPLATE">{rowtitle} {rowdescription} ปุ่มขยาย แตะสองครั้งเพื่อย่อข้อมูล</string>
-    <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
-    <string name="flight_detail_card_cont_desc_without_price_TEMPLATE">เวลาของเที่ยวบินคือ {time} บินกับ {airline} ระยะเวลาบินคือ {hours} {minutes} แวะพัก {stops} ครั้ง\u0020</string>
     <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco on Jun 23, for 1 Traveler. Please select Outbound Flight first. Button. -->
     <string name="select_flight_disabled_cont_desc_TEMPLATE">เที่ยวบินไป {flight} วันที่ {date} สำหรับ {travelers} โปรดเลือก{previous}ก่อน ปุ่ม</string>
     <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Outbound Flight first.-->
@@ -4525,8 +4444,6 @@
     <string name="trip_is_booked">จองเรียบร้อยแล้ว!</string>
     <!-- Cars cross-sell message on package confirmation -->
     <string name="rental_car_message">ต้องการรถเช่าไหม?</string>
-    <!-- Cars cross-sell origin description template-->
-    <string name="cars_cross_sell_origin_TEMPLATE">{airport_code}-{airport_localname}</string>
     <!-- Cars cross-sell message description on package confirmation -->
     <string name="rental_car_message_desc">จองรถราคาประหยัด</string>
     <!-- Fly from hint -->
@@ -5145,5 +5062,21 @@
     <string name="flight_dropdown_airport_location_TEMPLATE">{airport}, {country}</string>
     <!--Flight dropdown airport Eg. BNE - Brisbane Airport-->
     <string name="flight_dropdown_airport_details_TEMPLATE">{airport_code} - {airport_name}</string>
+
+    <!-- Carnival -->
+    <string name="full_page_deal_toolbar_nav_icon_close_cont_desc">ปิดหน้าดีล</string>
+    <string name="full_page_deal_code_copied">คัดลอกรหัสแล้ว!</string>
+    <string name="full_page_deal_copy_code_button">คัดลอกรหัส</string>
+
+    <!-- formatting strings -->
+    <!-- moved from flight lib -->
+    <!-- Shorthand for a number of hours.  %d is the number of hours, eg "12h" -->
+    <string name="hours_template">%dชม.</string>
+    <!-- Shorthand for a number of minutes.  %d is the number of minutes, eg "25m" -->
+    <string name="minutes_template">%dน.</string>
+    <!-- Shorthand for a number of hours and minutes.  First %d is the number of hours, second is the number of minutes, 12h 23m -->
+    <string name="hours_minutes_template">%1$dชม. %2$dน.</string>
+    <!-- This is for a path between two cities, for example "San Francisco to Minneapolis".  First %s is the origin city, second %s is the destination city -->
+    <string name="path_template">%1$s ไปยัง %2$s</string>
 
 </resources>

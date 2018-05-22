@@ -587,10 +587,6 @@
     <string name="traveler_age_title">Alder på rejsende</string>
     <!-- Text for traveler infant error-->
     <string name="traveler_infant_error">Denne rejsende skal være under 24 måneder under hele rejsen for at kunne rejse som et spædbarn</string>
-    <!-- Text for traveler child error-->
-    <string name="traveler_child_error">Denne rejsende skal være under 12 år under hele rejsen for at kunne rejse som et barn</string>
-    <!-- Text for traveler adult child error-->
-    <string name="traveler_adult_child_error">Denne rejse skal være mellem 12 og 17 år gammel på rejsetidspunktet</string>
     <!-- Text for traveler adult error-->
     <string name="traveler_adult_error">Denne rejsende skal være 18 år eller derover</string>
     <!-- Text for traveler child error displayed in alert dialog message-->
@@ -1423,6 +1419,14 @@
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">Betalt beløb i alt: {amount}</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
     <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">Beløb til betaling på hotellet: {amount}</string>
+    <!--Hotel itin card price summary additional pricing information button-->
+    <string name="itin_hotel_details_price_summary_additional_info_button_text">Flere prisoplysninger</string>
+    <!--Hotel itin card price summary additional pricing information additional hotel fees heading-->
+    <string name="itin_hotel_details_price_summary_additional_info_additional_hotel_fees">Yderligere hotelgebyrer</string>
+    <!--Hotel itin card price summary additional pricing information taxes and fees heading-->
+    <string name="itin_hotel_details_price_summary_additional_info_taxes_and_fees">Skatter og gebyrer</string>
+    <!--Hotel itin card price summary additional pricing information guest charges and room capacity heading-->
+    <string name="itin_hotel_details_price_summary_additional_info_guest_charges_room_capacity">Gæstepriser og værelseskapacitet</string>
     <!--Hotel itin card price summary rewards section title text-->
     <string name="itin_hotel_details_price_summary_rewards_title">Fordele</string>
     <!--Hotel itin card price summary rewards section view rewards button text-->
@@ -1527,6 +1531,8 @@
     <string name="itin_lx_toolbar_title_TEMPLATE">Oplevelse i {location}</string>
     <string name="itin_lx_more_info_heading">Yderligere hjælp</string>
     <string name="itin_lx_more_info_subheading">Kontakt kundeservice</string>
+    <!--LX itin redeem voucher.-->
+    <string name="itin_lx_redeem_voucher">Indløs kupon</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Del rejseplan</string>
@@ -3031,7 +3037,7 @@
     <string name="common_value_add_template">Alle værelser inkluderer %s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
     <string name="select_a_room_instruction">Vælg et værelse</string>
-    <!-- Content description for hotel map's select room button. Example: Select a Room From $10 button -->
+    <!-- Content description for hotel map's select room button. Example: "Select a Room From $10 button" -->
     <string name="hotel_select_a_room_cont_desc_TEMPLATE">Knappen Vælg et værelse fra {price}</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Gratis afbestilling</string>
@@ -3723,91 +3729,6 @@
     <!-- Unknown Card -->
     <string name="unknown_card">Ukendt kort</string>
 
-    <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
-    <!-- Your flight to _ delayed _ hour TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR">Dit fly til %1$s er %2$s time forsinket.</string>
-    <!-- Your flight to _ delayed _ hours TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS">Dit fly til %1$s er %2$s timer forsinket.</string>
-    <!-- Your flight to _ delayed _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE">Dit fly til %1$s er %2$s minut forsinket.</string>
-    <!-- Your flight to _ delayed _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES">Dit fly til %1$s er %2$s minutter forsinket.</string>
-    <!-- Your flight to _ delayed _ hour _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE">Dit fly til %1$s er %2$s time og %3$s minut forsinket.</string>
-    <!-- Your flight to _ delayed _ hour _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES">Dit fly til %1$s er %2$s time og %3$s minutter forsinket.</string>
-    <!-- Your flight to _ delayed _ hours _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE">Dit fly til %1$s er %2$s timer og %3$s minut forsinket.</string>
-    <!-- Your flight to _ delayed _ hours _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES">Dit fly til %1$s er %2$s timer og %3$s minutter forsinket.</string>
-    <!-- Your flight to _ departs _ minute early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTE">Dit fly til %1$s afgår %2$s minut tidligere.</string>
-    <!-- Your flight to _ departs _ minutes early  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTES">Dit fly til %1$s afgår %2$s minutter tidligere.</string>
-    <!-- Your flight to _ departs _ hour early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR">Dit fly til %1$s afgår %2$s time tidligere.</string>
-    <!-- Your flight to _ departs _ hours early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS">Dit fly til %1$s afgår %2$s timer tidligere.</string>
-    <!-- Your flight to _ departs _ hour _ minute early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE">Dit fly til %1$s afgår %2$s time og %3$s minut tidligere.</string>
-    <!-- Your flight to _ departs _ hours _ minute early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE">Dit fly til %1$s afgår %2$s timer og %3$s minut tidligere.</string>
-    <!-- Your flight to _ departs _ hour _ minutes early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES">Dit fly til %1$s afgår %2$s time og %3$s minutter tidligere.</string>
-    <!-- Your flight to _ departs _ hours _ minutes early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES">Dit fly til %1$s afgår %2$s timer og %3$s minutter tidligere.</string>
-    <!-- Your flight to _ is delayed _ minute and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE">Dit fly til %1$s er %2$s minut forsinket, og afgår nu fra gate %3$s.</string>
-    <!-- Your flight to _ is delayed _ minutes and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE">Dit fly til %1$s er %2$s minutter forsinket, og afgår nu fra gate %3$s.</string>
-    <!-- Your flight to _ is delayed _ hour and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE">Dit fly til %1$s er %2$s time forsinket, og afgår nu fra gate %3$s.</string>
-    <!-- Your flight to _ is delayed _ hours and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE">Dit fly til %1$s er %2$s timer forsinket, og afgår nu fra gate %3$s.</string>
-    <!-- Your flight to _ is delayed _ hour _ minute and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE">Dit fly til %1$s er %2$s time og %3$s minut forsinket, og afgår nu fra gate %4$s.</string>
-    <!-- Your flight to _ is delayed _ hours _ minute and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE">Dit fly til %1$s er %2$s timer og %3$s minut forsinket, og afgår nu fra gate %4$s.</string>
-    <!-- Your flight ot _ is delayed _ hour _ minutes and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE">Dit fly til %1$s er %2$s time og %3$s minutter forsinket, og afgår nu fra gate %4$s.</string>
-    <!-- Your flight to _ is delayed _ hours _ minutes and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE">Dit fly til %1$s er %2$s timer og %3$s minutter forsinket, og afgår nu fra gate %4$s.</string>
-    <!-- Your flight to _ is now departing _ minute early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE">Dit fly til %1$s afgår nu %2$s minut tidligere fra gate %3$s.</string>
-    <!-- Your flight to _ is now departing _ minutes early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE">Dit fly til %1$s afgår nu %2$s minutter tidligere fra gate %3$s.</string>
-    <!-- Your flight to _ is now departing _ hour early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE">Dit fly til %1$s afgår nu %2$s time tidligere fra gate %3$s.</string>
-    <!-- Your flight to _ is now departing _ hours early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE">Dit fly til %1$s afgår nu %2$s timer tidligere fra gate %3$s.</string>
-    <!-- Your flight to _ is now departing _ hour _ minute early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE">Dit fly til %1$s afgår nu %2$s time og %3$s minut tidligere fra gate %4$s.</string>
-    <!-- Your flight to _ is now departing _ hours _ minute early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE">Dit fly til %1$s afgår nu %2$s timer og %3$s minut tidligere fra gate %4$s.</string>
-    <!-- Your flight to _ is now departing _ hour _ minutes early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE">Dit fly til %1$s afgår nu %2$s time og %3$s minutter tidligere fra gate %4$s.</string>
-    <!-- Your flight to _ is now departing _ hours _ minutes early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE">Dit fly til %1$s afgår nu %2$s timer og %3$s minutter tidligere fra gate %4$s.</string>
-    <!-- Your flight from _ to _ has been cancelled TEMPLATE -->
-    <string name="S_Push_flight_from_CITY_to_CITY_cancelled">Dit fly fra %1$s til %2$s er blevet aflyst.</string>
-    <!-- Your flight to _ departs in _ hour TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR">Dit fly til %1$s afgår om %2$s time.</string>
-    <!-- Your flight to _ departs in _ hours TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS">Dit fly til %1$s afgår om %2$s timer.</string>
-    <!-- Your flight to _ departs in _ hours _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE">Dit fly til %1$s afgår om %2$s timer og %3$s minut.</string>
-    <!-- Your flight to _ departs in _ hours _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES">Dit fly til %1$s afgår om %2$s timer og %3$s minutter.</string>
-    <!-- Your flight to _ departs in _ hour _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE">Dit fly til %1$s afgår om %2$s time og %3$s minut.</string>
-    <!-- Your flight to _ departs in _ hour _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES">Dit fly til %1$s afgår om %2$s time og %3$s minutter.</string>
-    <!-- Your flight to _ departs in _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_MINUTES">Dit fly til %1$s afgår om %2$s minutter.</string>
-    <!-- Your flight to _ now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_gate_GATE">Dit fly til %1$s afgår nu fra gate %2$s.</string>
-    <!-- Your bags will be at baggage claim _  TEMPLATE -->
-    <string name="S_Push_baggage_BAGGAGE">Dine tasker vil være i bagageudleveringen %1$s.</string>
     <!-- <First Name>, your booking is confirmed! View it in the app. TEMPLATE -->
     <string name="S_Push_Hey_VALUE_your_booking_is_confirmed">%1$s, din reservation er bekræftet! Se den i appen.</string>
     <!--Your booking is confirmed! View it in the app. (For when we can't or don't want to address by first name -->
@@ -3863,9 +3784,9 @@
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">Jeg har læst og accepterer {terms_of_use} samt virksomhedens {privacy_policy}.</string>
     <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Tilmeld dig {brand_reward_name} i dag. Ved at tilmelde mig {brand_reward_name} accepterer jeg alle {terms_and_conditions}.</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">Tilmeld dig {brand_reward_name} i dag. Ved at tilmelde mig {brand_reward_name} accepterer jeg alle &lt;a href="{terms_and_conditions_url}"&gt;Vilkår og betingelser&lt;/a&gt;.</string>
     <!--Account creation legal template for terms and reward eg: By creating an account, I accept the Expedia Rewards Terms & Conditions, and have read and accept the Terms of Use and the Privacy Policy.-->
-    <string name="account_creation_new_terms_reward_TEMPLATE">Ved at oprette en konto, accepterer jeg {brand_reward_name}s {terms_and_conditions}. Jeg har læst og accepteret {terms_of_use} og {privacy_policy}.</string>
+    <string name="account_creation_new_terms_reward_TEMPLATE">Ved at oprette en konto accepterer jeg de gældende {brand_reward_name} &lt;a href="{terms_and_conditions_url}"&gt;vilkår og betingelser&lt;/a&gt; og har læst og accepteret &lt;a href="{terms_of_use_url}"&gt;vilkår for brug&lt;/a&gt; samt &lt;a href="{privacy_policy_url}"&gt;fortrolighedspolitikken&lt;/a&gt;.</string>
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Vælg hvert barns alder</string>
 
@@ -4062,8 +3983,6 @@
     <string name="bundle_overview_free_canellation_collapsed_button_description_TEMPLATE">{rowdescription}. Knap til at skjule oplysninger. Tryk to gange for at udvide.</string>
     <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. After 24 hours, standard flight rules apply. Expanded button. Double tap to collapse. -->
     <string name="bundle_overview_free_canellation_expanded_button_description_TEMPLATE">{rowtitle}. {rowdescription} Knap til at udvide oplysninger. Tryk to gange for at skjule.</string>
-    <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
-    <string name="flight_detail_card_cont_desc_without_price_TEMPLATE">Flyvetiden er fra {time}. Flyrejsen er med {airline}. Flyrejsen varer {hours} og {minutes} med {stops} mellemlandinger\u0020</string>
     <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco on Jun 23, for 1 Traveler. Please select Outbound Flight first. Button. -->
     <string name="select_flight_disabled_cont_desc_TEMPLATE">Flyrejse til {flight} den {date} for {travelers}. Vælg venligst {previous} først. Knap.</string>
     <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Outbound Flight first.-->
@@ -4524,8 +4443,6 @@
     <string name="trip_is_booked">Din rejse er booket!</string>
     <!-- Cars cross-sell message on package confirmation -->
     <string name="rental_car_message">Har du brug for en udlejningsbil?</string>
-    <!-- Cars cross-sell origin description template-->
-    <string name="cars_cross_sell_origin_TEMPLATE">{airport_code}-{airport_localname}</string>
     <!-- Cars cross-sell message description on package confirmation -->
     <string name="rental_car_message_desc">Søg efter biler, og spar penge</string>
     <!-- Fly from hint -->
@@ -5144,5 +5061,21 @@
     <string name="flight_dropdown_airport_location_TEMPLATE">{airport}, {country}</string>
     <!--Flight dropdown airport Eg. BNE - Brisbane Airport-->
     <string name="flight_dropdown_airport_details_TEMPLATE">{airport_code} - {airport_name}</string>
+
+    <!-- Carnival -->
+    <string name="full_page_deal_toolbar_nav_icon_close_cont_desc">Luk tilbudsside</string>
+    <string name="full_page_deal_code_copied">Rabatkode kopieret!</string>
+    <string name="full_page_deal_copy_code_button">Kopier koden</string>
+
+    <!-- formatting strings -->
+    <!-- moved from flight lib -->
+    <!-- Shorthand for a number of hours.  %d is the number of hours, eg "12h" -->
+    <string name="hours_template">%dt</string>
+    <!-- Shorthand for a number of minutes.  %d is the number of minutes, eg "25m" -->
+    <string name="minutes_template">%dm</string>
+    <!-- Shorthand for a number of hours and minutes.  First %d is the number of hours, second is the number of minutes, 12h 23m -->
+    <string name="hours_minutes_template">%1$dt %2$dm</string>
+    <!-- This is for a path between two cities, for example "San Francisco to Minneapolis".  First %s is the origin city, second %s is the destination city -->
+    <string name="path_template">%1$s til %2$s</string>
 
 </resources>

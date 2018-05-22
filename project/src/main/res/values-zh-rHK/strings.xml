@@ -587,10 +587,6 @@
     <string name="traveler_age_title">旅客年齡</string>
     <!-- Text for traveler infant error-->
     <string name="traveler_infant_error">此旅客於整個行程期間必須未滿 24 個月方可享用嬰幼兒價格</string>
-    <!-- Text for traveler child error-->
-    <string name="traveler_child_error">此旅客於整個行程期間必須未滿 12 歲方可享用小童價格</string>
-    <!-- Text for traveler adult child error-->
-    <string name="traveler_adult_child_error">此旅客於行程期間必須介乎 12 至 17 歲</string>
     <!-- Text for traveler adult error-->
     <string name="traveler_adult_error">此旅客必須為 18 歲或以上</string>
     <!-- Text for traveler child error displayed in alert dialog message-->
@@ -1423,6 +1419,14 @@
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">合共已付 {amount}</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
     <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">於酒店共付 {amount}</string>
+    <!--Hotel itin card price summary additional pricing information button-->
+    <string name="itin_hotel_details_price_summary_additional_info_button_text">額外價格資料</string>
+    <!--Hotel itin card price summary additional pricing information additional hotel fees heading-->
+    <string name="itin_hotel_details_price_summary_additional_info_additional_hotel_fees">酒店附加費</string>
+    <!--Hotel itin card price summary additional pricing information taxes and fees heading-->
+    <string name="itin_hotel_details_price_summary_additional_info_taxes_and_fees">稅項及附加費</string>
+    <!--Hotel itin card price summary additional pricing information guest charges and room capacity heading-->
+    <string name="itin_hotel_details_price_summary_additional_info_guest_charges_room_capacity">旅客收費及客房可住人數</string>
     <!--Hotel itin card price summary rewards section title text-->
     <string name="itin_hotel_details_price_summary_rewards_title">獎賞</string>
     <!--Hotel itin card price summary rewards section view rewards button text-->
@@ -1527,6 +1531,8 @@
     <string name="itin_lx_toolbar_title_TEMPLATE">{location}的活動</string>
     <string name="itin_lx_more_info_heading">其他協助</string>
     <string name="itin_lx_more_info_subheading">客戶支援訊息</string>
+    <!--LX itin redeem voucher.-->
+    <string name="itin_lx_redeem_voucher">兌換代用券</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">分享行程</string>
@@ -3031,7 +3037,7 @@
     <string name="common_value_add_template">所有客房均包括%s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
     <string name="select_a_room_instruction">選擇客房</string>
-    <!-- Content description for hotel map's select room button. Example: Select a Room From $10 button -->
+    <!-- Content description for hotel map's select room button. Example: "Select a Room From $10 button" -->
     <string name="hotel_select_a_room_cont_desc_TEMPLATE">選擇低至 {price} 客房按鈕</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">免費取消</string>
@@ -3392,7 +3398,7 @@
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{currency}{amount}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">設定</string>
@@ -3723,91 +3729,6 @@
     <!-- Unknown Card -->
     <string name="unknown_card">未明的付款卡</string>
 
-    <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
-    <!-- Your flight to _ delayed _ hour TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR">您前往%1$s的班機延遲 %2$s 小時。</string>
-    <!-- Your flight to _ delayed _ hours TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS">您前往%1$s的班機延遲 %2$s 小時。</string>
-    <!-- Your flight to _ delayed _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE">您前往%1$s的班機延遲 %2$s 分鐘。</string>
-    <!-- Your flight to _ delayed _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES">您前往%1$s的班機延遲 %2$s 分鐘。</string>
-    <!-- Your flight to _ delayed _ hour _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE">您前往%1$s的班機延遲 %2$s 小時 %3$s 分鐘。</string>
-    <!-- Your flight to _ delayed _ hour _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES">您前往%1$s的班機延遲 %2$s 小時 %3$s 分鐘。</string>
-    <!-- Your flight to _ delayed _ hours _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE">您前往%1$s的班機延遲 %2$s 小時 %3$s 分鐘。</string>
-    <!-- Your flight to _ delayed _ hours _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES">您前往%1$s的班機延遲 %2$s 小時 %3$s 分鐘。</string>
-    <!-- Your flight to _ departs _ minute early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTE">您前往%1$s的班機提早 %2$s 分鐘起飛。</string>
-    <!-- Your flight to _ departs _ minutes early  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTES">您前往%1$s的班機提早 %2$s 分鐘起飛。</string>
-    <!-- Your flight to _ departs _ hour early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR">您前往%1$s的班機提早 %2$s 小時起飛。</string>
-    <!-- Your flight to _ departs _ hours early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS">您前往%1$s的班機提早 %2$s 小時起飛。</string>
-    <!-- Your flight to _ departs _ hour _ minute early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE">您前往%1$s的班機提早 %2$s 小時 %3$s 分鐘起飛。</string>
-    <!-- Your flight to _ departs _ hours _ minute early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE">您前往%1$s的班機提早 %2$s 小時 %3$s 分鐘起飛。</string>
-    <!-- Your flight to _ departs _ hour _ minutes early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES">您前往%1$s的班機提早 %2$s 小時 %3$s 分鐘起飛。</string>
-    <!-- Your flight to _ departs _ hours _ minutes early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES">您前往%1$s的班機提早 %2$s 小時 %3$s 分鐘起飛。</string>
-    <!-- Your flight to _ is delayed _ minute and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE">您前往%1$s的班機延遲 %2$s 分鐘，登機閘口現為 %3$s。</string>
-    <!-- Your flight to _ is delayed _ minutes and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE">您前往%1$s的班機延遲 %2$s 分鐘，登機閘口現為 %3$s。</string>
-    <!-- Your flight to _ is delayed _ hour and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE">您前往%1$s的班機延遲 %2$s 小時，登機閘口現為 %3$s。</string>
-    <!-- Your flight to _ is delayed _ hours and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE">您前往%1$s的班機延遲 %2$s 小時，登機閘口現為 %3$s。</string>
-    <!-- Your flight to _ is delayed _ hour _ minute and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE">您前往%1$s的班機延遲 %2$s 小時 %3$s 分鐘，登機閘口現為 %4$s。</string>
-    <!-- Your flight to _ is delayed _ hours _ minute and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE">您前往%1$s的班機延遲 %2$s 小時 %3$s 分鐘，登機閘口現為 %4$s。</string>
-    <!-- Your flight ot _ is delayed _ hour _ minutes and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE">您前往%1$s的班機延遲 %2$s 小時 %3$s 分鐘，登機閘口現為 %4$s。</string>
-    <!-- Your flight to _ is delayed _ hours _ minutes and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE">您前往%1$s的班機延遲 %2$s 小時 %3$s 分鐘，登機閘口現為 %4$s。</string>
-    <!-- Your flight to _ is now departing _ minute early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE">您前往%1$s的班機現提早 %2$s 分鐘起飛，登機閘口為 %3$s。</string>
-    <!-- Your flight to _ is now departing _ minutes early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE">您前往%1$s的班機現提早 %2$s 分鐘起飛，登機閘口為 %3$s。</string>
-    <!-- Your flight to _ is now departing _ hour early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE">您前往%1$s的班機現提早 %2$s 小時起飛，登機閘口為 %3$s。</string>
-    <!-- Your flight to _ is now departing _ hours early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE">您前往%1$s的班機現提早 %2$s 小時起飛，登機閘口為 %3$s。</string>
-    <!-- Your flight to _ is now departing _ hour _ minute early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE">您前往%1$s的班機現提早 %2$s 小時 %3$s 分鐘起飛，登機閘口為 %4$s。</string>
-    <!-- Your flight to _ is now departing _ hours _ minute early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE">您前往%1$s的班機現提早 %2$s 小時 %3$s 分鐘起飛，登機閘口為 %4$s。</string>
-    <!-- Your flight to _ is now departing _ hour _ minutes early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE">您前往%1$s的班機現提早 %2$s 小時 %3$s 分鐘起飛，登機閘口為 %4$s。</string>
-    <!-- Your flight to _ is now departing _ hours _ minutes early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE">您前往%1$s的班機現提早 %2$s 小時 %3$s 分鐘起飛，登機閘口為 %4$s。</string>
-    <!-- Your flight from _ to _ has been cancelled TEMPLATE -->
-    <string name="S_Push_flight_from_CITY_to_CITY_cancelled">您由%1$s往%2$s的班機已取消。</string>
-    <!-- Your flight to _ departs in _ hour TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR">您前往%1$s的班機將於 %2$s 小時內起飛。</string>
-    <!-- Your flight to _ departs in _ hours TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS">您前往%1$s的班機將於 %2$s 小時內起飛。</string>
-    <!-- Your flight to _ departs in _ hours _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE">您前往%1$s的班機將於 %2$s 小時 %3$s 分鐘內起飛。</string>
-    <!-- Your flight to _ departs in _ hours _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES">您前往%1$s的班機將於 %2$s 小時 %3$s 分鐘內起飛。</string>
-    <!-- Your flight to _ departs in _ hour _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE">您前往%1$s的班機將於 %2$s 小時 %3$s 分鐘內起飛。</string>
-    <!-- Your flight to _ departs in _ hour _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES">您前往%1$s的班機將於 %2$s 小時 %3$s 分鐘內起飛。</string>
-    <!-- Your flight to _ departs in _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_MINUTES">您前往%1$s的班機將於 %2$s 分鐘內起飛。</string>
-    <!-- Your flight to _ now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_gate_GATE">您前往%1$s的班機的登機閘口現為 %2$s。</string>
-    <!-- Your bags will be at baggage claim _  TEMPLATE -->
-    <string name="S_Push_baggage_BAGGAGE">請於行李領取處 %1$s 領取您的行李。</string>
     <!-- <First Name>, your booking is confirmed! View it in the app. TEMPLATE -->
     <string name="S_Push_Hey_VALUE_your_booking_is_confirmed">%1$s，您的預訂已獲確認！您可用 App 來查看。</string>
     <!--Your booking is confirmed! View it in the app. (For when we can't or don't want to address by first name -->
@@ -3863,9 +3784,9 @@
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">我已閱讀並同意{terms_of_use}及{privacy_policy}。</string>
     <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
-    <string name="account_creation_legal_rewards_TEMPLATE">立即登記 {brand_reward_name}。登記 {brand_reward_name}，即表示我接受所有{terms_and_conditions}。</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">立即登記 {brand_reward_name}。登記 {brand_reward_name}，即表示我接受所有&lt;a href="{terms_and_conditions_url}"&gt;條款及細則&lt;/a&gt;。</string>
     <!--Account creation legal template for terms and reward eg: By creating an account, I accept the Expedia Rewards Terms & Conditions, and have read and accept the Terms of Use and the Privacy Policy.-->
-    <string name="account_creation_new_terms_reward_TEMPLATE">建立帳戶，即表示我同意 {brand_reward_name} {terms_and_conditions}，並已閱讀及接受{terms_of_use}和{privacy_policy}。</string>
+    <string name="account_creation_new_terms_reward_TEMPLATE">建立帳戶，即表示我接受 {brand_reward_name} &lt;a href="{terms_and_conditions_url}"&gt;條款及細則&lt;/a&gt;，並已閱讀及接受&lt;a href="{terms_of_use_url}"&gt;使用條款&lt;/a&gt;和&lt;a href="{privacy_policy_url}"&gt;私隱政策&lt;/a&gt;。</string>
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">請選擇每位小童的年齡</string>
 
@@ -4062,8 +3983,6 @@
     <string name="bundle_overview_free_canellation_collapsed_button_description_TEMPLATE">{rowdescription}。已收起的按鈕。輕按兩下展開。</string>
     <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. After 24 hours, standard flight rules apply. Expanded button. Double tap to collapse. -->
     <string name="bundle_overview_free_canellation_expanded_button_description_TEMPLATE">{rowtitle}。{rowdescription}已展開的按鈕。輕按兩下以收起。</string>
-    <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
-    <string name="flight_detail_card_cont_desc_without_price_TEMPLATE">航班時間為 {time}。乘搭{airline}。航班需時 {hours} {minutes}，停站 {stops} 次\u0020</string>
     <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco on Jun 23, for 1 Traveler. Please select Outbound Flight first. Button. -->
     <string name="select_flight_disabled_cont_desc_TEMPLATE">{date}前往{flight}的航班 {travelers}請先選擇{previous}。按鈕。</string>
     <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Outbound Flight first.-->
@@ -4524,8 +4443,6 @@
     <string name="trip_is_booked">您已預訂行程！</string>
     <!-- Cars cross-sell message on package confirmation -->
     <string name="rental_car_message">要租車嗎？</string>
-    <!-- Cars cross-sell origin description template-->
-    <string name="cars_cross_sell_origin_TEMPLATE">{airport_code}-{airport_localname}</string>
     <!-- Cars cross-sell message description on package confirmation -->
     <string name="rental_car_message_desc">搜尋租車優惠</string>
     <!-- Fly from hint -->
@@ -5144,5 +5061,21 @@
     <string name="flight_dropdown_airport_location_TEMPLATE">{airport}, {country}</string>
     <!--Flight dropdown airport Eg. BNE - Brisbane Airport-->
     <string name="flight_dropdown_airport_details_TEMPLATE">{airport_code} - {airport_name}</string>
+
+    <!-- Carnival -->
+    <string name="full_page_deal_toolbar_nav_icon_close_cont_desc">關閉優惠頁面</string>
+    <string name="full_page_deal_code_copied">已複製代碼</string>
+    <string name="full_page_deal_copy_code_button">複製代碼</string>
+
+    <!-- formatting strings -->
+    <!-- moved from flight lib -->
+    <!-- Shorthand for a number of hours.  %d is the number of hours, eg "12h" -->
+    <string name="hours_template">%d 小時</string>
+    <!-- Shorthand for a number of minutes.  %d is the number of minutes, eg "25m" -->
+    <string name="minutes_template">%d 分鐘</string>
+    <!-- Shorthand for a number of hours and minutes.  First %d is the number of hours, second is the number of minutes, 12h 23m -->
+    <string name="hours_minutes_template">%1$d 小時 %2$d 分鐘</string>
+    <!-- This is for a path between two cities, for example "San Francisco to Minneapolis".  First %s is the origin city, second %s is the destination city -->
+    <string name="path_template">%1$s 至 %2$s</string>
 
 </resources>

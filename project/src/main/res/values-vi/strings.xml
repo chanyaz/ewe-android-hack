@@ -587,10 +587,6 @@
     <string name="traveler_age_title">Tuổi khách</string>
     <!-- Text for traveler infant error-->
     <string name="traveler_infant_error">Khách này phải dưới 24 tháng tuổi trong toàn bộ thời gian chuyến đi mới được tính là trẻ sơ sinh</string>
-    <!-- Text for traveler child error-->
-    <string name="traveler_child_error">Khách này phải dưới 12 tháng tuổi trong toàn bộ thời gian chuyến đi mới được tính là trẻ em</string>
-    <!-- Text for traveler adult child error-->
-    <string name="traveler_adult_child_error">Khách này phải từ 12 đến 17 tuổi khi thực hiện chuyến đi</string>
     <!-- Text for traveler adult error-->
     <string name="traveler_adult_error">Khách phải từ 18 tuổi trở lên</string>
     <!-- Text for traveler child error displayed in alert dialog message-->
@@ -1423,6 +1419,14 @@
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">Tổng số tiền đã thanh toán: {amount}</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
     <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">Tổng thanh toán tại khách sạn: {amount}</string>
+    <!--Hotel itin card price summary additional pricing information button-->
+    <string name="itin_hotel_details_price_summary_additional_info_button_text">Thông tin giá bổ sung</string>
+    <!--Hotel itin card price summary additional pricing information additional hotel fees heading-->
+    <string name="itin_hotel_details_price_summary_additional_info_additional_hotel_fees">Phí bổ sung của khách sạn</string>
+    <!--Hotel itin card price summary additional pricing information taxes and fees heading-->
+    <string name="itin_hotel_details_price_summary_additional_info_taxes_and_fees">Thuế và phí</string>
+    <!--Hotel itin card price summary additional pricing information guest charges and room capacity heading-->
+    <string name="itin_hotel_details_price_summary_additional_info_guest_charges_room_capacity">Phí khách và số người</string>
     <!--Hotel itin card price summary rewards section title text-->
     <string name="itin_hotel_details_price_summary_rewards_title">Điểm thưởng</string>
     <!--Hotel itin card price summary rewards section view rewards button text-->
@@ -1527,6 +1531,8 @@
     <string name="itin_lx_toolbar_title_TEMPLATE">Hoạt động ở {location}</string>
     <string name="itin_lx_more_info_heading">Trợ giúp thêm</string>
     <string name="itin_lx_more_info_subheading">Thông tin hỗ trợ khách hàng</string>
+    <!--LX itin redeem voucher.-->
+    <string name="itin_lx_redeem_voucher">Đổi voucher</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Chia sẻ hành trình</string>
@@ -3031,8 +3037,8 @@
     <string name="common_value_add_template">Tất cả phòng gồm %s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
     <string name="select_a_room_instruction">Chọn phòng</string>
-    <!-- Content description for hotel map's select room button. Example: Select a Room From $10 button -->
-    <string name="hotel_select_a_room_cont_desc_TEMPLATE">Nút chọn phòng giá từ {price}</string>
+    <!-- Content description for hotel map's select room button. Example: "Select a Room From $10 button" -->
+    <string name="hotel_select_a_room_cont_desc_TEMPLATE">Nút chọn phòng {price}</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Hủy miễn phí</string>
     <!-- Top line of resort fee text -->
@@ -3723,91 +3729,6 @@
     <!-- Unknown Card -->
     <string name="unknown_card">Thẻ không xác định</string>
 
-    <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
-    <!-- Your flight to _ delayed _ hour TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR">Chuyến bay đến %1$s của quý vị bị hoãn %2$s giờ.</string>
-    <!-- Your flight to _ delayed _ hours TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS">Chuyến bay đến %1$s của quý vị bị hoãn %2$s giờ.</string>
-    <!-- Your flight to _ delayed _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE">Chuyến bay đến %1$s của quý vị bị hoãn %2$s phút.</string>
-    <!-- Your flight to _ delayed _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES">Chuyến bay đến %1$s của quý vị bị hoãn %2$s phút.</string>
-    <!-- Your flight to _ delayed _ hour _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE">Chuyến bay đến %1$s của quý vị bị hoãn %2$s giờ %3$s phút.</string>
-    <!-- Your flight to _ delayed _ hour _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES">Chuyến bay đến %1$s của quý vị bị hoãn %2$s giờ %3$s phút.</string>
-    <!-- Your flight to _ delayed _ hours _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE">Chuyến bay đến %1$s của quý vị bị hoãn %2$s giờ %3$s phút.</string>
-    <!-- Your flight to _ delayed _ hours _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES">Chuyến bay đến %1$s của quý vị bị hoãn %2$s giờ %3$s phút.</string>
-    <!-- Your flight to _ departs _ minute early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTE">Chuyến bay đến %1$s của quý vị khởi hành sớm %2$s phút.</string>
-    <!-- Your flight to _ departs _ minutes early  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTES">Chuyến bay đến %1$s của quý vị khởi hành sớm %2$s phút.</string>
-    <!-- Your flight to _ departs _ hour early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR">Chuyến bay đến %1$s của quý vị khởi hành sớm %2$s giờ.</string>
-    <!-- Your flight to _ departs _ hours early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS">Chuyến bay đến %1$s của quý vị khởi hành sớm %2$s giờ.</string>
-    <!-- Your flight to _ departs _ hour _ minute early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE">Chuyến bay đến %1$s của quý vị khởi hành sớm %2$s giờ %3$s phút.</string>
-    <!-- Your flight to _ departs _ hours _ minute early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE">Chuyến bay đến %1$s của quý vị khởi hành sớm %2$s giờ %3$s phút.</string>
-    <!-- Your flight to _ departs _ hour _ minutes early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES">Chuyến bay đến %1$s của quý vị khởi hành sớm %2$s giờ %3$s phút.</string>
-    <!-- Your flight to _ departs _ hours _ minutes early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES">Chuyến bay đến %1$s của quý vị khởi hành sớm %2$s giờ %3$s phút.</string>
-    <!-- Your flight to _ is delayed _ minute and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE">Chuyến bay đến %1$s của quý vị bị hoãn %2$s phút và hiện đang khởi hành từ cổng %3$s.</string>
-    <!-- Your flight to _ is delayed _ minutes and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE">Chuyến bay đến %1$s của quý vị bị hoãn %2$s phút và hiện đang khởi hành từ cổng %3$s.</string>
-    <!-- Your flight to _ is delayed _ hour and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE">Chuyến bay đến %1$s của quý vị bị hoãn %2$s giờ và hiện đang khởi hành từ cổng %3$s.</string>
-    <!-- Your flight to _ is delayed _ hours and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE">Chuyến bay đến %1$s của quý vị bị hoãn %2$s giờ và hiện đang khởi hành từ cổng %3$s.</string>
-    <!-- Your flight to _ is delayed _ hour _ minute and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE">Chuyến bay đến %1$s của quý vị bị hoãn %2$s giờ %3$s phút và hiện đang khởi hành từ cổng %4$s.</string>
-    <!-- Your flight to _ is delayed _ hours _ minute and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE">Chuyến bay đến %1$s của quý vị bị hoãn %2$s giờ %3$s phút và hiện đang khởi hành từ cổng %4$s.</string>
-    <!-- Your flight ot _ is delayed _ hour _ minutes and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE">Chuyến bay đến %1$s của quý vị bị hoãn %2$s giờ %3$s phút và hiện đang khởi hành từ cổng %4$s.</string>
-    <!-- Your flight to _ is delayed _ hours _ minutes and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE">Chuyến bay đến %1$s của quý vị bị hoãn %2$s giờ %3$s phút và hiện đang khởi hành từ cổng %4$s.</string>
-    <!-- Your flight to _ is now departing _ minute early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE">Chuyến bay đến %1$s của quý vị đang khởi hành sớm %2$s phút từ cổng %3$s.</string>
-    <!-- Your flight to _ is now departing _ minutes early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE">Chuyến bay đến %1$s của quý vị đang khởi hành sớm %2$s phút từ cổng %3$s.</string>
-    <!-- Your flight to _ is now departing _ hour early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE">Chuyến bay đến %1$s của quý vị đang khởi hành sớm %2$s giờ từ cổng %3$s.</string>
-    <!-- Your flight to _ is now departing _ hours early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE">Chuyến bay đến %1$s của quý vị đang khởi hành sớm %2$s giờ từ cổng %3$s.</string>
-    <!-- Your flight to _ is now departing _ hour _ minute early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE">Chuyến bay đến %1$s của quý vị đang khởi hành sớm %2$s giờ %3$s phút từ cổng %4$s.</string>
-    <!-- Your flight to _ is now departing _ hours _ minute early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE">Chuyến bay đến %1$s của quý vị đang khởi hành sớm %2$s giờ %3$s phút từ cổng %4$s.</string>
-    <!-- Your flight to _ is now departing _ hour _ minutes early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE">Chuyến bay đến %1$s của quý vị đang khởi hành sớm %2$s giờ %3$s phút từ cổng %4$s.</string>
-    <!-- Your flight to _ is now departing _ hours _ minutes early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE">Chuyến bay đến %1$s của quý vị đang khởi hành sớm %2$s giờ %3$s phút từ cổng %4$s.</string>
-    <!-- Your flight from _ to _ has been cancelled TEMPLATE -->
-    <string name="S_Push_flight_from_CITY_to_CITY_cancelled">Chuyến bay từ %1$s đến %2$s của quý vị đã bị hủy.</string>
-    <!-- Your flight to _ departs in _ hour TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR">Chuyến bay đến %1$s của quý vị sẽ khởi hành trong %2$s giờ.</string>
-    <!-- Your flight to _ departs in _ hours TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS">Chuyến bay đến %1$s của quý vị sẽ khởi hành trong %2$s giờ.</string>
-    <!-- Your flight to _ departs in _ hours _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE">Chuyến bay đến %1$s của quý vị sẽ khởi hành trong %2$s giờ %3$s phút.</string>
-    <!-- Your flight to _ departs in _ hours _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES">Chuyến bay đến %1$s của quý vị sẽ khởi hành trong %2$s giờ %3$s phút.</string>
-    <!-- Your flight to _ departs in _ hour _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE">Chuyến bay đến %1$s của quý vị sẽ khởi hành trong %2$s giờ %3$s phút.</string>
-    <!-- Your flight to _ departs in _ hour _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES">Chuyến bay đến %1$s của quý vị sẽ khởi hành trong %2$s giờ %3$s phút.</string>
-    <!-- Your flight to _ departs in _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_MINUTES">Chuyến bay đến %1$s của quý vị sẽ khởi hành trong %2$s phút.</string>
-    <!-- Your flight to _ now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_gate_GATE">Chuyến bay đến %1$s của quý vị đang khởi hành từ cổng %2$s.</string>
-    <!-- Your bags will be at baggage claim _  TEMPLATE -->
-    <string name="S_Push_baggage_BAGGAGE">Hành lý của quý vị sẽ được chuyển đến băng chuyền hành lý %1$s.</string>
     <!-- <First Name>, your booking is confirmed! View it in the app. TEMPLATE -->
     <string name="S_Push_Hey_VALUE_your_booking_is_confirmed">%1$s, đặt phòng/đặt chỗ của quý vị đã được xác nhận! Xem trong app.</string>
     <!--Your booking is confirmed! View it in the app. (For when we can't or don't want to address by first name -->
@@ -3863,9 +3784,9 @@
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">Tôi đã đọc và đồng ý {terms_of_use} và {privacy_policy}.</string>
     <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Tham gia {brand_reward_name} ngay hôm nay. Bằng việc tham gia {brand_reward_name}, tôi đồng ý mọi {terms_and_conditions}.</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">Tham gia {brand_reward_name} ngay hôm nay. Bằng việc tham gia {brand_reward_name}, Tôi đồng ý &lt;a href="{terms_and_conditions_url}"&gt;Điều khoản và điều kiện&lt;/a&gt;.</string>
     <!--Account creation legal template for terms and reward eg: By creating an account, I accept the Expedia Rewards Terms & Conditions, and have read and accept the Terms of Use and the Privacy Policy.-->
-    <string name="account_creation_new_terms_reward_TEMPLATE">Bằng việc tạo tài khoản, Tôi đồng ý với {terms_and_conditions} {brand_reward_name}, cũng như đã đọc và chấp nhận {terms_of_use} &amp; {privacy_policy}.</string>
+    <string name="account_creation_new_terms_reward_TEMPLATE">Bằng việc tạo tài khoản, tôi chấp nhận {brand_reward_name} &lt;a href="{terms_and_conditions_url}"&gt;Điều khoản và điều kiện&lt;/a&gt; cũng như đã đọc và chấp nhận &lt;a href="{terms_of_use_url}"&gt;Điều khoản sử dụng&lt;/a&gt; và &lt;a href="{privacy_policy_url}"&gt;Chính sách bảo mật&lt;/a&gt;.</string>
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Chọn tuổi từng trẻ</string>
 
@@ -4062,8 +3983,6 @@
     <string name="bundle_overview_free_canellation_collapsed_button_description_TEMPLATE">{rowdescription}. Nút đóng. Chạm hai lần để mở rộng.</string>
     <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. After 24 hours, standard flight rules apply. Expanded button. Double tap to collapse. -->
     <string name="bundle_overview_free_canellation_expanded_button_description_TEMPLATE">{rowtitle}. Nút mở rộng {rowdescription}. Chạm hai lần để đóng.</string>
-    <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
-    <string name="flight_detail_card_cont_desc_without_price_TEMPLATE">Thời gian bay là {time}. Bay với {airline}. Thời gian chuyến bay là {hours} {minutes} với {stops} điểm dừng\u0020</string>
     <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco on Jun 23, for 1 Traveler. Please select Outbound Flight first. Button. -->
     <string name="select_flight_disabled_cont_desc_TEMPLATE">Chuyến bay đến {flight} vào {date} cho {travelers}. Vui lòng chọn {previous} trước. Nút.</string>
     <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Outbound Flight first.-->
@@ -4524,8 +4443,6 @@
     <string name="trip_is_booked">Đã đặt chuyến đi của quý vị!</string>
     <!-- Cars cross-sell message on package confirmation -->
     <string name="rental_car_message">Cần thuê xe?</string>
-    <!-- Cars cross-sell origin description template-->
-    <string name="cars_cross_sell_origin_TEMPLATE">{airport_code}-{airport_localname}</string>
     <!-- Cars cross-sell message description on package confirmation -->
     <string name="rental_car_message_desc">Thuê xe và tiết kiệm</string>
     <!-- Fly from hint -->
@@ -5144,5 +5061,21 @@
     <string name="flight_dropdown_airport_location_TEMPLATE">{airport}, {country}</string>
     <!--Flight dropdown airport Eg. BNE - Brisbane Airport-->
     <string name="flight_dropdown_airport_details_TEMPLATE">{airport_code} - {airport_name}</string>
+
+    <!-- Carnival -->
+    <string name="full_page_deal_toolbar_nav_icon_close_cont_desc">Đóng trang ưu đãi</string>
+    <string name="full_page_deal_code_copied">Đã sao chép mã!</string>
+    <string name="full_page_deal_copy_code_button">Chép mã</string>
+
+    <!-- formatting strings -->
+    <!-- moved from flight lib -->
+    <!-- Shorthand for a number of hours.  %d is the number of hours, eg "12h" -->
+    <string name="hours_template">%dg</string>
+    <!-- Shorthand for a number of minutes.  %d is the number of minutes, eg "25m" -->
+    <string name="minutes_template">%dp</string>
+    <!-- Shorthand for a number of hours and minutes.  First %d is the number of hours, second is the number of minutes, 12h 23m -->
+    <string name="hours_minutes_template">%1$dg %2$dp</string>
+    <!-- This is for a path between two cities, for example "San Francisco to Minneapolis".  First %s is the origin city, second %s is the destination city -->
+    <string name="path_template">%1$s đến %2$s</string>
 
 </resources>
