@@ -172,29 +172,30 @@ class PackageSearchViewModelTest {
     }
 
     @Test
-    fun testParamsOriginMatchingDestinationWhenShouldNotTrack() {
+    fun testParamsOriginNotMatchingDestinationWhenShouldNotTrack() {
         givenDefaultTravelerComponent()
         createSystemUnderTest()
         val testSubscriber = TestObserver<String>()
         sut.errorOriginSameAsDestinationObservable.subscribe(testSubscriber)
 
+        val origin = getDummySuggestion()
+        origin.hierarchyInfo?.airport?.multicity = "notHappy"
         sut.getParamsBuilder()
-                .origin(getDummySuggestion())
+                .origin(origin)
                 .destination(getDummySuggestion())
                 .startDate(LocalDate.now())
                 .adults(1)
                 .children(listOf(1, 2, 3))
                 .endDate(LocalDate.now().plusDays(1))
                 .build() as PackageSearchParams
-        val tag = "happy;happy;happy;happy"
+        val tag = "happy|happy|happy|happy|happy|happy"
         val controlEvar = mapOf(18 to "App.Package.Search.Validation.Error")
         val prop36 = mapOf(36 to tag)
         sut.searchObserver.onNext(Unit)
 
         OmnitureTestUtils.assertStateNotTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
         OmnitureTestUtils.assertStateNotTracked(OmnitureMatchers.withProps(prop36), mockAnalyticsProvider)
-        testSubscriber.assertValueCount(1)
-        testSubscriber.assertValue("Please make sure your departure and arrival cities are in different places.")
+        testSubscriber.assertValueCount(0)
     }
 
     @Test
@@ -212,10 +213,9 @@ class PackageSearchViewModelTest {
                 .children(listOf(1, 2, 3))
                 .endDate(LocalDate.now().plusDays(1))
                 .build() as PackageSearchParams
-        val tag = "happy;happy;happy;happy"
+        val tag = "happy|happy|happy|happy|happy|happy"
         val controlEvar = mapOf(18 to "App.Package.Search.Validation.Error")
         val prop36 = mapOf(36 to tag)
-        sut.getParamsBuilder().shouldTrackSameODPairValidationError = true
         sut.searchObserver.onNext(Unit)
 
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
@@ -252,7 +252,7 @@ class PackageSearchViewModelTest {
 
     private fun getDummySuggestion(): SuggestionV4 {
         val suggestion = SuggestionV4()
-        suggestion.gaiaId = ""
+        suggestion.gaiaId = "happy"
         suggestion.regionNames = SuggestionV4.RegionNames()
         suggestion.regionNames.displayName = "London"
         suggestion.regionNames.fullName = "London"
