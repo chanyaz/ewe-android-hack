@@ -27,3 +27,4 @@ Feature: +VIP labels and functionality on HSR and HIS pages
     Examples:
       | tier   | type     | location      | searchSuggestion  |
       | Blue   | Facebook | San Francisco | San Francisco, CA |
+
