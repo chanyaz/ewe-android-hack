@@ -16,6 +16,7 @@ packageName=$package
 tags=$tags
 debug=$debug
 noclean=$noclean
+maxreruns=$maxreruns
 
 parentDir=`pwd`"/project/build/outputs"
 failedTagsFile="$parentDir/failedTagsFile.txt"
@@ -66,8 +67,8 @@ function createDummyFilesOnDevice() {
 function removeDummyFilesOnDevice() {
     device=$1
     echo "Removing Dummy Files....."
-    adb -s $device shell rm -r /data/local/tmp/cucumber-htmlreport
-    adb -s $device shell rm -r /sdcard/cucumber-images
+    adb -s $device shell rm -rf /data/local/tmp/cucumber-htmlreport
+    adb -s $device shell rm -rf /sdcard/cucumber-images
     removeDummyFiles=$?
 }
 

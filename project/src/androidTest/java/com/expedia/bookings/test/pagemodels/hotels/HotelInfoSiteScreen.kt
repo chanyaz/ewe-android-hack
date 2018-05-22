@@ -23,10 +23,12 @@ import com.expedia.bookings.test.espresso.CalendarPickerActions
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.CustomMatchers.withIndex
 import com.expedia.bookings.test.espresso.EspressoUtils
+import com.expedia.bookings.test.espresso.EspressoUtils.waitForViewNotYetInLayoutToDisplay
 import com.expedia.bookings.test.espresso.ViewActions
 import com.expedia.bookings.test.espresso.ViewActions.swipeDown
 import com.expedia.bookings.test.espresso.ViewActions.swipeUp
 import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
+import junit.framework.AssertionFailedError
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.containsString
@@ -37,6 +39,7 @@ import org.joda.time.LocalDate
 import java.util.concurrent.TimeUnit
 
 object HotelInfoSiteScreen {
+    private val hotelDetail = withId(R.id.hotel_detail)
     private val detailContainer = withId(R.id.detail_container)
     private val plusVIPContainer = withId(R.id.vip_access_message_container)
     private val plusVIPLabel = withId(R.id.vip_access_message)
@@ -46,6 +49,8 @@ object HotelInfoSiteScreen {
     private val etpInfoText = withId(R.id.etp_info_text)
     private val headerLabelText = allOf(isDescendantOfA(withId(R.id.hotel_details_toolbar)),
             withId(R.id.hotel_name_text), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
+    private val selectRoomStickyBottomButton = allOf(withId(R.id.sticky_bottom_button),
+            withText("Select a Room"), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
 
     enum class RoomIndex(val index: Int) {
         DEFAULT(0),
@@ -112,6 +117,13 @@ object HotelInfoSiteScreen {
         fun clickBookButton(safeguardEnabled: Boolean = false) {
             val bookButton: ViewInteraction
             val scrollable: ViewInteraction
+
+            try {
+                // If sticky select is visible, click it.
+                onView(selectRoomStickyBottomButton)
+                        .check(matches(isDisplayed()))
+                        .perform(click())
+            } catch (ignored: AssertionFailedError) { }
 
             if (option != null || isContainingMultiplePriceOptions()) {
                 //Case when there are multiple options per room, each containing a book button
@@ -439,7 +451,7 @@ object HotelInfoSiteScreen {
     // View
     @JvmStatic
     fun stickySelectRoomButton(): ViewInteraction {
-        return onView(allOf(withId(R.id.sticky_bottom_button), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
+        return onView(selectRoomStickyBottomButton)
     }
 
     @JvmStatic
@@ -595,7 +607,7 @@ object HotelInfoSiteScreen {
     // Helper
     @JvmStatic
     fun waitForDetailsLoaded() {
-        onView(withId(R.id.hotel_detail)).perform(waitForViewToDisplay())
+        waitForViewNotYetInLayoutToDisplay(hotelDetail, 10, TimeUnit.SECONDS)
     }
 
     @JvmStatic

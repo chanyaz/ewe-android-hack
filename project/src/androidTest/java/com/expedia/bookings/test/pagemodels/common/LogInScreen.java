@@ -1,8 +1,8 @@
 package com.expedia.bookings.test.pagemodels.common;
 
+import android.content.res.Resources;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.ViewInteraction;
-import android.support.test.espresso.web.sugar.Web;
 import android.support.test.espresso.web.webdriver.Locator;
 import android.support.test.uiautomator.By;
 import android.support.test.uiautomator.BySelector;
@@ -28,6 +28,7 @@ import static android.support.test.espresso.web.sugar.Web.onWebView;
 import static android.support.test.espresso.web.webdriver.DriverAtoms.findElement;
 import static android.support.test.espresso.web.webdriver.DriverAtoms.webClick;
 import static android.support.test.espresso.web.webdriver.DriverAtoms.webKeys;
+import static com.expedia.bookings.test.espresso.Common.device;
 import static com.expedia.bookings.test.espresso.Common.waitForOneOfViewsToDisplay;
 import static org.hamcrest.Matchers.allOf;
 
@@ -114,27 +115,31 @@ public class LogInScreen {
 
 	public static class FacebookWebConfirmLogin {
 		public static void waitForViewToLoad() {
-			ArrayList views = new ArrayList<BySelector>();
+			ArrayList<BySelector> views = new ArrayList<>();
 			//Facebook has a set of parameters, that keep on rotating at random.
 			//This will make sure that at least one of them is a match.
 			views.add(By.res("m-future-page-header-title").desc("Confirm Login"));
 			views.add(By.res("m-future-page-header-title").text("Confirm Login"));
+			views.add(By.clazz("android.widget.Button").descContains("Continue"));
 			waitForOneOfViewsToDisplay(views, 30, TimeUnit.SECONDS);
 
 			mDevice.waitForIdle(3000); //Needed, because the view loads before the progress bar.
 		}
 
 		public static void clickContinue() {
-			UiObject2 uiContinue = mDevice.findObject(By.clazz(Button.class).descContains("Continue"));
-			Web.WebInteraction webViewContinue = onWebView().withElement(findElement(Locator.CSS_SELECTOR, "#u_0_3"));
+			ArrayList<BySelector> buttons = new ArrayList<>();
+			buttons.add(By.clazz("android.widget.Button").descContains("Continue"));
+			buttons.add(By.clazz("android.widget.Button").text("Continue"));
+			waitForOneOfViewsToDisplay(buttons, 10, TimeUnit.SECONDS);
 
-			if (uiContinue != null) {
-				uiContinue.click();
-				Log.d("Used uiDescContinue");
+			if (device.findObject(buttons.get(0)) != null) {
+				device.findObject(buttons.get(0)).clickAndWait(Until.newWindow(), 10000);
+			}
+			else if (device.findObject(buttons.get(1)) != null) {
+				device.findObject(buttons.get(1)).clickAndWait(Until.newWindow(), 10000);
 			}
 			else {
-				webViewContinue.perform(webClick());
-				Log.d("Used webViewContinue workaround");
+				throw new Resources.NotFoundException("Neither button was found, using provided params");
 			}
 		}
 

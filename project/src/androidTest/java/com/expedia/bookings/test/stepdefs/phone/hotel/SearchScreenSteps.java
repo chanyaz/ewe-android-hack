@@ -40,6 +40,7 @@ public class SearchScreenSteps {
 	public void enterDestination(String arg1) throws Throwable {
 		Common.delay(1);
 		SearchScreen.waitForSearchEditText().perform(typeText(arg1));
+		Common.delay(1); //Needed, because the hierarchy is not immediately available.
 	}
 
 	@Then("^I select hotel with the text \"(.*?)\"$")
