@@ -201,7 +201,7 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 			config = Config.build()
 					.setInitialTab(initialTab)
 					.setService(ServicesUtil.generateAccountService(this))
-					.setPOSEnableSpamByDefault(PointOfSale.getPointOfSale().shouldEnableMarketingOptIn())
+					.setPOSEnableSpamByDefault(false)
 					.setPOSShowSpamOptIn(PointOfSale.getPointOfSale().shouldShowMarketingOptIn())
 					.setEnableFacebookButton(
 							ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled())
