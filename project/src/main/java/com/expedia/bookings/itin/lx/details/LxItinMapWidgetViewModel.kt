@@ -5,6 +5,7 @@ import com.expedia.bookings.extensions.LiveDataObserver
 import com.expedia.bookings.itin.common.ItinMapWidgetViewModel
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasLxRepo
+import com.expedia.bookings.itin.scopes.HasPhoneHandler
 import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.scopes.HasToaster
 import com.expedia.bookings.itin.scopes.HasTripsTracking
@@ -13,7 +14,7 @@ import com.expedia.bookings.itin.tripstore.extensions.buildFullAddress
 import com.expedia.bookings.itin.tripstore.extensions.buildSecondaryAddress
 import com.google.android.gms.maps.model.LatLng
 
-class LxItinMapWidgetViewModel<S>(val scope: S) : ItinMapWidgetViewModel() where S : HasLxRepo, S : HasLifecycleOwner, S : HasTripsTracking, S : HasToaster, S : HasStringProvider {
+class LxItinMapWidgetViewModel<S>(val scope: S) : ItinMapWidgetViewModel() where S : HasLxRepo, S : HasLifecycleOwner, S : HasTripsTracking, S : HasToaster, S : HasStringProvider, S : HasPhoneHandler {
     var itinLxObserver: LiveDataObserver<ItinLx>
 
     init {
@@ -40,6 +41,15 @@ class LxItinMapWidgetViewModel<S>(val scope: S) : ItinMapWidgetViewModel() where
                     scope.toaster.toastAndCopy(itinLx.buildFullAddress())
                 }
                 addressContainerContentDescription.onNext(scope.strings.fetchWithPhrase(R.string.itin_lx_details_address_copy_content_description_TEMPLATE, mapOf("address" to itinLx.buildFullAddress())))
+                val phoneNumber = itinLx.vendorCustomerServiceOffices?.first()?.phoneNumber
+                phoneNumber?.let { number ->
+                    phoneNumberTextSubject.onNext(number)
+                    val contDesc = scope.strings.fetchWithPhrase(R.string.itin_activity_manage_booking_call_lx_button_content_description_TEMPLATE, mapOf("phonenumber" to number))
+                    phoneNumberContDescriptionSubject.onNext(contDesc)
+                    phoneNumberClickSubject.subscribe {
+                        scope.phoneHandler.handle(number)
+                    }
+                }
             }
         }
         scope.itinLxRepo.liveDataLx.observe(scope.lifecycleOwner, itinLxObserver)

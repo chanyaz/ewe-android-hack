@@ -13,6 +13,7 @@ import com.expedia.bookings.itin.scopes.HasItinId
 import com.expedia.bookings.itin.scopes.HasJsonUtil
 import com.expedia.bookings.itin.scopes.HasManageBookingWidgetViewModelSetter
 import com.expedia.bookings.itin.scopes.HasMapWidgetViewModelSetter
+import com.expedia.bookings.itin.scopes.HasPhoneHandler
 import com.expedia.bookings.itin.scopes.HasRedeemVoucherViewModelSetter
 import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.scopes.HasToaster
@@ -27,7 +28,7 @@ import com.expedia.bookings.itin.tripstore.extensions.firstLx
 import com.expedia.util.notNullAndObservable
 import io.reactivex.subjects.PublishSubject
 
-class LxItinDetailsActivityLifecycleObserver<S>(val scope: S) : DefaultLifecycleObserver where S : HasActivityLauncher, S : HasWebViewLauncher, S : HasStringProvider, S : HasJsonUtil, S : HasItinId, S : HasManageBookingWidgetViewModelSetter, S : HasToolbarViewModelSetter, S : HasTripsTracking, S : HasMapWidgetViewModelSetter, S : HasRedeemVoucherViewModelSetter, S : HasToaster {
+class LxItinDetailsActivityLifecycleObserver<S>(val scope: S) : DefaultLifecycleObserver where S : HasActivityLauncher, S : HasWebViewLauncher, S : HasStringProvider, S : HasJsonUtil, S : HasItinId, S : HasManageBookingWidgetViewModelSetter, S : HasToolbarViewModelSetter, S : HasTripsTracking, S : HasMapWidgetViewModelSetter, S : HasRedeemVoucherViewModelSetter, S : HasToaster, S : HasPhoneHandler {
 
     val finishSubject = PublishSubject.create<Unit>()
     var repo: ItinLxRepoInterface = ItinLxRepo(scope.id, scope.jsonUtil, ItineraryManager.getInstance().syncFinishObservable)
@@ -56,7 +57,7 @@ class LxItinDetailsActivityLifecycleObserver<S>(val scope: S) : DefaultLifecycle
         val manageBookingScope = LxItinManageBookingWidgetScope(scope.strings, scope.webViewLauncher, scope.activityLauncher, repo)
         scope.manageBooking.setUpViewModel(LxItinManageBookingWidgetViewModel(manageBookingScope))
 
-        val mapWidgetScope = LxItinMapWidgetViewModelScope(repo, owner, scope.tripsTracking, scope.toaster, scope.strings)
+        val mapWidgetScope = LxItinMapWidgetViewModelScope(repo, owner, scope.tripsTracking, scope.toaster, scope.strings, scope.phoneHandler)
         scope.map.setUpViewModel(LxItinMapWidgetViewModel(mapWidgetScope))
 
         val redeemVoucherScope = LxItinRedeemVoucherViewModelScope(scope.strings, scope.webViewLauncher, repo, owner, scope.tripsTracking)

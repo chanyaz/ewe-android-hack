@@ -40,6 +40,36 @@ class ItinMapWidgetTest {
     }
 
     @Test
+    fun phoneNumberTextAndContentDescTest() {
+        val number = "123 213 2134"
+        val contDesc = "777"
+        sut.setUpViewModel(mockVM)
+        assertEquals(View.GONE, sut.phoneNumber.visibility)
+        assertEquals(View.GONE, sut.divider.visibility)
+        assertEquals("", sut.phoneNumber.text)
+        assertEquals(null, sut.phoneNumber.contentDescription)
+
+        sut.viewModel.phoneNumberTextSubject.onNext(number)
+
+        assertEquals(View.VISIBLE, sut.phoneNumber.visibility)
+        assertEquals(View.VISIBLE, sut.divider.visibility)
+        assertEquals(number, sut.phoneNumber.text)
+        assertEquals(null, sut.phoneNumber.contentDescription)
+
+        sut.viewModel.phoneNumberContDescriptionSubject.onNext(contDesc)
+
+        assertEquals(contDesc, sut.phoneNumber.contentDescription)
+    }
+
+    @Test
+    fun phoneNumberClickTest() {
+        sut.setUpViewModel(mockVM)
+        assertFalse(mockVM.phoneNumberClicked)
+        sut.phoneNumber.performClick()
+        assertTrue(mockVM.phoneNumberClicked)
+    }
+
+    @Test
     fun addressContainerTest() {
         sut.setUpViewModel(mockVM)
         assertFalse(mockVM.addressContainerClicked)
@@ -66,6 +96,7 @@ class ItinMapWidgetTest {
         var mapSubjectClicked = false
         var directionSubjectClicked = false
         var addressContainerClicked = false
+        var phoneNumberClicked = false
 
         init {
             mapClickSubject.subscribe {
@@ -76,6 +107,9 @@ class ItinMapWidgetTest {
             }
             addressClickSubject.subscribe {
                 addressContainerClicked = true
+            }
+            phoneNumberClickSubject.subscribe {
+                phoneNumberClicked = true
             }
         }
     }

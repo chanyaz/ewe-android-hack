@@ -12,6 +12,7 @@ import com.expedia.bookings.itin.utils.ActivityLauncher
 import com.expedia.bookings.itin.utils.IToaster
 import com.expedia.bookings.itin.utils.IWebViewLauncher
 import com.expedia.bookings.itin.utils.Intentable
+import com.expedia.bookings.itin.utils.PhoneHandler
 import com.expedia.bookings.itin.utils.WebViewLauncher
 import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.Ui
@@ -46,7 +47,8 @@ class LxItinDetailsActivity : AppCompatActivity() {
         val activityLauncher = ActivityLauncher(this)
         val itinId = intent.getStringExtra(LX_ITIN_ID)
         val tripsTracking = TripsTracking
-        val scope = LxLifeCycleObserverScope(stringProvider, webViewLauncher, activityLauncher, jsonUtil, itinId, manageBookingWidget, toolbar, tripsTracking, mapWidget, redeemVoucherWidget, toaster)
+        val phoneHandler = PhoneHandler(this)
+        val scope = LxLifeCycleObserverScope(stringProvider, webViewLauncher, activityLauncher, jsonUtil, itinId, manageBookingWidget, toolbar, tripsTracking, mapWidget, redeemVoucherWidget, toaster, phoneHandler)
         LxItinDetailsActivityLifecycleObserver(scope)
     }
 

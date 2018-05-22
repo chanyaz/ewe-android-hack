@@ -24,6 +24,8 @@ class ItinMapWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
     val addressLineFirst: TextView by bindView(R.id.widget_itin_address_line_1)
     val addressLineSecond: TextView by bindView(R.id.widget_itin_address_line_2)
     val addressContainer: LinearLayout by bindView(R.id.address_container)
+    val phoneNumber: TextView by bindView(R.id.phone_number_text)
+    val divider: View by bindView(R.id.phone_divider)
 
     var viewModel: ItinMapWidgetViewModel by notNullAndObservable { vm ->
         vm.addressLineFirstSubject.subscribeTextAndVisibility(addressLineFirst)
@@ -34,7 +36,13 @@ class ItinMapWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
         }
         directionsButton.subscribeOnClick(vm.directionButtonClickSubject)
         map.subscribeOnClick(vm.mapClickSubject)
+        phoneNumber.subscribeOnClick(vm.phoneNumberClickSubject)
         addressContainer.subscribeOnClick(vm.addressClickSubject)
+        vm.phoneNumberTextSubject.subscribe {
+            divider.visibility = View.VISIBLE
+        }
+        vm.phoneNumberTextSubject.subscribeTextAndVisibility(phoneNumber)
+        vm.phoneNumberContDescriptionSubject.subscribeContentDescription(phoneNumber)
     }
 
     init {
