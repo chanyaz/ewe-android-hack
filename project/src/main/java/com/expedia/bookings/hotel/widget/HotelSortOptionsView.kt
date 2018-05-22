@@ -101,7 +101,10 @@ class HotelSortOptionsView(context: Context, attrs: AttributeSet?) : LinearLayou
     }
 
     fun setSort(sort: DisplaySort) {
-        val position = sortByAdapter.getPosition(sort)
+        var position = sortByAdapter.getPosition(sort)
+        if (position < 0) {
+            position = 0
+        }
         removeSortSelectedListener()
         sortByButtonGroup.setSelection(position)
         onSortItemSelected(position, false)
