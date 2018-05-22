@@ -25,6 +25,7 @@
         </attr>
         <attr name="drawableTintColor" format="reference"/>
         <attr name="wrapText" format="boolean"/>
+        <attr name="cornerRadius" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="Gallery">
