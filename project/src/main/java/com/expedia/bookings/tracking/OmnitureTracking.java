@@ -130,7 +130,6 @@ import com.mobiata.android.util.SettingUtils;
 
 import kotlin.NotImplementedError;
 
-import static com.expedia.bookings.utils.FeatureUtilKt.isDisplayBasicEconomyTooltipForPackagesEnabled;
 import static com.expedia.bookings.utils.FeatureUtilKt.isFlightGreedySearchEnabled;
 import static com.expedia.bookings.utils.FeatureUtilKt.isMidAPIEnabled;
 
@@ -4974,8 +4973,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesFlightRoundTripOutDetailsLoad(PageUsableData pageUsableData, FlightLeg flight) {
-		trackPackagesFlightDetailsLoadWithPageName(PACKAGES_HOTEL_RT_OUT_DETAILS, pageUsableData, flight,
-			AbacusUtils.EBAndroidAppPackagesDisplayBasicEconomyTooltip);
+		trackPackagesFlightDetailsLoadWithPageName(PACKAGES_HOTEL_RT_OUT_DETAILS, pageUsableData, flight);
 	}
 
 	public static void trackPackagesFlightRoundTripInLoad(PageUsableData pageUsableData) {
@@ -4989,9 +4987,7 @@ public class OmnitureTracking {
 	public static void trackPackagesFlightDetailsLoadWithPageName(String pageName, PageUsableData pageUsableData,
 		FlightLeg flight, ABTest... abTests) {
 		AppAnalytics s = trackPackagesCommonDetails(pageName, pageUsableData, abTests);
-		if (isDisplayBasicEconomyTooltipForPackagesEnabled(sContext)) {
-			appendEmptyFareRulesTracking(s, flight);
-		}
+		appendEmptyFareRulesTracking(s, flight);
 		s.track();
 	}
 

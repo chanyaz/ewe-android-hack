@@ -114,7 +114,6 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs = new ABTest(16223);
 	public static final ABTest EBAndroidAppPackagesShowForceUpdateDialog = new ABTest(16283);
 	public static final ABTest PackagesBackFlowFromOverview = new ABTest(16163);
-	public static final ABTest EBAndroidAppPackagesDisplayBasicEconomyTooltip = new ABTest(24678);
 	public static final ABTest EBAndroidAppPackagesFFPremiumClass = new ABTest(25557, true);
 	public static final ABTest CardExpiryDateFormField = new ABTest(24734, true);
 	public static final ABTest EBAndroidAppPackagesWebviewFHC = new ABTest(25555, true);
@@ -229,7 +228,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightsRecentSearch.getKey());
 		testIDs.add(EBAndroidAppFlightsHolidayCalendar.getKey());
 		testIDs.add(EBAndroidAppFlightsRichContent.getKey());
-		testIDs.add(EBAndroidAppPackagesDisplayBasicEconomyTooltip.getKey());
 		testIDs.add(HotelSoldOutOnHSRTreatment.getKey());
 		testIDs.add(HotelImageGrid.getKey());
 		testIDs.add(HotelResultChangeDate.getKey());

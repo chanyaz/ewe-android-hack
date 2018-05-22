@@ -4,7 +4,6 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.utils.isDisplayBasicEconomyTooltipForPackagesEnabled
 import com.expedia.vm.AbstractFlightOverviewViewModel
 import io.reactivex.subjects.BehaviorSubject
 import com.squareup.phrase.Phrase
@@ -34,7 +33,7 @@ class PackageFlightOverviewViewModel(context: Context) : AbstractFlightOverviewV
     }
 
     override fun shouldShowBasicEconomyMessage(selectedFlight: FlightLeg): Boolean {
-        return selectedFlight.isBasicEconomy && isDisplayBasicEconomyTooltipForPackagesEnabled(context)
+        return selectedFlight.isBasicEconomy
     }
 
     override fun shouldShowDeltaPositive(): Boolean {

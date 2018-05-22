@@ -770,14 +770,6 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="-1"
             android:summary="%s"
-            android:key="24678"
-            android:title="Packages Show Basic Economy Tooltip - 24678"/>
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="-1"
-            android:summary="%s"
             android:key="25557"
             android:title="Packages Flight Fare Premium Class - 25557"/>
 
