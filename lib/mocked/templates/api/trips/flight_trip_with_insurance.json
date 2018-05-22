@@ -1,0 +1,602 @@
+{
+  "apiVersion": "1.0",
+  "responseType": "TRIP_DETAILS",
+  "responseData": {
+    "levelOfDetail": "FULL",
+    "tripId": "c2049f8d-9a3b-49ba-a0ac-f958e2c54028",
+    "webDetailsURL": "https://www.expedia.com/trips/7353830071841?email=b.ashwin1991@gmail.com&langid=1033",
+    "itineraryReceiptURL": "https://www.expedia.com/itinerary-receipt?tripid=c2049f8d-9a3b-49ba-a0ac-f958e2c54028",
+    "tripNumber": 7353830071841,
+    "title": "Flight to Las Vegas",
+    "updateTripNameDescPathURL": "https://www.expedia.com/api/trips/c2049f8d-9a3b-49ba-a0ac-f958e2c54028/updateTripNameDescription",
+    "startTime": {
+      "raw": "2018-09-12T07:05:00-07:00",
+      "localized": "Sep 12, 2018 7:05:00 AM",
+      "epochSeconds": 1536761100,
+      "timeZoneOffsetSeconds": -25200,
+      "localizedShortDate": "9/12/2018",
+      "localizedMediumDate": "Sep 12",
+      "localizedFullDate": "Wed, Sep 12",
+      "localizedLongDate": "Sep 12, 2018",
+      "localizedShortTime": "7:05am"
+    },
+    "endTime": {
+      "raw": "2018-09-12T08:21:00-07:00",
+      "localized": "Sep 12, 2018 8:21:00 AM",
+      "epochSeconds": 1536765660,
+      "timeZoneOffsetSeconds": -25200,
+      "localizedShortDate": "9/12/2018",
+      "localizedMediumDate": "Sep 12",
+      "localizedFullDate": "Wed, Sep 12",
+      "localizedLongDate": "Sep 12, 2018",
+      "localizedShortTime": "8:21am"
+    },
+    "tripCreatedTime": {
+      "raw": "2018-05-22T04:13:18Z",
+      "localized": "May 22, 2018 4:13:18 AM",
+      "epochSeconds": 1526962398,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Tue, 22 May",
+      "localizedMediumDate": "May 22, 2018",
+      "localizedFullDate": "Tuesday, May 22, 2018",
+      "localizedLongDate": "May 22, 2018",
+      "localizedShortTime": "4:13 AM"
+    },
+    "tripUpdatedTime": {
+      "raw": "2018-05-22T04:15:07Z",
+      "localized": "May 22, 2018 4:15:07 AM",
+      "epochSeconds": 1526962507,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Tue, 22 May",
+      "localizedMediumDate": "May 22, 2018",
+      "localizedFullDate": "Tuesday, May 22, 2018",
+      "localizedLongDate": "May 22, 2018",
+      "localizedShortTime": "4:15 AM"
+    },
+    "tripCacheUpdatedTime": {
+      "raw": "2018-05-22T04:15:09Z",
+      "localized": "May 22, 2018 4:15:09 AM",
+      "epochSeconds": 1526962509,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Tue, 22 May",
+      "localizedMediumDate": "May 22, 2018",
+      "localizedFullDate": "Tuesday, May 22, 2018",
+      "localizedLongDate": "May 22, 2018",
+      "localizedShortTime": "4:15 AM"
+    },
+    "ownerId": 884088504,
+    "bookingStatus": "BOOKED",
+    "rewardList": [
+      {
+        "totalPoints": 19.00,
+        "basePoints": 9.00,
+        "bonusPoints": [
+          {
+            "m_pointValue": 9.00,
+            "m_pointType": "offerPoint",
+            "m_pointDescription": "App Booking Double Points",
+            "m_status": "PENDING",
+            "m_programId": 3
+          },
+          {
+            "m_pointValue": 1.00,
+            "m_pointType": "offerPoint",
+            "m_pointDescription": "+silver Bonus",
+            "m_status": "PENDING",
+            "m_programId": 3
+          }
+        ],
+        "logoUrl": "/static/default/default/images/myrewards/RewardsLogo_193x76.png",
+        "signUpUrl": "",
+        "viewStatementURL": "/user/rewards",
+        "programName": "ExpediaRewards"
+      }
+    ],
+    "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/Yh4sYZaaCPmO-1s-ZhgWOcCAoGRNwPMkk_XNF1FuFfSZk0fwe05ucmdlv9F9F-6xtxjdanfuLH3tpM8SwntqeGu8",
+    "customerSupport": {
+      "customerSupportURL": "https://www.expedia.com/service/",
+      "customerSupportPhoneInfo": [
+        "Call Expedia Rewards silver Priority Customer Care at 1-866-230-3837 or 1-417-520-5298.",
+        "For faster service, mention <strong>itinerary #7353830071841 </strong>"
+      ],
+      "customerSupportPhoneNumberDomestic": "+1-866-230-3837",
+      "customerSupportPhoneNumberInternational": "+1-417-520-5298",
+      "customerSupportPhoneInfoForEmail": [
+        "Call Expedia Rewards silver Priority Customer Care at 1-866-230-3837 or 1-417-520-5298.",
+        "For faster service, mention <strong>itinerary #7353830071841 </strong>"
+      ],
+      "termsAndConditionsURL": ""
+    },
+    "isBookedUsingForeignCurrency": false,
+    "flights": [
+      {
+        "uniqueID": "D5EFAADD-3620-4B11-B64B-60AB47E323B4_0",
+        "bookingStatus": "BOOKED",
+        "bookingStatusText": "Booked",
+        "bookingStatusMessage": "Ticketing in progress. The airline will confirm most tickets within 5 minutes, but some ticket types take up to 24 hours. You do not need to call us to reconfirm your booking. Check back to ensure your ticket has been issued.",
+        "startTime": {
+          "raw": "2018-09-12T07:05:00-07:00",
+          "localized": "Sep 12, 2018 7:05:00 AM",
+          "epochSeconds": 1536761100,
+          "timeZoneOffsetSeconds": -25200,
+          "localizedShortDate": "9/12/2018",
+          "localizedMediumDate": "Sep 12",
+          "localizedFullDate": "Wed, Sep 12",
+          "localizedLongDate": "Sep 12, 2018",
+          "localizedShortTime": "7:05am"
+        },
+        "endTime": {
+          "raw": "2018-09-12T08:21:00-07:00",
+          "localized": "Sep 12, 2018 8:21:00 AM",
+          "epochSeconds": 1536765660,
+          "timeZoneOffsetSeconds": -25200,
+          "localizedShortDate": "9/12/2018",
+          "localizedMediumDate": "Sep 12",
+          "localizedFullDate": "Wed, Sep 12",
+          "localizedLongDate": "Sep 12, 2018",
+          "localizedShortTime": "8:21am"
+        },
+        "ticketingStatus": "INPROGRESS",
+        "orderNumber": "8135738750427",
+        "updateFrequentFlyerPathURL": "https://www.expedia.com/api/trips/c2049f8d-9a3b-49ba-a0ac-f958e2c54028/updateFrequentFlyerInformation",
+        "orderLineNumber": "72fd8d38-ee73-4842-afad-8608b5b45733",
+        "paymentModel": "AGENCY",
+        "fareType": "PUBLISHED",
+        "flightType": "ONE_WAY",
+        "isInternational": false,
+        "fareTotal": {
+          "subTotal": "44.2",
+          "subTotalFormatted": "$44.20",
+          "currency": "USD",
+          "base": "44.2",
+          "baseFormatted": "$44.20",
+          "total": "44.2",
+          "totalFormatted": "$44.20"
+        },
+        "farePerPassenger": [
+          {
+            "passengerIndex": 0,
+            "passengerTypeCode": "ADULT",
+            "passengerTypeCodeLocalized": "Adult",
+            "currency": "USD",
+            "base": "44.2",
+            "baseFormatted": "$44.20",
+            "taxesFormatted": "$0.00",
+            "total": "44.2",
+            "totalFormatted": "$44.20"
+          }
+        ],
+        "isSplitTicket": false,
+        "fulfillmentMethod": "ETICKET",
+        "passengers": [
+          {
+            "typeCode": "ADULT",
+            "typeLocalized": "Adult",
+            "firstName": "Ashw",
+            "lastName": "Badri Srimannarayanan",
+            "fullName": "Ashw Badri Srimannarayanan",
+            "age": 27,
+            "gender": "Male",
+            "dateOfBirth": "1991-8-2",
+            "TSARedressNumber": "123456",
+            "TSAKnownTravelerNumber": "",
+            "phoneNumbers": [
+              {
+                "countryCode": "1",
+                "phone": "4053615991"
+              }
+            ],
+            "ticketNumbers": [],
+            "frequentFlyerPlans": [],
+            "seats": [],
+            "seatPreferenceCode": "Z"
+          }
+        ],
+        "brandedFareFamilyName": "BASIC ECONOMY",
+        "orderedFareFamilyDetails": {
+          "chargeable": [
+            "Bags",
+            "BarDrinks"
+          ],
+          "notoffered": [
+            "RefundBeforeDeparture4",
+            "SeatReservation2",
+            "ChangesBeforeDeparture4",
+            "PriorityBoarding"
+          ],
+          "included": [
+            "Snack",
+            "CarryOnBag",
+            "MilesEarned3"
+          ]
+        },
+        "legs": [
+          {
+            "type": "NONSTOP",
+            "state": "PRE_START_4",
+            "numberOfStops": 0,
+            "airlineLogoURL": "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smDL.gif",
+            "segments": [
+              {
+                "transportationType": "FLIGHT",
+                "departureType": "FLIGHT_DEPARTURE",
+                "departureLocation": {
+                  "latitude": 33.94415,
+                  "longitude": -118.4032,
+                  "name": "Los Angeles Intl.",
+                  "longName": "Los Angeles, CA (LAX-Los Angeles Intl.)",
+                  "airportCode": "LAX",
+                  "airportMetroCode": "QLA",
+                  "city": "Los Angeles",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " CA",
+                  "timeZoneName": "America/Los_Angeles"
+                },
+                "departureTime": {
+                  "raw": "2018-09-12T07:05:00-07:00",
+                  "localized": "Sep 12, 2018 7:05:00 AM",
+                  "epochSeconds": 1536761100,
+                  "timeZoneOffsetSeconds": -25200,
+                  "localizedShortDate": "9/12/2018",
+                  "localizedMediumDate": "Sep 12",
+                  "localizedFullDate": "Wed, Sep 12",
+                  "localizedLongDate": "Sep 12, 2018",
+                  "localizedShortTime": "7:05am"
+                },
+                "arrivalType": "FLIGHT_ARRIVAL",
+                "arrivalLocation": {
+                  "latitude": 36.085393,
+                  "longitude": -115.150098,
+                  "name": "McCarran Intl.",
+                  "longName": "Las Vegas, NV (LAS-McCarran Intl.)",
+                  "airportCode": "LAS",
+                  "airportMetroCode": "LAS",
+                  "city": "Las Vegas",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " NV",
+                  "timeZoneName": "America/Los_Angeles"
+                },
+                "arrivalTime": {
+                  "raw": "2018-09-12T08:21:00-07:00",
+                  "localized": "Sep 12, 2018 8:21:00 AM",
+                  "epochSeconds": 1536765660,
+                  "timeZoneOffsetSeconds": -25200,
+                  "localizedShortDate": "9/12/2018",
+                  "localizedMediumDate": "Sep 12",
+                  "localizedFullDate": "Wed, Sep 12",
+                  "localizedLongDate": "Sep 12, 2018",
+                  "localizedShortTime": "8:21am"
+                },
+                "airlineCode": "DL",
+                "externalAirlineCode": "DL",
+                "airlineName": "Delta",
+                "operatedByAirCarrierName": "COMPASS DBA DELTA CONNECTION",
+                "confirmationAirline": "Delta",
+                "flightNumber": "5793",
+                "formattedLayoverDuration": "",
+                "duration": "PT1H16M",
+                "formattedDuration": "1h 16m",
+                "providerCode": "SABRE",
+                "bookingCode": "E",
+                "cabinCode": "coach",
+                "cabinCodeLocalized": "Economy / Coach",
+                "isSeatMapAvailable": true,
+                "flightIdForSeatMap": "D5EFAADD-3620-4B11-B64B-60AB47E323B4_0_L1_S1_1",
+                "status": "UNKNOWN",
+                "airSegmentStatusCode": "SS",
+                "isHidden": false
+              }
+            ],
+            "sharableFlightLegURL": "https://www.expedia.com/api/trips/shared/jMek9Mg9EtJfW4syFncvj8CARPsphNCVkvrUAJdwThoc0uQEmjqzS7Uz0ZbPCHKfhNpYv_B3pHBipZYyllQi1H-3UkEAa-ULA58hlYxYDMgZGVb7epxEtJ135xS4DTy29tHmjEhCz9nFng20ZPIHtPl8fU1WHLZpL2WVvD9doWLnag",
+            "duration": "PT1H16M",
+            "formattedDuration": "1h 16m",
+            "departingAirport": {
+              "code": "LAX",
+              "name": "Los Angeles (LAX)",
+              "city": "Los Angeles",
+              "metroCode": "QLA",
+              "latitude": 33.94415,
+              "longitude": -118.4032,
+              "longName": "Los Angeles, CA (LAX-Los Angeles Intl.)",
+              "isMinorAirport": false,
+              "isProhibitedAirport": false,
+              "countryCode": "USA",
+              "identicalMetroCode": false,
+              "isMetroCode": false,
+              "airportID": 5783884,
+              "localName": "Los Angeles Intl.",
+              "airportCityCode": "Los Angeles, CA (LAX)",
+              "airportStateCode": " CA",
+              "terminalMaps": [
+                {
+                  "name": "Overview",
+                  "url": "https://a.travel-assets.com/mobile/maps/lax_airport.svg",
+                  "type": "O"
+                },
+                {
+                  "name": "Bradley International Terminal",
+                  "url": "https://a.travel-assets.com/mobile/maps/lax_bradley_terminal.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Terminal 1",
+                  "url": "https://a.travel-assets.com/mobile/maps/lax_terminal_1.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Terminal 2",
+                  "url": "https://a.travel-assets.com/mobile/maps/lax_terminal_2.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Terminal 3",
+                  "url": "https://a.travel-assets.com/mobile/maps/lax_terminal_3.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Terminal 4",
+                  "url": "https://a.travel-assets.com/mobile/maps/lax_terminal_4.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Terminal 5",
+                  "url": "https://a.travel-assets.com/mobile/maps/lax_terminal_5.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Terminal 6",
+                  "url": "https://a.travel-assets.com/mobile/maps/lax_terminal_6.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Terminal 7",
+                  "url": "https://a.travel-assets.com/mobile/maps/lax_terminal_7.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Terminal 8",
+                  "url": "https://a.travel-assets.com/mobile/maps/lax_terminal_8.svg",
+                  "type": "T"
+                }
+              ],
+              "timeZoneName": "America/Los_Angeles"
+            },
+            "arrivalAirport": {
+              "code": "LAS",
+              "name": "Las Vegas (McCarran Intl.)",
+              "city": "Las Vegas",
+              "metroCode": "LAS",
+              "latitude": 36.085393,
+              "longitude": -115.150098,
+              "longName": "Las Vegas, NV (LAS-McCarran Intl.)",
+              "isMinorAirport": false,
+              "isProhibitedAirport": false,
+              "countryCode": "USA",
+              "identicalMetroCode": true,
+              "isMetroCode": false,
+              "airportID": 5456204,
+              "localName": "McCarran Intl.",
+              "airportCityCode": "Las Vegas, NV (LAS)",
+              "airportStateCode": " NV",
+              "terminalMaps": [
+                {
+                  "name": "Overview",
+                  "url": "https://a.travel-assets.com/mobile/maps/las_airport.svg",
+                  "type": "O"
+                },
+                {
+                  "name": "Terminal 1: Concourse A, Concourse B, Concourse C",
+                  "url": "https://a.travel-assets.com/mobile/maps/las_concourse_a_b_c.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Concourse D",
+                  "url": "https://a.travel-assets.com/mobile/maps/las_concourse_d.svg",
+                  "type": "T"
+                },
+                {
+                  "name": "Terminal 3",
+                  "url": "https://a.travel-assets.com/mobile/maps/las_terminal_3.svg",
+                  "type": "T"
+                }
+              ],
+              "timeZoneName": "America/Los_Angeles"
+            },
+            "legDepartureTime": {
+              "raw": "2018-09-12T07:05:00-07:00",
+              "localized": "Sep 12, 2018 7:05:00 AM",
+              "epochSeconds": 1536761100,
+              "timeZoneOffsetSeconds": -25200,
+              "localizedShortDate": "9/12/2018",
+              "localizedMediumDate": "Sep 12",
+              "localizedFullDate": "Wed, Sep 12",
+              "localizedLongDate": "Sep 12, 2018",
+              "localizedShortTime": "7:05am"
+            },
+            "legArrivaltime": {
+              "raw": "2018-09-12T08:21:00-07:00",
+              "localized": "Sep 12, 2018 8:21:00 AM",
+              "epochSeconds": 1536765660,
+              "timeZoneOffsetSeconds": -25200,
+              "localizedShortDate": "9/12/2018",
+              "localizedMediumDate": "Sep 12",
+              "localizedFullDate": "Wed, Sep 12",
+              "localizedLongDate": "Sep 12, 2018",
+              "localizedShortTime": "8:21am"
+            },
+            "fareBasisCode": "VAVNA0BX"
+          }
+        ],
+        "rules": {
+          "cancellationFeeLegalText": "A non-refundable administration fee will be applied for changes and cancellations of bookings. Customers will be informed of the administration fee by their Customer Support Centre Agent at the time of their call.",
+          "faresNotGuaranteedText": "Fares are not guaranteed until ticketed.",
+          "cancelChangeIntroductionText": "We understand that sometimes plans change. We do not charge a cancel or change fee. When the airline charges such fees in accordance with its own policies, the cost will be passed on to you.",
+          "feeChangeRefundIntroductionText": "When the airline charges any cancellation or change fees in accordance with its own policies, the cost will be passed on to you.",
+          "refundabilityText": "Tickets are nonrefundable, nontransferable and name changes are not allowed.",
+          "refundableStatus": "NonRefundable",
+          "completePenaltyRules": {
+            "text": "Rules and restrictions as imposed by the airline will be applicable to your fare should you need to change or cancel your flight.",
+            "url": "https://www.expedia.com/Fare-Rules?tripid=c2049f8d-9a3b-49ba-a0ac-f958e2c54028",
+            "textAndURL": "Please read the <a id=\"complete_penalty_rules_for_changes_and_cancellations_link\" href=\"https://www.expedia.com/Fare-Rules?tripid=c2049f8d-9a3b-49ba-a0ac-f958e2c54028\" target=\"rulesAndRestrictions\">complete penalty rules for changes and cancellations<span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a> applicable to this fare.",
+            "apiURL": "https://www.expedia.com/api/trips/7353830071841/items/D5EFAADD-3620-4B11-B64B-60AB47E323B4_0/gdsFareRulesText?useCache=true"
+          },
+          "insuranceTerms": {
+            "text": "View the complete terms and the condition of the description of coverage.",
+            "url": "https://webservices.travelguard.com/Product/FileRetrieval.aspx?CountryCode=US&StateCode=NW&ProductCode=009165&PlanCode=P1&FileType=PROD_PLAN_GM",
+            "textAndURL": "View the complete terms and conditions in the <a href=\"https://webservices.travelguard.com/Product/FileRetrieval.aspx?CountryCode=US&StateCode=NW&ProductCode=009165&PlanCode=P1&FileType=PROD_PLAN_GM\"  target=\"_blank\">Description of Coverage.<span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a>."
+          },
+          "additionalAirlineFees": {
+            "text": "The airline may charge additional fees for checked baggage or other optional services.",
+            "url": "https://www.expedia.com/Flights-BagFees?originapt=LAX&destinationapt=LAS&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=VAVNA0BX&bookingclass=E&travelDate=2018-09-12&flightNumber=5793",
+            "textAndURL": "The airline may charge <a href=\"https://www.expedia.com/Flights-BagFees?originapt=LAX&destinationapt=LAS&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=VAVNA0BX&bookingclass=E&travelDate=2018-09-12&flightNumber=5793\" target=\"rulesAndRestrictions\">additional fees <span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a> for checked baggage or other optional services."
+          },
+          "airlineLiabilityLimitations": {
+            "text": "Please read important information regarding airline liability limitations.",
+            "url": "https://www.expedia.com/p/info-main/warsaw",
+            "textAndURL": "Please read important information regarding <a id=\"airline_liability_limitations_link\" href=\"https://www.expedia.com/p/info-main/warsaw?\" target=\"rulesAndRestrictions\">airline liability limitations<span class=\"icon icon-popup tooltip\" aria-hidden=\"true\"> </span><span class=\"visually-hidden alt\">Opens in a new window.</span></a>."
+          },
+          "airlineCheckInInstructionText": "Remember to bring your itinerary and government-issued photo ID for airport check-in and security.",
+          "railFeederMessages": [],
+          "expediaChangeFeeChargeable": false,
+          "hasElectronicsBannedMessage": false
+        },
+        "sharableItemDetailURL": "https://www.expedia.com/api/trips/shared/XbVcV6FaM1Swq1MNfHkzuMCAqdvp70JykFXdu8mHn84TMc611FTK4aWuX6kqp2rfwN_sc3Ue6EMr1HnldwpHaztsdlcmt-yVI2n2aSUEAgvF8RaWBnQgUSGPEbua53M6izDpY6DJAuE-6ry0oTu7-pM5",
+        "airRecordLocator": "404223985",
+        "isSeatMapAvailable": true,
+        "webChangePathURL": "https://www.expedia.com/flight-change-gds?tripnumber=7353830071841&arl=404223985&cname=Delta&userToken=ZyjZ2pRGIdPnfuimzrBsaDDSzW4oFSAy83RwPM9jp0zDPtTXezkiByAU0OK1oNT8-PRlcE9WtZtEuzS53M4s6UX092gUxuTE3xoegVSd9bvdZxhOHiJ2NFw0LPMSAX5delUcsJXAOXmiu97J435P",
+        "bookingProvider": "SABRE",
+        "hasTrainTransfer": false,
+        "ticketingAirCarrierNames": [
+          "Delta"
+        ],
+        "isLccOrCharter": false,
+        "destinationRegionId": 5456204,
+        "action": {
+          "isChangeable": true,
+          "isCancellable": false
+        }
+      }
+    ],
+    "insurance": [
+      {
+        "uniqueID": "723DE2EF-7FD5-4CB2-893F-EAADCBA7DCF9",
+        "policyID": "",
+        "insuredItemUniqueID": "D5EFAADD-3620-4B11-B64B-60AB47E323B4_0",
+        "name": "Expedia Flight Protection: Basic (Domestic 48)",
+        "displayName": "Cancellation Plan",
+        "lineOfBusiness": "Air",
+        "bookingStatus": "BOOKED",
+        "orderNumber": "8135738750427",
+        "orderLineNumber": "adba3839-b07b-4796-a119-06bfceb69081",
+        "termsURL": "https://webservices.travelguard.com/Product/FileRetrieval.aspx?CountryCode=US&StateCode=NW&ProductCode=009165&PlanCode=P1&FileType=PROD_PLAN_GM",
+        "claimsURL": "https://www-272.aig.com/travelfnol/",
+        "webCancelPathURL": "https://www.expedia.com/api/cancelInsuranceBooking/c2049f8d-9a3b-49ba-a0ac-f958e2c54028",
+        "coverageQuoteTime": {
+          "raw": "2018-05-21T21:15:01-07:00",
+          "localized": "May 21, 2018 9:15:01 PM",
+          "epochSeconds": 1526962501,
+          "timeZoneOffsetSeconds": -25200,
+          "localizedShortDate": "Mon, 21 May",
+          "localizedMediumDate": "May 21, 2018",
+          "localizedFullDate": "Monday, May 21, 2018",
+          "localizedLongDate": "May 21, 2018",
+          "localizedShortTime": "9:15 PM"
+        },
+        "coverageStartTime": {
+          "raw": "2018-09-12T07:05:00-07:00",
+          "localized": "Sep 12, 2018 7:05:00 AM",
+          "epochSeconds": 1536761100,
+          "timeZoneOffsetSeconds": -25200,
+          "localizedShortDate": "9/12/2018",
+          "localizedMediumDate": "Sep 12",
+          "localizedFullDate": "Wed, Sep 12",
+          "localizedLongDate": "Sep 12, 2018",
+          "localizedShortTime": "7:05am"
+        },
+        "coverageEndTime": {
+          "raw": "2018-09-12T08:21:00-07:00",
+          "localized": "Sep 12, 2018 8:21:00 AM",
+          "epochSeconds": 1536765660,
+          "timeZoneOffsetSeconds": -25200,
+          "localizedShortDate": "9/12/2018",
+          "localizedMediumDate": "Sep 12",
+          "localizedFullDate": "Wed, Sep 12",
+          "localizedLongDate": "Sep 12, 2018",
+          "localizedShortTime": "8:21am"
+        },
+        "productCoverage": "Cancellation",
+        "customerSupportPhone": "855-266-4973",
+        "medicalTaxPercentage": 0,
+        "medicalCoveragePremiumPercentage": 0,
+        "insuranceTax": 0.0000,
+        "currencySymbol": "$",
+        "proofOfCoverageURL": "",
+        "insurancePolicyMessage": "You have purchased the <a href=\"https://webservices.travelguard.com/Product/FileRetrieval.aspx?CountryCode=US&StateCode=NW&ProductCode=009165&PlanCode=P1&FileType=PROD_PLAN_GM\" target=\"_blank\">Cancellation Plan<span class=\"visually-hidden\" style=\"display:none\">Opens in a new window</span></a>. Please refer to your itinerary number when calling to ask questions or <a href=\"https://www-272.aig.com/travelfnol/\" target=\"_blank\">file a claim<span class=\"visually-hidden\" style=\"display:none\">Opens in a new window</span></a>.",
+        "price": {
+          "currency": "USD",
+          "base": "19.0",
+          "baseFormatted": "$19.00",
+          "total": "19.0",
+          "totalFormatted": "$19.00"
+        },
+        "insuranceTypeId": 100001,
+        "totalInsurancePremium": 19.00,
+        "travellerCount": 1
+      }
+    ],
+    "totalTripPrice": {
+      "currency": "USD",
+      "total": "63.2",
+      "totalFormatted": "$63.20",
+      "totalWithoutInsurance": "44.2",
+      "totalWithoutInsuranceFormatted": "$44.20"
+    },
+    "isCouponApplied": false,
+    "readTripError": false,
+    "tripSource": "expedia",
+    "zetaTrip": false,
+    "showCurrencyName": false,
+    "isMRP": false,
+    "tripDataSource": "LUNA-PARTIAL",
+    "isTripUpgradable": false,
+    "mipQualifications": [
+      {
+        "startDate": 1536537599000,
+        "endDate": 1537055999000,
+        "bookedType": "ATTACHED",
+        "bookedLOBs": [
+          "FLIGHT"
+        ],
+        "itinNums": [
+          "7353830071841",
+          "7353830071841"
+        ],
+        "mipType": "CARMIP",
+        "expirationDate": 1536796799000,
+        "expirationRemainingInMillis": 9834289265,
+        "destinationName": "Las Vegas",
+        "destinationId": "178276"
+      },
+      {
+        "startDate": 1536537599000,
+        "endDate": 1537055999000,
+        "bookedType": "ATTACHED",
+        "bookedLOBs": [
+          "FLIGHT"
+        ],
+        "itinNums": [
+          "7353830071841",
+          "7353830071841"
+        ],
+        "mipType": "HOTMIP",
+        "expirationDate": 1528690507442,
+        "expirationRemainingInMillis": 1727997707,
+        "destinationName": "Las Vegas",
+        "destinationId": "178276"
+      }
+    ],
+    "isRewardsPointsBooking": false,
+    "billPayMethod": "false",
+    "customerCareCustomerType": "Silver"
+  }
+}
