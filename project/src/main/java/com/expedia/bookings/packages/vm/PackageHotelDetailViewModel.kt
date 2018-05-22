@@ -1,6 +1,7 @@
 package com.expedia.bookings.packages.vm
 
 import android.content.Context
+import android.support.annotation.VisibleForTesting
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
@@ -41,7 +42,8 @@ class PackageHotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(c
         }
     }
 
-    override fun offerReturned(offerResponse: HotelOffersResponse) {
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    public override fun offerReturned(offerResponse: HotelOffersResponse) {
         super.offerReturned(offerResponse)
 
         val firstHotelRoomResponse = offerResponse.hotelRoomResponse?.firstOrNull()

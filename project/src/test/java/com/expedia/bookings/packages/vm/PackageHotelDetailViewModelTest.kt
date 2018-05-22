@@ -32,7 +32,10 @@ import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import com.expedia.bookings.test.MockPackageServiceTestRule
+import com.expedia.bookings.test.robolectric.PackageTestUtil.Companion.dummyMIDItemRoomOffer
+import com.expedia.bookings.test.robolectric.PackageTestUtil.Companion.dummyMidHotelRoomOffer
 import org.junit.Rule
+import java.math.BigDecimal
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -43,7 +46,7 @@ class PackageHotelDetailViewModelTest {
     private var testViewModel: PackageHotelDetailViewModel by Delegates.notNull()
 
     private var context: Context by Delegates.notNull()
-    private var offer1: HotelOffersResponse by Delegates.notNull()
+    private var hotelOffersResponse: HotelOffersResponse by Delegates.notNull()
     private val expectedTotalPriceWithMandatoryFees = 42f
 
     val mockPackageServiceRule: MockPackageServiceTestRule = MockPackageServiceTestRule()
@@ -53,15 +56,15 @@ class PackageHotelDetailViewModelTest {
         context = RuntimeEnvironment.application
         testViewModel = PackageHotelDetailViewModel(context)
 
-        offer1 = HotelOffersResponse()
-        offer1.hotelId = "hotel1"
-        offer1.hotelName = "hotel1"
-        offer1.hotelCity = "hotel1"
-        offer1.hotelStateProvince = "hotel1"
-        offer1.hotelCountry = "USA"
-        offer1.latitude = 1.0
-        offer1.longitude = 2.0
-        offer1.hotelRoomResponse = makeHotel()
+        hotelOffersResponse = HotelOffersResponse()
+        hotelOffersResponse.hotelId = "hotel1"
+        hotelOffersResponse.hotelName = "hotel1"
+        hotelOffersResponse.hotelCity = "hotel1"
+        hotelOffersResponse.hotelStateProvince = "hotel1"
+        hotelOffersResponse.hotelCountry = "USA"
+        hotelOffersResponse.latitude = 1.0
+        hotelOffersResponse.longitude = 2.0
+        hotelOffersResponse.hotelRoomResponse = makeHotel()
     }
 
     @Test
@@ -78,25 +81,6 @@ class PackageHotelDetailViewModelTest {
         assertEquals(dates, testViewModel.searchDatesObservable.value)
         assertEquals(dates, testViewModel.searchInfoObservable.value)
         assertEquals("${params.guests} guests", testViewModel.searchInfoGuestsObservable.value)
-    }
-
-    @Test
-    fun testOfferReturnedNonNullHotelRoomResponse() {
-        testViewModel.hotelOffersSubject.onNext(offer1)
-
-        assertEquals(Money(250, "USD"), testViewModel.bundlePricePerPersonObservable.value)
-        assertEquals(Money(500, "USD"), testViewModel.bundleTotalPriceObservable.value)
-        assertEquals(Money(100, "USD"), testViewModel.bundleSavingsObservable.value)
-    }
-
-    @Test
-    fun testOfferReturnedNullHotelRoomResponse() {
-        offer1.hotelRoomResponse = null
-        testViewModel.hotelOffersSubject.onNext(offer1)
-
-        assertEquals(null, testViewModel.bundlePricePerPersonObservable.value)
-        assertEquals(null, testViewModel.bundleTotalPriceObservable.value)
-        assertEquals(null, testViewModel.bundleSavingsObservable.value)
     }
 
     @Test
@@ -133,7 +117,7 @@ class PackageHotelDetailViewModelTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testShouldShowBookByPhoneUSPOSWithNoTelesalesNumber() {
         val currentPOS = PointOfSale.getPointOfSale().pointOfSaleId
-        testViewModel.hotelOffersSubject.onNext(offer1)
+        testViewModel.hotelOffersSubject.onNext(hotelOffersResponse)
         setPOS(PointOfSaleId.UNITED_STATES)
 
         val showBookByPhone = testViewModel.shouldShowBookByPhone()
@@ -145,8 +129,8 @@ class PackageHotelDetailViewModelTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testShouldShowBookByPhoneUSPOSWithTelesalesNumber() {
         val currentPOS = PointOfSale.getPointOfSale().pointOfSaleId
-        offer1.packageTelesalesNumber = "1111111111"
-        testViewModel.hotelOffersSubject.onNext(offer1)
+        hotelOffersResponse.packageTelesalesNumber = "1111111111"
+        testViewModel.hotelOffersSubject.onNext(hotelOffersResponse)
         setPOS(PointOfSaleId.UNITED_STATES)
 
         val showBookByPhone = testViewModel.shouldShowBookByPhone()
@@ -169,13 +153,59 @@ class PackageHotelDetailViewModelTest {
         assertEquals("per night", context.getString(vm.getFeeTypeText()))
     }
 
+    @Test
+    fun testOfferReturnedNonNullHotelRoomResponse() {
+        val hotelRoomResponse = getMockHotelRoomResponse()
+        hotelOffersResponse.hotelRoomResponse = listOf(hotelRoomResponse)
+
+        testViewModel.offerReturned(hotelOffersResponse)
+
+        val pricePerPerson = hotelRoomResponse.rateInfo.chargeableRateInfo.packagePricePerPerson
+        assertEquals(Money(BigDecimal(pricePerPerson.amount.toDouble()), pricePerPerson.currencyCode), testViewModel.bundlePricePerPersonObservable.value)
+        assertEquals(hotelRoomResponse.rateInfo.chargeableRateInfo.packageTotalPrice, testViewModel.bundleTotalPriceObservable.value)
+        assertEquals(hotelRoomResponse.rateInfo.chargeableRateInfo.packageSavings, testViewModel.bundleSavingsObservable.value)
+    }
+
+    @Test
+    fun testOfferReturnedNonNullHotelRoomResponseNullPackageTotalPrice() {
+        val hotelRoomResponse = getMockHotelRoomResponse()
+        hotelRoomResponse.rateInfo.chargeableRateInfo.packageTotalPrice = null
+        hotelOffersResponse.hotelRoomResponse = listOf(hotelRoomResponse)
+
+        testViewModel.offerReturned(hotelOffersResponse)
+
+        assertEquals(null, testViewModel.bundlePricePerPersonObservable.value)
+        assertEquals(null, testViewModel.bundleTotalPriceObservable.value)
+        assertEquals(null, testViewModel.bundleSavingsObservable.value)
+    }
+
+    @Test
+    fun testOfferReturnedNonNullHotelRoomResponseNullSavings() {
+        val hotelRoomResponse = getMockHotelRoomResponse()
+        hotelRoomResponse.rateInfo.chargeableRateInfo.packageSavings = null
+        hotelOffersResponse.hotelRoomResponse = listOf(hotelRoomResponse)
+
+        testViewModel.offerReturned(hotelOffersResponse)
+
+        assertEquals(null, testViewModel.bundlePricePerPersonObservable.value)
+        assertEquals(null, testViewModel.bundleTotalPriceObservable.value)
+        assertEquals(null, testViewModel.bundleSavingsObservable.value)
+    }
+
+    private fun getMockHotelRoomResponse(): HotelOffersResponse.HotelRoomResponse {
+        val hotelOffer = dummyMidHotelRoomOffer()
+        val multiItemOffer = dummyMIDItemRoomOffer()
+        val hotelRoomResponse = HotelOffersResponse.convertMidHotelRoomResponse(hotelOffer, multiItemOffer)
+        return hotelRoomResponse
+    }
+
     private fun setPOS(pos: PointOfSaleId) {
         SettingUtils.save(RuntimeEnvironment.application, R.string.PointOfSaleKey, pos.id.toString())
         PointOfSale.onPointOfSaleChanged(RuntimeEnvironment.application)
     }
 
     private fun makeResortFeeResponse(vm: BaseHotelDetailViewModel) {
-        offer1.hotelRoomResponse.clear()
+        hotelOffersResponse.hotelRoomResponse.clear()
         val packageSearchParams = PackageSearchParams.Builder(30, 330)
                 .adults(1)
                 .startDate(LocalDate.now())
@@ -184,7 +214,7 @@ class PackageHotelDetailViewModelTest {
                 .origin(SuggestionV4())
                 .build() as PackageSearchParams
 
-        val offer = HotelOffersResponse.convertToHotelOffersResponse(offer1, mockPackageServiceRule.getMIDRoomsResponse().getBundleRoomResponse(), packageSearchParams.startDate.toString(), packageSearchParams.endDate.toString())
+        val offer = HotelOffersResponse.convertToHotelOffersResponse(hotelOffersResponse, mockPackageServiceRule.getMIDRoomsResponse().getBundleRoomResponse(), packageSearchParams.startDate.toString(), packageSearchParams.endDate.toString())
 
         vm.hotelOffersSubject.onNext(offer)
         vm.addViewsAfterTransition()
