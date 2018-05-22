@@ -2,6 +2,7 @@ package com.expedia.bookings.test.pagemodels.hotels
 
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.NoMatchingViewException
+import android.support.test.espresso.PerformException
 import android.support.test.espresso.ViewInteraction
 import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.action.ViewActions.scrollTo
@@ -29,7 +30,6 @@ import com.expedia.bookings.test.espresso.ViewActions
 import com.expedia.bookings.test.espresso.ViewActions.swipeDown
 import com.expedia.bookings.test.espresso.ViewActions.swipeUp
 import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
-import junit.framework.AssertionFailedError
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.containsString
@@ -121,8 +121,9 @@ object HotelInfoSiteScreen {
 
             try {
                 // If sticky select is visible, click it.
-                onView(selectRoomStickyBottomButton).perform(click())}
-            catch (ignored: NoMatchingViewException) { }
+                onView(selectRoomStickyBottomButton).perform(click())
+            } catch (ignored: NoMatchingViewException) {
+            } catch (ignored: PerformException) { }
 
             if (option != null || isContainingMultiplePriceOptions()) {
                 //Case when there are multiple options per room, each containing a book button
