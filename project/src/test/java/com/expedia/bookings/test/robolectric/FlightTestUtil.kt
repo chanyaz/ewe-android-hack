@@ -131,7 +131,9 @@ class FlightTestUtil {
             flightTripDetails.legs = ArrayList()
             val flightLeg = FlightLeg()
             flightLeg.segments = ArrayList()
-            flightLeg.segments.add(FlightLeg.FlightSegment())
+            val flightSegment = FlightLeg.FlightSegment()
+            flightSegment.airlineCode = "SFO"
+            flightLeg.segments.add(flightSegment)
             flightTripDetails.legs.add(flightLeg)
             flightOffer.pricePerPassengerCategory = pricePerPassengerList
             flightOffer.numberOfTickets = "2"
