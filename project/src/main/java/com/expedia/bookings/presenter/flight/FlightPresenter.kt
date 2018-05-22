@@ -11,6 +11,7 @@ import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.ApiError
@@ -55,7 +56,6 @@ import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.expedia.ui.FlightActivity
 import com.expedia.util.Optional
-import com.expedia.util.notNullAndObservable
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.FlightSearchViewModel
 import com.expedia.vm.FlightWebCheckoutViewViewModel
@@ -473,7 +473,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         viewModel
     }
 
-    var searchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
+    val searchViewModel: FlightSearchViewModel by lazy {
+        val vm = FlightSearchViewModel(context)
         searchPresenter.searchViewModel = vm
         vm.searchParamsObservable.subscribe { params ->
             announceForAccessibility(context.getString(R.string.accessibility_announcement_searching_flights))
@@ -490,6 +491,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         if (isFlightGreedySearchEnabled(context)) {
             vm.greedySearchParamsObservable.subscribe(flightOfferViewModel.greedyFlightSearchObservable)
         }
+        vm
     }
 
     val webCheckoutView: WebCheckoutView by lazy {
@@ -549,7 +551,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         })
         val dialog = builder.create()
         dialog.setOnShowListener {
-            OmnitureTracking.trackFlightsBookingConfirmationDialog(pageUsableData)
+            if (!ExpediaBookingApp.isRobolectric()) {
+                OmnitureTracking.trackFlightsBookingConfirmationDialog(pageUsableData)
+            }
         }
         dialog
     }
@@ -558,7 +562,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         travelerManager = Ui.getApplication(getContext()).travelerComponent().travelerManager()
         Ui.getApplication(getContext()).flightComponent().inject(this)
         View.inflate(context, R.layout.flight_presenter, this)
-        searchViewModel = FlightSearchViewModel(context)
         searchViewModel.deeplinkDefaultTransitionObservable.subscribe { screen ->
             setDefaultTransition(screen)
         }
