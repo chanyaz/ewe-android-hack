@@ -1,0 +1,48 @@
+[
+  {
+    "tripFolderType": "VIRTUAL_FOLDER",
+    "tripFolderId": "2515dc80-7aa5-4ddb-ad66-1c381d36989d",
+    "tripFolderApiUrl": "/trips/790102842968",
+    "timing": "UPCOMING",
+    "state": "BOOKED",
+    "title": "Portland Suites Airport East, Portland",
+    "startTime": {
+      "raw": "2018-06-09T15:00:00-07:00",
+      "epochSeconds": 1528581600,
+      "timeZoneOffsetSeconds": -25200
+    },
+    "endTime": {
+      "raw": "2018-06-10T11:00:00-07:00",
+      "epochSeconds": 1528653600,
+      "timeZoneOffsetSeconds": -25200
+    },
+    "hero": {
+      "destination": "destinationUrl",
+      "images": {
+        "image": "imageUrl"
+      }
+    },
+    "lobs": [
+      "Hotel"
+    ],
+    "elements": [
+      {
+        "type": "TRIP",
+        "sourceId": {
+          "tripId": "2515dc80-7aa5-4ddb-ad66-1c381d36989d"
+        },
+        "destination": "destination",
+        "startTime": {
+          "raw": "2018-06-09T15:00:00-07:00",
+          "epochSeconds": 1528581600,
+          "timeZoneOffsetSeconds": -25200
+        },
+        "endTime": {
+          "raw": "2018-06-10T11:00:00-07:00",
+          "epochSeconds": 1528653600,
+          "timeZoneOffsetSeconds": -25200
+        }
+      }
+    ]
+  }
+]
