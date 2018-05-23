@@ -626,7 +626,7 @@ public class TuneUtils {
 				.withRevenue(totalPrice.getAmount().doubleValue())
 				.withCurrencyCode(totalPrice.getCurrency())
 				.withEventItems(Collections.singletonList(eventItem))
-				.withDate1(ApiDateUtils.yyyyMMddHHmmssToDate(lxOfferSelectedDate));
+				.withDate1(ApiDateUtils.yyyyMMddHHmmssToDateTime(lxOfferSelectedDate).toDate());
 			trackingProvider.trackEvent(event);
 		}
 	}
@@ -653,7 +653,7 @@ public class TuneUtils {
 				.withCurrencyCode(totalPrice.getCurrency())
 				.withAdvertiserRefId(getAdvertiserRefId(checkoutResponse.newTrip.travelRecordLocator))
 				.withEventItems(Collections.singletonList(eventItem))
-				.withDate1(ApiDateUtils.yyyyMMddHHmmssToDate(lxActivityStartDate));
+				.withDate1(ApiDateUtils.yyyyMMddHHmmssToDateTime(lxActivityStartDate).toDate());
 
 			trackingProvider.trackEvent(event);
 		}

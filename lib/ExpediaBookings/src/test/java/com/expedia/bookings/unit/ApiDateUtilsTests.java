@@ -106,13 +106,18 @@ public class ApiDateUtilsTests {
 
 
 	@Test
-	public void testParseStringToDate() {
-		Date expectedDate = new Date();
-		expectedDate.setTime(1591512001000L);
-		String dateString = "2020-06-06 23:40:01";
-		Date parsedDate = ApiDateUtils.yyyyMMddHHmmssToDate(dateString);
+	public void testyyyyMMddHHmmssToDate() {
+		String dateTimeString = "2025-01-31 13:40:01";
+		Date parsedDate = ApiDateUtils.yyyyMMddHHmmssToDateTime(dateTimeString).toDate();
+		Date actualDate = new DateTime()
+			.withDate(new LocalDate(2025, 1, 31))
+			.withHourOfDay(13)
+			.withMinuteOfHour(40)
+			.withSecondOfMinute(1)
+			.withMillisOfSecond(0)
+			.toDate();
 
-		assertEquals(expectedDate, parsedDate);
+		assertEquals(parsedDate, actualDate);
 	}
 
 	@Test
