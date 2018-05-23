@@ -1,0 +1,391 @@
+{
+  "apiVersion": "1.0",
+  "responseType": "TRIP_DETAILS",
+  "responseData": {
+    "levelOfDetail": "FULL",
+    "tripId": "72d43105-3cd2-4f83-ae10-55f390397ac0",
+    "webDetailsURL": "https://www.expedia.com/trips/7337689803181",
+    "itineraryReceiptURL": "https://www.expedia.com/itinerary-receipt?tripid=72d43105-3cd2-4f83-ae10-55f390397ac0",
+    "tripNumber": 7337689803181,
+    "orderNumber": 8160334389745,
+    "title": "San Francisco, United States",
+    "updateTripNameDescPathURL": "https://www.expedia.com/api/trips/72d43105-3cd2-4f83-ae10-55f390397ac0/updateTripNameDescription",
+    "startTime": {
+      "raw": "2018-10-24T09:30:00-07:00",
+      "localized": "Oct 24, 2018 9:30:00 AM",
+      "epochSeconds": 1540398600,
+      "timeZoneOffsetSeconds": -25200,
+      "localizedShortDate": "10/24/2018",
+      "localizedMediumDate": "Oct 24",
+      "localizedFullDate": "Wed, Oct 24",
+      "localizedLongDate": "Oct 24, 2018",
+      "localizedShortTime": "9:30am"
+    },
+    "endTime": {
+      "raw": "2018-10-24T09:30:00-07:00",
+      "localized": "Oct 24, 2018 9:30:00 AM",
+      "epochSeconds": 1540398600,
+      "timeZoneOffsetSeconds": -25200,
+      "localizedShortDate": "10/24/2018",
+      "localizedMediumDate": "Oct 24",
+      "localizedFullDate": "Wed, Oct 24",
+      "localizedLongDate": "Oct 24, 2018",
+      "localizedShortTime": "9:30am"
+    },
+    "tripCreatedTime": {
+      "raw": "2018-03-16T21:44:18Z",
+      "localized": "Mar 16, 2018 9:44:18 PM",
+      "epochSeconds": 1521236658,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Fri, 16 Mar",
+      "localizedMediumDate": "Mar 16, 2018",
+      "localizedFullDate": "Friday, March 16, 2018",
+      "localizedLongDate": "March 16, 2018",
+      "localizedShortTime": "9:44 PM"
+    },
+    "tripUpdatedTime": {
+      "raw": "2018-03-27T16:11:36Z",
+      "localized": "Mar 27, 2018 4:11:36 PM",
+      "epochSeconds": 1522167096,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Tue, 27 Mar",
+      "localizedMediumDate": "Mar 27, 2018",
+      "localizedFullDate": "Tuesday, March 27, 2018",
+      "localizedLongDate": "March 27, 2018",
+      "localizedShortTime": "4:11 PM"
+    },
+    "tripCacheUpdatedTime": {
+      "raw": "2018-03-27T16:11:36Z",
+      "localized": "Mar 27, 2018 4:11:36 PM",
+      "epochSeconds": 1522167096,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Tue, 27 Mar",
+      "localizedMediumDate": "Mar 27, 2018",
+      "localizedFullDate": "Tuesday, March 27, 2018",
+      "localizedLongDate": "March 27, 2018",
+      "localizedShortTime": "4:11 PM"
+    },
+    "ownerId": 1198215898,
+    "bookingStatus": "BOOKED",
+    "rewardList": [
+      {
+        "totalPoints": 144.00,
+        "basePoints": 72.00,
+        "bonusPoints": [
+          {
+            "m_pointValue": 72.00,
+            "m_pointType": "offerPoint",
+            "m_pointDescription": "App Booking Double Points",
+            "m_status": "PENDING",
+            "m_programId": 3
+          }
+        ],
+        "logoUrl": "/static/default/default/images/myrewards/RewardsLogo_193x76.png",
+        "signUpUrl": "",
+        "viewStatementURL": "/user/rewards",
+        "programName": "ExpediaRewards"
+      }
+    ],
+    "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/KKLH60v7ZQT8dHO52uSG5sCA7QFMNfkcXr_ijoLgTL2Eha8G7LAX31V_0_UfvaUxwRLWdS6IXC0JZPS-m2y-ghZo",
+    "customerSupport": {
+      "customerSupportURL": "https://www.expedia.com/service/",
+      "customerSupportPhoneNumberDomestic": "+1-877-787-3117",
+      "customerSupportPhoneNumberInternational": "+1-877-787-3117",
+      "customerSupportPhoneInfoForEmail": [
+        "Call Expedia Rewards blue Customer Care at 1-877-787-3117.",
+        "For faster service, mention <strong>itinerary #7337689803181 </strong>"
+      ],
+      "termsAndConditionsURL": ""
+    },
+    "isBookedUsingForeignCurrency": false,
+    "activities": [
+      {
+        "uniqueID": "FEF2CC53-48F5-4FC1-B1AD-AD02F423BC31_0_219652_219654",
+        "bookingStatus": "BOOKED",
+        "bookingStatusText": "Confirmed",
+        "bookingStatusMessage": "Your activity is booked. Please check your voucher for details.",
+        "supplierReferenceNumber": "7337689803181",
+        "bookingDate": {
+          "raw": "2018-03-16T00:00:00-07:00",
+          "localized": "Mar 16, 2018 12:00:00 AM",
+          "epochSeconds": 1521183600,
+          "timeZoneOffsetSeconds": -25200,
+          "localizedShortDate": "Fri, 16 Mar",
+          "localizedMediumDate": "Mar 16, 2018",
+          "localizedFullDate": "Friday, March 16, 2018",
+          "localizedLongDate": "March 16, 2018",
+          "localizedShortTime": "12:00 AM"
+        },
+        "startTime": {
+          "raw": "2018-10-24T09:30:00-07:00",
+          "localized": "Oct 24, 2018 9:30:00 AM",
+          "epochSeconds": 1540398600,
+          "timeZoneOffsetSeconds": -25200,
+          "localizedShortDate": "10/24/2018",
+          "localizedMediumDate": "Oct 24",
+          "localizedFullDate": "Wed, Oct 24",
+          "localizedLongDate": "Oct 24, 2018",
+          "localizedShortTime": "9:30am"
+        },
+        "endTime": {
+          "raw": "2018-10-24T09:30:00-07:00",
+          "localized": "Oct 24, 2018 9:30:00 AM",
+          "epochSeconds": 1540398600,
+          "timeZoneOffsetSeconds": -25200,
+          "localizedShortDate": "10/24/2018",
+          "localizedMediumDate": "Oct 24",
+          "localizedFullDate": "Wed, Oct 24",
+          "localizedLongDate": "Oct 24, 2018",
+          "localizedShortTime": "9:30am"
+        },
+        "paymentModel": "MERCHANT",
+        "price": {
+          "pricePerCategory": {
+            "Adult": {
+              "keyForCategory": "Adult",
+              "numberOfPassengers": 1,
+              "totalBasePrice": {
+                "amount": 35.95,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              },
+              "perPassengerBasePrice": {
+                "amount": 35.95,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              }
+            }
+          },
+          "localisedPriceAndPassengerCount": [
+            {
+              "totalBasePriceForSorting": {
+                "amount": 35.95,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              },
+              "localisedPassengerTypeAndCount": "1 Adult",
+              "localisedPrice": "$35.95"
+            }
+          ],
+          "currency": "USD",
+          "base": "35.95",
+          "baseFormatted": "$35.95",
+          "taxes": "0.0",
+          "taxesFormatted": "$0.00",
+          "total": "35.95",
+          "totalFormatted": "$35.95"
+        },
+        "activityCategoryID": 2,
+        "activityId": 219652,
+        "activityTitle": "California Academy of Sciences General Admission: General Admission ",
+        "voucherType": "Print",
+        "activityDescription": "Venture to the California Academy of Sciences, and explore an aquarium, a 4-story rain forest, a natural history museum, and the world's largest all-digital planetarium—all in 1 place. Home to cutting-edge research, tons of engaging exhibits, and 40,000 live animals, it’s a fun time for all ages.\n\nStep foot in the massive 412,000 square foot (3.8 ha) museum, and marvel at the stunning life surrounding you—including a 2.5 acre (1 ha) living roof, a gigantic T-Rex skeleton, and a plethora of diverse life forms. Exhibits include:\n\n**Steinhart Aquarium** – 38,000 animals and more than 900 species, including sharks, penguins, and exotic fish.\n\n**Kimball Natural History Museum** – explores the evolution and maintenance of life on Earth, with 20 million specimens, including the popular 87-foot-long (25 m) blue whale and T-Rex skeleton.\n\n**4-Story Rain Forest** – a fully-enclosed ecosystem allowing you to do everything from climbing through the lush canopy to exploring underwater tunnels.\n\n**Morrison Planetarium** – the world's largest all-digital planetarium, with frequent shows using its state-of-the-art projector and technology.\n\n**Naturalist Center** – the academy’s library and resource center, and an excellent place to discover more about the displays and to interact with staff members and other visitors.\n\n**Hearst Forum** – an auditorium and 3-D theater that is home to daily movies, lectures, programs, and temporary exhibits.",
+        "activityItemTitle": "Attractions",
+        "voucherless": false,
+        "activityItemTitleEnglish": "California Academy of Sciences General Admission: General Admission ",
+        "image": {
+          "url": "https://s3.amazonaws.com/mediavault.le/media/71c34ff1f64676ecbca2c993bce0425d002c6b4b.jpeg",
+          "caption": "",
+          "creditString": ""
+        },
+        "activityDetailsURL": "https://www.expedia.com/lx/activity/219652/",
+        "activityLocation": {
+          "name1": "California Academy of Sciences",
+          "latitude": 37.76974,
+          "longitude": -122.46614,
+          "addressLine1": "55 Music Concourse Drive",
+          "city": "San Francisco",
+          "countrySubdivisionCode": "CA",
+          "postalCode": "94118",
+          "countryCode": "USA",
+          "fullAddress": "California Academy of Sciences: 55 Music Concourse Drive, San Francisco, CA, 94118, USA"
+        },
+        "eventLocation": {
+          "name1": "California Academy of Sciences",
+          "latitude": 37.76974,
+          "longitude": -122.46614,
+          "addressLine1": "55 Music Concourse Drive",
+          "city": "San Francisco",
+          "countrySubdivisionCode": "CA",
+          "postalCode": "94118",
+          "countryCode": "USA",
+          "fullAddress": "California Academy of Sciences: 55 Music Concourse Drive, San Francisco, CA, 94118, USA"
+        },
+        "locationMapURL": "//maps.googleapis.com/maps/api/staticmap?client=gme-expedia&channel=expedia-LXVoucher&zoom=17&size=640x360&maptype=roadmap&sensor=false&format=png8&scale=2&center=37.76974,-122.46614&markers=color:blue%7C37.76974,-122.46614&markers=color:red%7C37.76974,-122.46614&signature=-PNlX0EU4UKgQlwpyLMkbCk5mTU=",
+        "redemptionLocations": [
+          {
+            "name1": "California Academy of Sciences",
+            "latitude": 37.76974,
+            "longitude": -122.46614,
+            "addressLine1": "55 Music Concourse Drive",
+            "city": "San Francisco",
+            "countrySubdivisionCode": "CA",
+            "postalCode": "94118",
+            "countryCode": "USA",
+            "fullAddress": "California Academy of Sciences: 55 Music Concourse Drive, San Francisco, CA, 94118, USA"
+          }
+        ],
+        "travelerCount": 1,
+        "durationInMillis": 86340000,
+        "travelerCountDescription": "1 Adult",
+        "travelers": [
+          {
+            "isRedeemer": true,
+            "firstName": "Nina",
+            "lastName": "Ricci",
+            "fullName": "Nina Ricci"
+          }
+        ],
+        "vendorName": "California Academy of Sciences",
+        "supplierName": "California Academy of Sciences",
+        "vendorAccountingId": 0,
+        "vendorCustomerServiceEmail": "info@calacademy.org",
+        "vendorCustomerServiceOffices": [
+          {
+            "name": "California Academy of Sciences Customer Service",
+            "emailAddress": "info@calacademy.org",
+            "phoneCountryCode": "1",
+            "phoneNumbers": [
+              {
+                "formatted": "+1 (415) 379 8000",
+                "useText": "Business Hours"
+              }
+            ],
+            "hoursOfOperationText": "Daily: 8:00 AM - 5:00 PM",
+            "hoursOfOperation": [
+              {
+                "day": "monday",
+                "startTime": "08:00:00",
+                "endTime": "17:00:00"
+              },
+              {
+                "day": "tuesday",
+                "startTime": "08:00:00",
+                "endTime": "17:00:00"
+              },
+              {
+                "day": "wednesday",
+                "startTime": "08:00:00",
+                "endTime": "17:00:00"
+              },
+              {
+                "day": "thursday",
+                "startTime": "08:00:00",
+                "endTime": "17:00:00"
+              },
+              {
+                "day": "friday",
+                "startTime": "08:00:00",
+                "endTime": "17:00:00"
+              },
+              {
+                "day": "saturday",
+                "startTime": "08:00:00",
+                "endTime": "17:00:00"
+              },
+              {
+                "day": "sunday",
+                "startTime": "08:00:00",
+                "endTime": "17:00:00"
+              }
+            ]
+          }
+        ],
+        "termsAndConditions": {
+          "instructions": "<b>How to Redeem Your Voucher:</b><br/>Upon arrival at the redemption location, please present your printed voucher(s) and photo ID in exchange for your activity.<br/><br/><b>Know Before You Go:</b><ul><li>Hours of operation vary; please check before you go.</li></ul>",
+          "knowBeforeYouGo": "<b>Know Before You Go:</b><ul><li>Hours of operation vary; please check before you go.</li></ul>",
+          "howToRedeem": "<b>How to Redeem Your Voucher:</b><br/>Upon arrival at the redemption location, please present your printed voucher(s) and photo ID in exchange for your activity.",
+          "terms": "<li><b>Cancellations and Changes:</b> You can cancel free of charge until 72 hours before the activity starts. After that time, no cancellations, changes or refunds will be made.</li>",
+          "inclusions": "<b>Inclusions:</b><ul><li>General admission ticket that includes access to all general-public shows and exhibits.</li></ul>",
+          "exclusions": "<b>Exclusions:</b><ul><li>Multimedia audio-visual headsets for self-guided tours (available to rent on location)</li></ul>",
+          "minFreeCancellationHoursPackageV2": 0,
+          "freeCancellationAvailablePackageV2": false,
+          "responsiveHowToUseDealText": "Upon arrival at the redemption location, please present your printed voucher(s) and photo ID in exchange for your activity.",
+          "responsiveKnowBeforeYouGoText": [
+            "Hours of operation vary; please check before you go."
+          ],
+          "responsiveCancellationAddendumText": "",
+          "responsiveTerms": "",
+          "responsiveCancelPolicy": "You can cancel free of charge until 72 hours before the activity starts. After that time, no cancellations, changes or refunds will be made."
+        },
+        "voucherPrintURL": "https://www.expedia.com/itinerary-print?tripid=72d43105-3cd2-4f83-ae10-55f390397ac0&itineraryNumber=7337689803181",
+        "vouchers": [
+          {
+            "id": "70802688",
+            "barcodeNumber": "70802688",
+            "securityCode": "093122010003595827367",
+            "barcodeImageURL": "https://www.expedia.com/barcode/TRwqAol4Id.png?encodingFormat=CODE_39&encodingData=70802688",
+            "validForRedemerTypeLocalized": "1 Adult",
+            "validForRedemerTypeEnglish": "1 Adult",
+            "supplierReferenceCode": ""
+          }
+        ],
+        "webGetLXCancelDetailPathURL": "https://www.expedia.com/api/getLXCancelDetail/FEF2CC53-48F5-4FC1-B1AD-AD02F423BC31/ordernumber/8160334389745/orderlinenumber/c54504ea-3fcd-4a47-93dd-83c05079670b",
+        "regionId": "178305",
+        "destinationRegionId": "178305",
+        "unbookedPackageV2": false,
+        "highResImage": {
+          "width": 500,
+          "height": 282,
+          "url": "https://s3.amazonaws.com/mediavault.le/media/e4b486117f4dc3b1bb630825aee074e8ce0ea707.jpeg",
+          "caption": "",
+          "creditString": ""
+        }
+      }
+    ],
+    "totalTripPrice": {
+      "currency": "USD",
+      "total": "35.95",
+      "totalFormatted": "$35.95",
+      "totalWithoutInsurance": "35.95",
+      "totalWithoutInsuranceFormatted": "$35.95"
+    },
+    "isCouponApplied": false,
+    "paymentSummary": {
+      "totalPaidPrice": {
+        "amount": 35.95,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "totalPaidTaxAndFees": {
+        "amount": 0.00,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "subTotalPaid": {
+        "amount": 35.95,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "totalPropertyFee": {
+        "amount": 0.00,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "totalPaidLocalizedPrice": "$35.95",
+      "totalPaidTaxAndFeesLocalizedPrice": "$0.00",
+      "subTotalPaidLocalizedPrice": "$35.95"
+    },
+    "readTripError": false,
+    "tripSource": "expedia",
+    "clientId": "expweb-luna",
+    "zetaTrip": false,
+    "showCurrencyName": false,
+    "isMRP": false,
+    "tripDataSource": "LUNA",
+    "isTripUpgradable": false,
+    "email": {
+      "m_email": "test123@123.com"
+    },
+    "isRewardsPointsBooking": false,
+    "billPayMethod": "false",
+    "customerCareCustomerType": "Blue"
+  }
+}

@@ -6,17 +6,20 @@ import com.expedia.bookings.R
 import com.expedia.bookings.itin.helpers.ItinMocker
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
 import com.expedia.bookings.itin.helpers.MockLxRepo
+import com.expedia.bookings.itin.helpers.MockPhoneHandler
 import com.expedia.bookings.itin.helpers.MockStringProvider
 import com.expedia.bookings.itin.helpers.MockToaster
 import com.expedia.bookings.itin.helpers.MockTripsTracking
 import com.expedia.bookings.itin.lx.ItinLxRepoInterface
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasLxRepo
+import com.expedia.bookings.itin.scopes.HasPhoneHandler
 import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.scopes.HasToaster
 import com.expedia.bookings.itin.scopes.HasTripsTracking
 import com.expedia.bookings.itin.tripstore.extensions.buildFullAddress
 import com.expedia.bookings.itin.tripstore.extensions.firstLx
+import com.expedia.bookings.itin.utils.IPhoneHandler
 import com.expedia.bookings.itin.utils.IToaster
 import com.expedia.bookings.itin.utils.StringSource
 import com.expedia.bookings.tracking.ITripsTracking
@@ -37,6 +40,8 @@ class LxItinMapWidgetViewModelTest {
     val addressLineSecondTestObserver = TestObserver<String>()
     val latLongTestObserver = TestObserver<LatLng>()
     val contentDescTestObserver = TestObserver<String>()
+    val phoneNumberTextTestObserver = TestObserver<String>()
+    val phoneNumberContDescTestObserver = TestObserver<String>()
     private lateinit var mockScope: MockVMScope
 
     @Before
@@ -47,6 +52,8 @@ class LxItinMapWidgetViewModelTest {
         sut.addressLineSecondSubject.subscribe(addressLineSecondTestObserver)
         sut.addressContainerContentDescription.subscribe(contentDescTestObserver)
         sut.latLongSubject.subscribe(latLongTestObserver)
+        sut.phoneNumberTextSubject.subscribe(phoneNumberTextTestObserver)
+        sut.phoneNumberContDescriptionSubject.subscribe(phoneNumberContDescTestObserver)
     }
 
     @Test
@@ -69,6 +76,42 @@ class LxItinMapWidgetViewModelTest {
         addressLineFirstTestObserver.assertNoValues()
         addressLineSecondTestObserver.assertValue("")
         latLongTestObserver.assertNoValues()
+    }
+
+    @Test
+    fun phoneNumberHappy() {
+        phoneNumberTextTestObserver.assertNoValues()
+        phoneNumberContDescTestObserver.assertNoValues()
+        assertFalse(mockScope.mockPhoneHandler.handleCalled)
+
+        sut.itinLxObserver.onChanged(ItinMocker.lxDetailsAlsoHappy.firstLx())
+
+        val expectedNumber = "+1 (415) 379 8000"
+        val expectedString = R.string.itin_activity_manage_booking_call_lx_button_content_description_TEMPLATE.toString().plus(mapOf("phonenumber" to expectedNumber))
+        phoneNumberTextTestObserver.assertValue(expectedNumber)
+        phoneNumberContDescTestObserver.assertValue(expectedString)
+        assertFalse(mockScope.mockPhoneHandler.handleCalled)
+
+        sut.phoneNumberClickSubject.onNext(Unit)
+
+        assertTrue(mockScope.mockPhoneHandler.handleCalled)
+    }
+
+    @Test
+    fun phoneNumberSad() {
+        phoneNumberTextTestObserver.assertNoValues()
+        phoneNumberContDescTestObserver.assertNoValues()
+        assertFalse(mockScope.mockPhoneHandler.handleCalled)
+
+        sut.itinLxObserver.onChanged(ItinMocker.lxDetailsNoVendorPhone.firstLx())
+
+        phoneNumberTextTestObserver.assertNoValues()
+        phoneNumberContDescTestObserver.assertNoValues()
+        assertFalse(mockScope.mockPhoneHandler.handleCalled)
+
+        sut.phoneNumberClickSubject.onNext(Unit)
+
+        assertFalse(mockScope.mockPhoneHandler.handleCalled)
     }
 
     @Test
@@ -111,7 +154,9 @@ class LxItinMapWidgetViewModelTest {
         assertTrue(sut.scope.mockStrings.fetchWithPhraseCalled)
     }
 
-    private class MockVMScope : HasLifecycleOwner, HasLxRepo, HasTripsTracking, HasToaster, HasStringProvider {
+    private class MockVMScope : HasLifecycleOwner, HasLxRepo, HasTripsTracking, HasToaster, HasStringProvider, HasPhoneHandler {
+        val mockPhoneHandler = MockPhoneHandler()
+        override val phoneHandler: IPhoneHandler = mockPhoneHandler
         val mockStrings = MockStringProvider()
         override val strings: StringSource = mockStrings
         val mockToaster = MockToaster()

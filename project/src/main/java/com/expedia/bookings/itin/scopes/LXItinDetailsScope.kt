@@ -8,6 +8,7 @@ import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.itin.utils.AbacusSource
 import com.expedia.bookings.itin.utils.ActivityLauncher
 import com.expedia.bookings.itin.utils.IActivityLauncher
+import com.expedia.bookings.itin.utils.IPhoneHandler
 import com.expedia.bookings.itin.utils.IToaster
 import com.expedia.bookings.itin.utils.IWebViewLauncher
 import com.expedia.bookings.itin.utils.StringSource
@@ -39,7 +40,8 @@ data class LxLifeCycleObserverScope(override val strings: StringSource,
                                     override val tripsTracking: ITripsTracking,
                                     override val map: MapWidgetViewModelSetter,
                                     override val redeemVoucher: RedeemVoucherViewModelSetter,
-                                    override val toaster: IToaster) : HasStringProvider, HasWebViewLauncher, HasActivityLauncher, HasJsonUtil, HasItinId, HasToolbarViewModelSetter, HasManageBookingWidgetViewModelSetter, HasTripsTracking, HasMapWidgetViewModelSetter, HasRedeemVoucherViewModelSetter, HasToaster
+                                    override val toaster: IToaster,
+                                    override val phoneHandler: IPhoneHandler) : HasStringProvider, HasWebViewLauncher, HasActivityLauncher, HasJsonUtil, HasItinId, HasToolbarViewModelSetter, HasManageBookingWidgetViewModelSetter, HasTripsTracking, HasMapWidgetViewModelSetter, HasRedeemVoucherViewModelSetter, HasToaster, HasPhoneHandler
 
 class PriceSummaryCardScope(override val strings: StringSource,
                             override val webViewLauncher: IWebViewLauncher,
@@ -57,7 +59,8 @@ data class LxItinMapWidgetViewModelScope(override val itinLxRepo: ItinLxRepoInte
                                          override val lifecycleOwner: LifecycleOwner,
                                          override val tripsTracking: ITripsTracking,
                                          override val toaster: IToaster,
-                                         override val strings: StringSource) : HasLxRepo, HasLifecycleOwner, HasTripsTracking, HasToaster, HasStringProvider
+                                         override val strings: StringSource,
+                                         override val phoneHandler: IPhoneHandler) : HasLxRepo, HasLifecycleOwner, HasTripsTracking, HasToaster, HasStringProvider, HasPhoneHandler
 
 data class LxItinRedeemVoucherViewModelScope(
         override val strings: StringSource,
