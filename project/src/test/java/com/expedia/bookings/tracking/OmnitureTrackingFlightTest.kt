@@ -25,6 +25,8 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.google.gson.Gson
+import org.joda.time.LocalDate
+import org.joda.time.format.ISODateTimeFormat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -91,6 +93,7 @@ class OmnitureTrackingFlightTest {
     @Test
     fun testTrackWebFlightConfirmationWithInsurance() {
         val (pageUsableData, flightTripDetails) = getFlightItinTripResponse()
+        val departureDate = getDepartureDateString()
         OmnitureTracking.trackWebFlightCheckoutConfirmation(flightTripDetails, pageUsableData)
         val expectedEvars = mapOf(18 to "App.Flight.Checkout.Confirmation",
                 50 to "app.phone.android")
@@ -100,7 +103,7 @@ class OmnitureTrackingFlightTest {
                 8 to "5678|1234",
                 71 to "5678",
                 72 to "")
-        val expectedProducts = ";Flight:SFO:Merchant;1;63.20;;eVar30=Merchant:FLT:SFO-DTW:20180524-nil,;Insurance:100001;1;19.00"
+        val expectedProducts = ";Flight:SFO:Merchant;1;63.20;;eVar30=Merchant:FLT:SFO-DTW:$departureDate-nil,;Insurance:100001;1;19.00"
         val expectedEvents = "purchase,event220,event221=0.00"
 
         val appState = "App.Flight.Checkout.Confirmation"
@@ -109,6 +112,7 @@ class OmnitureTrackingFlightTest {
 
     @Test
     fun testTrackWebFlightConfirmationRoundTripDiffAirports() {
+        val departureDate = getDepartureDateString()
         val (pageUsableData, flightTripDetails) = getFlightItinTripResponse("../lib/mocked/templates/api/trips/itin_trip_flight_roundtrip_diff_airports.json")
         OmnitureTracking.trackWebFlightCheckoutConfirmation(flightTripDetails, pageUsableData)
         val expectedEvars = mapOf(18 to "App.Flight.Checkout.Confirmation",
@@ -119,7 +123,7 @@ class OmnitureTrackingFlightTest {
                 8 to "5678|1234",
                 71 to "5678",
                 72 to "")
-        val expectedProducts = ";Flight:SFO:Merchant;1;121.40;;eVar30=Merchant:FLT:SFO-DTW:20180524-nil"
+        val expectedProducts = ";Flight:SFO:Merchant;1;121.40;;eVar30=Merchant:FLT:SFO-DTW:$departureDate-nil"
         val expectedEvents = "purchase,event220,event221=0.00"
 
         val appState = "App.Flight.Checkout.Confirmation"
@@ -128,6 +132,7 @@ class OmnitureTrackingFlightTest {
 
     @Test
     fun testTrackWebFlightConfirmationUsingItinDetailRoundTrip() {
+        val departureDate = getDepartureDateString()
         val (pageUsableData, flightTripDetails) = getFlightItinTripResponse("../lib/mocked/templates/api/trips/flight_trip_details.json")
         OmnitureTracking.trackWebFlightCheckoutConfirmation(flightTripDetails, pageUsableData)
 
@@ -139,11 +144,16 @@ class OmnitureTrackingFlightTest {
                 8 to "5678|1234",
                 71 to "5678",
                 72 to "")
-        val expectedProducts = ";Flight:SFO:Merchant;1;60.20;;eVar30=Merchant:FLT:SFO-DTW:20180524-nil,;Insurance:null;"
+        val expectedProducts = ";Flight:SFO:Merchant;1;60.20;;eVar30=Merchant:FLT:SFO-DTW:$departureDate-nil,;Insurance:null;"
         val expectedEvents = "purchase,event220,event221=0.00"
 
         val appState = "App.Flight.Checkout.Confirmation"
         assertWebFlightConfirmationStateTracked(appState, expectedEvars, expectedProps, expectedProducts, expectedEvents)
+    }
+
+    private fun getDepartureDateString(): String {
+        val formatter = ISODateTimeFormat.basicDate()
+        return LocalDate().plusDays(2).toString(formatter)
     }
 
     @Test
