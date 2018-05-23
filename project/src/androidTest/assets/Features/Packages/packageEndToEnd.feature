@@ -6,28 +6,28 @@ Feature: Package End To End
     And I launch "Bundle Deals" LOB
     When I make a packages search with following parameters
       | source              | SEA                            |
-      | destination         | SFO                            |
+      | destination         | DALY                           |
       | source_suggest      | SEA - Seattle  -  Tacoma Intl. |
-      | destination_suggest | San Francisco, CA              |
+      | destination_suggest | Daly City, CA                  |
       | start_date          | 15                             |
       | end_date            | 20                             |
       | adults              | 2                              |
       | child               | 2                              |
     Then on Package Overview Screen validate the toolbar
-      | destination       | San Francisco, CA |
-      | start_date        | 15                |
-      | end_date          | 20                |
-      | totalTravelers    | 4 travelers       |
+      | destination       | Daly City, CA              |
+      | start_date        | 15                         |
+      | end_date          | 20                         |
+      | totalTravelers    | 4 travelers                |
     Then validate HSR screen is displayed with following travel dates and travelers
       | start_date      | 15  |
       | end_date        | 20 |
       | Total_Travelers | 4  |
     And I click on View your bundle
     Then on Package Overview Screen validate the toolbar
-      | destination       | San Francisco, CA |
-      | start_date        | 15                |
-      | end_date          | 20                |
-      | totalTravelers    | 4 travelers       |
+      | destination       | Daly City, CA              |
+      | start_date        | 15                         |
+      | end_date          | 20                         |
+      | totalTravelers    | 4 travelers                |
     And I click to close sliding bundle
     And I select hotel at position 1 on HSR screen
     Then validate HIS screen is displayed with following travel dates and travelers
@@ -36,19 +36,19 @@ Feature: Package End To End
       | total_guests    |  4 guests |
     And I select first room
     Then on Package Overview Screen validate the toolbar
-      | destination       | San Francisco, CA |
-      | start_date        | 15                |
-      | end_date          | 20                |
-      | totalTravelers    | 4 travelers       |
+      | destination       | Daly City, CA              |
+      | start_date        | 15                         |
+      | end_date          | 20                         |
+      | totalTravelers    | 4 travelers                |
     And validate outbound FSR screen is displayed with following travel date and travelers
       | travel_date     | 15 |
       | Total_Travelers | 4  |
     And I click on View your bundle
     Then on Package Overview Screen validate the toolbar
-      | destination       | San Francisco, CA |
-      | start_date        | 15                |
-      | end_date          | 20                |
-      | totalTravelers    | 4 travelers       |
+      | destination       | Daly City, CA              |
+      | start_date        | 15                         |
+      | end_date          | 20                         |
+      | totalTravelers    | 4 travelers                |
     And I click to close sliding bundle
     And I select outbound flight to destination at position 1 and goto details page
     Then validate package flight detail screen is displayed with following travel dates and travelers
@@ -56,19 +56,19 @@ Feature: Package End To End
       | Total_Travelers | 4  |
     And I click select flight on flight details screen
     Then on Package Overview Screen validate the toolbar
-      | destination       | San Francisco, CA |
-      | start_date        | 15                |
-      | end_date          | 20                |
-      | totalTravelers    | 4 travelers       |
+      | destination       | Daly City, CA              |
+      | start_date        | 15                         |
+      | end_date          | 20                         |
+      | totalTravelers    | 4 travelers                |
     And validate inbound FSR screen is displayed with following travel date and travelers
       | travel_date     | 20 |
       | Total_Travelers | 4  |
     And I click on View your bundle
     Then on Package Overview Screen validate the toolbar
-      | destination       | San Francisco, CA |
-      | start_date        | 15                |
-      | end_date          | 20                |
-      | totalTravelers    | 4 travelers       |
+      | destination       | Daly City, CA              |
+      | start_date        | 15                         |
+      | end_date          | 20                         |
+      | totalTravelers    | 4 travelers                |
     And I click to close sliding bundle
     And I select inbound flight to source at position 1 and goto details page
     Then validate package flight detail screen is displayed with following travel dates and travelers
@@ -88,9 +88,9 @@ Feature: Package End To End
     And I launch "Bundle Deals" LOB
     When I make a packages search with following parameters
       | source              | SEA                            |
-      | destination         | SFO                            |
+      | destination         | DALY                           |
       | source_suggest      | SEA - Seattle  -  Tacoma Intl. |
-      | destination_suggest | San Francisco, CA              |
+      | destination_suggest | Daly City, CA                  |
       | start_date          | 15                             |
       | end_date            | 20                             |
       | adults              | 1                              |
@@ -114,10 +114,10 @@ Feature: Package End To End
     And I change travellers count and press done
     Then I can trigger packages search
     Then on Package Overview Screen validate the toolbar
-      | destination    | San Francisco, CA |
-      | start_date     |  5                |
-      | end_date       | 10                |
-      | totalTravelers | 5 travelers       |
+      | destination    | Daly City, CA              |
+      | start_date     |  5                         |
+      | end_date       | 10                         |
+      | totalTravelers | 5 travelers                |
     Then validate HSR screen is displayed with following travel dates and travelers
       | start_date      |  5 |
       | end_date        | 10 |

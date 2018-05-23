@@ -6,9 +6,9 @@ Feature: Package Overview
       And I launch "Bundle Deals" LOB
       When I make a packages search with following parameters
         | source              | KTM                            |
-        | destination         | SFO                            |
+        | destination         | DALY                           |
         | source_suggest      | KTM - Tribhuvan Intl.          |
-        | destination_suggest | San Francisco, CA              |
+        | destination_suggest | Daly City, CA                  |
         | start_date          | 5                              |
         | end_date            | 10                             |
         | adults              | 2                              |
