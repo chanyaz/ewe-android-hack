@@ -14,18 +14,22 @@ import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.packages.presenter.PackageSearchPresenter
 import com.expedia.bookings.packages.vm.PackageSearchViewModel
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.FlightTravelerPickerView
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito.`when`
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import org.mockito.Mockito.spy
 
 @RunWith(RobolectricRunner::class)
 class PackagesSearchPresenterTest {
@@ -182,5 +186,92 @@ class PackagesSearchPresenterTest {
         assertNull(widget.destinationCardView.compoundDrawablesRelative[2])
         assertNull(widget.originCardView.compoundDrawablesRelative[2])
         assertNull(widget.calendarWidgetV2.compoundDrawablesRelative[2])
+    }
+
+    @Test
+    fun testCalendarWidgetIsNotDisplayedAutomaticallyForExpiredSavedParams() {
+        val packageSearchViewModel = PackageSearchViewModel(activity)
+
+        widget.searchViewModel = packageSearchViewModel
+        widget.searchViewModel.performSearchObserver.onNext(getDummyPackageSearchParams(-2, -1))
+        widget.searchViewModel.previousSearchParamsObservable.onNext(getDummyPackageSearchParams(-2, -1))
+
+        val dialog = (activity as FragmentActivity).supportFragmentManager.findFragmentByTag(Constants.TAG_CALENDAR_DIALOG)
+        assertNull(dialog)
+    }
+
+    @Test
+    fun testCalendarWidgetIsNotDisplayedWithTalkback() {
+        val packageSearchViewModel = PackageSearchViewModel(activity)
+        val mockedModel = spy(packageSearchViewModel)
+        `when`(mockedModel.isTalkbackActive()).thenReturn(true)
+
+        widget.searchViewModel = mockedModel
+
+        widget.searchViewModel.setOriginText(getDummySuggestion())
+        widget.searchViewModel.setDestinationText(getDummySuggestion())
+
+        val dialog = (activity as FragmentActivity).supportFragmentManager.findFragmentByTag(Constants.TAG_CALENDAR_DIALOG)
+        assertNull(dialog)
+    }
+
+    @Test
+    fun verifyPreviousSearchParamsAreRetained() {
+        val packageSearchViewModel = PackageSearchViewModel(activity)
+        val calendarWidget = widget.calendarWidgetV2
+
+        widget.searchViewModel = packageSearchViewModel
+        widget.searchViewModel.performSearchObserver.onNext(getDummyPackageSearchParams(1, 2))
+        widget.searchViewModel.previousSearchParamsObservable.onNext(getDummyPackageSearchParams(1, 2))
+
+        assertFalse(calendarWidget.calendarDialog?.isVisible ?: false)
+        val dialog = (activity as FragmentActivity).supportFragmentManager.findFragmentByTag(Constants.TAG_CALENDAR_DIALOG)
+        assertNull(dialog)
+    }
+
+    @Test
+    fun verifyCalendarWidgetIsShownAfterSelectingOriginDestination() {
+        val packageSearchViewModel = PackageSearchViewModel(activity)
+        val calendarWidget = widget.calendarWidgetV2
+        widget.searchViewModel = packageSearchViewModel
+
+        widget.searchViewModel.setOriginText(getDummySuggestion())
+        widget.searchViewModel.setDestinationText(getDummySuggestion())
+
+        assertTrue(calendarWidget.calendarDialog?.isShowInitiated ?: false)
+        val dialog = (activity as FragmentActivity).supportFragmentManager.findFragmentByTag(Constants.TAG_CALENDAR_DIALOG)
+        assertNotNull(dialog)
+    }
+
+    private fun getDummyPackageSearchParams(startDateOffset: Int, endDateOffset: Int): PackageSearchParams {
+        val origin = getDummySuggestion()
+        val destination = getDummySuggestion()
+        val startDate = LocalDate.now().plusDays(startDateOffset)
+        val endDate = startDate.plusDays(endDateOffset)
+
+        val paramsBuilder = PackageSearchParams.Builder(26, 369)
+                .infantSeatingInLap(false)
+                .origin(origin)
+                .destination(destination)
+                .startDate(startDate)
+                .adults(1)
+                .children(listOf(1, 2, 3))
+                .endDate(endDate) as PackageSearchParams.Builder
+
+        return paramsBuilder.build()
+    }
+
+    private fun getDummySuggestion(): SuggestionV4 {
+        val suggestion = SuggestionV4()
+        suggestion.gaiaId = ""
+        suggestion.regionNames = SuggestionV4.RegionNames()
+        suggestion.regionNames.displayName = "London"
+        suggestion.regionNames.fullName = "London"
+        suggestion.regionNames.shortName = "LHR"
+        suggestion.hierarchyInfo = SuggestionV4.HierarchyInfo()
+        suggestion.hierarchyInfo!!.airport = SuggestionV4.Airport()
+        suggestion.hierarchyInfo!!.airport!!.airportCode = "happy"
+        suggestion.hierarchyInfo!!.airport!!.multicity = "happy"
+        return suggestion
     }
 }

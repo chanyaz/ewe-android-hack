@@ -88,7 +88,8 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
                         Phrase.from(context, R.string.search_flying_to_destination_cont_desc_TEMPLATE)
                                 .put("to_destination", text)
                                 .format().toString()
-                if (this.visibility == VISIBLE && vm.startDate() == null && !AccessibilityUtil.isTalkBackEnabled(context)) {
+                if (this.visibility == VISIBLE && vm.startDate() == null
+                        && !vm.isTalkbackActive() && !vm.isSearchDateExpired) {
                     calendarWidgetV2.showCalendarDialog()
                 }
             } else {

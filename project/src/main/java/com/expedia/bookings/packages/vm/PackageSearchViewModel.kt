@@ -29,7 +29,7 @@ import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import javax.inject.Inject
 
-class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
+open class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     lateinit var travelerValidator: TravelerValidator
         @Inject set
@@ -43,6 +43,7 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     // Outputs
     val searchParamsObservable = PublishSubject.create<PackageSearchParams>()
     var isFHPackageSearch = true
+    var isSearchDateExpired = false
 
     val packageParamsBuilder = PackageSearchParams.Builder(rules.getMaxSearchDurationDays(), rules.getMaxDateRange())
     val previousSearchParamsObservable = PublishSubject.create<PackageSearchParams>()
@@ -117,8 +118,8 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     private fun setupViewModelFromPastSearch(pastSearchParams: PackageSearchParams) {
         val currentDate = LocalDate.now()
-        val invalidDates = pastSearchParams.startDate.isBefore(currentDate) || pastSearchParams.endDate?.isBefore(currentDate) ?: false
-        if (!invalidDates) {
+        isSearchDateExpired = pastSearchParams.startDate.isBefore(currentDate)
+        if (!isSearchDateExpired) {
             datesUpdated(pastSearchParams.startDate, pastSearchParams.endDate)
         }
         pastSearchParams.origin?.let {

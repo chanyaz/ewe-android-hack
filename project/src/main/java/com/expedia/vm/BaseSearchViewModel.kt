@@ -2,6 +2,7 @@ package com.expedia.vm
 
 import android.content.Context
 import android.support.annotation.CallSuper
+import android.support.annotation.VisibleForTesting
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BaseSearchParams
 import com.expedia.bookings.data.SuggestionV4
@@ -95,14 +96,16 @@ abstract class BaseSearchViewModel(val context: Context) {
         }
     }
 
-    protected fun setOriginText(suggestion: SuggestionV4) {
+    @VisibleForTesting
+    fun setOriginText(suggestion: SuggestionV4) {
         getParamsBuilder().origin(suggestion)
         val origin = SuggestionStrUtils.formatAirportName(HtmlCompat.stripHtml(suggestion.regionNames.displayName))
         formattedOriginObservable.onNext(origin)
         requiredSearchParamsObserver.onNext(Unit)
     }
 
-    protected fun setDestinationText(suggestion: SuggestionV4) {
+    @VisibleForTesting
+    fun setDestinationText(suggestion: SuggestionV4) {
         getParamsBuilder().destination(suggestion)
         val destination = SuggestionStrUtils.formatAirportName(HtmlCompat.stripHtml(suggestion.regionNames.displayName))
         formattedDestinationObservable.onNext(destination)
