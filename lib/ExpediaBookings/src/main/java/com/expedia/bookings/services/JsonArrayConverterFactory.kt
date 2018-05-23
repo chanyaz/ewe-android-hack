@@ -1,24 +1,24 @@
 package com.expedia.bookings.services
 
 import okhttp3.ResponseBody
+import org.json.JSONArray
 import org.json.JSONException
-import org.json.JSONObject
 import retrofit2.Converter
 import retrofit2.Retrofit
 import java.io.IOException
 import java.lang.reflect.Type
 
-class JsonConverterFactory : Converter.Factory() {
+class JsonArrayConverterFactory : Converter.Factory() {
 
     override fun responseBodyConverter(type: Type, annotations: Array<Annotation>, retrofit: Retrofit): Converter<ResponseBody, *> =
             JsonConverter.INSTANCE
 
-    class JsonConverter : Converter<ResponseBody, JSONObject> {
+    class JsonConverter : Converter<ResponseBody, JSONArray> {
 
         @Throws(IOException::class)
-        override fun convert(responseBody: ResponseBody): JSONObject {
+        override fun convert(responseBody: ResponseBody): JSONArray {
             try {
-                return JSONObject(responseBody.string())
+                return JSONArray(responseBody.string())
             } catch (e: JSONException) {
                 throw IOException("Failed to parse JSON", e)
             }

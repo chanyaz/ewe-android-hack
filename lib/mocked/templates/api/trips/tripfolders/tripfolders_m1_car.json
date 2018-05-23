@@ -1,0 +1,48 @@
+[
+  {
+    "tripFolderType": "VIRTUAL_FOLDER",
+    "tripFolderId": "a81951a6-c740-4db9-9bcd-2862076fff1b",
+    "tripFolderApiUrl": "/trips/790102842968",
+    "timing": "UPCOMING",
+    "state": "BOOKED",
+    "title": "Car rental in Hebron",
+    "startTime": {
+      "raw": "2018-02-13T10:30:00-05:00",
+      "epochSeconds": 1518535800,
+      "timeZoneOffsetSeconds": -18000
+    },
+    "endTime": {
+      "raw": "2018-02-14T10:30:00-05:00",
+      "epochSeconds": 1518622200,
+      "timeZoneOffsetSeconds": -18000
+    },
+    "hero": {
+      "destination": "destinationUrl",
+      "images": {
+        "image": "imageUrl"
+      }
+    },
+    "lobs": [
+      "Car"
+    ],
+    "elements": [
+      {
+        "type": "TRIP",
+        "sourceId": {
+          "tripId": "a81951a6-c740-4db9-9bcd-2862076fff1b"
+        },
+        "destination": "destination",
+        "startTime": {
+          "raw": "2018-02-13T10:30:00-05:00",
+          "epochSeconds": 1518535800,
+          "timeZoneOffsetSeconds": -18000
+        },
+        "endTime": {
+          "raw": "2018-02-14T10:30:00-05:00",
+          "epochSeconds": 1518622200,
+          "timeZoneOffsetSeconds": -18000
+        }
+      }
+    ]
+  }
+]

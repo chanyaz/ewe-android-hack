@@ -9,7 +9,9 @@ import org.joda.time.Days
 import java.util.concurrent.TimeUnit
 
 // Mocks out various mobile Expedia APIs
-class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
+class ExpediaDispatcher(protected var fileOpener: FileOpener, dispatcherSettings: Map<DispatcherSettingsKeys, String>) : Dispatcher() {
+
+    constructor(fileOpener: FileOpener) : this(fileOpener, emptyMap())
 
     private var lastSignInEmail: String = ""
     private val travelAdRequests = hashMapOf<String, Int>()
@@ -27,6 +29,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
     private val flightMApiRequestDispatcher = FlightMApiRequestDispatcher(fileOpener)
     private val hotelShortlistRequestDispatcher = HotelShortlistApiRequestDispatcher(fileOpener)
     private val hotelReviewsRequestDispatcher = HotelReviewsApiRequestDispatcher(fileOpener)
+    private val tripsDispatcher = TripsDispatcher(fileOpener, dispatcherSettings)
 
     @Throws(InterruptedException::class)
     override fun dispatch(request: RecordedRequest): MockResponse {
@@ -206,6 +209,11 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
 
         if (request.path.contains("/m/api/deregister")) {
             return dispatchTNSDeregistrationResponse()
+        }
+
+        //Trip folders
+        if (request.path.contains("/m/api/trips/tripfolders")) {
+            return tripsDispatcher.dispatch(request)
         }
 
         return make404()
@@ -438,7 +446,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         }
     }
 
-    private fun dispatchHolidayInfo() : MockResponse {
+    private fun dispatchHolidayInfo(): MockResponse {
         return makeResponse("api/flight/holidayCalendar.json")
     }
 
