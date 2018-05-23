@@ -40,21 +40,23 @@ class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingS
             val rooms = hotel.rooms
             roomContainerClearSubject.onNext(Unit)
             rooms?.forEach { room ->
-                val priceDetails = room.totalPriceDetails
-                priceDetails?.let {
-                    val roomPrice = getRoomTotalPriceItem(priceDetails)
-                    if (roomPrice != null) {
-                        roomContainerItemSubject.onNext(roomPrice)
-                    }
+                if (room.bookingStatus != null && room.bookingStatus == "BOOKED") {
+                    val priceDetails = room.totalPriceDetails
+                    priceDetails?.let {
+                        val roomPrice = getRoomTotalPriceItem(priceDetails)
+                        if (roomPrice != null) {
+                            roomContainerItemSubject.onNext(roomPrice)
+                        }
 
-                    val roomPricesPerDay = getRoomPricePerDayItems(priceDetails)
-                    roomPricesPerDay?.forEach {
-                        roomContainerItemSubject.onNext(it)
-                    }
+                        val roomPricesPerDay = getRoomPricePerDayItems(priceDetails)
+                        roomPricesPerDay?.forEach {
+                            roomContainerItemSubject.onNext(it)
+                        }
 
-                    val propertyFee = getRoomPropertyFeeItem(room)
-                    if (propertyFee != null) {
-                        roomContainerItemSubject.onNext(propertyFee)
+                        val propertyFee = getRoomPropertyFeeItem(room)
+                        if (propertyFee != null) {
+                            roomContainerItemSubject.onNext(propertyFee)
+                        }
                     }
                 }
             }

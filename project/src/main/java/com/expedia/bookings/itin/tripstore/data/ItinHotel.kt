@@ -24,7 +24,8 @@ enum class PaymentModel {
 
 data class HotelRoom(
         val totalPriceDetails: TotalPriceDetails?,
-        val roomPropertyFeeFormatted: String?
+        val roomPropertyFeeFormatted: String?,
+        val bookingStatus: String?
 )
 
 data class TotalPriceDetails(
