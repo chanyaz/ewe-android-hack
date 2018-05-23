@@ -182,12 +182,12 @@ dependencies {
             'spoon-client-1.1.3-EXP.jar',
     ])
     androidTestImplementation "com.google.dexmaker:dexmaker-mockito:1.2"
-    androidTestImplementation 'info.cukes:cucumber-android:1.2.0@jar'
-    androidTestImplementation 'info.cukes:cucumber-picocontainer:1.2.0'
-    androidTestImplementation 'info.cukes:cucumber-html:0.2.3'
-    androidTestImplementation "tools.fastlane:screengrab:0.5.5"
+    androidTestImplementation 'info.cukes:cucumber-android:1.2.5'
+    androidTestImplementation 'info.cukes:cucumber-picocontainer:1.2.5'
+    androidTestImplementation 'info.cukes:cucumber-html:0.2.6'
+    androidTestImplementation "tools.fastlane:screengrab:1.2.0"
     androidTestImplementation "com.android.support:support-annotations:${rootProject.ext.supportLibVersion}"
-    androidTestImplementation 'com.linkedin.testbutler:test-butler-library:1.2.0'
+    androidTestImplementation 'com.linkedin.testbutler:test-butler-library:1.3.2'
 }
 
 if (!project.ext.has("cucumberInstrumentation")) {
