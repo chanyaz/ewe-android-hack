@@ -14,4 +14,5 @@
     <item name="flights_cost_summary_dialog_stripe" type="drawable">@drawable/divider_blue_yellow_stripe</item>
     <item name="itin_card_overflow_drawable" type="drawable">@drawable/ic_overflow_white</item>
     <item name="floating_pill_filter_icon" type="drawable">@drawable/sort</item>
+    <item name="hotel_review_search_icon" type="drawable">@drawable/fab_search</item>
 </resources>

@@ -2959,6 +2959,9 @@
         <item quantity="other">View %s Reviews</item>
     </plurals>
 
+    <!-- Hint in search bar for user reviews -->
+    <string name="user_review_search_hint">Search reviews</string>
+
     <!--
          User review name and place review signature eg (John from San Diego, CA)
         1$ is the user name
