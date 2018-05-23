@@ -2,6 +2,7 @@ package com.expedia.bookings.unit;
 
 
 import java.text.ParseException;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import org.joda.time.DateTime;
@@ -101,6 +102,17 @@ public class ApiDateUtilsTests {
 		DateTime obtained = ApiDateUtils.yyyyMMddHHmmssToDateTime(localDateStringRepresentation);
 
 		assertEquals(obtained, dateTimeExpected);
+	}
+
+
+	@Test
+	public void testParseStringToDate() {
+		Date expectedDate = new Date();
+		expectedDate.setTime(1591512001000L);
+		String dateString = "2020-06-06 23:40:01";
+		Date parsedDate = ApiDateUtils.yyyyMMddHHmmssToDate(dateString);
+
+		assertEquals(expectedDate, parsedDate);
 	}
 
 	@Test

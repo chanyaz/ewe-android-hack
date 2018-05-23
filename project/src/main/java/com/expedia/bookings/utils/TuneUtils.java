@@ -604,6 +604,7 @@ public class TuneUtils {
 
 			withTuidAndMembership(event)
 				.withAttribute2(trackingProvider.isUserLoggedInValue())
+				.withCurrencyCode(searchResponse.currencyCode)
 				.withEventItems(Collections.singletonList(eventItem))
 				.withDate1(searchParams.getActivityStartDate().toDate())
 				.withSearchString("lx");
@@ -625,10 +626,7 @@ public class TuneUtils {
 				.withRevenue(totalPrice.getAmount().doubleValue())
 				.withCurrencyCode(totalPrice.getCurrency())
 				.withEventItems(Collections.singletonList(eventItem))
-				.withDate1(ApiDateUtils
-					.yyyyMMddHHmmssToLocalDate(lxOfferSelectedDate)
-					.toDate());
-
+				.withDate1(ApiDateUtils.yyyyMMddHHmmssToDate(lxOfferSelectedDate));
 			trackingProvider.trackEvent(event);
 		}
 	}
@@ -655,9 +653,7 @@ public class TuneUtils {
 				.withCurrencyCode(totalPrice.getCurrency())
 				.withAdvertiserRefId(getAdvertiserRefId(checkoutResponse.newTrip.travelRecordLocator))
 				.withEventItems(Collections.singletonList(eventItem))
-				.withDate1(ApiDateUtils
-					.yyyyMMddHHmmssToLocalDate(lxActivityStartDate)
-					.toDate());
+				.withDate1(ApiDateUtils.yyyyMMddHHmmssToDate(lxActivityStartDate));
 
 			trackingProvider.trackEvent(event);
 		}

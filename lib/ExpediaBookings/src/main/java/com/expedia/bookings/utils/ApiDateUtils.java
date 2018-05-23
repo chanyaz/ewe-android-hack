@@ -71,6 +71,13 @@ public class ApiDateUtils {
 		}
 	}
 
+	public static Date yyyyMMddHHmmssToDate(String dateyyyyMMddHHmmss) {
+		Date date = new Date();
+		DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+		date.setTime(format.parseMillis(dateyyyyMMddHHmmss));
+		return date;
+	}
+
 	public static LocalDate yyyyMMddHHmmssToLocalDate(String dateyyyyMMddHHmmss) {
 		return LocalDate.parse(dateyyyyMMddHHmmss, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss"));
 	}

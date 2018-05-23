@@ -439,6 +439,7 @@ class TuneUtilsTests {
         val searchParams = LxSearchParams("Las Vegas", baseStartDate, baseStartDate.plusDays(1), SearchType.DEFAULT_SEARCH, "park", null, null, false)
         val searchResponse = LXSearchResponse()
         searchResponse.activities = listOf(generateLXActivity("Tour", 80), generateLXActivity("Excursion", 125), generateLXActivity("Theme Park", 90))
+        searchResponse.currencyCode = "USD"
 
         TuneUtils.trackLXSearch(searchParams, searchResponse)
 
@@ -449,6 +450,7 @@ class TuneUtilsTests {
         assertEquals("Tour|USD|80.0:Excursion|USD|125.0:Theme Park|USD|90.0", provider.trackedEvent?.eventItems?.first()?.attribute5)
         assertEquals(baseStartDate.toDate(), provider.trackedEvent?.date1)
         assertEquals("lx", provider.trackedEvent?.searchString)
+        assertEquals("USD", provider.trackedEvent?.currencyCode)
     }
 
     @Test
@@ -467,7 +469,7 @@ class TuneUtilsTests {
         assertEquals(1, provider.trackedEvent?.quantity)
         assertEquals(totalPrice.getAmount().toDouble(), provider.trackedEvent?.revenue)
         assertEquals("USD", provider.trackedEvent?.currencyCode)
-        assertEquals(ApiDateUtils.yyyyMMddHHmmssToLocalDate(activityDate).toDate(), provider.trackedEvent?.date1)
+        assertEquals(ApiDateUtils.yyyyMMddHHmmssToDate(activityDate), provider.trackedEvent?.date1)
     }
 
     @Test
@@ -493,7 +495,7 @@ class TuneUtilsTests {
         assertEquals(totalPrice.amount.toDouble(), provider.trackedEvent?.revenue)
         assertEquals(1, provider.trackedEvent?.quantity)
         assertEquals("USD", provider.trackedEvent?.currencyCode)
-        assertEquals(ApiDateUtils.yyyyMMddHHmmssToLocalDate(activityDate).toDate(), provider.trackedEvent?.date1)
+        assertEquals(ApiDateUtils.yyyyMMddHHmmssToDate(activityDate), provider.trackedEvent?.date1)
     }
 
     private fun setupTuneProvider(membershipTier: LoyaltyMembershipTier = LoyaltyMembershipTier.BASE, isLoggedIn: Boolean = false) {
