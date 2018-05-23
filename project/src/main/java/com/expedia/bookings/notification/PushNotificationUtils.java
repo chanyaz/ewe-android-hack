@@ -23,20 +23,6 @@ public class PushNotificationUtils {
 	private static final String LOGGING_TAG = "PushNotificationUtils";
 	private static HashMap<String, Integer> sLocStringMap;
 
-	//We can cache (hashes of) the payloads we have sent to our api, and use them to prevent ourselves from sending
-	//the same payload multiple times. Usually our flights dont change so this will save the api some work.
-	private static HashMap<String, String> sPayloadMap = new HashMap<>();
-
-	//The server will splode if we make simultanious calls using the same regId,
-	//so we create objects to synchronize with (usually this will have one entry)
-	private static final HashMap<String, Object> sPushLocks = new HashMap<>();
-
-	public static void removePayloadFromMap(String regId) {
-		if (sPayloadMap.containsKey(regId)) {
-			sPayloadMap.remove(regId);
-		}
-	}
-
 	/**
 	 * Build and display a notification for the provided arguments
 	 *
@@ -53,11 +39,13 @@ public class PushNotificationUtils {
 		else {
 			ItinCardDataFlight data = (ItinCardDataFlight) ItineraryManager.getInstance()
 				.getItinCardDataFromFlightHistoryId(fhid);
-			if (hasLocKeyForNewFlightAlerts(locKey)) {
-				generateFlightAlertNotification(context, fhid, locKey,
-					locKeyArgs, titleArg, nID, data);
+			if (data != null) {
+				if (hasLocKeyForNewFlightAlerts(locKey)) {
+					generateFlightAlertNotification(context, fhid, locKey,
+						locKeyArgs, titleArg, nID, data);
+				}
 			}
-			else if (data == null) {
+			else {
 				// There is not any data from a desktop booking notification,
 				// so we check the locKey to see if it indicates that the message
 				// is related to a desktop booking. If so, we generate it.
