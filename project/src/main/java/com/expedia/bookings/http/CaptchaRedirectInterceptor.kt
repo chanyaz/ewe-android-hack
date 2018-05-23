@@ -1,6 +1,7 @@
 package com.expedia.bookings.http
 
 import android.content.Context
+import com.crashlytics.android.Crashlytics
 import com.expedia.bookings.activity.CaptchaWebViewActivity
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
@@ -8,10 +9,13 @@ import okhttp3.Response
 
 class CaptchaRedirectInterceptor(val context: Context) : Interceptor {
 
+    val LOGGING_TAG = "CaptchaRedirectInterceptor"
+
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
         val response = chain.proceed(request)
         if (response.code() == 429) {
+            Crashlytics.logException(Exception("CaptchaRedirectInterceptor: Suspected bot intercepted"))
             val builder = HttpUrl.Builder()
             val url = request.url()
             builder.scheme(url.scheme())
