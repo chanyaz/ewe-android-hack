@@ -31,6 +31,11 @@
             android:paddingBottom="19dp"
             android:paddingTop="19dp">
 
+            <com.expedia.bookings.itin.common.ItinImageWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/itin_image_widget"/>
+
             <com.expedia.bookings.itin.lx.details.LxItinRedeemVoucherWidget
                 android:id="@+id/widget_lx_itin_redeem_voucher"
                 android:layout_width="match_parent"

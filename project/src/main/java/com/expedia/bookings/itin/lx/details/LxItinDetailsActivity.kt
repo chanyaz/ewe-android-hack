@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
+import com.expedia.bookings.itin.common.ItinImageWidget
 import com.expedia.bookings.itin.common.ItinMapWidget
 import com.expedia.bookings.itin.common.ItinToolbar
 import com.expedia.bookings.itin.scopes.LxLifeCycleObserverScope
@@ -39,6 +40,7 @@ class LxItinDetailsActivity : AppCompatActivity() {
     val manageBookingWidget: LxItinManageBookingWidget by bindView(R.id.widget_manage_booking)
     val mapWidget: ItinMapWidget by bindView(R.id.map_widget)
     val redeemVoucherWidget: LxItinRedeemVoucherWidget by bindView(R.id.widget_lx_itin_redeem_voucher)
+    val imageWidget: ItinImageWidget by bindView(R.id.itin_image_widget)
 
     val lifecycleObserver: LxItinDetailsActivityLifecycleObserver<LxLifeCycleObserverScope> by lazy {
         val stringProvider = Ui.getApplication(this).appComponent().stringProvider()
@@ -48,7 +50,7 @@ class LxItinDetailsActivity : AppCompatActivity() {
         val itinId = intent.getStringExtra(LX_ITIN_ID)
         val tripsTracking = TripsTracking
         val phoneHandler = PhoneHandler(this)
-        val scope = LxLifeCycleObserverScope(stringProvider, webViewLauncher, activityLauncher, jsonUtil, itinId, manageBookingWidget, toolbar, tripsTracking, mapWidget, redeemVoucherWidget, toaster, phoneHandler)
+        val scope = LxLifeCycleObserverScope(stringProvider, webViewLauncher, activityLauncher, jsonUtil, itinId, manageBookingWidget, toolbar, tripsTracking, mapWidget, redeemVoucherWidget, toaster, phoneHandler, imageWidget)
         LxItinDetailsActivityLifecycleObserver(scope)
     }
 

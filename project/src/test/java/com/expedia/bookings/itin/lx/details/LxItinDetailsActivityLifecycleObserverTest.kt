@@ -2,6 +2,7 @@ package com.expedia.bookings.itin.lx.details
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.LifecycleOwner
+import com.expedia.bookings.itin.common.ItinImageViewModel
 import com.expedia.bookings.itin.common.ItinMapWidgetViewModel
 import com.expedia.bookings.itin.common.ItinRedeemVoucherViewModel
 import com.expedia.bookings.itin.common.NewItinToolbarViewModel
@@ -18,6 +19,7 @@ import com.expedia.bookings.itin.lx.LxItinToolbarViewModel
 import com.expedia.bookings.itin.lx.MockItinLxToolbarScope
 import com.expedia.bookings.itin.scopes.HasActivityLauncher
 import com.expedia.bookings.itin.scopes.HasItinId
+import com.expedia.bookings.itin.scopes.HasItinImageViewModelSetter
 import com.expedia.bookings.itin.scopes.HasJsonUtil
 import com.expedia.bookings.itin.scopes.HasManageBookingWidgetViewModelSetter
 import com.expedia.bookings.itin.scopes.HasMapWidgetViewModelSetter
@@ -28,6 +30,7 @@ import com.expedia.bookings.itin.scopes.HasToaster
 import com.expedia.bookings.itin.scopes.HasToolbarViewModelSetter
 import com.expedia.bookings.itin.scopes.HasTripsTracking
 import com.expedia.bookings.itin.scopes.HasWebViewLauncher
+import com.expedia.bookings.itin.scopes.ItinImageViewModelSetter
 import com.expedia.bookings.itin.scopes.LxItinManageBookingWidgetScope
 import com.expedia.bookings.itin.scopes.ManageBookingWidgetViewModelSetter
 import com.expedia.bookings.itin.scopes.MapWidgetViewModelSetter
@@ -78,6 +81,7 @@ class LxItinDetailsActivityLifecycleObserverTest {
         assertFalse(scope.toolbarMock.called)
         assertFalse(scope.tripsTracker.trackItinLxCalled)
         assertFalse(scope.redeemVoucher.called)
+        assertFalse(scope.mockImage.called)
 
         sut.onCreate(cycle)
 
@@ -85,6 +89,7 @@ class LxItinDetailsActivityLifecycleObserverTest {
         assertTrue(scope.toolbarMock.called)
         assertTrue(scope.tripsTracker.trackItinLxCalled)
         assertTrue(scope.redeemVoucher.called)
+        assertTrue(scope.mockImage.called)
         testObserver.assertNoValues()
 
         sut.repo.invalidDataSubject.onNext(Unit)
@@ -108,9 +113,11 @@ class LxItinDetailsActivityLifecycleObserverTest {
         testObserver.assertValue(Unit)
     }
 
-    class TestLifeCycleObsScope : HasStringProvider, HasWebViewLauncher, HasActivityLauncher, HasJsonUtil, HasItinId, HasToolbarViewModelSetter, HasManageBookingWidgetViewModelSetter, HasTripsTracking, HasMapWidgetViewModelSetter, HasRedeemVoucherViewModelSetter, HasToaster, HasPhoneHandler {
+    class TestLifeCycleObsScope : HasStringProvider, HasWebViewLauncher, HasActivityLauncher, HasJsonUtil, HasItinId, HasToolbarViewModelSetter, HasManageBookingWidgetViewModelSetter, HasTripsTracking, HasMapWidgetViewModelSetter, HasRedeemVoucherViewModelSetter, HasToaster, HasPhoneHandler, HasItinImageViewModelSetter {
         val mockPhoneHandler = MockPhoneHandler()
         override val phoneHandler: IPhoneHandler = mockPhoneHandler
+        val mockImage = MockImageSetter()
+        override val itinImage: ItinImageViewModelSetter = mockImage
         val mockToaster = MockToaster()
         override val toaster: IToaster = mockToaster
         override val map: MapWidgetViewModelSetter = MockMapSetter()
@@ -162,5 +169,13 @@ class LxItinDetailsActivityLifecycleObserverTest {
         override fun setUpViewModel(vm: NewItinToolbarViewModel) {
             called = true
         }
+    }
+
+    class MockImageSetter : ItinImageViewModelSetter {
+        override fun setupViewModel(vm: ItinImageViewModel) {
+            called = true
+        }
+
+        var called = false
     }
 }
