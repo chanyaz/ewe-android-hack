@@ -129,7 +129,7 @@ class FlightDetailsPresenterTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testSelectedFlightRichContent() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsRichContent, 2)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsRichContent, 3)
         sut.vm = FlightOverviewViewModel(context)
         createSelectedFlightLeg()
         assertEquals(View.VISIBLE, sut.flightMessageContainer.visibility)

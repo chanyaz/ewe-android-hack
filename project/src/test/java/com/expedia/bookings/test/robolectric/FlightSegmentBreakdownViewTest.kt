@@ -118,6 +118,21 @@ class FlightSegmentBreakdownViewTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testFlightAmenitiesVisibilityWhenUnbucketed() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppFlightsRichContent)
+        sut.viewmodel.addSegmentRowsObserver.onNext(getFlightSegmentBreakdownList("coach", true, true))
+        val richContentDividerView = sut.linearLayout.getChildAt(0).findViewById<View>(R.id.rich_content_divider) as View
+        assertEquals(View.GONE, richContentDividerView.visibility)
+        val richContentWifiView = sut.linearLayout.getChildAt(0).findViewById<View>(R.id.rich_content_wifi) as ImageView
+        assertEquals(View.GONE, richContentWifiView.visibility)
+        val richContentEntertainmentView = sut.linearLayout.getChildAt(0).findViewById<View>(R.id.rich_content_entertainment) as ImageView
+        assertEquals(View.GONE, richContentEntertainmentView.visibility)
+        val richContentPowerView = sut.linearLayout.getChildAt(0).findViewById<View>(R.id.rich_content_power) as ImageView
+        assertEquals(View.GONE, richContentPowerView.visibility)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testFlightAmenities() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppFlightsRichContent)
         sut.viewmodel.addSegmentRowsObserver.onNext(getFlightSegmentBreakdownList("coach", true, true))
@@ -137,6 +152,23 @@ class FlightSegmentBreakdownViewTest {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppFlightsRichContent)
         sut.viewmodel.addSegmentRowsObserver.onNext(getFlightSegmentBreakdownList("coach", true, true))
         sut.viewmodel.isFareFamilyUpgraded.onNext(true)
+        val richContentDividerView = sut.linearLayout.getChildAt(0).findViewById<View>(R.id.rich_content_divider) as View
+        assertEquals(View.GONE, richContentDividerView.visibility)
+        val richContentWifiView = sut.linearLayout.getChildAt(0).findViewById<View>(R.id.rich_content_wifi) as ImageView
+        assertEquals(View.GONE, richContentWifiView.visibility)
+        val richContentEntertainmentView = sut.linearLayout.getChildAt(0).findViewById<View>(R.id.rich_content_entertainment) as ImageView
+        assertEquals(View.GONE, richContentEntertainmentView.visibility)
+        val richContentPowerView = sut.linearLayout.getChildAt(0).findViewById<View>(R.id.rich_content_power) as ImageView
+        assertEquals(View.GONE, richContentPowerView.visibility)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testFlightAmenitiesVisibilityWithAmenitiesMissing() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppFlightsRichContent)
+        val flightSegments = getFlightSegmentBreakdownList("coach", true, true)
+        flightSegments[0].segment.flightAmenities = null
+        sut.viewmodel.addSegmentRowsObserver.onNext(flightSegments)
         val richContentDividerView = sut.linearLayout.getChildAt(0).findViewById<View>(R.id.rich_content_divider) as View
         assertEquals(View.GONE, richContentDividerView.visibility)
         val richContentWifiView = sut.linearLayout.getChildAt(0).findViewById<View>(R.id.rich_content_wifi) as ImageView

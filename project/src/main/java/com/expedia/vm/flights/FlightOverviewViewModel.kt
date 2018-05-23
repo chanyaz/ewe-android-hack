@@ -12,6 +12,7 @@ import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.RichContentUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.isFlightsUrgencyMeassagingEnabled
+import com.expedia.bookings.utils.isRichContentShowAmenityEnabled
 import com.expedia.bookings.utils.isRichContentShowRouteScoreEnabled
 import com.expedia.vm.AbstractFlightOverviewViewModel
 import com.squareup.phrase.Phrase
@@ -60,10 +61,12 @@ class FlightOverviewViewModel(context: Context) : AbstractFlightOverviewViewMode
             if (shouldShowUrgencyMessaging()) {
                 bottomUrgencyMessageSubject.onNext(FlightV2Utils.getSeatsLeftUrgencyMessage(context, selectedFlight))
             }
-            val segmentAmenities: List<RichContent.RichContentAmenity>? = selectedFlight.richContent?.segmentAmenitiesList
-            for ((index, segment) in selectedFlight.flightSegments.withIndex()) {
+            if (isRichContentShowAmenityEnabled()) {
+                val segmentAmenities: List<RichContent.RichContentAmenity>? = selectedFlight.richContent?.segmentAmenitiesList
                 if (CollectionUtils.isNotEmpty(segmentAmenities)) {
-                    segment.flightAmenities = segmentAmenities!![index]
+                    for ((index, segment) in selectedFlight.flightSegments.withIndex()) {
+                        segment.flightAmenities = segmentAmenities!![index]
+                    }
                 }
             }
             if (isRichContentShowRouteScoreEnabled() && selectedFlight.richContent != null) {

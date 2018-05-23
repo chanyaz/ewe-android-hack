@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightServiceClassType
+import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.Strings
@@ -26,8 +27,6 @@ class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) : Linea
             linearLayout.removeAllViews()
             for (segmentBreakdown in it) {
                 linearLayout.addView(createSegmentRow(segmentBreakdown))
-                val flightAmenities = segmentBreakdown.segment.flightAmenities
-                flightAmenities?.let { vm.segmentAmenitiesStream.onNext(it) }
                 if (segmentBreakdown.hasLayover && it.indexOf(segmentBreakdown) != it.size - 1) {
                     linearLayout.addView(createLayoverRow(segmentBreakdown))
                 }
@@ -79,16 +78,22 @@ class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) : Linea
             seatClassAndBookingCode.visibility = GONE
         }
 
-        if (isRichContentShowAmenityEnabled()) {
-            val richContentDividerView = row.findViewById<View>(R.id.rich_content_divider)
+        val flightAmenities = breakdown.segment.flightAmenities
+        if (isRichContentShowAmenityEnabled() && flightAmenities != null) {
             val richContentWifiView = row.findViewById<ImageView>(R.id.rich_content_wifi)
+            richContentWifiView.setVisibility(flightAmenities.wifi)
             val richContentEntertainmentView = row.findViewById<ImageView>(R.id.rich_content_entertainment)
+            richContentEntertainmentView.setVisibility(flightAmenities.entertainment)
             val richContentPowerView = row.findViewById<ImageView>(R.id.rich_content_power)
-            viewmodel.seatClassAndBookingCodeVisibilityStream.onNext(seatClassAndBookingCode.visibility)
-            viewmodel.richContentDividerViewStream.subscribeVisibility(richContentDividerView)
-            viewmodel.richContentWifiViewStream.subscribeVisibility(richContentWifiView)
-            viewmodel.richContentEntertainmentViewStream.subscribeVisibility(richContentEntertainmentView)
-            viewmodel.richContentPowerViewStream.subscribeVisibility(richContentPowerView)
+            richContentPowerView.setVisibility(flightAmenities.power)
+            val richContentDividerView = row.findViewById<View>(R.id.rich_content_divider)
+            richContentDividerView.setVisibility(seatClassAndBookingCode.visibility == VISIBLE &&
+                    (flightAmenities.wifi || flightAmenities.entertainment || flightAmenities.power))
+
+            viewmodel.richContentFareFamilyWifiViewStream.subscribeVisibility(richContentWifiView)
+            viewmodel.richContentFareFamilyEntertainmentViewStream.subscribeVisibility(richContentEntertainmentView)
+            viewmodel.richContentFareFamilyPowerViewStream.subscribeVisibility(richContentPowerView)
+            viewmodel.richContentFareFamilyDividerViewStream.subscribeVisibility(richContentDividerView)
         }
 
         return row
