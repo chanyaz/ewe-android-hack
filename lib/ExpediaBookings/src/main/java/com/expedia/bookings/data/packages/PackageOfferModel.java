@@ -26,6 +26,7 @@ public class PackageOfferModel {
 
 		price = new PackagePrice();
 		price.packageTotalPrice = multiItemOffer.getPrice().packageTotalPrice();
+		price.packageReferenceTotalPrice = multiItemOffer.getPrice().packageReferenceTotalPrice();
 		price.tripSavings = multiItemOffer.getPrice().packageSavings();
 		price.pricePerPerson = multiItemOffer.getPrice().pricePerPerson();
 		price.pricePerPersonFormatted = multiItemOffer.getPrice().pricePerPerson().getFormattedMoneyFromAmountAndCurrencyCode();
@@ -60,6 +61,7 @@ public class PackageOfferModel {
 	public static class PackagePrice {
 		public Money averageTotalPricePerTicket;
 		public Money packageTotalPrice;
+		public Money packageReferenceTotalPrice;
 		public Money pricePerPerson;
 		public Money hotelPrice;
 		public Money flightPrice;

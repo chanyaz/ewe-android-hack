@@ -875,6 +875,10 @@
         <item name="textStyle">medium</item>
     </style>
 
+    <style name="BundleOverviewFooter.PrimaryText.StrikethroughPrice">
+        <item name="android:textColor">@color/packages_bundle_overview_footer_primary_text_strikethrough</item>
+    </style>
+
     <style name="BundleOverviewFooter.SecondaryText">
         <item name="android:textColor">@color/packages_bundle_overview_footer_secondary_text</item>
         <item name="android:textSize">@dimen/packages_bundle_overview_footer_secondary_text</item>

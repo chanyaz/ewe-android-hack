@@ -51,7 +51,9 @@ public class HotelRate {
 
 	public Money packagePricePerPerson;
 	public Money packageTotalPrice;
+	public Money packageReferenceTotalPrice;
 	public Money packageSavings;
+	public boolean shouldShowPackageSavings;
 
 	// The types of display rates
 	public enum UserPriceType {

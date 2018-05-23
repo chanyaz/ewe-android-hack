@@ -28,6 +28,7 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.PackageTestUtil
+import com.expedia.bookings.test.robolectric.RoboTestHelper.getContext
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
@@ -147,6 +148,55 @@ class PackageOverviewPresenterTest {
 
         overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
         assertEquals(overviewPresenter.bundleWidget.bundleHotelWidget.hotelsDatesGuestInfoText.text, "Sep 7 - Sep 10, 2 guests")
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testBundleBetterSavingsBottomBar() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesBetterSavingsOnRateDetails)
+        setupOverviewPresenter()
+
+        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
+        val totalPriceWidget = overviewPresenter.totalPriceWidget
+        assertEquals(View.VISIBLE, totalPriceWidget.betterSavingContainer.visibility)
+        assertEquals("$100.23", totalPriceWidget.betterSavingView.text)
+        assertEquals("$200", totalPriceWidget.bundleTotalPrice.text)
+        assertEquals(View.VISIBLE, totalPriceWidget.bundleReferenceTotalPrice.visibility)
+        assertEquals("$300.23", totalPriceWidget.bundleReferenceTotalPrice.text)
+        assertEquals(View.GONE, totalPriceWidget.bundleSavings.visibility)
+        assertNotNull(totalPriceWidget.bundleTotalText.compoundDrawables[2])
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testBundleBetterSavingsBottomBarSavingsFalse() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesBetterSavingsOnRateDetails)
+        setupOverviewPresenter()
+        Db.getPackageResponse().getCurrentOfferPrice()?.showTripSavings = false
+
+        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
+        val totalPriceWidget = overviewPresenter.totalPriceWidget
+        assertEquals(View.GONE, totalPriceWidget.betterSavingContainer.visibility)
+        assertEquals("$200", totalPriceWidget.bundleTotalPrice.text)
+        assertEquals(View.GONE, totalPriceWidget.bundleReferenceTotalPrice.visibility)
+        assertEquals(View.VISIBLE, totalPriceWidget.bundleSavings.visibility)
+        assertEquals("$100.23 Saved", totalPriceWidget.bundleSavings.text)
+        assertNull(totalPriceWidget.bundleTotalText.compoundDrawables[2])
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testWithoutBundleBetterSavingsBottomBar() {
+        setupOverviewPresenter()
+
+        overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
+        val totalPriceWidget = overviewPresenter.totalPriceWidget
+        assertEquals(View.GONE, totalPriceWidget.betterSavingContainer.visibility)
+        assertEquals("$200", totalPriceWidget.bundleTotalPrice.text)
+        assertEquals(View.GONE, totalPriceWidget.bundleReferenceTotalPrice.visibility)
+        assertEquals(View.VISIBLE, totalPriceWidget.bundleSavings.visibility)
+        assertEquals("$100.23 Saved", totalPriceWidget.bundleSavings.text)
+        assertNull(totalPriceWidget.bundleTotalText.compoundDrawables[2])
     }
 
     @Test
@@ -404,7 +454,9 @@ class PackageOverviewPresenterTest {
     private fun setPackagePrice(): PackageOfferModel.PackagePrice {
         val packagePrice = PackageOfferModel.PackagePrice()
         packagePrice.packageTotalPrice = Money("200", "USD")
+        packagePrice.packageReferenceTotalPrice = Money("300.23", "USD")
         packagePrice.tripSavings = Money("100.23", "USD")
+        packagePrice.showTripSavings = true
         return packagePrice
     }
 }

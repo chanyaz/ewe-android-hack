@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.support.design.widget.TabLayout
-import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
@@ -43,6 +42,8 @@ import com.expedia.bookings.hotel.vm.HotelReviewsSummaryViewModel
 import com.expedia.bookings.packages.activity.PackageHotelActivity
 import com.expedia.bookings.packages.vm.PackageHotelDetailViewModel
 import com.expedia.bookings.packages.vm.PackageHotelResultsViewModel
+import com.expedia.bookings.packages.widget.SlidingBundleWidget
+import com.expedia.bookings.packages.widget.SlidingBundleWidgetListener
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
@@ -62,8 +63,6 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
 import com.expedia.bookings.widget.LoadingOverlayWidget
-import com.expedia.bookings.packages.widget.SlidingBundleWidget
-import com.expedia.bookings.packages.widget.SlidingBundleWidgetListener
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelMapViewModel
 import com.expedia.vm.HotelReviewsViewModel
@@ -502,7 +501,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         params.latestSelectedOfferInfo.hotelCheckInDate = Db.getPackageResponse().getHotelCheckInDate()
         params.latestSelectedOfferInfo.hotelCheckOutDate = Db.getPackageResponse().getHotelCheckOutDate()
         params.latestSelectedOfferInfo.productOfferPrice = Db.getPackageResponse().getCurrentOfferPrice()
-        val activity = (context as AppCompatActivity)
+        val activity = (context as Activity)
         activity.setResult(Activity.RESULT_OK)
         activity.finish()
     }
@@ -511,8 +510,11 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         val response = Db.getPackageResponse()
         val currentOfferPrice = PackageOfferModel.PackagePrice()
         currentOfferPrice.packageTotalPrice = offer.rateInfo.chargeableRateInfo.packageTotalPrice
+        currentOfferPrice.packageReferenceTotalPrice = offer.rateInfo.chargeableRateInfo.packageReferenceTotalPrice
         currentOfferPrice.tripSavings = offer.rateInfo.chargeableRateInfo.packageSavings
         currentOfferPrice.pricePerPerson = offer.rateInfo.chargeableRateInfo.packagePricePerPerson
+        currentOfferPrice.showTripSavings = offer.rateInfo.chargeableRateInfo.shouldShowPackageSavings
+
         response.setCurrentOfferPrice(currentOfferPrice)
     }
 

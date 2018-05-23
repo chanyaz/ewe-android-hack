@@ -9,6 +9,8 @@ import io.reactivex.subjects.PublishSubject
 abstract class BaseTotalPriceWidgetViewModel(isSlidable: Boolean) {
     val total = PublishSubject.create<Money>()
     val savings = PublishSubject.create<Money>()
+    val referenceTotalPrice = PublishSubject.create<Money>()
+    val shouldShowSavings = PublishSubject.create<Boolean>()
     val pricePerPerson = PublishSubject.create<Money>()
     val priceAvailableObservable = PublishSubject.create<Boolean>()
 

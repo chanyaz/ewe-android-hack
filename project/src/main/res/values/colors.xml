@@ -374,6 +374,7 @@
     <color name="packages_flight_filter_background_color">@color/gray100</color>
     <color name="filter_divider_lines">@color/app_divider_on_white</color>
     <color name="packages_bundle_price_background_color">@color/packages_secondary_color</color>
+    <color name="packages_bundle_overview_footer_primary_text_strikethrough">@color/gray600</color>
     <color name="packages_bundle_overview_footer_primary_text">@color/gray900</color>
     <color name="packages_bundle_overview_footer_secondary_text">@color/gray600</color>
     <color name="packages_bundle_overview_footer_secondary_text_savings">@color/success_green</color>
