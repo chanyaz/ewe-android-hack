@@ -1,7 +1,7 @@
 package com.expedia.bookings.preference
 
 object TripMockScenarios {
-    const val TRIP_SCENARIOS_KEY = "TRIP_SCENARIOS_KEY"
+    const val TRIP_SCENARIOS_FILENAME_KEY = "TRIP_SCENARIOS_FILENAME_KEY"
 
     enum class Scenarios(val filename: String) {
         TRIP_FOLDERS_M1_ONLY_HOTEL("tripfolders_m1_hotel"),

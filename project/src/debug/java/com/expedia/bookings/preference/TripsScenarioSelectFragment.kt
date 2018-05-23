@@ -62,7 +62,7 @@ class TripsScenariosAdapter(private val context: Context, private val scenarios:
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.textView.text = scenarios[position].name
         holder.itemView.setOnClickListener {
-            SettingUtils.save(context, TripMockScenarios.TRIP_SCENARIOS_KEY, scenarios[position].filename)
+            SettingUtils.save(context, TripMockScenarios.TRIP_SCENARIOS_FILENAME_KEY, scenarios[position].filename)
             val builder = AlertDialog.Builder(context, R.style.AccountDialogTheme)
             builder.setTitle("Mock trip scenario set")
             builder.setMessage(scenarios[position].name + "\n\nApp needs to restart.")

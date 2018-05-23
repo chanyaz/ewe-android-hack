@@ -1,9 +1,16 @@
 package com.expedia.bookings.utils;
 
-import android.content.Context;
-import com.mobiata.mocke3.ExpediaDispatcher;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.HashMap;
+
+import android.content.Context;
+
+import com.expedia.bookings.preference.TripMockScenarios;
+import com.mobiata.android.util.SettingUtils;
+import com.mobiata.mocke3.Dispatchers;
+import com.mobiata.mocke3.ExpediaDispatcher;
+
 import okhttp3.HttpUrl;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.internal.tls.SslClient;
@@ -17,11 +24,20 @@ public final class ExpediaMockWebServer {
 	public ExpediaMockWebServer(Context context) {
 		mockWebServer = new MockWebServer();
 		SslClient sslClient = SslClient.localhost();
-		mockWebServer.useHttps(sslClient.socketFactory,false);
+		mockWebServer.useHttps(sslClient.socketFactory, false);
 		AndroidFileOpener opener = new AndroidFileOpener(context);
-		dispatcher = new ExpediaDispatcher(opener);
+		HashMap<Dispatchers, String> dispatcherSettings = new HashMap<>();
+		addDispatcherSettings(context, dispatcherSettings);
+		dispatcher = new ExpediaDispatcher(opener, dispatcherSettings);
 		mockWebServer.setDispatcher(dispatcher);
+	}
 
+	private void addDispatcherSettings(Context context, HashMap<Dispatchers, String> settings) {
+
+		//Trips Dispatcher
+		String tripsResponseToDispatch = SettingUtils.get(context, TripMockScenarios.TRIP_SCENARIOS_FILENAME_KEY,
+			TripMockScenarios.Scenarios.TRIP_FOLDERS_M1_ONLY_HOTEL.getFilename());
+		settings.put(Dispatchers.TRIPS_DISPATCHER, tripsResponseToDispatch);
 	}
 
 	public void start() {
