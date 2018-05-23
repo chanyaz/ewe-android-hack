@@ -56,6 +56,20 @@ class HotelSortOptionsViewTest {
     }
 
     @Test
+    fun testSetSortNotInList() {
+        sortOptionsView.updateSortItems(listOf(DisplaySort.DEALS, DisplaySort.RATING))
+
+        val displaySort = DisplaySort.PRICE
+        sortOptionsView.setSort(displaySort)
+
+        assertEquals(0, sortOptionsView.sortByButtonGroup.selectedItemPosition)
+        assertEquals("Sort by Deals", sortOptionsView.sortByButtonGroup.contentDescription)
+
+        assertEquals(DisplaySort.DEALS, listener.displaySort)
+        assertFalse(listener.doTracking)
+    }
+
+    @Test
     fun testGetSortItems() {
         sortOptionsView.updateSortItems(DisplaySort.values().reversed().toList())
         val sortItems = sortOptionsView.getSortItems()

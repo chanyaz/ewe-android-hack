@@ -44,7 +44,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
 
         if (sort != null) {
             return sort
-        } else if (isCurrentLocationSearch()) {
+        } else if (isCurrentLocationSearch() && !suggestion.isGoogleSuggestionSearch) {
             return BaseHotelFilterOptions.SortType.DISTANCE
         }
 
