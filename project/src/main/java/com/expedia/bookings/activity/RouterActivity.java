@@ -129,11 +129,10 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 
 		startupTimer.addSplit("ItineraryManager sync");
 
-		if (isFacebookTrackingEnabled()) {
-			//Hi Facebook!
-			facebookInstallTracking();
-			startupTimer.addSplit("Facebook install tracking");
-		}
+		//Hi Facebook!
+		facebookInstallTracking();
+		startupTimer.addSplit("Facebook install tracking");
+
 		cleanupOldCookies();
 		cleanupOldSuggestions();
 
@@ -377,7 +376,7 @@ public class RouterActivity extends AppCompatActivity implements UserAccountRefr
 	 */
 	@VisibleForTesting
 	protected void facebookInstallTracking() {
-		AppEventsLogger.activateApp(this);
+		AppEventsLogger.activateApp(this.getApplication());
 	}
 
 	private boolean isFacebookTrackingEnabled() {
