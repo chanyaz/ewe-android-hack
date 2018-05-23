@@ -6,6 +6,7 @@ import com.expedia.bookings.itin.scopes.HasActivityLauncher
 import com.expedia.bookings.itin.scopes.HasHotelRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasStringProvider
+import com.expedia.bookings.itin.tripstore.data.BookingStatus
 import com.expedia.bookings.itin.tripstore.data.HotelRoom
 import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinHotel
@@ -39,7 +40,7 @@ class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingS
             //room price details
             val rooms = hotel.rooms
             roomContainerClearSubject.onNext(Unit)
-            rooms?.forEach { room ->
+            rooms?.filter { it.bookingStatus == BookingStatus.BOOKED }?.forEach { room ->
                 val priceDetails = room.totalPriceDetails
                 priceDetails?.let {
                     val roomPrice = getRoomTotalPriceItem(priceDetails)
