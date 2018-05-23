@@ -84,7 +84,7 @@ class HotelItinPricingSummaryViewTest {
         assertEquals(0, getAllLineItemViews().size)
         viewModel.hotelObserver.onChanged(viewModel.scope.itinHotelRepo.liveDataHotel.value)
 
-        assertEquals(17, getAllLineItemViews().size)
+        assertEquals(12, getAllLineItemViews().size)
 
         viewModel.hotelObserver.onChanged(getScope(true).itinHotelRepo.liveDataHotel.value)
 
