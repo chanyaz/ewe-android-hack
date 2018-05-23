@@ -284,13 +284,7 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 		}
 		else if (getString(R.string.preference_trips_mock_scenarios).equals(key)) {
 			final TripsScenarioSelectFragment fragment = new TripsScenarioSelectFragment();
-			fragment.viewModel = new TripScenariosViewModel();
-			fragment.viewModel.getRestartAppSubject().subscribe(new Consumer<Unit>() {
-				@Override
-				public void accept(Unit restartApp) {
-					restartApp();
-				}
-			});
+			fragment.getViewModel().getRestartAppSubject().subscribe(restart -> restartApp());
 			getFragmentManager()
 				.beginTransaction()
 				.replace(R.id.fragment_container, fragment)

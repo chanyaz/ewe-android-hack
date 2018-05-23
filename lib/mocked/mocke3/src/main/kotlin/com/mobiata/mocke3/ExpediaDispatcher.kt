@@ -9,7 +9,7 @@ import org.joda.time.Days
 import java.util.concurrent.TimeUnit
 
 // Mocks out various mobile Expedia APIs
-class ExpediaDispatcher(protected var fileOpener: FileOpener, dispatcherSettings: Map<Dispatchers, String>) : Dispatcher() {
+class ExpediaDispatcher(protected var fileOpener: FileOpener, dispatcherSettings: Map<DispatcherSettingsKeys, String>) : Dispatcher() {
 
     constructor(fileOpener: FileOpener) : this(fileOpener, emptyMap())
 

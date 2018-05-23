@@ -9,12 +9,12 @@
     "startTime": {
       "raw": "2018-02-13T10:30:00-05:00",
       "epochSeconds": 1518535800,
-      "timeZoneOffsetSeconds": -18000,
+      "timeZoneOffsetSeconds": -18000
     },
     "endTime": {
       "raw": "2018-02-14T10:30:00-05:00",
       "epochSeconds": 1518622200,
-      "timeZoneOffsetSeconds": -18000,
+      "timeZoneOffsetSeconds": -18000
     },
     "hero": {
       "destination": "destinationUrl",

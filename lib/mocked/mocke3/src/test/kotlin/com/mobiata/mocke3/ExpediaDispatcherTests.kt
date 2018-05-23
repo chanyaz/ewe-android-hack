@@ -398,12 +398,12 @@ class ExpediaDispatcherTests {
 
     @Test
     fun testRequestTripFolderPathReturnsMatchingResponseDefault() {
-        assertPathReturnsMockBodyWithString("m/api/trips/tripfolders", null, "api/trips/tripfolders/tripfolders_m1_hotel.json")
+        assertPathReturnsMockBodyWithString("m/api/trips/tripfolders", null, "api/trips/tripfolders/tripfolders_happy_path_m1_hotel.json")
     }
 
     @Test
     fun testRequestTripFolderPathReturnsMatchingResponseWithFilenamePassed() {
-        val dispatcher = ExpediaDispatcher(Opener(), mapOf(Dispatchers.TRIPS_DISPATCHER to "tripfolders_m1_car"))
+        val dispatcher = ExpediaDispatcher(Opener(), mapOf(DispatcherSettingsKeys.TRIPS_DISPATCHER to "tripfolders_m1_car"))
         dispatcher.dispatch(requestWithPath("m/api/trips/tripfolders"))
         val mock = mockForRequest(requestWithPath("m/api/trips/tripfolders"), dispatcher)
         assertTrue(mock.body.toString().contains("api/trips/tripfolders/tripfolders_m1_car.json", false))

@@ -19,7 +19,9 @@ import io.reactivex.subjects.PublishSubject
 class TripsScenarioSelectFragment : Fragment() {
     private val recyclerView: RecyclerView by bindView(R.id.trip_scenarios_select_recycler_view)
     private val scenarios: MutableList<TripMockScenarios.Scenarios> = mutableListOf()
-    lateinit var viewModel: TripScenariosViewModel
+    val viewModel: TripScenariosViewModel by lazy {
+        TripScenariosViewModel()
+    }
 
     override fun onStart() {
         super.onStart()
@@ -63,14 +65,18 @@ class TripsScenariosAdapter(private val context: Context, private val scenarios:
         holder.textView.text = scenarios[position].name
         holder.itemView.setOnClickListener {
             SettingUtils.save(context, TripMockScenarios.TRIP_SCENARIOS_FILENAME_KEY, scenarios[position].filename)
-            val builder = AlertDialog.Builder(context, R.style.AccountDialogTheme)
-            builder.setTitle("Mock trip scenario set")
-            builder.setMessage(scenarios[position].name + "\n\nApp needs to restart.")
-            builder.setPositiveButton(R.string.ok) { _, _ ->
-                viewModel.closeFragmentSubject.onNext(Unit)
-            }
-            builder.create().show()
+            showAlertDialogForAppRestart(position)
         }
+    }
+
+    private fun showAlertDialogForAppRestart(position: Int) {
+        val builder = AlertDialog.Builder(context, R.style.AccountDialogTheme)
+        builder.setTitle("Mock trip scenario set")
+        builder.setMessage(scenarios[position].name + "\n\nApp needs to restart.")
+        builder.setPositiveButton(R.string.ok) { _, _ ->
+            viewModel.closeFragmentSubject.onNext(Unit)
+        }
+        builder.create().show()
     }
 
     class ViewHolder(val textView: TextView) : RecyclerView.ViewHolder(textView)

@@ -3,7 +3,7 @@ package com.expedia.bookings.unit
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.services.TripFolderService
-import com.mobiata.mocke3.Dispatchers
+import com.mobiata.mocke3.DispatcherSettingsKeys
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import com.mobiata.mocke3.getJsonStringFromMock
@@ -40,8 +40,8 @@ class TripFolderServiceTest {
     @Test
     fun testGetTripFolders() {
         val testObserver = TestObserver<JSONArray>()
-        val testFilename = "tripfolders_m1_hotel"
-        server.setDispatcher(ExpediaDispatcher(fileOpener, mapOf(Dispatchers.TRIPS_DISPATCHER to testFilename)))
+        val testFilename = "tripfolders_happy_path_m1_hotel"
+        server.setDispatcher(ExpediaDispatcher(fileOpener, mapOf(DispatcherSettingsKeys.TRIPS_DISPATCHER to testFilename)))
 
         testObserver.assertNoValues()
         service.getTripFoldersObservable(testObserver)

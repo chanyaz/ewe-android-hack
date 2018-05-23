@@ -1,6 +1,6 @@
 package com.expedia.bookings.itin
 
-import com.mobiata.mocke3.Dispatchers
+import com.mobiata.mocke3.DispatcherSettingsKeys
 import com.mobiata.mocke3.FileOpener
 import com.mobiata.mocke3.TripsDispatcher
 import okhttp3.Headers
@@ -19,12 +19,12 @@ class TripsDispatcherTest {
     fun testNoFilenamePassed() {
         val dispatcher = TripsDispatcher(Opener(), emptyMap())
         val response = dispatcher.dispatch(requestWithPath("test"))
-        assertTrue(response.body.toString().contains("api/trips/tripfolders/tripfolders_m1_hotel.json"))
+        assertTrue(response.body.toString().contains("api/trips/tripfolders/tripfolders_happy_path_m1_hotel.json"))
     }
 
     @Test
     fun testHappyPath() {
-        val dispatcher = TripsDispatcher(Opener(), mapOf(Dispatchers.TRIPS_DISPATCHER to "tripfolders_m1_car"))
+        val dispatcher = TripsDispatcher(Opener(), mapOf(DispatcherSettingsKeys.TRIPS_DISPATCHER to "tripfolders_m1_car"))
         val response = dispatcher.dispatch(requestWithPath("test"))
         assertTrue(response.body.toString().contains("api/trips/tripfolders/tripfolders_m1_car.json"))
     }
