@@ -16,7 +16,7 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.analytics.OmnitureTestUtils
-import com.expedia.bookings.data.AbstractItinDetailsResponse
+import com.expedia.bookings.data.ItinDetailsResponse
 import com.expedia.bookings.presenter.lx.LXPresenter
 import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.services.TestObserver
@@ -24,8 +24,10 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.bookings.tracking.OmnitureTracking.trackAppLXConfirmationFromTripsResponse
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.LXConfirmationWidget
+import com.google.gson.Gson
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.lx_base_layout.lx_base_presenter
 import kotlinx.android.synthetic.main.lx_base_layout.confirmation
@@ -38,6 +40,7 @@ import kotlinx.android.synthetic.main.widget_lx_confirmation.view.email_text
 import kotlinx.android.synthetic.main.widget_lx_confirmation.view.confirmation_text
 import kotlinx.android.synthetic.main.widget_lx_confirmation.view.itin_number
 import kotlinx.android.synthetic.main.widget_lx_confirmation.view.reservation_confirmation_text
+import org.joda.time.LocalDate
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -45,6 +48,8 @@ import org.junit.Rule
 import org.robolectric.Shadows
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.shadows.ShadowAlertDialog
+import java.io.BufferedReader
+import java.io.FileReader
 import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricRunner::class)
@@ -184,9 +189,22 @@ class LXConfirmationWidgetTest {
         val appState = "App.LX.Checkout.Confirmation"
         val expectedEvars = mapOf(2 to "D=c2", 30 to "LX:20150224-20150408:N", 18 to "App.LX.Checkout.Confirmation")
         val expectedProps = mapOf(2 to "local expert", 5 to "2015-02-24", 72 to "8104062917948")
-        val expectedProducts = "LX;Merchant LX:183615;4;1795.0"
+        val expectedProducts = "LX;Merchant LX:183615;4;1795.00"
         val expectedEvents = "purchase"
         assertWebCKOToConfirmationTracking(appState, expectedEvars, expectedProps, expectedProducts, expectedEvents)
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
+    fun testWebCKOToConfirmationOmnitureTrackingForProduct() {
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        val br = BufferedReader(FileReader("../lib/mocked/templates/api/trips/lx_trip_details_without_email.json"))
+        val activityItinResponse = Gson().fromJson(br, ItinDetailsResponse::class.java)
+        activityItinResponse.responseData!!.totalTripPrice!!.total = "1795,00"
+        trackAppLXConfirmationFromTripsResponse(activityItinResponse, true, "1", 1, LocalDate.now(), LocalDate.now().plusDays(2))
+        val expectedProducts = "LX;Merchant LX:1;1;1795.00"
+
+        OmnitureTestUtils.assertStateTracked("App.LX-GT.Checkout.Confirmation", OmnitureMatchers.withProductsString(expectedProducts), mockAnalyticsProvider)
     }
 
     private fun mockConfirmationLXState(doCheckout: Boolean) {

@@ -1469,7 +1469,7 @@ public class OmnitureTracking {
 		int numNights = JodaUtils.daysBetween(checkInDate, checkOutDate);
 
 		String totalCost = hotelItinDetailsResponse.responseData.getTotalTripPrice().getTotal().replace(",", ".");
-		String formattedTotalCost = String.format(Locale.US, "%.2f", Float.parseFloat(totalCost));
+		String formattedTotalCost = getFormattedTotalPrice(totalCost);
 
 		String supplierType = hotelItinDetailsResponse.responseData.getHotels().get(0).getInventoryType();
 		if (Strings.isEmpty(supplierType)) {
@@ -2284,8 +2284,11 @@ public class OmnitureTracking {
 			s.setProp(72, orderId.toString());
 		}
 		s.setCurrencyCode(itinDetailsResponse.getResponseDataForItin().getTotalTripPrice().getCurrency());
-		s.setProducts(addLXProducts(lxActivityId, selectedTicketsCount,
-			itinDetailsResponse.getResponseDataForItin().getTotalTripPrice().getTotal()));
+		String totalPrice = itinDetailsResponse.getResponseDataForItin().getTotalTripPrice().getTotal();
+		String formattedTotalCost = getFormattedTotalPrice(totalPrice);
+
+		s.setProducts(addLXProducts(lxActivityId, selectedTicketsCount, formattedTotalCost));
+
 
 		String activityStartDateString = lxActivityStartDate.toString(LX_CONFIRMATION_PROP_DATE_FORMAT);
 		String activityEndDateString = lxActivityEndDate.toString(LX_CONFIRMATION_PROP_DATE_FORMAT);
@@ -2294,6 +2297,10 @@ public class OmnitureTracking {
 		setLXDateValues(lxActivityStartDate, s);
 
 		s.track();
+	}
+
+	private static String getFormattedTotalPrice(String totalPrice) {
+		return String.format(Locale.US, "%.2f", Float.parseFloat(totalPrice.replace(",", ".")));
 	}
 
 	private static void trackAppLXCheckoutTraveler(LineOfBusiness lob) {
