@@ -134,7 +134,9 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 	@Override
 	protected void onStop() {
 		super.onStop();
-		newAccountView.cancelLoading();
+		if (FeatureUtilKt.isNewSignInEnabled(this)) {
+			newAccountView.cancelLoading();
+		}
 	}
 
 	@Override
