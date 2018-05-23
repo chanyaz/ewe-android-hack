@@ -9,6 +9,7 @@ import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.scopes.HasWebViewLauncher
 import com.expedia.bookings.itin.scopes.PriceSummaryCardScope
 import com.expedia.bookings.itin.scopes.StringsActivityScope
+import com.expedia.bookings.tracking.TripsTracking
 
 class LxItinManageBookingWidgetViewModel<S>(scope: S) where S : HasStringProvider, S : HasWebViewLauncher, S : HasActivityLauncher, S : HasLxRepo {
 
@@ -32,6 +33,7 @@ class LxItinManageBookingWidgetViewModel<S>(scope: S) where S : HasStringProvide
             val itin = scope.itinLxRepo.liveDataItin.value!!
             itin.tripId?.let { tripId ->
                 scope.activityLauncher.launchActivity(LxItinMoreHelpActivity, tripId)
+                TripsTracking.trackItinLxMoreHelpClicked()
             }
         }
     }

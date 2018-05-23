@@ -1,6 +1,7 @@
 package com.expedia.bookings.itin.widget
 
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import com.expedia.account.BuildConfig
 import com.expedia.bookings.R

@@ -12,4 +12,5 @@ interface ITripsTracking {
     fun trackItinLxDetailsDirections()
     fun trackItinLxRedeemVoucher()
     fun trackItinLxCallSupportClicked()
+    fun trackItinLxMoreHelpClicked()
 }

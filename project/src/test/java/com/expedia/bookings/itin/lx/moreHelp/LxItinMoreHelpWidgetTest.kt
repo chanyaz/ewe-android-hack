@@ -3,6 +3,7 @@ package com.expedia.bookings.itin.lx.moreHelp
 import android.app.Activity
 import android.content.pm.PackageManager
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Toolbar
 import com.expedia.account.BuildConfig

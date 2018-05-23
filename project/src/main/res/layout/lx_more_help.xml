@@ -1,16 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/gray100"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <com.expedia.bookings.itin.lx.moreHelp.LxItinMoreHelpWidget
-        android:id="@+id/widget_lx_itin_more_help"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="11dp"
-        android:layout_marginRight="11dp"
-        android:layout_marginTop="20dp" />
+        android:background="@color/gray100"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.expedia.bookings.itin.common.ItinToolbar
+                android:id="@+id/widget_lx_itin_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:background="@color/app_primary"
+                android:minHeight="?attr/actionBarSize" />
+        </android.support.design.widget.AppBarLayout>
+
+        <com.expedia.bookings.itin.lx.moreHelp.LxItinMoreHelpWidget
+            android:id="@+id/widget_lx_itin_more_help"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="11dp"
+            android:layout_marginRight="11dp"
+            android:layout_marginTop="20dp" />
+
+    </LinearLayout>
+
+</ScrollView>
+

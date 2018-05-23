@@ -6,6 +6,8 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.Toolbar
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.subscribeText
+import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.itin.scopes.ToolBarViewModelSetter
 import com.expedia.bookings.utils.bindView
@@ -22,13 +24,8 @@ class ItinToolbar(context: Context, attr: AttributeSet?) : Toolbar(context, attr
     val toolbarShareIcon: TextView by bindView(R.id.itin_share_button)
 
     var viewModel: NewItinToolbarViewModel by notNullAndObservable {
-        viewModel.toolbarTitleSubject.subscribe {
-            toolbarTitleText.text = it
-        }
-        viewModel.toolbarSubTitleSubject.subscribe {
-            toolbarSubTitleText.text = it
-            toolbarSubTitleText.visibility = View.VISIBLE
-        }
+        viewModel.toolbarTitleSubject.subscribeText(toolbarTitleText)
+        viewModel.toolbarSubTitleSubject.subscribeTextAndVisibility(toolbarSubTitleText)
         viewModel.shareIconVisibleSubject.subscribeVisibility(toolbarShareIcon)
     }
 

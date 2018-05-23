@@ -4,12 +4,12 @@ data class ItinLx(
         val uniqueID: String?,
         val activityLocation: ActivityLocation?,
         val activityId: String?,
+        val activityTitle: String?,
         val travelerCount: String?,
         val price: LxPrice?,
         val voucherPrintURL: String?,
         val lxVoucherPrintURL: String?,
         val highResImage: ItinImage?,
-        val activityTitle: String?,
         val vendorCustomerServiceOffices: List<VendorCustomerServiceOffices>?
 )
 
