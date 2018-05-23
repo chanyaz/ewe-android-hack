@@ -396,6 +396,18 @@ class ExpediaDispatcherTests {
         assertPathReturnsMockBodyWithString("api/hotelreviews/hotel?_type=json&searchTerm=nice", null, "api/hotelreviews/hotel/unhappy-search.json")
     }
 
+    @Test
+    fun testRequestTripFolderPathReturnsMatchingResponseDefault() {
+        assertPathReturnsMockBodyWithString("m/api/trips/tripfolders", null, "api/trips/tripfolders/tripfolders_m1_hotel.json")
+    }
+
+    @Test
+    fun testRequestTripFolderPathReturnsMatchingResponseWithFilenamePassed() {
+        val dispatcher = ExpediaDispatcher(Opener(), mapOf(Dispatchers.TRIPS_DISPATCHER to "tripfolders_m1_car"))
+        dispatcher.dispatch(requestWithPath("m/api/trips/tripfolders"))
+        val mock = mockForRequest(requestWithPath("m/api/trips/tripfolders"), dispatcher)
+        assertTrue(mock.body.toString().contains("api/trips/tripfolders/tripfolders_m1_car.json", false))
+    }
 
     private fun assertEmptyResponseForPath(path: String) {
         assertTrue(path.isNotEmpty(), "path should not be empty.")
