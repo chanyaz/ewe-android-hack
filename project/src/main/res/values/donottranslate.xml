@@ -466,6 +466,7 @@
     <string name="deeplink_trips">expda://trips</string>
     <string name="deeplink_hotel_search">expda://hotelSearch</string>
     <string name="deeplink_flight_share">expda://flightShare</string>
+    <string name="deeplink_all_brand_home_TEMPLATE">{brand_scheme}://home</string>
 
     <!-- Amenities Keys -->
     <string name="amenity_key_bags">Bags</string>
