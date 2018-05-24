@@ -248,20 +248,20 @@ class AccountSettingsFragmentTest {
     }
 
     @Test
-    fun testTermsAndConditionsHiddenForAustria() {
+    fun testTermsAndConditionsVisibleForAustria() {
         givenPOS(PointOfSaleId.AUSTRIA)
         givenSignedInAsUser(getTopTierRewardsMember())
         givenFragmentSetup()
-        assertTermsLinkVisibility(View.GONE)
+        assertTermsLinkVisibility(View.VISIBLE)
     }
 
     @Test
-    fun testTermsAndConditionsHiddenForGermany() {
+    fun testTermsAndConditionsVisibleForGermany() {
         givenPOS(PointOfSaleId.GERMANY)
         givenSignedInAsUser(getTopTierRewardsMember())
         givenFragmentSetup()
 
-        assertTermsLinkVisibility(View.GONE)
+        assertTermsLinkVisibility(View.VISIBLE)
     }
 
     @Test
