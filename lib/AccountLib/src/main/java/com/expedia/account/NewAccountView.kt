@@ -165,7 +165,7 @@ open class NewAccountView(context: Context, attrs: AttributeSet) : FrameLayout(c
         override fun getPageTitle(position: Int): CharSequence {
             return when (getAccountTabForPosition(position)) {
                 AccountTab.SIGN_IN -> context.getString(R.string.acct__Sign_In)
-                AccountTab.CREATE_ACCOUNT -> context.getString(R.string.acct__new_create_account_text)
+                AccountTab.CREATE_ACCOUNT -> context.getString(R.string.acct__new_create_account_tab_text)
             }
         }
 
