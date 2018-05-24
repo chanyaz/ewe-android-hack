@@ -16,6 +16,7 @@ import com.carnival.sdk.CarnivalImpressionType
 import com.carnival.sdk.ContentIntentBuilder
 import com.carnival.sdk.NotificationConfig
 import com.carnival.sdk.NotificationReceivedListener
+import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Traveler
@@ -539,7 +540,9 @@ open class CarnivalUtils {
             val intent = Intent()
                     .setAction(Intent.ACTION_VIEW)
                     .setData(android.net.Uri.parse(if (deeplink.isNullOrEmpty()) {
-                        context.getString(R.string.deeplink_home)
+                        StringBuilder().append(Phrase.from(context, R.string.deeplink_all_brand_home_TEMPLATE)
+                                .put("brand_scheme", BuildConfig.DEEPLINK_SCHEME)
+                                .format()).toString()
                     } else {
                         deeplink
                     }))
