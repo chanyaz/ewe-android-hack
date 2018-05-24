@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.robolectric
+package com.expedia.bookings.packages.presenter
 
 import android.app.Activity
 import android.content.Context
@@ -10,13 +10,20 @@ import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.packages.PackageSearchParams
-import com.expedia.bookings.packages.presenter.PackageSearchPresenter
 import com.expedia.bookings.packages.vm.PackageSearchViewModel
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.test.robolectric.PackageTestUtil
+import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.FlightTravelerPickerView
+import com.expedia.util.PackageCalendarRules
+import com.expedia.vm.FlightTravelerPickerViewModel
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
@@ -44,12 +51,11 @@ class PackagesSearchPresenterTest {
         activity.setTheme(R.style.V2_Theme_Packages)
         Ui.getApplication(activity).defaultPackageComponents()
         Ui.getApplication(activity).defaultTravelerComponent()
-        widget = LayoutInflater.from(activity).inflate(R.layout.test_packages_search_presenter,
-                null) as PackageSearchPresenter
     }
 
     @Test
     fun testNewTravelerPickerSelectionOperations() {
+        inflate()
         val travelerCard = widget.travelerWidgetV2
         travelerCard.performClick()
         val view = travelerCard.travelerDialogView
@@ -78,6 +84,7 @@ class PackagesSearchPresenterTest {
 
     @Test
     fun testNewTravelerPickerWidgetItemsVisiblity() {
+        inflate()
         val travelerCard = widget.travelerWidgetV2
         travelerCard.performClick()
         val view = travelerCard.travelerDialogView
@@ -95,6 +102,7 @@ class PackagesSearchPresenterTest {
 
     @Test
     fun testTravelerFormSelectionsTracked() {
+        inflate()
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
 
         val travelerCard = widget.travelerWidgetV2
@@ -135,6 +143,7 @@ class PackagesSearchPresenterTest {
 
     @Test
     fun testSearchFormValidationWhenInvalidParams() {
+        inflate()
         widget.searchViewModel = PackageSearchViewModel(activity)
         val errorNoDestinationTestSubscriber = TestObserver<Unit>()
         val errorNoOriginObservableTestSubscriber = TestObserver<Unit>()
@@ -144,6 +153,7 @@ class PackagesSearchPresenterTest {
         widget.searchViewModel.errorNoOriginObservable.subscribe(errorNoOriginObservableTestSubscriber)
         widget.searchViewModel.errorNoDatesObservable.subscribe(errorNoDatesObservableTestSubscriber)
 
+        widget.searchViewModel.formattedDestinationObservable.onNext("")
         widget.searchViewModel.searchObserver.onNext(Unit)
 
         errorNoOriginObservableTestSubscriber.assertValueCount(1)
@@ -153,10 +163,14 @@ class PackagesSearchPresenterTest {
         assertNotNull(widget.destinationCardView.compoundDrawablesRelative[2])
         assertNotNull(widget.originCardView.compoundDrawablesRelative[2])
         assertNotNull(widget.calendarWidgetV2.compoundDrawablesRelative[2])
+
+        assertEquals(widget.getDestinationSearchBoxPlaceholderText(), widget.destinationCardView.text)
+        assertEquals(widget.getDestinationSearchBoxPlaceholderText(), widget.destinationCardView.contentDescription)
     }
 
     @Test
     fun testSearchFormValidationWhenValidParams() {
+        inflate()
         widget.searchViewModel = PackageSearchViewModel(activity)
         widget.searchViewModel.getParamsBuilder()
                 .origin(SuggestionV4())
@@ -190,6 +204,7 @@ class PackagesSearchPresenterTest {
 
     @Test
     fun testCalendarWidgetIsNotDisplayedAutomaticallyForExpiredSavedParams() {
+        inflate()
         val packageSearchViewModel = PackageSearchViewModel(activity)
 
         widget.searchViewModel = packageSearchViewModel
@@ -202,21 +217,39 @@ class PackagesSearchPresenterTest {
 
     @Test
     fun testCalendarWidgetIsNotDisplayedWithTalkback() {
+        inflate()
         val packageSearchViewModel = PackageSearchViewModel(activity)
         val mockedModel = spy(packageSearchViewModel)
         `when`(mockedModel.isTalkbackActive()).thenReturn(true)
 
         widget.searchViewModel = mockedModel
 
-        widget.searchViewModel.setOriginText(getDummySuggestion())
-        widget.searchViewModel.setDestinationText(getDummySuggestion())
+        widget.searchViewModel.originLocationObserver.onNext(getDummySuggestion())
+        widget.searchViewModel.destinationLocationObserver.onNext(getDummySuggestion())
 
         val dialog = (activity as FragmentActivity).supportFragmentManager.findFragmentByTag(Constants.TAG_CALENDAR_DIALOG)
         assertNull(dialog)
+        assertFalse(widget.searchButton.isEnabled)
+    }
+
+    @Test
+    fun testSearchButtonIsEnabledWithValidParamsWhenTalkbackIsEnabled() {
+        inflate()
+        val packageSearchViewModel = PackageSearchViewModel(activity)
+        val mockedModel = spy(packageSearchViewModel)
+        `when`(mockedModel.isTalkbackActive()).thenReturn(true)
+
+        widget.searchViewModel = mockedModel
+
+        widget.searchViewModel.performSearchObserver.onNext(getDummyPackageSearchParams(2, 1))
+        widget.searchViewModel.previousSearchParamsObservable.onNext(getDummyPackageSearchParams(2, 1))
+
+        assertTrue(widget.searchButton.isEnabled)
     }
 
     @Test
     fun verifyPreviousSearchParamsAreRetained() {
+        inflate()
         val packageSearchViewModel = PackageSearchViewModel(activity)
         val calendarWidget = widget.calendarWidgetV2
 
@@ -230,7 +263,77 @@ class PackagesSearchPresenterTest {
     }
 
     @Test
+    fun verifyInfantInSeatParamWhenPreviousSearchParamsAreRetained() {
+        inflate()
+        val packageSearchViewModel = PackageSearchViewModel(activity)
+        val infantInSeatObservable = TestObserver.create<Boolean>()
+
+        widget.searchViewModel = packageSearchViewModel
+        val travelerPicker = widget.travelerWidgetV2.travelerDialogView.findViewById<FlightTravelerPickerView>(R.id.flight_traveler_view)
+        travelerPicker.viewmodel = FlightTravelerPickerViewModel(activity)
+
+        travelerPicker.getViewModel().infantInSeatObservable.subscribe(infantInSeatObservable)
+
+        var prevSearchParams = PackageTestUtil.getPackageSearchParams(childCount = emptyList(), infantInLap = false)
+        widget.searchViewModel.performSearchObserver.onNext(prevSearchParams)
+        widget.searchViewModel.previousSearchParamsObservable.onNext(prevSearchParams)
+
+        assertEquals(0, infantInSeatObservable.valueCount())
+
+        prevSearchParams = getDummyPackageSearchParams(1, 2)
+        widget.searchViewModel.performSearchObserver.onNext(prevSearchParams)
+        widget.searchViewModel.previousSearchParamsObservable.onNext(prevSearchParams)
+
+        infantInSeatObservable.assertValue(true)
+        assertFalse(travelerPicker.viewmodel.isInfantInLapObservable.value)
+
+        prevSearchParams = PackageTestUtil.getPackageSearchParams(childCount = listOf(1, 2), infantInLap = true)
+        widget.searchViewModel.performSearchObserver.onNext(prevSearchParams)
+        widget.searchViewModel.previousSearchParamsObservable.onNext(prevSearchParams)
+
+        assertFalse(infantInSeatObservable.values()[1])
+        assertTrue(travelerPicker.viewmodel.isInfantInLapObservable.value)
+    }
+
+    @Test
+    fun testMaxDurationErrorIsDisplayed() {
+        inflate()
+        val packageSearchViewModel = PackageSearchViewModel(activity)
+        val errorObserver = TestObserver.create<String>()
+        widget.searchViewModel = PackageSearchViewModel(activity)
+        widget.searchViewModel = packageSearchViewModel
+
+        widget.searchViewModel.errorMaxDurationObservable.subscribe(errorObserver)
+
+        val params = getDummyPackageSearchParams(1, 30, getDummySuggestion(), getDummySuggestion("Delhi"))
+        widget.searchViewModel.performSearchObserver.onNext(params)
+        widget.searchViewModel.previousSearchParamsObservable.onNext(params)
+        widget.searchViewModel.searchObserver.onNext(Unit)
+
+        errorObserver.assertValue(RuntimeEnvironment.application.getString(R.string.hotel_search_range_error_TEMPLATE, PackageCalendarRules(activity).getMaxSearchDurationDays()))
+    }
+
+    @Test
+    fun testMaxRangeErrorIsDisplayed() {
+        inflate()
+        val packageSearchViewModel = PackageSearchViewModel(activity)
+        val errorObserver = TestObserver.create<String>()
+        widget.searchViewModel = PackageSearchViewModel(activity)
+        widget.searchViewModel = packageSearchViewModel
+
+        widget.searchViewModel.errorMaxRangeObservable.subscribe(errorObserver)
+
+        val params = getDummyPackageSearchParams(320, 12, getDummySuggestion(), getDummySuggestion("Delhi"))
+        widget.searchViewModel.performSearchObserver.onNext(params)
+        widget.searchViewModel.previousSearchParamsObservable.onNext(params)
+        widget.searchViewModel.searchObserver.onNext(Unit)
+
+        errorObserver.assertValue(RuntimeEnvironment.application.getString(R.string.error_date_too_far, PackageCalendarRules(activity).getMaxDateRange()))
+    }
+
+    @Test
     fun verifyCalendarWidgetIsShownAfterSelectingOriginDestination() {
+        inflate()
         val packageSearchViewModel = PackageSearchViewModel(activity)
         val calendarWidget = widget.calendarWidgetV2
         widget.searchViewModel = packageSearchViewModel
@@ -243,9 +346,82 @@ class PackagesSearchPresenterTest {
         assertNotNull(dialog)
     }
 
-    private fun getDummyPackageSearchParams(startDateOffset: Int, endDateOffset: Int): PackageSearchParams {
-        val origin = getDummySuggestion()
-        val destination = getDummySuggestion()
+    @Test
+    fun verifySuggestionHistoryFileName() {
+        inflate()
+        val packageSearchViewModel = PackageSearchViewModel(activity)
+
+        widget.searchViewModel = packageSearchViewModel
+        widget.showSuggestionState(true)
+        widget.searchViewModel.originLocationObserver.onNext(getDummySuggestion())
+        assertEquals(SuggestionV4Utils.RECENT_PACKAGE_DEPARTURE_SUGGESTIONS_FILE, widget.getSuggestionHistoryFileName())
+
+        widget.showSuggestionState(false)
+        widget.searchViewModel.destinationLocationObserver.onNext(getDummySuggestion())
+        assertEquals(SuggestionV4Utils.RECENT_PACKAGE_ARRIVAL_SUGGESTIONS_FILE, widget.getSuggestionHistoryFileName())
+    }
+
+    @Test
+    fun verifyTabsVisibilityWhenFHCIsInControl() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesWebviewFHC)
+        inflate()
+        assertEquals(View.GONE, widget.tabs.visibility)
+    }
+
+    @Test
+    fun verifyTabsVisibilityWhenFHCIsBucketed() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesWebviewFHC)
+        inflate()
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        widget.searchViewModel = PackageSearchViewModel(activity)
+
+        assertEquals(View.VISIBLE, widget.tabs.visibility)
+        assertEquals(2, widget.tabs.tabCount)
+        assertEquals(RuntimeEnvironment.application.getString(R.string.nav_hotel_plus_flight), widget.tabs.getTabAt(0)?.text)
+        assertEquals(RuntimeEnvironment.application.getString(R.string.nav_hotel_plus_flight_plus_car), widget.tabs.getTabAt(1)?.text)
+
+        widget.tabs.getTabAt(1)?.select()
+
+        assertFalse(widget.searchViewModel.isFHPackageSearch)
+        OmnitureTestUtils.assertLinkTracked("FHC tab", "App.Package.DS.FHC.TabClicked", mockAnalyticsProvider)
+
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        widget.tabs.getTabAt(0)?.select()
+        widget.tabs.getTabAt(1)?.select()
+
+        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testCabinClassView() {
+        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppPackagesFFPremiumClass)
+        inflate()
+
+        val cabinClassObserver = TestObserver.create<FlightServiceClassType.CabinCode>()
+
+        widget.searchViewModel = PackageSearchViewModel(activity)
+
+        widget.flightCabinClassWidget.flightCabinClassView.viewmodel.flightCabinClassObservable.subscribe(cabinClassObserver)
+
+        val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
+                activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
+                .flightCabinClass("business")
+                .origin(getDummySuggestion("123"))
+                .destination(getDummySuggestion("456"))
+                .adults(1)
+                .children(listOf(10, 2))
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1))
+                .build() as PackageSearchParams
+
+        widget.searchViewModel.previousSearchParamsObservable.onNext(params)
+
+        cabinClassObserver.assertValues(FlightServiceClassType.CabinCode.COACH, FlightServiceClassType.CabinCode.BUSINESS)
+        assertEquals(LineOfBusiness.PACKAGES, widget.flightCabinClassWidget.lob)
+    }
+
+    private fun getDummyPackageSearchParams(startDateOffset: Int, endDateOffset: Int, origin: SuggestionV4 = getDummySuggestion(),
+                                            destination: SuggestionV4 = getDummySuggestion()): PackageSearchParams {
         val startDate = LocalDate.now().plusDays(startDateOffset)
         val endDate = startDate.plusDays(endDateOffset)
 
@@ -261,17 +437,22 @@ class PackagesSearchPresenterTest {
         return paramsBuilder.build()
     }
 
-    private fun getDummySuggestion(): SuggestionV4 {
+    private fun getDummySuggestion(name: String = "London"): SuggestionV4 {
         val suggestion = SuggestionV4()
         suggestion.gaiaId = ""
         suggestion.regionNames = SuggestionV4.RegionNames()
-        suggestion.regionNames.displayName = "London"
-        suggestion.regionNames.fullName = "London"
-        suggestion.regionNames.shortName = "LHR"
+        suggestion.regionNames.displayName = name
+        suggestion.regionNames.fullName = name
+        suggestion.regionNames.shortName = name
         suggestion.hierarchyInfo = SuggestionV4.HierarchyInfo()
         suggestion.hierarchyInfo!!.airport = SuggestionV4.Airport()
-        suggestion.hierarchyInfo!!.airport!!.airportCode = "happy"
-        suggestion.hierarchyInfo!!.airport!!.multicity = "happy"
+        suggestion.hierarchyInfo!!.airport!!.airportCode = name
+        suggestion.hierarchyInfo!!.airport!!.multicity = name
         return suggestion
+    }
+
+    private fun inflate() {
+        widget = LayoutInflater.from(activity).inflate(R.layout.test_packages_search_presenter,
+                null) as PackageSearchPresenter
     }
 }

@@ -27,8 +27,10 @@ class PackageTestUtil {
         fun getPackageSearchParams(startDate: LocalDate = LocalDate.now().plusDays(1),
                                    endDate: LocalDate = LocalDate.now().plusDays(2),
                                    destinationCityName: String = "San Francisco",
-                                   childCount: List<Int> = listOf(0)): PackageSearchParams {
+                                   childCount: List<Int> = listOf(0),
+                                   infantInLap: Boolean = false): PackageSearchParams {
             return PackageSearchParams.Builder(maxRange = 1, maxStay = 1)
+                    .infantSeatingInLap(infantInLap)
                     .startDate(startDate)
                     .endDate(endDate)
                     .destination(getSuggestion(destinationCityName, "SFO"))

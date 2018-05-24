@@ -1,4 +1,4 @@
-package com.expedia.bookings.presenter.packages
+package com.expedia.bookings.packages.presenter
 
 import android.support.v4.app.FragmentActivity
 import android.support.v7.app.AppCompatActivity
@@ -16,7 +16,6 @@ import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.packages.activity.PackageHotelActivity
-import com.expedia.bookings.packages.presenter.PackageOverviewPresenter
 import com.expedia.bookings.packages.util.PackageServicesManager
 import com.expedia.bookings.packages.vm.BundleOverviewViewModel
 import com.expedia.bookings.packages.vm.PackageCostSummaryBreakdownViewModel

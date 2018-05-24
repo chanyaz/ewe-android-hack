@@ -20,7 +20,6 @@ import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.tracking.PackagesTracking
-import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
@@ -122,7 +121,7 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
 
         vm.searchButtonObservable.subscribe { enable ->
             searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.search_dialog_background_v2) else ContextCompat.getColor(context, R.color.white_disabled))
-            if (AccessibilityUtil.isTalkBackEnabled(context)) {
+            if (vm.isTalkbackActive()) {
                 searchButton.isEnabled = enable
             }
         }
