@@ -43,6 +43,7 @@ class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
         addTransition(detailToDepositInfo)
         addTransition(detailToVIPAccessInfo)
         addTransition(detailToMap)
+        addTransition(payLaterInfoToMap)
         addDefaultTransition(default)
         show(hotelDetailView)
     }
@@ -120,6 +121,8 @@ class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
             hotelDetailView.visibility = if (forward) View.GONE else View.VISIBLE
         }
     }
+
+    val payLaterInfoToMap = object : ScaleTransition(this, PayLaterInfoWidget::class.java, HotelMapView::class.java) { }
 
     val hotelPayLaterInfoObserver = endlessObserver<Pair<String, List<HotelOffersResponse.HotelRoomResponse>>> { pair ->
         hotelPayLaterInfo.setText(pair)
