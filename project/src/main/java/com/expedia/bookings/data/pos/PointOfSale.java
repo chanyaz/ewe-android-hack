@@ -143,9 +143,6 @@ public class PointOfSale {
 	// whether to show Property fee in hotel cost summary or not
 	private boolean mSupportPropertyFee;
 
-	//whether lx support MultiitemCheckout web view link
-	private String lxWebCheckoutPath;
-
 	// Whether to show Cars WebView on this POS
 	private boolean mSupportsCarsWebView;
 
@@ -917,10 +914,6 @@ public class PointOfSale {
 		return isSWPEnabledForHotels;
 	}
 
-	public String getLxWebCheckoutPath() {
-		return lxWebCheckoutPath;
-	}
-
 	public boolean isEarnMessageEnabledForHotels() {
 		return isEarnMessageEnabledForHotels;
 	}
@@ -1342,7 +1335,6 @@ public class PointOfSale {
 		pos.mShowLastNameFirst = data.optBoolean("shouldShowLastNameFirst");
 		pos.mHideMiddleName = data.optBoolean("shouldHideMiddleName");
 		pos.mSupportsFlights = data.optBoolean("flightsEnabled");
-		pos.lxWebCheckoutPath = data.optString("LXWebCheckoutPath", "LXCheckout");
 		pos.mSupportsCars = data.optBoolean("carsEnabled");
 		pos.mSupportsLx = data.optBoolean("lxEnabled");
 		pos.mSupportsGT = data.optBoolean("gtEnabled");

@@ -48,6 +48,6 @@ class LXWebCheckoutViewViewModelTest {
         webCheckoutViewModel.webViewURLObservable.subscribe(testSubscriber)
         webCheckoutViewModel.lxCreateTripViewModel.createTripResponseObservable.onNext(Optional(createTripResponse))
 
-        assertEquals("https://www.expedia.co.uk/LXCheckout?tripid=12345", testSubscriber.values()[0])
+        assertEquals("https://www.expedia.co.uk/MultiItemCheckout?tripid=12345", testSubscriber.values()[0])
     }
 }
