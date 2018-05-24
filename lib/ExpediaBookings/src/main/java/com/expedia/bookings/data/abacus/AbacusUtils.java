@@ -135,6 +135,9 @@ public class AbacusUtils {
 	public static final ABTest DisableSignInPageAsFirstScreen = new ABTest(25030, true);
 	public static final ABTest CustomerFirstGuarantee = new ABTest(25382, true);
 
+	// Growth
+	public static final ABTest EBAndroidAppGrowthSocialSharing = new ABTest(26166, true);
+
 	// Soft Prompt
 	public static final ABTest EBAndroidAppSoftPromptLocation = new ABTest(15119);
 
@@ -243,6 +246,7 @@ public class AbacusUtils {
 		testIDs.add(HotelGuestRatingFilter.getKey());
 		testIDs.add(HotelSearchResultsFloatingActionPill.getKey());
 		testIDs.add(HotelUGCTranslations.getKey());
+		testIDs.add(EBAndroidAppGrowthSocialSharing.getKey());
 		testIDs.add(HotelShortlist.getKey());
 		testIDs.add(HotelUGCReviewsBoxRatingDesign.getKey());
 		testIDs.add(EBAndroidAppFlightsContentHighlightInTypeahead.getKey());

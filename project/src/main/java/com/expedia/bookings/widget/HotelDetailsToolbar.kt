@@ -18,6 +18,8 @@ import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isGrowthSocialSharingEnabled
+import com.expedia.util.setShareButton
 import com.expedia.vm.HotelInfoToolbarViewModel
 import kotlin.properties.Delegates
 
@@ -52,6 +54,10 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
         toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_cont_desc)
         toolbar.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
         toolbar.setTitleTextAppearance(getContext(), R.style.ToolbarTitleTextAppearance)
+
+        if (isGrowthSocialSharingEnabled(context)) {
+            toolbar.setShareButton()
+        }
 
         val statusBarHeight = Ui.getStatusBarHeight(getContext())
         toolBarBackground.layoutParams.height += statusBarHeight

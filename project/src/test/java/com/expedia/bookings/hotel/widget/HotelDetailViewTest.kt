@@ -4,13 +4,16 @@ import android.app.Activity
 import android.graphics.drawable.ColorDrawable
 import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
+import android.support.v7.view.menu.MenuItemImpl
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.hotel.util.HotelInfoManager
 import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.HotelDetailView
 import com.expedia.vm.hotel.HotelDetailViewModel
 import org.junit.Before
@@ -20,6 +23,10 @@ import org.mockito.Mockito
 import org.robolectric.Robolectric
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class HotelDetailViewTest {
@@ -77,5 +84,25 @@ class HotelDetailViewTest {
         assertEquals("Select a Room", contentView.bottomButtonWidget.buttonBottom.text)
         assertEquals((contentView.bottomButtonWidget.buttonBottom.background as ColorDrawable).color,
                 ContextCompat.getColor(activity, R.color.app_primary))
+    }
+
+    @Test
+    fun testToolbarShowsShareIconBucketed() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppGrowthSocialSharing)
+        contentView = android.view.LayoutInflater.from(activity).inflate(R.layout.test_hotel_detail_view, null) as HotelDetailView
+        contentView.viewmodel = testVM
+        val shareMenuItem = contentView.hotelDetailsToolbar.toolbar.menu.findItem(R.id.menu_share) as? MenuItemImpl
+
+        assertNotNull(shareMenuItem)
+        assertTrue(shareMenuItem!!.icon.isVisible)
+        assertEquals("Share Button", shareMenuItem.contentDescription)
+    }
+
+    @Test
+    fun testToolbarHidesShareIconControl() {
+        val shareMenuItem = contentView.hotelDetailsToolbar.toolbar.menu.findItem(R.id.menu_share) as? MenuItemImpl
+
+        assertNull(shareMenuItem)
+        assertFalse(contentView.hotelDetailsToolbar.toolbar.menu.hasVisibleItems())
     }
 }

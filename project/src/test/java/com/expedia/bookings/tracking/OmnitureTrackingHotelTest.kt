@@ -4,17 +4,21 @@ import android.content.Context
 import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.analytics.OmnitureTestUtils.Companion.assertStateTracked
 import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withEventsString
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withProps
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingData
 import com.expedia.bookings.tracking.hotel.PageUsableData
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.testutils.JSONResourceReader
+import org.hamcrest.Matchers
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
@@ -166,6 +170,28 @@ class OmnitureTrackingHotelTest {
                 isETPEligible = false, isCurrentLocationSearch = false, isHotelSoldOut = false,
                 isRoomSoldOut = false, pageLoadTimeData = pageLoadTimeData, swpEnabled = false)
         assertStateTracked(withEventsString("event3,event220,event221=0.00,event57,event132,event152"), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testInfoSiteTrackEventSocialSharingBucketed() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppGrowthSocialSharing)
+        trackPageLoadHotelV2Infosite(hotelOffersResponse = hotelOffersResponse,
+                isETPEligible = false, isCurrentLocationSearch = false, isHotelSoldOut = false,
+                isRoomSoldOut = false, pageLoadTimeData = pageLoadTimeData, swpEnabled = false)
+
+        assertStateTracked("App.Hotels.Infosite", Matchers.allOf(
+                OmnitureMatchers.withAbacusTestBucketed(AbacusUtils.EBAndroidAppGrowthSocialSharing.key)), mockAnalyticsProvider)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testDatelessInfoSiteTrackEventSocialSharingBucketed() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppGrowthSocialSharing)
+        OmnitureTracking.trackPageLoadDatelessInfosite(hotelOffersResponse, false, pageLoadTimeData, false)
+
+        assertStateTracked("App.Hotels.Infosite", Matchers.allOf(
+                OmnitureMatchers.withAbacusTestBucketed(AbacusUtils.EBAndroidAppGrowthSocialSharing.key)), mockAnalyticsProvider)
     }
 
     @Test
