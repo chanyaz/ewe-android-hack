@@ -86,7 +86,7 @@ class NewCreateAccountLayout(context: Context, attrs: AttributeSet) : FrameLayou
                 } else {
                     ContextCompat.getColor(context, R.color.acct__single_page_text_color)
                 }
-        val drawable = ContextCompat.getDrawable(context, R.drawable.abc_btn_check_material)
+        val drawable = ContextCompat.getDrawable(context, R.drawable.acct__btn_check)
         drawable.setColorFilter(color, PorterDuff.Mode.SRC_IN)
         v.buttonDrawable = drawable
     }

@@ -45,4 +45,8 @@
 
     <dimen name="acct__new_account_btn_padding">20dp</dimen>
 
+    <dimen name="acct__edit_text_inset_bottom">7dp</dimen>
+    <dimen name="acct__edit_text_inset_horizontal">4dp</dimen>
+    <dimen name="acct__edit_text_inset_top">10dp</dimen>
+
 </resources>

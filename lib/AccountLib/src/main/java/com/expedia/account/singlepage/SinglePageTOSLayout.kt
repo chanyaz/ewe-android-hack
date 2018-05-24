@@ -57,14 +57,14 @@ class SinglePageTOSLayout(context: Context, attrs: AttributeSet) : TOSLayout(con
             ContextCompat.getColorStateList(context, R.color.acct__single_page_tos_text_color).defaultColor
         }
 
-        val drawable = ContextCompat.getDrawable(context, R.drawable.abc_btn_check_material)
+        val drawable = ContextCompat.getDrawable(context, R.drawable.acct__btn_check)
         drawable.setColorFilter(color, PorterDuff.Mode.SRC_IN)
         v.buttonDrawable = drawable
     }
 
     fun forceCheckTermOfUseCheckbox() {
         if (!vTermsOfUseCheckBox.isChecked) {
-            val drawable = ContextCompat.getDrawable(context, R.drawable.abc_btn_check_material)
+            val drawable = ContextCompat.getDrawable(context, R.drawable.acct__btn_check)
             drawable.setColorFilter(ContextCompat.getColor(context, R.color.acct__single_page_error_color), PorterDuff.Mode.SRC_IN)
             vTermsOfUseCheckBox.buttonDrawable = drawable
         }

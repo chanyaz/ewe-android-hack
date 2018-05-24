@@ -36,7 +36,7 @@ class RemoteFeaturePreferenceFragment : Fragment() {
             return null
         }
 
-        val view = inflater.inflate(R.layout.preference_recyclerview, container, false)
+        val view = inflater.inflate(R.layout.debug_recyclerview, container, false)
 
         if (view is RecyclerView) {
             view.layoutManager = LinearLayoutManager(context)

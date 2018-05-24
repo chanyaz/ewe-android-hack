@@ -1100,6 +1100,16 @@
         <item quantity="many">{days} days</item>
         <item quantity="other">{days} days</item>
     </plurals>
+    <!-- "XX minutes ago" an event occured XX minutes back -->
+    <plurals name="minutes_ago">
+        <item quantity="one">{minutes} minute ago</item>
+        <item quantity="other">{minutes} minutes ago</item>
+    </plurals>
+    <!-- "in XX minutes" an event in XX minutes -->
+    <plurals name="in_minutes">
+        <item quantity="one">in {minutes} minute</item>
+        <item quantity="other">in {minutes} minutes</item>
+    </plurals>
     <!-- Shared Itin - Fallback name for itin card -->
     <string name="sharedItin_card_fallback_name">Shared Itinerary</string>
     <!-- Shared Itin - Fallback name for Flight itin card -->
