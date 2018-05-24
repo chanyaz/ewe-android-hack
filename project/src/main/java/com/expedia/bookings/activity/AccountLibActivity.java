@@ -132,6 +132,14 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 	}
 
 	@Override
+	protected void onStop() {
+		super.onStop();
+		if (FeatureUtilKt.isNewSignInEnabled(this)) {
+			newAccountView.cancelLoading();
+		}
+	}
+
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Ui.getApplication(this).appComponent().inject(this);
@@ -201,7 +209,7 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 			config = Config.build()
 					.setInitialTab(initialTab)
 					.setService(ServicesUtil.generateAccountService(this))
-					.setPOSEnableSpamByDefault(PointOfSale.getPointOfSale().shouldEnableMarketingOptIn())
+					.setPOSEnableSpamByDefault(false)
 					.setPOSShowSpamOptIn(PointOfSale.getPointOfSale().shouldShowMarketingOptIn())
 					.setEnableFacebookButton(
 							ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled())

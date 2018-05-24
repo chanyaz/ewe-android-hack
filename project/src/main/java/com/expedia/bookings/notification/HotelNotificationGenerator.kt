@@ -155,8 +155,6 @@ class HotelNotificationGenerator @Inject constructor(val context: Context, val s
         notification.title = title
         val body = stringProvider.fetchWithPhrase(R.string.get_ready_for_trip_body_TEMPLATE,
                 mapOf("firstname" to hotel.primaryTraveler.firstName, "hotel" to hotel.property.name, "startday" to data.getFormattedDetailsCheckInDate(context)))
-
-                .format().toString()
         notification.body = body
 
         notification.imageUrls = data.headerImageUrls

@@ -94,7 +94,7 @@ class HotelItinPricingSummaryViewModelTest {
 
         viewModel.hotelObserver.onChanged(mockHotelMultipleRooms)
 
-        assertEquals(17, roomItemObserver.valueCount())
+        assertEquals(12, roomItemObserver.valueCount())
     }
 
     @Test
@@ -106,7 +106,7 @@ class HotelItinPricingSummaryViewModelTest {
 
         val roomItems = roomItemObserver.values()
         assertNotNull(roomItems)
-        assertEquals(17, roomItems?.size)
+        assertEquals(12, roomItems?.size)
         //Room Total Price Item
         assertEquals((R.string.itin_hotel_details_cost_summary_room_price_text).toString(), roomItems[0].labelString)
         assertEquals("${INR}3,500.00", roomItems[0].priceString)

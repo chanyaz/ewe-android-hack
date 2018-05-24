@@ -38,6 +38,8 @@ class FlightItinDetailsResponse : AbstractItinDetailsResponse() {
         lateinit var passengers: List<Passengers>
         var orderNumber: Long? = null
 
+        var isSplitTicket: Boolean = false
+
         class Leg {
             var numberOfStops: Int? = null
             lateinit var airlineLogoURL: String
