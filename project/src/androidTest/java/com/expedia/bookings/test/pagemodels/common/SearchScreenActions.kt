@@ -19,7 +19,7 @@ import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.TestValues
 import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen
-import com.mobiata.mocke3.FlightApiMockResponseGenerator
+import com.mobiata.mocke3.FlightDispatcherUtils
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.allOf
@@ -159,7 +159,7 @@ object SearchScreenActions {
         SearchScreen.searchButton().perform(click())
     }
 
-    @JvmStatic fun selectFlightOriginAndDestination(suggestionResponseType: FlightApiMockResponseGenerator.SuggestionResponseType,
+    @JvmStatic fun selectFlightOriginAndDestination(suggestionResponseType: FlightDispatcherUtils.SuggestionResponseType,
                                                     destinationPosition: Int) {
         SearchScreen.origin().perform(click())
         SearchScreen.waitForSearchEditText().perform(typeText("origin"))

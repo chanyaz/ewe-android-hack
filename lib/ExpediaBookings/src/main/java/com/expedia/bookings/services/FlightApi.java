@@ -8,6 +8,7 @@ import com.expedia.bookings.data.flights.FlightCheckoutResponse;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
 import com.expedia.bookings.data.flights.FlightSearchResponse;
 
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -53,4 +54,10 @@ public interface FlightApi {
 	Observable<FlightCheckoutResponse> checkout(
 		@FieldMap Map<String, Object> queryParams,
 		@Query("featureOverride") String featureOverride);
+
+	//Kong Flight search - Added this to hit kong endpoint for flight search call
+	@POST("/m/api/flight/search/v1")
+	Observable<FlightSearchResponse> kongFlightSearch(
+		@Body Map<String, Object> queryParams
+	);
 }

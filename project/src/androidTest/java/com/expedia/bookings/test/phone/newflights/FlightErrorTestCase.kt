@@ -21,13 +21,13 @@ import com.expedia.bookings.test.pagemodels.common.SearchScreen
 import com.expedia.bookings.test.pagemodels.common.SearchScreenActions
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen
 import com.expedia.bookings.widget.TextView
-import com.mobiata.mocke3.FlightApiMockResponseGenerator
+import com.mobiata.mocke3.FlightDispatcherUtils
 import org.hamcrest.Matchers
 import org.joda.time.LocalDate
 
 open class FlightErrorTestCase : NewFlightTestCase() {
 
-    protected fun searchFlights(suggestionResponseType: FlightApiMockResponseGenerator.SuggestionResponseType, isOneWay: Boolean = true) {
+    protected fun searchFlights(suggestionResponseType: FlightDispatcherUtils.SuggestionResponseType, isOneWay: Boolean = true) {
         if (isOneWay) {
             Espresso.onView(Matchers.allOf(withText("One way"),
                     isDescendantOfA(withId(R.id.tabs)))).perform(ViewActions.click())
@@ -95,7 +95,7 @@ open class FlightErrorTestCase : NewFlightTestCase() {
                 .check(ViewAssertions.matches(isDisplayed()))
     }
 
-    protected fun selectOutboundFlight(searchResultsResponseType: FlightApiMockResponseGenerator.SearchResultsResponseType) {
+    protected fun selectOutboundFlight(searchResultsResponseType: FlightDispatcherUtils.SearchResultsResponseType) {
         selectOutboundFlight(searchResultsResponseType.responseName)
     }
 

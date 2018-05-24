@@ -12,6 +12,7 @@ import java.util.ArrayList
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
+import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
@@ -256,6 +257,49 @@ class NewFlightSearchParamsTest {
         val flightSearchParams = giveSearchParams(Constants.FEATURE_SUBPUB, Constants.FEATURE_EVOLABLE)
         assertEquals("SubPub,GetEvolable", flightSearchParams.featureOverride)
         assertEquals(1600, flightSearchParams.maxOfferCount)
+    }
+
+    @Test
+    fun testRoundTripQueryMapForKong() {
+        builder.adults(expectedNumAdults)
+        builder.startDate(tomorrow)
+        builder.endDate(tomorrow.plusDays(1))
+        builder.origin(expectedOrigin)
+        builder.destination(expectedDestination)
+        builder.adults(expectedNumAdults)
+        builder.infantSeatingInLap(false)
+        builder.showRefundableFlight(false)
+        builder.nonStopFlight(false)
+        builder.children(children)
+        builder.flightCabinClass("COACH")
+        val flightSearchParams = builder.build()
+
+        var mapRoundTripParams = flightSearchParams.toQueryMapForKong()
+        assertEquals(2, mapRoundTripParams["numberOfAdultTravelers"])
+        assertEquals(FlightSearchParams.SearchType.RETURN.name, mapRoundTripParams["tripType"])
+        assertNotNull(mapRoundTripParams["trips"])
+        assertEquals(true, mapRoundTripParams["lccAndMerchantFareCheckoutAllowed"])
+    }
+
+    @Test
+    fun testOneWayQueryMapForKong() {
+        builder.adults(expectedNumAdults)
+        builder.startDate(tomorrow)
+        builder.origin(expectedOrigin)
+        builder.destination(expectedDestination)
+        builder.adults(expectedNumAdults)
+        builder.infantSeatingInLap(false)
+        builder.showRefundableFlight(false)
+        builder.nonStopFlight(false)
+        builder.children(children)
+        builder.flightCabinClass("COACH")
+        val flightSearchParams = builder.build()
+
+        var mapOneWayParams = flightSearchParams.toQueryMapForKong()
+        assertEquals(2, mapOneWayParams["numberOfAdultTravelers"])
+        assertEquals(FlightSearchParams.SearchType.ONE_WAY.name, mapOneWayParams["tripType"])
+        assertNotNull(mapOneWayParams["trips"])
+        assertEquals(true, mapOneWayParams["lccAndMerchantFareCheckoutAllowed"])
     }
 
     private fun giveSearchParams(vararg overrides: String): FlightSearchParams {
