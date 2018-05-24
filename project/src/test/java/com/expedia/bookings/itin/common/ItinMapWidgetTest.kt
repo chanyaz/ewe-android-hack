@@ -97,7 +97,7 @@ class ItinMapWidgetTest {
     }
 
     private class MockViewModel<T : ItinLOB> : ItinMapWidgetViewModel<T>() {
-        override val itinObserver: LiveDataObserver<T> = LiveDataObserver { }
+        override val itinLOBObserver: LiveDataObserver<T> = LiveDataObserver { }
         var mapSubjectClicked = false
         var directionSubjectClicked = false
         var addressContainerClicked = false

@@ -19,7 +19,7 @@ import com.expedia.bookings.itin.tripstore.data.ItinHotel
 import com.expedia.bookings.itin.tripstore.data.ItinLx
 import com.expedia.bookings.itin.tripstore.data.ItinRail
 import com.expedia.bookings.itin.tripstore.extensions.HasProducts
-import com.expedia.bookings.itin.tripstore.extensions.TripProducts
+import com.expedia.bookings.itin.common.TripProducts
 import com.expedia.bookings.itin.utils.IActivityLauncher
 import com.expedia.bookings.itin.utils.StringSource
 import com.expedia.bookings.services.TestObserver
@@ -448,11 +448,11 @@ class HotelItinPricingSummaryViewModelTest {
         viewModel.itinObserver.onChanged(mockItinExpediaCollect)
 
         additionalPriceInfoObserver.assertEmpty()
-        assertFalse(scope.mockActivityLauncher.launched)
+        assertFalse(scope.mockActivityLauncher.intentableActivityLaunched)
 
         viewModel.additionalPricingInfoSubject.onNext(Unit)
         additionalPriceInfoObserver.assertValueCount(1)
-        assertTrue(scope.mockActivityLauncher.launched)
+        assertTrue(scope.mockActivityLauncher.intentableActivityLaunched)
     }
 
     private fun getViewModel(): HotelItinPricingSummaryViewModel<MockHotelItinPricingSummaryScope> {

@@ -4,6 +4,7 @@ import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.LifecycleOwner
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.helpers.ItinMocker
+import com.expedia.bookings.itin.helpers.MockActivityLauncher
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
 import com.expedia.bookings.itin.helpers.MockLxRepo
 import com.expedia.bookings.itin.helpers.MockPhoneHandler
@@ -11,6 +12,7 @@ import com.expedia.bookings.itin.helpers.MockStringProvider
 import com.expedia.bookings.itin.helpers.MockToaster
 import com.expedia.bookings.itin.helpers.MockTripsTracking
 import com.expedia.bookings.itin.lx.ItinLxRepoInterface
+import com.expedia.bookings.itin.scopes.HasActivityLauncher
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasLxRepo
 import com.expedia.bookings.itin.scopes.HasPhoneHandler
@@ -19,6 +21,7 @@ import com.expedia.bookings.itin.scopes.HasToaster
 import com.expedia.bookings.itin.scopes.HasTripsTracking
 import com.expedia.bookings.itin.tripstore.extensions.buildFullAddress
 import com.expedia.bookings.itin.tripstore.extensions.firstLx
+import com.expedia.bookings.itin.utils.IActivityLauncher
 import com.expedia.bookings.itin.utils.IPhoneHandler
 import com.expedia.bookings.itin.utils.IToaster
 import com.expedia.bookings.itin.utils.StringSource
@@ -61,7 +64,7 @@ class LxItinMapWidgetViewModelTest {
         addressLineFirstTestObserver.assertNoValues()
         addressLineSecondTestObserver.assertNoValues()
         latLongTestObserver.assertNoValues()
-        sut.itinObserver.onChanged(null)
+        sut.itinLOBObserver.onChanged(null)
         addressLineFirstTestObserver.assertNoValues()
         addressLineSecondTestObserver.assertNoValues()
         latLongTestObserver.assertNoValues()
@@ -72,7 +75,7 @@ class LxItinMapWidgetViewModelTest {
         addressLineFirstTestObserver.assertNoValues()
         addressLineSecondTestObserver.assertNoValues()
         latLongTestObserver.assertNoValues()
-        sut.itinObserver.onChanged(ItinMocker.lxDetailsNoDetailsUrl.firstLx())
+        sut.itinLOBObserver.onChanged(ItinMocker.lxDetailsNoDetailsUrl.firstLx())
         addressLineFirstTestObserver.assertNoValues()
         addressLineSecondTestObserver.assertValue("")
         latLongTestObserver.assertNoValues()
@@ -84,7 +87,7 @@ class LxItinMapWidgetViewModelTest {
         phoneNumberContDescTestObserver.assertNoValues()
         assertFalse(mockScope.mockPhoneHandler.handleCalled)
 
-        sut.itinObserver.onChanged(ItinMocker.lxDetailsAlsoHappy.firstLx())
+        sut.itinLOBObserver.onChanged(ItinMocker.lxDetailsAlsoHappy.firstLx())
 
         val expectedNumber = "+1 (415) 379 8000"
         val expectedString = R.string.itin_activity_manage_booking_call_lx_button_content_description_TEMPLATE.toString().plus(mapOf("phonenumber" to expectedNumber))
@@ -103,7 +106,7 @@ class LxItinMapWidgetViewModelTest {
         phoneNumberContDescTestObserver.assertNoValues()
         assertFalse(mockScope.mockPhoneHandler.handleCalled)
 
-        sut.itinObserver.onChanged(ItinMocker.lxDetailsNoVendorPhone.firstLx())
+        sut.itinLOBObserver.onChanged(ItinMocker.lxDetailsNoVendorPhone.firstLx())
 
         phoneNumberTextTestObserver.assertNoValues()
         phoneNumberContDescTestObserver.assertNoValues()
@@ -123,7 +126,7 @@ class LxItinMapWidgetViewModelTest {
 
     @Test
     fun addressClickTest() {
-        sut.itinObserver.onChanged(ItinMocker.lxDetailsHappy.firstLx())
+        sut.itinLOBObserver.onChanged(ItinMocker.lxDetailsHappy.firstLx())
         assertFalse(mockScope.mockToaster.toasted)
         sut.addressClickSubject.onNext(Unit)
         assertTrue(mockScope.mockToaster.toasted)
@@ -140,7 +143,10 @@ class LxItinMapWidgetViewModelTest {
         assertFalse(sut.scope.mockTracking.mapClicked)
         assertFalse(sut.scope.mockStrings.fetchWithPhraseCalled)
         val expectedString = R.string.itin_lx_details_address_copy_content_description_TEMPLATE.toString().plus(mapOf("address" to ItinMocker.lxDetailsHappy.firstLx()?.buildFullAddress()))
-        sut.itinObserver.onChanged(ItinMocker.lxDetailsHappy.firstLx())
+
+        sut.itinLOBObserver.onChanged(ItinMocker.lxDetailsHappy.firstLx())
+        sut.itinObserver.onChanged(ItinMocker.lxDetailsHappy)
+
         addressLineFirstTestObserver.assertValue("55 Music Concourse Drive")
         addressLineSecondTestObserver.assertValue("San Francisco, CA, USA, 94118")
         contentDescTestObserver.assertValue(expectedString)
@@ -154,7 +160,7 @@ class LxItinMapWidgetViewModelTest {
         assertTrue(sut.scope.mockStrings.fetchWithPhraseCalled)
     }
 
-    private class MockVMScope : HasLifecycleOwner, HasLxRepo, HasTripsTracking, HasToaster, HasStringProvider, HasPhoneHandler {
+    private class MockVMScope : HasLifecycleOwner, HasLxRepo, HasTripsTracking, HasToaster, HasStringProvider, HasPhoneHandler, HasActivityLauncher {
         val mockPhoneHandler = MockPhoneHandler()
         override val phoneHandler: IPhoneHandler = mockPhoneHandler
         val mockStrings = MockStringProvider()
@@ -166,5 +172,6 @@ class LxItinMapWidgetViewModelTest {
         override val lifecycleOwner: LifecycleOwner = MockLifecycleOwner()
         val mockRepo = MockLxRepo(false)
         override val itinLxRepo: ItinLxRepoInterface = mockRepo
+        override val activityLauncher: IActivityLauncher = MockActivityLauncher()
     }
 }

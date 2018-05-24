@@ -3,6 +3,7 @@ package com.expedia.bookings.itin.scopes
 import android.arch.lifecycle.LifecycleOwner
 import com.expedia.bookings.features.Feature
 import com.expedia.bookings.itin.cars.ItinCarRepoInterface
+import com.expedia.bookings.itin.common.ItinRepoInterface
 import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepoInterface
 import com.expedia.bookings.itin.lx.ItinLxRepoInterface
 import com.expedia.bookings.itin.tripstore.data.Itin
@@ -53,6 +54,10 @@ interface HasLifecycleOwner {
     val lifecycleOwner: LifecycleOwner
 }
 
+interface HasItinType {
+    val type: String
+}
+
 interface HasActivityLauncher {
     val activityLauncher: IActivityLauncher
 }
@@ -79,6 +84,10 @@ interface HasJsonUtil {
 
 interface HasItinId {
     val id: String
+}
+
+interface HasItinRepo {
+    val itinRepo: ItinRepoInterface
 }
 
 interface HasToaster {

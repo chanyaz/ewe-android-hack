@@ -3,7 +3,6 @@ package com.expedia.bookings.itin.helpers
 import com.expedia.bookings.tracking.ITripsTracking
 
 class MockTripsTracking : ITripsTracking {
-
     var trackTripListVisited = false
     var trackTripFolderAbTest = false
 
@@ -12,6 +11,10 @@ class MockTripsTracking : ITripsTracking {
     var trackHotelTaxiClick = false
     var trackHotelItinViewRewardsCalled = false
     var trackHotelItinPricingRewardsPageload = false
+    var trackItinExpandedMapZoomIn = false
+    var trackItinExpandedMapZoomOut = false
+    var trackItinExpandedMapZoomPan = false
+    var trackItinMapDirectionsButtonCalled = false
 
     var trackItinLxCalled = false
     var mapClicked = false
@@ -75,5 +78,21 @@ class MockTripsTracking : ITripsTracking {
 
     override fun trackItinLxMoreHelpPageLoad(trip: HashMap<String, String?>) {
         trackItinlxMoreHelpPageLoaded = true
+    }
+
+    override fun trackItinExpandedMapZoomIn() {
+        trackItinExpandedMapZoomIn = true
+    }
+
+    override fun trackItinExpandedMapZoomOut() {
+        trackItinExpandedMapZoomOut = true
+    }
+
+    override fun trackItinExpandedMapZoomPan() {
+        trackItinExpandedMapZoomPan = true
+    }
+
+    override fun trackItinMapDirectionsButton() {
+        trackItinMapDirectionsButtonCalled = true
     }
 }

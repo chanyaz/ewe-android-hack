@@ -46,6 +46,10 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     private val ITIN_FIND_GUEST = "App.Itinerary.Find.Guest"
     private val ITIN_ERROR = "App.Itinerary.Error"
     private val ITIN_ADD_GUEST = "App.Itinerary.Guest.Itin"
+    private const val ITIN_MAP_DIRECTIONS = "App.Map.Directions.Drive"
+    private const val ITIN_MAP_PAN = "App.Map.Directions.Pan"
+    private const val ITIN_MAP_ZOOM_IN = "App.Map.Directions.ZoomIn"
+    private const val ITIN_MAP_ZOOM_OUT = "App.Map.Directions.ZoomOut"
 
     @JvmStatic
     fun trackItinTripRefreshCallMade() {
@@ -126,10 +130,6 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     private const val ITIN_HOTEL_CALL = "App.Itinerary.Hotel.Call"
     private const val ITIN_HOTEL_MAP_OPEN = "App.Itinerary.Hotel.Map"
     private const val ITIN_HOTEL_DIRECTIONS = "App.Itinerary.Hotel.Directions"
-    private const val ITIN_HOTEL_MAP_DIRECTIONS = "App.Map.Directions.Drive"
-    private const val ITIN_HOTEL_MAP_PAN = "App.Map.Directions.Pan"
-    private const val ITIN_HOTEL_MAP_ZOOM_IN = "App.Map.Directions.ZoomIn"
-    private const val ITIN_HOTEL_MAP_ZOOM_OUT = "App.Map.Directions.ZoomOut"
     private const val ITIN_HOTEL_VIEW_RECEIPT = "App.Itinerary.Hotel.PricingRewards.ViewReceipt"
     private const val ITIN_HOTEL_TAXI_CARD = "App.Itinerary.Hotel.TaxiCard"
     private const val ITIN_HOTEL_VIEW_REWARDS = "App.Itinerary.Hotel.PricingRewards.ViewRewards"
@@ -239,23 +239,23 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
         s.trackLink("Itinerary Action")
     }
 
-    fun trackItinHotelMapDirectionsButton() {
-        val s = createTrackLinkEvent(ITIN_HOTEL_MAP_DIRECTIONS)
+    override fun trackItinMapDirectionsButton() {
+        val s = createTrackLinkEvent(ITIN_MAP_DIRECTIONS)
         s.trackLink("Map Action")
     }
 
-    fun trackItinExpandedMapZoomIn() {
-        val s = createTrackLinkEvent(ITIN_HOTEL_MAP_ZOOM_IN)
+    override fun trackItinExpandedMapZoomIn() {
+        val s = createTrackLinkEvent(ITIN_MAP_ZOOM_IN)
         s.trackLink("Map Action")
     }
 
-    fun trackItinExpandedMapZoomOut() {
-        val s = createTrackLinkEvent(ITIN_HOTEL_MAP_ZOOM_OUT)
+    override fun trackItinExpandedMapZoomOut() {
+        val s = createTrackLinkEvent(ITIN_MAP_ZOOM_OUT)
         s.trackLink("Map Action")
     }
 
-    fun trackItinExpandedMapZoomPan() {
-        val s = createTrackLinkEvent(ITIN_HOTEL_MAP_PAN)
+    override fun trackItinExpandedMapZoomPan() {
+        val s = createTrackLinkEvent(ITIN_MAP_PAN)
         s.trackLink("Map Action")
     }
 

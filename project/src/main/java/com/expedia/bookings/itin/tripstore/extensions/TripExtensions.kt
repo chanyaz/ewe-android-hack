@@ -1,5 +1,6 @@
 package com.expedia.bookings.itin.tripstore.extensions
 
+import com.expedia.bookings.itin.common.TripProducts
 import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinCar
 import com.expedia.bookings.itin.tripstore.data.ItinCruise
@@ -19,15 +20,6 @@ interface HasProducts {
     val cruises: List<ItinCruise>?
     val rails: List<ItinRail>?
     fun listOfTripProducts(): List<TripProducts> = makeListOfTripProducts(this)
-}
-
-enum class TripProducts {
-    HOTEL,
-    FLIGHT,
-    CAR,
-    ACTIVITY,
-    RAIL,
-    CRUISE
 }
 
 fun Itin.firstHotel(): ItinHotel? {

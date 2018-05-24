@@ -102,6 +102,7 @@ class HotelItinExpandedMapActivity : ItinBaseActivity(), OnMapReadyCallback, Goo
         fun createIntent(context: Context, id: String): Intent {
             val i = Intent(context, HotelItinExpandedMapActivity::class.java)
             i.putExtra(ID_EXTRA, id)
+
             return i
         }
     }
@@ -131,7 +132,7 @@ class HotelItinExpandedMapActivity : ItinBaseActivity(), OnMapReadyCallback, Goo
                     Toast.makeText(this, R.string.itin_hotel_map_directions_no_app_available, Toast.LENGTH_SHORT).show()
                 }
             }
-            TripsTracking.trackItinHotelMapDirectionsButton()
+            TripsTracking.trackItinMapDirectionsButton()
         }
     }
 

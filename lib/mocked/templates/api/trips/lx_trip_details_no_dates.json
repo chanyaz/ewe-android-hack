@@ -172,8 +172,6 @@
         "activityDetailsURL": "https://www.expedia.com/lx/activity/219652/",
         "activityLocation": {
           "name1": "California Academy of Sciences",
-          "latitude": 37.76974,
-          "longitude": -122.46614,
           "addressLine1": "55 Music Concourse Drive",
           "city": "San Francisco",
           "countrySubdivisionCode": "CA",

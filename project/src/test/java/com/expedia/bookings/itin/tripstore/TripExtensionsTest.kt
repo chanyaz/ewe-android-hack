@@ -5,7 +5,7 @@ import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinDetailsResponse
 import com.expedia.bookings.itin.tripstore.data.ItinHotel
 import com.expedia.bookings.itin.tripstore.data.ItinLx
-import com.expedia.bookings.itin.tripstore.extensions.TripProducts
+import com.expedia.bookings.itin.common.TripProducts
 import com.expedia.bookings.itin.tripstore.extensions.eligibleForRewards
 import com.expedia.bookings.itin.tripstore.extensions.firstHotel
 import com.expedia.bookings.itin.tripstore.extensions.firstLx

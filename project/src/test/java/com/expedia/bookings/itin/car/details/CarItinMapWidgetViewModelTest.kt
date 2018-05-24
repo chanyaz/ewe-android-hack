@@ -76,7 +76,7 @@ class CarItinMapWidgetViewModelTest {
         val expectedNumber = "02 9221 2231"
         val expectedCopyDescString = R.string.itin_car_address_copy_content_description_TEMPLATE.toString().plus(mapOf("address" to car?.pickupLocation?.buildFullAddress()))
 
-        sut.itinObserver.onChanged(car)
+        sut.itinLOBObserver.onChanged(car)
 
         addressLineFirstTestObserver.assertValue("Sir John Young Crescent Domain Car Park")
         addressLineSecondTestObserver.assertValue("Sydney, Victoria, AUS, 98188")
@@ -105,7 +105,7 @@ class CarItinMapWidgetViewModelTest {
         contentDescLocationTestObserver.assertNoValues()
 
         val car = ItinMocker.carDetailsHappy.firstCar()
-        sut.itinObserver.onChanged(car)
+        sut.itinLOBObserver.onChanged(car)
 
         addressLineFirstTestObserver.assertNoValues()
         addressLineSecondTestObserver.assertNoValues()
@@ -124,7 +124,7 @@ class CarItinMapWidgetViewModelTest {
 
         addressLineFirstTestObserver.assertNoValues()
         addressLineSecondTestObserver.assertNoValues()
-        sut.itinObserver.onChanged(car)
+        sut.itinLOBObserver.onChanged(car)
         addressLineFirstTestObserver.assertValue("Sir John Young Crescent Domain Car Park")
         addressLineSecondTestObserver.assertValue("Sydney, Victoria, AUS, 98188")
     }
@@ -139,7 +139,7 @@ class CarItinMapWidgetViewModelTest {
 
         addressLineFirstTestObserver.assertNoValues()
         addressLineSecondTestObserver.assertNoValues()
-        sut.itinObserver.onChanged(car)
+        sut.itinLOBObserver.onChanged(car)
         addressLineFirstTestObserver.assertValue("99 Spencer Street")
         addressLineSecondTestObserver.assertValue("Docklands, Victoria, AUS, 98188")
     }
@@ -153,7 +153,7 @@ class CarItinMapWidgetViewModelTest {
         addressLineFirstTestObserver.assertNoValues()
         car = ItinMocker.carDetailsBadLocations.firstCar()
 
-        sut.itinObserver.onChanged(car)
+        sut.itinLOBObserver.onChanged(car)
 
         addressLineFirstTestObserver.assertNoValues()
     }
@@ -167,10 +167,10 @@ class CarItinMapWidgetViewModelTest {
         val noLatCar = ItinMocker.carDetailsBadLocations.firstCar()
         val noLongCar = ItinMocker.carDetailsBadNameAndImage.firstCar()
 
-        sut.itinObserver.onChanged(noLatCar)
+        sut.itinLOBObserver.onChanged(noLatCar)
         latLongTestObserver.assertNoValues()
 
-        sut.itinObserver.onChanged(noLongCar)
+        sut.itinLOBObserver.onChanged(noLongCar)
         latLongTestObserver.assertNoValues()
     }
 
@@ -184,7 +184,7 @@ class CarItinMapWidgetViewModelTest {
 
         addressLineFirstTestObserver.assertNoValues()
         addressLineSecondTestObserver.assertNoValues()
-        sut.itinObserver.onChanged(car)
+        sut.itinLOBObserver.onChanged(car)
         addressLineFirstTestObserver.assertNoValues()
         addressLineSecondTestObserver.assertNoValues()
     }

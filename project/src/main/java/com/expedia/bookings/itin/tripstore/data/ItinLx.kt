@@ -16,6 +16,7 @@ data class ItinLx(
 ) : ItinLOB
 
 data class ActivityLocation(
+        val name1: String?,
         val city: String?,
         val addressLine1: String?,
         val postalCode: String?,

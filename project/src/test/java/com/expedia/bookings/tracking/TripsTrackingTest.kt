@@ -170,6 +170,34 @@ class TripsTrackingTest {
     }
 
     @Test
+    fun trackItinMapDirectionsButton() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinMapDirectionsButton()
+        assertItinMapLinksTracked("App.Map.Directions.Drive")
+    }
+
+    @Test
+    fun trackItinExpandedMapZoomPan() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinExpandedMapZoomPan()
+        assertItinMapLinksTracked("App.Map.Directions.Pan")
+    }
+
+    @Test
+    fun trackItinExpandedMapZoomIn() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinExpandedMapZoomIn()
+        assertItinMapLinksTracked("App.Map.Directions.ZoomIn")
+    }
+
+    @Test
+    fun trackItinExpandedMapZoomOut() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinExpandedMapZoomOut()
+        assertItinMapLinksTracked("App.Map.Directions.ZoomOut")
+    }
+
+    @Test
     fun trackItinLxDetailsDirectionsTest() {
         assertNoTrackingHasOccurred()
         TripsTracking.trackItinLxDetailsDirections()
@@ -239,6 +267,10 @@ class TripsTrackingTest {
 
     fun assertItinLinkTracked(rfrrId: String) {
         OmnitureTestUtils.assertLinkTracked("Itinerary Action", rfrrId, mockAnalyticsProvider)
+    }
+
+    fun assertItinMapLinksTracked(rfrrId: String) {
+        OmnitureTestUtils.assertLinkTracked("Map Action", rfrrId, mockAnalyticsProvider)
     }
 
     fun assertNoTrackingHasOccurred() {

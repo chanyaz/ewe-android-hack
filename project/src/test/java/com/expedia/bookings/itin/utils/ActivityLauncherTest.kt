@@ -3,6 +3,8 @@ package com.expedia.bookings.itin.utils
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.expedia.bookings.itin.common.ItinExpandedMapActivity
+import com.expedia.bookings.itin.common.TripProducts
 import com.expedia.bookings.itin.lx.details.LxItinDetailsActivity
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Test
@@ -29,6 +31,21 @@ class ActivityLauncherTest {
         val className = intent.component.className
         assertTrue(className.contains("LxItinDetailsActivity"))
         assertTrue(intent.hasExtra("LX_ITIN_ID"))
+    }
+
+    @Test
+    fun launchActivityIntentableWithTypeTest() {
+        val activity = Robolectric.buildActivity(AppCompatActivity::class.java).get()
+        val sut = ActivityLauncher(activity)
+        val shadow = Shadows.shadowOf(activity)
+        assertNull(shadow.peekNextStartedActivity())
+        sut.launchActivity(ItinExpandedMapActivity, "123", AnimationDirection.SLIDE_UP, TripProducts.ACTIVITY.name)
+        val intent = shadow.peekNextStartedActivity()
+        assertNotNull(intent)
+        val className = intent.component.className
+        assertTrue(className.contains("ItinExpandedMapActivity"))
+        assertTrue(intent.hasExtra("ITINID"))
+        assertTrue(intent.hasExtra("ITIN_TYPE"))
     }
 
     @Test

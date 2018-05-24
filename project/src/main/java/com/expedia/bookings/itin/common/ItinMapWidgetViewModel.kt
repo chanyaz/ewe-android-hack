@@ -17,5 +17,5 @@ abstract class ItinMapWidgetViewModel<T : ItinLOB> {
     val phoneNumberContDescriptionSubject: PublishSubject<String> = PublishSubject.create()
     val phoneNumberClickSubject: PublishSubject<Unit> = PublishSubject.create()
 
-    abstract val itinObserver: LiveDataObserver<T>
+    abstract val itinLOBObserver: LiveDataObserver<T>
 }

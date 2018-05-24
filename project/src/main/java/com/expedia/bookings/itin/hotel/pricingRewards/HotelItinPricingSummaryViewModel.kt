@@ -13,7 +13,7 @@ import com.expedia.bookings.itin.tripstore.data.ItinHotel
 import com.expedia.bookings.itin.tripstore.data.PaymentModel
 import com.expedia.bookings.itin.tripstore.data.TotalPriceDetails
 import com.expedia.bookings.itin.tripstore.extensions.HasProducts
-import com.expedia.bookings.itin.tripstore.extensions.TripProducts
+import com.expedia.bookings.itin.common.TripProducts
 import com.expedia.bookings.itin.tripstore.extensions.firstHotel
 import com.expedia.bookings.itin.tripstore.extensions.isMultiItemCheckout
 import com.expedia.bookings.itin.tripstore.extensions.isPackage

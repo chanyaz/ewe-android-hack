@@ -75,9 +75,9 @@ class HotelItinPriceSummaryButtonViewModelTest {
         val scope = TestHotelDetailsScopeHappy(true)
         val viewModel = HotelItinPriceSummaryButtonViewModel(scope)
 
-        assertFalse(scope.activityMockLauncher.launched)
+        assertFalse(scope.activityMockLauncher.intentableActivityLaunched)
         viewModel.cardClickListener.invoke()
-        assertTrue(scope.activityMockLauncher.launched)
+        assertTrue(scope.activityMockLauncher.intentableActivityLaunched)
         assertTrue(scope.mockTripsTracking.trackHotelItinPricingRewardsClicked)
     }
 

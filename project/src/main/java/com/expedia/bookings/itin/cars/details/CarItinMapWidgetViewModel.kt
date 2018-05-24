@@ -16,7 +16,7 @@ import com.expedia.bookings.itin.tripstore.extensions.buildSecondaryAddress
 import com.google.android.gms.maps.model.LatLng
 
 abstract class CarItinMapWidgetViewModel<S>(val scope: S) : ItinMapWidgetViewModel<ItinCar>() where S : HasCarRepo, S : HasLifecycleOwner, S : HasTripsTracking, S : HasToaster, S : HasStringProvider, S : HasPhoneHandler {
-    override val itinObserver: LiveDataObserver<ItinCar> = LiveDataObserver {
+    override val itinLOBObserver: LiveDataObserver<ItinCar> = LiveDataObserver {
         it?.let { itinCar ->
             getLocation(itinCar)?.let { location ->
                 location.addressLine1?.let {
@@ -52,7 +52,7 @@ abstract class CarItinMapWidgetViewModel<S>(val scope: S) : ItinMapWidgetViewMod
     }
 
     init {
-        scope.itinCarRepo.liveDataCar.observe(scope.lifecycleOwner, itinObserver)
+        scope.itinCarRepo.liveDataCar.observe(scope.lifecycleOwner, itinLOBObserver)
     }
 
     abstract fun getLocation(itinCar: ItinCar): CarLocation?

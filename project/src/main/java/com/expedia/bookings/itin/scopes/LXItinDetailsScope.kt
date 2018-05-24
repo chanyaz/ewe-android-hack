@@ -1,6 +1,7 @@
 package com.expedia.bookings.itin.scopes
 
 import android.arch.lifecycle.LifecycleOwner
+import com.expedia.bookings.itin.common.ItinRepoInterface
 import com.expedia.bookings.itin.lx.ItinLxRepoInterface
 import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinLOB
@@ -66,7 +67,8 @@ data class LxItinMapWidgetViewModelScope(override val itinLxRepo: ItinLxRepoInte
                                          override val tripsTracking: ITripsTracking,
                                          override val toaster: IToaster,
                                          override val strings: StringSource,
-                                         override val phoneHandler: IPhoneHandler) : HasLxRepo, HasLifecycleOwner, HasTripsTracking, HasToaster, HasStringProvider, HasPhoneHandler
+                                         override val phoneHandler: IPhoneHandler,
+                                         override val activityLauncher: IActivityLauncher) : HasLxRepo, HasLifecycleOwner, HasTripsTracking, HasToaster, HasStringProvider, HasPhoneHandler, HasActivityLauncher
 
 data class LxItinRedeemVoucherViewModelScope(
         override val strings: StringSource,
@@ -91,3 +93,11 @@ data class LxItinTimingsScope(
         override val itinLxRepo: ItinLxRepoInterface,
         override val strings: StringSource
 ) : HasLxRepo, HasLifecycleOwner, HasStringProvider
+
+data class ItinExpandedMapViewModelScope(
+        override val activityLauncher: IActivityLauncher,
+        override val lifecycleOwner: LifecycleOwner,
+        override val itinRepo: ItinRepoInterface,
+        override val type: String,
+        override val tripsTracking: ITripsTracking
+) : HasItinRepo, HasActivityLauncher, HasLifecycleOwner, HasItinType, HasTripsTracking
