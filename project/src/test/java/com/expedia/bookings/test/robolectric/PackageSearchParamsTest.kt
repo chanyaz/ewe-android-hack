@@ -202,7 +202,7 @@ class PackageSearchParamsTest {
     }
 
     @Test
-    fun testShouldTrackSameODPairValidationErrorIsTrue() {
+    fun testIsOriginSameAsDestinationIsTrue() {
         val builder = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
                 activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
         val origin = getDummySuggestion("123")
@@ -218,23 +218,21 @@ class PackageSearchParamsTest {
                 .build() as PackageSearchParams
 
         assertTrue(builder.isOriginSameAsDestination())
-        assertTrue(builder.shouldTrackSameODPairValidationError)
     }
 
     @Test
-    fun testShouldTrackSameODPairValidationErrorIsFalse() {
+    fun testIsOriginSameAsDestinationIsFalse() {
         val builder = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
                 activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
         builder.origin(getDummySuggestion("123"))
-                .destination(getDummySuggestion("123"))
+                .destination(getDummySuggestion("124"))
                 .adults(1)
                 .children(listOf(10, 2))
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(1))
                 .build() as PackageSearchParams
 
-        assertTrue(builder.isOriginSameAsDestination())
-        assertFalse(builder.shouldTrackSameODPairValidationError)
+        assertFalse(builder.isOriginSameAsDestination())
     }
 
     @Test

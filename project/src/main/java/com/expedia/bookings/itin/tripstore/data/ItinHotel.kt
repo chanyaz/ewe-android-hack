@@ -24,8 +24,16 @@ enum class PaymentModel {
 
 data class HotelRoom(
         val totalPriceDetails: TotalPriceDetails?,
-        val roomPropertyFeeFormatted: String?
+        val roomPropertyFeeFormatted: String?,
+        val bookingStatus: BookingStatus?
 )
+
+enum class BookingStatus {
+    @SerializedName("BOOKED")
+    BOOKED,
+    @SerializedName("CANCELLED")
+    CANCELLED
+}
 
 data class TotalPriceDetails(
         val primaryCurrencyCode: String?,

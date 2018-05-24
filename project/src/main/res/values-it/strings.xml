@@ -587,10 +587,6 @@
     <string name="traveler_age_title">Età viaggiatore</string>
     <!-- Text for traveler infant error-->
     <string name="traveler_infant_error">Per essere considerato neonato, il viaggiatore non deve avere ancora compiuto 24 mesi per tutta la durata del viaggio</string>
-    <!-- Text for traveler child error-->
-    <string name="traveler_child_error">Per essere considerato bambino, il viaggiatore non deve avere ancora compiuto 12 anni per tutta la durata del viaggio</string>
-    <!-- Text for traveler adult child error-->
-    <string name="traveler_adult_child_error">Il viaggiatore deve avere un\&apos;età compresa tra 12 e 17 anni al momento del viaggio</string>
     <!-- Text for traveler adult error-->
     <string name="traveler_adult_error">Il viaggiatore deve avere un\&apos;età pari o superiore a 18 anni</string>
     <!-- Text for traveler child error displayed in alert dialog message-->
@@ -1423,6 +1419,14 @@
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">Importo pagato: {amount}</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
     <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">Da pagare in hotel: {amount}</string>
+    <!--Hotel itin card price summary additional pricing information button-->
+    <string name="itin_hotel_details_price_summary_additional_info_button_text">Informazioni aggiuntive sui prezzi</string>
+    <!--Hotel itin card price summary additional pricing information additional hotel fees heading-->
+    <string name="itin_hotel_details_price_summary_additional_info_additional_hotel_fees">Costi aggiuntivi</string>
+    <!--Hotel itin card price summary additional pricing information taxes and fees heading-->
+    <string name="itin_hotel_details_price_summary_additional_info_taxes_and_fees">Tasse e oneri</string>
+    <!--Hotel itin card price summary additional pricing information guest charges and room capacity heading-->
+    <string name="itin_hotel_details_price_summary_additional_info_guest_charges_room_capacity">Addebiti per ospiti aggiuntivi e capacità della camera</string>
     <!--Hotel itin card price summary rewards section title text-->
     <string name="itin_hotel_details_price_summary_rewards_title">Programma fedeltà</string>
     <!--Hotel itin card price summary rewards section view rewards button text-->
@@ -1527,6 +1531,8 @@
     <string name="itin_lx_toolbar_title_TEMPLATE">Attività a {location}</string>
     <string name="itin_lx_more_info_heading">Serve aiuto?</string>
     <string name="itin_lx_more_info_subheading">Contatti del supporto clienti</string>
+    <!--LX itin redeem voucher.-->
+    <string name="itin_lx_redeem_voucher">Utilizza voucher</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Condividi itinerario</string>
@@ -3031,8 +3037,8 @@
     <string name="common_value_add_template">Tutte le camere includono %s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
     <string name="select_a_room_instruction">Seleziona una camera</string>
-    <!-- Content description for hotel map's select room button. Example: Select a Room From $10 button -->
-    <string name="hotel_select_a_room_cont_desc_TEMPLATE">Pulsante “Seleziona una camera a partire da {price}“</string>
+    <!-- Content description for hotel map's select room button. Example: "Select a Room From $10 button" -->
+    <string name="hotel_select_a_room_cont_desc_TEMPLATE">Pulsante Seleziona una camera {price}</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Cancellazione gratuita</string>
     <!-- Top line of resort fee text -->
@@ -3723,91 +3729,6 @@
     <!-- Unknown Card -->
     <string name="unknown_card">Carta sconosciuta</string>
 
-    <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
-    <!-- Your flight to _ delayed _ hour TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR">Il tuo volo per %1$s è stato ritardato di %2$s ora.</string>
-    <!-- Your flight to _ delayed _ hours TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS">Il tuo volo per %1$s è stato ritardato di %2$s ore.</string>
-    <!-- Your flight to _ delayed _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE">Il tuo volo per %1$s è stato ritardato di %2$s minuto.</string>
-    <!-- Your flight to _ delayed _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES">Il tuo volo per %1$s è stato ritardato di %2$s minuti.</string>
-    <!-- Your flight to _ delayed _ hour _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE">Il tuo volo per %1$s è stato ritardato di %2$s ora %3$s minuto.</string>
-    <!-- Your flight to _ delayed _ hour _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES">Il tuo volo per %1$s è stato ritardato di %2$s ora %3$s minuti.</string>
-    <!-- Your flight to _ delayed _ hours _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE">Il tuo volo per %1$s è stato ritardato di %2$s ore e %3$s minuto.</string>
-    <!-- Your flight to _ delayed _ hours _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES">Il tuo volo per %1$s è stato ritardato di %2$s ore e %3$s minuti.</string>
-    <!-- Your flight to _ departs _ minute early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTE">Il tuo volo per %1$s parte con un anticipo di %2$s minuto.</string>
-    <!-- Your flight to _ departs _ minutes early  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTES">Il tuo volo per %1$s parte con un anticipo di %2$s minuti.</string>
-    <!-- Your flight to _ departs _ hour early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR">Il tuo volo per %1$s parte con un anticipo di %2$s ora.</string>
-    <!-- Your flight to _ departs _ hours early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS">Il tuo volo per %1$s parte con un anticipo di %2$s ore.</string>
-    <!-- Your flight to _ departs _ hour _ minute early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE">Il tuo volo per %1$s parte con un anticipo di %2$s ora e %3$s minuto.</string>
-    <!-- Your flight to _ departs _ hours _ minute early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE">Il tuo volo per %1$s parte con un anticipo di %2$s ore e %3$s minuto.</string>
-    <!-- Your flight to _ departs _ hour _ minutes early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES">Il tuo volo per %1$s parte con un anticipo di %2$s ora e %3$s minuti.</string>
-    <!-- Your flight to _ departs _ hours _ minutes early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES">Il tuo volo per %1$s parte con un anticipo di %2$s ore e %3$s minuti.</string>
-    <!-- Your flight to _ is delayed _ minute and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE">Il tuo volo per %1$s è stato ritardato di %2$s minuto e partirà dal gate %3$s.</string>
-    <!-- Your flight to _ is delayed _ minutes and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE">Il tuo volo per %1$s è stato ritardato di %2$s minuti e partirà dal gate %3$s.</string>
-    <!-- Your flight to _ is delayed _ hour and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE">Il tuo volo per %1$s è stato ritardato di %2$s ora e partirà dal gate %3$s.</string>
-    <!-- Your flight to _ is delayed _ hours and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE">Il tuo volo per %1$s è stato ritardato di %2$s ore e partirà dal gate %3$s.</string>
-    <!-- Your flight to _ is delayed _ hour _ minute and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE">Il tuo volo per %1$s è stato ritardato di %2$s ora e %3$s minuto e partirà dal gate %4$s.</string>
-    <!-- Your flight to _ is delayed _ hours _ minute and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE">Il tuo volo per %1$s è stato ritardato di %2$s ore e %3$s minuto e partirà dal gate %4$s.</string>
-    <!-- Your flight ot _ is delayed _ hour _ minutes and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE">Il tuo volo per %1$s è stato ritardato di %2$s ora e %3$s minuti e partirà dal gate %4$s.</string>
-    <!-- Your flight to _ is delayed _ hours _ minutes and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE">Il tuo volo per %1$s è stato ritardato di %2$s ore e %3$s minuti e partirà dal gate %4$s.</string>
-    <!-- Your flight to _ is now departing _ minute early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE">Il tuo volo per %1$s partirà con un anticipo di %2$s minuto dal gate %3$s.</string>
-    <!-- Your flight to _ is now departing _ minutes early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE">Il tuo volo per %1$s partirà con un anticipo di %2$s minuti dal gate %3$s.</string>
-    <!-- Your flight to _ is now departing _ hour early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE">Il tuo volo per %1$s partirà con un anticipo di %2$s ora dal gate %3$s.</string>
-    <!-- Your flight to _ is now departing _ hours early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE">Il tuo volo per %1$s partirà con un anticipo di %2$s ore dal gate %3$s.</string>
-    <!-- Your flight to _ is now departing _ hour _ minute early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE">Il tuo volo per %1$s partirà con un anticipo di %2$s ora e %3$s minuto dal gate %4$s.</string>
-    <!-- Your flight to _ is now departing _ hours _ minute early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE">Il tuo volo per %1$s partirà con un anticipo di %2$s ore e %3$s minuto dal gate %4$s.</string>
-    <!-- Your flight to _ is now departing _ hour _ minutes early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE">Il tuo volo per %1$s partirà con un anticipo di %2$s ora e %3$s minuti dal gate %4$s.</string>
-    <!-- Your flight to _ is now departing _ hours _ minutes early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE">Il tuo volo per %1$s partirà con un anticipo di %2$s ore e %3$s minuti dal gate %4$s.</string>
-    <!-- Your flight from _ to _ has been cancelled TEMPLATE -->
-    <string name="S_Push_flight_from_CITY_to_CITY_cancelled">Il tuo volo da %1$s per %2$s è stato cancellato.</string>
-    <!-- Your flight to _ departs in _ hour TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR">Il tuo volo per %1$s parte tra %2$s ora.</string>
-    <!-- Your flight to _ departs in _ hours TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS">Il tuo volo per %1$s parte tra %2$s ore.</string>
-    <!-- Your flight to _ departs in _ hours _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE">Il tuo volo per %1$s parte tra %2$s ore e %3$s minuti.</string>
-    <!-- Your flight to _ departs in _ hours _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES">Il tuo volo per %1$s parte tra %2$s ore e %3$s minuti.</string>
-    <!-- Your flight to _ departs in _ hour _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE">Il tuo volo per %1$s parte tra %2$s ora e %3$s minuto.</string>
-    <!-- Your flight to _ departs in _ hour _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES">Il tuo volo per %1$s parte tra %2$s ora e %3$s minuti.</string>
-    <!-- Your flight to _ departs in _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_MINUTES">Il tuo volo per %1$s parte tra %2$s minuti.</string>
-    <!-- Your flight to _ now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_gate_GATE">Il tuo volo per %1$s parte dal gate %2$s.</string>
-    <!-- Your bags will be at baggage claim _  TEMPLATE -->
-    <string name="S_Push_baggage_BAGGAGE">I tuoi bagagli saranno disponibili al nastro %1$s.</string>
     <!-- <First Name>, your booking is confirmed! View it in the app. TEMPLATE -->
     <string name="S_Push_Hey_VALUE_your_booking_is_confirmed">%1$s, la tua prenotazione è confermata! Visualizzala sull\&apos;app.</string>
     <!--Your booking is confirmed! View it in the app. (For when we can't or don't want to address by first name -->
@@ -3863,9 +3784,9 @@
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">Ho letto e accetto {terms_of_use} e {privacy_policy}.</string>
     <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Iscriviti a {brand_reward_name} oggi stesso. Effettuando l\&apos;iscrizione a {brand_reward_name}, accetto {terms_and_conditions}.</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">Iscriviti a {brand_reward_name} oggi stesso. Effettuando l\&apos;iscrizione a {brand_reward_name}, accetto i &lt;a href="{terms_and_conditions_url}"&gt;Termini e condizioni&lt;/a&gt;.</string>
     <!--Account creation legal template for terms and reward eg: By creating an account, I accept the Expedia Rewards Terms & Conditions, and have read and accept the Terms of Use and the Privacy Policy.-->
-    <string name="account_creation_new_terms_reward_TEMPLATE">Creando un account, accetto i {terms_and_conditions} di {brand_reward_name} e confermo di aver letto e accettato i {terms_of_use} e l\&apos;{privacy_policy}.</string>
+    <string name="account_creation_new_terms_reward_TEMPLATE">Creando un account, dichiaro di accettare i {brand_reward_name} &lt;a href="{terms_and_conditions_url}"&gt;Termini e condizioni&lt;/a&gt;, e di aver letto e di accettare i &lt;a href="{terms_of_use_url}"&gt;Termini di utilizzo&lt;/a&gt; e l\&apos;&lt;a href="{privacy_policy_url}"&gt;Informativa sulla privacy&lt;/a&gt;.</string>
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Seleziona l\&apos;età di ciascun bambino</string>
 
@@ -4062,8 +3983,6 @@
     <string name="bundle_overview_free_canellation_collapsed_button_description_TEMPLATE">{rowdescription}. Pulsante per nascondere le informazioni. Tocca due volte per espandere la sezione.</string>
     <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. After 24 hours, standard flight rules apply. Expanded button. Double tap to collapse. -->
     <string name="bundle_overview_free_canellation_expanded_button_description_TEMPLATE">{rowtitle}. {rowdescription} Pulsante per mostrare più informazioni. Tocca due volte per comprimere la sezione.</string>
-    <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
-    <string name="flight_detail_card_cont_desc_without_price_TEMPLATE">L\&apos;orario del volo è {time}. Il volo è operato da {airline}. La durata del volo è di {hours} {minutes}, con {stops} scali\u0020</string>
     <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco on Jun 23, for 1 Traveler. Please select Outbound Flight first. Button. -->
     <string name="select_flight_disabled_cont_desc_TEMPLATE">Volo per {flight} in data {date} per {travelers}. Seleziona prima il {previous}. Pulsante.</string>
     <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Outbound Flight first.-->
@@ -4524,8 +4443,6 @@
     <string name="trip_is_booked">Viaggio prenotato!</string>
     <!-- Cars cross-sell message on package confirmation -->
     <string name="rental_car_message">Ti serve un\&apos;auto a noleggio?</string>
-    <!-- Cars cross-sell origin description template-->
-    <string name="cars_cross_sell_origin_TEMPLATE">{airport_code}-{airport_localname}</string>
     <!-- Cars cross-sell message description on package confirmation -->
     <string name="rental_car_message_desc">Scegli l\&apos;auto che fa per te e risparmia</string>
     <!-- Fly from hint -->
@@ -5144,5 +5061,21 @@
     <string name="flight_dropdown_airport_location_TEMPLATE">{airport}, {country}</string>
     <!--Flight dropdown airport Eg. BNE - Brisbane Airport-->
     <string name="flight_dropdown_airport_details_TEMPLATE">{airport_code} - {airport_name}</string>
+
+    <!-- Carnival -->
+    <string name="full_page_deal_toolbar_nav_icon_close_cont_desc">Chiudi la pagina delle offerte</string>
+    <string name="full_page_deal_code_copied">Codice copiato!</string>
+    <string name="full_page_deal_copy_code_button">COPIA CODICE</string>
+
+    <!-- formatting strings -->
+    <!-- moved from flight lib -->
+    <!-- Shorthand for a number of hours.  %d is the number of hours, eg "12h" -->
+    <string name="hours_template">%dh</string>
+    <!-- Shorthand for a number of minutes.  %d is the number of minutes, eg "25m" -->
+    <string name="minutes_template">%dmm</string>
+    <!-- Shorthand for a number of hours and minutes.  First %d is the number of hours, second is the number of minutes, 12h 23m -->
+    <string name="hours_minutes_template">%1$dh %2$dm</string>
+    <!-- This is for a path between two cities, for example "San Francisco to Minneapolis".  First %s is the origin city, second %s is the destination city -->
+    <string name="path_template">da %1$s a %2$s</string>
 
 </resources>

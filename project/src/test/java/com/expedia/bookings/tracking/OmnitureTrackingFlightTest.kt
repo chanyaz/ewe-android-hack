@@ -20,17 +20,21 @@ import com.expedia.bookings.test.robolectric.FlightTestUtil
 import com.expedia.bookings.test.robolectric.FlightTestUtil.Companion.getCheckoutResponse
 import com.expedia.bookings.test.robolectric.FlightTestUtil.Companion.getFlightAggregatedResponse
 import com.expedia.bookings.test.robolectric.FlightTestUtil.Companion.getFlightCreateTripResponse
-import com.expedia.bookings.test.robolectric.FlightTestUtil.Companion.getFlightItinDetailsResponse
 import com.expedia.bookings.test.robolectric.FlightTestUtil.Companion.getFlightTripDetails
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.AbacusTestUtils
 import org.junit.Assert.assertEquals
+import com.google.gson.Gson
+import org.joda.time.LocalDate
+import org.joda.time.format.ISODateTimeFormat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
+import java.io.BufferedReader
+import java.io.FileReader
 import org.mockito.Mockito.`when` as whenever
 
 @RunWith(RobolectricRunner::class)
@@ -88,11 +92,10 @@ class OmnitureTrackingFlightTest {
     }
 
     @Test
-    fun testTrackWebFlightConfirmation() {
-        val pageUsableData = PageUsableData()
-        pageUsableData.markPageLoadStarted(10000)
-        pageUsableData.markAllViewsLoaded(10000)
-        OmnitureTracking.trackWebFlightCheckoutConfirmation(getFlightItinDetailsResponse(), pageUsableData)
+    fun testTrackWebFlightConfirmationWithInsurance() {
+        val (pageUsableData, flightTripDetails) = getFlightItinTripResponse()
+        val departureDate = getDepartureDateString()
+        OmnitureTracking.trackWebFlightCheckoutConfirmation(flightTripDetails, pageUsableData)
         val expectedEvars = mapOf(18 to "App.Flight.Checkout.Confirmation",
                 50 to "app.phone.android")
         val expectedProps = mapOf(2 to "Flight",
@@ -100,12 +103,58 @@ class OmnitureTrackingFlightTest {
                 4 to "DTW",
                 8 to "5678|1234",
                 71 to "5678",
-                72 to "111111")
-        val expectedProducts = ";Flight:null:OW;2;223.00;;eVar30=Merchant:FLT:SFO-DTW"
+                72 to "")
+        val expectedProducts = ";Flight:SFO:Merchant;1;63.20;;eVar30=Merchant:FLT:SFO-DTW:$departureDate-nil,;Insurance:100001;1;19.00"
         val expectedEvents = "purchase,event220,event221=0.00"
 
         val appState = "App.Flight.Checkout.Confirmation"
         assertWebFlightConfirmationStateTracked(appState, expectedEvars, expectedProps, expectedProducts, expectedEvents)
+    }
+
+    @Test
+    fun testTrackWebFlightConfirmationRoundTripDiffAirports() {
+        val departureDate = getDepartureDateString()
+        val (pageUsableData, flightTripDetails) = getFlightItinTripResponse("../lib/mocked/templates/api/trips/itin_trip_flight_roundtrip_diff_airports.json")
+        OmnitureTracking.trackWebFlightCheckoutConfirmation(flightTripDetails, pageUsableData)
+        val expectedEvars = mapOf(18 to "App.Flight.Checkout.Confirmation",
+                50 to "app.phone.android")
+        val expectedProps = mapOf(2 to "Flight",
+                3 to "SFO",
+                4 to "DTW",
+                8 to "5678|1234",
+                71 to "5678",
+                72 to "")
+        val expectedProducts = ";Flight:SFO:Merchant;1;121.40;;eVar30=Merchant:FLT:SFO-DTW:$departureDate-nil"
+        val expectedEvents = "purchase,event220,event221=0.00"
+
+        val appState = "App.Flight.Checkout.Confirmation"
+        assertWebFlightConfirmationStateTracked(appState, expectedEvars, expectedProps, expectedProducts, expectedEvents)
+    }
+
+    @Test
+    fun testTrackWebFlightConfirmationUsingItinDetailRoundTrip() {
+        val departureDate = getDepartureDateString()
+        val (pageUsableData, flightTripDetails) = getFlightItinTripResponse("../lib/mocked/templates/api/trips/flight_trip_details.json")
+        OmnitureTracking.trackWebFlightCheckoutConfirmation(flightTripDetails, pageUsableData)
+
+        val expectedEvars = mapOf(18 to "App.Flight.Checkout.Confirmation",
+                50 to "app.phone.android")
+        val expectedProps = mapOf(2 to "Flight",
+                3 to "SFO",
+                4 to "DTW",
+                8 to "5678|1234",
+                71 to "5678",
+                72 to "")
+        val expectedProducts = ";Flight:SFO:Merchant;1;60.20;;eVar30=Merchant:FLT:SFO-DTW:$departureDate-nil,;Insurance:null;"
+        val expectedEvents = "purchase,event220,event221=0.00"
+
+        val appState = "App.Flight.Checkout.Confirmation"
+        assertWebFlightConfirmationStateTracked(appState, expectedEvars, expectedProps, expectedProducts, expectedEvents)
+    }
+
+    private fun getDepartureDateString(): String {
+        val formatter = ISODateTimeFormat.basicDate()
+        return LocalDate().plusDays(2).toString(formatter)
     }
 
     @Test
@@ -142,11 +191,8 @@ class OmnitureTrackingFlightTest {
     fun testTrackWebFlightConfirmationTracksHiddenConfirmationXTestBucketed() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppConfirmationToolbarXHidden)
 
-        val pageUsableData = PageUsableData()
-        pageUsableData.markPageLoadStarted(10000)
-        pageUsableData.markAllViewsLoaded(10000)
-
-        OmnitureTracking.trackWebFlightCheckoutConfirmation(getFlightItinDetailsResponse(), pageUsableData)
+        val (pageUsableData, flightTripDetails) = getFlightItinTripResponse()
+        OmnitureTracking.trackWebFlightCheckoutConfirmation(flightTripDetails, pageUsableData)
 
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withAbacusTestBucketed(AbacusUtils.EBAndroidAppConfirmationToolbarXHidden.key), mockAnalyticsProvider)
     }
@@ -155,13 +201,20 @@ class OmnitureTrackingFlightTest {
     fun testTrackWebFlightConfirmationTracksHiddenConfirmationXTestControl() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppConfirmationToolbarXHidden, AbacusVariant.CONTROL.value)
 
+        val (pageUsableData, flightTripDetails) = getFlightItinTripResponse()
+        OmnitureTracking.trackWebFlightCheckoutConfirmation(flightTripDetails, pageUsableData)
+
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withAbacusTestControl(AbacusUtils.EBAndroidAppConfirmationToolbarXHidden.key), mockAnalyticsProvider)
+    }
+
+    private fun getFlightItinTripResponse(fileName: String = "../lib/mocked/templates/api/trips/flight_trip_with_insurance.json"): Pair<PageUsableData, FlightItinDetailsResponse> {
         val pageUsableData = PageUsableData()
         pageUsableData.markPageLoadStarted(10000)
         pageUsableData.markAllViewsLoaded(10000)
 
-        OmnitureTracking.trackWebFlightCheckoutConfirmation(getFlightItinDetailsResponse(), pageUsableData)
-
-        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withAbacusTestControl(AbacusUtils.EBAndroidAppConfirmationToolbarXHidden.key), mockAnalyticsProvider)
+        val br = BufferedReader(FileReader(fileName))
+        val flightTripDetails = Gson().fromJson(br, FlightItinDetailsResponse::class.java)
+        return Pair(pageUsableData, flightTripDetails)
     }
 
     @Test
@@ -172,16 +225,8 @@ class OmnitureTrackingFlightTest {
         OmnitureTracking.trackFlightsBookingConfirmationDialog(pageUsableData)
         val expectedEvars = mapOf(18 to "App.Flight.Checkout.Confirmation.Slim",
                 50 to "app.phone.android")
-        val expectedProps = mapOf(2 to "Flight",
-                3 to "SFO",
-                4 to "DTW",
-                8 to "5678|1234",
-                71 to "5678")
-        val expectedProducts = ";Flight:null:OW;2;223.00;;eVar30=Merchant:FLT:SFO-DTW"
-        val expectedEvents = "purchase,event220,event221=0.00"
 
-        val appState = "App.Checkout.Confirmation.Slim"
-        assertWebFlightConfirmationStateTracked(appState, expectedEvars, expectedProps, expectedProducts, expectedEvents)
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
     }
 
     @Test
@@ -209,8 +254,6 @@ class OmnitureTrackingFlightTest {
         val pageUsableData = PageUsableData()
         pageUsableData.markPageLoadStarted(10000)
         pageUsableData.markAllViewsLoaded(10000)
-
-        Db.setFlightSearchParams(FlightTestUtil.getFlightSearchParams(isRoundTrip = false, includeChild = false))
 
         val checkoutResponse = getCheckoutResponseWithOnlyAggregatedResponseDetails(numberOfTickets = "20")
 

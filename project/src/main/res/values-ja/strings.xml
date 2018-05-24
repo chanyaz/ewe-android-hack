@@ -252,7 +252,7 @@
     <!-- Text for error toolbar-->
     <string name="lx_price_change_text">料金変更</string>
     <!-- LX Ticket type names -->
-    <string name="ticket_type_traveler">旅行者名</string>
+    <string name="ticket_type_traveler">旅行者 1 名あたり</string>
     <string name="ticket_type_adult">大人</string>
     <string name="ticket_type_child">お子様</string>
     <string name="ticket_type_infant">乳幼児</string>
@@ -587,10 +587,6 @@
     <string name="traveler_age_title">旅行者の年齢</string>
     <!-- Text for traveler infant error-->
     <string name="traveler_infant_error">乳幼児とみなされるには、旅行期間中に年齢が 24 カ月未満である必要があります</string>
-    <!-- Text for traveler child error-->
-    <string name="traveler_child_error">お子様とみなされるには、旅行期間中に年齢が 12 歳未満である必要があります</string>
-    <!-- Text for traveler adult child error-->
-    <string name="traveler_adult_child_error">旅行時に 12 歳 ～ 17 歳である必要があります</string>
     <!-- Text for traveler adult error-->
     <string name="traveler_adult_error">18 歳以上である必要があります。</string>
     <!-- Text for traveler child error displayed in alert dialog message-->
@@ -781,7 +777,7 @@
     </plurals>
 
     <!-- Rooms and rates pay later -->
-    <string name="room_rate_pay_later">後からお支払い</string>
+    <string name="room_rate_pay_later">現地払い</string>
     <!-- Rooms and rates pay now -->
     <string name="room_rate_pay_now">事前払い</string>
     <!-- Rooms and rates pay later deposit due now -->
@@ -1423,6 +1419,14 @@
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">お支払い済みの合計金額 : {amount}</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
     <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">現地払いの合計金額 : {amount}</string>
+    <!--Hotel itin card price summary additional pricing information button-->
+    <string name="itin_hotel_details_price_summary_additional_info_button_text">追加料金について</string>
+    <!--Hotel itin card price summary additional pricing information additional hotel fees heading-->
+    <string name="itin_hotel_details_price_summary_additional_info_additional_hotel_fees">ホテルでの追加料金</string>
+    <!--Hotel itin card price summary additional pricing information taxes and fees heading-->
+    <string name="itin_hotel_details_price_summary_additional_info_taxes_and_fees">税およびサービス料</string>
+    <!--Hotel itin card price summary additional pricing information guest charges and room capacity heading-->
+    <string name="itin_hotel_details_price_summary_additional_info_guest_charges_room_capacity">宿泊料金と部屋の定員</string>
     <!--Hotel itin card price summary rewards section title text-->
     <string name="itin_hotel_details_price_summary_rewards_title">会員プログラム</string>
     <!--Hotel itin card price summary rewards section view rewards button text-->
@@ -1527,6 +1531,8 @@
     <string name="itin_lx_toolbar_title_TEMPLATE">{location}の現地ツアー</string>
     <string name="itin_lx_more_info_heading">お問い合わせ</string>
     <string name="itin_lx_more_info_subheading">カスタマーサポート情報</string>
+    <!--LX itin redeem voucher.-->
+    <string name="itin_lx_redeem_voucher">クーポンを利用する</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">旅程をシェアする</string>
@@ -2962,7 +2968,7 @@
     <!-- ETP pay later info message -->
     <string name="pay_later_info_text">今すぐ予約、後からお支払い</string>
     <string name="etp_payment_options_text">ホテルのお支払いオプション</string>
-    <string name="etp_pay_later_option_text">後からお支払い</string>
+    <string name="etp_pay_later_option_text">現地払い</string>
     <string name="etp_pay_later_currency_text_TEMPLATE">ホテルの現地通貨 (%s) で、ホテルに直接お支払いください。</string>
     <string name="etp_pay_later_payment_info_text">お支払い情報は予約保証のためのみに使用されます。</string>
     <string name="etp_pay_later_cancellation_text">ホテルのキャンセル料金適用期間より前であればキャンセル料は無料です。</string>
@@ -3031,7 +3037,7 @@
     <string name="common_value_add_template">全室に共通の設備やサービス : %s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
     <string name="select_a_room_instruction">部屋を選択</string>
-    <!-- Content description for hotel map's select room button. Example: Select a Room From $10 button -->
+    <!-- Content description for hotel map's select room button. Example: "Select a Room From $10 button" -->
     <string name="hotel_select_a_room_cont_desc_TEMPLATE">部屋 (最低料金 {price} から) を選択するボタン</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">キャンセル手数料無料</string>
@@ -3233,7 +3239,7 @@
     <!-- © Copyright 2012-2018 Expedia Group All rights reserved. -->
     <string name="expedia_group_copyright_TEMPLATE">© Copyright 2012-{year} Expedia Group\nAll rights reserved.</string>
     <!-- String where we link to the google play services open source licenses -->
-    <string name="open_source_software_licenses">オープン ソース ソフトウェアのライセンス承諾</string>
+    <string name="open_source_software_licenses">オープン ソース ソフトウェア ライセンスの承諾</string>
     <!-- String for error message if open source software license page fails to open -->
     <string name="open_source_software_licenses_error">ページの読み込み中にエラーが発生しました。</string>
     <!-- String for acrediting the open source libraries we use -->
@@ -3723,91 +3729,6 @@
     <!-- Unknown Card -->
     <string name="unknown_card">不明のカード</string>
 
-    <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
-    <!-- Your flight to _ delayed _ hour TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR">ご利用の%1$s行きフライトは %2$s 時間遅延しています。</string>
-    <!-- Your flight to _ delayed _ hours TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS">ご利用の%1$s行きフライトは %2$s 時間遅延しています。</string>
-    <!-- Your flight to _ delayed _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE">ご利用の%1$s行きフライトは %2$s 分遅延しています。</string>
-    <!-- Your flight to _ delayed _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES">ご利用の%1$s行きフライトは %2$s 分遅延しています。</string>
-    <!-- Your flight to _ delayed _ hour _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分遅延しています。</string>
-    <!-- Your flight to _ delayed _ hour _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分遅延しています。</string>
-    <!-- Your flight to _ delayed _ hours _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分遅延しています。</string>
-    <!-- Your flight to _ delayed _ hours _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分遅延しています。</string>
-    <!-- Your flight to _ departs _ minute early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTE">ご利用の%1$s行きフライトは %2$s 分早く出発します。</string>
-    <!-- Your flight to _ departs _ minutes early  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTES">ご利用の%1$s行きフライトは %2$s 分早く出発します。</string>
-    <!-- Your flight to _ departs _ hour early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR">ご利用の%1$s行きフライトは %2$s 時間早く出発します。</string>
-    <!-- Your flight to _ departs _ hours early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS">ご利用の%1$s行きフライトは %2$s 時間早く出発します。</string>
-    <!-- Your flight to _ departs _ hour _ minute early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分早く出発します。</string>
-    <!-- Your flight to _ departs _ hours _ minute early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分早く出発します。</string>
-    <!-- Your flight to _ departs _ hour _ minutes early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分早く出発します。</string>
-    <!-- Your flight to _ departs _ hours _ minutes early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分早く出発します。</string>
-    <!-- Your flight to _ is delayed _ minute and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE">ご利用の%1$s行きフライトは %2$s 分遅延でゲート %3$s より今から出発します。</string>
-    <!-- Your flight to _ is delayed _ minutes and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE">ご利用の%1$s行きフライトは %2$s 分遅延でゲート %3$s より今から出発します。</string>
-    <!-- Your flight to _ is delayed _ hour and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE">ご利用の%1$s行きフライトは %2$s 時間遅延でゲート %3$s より今から出発します。</string>
-    <!-- Your flight to _ is delayed _ hours and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE">ご利用の%1$s行きフライトは %2$s 時間遅延でゲート %3$s より今から出発します。</string>
-    <!-- Your flight to _ is delayed _ hour _ minute and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分遅延でゲート %4$s より今から出発します。</string>
-    <!-- Your flight to _ is delayed _ hours _ minute and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分遅延でゲート %4$s より今から出発します。</string>
-    <!-- Your flight ot _ is delayed _ hour _ minutes and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分遅延でゲート %4$s より今から出発します。</string>
-    <!-- Your flight to _ is delayed _ hours _ minutes and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分遅延でゲート %4$s より今から出発します。</string>
-    <!-- Your flight to _ is now departing _ minute early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE">ご利用の%1$s行きフライトは %2$s 分早くゲート %3$s より今から出発するところです。</string>
-    <!-- Your flight to _ is now departing _ minutes early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE">ご利用の%1$s行きフライトは %2$s 分早くゲート %3$s より今から出発するところです。</string>
-    <!-- Your flight to _ is now departing _ hour early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE">ご利用の%1$s行きフライトは %2$s 時間早くゲート %3$s より今から出発するところです。</string>
-    <!-- Your flight to _ is now departing _ hours early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE">ご利用の%1$s行きフライトは %2$s 時間早くゲート %3$s より今から出発するところです。</string>
-    <!-- Your flight to _ is now departing _ hour _ minute early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分早くゲート %4$s より今から出発するところです。</string>
-    <!-- Your flight to _ is now departing _ hours _ minute early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分早くゲート %4$s より今から出発するところです。</string>
-    <!-- Your flight to _ is now departing _ hour _ minutes early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分早くゲート %4$s より今から出発するところです。</string>
-    <!-- Your flight to _ is now departing _ hours _ minutes early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分早くゲート %4$s より今から出発するところです。</string>
-    <!-- Your flight from _ to _ has been cancelled TEMPLATE -->
-    <string name="S_Push_flight_from_CITY_to_CITY_cancelled">ご利用の%1$s発%2$s行きフライトはキャンセルされました。</string>
-    <!-- Your flight to _ departs in _ hour TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR">ご利用の%1$s行きフライトは %2$s 時間後に出発します。</string>
-    <!-- Your flight to _ departs in _ hours TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS">ご利用の%1$s行きフライトは %2$s 時間後に出発します。</string>
-    <!-- Your flight to _ departs in _ hours _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分後に出発します。</string>
-    <!-- Your flight to _ departs in _ hours _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分後に出発します。</string>
-    <!-- Your flight to _ departs in _ hour _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分後に出発します。</string>
-    <!-- Your flight to _ departs in _ hour _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分後に出発します。</string>
-    <!-- Your flight to _ departs in _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_MINUTES">ご利用の%1$s行きフライトは %2$s 分後に出発します。</string>
-    <!-- Your flight to _ now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_gate_GATE">ご利用の%1$s行きフライトはゲート %2$s より今から出発します。</string>
-    <!-- Your bags will be at baggage claim _  TEMPLATE -->
-    <string name="S_Push_baggage_BAGGAGE">手荷物は手荷物受取場 %1$s に運ばれます。</string>
     <!-- <First Name>, your booking is confirmed! View it in the app. TEMPLATE -->
     <string name="S_Push_Hey_VALUE_your_booking_is_confirmed">%1$s 様の予約が確定しました ! アプリで表示する</string>
     <!--Your booking is confirmed! View it in the app. (For when we can't or don't want to address by first name -->
@@ -3863,9 +3784,9 @@
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">{terms_of_use}および{privacy_policy}を読み、これに同意します。</string>
     <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
-    <string name="account_creation_legal_rewards_TEMPLATE">今すぐ{brand_reward_name}にご入会ください。{brand_reward_name}への入会をもって、すべての{terms_and_conditions}に同意したものとみなされます。</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">今すぐ{brand_reward_name}にご入会ください。{brand_reward_name}への入会をもって、すべての&lt;a href="{terms_and_conditions_url}"&gt;利用規約&lt;/a&gt;に同意したものとみなされます。</string>
     <!--Account creation legal template for terms and reward eg: By creating an account, I accept the Expedia Rewards Terms & Conditions, and have read and accept the Terms of Use and the Privacy Policy.-->
-    <string name="account_creation_new_terms_reward_TEMPLATE">アカウントの作成をもって、{brand_reward_name}の{terms_and_conditions}に同意したものみなされます。また、{terms_of_use}および{privacy_policy}を読み、その内容に同意したものとみなされます。</string>
+    <string name="account_creation_new_terms_reward_TEMPLATE">アカウントの作成をもって、{brand_reward_name}&lt;a href="{terms_and_conditions_url}"&gt;利用規約&lt;/a&gt;に同意したものみなされます。また、&lt;a href="{terms_of_use_url}"&gt;&lt;/a&gt;利用規約&lt;a href="{privacy_policy_url}"&gt;およびプライバシーポリシー&lt;/a&gt;を読み、その内容に同意したものとみなされます。</string>
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">お子様の年齢を選択する</string>
 
@@ -4043,7 +3964,7 @@
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s%2$s、%3$s</string>
     <!-- Template for package bundle total savings amount -->
-    <string name="bundle_total_savings_TEMPLATE">{savings}保存済み</string>
+    <string name="bundle_total_savings_TEMPLATE">{savings} 割引</string>
     <!-- Bundle Overview select hotel accessibility content description Eg. Search completed. Select a hotel in Detroit from Jun 23 to Jun 24, for 1 guest. Button -->
     <string name="select_hotel_cont_desc_TEMPLATE">検索が完了しました。チェックイン日 {startdate}、チェックアウト日 {enddate}、宿泊人数 {guests} 名で{destination}のホテルを選択します。ボタン</string>
     <!-- Bundle Overview select hotel accessibility content description when still searching Eg. Searching for hotels in Detroit from Jun 23 to Jun 24, for 1 guest. Please wait -->
@@ -4062,8 +3983,6 @@
     <string name="bundle_overview_free_canellation_collapsed_button_description_TEMPLATE">{rowdescription}。非表示ボタン。ダブルタップして拡大する。</string>
     <!-- Free Cancellation accessibility content description. Eg. Free cancellation within 24 hours. After 24 hours, standard flight rules apply. Expanded button. Double tap to collapse. -->
     <string name="bundle_overview_free_canellation_expanded_button_description_TEMPLATE">{rowtitle}。{rowdescription}拡大ボタン。ダブルタップして非表示にする。</string>
-    <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
-    <string name="flight_detail_card_cont_desc_without_price_TEMPLATE">フライト時刻は {time} です。ご利用の航空会社は{airline}です。所要時間は {stops} 回乗継で {hours} {minutes} です\u0020</string>
     <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco on Jun 23, for 1 Traveler. Please select Outbound Flight first. Button. -->
     <string name="select_flight_disabled_cont_desc_TEMPLATE">出発日{date}、{flight}行きのフライト {travelers} 名分。{previous}のフライトを先に選択してください。ボタン。</string>
     <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Outbound Flight first.-->
@@ -4524,8 +4443,6 @@
     <string name="trip_is_booked">ご予約が完了しました !</string>
     <!-- Cars cross-sell message on package confirmation -->
     <string name="rental_car_message">レンタカーを予約しますか ?</string>
-    <!-- Cars cross-sell origin description template-->
-    <string name="cars_cross_sell_origin_TEMPLATE">{airport_localname}、空港コード {airport_code}</string>
     <!-- Cars cross-sell message description on package confirmation -->
     <string name="rental_car_message_desc">レンタカーを割引予約</string>
     <!-- Fly from hint -->
@@ -5144,5 +5061,21 @@
     <string name="flight_dropdown_airport_location_TEMPLATE">{airport}、{country}</string>
     <!--Flight dropdown airport Eg. BNE - Brisbane Airport-->
     <string name="flight_dropdown_airport_details_TEMPLATE">{airport_code} - {airport_name}</string>
+
+    <!-- Carnival -->
+    <string name="full_page_deal_toolbar_nav_icon_close_cont_desc">このページを閉じる</string>
+    <string name="full_page_deal_code_copied">コードのコピー完了 !</string>
+    <string name="full_page_deal_copy_code_button">コードをコピー</string>
+
+    <!-- formatting strings -->
+    <!-- moved from flight lib -->
+    <!-- Shorthand for a number of hours.  %d is the number of hours, eg "12h" -->
+    <string name="hours_template">%d 時間</string>
+    <!-- Shorthand for a number of minutes.  %d is the number of minutes, eg "25m" -->
+    <string name="minutes_template">%d 分</string>
+    <!-- Shorthand for a number of hours and minutes.  First %d is the number of hours, second is the number of minutes, 12h 23m -->
+    <string name="hours_minutes_template">%1$d 時間 %2$d 分</string>
+    <!-- This is for a path between two cities, for example "San Francisco to Minneapolis".  First %s is the origin city, second %s is the destination city -->
+    <string name="path_template">%1$s → %2$s</string>
 
 </resources>
