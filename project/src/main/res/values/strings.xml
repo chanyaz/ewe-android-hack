@@ -2000,15 +2000,6 @@
     <string name="trip_dates_cont_desc">Trip dates</string>
     <!-- Action mode asking users to select location -->
     <string name="search_destination">Search Destination</string>
-    <!-- Number of adults template -->
-    <plurals name="number_of_adults_TEMPLATE">
-        <item quantity="zero">%1$d Adults</item>
-        <item quantity="one">%1$d Adult</item>
-        <item quantity="two">%1$d Adults</item>
-        <item quantity="few">%1$d Adults</item>
-        <item quantity="many">%1$d Adults</item>
-        <item quantity="other">%1$d Adults</item>
-    </plurals>
     <!-- Message shown when loading AirAsia flight routes -->
     <string name="loading_air_asia_routes">Loading AirAsia routes…</string>
     <!-- Message shown when we could not load the AirAsia flight routes -->

@@ -51,18 +51,6 @@
     <attr name="simpleNumberPickerDownButtonStyle" format="reference" />
     <attr name="simpleNumberPickerInputTextStyle" format="reference" />
 
-    <declare-styleable name="CustomEditText">
-
-        <!--
-        Flag to indicate whether or not to use the 
-		clear field functionality set up as a right drawable
-        -->
-        <attr name="useClearFieldDrawable" format="boolean" />
-        <attr name="clearFieldDrawable" format="reference|color" />
-        <attr name="errorTextColor" format="reference" />
-        <!-- Defines how much extra area around the "X" allows touch (for clearing the content) -->
-        <attr name="touchAreaPadding" format="dimension" />
-    </declare-styleable>
     <declare-styleable name="SlideToWidget">
         <attr name="sliderText" format="string" />
         <attr name="sliderImage" format="reference" />
@@ -139,10 +127,6 @@
 
     <declare-styleable name="CheckoutInfoStatusIcon">
         <attr name="state_info_complete" format="boolean" />
-    </declare-styleable>
-
-    <declare-styleable name="ContentClickableRelativeLayout">
-        <attr name="layoutContentPadding" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="ContactDetailsCompleteness">

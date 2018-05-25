@@ -445,11 +445,6 @@ android {
         source 'src/'
         include '**/*.java'
 
-        // These files are from outside our project
-        exclude (
-            '**/CustomEditText.java',
-        )
-
         classpath = files()
         ignoreFailures = false
     }

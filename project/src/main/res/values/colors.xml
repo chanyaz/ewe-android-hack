@@ -185,7 +185,6 @@
     <color name="bg_signin_dialog_button_disabled">@android:color/transparent</color>
     <color name="hotel_details_separator">@color/gray400</color>
     <color name="legal_info_blue">#235285</color>
-    <color name="nav_dropdown_dividers">#26ffffff</color>
     <color name="action_bar_flight_text_color">@color/gray100</color>
     <color name="confirmation_header_divider_flight">#7D7ab6f5</color>
     <color name="confirmation_header_divider_hotel">@color/gray400</color>

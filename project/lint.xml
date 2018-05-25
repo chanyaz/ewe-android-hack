@@ -104,9 +104,7 @@
     <issue id="DuplicateIncludedIds" severity="error" />
     <issue id="GradleDeprecated" severity="error" />
     <issue id="GradleGetter" severity="error" />
-    <issue id="InconsistentLayout" severity="error">
-        <ignore path="src/main/res/layout/simple_number_picker.xml"/>
-    </issue>
+    <issue id="InconsistentLayout" severity="error" />
     <issue id="InlinedApi" severity="error" />
     <issue id="Instantiatable" severity="error" />
     <issue id="InvalidId" severity="error" />
