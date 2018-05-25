@@ -17,6 +17,7 @@ import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.isLXMultipleDatesSearchEnabled
 import com.expedia.bookings.widget.LXSuggestionAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseSearchViewModel
@@ -94,8 +95,13 @@ class LXSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPrese
         val service = Ui.getApplication(context).lxComponent().suggestionsService()
         suggestionViewModel = LXSuggestionAdapterViewModel(context, service, CurrentLocationObservable.create(context), true, false)
         searchLocationEditText?.queryHint = context.resources.getString(R.string.location_activity_details)
-        calendarWidgetV2.text = context.resources.getString(R.string.select_start_date)
-        calendarWidgetV2.contentDescription = context.resources.getString(R.string.lx_search_start_date_cont_desc)
+        if (isLXMultipleDatesSearchEnabled()) {
+            calendarWidgetV2.text = context.resources.getString(R.string.select_dates)
+            calendarWidgetV2.contentDescription = context.resources.getString(R.string.base_search_dates_button_cont_desc)
+        } else {
+            calendarWidgetV2.text = context.resources.getString(R.string.select_start_date)
+            calendarWidgetV2.contentDescription = context.resources.getString(R.string.lx_search_start_date_button_cont_desc)
+        }
     }
 
     override fun getSearchViewModel(): BaseSearchViewModel {

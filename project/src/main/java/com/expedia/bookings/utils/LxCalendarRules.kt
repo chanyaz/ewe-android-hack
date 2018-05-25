@@ -17,14 +17,18 @@ class LxCalendarRules(private val context: Context) : CalendarRules {
     }
 
     override fun getMaxSearchDurationDays(): Int {
-        return res.getInteger(R.integer.calendar_max_selection_date_range_lx)
+        return if (isLXMultipleDatesSearchEnabled()) {
+            Constants.LX_CALENDAR_MAX_DATE_SELECTION
+        } else {
+            res.getInteger(R.integer.calendar_max_selection_date_range_lx)
+        }
     }
 
     override fun sameStartAndEndDateAllowed(): Boolean {
-        return false
+        return isLXMultipleDatesSearchEnabled()
     }
 
     override fun isStartDateOnlyAllowed(): Boolean {
-        return true
+        return !isLXMultipleDatesSearchEnabled()
     }
 }

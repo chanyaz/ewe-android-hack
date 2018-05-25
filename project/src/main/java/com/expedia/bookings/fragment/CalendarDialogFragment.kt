@@ -174,7 +174,13 @@ open class CalendarDialogFragment() : DialogFragment() {
             calendar.visibility = CardView.INVISIBLE
             calendar.hideToolTip()
             if (calendar.startDate != null && calendar.endDate == null) {
-                val endDate = if (!(rules?.isStartDateOnlyAllowed() ?: false)) calendar.startDate.plusDays(1) else null
+                val endDate = if (!(rules?.isStartDateOnlyAllowed() ?: false)) {
+                    if (rules?.sameStartAndEndDateAllowed() ?: false) {
+                        calendar.startDate.plusDays(0)
+                    } else {
+                        calendar.startDate.plusDays(1)
+                    }
+                } else null
                 calendar.setSelectedDates(calendar.startDate, endDate)
             }
             if (isRecentSearchesForFlightsEnabled(context)) {

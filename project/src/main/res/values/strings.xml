@@ -221,6 +221,18 @@
     <string name="mip_infosite_discount_TEMPLATE">Book now and get up to {discount}% off</string>
     <!-- Discount for each activity on SRP tile. Eg. -9% -->
     <string name="mip_srp_tile_discount_TEMPLATE">-{discount}%</string>
+    <!-- LX calendar tooltip bottom line after a single date is selected -->
+    <string name="lx_calendar_tooltip_bottom">Select trip end date (optional)</string>
+    <!-- LX calendar tooltip maximum days selected text after limit for maximum days selection is reached -->
+    <string name="lx_calendar_tooltip_maximum_days_limit">Maximum days selected</string>
+    <!-- LX Quantity for the single day length of activity Eg. 1 Day -->
+    <string name="select_lx_trip_length_single_day">1 Day</string>
+    <!-- LX Quantity for the single day length of activity Eg. 5 Days-->
+    <string name="select_lx_trip_length_multiple_days_TEMPLATE">{noofdays} Days</string>
+    <!-- LX calendar no dates selected text -->
+    <string name="select_lx_trip_start_dates">Select trip start date</string>
+    <!-- When user hasn't picked trip end date, we show something like: "May 21 - Select trip end date" -->
+    <string name="select_lx_trip_end_date_TEMPLATE">{selecteddate} - Select trip end date</string>
 
     <!-- Activity details inclusions heading -->
     <string name="inclusions_activity_details">Inclusions</string>
@@ -4738,7 +4750,8 @@
     <!-- Content description for Checkbox types, state Unchecked -->
     <string name="accessibility_cont_desc_role_checkbox_unchecked">Checkbox. Unchecked.</string>
     <string name="base_search_dates_cont_desc">Select dates. Button. Opens dialog</string>
-    <string name="lx_search_start_date_cont_desc">Select Start Date. Button. Opens dialog</string>
+    <string name="base_search_dates_button_cont_desc">Select dates Button. Opens dialog.</string>
+    <string name="lx_search_start_date_button_cont_desc">Select Start Date Button. Opens dialog.</string>
 
     <!-- Accessibility string, indicates the type of trip and the duration of the trip. -->
     <!-- Ex. Select Dates. Button. Opens dialog. Dec 22 to Dec 25 (3 nights) -->

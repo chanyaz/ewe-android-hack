@@ -22,4 +22,5 @@ class Features {
     val genericAttach: Feature by RemoteFeatureDelegate()
     val viewReceipt: Feature by RemoteFeatureDelegate()
     val facebookAdTracking: Feature by RemoteFeatureDelegate()
+    val lxMultipleDatesSearch: Feature by RemoteFeatureDelegate()
 }

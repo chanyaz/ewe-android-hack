@@ -17,6 +17,7 @@ import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.deeplink.ActivityDeepLink;
+import com.expedia.bookings.features.Features;
 import com.expedia.bookings.text.HtmlCompat;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.flightlib.data.Airport;
@@ -476,11 +477,18 @@ public class LXDataUtils {
 	}
 
 	public static String getToolbarSearchDateText(Context context, LxSearchParams searchParams, boolean isContDesc) {
-		return Phrase.from(context,
-			isContDesc ? R.string.start_to_end_date_range_cont_desc_TEMPLATE : R.string.start_dash_end_date_range_TEMPLATE)
-			.put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(searchParams.getActivityStartDate()))
-			.put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(searchParams.getActivityEndDate()))
-			.format().toString();
+		if ((searchParams.getActivityEndDate().compareTo(searchParams.getActivityStartDate()) == 0)
+			&& Features.Companion.getAll().getLxMultipleDatesSearch().enabled()) {
+			return LocaleBasedDateFormatUtils.localDateToMMMd(searchParams.getActivityStartDate());
+		}
+		else {
+			int stringResource = (isContDesc ? R.string.start_to_end_date_range_cont_desc_TEMPLATE
+				: R.string.start_dash_end_date_range_TEMPLATE);
+			return Phrase.from(context, stringResource)
+				.put("startdate", LocaleBasedDateFormatUtils.localDateToMMMd(searchParams.getActivityStartDate()))
+				.put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(searchParams.getActivityEndDate()))
+				.format().toString();
+		}
 	}
 
 	public static int incrementTicketCountForVolumePricing(int ticketCount, List<Ticket.LxTicketPrices> prices) {

@@ -1,6 +1,7 @@
 package com.expedia.bookings.utils
 
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.features.Features
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -84,5 +85,17 @@ class FeatureUtilTest {
     fun testPackagesBetterSavingsOnRDScreenEnabled() {
         AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesBetterSavingsOnRateDetails)
         assertTrue(isBetterSavingsOnRDScreenEnabledForPackages(context))
+    }
+
+    @Test
+    fun testLXMultipleDatesSearchEnabled() {
+        FeatureTestUtils.enableFeature(context, Features.all.lxMultipleDatesSearch)
+        assertTrue(isLXMultipleDatesSearchEnabled())
+    }
+
+    @Test
+    fun testLXMultipleDatesSearchDisabled() {
+        FeatureTestUtils.disableFeature(context, Features.all.lxMultipleDatesSearch)
+        assertFalse(isLXMultipleDatesSearchEnabled())
     }
 }
