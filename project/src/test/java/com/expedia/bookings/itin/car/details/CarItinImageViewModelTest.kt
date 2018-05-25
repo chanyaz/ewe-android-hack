@@ -10,7 +10,6 @@ import com.expedia.bookings.itin.helpers.MockLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasCarRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.tripstore.extensions.firstCar
-import com.expedia.bookings.itin.tripstore.extensions.firstLx
 import io.reactivex.observers.TestObserver
 import org.junit.Before
 import org.junit.Rule
@@ -37,7 +36,7 @@ class CarItinImageViewModelTest {
         nameTestObserver.assertNoValues()
         urlTestObserver.assertNoValues()
 
-        sut.itinCarObserver.onChanged(ItinMocker.carDetailshappy.firstCar())
+        sut.itinCarObserver.onChanged(ItinMocker.carDetailsHappy.firstCar())
 
         nameTestObserver.assertValue("Thrifty")
         urlTestObserver.assertValue("https://images.trvl-media.com/cars%2F45%2FECMRToyotaYaris_ZT_AUS_20160405_s.jpg")

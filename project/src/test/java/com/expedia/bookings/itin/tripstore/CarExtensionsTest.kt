@@ -11,7 +11,7 @@ import kotlin.test.assertEquals
 class CarExtensionsTest {
     @Test
 fun happyPickUp() {
-        val happyItin = ItinMocker.carDetailshappy.cars?.first()
+        val happyItin = ItinMocker.carDetailsHappy.cars?.first()
 
         assertEquals("Sydney, Victoria, AUS, 98188", happyItin?.buildPickupSecondaryAddress())
         assertEquals("Sir John Young Crescent Domain Car Park, Sydney, Victoria, AUS, 98188", happyItin?.buildFullPickupAddress())
@@ -19,7 +19,7 @@ fun happyPickUp() {
 
     @Test
     fun happyDropOff() {
-        val happyItin = ItinMocker.carDetailshappy.cars?.first()
+        val happyItin = ItinMocker.carDetailsHappy.cars?.first()
 
         assertEquals("Docklands, Victoria, AUS, 98188", happyItin?.buildDropOffSecondaryAddress())
         assertEquals("99 Spencer Street, Docklands, Victoria, AUS, 98188", happyItin?.buildFullDropOffAddress())

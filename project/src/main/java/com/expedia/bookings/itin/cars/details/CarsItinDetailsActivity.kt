@@ -11,6 +11,7 @@ import com.expedia.bookings.itin.common.ItinImageWidget
 import com.expedia.bookings.itin.common.ItinMapWidget
 import com.expedia.bookings.itin.common.ItinToolbar
 import com.expedia.bookings.itin.common.ItinManageBookingWidget
+import com.expedia.bookings.itin.common.NewItinToolbarViewModel
 import com.expedia.bookings.itin.scopes.CarsMasterScope
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.itin.utils.ActivityLauncher
@@ -23,6 +24,7 @@ import com.expedia.bookings.itin.utils.WebViewLauncher
 import com.expedia.bookings.tracking.TripsTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.util.notNullAndObservable
 import javax.inject.Inject
 
 class CarsItinDetailsActivity: AppCompatActivity() {
@@ -47,12 +49,17 @@ class CarsItinDetailsActivity: AppCompatActivity() {
     lateinit var stringProvider: StringSource
         @Inject set
 
-    val toolbar: ItinToolbar by bindView(R.id.widget_lx_itin_toolbar)
+    val toolbar: ItinToolbar by bindView(R.id.widget_itin_toolbar)
     val manageBookingWidget: ItinManageBookingWidget by bindView(R.id.widget_manage_booking)
     val pickupMapWidget: ItinMapWidget by bindView(R.id.pickup_map_widget)
     val dropOffMapWidget: ItinMapWidget by bindView(R.id.dropOff_map_widget)
     val imageWidget: ItinImageWidget by bindView(R.id.itin_image_widget)
 
+    var toolbarViewModel: NewItinToolbarViewModel by notNullAndObservable { vm ->
+        vm.navigationBackPressedSubject.subscribe {
+            finish()
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.car_itin_detail_activity)
@@ -65,5 +72,11 @@ class CarsItinDetailsActivity: AppCompatActivity() {
         val repo = ItinCarRepo(itinId, jsonUtil, ItineraryManager.getInstance().syncFinishObservable)
         val scope = CarsMasterScope(stringProvider, webViewLauncher, this, activityLauncher, repo, toaster, phoneHandler, tripsTracking)
         imageWidget.viewModel = CarItinImageViewModel(scope)
+        toolbar.viewModel = CarItinToolbarViewModel(scope)
+    }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_in_left_complete, R.anim.slide_out_right_no_fill_after)
     }
 }

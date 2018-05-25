@@ -1566,6 +1566,11 @@
     <string name="itin_active">Active</string>
     <string name="itin_expires">Expires</string>
 
+    <!--Car itin redesign-->
+    <!--Car toolbar title template. (e.g. Car rental in San Francisco)-->
+    <string name="itin_car_toolbar_title_TEMPLATE">Car rental in {location}</string>
+    <string name="itin_car_toolbar_subtitle_date_to_date_TEMPLATE">{startdate} - {enddate}</string>
+
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Share Itinerary</string>
     <!--Itin more help confirmation number text -->
