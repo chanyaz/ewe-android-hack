@@ -251,7 +251,7 @@
 
         <!-- Flights activities -->
         <activity
-            android:name="com.expedia.bookings.activity.FlightAndPackagesRulesActivity"
+            android:name="com.expedia.bookings.activity.FlightRulesActivity"
             android:label="@string/legal_information"
             android:theme="@style/Material.WebView.Theme"
             android:resizeableActivity="false"

@@ -46,26 +46,6 @@
             style="@style/LegalInformationHeader"
             android:text="@string/lawyer_label_atol_information" />
 
-        <LinearLayout
-            android:id="@+id/insurance_information_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="10dp"
-            android:visibility="gone">
-
-            <TextView
-                style="@style/LegalInformationTextView.Blue"
-                android:text="@string/insurance_information" />
-
-            <View style="@style/LegalInformationDivider.Blue" />
-
-            <TextView
-                android:id="@+id/insurance_information_text_view"
-                style="@style/LegalInformationTextView" />
-
-        </LinearLayout>
-
         <TextView
             android:id="@+id/fare_information"
             style="@style/LegalInformationTextView.Blue"

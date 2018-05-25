@@ -80,7 +80,6 @@ import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.data.multiitem.BundleSearchResponse;
 import com.expedia.bookings.data.packages.PackageCheckoutResponse;
-import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.data.payment.PaymentSplitsType;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -4604,23 +4603,6 @@ public class OmnitureTracking {
 		s.setEvar(4, "D=c4");
 		setDateValues(s, Db.sharedInstance.getPackageParams().getStartDate(),
 			Db.sharedInstance.getPackageParams().getEndDate());
-	}
-
-	/**
-	 * https://confluence/display/Omniture/Mobile+App%3A+Flight+and+Hotel+Package#MobileApp:FlightandHotelPackage-PackageCheckout:CheckoutStart
-	 *
-	 * @param packageDetails
-	 */
-	public static void trackPackagesCheckoutStart(PackageCreateTripResponse.PackageDetails packageDetails,
-		String hotelSupplierType) {
-		Log.d(TAG, "Tracking \"" + PACKAGES_CHECKOUT_INFO + "\"");
-
-		AppAnalytics s = createTrackPageLoadEventBase(PACKAGES_CHECKOUT_INFO);
-		s.setEvents("event36, event72");
-		addPackagesCommonFields(s);
-		setPackageProducts(s, packageDetails.pricing.packageTotal.amount.doubleValue(), true, hotelSupplierType);
-
-		s.track();
 	}
 
 	private static void setPackageProducts(AppAnalytics s, double productPrice) {

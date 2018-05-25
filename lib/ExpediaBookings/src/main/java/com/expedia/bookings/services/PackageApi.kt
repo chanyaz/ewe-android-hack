@@ -3,11 +3,9 @@ package com.expedia.bookings.services
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
-import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
 
 import io.reactivex.Observable
-import retrofit2.http.Field
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -22,16 +20,6 @@ interface PackageApi {
     @GET("/m/api/hotel/info")
     fun hotelInfo(
             @Query("hotelId") hotelId: String): Observable<HotelOffersResponse>
-
-    @FormUrlEncoded
-    @POST("/api/packages/createTrip")
-    fun createTrip(
-            @Field("productKey") productKey: String,
-            @Query("destinationId") destId: String,
-            @Query("roomOccupants[0].numberOfAdultGuests") numberOfAdults: Int,
-            @Query("roomOccupants[0].infantsInSeat") infantInSeat: Boolean,
-            @Query("roomOccupants[0].childGuestAge") childAges: List<Int>,
-            @Query("mobileFlexEnabled") flexEnabled: Boolean): Observable<PackageCreateTripResponse>
 
     @FormUrlEncoded
     @POST("/api/packages/checkout")

@@ -1,17 +1,14 @@
 package com.expedia.bookings.data.trips;
 
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.packages.PackageCreateTripResponse;
+import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse;
 
 public class TripBucketItemPackages extends TripBucketItem {
 
-	public PackageCreateTripResponse mPackageTripResponse;
+	public MultiItemApiCreateTripResponse multiItemApiCreateTripResponse;
 
-	public TripBucketItemPackages(PackageCreateTripResponse packageTripResponse) {
-		mPackageTripResponse = packageTripResponse;
-		if (mPackageTripResponse.getValidFormsOfPayment() != null) {
-			addValidPaymentsV2(mPackageTripResponse.getValidFormsOfPayment());
-		}
+	public TripBucketItemPackages(MultiItemApiCreateTripResponse packageTripResponse) {
+		multiItemApiCreateTripResponse = packageTripResponse;
 	}
 
 	@Override

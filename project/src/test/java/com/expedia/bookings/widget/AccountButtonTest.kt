@@ -13,7 +13,7 @@ import com.expedia.bookings.data.TripBucketItemFlightV2
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.lx.LXCreateTripResponse
-import com.expedia.bookings.data.packages.PackageCreateTripResponse
+import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.data.trips.TripBucketItemLX
 import com.expedia.bookings.data.trips.TripBucketItemPackages
@@ -226,23 +226,11 @@ class AccountButtonTest {
     fun testNullRewardsOtherThanHotelV2AndFlights() {
         Db.getTripBucket().add(TripBucketItemLX(LXCreateTripResponse()))
         Db.getTripBucket().add(TripBucketItemTransport(LXCreateTripResponse()))
-        val packageCreateTripResponse = PackageCreateTripResponse()
-        packageCreateTripResponse.validFormsOfPayment = emptyList()
+        val packageCreateTripResponse = MultiItemApiCreateTripResponse()
         Db.getTripBucket().add(TripBucketItemPackages(packageCreateTripResponse))
         assertNull(accountButton.getRewardsForLOB(LineOfBusiness.LX))
         assertNull(accountButton.getRewardsForLOB(LineOfBusiness.PACKAGES))
         assertNull(accountButton.getRewardsForLOB(LineOfBusiness.TRANSPORT))
-    }
-
-    @Test
-    fun testRewardsForPackages() {
-        val createTripResponse = PackageCreateTripResponse()
-        val rewardsInfo = RewardsInfo()
-        rewardsInfo.totalAmountToEarn = Money("1234", "USD")
-        createTripResponse.rewards = rewardsInfo
-        Db.getTripBucket().add(TripBucketItemPackages(createTripResponse))
-        val rewards = accountButton.getRewardsForLOB(LineOfBusiness.PACKAGES)
-        assertNotNull(rewards)
     }
 
     @Test

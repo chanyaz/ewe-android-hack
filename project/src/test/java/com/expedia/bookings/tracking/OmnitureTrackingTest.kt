@@ -8,12 +8,10 @@ import com.expedia.bookings.analytics.OmnitureTestUtils.Companion.assertStateTra
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.ABTest
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.hotels.HotelOffersResponse
-import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withEvars
@@ -61,6 +59,10 @@ class OmnitureTrackingTest {
     @Before
     fun setup() {
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        Db.setPackageParams(PackageTestUtil.getPackageSearchParams(destinationCityName = "<B>New</B> <B>York</B>, NY, United States <ap>(JFK-John F. Kennedy Intl.)</ap>",
+                childCount = emptyList()))
+        Db.setPackageSelectedOutboundFlight(PackageTestUtil.getPackageSelectedOutboundFlight())
+        PackageTestUtil.setDbPackageSelectedHotel()
     }
 
     @Test
@@ -206,7 +208,7 @@ class OmnitureTrackingTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testLoggingForPackagesBackFlowABTest() {
         AbacusTestUtils.bucketTests(AbacusUtils.PackagesBackFlowFromOverview)
-        OmnitureTracking.trackPackagesBundlePageLoad(getPackageDetails().pricing.packageTotal.amount.toDouble(), null)
+        OmnitureTracking.trackPackagesBundlePageLoad(909.12, null)
         assertStateTracked(withProps(mapOf(34 to "16163.0.1")), mockAnalyticsProvider)
     }
 
@@ -214,7 +216,7 @@ class OmnitureTrackingTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testLoggingForPackagesBackFlowABTestControlled() {
         AbacusTestUtils.unbucketTests(AbacusUtils.PackagesBackFlowFromOverview)
-        OmnitureTracking.trackPackagesBundlePageLoad(getPackageDetails().pricing.packageTotal.amount.toDouble(), null)
+        OmnitureTracking.trackPackagesBundlePageLoad(909.12, null)
         assertStateTracked(withProps(mapOf(34 to "16163.0.0")), mockAnalyticsProvider)
     }
 
@@ -428,17 +430,6 @@ class OmnitureTrackingTest {
         OmnitureTracking.trackHotelV2Reviews()
         OmnitureTestUtils.assertStateTracked("App.Hotels.Reviews", Matchers.allOf(
                 OmnitureMatchers.withAbacusTestBucketed(AbacusUtils.HotelReviewSelectRoomCta.key)), mockAnalyticsProvider)
-    }
-
-    private fun getPackageDetails(): PackageCreateTripResponse.PackageDetails {
-        Db.setPackageParams(PackageTestUtil.getPackageSearchParams(destinationCityName = "<B>New</B> <B>York</B>, NY, United States <ap>(JFK-John F. Kennedy Intl.)</ap>",
-                childCount = emptyList()))
-        Db.setPackageSelectedOutboundFlight(PackageTestUtil.getPackageSelectedOutboundFlight())
-        PackageTestUtil.setDbPackageSelectedHotel()
-        val packageDetails = PackageCreateTripResponse.PackageDetails()
-        packageDetails.pricing = PackageCreateTripResponse.Pricing()
-        packageDetails.pricing.packageTotal = Money(950, "USD")
-        return packageDetails
     }
 
     private fun givenUserIsSignedIn() {

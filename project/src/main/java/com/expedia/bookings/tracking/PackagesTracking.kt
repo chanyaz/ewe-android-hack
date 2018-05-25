@@ -6,7 +6,6 @@ import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
-import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.marketing.carnival.CarnivalUtils
@@ -14,10 +13,6 @@ import com.expedia.bookings.utils.TuneUtils
 import com.expedia.vm.BaseFlightFilterViewModel
 
 class PackagesTracking {
-
-    fun trackCheckoutStart(packageDetails: PackageCreateTripResponse.PackageDetails, hotelSupplierType: String) {
-        OmnitureTracking.trackPackagesCheckoutStart(packageDetails, hotelSupplierType)
-    }
 
     fun trackDestinationSearchInit(pageUsableData: PageUsableData) {
         OmnitureTracking.trackPackagesDestinationSearchInit(pageUsableData)

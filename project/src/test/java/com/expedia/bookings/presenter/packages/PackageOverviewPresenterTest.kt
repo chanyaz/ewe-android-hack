@@ -9,12 +9,11 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.multiitem.MandatoryFees
-import com.expedia.bookings.data.packages.PackageCreateTripParams
-import com.expedia.bookings.data.packages.PackageCreateTripResponse
+import com.expedia.bookings.data.packages.MultiItemCreateTripParams
+import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
-import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.packages.activity.PackageHotelActivity
 import com.expedia.bookings.packages.presenter.PackageOverviewPresenter
 import com.expedia.bookings.packages.util.PackageServicesManager
@@ -80,23 +79,25 @@ class PackageOverviewPresenterTest {
     @Test
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testMenuItemsWhenBackflowIsBucketed() {
-        val testSubscriber = TestObserver.create<PackageCreateTripResponse>()
-        val params = PackageCreateTripParams("create_trip", "1234", 1, false, emptyList())
+        val testSubscriber = TestObserver.create<MultiItemApiCreateTripResponse>()
+        val packagePrice = PackageOfferModel.PackagePrice()
+        packagePrice.packageTotalPrice = Money()
+        val params = MultiItemCreateTripParams("mid_create_trip", "", "", "", "", packagePrice, "", "", 0, null, null)
         AbacusTestUtils.bucketTests(AbacusUtils.PackagesBackFlowFromOverview)
         setupOverviewPresenter()
-        packageServiceRule.services!!.createTrip(params).subscribe(testSubscriber)
-        overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.values()[0])
+        packageServiceRule.services!!.multiItemCreateTrip(params).subscribe(testSubscriber)
         assertEquals(overviewPresenter.bundleOverviewHeader.toolbar.menu.size(), 5)
     }
 
     @Test
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testMenuItemsWhenBackflowIsControlled() {
-        val testSubscriber = TestObserver.create<PackageCreateTripResponse>()
-        val params = PackageCreateTripParams("create_trip", "1234", 1, false, emptyList())
+        val testSubscriber = TestObserver.create<MultiItemApiCreateTripResponse>()
+        val packagePrice = PackageOfferModel.PackagePrice()
+        packagePrice.packageTotalPrice = Money()
+        val params = MultiItemCreateTripParams("mid_create_trip", "", "", "", "", packagePrice, "", "", 0, null, null)
         setupOverviewPresenter()
-        packageServiceRule.services!!.createTrip(params).subscribe(testSubscriber)
-        overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.values()[0])
+        packageServiceRule.services!!.multiItemCreateTrip(params).subscribe(testSubscriber)
         assertEquals(overviewPresenter.bundleOverviewHeader.toolbar.menu.size(), 4)
     }
 
@@ -203,18 +204,19 @@ class PackageOverviewPresenterTest {
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testBundleTotalTextAfterCreateTrip() {
         val initialPOSID = PointOfSale.getPointOfSale().pointOfSaleId
-        val testSubscriber = TestObserver.create<PackageCreateTripResponse>()
-        val params = PackageCreateTripParams("create_trip", "1234", 1, false, emptyList())
-        setupOverviewPresenter()
-        packageServiceRule.services!!.createTrip(params).subscribe(testSubscriber)
-        overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.values()[0])
+        val testSubscriber = TestObserver.create<MultiItemApiCreateTripResponse>()
+        val packagePrice = PackageOfferModel.PackagePrice()
+        packagePrice.packageTotalPrice = Money()
+        val params = MultiItemCreateTripParams("mid_create_trip", "", "", "", "", packagePrice, "", "", 0, null, null)
 
+        setupOverviewPresenter()
+        packageServiceRule.services!!.multiItemCreateTrip(params).subscribe(testSubscriber)
         assertEquals("Bundle total", overviewPresenter.totalPriceWidget.bundleTotalText.text)
 
         setPointOfSale(PointOfSaleId.JAPAN)
-        overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.values()[0])
-
-        assertEquals("Trip total", overviewPresenter.totalPriceWidget.bundleTotalText.text)
+        setupOverviewPresenter()
+        packageServiceRule.services!!.multiItemCreateTrip(params).subscribe(testSubscriber)
+        assertEquals("Trip total (with taxes & fee)", overviewPresenter.totalPriceWidget.bundleTotalText.text.toString())
         setPointOfSale(initialPOSID)
     }
 
@@ -433,8 +435,6 @@ class PackageOverviewPresenterTest {
         Db.setPackageSelectedOutboundFlight(outboundFlight)
         Db.setPackageFlightBundle(outboundFlight, PackageTestUtil.getDummyPackageFlightLeg())
         Db.setPackageParams(PackageTestUtil.getMIDPackageSearchParams())
-        val createTripResponse = mockPackageServiceRule.getPSSCreateTripResponse("create_trip")
-        Db.getTripBucket().add(TripBucketItemPackages(createTripResponse))
         Db.setPackageParams(PackageTestUtil.getMIDPackageSearchParams())
 
         val baseMidResponse = PackageTestUtil.getMockMIDResponse(offers = emptyList(),

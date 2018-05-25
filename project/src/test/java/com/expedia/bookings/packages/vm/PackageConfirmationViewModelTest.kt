@@ -6,6 +6,10 @@ import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.MIDItinDetailsResponse
+import com.expedia.bookings.data.HotelItinDetailsResponse
+import com.expedia.bookings.data.FlightItinDetailsResponse
+import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
@@ -25,6 +29,7 @@ import com.expedia.bookings.test.MockPackageServiceTestRule
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
+import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -124,7 +129,68 @@ class PackageConfirmationViewModelTest {
         viewModel.inboundFlightCardSubTitleObservable.subscribe(inboundFlightCardSubTitleTestSubscriber)
         viewModel.itinNumberMessageObservable.subscribe(itinNumberMessageOTestSubscriber)
 
-        viewModel.showConfirmation.onNext(Pair("11111111", "expedia.imt@gmail.com"))
+        val midItinDetailsResponse = MIDItinDetailsResponse()
+        val responseData = MIDItinDetailsResponse.MIDResponseData()
+        val hotels = mutableListOf<HotelItinDetailsResponse.Hotels>()
+        val hotel = HotelItinDetailsResponse.Hotels()
+        val hotelPropertyInfo = HotelItinDetailsResponse.Hotels.HotelPropertyInfo()
+        val address = HotelItinDetailsResponse.Hotels.HotelPropertyInfo.Address()
+        address.city = "London"
+        hotelPropertyInfo.address = address
+        hotelPropertyInfo.name = "London"
+        hotel.hotelPropertyInfo = hotelPropertyInfo
+        hotel.checkInDateTime = DateTime(2018, 2, 2, 0, 0, 0)
+        hotel.checkOutDateTime = DateTime(2018, 2, 4, 0, 0, 0)
+        hotels.add(hotel)
+
+        val flights = mutableListOf<FlightItinDetailsResponse.Flight>()
+        val flight = FlightItinDetailsResponse.Flight()
+        val passengers = mutableListOf<FlightItinDetailsResponse.Flight.Passengers>()
+        val passenger = FlightItinDetailsResponse.Flight.Passengers()
+        passenger.emailAddress = "expedia.imt@gmail.com"
+        passengers.add(passenger)
+        passengers.add(passenger)
+        passengers.add(passenger)
+        passengers.add(passenger)
+
+        val legs = mutableListOf<FlightItinDetailsResponse.Flight.Leg>()
+        val outboundLeg = FlightItinDetailsResponse.Flight.Leg()
+        val obSegments = mutableListOf<FlightItinDetailsResponse.Flight.Leg.Segment>()
+        val obSegment = FlightItinDetailsResponse.Flight.Leg.Segment()
+        val obLocation = FlightItinDetailsResponse.Flight.Leg.Segment.Location()
+        obLocation.airportCode = "LHR"
+        obLocation.city = "LHR"
+        val onDepartureTime = AbstractItinDetailsResponse.Time()
+        onDepartureTime.raw = "2018-07-10T08:20:00Z"
+        obSegment.arrivalLocation = obLocation
+        obSegment.departureTime = onDepartureTime
+        obSegments.add(obSegment)
+        outboundLeg.segments = obSegments
+
+        val inboundLeg = FlightItinDetailsResponse.Flight.Leg()
+        val ibSegments = mutableListOf<FlightItinDetailsResponse.Flight.Leg.Segment>()
+        val ibSegment = FlightItinDetailsResponse.Flight.Leg.Segment()
+        val ibLocation = FlightItinDetailsResponse.Flight.Leg.Segment.Location()
+        ibLocation.airportCode = "happy"
+        ibLocation.city = "happy"
+        val ibDepartureTime = AbstractItinDetailsResponse.Time()
+        ibDepartureTime.raw = "2018-07-22T08:20:00Z"
+        ibSegment.arrivalLocation = ibLocation
+        ibSegment.departureTime = ibDepartureTime
+        ibSegments.add(ibSegment)
+        inboundLeg.segments = ibSegments
+
+        legs.add(outboundLeg)
+        legs.add(inboundLeg)
+        flight.passengers = passengers
+        flight.legs = legs
+        flights.add(flight)
+
+        responseData.hotels = hotels
+        responseData.flights = flights
+        responseData.tripNumber = 11111111
+        midItinDetailsResponse.responseData = responseData
+        viewModel.itinDetailsResponseObservable.onNext(midItinDetailsResponse)
 
         destinationTestSubscriber.awaitTerminalEvent(5, TimeUnit.SECONDS)
 
@@ -168,14 +234,13 @@ class PackageConfirmationViewModelTest {
     }
 
     private fun setupTripBucket() {
-        val createTripResponse = mockPackageServiceRule.getPSSCreateTripResponse("create_trip")
+        val createTripResponse = mockPackageServiceRule.getMIDCreateTripResponse()
         Db.getTripBucket().add(TripBucketItemPackages(createTripResponse))
-        val hotel = createTripResponse!!.packageDetails.hotel
         val dbHotel = Hotel()
         dbHotel.hotelId = "forOmnitureStability"
         dbHotel.city = "London"
         dbHotel.localizedName = "London"
-        Db.setPackageSelectedHotel(dbHotel, hotel.hotelRoomResponse)
+        Db.setPackageSelectedHotel(dbHotel, null)
     }
 
     private fun setUpSelectedFlight() {

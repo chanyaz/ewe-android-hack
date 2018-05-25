@@ -15,7 +15,7 @@ import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.ValidFormOfPayment
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.lx.LXCreateTripResponse
-import com.expedia.bookings.data.packages.PackageCreateTripResponse
+import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2
@@ -355,7 +355,7 @@ class PaymentViewModelTest {
     }
 
     private fun givenPackagesTrip() {
-        val packageCreateTripResponse = PackageCreateTripResponse()
+        val packageCreateTripResponse = MultiItemApiCreateTripResponse()
         val tripBucketItemPackages = TripBucketItemPackages(packageCreateTripResponse)
         Db.getTripBucket().add(tripBucketItemPackages)
     }

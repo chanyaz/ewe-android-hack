@@ -6,7 +6,6 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.Hotel
-import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.multiitem.FlightOffer
@@ -16,7 +15,6 @@ import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse
 import com.expedia.bookings.data.multiitem.MultiItemError
 import com.expedia.bookings.data.multiitem.MultiItemFlightLeg
 import com.expedia.bookings.data.multiitem.MultiItemOffer
-import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.google.gson.Gson
@@ -288,34 +286,6 @@ class PackageTestUtil {
             packageParams.latestSelectedOfferInfo.productOfferPrice = PackageOfferModel.PackagePrice()
             packageParams.latestSelectedOfferInfo.productOfferPrice?.packageTotalPrice = Money(100, "USD")
             return packageParams
-        }
-
-        @JvmStatic
-        fun getCreateTripResponse(tripId: String = "00000", currency: String = "USD", bundleTotal: Int = 0, packageTotal: Int = 0,
-                                  hotelLargeThumbnailUrl: String = "", hotelCity: String = "", hotelStateProvince: String = "",
-                                  hotelCountry: String = "", hotelCheckinDate: String = "", hotelCheckoutOutDate: String = "",
-                                  hotelNumberOfNights: String = ""): PackageCreateTripResponse {
-            val trip = PackageCreateTripResponse()
-            val packageDetails = PackageCreateTripResponse.PackageDetails()
-            packageDetails.tripId = tripId
-            packageDetails.pricing = PackageCreateTripResponse.Pricing()
-            packageDetails.pricing.bundleTotal = Money(bundleTotal, currency)
-            packageDetails.pricing.packageTotal = Money(packageTotal, currency)
-            val hotel = HotelCreateTripResponse.HotelProductResponse()
-            hotel.largeThumbnailUrl = hotelLargeThumbnailUrl
-            hotel.hotelCity = hotelCity
-            hotel.hotelStateProvince = hotelStateProvince
-            hotel.hotelCountry = hotelCountry
-            hotel.checkInDate = hotelCheckinDate
-            hotel.checkOutDate = hotelCheckoutOutDate
-            hotel.numberOfNights = hotelNumberOfNights
-            hotel.hotelRoomResponse = HotelOffersResponse.HotelRoomResponse()
-            hotel.hotelRoomResponse.bedTypes = ArrayList<HotelOffersResponse.BedTypes>()
-
-            trip.packageDetails = packageDetails
-            packageDetails.hotel = hotel
-
-            return trip
         }
 
         private fun setRateInfo(displayType: MandatoryFees.DisplayType = MandatoryFees.DisplayType.NONE,

@@ -18,7 +18,7 @@ import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
 import com.expedia.bookings.activity.ExpediaBookingApp
-import com.expedia.bookings.activity.FlightAndPackagesRulesActivity
+import com.expedia.bookings.activity.FlightRulesActivity
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.PaymentType
@@ -70,6 +70,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     /** abstract methods **/
 
     abstract fun getDefaultToTravelerTransition(): DefaultToTraveler
+
     abstract fun injectComponents()
     abstract fun getLineOfBusiness(): LineOfBusiness
     abstract fun updateDbTravelers()
@@ -209,7 +210,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         }
         vm.priceChangeAlertPriceObservable.map { optionalResponse ->
             val response = optionalResponse.value
-            Pair(response?.getOldPrice()?.formattedMoneyFromAmountAndCurrencyCode, response?.newPrice()?.formattedMoneyFromAmountAndCurrencyCode) }
+            Pair(response?.getOldPrice()?.formattedMoneyFromAmountAndCurrencyCode, response?.newPrice()?.formattedMoneyFromAmountAndCurrencyCode)
+        }
                 .distinctUntilChanged().map { it.first != null && it.second != null }
                 .subscribe(vm.showPriceChangeAlertObservable)
         vm.showPriceChangeAlertObservable.subscribe { show ->
@@ -314,7 +316,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     private fun setupClickListeners() {
         loginWidget.setListener(this)
         legalInformationText.setOnClickListener {
-            context.startActivity(FlightAndPackagesRulesActivity.createIntent(context, getLineOfBusiness()))
+            context.startActivity(FlightRulesActivity.createIntent(context))
         }
     }
 

@@ -88,3 +88,4 @@ public class PackagesCheckoutTest extends PackageTestCase {
 		Common.pressBack();
 	}
 }
+

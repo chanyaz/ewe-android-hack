@@ -13,8 +13,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.flights.ValidFormOfPayment
-import com.expedia.bookings.data.packages.PackageCreateTripResponse
+import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.trips.TripBucketItemPackages
@@ -97,25 +96,6 @@ class MaterialBillingDetailsPaymentWidgetTest {
         materialBillingDetailsPaymentWidget.addressLineOne.setText("114 Sansome")
         materialBillingDetailsPaymentWidget.onDoneClicked()
         assertValidState(addressLayout, "Address line 1", "Address line 1, 114 Sansome")
-    }
-
-    @Test
-    fun testMaterialBillingCardValidation() {
-        givenPackageTripWithVisaValidFormOfPayment()
-        val creditCardLayout = materialBillingDetailsPaymentWidget.creditCardNumber.getParentTextInputLayout()!!
-        materialBillingDetailsPaymentWidget.cardInfoContainer.performClick()
-        assertValidState(creditCardLayout, "Enter new Debit/Credit Card", "Enter new Debit/Credit Card")
-
-        validateInvalidBillingInfo()
-        assertErrorState(creditCardLayout, "Enter a valid card number", "Enter new Debit/Credit Card, Error, Enter a valid card number")
-
-        materialBillingDetailsPaymentWidget.creditCardNumber.setText("4")
-        materialBillingDetailsPaymentWidget.onDoneClicked()
-        assertErrorState(creditCardLayout, "Enter a valid card number", "Enter new Debit/Credit Card, 4, Error, Enter a valid card number")
-
-        materialBillingDetailsPaymentWidget.creditCardNumber.setText("4111111111111111")
-        materialBillingDetailsPaymentWidget.onDoneClicked()
-        assertValidState(creditCardLayout, "Enter new Debit/Credit Card", "Enter new Debit/Credit Card, 4111111111111111")
     }
 
     @Test
@@ -446,10 +426,7 @@ class MaterialBillingDetailsPaymentWidgetTest {
     }
 
     private fun givenPackageTripWithVisaValidFormOfPayment() {
-        val packageCreateTripResponse = PackageCreateTripResponse()
-        val visaFormOfPayment = ValidFormOfPayment()
-        visaFormOfPayment.name = "Visa"
-        packageCreateTripResponse.validFormsOfPayment = listOf(visaFormOfPayment)
+        val packageCreateTripResponse = MultiItemApiCreateTripResponse()
         Db.getTripBucket().add(TripBucketItemPackages(packageCreateTripResponse))
     }
 

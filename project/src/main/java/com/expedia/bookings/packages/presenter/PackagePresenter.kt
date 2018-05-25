@@ -24,7 +24,6 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.MIDItinDetailsResponse
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
-import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.data.pos.PointOfSale
@@ -68,7 +67,6 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         @Inject set
 
     var travelerManager: TravelerManager
-    lateinit var tripResponse: PackageCreateTripResponse
 
     lateinit var itinTripServices: ItinTripServices
 
@@ -127,12 +125,10 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             }
         }
         checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribeOptional { trip ->
-            tripResponse = trip as PackageCreateTripResponse
             expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
         }
         checkoutPresenter.getCheckoutViewModel().bookingSuccessResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
             val response = pair.first as PackageCheckoutResponse
-            response.packageDetails = tripResponse.packageDetails
             show(confirmationPresenter)
             pageUsableData.markAllViewsLoaded(Date().time)
             confirmationPresenter.viewModel.showConfirmation.onNext(Pair(response.newTrip?.itineraryNumber, pair.second))
@@ -509,7 +505,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
     }
 
     fun makeNewItinResponseObserver(): Observer<AbstractItinDetailsResponse> {
-        confirmationPresenter.viewModel = PackageConfirmationViewModel(context, isWebCheckout = true)
+        confirmationPresenter.viewModel = PackageConfirmationViewModel(context)
         return object : DisposableObserver<AbstractItinDetailsResponse>() {
             override fun onComplete() {
             }

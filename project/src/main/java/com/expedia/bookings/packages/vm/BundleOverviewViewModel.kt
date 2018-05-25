@@ -6,7 +6,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.packages.PackageApiError
-import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.DialogFactory
@@ -28,7 +27,6 @@ import org.joda.time.format.DateTimeFormat
 class BundleOverviewViewModel(val context: Context, private val packageServicesManager: PackageServicesManager?) {
     val hotelParamsObservable = PublishSubject.create<PackageSearchParams>()
     val flightParamsObservable = PublishSubject.create<PackageSearchParams>()
-    val createTripObservable = PublishSubject.create<PackageCreateTripResponse>()
     val errorObservable = PublishSubject.create<Pair<PackageApiError.Code, ApiCallFailing>>()
     val cancelSearchObservable = PublishSubject.create<Unit>()
     val showSearchObservable = PublishSubject.create<Unit>()
@@ -115,11 +113,6 @@ class BundleOverviewViewModel(val context: Context, private val packageServicesM
             stepOneTextObservable.onNext(getStepText(1))
             stepTwoTextObservable.onNext(getStepText(2))
             stepThreeTextObservale.onNext(getStepText(3))
-        }
-
-        createTripObservable.subscribe { trip ->
-            val hotel = trip.packageDetails.hotel
-            setUpTitle(hotel.hotelCity, hotel.numberOfNights)
         }
 
         cancelSearchObservable.subscribe {

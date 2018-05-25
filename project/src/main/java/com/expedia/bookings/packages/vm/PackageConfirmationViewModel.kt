@@ -5,9 +5,7 @@ import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.MIDItinDetailsResponse
-import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
@@ -26,12 +24,10 @@ import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import org.joda.time.DateTime
-import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
-import org.joda.time.format.ISODateTimeFormat
 
-open class PackageConfirmationViewModel(private val context: Context, isWebCheckout: Boolean = false) {
+open class PackageConfirmationViewModel(private val context: Context) {
     val showConfirmation = PublishSubject.create<Pair<String?, String>>()
     val itinDetailsResponseObservable = PublishSubject.create<MIDItinDetailsResponse>()
     val setRewardsPoints = PublishSubject.create<String>()
@@ -50,12 +46,7 @@ open class PackageConfirmationViewModel(private val context: Context, isWebCheck
     private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
 
     init {
-        if (isWebCheckout) {
-            setupItinDetailsResponseObservable()
-        } else {
-            setupShowConfirmationObservable()
-        }
-
+        setupItinDetailsResponseObservable()
         setRewardsPoints.subscribe { points ->
             if (points != null)
                 if (userStateManager.isUserAuthenticated() && PointOfSale.getPointOfSale().shouldShowRewards()) {
@@ -64,30 +55,6 @@ open class PackageConfirmationViewModel(private val context: Context, isWebCheck
                         rewardPointsObservable.onNext(rewardPointText)
                     }
                 }
-        }
-    }
-
-    private fun setupShowConfirmationObservable() {
-        showConfirmation.subscribe { pair ->
-            val itinNumber = pair.first
-            val email = pair.second
-            destinationObservable.onNext(Db.getPackageSelectedHotel().city)
-            destinationTitleObservable.onNext(Db.getPackageSelectedHotel().localizedName)
-            val hotel = Db.getTripBucket().`package`.mPackageTripResponse.packageDetails.hotel
-            val params = Db.sharedInstance.packageParams
-            destinationSubTitleObservable.onNext(getHotelSubtitle(hotel.checkInDate, hotel.checkOutDate, params.guests))
-            outboundFlightCardTitleObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(Db.sharedInstance.packageParams.destination)))
-            outboundFlightCardSubTitleObservable.onNext(getFlightSubtitle(Db.getPackageFlightBundle().first))
-            inboundFlightCardTitleObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(Db.sharedInstance.packageParams.origin)))
-            inboundFlightCardSubTitleObservable.onNext(getFlightSubtitle(Db.getPackageFlightBundle().second))
-            val itinNumberMessage = Phrase.from(context, R.string.itinerary_sent_to_confirmation_TEMPLATE)
-                    .put("itinerary", itinNumber)
-                    .put("email", email)
-                    .format().toString()
-            itinNumberMessageObservable.onNext(itinNumberMessage)
-            if (!userStateManager.isUserAuthenticated()) {
-                getItineraryManager().addGuestTrip(email, itinNumber)
-            }
         }
     }
 
@@ -138,14 +105,6 @@ open class PackageConfirmationViewModel(private val context: Context, isWebCheck
                 .format().toString()
 
         return subtitle
-    }
-
-    private fun getFlightSubtitle(selectedFlight: FlightLeg): String {
-        val fmt = ISODateTimeFormat.dateTime()
-        val localDate = LocalDate.parse(selectedFlight.departureDateTimeISO, fmt)
-
-        return context.getString(R.string.package_overview_flight_travel_info_TEMPLATE, LocaleBasedDateFormatUtils.localDateToMMMd(localDate),
-                FlightV2Utils.formatTimeShort(context, selectedFlight.departureDateTimeISO), StrUtils.formatTravelerString(context, Db.sharedInstance.packageParams.guests))
     }
 
     private fun getFlightSubtitleFromTripDetails(rawDepartureDateTime: String, guests: Int): String {

@@ -8,11 +8,13 @@ import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
-import com.expedia.bookings.data.packages.PackageCreateTripParams
-import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.data.packages.MultiItemCreateTripParams
+import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
+import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.PackageProductSearchType
 import com.expedia.bookings.services.TestObserver
@@ -26,11 +28,13 @@ class MockPackageServiceTestRule : ServicesRule<PackageServices>(PackageServices
     var activity: Activity by Delegates.notNull()
     lateinit var hotelRooms: List<HotelOffersResponse.HotelRoomResponse>
 
-    fun getPSSCreateTripResponse(fileName: String): PackageCreateTripResponse? {
-        val observer = TestObserver<PackageCreateTripResponse>()
-        val params = PackageCreateTripParams(fileName, "", 1, false, emptyList())
+    fun getMIDCreateTripResponse(): MultiItemApiCreateTripResponse {
+        val observer = TestObserver<MultiItemApiCreateTripResponse>()
+        val packagePrice = PackageOfferModel.PackagePrice()
+        packagePrice.packageTotalPrice = Money()
+        val params = MultiItemCreateTripParams("mid_create_trip", "", "", "", "", packagePrice, "", "", 0, null, null)
 
-        services?.createTrip(params)!!.subscribe(observer)
+        services?.multiItemCreateTrip(params)!!.subscribe(observer)
         observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
         return observer.values()[0]
     }

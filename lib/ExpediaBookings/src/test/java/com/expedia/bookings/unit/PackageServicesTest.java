@@ -2,7 +2,6 @@ package com.expedia.bookings.unit;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,14 +14,16 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.expedia.bookings.data.ApiError;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.flights.FlightLeg;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.multiitem.BundleSearchResponse;
 import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse;
+import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse;
+import com.expedia.bookings.data.packages.MultiItemCreateTripParams;
 import com.expedia.bookings.data.packages.PackageApiError;
-import com.expedia.bookings.data.packages.PackageCreateTripParams;
-import com.expedia.bookings.data.packages.PackageCreateTripResponse;
+import com.expedia.bookings.data.packages.PackageOfferModel.PackagePrice;
 import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.PackageServices;
@@ -382,27 +383,16 @@ public class PackageServicesTest {
 		FileSystemOpener opener = new FileSystemOpener(root);
 		server.setDispatcher(new ExpediaDispatcher(opener));
 
-		String prodID = "create_trip_multitraveler";
-		String destID = "6139057";
-
-		TestObserver<PackageCreateTripResponse> observer = new TestObserver<>();
-		PackageCreateTripParams params = new PackageCreateTripParams(prodID, destID, 2, false, Arrays.asList(0, 8, 12));
-		service.createTrip(params).subscribe(observer);
+		TestObserver<MultiItemApiCreateTripResponse> observer = new TestObserver<>();
+		PackagePrice packagePrice = new PackagePrice();
+		packagePrice.packageTotalPrice = new Money();
+		MultiItemCreateTripParams params = new MultiItemCreateTripParams("mid_create_trip", "", "", "", "", packagePrice, "", "", 0, null, null);
+		service.multiItemCreateTrip(params).subscribe(observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 		observer.assertNoErrors();
 		observer.assertComplete();
-		PackageCreateTripResponse response = observer.values().get(0);
-		Assert.assertEquals("$2,202.34", response.packageDetails.pricing.packageTotal.getFormattedMoneyFromAmountAndCurrencyCode());
-		Assert.assertEquals("4", response.packageDetails.flight.details.offer.numberOfTickets);
-	}
-
-	@Test
-	public void testInfantsInSeat() throws Throwable {
-		PackageCreateTripParams params = new PackageCreateTripParams("", "", 2, true, Arrays.asList(0, 8, 12));
-		Assert.assertTrue(params.isInfantsInLap());
-
-		params = new PackageCreateTripParams("", "", 2, false, Arrays.asList(8, 8, 12));
-		Assert.assertFalse(params.isInfantsInLap());
+		MultiItemApiCreateTripResponse response = observer.values().get(0);
+		Assert.assertEquals("859b3288-4dcf-46e5-a545-8e9daaa3be45", response.tripId);
 	}
 
 	@Test

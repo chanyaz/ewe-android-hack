@@ -10,7 +10,6 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
-import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.pos.PointOfSaleId
@@ -32,6 +31,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.packages.presenter.PackageCheckoutPresenter
 import com.expedia.bookings.packages.widget.BundleWidget
+import com.expedia.bookings.test.robolectric.PackageTestUtil
 import com.squareup.phrase.Phrase
 import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.LocalDate
@@ -74,10 +74,8 @@ class PackageOverviewTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     @Test
     fun testOvervviewRowsContentDescrition() {
-        createTrip()
+        checkout.getCreateTripViewModel().performMultiItemCreateTripSubject.onNext(Unit)
         //Initially when all rows are collapsed
-        assertEquals(getExpectedHotelRowContDescription("Button to expand"), bundleWidget.bundleHotelWidget.rowContainer.contentDescription)
-        assertEquals(getExpectedFlightRowContDescription("Button to expand"), bundleWidget.outboundFlightWidget.rowContainer.contentDescription)
 
         //When Hotel is expanded
         bundleWidget.bundleHotelWidget.expandSelectedHotel()
@@ -97,7 +95,8 @@ class PackageOverviewTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     @Test
     fun testChangeSearchIconOnBundleOverviewHeader() {
-        createTrip()
+        overview.performMIDCreateTripSubject.onNext(Unit)
+        bundleWidget.bundleHotelWidget.expandSelectedHotel()
         assertEquals(bundleWidget.toggleMenuObservable.value, true)
         (overview.changeFlight as MenuItemImpl).invoke()
         assertEquals(bundleWidget.toggleMenuObservable.value, false)
@@ -107,7 +106,8 @@ class PackageOverviewTest {
     @Test
     fun testAirlineFeeTextOnBundleOverview() {
         RoboTestHelper.setPOS(PointOfSaleId.AUSTRALIA)
-        createTrip()
+        overview.performMIDCreateTripSubject.onNext(Unit)
+        bundleWidget.bundleHotelWidget.expandSelectedHotel()
         assertEquals(bundleWidget.packageAirlineFeeWarningTextView.text, "There may be an additional fee based on your payment method.")
         assertEquals(bundleWidget.packageAirlineFeeWarningTextView.visibility, View.VISIBLE)
     }
@@ -116,33 +116,15 @@ class PackageOverviewTest {
     @Test
     fun testAirlineFeeTextNotShownOnBundleOverview() {
         RoboTestHelper.setPOS(PointOfSaleId.UNITED_STATES)
-        createTrip()
+        checkout.getCreateTripViewModel().performMultiItemCreateTripSubject.onNext(Unit)
         assertEquals(bundleWidget.packageAirlineFeeWarningTextView.text, "")
         assertEquals(bundleWidget.packageAirlineFeeWarningTextView.visibility, View.GONE)
     }
 
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     @Test
-    fun testFromPackageSearchParamsUsesMultiCityForPOIDestinationType() {
-        val packageSearchParams = givenPackageSearchParamsWithPiid()
-        setDestinationTypeAndMultiCity(packageSearchParams)
-        val createTripParams = PackageCreateTripParams.fromPackageSearchParams(packageSearchParams)
-
-        assertEquals("Seattle", createTripParams.destinationId)
-
-        checkout.getCreateTripViewModel().tripParams.onNext(createTripParams)
-        assertEquals(View.VISIBLE, overview.bottomCheckoutContainer.checkoutButton.visibility)
-    }
-
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
-    @Test
-    fun testFromPackageSearchParamsUsesGaiaIdDefault() {
-        val packageSearchParams = givenPackageSearchParamsWithPiid()
-        val createTripParams = PackageCreateTripParams.fromPackageSearchParams(packageSearchParams)
-
-        assertEquals("12345", createTripParams.destinationId)
-
-        checkout.getCreateTripViewModel().tripParams.onNext(createTripParams)
+    fun testCheckoutButtonShownOnBundleOverview() {
+        checkout.getCreateTripViewModel().performMultiItemCreateTripSubject.onNext(Unit)
         assertEquals(View.VISIBLE, overview.bottomCheckoutContainer.checkoutButton.visibility)
     }
 
@@ -168,11 +150,6 @@ class PackageOverviewTest {
                 .toString()
     }
 
-    private fun createTrip() {
-        val createTripParams = PackageCreateTripParams("create_trip", "", 1, false, emptyList())
-        checkout.getCreateTripViewModel().tripParams.onNext(createTripParams)
-    }
-
     private fun setUpCheckout() {
         checkout = overview.getCheckoutPresenter()
         bundleWidget = overview.bundleWidget
@@ -186,10 +163,14 @@ class PackageOverviewTest {
     private fun setUpPackageDb() {
         val hotel = Hotel()
         hotel.packageOfferModel = PackageOfferModel()
+        hotel.city = "SFO"
         Db.setPackageSelectedHotel(hotel, HotelOffersResponse.HotelRoomResponse())
         val outboundFlight = FlightLeg()
         Db.setPackageSelectedOutboundFlight(outboundFlight)
         setPackageSearchParams(1, emptyList(), false)
+        val baseMidResponse = PackageTestUtil.getMockMIDResponse(offers = emptyList(),
+                hotels = mapOf("1" to PackageTestUtil.dummyMidHotelRoomOffer()))
+        Db.setPackageResponse(baseMidResponse)
     }
 
     private fun setPackageSearchParams(adults: Int, children: List<Int>, infantsInLap: Boolean) {
@@ -215,18 +196,5 @@ class PackageOverviewTest {
         destination.gaiaId = "12345"
         origin.regionNames = regionNames
         return PackageSearchParams.Builder(12, 329).infantSeatingInLap(infantsInLap).startDate(LocalDate.now().plusDays(1)).endDate(LocalDate.now().plusDays(2)).origin(origin).destination(destination).adults(adults).children(children).build() as PackageSearchParams
-    }
-
-    private fun setDestinationTypeAndMultiCity(packageSearchParams: PackageSearchParams) {
-        packageSearchParams.destination?.type = "POI"
-        packageSearchParams.destination?.hierarchyInfo = SuggestionV4.HierarchyInfo()
-        packageSearchParams.destination?.hierarchyInfo?.airport = SuggestionV4.Airport()
-        packageSearchParams.destination?.hierarchyInfo?.airport?.multicity = "Seattle"
-    }
-
-    private fun givenPackageSearchParamsWithPiid(): PackageSearchParams {
-        val searchParams = Db.sharedInstance.packageParams
-        searchParams.packagePIID = "123"
-        return searchParams
     }
 }

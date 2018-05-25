@@ -31,7 +31,7 @@ import com.expedia.bookings.data.extensions.LobExtensionsKt;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
-import com.expedia.bookings.data.packages.PackageCreateTripResponse;
+import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2;
 import com.expedia.bookings.data.trips.TripBucketItemLX;
@@ -363,8 +363,8 @@ public class AccountButton extends LinearLayout {
 			break;
 		case PACKAGES:
 			TripBucketItemPackages pkgItem = Db.getTripBucket().getPackage();
-			PackageCreateTripResponse packageTrip = pkgItem == null ? null : pkgItem.mPackageTripResponse;
-			rewardPoints = packageTrip == null ? "" : getRewardsString(packageTrip.getRewards());
+			MultiItemApiCreateTripResponse packageTrip = pkgItem == null ? null : pkgItem.multiItemApiCreateTripResponse;
+			rewardPoints = packageTrip == null ? "" : getRewardsString(null);
 			break;
 		}
 
@@ -447,9 +447,9 @@ public class AccountButton extends LinearLayout {
 		}
 		else if (lob == LineOfBusiness.PACKAGES) {
 			TripBucketItemPackages packages = Db.getTripBucket().getPackage();
-			PackageCreateTripResponse trip = packages == null ? null : packages.mPackageTripResponse;
-			if (trip != null && trip.getRewards() != null && trip.getRewards().getTotalAmountToEarn() != null) {
-				return trip.getRewards();
+			MultiItemApiCreateTripResponse trip = packages == null ? null : packages.multiItemApiCreateTripResponse;
+			if (trip != null) {
+				return null;
 			}
 		}
 		else if (lob == LineOfBusiness.FLIGHTS_V2) {

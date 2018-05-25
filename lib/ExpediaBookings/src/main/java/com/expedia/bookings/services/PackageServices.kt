@@ -6,8 +6,6 @@ import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse
 import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
 import com.expedia.bookings.data.packages.MultiItemCreateTripParams
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
-import com.expedia.bookings.data.packages.PackageCreateTripParams
-import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.google.gson.GsonBuilder
 import io.reactivex.Observable
@@ -168,12 +166,6 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
     //PSS API
     fun hotelInfo(hotelId: String): Observable<HotelOffersResponse> {
         return packageApi.hotelInfo(hotelId)
-                .observeOn(observeOn)
-                .subscribeOn(subscribeOn)
-    }
-
-    fun createTrip(body: PackageCreateTripParams): Observable<PackageCreateTripResponse> {
-        return packageApi.createTrip(body.productKey, body.destinationId, body.numOfAdults, body.isInfantsInSeat, body.childAges, body.flexEnabled)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
     }

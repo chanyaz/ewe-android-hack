@@ -6,7 +6,6 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.TripResponse
-import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.flight.FlightTravelersPresenter
 import com.expedia.bookings.tracking.PackagesTracking
@@ -36,10 +35,6 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
     }
 
     override fun onCreateTripResponse(tripResponse: TripResponse?) {
-        tripResponse as PackageCreateTripResponse
-        loginWidget.updateRewardsText(getLineOfBusiness())
-        getCreateTripViewModel().updateOverviewUiObservable.onNext(tripResponse)
-        (travelersPresenter.viewModel as FlightTravelersViewModel).flightOfferObservable.onNext(tripResponse.packageDetails.flight.details.offer)
     }
 
     override fun getDefaultToTravelerTransition(): DefaultToTraveler {
@@ -52,9 +47,6 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
 
     override fun setupCreateTripViewModel(vm: BaseCreateTripViewModel) {
         vm as PackageCreateTripViewModel
-        vm.tripParams.subscribe {
-            userAccountRefresher.ensureAccountIsRefreshed()
-        }
         getCheckoutViewModel().checkoutPriceChangeObservable.map { Optional(it) }.subscribe(getCreateTripViewModel().createTripResponseObservable)
     }
 

@@ -5,7 +5,7 @@ import android.text.Spanned
 import android.text.SpannedString
 import android.view.LayoutInflater
 import com.expedia.bookings.R
-import com.expedia.bookings.activity.FlightAndPackagesRulesActivity
+import com.expedia.bookings.activity.FlightRulesActivity
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.test.MultiBrand
@@ -64,7 +64,7 @@ class FlightCheckoutPresenterTest {
         checkoutPresenter.legalInformationText.performClick()
         val shadowActivity = shadowOf(activity)
         val intent = shadowActivity.nextStartedActivity
-        assertEquals(FlightAndPackagesRulesActivity::class.java.name, intent.component.className)
+        assertEquals(FlightRulesActivity::class.java.name, intent.component.className)
     }
 
     @Test

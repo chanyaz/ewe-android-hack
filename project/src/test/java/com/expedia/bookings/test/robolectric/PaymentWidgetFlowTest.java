@@ -33,7 +33,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelRate;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
-import com.expedia.bookings.data.packages.PackageCreateTripResponse;
+import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse;
 import com.expedia.bookings.data.trips.TripBucketItem;
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2;
 import com.expedia.bookings.data.trips.TripBucketItemLX;
@@ -191,8 +191,7 @@ public class PaymentWidgetFlowTest {
 
 		UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser());
 
-		PackageCreateTripResponse response = new PackageCreateTripResponse();
-		response.setValidFormsOfPayment(setupValidFormsOfPayment(PaymentType.CARD_VISA));
+		MultiItemApiCreateTripResponse response = new MultiItemApiCreateTripResponse();
 		TripBucketItem tripItem = new TripBucketItemPackages(response);
 		Db.getTripBucket().add((TripBucketItemPackages) tripItem);
 

@@ -539,11 +539,11 @@ public class TuneUtils {
 			TuneEvent event = new TuneEvent("package_confirmation");
 			TuneEventItem eventItem = new TuneEventItem("package_confirmation_item");
 
-			LocalDate checkInDate = new LocalDate(packageCheckoutResponse.packageDetails.hotel.checkInDate);
-			LocalDate checkOutDate = new LocalDate(packageCheckoutResponse.packageDetails.hotel.checkOutDate);
+			LocalDate checkInDate = new LocalDate(packageCheckoutResponse.getPackageDetails().getHotel().checkInDate);
+			LocalDate checkOutDate = new LocalDate(packageCheckoutResponse.getPackageDetails().getHotel().checkOutDate);
 			int stayDuration = JodaUtils.daysBetween(checkInDate, checkOutDate);
-			double revenue = packageCheckoutResponse.packageDetails.pricing.packageTotal.amount.doubleValue();
-			float nightlyRate = packageCheckoutResponse.packageDetails.hotel.hotelRoomResponse.rateInfo.chargeableRateInfo.averageRate;
+			double revenue = packageCheckoutResponse.getPackageDetails().getPricing().getPackageTotal().amount.doubleValue();
+			float nightlyRate = packageCheckoutResponse.getPackageDetails().getHotel().hotelRoomResponse.rateInfo.chargeableRateInfo.averageRate;
 			TripDetails trip = packageCheckoutResponse.getNewTrip() == null ? new TripDetails() : packageCheckoutResponse.getNewTrip();
 			String flightNumber = "";
 
@@ -552,7 +552,7 @@ public class TuneUtils {
 			}
 
 			eventItem.withQuantity(stayDuration)
-					.withAttribute1(packageCheckoutResponse.packageDetails.hotel.hotelCity)
+					.withAttribute1(packageCheckoutResponse.getPackageDetails().getHotel().hotelCity)
 					.withAttribute2(flightNumber)
 					.withUnitPrice(nightlyRate)
 					.withRevenue(revenue);
@@ -560,11 +560,11 @@ public class TuneUtils {
 			withTuidAndMembership(event)
 					.withAttribute2(trackingProvider.isUserLoggedInValue())
 					.withRevenue(revenue)
-					.withCurrencyCode(packageCheckoutResponse.packageDetails.pricing.packageTotal.currencyCode)
+					.withCurrencyCode(packageCheckoutResponse.getPackageDetails().getPricing().getPackageTotal().currencyCode)
 					.withAdvertiserRefId(getAdvertiserRefId(trip.getTravelRecordLocator()))
 					.withQuantity(stayDuration)
-					.withContentType(packageCheckoutResponse.packageDetails.hotel.getHotelName())
-					.withContentId(packageCheckoutResponse.packageDetails.hotel.hotelId)
+					.withContentType(packageCheckoutResponse.getPackageDetails().getHotel().getHotelName())
+					.withContentId(packageCheckoutResponse.getPackageDetails().getHotel().hotelId)
 					.withEventItems(Collections.singletonList(eventItem))
 					.withDate1(checkInDate.toDate())
 					.withDate2(checkOutDate.toDate());

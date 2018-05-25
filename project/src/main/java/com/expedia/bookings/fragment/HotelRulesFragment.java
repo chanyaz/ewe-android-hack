@@ -43,13 +43,6 @@ public class HotelRulesFragment extends Fragment {
 				cancellationPolicy = room.cancellationPolicy;
 			}
 		}
-		else if (lob == LineOfBusiness.PACKAGES) {
-			HotelOffersResponse.HotelRoomResponse room = Db.getTripBucket()
-				.getPackage().mPackageTripResponse.packageDetails.hotel.hotelRoomResponse;
-			if (room != null) {
-				cancellationPolicy = room.cancellationPolicy;
-			}
-		}
 
 		if (Strings.isNotEmpty(cancellationPolicy)) {
 			TextView cancellationPolicyTextView = Ui.findView(view, R.id.cancellation_policy_text_view);

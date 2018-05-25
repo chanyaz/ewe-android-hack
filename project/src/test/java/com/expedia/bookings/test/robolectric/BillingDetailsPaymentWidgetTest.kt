@@ -18,7 +18,7 @@ import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.flights.ValidFormOfPayment
-import com.expedia.bookings.data.packages.PackageCreateTripResponse
+import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
 import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils
@@ -176,60 +176,6 @@ class BillingDetailsPaymentWidgetTest {
     }
 
     @Test
-    fun testAmexSecurityCodeValidator() {
-        billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
-        billingDetailsPaymentWidget.cardInfoContainer.performClick()
-
-        givenTripResponse("AmericanExpress")
-
-        val info = BillingInfo()
-        info.setNumberAndDetectType("345104799171123", activity)
-        info.nameOnCard = "Expedia Chicago"
-        info.expirationDate = cardExpiry
-        info.securityCode = "123"
-
-        val location = givenLocation()
-        info.location = location
-        billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
-        assertFalse(billingDetailsPaymentWidget.sectionBillingInfo.performValidation())
-
-        info.securityCode = "1234"
-        billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
-        assertTrue(billingDetailsPaymentWidget.sectionBillingInfo.performValidation())
-    }
-
-    @Test
-    fun testFlexPaymentValidator() {
-        billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
-        billingDetailsPaymentWidget.cardInfoContainer.performClick()
-
-        val info = BillingInfo()
-        info.setNumberAndDetectType("4111111111111111", activity)
-        info.nameOnCard = "Test CArd"
-        info.expirationDate = cardExpiry
-        info.securityCode = "123"
-
-        val location = givenLocation()
-        info.location = location
-
-        givenTripResponse("Visa Debit")
-        billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
-        assertTrue(billingDetailsPaymentWidget.sectionBillingInfo.performValidation())
-
-        givenTripResponse("Visa Credit")
-        billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
-        assertTrue(billingDetailsPaymentWidget.sectionBillingInfo.performValidation())
-
-        givenTripResponse("Visa Electron")
-        billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
-        assertTrue(billingDetailsPaymentWidget.sectionBillingInfo.performValidation())
-
-        givenTripResponse("Vis")
-        billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
-        assertFalse(billingDetailsPaymentWidget.sectionBillingInfo.performValidation())
-    }
-
-    @Test
     fun testAddressLimit() {
         billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
@@ -241,29 +187,6 @@ class BillingDetailsPaymentWidgetTest {
 
         billingDetailsPaymentWidget.addressLineTwo.setText("12345678901234567890123456789012345678901234567890")
         assertEquals(40, billingDetailsPaymentWidget.addressLineTwo.text.length)
-    }
-
-    @Test
-    fun testVisaSecurityCodeValidator() {
-        billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
-        billingDetailsPaymentWidget.cardInfoContainer.performClick()
-
-        givenTripResponse("Visa")
-
-        val info = BillingInfo()
-        info.setNumberAndDetectType("4284306858654528", activity)
-        info.nameOnCard = "Expedia Chicago"
-        info.expirationDate = cardExpiry
-        info.securityCode = "1234"
-
-        val location = givenLocation()
-        info.location = location
-        billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
-        assertFalse(billingDetailsPaymentWidget.sectionBillingInfo.performValidation())
-
-        info.securityCode = "123"
-        billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
-        assertTrue(billingDetailsPaymentWidget.sectionBillingInfo.performValidation())
     }
 
     @Test
@@ -689,29 +612,6 @@ class BillingDetailsPaymentWidgetTest {
         assertFalse(showNewCreditCardExpiryFormField(activity))
     }
 
-    @Test
-    fun testMaterialBillingCardValidation() {
-        givenPackageTripWithVisaValidFormOfPayment()
-        setupPaymentBillingWidget()
-        billingDetailsPaymentWidget.cardInfoContainer.performClick()
-
-        assertNull(billingDetailsPaymentWidget.creditCardNumber.compoundDrawables[2])
-
-        validateInvalidBillingInfo()
-
-        assertEquals(R.drawable.invalid, Shadows.shadowOf(billingDetailsPaymentWidget.creditCardNumber.compoundDrawables[2]).createdFromResId)
-
-        billingDetailsPaymentWidget.creditCardNumber.setText("4")
-        billingDetailsPaymentWidget.onDoneClicked()
-
-        assertEquals(R.drawable.invalid, Shadows.shadowOf(billingDetailsPaymentWidget.creditCardNumber.compoundDrawables[2]).createdFromResId)
-
-        billingDetailsPaymentWidget.creditCardNumber.setText("4111111111111111")
-        billingDetailsPaymentWidget.onDoneClicked()
-
-        assertNull(billingDetailsPaymentWidget.creditCardNumber.compoundDrawables[2])
-    }
-
     private fun getUserWithStoredCard(): User {
         val user = User()
         user.addStoredCreditCard(getNewCard())
@@ -743,12 +643,11 @@ class BillingDetailsPaymentWidgetTest {
     }
 
     private fun givenTripResponse(paymentName: String) {
-        val response = PackageCreateTripResponse()
+        val response = MultiItemApiCreateTripResponse()
         val amexPayment = ValidFormOfPayment()
         amexPayment.name = paymentName
         val validFormsOfPayment = ArrayList<ValidFormOfPayment>()
         ValidFormOfPaymentUtils.addValidPayment(validFormsOfPayment, amexPayment)
-        response.validFormsOfPayment = validFormsOfPayment
         val trip = TripBucketItemPackages(response)
         Db.getTripBucket().clear(LineOfBusiness.PACKAGES)
         Db.getTripBucket().add(trip)
@@ -776,10 +675,7 @@ class BillingDetailsPaymentWidgetTest {
     }
 
     private fun givenPackageTripWithVisaValidFormOfPayment() {
-        val packageCreateTripResponse = PackageCreateTripResponse()
-        val visaFormOfPayment = ValidFormOfPayment()
-        visaFormOfPayment.name = "Visa"
-        packageCreateTripResponse.validFormsOfPayment = listOf(visaFormOfPayment)
+        val packageCreateTripResponse = MultiItemApiCreateTripResponse()
         Db.getTripBucket().add(TripBucketItemPackages(packageCreateTripResponse))
     }
 

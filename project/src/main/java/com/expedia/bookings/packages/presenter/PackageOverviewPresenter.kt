@@ -15,7 +15,6 @@ import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
-import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
@@ -37,7 +36,6 @@ import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.StrUtils
-import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBackFlowFromOverviewEnabled
@@ -46,7 +44,6 @@ import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.expedia.util.PackageUtil
-import com.squareup.phrase.Phrase
 import io.reactivex.subjects.PublishSubject
 import org.joda.time.format.DateTimeFormat
 import javax.inject.Inject
@@ -137,27 +134,9 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
     override fun onFinishInflate() {
         super.onFinishInflate()
         removeView(bundleWidget)
-        getCheckoutPresenter().getCreateTripViewModel().createTripResponseObservable.safeSubscribeOptional { trip ->
-            trip as PackageCreateTripResponse
+        getCheckoutPresenter().getCreateTripViewModel().createTripResponseObservable.safeSubscribeOptional { _ ->
             bundleWidgetSetup()
-            bundleWidget.viewModel.createTripObservable.onNext(trip)
-
-            val hotelTripResponse = trip.packageDetails.hotel
-            val cityName = StrUtils.formatCity(Db.sharedInstance.packageParams.destination)
-
-            val headerData = OverviewHeaderData(cityName, hotelTripResponse.checkOutDate,
-                    hotelTripResponse.checkInDate, hotelTripResponse.largeThumbnailUrl)
-            (bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel
-                    as PackageCheckoutOverviewViewModel).tripResponseSubject.onNext(headerData)
-            (bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel
-                    as PackageCheckoutOverviewViewModel).tripResponseSubject.onNext(headerData)
-
             var totalPrice = ""
-            if (trip.packageDetails.pricing.hasResortFee()) {
-                totalPrice = Phrase.from(context, R.string.your_card_will_be_charged_template)
-                        .put("dueamount", trip.tripTotalPayableIncludingFeeIfZeroPayableByPoints().formattedMoneyFromAmountAndCurrencyCode)
-                        .format().toString()
-            }
             bottomCheckoutContainer.viewModel.sliderPurchaseTotalText.onNext(totalPrice)
 
             setCheckoutHeaderOverviewDates()
@@ -355,7 +334,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
     }
 
     override fun trackCheckoutPageLoad() {
-        PackagesTracking().trackCheckoutStart(Db.getTripBucket().`package`.mPackageTripResponse.packageDetails, Strings.capitalizeFirstLetter(Db.sharedInstance.packageSelectedRoom.supplierType))
+        // TODO: needs to be implemented for WebView uCKO
     }
 
     override fun trackPaymentCIDLoad() {
@@ -386,27 +365,12 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
     }
 
     override fun onTripResponse(tripResponse: TripResponse?) {
-        tripResponse as PackageCreateTripResponse
-        totalPriceWidget.viewModel.total.onNext(tripResponse.bundleTotal)
-        val packageTotalPrice = tripResponse.packageDetails.pricing
-        totalPriceWidget.viewModel.savings.onNext(packageTotalPrice.savings)
-        val costSummaryViewModel = (totalPriceWidget.breakdown.viewmodel as PackageCostSummaryBreakdownViewModel)
-        costSummaryViewModel.packageCostSummaryObservable.onNext(tripResponse)
-
-        val messageString =
-                if (tripResponse.packageDetails.pricing.hasResortFee() && !PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees())
-                    R.string.cost_summary_breakdown_total_due_today
-                else if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.JAPAN)
-                    R.string.packages_trip_total
-                else R.string.bundle_total_text
-        totalPriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(messageString))
         if (ProductFlavorFeatureConfiguration.getInstance().shouldShowPackageIncludesView())
             totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
     }
 
     override fun fireCheckoutOverviewTracking(createTripResponse: TripResponse) {
-        createTripResponse as PackageCreateTripResponse
-        fireCheckoutOverviewTracking(createTripResponse.packageDetails.pricing.packageTotal.amount.toDouble())
+        // TODO implement with new CT response where we don't get price
     }
 
     private fun fireCheckoutOverviewTracking(amount: Double?) {

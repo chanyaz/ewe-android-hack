@@ -8,7 +8,6 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.otto.Events
@@ -22,8 +21,6 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBackFlowFromOverviewEnabled
-import com.expedia.bookings.utils.isFlexEnabled
-import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.services.PackageProductSearchType
 import com.expedia.ui.AbstractAppCompatActivity
 
@@ -247,17 +244,7 @@ class PackageActivity : AbstractAppCompatActivity() {
         packagePresenter.bundleLoadingView.visibility = View.GONE
         Db.sharedInstance.packageParams.pageType = null
         changedOutboundFlight = false
-
-        if (isMidAPIEnabled()) {
-            packagePresenter.bundlePresenter.performMIDCreateTripSubject.onNext(Unit)
-        } else {
-            val params = PackageCreateTripParams.fromPackageSearchParams(Db.sharedInstance.packageParams)
-            if (params.isValid) {
-                getCreateTripViewModel().reset()
-                params.flexEnabled = isFlexEnabled(this)
-                getCreateTripViewModel().tripParams.onNext(params)
-            }
-        }
+        packagePresenter.bundlePresenter.performMIDCreateTripSubject.onNext(Unit)
     }
 
     @VisibleForTesting( otherwise = VisibleForTesting.PRIVATE)
