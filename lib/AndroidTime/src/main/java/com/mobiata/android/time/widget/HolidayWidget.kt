@@ -55,7 +55,7 @@ class HolidayWidget(context: Context, attributeSet: AttributeSet) : LinearLayout
         val holidayRowLayout = View.inflate(context, R.layout.holiday_calendar_row, null) as LinearLayout
         val holidayRowTextView = holidayRowLayout.findViewById<TextView>(R.id.holiday_row_text)
         val holidayRowImageView = holidayRowLayout.findViewById<ImageView>(R.id.holiday_row_image)
-        val formattedDate = date.toString("MMM dd, E")
+        val formattedDate = CalendarUtils.formatLocalDateBasedOnLocale(date, "E, MMM d")
         holidayRowTextView.text = "$formattedDate - $holidayName"
         if (date.isBefore(todayDate)) {
             holidayRowImageView.colorFilter = PorterDuffColorFilter(ContextCompat.getColor(context, R.color.gray600), PorterDuff.Mode.SRC_IN)
