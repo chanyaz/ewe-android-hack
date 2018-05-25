@@ -549,6 +549,18 @@
             android:enabled="true"
             android:exported="false"/>
 
+        <service
+            android:name="com.clarisite.mobile.ClarisiteService"
+            android:exported="false">
+            <meta-data
+                android:name="url"
+                android:value="@string/glassbox_url" />
+            <meta-data
+                android:name="appid"
+                android:value="@string/glassbox_appid" />
+        </service>
+
+
     </application>
 
 </manifest>

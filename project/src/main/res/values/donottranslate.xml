@@ -44,6 +44,10 @@
     <!-- Google reCAPTCHA Site Key -->
     <string name="recaptcha_sdk_site_key">6LeAzS8UAAAAAKQWXjjM5yUyfRvGCRk7joa_gfXG</string>
 
+    <!--Glassbox url-->
+    <string name="glassbox_url">https://report-bexmobile.glassboxcloud.com/</string>
+    <string name="glassbox_appid">631D89AB-65E4-61A8-CFBB-4839FBBA6A35</string>
+
     <!-- MapsV2 -->
     <!-- Maps v2 key configured to work with many application package names -->
     <string name="mapsv2_key">AIzaSyCcUFcOBytf5_4zQCVisZeZ1Vw1PHuVI24</string>

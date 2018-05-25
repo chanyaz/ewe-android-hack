@@ -1,7 +1,10 @@
 package com.expedia.bookings.itin.hotel.details
 
+import com.clarisite.mobile.ClarisiteAgent
+import com.clarisite.mobile.exceptions.EyeViewException
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.features.Features
 import com.expedia.bookings.itin.common.ItinBookingInfoCardViewModel
 import com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingRewardsActivity
 import com.expedia.bookings.itin.scopes.HasAbacusProvider
@@ -49,12 +52,22 @@ class HotelItinPriceSummaryButtonViewModel<S>(scope: S) : ItinBookingInfoCardVie
         val isGuest: Boolean = scope.itin.isGuest
         val tripId = scope.itin.tripId
         cardClickListener = {
+            if (Features.all.tripsGlassbox.enabled()) {
+                glassBoxStart()
+            }
             if (scope.abacus.isBucketedForTest(AbacusUtils.EBAndroidAppTripsHotelPricing) && tripId != null) {
                 scope.activityLauncher.launchActivity(HotelItinPricingRewardsActivity, tripId)
             } else if (detailsUrl != null && tripNumber != null) {
                 scope.webViewLauncher.launchWebViewActivity(R.string.itin_hotel_details_price_summary_heading, detailsUrl, "price-header", tripNumber, isGuest = isGuest)
             }
             scope.tripsTracking.trackHotelItinPricingRewardsClick()
+        }
+    }
+
+    private fun glassBoxStart() {
+        try {
+            ClarisiteAgent.start()
+        } catch (e: EyeViewException) {
         }
     }
 }
