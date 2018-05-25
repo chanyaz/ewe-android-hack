@@ -224,9 +224,7 @@
           "epochSeconds": 2723034600,
           "timeZoneOffsetSeconds": -25200,
           "localizedShortDate": "4/15/2056",
-          "localizedFullDate": "Sat, Apr 15",
-          "localizedLongDate": "Apr 15, 2056",
-          "localizedShortTime": "7:30am"
+          "localizedLongDate": "Apr 15, 2056"
         },
         "dropOffTime": {
           "raw": "2056-04-15T17:00:00-07:00",
@@ -234,9 +232,7 @@
           "epochSeconds": 2723068800,
           "timeZoneOffsetSeconds": -25200,
           "localizedShortDate": "4/15/2056",
-          "localizedFullDate": "Sat, Apr 15",
-          "localizedLongDate": "Apr 15, 2056",
-          "localizedShortTime": "5:00pm"
+          "localizedLongDate": "Apr 15, 2056"
         },
         "pickupLocation": {
           "locationType": "NON_AIRPORT_ADDRESS",

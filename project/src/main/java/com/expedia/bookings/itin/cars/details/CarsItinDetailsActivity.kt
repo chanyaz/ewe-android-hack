@@ -11,6 +11,7 @@ import com.expedia.bookings.itin.common.ItinImageWidget
 import com.expedia.bookings.itin.common.ItinMapWidget
 import com.expedia.bookings.itin.common.ItinToolbar
 import com.expedia.bookings.itin.common.ItinManageBookingWidget
+import com.expedia.bookings.itin.common.ItinTimingsWidget
 import com.expedia.bookings.itin.common.NewItinToolbarViewModel
 import com.expedia.bookings.itin.scopes.CarsMasterScope
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
@@ -54,6 +55,7 @@ class CarsItinDetailsActivity: AppCompatActivity() {
     val pickupMapWidget: ItinMapWidget by bindView(R.id.pickup_map_widget)
     val dropOffMapWidget: ItinMapWidget by bindView(R.id.dropOff_map_widget)
     val imageWidget: ItinImageWidget by bindView(R.id.itin_image_widget)
+    val timingsWidget: ItinTimingsWidget by bindView(R.id.itin_timings_widget)
 
     var toolbarViewModel: NewItinToolbarViewModel by notNullAndObservable { vm ->
         vm.navigationBackPressedSubject.subscribe {
@@ -73,6 +75,7 @@ class CarsItinDetailsActivity: AppCompatActivity() {
         val scope = CarsMasterScope(stringProvider, webViewLauncher, this, activityLauncher, repo, toaster, phoneHandler, tripsTracking)
         imageWidget.viewModel = CarItinImageViewModel(scope)
         toolbar.viewModel = CarItinToolbarViewModel(scope)
+        timingsWidget.viewModel = CarItinTimingsWidgetViewModel(scope)
     }
 
     override fun finish() {

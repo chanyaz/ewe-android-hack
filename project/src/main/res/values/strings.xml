@@ -1570,6 +1570,8 @@
     <!--Car toolbar title template. (e.g. Car rental in San Francisco)-->
     <string name="itin_car_toolbar_title_TEMPLATE">Car rental in {location}</string>
     <string name="itin_car_toolbar_subtitle_date_to_date_TEMPLATE">{startdate} - {enddate}</string>
+    <string name="itin_pick_up">Pick up</string>
+    <string name="itin_drop_off">Drop off</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Share Itinerary</string>

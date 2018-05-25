@@ -4,8 +4,8 @@ data class ItinCar(
         val uniqueID: String?,
         val carCategoryImageURL: String?,
         val carVendor: CarVendor?,
-        val pickupTime: ItinTime,
-        val dropOffTime: ItinTime,
+        val pickupTime: ItinTime?,
+        val dropOffTime: ItinTime?,
         val dropOffLocation: CarLocation?,
         val pickupLocation: CarLocation?
 ) : ItinLOB

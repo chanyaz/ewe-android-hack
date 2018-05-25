@@ -28,8 +28,8 @@ class CarItinToolbarViewModel<S>(val scope: S) : NewItinToolbarViewModel where S
                     val title = stringProvider.fetchWithPhrase(R.string.itin_car_toolbar_title_TEMPLATE, mapOf("location" to carCity))
                     toolbarTitleSubject.onNext(title)
                 }
-                val pickupDate = itinCar.pickupTime.localizedMediumDate
-                val dropOffDate = itinCar.dropOffTime.localizedMediumDate
+                val pickupDate = itinCar.pickupTime?.localizedMediumDate
+                val dropOffDate = itinCar.dropOffTime?.localizedMediumDate
                 if (!pickupDate.isNullOrEmpty() && !dropOffDate.isNullOrEmpty()) {
                     val subTitle = stringProvider.fetchWithPhrase(R.string.itin_car_toolbar_subtitle_date_to_date_TEMPLATE, mapOf("startdate" to pickupDate!!, "enddate" to dropOffDate!!))
                     toolbarSubTitleSubject.onNext(subTitle)
