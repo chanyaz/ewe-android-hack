@@ -19,6 +19,10 @@ data class MultiItemOfferPrice(
         return totalPrice.toMoney()
     }
 
+    fun packageReferenceTotalPrice(): Money {
+        return referenceTotalPrice.toMoney()
+    }
+
     fun pricePerPerson(): Money {
         return avgPricePerPerson.toMoney()
     }

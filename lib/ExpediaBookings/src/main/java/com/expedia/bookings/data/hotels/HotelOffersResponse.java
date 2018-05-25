@@ -263,6 +263,8 @@ public class HotelOffersResponse extends BaseApiResponse {
 		hotelRoomResponse.rateInfo.chargeableRateInfo.packagePricePerPerson = room.getPrice().pricePerPerson();
 		hotelRoomResponse.rateInfo.chargeableRateInfo.packageSavings = room.getPrice().packageSavings();
 		hotelRoomResponse.rateInfo.chargeableRateInfo.packageTotalPrice = room.getPrice().packageTotalPrice();
+		hotelRoomResponse.rateInfo.chargeableRateInfo.packageReferenceTotalPrice = room.getPrice().packageReferenceTotalPrice();
+		hotelRoomResponse.rateInfo.chargeableRateInfo.shouldShowPackageSavings = room.getPrice().getShowSavings();
 
 		hotelRoomResponse.isPayLater = false;
 		hotelRoomResponse.hasFreeCancellation = room.getCancellationPolicy().getFreeCancellationAvailable();

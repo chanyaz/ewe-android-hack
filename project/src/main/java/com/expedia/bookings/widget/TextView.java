@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.text.Layout;
@@ -33,6 +35,8 @@ public class TextView extends android.widget.TextView {
 
 	//attributes
 	private boolean wrapText = false;
+	private Path path;
+	private int cornerRadius;
 
 	public TextView(Context context) {
 		super(context);
@@ -54,6 +58,8 @@ public class TextView extends android.widget.TextView {
 		final int textStyle = a.getInt(R.styleable.TextView_textStyle, 0);
 		final int color = a.getColor(R.styleable.TextView_drawableTintColor, 0);
 		wrapText = a.getBoolean(R.styleable.TextView_wrapText, false);
+		cornerRadius = a.getDimensionPixelSize(R.styleable.TextView_cornerRadius, 0);
+		boolean hasStrikethrough = a.getBoolean(R.styleable.TextView_strikethrough, false);
 		a.recycle();
 
 		if (textStyle > 0) {
@@ -61,6 +67,9 @@ public class TextView extends android.widget.TextView {
 		}
 		if (color != 0 && getCompoundDrawables()[0] != null) {
 			setTintedDrawable(getCompoundDrawables()[0], color);
+		}
+		if (hasStrikethrough) {
+			setPaintFlags(getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 		}
 	}
 
@@ -204,6 +213,29 @@ public class TextView extends android.widget.TextView {
 				int height = getMeasuredHeight();
 				setMeasuredDimension(width, height);
 			}
+		}
+	}
+
+	@Override
+	protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
+		super.onSizeChanged(width, height, oldWidth, oldHeight);
+
+		if (cornerRadius > 0) {
+			path = new Path();
+			path.addRoundRect(new RectF(0, 0, width, height), cornerRadius, cornerRadius, Path.Direction.CW);
+		}
+	}
+
+	@Override
+	public void draw(Canvas canvas) {
+		if (cornerRadius > 0 && path != null) {
+			int count = canvas.save();
+			canvas.clipPath(path);
+			super.draw(canvas);
+			canvas.restoreToCount(count);
+		}
+		else {
+			super.draw(canvas);
 		}
 	}
 

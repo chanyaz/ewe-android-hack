@@ -50,10 +50,8 @@
     <com.expedia.bookings.widget.TotalPriceWidget
         android:id="@+id/total_price_widget"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/footer_button_height"
+        android:layout_height="wrap_content"
         android:background="#FFFFFF"
-        android:paddingLeft="19dp"
-        android:paddingRight="19dp"
         android:visibility="gone" />
 
     <View

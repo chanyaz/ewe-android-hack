@@ -8,6 +8,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchResponse
@@ -32,6 +33,9 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
 class PackageHotelPresenterTest {
@@ -297,5 +301,46 @@ class PackageHotelPresenterTest {
 
         val errorString = shadowActivity.resultIntent.extras?.getString(Constants.PACKAGE_HOTEL_OFFERS_ERROR)
         assertEquals("UNKNOWN_ERROR", errorString)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testPackageHotelRoomSelectedDbParams() {
+        val hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
+        Db.setPackageResponse(hotelResponse)
+
+        hotelResponse.getHotels()[0].hotelId = "happy"
+        Db.sharedInstance.packageParams.latestSelectedOfferInfo.hotelId = "happy_room"
+
+        widget = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_presenter,
+                null) as PackageHotelPresenter
+        widget.packageServices = mockPackageServiceRule.services!!
+
+        val testSubscriber = TestObserver<HotelOffersResponse>()
+        widget.detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.subscribe(testSubscriber)
+        widget.hotelSelectedObserver.onNext(hotelResponse.getHotels()[0])
+
+        testSubscriber.awaitValueCount(1, 2, TimeUnit.SECONDS)
+        testSubscriber.assertValueCount(1)
+
+        widget.detailPresenter.hotelDetailView.viewmodel.roomSelectedSubject.onNext(testSubscriber.values()[0].hotelRoomResponse[0])
+
+        val params = Db.sharedInstance.packageParams
+        val currentOfferPrice = Db.getPackageResponse().getCurrentOfferPrice()
+
+        assertNull(params.packagePIID)
+        assertEquals("flight_outbound_happy", params.latestSelectedOfferInfo.ratePlanCode)
+        assertEquals("225416", params.latestSelectedOfferInfo.roomTypeCode)
+        assertEquals("MERCHANT", params.latestSelectedOfferInfo.inventoryType)
+        assertEquals("2018-05-07", params.latestSelectedOfferInfo.hotelCheckInDate)
+        assertEquals("2018-05-10", params.latestSelectedOfferInfo.hotelCheckOutDate)
+
+        assertNotNull(currentOfferPrice)
+
+        assertEquals(Money("4426.96", "USD"), currentOfferPrice?.packageTotalPrice)
+        assertEquals(Money("4309.75", "USD"), currentOfferPrice?.packageReferenceTotalPrice)
+        assertEquals(Money("-117.21", "USD"), currentOfferPrice?.tripSavings)
+        assertEquals(Money("1106.74", "USD"), currentOfferPrice?.pricePerPerson)
+        assertFalse(currentOfferPrice?.showTripSavings ?: false)
     }
 }

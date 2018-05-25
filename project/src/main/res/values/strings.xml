@@ -5081,5 +5081,6 @@
     <string name="hours_minutes_template">%1$dh %2$dm</string>
     <!-- This is for a path between two cities, for example "San Francisco to Minneapolis".  First %s is the origin city, second %s is the destination city -->
     <string name="path_template">%1$s to %2$s</string>
+    <string name="book_now_savings_for_booking_together">Book now! Savings for booking together</string>
 
 </resources>

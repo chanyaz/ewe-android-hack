@@ -33,6 +33,7 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
 
     val bundleChevron: ImageView by bindView(R.id.bundle_chevron)
     val bundleTotalPrice: TextView by bindView(R.id.bundle_total_price)
+    val bundleReferenceTotalPrice: TextView by bindView(R.id.bundle_reference_total_price)
     val bundleTotalIncludes: TextView by bindView(R.id.bundle_total_includes_text)
     val bundleSavings: TextView by bindView(R.id.bundle_total_savings)
     val bundleTotalText: TextView by bindView(R.id.bundle_total_text)
@@ -41,6 +42,9 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
     val bundleSubtitle: TextView by bindView(R.id.bundle_subtitle)
     val priceProgressBar: ProgressBar by bindView(R.id.total_price_progress)
     val closeIcon: ImageView by bindView(R.id.bundle_close)
+
+    val betterSavingContainer: View by bindView(R.id.better_saving_container)
+    val betterSavingView: TextView by bindView(R.id.better_saving_view)
 
     val eval: ArgbEvaluator = ArgbEvaluator()
     val titleTextFade = TransitionElement(ContextCompat.getColor(context, R.color.packages_bundle_overview_footer_primary_text), Color.WHITE)
@@ -51,6 +55,10 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         vm.totalPriceObservable.subscribeTextAndVisibility(bundleTotalPrice)
         vm.pricePerPersonObservable.subscribeText(bundleTotalPrice)
         vm.savingsPriceObservable.subscribeTextAndVisibility(bundleSavings)
+        vm.savings.map { it.formattedMoneyFromAmountAndCurrencyCode }.subscribeText(betterSavingView)
+        vm.shouldShowSavings.subscribeVisibility(betterSavingContainer)
+        vm.shouldShowSavings.subscribeVisibility(bundleReferenceTotalPrice)
+        vm.referenceTotalPrice.map { it.formattedMoneyFromAmountAndCurrencyCode }.subscribeText(bundleReferenceTotalPrice)
         vm.bundleTextLabelObservable.subscribeText(bundleTotalText)
         vm.perPersonTextLabelObservable.subscribeVisibility(perPersonText)
         vm.bundleTotalIncludesObservable.subscribeTextAndVisibility(bundleTotalIncludes)
@@ -71,7 +79,7 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
 
     init {
         View.inflate(getContext(), R.layout.bundle_total_price_widget, this)
-        orientation = HORIZONTAL
+        orientation = VERTICAL
         rotateChevron(true)
 
         this.setOnClickListener {
@@ -107,6 +115,7 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         val currencyCode = CurrencyUtils.currencyForLocale(countryCode)
         viewModel.total.onNext(Money(BigDecimal("0.00"), currencyCode))
         viewModel.savings.onNext(Money(BigDecimal("0.00"), currencyCode))
+        viewModel.shouldShowSavings.onNext(false)
         if (viewModel.shouldShowTotalPriceLoadingProgress() && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightRateDetailsFromCache)) {
             viewModel.priceAvailableObservable.onNext(false)
         }
