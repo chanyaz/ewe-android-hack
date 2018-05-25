@@ -34,13 +34,19 @@ class TripExtensionsTest {
 
     @Test
     fun testFirstHotelArrayEmpty() {
-        val hotel = makeItinHotel("api/trips/hotel_trip_details_no_hotels.json")
+        val hotel = makeItinHotel("api/trips/hotel_trip_details_empty_hotels.json")
         assertNull(hotel)
     }
 
     @Test
     fun testFirstHotelNoHotels() {
-        val hotel = makeItinHotel("api/trips/hotel_trip_details_empty_hotels.json")
+        val hotel = makeItinHotel("api/trips/hotel_trip_details_no_hotels.json")
+        assertNull(hotel)
+    }
+
+    @Test
+    fun testFirstHotelPackageArrayEmpty() {
+        val hotel = makeItinHotel("api/trips/package_trip_details_no_package.json")
         assertNull(hotel)
     }
 
@@ -69,10 +75,22 @@ class TripExtensionsTest {
     }
 
     @Test
+    fun testEmptyPackagePrice() {
+        val itin = makeItin("api/trips/package_trip_details_no_package.json")!!
+        assertNull(itin.packagePrice())
+    }
+
+    @Test
     fun testFirstLxValid() {
         val lx = makeItinLx("api/trips/activity_trip_details.json")
         assertNotNull(lx)
         assertEquals("200E974C-C7DA-445E-A392-DD12578A96A0_0_358734_358736", lx?.uniqueID)
+    }
+
+    @Test
+    fun testFirstLxEmptyPackage() {
+        val lxItin = makeItinLx("api/trips/package_trip_details_no_package.json")
+        assertNull(lxItin)
     }
 
     private fun makeItinHotel(mockName: String): ItinHotel? {
