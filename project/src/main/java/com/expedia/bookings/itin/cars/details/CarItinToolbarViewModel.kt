@@ -5,10 +5,8 @@ import com.expedia.bookings.extensions.LiveDataObserver
 import com.expedia.bookings.itin.common.NewItinToolbarViewModel
 import com.expedia.bookings.itin.scopes.HasCarRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
-import com.expedia.bookings.itin.scopes.HasLxRepo
 import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.tripstore.data.ItinCar
-import com.expedia.bookings.itin.tripstore.data.ItinLx
 import io.reactivex.subjects.PublishSubject
 
 class CarItinToolbarViewModel<S>(val scope: S) : NewItinToolbarViewModel where S : HasLifecycleOwner, S : HasStringProvider, S : HasCarRepo {

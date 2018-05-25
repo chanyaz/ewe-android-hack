@@ -3,6 +3,7 @@ package com.expedia.bookings.itin.lx.details
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.common.ItinBookingInfoCardViewModel
 import com.expedia.bookings.itin.lx.moreHelp.LxItinMoreHelpActivity
+import com.expedia.bookings.itin.common.ItinManageBookingWidgetViewModel
 import com.expedia.bookings.itin.scopes.HasActivityLauncher
 import com.expedia.bookings.itin.scopes.HasLxRepo
 import com.expedia.bookings.itin.scopes.HasStringProvider
@@ -11,11 +12,11 @@ import com.expedia.bookings.itin.scopes.HasWebViewLauncher
 import com.expedia.bookings.itin.scopes.PriceSummaryCardScope
 import com.expedia.bookings.itin.scopes.StringsActivityScope
 
-class LxItinManageBookingWidgetViewModel<S>(scope: S) where S : HasStringProvider, S : HasWebViewLauncher, S : HasActivityLauncher, S : HasLxRepo, S : HasTripsTracking {
+class LxItinManageBookingWidgetViewModel<S>(scope: S) : ItinManageBookingWidgetViewModel() where S : HasStringProvider, S : HasWebViewLauncher, S : HasActivityLauncher, S : HasLxRepo, S : HasTripsTracking {
 
-    val moreHelpViewModel: ItinMoreHelpCardViewModel<StringsActivityScope>
-    val priceSummaryViewModel: ItinLxPriceSummaryCardViewModel<PriceSummaryCardScope>
-    val additionalInfoViewModel: ItinLxAdditionalInfoCardViewModel<PriceSummaryCardScope>
+    override val moreHelpViewModel: ItinBookingInfoCardViewModel
+    override val priceSummaryViewModel: ItinBookingInfoCardViewModel
+    override val additionalInfoViewModel: ItinBookingInfoCardViewModel
 
     init {
         val stringsWebViewScope = PriceSummaryCardScope(scope.strings, scope.webViewLauncher, scope.itinLxRepo)

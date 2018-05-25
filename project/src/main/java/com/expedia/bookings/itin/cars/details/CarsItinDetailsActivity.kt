@@ -15,6 +15,7 @@ import com.expedia.bookings.itin.common.ItinManageBookingWidget
 import com.expedia.bookings.itin.common.ItinTimingsWidget
 import com.expedia.bookings.itin.common.NewItinToolbarViewModel
 import com.expedia.bookings.itin.scopes.CarsMasterScope
+import com.expedia.bookings.itin.tripstore.data.ItinCar
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.itin.utils.ActivityLauncher
 import com.expedia.bookings.itin.utils.IToaster
@@ -29,7 +30,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import javax.inject.Inject
 
-class CarsItinDetailsActivity: AppCompatActivity() {
+class CarsItinDetailsActivity : AppCompatActivity() {
 
     companion object : Intentable {
         private const val CAR_ITIN_ID = "CAR_ITIN_ID"
@@ -56,7 +57,7 @@ class CarsItinDetailsActivity: AppCompatActivity() {
     val pickupMapWidget: ItinMapWidget by bindView(R.id.pickup_map_widget)
     val dropOffMapWidget: ItinMapWidget by bindView(R.id.dropOff_map_widget)
     val imageWidget: ItinImageWidget by bindView(R.id.itin_image_widget)
-    val timingsWidget: ItinTimingsWidget by bindView(R.id.itin_timings_widget)
+    val timingsWidget: ItinTimingsWidget<ItinCar> by bindView(R.id.itin_timings_widget)
 
     var toolbarViewModel: NewItinToolbarViewModel by notNullAndObservable { vm ->
         vm.navigationBackPressedSubject.subscribe {
@@ -69,6 +70,7 @@ class CarsItinDetailsActivity: AppCompatActivity() {
             dropOffMapWidget.visibility = View.VISIBLE
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.car_itin_detail_activity)
@@ -88,6 +90,7 @@ class CarsItinDetailsActivity: AppCompatActivity() {
         pickupMapWidget.viewModel = CarItinPickupMapWidgetViewModel(mapScope)
         dropOffMapViewModel = CarItinDropOffMapWidgetViewModel(mapScope)
         dropOffMapWidget.viewModel = dropOffMapViewModel
+        manageBookingWidget.viewModel = CarItinManageBookingWidgetViewModel(scope)
     }
 
     override fun finish() {

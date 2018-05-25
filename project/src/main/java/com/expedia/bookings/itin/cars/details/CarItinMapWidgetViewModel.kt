@@ -24,58 +24,53 @@ import com.expedia.bookings.tracking.ITripsTracking
 import com.google.android.gms.maps.model.LatLng
 import io.reactivex.subjects.PublishSubject
 
-abstract class CarItinMapWidgetViewModel<S>(val scope: S) : ItinMapWidgetViewModel() where S : HasCarRepo, S : HasLifecycleOwner, S : HasTripsTracking, S : HasToaster, S : HasStringProvider, S : HasPhoneHandler {
-    var itinLxObserver: LiveDataObserver<ItinCar>
+abstract class CarItinMapWidgetViewModel<S>(val scope: S) : ItinMapWidgetViewModel<ItinCar>() where S : HasCarRepo, S : HasLifecycleOwner, S : HasTripsTracking, S : HasToaster, S : HasStringProvider, S : HasPhoneHandler {
+    override val itinObserver: LiveDataObserver<ItinCar> = LiveDataObserver {
+        it?.let { itinCar ->
+            getLocation(itinCar)?.let { location ->
+                location.addressLine1?.let {
+                    addressLineFirstSubject.onNext(location.addressLine1)
+                }
+                addressLineSecondSubject.onNext(location.buildSecondaryAddress())
 
-    init {
-        itinLxObserver = LiveDataObserver {
-            it?.let { itinCar ->
-                getLocation(itinCar)?.let { location ->
-                    location.addressLine1?.let {
-                        addressLineFirstSubject.onNext(location.addressLine1)
-                    }
-                    addressLineSecondSubject.onNext(location.buildSecondaryAddress())
-
-                    if (location.latitude != null && location.longitude != null) {
-                        latLongSubject.onNext(LatLng(location.latitude, location.longitude))
-                    }
-                    directionButtonClickSubject.subscribe {
-                        //TODO("add expanded map view and omniture")
-                    }
-                    mapClickSubject.subscribe {
-                        //TODO("add expanded map view and omniture")
-                    }
-                    addressClickSubject.subscribe {
-                        scope.toaster.toastAndCopy(location.buildFullAddress())
-                    }
-                    addressContainerContentDescription.onNext(scope.strings.fetchWithPhrase(R.string.itin_lx_details_address_copy_content_description_TEMPLATE, mapOf("address" to location.buildFullAddress())))
-                    itinCar.carVendor?.localPhoneNumber?.let { number ->
-                        phoneNumberTextSubject.onNext(number)
-                        val contDesc = scope.strings.fetchWithPhrase(R.string.itin_activity_manage_booking_call_lx_button_content_description_TEMPLATE, mapOf("phonenumber" to number))
-                        phoneNumberContDescriptionSubject.onNext(contDesc)
-                        phoneNumberClickSubject.subscribe {
-                            scope.phoneHandler.handle(number)
-                        }
+                if (location.latitude != null && location.longitude != null) {
+                    latLongSubject.onNext(LatLng(location.latitude, location.longitude))
+                }
+                directionButtonClickSubject.subscribe {
+                    //TODO("add expanded map view and omniture")
+                }
+                mapClickSubject.subscribe {
+                    //TODO("add expanded map view and omniture")
+                }
+                addressClickSubject.subscribe {
+                    scope.toaster.toastAndCopy(location.buildFullAddress())
+                }
+                addressContainerContentDescription.onNext(scope.strings.fetchWithPhrase(R.string.itin_lx_details_address_copy_content_description_TEMPLATE, mapOf("address" to location.buildFullAddress())))
+                itinCar.carVendor?.localPhoneNumber?.let { number ->
+                    phoneNumberTextSubject.onNext(number)
+                    val contDesc = scope.strings.fetchWithPhrase(R.string.itin_activity_manage_booking_call_lx_button_content_description_TEMPLATE, mapOf("phonenumber" to number))
+                    phoneNumberContDescriptionSubject.onNext(contDesc)
+                    phoneNumberClickSubject.subscribe {
+                        scope.phoneHandler.handle(number)
                     }
                 }
             }
         }
-        scope.itinCarRepo.liveDataCar.observe(scope.lifecycleOwner, itinLxObserver)
+    }
+
+    init {
+        scope.itinCarRepo.liveDataCar.observe(scope.lifecycleOwner, itinObserver)
     }
 
     abstract fun getLocation(itinCar: ItinCar): CarLocation?
+}
 
-}
-interface HasCarItinMapWidgetViewModelScope {
-    val scope: CarItinMapWidgetViewModelScope
-}
 data class CarItinMapWidgetViewModelScope(override val strings: StringSource,
                                           override val tripsTracking: ITripsTracking,
                                           override val lifecycleOwner: LifecycleOwner,
                                           override val itinCarRepo: ItinCarRepoInterface,
                                           override val toaster: IToaster,
-                                          override val phoneHandler: IPhoneHandler): HasCarRepo, HasLifecycleOwner, HasTripsTracking, HasToaster, HasStringProvider, HasPhoneHandler
-
+                                          override val phoneHandler: IPhoneHandler) : HasCarRepo, HasLifecycleOwner, HasTripsTracking, HasToaster, HasStringProvider, HasPhoneHandler
 
 class CarItinPickupMapWidgetViewModel(ViewModelScope: CarItinMapWidgetViewModelScope) : CarItinMapWidgetViewModel<CarItinMapWidgetViewModelScope>(ViewModelScope) {
     override fun getLocation(itinCar: ItinCar): CarLocation? {

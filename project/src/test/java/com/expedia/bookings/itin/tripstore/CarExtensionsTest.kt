@@ -1,43 +1,41 @@
 package com.expedia.bookings.itin.tripstore
 
 import com.expedia.bookings.itin.helpers.ItinMocker
-import com.expedia.bookings.itin.tripstore.extensions.buildDropOffSecondaryAddress
-import com.expedia.bookings.itin.tripstore.extensions.buildFullDropOffAddress
-import com.expedia.bookings.itin.tripstore.extensions.buildFullPickupAddress
-import com.expedia.bookings.itin.tripstore.extensions.buildPickupSecondaryAddress
+import com.expedia.bookings.itin.tripstore.extensions.buildFullAddress
+import com.expedia.bookings.itin.tripstore.extensions.buildSecondaryAddress
 import org.junit.Test
 import kotlin.test.assertEquals
 
 class CarExtensionsTest {
     @Test
-fun happyPickUp() {
+    fun happyPickUp() {
         val happyItin = ItinMocker.carDetailsHappy.cars?.first()
 
-        assertEquals("Sydney, Victoria, AUS, 98188", happyItin?.buildPickupSecondaryAddress())
-        assertEquals("Sir John Young Crescent Domain Car Park, Sydney, Victoria, AUS, 98188", happyItin?.buildFullPickupAddress())
+        assertEquals("Sydney, Victoria, AUS, 98188", happyItin?.pickupLocation?.buildSecondaryAddress())
+        assertEquals("Sir John Young Crescent Domain Car Park, Sydney, Victoria, AUS, 98188", happyItin?.pickupLocation?.buildFullAddress())
     }
 
     @Test
     fun happyDropOff() {
         val happyItin = ItinMocker.carDetailsHappy.cars?.first()
 
-        assertEquals("Docklands, Victoria, AUS, 98188", happyItin?.buildDropOffSecondaryAddress())
-        assertEquals("99 Spencer Street, Docklands, Victoria, AUS, 98188", happyItin?.buildFullDropOffAddress())
+        assertEquals("Docklands, Victoria, AUS, 98188", happyItin?.dropOffLocation?.buildSecondaryAddress())
+        assertEquals("99 Spencer Street, Docklands, Victoria, AUS, 98188", happyItin?.dropOffLocation?.buildFullAddress())
     }
 
     @Test
     fun missingPickUpTest() {
         val happyItin = ItinMocker.carDetailsBadLocations.cars?.first()
 
-        assertEquals("AUS", happyItin?.buildPickupSecondaryAddress())
-        assertEquals("Sir John Young Crescent Domain Car Park, AUS", happyItin?.buildFullPickupAddress())
+        assertEquals("AUS", happyItin?.pickupLocation?.buildSecondaryAddress())
+        assertEquals("Sir John Young Crescent Domain Car Park, AUS", happyItin?.pickupLocation?.buildFullAddress())
     }
 
     @Test
     fun missingDropOffTest() {
         val happyItin = ItinMocker.carDetailsBadLocations.cars?.first()
 
-        assertEquals("Docklands, Victoria", happyItin?.buildDropOffSecondaryAddress())
-        assertEquals("Docklands, Victoria", happyItin?.buildFullDropOffAddress())
+        assertEquals("Docklands, Victoria", happyItin?.dropOffLocation?.buildSecondaryAddress())
+        assertEquals("Docklands, Victoria", happyItin?.dropOffLocation?.buildFullAddress())
     }
 }

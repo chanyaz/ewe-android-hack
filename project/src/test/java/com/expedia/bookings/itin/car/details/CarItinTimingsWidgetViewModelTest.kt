@@ -80,7 +80,7 @@ class CarItinTimingsWidgetViewModelTest {
         startDateTestObserver.assertNoValues()
     }
 
-    private class MockScope: HasCarRepo, HasLifecycleOwner, HasStringProvider {
+    private class MockScope : HasCarRepo, HasLifecycleOwner, HasStringProvider {
         override val strings: StringSource = MockStringProvider()
         override val lifecycleOwner: LifecycleOwner = MockLifecycleOwner()
         override val itinCarRepo: ItinCarRepoInterface = MockCarRepo()

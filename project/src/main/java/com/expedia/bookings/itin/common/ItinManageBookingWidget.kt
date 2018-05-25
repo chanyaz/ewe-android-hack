@@ -5,15 +5,12 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.itin.lx.details.LxItinManageBookingWidgetViewModel
-import com.expedia.bookings.itin.scopes.LxItinManageBookingWidgetScope
 import com.expedia.bookings.itin.scopes.ManageBookingWidgetViewModelSetter
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 
 class ItinManageBookingWidget(context: Context, attr: AttributeSet?) : LinearLayout(context, attr), ManageBookingWidgetViewModelSetter {
-
-    override fun setUpViewModel(vm: LxItinManageBookingWidgetViewModel<LxItinManageBookingWidgetScope>) {
+    override fun setUpViewModel(vm: ItinManageBookingWidgetViewModel) {
         viewModel = vm
     }
 
@@ -25,9 +22,9 @@ class ItinManageBookingWidget(context: Context, attr: AttributeSet?) : LinearLay
         View.inflate(context, R.layout.widget_lx_itin_booking, this)
     }
 
-    var viewModel: LxItinManageBookingWidgetViewModel<LxItinManageBookingWidgetScope> by notNullAndObservable {
-        moreHelp.viewModel = viewModel.moreHelpViewModel
-        priceSummary.viewModel = viewModel.priceSummaryViewModel
-        additionalInfo.viewModel = viewModel.additionalInfoViewModel
+    var viewModel: ItinManageBookingWidgetViewModel by notNullAndObservable { vm ->
+        moreHelp.viewModel = vm.moreHelpViewModel
+        priceSummary.viewModel = vm.priceSummaryViewModel
+        additionalInfo.viewModel = vm.additionalInfoViewModel
     }
 }

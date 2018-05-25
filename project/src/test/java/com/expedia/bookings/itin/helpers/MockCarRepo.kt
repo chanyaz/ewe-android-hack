@@ -6,7 +6,7 @@ import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinCar
 import io.reactivex.subjects.PublishSubject
 
-class MockCarRepo: ItinCarRepoInterface {
+class MockCarRepo : ItinCarRepoInterface {
     override val liveDataCar: MutableLiveData<ItinCar> = MutableLiveData()
     override val liveDataItin: MutableLiveData<Itin> = MutableLiveData()
     override val invalidDataSubject: PublishSubject<Unit> = PublishSubject.create()

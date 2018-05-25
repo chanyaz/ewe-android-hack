@@ -17,4 +17,4 @@ data class CarsMasterScope(
         override val itinCarRepo: ItinCarRepoInterface,
         override val toaster: IToaster,
         override val phoneHandler: IPhoneHandler,
-        override val tripsTracking: ITripsTracking): HasCarRepo, HasLifecycleOwner, HasStringProvider, HasActivityLauncher, HasWebViewLauncher, HasToaster, HasPhoneHandler, HasTripsTracking
+        override val tripsTracking: ITripsTracking) : HasCarRepo, HasLifecycleOwner, HasStringProvider, HasActivityLauncher, HasWebViewLauncher, HasToaster, HasPhoneHandler, HasTripsTracking

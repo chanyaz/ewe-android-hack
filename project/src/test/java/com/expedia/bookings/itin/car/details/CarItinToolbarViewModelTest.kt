@@ -53,7 +53,7 @@ class CarItinToolbarViewModelTest {
         toolbarSubTitleTestObserver.assertNoValues()
     }
 
-    private class MockScope: HasCarRepo, HasStringProvider, HasLifecycleOwner {
+    private class MockScope : HasCarRepo, HasStringProvider, HasLifecycleOwner {
         override val strings: StringSource = MockStringProvider()
         override val lifecycleOwner: LifecycleOwner = MockLifecycleOwner()
         override val itinCarRepo: ItinCarRepoInterface = MockCarRepo()
