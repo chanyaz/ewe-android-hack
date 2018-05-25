@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.mobiata.android.time.widget.HolidayWidget
+    android:id="@+id/holiday_calendar_widget"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingTop="10dp">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray200" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:fadingEdge="horizontal"
+        android:fadeScrollbars="true">
+
+        <LinearLayout
+            android:id="@+id/holiday_row_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</com.mobiata.android.time.widget.HolidayWidget>

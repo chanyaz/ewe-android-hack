@@ -39,6 +39,8 @@ import android.view.accessibility.AccessibilityEvent;
 
 import com.mobiata.android.Log;
 import com.mobiata.android.time.R;
+import com.mobiata.android.time.util.CalendarConstants;
+import com.mobiata.android.time.util.CalendarUtils;
 import com.mobiata.android.time.util.JodaUtils;
 import com.mobiata.android.time.widget.CalendarPicker.CalendarState;
 import com.squareup.phrase.Phrase;
@@ -79,8 +81,8 @@ public class MonthView extends View {
 	// The percentage of a cell that the selection should take up
 	private static final float SELECTION_PERCENT = .9f;
 
-	private static final int ROWS = 6;
-	private static final int COLS = 7;
+	private static final int ROWS = CalendarConstants.INSTANCE.getROWS();
+	private static final int COLS = CalendarConstants.INSTANCE.getCOLS();
 
 	private CalendarState mState;
 
@@ -215,26 +217,14 @@ public class MonthView extends View {
 	public void notifyDisplayYearMonthChanged() {
 		mTranslationWeeks = 0;
 		mLastWeekTranslationFloor = Integer.MAX_VALUE;
-		precomputeGrid();
+		mDays = CalendarUtils.INSTANCE.computeVisibleDays(mState.getDisplayYearMonth(), ROWS, COLS);
+		mFirstDayOfGrid = mDays[0][0];
 		invalidate();
 	}
 
 	public void notifySelectedDatesChanged() {
 		// TODO: Only invalidate the cells of the dates that have changed?
 		invalidate();
-	}
-
-	private void precomputeGrid() {
-		mFirstDayOfGrid = mState.getDisplayYearMonth().toLocalDate(1);
-		while (mFirstDayOfGrid.getDayOfWeek() != JodaUtils.getFirstDayOfWeek()) {
-			mFirstDayOfGrid = mFirstDayOfGrid.minusDays(1);
-		}
-
-		for (int week = 0; week < ROWS; week++) {
-			for (int dayOfWeek = 0; dayOfWeek < COLS; dayOfWeek++) {
-				mDays[week][dayOfWeek] = mFirstDayOfGrid.plusDays(week * COLS + dayOfWeek);
-			}
-		}
 	}
 
 	@Override

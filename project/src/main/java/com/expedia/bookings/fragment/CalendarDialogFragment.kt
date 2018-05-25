@@ -19,6 +19,8 @@ import com.expedia.bookings.shared.CalendarRules
 import com.expedia.bookings.utils.CalendarShortDateRenderer
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.isRecentSearchesForFlightsEnabled
+import com.expedia.bookings.utils.toMapOfDatesToNames
+import com.expedia.bookings.utils.toListOfDates
 import com.expedia.bookings.widget.shared.CalendarStyleUtil
 import com.expedia.util.endlessObserver
 import com.expedia.vm.BaseSearchViewModel
@@ -69,7 +71,10 @@ open class CalendarDialogFragment() : DialogFragment() {
         if (vm != null && rules != null) {
             val maxDate = LocalDate.now().plusDays(rules!!.getMaxDateRange())
             calendarPickerView.setSelectableDateRange(rules!!.getFirstAvailableDate(), maxDate)
-            calendarPickerView.setDottedDatesList(vm.holidayCalendarDateList)
+            if (vm.holidayCalendarResponse.holidays.isNotEmpty()) {
+                calendarPickerView.setDottedDatesList(vm.holidayCalendarResponse.toListOfDates())
+                calendarPickerView.setDottedDateNames(vm.holidayCalendarResponse.toMapOfDatesToNames())
+            }
             calendarPickerView.setMaxSelectableDateRange(rules!!.getMaxSearchDurationDays())
 
             val monthView = calendarPickerView.findViewById<MonthView>(R.id.month)

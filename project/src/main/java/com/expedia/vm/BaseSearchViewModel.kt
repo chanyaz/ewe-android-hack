@@ -5,6 +5,7 @@ import android.support.annotation.CallSuper
 import android.support.annotation.VisibleForTesting
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BaseSearchParams
+import com.expedia.bookings.data.HolidayCalendarResponse
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.shared.CalendarRules
@@ -37,7 +38,7 @@ abstract class BaseSearchViewModel(val context: Context) {
     val travelersObservable = BehaviorSubject.create<TravelerParams>()
     val errorOriginSameAsDestinationObservable = PublishSubject.create<String>()
     val hasValidDatesObservable = PublishSubject.create<Boolean>()
-    var holidayCalendarDateList = emptyList<LocalDate>()
+    var holidayCalendarResponse = HolidayCalendarResponse()
     val formattedOriginObservable = PublishSubject.create<String>()
     val formattedDestinationObservable = PublishSubject.create<String>()
 

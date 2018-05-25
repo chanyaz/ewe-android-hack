@@ -8,3 +8,9 @@ fun HolidayCalendarResponse.toListOfDates(): List<LocalDate> {
             .map { LocalDate(it.holidayDateString) }
             .toList()
 }
+
+fun HolidayCalendarResponse.toMapOfDatesToNames(): Map<LocalDate, String> {
+    val holidayInfoHashMap = LinkedHashMap<LocalDate, String>()
+    holidays.forEach { holidayInfoHashMap[LocalDate(it.holidayDateString)] = it.holidayName }
+    return holidayInfoHashMap
+}

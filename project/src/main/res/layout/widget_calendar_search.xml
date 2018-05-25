@@ -11,7 +11,7 @@
     <com.mobiata.android.time.widget.CalendarPicker
         android:id="@+id/calendar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/calendar_height_without_time_slider"
+        android:layout_height="wrap_content"
         app:calendarBaseColor="@color/calendar_valid_days"
         app:calendarDaySelectionFillColor="@android:color/white"
         app:calendarDaysOfWeekColor="?attr/primary_color"

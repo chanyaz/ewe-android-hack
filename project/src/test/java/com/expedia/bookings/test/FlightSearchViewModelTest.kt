@@ -12,6 +12,7 @@ import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.toListOfDates
 import com.expedia.vm.FlightSearchViewModel
 import com.expedia.vm.flights.AdvanceSearchFilter
 import com.mobiata.mocke3.ExpediaDispatcher
@@ -114,7 +115,7 @@ class FlightSearchViewModelTest {
                 okhttp3.OkHttpClient.Builder().addInterceptor(logger).build(),
                 interceptor, Schedulers.trampoline(), Schedulers.trampoline())
         sut.getHolidayInfo()
-        assertEquals(arrayListOf(LocalDate("2018-01-01"), LocalDate("2018-01-15")), sut.holidayCalendarDateList)
+        assertEquals(arrayListOf(LocalDate("2018-01-01"), LocalDate("2018-01-15")), sut.holidayCalendarResponse.toListOfDates())
     }
 
     @Test
