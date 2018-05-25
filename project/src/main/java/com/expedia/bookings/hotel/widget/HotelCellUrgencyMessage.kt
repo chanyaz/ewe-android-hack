@@ -10,7 +10,7 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
-import com.expedia.vm.hotel.HotelViewModel
+import com.expedia.bookings.hotel.vm.HotelViewModel
 
 class HotelCellUrgencyMessage(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 

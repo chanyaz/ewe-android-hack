@@ -8,7 +8,7 @@ import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
-import com.expedia.vm.hotel.HotelViewModel
+import com.expedia.bookings.hotel.vm.HotelViewModel
 import com.expedia.bookings.packages.vm.PackageHotelViewModel
 import com.expedia.bookings.widget.shared.AbstractHotelResultCellViewHolder
 

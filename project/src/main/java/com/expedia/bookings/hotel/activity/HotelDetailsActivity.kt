@@ -18,7 +18,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.LoadingOverlayWidget
 import com.expedia.vm.HotelMapViewModel
-import com.expedia.vm.hotel.HotelDetailViewModel
+import com.expedia.bookings.hotel.vm.HotelDetailViewModel
 import com.google.android.gms.maps.MapView
 import javax.inject.Inject
 

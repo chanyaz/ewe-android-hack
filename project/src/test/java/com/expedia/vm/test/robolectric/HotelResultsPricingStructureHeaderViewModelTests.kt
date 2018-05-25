@@ -13,7 +13,7 @@ import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
-import com.expedia.vm.hotel.HotelResultsPricingStructureHeaderViewModel
+import com.expedia.bookings.hotel.vm.HotelResultsPricingStructureHeaderViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

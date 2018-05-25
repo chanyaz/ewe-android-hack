@@ -11,7 +11,7 @@ import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.hotel.widget.adapter.HotelFavoritesRecyclerViewAdapter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.vm.hotel.HotelFavoritesViewModel
+import com.expedia.bookings.hotel.vm.HotelFavoritesViewModel
 
 class HotelFavoritesView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 

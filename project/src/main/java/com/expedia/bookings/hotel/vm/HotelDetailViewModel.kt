@@ -1,4 +1,4 @@
-package com.expedia.vm.hotel
+package com.expedia.bookings.hotel.vm
 
 import android.content.Context
 import android.support.v4.content.ContextCompat

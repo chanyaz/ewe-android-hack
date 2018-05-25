@@ -15,7 +15,7 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.HotelDetailView
-import com.expedia.vm.hotel.HotelDetailViewModel
+import com.expedia.bookings.hotel.vm.HotelDetailViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

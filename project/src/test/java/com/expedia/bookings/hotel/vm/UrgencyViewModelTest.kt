@@ -1,4 +1,4 @@
-package com.expedia.vm.hotel
+package com.expedia.bookings.hotel.vm
 
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils

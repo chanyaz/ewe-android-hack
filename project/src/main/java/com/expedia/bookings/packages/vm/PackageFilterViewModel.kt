@@ -7,7 +7,7 @@ import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.tracking.PackagesFilterTracker
 import com.expedia.bookings.tracking.hotel.FilterTracker
 import com.expedia.util.endlessObserver
-import com.expedia.vm.hotel.BaseHotelFilterViewModel
+import com.expedia.bookings.hotel.vm.BaseHotelFilterViewModel
 import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
 import java.util.Collections

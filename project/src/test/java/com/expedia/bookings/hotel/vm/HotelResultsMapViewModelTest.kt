@@ -1,4 +1,4 @@
-package com.expedia.vm.hotel
+package com.expedia.bookings.hotel.vm
 
 import android.location.Location
 import com.expedia.bookings.data.hotels.Hotel

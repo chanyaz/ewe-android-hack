@@ -26,7 +26,7 @@ import com.expedia.bookings.packages.adapter.PackageHotelListAdapter
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.bookings.packages.vm.PackageFilterViewModel
-import com.expedia.vm.hotel.BaseHotelFilterViewModel
+import com.expedia.bookings.hotel.vm.BaseHotelFilterViewModel
 import com.squareup.phrase.Phrase
 import io.reactivex.Observer
 

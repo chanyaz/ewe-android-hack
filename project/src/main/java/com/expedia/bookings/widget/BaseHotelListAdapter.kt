@@ -31,7 +31,7 @@ import com.expedia.bookings.utils.isHideMiniMapOnResultBucketed
 import com.expedia.bookings.widget.shared.AbstractHotelCellViewHolder
 import com.expedia.bookings.widget.shared.AbstractHotelResultCellViewHolder
 import com.expedia.util.endlessObserver
-import com.expedia.vm.hotel.HotelResultsPricingStructureHeaderViewModel
+import com.expedia.bookings.hotel.vm.HotelResultsPricingStructureHeaderViewModel
 import com.mobiata.android.util.AndroidUtils
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject

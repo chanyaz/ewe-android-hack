@@ -49,9 +49,9 @@ import com.expedia.bookings.utils.FontCache
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.ShopWithPointsViewModel
-import com.expedia.vm.hotel.BaseHotelFilterViewModel
-import com.expedia.vm.hotel.HotelFilterViewModel
-import com.expedia.vm.hotel.UrgencyViewModel
+import com.expedia.bookings.hotel.vm.BaseHotelFilterViewModel
+import com.expedia.bookings.hotel.vm.HotelFilterViewModel
+import com.expedia.bookings.hotel.vm.UrgencyViewModel
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject

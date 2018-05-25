@@ -72,7 +72,7 @@ import com.expedia.vm.HotelMapViewModel
 import com.expedia.vm.HotelReviewsViewModel
 import com.expedia.vm.HotelSearchViewModel
 import com.expedia.vm.HotelWebCheckoutViewViewModel
-import com.expedia.vm.hotel.HotelDetailViewModel
+import com.expedia.bookings.hotel.vm.HotelDetailViewModel
 import com.google.android.gms.maps.MapView
 import com.mobiata.android.Log
 import io.reactivex.Observer

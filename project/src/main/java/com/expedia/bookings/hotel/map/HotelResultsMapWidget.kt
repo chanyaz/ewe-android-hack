@@ -13,7 +13,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.util.PermissionsUtils
-import com.expedia.vm.hotel.HotelResultsMapViewModel
+import com.expedia.bookings.hotel.vm.HotelResultsMapViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView

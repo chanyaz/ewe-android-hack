@@ -10,7 +10,7 @@ import com.expedia.bookings.extensions.setInverseVisibility
 import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.features.Features
 import com.expedia.util.getGuestRatingText
-import com.expedia.vm.hotel.HotelViewModel
+import com.expedia.bookings.hotel.vm.HotelViewModel
 import kotlin.properties.Delegates
 
 abstract class AbstractHotelResultCellViewHolder(val root: ViewGroup) : AbstractHotelCellViewHolder(root) {

@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
-import com.expedia.vm.hotel.BaseHotelFilterViewModel
+import com.expedia.bookings.hotel.vm.BaseHotelFilterViewModel
 
 class HotelClientFilterView(context: Context, attrs: AttributeSet?) : BaseHotelFilterView(context, attrs) {
     val dynamicFeedbackWidget: DynamicFeedbackWidget by bindView(R.id.dynamic_feedback_container)

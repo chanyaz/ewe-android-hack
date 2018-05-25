@@ -9,7 +9,7 @@ import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
-import com.expedia.vm.hotel.HotelViewModel
+import com.expedia.bookings.hotel.vm.HotelViewModel
 
 class HotelCellVipMessage(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 

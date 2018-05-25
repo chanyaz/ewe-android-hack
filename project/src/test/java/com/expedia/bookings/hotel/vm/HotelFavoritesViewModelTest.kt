@@ -11,7 +11,6 @@ import com.expedia.bookings.test.robolectric.UserLoginTestUtil.Companion.setupUs
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
-import com.expedia.vm.hotel.HotelFavoritesViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

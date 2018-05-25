@@ -24,7 +24,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.StarRatingBar
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.endlessObserver
-import com.expedia.vm.hotel.HotelViewModel
+import com.expedia.bookings.hotel.vm.HotelViewModel
 import com.mobiata.android.text.StrikethroughTagHandler
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject

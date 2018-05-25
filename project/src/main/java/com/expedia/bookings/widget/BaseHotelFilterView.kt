@@ -29,7 +29,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
 import com.expedia.vm.ShopWithPointsViewModel
-import com.expedia.vm.hotel.BaseHotelFilterViewModel
+import com.expedia.bookings.hotel.vm.BaseHotelFilterViewModel
 import io.reactivex.Observer
 
 open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {

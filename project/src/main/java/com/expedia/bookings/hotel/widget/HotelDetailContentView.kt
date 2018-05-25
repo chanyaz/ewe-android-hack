@@ -78,7 +78,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.HotelRoomDetailViewModel
 import com.expedia.vm.HotelRoomHeaderViewModel
-import com.expedia.vm.hotel.HotelDetailViewModel
+import com.expedia.bookings.hotel.vm.HotelDetailViewModel
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList

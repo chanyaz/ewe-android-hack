@@ -40,7 +40,7 @@ import com.expedia.bookings.utils.RetrofitError
 import com.expedia.testutils.JSONResourceReader
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.HotelRoomDetailViewModel
-import com.expedia.vm.hotel.HotelDetailViewModel
+import com.expedia.bookings.hotel.vm.HotelDetailViewModel
 import com.mobiata.android.util.SettingUtils
 import io.reactivex.subjects.PublishSubject
 import org.hamcrest.Matchers

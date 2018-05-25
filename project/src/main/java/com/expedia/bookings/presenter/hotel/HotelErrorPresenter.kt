@@ -11,7 +11,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.vm.AbstractErrorViewModel
 import com.expedia.vm.HotelErrorViewModel
 import com.expedia.vm.HotelInfoToolbarViewModel
-import com.expedia.vm.hotel.HotelDetailViewModel
+import com.expedia.bookings.hotel.vm.HotelDetailViewModel
 
 class HotelErrorPresenter(context: Context, attr: AttributeSet?) : BaseErrorPresenter(context, attr) {
 

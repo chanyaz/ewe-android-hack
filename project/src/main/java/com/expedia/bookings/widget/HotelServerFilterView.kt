@@ -16,8 +16,8 @@ import com.expedia.bookings.hotel.widget.HotelAmenityGridItem
 import com.expedia.bookings.hotel.widget.ServerNeighborhoodFilterView
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
-import com.expedia.vm.hotel.BaseHotelFilterViewModel
-import com.expedia.vm.hotel.HotelFilterViewModel
+import com.expedia.bookings.hotel.vm.BaseHotelFilterViewModel
+import com.expedia.bookings.hotel.vm.HotelFilterViewModel
 
 class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelFilterView(context, attrs) {
     val staticClearFilterButton: CardView by bindView(R.id.hotel_server_filter_clear_pill)

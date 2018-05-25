@@ -10,7 +10,7 @@ import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.vm.hotel.HotelDetailViewModel
+import com.expedia.bookings.hotel.vm.HotelDetailViewModel
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import io.reactivex.schedulers.Schedulers

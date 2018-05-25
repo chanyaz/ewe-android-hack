@@ -6,7 +6,7 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.SpannableBuilder
-import com.expedia.vm.hotel.HotelViewModel
+import com.expedia.bookings.hotel.vm.HotelViewModel
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject
 

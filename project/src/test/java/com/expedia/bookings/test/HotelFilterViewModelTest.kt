@@ -13,7 +13,7 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.widget.GuestRatingValue
 import com.expedia.bookings.widget.StarRatingValue
 import com.expedia.testutils.JSONResourceReader
-import com.expedia.vm.hotel.HotelFilterViewModel
+import com.expedia.bookings.hotel.vm.HotelFilterViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

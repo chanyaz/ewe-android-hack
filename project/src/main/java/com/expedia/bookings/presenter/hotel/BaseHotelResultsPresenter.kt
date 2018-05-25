@@ -69,7 +69,7 @@ import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.hotel.widget.HotelResultsSortFaqWebView
 import com.expedia.util.endlessObserver
-import com.expedia.vm.hotel.BaseHotelFilterViewModel
+import com.expedia.bookings.hotel.vm.BaseHotelFilterViewModel
 import com.mobiata.android.BackgroundDownloader
 import com.mobiata.android.LocationServices
 import com.squareup.phrase.Phrase

@@ -31,7 +31,7 @@ import com.expedia.bookings.widget.OnHotelStarRatingFilterChangedListener
 import com.expedia.bookings.widget.StarRatingValue
 import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.ShopWithPointsViewModel
-import com.expedia.vm.hotel.HotelFilterViewModel
+import com.expedia.bookings.hotel.vm.HotelFilterViewModel
 import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Rule

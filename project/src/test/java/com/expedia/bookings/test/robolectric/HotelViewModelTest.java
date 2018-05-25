@@ -37,7 +37,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager;
 import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.Strings;
-import com.expedia.vm.hotel.HotelViewModel;
+import com.expedia.bookings.hotel.vm.HotelViewModel;
 import com.mobiata.android.util.SettingUtils;
 
 import static org.junit.Assert.assertEquals;

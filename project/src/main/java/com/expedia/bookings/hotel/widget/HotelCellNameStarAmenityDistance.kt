@@ -10,7 +10,7 @@ import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.StarRatingBar
 import com.expedia.bookings.widget.TextView
-import com.expedia.vm.hotel.HotelViewModel
+import com.expedia.bookings.hotel.vm.HotelViewModel
 import kotlin.properties.Delegates
 
 class HotelCellNameStarAmenityDistance(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs) {
