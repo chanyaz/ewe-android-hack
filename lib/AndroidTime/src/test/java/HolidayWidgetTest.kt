@@ -50,8 +50,7 @@ class HolidayWidgetTest {
         assertEquals(1, sut.holidayRowLayoutContainer.childCount)
         val holidayRow = sut.holidayRowLayoutContainer.getChildAt(0)
         val holidayRowContent = holidayRow.findViewById<TextView>(R.id.holiday_row_text)
-        val holidayDateFormat = LocalDate("2018-06-13").toString("MMM dd, E")
-        val expectedHolidayContent = "$holidayDateFormat - MNO Holiday"
+        val expectedHolidayContent = "Wed, Jun 13 - MNO Holiday"
         assertEquals(expectedHolidayContent, holidayRowContent.text)
     }
 }

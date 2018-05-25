@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:fadingEdge="horizontal"
-        android:fadeScrollbars="true">
+        android:fadeScrollbars="false">
 
         <LinearLayout
             android:id="@+id/holiday_row_layout"

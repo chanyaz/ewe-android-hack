@@ -1,7 +1,9 @@
 package com.mobiata.android.time.util
 
+import android.text.format.DateFormat
 import org.joda.time.LocalDate
 import org.joda.time.YearMonth
+import java.util.Locale
 
 object CalendarUtils {
 
@@ -18,5 +20,19 @@ object CalendarUtils {
             }
         }
         return visibleDays
+    }
+
+    fun formatLocalDateBasedOnLocale(date: LocalDate, pattern: String): String {
+        var formattedDate: String
+        try {
+            formattedDate = date.toString(getLocaleBasedPattern(pattern))
+        } catch (e: Exception) {
+            formattedDate = date.toString(pattern)
+        }
+        return formattedDate
+    }
+
+    private fun getLocaleBasedPattern(pattern: String): String {
+        return DateFormat.getBestDateTimePattern(Locale.getDefault(), pattern)
     }
 }

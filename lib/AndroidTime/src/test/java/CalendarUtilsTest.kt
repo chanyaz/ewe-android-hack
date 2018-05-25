@@ -4,6 +4,7 @@ import org.joda.time.LocalDate
 import org.joda.time.YearMonth
 import org.junit.Assert
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class CalendarUtilsTest {
 
@@ -15,6 +16,13 @@ class CalendarUtilsTest {
         val receivedVisibleDatesArray = CalendarUtils.computeVisibleDays(YearMonth("2018-05"), ROWS, COLS)
         val expectedVisibleDatesArray = expectedVisibleDays(LocalDate("2018-04-29"))
         Assert.assertArrayEquals(expectedVisibleDatesArray, receivedVisibleDatesArray)
+    }
+
+    @Test
+    fun testFormatLocalDateBasedOnLocale() {
+        val receivedDateFormat = CalendarUtils.formatLocalDateBasedOnLocale(LocalDate("2018-09-09"), "E, MMM d")
+        val expectedDateFormat = "Sun, Sep 9"
+        assertEquals(expectedDateFormat, receivedDateFormat)
     }
 
     private fun expectedVisibleDays(mFirstDayOfGrid: LocalDate): Array<Array<LocalDate?>> {
