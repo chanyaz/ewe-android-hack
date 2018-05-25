@@ -2170,6 +2170,7 @@ public class OmnitureTracking {
 		s.setProducts(";LX:" + activityId + ";;;;event297;eVar39=" + promoDiscountType + "|eVar41=" + offerIndex + ":" + offerId);
 		s.setProp(16, "LX.IS.bookButton." + offerId);
 		s.setEvar(28, "LX.IS.bookButton." + offerId);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppLxWebCheckoutView);
 		s.track();
 	}
 
