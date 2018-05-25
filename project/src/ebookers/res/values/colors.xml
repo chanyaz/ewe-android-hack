@@ -2,10 +2,10 @@
 <resources>
     <color name="app_primary">#0099CC</color>
     <color name="app_primary_dark">#0086C0</color>
+    <color name="brand_primary">#0099CC</color>
     <color name="action_bar_bg_color">@color/app_primary</color>
     <color name="old_launch_toolbar_background_color">@color/app_primary</color>
     <color name="preferences_text">#495863</color>
-    <color name="brand_primary">#0099CC</color>
 
     <color name="lob_btn_color">#0099CC</color>
     <color name="hotel_lob_btn">@color/lob_btn_color</color>
@@ -23,6 +23,7 @@
     <color name="bg_air_attach_banner_divider">@color/white</color>
     <color name="placeholder_card_background_color">@color/lob_btn_color</color>
     <color name="placeholder_card_button_text_color">@color/lob_btn_color</color>
+    <color name="placeholder_card_second_line_text_color">#535d71</color>
 
     <!--Splash-->
     <color name="splash_screen_bg">@color/white</color>

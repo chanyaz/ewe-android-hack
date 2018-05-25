@@ -81,6 +81,9 @@
     <color name="placeholder_card_background_color">@color/app_primary</color>
     <color name="placeholder_card_button_text_color">#495863</color>
     <color name="launch_screen_selected_tab_icon">#4a5863</color>
+    <color name="signin_button_one_text_color">#4a5863</color>
+    <color name="signin_first_line_text_color">#4a5863</color>
+    <color name="placeholder_card_second_line_text_color">#535d71</color>
 
     <!-- Flights V2 colors -->
     <color name="packages_primary_color">@color/launch_lob_color</color>

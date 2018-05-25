@@ -2,10 +2,10 @@
 <resources>
     <color name="app_primary">#26344F</color>
     <color name="app_primary_dark">#1C273F</color>
+    <color name="brand_primary">#26344F</color>
     <color name="action_bar_bg_color">@color/app_primary</color>
     <color name="old_launch_toolbar_background_color">@color/app_primary</color>
     <color name="preferences_text">#495863</color>
-    <color name="brand_primary">#26344F</color>
 
     <color name="lob_btn_color">#D6682D</color>
     <color name="hotel_lob_btn">@color/lob_btn_color</color>
@@ -18,6 +18,8 @@
     <color name="action_menu_text_color">#FFFFFF</color>
     <color name="placeholder_card_background_color">@color/app_primary</color>
     <color name="placeholder_card_button_text_color">@color/app_primary</color>
+    <color name="signin_button_one_text_color">@color/brand_primary</color>
+    <color name="placeholder_card_second_line_text_color">#535d71</color>
 
     <!-- Hotels V2 Coupon applied text color -->
     <color name="hotelsv2_coupon_applied_color">#9E0089</color>

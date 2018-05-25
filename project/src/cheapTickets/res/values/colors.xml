@@ -2,15 +2,16 @@
 <resources>
     <color name="app_primary">#116FAA</color>
     <color name="app_primary_dark">#0C5C99</color>
+    <color name="brand_primary">#116FAA</color>
     <color name="action_bar_bg_color">#FFFFFF</color>
     <color name="actionbar_text_color">#D00000</color>
     <color name="actionbar_text_color_disabled">#90D00000</color>
     <color name="error_color">#b80000</color>
-    <color name="brand_primary">#116FAA</color>
 
     <!-- Launch colors -->
     <color name="old_launch_toolbar_background_color">@color/action_bar_bg_color</color>
     <color name="launch_tab_indicator">#FFFFFF</color>
+    <color name="placeholder_card_second_line_text_color">#535d71</color>
 
     <color name="lob_btn_color">#116FAA</color>
     <color name="hotel_lob_btn">@color/lob_btn_color</color>
