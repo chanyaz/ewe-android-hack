@@ -12,6 +12,9 @@ object ItinMocker {
     val hotelDetailsPaidWithPointsFull = mockObject(ItinDetailsResponse::class.java, "api/trips/hotel_trip_details_paid_with_full_points.json")?.itin!!
     val hotelDetailsExpediaCollect = mockObject(ItinDetailsResponse::class.java, "api/trips/hotel_trip_details_expedia_collect.json")?.itin!!
     val hotelPackageHappy = mockObject(ItinDetailsResponse::class.java, "api/trips/itin_package_mock.json")?.itin!!
+    val mickoHotelHappy = mockObject(ItinDetailsResponse::class.java, "api/trips/itin_micko_happy.json")?.itin!!
+    val mickoMultiHotel = mockObject(ItinDetailsResponse::class.java, "api/trips/itin_micko_multi_hotel.json")?.itin!!
+    val packageEmpty = mockObject(ItinDetailsResponse::class.java, "api/trips/package_trip_details_no_package.json")?.itin!!
     val lxDetailsHappy = mockObject(ItinDetailsResponse::class.java, "api/trips/activity_trip_details.json")?.itin!!
     val lxDetailsAlsoHappy = mockObject(ItinDetailsResponse::class.java, "api/trips/lx_trip_details_for_mocker.json")?.itin!!
     val lxDetailsNoDetailsUrl = mockObject(ItinDetailsResponse::class.java, "api/trips/activity_trip_details_no_detail_url.json")?.itin!!

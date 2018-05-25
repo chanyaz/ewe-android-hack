@@ -18,6 +18,20 @@ fun Itin.firstLx(): ItinLx? {
     return packageLx.plus(standAloneLx).firstOrNull()
 }
 
+fun Itin.isMultiItemCheckout(): Boolean {
+    val totalNumberOfItems = hotels.orEmpty().size +
+            flights.orEmpty().size +
+            cars.orEmpty().size +
+            activities.orEmpty().size +
+            rails.orEmpty().size +
+            cruises.orEmpty().size
+    return !isPackage() && (totalNumberOfItems > 1)
+}
+
+fun Itin.isPackage(): Boolean {
+    return packages != null
+}
+
 fun Itin.tripStartDate(): DateTime? {
     val epochSeconds = startTime?.epochSeconds
     val timezoneOffset = startTime?.timeZoneOffsetSeconds
