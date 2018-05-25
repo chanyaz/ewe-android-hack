@@ -9,7 +9,7 @@
         android:layout_height="wrap_content">
 
         <com.expedia.bookings.itin.common.ItinToolbar
-            android:id="@+id/widget_lx_itin_toolbar"
+            android:id="@+id/widget_itin_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
@@ -41,13 +41,13 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/itin_timings_widget"/>
 
-            <com.expedia.bookings.itin.lx.details.LxItinRedeemVoucherWidget
-                android:id="@+id/widget_lx_itin_redeem_voucher"
+            <com.expedia.bookings.itin.common.ItinMapWidget
+                android:id="@+id/pickup_map_widget"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <com.expedia.bookings.itin.common.ItinMapWidget
-                android:id="@+id/map_widget"
+                android:id="@+id/dropOff_map_widget"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

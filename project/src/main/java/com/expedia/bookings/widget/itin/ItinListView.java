@@ -20,6 +20,7 @@ import com.expedia.bookings.data.trips.ItinCardDataAdapter;
 import com.expedia.bookings.data.trips.ItinCardDataRails;
 import com.expedia.bookings.data.trips.TripComponent;
 
+import com.expedia.bookings.itin.cars.details.CarsItinDetailsActivity;
 import com.expedia.bookings.itin.common.LegacyItinCardDataActivity;
 import com.expedia.bookings.features.Features;
 import com.expedia.bookings.itin.lx.details.LxItinDetailsActivity;
@@ -370,6 +371,7 @@ public class ItinListView extends ListView implements OnItemClickListener {
 		ItinCardData data = mAdapter.getItem(position);
 
 		Boolean isLxItinRedesignedBucketed = Features.Companion.getAll().getLxRedesign().enabled();
+		Boolean isCarItinRedesignBucketed = Features.Companion.getAll().getCarRedesign().enabled();
 
 		if (data != null) {
 			if (view instanceof ItinButtonCard) {
@@ -402,10 +404,16 @@ public class ItinListView extends ListView implements OnItemClickListener {
 							.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete)
 							.toBundle());
 			}
+			else if (data.hasDetailData() && data.getTripComponentType() == TripComponent.Type.CAR && isCarItinRedesignBucketed) {
+				getContext().startActivity(CarsItinDetailsActivity.createIntent(getContext(), data.getTripId()),
+					ActivityOptionsCompat
+						.makeCustomAnimation(getContext(), R.anim.slide_in_right, R.anim.slide_out_left_complete)
+						.toBundle());
+			}
 			else if (data.hasDetailData()) {
 				showDetails(position);
 			}
-			else  {
+			else {
 				Log.w("ItinCard fallback clicked");
 				if (!TextUtils.isEmpty(data.getDetailsUrl())) {
 					openItinInWebView(data.getDetailsUrl());

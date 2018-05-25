@@ -1,17 +1,17 @@
-package com.expedia.bookings.itin.lx.details
+package com.expedia.bookings.itin.common
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.itin.common.ItinBookingInfoCardView
+import com.expedia.bookings.itin.lx.details.LxItinManageBookingWidgetViewModel
 import com.expedia.bookings.itin.scopes.LxItinManageBookingWidgetScope
 import com.expedia.bookings.itin.scopes.ManageBookingWidgetViewModelSetter
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 
-class LxItinManageBookingWidget(context: Context, attr: AttributeSet?) : LinearLayout(context, attr), ManageBookingWidgetViewModelSetter {
+class ItinManageBookingWidget(context: Context, attr: AttributeSet?) : LinearLayout(context, attr), ManageBookingWidgetViewModelSetter {
 
     override fun setUpViewModel(vm: LxItinManageBookingWidgetViewModel<LxItinManageBookingWidgetScope>) {
         viewModel = vm

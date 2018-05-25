@@ -9,6 +9,7 @@ import com.expedia.bookings.itin.common.ItinImageWidget
 import com.expedia.bookings.itin.common.ItinMapWidget
 import com.expedia.bookings.itin.common.ItinTimingsWidget
 import com.expedia.bookings.itin.common.ItinToolbar
+import com.expedia.bookings.itin.common.ItinManageBookingWidget
 import com.expedia.bookings.itin.scopes.LxLifeCycleObserverScope
 import com.expedia.bookings.itin.tripstore.data.ItinLx
 import com.expedia.bookings.itin.utils.ActivityLauncher
@@ -39,7 +40,7 @@ class LxItinDetailsActivity : AppCompatActivity() {
         @Inject set
 
     val toolbar: ItinToolbar by bindView(R.id.widget_lx_itin_toolbar)
-    val manageBookingWidget: LxItinManageBookingWidget by bindView(R.id.widget_manage_booking)
+    val manageBookingWidget: ItinManageBookingWidget by bindView(R.id.widget_manage_booking)
     val mapWidget: ItinMapWidget by bindView(R.id.map_widget)
     val redeemVoucherWidget: LxItinRedeemVoucherWidget by bindView(R.id.widget_lx_itin_redeem_voucher)
     val imageWidget: ItinImageWidget by bindView(R.id.itin_image_widget)
