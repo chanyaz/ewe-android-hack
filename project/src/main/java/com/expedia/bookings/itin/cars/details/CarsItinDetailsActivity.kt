@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.itin.cars.ItinCarRepo
@@ -62,6 +63,12 @@ class CarsItinDetailsActivity: AppCompatActivity() {
             finish()
         }
     }
+
+    var dropOffMapViewModel: CarItinDropOffMapWidgetViewModel by notNullAndObservable { vm ->
+        vm.showVisibilitySubject.subscribe {
+            dropOffMapWidget.visibility = View.VISIBLE
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.car_itin_detail_activity)
@@ -74,8 +81,13 @@ class CarsItinDetailsActivity: AppCompatActivity() {
         val repo = ItinCarRepo(itinId, jsonUtil, ItineraryManager.getInstance().syncFinishObservable)
         val scope = CarsMasterScope(stringProvider, webViewLauncher, this, activityLauncher, repo, toaster, phoneHandler, tripsTracking)
         imageWidget.viewModel = CarItinImageViewModel(scope)
-        toolbar.viewModel = CarItinToolbarViewModel(scope)
+        toolbarViewModel = CarItinToolbarViewModel(scope)
+        toolbar.viewModel = toolbarViewModel
         timingsWidget.viewModel = CarItinTimingsWidgetViewModel(scope)
+        val mapScope = CarItinMapWidgetViewModelScope(stringProvider, tripsTracking, this, repo, toaster, phoneHandler)
+        pickupMapWidget.viewModel = CarItinPickupMapWidgetViewModel(mapScope)
+        dropOffMapViewModel = CarItinDropOffMapWidgetViewModel(mapScope)
+        dropOffMapWidget.viewModel = dropOffMapViewModel
     }
 
     override fun finish() {

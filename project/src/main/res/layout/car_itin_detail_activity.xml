@@ -49,7 +49,8 @@
             <com.expedia.bookings.itin.common.ItinMapWidget
                 android:id="@+id/dropOff_map_widget"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
 
             <com.expedia.bookings.itin.common.ItinManageBookingWidget
                 android:id="@+id/widget_manage_booking"
