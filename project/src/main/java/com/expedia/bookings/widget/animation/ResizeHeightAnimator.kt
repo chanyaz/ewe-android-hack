@@ -9,8 +9,9 @@ class ResizeHeightAnimator(animationDuration: Long) : ValueAnimator(), ValueAnim
     override fun onAnimationUpdate(anim: ValueAnimator) {
         for (resizeSpec in resizeSpecList) {
             val newHeight = (resizeSpec.startHeight + (resizeSpec.targetHeight - resizeSpec.startHeight) * (animatedValue as Float)).toInt()
-            resizeSpec.view.layoutParams.height = newHeight
-            resizeSpec.view.requestLayout()
+            val layoutParams = resizeSpec.view.layoutParams
+            layoutParams.height = newHeight
+            resizeSpec.view.layoutParams = layoutParams
         }
     }
 

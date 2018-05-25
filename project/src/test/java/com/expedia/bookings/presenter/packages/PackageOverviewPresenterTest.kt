@@ -31,6 +31,8 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.PackageTestUtil
 import com.expedia.bookings.test.robolectric.RoboTestHelper.getContext
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.test.robolectric.shadows.ShadowObjectAnimator
+import com.expedia.bookings.test.robolectric.shadows.ShadowValueAnimator
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
@@ -41,12 +43,14 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.Shadows
+import org.robolectric.annotation.Config
 import kotlin.properties.Delegates
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
+@Config(shadows = arrayOf(ShadowValueAnimator::class, ShadowObjectAnimator::class))
 class PackageOverviewPresenterTest {
     private var activity: FragmentActivity by Delegates.notNull()
     lateinit var overviewPresenter: PackageOverviewPresenter

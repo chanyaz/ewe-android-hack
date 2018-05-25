@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ArgbEvaluator
 import android.app.AlertDialog
 import android.content.Context
@@ -16,6 +18,7 @@ import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.extensions.subscribeInverseVisibility
 import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.extensions.subscribeTextAndVisibility
@@ -25,11 +28,14 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isBetterSavingsOnRDScreenEnabledForPackages
+import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseTotalPriceWidgetViewModel
 import java.math.BigDecimal
 
 class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
+    private val ANIMATION_DURATION = 500L
 
     val bundleChevron: ImageView by bindView(R.id.bundle_chevron)
     val bundleTotalPrice: TextView by bindView(R.id.bundle_total_price)
@@ -51,12 +57,26 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
     val subtitleTextFade = TransitionElement(ContextCompat.getColor(context, R.color.packages_bundle_overview_footer_secondary_text), Color.WHITE)
     val bgFade = TransitionElement(Color.WHITE, ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
 
+    private val resizeOpenAnimator: ResizeHeightAnimator by lazy {
+        val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
+        resizeAnimator.startDelay = ANIMATION_DURATION
+        val heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.AT_MOST)
+        val widthMeasureSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY)
+        betterSavingContainer.measure(widthMeasureSpec, heightMeasureSpec)
+        resizeAnimator.addViewSpec(betterSavingContainer, betterSavingContainer.measuredHeight)
+        resizeAnimator.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationStart(animation: Animator?) {
+                betterSavingContainer.visibility = View.VISIBLE
+            }
+        })
+        resizeAnimator
+    }
+
     var viewModel: BaseTotalPriceWidgetViewModel by notNullAndObservable { vm ->
         vm.totalPriceObservable.subscribeTextAndVisibility(bundleTotalPrice)
         vm.pricePerPersonObservable.subscribeText(bundleTotalPrice)
         vm.savingsPriceObservable.subscribeTextAndVisibility(bundleSavings)
         vm.savings.map { it.formattedMoneyFromAmountAndCurrencyCode }.subscribeText(betterSavingView)
-        vm.shouldShowSavings.subscribeVisibility(betterSavingContainer)
         vm.shouldShowSavings.subscribeVisibility(bundleReferenceTotalPrice)
         vm.referenceTotalPrice.map { it.formattedMoneyFromAmountAndCurrencyCode }.subscribeText(bundleReferenceTotalPrice)
         vm.bundleTextLabelObservable.subscribeText(bundleTotalText)
@@ -66,6 +86,13 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
             this.contentDescription = description
         }
         vm.priceAvailableObservable.subscribeInverseVisibility(priceProgressBar)
+        vm.shouldShowSavings.filter { isBetterSavingsOnRDScreenEnabledForPackages(context) }.subscribe {
+            if (it) {
+                resizeOpenAnimator.start()
+            } else {
+                betterSavingContainer.setVisibility(false)
+            }
+        }
     }
 
     val breakdown = CostSummaryBreakDownView(context, null)
