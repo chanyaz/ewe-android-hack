@@ -418,6 +418,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
                 val shouldShowTripSavings = it.showTripSavings
                 totalPriceWidget.viewModel.referenceTotalPrice.onNext(packageReferenceTotalPrice)
                 if (shouldShowTripSavings) {
+                    totalPriceWidget.viewModel.betterSavingsObservable.onNext(true)
                     totalPriceWidget.bundleSavings.visibility = View.GONE
                     val flightPIID = Db.sharedInstance.packageParams.latestSelectedOfferInfo.flightPIID
                     val standaloneHotelPrice = searchResponse.getSelectedHotelReferenceTotalPriceFromID(hotel.hotelId)?.formattedMoneyFromAmountAndCurrencyCode

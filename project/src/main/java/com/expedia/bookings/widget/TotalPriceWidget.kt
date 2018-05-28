@@ -79,6 +79,8 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         vm.savingsPriceObservable.subscribeTextAndVisibility(bundleSavings)
         vm.savings.map { it.formattedMoneyFromAmountAndCurrencyCode }.subscribeText(betterSavingView)
         vm.shouldShowSavings.filter { isBetterSavingsOnRDScreenEnabledForPackages(context) }.subscribeVisibility(bundleReferenceTotalPrice)
+        vm.betterSavingsObservable.subscribeVisibility(betterSavingContainer)
+        vm.betterSavingsObservable.subscribeVisibility(bundleReferenceTotalPrice)
         vm.referenceTotalPrice.map { it.formattedMoneyFromAmountAndCurrencyCode }.subscribeText(bundleReferenceTotalPrice)
         vm.bundleTextLabelObservable.subscribeText(bundleTotalText)
         vm.perPersonTextLabelObservable.subscribeVisibility(perPersonText)
@@ -166,6 +168,7 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         viewModel.total.onNext(Money(BigDecimal("0.00"), currencyCode))
         viewModel.savings.onNext(Money(BigDecimal("0.00"), currencyCode))
         viewModel.shouldShowSavings.onNext(false)
+        viewModel.betterSavingsObservable.onNext(false)
         if (viewModel.shouldShowTotalPriceLoadingProgress() && AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightRateDetailsFromCache)) {
             viewModel.priceAvailableObservable.onNext(false)
         }
