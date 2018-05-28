@@ -72,8 +72,11 @@ class NewCreateAccountLayout(context: Context, attrs: AttributeSet) : FrameLayou
             spamCheckbox.isChecked = enableSpamByDefault
             refreshCheckboxColor(spamCheckbox)
         }
-        newTermsTextView.text = newTermsText
-        newTermsTextView.movementMethod = if (containsLinks(newTermsText)) LinkMovementMethod.getInstance() else null
+        if (newTermsText.isNotEmpty()) {
+            newTermsTextView.visibility = View.VISIBLE
+            newTermsTextView.text = newTermsText
+            newTermsTextView.movementMethod = if (containsLinks(newTermsText)) LinkMovementMethod.getInstance() else null
+        }
     }
 
     private fun refreshCheckboxColor(v: CheckBox) {

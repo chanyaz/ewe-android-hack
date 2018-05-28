@@ -7,7 +7,7 @@
     <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in MrJet Rewards button -->
     <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Knapp för att logga in och tjäna {reward} i MrJet Rewards</string>
     <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with MrJet Rewards. By joining, I accept all Terms and Conditions. -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Jag vill tjäna direkt med {brand_reward_name_link}. Genom att gå med godkänner jag samtliga {terms_and_conditions}.</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">Jag vill tjäna direkt med {brand_reward_name_link}. Genom att gå med godkänner jag samtliga {terms_and_conditions_url}.</string>
 
     <!-- MrJet Rewards -->
     <string name="paying_with_rewards">Betala med MrJet Rewards</string>
