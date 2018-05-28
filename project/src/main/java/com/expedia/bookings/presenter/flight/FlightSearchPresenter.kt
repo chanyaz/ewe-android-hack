@@ -12,9 +12,7 @@ import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
-import android.view.ViewGroup
 import android.view.ViewStub
-import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.adapter.FlightSearchPageAdapter
 import com.expedia.bookings.data.LineOfBusiness
@@ -81,10 +79,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
 
     val isFlightAdvanceSearchTestEnabled = !PointOfSale.getPointOfSale().hideAdvancedSearchOnFlights() &&
             AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightAdvanceSearch)
-    val swapFlightsLocationsButton: ImageView by bindView(R.id.swapFlightsLocationsButton)
     val flightsSearchDivider: View by bindView(R.id.flight_search_divider)
-    val isSwitchToAndFromFieldsFeatureEnabled = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSwitchFields)
-
     val travelerFlightCardViewStub: ViewStub by bindView(R.id.traveler_flight_stub)
     override val travelerWidgetV2 by lazy {
         travelerFlightCardViewStub.inflate().findViewById<FlightTravelerWidgetV2>(R.id.traveler_card)
@@ -115,15 +110,6 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         searchButton.setOnClickListener {
             searchTrackingBuilder.markSearchClicked()
             vm.performSearchObserver.onNext(Unit)
-        }
-        if (isSwitchToAndFromFieldsFeatureEnabled) {
-            swapFlightsLocationsButton.setOnClickListener {
-                if (!vm.toAndFromFlightFieldsSwitched)
-                    AnimUtils.rotate(swapFlightsLocationsButton)
-                else AnimUtils.reverseRotate(swapFlightsLocationsButton)
-                vm.toAndFromFlightFieldsSwitched = !(vm.toAndFromFlightFieldsSwitched)
-                vm.swapToFromFieldsObservable.onNext(Unit)
-            }
         }
         if (isFlightGreedySearchEnabled(context)) {
             travelerWidgetV2.traveler.getViewModel().isDefaultSelectionChangedObservable.filter { it }.map { Unit }.subscribe(vm.abortGreedyCallObservable)
@@ -260,21 +246,6 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             anim?.start()
         }
 
-        if (isSwitchToAndFromFieldsFeatureEnabled) {
-            ObservableOld.combineLatest(
-                    vm.formattedOriginObservable,
-                    vm.formattedDestinationObservable,
-                    { origin, destination ->
-                        if (origin.isNullOrBlank() || destination.isNullOrBlank()) {
-                            swapFlightsLocationsButton.isEnabled = false
-                            swapFlightsLocationsButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray200))
-                        } else {
-                            swapFlightsLocationsButton.isEnabled = true
-                            swapFlightsLocationsButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray700))
-                        }
-                    }).subscribe()
-        }
-
         ObservableOld.combineLatest(vm.hasValidDatesObservable, vm.errorNoDatesObservable, { hasValidDates, _ -> hasValidDates }).subscribe { hasValidDates ->
             calendarWidgetV2.setEndDrawable(if (hasValidDates) null else errorDrawable)
         }
@@ -316,19 +287,6 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         travelerWidgetV2.traveler.getViewModel().showSeatingPreference = true
         travelerWidgetV2.traveler.getViewModel().lob = LineOfBusiness.FLIGHTS_V2 //Not sure why we still have Flights V2 all over the place??
         showTabOptionsOnSearchForm = true
-
-        if (isSwitchToAndFromFieldsFeatureEnabled) {
-            swapFlightsLocationsButton.isEnabled = false
-            swapFlightsLocationsButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray200))
-            swapFlightsLocationsButton.visibility = View.VISIBLE
-
-            val dividerParams = flightsSearchDivider.layoutParams as ViewGroup.MarginLayoutParams
-            val paddingRight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 55f, resources.displayMetrics).toInt()
-            val paddingLeft = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 56f, resources.displayMetrics).toInt()
-
-            dividerParams.setMargins(paddingLeft, 0, paddingRight, 0)
-            flightsSearchDivider.layoutParams = dividerParams
-        }
 
         if (isRecentSearchesForFlightsEnabled(context)) {
             flightRecentSearchCardView.visibility = View.VISIBLE

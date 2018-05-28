@@ -60,7 +60,6 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppFlightAATest = new ABTest(14241);
 	public static final ABTest EBAndroidAppFlightAdvanceSearch = new ABTest(15185);
 	public static final ABTest EBAndroidAppFlightSubpubChange = new ABTest(15211);
-	public static final ABTest EBAndroidAppFlightSwitchFields = new ABTest(14918);
 	public static final ABTest EBAndroidAppFlightSearchSuggestionLabel = new ABTest(16366);
 	public static final ABTest EBAndroidAppFlightSuggestionOnOneCharacter = new ABTest(15349);
 	public static final ABTest EBAndroidAppFlightRateDetailsFromCache = new ABTest(14769, true);
@@ -185,7 +184,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidPopulateCardholderName.getKey());
 		testIDs.add(EBAndroidAppFlightFlexEnabled.getKey());
 		testIDs.add(EBAndroidAppFlightSubpubChange.getKey());
-		testIDs.add(EBAndroidAppFlightSwitchFields.getKey());
 		testIDs.add(EBAndroidRailHybridAppForDEEnabled.getKey());
 		testIDs.add(EBAndroidRailHybridAppForUKEnabled.getKey());
 		testIDs.add(EBAndroidRailHybridAppForEbookersUKEnabled.getKey());

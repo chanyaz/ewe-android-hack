@@ -401,51 +401,6 @@ public class FlightSearchPresenterTest {
 		isRoundTripSearchSubscriber.assertValue(true);
 	}
 
-	@Test
-	public void testSwapToFromButtonWhenDisabled() {
-		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightSwitchFields);
-		Ui.getApplication(activity).defaultFlightComponents();
-		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter, null);
-		ImageView swapBtn = (ImageView) widget.findViewById(R.id.swapFlightsLocationsButton);
-
-		assertEquals(swapBtn.getVisibility(), View.VISIBLE);
-		assertFalse(swapBtn.isEnabled());
-		initializeWidget();
-
-		SuggestionV4 origin = getSuggestion("SFO", "San Francisco");
-		SuggestionV4 destination = getSuggestion("DEL", "Delhi");
-		widget.getSearchViewModel().getOriginLocationObserver().onNext(origin);
-		assertFalse(swapBtn.isEnabled());
-
-		widget.getSearchViewModel().getDestinationLocationObserver().onNext(destination);
-		assertTrue(swapBtn.isEnabled());
-	}
-
-	@Test
-	public void testSwapToFromButton() {
-		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightSwitchFields);
-		Ui.getApplication(activity).defaultFlightComponents();
-		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter, null);
-		ImageView swapBtn = (ImageView) widget.findViewById(R.id.swapFlightsLocationsButton);
-		SearchInputTextView originFlight = widget.getOriginCardView();
-		SearchInputTextView destinationFlight = widget.getDestinationCardView();
-		initializeWidget();
-
-		SuggestionV4 origin = getSuggestion("SFO", "San Francisco");
-		SuggestionV4 destination = getSuggestion("DEL", "Delhi");
-
-		widget.getSearchViewModel().getOriginLocationObserver().onNext(origin);
-		widget.getSearchViewModel().getDestinationLocationObserver().onNext(destination);
-
-		swapBtn.performClick();
-		assertEquals(originFlight.getText(), destination.regionNames.displayName);
-		assertEquals(destinationFlight.getText(), origin.regionNames.displayName);
-
-		swapBtn.performClick();
-		assertEquals(destinationFlight.getText(), destination.regionNames.displayName);
-		assertEquals(originFlight.getText(), origin.regionNames.displayName);
-	}
-
 	private SuggestionV4 getSuggestion(String airportCode, String displayName) {
 		SuggestionV4 suggestion = new SuggestionV4();
 		SuggestionV4.Airport suggestionAirport = new SuggestionV4.Airport();

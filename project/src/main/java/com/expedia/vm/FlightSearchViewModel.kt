@@ -14,7 +14,6 @@ import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.extensions.subscribeObserver
-import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.services.HolidayCalendarService
 import com.expedia.bookings.shared.CalendarRules
@@ -65,7 +64,6 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     var hasPreviousSearchParams = false
     val flightsSourceObservable = PublishSubject.create<SuggestionV4>()
     val flightsDestinationObservable = PublishSubject.create<SuggestionV4>()
-    val swapToFromFieldsObservable = PublishSubject.create<Unit>()
     val isReadyForInteractionTracking = PublishSubject.create<Unit>()
     val searchTravelerParamsObservable = PublishSubject.create<com.expedia.bookings.data.FlightSearchParams>()
     val greedySearchParamsObservable = PublishSubject.create<FlightSearchParams>()
@@ -74,10 +72,8 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val validDateSetObservable = PublishSubject.create<Unit>()
     val trackSearchClicked = PublishSubject.create<Unit>()
     val wiggleAnimationEnd = PublishSubject.create<Unit>()
-
     val EBAndroidAppFlightSubpubChange = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightSubpubChange)
     val isUserEvolableBucketed = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFlightsEvolable)
-    var toAndFromFlightFieldsSwitched = false
     var isGreedyCallStarted = false
     val highlightCalendarObservable = PublishSubject.create<Int>()
     val modifySearchFormObservable = PublishSubject.create<String>()
@@ -223,18 +219,6 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             Observable.merge(formattedOriginObservable, formattedDestinationObservable, dateSetObservable).take(1).subscribe {
                 OmnitureTracking.trackFlightSearchFormInteracted()
             }
-        }
-
-        swapToFromFieldsObservable.withLatestFrom(flightsSourceObservable, flightsDestinationObservable, {
-            _, source, destination ->
-            object {
-                val source = source
-                val destination = destination
-            }
-        }).subscribe {
-            originLocationObserver.onNext(it.destination)
-            destinationLocationObserver.onNext(it.source)
-            FlightsV2Tracking.trackFlightLocationSwapViewClick()
         }
 
         modifySearchFormObservable.subscribe { actionLabel ->

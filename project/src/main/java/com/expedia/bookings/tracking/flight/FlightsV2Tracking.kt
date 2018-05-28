@@ -54,10 +54,6 @@ object FlightsV2Tracking {
         OmnitureTracking.trackFlightAdvanceSearchFiltersClick(filterLabel, isSelected)
     }
 
-    fun trackFlightLocationSwapViewClick() {
-        OmnitureTracking.trackFlightLocationSwapViewClicked()
-    }
-
     fun trackResultOutBoundFlights(trackingData: FlightSearchTrackingData, isSubpub: Boolean) {
         OmnitureTracking.trackResultOutBoundFlights(trackingData , isSubpub)
         TuneUtils.trackFlightV2OutBoundResults(trackingData)

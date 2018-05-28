@@ -5237,7 +5237,6 @@ public class OmnitureTracking {
 	private static final String FLIGHTS_V2_CHECKOUT_ERROR = "App.Flight.CKO.Error";
 	private static final String FLIGHTS_V2_ITIN_SHARE_CLICK = "App.Flight.CKO.Share.Start";
 	private static final String FLIGHTS_V2_SHARE = "App.Flight.CKO.Share";
-	private static final String FLIGHTS_V2_SWITCH_TO_FROM = "App.Flight.DS.SwitchFields.Clicked";
 	private static final String FLIGHTS_V2_KRAZY_GLUE_PAGE_NAME = "App.Kg.expedia.conf";
 	private static final String FLIGHTS_V2_KRAZY_GLUE_WEB_TRACKING_LINK = "mip.hot.kg.expedia.conf";
 	private static final String FLIGHTS_V2_KRAZY_GLUE_CLICK_LINK = "Krazyglue Click";
@@ -5801,14 +5800,6 @@ public class OmnitureTracking {
 		createAndTrackLinkEvent(link.toString(), FLIGHTS_V2_TRAVELER_LINK_NAME);
 	}
 
-	public static void trackFlightLocationSwapViewClicked() {
-		Log.d(TAG, "Tracking \"" + FLIGHTS_V2_SWITCH_TO_FROM + "\" click...");
-		AppAnalytics s = getFreshTrackingObject();
-		s.setEvar(28, FLIGHTS_V2_SWITCH_TO_FROM);
-		s.setProp(16, FLIGHTS_V2_SWITCH_TO_FROM);
-		s.trackLink("Switched to-from fields");
-	}
-
 	public static void trackFlightSRPScrollDepth(int scrollDepth, boolean isOutboundFlight, boolean isRoundTrip,
 		int totalCount) {
 		String pageName = !isRoundTrip ? FLIGHTS_V2_SEARCH_ONEWAY :
@@ -5830,7 +5821,6 @@ public class OmnitureTracking {
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightAATest);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightAdvanceSearch);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSwitchFields);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSuggestionOnOneCharacter);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSearchSuggestionLabel);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsGreedySearchCall);
