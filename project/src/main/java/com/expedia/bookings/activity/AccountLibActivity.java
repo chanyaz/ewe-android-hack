@@ -220,6 +220,9 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 					.setNewTermsText(StrUtils.generateNewTermsRewardLegalLink(this));
 		}
 		else {
+			boolean shouldShowUserRewardsEnrollmentCheck = ProductFlavorFeatureConfiguration.getInstance()
+				.showUserRewardsEnrollmentCheck();
+
 			config = Config.build()
 					.setService(ServicesUtil.generateAccountService(this))
 					.setBackgroundImageView(background)
@@ -233,10 +236,10 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 					.setAnalyticsListener(analyticsListener)
 					.setFacebookAppId(getString(R.string.facebook_app_id))
 					.setInitialState(startState)
-					.setUserRewardsEnrollmentCheck(ProductFlavorFeatureConfiguration.getInstance().showUserRewardsEnrollmentCheck())
-					.setRewardsText(StrUtils.generateLoyaltyRewardsLegalLink(this))
+					.setUserRewardsEnrollmentCheck(shouldShowUserRewardsEnrollmentCheck)
+					.setRewardsText(shouldShowUserRewardsEnrollmentCheck ? StrUtils.generateLoyaltyRewardsLegalLink(this) : "")
 					.setSignupString(Phrase.from(this, R.string.account_signup_TEMPLATE).put("brand", BuildConfig.brand).format().toString())
-					.setNewTermsText(StrUtils.generateNewTermsRewardLegalLink(this));
+					.setNewTermsText(shouldShowUserRewardsEnrollmentCheck ? StrUtils.generateNewTermsRewardLegalLink(this) : "");
 		}
 		if (shouldEnableRecaptcha()) {
 			config.setEnableRecaptcha(true).setRecaptchaAPIKey(getString(R.string.recaptcha_sdk_site_key));
