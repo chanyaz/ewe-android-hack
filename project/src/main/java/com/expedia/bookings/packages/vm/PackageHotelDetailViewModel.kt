@@ -16,8 +16,8 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.squareup.phrase.Phrase
-import io.reactivex.subjects.BehaviorSubject
 import org.joda.time.format.DateTimeFormat
+import io.reactivex.subjects.BehaviorSubject
 import java.math.BigDecimal
 
 class PackageHotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(context) {
