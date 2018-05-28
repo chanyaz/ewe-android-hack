@@ -27,6 +27,12 @@ abstract class AbstractUniversalCKOTotalPriceViewModel(val context: Context,
             } else savingsPriceObservable.onNext("")
         }
 
+        shouldShowSavings.subscribe { shouldShowSavings ->
+            if (!shouldShowSavings) {
+                savingsPriceObservable.onNext("")
+            }
+        }
+
         costBreakdownEnabledObservable.subscribe { isCostBreakdownEnabled ->
             contentDescriptionObservable.onNext(getAccessibleContentDescription(isCostBreakdownEnabled))
         }

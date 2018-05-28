@@ -202,6 +202,8 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
     }
 
     private fun onFlightChange() {
+        Db.setCachedPackageResponse(Db.getPackageResponse())
+
         resetBundleOverview()
         bundleOverviewHeader.toggleOverviewHeader(false)
 
@@ -411,11 +413,11 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         setHotelBundleWidgetGuestsAndDatesText(searchResponse)
         searchResponse.getCurrentOfferPrice()?.let {
             val tripSavings = it.tripSavings
+            val shouldShowTripSavings = it.showTripSavings
             totalPriceWidget.viewModel.savings.onNext(tripSavings)
-            totalPriceWidget.viewModel.shouldShowSavings.onNext(it.showTripSavings)
+            totalPriceWidget.viewModel.shouldShowSavings.onNext(shouldShowTripSavings)
             if (isBetterSavingsOnRDScreenEnabledForPackages(context)) {
                 val packageReferenceTotalPrice = it.packageReferenceTotalPrice
-                val shouldShowTripSavings = it.showTripSavings
                 totalPriceWidget.viewModel.referenceTotalPrice.onNext(packageReferenceTotalPrice)
                 if (shouldShowTripSavings) {
                     totalPriceWidget.viewModel.betterSavingsObservable.onNext(true)

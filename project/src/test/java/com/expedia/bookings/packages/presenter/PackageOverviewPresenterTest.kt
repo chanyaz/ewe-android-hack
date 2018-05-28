@@ -172,8 +172,7 @@ class PackageOverviewPresenterTest {
         assertEquals(View.GONE, totalPriceWidget.betterSavingContainer.visibility)
         assertEquals("$200", totalPriceWidget.bundleTotalPrice.text)
         assertEquals(View.GONE, totalPriceWidget.bundleReferenceTotalPrice.visibility)
-        assertEquals(View.VISIBLE, totalPriceWidget.bundleSavings.visibility)
-        assertEquals("$100.23 Saved", totalPriceWidget.bundleSavings.text)
+        assertEquals(View.GONE, totalPriceWidget.bundleSavings.visibility)
         assertNull(totalPriceWidget.bundleTotalText.compoundDrawables[2])
     }
 

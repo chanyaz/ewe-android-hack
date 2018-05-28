@@ -26,6 +26,10 @@ class PackageFlightActivity : AbstractAppCompatActivity() {
 
     override fun onBackPressed() {
         if (!flightsPresenter.back()) {
+            Db.getCachedPackageResponse()?.let {
+                Db.setPackageResponse(it)
+                Db.setCachedPackageResponse(null)
+            }
             super.onBackPressed()
         }
     }

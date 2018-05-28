@@ -118,10 +118,12 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             if (packagePrice != null) {
                 val packageSavings = Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
                         packagePrice.tripSavings.currencyCode)
+                val shouldShowPackageSavings = packagePrice.showTripSavings
                 presenter.totalPriceWidget.visibility = View.VISIBLE
                 presenter.totalPriceWidget.viewModel.total.onNext(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
                         packagePrice.packageTotalPrice.currencyCode))
                 presenter.totalPriceWidget.viewModel.savings.onNext(packageSavings)
+                presenter.totalPriceWidget.viewModel.shouldShowSavings.onNext(shouldShowPackageSavings)
             }
         }
         checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribeOptional { trip ->

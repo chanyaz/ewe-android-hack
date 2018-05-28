@@ -258,11 +258,13 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
             }
             val packageSavings = Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
                     packagePrice.tripSavings.currencyCode)
+            val shouldShowSavings = packagePrice.showTripSavings
             bundlePriceWidget.viewModel.pricePerPerson.onNext(Money(BigDecimal(packagePrice.pricePerPerson.amount.toDouble()),
                     packagePrice.pricePerPerson.currencyCode))
             bundlePriceFooter.viewModel.total.onNext(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
                     packagePrice.packageTotalPrice.currencyCode))
             bundlePriceFooter.viewModel.savings.onNext(packageSavings)
+            bundlePriceFooter.viewModel.shouldShowSavings.onNext(shouldShowSavings)
         }
     }
 

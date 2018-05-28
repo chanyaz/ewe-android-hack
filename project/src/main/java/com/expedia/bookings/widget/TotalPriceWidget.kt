@@ -28,7 +28,6 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isBetterSavingsOnRDScreenEnabledForPackages
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseTotalPriceWidgetViewModel
@@ -78,8 +77,6 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         vm.pricePerPersonObservable.subscribeText(bundleTotalPrice)
         vm.savingsPriceObservable.subscribeTextAndVisibility(bundleSavings)
         vm.savings.map { it.formattedMoneyFromAmountAndCurrencyCode }.subscribeText(betterSavingView)
-        vm.shouldShowSavings.filter { isBetterSavingsOnRDScreenEnabledForPackages(context) }.subscribeVisibility(bundleReferenceTotalPrice)
-        vm.betterSavingsObservable.subscribeVisibility(betterSavingContainer)
         vm.betterSavingsObservable.subscribeVisibility(bundleReferenceTotalPrice)
         vm.referenceTotalPrice.map { it.formattedMoneyFromAmountAndCurrencyCode }.subscribeText(bundleReferenceTotalPrice)
         vm.bundleTextLabelObservable.subscribeText(bundleTotalText)
@@ -89,7 +86,7 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
             this.contentDescription = description
         }
         vm.priceAvailableObservable.subscribeInverseVisibility(priceProgressBar)
-        vm.shouldShowSavings.filter { isBetterSavingsOnRDScreenEnabledForPackages(context) }.subscribe {
+        vm.betterSavingsObservable.subscribe {
             if (it) {
                 resizeOpenAnimator.start()
             } else {
