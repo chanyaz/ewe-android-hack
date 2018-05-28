@@ -158,7 +158,7 @@ class PackageHotelDetailViewModelTest {
         val hotelRoomResponse = getMockHotelRoomResponse()
         hotelOffersResponse.hotelRoomResponse = listOf(hotelRoomResponse)
 
-        testViewModel.offerReturned(hotelOffersResponse)
+        testViewModel.hotelOffersSubject.onNext(hotelOffersResponse)
 
         val pricePerPerson = hotelRoomResponse.rateInfo.chargeableRateInfo.packagePricePerPerson
         assertEquals(Money(BigDecimal(pricePerPerson.amount.toDouble()), pricePerPerson.currencyCode), testViewModel.bundlePricePerPersonObservable.value)
@@ -172,7 +172,7 @@ class PackageHotelDetailViewModelTest {
         hotelRoomResponse.rateInfo.chargeableRateInfo.packageTotalPrice = null
         hotelOffersResponse.hotelRoomResponse = listOf(hotelRoomResponse)
 
-        testViewModel.offerReturned(hotelOffersResponse)
+        testViewModel.hotelOffersSubject.onNext(hotelOffersResponse)
 
         assertEquals(null, testViewModel.bundlePricePerPersonObservable.value)
         assertEquals(null, testViewModel.bundleTotalPriceObservable.value)
@@ -185,7 +185,7 @@ class PackageHotelDetailViewModelTest {
         hotelRoomResponse.rateInfo.chargeableRateInfo.packageSavings = null
         hotelOffersResponse.hotelRoomResponse = listOf(hotelRoomResponse)
 
-        testViewModel.offerReturned(hotelOffersResponse)
+        testViewModel.hotelOffersSubject.onNext(hotelOffersResponse)
 
         assertEquals(null, testViewModel.bundlePricePerPersonObservable.value)
         assertEquals(null, testViewModel.bundleTotalPriceObservable.value)

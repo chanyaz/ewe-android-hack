@@ -1,7 +1,6 @@
 package com.expedia.bookings.packages.vm
 
 import android.content.Context
-import android.support.annotation.VisibleForTesting
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
@@ -17,8 +16,8 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.squareup.phrase.Phrase
-import org.joda.time.format.DateTimeFormat
 import io.reactivex.subjects.BehaviorSubject
+import org.joda.time.format.DateTimeFormat
 import java.math.BigDecimal
 
 class PackageHotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(context) {
@@ -42,8 +41,7 @@ class PackageHotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(c
         }
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    public override fun offerReturned(offerResponse: HotelOffersResponse) {
+    override fun offerReturned(offerResponse: HotelOffersResponse) {
         super.offerReturned(offerResponse)
 
         val firstHotelRoomResponse = offerResponse.hotelRoomResponse?.firstOrNull()
