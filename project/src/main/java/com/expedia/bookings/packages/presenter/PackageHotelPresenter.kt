@@ -68,12 +68,14 @@ import com.expedia.vm.HotelMapViewModel
 import com.expedia.vm.HotelReviewsViewModel
 import com.google.android.gms.maps.MapView
 import com.google.gson.Gson
+import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.PublishSubject
 import retrofit2.HttpException
 import java.math.BigDecimal
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -255,10 +257,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(slidingBundleWidgetListener.onTouchListener)
 
         if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
-            resultsPresenter.bundlePriceWidgetTop.setOnClickListener {
-                show(bundleSlidingWidget)
-                PackagesTracking().trackBundleWidgetTap()
-            }
+            setBundlePriceWidgetTopClick()
             bundleSlidingWidget.bundlePriceWidget.viewModel.perPersonTextLabelObservable.subscribeVisibility(resultsPresenter.bundlePriceWidgetTop.bundlePerPersonText)
             bundleSlidingWidget.bundlePriceFooter.viewModel.totalPriceObservable.subscribeTextAndVisibility(resultsPresenter.bundlePriceWidgetTop.bundleTotalPrice)
             bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.subscribeText(resultsPresenter.bundlePriceWidgetTop.bundleTitleText)
@@ -394,10 +393,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                     PackagesTracking().trackBundleWidgetTap()
                 }
                 if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
-                    resultsPresenter.bundlePriceWidgetTop.setOnClickListener {
-                        show(bundleSlidingWidget)
-                        PackagesTracking().trackBundleWidgetTap()
-                    }
+                    setBundlePriceWidgetTopClick()
                 }
             }
             DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
@@ -457,10 +453,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 AccessibilityUtil.setFocusToToolbarNavigationIcon(resultsPresenter.toolbar)
                 trackEventSubject.onNext(Unit)
                 if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
-                    resultsPresenter.bundlePriceWidgetTop.setOnClickListener {
-                        show(bundleSlidingWidget)
-                        PackagesTracking().trackBundleWidgetTap()
-                    }
+                    setBundlePriceWidgetTopClick()
                 }
             }
         }
@@ -474,6 +467,13 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 PackagesTracking().trackBundleWidgetTap()
             }
         }
+    }
+
+    private fun setBundlePriceWidgetTopClick() {
+        RxView.clicks(resultsPresenter.bundlePriceWidgetTop).throttleFirst(500, TimeUnit.MILLISECONDS).subscribe({
+            show(bundleSlidingWidget)
+            PackagesTracking().trackBundleWidgetTap()
+        })
     }
 
     private val resultsToOverview = object : Presenter.Transition(PackageHotelResultsPresenter::class.java.name, SlidingBundleWidget::class.java.name, AccelerateDecelerateInterpolator(), REGULAR_ANIMATION_DURATION) {
