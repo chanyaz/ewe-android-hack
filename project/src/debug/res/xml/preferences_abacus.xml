@@ -710,14 +710,6 @@
         android:title="Packages Tests">
 
         <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
-            android:key="16163"
-            android:title="Packages Back Flow From Overview - 16163" />
-
-        <ListPreference
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_package_title_change"
             android:entryValues="@array/abacus_package_title_change_choice_values"

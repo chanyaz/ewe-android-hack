@@ -232,54 +232,6 @@ Feature: Package Overview
     And Validate that edit icon is present on top right
 
   @Packages @PackageOverview
-  Scenario: Validate that close and edit icons are present when PackagesBackFlowFromOverview is controlled
-    Given I launch the App
-    And I set bucketing rules for A/B tests as
-      | PackagesBackFlowFromOverview | CONTROL                                     |
-    And I launch "Bundle Deals" LOB
-    When I make a packages search with following parameters
-      | source                | sfo                                                |
-      | destination           | DET                                                |
-      | source_suggest        | San Francisco, CA                                  |
-      | destination_suggest   | Detroit, MI (DTW-Detroit Metropolitan Wayne County)|
-      | start_date            | 5                                                  |
-      | end_date              | 10                                                 |
-      | adults                | 2                                                  |
-      | child                 | 2                                                  |
-    And I select hotel at position 1 on HSR screen
-    And I store the hotel name in "varHotelName"
-    And I select first room
-    And I select outbound flight to destination at position 1
-    And I select inbound flight to source at position 1
-    And Validate that Package Overview screen is displayed
-    And Validate that close icon is present on top left
-    And Validate that edit icon is present on top right
-
-  @Packages @PackageOverview
-  Scenario: Validate that Back and edit icons are present when PackagesBackFlowFromOverview is bucketed
-    Given I launch the App
-    And I set bucketing rules for A/B tests as
-      | PackagesBackFlowFromOverview | BUCKETED                                    |
-    And I launch "Bundle Deals" LOB
-    When I make a packages search with following parameters
-      | source                | sfo                                                |
-      | destination           | DET                                                |
-      | source_suggest        | San Francisco, CA                                  |
-      | destination_suggest   | Detroit, MI (DTW-Detroit Metropolitan Wayne County)|
-      | start_date            | 5                                                  |
-      | end_date              | 10                                                 |
-      | adults                | 2                                                  |
-      | child                 | 2                                                  |
-    And I select hotel at position 1 on HSR screen
-    And I store the hotel name in "varHotelName"
-    And I select first room
-    And I select outbound flight to destination at position 1
-    And I select inbound flight to source at position 1
-    And Validate that Package Overview screen is displayed
-    And Validate that back icon is present on top left
-    And Validate that edit icon is present on top right
-
-  @Packages @PackageOverview
   Scenario: Validate bundle Package Overview Screen details shows seating class
       Given I launch the App
       And I launch "Bundle Deals" LOB

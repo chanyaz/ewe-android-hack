@@ -84,20 +84,7 @@ class PackageOverviewPresenterTest {
 
     @Test
     @RunForBrands(brands = [MultiBrand.EXPEDIA])
-    fun testMenuItemsWhenBackflowIsBucketed() {
-        val testSubscriber = TestObserver.create<MultiItemApiCreateTripResponse>()
-        val packagePrice = PackageOfferModel.PackagePrice()
-        packagePrice.packageTotalPrice = Money()
-        val params = MultiItemCreateTripParams("mid_create_trip", "", "", "", "", packagePrice, "", "", 0, null, null)
-        AbacusTestUtils.bucketTests(AbacusUtils.PackagesBackFlowFromOverview)
-        setupOverviewPresenter()
-        packageServiceRule.services!!.multiItemCreateTrip(params).subscribe(testSubscriber)
-        assertEquals(overviewPresenter.bundleOverviewHeader.toolbar.menu.size(), 5)
-    }
-
-    @Test
-    @RunForBrands(brands = [MultiBrand.EXPEDIA])
-    fun testMenuItemsWhenBackflowIsControlled() {
+    fun testMenuItems() {
         val testSubscriber = TestObserver.create<MultiItemApiCreateTripResponse>()
         val packagePrice = PackageOfferModel.PackagePrice()
         packagePrice.packageTotalPrice = Money()

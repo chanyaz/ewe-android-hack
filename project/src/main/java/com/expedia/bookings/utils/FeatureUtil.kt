@@ -83,10 +83,6 @@ fun isShowSavedCoupons(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppSavedCoupons)
 }
 
-fun isBackFlowFromOverviewEnabled(context: Context): Boolean {
-    return (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.PackagesBackFlowFromOverview))
-}
-
 private fun isPackageForceUpdateEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesShowForceUpdateDialog)
 }

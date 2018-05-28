@@ -20,7 +20,6 @@ import com.expedia.bookings.data.packages.PackageCostSummaryBreakdownModel
 import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
-import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.extensions.safeSubscribeOptional
 import com.expedia.bookings.extensions.setInverseVisibility
 import com.expedia.bookings.extensions.setVisibility
@@ -40,7 +39,6 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isBackFlowFromOverviewEnabled
 import com.expedia.bookings.utils.isBetterSavingsOnRDScreenEnabledForPackages
 import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.widget.TextView
@@ -56,7 +54,6 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
     val changeHotel by lazy { bundleOverviewHeader.toolbar.menu.findItem(R.id.package_change_hotel) }
     val changeHotelRoom by lazy { bundleOverviewHeader.toolbar.menu.findItem(R.id.package_change_hotel_room) }
     val changeFlight by lazy { bundleOverviewHeader.toolbar.menu.findItem(R.id.package_change_flight) }
-    val startOver by lazy { bundleOverviewHeader.toolbar.menu.findItem(R.id.package_start_over) }
 
     val toolbarNavIcon = PublishSubject.create<ArrowXDrawableUtil.ArrowDrawableType>()
     val toolbarNavIconContDescSubject = PublishSubject.create<String>()
@@ -148,11 +145,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
                 .subscribe(bundleWidget.bundleHotelWidget.viewModel.hotelDatesGuestObservable)
 
         bundleOverviewHeader.nestedScrollView.addView(bundleWidget)
-        if (isBackFlowFromOverviewEnabled(context)) {
-            bundleOverviewHeader.toolbar.inflateMenu(R.menu.menu_package_checkout_new)
-        } else {
-            bundleOverviewHeader.toolbar.inflateMenu(R.menu.menu_package_checkout)
-        }
+        bundleOverviewHeader.toolbar.inflateMenu(R.menu.menu_package_checkout)
         bundleWidget.toggleMenuObservable.subscribe(bundleOverviewHeader.toolbar.toggleMenuObserver)
 
         getCheckoutPresenter().getCheckoutViewModel().slideToBookA11yActivateObservable.subscribe(checkoutSliderSlidObserver)
@@ -186,15 +179,6 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         } else {
             addTransition(checkoutTransition)
             addTransition(checkoutToCvv)
-        }
-
-        //govern start over menu item visibility from AB Test
-        if (isBackFlowFromOverviewEnabled(context)) {
-            startOver.setOnMenuItemClickListener({
-                showBackToSearchDialog()
-                PackagesTracking().trackBundleEditItemClick("StartOver")
-                true
-            })
         }
 
         if (isMidAPIEnabled()) {
@@ -298,18 +282,8 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         bundleWidget.viewModel.cancelSearchObservable.onNext(Unit)
 
         if (currentState == BaseTwoScreenOverviewPresenter.BundleDefault::class.java.name && bundleOverviewHeader.appBarLayout.isActivated) {
-            //Back press from overview screen
-
-            if (isBackFlowFromOverviewEnabled(context)) {
-                cancelMIDCreateTripCall()
-                checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.OTHER)
-                bundleOverviewHeader.toggleOverviewHeader(false)
-                bundleOverviewHeader.toolbar.menu.setGroupVisible(R.id.package_change_menu, false)
-                bundleWidget.viewModel.showSplitTicketMessagingObservable.onNext(false)
-            } else {
-                showBackToSearchDialog()
-                return true
-            }
+            showBackToSearchDialog()
+            return true
         }
         bundleWidget.collapseBundleWidgets()
         return super.back()
@@ -348,7 +322,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
     }
 
     override fun setToolbarNavIcon(forward: Boolean) {
-        if (forward || isBackFlowFromOverviewEnabled(context)) {
+        if (forward) {
             toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_cont_desc))
             toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.BACK)
         } else {

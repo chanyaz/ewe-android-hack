@@ -206,22 +206,6 @@ class OmnitureTrackingTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testLoggingForPackagesBackFlowABTest() {
-        AbacusTestUtils.bucketTests(AbacusUtils.PackagesBackFlowFromOverview)
-        OmnitureTracking.trackPackagesBundlePageLoad(909.12, null)
-        assertStateTracked(withProps(mapOf(34 to "16163.0.1")), mockAnalyticsProvider)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testLoggingForPackagesBackFlowABTestControlled() {
-        AbacusTestUtils.unbucketTests(AbacusUtils.PackagesBackFlowFromOverview)
-        OmnitureTracking.trackPackagesBundlePageLoad(909.12, null)
-        assertStateTracked(withProps(mapOf(34 to "16163.0.0")), mockAnalyticsProvider)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackConfirmationViewItinClick() {
         OmnitureTracking.trackConfirmationViewItinClick()
         val controlEvar = mapOf(28 to "App.CKO.Confirm.ViewItinerary")
