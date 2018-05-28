@@ -6,7 +6,7 @@
     <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ button -->
     <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Bouton Connectez-vous pour gagner {reward} en BONUS+</string>
     <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with BONUS+. By joining, I accept all Terms and Conditions. -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Je veux gagner des Rewards instantanés avec {brand_reward_currency}. En rejoignant le programme, j\&apos;accepte l\&apos;ensemble des {terms_and_conditions}.</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">Je veux gagner des Rewards instantanés avec {brand_reward_currency}. En rejoignant le programme, j\&apos;accepte l\&apos;ensemble des {terms_and_conditions_url}.</string>
 
     <!-- Bonus+ -->
     <string name="paying_with_rewards">Payer avec des BONUS+</string>
