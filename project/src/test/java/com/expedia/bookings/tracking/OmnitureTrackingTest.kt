@@ -433,6 +433,42 @@ class OmnitureTrackingTest {
                 OmnitureMatchers.withAbacusTestBucketed(AbacusUtils.HotelReviewSelectRoomCta.key)), mockAnalyticsProvider)
     }
 
+    @Test
+    fun testTrackPackageCKOSavingStripClick() {
+        OmnitureTracking.trackPackagesBundleCostBreakdownSavingsStripClick()
+        OmnitureTestUtils.assertLinkTracked("Rate Details", "App.Package.RD.SavingsStrip", mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackPackageCKOSavingButtonClick() {
+        OmnitureTracking.trackPackagesBundleCostBreakdownSavingsButtonClick()
+        OmnitureTestUtils.assertLinkTracked("Rate Details", "App.Package.RD.SavingsButton", mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackPackageCKOInfoIconClick() {
+        OmnitureTracking.trackPackagesBundleCostBreakdownInfoIconClick()
+        OmnitureTestUtils.assertLinkTracked("Rate Details", "App.Package.RD.InfoIcon", mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackPackageCKOBundlePriceClick() {
+        OmnitureTracking.trackPackagesBundleCostBreakdownBundlePriceClick()
+        OmnitureTestUtils.assertLinkTracked("Rate Details", "App.Package.RD.BundlePrice", mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackPackageCKOBundleWidgetClickWhenSSST() {
+        OmnitureTracking.trackPackagesBundleCostBreakdownBundleWidgetClick(true)
+        OmnitureTestUtils.assertLinkTracked("Rate Details", "App.Package.RD.BundleWidget.SSST", mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackPackageCKOBundleWidgetClickWhenSSSF() {
+        OmnitureTracking.trackPackagesBundleCostBreakdownBundleWidgetClick(false)
+        OmnitureTestUtils.assertLinkTracked("Rate Details", "App.Package.RD.BundleWidget.SSSF", mockAnalyticsProvider)
+    }
+
     private fun givenUserIsSignedIn() {
         val user = UserLoginTestUtil.mockUser()
         user.primaryTraveler.email = USER_EMAIL

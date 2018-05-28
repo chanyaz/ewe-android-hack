@@ -51,6 +51,7 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
 
     val betterSavingContainer: View by bindView(R.id.better_saving_container)
     val betterSavingView: TextView by bindView(R.id.better_saving_view)
+    val priceAndSavingContainer: View by bindView(R.id.price_and_saving_container)
 
     val eval: ArgbEvaluator = ArgbEvaluator()
     val titleTextFade = TransitionElement(ContextCompat.getColor(context, R.color.packages_bundle_overview_footer_primary_text), Color.WHITE)
@@ -77,7 +78,7 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         vm.pricePerPersonObservable.subscribeText(bundleTotalPrice)
         vm.savingsPriceObservable.subscribeTextAndVisibility(bundleSavings)
         vm.savings.map { it.formattedMoneyFromAmountAndCurrencyCode }.subscribeText(betterSavingView)
-        vm.shouldShowSavings.subscribeVisibility(bundleReferenceTotalPrice)
+        vm.shouldShowSavings.filter { isBetterSavingsOnRDScreenEnabledForPackages(context) }.subscribeVisibility(bundleReferenceTotalPrice)
         vm.referenceTotalPrice.map { it.formattedMoneyFromAmountAndCurrencyCode }.subscribeText(bundleReferenceTotalPrice)
         vm.bundleTextLabelObservable.subscribeText(bundleTotalText)
         vm.perPersonTextLabelObservable.subscribeVisibility(perPersonText)
@@ -109,12 +110,34 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         orientation = VERTICAL
         rotateChevron(true)
 
+        betterSavingContainer.setOnClickListener {
+            setupPriceWidgetEventAndShowCostSummary(BaseTotalPriceWidgetViewModel.PriceWidgetEvent.SAVINGS_STRIP_CLICK)
+        }
+        betterSavingView.setOnClickListener {
+            setupPriceWidgetEventAndShowCostSummary(BaseTotalPriceWidgetViewModel.PriceWidgetEvent.SAVINGS_BUTTON_CLICK)
+        }
+        bundleTotalText.setOnClickListener {
+            setupPriceWidgetEventAndShowCostSummary(BaseTotalPriceWidgetViewModel.PriceWidgetEvent.INFO_ICON_CLICK)
+        }
+        bundleTotalIncludes.setOnClickListener {
+            setupPriceWidgetEventAndShowCostSummary(BaseTotalPriceWidgetViewModel.PriceWidgetEvent.INFO_ICON_CLICK)
+        }
+        priceAndSavingContainer.setOnClickListener {
+            setupPriceWidgetEventAndShowCostSummary(BaseTotalPriceWidgetViewModel.PriceWidgetEvent.BUNDLE_PRICE_CLICK)
+        }
+
         this.setOnClickListener {
-            // We want to show cost breakdown ONLY in checkout screen. We set the rightDrawable only when createTrip returns. So let's check
-            if (bundleTotalText.compoundDrawables[2] != null) {
-                dialog.show()
-                breakdown.viewmodel.trackBreakDownClicked()
-            }
+            setupPriceWidgetEventAndShowCostSummary(BaseTotalPriceWidgetViewModel.PriceWidgetEvent.BUNDLE_WIDGET_CLICK)
+        }
+    }
+
+    private fun setupPriceWidgetEventAndShowCostSummary(event: BaseTotalPriceWidgetViewModel.PriceWidgetEvent) {
+        viewModel.priceWidgetClick.onNext(event)
+
+        // We want to show cost breakdown ONLY in checkout screen. We set the rightDrawable only when createTrip returns. So let's check
+        if (bundleTotalText.compoundDrawables[2] != null) {
+            dialog.show()
+            breakdown.viewmodel.trackBreakDownClicked()
         }
     }
 

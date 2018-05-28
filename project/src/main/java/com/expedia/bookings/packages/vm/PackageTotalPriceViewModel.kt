@@ -3,8 +3,12 @@ package com.expedia.bookings.packages.vm
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.extensions.withLatestFrom
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.utils.isBetterSavingsOnRDScreenEnabledForPackages
+import com.expedia.vm.BaseTotalPriceWidgetViewModel
 import com.squareup.phrase.Phrase
 
 class PackageTotalPriceViewModel(context: Context, isSlidable: Boolean = false) : AbstractUniversalCKOTotalPriceViewModel(context, isSlidable) {
@@ -40,5 +44,20 @@ class PackageTotalPriceViewModel(context: Context, isSlidable: Boolean = false) 
 
     override fun shouldShowTotalPriceLoadingProgress(): Boolean {
         return false
+    }
+
+    init {
+        priceWidgetClick.withLatestFrom(shouldShowSavings, { event, shouldShowSavings ->
+            object {
+                val event = event
+                val shouldShowSavings = shouldShowSavings
+            }
+        }).subscribe {
+            if (isBetterSavingsOnRDScreenEnabledForPackages(context) && it.shouldShowSavings) {
+                PackagesTracking().trackBundleOverviewTotalPriceWidgetClick(it.event, true)
+            } else {
+                PackagesTracking().trackBundleOverviewTotalPriceWidgetClick(BaseTotalPriceWidgetViewModel.PriceWidgetEvent.BUNDLE_WIDGET_CLICK, it.shouldShowSavings)
+            }
+        }
     }
 }

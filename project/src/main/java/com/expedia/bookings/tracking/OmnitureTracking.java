@@ -4567,7 +4567,12 @@ public class OmnitureTracking {
 	private static final String PACKAGES_BUNDLE_VIEW_TAP = "App.Package.BundleWidget.Tap";
 	private static final String PACKAGES_BUNDLE_OVERVIEW_LOAD = "App.Package.RateDetails";
 	private static final String PACKAGES_BUNDLE_OVERVIEW_PRODUCT_EXPAND_TEMPLATE = "App.Package.RD.Details.";
-	private static final String PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN = "App.Package.RD.TotalCost";
+	private static final String PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN_SAVINGS_STRIP_CLICK = "App.Package.RD.SavingsStrip";
+	private static final String PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN_SAVINGS_BUTTON_CLICK = "App.Package.RD.SavingsButton";
+	private static final String PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN_INFO_ICON_CLICK = "App.Package.RD.InfoIcon";
+	private static final String PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN_BUNDLE_PRICE_CLICK = "App.Package.RD.BundlePrice";
+	private static final String PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN_BUNDLE_WIDGET_CLICK_TEMPLATE = "App.Package.RD.BundleWidget.";
+
 	private static final String PACKAGES_BUNDLE_EDIT = "App.Package.RD.Edit";
 
 	private static final String PACKAGES_FLIGHT_BAGGAGE_FEE_CLICK = "App.Package.Flight.Search.BaggageFee";
@@ -5037,8 +5042,26 @@ public class OmnitureTracking {
 		createAndTrackLinkEvent(link.toString(), "Rate Details");
 	}
 
-	public static void trackPackagesBundleCostBreakdownClick() {
-		createAndTrackLinkEvent(PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN, "Rate Details");
+	public static void trackPackagesBundleCostBreakdownSavingsStripClick() {
+		createAndTrackLinkEvent(PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN_SAVINGS_STRIP_CLICK, "Rate Details");
+	}
+
+	public static void trackPackagesBundleCostBreakdownSavingsButtonClick() {
+		createAndTrackLinkEvent(PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN_SAVINGS_BUTTON_CLICK, "Rate Details");
+	}
+
+	public static void trackPackagesBundleCostBreakdownInfoIconClick() {
+		createAndTrackLinkEvent(PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN_INFO_ICON_CLICK, "Rate Details");
+	}
+
+	public static void trackPackagesBundleCostBreakdownBundlePriceClick() {
+		createAndTrackLinkEvent(PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN_BUNDLE_PRICE_CLICK, "Rate Details");
+	}
+
+	public static void trackPackagesBundleCostBreakdownBundleWidgetClick(boolean shouldShowSavings) {
+		String suffix = shouldShowSavings ? "SSST" : "SSSF";
+		createAndTrackLinkEvent(PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN_BUNDLE_WIDGET_CLICK_TEMPLATE + suffix,
+			"Rate Details");
 	}
 
 	public static void trackPackagesSearchTravelerPickerChooser(String text) {

@@ -1,9 +1,9 @@
 package com.expedia.bookings.tracking
 
 import android.content.Context
-import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
@@ -23,6 +23,7 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.vm.BaseFlightFilterViewModel
+import com.expedia.vm.BaseTotalPriceWidgetViewModel
 import io.reactivex.schedulers.Schedulers
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -410,14 +411,6 @@ class PackagesTrackingTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testTrackBundleOverviewCostBreakdownClick() {
-        sut.trackBundleOverviewCostBreakdownClick()
-        val controlEvar = mapOf(28 to "App.Package.RD.TotalCost")
-        OmnitureTestUtils.assertLinkTracked("Rate Details", "App.Package.RD.TotalCost", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackSearchTravelerPickerChooserClick() {
         sut.trackSearchTravelerPickerChooserClick("Text")
         val controlEvar = mapOf(28 to "App.Package.Traveler.Text")
@@ -725,6 +718,47 @@ class PackagesTrackingTest {
         val expectedEvents = "purchase,event220,event221=0.00"
         val appState = "App.Checkout.Confirmation.Slim"
         assertMIDConfirmationTracking(appState, expectedEvars, emptyMap<Int, String>(), expectedProductNoDateFirstHalf, expectedProductSecondHalf, expectedEvents)
+    }
+
+    @Test
+    fun testTrackPackageCKOSavingStripClick() {
+        sut.trackBundleOverviewTotalPriceWidgetClick(BaseTotalPriceWidgetViewModel.PriceWidgetEvent.SAVINGS_STRIP_CLICK, true)
+        OmnitureTestUtils.assertLinkTracked("Rate Details", "App.Package.RD.SavingsStrip", mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackPackageCKOSavingButtonClick() {
+        sut.trackBundleOverviewTotalPriceWidgetClick(BaseTotalPriceWidgetViewModel.PriceWidgetEvent.SAVINGS_BUTTON_CLICK, true)
+        val controlEvar = mapOf(28 to "App.Package.RD.SavingsButton")
+        OmnitureTestUtils.assertLinkTracked("Rate Details", "App.Package.RD.SavingsButton", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackPackageCKOInfoIconClick() {
+        sut.trackBundleOverviewTotalPriceWidgetClick(BaseTotalPriceWidgetViewModel.PriceWidgetEvent.INFO_ICON_CLICK, true)
+        val controlEvar = mapOf(28 to "App.Package.RD.InfoIcon")
+        OmnitureTestUtils.assertLinkTracked("Rate Details", "App.Package.RD.InfoIcon", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackPackageCKOBundlePriceClick() {
+        sut.trackBundleOverviewTotalPriceWidgetClick(BaseTotalPriceWidgetViewModel.PriceWidgetEvent.BUNDLE_PRICE_CLICK, true)
+        val controlEvar = mapOf(28 to "App.Package.RD.BundlePrice")
+        OmnitureTestUtils.assertLinkTracked("Rate Details", "App.Package.RD.BundlePrice", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackPackageCKOBundleWidgetClickWhenSSST() {
+        sut.trackBundleOverviewTotalPriceWidgetClick(BaseTotalPriceWidgetViewModel.PriceWidgetEvent.BUNDLE_WIDGET_CLICK, true)
+        val controlEvar = mapOf(28 to "App.Package.RD.BundleWidget.SSST")
+        OmnitureTestUtils.assertLinkTracked("Rate Details", "App.Package.RD.BundleWidget.SSST", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackPackageCKOBundleWidgetClickWhenSSSF() {
+        sut.trackBundleOverviewTotalPriceWidgetClick(BaseTotalPriceWidgetViewModel.PriceWidgetEvent.BUNDLE_WIDGET_CLICK, false)
+        val controlEvar = mapOf(28 to "App.Package.RD.BundleWidget.SSSF")
+        OmnitureTestUtils.assertLinkTracked("Rate Details", "App.Package.RD.BundleWidget.SSSF", OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
     }
 
     private fun assertMIDConfirmationTracking(appState: String, expectedEvars: Map<Int, String>, expectedProps: Map<Int, String>, expectedProductNoDateFirstHalf: String, expectedProductSecondHalf: String, expectedEvents: String) {

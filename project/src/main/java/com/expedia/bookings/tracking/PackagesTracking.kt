@@ -7,10 +7,11 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
-import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.marketing.carnival.CarnivalUtils
+import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.TuneUtils
 import com.expedia.vm.BaseFlightFilterViewModel
+import com.expedia.vm.BaseTotalPriceWidgetViewModel
 
 class PackagesTracking {
 
@@ -168,10 +169,6 @@ class PackagesTracking {
         OmnitureTracking.trackPackagesBundleProductExpandClick("Flight", isExpanding)
     }
 
-    fun trackBundleOverviewCostBreakdownClick() {
-        OmnitureTracking.trackPackagesBundleCostBreakdownClick()
-    }
-
     fun trackSearchTravelerPickerChooserClick(text: String) {
         OmnitureTracking.trackPackagesSearchTravelerPickerChooser(text)
     }
@@ -309,5 +306,15 @@ class PackagesTracking {
 
     fun trackDormantUserHomeRedirect() {
         OmnitureTracking.trackPackagesDormantUserHomeRedirect()
+    }
+
+    fun trackBundleOverviewTotalPriceWidgetClick(priceWidgetEvent: BaseTotalPriceWidgetViewModel.PriceWidgetEvent, shouldShowSavings: Boolean) {
+        when (priceWidgetEvent) {
+            BaseTotalPriceWidgetViewModel.PriceWidgetEvent.SAVINGS_STRIP_CLICK -> OmnitureTracking.trackPackagesBundleCostBreakdownSavingsStripClick()
+            BaseTotalPriceWidgetViewModel.PriceWidgetEvent.SAVINGS_BUTTON_CLICK -> OmnitureTracking.trackPackagesBundleCostBreakdownSavingsButtonClick()
+            BaseTotalPriceWidgetViewModel.PriceWidgetEvent.INFO_ICON_CLICK -> OmnitureTracking.trackPackagesBundleCostBreakdownInfoIconClick()
+            BaseTotalPriceWidgetViewModel.PriceWidgetEvent.BUNDLE_PRICE_CLICK -> OmnitureTracking.trackPackagesBundleCostBreakdownBundlePriceClick()
+            BaseTotalPriceWidgetViewModel.PriceWidgetEvent.BUNDLE_WIDGET_CLICK -> OmnitureTracking.trackPackagesBundleCostBreakdownBundleWidgetClick(shouldShowSavings)
+        }
     }
 }

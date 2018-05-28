@@ -412,11 +412,11 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         searchResponse.getCurrentOfferPrice()?.let {
             val tripSavings = it.tripSavings
             totalPriceWidget.viewModel.savings.onNext(tripSavings)
+            totalPriceWidget.viewModel.shouldShowSavings.onNext(it.showTripSavings)
             if (isBetterSavingsOnRDScreenEnabledForPackages(context)) {
                 val packageReferenceTotalPrice = it.packageReferenceTotalPrice
                 val shouldShowTripSavings = it.showTripSavings
                 totalPriceWidget.viewModel.referenceTotalPrice.onNext(packageReferenceTotalPrice)
-                totalPriceWidget.viewModel.shouldShowSavings.onNext(shouldShowTripSavings)
                 if (shouldShowTripSavings) {
                     totalPriceWidget.bundleSavings.visibility = View.GONE
                     val flightPIID = Db.sharedInstance.packageParams.latestSelectedOfferInfo.flightPIID
