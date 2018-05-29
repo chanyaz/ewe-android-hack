@@ -62,7 +62,7 @@ function runUnitTests() {
         ./gradlew --no-daemon \
             "checkstyle" "ktlint" "lintExpediaDebug" \
             ":lib:mocked:mocke3:test" \
-            ":lib:AccountLib:testDebug" \
+            ":lib:AccountLib:jacocoDebug" \
             ":lib:ExpediaBookings:test" ":lib:ExpediaBookings:jacocoTestReport" \
             ":project:jacocoExpediaDebug"
         unitTestStatus=$?
