@@ -202,7 +202,8 @@ class PhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(con
     }
 
     private fun refreshFeatureConfig() {
-        SatelliteFeatureConfigManager.forceRefreshFeatureConfig(context)
+        SatelliteFeatureConfigManager.clearFeatureConfig(context)
+        SatelliteFeatureConfigManager.refreshFeatureConfig(context)
     }
 
     private fun showCollections() {

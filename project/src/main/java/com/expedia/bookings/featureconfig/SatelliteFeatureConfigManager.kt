@@ -19,20 +19,12 @@ class SatelliteFeatureConfigManager(private val sharedPreferences: SharedPrefere
         const val PREFS_FEATURE_CONFIG_LAST_UPDATED = "lastUpdated"
         const val PREFS_SUPPORTED_FEATURE_SET = "supportedFeatures"
         const val PREFS_FILE_NAME = "featureConfig"
-        private val FEATURE_CONFIG_REFRESH_TIMEOUT = TimeUnit.HOURS.toMillis(4)
-        private val FEATURE_CONFIG_VALID_TIMEOUT = TimeUnit.HOURS.toMillis(6)
+        private val FEATURE_CONFIG_VALID_TIMEOUT = TimeUnit.HOURS.toMillis(2)
 
         private var isFetchingFeatureConfig = false
 
-        @JvmStatic fun forceRefreshFeatureConfig(context: Context) {
-            clearFeatureConfig(context)
-            refreshFeatureConfigIfStale(context)
-        }
-
-        @JvmStatic fun refreshFeatureConfigIfStale(context: Context) {
-            if (shouldUpdateConfig(context)) {
-                fetchRemoteConfig(context)
-            }
+        @JvmStatic fun refreshFeatureConfig(context: Context) {
+            fetchRemoteConfig(context)
         }
 
         @JvmStatic fun isFeatureEnabled(context: Context, featureString: String): Boolean {
@@ -41,13 +33,6 @@ class SatelliteFeatureConfigManager(private val sharedPreferences: SharedPrefere
 
         @JvmStatic fun isABTestEnabled(context: Context, abacusTestId: Int): Boolean {
             return isEnabledFetchIfStale(context, abacusTestId.toString())
-        }
-
-        @VisibleForTesting
-        @JvmStatic fun shouldUpdateConfig(context: Context): Boolean {
-            val prefs = getFeatureConfigPreferences(context)
-            val timeSinceLastUpdate = System.currentTimeMillis() - prefs.getLong(PREFS_FEATURE_CONFIG_LAST_UPDATED, 0)
-            return timeSinceLastUpdate > FEATURE_CONFIG_REFRESH_TIMEOUT || timeSinceLastUpdate < 0
         }
 
         @VisibleForTesting

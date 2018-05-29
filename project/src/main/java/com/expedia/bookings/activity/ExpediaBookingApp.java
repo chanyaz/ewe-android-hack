@@ -244,6 +244,8 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 			startupTimer.addSplit("Force locale to " + locale.getLanguage());
 		}
 
+		initializeFeatureConfig();
+
 		FontCache.initialize(this);
 		startupTimer.addSplit("FontCache Init");
 
@@ -299,8 +301,6 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 			ShortcutUtils.INSTANCE.initialize(getBaseContext());
 		}
 
-		initializeFeatureConfig();
-
 		startupTimer.addSplit("feature config init");
 
 		CarnivalUtils.getInstance().initialize(this, new SharedPreferencesCarnivalProvider(this));
@@ -328,7 +328,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 	}
 
 	private void initializeFeatureConfig() {
-		SatelliteFeatureConfigManager.refreshFeatureConfigIfStale(this);
+		SatelliteFeatureConfigManager.refreshFeatureConfig(this);
 	}
 
 	private void initializePointOfSale() {

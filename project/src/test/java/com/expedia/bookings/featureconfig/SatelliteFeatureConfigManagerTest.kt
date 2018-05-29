@@ -62,12 +62,6 @@ class SatelliteFeatureConfigManagerTest {
     }
 
     @Test
-    fun testShouldNotRefreshConfigIfRecent() {
-        updateTimestamp(System.currentTimeMillis())
-        assertFalse(SatelliteFeatureConfigManager.shouldUpdateConfig(context))
-    }
-
-    @Test
     fun testConfigInvalid() {
         updateTimestamp(TimeUnit.DAYS.toMillis(1) + 60)
         assertFalse(SatelliteFeatureConfigManager.configValid(context))
@@ -77,12 +71,6 @@ class SatelliteFeatureConfigManagerTest {
     fun testConfigStillValid() {
         updateTimestamp(System.currentTimeMillis())
         assertTrue(SatelliteFeatureConfigManager.configValid(context))
-    }
-
-    @Test
-    fun testShouldRefreshConfigIfStale() {
-        updateTimestamp(TimeUnit.DAYS.toMillis(1) + 60)
-        assertTrue(SatelliteFeatureConfigManager.shouldUpdateConfig(context))
     }
 
     @Test
@@ -114,16 +102,6 @@ class SatelliteFeatureConfigManagerTest {
         assertTrue(satelliteFeatureConfigManager.isEnabled("14731"))
         assertFalse(satelliteFeatureConfigManager.isEnabled("someUnkownFeature"))
         assertFalse(satelliteFeatureConfigManager.isEnabled("123"))
-    }
-
-    @Test
-    fun testClearWillForceConfigRefresh() {
-        updateTimestamp(System.currentTimeMillis())
-        assertFalse(SatelliteFeatureConfigManager.shouldUpdateConfig(context))
-
-        clearCache()
-        assertTrue(SatelliteFeatureConfigManager.shouldUpdateConfig(context))
-        assertFalse(SatelliteFeatureConfigManager.configValid(context))
     }
 
     private fun updateTimestamp(timestamp: Long) {
