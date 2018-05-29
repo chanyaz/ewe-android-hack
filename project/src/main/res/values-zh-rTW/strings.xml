@@ -221,6 +221,18 @@
     <string name="mip_infosite_discount_TEMPLATE">現在預訂即可享最高 {discount}% 的優惠</string>
     <!-- Discount for each activity on SRP tile. Eg. -9% -->
     <string name="mip_srp_tile_discount_TEMPLATE">-{discount}%</string>
+    <!-- LX calendar tooltip bottom line after a single date is selected -->
+    <string name="lx_calendar_tooltip_bottom">選擇行程結束日期 (選填)</string>
+    <!-- LX calendar tooltip maximum days selected text after limit for maximum days selection is reached -->
+    <string name="lx_calendar_tooltip_maximum_days_limit">已達日數上限</string>
+    <!-- LX Quantity for the single day length of activity Eg. 1 Day -->
+    <string name="select_lx_trip_length_single_day">1 天</string>
+    <!-- LX Quantity for the single day length of activity Eg. 5 Days-->
+    <string name="select_lx_trip_length_multiple_days_TEMPLATE">{noofdays} 天</string>
+    <!-- LX calendar no dates selected text -->
+    <string name="select_lx_trip_start_dates">選擇行程開始日期</string>
+    <!-- When user hasn't picked trip end date, we show something like: "May 21 - Select trip end date" -->
+    <string name="select_lx_trip_end_date_TEMPLATE">{selecteddate} - 選擇行程結束日期</string>
 
     <!-- Activity details inclusions heading -->
     <string name="inclusions_activity_details">包含項目</string>
@@ -1531,6 +1543,10 @@
     <string name="itin_lx_toolbar_title_TEMPLATE">{location}的活動</string>
     <string name="itin_lx_more_info_heading">其他協助</string>
     <string name="itin_lx_more_info_subheading">客服資訊</string>
+    <!--Itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Activity address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
+    <string name="itin_lx_details_address_copy_content_description_TEMPLATE">活動地址是{address}。按一下按鈕即可複製到剪貼簿。</string>
+    <!--Activity itin manage booking call hotel button content description. Activity is the LOB. Call activity at {phonenumber}. Button (eg., Call activity at +18055437700. Button)-->
+    <string name="itin_activity_manage_booking_call_lx_button_content_description_TEMPLATE">按一下按鈕致電活動廠商，電話是{phonenumber}。</string>
     <!--LX itin redeem voucher.-->
     <string name="itin_lx_redeem_voucher">使用兌換券</string>
 
@@ -1996,15 +2012,6 @@
     <string name="trip_dates_cont_desc">旅行日期</string>
     <!-- Action mode asking users to select location -->
     <string name="search_destination">搜尋目的地</string>
-    <!-- Number of adults template -->
-    <plurals name="number_of_adults_TEMPLATE">
-        <item quantity="zero">%1$d 位成人</item>
-        <item quantity="one">%1$d 位成人</item>
-        <item quantity="two">%1$d 位成人</item>
-        <item quantity="few">%1$d 位成人</item>
-        <item quantity="many">%1$d 位成人</item>
-        <item quantity="other">%1$d 位成人</item>
-    </plurals>
     <!-- Message shown when loading AirAsia flight routes -->
     <string name="loading_air_asia_routes">正在載入 AirAsia 航線…</string>
     <!-- Message shown when we could not load the AirAsia flight routes -->
@@ -3199,8 +3206,6 @@
     <string name="packages_cancellation_policy">飯店取消規定</string>
     <!-- Cancellation policy label for packages-->
     <string name="packages_fare_information">機票價格資訊</string>
-    <!-- Insurance Information label -->
-    <string name="insurance_information">保險資訊</string>
 
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
@@ -3398,7 +3403,7 @@
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{currency}{amount}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">設定</string>
@@ -4400,16 +4405,10 @@
 
     <!-- Cost summary breakdown line item for flight insurance -->
     <string name="cost_summary_breakdown_flight_insurance">飛行保險</string>
-    <!-- Cost summary breakdown line item for a hotel + flight package -->
-    <string name="cost_summary_breakdown_hotel_flight_summary">機 + 酒</string>
     <!-- Cost summary breakdown line item for taxes and fees that are charged separately -->
     <string name="cost_summary_breakdown_taxes_fees">稅金與費用</string>
     <!-- Cost summary breakdown line item for expedia discount if applicable, e.g Expedia Discount-->
     <string name="cost_summary_breakdown_discount_TEMPLATE">{brand} 折扣</string>
-    <!-- Cost summary breakdown line item for taxes and fees that are included in the base price, e.g. Taxes &amp; Fees Included ($34.21) -->
-    <string name="cost_summary_breakdown_taxes_fees_included_TEMPLATE">含稅金與費用 ({taxes})</string>
-    <!-- Cost summary breakdown line item for savings -->
-    <string name="cost_summary_breakdown_total_savings">套裝折扣</string>
     <!-- Cost summary breakdown line item for total -->
     <string name="cost_summary_breakdown_total_due_today">今日應付金額</string>
 
@@ -4752,22 +4751,13 @@
     <!-- Content description for Checkbox types, state Unchecked -->
     <string name="accessibility_cont_desc_role_checkbox_unchecked">核取方塊。未勾選。</string>
     <string name="base_search_dates_cont_desc">選擇日期。按鈕。開啟對話方塊。</string>
-    <string name="lx_search_start_date_cont_desc">選擇開始日期。按鈕。開啟對話方塊。</string>
+    <string name="base_search_dates_button_cont_desc">選擇日期按鈕。開啟對話方塊。</string>
+    <string name="lx_search_start_date_button_cont_desc">選擇開始日期按鈕。開啟對話方塊。</string>
 
     <!-- Accessibility string, indicates the type of trip and the duration of the trip. -->
     <!-- Ex. Select Dates. Button. Opens dialog. Dec 22 to Dec 25 (3 nights) -->
     <!-- Ex 2. Select pick-up and drop-off dates. Button. Opens dialog. Jan 1 5:00 to Jan 5 18:00 -->
     <string name="search_dates_cont_desc_TEMPLATE">{dates_label}按鈕。開啟對話方塊。{duration_description}</string>
-
-    <!-- Discount amount shown with minus e.g. -$30 -->
-    <string name="discount_minus_amount">-{amount}</string>
-    <string name="local_charges_due_at_hotel">於飯店支付的當地收費</string>
-    <!-- Legal disclaimer for package resort fees (at bottom of checkout) for US eg. $150 in local taxes and/or hotel charges will be collected at the hotel. The total price for your stay will be 1050 -->
-    <string name="package_resort_fees_and_total_price_disclaimer_TEMPLATE">當地稅金和/或飯店收費 &lt;b&gt;{resort_fee}&lt;/b&gt;，必須在飯店支付。您住宿的總價為 &lt;b&gt;{trip_total}&lt;/b&gt;</string>
-    <!-- Legal disclaimer for package resort fees (at bottom of checkout) for UK eg. $150 in local taxes and/or hotel charges will be collected at the hotel in the hotel's local currency. -->
-    <string name="package_resort_fees_disclaimer_TEMPLATE">當地稅金和/或飯店收費 &lt;b&gt;{resort_fee}&lt;/b&gt;，必須在飯店以當地貨幣支付。</string>
-    <!-- Package cost summary row  e.g. 2 rooms, 1 night, 3 guests -->
-    <string name="packages_guest_room_night_TEMPLATE">{room}, {night}, {guest}</string>
     <!-- Package cost summary row snippet  e.g. 2 rooms-->
     <plurals name="number_of_room_TEMPLATE">
         <item quantity="one">{room} 間客房</item>
@@ -5078,5 +5068,6 @@
     <string name="hours_minutes_template">%1$d 小時 %2$d 分鐘</string>
     <!-- This is for a path between two cities, for example "San Francisco to Minneapolis".  First %s is the origin city, second %s is the destination city -->
     <string name="path_template">%1$s到%2$s</string>
+    <string name="book_now_savings_for_booking_together">立即預訂！同時訂即刻省</string>
 
 </resources>

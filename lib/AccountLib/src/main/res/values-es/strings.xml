@@ -50,7 +50,7 @@
 
     <!-- Welcome Screen -->
     <!-- Message displayed after a successful create account -->
-    <string name="acct__Welcome_to_brand">Bienvenido a {brand}</string>
+    <string name="acct__Welcome_to_brand">Te damos la bienvenida a {brand}</string>
 
     <!-- Local Error Messages -->
     <!-- Small red text for local email validation failure -->
@@ -144,6 +144,7 @@
     <string name="acct__single_page_sign_up_title">Crea tu cuenta gratis</string>
 
     <!--New Sign In Page-->
-    <string name="acct__new_create_account_text">Crear cuenta</string>
+    <string name="acct__new_create_account_text">Crear mi cuenta</string>
+    <string name="acct__new_create_account_tab_text">Crear cuenta</string>
     <string name="acct__new_facebook_link_accounts_text">Vincular cuentas</string>
 </resources>

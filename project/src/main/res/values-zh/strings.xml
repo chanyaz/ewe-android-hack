@@ -221,6 +221,18 @@
     <string name="mip_infosite_discount_TEMPLATE">现在预订，节省多达 {discount}%</string>
     <!-- Discount for each activity on SRP tile. Eg. -9% -->
     <string name="mip_srp_tile_discount_TEMPLATE">-{discount}%</string>
+    <!-- LX calendar tooltip bottom line after a single date is selected -->
+    <string name="lx_calendar_tooltip_bottom">选择行程结束日期（可选）</string>
+    <!-- LX calendar tooltip maximum days selected text after limit for maximum days selection is reached -->
+    <string name="lx_calendar_tooltip_maximum_days_limit">已选最多天数</string>
+    <!-- LX Quantity for the single day length of activity Eg. 1 Day -->
+    <string name="select_lx_trip_length_single_day">1 天</string>
+    <!-- LX Quantity for the single day length of activity Eg. 5 Days-->
+    <string name="select_lx_trip_length_multiple_days_TEMPLATE">{noofdays} 天</string>
+    <!-- LX calendar no dates selected text -->
+    <string name="select_lx_trip_start_dates">选择行程出发日期</string>
+    <!-- When user hasn't picked trip end date, we show something like: "May 21 - Select trip end date" -->
+    <string name="select_lx_trip_end_date_TEMPLATE">{selecteddate} - 选择行程结束日期</string>
 
     <!-- Activity details inclusions heading -->
     <string name="inclusions_activity_details">包含的项目</string>
@@ -1531,6 +1543,10 @@
     <string name="itin_lx_toolbar_title_TEMPLATE">{location}旅游活动</string>
     <string name="itin_lx_more_info_heading">更多帮助</string>
     <string name="itin_lx_more_info_subheading">客户支持信息</string>
+    <!--Itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Activity address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
+    <string name="itin_lx_details_address_copy_content_description_TEMPLATE">活动地址。{address}。点按可复制到剪切板。按钮</string>
+    <!--Activity itin manage booking call hotel button content description. Activity is the LOB. Call activity at {phonenumber}. Button (eg., Call activity at +18055437700. Button)-->
+    <string name="itin_activity_manage_booking_call_lx_button_content_description_TEMPLATE">活动联系电话：{phonenumber}。按钮</string>
     <!--LX itin redeem voucher.-->
     <string name="itin_lx_redeem_voucher">兑换优惠券</string>
 
@@ -1996,15 +2012,6 @@
     <string name="trip_dates_cont_desc">行程日期</string>
     <!-- Action mode asking users to select location -->
     <string name="search_destination">搜索目的地</string>
-    <!-- Number of adults template -->
-    <plurals name="number_of_adults_TEMPLATE">
-        <item quantity="zero">%1$d 位成人</item>
-        <item quantity="one">%1$d 位成人</item>
-        <item quantity="two">%1$d 位成人</item>
-        <item quantity="few">%1$d 位成人</item>
-        <item quantity="many">%1$d 位成人</item>
-        <item quantity="other">%1$d 位成人</item>
-    </plurals>
     <!-- Message shown when loading AirAsia flight routes -->
     <string name="loading_air_asia_routes">正在加载亚航航线…</string>
     <!-- Message shown when we could not load the AirAsia flight routes -->
@@ -3199,8 +3206,6 @@
     <string name="packages_cancellation_policy">酒店取消政策</string>
     <!-- Cancellation policy label for packages-->
     <string name="packages_fare_information">机票票价信息</string>
-    <!-- Insurance Information label -->
-    <string name="insurance_information">保险信息</string>
 
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
@@ -4399,16 +4404,10 @@
 
     <!-- Cost summary breakdown line item for flight insurance -->
     <string name="cost_summary_breakdown_flight_insurance">航班保障</string>
-    <!-- Cost summary breakdown line item for a hotel + flight package -->
-    <string name="cost_summary_breakdown_hotel_flight_summary">酒店 + 机票</string>
     <!-- Cost summary breakdown line item for taxes and fees that are charged separately -->
     <string name="cost_summary_breakdown_taxes_fees">税费</string>
     <!-- Cost summary breakdown line item for expedia discount if applicable, e.g Expedia Discount-->
     <string name="cost_summary_breakdown_discount_TEMPLATE">{brand} 折扣</string>
-    <!-- Cost summary breakdown line item for taxes and fees that are included in the base price, e.g. Taxes &amp; Fees Included ($34.21) -->
-    <string name="cost_summary_breakdown_taxes_fees_included_TEMPLATE">含税费 ({taxes})</string>
-    <!-- Cost summary breakdown line item for savings -->
-    <string name="cost_summary_breakdown_total_savings">打包折扣</string>
     <!-- Cost summary breakdown line item for total -->
     <string name="cost_summary_breakdown_total_due_today">今天应付总额</string>
 
@@ -4751,22 +4750,13 @@
     <!-- Content description for Checkbox types, state Unchecked -->
     <string name="accessibility_cont_desc_role_checkbox_unchecked">复选框。取消选中。</string>
     <string name="base_search_dates_cont_desc">选择日期。按钮。打开对话框</string>
-    <string name="lx_search_start_date_cont_desc">选择出发日期。按钮。打开对话框</string>
+    <string name="base_search_dates_button_cont_desc">选择日期按钮。打开对话框。</string>
+    <string name="lx_search_start_date_button_cont_desc">选择出发日期按钮。打开对话框。</string>
 
     <!-- Accessibility string, indicates the type of trip and the duration of the trip. -->
     <!-- Ex. Select Dates. Button. Opens dialog. Dec 22 to Dec 25 (3 nights) -->
     <!-- Ex 2. Select pick-up and drop-off dates. Button. Opens dialog. Jan 1 5:00 to Jan 5 18:00 -->
     <string name="search_dates_cont_desc_TEMPLATE">{dates_label}按钮。打开对话框。{duration_description}</string>
-
-    <!-- Discount amount shown with minus e.g. -$30 -->
-    <string name="discount_minus_amount">-{amount}</string>
-    <string name="local_charges_due_at_hotel">在酒店支付的本地费用</string>
-    <!-- Legal disclaimer for package resort fees (at bottom of checkout) for US eg. $150 in local taxes and/or hotel charges will be collected at the hotel. The total price for your stay will be 1050 -->
-    <string name="package_resort_fees_and_total_price_disclaimer_TEMPLATE">&lt;b&gt;{resort_fee}&lt;/b&gt; 的地方税款和/或酒店收费将在到店时付款。您住宿的&lt;b&gt;总额为 {trip_total}&lt;/b&gt;</string>
-    <!-- Legal disclaimer for package resort fees (at bottom of checkout) for UK eg. $150 in local taxes and/or hotel charges will be collected at the hotel in the hotel's local currency. -->
-    <string name="package_resort_fees_disclaimer_TEMPLATE">&lt;b&gt;{resort_fee}&lt;/b&gt; 的地方税款和/或酒店收费将使用酒店的当地货币，在到店时付款。</string>
-    <!-- Package cost summary row  e.g. 2 rooms, 1 night, 3 guests -->
-    <string name="packages_guest_room_night_TEMPLATE">{room}, {night}, {guest}</string>
     <!-- Package cost summary row snippet  e.g. 2 rooms-->
     <plurals name="number_of_room_TEMPLATE">
         <item quantity="one">{room} 间房</item>
@@ -5077,5 +5067,6 @@
     <string name="hours_minutes_template">%1$d小时%2$d分</string>
     <!-- This is for a path between two cities, for example "San Francisco to Minneapolis".  First %s is the origin city, second %s is the destination city -->
     <string name="path_template">%1$s到%2$s</string>
+    <string name="book_now_savings_for_booking_together">立即预订！一起订，享优惠</string>
 
 </resources>

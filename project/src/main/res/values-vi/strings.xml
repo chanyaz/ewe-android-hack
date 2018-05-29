@@ -221,6 +221,18 @@
     <string name="mip_infosite_discount_TEMPLATE">Đặt và hưởng ưu đãi giảm đến {discount}%</string>
     <!-- Discount for each activity on SRP tile. Eg. -9% -->
     <string name="mip_srp_tile_discount_TEMPLATE">-{discount}%</string>
+    <!-- LX calendar tooltip bottom line after a single date is selected -->
+    <string name="lx_calendar_tooltip_bottom">Chọn ngày kết thúc (tùy chọn)</string>
+    <!-- LX calendar tooltip maximum days selected text after limit for maximum days selection is reached -->
+    <string name="lx_calendar_tooltip_maximum_days_limit">Đã chọn số ngày tối đa</string>
+    <!-- LX Quantity for the single day length of activity Eg. 1 Day -->
+    <string name="select_lx_trip_length_single_day">1 ngày</string>
+    <!-- LX Quantity for the single day length of activity Eg. 5 Days-->
+    <string name="select_lx_trip_length_multiple_days_TEMPLATE">{noofdays} ngày</string>
+    <!-- LX calendar no dates selected text -->
+    <string name="select_lx_trip_start_dates">Chọn ngày bắt đầu</string>
+    <!-- When user hasn't picked trip end date, we show something like: "May 21 - Select trip end date" -->
+    <string name="select_lx_trip_end_date_TEMPLATE">{selecteddate} - Chọn ngày kết thúc</string>
 
     <!-- Activity details inclusions heading -->
     <string name="inclusions_activity_details">Bao gồm</string>
@@ -1531,6 +1543,10 @@
     <string name="itin_lx_toolbar_title_TEMPLATE">Hoạt động ở {location}</string>
     <string name="itin_lx_more_info_heading">Trợ giúp thêm</string>
     <string name="itin_lx_more_info_subheading">Thông tin hỗ trợ khách hàng</string>
+    <!--Itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Activity address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
+    <string name="itin_lx_details_address_copy_content_description_TEMPLATE">Địa chỉ Hoạt động. {address}. Bấm để chép vào bộ nhớ đệm. Nút</string>
+    <!--Activity itin manage booking call hotel button content description. Activity is the LOB. Call activity at {phonenumber}. Button (eg., Call activity at +18055437700. Button)-->
+    <string name="itin_activity_manage_booking_call_lx_button_content_description_TEMPLATE">Liên hệ với Hoạt động tại số {phonenumber}. Nút</string>
     <!--LX itin redeem voucher.-->
     <string name="itin_lx_redeem_voucher">Đổi voucher</string>
 
@@ -1996,15 +2012,6 @@
     <string name="trip_dates_cont_desc">Ngày chuyến đi</string>
     <!-- Action mode asking users to select location -->
     <string name="search_destination">Tìm điểm đến</string>
-    <!-- Number of adults template -->
-    <plurals name="number_of_adults_TEMPLATE">
-        <item quantity="zero">%1$d người lớn</item>
-        <item quantity="one">%1$d người lớn</item>
-        <item quantity="two">%1$d người lớn</item>
-        <item quantity="few">%1$d người lớn</item>
-        <item quantity="many">%1$d người lớn</item>
-        <item quantity="other">%1$d người lớn</item>
-    </plurals>
     <!-- Message shown when loading AirAsia flight routes -->
     <string name="loading_air_asia_routes">Đang tải các tuyến bay của AirAsia…</string>
     <!-- Message shown when we could not load the AirAsia flight routes -->
@@ -3199,8 +3206,6 @@
     <string name="packages_cancellation_policy">Chính sách hủy của khách sạn</string>
     <!-- Cancellation policy label for packages-->
     <string name="packages_fare_information">Thông tin giá vé</string>
-    <!-- Insurance Information label -->
-    <string name="insurance_information">Thông tin bảo hiểm</string>
 
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
@@ -4399,16 +4404,10 @@
 
     <!-- Cost summary breakdown line item for flight insurance -->
     <string name="cost_summary_breakdown_flight_insurance">Bảo hiểm chuyến bay</string>
-    <!-- Cost summary breakdown line item for a hotel + flight package -->
-    <string name="cost_summary_breakdown_hotel_flight_summary">Khách sạn + Chuyến bay</string>
     <!-- Cost summary breakdown line item for taxes and fees that are charged separately -->
     <string name="cost_summary_breakdown_taxes_fees">Thuế &amp; Phí</string>
     <!-- Cost summary breakdown line item for expedia discount if applicable, e.g Expedia Discount-->
     <string name="cost_summary_breakdown_discount_TEMPLATE">Giảm giá {brand}</string>
-    <!-- Cost summary breakdown line item for taxes and fees that are included in the base price, e.g. Taxes &amp; Fees Included ($34.21) -->
-    <string name="cost_summary_breakdown_taxes_fees_included_TEMPLATE">Gồm thuế &amp; phí ({taxes})</string>
-    <!-- Cost summary breakdown line item for savings -->
-    <string name="cost_summary_breakdown_total_savings">Giảm giá gói</string>
     <!-- Cost summary breakdown line item for total -->
     <string name="cost_summary_breakdown_total_due_today">Tổng số tiền phải thanh toán hôm nay</string>
 
@@ -4751,22 +4750,13 @@
     <!-- Content description for Checkbox types, state Unchecked -->
     <string name="accessibility_cont_desc_role_checkbox_unchecked">Ô chọn. Bỏ chọn.</string>
     <string name="base_search_dates_cont_desc">Chọn ngày. Nút. Mở hộp thoại</string>
-    <string name="lx_search_start_date_cont_desc">Chọn ngày bắt đầu. Nút. Mở hộp thoại</string>
+    <string name="base_search_dates_button_cont_desc">Nút chọn ngày. Mở hộp thoại.</string>
+    <string name="lx_search_start_date_button_cont_desc">Nút chọn ngày bắt đầu. Mở hộp thoại.</string>
 
     <!-- Accessibility string, indicates the type of trip and the duration of the trip. -->
     <!-- Ex. Select Dates. Button. Opens dialog. Dec 22 to Dec 25 (3 nights) -->
     <!-- Ex 2. Select pick-up and drop-off dates. Button. Opens dialog. Jan 1 5:00 to Jan 5 18:00 -->
     <string name="search_dates_cont_desc_TEMPLATE">Nút {dates_label}. Mở hộp thoại. {duration_description}</string>
-
-    <!-- Discount amount shown with minus e.g. -$30 -->
-    <string name="discount_minus_amount">-{amount}</string>
-    <string name="local_charges_due_at_hotel">Phí địa phương, khách sạn thu</string>
-    <!-- Legal disclaimer for package resort fees (at bottom of checkout) for US eg. $150 in local taxes and/or hotel charges will be collected at the hotel. The total price for your stay will be 1050 -->
-    <string name="package_resort_fees_and_total_price_disclaimer_TEMPLATE">&lt;b&gt;{resort_fee}&lt;/b&gt; thuế địa phương và/hoặc phí khách sạn sẽ được thu tại khách sạn. Tổng giá &lt;b&gt;chuyến đi là {trip_total}&lt;/b&gt;</string>
-    <!-- Legal disclaimer for package resort fees (at bottom of checkout) for UK eg. $150 in local taxes and/or hotel charges will be collected at the hotel in the hotel's local currency. -->
-    <string name="package_resort_fees_disclaimer_TEMPLATE">&lt;b&gt;{resort_fee}&lt;/b&gt; thuế địa phương và/hoặc phí khách sạn sẽ được thu tại khách sạn, bằng loại tiền tệ địa phương khách sạn.</string>
-    <!-- Package cost summary row  e.g. 2 rooms, 1 night, 3 guests -->
-    <string name="packages_guest_room_night_TEMPLATE">{room}, {night}, {guest}</string>
     <!-- Package cost summary row snippet  e.g. 2 rooms-->
     <plurals name="number_of_room_TEMPLATE">
         <item quantity="one">{room} phòng</item>
@@ -5077,5 +5067,6 @@
     <string name="hours_minutes_template">%1$dg %2$dp</string>
     <!-- This is for a path between two cities, for example "San Francisco to Minneapolis".  First %s is the origin city, second %s is the destination city -->
     <string name="path_template">%1$s đến %2$s</string>
+    <string name="book_now_savings_for_booking_together">Đặt ngay! Tiết kiệm hơn khi đặt cùng lúc</string>
 
 </resources>
