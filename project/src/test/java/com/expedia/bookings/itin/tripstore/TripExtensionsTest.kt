@@ -5,6 +5,7 @@ import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinDetailsResponse
 import com.expedia.bookings.itin.tripstore.data.ItinHotel
 import com.expedia.bookings.itin.tripstore.data.ItinLx
+import com.expedia.bookings.itin.tripstore.extensions.TripProducts
 import com.expedia.bookings.itin.tripstore.extensions.eligibleForRewards
 import com.expedia.bookings.itin.tripstore.extensions.firstHotel
 import com.expedia.bookings.itin.tripstore.extensions.firstLx
@@ -124,6 +125,29 @@ class TripExtensionsTest {
 
         val packageEmptyItin = ItinMocker.packageEmpty
         assertTrue(packageEmptyItin.isPackage())
+    }
+
+    @Test
+    fun testMakeListOfTripProducts() {
+        val packageItin = ItinMocker.hotelPackageHappy
+        val packageProducts = packageItin.packages?.first()!!.listOfTripProducts()
+        assertTrue(packageProducts.isNotEmpty())
+        assertTrue(packageProducts.containsAll(listOf(TripProducts.FLIGHT, TripProducts.HOTEL)))
+
+        val hotelStandaloneItin = ItinMocker.hotelDetailsHappy
+        val hotelProducts = hotelStandaloneItin.listOfTripProducts()
+        assertTrue(hotelProducts.isNotEmpty())
+        assertTrue(hotelProducts.containsAll(listOf(TripProducts.HOTEL)))
+
+        val multiItemCheckoutItin = ItinMocker.mickoHotelHappy
+        val mickoProducts = multiItemCheckoutItin.listOfTripProducts()
+        assertTrue(mickoProducts.isNotEmpty())
+        assertTrue(mickoProducts.containsAll(listOf(TripProducts.HOTEL, TripProducts.FLIGHT)))
+
+        val multiHotelItin = ItinMocker.mickoMultiHotel
+        val multiHotelProducts = multiHotelItin.listOfTripProducts()
+        assertTrue(multiHotelProducts.isNotEmpty())
+        assertTrue(multiHotelProducts.containsAll(listOf(TripProducts.HOTEL)))
     }
 
     private fun makeItinHotel(mockName: String): ItinHotel? {

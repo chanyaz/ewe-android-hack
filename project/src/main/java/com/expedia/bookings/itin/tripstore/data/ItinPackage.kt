@@ -1,17 +1,19 @@
 package com.expedia.bookings.itin.tripstore.data
 
+import com.expedia.bookings.itin.tripstore.extensions.HasProducts
+
 data class ItinPackage(
         val uniqueID: String?,
-        val hotels: List<ItinHotel>?,
-        val flights: List<ItinFlight>?,
-        val cars: List<ItinCar>?,
-        val activities: List<ItinLx>?,
-        val cruises: List<ItinCruise>?,
-        val rails: List<ItinRail>?,
+        override val hotels: List<ItinHotel>?,
+        override val flights: List<ItinFlight>?,
+        override val cars: List<ItinCar>?,
+        override val activities: List<ItinLx>?,
+        override val cruises: List<ItinCruise>?,
+        override val rails: List<ItinRail>?,
         val price: Price?
-)
+) : HasProducts
 
 data class Price(
-        val subTotalFormatted: String,
+        val subTotalFormatted: String?,
         val totalFormatted: String?
 )

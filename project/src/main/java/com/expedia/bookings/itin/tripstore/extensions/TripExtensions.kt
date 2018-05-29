@@ -1,10 +1,35 @@
 package com.expedia.bookings.itin.tripstore.extensions
 
 import com.expedia.bookings.itin.tripstore.data.Itin
+import com.expedia.bookings.itin.tripstore.data.ItinCar
+import com.expedia.bookings.itin.tripstore.data.ItinCruise
+import com.expedia.bookings.itin.tripstore.data.ItinFlight
 import com.expedia.bookings.itin.tripstore.data.ItinHotel
 import com.expedia.bookings.itin.tripstore.data.ItinLx
+import com.expedia.bookings.itin.tripstore.data.ItinRail
 import com.expedia.bookings.utils.JodaUtils
 import org.joda.time.DateTime
+
+//interface to treat contents of Itin and ItinPackage to be the same
+interface HasProducts {
+    val hotels: List<ItinHotel>?
+    val flights: List<ItinFlight>?
+    val activities: List<ItinLx>?
+    val cars: List<ItinCar>?
+    val cruises: List<ItinCruise>?
+    val rails: List<ItinRail>?
+    fun listOfTripProducts(): List<TripProducts> = makeListOfTripProducts(this)
+}
+
+//enum representing the various products available in an itin
+enum class TripProducts {
+    HOTEL,
+    FLIGHT,
+    CAR,
+    ACTIVITY,
+    RAIL,
+    CRUISE
+}
 
 fun Itin.firstHotel(): ItinHotel? {
     val packageHotels = packages?.firstOrNull()?.hotels ?: emptyList()
@@ -56,4 +81,19 @@ fun Itin.eligibleForRewards(): Boolean {
 
 fun Itin.packagePrice(): String? {
     return packages?.firstOrNull()?.price?.totalFormatted
+}
+
+fun makeListOfTripProducts(productsContainer: HasProducts): List<TripProducts> {
+    val productList = mutableListOf<TripProducts>()
+    if (productsContainer.hotels.hasItems()) productList.add(TripProducts.HOTEL)
+    if (productsContainer.flights.hasItems()) productList.add(TripProducts.FLIGHT)
+    if (productsContainer.cars.hasItems()) productList.add(TripProducts.CAR)
+    if (productsContainer.activities.hasItems()) productList.add(TripProducts.ACTIVITY)
+    if (productsContainer.rails.hasItems()) productList.add(TripProducts.RAIL)
+    if (productsContainer.cruises.hasItems()) productList.add(TripProducts.CRUISE)
+    return productList
+}
+
+private fun List<Any>?.hasItems(): Boolean {
+    return this.orEmpty().isNotEmpty()
 }
