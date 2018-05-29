@@ -12,6 +12,7 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import com.squareup.phrase.Phrase
+import kotlinx.android.synthetic.main.widget_itin_more_help.view.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -44,8 +45,9 @@ class HotelItinManageRoomWidgetTest {
 
         assertEquals("Deluxe Room, 1 King Bed, 1 king bed", manageRoomWidget.roomDetailsView.roomDetailsText.text)
         assertEquals(View.VISIBLE, manageRoomWidget.roomDetailsView.expandedRoomDetails.visibility)
-        assertEquals(View.VISIBLE, manageRoomWidget.hotelManageBookingHelpView.hotelConfirmationNumber.visibility)
-        assertEquals("Confirmation # 12345", manageRoomWidget.hotelManageBookingHelpView.hotelConfirmationNumber.text)
+        assertEquals(View.VISIBLE, manageRoomWidget.hotelManageBookingHelpView.confirmationTitle.visibility)
+        assertEquals("Confirmation #", manageRoomWidget.hotelManageBookingHelpView.confirmation_text.text)
+        assertEquals("12345", manageRoomWidget.hotelManageBookingHelpView.confirmationNumber.text.toString())
     }
 
     @Test
@@ -61,9 +63,9 @@ class HotelItinManageRoomWidgetTest {
         val itinCardDataHotel = ItinCardDataHotelBuilder().build()
         manageRoomViewModel.itinCardDataHotelSubject.onNext(itinCardDataHotel)
 
-        assertEquals(Phrase.from(activity, R.string.itin_hotel_manage_booking_hotel_help_text_TEMPLATE)
-                .put("hotelname", itinCardDataHotel.propertyName).format().toString(), manageRoomWidget.hotelManageBookingHelpView.helpText.text)
-        assertEquals(itinCardDataHotel.localPhone, manageRoomWidget.hotelManageBookingHelpView.callHotelButton.text)
+        assertEquals(Phrase.from(activity, R.string.itin_more_help_text_TEMPLATE)
+                .put("supplier", itinCardDataHotel.propertyName).format().toString(), manageRoomWidget.hotelManageBookingHelpView.helpText.text)
+        assertEquals(itinCardDataHotel.localPhone, manageRoomWidget.hotelManageBookingHelpView.callHotelButton.text.toString())
         assertEquals("Call hotel at " + itinCardDataHotel.localPhone + ". Button", manageRoomWidget.hotelManageBookingHelpView.callHotelButton.contentDescription)
 
         val customerSupportHeaderText = Phrase.from(activity, R.string.itin_hotel_customer_support_header_text_TEMPLATE).put("brand", BuildConfig.brand).format().toString()

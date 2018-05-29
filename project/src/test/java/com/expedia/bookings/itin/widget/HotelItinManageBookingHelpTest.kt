@@ -1,21 +1,25 @@
 package com.expedia.bookings.itin.widget
 
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
-import com.expedia.bookings.analytics.OmnitureTestUtils
+import com.expedia.account.BuildConfig
 import com.expedia.bookings.R
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.itin.hotel.manageBooking.HotelItinManageBookingActivity
 import com.expedia.bookings.itin.hotel.manageBooking.HotelItinManageBookingHelp
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.ClipboardUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import com.squareup.phrase.Phrase
-import kotlinx.android.synthetic.main.widget_hotel_itin_manage_booking_help.view.itin_hotel_manage_booking_message_hotel
+import kotlinx.android.synthetic.main.widget_itin_more_help.view.itin_hotel_manage_booking_message_hotel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.annotation.Config
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -32,14 +36,14 @@ class HotelItinManageBookingHelpTest {
     }
 
     @Test
-    fun testItinHotelManageBookingHelpWidget() {
+    fun testCallHotel() {
         val itinCardDataHotel = ItinCardDataHotelBuilder().build()
         val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         manageBookingHelpWidget.setUpWidget(itinCardDataHotel)
 
-        assertEquals(Phrase.from(activity, R.string.itin_hotel_manage_booking_hotel_help_text_TEMPLATE)
-                .put("hotelname", itinCardDataHotel.propertyName).format().toString(), manageBookingHelpWidget.helpText.text)
-        assertEquals(itinCardDataHotel.localPhone, manageBookingHelpWidget.callHotelButton.text)
+        assertEquals(Phrase.from(activity, R.string.itin_more_help_text_TEMPLATE)
+                .put("supplier", itinCardDataHotel.propertyName).format().toString(), manageBookingHelpWidget.helpText.text)
+        assertEquals(itinCardDataHotel.localPhone, manageBookingHelpWidget.callHotelButton.text.toString())
         assertEquals("Call hotel at " + itinCardDataHotel.localPhone + ". Button", manageBookingHelpWidget.callHotelButton.contentDescription)
 
         manageBookingHelpWidget.callHotelButton.performClick()
@@ -47,19 +51,13 @@ class HotelItinManageBookingHelpTest {
     }
 
     @Test
-    fun testShowConfirmationNumberIfAvailable() {
-        var confirmationNumber = ""
-        manageBookingHelpWidget.showConfirmationNumberIfAvailable(confirmationNumber)
-        assertEquals(View.GONE, manageBookingHelpWidget.hotelConfirmationNumber.visibility)
+    fun testCallHotelTextViewGetsFocusedOnTouch() {
+        val itinCardDataHotel = ItinCardDataHotelBuilder().build()
+        manageBookingHelpWidget.setUpWidget(itinCardDataHotel)
 
-        confirmationNumber = "12345"
-        manageBookingHelpWidget.showConfirmationNumberIfAvailable(confirmationNumber)
-        assertEquals("Confirmation # 12345", manageBookingHelpWidget.hotelConfirmationNumber.text)
-        assertEquals("Confirmation number 1 2 3 4 5 . Click to copy", manageBookingHelpWidget.hotelConfirmationNumber.contentDescription)
-
-        manageBookingHelpWidget.hotelConfirmationNumber.performClick()
-        assertTrue(ClipboardUtils.hasText(activity))
-        assertEquals("12345", ClipboardUtils.getText(activity))
+        val touchEvent = MotionEvent.obtain(0, 0, MotionEvent.ACTION_DOWN, 0f, 0f, 0)
+        manageBookingHelpWidget.callHotelButton.dispatchTouchEvent(touchEvent)
+        assertTrue(manageBookingHelpWidget.callHotelButton.hasFocus())
     }
 
     @Test
@@ -85,5 +83,32 @@ class HotelItinManageBookingHelpTest {
         assertEquals(messageHotelWidget.visibility, View.GONE)
         messageHotelWidget.performClick()
         OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testSelectionToolbarCallButtonClicked() {
+        val mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        val itinCardDataHotel = ItinCardDataHotelBuilder().build()
+        manageBookingHelpWidget.setUpWidget(itinCardDataHotel)
+        activity.menuInflater.inflate(R.menu.test_menu, activity.toolbar.menu)
+        activity.toolbar.menu.add(0, android.R.id.textAssist, 0, "")
+        val menuItem = activity.toolbar.menu.findItem(android.R.id.textAssist)
+
+        manageBookingHelpWidget.callHotelButton.customSelectionActionModeCallback.onActionItemClicked(null, menuItem)
+        OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Hotel.Manage.Call.Hotel", mockAnalyticsProvider)
+    }
+
+    @Test
+    @Config(constants = BuildConfig::class, sdk = intArrayOf(26))
+    fun testSelectingConfirmationNumberRemovesPhoneButtonInActionToolbar() {
+        val itinCardDataHotel = ItinCardDataHotelBuilder().build()
+        manageBookingHelpWidget.setUpWidget(itinCardDataHotel)
+
+        activity.menuInflater.inflate(R.menu.test_menu, activity.toolbar.menu)
+        activity.toolbar.menu.add(0, android.R.id.textAssist, 0, "")
+        assertNotNull(activity.toolbar.menu.findItem(android.R.id.textAssist))
+
+        manageBookingHelpWidget.confirmationNumber.customSelectionActionModeCallback.onPrepareActionMode(null, activity.toolbar.menu)
+        assertNull(activity.toolbar.menu.findItem(android.R.id.textAssist))
     }
 }
