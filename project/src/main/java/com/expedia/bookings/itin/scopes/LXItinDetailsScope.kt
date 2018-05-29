@@ -49,7 +49,8 @@ class PriceSummaryCardScope(override val strings: StringSource,
                             override val itinLxRepo: ItinLxRepoInterface) : HasStringProvider, HasWebViewLauncher, HasLxRepo
 
 class StringsActivityScope(override val strings: StringSource,
-                           override val activityLauncher: IActivityLauncher) : HasStringProvider, HasActivityLauncher
+                           override val activityLauncher: IActivityLauncher,
+                           override val itinLxRepo: ItinLxRepoInterface) : HasStringProvider, HasActivityLauncher, HasLxRepo
 
 data class LxItinManageBookingWidgetScope(override val strings: StringSource,
                                           override val webViewLauncher: IWebViewLauncher,
@@ -75,3 +76,8 @@ data class LxItinImageViewModelScope(
         override val lifecycleOwner: LifecycleOwner,
         override val itinLxRepo: ItinLxRepoInterface
 ) : HasLxRepo, HasLifecycleOwner
+
+data class LxItinMoreHelpViewModelScope(override val strings: StringSource,
+                                        override val itinLxRepo: ItinLxRepoInterface,
+                                        override val lifecycleOwner: LifecycleOwner,
+                                        override val tripsTracking: ITripsTracking) : HasLxRepo, HasStringProvider, HasLifecycleOwner, HasTripsTracking

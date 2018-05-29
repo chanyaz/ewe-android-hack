@@ -234,6 +234,14 @@
             android:screenOrientation="portrait"/>
 
         <activity
+            android:name="com.expedia.bookings.itin.lx.moreHelp.LxItinMoreHelpActivity"
+            android:launchMode="singleTop"
+            android:resizeableActivity="false"
+            android:theme="@style/ItinTheme"
+            tools:ignore="UnusedAttribute"
+            android:screenOrientation="portrait"/>
+
+        <activity
             android:name="com.expedia.bookings.itin.common.NewAddGuestItinActivity"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
