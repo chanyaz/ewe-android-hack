@@ -3,6 +3,7 @@ package com.expedia.bookings.packages.presenter
 import android.app.Activity
 import android.content.Context
 import android.graphics.Point
+import android.support.annotation.VisibleForTesting
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
@@ -354,7 +355,8 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         bundleSlidingWidget.visibility = if (forward) View.VISIBLE else View.GONE
     }
 
-    private val resultsToOverview = object : Transition(FlightResultsListViewPresenter::class.java.name, SlidingBundleWidget::class.java.name, AccelerateDecelerateInterpolator(), bundleSlidingWidget.REGULAR_ANIMATION_DURATION) {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    val resultsToOverview = object : Transition(FlightResultsListViewPresenter::class.java.name, SlidingBundleWidget::class.java.name, AccelerateDecelerateInterpolator(), bundleSlidingWidget.REGULAR_ANIMATION_DURATION) {
         override fun startTransition(forward: Boolean) {
             resultsPresenter.recyclerView.isEnabled = !forward
             bundleSlidingWidget.startBundleTransition(forward)

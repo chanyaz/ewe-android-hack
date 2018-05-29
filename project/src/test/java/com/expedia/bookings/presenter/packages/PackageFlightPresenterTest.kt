@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.robolectric
+package com.expedia.bookings.presenter.packages
 
 import android.app.Activity
 import android.content.Intent
@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -14,13 +16,18 @@ import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.packages.activity.PackageFlightActivity
 import com.expedia.bookings.packages.presenter.PackageFlightPresenter
 import com.expedia.bookings.packages.widget.BundleTotalPriceTopWidget
+import com.expedia.bookings.packages.widget.SlidingBundleWidget
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MockPackageServiceTestRule
+import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
+import com.expedia.bookings.test.robolectric.PackageTestUtil
+import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.widget.flights.DockedOutboundFlightSelectionView
 import com.expedia.util.Optional
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -40,6 +47,7 @@ import kotlin.test.assertTrue
 class PackageFlightPresenterTest {
     private lateinit var presenter: PackageFlightPresenter
     private lateinit var activity: Activity
+    private lateinit var mockAnalyticsProvider: AnalyticsProvider
     lateinit var params: PackageSearchParams
     val context = RuntimeEnvironment.application
 
@@ -56,6 +64,7 @@ class PackageFlightPresenterTest {
         Ui.getApplication(activity).defaultPackageComponents()
         Ui.getApplication(activity).defaultTravelerComponent()
         Ui.getApplication(activity).defaultFlightComponents()
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
     }
 
     @Test
@@ -208,6 +217,49 @@ class PackageFlightPresenterTest {
         presenter.getTransition("Test screen 1", "Test screen 2")
     }
 
+    @Test
+    fun testTrackShowBaggageFee() {
+        val testSubscriber = TestObserver<String>()
+        mockPackageServiceRule.getMIDHotelResponse()
+        mockPackageServiceRule.getMIDFlightsResponse()
+        presenter = getPackageFlightPresenter()
+        presenter.detailsPresenter.baggageFeeShowSubject.subscribe(testSubscriber)
+        presenter.detailsPresenter.baggageFeeShowSubject.onNext("https://www.expedia.com/BaggageFees")
+
+        assertEquals(View.VISIBLE, presenter.detailsPresenter.selectFlightButton.visibility)
+        assertEquals("Select this flight", presenter.detailsPresenter.selectFlightButton.text)
+        OmnitureTestUtils.assertLinkTracked("Flight Baggage Fee", "App.Package.Flight.Search.BaggageFee", mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testFlightOverviewSelectedWhenInbound() {
+        mockPackageServiceRule.getMIDHotelResponse()
+        mockPackageServiceRule.getMIDFlightsResponse()
+        presenter = getPackageFlightPresenter()
+        val params = PackageTestUtil.getMIDPackageSearchParams()
+        params.currentFlights = arrayOf("leg1", "leg2")
+        Db.setPackageParams(params)
+        val flightLeg = PackageTestUtil.getDummyPackageFlightLeg()
+        presenter.detailsPresenter.vm.selectedFlightClickedSubject.onNext(flightLeg)
+        assertEquals(flightLeg.legId, Db.sharedInstance.packageParams.currentFlights[1])
+        assertEquals(flightLeg.packageOfferModel.price, Db.getPackageResponse().getCurrentOfferPrice())
+    }
+
+    @Test
+    fun testFlightOverviewSelectedWhenOutbound() {
+        mockPackageServiceRule.getMIDHotelResponse()
+        mockPackageServiceRule.getMIDFlightsResponse()
+        presenter = getPackageFlightPresenter()
+        val params = PackageTestUtil.getMIDPackageSearchParams()
+        params.currentFlights = arrayOf("leg1", "leg2")
+        Db.setPackageParams(params)
+        val flightLeg = PackageTestUtil.getDummyPackageFlightLeg()
+        flightLeg.outbound = true
+        presenter.detailsPresenter.vm.selectedFlightClickedSubject.onNext(flightLeg)
+        assertEquals(flightLeg.legId, Db.sharedInstance.packageParams.currentFlights[0])
+        assertEquals(flightLeg.packageOfferModel.price, Db.getPackageResponse().getCurrentOfferPrice())
+    }
+
     private fun getDummyRegionNames(): SuggestionV4.RegionNames {
         val regionName = SuggestionV4.RegionNames()
         regionName.shortName = "Bengaluru, India (BLR - Kempegowda Intl.)"
@@ -218,5 +270,109 @@ class PackageFlightPresenterTest {
     private fun getPackageFlightPresenter(): PackageFlightPresenter {
         return LayoutInflater.from(activity).inflate(R.layout.package_flight_activity, null, false)
                 as PackageFlightPresenter
+    }
+
+    @Test
+    fun testDisableSlidingWidgetWhenDisabled() {
+        mockPackageServiceRule.getMIDHotelResponse()
+        mockPackageServiceRule.getMIDFlightsResponse()
+        presenter = getPackageFlightPresenter()
+        presenter.overviewTransition.startTransition(true)
+        assertEquals(false, presenter.bundleSlidingWidget.bundlePriceWidget.isClickable)
+    }
+
+    @Test
+    fun testDisableSlidingWidgetWhenEnabled() {
+        mockPackageServiceRule.getMIDHotelResponse()
+        mockPackageServiceRule.getMIDFlightsResponse()
+        presenter = getPackageFlightPresenter()
+        presenter.overviewTransition.startTransition(false)
+        assertEquals(true, presenter.bundleSlidingWidget.bundlePriceWidget.isClickable)
+    }
+
+    @Test
+    fun testPresenterIsNotSlidingBundleWidget() {
+        mockPackageServiceRule.getMIDHotelResponse()
+        mockPackageServiceRule.getMIDFlightsResponse()
+        presenter = getPackageFlightPresenter()
+        assertEquals(false, presenter.isShowingBundle())
+    }
+
+    @Test
+    fun testUpdateOverviewAnimationDuration() {
+        mockPackageServiceRule.getMIDHotelResponse()
+        mockPackageServiceRule.getMIDFlightsResponse()
+        presenter = getPackageFlightPresenter()
+        presenter.updateOverviewAnimationDuration(50)
+        assertEquals(50, presenter.resultsToOverview.animationDuration)
+    }
+
+    @Test
+    fun testBundlePriceWidgetClick() {
+        mockPackageServiceRule.getMIDHotelResponse()
+        mockPackageServiceRule.getMIDFlightsResponse()
+        presenter = getPackageFlightPresenter()
+        presenter.bundleSlidingWidget.bundlePriceWidget.performClick()
+        OmnitureTestUtils.assertLinkTracked("Bundle Widget Tap", "App.Package.BundleWidget.Tap", mockAnalyticsProvider)
+        assertEquals(SlidingBundleWidget::class.java.name, presenter.currentState)
+        assertEquals(true, presenter.isShowingBundle())
+    }
+
+    @Test
+    fun testTrackFlightSortFilterLoad() {
+        mockPackageServiceRule.getMIDHotelResponse()
+        mockPackageServiceRule.getMIDFlightsResponse()
+        presenter = getPackageFlightPresenter()
+        presenter.trackFlightSortFilterLoad()
+        val controlEvar = mapOf(18 to "D=pageName")
+        OmnitureTestUtils.assertStateTrackedNumTimes("App.Package.Flight.Search.Filter", OmnitureMatchers.withEvars(controlEvar), 1, mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testOutboundDockedFlightSelection() {
+        mockPackageServiceRule.getMIDHotelResponse()
+        mockPackageServiceRule.getMIDFlightsResponse()
+        val outboundFlight = PackageTestUtil.getDummyPackageFlightLeg()
+        Db.setPackageSelectedOutboundFlight(outboundFlight)
+        val params = PackageTestUtil.getMIDPackageSearchParams()
+        Db.setPackageParams(params)
+        presenter = getPackageFlightPresenter()
+        assertEquals(DockedOutboundFlightSelectionView::class.java, presenter.resultsPresenter.dockedOutboundFlightSelection::class.java)
+    }
+
+    @Test
+    fun testBundlePriceWidgetTopIsClickable() {
+        mockPackageServiceRule.getMIDHotelResponse()
+        mockPackageServiceRule.getMIDFlightsResponse()
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs)
+        presenter = getPackageFlightPresenter()
+        presenter.overviewTransition.startTransition(false)
+        assertEquals(true, presenter.bundleSlidingWidget.bundlePriceWidget.isClickable)
+        assertEquals(true, presenter.bundlePriceWidgetTop.isClickable)
+    }
+
+    @Test
+    fun testBundlePriceWidgetTopIsNotClickable() {
+        mockPackageServiceRule.getMIDHotelResponse()
+        mockPackageServiceRule.getMIDFlightsResponse()
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs)
+        presenter = getPackageFlightPresenter()
+        presenter.overviewTransition.startTransition(true)
+        assertEquals(false, presenter.bundleSlidingWidget.bundlePriceWidget.isClickable)
+        assertEquals(false, presenter.bundlePriceWidgetTop.isClickable)
+    }
+
+    @Test
+    fun testMoveBestFlightToFirstPlace() {
+        val testSubscriber = TestObserver<List<FlightLeg>>()
+        mockPackageServiceRule.getMIDHotelResponse()
+        mockPackageServiceRule.getMIDFlightsResponse()
+        val flightLeg = Db.getPackageResponse().getFlightLegs().get(2)
+        flightLeg.isBestFlight = true
+        presenter = getPackageFlightPresenter()
+        presenter.resultsPresenter.resultsViewModel.flightResultsObservable.subscribe(testSubscriber)
+        getPackageFlightPresenter()
+        val flightLegs = testSubscriber.values()[0] as List<FlightLeg>
+        assertEquals(true, flightLegs[0].isBestFlight)
     }
 }
