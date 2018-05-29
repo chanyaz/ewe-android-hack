@@ -1452,11 +1452,11 @@
     <!--Hotel itin manage booking room details header-->
     <string name="itin_hotel_manage_booking_header">Administrer reservation</string>
     <!--Hotel itin manage booking hotel help heading-->
-    <string name="itin_hotel_manage_booking_hotel_help_heading">Vi står klar til at hjælpe dig</string>
+    <string name="itin_more_help_heading">Vi står klar til at hjælpe dig</string>
     <!--Hotel itin manage booking hotel help text. For special requests or questions about your reservation, contact {hotelname} (eg., For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver)-->
-    <string name="itin_hotel_manage_booking_hotel_help_text_TEMPLATE">Kontakt venligst {hotelname}, hvis du har særlige anmodninger eller spørgsmål til din reservation.</string>
+    <string name="itin_more_help_text_TEMPLATE">Kontakt venligst {hotelname}, hvis du har særlige anmodninger eller spørgsmål til din reservation.</string>
     <!--Hotel itin manage booking hotel help confirmation number. Confirmation # {number} (eg., Confirmation # 87654321)-->
-    <string name="itin_hotel_manage_booking_hotel_help_confirmation_number_TEMPLATE">Bekræftelsesnummer: {number}</string>
+    <string name="itin_more_help_confirmation_text">Bekræftelsesnummer: {number}</string>
     <!--Hotel itin customer support header text. (eg., If you need help managing this itinerary, contact Expedia)-->
     <string name="itin_hotel_customer_support_header_text_TEMPLATE">Hvis du har brug for hjælp til at administrere din rejseplan, bedes du kontakte {brand}</string>
     <!--Hotel itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
@@ -1472,7 +1472,7 @@
     <!--Hotel itin manage booking call support button content description. Call {brand} at {phonenumber}. Button (eg., Call Expedia at +18055437700. Button)-->
     <string name="itin_hotel_manage_booking_call_support_button_content_description_TEMPLATE">Ring til {brand} på {phonenumber}. Knap</string>
     <!--Hotel itin manage booking confirmation number content description. Confirmation number {number}. Click to copy (eg., Confirmation number 88888888. Click to copy)-->
-    <string name="itin_hotel_manage_booking_confirmation_number_content_description_TEMPLATE">Bekræftelsesnummer: {number}. Klik for at kopiere</string>
+    <string name="itin_more_help_confirmation_number_content_description_TEMPLATE">Bekræftelsesnummer: {number}. Klik for at kopiere</string>
     <!--Hotel itin manage booking itinerary number content description. Itinerary number {number}. Click to copy (eg., Itinerary number 88888888. Click to copy)-->
     <string name="itin_hotel_manage_booking_itinerary_number_content_description_TEMPLATE">Rejseplansnummer: {number}. Klik for at kopiere</string>
     <!--Hotel itin room details requests header-->

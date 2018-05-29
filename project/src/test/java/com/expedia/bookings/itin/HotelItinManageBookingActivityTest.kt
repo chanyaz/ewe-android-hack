@@ -10,6 +10,7 @@ import com.expedia.bookings.data.trips.ItinCardDataHotel
 import com.expedia.bookings.itin.hotel.details.HotelItinRoomDetails
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
+import kotlinx.android.synthetic.main.widget_itin_more_help.view.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -141,14 +142,15 @@ class HotelItinManageBookingActivityTest {
 
         assertEquals(View.VISIBLE, activity.roomTabs.visibility)
         assertEquals(2, activity.manageRoomContainer.childCount)
-        assertEquals(View.VISIBLE, activity.manageRoomViewModel.manageRoomWidget.hotelManageBookingHelpView.hotelConfirmationNumber.visibility)
-        assertEquals("Confirmation # abc", activity.manageRoomViewModel.manageRoomWidget.hotelManageBookingHelpView.hotelConfirmationNumber.text)
+        assertEquals(View.VISIBLE, activity.manageRoomViewModel.manageRoomWidget.hotelManageBookingHelpView.confirmationTitle.visibility)
+        assertEquals("Confirmation #", activity.manageRoomViewModel.manageRoomWidget.hotelManageBookingHelpView.confirmation_text.text)
+        assertEquals("abc", activity.manageRoomViewModel.manageRoomWidget.hotelManageBookingHelpView.confirmationNumber.text.toString())
 
         activity.roomTabs.getTabAt(1)?.select()
 
         assertEquals(2, activity.manageRoomContainer.childCount)
-        assertEquals(View.VISIBLE, activity.manageRoomViewModel.manageRoomWidget.hotelManageBookingHelpView.hotelConfirmationNumber.visibility)
-        assertEquals("Confirmation # xyz", activity.manageRoomViewModel.manageRoomWidget.hotelManageBookingHelpView.hotelConfirmationNumber.text)
+        assertEquals(View.VISIBLE, activity.manageRoomViewModel.manageRoomWidget.hotelManageBookingHelpView.confirmationTitle.visibility)
+        assertEquals("xyz", activity.manageRoomViewModel.manageRoomWidget.hotelManageBookingHelpView.confirmationNumber.text.toString())
     }
 
     @Test
