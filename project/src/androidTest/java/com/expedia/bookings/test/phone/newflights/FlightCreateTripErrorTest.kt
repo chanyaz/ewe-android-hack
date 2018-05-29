@@ -1,14 +1,14 @@
 package com.expedia.bookings.test.phone.newflights
 
 import com.expedia.bookings.data.ApiError
-import com.mobiata.mocke3.FlightApiMockResponseGenerator
+import com.mobiata.mocke3.FlightDispatcherUtils
 import org.junit.Test
 
 class FlightCreateTripErrorTest : FlightErrorTestCase() {
 
     @Test
     fun testCreateTripUnknownError() {
-        searchFlights(FlightApiMockResponseGenerator.SuggestionResponseType.HAPPY_PATH)
+        searchFlights(FlightDispatcherUtils.SuggestionResponseType.HAPPY_PATH)
         selectOutboundFlight(ApiError.Code.UNKNOWN_ERROR)
         assertGenericErrorShown()
 
@@ -25,7 +25,7 @@ class FlightCreateTripErrorTest : FlightErrorTestCase() {
 
     @Test
     fun testCreateTripFlightSoldOut() {
-        searchFlights(FlightApiMockResponseGenerator.SuggestionResponseType.HAPPY_PATH)
+        searchFlights(FlightDispatcherUtils.SuggestionResponseType.HAPPY_PATH)
         selectOutboundFlight(ApiError.Code.FLIGHT_SOLD_OUT, 5)
 
         assertFlightErrorPresenterDisplayed()
@@ -39,7 +39,7 @@ class FlightCreateTripErrorTest : FlightErrorTestCase() {
 
     @Test
     fun testCreateTripFlightProductNotFound() {
-        searchFlights(FlightApiMockResponseGenerator.SuggestionResponseType.HAPPY_PATH)
+        searchFlights(FlightDispatcherUtils.SuggestionResponseType.HAPPY_PATH)
         selectOutboundFlight(ApiError.Code.FLIGHT_PRODUCT_NOT_FOUND, 6)
 
         assertFlightErrorPresenterDisplayed()
@@ -53,7 +53,7 @@ class FlightCreateTripErrorTest : FlightErrorTestCase() {
 
     @Test
     fun testCreateTripSessionTimeout() {
-        searchFlights(FlightApiMockResponseGenerator.SuggestionResponseType.HAPPY_PATH)
+        searchFlights(FlightDispatcherUtils.SuggestionResponseType.HAPPY_PATH)
         selectOutboundFlight(ApiError.Code.SESSION_TIMEOUT, 7)
 
         assertFlightErrorPresenterDisplayed()
@@ -67,7 +67,7 @@ class FlightCreateTripErrorTest : FlightErrorTestCase() {
 
     @Test
     fun testCreateTripNoResults() {
-        searchFlights(FlightApiMockResponseGenerator.SuggestionResponseType.SEARCH_ERROR)
+        searchFlights(FlightDispatcherUtils.SuggestionResponseType.SEARCH_ERROR)
 
         assertFlightErrorPresenterDisplayed()
         assertButtonDisplayedWithText("Edit Search")

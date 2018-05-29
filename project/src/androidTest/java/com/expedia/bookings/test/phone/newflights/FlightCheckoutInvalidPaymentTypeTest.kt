@@ -12,7 +12,7 @@ import com.expedia.bookings.test.pagemodels.common.CheckoutScreen
 import com.expedia.bookings.test.pagemodels.common.SearchScreen
 import com.expedia.bookings.test.pagemodels.common.SearchScreenActions
 import com.expedia.bookings.test.pagemodels.flights.FlightsScreen
-import com.mobiata.mocke3.FlightApiMockResponseGenerator
+import com.mobiata.mocke3.FlightDispatcherUtils
 import org.joda.time.LocalDate
 import org.junit.Test
 
@@ -64,7 +64,7 @@ class FlightCheckoutInvalidPaymentTypeTest : NewFlightTestCase() {
     private fun invalidPaymentTextView() = Espresso.onView(ViewMatchers.withId(R.id.invalid_payment_type_warning))
 
     private fun selectFlightsProceedToCheckout() {
-        SearchScreenActions.selectFlightOriginAndDestination(FlightApiMockResponseGenerator.SuggestionResponseType.HAPPY_PATH, 0)
+        SearchScreenActions.selectFlightOriginAndDestination(FlightDispatcherUtils.SuggestionResponseType.HAPPY_PATH, 0)
 
         val startDate = LocalDate.now().plusDays(3)
         val endDate = LocalDate.now().plusDays(8)

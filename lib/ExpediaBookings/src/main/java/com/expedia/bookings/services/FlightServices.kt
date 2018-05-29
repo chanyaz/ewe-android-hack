@@ -82,7 +82,7 @@ open class FlightServices(val endpoint: String, okHttpClient: OkHttpClient, inte
                 .subscribeObserver(observer)
     }
 
-    private fun processSearchResponse(response: FlightSearchResponse) {
+    protected fun processSearchResponse(response: FlightSearchResponse) {
         if (response.hasErrors() || response.legs.isEmpty() || response.offers.isEmpty()) return
         response.legs.forEach { leg ->
             if (Strings.isEmpty(leg.naturalKey)) {

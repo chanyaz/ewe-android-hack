@@ -9,8 +9,15 @@ import org.joda.time.LocalDate
 
 class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport: SuggestionV4, val departureDate: LocalDate, val returnDate: LocalDate?, adults: Int,
                          children: List<Int>, infantSeatingInLap: Boolean, val flightCabinClass: String?, val legNo: Int?, val selectedOutboundLegId: String?,
-                         val showRefundableFlight: Boolean?, val nonStopFlight: Boolean?, val featureOverride: String?, val maxOfferCount: Int?) :
+                         val showRefundableFlight: Boolean?, val nonStopFlight: Boolean?, val featureOverride: String?, val maxOfferCount: Int?,
+                         val trips: List<FlightMultiDestinationSearchParam>?, val searchType: String?) :
         AbstractFlightSearchParams(departureAirport, arrivalAirport, adults, children, departureDate, returnDate, infantSeatingInLap) {
+
+    enum class SearchType {
+        ONE_WAY,
+        RETURN,
+        MULTI_DEST
+    }
 
     class Builder(maxStay: Int, maxRange: Int) : AbstractFlightSearchParams.Builder(maxStay, maxRange) {
         private var isRoundTrip = true
@@ -23,6 +30,9 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
         private var featureOverride: String? = null
 
         private var maxOfferCount: Int = Constants.DEFAULT_MAX_OFFER_COUNT
+        private var trips: List<FlightMultiDestinationSearchParam> = emptyList()
+        private val flightMultiDestSearchParamsBuilder = FlightMultiDestinationSearchParam.Builder()
+        private var searchType: SearchType = SearchType.RETURN
 
         override fun build(): FlightSearchParams {
             val departureAirport = originLocation ?: throw IllegalArgumentException()
@@ -39,8 +49,12 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
                             "or if for inbound then legNo should be 1 and selectedOutboundLegId should be non-empty ")
                 }
             }
+
+            trips = createTripList(departureAirport, arrivalAirport, departureDate)
+            searchType = getSearchType()
+
             return FlightSearchParams(departureAirport, arrivalAirport, departureDate, endDate, adults, children, infantSeatingInLap, flightCabinClass,
-                    searchLegNo, selectedOutboundLegId, showRefundableFlight, showNonStopFlight, featureOverride, maxOfferCount)
+                    searchLegNo, selectedOutboundLegId, showRefundableFlight, showNonStopFlight, featureOverride, maxOfferCount, trips, searchType.name)
         }
 
         override fun areRequiredParamsFilled(): Boolean {
@@ -117,6 +131,29 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
             this.showRefundableFlight = isApplied
             return this
         }
+
+        fun createTripList(departureAirport: SuggestionV4?, arrivalAirport: SuggestionV4?, departureDate: LocalDate): List<FlightMultiDestinationSearchParam> {
+            val trips = ArrayList<FlightMultiDestinationSearchParam>()
+            val flightMultiDestSearchParams = flightMultiDestSearchParamsBuilder
+                    .departureAirport(departureAirport)
+                    .arrivalAirport(arrivalAirport)
+                    .departureDate(departureDate)
+                    .build()
+
+            trips.add(flightMultiDestSearchParams)
+            return trips
+        }
+
+        fun getSearchType(): SearchType {
+            if (trips.size > 1) {
+                this.searchType = SearchType.MULTI_DEST
+            } else if (trips.size == 1 && endDate != null) {
+                this.searchType = SearchType.RETURN
+            } else if (trips.size == 1 && endDate == null) {
+                this.searchType = SearchType.ONE_WAY
+            }
+            return this.searchType
+        }
     }
 
     fun buildParamsForInboundSearch(maxStay: Int, maxRange: Int, selectedOutboundLegId: String?): FlightSearchParams {
@@ -144,5 +181,40 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
 
     fun isRoundTrip(): Boolean {
         return returnDate != null
+    }
+
+    fun toQueryMapForKong(): Map<String, Any?> {
+        val params = HashMap<String, Any?>()
+
+        if (returnDate != null) {
+            params.put("returnDate", returnDate.toString())
+        }
+        params.put("cabinClassPreference", flightCabinClass)
+        params.put("showRefundableFlight", showRefundableFlight)
+        params.put("nonStopFlight", nonStopFlight)
+        params.put("featureOverride", featureOverride)
+        params.put("ul", legNo)
+        params.put("fl0", selectedOutboundLegId)
+        if (children.isNotEmpty()) {
+            params.put("childTravelerAge", children)
+        }
+        params.put("numberOfAdultTravelers", adults)
+        params.put("infantSeatingInLap", infantSeatingInLap)
+        params.put("lccAndMerchantFareCheckoutAllowed", true)
+        params.put("maxOfferCount", maxOfferCount)
+        params.put("trips", createTripsMap())
+        params.put("tripType", searchType)
+
+        return params
+    }
+
+    private fun createTripsMap(): List<Map<String, Any?>> {
+        val tripsMapList = ArrayList<Map<String, Any?>>()
+        if (trips != null && !trips.isEmpty()) {
+            for (trip in trips) {
+                tripsMapList.add(trip.multiDestinationSearchParamMap())
+            }
+        }
+        return tripsMapList
     }
 }

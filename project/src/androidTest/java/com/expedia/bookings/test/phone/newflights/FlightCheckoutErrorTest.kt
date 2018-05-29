@@ -18,7 +18,7 @@ import com.expedia.bookings.test.espresso.CustomMatchers.withImageDrawable
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen
 import com.expedia.bookings.test.pagemodels.common.CheckoutScreen
 import com.expedia.bookings.test.pagemodels.common.PaymentOptionsScreen
-import com.mobiata.mocke3.FlightApiMockResponseGenerator
+import com.mobiata.mocke3.FlightDispatcherUtils
 import org.junit.Test
 import java.util.concurrent.TimeUnit
 
@@ -30,8 +30,8 @@ class FlightCheckoutErrorTest : FlightErrorTestCase() {
     }
 
     private fun goToCheckout() {
-        searchFlights(FlightApiMockResponseGenerator.SuggestionResponseType.HAPPY_PATH)
-        selectOutboundFlight(FlightApiMockResponseGenerator.SearchResultsResponseType.HAPPY_ONE_WAY)
+        searchFlights(FlightDispatcherUtils.SuggestionResponseType.HAPPY_PATH)
+        selectOutboundFlight(FlightDispatcherUtils.SearchResultsResponseType.HAPPY_ONE_WAY)
         PackageScreen.checkout().perform(ViewActions.click())
     }
 

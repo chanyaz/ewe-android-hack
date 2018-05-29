@@ -11,10 +11,10 @@ import com.expedia.bookings.R
 import com.expedia.bookings.test.pagemodels.packages.PackageScreen
 import com.expedia.bookings.test.pagemodels.common.CheckoutScreen
 import com.expedia.bookings.test.pagemodels.flights.FlightsOverviewScreen
-import com.mobiata.mocke3.FlightApiMockResponseGenerator
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import com.expedia.bookings.test.espresso.Common
+import com.mobiata.mocke3.FlightDispatcherUtils
 
 class FlightPriceChangeTest : FlightErrorTestCase() {
 
@@ -89,14 +89,14 @@ class FlightPriceChangeTest : FlightErrorTestCase() {
     }
 
     private fun getToCheckoutOverview(priceChangeType: PriceChangeType, isOneWay: Boolean = true) {
-        searchFlights(FlightApiMockResponseGenerator.SuggestionResponseType.HAPPY_PATH, isOneWay)
+        searchFlights(FlightDispatcherUtils.SuggestionResponseType.HAPPY_PATH, isOneWay)
         if (priceChangeType == PriceChangeType.CREATE_TRIP) {
-            selectOutboundFlight(FlightApiMockResponseGenerator.SearchResultsResponseType.CREATE_TRIP_PRICE_CHANGE)
+            selectOutboundFlight(FlightDispatcherUtils.SearchResultsResponseType.CREATE_TRIP_PRICE_CHANGE)
         } else {
             if (isOneWay) {
-                selectOutboundFlight(FlightApiMockResponseGenerator.SearchResultsResponseType.HAPPY_ONE_WAY)
+                selectOutboundFlight(FlightDispatcherUtils.SearchResultsResponseType.HAPPY_ONE_WAY)
             } else {
-                selectOutboundFlight(FlightApiMockResponseGenerator.SearchResultsResponseType.HAPPY_ROUND_TRIP_WITH_INSURANCE_AVAILABLE)
+                selectOutboundFlight(FlightDispatcherUtils.SearchResultsResponseType.HAPPY_ROUND_TRIP_WITH_INSURANCE_AVAILABLE)
                 selectFirstInboundFlight()
             }
         }

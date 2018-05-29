@@ -13,7 +13,6 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.vm.flights.FlightOffersViewModelByot
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
-import com.mobiata.mocke3.FlightApiMockResponseGenerator
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.LocalDate
@@ -24,6 +23,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.utils.AbacusTestUtils
+import com.mobiata.mocke3.FlightDispatcherUtils
 import io.reactivex.schedulers.Schedulers
 import java.io.File
 import java.util.concurrent.TimeUnit
@@ -205,7 +205,7 @@ class FlightOffersViewModelByotTest {
 
         flightProductIdSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
         flightProductIdSubscriber.assertValueCount(1)
-        flightProductIdSubscriber.assertValue(FlightApiMockResponseGenerator.SearchResultsResponseType.HAPPY_ROUND_TRIP.responseName)
+        flightProductIdSubscriber.assertValue(FlightDispatcherUtils.SearchResultsResponseType.HAPPY_ROUND_TRIP.responseName)
     }
 
     private fun performFlightSearch(isInbound: Boolean) {

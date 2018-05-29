@@ -1,6 +1,5 @@
 package com.expedia.bookings.unit
 
-import com.mobiata.mocke3.FlightApiMockResponseGenerator
 import java.io.File
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -23,6 +22,7 @@ import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.utils.Constants
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
+import com.mobiata.mocke3.FlightDispatcherUtils
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import okhttp3.OkHttpClient
@@ -250,7 +250,7 @@ class FlightServicesTest {
 
         val observer = TestObserver<FlightSearchResponse>()
         val departureSuggestion = dummySuggestion
-        val suggestion = FlightApiMockResponseGenerator.SuggestionResponseType.SEARCH_ERROR.suggestionString
+        val suggestion = FlightDispatcherUtils.SuggestionResponseType.SEARCH_ERROR.suggestionString
         departureSuggestion.hierarchyInfo!!.airport!!.airportCode = suggestion
         departureSuggestion.gaiaId = suggestion
         val params = FlightSearchParams.Builder(26, 500)
