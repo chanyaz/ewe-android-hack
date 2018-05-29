@@ -89,6 +89,8 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 	private boolean userLoggedInWithFacebook = false;
 	private Listener listener = new Listener();
 	private NavigationListener navigationListener = new NavigationListener();
+	private Boolean isNewSignInEnabled = false;
+
 
 	public static Intent createIntent(Context context, Bundle bundle) {
 		Intent loginIntent = new Intent(context, AccountLibActivity.class);
@@ -134,7 +136,7 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 	@Override
 	protected void onStop() {
 		super.onStop();
-		if (FeatureUtilKt.isNewSignInEnabled(this)) {
+		if (isNewSignInEnabled) {
 			newAccountView.cancelLoading();
 		}
 	}
@@ -146,6 +148,7 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		userStateManager = Ui.getApplication(this).appComponent().userStateManager();
+		isNewSignInEnabled = FeatureUtilKt.isNewSignInEnabled(this);
 
 		CarnivalUtils.getInstance().toggleNotifications(false);
 		Intent intent = getIntent();
@@ -179,7 +182,7 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 	}
 
 	private void setupAccountViewBasedOnBucketing() {
-		if (FeatureUtilKt.isNewSignInEnabled(this)) {
+		if (isNewSignInEnabled) {
 			newAccountView.setVisibility(View.VISIBLE);
 			newAccountView.setNavigationOnClickListener(navigationListener);
 			getWindow().setStatusBarColor(getResources().getColor(R.color.brand_primary_dark));
@@ -205,7 +208,7 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 
 	private Config buildConfigBasedOnBucketing() {
 		Config config;
-		if (FeatureUtilKt.isNewSignInEnabled(this)) {
+		if (isNewSignInEnabled) {
 			config = Config.build()
 					.setInitialTab(initialTab)
 					.setService(ServicesUtil.generateAccountService(this))
@@ -260,7 +263,7 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 
 	@Override
 	public void onBackPressed() {
-		if (FeatureUtilKt.isNewSignInEnabled(this)) {
+		if (isNewSignInEnabled) {
 			if (newAccountView.isOnSignInPage()) {
 				super.onBackPressed();
 			}
@@ -280,7 +283,7 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 		super.onActivityResult(requestCode, resultCode, data);
 
 		// Required for Facebook
-		if (FeatureUtilKt.isNewSignInEnabled(this)) {
+		if (isNewSignInEnabled) {
 			newAccountView.onActivityResult(requestCode, resultCode, data);
 		}
 		else {
