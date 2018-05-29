@@ -2,6 +2,7 @@ package com.expedia.bookings.itin.lx.details
 
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.common.ItinBookingInfoCardViewModel
+import com.expedia.bookings.itin.lx.moreHelp.LxItinMoreHelpActivity
 import com.expedia.bookings.itin.scopes.HasActivityLauncher
 import com.expedia.bookings.itin.scopes.HasLxRepo
 import com.expedia.bookings.itin.scopes.HasStringProvider
@@ -17,18 +18,22 @@ class LxItinManageBookingWidgetViewModel<S>(scope: S) where S : HasStringProvide
 
     init {
         val stringsWebViewScope = PriceSummaryCardScope(scope.strings, scope.webViewLauncher, scope.itinLxRepo)
-        val stringsActivityScope = StringsActivityScope(scope.strings, scope.activityLauncher)
+        val stringsActivityScope = StringsActivityScope(scope.strings, scope.activityLauncher, scope.itinLxRepo)
         moreHelpViewModel = ItinMoreHelpCardViewModel(stringsActivityScope)
         priceSummaryViewModel = ItinLxPriceSummaryCardViewModel(stringsWebViewScope)
         additionalInfoViewModel = ItinLxAdditionalInfoCardViewModel(stringsWebViewScope)
     }
 
-    class ItinMoreHelpCardViewModel<S>(scope: S) : ItinBookingInfoCardViewModel where S : HasStringProvider {
+    class ItinMoreHelpCardViewModel<S>(scope: S) : ItinBookingInfoCardViewModel where S : HasStringProvider, S : HasActivityLauncher, S : HasLxRepo {
         override val iconImage: Int = R.drawable.ic_itin_manage_booking_icon
         override val headingText: String = scope.strings.fetch(R.string.itin_lx_more_info_heading)
         override val subheadingText: String? = scope.strings.fetch(R.string.itin_lx_more_info_subheading)
         override val cardClickListener: () -> Unit = {
-            TODO("not implemented") //add native itin manage booking activity here
+            val itin = scope.itinLxRepo.liveDataItin.value!!
+            itin.tripId?.let { tripId ->
+                scope.activityLauncher.launchActivity(LxItinMoreHelpActivity, tripId)
+            }
+
         }
     }
 
@@ -40,7 +45,9 @@ class LxItinManageBookingWidgetViewModel<S>(scope: S) where S : HasStringProvide
             val itin = scope.itinLxRepo.liveDataItin.value!!
             val isGuest = itin.isGuest
             if (!itin.webDetailsURL.isNullOrEmpty() && !itin.tripId.isNullOrEmpty()) {
-                scope.webViewLauncher.launchWebViewActivity(R.string.itin_hotel_details_price_summary_heading, itin.webDetailsURL!!, "price", itin.tripId!!, isGuest = isGuest)
+                itin.tripId?.let { tripId ->
+                    scope.webViewLauncher.launchWebViewActivity(R.string.itin_hotel_details_price_summary_heading, itin.webDetailsURL!!, "price", tripId, isGuest = isGuest)
+                }
             }
         }
     }
@@ -53,7 +60,9 @@ class LxItinManageBookingWidgetViewModel<S>(scope: S) where S : HasStringProvide
             val itin = scope.itinLxRepo.liveDataItin.value!!
             val isGuest = itin.isGuest
             if (!itin.webDetailsURL.isNullOrEmpty() && !itin.tripId.isNullOrEmpty()) {
-                scope.webViewLauncher.launchWebViewActivity(R.string.itin_hotel_details_additional_info_heading, itin.webDetailsURL!!, null, itin.tripId!!, isGuest = isGuest)
+                itin.tripId?.let { tripId ->
+                    scope.webViewLauncher.launchWebViewActivity(R.string.itin_hotel_details_additional_info_heading, itin.webDetailsURL!!, null, tripId, isGuest = isGuest)
+                }
             }
         }
     }

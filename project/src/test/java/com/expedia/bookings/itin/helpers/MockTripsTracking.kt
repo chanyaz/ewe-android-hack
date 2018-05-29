@@ -16,6 +16,7 @@ class MockTripsTracking : ITripsTracking {
     var mapClicked = false
     var directionClicked = false
     var trackRedeemVoucherCalled = false
+    var trackItinLxCallSupportClicked = false
 
     override fun trackItinLxDetailsMap() {
         mapClicked = true
@@ -55,5 +56,9 @@ class MockTripsTracking : ITripsTracking {
 
     override fun trackItinHotelViewRewards() {
         trackHotelItinViewRewardsCalled = true
+    }
+
+    override fun trackItinLxCallSupportClicked() {
+        trackItinLxCallSupportClicked = true
     }
 }
