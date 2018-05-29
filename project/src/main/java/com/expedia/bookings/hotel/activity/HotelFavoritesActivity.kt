@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Codes
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.hotel.widget.HotelFavoritesView
 
@@ -16,6 +17,10 @@ class HotelFavoritesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.hotel_favorites_activity_layout)
         setTitle(R.string.hotel_favorites_page_toolbar_title)
+        if (intent.hasExtra(Codes.INFOSITE_DEEPLINK_USE_SWP)) {
+            favoritesView.setUseShopWithPoint(intent.getBooleanExtra(Codes.INFOSITE_DEEPLINK_USE_SWP, false))
+        }
+
         toolbar.setNavigationOnClickListener {
             onBackPressed()
         }

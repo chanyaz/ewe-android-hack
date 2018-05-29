@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.DeprecatedHotelSearchParams
+import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.hotel.deeplink.HotelLandingPage
 import com.expedia.bookings.utils.HotelsV2DataUtil
@@ -31,14 +32,14 @@ class HotelNavUtils : NavUtils() {
         @JvmStatic
         fun goToHotels(context: Context, oldParams: DeprecatedHotelSearchParams?,
                        animOptions: Bundle?, expediaFlags: Int) {
-            var v2params: com.expedia.bookings.data.hotels.HotelSearchParams? = null
+            var v2params: HotelSearchParams? = null
             if (oldParams != null) {
                 v2params = HotelsV2DataUtil.getHotelV2SearchParams(context, oldParams)
             }
             goToHotelsV2Params(context, v2params, animOptions, expediaFlags)
         }
 
-        @JvmStatic fun goToHotelsV2Params(context: Context, params: com.expedia.bookings.data.hotels.HotelSearchParams?,
+        @JvmStatic fun goToHotelsV2Params(context: Context, params: HotelSearchParams?,
                                           animOptions: Bundle?, expediaFlags: Int) {
             sendKillActivityBroadcast(context)
 

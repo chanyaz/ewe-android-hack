@@ -15,7 +15,7 @@ class ShortlistItemTest {
         assertNull(item.uid)
         assertNull(item.expUserId)
         assertNull(item.siteId)
-        assertNull(item.metadata)
+        assertNull(item.metaData)
         assertNull(item.lastModifiedDate)
     }
 }

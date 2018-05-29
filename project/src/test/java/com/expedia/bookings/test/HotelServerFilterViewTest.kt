@@ -338,8 +338,8 @@ class HotelServerFilterViewTest {
 
         val userFilters = UserFilterChoices()
         val neighborhood = Neighborhood().apply {
-            this.name = "1"
-            this.id = "1"
+            name = "1"
+            id = "1"
         }
         userFilters.neighborhoods = hashSetOf(neighborhood)
         viewModel.presetFilterOptionsUpdatedSubject.onNext(userFilters)

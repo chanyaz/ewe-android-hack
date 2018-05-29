@@ -407,7 +407,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	}
 
 	private boolean handleHotelSearch(HotelDeepLink deepLink) {
-		Intent hotelIntent = new HotelIntentBuilder().from(this, deepLink).build(this);
+		Intent hotelIntent = new HotelIntentBuilder().from(this, deepLink, true).build(this);
 
 		if (deepLink.isBaseURL()) {
 			HotelNavUtils.goToHotels(this, NavUtils.FLAG_DEEPLINK);

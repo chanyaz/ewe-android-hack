@@ -36,6 +36,10 @@ class HotelActivity : AbstractAppCompatActivity(), ComponentCallbacks2 {
 
     val hotelComponentInjector = HotelComponentInjector()
 
+    var infositeDeeplinkDontBackToSearch = false
+        private set
+    private var keepHotelModuleOnDestroy = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         hotelComponentInjector.inject(this)
@@ -58,6 +62,9 @@ class HotelActivity : AbstractAppCompatActivity(), ComponentCallbacks2 {
     }
 
     private fun handleDeepLink(intent: Intent) {
+        infositeDeeplinkDontBackToSearch = intent.getBooleanExtra(Codes.INFOSITE_DEEPLINK_DONT_BACK_TO_SEARCH, false)
+        keepHotelModuleOnDestroy = intent.getBooleanExtra(Codes.KEEP_HOTEL_MODULE_ON_DESTROY, false)
+
         val searchParams = HotelsV2DataUtil.getHotelV2SearchParamsFromJSON(intent.getStringExtra(HotelExtras.EXTRA_HOTEL_SEARCH_PARAMS))
         if (intent.hasExtra(Codes.DEALS) && searchParams != null) {
             searchParams.sortType = BaseHotelFilterOptions.SortType.MOBILE_DEALS.sortName
@@ -120,7 +127,9 @@ class HotelActivity : AbstractAppCompatActivity(), ComponentCallbacks2 {
         hotelPresenter.onDestroyed()
         resultsMapView.onDestroy()
         detailsMapView.onDestroy()
-        hotelComponentInjector.clear(this)
+        if (!keepHotelModuleOnDestroy) {
+            hotelComponentInjector.clear(this)
+        }
         super.onDestroy()
     }
 

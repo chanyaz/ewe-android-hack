@@ -39,6 +39,7 @@ import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.bitmaps.PicassoScrollListener
+import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -378,6 +379,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
         favoritesMenuItem.setOnMenuItemClickListener {
             val intent = Intent(context, HotelFavoritesActivity::class.java)
+            baseViewModel.cachedParams?.shopWithPoints.let { swp ->
+                intent.putExtra(Codes.INFOSITE_DEEPLINK_USE_SWP, swp)
+            }
             context.startActivity(intent)
             true
         }

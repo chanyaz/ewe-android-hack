@@ -61,6 +61,7 @@ import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.DeprecatedProgressDialog
 import com.expedia.bookings.widget.LoadingOverlayWidget
 import com.expedia.bookings.widget.shared.WebCheckoutView
+import com.expedia.ui.HotelActivity
 import com.expedia.ui.HotelActivity.Screen
 import com.expedia.util.endlessObserver
 import com.expedia.vm.GeocodeSearchModel
@@ -568,7 +569,9 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             if (forward) {
                 detailPresenter.hotelDetailView.refresh()
                 hotelDetailViewModel.addViewsAfterTransition()
-                backStack.push(searchPresenter)
+                if ((context as? HotelActivity)?.infositeDeeplinkDontBackToSearch != true) {
+                    backStack.push(searchPresenter)
+                }
             }
         }
     }

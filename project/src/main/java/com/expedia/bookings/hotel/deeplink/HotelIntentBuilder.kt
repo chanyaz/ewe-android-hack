@@ -8,6 +8,7 @@ import com.expedia.bookings.data.DeprecatedHotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.DeprecatedHotelSearchParams.SearchType
 import com.expedia.bookings.deeplink.HotelDeepLink
+import com.expedia.bookings.utils.validation.CalendarRulesDateValidator
 import com.expedia.bookings.hotel.util.HotelCalendarRules
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.ui.HotelActivity
@@ -22,11 +23,11 @@ class HotelIntentBuilder {
     private var fromDeepLink = false
     private var memberDealSearch = false
 
-    fun from(context: Context, deepLink: HotelDeepLink): HotelIntentBuilder {
+    fun from(context: Context, deepLink: HotelDeepLink, fromDeepLink: Boolean = true): HotelIntentBuilder {
         var isDatelessSearch = false
 
         val hotelSearchParams = DeprecatedHotelSearchParams()
-        fromDeepLink = true
+        this.fromDeepLink = fromDeepLink
 
         if (deepLink.checkInDate != null) {
             hotelSearchParams.checkInDate = deepLink.checkInDate
@@ -53,10 +54,8 @@ class HotelIntentBuilder {
             hotelSearchParams.regionId = hotelId
 
             val calendarRules = HotelCalendarRules(context)
-            val firstAvailableDate = calendarRules.getFirstAvailableDate()
-            isDatelessSearch = deepLink.checkInDate == null || deepLink.checkOutDate == null ||
-                    deepLink.checkInDate!!.isBefore(firstAvailableDate) ||
-                    deepLink.checkOutDate!!.isBefore(firstAvailableDate)
+            val dateValidator = CalendarRulesDateValidator(calendarRules, false)
+            isDatelessSearch = !dateValidator.validateStartEndDate(deepLink.checkInDate, deepLink.checkOutDate)
 
             Log.d(TAG, "Setting hotel search id: " + hotelSearchParams.regionId)
         } else if (deepLink.regionId != null) {
@@ -85,6 +84,10 @@ class HotelIntentBuilder {
         memberDealSearch = deepLink.memberOnlyDealSearch
 
         params = HotelsV2DataUtil.getHotelV2SearchParams(context, hotelSearchParams, isDatelessSearch)
+
+        if (deepLink.shopWithPoints != null) {
+            params?.shopWithPoints = deepLink.shopWithPoints!!
+        }
 
         return this
     }

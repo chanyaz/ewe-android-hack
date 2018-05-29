@@ -12,6 +12,11 @@ public class Codes {
 	public static final String FROM_DEEPLINK = "TAG_FROM_DEEPLINK";
 	public static final String FROM_DEEPLINK_TO_DETAILS = "TAG_FROM_DEEPLINK_TO_DETAILS";
 
+	// Data for favorite activity
+	public static final String INFOSITE_DEEPLINK_DONT_BACK_TO_SEARCH = "INFOSITE_DEEPLINK_DONT_BACK_TO_SEARCH";
+	public static final String KEEP_HOTEL_MODULE_ON_DESTROY = "KEEP_HOTEL_MODULE_ON_DESTROY";
+	public static final String INFOSITE_DEEPLINK_USE_SWP = "INFOSITE_DEEPLINK_USE_SWP";
+
 	// Indicates we should open search automatically when launching a screen
 	public static final String EXTRA_OPEN_SEARCH = "EXTRA_OPEN_SEARCH";
 	public static final String EXTRA_OPEN_RESULTS = "EXTRA_OPEN_RESULTS";

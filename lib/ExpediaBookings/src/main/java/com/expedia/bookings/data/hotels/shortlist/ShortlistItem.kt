@@ -8,5 +8,5 @@ data class ShortlistItem(
         var uid: String? = null,
         var expUserId: String? = null,
         var siteId: String? = null,
-        var metadata: ShortlistItemMetadata? = null,
+        var metaData: ShortlistItemMetadata? = null,
         var lastModifiedDate: LastModifiedDate? = null)

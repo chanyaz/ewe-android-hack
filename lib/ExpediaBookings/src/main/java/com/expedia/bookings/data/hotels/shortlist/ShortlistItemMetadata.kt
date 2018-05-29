@@ -1,5 +1,8 @@
 package com.expedia.bookings.data.hotels.shortlist
 
+import org.joda.time.LocalDate
+import org.joda.time.format.DateTimeFormat
+
 /**
  * chkIn, chkOut, should be in format yyyyMMdd
  *
@@ -10,4 +13,60 @@ data class ShortlistItemMetadata(
         var hotelId: String? = null,
         var chkIn: String? = null,
         var chkOut: String? = null,
-        var roomConfiguration: String? = null)
+        var roomConfiguration: String? = null) {
+
+    private val formatter = DateTimeFormat.forPattern("yyyyMMdd")
+
+    fun getCheckInLocalDate(): LocalDate? {
+        if (chkIn.isNullOrBlank()) {
+            return null
+        }
+        return try {
+            LocalDate.parse(chkIn, formatter)
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    fun getCheckOutLocalDate(): LocalDate? {
+        if (chkOut.isNullOrBlank()) {
+            return null
+        }
+        return try {
+            LocalDate.parse(chkOut, formatter)
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    fun getNumberOfAdults(): Int? {
+        if (roomConfiguration.isNullOrBlank() || roomConfiguration?.indexOf("|") == 0) {
+            return null
+        }
+
+        val adultChildrenSplit = roomConfiguration!!.split(delimiters = *arrayOf("|"), ignoreCase = false, limit = 2)
+        return if (adultChildrenSplit.isNotEmpty()) {
+            adultChildrenSplit[0].toIntOrNull()
+        } else {
+            null
+        }
+    }
+
+    fun getChildrenAges(): List<Int> {
+        if (roomConfiguration.isNullOrBlank() || roomConfiguration?.indexOf("|") == 0) {
+            return emptyList()
+        }
+
+        val adultChildrenSplit = roomConfiguration!!.split(delimiters = *arrayOf("|"), ignoreCase = false, limit = 2)
+        return if (adultChildrenSplit.size > 1) {
+            val childrenAgeList = adultChildrenSplit[1].split("-").map { it.toIntOrNull() }
+            if (childrenAgeList.contains(null)) {
+                emptyList()
+            } else {
+                childrenAgeList.map { it!! }
+            }
+        } else {
+            emptyList()
+        }
+    }
+}

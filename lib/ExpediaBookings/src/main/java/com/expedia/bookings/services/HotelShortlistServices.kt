@@ -42,8 +42,8 @@ class HotelShortlistServices(endpoint: String, okHttpClient: OkHttpClient,
     fun saveFavoriteHotel(hotelId: String, checkIn: LocalDate, checkOut: LocalDate, roomConfiguration: String, observer: Observer<HotelShortlistResponse<ShortlistItem>>) {
         val metadata = ShortlistItemMetadata().apply {
             this.hotelId = hotelId
-            this.chkIn = checkIn.toString("yyyyMMdd")
-            this.chkOut = checkOut.toString("yyyyMMdd")
+            chkIn = checkIn.toString("yyyyMMdd")
+            chkOut = checkOut.toString("yyyyMMdd")
             this.roomConfiguration = roomConfiguration
         }
         return hotelShortListApi.save(metadata, hotelId, CONFIG_ID, PAGE_NAME)

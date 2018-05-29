@@ -16,4 +16,5 @@ class HotelDeepLink : DeepLink() {
     var memberOnlyDealSearch: Boolean = false
     var selectedHotelId: String? = null
     var isBaseURL: Boolean = false
+    var shopWithPoints: Boolean? = null
 }
