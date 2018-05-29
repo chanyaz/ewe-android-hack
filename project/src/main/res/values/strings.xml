@@ -1116,6 +1116,8 @@
     <string name="Cruise">Cruise</string>
     <!-- Default (fallback) itin card title for ACTIVITY -->
     <string name="Activity">Activity</string>
+    <!-- Itin LOB label for Rail -->
+    <string name="Rail">Rail</string>
     <!-- Activity information -->
     <string name="activity_information">Activity Information</string>
     <!-- Depart (TZ) template -->
@@ -1431,6 +1433,14 @@
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">{amount} total amount paid</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
     <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">{amount} total due at hotel</string>
+    <!--Hotel itin price summary subtotal label-->
+    <string name="itin_hotel_details_price_summary_subtotal_label">Subtotal</string>
+    <!--Hotel itin price summary products description template - two products. {firstproduct} and {secondproduct} bundle (eg. Hotel and Flight bundle)-->
+    <string name="itin_hotel_details_price_summary_product_description_two">{firstproduct} and {secondproduct} bundle</string>
+    <!--Hotel itin price summary products description template - many products. {products} and {lastproduct} bundle (eg. Hotel, Car and Flight bundle)-->
+    <string name="itin_hotel_details_price_summary_product_description_many">{products} and {lastproduct} bundle</string>
+    <!--Hotel itin price summary products description template - one product. {product} bundle (eg. Hotel bundle)-->
+    <string name="itin_hotel_details_price_summary_product_description_one">{product} bundle</string>
     <!--Hotel itin card price summary additional pricing information button-->
     <string name="itin_hotel_details_price_summary_additional_info_button_text">Additional pricing information</string>
     <!--Hotel itin card price summary additional pricing information additional hotel fees heading-->

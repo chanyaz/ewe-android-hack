@@ -27,11 +27,11 @@ class HotelItinPricingSummaryView(context: Context?, attrs: AttributeSet?) : Car
     val additionalPriceInfoButton by bindView<LinearLayout>(R.id.hotel_itin_pricing_summary_additional_pricing_info_button)
 
     var viewModel: IHotelItinPricingSummaryViewModel by notNullAndObservable {
-        it.roomContainerClearSubject.subscribe {
+        it.priceBreakdownContainerClearSubject.subscribe {
             roomContainerView.removeAllViews()
         }
 
-        it.roomContainerItemSubject.subscribe { item ->
+        it.priceBreakdownContainerItemSubject.subscribe { item ->
             val view: PriceSummaryItemView = Ui.inflate(R.layout.hotel_itin_price_summary_item_view, roomContainerView, false)
             setupPriceLineItem(view, item)
             roomContainerView.addView(view)

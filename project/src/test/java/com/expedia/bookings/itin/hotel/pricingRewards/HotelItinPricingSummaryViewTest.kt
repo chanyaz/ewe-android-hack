@@ -82,11 +82,11 @@ class HotelItinPricingSummaryViewTest {
         roomContainerItemObserver.assertEmpty()
         roomContainerClearObserver.assertEmpty()
         assertEquals(0, getAllLineItemViews().size)
-        viewModel.hotelObserver.onChanged(viewModel.scope.itinHotelRepo.liveDataHotel.value)
+        viewModel.itinObserver.onChanged(viewModel.scope.itinHotelRepo.liveDataItin.value)
 
         assertEquals(12, getAllLineItemViews().size)
 
-        viewModel.hotelObserver.onChanged(getScope(true).itinHotelRepo.liveDataHotel.value)
+        viewModel.itinObserver.onChanged(getScope(true).itinHotelRepo.liveDataItin.value)
 
         assertEquals(5, getAllLineItemViews().size)
     }
@@ -261,8 +261,8 @@ class HotelItinPricingSummaryViewTest {
     private fun viewModelWithMultipleRooms(): HotelItinPricingSummaryViewModel<HotelItinPricingSummaryScope> {
         val viewModel = HotelItinPricingSummaryViewModel(getScope())
 
-        viewModel.roomContainerClearSubject.subscribe(roomContainerClearObserver)
-        viewModel.roomContainerItemSubject.subscribe(roomContainerItemObserver)
+        viewModel.priceBreakdownContainerClearSubject.subscribe(roomContainerClearObserver)
+        viewModel.priceBreakdownContainerItemSubject.subscribe(roomContainerItemObserver)
         return viewModel
     }
 
@@ -300,8 +300,8 @@ class HotelItinPricingSummaryViewTest {
     }
 
     class MockPriceSummaryViewModel : IHotelItinPricingSummaryViewModel {
-        override val roomContainerClearSubject = PublishSubject.create<Unit>()
-        override val roomContainerItemSubject = PublishSubject.create<HotelItinPriceLineItem>()
+        override val priceBreakdownContainerClearSubject = PublishSubject.create<Unit>()
+        override val priceBreakdownContainerItemSubject = PublishSubject.create<HotelItinPriceLineItem>()
         override val multipleGuestItemSubject = PublishSubject.create<HotelItinPriceLineItem>()
         override val taxesAndFeesItemSubject = PublishSubject.create<HotelItinPriceLineItem>()
         override val couponsItemSubject = PublishSubject.create<HotelItinPriceLineItem>()
