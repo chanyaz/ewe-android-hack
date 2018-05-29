@@ -458,8 +458,8 @@ class HotelItinPricingSummaryViewModelTest {
     private fun getViewModel(): HotelItinPricingSummaryViewModel<MockHotelItinPricingSummaryScope> {
         val viewModel = HotelItinPricingSummaryViewModel(MockHotelItinPricingSummaryScope())
 
-        viewModel.priceBreakdownContainerItemSubject.subscribe(priceBreakdownItemObserver)
-        viewModel.priceBreakdownContainerClearSubject.subscribe(priceBreakdownContainerClearObserver)
+        viewModel.priceBreakdownItemSubject.subscribe(priceBreakdownItemObserver)
+        viewModel.priceBreakdownResetSubject.subscribe(priceBreakdownContainerClearObserver)
         viewModel.multipleGuestItemSubject.subscribe(multipleGuestItemObserver)
         viewModel.taxesAndFeesItemSubject.subscribe(taxesAndFeesItemObserver)
         viewModel.couponsItemSubject.subscribe(couponItemObserver)

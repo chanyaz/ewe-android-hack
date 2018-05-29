@@ -26,8 +26,8 @@ import io.reactivex.subjects.PublishSubject
 class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingSummaryViewModel where S : HasLifecycleOwner, S : HasStringProvider, S : HasHotelRepo, S : HasActivityLauncher {
     var itinObserver: LiveDataObserver<Itin>
 
-    override val priceBreakdownContainerClearSubject: PublishSubject<Unit> = PublishSubject.create()
-    override val priceBreakdownContainerItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create()
+    override val priceBreakdownResetSubject: PublishSubject<Unit> = PublishSubject.create()
+    override val priceBreakdownItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create()
     override val multipleGuestItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create()
     override val taxesAndFeesItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create()
     override val couponsItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create()
@@ -43,7 +43,7 @@ class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingS
             val hotel = itin?.firstHotel() ?: return@LiveDataObserver
             when {
                 itin.isPackage() -> {
-                    priceBreakdownContainerClearSubject.onNext(Unit)
+                    priceBreakdownResetSubject.onNext(Unit)
                     itin.packages?.firstOrNull()?.let {
                         //bundle title
                         setBundleContentsLabel(getProductsDescriptionString(it))
@@ -59,7 +59,7 @@ class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingS
                 }
                 itin.isMultiItemCheckout() -> {
                     //bundle title
-                    priceBreakdownContainerClearSubject.onNext(Unit)
+                    priceBreakdownResetSubject.onNext(Unit)
                     setBundleContentsLabel(getProductsDescriptionString(itin))
 
                     //micko subtotal
@@ -80,23 +80,23 @@ class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingS
                 else -> {
                     //room price details
                     val rooms = hotel.rooms
-                    priceBreakdownContainerClearSubject.onNext(Unit)
+                    priceBreakdownResetSubject.onNext(Unit)
                     rooms?.filter { it.bookingStatus == BookingStatus.BOOKED }?.forEach { room ->
                         val priceDetails = room.totalPriceDetails
                         priceDetails?.let {
                             val roomPrice = getRoomTotalPriceItem(priceDetails)
                             if (roomPrice != null) {
-                                priceBreakdownContainerItemSubject.onNext(roomPrice)
+                                priceBreakdownItemSubject.onNext(roomPrice)
                             }
 
                             val roomPricesPerDay = getRoomPricePerDayItems(priceDetails)
                             roomPricesPerDay?.forEach {
-                                priceBreakdownContainerItemSubject.onNext(it)
+                                priceBreakdownItemSubject.onNext(it)
                             }
 
                             val propertyFee = getRoomPropertyFeeItem(room)
                             if (propertyFee != null) {
-                                priceBreakdownContainerItemSubject.onNext(propertyFee)
+                                priceBreakdownItemSubject.onNext(propertyFee)
                             }
                         }
                     }
@@ -207,13 +207,13 @@ class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingS
     private fun setSubtotal(subtotalPrice: String?) {
         if (subtotalPrice != null && !subtotalPrice.isBlank()) {
             val subtotalItem = HotelItinPriceLineItem(scope.strings.fetch(R.string.itin_hotel_details_price_summary_subtotal_label), subtotalPrice, R.color.itin_price_summary_label_gray_light)
-            priceBreakdownContainerItemSubject.onNext(subtotalItem)
+            priceBreakdownItemSubject.onNext(subtotalItem)
         }
     }
 
     private fun setBundleContentsLabel(bundleContentsString: String) {
         val packageContentsItem = HotelItinPriceLineItem(bundleContentsString, "", R.color.itin_price_summary_label_gray_dark)
-        priceBreakdownContainerItemSubject.onNext(packageContentsItem)
+        priceBreakdownItemSubject.onNext(packageContentsItem)
     }
 
     fun getProductsDescriptionString(productsContainer: HasProducts): String {

@@ -19,7 +19,7 @@
         android:padding="16dp">
 
         <LinearLayout
-            android:id="@+id/hotel_itin_pricing_summary_room_container"
+            android:id="@+id/hotel_itin_pricing_summary_price_breakdown_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />

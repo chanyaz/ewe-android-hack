@@ -21,7 +21,6 @@ interface HasProducts {
     fun listOfTripProducts(): List<TripProducts> = makeListOfTripProducts(this)
 }
 
-//enum representing the various products available in an itin
 enum class TripProducts {
     HOTEL,
     FLIGHT,
@@ -84,16 +83,18 @@ fun Itin.packagePrice(): String? {
 }
 
 fun makeListOfTripProducts(productsContainer: HasProducts): List<TripProducts> {
-    val productList = mutableListOf<TripProducts>()
-    if (productsContainer.hotels.hasItems()) productList.add(TripProducts.HOTEL)
-    if (productsContainer.flights.hasItems()) productList.add(TripProducts.FLIGHT)
-    if (productsContainer.cars.hasItems()) productList.add(TripProducts.CAR)
-    if (productsContainer.activities.hasItems()) productList.add(TripProducts.ACTIVITY)
-    if (productsContainer.rails.hasItems()) productList.add(TripProducts.RAIL)
-    if (productsContainer.cruises.hasItems()) productList.add(TripProducts.CRUISE)
-    return productList
+    val tripProductsList = mutableListOf<TripProducts>()
+    addProductIfExists(tripProductsList, productsContainer.hotels, TripProducts.HOTEL)
+    addProductIfExists(tripProductsList, productsContainer.flights, TripProducts.FLIGHT)
+    addProductIfExists(tripProductsList, productsContainer.cars, TripProducts.CAR)
+    addProductIfExists(tripProductsList, productsContainer.activities, TripProducts.ACTIVITY)
+    addProductIfExists(tripProductsList, productsContainer.rails, TripProducts.RAIL)
+    addProductIfExists(tripProductsList, productsContainer.cruises, TripProducts.CRUISE)
+    return tripProductsList
 }
 
-private fun List<Any>?.hasItems(): Boolean {
-    return this.orEmpty().isNotEmpty()
+private fun addProductIfExists(tripProductsList: MutableList<TripProducts>, lobList: List<Any>?, product: TripProducts) {
+    if (lobList != null && lobList.isNotEmpty()) {
+        tripProductsList.add(product)
+    }
 }

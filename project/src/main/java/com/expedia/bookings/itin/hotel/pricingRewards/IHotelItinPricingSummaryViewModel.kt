@@ -3,8 +3,8 @@ package com.expedia.bookings.itin.hotel.pricingRewards
 import io.reactivex.subjects.PublishSubject
 
 interface IHotelItinPricingSummaryViewModel {
-    val priceBreakdownContainerClearSubject: PublishSubject<Unit>
-    val priceBreakdownContainerItemSubject: PublishSubject<HotelItinPriceLineItem>
+    val priceBreakdownResetSubject: PublishSubject<Unit>
+    val priceBreakdownItemSubject: PublishSubject<HotelItinPriceLineItem>
     val multipleGuestItemSubject: PublishSubject<HotelItinPriceLineItem>
     val taxesAndFeesItemSubject: PublishSubject<HotelItinPriceLineItem>
     val couponsItemSubject: PublishSubject<HotelItinPriceLineItem>

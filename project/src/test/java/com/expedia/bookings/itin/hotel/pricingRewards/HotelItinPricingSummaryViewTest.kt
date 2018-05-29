@@ -255,14 +255,14 @@ class HotelItinPricingSummaryViewTest {
     }
 
     private fun getAllLineItemViews(): List<PriceSummaryItemView> {
-        return testView.roomContainerView.views.filter { it is PriceSummaryItemView }.map { it as PriceSummaryItemView }
+        return testView.priceBreakdownContainerView.views.filter { it is PriceSummaryItemView }.map { it as PriceSummaryItemView }
     }
 
     private fun viewModelWithMultipleRooms(): HotelItinPricingSummaryViewModel<HotelItinPricingSummaryScope> {
         val viewModel = HotelItinPricingSummaryViewModel(getScope())
 
-        viewModel.priceBreakdownContainerClearSubject.subscribe(roomContainerClearObserver)
-        viewModel.priceBreakdownContainerItemSubject.subscribe(roomContainerItemObserver)
+        viewModel.priceBreakdownResetSubject.subscribe(roomContainerClearObserver)
+        viewModel.priceBreakdownItemSubject.subscribe(roomContainerItemObserver)
         return viewModel
     }
 
@@ -300,8 +300,8 @@ class HotelItinPricingSummaryViewTest {
     }
 
     class MockPriceSummaryViewModel : IHotelItinPricingSummaryViewModel {
-        override val priceBreakdownContainerClearSubject = PublishSubject.create<Unit>()
-        override val priceBreakdownContainerItemSubject = PublishSubject.create<HotelItinPriceLineItem>()
+        override val priceBreakdownResetSubject = PublishSubject.create<Unit>()
+        override val priceBreakdownItemSubject = PublishSubject.create<HotelItinPriceLineItem>()
         override val multipleGuestItemSubject = PublishSubject.create<HotelItinPriceLineItem>()
         override val taxesAndFeesItemSubject = PublishSubject.create<HotelItinPriceLineItem>()
         override val couponsItemSubject = PublishSubject.create<HotelItinPriceLineItem>()
