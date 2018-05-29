@@ -12,5 +12,6 @@ data class ItinPackage(
 )
 
 data class Price(
+        val subTotalFormatted: String,
         val totalFormatted: String?
 )

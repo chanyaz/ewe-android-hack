@@ -21,6 +21,7 @@ data class Itin(
         val packages: List<ItinPackage>?,
         val rewardList: List<Reward>?,
         val paymentDetails: PaymentDetails?,
+        val paymentSummary: PaymentSummary?,
         val isGuest: Boolean,
         val isShared: Boolean
 )
@@ -32,6 +33,12 @@ data class Reward(
         val logoUrl: String?,
         val viewStatementURL: String?,
         val programName: String?
+)
+
+data class PaymentSummary(
+        val totalPaidLocalizedPrice: String?,
+        val totalPaidTaxAndFeesLocalizedPrice: String?,
+        val subTotalPaidLocalizedPrice: String
 )
 
 data class PaymentDetails(
