@@ -18,4 +18,5 @@ object ItinMocker {
     val lxDetailsNoTripID = mockObject(ItinDetailsResponse::class.java, "api/trips/activity_trip_details_no_trip_id.json")?.itin!!
     val lxDetailsNoLat = mockObject(ItinDetailsResponse::class.java, "api/trips/lx_trip_details_without_email.json")?.itin!!
     val lxDetailsNoVendorPhone = mockObject(ItinDetailsResponse::class.java, "api/trips/lx_trip_details_without_vendor_phone_number.json")?.itin!!
+    val lxDetailsNoOrderNumber = mockObject(ItinDetailsResponse::class.java, "api/trips/lx_trip_details_with_email.json")?.itin!!
 }

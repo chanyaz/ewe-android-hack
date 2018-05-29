@@ -149,6 +149,13 @@ class TripsTrackingTest {
         assertItinLinkTracked("App.Itinerary.Activity.Directions")
     }
 
+    @Test
+    fun testTrackItinLxCallSupportClicked() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinLxCallSupportClicked()
+        assertItinLinkTracked("App.Itinerary.Activity.Manage.Call.Activity")
+    }
+
     fun assertItinLinkTracked(rfrrId: String) {
         OmnitureTestUtils.assertLinkTracked("Itinerary Action", rfrrId, mockAnalyticsProvider)
     }

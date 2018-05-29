@@ -263,6 +263,7 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     private const val ITIN_ACTIVITY_DETAILS_MAP = "App.Itinerary.Activity.Map"
     private const val ITIN_ACTIVITY_DETAILS_DIRECTIONS = "App.Itinerary.Activity.Directions"
     private const val ITIN_ACTIVITY_REDEEM_VOUCHER = "App.Itinerary.Activity.Redeem"
+    private const val ITIN_ACTIVITY_CALL_SUPPORT = "App.Itinerary.Activity.Manage.Call.Activity"
 
     override fun trackItinLx(trip: HashMap<String, String?>) {
         Log.d(TAG, "Tracking \"$ITIN_ACTIVITY\" pageLoad")
@@ -294,6 +295,11 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
 
     override fun trackItinLxRedeemVoucher() {
         val s = createTrackLinkEvent(ITIN_ACTIVITY_REDEEM_VOUCHER)
+        s.trackLink("Itinerary Action")
+    }
+
+    override fun trackItinLxCallSupportClicked() {
+        val s = createTrackLinkEvent(ITIN_ACTIVITY_CALL_SUPPORT)
         s.trackLink("Itinerary Action")
     }
 }

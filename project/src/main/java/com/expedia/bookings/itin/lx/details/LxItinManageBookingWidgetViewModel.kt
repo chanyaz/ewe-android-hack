@@ -2,6 +2,7 @@ package com.expedia.bookings.itin.lx.details
 
 import com.expedia.bookings.R
 import com.expedia.bookings.itin.common.ItinBookingInfoCardViewModel
+import com.expedia.bookings.itin.lx.moreHelp.LxItinMoreHelpActivity
 import com.expedia.bookings.itin.scopes.HasActivityLauncher
 import com.expedia.bookings.itin.scopes.HasLxRepo
 import com.expedia.bookings.itin.scopes.HasStringProvider
@@ -17,18 +18,18 @@ class LxItinManageBookingWidgetViewModel<S>(scope: S) where S : HasStringProvide
 
     init {
         val stringsWebViewScope = PriceSummaryCardScope(scope.strings, scope.webViewLauncher, scope.itinLxRepo)
-        val stringsActivityScope = StringsActivityScope(scope.strings, scope.activityLauncher)
+        val stringsActivityScope = StringsActivityScope(scope.strings, scope.activityLauncher, scope.itinLxRepo)
         moreHelpViewModel = ItinMoreHelpCardViewModel(stringsActivityScope)
         priceSummaryViewModel = ItinLxPriceSummaryCardViewModel(stringsWebViewScope)
         additionalInfoViewModel = ItinLxAdditionalInfoCardViewModel(stringsWebViewScope)
     }
 
-    class ItinMoreHelpCardViewModel<S>(scope: S) : ItinBookingInfoCardViewModel where S : HasStringProvider {
+    class ItinMoreHelpCardViewModel<S>(scope: S) : ItinBookingInfoCardViewModel where S : HasStringProvider, S : HasActivityLauncher, S : HasLxRepo {
         override val iconImage: Int = R.drawable.ic_itin_manage_booking_icon
         override val headingText: String = scope.strings.fetch(R.string.itin_lx_more_info_heading)
         override val subheadingText: String? = scope.strings.fetch(R.string.itin_lx_more_info_subheading)
         override val cardClickListener: () -> Unit = {
-            TODO("not implemented") //add native itin manage booking activity here
+            scope.activityLauncher.launchActivity(LxItinMoreHelpActivity, scope.itinLxRepo.liveDataItin.value!!.tripId!!)
         }
     }
 
