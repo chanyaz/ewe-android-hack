@@ -1,6 +1,7 @@
 package com.expedia.bookings.itin.lx.moreHelp
 
 import android.app.Activity
+import android.content.pm.PackageManager
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -15,6 +16,8 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.RuntimeEnvironment
+import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -64,6 +67,9 @@ class LxItinMoreHelpWidgetTest {
 
     @Test
     fun testPhoneNumberClicked() {
+        val shadowPackageManager = Shadows.shadowOf(RuntimeEnvironment.application.packageManager)
+        shadowPackageManager.setSystemFeature(PackageManager.FEATURE_TELEPHONY, true)
+
         val phoneNumberClickedTestObserver = TestObserver<Unit>()
         vm.phoneNumberClickSubject.subscribe(phoneNumberClickedTestObserver)
         phoneNumberClickedTestObserver.assertEmpty()
@@ -77,12 +83,16 @@ class LxItinMoreHelpWidgetTest {
     @Test
     fun testPhoneNumberViewGetsFocusedOnTouch() {
         val touchEvent = MotionEvent.obtain(0, 0, MotionEvent.ACTION_DOWN, 0f, 0f, 0)
+        widget.viewModel.phoneNumberSubject.onNext("12345678")
         widget.phoneNumberButton.dispatchTouchEvent(touchEvent)
         assertTrue(widget.phoneNumberButton.hasFocus())
     }
 
     @Test
     fun testSelectionToolbarCallButtonClicked() {
+        val shadowPackageManager = Shadows.shadowOf(RuntimeEnvironment.application.packageManager)
+        shadowPackageManager.setSystemFeature(PackageManager.FEATURE_TELEPHONY, true)
+
         val phoneNumberClickedTestObserver = TestObserver<Unit>()
         vm.phoneNumberClickSubject.subscribe(phoneNumberClickedTestObserver)
         phoneNumberClickedTestObserver.assertEmpty()

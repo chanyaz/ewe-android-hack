@@ -20,47 +20,43 @@ class LxItinMoreHelpViewModel<out S>(val scope: S) : IMoreHelpViewModel where S 
     override val confirmationNumberContentDescriptionSubject: PublishSubject<String> = PublishSubject.create()
     override val phoneNumberClickSubject: PublishSubject<Unit> = PublishSubject.create()
 
-    var itinLxObserver: LiveDataObserver<ItinLx>
-    var itinObserver: LiveDataObserver<Itin>
+    val itinLxObserver: LiveDataObserver<ItinLx> = LiveDataObserver { lx ->
+        val vendorName = lx?.vendorCustomerServiceOffices?.firstOrNull()?.name
+        val phoneNumber = lx?.vendorCustomerServiceOffices?.firstOrNull()?.phoneNumber
+
+        vendorName?.let { name ->
+            if (vendorName.isNotBlank()) {
+                val helpText = scope.strings.fetchWithPhrase(
+                        R.string.itin_more_help_text_TEMPLATE, mapOf("supplier" to name))
+                helpTextSubject.onNext(helpText)
+            }
+        }
+
+        phoneNumber?.let { number ->
+            phoneNumberSubject.onNext(number)
+            val contDesc = scope.strings.fetchWithPhrase(
+                    R.string.itin_lx_call_vendor_button_content_description_TEMPLATE,
+                    mapOf("phonenumber" to number))
+            callButtonContentDescriptionSubject.onNext(contDesc)
+        }
+    }
+
+    val itinObserver: LiveDataObserver<Itin> = LiveDataObserver { itin ->
+        val confirmationNumber = itin?.orderNumber
+        confirmationTitleVisibilitySubject.onNext(!confirmationNumber.isNullOrBlank())
+        confirmationNumber?.let { number ->
+            confirmationNumberSubject.onNext(number)
+            val contDesc = scope.strings.fetchWithPhrase(
+                    R.string.itin_more_help_confirmation_number_content_description_TEMPLATE,
+                    mapOf("number" to number))
+            confirmationNumberContentDescriptionSubject.onNext(contDesc)
+        }
+    }
 
     init {
-        itinLxObserver = LiveDataObserver { lx ->
-            val vendorName = lx?.vendorCustomerServiceOffices?.firstOrNull()?.name
-            val phoneNumber = lx?.vendorCustomerServiceOffices?.firstOrNull()?.phoneNumber
-
-            vendorName?.let { name ->
-                if (vendorName.isNotBlank()) {
-                    val helpText = scope.strings.fetchWithPhrase(
-                            R.string.itin_more_help_text_TEMPLATE, mapOf("supplier" to name))
-                    helpTextSubject.onNext(helpText)
-                }
-            }
-
-            phoneNumber?.let { number ->
-                phoneNumberSubject.onNext(number)
-                val contDesc = scope.strings.fetchWithPhrase(
-                        R.string.itin_lx_call_vendor_button_content_description_TEMPLATE,
-                        mapOf("phonenumber" to number))
-                callButtonContentDescriptionSubject.onNext(contDesc)
-            }
-        }
-
-        itinObserver = LiveDataObserver { itin ->
-            val confirmationNumber = itin?.orderNumber
-            confirmationTitleVisibilitySubject.onNext(!confirmationNumber.isNullOrBlank())
-            confirmationNumber?.let { number ->
-                confirmationNumberSubject.onNext(number)
-                val contDesc = scope.strings.fetchWithPhrase(
-                        R.string.itin_more_help_confirmation_number_content_description_TEMPLATE,
-                        mapOf("number" to number))
-                confirmationNumberContentDescriptionSubject.onNext(contDesc)
-            }
-        }
-
         phoneNumberClickSubject.subscribe {
             scope.tripsTracking.trackItinLxCallSupportClicked()
         }
-
         scope.itinLxRepo.liveDataLx.observe(scope.lifecycleOwner, itinLxObserver)
         scope.itinLxRepo.liveDataItin.observe(scope.lifecycleOwner, itinObserver)
     }

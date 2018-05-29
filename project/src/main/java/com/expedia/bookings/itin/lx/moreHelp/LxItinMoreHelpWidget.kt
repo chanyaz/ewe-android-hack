@@ -6,15 +6,14 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.extensions.subscribeContentDescription
 import com.expedia.bookings.extensions.subscribeText
 import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.itin.common.IMoreHelpViewModel
 import com.expedia.bookings.itin.utils.ActionModeCallbackUtil
-import com.expedia.bookings.utils.SelectableTextViewUtil
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.setOnClickForSelectableTextView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 import com.mobiata.android.SocialUtils
@@ -33,7 +32,7 @@ class LxItinMoreHelpWidget(context: Context, attr: AttributeSet?) : LinearLayout
         it.callButtonContentDescriptionSubject.subscribeContentDescription(phoneNumberButton)
         it.phoneNumberSubject.subscribe { number ->
             phoneNumberButton.text = number
-            SelectableTextViewUtil.setOnClickForSelectableTextView(phoneNumberButton, { callSupplier(number) })
+            setOnClickForSelectableTextView(phoneNumberButton, { callSupplier(number) })
         }
     }
 
@@ -48,7 +47,7 @@ class LxItinMoreHelpWidget(context: Context, attr: AttributeSet?) : LinearLayout
 
     private fun callSupplier(number: String) {
         val pm = context.packageManager
-        if (pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY) || ExpediaBookingApp.isRobolectric()) {
+        if (pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
             SocialUtils.call(context, number)
             viewModel.phoneNumberClickSubject.onNext(Unit)
         }

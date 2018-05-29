@@ -33,7 +33,6 @@ class LxItinManageBookingWidgetViewModel<S>(scope: S) where S : HasStringProvide
             itin.tripId?.let { tripId ->
                 scope.activityLauncher.launchActivity(LxItinMoreHelpActivity, tripId)
             }
-
         }
     }
 
