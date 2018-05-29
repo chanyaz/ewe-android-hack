@@ -27,7 +27,7 @@ buildscript {
         classpath "com.shazam.fork:fork-reporter-jenkins-gradle-plugin:3.3.0"
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.17.0'
         classpath "net.rdrei.android.buildtimetracker:gradle-plugin:0.11.0"
-        classpath 'com.google.gms:google-services:3.2.1'
+        classpath 'com.google.gms:google-services:4.0.1'
         classpath 'org.codehaus.groovy:groovy-all:2.4.12'
     }
 }
@@ -49,7 +49,6 @@ apply plugin: 'com.github.ben-manes.versions'
 // Sub-projects/library projects will refer to these top-level SDK and buildTools versions
 
 ext.supportLibVersion = "26.1.0"
-ext.googlePlayServicesVersion = "11.8.0"
 
 ext.compileSdkVersion = 26
 ext.buildToolsVersion = "27.0.3"

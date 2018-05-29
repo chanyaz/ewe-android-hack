@@ -64,9 +64,9 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:${lifecyle_version}"
     implementation "android.arch.lifecycle:common-java8:${lifecyle_version}"
 
-    implementation "com.google.android.gms:play-services-maps:${rootProject.ext.googlePlayServicesVersion}"
-    implementation "com.google.android.gms:play-services-location:${rootProject.ext.googlePlayServicesVersion}"
-    implementation "com.google.android.gms:play-services-gcm:${rootProject.ext.googlePlayServicesVersion}"
+    implementation "com.google.android.gms:play-services-maps:15.0.1"
+    implementation "com.google.android.gms:play-services-location:15.0.1"
+    implementation "com.google.android.gms:play-services-gcm:15.0.1"
 
     implementation "android.arch.persistence.room:runtime:${room_persistence_version}"
     testImplementation "android.arch.persistence.room:testing:${room_persistence_version}"
@@ -94,9 +94,10 @@ dependencies {
         exclude group: 'com.squareup.okio'
         exclude group: 'com.intellij'
     }
-    implementation "com.google.firebase:firebase-core:${rootProject.ext.googlePlayServicesVersion}"
-    implementation "com.google.firebase:firebase-invites:${rootProject.ext.googlePlayServicesVersion}"
-    implementation "com.google.android.gms:play-services-ads:${rootProject.ext.googlePlayServicesVersion}"
+    implementation "com.google.firebase:firebase-core:15.0.2"
+    implementation "com.google.firebase:firebase-invites:15.0.1"
+    implementation "com.google.android.gms:play-services-ads:15.0.1"
+    implementation "com.android.support:support-core-utils:${rootProject.ext.supportLibVersion}"
 
     implementation ('com.tune:tune-marketing-console-sdk:4.10.1') {
         exclude group: 'com.android.support', module: 'support-v4'

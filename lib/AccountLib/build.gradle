@@ -45,7 +45,7 @@ dependencies {
 
     api 'com.facebook.android:facebook-android-sdk:4.8.1'
 
-    api "com.google.android.gms:play-services-safetynet:${rootProject.ext.googlePlayServicesVersion}"
+    api "com.google.android.gms:play-services-safetynet:15.0.1"
 
     testImplementation  'junit:junit:4.12'
     testImplementation "org.robolectric:robolectric:${robolectric_version}"
