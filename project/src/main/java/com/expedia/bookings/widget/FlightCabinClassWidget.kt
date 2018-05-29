@@ -64,6 +64,9 @@ class FlightCabinClassWidget(context: Context, attrs: AttributeSet?) : SearchInp
         dialog.setOnDismissListener {
             flightCabinClassView.viewmodel.flightSelectedCabinClassIdObservable.onNext(flightCabinClassView.getIdByClass(flightCabinClassView.viewmodel.flightCabinClassObservable.value))
         }
+        dialog.setOnShowListener {
+            FlightsV2Tracking.trackFlightCabinClassViewDisplayed(lob)
+        }
         dialog
     }
 }

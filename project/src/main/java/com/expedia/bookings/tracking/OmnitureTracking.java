@@ -1789,7 +1789,7 @@ public class OmnitureTracking {
 	//
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	private static final String FLIGHT_SEATING_CLASS_SELECT = "App.Flight.DS.SeatingClass.";
+	private static final String FLIGHT_SEATING_CLASS_SELECT = "App.Flight.DS.SeatingClass";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_OUT = "App.Flight.Search.Roundtrip.Out";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_OUT_HOTELBANNER_SELECT = "App.Flight.Search.Roundtrip.Out.HotelBanner.Select";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_OUT_DETAILS = "App.Flight.Search.Roundtrip.Out.Details";
@@ -4514,7 +4514,7 @@ public class OmnitureTracking {
 	private static final String PACKAGES_CHECKOUT_INFO = "App.Package.Checkout.Info";
 	private static final String PACKAGES_DESTINATION_SEARCH = "App.Package.Dest-Search";
 	private static final String PACKAGES_SEARCH_TRAVELER_PICKER_CLICK_TEMPLATE = "App.Package.Traveler.";
-	private static final String PACKAGES_SEATING_CLASS_SELECT = "App.Packages.DS.SeatingClass.";
+	private static final String PACKAGES_SEATING_CLASS_SELECT = "App.Packages.DS.SeatingClass";
 	private static final String PACKAGES_HOTEL_SEARCH_RESULT_LOAD = "App.Package.Hotels.Search";
 	private static final String PACKAGES_HOTEL_SEARCH_ZERO_RESULT_LOAD = "App.Package.Hotels-Search.NoResults";
 	private static final String PACKAGES_HOTEL_SEARCH_SPONSORED_PRESENT = "App.Package.Hotels.Search.Sponsored.YES";
@@ -6138,9 +6138,19 @@ public class OmnitureTracking {
 		trackPriceChange(s, priceChangePercentage, FLIGHTS_V2_CHECKOUT_PRICE_CHANGE, "FLT|", "Flight Checkout");
 	}
 
+	public static void trackFlightCabinClassViewDisplayed(LineOfBusiness lob) {
+		String pageName = lob == LineOfBusiness.FLIGHTS_V2 ? FLIGHT_SEATING_CLASS_SELECT : PACKAGES_SEATING_CLASS_SELECT;
+		Log.d(TAG, "Tracking \"" + pageName + "\" page load...");
+
+		AppAnalytics s = createTrackPageLoadEventBase(pageName);
+		s.setEvar(18, pageName);
+		s.track();
+	}
+
 	public static void trackFlightCabinClassSelect(LineOfBusiness lineOfBusiness, String cabinClass) {
-		String pageName = lineOfBusiness == LineOfBusiness.FLIGHTS_V2 ? FLIGHT_SEATING_CLASS_SELECT
-			: PACKAGES_SEATING_CLASS_SELECT + cabinClass;
+		String pageName = lineOfBusiness == LineOfBusiness.FLIGHTS_V2  ?
+			FLIGHT_SEATING_CLASS_SELECT : PACKAGES_SEATING_CLASS_SELECT;
+		pageName = pageName + "." + cabinClass;
 		String linkName = lineOfBusiness == LineOfBusiness.FLIGHTS_V2 ? "Search Results Update" : "Fare Family";
 		AppAnalytics s = createTrackLinkEvent(pageName);
 		s.trackLink(linkName);
