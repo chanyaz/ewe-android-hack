@@ -603,6 +603,52 @@ class FlightOverviewPresenterTest {
         widget.getTransition("Test screen 1", "Test screen 2")
     }
 
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testRefreshingOutboundWidgetForRichContent() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsRichContent, 3)
+        val refreshOutboundBundleWidgetTestSubscriber = TestObserver.create<Unit>()
+        widget = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
+        widget.flightSummary.viewmodel.refreshOutboundBundleWidgetStream.subscribe(refreshOutboundBundleWidgetTestSubscriber)
+        val searchParams = getSearchParams(true).build()
+        widget.flightSummary.viewmodel.params.onNext(searchParams)
+        val testSubscriber = TestObserver.create<FlightCreateTripResponse>()
+        val params = FlightCreateTripParams.Builder().productKey("happy_round_trip").build()
+        flightServiceRule.services!!.createTrip(params, testSubscriber)
+        widget.getCheckoutPresenter().getCreateTripViewModel().updateOverviewUiObservable.onNext(testSubscriber.values()[0])
+        refreshOutboundBundleWidgetTestSubscriber.assertValuesAndClear(Unit)
+    }
+
+    private fun getSearchParams(roundTrip: Boolean): FlightSearchParams.Builder {
+        val origin = getDummySuggestion()
+        val destination = getDummySuggestion()
+        val startDate = LocalDate.now()
+        val endDate = startDate.plusDays(2)
+        val paramsBuilder = FlightSearchParams.Builder(26, 500)
+                .origin(origin)
+                .destination(destination)
+                .startDate(startDate)
+                .adults(1) as FlightSearchParams.Builder
+        paramsBuilder.flightCabinClass("coach")
+
+        if (roundTrip) {
+            paramsBuilder.endDate(endDate)
+        }
+        return paramsBuilder
+    }
+
+    private fun getDummySuggestion(): SuggestionV4 {
+        val suggestion = SuggestionV4()
+        suggestion.gaiaId = ""
+        suggestion.regionNames = SuggestionV4.RegionNames()
+        suggestion.regionNames.displayName = ""
+        suggestion.regionNames.fullName = ""
+        suggestion.regionNames.shortName = ""
+        suggestion.hierarchyInfo = SuggestionV4.HierarchyInfo()
+        suggestion.hierarchyInfo!!.airport = SuggestionV4.Airport()
+        suggestion.hierarchyInfo!!.airport!!.airportCode = ""
+        return suggestion
+    }
+
     private fun setupFlightSearchParams(isRoundTrip: Boolean = true): FlightSearchParams {
         val departureSuggestion = SuggestionV4()
         departureSuggestion.gaiaId = "1234"

@@ -8,6 +8,7 @@ import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
+import com.expedia.bookings.utils.isRichContentEnabled
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.PublishSubject
 import org.joda.time.format.DateTimeFormat
@@ -27,6 +28,7 @@ class FlightOverviewSummaryViewModel(val context: Context) {
     val freeCancellationInfoClickSubject = PublishSubject.create<Unit>()
     val freeCancellationInfoSubject = PublishSubject.create<Boolean>()
     val isFareFamilyUpgraded = PublishSubject.create<Boolean>()
+    val refreshOutboundBundleWidgetStream = PublishSubject.create<Unit>()
 
     init {
         freeCancellationInfoClickSubject
@@ -70,6 +72,11 @@ class FlightOverviewSummaryViewModel(val context: Context) {
                 updateInboundSeatClassAndCodeSubject.onNext(it.trip.details.offer.offersSeatClassAndBookingCode.last())
             }
             isFareFamilyUpgraded.onNext(it.trip.isFareFamilyUpgraded)
+            if (isRichContentEnabled(context)) {
+                if (!it.trip.isFareFamilyUpgraded && it.params.isRoundTrip()) {
+                    refreshOutboundBundleWidgetStream.onNext(Unit)
+                }
+            }
         }
     }
 }
