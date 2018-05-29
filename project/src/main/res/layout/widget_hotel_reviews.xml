@@ -58,7 +58,8 @@
         app:navigationIcon="@drawable/ic_close_white_24dp"
         app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
         app:subtitleTextAppearance="@style/ToolbarSubtitleTextAppearance"
-        app:contentInsetStartWithNavigation="0dp" />
+        app:contentInsetStartWithNavigation="0dp"
+        app:collapseIcon="@drawable/hotel_review_search_bar_back_arrow" />
 
     <com.expedia.bookings.hotel.widget.HotelSelectARoomBar
         android:id="@+id/hotel_reviews_select_a_room_bar"
@@ -71,5 +72,14 @@
         android:background="?attr/hotel_select_room_ripple_drawable"
         android:minHeight="?attr/actionBarSize"
         android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/hotel_review_search_results_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/hotel_reviews_toolbar"
+        android:background="@color/white"
+        android:visibility="gone"
+        android:orientation="vertical" />
 
 </merge>

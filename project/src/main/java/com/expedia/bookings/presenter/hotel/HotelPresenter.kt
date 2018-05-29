@@ -1083,6 +1083,10 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             return true
         }
 
+        if (reviewsView.back()) {
+            return true
+        }
+
         if (loadingOverlay.visibility != View.VISIBLE) {
             return super.back()
         }

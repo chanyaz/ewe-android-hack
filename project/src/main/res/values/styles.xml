@@ -1019,4 +1019,14 @@
         <item name="colorPrimary">?attr/primary_color</item>
     </style>
 
+    <style name="HotelReviewsSearchViewTheme" parent="Widget.AppCompat.SearchView.ActionBar">
+        <item name="autoCompleteTextViewStyle">@style/HotelReviewsSearchViewTextStyle</item>
+        <item name="android:textColorHint">@color/gray600</item>
+        <item name="colorControlNormal">@color/gray600</item>
+    </style>
+
+    <style name="HotelReviewsSearchViewTextStyle" parent="Widget.AppCompat.Light.AutoCompleteTextView">
+        <item name="android:textColor">@color/gray600</item>
+    </style>
+
 </resources>

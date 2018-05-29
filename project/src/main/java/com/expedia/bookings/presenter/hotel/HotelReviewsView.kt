@@ -1,10 +1,13 @@
 package com.expedia.bookings.presenter.hotel
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
+import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
@@ -30,9 +33,9 @@ class HotelReviewsView(context: Context, attrs: AttributeSet) : RelativeLayout(c
     val hotelReviewsTabbar: HotelReviewsTabbar by bindView(R.id.hotel_reviews_tabbar)
     val viewPager: ViewPager by bindView(R.id.viewpager)
     val toolbar: Toolbar by bindView(R.id.hotel_reviews_toolbar)
-    val reviewsContainer: LinearLayout by bindView(R.id.reviews_container)
-
+    private val reviewsContainer: LinearLayout by bindView(R.id.reviews_container)
     private val selectARoomBar: HotelSelectARoomBar by bindView(R.id.hotel_reviews_select_a_room_bar)
+    private val searchListContainer: LinearLayout by bindView(R.id.hotel_review_search_results_container)
 
     var viewModel: HotelReviewsViewModel by notNullAndObservable { vm ->
         vm.toolbarTitleObservable.subscribe { hotelName ->
@@ -82,6 +85,10 @@ class HotelReviewsView(context: Context, attrs: AttributeSet) : RelativeLayout(c
             activity.onBackPressed()
             viewModel.scrollToRoomListener.onNext(Unit)
         }
+
+        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelUGCSearch)) {
+            setupSearchView()
+        }
     }
 
     fun endTransition(forward: Boolean) {
@@ -89,5 +96,29 @@ class HotelReviewsView(context: Context, attrs: AttributeSet) : RelativeLayout(c
             adapter.startDownloads()
             viewModel.trackReviewPageLoad()
         }
+    }
+
+    fun back(): Boolean {
+        return toolbar.menu.size() > 0 && toolbar.menu.getItem(0).collapseActionView()
+    }
+
+    private fun setupSearchView() {
+        toolbar.inflateMenu(R.menu.hotel_review_menu)
+        toolbar.menu.getItem(0).setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+                toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
+                searchListContainer.setVisibility(true)
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+                toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.app_primary))
+                searchListContainer.setVisibility(false)
+                return true
+            }
+        })
+
+        val searchView = toolbar.menu.getItem(0).actionView as? SearchView
+        searchView?.maxWidth = Integer.MAX_VALUE
     }
 }
