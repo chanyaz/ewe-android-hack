@@ -614,7 +614,7 @@ public class TuneUtils {
 	}
 
 	public static void trackLXDetails(String lxActivityLocation, Money totalPrice, String lxOfferSelectedDate,
-		int selectedTicketCount, String lxActivityTitle) {
+		int selectedTicketCount, String lxActivityTitle, String activityId) {
 		if (trackingProvider != null) {
 			TuneEvent event = new TuneEvent("lx_details");
 			TuneEventItem eventItem = new TuneEventItem("lx_details_item").withAttribute2(lxActivityLocation)
@@ -625,6 +625,7 @@ public class TuneUtils {
 				.withAttribute2(trackingProvider.isUserLoggedInValue())
 				.withRevenue(totalPrice.getAmount().doubleValue())
 				.withCurrencyCode(totalPrice.getCurrency())
+				.withContentId(activityId)
 				.withEventItems(Collections.singletonList(eventItem))
 				.withDate1(ApiDateUtils.yyyyMMddHHmmssToDateTime(lxOfferSelectedDate).toDate());
 			trackingProvider.trackEvent(event);
@@ -650,8 +651,9 @@ public class TuneUtils {
 				.withAttribute2(trackingProvider.isUserLoggedInValue())
 				.withRevenue(revenue)
 				.withQuantity(1)
+				.withContentId(checkoutResponse.activityId)
 				.withCurrencyCode(totalPrice.getCurrency())
-				.withAdvertiserRefId(getAdvertiserRefId(checkoutResponse.newTrip.travelRecordLocator))
+				.withAdvertiserRefId(getAdvertiserRefId(checkoutResponse.newTrip.itineraryNumber))
 				.withEventItems(Collections.singletonList(eventItem))
 				.withDate1(ApiDateUtils.yyyyMMddHHmmssToDateTime(lxActivityStartDate).toDate());
 
@@ -676,9 +678,9 @@ public class TuneUtils {
 			.withAttribute3(trackingProvider.getMembershipTier());
 	}
 
-	private static String getAdvertiserRefId(String travelRecordLocator) {
+	private static String getAdvertiserRefId(String itinNumber) {
 		String tpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
-		return String.format("%s:%s", travelRecordLocator, tpid);
+		return String.format("%s:%s", itinNumber, tpid);
 	}
 
 	private static int getLastIndex(int propertiesCount) {

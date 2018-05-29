@@ -31,13 +31,12 @@ public class AdTracker {
 	}
 
 	public static void trackLXCheckoutStarted(String lxActivityLocation, Money totalPrice, String lxOfferSelectedDate,
-		List<String> lxActivityCategories, int selectedTicketCount, String lxActivityTitle, String regionId,
+		int selectedTicketCount, String lxActivityTitle, String regionId,
 		String activityId, LocalDate startDate, int selectedChildTicketCount) {
-		TuneUtils
-			.trackLXDetails(lxActivityLocation, totalPrice, lxOfferSelectedDate, selectedTicketCount, lxActivityTitle);
-		new FacebookEvents()
-			.trackLXCheckout(activityId, lxActivityLocation, startDate, regionId, totalPrice, selectedTicketCount,
-				selectedChildTicketCount);
+		TuneUtils.trackLXDetails(lxActivityLocation, totalPrice, lxOfferSelectedDate,
+			selectedTicketCount, lxActivityTitle, activityId);
+		new FacebookEvents().trackLXCheckout(activityId, lxActivityLocation, startDate,
+			regionId, totalPrice, selectedTicketCount, selectedChildTicketCount);
 	}
 
 	public static void updatePOS() {

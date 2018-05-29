@@ -409,7 +409,7 @@ class TuneUtilsTests {
         val activityDate = "2025-12-10 12:30:00"
         val totalPrice = Money(149, "USD")
 
-        TuneUtils.trackLXDetails("Orlando", totalPrice, activityDate, 1, "Tour")
+        TuneUtils.trackLXDetails("Orlando", totalPrice, activityDate, 1, "Tour", "12345")
 
         assertEquals("lx_details", provider.trackedEvent?.eventName)
         assertEquals("lx_details_item", provider.trackedEvent?.eventItems?.first()?.itemname)
@@ -419,6 +419,7 @@ class TuneUtilsTests {
         assertEquals(totalPrice.getAmount().toDouble(), provider.trackedEvent?.revenue)
         assertEquals("USD", provider.trackedEvent?.currencyCode)
         assertEquals(ApiDateUtils.yyyyMMddHHmmssToDateTime(activityDate).toDate(), provider.trackedEvent?.date1)
+        assertEquals("12345", provider.trackedEvent?.contentId)
     }
 
     @Test
@@ -430,7 +431,8 @@ class TuneUtilsTests {
         val activityDate = "2025-12-10 12:30:00"
         val checkoutResponse = LXCheckoutResponse()
         checkoutResponse.newTrip = TripInfo()
-        checkoutResponse.newTrip.travelRecordLocator = "TRL"
+        checkoutResponse.newTrip.itineraryNumber = "TRL"
+        checkoutResponse.activityId = "98765"
 
         TuneUtils.trackLXConfirmation("San Francisco", totalPrice, ticketPrice, activityDate, checkoutResponse, "Tour", 2, 1)
 
@@ -445,6 +447,8 @@ class TuneUtilsTests {
         assertEquals(1, provider.trackedEvent?.quantity)
         assertEquals("USD", provider.trackedEvent?.currencyCode)
         assertEquals(ApiDateUtils.yyyyMMddHHmmssToDateTime(activityDate).toDate(), provider.trackedEvent?.date1)
+        assertEquals("98765", provider.trackedEvent?.contentId)
+        assertEquals("TRL:1", provider.trackedEvent?.refId)
     }
 
     private fun setupTuneProvider(membershipTier: LoyaltyMembershipTier = LoyaltyMembershipTier.BASE, isLoggedIn: Boolean = false) {
