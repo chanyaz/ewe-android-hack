@@ -66,3 +66,10 @@ data class PointsDetails(
         val m_pointValue: String?,
         val m_pointDescription: String?
 )
+
+data class ItinTime(
+        val localizedFullDate: String?,
+        val localizedShortTime: String?
+)
+
+interface ItinLOB

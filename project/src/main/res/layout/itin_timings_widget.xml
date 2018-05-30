@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView style="@style/MaterialCardView"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="11dp"
+    android:layout_marginRight="11dp"
+    app:cardUseCompatPadding="true">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp">
+
+        <ImageView
+            android:id="@+id/center_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@string/itin_flight_summary_arrow_cont_desc"
+            android:focusable="true"
+            android:tint="@color/itin_standard_text_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="parent"
+            app:layout_constraintRight_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/itin_arrow_icon" />
+
+        <LinearLayout
+            android:id="@+id/itin_start_details"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:orientation="vertical"
+            app:layout_constraintBaseline_toBaselineOf="@+id/itin_end_details"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="@+id/center_arrow"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/start_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="6dp"
+                android:textColor="@color/gray600"
+                android:textSize="12sp"
+                android:visibility="gone"
+                tools:visibility="visible"
+                tools:text="@string/itin_active" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/itin_start_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="6dp"
+                android:textColor="@color/gray900"
+                android:textSize="20sp"
+                app:textStyle="medium"
+                android:visibility="gone"
+                tools:visibility="visible"
+                tools:text="Tue, Feb 13" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/itin_start_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="6dp"
+                android:textColor="@color/gray600"
+                android:textSize="12sp"
+                android:visibility="gone"
+                tools:visibility="visible"
+                tools:text="6:45am" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/itin_end_details"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:gravity="right"
+            android:orientation="vertical"
+            app:layout_constraintBaseline_toBaselineOf="@+id/itin_start_details"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/center_view"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/end_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="6dp"
+                android:textColor="@color/gray600"
+                android:textSize="12sp"
+                android:visibility="gone"
+                tools:visibility="visible"
+                tools:text="@string/itin_expires" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/itin_end_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="6dp"
+                android:textColor="@color/gray900"
+                android:textSize="20sp"
+                app:textStyle="medium"
+                android:visibility="gone"
+                tools:visibility="visible"
+                tools:text="Tue, Feb 13" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/itin_end_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="6dp"
+                android:textColor="@color/gray600"
+                android:textSize="12sp"
+                android:visibility="gone"
+                tools:visibility="visible"
+                tools:text="12:00pm" />
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.CardView>

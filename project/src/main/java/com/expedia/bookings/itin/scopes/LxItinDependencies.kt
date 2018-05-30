@@ -3,8 +3,10 @@ package com.expedia.bookings.itin.scopes
 import com.expedia.bookings.itin.common.ItinImageViewModel
 import com.expedia.bookings.itin.common.ItinMapWidgetViewModel
 import com.expedia.bookings.itin.common.ItinRedeemVoucherViewModel
+import com.expedia.bookings.itin.common.ItinTimingsWidgetViewModel
 import com.expedia.bookings.itin.common.NewItinToolbarViewModel
 import com.expedia.bookings.itin.lx.details.LxItinManageBookingWidgetViewModel
+import com.expedia.bookings.itin.tripstore.data.ItinLOB
 
 interface ManageBookingWidgetViewModelSetter {
     fun setUpViewModel(vm: LxItinManageBookingWidgetViewModel<LxItinManageBookingWidgetScope>)
@@ -44,4 +46,12 @@ interface HasItinImageViewModelSetter {
 
 interface ItinImageViewModelSetter {
     fun setupViewModel(vm: ItinImageViewModel)
+}
+
+interface ItinTimingsViewModelSetter<T : ItinLOB> {
+    fun setupViewModel(vm: ItinTimingsWidgetViewModel<T>)
+}
+
+interface HasItinTimingsViewModelSetter<T : ItinLOB> {
+    val itinTimings: ItinTimingsViewModelSetter<T>
 }

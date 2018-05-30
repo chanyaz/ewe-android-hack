@@ -1569,6 +1569,8 @@
     <string name="itin_lx_redeem_voucher">Redeem voucher</string>
     <!--LX itin manage booking call vendor button content description. Call vendor at +18055437700. Button. Double click and hold to select. (eg., Call vendor at +18055437700. Button. Double click and hold to select.)-->
     <string name="itin_lx_call_vendor_button_content_description_TEMPLATE">Call vendor at {phonenumber}. Button. Click to call. Double click and hold to select.</string>
+    <string name="itin_active">Active</string>
+    <string name="itin_expires">Expires</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Share Itinerary</string>

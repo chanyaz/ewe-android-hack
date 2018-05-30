@@ -5,6 +5,7 @@ import android.arch.lifecycle.LifecycleOwner
 import com.expedia.bookings.itin.common.ItinImageViewModel
 import com.expedia.bookings.itin.common.ItinMapWidgetViewModel
 import com.expedia.bookings.itin.common.ItinRedeemVoucherViewModel
+import com.expedia.bookings.itin.common.ItinTimingsWidgetViewModel
 import com.expedia.bookings.itin.common.NewItinToolbarViewModel
 import com.expedia.bookings.itin.helpers.ItinMocker
 import com.expedia.bookings.itin.helpers.MockActivityLauncher
@@ -20,6 +21,7 @@ import com.expedia.bookings.itin.lx.MockItinLxToolbarScope
 import com.expedia.bookings.itin.scopes.HasActivityLauncher
 import com.expedia.bookings.itin.scopes.HasItinId
 import com.expedia.bookings.itin.scopes.HasItinImageViewModelSetter
+import com.expedia.bookings.itin.scopes.HasItinTimingsViewModelSetter
 import com.expedia.bookings.itin.scopes.HasJsonUtil
 import com.expedia.bookings.itin.scopes.HasManageBookingWidgetViewModelSetter
 import com.expedia.bookings.itin.scopes.HasMapWidgetViewModelSetter
@@ -31,12 +33,15 @@ import com.expedia.bookings.itin.scopes.HasToolbarViewModelSetter
 import com.expedia.bookings.itin.scopes.HasTripsTracking
 import com.expedia.bookings.itin.scopes.HasWebViewLauncher
 import com.expedia.bookings.itin.scopes.ItinImageViewModelSetter
+import com.expedia.bookings.itin.scopes.ItinTimingsViewModelSetter
 import com.expedia.bookings.itin.scopes.LxItinManageBookingWidgetScope
 import com.expedia.bookings.itin.scopes.ManageBookingWidgetViewModelSetter
 import com.expedia.bookings.itin.scopes.MapWidgetViewModelSetter
 import com.expedia.bookings.itin.scopes.RedeemVoucherViewModelSetter
 import com.expedia.bookings.itin.scopes.ToolBarViewModelSetter
 import com.expedia.bookings.itin.tripstore.data.Itin
+import com.expedia.bookings.itin.tripstore.data.ItinLOB
+import com.expedia.bookings.itin.tripstore.data.ItinLx
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.itin.utils.IActivityLauncher
 import com.expedia.bookings.itin.utils.IPhoneHandler
@@ -56,15 +61,15 @@ class LxItinDetailsActivityLifecycleObserverTest {
     @JvmField
     val rule = InstantTaskExecutorRule()
 
-    lateinit var sut: LxItinDetailsActivityLifecycleObserver<TestLifeCycleObsScope>
+    lateinit var sut: LxItinDetailsActivityLifecycleObserver<TestLifeCycleObsScope<ItinLx>>
     lateinit var cycle: LifecycleOwner
-    lateinit var scope: TestLifeCycleObsScope
+    lateinit var scope: TestLifeCycleObsScope<ItinLx>
     lateinit var repo: MockLxRepo
     lateinit var testObserver: TestObserver<Unit>
 
     @Before
     fun setup() {
-        testObserver = TestObserver<Unit>()
+        testObserver = TestObserver()
         scope = TestLifeCycleObsScope()
         sut = LxItinDetailsActivityLifecycleObserver(scope)
         cycle = MockLifecycleOwner()
@@ -82,6 +87,7 @@ class LxItinDetailsActivityLifecycleObserverTest {
         assertFalse(scope.tripsTracker.trackItinLxCalled)
         assertFalse(scope.redeemVoucher.called)
         assertFalse(scope.mockImage.called)
+        assertFalse(scope.mockTimings.called)
 
         sut.onCreate(cycle)
 
@@ -90,6 +96,7 @@ class LxItinDetailsActivityLifecycleObserverTest {
         assertTrue(scope.tripsTracker.trackItinLxCalled)
         assertTrue(scope.redeemVoucher.called)
         assertTrue(scope.mockImage.called)
+        assertTrue(scope.mockTimings.called)
         testObserver.assertNoValues()
 
         sut.repo.invalidDataSubject.onNext(Unit)
@@ -113,7 +120,7 @@ class LxItinDetailsActivityLifecycleObserverTest {
         testObserver.assertValue(Unit)
     }
 
-    class TestLifeCycleObsScope : HasStringProvider, HasWebViewLauncher, HasActivityLauncher, HasJsonUtil, HasItinId, HasToolbarViewModelSetter, HasManageBookingWidgetViewModelSetter, HasTripsTracking, HasMapWidgetViewModelSetter, HasRedeemVoucherViewModelSetter, HasToaster, HasPhoneHandler, HasItinImageViewModelSetter {
+    class TestLifeCycleObsScope<T : ItinLOB> : HasStringProvider, HasWebViewLauncher, HasActivityLauncher, HasJsonUtil, HasItinId, HasToolbarViewModelSetter, HasManageBookingWidgetViewModelSetter, HasTripsTracking, HasMapWidgetViewModelSetter, HasRedeemVoucherViewModelSetter, HasToaster, HasPhoneHandler, HasItinImageViewModelSetter, HasItinTimingsViewModelSetter<T> {
         val mockPhoneHandler = MockPhoneHandler()
         override val phoneHandler: IPhoneHandler = mockPhoneHandler
         val mockImage = MockImageSetter()
@@ -133,6 +140,8 @@ class LxItinDetailsActivityLifecycleObserverTest {
         val toolbarMock = MockToolbarSetter()
         override val toolbar: ToolBarViewModelSetter = toolbarMock
         override val redeemVoucher: MockRedeemVoucherSetter = MockRedeemVoucherSetter()
+        val mockTimings = MockTimingsSetter<T>()
+        override val itinTimings: ItinTimingsViewModelSetter<T> = mockTimings
     }
 
     class MockReadJsonUtil : IJsonToItinUtil {
@@ -146,6 +155,13 @@ class LxItinDetailsActivityLifecycleObserverTest {
     class MockMapSetter : MapWidgetViewModelSetter {
         var called = false
         override fun setUpViewModel(vm: ItinMapWidgetViewModel) {
+            called = true
+        }
+    }
+
+    class MockTimingsSetter<T : ItinLOB>() : ItinTimingsViewModelSetter<T> {
+        var called = false
+        override fun setupViewModel(vm: ItinTimingsWidgetViewModel<T>) {
             called = true
         }
     }

@@ -10,8 +10,10 @@ data class ItinLx(
         val lxVoucherPrintURL: String?,
         val highResImage: ItinImage?,
         val activityTitle: String?,
-        val vendorCustomerServiceOffices: List<VendorCustomerServiceOffices>?
-)
+        val vendorCustomerServiceOffices: List<VendorCustomerServiceOffices>?,
+        val startTime: ItinTime?,
+        val endTime: ItinTime?
+) : ItinLOB
 
 data class ActivityLocation(
         val city: String?,

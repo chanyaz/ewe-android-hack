@@ -13,7 +13,7 @@ data class ItinHotel(
         val numberOfNights: String?,
         val localizedHotelPropertyInfo: HotelPropertyInfo?,
         val paymentsAndCreditFees: PaymentsAndCreditFees?
-)
+) : ItinLOB
 
 enum class PaymentModel {
     @SerializedName("HOTEL_COLLECT")
