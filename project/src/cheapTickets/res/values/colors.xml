@@ -6,6 +6,7 @@
     <color name="actionbar_text_color">#D00000</color>
     <color name="actionbar_text_color_disabled">#90D00000</color>
     <color name="error_color">#b80000</color>
+    <color name="brand_primary">#116FAA</color>
 
     <!-- Launch colors -->
     <color name="old_launch_toolbar_background_color">@color/action_bar_bg_color</color>
@@ -130,5 +131,8 @@
     <!--Single Page Sign Up-->
     <color name="acct__single_page_toolbar_color">@color/launch_screen_color</color>
     <color name="acct__single_page_create_account_bg_color">@color/launch_screen_color</color>
+
+    <!-- Last Minute Deal colors-->
+    <color name="last_minute_deal_background_gradient">#A6116FAA</color>
 
 </resources>

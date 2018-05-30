@@ -6,6 +6,7 @@
     <color name="action_bar_text_color">@color/white</color>
     <color name="action_bar_selected_tab_underline_color">@color/white</color>
     <color name="last_minute_primary_color">#E40088</color>
+    <color name="brand_primary">#E40088</color>
 
     <color name="lob_btn_color">#006e8c</color>
     <color name="hotel_lob_btn">@color/lob_btn_color</color>
@@ -127,5 +128,8 @@
     <!--Single Page Sign Up-->
     <color name="acct__single_page_toolbar_color">@color/launch_screen_color</color>
     <color name="acct__single_page_create_account_bg_color">@color/launch_screen_color</color>
+
+    <!-- Last Minute Deal colors-->
+    <color name="last_minute_deal_background_gradient">#A6E40088</color>
 
 </resources>

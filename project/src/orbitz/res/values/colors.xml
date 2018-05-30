@@ -2,6 +2,7 @@
 <resources>
     <color name="app_primary">#004d7c</color>
     <color name="app_primary_dark">#003D69</color>
+    <color name="brand_primary">#00253C</color>
     <color name="action_bar_bg_color">#00253C</color>
     <color name="hotels_primary_color">@color/lob_btn_color</color>
     <color name="lob_btn_color">#004D7C</color>
@@ -151,4 +152,8 @@
 
     <!--Reward Launch Card-->
     <color name="reward_launch_card_background_gradient">#4D8E0099</color>
+
+    <!-- Last Minute Deal colors-->
+    <color name="last_minute_deal_background_gradient">#A600253C</color>
+
 </resources>

@@ -2,6 +2,7 @@
 <resources>
     <color name="app_primary">#7ac231</color>
     <color name="app_primary_dark">#67B425</color>
+    <color name="brand_primary">#7AC231</color>
     <color name="action_bar_bg_color">@color/gray100</color>
     <color name="action_bar_text_color">#1F8EDE</color>
     <color name="hotels_primary_color">#7AC231</color>
@@ -126,5 +127,8 @@
     <!--Single Page Sign Up-->
     <color name="acct__single_page_toolbar_color">@color/launch_screen_color</color>
     <color name="acct__single_page_create_account_bg_color">@color/launch_screen_color</color>
+
+    <!-- Last Minute Deal colors-->
+    <color name="last_minute_deal_background_gradient">#A67AC231</color>
 
 </resources>
