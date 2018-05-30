@@ -2,14 +2,18 @@ package com.expedia.bookings.itin.lx.details
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import com.expedia.bookings.R
+import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.itin.helpers.MockActivityLauncher
 import com.expedia.bookings.itin.helpers.MockLxRepo
 import com.expedia.bookings.itin.helpers.MockStringProvider
+import com.expedia.bookings.itin.helpers.MockTripsTracking
 import com.expedia.bookings.itin.helpers.MockWebViewLauncher
 import com.expedia.bookings.itin.lx.ItinLxRepoInterface
 import com.expedia.bookings.itin.scopes.HasActivityLauncher
 import com.expedia.bookings.itin.scopes.HasLxRepo
 import com.expedia.bookings.itin.scopes.HasStringProvider
+import com.expedia.bookings.itin.scopes.HasTripsTracking
 import com.expedia.bookings.itin.scopes.HasWebViewLauncher
 import com.expedia.bookings.itin.utils.IActivityLauncher
 import com.expedia.bookings.itin.utils.IWebViewLauncher
@@ -19,6 +23,7 @@ import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 class LxItinManageBookingWidgetViewModelTest {
     @Rule
@@ -27,9 +32,11 @@ class LxItinManageBookingWidgetViewModelTest {
 
     lateinit var sut: LxItinManageBookingWidgetViewModel<MockLxItinManageBookingWidgetViewModelScope>
     lateinit var scope: MockLxItinManageBookingWidgetViewModelScope
+    lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     @Before
     fun setup() {
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
         scope = MockLxItinManageBookingWidgetViewModelScope()
         sut = LxItinManageBookingWidgetViewModel(scope)
     }
@@ -82,12 +89,19 @@ class LxItinManageBookingWidgetViewModelTest {
         assertNull(scope.webViewLauncerMock.lastSeenURL)
     }
 
-    class MockLxItinManageBookingWidgetViewModelScope : HasWebViewLauncher, HasActivityLauncher, HasLxRepo, HasStringProvider {
+    @Test
+    fun itinLxMoreHelpClickTracked() {
+        sut.moreHelpViewModel.cardClickListener.invoke()
+        assertTrue(scope.tripsTracking.trackItinLxMoreHelpClicked)
+    }
+
+    class MockLxItinManageBookingWidgetViewModelScope : HasWebViewLauncher, HasActivityLauncher, HasLxRepo, HasStringProvider, HasTripsTracking {
         override val strings: StringSource = MockStringProvider()
         val webViewLauncerMock = MockWebViewLauncher()
         override val webViewLauncher: IWebViewLauncher = webViewLauncerMock
         override val activityLauncher: IActivityLauncher = MockActivityLauncher()
         val mockRepo = MockLxRepo()
         override val itinLxRepo: ItinLxRepoInterface = mockRepo
+        override val tripsTracking = MockTripsTracking()
     }
 }

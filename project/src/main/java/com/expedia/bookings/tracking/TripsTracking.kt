@@ -237,20 +237,8 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     fun trackItinHotel(trip: HashMap<String, String?>) {
         Log.d(TAG, "Tracking \"$ITIN_HOTEL\" pageLoad")
         val s = createTrackPageLoadEventBase(ITIN_HOTEL)
-        val userTrips = getUsersTrips()
-        if (userStateManager.isUserAuthenticated()) {
-            appendUsersEventString(s)
-            s.setProp(75, TripUtils.createUsersProp75String(userTrips))
-        }
-        s.setProducts(trip.get("productString").toString())
-        s.setProp(8, trip.get("orderAndTripNumbers").toString())
-        s.setEvar(6, trip.get("duration").toString())
-        s.setProp(5, trip.get("tripStartDate").toString())
-        s.setProp(6, trip.get("tripEndDate").toString())
-        s.setEvar(5, trip.get("daysUntilTrip").toString())
-        s.appendEvents("event63")
         trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelTripTaxiCard)
-        s.track()
+        trackItinPageLoad(s, trip)
     }
 
     override fun trackItinHotelViewRewards() {
@@ -264,23 +252,12 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     private const val ITIN_ACTIVITY_DETAILS_DIRECTIONS = "App.Itinerary.Activity.Directions"
     private const val ITIN_ACTIVITY_REDEEM_VOUCHER = "App.Itinerary.Activity.Redeem"
     private const val ITIN_ACTIVITY_CALL_SUPPORT = "App.Itinerary.Activity.Manage.Call.Activity"
+    private const val ITIN_ACTIVITY_MORE_HELP = "App.Itinerary.Activity.MoreHelp"
 
     override fun trackItinLx(trip: HashMap<String, String?>) {
         Log.d(TAG, "Tracking \"$ITIN_ACTIVITY\" pageLoad")
         val s = createTrackPageLoadEventBase(ITIN_ACTIVITY)
-        val userTrips = getUsersTrips()
-        if (userStateManager.isUserAuthenticated()) {
-            appendUsersEventString(s)
-            s.setProp(75, TripUtils.createUsersProp75String(userTrips))
-        }
-        s.setProducts(trip.get("productString").toString())
-        s.setProp(8, trip.get("orderAndTripNumbers").toString())
-        s.setEvar(6, trip.get("duration").toString())
-        s.setProp(5, trip.get("tripStartDate").toString())
-        s.setProp(6, trip.get("tripEndDate").toString())
-        s.setEvar(5, trip.get("daysUntilTrip").toString())
-        s.appendEvents("event63")
-        s.track()
+        trackItinPageLoad(s, trip)
     }
 
     override fun trackItinLxDetailsMap() {
@@ -301,5 +278,34 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     override fun trackItinLxCallSupportClicked() {
         val s = createTrackLinkEvent(ITIN_ACTIVITY_CALL_SUPPORT)
         s.trackLink("Itinerary Action")
+    }
+
+    override fun trackItinLxMoreHelpClicked() {
+        val s = createTrackLinkEvent(ITIN_ACTIVITY_MORE_HELP)
+        s.trackLink("Itinerary Action")
+    }
+
+    override fun trackItinLxMoreHelpPageLoad(trip: HashMap<String, String?>) {
+        Log.d(TAG, "Tracking \"$ITIN_ACTIVITY_MORE_HELP\" pageLoad")
+        val s = createTrackPageLoadEventBase(ITIN_ACTIVITY_MORE_HELP)
+        trackItinPageLoad(s, trip)
+    }
+
+    fun trackItinPageLoad(s: AppAnalytics, trip: HashMap<String, String?>) {
+        val userTrips = getUsersTrips()
+        if (userStateManager.isUserAuthenticated()) {
+            appendUsersEventString(s)
+            s.setProp(75, TripUtils.createUsersProp75String(userTrips))
+        }
+        s.setProducts(trip.get("productString").toString())
+        s.setEvar(2, "itinerary")
+        s.setProp(2, "itinerary")
+        s.setProp(8, trip.get("orderAndTripNumbers").toString())
+        s.setEvar(6, trip.get("duration").toString())
+        s.setProp(5, trip.get("tripStartDate").toString())
+        s.setProp(6, trip.get("tripEndDate").toString())
+        s.setEvar(5, trip.get("daysUntilTrip").toString())
+        s.appendEvents("event63")
+        s.track()
     }
 }

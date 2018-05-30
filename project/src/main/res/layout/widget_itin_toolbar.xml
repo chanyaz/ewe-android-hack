@@ -28,11 +28,14 @@
                 android:id="@+id/itin_toolbar_subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingRight="16dp"
                 android:textColor="@color/itin_toolbar_text"
                 android:textSize="12sp"
                 android:textStyle="normal"
                 android:visibility="gone"
-                tools:visibility="visible"/>
+                tools:visibility="visible" />
         </LinearLayout>
 
         <com.expedia.bookings.widget.TextView

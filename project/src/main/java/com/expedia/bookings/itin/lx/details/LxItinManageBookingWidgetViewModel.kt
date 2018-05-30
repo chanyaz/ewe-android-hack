@@ -6,11 +6,12 @@ import com.expedia.bookings.itin.lx.moreHelp.LxItinMoreHelpActivity
 import com.expedia.bookings.itin.scopes.HasActivityLauncher
 import com.expedia.bookings.itin.scopes.HasLxRepo
 import com.expedia.bookings.itin.scopes.HasStringProvider
+import com.expedia.bookings.itin.scopes.HasTripsTracking
 import com.expedia.bookings.itin.scopes.HasWebViewLauncher
 import com.expedia.bookings.itin.scopes.PriceSummaryCardScope
 import com.expedia.bookings.itin.scopes.StringsActivityScope
 
-class LxItinManageBookingWidgetViewModel<S>(scope: S) where S : HasStringProvider, S : HasWebViewLauncher, S : HasActivityLauncher, S : HasLxRepo {
+class LxItinManageBookingWidgetViewModel<S>(scope: S) where S : HasStringProvider, S : HasWebViewLauncher, S : HasActivityLauncher, S : HasLxRepo, S : HasTripsTracking {
 
     val moreHelpViewModel: ItinMoreHelpCardViewModel<StringsActivityScope>
     val priceSummaryViewModel: ItinLxPriceSummaryCardViewModel<PriceSummaryCardScope>
@@ -18,13 +19,13 @@ class LxItinManageBookingWidgetViewModel<S>(scope: S) where S : HasStringProvide
 
     init {
         val stringsWebViewScope = PriceSummaryCardScope(scope.strings, scope.webViewLauncher, scope.itinLxRepo)
-        val stringsActivityScope = StringsActivityScope(scope.strings, scope.activityLauncher, scope.itinLxRepo)
+        val stringsActivityScope = StringsActivityScope(scope.strings, scope.activityLauncher, scope.itinLxRepo, scope.tripsTracking)
         moreHelpViewModel = ItinMoreHelpCardViewModel(stringsActivityScope)
         priceSummaryViewModel = ItinLxPriceSummaryCardViewModel(stringsWebViewScope)
         additionalInfoViewModel = ItinLxAdditionalInfoCardViewModel(stringsWebViewScope)
     }
 
-    class ItinMoreHelpCardViewModel<S>(scope: S) : ItinBookingInfoCardViewModel where S : HasStringProvider, S : HasActivityLauncher, S : HasLxRepo {
+    class ItinMoreHelpCardViewModel<S>(val scope: S) : ItinBookingInfoCardViewModel where S : HasStringProvider, S : HasActivityLauncher, S : HasLxRepo, S : HasTripsTracking {
         override val iconImage: Int = R.drawable.ic_itin_manage_booking_icon
         override val headingText: String = scope.strings.fetch(R.string.itin_lx_more_info_heading)
         override val subheadingText: String? = scope.strings.fetch(R.string.itin_lx_more_info_subheading)
@@ -32,6 +33,7 @@ class LxItinManageBookingWidgetViewModel<S>(scope: S) where S : HasStringProvide
             val itin = scope.itinLxRepo.liveDataItin.value!!
             itin.tripId?.let { tripId ->
                 scope.activityLauncher.launchActivity(LxItinMoreHelpActivity, tripId)
+                scope.tripsTracking.trackItinLxMoreHelpClicked()
             }
         }
     }

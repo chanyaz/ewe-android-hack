@@ -3,9 +3,12 @@ package com.expedia.bookings.tracking
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.itin.flight.common.ItinOmnitureUtils
+import com.expedia.bookings.itin.helpers.ItinMocker
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
+import org.hamcrest.Matchers
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -154,6 +157,36 @@ class TripsTrackingTest {
         assertNoTrackingHasOccurred()
         TripsTracking.trackItinLxCallSupportClicked()
         assertItinLinkTracked("App.Itinerary.Activity.Manage.Call.Activity")
+    }
+
+    @Test
+    fun testTrackItinLxMoreHelpClicked() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinLxMoreHelpClicked()
+        assertItinLinkTracked("App.Itinerary.Activity.MoreHelp")
+    }
+
+    @Test
+    fun testTrackItinLxMoreHelpPageLoad() {
+        assertNoTrackingHasOccurred()
+        val omnitureValues = ItinOmnitureUtils.createOmnitureTrackingValuesNew(ItinMocker.lxDetailsAlsoHappy, ItinOmnitureUtils.LOB.LX)
+        TripsTracking.trackItinLxMoreHelpPageLoad(omnitureValues)
+        OmnitureTestUtils.assertStateTracked("App.Itinerary.Activity.MoreHelp",
+                OmnitureMatchers.withEvars(mapOf(18 to "App.Itinerary.Activity.MoreHelp")), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackItinPageLoad() {
+        assertNoTrackingHasOccurred()
+        val omnitureValues = ItinOmnitureUtils.createOmnitureTrackingValuesNew(ItinMocker.hotelDetailsHappy, ItinOmnitureUtils.LOB.HOTEL)
+        val s = OmnitureTracking.createTrackPageLoadEventBase("Itin.Page.Load")
+        TripsTracking.trackItinPageLoad(s, omnitureValues)
+
+        OmnitureTestUtils.assertStateTracked("Itin.Page.Load", Matchers.allOf(
+                OmnitureMatchers.withEvars(mapOf(2 to "itinerary", 5 to "0.0", 6 to "4", 18 to "Itin.Page.Load")),
+                OmnitureMatchers.withProps(mapOf(2 to "itinerary", 5 to "2018-03-12", 6 to "2018-03-16", 8 to "8065305197869|7280999576135")),
+                OmnitureMatchers.withEventsString("event63"),
+                OmnitureMatchers.withProductsString(";Hotel:17669432;4;10000.00")), mockAnalyticsProvider)
     }
 
     fun assertItinLinkTracked(rfrrId: String) {

@@ -12,4 +12,6 @@ interface ITripsTracking {
     fun trackItinLxDetailsDirections()
     fun trackItinLxRedeemVoucher()
     fun trackItinLxCallSupportClicked()
+    fun trackItinLxMoreHelpClicked()
+    fun trackItinLxMoreHelpPageLoad(trip: HashMap<String, String?>)
 }
