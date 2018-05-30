@@ -12,18 +12,22 @@ import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.data.ItinHotel
 import com.expedia.bookings.itin.tripstore.data.PaymentModel
 import com.expedia.bookings.itin.tripstore.data.TotalPriceDetails
+import com.expedia.bookings.itin.tripstore.extensions.HasProducts
+import com.expedia.bookings.itin.tripstore.extensions.TripProducts
 import com.expedia.bookings.itin.tripstore.extensions.firstHotel
+import com.expedia.bookings.itin.tripstore.extensions.isMultiItemCheckout
+import com.expedia.bookings.itin.tripstore.extensions.isPackage
 import com.expedia.bookings.itin.tripstore.extensions.isPointOfSaleDifferentFromPointOfSupply
+import com.expedia.bookings.itin.tripstore.extensions.packagePrice
 import com.expedia.bookings.itin.utils.AnimationDirection
 import com.expedia.bookings.utils.FontCache.Font
 import io.reactivex.subjects.PublishSubject
 
 class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingSummaryViewModel where S : HasLifecycleOwner, S : HasStringProvider, S : HasHotelRepo, S : HasActivityLauncher {
     var itinObserver: LiveDataObserver<Itin>
-    var hotelObserver: LiveDataObserver<ItinHotel>
 
-    override val roomContainerClearSubject: PublishSubject<Unit> = PublishSubject.create()
-    override val roomContainerItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create()
+    override val priceBreakdownResetSubject: PublishSubject<Unit> = PublishSubject.create()
+    override val priceBreakdownItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create()
     override val multipleGuestItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create()
     override val taxesAndFeesItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create()
     override val couponsItemSubject: PublishSubject<HotelItinPriceLineItem> = PublishSubject.create()
@@ -34,124 +38,120 @@ class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingS
     override val additionalPricingInfoSubject: PublishSubject<Unit> = PublishSubject.create()
 
     init {
-        hotelObserver = LiveDataObserver {
-            val hotel = it ?: return@LiveDataObserver
-
-            //room price details
-            val rooms = hotel.rooms
-            roomContainerClearSubject.onNext(Unit)
-            rooms?.filter { it.bookingStatus == BookingStatus.BOOKED }?.forEach { room ->
-                val priceDetails = room.totalPriceDetails
-                priceDetails?.let {
-                    val roomPrice = getRoomTotalPriceItem(priceDetails)
-                    if (roomPrice != null) {
-                        roomContainerItemSubject.onNext(roomPrice)
-                    }
-
-                    val roomPricesPerDay = getRoomPricePerDayItems(priceDetails)
-                    roomPricesPerDay?.forEach {
-                        roomContainerItemSubject.onNext(it)
-                    }
-
-                    val propertyFee = getRoomPropertyFeeItem(room)
-                    if (propertyFee != null) {
-                        roomContainerItemSubject.onNext(propertyFee)
-                    }
-                }
-            }
-
-            //extra guest charges
-            val extraGuestCharges = hotel.totalPriceDetails?.extraGuestChargesFormatted
-            if (extraGuestCharges != null && !extraGuestCharges.isBlank()) {
-                val extraGuestChargesItem = HotelItinPriceLineItem(scope.strings.fetch(R.string.itin_hotel_price_summary_multiple_guest_fees_label), extraGuestCharges, R.color.itin_price_summary_label_gray_light)
-                multipleGuestItemSubject.onNext(extraGuestChargesItem)
-            }
-
-            //taxes and fees
-            val taxesAndFees = hotel.totalPriceDetails?.taxesAndFeesFormatted
-            if (taxesAndFees != null && !taxesAndFees.isBlank()) {
-                val taxesAndFeesItem = HotelItinPriceLineItem(scope.strings.fetch(R.string.itin_hotel_price_summary_taxes_and_fees_label), taxesAndFees, R.color.itin_price_summary_label_gray_dark)
-                taxesAndFeesItemSubject.onNext(taxesAndFeesItem)
-            }
-
-            //coupons
-            val adjustmentsForCoupons = hotel.totalPriceDetails?.adjustmentForCouponFormatted
-            if (adjustmentsForCoupons != null && !adjustmentsForCoupons.isBlank()) {
-                val couponItem = HotelItinPriceLineItem(scope.strings.fetch(R.string.itin_hotel_price_summary_coupons_label), adjustmentsForCoupons, R.color.itin_price_summary_label_green)
-                couponsItemSubject.onNext(couponItem)
-            }
-
-            //currency disclaimer
-            if (hotel.isPointOfSaleDifferentFromPointOfSupply()) {
-                val dualCurrencyText = hotel.rules?.dualCurrencyText
-                if (dualCurrencyText != null && !dualCurrencyText.isBlank()) {
-                    currencyDisclaimerSubject.onNext(dualCurrencyText)
-                }
-                val totalInPos = hotel.totalPriceDetails?.totalPOSFormatted
-                val posCurrencyCode = hotel.totalPriceDetails?.totalPOSCurrencyCode
-                if (posCurrencyCode != null && !posCurrencyCode.isBlank() && totalInPos != null && !totalInPos.isBlank()) {
-                    val totalPriceInPos = HotelItinPriceLineItem(
-                            scope.strings.fetchWithPhrase(R.string.itin_hotel_price_summary_total_in_pos_label_TEMPLATE, mapOf("currencycode" to posCurrencyCode)),
-                            totalInPos,
-                            R.color.itin_price_summary_label_gray_light)
-                    totalPriceInPosCurrencyItemSubject.onNext(totalPriceInPos)
-                }
-            } else {
-                val currencyDisclaimer = hotel.rules?.currencyDisclaimer
-                if (currencyDisclaimer != null && !currencyDisclaimer.isBlank()) {
-                    currencyDisclaimerSubject.onNext(currencyDisclaimer)
-                }
-            }
-        }
-
         itinObserver = LiveDataObserver { itin ->
-            //points
-            val points = itin?.paymentDetails?.priceByFormOfPayment?.points?.localizedPaidPrice
-            if (points != null && !points.isBlank()) {
-                val pointsItem = HotelItinPriceLineItem(
-                        scope.strings.fetch(R.string.itin_hotel_price_summary_points_label),
-                        scope.strings.fetchWithPhrase(R.string.itin_hotel_price_summary_points_value_TEMPLATE, mapOf("points" to points)),
-                        R.color.itin_price_summary_label_green)
-                pointsItemSubject.onNext(pointsItem)
-            }
 
-            //total price
-            val paymentModel = itin?.firstHotel()?.paymentModel
-            paymentModel?.let {
-                when (it) {
-                    PaymentModel.EXPEDIA_COLLECT -> {
-                        val totalPrice = itin.paymentDetails?.localizedNetPricePaidForThisBooking
-                                ?: itin.firstHotel()?.totalPriceDetails?.totalFormatted
-                        totalPrice?.let { price ->
-                            val totalPriceItem = HotelItinPriceLineItem(
-                                    scope.strings.fetch(R.string.itin_hotel_price_summary_total_amount_paid_label),
-                                    price,
-                                    R.color.itin_price_summary_label_gray_dark,
-                                    16.0f,
-                                    Font.ROBOTO_MEDIUM
-                            )
-                            totalPriceItemSubject.onNext(totalPriceItem)
+            val hotel = itin?.firstHotel() ?: return@LiveDataObserver
+            when {
+                itin.isPackage() -> {
+                    priceBreakdownResetSubject.onNext(Unit)
+                    itin.packages?.firstOrNull()?.let {
+                        //bundle title
+                        setBundleContentsLabel(getProductsDescriptionString(it))
+
+                        //package subtotal
+                        val packageSubtotal = it.price?.subTotalFormatted
+                        setSubtotal(packageSubtotal)
+                    }
+
+                    //total price package
+                    val packagePrice = itin.packagePrice()
+                    setTotalPrice(packagePrice, R.string.itin_hotel_price_summary_total_amount_paid_label)
+                }
+                itin.isMultiItemCheckout() -> {
+                    //bundle title
+                    priceBreakdownResetSubject.onNext(Unit)
+                    setBundleContentsLabel(getProductsDescriptionString(itin))
+
+                    //micko subtotal
+                    val mickoSubtotal = itin.paymentSummary?.subTotalPaidLocalizedPrice
+                    setSubtotal(mickoSubtotal)
+
+                    //taxes and fees micko
+                    val mickoTaxesAndFees = itin.paymentSummary?.totalPaidTaxAndFeesLocalizedPrice
+                    setTaxesAndFees(mickoTaxesAndFees)
+
+                    //total price micko
+                    val mickoPrice = itin.paymentSummary?.totalPaidLocalizedPrice
+                    setTotalPrice(mickoPrice, R.string.itin_hotel_price_summary_total_amount_paid_label)
+
+                    //currency disclaimer
+                    setCurrencyDisclaimer(hotel)
+                }
+                else -> {
+                    //room price details
+                    val rooms = hotel.rooms
+                    priceBreakdownResetSubject.onNext(Unit)
+                    rooms?.filter { it.bookingStatus == BookingStatus.BOOKED }?.forEach { room ->
+                        val priceDetails = room.totalPriceDetails
+                        priceDetails?.let {
+                            val roomPrice = getRoomTotalPriceItem(priceDetails)
+                            if (roomPrice != null) {
+                                priceBreakdownItemSubject.onNext(roomPrice)
+                            }
+
+                            val roomPricesPerDay = getRoomPricePerDayItems(priceDetails)
+                            roomPricesPerDay?.forEach {
+                                priceBreakdownItemSubject.onNext(it)
+                            }
+
+                            val propertyFee = getRoomPropertyFeeItem(room)
+                            if (propertyFee != null) {
+                                priceBreakdownItemSubject.onNext(propertyFee)
+                            }
                         }
                     }
-                    PaymentModel.HOTEL_COLLECT -> {
-                        val totalPrice = itin.firstHotel()?.totalPriceDetails?.totalFormatted
-                        totalPrice?.let { price ->
-                            val totalPriceItem = HotelItinPriceLineItem(
-                                    scope.strings.fetch(R.string.itin_hotel_price_summary_total_amount_due_label),
-                                    price,
-                                    R.color.itin_price_summary_label_gray_dark,
-                                    16.0f,
-                                    Font.ROBOTO_MEDIUM
-                            )
-                            totalPriceItemSubject.onNext(totalPriceItem)
+
+                    //extra guest charges
+                    val extraGuestCharges = hotel.totalPriceDetails?.extraGuestChargesFormatted
+                    if (extraGuestCharges != null && !extraGuestCharges.isBlank()) {
+                        val extraGuestChargesItem = HotelItinPriceLineItem(scope.strings.fetch(R.string.itin_hotel_price_summary_multiple_guest_fees_label), extraGuestCharges, R.color.itin_price_summary_label_gray_light)
+                        multipleGuestItemSubject.onNext(extraGuestChargesItem)
+                    }
+
+                    //coupons
+                    val adjustmentsForCoupons = hotel.totalPriceDetails?.adjustmentForCouponFormatted
+                    if (adjustmentsForCoupons != null && !adjustmentsForCoupons.isBlank()) {
+                        val couponItem = HotelItinPriceLineItem(scope.strings.fetch(R.string.itin_hotel_price_summary_coupons_label), adjustmentsForCoupons, R.color.itin_price_summary_label_green)
+                        couponsItemSubject.onNext(couponItem)
+                    }
+
+                    //points
+                    val points = itin.paymentDetails?.priceByFormOfPayment?.points?.localizedPaidPrice
+                    if (points != null && !points.isBlank()) {
+                        val pointsItem = HotelItinPriceLineItem(
+                                scope.strings.fetch(R.string.itin_hotel_price_summary_points_label),
+                                scope.strings.fetchWithPhrase(R.string.itin_hotel_price_summary_points_value_TEMPLATE, mapOf("points" to points)),
+                                R.color.itin_price_summary_label_green)
+                        pointsItemSubject.onNext(pointsItem)
+                    }
+
+                    //taxes and fees standalone hotel
+                    val hotelTaxesAndFees = hotel.totalPriceDetails?.taxesAndFeesFormatted
+                    setTaxesAndFees(hotelTaxesAndFees)
+
+                    //total price standalone hotel
+                    hotel.paymentModel?.let {
+                        when (it) {
+                            PaymentModel.EXPEDIA_COLLECT -> {
+                                val totalPricePaid = itin.paymentDetails?.localizedNetPricePaidForThisBooking
+                                        ?: hotel.totalPriceDetails?.totalFormatted
+                                setTotalPrice(totalPricePaid, R.string.itin_hotel_price_summary_total_amount_paid_label)
+                            }
+                            PaymentModel.HOTEL_COLLECT -> {
+                                val totalPriceDue = hotel.totalPriceDetails?.totalFormatted
+                                setTotalPrice(totalPriceDue, R.string.itin_hotel_price_summary_total_amount_due_label)
+                            }
                         }
                     }
+
+                    //currency disclaimer
+                    setCurrencyDisclaimer(hotel)
                 }
             }
 
             //additional pricing info
             additionalPricingInfoSubject.subscribe {
-                val tripId = itin?.tripId
+                val tripId = itin.tripId
                 tripId?.let {
                     scope.activityLauncher.launchActivity(HotelItinPricingAdditionalInfoActivity, it, AnimationDirection.SLIDE_UP)
                 }
@@ -159,7 +159,92 @@ class HotelItinPricingSummaryViewModel<out S>(val scope: S) : IHotelItinPricingS
         }
 
         scope.itinHotelRepo.liveDataItin.observe(scope.lifecycleOwner, itinObserver)
-        scope.itinHotelRepo.liveDataHotel.observe(scope.lifecycleOwner, hotelObserver)
+    }
+
+    private fun setCurrencyDisclaimer(hotel: ItinHotel) {
+        if (hotel.isPointOfSaleDifferentFromPointOfSupply()) {
+            val dualCurrencyText = hotel.rules?.dualCurrencyText
+            if (dualCurrencyText != null && !dualCurrencyText.isBlank()) {
+                currencyDisclaimerSubject.onNext(dualCurrencyText)
+            }
+            val totalInPos = hotel.totalPriceDetails?.totalPOSFormatted
+            val posCurrencyCode = hotel.totalPriceDetails?.totalPOSCurrencyCode
+            if (posCurrencyCode != null && !posCurrencyCode.isBlank() && totalInPos != null && !totalInPos.isBlank()) {
+                val totalPriceInPos = HotelItinPriceLineItem(
+                        scope.strings.fetchWithPhrase(R.string.itin_hotel_price_summary_total_in_pos_label_TEMPLATE, mapOf("currencycode" to posCurrencyCode)),
+                        totalInPos,
+                        R.color.itin_price_summary_label_gray_light)
+                totalPriceInPosCurrencyItemSubject.onNext(totalPriceInPos)
+            }
+        } else {
+            val currencyDisclaimer = hotel.rules?.currencyDisclaimer
+            if (currencyDisclaimer != null && !currencyDisclaimer.isBlank()) {
+                currencyDisclaimerSubject.onNext(currencyDisclaimer)
+            }
+        }
+    }
+
+    private fun setTaxesAndFees(taxesAndFees: String?) {
+        if (taxesAndFees != null && !taxesAndFees.isBlank()) {
+            val taxesAndFeesItem = HotelItinPriceLineItem(scope.strings.fetch(R.string.itin_hotel_price_summary_taxes_and_fees_label), taxesAndFees, R.color.itin_price_summary_label_gray_dark)
+            taxesAndFeesItemSubject.onNext(taxesAndFeesItem)
+        }
+    }
+
+    private fun setTotalPrice(totalPrice: String?, totalPriceLabel: Int) {
+        if (totalPrice != null && !totalPrice.isBlank()) {
+            val totalPriceItem = HotelItinPriceLineItem(
+                    scope.strings.fetch(totalPriceLabel),
+                    totalPrice,
+                    R.color.itin_price_summary_label_gray_dark,
+                    16.0f,
+                    Font.ROBOTO_MEDIUM
+            )
+            totalPriceItemSubject.onNext(totalPriceItem)
+        }
+    }
+
+    private fun setSubtotal(subtotalPrice: String?) {
+        if (subtotalPrice != null && !subtotalPrice.isBlank()) {
+            val subtotalItem = HotelItinPriceLineItem(scope.strings.fetch(R.string.itin_hotel_details_price_summary_subtotal_label), subtotalPrice, R.color.itin_price_summary_label_gray_light)
+            priceBreakdownItemSubject.onNext(subtotalItem)
+        }
+    }
+
+    private fun setBundleContentsLabel(bundleContentsString: String) {
+        val packageContentsItem = HotelItinPriceLineItem(bundleContentsString, "", R.color.itin_price_summary_label_gray_dark)
+        priceBreakdownItemSubject.onNext(packageContentsItem)
+    }
+
+    fun getProductsDescriptionString(productsContainer: HasProducts): String {
+        val listOfProductStrings = mutableListOf<String>()
+        productsContainer.listOfTripProducts().forEach {
+            when (it) {
+                TripProducts.HOTEL -> listOfProductStrings.add(scope.strings.fetch(R.string.Hotel))
+                TripProducts.FLIGHT -> listOfProductStrings.add(scope.strings.fetch(R.string.Flight))
+                TripProducts.CAR -> listOfProductStrings.add(scope.strings.fetch(R.string.Car))
+                TripProducts.ACTIVITY -> listOfProductStrings.add(scope.strings.fetch(R.string.Activity))
+                TripProducts.RAIL -> listOfProductStrings.add(scope.strings.fetch(R.string.Rail))
+                TripProducts.CRUISE -> listOfProductStrings.add(scope.strings.fetch(R.string.Cruise))
+            }
+        }
+        val numOfProducts = listOfProductStrings.size
+        return when {
+            numOfProducts == 2 -> {
+                scope.strings.fetchWithPhrase(R.string.itin_hotel_details_price_summary_product_description_two,
+                        mapOf("firstproduct" to listOfProductStrings.take(numOfProducts - 1).joinToString(),
+                                "secondproduct" to listOfProductStrings.takeLast(1).joinToString()))
+            }
+            numOfProducts > 2 -> {
+                scope.strings.fetchWithPhrase(R.string.itin_hotel_details_price_summary_product_description_many,
+                        mapOf("products" to listOfProductStrings.take(numOfProducts - 1).joinToString(", "),
+                                "lastproduct" to listOfProductStrings.takeLast(1).joinToString()))
+            }
+            else -> {
+                scope.strings.fetchWithPhrase(R.string.itin_hotel_details_price_summary_product_description_one,
+                        mapOf("product" to listOfProductStrings.takeLast(1).joinToString()))
+            }
+        }
     }
 
     private fun getRoomTotalPriceItem(details: TotalPriceDetails): HotelItinPriceLineItem? {

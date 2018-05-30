@@ -1,5 +1,6 @@
 package com.expedia.bookings.itin.tripstore.data
 
+import com.expedia.bookings.itin.tripstore.extensions.HasProducts
 import com.google.gson.annotations.SerializedName
 
 data class Itin(
@@ -12,18 +13,19 @@ data class Itin(
         val endTime: Time?,
         val orderNumber: String?,
         val bookingStatus: String?,
-        val hotels: List<ItinHotel>?,
-        val flights: List<ItinFlight>?,
-        val activities: List<ItinLx>?,
-        val cars: List<ItinCar>?,
-        val cruises: List<ItinCruise>?,
-        val rails: List<ItinRail>?,
+        override val hotels: List<ItinHotel>?,
+        override val flights: List<ItinFlight>?,
+        override val activities: List<ItinLx>?,
+        override val cars: List<ItinCar>?,
+        override val cruises: List<ItinCruise>?,
+        override val rails: List<ItinRail>?,
         val packages: List<ItinPackage>?,
         val rewardList: List<Reward>?,
         val paymentDetails: PaymentDetails?,
+        val paymentSummary: PaymentSummary?,
         val isGuest: Boolean,
         val isShared: Boolean
-)
+) : HasProducts
 
 data class Reward(
         val totalPoints: String?,
@@ -32,6 +34,12 @@ data class Reward(
         val logoUrl: String?,
         val viewStatementURL: String?,
         val programName: String?
+)
+
+data class PaymentSummary(
+        val totalPaidLocalizedPrice: String?,
+        val totalPaidTaxAndFeesLocalizedPrice: String?,
+        val subTotalPaidLocalizedPrice: String?
 )
 
 data class PaymentDetails(

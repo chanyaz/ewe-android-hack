@@ -12,7 +12,14 @@ import com.expedia.bookings.itin.scopes.HasActivityLauncher
 import com.expedia.bookings.itin.scopes.HasHotelRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.scopes.HasStringProvider
-import com.expedia.bookings.itin.tripstore.extensions.firstHotel
+import com.expedia.bookings.itin.tripstore.data.ItinCar
+import com.expedia.bookings.itin.tripstore.data.ItinCruise
+import com.expedia.bookings.itin.tripstore.data.ItinFlight
+import com.expedia.bookings.itin.tripstore.data.ItinHotel
+import com.expedia.bookings.itin.tripstore.data.ItinLx
+import com.expedia.bookings.itin.tripstore.data.ItinRail
+import com.expedia.bookings.itin.tripstore.extensions.HasProducts
+import com.expedia.bookings.itin.tripstore.extensions.TripProducts
 import com.expedia.bookings.itin.utils.IActivityLauncher
 import com.expedia.bookings.itin.utils.StringSource
 import com.expedia.bookings.services.TestObserver
@@ -33,13 +40,11 @@ class HotelItinPricingSummaryViewModelTest {
     private val mockItinPartialPoints = ItinMocker.hotelDetailsPaidWithPointsPartial
     private val mockItinFullPoints = ItinMocker.hotelDetailsPaidWithPointsFull
     private val mockItinExpediaCollect = ItinMocker.hotelDetailsExpediaCollect
-    private val mockHotelSingleRoom = mockItinSingleRoom.firstHotel()
-    private val mockHotelMultipleRooms = mockItinMultipleRoom.firstHotel()
-    private val mockHotelPosSameAsPosu = mockItinPosSameAsPosu.firstHotel()
-    private val mockHotelExpediaCollect = mockItinExpediaCollect.firstHotel()
+    private val mockItinPackageHotel = ItinMocker.hotelPackageHappy
+    private val mockItinMickoHotel = ItinMocker.mickoHotelHappy
 
-    private lateinit var roomItemObserver: TestObserver<HotelItinPriceLineItem>
-    private lateinit var roomContainerClearObserver: TestObserver<Unit>
+    private lateinit var priceBreakdownItemObserver: TestObserver<HotelItinPriceLineItem>
+    private lateinit var priceBreakdownContainerClearObserver: TestObserver<Unit>
     private lateinit var multipleGuestItemObserver: TestObserver<HotelItinPriceLineItem>
     private lateinit var taxesAndFeesItemObserver: TestObserver<HotelItinPriceLineItem>
     private lateinit var couponItemObserver: TestObserver<HotelItinPriceLineItem>
@@ -51,7 +56,7 @@ class HotelItinPricingSummaryViewModelTest {
 
     @Before
     fun setup() {
-        roomItemObserver = TestObserver()
+        priceBreakdownItemObserver = TestObserver()
         multipleGuestItemObserver = TestObserver()
         taxesAndFeesItemObserver = TestObserver()
         couponItemObserver = TestObserver()
@@ -59,13 +64,13 @@ class HotelItinPricingSummaryViewModelTest {
         currencyDisclaimerObserver = TestObserver()
         totalPriceObserver = TestObserver()
         totalPricePosCurrencyObserver = TestObserver()
-        roomContainerClearObserver = TestObserver()
+        priceBreakdownContainerClearObserver = TestObserver()
         additionalPriceInfoObserver = TestObserver()
     }
 
     @After
     fun tearDown() {
-        roomItemObserver.dispose()
+        priceBreakdownItemObserver.dispose()
         multipleGuestItemObserver.dispose()
         taxesAndFeesItemObserver.dispose()
         couponItemObserver.dispose()
@@ -73,38 +78,38 @@ class HotelItinPricingSummaryViewModelTest {
         currencyDisclaimerObserver.dispose()
         totalPriceObserver.dispose()
         totalPricePosCurrencyObserver.dispose()
-        roomContainerClearObserver.dispose()
+        priceBreakdownContainerClearObserver.dispose()
         additionalPriceInfoObserver.dispose()
     }
 
     @Test
     fun testSingleRoomOutputMultipleItems() {
         val viewModel = getViewModel()
-        roomItemObserver.assertEmpty()
+        priceBreakdownItemObserver.assertEmpty()
 
-        viewModel.hotelObserver.onChanged(mockHotelSingleRoom)
+        viewModel.itinObserver.onChanged(mockItinSingleRoom)
 
-        assertEquals(5, roomItemObserver.valueCount())
+        assertEquals(5, priceBreakdownItemObserver.valueCount())
     }
 
     @Test
     fun testMultipleRoomsOutputsMultipleItems() {
         val viewModel = getViewModel()
-        roomItemObserver.assertEmpty()
+        priceBreakdownItemObserver.assertEmpty()
 
-        viewModel.hotelObserver.onChanged(mockHotelMultipleRooms)
+        viewModel.itinObserver.onChanged(mockItinMultipleRoom)
 
-        assertEquals(12, roomItemObserver.valueCount())
+        assertEquals(12, priceBreakdownItemObserver.valueCount())
     }
 
     @Test
     fun testMultipleRoomItemCountsAndValues() {
         val viewModel = getViewModel()
-        roomItemObserver.assertEmpty()
+        priceBreakdownItemObserver.assertEmpty()
 
-        viewModel.hotelObserver.onChanged(mockHotelMultipleRooms)
+        viewModel.itinObserver.onChanged(mockItinMultipleRoom)
 
-        val roomItems = roomItemObserver.values()
+        val roomItems = priceBreakdownItemObserver.values()
         assertNotNull(roomItems)
         assertEquals(12, roomItems?.size)
         //Room Total Price Item
@@ -131,7 +136,6 @@ class HotelItinPricingSummaryViewModelTest {
         couponItemObserver.assertEmpty()
         pointsItemObserver.assertEmpty()
 
-        noFeesViewModel.hotelObserver.onChanged(mockHotelSingleRoom)
         noFeesViewModel.itinObserver.onChanged(mockItinSingleRoom)
         multipleGuestItemObserver.assertEmpty()
         taxesAndFeesItemObserver.assertEmpty()
@@ -144,7 +148,7 @@ class HotelItinPricingSummaryViewModelTest {
         val feesViewModel = getViewModel()
         multipleGuestItemObserver.assertEmpty()
 
-        feesViewModel.hotelObserver.onChanged(mockHotelMultipleRooms)
+        feesViewModel.itinObserver.onChanged(mockItinMultipleRoom)
 
         multipleGuestItemObserver.assertValueCount(1)
         val multiGuestFeeItem = multipleGuestItemObserver.values()
@@ -154,11 +158,11 @@ class HotelItinPricingSummaryViewModelTest {
     }
 
     @Test
-    fun testTaxesAndFeesSubject() {
+    fun testTaxesAndFeesSubjectStandaloneHotel() {
         val feesViewModel = getViewModel()
         taxesAndFeesItemObserver.assertEmpty()
 
-        feesViewModel.hotelObserver.onChanged(mockHotelMultipleRooms)
+        feesViewModel.itinObserver.onChanged(mockItinMultipleRoom)
 
         taxesAndFeesItemObserver.assertValueCount(1)
         val taxesAndFeesItem = taxesAndFeesItemObserver.values()
@@ -168,11 +172,25 @@ class HotelItinPricingSummaryViewModelTest {
     }
 
     @Test
+    fun testTaxesAndFeesSubjectMickoHotel() {
+        val feesViewModel = getViewModel()
+        taxesAndFeesItemObserver.assertEmpty()
+
+        feesViewModel.itinObserver.onChanged(mockItinMickoHotel)
+
+        taxesAndFeesItemObserver.assertValueCount(1)
+        val taxesAndFeesItem = taxesAndFeesItemObserver.values()
+        assertEquals("$39.96", taxesAndFeesItem[0].priceString)
+        assertEquals((R.string.itin_hotel_price_summary_taxes_and_fees_label).toString(), taxesAndFeesItem[0].labelString)
+        assertEquals(R.color.itin_price_summary_label_gray_dark, taxesAndFeesItem[0].colorRes)
+    }
+
+    @Test
     fun testCouponItemSubject() {
         val feesViewModel = getViewModel()
         couponItemObserver.assertEmpty()
 
-        feesViewModel.hotelObserver.onChanged(mockHotelExpediaCollect)
+        feesViewModel.itinObserver.onChanged(mockItinExpediaCollect)
 
         couponItemObserver.assertValueCount(1)
         val couponItem = couponItemObserver.values()
@@ -197,11 +215,11 @@ class HotelItinPricingSummaryViewModelTest {
     }
 
     @Test
-    fun testCurrencyDisclaimerSubjectPosDiffFromPosu() {
+    fun testCurrencyDisclaimerSubjectPosDiffFromPosuStandaloneHotel() {
         val feesViewModel = getViewModel()
         currencyDisclaimerObserver.assertEmpty()
 
-        feesViewModel.hotelObserver.onChanged(mockHotelMultipleRooms)
+        feesViewModel.itinObserver.onChanged(mockItinMultipleRoom)
 
         currencyDisclaimerObserver.assertValueCount(1)
         val currencyText = currencyDisclaimerObserver.values()[0]
@@ -209,15 +227,87 @@ class HotelItinPricingSummaryViewModelTest {
     }
 
     @Test
-    fun testCurrencyDisclaimerSubjectPosSameAsPosu() {
+    fun testCurrencyDisclaimerSubjectPosSameAsPosuStandaloneHotel() {
         val feesViewModel = getViewModel()
         currencyDisclaimerObserver.assertEmpty()
 
-        feesViewModel.hotelObserver.onChanged(mockHotelPosSameAsPosu)
+        feesViewModel.itinObserver.onChanged(mockItinPosSameAsPosu)
 
         currencyDisclaimerObserver.assertValueCount(1)
         val currencyText = currencyDisclaimerObserver.values()[0]
         assertEquals("Unless specified otherwise, <span class=\"rr-bold\">rates are quoted in </span><span class=\"rr-bold\" id=\"hotel_id-default-currency\">US dollars</span>.", currencyText)
+    }
+
+    @Test
+    fun testCurrencyDisclaimerSubjectMickoHotel() {
+        val feesViewModel = getViewModel()
+        currencyDisclaimerObserver.assertEmpty()
+
+        feesViewModel.itinObserver.onChanged(mockItinMickoHotel)
+
+        currencyDisclaimerObserver.assertValueCount(1)
+        val currencyText = currencyDisclaimerObserver.values()[0]
+        assertEquals("Unless specified otherwise, <span class=\"rr-bold\">rates are quoted in </span><span class=\"rr-bold\" id=\"hotel_id-default-currency\">US dollars</span>.", currencyText)
+    }
+
+    @Test
+    fun testBundleContentsLabelPackage() {
+        val viewModel = getViewModel()
+        priceBreakdownContainerClearObserver.assertEmpty()
+        priceBreakdownItemObserver.assertEmpty()
+
+        viewModel.itinObserver.onChanged(mockItinPackageHotel)
+
+        priceBreakdownContainerClearObserver.assertValueCount(1)
+        priceBreakdownItemObserver.assertValueCount(2)
+        val bundleItem = priceBreakdownItemObserver.values()[0]
+        val expectedString = (R.string.itin_hotel_details_price_summary_product_description_two).toString()
+                .plus(mapOf("firstproduct" to (R.string.Hotel).toString(), "secondproduct" to (R.string.Flight).toString()))
+        assertEquals(expectedString, bundleItem.labelString)
+        assertEquals(14.0f, bundleItem.textSize)
+        assertEquals(FontCache.Font.ROBOTO_REGULAR, bundleItem.font)
+    }
+
+    @Test
+    fun testBundleContentsLabelMicko() {
+        val viewModel = getViewModel()
+        priceBreakdownContainerClearObserver.assertEmpty()
+        priceBreakdownItemObserver.assertEmpty()
+
+        viewModel.itinObserver.onChanged(mockItinMickoHotel)
+
+        priceBreakdownContainerClearObserver.assertValueCount(1)
+        priceBreakdownItemObserver.assertValueCount(2)
+        val bundleItem = priceBreakdownItemObserver.values()[0]
+        val expectedString = (R.string.itin_hotel_details_price_summary_product_description_two).toString()
+                .plus(mapOf("firstproduct" to (R.string.Hotel).toString(), "secondproduct" to (R.string.Flight).toString()))
+        assertEquals(expectedString, bundleItem.labelString)
+        assertEquals(14.0f, bundleItem.textSize)
+        assertEquals(FontCache.Font.ROBOTO_REGULAR, bundleItem.font)
+    }
+
+    @Test
+    fun testProductsDescriptionString() {
+        val viewModel = getViewModel()
+        val mockProductContainer = MockProductContainer(null, null, null, null, null, null)
+
+        mockProductContainer.mockList = listOf(TripProducts.HOTEL)
+        var result = viewModel.getProductsDescriptionString(mockProductContainer)
+        var expectedString = (R.string.itin_hotel_details_price_summary_product_description_one).toString()
+                .plus(mapOf("product" to (R.string.Hotel).toString()))
+        assertEquals(expectedString, result)
+
+        mockProductContainer.mockList = listOf(TripProducts.FLIGHT, TripProducts.RAIL)
+        result = viewModel.getProductsDescriptionString(mockProductContainer)
+        expectedString = (R.string.itin_hotel_details_price_summary_product_description_two).toString()
+                .plus(mapOf("firstproduct" to (R.string.Flight).toString(), "secondproduct" to (R.string.Rail).toString()))
+        assertEquals(expectedString, result)
+
+        mockProductContainer.mockList = listOf(TripProducts.HOTEL, TripProducts.FLIGHT, TripProducts.CAR)
+        result = viewModel.getProductsDescriptionString(mockProductContainer)
+        expectedString = (R.string.itin_hotel_details_price_summary_product_description_many).toString()
+                .plus(mapOf("products" to (R.string.Hotel).toString().plus(", ").plus((R.string.Flight).toString()), "lastproduct" to (R.string.Car).toString()))
+        assertEquals(expectedString, result)
     }
 
     @Test
@@ -285,6 +375,72 @@ class HotelItinPricingSummaryViewModelTest {
     }
 
     @Test
+    fun testTotalPricePackageHotel() {
+        val feesViewModel = getViewModel()
+        totalPriceObserver.assertEmpty()
+
+        feesViewModel.itinObserver.onChanged(mockItinPackageHotel)
+
+        totalPriceObserver.assertValueCount(1)
+        val totalPriceItem = totalPriceObserver.values()[0]
+        assertEquals("$122.55", totalPriceItem.priceString)
+        assertEquals((R.string.itin_hotel_price_summary_total_amount_paid_label).toString(), totalPriceItem.labelString)
+        assertEquals(R.color.itin_price_summary_label_gray_dark, totalPriceItem.colorRes)
+        assertEquals(16.0f, totalPriceItem.textSize)
+        assertEquals(FontCache.Font.ROBOTO_MEDIUM, totalPriceItem.font)
+    }
+
+    @Test
+    fun testTotalPriceMickoHotel() {
+        val feesViewModel = getViewModel()
+        totalPriceObserver.assertEmpty()
+
+        feesViewModel.itinObserver.onChanged(mockItinMickoHotel)
+
+        totalPriceObserver.assertValueCount(1)
+        val totalPriceItem = totalPriceObserver.values()[0]
+        assertEquals("$178.27", totalPriceItem.priceString)
+        assertEquals((R.string.itin_hotel_price_summary_total_amount_paid_label).toString(), totalPriceItem.labelString)
+        assertEquals(R.color.itin_price_summary_label_gray_dark, totalPriceItem.colorRes)
+        assertEquals(16.0f, totalPriceItem.textSize)
+        assertEquals(FontCache.Font.ROBOTO_MEDIUM, totalPriceItem.font)
+    }
+
+    @Test
+    fun testSubtotalPackage() {
+        val viewModel = getViewModel()
+        priceBreakdownContainerClearObserver.assertEmpty()
+        priceBreakdownItemObserver.assertEmpty()
+
+        viewModel.itinObserver.onChanged(mockItinPackageHotel)
+
+        priceBreakdownContainerClearObserver.assertValueCount(1)
+        priceBreakdownItemObserver.assertValueCount(2)
+        val subtotalItem = priceBreakdownItemObserver.values()[1]
+        assertEquals("$122.55", subtotalItem.priceString)
+        assertEquals((R.string.itin_hotel_details_price_summary_subtotal_label).toString(), subtotalItem.labelString)
+        assertEquals(14.0f, subtotalItem.textSize)
+        assertEquals(FontCache.Font.ROBOTO_REGULAR, subtotalItem.font)
+    }
+
+    @Test
+    fun testSubtotalMicko() {
+        val viewModel = getViewModel()
+        priceBreakdownContainerClearObserver.assertEmpty()
+        priceBreakdownItemObserver.assertEmpty()
+
+        viewModel.itinObserver.onChanged(mockItinMickoHotel)
+
+        priceBreakdownContainerClearObserver.assertValueCount(1)
+        priceBreakdownItemObserver.assertValueCount(2)
+        val subtotalItem = priceBreakdownItemObserver.values()[1]
+        assertEquals("$138.31", subtotalItem.priceString)
+        assertEquals((R.string.itin_hotel_details_price_summary_subtotal_label).toString(), subtotalItem.labelString)
+        assertEquals(14.0f, subtotalItem.textSize)
+        assertEquals(FontCache.Font.ROBOTO_REGULAR, subtotalItem.font)
+    }
+
+    @Test
     fun testAdditionalPriceInfoClick() {
         val scope = MockHotelItinPricingSummaryScope()
         val viewModel = HotelItinPricingSummaryViewModel(scope)
@@ -302,8 +458,8 @@ class HotelItinPricingSummaryViewModelTest {
     private fun getViewModel(): HotelItinPricingSummaryViewModel<MockHotelItinPricingSummaryScope> {
         val viewModel = HotelItinPricingSummaryViewModel(MockHotelItinPricingSummaryScope())
 
-        viewModel.roomContainerItemSubject.subscribe(roomItemObserver)
-        viewModel.roomContainerClearSubject.subscribe(roomContainerClearObserver)
+        viewModel.priceBreakdownItemSubject.subscribe(priceBreakdownItemObserver)
+        viewModel.priceBreakdownResetSubject.subscribe(priceBreakdownContainerClearObserver)
         viewModel.multipleGuestItemSubject.subscribe(multipleGuestItemObserver)
         viewModel.taxesAndFeesItemSubject.subscribe(taxesAndFeesItemObserver)
         viewModel.couponsItemSubject.subscribe(couponItemObserver)
@@ -321,5 +477,18 @@ class HotelItinPricingSummaryViewModelTest {
         override val itinHotelRepo: ItinHotelRepoInterface = MockHotelRepo()
         override val activityLauncher: IActivityLauncher = mockActivityLauncher
         override val lifecycleOwner: LifecycleOwner = MockLifecycleOwner()
+    }
+
+    data class MockProductContainer(
+            override val hotels: List<ItinHotel>?,
+            override val flights: List<ItinFlight>?,
+            override val activities: List<ItinLx>?,
+            override val cars: List<ItinCar>?,
+            override val cruises: List<ItinCruise>?,
+            override val rails: List<ItinRail>?) : HasProducts {
+        var mockList = listOf<TripProducts>()
+        override fun listOfTripProducts(): List<TripProducts> {
+            return mockList
+        }
     }
 }

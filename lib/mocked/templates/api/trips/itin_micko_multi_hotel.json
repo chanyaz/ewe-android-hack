@@ -1,0 +1,791 @@
+{
+  "apiVersion": "1.0",
+  "responseType": "TRIP_DETAILS",
+  "responseData": {
+    "levelOfDetail": "FULL",
+    "tripId": "6f2cf000-17ad-4f68-9ab3-9a94b5847244",
+    "webDetailsURL": "https://www.expedia.com/trips/7344846880240?email=test123@123.com?langid=1033",
+    "itineraryReceiptURL": "https://www.expedia.com/itinerary-receipt?tripid=6f2cf000-17ad-4f68-9ab3-9a94b5847244",
+    "tripNumber": 7344846880240,
+    "title": "Las Vegas",
+    "updateTripNameDescPathURL": "https://www.expedia.com/api/trips/6f2cf000-17ad-4f68-9ab3-9a94b5847244/updateTripNameDescription",
+    "startTime": {
+      "raw": "2019-03-06T06:05:00-07:00",
+      "localized": "Mar 6, 2019 6:05:00 AM",
+      "epochSeconds": 1551877500,
+      "timeZoneOffsetSeconds": -25200,
+      "localizedShortDate": "3/6/2019",
+      "localizedMediumDate": "Mar 6",
+      "localizedFullDate": "Wed, Mar 6",
+      "localizedLongDate": "Mar 6, 2019",
+      "localizedShortTime": "6:05am"
+    },
+    "endTime": {
+      "raw": "2019-03-07T11:00:00-08:00",
+      "localized": "Mar 7, 2019 11:00:00 AM",
+      "epochSeconds": 1551985200,
+      "timeZoneOffsetSeconds": -28800,
+      "localizedShortDate": "3/7/2019",
+      "localizedMediumDate": "Mar 7",
+      "localizedFullDate": "Thu, Mar 7",
+      "localizedLongDate": "Mar 7, 2019",
+      "localizedShortTime": "11:00am"
+    },
+    "tripCreatedTime": {
+      "raw": "2018-04-13T18:50:51Z",
+      "localized": "Apr 13, 2018 6:50:51 PM",
+      "epochSeconds": 1523645451,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Fri, 13 Apr",
+      "localizedMediumDate": "Apr 13, 2018",
+      "localizedFullDate": "Friday, April 13, 2018",
+      "localizedLongDate": "April 13, 2018",
+      "localizedShortTime": "6:50 PM"
+    },
+    "tripUpdatedTime": {
+      "raw": "2018-05-02T22:00:30Z",
+      "localized": "May 2, 2018 10:00:30 PM",
+      "epochSeconds": 1525298430,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Wed, 2 May",
+      "localizedMediumDate": "May 2, 2018",
+      "localizedFullDate": "Wednesday, May 2, 2018",
+      "localizedLongDate": "May 2, 2018",
+      "localizedShortTime": "10:00 PM"
+    },
+    "tripCacheUpdatedTime": {
+      "raw": "2018-05-02T22:02:33Z",
+      "localized": "May 2, 2018 10:02:33 PM",
+      "epochSeconds": 1525298553,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Wed, 2 May",
+      "localizedMediumDate": "May 2, 2018",
+      "localizedFullDate": "Wednesday, May 2, 2018",
+      "localizedLongDate": "May 2, 2018",
+      "localizedShortTime": "10:02 PM"
+    },
+    "ownerId": 1198215898,
+    "bookingStatus": "BOOKED",
+    "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/flNApia3Xi5tgncH7u7ks8CAeOT-ftsTpaVjSrJOmPGTuqgPy8VsFEaqU4QTxy53Ictcc-MCtI7mnSzxREJ-Q5he",
+    "customerSupport": {
+      "customerSupportURL": "https://www.expedia.com/service/",
+      "customerSupportPhoneNumberDomestic": "+1-877-787-3117",
+      "customerSupportPhoneNumberInternational": "+1-877-787-3117",
+      "customerSupportPhoneInfoForEmail": [
+        "Call Expedia Rewards blue Customer Care at 1-877-787-3117.",
+        "For faster service, mention <strong>itinerary #7344846880240 </strong>"
+      ],
+      "termsAndConditionsURL": ""
+    },
+    "isBookedUsingForeignCurrency": false,
+    "hotels": [
+      {
+        "uniqueID": "ACBCA787-039D-4616-8332-7942575FA43E_0",
+        "hotelId": "24715",
+        "checkInDateTime": {
+          "raw": "2019-03-06T15:00:00-08:00",
+          "localized": "Mar 6, 2019 3:00:00 PM",
+          "epochSeconds": 1551913200,
+          "timeZoneOffsetSeconds": -28800,
+          "localizedShortDate": "3/6/2019",
+          "localizedMediumDate": "Mar 6",
+          "localizedFullDate": "Wed, Mar 6",
+          "localizedLongDate": "Mar 6, 2019",
+          "localizedShortTime": "3:00pm"
+        },
+        "checkOutDateTime": {
+          "raw": "2019-03-07T11:00:00-08:00",
+          "localized": "Mar 7, 2019 11:00:00 AM",
+          "epochSeconds": 1551985200,
+          "timeZoneOffsetSeconds": -28800,
+          "localizedShortDate": "3/7/2019",
+          "localizedMediumDate": "Mar 7",
+          "localizedFullDate": "Thu, Mar 7",
+          "localizedLongDate": "Mar 7, 2019",
+          "localizedShortTime": "11:00am"
+        },
+        "checkInDate": "2019-03-06T15:00:00-08:00",
+        "checkOutDate": "2019-03-07T11:00:00-08:00",
+        "checkInDateLocalized": "Mar 6, 2019",
+        "checkOutDateLocalized": "Mar 7, 2019",
+        "numberOfNights": 1,
+        "bookingStatus": "BOOKED",
+        "bookingStatusText": "Confirmed",
+        "bookingStatusMessage": "We have confirmed your hotel reservation with the property.",
+        "bookedDate": "2018-04-13",
+        "inventoryType": "MERCHANT",
+        "inventoryTypeEnum": "MERCHANT",
+        "inventorySource": "INTERNAL",
+        "paymentModel": "EXPEDIA_COLLECT",
+        "inventoryVisibility": "VISIBLE",
+        "orderNumber": "8140953871415",
+        "state": "PRE_START_4",
+        "infositeURL": "https://www.expedia.com/itin.h24715.Hotel-Information?langid=1033",
+        "reviewSubmissionURL": "https://www.expedia.com/ReviewSubmission?ItinId=7344846880240&htid=24715&campaignId=ITINERARY_PAGE_LINK",
+        "epcConversationURL": "https://www.expedia.com/createConversation/create/?bookingId=842758764&bookingItemId=1020156359&itineraryId=7344846880240&checkinDate=03/06/2019&checkoutDate=03/07/2019&tpid=1&eapid=0&siteId=1&hotelId=24715&hotelName=Circus+Circus+Hotel%2C+Casino+%26+Theme+Park&userTokenString=EvMwKf3RmhLrRP7ffTvmZWFXehjTckl1rHmte8dxhvFsj-rO_1ssya6HcKXpoljIX-e9K_2G4qFPuhxOl2eNSye1SK0odtrtGSRlmbBC3GGrJ5FrHh0ziQ",
+        "hotelPropertyInfo": {
+          "address": {
+            "addressLine1": "2880 Las Vegas Blvd S",
+            "city": "Las Vegas",
+            "countrySubdivisionCode": "NV",
+            "postalCode": "89109",
+            "countryCode": "USA",
+            "countryName": " United States of America",
+            "fullAddress": "2880 Las Vegas Blvd S, Las Vegas, NV, 89109 United States of America",
+            "airportCode": "LAS"
+          },
+          "name": "Circus Circus Hotel, Casino & Theme Park",
+          "starRating": "30",
+          "photoThumbnailURL": "/hotels/1000000/30000/24800/24715/481a00e0_l.jpg",
+          "photoThumbnail500pixURL": "/hotels/1000000/30000/24800/24715/481a00e0_y.jpg",
+          "photoThumbnail1000pixURL": "/hotels/1000000/30000/24800/24715/481a00e0_z.jpg",
+          "localPhone": "+1-702-734-0410",
+          "tollFreePhone": "1-800-634-3450",
+          "formattedPhoneNumbers": "Tel: 1 (702) 734-0410, Fax: 1 (702) 691-5888",
+          "checkInPolicies": [
+            "Check-in time starts at 3 PM",
+            "Minimum check-in age is 21"
+          ],
+          "checkInStartTimePolicy": {
+            "label": "Check-in time starts at",
+            "value": "3 PM"
+          },
+          "checkInEndTimePolicy": {},
+          "checkOutTimePolicy": {
+            "label": "Check-out time is",
+            "value": "11 AM"
+          },
+          "generalRules": [
+            "Check-out time is 11 AM",
+            "No rollaway/extra beds available",
+            "Cash Deposit Required"
+          ],
+          "restrictionPolicies": [],
+          "fees": [],
+          "mandatoryFees": [
+            "<p>You'll be asked to pay the following charges at the property:</p>",
+            "<ul><li>Resort fee: USD 36.28 per accommodation, per night</li></ul>",
+            "The resort fee includes:<ul><li>Fitness center access</li><li>Internet access</li><li>Phone calls</li><li>Additional inclusions</li></ul>",
+            "<p>We have included all charges provided to us by the property. However, charges can vary, for example, based on length of stay or the room you book. </p>"
+          ],
+          "specialCheckInInstructions": [
+            "The smoke-free Manor Motor Lodge and Run of the House rooms are located in 5 buildings a half-block away from the hotel lobby and casino. Bed type is based upon availability for these rooms and will be assigned at check-in. For more details, please contact the property using the information on the reservation confirmation received after booking.",
+            "The credit or debit card used to place the reservation will be required upon arrival to register. The hotel will place an authorization against this account to cover applicable charges for room, tax, and resort fees, as well as an incidental amount per day to allow access to room charging privileges. Additional authorizations may be placed should the guest's charges exceed the originally approved amount. For debit cards, unused funds are released upon check-out and made available after up to 7 days for domestic banks and up to 30 days for international banks. For details, please contact the property using the contact information found on the confirmation received after booking."
+          ],
+          "latitude": 36.136361,
+          "longitude": -115.162247,
+          "isVipAccess": false,
+          "googleMapsLink": "//maps.google.com/?q=89109+Las+Vegas%2C+2880+Las+Vegas+Blvd+S+",
+          "regionId": "2008"
+        },
+        "totalPriceDetails": {
+          "primaryCurrencyCode": "USD",
+          "base": "18.52",
+          "baseFormatted": "$18.52",
+          "baseWithAdjustmentForDRRRateDiscount": "18.52",
+          "baseWithAdjustmentForDRRRateDiscountFormatted": "$18.52",
+          "taxesAndFees": "2.60",
+          "taxesAndFeesFormatted": "$2.60",
+          "mandatoryHotelFees": "36.28",
+          "mandatoryHotelFeesFormatted": "$36.28",
+          "drrRateDiscountDescription": "",
+          "subTotalBeforeCoupon": "21.12",
+          "subTotalBeforeCouponFormatted": "$21.12",
+          "taxStatus": "ESTIMATED",
+          "total": "57.40",
+          "totalFormatted": "$57.40",
+          "chargedTotalFormatted": "$21.12",
+          "totalExpediaCollectAmount": "21.12",
+          "totalExpediaCollectAmountFormatted": "$21.12",
+          "isCurrencyConversionEnabled": false,
+          "hasFees": true,
+          "expediaChangeFee": "0",
+          "expediaChangeFeeFormatted": "$0.00"
+        },
+        "rules": {
+          "cancelChangeRulesIntroduction": "We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the property charges such fees in accordance with its own policies, the cost will be passed on to you. Circus Circus Hotel, Casino & Theme Park charges the following cancellation and change fees.",
+          "cancelChangeRules": [
+            "Cancellations or changes made after 3:00pm (Pacific Daylight Time (US & Canada); Tijuana) on Mar 3, 2019 or no-shows are subject to a property fee equal to 100% of the total amount paid for the reservation.",
+            "Prices and hotel availability are not guaranteed until full payment is received.If you would like to book multiple rooms, you must use a different name for each room. Otherwise, the duplicate reservation will be canceled by the hotel."
+          ],
+          "cancellationWindowTime": {
+            "raw": "2019-03-03T15:00:00-08:00",
+            "localized": "Mar 3, 2019 3:00:00 PM",
+            "epochSeconds": 1551654000,
+            "timeZoneOffsetSeconds": -28800,
+            "localizedShortDate": "Sun, 3 Mar",
+            "localizedMediumDate": "Mar 3, 2019",
+            "localizedFullDate": "Sunday, March 3, 2019",
+            "localizedLongDate": "March 3, 2019",
+            "localizedShortTime": "3:00 PM"
+          },
+          "opaqueRules": [],
+          "opaquePolicies": [],
+          "lateArrivalInstructions": "Your room/unit will be guaranteed for late arrival.",
+          "loyaltyPointsDisclaimer": "Hotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate properties.",
+          "currencyDisclaimer": "Unless specified otherwise, <span class=\"rr-bold\">rates are quoted in </span><span class=\"rr-bold\" id=\"hotel_id-default-currency\">US dollars</span>.",
+          "extraGuestPolicies": [
+            "Availability of accommodation in the same property for extra guests is not guaranteed."
+          ],
+          "occupancyPolicies": [
+            "Base rate is for 2 guests.",
+            "This property considers guests of any age to be an adult."
+          ],
+          "paymentPolicies": [
+            "Your credit card is charged the total cost at time of purchase. Prices and room/unit availability are not guaranteed until full payment is received.",
+            "Some properties request that we wait to submit guest names until 7 days prior to check in. In such a case, your room/unit is reserved, but your name is not yet on file with the property."
+          ],
+          "roomRequestDisclaimer": "All special requests (such as in-room amenities, bed type, and smoking preference) are shared with the hotel, but requests are not guaranteed and may incur additional charges. We recommend you confirm them directly with the hotel before travel.",
+          "dualCurrencyText": "Rate quotes in USD are based on current exchange rates, which may vary at time of travel. Final payment will be settled in local currency directly with the hotel.",
+          "refundEligibiltyText": "Free cancellation until March 3 at 3:00 PM (Pacific Daylight Time (US & Canada); Tijuana)"
+        },
+        "rooms": [
+          {
+            "uniqueID": "ACBCA787-039D-4616-8332-7942575FA43E_0_1020156359",
+            "roomRatePlanDescription": "Run of House Room",
+            "roomTypeCode": "284895",
+            "ratePlanCode": "837432",
+            "bookingStatus": "BOOKED",
+            "bookingStatusEnum": "BOOKED",
+            "hotelConfirmationNumber": "779309029",
+            "drrRateDiscountDescription": "",
+            "orderLineNumber": "050cbf17-697c-47c8-af9b-34a948edbee7",
+            "refundabilityStatus": "REFUNDABLE",
+            "availableOnAllDates": true,
+            "roomCancelLink": "https://www.expedia.com/hotel-cancel-details?tripid=6f2cf000-17ad-4f68-9ab3-9a94b5847244&ordernumber=8140953871415&orderlineguid=050cbf17-697c-47c8-af9b-34a948edbee7&roomNumber=0",
+            "roomChangeLink": "https://www.expedia.com/trips/6f2cf000-17ad-4f68-9ab3-9a94b5847244/ordernumber/8140953871415/orderlinenumber/050cbf17-697c-47c8-af9b-34a948edbee7/change",
+            "roomChangeLinkForMobileWebView": "https://www.expedia.com/trips/6f2cf000-17ad-4f68-9ab3-9a94b5847244/ordernumber/8140953871415/orderlinenumber/050cbf17-697c-47c8-af9b-34a948edbee7/change?blockHardChange=true&mobileWebView=true",
+            "totalPriceDetails": {
+              "primaryCurrencyCode": "USD",
+              "base": "18.52",
+              "baseFormatted": "$18.52",
+              "baseWithAdjustmentForDRRRateDiscount": "18.52",
+              "baseWithAdjustmentForDRRRateDiscountFormatted": "$18.52",
+              "taxesAndFees": "2.60",
+              "taxesAndFeesFormatted": "$2.60",
+              "subTotalBeforeCoupon": "21.12",
+              "subTotalBeforeCouponFormatted": "$21.12",
+              "total": "21.12",
+              "totalFormatted": "$21.12",
+              "chargedTotalFormatted": "$21.12",
+              "isCurrencyConversionEnabled": false,
+              "averagePricePerDay": "18.52",
+              "averagePricePerDayFormatted": "$18.52",
+              "averageTaxPerDay": "2.60",
+              "averageTaxPerDayFormatted": "$2.60",
+              "priceDetailsPerDay": [
+                {
+                  "day": {
+                    "raw": "2019-03-06T15:00:00-08:00",
+                    "localized": "Mar 6, 2019 3:00:00 PM",
+                    "epochSeconds": 1551913200,
+                    "timeZoneOffsetSeconds": -28800,
+                    "localizedShortDate": "Wed, 6 Mar",
+                    "localizedMediumDate": "Mar 6, 2019",
+                    "localizedFullDate": "Wednesday, March 6, 2019",
+                    "localizedLongDate": "March 6, 2019",
+                    "localizedShortTime": "3:00 PM"
+                  },
+                  "primaryCurrencyCode": "USD",
+                  "amount": "18.52",
+                  "amountFormatted": "$18.52",
+                  "localizedDay": {
+                    "raw": "2019-03-06T15:00:00-08:00",
+                    "localized": "Mar 6, 2019 3:00:00 PM",
+                    "epochSeconds": 1551913200,
+                    "timeZoneOffsetSeconds": -28800,
+                    "localizedShortDate": "3/6/2019",
+                    "localizedMediumDate": "Mar 6",
+                    "localizedFullDate": "Wed, Mar 6",
+                    "localizedLongDate": "Mar 6, 2019",
+                    "localizedShortTime": "3:00pm"
+                  }
+                }
+              ],
+              "isSameRateForAllNights": true,
+              "expediaChangeFee": "0",
+              "expediaChangeFeeFormatted": "$0.00"
+            },
+            "roomPreferences": {
+              "primaryOccupant": {
+                "firstName": "test",
+                "fullName": "test test",
+                "email": "test123@123.com",
+                "phone": "1-555-8885858"
+              },
+              "otherOccupantInfo": {
+                "adultCount": 1,
+                "childCount": 0,
+                "infantCount": 0,
+                "childAndInfantCount": 0,
+                "maxGuestCount": 0,
+                "childAndInfantAges": []
+              },
+              "occupantSelectedRoomOptions": {
+                "bedTypeName": "1 king bed",
+                "defaultBedTypeName": "1 king bed",
+                "smokingPreference": "NONSMOKING_ROOM",
+                "accessibilityOptions": [],
+                "hasExtraBedAdult": false,
+                "hasExtraBedChild": false,
+                "hasExtraBedInfant": false,
+                "isSmokingPreferenceSelected": true,
+                "isRoomOptionsAvailable": true
+              },
+              "availableRoomOptions": {
+                "bedTypes": [
+                  {
+                    "id": "37321",
+                    "description": "1 King Bed",
+                    "selected": false
+                  },
+                  {
+                    "id": "37340",
+                    "description": "2 Queen Beds",
+                    "selected": false
+                  }
+                ],
+                "isNewBedTypes": true,
+                "accessibilityOptions": [
+                  {
+                    "id": "2420",
+                    "description": "Accessible bathroom",
+                    "selected": false
+                  },
+                  {
+                    "id": "2421",
+                    "description": "Roll-in shower",
+                    "selected": false
+                  },
+                  {
+                    "id": "2423",
+                    "description": "In-room accessibility",
+                    "selected": false
+                  }
+                ],
+                "isSmokingRoomAvailable": false,
+                "isNonSmokingRoomAvailable": true
+              }
+            },
+            "nonPricePromotionData": {},
+            "hotelRatePlan": {
+              "m_type": 16777216
+            }
+          }
+        ],
+        "isFreeCancellationAvailable": false,
+        "paymentsAndCreditFees": {
+          "paymentsHotelFeesAndDepositsDisclaimer": "The below fees and deposits only apply if they are not included in your selected room rate.",
+          "noFeesStaticText": "The price above DOES NOT include any applicable hotel service fees, charges for optional incidentals (such as minibar snacks or telephone calls), or regulatory surcharges. The hotel will assess these fees, charges, and surcharges upon check-out.",
+          "isDirectAgency": false,
+          "isGDS": false,
+          "isFullyCancelled": false,
+          "isAnyRoomCancelled": false,
+          "isDepositRequired": false,
+          "isPaymentsCreditsVisible": false
+        },
+        "showVATDisclaimer": false,
+        "action": {
+          "isChangeable": true,
+          "isCancellable": true
+        }
+      },
+      {
+        "uniqueID": "ACBCA787-039D-4616-8332-7942575FA43E_1",
+        "hotelId": "24715",
+        "checkInDateTime": {
+          "raw": "2019-03-06T15:00:00-08:00",
+          "localized": "Mar 6, 2019 3:00:00 PM",
+          "epochSeconds": 1551913200,
+          "timeZoneOffsetSeconds": -28800,
+          "localizedShortDate": "3/6/2019",
+          "localizedMediumDate": "Mar 6",
+          "localizedFullDate": "Wed, Mar 6",
+          "localizedLongDate": "Mar 6, 2019",
+          "localizedShortTime": "3:00pm"
+        },
+        "checkOutDateTime": {
+          "raw": "2019-03-07T11:00:00-08:00",
+          "localized": "Mar 7, 2019 11:00:00 AM",
+          "epochSeconds": 1551985200,
+          "timeZoneOffsetSeconds": -28800,
+          "localizedShortDate": "3/7/2019",
+          "localizedMediumDate": "Mar 7",
+          "localizedFullDate": "Thu, Mar 7",
+          "localizedLongDate": "Mar 7, 2019",
+          "localizedShortTime": "11:00am"
+        },
+        "checkInDate": "2019-03-06T15:00:00-08:00",
+        "checkOutDate": "2019-03-07T11:00:00-08:00",
+        "checkInDateLocalized": "Mar 6, 2019",
+        "checkOutDateLocalized": "Mar 7, 2019",
+        "numberOfNights": 1,
+        "bookingStatus": "BOOKED",
+        "bookingStatusText": "Confirmed",
+        "bookingStatusMessage": "We have confirmed your hotel reservation with the property.",
+        "bookedDate": "2018-04-13",
+        "inventoryType": "MERCHANT",
+        "inventoryTypeEnum": "MERCHANT",
+        "inventorySource": "INTERNAL",
+        "paymentModel": "EXPEDIA_COLLECT",
+        "inventoryVisibility": "VISIBLE",
+        "orderNumber": "8140953871415",
+        "state": "PRE_START_4",
+        "infositeURL": "https://www.expedia.com/itin.h24715.Hotel-Information?langid=1033",
+        "reviewSubmissionURL": "https://www.expedia.com/ReviewSubmission?ItinId=7344846880240&htid=24715&campaignId=ITINERARY_PAGE_LINK",
+        "epcConversationURL": "https://www.expedia.com/createConversation/create/?bookingId=842758764&bookingItemId=1020156359&itineraryId=7344846880240&checkinDate=03/06/2019&checkoutDate=03/07/2019&tpid=1&eapid=0&siteId=1&hotelId=24715&hotelName=Circus+Circus+Hotel%2C+Casino+%26+Theme+Park&userTokenString=EvMwKf3RmhLrRP7ffTvmZWFXehjTckl1rHmte8dxhvFsj-rO_1ssya6HcKXpoljIX-e9K_2G4qFPuhxOl2eNSye1SK0odtrtGSRlmbBC3GGrJ5FrHh0ziQ",
+        "hotelPropertyInfo": {
+          "address": {
+            "addressLine1": "2880 Las Vegas Blvd S",
+            "city": "Las Vegas",
+            "countrySubdivisionCode": "NV",
+            "postalCode": "89109",
+            "countryCode": "USA",
+            "countryName": " United States of America",
+            "fullAddress": "2880 Las Vegas Blvd S, Las Vegas, NV, 89109 United States of America",
+            "airportCode": "LAS"
+          },
+          "name": "Circus Circus Hotel, Casino & Theme Park",
+          "starRating": "30",
+          "photoThumbnailURL": "/hotels/1000000/30000/24800/24715/481a00e0_l.jpg",
+          "photoThumbnail500pixURL": "/hotels/1000000/30000/24800/24715/481a00e0_y.jpg",
+          "photoThumbnail1000pixURL": "/hotels/1000000/30000/24800/24715/481a00e0_z.jpg",
+          "localPhone": "+1-702-734-0410",
+          "tollFreePhone": "1-800-634-3450",
+          "formattedPhoneNumbers": "Tel: 1 (702) 734-0410, Fax: 1 (702) 691-5888",
+          "checkInPolicies": [
+            "Check-in time starts at 3 PM",
+            "Minimum check-in age is 21"
+          ],
+          "checkInStartTimePolicy": {
+            "label": "Check-in time starts at",
+            "value": "3 PM"
+          },
+          "checkInEndTimePolicy": {},
+          "checkOutTimePolicy": {
+            "label": "Check-out time is",
+            "value": "11 AM"
+          },
+          "generalRules": [
+            "Check-out time is 11 AM",
+            "No rollaway/extra beds available",
+            "Cash Deposit Required"
+          ],
+          "restrictionPolicies": [],
+          "fees": [],
+          "mandatoryFees": [
+            "<p>You'll be asked to pay the following charges at the property:</p>",
+            "<ul><li>Resort fee: USD 36.28 per accommodation, per night</li></ul>",
+            "The resort fee includes:<ul><li>Fitness center access</li><li>Internet access</li><li>Phone calls</li><li>Additional inclusions</li></ul>",
+            "<p>We have included all charges provided to us by the property. However, charges can vary, for example, based on length of stay or the room you book. </p>"
+          ],
+          "specialCheckInInstructions": [
+            "The smoke-free Manor Motor Lodge and Run of the House rooms are located in 5 buildings a half-block away from the hotel lobby and casino. Bed type is based upon availability for these rooms and will be assigned at check-in. For more details, please contact the property using the information on the reservation confirmation received after booking.",
+            "The credit or debit card used to place the reservation will be required upon arrival to register. The hotel will place an authorization against this account to cover applicable charges for room, tax, and resort fees, as well as an incidental amount per day to allow access to room charging privileges. Additional authorizations may be placed should the guest's charges exceed the originally approved amount. For debit cards, unused funds are released upon check-out and made available after up to 7 days for domestic banks and up to 30 days for international banks. For details, please contact the property using the contact information found on the confirmation received after booking."
+          ],
+          "latitude": 36.136361,
+          "longitude": -115.162247,
+          "isVipAccess": false,
+          "googleMapsLink": "//maps.google.com/?q=89109+Las+Vegas%2C+2880+Las+Vegas+Blvd+S+",
+          "regionId": "2008"
+        },
+        "totalPriceDetails": {
+          "primaryCurrencyCode": "USD",
+          "base": "18.52",
+          "baseFormatted": "$18.52",
+          "baseWithAdjustmentForDRRRateDiscount": "18.52",
+          "baseWithAdjustmentForDRRRateDiscountFormatted": "$18.52",
+          "taxesAndFees": "2.60",
+          "taxesAndFeesFormatted": "$2.60",
+          "mandatoryHotelFees": "36.28",
+          "mandatoryHotelFeesFormatted": "$36.28",
+          "drrRateDiscountDescription": "",
+          "subTotalBeforeCoupon": "21.12",
+          "subTotalBeforeCouponFormatted": "$21.12",
+          "taxStatus": "ESTIMATED",
+          "total": "57.40",
+          "totalFormatted": "$57.40",
+          "chargedTotalFormatted": "$21.12",
+          "totalExpediaCollectAmount": "21.12",
+          "totalExpediaCollectAmountFormatted": "$21.12",
+          "isCurrencyConversionEnabled": false,
+          "hasFees": true,
+          "expediaChangeFee": "0",
+          "expediaChangeFeeFormatted": "$0.00"
+        },
+        "rules": {
+          "cancelChangeRulesIntroduction": "We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the property charges such fees in accordance with its own policies, the cost will be passed on to you. Circus Circus Hotel, Casino & Theme Park charges the following cancellation and change fees.",
+          "cancelChangeRules": [
+            "Cancellations or changes made after 3:00pm (Pacific Daylight Time (US & Canada); Tijuana) on Mar 3, 2019 or no-shows are subject to a property fee equal to 100% of the total amount paid for the reservation.",
+            "Prices and hotel availability are not guaranteed until full payment is received.If you would like to book multiple rooms, you must use a different name for each room. Otherwise, the duplicate reservation will be canceled by the hotel."
+          ],
+          "cancellationWindowTime": {
+            "raw": "2019-03-03T15:00:00-08:00",
+            "localized": "Mar 3, 2019 3:00:00 PM",
+            "epochSeconds": 1551654000,
+            "timeZoneOffsetSeconds": -28800,
+            "localizedShortDate": "Sun, 3 Mar",
+            "localizedMediumDate": "Mar 3, 2019",
+            "localizedFullDate": "Sunday, March 3, 2019",
+            "localizedLongDate": "March 3, 2019",
+            "localizedShortTime": "3:00 PM"
+          },
+          "opaqueRules": [],
+          "opaquePolicies": [],
+          "lateArrivalInstructions": "Your room/unit will be guaranteed for late arrival.",
+          "loyaltyPointsDisclaimer": "Hotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate properties.",
+          "currencyDisclaimer": "Unless specified otherwise, <span class=\"rr-bold\">rates are quoted in </span><span class=\"rr-bold\" id=\"hotel_id-default-currency\">US dollars</span>.",
+          "extraGuestPolicies": [
+            "Availability of accommodation in the same property for extra guests is not guaranteed."
+          ],
+          "occupancyPolicies": [
+            "Base rate is for 2 guests.",
+            "This property considers guests of any age to be an adult."
+          ],
+          "paymentPolicies": [
+            "Your credit card is charged the total cost at time of purchase. Prices and room/unit availability are not guaranteed until full payment is received.",
+            "Some properties request that we wait to submit guest names until 7 days prior to check in. In such a case, your room/unit is reserved, but your name is not yet on file with the property."
+          ],
+          "roomRequestDisclaimer": "All special requests (such as in-room amenities, bed type, and smoking preference) are shared with the hotel, but requests are not guaranteed and may incur additional charges. We recommend you confirm them directly with the hotel before travel.",
+          "dualCurrencyText": "Rate quotes in USD are based on current exchange rates, which may vary at time of travel. Final payment will be settled in local currency directly with the hotel.",
+          "refundEligibiltyText": "Free cancellation until March 3 at 3:00 PM (Pacific Daylight Time (US & Canada); Tijuana)"
+        },
+        "rooms": [
+          {
+            "uniqueID": "ACBCA787-039D-4616-8332-7942575FA43E_0_1020156359",
+            "roomRatePlanDescription": "Run of House Room",
+            "roomTypeCode": "284895",
+            "ratePlanCode": "837432",
+            "bookingStatus": "BOOKED",
+            "bookingStatusEnum": "BOOKED",
+            "hotelConfirmationNumber": "779309029",
+            "drrRateDiscountDescription": "",
+            "orderLineNumber": "050cbf17-697c-47c8-af9b-34a948edbee7",
+            "refundabilityStatus": "REFUNDABLE",
+            "availableOnAllDates": true,
+            "roomCancelLink": "https://www.expedia.com/hotel-cancel-details?tripid=6f2cf000-17ad-4f68-9ab3-9a94b5847244&ordernumber=8140953871415&orderlineguid=050cbf17-697c-47c8-af9b-34a948edbee7&roomNumber=0",
+            "roomChangeLink": "https://www.expedia.com/trips/6f2cf000-17ad-4f68-9ab3-9a94b5847244/ordernumber/8140953871415/orderlinenumber/050cbf17-697c-47c8-af9b-34a948edbee7/change",
+            "roomChangeLinkForMobileWebView": "https://www.expedia.com/trips/6f2cf000-17ad-4f68-9ab3-9a94b5847244/ordernumber/8140953871415/orderlinenumber/050cbf17-697c-47c8-af9b-34a948edbee7/change?blockHardChange=true&mobileWebView=true",
+            "totalPriceDetails": {
+              "primaryCurrencyCode": "USD",
+              "base": "18.52",
+              "baseFormatted": "$18.52",
+              "baseWithAdjustmentForDRRRateDiscount": "18.52",
+              "baseWithAdjustmentForDRRRateDiscountFormatted": "$18.52",
+              "taxesAndFees": "2.60",
+              "taxesAndFeesFormatted": "$2.60",
+              "subTotalBeforeCoupon": "21.12",
+              "subTotalBeforeCouponFormatted": "$21.12",
+              "total": "21.12",
+              "totalFormatted": "$21.12",
+              "chargedTotalFormatted": "$21.12",
+              "isCurrencyConversionEnabled": false,
+              "averagePricePerDay": "18.52",
+              "averagePricePerDayFormatted": "$18.52",
+              "averageTaxPerDay": "2.60",
+              "averageTaxPerDayFormatted": "$2.60",
+              "priceDetailsPerDay": [
+                {
+                  "day": {
+                    "raw": "2019-03-06T15:00:00-08:00",
+                    "localized": "Mar 6, 2019 3:00:00 PM",
+                    "epochSeconds": 1551913200,
+                    "timeZoneOffsetSeconds": -28800,
+                    "localizedShortDate": "Wed, 6 Mar",
+                    "localizedMediumDate": "Mar 6, 2019",
+                    "localizedFullDate": "Wednesday, March 6, 2019",
+                    "localizedLongDate": "March 6, 2019",
+                    "localizedShortTime": "3:00 PM"
+                  },
+                  "primaryCurrencyCode": "USD",
+                  "amount": "18.52",
+                  "amountFormatted": "$18.52",
+                  "localizedDay": {
+                    "raw": "2019-03-06T15:00:00-08:00",
+                    "localized": "Mar 6, 2019 3:00:00 PM",
+                    "epochSeconds": 1551913200,
+                    "timeZoneOffsetSeconds": -28800,
+                    "localizedShortDate": "3/6/2019",
+                    "localizedMediumDate": "Mar 6",
+                    "localizedFullDate": "Wed, Mar 6",
+                    "localizedLongDate": "Mar 6, 2019",
+                    "localizedShortTime": "3:00pm"
+                  }
+                }
+              ],
+              "isSameRateForAllNights": true,
+              "expediaChangeFee": "0",
+              "expediaChangeFeeFormatted": "$0.00"
+            },
+            "roomPreferences": {
+              "primaryOccupant": {
+                "firstName": "test",
+                "fullName": "test test",
+                "email": "test123@123.com",
+                "phone": "1-555-8885858"
+              },
+              "otherOccupantInfo": {
+                "adultCount": 1,
+                "childCount": 0,
+                "infantCount": 0,
+                "childAndInfantCount": 0,
+                "maxGuestCount": 0,
+                "childAndInfantAges": []
+              },
+              "occupantSelectedRoomOptions": {
+                "bedTypeName": "1 king bed",
+                "defaultBedTypeName": "1 king bed",
+                "smokingPreference": "NONSMOKING_ROOM",
+                "accessibilityOptions": [],
+                "hasExtraBedAdult": false,
+                "hasExtraBedChild": false,
+                "hasExtraBedInfant": false,
+                "isSmokingPreferenceSelected": true,
+                "isRoomOptionsAvailable": true
+              },
+              "availableRoomOptions": {
+                "bedTypes": [
+                  {
+                    "id": "37321",
+                    "description": "1 King Bed",
+                    "selected": false
+                  },
+                  {
+                    "id": "37340",
+                    "description": "2 Queen Beds",
+                    "selected": false
+                  }
+                ],
+                "isNewBedTypes": true,
+                "accessibilityOptions": [
+                  {
+                    "id": "2420",
+                    "description": "Accessible bathroom",
+                    "selected": false
+                  },
+                  {
+                    "id": "2421",
+                    "description": "Roll-in shower",
+                    "selected": false
+                  },
+                  {
+                    "id": "2423",
+                    "description": "In-room accessibility",
+                    "selected": false
+                  }
+                ],
+                "isSmokingRoomAvailable": false,
+                "isNonSmokingRoomAvailable": true
+              }
+            },
+            "nonPricePromotionData": {},
+            "hotelRatePlan": {
+              "m_type": 16777216
+            }
+          }
+        ],
+        "isFreeCancellationAvailable": false,
+        "paymentsAndCreditFees": {
+          "paymentsHotelFeesAndDepositsDisclaimer": "The below fees and deposits only apply if they are not included in your selected room rate.",
+          "noFeesStaticText": "The price above DOES NOT include any applicable hotel service fees, charges for optional incidentals (such as minibar snacks or telephone calls), or regulatory surcharges. The hotel will assess these fees, charges, and surcharges upon check-out.",
+          "isDirectAgency": false,
+          "isGDS": false,
+          "isFullyCancelled": false,
+          "isAnyRoomCancelled": false,
+          "isDepositRequired": false,
+          "isPaymentsCreditsVisible": false
+        },
+        "showVATDisclaimer": false,
+        "action": {
+          "isChangeable": true,
+          "isCancellable": true
+        }
+      }
+    ],
+    "totalTripPrice": {
+      "currency": "USD",
+      "total": "157.15",
+      "totalFormatted": "$157.15",
+      "totalWithoutInsurance": "157.15",
+      "totalWithoutInsuranceFormatted": "$157.15"
+    },
+    "isCouponApplied": false,
+    "paymentSummary": {
+      "totalPaidPrice": {
+        "amount": 178.27,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "totalPaidTaxAndFees": {
+        "amount": 39.96,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "subTotalPaid": {
+        "amount": 138.31,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "totalPropertyFee": {
+        "amount": 0.00,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "totalPaidLocalizedPrice": "$178.27",
+      "totalPaidTaxAndFeesLocalizedPrice": "$39.96",
+      "subTotalPaidLocalizedPrice": "$138.31",
+      "totalPropertyFeeLocalizedPrice": ""
+    },
+    "readTripError": false,
+    "tripSource": "[hotels, clientId]",
+    "clientId": "expweb-luna",
+    "zetaTrip": false,
+    "showCurrencyName": false,
+    "isMRP": false,
+    "tripDataSource": "LUNA-PARTIAL",
+    "isTripUpgradable": false,
+    "mipQualifications": [
+      {
+        "startDate": 1551571199000,
+        "endDate": 1552262399000,
+        "bookedType": "ATTACHED",
+        "bookedLOBs": [
+          "PACKAGE"
+        ],
+        "itinNums": [
+          "7344437919482",
+          "7344846880240"
+        ],
+        "mipType": "CARMIP",
+        "expirationDate": 1552003199000,
+        "expirationRemainingInMillis": 26704644660,
+        "destinationName": "Las Vegas",
+        "destinationId": "178276"
+      },
+      {
+        "startDate": 1551571199000,
+        "endDate": 1552262399000,
+        "bookedType": "ATTACHED",
+        "bookedLOBs": [
+          "PACKAGE"
+        ],
+        "itinNums": [
+          "7344437919482",
+          "7344846880240"
+        ],
+        "mipType": "HOTMIP",
+        "expirationDate": 1525373514722,
+        "expirationRemainingInMillis": 74960382,
+        "destinationName": "Las Vegas",
+        "destinationId": "178276"
+      }
+    ],
+    "isRewardsPointsBooking": false,
+    "billPayMethod": "false",
+    "customerCareCustomerType": "Blue"
+  }
+}

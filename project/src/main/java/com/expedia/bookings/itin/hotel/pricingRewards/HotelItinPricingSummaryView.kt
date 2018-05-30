@@ -16,7 +16,7 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 
 class HotelItinPricingSummaryView(context: Context?, attrs: AttributeSet?) : CardView(context, attrs) {
-    val roomContainerView by bindView<LinearLayout>(R.id.hotel_itin_pricing_summary_room_container)
+    val priceBreakdownContainerView by bindView<LinearLayout>(R.id.hotel_itin_pricing_summary_price_breakdown_container)
     val multipleGuestView by bindView<PriceSummaryItemView>(R.id.hotel_itin_pricing_summary_multiple_guest_view)
     val taxesAndFeesView by bindView<PriceSummaryItemView>(R.id.hotel_itin_pricing_summary_taxes_fees_view)
     val couponsView by bindView<PriceSummaryItemView>(R.id.hotel_itin_pricing_summary_coupons_view)
@@ -27,14 +27,14 @@ class HotelItinPricingSummaryView(context: Context?, attrs: AttributeSet?) : Car
     val additionalPriceInfoButton by bindView<LinearLayout>(R.id.hotel_itin_pricing_summary_additional_pricing_info_button)
 
     var viewModel: IHotelItinPricingSummaryViewModel by notNullAndObservable {
-        it.roomContainerClearSubject.subscribe {
-            roomContainerView.removeAllViews()
+        it.priceBreakdownResetSubject.subscribe {
+            priceBreakdownContainerView.removeAllViews()
         }
 
-        it.roomContainerItemSubject.subscribe { item ->
-            val view: PriceSummaryItemView = Ui.inflate(R.layout.hotel_itin_price_summary_item_view, roomContainerView, false)
+        it.priceBreakdownItemSubject.subscribe { item ->
+            val view: PriceSummaryItemView = Ui.inflate(R.layout.hotel_itin_price_summary_item_view, priceBreakdownContainerView, false)
             setupPriceLineItem(view, item)
-            roomContainerView.addView(view)
+            priceBreakdownContainerView.addView(view)
         }
 
         it.multipleGuestItemSubject.subscribe { item ->
