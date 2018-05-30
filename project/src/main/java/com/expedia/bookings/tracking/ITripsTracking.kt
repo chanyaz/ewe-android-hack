@@ -1,6 +1,7 @@
 package com.expedia.bookings.tracking
 
 interface ITripsTracking {
+    fun trackHotelItinPricingRewardsPageLoad(trip: HashMap<String, String?>)
     fun trackHotelItinPricingRewardsClick()
     fun trackItinLx(trip: HashMap<String, String?>)
     fun trackTripFolderAbTest()

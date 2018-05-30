@@ -1,5 +1,6 @@
 package com.expedia.bookings.itin.hotel.pricingRewards
 
+import android.arch.lifecycle.Observer
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -10,11 +11,13 @@ import com.expedia.bookings.extensions.LiveDataObserver
 import com.expedia.bookings.features.Features
 import com.expedia.bookings.itin.common.ItinToolbar
 import com.expedia.bookings.itin.common.ItinViewReceiptWidget
+import com.expedia.bookings.itin.flight.common.ItinOmnitureUtils
 import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepo
 import com.expedia.bookings.itin.scopes.HotelItinPricingSummaryScope
 import com.expedia.bookings.itin.scopes.HotelItinRewardsScope
 import com.expedia.bookings.itin.scopes.HotelItinToolbarScope
 import com.expedia.bookings.itin.scopes.HotelItinViewReceiptScope
+import com.expedia.bookings.itin.tripstore.data.Itin
 import com.expedia.bookings.itin.tripstore.utils.IJsonToItinUtil
 import com.expedia.bookings.itin.utils.ActivityLauncher
 import com.expedia.bookings.itin.utils.IActivityLauncher
@@ -67,7 +70,7 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
     lateinit var rewardsViewModel: HotelItinPricingSummaryRewardsViewModel<HotelItinRewardsScope>
 
     val itineraryManager: ItineraryManager = ItineraryManager.getInstance()
-    val tripsTracking: ITripsTracking = TripsTracking
+    var tripsTracking: ITripsTracking = TripsTracking
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,6 +98,8 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
         rewardsViewModel = HotelItinPricingSummaryRewardsViewModel(rewardsScope)
         rewardsView.viewModel = rewardsViewModel
 
+        setUpOmnitureValues()
+
         hotelRepo.liveDataInvalidItin.observe(this, LiveDataObserver {
             finish()
         })
@@ -104,5 +109,17 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
         super.finish()
         hotelRepo.dispose()
         overridePendingTransition(R.anim.slide_in_left_complete, R.anim.slide_out_right_no_fill_after)
+    }
+
+    fun setUpOmnitureValues() {
+        hotelRepo.liveDataItin.observe(this, object : Observer<Itin> {
+            override fun onChanged(t: Itin?) {
+                t?.let {
+                    val omnitureValues = ItinOmnitureUtils.createOmnitureTrackingValuesNew(it, ItinOmnitureUtils.LOB.HOTEL)
+                    tripsTracking.trackHotelItinPricingRewardsPageLoad(omnitureValues)
+                }
+                hotelRepo.liveDataItin.removeObserver(this)
+            }
+        })
     }
 }

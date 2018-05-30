@@ -140,6 +140,12 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
         s.trackLink("Itinerary Action")
     }
 
+    override fun trackHotelItinPricingRewardsPageLoad(trip: HashMap<String, String?>) {
+        Log.d(TAG, "Tracking \"$ITIN_HOTEL_PRICING_REWARDS\" pageLoad")
+        val s = createTrackPageLoadEventBase(ITIN_HOTEL_PRICING_REWARDS)
+        trackItinPageLoad(s, trip)
+    }
+
     override fun trackHotelItinPricingRewardsClick() {
         val s = createTrackLinkEvent(ITIN_HOTEL_PRICING_REWARDS)
         trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsHotelPricing)
@@ -298,7 +304,7 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
             s.setProp(75, TripUtils.createUsersProp75String(userTrips))
         }
         s.setProducts(trip.get("productString").toString())
-        s.setEvar(2, "itinerary")
+        s.setEvar(2, "D=c2")
         s.setProp(2, "itinerary")
         s.setProp(8, trip.get("orderAndTripNumbers").toString())
         s.setEvar(6, trip.get("duration").toString())

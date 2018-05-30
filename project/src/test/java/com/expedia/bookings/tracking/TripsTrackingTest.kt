@@ -53,6 +53,30 @@ class TripsTrackingTest {
     }
 
     @Test
+    fun trackItinHotelPricingRewardsPageload() {
+        assertNoTrackingHasOccurred()
+        val trip = ItinMocker.hotelDetailsHappy
+        val omnitureValues = ItinOmnitureUtils.createOmnitureTrackingValuesNew(trip, ItinOmnitureUtils.LOB.HOTEL)
+        TripsTracking.trackHotelItinPricingRewardsPageLoad(omnitureValues)
+        OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(mapOf(18 to "App.Itinerary.Hotel.PricingRewards")), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun trackHotelItinPricingRewardsClick() {
+        OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
+
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsHotelPricing)
+        TripsTracking.trackHotelItinPricingRewardsClick()
+        OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Hotel.PricingRewards",
+                OmnitureMatchers.withAbacusTestBucketed(25537), mockAnalyticsProvider)
+
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppTripsHotelPricing)
+        TripsTracking.trackHotelItinPricingRewardsClick()
+        OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Hotel.PricingRewards",
+                OmnitureMatchers.withAbacusTestControl(25537), mockAnalyticsProvider)
+    }
+
+    @Test
     fun trackItinHotelViewReceiptTest() {
         assertNoTrackingHasOccurred()
         TripsTracking.trackItinHotelViewReceipt()
@@ -60,7 +84,7 @@ class TripsTrackingTest {
     }
 
     @Test
-    fun trackHotelItinPricingRewardsClick() {
+    fun trackHotelItinPricingRewardsViewRewardsClick() {
         OmnitureTestUtils.assertNoTrackingHasOccurred(mockAnalyticsProvider)
         TripsTracking.trackItinHotelViewRewards()
         OmnitureTestUtils.assertLinkTracked("Itinerary Action", "App.Itinerary.Hotel.PricingRewards.ViewRewards", mockAnalyticsProvider)
@@ -183,7 +207,7 @@ class TripsTrackingTest {
         TripsTracking.trackItinPageLoad(s, omnitureValues)
 
         OmnitureTestUtils.assertStateTracked("Itin.Page.Load", Matchers.allOf(
-                OmnitureMatchers.withEvars(mapOf(2 to "itinerary", 5 to "0.0", 6 to "4", 18 to "Itin.Page.Load")),
+                OmnitureMatchers.withEvars(mapOf(2 to "D=c2", 5 to "0.0", 6 to "4", 18 to "Itin.Page.Load")),
                 OmnitureMatchers.withProps(mapOf(2 to "itinerary", 5 to "2018-03-12", 6 to "2018-03-16", 8 to "8065305197869|7280999576135")),
                 OmnitureMatchers.withEventsString("event63"),
                 OmnitureMatchers.withProductsString(";Hotel:17669432;4;10000.00")), mockAnalyticsProvider)

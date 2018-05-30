@@ -11,6 +11,7 @@ class MockTripsTracking : ITripsTracking {
     var trackHotelItinPricingRewardsClicked = false
     var trackHotelTaxiClick = false
     var trackHotelItinViewRewardsCalled = false
+    var trackHotelItinPricingRewardsPageload = false
 
     var trackItinLxCalled = false
     var mapClicked = false
@@ -38,6 +39,10 @@ class MockTripsTracking : ITripsTracking {
 
     override fun trackHotelItinPricingRewardsClick() {
         trackHotelItinPricingRewardsClicked = true
+    }
+
+    override fun trackHotelItinPricingRewardsPageLoad(trip: HashMap<String, String?>) {
+        trackHotelItinPricingRewardsPageload = true
     }
 
     override fun trackItinLx(trip: HashMap<String, String?>) {
