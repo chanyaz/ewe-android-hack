@@ -129,6 +129,12 @@
             android:summary="Do package bookings, but suppress any actual booking from going through"
             android:title="Suppress Package Bookings" />
 
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/preference_force_enable_packages_lob"
+            android:summary="Enable Package LOB on home screen irrespective of configuration"
+            android:title="Force Enable Package LOB" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

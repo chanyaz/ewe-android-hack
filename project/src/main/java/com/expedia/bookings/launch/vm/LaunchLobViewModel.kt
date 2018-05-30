@@ -2,6 +2,7 @@ package com.expedia.bookings.launch.vm
 
 import android.content.Context
 import android.view.View
+import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LobInfo
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -10,6 +11,7 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.util.PackageUtil
 import com.expedia.util.endlessObserver
+import com.mobiata.android.util.SettingUtils
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
@@ -38,7 +40,9 @@ class LaunchLobViewModel(val context: Context, val hasInternetConnectionChangeSu
         lobs.add(LobInfo.FLIGHTS)
 
         val packagesPOSABTestEnabled = !PackageUtil.isPackageLOBUnderABTest || AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesEnablePOS)
-        if (pos.supports(LineOfBusiness.PACKAGES) && packagesPOSABTestEnabled) {
+        val forceEnablePackagesLOB = SettingUtils.get(context, R.string.preference_force_enable_packages_lob, false)
+
+        if ((pos.supports(LineOfBusiness.PACKAGES) && packagesPOSABTestEnabled) || forceEnablePackagesLOB) {
             lobs.add(LobInfo.PACKAGES)
         }
 

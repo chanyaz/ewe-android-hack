@@ -106,6 +106,7 @@
     <string name="preference_suppress_flight_bookings">suppress_flight_bookings</string>
     <string name="preference_suppress_car_bookings">suppress_car_bookings</string>
     <string name="preference_suppress_package_bookings">suppress_package_bookings</string>
+    <string name="preference_force_enable_packages_lob">preference_force_enable_packages_lob</string>
     <string name="preference_suppress_hotel_bookings">suppress_hotel_bookings</string>
     <string name="preference_suppress_lx_bookings">suppress_lx_bookings</string>
     <string name="preference_fake_current_location">preference_fake_current_location</string>
