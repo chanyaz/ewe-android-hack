@@ -10,12 +10,10 @@ import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.packages.activity.PackageFlightActivity
 import com.expedia.bookings.packages.presenter.PackageFlightPresenter
-import com.expedia.bookings.packages.widget.BundleTotalPriceTopWidget
 import com.expedia.bookings.packages.widget.SlidingBundleWidget
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MockPackageServiceTestRule
@@ -23,7 +21,6 @@ import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.robolectric.PackageTestUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.Ui
@@ -40,7 +37,6 @@ import org.robolectric.RuntimeEnvironment
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
-import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -118,49 +114,6 @@ class PackageFlightPresenterTest {
         val intent = Intent(context, PackageFlightActivity::class.java)
         intent.putExtra(requestConstant, true)
         Robolectric.buildActivity(PackageFlightActivity::class.java, intent).create().get()
-    }
-
-    @Test
-    fun testBundleWidgetTopVisibleOutboundFlights() {
-        mockPackageServiceRule.getMIDHotelResponse()
-        mockPackageServiceRule.getMIDFlightsResponse()
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs)
-
-        presenter = getPackageFlightPresenter()
-        assertEquals(View.VISIBLE, presenter.bundlePriceWidgetTop.visibility)
-    }
-
-    @Test
-    fun testBundleWidgetTopNotVisibleOutboundFlights() {
-        mockPackageServiceRule.getMIDHotelResponse()
-        mockPackageServiceRule.getMIDFlightsResponse()
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs)
-
-        presenter = getPackageFlightPresenter()
-        assertNull(presenter.findViewById<BundleTotalPriceTopWidget>(R.id.bundle_total_top_view))
-    }
-
-    @Test
-    fun testBundleWidgetTopVisibleInboundFlights() {
-        mockPackageServiceRule.getMIDHotelResponse()
-        mockPackageServiceRule.getMIDFlightsResponse()
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs)
-
-        presenter = getPackageFlightPresenter()
-        presenter.resultsPresenter.outboundFlightSelectedSubject.onNext(PackageTestUtil.getDummyPackageFlightLeg())
-
-        assertEquals(View.VISIBLE, presenter.bundlePriceWidgetTop.visibility)
-    }
-
-    @Test
-    fun testBundleWidgetTopNotVisibleInboundFlights() {
-        mockPackageServiceRule.getMIDHotelResponse()
-        mockPackageServiceRule.getMIDFlightsResponse()
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs)
-
-        presenter = getPackageFlightPresenter()
-        presenter.resultsPresenter.outboundFlightSelectedSubject.onNext(PackageTestUtil.getDummyPackageFlightLeg())
-        assertNull(presenter.findViewById<BundleTotalPriceTopWidget>(R.id.bundle_total_top_view))
     }
 
     @Test
@@ -338,28 +291,6 @@ class PackageFlightPresenterTest {
         Db.setPackageParams(params)
         presenter = getPackageFlightPresenter()
         assertEquals(DockedOutboundFlightSelectionView::class.java, presenter.resultsPresenter.dockedOutboundFlightSelection::class.java)
-    }
-
-    @Test
-    fun testBundlePriceWidgetTopIsClickable() {
-        mockPackageServiceRule.getMIDHotelResponse()
-        mockPackageServiceRule.getMIDFlightsResponse()
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs)
-        presenter = getPackageFlightPresenter()
-        presenter.overviewTransition.startTransition(false)
-        assertEquals(true, presenter.bundleSlidingWidget.bundlePriceWidget.isClickable)
-        assertEquals(true, presenter.bundlePriceWidgetTop.isClickable)
-    }
-
-    @Test
-    fun testBundlePriceWidgetTopIsNotClickable() {
-        mockPackageServiceRule.getMIDHotelResponse()
-        mockPackageServiceRule.getMIDFlightsResponse()
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs)
-        presenter = getPackageFlightPresenter()
-        presenter.overviewTransition.startTransition(true)
-        assertEquals(false, presenter.bundleSlidingWidget.bundlePriceWidget.isClickable)
-        assertEquals(false, presenter.bundlePriceWidgetTop.isClickable)
     }
 
     @Test

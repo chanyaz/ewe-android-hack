@@ -706,14 +706,6 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="-1"
             android:summary="%s"
-            android:key="16223"
-            android:title="Packages Breadcrumbs - Move Bundle Overview Bar"/>
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="-1"
-            android:summary="%s"
             android:key="25557"
             android:title="Packages Flight Fare Premium Class - 25557"/>
 

@@ -7,7 +7,6 @@ import io.reactivex.subjects.PublishSubject
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
@@ -19,9 +18,5 @@ class PackageHotelListAdapterTest {
     fun testHeaderVisibilityForDetailedPriceDisplay() {
         AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesHSRPriceDisplay)
         assertNull(adapter.getPriceDescriptorMessageIdForHSR(context))
-
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesHSRPriceDisplay)
-        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs)
-        assertNotNull(adapter.getPriceDescriptorMessageIdForHSR(context))
     }
 }

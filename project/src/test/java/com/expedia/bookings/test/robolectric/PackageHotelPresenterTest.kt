@@ -132,7 +132,7 @@ class PackageHotelPresenterTest {
 
     @Test
     fun testSlidingBundleNotVisibleIfBucketedInHSRPriceDisplay() {
-        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesHSRPriceDisplay, AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs)
+        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesHSRPriceDisplay)
         hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
         Db.setPackageResponse(hotelResponse)
 
@@ -159,25 +159,6 @@ class PackageHotelPresenterTest {
 
     private fun assertBundlePriceAndSliderVisibilities(expectedVisibility: Int) {
         assertEquals(expectedVisibility, widget.bundleSlidingWidget.visibility)
-        assertEquals(expectedVisibility, widget.resultsPresenter.bundlePriceWidgetTop.visibility)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
-    fun testBundleTotalPriceWidgetTopVisibility() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs)
-        hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
-        Db.setPackageResponse(hotelResponse)
-
-        widget = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_presenter,
-                null) as PackageHotelPresenter
-        widget.resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(hotelResponse, false))
-
-        assertEquals(View.VISIBLE, widget.resultsPresenter.bundlePriceWidgetTop.visibility)
-        assertEquals("/person", widget.resultsPresenter.bundlePriceWidgetTop.bundlePerPersonText.text)
-        assertEquals("$0.00", widget.resultsPresenter.bundlePriceWidgetTop.bundleTotalPrice.text)
-        assertEquals("View your trip", widget.resultsPresenter.bundlePriceWidgetTop.bundleTitleText.text)
-        assertEquals(View.VISIBLE, widget.resultsPresenter.bundlePriceWidgetTop.bundleInfoIcon.visibility)
     }
 
     @Test
@@ -191,25 +172,6 @@ class PackageHotelPresenterTest {
         widget.resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(hotelResponse, false))
 
         widget.bundleSlidingWidget.bundlePriceWidget.performClick()
-
-        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(mapOf(28 to "App.Package.BundleWidget.Tap"))
-                , mockAnalyticsProvider)
-        OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withProps(mapOf(16 to "App.Package.BundleWidget.Tap"))
-                , mockAnalyticsProvider)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testBundleWidgetTopTapTracking() {
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs)
-        hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
-        widget = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_presenter,
-                null) as PackageHotelPresenter
-
-        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        widget.resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(hotelResponse, false))
-
-        widget.resultsPresenter.bundlePriceWidgetTop.performClick()
 
         OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(mapOf(28 to "App.Package.BundleWidget.Tap"))
                 , mockAnalyticsProvider)

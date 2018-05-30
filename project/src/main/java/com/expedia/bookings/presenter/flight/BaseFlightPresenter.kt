@@ -25,7 +25,6 @@ import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
 import com.expedia.bookings.widget.BaggageFeeInfoWebView
 import com.expedia.bookings.widget.BaseFlightFilterWidget
 import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
@@ -138,7 +137,6 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
             activity.onBackPressed()
         }
         toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_cont_desc)
-        if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) toolbarShadow.visibility = View.GONE
     }
 
     override fun onFinishInflate() {

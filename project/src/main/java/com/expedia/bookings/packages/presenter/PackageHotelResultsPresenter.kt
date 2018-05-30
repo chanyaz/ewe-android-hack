@@ -11,37 +11,27 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.extensions.subscribeContentDescription
-import com.expedia.bookings.extensions.subscribeOnClick
-import com.expedia.bookings.hotel.animation.transition.VerticalTranslateTransition
 import com.expedia.bookings.hotel.vm.BaseHotelFilterViewModel
-import com.expedia.bookings.hotel.widget.adapter.HotelMapCarouselAdapter
-import com.expedia.bookings.packages.adapter.PackageHotelListAdapter
 import com.expedia.bookings.packages.vm.PackageFilterViewModel
 import com.expedia.bookings.packages.vm.PackageHotelResultsViewModel
-import com.expedia.bookings.packages.widget.BundleTotalPriceTopWidget
 import com.expedia.bookings.packages.widget.PackageHotelServerFilterView
 import com.expedia.bookings.presenter.hotel.BaseHotelResultsPresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
-import com.expedia.bookings.utils.isHideMiniMapOnResultBucketed
 import com.expedia.bookings.utils.isPackagesHSRPriceDisplayEnabled
 import com.expedia.bookings.utils.isServerSideFilteringEnabledForPackages
 import com.expedia.bookings.widget.BaseHotelFilterView
 import com.expedia.bookings.widget.BaseHotelListAdapter
-import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.HotelClientFilterView
-import com.expedia.util.endlessObserver
+import com.expedia.bookings.hotel.widget.adapter.HotelMapCarouselAdapter
+import com.expedia.bookings.packages.adapter.PackageHotelListAdapter
 import com.expedia.util.notNullAndObservable
 import com.squareup.phrase.Phrase
-import io.reactivex.Observer
 
 class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
 
     override fun getRecyclerYTranslation(): Float {
-        if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context) && isHideMiniMapOnResultBucketed(context)) {
-            return resources.getDimension(R.dimen.package_bundle_widget_height)
-        } else return 0f
+        return 0f
     }
 
     override val filterHeight by lazy { resources.getDimension(R.dimen.footer_button_height) }
@@ -54,17 +44,6 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         baseViewModel = vm
         vm.hotelResultsObservable.subscribe(listResultsObserver)
         vm.filterResultsObservable.subscribe(listResultsObserver)
-        if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
-            val filterStub = findViewById<ViewStub>(R.id.filter_stub)
-            val filterStubInflated = filterStub.inflate()
-            val filterBtnWithCountWidget = filterStubInflated.findViewById<FilterButtonWithCountWidget>(R.id.sort_filter_button_container)
-            filterBtnWithCountWidget.subscribeOnClick(filterButtonOnClickObservable)
-            val filterCountObserver: Observer<Int> = endlessObserver { numberOfFilters ->
-                filterBtnWithCountWidget.showNumberOfFilters(numberOfFilters)
-            }
-            filterViewModel.filterCountObservable.subscribe(filterCountObserver)
-            sortFilterButtonTransition = VerticalTranslateTransition(filterBtnWithCountWidget, 0, filterHeight.toInt())
-        }
 
         vm.titleSubject.subscribe {
             if (!Db.sharedInstance.packageParams.isChangePackageSearch()) {
@@ -115,11 +94,6 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
             show(ResultsMap(), FLAG_CLEAR_TOP)
             mapWidget.clearMarkers()
         }
-    }
-
-    val bundlePriceWidgetTop: BundleTotalPriceTopWidget by lazy {
-        val viewStub = findViewById<ViewStub>(R.id.bundle_total_top_stub)
-        viewStub.inflate() as BundleTotalPriceTopWidget
     }
 
     override fun inflate() {

@@ -3976,8 +3976,6 @@
     <string name="bundle_total_text">Bundle total</string>
     <!-- Label for package bundle price on search-->
     <string name="search_bundle_total_text">View your bundle</string>
-    <!-- Label for package bundle price on search (revamped)-->
-    <string name="search_bundle_total_text_new">View your trip</string>
     <!-- Bundle Overview Step 1, select a hotel -->
     <string name="step_one">Step 1: Select hotel</string>
     <!-- Bundle Overview Step 2, Select outbound flight (breadcrumbs) -->

@@ -7,13 +7,6 @@
     android:orientation="vertical"
     android:animateLayoutChanges="true">
 
-    <ViewStub
-        android:id="@+id/bundle_total_top_stub"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inflatedId="@+id/bundle_total_top_view"
-        android:layout="@layout/bundle_price_top_stub" />
-
     <ProgressBar
         android:id="@+id/flight_loader_progressBar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
@@ -21,13 +14,6 @@
         android:layout_height="5dp"
         android:layout_marginTop="2dp"
         android:progressDrawable="@drawable/flight_progress_bar"
-        android:visibility="gone" />
-
-    <View
-        android:id="@+id/toolbar_dropshadow_bundle_total_top"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_dropshadow_height"
-        android:background="@drawable/tb_shadow"
         android:visibility="gone" />
 
     <com.expedia.bookings.widget.TextView

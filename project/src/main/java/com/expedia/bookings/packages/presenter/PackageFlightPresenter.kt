@@ -4,13 +4,11 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Point
 import android.support.annotation.VisibleForTesting
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewStub
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -24,14 +22,12 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extensions.subscribeContentDescription
 import com.expedia.bookings.extensions.subscribeInverseVisibility
 import com.expedia.bookings.extensions.subscribeText
-import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.packages.adapter.PackageFlightListAdapter
 import com.expedia.bookings.packages.vm.PackageFlightOverviewViewModel
 import com.expedia.bookings.packages.vm.PackageResultsViewModel
 import com.expedia.bookings.packages.vm.PackageToolbarViewModel
-import com.expedia.bookings.packages.widget.BundleTotalPriceTopWidget
 import com.expedia.bookings.packages.widget.SlidingBundleWidget
 import com.expedia.bookings.packages.widget.SlidingBundleWidgetListener
 import com.expedia.bookings.presenter.flight.BaseFlightPresenter
@@ -42,7 +38,6 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.Optional
 import com.expedia.util.endlessObserver
@@ -55,22 +50,10 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
     val bundleSlidingWidget: SlidingBundleWidget by bindView(R.id.sliding_bundle_widget)
     lateinit var slidingBundleWidgetListener: SlidingBundleWidgetListener
 
-    val bundlePriceWidgetTop: BundleTotalPriceTopWidget by lazy {
-        val viewStub = findViewById<ViewStub>(R.id.bundle_total_top_stub)
-        viewStub.inflate() as BundleTotalPriceTopWidget
-    }
-
-    val bundlePriceWidgetTopShadow: View by lazy {
-        findViewById<View>(R.id.toolbar_dropshadow_bundle_total_top)
-    }
-
     override val overviewTransition = object : OverviewTransition(this) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             disableSlidingWidget(forward)
-            if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
-                bundlePriceWidgetTop.isClickable = !forward
-            }
         }
     }
 
@@ -112,13 +95,11 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
     init {
         toolbarViewModel = PackageToolbarViewModel(context)
         toolbarViewModel.menuVisibilitySubject.subscribe { showMenu ->
-            if (!isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
-                menuFilter.isVisible = showMenu
-            }
+            menuFilter.isVisible = showMenu
         }
 
         View.inflate(getContext(), R.layout.package_flight_presenter, this)
-        resultsPresenter.showFilterButton = isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)
+        resultsPresenter.showFilterButton = false
         resultsPresenter.resultsViewModel.airlineChargesFeesSubject.onNext(PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage())
         val activity = (context as AppCompatActivity)
         val intent = activity.intent
@@ -183,18 +164,6 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         detailsPresenter.vm.obFeeDetailsUrlObservable.subscribe(paymentFeeInfoWebView.viewModel.webViewURLObservable)
         Db.sharedInstance.packageParams.flightLegList = allFlights
         trackFlightResultsLoad()
-        if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
-            bundlePriceWidgetTopShadow.visibility = View.VISIBLE
-            bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text_new))
-            bundlePriceWidgetTop.setOnClickListener {
-                PackagesTracking().trackBundleWidgetTap()
-                show(bundleSlidingWidget)
-            }
-            bundleSlidingWidget.bundlePriceWidget.viewModel.perPersonTextLabelObservable.subscribeVisibility(bundlePriceWidgetTop.bundlePerPersonText)
-            bundleSlidingWidget.bundlePriceFooter.viewModel.totalPriceObservable.subscribeTextAndVisibility(bundlePriceWidgetTop.bundleTotalPrice)
-            bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.subscribeText(bundlePriceWidgetTop.bundleTitleText)
-            bundleSlidingWidget.bundlePriceWidget.viewModel.pricePerPersonObservable.subscribeText(bundlePriceWidgetTop.bundleTotalPrice)
-        }
     }
 
     private fun setupMenuFilter() {
@@ -216,9 +185,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         filterButtonText.visibility = GONE
         filterBtn.setOnClickListener { show(filter) }
 
-        if (!isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
-            menuFilter.actionView = toolbarFilterItemActionView
-        }
+        menuFilter.actionView = toolbarFilterItemActionView
         filter.viewModelBase.filterCountObservable.map { it.toString() }.subscribeText(filterCountText)
         filter.viewModelBase.filterCountObservable.map {
             Phrase.from(resources.getQuantityString(R.plurals.no_of_filters_applied_TEMPLATE, it))
@@ -335,11 +302,6 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
 
         slidingBundleWidgetListener = SlidingBundleWidgetListener(bundleSlidingWidget, this)
         bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(slidingBundleWidgetListener.onTouchListener)
-
-        if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
-            resultsPresenter.dockedOutboundFlightSelection.setBackgroundColor(ContextCompat.getColor(context, R.color.docketOutboundWidgetGray))
-            resultsPresenter.dockedOutboundFlightShadow.layoutParams.height = resources.getDimension(R.dimen.package_docked_outbound_view_seperator).toInt()
-        }
     }
 
     fun updateOverviewAnimationDuration(duration: Int) {
@@ -372,9 +334,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
     }
 
     override fun setupToolbarMenu() {
-        if (!isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
-            toolbar.inflateMenu(R.menu.package_flights_menu)
-        }
+        toolbar.inflateMenu(R.menu.package_flights_menu)
     }
 
     override fun trackShowBaggageFee() = PackagesTracking().trackFlightBaggageFeeClick()
@@ -389,6 +349,6 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
     }
 
     override fun getResultsViewModel(context: Context): PackageResultsViewModel {
-        return PackageResultsViewModel(context)
+        return PackageResultsViewModel()
     }
 }

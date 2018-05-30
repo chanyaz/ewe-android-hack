@@ -115,13 +115,6 @@
                 android:visibility="gone"/>
         </LinearLayout>
 
-        <ViewStub
-            android:id="@+id/bundle_total_top_stub"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:layout="@layout/bundle_price_top_stub"
-            android:inflatedId="@+id/bundle_total_top_view"/>
-
         <View
             android:id="@+id/toolbar_dropshadow"
             android:layout_width="match_parent"

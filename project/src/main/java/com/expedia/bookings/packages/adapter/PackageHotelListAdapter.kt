@@ -7,7 +7,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.packages.widget.PackageHotelCellViewHolder
-import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
 import com.expedia.bookings.utils.isPackagesHSRPriceDisplayEnabled
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import io.reactivex.subjects.PublishSubject
@@ -27,10 +26,9 @@ class PackageHotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, heade
 
         val shouldShowPackageIncludesTaxesMessage = PointOfSale.getPointOfSale().supportsPackagesHSRIncludesHeader()
         val shouldShowPackageIncludesMessage = PointOfSale.getPointOfSale().supportsPackagesHSRHeader()
-        val isBreadcrumbsEnabled = isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)
         if (shouldShowPackageIncludesTaxesMessage) {
             return R.string.package_hotel_results_includes_header_TEMPLATE
-        } else if (shouldShowPackageIncludesMessage || isBreadcrumbsEnabled) {
+        } else if (shouldShowPackageIncludesMessage) {
             return R.string.package_hotel_results_header_TEMPLATE
         } else return null
     }

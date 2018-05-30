@@ -2,7 +2,6 @@ package com.expedia.vm.test.robolectric
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchResponse
@@ -12,7 +11,6 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.hotel.vm.HotelResultsPricingStructureHeaderViewModel
 import org.junit.Before
 import org.junit.Test
@@ -95,17 +93,6 @@ class HotelResultsPricingStructureHeaderViewModelTests {
     fun testPackagesUKHeaderShowTaxesAndFees() {
         val initialPOSID = PointOfSale.getPointOfSale().pointOfSaleId
         setPointOfSale(PointOfSaleId.UNITED_KINGDOM)
-        sut = HotelResultsPricingStructureHeaderViewModel(getContext(), R.string.package_hotel_results_header_TEMPLATE)
-        assertExpectedText(HotelRate.UserPriceType.UNKNOWN, 50, "Total price roundtrip, per person. includes hotel and flights • 50 Results", false)
-        setPointOfSale(initialPOSID)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testPackagesListHeaderWithBreadcrumbsEnabled() {
-        val initialPOSID = PointOfSale.getPointOfSale().pointOfSaleId
-        setPointOfSale(PointOfSaleId.UNITED_KINGDOM)
-        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs)
         sut = HotelResultsPricingStructureHeaderViewModel(getContext(), R.string.package_hotel_results_header_TEMPLATE)
         assertExpectedText(HotelRate.UserPriceType.UNKNOWN, 50, "Total price roundtrip, per person. includes hotel and flights • 50 Results", false)
         setPointOfSale(initialPOSID)

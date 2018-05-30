@@ -4967,7 +4967,7 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + PACKAGES_BUNDLE_VIEW_OVERVIEW_LOAD + "\" pageLoad");
 		AppAnalytics s = createTrackPackagePageLoadEventBase(PACKAGES_BUNDLE_VIEW_OVERVIEW_LOAD, null);
 		if (isFirstBundleLaunch) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs);
+			//track AB tests here
 		}
 		s.track();
 	}

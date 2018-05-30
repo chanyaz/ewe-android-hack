@@ -213,10 +213,6 @@
     <dimen name="hotel_special_and_etp_margin">15dp</dimen>
     <dimen name="hotel_checkout_image_corner_radius">3dp</dimen>
 
-    <!-- Package Results -->
-    <dimen name="package_docked_outbound_view_seperator">1dp</dimen>
-    <dimen name="package_bundle_widget_height">41dp</dimen>
-
     <!-- Material Checkout Forms-->
     <dimen name="traveler_select_item_padding">12dp</dimen>
     <dimen name="traveler_input_bottom_margin">4dp</dimen>

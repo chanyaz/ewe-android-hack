@@ -25,7 +25,6 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
 import com.expedia.bookings.packages.vm.BundleOverviewViewModel
 import com.expedia.bookings.services.PackageProductSearchType
 import com.expedia.bookings.packages.vm.PackageTotalPriceViewModel
@@ -231,13 +230,9 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
         bundleOverViewWidget.viewModel.toolbarSubtitleObservable.subscribeText(bundlePriceWidget.bundleSubtitle)
         bundlePriceFooter.viewModel = PackageTotalPriceViewModel(context)
         bundlePriceWidget.viewModel = PackageTotalPriceViewModel(context, true)
-        if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
-            bundlePriceWidget.bundleChevron.visibility = View.GONE
-            bundlePriceWidget.closeIcon.visibility = View.VISIBLE
-        } else {
-            bundlePriceWidget.bundleChevron.visibility = View.VISIBLE
-            bundlePriceWidget.closeIcon.visibility = View.GONE
-        }
+        bundlePriceWidget.bundleChevron.visibility = View.VISIBLE
+        bundlePriceWidget.closeIcon.visibility = View.GONE
+
         val icon = ContextCompat.getDrawable(context, R.drawable.read_more).mutate()
         icon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
 
@@ -268,7 +263,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
     }
 
     private fun getBottomOffsetForClosing(): Int {
-        return if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) 0 else bundlePriceWidgetContainer.height
+        return bundlePriceWidgetContainer.height
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
