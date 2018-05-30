@@ -5,14 +5,17 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.hotel.vm.HotelViewModel
+import com.expedia.bookings.utils.SpannableBuilder
+import com.expedia.bookings.utils.isPackagesHSRPriceDisplayEnabled
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 class PackageHotelViewModel(var context: Context) : HotelViewModel(context) {
     val unrealDealMessageObservable = BehaviorSubject.create<String>()
     val unrealDealMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
+    val shouldDisplayPricingViews = PublishSubject.create<Boolean>()
 
     override fun bindHotelData(hotel: Hotel) {
         super.bindHotelData(hotel)
@@ -20,6 +23,7 @@ class PackageHotelViewModel(var context: Context) : HotelViewModel(context) {
         val unrealDeal = getUnrealDeal()
         unrealDealMessageObservable.onNext(unrealDeal)
         unrealDealMessageVisibilityObservable.onNext(unrealDeal.isNotEmpty())
+        shouldDisplayPricingViews.onNext(isPackagesHSRPriceDisplayEnabled(context))
     }
 
     override fun getHotelContentDesc(): CharSequence {

@@ -143,6 +143,10 @@ fun isRichContentEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedInAnyVariant(context, AbacusUtils.EBAndroidAppFlightsRichContent)
 }
 
+fun isPackagesHSRPriceDisplayEnabled(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesHSRPriceDisplay)
+}
+
 fun isRichContentShowAmenityEnabled(): Boolean {
     val richContentVariant = Db.sharedInstance.abacusResponse.variateForTest(AbacusUtils.EBAndroidAppFlightsRichContent)
     return (richContentVariant == AbacusVariant.ONE.value || richContentVariant == AbacusVariant.THREE.value)

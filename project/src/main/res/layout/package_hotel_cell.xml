@@ -14,6 +14,7 @@
         android:layout_marginBottom="12dp"
         android:layout_marginLeft="@dimen/card_view_container_margin"
         android:layout_marginRight="@dimen/card_view_container_margin"
+        app:contentPaddingBottom="12dp"
         android:foreground="?android:attr/selectableItemBackground">
 
         <LinearLayout
@@ -55,6 +56,32 @@
             </LinearLayout>
 
             <include layout="@layout/hotel_cell_content"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:gravity="right"
+                android:orientation="vertical"
+                android:paddingRight="12dp">
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/package_price_type"
+                    style="@style/Core.Text.300.Medium.LightColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pacakge_price_per_person_includes_hotel_and_flight_message"
+                    android:visibility="gone" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/package_includes_taxes"
+                    style="@style/Core.Text.200.LightColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:text="@string/includes_taxes_and_fees_lower_case"
+                    android:visibility="gone" />
+            </LinearLayout>
 
         </LinearLayout>
 

@@ -22,6 +22,7 @@
             android:background="@drawable/map_shadow" />
 
         <TextView
+            android:id="@+id/package_map_price_includes_taxes_fees_text_bottom"
             style="@style/PackagesHotelMapMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -84,6 +85,35 @@
             </LinearLayout>
 
         </android.support.v7.widget.Toolbar>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:background="@color/gray100"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/package_map_price_includes_text"
+                style="@style/Core.Text.300.Medium.LightColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:gravity="center"
+                android:text="@string/package_price_includes_message_maps"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/package_map_price_includes_texes_fees_text_top"
+                style="@style/Core.Text.200.LightColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
+                android:gravity="center"
+                android:text="@string/includes_taxes_and_fees_lower_case"
+                android:visibility="gone"/>
+        </LinearLayout>
 
         <ViewStub
             android:id="@+id/bundle_total_top_stub"

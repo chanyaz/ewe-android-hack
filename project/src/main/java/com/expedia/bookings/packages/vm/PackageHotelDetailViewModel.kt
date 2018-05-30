@@ -14,6 +14,7 @@ import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.isPackagesHSRPriceDisplayEnabled
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.squareup.phrase.Phrase
 import org.joda.time.format.DateTimeFormat
@@ -61,6 +62,10 @@ class PackageHotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(c
 
     override fun pricePerDescriptor(): String {
         return context.getString(R.string.price_per_person)
+    }
+
+    override fun shouldDisplayDetailedPricePerDescription(): Boolean {
+        return isPackagesHSRPriceDisplayEnabled(context)
     }
 
     override fun getLobPriceObservable(rate: HotelRate) {

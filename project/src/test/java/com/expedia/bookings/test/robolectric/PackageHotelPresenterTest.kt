@@ -14,6 +14,7 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.packages.activity.PackageHotelActivity
 import com.expedia.bookings.packages.presenter.PackageHotelPresenter
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MockPackageServiceTestRule
@@ -91,6 +92,58 @@ class PackageHotelPresenterTest {
                 47 to "PKG|1R|RT|A1|C1|YTH1|IL1|IS0|E"
         )
         OmnitureTestUtils.assertStateTracked(withEvars(expectedEvars), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testSlidingBundleVisible() {
+        hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
+        Db.setPackageResponse(hotelResponse)
+
+        widget = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_presenter,
+                null) as PackageHotelPresenter
+        widget.resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(hotelResponse))
+        widget.defaultTransitionObserver.onNext(PackageHotelActivity.Screen.RESULTS)
+        assertBundlePriceAndSliderVisibilities(View.VISIBLE)
+
+        widget.detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(getHotelOffers())
+
+        widget.defaultTransitionObserver.onNext(PackageHotelActivity.Screen.DETAILS)
+        assertEquals(View.GONE, widget.bundleSlidingWidget.visibility)
+
+        widget.defaultTransitionObserver.onNext(PackageHotelActivity.Screen.RESULTS)
+        assertBundlePriceAndSliderVisibilities(View.VISIBLE)
+    }
+
+    @Test
+    fun testSlidingBundleNotVisibleIfBucketedInHSRPriceDisplay() {
+        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesHSRPriceDisplay, AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs)
+        hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
+        Db.setPackageResponse(hotelResponse)
+
+        widget = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_presenter,
+                null) as PackageHotelPresenter
+        widget.resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(hotelResponse))
+        widget.defaultTransitionObserver.onNext(PackageHotelActivity.Screen.RESULTS)
+        assertBundlePriceAndSliderVisibilities(View.GONE)
+
+        widget.detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(getHotelOffers())
+
+        widget.defaultTransitionObserver.onNext(PackageHotelActivity.Screen.DETAILS)
+        assertBundlePriceAndSliderVisibilities(View.GONE)
+
+        widget.defaultTransitionObserver.onNext(PackageHotelActivity.Screen.RESULTS)
+        assertBundlePriceAndSliderVisibilities(View.GONE)
+    }
+
+    private fun getHotelOffers(): HotelOffersResponse {
+        val roomResponse = mockPackageServiceRule.getMIDRoomsResponse()
+        val hotelInfo = mockPackageServiceRule.getHotelInfo()
+        return HotelOffersResponse.convertToHotelOffersResponse(hotelInfo, roomResponse.getBundleRoomResponse(), roomResponse.getHotelCheckInDate(), roomResponse.getHotelCheckOutDate())
+    }
+
+    private fun assertBundlePriceAndSliderVisibilities(expectedVisibility: Int) {
+        assertEquals(expectedVisibility, widget.bundleSlidingWidget.visibility)
+        assertEquals(expectedVisibility, widget.resultsPresenter.bundlePriceWidgetTop.visibility)
     }
 
     @Test

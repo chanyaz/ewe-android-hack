@@ -116,6 +116,10 @@ open class HotelDetailViewModel(context: Context, private val hotelInfoManager: 
         return context.getString(R.string.per_night)
     }
 
+    override fun shouldDisplayDetailedPricePerDescription(): Boolean {
+        return false
+    }
+
     override fun getLobPriceObservable(rate: HotelRate) {
         priceToShowCustomerObservable.onNext(Money(BigDecimal(rate.averageRate.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
     }

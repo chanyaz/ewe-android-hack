@@ -66,6 +66,7 @@ import com.expedia.bookings.widget.LoadingOverlayWidget
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelMapViewModel
 import com.expedia.vm.HotelReviewsViewModel
+import com.expedia.bookings.utils.isPackagesHSRPriceDisplayEnabled
 import com.google.android.gms.maps.MapView
 import com.google.gson.Gson
 import io.reactivex.Observable
@@ -427,7 +428,9 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     private val resultsToDetail = object : LeftToRightTransition(this, PackageHotelResultsPresenter::class.java, HotelDetailPresenter::class.java) {
         override fun startTransition(forward: Boolean) {
-            hideBundlePriceOverviewObserver.onNext(forward)
+            if (!isPackagesHSRPriceDisplayEnabled(context)) {
+                hideBundlePriceOverviewObserver.onNext(forward)
+            }
             if (!forward) {
                 detailPresenter.hotelDetailView.resetViews()
                 val countryCode = PointOfSale.getPointOfSale().threeLetterCountryCode
@@ -533,6 +536,9 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 resultsPresenter.showDefault()
                 resultsPresenter.viewModel.paramsSubject.onNext(convertPackageToSearchParams(Db.sharedInstance.packageParams, resources.getInteger(R.integer.calendar_max_days_hotel_stay), resources.getInteger(R.integer.max_calendar_selectable_date_range)))
                 trackEventSubject.onNext(Unit)
+                if (isPackagesHSRPriceDisplayEnabled(context)) {
+                    hideBundlePriceOverviewObserver.onNext(true)
+                }
             }
             PackageHotelActivity.Screen.DETAILS_ONLY -> {
                 //change hotel room

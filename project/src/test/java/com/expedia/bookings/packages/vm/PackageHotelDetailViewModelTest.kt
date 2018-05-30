@@ -5,6 +5,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
@@ -34,11 +35,14 @@ import org.robolectric.annotation.Config
 import com.expedia.bookings.test.MockPackageServiceTestRule
 import com.expedia.bookings.test.robolectric.PackageTestUtil.Companion.dummyMIDItemRoomOffer
 import com.expedia.bookings.test.robolectric.PackageTestUtil.Companion.dummyMidHotelRoomOffer
+import com.expedia.bookings.utils.AbacusTestUtils
 import org.junit.Rule
 import java.math.BigDecimal
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = [ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class])
@@ -48,6 +52,7 @@ class PackageHotelDetailViewModelTest {
     private var context: Context by Delegates.notNull()
     private var hotelOffersResponse: HotelOffersResponse by Delegates.notNull()
     private val expectedTotalPriceWithMandatoryFees = 42f
+    private val perNightTestSubscriber = TestObserver.create<Boolean>()
 
     val mockPackageServiceRule: MockPackageServiceTestRule = MockPackageServiceTestRule()
         @Rule get
@@ -197,6 +202,49 @@ class PackageHotelDetailViewModelTest {
         val multiItemOffer = dummyMIDItemRoomOffer()
         val hotelRoomResponse = HotelOffersResponse.convertMidHotelRoomResponse(hotelOffer, multiItemOffer)
         return hotelRoomResponse
+    }
+
+    fun testDetailedPriceShouldBeShownOrNot() {
+        assertFalse(testViewModel.shouldDisplayDetailedPricePerDescription())
+        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesHSRPriceDisplay)
+        assertTrue(testViewModel.shouldDisplayDetailedPricePerDescription())
+    }
+
+    @Test
+    fun testPerNightMessageShouldBeShownOrNot() {
+        testViewModel.perNightVisibility.subscribe(perNightTestSubscriber)
+
+        assertPerNightVisibility(true)
+
+        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesHSRPriceDisplay)
+        testViewModel.onlyShowTotalPrice.onNext(false)
+        assertPerNightVisibility(false)
+
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesHSRPriceDisplay)
+        testViewModel.onlyShowTotalPrice.onNext(false)
+        assertPerNightVisibility(true)
+
+        testViewModel.hotelSoldOut.onNext(true)
+        assertPerNightVisibility(false)
+
+        testViewModel.onlyShowTotalPrice.onNext(true)
+        assertPerNightVisibility(false)
+
+        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesHSRPriceDisplay)
+        testViewModel.hotelSoldOut.onNext(false)
+        testViewModel.onlyShowTotalPrice.onNext(true)
+        assertPerNightVisibility(false)
+
+        testViewModel.onlyShowTotalPrice.onNext(false)
+        testViewModel.hotelSoldOut.onNext(true)
+        assertPerNightVisibility(false)
+
+        testViewModel.onlyShowTotalPrice.onNext(true)
+        assertPerNightVisibility(false)
+    }
+
+    private fun assertPerNightVisibility(expectedVisibility: Boolean) {
+        perNightTestSubscriber.assertValueAt(perNightTestSubscriber.valueCount() - 1, expectedVisibility)
     }
 
     private fun setPOS(pos: PointOfSaleId) {

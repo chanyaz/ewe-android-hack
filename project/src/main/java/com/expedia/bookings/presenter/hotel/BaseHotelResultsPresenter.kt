@@ -228,6 +228,10 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         return (transitionRunning || (recyclerView.adapter as BaseHotelListAdapter).isLoading())
     }
 
+    open fun toggleMapDetailedPriceMessaging(shouldShow: Boolean) {
+        // Do nothing
+    }
+
     val listResultsObserver = endlessObserver<HotelSearchResponse> { response ->
         hideMapLoadingOverlay()
         adapter.resultsSubject.onNext(response)
@@ -624,6 +628,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             super.startTransition(forward)
             transitionRunning = true
             secondTransitionStarted = false
+            toggleMapDetailedPriceMessaging(!forward)
 
             if (forward) {
                 firstStepTransitionTime = .33f
@@ -767,7 +772,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             } else {
                 finalFabTranslation = if (isMapPinSelected) -fabHeightOffset() else 0f
             }
-            hideBundlePriceOverview(!forwardToList)
+            if (shouldDisplayPriceOverview()) {
+                hideBundlePriceOverview(!forwardToList)
+            }
             updateFilterButtonTextVisibility(forwardToList)
             showFilterMenuItem(forwardToList)
             if (!forwardToList) {
@@ -866,7 +873,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 toolbar.visibility = View.VISIBLE
                 mapWidget.visibility = View.VISIBLE
             }
-            hideBundlePriceOverview(forward)
+            if (shouldDisplayPriceOverview()) {
+                hideBundlePriceOverview(forward)
+            }
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
@@ -1023,6 +1032,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     open fun hideBundlePriceOverview(hide: Boolean) {
         //
     }
+
+    open fun shouldDisplayPriceOverview(): Boolean = true
 
     fun shouldUsePill(): Boolean = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelSearchResultsFloatingActionPill) && getLineOfBusiness() == LineOfBusiness.HOTELS
 

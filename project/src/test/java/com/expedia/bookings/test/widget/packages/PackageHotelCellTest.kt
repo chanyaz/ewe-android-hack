@@ -12,6 +12,9 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
 import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.data.payment.PointsEarnInfo
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
+import com.expedia.bookings.packages.vm.PackageHotelViewModel
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -19,6 +22,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.packages.widget.PackageHotelCellViewHolder
+import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -27,6 +31,7 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import kotlin.properties.Delegates
+import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
@@ -127,6 +132,26 @@ class PackageHotelCellTest {
 
         Assert.assertEquals(View.GONE, packageHotelHolder.urgencyMessageContainer.visibility)
         Assert.assertEquals("", packageHotelHolder.urgencyMessageContainer.urgencyMessageTextView.text)
+    }
+
+    @Test
+    fun testDetailedPriceMessagingPresent() {
+        val vm = packageHotelHolder.viewModel as PackageHotelViewModel
+        vm.shouldDisplayPricingViews.onNext(true)
+        assertEquals(View.VISIBLE, packageHotelHolder.packagePriceType.visibility)
+        assertEquals(View.GONE, packageHotelHolder.packageIncludesTaxesAndFeesMessage.visibility)
+
+        val initialPOSID = PointOfSale.getPointOfSale().pointOfSaleId
+        setPointOfSale(PointOfSaleId.JAPAN)
+
+        vm.shouldDisplayPricingViews.onNext(true)
+        assertEquals(View.VISIBLE, packageHotelHolder.packagePriceType.visibility)
+        assertEquals(View.VISIBLE, packageHotelHolder.packageIncludesTaxesAndFeesMessage.visibility)
+        setPointOfSale(initialPOSID)
+    }
+
+    private fun setPointOfSale(posId: PointOfSaleId) {
+        PointOfSaleTestConfiguration.configurePOS(activity, "ExpediaSharedData/ExpediaPointOfSaleConfig.json", Integer.toString(posId.id), false)
     }
 
     private fun makeHotel(): Hotel {

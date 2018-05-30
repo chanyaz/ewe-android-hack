@@ -2,12 +2,18 @@ package com.expedia.bookings.hotel.widget
 
 import android.app.Activity
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.hotel.util.HotelInfoManager
 import com.expedia.bookings.hotel.util.HotelSearchManager
+import com.expedia.bookings.packages.vm.PackageHotelDetailViewModel
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.testutils.AndroidAssert.Companion.assertGone
 import com.expedia.testutils.AndroidAssert.Companion.assertViewContDescEquals
@@ -267,6 +273,35 @@ class HotelDetailContentViewTest {
         assertGone(contentView.priceContainer)
         testVM.isDatelessObservable.onNext(false)
         assertVisible(contentView.priceContainer)
+    }
+
+    @Test
+    fun testDetailedPriceViewsNotShown() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppPackagesHSRPriceDisplay)
+        assertGone(contentView.detailedPriceType)
+        assertGone(contentView.detailedPriceIncludesMessage)
+    }
+
+    @Test
+    fun testDetailedPriceViewsShownForPackages() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppPackagesHSRPriceDisplay)
+        contentView.viewModel = PackageHotelDetailViewModel(activity)
+
+        assertVisible(contentView.detailedPriceType)
+        assertGone(contentView.detailedPriceIncludesMessage)
+
+        // Both price type and includes taxes message shown
+        val initialPOSID = PointOfSale.getPointOfSale().pointOfSaleId
+        setPointOfSale(PointOfSaleId.JAPAN)
+
+        contentView.viewModel = PackageHotelDetailViewModel(activity)
+        assertVisible(contentView.detailedPriceType)
+        assertVisible(contentView.detailedPriceIncludesMessage)
+        setPointOfSale(initialPOSID)
+    }
+
+    private fun setPointOfSale(posId: PointOfSaleId) {
+        PointOfSaleTestConfiguration.configurePOS(activity, "ExpediaSharedData/ExpediaPointOfSaleConfig.json", Integer.toString(posId.id), false)
     }
 
     private fun triggerMessageContainer(visible: Boolean) {

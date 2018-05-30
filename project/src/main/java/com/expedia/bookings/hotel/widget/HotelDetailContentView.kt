@@ -35,6 +35,7 @@ import com.expedia.bookings.animation.AnimationListenerAdapter
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.LatLong
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.extensions.subscribeBackground
 import com.expedia.bookings.extensions.subscribeBackgroundResource
@@ -104,6 +105,9 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
     private val hotelPriceContainer: View by bindView(R.id.hotel_price_container)
     @VisibleForTesting val price: TextView by bindView(R.id.price)
     private val pricePerDescriptor: TextView by bindView(R.id.price_per_descriptor)
+    @VisibleForTesting val detailedPriceType: TextView by bindView(R.id.detailed_price_type)
+    @VisibleForTesting val detailedPriceIncludesMessage: TextView by bindView(R.id.detailed_price_includes_taxes)
+
     @VisibleForTesting val strikeThroughPrice: TextView by bindView(R.id.strike_through_price)
     @VisibleForTesting val searchInfo: TextView by bindView(R.id.hotel_search_info)
     private val searchInfoGuests: TextView by bindView(R.id.hotel_search_info_guests)
@@ -263,6 +267,9 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
         vm.searchInfoGuestsObservable.subscribeText(searchInfoGuests)
         vm.perNightVisibility.subscribeVisibility(pricePerDescriptor)
         pricePerDescriptor.text = vm.pricePerDescriptor()
+
+        detailedPriceType.visibility = if (vm.shouldDisplayDetailedPricePerDescription()) View.VISIBLE else View.GONE
+        detailedPriceIncludesMessage.visibility = if (vm.shouldDisplayDetailedPricePerDescription() && PointOfSale.getPointOfSale().supportsPackagesHSRIncludesHeader()) View.VISIBLE else View.GONE
 
         vm.hotelPriceContentDesc.subscribeContentDescription(hotelPriceContainer)
 

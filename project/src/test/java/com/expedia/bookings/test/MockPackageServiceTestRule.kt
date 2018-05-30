@@ -39,6 +39,13 @@ class MockPackageServiceTestRule : ServicesRule<PackageServices>(PackageServices
         return observer.values()[0]
     }
 
+    fun getHotelInfo(): HotelOffersResponse {
+        val observer = TestObserver<HotelOffersResponse>()
+        services?.hotelInfo("happy")?.subscribe(observer)
+        observer.awaitTerminalEvent()
+        return observer.values()[0]
+    }
+
     fun getMIDHotelResponse(): BundleSearchResponse {
         val observer = TestObserver<BundleSearchResponse>()
         val params = getPackageParams("happy")

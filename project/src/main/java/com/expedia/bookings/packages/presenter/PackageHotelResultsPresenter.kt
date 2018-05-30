@@ -1,32 +1,36 @@
 package com.expedia.bookings.packages.presenter
 
 import android.content.Context
+import android.support.annotation.VisibleForTesting
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
+import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.extensions.subscribeContentDescription
 import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.hotel.animation.transition.VerticalTranslateTransition
+import com.expedia.bookings.hotel.vm.BaseHotelFilterViewModel
+import com.expedia.bookings.hotel.widget.adapter.HotelMapCarouselAdapter
+import com.expedia.bookings.packages.adapter.PackageHotelListAdapter
+import com.expedia.bookings.packages.vm.PackageFilterViewModel
 import com.expedia.bookings.packages.vm.PackageHotelResultsViewModel
+import com.expedia.bookings.packages.widget.BundleTotalPriceTopWidget
 import com.expedia.bookings.presenter.hotel.BaseHotelResultsPresenter
 import com.expedia.bookings.tracking.PackagesTracking
+import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
 import com.expedia.bookings.utils.isBreadcrumbsPackagesEnabled
+import com.expedia.bookings.utils.isHideMiniMapOnResultBucketed
+import com.expedia.bookings.utils.isPackagesHSRPriceDisplayEnabled
 import com.expedia.bookings.widget.BaseHotelFilterView
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.HotelClientFilterView
-import com.expedia.bookings.hotel.widget.adapter.HotelMapCarouselAdapter
-import com.expedia.bookings.utils.isHideMiniMapOnResultBucketed
-import com.expedia.bookings.packages.widget.BundleTotalPriceTopWidget
-import com.expedia.bookings.packages.adapter.PackageHotelListAdapter
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
-import com.expedia.bookings.packages.vm.PackageFilterViewModel
-import com.expedia.bookings.hotel.vm.BaseHotelFilterViewModel
 import com.squareup.phrase.Phrase
 import io.reactivex.Observer
 
@@ -39,6 +43,10 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
     }
 
     override val filterHeight by lazy { resources.getDimension(R.dimen.footer_button_height) }
+
+    @VisibleForTesting val mapPricePerPersonMessage: TextView by bindView(R.id.package_map_price_includes_text)
+    @VisibleForTesting val mapPriceIncludesTaxesTopMessage: TextView by bindView(R.id.package_map_price_includes_texes_fees_text_top)
+    @VisibleForTesting val mapPriceIncludesTaxesBottomMessage: TextView by bindView(R.id.package_map_price_includes_taxes_fees_text_bottom)
 
     var viewModel: PackageHotelResultsViewModel by notNullAndObservable { vm ->
         baseViewModel = vm
@@ -115,6 +123,10 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         hideBundlePriceOverviewSubject.onNext(hide)
     }
 
+    override fun shouldDisplayPriceOverview(): Boolean {
+        return !isPackagesHSRPriceDisplayEnabled(context)
+    }
+
     override fun trackSearchMap() {
         PackagesTracking().trackHotelMapLoad()
     }
@@ -149,5 +161,13 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
 
     override fun getScrollListener(): BaseHotelResultsScrollListener {
         return BaseHotelResultsScrollListener()
+    }
+
+    override fun toggleMapDetailedPriceMessaging(shouldShow: Boolean) {
+        val topMessagingVisibility = if (isPackagesHSRPriceDisplayEnabled(context) && shouldShow) View.VISIBLE else View.GONE
+        val bottomMessagingVisibility = if (isPackagesHSRPriceDisplayEnabled(context) && shouldShow) View.GONE else View.VISIBLE
+        mapPricePerPersonMessage.visibility = topMessagingVisibility
+        mapPriceIncludesTaxesTopMessage.visibility = topMessagingVisibility
+        mapPriceIncludesTaxesBottomMessage.visibility = bottomMessagingVisibility
     }
 }

@@ -180,13 +180,42 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/detailed_price_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/hotel_price_container"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/detailed_price_type"
+                style="@style/Core.Text.300.Medium.LightColor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pacakge_price_per_person_includes_hotel_and_flight_message"
+                android:visibility="gone" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/detailed_price_includes_taxes"
+                style="@style/Core.Text.200.LightColor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/includes_taxes_and_fees_lower_case"
+                android:visibility="gone" />
+
+
+        </LinearLayout>
+
         <com.expedia.bookings.widget.TextView
             android:id="@+id/earn_message"
             style="@style/Core.Text.100"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/hotel_price_container"
+            android:layout_below="@+id/detailed_price_description"
             android:layout_marginTop="4dp"
             android:drawableLeft="@drawable/earn_message_icon"
             android:drawablePadding="@dimen/earn_message_icon_dimen"
@@ -196,7 +225,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:gravity="right"

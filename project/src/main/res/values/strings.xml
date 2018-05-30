@@ -743,6 +743,10 @@
     <string name="package_prices_roundtrip_person_minimum_fsr_label">Price per person for hotel and roundtrip flight from…</string>
     <!-- Label for hotel result, indicating that the hotel is currently sold out on the given dates -->
     <string name="trip_bucket_sold_out">Sold Out</string>
+    <!-- Label indicating that package the price is Per person and includes hotel + flights -->
+    <string name="pacakge_price_per_person_includes_hotel_and_flight_message">Per Person (hotel + flights)</string>
+    <!-- Label indicating that the price includes taxes and fees -->
+    <string name="includes_taxes_and_fees_lower_case">includes taxes and fees</string>
 
     <!-- LX Sort & Filter "Sort By" section header -->
     <string name="lx_sort_by">Sort By</string>
@@ -2127,6 +2131,8 @@
     <string name="payment_and_ticket_delivery_fees_may_also_apply">Payment and ticket delivery fees may also apply</string>
     <!-- Includes flights+hotels -->
     <string name="includes_flights_hotel">includes hotel and flights</string>
+    <!-- Label shown on Package hotel infosite maps to indicate prices are per person and includes hotel + flights -->
+    <string name="package_price_includes_message_maps">Prices are per person (hotel + flights)</string>
     <!-- Number of travelers template -->
     <plurals name="number_of_travelers_TEMPLATE">
         <item quantity="zero">%1$d travelers</item>

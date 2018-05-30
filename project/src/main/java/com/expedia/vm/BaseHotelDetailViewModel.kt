@@ -65,6 +65,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     abstract fun trackHotelDetailLoad(isRoomSoldOut: Boolean)
     abstract fun shouldShowBookByPhone(): Boolean
     abstract fun getTelesalesNumber(): String
+    abstract fun shouldDisplayDetailedPricePerDescription(): Boolean
 
     val checkInDate: LocalDate? get() = paramsSubject.value.checkIn
     val checkOutDate: LocalDate? get() = paramsSubject.value.checkOut
@@ -209,7 +210,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     }
 
     val perNightVisibility = ObservableOld.combineLatest(onlyShowTotalPrice, hotelSoldOut) { onlyShowTotalPrice, hotelSoldOut ->
-        !(onlyShowTotalPrice || hotelSoldOut)
+        !(onlyShowTotalPrice || hotelSoldOut) && !shouldDisplayDetailedPricePerDescription()
     }
 
     val payByPhoneContainerVisibility = ObservableOld.combineLatest(showBookByPhoneObservable, hotelSoldOut) { showBookByPhoneObservable, hotelSoldOut -> showBookByPhoneObservable && !hotelSoldOut }
