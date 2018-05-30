@@ -15,5 +15,6 @@
       "currency": "USD"
     },
     "priceChangeReason": "PRICE_INCREASED"
-  }
+  },
+  "errors":[]
 }

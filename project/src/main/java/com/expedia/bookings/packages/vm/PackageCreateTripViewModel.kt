@@ -60,17 +60,21 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
                     DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
                 } else if (e is HttpException) {
                     createTripErrorObservable.onNext(ApiError(ApiError.Code.MID_COULD_NOT_FIND_RESULTS))
+                } else {
+                    createTripErrorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
                 }
             }
 
             override fun onNext(response: MultiItemApiCreateTripResponse) {
-                if (response.errors != null) {
-                    midCreateTripErrorObservable.onNext(response.errors!![0].key)
+                val errorKey = response.errors?.firstOrNull()?.key
+                if (errorKey != null) {
+                    midCreateTripErrorObservable.onNext(errorKey)
                 } else {
                     showCreateTripDialogObservable.onNext(false)
                     multiItemResponseSubject.onNext(response)
                 }
             }
+
             override fun onComplete() {
             }
         }
