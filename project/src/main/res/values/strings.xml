@@ -1925,6 +1925,8 @@
     <string name="flights_round_trip_label">Roundtrip</string>
     <!-- Flights Search view button label for one-way searches -->
     <string name="flights_one_way_label">One way</string>
+    <!-- Flights Search view button label for one-way searches -->
+    <string name="flights_multidest_label">MultiDest</string>
     <!-- Flights Search view. Accessibility announcement when One Way TRIP is selected. Example: Showing One Way flight search screen. -->
     <string name="flights_tab_selection_accouncement_oneway">Showing One way flight search screen</string>
     <!-- Flights Search view. Accessibility announcement when Round TRIP is selected. Example: Showing Round Trip flight search screen. -->

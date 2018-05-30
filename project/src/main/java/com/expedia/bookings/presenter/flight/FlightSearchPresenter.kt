@@ -16,6 +16,7 @@ import android.view.ViewGroup
 import android.view.ViewStub
 import android.widget.ImageView
 import com.expedia.bookings.R
+import com.expedia.bookings.data.flights.FlightSearchParams.SearchType
 import com.expedia.bookings.adapter.FlightSearchPageAdapter
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TravelerParams
@@ -383,11 +384,12 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
 
     private fun initializeToolbarTabs() {
         tabs.visibility = View.VISIBLE
-        val pagerAdapter = FlightSearchPageAdapter(context)
-        viewpager.adapter = pagerAdapter
+        tabs.addTab(tabs.newTab().setText(R.string.flights_round_trip_label))
+        tabs.addTab(tabs.newTab().setText(R.string.flights_one_way_label))
+
         viewpager.overScrollMode = ViewPager.OVER_SCROLL_NEVER
 
-        tabs.setupWithViewPager(viewpager)
+       // tabs.setupWithViewPager(viewpager)
 
         tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -399,21 +401,25 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             }
 
             override fun onTabSelected(tab: TabLayout.Tab) {
-                val isRoundTripSearch = tab.position == 0
-                roundTripChanged(isRoundTripSearch)
+                val searchType = when (tab.position) {
+                    0 -> SearchType.RETURN
+                    1 -> SearchType.ONE_WAY
+                    else -> SearchType.MULTI_DEST
+                }
+                roundTripChanged(searchType)
             }
         })
     }
 
-    private fun roundTripChanged(roundTrip: Boolean) {
+    private fun roundTripChanged(searchType: SearchType) {
         if (isFlightGreedySearchEnabled(context) && searchViewModel.isGreedyCallStarted) {
             searchViewModel.abortGreedyCallObservable.onNext(Unit)
         }
-        searchViewModel.isRoundTripSearchObservable.onNext(roundTrip)
-        if (roundTrip) {
-            announceForAccessibility(context.getString(R.string.flights_tab_selection_accouncement_roundtrip))
-        } else {
-            announceForAccessibility(context.getString(R.string.flights_tab_selection_accouncement_oneway))
+        searchViewModel.searchTripTypeObservable.onNext(searchType)
+        when (searchType) {
+            SearchType.ONE_WAY -> announceForAccessibility(context.getString(R.string.flights_tab_selection_accouncement_oneway))
+            SearchType.RETURN ->  announceForAccessibility(context.getString(R.string.flights_tab_selection_accouncement_roundtrip))
+            SearchType.MULTI_DEST -> throw RuntimeException("accessibility string needs to be added for multidest")
         }
         searchViewModel.trackFieldChange("SearchType.Edit")
     }

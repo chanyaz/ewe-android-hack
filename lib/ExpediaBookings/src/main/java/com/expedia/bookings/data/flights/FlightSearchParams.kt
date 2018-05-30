@@ -10,17 +10,16 @@ import org.joda.time.LocalDate
 class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport: SuggestionV4, val departureDate: LocalDate, val returnDate: LocalDate?, adults: Int,
                          children: List<Int>, infantSeatingInLap: Boolean, val flightCabinClass: String?, val legNo: Int?, val selectedOutboundLegId: String?,
                          val showRefundableFlight: Boolean?, val nonStopFlight: Boolean?, val featureOverride: String?, val maxOfferCount: Int?,
-                         val trips: List<FlightMultiDestinationSearchParam>?, val searchType: String?) :
+                         val trips: List<FlightMultiDestinationSearchParam>?, val searchType: SearchType?) :
         AbstractFlightSearchParams(departureAirport, arrivalAirport, adults, children, departureDate, returnDate, infantSeatingInLap) {
 
     enum class SearchType {
-        ONE_WAY,
         RETURN,
+        ONE_WAY,
         MULTI_DEST
     }
 
     class Builder(maxStay: Int, maxRange: Int) : AbstractFlightSearchParams.Builder(maxStay, maxRange) {
-        private var isRoundTrip = true
         private var flightCabinClass: String? = null
         private var legNo: Int? = null
         private var selectedOutboundLegId: String? = null
@@ -51,10 +50,10 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
             }
 
             trips = createTripList(departureAirport, arrivalAirport, departureDate)
-            searchType = getSearchType()
+           // searchType = getSearchType()
 
             return FlightSearchParams(departureAirport, arrivalAirport, departureDate, endDate, adults, children, infantSeatingInLap, flightCabinClass,
-                    searchLegNo, selectedOutboundLegId, showRefundableFlight, showNonStopFlight, featureOverride, maxOfferCount, trips, searchType.name)
+                    searchLegNo, selectedOutboundLegId, showRefundableFlight, showNonStopFlight, featureOverride, maxOfferCount, trips, searchType)
         }
 
         override fun areRequiredParamsFilled(): Boolean {
@@ -73,11 +72,11 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
         }
 
         fun hasValidDates(): Boolean {
-            return if (isRoundTrip) hasStartAndEndDates() else hasStart()
+            return if (searchType == SearchType.RETURN) hasStartAndEndDates() else hasStart()
         }
 
-        fun roundTrip(isRoundTrip: Boolean): Builder {
-            this.isRoundTrip = isRoundTrip
+        fun searchType(flightSearchType: SearchType): Builder {
+            this.searchType = flightSearchType
             return this
         }
 
@@ -157,7 +156,9 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
     }
 
     fun buildParamsForInboundSearch(maxStay: Int, maxRange: Int, selectedOutboundLegId: String?): FlightSearchParams {
-        return Builder(maxStay, maxRange).roundTrip(true).legNo(1).selectedLegID(selectedOutboundLegId).flightCabinClass(flightCabinClass).setFeatureOverride(featureOverride)
+        return Builder(maxStay, maxRange).legNo(1).selectedLegID(selectedOutboundLegId)
+                .searchType(SearchType.RETURN)
+                .flightCabinClass(flightCabinClass).setFeatureOverride(featureOverride)
                 .showRefundableFlight(showRefundableFlight).nonStopFlight(nonStopFlight)
                 .infantSeatingInLap(infantSeatingInLap).origin(departureAirport)
                 .destination(arrivalAirport).startDate(departureDate).endDate(returnDate)

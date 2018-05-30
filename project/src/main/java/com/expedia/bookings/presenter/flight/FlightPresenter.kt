@@ -29,7 +29,7 @@ import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.extensions.safeSubscribeOptional
 import com.expedia.bookings.extensions.setInverseVisibility
 import com.expedia.bookings.extensions.setVisibility
-import com.expedia.bookings.extensions.subscribeVisibility
+import com.expedia.bookings.data.flights.FlightSearchParams.SearchType
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.LeftToRightTransition
@@ -253,7 +253,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         presenter.flightSummary.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageProductSearchType.MultiItemInboundFlights)
         searchViewModel.searchParamsObservable.subscribe((presenter.bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel as FlightCheckoutOverviewViewModel).params)
         searchViewModel.searchParamsObservable.subscribe((presenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel as FlightCheckoutOverviewViewModel).params)
-        searchViewModel.isRoundTripSearchObservable.subscribeVisibility(presenter.flightSummary.inboundFlightWidget)
+        searchViewModel.searchTripTypeObservable.
+                subscribe {
+            presenter.flightSummary.inboundFlightWidget.setVisibility(it == FlightSearchParams.SearchType.RETURN)
+        }
         searchViewModel.searchParamsObservable.subscribe { params ->
             presenter.flightSummary.viewmodel.params.onNext(params)
             if (params.returnDate != null) {
@@ -289,13 +292,13 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 .subscribe(presenter.flightSummary.outboundFlightWidget.viewModel.date)
         searchViewModel.searchParamsObservable.map { it.guests }
                 .subscribe(presenter.flightSummary.outboundFlightWidget.viewModel.guests)
-        searchViewModel.searchParamsObservable.filter { searchViewModel.isRoundTripSearchObservable.value }
+        searchViewModel.searchParamsObservable.filter { it.searchType == SearchType.RETURN }
                 .map { it.departureAirport }
                 .subscribe(presenter.flightSummary.inboundFlightWidget.viewModel.suggestion)
-        searchViewModel.searchParamsObservable.filter { searchViewModel.isRoundTripSearchObservable.value }
+        searchViewModel.searchParamsObservable.filter { it.searchType == SearchType.RETURN }
                 .map { it.returnDate }
                 .subscribe(presenter.flightSummary.inboundFlightWidget.viewModel.date)
-        searchViewModel.searchParamsObservable.filter { searchViewModel.isRoundTripSearchObservable.value }
+        searchViewModel.searchParamsObservable.filter { it.searchType == SearchType.RETURN }
                 .map { it.guests }
                 .subscribe(presenter.flightSummary.inboundFlightWidget.viewModel.guests)
 
@@ -372,7 +375,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         presenter.viewModel = FlightConfirmationViewModel(context)
 
         searchViewModel.searchParamsObservable.subscribe(presenter.hotelCrossSell.viewModel.searchParamsObservable)
-        searchViewModel.isRoundTripSearchObservable.subscribe(presenter.viewModel.inboundCardVisibility)
+        searchViewModel.searchTripTypeObservable.map { it -> it == FlightSearchParams.SearchType.RETURN }.subscribe(presenter.viewModel.inboundCardVisibility)
         searchViewModel.searchParamsObservable.subscribe(presenter.viewModel.flightSearchParamsObservable)
         presenter
     }
