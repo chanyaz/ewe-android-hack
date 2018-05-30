@@ -39,6 +39,7 @@ import kotlin.test.assertTrue
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class HotelFavoritesViewModelTest {
+
     var shortlistServicesRule = ServicesRule(HotelShortlistServices::class.java)
         @Rule get
 

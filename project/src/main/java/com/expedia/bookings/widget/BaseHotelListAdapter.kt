@@ -58,6 +58,8 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
     val loadingSubject = BehaviorSubject.create<Unit>()
     val resultsSubject = BehaviorSubject.create<HotelSearchResponse>()
     val filterPromptSubject = PublishSubject.create<Unit>()
+    val favoriteAddedSubject = PublishSubject.create<String>()
+    val favoriteRemovedSubject = PublishSubject.create<String>()
 
     val hotelSoldOut = endlessObserver<String> { soldOutHotelId ->
         data.forEach { item ->
@@ -237,6 +239,9 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
             holder.hotelClickedSubject.subscribe { position ->
                 hotelSelected(holder.itemView.context, position)
             }
+
+            holder.favoriteAddedSubject.subscribe(favoriteAddedSubject)
+            holder.favoriteRemovedSubject.subscribe(favoriteRemovedSubject)
             return holder
         }
     }

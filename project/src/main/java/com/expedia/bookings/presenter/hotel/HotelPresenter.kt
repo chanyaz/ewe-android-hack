@@ -39,6 +39,7 @@ import com.expedia.bookings.hotel.deeplink.HotelLandingPage
 import com.expedia.bookings.hotel.util.HotelInfoManager
 import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.hotel.util.HotelSuggestionManager
+import com.expedia.bookings.hotel.vm.HotelDetailViewModel
 import com.expedia.bookings.hotel.vm.HotelResultsViewModel
 import com.expedia.bookings.hotel.vm.HotelReviewsSummaryViewModel
 import com.expedia.bookings.presenter.LeftToRightTransition
@@ -73,7 +74,6 @@ import com.expedia.vm.HotelMapViewModel
 import com.expedia.vm.HotelReviewsViewModel
 import com.expedia.vm.HotelSearchViewModel
 import com.expedia.vm.HotelWebCheckoutViewViewModel
-import com.expedia.bookings.hotel.vm.HotelDetailViewModel
 import com.google.android.gms.maps.MapView
 import com.mobiata.android.Log
 import io.reactivex.Observer

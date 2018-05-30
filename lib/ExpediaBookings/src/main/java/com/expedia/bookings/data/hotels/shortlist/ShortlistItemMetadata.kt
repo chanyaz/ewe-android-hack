@@ -15,6 +15,7 @@ data class ShortlistItemMetadata(
         var chkOut: String? = null,
         var roomConfiguration: String? = null) {
 
+    @Transient
     private val formatter = DateTimeFormat.forPattern("yyyyMMdd")
 
     fun getCheckInLocalDate(): LocalDate? {

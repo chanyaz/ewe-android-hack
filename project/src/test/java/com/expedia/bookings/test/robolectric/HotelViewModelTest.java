@@ -13,7 +13,6 @@ import android.content.Context;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LoyaltyMembershipTier;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelRate;
@@ -144,20 +143,6 @@ public class HotelViewModelTest {
 		HotelViewModel vm = new HotelViewModel(getContext(), false);
 		vm.bindHotelData(firstHotel);
 		assertEquals("$2,098", vm.getHotelStrikeThroughPriceFormatted().toString());
-	}
-
-	private SuggestionV4 getDummySuggestion() {
-		SuggestionV4 suggestion = new SuggestionV4();
-		suggestion.gaiaId = "";
-		suggestion.regionNames = new SuggestionV4.RegionNames();
-		suggestion.regionNames.displayName = "";
-		suggestion.regionNames.fullName = "";
-		suggestion.regionNames.shortName = "";
-		suggestion.hierarchyInfo = new SuggestionV4.HierarchyInfo();
-		suggestion.hierarchyInfo.airport = new SuggestionV4.Airport();
-		suggestion.hierarchyInfo.airport.airportCode = "";
-		suggestion.hierarchyInfo.airport.multicity = "happy";
-		return suggestion;
 	}
 
 	@Test

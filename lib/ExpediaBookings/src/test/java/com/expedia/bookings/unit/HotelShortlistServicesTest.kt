@@ -3,19 +3,18 @@ package com.expedia.bookings.unit
 import com.expedia.bookings.data.hotels.shortlist.HotelShortlistItem
 import com.expedia.bookings.data.hotels.shortlist.HotelShortlistResponse
 import com.expedia.bookings.data.hotels.shortlist.ShortlistItem
-import com.expedia.bookings.data.hotels.shortlist.ShortlistItemMetadata
 import com.expedia.bookings.interceptors.MockInterceptor
-import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.services.HotelShortlistServices
+import com.expedia.bookings.services.TestObserver
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import io.reactivex.schedulers.Schedulers
-import org.junit.Assert.assertTrue
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.LocalDate
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import java.io.File
@@ -78,7 +77,7 @@ class HotelShortlistServicesTest {
     @Test
     fun testSaveShortlistHappyResponse() {
         val testObserver = TestObserver<HotelShortlistResponse<ShortlistItem>>()
-        service.saveFavoriteHotel("", LocalDate.now(), LocalDate.now(), "1", testObserver)
+        service.saveFavoriteHotel("", LocalDate.now(), LocalDate.now(), 1, emptyList(), testObserver)
 
         testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
         testObserver.assertValueCount(1)
@@ -94,7 +93,7 @@ class HotelShortlistServicesTest {
     fun hotelSaveShortlistServicesHitAllInterceptors() {
         val testObserver = TestObserver<HotelShortlistResponse<ShortlistItem>>()
 
-        service.saveFavoriteHotel("", LocalDate.now(), LocalDate.now(), "1", testObserver)
+        service.saveFavoriteHotel("", LocalDate.now(), LocalDate.now(), 1, emptyList(), testObserver)
 
         testObserver.awaitTerminalEvent()
         testObserver.assertComplete()
@@ -106,7 +105,7 @@ class HotelShortlistServicesTest {
     @Test
     fun testRemoveShortlistHappyResponse() {
         val testObserver = TestObserver<ResponseBody>()
-        service.removeFavoriteHotel("", ShortlistItemMetadata(), testObserver)
+        service.removeFavoriteHotel("", testObserver)
 
         testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
         testObserver.assertValueCount(1)
@@ -119,7 +118,7 @@ class HotelShortlistServicesTest {
     fun hotelRemoveShortlistServicesHitAllInterceptors() {
         val testObserver = TestObserver<ResponseBody>()
 
-        service.removeFavoriteHotel("", ShortlistItemMetadata(), testObserver)
+        service.removeFavoriteHotel("", testObserver)
 
         testObserver.awaitTerminalEvent()
         testObserver.assertComplete()

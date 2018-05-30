@@ -12,6 +12,7 @@ import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
@@ -37,6 +38,8 @@ abstract class AbstractHotelCellViewHolder(root: ViewGroup) : RecyclerView.ViewH
     val DEFAULT_GRADIENT_POSITIONS = floatArrayOf(0f, .3f, .6f, 1f)
 
     val hotelClickedSubject = PublishSubject.create<Int>()
+    val favoriteAddedSubject = PublishSubject.create<String>()
+    val favoriteRemovedSubject = PublishSubject.create<String>()
 
     val resources = root.resources
 
@@ -44,6 +47,8 @@ abstract class AbstractHotelCellViewHolder(root: ViewGroup) : RecyclerView.ViewH
     val imageView: ImageView by bindView(R.id.background)
     val soldOutOverlay: View by bindView(R.id.hotel_sold_out_overlay_container)
     val gradient: View by bindView(R.id.foreground)
+    val favoriteTouchTarget: FrameLayout by bindView(R.id.hotel_favorite_touch_target)
+    val favoriteIcon: ImageView by bindView(R.id.hotel_favorite_icon)
     val hotelNameStarAmenityDistance: HotelCellNameStarAmenityDistance by bindView(R.id.hotel_name_star_amenity_distance)
     val hotelPriceTopAmenity: HotelCellPriceTopAmenity by bindView(R.id.hotel_price_top_amenity)
     val guestRating: TextView by bindView(R.id.guest_rating)

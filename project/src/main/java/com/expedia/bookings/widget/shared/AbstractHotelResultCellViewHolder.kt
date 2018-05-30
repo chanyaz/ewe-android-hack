@@ -48,6 +48,7 @@ abstract class AbstractHotelResultCellViewHolder(val root: ViewGroup) : Abstract
         soldOutOverlay.setVisibility(viewModel.showSoldOutOverlay)
 
         cardView.contentDescription = viewModel.getHotelContentDesc()
+        bindHotelFavoriteIcon()
     }
 
     private fun isGenericAttachEnabled(): Boolean {
@@ -87,5 +88,24 @@ abstract class AbstractHotelResultCellViewHolder(val root: ViewGroup) : Abstract
         guestRating.setVisibility(viewModel.isHotelGuestRatingAvailable)
         guestRatingRecommendedText.setVisibility(viewModel.isHotelGuestRatingAvailable)
         noGuestRating.setInverseVisibility(viewModel.isHotelGuestRatingAvailable)
+    }
+
+    private fun bindHotelFavoriteIcon() {
+        favoriteTouchTarget.setVisibility(viewModel.shouldShowFavoriteIcon())
+
+        if (viewModel.shouldShowFavoriteIcon()) {
+            favoriteIcon.setImageDrawable(ContextCompat.getDrawable(root.context, viewModel.getFavoriteImageDrawableId()))
+            favoriteTouchTarget.setOnClickListener { toggleFavoriteHotel() }
+        }
+    }
+
+    private fun toggleFavoriteHotel() {
+        if (viewModel.isFavoriteHotel()) {
+            favoriteIcon.setImageDrawable(ContextCompat.getDrawable(root.context, R.drawable.ic_favorite_inactive))
+            favoriteRemovedSubject.onNext(hotelId)
+        } else {
+            favoriteIcon.setImageDrawable(ContextCompat.getDrawable(root.context, R.drawable.ic_favorite_active))
+            favoriteAddedSubject.onNext(hotelId)
+        }
     }
 }

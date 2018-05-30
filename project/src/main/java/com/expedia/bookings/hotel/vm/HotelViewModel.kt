@@ -13,6 +13,8 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extensions.isShowAirAttached
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.features.Features
+import com.expedia.bookings.hotel.util.HotelFavoritesCache
+import com.expedia.bookings.hotel.widget.adapter.priceFormatter
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.utils.HotelUtils
@@ -20,7 +22,6 @@ import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.hotel.widget.adapter.priceFormatter
 import com.expedia.util.LoyaltyUtil
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject
@@ -178,6 +179,17 @@ open class HotelViewModel(private val context: Context, private val isGenericAtt
         return hotel.isMemberDeal && userStateManager.isUserAuthenticated()
     }
 
+    open fun shouldShowFavoriteIcon(): Boolean {
+        return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelShortlist) && userStateManager.isUserAuthenticated()
+    }
+
+    fun getFavoriteImageDrawableId(): Int {
+        if (isFavoriteHotel()) {
+            return R.drawable.ic_favorite_active
+        }
+        return R.drawable.ic_favorite_inactive
+    }
+
     fun getRatingContentDesc(hotel: Hotel): String {
         val phrase: Phrase
         val hotelStarRatingContentDescription = HotelsV2DataUtil.getHotelRatingContentDescription(context, hotel.hotelStarRating.toDouble())
@@ -200,6 +212,10 @@ open class HotelViewModel(private val context: Context, private val isGenericAtt
                     .put("guestrating", hotel.hotelGuestRating.toString())
         }
         return phrase.format().toString()
+    }
+
+    fun isFavoriteHotel(): Boolean {
+        return HotelFavoritesCache.isFavoriteHotel(context, hotelId)
     }
 
     open fun getHotelContentDesc(): CharSequence {

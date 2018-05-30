@@ -12,6 +12,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.payment.PaymentModel;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
+import com.expedia.bookings.hotel.util.HotelFavoritesManager;
 import com.expedia.bookings.hotel.util.HotelInfoManager;
 import com.expedia.bookings.hotel.util.HotelReviewsDataProvider;
 import com.expedia.bookings.hotel.util.HotelSearchManager;
@@ -56,7 +57,8 @@ public final class HotelModule {
 		satelliteInterceptors.add(satelliteInterceptor);
 
 		boolean bucketed = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelSatelliteSearch);
-		return new HotelServices(endpoint, satelliteEndpoint, client, interceptor, satelliteInterceptors, bucketed, AndroidSchedulers.mainThread(), Schedulers.io());
+		return new HotelServices(endpoint, satelliteEndpoint, client, interceptor, satelliteInterceptors, bucketed,
+			AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides
@@ -186,5 +188,11 @@ public final class HotelModule {
 	@HotelScope
 	HotelInfoManager provideHotelInfoManager(HotelServices hotelServices) {
 		return new HotelInfoManager(hotelServices);
+	}
+
+	@Provides
+	@HotelScope
+	HotelFavoritesManager provideHotelFavoritesManager(HotelShortlistServices shortlistServices) {
+		return new HotelFavoritesManager(shortlistServices);
 	}
 }

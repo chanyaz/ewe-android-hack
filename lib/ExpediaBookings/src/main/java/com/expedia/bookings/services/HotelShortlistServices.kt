@@ -4,8 +4,10 @@ import com.expedia.bookings.data.hotels.shortlist.HotelShortlistItem
 import com.expedia.bookings.data.hotels.shortlist.HotelShortlistResponse
 import com.expedia.bookings.data.hotels.shortlist.ShortlistItem
 import com.expedia.bookings.data.hotels.shortlist.ShortlistItemMetadata
+import com.expedia.bookings.extensions.subscribeObserver
 import io.reactivex.Observer
 import io.reactivex.Scheduler
+import io.reactivex.disposables.Disposable
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
@@ -39,23 +41,34 @@ class HotelShortlistServices(endpoint: String, okHttpClient: OkHttpClient,
                 .subscribe(observer)
     }
 
-    fun saveFavoriteHotel(hotelId: String, checkIn: LocalDate, checkOut: LocalDate, roomConfiguration: String, observer: Observer<HotelShortlistResponse<ShortlistItem>>) {
+    fun saveFavoriteHotel(hotelId: String, checkIn: LocalDate, checkOut: LocalDate, adults: Int, children: List<Int>, observer: Observer<HotelShortlistResponse<ShortlistItem>>): Disposable {
+        val roomConfiguration = formatRoomConfig(adults, children)
         val metadata = ShortlistItemMetadata().apply {
             this.hotelId = hotelId
-            chkIn = checkIn.toString("yyyyMMdd")
-            chkOut = checkOut.toString("yyyyMMdd")
+            this.chkIn = checkIn.toString("yyyyMMdd")
+            this.chkOut = checkOut.toString("yyyyMMdd")
             this.roomConfiguration = roomConfiguration
         }
         return hotelShortListApi.save(metadata, hotelId, CONFIG_ID, PAGE_NAME)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
-                .subscribe(observer)
+                .subscribeObserver(observer)
     }
 
-    fun removeFavoriteHotel(hotelId: String, metadata: ShortlistItemMetadata, observer: Observer<ResponseBody>) {
+    fun removeFavoriteHotel(hotelId: String, observer: Observer<ResponseBody>): Disposable {
+        val metadata = ShortlistItemMetadata()
         return hotelShortListApi.remove(metadata, hotelId, CONFIG_ID, PAGE_NAME)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
-                .subscribe(observer)
+                .subscribeObserver(observer)
+    }
+
+    private fun formatRoomConfig(adults: Int, children: List<Int>): String {
+        if (children.isEmpty()) {
+            return adults.toString()
+        }
+
+        val childrenString = children.joinToString("-")
+        return listOf(adults.toString(), childrenString).joinToString("|")
     }
 }

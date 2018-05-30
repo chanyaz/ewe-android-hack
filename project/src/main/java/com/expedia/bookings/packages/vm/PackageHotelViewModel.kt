@@ -58,6 +58,10 @@ class PackageHotelViewModel(var context: Context) : HotelViewModel(context) {
         return false
     }
 
+    override fun shouldShowFavoriteIcon(): Boolean {
+        return false
+    }
+
     private fun getUnrealDeal(): String {
         if (hotel.packageOfferModel?.featuredDeal ?: false) {
             if (PointOfSale.getPointOfSale().shouldShowFreeUnrealDeal()) {

@@ -26,26 +26,27 @@ import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.animation.AnimationRunner
 import com.expedia.bookings.hotel.animation.transition.VerticalTranslateTransition
 import com.expedia.bookings.hotel.fragment.ChangeDatesDialogFragment
+import com.expedia.bookings.hotel.util.HotelFavoritesManager
 import com.expedia.bookings.hotel.vm.HotelResultsViewModel
 import com.expedia.bookings.hotel.widget.HotelSearchFloatingActionPill
+import com.expedia.bookings.hotel.widget.adapter.HotelListAdapter
+import com.expedia.bookings.hotel.widget.adapter.HotelMapCarouselAdapter
 import com.expedia.bookings.model.HotelStayDates
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.urgency.UrgencyServices
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseHotelFilterView
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
-import com.expedia.bookings.hotel.widget.adapter.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.HotelResultsChangeDateView
 import com.expedia.bookings.widget.HotelServerFilterView
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.hotel.widget.adapter.HotelListAdapter
-import com.expedia.bookings.utils.FontCache
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.ShopWithPointsViewModel
@@ -84,9 +85,14 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     lateinit var urgencyServices: UrgencyServices
         @Inject set
 
+    lateinit var hotelFavoritesManager: HotelFavoritesManager
+        @Inject set
+
     lateinit var urgencyViewModel: UrgencyViewModel
 
     init {
+        Ui.getApplication(context).hotelComponent().inject(this)
+
         filterViewModel.filterChoicesObservable.subscribe { filterChoices ->
             viewModel.filterChoicesSubject.onNext(filterChoices)
         }
@@ -119,6 +125,9 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             hotelResultChangeDateView.visibility = View.VISIBLE
             toolbarShadow.visibility = View.GONE
         }
+
+        adapter.favoriteAddedSubject.subscribe { hotelId -> hotelFavoriteAdded(hotelId) }
+        adapter.favoriteRemovedSubject.subscribe { hotelId -> hotelFavoriteDeleted(hotelId) }
     }
 
     var viewModel: HotelResultsViewModel by notNullAndObservable { vm ->
@@ -238,7 +247,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        Ui.getApplication(context).hotelComponent().inject(this)
         urgencyViewModel = UrgencyViewModel(context, urgencyServices)
         if (shouldFetchUrgency()) {
             urgencyViewModel.urgencyTextSubject.subscribe { text -> adapter.addUrgency(text) }
@@ -490,7 +498,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
         val dialogFragment = ChangeDatesDialogFragment()
         dialogFragment.datesChangedSubject.subscribe { stayDates ->
-            viewModel.dateChagedParamsSubject.onNext(stayDates)
+            viewModel.dateChangedParamsSubject.onNext(stayDates)
         }
         val fragmentManager = (context as FragmentActivity).supportFragmentManager
 
@@ -500,6 +508,16 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     private fun shouldFetchUrgency(): Boolean {
         return AbacusFeatureConfigManager.isBucketedInAnyVariant(context, AbacusUtils.HotelUrgencyV2)
+    }
+
+    private fun hotelFavoriteAdded(hotelId: String) {
+        if (viewModel.cachedParams != null) {
+            hotelFavoritesManager.saveFavorite(context, hotelId, viewModel.cachedParams!!)
+        }
+    }
+
+    private fun hotelFavoriteDeleted(hotelId: String) {
+        hotelFavoritesManager.removeFavorite(context, hotelId)
     }
 
     private inner class HotelResultsScrollListener : BaseHotelResultsScrollListener() {

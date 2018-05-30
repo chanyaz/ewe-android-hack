@@ -8,15 +8,15 @@ import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.dialog.DialogFactory
+import com.expedia.bookings.extensions.subscribeObserver
+import com.expedia.bookings.extensions.trackingString
 import com.expedia.bookings.hotel.util.HotelCalendarDirections
 import com.expedia.bookings.hotel.util.HotelCalendarRules
 import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.model.HotelStayDates
-import com.expedia.bookings.extensions.subscribeObserver
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
-import com.expedia.bookings.extensions.trackingString
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
 import io.reactivex.disposables.CompositeDisposable
@@ -28,7 +28,7 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
     // inputs
     val filterChoicesSubject = PublishSubject.create<UserFilterChoices>()
     val locationParamsSubject = PublishSubject.create<SuggestionV4>()
-    val dateChagedParamsSubject = PublishSubject.create<HotelStayDates>()
+    val dateChangedParamsSubject = PublishSubject.create<HotelStayDates>()
 
     // outputs
     val searchInProgressSubject = PublishSubject.create<Unit>()
@@ -76,7 +76,7 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
             paramChangedSubject.onNext(newParams)
         })
 
-        dateChagedParamsSubject.subscribe(endlessObserver { stayDates ->
+        dateChangedParamsSubject.subscribe(endlessObserver { stayDates ->
             val builder = HotelSearchParams.Builder(hotelCalendarRules.getMaxDateRange(), hotelCalendarRules.getMaxSearchDurationDays())
             builder.from(cachedParams!!).startDate(stayDates.getStartDate()).endDate(stayDates.getEndDate())
             val newParams = builder.build()

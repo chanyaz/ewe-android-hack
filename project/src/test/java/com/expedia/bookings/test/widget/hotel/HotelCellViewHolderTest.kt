@@ -15,28 +15,34 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
 import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.data.payment.PointsEarnInfo
+import com.expedia.bookings.data.user.User
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.hotel.util.HotelFavoritesCache
+import com.expedia.bookings.hotel.widget.HotelCellViewHolder
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
-import com.expedia.bookings.hotel.widget.HotelCellViewHolder
+import com.expedia.bookings.utils.Ui
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import kotlin.properties.Delegates
+import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
-class HotelCellViewTest {
+class HotelCellViewHolderTest {
     private var hotelCellView: ViewGroup by Delegates.notNull()
     private var hotelViewHolder: HotelCellViewHolder by Delegates.notNull()
     private var activity: Activity by Delegates.notNull()
@@ -46,7 +52,8 @@ class HotelCellViewTest {
         return RuntimeEnvironment.application
     }
 
-    @Before fun before() {
+    @Before
+    fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.Theme_Hotels_Default)
         hotelCellView = LayoutInflater.from(activity).inflate(R.layout.hotel_cell, null, false) as ViewGroup
@@ -54,7 +61,8 @@ class HotelCellViewTest {
         pref = PreferenceManager.getDefaultSharedPreferences(getContext())
     }
 
-    @Test fun testSoldOut() {
+    @Test
+    fun testSoldOut() {
         val hotel = makeHotel()
         givenSoldOutHotel(hotel)
         givenHotelMobileExclusive(hotel)
@@ -69,7 +77,8 @@ class HotelCellViewTest {
         Assert.assertNotNull(hotelViewHolder.imageView.colorFilter)
     }
 
-    @Test fun testNewSoldOutTreatment() {
+    @Test
+    fun testNewSoldOutTreatment() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.HotelSoldOutOnHSRTreatment)
         val hotel = makeHotel()
         givenSoldOutHotel(hotel)
@@ -84,7 +93,8 @@ class HotelCellViewTest {
         Assert.assertNotNull(hotelViewHolder.imageView.colorFilter)
     }
 
-    @Test fun testReverseSoldOut() {
+    @Test
+    fun testReverseSoldOut() {
         val hotel = makeHotel()
         givenSoldOutHotel(hotel)
         givenHotelMobileExclusive(hotel)
@@ -103,7 +113,8 @@ class HotelCellViewTest {
         Assert.assertNull(hotelViewHolder.imageView.colorFilter)
     }
 
-    @Test fun testReverseNewSoldOutTreatment() {
+    @Test
+    fun testReverseNewSoldOutTreatment() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.HotelSoldOutOnHSRTreatment)
         val hotel = makeHotel()
         givenSoldOutHotel(hotel)
@@ -118,7 +129,8 @@ class HotelCellViewTest {
         Assert.assertNull(hotelViewHolder.imageView.colorFilter)
     }
 
-    @Test fun testUrgencyMeassageFewRoomsLeft() {
+    @Test
+    fun testUrgencyMeassageFewRoomsLeft() {
         val hotel = makeHotel()
         givenHotelMobileExclusive(hotel)
         givenHotelTonightOnly(hotel)
@@ -132,7 +144,8 @@ class HotelCellViewTest {
         Assert.assertEquals(View.VISIBLE, hotelViewHolder.urgencyMessageContainer.urgencyIconImageView.visibility)
     }
 
-    @Test fun testUrgencyMessageTonightOnly() {
+    @Test
+    fun testUrgencyMessageTonightOnly() {
         val hotel = makeHotel()
         givenHotelMobileExclusive(hotel)
         givenHotelTonightOnly(hotel)
@@ -157,7 +170,8 @@ class HotelCellViewTest {
         Assert.assertEquals(View.VISIBLE, hotelViewHolder.urgencyMessageContainer.urgencyIconImageView.visibility)
     }
 
-    @Test fun testNoUrgencyMessage() {
+    @Test
+    fun testNoUrgencyMessage() {
         val hotel = makeHotel()
 
         hotelViewHolder.bindHotelData(hotel)
@@ -166,8 +180,8 @@ class HotelCellViewTest {
         Assert.assertEquals("", hotelViewHolder.urgencyMessageContainer.urgencyMessageTextView.text)
     }
 
-    @Test fun testEarnMessaging() {
-
+    @Test
+    fun testEarnMessaging() {
         val hotel = makeHotel()
         givenHotelWithFreeCancellation(hotel)
 
@@ -180,6 +194,49 @@ class HotelCellViewTest {
         } else {
             Assert.assertEquals(View.GONE, hotelViewHolder.earnMessagingText.visibility)
         }
+    }
+
+    @Test
+    fun testFavoriteHotelIconVisibility() {
+        val hotel = makeHotel()
+        hotelViewHolder.bindHotelData(hotel)
+        assertEquals(View.GONE, hotelViewHolder.favoriteTouchTarget.visibility)
+
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.HotelShortlist)
+        loginUser()
+
+        hotelViewHolder.bindHotelData(hotel)
+        assertEquals(View.VISIBLE, hotelViewHolder.favoriteTouchTarget.visibility)
+    }
+
+    @Test
+    fun testFavoriteHotelIcon() {
+        clearFavoritesCache()
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.HotelShortlist)
+        loginUser()
+
+        val hotel = makeHotel()
+        hotelViewHolder.bindHotelData(hotel)
+        var errorImageDrawable = Shadows.shadowOf(hotelViewHolder.favoriteIcon.drawable)
+        Assert.assertEquals(R.drawable.ic_favorite_inactive, errorImageDrawable.createdFromResId)
+
+        HotelFavoritesCache.saveFavoriteId(getContext(), hotel.hotelId)
+        hotelViewHolder.bindHotelData(hotel)
+
+        errorImageDrawable = Shadows.shadowOf(hotelViewHolder.favoriteIcon.drawable)
+        Assert.assertEquals(R.drawable.ic_favorite_active, errorImageDrawable.createdFromResId)
+    }
+
+    private fun loginUser() {
+        val userStateManager = Ui.getApplication(RuntimeEnvironment.application).appComponent().userStateManager()
+        val user = User()
+        UserLoginTestUtil.setupUserAndMockLogin(user, userStateManager)
+    }
+
+    private fun clearFavoritesCache() {
+        val cache = getContext().getSharedPreferences(HotelFavoritesCache.FAVORITES_FILE_NAME, Context.MODE_PRIVATE)
+        val editor = cache.edit()
+        editor.clear()
     }
 
     private fun makeHotel(): Hotel {
