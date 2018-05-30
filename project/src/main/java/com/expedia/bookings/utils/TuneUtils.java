@@ -18,7 +18,6 @@ import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.lx.LXActivity;
-import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.multiitem.BundleSearchResponse;
@@ -634,9 +633,9 @@ public class TuneUtils {
 		}
 	}
 
-	public static void trackLXConfirmation(String lxActivityLocation, Money totalPrice, Money ticketPrice,
-		String lxActivityStartDate,
-		LXCheckoutResponse checkoutResponse, String lxActivityTitle, int selectedTicketCount, int selectedChildTicketCount) {
+	public static void trackLXConfirmation(String itinNumber, String activityId, String lxActivityLocation,
+		Money totalPrice, Money ticketPrice, String lxActivityStartDate, String lxActivityTitle,
+		int selectedTicketCount, int selectedChildTicketCount) {
 		if (trackingProvider != null) {
 			TuneEvent event = new TuneEvent("lx_confirmation");
 			TuneEventItem eventItem = new TuneEventItem("lx_confirmation_item");
@@ -653,9 +652,9 @@ public class TuneUtils {
 				.withAttribute2(trackingProvider.isUserLoggedInValue())
 				.withRevenue(revenue)
 				.withQuantity(1)
-				.withContentId(checkoutResponse.activityId)
+				.withContentId(activityId)
 				.withCurrencyCode(totalPrice.getCurrency())
-				.withAdvertiserRefId(getAdvertiserRefId(checkoutResponse.newTrip.itineraryNumber))
+				.withAdvertiserRefId(getAdvertiserRefId(itinNumber))
 				.withEventItems(Collections.singletonList(eventItem))
 				.withDate1(ApiDateUtils.yyyyMMddHHmmssToDateTime(lxActivityStartDate).toDate());
 

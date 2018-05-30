@@ -5,7 +5,6 @@ import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TripBucketItemFlightV2
-import com.expedia.bookings.data.TripInfo
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
@@ -16,7 +15,6 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.lx.LXActivity
-import com.expedia.bookings.data.lx.LXCheckoutResponse
 import com.expedia.bookings.data.lx.LXSearchResponse
 import com.expedia.bookings.data.lx.LxSearchParams
 import com.expedia.bookings.data.lx.SearchType
@@ -431,12 +429,10 @@ class TuneUtilsTests {
         val totalPrice = Money(150, "USD")
         val ticketPrice = Money(50, "USD")
         val activityDate = "2025-12-10 12:30:00"
-        val checkoutResponse = LXCheckoutResponse()
-        checkoutResponse.newTrip = TripInfo()
-        checkoutResponse.newTrip.itineraryNumber = "TRL"
-        checkoutResponse.activityId = "98765"
+        val itineraryNumber = "TRL"
+        val activityId = "98765"
 
-        TuneUtils.trackLXConfirmation("San Francisco", totalPrice, ticketPrice, activityDate, checkoutResponse, "Tour", 2, 1)
+        TuneUtils.trackLXConfirmation(itineraryNumber, activityId, "San Francisco", totalPrice, ticketPrice, activityDate, "Tour", 2, 1)
 
         assertEquals("lx_confirmation", provider.trackedEvent?.eventName)
         assertEquals("lx_confirmation_item", provider.trackedEvent?.eventItems?.first()?.itemname)
@@ -520,8 +516,8 @@ class TuneUtilsTests {
         return activity
     }
 
-    private class TestTuneTrackingProviderImpl(private val user: User? = UserLoginTestUtil.mockUser(),
-                                               private val isLoggedIn: Boolean = false) : TuneTrackingProvider {
+    class TestTuneTrackingProviderImpl(private val user: User? = UserLoginTestUtil.mockUser(),
+                                       private val isLoggedIn: Boolean = false) : TuneTrackingProvider {
         var trackedEvent: TuneEvent? = null
             private set
         override val authenticatedUser: User?

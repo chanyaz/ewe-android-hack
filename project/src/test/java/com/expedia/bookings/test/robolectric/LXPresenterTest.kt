@@ -8,6 +8,11 @@ import android.widget.ImageButton
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.lx.ActivityAvailabilities
+import com.expedia.bookings.data.lx.AvailabilityInfo
+import com.expedia.bookings.data.lx.LXActivity
+import com.expedia.bookings.data.lx.LXCreateTripResponseV2
+import com.expedia.bookings.data.lx.LxSearchParams
 import com.expedia.bookings.data.lx.Offer
 import com.expedia.bookings.data.lx.Ticket
 import com.expedia.bookings.data.pos.PointOfSale
@@ -17,11 +22,15 @@ import com.expedia.bookings.presenter.lx.LXSearchPresenter
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.ArrowXDrawableUtil
+import com.expedia.bookings.utils.TuneUtils
+import com.expedia.bookings.utils.TuneUtilsTests
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.shared.WebCheckoutView
+import com.expedia.util.Optional
 import com.expedia.vm.LXWebCheckoutViewViewModel
 import com.expedia.vm.WebCheckoutViewViewModel
 import com.google.gson.GsonBuilder
+import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -31,6 +40,7 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -211,6 +221,46 @@ class LXPresenterTest {
         thrown.expect(LXPresenter.LXMissingTransitionException::class.java)
         thrown.expectMessage("No Transition defined for Test screen 1 to Test screen 2")
         lxPresenter.getTransition("Test screen 1", "Test screen 2")
+    }
+
+    @Test
+    fun testTuneTrackedOnWebViewShown() {
+        setupPresenterAndBucketWebviewTest()
+        val tune = TuneUtilsTests.TestTuneTrackingProviderImpl()
+        TuneUtils.init(tune)
+        showWebCheckoutView()
+        setupLxState()
+        val createTripResponse = LXCreateTripResponseV2()
+
+        lxPresenter.createTripResponseObserver.onNext(Optional(createTripResponse))
+
+        assertNotNull(tune.trackedEvent)
+    }
+
+    private fun setupLxState() {
+        val activity = LXActivity()
+        activity.location = "Tahoe"
+        activity.categories = listOf("Fun", "Outdoors", "Family")
+        activity.title = "Ziplining in Tahoe"
+        activity.regionId = "12345"
+        activity.id = "9876"
+        activity.destination = "Tahoe, CA"
+        lxPresenter.lxState.activity = activity
+
+        lxPresenter.lxState.offer = getOffer()
+        lxPresenter.lxState.searchParams = LxSearchParams.Builder()
+                .location("Tahoe")
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1))
+                .build() as LxSearchParams
+    }
+
+    private fun getOffer(): Offer {
+        val offer = Offer()
+        offer.availabilityInfoOfSelectedDate = AvailabilityInfo()
+        offer.availabilityInfoOfSelectedDate.availabilities = ActivityAvailabilities()
+        offer.availabilityInfoOfSelectedDate.availabilities.valueDate = "2025-12-10 12:30:00"
+        return offer
     }
 
     private fun showWebCheckoutView() {

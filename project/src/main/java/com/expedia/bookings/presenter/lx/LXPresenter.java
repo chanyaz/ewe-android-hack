@@ -24,13 +24,17 @@ import com.expedia.bookings.animation.TransitionElement;
 import com.expedia.bookings.data.AbstractItinDetailsResponse;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.TripResponse;
 import com.expedia.bookings.data.extensions.LineOfBusinessExtensions;
+import com.expedia.bookings.data.lx.LXCreateTripResponseV2;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
 import com.expedia.bookings.services.ItinTripServices;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.ApiDateUtils;
@@ -39,6 +43,7 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LXConfirmationWidget;
 import com.expedia.bookings.widget.LoadingOverlayWidget;
 import com.expedia.bookings.widget.shared.WebCheckoutView;
+import com.expedia.util.Optional;
 import com.expedia.vm.LXMapViewModel;
 import com.expedia.vm.LXWebCheckoutViewViewModel;
 import com.google.android.gms.maps.MapView;
@@ -103,7 +108,7 @@ public class LXPresenter extends Presenter {
 	ViewStub checkoutPresenterViewStub;
 
 	@Inject
-	LXState lxState;
+	public LXState lxState;
 
 	ItinTripServices itinTripServices;
 
@@ -194,6 +199,11 @@ public class LXPresenter extends Presenter {
 					confirmationWidget.viewModel.getLxStateObservable().onNext(lxState);
 					confirmationWidget.viewModel.getConfirmationScreenUiObservable().onNext(Unit.INSTANCE);
 					show(confirmationWidget, FLAG_CLEAR_BACKSTACK);
+					AdTracker.trackLXBooked(itinDetailsResponse.getResponseDataForItin().getTripNumber().toString(),
+						lxState.activity.location, lxState.latestTotalPrice(), lxState.selectedTickets().get(0).money,
+						lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate,
+						lxState.activity.title, lxState.activity.id, lxState.searchParams.getActivityStartDate(),
+						lxState.activity.regionId, lxState.selectedTicketsCount(), lxState.selectedChildTicketsCount());
 				}
 			}
 
@@ -604,11 +614,32 @@ public class LXPresenter extends Presenter {
 		webCheckoutViewViewModel.getBackObservable().subscribe(onBackClickObserver);
 		webCheckoutViewViewModel.getBlankViewObservable().subscribe(blankViewObserver);
 		webCheckoutViewViewModel.getShowNativeSearchObservable().subscribe(showNativeSearchObservable);
+		webCheckoutViewViewModel.getLxCreateTripViewModel().getCreateTripResponseObservable().subscribe(createTripResponseObserver);
 	}
 
 	private Boolean showWebCheckoutView() {
 		return FeatureUtilKt.isLxWebViewCheckoutEnabled(getContext());
 	}
+
+	public DisposableObserver<Optional<TripResponse>> createTripResponseObserver = new DisposableObserver<Optional<TripResponse>>() {
+		@Override
+		public void onNext(Optional<TripResponse> optionalResponse) {
+			LXCreateTripResponseV2 response = (LXCreateTripResponseV2) optionalResponse.getValue();
+			if (response != null) {
+				Money tripTotalPrice = response.hasPriceChange() ? response.newTotalPrice : lxState.latestTotalPrice();
+				AdTracker.trackLXCheckoutStarted(lxState.activity.destination, tripTotalPrice,
+					lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate, lxState.selectedTicketsCount(),
+					lxState.activity.title, lxState.activity.regionId, lxState.activity.id,
+					lxState.searchParams.getActivityStartDate(), lxState.selectedChildTicketsCount());
+			}
+		}
+
+		@Override
+		public void onError(Throwable e) { }
+
+		@Override
+		public void onComplete() { }
+	};
 
 	@VisibleForTesting
 	public Observer<Unit> onCloseWebView = new DisposableObserver<Unit>() {

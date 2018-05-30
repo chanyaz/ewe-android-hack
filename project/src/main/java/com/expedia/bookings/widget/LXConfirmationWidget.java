@@ -135,9 +135,10 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 			lxState.selectedTicketsCount(), isGroundTransport);
 		CarnivalUtils.getInstance().trackLxConfirmation(lxState.activity.title, lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
 
-		AdTracker.trackLXBooked(lxState.activity.location, lxState.latestTotalPrice(), lxState.selectedTickets().get(0).money,
-			lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate, lxState.activity.categories,
-			event.checkoutResponse, lxState.activity.title, lxState.activity.id, lxState.searchParams.getActivityStartDate(),
+		AdTracker.trackLXBooked(event.checkoutResponse.newTrip.itineraryNumber, lxState.activity.location,
+			lxState.latestTotalPrice(), lxState.selectedTickets().get(0).money,
+			lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate,
+			lxState.activity.title, lxState.activity.id, lxState.searchParams.getActivityStartDate(),
 			lxState.activity.regionId, lxState.selectedTicketsCount(), lxState.selectedChildTicketsCount());
 
 		final Resources res = getResources();

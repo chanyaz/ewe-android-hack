@@ -26,6 +26,8 @@ import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.tracking.OmnitureTracking.trackAppLXConfirmationFromTripsResponse
+import com.expedia.bookings.utils.TuneUtils
+import com.expedia.bookings.utils.TuneUtilsTests
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.LXConfirmationWidget
 import com.google.gson.Gson
@@ -206,6 +208,20 @@ class LXConfirmationWidgetTest {
         val expectedProducts = "LX;Merchant LX:1;1;1795.00"
 
         OmnitureTestUtils.assertStateTracked("App.LX-GT.Checkout.Confirmation", OmnitureMatchers.withProductsString(expectedProducts), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTuneTrackedOnNativeConfirmationFromWebview() {
+        mockConfirmationLXState(doCheckout = false)
+        val tune = TuneUtilsTests.TestTuneTrackingProviderImpl()
+        TuneUtils.init(tune)
+        val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()
+        val makeItinResponseObserver = presenter.makeNewItinResponseObserver()
+        confirmationWidget.viewModel.itinDetailsResponseObservable.subscribe(testObserver)
+        serviceRule.services!!.getTripDetails("lx_trip_details_without_email", makeItinResponseObserver)
+        testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
+
+        assertNotNull(tune.trackedEvent)
     }
 
     private fun mockConfirmationLXState(doCheckout: Boolean) {

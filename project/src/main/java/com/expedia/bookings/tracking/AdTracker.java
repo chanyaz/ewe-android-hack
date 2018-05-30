@@ -1,11 +1,9 @@
 package com.expedia.bookings.tracking;
 
-import java.util.List;
 
 import org.joda.time.LocalDate;
 
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.utils.TuneUtils;
@@ -43,12 +41,11 @@ public class AdTracker {
 		TuneUtils.updatePOS();
 	}
 
-	public static void trackLXBooked(String lxActivityLocation, Money totalPrice, Money ticketPrice,
-		String lxActivityStartDate,
-		List<String> lxActivityCategories, LXCheckoutResponse checkoutResponse, String lxActivityTitle, String activityId,
+	public static void trackLXBooked(String itinNumber, String lxActivityLocation, Money totalPrice, Money ticketPrice,
+		String lxActivityStartDate, String lxActivityTitle, String activityId,
 		LocalDate startDate, String regionId, int selectedTicketCount, int selectedChildTicketCount) {
-		TuneUtils.trackLXConfirmation(lxActivityLocation, totalPrice, ticketPrice, lxActivityStartDate,
-			checkoutResponse, lxActivityTitle, selectedTicketCount, selectedChildTicketCount);
+		TuneUtils.trackLXConfirmation(itinNumber, activityId, lxActivityLocation, totalPrice, ticketPrice, lxActivityStartDate,
+			lxActivityTitle, selectedTicketCount, selectedChildTicketCount);
 		new FacebookEvents().trackLXConfirmation(activityId, lxActivityLocation, startDate, regionId, totalPrice,
 			selectedTicketCount, selectedChildTicketCount);
 	}
