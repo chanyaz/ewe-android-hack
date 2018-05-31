@@ -7,5 +7,5 @@ interface ItinViewReceiptViewModel {
 
     val viewReceiptClickSubject: PublishSubject<Unit>
     val webViewIntentSubject: PublishSubject<Intent>
-    val showReceipt: PublishSubject<Unit>
+    val showReceiptSubject: PublishSubject<Unit>
 }

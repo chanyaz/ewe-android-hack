@@ -1,6 +1,7 @@
 package com.expedia.bookings.itin.scopes
 
 import android.arch.lifecycle.LifecycleOwner
+import com.expedia.bookings.features.Feature
 import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepo
 import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepoInterface
 import com.expedia.bookings.itin.tripstore.data.Itin
@@ -40,8 +41,9 @@ data class HotelItinViewReceiptScope(
         override val itinHotelRepo: ItinHotelRepo,
         override val lifecycleOwner: LifecycleOwner,
         override val tripsTracking: ITripsTracking,
-        override val webViewLauncher: IWebViewLauncher
-) : HasStringProvider, HasHotelRepo, HasLifecycleOwner, HasTripsTracking, HasWebViewLauncher
+        override val webViewLauncher: IWebViewLauncher,
+        override val feature: Feature
+) : HasStringProvider, HasHotelRepo, HasLifecycleOwner, HasTripsTracking, HasWebViewLauncher, HasFeature
 
 data class HotelItinTaxiViewModelScope(
         override val itinHotelRepo: ItinHotelRepoInterface,

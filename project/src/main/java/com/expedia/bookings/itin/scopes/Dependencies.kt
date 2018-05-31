@@ -1,6 +1,7 @@
 package com.expedia.bookings.itin.scopes
 
 import android.arch.lifecycle.LifecycleOwner
+import com.expedia.bookings.features.Feature
 import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepoInterface
 import com.expedia.bookings.itin.lx.ItinLxRepoInterface
 import com.expedia.bookings.itin.tripstore.data.Itin
@@ -33,6 +34,10 @@ interface HasWebViewLauncher {
 
 interface HasTripsTracking {
     val tripsTracking: ITripsTracking
+}
+
+interface HasFeature {
+    val feature: Feature
 }
 
 interface HasE3Endpoint {
