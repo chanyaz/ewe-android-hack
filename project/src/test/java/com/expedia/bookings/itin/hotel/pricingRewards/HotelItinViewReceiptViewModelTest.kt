@@ -34,13 +34,13 @@ class HotelItinViewReceiptViewModelTest {
         viewModel.showReceiptSubject.subscribe(showReceiptTestObserver)
 
         showReceiptTestObserver.assertNoValues()
-        viewModel.itinObserver.onChanged(ItinMocker.hotelDetailsHappy)
+        viewModel.itinObserver.onChanged(ItinMocker.hotelDetailsExpediaCollect)
         showReceiptTestObserver.assertValueCount(1)
         showReceiptTestObserver.assertValuesAndClear(Unit)
 
         scope.mockFeature.featureEnabled = false
         showReceiptTestObserver.assertNoValues()
-        viewModel.itinObserver.onChanged(ItinMocker.hotelDetailsHappy)
+        viewModel.itinObserver.onChanged(ItinMocker.hotelDetailsExpediaCollect)
         showReceiptTestObserver.assertNoValues()
 
         showReceiptTestObserver.dispose()
@@ -69,21 +69,30 @@ class HotelItinViewReceiptViewModelTest {
     fun testShouldShowViewReceipt() {
         val scope = MockHotelItinViewReceiptScope()
         val viewModel = HotelItinViewReceiptViewModel(scope)
+        val packageItin = ItinMocker.hotelPackageHappy
+        val mickoItin = ItinMocker.mickoMultiHotel
+        val hotelItin = ItinMocker.hotelDetailsExpediaCollect
+        val hotelCollectItin = ItinMocker.hotelDetailsHappy
 
-        assertFalse(viewModel.shouldShowViewReceipt(null))
-        assertFalse(viewModel.shouldShowViewReceipt(ItinMocker.hotelPackageHappy))
-        assertFalse(viewModel.shouldShowViewReceipt(ItinMocker.mickoMultiHotel))
-        assertTrue(viewModel.shouldShowViewReceipt(ItinMocker.hotelDetailsHappy))
+        assertFalse(viewModel.shouldShowViewReceipt(null, null))
+        assertFalse(viewModel.shouldShowViewReceipt(null, hotelItin.firstHotel()))
+        assertFalse(viewModel.shouldShowViewReceipt(hotelItin, null))
+
+        assertTrue(viewModel.shouldShowViewReceipt(hotelItin, hotelItin.firstHotel()))
+        assertFalse(viewModel.shouldShowViewReceipt(packageItin, packageItin.firstHotel()))
+        assertFalse(viewModel.shouldShowViewReceipt(mickoItin, mickoItin.firstHotel()))
+
+        assertFalse(viewModel.shouldShowViewReceipt(hotelCollectItin, hotelCollectItin.firstHotel()))
 
         scope.mockFeature.featureEnabled = false
-        assertFalse(viewModel.shouldShowViewReceipt(ItinMocker.hotelDetailsHappy))
+        assertFalse(viewModel.shouldShowViewReceipt(hotelItin, hotelItin.firstHotel()))
     }
 
     @Test
     fun testViewReceiptClickSubjectValidItin() {
         val scope = MockHotelItinViewReceiptScope()
         val viewModel = HotelItinViewReceiptViewModel(scope)
-        val hotelDetailsHappy = ItinMocker.hotelDetailsHappy
+        val hotelDetailsHappy = ItinMocker.hotelDetailsExpediaCollect
         viewModel.itinObserver.onChanged(hotelDetailsHappy)
 
         viewModel.viewReceiptClickSubject.onNext(Unit)
@@ -92,8 +101,8 @@ class HotelItinViewReceiptViewModelTest {
         val hotel = hotelDetailsHappy.firstHotel()
         val name = hotel!!.hotelPropertyInfo!!.name
         assertEquals((R.string.itin_hotel_view_receipt_title_TEMPLATE).toString().plus(mapOf("hotelname" to name)), scope.webLauncherMock.toolbarTitle)
-        assertEquals("https://www.expedia.com/itinerary-receipt?tripid=231f5318-59f5-4a00-a957-a0ba2688b9c6", scope.webLauncherMock.lastSeenURL)
-        assertEquals("58fc868b-63e9-42cc-a0c3-6ac4dd78beaa", scope.webLauncherMock.lastSeenTripId)
+        assertEquals("https://www.expedia.com/itinerary-receipt?tripid=dccc3186-1470-4de8-9fc2-36c2d854a6d7", scope.webLauncherMock.lastSeenURL)
+        assertEquals("dccc3186-1470-4de8-9fc2-36c2d854a6d7", scope.webLauncherMock.lastSeenTripId)
         assertEquals(false, scope.webLauncherMock.isGuest)
     }
 
