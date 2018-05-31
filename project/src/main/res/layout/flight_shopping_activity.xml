@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.flights.presenter.FlightShoppingPresenter
+    android:id="@+id/flight_shopping_presenter"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+</com.expedia.bookings.flights.presenter.FlightShoppingPresenter>

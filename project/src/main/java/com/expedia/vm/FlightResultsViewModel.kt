@@ -3,14 +3,15 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.flights.RichContent
 import com.expedia.bookings.data.flights.RichContentResponse
+import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.services.FlightRichContentService
 import com.expedia.bookings.utils.RichContentUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isRichContentEnabled
-import com.expedia.bookings.data.flights.RichContent
-import com.expedia.bookings.extensions.ObservableOld
+import com.expedia.vm.flights.TripType
 import io.reactivex.Observer
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.PublishSubject
@@ -31,6 +32,10 @@ class FlightResultsViewModel(context: Context) : BaseResultsViewModel() {
 
     init {
         Ui.getApplication(context).flightComponent().inject(this)
+        flightResultObservable.subscribe { it ->
+            it as TripType.RoundTrip
+            flightResultsObservable.onNext(it.results)
+        }
         if (showRichContent) {
             ObservableOld.combineLatest(isOutboundResults, flightResultsObservable.filter { it.isNotEmpty() }, { isOutboundResult, flightLegs ->
                 val richContentRequestPayload = RichContentUtils.getRichContentRequestPayload(context, flightLegs)

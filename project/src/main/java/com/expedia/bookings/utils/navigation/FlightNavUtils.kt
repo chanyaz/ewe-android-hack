@@ -7,6 +7,7 @@ import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.FlightSearchParams
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.flights.activity.FlightShoppingControllerActivity
 import com.expedia.bookings.utils.FlightsV2DataUtil
 import com.expedia.ui.FlightActivity
 
@@ -40,7 +41,9 @@ class FlightNavUtils : NavUtils() {
             } else {
                 sendKillActivityBroadcast(context)
                 val intent: Intent
-                intent = Intent(context, FlightActivity::class.java)
+                //intent = Intent(context, FlightActivity::class.java)
+                intent = Intent(context, FlightShoppingControllerActivity::class.java)
+
                 if (flightSearchParams != null) {
                     val gson = FlightsV2DataUtil.generateGson()
                     intent.putExtra(Codes.SEARCH_PARAMS, gson.toJson(flightSearchParams))

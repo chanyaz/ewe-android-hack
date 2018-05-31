@@ -51,7 +51,7 @@ class FlightOffersViewModelByot(context: Context, flightServices: FlightServices
             hasUserClickedSearchObservable.onNext(searchParamsObservable.value != null)
             isGreedyCallCompleted = false
         } else if (searchParamsObservable.value != null) {
-            outboundResultsObservable.onNext(outBoundFlights.toList())
+            //outboundResultsObservable.onNext(outBoundFlights.toList())
         }
     }
 

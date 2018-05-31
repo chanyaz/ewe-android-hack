@@ -1,11 +1,13 @@
 package com.expedia.bookings.dagger;
 
 import com.expedia.bookings.dagger.tags.FlightScope;
+import com.expedia.bookings.flights.presenter.FlightShoppingPresenter;
 import com.expedia.bookings.presenter.flight.FlightCheckoutPresenter;
 import com.expedia.bookings.presenter.flight.FlightInboundPresenter;
 import com.expedia.bookings.presenter.flight.FlightOutboundPresenter;
 import com.expedia.bookings.presenter.flight.FlightOverviewPresenter;
 import com.expedia.bookings.presenter.flight.FlightPresenter;
+import com.expedia.bookings.presenter.flight.FlightResultsPresenter;
 import com.expedia.bookings.presenter.flight.FlightSearchPresenter;
 import com.expedia.bookings.services.HolidayCalendarService;
 import com.expedia.bookings.services.ItinTripServices;
@@ -34,6 +36,8 @@ public interface FlightComponent {
 	void inject(BaggageInfoViewModel baggageInfoViewModel);
 	void inject(FlightResultsViewModel flightResultsViewModel);
 	void inject(RecentSearchViewModel recentSearchViewModel);
+	void inject(FlightShoppingPresenter flightShoppingPresenter);
+	void inject(FlightResultsPresenter flightResultsPresenter);
 
 	HolidayCalendarService holidayCalendarService();
 	SuggestionV4Services suggestionsService();

@@ -28,7 +28,6 @@ import io.reactivex.subjects.PublishSubject
 import java.util.HashMap
 
 abstract class BaseFlightOffersViewModel(val context: Context, val flightServices: FlightServices) {
-
     val searchParamsObservable = BehaviorSubject.create<FlightSearchParams>()
     val errorObservable = PublishSubject.create<ApiError>()
     val errorObservableForGreedyCall = PublishSubject.create<ApiError>()
@@ -44,7 +43,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     val flightOfferSelected = PublishSubject.create<FlightTripDetails.FlightOffer>()
     val flightProductId = PublishSubject.create<String>()
     val showChargesObFeesSubject = PublishSubject.create<Boolean>()
-    val outboundResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
+    //val outboundResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
     val inboundResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
     val obFeeDetailsUrlObservable = BehaviorSubject.create<String>()
     val cancelOutboundSearchObservable = PublishSubject.create<Unit>()
@@ -75,6 +74,9 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     protected var flightOutboundSearchSubscription: Disposable? = null
     protected var flightInboundSearchSubscription: Disposable? = null
     protected var flightGreedySearchSubscription: Disposable? = null
+
+
+    val resultsObservable = BehaviorSubject.create<TripType>()
 
     init {
         searchParamsObservable.subscribe { params ->
@@ -131,7 +133,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
             }
         }
 
-        outboundResultsObservable.subscribe { totalOutboundResults = it.size }
+        //outboundResultsObservable.subscribe { totalOutboundResults = it.size }
         inboundResultsObservable.subscribe { totalInboundResults = it.size }
     }
 

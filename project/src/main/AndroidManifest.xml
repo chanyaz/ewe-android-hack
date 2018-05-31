@@ -368,6 +368,18 @@
             android:screenOrientation="portrait"
             android:theme="@style/V2.Theme.Packages" />
 
+        <activity
+            android:name="com.expedia.bookings.flights.activity.FlightResultsActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:theme="@style/V2.Theme.Packages" />
+
+        <activity
+            android:name="com.expedia.bookings.flights.activity.FlightShoppingControllerActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:theme="@style/V2.Theme.Packages" />
+
         <!-- Packages -->
 
         <activity

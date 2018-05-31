@@ -17,7 +17,7 @@ class FlightOffersViewModel(context: Context, flightServices: FlightServices) : 
     lateinit var flightMap: HashMap<String, LinkedHashSet<FlightLeg>>
 
     override fun selectOutboundFlight(legId: String) {
-        inboundResultsObservable.onNext(findInboundFlights(legId))
+        resultsObservable.onNext(TripType.RoundTrip(findInboundFlights(legId)))
     }
 
     override fun createFlightMap(response: FlightSearchResponse) {
@@ -60,7 +60,12 @@ class FlightOffersViewModel(context: Context, flightServices: FlightServices) : 
             hasUserClickedSearchObservable.onNext(searchParamsObservable.value != null)
             isGreedyCallCompleted = false
         } else if (searchParamsObservable.value != null) {
-            outboundResultsObservable.onNext(outBoundFlights.toList())
+            //outboundResultsObservable.onNext(outBoundFlights.toList())
+            if (isRoundTripSearch) {
+                resultsObservable.onNext(TripType.RoundTrip(outBoundFlights.toList()))
+            } else {
+                resultsObservable.onNext(TripType.OneWay(outBoundFlights.toList()))
+            }
         }
     }
 

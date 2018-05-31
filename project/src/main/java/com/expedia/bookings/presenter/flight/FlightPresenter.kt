@@ -3,6 +3,7 @@ package com.expedia.bookings.presenter.flight
 import android.animation.ArgbEvaluator
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
@@ -31,6 +32,7 @@ import com.expedia.bookings.extensions.setInverseVisibility
 import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
+import com.expedia.bookings.flights.activity.FlightResultsActivity
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
@@ -176,10 +178,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             presenter.toolbarViewModel.date.onNext(params.departureDate)
             searchTrackingBuilder.searchParams(params)
         }
-        presenter.flightOfferViewModel.outboundResultsObservable.subscribe {
-            searchTrackingBuilder.markResultsProcessed()
-            searchTrackingBuilder.searchResponse(it)
-        }
+//        presenter.flightOfferViewModel.outboundResultsObservable.subscribe {
+//            searchTrackingBuilder.markResultsProcessed()
+//            searchTrackingBuilder.searchResponse(it)
+//        }
         presenter.menuSearch.setOnMenuItemClickListener({
             show(searchPresenter)
             flightOfferViewModel.isGreedyCallAborted = true
@@ -416,11 +418,11 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             }
         }
 
-        viewModel.outboundResultsObservable.subscribe {
-            announceForAccessibility(Phrase.from(context, R.string.accessibility_announcement_showing_outbound_flights_TEMPLATE)
-                    .put("city", StrUtils.formatCity(viewModel.searchParamsObservable.value.arrivalAirport))
-                    .format().toString())
-        }
+//        viewModel.outboundResultsObservable.subscribe {
+//            announceForAccessibility(Phrase.from(context, R.string.accessibility_announcement_showing_outbound_flights_TEMPLATE)
+//                    .put("city", StrUtils.formatCity(viewModel.searchParamsObservable.value.arrivalAirport))
+//                    .format().toString())
+//        }
         viewModel.confirmedOutboundFlightSelection.subscribe {
             if (isByotEnabled && viewModel.isRoundTripSearchSubject.value) {
                 inboundPresenter.showResults()
@@ -477,21 +479,30 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         searchPresenter.searchViewModel = vm
         vm.searchParamsObservable.subscribe { params ->
             announceForAccessibility(context.getString(R.string.accessibility_announcement_searching_flights))
-            flightOfferViewModel.searchParamsObservable.onNext(params)
+            //flightOfferViewModel.searchParamsObservable.onNext(params)
             flightOfferViewModel.isOutboundSearch = true
             errorPresenter.getViewModel().paramsSubject.onNext(params)
             travelerManager.updateDbTravelers(params)
             // Starting a new search clear previous selection
             Db.sharedInstance.clearPackageFlightSelection()
-            outBoundPresenter.clearBackStack()
-            outBoundPresenter.showResults()
-            show(outBoundPresenter, Presenter.FLAG_CLEAR_TOP)
+            openFlightsResults()
+
+//            outBoundPresenter.clearBackStack()
+//            outBoundPresenter.showResults()
+//            show(outBoundPresenter, Presenter.FLAG_CLEAR_TOP)
         }
         if (isFlightGreedySearchEnabled(context)) {
             vm.greedySearchParamsObservable.subscribe(flightOfferViewModel.greedyFlightSearchObservable)
         }
     }
 
+    fun openFlightsResults() {
+        val intent = Intent(context, FlightResultsActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        val activity = context as Activity
+        activity.startActivityForResult(intent, Constants.FLIGHT_RESULTS_REQUEST_CODE, null)
+        activity.overridePendingTransition(0, 0)
+    }
     val webCheckoutView: WebCheckoutView by lazy {
         val viewStub = findViewById<ViewStub>(R.id.flight_web_checkout_stub)
         val webCheckoutView = viewStub.inflate() as WebCheckoutView
@@ -574,11 +585,11 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                             val hasUserClickedSearch = hasUserClickedSearch
                         }
                     }).filter { !flightOfferViewModel.isGreedyCallAborted }.subscribe {
-                var delayMillis = 0L
-                if (!it.hasUserClickedSearch) {
-                    delayMillis = 700L
-                }
-                postDelayed({ flightOfferViewModel.outboundResultsObservable.onNext(it.results) }, delayMillis)
+//                var delayMillis = 0L
+//                if (!it.hasUserClickedSearch) {
+//                    delayMillis = 700L
+//                }
+//                postDelayed({ flightOfferViewModel.outboundResultsObservable.onNext(it.results) }, delayMillis)
             }
             searchViewModel.cancelGreedyCallObservable.subscribe {
                 flightOfferViewModel.cancelGreedySearchObservable.onNext(Unit)
@@ -590,9 +601,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
 
         if (isRecentSearchesForFlightsEnabled(context)) {
-            flightOfferViewModel.outboundResultsObservable.map({ offers -> offers.first().packageOfferModel.price.averageTotalPricePerTicket }).subscribe {
-                searchPresenter.recentSearchWidgetContainer.viewModel.saveRecentSearchObservable.onNext(it)
-            }
+//            flightOfferViewModel.outboundResultsObservable.map({ offers -> offers.first().packageOfferModel.price.averageTotalPricePerTicket }).subscribe {
+//                searchPresenter.recentSearchWidgetContainer.viewModel.saveRecentSearchObservable.onNext(it)
+//            }
         }
     }
 
