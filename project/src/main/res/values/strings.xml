@@ -1489,8 +1489,6 @@
     <string name="itin_hotel_manage_booking_header">Manage booking</string>
     <!--Hotel itin manage booking hotel help heading-->
     <string name="itin_more_help_heading">We\'re here to help</string>
-    <!--Hotel itin customer support header text. (eg., If you need help managing this itinerary, contact Expedia)-->
-    <string name="itin_hotel_customer_support_header_text_TEMPLATE">If you need help managing this itinerary, contact {brand}</string>
     <!--Hotel itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
     <string name="itin_hotel_itinerary_number_TEMPLATE">Itinerary # {itinnumber}</string>
     <!--Hotel customer support website. {brand} customer support. (eg., Expedia customer support)-->
@@ -1580,6 +1578,8 @@
     <string name="itin_more_help_confirmation_number_content_description_TEMPLATE">Confirmation number {number}. Double click and hold to select.</string>
     <!--Itin more help message text. For special requests or questions about your reservation, contact {supplier} (eg., For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver)-->
     <string name="itin_more_help_text_TEMPLATE">For special requests or questions about your reservation, contact {supplier}</string>
+    <!--Itin customer support header. (e.g. Contact Expedia if you need help managing this itinerary.)-->
+    <string name="itin_customer_support_header_text_TEMPLATE">Contact {brand} if you need help managing this itinerary.</string>
 
     <!--Flight itin details redesign-->
     <!--Flight itin toolbar title template. Flight to {destination} (e.g., Flight to Vancouver)-->
@@ -1642,8 +1642,6 @@
     <string name="itin_traveler_ticket_number_TEMPLATE">Ticket # {number}</string>
     <!--Flight itein traveler infant in seat text -->
     <string name="itin_traveler_infant_in_seat_text">(Infant in lap)</string>
-    <!--Flight itin customer support header. (e.g. Contact Expedia if you need help managing this itinerary.)-->
-    <string name="itin_flight_customer_support_header_text_TEMPLATE">Contact {brand} if you need help managing this itinerary.</string>
     <!--Flight itin segment summary flight status indicator text - cancelled-->
     <string name="itin_flight_summary_status_indicator_text_cancelled">Cancelled</string>
     <!--Flight itin segment summary flight status indicator text - on time-->

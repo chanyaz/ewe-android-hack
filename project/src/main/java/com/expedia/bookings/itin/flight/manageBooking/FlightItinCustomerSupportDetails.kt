@@ -28,7 +28,10 @@ class FlightItinCustomerSupportDetails(context: Context, attr: AttributeSet?) : 
     val customerSupportSiteButton: TextView by bindView(R.id.expedia_customer_support_site_button)
 
     init {
-        View.inflate(context, R.layout.widget_flight_itin_customer_support, this)
+        View.inflate(context, R.layout.widget_itin_customer_support, this)
+        itineraryNumberTextView.visibility = View.GONE
+        callSupportActionButton.visibility = View.GONE
+        customerSupportSiteButton.visibility = View.GONE
     }
 
     var viewModel: ItinCustomerSupportDetailsViewModel by notNullAndObservable { vm ->

@@ -122,7 +122,7 @@ class FlightItinManageBookingViewModelTest {
         sut.itineraryManager = mockItinManager
         sut.setUp()
 
-        val header = Phrase.from(context, R.string.itin_flight_customer_support_header_text_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
+        val header = Phrase.from(context, R.string.itin_customer_support_header_text_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
         val customerSupportNumber = "+1-866-230-3837"
         val customerSupportButton = Phrase.from(context, R.string.itin_flight_customer_support_site_header_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
         val customerSupportURL = "http://www.expedia.com/service/"

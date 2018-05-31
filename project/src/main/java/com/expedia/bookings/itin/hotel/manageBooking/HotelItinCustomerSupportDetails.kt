@@ -29,11 +29,11 @@ class HotelItinCustomerSupportDetails(context: Context, attr: AttributeSet?) : L
     var readJsonUtil: IJsonToItinUtil = Ui.getApplication(context).tripComponent().jsonUtilProvider()
 
     init {
-        View.inflate(context, R.layout.widget_hotel_itin_customer_support, this)
+        View.inflate(context, R.layout.widget_itin_customer_support, this)
     }
 
     fun setUpWidget(tripNumber: String, tripId: String) {
-        customerSupportTextView.text = Phrase.from(context, R.string.itin_hotel_customer_support_header_text_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
+        customerSupportTextView.text = Phrase.from(context, R.string.itin_customer_support_header_text_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
         itineraryNumberTextView.text = Phrase.from(context, R.string.itin_hotel_itinerary_number_TEMPLATE).put("itinnumber", tripNumber).format().toString()
         itineraryNumberTextView.contentDescription = Phrase.from(this, R.string.itin_hotel_manage_booking_itinerary_number_content_description_TEMPLATE)
                 .put("number", tripNumber.replace(".".toRegex(), "$0 ")).format().toString()

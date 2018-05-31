@@ -34,7 +34,7 @@ class FlightItinCustomerSupportDetailsTest {
 
     @Test
     fun testWidgetText() {
-        val header = Phrase.from(context, R.string.itin_flight_customer_support_header_text_TEMPLATE).put("brand", "Expedia").format().toString()
+        val header = Phrase.from(context, R.string.itin_customer_support_header_text_TEMPLATE).put("brand", "Expedia").format().toString()
         val itineraryNumb = "12345678"
         val customerSupportNumber = "+1-866-230-3837"
         val customerSupportButton = Phrase.from(context, R.string.itin_flight_customer_support_site_header_TEMPLATE).put("brand", "Expedia").format().toString()
@@ -48,7 +48,7 @@ class FlightItinCustomerSupportDetailsTest {
 
     @Test
     fun testItineraryTextCopiedToClipboard() {
-        val header = Phrase.from(context, R.string.itin_flight_customer_support_header_text_TEMPLATE).put("brand", "Expedia").format().toString()
+        val header = Phrase.from(context, R.string.itin_customer_support_header_text_TEMPLATE).put("brand", "Expedia").format().toString()
         val itineraryNumb = "12345678"
         val customerSupportNumber = "+1-866-230-3837"
         val customerSupportButton = Phrase.from(context, R.string.itin_flight_customer_support_site_header_TEMPLATE).put("brand", "Expedia").format().toString()
@@ -60,7 +60,7 @@ class FlightItinCustomerSupportDetailsTest {
 
     @Test
     fun testWidgetVisibility() {
-        val header = Phrase.from(context, R.string.itin_flight_customer_support_header_text_TEMPLATE).put("brand", "Expedia").format().toString()
+        val header = Phrase.from(context, R.string.itin_customer_support_header_text_TEMPLATE).put("brand", "Expedia").format().toString()
         val customerSupportButton = Phrase.from(context, R.string.itin_flight_customer_support_site_header_TEMPLATE).put("brand", "Expedia").format().toString()
         var itineraryNumb = ""
         var customerSupportNumber = ""

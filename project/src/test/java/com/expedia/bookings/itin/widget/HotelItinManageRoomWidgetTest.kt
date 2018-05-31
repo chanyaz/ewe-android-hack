@@ -68,7 +68,7 @@ class HotelItinManageRoomWidgetTest {
         assertEquals(itinCardDataHotel.localPhone, manageRoomWidget.hotelManageBookingHelpView.callHotelButton.text.toString())
         assertEquals("Call hotel at " + itinCardDataHotel.localPhone + ". Button", manageRoomWidget.hotelManageBookingHelpView.callHotelButton.contentDescription)
 
-        val customerSupportHeaderText = Phrase.from(activity, R.string.itin_hotel_customer_support_header_text_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
+        val customerSupportHeaderText = Phrase.from(activity, R.string.itin_customer_support_header_text_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
         assertEquals(customerSupportHeaderText, manageRoomWidget.hotelCustomerSupportDetailsView.customerSupportTextView.text)
         val itinNumber = Phrase.from(activity, R.string.itin_hotel_itinerary_number_TEMPLATE).put("itinnumber", itinCardDataHotel.tripNumber).format().toString()
         assertEquals(itinNumber, manageRoomWidget.hotelCustomerSupportDetailsView.itineraryNumberTextView.text)
