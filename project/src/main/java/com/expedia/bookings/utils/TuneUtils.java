@@ -447,6 +447,7 @@ public class TuneUtils {
 					.withDate2(checkOutDate)
 					.withEventItems(Collections.singletonList(eventItem))
 					.withSearchString("hotel")
+					.withCurrencyCode(packageTrackingData.getCurrencyCode())
 					.withLevel(1);
 
 			trackingProvider.trackEvent(event);
@@ -488,6 +489,7 @@ public class TuneUtils {
 					.withAttribute2(trackingProvider.isUserLoggedInValue())
 					.withEventItems(Collections.singletonList(eventItem))
 					.withSearchString("flight")
+					.withCurrencyCode(getCurrencyCode(searchTrackingData.getFlightLegList()))
 					.withDate1(departureDate);
 
 			trackingProvider.trackEvent(event);
@@ -529,6 +531,7 @@ public class TuneUtils {
 					.withAttribute2(trackingProvider.isUserLoggedInValue())
 					.withEventItems(Collections.singletonList(eventItem))
 					.withSearchString("flight")
+					.withCurrencyCode(getCurrencyCode(searchTrackingData.getFlightLegList()))
 					.withDate1(departureDate);
 
 			trackingProvider.trackEvent(event);

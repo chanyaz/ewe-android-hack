@@ -237,8 +237,8 @@ class TuneUtilsTests {
         assertEquals("SFO", provider.trackedEvent?.eventItems?.first()?.attribute3)
         assertEquals(baseStartDate.toDate(), provider.trackedEvent?.date1)
         assertEquals(baseStartDate.plusDays(5).toDate(), provider.trackedEvent?.date2)
-        assertEquals("AA|\$|830|RT|10019-90210:DL|\$|420|RT|10019-90210", provider.trackedEvent?.eventItems?.first()?.attribute5)
-        assertNotNull(provider.trackedEvent?.currencyCode)
+        assertEquals("AA|USD|830|RT|10019-90210:DL|USD|420|RT|10019-90210", provider.trackedEvent?.eventItems?.first()?.attribute5)
+        assertEquals("USD", provider.trackedEvent?.currencyCode)
     }
 
     @Test
@@ -261,8 +261,8 @@ class TuneUtilsTests {
         assertEquals("MCO", provider.trackedEvent?.eventItems?.first()?.attribute3)
         assertEquals(baseStartDate.toDate(), provider.trackedEvent?.date1)
         assertEquals(baseStartDate.plusDays(5).toDate(), provider.trackedEvent?.date2)
-        assertEquals("AA|\$|850|RT|12345-48172:DL|\$|450|RT|12345-48172", provider.trackedEvent?.eventItems?.first()?.attribute5)
-        assertNotNull(provider.trackedEvent?.currencyCode)
+        assertEquals("AA|USD|850|RT|12345-48172:DL|USD|450|RT|12345-48172", provider.trackedEvent?.eventItems?.first()?.attribute5)
+        assertEquals("USD", provider.trackedEvent?.currencyCode)
     }
 
     @Test
@@ -339,6 +339,7 @@ class TuneUtilsTests {
         assertEquals("Kathmandu", provider.trackedEvent?.eventItems?.first()?.attribute1)
         assertEquals("happy_room,5857498,531192,5421636,9787693", provider.trackedEvent?.eventItems?.first()?.attribute4)
         assertEquals("happy_room|happy_room|USD|0.0|4.0|0:5857498|The Dwarika's Hotel|USD|0.0|5.0|0:531192|Hyatt Regency Kathmandu|USD|0.0|5.0|0:5421636|Hotel Yak & Yeti|USD|0.0|5.0|0:9787693|Dalai-La Boutique Hotel|USD|0.0|3.5|0", provider.trackedEvent?.eventItems?.first()?.attribute5)
+        assertEquals("USD", provider.trackedEvent?.currencyCode)
     }
 
     @Test
@@ -358,7 +359,8 @@ class TuneUtilsTests {
         assertEquals("MCO", provider.trackedEvent?.eventItems?.first()?.attribute3)
         assertEquals(baseStartDate.toDate(), provider.trackedEvent?.date1)
         assertEquals(baseStartDate.plusDays(2).toDate(), provider.trackedEvent?.date2)
-        assertEquals("AA|\$|320|RT|12345-54321:DL|\$|430|RT|12345-54321", provider.trackedEvent?.eventItems?.first()?.attribute5)
+        assertEquals("AA|USD|320|RT|12345-54321:DL|USD|430|RT|12345-54321", provider.trackedEvent?.eventItems?.first()?.attribute5)
+        assertEquals("USD", provider.trackedEvent?.currencyCode)
     }
 
     @Test
@@ -378,7 +380,8 @@ class TuneUtilsTests {
         assertEquals("SFO", provider.trackedEvent?.eventItems?.first()?.attribute3)
         assertEquals(baseStartDate.toDate(), provider.trackedEvent?.date1)
         assertEquals(baseStartDate.plusDays(4).toDate(), provider.trackedEvent?.date2)
-        assertEquals("AA|\$|829|RT|12345-54321:DL|\$|430|RT|12345-54321", provider.trackedEvent?.eventItems?.first()?.attribute5)
+        assertEquals("AA|USD|829|RT|12345-54321:DL|USD|430|RT|12345-54321", provider.trackedEvent?.eventItems?.first()?.attribute5)
+        assertEquals("USD", provider.trackedEvent?.currencyCode)
     }
 
     @Test
@@ -493,7 +496,7 @@ class TuneUtilsTests {
         flightLeg.carrierCode = airlineCode
         flightLeg.packageOfferModel = PackageOfferModel()
         flightLeg.packageOfferModel.price = PackageOfferModel.PackagePrice()
-        flightLeg.packageOfferModel.price.packageTotalPrice = Money(amount, "$")
+        flightLeg.packageOfferModel.price.packageTotalPrice = Money(amount, "USD")
 
         val segment = FlightLeg.FlightSegment()
         segment.airlineCode = airlineCode
