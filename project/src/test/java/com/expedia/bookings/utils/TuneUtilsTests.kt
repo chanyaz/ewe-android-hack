@@ -240,6 +240,7 @@ class TuneUtilsTests {
         assertEquals(baseStartDate.toDate(), provider.trackedEvent?.date1)
         assertEquals(baseStartDate.plusDays(5).toDate(), provider.trackedEvent?.date2)
         assertEquals("AA|\$|830|RT|10019-90210:DL|\$|420|RT|10019-90210", provider.trackedEvent?.eventItems?.first()?.attribute5)
+        assertNotNull(provider.trackedEvent?.currencyCode)
     }
 
     @Test
@@ -263,6 +264,7 @@ class TuneUtilsTests {
         assertEquals(baseStartDate.toDate(), provider.trackedEvent?.date1)
         assertEquals(baseStartDate.plusDays(5).toDate(), provider.trackedEvent?.date2)
         assertEquals("AA|\$|850|RT|12345-48172:DL|\$|450|RT|12345-48172", provider.trackedEvent?.eventItems?.first()?.attribute5)
+        assertNotNull(provider.trackedEvent?.currencyCode)
     }
 
     @Test

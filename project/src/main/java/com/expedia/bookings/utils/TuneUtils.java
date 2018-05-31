@@ -306,7 +306,8 @@ public class TuneUtils {
 				.withAttribute2(trackingProvider.isUserLoggedInValue())
 				.withEventItems(Collections.singletonList(eventItem))
 				.withSearchString("flight")
-				.withDate1(departureDate);
+				.withDate1(departureDate)
+				.withCurrencyCode(getCurrencyCode(searchTrackingData.getFlightLegList()));
 
 			trackingProvider.trackEvent(event);
 		}
@@ -351,7 +352,8 @@ public class TuneUtils {
 				.withAttribute2(trackingProvider.isUserLoggedInValue())
 				.withEventItems(Collections.singletonList(eventItem))
 				.withSearchString("flight")
-				.withDate1(departureDate);
+				.withDate1(departureDate)
+				.withCurrencyCode(getCurrencyCode(trackingData.getFlightLegList()));
 
 			trackingProvider.trackEvent(event);
 		}
@@ -692,6 +694,14 @@ public class TuneUtils {
 		else {
 			return top5 - 1;
 		}
+	}
+
+	private static String getCurrencyCode(List<FlightLeg> flightLegs) {
+		String currencyCode = "";
+		if (flightLegs != null && !flightLegs.isEmpty()) {
+			currencyCode = flightLegs.get(0).packageOfferModel.price.packageTotalPrice.currencyCode;
+		}
+		return currencyCode;
 	}
 
 }
