@@ -229,7 +229,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
     }
 
     private fun shouldShowNativeLXConfirmation(url: String): Boolean {
-        return (url.contains(context.getString(R.string.lx_confirmation_url_tag)) || url.contains(context.getString(R.string.mid_confirmation_url_tag))) &&
+        return (url.contains(context.getString(R.string.mid_confirmation_url_tag))) &&
                 AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppLxWebCheckoutView)
     }
 

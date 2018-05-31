@@ -144,6 +144,7 @@
     <string name="acct__single_page_sign_up_title">Kostenloses Konto erstellen</string>
 
     <!--New Sign In Page-->
-    <string name="acct__new_create_account_text">Konto erstellen</string>
+    <string name="acct__new_create_account_text">Mein Konto erstellen</string>
+    <string name="acct__new_create_account_tab_text">Konto erstellen</string>
     <string name="acct__new_facebook_link_accounts_text">Konten verbinden</string>
 </resources>

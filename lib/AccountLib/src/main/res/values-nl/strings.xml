@@ -144,6 +144,7 @@
     <string name="acct__single_page_sign_up_title">Maak je gratis account aan</string>
 
     <!--New Sign In Page-->
-    <string name="acct__new_create_account_text">Account aanmaken</string>
+    <string name="acct__new_create_account_text">Maak mijn account aan</string>
+    <string name="acct__new_create_account_tab_text">Account aanmaken</string>
     <string name="acct__new_facebook_link_accounts_text">Accounts koppelen</string>
 </resources>

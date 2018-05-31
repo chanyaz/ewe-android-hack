@@ -145,5 +145,6 @@
 
     <!--New Sign In Page-->
     <string name="acct__new_create_account_text">สร้างบัญชี</string>
+    <string name="acct__new_create_account_tab_text">สร้างบัญชี</string>
     <string name="acct__new_facebook_link_accounts_text">เชื่อมโยงบัญชี</string>
 </resources>

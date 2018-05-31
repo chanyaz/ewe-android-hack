@@ -144,6 +144,7 @@
     <string name="acct__single_page_sign_up_title">アカウントを作成 (無料)</string>
 
     <!--New Sign In Page-->
-    <string name="acct__new_create_account_text">アカウントを作成</string>
+    <string name="acct__new_create_account_text">アカウントを作成する</string>
+    <string name="acct__new_create_account_tab_text">アカウントを作成</string>
     <string name="acct__new_facebook_link_accounts_text">アカウントをリンクする</string>
 </resources>

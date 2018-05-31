@@ -221,6 +221,18 @@
     <string name="mip_infosite_discount_TEMPLATE">지금 예약하면 최대 {discount}% 할인</string>
     <!-- Discount for each activity on SRP tile. Eg. -9% -->
     <string name="mip_srp_tile_discount_TEMPLATE">-{discount}%</string>
+    <!-- LX calendar tooltip bottom line after a single date is selected -->
+    <string name="lx_calendar_tooltip_bottom">여행 종료 날짜 선택(선택 사항)</string>
+    <!-- LX calendar tooltip maximum days selected text after limit for maximum days selection is reached -->
+    <string name="lx_calendar_tooltip_maximum_days_limit">최대 기간이 선택되었습니다.</string>
+    <!-- LX Quantity for the single day length of activity Eg. 1 Day -->
+    <string name="select_lx_trip_length_single_day">1일</string>
+    <!-- LX Quantity for the single day length of activity Eg. 5 Days-->
+    <string name="select_lx_trip_length_multiple_days_TEMPLATE">{noofdays}일</string>
+    <!-- LX calendar no dates selected text -->
+    <string name="select_lx_trip_start_dates">여행 시작 날짜 선택</string>
+    <!-- When user hasn't picked trip end date, we show something like: "May 21 - Select trip end date" -->
+    <string name="select_lx_trip_end_date_TEMPLATE">{selecteddate} - 여행 종료 날짜 선택</string>
 
     <!-- Activity details inclusions heading -->
     <string name="inclusions_activity_details">포함 사항</string>
@@ -1531,6 +1543,10 @@
     <string name="itin_lx_toolbar_title_TEMPLATE">{location}의 즐길거리</string>
     <string name="itin_lx_more_info_heading">추가 지원</string>
     <string name="itin_lx_more_info_subheading">고객 지원 정보</string>
+    <!--Itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Activity address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
+    <string name="itin_lx_details_address_copy_content_description_TEMPLATE">즐길거리 주소. {address}. 클립보드에 복사하려면 클릭하는 버튼</string>
+    <!--Activity itin manage booking call hotel button content description. Activity is the LOB. Call activity at {phonenumber}. Button (eg., Call activity at +18055437700. Button)-->
+    <string name="itin_activity_manage_booking_call_lx_button_content_description_TEMPLATE">즐길거리 전화번호. {phonenumber}. 전화할 때 클릭하는 버튼</string>
     <!--LX itin redeem voucher.-->
     <string name="itin_lx_redeem_voucher">바우처 사용하기</string>
 
@@ -1996,15 +2012,6 @@
     <string name="trip_dates_cont_desc">여행 날짜</string>
     <!-- Action mode asking users to select location -->
     <string name="search_destination">여행지 검색</string>
-    <!-- Number of adults template -->
-    <plurals name="number_of_adults_TEMPLATE">
-        <item quantity="zero">어른 %1$d명</item>
-        <item quantity="one">어른 %1$d명</item>
-        <item quantity="two">어른 %1$d명</item>
-        <item quantity="few">어른 %1$d명</item>
-        <item quantity="many">어른 %1$d명</item>
-        <item quantity="other">어른 %1$d명</item>
-    </plurals>
     <!-- Message shown when loading AirAsia flight routes -->
     <string name="loading_air_asia_routes">에어아시아 비행 경로 로딩 중…</string>
     <!-- Message shown when we could not load the AirAsia flight routes -->
@@ -3199,8 +3206,6 @@
     <string name="packages_cancellation_policy">호텔 취소 정책</string>
     <!-- Cancellation policy label for packages-->
     <string name="packages_fare_information">항공 요금 정보</string>
-    <!-- Insurance Information label -->
-    <string name="insurance_information">보험 정보</string>
 
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
@@ -3396,9 +3401,9 @@
     <!-- Abbreviated kilometers (used in distance_template) -->
     <string name="unit_kilometers">km</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s %2$s</string>
+    <string name="distance_template_short">%1$s%2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{currency} {amount}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">설정</string>
@@ -4399,16 +4404,10 @@
 
     <!-- Cost summary breakdown line item for flight insurance -->
     <string name="cost_summary_breakdown_flight_insurance">항공 여행자 보험</string>
-    <!-- Cost summary breakdown line item for a hotel + flight package -->
-    <string name="cost_summary_breakdown_hotel_flight_summary">호텔+항공</string>
     <!-- Cost summary breakdown line item for taxes and fees that are charged separately -->
     <string name="cost_summary_breakdown_taxes_fees">세금 및 수수료</string>
     <!-- Cost summary breakdown line item for expedia discount if applicable, e.g Expedia Discount-->
     <string name="cost_summary_breakdown_discount_TEMPLATE">{brand} 할인</string>
-    <!-- Cost summary breakdown line item for taxes and fees that are included in the base price, e.g. Taxes &amp; Fees Included ($34.21) -->
-    <string name="cost_summary_breakdown_taxes_fees_included_TEMPLATE">세금 및 수수료 포함({taxes})</string>
-    <!-- Cost summary breakdown line item for savings -->
-    <string name="cost_summary_breakdown_total_savings">패키지 할인</string>
     <!-- Cost summary breakdown line item for total -->
     <string name="cost_summary_breakdown_total_due_today">오늘 결제할 총 금액</string>
 
@@ -4751,22 +4750,13 @@
     <!-- Content description for Checkbox types, state Unchecked -->
     <string name="accessibility_cont_desc_role_checkbox_unchecked">확인란. 체크 안 됨.</string>
     <string name="base_search_dates_cont_desc">날짜 선택. 버튼. 대화상자 열림</string>
-    <string name="lx_search_start_date_cont_desc">시작 날짜 선택. 버튼. 대화상자 열림</string>
+    <string name="base_search_dates_button_cont_desc">날짜 선택 버튼. 대화상자 열림.</string>
+    <string name="lx_search_start_date_button_cont_desc">시작 날짜 선택 버튼. 대화상자 열림.</string>
 
     <!-- Accessibility string, indicates the type of trip and the duration of the trip. -->
     <!-- Ex. Select Dates. Button. Opens dialog. Dec 22 to Dec 25 (3 nights) -->
     <!-- Ex 2. Select pick-up and drop-off dates. Button. Opens dialog. Jan 1 5:00 to Jan 5 18:00 -->
     <string name="search_dates_cont_desc_TEMPLATE">{dates_label} 버튼. 대화상자 열림 {duration_description}</string>
-
-    <!-- Discount amount shown with minus e.g. -$30 -->
-    <string name="discount_minus_amount">-{amount}</string>
-    <string name="local_charges_due_at_hotel">호텔 현지 결제 비용</string>
-    <!-- Legal disclaimer for package resort fees (at bottom of checkout) for US eg. $150 in local taxes and/or hotel charges will be collected at the hotel. The total price for your stay will be 1050 -->
-    <string name="package_resort_fees_and_total_price_disclaimer_TEMPLATE">&lt;b&gt;{resort_fee}&lt;/b&gt;의 현지세 및/또는 호텔 요금은 해당 호텔에서 결제하시게 됩니다. 총 숙박 요금은 &lt;b&gt;{trip_total}&lt;/b&gt;입니다.</string>
-    <!-- Legal disclaimer for package resort fees (at bottom of checkout) for UK eg. $150 in local taxes and/or hotel charges will be collected at the hotel in the hotel's local currency. -->
-    <string name="package_resort_fees_disclaimer_TEMPLATE">&lt;b&gt;{resort_fee}&lt;/b&gt;의 현지세 및/또는 호텔 요금은 해당 호텔의 현지 통화로 호텔에서 결제하시게 됩니다.</string>
-    <!-- Package cost summary row  e.g. 2 rooms, 1 night, 3 guests -->
-    <string name="packages_guest_room_night_TEMPLATE">{room}, {night}, {guest}</string>
     <!-- Package cost summary row snippet  e.g. 2 rooms-->
     <plurals name="number_of_room_TEMPLATE">
         <item quantity="one">객실 {room}개</item>
@@ -4782,11 +4772,11 @@
     </plurals>
     <!-- Package cost summary row snippet  e.g. 4 guests-->
     <plurals name="number_of_guest_TEMPLATE">
-        <item quantity="zero">숙박객 {guest}명</item>
+        <item quantity="zero">{guest}명</item>
         <item quantity="one">{guest}명</item>
         <item quantity="two">{guest}명</item>
         <item quantity="many">{guest}명</item>
-        <item quantity="other">숙박객 {guest}명</item>
+        <item quantity="other">{guest}명</item>
     </plurals>
     <!-- Trips summary card. Example: Trip to SFO on 28th September, Activity Itinerary card button. -->
     <string name="header_itin_card_content_description_TEMPLATE">{itin_card_header_text} {trip_start_date} {line_of_business} 일정 카드 버튼.</string>
@@ -5077,5 +5067,6 @@
     <string name="hours_minutes_template">%1$d시간 %2$d분</string>
     <!-- This is for a path between two cities, for example "San Francisco to Minneapolis".  First %s is the origin city, second %s is the destination city -->
     <string name="path_template">%1$s - %2$s</string>
+    <string name="book_now_savings_for_booking_together">지금 함께 예약하고 할인받으세요!</string>
 
 </resources>
