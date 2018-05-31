@@ -26,6 +26,7 @@ import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.features.Features;
 import com.expedia.bookings.test.MockPackageServiceTestRule;
 import com.expedia.bookings.test.MultiBrand;
 import com.expedia.bookings.test.PointOfSaleTestConfiguration;
@@ -34,6 +35,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB;
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM;
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager;
 import com.expedia.bookings.text.HtmlCompat;
+import com.expedia.bookings.utils.FeatureTestUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.hotel.vm.HotelViewModel;
@@ -196,11 +198,13 @@ public class HotelViewModelTest {
 	}
 
 	@Test
-	public void noUrgencyMessageIfHotelIsSoldOut() {
-		givenHotelWithFewRoomsLeft();
-		givenHotelMobileExclusive();
+	public void testNoUrgencyMessageIfHotelIsSoldOut() {
 		givenSoldOutHotel();
-		givenHotelTonightOnly();
+		givenHotelWithAddOnAttach();
+		givenHotelWithMemberDeal();
+		givenHotelWithFewRoomsLeft();
+		givenHotelWithTonightOnly();
+		givenHotelWithMobileExclusive();
 
 		setupSystemUnderTest();
 		HotelViewModel.UrgencyMessage msg = vm.getHighestPriorityUrgencyMessage();
@@ -208,56 +212,70 @@ public class HotelViewModelTest {
 	}
 
 	@Test
-	public void urgencyMessageFewRoomsLeftHasFirstPriority() {
+	public void testUrgencyMessageAddOnAttachHasFirstPriority() {
+		givenHotelWithAddOnAttach();
+		givenHotelWithMemberDeal();
 		givenHotelWithFewRoomsLeft();
-		givenHotelMobileExclusive();
-		givenHotelTonightOnly();
-		setupSystemUnderTest();
+		givenHotelWithTonightOnly();
+		givenHotelWithMobileExclusive();
 
-		HotelViewModel.UrgencyMessage msg = vm.getHighestPriorityUrgencyMessage();
-		HotelViewModel.UrgencyMessage compareTo = new HotelViewModel.UrgencyMessage(
-			R.drawable.urgency,
+		assertUrgencyMessage(R.drawable.ic_add_on_attach_for_yellow_bg,
+			R.color.exp_yellow,
+			"",
+			R.color.member_pricing_text_color);
+	}
+
+	@Test
+	public void testUrgencyMessageMemberDealsHasSecondPriority() {
+		givenHotelWithMemberDeal();
+		givenHotelWithFewRoomsLeft();
+		givenHotelWithTonightOnly();
+		givenHotelWithMobileExclusive();
+
+		assertUrgencyMessage(R.drawable.ic_member_only_tag,
+			R.color.member_pricing_bg_color,
+			"Member Pricing",
+			R.color.member_pricing_text_color);
+	}
+
+	@Test
+	public void testUrgencyMessageFewRoomsLeftHasThirdPriority() {
+		givenHotelWithFewRoomsLeft();
+		givenHotelWithTonightOnly();
+		givenHotelWithMobileExclusive();
+
+		assertUrgencyMessage(R.drawable.urgency,
 			R.color.hotel_urgency_message_color,
-			RuntimeEnvironment.application.getResources()
-				.getQuantityString(R.plurals.num_rooms_left, hotel.roomsLeftAtThisRate, hotel.roomsLeftAtThisRate),
+			"We have 3 rooms left",
 			R.color.gray900);
-
-		assertEquals(compareTo, msg);
 	}
 
 	@Test
-	public void urgencyMessageTonightOnlyHasSecondPriority() {
-		givenHotelTonightOnly();
-		givenHotelMobileExclusive();
+	public void testUrgencyMessageTonightOnlyHasFourthPriority() {
+		givenHotelWithTonightOnly();
+		givenHotelWithMobileExclusive();
 
-		setupSystemUnderTest();
-		HotelViewModel.UrgencyMessage msg = vm.getHighestPriorityUrgencyMessage();
-
-		HotelViewModel.UrgencyMessage compareTo = new HotelViewModel.UrgencyMessage(
-			R.drawable.tonight_only,
+		assertUrgencyMessage(R.drawable.tonight_only,
 			R.color.hotel_tonight_only_color,
-			RuntimeEnvironment.application.getResources().getString(R.string.tonight_only),
+			"Tonight Only!",
 			R.color.white);
-
-		assertEquals(compareTo, msg);
 	}
 
 	@Test
-	@RunForBrands(brands = { MultiBrand.EXPEDIA })
-	public void urgencyMessageMobileExclusiveHasFourthPriority() {
-		givenHotelMobileExclusive();
+	public void testUrgencyMessageMobileExclusiveHasFifthPriority() {
+		givenHotelWithMobileExclusive();
 
-		setupSystemUnderTest();
-
-		HotelViewModel.UrgencyMessage msg = vm.getHighestPriorityUrgencyMessage();
-
-		HotelViewModel.UrgencyMessage compareTo = new HotelViewModel.UrgencyMessage(
-			R.drawable.mobile_exclusive,
+		assertUrgencyMessage(R.drawable.mobile_exclusive,
 			R.color.hotel_mobile_exclusive_color,
-			RuntimeEnvironment.application.getResources().getString(R.string.mobile_exclusive),
+			"Mobile Exclusive",
 			R.color.white);
+	}
 
-		assertEquals(compareTo, msg);
+	@Test
+	public void testNoUrgencyMessage() {
+		setupSystemUnderTest();
+		HotelViewModel.UrgencyMessage msg = vm.getHighestPriorityUrgencyMessage();
+		assertNull(msg);
 	}
 
 	@Test
@@ -531,16 +549,27 @@ public class HotelViewModelTest {
 		hotel.isSoldOut = true;
 	}
 
-	private void givenHotelTonightOnly() {
-		hotel.isSameDayDRR = true;
+	private void givenHotelWithAddOnAttach() {
+		FeatureTestUtils.enableFeature(getContext(), Features.Companion.getAll().getGenericAttach());
+		hotel.lowRateInfo.airAttached = true;
+		hotel.lowRateInfo.discountPercent = 10;
 	}
 
-	private void givenHotelMobileExclusive() {
-		hotel.isDiscountRestrictedToCurrentSourceType = true;
+	private void givenHotelWithMemberDeal() {
+		hotel.isMemberDeal = true;
+		UserLoginTestUtil.setupUserAndMockLogin(getUser());
 	}
 
 	private void givenHotelWithFewRoomsLeft() {
 		hotel.roomsLeftAtThisRate = 3;
+	}
+
+	private void givenHotelWithTonightOnly() {
+		hotel.isSameDayDRR = true;
+	}
+
+	private void givenHotelWithMobileExclusive() {
+		hotel.isDiscountRestrictedToCurrentSourceType = true;
 	}
 
 	private void givenHotelWithProximityDistance(double distanceInMiles) {
@@ -591,5 +620,15 @@ public class HotelViewModelTest {
 	private void setPOS(PointOfSaleId pos) {
 		SettingUtils.save(getContext(), R.string.PointOfSaleKey, pos.getId() + "");
 		PointOfSale.onPointOfSaleChanged(getContext());
+	}
+
+	private void assertUrgencyMessage(Integer iconDrawableId, Integer backgroundColorId, String message, Integer messageTextColorId) {
+		setupSystemUnderTest();
+		HotelViewModel.UrgencyMessage msg = vm.getHighestPriorityUrgencyMessage();
+
+		assertEquals(iconDrawableId, msg.getIconDrawableId());
+		assertEquals(backgroundColorId, (Integer) msg.getBackgroundColorId());
+		assertEquals(message, msg.getMessage());
+		assertEquals(messageTextColorId, (Integer) msg.getMessageTextColorId());
 	}
 }

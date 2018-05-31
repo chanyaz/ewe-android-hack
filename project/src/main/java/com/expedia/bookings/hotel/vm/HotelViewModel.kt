@@ -26,7 +26,7 @@ import com.expedia.util.LoyaltyUtil
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject
 
-open class HotelViewModel(private val context: Context, private val isGenericAttachEnabled: Boolean = Features.all.genericAttach.enabled()) {
+open class HotelViewModel(private val context: Context, private val isAddOnAttachEnabled: Boolean = Features.all.genericAttach.enabled()) {
 
     var isHotelSoldOut = false
 
@@ -48,7 +48,7 @@ open class HotelViewModel(private val context: Context, private val isGenericAtt
 
     val topAmenityTitle: String get() = getTopAmenityTitle(resources)
     val loyaltyAvailable: Boolean get() = hotel.lowRateInfo?.loyaltyInfo?.isBurnApplied ?: false
-    val showDiscount: Boolean get() = (hotel.lowRateInfo?.isDiscountPercentNotZero ?: false) && (!hasAttach || isGenericAttachEnabled) && !loyaltyAvailable
+    val showDiscount: Boolean get() = (hotel.lowRateInfo?.isDiscountPercentNotZero ?: false) && (!hasAttach || isAddOnAttachEnabled) && !loyaltyAvailable
     val hotelDiscountPercentage: String get() = Phrase.from(resources, R.string.hotel_discount_percent_Template).put("discount", hotel.lowRateInfo?.discountPercent?.toInt() ?: 0).format().toString()
 
     val hotelStarRating: Float get() = hotel.hotelStarRating
@@ -152,9 +152,9 @@ open class HotelViewModel(private val context: Context, private val isGenericAtt
             return null
         }
 
-        val genericAttachUrgency = getGenericAttachMessage()
-        if (genericAttachUrgency != null) {
-            return genericAttachUrgency
+        val addOnAttachUrgency = getAddOnAttachUrgencyMessage()
+        if (addOnAttachUrgency != null) {
+            return addOnAttachUrgency
         }
 
         val memberDealUrgency = getMemberDealUrgencyMessage()
@@ -277,10 +277,10 @@ open class HotelViewModel(private val context: Context, private val isGenericAtt
         }
     }
 
-    private fun getGenericAttachMessage(): UrgencyMessage? {
-        if (isGenericAttachEnabled && hasAttach) {
-            return UrgencyMessage(R.drawable.ic_generic_attach, R.color.member_pricing_bg_color,
-                    resources.getString(R.string.bundled_savings), R.color.member_pricing_text_color)
+    private fun getAddOnAttachUrgencyMessage(): UrgencyMessage? {
+        if (isAddOnAttachEnabled && hasAttach) {
+            return UrgencyMessage(R.drawable.ic_add_on_attach_for_yellow_bg, R.color.exp_yellow,
+                    "", R.color.member_pricing_text_color)
         }
         return null
     }

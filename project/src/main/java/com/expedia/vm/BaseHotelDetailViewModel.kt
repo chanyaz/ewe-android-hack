@@ -546,8 +546,6 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
 
         val roomsLeft = roomOffer.currentAllotment.toInt()
         return when {
-            shouldUseGenericAttach(offerResponse) ->
-                context.resources.getString(R.string.bundled_savings)
             hasMemberDeal(roomOffer) ->
                 context.resources.getString(R.string.member_pricing)
             roomsLeft in 1..ROOMS_LEFT_CUTOFF ->

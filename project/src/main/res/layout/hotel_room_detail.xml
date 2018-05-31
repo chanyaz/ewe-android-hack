@@ -94,10 +94,16 @@
                 android:src="@drawable/ic_member_only_tag_bg" />
 
             <ImageView
-                android:id="@+id/generic_attach_image"
+                android:id="@+id/add_on_attach_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_generic_attach_with_background" />
+                android:layout_marginLeft="4dp"
+                android:background="@drawable/add_on_attach_background"
+                android:paddingBottom="5dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:src="@drawable/ic_add_on_attach_for_yellow_bg" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/discount_percentage_text_view"

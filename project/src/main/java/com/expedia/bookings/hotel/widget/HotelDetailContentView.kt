@@ -93,7 +93,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
     val memberOnlyDealTag: ImageView by bindView(R.id.member_only_deal_tag)
     @VisibleForTesting val discountPercentage: TextView by bindView(R.id.discount_percentage)
     @VisibleForTesting val airAttachImage: ImageView by bindView(R.id.air_attach_image)
-    @VisibleForTesting val genericAttachImage: ImageView by bindView(R.id.generic_attach_image)
+    @VisibleForTesting val addOnAttachImage: ImageView by bindView(R.id.add_on_attach_image)
     @VisibleForTesting val vipAccessMessageContainer: LinearLayout by bindView(R.id.vip_access_message_container)
 
     private val vipLoyaltyMessage: TextView by bindView(R.id.vip_loyalty_message_details)
@@ -290,7 +290,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
 
         vm.showDiscountPercentageObservable.subscribeVisibility(discountPercentage)
         vm.showAirAttachedObservable.subscribeVisibility(airAttachImage)
-        vm.showGenericAttachedObservable.subscribeVisibility(genericAttachImage)
+        vm.showGenericAttachedObservable.subscribeVisibility(addOnAttachImage)
 
         vipAccessMessageContainer.subscribeOnClick(vm.vipAccessInfoObservable)
 

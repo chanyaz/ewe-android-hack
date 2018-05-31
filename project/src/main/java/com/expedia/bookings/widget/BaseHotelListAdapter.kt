@@ -20,7 +20,6 @@ import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.features.Features
 import com.expedia.bookings.hotel.data.HotelAdapterItem
 import com.expedia.bookings.hotel.widget.viewholder.Earn2xCardViewHolder
-import com.expedia.bookings.hotel.widget.viewholder.GenericAttachViewHolder
 import com.expedia.bookings.hotel.widget.viewholder.HotelUrgencyViewHolder
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.AdImpressionTracking
@@ -32,6 +31,7 @@ import com.expedia.bookings.widget.shared.AbstractHotelCellViewHolder
 import com.expedia.bookings.widget.shared.AbstractHotelResultCellViewHolder
 import com.expedia.util.endlessObserver
 import com.expedia.bookings.hotel.vm.HotelResultsPricingStructureHeaderViewModel
+import com.expedia.bookings.hotel.widget.viewholder.AddOnAttachViewHolder
 import com.mobiata.android.util.AndroidUtils
 import com.squareup.phrase.Phrase
 import io.reactivex.subjects.BehaviorSubject
@@ -91,6 +91,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
             loading = false
             resetData()
             firstHotelIndex = data.size
+            isAirAttached = false
             response.hotelList.forEach { hotel ->
                 data.add(HotelAdapterItem.Hotel(hotel))
                 if (hotel.lowRateInfo?.airAttached ?: false) {
@@ -233,7 +234,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         } else if (viewType == HotelAdapterItem.EARN_2X) {
             return Earn2xCardViewHolder.create(parent)
         } else if (viewType == HotelAdapterItem.GENERIC_ATTACHED) {
-            return GenericAttachViewHolder.create(parent)
+            return AddOnAttachViewHolder.create(parent)
         } else {
             val holder: AbstractHotelCellViewHolder = getHotelCellHolder(parent)
             holder.hotelClickedSubject.subscribe { position ->

@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.setTextAndVisibility
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.hotel.vm.HotelViewModel
@@ -44,7 +45,7 @@ class HotelCellUrgencyMessage(context: Context, attrs: AttributeSet) : LinearLay
             urgencyIconImageView.visibility = View.GONE
         }
 
-        urgencyMessageTextView.text = urgencyMessage.message
+        urgencyMessageTextView.setTextAndVisibility(urgencyMessage.message)
         urgencyMessageTextView.setTextColor(urgencyMessage.getMessageTextColor(context))
 
         this.setBackgroundColor(urgencyMessage.getBackgroundColor(context))
