@@ -3,14 +3,14 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.flights.RichContent
 import com.expedia.bookings.data.flights.RichContentResponse
+import com.expedia.bookings.extensions.ObservableOld
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.services.FlightRichContentService
 import com.expedia.bookings.utils.RichContentUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isRichContentEnabled
-import com.expedia.bookings.data.flights.RichContent
-import com.expedia.bookings.extensions.ObservableOld
 import io.reactivex.Observer
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.PublishSubject
@@ -24,6 +24,8 @@ class FlightResultsViewModel(context: Context) : BaseResultsViewModel() {
     override val showLoadingStateV1 = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppFLightLoadingStateV1)
     override val showRichContent = isRichContentEnabled(context)
     val richContentStream = PublishSubject.create<Map<String, RichContent>>()
+    val sharedPref = context.getSharedPreferences("richContentGuide", Context.MODE_PRIVATE)
+    var isRichContentGuideDisplayed = false
 
     override fun getLineOfBusiness(): LineOfBusiness {
         return LineOfBusiness.FLIGHTS_V2
@@ -35,6 +37,10 @@ class FlightResultsViewModel(context: Context) : BaseResultsViewModel() {
             ObservableOld.combineLatest(isOutboundResults, flightResultsObservable.filter { it.isNotEmpty() }, { isOutboundResult, flightLegs ->
                 val richContentRequestPayload = RichContentUtils.getRichContentRequestPayload(context, flightLegs)
                 if (isOutboundResult) {
+                    if (showRichContentGuide()) {
+                        richContentGuide.onNext(Unit)
+                    }
+                    updateRichContentCounter()
                     flightRichContentService.getOutboundFlightRichContent(richContentRequestPayload, makeRichContentObserver())
                 } else {
                     flightRichContentService.getInboundFlightRichContent(richContentRequestPayload, makeRichContentObserver())
@@ -75,5 +81,24 @@ class FlightResultsViewModel(context: Context) : BaseResultsViewModel() {
             richContentMap.put(richContent.legId, richContent)
         }
         return richContentMap
+    }
+
+    fun showRichContentGuide(): Boolean {
+        val counter = sharedPref.getInt("counter", 1)
+        if ((counter in 1..6 step 2) && !isRichContentGuideDisplayed) {
+            return true
+        }
+        return false
+    }
+
+    fun updateRichContentCounter() {
+        if (!isRichContentGuideDisplayed) {
+            var counter = sharedPref.getInt("counter", 1)
+            counter++
+            val editor = sharedPref.edit()
+            editor.putInt("counter", counter)
+            editor.apply()
+            isRichContentGuideDisplayed = true
+        }
     }
 }

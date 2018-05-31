@@ -5109,4 +5109,14 @@
     <string name="path_template">%1$s to %2$s</string>
     <string name="book_now_savings_for_booking_together">Book now! Savings for booking together</string>
 
+    <string name="flight_route_happy_guide_button_label">Got it</string>
+    <string name="flight_route_happy_guide_wifi_label">WIFI</string>
+    <string name="flight_route_happy_guide_entertainment_label">Entertainment</string>
+    <string name="flight_route_happy_guide_power_label">Power</string>
+    <string name="flight_route_happy_guide_rating_label">9/10 - Excellent!</string>
+    <string name="flight_route_happy_guide_title_v1">Flight amenities</string>
+    <string name="flight_route_happy_guide_title_v2">Flight score</string>
+    <string name="flight_route_happy_guide_title_v3">Flight amenities &amp; score</string>
+    <string name="flight_route_happy_guide_info">Now you can see if your flight has WIFI, entertainment and power connection.</string>
+    <string name="flight_route_happy_guide_more_info">Flight score helps you pick the best flight, taking into account the duration of the flight, the type of aircraft, and the quality of amenities the flight offers.</string>
 </resources>

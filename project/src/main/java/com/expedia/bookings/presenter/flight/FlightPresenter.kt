@@ -4,6 +4,7 @@ import android.animation.ArgbEvaluator
 import android.app.Activity
 import android.content.Context
 import android.graphics.Color
+import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
@@ -31,12 +32,14 @@ import com.expedia.bookings.extensions.setInverseVisibility
 import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
+import com.expedia.bookings.fragment.FilghtsRouteHappyGuideFragment
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.services.ItinTripServices
+import com.expedia.bookings.services.PackageProductSearchType
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
@@ -65,7 +68,6 @@ import com.expedia.vm.flights.FlightCreateTripViewModel
 import com.expedia.vm.flights.FlightErrorViewModel
 import com.expedia.vm.flights.FlightOffersViewModel
 import com.expedia.vm.flights.FlightOffersViewModelByot
-import com.expedia.bookings.services.PackageProductSearchType
 import com.mobiata.android.Log
 import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
@@ -199,6 +201,14 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         presenter.detailsPresenter.vm.selectedFlightClickedSubject.subscribe {
             searchTrackingBuilder.markSearchClicked()
             searchTrackingBuilder.searchParams(Db.getFlightSearchParams())
+        }
+
+        presenter.resultsPresenter.resultsViewModel.richContentGuide.subscribe {
+            if (backStack.peek() is FlightOutboundPresenter) {
+                val dialogFragment = FilghtsRouteHappyGuideFragment()
+                val fragmentManager = (context as FragmentActivity).supportFragmentManager
+                dialogFragment.show(fragmentManager, "flight_route_happy_guide")
+            }
         }
         presenter
     }

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/rich_content_animation_amenities"
+        android:layout_width="310dp"
+        android:layout_height="150dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="lottie/rich_content_amenities.json"
+        app:lottie_loop="false" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/rich_content_animation_ratings"
+        android:layout_width="310dp"
+        android:layout_height="150dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="false"
+        app:lottie_fileName="lottie/rich_content_ratings.json"
+        app:lottie_loop="false" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="116dp" />
+
+    <TextView
+        android:id="@+id/wifi_label"
+        style="@style/RichContentGuideLabel"
+        android:text="@string/flight_route_happy_guide_wifi_label"
+        app:layout_constraintLeft_toLeftOf="@id/rich_content_animation_amenities"
+        app:layout_constraintRight_toLeftOf="@+id/entertainment_label"
+        app:layout_constraintTop_toBottomOf="@id/guideline"
+        tools:alpha="1"
+        tools:text="WIFI" />
+
+    <TextView
+        android:id="@+id/entertainment_label"
+        style="@style/RichContentGuideLabel"
+        android:text="@string/flight_route_happy_guide_entertainment_label"
+        app:layout_constraintLeft_toRightOf="@+id/wifi_label"
+        app:layout_constraintRight_toLeftOf="@id/power_label"
+        app:layout_constraintTop_toBottomOf="@id/guideline"
+        tools:alpha="1"
+        tools:text="Entertainment" />
+
+    <TextView
+        android:id="@+id/power_label"
+        style="@style/RichContentGuideLabel"
+        android:text="@string/flight_route_happy_guide_power_label"
+        app:layout_constraintLeft_toRightOf="@+id/entertainment_label"
+        app:layout_constraintRight_toRightOf="@id/rich_content_animation_amenities"
+        app:layout_constraintTop_toBottomOf="@id/guideline"
+        tools:alpha="1"
+        tools:text="Power" />
+
+    <TextView
+        android:id="@+id/rating_label"
+        style="@style/RichContentGuideLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/flight_route_happy_guide_rating_label"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toRightOf="@id/rich_content_animation_amenities"
+        app:layout_constraintRight_toLeftOf="@id/rich_content_animation_amenities"
+        app:layout_constraintTop_toBottomOf="@id/guideline"
+        tools:text="Entertainment" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/rich_content_animation_dots"
+        android:layout_width="310dp"
+        android:layout_height="30dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rich_content_animation_amenities"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="lottie/rich_content_dots.json"
+        app:lottie_loop="false" />
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/Core.Text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/flight_route_happy_guide_title_v3"
+        android:textColor="@color/soft_prompt_text_color"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/rich_content_animation_dots" />
+
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="@string/flight_route_happy_guide_info"
+        android:textColor="@color/soft_prompt_text_color"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <TextView
+        android:id="@+id/more_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="@string/flight_route_happy_guide_more_info"
+        android:textColor="@color/soft_prompt_text_color"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/info" />
+
+    <Button
+        android:id="@+id/dismiss_button"
+        style="@style/Core.Text.500"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/soft_prompt_enable_button"
+        android:gravity="center"
+        android:text="@string/flight_route_happy_guide_button_label"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/more_info" />
+
+</android.support.constraint.ConstraintLayout>

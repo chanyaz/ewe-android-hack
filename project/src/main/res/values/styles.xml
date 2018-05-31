@@ -222,6 +222,7 @@
     <style name="ProgressBar.AddGuestItin" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
         <item name="android:indeterminateOnly">true</item>
     </style>
+
     <style name="ProgressBar.AddGuestItinNewScreen" parent="@android:style/Widget.Material.ProgressBar.Horizontal">
         <item name="android:indeterminateOnly">true</item>
     </style>
@@ -626,6 +627,7 @@
     <style name="FlightWarningBarRed" parent="WarningBar">
         <item name="android:background">@color/flight_red_warning_bar_color</item>
     </style>
+
     <style name="Widget.BorderlessButton" parent="android:Widget.Material.Button.Borderless">
         <item name="android:background">@drawable/bg_btn_borderless</item>
     </style>
@@ -973,6 +975,7 @@
         <item name="android:layout_gravity">center_vertical</item>
         <item name="textStyle">medium</item>
     </style>
+
     <style name="CVVPromptBase">
         <item name="android:layout_centerHorizontal">true</item>
         <item name="android:singleLine">true</item>
@@ -1012,6 +1015,17 @@
         <item name="android:textStyle">normal</item>
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="RichContentGuideLabel">
+        <item name="android:alpha">0</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/gray900</item>
+        <item name="android:textSize">@dimen/type_200_text_size</item>
+        <item name="textStyle">medium</item>
+
     </style>
 
     <style name="Theme.AlertDialog" parent="Theme.AppCompat.Light.Dialog">
