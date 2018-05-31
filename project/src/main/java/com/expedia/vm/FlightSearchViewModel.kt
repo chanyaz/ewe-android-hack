@@ -330,6 +330,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             datesUpdated(pastSearchParams.departureDate, pastSearchParams.returnDate)
             highlightCalendarObservable.onNext(0)
         }
+        dateSetObservable.onNext(Unit)
         cachedEndDateObservable.onNext(Optional(pastSearchParams.returnDate))
         isRoundTripSearchObservable.onNext(pastSearchParams.isRoundTrip())
     }

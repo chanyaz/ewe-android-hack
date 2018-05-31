@@ -624,6 +624,7 @@ public class FlightSearchPresenterTest {
 		ArrayList<RecentSearch> recentSearches = new ArrayList<RecentSearch>();
 		LocalDate startDate = LocalDate.now().plusDays(30);
 		LocalDate endDate = LocalDate.now().plusDays(40);
+		TestObserver testObserver = new TestObserver<Unit>();
 
 		RecentSearch recentSearch =  new RecentSearch("SFO", "LAS",
 			createSuggestion("SFO","San Francisco").getBytes(),
@@ -635,6 +636,7 @@ public class FlightSearchPresenterTest {
 		recentSearchWidgetContainer.getViewModel().getRecentSearchesObservable().onNext(recentSearches);
 		recentSearchWidgetItems.measure(0, 0);
 		recentSearchWidgetItems.layout(0, 0, 100, 10000);
+		widget.getSearchViewModel().getDateSetObservable().subscribe(testObserver);
 		//Assertions
 		recentSearchWidgetItems.getChildAt(0).performClick();
 		assertEquals("San Francisco", widget.getOriginCardView().getText());
@@ -643,6 +645,7 @@ public class FlightSearchPresenterTest {
 			LocaleBasedDateFormatUtils.localDateToEEEMMMd(endDate), widget.getCalendarWidgetV2().getText());
 		assertEquals("3 travelers", widget.getTravelerWidgetV2().getText());
 		assertEquals("Economy", widget.getFlightCabinClassWidget().getText());
+		assertEquals(1, testObserver.valueCount());
 	}
 
 	@Test
@@ -653,6 +656,7 @@ public class FlightSearchPresenterTest {
 		ArrayList<RecentSearch> recentSearches = new ArrayList<RecentSearch>();
 		LocalDate startDate = LocalDate.now().minusDays(20);
 		LocalDate endDate = LocalDate.now().plusDays(30);
+		TestObserver testObserver = new TestObserver<Unit>();
 
 		RecentSearch recentSearch =  new RecentSearch("SFO", "LAS",
 			createSuggestion("SFO","San Francisco").getBytes(),
@@ -664,6 +668,7 @@ public class FlightSearchPresenterTest {
 		recentSearchWidgetContainer.getViewModel().getRecentSearchesObservable().onNext(recentSearches);
 		recentSearchWidgetItems.measure(0, 0);
 		recentSearchWidgetItems.layout(0, 0, 1000, 10000);
+		widget.getSearchViewModel().getDateSetObservable().subscribe(testObserver);
 		//Assertions
 		recentSearchWidgetItems.getChildAt(0).performClick();
 		assertEquals("San Francisco", widget.getOriginCardView().getText());
@@ -672,6 +677,7 @@ public class FlightSearchPresenterTest {
 			LocaleBasedDateFormatUtils.localDateToEEEMMMd(endDate), widget.getCalendarWidgetV2().getText());
 		assertEquals("2 travelers", widget.getTravelerWidgetV2().getText());
 		assertEquals("Premium Economy", widget.getFlightCabinClassWidget().getText());
+		assertEquals(1, testObserver.valueCount());
 	}
 
 	@Test
@@ -680,6 +686,7 @@ public class FlightSearchPresenterTest {
 		RecentSearchWidgetContainer recentSearchWidgetContainer = widget.getRecentSearchWidgetContainer();
 		RecyclerView recentSearchWidgetItems = recentSearchWidgetContainer.getRecyclerView();
 		ArrayList<RecentSearch> recentSearches = new ArrayList<RecentSearch>();
+		TestObserver testObserver = new TestObserver<Unit>();
 
 		RecentSearch recentSearch =  new RecentSearch("SFO", "LAS",
 			createSuggestion("SFO","San Francisco").getBytes(),
@@ -691,9 +698,11 @@ public class FlightSearchPresenterTest {
 		recentSearchWidgetContainer.getViewModel().getRecentSearchesObservable().onNext(recentSearches);
 		recentSearchWidgetItems.measure(0, 0);
 		recentSearchWidgetItems.layout(0, 0, 1000, 10000);
+		widget.getSearchViewModel().getDateSetObservable().subscribe(testObserver);
 		//Assertions
 		recentSearchWidgetItems.getChildAt(0).performClick();
 		assertEquals("Select dates", widget.getCalendarWidgetV2().getText());
+		assertEquals(1, testObserver.valueCount());
 	}
 
 	@Test
