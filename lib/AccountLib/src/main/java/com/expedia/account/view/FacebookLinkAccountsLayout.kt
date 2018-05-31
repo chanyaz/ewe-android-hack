@@ -39,7 +39,7 @@ class FacebookLinkAccountsLayout(context: Context, attrs: AttributeSet) : Linear
     private var validationObservable = CombiningFakeObservable()
     private val allTextValidSubject = BehaviorSubject.create<Boolean>()
 
-    private lateinit var toolbarNavigationOnClickListener: OnClickListener
+    private var toolbarNavigationOnClickListener: OnClickListener? = null
 
     init {
         View.inflate(context, R.layout.acct__widget_facebook_link_accounts, this)

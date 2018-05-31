@@ -49,7 +49,7 @@ open class NewAccountView(context: Context, attrs: AttributeSet) : FrameLayout(c
     @VisibleForTesting lateinit var config: Config
     private val facebookHelper: NewFacebookHelper by lazy { createFacebookHelper() }
 
-    private lateinit var toolbarNavigationListener: OnClickListener
+    private var toolbarNavigationListener: OnClickListener? = null
 
     init {
         View.inflate(context, R.layout.acct__widget_new_account_view, this)
