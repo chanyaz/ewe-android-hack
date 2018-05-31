@@ -144,6 +144,7 @@
     <string name="acct__single_page_sign_up_title">创建您的免费帐户</string>
 
     <!--New Sign In Page-->
-    <string name="acct__new_create_account_text">创建帐户</string>
+    <string name="acct__new_create_account_text">创建我的帐户</string>
+    <string name="acct__new_create_account_tab_text">创建帐户</string>
     <string name="acct__new_facebook_link_accounts_text">关联帐户</string>
 </resources>

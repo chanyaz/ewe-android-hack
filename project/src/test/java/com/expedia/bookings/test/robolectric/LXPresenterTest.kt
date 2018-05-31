@@ -15,7 +15,6 @@ import com.expedia.bookings.data.lx.LXCreateTripResponseV2
 import com.expedia.bookings.data.lx.LxSearchParams
 import com.expedia.bookings.data.lx.Offer
 import com.expedia.bookings.data.lx.Ticket
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.lx.LXPresenter
 import com.expedia.bookings.presenter.lx.LXSearchPresenter
@@ -278,7 +277,7 @@ class LXPresenterTest {
 
     private fun getLxCheckoutUrl(tripId: String): String {
         return (lxPresenter.webCheckoutView.viewModel as LXWebCheckoutViewViewModel)
-                .endpointProvider.getE3EndpointUrlWithPath("${PointOfSale.getPointOfSale().lxWebCheckoutPath}?tripid=$tripId")
+                .endpointProvider.getE3EndpointUrlWithPath("MultiItemCheckout?tripid=$tripId")
     }
 
     private fun getAdultTicket(): Ticket {

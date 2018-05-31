@@ -145,5 +145,6 @@
 
     <!--New Sign In Page-->
     <string name="acct__new_create_account_text">建立帳戶</string>
+    <string name="acct__new_create_account_tab_text">建立帳戶</string>
     <string name="acct__new_facebook_link_accounts_text">連結帳戶</string>
 </resources>

@@ -43,7 +43,7 @@ class LXWebCheckoutViewTest {
 
         (webCheckoutView.viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.subscribe(testBookedTripIdSubscriber)
 
-        webCheckoutView.onWebPageStarted(webCheckoutView.webView, "https://wwwexpediacouk.trunk.sb.karmalab.net/trips/790170356787?tripnumber=790170356787&itinerarynumber=790170356787&tripid=f93e7d80-8a9f-4394-b1b6-af35fee7821a&frdr=true", null)
+        webCheckoutView.onWebPageStarted(webCheckoutView.webView, "https://wwwexpediacouk.trunk.sb.karmalab.net/MultiItemBookingConfirmation/790170356787?tripnumber=790170356787&itinerarynumber=790170356787&tripid=f93e7d80-8a9f-4394-b1b6-af35fee7821a&frdr=true", null)
 
         assertEquals(1, testBookedTripIdSubscriber.values().size)
 
@@ -61,7 +61,7 @@ class LXWebCheckoutViewTest {
 
         (webCheckoutView.viewModel as WebCheckoutViewViewModel).showWebViewObservable.subscribe(testShowWebViewObservableIdSubscriber)
 
-        webCheckoutView.onWebPageStarted(webCheckoutView.webView, "https://wwwexpediacom.trunk.sb.karmalab.net/trips", null)
+        webCheckoutView.onWebPageStarted(webCheckoutView.webView, "https://wwwexpediacom.trunk.sb.karmalab.net/MultiItemBookingConfirmation", null)
 
         (webCheckoutView.viewModel as WebCheckoutViewViewModel).onUserAccountRefreshed()
         assertEquals(1, testShowWebViewObservableIdSubscriber.values().size)
