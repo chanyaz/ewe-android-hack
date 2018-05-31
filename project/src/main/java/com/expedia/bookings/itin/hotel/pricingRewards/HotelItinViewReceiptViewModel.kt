@@ -11,6 +11,8 @@ import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.scopes.HasTripsTracking
 import com.expedia.bookings.itin.scopes.HasWebViewLauncher
 import com.expedia.bookings.itin.tripstore.data.Itin
+import com.expedia.bookings.itin.tripstore.data.ItinHotel
+import com.expedia.bookings.itin.tripstore.data.PaymentModel
 import com.expedia.bookings.itin.tripstore.extensions.firstHotel
 import com.expedia.bookings.itin.tripstore.extensions.isMultiItemCheckout
 import com.expedia.bookings.itin.tripstore.extensions.isPackage
@@ -24,12 +26,13 @@ class HotelItinViewReceiptViewModel<out S>(val scope: S) : ItinViewReceiptViewMo
 
     init {
         itinObserver = LiveDataObserver { itin ->
-            if (!shouldShowViewReceipt(itin)) {
+            val hotel = itin?.firstHotel()
+            if (!shouldShowViewReceipt(itin, hotel)) {
                 return@LiveDataObserver
             }
 
             val receiptUrl = itin?.itineraryReceiptURL
-            val hotelName = itin?.firstHotel()?.hotelPropertyInfo?.name
+            val hotelName = hotel?.hotelPropertyInfo?.name
 
             if (!receiptUrl.isNullOrBlank() && !hotelName.isNullOrBlank()) {
                 viewReceiptClickSubject.subscribe {
@@ -44,7 +47,7 @@ class HotelItinViewReceiptViewModel<out S>(val scope: S) : ItinViewReceiptViewMo
         scope.itinHotelRepo.liveDataItin.observe(scope.lifecycleOwner, itinObserver)
     }
 
-    fun shouldShowViewReceipt(itin: Itin?): Boolean {
-        return !(itin == null || itin.isPackage() || itin.isMultiItemCheckout()) && scope.feature.enabled()
+    fun shouldShowViewReceipt(itin: Itin?, hotel: ItinHotel?): Boolean {
+        return !(itin == null || itin.isPackage() || itin.isMultiItemCheckout() || hotel == null || hotel.paymentModel == PaymentModel.HOTEL_COLLECT) && scope.feature.enabled()
     }
 }
