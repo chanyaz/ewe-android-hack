@@ -34,11 +34,11 @@ class HotelShortlistServices(endpoint: String, okHttpClient: OkHttpClient,
         adapter.create(HotelShortlistApi::class.java)
     }
 
-    fun fetchFavoriteHotels(observer: Observer<HotelShortlistResponse<HotelShortlistItem>>) {
+    fun fetchFavoriteHotels(observer: Observer<HotelShortlistResponse<HotelShortlistItem>>): Disposable {
         return hotelShortListApi.fetch(CONFIG_ID)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
-                .subscribe(observer)
+                .subscribeObserver(observer)
     }
 
     fun saveFavoriteHotel(hotelId: String, checkIn: LocalDate, checkOut: LocalDate, adults: Int, children: List<Int>, observer: Observer<HotelShortlistResponse<ShortlistItem>>): Disposable {

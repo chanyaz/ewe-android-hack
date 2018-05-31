@@ -8,9 +8,12 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TravelerParams
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.travelgraph.SearchInfo
 import com.expedia.bookings.extensions.setAccessibilityHoverFocus
+import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.tracking.SuggestionTrackingData
+import com.expedia.bookings.hotel.util.HotelFavoritesManager
 import com.expedia.bookings.hotel.widget.adapter.HotelSuggestionAdapter
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseSearchPresenter
@@ -34,6 +37,9 @@ import javax.inject.Inject
 
 class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPresenter(context, attrs) {
     lateinit var searchTrackingBuilder: HotelSearchTrackingDataBuilder
+        @Inject set
+
+    lateinit var hotelFavoritesManager: HotelFavoritesManager
         @Inject set
 
     var searchViewModel: HotelSearchViewModel by notNullAndObservable { vm ->
@@ -148,6 +154,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         }
 
         fetchUserSearchHistory()
+        fetchUserFavorites()
     }
 
     fun animationFinalize(forward: Boolean) {
@@ -193,6 +200,14 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
     private fun fetchUserSearchHistory() {
         suggestionViewModel.setUserSearchHistory(emptyList())
         travelGraphViewModel.fetchUserHistory()
+    }
+
+    private fun fetchUserFavorites() {
+        val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
+        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelShortlist)
+                && userStateManager.isUserAuthenticated()) {
+            hotelFavoritesManager.fetchFavorites(context)
+        }
     }
 
     private fun updateDestinationText(locationText: String) {

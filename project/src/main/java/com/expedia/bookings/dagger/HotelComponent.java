@@ -9,6 +9,7 @@ import com.expedia.bookings.hotel.activity.HotelDetailsActivity;
 import com.expedia.bookings.hotel.activity.HotelResultsActivity;
 import com.expedia.bookings.hotel.activity.HotelReviewsActivity;
 import com.expedia.bookings.hotel.activity.HotelSearchActivity;
+import com.expedia.bookings.hotel.util.HotelFavoritesManager;
 import com.expedia.bookings.presenter.hotel.HotelCheckoutMainViewPresenter;
 import com.expedia.bookings.presenter.hotel.HotelCheckoutPresenter;
 import com.expedia.bookings.presenter.hotel.HotelPresenter;
@@ -58,6 +59,7 @@ public interface HotelComponent {
 	SuggestionV4Services suggestionsService();
 	TravelGraphServices travelGraphServices();
 	HotelShortlistServices hotelShortlistServices();
+	HotelFavoritesManager hotelFavoritesManager();
 	ReviewsServices reviewsServices();
 	IPayWithPointsViewModel payWithPointsViewModel();
 

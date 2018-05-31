@@ -24,7 +24,7 @@ class HotelFavoritesCache {
             return favorites.contains(hotelId)
         }
 
-        private fun saveFavorites(context: Context, favorites: Set<String>) {
+        fun saveFavorites(context: Context, favorites: Set<String>) {
             val prefs = context.getSharedPreferences(FAVORITES_FILE_NAME, Context.MODE_PRIVATE)
             val editor = prefs.edit()
             editor.putStringSet(FAVORITE_HOTEL_IDS, favorites)

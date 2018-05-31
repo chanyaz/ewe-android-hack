@@ -35,6 +35,15 @@ class HotelFavoritesCacheTest {
         assertFalse(HotelFavoritesCache.isFavoriteHotel(context, hotelId))
     }
 
+    @Test
+    fun testSaveFavorites() {
+        val hotels = setOf("hotel1", "hotel2")
+        HotelFavoritesCache.saveFavorites(context, hotels)
+        assertTrue(HotelFavoritesCache.isFavoriteHotel(context, "hotel1"))
+        assertTrue(HotelFavoritesCache.isFavoriteHotel(context, "hotel2"))
+        assertFalse(HotelFavoritesCache.isFavoriteHotel(context, "hotel3"))
+    }
+
     private fun clearCache() {
         val cache = context.getSharedPreferences(HotelFavoritesCache.FAVORITES_FILE_NAME, Context.MODE_PRIVATE)
         val editor = cache.edit()

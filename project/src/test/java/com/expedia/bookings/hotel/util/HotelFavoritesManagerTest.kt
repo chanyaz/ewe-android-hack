@@ -2,6 +2,8 @@ package com.expedia.bookings.hotel.util
 
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.data.hotels.shortlist.HotelShortlistItem
+import com.expedia.bookings.data.hotels.shortlist.HotelShortlistResponse
 import com.expedia.bookings.services.HotelShortlistServices
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -47,6 +49,16 @@ class HotelFavoritesManagerTest {
         testSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
         testSubscriber.assertValueCount(1)
         assertFalse(HotelFavoritesCache.isFavoriteHotel(context, testHotelId))
+    }
+
+    @Test
+    fun testFetchFavorites() {
+        val testSubscriber = TestObserver<HotelShortlistResponse<HotelShortlistItem>>()
+        favoritesManager.fetchSuccessSubject.subscribe(testSubscriber)
+
+        favoritesManager.fetchFavorites(context)
+        testSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
+        testSubscriber.assertValueCount(1)
     }
 
     private fun saveFavorite() {

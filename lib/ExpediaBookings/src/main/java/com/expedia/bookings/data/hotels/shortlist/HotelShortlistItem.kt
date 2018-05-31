@@ -20,4 +20,10 @@ data class HotelShortlistItem(
         var currency: String? = null,
         var tripLocations: String? = null,
         var tripDates: String? = null,
-        var routeType: String? = null)
+        var routeType: String? = null) {
+
+    fun getHotelId(): String? {
+        val metadata = shortlistItem?.metaData
+        return if (metadata?.hotelId.isNullOrBlank()) shortlistItem?.itemId else metadata?.hotelId
+    }
+}

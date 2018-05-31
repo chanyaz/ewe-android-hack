@@ -12,6 +12,7 @@ import com.expedia.bookings.data.hotels.shortlist.ShortlistItemMetadata
 import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation
 import com.expedia.bookings.hotel.deeplink.HotelExtras
 import com.expedia.bookings.hotel.util.HotelCalendarRules
+import com.expedia.bookings.hotel.util.HotelFavoritesManager
 import com.expedia.bookings.services.HotelShortlistServices
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -47,6 +48,7 @@ class HotelFavoritesViewModelTest {
     private val userStateManager = UserLoginTestUtil.getUserStateManager()
 
     private lateinit var viewModel: HotelFavoritesViewModel
+    private lateinit var favoritesManager: HotelFavoritesManager
     private lateinit var hotelShortlistItem: HotelShortlistItem
 
     private lateinit var twoDaysAgo: LocalDate
@@ -73,15 +75,15 @@ class HotelFavoritesViewModelTest {
         maxDuration = calendarRules.getMaxSearchDurationDays()
 
         userStateManager.signOut()
-
-        viewModel = HotelFavoritesViewModel(context, userStateManager, shortlistServicesRule.services!!)
+        favoritesManager = HotelFavoritesManager(shortlistServicesRule.services!!)
+        viewModel = HotelFavoritesViewModel(context, userStateManager, favoritesManager)
         hotelShortlistItem = createHotelShortlistItem()
     }
 
     @Test
     fun testLoggedIn() {
         signInUserWithLoyalty()
-        val viewModel = HotelFavoritesViewModel(context, userStateManager, shortlistServicesRule.services!!)
+        val viewModel = HotelFavoritesViewModel(context, userStateManager, favoritesManager)
         val t = TestObserver<Unit>()
         viewModel.receivedResponseSubject.subscribe(t)
         t.assertValueCount(1)

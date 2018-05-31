@@ -10,51 +10,37 @@ import com.expedia.bookings.data.hotels.shortlist.HotelShortlistResponse
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.deeplink.HotelDeepLink
 import com.expedia.bookings.hotel.deeplink.HotelIntentBuilder
-import com.expedia.bookings.services.HotelShortlistServices
-import io.reactivex.Observer
+import com.expedia.bookings.hotel.util.HotelFavoritesManager
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.ReplaySubject
 
 class HotelFavoritesViewModel(private val context: Context,
-                              private val userStateManager: UserStateManager, hotelShortlistServices: HotelShortlistServices) {
+                              private val userStateManager: UserStateManager,
+                              private val hotelFavoritesManager: HotelFavoritesManager) {
     var receivedResponseSubject = ReplaySubject.create<Unit>()
 
     var response: HotelShortlistResponse<HotelShortlistItem>? = null
         @VisibleForTesting set(value) {
             field = value
+            favoritesList.clear()
             value?.results?.forEach { result -> favoritesList.addAll(result.items) }
         }
 
     var favoritesList: ArrayList<HotelShortlistItem> = arrayListOf()
         private set
 
-    @VisibleForTesting val compositeDisposable = CompositeDisposable()
+    @VisibleForTesting
+    val compositeDisposable = CompositeDisposable()
 
     var useShopWithPoints: Boolean? = null
 
-    private val favoritesObserver = object : Observer<HotelShortlistResponse<HotelShortlistItem>> {
-        override fun onError(e: Throwable) {
-            // TODO
-        }
-
-        override fun onNext(fetchResponse: HotelShortlistResponse<HotelShortlistItem>) {
-            response = fetchResponse
-            receivedResponseSubject.onNext(Unit)
-        }
-
-        override fun onSubscribe(d: Disposable) {
-            compositeDisposable.add(d)
-        }
-
-        override fun onComplete() {
-            // Not needed
-        }
-    }
-
     init {
         if (userStateManager.isUserAuthenticated()) {
-            hotelShortlistServices.fetchFavoriteHotels(favoritesObserver)
+            compositeDisposable.add(hotelFavoritesManager.fetchSuccessSubject.subscribe { fetchResponse ->
+                response = fetchResponse
+                receivedResponseSubject.onNext(Unit)
+            })
+            hotelFavoritesManager.fetchFavorites(context)
         }
     }
 
@@ -78,12 +64,12 @@ class HotelFavoritesViewModel(private val context: Context,
     }
 
     private fun createHotelDeepLink(hotelShortlistItem: HotelShortlistItem): HotelDeepLink? {
-        val metadata = hotelShortlistItem.shortlistItem?.metaData
-        val hotelId = if (metadata?.hotelId.isNullOrBlank()) hotelShortlistItem.shortlistItem?.itemId else metadata?.hotelId
+        val hotelId = hotelShortlistItem.getHotelId()
         if (hotelId.isNullOrBlank()) {
             return null
         }
 
+        val metadata = hotelShortlistItem.shortlistItem?.metaData
         return HotelDeepLink().apply {
             this.hotelId = hotelId
             regionId = hotelShortlistItem.regionId
