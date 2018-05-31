@@ -21,6 +21,10 @@ class OmnitureMatchers {
         fun withProps(data: Map<Int, String>): Matcher<Map<String, Any>> =
                 CustomMatchers.hasEntries(data.map { Pair("&&c" + it.key, it.value) }.toMap())
 
+        @JvmStatic
+        fun withCurrency(currency: String): Matcher<Map<String, Any>> =
+                CustomMatchers.hasEntries(mapOf("&&cc" to currency))
+
         @Suppress("UNCHECKED_CAST")
         @JvmStatic
         fun withProductsString(products: String, shouldExactlyMatch: Boolean = true): Matcher<Map<String, Any>> =

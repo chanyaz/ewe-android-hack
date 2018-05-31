@@ -1403,7 +1403,6 @@ public class OmnitureTracking {
 
 	public static void trackHotelV2PurchaseFromWebView(HotelItinDetailsResponse hotelItinDetailsResponse) {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_PURCHASE_CONFIRMATION + "\" pageLoad");
-		HotelItinDetailsResponse response = hotelItinDetailsResponse;
 		AppAnalytics s = createTrackPageLoadEventBase(HOTELSV2_PURCHASE_CONFIRMATION);
 		// Product details
 		DateTimeFormatter dtf = ISODateTimeFormat.basicDate();
@@ -1425,8 +1424,9 @@ public class OmnitureTracking {
 
 		int numNights = JodaUtils.daysBetween(checkInDate, checkOutDate);
 
-		String totalCost = hotelItinDetailsResponse.responseData.getTotalTripPrice().getTotal().replace(",", ".");
-		String formattedTotalCost = getFormattedTotalPrice(totalCost);
+		AbstractItinDetailsResponse.ResponseData.TotalTripPrice totalTripPrice = hotelItinDetailsResponse.responseData
+			.getTotalTripPrice();
+		String formattedTotalCost = getFormattedTotalPrice(totalTripPrice.getTotal());
 
 		String supplierType = hotelItinDetailsResponse.responseData.getHotels().get(0).getInventoryType();
 		if (Strings.isEmpty(supplierType)) {
@@ -1438,8 +1438,7 @@ public class OmnitureTracking {
 			numNights, formattedTotalCost, properCaseSupplierType));
 
 		// Currency code
-		s.setCurrencyCode(
-			hotelItinDetailsResponse.responseData.getHotels().get(0).getTotalPriceDetails().primaryCurrencyCode);
+		s.setCurrencyCode(totalTripPrice.getCurrency());
 
 		// LX Cross sell
 		boolean isLXEnabled = PointOfSale.getPointOfSale().supports(LineOfBusiness.LX);

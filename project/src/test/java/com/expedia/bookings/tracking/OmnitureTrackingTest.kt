@@ -2,11 +2,12 @@ package com.expedia.bookings.tracking
 
 import android.content.Context
 import android.content.pm.PackageInfo
+import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.analytics.AppAnalytics
 import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.analytics.OmnitureTestUtils.Companion.assertStateTracked
-import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.HotelItinDetailsResponse
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.ABTest
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -14,6 +15,7 @@ import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
+import com.expedia.bookings.test.OmnitureMatchers.Companion.withCurrency
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withEvars
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withEventsString
 import com.expedia.bookings.test.OmnitureMatchers.Companion.withProductsString
@@ -30,6 +32,7 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.DebugInfoUtils
 import com.google.android.gms.common.GoogleApiAvailability
 import com.mobiata.android.util.SettingUtils
+import com.mobiata.mocke3.mockObject
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.allOf
 import org.joda.time.DateTimeZone
@@ -400,6 +403,20 @@ class OmnitureTrackingTest {
         val expectedProp = mapOf(16 to "App.Support.CFG.Messenger.Open.Cancel")
         OmnitureTestUtils.assertLinkTracked("Accounts", "App.Support.CFG.Messenger.Open.Cancel", OmnitureMatchers.withEvars(expectedEvar), mockAnalyticsProvider)
         OmnitureTestUtils.assertLinkTracked("Accounts", "App.Support.CFG.Messenger.Open.Cancel", OmnitureMatchers.withProps(expectedProp), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testHotelWebviewConfirmationTracking() {
+        val mockItin = mockObject(HotelItinDetailsResponse::class.java, "api/trips/hotel_trip_details_for_mocker.json")
+        OmnitureTracking.trackHotelV2PurchaseFromWebView(mockItin)
+        assertStateTracked("App.Hotels.Checkout.Confirmation", withProductsString("Hotel;DirectAgency Hotel:17669432;4;54.31"), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testHotelWebviewConfirmationCurrencyCodeTracking() {
+        val mockItin = mockObject(HotelItinDetailsResponse::class.java, "api/trips/hotel_trip_details_for_mocker.json")
+        OmnitureTracking.trackHotelV2PurchaseFromWebView(mockItin)
+        assertStateTracked("App.Hotels.Checkout.Confirmation", withCurrency("USD"), mockAnalyticsProvider)
     }
 
     @Test
