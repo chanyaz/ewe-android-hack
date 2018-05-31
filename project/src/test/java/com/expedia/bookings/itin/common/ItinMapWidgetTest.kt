@@ -3,6 +3,9 @@ package com.expedia.bookings.itin.common
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.extensions.LiveDataObserver
+import com.expedia.bookings.itin.tripstore.data.ItinLOB
+import com.expedia.bookings.itin.tripstore.data.ItinLx
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Test
@@ -14,13 +17,14 @@ import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class ItinMapWidgetTest {
-    lateinit var sut: ItinMapWidget
-    private lateinit var mockVM: MockViewModel
+    lateinit var sut: ItinMapWidget<ItinLx>
+    private lateinit var mockVM: MockViewModel<ItinLx>
 
     @Before
+    @Suppress("UNCHECKED_CAST")
     fun setup() {
         val context = RuntimeEnvironment.application
-        sut = LayoutInflater.from(context).inflate(R.layout.test_itin_map_widget, null) as ItinMapWidget
+        sut = LayoutInflater.from(context).inflate(R.layout.test_itin_map_widget, null) as ItinMapWidget<ItinLx>
         mockVM = MockViewModel()
     }
 
@@ -92,7 +96,8 @@ class ItinMapWidgetTest {
         assertTrue(mockVM.mapSubjectClicked)
     }
 
-    private class MockViewModel : ItinMapWidgetViewModel() {
+    private class MockViewModel<T: ItinLOB> : ItinMapWidgetViewModel<T>() {
+        override val itinObserver: LiveDataObserver<T> = LiveDataObserver {  }
         var mapSubjectClicked = false
         var directionSubjectClicked = false
         var addressContainerClicked = false

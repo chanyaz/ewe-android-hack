@@ -41,7 +41,7 @@ class LxItinDetailsActivity : AppCompatActivity() {
 
     val toolbar: ItinToolbar by bindView(R.id.widget_lx_itin_toolbar)
     val manageBookingWidget: ItinManageBookingWidget by bindView(R.id.widget_manage_booking)
-    val mapWidget: ItinMapWidget by bindView(R.id.map_widget)
+    val mapWidget: ItinMapWidget<ItinLx> by bindView(R.id.map_widget)
     val redeemVoucherWidget: LxItinRedeemVoucherWidget by bindView(R.id.widget_lx_itin_redeem_voucher)
     val imageWidget: ItinImageWidget by bindView(R.id.itin_image_widget)
     val timingsWidget: ItinTimingsWidget<ItinLx> by bindView(R.id.itin_timings_widget)

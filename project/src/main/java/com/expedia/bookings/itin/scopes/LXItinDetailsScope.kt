@@ -39,12 +39,12 @@ data class LxLifeCycleObserverScope<T : ItinLOB>(override val strings: StringSou
                                                  override val manageBooking: ManageBookingWidgetViewModelSetter,
                                                  override val toolbar: ToolBarViewModelSetter,
                                                  override val tripsTracking: ITripsTracking,
-                                                 override val map: MapWidgetViewModelSetter,
+                                                 override val map: MapWidgetViewModelSetter<T>,
                                                  override val redeemVoucher: RedeemVoucherViewModelSetter,
                                                  override val toaster: IToaster,
                                                  override val phoneHandler: IPhoneHandler,
                                                  override val itinImage: ItinImageViewModelSetter,
-                                                 override val itinTimings: ItinTimingsViewModelSetter<T>) : HasStringProvider, HasWebViewLauncher, HasActivityLauncher, HasJsonUtil, HasItinId, HasToolbarViewModelSetter, HasManageBookingWidgetViewModelSetter, HasTripsTracking, HasMapWidgetViewModelSetter, HasRedeemVoucherViewModelSetter, HasToaster, HasPhoneHandler, HasItinImageViewModelSetter, HasItinTimingsViewModelSetter<T>
+                                                 override val itinTimings: ItinTimingsViewModelSetter<T>) : HasStringProvider, HasWebViewLauncher, HasActivityLauncher, HasJsonUtil, HasItinId, HasToolbarViewModelSetter, HasManageBookingWidgetViewModelSetter, HasTripsTracking, HasMapWidgetViewModelSetter<T>, HasRedeemVoucherViewModelSetter, HasToaster, HasPhoneHandler, HasItinImageViewModelSetter, HasItinTimingsViewModelSetter<T>
 
 class PriceSummaryCardScope(override val strings: StringSource,
                             override val webViewLauncher: IWebViewLauncher,

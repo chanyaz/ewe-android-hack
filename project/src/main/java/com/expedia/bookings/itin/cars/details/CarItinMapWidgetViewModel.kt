@@ -7,7 +7,6 @@ import com.expedia.bookings.itin.cars.ItinCarRepoInterface
 import com.expedia.bookings.itin.common.ItinMapWidgetViewModel
 import com.expedia.bookings.itin.scopes.HasCarRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
-import com.expedia.bookings.itin.scopes.HasLxRepo
 import com.expedia.bookings.itin.scopes.HasPhoneHandler
 import com.expedia.bookings.itin.scopes.HasStringProvider
 import com.expedia.bookings.itin.scopes.HasToaster
@@ -45,13 +44,15 @@ abstract class CarItinMapWidgetViewModel<S>(val scope: S) : ItinMapWidgetViewMod
                 addressClickSubject.subscribe {
                     scope.toaster.toastAndCopy(location.buildFullAddress())
                 }
-                addressContainerContentDescription.onNext(scope.strings.fetchWithPhrase(R.string.itin_lx_details_address_copy_content_description_TEMPLATE, mapOf("address" to location.buildFullAddress())))
+                addressContainerContentDescription.onNext(scope.strings.fetchWithPhrase(R.string.itin_car_call_button_content_description_TEMPLATE, mapOf("address" to location.buildFullAddress())))
                 itinCar.carVendor?.localPhoneNumber?.let { number ->
                     phoneNumberTextSubject.onNext(number)
-                    val contDesc = scope.strings.fetchWithPhrase(R.string.itin_activity_manage_booking_call_lx_button_content_description_TEMPLATE, mapOf("phonenumber" to number))
-                    phoneNumberContDescriptionSubject.onNext(contDesc)
-                    phoneNumberClickSubject.subscribe {
-                        scope.phoneHandler.handle(number)
+                    itinCar.carVendor.longName?.let { vendorName ->
+                        val contDesc = scope.strings.fetchWithPhrase(R.string.itin_car_call_button_content_description_TEMPLATE, mapOf("phonenumber" to number, "vendor" to vendorName))
+                        phoneNumberContDescriptionSubject.onNext(contDesc)
+                        phoneNumberClickSubject.subscribe {
+                            scope.phoneHandler.handle(number)
+                        }
                     }
                 }
             }

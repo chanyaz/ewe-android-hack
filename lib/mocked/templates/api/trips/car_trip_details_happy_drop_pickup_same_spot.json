@@ -1,0 +1,601 @@
+{
+  "apiVersion": "1.0",
+  "responseType": "TRIP_DETAILS",
+  "responseData": {
+    "levelOfDetail": "FULL",
+    "tripId": "efbad3b0-3466-409d-9e95-84a49357ec77",
+    "webDetailsURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/trips/7958004012?langid=1033",
+    "itineraryReceiptURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/itinerary-receipt?tripid=efbad3b0-3466-409d-9e95-84a49357ec77",
+    "tripNumber": 7958004012,
+    "orderNumber": 8053084518926,
+    "title": "Car rental in Dallas",
+    "updateTripNameDescPathURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/api/trips/efbad3b0-3466-409d-9e95-84a49357ec77/updateTripNameDescription",
+    "startTime": {
+      "raw": "2056-07-06T10:30:00-07:00",
+      "localized": "Jul 6, 2056 10:30:00 AM",
+      "epochSeconds": 2730130200,
+      "timeZoneOffsetSeconds": -25200,
+      "localizedShortDate": "7/6/2056",
+      "localizedMediumDate": "Jul 6",
+      "localizedFullDate": "Thu, Jul 6",
+      "localizedLongDate": "Jul 6, 2056",
+      "localizedShortTime": "10:30am"
+    },
+    "endTime": {
+      "raw": "2056-07-07T10:30:00-07:00",
+      "localized": "Jul 7, 2056 10:30:00 AM",
+      "epochSeconds": 2730216600,
+      "timeZoneOffsetSeconds": -25200,
+      "localizedShortDate": "7/7/2056",
+      "localizedMediumDate": "Jul 7",
+      "localizedFullDate": "Fri, Jul 7",
+      "localizedLongDate": "Jul 7, 2056",
+      "localizedShortTime": "10:30am"
+    },
+    "tripCreatedTime": {
+      "raw": "2056-04-26T18:48:55Z",
+      "localized": "Apr 26, 2056 6:48:55 PM",
+      "epochSeconds": 2724000535,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Wed, 26 Apr",
+      "localizedMediumDate": "Apr 26, 2056",
+      "localizedFullDate": "Wednesday, April 26, 2056",
+      "localizedLongDate": "April 26, 2056",
+      "localizedShortTime": "6:48 PM"
+    },
+    "tripUpdatedTime": {
+      "raw": "2056-04-26T23:02:48Z",
+      "localized": "Apr 26, 2056 11:02:48 PM",
+      "epochSeconds": 2724015768,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Wed, 26 Apr",
+      "localizedMediumDate": "Apr 26, 2056",
+      "localizedFullDate": "Wednesday, April 26, 2056",
+      "localizedLongDate": "April 26, 2056",
+      "localizedShortTime": "11:02 PM"
+    },
+    "tripCacheUpdatedTime": {
+      "raw": "2056-05-10T00:19:31Z",
+      "localized": "May 10, 2056 12:19:31 AM",
+      "epochSeconds": 2725143571,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Wed, 10 May",
+      "localizedMediumDate": "May 10, 2056",
+      "localizedFullDate": "Wednesday, May 10, 2056",
+      "localizedLongDate": "May 10, 2056",
+      "localizedShortTime": "12:19 AM"
+    },
+    "ownerId": 578012,
+    "bookingStatus": "BOOKED",
+    "rewardList": [
+      {
+        "totalPoints": 807.00,
+        "basePoints": 621.00,
+        "basePointsStatus": "PENDING",
+        "bonusPoints": [
+          {
+            "m_pointValue": 186.00,
+            "m_pointType": "offerPoint",
+            "m_pointDescription": "+gold Bonus",
+            "m_status": "PENDING",
+            "m_programId": 12
+          }
+        ],
+        "logoUrl": "/static/default/default/images/myrewards/RewardsLogo_193x76.png",
+        "signUpUrl": "",
+        "viewStatementURL": "/user/rewards",
+        "programName": "ExpediaRewards"
+      }
+    ],
+    "sharableDetailsURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/api/trips/shared/owq_Kd-S7a7bRMNsaUa-XsCAQ1vFrKXATih0W959gr-k1rLQZ4d0uXT-s_18XIkQVtmTYK8fdvT10WSbJSu2KOpx",
+    "customerSupport": {
+      "customerSupportURL": "https://www.expedia.com/service/",
+      "customerSupportPhoneInfo": [
+        "Call Expedia Rewards gold Dedicated Customer Care at 1-866-539-4149 or 1-702-939-2635.",
+        "For faster service, mention <strong>itinerary #7958004012 </strong>"
+      ],
+      "customerSupportPhoneNumberDomestic": "+1-866-539-4149",
+      "customerSupportPhoneNumberInternational": "+1 702-939-2635",
+      "customerSupportPhoneInfoForEmail": [
+        "Call Expedia Rewards gold Dedicated Customer Care at 1-866-539-4149 or 1-702-939-2635.",
+        "For faster service, mention <strong>itinerary #7958004012 </strong>"
+      ],
+      "termsAndConditionsURL": ""
+    },
+    "isBookedUsingForeignCurrency": false,
+    "cars": [
+      {
+        "uniqueID": "3A37F599-07EA-4C13-931D-A0C0F6A89F41_0",
+        "bookingStatus": "BOOKED",
+        "bookingStatusText": "Booked",
+        "bookingStatusMessage": "Your reservation is booked. No need to call us to reconfirm this reservation.",
+        "state": "PRE_START_4",
+        "orderNumber": 8053084518926,
+        "orderLineNumber": "8d9daa6f-8e8a-4891-a61c-534f79a93995",
+        "paymentModel": "AGENCY_COLLECT",
+        "reservationGuaranteePolicy": "RESERVATION_GUARANTEE_REQUIRED",
+        "price": {
+          "rateTerm": "DAILY",
+          "rateTermLocalized": "day",
+          "rate": "40.18",
+          "rateFormatted": "$40.18",
+          "mileageChargesDescription": "Unlimited mileage",
+          "extraDayCharges": "40.18",
+          "extraDayChargesFormatted": "$40.18",
+          "extraHourCharges": "13.39",
+          "extraHourChargesFormatted": "$13.39",
+          "isTotalRate": true,
+          "totalContainsTaxesAndFees": true,
+          "taxesAreEstimated": true,
+          "insuranceIncluded": false,
+          "liabilityInsuranceIncluded": false,
+          "notIncludedinPrice": {
+            "credit-card-deposit": {
+              "name": "credit-card-deposit",
+              "description": "Credit card deposit"
+            },
+            "extra-hour": {
+              "name": "extra-hour",
+              "description": "Extra hour",
+              "price": {
+                "amount": 13.39,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              },
+              "priceFormatted": "$13.39"
+            },
+            "extra-day": {
+              "name": "extra-day",
+              "description": "Extra day",
+              "price": {
+                "amount": 40.18,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              },
+              "priceFormatted": "$40.18"
+            }
+          },
+          "currency": "USD",
+          "currencyName": "US dollars",
+          "base": "40.18",
+          "baseFormatted": "$40.18",
+          "taxes": "23.86",
+          "taxesFormatted": "$23.86",
+          "total": "64.04",
+          "totalFormatted": "$64.04",
+          "taxesAndFeesBreakdown": [
+            {
+              "description": "Rental, TANGIBLE TAX",
+              "price": {
+                "amount": 1.60,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              }
+            },
+            {
+              "description": "Rental, APT. TRANSPORT FEE",
+              "price": {
+                "amount": 3.25,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              }
+            },
+            {
+              "description": "Rental, AIRPORT CONCESSION FEE RECOVERY",
+              "price": {
+                "amount": 7.10,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              }
+            },
+            {
+              "description": "Rental, STATE TAX",
+              "price": {
+                "amount": 7.10,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              }
+            },
+            {
+              "description": "Rental, VEHICLE LICENSE FEE",
+              "price": {
+                "amount": 1.89,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              }
+            },
+            {
+              "description": "Rental, CITY TAX",
+              "price": {
+                "amount": 3.55,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              }
+            },
+            {
+              "description": "Rental, CUSTOMER FACILITY CHARGE",
+              "price": {
+                "amount": 5.20,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              }
+            },
+            {
+              "description": "Rental, SURCHARGE",
+              "price": {
+                "amount": 1.34,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              }
+            },
+            {
+              "description": "Rental, TANGIBLE TAX",
+              "price": {
+                "amount": 1.23,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              }
+            },
+            {
+              "description": "Rental, APT. TRANSPORT FEE",
+              "price": {
+                "amount": 2.50,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              }
+            },
+            {
+              "description": "Rental, AIRPORT CONCESSION FEE RECOVERY",
+              "price": {
+                "amount": 5.46,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              }
+            },
+            {
+              "description": "Rental, STATE TAX",
+              "price": {
+                "amount": 5.46,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              }
+            },
+            {
+              "description": "Rental, VEHICLE LICENSE FEE",
+              "price": {
+                "amount": 1.45,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              }
+            },
+            {
+              "description": "Rental, CITY TAX",
+              "price": {
+                "amount": 2.73,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              }
+            },
+            {
+              "description": "Rental, CUSTOMER FACILITY CHARGE",
+              "price": {
+                "amount": 4.00,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              }
+            },
+            {
+              "description": "Rental, SURCHARGE",
+              "price": {
+                "amount": 1.03,
+                "currency": {
+                  "currencyCode": "USD"
+                }
+              }
+            }
+          ]
+        },
+        "localPrice": {
+          "isTotalRate": false,
+          "totalContainsTaxesAndFees": false,
+          "taxesAreEstimated": false,
+          "insuranceIncluded": false,
+          "liabilityInsuranceIncluded": false
+        },
+        "confirmationNumber": "NEXP206223EZ",
+        "webCancelPathURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/api/cancelCarBooking/efbad3b0-3466-409d-9e95-84a49357ec77/8d9daa6f-8e8a-4891-a61c-534f79a93995",
+        "webGetCarCancelDetailPathURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/api/trips/efbad3b0-3466-409d-9e95-84a49357ec77/ordernumber/8053084518926/orderlinenumber/8d9daa6f-8e8a-4891-a61c-534f79a93995/isMerchant/false/getCarCancelDetail",
+        "webCarRulesPageURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Checkout/CarRulesAndRestrictions?tripid=efbad3b0-3466-409d-9e95-84a49357ec77",
+        "bookingId": "190199",
+        "travelers": [
+          {
+            "firstName": "MINAL",
+            "lastName": "SHAH"
+          }
+        ],
+        "travelerContactInformation": {
+          "email": "mishah@expedia.com",
+          "phoneNumber": "2013640707"
+        },
+        "pickupTime": {
+          "raw": "2056-07-06T10:30:00-07:00",
+          "localized": "Jul 6, 2056 10:30:00 AM",
+          "epochSeconds": 2730130200,
+          "timeZoneOffsetSeconds": -25200,
+          "localizedShortDate": "7/6/2056",
+          "localizedMediumDate": "Jul 6",
+          "localizedFullDate": "Thu, Jul 6",
+          "localizedLongDate": "Jul 6, 2056",
+          "localizedShortTime": "10:30am"
+        },
+        "dropOffTime": {
+          "raw": "2056-07-07T10:30:00-07:00",
+          "localized": "Jul 7, 2056 10:30:00 AM",
+          "epochSeconds": 2730216600,
+          "timeZoneOffsetSeconds": -25200,
+          "localizedShortDate": "7/7/2056",
+          "localizedMediumDate": "Jul 7",
+          "localizedFullDate": "Fri, Jul 7",
+          "localizedLongDate": "Jul 7, 2056",
+          "localizedShortTime": "10:30am"
+        },
+        "pickupLocation": {
+          "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
+          "locationCategory": "AIRPORT_TERMINAL",
+          "locationDescription": "Dallas (Dallas-Fort Worth Intl.)",
+          "airportInstructions": "Shuttle to counter and car",
+          "latitude": 32.857581,
+          "longitude": -97.035376,
+          "addressLine1": "2424 E 38Th Street",
+          "cityName": "Dallas",
+          "provinceStateName": "Texas",
+          "countryCode": "USA",
+          "locationCode": "DFW",
+          "regionId": 6034399
+        },
+        "dropOffLocation": {
+          "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
+          "locationCategory": "AIRPORT_TERMINAL",
+          "locationDescription": "Dallas (Dallas-Fort Worth Intl.)",
+          "latitude": 32.857581,
+          "longitude": -97.035376,
+          "addressLine1": "2424 E 38Th Street",
+          "cityName": "Dallas",
+          "provinceStateName": "Texas",
+          "countryCode": "USA",
+          "locationCode": "DFW",
+          "regionId": 6034399
+        },
+        "pickupDateOpenHoursSummaryString": "12:01am - Midnight",
+        "pickupDateOpenHours": [
+          {
+            "openingDateTime": {
+              "raw": "2056-07-06T00:01:00-07:00",
+              "localized": "Jul 6, 2056 12:01:00 AM",
+              "epochSeconds": 2730092460,
+              "timeZoneOffsetSeconds": -25200,
+              "localizedShortDate": "7/6/2056",
+              "localizedMediumDate": "Jul 6",
+              "localizedFullDate": "Thu, Jul 6",
+              "localizedLongDate": "Jul 6, 2056",
+              "localizedShortTime": "12:01am"
+            },
+            "closingDateTime": {
+              "raw": "2056-07-06T23:59:59-07:00",
+              "localized": "Jul 6, 2056 11:59:59 PM",
+              "epochSeconds": 2730178799,
+              "timeZoneOffsetSeconds": -25200,
+              "localizedShortDate": "7/6/2056",
+              "localizedMediumDate": "Jul 6",
+              "localizedFullDate": "Thu, Jul 6",
+              "localizedLongDate": "Jul 6, 2056",
+              "localizedShortTime": "11:59pm"
+            }
+          }
+        ],
+        "dropOffDateOpenHoursSummaryString": "12:01am - Midnight",
+        "dropOffDateOpenHours": [
+          {
+            "openingDateTime": {
+              "raw": "2056-07-07T00:01:00-07:00",
+              "localized": "Jul 7, 2056 12:01:00 AM",
+              "epochSeconds": 2730178860,
+              "timeZoneOffsetSeconds": -25200,
+              "localizedShortDate": "7/7/2056",
+              "localizedMediumDate": "Jul 7",
+              "localizedFullDate": "Fri, Jul 7",
+              "localizedLongDate": "Jul 7, 2056",
+              "localizedShortTime": "12:01am"
+            },
+            "closingDateTime": {
+              "raw": "2056-07-07T23:59:59-07:00",
+              "localized": "Jul 7, 2056 11:59:59 PM",
+              "epochSeconds": 2730265199,
+              "timeZoneOffsetSeconds": -25200,
+              "localizedShortDate": "7/7/2056",
+              "localizedMediumDate": "Jul 7",
+              "localizedFullDate": "Fri, Jul 7",
+              "localizedLongDate": "Jul 7, 2056",
+              "localizedShortTime": "11:59pm"
+            }
+          }
+        ],
+        "carVendor": {
+          "longName": "EZ",
+          "code": "EZ",
+          "shortName": "EZ",
+          "logoURL": "https://images.trvl-media.com/cars/logos/EZ.png",
+          "phoneNumber": "+1 972 574 3360",
+          "localPhoneNumber": "+1 972 574 3360"
+        },
+        "carCategoryImageURL": "https://images.trvl-media.com/cars%2F17%2Fhyundai-elantra_EZ_USA_20140221_s.jpg",
+        "carCategory": "Midsize",
+        "carCategoryLocalized": "Midsize",
+        "minDoors": 0,
+        "maxDoors": 0,
+        "adultCapacity": 5,
+        "childCapacity": 0,
+        "carType": "TwoDoorCar",
+        "carTypeLocalized": "Hyundai Elantra",
+        "largeLuggageCapacity": 0,
+        "smallLuggageCapacity": 3,
+        "carTypeAttributes": {
+          "vehicleTypeLocalized": "2 or 4-Door Car",
+          "fuelType": "UNKNOWN",
+          "airConditioningType": "AIR_CONDITIONING",
+          "airConditioningTypeLocalized": "Air conditioning",
+          "transmissionType": "AUTOMATIC_TRANSMISSION",
+          "transmissionTypeLocalized": "Automatic transmission",
+          "wheelDriveType": "UNKNOWN"
+        },
+        "rules": [
+          {
+            "ruleType": "TEXT_ONLY",
+            "ruleName": "INFORMATION_PROVIDED_BY_VENDOR_POLICY",
+            "text": "The following rules and restrictions are provided by the car rental company."
+          },
+          {
+            "ruleType": "TEXT_AND_URL",
+            "ruleName": "PAYMENT_CARD_REQUIRED_AT_PICKUP",
+            "text": "The driver must present a valid driver's license and credit card in their name upon pick-up.",
+            "url": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Checkout/CarRulesAndRestrictions?tripid=efbad3b0-3466-409d-9e95-84a49357ec77#DRIVERS_LICENSE",
+            "textAndURL": "The driver must present a valid <a href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Checkout/CarRulesAndRestrictions?tripid=efbad3b0-3466-409d-9e95-84a49357ec77#DRIVERS_LICENSE\" data-cko-click=\"openWindow\" target=\"_blank\" >driver's license <span class=\"icon icon-popup\" aria-hidden=\"true\"> </span><span class=\"alt\">Opens in a new window</span> </a> and credit card in their name upon pick-up. The credit card is required as a deposit when renting any vehicle. The deposit amount is held by the car rental company. Please ensure sufficient funds are available on the card.",
+            "textAndURLResponsive": "The driver must present a valid <a href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Checkout/RulesAndRestrictions?tripid=efbad3b0-3466-409d-9e95-84a49357ec77#DRIVERS_LICENSE\" data-cko-click=\"openWindow\" target=\"_blank\" >driver's license <span class=\"icon icon-popup\" aria-hidden=\"true\"> </span><span class=\"alt\">Opens in a new window</span> </a> and credit card in their name upon pick-up. The credit card is required as a deposit when renting any vehicle. The deposit amount is held by the car rental company. Please ensure sufficient funds are available on the card."
+          },
+          {
+            "ruleType": "TEXT_ONLY",
+            "ruleName": "AGE_RESTRICTIONS",
+            "text": "International rentals may have different driver license requirements. An international driving license is required if the drivers' license is non-roman alphabet."
+          },
+          {
+            "ruleType": "TEXT_AND_URL",
+            "ruleName": "AGE_RESTRICTIONS",
+            "text": "Additional charges or restrictions may apply for drivers under 25.",
+            "url": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Checkout/CarRulesAndRestrictions?tripid=efbad3b0-3466-409d-9e95-84a49357ec77#AGE",
+            "textAndURL": "<a href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Checkout/CarRulesAndRestrictions?tripid=efbad3b0-3466-409d-9e95-84a49357ec77#AGE\" data-cko-click=\"openWindow\" target=\"_blank\" >Additional charges or restrictions <span class=\"icon icon-popup\" aria-hidden=\"true\"> </span><span class=\"alt\">Opens in a new window</span></a> may apply for drivers under 25 or over 70.",
+            "textAndURLResponsive": "<a href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Checkout/RulesAndRestrictions?tripid=efbad3b0-3466-409d-9e95-84a49357ec77#AGE\" data-cko-click=\"openWindow\" target=\"_blank\" >Additional charges or restrictions <span class=\"icon icon-popup\" aria-hidden=\"true\"> </span><span class=\"alt\">Opens in a new window</span></a> may apply for drivers under 25 or over 70."
+          },
+          {
+            "ruleType": "TEXT_AND_URL",
+            "ruleName": "CONDITIONAL_CHARGES",
+            "text": "Charges for refueling, additional drivers, etc. are not included in the total price.",
+            "url": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Checkout/CarRulesAndRestrictions?tripid=efbad3b0-3466-409d-9e95-84a49357ec77#RETURN_REFUELING",
+            "textAndURL": "Charges for <a href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Checkout/CarRulesAndRestrictions?tripid=efbad3b0-3466-409d-9e95-84a49357ec77#RETURN_REFUELING\" data-cko-click=\"openWindow\" target=\"_blank\" >refueling <span class=\"icon icon-popup\" aria-hidden=\"true\"> </span><span class=\"alt\">Opens in a new window</span></a>, additional drivers, etc. are not included in the total price.",
+            "textAndURLResponsive": "Charges for <a href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Checkout/RulesAndRestrictions?tripid=efbad3b0-3466-409d-9e95-84a49357ec77#RETURN_REFUELING\" data-cko-click=\"openWindow\" target=\"_blank\" >refueling <span class=\"icon icon-popup\" aria-hidden=\"true\"> </span><span class=\"alt\">Opens in a new window</span></a>, additional drivers, etc. are not included in the total price."
+          },
+          {
+            "ruleType": "TEXT_ONLY",
+            "ruleName": "OPTIONAL_SERVICES",
+            "text": "Special equipment, such as child seats and GPS, can be purchased upon pick-up (if available)."
+          },
+          {
+            "ruleType": "TEXT_ONLY",
+            "ruleName": "GEOGRAPHICAL_RESTRICTIONS_MAY_APPLY",
+            "text": "Geographical restrictions may apply, even for rental contracts that feature unlimited mileage. Some car rental companies do not allow you to take their vehicles across certain domestic or international borders, or may apply an additional charge to do so."
+          },
+          {
+            "ruleType": "TEXT_AND_URL",
+            "ruleName": "CONDITIONAL_CHARGES",
+            "text": "Your rental may have mandatory insurance requirements that result in additional charges at the time of rental.",
+            "url": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Checkout/CarRulesAndRestrictions?tripid=efbad3b0-3466-409d-9e95-84a49357ec77#INSURANCE",
+            "textAndURL": "Your rental may have <a href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Checkout/CarRulesAndRestrictions?tripid=efbad3b0-3466-409d-9e95-84a49357ec77#INSURANCE\" data-cko-click=\"openWindow\" target=\"_blank\">mandatory, local insurance requirements <span class=\"icon icon-popup\" aria-hidden=\"true\"> </span><span class=\"alt\">Opens in a new window</span></a> that result in additional charges at the time of rental.",
+            "textAndURLResponsive": "Your rental may have <a href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Checkout/RulesAndRestrictions?tripid=efbad3b0-3466-409d-9e95-84a49357ec77#INSURANCE\" data-cko-click=\"openWindow\" target=\"_blank\">mandatory, local insurance requirements <span class=\"icon icon-popup\" aria-hidden=\"true\"> </span><span class=\"alt\">Opens in a new window</span></a> that result in additional charges at the time of rental."
+          },
+          {
+            "ruleType": "TEXT_ONLY",
+            "ruleName": "TAXES_AND_FEES_INCLUDED",
+            "text": "The total price includes all mandatory taxes and fees."
+          },
+          {
+            "ruleType": "TEXT_ONLY",
+            "ruleName": "TIME_OF_PAYMENT",
+            "text": "Rental fees are due at pick-up."
+          },
+          {
+            "ruleType": "TEXT_ONLY",
+            "ruleName": "CANCELLATION_POLICY",
+            "text": "Your card will not be charged upon booking. You will pay the full amount at the rental counter. Changes or cancellations should be made 72 hours before pick-up to avoid penalties."
+          }
+        ],
+        "pickUpInstructions": [
+          "                IN TERMINAL LOCATION\n                                                EXIT THE AIRPORT TERMINAL AND FOLLOW THE SIGNS TO THE\n                                                CAR RENTAL SHUTTLE.\n                                                E-Z RENT A CAR IS LOCATED ON THE RIGHT HAND SIDE OF THE\n                                                CAR RENTAL CENTER.\n                                            ",
+          "- DALLAS TX IN TERMINAL LOCATION-\n                                                PLEASE EXIT THE AIPORT TERMINAL AND FOLLOW THE SIGNS\n                                                TO THE CAR RENTAL FACILITY.\n                                                TAKE THE CAR RENTAL SHUTTLE TO THE CAR RENTAL FACILITY.\n                                                E-Z RENT A CAR IS LOCATED ON THE RIGHT HAND SIDE OF THE\n                                                FACILITY.\n                                            "
+        ],
+        "fuelPolicy": {
+          "type": "FullToFull",
+          "localizedFuelPolicyDesc": "The car is supplied with a full tank of fuel. It should be returned full or refueling charges will be applied at drop-off."
+        },
+        "isPrepaid": false,
+        "rulesWithoutHyperLinks": [],
+        "inCancelAllowedWindow": true,
+        "customerServicePhoneNumber": ""
+      }
+    ],
+    "totalTripPrice": {
+      "currency": "USD",
+      "total": "64.04",
+      "totalFormatted": "$64.04",
+      "totalWithoutInsurance": "64.04",
+      "totalWithoutInsuranceFormatted": "$64.04"
+    },
+    "isCouponApplied": false,
+    "paymentSummary": {
+      "totalPaidPrice": {
+        "amount": 64.04,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "totalPaidTaxAndFees": {
+        "amount": 23.86,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "subTotalPaid": {
+        "amount": 40.18,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "totalPropertyFee": {
+        "amount": 0.00,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "totalPaidLocalizedPrice": "$64.04",
+      "totalPaidTaxAndFeesLocalizedPrice": "$23.86",
+      "subTotalPaidLocalizedPrice": "$40.18",
+      "totalPropertyFeeLocalizedPrice": "",
+      "multiCurrencyFeatureEnabled": false
+    },
+    "readTripError": false,
+    "tripSource": "expedia",
+    "zetaTrip": false,
+    "showCurrencyName": false,
+    "isMRP": false,
+    "tripDataSource": "EXPWEB",
+    "isTripUpgradable": false,
+    "isRewardsPointsBooking": false,
+    "billPayMethod": "false",
+    "customerCareCustomerType": "Gold"
+  }
+}

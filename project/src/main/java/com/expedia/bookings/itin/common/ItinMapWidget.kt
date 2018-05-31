@@ -10,12 +10,13 @@ import com.expedia.bookings.extensions.subscribeContentDescription
 import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.itin.scopes.MapWidgetViewModelSetter
+import com.expedia.bookings.itin.tripstore.data.ItinLOB
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 
-class ItinMapWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs), MapWidgetViewModelSetter {
-    override fun setUpViewModel(vm: ItinMapWidgetViewModel) {
+class ItinMapWidget<T : ItinLOB>(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs), MapWidgetViewModelSetter<T> {
+    override fun setUpViewModel(vm: ItinMapWidgetViewModel<T>) {
         viewModel = vm
     }
 
@@ -27,7 +28,7 @@ class ItinMapWidget(context: Context, attrs: AttributeSet?) : LinearLayout(conte
     val phoneNumber: TextView by bindView(R.id.phone_number_text)
     val divider: View by bindView(R.id.phone_divider)
 
-    var viewModel: ItinMapWidgetViewModel by notNullAndObservable { vm ->
+    var viewModel: ItinMapWidgetViewModel<T> by notNullAndObservable { vm ->
         vm.addressLineFirstSubject.subscribeTextAndVisibility(addressLineFirst)
         vm.addressLineSecondSubject.subscribeTextAndVisibility(addressLineSecond)
         vm.addressContainerContentDescription.subscribeContentDescription(addressContainer)
