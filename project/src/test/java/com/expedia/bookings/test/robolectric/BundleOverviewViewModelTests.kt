@@ -1,14 +1,17 @@
 package com.expedia.bookings.test.robolectric
 
+import android.text.SpannableStringBuilder
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.data.packages.PackageSelectedOfferInfo
 import com.expedia.bookings.packages.util.PackageServicesManager
 import com.expedia.bookings.packages.vm.BundleOverviewViewModel
 import com.expedia.bookings.services.PackageProductSearchType
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.test.MockPackageServiceTestRule
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.tracking.ApiCallFailing
 import com.expedia.bookings.utils.Constants
@@ -25,6 +28,9 @@ import kotlin.test.assertEquals
 class BundleOverviewViewModelTests {
     val context = RuntimeEnvironment.application
     var serviceRule = ServicesRule(PackageServices::class.java)
+        @Rule get
+
+    val mockPackageServiceRule: MockPackageServiceTestRule = MockPackageServiceTestRule()
         @Rule get
 
     lateinit var sut: BundleOverviewViewModel
@@ -231,14 +237,109 @@ class BundleOverviewViewModelTests {
         assertEquals(stepThreeTestSubscriber.values()[0], "Step 3: Select inbound flight")
     }
 
-    private fun setUpParams(originAirportCode: String = ""): PackageSearchParams {
+    @Test
+    fun testStepTitleAfterCreateTripWithSplitTicketsTrue() {
+        val splitTicketSubscriber = TestObserver<SpannableStringBuilder>()
+        val showSplitTicketSubsciber = TestObserver<Boolean>()
+
+        sut.splitTicketBaggageFeesLinksObservable.subscribe(splitTicketSubscriber)
+        sut.showSplitTicketMessagingObservable.subscribe(showSplitTicketSubsciber)
+
+        setHotelResponseAndPackageSelectedHotel()
+        setUpParams("JFK", true)
+
+        sut.getHotelNameAndDaysToSetUpTitle()
+
+        assertEquals(1, splitTicketSubscriber.valueCount())
+        assertEquals(true, showSplitTicketSubsciber.values()[0])
+    }
+
+    @Test
+    fun testStepTitleAfterCreateTripWithSplitTicketsFalse() {
+        val splitTicketSubscriber = TestObserver<SpannableStringBuilder>()
+        val showSplitTicketSubsciber = TestObserver<Boolean>()
+
+        sut.splitTicketBaggageFeesLinksObservable.subscribe(splitTicketSubscriber)
+        sut.showSplitTicketMessagingObservable.subscribe(showSplitTicketSubsciber)
+
+        setHotelResponseAndPackageSelectedHotel()
+        setUpParams("JFK", false)
+
+        sut.getHotelNameAndDaysToSetUpTitle()
+
+        assertEquals(0, splitTicketSubscriber.valueCount())
+        assertEquals(false, showSplitTicketSubsciber.values()[0])
+    }
+
+    @Test
+    fun testStepTitleAfterCreateTripWithSplitTicketsTrueOnlyOutboundUrl() {
+        val splitTicketSubscriber = TestObserver<SpannableStringBuilder>()
+        val showSplitTicketSubsciber = TestObserver<Boolean>()
+
+        sut.splitTicketBaggageFeesLinksObservable.subscribe(splitTicketSubscriber)
+        sut.showSplitTicketMessagingObservable.subscribe(showSplitTicketSubsciber)
+
+        setHotelResponseAndPackageSelectedHotel()
+        setUpParams("JFK", true, true, false)
+
+        sut.getHotelNameAndDaysToSetUpTitle()
+
+        assertEquals(0, splitTicketSubscriber.valueCount())
+        assertEquals(true, showSplitTicketSubsciber.values()[0])
+    }
+
+    @Test
+    fun testStepTitleAfterCreateTripWithSplitTicketsTrueOnlyInboundUrl() {
+        val splitTicketSubscriber = TestObserver<SpannableStringBuilder>()
+        val showSplitTicketSubsciber = TestObserver<Boolean>()
+
+        sut.splitTicketBaggageFeesLinksObservable.subscribe(splitTicketSubscriber)
+        sut.showSplitTicketMessagingObservable.subscribe(showSplitTicketSubsciber)
+
+        setHotelResponseAndPackageSelectedHotel()
+        setUpParams("JFK", true, false, true)
+
+        sut.getHotelNameAndDaysToSetUpTitle()
+
+        assertEquals(0, splitTicketSubscriber.valueCount())
+        assertEquals(true, showSplitTicketSubsciber.values()[0])
+    }
+
+    private fun setHotelResponseAndPackageSelectedHotel() {
+        val hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
+        Db.setPackageResponse(hotelResponse)
+        PackageTestUtil.setDbPackageSelectedHotel()
+    }
+
+    private fun setUpParams(originAirportCode: String = "", splitTicket: Boolean = false, outboundUrlPresent: Boolean = true, inboundUrlPresent: Boolean = true): PackageSearchParams {
         val packageParams = PackageSearchParams.Builder(26, 329)
                 .origin(getDummySuggestion(originAirportCode))
                 .destination(getDummySuggestion("LHR"))
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(1))
                 .build() as PackageSearchParams
+
+        addLatestSelectedOffer(splitTicket, packageParams, outboundUrlPresent, inboundUrlPresent)
+
         Db.setPackageParams(packageParams)
+        return packageParams
+    }
+
+    private fun addLatestSelectedOffer(isSplitTicket: Boolean, packageParams: PackageSearchParams, inboundUrlPresent: Boolean, outboundUrlPresent: Boolean): PackageSearchParams {
+        val selectedOffer = PackageSelectedOfferInfo()
+        selectedOffer.isSplitTicketFlights = isSplitTicket
+
+        if (isSplitTicket) {
+            if (outboundUrlPresent) {
+                selectedOffer.outboundFlightBaggageFeesUrl = "outboundFlightBaggageFeesUrl"
+            }
+
+            if (inboundUrlPresent) {
+                selectedOffer.inboundFlightBaggageFeesUrl = "inboundFlightBaggageFeesUrl"
+            }
+        }
+
+        packageParams.latestSelectedOfferInfo = selectedOffer
         return packageParams
     }
 
