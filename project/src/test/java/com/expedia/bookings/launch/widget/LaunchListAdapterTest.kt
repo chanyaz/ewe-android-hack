@@ -213,10 +213,10 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
 
         val secondPosition = adapterUnderTest.getItemViewType(1)
-        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, secondPosition)
+        assertEquals(LaunchDataItem.JOIN_REWARDS_CARD_VIEW, secondPosition)
 
         val thirdPosition = adapterUnderTest.getItemViewType(2)
-        assertEquals(LaunchDataItem.JOIN_REWARDS_CARD_VIEW, thirdPosition)
+        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, thirdPosition)
 
         val fourthPosition = adapterUnderTest.getItemViewType(3)
         assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
