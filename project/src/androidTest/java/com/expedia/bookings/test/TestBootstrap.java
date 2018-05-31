@@ -88,7 +88,6 @@ public class TestBootstrap extends ActivityInstrumentationTestCase2<RouterActivi
 			Common.setPOS(ProductFlavorFeatureConfiguration.getInstance().getDefaultPOS());
 		}
 
-		Settings.setMockModeEndPoint();
 		super.tearDown();
 	}
 

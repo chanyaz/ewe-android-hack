@@ -20,15 +20,10 @@ public class MockModeShim {
 
 			@Override
 			public void run() {
-				if (server != null) {
-					server.shutdown();
-					server = null;
+				if (server == null) {
+					server = new ExpediaMockWebServer(context);
+					server.start();
 				}
-
-				server = new ExpediaMockWebServer(context);
-
-				server.start();
-
 				SettingUtils.save(context, R.string.preference_proxy_server_address, server.getHostWithPort());
 
 				latch.countDown();

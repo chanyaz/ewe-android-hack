@@ -66,7 +66,6 @@ import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.FontCache;
-import com.expedia.bookings.utils.MockModeShim;
 import com.expedia.bookings.utils.ShortcutUtils;
 import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.utils.UserAccountRefresher;
@@ -179,7 +178,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		}
 
 		if (appComponent().endpointProvider().getEndPoint() == EndPoint.MOCK_MODE) {
-			MockModeShim.initMockWebServer(this);
+			//MockModeShim.initMockWebServer(this);
 			startupTimer.addSplit("Mock mode init");
 		}
 
