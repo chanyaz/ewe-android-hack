@@ -15,7 +15,6 @@ import com.expedia.bookings.tracking.ApiCallFailing
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.isBreadcrumbsPackagesEnabled
 import com.expedia.bookings.utils.isMidAPIEnabled
 import com.squareup.phrase.Phrase
 import io.reactivex.disposables.Disposable
@@ -161,8 +160,8 @@ class BundleOverviewViewModel(val context: Context, private val packageServicesM
 
     private fun getStepText(stepNumber: Number) = when (stepNumber) {
         1 -> context.getString(R.string.step_one)
-        2 -> if (isBreadcrumbsPackagesEnabled(context)) context.getString(R.string.step_two_variation) else context.getString(R.string.step_two)
-        3 -> if (isBreadcrumbsPackagesEnabled(context)) context.getString(R.string.step_three) else ""
+        2 -> context.getString(R.string.step_two_variation)
+        3 -> context.getString(R.string.step_three)
         else -> ""
     }
 

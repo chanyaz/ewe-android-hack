@@ -109,7 +109,6 @@ public class AbacusUtils {
 	// Packages Tests
 	public static final ABTest PackagesTitleChange = new ABTest(15787);
 	public static final ABTest EBAndroidAppPackagesEnablePOS = new ABTest(24551);
-	public static final ABTest EBAndroidAppPackagesBreadcrumbsForNav = new ABTest(15835);
 	public static final ABTest EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs = new ABTest(16223);
 	public static final ABTest EBAndroidAppPackagesShowForceUpdateDialog = new ABTest(16283);
 	public static final ABTest EBAndroidAppPackagesFFPremiumClass = new ABTest(25557, true);
@@ -211,7 +210,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppAccountRecaptcha.getKey());
 		testIDs.add(EBAndroidAppAccountsEditWebView.getKey());
 		testIDs.add(EBAndroidAppHotelMaterialForms.getKey());
-		testIDs.add(EBAndroidAppPackagesBreadcrumbsForNav.getKey());
 		testIDs.add(EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs.getKey());
 		testIDs.add(EBAndroidAppFlightsGreedySearchCall.getKey());
 		testIDs.add(EBAndroidAppFlightsBaggageWebViewHideAd.getKey());

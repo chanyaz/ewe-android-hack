@@ -1,9 +1,12 @@
 package com.expedia.bookings.packages.vm
 
 import android.content.Context
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.test.robolectric.PackageTestUtil
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.LocaleBasedDateFormatUtils
 import com.expedia.util.Optional
 import org.joda.time.LocalDate
@@ -33,6 +36,7 @@ class PackageToolbarViewModelTest {
 
         currentDate = LocalDate()
         sut.date.onNext(currentDate)
+        Db.setPackageParams(PackageTestUtil.getPackageSearchParams())
     }
 
     @Test
@@ -56,7 +60,7 @@ class PackageToolbarViewModelTest {
         assertTrue(titleSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS))
         assertEquals(1, titleSubscriber.valueCount())
 
-        var expectedResult = "Outbound to Bengaluru, India (BLR)"
+        var expectedResult = "Step 2: Flight to Bengaluru"
         assertEquals(expectedResult, titleSubscriber.values()[0])
 
         assertTrue(subtitleSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS))
@@ -87,7 +91,7 @@ class PackageToolbarViewModelTest {
         titleSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
         assertEquals(1, titleSubscriber.valueCount())
 
-        var expectedResult = "Outbound to Bengaluru, India (BLR)"
+        var expectedResult = "Step 2: Flight to Bengaluru"
         assertEquals(expectedResult, titleSubscriber.values()[0])
 
         subtitleSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
@@ -115,7 +119,7 @@ class PackageToolbarViewModelTest {
         titleSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
         assertEquals(1, titleSubscriber.valueCount())
 
-        var expectedResult = "Inbound to Bengaluru, India (BLR)"
+        var expectedResult = "Step 3: Flight to Bengaluru"
         assertEquals(expectedResult, titleSubscriber.values()[0])
 
         subtitleSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
@@ -229,6 +233,72 @@ class PackageToolbarViewModelTest {
 
         assertTrue(subtitleSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS))
         assertEquals(1, subtitleSubscriber.valueCount())
+    }
+
+    @Test
+    fun testHappyWithSingleTravelerOutboundWhenChangeFlow() {
+        setUpChangeSearch()
+
+        val titleSubscriber = TestObserver<String>()
+        sut.titleSubject.subscribe(titleSubscriber)
+
+        val subtitleSubscriber = TestObserver<CharSequence>()
+        sut.subtitleSubject.subscribe(subtitleSubscriber)
+
+        val suggestion = getSuggestionV4(true, true, true)
+        val numberOfTravelers = 1
+
+        sut.regionNames.onNext(Optional(suggestion.regionNames))
+        sut.travelers.onNext(1)
+        sut.isOutboundSearch.onNext(true)
+
+        titleSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
+        assertEquals(1, titleSubscriber.valueCount())
+
+        var expectedResult = "Outbound to Bengaluru, India (BLR)"
+        assertEquals(expectedResult, titleSubscriber.values()[0])
+
+        subtitleSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
+        assertEquals(1, subtitleSubscriber.valueCount())
+
+        expectedResult = LocaleBasedDateFormatUtils.dateTimeToEEEMMMddyyyy(currentDate) + ", " + numberOfTravelers + " traveler"
+        assertEquals(expectedResult, subtitleSubscriber.values()[0])
+    }
+
+    @Test
+    fun testHappyWithSingleTravelerInboundWhenChangeFlow() {
+        setUpChangeSearch()
+
+        val titleSubscriber = TestObserver<String>()
+        sut.titleSubject.subscribe(titleSubscriber)
+
+        val subtitleSubscriber = TestObserver<CharSequence>()
+        sut.subtitleSubject.subscribe(subtitleSubscriber)
+
+        val suggestion = getSuggestionV4(true, true, true)
+        val numberOfTravelers = 1
+
+        sut.regionNames.onNext(Optional(suggestion.regionNames))
+        sut.travelers.onNext(1)
+        sut.isOutboundSearch.onNext(false)
+
+        titleSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
+        assertEquals(1, titleSubscriber.valueCount())
+
+        var expectedResult = "Inbound to Bengaluru, India (BLR)"
+        assertEquals(expectedResult, titleSubscriber.values()[0])
+
+        subtitleSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
+        assertEquals(1, subtitleSubscriber.valueCount())
+
+        expectedResult = LocaleBasedDateFormatUtils.dateTimeToEEEMMMddyyyy(currentDate) + ", " + numberOfTravelers + " traveler"
+        assertEquals(expectedResult, subtitleSubscriber.values()[0])
+    }
+
+    private fun setUpChangeSearch() {
+        val params = PackageTestUtil.getPackageSearchParams()
+        params.pageType = Constants.PACKAGE_CHANGE_FLIGHT
+        Db.setPackageParams(params)
     }
 
     private fun getSuggestionV4(withRegionNames: Boolean = false, withDisplayName: Boolean = false, withShortName: Boolean = false, withFullName: Boolean = false, withLastSearchName: Boolean = false): SuggestionV4 {

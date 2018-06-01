@@ -158,43 +158,6 @@ class PackageFlightPresenterTest {
     fun testOutboundFlightsToolbarText() {
         mockPackageServiceRule.getMIDHotelResponse()
         mockPackageServiceRule.getMIDFlightsResponse()
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesBreadcrumbsForNav)
-
-        presenter = getPackageFlightPresenter()
-        presenter.toolbarViewModel.refreshToolBar.onNext(true)
-        presenter.toolbarViewModel.isOutboundSearch.onNext(true)
-        presenter.toolbarViewModel.travelers.onNext(1)
-        presenter.toolbarViewModel.date.onNext(LocalDate.now())
-        val regionName = getDummyRegionNames()
-        presenter.toolbarViewModel.regionNames.onNext(Optional(regionName))
-        presenter.toolbarViewModel.country.onNext(Optional("India"))
-        presenter.toolbarViewModel.airport.onNext(Optional("BLR"))
-        assertEquals("Outbound to Bengaluru, India (BLR)", presenter.toolbar.title.toString())
-    }
-
-    @Test
-    fun testInboundFlightsToolbarText() {
-        mockPackageServiceRule.getMIDHotelResponse()
-        mockPackageServiceRule.getMIDFlightsResponse()
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesBreadcrumbsForNav)
-
-        presenter = getPackageFlightPresenter()
-        presenter.toolbarViewModel.refreshToolBar.onNext(true)
-        presenter.toolbarViewModel.isOutboundSearch.onNext(false)
-        presenter.toolbarViewModel.travelers.onNext(1)
-        presenter.toolbarViewModel.date.onNext(LocalDate.now())
-        val regionName = getDummyRegionNames()
-        presenter.toolbarViewModel.regionNames.onNext(Optional(regionName))
-        presenter.toolbarViewModel.country.onNext(Optional("India"))
-        presenter.toolbarViewModel.airport.onNext(Optional("BLR"))
-        assertEquals("Inbound to Bengaluru, India (BLR)", presenter.toolbar.title.toString())
-    }
-
-    @Test
-    fun testOutboundFlightsToolbarWithBreadcrumbsText() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesBreadcrumbsForNav)
-        mockPackageServiceRule.getMIDHotelResponse()
-        mockPackageServiceRule.getMIDFlightsResponse()
 
         presenter = getPackageFlightPresenter()
         presenter.toolbarViewModel.refreshToolBar.onNext(true)
@@ -209,8 +172,7 @@ class PackageFlightPresenterTest {
     }
 
     @Test
-    fun testInboundFlightsToolbarWithBreadcrumbsText() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesBreadcrumbsForNav)
+    fun testInboundFlightsToolbarText() {
         mockPackageServiceRule.getMIDHotelResponse()
         mockPackageServiceRule.getMIDFlightsResponse()
 

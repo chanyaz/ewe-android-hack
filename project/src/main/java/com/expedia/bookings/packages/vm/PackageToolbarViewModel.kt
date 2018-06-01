@@ -8,7 +8,6 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
-import com.expedia.bookings.utils.isBreadcrumbsPackagesEnabled
 import com.expedia.vm.BaseToolbarViewModel
 import com.squareup.phrase.Phrase
 
@@ -57,7 +56,7 @@ class PackageToolbarViewModel(private val context: Context) : BaseToolbarViewMod
     }
 
     private fun getResultsTitle(cityName: String, stateOrCountry: String, airportCode: String, isOutbound: Boolean): String {
-        if (shouldShowBreadcrumbsInToolbarTitle()) {
+        if (!Db.sharedInstance.packageParams.isChangePackageSearch()) {
             if (isOutbound) {
                 return Phrase.from(context, R.string.flight_to_outbound_breadcrumbs_TEMPLATE)
                         .put("destination", cityName)
@@ -86,10 +85,6 @@ class PackageToolbarViewModel(private val context: Context) : BaseToolbarViewMod
                         .toString()
             }
         }
-    }
-
-    private fun shouldShowBreadcrumbsInToolbarTitle(): Boolean {
-        return (isBreadcrumbsPackagesEnabled(context) && !Db.sharedInstance.packageParams.isChangePackageSearch())
     }
 
     private fun getStateOrCountryValue(country: String?, state: String?): String {

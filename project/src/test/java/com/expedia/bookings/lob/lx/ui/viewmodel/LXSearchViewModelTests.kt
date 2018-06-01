@@ -16,6 +16,7 @@ import org.robolectric.Robolectric
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.FeatureTestUtils
+import org.junit.Ignore
 import org.robolectric.RuntimeEnvironment
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -92,6 +93,7 @@ class LXSearchViewModelTests {
         searchParamsTestSubscriber.assertValueCount(0)
     }
 
+    @Ignore
     @Test
     fun testLXSearchMultipleDates() {
         vm.datesUpdated(null, null)

@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/step_two" />
+        android:text="@string/step_two_variation" />
 
     <com.expedia.bookings.flights.widget.OutboundFlightWidget
         android:id="@+id/package_bundle_outbound_flight_widget"

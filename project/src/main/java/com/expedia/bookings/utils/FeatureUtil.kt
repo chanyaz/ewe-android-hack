@@ -68,10 +68,6 @@ fun isLxWebViewCheckoutEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppLxWebCheckoutView)
 }
 
-fun isBreadcrumbsPackagesEnabled(context: Context): Boolean {
-    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesBreadcrumbsForNav)
-}
-
 fun isBreadcrumbsMoveBundleOverviewPackagesEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesMoveBundleOverviewForBreadcrumbs)
 }

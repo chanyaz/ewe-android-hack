@@ -3982,8 +3982,6 @@
     <string name="search_bundle_total_text_new">View your trip</string>
     <!-- Bundle Overview Step 1, select a hotel -->
     <string name="step_one">Step 1: Select hotel</string>
-    <!-- Bundle Overview Step 2, select a flight -->
-    <string name="step_two">Step 2: Select flights</string>
     <!-- Bundle Overview Step 2, Select outbound flight (breadcrumbs) -->
     <string name="step_two_variation">Step 2: Select outbound flight</string>
     <!-- Bundle Overview Step 3, Select inbound flight (breadcrumbs) -->

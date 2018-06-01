@@ -22,7 +22,6 @@ import com.expedia.bookings.presenter.hotel.BaseHotelResultsPresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isBreadcrumbsMoveBundleOverviewPackagesEnabled
-import com.expedia.bookings.utils.isBreadcrumbsPackagesEnabled
 import com.expedia.bookings.utils.isHideMiniMapOnResultBucketed
 import com.expedia.bookings.utils.isPackagesHSRPriceDisplayEnabled
 import com.expedia.bookings.widget.BaseHotelFilterView
@@ -64,7 +63,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         }
 
         vm.titleSubject.subscribe {
-            if (shouldShowBreadcrumbsInToolbarTitle()) {
+            if (!Db.sharedInstance.packageParams.isChangePackageSearch()) {
                 toolbarTitle.text = Phrase.from(context, R.string.package_hotel_results_toolbar_title_with_breadcrumbs_TEMPLATE)
                         .put("destination", it)
                         .format()
@@ -89,10 +88,6 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
             filterView.sortByObserver.onNext(params.suggestion.isCurrentLocationSearch && !params.suggestion.isGoogleSuggestionSearch)
             filterViewModel.clearObservable.onNext(Unit)
         }
-    }
-
-    private fun shouldShowBreadcrumbsInToolbarTitle(): Boolean {
-        return (isBreadcrumbsPackagesEnabled(context) && !Db.sharedInstance.packageParams.isChangePackageSearch())
     }
 
     val bundlePriceWidgetTop: BundleTotalPriceTopWidget by lazy {

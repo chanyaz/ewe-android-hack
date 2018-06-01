@@ -2,7 +2,6 @@ package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.packages.util.PackageServicesManager
@@ -12,7 +11,6 @@ import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.tracking.ApiCallFailing
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Constants
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -213,29 +211,6 @@ class BundleOverviewViewModelTests {
 
     @Test
     fun testStepTitle() {
-        val stepOneTestSubscriber = TestObserver<String>()
-        val stepTwoTestSubscriber = TestObserver<String>()
-        val stepThreeTestSubscriber = TestObserver<String>()
-
-        sut.stepOneTextObservable.subscribe(stepOneTestSubscriber)
-        sut.stepTwoTextObservable.subscribe(stepTwoTestSubscriber)
-        sut.stepThreeTextObservale.subscribe(stepThreeTestSubscriber)
-
-        sut.searchParamsChangeObservable.onNext(Unit)
-
-        stepOneTestSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
-        assertEquals(stepOneTestSubscriber.values()[0], "Step 1: Select hotel")
-
-        stepTwoTestSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
-        assertEquals(stepTwoTestSubscriber.values()[0], "Step 2: Select flights")
-
-        stepThreeTestSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
-        assertEquals(stepThreeTestSubscriber.values()[0], "")
-    }
-
-    @Test
-    fun testStepTitleWithBreadcrumbs() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppPackagesBreadcrumbsForNav)
         val stepOneTestSubscriber = TestObserver<String>()
         val stepTwoTestSubscriber = TestObserver<String>()
         val stepThreeTestSubscriber = TestObserver<String>()
