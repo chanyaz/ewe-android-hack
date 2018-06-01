@@ -10,18 +10,19 @@ import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.extensions.subscribeTextAndVisibility
 import com.expedia.bookings.itin.scopes.ItinImageViewModelSetter
+import com.expedia.bookings.itin.tripstore.data.ItinLOB
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 
-class ItinImageWidget(context: Context, attr: AttributeSet?) : LinearLayout(context, attr), ItinImageViewModelSetter {
-    override fun setupViewModel(vm: ItinImageViewModel) {
+class ItinImageWidget<T : ItinLOB>(context: Context, attr: AttributeSet?) : LinearLayout(context, attr), ItinImageViewModelSetter<T> {
+    override fun setupViewModel(vm: ItinImageViewModel<T>) {
         viewModel = vm
     }
 
     val itinImage: ImageView by bindView(R.id.itin_image_view)
     val itinName: TextView by bindView(R.id.itin_name)
 
-    var viewModel: ItinImageViewModel by notNullAndObservable { vm ->
+    var viewModel: ItinImageViewModel<T> by notNullAndObservable { vm ->
         vm.imageUrlSubject.subscribe { url ->
             PicassoHelper.Builder(itinImage)
                     .setPlaceholder(R.drawable.room_fallback)

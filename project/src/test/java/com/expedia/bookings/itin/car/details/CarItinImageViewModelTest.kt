@@ -36,7 +36,7 @@ class CarItinImageViewModelTest {
         nameTestObserver.assertNoValues()
         urlTestObserver.assertNoValues()
 
-        sut.itinCarObserver.onChanged(ItinMocker.carDetailsHappy.firstCar())
+        sut.itinLOBObserver.onChanged(ItinMocker.carDetailsHappy.firstCar())
 
         nameTestObserver.assertValue("Thrifty")
         urlTestObserver.assertValue("https://images.trvl-media.com/cars%2F45%2FECMRToyotaYaris_ZT_AUS_20160405_s.jpg")
@@ -47,7 +47,7 @@ class CarItinImageViewModelTest {
         nameTestObserver.assertNoValues()
         urlTestObserver.assertNoValues()
 
-        sut.itinCarObserver.onChanged(ItinMocker.carDetailsBadNameAndImage.firstCar())
+        sut.itinLOBObserver.onChanged(ItinMocker.carDetailsBadNameAndImage.firstCar())
 
         nameTestObserver.assertNoValues()
         urlTestObserver.assertNoValues()

@@ -122,11 +122,11 @@ class LxItinDetailsActivityLifecycleObserverTest {
     }
 
 
-    class TestLifeCycleObsScope<T : ItinLOB> : HasStringProvider, HasWebViewLauncher, HasActivityLauncher, HasJsonUtil, HasItinId, HasToolbarViewModelSetter, HasManageBookingWidgetViewModelSetter, HasTripsTracking, HasMapWidgetViewModelSetter<T>, HasRedeemVoucherViewModelSetter, HasToaster, HasPhoneHandler, HasItinImageViewModelSetter, HasItinTimingsViewModelSetter<T> {
+    class TestLifeCycleObsScope<T : ItinLOB> : HasStringProvider, HasWebViewLauncher, HasActivityLauncher, HasJsonUtil, HasItinId, HasToolbarViewModelSetter, HasManageBookingWidgetViewModelSetter, HasTripsTracking, HasMapWidgetViewModelSetter<T>, HasRedeemVoucherViewModelSetter, HasToaster, HasPhoneHandler, HasItinImageViewModelSetter<T>, HasItinTimingsViewModelSetter<T> {
         val mockPhoneHandler = MockPhoneHandler()
         override val phoneHandler: IPhoneHandler = mockPhoneHandler
-        val mockImage = MockImageSetter()
-        override val itinImage: ItinImageViewModelSetter = mockImage
+        val mockImage = MockImageSetter<T>()
+        override val itinImage: ItinImageViewModelSetter<T> = mockImage
         val mockToaster = MockToaster()
         override val toaster: IToaster = mockToaster
         override val map: MapWidgetViewModelSetter<T> = MockMapSetter()
@@ -161,7 +161,7 @@ class LxItinDetailsActivityLifecycleObserverTest {
         }
     }
 
-    class MockTimingsSetter<T : ItinLOB>() : ItinTimingsViewModelSetter<T> {
+    class MockTimingsSetter<T : ItinLOB> : ItinTimingsViewModelSetter<T> {
         var called = false
         override fun setupViewModel(vm: ItinTimingsWidgetViewModel<T>) {
             called = true
@@ -190,8 +190,8 @@ class LxItinDetailsActivityLifecycleObserverTest {
         }
     }
 
-    class MockImageSetter : ItinImageViewModelSetter {
-        override fun setupViewModel(vm: ItinImageViewModel) {
+    class MockImageSetter<T : ItinLOB> : ItinImageViewModelSetter<T> {
+        override fun setupViewModel(vm: ItinImageViewModel<T>) {
             called = true
         }
 

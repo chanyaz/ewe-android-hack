@@ -6,20 +6,19 @@ import com.expedia.bookings.itin.scopes.HasCarRepo
 import com.expedia.bookings.itin.scopes.HasLifecycleOwner
 import com.expedia.bookings.itin.tripstore.data.ItinCar
 
-class CarItinImageViewModel<S>(val scope: S) : ItinImageViewModel() where S : HasCarRepo, S : HasLifecycleOwner {
-    val itinCarObserver: LiveDataObserver<ItinCar>
-    init {
-        itinCarObserver = LiveDataObserver {
-            it?.let { itinCar ->
-                itinCar.carVendor?.longName?.let { name ->
-                    nameSubject.onNext(name)
-                }
+class CarItinImageViewModel<S>(val scope: S) : ItinImageViewModel<ItinCar>() where S : HasCarRepo, S : HasLifecycleOwner {
+    override val itinLOBObserver: LiveDataObserver<ItinCar> = LiveDataObserver {
+        it?.let { itinCar ->
+            itinCar.carVendor?.longName?.let { name ->
+                nameSubject.onNext(name)
+            }
 
-                itinCar.carCategoryImageURL?.let { url ->
-                    imageUrlSubject.onNext(url)
-                }
+            itinCar.carCategoryImageURL?.let { url ->
+                imageUrlSubject.onNext(url)
             }
         }
-        scope.itinCarRepo.liveDataCar.observe(scope.lifecycleOwner, itinCarObserver)
+    }
+    init {
+        scope.itinCarRepo.liveDataCar.observe(scope.lifecycleOwner, itinLOBObserver)
     }
 }

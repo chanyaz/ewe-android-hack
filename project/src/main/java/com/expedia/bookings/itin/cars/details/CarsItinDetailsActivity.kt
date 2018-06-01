@@ -56,7 +56,7 @@ class CarsItinDetailsActivity : AppCompatActivity() {
     val manageBookingWidget: ItinManageBookingWidget by bindView(R.id.widget_manage_booking)
     val pickupMapWidget: ItinMapWidget<ItinCar> by bindView(R.id.pickup_map_widget)
     val dropOffMapWidget: ItinMapWidget<ItinCar> by bindView(R.id.dropOff_map_widget)
-    val imageWidget: ItinImageWidget by bindView(R.id.itin_image_widget)
+    val imageWidget: ItinImageWidget<ItinCar> by bindView(R.id.itin_image_widget)
     val timingsWidget: ItinTimingsWidget<ItinCar> by bindView(R.id.itin_timings_widget)
 
     var toolbarViewModel: NewItinToolbarViewModel by notNullAndObservable { vm ->

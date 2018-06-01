@@ -41,12 +41,12 @@ interface HasRedeemVoucherViewModelSetter {
     val redeemVoucher: RedeemVoucherViewModelSetter
 }
 
-interface HasItinImageViewModelSetter {
-    val itinImage: ItinImageViewModelSetter
+interface HasItinImageViewModelSetter<T : ItinLOB>{
+    val itinImage: ItinImageViewModelSetter<T>
 }
 
-interface ItinImageViewModelSetter {
-    fun setupViewModel(vm: ItinImageViewModel)
+interface ItinImageViewModelSetter<T : ItinLOB> {
+    fun setupViewModel(vm: ItinImageViewModel<T>)
 }
 
 interface ItinTimingsViewModelSetter<T : ItinLOB> {
