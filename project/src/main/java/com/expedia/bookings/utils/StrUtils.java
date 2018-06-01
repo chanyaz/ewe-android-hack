@@ -421,18 +421,33 @@ public class StrUtils {
 		return formatLegalTextSpan(legalTextSpan, spans);
 	}
 
-	public static SpannableStringBuilder generateNewTermsRewardLegalLink(Context context) {
+	public static SpannableStringBuilder generateRewardCombinedTextWithLegalLink(Context context) {
 		SpannableStringBuilder legalTextSpan = new SpannableStringBuilder();
 
 		String termsAndConditionsUrl = PointOfSale.getPointOfSale().getLoyaltyTermsAndConditionsUrl();
 		String termsOfUseUrl = getAppropriateTermsAndConditionsUrl();
 		String privacyPolicyUrl = PointOfSale.getPointOfSale().getPrivacyPolicyUrl();
 
-		legalTextSpan.append(HtmlCompat.fromHtml(Phrase.from(context.getResources(), R.string.account_creation_new_terms_reward_TEMPLATE)
+		legalTextSpan.append(HtmlCompat.fromHtml(Phrase.from(context.getResources(), R.string.account_creation_reward_combined_text_TEMPLATE)
 				.put("privacy_policy_url", privacyPolicyUrl)
 				.put("terms_of_use_url", termsOfUseUrl)
 				.putOptional("brand_reward_name", context.getString(R.string.brand_reward_name))
 				.put("terms_and_conditions_url", termsAndConditionsUrl)
+				.format().toString()));
+		URLSpan[] spans = legalTextSpan.getSpans(0, legalTextSpan.length(), URLSpan.class);
+
+		return formatLegalTextSpan(legalTextSpan, spans);
+	}
+
+	public static SpannableStringBuilder generateNonRewardTextWithLegalLink(Context context) {
+		SpannableStringBuilder legalTextSpan = new SpannableStringBuilder();
+
+		String termsOfUseUrl = getAppropriateTermsAndConditionsUrl();
+		String privacyPolicyUrl = PointOfSale.getPointOfSale().getPrivacyPolicyUrl();
+
+		legalTextSpan.append(HtmlCompat.fromHtml(Phrase.from(context.getResources(), R.string.account_creation_non_reward_text_TEMPLATE)
+				.put("privacy_policy_url", privacyPolicyUrl)
+				.put("terms_of_use_url", termsOfUseUrl)
 				.format().toString()));
 		URLSpan[] spans = legalTextSpan.getSpans(0, legalTextSpan.length(), URLSpan.class);
 

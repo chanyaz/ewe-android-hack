@@ -3786,7 +3786,7 @@
     <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">Quero me inscrever no {brand_reward_name} ainda hoje! Ao me inscrever no {brand_reward_name}, eu aceito todos os &lt;a href="{terms_and_conditions_url}"&gt;Termos e Condições&lt;/a&gt;.</string>
     <!--Account creation legal template for terms and reward eg: By creating an account, I accept the Expedia Rewards Terms & Conditions, and have read and accept the Terms of Use and the Privacy Policy.-->
-    <string name="account_creation_new_terms_reward_TEMPLATE">Ao criar a conta, eu concordo que li e aceito os &lt;a href="{terms_and_conditions_url}"&gt;Termos e Condições&lt;/a&gt;, os &lt;a href="{terms_of_use_url}"&gt;Termos de Uso&lt;/a&gt; e a &lt;a href="{privacy_policy_url}"&gt;Política de Privacidade&lt;/a&gt; do {brand_reward_name}.</string>
+    <string name="account_creation_reward_combined_text_TEMPLATE">Ao criar a conta, eu concordo que li e aceito os &lt;a href="{terms_and_conditions_url}"&gt;Termos e Condições&lt;/a&gt;, os &lt;a href="{terms_of_use_url}"&gt;Termos de Uso&lt;/a&gt; e a &lt;a href="{privacy_policy_url}"&gt;Política de Privacidade&lt;/a&gt; do {brand_reward_name}.</string>
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Selecione a idade de cada criança</string>
 

@@ -3786,7 +3786,7 @@
     <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">今すぐ{brand_reward_name}にご入会ください。{brand_reward_name}への入会をもって、すべての&lt;a href="{terms_and_conditions_url}"&gt;利用規約&lt;/a&gt;に同意したものとみなされます。</string>
     <!--Account creation legal template for terms and reward eg: By creating an account, I accept the Expedia Rewards Terms & Conditions, and have read and accept the Terms of Use and the Privacy Policy.-->
-    <string name="account_creation_new_terms_reward_TEMPLATE">アカウントの作成をもって、{brand_reward_name}&lt;a href="{terms_and_conditions_url}"&gt;利用規約&lt;/a&gt;に同意したものみなされます。また、&lt;a href="{terms_of_use_url}"&gt;&lt;/a&gt;利用規約&lt;a href="{privacy_policy_url}"&gt;およびプライバシーポリシー&lt;/a&gt;を読み、その内容に同意したものとみなされます。</string>
+    <string name="account_creation_reward_combined_text_TEMPLATE">アカウントの作成をもって、{brand_reward_name}&lt;a href="{terms_and_conditions_url}"&gt;利用規約&lt;/a&gt;に同意したものみなされます。また、&lt;a href="{terms_of_use_url}"&gt;&lt;/a&gt;利用規約&lt;a href="{privacy_policy_url}"&gt;およびプライバシーポリシー&lt;/a&gt;を読み、その内容に同意したものとみなされます。</string>
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">お子様の年齢を選択する</string>
 
