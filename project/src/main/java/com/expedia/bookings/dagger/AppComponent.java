@@ -23,6 +23,7 @@ import com.expedia.bookings.itin.utils.StringSource;
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.launch.widget.LaunchListWidget;
 import com.expedia.bookings.model.PointOfSaleStateModel;
+import com.expedia.bookings.notification.GCMIntentService;
 import com.expedia.bookings.notification.INotificationManager;
 import com.expedia.bookings.onboarding.activity.OnboardingActivity;
 import com.expedia.bookings.presenter.trips.AddGuestItinWidget;
@@ -69,6 +70,8 @@ public interface AppComponent {
 	void inject(RouterActivity routerActivity);
 
 	void inject(AccountLibActivity accountLibActivity);
+
+	void inject(GCMIntentService gcmIntentService);
 
 	PointOfSaleStateModel pointOfSaleStateModel();
 

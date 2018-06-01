@@ -78,4 +78,15 @@ class TNSServicesTests {
         testServiceObserver.assertValueCount(1)
         assertEquals("SUCCESS", response.status)
     }
+
+    @Test
+    fun testNotificationReceived() {
+        service!!.notificationReceivedConfirmation("1234")
+        testServiceObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
+        val response = testServiceObserver.values()[0]
+        testServiceObserver.assertNoErrors()
+        testServiceObserver.assertComplete()
+        testServiceObserver.assertValueCount(1)
+        assertEquals("success", response.status)
+    }
 }

@@ -8,6 +8,7 @@ import io.reactivex.Observable
 import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 internal interface TNSApi {
 
@@ -20,4 +21,8 @@ internal interface TNSApi {
 
     @POST("/m/api/deregister")
     fun deregisterUserDevice(@Body body: TNSDeregister): Observable<TNSRegisterDeviceResponse>
+
+    @POST("/m/api/notification/received/{notificationId}")
+    fun notificationReceivedConfirmation(
+            @Path("notificationId") notificationId: String): Observable<TNSRegisterDeviceResponse>
 }

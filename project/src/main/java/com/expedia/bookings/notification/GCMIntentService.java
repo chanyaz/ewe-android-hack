@@ -1,10 +1,9 @@
 package com.expedia.bookings.notification;
 
 import java.util.Collection;
-
+import javax.inject.Inject;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +15,8 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncAdapter;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripFlight;
+import com.expedia.bookings.services.TNSServices;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 
 public class GCMIntentService extends IntentService {
@@ -23,6 +24,18 @@ public class GCMIntentService extends IntentService {
 	public GCMIntentService() {
 		super("GCMIntentService: " + PushNotificationUtils.SENDER_ID);
 		Log.d("GCM GCMIntentService constructor");
+		itineraryManager = ItineraryManager.getInstance();
+	}
+
+	@Inject
+	public TNSServices tnsService;
+
+	public ItineraryManager itineraryManager;
+
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		Ui.getApplication(this).appComponent().inject(this);
 	}
 
 	private static final String LOGGING_TAG = "GCMIntentService";
@@ -66,16 +79,18 @@ public class GCMIntentService extends IntentService {
 						locArgsStrings[i] = locArgs.getString(i);
 					}
 					final String notificationID = data.optString("nid");
-
+					if (!notificationID.isEmpty()) {
+						PushNotificationUtilsV2.sendConfirmationNotificationReceived(tnsService, notificationID);
+					}
 					//If our itins arent synced yet, we cant show pretty notifications, so if we are syncing, we wait
-					if (!ItineraryManager.getInstance().isSyncing()) {
+					if (!itineraryManager.isSyncing()) {
 						Log.d(LOGGING_TAG, "GCM onMessage - not syncing, starting sync.");
-						ItineraryManager.getInstance().startSync(true);
-						ItineraryManager.getInstance().addSyncListener(makeSyncListener(fhid, locKey, locArgsStrings, type, titleKey, notificationID));
+						itineraryManager.startSync(true);
+						itineraryManager.addSyncListener(makeSyncListener(fhid, locKey, locArgsStrings, type, titleKey, notificationID));
 					}
 					else {
 						Log.d(LOGGING_TAG, "GCM onMessage - Waiting for the ItinManager to finish syncing...");
-						ItineraryManager.getInstance().addSyncListener(makeSyncListener(fhid, locKey, locArgsStrings, type, titleKey, notificationID));
+						itineraryManager.addSyncListener(makeSyncListener(fhid, locKey, locArgsStrings, type, titleKey, notificationID));
 					}
 				}
 				catch (Exception ex) {
@@ -104,7 +119,7 @@ public class GCMIntentService extends IntentService {
 
 	private void generateNotification(final int fhid, final String locKey, final String[] locArgs, final String type, final String titleKey, final String nID) {
 		//We should find the flight in itin manager (using fhid) and do a deep refresh. and to find the correct uniqueid for the itin in question
-		TripFlight component = ItineraryManager.getInstance().getTripComponentFromFlightHistoryId(fhid);
+		TripFlight component = itineraryManager.getTripComponentFromFlightHistoryId(fhid);
 		if (component != null) {
 
 			//ItineraryManager.startSync needs to happen on the UI thread, hence the Handler magic
@@ -114,7 +129,7 @@ public class GCMIntentService extends IntentService {
 				handler.post(new Runnable() {
 					@Override
 					public void run() {
-						ItineraryManager.getInstance().addSyncListener(new ItinerarySyncAdapter() {
+						itineraryManager.addSyncListener(new ItinerarySyncAdapter() {
 							@Override
 							public void onTripUpdated(Trip trip) {
 								//After the refresh completes we should show the notification
@@ -136,11 +151,11 @@ public class GCMIntentService extends IntentService {
 							private void notify(Trip trip) {
 								PushNotificationUtils.generateNotification(GCMIntentService.this, fhid, locKey,
 									locArgs, titleKey, nID);
-								ItineraryManager.getInstance().removeSyncListener(this);
+								itineraryManager.removeSyncListener(this);
 							}
 						});
 
-						ItineraryManager.getInstance().deepRefreshTrip(notificationTrip.getItineraryKey(), true);
+						itineraryManager.deepRefreshTrip(notificationTrip.getItineraryKey(), true);
 						Log.d(LOGGING_TAG, "GCM: Started deep refresh, waiting for sync completion...");
 					}
 				});
@@ -164,14 +179,14 @@ public class GCMIntentService extends IntentService {
 			@Override
 			public void onSyncFinished(Collection<Trip> trips) {
 				Log.d(LOGGING_TAG, "GCM onMessage - ItinManager finished syncing, building notification now.");
-				ItineraryManager.getInstance().removeSyncListener(this);
+				itineraryManager.removeSyncListener(this);
 				generateNotification(fhid, locKey, locArgs, type, titleKey, nID);
 			}
 
 			@Override
 			public void onSyncFailure(ItineraryManager.SyncError error) {
 				Log.d(LOGGING_TAG, "GCM onMessage - ItinManager failed syncing, building notification now.");
-				ItineraryManager.getInstance().removeSyncListener(this);
+				itineraryManager.removeSyncListener(this);
 				generateNotification(fhid, locKey, locArgs, type, titleKey, nID);
 			}
 		};

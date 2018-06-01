@@ -78,7 +78,6 @@ class TNSServices @JvmOverloads constructor(endpoint: String, okHttpClient: OkHt
 
         return userDeviceSubscription as Disposable
     }
-
     fun deregisterDevice(courier: Courier): Disposable {
         userDeviceDeregistrationSubscription?.dispose()
         val requestBody = TNSDeregister(courier)
@@ -88,5 +87,12 @@ class TNSServices @JvmOverloads constructor(endpoint: String, okHttpClient: OkHt
                 .subscribeObserver(serviceObserver)
 
         return userDeviceDeregistrationSubscription as Disposable
+    }
+
+    fun notificationReceivedConfirmation(notificationId: String): Disposable {
+        return tnsAPI.notificationReceivedConfirmation(notificationId)
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .subscribeObserver(serviceObserver)
     }
 }

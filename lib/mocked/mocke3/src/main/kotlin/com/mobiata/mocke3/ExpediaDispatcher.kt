@@ -215,6 +215,9 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener, dispatcherSettings
         if (request.path.contains("/m/api/trips/tripfolders")) {
             return tripsDispatcher.dispatch(request)
         }
+        if (request.path.contains("/m/api/notification/received")) {
+            return dispatchTNSNotificationReceivedResponse()
+        }
 
         return make404()
     }
@@ -456,6 +459,10 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener, dispatcherSettings
 
     private fun dispatchTNSDeregistrationResponse(): MockResponse {
         return makeResponse("api/trips/tns_registration_user_response.json")
+    }
+
+    private fun dispatchTNSNotificationReceivedResponse(): MockResponse {
+        return makeResponse("api/trips/tns_notification_received_response.json")
     }
 
     private fun dispatchGaiaSuggest(request: RecordedRequest): MockResponse {
