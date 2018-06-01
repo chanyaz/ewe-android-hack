@@ -27,7 +27,7 @@ public interface LXApi {
 	 * @param startDate optional
 	 * @param endDate   optional
 	 */
-	@GET("/lx/api/search?commonReviewsEnabled=true&vbpEnabled=true")
+	@GET("/lx/api/search?commonReviewsEnabled=true&vbpEnabled=true&expertPicks=true")
 	@Headers("Cache-Control: no-cache")
 	Observable<LXSearchResponse> searchLXActivities(
 		@Query("location") String location,
