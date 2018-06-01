@@ -1,6 +1,7 @@
 package com.expedia.vm
 
 import com.expedia.bookings.data.hotels.HotelReviewsResponse
+import com.expedia.bookings.utils.Constants
 import com.expedia.util.endlessObserver
 import io.reactivex.subjects.BehaviorSubject
 
@@ -17,5 +18,6 @@ class HotelReviewsPageViewModel {
         reviewsListObservable.onNext(hasReviews)
         messageProgressLoadingObservable.onNext(!hasReviews)
         messageProgressLoadingAnimationObservable.onNext(Unit)
+        moreReviewsAvailableObservable.onNext(reviews.size >= Constants.HOTEL_REVIEWS_PAGE_SIZE)
     }
 }

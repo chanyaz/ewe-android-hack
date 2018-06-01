@@ -1037,6 +1037,7 @@
         <item name="autoCompleteTextViewStyle">@style/HotelReviewsSearchViewTextStyle</item>
         <item name="android:textColorHint">@color/gray600</item>
         <item name="colorControlNormal">@color/gray600</item>
+        <item name="android:backgroundTint">@color/transparent</item>
     </style>
 
     <style name="HotelReviewsSearchViewTextStyle" parent="Widget.AppCompat.Light.AutoCompleteTextView">

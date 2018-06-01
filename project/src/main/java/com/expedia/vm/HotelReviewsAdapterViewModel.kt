@@ -8,6 +8,7 @@ import com.expedia.bookings.data.hotels.ReviewSummary
 import com.expedia.bookings.hotel.data.TranslatedReview
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.utils.Constants
 import com.expedia.util.endlessObserver
 import io.reactivex.Observable
 import io.reactivex.observers.DisposableObserver
@@ -19,7 +20,6 @@ class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: Rev
     private val reviewsPageNumber = IntArray(3)
 
     val MIN_FAVORABLE_RATING = 3
-    val PAGE_SIZE = 25
 
     val reviewsSummaryObservable = PublishSubject.create<ReviewSummary>()
     val favorableReviewsObservable = PublishSubject.create<List<Review>>()
@@ -48,7 +48,7 @@ class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: Rev
         val params = HotelReviewsParams.Builder()
                 .hotelId(hotelId)
                 .pageNumber(reviewsPageNumber[reviewSort.value]++)
-                .numReviewsPerPage(PAGE_SIZE)
+                .numReviewsPerPage(Constants.HOTEL_REVIEWS_PAGE_SIZE)
                 .sortBy(reviewSort.sortByApiParam)
                 .languageSort(locale)
                 .searchTerm(searchTerm)

@@ -16,6 +16,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
+import com.expedia.bookings.hotel.widget.HotelReviewSearchResultsView
 import com.expedia.bookings.hotel.widget.HotelSelectARoomBar
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.utils.Ui
@@ -35,7 +36,7 @@ class HotelReviewsView(context: Context, attrs: AttributeSet) : RelativeLayout(c
     val toolbar: Toolbar by bindView(R.id.hotel_reviews_toolbar)
     private val reviewsContainer: LinearLayout by bindView(R.id.reviews_container)
     private val selectARoomBar: HotelSelectARoomBar by bindView(R.id.hotel_reviews_select_a_room_bar)
-    private val searchListContainer: LinearLayout by bindView(R.id.hotel_review_search_results_container)
+    private val searchResultsView: HotelReviewSearchResultsView by bindView(R.id.hotel_review_search_results)
 
     var viewModel: HotelReviewsViewModel by notNullAndObservable { vm ->
         vm.toolbarTitleObservable.subscribe { hotelName ->
@@ -62,6 +63,33 @@ class HotelReviewsView(context: Context, attrs: AttributeSet) : RelativeLayout(c
     }
 
     var adapter: HotelReviewsAdapter by Delegates.notNull()
+
+    private var searchView: SearchView? = null
+    private val searchViewQueryListener = object : SearchView.OnQueryTextListener {
+        override fun onQueryTextChange(newText: String?): Boolean {
+            return true
+        }
+
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            searchResultsView.doSearch(query, viewModel.hotelIdObservable.value)
+            searchView?.clearFocus()
+            return true
+        }
+    }
+    private val searchMenuExpandListener = object : MenuItem.OnActionExpandListener {
+        override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+            toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
+            searchResultsView.setVisibility(true)
+            return true
+        }
+
+        override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+            toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.app_primary))
+            searchResultsView.setVisibility(false)
+            searchResultsView.onCollapse()
+            return true
+        }
+    }
 
     init {
         View.inflate(context, R.layout.widget_hotel_reviews, this)
@@ -104,21 +132,10 @@ class HotelReviewsView(context: Context, attrs: AttributeSet) : RelativeLayout(c
 
     private fun setupSearchView() {
         toolbar.inflateMenu(R.menu.hotel_review_menu)
-        toolbar.menu.getItem(0).setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
-            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
-                toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
-                searchListContainer.setVisibility(true)
-                return true
-            }
+        toolbar.menu.getItem(0).setOnActionExpandListener(searchMenuExpandListener)
 
-            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
-                toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.app_primary))
-                searchListContainer.setVisibility(false)
-                return true
-            }
-        })
-
-        val searchView = toolbar.menu.getItem(0).actionView as? SearchView
+        searchView = toolbar.menu.getItem(0).actionView as? SearchView
         searchView?.maxWidth = Integer.MAX_VALUE
+        searchView?.setOnQueryTextListener(searchViewQueryListener)
     }
 }

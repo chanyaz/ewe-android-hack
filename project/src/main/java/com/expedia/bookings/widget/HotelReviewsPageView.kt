@@ -3,11 +3,13 @@ package com.expedia.bookings.widget
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Context
+import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.hotel.widget.HotelReviewsRecyclerView
@@ -16,7 +18,7 @@ import com.expedia.bookings.hotel.widget.HotelReviewsRecyclerView.HotelReviewsRe
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.HotelReviewsPageViewModel
 
-class HotelReviewsPageView(context: Context) : LinearLayout(context) {
+class HotelReviewsPageView(context: Context, attributeSet: AttributeSet?) : LinearLayout(context, attributeSet) {
 
     val messageProgressLoading: MessageProgressView by bindView(R.id.message_progress_loading)
     val recyclerView: HotelReviewsRecyclerView by bindView(android.R.id.list)
@@ -31,7 +33,7 @@ class HotelReviewsPageView(context: Context) : LinearLayout(context) {
         animation.repeatMode = ValueAnimator.RESTART
         animation.repeatCount = ValueAnimator.INFINITE
         animation.duration = 1500
-        animation.start()
+        startLoadingAnimation()
     }
 
     var viewModel: HotelReviewsPageViewModel by notNullAndObservable { vm ->
@@ -50,5 +52,10 @@ class HotelReviewsPageView(context: Context) : LinearLayout(context) {
                 recyclerAdapter.moreReviewsAvailable = moreReviewsAvailable
             }
         }
+    }
+
+    fun startLoadingAnimation() {
+        messageProgressLoading.setVisibility(true)
+        animation.start()
     }
 }

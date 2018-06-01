@@ -131,4 +131,5 @@ public class Constants {
 	public static final int DEFAULT_MAX_OFFER_COUNT = 1600;
 	public static final int BYOT_MAX_OFFER_COUNT = 6400;
 
+	public static final int HOTEL_REVIEWS_PAGE_SIZE = 25;
 }

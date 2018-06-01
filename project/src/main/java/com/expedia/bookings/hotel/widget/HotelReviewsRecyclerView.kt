@@ -41,17 +41,18 @@ class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : Recycler
         val translationUpdatedSubject = endlessObserver<String> { reviewId ->
             val reviewIndex = reviews.indexOfFirst { reviewInList -> reviewInList.reviewId == reviewId }
             if (reviewIndex >= 0) {
-                notifyItemChanged(reviewIndex + 1)
+                notifyItemChanged(reviewIndex + getHeaderCount())
             }
         }
         var translationMap: HashMap<String, TranslatedReview>? = null
+        var showSummary = true
 
         private var reviews: ArrayList<HotelReviewsResponse.Review> = arrayListOf()
         private var reviewsSummary: ReviewSummary = ReviewSummary()
 
         override fun getItemCount(): Int {
             // Summary and loading progress footer should count
-            return reviews.size + 1 + if (moreReviewsAvailable) 1 else 0
+            return reviews.size + getHeaderCount() + getFooterCount()
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HotelReviewsViewHolder {
@@ -77,8 +78,8 @@ class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : Recycler
                 }
                 is HotelReviewRowView -> {
                     val hotelReviewRowViewModel = HotelReviewRowViewModel(holder.itemView.context)
-                    hotelReviewRowViewModel.reviewObserver.onNext(reviews[position - 1])
-                    translationMap?.get(reviews[position - 1].reviewId)?.let { translatedReview ->
+                    hotelReviewRowViewModel.reviewObserver.onNext(reviews[position - getHeaderCount()])
+                    translationMap?.get(reviews[position - getHeaderCount()].reviewId)?.let { translatedReview ->
                         hotelReviewRowViewModel.translatedReviewObserver.onNext(translatedReview)
                     }
                     hotelReviewRowViewModel.toggleReviewTranslationObservable.subscribe(toggleReviewTranslationSubject)
@@ -89,13 +90,19 @@ class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : Recycler
         }
 
         override fun getItemViewType(position: Int): Int {
-            if (position == 0) return if (isBucketedToUseBoxRating) VIEW_TYPE_HEADER_BOX_RATING else VIEW_TYPE_HEADER
-            if (position >= reviews.size + 1) return VIEW_TYPE_LOADING
+            if (position == getHeaderPosition()) return if (isBucketedToUseBoxRating) VIEW_TYPE_HEADER_BOX_RATING else VIEW_TYPE_HEADER
+            if (position >= reviews.size + getHeaderCount()) return VIEW_TYPE_LOADING
             return VIEW_TYPE_REVIEW
         }
 
         fun addReviews(addedReviews: List<HotelReviewsResponse.Review>) {
             reviews.addAll(addedReviews)
+            notifyDataSetChanged()
+        }
+
+        fun clearReviews() {
+            moreReviewsAvailable = false
+            reviews.clear()
             notifyDataSetChanged()
         }
 
@@ -107,6 +114,10 @@ class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : Recycler
         private fun loadMoreReviews() {
             loadMoreObservable.onNext(Unit)
         }
+
+        private fun getHeaderPosition() = if (showSummary) 0 else -1
+        private fun getHeaderCount() = if (showSummary) 1 else 0
+        private fun getFooterCount() = if (moreReviewsAvailable) 1 else 0
     }
 
     class HotelReviewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
