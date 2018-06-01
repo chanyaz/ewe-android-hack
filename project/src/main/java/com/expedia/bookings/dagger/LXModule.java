@@ -8,8 +8,8 @@ import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.services.LxServices;
 import com.expedia.vm.PaymentViewModel;
-import com.expedia.vm.lx.LXCheckoutViewModel;
-import com.expedia.vm.lx.LXCreateTripViewModel;
+import com.expedia.bookings.lx.vm.LXCheckoutViewModel;
+import com.expedia.bookings.lx.vm.LXCreateTripViewModel;
 
 import dagger.Module;
 import dagger.Provides;

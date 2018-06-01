@@ -21,7 +21,7 @@ import com.expedia.bookings.utils.isLXMultipleDatesSearchEnabled
 import com.expedia.bookings.widget.LXSuggestionAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseSearchViewModel
-import com.expedia.vm.LXSuggestionAdapterViewModel
+import com.expedia.bookings.lx.vm.LXSuggestionAdapterViewModel
 import com.expedia.vm.BaseSuggestionAdapterViewModel
 import com.squareup.phrase.Phrase
 

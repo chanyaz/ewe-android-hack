@@ -1,4 +1,4 @@
-package com.expedia.vm.lx
+package com.expedia.bookings.lx.vm
 
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4

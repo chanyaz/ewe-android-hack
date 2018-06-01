@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.robolectric
+package com.expedia.bookings.lx.vm
 
 import android.app.Activity
 import com.expedia.bookings.data.LXState
@@ -7,9 +7,10 @@ import com.expedia.bookings.data.lx.ActivityDetailsResponse
 import com.expedia.bookings.data.lx.LXActivity
 import com.expedia.bookings.data.lx.LxSearchParams
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.test.robolectric.MockActivityObjects
+import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.LXMapViewModel
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test

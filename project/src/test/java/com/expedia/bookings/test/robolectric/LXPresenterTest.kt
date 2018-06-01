@@ -26,7 +26,7 @@ import com.expedia.bookings.utils.TuneUtilsTests
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.expedia.util.Optional
-import com.expedia.vm.LXWebCheckoutViewViewModel
+import com.expedia.bookings.lx.vm.LXWebCheckoutViewViewModel
 import com.expedia.vm.WebCheckoutViewViewModel
 import com.google.gson.GsonBuilder
 import org.joda.time.LocalDate

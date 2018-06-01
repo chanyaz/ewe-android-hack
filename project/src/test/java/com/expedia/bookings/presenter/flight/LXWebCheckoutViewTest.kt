@@ -9,9 +9,9 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.shared.WebCheckoutView
-import com.expedia.vm.LXWebCheckoutViewViewModel
+import com.expedia.bookings.lx.vm.LXWebCheckoutViewViewModel
 import com.expedia.vm.WebCheckoutViewViewModel
-import com.expedia.vm.lx.LXCreateTripViewModel
+import com.expedia.bookings.lx.vm.LXCreateTripViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

@@ -1,4 +1,4 @@
-package com.expedia.vm
+package com.expedia.bookings.lx.vm
 
 import android.content.Context
 import android.location.Location
@@ -7,6 +7,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.services.ISuggestionV4Services
 import com.expedia.bookings.utils.SuggestionV4Utils
+import com.expedia.vm.BaseSuggestionAdapterViewModel
 import io.reactivex.Observable
 
 class LXSuggestionAdapterViewModel(context: Context, suggestionsService: ISuggestionV4Services, locationObservable: Observable<Location>?, shouldShowCurrentLocation: Boolean, rawQueryEnabled: Boolean) : BaseSuggestionAdapterViewModel(context, suggestionsService, locationObservable, shouldShowCurrentLocation, rawQueryEnabled) {

@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.robolectric
+package com.expedia.bookings.lx.vm
 
 import com.expedia.bookings.data.lx.LXCreateTripResponseV2
 import com.expedia.bookings.data.pos.PointOfSale
@@ -6,8 +6,7 @@ import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.Optional
-import com.expedia.vm.LXWebCheckoutViewViewModel
-import com.expedia.vm.lx.LXCreateTripViewModel
+import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test

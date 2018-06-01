@@ -9,8 +9,8 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.vm.AbstractCheckoutViewModel
 import com.expedia.vm.BaseCreateTripViewModel
-import com.expedia.vm.lx.LXCheckoutViewModel
-import com.expedia.vm.lx.LXCreateTripViewModel
+import com.expedia.bookings.lx.vm.LXCheckoutViewModel
+import com.expedia.bookings.lx.vm.LXCreateTripViewModel
 import com.expedia.vm.traveler.LXTravelersViewModel
 import com.expedia.vm.traveler.TravelersViewModel
 import com.squareup.otto.Subscribe

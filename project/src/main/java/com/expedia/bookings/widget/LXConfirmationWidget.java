@@ -32,7 +32,7 @@ import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.navigation.NavUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.vm.lx.LXConfirmationWidgetViewModel;
+import com.expedia.bookings.lx.vm.LXConfirmationWidgetViewModel;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;

@@ -1,4 +1,4 @@
-package com.expedia.vm.lx
+package com.expedia.bookings.lx.vm
 
 import android.content.Context
 import com.expedia.bookings.R

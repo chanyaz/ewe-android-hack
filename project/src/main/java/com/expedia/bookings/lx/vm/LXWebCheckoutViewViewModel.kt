@@ -1,9 +1,9 @@
-package com.expedia.vm
+package com.expedia.bookings.lx.vm
 
 import android.content.Context
 import com.expedia.bookings.extensions.safeSubscribeOptional
 import com.expedia.bookings.server.EndpointProvider
-import com.expedia.vm.lx.LXCreateTripViewModel
+import com.expedia.vm.WebCheckoutViewViewModel
 import javax.inject.Inject
 
 class LXWebCheckoutViewViewModel @Inject constructor(var context: Context, val endpointProvider: EndpointProvider, val lxCreateTripViewModel: LXCreateTripViewModel) : WebCheckoutViewViewModel(context) {

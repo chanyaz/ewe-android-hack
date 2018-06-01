@@ -9,8 +9,8 @@ import com.expedia.bookings.extensions.subscribeInverseVisibility
 import com.expedia.bookings.presenter.BaseSingleScreenOverviewPresenter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.LXCheckoutSummaryWidget
-import com.expedia.vm.lx.LXCheckoutViewModel
-import com.expedia.vm.lx.LXCreateTripViewModel
+import com.expedia.bookings.lx.vm.LXCheckoutViewModel
+import com.expedia.bookings.lx.vm.LXCreateTripViewModel
 
 class LXOverviewPresenter(context: Context, attrs: AttributeSet) : BaseSingleScreenOverviewPresenter(context, attrs) {
 

@@ -1,4 +1,4 @@
-package com.expedia.vm
+package com.expedia.bookings.lx.vm
 
 import android.content.Context
 import android.graphics.Typeface

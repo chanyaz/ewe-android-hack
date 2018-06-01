@@ -16,9 +16,9 @@ import com.expedia.bookings.widget.LXConfirmationWidget;
 import com.expedia.bookings.widget.LXResultsListAdapter;
 import com.expedia.bookings.widget.LXSuggestionAdapter;
 import com.expedia.bookings.widget.LXTicketSelectionWidget;
-import com.expedia.vm.LXMapViewModel;
-import com.expedia.vm.lx.LXCheckoutViewModel;
-import com.expedia.vm.lx.LXCreateTripViewModel;
+import com.expedia.bookings.lx.vm.LXMapViewModel;
+import com.expedia.bookings.lx.vm.LXCheckoutViewModel;
+import com.expedia.bookings.lx.vm.LXCreateTripViewModel;
 import dagger.Component;
 import io.reactivex.Observable;
 
