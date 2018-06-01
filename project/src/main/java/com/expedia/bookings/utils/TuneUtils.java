@@ -223,7 +223,7 @@ public class TuneUtils {
 				.withAttribute2(trackingProvider.isUserLoggedInValue())
 				.withRevenue(revenue)
 				.withCurrencyCode(hotelCheckoutResponse.currencyCode)
-				.withAdvertiserRefId(getAdvertiserRefId(hotelCheckoutResponse.checkoutResponse.bookingResponse.travelRecordLocator))
+				.withAdvertiserRefId(getAdvertiserRefId(hotelCheckoutResponse.checkoutResponse.bookingResponse.itineraryNumber))
 				.withQuantity(stayDuration)
 				.withContentType(hotelCheckoutResponse.checkoutResponse.productResponse.getHotelName())
 				.withContentId(hotelCheckoutResponse.checkoutResponse.productResponse.hotelId)

@@ -196,7 +196,7 @@ class TuneUtilsTests {
         checkoutResponse.productResponse = productResponse
 
         val bookingResponse = HotelCheckoutResponse.BookingResponse()
-        bookingResponse.travelRecordLocator = "TRL"
+        bookingResponse.itineraryNumber = "1234567890"
 
         checkoutResponse.bookingResponse = bookingResponse
         hotelCheckoutResponse.checkoutResponse = checkoutResponse
@@ -215,6 +215,7 @@ class TuneUtilsTests {
         assertEquals(269.99, provider.trackedEvent?.revenue)
         assertEquals("Phoenix", provider.trackedEvent?.eventItems?.first()?.attribute1)
         assertEquals(3, provider.trackedEvent?.quantity)
+        assertEquals("1234567890:1", provider.trackedEvent?.refId)
     }
 
     @Test
