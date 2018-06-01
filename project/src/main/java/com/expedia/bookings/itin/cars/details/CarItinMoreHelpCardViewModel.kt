@@ -9,6 +9,6 @@ class CarItinMoreHelpCardViewModel<S>(scope: S) : ItinBookingInfoCardViewModel w
     override val headingText: String = scope.strings.fetch(R.string.itin_lx_more_info_heading)
     override val subheadingText: String? = scope.strings.fetch(R.string.itin_lx_more_info_subheading)
     override val cardClickListener: () -> Unit = {
-        TODO("not implemented") //add native itin manage booking activity here
+        //TODO("not implemented") //add native itin manage booking activity here
     }
 }
