@@ -1,6 +1,5 @@
 package com.expedia.bookings.itin.lx.details
 
-import com.expedia.bookings.R
 import com.expedia.bookings.itin.common.ItinAdditionalInfoCardViewModel
 import com.expedia.bookings.itin.common.ItinBookingInfoCardViewModel
 import com.expedia.bookings.itin.common.ItinManageBookingWidgetViewModel
