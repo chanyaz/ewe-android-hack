@@ -23,4 +23,6 @@ class Features {
     val viewReceipt: Feature by RemoteFeatureDelegate()
     val facebookAdTracking: Feature by RemoteFeatureDelegate()
     val lxMultipleDatesSearch: Feature by RemoteFeatureDelegate()
+    val tripsCallMadeOmnitureCall: Feature by RemoteFeatureDelegate()
+    val tripsCallSuccessOmnitureCall: Feature by RemoteFeatureDelegate()
 }

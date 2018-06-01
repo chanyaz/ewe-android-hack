@@ -213,6 +213,30 @@ class TripsTrackingTest {
                 OmnitureMatchers.withProductsString(";Hotel:17669432;4;10000.00")), mockAnalyticsProvider)
     }
 
+    @Test
+    fun testTrackItinTripRefreshCallMade() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinTripRefreshCallMade()
+        OmnitureTestUtils.assertLinkTracked("Trips Call", "App.Itinerary.Call.Made", OmnitureMatchers.withEventsString("event286"), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackItinTripRefreshCallSuccess() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinTripRefreshCallSuccess()
+        OmnitureTestUtils.assertLinkTracked("Trips Call", "App.Itinerary.Call.Success", OmnitureMatchers.withEventsString("event287"), mockAnalyticsProvider)
+    }
+
+    @Test
+    fun testTrackItinTripRefreshCallFailure() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinTripRefreshCallFailure("ERROR")
+        OmnitureTestUtils.assertLinkTracked("Trips Call", "App.Itinerary.Call.Failure", Matchers.allOf(
+                OmnitureMatchers.withEventsString("event288"),
+                OmnitureMatchers.withProps(mapOf(36 to "ERROR"))
+        ), mockAnalyticsProvider)
+    }
+
     fun assertItinLinkTracked(rfrrId: String) {
         OmnitureTestUtils.assertLinkTracked("Itinerary Action", rfrrId, mockAnalyticsProvider)
     }

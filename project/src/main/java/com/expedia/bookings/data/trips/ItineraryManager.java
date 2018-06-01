@@ -44,6 +44,7 @@ import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
+import com.expedia.bookings.features.Features;
 import com.expedia.bookings.itin.tripstore.utils.ITripsJsonFileUtils;
 import com.expedia.bookings.itin.utils.NotificationScheduler;
 import com.expedia.bookings.notification.INotificationManager;
@@ -52,6 +53,7 @@ import com.expedia.bookings.server.TripDetailsResponseHandler;
 import com.expedia.bookings.services.TripsServicesInterface;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.tracking.TimeSource;
+import com.expedia.bookings.tracking.TripsTracking;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.Ui;
@@ -1685,7 +1687,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 					+ getCachedDetails);
 
 				TripResponse response = mServices.getTrips();
-				OmnitureTracking.trackItinTripRefreshCallMade();
+				trackTripRefreshCallMade();
 
 				if (isCancelled()) {
 					return;
@@ -1706,7 +1708,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 						Log.w(LOGGING_TAG, "Error updating trips: " + response.gatherErrorMessage(mContext));
 					}
 					publishProgress(new ProgressUpdate(SyncError.USER_LIST_REFRESH_FAILURE));
-					OmnitureTracking.trackItinTripRefreshCallFailure(errorMessage);
+					TripsTracking.trackItinTripRefreshCallFailure(errorMessage);
 				}
 				else {
 					Set<String> currentTrips = new HashSet<>(mTrips.keySet());
@@ -1755,8 +1757,20 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 							mTripsRemoved++;
 						}
 					}
-					OmnitureTracking.trackItinTripRefreshCallSuccess();
+					trackTripRefreshCallSuccess();
 				}
+			}
+		}
+
+		void trackTripRefreshCallSuccess() {
+			if (Features.Companion.getAll().getTripsCallSuccessOmnitureCall().enabled()) {
+				TripsTracking.trackItinTripRefreshCallSuccess();
+			}
+		}
+
+		void trackTripRefreshCallMade() {
+			if (Features.Companion.getAll().getTripsCallMadeOmnitureCall().enabled()) {
+				TripsTracking.trackItinTripRefreshCallMade();
 			}
 		}
 

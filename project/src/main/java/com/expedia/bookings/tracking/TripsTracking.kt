@@ -36,6 +36,9 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     }
 
     //General Trips Tracking
+    private val ITIN_TRIP_REFRESH_CALL_MADE = "App.Itinerary.Call.Made"
+    private val ITIN_TRIP_REFRESH_CALL_SUCCESS = "App.Itinerary.Call.Success"
+    private val ITIN_TRIP_REFRESH_CALL_FAILURE = "App.Itinerary.Call.Failure"
     private val ITIN_EMPTY = "App.Itinerary.Empty"
     private val ITIN_NEW_SIGN_IN = "App.Itinerary.Login.Start"
     private val ITIN_USER_REFRESH = "App.Itinerary.User.Refresh"
@@ -43,6 +46,28 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     private val ITIN_FIND_GUEST = "App.Itinerary.Find.Guest"
     private val ITIN_ERROR = "App.Itinerary.Error"
     private val ITIN_ADD_GUEST = "App.Itinerary.Guest.Itin"
+
+    @JvmStatic
+    fun trackItinTripRefreshCallMade() {
+        val s = createTrackLinkEvent(ITIN_TRIP_REFRESH_CALL_MADE)
+        s.appendEvents("event286")
+        s.trackLink("Trips Call")
+    }
+
+    @JvmStatic
+    fun trackItinTripRefreshCallSuccess() {
+        val s = createTrackLinkEvent(ITIN_TRIP_REFRESH_CALL_SUCCESS)
+        s.appendEvents("event287")
+        s.trackLink("Trips Call")
+    }
+
+    @JvmStatic
+    fun trackItinTripRefreshCallFailure(error: String) {
+        val s = createTrackLinkEvent(ITIN_TRIP_REFRESH_CALL_FAILURE)
+        s.appendEvents("event288")
+        s.setProp(36, error)
+        s.trackLink("Trips Call")
+    }
 
     @JvmStatic
     fun trackItinEmpty() {

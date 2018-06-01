@@ -2607,10 +2607,6 @@ public class OmnitureTracking {
 	private static final String ITIN = "App.Itinerary";
 	private static final String ITIN_RELOAD_TEMPLATE = "App.Itinerary.%s.Info.Reload";
 
-	private static final String ITIN_TRIP_REFRESH_CALL_MADE = "App.Itinerary.Call.Made";
-	private static final String ITIN_TRIP_REFRESH_CALL_SUCCESS = "App.Itinerary.Call.Success";
-	private static final String ITIN_TRIP_REFRESH_CALL_FAILURE = "App.Itinerary.Call.Failure";
-
 	private static final String ITIN_CAR_SHARE_PREFIX = "App.Itinerary.Car.Share.";
 	private static final String ITIN_ACTIVITY_SHARE_PREFIX = "App.Itinerary.Activity.Share.";
 	private static final String ITIN_HOTEL_SHARE_PREFIX = "App.Itinerary.Hotel.Share.";
@@ -2653,25 +2649,6 @@ public class OmnitureTracking {
 	private static final String ITIN_FLIGHT_AIRLINE_WEB_SUPPORT = "App.Itinerary.Flight.Manage.Support.Airline";
 	private static final String ITIN_FLIGHT_CHANGE_FLIGHT_LEARN_MORE = "App.Itinerary.Flight.Manage.Change.LearnMore";
 	private static final String ITIN_FLIGHT_CANCEL_FLIGHT_LEARN_MORE = "App.Itinerary.Flight.Manage.Cancel.LearnMore";
-
-	public static void trackItinTripRefreshCallMade() {
-		AppAnalytics s = createTrackLinkEvent(ITIN_TRIP_REFRESH_CALL_MADE);
-		s.appendEvents("event286");
-		s.trackLink("Trips Call");
-	}
-
-	public static void trackItinTripRefreshCallSuccess() {
-		AppAnalytics s = createTrackLinkEvent(ITIN_TRIP_REFRESH_CALL_SUCCESS);
-		s.appendEvents("event287");
-		s.trackLink("Trips Call");
-	}
-
-	public static void trackItinTripRefreshCallFailure(String error) {
-		AppAnalytics s = createTrackLinkEvent(ITIN_TRIP_REFRESH_CALL_FAILURE);
-		s.appendEvents("event288");
-		s.setProp(36, error);
-		s.trackLink("Trips Call");
-	}
 
 	public static void trackItinNewFlightDirections() {
 		AppAnalytics s = createTrackLinkEvent(ITIN_NEW_FLIGHT_DIRECTIONS);
