@@ -9,8 +9,8 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.multiitem.MandatoryFees
-import com.expedia.bookings.data.packages.MultiItemCreateTripParams
 import com.expedia.bookings.data.packages.MultiItemApiCreateTripResponse
+import com.expedia.bookings.data.packages.MultiItemCreateTripParams
 import com.expedia.bookings.data.packages.PackageCostSummaryBreakdownModel
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.pos.PointOfSale
@@ -220,6 +220,7 @@ class PackageOverviewPresenterTest {
         overviewPresenter.getCheckoutPresenter().getCreateTripViewModel().packageServices = packageServiceRule.services!!
 
         overviewPresenter.performMIDCreateTripSubject.onNext(Unit)
+        overviewPresenter.webCheckoutView.viewModel.showWebViewObservable.onNext(true)
 
         val currentURLIndex = testSubscriber.valueCount() - 1
         assertEquals("https://www.expedia.com/MultiItemCheckout?tripid=859b3288-4dcf-46e5-a545-8e9daaa3be45", testSubscriber.values()[currentURLIndex])

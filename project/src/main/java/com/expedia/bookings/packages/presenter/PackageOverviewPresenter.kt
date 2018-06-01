@@ -90,6 +90,9 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         }
         webCheckoutViewModel.packageCreateTripViewModel.multiItemResponseSubject.subscribe {
             fireCheckoutOverviewTracking(Db.getPackageResponse().getCurrentOfferPrice()?.packageTotalPrice?.amount?.toDouble())
+            if (webCheckoutView.visibility == View.VISIBLE) {
+                webCheckoutViewModel.showWebViewObservable.onNext(true)
+            }
         }
         webCheckoutView
     }

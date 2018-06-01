@@ -8,9 +8,9 @@ import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -29,6 +29,53 @@ class PackageWebCheckoutViewViewModelTest {
     fun setup() {
         context = RuntimeEnvironment.application
         viewModel = PackageWebCheckoutViewViewModel(context, Ui.getApplication(context).appComponent().endpointProvider())
+    }
+
+    @Test
+    fun testWebViewURL() {
+        val testObserver = TestObserver<String>()
+        viewModel.webViewURLObservable.subscribe(testObserver)
+        viewModel.packageCreateTripViewModel = PackageCreateTripViewModel(packageServiceRule.services!!, context)
+        val multiItemApiCreateTripResponse = MultiItemApiCreateTripResponse()
+        multiItemApiCreateTripResponse.tripId = "64b1aec3-1950-4988-86c4-753b2322c43f"
+        viewModel.packageCreateTripViewModel.multiItemResponseSubject.onNext(multiItemApiCreateTripResponse)
+        viewModel.showWebViewObservable.onNext(true)
+        testObserver.assertValue("https://www.expedia.com/MultiItemCheckout?tripid=" + multiItemApiCreateTripResponse.tripId)
+    }
+
+    @Test
+    fun testNoWebViewURLWhenNotShown() {
+        val testObserver = TestObserver<String>()
+        viewModel.webViewURLObservable.subscribe(testObserver)
+        viewModel.packageCreateTripViewModel = PackageCreateTripViewModel(packageServiceRule.services!!, context)
+        val multiItemApiCreateTripResponse = MultiItemApiCreateTripResponse()
+        multiItemApiCreateTripResponse.tripId = "64b1aec3-1950-4988-86c4-753b2322c43f"
+        viewModel.packageCreateTripViewModel.multiItemResponseSubject.onNext(multiItemApiCreateTripResponse)
+        testObserver.assertValueCount(0)
+    }
+
+    @Test
+    fun testNoWebViewURLWhenCreateTripResponseIsNotAvailable() {
+        val testObserver = TestObserver<String>()
+        viewModel.webViewURLObservable.subscribe(testObserver)
+        viewModel.packageCreateTripViewModel = PackageCreateTripViewModel(packageServiceRule.services!!, context)
+        val multiItemApiCreateTripResponse = MultiItemApiCreateTripResponse()
+        multiItemApiCreateTripResponse.tripId = "64b1aec3-1950-4988-86c4-753b2322c43f"
+        viewModel.showWebViewObservable.onNext(true)
+        testObserver.assertValueCount(0)
+    }
+
+    @Test
+    fun testNoWebViewURLWhenCreateTripResponseIsAvailableAfterWebViewIsShown() {
+        val testObserver = TestObserver<String>()
+        viewModel.webViewURLObservable.subscribe(testObserver)
+        viewModel.packageCreateTripViewModel = PackageCreateTripViewModel(packageServiceRule.services!!, context)
+        val multiItemApiCreateTripResponse = MultiItemApiCreateTripResponse()
+        multiItemApiCreateTripResponse.tripId = "64b1aec3-1950-4988-86c4-753b2322c43f"
+        viewModel.showWebViewObservable.onNext(true)
+        viewModel.packageCreateTripViewModel.multiItemResponseSubject.onNext(multiItemApiCreateTripResponse)
+        viewModel.showWebViewObservable.onNext(true)
+        testObserver.assertValue("https://www.expedia.com/MultiItemCheckout?tripid=" + multiItemApiCreateTripResponse.tripId)
     }
 
     @Test
