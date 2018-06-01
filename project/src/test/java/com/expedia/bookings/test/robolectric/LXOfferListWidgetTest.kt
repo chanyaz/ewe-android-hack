@@ -4,11 +4,7 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.abacus.AbacusResponse
-import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.lx.LXTicketType
 import com.expedia.bookings.data.lx.Offer
 import com.expedia.bookings.test.MultiBrand
@@ -17,9 +13,7 @@ import com.expedia.bookings.widget.LXOffersListWidget
 import com.google.gson.GsonBuilder
 import org.joda.time.LocalDate
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -32,6 +26,7 @@ import kotlin.properties.Delegates
 class LXOfferListWidgetTest {
     private var widget: LXOffersListWidget by Delegates.notNull()
     private var activity: Activity by Delegates.notNull()
+    private val offersList = setActivityOfferList()
 
     @Before
     fun before() {
@@ -41,24 +36,8 @@ class LXOfferListWidgetTest {
     }
 
     @Test
-    fun testSetOffersBucketedForFirstOfferExpandedABTest() {
-        bucketFirstOfferInListExpandedABTest(AbacusVariant.BUCKETED)
-        val offersList = setActivityOfferList()
-        widget.sortTicketByPriorityAndOfferByPrice(offersList)
-        assertTrue(offersList[0].isToggled)
-    }
-
-    @Test
-    fun testSetOffersControlledForFirstOfferExpandedABTest() {
-        bucketFirstOfferInListExpandedABTest(AbacusVariant.CONTROL)
-        val offersList = setActivityOfferList()
-        assertFalse(offersList[0].isToggled)
-    }
-
-    @Test
-    fun testFirstOfferExpandedBucketed() {
-        bucketFirstOfferInListExpandedABTest(AbacusVariant.BUCKETED)
-        setActivityOfferList()
+    fun testOfferExpandedIfOnlyOneOfferAvailable() {
+        widget.setOffers(offersList.subList(0, 1), LocalDate(2015, 2, 24))
 
         val offerContainer = widget.offerContainer
         val offerTicketPicker = offerContainer.findViewById<View>(R.id.offer_tickets_picker)
@@ -72,26 +51,24 @@ class LXOfferListWidgetTest {
     }
 
     @Test
-    fun testFirstOfferCollapsed() {
-        bucketFirstOfferInListExpandedABTest(AbacusVariant.CONTROL)
-        setActivityOfferList()
+    fun testOffersSortedByPrice() {
+        val offerList = setActivityOfferList()
+        widget.setOffers(offersList, LocalDate(2015, 2, 24))
+        val availableOffers = ArrayList<Offer>()
 
-        val offerContainer = widget.offerContainer
-        val offerTicketPicker = offerContainer.findViewById<View>(R.id.offer_tickets_picker)
-        val offerRow = offerContainer.findViewById<View>(R.id.offer_row)
+        for (offer in offerList) {
+            if (offer.updateAvailabilityInfoOfSelectedDate(org.joda.time.LocalDate("2015-02-24")) != null) {
+                availableOffers.add(offer)
+            }
+        }
 
-        assertNotNull(offerContainer)
-        assertNotNull(offerTicketPicker)
-        assertNotNull(offerRow)
-        assertEquals(offerTicketPicker.visibility, View.GONE)
-        assertEquals(offerRow.visibility, View.VISIBLE)
-    }
+        val expectedOffers = widget.sortTicketByPriorityAndOfferByPrice(availableOffers) as ArrayList<Offer>
+        assertEquals(3, expectedOffers.size)
+        assertEquals(LXTicketType.Adult, expectedOffers[0].availabilityInfoOfSelectedDate.tickets[0].code)
 
-    private fun bucketFirstOfferInListExpandedABTest(defaultVariate: AbacusVariant) {
-        val abacusResponse = AbacusResponse()
-        abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppLXFirstActivityListingExpanded.key,
-                defaultVariate.value)
-        Db.sharedInstance.setAbacusResponse(abacusResponse)
+        assertEquals("2-Day New York Pass", expectedOffers[0].title)
+        assertEquals("3-Day New York Pass", expectedOffers[1].title)
+        assertEquals("1-Day New York Pass", expectedOffers[2].title)
     }
 
     private fun setActivityOfferList(): List<Offer> {
@@ -113,27 +90,6 @@ class LXOfferListWidgetTest {
                 }
             }
         }
-        widget.setOffers(offersList, LocalDate(2015, 2, 24))
         return offersList
-    }
-
-    @Test
-    fun testOffersSortedByPrice() {
-        val offerList = setActivityOfferList()
-        val availableOffers = ArrayList<Offer>()
-
-        for (offer in offerList) {
-            if (offer.updateAvailabilityInfoOfSelectedDate(org.joda.time.LocalDate("2015-02-24")) != null) {
-                availableOffers.add(offer)
-            }
-        }
-
-        val expectedOffers = widget.sortTicketByPriorityAndOfferByPrice(availableOffers) as ArrayList<Offer>
-        assertEquals(3, expectedOffers.size)
-        assertEquals(LXTicketType.Adult, expectedOffers[0].availabilityInfoOfSelectedDate.tickets[0].code)
-
-        assertEquals("2-Day New York Pass", expectedOffers[0].title)
-        assertEquals("3-Day New York Pass", expectedOffers[1].title)
-        assertEquals("1-Day New York Pass", expectedOffers[2].title)
     }
 }

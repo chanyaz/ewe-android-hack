@@ -1899,7 +1899,6 @@ public class OmnitureTracking {
 	public static void trackFirstActivityListingExpanded() {
 		Log.d(TAG, "Tracking \"" + LX_LOB + "\" pageLoad...");
 		AppAnalytics s = getFreshTrackingObject();
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppLXFirstActivityListingExpanded);
 		s.track();
 	}
 
