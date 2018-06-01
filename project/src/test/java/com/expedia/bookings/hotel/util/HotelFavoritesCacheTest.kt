@@ -1,6 +1,5 @@
 package com.expedia.bookings.hotel.util
 
-import android.content.Context
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Test
@@ -15,7 +14,7 @@ class HotelFavoritesCacheTest {
 
     @Before
     fun setup() {
-        clearCache()
+        HotelFavoritesCache.clearFavorites(context)
     }
 
     @Test
@@ -44,9 +43,12 @@ class HotelFavoritesCacheTest {
         assertFalse(HotelFavoritesCache.isFavoriteHotel(context, "hotel3"))
     }
 
-    private fun clearCache() {
-        val cache = context.getSharedPreferences(HotelFavoritesCache.FAVORITES_FILE_NAME, Context.MODE_PRIVATE)
-        val editor = cache.edit()
-        editor.clear()
+    @Test
+    fun testClearFavorites() {
+        val hotels = setOf("hotel1", "hotel2")
+        HotelFavoritesCache.saveFavorites(context, hotels)
+        HotelFavoritesCache.clearFavorites(context)
+        assertFalse(HotelFavoritesCache.isFavoriteHotel(context, "hotel1"))
+        assertFalse(HotelFavoritesCache.isFavoriteHotel(context, "hotel2"))
     }
 }

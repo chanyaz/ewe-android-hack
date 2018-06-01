@@ -12,6 +12,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.hotel.util.HotelFavoritesCache
 import com.expedia.bookings.notification.NotificationManager
 import com.expedia.bookings.server.ExpediaServices
 import com.expedia.bookings.services.PersistentCookieManager
@@ -408,6 +409,17 @@ class UserStateManagerTests {
         userStateManager.signOut()
 
         assertNull(Db.getTripBucket().airAttach)
+    }
+
+    @Test
+    fun testSignOutClearsFavoritesCache() {
+        val hotels = setOf("hotel1", "hotel2")
+        HotelFavoritesCache.saveFavorites(context, hotels)
+        assertTrue(HotelFavoritesCache.isFavoriteHotel(context, "hotel1"))
+        assertTrue(HotelFavoritesCache.isFavoriteHotel(context, "hotel2"))
+        userStateManager.signOut()
+        assertFalse(HotelFavoritesCache.isFavoriteHotel(context, "hotel1"))
+        assertFalse(HotelFavoritesCache.isFavoriteHotel(context, "hotel2"))
     }
 
     @Test
