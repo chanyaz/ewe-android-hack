@@ -85,17 +85,6 @@ class HotelNotificationGeneratorTest {
     }
 
     @Test
-    fun testDoesCrossSellNotificationsFireAtRightTime() {
-        val checkInTime = mTodayAtNoon.plusDays(10)
-        val testTime = roundTime(checkInTime.minusDays(7))
-        val checkOutTime = mTodayAtNoon.plusDays(20)
-        val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
-        val notifications = sut.generateNotifications(itinCardDataHotel)
-        val notification = notifications.first { it.notificationType == Notification.NotificationType.HOTEL_ACTIVITY_CROSSSEll }
-        assertEquals(notification.triggerTimeMillis, testTime.millis)
-    }
-
-    @Test
     fun getReadyNotificationDoesNotShowTripsLessThanThreeDays() {
         val checkInTime = mTodayAtNoon.plusDays(7)
         val checkOutTime = mTodayAtNoon.plusDays(8)
@@ -127,37 +116,9 @@ class HotelNotificationGeneratorTest {
     fun getReadyNotificationDoesShowTripsWithMoreThanTwoTravelers() {
         val itinCardDataHotel = givenHappyItinCardDataHotel(3)
         val notifications = sut.generateNotifications(itinCardDataHotel)
-        assertEquals(4, notifications.size)
+        assertEquals(3, notifications.size)
         val possibleNotification = notifications.first { it.notificationType == Notification.NotificationType.HOTEL_GET_READY }
         assertNotNull(possibleNotification)
-    }
-
-    @Test
-    fun activityCrossNotificationDoesNotShowTripsLessThanThreeDays() {
-        val checkInTime = mTodayAtNoon.plusDays(7)
-        val checkOutTime = mTodayAtNoon.plusDays(8)
-        val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
-        val notifications = sut.generateNotifications(itinCardDataHotel)
-        val possibleNotification = notifications.firstOrNull { it.notificationType == Notification.NotificationType.HOTEL_ACTIVITY_CROSSSEll }
-        assertNull(possibleNotification)
-    }
-
-    @Test
-    fun activityCrossNotificationDoesShowTripsThreeDaysOrMore() {
-        val checkInTime = mTodayAtNoon.plusDays(1)
-        val checkOutTime = mTodayAtNoon.plusDays(5)
-        val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
-        val notifications = sut.generateNotifications(itinCardDataHotel)
-        val possibleNotification = notifications.first { it.notificationType == Notification.NotificationType.HOTEL_ACTIVITY_CROSSSEll }
-        assertNotNull(possibleNotification)
-    }
-
-    @Test
-    fun activityCrossNotificationDoesNotShowTripsWithTwoOrLessTravelers() {
-        val itinCardDataHotel = givenHappyItinCardDataHotel(2)
-        val notifications = sut.generateNotifications(itinCardDataHotel)
-        val possibleNotification = notifications.firstOrNull { it.notificationType == Notification.NotificationType.HOTEL_ACTIVITY_CROSSSEll }
-        assertNull(possibleNotification)
     }
 
     @Test
@@ -173,14 +134,6 @@ class HotelNotificationGeneratorTest {
                 itinCardDataHotel.startDate, DateUtils.FORMAT_SHOW_TIME) + " tomorrow. View your booking for details.")
         assertEquals(checkOutNotification.body, "Your check out time at Orchard Hotel is tomorrow at " + JodaUtils.formatDateTime(context,
                 itinCardDataHotel.endDate, DateUtils.FORMAT_SHOW_TIME) + ". Tap for details.")
-    }
-
-    @Test
-    fun activityCrossNotificationDoesShowTripsWithMoreThanTwoTravelers() {
-        val itinCardDataHotel = givenHappyItinCardDataHotel(3)
-        val notifications = sut.generateNotifications(itinCardDataHotel)
-        val possibleNotification = notifications.firstOrNull { it.notificationType == Notification.NotificationType.HOTEL_ACTIVITY_CROSSSEll }
-        assertNotNull(possibleNotification)
     }
 
     @Test
@@ -232,11 +185,9 @@ class HotelNotificationGeneratorTest {
         val checkInNotification = notifications.first { it.notificationType == Notification.NotificationType.HOTEL_CHECK_IN }
         val checkOutNotification = notifications.first { it.notificationType == Notification.NotificationType.HOTEL_CHECK_OUT }
         val getReadyNotification = notifications.first { it.notificationType == Notification.NotificationType.HOTEL_GET_READY }
-        val crossSellNotification = notifications.first { it.notificationType == Notification.NotificationType.HOTEL_ACTIVITY_CROSSSEll }
         assertEquals(checkInNotification.expirationTimeMillis, endOfDay(checkInTime).millis)
         assertEquals(checkOutNotification.expirationTimeMillis, endOfDay(checkOutTime).millis)
         assertEquals(getReadyNotification.expirationTimeMillis, endOfDay(checkInTime).millis)
-        assertEquals(crossSellNotification.expirationTimeMillis, endOfDay(checkInTime).millis)
     }
 
     @Test
@@ -251,16 +202,6 @@ class HotelNotificationGeneratorTest {
         val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime, reviewLink = link)
         val notifications = newSut.generateNotifications(itinCardDataHotel)
         assertEquals(0, notifications.size)
-    }
-
-    @Test
-    fun testPastDisplayDate() {
-        val checkInTime = mTodayAtNoon.minusDays(6)
-        val checkOutTime = mTodayAtNoon.minusDays(1)
-        val itinCardDataHotel = givenHappyItinCardDataHotel(checkInTime, checkOutTime)
-        val notifications = sut.generateNotifications(itinCardDataHotel)
-        assertEquals(1, notifications.size)
-        assertEquals(Notification.NotificationType.HOTEL_ACTIVITY_CROSSSEll, notifications.first().notificationType)
     }
 
     @Test

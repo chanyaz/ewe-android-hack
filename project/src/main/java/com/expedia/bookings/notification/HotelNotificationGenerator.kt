@@ -22,7 +22,6 @@ class HotelNotificationGenerator @Inject constructor(val context: Context, val s
         notifications.add(generateCheckoutNotification(context, dataHotel))
         if (dataHotel.guestCount > 2 || isDurationLongerThanDays(2, dataHotel)) {
             notifications.add(generateGetReadyNotification(context, dataHotel))
-            notifications.add(generateActivityCrossSellNotification(dataHotel))
         }
         OmnitureTracking.trackLXNotificationTest()
         if ((AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidLXNotifications) && isDurationLongerThanDays(1, dataHotel))) {
@@ -158,41 +157,6 @@ class HotelNotificationGenerator @Inject constructor(val context: Context, val s
         notification.body = body
 
         notification.imageUrls = data.headerImageUrls
-
-        return notification
-    }
-
-    private fun generateActivityCrossSellNotification(data: ItinCardDataHotel): Notification? {
-
-        val itinId = data.id
-        val uniqueID = itinId + "_activityCross"
-        if (notificationManager.wasFired(uniqueID)) {
-            return null
-        }
-        val startDate = roundTime(data.startDate)
-
-        var trigger = startDate.toMutableDateTime()
-        trigger.addDays(-7)
-        val triggerTimeMillis = trigger.millis
-
-        trigger = startDate.toMutableDateTime()
-        trigger.hourOfDay = 23
-        trigger.minuteOfHour = 59
-        val expirationTimeMillis = trigger.millis
-
-        val notification = Notification(uniqueID, itinId, triggerTimeMillis)
-        notification.notificationType = Notification.NotificationType.HOTEL_ACTIVITY_CROSSSEll
-        notification.expirationTimeMillis = expirationTimeMillis
-        notification.flags = Notification.FLAG_LOCAL
-        notification.iconResId = R.drawable.ic_stat
-
-        val title = stringProvider.fetchWithPhrase(R.string.hotel_book_activities_cross_sell_notification_title_TEMPLATE,
-                mapOf("destination" to data.propertyCity!!))
-        notification.ticker = title
-        notification.title = title
-        val body = stringProvider.fetchWithPhrase(R.string.hotel_book_activities_cross_sell_notification_body_TEMPLATE,
-                mapOf("destination" to data.propertyCity!!))
-        notification.body = body
 
         return notification
     }
