@@ -9,6 +9,7 @@ import com.expedia.bookings.data.AppDatabase;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.user.UserStateManager;
+import com.expedia.bookings.hotel.util.HotelFavoritesCache;
 import com.expedia.bookings.model.DismissedItinButton;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.Log;
@@ -24,6 +25,9 @@ public class ClearPrivateDataUtil {
 		boolean signedIn = userStateManager.isUserAuthenticated();
 		if (signedIn) {
 			userStateManager.signOut();
+		}
+		else {
+			HotelFavoritesCache.Companion.clearFavorites(context);
 		}
 
 		ItineraryManager.getInstance().clear();

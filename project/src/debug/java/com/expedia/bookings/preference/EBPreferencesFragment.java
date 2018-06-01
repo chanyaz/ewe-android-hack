@@ -22,6 +22,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.SatelliteFeatureConfigManager;
 import com.expedia.bookings.fragment.SelectLanguageDialogFragment;
+import com.expedia.bookings.hotel.util.HotelFavoritesCache;
 import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.server.ExpediaServices;
@@ -133,13 +134,12 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 		builder.setMessage(getActivity().getResources().getString(R.string.server_change_message));
 		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-
-
 				SettingUtils.save(getActivity(), getString(R.string.preference_disable_modern_https_security),
 					!newValue.toString().equals("Production"));
 				SettingUtils
 					.save(getActivity(), getString(R.string.preference_which_api_to_use_key), newValue.toString());
 				SatelliteFeatureConfigManager.clearFeatureConfig(getContext());
+				HotelFavoritesCache.Companion.clearFavorites(getContext());
 				restartApp();
 			}
 		});
