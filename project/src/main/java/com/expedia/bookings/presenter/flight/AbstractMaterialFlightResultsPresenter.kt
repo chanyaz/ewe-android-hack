@@ -6,6 +6,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
+import com.expedia.bookings.utils.isRichContentEnabled
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.vm.AbstractFlightOverviewViewModel
 import com.expedia.vm.FlightResultsViewModel
@@ -43,6 +44,13 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
         }
         resultsPresenter.setAdapter(flightListAdapter)
         toolbarViewModel.isOutboundSearch.onNext(isOutboundResultsPresenter())
+    }
+
+    override fun back(): Boolean {
+        if (isRichContentEnabled(context)) {
+            resultsPresenter.resultsViewModel.abortRichContentCallObservable.onNext(Unit)
+        }
+        return super.back()
     }
 
     fun displayPaymentFeeHeaderInfo(mayChargePaymentFees: Boolean) {

@@ -7,26 +7,29 @@ import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.presenter.flight.FlightOutboundPresenter
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.util.Optional
 import com.expedia.vm.flights.FlightOffersViewModel
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import io.reactivex.schedulers.Schedulers
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer
+import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import java.io.File
-import com.expedia.util.Optional
 import kotlin.test.assertEquals
-import org.joda.time.LocalDate
 
 @RunWith(RobolectricRunner::class)
 class FlightOutboundPresenterTest {
@@ -81,6 +84,15 @@ class FlightOutboundPresenterTest {
     fun testPaymentFeeMayApplyVisibility() {
         invokeSetupComplete()
         assertEquals(View.GONE, flightOutboundPresenter.detailsPresenter.paymentFeesMayApplyTextView.visibility)
+    }
+
+    @Test
+    fun testAbortRichContentOnBack() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsRichContent)
+        invokeSetupComplete()
+        val testSubscriber = TestObserver<Unit>()
+        flightOutboundPresenter.resultsPresenter.resultsViewModel.abortRichContentCallObservable.subscribe(testSubscriber)
+        flightOutboundPresenter.back()
     }
 
     private fun invokeSetupComplete() {

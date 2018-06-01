@@ -6,12 +6,14 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.RichContent
 import com.expedia.bookings.data.flights.RichContentResponse
 import com.expedia.bookings.extensions.ObservableOld
+import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.services.FlightRichContentService
 import com.expedia.bookings.utils.RichContentUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isRichContentEnabled
 import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
@@ -26,6 +28,8 @@ class FlightResultsViewModel(context: Context) : BaseResultsViewModel() {
     val richContentStream = PublishSubject.create<Map<String, RichContent>>()
     val sharedPref = context.getSharedPreferences("richContentGuide", Context.MODE_PRIVATE)
     var isRichContentGuideDisplayed = false
+    var richContentOutboundSubscription: Disposable? = null
+    var richContentInboundSubscription: Disposable? = null
 
     override fun getLineOfBusiness(): LineOfBusiness {
         return LineOfBusiness.FLIGHTS_V2
@@ -34,6 +38,20 @@ class FlightResultsViewModel(context: Context) : BaseResultsViewModel() {
     init {
         Ui.getApplication(context).flightComponent().inject(this)
         if (showRichContent) {
+            richContentStream.withLatestFrom(flightResultsObservable, { richContentLegs, flightLegs ->
+                object {
+                    val richContentLegs = richContentLegs
+                    val flightLegs = flightLegs
+                }
+            }).subscribe {
+                for (flightLeg in it.flightLegs) {
+                    val richContent = it.richContentLegs[flightLeg.legId]
+                    if (richContent != null) {
+                        flightLeg.richContent = richContent
+                    }
+                }
+                updateFlightsStream.onNext(Unit)
+            }
             ObservableOld.combineLatest(isOutboundResults, flightResultsObservable.filter { it.isNotEmpty() }, { isOutboundResult, flightLegs ->
                 val richContentRequestPayload = RichContentUtils.getRichContentRequestPayload(context, flightLegs)
                 if (isOutboundResult) {
@@ -41,21 +59,17 @@ class FlightResultsViewModel(context: Context) : BaseResultsViewModel() {
                         richContentGuide.onNext(Unit)
                     }
                     updateRichContentCounter()
-                    flightRichContentService.getOutboundFlightRichContent(richContentRequestPayload, makeRichContentObserver())
+                    richContentOutboundSubscription = flightRichContentService.getOutboundFlightRichContent(richContentRequestPayload, makeRichContentObserver())
+                    richContentOutboundSubscription
                 } else {
-                    flightRichContentService.getInboundFlightRichContent(richContentRequestPayload, makeRichContentObserver())
+                    richContentInboundSubscription = flightRichContentService.getInboundFlightRichContent(richContentRequestPayload, makeRichContentObserver())
+                    richContentInboundSubscription
                 }
             }).subscribe()
-
-            ObservableOld.zip(richContentStream, flightResultsObservable, { richContentLegs, flightLegs ->
-                for (flightLeg in flightLegs) {
-                    val richContent = richContentLegs[flightLeg.legId]
-                    if (richContent != null) {
-                        flightLeg.richContent = richContent
-                    }
-                }
-                updateFlightsStream.onNext(Unit)
-            }).subscribe()
+        }
+        abortRichContentCallObservable.subscribe {
+            richContentOutboundSubscription?.dispose()
+            richContentInboundSubscription?.dispose()
         }
     }
 
@@ -85,7 +99,7 @@ class FlightResultsViewModel(context: Context) : BaseResultsViewModel() {
 
     fun showRichContentGuide(): Boolean {
         val counter = sharedPref.getInt("counter", 1)
-        if ((counter in 1..6 step 2) && !isRichContentGuideDisplayed) {
+        if ((counter in 1..4 step 2) && !isRichContentGuideDisplayed) {
             return true
         }
         return false

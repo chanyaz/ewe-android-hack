@@ -14,6 +14,6 @@ abstract class BaseResultsViewModel {
     open val showLoadingStateV1 = false
     open val showRichContent = false
     val richContentGuide = PublishSubject.create<Unit>()
-
+    val abortRichContentCallObservable = PublishSubject.create<Unit>()
     abstract fun getLineOfBusiness(): LineOfBusiness
 }

@@ -14,6 +14,7 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.RichContentUtils
 import com.expedia.vm.FlightResultsViewModel
+import io.reactivex.disposables.CompositeDisposable
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -87,6 +88,18 @@ class FlightResultsViewModelTest {
         sut.updateRichContentCounter()
         val counter = sut.sharedPref.getInt("counter", 1)
         assertEquals(2, counter)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testAbortRichContentCallObservable() {
+        sut.richContentInboundSubscription = CompositeDisposable()
+        sut.richContentOutboundSubscription = CompositeDisposable()
+        assertEquals(false, sut.richContentInboundSubscription!!.isDisposed)
+        assertEquals(false, sut.richContentOutboundSubscription!!.isDisposed)
+        sut.abortRichContentCallObservable.onNext(Unit)
+        assertEquals(true, sut.richContentInboundSubscription!!.isDisposed)
+        assertEquals(true, sut.richContentOutboundSubscription!!.isDisposed)
     }
 
     @Test

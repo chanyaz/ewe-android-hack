@@ -271,6 +271,15 @@ class FlightInboundPresenterTest {
         assertEquals(View.GONE, flightInboundPresenter.detailsPresenter.paymentFeesMayApplyTextView.visibility)
     }
 
+    @Test
+    fun testAbortRichContentOnBack() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppFlightsRichContent)
+        invokeSetupComplete()
+        val testSubscriber = TestObserver<Unit>()
+        flightInboundPresenter.resultsPresenter.resultsViewModel.abortRichContentCallObservable.subscribe(testSubscriber)
+        flightInboundPresenter.back()
+    }
+
     private fun createFlightSegment(departureCity: String, departureAirport: String, arrivalCity: String, arrivalAirport: String, layoverHrs: Int, layoverMins: Int): FlightLeg.FlightSegment {
         val airlineSegment = FlightLeg.FlightSegment()
         airlineSegment.flightNumber = "51"

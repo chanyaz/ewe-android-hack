@@ -125,14 +125,11 @@ class FlightResultsListViewPresenterTest {
     fun testRichContentInFlightLeg() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsRichContent)
         inflateAndSetViewModel()
-
         val flightLeg = createFakeFlightLeg()
         sut.resultsViewModel.isOutboundResults.onNext(true)
         sut.resultsViewModel.flightResultsObservable.onNext(listOf(flightLeg))
-
         val processedFlightLeg = sut.resultsViewModel.flightResultsObservable.value[0]
         assertEquals(FLIGHT_LEG_ID, processedFlightLeg.legId)
-
         val flightRichContent = processedFlightLeg.richContent
         assertNotNull(flightRichContent)
         assertEquals(8.1F, flightRichContent.score)
