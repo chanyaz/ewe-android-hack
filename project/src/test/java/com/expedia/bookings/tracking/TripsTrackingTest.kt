@@ -205,9 +205,9 @@ class TripsTrackingTest {
     }
 
     @Test
-    fun testTrackItinLxCallSupportClicked() {
+    fun testTrackItinLxCallSupplierSupportClicked() {
         assertNoTrackingHasOccurred()
-        TripsTracking.trackItinLxCallSupportClicked()
+        TripsTracking.trackItinLxCallSupplierClicked()
         assertItinLinkTracked("App.Itinerary.Activity.Manage.Call.Activity")
     }
 
@@ -263,6 +263,19 @@ class TripsTrackingTest {
                 OmnitureMatchers.withEventsString("event288"),
                 OmnitureMatchers.withProps(mapOf(36 to "ERROR"))
         ), mockAnalyticsProvider)
+    }
+
+    fun testTrackItinLxCallCustomerSupportClicked() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinLxCallCustomerSupportClicked()
+        assertItinLinkTracked("App.Itinerary.Activity.Manage.Call.Expedia")
+    }
+
+    @Test
+    fun testTrackItinLxCustomerServiceLinkClicked() {
+        assertNoTrackingHasOccurred()
+        TripsTracking.trackItinLxCustomerServiceLinkClicked()
+        assertItinLinkTracked("App.Itinerary.Activity.Manage.CSP")
     }
 
     fun assertItinLinkTracked(rfrrId: String) {

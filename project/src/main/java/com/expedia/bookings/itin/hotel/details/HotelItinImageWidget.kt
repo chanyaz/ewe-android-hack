@@ -61,7 +61,7 @@ class HotelItinImageWidget(context: Context, attr: AttributeSet?) : LinearLayout
         val callButton: SummaryButton
 
         if (phoneNumber.isNotEmpty()) {
-            callButton = SummaryButton(R.drawable.itin_call_hotel, phoneNumber,
+            callButton = SummaryButton(R.drawable.itin_call_support, phoneNumber,
                     Phrase.from(context, R.string.itin_hotel_details_call_button_content_description_TEMPLATE)
                             .put("phonenumber", phoneNumber).format().toString(),
                     OnClickListener {

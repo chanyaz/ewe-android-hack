@@ -1487,20 +1487,16 @@
     <string name="itin_hotel_manage_booking_header">Manage booking</string>
     <!--Hotel itin manage booking hotel help heading-->
     <string name="itin_more_help_heading">We\'re here to help</string>
-    <!--Hotel itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
-    <string name="itin_hotel_itinerary_number_TEMPLATE">Itinerary # {itinnumber}</string>
     <!--Hotel customer support website. {brand} customer support. (eg., Expedia customer support)-->
     <string name="itin_hotel_customer_support_site_header_TEMPLATE">{brand} customer support</string>
-    <!--Hotel customer support website content description. {brand} customer support link button. (eg., Expedia customer support link button)-->
-    <string name="itin_hotel_customer_support_site_button_content_description_TEMPLATE">{brand} customer support link button</string>
     <!--Hotel customer support website toolbar header-->
     <string name="itin_hotel_customer_support_site_toolbar_header">Customer service</string>
     <!--Hotel itin manage booking call hotel button content description. Call hotel at {phonenumber}. Button (eg., Call hotel at +18055437700. Button)-->
     <string name="itin_hotel_manage_booking_call_hotel_button_content_description_TEMPLATE">Call hotel at {phonenumber}. Button</string>
-    <!--Hotel itin manage booking call support button content description. Call {brand} at {phonenumber}. Button (eg., Call Expedia at +18055437700. Button)-->
-    <string name="itin_hotel_manage_booking_call_support_button_content_description_TEMPLATE">Call {brand} at {phonenumber}. Button</string>
     <!--Hotel itin manage booking itinerary number content description. Itinerary number {number}. Click to copy (eg., Itinerary number 88888888. Click to copy)-->
     <string name="itin_hotel_manage_booking_itinerary_number_content_description_TEMPLATE">Itinerary number {number}. Click to copy</string>
+    <!--Hotel itin manage booking call support button content description. Call {brand} at {phonenumber}. Button (eg., Call Expedia at +18055437700. Button)-->
+    <string name="itin_hotel_manage_booking_call_support_button_content_description_TEMPLATE">Call {brand} at {phonenumber}. Button</string>
     <!--Hotel itin room details requests header-->
     <string name="itin_hotel_room_details_requests_header">Requests</string>
     <!--Hotel itin room details requests disclaimer-->
@@ -1583,12 +1579,22 @@
     <string name="itin_share_dialog_title">Share Itinerary</string>
     <!--Itin more help confirmation number text -->
     <string name="itin_more_help_confirmation_text">Confirmation #</string>
+    <!--Itin customer support itin number text -->
+    <string name="itin_customer_support_itin_number_text">Itinerary #</string>
     <!--Itin more help booking confirmation number content description. Confirmation number {number}. Double click and hold to select. (eg., Confirmation number 88888888. Double click and hold to select.)-->
     <string name="itin_more_help_confirmation_number_content_description_TEMPLATE">Confirmation number {number}. Double click and hold to select.</string>
     <!--Itin more help message text. For special requests or questions about your reservation, contact {supplier} (eg., For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver)-->
     <string name="itin_more_help_text_TEMPLATE">For special requests or questions about your reservation, contact {supplier}</string>
     <!--Itin customer support header. (e.g. Contact Expedia if you need help managing this itinerary.)-->
     <string name="itin_customer_support_header_text_TEMPLATE">Contact {brand} if you need help managing this itinerary.</string>
+    <!--Itin customer support itinerary number content description. Itinerary number {number}. Double click and hold to select. (eg., Itinerary number 88888888. Double click and hold to select.)-->
+    <string name="itin_customer_support_itin_number_content_description_TEMPLATE">Itinerary number {number}. Double click and hold to select.</string>
+    <!--Itin call support button content description. Call {brand} at {phonenumber}. Button (eg., Call Expedia at +18055437700. Button. Double click and hold to select.)-->
+    <string name="itin_call_support_button_content_description_TEMPLATE">Call {brand} at {phonenumber}. Button. Double click and hold to select.</string>
+    <!--Itin customer support website content description. {brand} customer support link button. (eg., Expedia customer support link button)-->
+    <string name="itin_customer_support_site_button_content_description_TEMPLATE">{brand} customer support link button</string>
+    <!--Itin customer support webview heading-->
+    <string name="itin_customer_service_webview_heading">Customer service</string>
 
     <!--Flight itin details redesign-->
     <!--Flight itin toolbar title template. Flight to {destination} (e.g., Flight to Vancouver)-->
@@ -1661,8 +1667,6 @@
     <string name="itin_flight_summary_status_indicator_text_early_departure">Early departure</string>
     <!--Flight itin manage booking title-->
     <string name="itin_flight_manage_booking_header">Manage Booking</string>
-    <!--Flight itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
-    <string name="itin_flight_itinerary_number_TEMPLATE">Itinerary # {itin_number}</string>
     <!--Flight itin number content description template. Talkback will announce "Itinerary # {itin_number}" to "Itinerary number {itin_number}" (eg., Itinerary number 7282906974428)-->
     <string name="itin_flight_itinerary_number_content_description_TEMPLATE">Itinerary number {itin_number}</string>
     <!--Flight customer support website. {brand} customer support. (eg., Expedia customer support)-->

@@ -30,6 +30,12 @@
             android:layout_marginRight="11dp"
             android:layout_marginTop="20dp" />
 
+        <com.expedia.bookings.itin.common.ItinCustomerSupportWidget
+            android:id="@+id/widget_lx_itin_customer_support"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp" />
+
     </LinearLayout>
 
 </ScrollView>

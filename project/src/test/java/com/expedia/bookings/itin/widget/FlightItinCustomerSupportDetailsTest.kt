@@ -41,7 +41,7 @@ class FlightItinCustomerSupportDetailsTest {
         val customerSupportURL = "http://www.expedia.com/service/"
         customerSupportWidget.viewModel.updateItinCustomerSupportDetailsWidgetSubject.onNext(ItinCustomerSupportDetailsViewModel.ItinCustomerSupportDetailsWidgetParams(header, itineraryNumb, customerSupportNumber, customerSupportButton, customerSupportURL))
         assertEquals(customerSupportWidget.customerSupportTextView.text, header)
-        assertEquals(customerSupportWidget.itineraryNumberTextView.text, Phrase.from(context, R.string.itin_flight_itinerary_number_TEMPLATE).put("itin_number", itineraryNumb).format().toString())
+        assertEquals(customerSupportWidget.itineraryNumberTextView.text, itineraryNumb)
         assertEquals(customerSupportWidget.callSupportActionButton.text, customerSupportNumber)
         assertEquals(customerSupportWidget.customerSupportSiteButton.text, customerSupportButton)
     }

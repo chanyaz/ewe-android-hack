@@ -30,8 +30,6 @@ class FlightItinCustomerSupportDetails(context: Context, attr: AttributeSet?) : 
     init {
         View.inflate(context, R.layout.widget_itin_customer_support, this)
         itineraryNumberTextView.visibility = View.GONE
-        callSupportActionButton.visibility = View.GONE
-        customerSupportSiteButton.visibility = View.GONE
     }
 
     var viewModel: ItinCustomerSupportDetailsViewModel by notNullAndObservable { vm ->
@@ -44,7 +42,7 @@ class FlightItinCustomerSupportDetails(context: Context, attr: AttributeSet?) : 
         customerSupportTextView.text = param.header
         if (Strings.isNotEmpty(param.itineraryNumber)) {
             itineraryNumberTextView.visibility = View.VISIBLE
-            itineraryNumberTextView.text = Phrase.from(context, R.string.itin_flight_itinerary_number_TEMPLATE).put("itin_number", param.itineraryNumber).format().toString()
+            itineraryNumberTextView.text = param.itineraryNumber
             itineraryNumberTextView.contentDescription = Phrase.from(context, R.string.itin_flight_itinerary_number_content_description_TEMPLATE).put("itin_number", getNumbersForContentDescription(param.itineraryNumber)).format().toString()
             onItineraryClick(param.itineraryNumber)
         }

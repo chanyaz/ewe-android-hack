@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/phone_number_text"
             android:background="?android:attr/selectableItemBackground"
-            android:drawableLeft="@drawable/itin_call_hotel"
+            android:drawableLeft="@drawable/itin_call_support"
             android:drawablePadding="8dp"
             android:visibility="gone"
             android:textColor="@color/itin_call_to_action_text"
