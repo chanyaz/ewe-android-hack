@@ -35,7 +35,6 @@ import com.expedia.bookings.itin.scopes.HasTripsTracking
 import com.expedia.bookings.itin.scopes.HasWebViewLauncher
 import com.expedia.bookings.itin.scopes.ItinImageViewModelSetter
 import com.expedia.bookings.itin.scopes.ItinTimingsViewModelSetter
-import com.expedia.bookings.itin.scopes.LxItinManageBookingWidgetScope
 import com.expedia.bookings.itin.scopes.ManageBookingWidgetViewModelSetter
 import com.expedia.bookings.itin.scopes.MapWidgetViewModelSetter
 import com.expedia.bookings.itin.scopes.RedeemVoucherViewModelSetter
@@ -120,7 +119,6 @@ class LxItinDetailsActivityLifecycleObserverTest {
         sut.toolbarViewModel.navigationBackPressedSubject.onNext(Unit)
         testObserver.assertValue(Unit)
     }
-
 
     class TestLifeCycleObsScope<T : ItinLOB> : HasStringProvider, HasWebViewLauncher, HasActivityLauncher, HasJsonUtil, HasItinId, HasToolbarViewModelSetter, HasManageBookingWidgetViewModelSetter, HasTripsTracking, HasMapWidgetViewModelSetter<T>, HasRedeemVoucherViewModelSetter, HasToaster, HasPhoneHandler, HasItinImageViewModelSetter<T>, HasItinTimingsViewModelSetter<T> {
         val mockPhoneHandler = MockPhoneHandler()

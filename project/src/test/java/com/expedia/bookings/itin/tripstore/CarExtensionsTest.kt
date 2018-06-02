@@ -28,7 +28,7 @@ class CarExtensionsTest {
         val happyItin = ItinMocker.carDetailsBadLocations.cars?.first()
 
         assertEquals("AUS", happyItin?.pickupLocation?.buildSecondaryAddress())
-        assertEquals("Sir John Young Crescent Domain Car Park, AUS", happyItin?.pickupLocation?.buildFullAddress())
+        assertEquals("AUS", happyItin?.pickupLocation?.buildFullAddress())
     }
 
     @Test

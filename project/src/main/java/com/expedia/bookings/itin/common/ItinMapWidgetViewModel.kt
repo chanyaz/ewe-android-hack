@@ -5,7 +5,7 @@ import com.expedia.bookings.itin.tripstore.data.ItinLOB
 import com.google.android.gms.maps.model.LatLng
 import io.reactivex.subjects.PublishSubject
 
-abstract class ItinMapWidgetViewModel<T: ItinLOB> {
+abstract class ItinMapWidgetViewModel<T : ItinLOB> {
     val addressLineFirstSubject: PublishSubject<String> = PublishSubject.create()
     val addressLineSecondSubject: PublishSubject<String> = PublishSubject.create()
     val directionButtonClickSubject: PublishSubject<Unit> = PublishSubject.create()

@@ -96,8 +96,8 @@ class ItinMapWidgetTest {
         assertTrue(mockVM.mapSubjectClicked)
     }
 
-    private class MockViewModel<T: ItinLOB> : ItinMapWidgetViewModel<T>() {
-        override val itinObserver: LiveDataObserver<T> = LiveDataObserver {  }
+    private class MockViewModel<T : ItinLOB> : ItinMapWidgetViewModel<T>() {
+        override val itinObserver: LiveDataObserver<T> = LiveDataObserver { }
         var mapSubjectClicked = false
         var directionSubjectClicked = false
         var addressContainerClicked = false

@@ -16,7 +16,7 @@ class CarItinToolbarViewModel<S>(val scope: S) : NewItinToolbarViewModel where S
     override val navigationBackPressedSubject: PublishSubject<Unit> = PublishSubject.create()
     override val shareIconClickedSubject: PublishSubject<Unit> = PublishSubject.create()
 
-    val itinLxObserver: LiveDataObserver<ItinCar>  = LiveDataObserver<ItinCar> {
+    val itinLxObserver: LiveDataObserver<ItinCar> = LiveDataObserver<ItinCar> {
         it?.let { itinCar ->
             val stringProvider = scope.strings
             itinCar.pickupLocation?.cityName?.let { carCity ->
@@ -33,7 +33,6 @@ class CarItinToolbarViewModel<S>(val scope: S) : NewItinToolbarViewModel where S
     }
 
     init {
-
         scope.itinCarRepo.liveDataCar.observe(scope.lifecycleOwner, itinLxObserver)
     }
 }

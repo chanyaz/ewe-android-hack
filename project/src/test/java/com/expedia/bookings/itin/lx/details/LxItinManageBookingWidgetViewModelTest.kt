@@ -39,7 +39,6 @@ class LxItinManageBookingWidgetViewModelTest {
     @Before
     fun setup() {
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-
     }
 
     @Test

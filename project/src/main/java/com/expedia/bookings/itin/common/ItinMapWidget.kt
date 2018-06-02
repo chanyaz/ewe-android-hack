@@ -47,6 +47,6 @@ class ItinMapWidget<T : ItinLOB>(context: Context, attrs: AttributeSet?) : Linea
     }
 
     init {
-        View.inflate(context, R.layout.widget_lx_itin_map, this)
+        View.inflate(context, R.layout.widget_itin_map, this)
     }
 }

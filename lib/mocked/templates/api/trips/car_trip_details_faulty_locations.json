@@ -32,39 +32,6 @@
       "localizedLongDate": "Apr 15, 2056",
       "localizedShortTime": "5:00pm"
     },
-    "tripCreatedTime": {
-      "raw": "2056-04-14T11:55:30Z",
-      "localized": "Apr 14, 2056 11:55:30 AM",
-      "epochSeconds": 2722938930,
-      "timeZoneOffsetSeconds": 0,
-      "localizedShortDate": "Fri, 14 Apr",
-      "localizedMediumDate": "Apr 14, 2056",
-      "localizedFullDate": "Friday, April 14, 2056",
-      "localizedLongDate": "April 14, 2056",
-      "localizedShortTime": "11:55 AM"
-    },
-    "tripUpdatedTime": {
-      "raw": "2056-04-21T02:35:02Z",
-      "localized": "Apr 21, 2056 2:35:02 AM",
-      "epochSeconds": 2723510102,
-      "timeZoneOffsetSeconds": 0,
-      "localizedShortDate": "Fri, 21 Apr",
-      "localizedMediumDate": "Apr 21, 2056",
-      "localizedFullDate": "Friday, April 21, 2056",
-      "localizedLongDate": "April 21, 2056",
-      "localizedShortTime": "2:35 AM"
-    },
-    "tripCacheUpdatedTime": {
-      "raw": "2056-04-21T15:20:26Z",
-      "localized": "Apr 21, 2056 3:20:26 PM",
-      "epochSeconds": 2723556026,
-      "timeZoneOffsetSeconds": 0,
-      "localizedShortDate": "Fri, 21 Apr",
-      "localizedMediumDate": "Apr 21, 2056",
-      "localizedFullDate": "Friday, April 21, 2056",
-      "localizedLongDate": "April 21, 2056",
-      "localizedShortTime": "3:20 PM"
-    },
     "ownerId": 578012,
     "bookingStatus": "BOOKED",
     "rewardList": [
@@ -138,63 +105,7 @@
           "taxes": "286.78",
           "taxesFormatted": "$286.78",
           "total": "327.55",
-          "totalFormatted": "$327.55",
-          "taxesAndFeesBreakdown": [
-            {
-              "description": "Rental, 3.50 PCT ADMINISTRATION FEE",
-              "price": {
-                "amount": 9.61,
-                "currency": {
-                  "currencyCode": "USD"
-                }
-              }
-            },
-            {
-              "description": "Rental, 1.50 PCT CREDIT CARD SURCHAR",
-              "price": {
-                "amount": 1.26,
-                "currency": {
-                  "currencyCode": "USD"
-                }
-              }
-            },
-            {
-              "description": "Rental, 10.00 PCT GOODS AND SERVICES",
-              "price": {
-                "amount": 28.41,
-                "currency": {
-                  "currencyCode": "USD"
-                }
-              }
-            },
-            {
-              "description": "Rental, 5.00 PCT LOCATION SURCHARGE",
-              "price": {
-                "amount": 13.73,
-                "currency": {
-                  "currencyCode": "USD"
-                }
-              }
-            },
-            {
-              "description": "Rental, 6.50 REG RECOV FEE",
-              "price": {
-                "amount": 6.50,
-                "currency": {
-                  "currencyCode": "USD"
-                }
-              }
-            },
-            {
-              "description": "DROP CHARGE",
-              "price": {
-                "amount": 227.27,
-                "currency": {
-                  "currencyCode": "USD"
-                }
-              }
-            }
-          ]
+          "totalFormatted": "$327.55"
         },
         "localPrice": {
           "isTotalRate": false,
@@ -344,70 +255,6 @@
           "transmissionTypeLocalized": "Manual transmission",
           "wheelDriveType": "UNKNOWN"
         },
-        "rules": [
-          {
-            "ruleType": "TEXT_ONLY",
-            "ruleName": "INFORMATION_PROVIDED_BY_VENDOR_POLICY",
-            "text": "The following rules and restrictions are provided by the car rental company."
-          },
-          {
-            "ruleType": "TEXT_AND_URL",
-            "ruleName": "PAYMENT_CARD_REQUIRED_AT_PICKUP",
-            "text": "The driver must present a valid driver's license and credit card in their name upon pick-up.",
-            "url": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Checkout/CarRulesAndRestrictions?tripid=8ecfcd4a-6a01-4e18-b9b1-42caa43bff5f#DRIVERS_LICENSE",
-            "textAndURL": "The driver must present a valid <a href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Checkout/CarRulesAndRestrictions?tripid=8ecfcd4a-6a01-4e18-b9b1-42caa43bff5f#DRIVERS_LICENSE\" data-cko-click=\"openWindow\" target=\"_blank\" >driver's license <span class=\"icon icon-popup\" aria-hidden=\"true\"> </span><span class=\"alt\">Opens in a new window</span> </a> and credit card in their name upon pick-up. The credit card is required as a deposit when renting any vehicle. The deposit amount is held by the car rental company. Please ensure sufficient funds are available on the card.",
-            "textAndURLResponsive": "The driver must present a valid <a href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Checkout/RulesAndRestrictions?tripid=8ecfcd4a-6a01-4e18-b9b1-42caa43bff5f#DRIVERS_LICENSE\" data-cko-click=\"openWindow\" target=\"_blank\" >driver's license <span class=\"icon icon-popup\" aria-hidden=\"true\"> </span><span class=\"alt\">Opens in a new window</span> </a> and credit card in their name upon pick-up. The credit card is required as a deposit when renting any vehicle. The deposit amount is held by the car rental company. Please ensure sufficient funds are available on the card."
-          },
-          {
-            "ruleType": "TEXT_ONLY",
-            "ruleName": "AGE_RESTRICTIONS",
-            "text": "International rentals may have different driver license requirements. An international driving license is required if the drivers' license is non-roman alphabet."
-          },
-          {
-            "ruleType": "TEXT_AND_URL",
-            "ruleName": "AGE_RESTRICTIONS",
-            "text": "Additional charges or restrictions may apply for drivers under 25.",
-            "url": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Checkout/CarRulesAndRestrictions?tripid=8ecfcd4a-6a01-4e18-b9b1-42caa43bff5f#AGE",
-            "textAndURL": "<a href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Checkout/CarRulesAndRestrictions?tripid=8ecfcd4a-6a01-4e18-b9b1-42caa43bff5f#AGE\" data-cko-click=\"openWindow\" target=\"_blank\" >Additional charges or restrictions <span class=\"icon icon-popup\" aria-hidden=\"true\"> </span><span class=\"alt\">Opens in a new window</span></a> may apply for drivers under 25 or over 70.",
-            "textAndURLResponsive": "<a href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Checkout/RulesAndRestrictions?tripid=8ecfcd4a-6a01-4e18-b9b1-42caa43bff5f#AGE\" data-cko-click=\"openWindow\" target=\"_blank\" >Additional charges or restrictions <span class=\"icon icon-popup\" aria-hidden=\"true\"> </span><span class=\"alt\">Opens in a new window</span></a> may apply for drivers under 25 or over 70."
-          },
-          {
-            "ruleType": "TEXT_AND_URL",
-            "ruleName": "CONDITIONAL_CHARGES",
-            "text": "Charges for refueling, additional drivers, etc. are not included in the total price.",
-            "url": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Checkout/CarRulesAndRestrictions?tripid=8ecfcd4a-6a01-4e18-b9b1-42caa43bff5f#RETURN_REFUELING",
-            "textAndURL": "Charges for <a href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Checkout/CarRulesAndRestrictions?tripid=8ecfcd4a-6a01-4e18-b9b1-42caa43bff5f#RETURN_REFUELING\" data-cko-click=\"openWindow\" target=\"_blank\" >refueling <span class=\"icon icon-popup\" aria-hidden=\"true\"> </span><span class=\"alt\">Opens in a new window</span></a>, additional drivers, etc. are not included in the total price.",
-            "textAndURLResponsive": "Charges for <a href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Checkout/RulesAndRestrictions?tripid=8ecfcd4a-6a01-4e18-b9b1-42caa43bff5f#RETURN_REFUELING\" data-cko-click=\"openWindow\" target=\"_blank\" >refueling <span class=\"icon icon-popup\" aria-hidden=\"true\"> </span><span class=\"alt\">Opens in a new window</span></a>, additional drivers, etc. are not included in the total price."
-          },
-          {
-            "ruleType": "TEXT_ONLY",
-            "ruleName": "OPTIONAL_SERVICES",
-            "text": "Special equipment, such as child seats and GPS, can be purchased upon pick-up (if available)."
-          },
-          {
-            "ruleType": "TEXT_ONLY",
-            "ruleName": "GEOGRAPHICAL_RESTRICTIONS_MAY_APPLY",
-            "text": "Geographical restrictions may apply, even for rental contracts that feature unlimited mileage. Some car rental companies do not allow you to take their vehicles across certain domestic or international borders, or may apply an additional charge to do so."
-          },
-          {
-            "ruleType": "TEXT_AND_URL",
-            "ruleName": "CONDITIONAL_CHARGES",
-            "text": "Your rental may have mandatory insurance requirements that result in additional charges at the time of rental.",
-            "url": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Checkout/CarRulesAndRestrictions?tripid=8ecfcd4a-6a01-4e18-b9b1-42caa43bff5f#INSURANCE",
-            "textAndURL": "Your rental may have <a href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Checkout/CarRulesAndRestrictions?tripid=8ecfcd4a-6a01-4e18-b9b1-42caa43bff5f#INSURANCE\" data-cko-click=\"openWindow\" target=\"_blank\">mandatory, local insurance requirements <span class=\"icon icon-popup\" aria-hidden=\"true\"> </span><span class=\"alt\">Opens in a new window</span></a> that result in additional charges at the time of rental.",
-            "textAndURLResponsive": "Your rental may have <a href=\"https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Checkout/RulesAndRestrictions?tripid=8ecfcd4a-6a01-4e18-b9b1-42caa43bff5f#INSURANCE\" data-cko-click=\"openWindow\" target=\"_blank\">mandatory, local insurance requirements <span class=\"icon icon-popup\" aria-hidden=\"true\"> </span><span class=\"alt\">Opens in a new window</span></a> that result in additional charges at the time of rental."
-          },
-          {
-            "ruleType": "TEXT_ONLY",
-            "ruleName": "TAXES_AND_FEES_INCLUDED",
-            "text": "The total price includes all mandatory taxes and fees."
-          },
-          {
-            "ruleType": "TEXT_ONLY",
-            "ruleName": "TIME_OF_PAYMENT",
-            "text": "Rental fees are due at pick-up."
-          }
-        ],
         "pickUpInstructions": [
           "AFTER HOUR ARRIVALS/RETURNS: (ARR-N, RET-Y)\n                                                RESERVATIONS NOT ACCEPTED AFTER REGULAR OFFICE HOURS.\n                                                RENTAL RETURNS ACCEPTED AFTER REGULAR OFFICE HOURS.\n                                                INQUIRE AT THE RENTAL COUNTER UPON ARRIVAL FOR DETAILS.\n                                                .\n                                                VEHICLE HOLD POLICY:\n                                                RESERVATIONS ARE HONORED FOR TWO HOURS AFTER ACTUAL\n                                                FLIGHT ARRIVAL OR AFTER SCHEDULED ARRIVAL TIME UNLESS\n                                                THE LOCATION IS CLOSED.\n                                            ",
           "PICK UP INFORMATION:\n                                                LOCATION SERVICES THE EAST SYDNEY AREA.  CUSTOMER MUST\n                                                CALL THE LOCATION FOR PICK UP.\n                                            "

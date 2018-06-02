@@ -51,10 +51,3 @@ class ItinCarRepo(private val itinId: String, private val jsonUtil: IJsonToItinU
         syncObserver.dispose()
     }
 }
-
-interface ItinCarRepoInterface {
-    val liveDataCar: MutableLiveData<ItinCar>
-    val liveDataItin: MutableLiveData<Itin>
-    val invalidDataSubject: PublishSubject<Unit>
-    fun dispose()
-}

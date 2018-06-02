@@ -8,6 +8,7 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.itin.cars.ItinCarRepo
+import com.expedia.bookings.itin.cars.ItinCarRepoInterface
 import com.expedia.bookings.itin.common.ItinImageWidget
 import com.expedia.bookings.itin.common.ItinMapWidget
 import com.expedia.bookings.itin.common.ItinToolbar
@@ -71,6 +72,8 @@ class CarsItinDetailsActivity : AppCompatActivity() {
         }
     }
 
+    lateinit var repo: ItinCarRepoInterface
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.car_itin_detail_activity)
@@ -80,7 +83,7 @@ class CarsItinDetailsActivity : AppCompatActivity() {
         val itinId = intent.getStringExtra(CAR_ITIN_ID)
         val tripsTracking = TripsTracking
         val phoneHandler = PhoneHandler(this)
-        val repo = ItinCarRepo(itinId, jsonUtil, ItineraryManager.getInstance().syncFinishObservable)
+        repo = ItinCarRepo(itinId, jsonUtil, ItineraryManager.getInstance().syncFinishObservable)
         val scope = CarsMasterScope(stringProvider, webViewLauncher, this, activityLauncher, repo, toaster, phoneHandler, tripsTracking)
         imageWidget.viewModel = CarItinImageViewModel(scope)
         toolbarViewModel = CarItinToolbarViewModel(scope)
@@ -96,5 +99,6 @@ class CarsItinDetailsActivity : AppCompatActivity() {
     override fun finish() {
         super.finish()
         overridePendingTransition(R.anim.slide_in_left_complete, R.anim.slide_out_right_no_fill_after)
+        repo.dispose()
     }
 }

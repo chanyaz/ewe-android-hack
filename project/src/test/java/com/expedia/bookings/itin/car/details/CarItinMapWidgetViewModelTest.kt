@@ -74,7 +74,7 @@ class CarItinMapWidgetViewModelTest {
         val carVendor = car?.carVendor
         val expectedNumberDescString = R.string.itin_car_call_button_content_description_TEMPLATE.toString().plus(mapOf("phonenumber" to carVendor?.localPhoneNumber, "vendor" to carVendor?.longName))
         val expectedNumber = "02 9221 2231"
-        val expectedCopyDescString = R.string.itin_car_call_button_content_description_TEMPLATE.toString().plus(mapOf("address" to car?.pickupLocation?.buildFullAddress()))
+        val expectedCopyDescString = R.string.itin_car_address_copy_content_description_TEMPLATE.toString().plus(mapOf("address" to car?.pickupLocation?.buildFullAddress()))
 
         sut.itinObserver.onChanged(car)
 
