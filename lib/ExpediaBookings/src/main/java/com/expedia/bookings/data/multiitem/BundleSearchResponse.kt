@@ -16,6 +16,7 @@ interface BundleSearchResponse {
     fun getCurrencyCode(): String?
     fun getFlightPIIDFromSelectedHotel(hotelKey: String?): String?
     fun getSelectedFlightPIID(outboundLegId: String?, inboundLegId: String?): String?
+    fun getFirstFlightPIID(): String
     fun isSplitTicketFlights(outboundLegId: String?, inboundLegId: String?): Boolean
     fun getCurrentOfferPrice(): PackageOfferModel.PackagePrice?
     fun setCurrentOfferPrice(offerPrice: PackageOfferModel.PackagePrice)

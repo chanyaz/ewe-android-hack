@@ -78,14 +78,21 @@ data class UserFilterChoices(var userSort: DisplaySort = DisplaySort.getDefaultS
     }
 
     data class StarRatings(var one: Boolean = false, var two: Boolean = false, var three: Boolean = false, var four: Boolean = false, var five: Boolean = false) {
-        fun getStarRatingParamsAsList(): List<Int> {
+        fun getStarRatingParamsAsList(isPackage: Boolean = false): List<Int> {
             val ratings = ArrayList<Int>()
-            if (one) ratings.add(10)
-            if (two) ratings.add(20)
-            if (three) ratings.add(30)
-            if (four) ratings.add(40)
-            if (five) ratings.add(50)
-
+            if (isPackage) {
+                if (one) ratings.add(1)
+                if (two) ratings.add(2)
+                if (three) ratings.add(3)
+                if (four) ratings.add(4)
+                if (five) ratings.add(5)
+            } else {
+                if (one) ratings.add(10)
+                if (two) ratings.add(20)
+                if (three) ratings.add(30)
+                if (four) ratings.add(40)
+                if (five) ratings.add(50)
+            }
             return ratings
         }
 
@@ -93,11 +100,11 @@ data class UserFilterChoices(var userSort: DisplaySort = DisplaySort.getDefaultS
             @JvmStatic
             fun fromParamList(ratingList: List<Int>): StarRatings {
                 val ratings = StarRatings()
-                if (ratingList.contains(10)) ratings.one = true
-                if (ratingList.contains(20)) ratings.two = true
-                if (ratingList.contains(30)) ratings.three = true
-                if (ratingList.contains(40)) ratings.four = true
-                if (ratingList.contains(50)) ratings.five = true
+                if (ratingList.contains(10) || ratingList.contains(1)) ratings.one = true
+                if (ratingList.contains(20) || ratingList.contains(2)) ratings.two = true
+                if (ratingList.contains(30) || ratingList.contains(3)) ratings.three = true
+                if (ratingList.contains(40) || ratingList.contains(4)) ratings.four = true
+                if (ratingList.contains(50) || ratingList.contains(5)) ratings.five = true
                 return ratings
             }
         }

@@ -195,6 +195,10 @@ data class MultiItemApiSearchResponse(
             return PackageErrorDetails.ApiErrorDetails(errorKey, errorCode)
         }
 
+    override fun getFirstFlightPIID(): String {
+        return flights.values.first().piid
+    }
+
     override fun getSelectedFlightPIID(outboundLegId: String?, inboundLegId: String?): String? {
         if (outboundLegId == null || inboundLegId == null) {
             return null

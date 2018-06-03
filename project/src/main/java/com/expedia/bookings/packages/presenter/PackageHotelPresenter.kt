@@ -222,7 +222,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
 
         bundleSlidingWidget.animationFinished.subscribe {
-            resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(Db.getPackageResponse()))
+            resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(Db.getPackageResponse(), false))
         }
     }
 
@@ -403,6 +403,11 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             }
             DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
         }
+    }
+
+    override fun back(): Boolean {
+        Db.setPackageResponse(Db.getUnfilteredRespnse())
+        return super.back()
     }
 
     private val detailsToReview = object : ScaleTransition(this, HotelDetailPresenter::class.java, HotelReviewsView::class.java) {

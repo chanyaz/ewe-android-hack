@@ -89,6 +89,7 @@ public class Db {
 	private PackageSearchParams mPackageParams;
 	private com.expedia.bookings.data.flights.FlightSearchParams mFlightSearchParams;
 	private BundleSearchResponse mPackageResponse;
+	private BundleSearchResponse mUnfilteredResponse;
 	private Hotel mPackageSelectedHotel;
 	private HotelOffersResponse.HotelRoomResponse mPackageSelectedRoom;
 	private FlightLeg mPackageSelectedOutboundFlight;
@@ -369,8 +370,16 @@ public class Db {
 		sharedInstance.mPackageResponse = hotelPackage;
 	}
 
+	public static void setUnfilteredResponse(BundleSearchResponse unfilteredResponse) {
+		sharedInstance.mUnfilteredResponse = unfilteredResponse;
+	}
+
 	public static void setCachedPackageResponse(BundleSearchResponse hotelPackage) {
 		sharedInstance.cachedPackageResponse = hotelPackage;
+	}
+
+	public static BundleSearchResponse getUnfilteredRespnse() {
+		return sharedInstance.mUnfilteredResponse;
 	}
 
 	public static BundleSearchResponse getCachedPackageResponse() {
