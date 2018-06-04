@@ -759,6 +759,13 @@
         <item>@string/preference_abacus_setting_bucketed</item>
     </string-array>
 
+    <string-array name="abacus_packages_server_side_variant_choices">
+        <item>@string/preference_abacus_setting_server</item>
+        <item>@string/preference_abacus_setting_control</item>
+        <item>@string/preference_server_side_filtering_packages</item>
+        <item>@string/preference_server_side_filtering_packages_infinite_loading</item>
+    </string-array>
+
     <string-array name="abacus_urgency_variant_choices">
         <item>@string/preference_abacus_setting_server</item>
         <item>@string/preference_abacus_setting_control</item>

@@ -155,6 +155,8 @@
     <string name="preference_abacus_setting_recent_search_vertical">Vertical tiles</string>
     <string name="preference_abacus_setting_recent_search_horizontal">Horizontal tiles</string>
     <string name="preference_toggle_server_debug_tracing">preference_toggle_server_debug_tracing</string>
+    <string name="preference_server_side_filtering_packages">Server Side Filtering</string>
+    <string name="preference_server_side_filtering_packages_infinite_loading">Server Side Filtering with infinite loading</string>
 
     <!-- Preference keys for feature toggle -->
     <string name="preference_open_remote_feature_toggle_settings">preference_open_remote_feature_toggle_settings</string>
