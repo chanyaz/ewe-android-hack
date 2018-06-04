@@ -10,7 +10,6 @@ import com.expedia.bookings.hotel.activity.HotelResultsActivity;
 import com.expedia.bookings.hotel.activity.HotelReviewsActivity;
 import com.expedia.bookings.hotel.activity.HotelSearchActivity;
 import com.expedia.bookings.hotel.util.HotelFavoritesManager;
-import com.expedia.bookings.hotel.vm.HotelReviewSearchResultsViewModel;
 import com.expedia.bookings.presenter.hotel.HotelCheckoutMainViewPresenter;
 import com.expedia.bookings.presenter.hotel.HotelCheckoutPresenter;
 import com.expedia.bookings.presenter.hotel.HotelPresenter;
@@ -68,5 +67,4 @@ public interface HotelComponent {
 	void inject(@NotNull HotelResultsActivity hotelResultsActivity);
 	void inject(@NotNull HotelDetailsActivity hotelDetailsActivity);
 	void inject(@NotNull HotelReviewsActivity hotelReviewsActivity);
-	void inject(@NotNull HotelReviewSearchResultsViewModel hotelReviewSearchResultsViewModel);
 }

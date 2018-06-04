@@ -1,22 +1,19 @@
 package com.expedia.bookings.hotel.vm
 
-import android.content.Context
 import android.support.annotation.VisibleForTesting
 import com.expedia.bookings.data.hotels.HotelReviewsParams
 import com.expedia.bookings.data.hotels.HotelReviewsResponse
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.Ui
 import io.reactivex.Observer
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
-import javax.inject.Inject
+import kotlin.properties.Delegates
 
-class HotelReviewSearchResultsViewModel(context: Context, compositeDisposable: CompositeDisposable) {
+class HotelReviewSearchResultsViewModel(compositeDisposable: CompositeDisposable) {
 
-    lateinit var reviewsServices: ReviewsServices
-        @Inject set
+    var reviewsServices: ReviewsServices by Delegates.notNull()
 
     val reviewsObservable = PublishSubject.create<List<HotelReviewsResponse.Review>>()
 
@@ -34,10 +31,6 @@ class HotelReviewSearchResultsViewModel(context: Context, compositeDisposable: C
         }
 
         override fun onComplete() {}
-    }
-
-    init {
-        Ui.getApplication(context).hotelComponent().inject(this)
     }
 
     fun doSearch(query: String?, hotelId: String?) {

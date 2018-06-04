@@ -30,7 +30,10 @@ import kotlin.properties.Delegates
 
 class HotelReviewsView(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs) {
 
-    var reviewServices: ReviewsServices by Delegates.notNull()
+    var reviewServices: ReviewsServices by notNullAndObservable { reviewServices ->
+        searchResultsView.viewModel.reviewsServices = reviewServices
+    }
+
     val hotelReviewsTabbar: HotelReviewsTabbar by bindView(R.id.hotel_reviews_tabbar)
     val viewPager: ViewPager by bindView(R.id.viewpager)
     val toolbar: Toolbar by bindView(R.id.hotel_reviews_toolbar)

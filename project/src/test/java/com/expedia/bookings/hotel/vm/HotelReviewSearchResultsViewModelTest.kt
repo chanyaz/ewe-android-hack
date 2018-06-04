@@ -10,7 +10,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
@@ -19,9 +18,8 @@ class HotelReviewSearchResultsViewModelTest {
     var reviewServicesRule = ServicesRule(ReviewsServices::class.java)
         @Rule get
 
-    private var context = RuntimeEnvironment.application
     private var compositeDisposable = CompositeDisposable()
-    private var viewModel = HotelReviewSearchResultsViewModel(context, compositeDisposable)
+    private var viewModel = HotelReviewSearchResultsViewModel(compositeDisposable)
 
     @Before
     fun setup() {

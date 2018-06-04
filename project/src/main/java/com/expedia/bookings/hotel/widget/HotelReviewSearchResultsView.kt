@@ -15,7 +15,7 @@ import io.reactivex.disposables.CompositeDisposable
 class HotelReviewSearchResultsView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
     private val compositeDisposable = CompositeDisposable()
-    private val viewModel = HotelReviewSearchResultsViewModel(context, compositeDisposable)
+    val viewModel = HotelReviewSearchResultsViewModel(compositeDisposable)
     private val reviewsPageView: HotelReviewsPageView by bindView(R.id.hotel_reviews_search_results_list)
 
     init {
