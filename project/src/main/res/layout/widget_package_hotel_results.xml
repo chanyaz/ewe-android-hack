@@ -111,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="4dp"
                 android:gravity="center"
-                android:text="@string/includes_taxes_and_fees_lower_case"
+                android:text="@string/including_taxes_and_fees_lower_case"
                 android:visibility="gone"/>
         </LinearLayout>
 

@@ -749,6 +749,8 @@
     <string name="pacakge_price_per_person_includes_hotel_and_flight_message">Per Person (hotel + flights)</string>
     <!-- Label indicating that the price includes taxes and fees -->
     <string name="includes_taxes_and_fees_lower_case">includes taxes and fees</string>
+    <!-- Label indicating that the prices are including taxes and fees -->
+    <string name="including_taxes_and_fees_lower_case">including taxes and fees</string>
 
     <!-- LX Sort & Filter "Sort By" section header -->
     <string name="lx_sort_by">Sort By</string>
