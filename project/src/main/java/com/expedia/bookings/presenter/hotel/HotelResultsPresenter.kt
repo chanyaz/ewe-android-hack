@@ -69,7 +69,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     val filterBtnWithCountWidget: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     private val narrowResultsPromptView: TextView by bindView(R.id.narrow_result_prompt)
     override val searchThisArea: TextView by bindView(if (shouldUsePill()) R.id.search_this_area_pill else R.id.search_this_area)
-    override val loadingOverlay: MapLoadingOverlayWidget by bindView(R.id.map_loading_overlay)
     private var narrowFilterPromptSubscription: Disposable? = null
     private var swpEnabled = false
     private var isSearchThisAreaJustTapped = false
@@ -197,6 +196,12 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
                 animateMapCarouselOut()
             }
         }
+        vm.locationParamsSubject.subscribe { params ->
+            filterView.sortByObserver.onNext(params.isCurrentLocationSearch && !params.isGoogleSuggestionSearch)
+            filterViewModel.clearObservable.onNext(Unit)
+            viewModel.clearCachedParamsFilterOptions()
+        }
+
         vm.paramsSubject.map { it.isCurrentLocationSearch() }.subscribe(filterViewModel.isCurrentLocationSearch)
 
         vm.errorObservable.subscribe { hideMapLoadingOverlay() }
@@ -404,28 +409,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         mapWidget.markSoldOutHotel(hotelId)
     }
 
-    fun showUnfilteredResults() {
-        filterViewModel.clearObservable.onNext(Unit)
-        viewModel.clearCachedParamsFilterOptions()
-
-        val currentSearchParams = viewModel.getSearchParams()
-        val cachedUnfilteredResponse = filterViewModel.originalResponse
-
-        if (cachedUnfilteredResponse == null) {
-            if (currentSearchParams == null) {
-                viewModel.hotelResultsObservable.onNext(adapter.resultsSubject.value)
-            } else {
-                viewModel.paramsSubject.onNext(currentSearchParams)
-            }
-        } else {
-            if (currentSearchParams != null && !currentSearchParams.equalIgnoringFilter(filterViewModel.lastUnfilteredSearchParams)) {
-                viewModel.paramsSubject.onNext(currentSearchParams)
-            } else {
-                viewModel.hotelResultsObservable.onNext(cachedUnfilteredResponse)
-            }
-        }
-    }
-
     fun showCachedResults() {
         viewModel.cachedResponse?.let {
             viewModel.hotelResultsObservable.onNext(it)
@@ -459,11 +442,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             showMapLoadingOverlay()
         }
         mapWidget.clearMarkers()
-    }
-
-    private fun showMapLoadingOverlay() {
-        loadingOverlay.animate(true)
-        loadingOverlay.visibility = View.VISIBLE
     }
 
     private fun doAreaSearch() {
