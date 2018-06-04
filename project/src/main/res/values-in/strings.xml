@@ -3791,7 +3791,7 @@
     <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">Gabung dengan {brand_reward_name} sekarang juga. Dengan bergabung di {brand_reward_name}, saya menerima semua &lt;a href="{terms_and_conditions_url}"&gt;Syarat dan Ketentuan&lt;/a&gt;.</string>
     <!--Account creation legal template for terms and reward eg: By creating an account, I accept the Expedia Rewards Terms & Conditions, and have read and accept the Terms of Use and the Privacy Policy.-->
-    <string name="account_creation_new_terms_reward_TEMPLATE">Dengan membuat akun, saya menerima {brand_reward_name} &lt;a href="{terms_and_conditions_url}"&gt;Syarat dan Ketentuan&lt;/a&gt;, serta telah membaca dan menerima &lt;a href="{terms_of_use_url}"&gt;Ketentuan Penggunaan&lt;/a&gt; dan &lt;a href="{privacy_policy_url}"&gt;Kebijakan Privasi&lt;/a&gt;.</string>
+    <string name="account_creation_reward_combined_text_TEMPLATE">Dengan membuat akun, saya menerima {brand_reward_name} &lt;a href="{terms_and_conditions_url}"&gt;Syarat dan Ketentuan&lt;/a&gt;, serta telah membaca dan menerima &lt;a href="{terms_of_use_url}"&gt;Ketentuan Penggunaan&lt;/a&gt; dan &lt;a href="{privacy_policy_url}"&gt;Kebijakan Privasi&lt;/a&gt;.</string>
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Masukkan umur tiap anak</string>
 

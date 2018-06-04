@@ -2842,8 +2842,7 @@
     <!-- Route Happy AB Test: Example: 6/10 - Fair! -->
     <string name="route_score_fair_superlative_TEMPLATE">{route_score}/10 - พอใช้</string>
     <!-- Route Happy AB Test: Example: 5.5/10 - Poor! -->
-    <string name="route_score_poor_superlative_TEMPLATE">{route_score}/10 - แย่
-</string>
+    <string name="route_score_poor_superlative_TEMPLATE">{route_score}/10 - แย่</string>
 
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
@@ -3792,7 +3791,7 @@
     <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">สมัคร {brand_reward_name} วันนี้ โดยการเข้าร่วม {brand_reward_name} ฉันยอมรับ&lt;a href="{terms_and_conditions_url}"&gt;ข้อตกลงและเงื่อนไขทั้งหมด&lt;/a&gt;</string>
     <!--Account creation legal template for terms and reward eg: By creating an account, I accept the Expedia Rewards Terms & Conditions, and have read and accept the Terms of Use and the Privacy Policy.-->
-    <string name="account_creation_new_terms_reward_TEMPLATE">ในการสร้างบัญชีนี้ ฉันยอมรับ &lt;a href="{terms_and_conditions_url}"&gt;ข้อตกลงและเงื่อนไข&lt;/a&gt;ของ {brand_reward_name} และฉันได้อ่านและยอมรับ &lt;a href="{terms_of_use_url}"&gt;ข้อตกลงการใช้งาน&lt;/a&gt; และ &lt;a href="{privacy_policy_url}"&gt;นโยบายความเป็นส่วนตัว&lt;/a&gt; แล้ว</string>
+    <string name="account_creation_reward_combined_text_TEMPLATE">ในการสร้างบัญชีนี้ ฉันยอมรับ &lt;a href="{terms_and_conditions_url}"&gt;ข้อตกลงและเงื่อนไข&lt;/a&gt;ของ {brand_reward_name} และฉันได้อ่านและยอมรับ &lt;a href="{terms_of_use_url}"&gt;ข้อตกลงการใช้งาน&lt;/a&gt; และ &lt;a href="{privacy_policy_url}"&gt;นโยบายความเป็นส่วนตัว&lt;/a&gt; แล้ว</string>
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">โปรดระบุอายุเด็ก</string>
 

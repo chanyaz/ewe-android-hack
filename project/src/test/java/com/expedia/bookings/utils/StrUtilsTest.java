@@ -123,13 +123,13 @@ public class StrUtilsTest {
 	@RunForBrands(brands = { MultiBrand.EXPEDIA })
 	public void newAccountCreationTermsTextTextIsCorrect() {
 		String expected = "By creating an account, I accept the Expedia Rewards Terms and Conditions, and have read and accept the Terms of Use and the Privacy Policy.";
-		assertEquals(expected, StrUtils.generateNewTermsRewardLegalLink(getContext()).toString());
+		assertEquals(expected, StrUtils.generateRewardCombinedTextWithLegalLink(getContext()).toString());
 	}
 
 	@Test
 	@RunForBrands(brands = { MultiBrand.EXPEDIA })
 	public void newAccountCreationTermsTextLinksAreCorrect() {
-		SpannableStringBuilder termsText = StrUtils.generateNewTermsRewardLegalLink(getContext());
+		SpannableStringBuilder termsText = StrUtils.generateRewardCombinedTextWithLegalLink(getContext());
 
 		assertTextIsLinkedToUrl(termsText, "Terms and Conditions",
 			"https://www.expedia.com/loyaltyrewards/pages/info-rewards/expediarewards/terms.htm");
@@ -149,7 +149,7 @@ public class StrUtilsTest {
 	@Test
 	@RunForBrands(brands = { MultiBrand.EXPEDIA })
 	public void newAccountCreationTermsTextLinksAreBold() {
-		SpannableStringBuilder termsText = StrUtils.generateNewTermsRewardLegalLink(getContext());
+		SpannableStringBuilder termsText = StrUtils.generateRewardCombinedTextWithLegalLink(getContext());
 
 		assertTextIsBold(termsText, "Terms and Conditions");
 		assertTextIsBold(termsText, "Terms of Use");

@@ -209,6 +209,8 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 
 	private Config buildConfigBasedOnBucketing() {
 		Config config;
+		boolean shouldShowUserRewardsEnrollmentCheck = ProductFlavorFeatureConfiguration.getInstance()
+				.showUserRewardsEnrollmentCheck();
 		if (isNewSignInEnabled) {
 			config = Config.build()
 					.setInitialTab(initialTab)
@@ -221,11 +223,9 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 					.setMarketingText(PointOfSale.getPointOfSale().getMarketingText())
 					.setAnalyticsListener(analyticsListener)
 					.setFacebookAppId(getString(R.string.facebook_app_id))
-					.setNewTermsText(StrUtils.generateNewTermsRewardLegalLink(this));
+					.setNewTermsText(shouldShowUserRewardsEnrollmentCheck ? StrUtils.generateRewardCombinedTextWithLegalLink(this) : StrUtils.generateNonRewardTextWithLegalLink(this));
 		}
 		else {
-			boolean shouldShowUserRewardsEnrollmentCheck = ProductFlavorFeatureConfiguration.getInstance()
-				.showUserRewardsEnrollmentCheck();
 
 			config = Config.build()
 					.setService(ServicesUtil.generateAccountService(this))
@@ -242,8 +242,7 @@ public class AccountLibActivity extends AppCompatActivity implements UserAccount
 					.setInitialState(startState)
 					.setUserRewardsEnrollmentCheck(shouldShowUserRewardsEnrollmentCheck)
 					.setRewardsText(shouldShowUserRewardsEnrollmentCheck ? StrUtils.generateLoyaltyRewardsLegalLink(this) : "")
-					.setSignupString(Phrase.from(this, R.string.account_signup_TEMPLATE).put("brand", BuildConfig.brand).format().toString())
-					.setNewTermsText(shouldShowUserRewardsEnrollmentCheck ? StrUtils.generateNewTermsRewardLegalLink(this) : "");
+					.setSignupString(Phrase.from(this, R.string.account_signup_TEMPLATE).put("brand", BuildConfig.brand).format().toString());
 		}
 		if (shouldEnableRecaptcha()) {
 			config.setEnableRecaptcha(true).setRecaptchaAPIKey(getString(R.string.recaptcha_sdk_site_key));

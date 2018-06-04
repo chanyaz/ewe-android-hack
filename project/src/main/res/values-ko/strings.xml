@@ -3791,7 +3791,7 @@
     <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">오늘 바로 {brand_reward_name}에 가입하세요. {brand_reward_name}에 가입함으로써 본인은 모든 &lt;a href="{terms_and_conditions_url}"&gt;이용약관&lt;/a&gt;에 동의합니다.</string>
     <!--Account creation legal template for terms and reward eg: By creating an account, I accept the Expedia Rewards Terms & Conditions, and have read and accept the Terms of Use and the Privacy Policy.-->
-    <string name="account_creation_new_terms_reward_TEMPLATE">회원가입함으로써 본인은 {brand_reward_name} &lt;a href="{terms_and_conditions_url}"&gt;이용약관&lt;/a&gt;에 동의하며, &lt;a href="{terms_of_use_url}"&gt;이용약관&lt;/a&gt;과 &lt;a href="{privacy_policy_url}"&gt;개인정보 보호정책&lt;/a&gt;을 읽었고 이에 동의합니다.</string>
+    <string name="account_creation_reward_combined_text_TEMPLATE">회원가입함으로써 본인은 {brand_reward_name} &lt;a href="{terms_and_conditions_url}"&gt;이용약관&lt;/a&gt;에 동의하며, &lt;a href="{terms_of_use_url}"&gt;이용약관&lt;/a&gt;과 &lt;a href="{privacy_policy_url}"&gt;개인정보 보호정책&lt;/a&gt;을 읽었고 이에 동의합니다.</string>
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">각 아동의 나이 선택</string>
 
