@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="24dp"
+    android:layout_height="24dp">
+
+    <ImageButton
+        android:id="@+id/share_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="12dp"
+        android:layout_marginLeft="12dp"
+        android:paddingRight="6dp"
+        android:paddingLeft="6dp"
+        android:contentDescription="@string/itin_action_share"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_share" />
+
+</LinearLayout>

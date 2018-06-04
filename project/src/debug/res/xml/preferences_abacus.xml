@@ -905,7 +905,7 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:key="26166"
             android:summary="%s"
-            android:title="Growth Social Sharing - 26166" />
+            android:title="Hotel Detail Social Sharing - 26166" />
 
     </PreferenceCategory>
 

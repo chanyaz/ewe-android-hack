@@ -57,6 +57,7 @@ import com.expedia.bookings.utils.ClientLogConstants
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isGrowthSocialSharingEnabled
 import com.expedia.bookings.utils.isKrazyglueOnFlightsConfirmationEnabled
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.widget.DeprecatedProgressDialog
@@ -65,6 +66,7 @@ import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.expedia.ui.HotelActivity
 import com.expedia.ui.HotelActivity.Screen
 import com.expedia.util.endlessObserver
+import com.expedia.util.setShareButton
 import com.expedia.vm.GeocodeSearchModel
 import com.expedia.vm.HotelCheckoutViewModel
 import com.expedia.vm.HotelConfirmationViewModel
@@ -244,6 +246,9 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
                     resultsPresenter.handleSoldOutHotel(hotelDetailViewModel.hotelId)
                 }
             }
+        }
+        if (isGrowthSocialSharingEnabled(context)) {
+            presenter.hotelDetailView.hotelDetailsToolbar.toolbar.setShareButton()
         }
 
         presenter.hotelDetailView.reviewsSummaryViewModel = HotelReviewsSummaryViewModel(reviewServices)
