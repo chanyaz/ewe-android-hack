@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.expedia.account.data.AccountResponse;
 import com.expedia.account.data.FacebookLinkResponse;
+import com.expedia.account.data.JoinRewardsResponse;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
@@ -43,6 +44,9 @@ public interface ExpediaAccountApi {
 		@Field("recaptchaResponseToken") String recaptchaResponseToken,
 		@FieldMap Map<String, String> extraParams
 	);
+
+	@POST("api/user/rewards/join")
+	Observable<JoinRewardsResponse> joinRewards();
 
 	///////////////////////////////////////////////////////////////////////////
 	// Facebook

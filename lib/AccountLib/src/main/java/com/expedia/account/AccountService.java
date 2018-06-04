@@ -11,6 +11,7 @@ import android.text.TextUtils;
 
 import com.expedia.account.data.AccountResponse;
 import com.expedia.account.data.FacebookLinkResponse;
+import com.expedia.account.data.JoinRewardsResponse;
 import com.expedia.account.data.PartialUser;
 import com.expedia.account.server.ExpediaAccountApi;
 import com.facebook.AccessToken;
@@ -124,6 +125,10 @@ public class AccountService {
 	public Observable<AccountResponse> createUser(PartialUser user) {
 		return api.createUser(user.email, user.password, user.firstName, user.lastName,
 			user.expediaEmailOptin, true /*staySignedIn*/, user.enrollInLoyalty, user.recaptchaResponseToken, getCommonParams());
+	}
+
+	public Observable<JoinRewardsResponse> joinRewards() {
+		return api.joinRewards();
 	}
 
 	private Map<String, String> getCommonParams() {

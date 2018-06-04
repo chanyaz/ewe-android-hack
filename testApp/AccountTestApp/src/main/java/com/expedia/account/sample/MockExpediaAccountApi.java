@@ -5,9 +5,11 @@ import java.util.Map;
 
 import com.expedia.account.data.AccountResponse;
 import com.expedia.account.data.FacebookLinkResponse;
+import com.expedia.account.data.JoinRewardsResponse;
 import com.expedia.account.server.ExpediaAccountApi;
 import com.expedia.account.util.MockFacebookViewHelper;
 
+import io.reactivex.Observer;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import io.reactivex.Observable;
@@ -65,6 +67,14 @@ public class MockExpediaAccountApi implements ExpediaAccountApi {
 			break;
 		}
 		return Observable.just(response);
+	}
+
+	@Override
+	public Observable<JoinRewardsResponse> joinRewards() {
+		JoinRewardsResponse joinRewardsResponse = new JoinRewardsResponse();
+		joinRewardsResponse.setLoyaltyMembershipActive(true);
+
+		return Observable.just(joinRewardsResponse);
 	}
 
 	@Override
