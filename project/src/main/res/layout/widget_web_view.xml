@@ -19,10 +19,6 @@
         android:layout_width="match_parent"
         android:id="@+id/web_container"
         android:layout_height="match_parent">
-        <WebView
-            android:id="@+id/web_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
         <com.expedia.bookings.widget.LoadingOverlayWidget
             android:id="@+id/web_details_loading_overlay"

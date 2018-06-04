@@ -207,7 +207,7 @@ class HotelWebCheckoutViewTest {
     fun testTelephoneUrlLoadsPhoneActivity() {
         getToWebCheckoutView()
         val phoneUrl = "tel:800-423-5498"
-        hotelPresenter.webCheckoutView.webClient.onPageStarted(hotelPresenter.webCheckoutView.webView, phoneUrl, null)
+        hotelPresenter.webCheckoutView.webClient().onPageStarted(hotelPresenter.webCheckoutView.webView, phoneUrl, null)
 
         val shadowActivity = Shadows.shadowOf(activity)
         val intent = shadowActivity.peekNextStartedActivityForResult().intent

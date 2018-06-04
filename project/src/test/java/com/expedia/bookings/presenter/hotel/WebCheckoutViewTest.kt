@@ -40,7 +40,7 @@ class WebCheckoutViewTest {
 
         assertEquals(View.VISIBLE, webCheckoutView.loadingOverlay.visibility)
 
-        webCheckoutView.webClient.onPageFinished(webCheckoutView.webView, "www.Google.com")
+        webCheckoutView.webClient().onPageFinished(webCheckoutView.webView, "www.Google.com")
 
         assertEquals(View.GONE, webCheckoutView.loadingOverlay.visibility)
     }

@@ -3,6 +3,7 @@ package com.expedia.bookings.test.pagemodels.hotels
 import android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import android.support.test.espresso.matcher.ViewMatchers.isJavascriptEnabled
+import android.support.test.espresso.matcher.ViewMatchers.withClassName
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.web.sugar.Web.onWebView
 import android.support.test.espresso.web.webdriver.DriverAtoms.findElement
@@ -16,13 +17,14 @@ import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.Common.device
 import com.expedia.bookings.test.espresso.Common.isOneOfUiObjectsPresent
 import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.containsString
 import java.util.concurrent.TimeUnit
 
 object HotelsCheckoutWebViewScreen {
 
-    private val webView = allOf(
+    private fun webView() = allOf(
             isDescendantOfA(withId(R.id.web_checkout_view)),
-            withId(R.id.web_view),
+            withClassName(containsString("WebView")),
             isJavascriptEnabled(),
             isDisplayed()
     )
@@ -65,7 +67,7 @@ object HotelsCheckoutWebViewScreen {
         }
 
         fun scrollToRoomPreferences() {
-            onWebView(webView)
+            onWebView(webView())
                     .withElement(findElement(Locator.ID, "cko-form"))
                     .withContextualElement(findElement(Locator.ID, "preferences"))
                     .perform(webScrollIntoView())
@@ -91,7 +93,7 @@ object HotelsCheckoutWebViewScreen {
         fun insuranceContainer() = device.findObject(byInsuranceContainer)
 
         fun scrollToInsuranceContainer() {
-            onWebView(webView)
+            onWebView(webView())
                     .withNoTimeout()
                     .withElement(findElement(Locator.CLASS_NAME, "ins-conditions"))
                     .perform(webScrollIntoView())

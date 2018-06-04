@@ -43,7 +43,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
 
     var checkoutErrorState = false
 
-    val chromeClient: WebChromeClient = object : WebChromeClient() {
+    override fun chromeClient(): WebChromeClient = object : WebChromeClient() {
 
         override fun onCreateWindow(view: WebView, isDialog: Boolean,
                                     isUserGesture: Boolean, resultMsg: Message): Boolean {
@@ -52,7 +52,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
                 isVerticalScrollBarEnabled = false
                 isHorizontalScrollBarEnabled = false
                 settings.javaScriptCanOpenWindowsAutomatically = true
-                webViewClient = webClient
+                webViewClient = webClient()
                 settings.javaScriptEnabled = true
                 settings.savePassword = false
                 layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -114,7 +114,6 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
         toolbar.navigationIcon = context.getDrawable(R.drawable.ic_arrow_back_white_24dp)
 
         setUserAgentString(AndroidUtils.isTablet(context))
-        webView.webChromeClient = chromeClient
 
         showLoadingIndicator.subscribe { status ->
             toolbar.setVisibility(!status)

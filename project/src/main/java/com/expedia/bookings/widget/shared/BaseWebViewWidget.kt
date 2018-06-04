@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
 import android.webkit.SslErrorHandler
+import android.webkit.WebChromeClient
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -34,11 +35,34 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
     var webViewPopUp: WebView? = null
 
     val container by bindView<FrameLayout>(R.id.web_container)
-    val webView: WebView by bindView(R.id.web_view)
+    var webView = WebView(context)
+    open fun chromeClient() = WebChromeClient()
+
+    private fun addNewWebViewToWidget(context: Context): WebView {
+        webView.visibility = View.GONE
+        container.removeView(webView)
+
+        val webView = WebView(context)
+        webView.webViewClient = webClient()
+        webView.webChromeClient = chromeClient()
+        webView.settings.javaScriptEnabled = true
+        webView.settings.domStorageEnabled = true
+        webView.settings.setSupportMultipleWindows(true)
+
+        webView.setDownloadListener { url, _, _, _, _ ->
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            context.startActivity(intent)
+        }
+
+        container.addView(webView, 0)
+
+        return webView
+    }
+
     val progressView: ProgressBar by bindView(R.id.webview_progress_view)
     val statusBarHeight by lazy { Ui.getStatusBarHeight(context) }
 
-    var webClient = object : WebViewClient() {
+    fun webClient() = object : WebViewClient() {
 
         //Using this deprecated API in order to support the shouldOverrideUrlLoading function for L and M devices
         @Suppress("DEPRECATION")
@@ -123,19 +147,11 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
         this.orientation = LinearLayout.VERTICAL
         toolbar.setNavigationContentDescription(R.string.toolbar_nav_icon_cont_desc)
         setToolbarPadding()
-        webView.webViewClient = webClient
-        webView.settings.javaScriptEnabled = true
-        webView.settings.domStorageEnabled = true
-        webView.settings.setSupportMultipleWindows(true)
-
-        webView.setDownloadListener { url, _, _, _, _ ->
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            context.startActivity(intent)
-        }
     }
 
     open var viewModel: WebViewViewModel by notNullAndObservable { vm ->
         vm.webViewURLObservable.subscribe { url ->
+            webView = addNewWebViewToWidget(context)
             webView.loadUrl(AppAnalytics.getUrlWithVisitorData(url))
         }
     }
@@ -159,5 +175,10 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
         } else {
             progressView.visibility = View.GONE
         }
+    }
+
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+        webView = addNewWebViewToWidget(context)
     }
 }
