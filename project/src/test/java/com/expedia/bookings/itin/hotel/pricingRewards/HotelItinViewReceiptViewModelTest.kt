@@ -2,8 +2,8 @@ package com.expedia.bookings.itin.hotel.pricingRewards
 
 import android.arch.lifecycle.LifecycleOwner
 import com.expedia.bookings.R
-import com.expedia.bookings.features.Feature
 import com.expedia.bookings.itin.helpers.ItinMocker
+import com.expedia.bookings.itin.helpers.MockFeature
 import com.expedia.bookings.itin.helpers.MockHotelRepo
 import com.expedia.bookings.itin.helpers.MockLifecycleOwner
 import com.expedia.bookings.itin.helpers.MockStringProvider
@@ -129,12 +129,4 @@ class MockHotelItinViewReceiptScope : HasHotelRepo, HasStringProvider, HasLifecy
     override val webViewLauncher: IWebViewLauncher = webLauncherMock
     val mockFeature = MockFeature()
     override val feature = mockFeature
-}
-
-class MockFeature : Feature {
-    var featureEnabled = true
-    override val name: String = "MockFeature"
-    override fun enabled(): Boolean {
-        return featureEnabled
-    }
 }

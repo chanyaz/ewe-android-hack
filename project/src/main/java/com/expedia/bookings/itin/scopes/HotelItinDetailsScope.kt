@@ -20,8 +20,9 @@ data class HotelItinDetailsScope(
         override val webViewLauncher: IWebViewLauncher,
         override val tripsTracking: ITripsTracking,
         override val activityLauncher: ActivityLauncher,
-        override val abacus: AbacusSource
-) : HasItin, HasHotel, HasStringProvider, HasWebViewLauncher, HasTripsTracking, HasActivityLauncher, HasAbacusProvider
+        override val abacus: AbacusSource,
+        override val feature: Feature
+) : HasItin, HasHotel, HasStringProvider, HasWebViewLauncher, HasTripsTracking, HasActivityLauncher, HasAbacusProvider, HasFeature
 
 data class HotelItinToolbarScope(
         override val strings: StringSource,

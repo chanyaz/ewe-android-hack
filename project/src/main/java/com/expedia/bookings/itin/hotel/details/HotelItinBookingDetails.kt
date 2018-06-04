@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.data.trips.ItinCardDataHotel
+import com.expedia.bookings.features.Features
 import com.expedia.bookings.itin.common.ItinBookingInfoCardView
 import com.expedia.bookings.itin.common.ItinLinkOffCardView
 import com.expedia.bookings.itin.hotel.manageBooking.HotelItinManageBookingActivity
@@ -58,7 +59,7 @@ class HotelItinBookingDetails(context: Context, attr: AttributeSet?) : LinearLay
                 itin.firstHotel()?.let { hotel ->
                     newPriceSummaryCard.visibility = View.VISIBLE
                     val activityLauncher = ActivityLauncher(context)
-                    val scope = HotelItinDetailsScope(itin, hotel, stringProvider, webViewLauncher, tripsTracking, activityLauncher, abacusProvider)
+                    val scope = HotelItinDetailsScope(itin, hotel, stringProvider, webViewLauncher, tripsTracking, activityLauncher, abacusProvider, Features.all.tripsGlassbox)
                     val vm = HotelItinPriceSummaryButtonViewModel(scope)
                     newPriceSummaryCard.viewModel = vm
                 }
