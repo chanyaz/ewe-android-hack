@@ -87,8 +87,8 @@ class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) : Presen
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        val navIcon = ContextCompat.getDrawable(context, R.drawable.ic_close_white_24dp).mutate()
-        navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
+        val navIcon = ContextCompat.getDrawable(context, R.drawable.ic_close_white_24dp)?.mutate()
+        navIcon?.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon
         toolbar.setNavigationContentDescription(R.string.hotel_confirmation_toolbar_close_cont_desc)
         toolbar.setNavigationOnClickListener({
@@ -101,7 +101,7 @@ class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) : Presen
 
     private fun dressAction(textView: TextView, drawableResId: Int) {
         val drawable = ContextCompat.getDrawable(context, drawableResId)
-        drawable.setColorFilter(ContextCompat.getColor(context, R.color.confirmation_screen_action_icon_color), PorterDuff.Mode.SRC_IN)
+        drawable?.setColorFilter(ContextCompat.getColor(context, R.color.confirmation_screen_action_icon_color), PorterDuff.Mode.SRC_IN)
         textView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
         FontCache.setTypeface(textView, FontCache.Font.ROBOTO_REGULAR)
     }

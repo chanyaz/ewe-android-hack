@@ -44,7 +44,7 @@ class MemberDealListAdapter(private val context: Context, private val searchHote
         DESTINATION_CARD
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (viewType == itemType.HEADER.ordinal) {
             val view = LayoutInflater.from(context).inflate(R.layout.member_deal_header, parent, false)
             val holder = MemberDealHeaderViewHolder(view)
@@ -67,7 +67,7 @@ class MemberDealListAdapter(private val context: Context, private val searchHote
         }
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is DealsCardViewHolder) {
             val destination = listData[position - 1]
             val leadingHotel = destination.getLeadingHotel()

@@ -20,16 +20,16 @@ open class PriceChangeViewModel(context: Context) {
         ObservableOld.zip(originalPrice, newPrice, { originalPrice, newPrice ->
             if (originalPrice != null) {
                 if (newPrice.amount > originalPrice.amount) {
-                    priceChangeDrawable.onNext(ContextCompat.getDrawable(context, R.drawable.warning_triangle_icon))
+                    priceChangeDrawable.onNext(ContextCompat.getDrawable(context, R.drawable.warning_triangle_icon)!!)
                     priceChangeText.onNext(context.getString(R.string.price_changed_from_TEMPLATE,
                             originalPrice.getFormattedMoneyFromAmountAndCurrencyCode(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)))
                 } else if (newPrice < originalPrice) {
-                    priceChangeDrawable.onNext(ContextCompat.getDrawable(context, R.drawable.price_change_decrease))
+                    priceChangeDrawable.onNext(ContextCompat.getDrawable(context, R.drawable.price_change_decrease)!!)
                     priceChangeText.onNext(context.getString(R.string.price_dropped_from_TEMPLATE,
                             originalPrice.getFormattedMoneyFromAmountAndCurrencyCode(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)))
                 } else {
                     // API could return price change error with no difference in price (see: hotel_price_change_checkout.json)
-                    priceChangeDrawable.onNext(ContextCompat.getDrawable(context, R.drawable.price_change_decrease))
+                    priceChangeDrawable.onNext(ContextCompat.getDrawable(context, R.drawable.price_change_decrease)!!)
                     priceChangeText.onNext(context.getString(R.string.price_changed_from_TEMPLATE,
                             originalPrice.getFormattedMoneyFromAmountAndCurrencyCode(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)))
                 }

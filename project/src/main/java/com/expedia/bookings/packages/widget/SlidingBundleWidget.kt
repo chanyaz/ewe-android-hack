@@ -239,8 +239,8 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
             bundlePriceWidget.bundleChevron.visibility = View.VISIBLE
             bundlePriceWidget.closeIcon.visibility = View.GONE
         }
-        val icon = ContextCompat.getDrawable(context, R.drawable.read_more).mutate()
-        icon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
+        val icon = ContextCompat.getDrawable(context, R.drawable.read_more)?.mutate()
+        icon?.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
 
         if (PointOfSale.getPointOfSale().pointOfSaleId != PointOfSaleId.JAPAN) {
             bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))

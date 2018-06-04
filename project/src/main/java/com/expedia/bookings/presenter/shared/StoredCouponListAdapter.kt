@@ -31,8 +31,8 @@ class StoredCouponListAdapter(storedCouponsSubject: PublishSubject<List<StoredCo
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(parent?.context).inflate(R.layout.stored_coupon_view, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.stored_coupon_view, parent, false)
         return StoredCouponViewHolder(view as ViewGroup, applyStoredCouponObservable)
     }
 
@@ -40,7 +40,7 @@ class StoredCouponListAdapter(storedCouponsSubject: PublishSubject<List<StoredCo
         return coupons.size
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val storedCouponHolder = holder as StoredCouponViewHolder
         storedCouponHolder.viewModel.couponName.onNext(coupons[position].savedCoupon.name)
         storedCouponHolder.viewModel.couponStatus.onNext(if (coupons[position].errorMessage.isEmpty()) {

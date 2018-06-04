@@ -36,9 +36,9 @@ class HotelCellUrgencyMessage(context: Context, attrs: AttributeSet) : LinearLay
     private fun setupUrgencyMessage(urgencyMessage: HotelViewModel.UrgencyMessage) {
         if (urgencyMessage.hasIconDrawable()) {
             urgencyIconImageView.visibility = View.VISIBLE
-            val urgencyIcon = ContextCompat.getDrawable(context, urgencyMessage.iconDrawableId!!).mutate()
+            val urgencyIcon = ContextCompat.getDrawable(context, urgencyMessage.iconDrawableId!!)?.mutate()
             if (urgencyMessage.iconDrawableId == R.drawable.urgency) {
-                urgencyIcon.setColorFilter(ContextCompat.getColor(context, R.color.hotel_urgency_icon_color), PorterDuff.Mode.SRC_IN)
+                urgencyIcon?.setColorFilter(ContextCompat.getColor(context, R.color.hotel_urgency_icon_color), PorterDuff.Mode.SRC_IN)
             }
             urgencyIconImageView.setImageDrawable(urgencyIcon)
         } else {

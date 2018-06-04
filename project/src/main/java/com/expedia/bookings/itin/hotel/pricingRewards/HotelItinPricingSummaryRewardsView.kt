@@ -15,7 +15,7 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 import com.squareup.picasso.Picasso
 
-class HotelItinPricingSummaryRewardsView(context: Context?, attrs: AttributeSet?) : LinearLayout(context, attrs) {
+class HotelItinPricingSummaryRewardsView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     val rewardsTitleText by bindView<TextView>(R.id.hotel_itin_pricing_rewards_title)
 
     val rewardsSection by bindView<CardView>(R.id.hotel_itin_pricing_rewards_section)
@@ -64,7 +64,7 @@ class HotelItinPricingSummaryRewardsView(context: Context?, attrs: AttributeSet?
     }
 }
 
-class BonusPointsView(context: Context?, attrs: AttributeSet?) : TextView(context, attrs) {
+class BonusPointsView(context: Context, attrs: AttributeSet?) : TextView(context, attrs) {
     init {
         this.textSize = 14.0f
         this.setTextColor(android.support.v4.content.ContextCompat.getColor(context, R.color.itin_price_summary_label_gray_light))

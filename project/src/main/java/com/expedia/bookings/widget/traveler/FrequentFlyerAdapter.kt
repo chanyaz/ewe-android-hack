@@ -24,12 +24,12 @@ class FrequentFlyerAdapter(val viewModel: FrequentFlyerAdapterViewModel) : Recyc
         return frequentFlyerCards.size
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.frequent_flyer_program_card_layout, parent, false)
         return FrequentFlyerViewHolder(view as ViewGroup)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is FrequentFlyerViewHolder -> {
                 val frequentFlyerCard = frequentFlyerCards[position]

@@ -14,7 +14,7 @@ class HotelFavoritesRecyclerViewAdapter(private var favoritesList: ArrayList<Hot
         return favoritesList.size
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val hotelViewHolder = holder as HotelFavoritesItemViewHolder
         hotelViewHolder.bind(favoritesList[position])
     }

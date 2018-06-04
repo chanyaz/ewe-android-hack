@@ -110,8 +110,8 @@ class TimeAndCalendarDialogFragment(val viewModel: SearchViewModelWithTimeSlider
     }
 
     private fun setUpTooltipColor(color: Int) {
-        val drawablePopUp = ContextCompat.getDrawable(context, R.drawable.toolbar_bg).mutate()
-        drawablePopUp.setColorFilter(color, PorterDuff.Mode.SRC_IN)
+        val drawablePopUp = ContextCompat.getDrawable(context, R.drawable.toolbar_bg)?.mutate()
+        drawablePopUp?.setColorFilter(color, PorterDuff.Mode.SRC_IN)
         pickupTimePopupContainerText.background = drawablePopUp
         pickupTimePopupTail.setColorFilter(color, PorterDuff.Mode.SRC_IN)
     }

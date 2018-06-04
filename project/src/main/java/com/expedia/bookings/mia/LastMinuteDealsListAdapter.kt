@@ -38,7 +38,7 @@ class LastMinuteDealsListAdapter(val context: Context) : RecyclerView.Adapter<Re
         }
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is DealsCardViewHolder) {
             val lastMinuteHotel = listData[position]
             val vm = LastMinuteDealsCardViewModel(context, lastMinuteHotel, currency)
@@ -53,7 +53,7 @@ class LastMinuteDealsListAdapter(val context: Context) : RecyclerView.Adapter<Re
         return listData.size
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (viewType == itemType.LOADING_VIEW.ordinal) {
             val view = LayoutInflater.from(context).inflate(R.layout.deal_loading_cell, parent, false)
             val holder = LoadingViewHolder(view)

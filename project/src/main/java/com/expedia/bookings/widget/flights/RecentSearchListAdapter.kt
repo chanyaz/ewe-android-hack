@@ -63,8 +63,8 @@ class RecentSearchListAdapter(recentSearchesObservable: PublishSubject<List<Rece
         return recentSearches.size
     }
 
-    override fun onBindViewHolder(holder: RecentSearchViewHolder?, position: Int) {
-        holder?.viewModel?.recentSearchObservable?.onNext(recentSearches[position])
-        holder?.itemView?.isSelected = false
+    override fun onBindViewHolder(holder: RecentSearchViewHolder, position: Int) {
+        holder.viewModel.recentSearchObservable.onNext(recentSearches[position])
+        holder.itemView.isSelected = false
     }
 }

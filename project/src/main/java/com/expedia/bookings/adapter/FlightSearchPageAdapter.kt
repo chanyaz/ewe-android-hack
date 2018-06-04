@@ -17,11 +17,11 @@ class FlightSearchPageAdapter(val context: Context) : PagerAdapter() {
         return Tab.values().size
     }
 
-    override fun isViewFromObject(view: View?, obj: Any?): Boolean {
+    override fun isViewFromObject(view: View, obj: Any): Boolean {
         return true
     }
 
-    override fun instantiateItem(container: ViewGroup, position: Int): Any? {
+    override fun instantiateItem(container: ViewGroup, position: Int): Any {
         // create some mock views to listen for swipes.
         // We're actually not going to show anything here
             return createMockView(container)

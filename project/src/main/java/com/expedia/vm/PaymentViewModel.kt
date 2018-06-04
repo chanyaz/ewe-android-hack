@@ -121,24 +121,24 @@ open class PaymentViewModel(val context: Context) {
                         resources.getString(R.string.checkout_tap_to_edit), it.splitsType, ContactDetailsCompletenessStatus.COMPLETE)
             } else if (it.info == null) {
                 val titleSubtitlePair = getTitleAndSubtitleNoInfo(it.isRedeemable)
-                tempCard.onNext(Pair("", getCardIcon(null)))
+                tempCard.onNext(Pair("", getCardIcon(null)!!))
                 paymentTile = PaymentTileInfo(null, titleSubtitlePair.first, titleSubtitlePair.second, it.splitsType, it.status)
             } else if (it.info.isTempCard && it.info.saveCardToExpediaAccount) {
                 val title = getCardTypeAndLast4Digits(it.info.getPaymentType(context), it.info.number)
-                tempCard.onNext(Pair("", getCardIcon(it.info.getPaymentType(context))))
+                tempCard.onNext(Pair("", getCardIcon(it.info.getPaymentType(context))!!))
                 paymentTile = PaymentTileInfo(it.info.getPaymentType(context), title, resources.getString(R.string.checkout_tap_to_edit), it.splitsType, it.status)
                 Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(it.info)
             } else if (it.info.hasStoredCard()) {
                 val card = it.info.storedCard
                 val title = card.description
-                tempCard.onNext(Pair("", getCardIcon(card.type)))
+                tempCard.onNext(Pair("", getCardIcon(card.type)!!))
                 paymentTile = PaymentTileInfo(card.type, title, resources.getString(R.string.checkout_tap_to_edit), it.splitsType, it.status)
             } else {
                 val card = it.info
                 val cardNumber = card.number
                 val title = getCardTypeAndLast4Digits(card.getPaymentType(context), cardNumber)
                 if (card.isTempCard && !card.saveCardToExpediaAccount) {
-                    tempCard.onNext(Pair(title, getCardIcon(card.getPaymentType(context))))
+                    tempCard.onNext(Pair(title, getCardIcon(card.getPaymentType(context))!!))
                 }
                 paymentTile = PaymentTileInfo(card.getPaymentType(context), title, resources.getString(R.string.checkout_tap_to_edit), it.splitsType, it.status)
                 Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(it.info)
@@ -161,8 +161,8 @@ open class PaymentViewModel(val context: Context) {
         }).subscribe()
 
         storedCardRemoved.subscribe { card ->
-            val icon = ContextCompat.getDrawable(context, R.drawable.ic_hotel_credit_card).mutate()
-            icon.setColorFilter(ContextCompat.getColor(context, R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
+            val icon = ContextCompat.getDrawable(context, R.drawable.ic_hotel_credit_card)?.mutate()
+            icon?.setColorFilter(ContextCompat.getColor(context, R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
             billingInfoAndStatusUpdate.onNext(Pair(null, ContactDetailsCompletenessStatus.DEFAULT))
             emptyBillingInfo.onNext(Unit)
             BookingInfoUtils.resetPreviousCreditCardSelectState(userStateManager, card.value)
@@ -272,7 +272,7 @@ open class PaymentViewModel(val context: Context) {
                     .format().toString()
         }
         iconStatus.onNext(completeStatus)
-        paymentType.onNext(getCardIcon(type))
+        paymentType.onNext(getCardIcon(type)!!)
         cardTitle.onNext(paymentTitle)
         cardSubtitle.onNext(subTitle)
         pwpSmallIcon.onNext(getPwPSmallIconVisibility(type, splitsType))
@@ -282,7 +282,7 @@ open class PaymentViewModel(val context: Context) {
         return paymentType != null && splitsType == PaymentSplitsType.IS_PARTIAL_PAYABLE_WITH_CARD
     }
 
-    private fun getCardIcon(type: PaymentType?): Drawable {
+    private fun getCardIcon(type: PaymentType?): Drawable? {
         if (type == null) {
             return ContextCompat.getDrawable(context, R.drawable.ic_checkout_default_creditcard)
         } else {

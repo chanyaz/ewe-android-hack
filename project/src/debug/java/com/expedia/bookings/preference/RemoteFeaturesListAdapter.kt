@@ -21,8 +21,8 @@ class RemoteFeaturesListAdapter(private val listener: OnFeatureClickedListener) 
         Features.all.features()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent?.context).inflate(R.layout.row_feature_preference, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.row_feature_preference, parent, false)
         return RemoteFeaturesListAdapter.ViewHolder(view)
     }
 
@@ -30,17 +30,17 @@ class RemoteFeaturesListAdapter(private val listener: OnFeatureClickedListener) 
         return features.size
     }
 
-    override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val feature = features[position]
-        holder?.itemView?.setOnClickListener {
+        holder.itemView.setOnClickListener {
             listener.featureClicked(feature)
         }
-        holder?.name?.text = feature.name
-        holder?.enabled?.isChecked = feature.enabled()
+        holder.name.text = feature.name
+        holder.enabled.isChecked = feature.enabled()
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val name: TextView by lazy { itemView.findViewById(R.id.name) as TextView }
-        val enabled: CheckBox by lazy { itemView.findViewById(R.id.enabled) as CheckBox }
+        val name: TextView by lazy { itemView.findViewById<TextView>(R.id.name) }
+        val enabled: CheckBox by lazy { itemView.findViewById<CheckBox>(R.id.enabled) }
     }
 }

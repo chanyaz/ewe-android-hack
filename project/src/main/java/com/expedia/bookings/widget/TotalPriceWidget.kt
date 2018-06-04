@@ -151,7 +151,7 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
 
     fun toggleBundleTotalCompoundDrawable(show: Boolean) {
         if (show) {
-            val icon = ContextCompat.getDrawable(context, R.drawable.ic_checkout_info).mutate()
+            val icon = ContextCompat.getDrawable(context, R.drawable.ic_checkout_info)?.mutate()
             bundleTotalText.setCompoundDrawablesWithIntrinsicBounds(null, null, icon, null)
         } else {
             bundleTotalText.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)

@@ -33,7 +33,7 @@ class HotelMarkerIconGenerator(context: Context) {
         return LayoutInflater.from(context).inflate(R.layout.fav_hotel_marker, null) as TextView
     }
 
-    private fun getBitmap(context: Context, isSelected: Boolean, isAirAttached: Boolean, isSoldOut: Boolean): Drawable {
+    private fun getBitmap(context: Context, isSelected: Boolean, isAirAttached: Boolean, isSoldOut: Boolean): Drawable? {
         val tooltipDrawable = if (isSoldOut) {
             R.drawable.sold_out_pin
         } else if (isAirAttached) {
@@ -71,10 +71,10 @@ class HotelMarkerIconGenerator(context: Context) {
 
     private fun getSoldOutBitmapFromVectorDrawable(context: Context): BitmapDescriptor {
         val vectorDrawable = ContextCompat.getDrawable(context, R.drawable.ic_sold_out_pin)
-        val bitmap = Bitmap.createBitmap(vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        val bitmap = Bitmap.createBitmap(vectorDrawable?.intrinsicWidth ?: 0, vectorDrawable?.intrinsicHeight ?: 0, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
-        vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
-        vectorDrawable.draw(canvas)
+        vectorDrawable?.setBounds(0, 0, canvas.width, canvas.height)
+        vectorDrawable?.draw(canvas)
         return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
 

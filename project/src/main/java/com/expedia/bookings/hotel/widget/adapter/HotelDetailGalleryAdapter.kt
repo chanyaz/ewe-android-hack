@@ -35,9 +35,9 @@ class HotelDetailGalleryAdapter : RecyclerView.Adapter<HotelDetailGalleryViewHol
         return vh
     }
 
-    override fun onBindViewHolder(holder: HotelDetailGalleryViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: HotelDetailGalleryViewHolder, position: Int) {
         val media = mediaList[position]
-        holder?.bind(media, soldOut, position, itemCount)
+        holder.bind(media, soldOut, position, itemCount)
     }
 
     override fun getItemCount(): Int {

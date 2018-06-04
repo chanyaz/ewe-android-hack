@@ -18,7 +18,7 @@ fun TextView.addErrorExclamation() {
     val themeErrorIcon = ContextCompat.getDrawable(context, Ui.obtainThemeResID(context, R.attr.skin_errorIndicationExclaimationDrawable))
     val fallbackErrorIcon = ContextCompat.getDrawable(context, R.drawable.invalid)
     val errorIcon = themeErrorIcon ?: fallbackErrorIcon
-    errorIcon.bounds = Rect(0, 0, errorIcon.intrinsicWidth, errorIcon.intrinsicHeight)
+    errorIcon?.bounds = Rect(0, 0, errorIcon?.intrinsicWidth ?: 0, errorIcon?.intrinsicHeight ?: 0)
     val compounds = this.compoundDrawables
     this.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], errorIcon, compounds[3])
 }

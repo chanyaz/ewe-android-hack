@@ -68,19 +68,20 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-		RecyclerView.ViewHolder itemViewHolder = super.onCreateViewHolder(parent, viewType);
-		if (itemViewHolder == null) {
-			if (viewType == getACTIVITY_COUNT_HEADER_VIEW()) {
-				itemViewHolder = new HeaderViewHolder(LayoutInflater.from(parent.getContext())
-					.inflate(R.layout.lx_activity_count_header_cell, parent, false));
-			}
-			else if (viewType == getDATA_VIEW()) {
-				itemViewHolder = new ViewHolder(LayoutInflater.from(parent.getContext())
-					.inflate(R.layout.section_lx_search_row, parent, false));
-			}
-			else {
-				throw new UnsupportedOperationException("Did not recognise the viewType");
-			}
+		RecyclerView.ViewHolder itemViewHolder;
+		if (viewType == getLOADING_VIEW()) {
+			itemViewHolder = super.onCreateViewHolder(parent, viewType);
+		}
+		else if (viewType == getACTIVITY_COUNT_HEADER_VIEW()) {
+			itemViewHolder = new HeaderViewHolder(LayoutInflater.from(parent.getContext())
+				.inflate(R.layout.lx_activity_count_header_cell, parent, false));
+		}
+		else if (viewType == getDATA_VIEW()) {
+			itemViewHolder = new ViewHolder(LayoutInflater.from(parent.getContext())
+				.inflate(R.layout.section_lx_search_row, parent, false));
+		}
+		else {
+			throw new UnsupportedOperationException("Did not recognise the viewType");
 		}
 		return itemViewHolder;
 	}

@@ -23,24 +23,24 @@ class DebugColorPaletteAdapter : RecyclerView.Adapter<ViewHolder>() {
         return colorPaletteList[position].type
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder? {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         if (viewType == DebugColorPaletteItem.TITLE) {
-            val titleView = LayoutInflater.from(parent?.context)
+            val titleView = LayoutInflater.from(parent.context)
                     .inflate(R.layout.debug_color_palette_title_cell, parent, false)
             return TitleViewHolder(titleView)
         } else {
-            val colorView = LayoutInflater.from(parent?.context)
+            val colorView = LayoutInflater.from(parent.context)
                     .inflate(R.layout.debug_color_cell, parent, false)
             return ColorViewHolder(colorView)
         }
     }
 
-    override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val colorItem = colorPaletteList[position]
         if (holder is ColorViewHolder) {
             colorItem.colorId?.let { color -> holder.bind(color) }
         } else {
-            (holder?.itemView as TextView).text = colorItem.title
+            (holder.itemView as TextView).text = colorItem.title
         }
     }
 

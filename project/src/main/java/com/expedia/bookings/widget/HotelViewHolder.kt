@@ -22,8 +22,8 @@ class HotelViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickL
     private val orange: Int
     private val purple: Int
     private val blue: Int
-    private val mobileOnly: Drawable
-    private val tonightOnly: Drawable
+    private val mobileOnly: Drawable?
+    private val tonightOnly: Drawable?
     private var hotelSelectedSubject: PublishSubject<Hotel>? = null
     private val FULL_TILE_TEXT_SIZE = 18
     private val HALF_TILE_TEXT_SIZE = 15

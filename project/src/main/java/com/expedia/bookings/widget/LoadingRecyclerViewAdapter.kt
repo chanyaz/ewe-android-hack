@@ -47,12 +47,12 @@ abstract class LoadingRecyclerViewAdapter<T> : RecyclerView.Adapter<RecyclerView
         return items.size
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (viewType == LOADING_VIEW) {
             val view = LayoutInflater.from(parent.context).inflate(loadingLayoutResourceId(), parent, false)
             return LoadingViewHolder(view)
         }
-        return null
+        return super.createViewHolder(parent, viewType)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -66,8 +66,8 @@ abstract class LoadingRecyclerViewAdapter<T> : RecyclerView.Adapter<RecyclerView
         return if (isLoading) LOADING_VIEW else DATA_VIEW
     }
 
-    override fun onViewRecycled(holder: RecyclerView.ViewHolder?) {
-        if (holder!!.itemViewType == LOADING_VIEW) {
+    override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
+        if (holder.itemViewType == LOADING_VIEW) {
             (holder as LoadingViewHolder?)?.cancelAnimation()
         }
         super.onViewRecycled(holder)

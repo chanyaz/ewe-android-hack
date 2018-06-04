@@ -54,7 +54,7 @@ abstract class BaseSuggestionAdapter(val viewModel: BaseSuggestionAdapterViewMod
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val vm = getSuggestionViewModel(parent.context)
         when (viewType) {
             TYPE_LABEL -> {
@@ -76,7 +76,7 @@ abstract class BaseSuggestionAdapter(val viewModel: BaseSuggestionAdapterViewMod
         }
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is SearchInfoViewHolder -> {
                 val item = suggestionItems[position] as SuggestionDataItem.SearchInfoDropDown

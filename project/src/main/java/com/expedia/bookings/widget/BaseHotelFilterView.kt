@@ -61,8 +61,8 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
         button.setTextColor(ContextCompat.getColor(context, R.color.actionbar_text_color_inverse))
         button.setText(R.string.done)
 
-        val icon = ContextCompat.getDrawable(context, R.drawable.ic_check_white_24dp).mutate()
-        icon.setColorFilter(ContextCompat.getColor(context, R.color.actionbar_text_color_inverse), PorterDuff.Mode.SRC_IN)
+        val icon = ContextCompat.getDrawable(context, R.drawable.ic_check_white_24dp)?.mutate()
+        icon?.setColorFilter(ContextCompat.getColor(context, R.color.actionbar_text_color_inverse), PorterDuff.Mode.SRC_IN)
         button.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
 
         button

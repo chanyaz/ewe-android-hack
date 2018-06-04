@@ -531,8 +531,8 @@ open class CarnivalUtils {
             return createPendingIntent(context, bundle)
         }
 
-        private fun createPendingIntent(context: Context, bundle: Bundle?): PendingIntent {
-            val pendingIntent: PendingIntent
+        private fun createPendingIntent(context: Context, bundle: Bundle?): PendingIntent? {
+            val pendingIntent: PendingIntent?
             val deeplink = bundle?.getString(KEY_PAYLOAD_DEEPLINK)
 
             bundle?.putBoolean(KEY_NOTIFICATION_PROVIDER_VALUE, true)

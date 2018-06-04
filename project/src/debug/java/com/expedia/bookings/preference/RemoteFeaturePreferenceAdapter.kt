@@ -57,8 +57,8 @@ class RemoteFeaturePreferenceAdapter(val context: Context, val feature: Feature)
         )
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent?.context).inflate(R.layout.row_feature_preference, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.row_feature_preference, parent, false)
         return RemoteFeaturePreferenceAdapter.ViewHolder(view)
     }
 
@@ -66,12 +66,12 @@ class RemoteFeaturePreferenceAdapter(val context: Context, val feature: Feature)
         return namesAndValues.size
     }
 
-    override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val (name, currentValue, checkedChanged) = namesAndValues[position]
-        holder?.name?.text = name
-        holder?.enabled?.isClickable = checkedChanged != null
-        holder?.enabled?.isChecked = currentValue()
-        holder?.enabled?.setOnCheckedChangeListener { _, isChecked ->
+        holder.name.text = name
+        holder.enabled.isClickable = checkedChanged != null
+        holder.enabled.isChecked = currentValue()
+        holder.enabled.setOnCheckedChangeListener { _, isChecked ->
             checkedChanged?.invoke(isChecked)
             Handler(Looper.getMainLooper()).post {
                 notifyDataSetChanged()
@@ -82,7 +82,7 @@ class RemoteFeaturePreferenceAdapter(val context: Context, val feature: Feature)
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val name: TextView by lazy { itemView.findViewById(R.id.name) as TextView }
-        val enabled: CheckBox by lazy { itemView.findViewById(R.id.enabled) as CheckBox }
+        val name: TextView by lazy { itemView.findViewById<TextView>(R.id.name) }
+        val enabled: CheckBox by lazy { itemView.findViewById<CheckBox>(R.id.enabled) }
     }
 }

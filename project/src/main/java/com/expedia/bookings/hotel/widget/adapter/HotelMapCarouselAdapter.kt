@@ -59,7 +59,7 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
         lineOfBusiness = lob
     }
 
-    override fun onBindViewHolder(given: RecyclerView.ViewHolder?, position: Int) {
+    override fun onBindViewHolder(given: RecyclerView.ViewHolder, position: Int) {
         val holder: HotelViewHolder = given as HotelViewHolder
         val viewModel = HotelViewModel(holder.itemView.context)
         viewModel.bindHotelData(hotels[position])
@@ -67,7 +67,7 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
         holder.itemView.setOnClickListener(holder)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_marker_preview_cell, parent, false)
         val screen = Ui.getScreenSize(parent.context)
         val lp = view.findViewById<View>(R.id.root).layoutParams

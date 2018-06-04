@@ -16,7 +16,7 @@ class DebugTextStyleAdapter(private val context: Context) : RecyclerView.Adapter
         notifyDataSetChanged()
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val ta = context.obtainStyledAttributes(textStyleList[position], R.styleable.DebugCoreTextStyleAttr)
         val textColor = ta.getColor(R.styleable.DebugCoreTextStyleAttr_android_textColor, Color.GREEN)
         val textSize = ta.getDimensionPixelSize(R.styleable.DebugCoreTextStyleAttr_android_textSize, 0)
@@ -31,8 +31,8 @@ class DebugTextStyleAdapter(private val context: Context) : RecyclerView.Adapter
         textView.text = styleName
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
-        return TextStyleViewHolder(LayoutInflater.from(parent?.context)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return TextStyleViewHolder(LayoutInflater.from(parent.context)
                 .inflate(R.layout.debug_text_style_cell, parent, false) as TextView)
     }
 

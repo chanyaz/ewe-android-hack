@@ -55,7 +55,7 @@ class InsuranceWidget(context: Context, attrs: AttributeSet) : CardView(context,
     init {
         View.inflate(context, R.layout.insurance_widget, this)
 
-        val icon = ContextCompat.getDrawable(context, R.drawable.ic_checkout_info).mutate()
+        val icon = ContextCompat.getDrawable(context, R.drawable.ic_checkout_info)?.mutate()
         descriptionTextView.compoundDrawablePadding = (5 * resources.displayMetrics.density + 0.5f).toInt()
         descriptionTextView.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
         descriptionTextView.setOnClickListener {

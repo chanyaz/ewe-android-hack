@@ -258,9 +258,9 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         if (shouldUsePill()) {
             searchThisArea.compoundDrawables[0]?.setColorFilter(iconColor, PorterDuff.Mode.SRC_IN)
         } else {
-            val icon = ContextCompat.getDrawable(context, R.drawable.ic_material_location_pin).mutate()
-            icon.setColorFilter(iconColor, PorterDuff.Mode.SRC_IN)
-            icon.bounds = Rect(icon.bounds.left, icon.bounds.top, (icon.bounds.right * 1.1).toInt(), (icon.bounds.bottom * 1.1).toInt())
+            val icon = ContextCompat.getDrawable(context, R.drawable.ic_material_location_pin)?.mutate()
+            icon?.setColorFilter(iconColor, PorterDuff.Mode.SRC_IN)
+            icon?.bounds = Rect(icon?.bounds?.left!!, icon.bounds.top, (icon.bounds.right * 1.1).toInt(), (icon.bounds.bottom * 1.1).toInt())
             searchThisArea.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
         }
 

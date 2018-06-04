@@ -32,7 +32,7 @@ open class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(c
     var valid = true
     var preErrorDrawable: Drawable? = null
 
-    val errorIcon: Drawable
+    val errorIcon: Drawable?
     var errorContDesc = ""
     val defaultErrorString = context.resources.getString(R.string.accessibility_cont_desc_role_error)
 
@@ -100,7 +100,7 @@ open class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(c
 
     private fun setError() {
         if (valid) {
-            errorIcon.bounds = Rect(0, 0, errorIcon.intrinsicWidth, errorIcon.intrinsicHeight)
+            errorIcon?.bounds = Rect(0, 0, errorIcon?.intrinsicWidth ?: 0, errorIcon?.intrinsicHeight ?: 0)
             val compounds = compoundDrawables
             if (compounds != null) {
                 preErrorDrawable = compounds[2]

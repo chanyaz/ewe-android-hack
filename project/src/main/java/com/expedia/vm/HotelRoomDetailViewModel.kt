@@ -56,7 +56,7 @@ class HotelRoomDetailViewModel(val context: Context,
 
     val discountPercentageString: String? get() = createDiscountPercentageString()
 
-    val discountPercentageBackground: Drawable
+    val discountPercentageBackground: Drawable?
         get() = if (showMemberOnlyDealTag || showGenericAttachImage) {
             ContextCompat.getDrawable(context, R.drawable.member_only_discount_percentage_background)
         } else {

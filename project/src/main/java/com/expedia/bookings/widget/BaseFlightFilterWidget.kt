@@ -82,8 +82,8 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
         button.setTextColor(ContextCompat.getColor(context, R.color.packages_flight_filter_text))
         button.setText(R.string.done)
 
-        val icon = ContextCompat.getDrawable(context, R.drawable.ic_check_white_24dp).mutate()
-        icon.setColorFilter(ContextCompat.getColor(context, R.color.packages_flight_filter_text), PorterDuff.Mode.SRC_IN)
+        val icon = ContextCompat.getDrawable(context, R.drawable.ic_check_white_24dp)?.mutate()
+        icon?.setColorFilter(ContextCompat.getColor(context, R.color.packages_flight_filter_text), PorterDuff.Mode.SRC_IN)
         button.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
         button
     }

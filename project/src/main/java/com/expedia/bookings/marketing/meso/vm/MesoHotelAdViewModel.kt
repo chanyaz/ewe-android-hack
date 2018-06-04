@@ -23,7 +23,7 @@ class MesoHotelAdViewModel(val context: Context) {
     var mesoHotelAdResponse: MesoHotelAdResponse? = null
     val oneLineSubText: String by lazy { getSubTextFormattedString(" · ") }
     val twoLineSubText: String by lazy { getSubTextFormattedString("<br/>") }
-    val backgroundImage: Drawable by lazy { getMesoHotelBackgroundImage() }
+    val backgroundImage: Drawable? by lazy { getMesoHotelBackgroundImage() }
     val percentageOff: String by lazy { getPercentageOffString().toString() }
     val hotelName: String by lazy { getMesoHotelName().toString() }
     val hotelParamsForSearch: HotelSearchParams by lazy { getHotelSearchParams() }
@@ -69,7 +69,7 @@ class MesoHotelAdViewModel(val context: Context) {
         return numberOfLines > 1
     }
 
-    private fun getMesoHotelBackgroundImage(): Drawable {
+    private fun getMesoHotelBackgroundImage(): Drawable? {
         return mesoHotelAdResponse?.background?.drawable
                 ?: ContextCompat.getDrawable(context, R.color.launch_screen_placeholder_color)
     }

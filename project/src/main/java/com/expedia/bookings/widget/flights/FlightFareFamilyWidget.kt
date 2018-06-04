@@ -51,8 +51,8 @@ class FlightFareFamilyWidget(context: Context, attrs: AttributeSet) : Presenter(
         button.setTextColor(ContextCompat.getColor(context, R.color.flight_cabin_class_text))
         button.setText(R.string.done)
 
-        val icon = ContextCompat.getDrawable(context, R.drawable.ic_check_white_24dp).mutate()
-        icon.setColorFilter(ContextCompat.getColor(context, R.color.flight_cabin_class_text), PorterDuff.Mode.SRC_IN)
+        val icon = ContextCompat.getDrawable(context, R.drawable.ic_check_white_24dp)?.mutate()
+        icon?.setColorFilter(ContextCompat.getColor(context, R.color.flight_cabin_class_text), PorterDuff.Mode.SRC_IN)
         button.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
         button.setOnClickListener {
             viewModel.doneButtonObservable.onNext(Unit)

@@ -200,7 +200,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (viewType == HotelAdapterItem.TRANSPARENT_MAPVIEW) {
             val header = View(parent.context)
             val lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)

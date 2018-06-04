@@ -34,7 +34,7 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
         super.setNewFlights(newFlights)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is BestFlightViewHolder) {
             holder.bind(PackageFlightViewModel(holder.itemView.context, flights[0]))
         } else {
@@ -48,7 +48,7 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
         else return R.string.prices_roundtrip_label
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         when (viewType) {
             ViewTypes.BEST_FLIGHT_VIEW.ordinal -> {
                 val view = FlightCellWidget(parent.context)

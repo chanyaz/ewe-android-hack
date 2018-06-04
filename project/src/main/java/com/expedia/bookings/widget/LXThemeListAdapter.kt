@@ -32,8 +32,8 @@ class LXThemeListAdapter : LoadingRecyclerViewAdapter<LXTheme>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        var itemViewHolder: RecyclerView.ViewHolder? = super.onCreateViewHolder(parent, viewType)
-        if (itemViewHolder == null) {
+        var itemViewHolder: RecyclerView.ViewHolder = super.onCreateViewHolder(parent, viewType)
+        if (viewType != LOADING_VIEW) {
             val itemView = LayoutInflater.from(parent.context).inflate(R.layout.row_lx_theme, parent, false)
             itemViewHolder = ViewHolder(itemView)
         }

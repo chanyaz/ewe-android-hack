@@ -51,14 +51,14 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
 
         hotelRoomRowButton.showBookButton()
 
-        val infoIcon = ContextCompat.getDrawable(context, R.drawable.details_info).mutate()
-        infoIcon.setColorFilter(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)), PorterDuff.Mode.SRC_IN)
+        val infoIcon = ContextCompat.getDrawable(context, R.drawable.details_info)?.mutate()
+        infoIcon?.setColorFilter(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)), PorterDuff.Mode.SRC_IN)
         depositTermsTextView.setCompoundDrawablesWithIntrinsicBounds(infoIcon, null, null, null)
 
         strikeThroughTextView.paintFlags = strikeThroughTextView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
 
-        val urgencyIconDrawable = ContextCompat.getDrawable(context, R.drawable.urgency).mutate()
-        urgencyIconDrawable.setColorFilter(ContextCompat.getColor(context, R.color.hotel_urgency_icon_color), PorterDuff.Mode.SRC_IN)
+        val urgencyIconDrawable = ContextCompat.getDrawable(context, R.drawable.urgency)?.mutate()
+        urgencyIconDrawable?.setColorFilter(ContextCompat.getColor(context, R.color.hotel_urgency_icon_color), PorterDuff.Mode.SRC_IN)
         urgencyIcon.setImageDrawable(urgencyIconDrawable)
 
         bindViewModel(viewModel)
@@ -85,7 +85,7 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
         memberOnlyDealTag.setVisibility(viewModel.showMemberOnlyDealTag)
         addOnAttachImage.setVisibility(viewModel.showGenericAttachImage)
         discountPercentageTextView.setTextAndVisibility(viewModel.discountPercentageString)
-        discountPercentageTextView.setBackground(viewModel.discountPercentageBackground)
+        discountPercentageTextView.background = viewModel.discountPercentageBackground
         discountPercentageTextView.setTextColor(viewModel.discountPercentageTextColor)
         payLaterPriceTextView.setTextAndVisibility(viewModel.payLaterPriceString)
         depositTermsTextView.setVisibility(viewModel.showDepositTerm)
@@ -120,7 +120,7 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
         val valueAddIconView = valueAddLayout.findViewById<ImageView>(R.id.value_add_icon)
 
         val icon = ContextCompat.getDrawable(context, valueAdd.iconId)
-        icon.colorFilter = filter
+        icon?.colorFilter = filter
 
         valueAddTextView.text = valueAdd.apiDescription
         valueAddIconView.setImageDrawable(icon)

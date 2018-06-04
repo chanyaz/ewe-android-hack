@@ -28,7 +28,7 @@ class RailAmenitiesAndRulesAdapter(val context: Context) : PagerAdapter() {
         return context.getString(Tab.values()[position].titleResourceId)
     }
 
-    override fun instantiateItem(container: ViewGroup, position: Int): Any? {
+    override fun instantiateItem(container: ViewGroup, position: Int): Any {
         if (position == 0) {
             container.addView(amenitiesWidget)
             return amenitiesWidget
@@ -38,7 +38,7 @@ class RailAmenitiesAndRulesAdapter(val context: Context) : PagerAdapter() {
         }
     }
 
-    override fun destroyItem(container: ViewGroup, position: Int, view: Any?) {
+    override fun destroyItem(container: ViewGroup, position: Int, view: Any) {
         container.removeView(view as View)
     }
 }
