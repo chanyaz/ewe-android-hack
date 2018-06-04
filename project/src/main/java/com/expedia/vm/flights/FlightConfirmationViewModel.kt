@@ -137,7 +137,7 @@ class FlightConfirmationViewModel(val context: Context, isWebCheckout: Boolean =
         itinDetailsResponseObservable.subscribe { response ->
             var email = response.responseData.flights.firstOrNull()?.passengers?.firstOrNull()?.emailAddress ?: ""
             val itinNumber = response.responseData.tripNumber?.toString()
-            val isQualified = response.responseData.airAttachQualificationInfo.airAttachQualified
+            val isQualified = response.responseData.airAttachQualificationInfo?.airAttachQualified != null
             val destinationCity = response.responseData.flights.firstOrNull()?.legs?.firstOrNull()?.segments?.last()?.arrivalLocation?.city ?: ""
             val numberOfGuests = response.responseData.flights[0].passengers.size
             val itinConfirmationTemplateWithEmail = if (email.isEmpty()) {
