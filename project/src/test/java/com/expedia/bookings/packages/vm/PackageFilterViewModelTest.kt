@@ -1,15 +1,21 @@
 package com.expedia.bookings.packages.vm
 
+import android.content.Context
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.hotel.DisplaySort
+import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.PriceOption
 import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.testutils.JSONResourceReader
 import com.expedia.bookings.test.MockPackageServiceTestRule
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.StarRatingValue
 import org.junit.Before
 import org.junit.Rule
@@ -27,15 +33,16 @@ class PackageFilterViewModelTest {
     var vm: PackageFilterViewModel by Delegates.notNull()
     val mockPackageServiceRule: MockPackageServiceTestRule = MockPackageServiceTestRule()
         @Rule get
+    lateinit var context: Context
 
     @Before
     fun before() {
-        val context = RuntimeEnvironment.application
-        vm = PackageFilterViewModel(context)
+        context = RuntimeEnvironment.application
     }
 
     @Test
     fun filterStars() {
+        vm = PackageFilterViewModel(context)
         vm.userFilterChoices.hotelStarRating.one = false
         vm.onHotelStarRatingFilterChangedListener.onHotelStarRatingFilterChanged(StarRatingValue.One, true, false)
 
@@ -52,6 +59,7 @@ class PackageFilterViewModelTest {
 
     @Test
     fun clearFilters() {
+        vm = PackageFilterViewModel(context)
         val ogResponse = fakeFilteredResponse()
         vm.originalResponse = ogResponse
 
@@ -80,6 +88,7 @@ class PackageFilterViewModelTest {
 
     @Test
     fun filterResultsCount() {
+        vm = PackageFilterViewModel(context)
         vm.originalResponse = fakeFilteredResponse()
         var str = "Hil"
         vm.onHotelNameFilterChangedListener.onHotelNameFilterChanged(str, false)
@@ -108,12 +117,14 @@ class PackageFilterViewModelTest {
 
     @Test
     fun emptyFilters() {
+        vm = PackageFilterViewModel(context)
         vm.doneObservable.onNext(Unit)
         assertEquals(0, vm.filteredResponse.hotelList.size)
     }
 
     @Test
     fun sortByPopular() {
+        vm = PackageFilterViewModel(context)
         vm.filteredResponse = fakeFilteredResponse()
         vm.sortByObservable.onNext(DisplaySort.RECOMMENDED)
         assertResultsSortedByRecommended()
@@ -121,13 +132,15 @@ class PackageFilterViewModelTest {
 
     @Test
     fun sortByRecommendedMID() {
-        vm.filteredResponse = HotelSearchResponse.convertPackageToSearchResponse(mockPackageServiceRule.getMIDHotelResponse())
+        vm = PackageFilterViewModel(context)
+        vm.filteredResponse = HotelSearchResponse.convertPackageToSearchResponse(mockPackageServiceRule.getMIDHotelResponse(), false)
         vm.sortByObservable.onNext(DisplaySort.RECOMMENDED)
         assertResultsSortedByRecommended()
     }
 
     @Test
     fun sortByPrice() {
+        vm = PackageFilterViewModel(context)
         vm.filteredResponse = fakeFilteredResponse()
         vm.sortByObservable.onNext(DisplaySort.PRICE)
 
@@ -140,6 +153,7 @@ class PackageFilterViewModelTest {
 
     @Test
     fun sortByDeals() {
+        vm = PackageFilterViewModel(context)
         vm.filteredResponse = fakeFilteredResponse()
         vm.sortByObservable.onNext(DisplaySort.DEALS)
         for (i in 1..vm.filteredResponse.hotelList.size - 1) {
@@ -151,6 +165,7 @@ class PackageFilterViewModelTest {
 
     @Test
     fun sortByPackageDiscount() {
+        vm = PackageFilterViewModel(context)
         vm.filteredResponse = fakeFilteredResponse()
         vm.sortByObservable.onNext(DisplaySort.PACKAGE_DISCOUNT)
         for (i in 1..vm.filteredResponse.hotelList.size - 1) {
@@ -162,6 +177,7 @@ class PackageFilterViewModelTest {
 
     @Test
     fun sortByRating() {
+        vm = PackageFilterViewModel(context)
         vm.filteredResponse = fakeFilteredResponse()
         vm.sortByObservable.onNext(DisplaySort.RATING)
 
@@ -174,6 +190,7 @@ class PackageFilterViewModelTest {
 
     @Test
     fun sortByDistance() {
+        vm = PackageFilterViewModel(context)
         vm.filteredResponse = fakeFilteredResponse()
         vm.sortByObservable.onNext(DisplaySort.DISTANCE)
 
@@ -186,6 +203,7 @@ class PackageFilterViewModelTest {
 
     @Test
     fun filterCount() {
+        vm = PackageFilterViewModel(context)
         vm.originalResponse = fakeFilteredResponse()
         val str = "Hil"
         vm.onHotelNameFilterChangedListener.onHotelNameFilterChanged(str, false)
@@ -290,6 +308,8 @@ class PackageFilterViewModelTest {
 
     @Test
     fun testSortBy() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesServerSideFiltering)
+        vm = PackageFilterViewModel(context)
         vm.setHotelList(generateHotelSearchResponse())
         val expectedList = arrayListOf<List<String>>(
                 // List Sorted by PRICE
@@ -322,6 +342,20 @@ class PackageFilterViewModelTest {
         val resourceReader = JSONResourceReader("../lib/mocked/templates/m/api/hotel/search/happy.json")
         val response = resourceReader.constructUsingGson(HotelSearchResponse::class.java)
         return response
+    }
+
+    @Test
+    fun testOriginalResponseShownWhenDefaultFilterOptions() {
+        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsRichContent)
+        AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppPackagesServerSideFiltering, AbacusVariant.ONE.value)
+        vm = PackageFilterViewModel(context)
+        vm.userFilterChoices = UserFilterChoices()
+        vm.presetFilterOptions = false
+        vm.originalResponse = generateHotelSearchResponse()
+        val testSubscriber = TestObserver.create<HotelSearchResponse>()
+        vm.filterObservable.subscribe(testSubscriber)
+        vm.doneObservable.onNext(Unit)
+        assertEquals(vm.originalResponse, testSubscriber.values()[0])
     }
 
     private fun assertResultsSortedByRecommended() {

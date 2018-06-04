@@ -77,6 +77,22 @@ class PackageHotelPresenterTest {
     }
 
     @Test
+    fun testPackageHotelFilterTracked() {
+        hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
+
+        widget = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_presenter,
+                null) as PackageHotelPresenter
+        widget.resultsPresenter.viewModel.isFilteredResponse = true
+
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+
+        widget.dataAvailableSubject.onNext(hotelResponse)
+        widget.trackEventSubject.onNext(Unit)
+        val expectedEvars = mapOf(18 to "App.Package.Hotels.Search.Filtered")
+        OmnitureTestUtils.assertStateTracked(withEvars(expectedEvars), mockAnalyticsProvider)
+    }
+
+    @Test
     fun testPackageSearchParamsTrackedWithNewTravelerForm() {
         hotelResponse = mockPackageServiceRule.getMIDHotelResponse()
 
@@ -101,7 +117,7 @@ class PackageHotelPresenterTest {
 
         widget = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_presenter,
                 null) as PackageHotelPresenter
-        widget.resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(hotelResponse))
+        widget.resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(hotelResponse, false))
         widget.defaultTransitionObserver.onNext(PackageHotelActivity.Screen.RESULTS)
         assertBundlePriceAndSliderVisibilities(View.VISIBLE)
 
@@ -122,7 +138,7 @@ class PackageHotelPresenterTest {
 
         widget = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_presenter,
                 null) as PackageHotelPresenter
-        widget.resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(hotelResponse))
+        widget.resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(hotelResponse, false))
         widget.defaultTransitionObserver.onNext(PackageHotelActivity.Screen.RESULTS)
         assertBundlePriceAndSliderVisibilities(View.GONE)
 
@@ -155,7 +171,7 @@ class PackageHotelPresenterTest {
 
         widget = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_presenter,
                 null) as PackageHotelPresenter
-        widget.resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(hotelResponse))
+        widget.resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(hotelResponse, false))
 
         assertEquals(View.VISIBLE, widget.resultsPresenter.bundlePriceWidgetTop.visibility)
         assertEquals("/person", widget.resultsPresenter.bundlePriceWidgetTop.bundlePerPersonText.text)
@@ -172,7 +188,7 @@ class PackageHotelPresenterTest {
                 null) as PackageHotelPresenter
 
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        widget.resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(hotelResponse))
+        widget.resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(hotelResponse, false))
 
         widget.bundleSlidingWidget.bundlePriceWidget.performClick()
 
@@ -191,7 +207,7 @@ class PackageHotelPresenterTest {
                 null) as PackageHotelPresenter
 
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
-        widget.resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(hotelResponse))
+        widget.resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(hotelResponse, false))
 
         widget.resultsPresenter.bundlePriceWidgetTop.performClick()
 

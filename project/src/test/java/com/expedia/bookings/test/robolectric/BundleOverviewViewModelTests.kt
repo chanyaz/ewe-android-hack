@@ -23,6 +23,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 
 @RunWith(RobolectricRunner::class)
 class BundleOverviewViewModelTests {
@@ -55,6 +56,7 @@ class BundleOverviewViewModelTests {
         resultsSubscriber.assertValueCount(1)
 
         assertEquals(PackageProductSearchType.MultiItemHotels, resultsSubscriber.values()[0])
+        assertNotNull(Db.getUnfilteredRespnse())
     }
 
     @Test
@@ -85,6 +87,7 @@ class BundleOverviewViewModelTests {
         assertEquals(PackageApiError.Code.mid_could_not_find_results, errorSubscriber.values()[1].first)
         assertEquals("MIS_INVALID_REQUEST", apiCallFailingDetails.errorCode)
         assertEquals("PACKAGE_HOTEL_SEARCH_CHANGE", apiCallFailingDetails.apiCall)
+        assertEquals(null, Db.getUnfilteredRespnse())
     }
 
     @Test
@@ -102,6 +105,7 @@ class BundleOverviewViewModelTests {
         assertEquals(PackageApiError.Code.search_response_null, errorSubscriber.values()[0].first)
         assertEquals("search_response_null", apiCallFailingDetails.errorCode)
         assertEquals("PACKAGE_HOTEL_SEARCH", apiCallFailingDetails.apiCall)
+        assertEquals(null, Db.getUnfilteredRespnse())
     }
 
     @Test
@@ -119,6 +123,7 @@ class BundleOverviewViewModelTests {
         assertEquals(PackageApiError.Code.pkg_error_code_not_mapped, errorSubscriber.values()[0].first)
         assertEquals("pkg_error_code_not_mapped", apiCallFailingDetails.errorCode)
         assertEquals("PACKAGE_HOTEL_SEARCH", apiCallFailingDetails.apiCall)
+        assertEquals(null, Db.getUnfilteredRespnse())
     }
 
     @Test
@@ -135,6 +140,7 @@ class BundleOverviewViewModelTests {
         resultsSubscriber.assertValueCount(1)
 
         assertEquals(PackageProductSearchType.MultiItemInboundFlights, resultsSubscriber.values()[0])
+        assertEquals(null, Db.getUnfilteredRespnse())
     }
 
     @Test
@@ -182,6 +188,7 @@ class BundleOverviewViewModelTests {
         resultsSubscriber.assertValueCount(1)
 
         assertEquals(PackageProductSearchType.MultiItemOutboundFlights, resultsSubscriber.values()[0])
+        assertEquals(null, Db.getUnfilteredRespnse())
     }
 
     @Test
