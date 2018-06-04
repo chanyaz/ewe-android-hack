@@ -796,6 +796,14 @@
             android:key="25885"
             android:summary="%s"
             android:title="Packages HSR Pricing Display - 25885" />
+
+        <ListPreference
+            android:defaultValue="-1"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="26397"
+            android:summary="%s"
+            android:title="Packages Search Form Rename To From - 26397" />
     </PreferenceCategory>
 
     <PreferenceCategory
