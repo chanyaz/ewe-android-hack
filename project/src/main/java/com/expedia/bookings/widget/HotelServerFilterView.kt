@@ -18,19 +18,10 @@ import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.hotel.vm.BaseHotelFilterViewModel
 import com.expedia.bookings.hotel.vm.HotelFilterViewModel
+import com.expedia.bookings.hotel.widget.BaseHotelServerFilterView
 
-class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelFilterView(context, attrs) {
-    val staticClearFilterButton: CardView by bindView(R.id.hotel_server_filter_clear_pill)
-
+class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelServerFilterView(context, attrs) {
     val amenityViews: ArrayList<HotelAmenityGridItem> = ArrayList()
-
-    init {
-        staticClearFilterButton.setOnClickListener(clearFilterClickListener)
-    }
-
-    override fun inflate() {
-        View.inflate(context, R.layout.hotel_server_filter_view, this)
-    }
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -54,28 +45,11 @@ class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelF
     override fun bindViewModel(vm: BaseHotelFilterViewModel) {
         super.bindViewModel(vm)
         vm.finishClear.subscribe {
-            staticClearFilterButton.visibility = GONE
             amenityViews.forEach { view -> view.deselect() }
         }
 
         amenityViews.forEach { amenityGridItem ->
             amenityGridItem.setOnHotelAmenityFilterChangedListener(vm.onHotelAmenityFilterChangedListener)
-        }
-
-        vm.filterCountObservable.subscribe { count ->
-            if (count <= 0) {
-                staticClearFilterButton.visibility = GONE
-            } else {
-                val event = AccessibilityEvent.obtain(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-                if (AccessibilityUtil.isTalkBackEnabled(context)) {
-                    event?.contentDescription = context.resources.getString(R.string.search_filter_clear_button_alert_cont_desc)
-                    staticClearFilterButton.requestSendAccessibilityEvent(staticClearFilterButton, event)
-                }
-                staticClearFilterButton.visibility = VISIBLE
-            }
-        }
-        (vm as HotelFilterViewModel).presetFilterOptionsUpdatedSubject.subscribe { newFilterOptions ->
-            updatePresetFilterChoices(newFilterOptions)
         }
 
         vm.availableAmenityOptionsObservable.subscribe { filterOptions ->
@@ -88,31 +62,21 @@ class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelF
                 }
             }
         }
+
+        vm.presetFilterOptionsUpdatedSubject.subscribe { newFilterOptions ->
+            amenityViews.forEach { amenityView ->
+                if (amenityView.isAmenityEnabled() && newFilterOptions.amenities.contains(Amenity.getSearchKey(amenityView.amenity))) {
+                    amenityView.select()
+                }
+            }
+            if (newFilterOptions.neighborhoods.isNotEmpty()) {
+                (neighborhoodView as ServerNeighborhoodFilterView).selectNeighborhood(newFilterOptions.neighborhoods.first())
+            }
+        }
     }
 
     override fun inflateNeighborhoodView(stub: ViewStub): BaseNeighborhoodFilterView {
         stub.layoutResource = R.layout.server_neighborhood_filter_stub
         return stub.inflate() as ServerNeighborhoodFilterView
-    }
-
-    private fun updatePresetFilterChoices(filterOptions: UserFilterChoices) {
-        hotelNameFilterView.updateName(filterOptions.name)
-        hotelSortOptionsView.setSort(filterOptions.userSort)
-        filterVipView.update(filterOptions.isVipOnlyAccess)
-        starRatingView.update(filterOptions.hotelStarRating)
-        guestRatingView.update(filterOptions.hotelGuestRating)
-        priceRangeView.setMinMaxPrice(filterOptions.minPrice, filterOptions.maxPrice)
-        amenityViews.forEach { amenityView ->
-            if (amenityView.isAmenityEnabled() && filterOptions.amenities.contains(Amenity.getSearchKey(amenityView.amenity))) {
-                amenityView.select()
-            }
-        }
-        if (filterOptions.neighborhoods.isNotEmpty()) {
-            (neighborhoodView as ServerNeighborhoodFilterView).selectNeighborhood(filterOptions.neighborhoods.first())
-        }
-
-        (viewModel as? HotelFilterViewModel)?.let { vm ->
-            vm.setPreviousFilterChoices(vm.userFilterChoices.copy())
-        }
     }
 }
