@@ -189,3 +189,7 @@ fun isLXMultipleDatesSearchEnabled(): Boolean {
 fun isActivityCountHeaderViewEnabled(): Boolean {
     return Features.all.lxActivityResultsHeader.enabled()
 }
+
+fun isPackagesSearchFormRenameToFromEnabled(context: Context): Boolean {
+    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesSearchFormRenameToFrom)
+}

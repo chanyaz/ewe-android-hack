@@ -36,6 +36,7 @@ import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.BaseSuggestionAdapterViewModel
 import com.expedia.bookings.packages.vm.PackageSearchViewModel
 import com.expedia.bookings.packages.vm.PackageSuggestionAdapterViewModel
+import com.expedia.bookings.utils.isPackagesSearchFormRenameToFromEnabled
 import com.squareup.phrase.Phrase
 import kotlin.properties.Delegates
 
@@ -74,8 +75,12 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
             text ->
             originCardView.setText(text)
             originCardView.setEndDrawable(null)
-            originCardView.contentDescription = Phrase.from(context, R.string.search_flying_from_destination_cont_desc_TEMPLATE)
-                    .put("from_destination", text)
+            originCardView.contentDescription = Phrase.from(context,
+                    if (isPackagesSearchFormRenameToFromEnabled(context)) {
+                        R.string.search_enter_origin_cont_desc_TEMPLATE
+                    } else {
+                        R.string.search_flying_from_destination_cont_desc_TEMPLATE
+                    }).put("from_destination", text)
                     .format().toString()
         }
         vm.formattedDestinationObservable.subscribe {
@@ -83,17 +88,26 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
             if (text.isNotEmpty()) {
                 destinationCardView.setText(text)
                 destinationCardView.setEndDrawable(null)
-                destinationCardView.contentDescription =
-                        Phrase.from(context, R.string.search_flying_to_destination_cont_desc_TEMPLATE)
-                                .put("to_destination", text)
-                                .format().toString()
+                destinationCardView.contentDescription = Phrase.from(context,
+                        if (isPackagesSearchFormRenameToFromEnabled(context)) {
+                            R.string.search_enter_destination_cont_desc_TEMPLATE
+                        } else {
+                            R.string.search_flying_to_destination_cont_desc_TEMPLATE
+                        }).put("to_destination", text)
+                        .format().toString()
+
                 if (this.visibility == VISIBLE && vm.startDate() == null
                         && !vm.isTalkbackActive() && !vm.isSearchDateExpired) {
                     calendarWidgetV2.showCalendarDialog()
                 }
             } else {
                 destinationCardView.setText(getDestinationSearchBoxPlaceholderText())
-                destinationCardView.contentDescription = getDestinationSearchBoxPlaceholderText()
+                destinationCardView.contentDescription = context.getString(
+                        if (isPackagesSearchFormRenameToFromEnabled(context)) {
+                            R.string.packages_search_enter_destination_cont_desc
+                        } else {
+                            R.string.packages_search_flying_to_cont_desc
+                        })
             }
         }
         vm.dateAccessibilityObservable.subscribe {
@@ -184,6 +198,13 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
         if (isFHCPackageWebViewEnabled(context)) {
             initializeToolbarTabs()
         }
+        originCardView.text = getOriginSearchBoxPlaceholderText()
+        destinationCardView.text = getDestinationSearchBoxPlaceholderText()
+
+        if (isPackagesSearchFormRenameToFromEnabled(context)) {
+            originCardView.contentDescription = context.resources.getString(R.string.packages_search_enter_origin_cont_desc)
+            destinationCardView.contentDescription = context.resources.getString(R.string.packages_search_enter_destination_cont_desc)
+        }
     }
 
     override fun getSuggestionHistoryFileName(): String {
@@ -207,11 +228,17 @@ open class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseT
     }
 
     override fun getOriginSearchBoxPlaceholderText(): String {
-        return context.resources.getString(R.string.fly_from_hint)
+        return context.resources.getString(
+                if (isPackagesSearchFormRenameToFromEnabled(context))
+                    R.string.packages_enter_origin_hint
+                else R.string.fly_from_hint)
     }
 
     override fun getDestinationSearchBoxPlaceholderText(): String {
-        return context.resources.getString(R.string.fly_to_hint)
+        return context.resources.getString(
+                if (isPackagesSearchFormRenameToFromEnabled(context))
+                    R.string.packages_enter_destination_hint
+                else R.string.fly_to_hint)
     }
 
     override fun getLineOfBusiness(): LineOfBusiness {

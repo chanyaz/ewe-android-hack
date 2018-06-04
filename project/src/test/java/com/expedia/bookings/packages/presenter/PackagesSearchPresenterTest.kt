@@ -143,6 +143,7 @@ class PackagesSearchPresenterTest {
 
     @Test
     fun testSearchFormValidationWhenInvalidParams() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesSearchFormRenameToFrom)
         inflate()
         widget.searchViewModel = PackageSearchViewModel(activity)
         val errorNoDestinationTestSubscriber = TestObserver<Unit>()
@@ -165,7 +166,22 @@ class PackagesSearchPresenterTest {
         assertNotNull(widget.calendarWidgetV2.compoundDrawablesRelative[2])
 
         assertEquals(widget.getDestinationSearchBoxPlaceholderText(), widget.destinationCardView.text)
-        assertEquals(widget.getDestinationSearchBoxPlaceholderText(), widget.destinationCardView.contentDescription)
+        assertEquals("Flying to. Button", widget.destinationCardView.contentDescription)
+
+        assertEquals(widget.getOriginSearchBoxPlaceholderText(), widget.originCardView.text)
+        assertEquals("Flying from. Button", widget.originCardView.contentDescription)
+
+        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesSearchFormRenameToFrom)
+        inflate()
+        widget.searchViewModel = PackageSearchViewModel(activity)
+        widget.searchViewModel.formattedDestinationObservable.onNext("")
+        widget.searchViewModel.searchObserver.onNext(Unit)
+
+        assertEquals(widget.getDestinationSearchBoxPlaceholderText(), widget.destinationCardView.text)
+        assertEquals("Enter destination. Button", widget.destinationCardView.contentDescription)
+
+        assertEquals(widget.getOriginSearchBoxPlaceholderText(), widget.originCardView.text)
+        assertEquals("Enter origin. Button", widget.originCardView.contentDescription)
     }
 
     @Test
@@ -418,6 +434,26 @@ class PackagesSearchPresenterTest {
 
         cabinClassObserver.assertValues(FlightServiceClassType.CabinCode.COACH, FlightServiceClassType.CabinCode.BUSINESS)
         assertEquals(LineOfBusiness.PACKAGES, widget.flightCabinClassWidget.lob)
+    }
+
+    @Test
+    fun testGetOriginSearchBoxPlaceholderText() {
+        inflate()
+        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesSearchFormRenameToFrom)
+        assertEquals("Enter origin", widget.getOriginSearchBoxPlaceholderText())
+
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesSearchFormRenameToFrom)
+        assertEquals("Flying from", widget.getOriginSearchBoxPlaceholderText())
+    }
+
+    @Test
+    fun testGetDestinationSearchBoxPlaceholderText() {
+        inflate()
+        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppPackagesSearchFormRenameToFrom)
+        assertEquals("Enter destination", widget.getDestinationSearchBoxPlaceholderText())
+
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesSearchFormRenameToFrom)
+        assertEquals("Flying to", widget.getDestinationSearchBoxPlaceholderText())
     }
 
     private fun getDummyPackageSearchParams(startDateOffset: Int, endDateOffset: Int, origin: SuggestionV4 = getDummySuggestion(),

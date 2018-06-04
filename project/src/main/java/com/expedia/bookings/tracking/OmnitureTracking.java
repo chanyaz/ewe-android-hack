@@ -4697,6 +4697,7 @@ public class OmnitureTracking {
 		if (isMidAPIEnabled()) {
 			abTests.add(AbacusUtils.EBAndroidAppPackagesFFPremiumClass);
 		}
+		abTests.add(AbacusUtils.EBAndroidAppPackagesSearchFormRenameToFrom);
 		trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH, pageUsableData, abTests);
 	}
 

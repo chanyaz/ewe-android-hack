@@ -4475,6 +4475,8 @@
     <string name="fly_from_hint">Flying from</string>
     <!-- Fly to hint -->
     <string name="fly_to_hint">Flying to</string>
+    <string name="packages_enter_origin_hint">Enter origin</string>
+    <string name="packages_enter_destination_hint">Enter destination</string>
 
     <!-- Strings used in Orbitz where amount type is rewards  -->
     <!-- Label indicating Orbucks Available. Eg: $1000.12 in Orbucks available-->
@@ -4546,12 +4548,20 @@
     </plurals>
     <!--Flying to card content description Eg. Flying to. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
     <string name="search_flying_to_destination_cont_desc_TEMPLATE">Flying to. Button. {to_destination}</string>
+    <!--Enter destination card content description Eg. Enter destination. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
+    <string name="search_enter_destination_cont_desc_TEMPLATE">Enter destination. Button. {to_destination}</string>
     <!--Flying from card content description Eg. Flying from. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
     <string name="search_flying_from_destination_cont_desc_TEMPLATE">Flying from. Button. {from_destination}</string>
+    <!--Enter origin card content description Eg. Enter origin. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
+    <string name="search_enter_origin_cont_desc_TEMPLATE">Enter origin. Button. {from_destination}</string>
     <!--Flying to card content description before a location is selected-->
     <string name="packages_search_flying_to_cont_desc">Flying to. Button</string>
+    <!--Enter destination card content description before a location is selected-->
+    <string name="packages_search_enter_destination_cont_desc">Enter destination. Button</string>
     <!--Flying from card content description before a location is selected-->
     <string name="packages_search_flying_from_cont_desc">Flying from. Button</string>
+    <!--Enter origin card content description before a location is selected-->
+    <string name="packages_search_enter_origin_cont_desc">Enter origin. Button</string>
     <!--Travel dates card content description before date range is selected-->
     <string name="select_travel_dates_cont_desc">Select travel dates. Button. Opens dialog</string>
     <!--Hotel Card View for Price for Talkback to indicate price shown if no strikethrough is necessary. Example. Price $100. -->
