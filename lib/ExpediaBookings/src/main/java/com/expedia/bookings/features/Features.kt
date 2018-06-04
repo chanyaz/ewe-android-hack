@@ -25,5 +25,6 @@ class Features {
     val lxMultipleDatesSearch: Feature by RemoteFeatureDelegate()
     val tripsCallMadeOmnitureCall: Feature by RemoteFeatureDelegate()
     val tripsCallSuccessOmnitureCall: Feature by RemoteFeatureDelegate()
+    val hotelReviewsTrueRecency: Feature by RemoteFeatureDelegate()
     val tripsGlassbox: Feature by RemoteFeatureDelegate()
 }

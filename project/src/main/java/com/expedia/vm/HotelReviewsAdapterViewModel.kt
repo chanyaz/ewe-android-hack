@@ -5,6 +5,7 @@ import com.expedia.bookings.data.hotels.HotelReviewsResponse
 import com.expedia.bookings.data.hotels.HotelReviewsResponse.Review
 import com.expedia.bookings.data.hotels.ReviewSort
 import com.expedia.bookings.data.hotels.ReviewSummary
+import com.expedia.bookings.features.Features
 import com.expedia.bookings.hotel.data.TranslatedReview
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.tracking.OmnitureTracking
@@ -15,7 +16,7 @@ import io.reactivex.observers.DisposableObserver
 import io.reactivex.subjects.PublishSubject
 import java.util.Locale
 
-class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: ReviewsServices, val locale: String, val searchTerm: String? = null) {
+class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: ReviewsServices, var locale: String, val searchTerm: String? = null) {
 
     private val reviewsPageNumber = IntArray(3)
 
@@ -45,12 +46,15 @@ class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: Rev
     }
 
     val reviewsObserver = endlessObserver<ReviewSort> { reviewSort ->
+        if (Features.all.hotelReviewsTrueRecency.enabled() && reviewSort.sortByApiParam == ReviewSort.NEWEST_REVIEW_FIRST.sortByApiParam) {
+            locale = ""
+        }
         val params = HotelReviewsParams.Builder()
                 .hotelId(hotelId)
                 .pageNumber(reviewsPageNumber[reviewSort.value]++)
                 .numReviewsPerPage(Constants.HOTEL_REVIEWS_PAGE_SIZE)
                 .sortBy(reviewSort.sortByApiParam)
-                .languageSort(locale)
+                .locale(locale)
                 .searchTerm(searchTerm)
                 .build()
 

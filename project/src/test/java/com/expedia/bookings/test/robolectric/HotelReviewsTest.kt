@@ -1,10 +1,12 @@
 package com.expedia.bookings.test
 
+import android.app.Activity
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.hotels.HotelReviewsResponse
 import com.expedia.bookings.data.hotels.ReviewSummary
 import com.expedia.bookings.data.hotels.ReviewSort
+import com.expedia.bookings.features.Features
 import com.expedia.bookings.hotel.data.TranslatedReview
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.testrule.ServicesRule
@@ -15,7 +17,9 @@ import org.junit.Test
 import io.reactivex.Observable
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.FeatureTestUtils
 import org.junit.runner.RunWith
+import org.robolectric.Robolectric
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -33,11 +37,14 @@ class HotelReviewsTest {
     private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     var vm: HotelReviewsAdapterViewModel by Delegates.notNull()
+    var activity: Activity by Delegates.notNull()
 
     @Before
     fun before() {
         vm = HotelReviewsAdapterViewModel(HOTEL_ID, reviewServicesRule.services!!, "en_US")
+        activity = Robolectric.buildActivity(Activity::class.java).create().get()
         mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
+        FeatureTestUtils.enableFeature(activity, Features.all.hotelReviewsTrueRecency)
     }
 
     @Test
@@ -81,6 +88,51 @@ class HotelReviewsTest {
         assertEquals(getExpectedReviewRequestStr(25), recordedRequest2.path)
         val recordedRequest3 = reviewServicesRule.server.takeRequest()
         assertEquals(getExpectedReviewRequestStr(50), recordedRequest3.path)
+    }
+
+    @Test
+    fun testTrueRecencyReviewsFeatureEnabled() {
+        Observable.concat(
+                Observable.just(ReviewSort.NEWEST_REVIEW_FIRST),
+                Observable.never())
+                .subscribe(vm.reviewsObserver)
+
+        val recordedRequest = reviewServicesRule.server.takeRequest()
+        assertEquals(getExpectedReviewRequestStrForTrueRecencyLocaleEmpty(), recordedRequest.path)
+    }
+
+    @Test
+    fun testTrueRecencyReviewsFeatureEnabledSortByLowestRatingFirst() {
+        Observable.concat(
+                Observable.just(ReviewSort.LOWEST_RATING_FIRST),
+                Observable.never())
+                .subscribe(vm.reviewsObserver)
+
+        val recordedRequest = reviewServicesRule.server.takeRequest()
+        assertEquals(getExpectedReviewRequestStr(0), recordedRequest.path)
+    }
+
+    @Test
+    fun testTrueRecencyReviewsFeatureEnabledSortByHighestRatingFirst() {
+        Observable.concat(
+                Observable.just(ReviewSort.HIGHEST_RATING_FIRST),
+                Observable.never())
+                .subscribe(vm.reviewsObserver)
+
+        val recordedRequest = reviewServicesRule.server.takeRequest()
+        assertEquals(getExpectedReviewRequestStrHighestRatingFirst(), recordedRequest.path)
+    }
+
+    @Test
+    fun testTrueRecencyReviewsFeatureDisabled() {
+        FeatureTestUtils.disableFeature(activity, Features.all.hotelReviewsTrueRecency)
+        Observable.concat(
+                Observable.just(ReviewSort.NEWEST_REVIEW_FIRST),
+                Observable.never())
+                .subscribe(vm.reviewsObserver)
+
+        val recordedRequest = reviewServicesRule.server.takeRequest()
+        assertEquals(getExpectedReviewRequestStrForTrueRecencyLocaleNotEmpty(), recordedRequest.path)
     }
 
     @Test
@@ -131,5 +183,17 @@ class HotelReviewsTest {
 
     private fun getExpectedReviewRequestStr(startParam: Int): String {
         return "/api/hotelreviews/hotel/%s?sortBy=RATINGASC&start=%d&items=25&locale=en_US".format(HOTEL_ID, startParam) + "&clientid=expedia.app.android.phone%3A6.9.0"
+    }
+
+    private fun getExpectedReviewRequestStrHighestRatingFirst(): String {
+        return "/api/hotelreviews/hotel/26650?sortBy=RATINGDESC&start=0&items=25&locale=en_US&clientid=expedia.app.android.phone%3A6.9.0"
+    }
+
+    private fun getExpectedReviewRequestStrForTrueRecencyLocaleEmpty(): String {
+        return "/api/hotelreviews/hotel/26650?sortBy=DATEDESC&start=0&items=25&locale=&clientid=expedia.app.android.phone%3A6.9.0"
+    }
+
+    private fun getExpectedReviewRequestStrForTrueRecencyLocaleNotEmpty(): String {
+        return "/api/hotelreviews/hotel/26650?sortBy=DATEDESC&start=0&items=25&locale=en_US&clientid=expedia.app.android.phone%3A6.9.0"
     }
 }

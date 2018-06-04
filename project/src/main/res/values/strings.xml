@@ -2996,12 +2996,7 @@
         2$ is the place they are from
     -->
     <string name="user_review_name_and_location_signature">%1$s from %2$s</string>
-    <!-- User review no critical reviews -->
-    <string name="user_review_no_critical_reviews">There are no critical reviews for this hotel.</string>
     <!-- User review no favorable reviews -->
-    <string name="user_review_no_favorable_reviews">There are no favorable reviews for this hotel.</string>
-    <!-- User review no recent reviews -->
-    <string name="user_review_no_recent_reviews">There are no recent reviews for this hotel.</string>
 
     <!-- ETP pay later info message -->
     <string name="pay_later_info_text">Book Now, Pay Later</string>

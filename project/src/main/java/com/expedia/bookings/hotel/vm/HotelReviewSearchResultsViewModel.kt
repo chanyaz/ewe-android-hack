@@ -47,7 +47,6 @@ class HotelReviewSearchResultsViewModel(compositeDisposable: CompositeDisposable
                     .pageNumber(0)
                     .numReviewsPerPage(Constants.HOTEL_REVIEWS_PAGE_SIZE)
                     .sortBy("")
-                    .languageSort("")
                     .searchTerm(query).build()
         }
         return null

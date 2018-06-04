@@ -40,7 +40,6 @@ class HotelReviewSearchResultsViewModelTest {
         val params = viewModel.createSearchParams("test", "123")
         assertEquals(params!!.hotelId, "123")
         assertEquals(params.searchTerm, "test")
-        assertEquals(params.languageSort, "")
         assertEquals(params.numReviewsPerPage, 25)
         assertEquals(params.pageNumber, 0)
         assertEquals(params.sortBy, "")

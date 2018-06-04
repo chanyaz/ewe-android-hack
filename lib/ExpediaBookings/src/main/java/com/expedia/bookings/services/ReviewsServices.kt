@@ -48,7 +48,7 @@ class ReviewsServices(endPoint: String, client: OkHttpClient, interceptor: Inter
     }
 
     fun reviews(reviewsParams: HotelReviewsParams): Observable<HotelReviewsResponse> {
-        return reviewsApi.hotelReviews(reviewsParams.hotelId, reviewsParams.sortBy, reviewsParams.pageNumber * reviewsParams.numReviewsPerPage, reviewsParams.numReviewsPerPage, reviewsParams.languageSort, reviewsParams.searchTerm)
+        return reviewsApi.hotelReviews(reviewsParams.hotelId, reviewsParams.sortBy, reviewsParams.pageNumber * reviewsParams.numReviewsPerPage, reviewsParams.numReviewsPerPage, reviewsParams.locale, reviewsParams.searchTerm)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
     }
@@ -68,7 +68,7 @@ class ReviewsServices(endPoint: String, client: OkHttpClient, interceptor: Inter
     }
 
     fun reviewsSearch(reviewsParams: HotelReviewsParams): Observable<HotelReviewsResponse> {
-        return reviewsApi.hotelReviews(reviewsParams.hotelId, reviewsParams.sortBy, reviewsParams.pageNumber * reviewsParams.numReviewsPerPage, reviewsParams.numReviewsPerPage, reviewsParams.languageSort, reviewsParams.searchTerm)
+        return reviewsApi.hotelReviews(reviewsParams.hotelId, reviewsParams.sortBy, reviewsParams.pageNumber * reviewsParams.numReviewsPerPage, reviewsParams.numReviewsPerPage, reviewsParams.locale, reviewsParams.searchTerm)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
     }
