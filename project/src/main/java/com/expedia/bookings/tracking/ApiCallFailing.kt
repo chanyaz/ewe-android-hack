@@ -18,5 +18,8 @@ sealed class ApiCallFailing(val apiCall: String, val errorCode: String) {
     class PackageFlightOutboundChange(val code: String) : ApiCallFailing("PACKAGE_FLIGHT_OUTBOUND_CHANGE", code)
     class PackageFlightInboundChange(val code: String) : ApiCallFailing("PACKAGE_FLIGHT_INBOUND_CHANGE", code)
 
+    // Confirmation
+    class ConfirmationPaymentSummaryMissing : ApiCallFailing("TRIP_DETAILS", "PAYMENT_SUMMARY_MISSING")
+
     fun getErrorStringForTracking() = "$errorCode|$apiCall"
 }

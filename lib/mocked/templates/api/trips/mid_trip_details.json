@@ -838,7 +838,7 @@
     }],
     "totalTripPrice": {
       "currency": "USD",
-      "total": "96.4",
+      "total": "80.4",
       "totalFormatted": "$96.40"
     },
     "isCouponApplied": false,

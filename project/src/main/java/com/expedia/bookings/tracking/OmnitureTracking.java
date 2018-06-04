@@ -37,10 +37,10 @@ import android.text.TextUtils;
 import android.util.Pair;
 
 import com.adobe.mobile.Config;
-import com.expedia.bookings.analytics.AppAnalytics;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.analytics.AppAnalytics;
 import com.expedia.bookings.analytics.cesc.CESCTrackingUtil;
 import com.expedia.bookings.analytics.cesc.PersistingCESCDataUtil;
 import com.expedia.bookings.analytics.cesc.SharedPrefsCESCPersistenceProvider;
@@ -4857,9 +4857,13 @@ public class OmnitureTracking {
 		PageUsableData pageUsableData) {
 		Log.d(TAG, "Tracking \"" + PACKAGES_CHECKOUT_PAYMENT_CONFIRMATION + "\" pageLoad");
 		AppAnalytics s = createTrackPackagePageLoadEventBase(PACKAGES_CHECKOUT_PAYMENT_CONFIRMATION, null);
-		double total = Double.parseDouble(response.getResponseData().getTotalTripPrice().getTotal());
-		setPackageProducts(s, total, true, true, hotelSupplierType);
-		s.setCurrencyCode(response.getResponseDataForItin().getTotalTripPrice().getCurrency());
+		Money totalPaidMoney = response.getResponseData().getTotalPaidMoney();
+		if (totalPaidMoney == null) {
+			totalPaidMoney = new Money("0", "");
+			trackPackagesShoppingError(new ApiCallFailing.ConfirmationPaymentSummaryMissing().getErrorStringForTracking());
+		}
+		setPackageProducts(s, totalPaidMoney.amount.doubleValue(), true, true, hotelSupplierType);
+		s.setCurrencyCode(totalPaidMoney.currencyCode);
 		s.setEvents("purchase");
 		String orderId = response.getResponseData().getHotels().get(0).orderNumber;
 		s.setPurchaseID("onum" + orderId);
