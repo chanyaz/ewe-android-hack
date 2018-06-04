@@ -40,7 +40,6 @@ import butterknife.InjectView;
 public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 
 	private static final String ROW_PICASSO_TAG = "lx_row";
-	private static boolean userBucketedForRTRTest;
 	private static SparseIntArray scrollDepthMap;
 	private static int activitiesListSize;
 	private static String promoDiscountType;
@@ -54,17 +53,9 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		RecyclerView.ViewHolder itemViewHolder = super.onCreateViewHolder(parent, viewType);
 		if (itemViewHolder == null) {
-			View itemView;
-			if (userBucketedForRTRTest) {
-				itemView = LayoutInflater.from(parent.getContext())
-					.inflate(R.layout.section_lx_search_row_recommended_ab_test, parent, false);
-				itemViewHolder = new RecommendedViewHolder(itemView);
-			}
-			else {
-				itemView = LayoutInflater.from(parent.getContext())
-					.inflate(R.layout.section_lx_search_row, parent, false);
-				itemViewHolder = new ViewHolder(itemView);
-			}
+			View itemView = LayoutInflater.from(parent.getContext())
+				.inflate(R.layout.section_lx_search_row, parent, false);
+			itemViewHolder = new ViewHolder(itemView);
 		}
 		return itemViewHolder;
 	}
@@ -79,15 +70,8 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 		super.onBindViewHolder(holder, position);
 		if (holder.getItemViewType() == getDATA_VIEW()) {
 			LXActivity activity = (LXActivity) getItems().get(position);
-			if (userBucketedForRTRTest) {
-				((RecommendedViewHolder) holder).bindRecommendationScore(activity.recommendationScore);
-			}
 			((ViewHolder) holder).bind(activity);
 		}
-	}
-
-	public void setUserBucketedForRTRTest(boolean userBucketedForRTRTest) {
-		LXResultsListAdapter.userBucketedForRTRTest = userBucketedForRTRTest;
 	}
 
 	public void initializeScrollDepthMap(int activitiesListSize) {
@@ -96,33 +80,6 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 		scrollDepthMap.put(LXDataUtils.findScrolledPosition(10, activitiesListSize), 10);
 		scrollDepthMap.put(LXDataUtils.findScrolledPosition(30, activitiesListSize), 30);
 		scrollDepthMap.put(LXDataUtils.findScrolledPosition(100, activitiesListSize), 100);
-	}
-
-	public static class RecommendedViewHolder extends ViewHolder implements View.OnClickListener {
-
-		@InjectView(R.id.recommended_percentage)
-		TextView recommendedScore;
-
-		@InjectView(R.id.recommended_score_text)
-		TextView recommendedScoreText;
-
-		public RecommendedViewHolder(View itemView) {
-			super(itemView);
-		}
-
-		public void bindRecommendationScore(int recommendationScore) {
-			if (recommendationScore > 0) {
-				recommendedScore.setVisibility(View.VISIBLE);
-				recommendedScoreText.setVisibility(View.VISIBLE);
-				recommendedScore.setText(LXDataUtils
-					.getUserRecommendPercentString(itemView.getContext(), recommendationScore));
-				recommendedScoreText.setText(itemView.getResources().getString(R.string.lx_customers_recommend));
-			}
-			else {
-				recommendedScore.setVisibility(View.GONE);
-				recommendedScoreText.setVisibility(View.GONE);
-			}
-		}
 	}
 
 	public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -159,9 +116,6 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 
 		@InjectView(R.id.gradient_mask)
 		public View gradientMask;
-
-		@InjectView(R.id.lx_card_top_gradient)
-		View cardGradientOnTop;
 
 		@InjectView(R.id.urgency_message_layout_lx)
 		LinearLayout urgencyMessage;
@@ -280,7 +234,6 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 				super.onBitmapLoaded(bitmap, from);
 				activityImage.setImageBitmap(bitmap);
 				gradientMask.setVisibility(View.VISIBLE);
-				cardGradientOnTop.setVisibility(userBucketedForRTRTest ? View.VISIBLE : View.GONE);
 			}
 
 			@Override
@@ -289,7 +242,6 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 				if (errorDrawable != null) {
 					activityImage.setImageDrawable(errorDrawable);
 					gradientMask.setVisibility(View.VISIBLE);
-					cardGradientOnTop.setVisibility(View.GONE);
 				}
 			}
 
@@ -298,7 +250,6 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 				super.onPrepareLoad(placeHolderDrawable);
 				activityImage.setImageDrawable(placeHolderDrawable);
 				gradientMask.setVisibility(View.GONE);
-				cardGradientOnTop.setVisibility(View.GONE);
 			}
 		};
 	}

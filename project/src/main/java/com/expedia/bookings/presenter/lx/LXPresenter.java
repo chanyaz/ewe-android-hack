@@ -558,11 +558,6 @@ public class LXPresenter extends Presenter {
 		resultsPresenter.setUserBucketedForCategoriesTest(isUserBucketedForTest);
 	}
 
-	public void setUserBucketedForRTRTest(boolean userBucketedForRTRTest) {
-		detailsPresenter.details.setUserBucketedForRTRTest(userBucketedForRTRTest);
-		resultsPresenter.searchResultsWidget.setUserBucketedForRTRTest(userBucketedForRTRTest);
-	}
-
 	public void setBackgroundColorForSearchWidget(float f, boolean forward) {
 		if (!forward) {
 			searchParamsWidget.setBackgroundColor((Integer) (searchArgbEvaluator

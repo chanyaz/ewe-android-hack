@@ -117,15 +117,6 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	@InjectView(R.id.offer_dates_scroll_view)
 	HorizontalScrollView offerDatesScrollView;
 
-	@InjectView(R.id.recommendation_percentage_container)
-	LinearLayout recommendPercentageLayout;
-
-	@InjectView(R.id.recommended_percentage)
-	TextView recommendedPercentage;
-
-	@InjectView(R.id.recommended_divider)
-	View recommendedDivider;
-
 	@InjectView(R.id.discount_container)
 	LinearLayout discountContainer;
 
@@ -159,7 +150,6 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	SegmentedLinearInterpolator mIGalleryScroll;
 	public PublishSubject<Unit> mapClickSubject =  PublishSubject.create();
 
-	private boolean userBucketedForRTRTest;
 	private boolean isGroundTransport;
 
 	public LXActivityDetailsWidget(Context context, AttributeSet attrs) {
@@ -236,7 +226,6 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		offers.setPromoDiscountType(lxState.getPromoDiscountType());
 		offers.setActivityDiscountType(activityDetails.discountType);
 
-		buildRecommendationPercentage(activityDetails.recommendationScore);
 		buildGallery(activityDetails);
 		if (Features.Companion.getAll().getActivityMap().enabled()) {
 			buildMapSection(activityDetails);
@@ -245,19 +234,6 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		buildDiscountSection(activityDetails);
 		buildMipDiscountSection();
 		buildOfferDatesSelector(activityDetails.offersDetail, lxState.searchParams.getActivityStartDate());
-	}
-
-	private void buildRecommendationPercentage(int recommendationScore) {
-
-		if (recommendationScore > 0 && userBucketedForRTRTest) {
-			recommendedPercentage.setText(LXDataUtils.getUserRecommendPercentString(getContext(), recommendationScore));
-			recommendPercentageLayout.setVisibility(VISIBLE);
-			recommendedDivider.setVisibility(VISIBLE);
-		}
-		else {
-			recommendPercentageLayout.setVisibility(GONE);
-			recommendedDivider.setVisibility(GONE);
-		}
 	}
 
 	public void onDetailsDateChanged(LocalDate dateSelected, LXOfferDatesButton buttonSelected) {
@@ -563,10 +539,6 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		int from = getScrollY();
 		int to = from != 0 ? 0 : mInitialScrollTop;
 		animateScrollY(from, to);
-	}
-
-	public void setUserBucketedForRTRTest(boolean userBucketedForRTRTest) {
-		this.userBucketedForRTRTest = userBucketedForRTRTest;
 	}
 
 	public void setIsFromGroundTransport(boolean isGroundTransport) {

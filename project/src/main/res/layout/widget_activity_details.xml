@@ -103,48 +103,6 @@
             android:background="@color/lx_details_background_color"
             android:orientation="vertical">
 
-
-            <LinearLayout
-                android:id="@+id/recommendation_percentage_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="18dp" >
-
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/recommended_percentage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="4dp"
-                    android:background="@drawable/lx_recommended_percentage_background"
-                    android:gravity="center_vertical"
-                    android:includeFontPadding="false"
-                    android:padding="5dp"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp" />
-
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/recommended_score_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="4dp"
-                    android:gravity="center_vertical"
-                    android:includeFontPadding="false"
-                    android:paddingBottom="10dp"
-                    android:paddingRight="5dp"
-                    android:paddingTop="10dp"
-                    android:text="@string/lx_customers_recommend"
-                    android:textColor="@color/lx_search_result_info_text_color"
-                    android:textSize="12sp" />
-
-            </LinearLayout>
-
-            <View
-                android:id="@+id/recommended_divider"
-                android:layout_width="@dimen/match_parent"
-                android:layout_height="1px"
-                android:background="@drawable/lx_recommended_percentage_background" />
-
             <include
                 android:id="@+id/highlights"
                 layout="@layout/widget_lx_detail_section_data"

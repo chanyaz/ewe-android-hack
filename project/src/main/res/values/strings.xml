@@ -663,11 +663,7 @@
 
     <!-- Category Title "All Things To Do" -->
     <string name="lx_category_all_things_to_do">All Things To Do</string>
-
-    <string name="lx_customers_recommend">of customers recommend.</string>
-    <!-- LX user recommended percentage template-->
-    <string name="lx_recommend_percent_Template">{recommend}%</string>
-
+    
     <string name="lx_recommendation_no_superlative">of 5</string>
     <string name="lx_recommendation_superlativeGood">of 5 - Good!</string>
     <string name="lx_recommendation_superlativeGreat">of 5 - Great!</string>

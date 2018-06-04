@@ -1900,7 +1900,6 @@ public class OmnitureTracking {
 	public static void trackAppLXRTRABTest() {
 		Log.d(TAG, "Tracking \"" + LX_SEARCH + "\" category...");
 		AppAnalytics s = getFreshTrackingObject();
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppLXRTROnSearchAndDetails);
 		s.trackLink("ape:Log Experiment");
 	}
 

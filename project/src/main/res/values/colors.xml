@@ -289,7 +289,6 @@
     <color name="lx_dates_disabled_text_color">@color/gray200</color>
     <color name="lx_dates_container_border_color">@color/gray200</color>
 
-    <color name="lx_search_result_info_text_color">@color/gray500</color>
     <color name="lx_sort_filter_pressed">@color/gray200</color>
     <color name="lx_sort_filter_pressed_row_color">@color/gray200</color>
 

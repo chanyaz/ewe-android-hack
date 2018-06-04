@@ -58,8 +58,6 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 		isGroundTransport = intent.getBooleanExtra(EXTRA_IS_GROUND_TRANSPORT, false);
 		boolean isUserBucketedForTest = AbacusFeatureConfigManager
 			.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXCategoryABTest);
-		boolean isUserBucketedForRTRTest = AbacusFeatureConfigManager
-			.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXRTROnSearchAndDetails);
 
 		if (isGroundTransport) {
 			this.setTheme(R.style.V2_Theme_LX_Transport);
@@ -69,7 +67,6 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 		ButterKnife.inject(this);
 		lxPresenter.setIsGroundTransport(isGroundTransport);
 		lxPresenter.setUserBucketedForCategoriesTest(isUserBucketedForTest);
-		lxPresenter.setUserBucketedForRTRTest(isUserBucketedForRTRTest && !isGroundTransport);
 		detailsMapView.onCreate(savedInstanceState);
 		Ui.showTransparentStatusBar(this);
 		handleNavigationViaDeepLink();

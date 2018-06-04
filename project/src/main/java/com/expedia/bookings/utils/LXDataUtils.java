@@ -471,11 +471,6 @@ public class LXDataUtils {
 		}
 	}
 
-	public static String getUserRecommendPercentString(Context context, int recommendationScore) {
-		return Phrase.from(context.getResources(), R.string.lx_recommend_percent_Template)
-			.put("recommend", recommendationScore).format().toString();
-	}
-
 	public static String getToolbarSearchDateText(Context context, LxSearchParams searchParams, boolean isContDesc) {
 		if ((searchParams.getActivityEndDate().compareTo(searchParams.getActivityStartDate()) == 0)
 			&& Features.Companion.getAll().getLxMultipleDatesSearch().enabled()) {
