@@ -30,9 +30,14 @@ class FullPageDealNotificationActivity : AppCompatActivity() {
 
         val fullPageDealViewModel = createViewModelWithCarnivalData()
 
+        setToolbarTitle(fullPageDealViewModel.dealTitle)
         setSupportActionBar(toolbar)
-        setupToolbar(fullPageDealViewModel.dealTitle)
+        setupToolbar()
         loadImage(fullPageDealViewModel.imageUrl)
+    }
+
+    private fun setToolbarTitle(dealTitle: String?) {
+        toolbar.title = dealTitle ?: ""
     }
 
     private fun createViewModelWithCarnivalData(): FullPageDealViewModel {
@@ -56,8 +61,7 @@ class FullPageDealNotificationActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupToolbar(dealTitle: String?) {
-        toolbar.title = dealTitle ?: ""
+    private fun setupToolbar() {
         toolbar.navigationIcon = ContextCompat.getDrawable(this@FullPageDealNotificationActivity, R.drawable.ic_close_white_24dp)
         toolbar.navigationContentDescription = this@FullPageDealNotificationActivity.getString(R.string.full_page_deal_toolbar_nav_icon_close_cont_desc)
         toolbar.setNavigationOnClickListener {
