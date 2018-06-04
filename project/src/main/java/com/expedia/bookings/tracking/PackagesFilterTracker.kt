@@ -38,4 +38,8 @@ class PackagesFilterTracker : FilterTracker {
     override fun trackHotelFilterAmenity(amenity: String) {
         // not available on package
     }
+
+    override fun trackHotelFilterApplied() {
+        PackagesTracking().trackHotelFilterApplied()
+    }
 }

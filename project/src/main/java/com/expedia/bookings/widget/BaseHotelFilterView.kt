@@ -145,12 +145,17 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
         viewModel.trackClearFilter()
     }
 
+    protected val doneButtonClickListener = View.OnClickListener {
+        viewModel.doneObservable.onNext(Unit)
+        viewModel.trackHotelFilterApplied()
+    }
+
     protected open fun bindViewModel(vm: BaseHotelFilterViewModel) {
         vm.clearHotelNameFocusObservable.subscribe({
             clearHotelNameFocus()
         })
 
-        doneButton.subscribeOnClick(vm.doneObservable)
+        doneButton.setOnClickListener(doneButtonClickListener)
         vm.priceRangeContainerVisibility.subscribeVisibility(priceRangeView)
         vm.priceRangeContainerVisibility.subscribeVisibility(priceHeader)
 

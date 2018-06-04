@@ -212,8 +212,13 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         View.inflate(getContext(), R.layout.package_hotel_presenter, this)
 
         ObservableOld.combineLatest(dataAvailableSubject, trackEventSubject, { packageSearchResponse, _ -> packageSearchResponse }).subscribe {
-            PackagesPageUsableData.HOTEL_RESULTS.pageUsableData.markAllViewsLoaded()
-            trackSearchResult(it)
+            if (!resultsPresenter.viewModel.isFilteredResponse) {
+                PackagesPageUsableData.HOTEL_RESULTS.pageUsableData.markAllViewsLoaded()
+                trackSearchResult(it)
+            } else {
+                PackagesPageUsableData.HOTEL_FILTERED_RESULTS.pageUsableData.markAllViewsLoaded()
+                PackagesTracking().trackHotelFilterSearchLoad(it, PackagesPageUsableData.HOTEL_FILTERED_RESULTS.pageUsableData)
+            }
         }
     }
 

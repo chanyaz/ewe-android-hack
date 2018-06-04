@@ -9,6 +9,7 @@ import com.expedia.bookings.data.hotels.HotelFilterOptions
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.Neighborhood
+import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.hotel.data.Amenity
 import com.expedia.bookings.hotel.widget.OnHotelAmenityFilterChangedListener
 import com.expedia.bookings.hotel.widget.OnHotelNameFilterChangedListener
@@ -371,6 +372,13 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
 
     private fun trackHotelFilterAmenity(amenity: Amenity) {
         filterTracker.trackHotelFilterAmenity(amenity.toString())
+    }
+
+    fun trackHotelFilterApplied() {
+        filterTracker.trackHotelFilterApplied()
+        if (!isClientSideFiltering()) {
+            PackagesPageUsableData.HOTEL_FILTERED_RESULTS.pageUsableData.markPageLoadStarted()
+        }
     }
 
     private fun updateFilterCount() {

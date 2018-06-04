@@ -24,6 +24,10 @@ class PackagesTracking {
         TuneUtils.trackPackageHotelSearchResults(response)
     }
 
+    fun trackHotelFilterSearchLoad(response: BundleSearchResponse, pageUsableData: PageUsableData) {
+        OmnitureTracking.trackPackageFilteredHSRLoad(response, pageUsableData)
+    }
+
     fun trackHotelMapLoad() {
         OmnitureTracking.trackPackagesHSRMapInit()
     }
@@ -71,6 +75,10 @@ class PackagesTracking {
 
     fun trackHotelClearFilter() {
         OmnitureTracking.trackPackagesHotelClearFilter()
+    }
+
+    fun trackHotelFilterApplied() {
+        OmnitureTracking.trackPackagesHotelFilterApplied()
     }
 
     fun trackHotelRefineRating(rating: String) {
