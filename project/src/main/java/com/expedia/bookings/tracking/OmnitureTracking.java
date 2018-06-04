@@ -1392,12 +1392,6 @@ public class OmnitureTracking {
 
 		addPageLoadTimeTrackingEvents(s, pageUsableData);
 
-		// LX Cross sell
-		boolean isLXEnabled = PointOfSale.getPointOfSale().supports(LineOfBusiness.LX);
-		if (isLXEnabled) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest);
-		}
-
 		s.track();
 	}
 
@@ -1439,12 +1433,6 @@ public class OmnitureTracking {
 
 		// Currency code
 		s.setCurrencyCode(totalTripPrice.getCurrency());
-
-		// LX Cross sell
-		boolean isLXEnabled = PointOfSale.getPointOfSale().supports(LineOfBusiness.LX);
-		if (isLXEnabled) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest);
-		}
 
 		// Send the tracking data
 		s.track();

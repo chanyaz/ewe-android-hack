@@ -15,14 +15,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
-import com.expedia.bookings.R;
-import com.expedia.bookings.data.Codes;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.data.abacus.AbacusVariant;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
 import com.expedia.bookings.test.MultiBrand;
 import com.expedia.bookings.test.RunForBrands;
 import com.expedia.bookings.test.robolectric.AddToCalendarUtilsTests;
@@ -31,8 +25,6 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.ui.FlightActivity;
 import com.expedia.ui.LOBWebViewActivity;
 import com.expedia.vm.HotelConfirmationViewModel;
-
-import com.expedia.bookings.services.TestObserver;
 
 import kotlin.Unit;
 
@@ -132,38 +124,6 @@ public class HotelConfirmationViewModelTest {
 		Intent intent = shadowApplication.getNextStartedActivity();
 
 		assertEquals(FlightActivity.class.getName(), intent.getComponent().getClassName());
-	}
-
-	@Test
-	public void lxCrossSellButtonClickTakeUsToLXLOB() {
-		givenHotelLocation();
-		givenCheckInDate();
-		givenCheckOutDate();
-
-		vm.getAddLXBtnObserver(getContext()).onNext(Unit.INSTANCE);
-		Intent intent = shadowApplication.getNextStartedActivity();
-
-		assertEquals(LXBaseActivity.class.getName(), intent.getComponent().getClassName());
-		assertTrue(intent.getBooleanExtra(Codes.EXTRA_OPEN_RESULTS, false));
-	}
-
-	@Test
-	public void lxCrossSellButtonText() {
-		hotelCity = "San francisco";
-		givenHotelLocation();
-		givenCheckInDate();
-		givenCheckOutDate();
-
-		TestObserver testSubscriber = new TestObserver<>();
-		Db.sharedInstance.getAbacusResponse().updateABTestForDebug(AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest.getKey(),
-				AbacusVariant.BUCKETED.getValue());
-		vm.getAddLXBtn().subscribe(testSubscriber);
-		vm.getAddLXBtn().onNext(getContext().getResources().getString(R.string.add_lx_TEMPLATE, hotelCity));
-
-		testSubscriber.assertValueCount(1);
-		testSubscriber.assertNotTerminated();
-		assertEquals(testSubscriber.values().get(0),
-			"Find activities while in San francisco");
 	}
 
 	private void givenHotelName() {

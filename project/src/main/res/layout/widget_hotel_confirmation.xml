@@ -133,15 +133,6 @@
                         android:textColor="@color/confirmation_action_text_color" />
 
                     <com.expedia.bookings.widget.TextView
-                        android:id="@+id/add_lx_textView"
-                        style="@style/HotelConfirmationCrossSellStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="1dp"
-                        android:layout_marginTop="1dp"
-                        android:drawableLeft="@drawable/ic_activity_attach" />
-
-                    <com.expedia.bookings.widget.TextView
                         android:id="@+id/add_car_textView"
                         style="@style/HotelConfirmationCrossSellStyle"
                         android:layout_width="match_parent"

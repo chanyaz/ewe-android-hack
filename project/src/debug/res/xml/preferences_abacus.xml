@@ -820,22 +820,8 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
-            android:key="9467"
-            android:title="LX first activity expanded - 9467" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:summary="%s"
             android:key="10000"
             android:title="LX RTR on search and details - 10000" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:summary="%s"
-            android:key="10556"
-            android:title="LX Cross sell on hotel confirmation - 10556" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"

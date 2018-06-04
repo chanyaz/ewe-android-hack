@@ -15,7 +15,6 @@ public class AbacusUtils {
 	public static final ABTest ExpediaAndroidAppAATestSep2015 = new ABTest(11455);
 	public static final ABTest EBAndroidAppLXCategoryABTest = new ABTest(9165);
 	public static final ABTest EBAndroidAppLXRTROnSearchAndDetails = new ABTest(10000);
-	public static final ABTest EBAndroidAppLXCrossSellOnHotelConfirmationTest = new ABTest(10556);
 	public static final ABTest EBAndroidAppFrequentFlierTooltip = new ABTest(24632, true);
 	public static final ABTest EBAndroidAppDisabledSTPStateHotels = new ABTest(15923, true);
 	public static final ABTest EBAndroidAppBringUniversalCheckoutToLX = new ABTest(12630);
@@ -152,7 +151,6 @@ public class AbacusUtils {
 		testIDs.add(ExpediaAndroidAppAATestSep2015.getKey());
 		testIDs.add(EBAndroidAppLXCategoryABTest.getKey());
 		testIDs.add(EBAndroidAppLXRTROnSearchAndDetails.getKey());
-		testIDs.add(EBAndroidAppLXCrossSellOnHotelConfirmationTest.getKey());
 		testIDs.add(EBAndroidAppFrequentFlierTooltip.getKey());
 		testIDs.add(EBAndroidAppDisabledSTPStateHotels.getKey());
 		testIDs.add(EBAndroidAppBringUniversalCheckoutToLX.getKey());

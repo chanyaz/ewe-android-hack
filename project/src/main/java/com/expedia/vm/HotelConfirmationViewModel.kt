@@ -11,22 +11,18 @@ import com.expedia.bookings.data.HotelItinDetailsResponse
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.Property
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.user.UserStateManager
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AddToCalendarUtils
 import com.expedia.bookings.utils.DateRangeUtils
-import com.expedia.bookings.utils.LXDataUtils
-import com.expedia.bookings.utils.LXNavUtils
 import com.expedia.bookings.utils.NumberUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
@@ -63,7 +59,6 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
     val hotelCity = BehaviorSubject.create<String>()
     val addCarBtnText = BehaviorSubject.create<String>()
     val addFlightBtnText = BehaviorSubject.create<String>()
-    val addLXBtn = BehaviorSubject.create<String>()
     val customerEmail = BehaviorSubject.create<String>()
     val hotelLocation = BehaviorSubject.create<Location>()
     val showFlightCrossSell = BehaviorSubject.create<Boolean>()
@@ -163,11 +158,6 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
             hotelLocation.onNext(location)
             AdImpressionTracking.trackAdConversion(context, it.checkoutResponse.bookingResponse.tripId)
 
-            // LX Cross sell
-            val isUserBucketedForLXCrossSellTest = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest)
-                    && PointOfSale.getPointOfSale().supports(LineOfBusiness.LX)
-            addLXBtn.onNext(if (isUserBucketedForLXCrossSellTest) context.resources.getString(R.string.add_lx_TEMPLATE, product.hotelCity) else "")
-
             SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
             hotelConfirmationUISetObservable.onNext(true)
         }
@@ -220,30 +210,8 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
             location.addStreetAddressLine(hotelAddress.addressLine1)
             hotelLocation.onNext(location)
 
-            val isUserBucketedForLXCrossSellTest = AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest)
-                    && PointOfSale.getPointOfSale().supports(LineOfBusiness.LX)
-            addLXBtn.onNext(if (isUserBucketedForLXCrossSellTest) context.resources.getString(R.string.add_lx_TEMPLATE, hotelAddress.city) else "")
-
             HotelTracking.trackHotelPurchaseFromWebView(response)
             SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
-        }
-    }
-
-    fun getAddLXBtnObserver(context: Context): Observer<Unit> {
-        return object : DisposableObserver<Unit>() {
-            override fun onNext(t: Unit) {
-                LXNavUtils.goToActivities(context, null, LXDataUtils.fromHotelParams(context, checkInDate.value, checkOutDate.value, hotelLocation.value),
-                        NavUtils.FLAG_OPEN_RESULTS)
-                HotelTracking.trackHotelCrossSellLX()
-                (context as Activity).finish()
-            }
-
-            override fun onComplete() {
-            }
-
-            override fun onError(e: Throwable) {
-                throw OnErrorNotImplementedException(e)
-            }
         }
     }
 
