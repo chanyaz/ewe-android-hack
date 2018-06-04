@@ -164,7 +164,8 @@ public class OmnitureTracking {
 		LAUNCHSCREEN_GLOBAL_NAV,
 		LAUNCHSCREEN_LMD,
 		LAUNCHSCREEN_MESO_DESTINATION,
-		LAUNCHSCREEN_MESO_HOTEL_A2A_B2P
+		LAUNCHSCREEN_MESO_HOTEL_A2A_B2P,
+		LAUNCHSCREEN_JOIN_REWARDS
 	}
 
 	private static final Map<PageEvent, String> PAGE_EVENT_MAPPING = new EnumMap<PageEvent, String>(PageEvent.class) {
@@ -179,6 +180,7 @@ public class OmnitureTracking {
 			put(PageEvent.LAUNCHSCREEN_LMD, "event329");
 			put(PageEvent.LAUNCHSCREEN_MESO_HOTEL_A2A_B2P, "event336");
 			put(PageEvent.LAUNCHSCREEN_MESO_DESTINATION, "event337");
+			put(PageEvent.LAUNCHSCREEN_JOIN_REWARDS, "event366");
 		}
 	};
 
@@ -2369,6 +2371,7 @@ public class OmnitureTracking {
 	private static final String MESO_HOTEL_AD = MESO_BASE + ".B2P.Ad";
 	private static final String MESO_DESTINATION_AD = MESO_BASE + ".Dest";
 	private static final String REWARD_LAUNCH_TILE = "App.Orbitz.Rewards";
+	private static final String JOIN_REWARDS_LAUNCH_TILE = "App.LS.JoinRewards";
 	private static final String CUSTOMER_FIRST_GUARANTEE_LAUNCH_TILE = "App.LS.CFG";
 
 	public static void trackLaunchSignIn() {
@@ -2416,6 +2419,11 @@ public class OmnitureTracking {
 	public static void trackTapRewardLaunchTile() {
 		AppAnalytics s = createTrackLinkEvent(REWARD_LAUNCH_TILE);
 		s.setEvar(12, REWARD_LAUNCH_TILE);
+		s.trackLink("App Landing");
+	}
+
+	public static void trackTapJoinRewardsLaunchTile() {
+		AppAnalytics s = createTrackLinkEvent(JOIN_REWARDS_LAUNCH_TILE);
 		s.trackLink("App Landing");
 	}
 
@@ -3607,6 +3615,9 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountsEditWebView);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppAccountNewSignIn);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppBottomNavTabs);
+		if (PointOfSale.getPointOfSale().shouldShowJoinRewardsCard()) {
+			trackAbacusTest(s, AbacusUtils.JoinRewardsLaunchCard);
+		}
 		if (PointOfSale.getPointOfSale().shouldShowCustomerFirstGuarantee()) {
 			trackAbacusTest(s, AbacusUtils.CustomerFirstGuarantee);
 		}

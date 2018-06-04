@@ -811,6 +811,9 @@ class PhoneLaunchActivity : AbstractAppCompatActivity(), PhoneLaunchFragment.Lau
         if (havePermissionToAccessLocation(this)) {
             events.add(OmnitureTracking.PageEvent.LAUNCHSCREEN_HOTELS_NEARBY)
         }
+        if (launchListLogic.showJoinRewardsCard()) {
+            events.add(OmnitureTracking.PageEvent.LAUNCHSCREEN_JOIN_REWARDS)
+        }
 
         return events
     }

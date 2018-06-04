@@ -208,6 +208,29 @@ class OmnitureTrackingTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.ORBITZ))
+    fun launchScreenTilesTrackedForOrbitz() {
+        val abTest = ABTest(26022, true)
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, abTest)
+
+        val testEvents = listOf(
+                OmnitureTracking.PageEvent.LAUNCHSCREEN_LOB_BUTTONS,
+                OmnitureTracking.PageEvent.LAUNCHSCREEN_ACTIVE_ITINERARY,
+                OmnitureTracking.PageEvent.LAUNCHSCREEN_AIR_ATTACH,
+                OmnitureTracking.PageEvent.LAUNCHSCREEN_MEMBER_DEALS_CARD,
+                OmnitureTracking.PageEvent.LAUNCHSCREEN_HOTELS_NEARBY,
+                OmnitureTracking.PageEvent.LAUNCHSCREEN_SIGN_IN_CARD,
+                OmnitureTracking.PageEvent.LAUNCHSCREEN_GLOBAL_NAV,
+                OmnitureTracking.PageEvent.LAUNCHSCREEN_LMD,
+                OmnitureTracking.PageEvent.LAUNCHSCREEN_MESO_HOTEL_A2A_B2P,
+                OmnitureTracking.PageEvent.LAUNCHSCREEN_MESO_DESTINATION,
+                OmnitureTracking.PageEvent.LAUNCHSCREEN_JOIN_REWARDS
+        )
+        OmnitureTracking.trackPageLoadLaunchScreen(testEvents)
+        assertStateTracked("App.LaunchScreen", withEventsString("event321,event322,event323,event324,event326,event327,event328,event329,event336,event337,event366"), mockAnalyticsProvider)
+    }
+
+    @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTrackConfirmationViewItinClick() {
         OmnitureTracking.trackConfirmationViewItinClick()

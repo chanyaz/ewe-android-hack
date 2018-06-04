@@ -4,6 +4,7 @@ import android.content.Context
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.abacus.AbacusVariant
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.data.trips.TripUtils
@@ -85,6 +86,10 @@ open class LaunchListLogic {
             return true
         }
         return false
+    }
+
+    fun showJoinRewardsCard(): Boolean {
+        return PointOfSale.getPointOfSale().shouldShowJoinRewardsCard()
     }
 
     private fun userBucketedForAirAttach(): Boolean {
