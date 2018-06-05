@@ -11,6 +11,7 @@ import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.features.Features
 import com.expedia.util.getGuestRatingText
 import com.expedia.bookings.hotel.vm.HotelViewModel
+import com.expedia.bookings.utils.NumberUtils.localeBasedFormattedNumber
 import kotlin.properties.Delegates
 
 abstract class AbstractHotelResultCellViewHolder(val root: ViewGroup) : AbstractHotelCellViewHolder(root) {
@@ -81,7 +82,7 @@ abstract class AbstractHotelResultCellViewHolder(val root: ViewGroup) : Abstract
     private fun updateHotelGuestRating() {
         if (viewModel.isHotelGuestRatingAvailable) {
             val rating = viewModel.hotelGuestRating
-            guestRating.text = rating.toString()
+            guestRating.text = localeBasedFormattedNumber(rating)
             guestRatingRecommendedText.text = getGuestRatingText(rating, itemView.resources)
         }
 

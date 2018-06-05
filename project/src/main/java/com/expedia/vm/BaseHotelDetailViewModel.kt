@@ -24,6 +24,7 @@ import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.HotelsV2DataUtil
+import com.expedia.bookings.utils.NumberUtils.localeBasedFormattedNumber
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.LoyaltyUtil
@@ -511,7 +512,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) {
     }
 
     private fun updateGuestRating(offerResponse: HotelOffersResponse) {
-        userRatingObservable.onNext(offerResponse.hotelGuestRating.toString())
+        userRatingObservable.onNext(localeBasedFormattedNumber(offerResponse.hotelGuestRating))
         userRatingRecommendationTextObservable.onNext(getGuestRatingText(offerResponse.hotelGuestRating.toFloat(), context.resources))
         isUserRatingAvailableObservable.onNext(offerResponse.hotelGuestRating > 0)
     }
