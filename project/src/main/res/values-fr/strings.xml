@@ -743,6 +743,10 @@
     <string name="package_prices_roundtrip_person_minimum_fsr_label">Prix par personne pour l\&apos;hôtel et le vol aller-retour depuis…</string>
     <!-- Label for hotel result, indicating that the hotel is currently sold out on the given dates -->
     <string name="trip_bucket_sold_out">Complet</string>
+    <!-- Label indicating that package the price is Per person and includes hotel + flights -->
+    <string name="pacakge_price_per_person_includes_hotel_and_flight_message">Par Personne (hôtel + vols)</string>
+    <!-- Label indicating that the price includes taxes and fees -->
+    <string name="includes_taxes_and_fees_lower_case">taxes et frais inclus</string>
 
     <!-- LX Sort & Filter "Sort By" section header -->
     <string name="lx_sort_by">Trier par</string>
@@ -1009,10 +1013,6 @@
     <string name="hotel_review_title_notification_TEMPLATE">Évaluez votre récent séjour dans l\&apos;établissement {hotelname}</string>
     <!-- Notification body for hotel reviews e.g. Bob, How would you rate your stay at Caesars Palace? Help a community of travelers like you by sharing your experience. -->
     <string name="hotel_review_body_notification_TEMPLATE">{firstname}, comment évalueriez-vous votre séjour dans l\&apos;établissement {hotelname} ? Aidez une communauté de voyageurs, comme vous, en partageant votre expérience.</string>
-    <!--Notification title for Hotel Activities Cross Sell e.g. ("Things to do in Las Vegas")-->
-    <string name="hotel_book_activities_cross_sell_notification_title_TEMPLATE">À voir, à faire à {destination}</string>
-    <!--Notification body for Hotel Activities Cross Sell e.g. Activities in Las Vegas sell out fast! Explore things to do and book your tickets in advance.-->
-    <string name="hotel_book_activities_cross_sell_notification_body_TEMPLATE">Les activités à {destination} affichent bientôt complet ! Découvrez les choses à voir et à faire et réservez vos billets.</string>
     <!--Notification body for Hotel Activities in Trip e.g. Hey Kevin, explore top attractions and activities near your hotel.-->
     <string name="hotel_book_activities_in_trip_notification_body_TEMPLATE">Bonjour {firstname}, explorez les meilleures attractions et activités vers votre hôtel.</string>
     <!--Notification body for Flight delayed notification e.g. "Your flight to SFO is delayed with a new departure at 12:30pm." -->
@@ -1096,6 +1096,16 @@
         <item quantity="many">{days} jours</item>
         <item quantity="other">{days} jours</item>
     </plurals>
+    <!-- "XX minutes ago" an event occured XX minutes back -->
+    <plurals name="minutes_ago">
+        <item quantity="one">Il y a {minutes} minute</item>
+        <item quantity="other">Il y a {minutes} minutes</item>
+    </plurals>
+    <!-- "in XX minutes" an event in XX minutes -->
+    <plurals name="in_minutes">
+        <item quantity="one">Dans {minutes} minute</item>
+        <item quantity="other">Dans {minutes} minutes</item>
+    </plurals>
     <!-- Shared Itin - Fallback name for itin card -->
     <string name="sharedItin_card_fallback_name">Voyage partagé</string>
     <!-- Shared Itin - Fallback name for Flight itin card -->
@@ -1116,6 +1126,8 @@
     <string name="Cruise">Croisière</string>
     <!-- Default (fallback) itin card title for ACTIVITY -->
     <string name="Activity">Activité</string>
+    <!-- Itin LOB label for Rail -->
+    <string name="Rail">Train</string>
     <!-- Activity information -->
     <string name="activity_information">Infos activité</string>
     <!-- Depart (TZ) template -->
@@ -1431,6 +1443,14 @@
     <string name="itin_hotel_details_price_summary_pay_now_TEMPLATE">Montant total payé : {amount}</string>
     <!--Hotel itin card price summary total pay later template. {amount} total due at hotel (eg. $750 total due at hotel)-->
     <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">Montant total à régler à l\&apos;hôtel : {amount}</string>
+    <!--Hotel itin price summary subtotal label-->
+    <string name="itin_hotel_details_price_summary_subtotal_label">Sous-total</string>
+    <!--Hotel itin price summary products description template - two products. {firstproduct} and {secondproduct} bundle (eg. Hotel and Flight bundle)-->
+    <string name="itin_hotel_details_price_summary_product_description_two">{firstproduct} et {secondproduct}</string>
+    <!--Hotel itin price summary products description template - many products. {products} and {lastproduct} bundle (eg. Hotel, Car and Flight bundle)-->
+    <string name="itin_hotel_details_price_summary_product_description_many">{products} et {lastproduct}</string>
+    <!--Hotel itin price summary products description template - one product. {product} bundle (eg. Hotel bundle)-->
+    <string name="itin_hotel_details_price_summary_product_description_one">{product}</string>
     <!--Hotel itin card price summary additional pricing information button-->
     <string name="itin_hotel_details_price_summary_additional_info_button_text">Informations tarifaires supplémentaires</string>
     <!--Hotel itin card price summary additional pricing information additional hotel fees heading-->
@@ -1464,13 +1484,7 @@
     <!--Hotel itin manage booking room details header-->
     <string name="itin_hotel_manage_booking_header">Gérer la réservation</string>
     <!--Hotel itin manage booking hotel help heading-->
-    <string name="itin_hotel_manage_booking_hotel_help_heading">Nous sommes là pour vous aider</string>
-    <!--Hotel itin manage booking hotel help text. For special requests or questions about your reservation, contact {hotelname} (eg., For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver)-->
-    <string name="itin_hotel_manage_booking_hotel_help_text_TEMPLATE">Si vous avez des demandes spéciales ou des questions sur votre réservation, contactez {hotelname}</string>
-    <!--Hotel itin manage booking hotel help confirmation number. Confirmation # {number} (eg., Confirmation # 87654321)-->
-    <string name="itin_hotel_manage_booking_hotel_help_confirmation_number_TEMPLATE">Numéro de confirmation : {number}</string>
-    <!--Hotel itin customer support header text. (eg., If you need help managing this itinerary, contact Expedia)-->
-    <string name="itin_hotel_customer_support_header_text_TEMPLATE">Si vous avez besoin d\&apos;aide pour gérer ce voyage, veuillez contacter {brand}</string>
+    <string name="itin_more_help_heading">Nous sommes là pour vous aider</string>
     <!--Hotel itin number. Itinerary # {itinnumber} (eg., Itinerary # 7282906974428)-->
     <string name="itin_hotel_itinerary_number_TEMPLATE">N° de voyage : {itinnumber}</string>
     <!--Hotel customer support website. {brand} customer support. (eg., Expedia customer support)-->
@@ -1483,8 +1497,6 @@
     <string name="itin_hotel_manage_booking_call_hotel_button_content_description_TEMPLATE">Appeler l\&apos;hôtel au {phonenumber}. Bouton</string>
     <!--Hotel itin manage booking call support button content description. Call {brand} at {phonenumber}. Button (eg., Call Expedia at +18055437700. Button)-->
     <string name="itin_hotel_manage_booking_call_support_button_content_description_TEMPLATE">Appeler {brand} au {phonenumber}. Bouton</string>
-    <!--Hotel itin manage booking confirmation number content description. Confirmation number {number}. Click to copy (eg., Confirmation number 88888888. Click to copy)-->
-    <string name="itin_hotel_manage_booking_confirmation_number_content_description_TEMPLATE">Numéro de confirmation : {number}. Cliquez pour le copier.</string>
     <!--Hotel itin manage booking itinerary number content description. Itinerary number {number}. Click to copy (eg., Itinerary number 88888888. Click to copy)-->
     <string name="itin_hotel_manage_booking_itinerary_number_content_description_TEMPLATE">Numéro de voyage : {number}. Cliquez pour le copier.</string>
     <!--Hotel itin room details requests header-->
@@ -1549,9 +1561,21 @@
     <string name="itin_activity_manage_booking_call_lx_button_content_description_TEMPLATE">Appelez le prestataire de l\&apos;activité au {phonenumber}. Bouton</string>
     <!--LX itin redeem voucher.-->
     <string name="itin_lx_redeem_voucher">Utiliser le bon</string>
+    <!--LX itin manage booking call vendor button content description. Call vendor at +18055437700. Button. Double click and hold to select. (eg., Call vendor at +18055437700. Button. Double click and hold to select.)-->
+    <string name="itin_lx_call_vendor_button_content_description_TEMPLATE">Appelez le prestataire au {phonenumber}. Bouton. Cliquez pour appeler. Double-cliquez et maintenez pour sélectionner.</string>
+    <string name="itin_active">À partir du</string>
+    <string name="itin_expires">Expire le</string>
 
     <!-- Itin share dialog title -->
     <string name="itin_share_dialog_title">Partager votre voyage</string>
+    <!--Itin more help confirmation number text -->
+    <string name="itin_more_help_confirmation_text">N° de confirmation</string>
+    <!--Itin more help booking confirmation number content description. Confirmation number {number}. Double click and hold to select. (eg., Confirmation number 88888888. Double click and hold to select.)-->
+    <string name="itin_more_help_confirmation_number_content_description_TEMPLATE">Numéro de confirmation : {number}. Double-cliquez et maintenez pour sélectionner.</string>
+    <!--Itin more help message text. For special requests or questions about your reservation, contact {supplier} (eg., For special requests or questions about your reservation, contact Four Seasons Hotel Vancouver)-->
+    <string name="itin_more_help_text_TEMPLATE">Si vous avez des demandes spéciales ou des questions sur votre réservation, contactez {supplier}</string>
+    <!--Itin customer support header. (e.g. Contact Expedia if you need help managing this itinerary.)-->
+    <string name="itin_customer_support_header_text_TEMPLATE">Si vous avez besoin d\&apos;aide pour gérer ce voyage, contactez {brand}.</string>
 
     <!--Flight itin details redesign-->
     <!--Flight itin toolbar title template. Flight to {destination} (e.g., Flight to Vancouver)-->
@@ -1614,8 +1638,6 @@
     <string name="itin_traveler_ticket_number_TEMPLATE">Nº de billet : {number}</string>
     <!--Flight itein traveler infant in seat text -->
     <string name="itin_traveler_infant_in_seat_text">(Jeune enfant sur les genoux)</string>
-    <!--Flight itin customer support header. (e.g. Contact Expedia if you need help managing this itinerary.)-->
-    <string name="itin_flight_customer_support_header_text_TEMPLATE">Si vous avez besoin d\&apos;aide pour gérer ce voyage, contactez {brand}.</string>
     <!--Flight itin segment summary flight status indicator text - cancelled-->
     <string name="itin_flight_summary_status_indicator_text_cancelled">Annulé</string>
     <!--Flight itin segment summary flight status indicator text - on time-->
@@ -2115,6 +2137,8 @@
     <string name="payment_and_ticket_delivery_fees_may_also_apply">Des frais de paiement et de livraison des billets peuvent s\&apos;appliquer.</string>
     <!-- Includes flights+hotels -->
     <string name="includes_flights_hotel">Vols et hôtels inclus</string>
+    <!-- Label shown on Package hotel infosite maps to indicate prices are per person and includes hotel + flights -->
+    <string name="package_price_includes_message_maps">Les prix sont compris par personne (hôtel + vols)</string>
     <!-- Number of travelers template -->
     <plurals name="number_of_travelers_TEMPLATE">
         <item quantity="zero">%1$d voyageur</item>
@@ -2128,6 +2152,10 @@
     <string name="price_changed_from_TEMPLATE">Le prix a changé et n\&apos;est plus de %1$s</string>
     <!-- Price dropped from -->
     <string name="price_dropped_from_TEMPLATE">Le prix a baissé de %1$s</string>
+    <!-- Roundtrip flights -->
+    <string name="roundtrip_flights">Vols aller-retour</string>
+    <!-- Savings for booking together -->
+    <string name="savings_for_booking_together">Économies pour la réservation combinée</string>
 
     <!-- Checkout Activity -->
     <!-- Your card will be charged -->
@@ -2196,6 +2224,8 @@
     <!-- Cost breakdown dialog -->
     <!-- Cost Summary -->
     <string name="cost_summary">Récapitulatif du prix</string>
+    <!-- Price Summary -->
+    <string name="price_summary">Récapitulatif du prix</string>
     <!-- Expedia booking fee -->
     <string name="brand_booking_fee">Frais de réservation {brand}</string>
     <!-- Booking Fee -->
@@ -2958,6 +2988,9 @@
         <item quantity="many">Afficher %s avis</item>
         <item quantity="other">Afficher %s avis</item>
     </plurals>
+
+    <!-- Hint in search bar for user reviews -->
+    <string name="user_review_search_hint">Rechercher des avis</string>
 
     <!--
          User review name and place review signature eg (John from San Diego, CA)
@@ -3791,7 +3824,7 @@
     <!-- Account creation legal template for reward points eg: Join Expedia Rewards today. By joining Expedia Rewards, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">Inscrivez-vous à {brand_reward_name} aujourd\&apos;hui. En rejoignant {brand_reward_name}, j\&apos;accepte l\&apos;ensemble des &lt;a href="{terms_and_conditions_url}"&gt;conditions générales&lt;/a&gt;.</string>
     <!--Account creation legal template for terms and reward eg: By creating an account, I accept the Expedia Rewards Terms & Conditions, and have read and accept the Terms of Use and the Privacy Policy.-->
-    <string name="account_creation_reward_combined_text_TEMPLATE">En créant un compte, j\&apos;accepte les &lt;a href="{terms_and_conditions_url}"&gt;conditions générales&lt;/a&gt; de {brand_reward_name} et reconnais avoir lu et accepte les &lt;a href="{terms_of_use_url}"&gt;conditions générales d\&apos;utilisation&lt;/a&gt; et la &lt;a href="{privacy_policy_url}"&gt;charte de confidentialité&lt;/a&gt;.</string>
+    <string name="account_creation_new_terms_reward_TEMPLATE">En créant un compte, j\&apos;accepte les &lt;a href="{terms_and_conditions_url}"&gt;conditions générales&lt;/a&gt; de {brand_reward_name} et reconnais avoir lu et accepte les &lt;a href="{terms_of_use_url}"&gt;conditions générales d\&apos;utilisation&lt;/a&gt; et la &lt;a href="{privacy_policy_url}"&gt;charte de confidentialité&lt;/a&gt;.</string>
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Sélectionnez l\&apos;âge de tous les enfants</string>
 
@@ -3943,8 +3976,6 @@
     <string name="search_bundle_total_text_new">Consulter votre voyage</string>
     <!-- Bundle Overview Step 1, select a hotel -->
     <string name="step_one">Étape 1 : sélectionnez l\&apos;hôtel</string>
-    <!-- Bundle Overview Step 2, select a flight -->
-    <string name="step_two">Étape 2 : sélectionnez les vols</string>
     <!-- Bundle Overview Step 2, Select outbound flight (breadcrumbs) -->
     <string name="step_two_variation">Étape 2 : sélectionnez le vol aller</string>
     <!-- Bundle Overview Step 3, Select inbound flight (breadcrumbs) -->
@@ -4171,8 +4202,6 @@
     <string name="package_change_hotel_room">Modifier la chambre d\&apos;hôtel</string>
     <!-- Package Change flight description -->
     <string name="package_change_flight">Modifier les vols</string>
-    <!-- Package Start Over -->
-    <string name="package_start_over">Recommencer</string>
 
     <!-- Pay with points widget -->
     <string name="paying_with_rewards">Paiement avec des points Expedia Rewards</string>
@@ -4757,6 +4786,9 @@
     <!-- Ex. Select Dates. Button. Opens dialog. Dec 22 to Dec 25 (3 nights) -->
     <!-- Ex 2. Select pick-up and drop-off dates. Button. Opens dialog. Jan 1 5:00 to Jan 5 18:00 -->
     <string name="search_dates_cont_desc_TEMPLATE">Bouton {dates_label}. Ouvre la boîte de dialogue. {duration_description}</string>
+
+    <!-- Discount amount shown with minus e.g. -$30 -->
+    <string name="discount_minus_amount">-{amount}</string>
     <!-- Package cost summary row snippet  e.g. 2 rooms-->
     <plurals name="number_of_room_TEMPLATE">
         <item quantity="one">{room} chambre</item>
@@ -5069,4 +5101,14 @@
     <string name="path_template">De %1$s à %2$s</string>
     <string name="book_now_savings_for_booking_together">Réserver maintenant ! Économies pour la réservation combinée</string>
 
+    <string name="flight_route_happy_guide_button_label">OK</string>
+    <string name="flight_route_happy_guide_wifi_label">Wi-Fi</string>
+    <string name="flight_route_happy_guide_entertainment_label">Loisirs</string>
+    <string name="flight_route_happy_guide_power_label">Prise électrique</string>
+    <string name="flight_route_happy_guide_rating_label">9 /10 - Excellent !</string>
+    <string name="flight_route_happy_guide_title_v1">Services sur le vol</string>
+    <string name="flight_route_happy_guide_title_v2">Note du vol</string>
+    <string name="flight_route_happy_guide_title_v3">Équipements du vol et note</string>
+    <string name="flight_route_happy_guide_info">Désormais, vous pouvez voir si votre vol propose le Wi-Fi, des divertissements et des points de recharge.</string>
+    <string name="flight_route_happy_guide_more_info">La note du vol vous permet de choisir le meilleur vol, en prenant en compte la durée du vol, le type d\&apos;avion et la qualité des équipements et services proposés.</string>
 </resources>
