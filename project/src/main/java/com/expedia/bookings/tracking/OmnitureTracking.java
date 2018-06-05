@@ -4489,7 +4489,7 @@ public class OmnitureTracking {
 	private static final String PACKAGES_CHECKOUT_INFO = "App.Package.Checkout.Info";
 	private static final String PACKAGES_DESTINATION_SEARCH = "App.Package.Dest-Search";
 	private static final String PACKAGES_SEARCH_TRAVELER_PICKER_CLICK_TEMPLATE = "App.Package.Traveler.";
-	private static final String PACKAGES_SEATING_CLASS_SELECT = "App.Packages.DS.SeatingClass";
+	private static final String PACKAGES_SEATING_CLASS_SELECT = "App.Package.DS.SeatingClass";
 	private static final String PACKAGES_HOTEL_SEARCH_RESULT_LOAD = "App.Package.Hotels.Search";
 	private static final String PACKAGES_HOTEL_SEARCH_ZERO_RESULT_LOAD = "App.Package.Hotels-Search.NoResults";
 	private static final String PACKAGES_HOTEL_SEARCH_SPONSORED_PRESENT = "App.Package.Hotels.Search.Sponsored.YES";
