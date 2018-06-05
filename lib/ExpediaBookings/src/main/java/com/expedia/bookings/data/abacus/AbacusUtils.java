@@ -59,7 +59,6 @@ public class AbacusUtils {
 	public static final ABTest EBAndroidAppFlightAdvanceSearch = new ABTest(15185);
 	public static final ABTest EBAndroidAppFlightSubpubChange = new ABTest(15211);
 	public static final ABTest EBAndroidAppFlightSearchSuggestionLabel = new ABTest(16366);
-	public static final ABTest EBAndroidAppFlightSuggestionOnOneCharacter = new ABTest(15349);
 	public static final ABTest EBAndroidAppFlightRateDetailsFromCache = new ABTest(14769, true);
 	public static final ABTest EBAndroidAppFlightsKrazyglue = new ABTest(15790, true);
 	public static final ABTest EBAndroidAppConfirmationToolbarXHidden = new ABTest(25171, true);
@@ -186,7 +185,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightSearchSuggestionLabel.getKey());
 		testIDs.add(EBAndroidAppPackagesEnablePOS.getKey());
 		testIDs.add(EBAndroidAppCarsAATest.getKey());
-		testIDs.add(EBAndroidAppFlightSuggestionOnOneCharacter.getKey());
 		testIDs.add(EBAndroidAppFlightRateDetailsFromCache.getKey());
 		testIDs.add(EBAndroidAppSoftPromptLocation.getKey());
 		testIDs.add(EBAndroidAppLXOfferLevelCancellationPolicySupport.getKey());
