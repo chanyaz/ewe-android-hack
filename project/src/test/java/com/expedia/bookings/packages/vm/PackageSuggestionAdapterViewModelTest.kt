@@ -55,7 +55,7 @@ class PackageSuggestionAdapterViewModelTest {
     class MockSuggestionV4Services(val suggestNearbyGaiaCallback: ((request: GaiaSuggestionRequest) -> Unit)? = null,
                                    val suggestPackagesV4Callback: ((query: String, isDest: Boolean, observer: Observer<List<SuggestionV4>>, guid: String?) -> Unit)? = null) : ISuggestionV4Services {
 
-        override fun getLxSuggestionsV4(query: String, observer: Observer<List<SuggestionV4>>, disablePOI: Boolean): Disposable {
+        override fun getLxSuggestionsV4(query: String, observer: Observer<List<SuggestionV4>>, disablePOI: Boolean, isEssRegionTypeCallEnabled: Boolean): Disposable {
             TODO("not implemented: getLxSuggestionsV4")
         }
 

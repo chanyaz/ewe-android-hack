@@ -30,4 +30,5 @@ class Features {
     val tripsGlassbox: Feature by RemoteFeatureDelegate()
     val lxActivityResultsHeader: Feature by RemoteFeatureDelegate()
     val hotMipRedesign: Feature by RemoteFeatureDelegate()
+    val lxEssRegionTypeCall: Feature by RemoteFeatureDelegate()
 }
