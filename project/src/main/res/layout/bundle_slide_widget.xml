@@ -21,8 +21,6 @@
             android:accessibilityTraversalAfter="@+id/filter_placeholder_icon"
             android:background="@color/white"
             android:clickable="true"
-            android:paddingLeft="17dp"
-            android:paddingRight="19dp"
             tools:targetApi="22" />
     </LinearLayout>
 
@@ -76,9 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/footer_button_height"
                 android:background="@color/white"
-                android:clickable="true"
-                android:paddingLeft="17dp"
-                android:paddingRight="19dp" />
+                android:clickable="true" />
         </LinearLayout>
     </FrameLayout>
 
