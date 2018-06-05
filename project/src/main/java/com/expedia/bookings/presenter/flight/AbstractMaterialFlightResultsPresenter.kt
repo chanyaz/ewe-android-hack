@@ -5,8 +5,6 @@ import android.util.AttributeSet
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.vm.AbstractFlightOverviewViewModel
@@ -45,12 +43,6 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
         }
         resultsPresenter.setAdapter(flightListAdapter)
         toolbarViewModel.isOutboundSearch.onNext(isOutboundResultsPresenter())
-        if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppSimplifyFlightShopping)) {
-            resultsPresenter.flightSelectedSubject.subscribe {
-                detailsPresenter.vm.selectedFlightLegSubject.onNext(it)
-                detailsPresenter.vm.selectFlightClickObserver.onNext(Unit)
-            }
-        }
     }
 
     fun displayPaymentFeeHeaderInfo(mayChargePaymentFees: Boolean) {
