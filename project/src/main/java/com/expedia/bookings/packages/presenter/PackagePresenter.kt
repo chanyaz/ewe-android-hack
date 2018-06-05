@@ -299,7 +299,6 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         if (isCrossSellPackageOnFSREnabled) {
             addDefaultTransition(defaultOverviewTransition)
             performHotelSearch()
-
         } else {
             addDefaultTransition(defaultSearchTransition)
             show(searchPresenter)

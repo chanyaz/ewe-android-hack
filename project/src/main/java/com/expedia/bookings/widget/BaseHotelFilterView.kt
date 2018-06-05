@@ -17,7 +17,6 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.extensions.subscribeOnClick
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.hotel.widget.BaseNeighborhoodFilterView
 import com.expedia.bookings.hotel.widget.ClientNeighborhoodFilterView
@@ -145,11 +144,6 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
         viewModel.trackClearFilter()
     }
 
-    protected val doneButtonClickListener = View.OnClickListener {
-        viewModel.doneObservable.onNext(Unit)
-        viewModel.trackHotelFilterApplied()
-    }
-
     protected open fun bindViewModel(vm: BaseHotelFilterViewModel) {
         vm.clearHotelNameFocusObservable.subscribe({
             clearHotelNameFocus()
@@ -208,6 +202,11 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
 
         vm.newPriceRangeObservable.subscribe(priceRangeView.newPriceRangeObservable)
         priceRangeView.setOnHotelPriceFilterChanged(vm.onHotelPriceFilterChangedListener)
+    }
+
+    private val doneButtonClickListener = View.OnClickListener {
+        viewModel.doneObservable.onNext(Unit)
+        viewModel.trackHotelFilterApplied()
     }
 
     private fun bindStarRating(vm: BaseHotelFilterViewModel) {

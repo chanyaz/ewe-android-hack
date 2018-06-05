@@ -45,7 +45,6 @@ import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.HotelResultsChangeDateView
 import com.expedia.bookings.widget.HotelServerFilterView
-import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
@@ -91,10 +90,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     init {
         Ui.getApplication(context).hotelComponent().inject(this)
-
-        filterViewModel.filterChoicesObservable.subscribe { filterChoices ->
-            viewModel.filterChoicesSubject.onNext(filterChoices)
-        }
 
         floatingPill.filterButton.setOnClickListener {
             show(ResultsFilter())

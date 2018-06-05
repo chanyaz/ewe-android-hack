@@ -3,7 +3,6 @@ package com.expedia.bookings.data.hotels
 import com.expedia.bookings.data.BaseHotelFilterOptions
 import com.expedia.bookings.data.BaseSearchParams
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.packages.PackageSearchParams
 import org.joda.time.LocalDate
 
 open class HotelSearchParams(val suggestion: SuggestionV4,
@@ -226,21 +225,4 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
             return sb.toString()
         }
     }
-}
-
-fun convertPackageToSearchParams(packageParams: PackageSearchParams, maxStay: Int, maxRange: Int): HotelSearchParams {
-    val builder = HotelSearchParams.Builder(maxStay, maxRange).destination(packageParams.destination)
-            .startDate(packageParams.startDate).endDate(packageParams.endDate).adults(packageParams.adults)
-            .children(packageParams.children) as HotelSearchParams.Builder
-    return addPackageFilterParams(builder, packageParams.filterOptions).forPackage(true).build()
-}
-
-private fun addPackageFilterParams(builder: HotelSearchParams.Builder, filterOptions: BaseHotelFilterOptions?): HotelSearchParams.Builder {
-    filterOptions?.takeUnless { it.isEmpty() }?.let {
-        it.filterHotelName?.let { builder.hotelName(it) }
-        it.userSort?.let { builder.userSort(it) }
-        builder.vipOnly(it.filterVipOnly)
-        builder.starRatings(it.filterStarRatings)
-    }
-    return builder
 }

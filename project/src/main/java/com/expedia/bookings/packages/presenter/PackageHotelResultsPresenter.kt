@@ -91,14 +91,19 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
                 filterViewModel.updatePresetOptions(filterOptions)
             }
             if (isNotFilterSearch(params)) {
-                filterViewModel.clearObservable.onNext(Unit)
+                resetUserFilters()
                 filterView.sortByObserver.onNext(params.suggestion.isCurrentLocationSearch && !params.suggestion.isGoogleSuggestionSearch)
             }
         }
+        vm.filterSearchErrorResponseHandler.subscribe { resetUserFilters() }
+    }
+
+    fun resetUserFilters() {
+        filterViewModel.clearObservable.onNext(Unit)
     }
 
     private fun isNotFilterSearch(params: HotelSearchParams): Boolean {
-        return params.filterOptions!!.isEmpty()
+        return params.filterOptions?.isEmpty() == true
     }
 
     private fun resultsLoadingAnimation() {

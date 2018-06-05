@@ -10,7 +10,6 @@ import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.packages.util.PackageServicesManager
 import com.expedia.bookings.services.PackageProductSearchType
-import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.joda.time.LocalDate
 import org.junit.Test
@@ -19,8 +18,6 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MockPackageServiceTestRule
-import com.expedia.bookings.test.robolectric.PackageTestUtil
-import com.expedia.bookings.testrule.ServicesRule
 import org.junit.Before
 import org.junit.Rule
 import java.util.concurrent.TimeUnit
@@ -93,7 +90,6 @@ class PackageHotelResultsViewModelTest {
         filterChoices.name = "Test_Hotel"
         return filterChoices
     }
-
 
     private fun getDummySuggestion(): SuggestionV4 {
         val suggestion = SuggestionV4()

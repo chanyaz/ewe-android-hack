@@ -1,11 +1,9 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
-import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
-import android.view.accessibility.AccessibilityEvent
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotel.UserFilterChoices
@@ -14,10 +12,7 @@ import com.expedia.bookings.hotel.data.Amenity
 import com.expedia.bookings.hotel.widget.BaseNeighborhoodFilterView
 import com.expedia.bookings.hotel.widget.HotelAmenityGridItem
 import com.expedia.bookings.hotel.widget.ServerNeighborhoodFilterView
-import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.hotel.vm.BaseHotelFilterViewModel
-import com.expedia.bookings.hotel.vm.HotelFilterViewModel
 import com.expedia.bookings.hotel.widget.BaseHotelServerFilterView
 
 class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelServerFilterView(context, attrs) {
@@ -62,21 +57,30 @@ class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelS
                 }
             }
         }
-
-        vm.presetFilterOptionsUpdatedSubject.subscribe { newFilterOptions ->
-            amenityViews.forEach { amenityView ->
-                if (amenityView.isAmenityEnabled() && newFilterOptions.amenities.contains(Amenity.getSearchKey(amenityView.amenity))) {
-                    amenityView.select()
-                }
-            }
-            if (newFilterOptions.neighborhoods.isNotEmpty()) {
-                (neighborhoodView as ServerNeighborhoodFilterView).selectNeighborhood(newFilterOptions.neighborhoods.first())
-            }
-        }
     }
 
     override fun inflateNeighborhoodView(stub: ViewStub): BaseNeighborhoodFilterView {
         stub.layoutResource = R.layout.server_neighborhood_filter_stub
         return stub.inflate() as ServerNeighborhoodFilterView
+    }
+
+    override fun updatePresetFilterChoices(filterOptions: UserFilterChoices) {
+        super.updatePresetFilterChoices(filterOptions)
+        updateAmenitiesView(filterOptions)
+        updateNeighborhoodsView(filterOptions)
+    }
+
+    private fun updateAmenitiesView(filterOptions: UserFilterChoices) {
+        amenityViews.forEach { amenityView ->
+            if (amenityView.isAmenityEnabled() && filterOptions.amenities.contains(Amenity.getSearchKey(amenityView.amenity))) {
+                amenityView.select()
+            }
+        }
+    }
+
+    private fun updateNeighborhoodsView(filterOptions: UserFilterChoices) {
+        if (filterOptions.neighborhoods.isNotEmpty()) {
+            (neighborhoodView as ServerNeighborhoodFilterView).selectNeighborhood(filterOptions.neighborhoods.first())
+        }
     }
 }

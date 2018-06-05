@@ -1,13 +1,9 @@
 package com.expedia.bookings.hotel.vm
 
 import android.content.Context
-import com.expedia.bookings.data.BaseHotelFilterOptions
 import com.expedia.bookings.data.hotel.DisplaySort
-import com.expedia.bookings.data.hotel.UserFilterChoices
-import com.expedia.bookings.data.hotels.HotelFilterOptions
 import com.expedia.bookings.tracking.hotel.FilterTracker
 import com.expedia.bookings.tracking.hotel.HotelFilterTracker
-import io.reactivex.subjects.PublishSubject
 
 class HotelFilterViewModel(context: Context) : BaseHotelFilterViewModel(context) {
 

@@ -1,6 +1,7 @@
 package com.expedia.bookings.hotel.widget
 
 import android.content.Context
+import android.support.annotation.CallSuper
 import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.View
@@ -47,7 +48,8 @@ open class BaseHotelServerFilterView(context: Context, attrs: AttributeSet?) : B
         }
     }
 
-    private fun updatePresetFilterChoices(filterOptions: UserFilterChoices) {
+    @CallSuper
+    protected open fun updatePresetFilterChoices(filterOptions: UserFilterChoices) {
         hotelNameFilterView.updateName(filterOptions.name)
         hotelSortOptionsView.setSort(filterOptions.userSort)
         filterVipView.update(filterOptions.isVipOnlyAccess)

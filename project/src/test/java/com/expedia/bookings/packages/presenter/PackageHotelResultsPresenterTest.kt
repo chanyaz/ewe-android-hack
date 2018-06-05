@@ -80,11 +80,9 @@ class PackageHotelResultsPresenterTest {
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppPackagesServerSideFiltering)
         packageHotelResultsPresenter = LayoutInflater.from(activity).inflate(R.layout.test_package_hotel_results_presenter,
                 null) as PackageHotelResultsPresenter
-
         assertTrue(packageHotelResultsPresenter.filterView is HotelClientFilterView)
         packageHotelResultsPresenter.filterView.doneButton.performClick()
         val expectedEvars = mapOf(28 to "App.Package.Hotels.Search.Filter.Apply")
-
         OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(expectedEvars), mockAnalyticsProvider)
     }
 }

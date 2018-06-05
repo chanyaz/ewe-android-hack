@@ -9,7 +9,6 @@ import com.expedia.bookings.data.hotels.HotelFilterOptions
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.Neighborhood
-import com.expedia.bookings.data.packages.PackagesPageUsableData
 import com.expedia.bookings.hotel.data.Amenity
 import com.expedia.bookings.hotel.widget.OnHotelAmenityFilterChangedListener
 import com.expedia.bookings.hotel.widget.OnHotelNameFilterChangedListener
@@ -56,7 +55,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     var presetFilterOptions = false
     var previousFilterChoices: UserFilterChoices? = null
 
-    private val filterTracker: FilterTracker = createFilterTracker()
+    protected val filterTracker: FilterTracker = createFilterTracker()
     private var searchedLocationId: String? = null
 
     private var shouldTrackFilterPriceSlider = true
@@ -310,6 +309,19 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         shouldTrackFilterPriceSlider = true
     }
 
+    fun updatePresetOptions(filterOptions: BaseHotelFilterOptions) {
+        presetFilterOptions = false
+        if (filterOptions.isNotEmpty() && filterOptions is HotelFilterOptions) {
+            val filterChoices = UserFilterChoices.fromHotelFilterOptions(filterOptions)
+            previousFilterChoices = filterChoices
+            presetFilterOptions = true
+            presetFilterOptionsUpdatedSubject.onNext(filterChoices)
+        }
+    }
+
+    open fun trackHotelFilterApplied() {
+    }
+
     protected open fun handleFiltering() {
         //nothing by default
     }
@@ -374,13 +386,6 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         filterTracker.trackHotelFilterAmenity(amenity.toString())
     }
 
-    fun trackHotelFilterApplied() {
-        filterTracker.trackHotelFilterApplied()
-        if (!isClientSideFiltering()) {
-            PackagesPageUsableData.HOTEL_FILTERED_RESULTS.pageUsableData.markPageLoadStarted()
-        }
-    }
-
     private fun updateFilterCount() {
         filterCountObservable.onNext(userFilterChoices.filterCount())
     }
@@ -396,15 +401,5 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         userFilterChoices.maxPrice = 0
         userFilterChoices.amenities = HashSet()
         userFilterChoices.neighborhoods = HashSet()
-    }
-
-    fun updatePresetOptions(filterOptions: BaseHotelFilterOptions) {
-        presetFilterOptions = false
-        if (filterOptions.isNotEmpty() && filterOptions is HotelFilterOptions) {
-            val filterChoices = UserFilterChoices.fromHotelFilterOptions(filterOptions)
-            previousFilterChoices = filterChoices
-            presetFilterOptions = true
-            presetFilterOptionsUpdatedSubject.onNext(filterChoices)
-        }
     }
 }

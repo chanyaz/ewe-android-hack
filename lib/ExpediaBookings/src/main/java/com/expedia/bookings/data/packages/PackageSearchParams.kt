@@ -4,6 +4,7 @@ import com.expedia.bookings.data.AbstractFlightSearchParams
 import com.expedia.bookings.data.BaseHotelFilterOptions
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.utils.Constants
 import org.joda.time.Days
 import org.joda.time.LocalDate
@@ -150,7 +151,7 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
     }
 
     fun isHotelFilterSearch(): Boolean {
-        return (filterOptions != null && filterOptions!!.isNotEmpty())
+        return filterOptions?.isNotEmpty() == true
     }
 
     fun toQueryMap(): Map<String, Any?> {
@@ -211,5 +212,22 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
             }
         }
         return children.size - numberOfUnseatedTravelers
+    }
+
+    fun convertToHotelSearchParams(maxStay: Int, maxRange: Int): HotelSearchParams {
+        val builder = HotelSearchParams.Builder(maxStay, maxRange).destination(this.destination)
+                .startDate(this.startDate).endDate(this.endDate).adults(this.adults)
+                .children(this.children) as HotelSearchParams.Builder
+        return addPackageFilterParams(builder, this.filterOptions).forPackage(true).build()
+    }
+
+    private fun addPackageFilterParams(builder: HotelSearchParams.Builder, filterOptions: BaseHotelFilterOptions?): HotelSearchParams.Builder {
+        filterOptions?.takeUnless { it.isEmpty() }?.let {
+            it.filterHotelName?.let { builder.hotelName(it) }
+            it.userSort?.let { builder.userSort(it) }
+            builder.vipOnly(it.filterVipOnly)
+            builder.starRatings(it.filterStarRatings)
+        }
+        return builder
     }
 }

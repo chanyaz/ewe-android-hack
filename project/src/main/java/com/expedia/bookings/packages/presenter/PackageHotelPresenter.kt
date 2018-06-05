@@ -21,7 +21,6 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchResponse
-import com.expedia.bookings.data.hotels.convertPackageToSearchParams
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse
 import com.expedia.bookings.data.multiitem.PackageErrorDetails
@@ -69,6 +68,7 @@ import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelMapViewModel
 import com.expedia.vm.HotelReviewsViewModel
 import com.expedia.bookings.utils.isPackagesHSRPriceDisplayEnabled
+import com.expedia.util.PackageCalendarRules
 import com.google.android.gms.maps.MapView
 import com.google.gson.Gson
 import io.reactivex.Observable
@@ -90,6 +90,8 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     lateinit var packageServicesManager: PackageServicesManager
         @Inject set
+
+    private val rules = PackageCalendarRules(context)
 
     val resultsMapView: MapView by bindView(R.id.map_view)
     val detailsMapView: MapView by bindView(R.id.details_map_view)
@@ -212,12 +214,12 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         View.inflate(getContext(), R.layout.package_hotel_presenter, this)
 
         ObservableOld.combineLatest(dataAvailableSubject, trackEventSubject, { packageSearchResponse, _ -> packageSearchResponse }).subscribe {
-            if (!resultsPresenter.viewModel.isFilteredResponse) {
+            if (resultsPresenter.viewModel.isFilteredResponse) {
+                PackagesPageUsableData.HOTEL_FILTERED_RESULTS.pageUsableData.markAllViewsLoaded()
+                trackFilterSearchResult(it)
+            } else {
                 PackagesPageUsableData.HOTEL_RESULTS.pageUsableData.markAllViewsLoaded()
                 trackSearchResult(it)
-            } else {
-                PackagesPageUsableData.HOTEL_FILTERED_RESULTS.pageUsableData.markAllViewsLoaded()
-                PackagesTracking().trackHotelFilterSearchLoad(it, PackagesPageUsableData.HOTEL_FILTERED_RESULTS.pageUsableData)
             }
         }
     }
@@ -335,7 +337,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         if (isBreadcrumbsMoveBundleOverviewPackagesEnabled(context)) {
             resultsPresenter.bundlePriceWidgetTop.setOnClickListener(null)
         }
-        detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.sharedInstance.packageParams, resources.getInteger(R.integer.calendar_max_days_package_stay), resources.getInteger(R.integer.max_calendar_selectable_date_range)))
+        detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(Db.sharedInstance.packageParams.convertToHotelSearchParams(rules.getMaxSearchDurationDays(), rules.getMaxDateRange()))
 
         if (AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.HotelUGCReviewsBoxRatingDesign)) {
             detailPresenter.hotelDetailView.reviewsSummaryViewModel.fetchReviewsSummary(hotelId)
@@ -425,11 +427,6 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             }
             DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
         }
-    }
-
-    override fun back(): Boolean {
-        Db.setPackageResponse(Db.getUnfilteredRespnse())
-        return super.back()
     }
 
     private val detailsToReview = object : ScaleTransition(this, HotelDetailPresenter::class.java, HotelReviewsView::class.java) {
@@ -561,7 +558,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 addDefaultTransition(defaultResultsTransition)
                 show(resultsPresenter)
                 resultsPresenter.showDefault()
-                resultsPresenter.viewModel.paramsSubject.onNext(convertPackageToSearchParams(Db.sharedInstance.packageParams, resources.getInteger(R.integer.calendar_max_days_hotel_stay), resources.getInteger(R.integer.max_calendar_selectable_date_range)))
+                resultsPresenter.viewModel.paramsSubject.onNext(Db.sharedInstance.packageParams.convertToHotelSearchParams(rules.getMaxSearchDurationDays(), rules.getMaxDateRange()))
                 trackEventSubject.onNext(Unit)
                 if (isPackagesHSRPriceDisplayEnabled(context)) {
                     hideBundlePriceOverviewObserver.onNext(true)
@@ -577,6 +574,10 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     private fun trackSearchResult(response: BundleSearchResponse) {
         PackagesTracking().trackHotelSearchResultLoad(response, PackagesPageUsableData.HOTEL_RESULTS.pageUsableData)
+    }
+
+    private fun trackFilterSearchResult(response: BundleSearchResponse) {
+        PackagesTracking().trackHotelFilterSearchLoad(response, PackagesPageUsableData.HOTEL_FILTERED_RESULTS.pageUsableData)
     }
 
     private val defaultDetailsTransition = object : Presenter.DefaultTransition(HotelDetailPresenter::class.java.name) {

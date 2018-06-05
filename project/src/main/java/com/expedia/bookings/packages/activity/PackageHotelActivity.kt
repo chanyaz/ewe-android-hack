@@ -6,7 +6,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.hotels.HotelSearchResponse
-import com.expedia.bookings.data.hotels.convertPackageToSearchParams
 import com.expedia.bookings.packages.presenter.PackageHotelPresenter
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.PackageResponseUtils
@@ -14,6 +13,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.ui.AbstractAppCompatActivity
+import com.expedia.util.PackageCalendarRules
 import com.google.android.gms.maps.MapView
 
 class PackageHotelActivity : AbstractAppCompatActivity() {
@@ -27,6 +27,8 @@ class PackageHotelActivity : AbstractAppCompatActivity() {
         hotelsPresenter.findViewById<MapView>(R.id.details_map_view)
     }
     var restorePackageActivityForNullParams = false
+
+    private val rules = PackageCalendarRules(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,11 +49,11 @@ class PackageHotelActivity : AbstractAppCompatActivity() {
             val hotelOffers = PackageResponseUtils.loadHotelOfferResponse(this, PackageResponseUtils.RECENT_PACKAGE_HOTEL_OFFER_FILE)
             if (hotelOffers != null) {
                 hotelsPresenter.selectedPackageHotel = Db.getPackageSelectedHotel()
-                hotelsPresenter.detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.sharedInstance.packageParams, resources.getInteger(R.integer.calendar_max_days_hotel_stay), resources.getInteger(R.integer.max_calendar_selectable_date_range)))
+                hotelsPresenter.detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(Db.sharedInstance.packageParams.convertToHotelSearchParams(rules.getMaxSearchDurationDays(), rules.getMaxDateRange()))
                 hotelsPresenter.detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(hotelOffers)
                 hotelsPresenter.detailPresenter.hotelMapView.viewmodel.offersObserver.onNext(hotelOffers)
                 hotelsPresenter.defaultTransitionObserver.onNext(Screen.DETAILS)
-                hotelsPresenter.resultsPresenter.viewModel.paramsSubject.onNext(convertPackageToSearchParams(Db.sharedInstance.packageParams, resources.getInteger(R.integer.calendar_max_days_hotel_stay), resources.getInteger(R.integer.max_calendar_selectable_date_range)))
+                hotelsPresenter.resultsPresenter.viewModel.paramsSubject.onNext(Db.sharedInstance.packageParams.convertToHotelSearchParams(rules.getMaxSearchDurationDays(), rules.getMaxDateRange()))
                 hotelsPresenter.resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(Db.getPackageResponse(), false))
             }
         } else if (intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
@@ -108,6 +110,9 @@ class PackageHotelActivity : AbstractAppCompatActivity() {
             if (Db.getCachedPackageResponse() != null) {
                 Db.setPackageResponse(Db.getCachedPackageResponse())
                 Db.setCachedPackageResponse(null)
+            } else {
+                hotelsPresenter.resultsPresenter.resetUserFilters()
+                Db.setPackageResponse(Db.getUnfilteredRespnse())
             }
             super.onBackPressed()
         }

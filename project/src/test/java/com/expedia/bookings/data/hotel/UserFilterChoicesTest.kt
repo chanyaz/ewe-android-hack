@@ -153,6 +153,26 @@ class UserFilterChoicesTest {
     }
 
     @Test
+    fun testFromHotelFilterOptionsForPackages() {
+        val hotelName = "Dingy Paradise"
+        val searchOptions = HotelFilterOptions()
+        searchOptions.filterHotelName = hotelName
+        searchOptions.filterStarRatings = listOf(1, 4, 5)
+        searchOptions.userSort = BaseHotelFilterOptions.SortType.EXPERT_PICKS
+        searchOptions.filterVipOnly = true
+
+        val filterOptions = UserFilterChoices.fromHotelFilterOptions(searchOptions)
+        assertEquals(hotelName, filterOptions.name)
+        assertEquals(DisplaySort.RECOMMENDED, filterOptions.userSort)
+        assertTrue(filterOptions.isVipOnlyAccess)
+        assertTrue(filterOptions.hotelStarRating.one)
+        assertTrue(filterOptions.hotelStarRating.four)
+        assertTrue(filterOptions.hotelStarRating.five)
+        assertFalse(filterOptions.hotelStarRating.two)
+        assertFalse(filterOptions.hotelStarRating.three)
+    }
+
+    @Test
     fun testFromEmptyHotelFilterOptions() {
         val searchOptions = HotelFilterOptions()
 

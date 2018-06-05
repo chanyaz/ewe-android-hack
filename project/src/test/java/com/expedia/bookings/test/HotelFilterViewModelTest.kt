@@ -58,6 +58,20 @@ class HotelFilterViewModelTest {
     }
 
     @Test
+    fun testStarRatingFilterChangedForPackages() {
+        var count = 0
+        assertEquals(count, vm.userFilterChoices.hotelStarRating.getStarRatingParamsAsList(true).count())
+        StarRatingValue.values().forEach { starRatingValue ->
+            assertStarRatingFilterValue(starRatingValue, false, false)
+            assertStarRatingFilterValue(starRatingValue, true, false)
+            assertStarRatingFilterValue(starRatingValue, false, true)
+            assertStarRatingFilterValue(starRatingValue, true, true)
+            count++
+            assertEquals(count, vm.userFilterChoices.hotelStarRating.getStarRatingParamsAsList(true).count())
+        }
+    }
+
+    @Test
     fun testStarRatingFilterChangedTracking() {
         StarRatingValue.values().forEach { starRatingValue ->
             assertStarRatingTracking(starRatingValue, false, false) // no tracking

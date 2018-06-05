@@ -9,7 +9,6 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.data.hotels.convertPackageToSearchParams
 import com.expedia.bookings.data.packages.PackageSearchParams
 
 import com.expedia.bookings.data.pos.PointOfSale
@@ -36,6 +35,7 @@ import com.expedia.bookings.test.MockPackageServiceTestRule
 import com.expedia.bookings.test.robolectric.PackageTestUtil.Companion.dummyMIDItemRoomOffer
 import com.expedia.bookings.test.robolectric.PackageTestUtil.Companion.dummyMidHotelRoomOffer
 import com.expedia.bookings.utils.AbacusTestUtils
+import com.expedia.util.PackageCalendarRules
 import org.junit.Rule
 import java.math.BigDecimal
 import java.util.ArrayList
@@ -57,8 +57,11 @@ class PackageHotelDetailViewModelTest {
     val mockPackageServiceRule: MockPackageServiceTestRule = MockPackageServiceTestRule()
         @Rule get
 
+    private lateinit var rules: PackageCalendarRules
+
     @Before fun before() {
         context = RuntimeEnvironment.application
+        rules = PackageCalendarRules(context)
         testViewModel = PackageHotelDetailViewModel(context)
 
         hotelOffersResponse = HotelOffersResponse()
@@ -74,7 +77,7 @@ class PackageHotelDetailViewModelTest {
 
     @Test
     fun packageSearchInfoShouldShow() {
-        val params = convertPackageToSearchParams(mockPackageServiceRule.getPackageParams(), 26, 329)
+        val params = mockPackageServiceRule.getPackageParams().convertToHotelSearchParams(rules.getMaxSearchDurationDays(), rules.getMaxDateRange())
         val response = mockPackageServiceRule.getMIDHotelResponse()
         Db.setPackageResponse(response)
 

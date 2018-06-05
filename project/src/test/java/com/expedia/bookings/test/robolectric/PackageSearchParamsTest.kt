@@ -4,6 +4,8 @@ import android.app.Activity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BaseHotelFilterOptions
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.data.packages.PackageHotelFilterOptions
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.packages.vm.PackageSearchViewModel
@@ -356,6 +358,109 @@ class PackageSearchParamsTest {
                 .build() as PackageSearchParams
 
         assertEquals(params.getHotelsSortOrder(), BaseHotelFilterOptions.SortType.EXPERT_PICKS)
+    }
+
+    @Test
+    fun testAddPackageFilterParamsHappy() {
+        val packageParams = getPackageParams()
+        packageParams.filterOptions = buildFilterOptions()
+        val hotelParams = packageParams.convertToHotelSearchParams(26, 329)
+        assertPackageAndHotelFilterOptionsEqual(packageParams, hotelParams)
+        assertEquals(packageParams.filterOptions!!.filterHotelName, "Test_Hotel")
+        assertEquals(packageParams.filterOptions!!.filterStarRatings, listOf(2))
+        assertEquals(packageParams.filterOptions!!.filterVipOnly, true)
+        assertEquals(packageParams.filterOptions!!.userSort, BaseHotelFilterOptions.SortType.EXPERT_PICKS)
+    }
+
+    @Test
+    fun testAddPackageFilterParamsEmptyHotelName() {
+        val packageParams = getPackageParams()
+        packageParams.filterOptions = buildFilterOptions("")
+        val hotelParams = packageParams.convertToHotelSearchParams(26, 329)
+        assertPackageAndHotelFilterOptionsEqual(packageParams, hotelParams)
+        assertEquals(packageParams.filterOptions!!.filterStarRatings, listOf(2))
+        assertEquals(packageParams.filterOptions!!.filterVipOnly, true)
+        assertEquals(packageParams.filterOptions!!.filterHotelName, "")
+        assertEquals(packageParams.filterOptions!!.userSort, BaseHotelFilterOptions.SortType.EXPERT_PICKS)
+    }
+
+    @Test
+    fun testAddPackageFilterParamsNullHotelName() {
+        val packageParams = getPackageParams()
+        packageParams.filterOptions = buildFilterOptions(null)
+        val hotelParams = packageParams.convertToHotelSearchParams(26, 329)
+        assertPackageAndHotelFilterOptionsEqual(packageParams, hotelParams)
+        assertNull(packageParams.filterOptions!!.filterHotelName)
+        assertEquals(packageParams.filterOptions!!.filterStarRatings, listOf(2))
+        assertEquals(packageParams.filterOptions!!.filterVipOnly, true)
+        assertEquals(packageParams.filterOptions!!.userSort, BaseHotelFilterOptions.SortType.EXPERT_PICKS)
+    }
+
+    @Test
+    fun testAddPackageFilterParamsEmptyStarRatings() {
+        val packageParams = getPackageParams()
+        packageParams.filterOptions = buildFilterOptions(starRatings = listOf())
+        val hotelParams = packageParams.convertToHotelSearchParams(26, 329)
+        assertPackageAndHotelFilterOptionsEqual(packageParams, hotelParams)
+        assertEquals(packageParams.filterOptions!!.filterHotelName, "Test_Hotel")
+        assertEquals(packageParams.filterOptions!!.filterStarRatings, listOf())
+        assertEquals(packageParams.filterOptions!!.filterVipOnly, true)
+        assertEquals(packageParams.filterOptions!!.userSort, BaseHotelFilterOptions.SortType.EXPERT_PICKS)
+    }
+
+    @Test
+    fun testAddPackageFilterParamsNullSort() {
+        val packageParams = getPackageParams()
+        packageParams.filterOptions = buildFilterOptions(userSelectedSort = null)
+        val hotelParams = packageParams.convertToHotelSearchParams(26, 329)
+        assertPackageAndHotelFilterOptionsEqual(packageParams, hotelParams)
+        assertEquals(packageParams.filterOptions!!.filterHotelName, "Test_Hotel")
+        assertEquals(packageParams.filterOptions!!.filterStarRatings, listOf(2))
+        assertEquals(packageParams.filterOptions!!.filterVipOnly, true)
+        assertNull(packageParams.filterOptions!!.userSort)
+    }
+
+    @Test
+    fun testAddPackageFilterParamsVIPFalse() {
+        val packageParams = getPackageParams()
+        packageParams.filterOptions = buildFilterOptions(vipOnly = false)
+        val hotelParams = packageParams.convertToHotelSearchParams(26, 329)
+        assertPackageAndHotelFilterOptionsEqual(packageParams, hotelParams)
+        assertEquals(packageParams.filterOptions!!.filterHotelName, "Test_Hotel")
+        assertEquals(packageParams.filterOptions!!.filterStarRatings, listOf(2))
+        assertEquals(packageParams.filterOptions!!.filterVipOnly, false)
+        assertEquals(packageParams.filterOptions!!.userSort, BaseHotelFilterOptions.SortType.EXPERT_PICKS)
+    }
+
+    private fun assertPackageAndHotelFilterOptionsEqual(packageParams: PackageSearchParams, hotelParams: HotelSearchParams) {
+        assertEquals(packageParams.filterOptions!!.filterHotelName, hotelParams.filterOptions!!.filterHotelName)
+        assertEquals(packageParams.filterOptions!!.filterStarRatings, hotelParams.filterOptions!!.filterStarRatings)
+        assertEquals(packageParams.filterOptions!!.filterVipOnly, hotelParams.filterOptions!!.filterVipOnly)
+        assertEquals(packageParams.filterOptions!!.userSort, hotelParams.filterOptions!!.userSort)
+    }
+
+    private fun getPackageParams(): PackageSearchParams {
+        val packageParams = PackageSearchParams.Builder(26, 329)
+                .flightCabinClass("coach")
+                .infantSeatingInLap(true)
+                .children(listOf(16, 10, 1))
+                .origin(getDummySuggestion("Seattle"))
+                .destination(getDummySuggestion("London"))
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1)).build() as PackageSearchParams
+        return packageParams
+    }
+
+    private fun buildFilterOptions(hotelName: String? = "Test_Hotel",
+                                   starRatings: List<Int> = listOf(2),
+                                   vipOnly: Boolean = true,
+                                   userSelectedSort: BaseHotelFilterOptions.SortType? = BaseHotelFilterOptions.SortType.EXPERT_PICKS): PackageHotelFilterOptions {
+        return PackageHotelFilterOptions().apply {
+            filterHotelName = hotelName
+            filterStarRatings = starRatings
+            filterVipOnly = vipOnly
+            userSort = userSelectedSort
+        }
     }
 
     private fun getDummySuggestion(code: String): SuggestionV4 {
