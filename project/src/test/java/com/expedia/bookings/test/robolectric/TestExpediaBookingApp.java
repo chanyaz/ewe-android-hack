@@ -34,7 +34,7 @@ public class TestExpediaBookingApp extends ExpediaBookingApp {
 	}
 
 	@Override
-	protected void defaultAppComponents() {
+	public void defaultAppComponents() {
 		setAppComponent(DaggerTestAppComponent.builder()
 			.appModule(new TestAppModule(this))
 			.build());

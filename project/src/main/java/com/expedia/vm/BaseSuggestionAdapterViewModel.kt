@@ -107,7 +107,7 @@ abstract class BaseSuggestionAdapterViewModel(val context: Context, val suggesti
             }
 
             override fun onError(e: Throwable) {
-                Log.e("Hotel Suggestions Error", e)
+                Log.e("Base Suggestions Error", e)
             }
         }
     }
