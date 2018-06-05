@@ -102,11 +102,10 @@ fun isDownloadableFontsEnabled(context: Context): Boolean {
 }
 
 fun shouldShowRewardLaunchCard(context: Context): Boolean {
-    return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.RewardLaunchCard)
+    return !shouldShowJoinRewardsLaunchCard(context)
             && Ui.getApplication(context).appComponent().userStateManager().isUserAuthenticated()
             && ProductFlavorFeatureConfiguration.getInstance().defaultPOS == PointOfSaleId.ORBITZ
             && Locale.getDefault().language != "es"
-            && !shouldShowJoinRewardsLaunchCard(context)
 }
 
 fun shouldShowJoinRewardsLaunchCard(context: Context): Boolean {

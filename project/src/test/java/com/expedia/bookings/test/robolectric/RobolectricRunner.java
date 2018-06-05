@@ -27,6 +27,7 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.analytics.OmnitureTestUtils;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.abacus.AbacusResponse;
+import com.expedia.bookings.test.ExcludeForBrands;
 import com.expedia.bookings.test.RunForBrands;
 
 public class RobolectricRunner extends RobolectricTestRunner {
@@ -105,11 +106,20 @@ public class RobolectricRunner extends RobolectricTestRunner {
 	@Override
 	protected List<FrameworkMethod> computeTestMethods() {
 		final RunForBrands runClassForBrands = getTestClass().getAnnotation(RunForBrands.class);
+		final ExcludeForBrands excludeClassForBrands = getTestClass().getAnnotation(ExcludeForBrands.class);
+
 		if (runClassForBrands != null) {
 			if (!shouldRunForCurrentBrand(runClassForBrands)) {
 				return new ArrayList<>();
 			}
 		}
+
+		if (excludeClassForBrands != null) {
+			if (!shouldExcludeForCurrentBrand(excludeClassForBrands)) {
+				return new ArrayList<>();
+			}
+		}
+
 		List<FrameworkMethod> allMethods = super.computeTestMethods();
 		if (allMethods == null || allMethods.size() == 0) {
 			return allMethods;
@@ -118,13 +128,23 @@ public class RobolectricRunner extends RobolectricTestRunner {
 		final List<FrameworkMethod> filteredMethods = new ArrayList<>(allMethods.size());
 		for (final FrameworkMethod method : allMethods) {
 			final RunForBrands runForBrands = method.getAnnotation(RunForBrands.class);
-			if (runForBrands != null) {
-				if (shouldRunForCurrentBrand(runForBrands)) {
-					filteredMethods.add(method);
-				}
+			final ExcludeForBrands excludeForBrands = method.getAnnotation(ExcludeForBrands.class);
+
+			if (runForBrands == null && excludeForBrands == null) {
+				filteredMethods.add(method);
 			}
 			else {
-				filteredMethods.add(method);
+				if (runForBrands != null) {
+					if (shouldRunForCurrentBrand(runForBrands)) {
+						filteredMethods.add(method);
+					}
+				}
+
+				if (excludeForBrands != null) {
+					if (shouldExcludeForCurrentBrand(excludeForBrands)) {
+						filteredMethods.add(method);
+					}
+				}
 			}
 		}
 		return filteredMethods;
@@ -139,6 +159,10 @@ public class RobolectricRunner extends RobolectricTestRunner {
 
 	private boolean shouldRunForCurrentBrand(RunForBrands runForBrands) {
 		return Arrays.asList(runForBrands.brands()).contains(BuildConfig.APPLICATION_ID);
+	}
+
+	private boolean shouldExcludeForCurrentBrand(ExcludeForBrands excludeForBrands) {
+		return !Arrays.asList(excludeForBrands.brands()).contains(BuildConfig.APPLICATION_ID);
 	}
 
 }

@@ -388,14 +388,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
-            android:key="25001"
-            android:title="Show Orbitz Reward Launch Card - 25001" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:summary="%s"
             android:key="26022"
             android:title="Show Orbitz Join Rewards Launch Card - 26022" />
 

@@ -29,6 +29,7 @@ import com.expedia.bookings.marketing.meso.model.MesoHotelAdResponse
 import com.expedia.bookings.marketing.meso.vm.MesoDestinationViewModel
 import com.expedia.bookings.marketing.meso.vm.MesoHotelAdViewModel
 import com.expedia.bookings.notification.NotificationManager
+import com.expedia.bookings.test.ExcludeForBrands
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.RunForBrands
@@ -168,7 +169,6 @@ class LaunchListAdapterTest {
     fun itemViewPosition_NotShowingRewardLaunchCardInSpanish() {
         setSystemLanguage("es")
         givenCustomerSignedIn()
-        givenRewardLaunchCardEnabled()
         createSystemUnderTest()
 
         val firstPosition = adapterUnderTest.getItemViewType(0)
@@ -185,7 +185,6 @@ class LaunchListAdapterTest {
     @RunForBrands(brands = [MultiBrand.ORBITZ])
     fun itemViewPosition_ShowingRewardLaunchCard() {
         givenCustomerSignedIn()
-        givenRewardLaunchCardEnabled()
         createSystemUnderTest()
 
         val firstPosition = adapterUnderTest.getItemViewType(0)
@@ -220,6 +219,24 @@ class LaunchListAdapterTest {
 
         val fourthPosition = adapterUnderTest.getItemViewType(3)
         assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.ORBITZ])
+    fun itemViewPosition_NotShowingJoinRewardsLaunchCardInSpanish() {
+        setSystemLanguage("es")
+        givenCustomerSignedIn()
+        givenJoinRewardsLaunchCardEnabled()
+        createSystemUnderTest()
+
+        val firstPosition = adapterUnderTest.getItemViewType(0)
+        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
+
+        val secondPosition = adapterUnderTest.getItemViewType(1)
+        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, secondPosition)
+
+        val thirdPosition = adapterUnderTest.getItemViewType(2)
+        assertEquals(LaunchDataItem.HEADER_VIEW, thirdPosition)
     }
 
     @Test
@@ -291,6 +308,7 @@ class LaunchListAdapterTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun itemViewPosition_showingHotels_signedInItin_memberDeals__last_minute_deals() {
         givenLastMinuteDealIsEnabled()
         createSystemUnderTest(isItinLaunchCardEnabled = true)
@@ -338,6 +356,7 @@ class LaunchListAdapterTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun itemViewPosition_showing_hotels_airAttach_memberDeals() {
         givenAirAttachCardEnabled()
         createSystemUnderTest()
@@ -361,6 +380,7 @@ class LaunchListAdapterTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun getItemViewType_showingLobView_showingHotels_signedInItin() {
         givenCustomerSignedIn()
         createSystemUnderTest(isItinLaunchCardEnabled = true)
@@ -438,6 +458,7 @@ class LaunchListAdapterTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun getItemViewType_showingHotels_signedInItin() {
         createSystemUnderTest(isItinLaunchCardEnabled = true)
         givenCustomerSignedIn()
@@ -460,6 +481,7 @@ class LaunchListAdapterTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun getItemViewType_ShowingHotels_CustomerSignedIn_ActiveItin_AirAttach() {
         givenAirAttachCardEnabled()
         createSystemUnderTest(isItinLaunchCardEnabled = true)
@@ -486,6 +508,7 @@ class LaunchListAdapterTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun getItemViewType_showingHotels_showSignInAfterSignOut() {
 
         createSystemUnderTest()
@@ -524,6 +547,7 @@ class LaunchListAdapterTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun getItemViewType_showingLobView_showingCollectionView_signedIn() {
         createSystemUnderTest()
         givenCustomerSignedIn()
@@ -562,6 +586,7 @@ class LaunchListAdapterTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun testItinManagerSyncShowsActiveItin() {
         givenCustomerSignedIn()
         createSystemUnderTest(isItinLaunchCardEnabled = false)
@@ -619,6 +644,7 @@ class LaunchListAdapterTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun getItemViewType_ShowingAirAttach() {
         givenAirAttachCardEnabled()
         createSystemUnderTest()
@@ -642,6 +668,7 @@ class LaunchListAdapterTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun getItemViewType_ShowingLobView_ShowingPopularHotels_AirAttach() {
         givenAirAttachCardEnabled()
         createSystemUnderTest()
@@ -686,6 +713,7 @@ class LaunchListAdapterTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun itemCount_hotelStateOrder_signedIn() {
         createSystemUnderTest()
         val numberOfHotels = 5
@@ -699,6 +727,7 @@ class LaunchListAdapterTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun itemCount_collectionStateOrder_signedIn() {
         createSystemUnderTest()
         val numberOfStaffPicks = 5
@@ -720,6 +749,7 @@ class LaunchListAdapterTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun getItemViewType_ShowingLobView_ShowingPopularHotels_NoFlightTrip() {
         givenAirAttachCardEnabled()
         createSystemUnderTest(recentAirAttachFlightTrip = null)
@@ -963,10 +993,6 @@ class LaunchListAdapterTest {
 
     private fun givenMesoDestinationAdEnabled() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.MesoAd, AbacusVariant.TWO.value)
-    }
-
-    private fun givenRewardLaunchCardEnabled() {
-        AbacusTestUtils.bucketTestsAndEnableRemoteFeature(context, AbacusUtils.RewardLaunchCard)
     }
 
     private fun givenJoinRewardsLaunchCardEnabled() {
