@@ -314,7 +314,7 @@ class ItineraryManagerTest {
         val spyTripServices = Mockito.spy(MockTripServices(false))
         val syncTask = itinManager.SyncTask(spyTripServices, null)
 
-        FeatureTestUtils.enableFeature(context, Features.all.tripsCallMadeOmnitureCall)
+        FeatureTestUtils.enableFeature(context, Features.all.tripsApiCallMade)
         syncTask.trackTripRefreshCallMade()
         OmnitureTestUtils.assertLinkTracked("Trips Call", "App.Itinerary.Call.Made", OmnitureMatchers.withEventsString("event286"), mockAnalyticsProvider)
     }
@@ -325,7 +325,7 @@ class ItineraryManagerTest {
         val spyTripServices = Mockito.spy(MockTripServices(false))
         val syncTask = itinManager.SyncTask(spyTripServices, null)
 
-        FeatureTestUtils.disableFeature(context, Features.all.tripsCallMadeOmnitureCall)
+        FeatureTestUtils.disableFeature(context, Features.all.tripsApiCallMade)
         syncTask.trackTripRefreshCallMade()
         OmnitureTestUtils.assertLinkNotTracked("Trips Call", "App.Itinerary.Call.Made", OmnitureMatchers.withEventsString("event286"), mockAnalyticsProvider)
     }
@@ -336,7 +336,7 @@ class ItineraryManagerTest {
         val spyTripServices = Mockito.spy(MockTripServices(false))
         val syncTask = itinManager.SyncTask(spyTripServices, null)
 
-        FeatureTestUtils.enableFeature(context, Features.all.tripsCallSuccessOmnitureCall)
+        FeatureTestUtils.enableFeature(context, Features.all.tripsApiCallSuccess)
         syncTask.trackTripRefreshCallSuccess()
         OmnitureTestUtils.assertLinkTracked("Trips Call", "App.Itinerary.Call.Success", OmnitureMatchers.withEventsString("event287"), mockAnalyticsProvider)
     }
@@ -347,7 +347,7 @@ class ItineraryManagerTest {
         val spyTripServices = Mockito.spy(MockTripServices(false))
         val syncTask = itinManager.SyncTask(spyTripServices, null)
 
-        FeatureTestUtils.disableFeature(context, Features.all.tripsCallSuccessOmnitureCall)
+        FeatureTestUtils.disableFeature(context, Features.all.tripsApiCallSuccess)
         syncTask.trackTripRefreshCallSuccess()
         OmnitureTestUtils.assertLinkNotTracked("Trips Call", "App.Itinerary.Call.Success", OmnitureMatchers.withEventsString("event287"), mockAnalyticsProvider)
     }
