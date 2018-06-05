@@ -78,23 +78,11 @@ class AbstractMaterialFlightResultsPresenterTest {
     }
 
     @Test
-    fun showOverviewWhenNotInSimplifyTest() {
+    fun testShowFlightDetails() {
         createSystemUnderTest(isOutboundPresenter = true)
         sut.resultsPresenter.flightSelectedSubject.onNext(createFlightLeg("leg0"))
 
         assertEquals(com.expedia.bookings.presenter.shared.FlightDetailsPresenter::class.java.name, sut.currentState)
-    }
-
-    @Test
-    fun doNotShowOverviewWhenInSimplifyTest() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppSimplifyFlightShopping)
-        createSystemUnderTest(isOutboundPresenter = true)
-
-        sut.resultsPresenter.resultsViewModel.flightResultsObservable.onNext(emptyList())
-        assertEquals(FlightResultsListViewPresenter::class.java.name, sut.currentState)
-
-        sut.resultsPresenter.flightSelectedSubject.onNext(createFlightLeg("leg0"))
-        assertEquals(FlightResultsListViewPresenter::class.java.name, sut.currentState)
     }
 
     @Test

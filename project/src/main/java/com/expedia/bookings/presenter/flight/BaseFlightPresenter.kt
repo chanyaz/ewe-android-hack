@@ -15,10 +15,8 @@ import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.extensions.setFocusForView
-import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.shared.FlightDetailsPresenter
@@ -96,9 +94,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         val presenter = viewStub.inflate() as FlightResultsListViewPresenter
         presenter.resultsViewModel = getResultsViewModel(context)
         toolbarViewModel.isOutboundSearch.subscribe(presenter.resultsViewModel.isOutboundResults)
-        if (!AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppSimplifyFlightShopping) || getLineOfBusiness() == LineOfBusiness.PACKAGES) {
-            presenter.flightSelectedSubject.subscribe(selectedFlightResults)
-        }
+        presenter.flightSelectedSubject.subscribe(selectedFlightResults)
         presenter.showSortAndFilterViewSubject.subscribe {
             show(filter)
             filter.viewModelBase.resetFilterTracking.onNext(Unit)
