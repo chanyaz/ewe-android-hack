@@ -21,6 +21,7 @@ data class Itin(
         override val rails: List<ItinRail>?,
         val packages: List<ItinPackage>?,
         val rewardList: List<Reward>?,
+        val sharableDetailsURL: String,
         val paymentDetails: PaymentDetails?,
         val paymentSummary: PaymentSummary?,
         val isGuest: Boolean,
