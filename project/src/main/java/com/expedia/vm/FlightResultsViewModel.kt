@@ -6,6 +6,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.RichContent
 import com.expedia.bookings.data.flights.RichContentResponse
 import com.expedia.bookings.extensions.ObservableOld
+import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
 import com.expedia.bookings.services.FlightRichContentService
 import com.expedia.bookings.utils.RichContentUtils
@@ -47,15 +48,20 @@ class FlightResultsViewModel(context: Context) : BaseResultsViewModel() {
                 }
             }).subscribe()
 
-            ObservableOld.zip(richContentStream, flightResultsObservable, { richContentLegs, flightLegs ->
-                for (flightLeg in flightLegs) {
-                    val richContent = richContentLegs[flightLeg.legId]
+            richContentStream.withLatestFrom(flightResultsObservable, { richContentLegs, flightLegs ->
+                object {
+                    val richContentLegs = richContentLegs
+                    val flightLegs = flightLegs
+                }
+            }).subscribe {
+                for (flightLeg in it.flightLegs) {
+                    val richContent = it.richContentLegs[flightLeg.legId]
                     if (richContent != null) {
                         flightLeg.richContent = richContent
                     }
                 }
                 updateFlightsStream.onNext(Unit)
-            }).subscribe()
+            }
         }
     }
 
@@ -85,7 +91,7 @@ class FlightResultsViewModel(context: Context) : BaseResultsViewModel() {
 
     fun showRichContentGuide(): Boolean {
         val counter = sharedPref.getInt("counter", 1)
-        if ((counter in 1..6 step 2) && !isRichContentGuideDisplayed) {
+        if ((counter in 1..4 step 2) && !isRichContentGuideDisplayed) {
             return true
         }
         return false
