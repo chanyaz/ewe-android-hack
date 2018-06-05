@@ -35,7 +35,7 @@ class LxItinImageViewModelTest {
         nameTestObserver.assertNoValues()
         urlTestObserver.assertNoValues()
 
-        sut.itinLxObserver.onChanged(ItinMocker.lxDetailsHappy.firstLx())
+        sut.itinLOBObserver.onChanged(ItinMocker.lxDetailsHappy.firstLx())
 
         nameTestObserver.assertValue("Day Trip to New York by Train with Hop-on Hop-Off Pass: Full-Day Excursion")
         urlTestObserver.assertValue("https://s3.amazonaws.com/mediavault.le/media/d845b674a00c4ec7dc685942d31f955b2e354f73.jpeg")
@@ -46,7 +46,7 @@ class LxItinImageViewModelTest {
         nameTestObserver.assertNoValues()
         urlTestObserver.assertNoValues()
 
-        sut.itinLxObserver.onChanged(ItinMocker.lxDetailsNoLat.firstLx())
+        sut.itinLOBObserver.onChanged(ItinMocker.lxDetailsNoLat.firstLx())
 
         nameTestObserver.assertNoValues()
         urlTestObserver.assertNoValues()

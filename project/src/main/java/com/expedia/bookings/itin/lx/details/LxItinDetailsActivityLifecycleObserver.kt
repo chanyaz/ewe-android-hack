@@ -33,7 +33,7 @@ import com.expedia.bookings.itin.tripstore.extensions.firstLx
 import com.expedia.util.notNullAndObservable
 import io.reactivex.subjects.PublishSubject
 
-class LxItinDetailsActivityLifecycleObserver<S>(val scope: S) : DefaultLifecycleObserver where S : HasActivityLauncher, S : HasWebViewLauncher, S : HasStringProvider, S : HasJsonUtil, S : HasItinId, S : HasManageBookingWidgetViewModelSetter, S : HasToolbarViewModelSetter, S : HasTripsTracking, S : HasMapWidgetViewModelSetter, S : HasRedeemVoucherViewModelSetter, S : HasToaster, S : HasPhoneHandler, S : HasItinImageViewModelSetter, S : HasItinTimingsViewModelSetter<ItinLx> {
+class LxItinDetailsActivityLifecycleObserver<S>(val scope: S) : DefaultLifecycleObserver where S : HasActivityLauncher, S : HasWebViewLauncher, S : HasStringProvider, S : HasJsonUtil, S : HasItinId, S : HasManageBookingWidgetViewModelSetter, S : HasToolbarViewModelSetter, S : HasTripsTracking, S : HasMapWidgetViewModelSetter<ItinLx>, S : HasRedeemVoucherViewModelSetter, S : HasToaster, S : HasPhoneHandler, S : HasItinImageViewModelSetter<ItinLx>, S : HasItinTimingsViewModelSetter<ItinLx> {
 
     val finishSubject = PublishSubject.create<Unit>()
     var repo: ItinLxRepoInterface = ItinLxRepo(scope.id, scope.jsonUtil, ItineraryManager.getInstance().syncFinishObservable)

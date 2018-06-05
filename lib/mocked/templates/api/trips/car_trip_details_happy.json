@@ -1,0 +1,328 @@
+{
+  "apiVersion": "1.0",
+  "responseType": "TRIP_DETAILS",
+  "responseData": {
+    "levelOfDetail": "FULL",
+    "tripId": "8ecfcd4a-6a01-4e18-b9b1-42caa43bff5f",
+    "webDetailsURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/trips/7175610882378?langid=1033",
+    "itineraryReceiptURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/itinerary-receipt?tripid=8ecfcd4a-6a01-4e18-b9b1-42caa43bff5f",
+    "tripNumber": 7175610882378,
+    "orderNumber": 8053084518926,
+    "title": "Car rental in Sydney",
+    "updateTripNameDescPathURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/api/trips/8ecfcd4a-6a01-4e18-b9b1-42caa43bff5f/updateTripNameDescription",
+    "startTime": {
+      "raw": "2056-04-15T07:30:00-07:00",
+      "localized": "Apr 15, 2056 7:30:00 AM",
+      "epochSeconds": 2723034600,
+      "timeZoneOffsetSeconds": -25200,
+      "localizedShortDate": "4/15/2056",
+      "localizedMediumDate": "Apr 15",
+      "localizedFullDate": "Sat, Apr 15",
+      "localizedLongDate": "Apr 15, 2056",
+      "localizedShortTime": "7:30am"
+    },
+    "endTime": {
+      "raw": "2056-04-15T17:00:00-07:00",
+      "localized": "Apr 15, 2056 5:00:00 PM",
+      "epochSeconds": 2723068800,
+      "timeZoneOffsetSeconds": -25200,
+      "localizedShortDate": "4/15/2056",
+      "localizedMediumDate": "Apr 15",
+      "localizedFullDate": "Sat, Apr 15",
+      "localizedLongDate": "Apr 15, 2056",
+      "localizedShortTime": "5:00pm"
+    },
+    "ownerId": 578012,
+    "bookingStatus": "BOOKED",
+    "rewardList": [
+      {
+        "totalPoints": 807.00,
+        "basePoints": 621.00,
+        "basePointsStatus": "PENDING",
+        "bonusPoints": [
+          {
+            "m_pointValue": 186.00,
+            "m_pointType": "offerPoint",
+            "m_pointDescription": "+gold Bonus",
+            "m_status": "PENDING",
+            "m_programId": 12
+          }
+        ],
+        "logoUrl": "/static/default/default/images/myrewards/RewardsLogo_193x76.png",
+        "signUpUrl": "",
+        "viewStatementURL": "/user/rewards",
+        "programName": "ExpediaRewards"
+      }
+    ],
+    "sharableDetailsURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/api/trips/shared/Gx2tMLSvn0Kyy1JlOHtPVsCAHSzh9B1me2uVCB7V8pzpJduW6xfGltZ2sNwb1M4LM2_fTH_Vqct7cPsNJKvwJ_f6",
+    "customerSupport": {
+      "customerSupportURL": "https://www.expedia.com/service/",
+      "customerSupportPhoneInfo": [
+        "Call Expedia Rewards gold Dedicated Customer Care at 1-866-539-4149 or 1-702-939-2635.",
+        "For faster service, mention <strong>itinerary #7175610882378 </strong>"
+      ],
+      "customerSupportPhoneNumberDomestic": "+1-866-539-4149",
+      "customerSupportPhoneNumberInternational": "+1 702-939-2635",
+      "customerSupportPhoneInfoForEmail": [
+        "Call Expedia Rewards gold Dedicated Customer Care at 1-866-539-4149 or 1-702-939-2635.",
+        "For faster service, mention <strong>itinerary #7175610882378 </strong>"
+      ],
+      "termsAndConditionsURL": ""
+    },
+    "isBookedUsingForeignCurrency": false,
+    "cars": [
+      {
+        "uniqueID": "EAFCB045-8396-4DF4-B0EF-E948B2DC13B5_0",
+        "bookingStatus": "BOOKED",
+        "bookingStatusText": "Booked",
+        "bookingStatusMessage": "Your reservation is booked. No need to call us to reconfirm this reservation.",
+        "state": "PRE_START_4",
+        "orderNumber": 8053084518926,
+        "orderLineNumber": "8d9daa6f-8e8a-4891-a61c-534f79a93995",
+        "paymentModel": "AGENCY_COLLECT",
+        "reservationGuaranteePolicy": "RESERVATION_GUARANTEE_OPTIONAL",
+        "price": {
+          "rateTerm": "DAILY",
+          "rateTermLocalized": "day",
+          "rate": "40.77",
+          "rateFormatted": "$40.77",
+          "mileageChargesDescription": "Unlimited mileage",
+          "isTotalRate": true,
+          "totalContainsTaxesAndFees": true,
+          "taxesAreEstimated": true,
+          "insuranceIncluded": false,
+          "liabilityInsuranceIncluded": false,
+          "notIncludedinPrice": {
+            "credit-card-deposit": {
+              "name": "credit-card-deposit",
+              "description": "Credit card deposit"
+            }
+          },
+          "currency": "USD",
+          "currencyName": "US dollars",
+          "base": "40.77",
+          "baseFormatted": "$40.77",
+          "taxes": "286.78",
+          "taxesFormatted": "$286.78",
+          "total": "327.55",
+          "totalFormatted": "$327.55"
+        },
+        "localPrice": {
+          "isTotalRate": false,
+          "totalContainsTaxesAndFees": false,
+          "taxesAreEstimated": false,
+          "insuranceIncluded": false,
+          "liabilityInsuranceIncluded": false
+        },
+        "confirmationNumber": "G9060390072",
+        "webCancelPathURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/api/cancelCarBooking/8ecfcd4a-6a01-4e18-b9b1-42caa43bff5f/8d9daa6f-8e8a-4891-a61c-534f79a93995",
+        "webGetCarCancelDetailPathURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/api/trips/8ecfcd4a-6a01-4e18-b9b1-42caa43bff5f/ordernumber/8053084518926/orderlinenumber/8d9daa6f-8e8a-4891-a61c-534f79a93995/isMerchant/false/getCarCancelDetail",
+        "webCarRulesPageURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/Checkout/CarRulesAndRestrictions?tripid=8ecfcd4a-6a01-4e18-b9b1-42caa43bff5f",
+        "bookingId": "5047887",
+        "travelers": [
+          {
+            "firstName": "MONICA",
+            "lastName": "MECCA"
+          }
+        ],
+        "travelerContactInformation": {
+          "email": "monica.mecca@citi.com",
+          "phoneNumber": "6462072417"
+        },
+        "pickupTime": {
+          "raw": "2056-04-15T07:30:00-07:00",
+          "localized": "Apr 15, 2056 7:30:00 AM",
+          "epochSeconds": 2723034600,
+          "timeZoneOffsetSeconds": -25200,
+          "localizedShortDate": "4/15/2056",
+          "localizedMediumDate": "Apr 15",
+          "localizedFullDate": "Sat, Apr 15",
+          "localizedLongDate": "Apr 15, 2056",
+          "localizedShortTime": "7:30am"
+        },
+        "dropOffTime": {
+          "raw": "2056-04-15T17:00:00-07:00",
+          "localized": "Apr 15, 2056 5:00:00 PM",
+          "epochSeconds": 2723068800,
+          "timeZoneOffsetSeconds": -25200,
+          "localizedShortDate": "4/15/2056",
+          "localizedMediumDate": "Apr 15",
+          "localizedFullDate": "Sat, Apr 15",
+          "localizedLongDate": "Apr 15, 2056",
+          "localizedShortTime": "5:00pm"
+        },
+        "pickupLocation": {
+          "locationType": "NON_AIRPORT_ADDRESS",
+          "locationCategory": "NORTH_OF_CITY_CENTER",
+          "locationDescription": "Sir John Young Crescent Domain Car Park, Sydney",
+          "latitude": -33.871565,
+          "longitude": 151.214855,
+          "addressLine1": "Sir John Young Crescent Domain Car Park",
+          "cityName": "Sydney",
+          "postalCode": "98188",
+          "provinceStateName": "Victoria",
+          "countryCode": "AUS",
+          "locationCode": "SYD",
+          "regionId": 6034399
+        },
+        "dropOffLocation": {
+          "locationType": "NON_AIRPORT_ADDRESS",
+          "locationCategory": "CITY_CENTER",
+          "locationDescription": "99 Spencer Street, Docklands, Victoria",
+          "latitude": -37.818294,
+          "longitude": 144.953432,
+          "addressLine1": "99 Spencer Street",
+          "cityName": "Docklands",
+          "postalCode": "98188",
+          "provinceStateName": "Victoria",
+          "countryCode": "AUS",
+          "locationCode": "MEL",
+          "regionId": 6034399
+        },
+        "pickupDateOpenHoursSummaryString": "7:30am - 5:00pm",
+        "pickupDateOpenHours": [
+          {
+            "openingDateTime": {
+              "raw": "2056-04-15T07:30:00-07:00",
+              "localized": "Apr 15, 2056 7:30:00 AM",
+              "epochSeconds": 2723034600,
+              "timeZoneOffsetSeconds": -25200,
+              "localizedShortDate": "4/15/2056",
+              "localizedMediumDate": "Apr 15",
+              "localizedFullDate": "Sat, Apr 15",
+              "localizedLongDate": "Apr 15, 2056",
+              "localizedShortTime": "7:30am"
+            },
+            "closingDateTime": {
+              "raw": "2056-04-15T17:00:00-07:00",
+              "localized": "Apr 15, 2056 5:00:00 PM",
+              "epochSeconds": 2723068800,
+              "timeZoneOffsetSeconds": -25200,
+              "localizedShortDate": "4/15/2056",
+              "localizedMediumDate": "Apr 15",
+              "localizedFullDate": "Sat, Apr 15",
+              "localizedLongDate": "Apr 15, 2056",
+              "localizedShortTime": "5:00pm"
+            }
+          }
+        ],
+        "dropOffDateOpenHoursSummaryString": "8:00am - 5:00pm",
+        "dropOffDateOpenHours": [
+          {
+            "openingDateTime": {
+              "raw": "2056-04-15T08:00:00-07:00",
+              "localized": "Apr 15, 2056 8:00:00 AM",
+              "epochSeconds": 2723036400,
+              "timeZoneOffsetSeconds": -25200,
+              "localizedShortDate": "4/15/2056",
+              "localizedMediumDate": "Apr 15",
+              "localizedFullDate": "Sat, Apr 15",
+              "localizedLongDate": "Apr 15, 2056",
+              "localizedShortTime": "8:00am"
+            },
+            "closingDateTime": {
+              "raw": "2056-04-15T17:00:00-07:00",
+              "localized": "Apr 15, 2056 5:00:00 PM",
+              "epochSeconds": 2723068800,
+              "timeZoneOffsetSeconds": -25200,
+              "localizedShortDate": "4/15/2056",
+              "localizedMediumDate": "Apr 15",
+              "localizedFullDate": "Sat, Apr 15",
+              "localizedLongDate": "Apr 15, 2056",
+              "localizedShortTime": "5:00pm"
+            }
+          }
+        ],
+        "carVendor": {
+          "longName": "Thrifty",
+          "code": "ZT",
+          "shortName": "Thrifty",
+          "logoURL": "https://images.trvl-media.com/cars/logos/ZT.png",
+          "phoneNumber": "+1 800 847 4389",
+          "localPhoneNumber": "02 9221 2231"
+        },
+        "carCategoryImageURL": "https://images.trvl-media.com/cars%2F45%2FECMRToyotaYaris_ZT_AUS_20160405_s.jpg",
+        "carCategory": "Economy",
+        "carCategoryLocalized": "Economy",
+        "minDoors": 3,
+        "maxDoors": 5,
+        "adultCapacity": 5,
+        "childCapacity": 4,
+        "carType": "TwoDoorCar",
+        "carTypeLocalized": "Toyota Yaris",
+        "largeLuggageCapacity": 2,
+        "smallLuggageCapacity": 2,
+        "carTypeAttributes": {
+          "vehicleTypeLocalized": "2 or 4-Door Car",
+          "fuelType": "UNKNOWN",
+          "airConditioningType": "AIR_CONDITIONING",
+          "airConditioningTypeLocalized": "Air conditioning",
+          "transmissionType": "MANUAL_TRANSMISSION",
+          "transmissionTypeLocalized": "Manual transmission",
+          "wheelDriveType": "UNKNOWN"
+        },
+        "pickUpInstructions": [
+          "AFTER HOUR ARRIVALS/RETURNS: (ARR-N, RET-Y)\n                                                RESERVATIONS NOT ACCEPTED AFTER REGULAR OFFICE HOURS.\n                                                RENTAL RETURNS ACCEPTED AFTER REGULAR OFFICE HOURS.\n                                                INQUIRE AT THE RENTAL COUNTER UPON ARRIVAL FOR DETAILS.\n                                                .\n                                                VEHICLE HOLD POLICY:\n                                                RESERVATIONS ARE HONORED FOR TWO HOURS AFTER ACTUAL\n                                                FLIGHT ARRIVAL OR AFTER SCHEDULED ARRIVAL TIME UNLESS\n                                                THE LOCATION IS CLOSED.\n                                            ",
+          "PICK UP INFORMATION:\n                                                LOCATION SERVICES THE EAST SYDNEY AREA.  CUSTOMER MUST\n                                                CALL THE LOCATION FOR PICK UP.\n                                            "
+        ],
+        "fuelPolicy": {
+          "type": "FullToFull",
+          "localizedFuelPolicyDesc": "The car is supplied with a full tank of fuel. It should be returned full or refueling charges will be applied at drop-off."
+        },
+        "isPrepaid": false,
+        "rulesWithoutHyperLinks": [],
+        "inCancelAllowedWindow": true,
+        "customerServicePhoneNumber": ""
+      }
+    ],
+    "totalTripPrice": {
+      "currency": "USD",
+      "total": "327.55",
+      "totalFormatted": "$327.55",
+      "totalWithoutInsurance": "327.55",
+      "totalWithoutInsuranceFormatted": "$327.55"
+    },
+    "isCouponApplied": false,
+    "paymentSummary": {
+      "totalPaidPrice": {
+        "amount": 327.55,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "totalPaidTaxAndFees": {
+        "amount": 286.78,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "subTotalPaid": {
+        "amount": 40.77,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "totalPropertyFee": {
+        "amount": 0.00,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "totalPaidLocalizedPrice": "$327.55",
+      "totalPaidTaxAndFeesLocalizedPrice": "$286.78",
+      "subTotalPaidLocalizedPrice": "$40.77",
+      "totalPropertyFeeLocalizedPrice": "",
+      "multiCurrencyFeatureEnabled": false
+    },
+    "readTripError": false,
+    "tripSource": "expedia",
+    "zetaTrip": false,
+    "showCurrencyName": false,
+    "isMRP": false,
+    "tripDataSource": "EXPWEB",
+    "isTripUpgradable": false,
+    "isRewardsPointsBooking": false,
+    "billPayMethod": "false",
+    "customerCareCustomerType": "Gold"
+  }
+}

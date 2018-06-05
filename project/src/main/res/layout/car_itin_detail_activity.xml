@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.expedia.bookings.itin.common.ItinToolbar
+            android:id="@+id/widget_itin_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:background="@color/app_primary"
+            android:minHeight="?attr/actionBarSize" />
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray100"
+        android:fadingEdge="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical"
+            android:paddingBottom="19dp"
+            android:paddingTop="19dp">
+
+            <com.expedia.bookings.itin.common.ItinImageWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/itin_image_widget"/>
+
+            <com.expedia.bookings.itin.common.ItinTimingsWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/itin_timings_widget"/>
+
+            <com.expedia.bookings.itin.common.ItinMapWidget
+                android:id="@+id/pickup_map_widget"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.expedia.bookings.itin.common.ItinMapWidget
+                android:id="@+id/dropOff_map_widget"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+
+            <com.expedia.bookings.itin.common.ItinManageBookingWidget
+                android:id="@+id/widget_manage_booking"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp"
+                android:layout_marginRight="11dp"
+                android:layout_marginTop="19dp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

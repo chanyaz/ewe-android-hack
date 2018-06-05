@@ -3,6 +3,7 @@ package com.expedia.bookings.itin.lx.details
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.LifecycleOwner
 import com.expedia.bookings.itin.common.ItinImageViewModel
+import com.expedia.bookings.itin.common.ItinManageBookingWidgetViewModel
 import com.expedia.bookings.itin.common.ItinMapWidgetViewModel
 import com.expedia.bookings.itin.common.ItinRedeemVoucherViewModel
 import com.expedia.bookings.itin.common.ItinTimingsWidgetViewModel
@@ -34,7 +35,6 @@ import com.expedia.bookings.itin.scopes.HasTripsTracking
 import com.expedia.bookings.itin.scopes.HasWebViewLauncher
 import com.expedia.bookings.itin.scopes.ItinImageViewModelSetter
 import com.expedia.bookings.itin.scopes.ItinTimingsViewModelSetter
-import com.expedia.bookings.itin.scopes.LxItinManageBookingWidgetScope
 import com.expedia.bookings.itin.scopes.ManageBookingWidgetViewModelSetter
 import com.expedia.bookings.itin.scopes.MapWidgetViewModelSetter
 import com.expedia.bookings.itin.scopes.RedeemVoucherViewModelSetter
@@ -120,14 +120,14 @@ class LxItinDetailsActivityLifecycleObserverTest {
         testObserver.assertValue(Unit)
     }
 
-    class TestLifeCycleObsScope<T : ItinLOB> : HasStringProvider, HasWebViewLauncher, HasActivityLauncher, HasJsonUtil, HasItinId, HasToolbarViewModelSetter, HasManageBookingWidgetViewModelSetter, HasTripsTracking, HasMapWidgetViewModelSetter, HasRedeemVoucherViewModelSetter, HasToaster, HasPhoneHandler, HasItinImageViewModelSetter, HasItinTimingsViewModelSetter<T> {
+    class TestLifeCycleObsScope<T : ItinLOB> : HasStringProvider, HasWebViewLauncher, HasActivityLauncher, HasJsonUtil, HasItinId, HasToolbarViewModelSetter, HasManageBookingWidgetViewModelSetter, HasTripsTracking, HasMapWidgetViewModelSetter<T>, HasRedeemVoucherViewModelSetter, HasToaster, HasPhoneHandler, HasItinImageViewModelSetter<T>, HasItinTimingsViewModelSetter<T> {
         val mockPhoneHandler = MockPhoneHandler()
         override val phoneHandler: IPhoneHandler = mockPhoneHandler
-        val mockImage = MockImageSetter()
-        override val itinImage: ItinImageViewModelSetter = mockImage
+        val mockImage = MockImageSetter<T>()
+        override val itinImage: ItinImageViewModelSetter<T> = mockImage
         val mockToaster = MockToaster()
         override val toaster: IToaster = mockToaster
-        override val map: MapWidgetViewModelSetter = MockMapSetter()
+        override val map: MapWidgetViewModelSetter<T> = MockMapSetter()
         val tripsTracker = MockTripsTracking()
         override val tripsTracking: ITripsTracking = tripsTracker
         override val strings: StringSource = MockStringProvider()
@@ -152,14 +152,14 @@ class LxItinDetailsActivityLifecycleObserverTest {
         }
     }
 
-    class MockMapSetter : MapWidgetViewModelSetter {
+    class MockMapSetter<T : ItinLOB> : MapWidgetViewModelSetter<T> {
         var called = false
-        override fun setUpViewModel(vm: ItinMapWidgetViewModel) {
+        override fun setUpViewModel(vm: ItinMapWidgetViewModel<T>) {
             called = true
         }
     }
 
-    class MockTimingsSetter<T : ItinLOB>() : ItinTimingsViewModelSetter<T> {
+    class MockTimingsSetter<T : ItinLOB> : ItinTimingsViewModelSetter<T> {
         var called = false
         override fun setupViewModel(vm: ItinTimingsWidgetViewModel<T>) {
             called = true
@@ -174,10 +174,11 @@ class LxItinDetailsActivityLifecycleObserverTest {
     }
 
     class MockManageBookingSetter : ManageBookingWidgetViewModelSetter {
-        var called = false
-        override fun setUpViewModel(vm: LxItinManageBookingWidgetViewModel<LxItinManageBookingWidgetScope>) {
+        override fun setUpViewModel(vm: ItinManageBookingWidgetViewModel) {
             called = true
         }
+
+        var called = false
     }
 
     class MockToolbarSetter : ToolBarViewModelSetter {
@@ -187,8 +188,8 @@ class LxItinDetailsActivityLifecycleObserverTest {
         }
     }
 
-    class MockImageSetter : ItinImageViewModelSetter {
-        override fun setupViewModel(vm: ItinImageViewModel) {
+    class MockImageSetter<T : ItinLOB> : ItinImageViewModelSetter<T> {
+        override fun setupViewModel(vm: ItinImageViewModel<T>) {
             called = true
         }
 

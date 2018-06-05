@@ -56,6 +56,12 @@ fun Itin.isPackage(): Boolean {
     return packages != null
 }
 
+fun Itin.firstCar(): ItinCar? {
+    val packageCar = packages?.first()?.cars ?: emptyList()
+    val standAloneCar = cars.orEmpty()
+    return packageCar.plus(standAloneCar).firstOrNull()
+}
+
 fun Itin.tripStartDate(): DateTime? {
     val epochSeconds = startTime?.epochSeconds
     val timezoneOffset = startTime?.timeZoneOffsetSeconds

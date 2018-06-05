@@ -13,6 +13,7 @@ class Features {
     val showSplashLoadingAnimationScreen: Feature by RemoteFeatureDelegate()
     val universalWebviewDeepLink: Feature by RemoteFeatureDelegate()
     val lxRedesign: Feature by RemoteFeatureDelegate()
+    val carRedesign: Feature by RemoteFeatureDelegate()
     val productionAbacus: Feature by RemoteFeatureDelegate()
     val launchAllTripNotifications: Feature by RemoteFeatureDelegate()
     val universalCheckoutOnLx: Feature by RemoteFeatureDelegate()

@@ -61,7 +61,7 @@ class LxItinMapWidgetViewModelTest {
         addressLineFirstTestObserver.assertNoValues()
         addressLineSecondTestObserver.assertNoValues()
         latLongTestObserver.assertNoValues()
-        sut.itinLxObserver.onChanged(null)
+        sut.itinObserver.onChanged(null)
         addressLineFirstTestObserver.assertNoValues()
         addressLineSecondTestObserver.assertNoValues()
         latLongTestObserver.assertNoValues()
@@ -72,7 +72,7 @@ class LxItinMapWidgetViewModelTest {
         addressLineFirstTestObserver.assertNoValues()
         addressLineSecondTestObserver.assertNoValues()
         latLongTestObserver.assertNoValues()
-        sut.itinLxObserver.onChanged(ItinMocker.lxDetailsNoDetailsUrl.firstLx())
+        sut.itinObserver.onChanged(ItinMocker.lxDetailsNoDetailsUrl.firstLx())
         addressLineFirstTestObserver.assertNoValues()
         addressLineSecondTestObserver.assertValue("")
         latLongTestObserver.assertNoValues()
@@ -84,7 +84,7 @@ class LxItinMapWidgetViewModelTest {
         phoneNumberContDescTestObserver.assertNoValues()
         assertFalse(mockScope.mockPhoneHandler.handleCalled)
 
-        sut.itinLxObserver.onChanged(ItinMocker.lxDetailsAlsoHappy.firstLx())
+        sut.itinObserver.onChanged(ItinMocker.lxDetailsAlsoHappy.firstLx())
 
         val expectedNumber = "+1 (415) 379 8000"
         val expectedString = R.string.itin_activity_manage_booking_call_lx_button_content_description_TEMPLATE.toString().plus(mapOf("phonenumber" to expectedNumber))
@@ -103,7 +103,7 @@ class LxItinMapWidgetViewModelTest {
         phoneNumberContDescTestObserver.assertNoValues()
         assertFalse(mockScope.mockPhoneHandler.handleCalled)
 
-        sut.itinLxObserver.onChanged(ItinMocker.lxDetailsNoVendorPhone.firstLx())
+        sut.itinObserver.onChanged(ItinMocker.lxDetailsNoVendorPhone.firstLx())
 
         phoneNumberTextTestObserver.assertNoValues()
         phoneNumberContDescTestObserver.assertNoValues()
@@ -123,7 +123,7 @@ class LxItinMapWidgetViewModelTest {
 
     @Test
     fun addressClickTest() {
-        sut.itinLxObserver.onChanged(ItinMocker.lxDetailsHappy.firstLx())
+        sut.itinObserver.onChanged(ItinMocker.lxDetailsHappy.firstLx())
         assertFalse(mockScope.mockToaster.toasted)
         sut.addressClickSubject.onNext(Unit)
         assertTrue(mockScope.mockToaster.toasted)
@@ -140,7 +140,7 @@ class LxItinMapWidgetViewModelTest {
         assertFalse(sut.scope.mockTracking.mapClicked)
         assertFalse(sut.scope.mockStrings.fetchWithPhraseCalled)
         val expectedString = R.string.itin_lx_details_address_copy_content_description_TEMPLATE.toString().plus(mapOf("address" to ItinMocker.lxDetailsHappy.firstLx()?.buildFullAddress()))
-        sut.itinLxObserver.onChanged(ItinMocker.lxDetailsHappy.firstLx())
+        sut.itinObserver.onChanged(ItinMocker.lxDetailsHappy.firstLx())
         addressLineFirstTestObserver.assertValue("55 Music Concourse Drive")
         addressLineSecondTestObserver.assertValue("San Francisco, CA, USA, 94118")
         contentDescTestObserver.assertValue(expectedString)
