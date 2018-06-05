@@ -13,6 +13,8 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.data.flights.RichContent
+import com.expedia.bookings.data.flights.RichContentResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightRichContentService
@@ -125,14 +127,12 @@ class FlightResultsListViewPresenterTest {
     fun testRichContentInFlightLeg() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsRichContent)
         inflateAndSetViewModel()
-
         val flightLeg = createFakeFlightLeg()
         sut.resultsViewModel.isOutboundResults.onNext(true)
         sut.resultsViewModel.flightResultsObservable.onNext(listOf(flightLeg))
-
+        (sut.resultsViewModel as FlightResultsViewModel).makeRichContentObserver().onNext(getRichContentResponse())
         val processedFlightLeg = sut.resultsViewModel.flightResultsObservable.value[0]
         assertEquals(FLIGHT_LEG_ID, processedFlightLeg.legId)
-
         val flightRichContent = processedFlightLeg.richContent
         assertNotNull(flightRichContent)
         assertEquals(8.1F, flightRichContent.score)
@@ -142,6 +142,28 @@ class FlightResultsListViewPresenterTest {
         assertTrue(flightLegAmenities!!.wifi)
         assertTrue(flightLegAmenities.entertainment)
         assertTrue(flightLegAmenities.power)
+    }
+
+    private fun getRichContentResponse(): RichContentResponse {
+        val richContentResponse = RichContentResponse()
+        richContentResponse.richContentList = getRichContentList()
+        return richContentResponse
+    }
+
+    private fun getRichContentList(): List<RichContent> {
+        return listOf(getRichContent())
+    }
+
+    private fun getRichContent(): RichContent {
+        val richContent = RichContent()
+        richContent.legId = FLIGHT_LEG_ID
+        richContent.score = 8.1F
+        richContent.legAmenities = RichContent.RichContentAmenity()
+        richContent.legAmenities!!.wifi = true
+        richContent.legAmenities!!.entertainment = true
+        richContent.legAmenities!!.power = true
+        richContent.scoreExpression = RichContentUtils.ScoreExpression.VERY_GOOD.name
+        return richContent
     }
 
     @Test
