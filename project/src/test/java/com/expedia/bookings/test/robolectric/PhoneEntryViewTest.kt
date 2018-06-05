@@ -10,6 +10,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Phone
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
+import com.expedia.bookings.test.ExcludeForBrands
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -260,6 +261,7 @@ class PhoneEntryViewTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun testPhoneNumberCountryCodeRemovedWhenAutoFilled() {
         val phoneNumberEditText = widget.phoneNumber
         val number = "5103776273"
@@ -270,6 +272,7 @@ class PhoneEntryViewTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun testCountryCodeNotRemovedFromTenDigitNumberOrLessWhenAutoFilled() {
         val phoneNumberEditText = widget.phoneNumber
         val number = "4083333333"
@@ -278,6 +281,7 @@ class PhoneEntryViewTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun testCountryCodeWithPlusWhenAutoFilled() {
         val phoneNumberEditText = widget.phoneNumber
         val number = "+14083333333"
@@ -287,6 +291,7 @@ class PhoneEntryViewTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun testAutoFillPhoneNumberWithNoCountryCodeMatch() {
         val phoneNumberEditText = widget.phoneNumber
         val number = "+11234567891"

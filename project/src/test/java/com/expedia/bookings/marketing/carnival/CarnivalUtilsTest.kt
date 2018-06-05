@@ -387,10 +387,19 @@ class CarnivalUtilsTest : CarnivalUtils() {
     }
 
     @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun carnivalContentIntentBuilderHandlesNullBundle() {
         val carnivalContentIntentBuilder = CarnivalContentIntentBuilder()
         val intent = getIntent(carnivalContentIntentBuilder.build(context, null))
         assertEquals("expda://home", intent.data.toString())
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.ORBITZ])
+    fun carnivalContentIntentBuilderHandlesNullBundleForMultiBrands() {
+        val carnivalContentIntentBuilder = CarnivalContentIntentBuilder()
+        val intent = getIntent(carnivalContentIntentBuilder.build(context, null))
+        assertEquals("obtz://home", intent.data.toString())
     }
 
     @Test
@@ -410,6 +419,7 @@ class CarnivalUtilsTest : CarnivalUtils() {
     }
 
     @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun defaultDeeplinkIsHomeScreen_givenNoCarnivalDeeplinkProvided() {
         val carnivalContentIntentBuilder = CarnivalContentIntentBuilder()
         val bundle = Bundle()

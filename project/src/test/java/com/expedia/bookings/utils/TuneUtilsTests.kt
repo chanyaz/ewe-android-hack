@@ -27,6 +27,8 @@ import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MockPackageServiceTestRule
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.testrule.ServicesRule
@@ -186,6 +188,7 @@ class TuneUtilsTests {
     }
 
     @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testTrackHotelCheckoutConfirmation() {
         setupTuneProvider()
 
@@ -225,6 +228,49 @@ class TuneUtilsTests {
         assertEquals("Phoenix", provider.trackedEvent?.eventItems?.first()?.attribute1)
         assertEquals(3, provider.trackedEvent?.quantity)
         assertEquals("1234567890:1", provider.trackedEvent?.refId)
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.ORBITZ])
+    fun testTrackHotelCheckoutConfirmationOnOrbitz() {
+        setupTuneProvider()
+
+        val hotelCheckoutResponse = HotelCheckoutResponse()
+        val productResponse = HotelCheckoutResponse.ProductResponse()
+        productResponse.checkInDate = "2025-11-23"
+        productResponse.checkOutDate = "2025-11-26"
+        productResponse.hotelCity = "Phoenix"
+        productResponse.localizedHotelName = "The Phoenician"
+        productResponse.hotelId = "18762"
+
+        val hotelRoomResponse = HotelOffersResponse.HotelRoomResponse()
+        hotelRoomResponse.rateInfo = generateHotelRateInfoObject(269.99f, 249.99f)
+        productResponse.hotelRoomResponse = hotelRoomResponse
+
+        val checkoutResponse = HotelCheckoutResponse.CheckoutResponse()
+        checkoutResponse.productResponse = productResponse
+
+        val bookingResponse = HotelCheckoutResponse.BookingResponse()
+        bookingResponse.itineraryNumber = "1234567890"
+
+        checkoutResponse.bookingResponse = bookingResponse
+        hotelCheckoutResponse.checkoutResponse = checkoutResponse
+        hotelCheckoutResponse.totalCharges = "269.99"
+        hotelCheckoutResponse.currencyCode = "USD"
+
+        TuneUtils.trackHotelV2Confirmation(hotelCheckoutResponse)
+
+        assertEquals("hotel_confirmation", provider.trackedEvent?.eventName)
+        assertEquals("hotel_confirmation_item", provider.trackedEvent?.eventItems?.first()?.itemname)
+        assertEquals(LocalDate(2025, 11, 23).toDate(), provider.trackedEvent?.date1)
+        assertEquals(LocalDate(2025, 11, 26).toDate(), provider.trackedEvent?.date2)
+        assertEquals("18762", provider.trackedEvent?.contentId)
+        assertEquals("The Phoenician", provider.trackedEvent?.contentType)
+        assertEquals("USD", provider.trackedEvent?.currencyCode)
+        assertEquals(269.99, provider.trackedEvent?.revenue)
+        assertEquals("Phoenix", provider.trackedEvent?.eventItems?.first()?.attribute1)
+        assertEquals(3, provider.trackedEvent?.quantity)
+        assertEquals("1234567890:70201", provider.trackedEvent?.refId)
     }
 
     @Test
@@ -436,6 +482,7 @@ class TuneUtilsTests {
     }
 
     @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testTrackLXConfirmation() {
         setupTuneProvider()
 
@@ -463,6 +510,35 @@ class TuneUtilsTests {
     }
 
     @Test
+    @RunForBrands(brands = [MultiBrand.ORBITZ])
+    fun testTrackLXConfirmationForOrbitz() {
+        setupTuneProvider()
+
+        val totalPrice = Money(150, "USD")
+        val ticketPrice = Money(50, "USD")
+        val activityDate = "2025-12-10 12:30:00"
+        val itineraryNumber = "TRL"
+        val activityId = "98765"
+
+        TuneUtils.trackLXConfirmation(itineraryNumber, activityId, "San Francisco", totalPrice, ticketPrice, activityDate, "Tour", 2, 1)
+
+        assertEquals("lx_confirmation", provider.trackedEvent?.eventName)
+        assertEquals("lx_confirmation_item", provider.trackedEvent?.eventItems?.first()?.itemname)
+        assertEquals(3, provider.trackedEvent?.eventItems?.first()?.quantity)
+        assertEquals(totalPrice.amount.toDouble(), provider.trackedEvent?.eventItems?.first()?.revenue)
+        assertEquals(ticketPrice.amount.toDouble(), provider.trackedEvent?.eventItems?.first()?.unitPrice)
+        assertEquals("San Francisco", provider.trackedEvent?.eventItems?.first()?.attribute2)
+        assertEquals("Tour", provider.trackedEvent?.eventItems?.first()?.attribute3)
+        assertEquals(totalPrice.amount.toDouble(), provider.trackedEvent?.revenue)
+        assertEquals(1, provider.trackedEvent?.quantity)
+        assertEquals("USD", provider.trackedEvent?.currencyCode)
+        assertEquals(ApiDateUtils.yyyyMMddHHmmssToDateTime(activityDate).toDate(), provider.trackedEvent?.date1)
+        assertEquals("98765", provider.trackedEvent?.contentId)
+        assertEquals("TRL:70201", provider.trackedEvent?.refId)
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testMIDPackageConfirmationTracking() {
         setupTuneProvider()
         val testObserver: TestObserver<AbstractItinDetailsResponse> = TestObserver.create()

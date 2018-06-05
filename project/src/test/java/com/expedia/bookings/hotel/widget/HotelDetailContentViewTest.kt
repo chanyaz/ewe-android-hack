@@ -20,6 +20,7 @@ import com.expedia.testutils.AndroidAssert.Companion.assertViewContDescEquals
 import com.expedia.testutils.AndroidAssert.Companion.assertViewTextEquals
 import com.expedia.testutils.AndroidAssert.Companion.assertVisible
 import com.expedia.bookings.hotel.vm.HotelDetailViewModel
+import com.expedia.bookings.test.ExcludeForBrands
 import com.squareup.phrase.Phrase
 import org.junit.Before
 import org.junit.Test
@@ -283,6 +284,7 @@ class HotelDetailContentViewTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun testDetailedPriceViewsShownForPackages() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(activity, AbacusUtils.EBAndroidAppPackagesHSRPriceDisplay)
         contentView.viewModel = PackageHotelDetailViewModel(activity)

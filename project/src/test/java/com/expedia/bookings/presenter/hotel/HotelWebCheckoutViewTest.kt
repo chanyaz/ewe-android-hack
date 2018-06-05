@@ -12,6 +12,7 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.test.ExcludeForBrands
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RoboTestHelper
@@ -247,6 +248,7 @@ class HotelWebCheckoutViewTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun testDoNotReloadUrlUntilStatusChangedToTrueAndLoggedIn() {
         getToWebCheckoutView()
         val testReloadSubscriber = TestObserver<Unit>()
@@ -263,6 +265,7 @@ class HotelWebCheckoutViewTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun testShowSearchScreenAfterWebCheckoutErrorRedirect() {
         getToWebCheckoutView()
         val (maskWebCheckoutActivityObservable, testUrlObservable, testShowNativeObserver) = setupShowNativeTestObservers()
@@ -273,6 +276,7 @@ class HotelWebCheckoutViewTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun testShowSearchScreenAfterWebCheckoutErrorBack() {
         getToWebCheckoutView()
         val (maskWebCheckoutActivityObservable, testUrlObservable, testShowNativeObserver) = setupShowNativeTestObservers()

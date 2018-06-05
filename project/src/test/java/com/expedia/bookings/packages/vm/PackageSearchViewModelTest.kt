@@ -7,6 +7,8 @@ import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.test.ExcludeForBrands
+import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.JodaUtils
@@ -134,6 +136,7 @@ class PackageSearchViewModelTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     @Config(qualifiers = "ko")
     fun testPackageSearchDayWithDateKR() {
         val currentLocale = Locale.getDefault()
@@ -152,6 +155,7 @@ class PackageSearchViewModelTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     @Config(qualifiers = "ja")
     fun testPackageSearchDayWithDateJP() {
         val currentLocale = Locale.getDefault()

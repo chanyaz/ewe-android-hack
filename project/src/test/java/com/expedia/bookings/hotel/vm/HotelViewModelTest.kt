@@ -18,6 +18,7 @@ import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.features.Features
+import com.expedia.bookings.test.ExcludeForBrands
 import com.expedia.bookings.test.MockPackageServiceTestRule
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
@@ -237,6 +238,7 @@ class HotelViewModelTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun testUrgencyMessageMemberDealsHasSecondPriority() {
         givenHotelWithMemberDeal()
         givenHotelWithFewRoomsLeft()
@@ -246,6 +248,20 @@ class HotelViewModelTest {
         assertUrgencyMessage(R.drawable.ic_member_only_tag,
                 R.color.member_pricing_bg_color,
                 "Member Pricing",
+                R.color.member_pricing_text_color)
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.ORBITZ])
+    fun testUrgencyMessageInsiderPricesHasSecondPriority() {
+        givenHotelWithMemberDeal()
+        givenHotelWithFewRoomsLeft()
+        givenHotelWithTonightOnly()
+        givenHotelWithMobileExclusive()
+
+        assertUrgencyMessage(R.drawable.ic_member_only_tag,
+                R.color.member_pricing_bg_color,
+                "Insider Prices",
                 R.color.member_pricing_text_color)
     }
 

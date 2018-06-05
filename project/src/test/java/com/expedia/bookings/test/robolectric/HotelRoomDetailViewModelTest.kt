@@ -555,6 +555,7 @@ class HotelRoomDetailViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testDiscountPercentageTextColorGenericAttach() {
         val roomResponse = createRoomResponse()
         roomResponse.rateInfo.chargeableRateInfo.airAttached = true

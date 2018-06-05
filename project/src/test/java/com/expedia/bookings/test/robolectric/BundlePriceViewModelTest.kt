@@ -10,6 +10,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.test.ExcludeForBrands
+import com.expedia.bookings.test.MultiBrand
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -48,6 +50,7 @@ class BundlePriceViewModelTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun testBundleSaveLabelForJP() {
         RoboTestHelper.setPOS(PointOfSaleId.JAPAN)
         val testSubscriber = TestObserver<String>()
@@ -65,6 +68,7 @@ class BundlePriceViewModelTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun testBundleSaveLabelNonIntegerForJP() {
         RoboTestHelper.setPOS(PointOfSaleId.JAPAN)
         val testSubscriber = TestObserver<String>()
@@ -81,6 +85,7 @@ class BundlePriceViewModelTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun testBundleTotalIntegerForJP() {
         RoboTestHelper.setPOS(PointOfSaleId.JAPAN)
         val testSubscriber = TestObserver<String>()
@@ -94,6 +99,7 @@ class BundlePriceViewModelTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun testBundleTotalIntegerNonIntegerForJP() {
         RoboTestHelper.setPOS(PointOfSaleId.JAPAN)
         val testSubscriber = TestObserver<String>()

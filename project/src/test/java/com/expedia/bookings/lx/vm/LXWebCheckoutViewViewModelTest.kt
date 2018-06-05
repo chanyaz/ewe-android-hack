@@ -4,6 +4,8 @@ import com.expedia.bookings.data.lx.LXCreateTripResponseV2
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.Optional
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -30,6 +32,7 @@ class LXWebCheckoutViewViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testWebViewURLObservableForUSPOS() {
         val testSubscriber = TestObserver<String>()
         webCheckoutViewModel.webViewURLObservable.subscribe(testSubscriber)
@@ -39,6 +42,7 @@ class LXWebCheckoutViewViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testWebViewURLObservableForUKPOS() {
         SettingUtils.save(getContext(), "point_of_sale_key", PointOfSaleId.UNITED_KINGDOM.id.toString())
         PointOfSale.onPointOfSaleChanged(getContext())

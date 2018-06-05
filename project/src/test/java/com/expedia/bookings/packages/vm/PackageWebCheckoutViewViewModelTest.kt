@@ -32,6 +32,7 @@ class PackageWebCheckoutViewViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testWebViewURL() {
         val testObserver = TestObserver<String>()
         viewModel.webViewURLObservable.subscribe(testObserver)
@@ -66,6 +67,7 @@ class PackageWebCheckoutViewViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testNoWebViewURLWhenCreateTripResponseIsAvailableAfterWebViewIsShown() {
         val testObserver = TestObserver<String>()
         viewModel.webViewURLObservable.subscribe(testObserver)

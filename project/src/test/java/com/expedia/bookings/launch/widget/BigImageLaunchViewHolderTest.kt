@@ -8,6 +8,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.launch.vm.BigImageLaunchViewModel
+import com.expedia.bookings.test.ExcludeForBrands
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Test
@@ -40,6 +43,7 @@ class BigImageLaunchViewHolderTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun bigImageLaunchCardContentIsSet_givenImageUrlIsNull() {
         vm = getMockBigImageLaunchViewModel()
         vm.backgroundUrl = null
@@ -47,6 +51,19 @@ class BigImageLaunchViewHolderTest {
         bigImageLaunchViewHolderUnderTest.loadCard()
 
         assertEquals("Member Pricing", bigImageLaunchViewHolderUnderTest.getMockTitleView().text)
+        assertEquals("Discounts off select hotels", bigImageLaunchViewHolderUnderTest.getMockSubtitleView().text)
+        assertEquals(ContextCompat.getDrawable(activity, R.drawable.ic_member_deals_icon), bigImageLaunchViewHolderUnderTest.getMockIconImageView().drawable)
+    }
+
+    @Test
+    @RunForBrands(brands = [MultiBrand.ORBITZ])
+    fun bigImageLaunchCardContentIsSet_givenImageUrlIsNull_Orbitz() {
+        vm = getMockBigImageLaunchViewModel()
+        vm.backgroundUrl = null
+        bigImageLaunchViewHolderUnderTest = MockBigImageLaunchViewHolder(view, vm, true)
+        bigImageLaunchViewHolderUnderTest.loadCard()
+
+        assertEquals("Insider Prices", bigImageLaunchViewHolderUnderTest.getMockTitleView().text)
         assertEquals("Discounts off select hotels", bigImageLaunchViewHolderUnderTest.getMockSubtitleView().text)
         assertEquals(ContextCompat.getDrawable(activity, R.drawable.ic_member_deals_icon), bigImageLaunchViewHolderUnderTest.getMockIconImageView().drawable)
     }

@@ -4,6 +4,8 @@ import android.content.Context
 import com.expedia.bookings.data.TripDetails
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.Optional
@@ -26,6 +28,7 @@ class FlightWebCheckoutViewViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = [MultiBrand.EXPEDIA])
     fun testWebViewURL() {
         val testObserver = TestObserver<String>()
         viewModel.webViewURLObservable.subscribe(testObserver)

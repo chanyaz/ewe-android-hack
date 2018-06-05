@@ -22,6 +22,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.packages.widget.PackageHotelCellViewHolder
+import com.expedia.bookings.test.ExcludeForBrands
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import org.junit.Assert
 import org.junit.Before
@@ -135,6 +136,7 @@ class PackageHotelCellTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun testDetailedPriceMessagingPresent() {
         val vm = packageHotelHolder.viewModel as PackageHotelViewModel
         vm.shouldDisplayPricingViews.onNext(true)

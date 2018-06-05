@@ -102,7 +102,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	private MesoHotelAdViewModel mesoHotelAdViewModel;
 	private MesoDestinationViewModel mesoDestinationViewModel;
 
-	private Context context;
+	protected Context context;
 	private ViewGroup parentView;
 	private View headerView;
 	private TextView seeAllButton;
@@ -110,7 +110,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	private boolean showOnlyLOBView = false;
 
-	private LaunchListLogic launchListLogic;
+	protected LaunchListLogic launchListLogic;
 
 	public LaunchListAdapter(Context context, View header, LaunchListLogic launchListLogic) {
 		this.context = context;

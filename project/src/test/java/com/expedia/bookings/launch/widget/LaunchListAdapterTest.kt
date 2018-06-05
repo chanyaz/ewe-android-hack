@@ -14,7 +14,6 @@ import android.widget.FrameLayout
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.analytics.OmnitureTestUtils
-import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.collections.CollectionLocation
@@ -167,81 +166,6 @@ class LaunchListAdapterTest {
 
         val expectedHotelEvar = mapOf(12 to "App.LS.MeSo.B2P.Ad." + hotelName)
         OmnitureTestUtils.assertLinkTracked(OmnitureMatchers.withEvars(expectedHotelEvar), mockAnalyticsProvider)
-    }
-
-    @Test
-    @RunForBrands(brands = [MultiBrand.ORBITZ])
-    fun itemViewPosition_NotShowingRewardLaunchCardInSpanish() {
-        setSystemLanguage("es")
-        givenCustomerSignedIn()
-        createSystemUnderTest()
-
-        val firstPosition = adapterUnderTest.getItemViewType(0)
-        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
-
-        val secondPosition = adapterUnderTest.getItemViewType(1)
-        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, secondPosition)
-
-        val thirdPosition = adapterUnderTest.getItemViewType(2)
-        assertEquals(LaunchDataItem.HEADER_VIEW, thirdPosition)
-    }
-
-    @Test
-    @RunForBrands(brands = [MultiBrand.ORBITZ])
-    fun itemViewPosition_ShowingRewardLaunchCard() {
-        givenCustomerSignedIn()
-        createSystemUnderTest()
-
-        val firstPosition = adapterUnderTest.getItemViewType(0)
-        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
-
-        val secondPosition = adapterUnderTest.getItemViewType(1)
-        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, secondPosition)
-
-        val thirdPosition = adapterUnderTest.getItemViewType(2)
-        assertEquals(LaunchDataItem.REWARD_CARD_VIEW, thirdPosition)
-
-        val fourthPosition = adapterUnderTest.getItemViewType(3)
-        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
-    }
-
-    @Test
-    @RunForBrands(brands = [MultiBrand.ORBITZ])
-    fun itemViewPosition_ShowingJoinRewardsLaunchCard() {
-        givenCustomerSignedIn()
-        UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser(LoyaltyMembershipTier.NONE))
-        givenJoinRewardsLaunchCardEnabled()
-        createSystemUnderTest()
-
-        val firstPosition = adapterUnderTest.getItemViewType(0)
-        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
-
-        val secondPosition = adapterUnderTest.getItemViewType(1)
-        assertEquals(LaunchDataItem.JOIN_REWARDS_CARD_VIEW, secondPosition)
-
-        val thirdPosition = adapterUnderTest.getItemViewType(2)
-        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, thirdPosition)
-
-        val fourthPosition = adapterUnderTest.getItemViewType(3)
-        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
-    }
-
-    @Test
-    @RunForBrands(brands = [MultiBrand.ORBITZ])
-    fun itemViewPosition_NotShowingJoinRewardsLaunchCardInSpanish() {
-        setSystemLanguage("es")
-        givenCustomerSignedIn()
-        givenJoinRewardsLaunchCardEnabled()
-        createSystemUnderTest()
-
-        val firstPosition = adapterUnderTest.getItemViewType(0)
-        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
-
-        val secondPosition = adapterUnderTest.getItemViewType(1)
-        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, secondPosition)
-
-        val thirdPosition = adapterUnderTest.getItemViewType(2)
-        assertEquals(LaunchDataItem.HEADER_VIEW, thirdPosition)
     }
 
     @Test
@@ -1061,7 +985,7 @@ class LaunchListAdapterTest {
         Locale.setDefault(Locale(lang))
     }
 
-    inner class TestLaunchListAdapter(context: Context?, header: View?, logic: LaunchListLogic) : LaunchListAdapter(context, header, logic) {
+    class TestLaunchListAdapter(context: Context?, header: View?, logic: LaunchListLogic) : LaunchListAdapter(context, header, logic) {
         override fun initMesoAd() {
             if (launchListLogic.showMesoHotelAd()) {
                 mesoHotelAdViewModel = MesoHotelAdViewModel(context = context)
@@ -1071,9 +995,36 @@ class LaunchListAdapterTest {
                 mesoDestinationViewModel.mesoDestinationAdResponse = getMesoAdResponseMockData().DestinationAdResponse
             }
         }
+
+        private fun getMesoAdResponseMockData(): MesoAdResponse {
+            val mesoHotelAdResponse = MesoHotelAdResponse(object : NativeAd.Image() {
+                override fun getDrawable(): Drawable? {
+                    return null
+                }
+
+                override fun getUri(): Uri? {
+                    return Uri.parse("https://images.trvl-media.com/hotels/22000000/21120000/21118500/21118500/985a38ba_z.jpg")
+                }
+
+                override fun getScale(): Double {
+                    return 0.0
+                }
+            },
+                    "Check out this hotel",
+                    "123456",
+                    "Really Great Fake Hotel",
+                    "$200",
+                    "33%",
+                    "Ann Arbor, Michigan",
+                    "0",
+                    "$300")
+
+            val mesoDestinationAdResponse = MesoDestinationAdResponse("", "", "", "", "")
+            return MesoAdResponse(mesoHotelAdResponse, mesoDestinationAdResponse)
+        }
     }
 
-    inner class TestLaunchListLogic(var isItinLaunchCardEnabled: Boolean = false, val trips: List<Trip>? = null, var recentAirAttachFlightTrip: Trip? = Trip()) : LaunchListLogic() {
+    class TestLaunchListLogic(var isItinLaunchCardEnabled: Boolean = false, val trips: List<Trip>? = null, var recentAirAttachFlightTrip: Trip? = Trip()) : LaunchListLogic() {
         override fun showItinCard(): Boolean {
             return isItinLaunchCardEnabled
         }
@@ -1088,32 +1039,5 @@ class LaunchListAdapterTest {
             }
             return trips
         }
-    }
-
-    private fun getMesoAdResponseMockData(): MesoAdResponse {
-        val mesoHotelAdResponse = MesoHotelAdResponse(object : NativeAd.Image() {
-            override fun getDrawable(): Drawable? {
-                return null
-            }
-
-            override fun getUri(): Uri? {
-                return Uri.parse("https://images.trvl-media.com/hotels/22000000/21120000/21118500/21118500/985a38ba_z.jpg")
-            }
-
-            override fun getScale(): Double {
-                return 0.0
-            }
-        },
-                "Check out this hotel",
-                "123456",
-                "Really Great Fake Hotel",
-                "$200",
-                "33%",
-                "Ann Arbor, Michigan",
-                "0",
-                "$300")
-
-        val mesoDestinationAdResponse = MesoDestinationAdResponse("", "", "", "", "")
-        return MesoAdResponse(mesoHotelAdResponse, mesoDestinationAdResponse)
     }
 }

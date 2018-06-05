@@ -62,6 +62,7 @@ class HotelWebCheckoutViewViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testWebViewURLObservableForUSPOS() {
         val webViewURLSubscriber = setupHotelWebCheckoutViewViewModel(PointOfSaleId.UNITED_STATES.id.toString())
         webViewURLSubscriber.assertValueCount(1)
@@ -69,6 +70,7 @@ class HotelWebCheckoutViewViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testWebViewURLObservableForMalaysiaPOS() {
         val webViewURLSubscriber = setupHotelWebCheckoutViewViewModel(PointOfSaleId.MALAYSIA.id.toString())
         webViewURLSubscriber.assertValueCount(1)

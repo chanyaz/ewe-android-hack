@@ -25,6 +25,7 @@ import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.test.ExcludeForBrands;
 import com.expedia.bookings.test.MultiBrand;
 import com.expedia.bookings.test.RunForBrands;
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
@@ -437,6 +438,7 @@ public class StrUtilsTest {
 	}
 
 	@Test
+	@ExcludeForBrands(brands = {MultiBrand.ORBITZ})
 	public void testGetAppropriateTermsAndConditionsUrlWithTermsPresentForUS() {
 		setPOS(PointOfSaleId.UNITED_STATES);
 		String termsUrl = StrUtils.getAppropriateTermsAndConditionsUrl();
@@ -444,6 +446,7 @@ public class StrUtilsTest {
 	}
 
 	@Test
+	@ExcludeForBrands(brands = {MultiBrand.ORBITZ})
 	public void testGetAppropriateTermsAndConditionsUrlWithTermsMissingForGermany() {
 		// Ideally we'd just mock/override the termsAndConditions URLs rather than switching the POS here,
 		// but that POS class isn't really set up to be mocked

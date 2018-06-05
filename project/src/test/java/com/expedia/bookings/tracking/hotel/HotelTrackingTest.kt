@@ -7,6 +7,8 @@ import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
+import com.expedia.bookings.test.ExcludeForBrands
+import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.OmnitureMatchers
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
@@ -45,6 +47,7 @@ class HotelTrackingTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun testTrackingInRoomBookClickForIndiaPOS() {
         setPOS(PointOfSaleId.INDIA.id.toString())
         performHotelRoomClickTracking()
@@ -57,6 +60,7 @@ class HotelTrackingTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun testTrackingInRoomBookClickForNonIndiaPOSWithABTestBucketed() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppHotelsWebCheckout)
         setPOS(PointOfSaleId.UNITED_STATES.id.toString())
@@ -71,6 +75,7 @@ class HotelTrackingTest {
     }
 
     @Test
+    @ExcludeForBrands(brands = [MultiBrand.ORBITZ])
     fun testTrackingInRoomBookClickForNonIndiaPOSWithABTestInControl() {
         AbacusTestUtils.bucketTestAndEnableRemoteFeature(getContext(), AbacusUtils.EBAndroidAppHotelsWebCheckout, AbacusVariant.CONTROL.value)
         setPOS(PointOfSaleId.UNITED_STATES.id.toString())
