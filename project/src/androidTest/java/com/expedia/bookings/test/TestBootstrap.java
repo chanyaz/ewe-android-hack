@@ -12,6 +12,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 
 import com.expedia.bookings.BuildConfig;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.RouterActivity;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
@@ -51,6 +52,10 @@ public class TestBootstrap extends ActivityInstrumentationTestCase2<RouterActivi
 		Settings.setMockModeEndPoint();
 		Settings.setOnboardingScreenVisibility(false);
 		super.setUp();
+
+		ExpediaBookingApp app = (ExpediaBookingApp) getInstrumentation().getTargetContext().getApplicationContext();
+		app.defaultAppComponents();
+
 		mActivity = getActivity();
 		assertNotNull(mActivity);
 
