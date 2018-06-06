@@ -4643,8 +4643,8 @@
     <!--Traveler widget child minus button content description-->
     <string name="remove_child_traveler_cont_desc">Remove one child traveler</string>
 
-    <!--Recent search subtitle in the suggestions dropdown, e.g Jun 3 - Jun 4 1 Night 2 Guests -->
-    <string name="suggestion_search_info_dropdown_TEMPLATE">{startdate} \u2013 {enddate}\u0020 \u0020{nights}\u0020 \u0020{guests}</string>
+    <!--Recent searches subtitle in the suggestions dropdown, e.g Jun 3 - Jun 5 2 Nights 2 Guests -->
+    <string name="suggestion_search_info_dropdown_TEMPLATE">{startdate} \u2013 {enddate} \u0020 {nights} \u0020 {guests}</string>
 
     <!--Rail Traveler widget youth plus button content description-->
     <string name="rails_add_youth_traveler_cont_desc">Add one youth traveler</string>
