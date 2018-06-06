@@ -15,6 +15,7 @@ import com.expedia.bookings.data.abacus.AbacusVariant;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.pagemodels.common.LaunchScreen;
+import com.expedia.bookings.test.Settings;
 import com.mobiata.android.util.SettingUtils;
 
 import cucumber.api.java.en.And;
@@ -144,6 +145,18 @@ public class CommonSteps {
 	public void hitBackNumberOfTimes(int number) {
 		for (int iterator = 0 ; iterator < number ; iterator++) {
 			Common.pressBack();
+		}
+	}
+
+	@And("^I set the server to \"(.*?)\"$")
+	public void setServer(String name) throws Throwable {
+		switch (name) {
+			case "Int":
+				Settings.setServer("Integration");
+				break;
+			case "Prod":
+				Settings.setServer("Production");
+				break;
 		}
 	}
 }
