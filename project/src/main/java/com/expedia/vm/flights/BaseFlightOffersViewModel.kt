@@ -27,6 +27,8 @@ import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import java.util.HashMap
 
+import java.util.LinkedHashSet
+
 abstract class BaseFlightOffersViewModel(val context: Context, val flightServices: FlightServices) {
 
     val searchParamsObservable = BehaviorSubject.create<FlightSearchParams>()
@@ -43,12 +45,10 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     val offerSelectedChargesObFeesSubject = BehaviorSubject.create<String>()
     val flightOfferSelected = PublishSubject.create<FlightTripDetails.FlightOffer>()
     val flightProductId = PublishSubject.create<String>()
-    val showChargesObFeesSubject = PublishSubject.create<Boolean>()
     val outboundResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
     val inboundResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
     val obFeeDetailsUrlObservable = BehaviorSubject.create<String>()
-    val cancelOutboundSearchObservable = PublishSubject.create<Unit>()
-    val cancelInboundSearchObservable = PublishSubject.create<Unit>()
+    val cancelSearchObservable = PublishSubject.create<Unit>()
     val cancelGreedySearchObservable = PublishSubject.create<Unit>()
     val retrySearchObservable = PublishSubject.create<Unit>()
     val ticketsLeftObservable = PublishSubject.create<Int>()
@@ -72,8 +72,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     protected var isRoundTripSearch = true
     protected lateinit var flightOfferModels: HashMap<String, FlightTripDetails.FlightOffer>
 
-    protected var flightOutboundSearchSubscription: Disposable? = null
-    protected var flightInboundSearchSubscription: Disposable? = null
+    protected var flightSearchSubscription: Disposable? = null
     protected var flightGreedySearchSubscription: Disposable? = null
 
     init {
@@ -86,7 +85,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
             nonStopSearchFilterAppliedSubject.onNext(params.nonStopFlight ?: false)
             searchingForFlightDateTime.onNext(Unit)
             if (!isFlightGreedySearchEnabled(context) || isGreedyCallAborted) {
-                flightOutboundSearchSubscription = flightServices.flightSearch(params, makeResultsObserver(), resultsReceivedDateTimeObservable)
+                flightSearchSubscription = flightServices.flightSearch(params, makeResultsObserver(), resultsReceivedDateTimeObservable)
                 showDebugToast("Normal Search call is triggerred")
             }
             if (isFlightGreedySearchEnabled(context) && isGreedyCallAborted) {
@@ -96,7 +95,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
 
         if (isFlightGreedySearchEnabled(context)) {
             greedyFlightSearchObservable.subscribe { params ->
-                flightGreedySearchSubscription = flightServices.greedyFlightSearch(params, makeResultsObserver(), resultsReceivedDateTimeObservable)
+                flightSearchSubscription = flightServices.greedyFlightSearch(params, makeResultsObserver(), resultsReceivedDateTimeObservable)
                 showDebugToast("Greedy call is triggerred")
             }
 
@@ -105,12 +104,10 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
             }
         }
 
-        cancelOutboundSearchObservable.subscribe {
-            flightOutboundSearchSubscription?.dispose()
-        }
-
-        cancelInboundSearchObservable.subscribe {
-            flightInboundSearchSubscription?.dispose()
+        cancelSearchObservable.subscribe {
+            if (flightSearchSubscription != null && !flightSearchSubscription!!.isDisposed) {
+                flightSearchSubscription?.dispose()
+            }
         }
 
         isRoundTripSearchSubject.subscribe {
@@ -120,11 +117,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
         setupFlightSelectionObservables()
 
         flightOfferSelected.subscribe { selectedOffer ->
-            showChargesObFeesSubject.onNext(selectedOffer.mayChargeOBFees)
-        }
-
-        showChargesObFeesSubject.subscribe { hasObFee ->
-            if (hasObFee) {
+            if (selectedOffer.mayChargeOBFees) {
                 offerSelectedChargesObFeesSubject.onNext(context.getString(R.string.airline_fee_apply))
             } else {
                 offerSelectedChargesObFeesSubject.onNext("")
@@ -273,13 +266,26 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
         }
     }
 
+    protected fun sendOutboundFlights(outBoundFlights: LinkedHashSet<FlightLeg>) {
+        if (isFlightGreedySearchEnabled(context) && isGreedyCallCompleted && !isGreedyCallAborted) {
+            greedyOutboundResultsObservable.onNext(outBoundFlights.toList())
+            hasUserClickedSearchObservable.onNext(searchParamsObservable.value != null)
+            isGreedyCallCompleted = false
+        } else if (searchParamsObservable.value != null) {
+            outboundResultsObservable.onNext(outBoundFlights.toList())
+        }
+    }
+
     private fun getMinimumTicketsLeft(outboundTicketsLeft: Int, inboundTicketsLeft: Int): Int {
         if (outboundTicketsLeft < inboundTicketsLeft) return outboundTicketsLeft
         return inboundTicketsLeft
     }
 
+    private fun setSubPubAvailability(hasSubPub: Boolean) {
+        isSubPub = hasSubPub
+    }
+
     protected abstract fun selectOutboundFlight(legId: String)
     protected abstract fun createFlightMap(response: FlightSearchResponse)
     protected abstract fun makeFlightOffer(response: FlightSearchResponse)
-    protected abstract fun setSubPubAvailability(hasSubPub: Boolean)
 }

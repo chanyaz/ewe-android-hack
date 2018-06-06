@@ -6,7 +6,6 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchResponse
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.services.FlightServices
-import com.expedia.bookings.utils.isFlightGreedySearchEnabled
 import com.expedia.bookings.utils.isRichContentEnabled
 import java.util.HashMap
 import java.util.LinkedHashSet
@@ -55,13 +54,7 @@ class FlightOffersViewModel(context: Context, flightServices: FlightServices) : 
             }
             flightMap.put(outboundId, flights)
         }
-        if (isFlightGreedySearchEnabled(context) && isGreedyCallCompleted && !isGreedyCallAborted) {
-            greedyOutboundResultsObservable.onNext(outBoundFlights.toList())
-            hasUserClickedSearchObservable.onNext(searchParamsObservable.value != null)
-            isGreedyCallCompleted = false
-        } else if (searchParamsObservable.value != null) {
-            outboundResultsObservable.onNext(outBoundFlights.toList())
-        }
+        sendOutboundFlights(outBoundFlights)
     }
 
     private fun findInboundFlights(outboundFlightId: String): List<FlightLeg> {
@@ -83,9 +76,5 @@ class FlightOffersViewModel(context: Context, flightServices: FlightServices) : 
 
     override fun makeFlightOffer(response: FlightSearchResponse) {
         createFlightMap(response)
-    }
-
-    override fun setSubPubAvailability(hasSubPub: Boolean) {
-        isSubPub = hasSubPub
     }
 }

@@ -47,6 +47,7 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
     }
 
     override fun back(): Boolean {
+        flightOfferViewModel.cancelSearchObservable.onNext(Unit)
         if (isRichContentEnabled(context)) {
             resultsPresenter.resultsViewModel.abortRichContentCallObservable.onNext(Unit)
         }

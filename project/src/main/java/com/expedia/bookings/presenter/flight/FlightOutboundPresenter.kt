@@ -19,7 +19,6 @@ class FlightOutboundPresenter(context: Context, attrs: AttributeSet) : AbstractM
     }
 
     override fun back(): Boolean {
-        flightOfferViewModel.cancelOutboundSearchObservable.onNext(Unit)
         if (isFlightGreedySearchEnabled(context)) {
             flightOfferViewModel.isGreedyCallAborted = true
             flightOfferViewModel.cancelGreedyCalls()

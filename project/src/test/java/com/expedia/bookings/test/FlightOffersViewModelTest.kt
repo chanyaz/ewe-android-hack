@@ -202,9 +202,7 @@ class FlightOffersViewModelTest {
 
     @Test
     fun testShowFlightChargesObFees() {
-        val showObChargesTestSubscriber = TestObserver<Boolean>()
         val urlTestSubscriber = TestObserver<String>()
-        sut.showChargesObFeesSubject.subscribe(showObChargesTestSubscriber)
         sut.obFeeDetailsUrlObservable.subscribe(urlTestSubscriber)
 
         performFlightSearch(roundTrip = true)
@@ -212,15 +210,12 @@ class FlightOffersViewModelTest {
         sut.outboundSelected.onNext(makeFlightLeg("leg1"))
         sut.inboundSelected.onNext(makeFlightLeg("leg0"))
 
-        showObChargesTestSubscriber.assertValues(true)
         urlTestSubscriber.assertValue("http://www.expedia.com/api/flight/obFeeCostSummary?langid=1033")
     }
 
     @Test
     fun testHideFlightChargesObFeesForSelectedOnewayOffer() {
-        val showObChargesTestSubscriber = TestObserver<Boolean>()
         val urlTestSubscriber = TestObserver<String>()
-        sut.showChargesObFeesSubject.subscribe(showObChargesTestSubscriber)
         sut.obFeeDetailsUrlObservable.subscribe(urlTestSubscriber)
 
         val testSubscriber = TestObserver<String>()
@@ -230,17 +225,7 @@ class FlightOffersViewModelTest {
         val outboundFlightId = makeFlightLeg("leg0")
         sut.confirmedOutboundFlightSelection.onNext(outboundFlightId)
 
-        showObChargesTestSubscriber.assertValues(false)
         urlTestSubscriber.assertValue("http://www.expedia.com/api/flight/obFeeCostSummary?langid=1033")
-    }
-
-    @Test
-    fun testFlightChargesObFeesPosNotAirlineSpecific() {
-        val testSubscriber = TestObserver<String>()
-        sut.offerSelectedChargesObFeesSubject.subscribe(testSubscriber)
-        sut.showChargesObFeesSubject.onNext(true)
-
-        testSubscriber.assertValue("Payment Fees May Apply")
     }
 
     @Test

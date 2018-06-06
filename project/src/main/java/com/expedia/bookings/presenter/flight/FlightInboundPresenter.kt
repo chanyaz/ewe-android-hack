@@ -19,11 +19,6 @@ class FlightInboundPresenter(context: Context, attrs: AttributeSet) : AbstractMa
         Ui.getApplication(context).flightComponent().inject(this)
     }
 
-    override fun back(): Boolean {
-        flightOfferViewModel.cancelInboundSearchObservable.onNext(Unit)
-        return super.back()
-    }
-
     override fun setupComplete() {
         super.setupComplete()
         flightOfferViewModel.confirmedOutboundFlightSelection.subscribe(resultsPresenter.outboundFlightSelectedSubject)

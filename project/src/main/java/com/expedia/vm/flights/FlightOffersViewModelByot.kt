@@ -7,7 +7,6 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchResponse
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.services.FlightServices
-import com.expedia.bookings.utils.isFlightGreedySearchEnabled
 import java.util.HashMap
 import java.util.LinkedHashSet
 
@@ -19,7 +18,7 @@ class FlightOffersViewModelByot(context: Context, flightServices: FlightServices
         val searchParams = Db.getFlightSearchParams().buildParamsForInboundSearch(maxStay, maxRange, legId)
         searchingForFlightDateTime.onNext(Unit)
         isOutboundSearch = false
-        flightInboundSearchSubscription = flightServices.flightSearch(searchParams, makeResultsObserver(), resultsReceivedDateTimeObservable)
+        flightSearchSubscription = flightServices.flightSearch(searchParams, makeResultsObserver(), resultsReceivedDateTimeObservable)
     }
 
     override fun createFlightMap(response: FlightSearchResponse) {
@@ -46,13 +45,7 @@ class FlightOffersViewModelByot(context: Context, flightServices: FlightServices
                 outboundLeg.legRank = outBoundFlights.size
             }
         }
-        if (isFlightGreedySearchEnabled(context) && isGreedyCallCompleted && !isGreedyCallAborted) {
-            greedyOutboundResultsObservable.onNext(outBoundFlights.toList())
-            hasUserClickedSearchObservable.onNext(searchParamsObservable.value != null)
-            isGreedyCallCompleted = false
-        } else if (searchParamsObservable.value != null) {
-            outboundResultsObservable.onNext(outBoundFlights.toList())
-        }
+        sendOutboundFlights(outBoundFlights)
     }
 
     private fun findInboundFlights(response: FlightSearchResponse) {
@@ -81,9 +74,5 @@ class FlightOffersViewModelByot(context: Context, flightServices: FlightServices
         } else {
             findInboundFlights(response)
         }
-    }
-
-    override fun setSubPubAvailability(hasSubPub: Boolean) {
-        isSubPub = hasSubPub
     }
 }
