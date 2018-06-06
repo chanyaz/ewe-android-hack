@@ -37,6 +37,8 @@ import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.Shadows
+import org.robolectric.shadows.ShadowAlertDialog
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
@@ -64,6 +66,22 @@ class LXPresenterTest {
 
         assertEquals(View.VISIBLE, lxPresenter.webCheckoutView.visibility)
         assertEquals(View.GONE, lxPresenter.detailsPresenter.visibility)
+    }
+
+    @Test
+    fun testLXErrorDialogDisplayedOnNetworkLoss() {
+        setupPresenterAndBucketWebviewTest()
+        setupLxState()
+        showWebCheckoutView()
+
+        (lxPresenter.webCheckoutViewViewModel as LXWebCheckoutViewViewModel).lxCreateTripViewModel.noNetworkObservable.onNext(Unit)
+
+        val errorDialog = ShadowAlertDialog.getLatestAlertDialog()
+        assertEquals(true, errorDialog.isShowing)
+
+        val shadowErrorDialog = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
+
+        assertEquals("Your device is not connected to the internet.  Please check your connection and try again.", shadowErrorDialog.message)
     }
 
     @Test
@@ -266,7 +284,7 @@ class LXPresenterTest {
         lxPresenter.show(lxPresenter.resultsPresenter)
         lxPresenter.show(lxPresenter.detailsPresenter)
         lxPresenter.show(lxPresenter.webCheckoutView)
-        Events.post(Events.LXOfferBooked(Offer(), listOf(getAdultTicket())))
+        Events.post(Events.LXOfferBooked(getOffer(), listOf(getAdultTicket())))
     }
 
     private fun setupPresenterAndBucketWebviewTest() {

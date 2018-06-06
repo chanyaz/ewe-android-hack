@@ -29,6 +29,7 @@ import com.expedia.bookings.data.TripResponse;
 import com.expedia.bookings.data.extensions.LineOfBusinessExtensions;
 import com.expedia.bookings.data.lx.LXCreateTripResponseV2;
 import com.expedia.bookings.data.lx.LxSearchParams;
+import com.expedia.bookings.dialog.DialogFactory;
 import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
@@ -56,6 +57,7 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 
 public class LXPresenter extends Presenter {
 
@@ -95,7 +97,8 @@ public class LXPresenter extends Presenter {
 	public WebCheckoutView webCheckoutView;
 
 	@Inject
-	LXWebCheckoutViewViewModel webCheckoutViewViewModel;
+	@VisibleForTesting
+	public LXWebCheckoutViewViewModel webCheckoutViewViewModel;
 
 	private static class LXParamsOverlay {
 		// ignore
@@ -610,6 +613,8 @@ public class LXPresenter extends Presenter {
 
 	private void setWebCheckoutView() {
 		webCheckoutView.setViewModel(webCheckoutViewViewModel);
+
+		webCheckoutViewViewModel.getLxCreateTripViewModel().getNoNetworkObservable().subscribe(noNetworkObserver);
 		webCheckoutViewViewModel.getCloseView().subscribe(onCloseWebView);
 		webCheckoutViewViewModel.getBackObservable().subscribe(onBackClickObserver);
 		webCheckoutViewViewModel.getBlankViewObservable().subscribe(blankViewObserver);
@@ -669,6 +674,37 @@ public class LXPresenter extends Presenter {
 			back();
 		}
 	};
+
+	@VisibleForTesting
+	public Observer<Unit> noNetworkObserver = new DisposableObserver<Unit>() {
+		@Override
+		public void onComplete() {
+		}
+
+		@Override
+		public void onError(Throwable e) {
+		}
+
+		@Override
+		public void onNext(Unit e) {
+			DialogFactory.showNoInternetRetryDialog(getContext(),
+				retryFunction(), cancelFunction());
+		}
+	};
+
+	private Function0<Unit> cancelFunction() {
+		return () -> {
+			back();
+			return null;
+		};
+	}
+
+	private Function0<Unit> retryFunction() {
+		return () -> {
+			webCheckoutViewViewModel.getLxCreateTripViewModel().getPerformCreateTrip().onNext(Unit.INSTANCE);
+			return null;
+		};
+	}
 
 	@VisibleForTesting
 	public Observer<Unit> blankViewObserver = new DisposableObserver<Unit>() {
