@@ -35,24 +35,25 @@ class PushNotificationUtilsTest {
     }
 
     @Test
-    fun generateFlightAlertNotificationNullDataTest() {
+    fun testGenerateFlightAlertNotificationWithEventType() {
         assertEquals(0, getNotifications().size)
-        PushNotificationUtils.generateFlightAlertNotification(context, 3213, "S_Push_Flight_delayed_with_new_departure_time",
-                arrayOf("SFO", "9:20PM"), "S_Push_Flight_delayed_title", "123123", null)
+
+        val flightData = ItinCardDataFlightBuilder().build()
+        PushNotificationUtils.generateFlightAlertNotification(context, 3213, "Your flight to SFO is delayed with a new arrival at 18:11.", "Flight delayed", "123123", flightData, "S_Push_Flight_gate_changed")
         val notification = getNotifications().first()
-        assertEquals("-1", notification.itinId)
-        notificationAssertions(notification)
+
+        assertEquals(flightData.id, notification.itinId)
+        notificationAssertions(notification, "123123", "Your flight to SFO is delayed with a new arrival at 18:11.")
     }
 
     @Test
-    fun generateFlightAlertNotificationWithDataTest() {
+    fun testGenerateFlightAlertNotificationWithNoMatchingNotificationType() {
         assertEquals(0, getNotifications().size)
+
         val flightData = ItinCardDataFlightBuilder().build()
-        PushNotificationUtils.generateFlightAlertNotification(context, 3213, "S_Push_Flight_delayed_with_new_departure_time",
-                arrayOf("SFO", "9:20PM"), "S_Push_Flight_delayed_title", "123123", flightData)
-        val notification = getNotifications().first()
-        assertEquals(flightData.id, notification.itinId)
-        notificationAssertions(notification)
+        PushNotificationUtils.generateFlightAlertNotification(context, 3213, "Your flight to SFO is delayed with a new arrival at 18:11.", "Flight delayed", "123123", flightData, "S_Push_Flight_gate_chang")
+
+        assertEquals(emptyList(), getNotifications())
     }
 
     private fun getNotifications(): List<Notification> {
@@ -60,11 +61,11 @@ class PushNotificationUtilsTest {
                 .execute<Notification>()
     }
 
-    private fun notificationAssertions(notification: Notification) {
-        assertEquals("Push_123123", notification.uniqueId)
-        assertEquals(PushNotificationUtils.getLocNewString(context, Notification.NotificationType.FLIGHT_DELAYED,
-                "S_Push_Flight_delayed_with_new_departure_time", arrayOf("SFO", "9:20PM")), notification.body)
+    private fun notificationAssertions(notification: Notification, uniqueId: String = "Push_123123", body: String = "Your flight to SFO is delayed with a new departure at 9:20PM.") {
+        assertEquals(uniqueId, notification.uniqueId)
+        assertEquals(body, notification.body)
         assertEquals(notification.body, notification.ticker)
+        assertEquals("Flight delayed", notification.title)
         assertEquals(PushNotificationUtils.getLocStringForKey(context, "S_Push_Flight_delayed_title"), notification.title)
         assertEquals(Notification.FLAG_PUSH, notification.flags)
     }

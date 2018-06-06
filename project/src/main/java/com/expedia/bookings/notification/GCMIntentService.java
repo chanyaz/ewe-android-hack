@@ -59,6 +59,9 @@ public class GCMIntentService extends IntentService {
 					//The title
 					final String titleKey = message.optString("title-loc-key");
 
+					//the EVENT_TYPE
+					final String eventType = data.optString("EVENT_TYPE");
+
 					//The arguments for the locKey string
 					JSONArray locArgs = message.getJSONArray("loc-args");
 					final String[] locArgsStrings = new String[locArgs.length()];
@@ -71,11 +74,11 @@ public class GCMIntentService extends IntentService {
 					if (!ItineraryManager.getInstance().isSyncing()) {
 						Log.d(LOGGING_TAG, "GCM onMessage - not syncing, starting sync.");
 						ItineraryManager.getInstance().startSync(true);
-						ItineraryManager.getInstance().addSyncListener(makeSyncListener(fhid, locKey, locArgsStrings, type, titleKey, notificationID));
+						ItineraryManager.getInstance().addSyncListener(makeSyncListener(fhid, locKey, locArgsStrings, type, titleKey, notificationID, eventType));
 					}
 					else {
 						Log.d(LOGGING_TAG, "GCM onMessage - Waiting for the ItinManager to finish syncing...");
-						ItineraryManager.getInstance().addSyncListener(makeSyncListener(fhid, locKey, locArgsStrings, type, titleKey, notificationID));
+						ItineraryManager.getInstance().addSyncListener(makeSyncListener(fhid, locKey, locArgsStrings, type, titleKey, notificationID, eventType));
 					}
 				}
 				catch (Exception ex) {
@@ -102,7 +105,7 @@ public class GCMIntentService extends IntentService {
 		}
 	}
 
-	private void generateNotification(final int fhid, final String locKey, final String[] locArgs, final String type, final String titleKey, final String nID) {
+	private void generateNotification(final int fhid, final String locKey, final String[] locArgs, final String type, final String titleKey, final String nID, final String eventType) {
 		//We should find the flight in itin manager (using fhid) and do a deep refresh. and to find the correct uniqueid for the itin in question
 		TripFlight component = ItineraryManager.getInstance().getTripComponentFromFlightHistoryId(fhid);
 		if (component != null) {
@@ -135,7 +138,7 @@ public class GCMIntentService extends IntentService {
 
 							private void notify(Trip trip) {
 								PushNotificationUtils.generateNotification(GCMIntentService.this, fhid, locKey,
-									locArgs, titleKey, nID);
+									locArgs, titleKey, nID, eventType);
 								ItineraryManager.getInstance().removeSyncListener(this);
 							}
 						});
@@ -148,31 +151,31 @@ public class GCMIntentService extends IntentService {
 			else {
 				Log.w(LOGGING_TAG, "GCM: Generating push notification but unable to find parentTrip for fhid=" + fhid + " type=" + type
 					+ "component=" + component.toJson().toString());
-				PushNotificationUtils.generateNotification(GCMIntentService.this, fhid, locKey, locArgs, titleKey, nID);
+				PushNotificationUtils.generateNotification(GCMIntentService.this, fhid, locKey, locArgs, titleKey, nID, eventType);
 			}
 		}
 		else {
 			Log.w(LOGGING_TAG, "GCM: Generating push notification, but can't find the tripComponent, thus no deepRefresh called fhid="
 				+ fhid + " type=" + type);
-			PushNotificationUtils.generateNotification(GCMIntentService.this, fhid, locKey, locArgs, titleKey, nID);
+			PushNotificationUtils.generateNotification(GCMIntentService.this, fhid, locKey, locArgs, titleKey, nID, eventType);
 		}
 
 	}
 
-	public ItineraryManager.ItinerarySyncAdapter makeSyncListener(final int fhid, final String locKey, final String[] locArgs, final String type, final String titleKey, final String nID) {
+	public ItineraryManager.ItinerarySyncAdapter makeSyncListener(final int fhid, final String locKey, final String[] locArgs, final String type, final String titleKey, final String nID, final  String eventType) {
 		return new ItineraryManager.ItinerarySyncAdapter() {
 			@Override
 			public void onSyncFinished(Collection<Trip> trips) {
 				Log.d(LOGGING_TAG, "GCM onMessage - ItinManager finished syncing, building notification now.");
 				ItineraryManager.getInstance().removeSyncListener(this);
-				generateNotification(fhid, locKey, locArgs, type, titleKey, nID);
+				generateNotification(fhid, locKey, locArgs, type, titleKey, nID, eventType);
 			}
 
 			@Override
 			public void onSyncFailure(ItineraryManager.SyncError error) {
 				Log.d(LOGGING_TAG, "GCM onMessage - ItinManager failed syncing, building notification now.");
 				ItineraryManager.getInstance().removeSyncListener(this);
-				generateNotification(fhid, locKey, locArgs, type, titleKey, nID);
+				generateNotification(fhid, locKey, locArgs, type, titleKey, nID, eventType);
 			}
 		};
 	}

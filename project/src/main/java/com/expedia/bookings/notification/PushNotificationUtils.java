@@ -32,7 +32,7 @@ public class PushNotificationUtils {
 	 * @param context
 	 */
 	public static void generateNotification(Context context, int fhid, String locKey,
-		String[] locKeyArgs, String titleArg, String nID) {
+		String[] locKeyArgs, String titleArg, String nID, String eventType) {
 		if (fhid < 0) {
 			Log.e(LOGGING_TAG, "PushNotificationUtils.generateNotification FlightHistoryId must be >= 0");
 		}
@@ -40,10 +40,7 @@ public class PushNotificationUtils {
 			ItinCardDataFlight data = (ItinCardDataFlight) ItineraryManager.getInstance()
 				.getItinCardDataFromFlightHistoryId(fhid);
 			if (data != null) {
-				if (hasLocKeyForNewFlightAlerts(locKey)) {
-					generateFlightAlertNotification(context, fhid, locKey,
-						locKeyArgs, titleArg, nID, data);
-				}
+				generateFlightAlertNotification(context, fhid, locKey, titleArg, nID, data, eventType);
 			}
 			else {
 				// There is not any data from a desktop booking notification,
@@ -56,8 +53,7 @@ public class PushNotificationUtils {
 		}
 	}
 
-	static void generateFlightAlertNotification(Context context, int fhid, String locKey,
-		String[] locKeyArgs, String titleArg, String nID, ItinCardDataFlight dataFlight) {
+	static void generateFlightAlertNotification(Context context, int fhid, String locKey, String titleArg, String nID, ItinCardDataFlight dataFlight, String eventType) {
 		String itinId;
 		if (dataFlight != null) {
 			itinId = dataFlight.getId();
@@ -69,23 +65,20 @@ public class PushNotificationUtils {
 
 		long triggerTimeMillis = System.currentTimeMillis();
 
-		String formattedMessage;
-		String uniqueId;
-		NotificationType notificationType = getNotificationTypeFromLocKey(locKey);
-		if (Strings.isNotEmpty(nID) && notificationType != null) {
-			uniqueId = sanitizeUniqueId("Push_" + nID);
-			formattedMessage = getLocNewString(context, notificationType, locKey, locKeyArgs);
+		String formattedMessage = null;
+		String uniqueId = null;
+		String title = titleArg;
+		NotificationType notificationType = null;
+		if (checkNotificationHasEventType(eventType) && Strings.isNotEmpty(nID)) {
+			notificationType = NotificationType.valueOf(eventType);
+			formattedMessage = locKey;
+			uniqueId = nID;
 		}
-		else {
-			formattedMessage = getFormattedLocString(context, locKey, locKeyArgs);
-			uniqueId = sanitizeUniqueId(fhid + "_" + formattedMessage);
-		}
-		if (formattedMessage == null) {
+		if (formattedMessage == null || notificationType == null) {
 			Log.e(LOGGING_TAG, "PushNotificationUtils.generateNotification Formatted message was null for locKey:"
 				+ locKey);
 		}
 		else {
-
 			INotificationManager notificationManager = Ui.getApplication(context).appComponent().notificationManager();
 			Notification notification = new Notification(uniqueId, itinId, triggerTimeMillis);
 			notification.setNotificationType(notificationType);
@@ -94,19 +87,10 @@ public class PushNotificationUtils {
 			notification.setIconResId(R.drawable.ic_stat_flight);
 			notification.setImageType(ImageType.NONE);
 
-			String destination = getDestinationStringFromLocArgs(locKey, locKeyArgs);
-
-			String title = getLocStringForKey(context, titleArg);
-
-
-			if (Strings.isEmpty(title)) {
-				title = context.getString(R.string.your_flight_to_x_TEMPLATE, destination);
-			}
-
 			notification.setTitle(title);
 			notification.setBody(formattedMessage);
 			notification.setTicker(formattedMessage);
-			notification.setTemplateName(locKey);
+			notification.setTemplateName(eventType);
 
 			notification.save();
 			notificationManager.scheduleNotification(notification);
@@ -128,6 +112,18 @@ public class PushNotificationUtils {
 		}
 	}
 
+	private static Boolean checkNotificationHasEventType(String eventType) {
+		Boolean checkNotificationEventTypePresent = false;
+		for (Notification.NotificationType notificationType : Notification.NotificationType.values()) {
+			if (notificationType.name().equals(eventType)) {
+				checkNotificationEventTypePresent = true;
+				break;
+			}
+		}
+		return checkNotificationEventTypePresent;
+	}
+
+	//TODo: See whether the function has to be removed
 	private static NotificationType getNotificationTypeFromLocKey(String locKey) {
 		switch (locKey) {
 		case "S_Push_Flight_delayed_with_new_departure_time":
@@ -135,13 +131,6 @@ public class PushNotificationUtils {
 		default:
 			return null;
 		}
-	}
-
-	private static boolean hasLocKeyForNewFlightAlerts(String locKey) {
-		if (sLocStringMap == null) {
-			initLocStrMap();
-		}
-		return sLocStringMap.containsKey(locKey);
 	}
 
 	private static boolean locKeyForDesktopBooking(String locKey) {
