@@ -18,7 +18,9 @@ import com.expedia.bookings.extensions.subscribeInverseVisibility
 import com.expedia.bookings.extensions.subscribeVisibility
 import com.expedia.bookings.extensions.withLatestFrom
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isRichContentEnabled
 import com.expedia.bookings.widget.FlightFilterButtonWithCountWidget
 import com.expedia.bookings.widget.FlightListRecyclerView
 import com.expedia.bookings.widget.FlightLoadingWidget
@@ -63,6 +65,12 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     init {
         View.inflate(getContext(), R.layout.widget_flight_results_package, this)
+        flightSelectedSubject.subscribe {
+            if (isRichContentEnabled(context) && !resultsViewModel.isRichContentCallCompleted) {
+                val searchParam = Db.getFlightSearchParams()
+                FlightsV2Tracking.trackRouteHappyNotDisplayed(isShowingOutboundResults, searchParam.isRoundTrip())
+            }
+        }
     }
 
     private fun bind(doNotOverrideFilterButton: Boolean, lob: LineOfBusiness) {

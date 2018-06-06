@@ -5923,6 +5923,26 @@ public class OmnitureTracking {
 		s.track();
 	}
 
+	public static void trackRouteHappyResultsEmptyResults(Boolean isOutboundFlight, Boolean isRoundTrip) {
+		String pageName = (!isRoundTrip ? FLIGHTS_V2_SEARCH_ONEWAY :
+			isOutboundFlight ? FLIGHT_SEARCH_ROUNDTRIP_OUT : FLIGHT_SEARCH_ROUNDTRIP_IN) + ".RouteHappy.Null";
+		createAndTrackLinkEvent(pageName, pageName);
+	}
+
+	public static void trackRouteHappyResultsCountRatio(Boolean isOutboundFlight, Boolean isRoundTrip, int routeHappyCount, int totalCount) {
+		StringBuilder pageName = new StringBuilder();
+		pageName.append(!isRoundTrip ? FLIGHTS_V2_SEARCH_ONEWAY :
+			isOutboundFlight ? FLIGHT_SEARCH_ROUNDTRIP_OUT : FLIGHT_SEARCH_ROUNDTRIP_IN);
+		pageName.append(".RouteHappy.").append(routeHappyCount).append("|").append(totalCount);
+		createAndTrackLinkEvent(pageName.toString(), pageName.toString());
+	}
+
+	public static void trackRouteHappyNotApplicable(Boolean isOutboundFlight, Boolean isRoundTrip) {
+		String pageName = (!isRoundTrip ? FLIGHTS_V2_SEARCH_ONEWAY :
+			isOutboundFlight ? FLIGHT_SEARCH_ROUNDTRIP_OUT : FLIGHT_SEARCH_ROUNDTRIP_IN) + ".RouteHappy.NA";
+		createAndTrackLinkEvent(pageName, pageName);
+	}
+
 	public static void trackResultInBoundFlights(FlightSearchTrackingData trackingData,
 		kotlin.Pair outboundSelectedAndTotalLegRank) {
 		AppAnalytics s = createTrackPageLoadEventBase(FLIGHT_SEARCH_ROUNDTRIP_IN);

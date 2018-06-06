@@ -6,15 +6,16 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.analytics.AnalyticsProvider
+import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.DeprecatedHotelSearchParams
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
-import com.expedia.bookings.data.flights.RichContent
-import com.expedia.bookings.data.flights.RichContentResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightRichContentService
@@ -65,6 +66,7 @@ class FlightResultsListViewPresenterTest {
     var server: MockWebServer = MockWebServer()
         @Rule get
     val FLIGHT_LEG_ID = "ab64aefca28e772ca024d4a00e6ae131"
+    private lateinit var mockAnalyticsProvider: AnalyticsProvider
 
     @Before
     fun setup() {
@@ -82,6 +84,7 @@ class FlightResultsListViewPresenterTest {
 
         flightSelectedSubject = PublishSubject.create<FlightLeg>()
         isRoundTripSubject = BehaviorSubject.create()
+        mockAnalyticsProvider = OmnitureTestUtils.setMockAnalyticsProvider()
     }
 
     fun inflateAndSetViewModel() {
@@ -130,7 +133,6 @@ class FlightResultsListViewPresenterTest {
         val flightLeg = createFakeFlightLeg()
         sut.resultsViewModel.isOutboundResults.onNext(true)
         sut.resultsViewModel.flightResultsObservable.onNext(listOf(flightLeg))
-        (sut.resultsViewModel as FlightResultsViewModel).makeRichContentObserver().onNext(getRichContentResponse())
         val processedFlightLeg = sut.resultsViewModel.flightResultsObservable.value[0]
         assertEquals(FLIGHT_LEG_ID, processedFlightLeg.legId)
         val flightRichContent = processedFlightLeg.richContent
@@ -144,26 +146,111 @@ class FlightResultsListViewPresenterTest {
         assertTrue(flightLegAmenities.power)
     }
 
-    private fun getRichContentResponse(): RichContentResponse {
-        val richContentResponse = RichContentResponse()
-        richContentResponse.richContentList = getRichContentList()
-        return richContentResponse
+    @Test
+    fun testOmnitureForRichContentDisplayed() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsRichContent)
+        Db.setFlightSearchParams(setupFlightSearchParams(1, 1, true))
+        val data = HashMap<Int, String>()
+        inflateAndSetViewModel()
+        val flightLeg = createFakeFlightLeg()
+        sut.resultsViewModel.isOutboundResults.onNext(true)
+        sut.resultsViewModel.flightResultsObservable.onNext(listOf(flightLeg))
+
+        data.put(28, "App.Flight.Search.Roundtrip.Out.RouteHappy.2|1")
+        OmnitureTestUtils.assertLinkTracked("App.Flight.Search.Roundtrip.Out.RouteHappy.2|1",
+                "App.Flight.Search.Roundtrip.Out.RouteHappy.2|1", mockAnalyticsProvider)
+
+        Db.setFlightSearchParams(setupFlightSearchParams(1, 1, true))
+        sut.resultsViewModel.isOutboundResults.onNext(false)
+        data.put(28, "App.Flight.Search.Roundtrip.In.RouteHappy.2|1")
+        OmnitureTestUtils.assertLinkTracked("App.Flight.Search.Roundtrip.In.RouteHappy.2|1",
+                "App.Flight.Search.Roundtrip.In.RouteHappy.2|1", mockAnalyticsProvider)
+
+        Db.setFlightSearchParams(setupFlightSearchParams(1, 1, false))
+        sut.resultsViewModel.isOutboundResults.onNext(true)
+        data.put(28, "App.Flight.Search.Oneway.RouteHappy.2|1")
+        OmnitureTestUtils.assertLinkTracked("App.Flight.Search.Oneway.RouteHappy.2|1",
+                "App.Flight.Search.Oneway.RouteHappy.2|1", mockAnalyticsProvider)
+        Db.setFlightSearchParams(setupFlightSearchParams(1, 1, false))
     }
 
-    private fun getRichContentList(): List<RichContent> {
-        return listOf(getRichContent())
+    @Test
+    fun testOmnitureForRichContentNotDisplayed() {
+        AbacusTestUtils.bucketTestAndEnableRemoteFeature(context, AbacusUtils.EBAndroidAppFlightsRichContent)
+        Db.setFlightSearchParams(setupFlightSearchParams(1, 1, true))
+        val data = HashMap<Int, String>()
+        inflateAndSetViewModel()
+        val flightLeg = createFakeFlightLeg()
+        sut.resultsViewModel.isOutboundResults.onNext(true)
+        sut.resultsViewModel.flightResultsObservable.onNext(listOf(flightLeg))
+
+        data.put(28, "App.Flight.Search.Roundtrip.Out.RouteHappy.NA")
+        OmnitureTestUtils.assertLinkTracked("App.Flight.Search.Roundtrip.Out.RouteHappy.NA",
+                "App.Flight.Search.Roundtrip.Out.RouteHappy.NA", mockAnalyticsProvider)
+
+        Db.setFlightSearchParams(setupFlightSearchParams(1, 1, true))
+        sut.resultsViewModel.isOutboundResults.onNext(false)
+        data.put(28, "App.Flight.Search.Roundtrip.In.RouteHappy.NA")
+        OmnitureTestUtils.assertLinkTracked("App.Flight.Search.Roundtrip.In.RouteHappy.NA",
+                "App.Flight.Search.Roundtrip.In.RouteHappy.NA", mockAnalyticsProvider)
+
+        Db.setFlightSearchParams(setupFlightSearchParams(1, 1, false))
+        sut.resultsViewModel.isOutboundResults.onNext(true)
+        data.put(28, "App.Flight.Search.Oneway.RouteHappy.NA")
+        OmnitureTestUtils.assertLinkTracked("App.Flight.Search.Oneway.RouteHappy.NA",
+                "App.Flight.Search.Oneway.RouteHappy.NA", mockAnalyticsProvider)
+        Db.setFlightSearchParams(setupFlightSearchParams(1, 1, false))
     }
 
-    private fun getRichContent(): RichContent {
-        val richContent = RichContent()
-        richContent.legId = FLIGHT_LEG_ID
-        richContent.score = 8.1F
-        richContent.legAmenities = RichContent.RichContentAmenity()
-        richContent.legAmenities!!.wifi = true
-        richContent.legAmenities!!.entertainment = true
-        richContent.legAmenities!!.power = true
-        richContent.scoreExpression = RichContentUtils.ScoreExpression.VERY_GOOD.name
-        return richContent
+    private fun setupFlightSearchParams(adultCount: Int, childCount: Int, isroundTrip: Boolean): FlightSearchParams {
+        val departureSuggestion = SuggestionV4()
+        departureSuggestion.gaiaId = "1234"
+
+        val departureRegionNames = SuggestionV4.RegionNames()
+        departureRegionNames.displayName = "San Francisco"
+        departureRegionNames.shortName = "SFO"
+        departureRegionNames.fullName = "SFO - San Francisco"
+        departureSuggestion.regionNames = departureRegionNames
+
+        val testDepartureCoordinates = SuggestionV4.LatLng()
+        testDepartureCoordinates.lat = 600.5
+        testDepartureCoordinates.lng = 300.3
+        departureSuggestion.coordinates = testDepartureCoordinates
+        val hierarchyInfoDepart = SuggestionV4.HierarchyInfo()
+        hierarchyInfoDepart.airport = SuggestionV4.Airport()
+        hierarchyInfoDepart.airport!!.airportCode = "SFO"
+        departureSuggestion.hierarchyInfo = hierarchyInfoDepart
+
+        val arrivalSuggestion = SuggestionV4()
+        arrivalSuggestion.gaiaId = "5678"
+        val arrivalRegionNames = SuggestionV4.RegionNames()
+        arrivalRegionNames.displayName = "Los Angeles"
+        arrivalRegionNames.shortName = "LAX"
+        arrivalRegionNames.fullName = "LAX - Los Angeles"
+        arrivalSuggestion.regionNames = arrivalRegionNames
+        arrivalSuggestion.type = DeprecatedHotelSearchParams.SearchType.CITY.name
+        val hierarchyInfoArrive = SuggestionV4.HierarchyInfo()
+        hierarchyInfoArrive.airport = SuggestionV4.Airport()
+        hierarchyInfoArrive.airport!!.airportCode = "LAX"
+        arrivalSuggestion.hierarchyInfo = hierarchyInfoArrive
+
+        val testArrivalCoordinates = SuggestionV4.LatLng()
+        testArrivalCoordinates.lat = 100.00
+        testArrivalCoordinates.lng = 500.00
+        arrivalSuggestion.coordinates = testArrivalCoordinates
+
+        val childList = ArrayList<Int>()
+        for (childIndex in 1..childCount) {
+            childList.add(2)
+        }
+
+        var checkOut: LocalDate? = null
+        val checkIn = LocalDate().plusDays(2)
+        if (isroundTrip) {
+            checkOut = LocalDate().plusDays(3)
+        }
+
+        return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, adultCount, childList, false, null, null, null, null, null, null, null, null, null)
     }
 
     @Test
