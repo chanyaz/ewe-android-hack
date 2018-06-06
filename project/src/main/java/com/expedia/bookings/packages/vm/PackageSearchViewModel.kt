@@ -135,7 +135,7 @@ open class PackageSearchViewModel(context: Context) : BaseSearchViewModel(contex
             val params = getParamsBuilder().build()
             if (getParamsBuilder().isOriginSameAsDestination()) {
                 PackagesTracking().trackSearchValidationError(getODPairIDsTag(params))
-                errorOriginSameAsDestinationObservable.onNext(context.getString(R.string.error_same_flight_departure_arrival))
+                errorOriginSameAsDestinationObservable.onNext(context.getString(R.string.error_same_or_close_origin_destination))
             } else if (!getParamsBuilder().hasValidDateDuration()) {
                 errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, rules.getMaxSearchDurationDays()))
             } else if (!getParamsBuilder().isWithinDateRange()) {

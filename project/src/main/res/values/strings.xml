@@ -2039,6 +2039,8 @@
     <string name="invalid_flights_pos">Sorry, but mobile flight booking is not yet available in your location.</string>
     <!-- Error message when the user picks the same airport for both the departure and arrival airports -->
     <string name="error_same_flight_departure_arrival">Please make sure your departure and arrival cities are in different places.</string>
+    <!-- Error message when the user picks the same multicity for both origin and destination -->
+    <string name="error_same_or_close_origin_destination">Your departure and arrival locations are the same or too close to each other.\nPlease adjust your search and try again.</string>
 
     <!-- Flight search params fragment -->
     <!-- Edit search title -->

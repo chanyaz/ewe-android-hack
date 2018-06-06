@@ -39,7 +39,8 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 		//Search button will be enabled
 		SearchScreen.searchButton().perform(click());
 		PackageScreen.errorDialog(
-			"Please make sure your departure and arrival cities are in different places.").check(matches(isDisplayed()));
+			"Your departure and arrival locations are the same or too close to each other.\nPlease adjust your search and try again.")
+			.check(matches(isDisplayed()));
 	}
 
 	@Test

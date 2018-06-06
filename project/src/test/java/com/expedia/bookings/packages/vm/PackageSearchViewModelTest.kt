@@ -229,7 +229,7 @@ class PackageSearchViewModelTest {
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withEvars(controlEvar), mockAnalyticsProvider)
         OmnitureTestUtils.assertStateTracked(OmnitureMatchers.withProps(prop36), mockAnalyticsProvider)
         testSubscriber.assertValueCount(1)
-        testSubscriber.assertValue("Please make sure your departure and arrival cities are in different places.")
+        testSubscriber.assertValue("Your departure and arrival locations are the same or too close to each other.\nPlease adjust your search and try again.")
     }
 
     private fun givenDefaultTravelerComponent() {
