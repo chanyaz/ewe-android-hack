@@ -39,7 +39,6 @@ public class LXOffersListAdapter extends BaseAdapter {
 	public void setOffers(List<Offer> offers, PublishSubject<Offer> subject, boolean isGroundTransport, String activityId, String promoDiscountType, String activityDiscountType) {
 		this.offers = offers;
 		this.publishSubject = subject;
-		OmnitureTracking.trackFirstActivityListingExpanded();
 		this.activityId = activityId;
 		this.promoDiscountType = promoDiscountType;
 		this.activityDiscountType = activityDiscountType;

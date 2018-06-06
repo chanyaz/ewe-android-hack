@@ -1885,12 +1885,6 @@ public class OmnitureTracking {
 	private static final String LX_FILTER = ".Filter";
 	private static final String LX_TEXT_SEARCH = ".Keyword";
 
-	public static void trackFirstActivityListingExpanded() {
-		Log.d(TAG, "Tracking \"" + LX_LOB + "\" pageLoad...");
-		AppAnalytics s = getFreshTrackingObject();
-		s.track();
-	}
-
 	public static void trackAppLXCategoryABTest() {
 		Log.d(TAG, "Tracking \"" + LX_CATEGORY_TEST + "\" category...");
 		AppAnalytics s = getFreshTrackingObject();
