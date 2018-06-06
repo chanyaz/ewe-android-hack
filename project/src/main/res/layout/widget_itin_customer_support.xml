@@ -32,34 +32,50 @@
             android:layout_marginBottom="16dp"
             android:background="?attr/itin_card_summary_divider_color" />
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/itinerary_number"
+        <LinearLayout
+            android:id="@+id/itinerary_number_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:background="?attr/selectableItemBackground"
-            android:textColor="@color/itin_standard_text_color"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            tools:text="Itinerary # 39485798457" />
+            android:orientation="horizontal">
+
+            <com.expedia.bookings.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:importantForAccessibility="no"
+                android:text="@string/itin_customer_support_itin_number_text"
+                android:textColor="@color/itin_standard_text_color"
+                android:textSize="@dimen/type_200_text_size"
+                android:textStyle="bold"
+                tools:text="Itinerary #" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/itinerary_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:background="?attr/selectableItemBackground"
+                android:textColor="@color/itin_standard_text_color"
+                android:textSize="@dimen/type_200_text_size"
+                android:textStyle="bold"
+                tools:text="39485798457" />
+
+        </LinearLayout>
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/call_support_action_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="12dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:drawableLeft="@drawable/itin_call_hotel"
+            android:drawableLeft="@drawable/itin_call_support"
             android:drawablePadding="8dp"
-            android:focusable="true"
-            android:textAllCaps="true"
-            android:textColor="?attr/itin_card_summary_action_button_text_color"
-            android:textSize="?attr/itin_card_summary_action_button_text_size"
-            android:textStyle="normal"
+            android:textColor="@color/itin_call_to_action_text"
+            android:textSize="14sp"
+            android:visibility="gone"
             tools:text="415-123-1234" />
 
         <com.expedia.bookings.widget.TextView
@@ -75,6 +91,7 @@
             android:textColor="?attr/itin_card_summary_action_button_text_color"
             android:textSize="?attr/itin_card_summary_action_button_text_size"
             android:textStyle="normal"
+            android:visibility="gone"
             tools:text="Expedia customer Support" />
 
     </LinearLayout>

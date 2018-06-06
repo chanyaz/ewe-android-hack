@@ -52,8 +52,7 @@ class HotelItinCustomerSupportDetailsTest {
         val customerSupportHeaderText = Phrase.from(activity, R.string.itin_customer_support_header_text_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
         assertEquals(customerSupportHeaderText, customerSupportWidget.customerSupportTextView.text)
 
-        val itinNumber = Phrase.from(activity, R.string.itin_hotel_itinerary_number_TEMPLATE).put("itinnumber", itinCardDataHotel.tripNumber).format().toString()
-        assertEquals(itinNumber, customerSupportWidget.itineraryNumberTextView.text)
+        assertEquals(itinCardDataHotel.tripNumber, customerSupportWidget.itineraryNumberTextView.text)
 
         val userStateManager = Ui.getApplication(RuntimeEnvironment.application).appComponent().userStateManager()
         val user = userStateManager.userSource.user

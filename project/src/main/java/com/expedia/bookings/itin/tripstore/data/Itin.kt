@@ -24,7 +24,8 @@ data class Itin(
         val paymentDetails: PaymentDetails?,
         val paymentSummary: PaymentSummary?,
         val isGuest: Boolean,
-        val isShared: Boolean
+        val isShared: Boolean,
+        val customerSupport: CustomerSupport?
 ) : HasProducts
 
 data class Reward(
@@ -71,6 +72,11 @@ data class ItinTime(
         val localizedFullDate: String?,
         val localizedShortTime: String?,
         val localizedMediumDate: String?
+)
+
+data class CustomerSupport(
+        val customerSupportPhoneNumberDomestic: String?,
+        val customerSupportURL: String?
 )
 
 interface ItinLOB

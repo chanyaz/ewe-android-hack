@@ -30,11 +30,16 @@ class HotelItinCustomerSupportDetails(context: Context, attr: AttributeSet?) : L
 
     init {
         View.inflate(context, R.layout.widget_itin_customer_support, this)
+        itineraryNumberTextView.visibility = View.VISIBLE
+        callSupportActionButton.visibility = View.VISIBLE
+        customerSupportSiteButton.visibility = View.VISIBLE
     }
 
     fun setUpWidget(tripNumber: String, tripId: String) {
         customerSupportTextView.text = Phrase.from(context, R.string.itin_customer_support_header_text_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
-        itineraryNumberTextView.text = Phrase.from(context, R.string.itin_hotel_itinerary_number_TEMPLATE).put("itinnumber", tripNumber).format().toString()
+
+        itineraryNumberTextView.visibility = View.VISIBLE
+        itineraryNumberTextView.text = tripNumber
         itineraryNumberTextView.contentDescription = Phrase.from(this, R.string.itin_hotel_manage_booking_itinerary_number_content_description_TEMPLATE)
                 .put("number", tripNumber.replace(".".toRegex(), "$0 ")).format().toString()
         itineraryNumberTextView.setOnClickListener {
@@ -44,8 +49,8 @@ class HotelItinCustomerSupportDetails(context: Context, attr: AttributeSet?) : L
 
         val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
         val user = userStateManager.userSource.user
-
         val supportNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(user)
+
         callSupportActionButton.text = supportNumber
         callSupportActionButton.contentDescription = Phrase.from(context, R.string.itin_hotel_manage_booking_call_support_button_content_description_TEMPLATE).put("phonenumber", supportNumber).put("brand", BuildConfig.brand).format().toString()
         callSupportActionButton.setOnClickListener {
@@ -62,7 +67,7 @@ class HotelItinCustomerSupportDetails(context: Context, attr: AttributeSet?) : L
         }
 
         customerSupportSiteButton.text = Phrase.from(context, R.string.itin_hotel_customer_support_site_header_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
-        customerSupportSiteButton.contentDescription = Phrase.from(context, R.string.itin_hotel_customer_support_site_button_content_description_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
+        customerSupportSiteButton.contentDescription = Phrase.from(context, R.string.itin_customer_support_site_button_content_description_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
         customerSupportSiteButton.setOnClickListener {
             val isGuest = readJsonUtil.getItin(tripId)?.isGuest
             if (isGuest != null && isGuest) {

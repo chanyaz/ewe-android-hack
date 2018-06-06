@@ -282,8 +282,10 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
     private const val ITIN_ACTIVITY_DETAILS_MAP = "App.Itinerary.Activity.Map"
     private const val ITIN_ACTIVITY_DETAILS_DIRECTIONS = "App.Itinerary.Activity.Directions"
     private const val ITIN_ACTIVITY_REDEEM_VOUCHER = "App.Itinerary.Activity.Redeem"
-    private const val ITIN_ACTIVITY_CALL_SUPPORT = "App.Itinerary.Activity.Manage.Call.Activity"
+    private const val ITIN_ACTIVITY_CALL_SUPPLIER = "App.Itinerary.Activity.Manage.Call.Activity"
     private const val ITIN_ACTIVITY_MORE_HELP = "App.Itinerary.Activity.MoreHelp"
+    private const val ITIN_ACTIVITY_CALL_EXPEDIA = "App.Itinerary.Activity.Manage.Call.Expedia"
+    private const val ITIN_ACTIVITY_CUSTOMER_SUPPORT = "App.Itinerary.Activity.Manage.CSP"
 
     override fun trackItinLx(trip: HashMap<String, String?>) {
         Log.d(TAG, "Tracking \"$ITIN_ACTIVITY\" pageLoad")
@@ -306,8 +308,8 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
         s.trackLink("Itinerary Action")
     }
 
-    override fun trackItinLxCallSupportClicked() {
-        val s = createTrackLinkEvent(ITIN_ACTIVITY_CALL_SUPPORT)
+    override fun trackItinLxCallSupplierClicked() {
+        val s = createTrackLinkEvent(ITIN_ACTIVITY_CALL_SUPPLIER)
         s.trackLink("Itinerary Action")
     }
 
@@ -320,6 +322,16 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
         Log.d(TAG, "Tracking \"$ITIN_ACTIVITY_MORE_HELP\" pageLoad")
         val s = createTrackPageLoadEventBase(ITIN_ACTIVITY_MORE_HELP)
         trackItinPageLoad(s, trip)
+    }
+
+    override fun trackItinLxCallCustomerSupportClicked() {
+        val s = createTrackLinkEvent(ITIN_ACTIVITY_CALL_EXPEDIA)
+        s.trackLink("Itinerary Action")
+    }
+
+    override fun trackItinLxCustomerServiceLinkClicked() {
+        val s = createTrackLinkEvent(ITIN_ACTIVITY_CUSTOMER_SUPPORT)
+        s.trackLink("Itinerary Action")
     }
 
     fun trackItinPageLoad(s: AppAnalytics, trip: HashMap<String, String?>) {

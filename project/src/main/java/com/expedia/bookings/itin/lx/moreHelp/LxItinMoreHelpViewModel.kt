@@ -55,7 +55,7 @@ class LxItinMoreHelpViewModel<out S>(val scope: S) : IMoreHelpViewModel where S 
 
     init {
         phoneNumberClickSubject.subscribe {
-            scope.tripsTracking.trackItinLxCallSupportClicked()
+            scope.tripsTracking.trackItinLxCallSupplierClicked()
         }
         scope.itinLxRepo.liveDataLx.observe(scope.lifecycleOwner, itinLxObserver)
         scope.itinLxRepo.liveDataItin.observe(scope.lifecycleOwner, itinObserver)
