@@ -37,6 +37,12 @@ data class HotelItinPricingSummaryScope(
         override val lifecycleOwner: LifecycleOwner
 ) : HasLifecycleOwner, HasStringProvider, HasHotelRepo, HasActivityLauncher
 
+data class HotelItinPricingMicoScope(
+        override val itinHotelRepo: ItinHotelRepo,
+        override val strings: StringSource,
+        override val lifecycleOwner: LifecycleOwner
+) : HasStringProvider, HasHotelRepo, HasLifecycleOwner
+
 data class HotelItinViewReceiptScope(
         override val strings: StringSource,
         override val itinHotelRepo: ItinHotelRepo,

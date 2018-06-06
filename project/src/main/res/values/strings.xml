@@ -1449,6 +1449,10 @@
     <string name="itin_hotel_details_price_summary_pay_later_TEMPLATE">{amount} total due at hotel</string>
     <!--Hotel itin price summary subtotal label-->
     <string name="itin_hotel_details_price_summary_subtotal_label">Subtotal</string>
+    <!--Hotel itin price summary mico description-->
+    <string name="itin_hotel_details_price_summary_mico_description">This total is for your entire purchase, which includes:</string>
+    <!--Hotel itin price summary list of mico products (eg. • Hotel)-->
+    <string name="itin_hotel_details_price_summary_mico_product_TEMPLATE">• {product}</string>
     <!--Hotel itin price summary products description template - two products. {firstproduct} and {secondproduct} bundle (eg. Hotel and Flight bundle)-->
     <string name="itin_hotel_details_price_summary_product_description_two">{firstproduct} and {secondproduct} bundle</string>
     <!--Hotel itin price summary products description template - many products. {products} and {lastproduct} bundle (eg. Hotel, Car and Flight bundle)-->

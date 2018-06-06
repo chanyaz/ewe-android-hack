@@ -13,6 +13,7 @@ import com.expedia.bookings.itin.common.ItinToolbar
 import com.expedia.bookings.itin.common.ItinViewReceiptWidget
 import com.expedia.bookings.itin.flight.common.ItinOmnitureUtils
 import com.expedia.bookings.itin.hotel.repositories.ItinHotelRepo
+import com.expedia.bookings.itin.scopes.HotelItinPricingMicoScope
 import com.expedia.bookings.itin.scopes.HotelItinPricingSummaryScope
 import com.expedia.bookings.itin.scopes.HotelItinRewardsScope
 import com.expedia.bookings.itin.scopes.HotelItinToolbarScope
@@ -49,6 +50,7 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
     val pricingSummaryView: HotelItinPricingSummaryView by bindView(R.id.hotel_itin_pricing_summary_view)
     val receiptButton: ItinViewReceiptWidget by bindView(R.id.widget_itin_view_receipt)
     val rewardsView: HotelItinPricingSummaryRewardsView by bindView(R.id.hotel_itin_pricing_summary_rewards_view)
+    val micoView: HotelItinPricingMicoView by bindView(R.id.hotel_itin_pricing_mico_view)
 
     lateinit var jsonUtil: IJsonToItinUtil
         @Inject set
@@ -68,6 +70,7 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
     }
     lateinit var summaryViewModel: HotelItinPricingSummaryViewModel<HotelItinPricingSummaryScope>
     lateinit var rewardsViewModel: HotelItinPricingSummaryRewardsViewModel<HotelItinRewardsScope>
+    lateinit var micoDescriptionViewModel: HotelItinPricingMicoDescriptionViewModel<HotelItinPricingMicoScope>
 
     val itineraryManager: ItineraryManager = ItineraryManager.getInstance()
     var tripsTracking: ITripsTracking = TripsTracking
@@ -85,6 +88,10 @@ class HotelItinPricingRewardsActivity : AppCompatActivity() {
         val toolbarScope = HotelItinToolbarScope(stringProvider, hotelRepo, this)
         toolbarViewModel = HotelItinPricingRewardsToolbarViewModel(toolbarScope)
         toolbar.viewModel = toolbarViewModel
+
+        val micoScope = HotelItinPricingMicoScope(hotelRepo, stringProvider, this)
+        micoDescriptionViewModel = HotelItinPricingMicoDescriptionViewModel(micoScope)
+        micoView.viewModel = micoDescriptionViewModel
 
         val summaryScope = HotelItinPricingSummaryScope(hotelRepo, stringProvider, activityLauncher, this)
         summaryViewModel = HotelItinPricingSummaryViewModel(summaryScope)

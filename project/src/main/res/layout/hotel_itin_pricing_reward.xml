@@ -40,6 +40,20 @@
                 android:textSize="18sp"
                 app:textStyle="medium" />
 
+            <com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingMicoView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/hotel_itin_pricing_mico_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/hotel_itin_mico_description_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+            </com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingMicoView>
+
             <com.expedia.bookings.itin.hotel.pricingRewards.HotelItinPricingSummaryView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/hotel_itin_pricing_summary_view"
                 style="@style/MaterialCardView"

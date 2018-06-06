@@ -251,66 +251,6 @@ class HotelItinPricingSummaryViewModelTest {
     }
 
     @Test
-    fun testBundleContentsLabelPackage() {
-        val viewModel = getViewModel()
-        priceBreakdownContainerClearObserver.assertEmpty()
-        priceBreakdownItemObserver.assertEmpty()
-
-        viewModel.itinObserver.onChanged(mockItinPackageHotel)
-
-        priceBreakdownContainerClearObserver.assertValueCount(1)
-        priceBreakdownItemObserver.assertValueCount(2)
-        val bundleItem = priceBreakdownItemObserver.values()[0]
-        val expectedString = (R.string.itin_hotel_details_price_summary_product_description_two).toString()
-                .plus(mapOf("firstproduct" to (R.string.Hotel).toString(), "secondproduct" to (R.string.Flight).toString()))
-        assertEquals(expectedString, bundleItem.labelString)
-        assertEquals(14.0f, bundleItem.textSize)
-        assertEquals(FontCache.Font.ROBOTO_REGULAR, bundleItem.font)
-    }
-
-    @Test
-    fun testBundleContentsLabelMicko() {
-        val viewModel = getViewModel()
-        priceBreakdownContainerClearObserver.assertEmpty()
-        priceBreakdownItemObserver.assertEmpty()
-
-        viewModel.itinObserver.onChanged(mockItinMickoHotel)
-
-        priceBreakdownContainerClearObserver.assertValueCount(1)
-        priceBreakdownItemObserver.assertValueCount(2)
-        val bundleItem = priceBreakdownItemObserver.values()[0]
-        val expectedString = (R.string.itin_hotel_details_price_summary_product_description_two).toString()
-                .plus(mapOf("firstproduct" to (R.string.Hotel).toString(), "secondproduct" to (R.string.Flight).toString()))
-        assertEquals(expectedString, bundleItem.labelString)
-        assertEquals(14.0f, bundleItem.textSize)
-        assertEquals(FontCache.Font.ROBOTO_REGULAR, bundleItem.font)
-    }
-
-    @Test
-    fun testProductsDescriptionString() {
-        val viewModel = getViewModel()
-        val mockProductContainer = MockProductContainer(null, null, null, null, null, null)
-
-        mockProductContainer.mockList = listOf(TripProducts.HOTEL)
-        var result = viewModel.getProductsDescriptionString(mockProductContainer)
-        var expectedString = (R.string.itin_hotel_details_price_summary_product_description_one).toString()
-                .plus(mapOf("product" to (R.string.Hotel).toString()))
-        assertEquals(expectedString, result)
-
-        mockProductContainer.mockList = listOf(TripProducts.FLIGHT, TripProducts.RAIL)
-        result = viewModel.getProductsDescriptionString(mockProductContainer)
-        expectedString = (R.string.itin_hotel_details_price_summary_product_description_two).toString()
-                .plus(mapOf("firstproduct" to (R.string.Flight).toString(), "secondproduct" to (R.string.Rail).toString()))
-        assertEquals(expectedString, result)
-
-        mockProductContainer.mockList = listOf(TripProducts.HOTEL, TripProducts.FLIGHT, TripProducts.CAR)
-        result = viewModel.getProductsDescriptionString(mockProductContainer)
-        expectedString = (R.string.itin_hotel_details_price_summary_product_description_many).toString()
-                .plus(mapOf("products" to (R.string.Hotel).toString().plus(", ").plus((R.string.Flight).toString()), "lastproduct" to (R.string.Car).toString()))
-        assertEquals(expectedString, result)
-    }
-
-    @Test
     fun testTotalPriceSubjectHotelCollect() {
         val feesViewModel = getViewModel()
         totalPriceObserver.assertEmpty()
@@ -415,8 +355,8 @@ class HotelItinPricingSummaryViewModelTest {
         viewModel.itinObserver.onChanged(mockItinPackageHotel)
 
         priceBreakdownContainerClearObserver.assertValueCount(1)
-        priceBreakdownItemObserver.assertValueCount(2)
-        val subtotalItem = priceBreakdownItemObserver.values()[1]
+        priceBreakdownItemObserver.assertValueCount(1)
+        val subtotalItem = priceBreakdownItemObserver.values()[0]
         assertEquals("$122.55", subtotalItem.priceString)
         assertEquals((R.string.itin_hotel_details_price_summary_subtotal_label).toString(), subtotalItem.labelString)
         assertEquals(14.0f, subtotalItem.textSize)
@@ -432,8 +372,8 @@ class HotelItinPricingSummaryViewModelTest {
         viewModel.itinObserver.onChanged(mockItinMickoHotel)
 
         priceBreakdownContainerClearObserver.assertValueCount(1)
-        priceBreakdownItemObserver.assertValueCount(2)
-        val subtotalItem = priceBreakdownItemObserver.values()[1]
+        priceBreakdownItemObserver.assertValueCount(1)
+        val subtotalItem = priceBreakdownItemObserver.values()[0]
         assertEquals("$138.31", subtotalItem.priceString)
         assertEquals((R.string.itin_hotel_details_price_summary_subtotal_label).toString(), subtotalItem.labelString)
         assertEquals(14.0f, subtotalItem.textSize)
