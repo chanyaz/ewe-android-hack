@@ -187,12 +187,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             }
         }
 
-        vm.locationParamsSubject.subscribe { params ->
-            filterView.sortByObserver.onNext(params.isCurrentLocationSearch && !params.isGoogleSuggestionSearch)
-            filterViewModel.clearObservable.onNext(Unit)
-            viewModel.clearCachedParamsFilterOptions()
-        }
-
         vm.filterChoicesSubject.subscribe {
             if (previousWasList) {
                 show(ResultsList(), Presenter.FLAG_CLEAR_TOP)

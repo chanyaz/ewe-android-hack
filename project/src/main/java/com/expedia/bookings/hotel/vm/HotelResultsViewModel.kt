@@ -61,24 +61,24 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
 
         locationParamsSubject.subscribe(endlessObserver { suggestion ->
             hotelSearchManager.reset()
-            val paramBuilder = newParamBuilder(suggestion, cachedParams)
-            val params = paramBuilder.build()
-            doSearch(params)
-            paramChangedSubject.onNext(params)
+            val builder = newParamBuilderFromParams(cachedParams, true).destination(suggestion)
+            val newParams = builder.build()
+            doSearch(newParams)
+            paramChangedSubject.onNext(newParams)
         })
 
         filterChoicesSubject.subscribe(endlessObserver { filterChoices ->
-            val paramBuilder = newParamBuilder(cachedParams?.suggestion, cachedParams)
-            addFilterCriteria(paramBuilder, filterChoices)
-            val newParams = paramBuilder.build()
+            val builder = newParamBuilderFromParams(cachedParams, false)
+            addFilterCriteria(builder, filterChoices)
+            val newParams = builder.build()
             newParams.clearPinnedHotelId()
             doSearch(newParams)
             paramChangedSubject.onNext(newParams)
         })
 
         dateChangedParamsSubject.subscribe(endlessObserver { stayDates ->
-            val builder = HotelSearchParams.Builder(hotelCalendarRules.getMaxDateRange(), hotelCalendarRules.getMaxSearchDurationDays())
-            builder.from(cachedParams!!).startDate(stayDates.getStartDate()).endDate(stayDates.getEndDate())
+            val builder = newParamBuilderFromParams(cachedParams, true)
+                    .startDate(stayDates.getStartDate()).endDate(stayDates.getEndDate()) as HotelSearchParams.Builder
             val newParams = builder.build()
             doSearch(newParams, isChangeDateSearch = true)
             paramChangedSubject.onNext(newParams)
@@ -145,16 +145,18 @@ class HotelResultsViewModel(context: Context, private val hotelSearchManager: Ho
         })
     }
 
-    private fun newParamBuilder(suggestion: SuggestionV4?, params: HotelSearchParams?): HotelSearchParams.Builder {
-        val maxStay = context.resources.getInteger(R.integer.calendar_max_days_hotel_stay)
-        val maxRange = context.resources.getInteger(R.integer.max_calendar_selectable_date_range_hotels_only)
-        val builder = HotelSearchParams.Builder(maxStay, maxRange)
-                .destination(suggestion)
-                .startDate(params?.checkIn)
-                .endDate(params?.checkOut)
-                .adults(params?.adults ?: 1)
-                .children(params?.children ?: emptyList()) as HotelSearchParams.Builder
-        return builder.shopWithPoints(params?.shopWithPoints ?: false)
+    private fun newParamBuilder(): HotelSearchParams.Builder {
+        val maxStay = hotelCalendarRules.getMaxSearchDurationDays()
+        val maxRange = hotelCalendarRules.getMaxDateRange()
+        return HotelSearchParams.Builder(maxStay, maxRange)
+    }
+
+    private fun newParamBuilderFromParams(params: HotelSearchParams?, keepSortFilter: Boolean): HotelSearchParams.Builder {
+        val builder = newParamBuilder()
+        if (params != null) {
+            builder.from(params, keepSortFilter)
+        }
+        return builder
     }
 
     private fun doSearch(params: HotelSearchParams, isChangeDateSearch: Boolean = false) {

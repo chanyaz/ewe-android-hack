@@ -95,7 +95,7 @@ class HotelGuestRatingFilterViewTest {
 
         guestRatingFilterView.update(UserFilterChoices.GuestRatings(four = true))
 
-        assertGuestRatingValueDeselected(GuestRatingValue.Four, false)
+        assertGuestRatingValueSelected(GuestRatingValue.Four, false)
     }
 
     @Test
@@ -106,7 +106,7 @@ class HotelGuestRatingFilterViewTest {
 
         guestRatingFilterView.update(UserFilterChoices.GuestRatings(four = false))
 
-        assertGuestRatingValueSelected(GuestRatingValue.Four, false)
+        assertGuestRatingValueDeselected(GuestRatingValue.Four, false)
     }
 
     @Test

@@ -249,9 +249,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         if (!response.isFilteredResponse) {
             filterViewModel.lastUnfilteredSearchParams = baseViewModel.cachedParams
             filterViewModel.setHotelList(response)
-            baseViewModel.cachedParams?.filterOptions?.let { filterOptions ->
-                filterViewModel.updatePresetOptions(filterOptions)
-            }
+        }
+        baseViewModel.cachedParams?.filterOptions?.let { filterOptions ->
+            filterViewModel.updatePresetOptions(filterOptions)
         }
         filterViewModel.availableAmenityOptionsObservable.onNext(response.amenityFilterOptions.keys)
         mapWidget.newResults(response, updateBounds = true)

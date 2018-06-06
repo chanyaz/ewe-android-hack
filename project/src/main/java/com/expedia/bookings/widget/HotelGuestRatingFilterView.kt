@@ -54,9 +54,9 @@ class HotelGuestRatingFilterView(context: Context, attrs: AttributeSet?) : CardV
     }
 
     fun update(hotelGuestRating: UserFilterChoices.GuestRatings) {
-        if (hotelGuestRating.three) toggleGuestRatingThree(false)
-        if (hotelGuestRating.four) toggleGuestRatingFour(false)
-        if (hotelGuestRating.five) toggleGuestRatingFive(false)
+        if (hotelGuestRating.three != filterThree.guestRatingSelected) toggleGuestRatingThree(false)
+        if (hotelGuestRating.four != filterFour.guestRatingSelected) toggleGuestRatingFour(false)
+        if (hotelGuestRating.five != filterFive.guestRatingSelected) toggleGuestRatingFive(false)
     }
 
     private fun toggleGuestRatingThree(doTracking: Boolean) {

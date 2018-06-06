@@ -146,28 +146,26 @@ open class HotelSearchParams(val suggestion: SuggestionV4,
             return this
         }
 
-        fun clearUserSort() {
-            this.userSort = null
-        }
-
         fun amenities(amenities: HashSet<Int>): Builder {
             this.amenities = amenities
             return this
         }
 
-        fun from(params: HotelSearchParams): Builder {
+        fun from(params: HotelSearchParams, keepSortFilter: Boolean = true): Builder {
             destination(params.suggestion)
             forPackage(params.forPackage)
             shopWithPoints(params.shopWithPoints)
-            params.filterOptions?.let { filterOptions ->
-                filterOptions.filterHotelName?.let { hotelName(it) }
-                filterOptions.filterStarRatings.let { starRatings(it) }
-                filterOptions.filterGuestRatings.let { guestRatings(it) }
-                filterOptions.filterPrice?.let { priceRange(it) }
-                vipOnly(filterOptions.filterVipOnly)
-                filterOptions.filterByNeighborhood?.let { neighborhood(it) }
-                filterOptions.userSort?.let { userSort(it) }
-                filterOptions.amenities.let { amenities(it) }
+            if (keepSortFilter) {
+                params.filterOptions?.let { filterOptions ->
+                    filterOptions.filterHotelName?.let { hotelName(it) }
+                    filterOptions.filterStarRatings.let { starRatings(it) }
+                    filterOptions.filterGuestRatings.let { guestRatings(it) }
+                    filterOptions.filterPrice?.let { priceRange(it) }
+                    vipOnly(filterOptions.filterVipOnly)
+                    filterOptions.filterByNeighborhood?.let { neighborhood(it) }
+                    filterOptions.amenities.let { amenities(it) }
+                    filterOptions.userSort?.let { userSort(it) }
+                }
             }
             adults(params.adults)
             children(params.children)

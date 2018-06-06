@@ -10,6 +10,7 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class HotelSearchParamsTest {
@@ -366,6 +367,44 @@ class HotelSearchParamsTest {
     }
 
     @Test
+    fun testFromDontKeepSortFilter() {
+        val neighborhood = Neighborhood().apply {
+            name = "name"
+            id = "12345"
+        }
+        val firstParams = firstParamBuilder
+                .hotelName("Oscar Inn")
+                .starRatings(listOf(10))
+                .guestRatings(listOf(3))
+                .priceRange(HotelSearchParams.PriceRange(10, 100))
+                .vipOnly(true)
+                .neighborhood(neighborhood)
+                .amenities(hashSetOf(1))
+                .userSort(BaseHotelFilterOptions.SortType.PRICE)
+                .shopWithPoints(true)
+                .destination(dummySuggestion)
+                .startDate(today).endDate(today)
+                .adults(1).children(listOf(1))
+                .build() as HotelSearchParams
+        val secondParams = secondParamBuilder.from(firstParams, false).build()
+
+        assertEquals(firstParams.suggestion, secondParams.suggestion)
+        assertEquals(firstParams.checkIn, secondParams.checkIn)
+        assertEquals(firstParams.checkOut, secondParams.checkOut)
+        assertEquals(firstParams.adults, secondParams.adults)
+        assertEquals(firstParams.children.size, secondParams.children.size)
+        assertTrue(secondParams.shopWithPoints)
+        assertNull(secondParams.filterOptions!!.filterHotelName)
+        assertTrue(secondParams.filterOptions!!.filterStarRatings.isEmpty())
+        assertTrue(secondParams.filterOptions!!.filterGuestRatings.isEmpty())
+        assertNull(secondParams.filterOptions!!.filterPrice)
+        assertFalse(secondParams.filterOptions!!.filterVipOnly)
+        assertNull(secondParams.filterOptions!!.filterByNeighborhood)
+        assertTrue(secondParams.filterOptions!!.amenities.isEmpty())
+        assertNull(secondParams.filterOptions!!.userSort)
+    }
+
+    @Test
     fun testFromFilterOptions_name() {
         val expectedName = "Oscar Inn"
         val testParams = firstParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
@@ -380,8 +419,8 @@ class HotelSearchParamsTest {
     }
 
     @Test
-    fun testFromFilterOptions_star() {
-        val expectedStar = listOf(1)
+    fun testFromFilterOptions_starRating() {
+        val expectedStar = listOf(10)
         val testParams = firstParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
                 .adults(1).children(listOf(1)).build() as HotelSearchParams
 
@@ -394,8 +433,22 @@ class HotelSearchParamsTest {
     }
 
     @Test
+    fun testFromFilterOptions_guestRating() {
+        val expectedGuestRating = listOf(3)
+        val testParams = firstParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
+                .adults(1).children(listOf(1)).build() as HotelSearchParams
+
+        val testFilterOptions = HotelFilterOptions()
+        testFilterOptions.filterGuestRatings = expectedGuestRating
+        testParams.filterOptions = testFilterOptions
+
+        val fromParams = secondParamBuilder.from(testParams).build()
+        assertEquals(expectedGuestRating, fromParams.filterOptions?.filterGuestRatings)
+    }
+
+    @Test
     fun testFromFilterOptions_priceRange() {
-        val expectedPriceRange = HotelSearchParams.PriceRange(0, 100)
+        val expectedPriceRange = HotelSearchParams.PriceRange(10, 100)
         val testParams = firstParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
                 .adults(1).children(listOf(1)).build() as HotelSearchParams
         val testFilterOptions = HotelFilterOptions()
@@ -409,10 +462,24 @@ class HotelSearchParamsTest {
     }
 
     @Test
+    fun testFromFilterOptions_filterVip() {
+        val testParams = firstParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
+                .adults(1).children(listOf(1)).build() as HotelSearchParams
+
+        val testFilterOptions = HotelFilterOptions()
+        testFilterOptions.filterVipOnly = true
+        testParams.filterOptions = testFilterOptions
+
+        val fromParams = secondParamBuilder.from(testParams).build()
+        assertTrue(fromParams.filterOptions!!.filterVipOnly)
+    }
+
+    @Test
     fun testFromFilterOptions_neighborhood() {
-        val expectedNeighborhood = Neighborhood()
-        expectedNeighborhood.name = "name"
-        expectedNeighborhood.id = "12345"
+        val expectedNeighborhood = Neighborhood().apply {
+            name = "name"
+            id = "12345"
+        }
         val testParams = firstParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
                 .adults(1).children(listOf(1)).build() as HotelSearchParams
 
@@ -425,16 +492,17 @@ class HotelSearchParamsTest {
     }
 
     @Test
-    fun testFromFilterOptions_filterVip() {
+    fun testFromFilterOptions_amenities() {
+        val expectedAmenities = hashSetOf(1)
         val testParams = firstParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
                 .adults(1).children(listOf(1)).build() as HotelSearchParams
 
         val testFilterOptions = HotelFilterOptions()
-        testFilterOptions.filterVipOnly = true
+        testFilterOptions.amenities = expectedAmenities
         testParams.filterOptions = testFilterOptions
 
         val fromParams = secondParamBuilder.from(testParams).build()
-        assertTrue(fromParams.filterOptions!!.filterVipOnly)
+        assertEquals(expectedAmenities, fromParams.filterOptions?.amenities)
     }
 
     @Test
