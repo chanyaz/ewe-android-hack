@@ -17,6 +17,13 @@ class HotelReviewSearchResultsViewModel(compositeDisposable: CompositeDisposable
 
     val reviewsObservable = PublishSubject.create<List<HotelReviewsResponse.Review>>()
 
+    @VisibleForTesting
+    var currentQuery: String? = null
+    @VisibleForTesting
+    var currentHotelId: String? = null
+    @VisibleForTesting
+    var pageNumber = 0
+
     private val resultsObserver = object : Observer<HotelReviewsResponse> {
         override fun onError(e: Throwable) {
             // TODO
@@ -34,21 +41,33 @@ class HotelReviewSearchResultsViewModel(compositeDisposable: CompositeDisposable
     }
 
     fun doSearch(query: String?, hotelId: String?) {
-        createSearchParams(query, hotelId)?.let { params ->
-            reviewsServices.reviewsSearch(params).subscribe(resultsObserver)
-        }
+        currentQuery = query
+        currentHotelId = hotelId
+        pageNumber = 0
+        makeApiCall()
+    }
+
+    fun getNextPage() {
+        pageNumber++
+        makeApiCall()
     }
 
     @VisibleForTesting
-    fun createSearchParams(query: String?, hotelId: String?): HotelReviewsParams? {
-        if (!hotelId.isNullOrBlank() && !query.isNullOrBlank()) {
+    fun createSearchParams(): HotelReviewsParams? {
+        if (!currentHotelId.isNullOrBlank() && !currentQuery.isNullOrBlank()) {
             return HotelReviewsParams.Builder()
-                    .hotelId(hotelId)
-                    .pageNumber(0)
+                    .hotelId(currentHotelId)
+                    .pageNumber(pageNumber)
                     .numReviewsPerPage(Constants.HOTEL_REVIEWS_PAGE_SIZE)
                     .sortBy("")
-                    .searchTerm(query).build()
+                    .searchTerm(currentQuery).build()
         }
         return null
+    }
+
+    private fun makeApiCall() {
+        createSearchParams()?.let { params ->
+            reviewsServices.reviewsSearch(params).subscribe(resultsObserver)
+        }
     }
 }

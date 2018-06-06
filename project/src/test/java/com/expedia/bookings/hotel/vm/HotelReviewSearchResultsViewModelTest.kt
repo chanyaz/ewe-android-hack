@@ -12,6 +12,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class HotelReviewSearchResultsViewModelTest {
@@ -32,20 +33,72 @@ class HotelReviewSearchResultsViewModelTest {
         viewModel.reviewsObservable.subscribe(testObserver)
         viewModel.doSearch("PrivateBank", "123")
         testObserver.assertValueCount(1)
+        val request = reviewServicesRule.server.takeRequest()
+        assertEquals("0", request.requestUrl.queryParameter("start"))
+        assertTrue(request.path.contains("123"))
         assertEquals(compositeDisposable.size(), 1)
     }
 
     @Test
+    fun testGetNextPage() {
+        val testObserver = TestObserver<List<HotelReviewsResponse.Review>>()
+        viewModel.reviewsObservable.subscribe(testObserver)
+        viewModel.doSearch("PrivateBank", "123")
+        assertEquals(viewModel.pageNumber, 0)
+        viewModel.getNextPage()
+        assertEquals(viewModel.pageNumber, 1)
+        viewModel.doSearch("PrivateBank", "a_different_hotel_id")
+
+        val firstRequest = reviewServicesRule.server.takeRequest()
+        val secondRequest = reviewServicesRule.server.takeRequest()
+        val thirdRequest = reviewServicesRule.server.takeRequest()
+
+        assertEquals("0", firstRequest.requestUrl.queryParameter("start"))
+        assertTrue(firstRequest.path.contains("123"))
+        assertEquals("25", secondRequest.requestUrl.queryParameter("start"))
+        assertEquals("0", thirdRequest.requestUrl.queryParameter("start"))
+        assertTrue(thirdRequest.path.contains("a_different_hotel_id"))
+
+        testObserver.assertValueCount(3)
+        assertEquals(compositeDisposable.size(), 3)
+    }
+
+    @Test
+    fun testBadParam() {
+        val testObserver = TestObserver<List<HotelReviewsResponse.Review>>()
+        viewModel.reviewsObservable.subscribe(testObserver)
+        viewModel.doSearch("PrivateBank", null)
+        testObserver.assertValueCount(0)
+    }
+
+    @Test
     fun testCreateParams() {
-        val params = viewModel.createSearchParams("test", "123")
+        viewModel.currentHotelId = "123"
+        viewModel.currentQuery = "test"
+        val params = viewModel.createSearchParams()
         assertEquals(params!!.hotelId, "123")
         assertEquals(params.searchTerm, "test")
         assertEquals(params.numReviewsPerPage, 25)
         assertEquals(params.pageNumber, 0)
         assertEquals(params.sortBy, "")
 
-        assertNull(viewModel.createSearchParams(null, "123"))
+        viewModel.currentQuery = null
+        assertNull(viewModel.createSearchParams())
 
-        assertNull(viewModel.createSearchParams("test", null))
+        viewModel.currentQuery = "test"
+        viewModel.currentHotelId = null
+        assertNull(viewModel.createSearchParams())
+
+        viewModel.currentQuery = null
+        viewModel.currentHotelId = null
+        assertNull(viewModel.createSearchParams())
+
+        viewModel.currentQuery = null
+        viewModel.currentHotelId = " "
+        assertNull(viewModel.createSearchParams())
+
+        viewModel.currentQuery = " "
+        viewModel.currentHotelId = null
+        assertNull(viewModel.createSearchParams())
     }
 }

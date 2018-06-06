@@ -1,6 +1,7 @@
 package com.expedia.bookings.hotel.widget
 
 import android.content.Context
+import android.support.annotation.VisibleForTesting
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
@@ -14,9 +15,12 @@ import io.reactivex.disposables.CompositeDisposable
 
 class HotelReviewSearchResultsView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
-    private val compositeDisposable = CompositeDisposable()
+    @VisibleForTesting
+    val compositeDisposable = CompositeDisposable()
+    @VisibleForTesting
     val viewModel = HotelReviewSearchResultsViewModel(compositeDisposable)
-    private val reviewsPageView: HotelReviewsPageView by bindView(R.id.hotel_reviews_search_results_list)
+    @VisibleForTesting
+    val reviewsPageView: HotelReviewsPageView by bindView(R.id.hotel_reviews_search_results_list)
 
     init {
         View.inflate(context, R.layout.hotel_review_search_results_layout, this)
@@ -26,6 +30,10 @@ class HotelReviewSearchResultsView(context: Context, attrs: AttributeSet) : Line
         viewModel.reviewsObservable.subscribe { searchResults ->
             reviewsPageView.viewModel.reviewsObserver.onNext(searchResults)
             reviewsPageView.recyclerAdapter.addReviews(searchResults)
+        }
+
+        reviewsPageView.recyclerAdapter.loadMoreObservable.subscribe {
+            viewModel.getNextPage()
         }
     }
 

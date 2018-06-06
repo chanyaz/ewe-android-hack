@@ -1,6 +1,7 @@
 package com.expedia.bookings.hotel.widget
 
 import android.content.Context
+import android.support.annotation.VisibleForTesting
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.RatingBar
@@ -23,7 +24,8 @@ class HotelReviewRowView(context: Context) : LinearLayout(context) {
     val content: TextView by bindView(R.id.content)
     val reviewer: TextView by bindView(R.id.reviewer)
     val date: TextView by bindView(R.id.date)
-    private val translateButton: TextView by bindView(R.id.hotel_review_row_translate)
+    @VisibleForTesting
+    val translateButton: TextView by bindView(R.id.hotel_review_row_translate)
 
     init {
         View.inflate(getContext(), R.layout.hotel_review_row, this)
