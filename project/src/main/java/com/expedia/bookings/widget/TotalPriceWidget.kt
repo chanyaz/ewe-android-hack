@@ -34,7 +34,8 @@ import com.expedia.vm.BaseTotalPriceWidgetViewModel
 import java.math.BigDecimal
 
 class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
-    private val ANIMATION_DURATION = 500L
+    private val ANIMATION_DURATION = 300L
+    private val ANIMATION_DELAY = 500L
 
     val bundleChevron: ImageView by bindView(R.id.bundle_chevron)
     val bundleTotalPrice: TextView by bindView(R.id.bundle_total_price)
@@ -59,7 +60,7 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
 
     private val resizeOpenAnimator: ResizeHeightAnimator by lazy {
         val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
-        resizeAnimator.startDelay = ANIMATION_DURATION
+        resizeAnimator.startDelay = ANIMATION_DELAY
         val heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.AT_MOST)
         val widthMeasureSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY)
         betterSavingContainer.measure(widthMeasureSpec, heightMeasureSpec)
