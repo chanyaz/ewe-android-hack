@@ -6,7 +6,6 @@ import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.lx.ActivityDetailsResponse
 import com.expedia.bookings.data.lx.LXActivity
-import com.expedia.bookings.data.lx.LXCategoryType
 import com.expedia.bookings.data.lx.LXCheckoutParams
 import com.expedia.bookings.data.lx.LXCheckoutResponse
 import com.expedia.bookings.data.lx.LXCreateTripParams
@@ -15,14 +14,10 @@ import com.expedia.bookings.data.lx.LXCreateTripResponseV2
 import com.expedia.bookings.data.lx.LXSearchResponse
 import com.expedia.bookings.data.lx.LXSortFilterMetadata
 import com.expedia.bookings.data.lx.LXSortType
-import com.expedia.bookings.data.lx.LXTheme
-import com.expedia.bookings.data.lx.LXThemeType
 import com.expedia.bookings.data.lx.LxSearchParams
 import com.expedia.bookings.extensions.applySortFilter
 import com.expedia.bookings.extensions.subscribeObserver
-import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.ApiDateUtils
-import com.expedia.bookings.utils.LXUtils
 import com.expedia.bookings.utils.Strings
 import io.reactivex.Observable
 import io.reactivex.Observer
@@ -54,20 +49,6 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
         adapter.create(LXApi::class.java)
     }
 
-    fun lxCategorySearch(searchParams: LxSearchParams, observer: Observer<LXSearchResponse>): Disposable {
-        return lxApi.searchLXActivities(searchParams.location, searchParams.toServerStartDate(), searchParams.toServerEndDate(), searchParams.modQualified)
-                .doOnNext(HANDLE_SEARCH_ERROR)
-                .doOnNext(ACTIVITIES_MONEY_TITLE)
-                .doOnNext(PUT_POPULARITY_COUNTER_FOR_SORT)
-                .doOnNext(CACHE_SEARCH_RESPONSE)
-                .doOnNext(PUT_CATEGORY_KEY_IN_CATEGORY_METADATA)
-                .doOnNext(PUT_CATEGORY_TYPE_IN_CATEGORY_METADATA)
-                .doOnNext(PUT_CATEGORIES_AND_ACTIVITES_IN_THEME)
-                .subscribeOn(subscribeOn)
-                .observeOn(observeOn)
-                .subscribeObserver(observer)
-    }
-
     fun lxSearch(searchParams: LxSearchParams, observer: Observer<LXSearchResponse>): Disposable {
         return lxSearch(searchParams).subscribeObserver(observer)
     }
@@ -89,82 +70,6 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
             errorInfo.cause = "No results from api."
             apiError.errorInfo = errorInfo
             throw apiError
-        }
-    }
-
-    private val PUT_POPULARITY_COUNTER_FOR_SORT = { response: LXSearchResponse ->
-        var popularityForClientSort = 0
-        for (activity in response.activities) {
-            activity.popularityForClientSort = popularityForClientSort++
-        }
-    }
-
-    private val PUT_CATEGORY_KEY_IN_CATEGORY_METADATA = { response: LXSearchResponse ->
-        for (filterCategory in response.filterCategories.entries) {
-            val categoryKeyEN = filterCategory.key
-            val categoryValue = filterCategory.value
-            categoryValue.categoryKeyEN = categoryKeyEN
-        }
-    }
-
-    private val PUT_CATEGORY_TYPE_IN_CATEGORY_METADATA = { response: LXSearchResponse ->
-        for (filterCategory in response.filterCategories.entries) {
-            val categoryKeyEN = filterCategory.key
-            val categoryValue = filterCategory.value
-            for (sortOrder in LXCategoryType.values()) {
-                if (LXUtils.whitelistAlphanumericFromCategoryKey(categoryKeyEN).equals(sortOrder.toString(), ignoreCase = true)) {
-                    categoryValue.categoryType = sortOrder
-                    break
-                }
-            }
-        }
-    }
-
-    private val PUT_CATEGORIES_AND_ACTIVITES_IN_THEME = { response: LXSearchResponse ->
-        for (themeType in LXThemeType.values()) {
-            val theme = LXTheme(themeType)
-
-            when (themeType) {
-                LXThemeType.AllThingsToDo -> {
-                    theme.filterCategories.putAll(response.filterCategories)
-                    theme.activities.addAll(response.activities)
-                    theme.unfilteredActivities.addAll(response.activities)
-                }
-                LXThemeType.TopRatedActivities -> {
-                    theme.activities.addAll(response.activities.take(10))
-                    theme.unfilteredActivities.addAll(response.activities.take(10))
-                }
-                else -> {
-                    // Traverse the category, match the category in Themes -> Add category
-                    for (filterCategory in response.filterCategories.entries) {
-                        val categoryKeyEN = filterCategory.key
-                        val categoryValue = filterCategory.value
-                        for (themeCategory in theme.themeType.categories) {
-                            if (LXUtils.whitelistAlphanumericFromCategoryKey(categoryKeyEN).equals(themeCategory.toString(), ignoreCase = true)) {
-                                theme.filterCategories.put(categoryKeyEN, categoryValue)
-                                categoryValue.categoryType = themeCategory
-                                break
-                            }
-                        }
-                    }
-
-                    // Traverse the category in themes, match the activity in response -> Add Activity
-                    val filteredSet = LinkedHashSet<LXActivity>()
-                    for (filterCategory in theme.filterCategories.entries) {
-                        val categoryKeyEN = filterCategory.key
-                        for (activity in response.activities) {
-                            if (CollectionUtils.isNotEmpty(activity.categories) && activity.categories.contains(categoryKeyEN)) {
-                                filteredSet.add(activity)
-                            }
-                        }
-                    }
-                    theme.activities.addAll(filteredSet)
-                    theme.unfilteredActivities.addAll(filteredSet)
-                }
-            }
-            if (theme.activities.size > 0 ) {
-                response.lxThemes.add(theme)
-            }
         }
     }
 
@@ -321,69 +226,6 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
                     lxSortFilterMetadata)
         }
         return lxSearchResponse
-    }
-
-    private fun sortFilterThemeSearchResponse(theme: LXTheme, sortFilterMetadata: LXSortFilterMetadata): LXTheme {
-
-        // Filtering
-        val filteredSet = LinkedHashSet<LXActivity>()
-        val unfilteredActivities = theme.unfilteredActivities
-        for (i in unfilteredActivities.indices) {
-            for (filterCategory in sortFilterMetadata.lxCategoryMetadataMap.entries) {
-                val lxCategoryMetadata = filterCategory.value
-                val lxCategoryMetadataKey = filterCategory.key
-                if (lxCategoryMetadata.checked) {
-                    if (unfilteredActivities[i].categories.contains(lxCategoryMetadataKey)) {
-                        filteredSet.add(unfilteredActivities[i])
-                    }
-                }
-            }
-        }
-
-        theme.activities.clear()
-
-        // Filtering.
-        if (filteredSet.size != 0) {
-            theme.activities.addAll(filteredSet)
-        } else {
-            theme.activities.addAll(unfilteredActivities)
-        }
-
-        // Sorting
-        if (sortFilterMetadata.sort == LXSortType.PRICE) {
-            Collections.sort<LXActivity>(theme.activities, object : Comparator<LXActivity> {
-                override fun compare(lhs: LXActivity, rhs: LXActivity): Int {
-                    val leftMoney = lhs.price
-                    val rightMoney = rhs.price
-                    return leftMoney.compareTo(rightMoney)
-                }
-            })
-        } else if (sortFilterMetadata.sort == LXSortType.POPULARITY) {
-            Collections.sort<LXActivity>(theme.activities, object : Comparator<LXActivity> {
-                override fun compare(lhs: LXActivity, rhs: LXActivity): Int {
-                    return if ((lhs.popularityForClientSort < rhs.popularityForClientSort))
-                        -1
-                    else (if ((lhs.popularityForClientSort == rhs.popularityForClientSort)) 0 else 1)
-                }
-            })
-        }
-
-        return theme
-    }
-
-    fun lxThemeSortAndFilter(currentTheme: LXTheme, lxSortType: LXSortFilterMetadata, categorySortObserver: Observer<LXTheme>, lxFilterTextSearchEnabled: Boolean): Disposable {
-        return ObservableOld.combineLatest(Observable.just(currentTheme), Observable.just(lxSortType),
-                { theme, sortType ->
-                    if (lxFilterTextSearchEnabled) {
-                        theme.activities = theme.unfilteredActivities.applySortFilter(sortType)
-                        theme
-                    } else {
-                        sortFilterThemeSearchResponse(theme, sortType)
-                    }
-                })
-                .subscribeOn(this.subscribeOn)
-                .observeOn(this.observeOn)
-                .subscribeObserver(categorySortObserver)
     }
 
     fun lxSearchSortFilter(lxSearchParams: LxSearchParams?, lxSortFilterMetadata: LXSortFilterMetadata?,

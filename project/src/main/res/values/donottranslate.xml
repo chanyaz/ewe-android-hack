@@ -426,16 +426,6 @@
     <string name="cd_zero_btn">Zero</string>
     <string name="cd_delete_btn">Delete</string>
 
-    <!-- Category All Things To Do -->
-    <string name="lx_category_key_all_things_to_do">All Things To Do</string>
-    <string name="top_rated_activities_en">Top Rated Activities</string>
-    <string name="adventure_around_en">Adventure Around</string>
-    <string name="see_the_sights_en">See the Sights</string>
-    <string name="tour_the_area_en">Tour the Area</string>
-    <string name="fun_for_the_family_en">Fun for the Family</string>
-    <string name="pure_entertainment_en">Pure Entertainment</string>
-    <string name="eat_play_enjoy_en">Eat, Play &amp; Enjoy</string>
-    
     <!-- Plus sign for Expedia+ Reward Points on Hotel Infosite -->
     <string name="plus_sign">+</string>
 

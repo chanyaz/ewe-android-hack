@@ -325,21 +325,6 @@ public class LXDataUtils {
 		return false;
 	}
 
-	public static boolean isCategoryAllThingsToDoAndItsCategoryImageAvailable(Context context, String categoryKey,
-		String imageCode) {
-		return isCategoryAllThingsToDo(context, categoryKey) && Strings.isNotEmpty(imageCode) && !imageCode
-			.equals("null");
-	}
-
-	public static boolean isCategoryAllThingsToDo(Context context, String categoryKey) {
-		return categoryKey.equals(context.getResources().getString(R.string.lx_category_key_all_things_to_do));
-	}
-
-	public static int getErrorDrawableForCategory(Context context, String categoryKey) {
-		return isCategoryAllThingsToDo(context, categoryKey) ? R.drawable.itin_header_placeholder_activities
-			: R.drawable.lx_category_all_things_to_do;
-	}
-
 	public static void bindDuration(Context context, String activityDuration, boolean isMultiDuration,
 		TextView duration) {
 		if (Strings.isNotEmpty(activityDuration)) {

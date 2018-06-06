@@ -80,39 +80,6 @@ public class ImagesTest {
 	}
 
 	@Test
-	public void testLXAllThingsToDoCategoryWithImageCodeDestinationImage() {
-		final String categoryAllThingsToDo = "All Things To Do";
-		final String imageCode = "QSF";
-		final String expectedURL =
-			Images.getMediaHost()
-				+ "/mobiata/mobile/apps/ExpediaBooking/TabletDestinations/images/QSF.jpg?downsize=450px:*&";
-		String obtainedURL = Images.forLxCategory(getContext(), categoryAllThingsToDo, imageCode, 450);
-		Assert.assertEquals(expectedURL, obtainedURL);
-	}
-
-	@Test
-	public void testLXAllThingsToDoCategoryWithoutImageCodeDestinationImage() {
-		final String categoryAllThingsToDo = "All Things To Do";
-		final String imageCode = "";
-		final String expectedURL =
-			Images.getMediaHost()
-				+ "/mobiata/mobile/apps/ExpediaBooking/ActivityCategories/images/AllThingsToDo.jpg?downsize=450px:*&";
-		String obtainedURL = Images.forLxCategory(getContext(), categoryAllThingsToDo, imageCode, 450);
-		Assert.assertEquals(expectedURL, obtainedURL);
-	}
-
-	@Test
-	public void testLXWhenCategoryIsNotAllThingsToDoDestinationImage() {
-		final String categoryAllThingsToDo = "Attractions";
-		final String imageCode = "";
-		final String expectedURL =
-			Images.getMediaHost()
-				+ "/mobiata/mobile/apps/ExpediaBooking/ActivityCategories/images/Attractions.jpg?downsize=450px:*&";
-		String obtainedURL = Images.forLxCategory(getContext(), categoryAllThingsToDo, imageCode, 450);
-		Assert.assertEquals(expectedURL, obtainedURL);
-	}
-
-	@Test
 	public void testHotelImagesCount() {
 		HotelOffersResponse offer = new HotelOffersResponse();
 		HotelOffersResponse.Photos photo1 = new HotelOffersResponse.Photos();

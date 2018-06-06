@@ -4,17 +4,12 @@ import android.app.Activity
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LXState
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.abacus.AbacusResponse
-import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.abacus.AbacusVariant
 import com.expedia.bookings.data.lx.LXActivity
 import com.expedia.bookings.data.lx.LXCategoryMetadata
 import com.expedia.bookings.data.lx.LXCategoryType
@@ -30,7 +25,6 @@ import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.LXErrorWidget
 import com.expedia.bookings.widget.LXResultsListAdapter
 import com.expedia.bookings.widget.LXSearchResultsWidget
-import com.expedia.bookings.widget.LXThemeResultsWidget
 import com.google.gson.GsonBuilder
 import io.reactivex.subjects.PublishSubject
 import org.joda.time.LocalDate
@@ -107,34 +101,6 @@ class LXResultsPresenterTest {
     }
 
     @Test
-    fun testisUserBucketedForCategoriesTest() {
-        val themeResultsWidget = lxResultsPresenter.findViewById<LXThemeResultsWidget>(R.id.lx_theme_results_widget)
-        val searchResultsWidget = lxResultsPresenter.findViewById<LXSearchResultsWidget>(R.id.lx_search_results_widget)
-        val toolbarDetailText = lxResultsPresenter.findViewById<TextView>(R.id.toolbar_detail_text)
-        val toolbarSubtitleText = lxResultsPresenter.findViewById<TextView>(R.id.toolbar_subtitle_text)
-        val lxThemeList = lxResultsPresenter.findViewById<android.support.v7.widget.RecyclerView>(R.id.lx_theme_list)
-        val toolbarSortFilter = lxResultsPresenter.findViewById<ViewGroup>(R.id.toolbar_sort_filter)
-        val sortText = toolbarSortFilter.getChildAt(0) as TextView
-        val filterText = lxResultsPresenter.findViewById<TextView>(R.id.filter_text)
-
-        lxCategoriesABTest(AbacusVariant.BUCKETED)
-        buildSearchParams()
-        assertEquals(View.VISIBLE, themeResultsWidget.visibility)
-        assertEquals(View.GONE, searchResultsWidget.visibility)
-        assertEquals(View.VISIBLE, lxThemeList.visibility)
-        assertEquals(View.VISIBLE, toolbarSortFilter.visibility)
-        assertEquals("Select a Category", toolbarDetailText.text)
-        assertEquals("New York", toolbarSubtitleText.text)
-        assertEquals("Sort", sortText.text)
-        assertEquals("Sort", filterText.text)
-        filterText.performClick()
-        assertNotNull(lxResultsPresenter.searchSubscription)
-        assertEquals(false, lxResultsPresenter.searchSubscription.isDisposed)
-
-        lxCategoriesABTest(AbacusVariant.CONTROL)
-    }
-
-    @Test
     fun testWhenNoInternetConnected() {
 
         val searchResultObserver = lxResultsPresenter.SearchResultObserver()
@@ -175,7 +141,6 @@ class LXResultsPresenterTest {
         val searchResultsWidget = lxResultsPresenter.findViewById<LXSearchResultsWidget>(R.id.lx_search_results_widget)
         val recyclerView = searchResultsWidget.findViewById<RecyclerView>(R.id.lx_search_results_list)
         val errorScreen = searchResultsWidget.findViewById<LXErrorWidget>(R.id.lx_search_error_widget)
-        val themeResultsWidget = lxResultsPresenter.findViewById<LXThemeResultsWidget>(R.id.lx_theme_results_widget)
         val holder = searchResultsWidget.recyclerView.adapter.createViewHolder(searchResultsWidget.recyclerView, 1) as LXResultsListAdapter.ViewHolder
 
         searchResultsWidget.recyclerView.adapter.bindViewHolder(holder, 0)
@@ -186,7 +151,6 @@ class LXResultsPresenterTest {
         assertEquals(View.VISIBLE, sortFilterButton.visibility)
         assertEquals(View.VISIBLE, recyclerView.visibility)
         assertEquals(View.GONE, errorScreen.visibility)
-        assertEquals(View.GONE, themeResultsWidget.visibility)
         assertEquals(View.VISIBLE, filterIcon.visibility)
         searResultObserver.onComplete()
         assertEquals(true, lxResultsPresenter.searchSubscription.isDisposed)
@@ -282,34 +246,15 @@ class LXResultsPresenterTest {
     @Test
     fun testOnLXShowLoadingAnimation() {
         Events.register(lxResultsPresenter)
-        val themeResultsWidget = lxResultsPresenter.findViewById<LXThemeResultsWidget>(R.id.lx_theme_results_widget)
         val searchResultsWidget = lxResultsPresenter.findViewById<LXSearchResultsWidget>(R.id.lx_search_results_widget)
         Events.post(Events.LXShowLoadingAnimation())
-        assertEquals(View.GONE, themeResultsWidget.visibility)
         assertEquals(View.VISIBLE, searchResultsWidget.visibility)
-
-        lxCategoriesABTest(AbacusVariant.BUCKETED)
-        lxResultsPresenter.setUserBucketedForCategoriesTest(true)
-
-        Events.post(Events.LXShowLoadingAnimation())
-        assertEquals(View.VISIBLE, themeResultsWidget.visibility)
-        assertEquals(View.GONE, searchResultsWidget.visibility)
-
-        lxCategoriesABTest(AbacusVariant.CONTROL)
-    }
-
-    private fun lxCategoriesABTest(defaultVariate: AbacusVariant) {
-        val abacusResponse = AbacusResponse()
-        abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppLXCategoryABTest.key,
-                defaultVariate.value)
-        Db.sharedInstance.setAbacusResponse(abacusResponse)
     }
 
     fun createLxSearchResponse(returnSingleActivity: Boolean = false): LXSearchResponse {
         val lxSearchResponse = LXSearchResponse()
         val lxcategoryMetadata = LXCategoryMetadata()
         lxcategoryMetadata.displayValue = "Attractions"
-        lxcategoryMetadata.categoryKeyEN = "Attractions"
         lxcategoryMetadata.categoryType = LXCategoryType.PrivateTransfers
         val filterCategories = java.util.HashMap<String, LXCategoryMetadata>()
         filterCategories.put("PrivateTransfers", lxcategoryMetadata)

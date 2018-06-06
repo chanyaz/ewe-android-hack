@@ -24,8 +24,6 @@ import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.lx.LXOfferSelected;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
-import com.expedia.bookings.data.lx.LXTheme;
-import com.expedia.bookings.data.lx.LXThemeType;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.services.LxServices;
@@ -330,34 +328,6 @@ public class LXServicesTest {
 		LXCheckoutResponse lxCheckoutResponse = observer.values().get(0);
 		assertTrue(lxCheckoutResponse.hasPriceChange());
 		assertNotNull(lxCheckoutResponse.newTotalPrice);
-	}
-
-	@Test
-	public void lxCategorySearchResponse() throws Throwable {
-		serviceRule.setDefaultExpediaDispatcher();
-
-		TestObserver<LXSearchResponse> observer = new TestObserver<>();
-		LxSearchParams searchParams = (LxSearchParams) new LxSearchParams.Builder().location("happy")
-			.startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(1)).build();
-		serviceRule.getServices().lxCategorySearch(searchParams, observer);
-		observer.awaitTerminalEvent();
-
-		observer.assertNoErrors();
-		observer.assertComplete();
-		observer.assertValueCount(1);
-		assertEquals(4, observer.values().get(0).activities.size());
-		assertNotNull(observer.values().get(0).lxThemes);
-		assertEquals(7, observer.values().get(0).lxThemes.size());
-		LXTheme topRatedTheme = observer.values().get(0).lxThemes.get(0);
-		assertEquals(LXThemeType.TopRatedActivities, topRatedTheme.themeType);
-		assertEquals(0, topRatedTheme.filterCategories.size());
-		assertEquals(4, topRatedTheme.activities.size());
-		LXTheme allThingsToDoTheme = observer.values().get(0).lxThemes.get(6);
-		assertEquals(LXThemeType.AllThingsToDo, allThingsToDoTheme.themeType);
-		assertEquals(7, allThingsToDoTheme.filterCategories.size());
-		assertEquals(4, allThingsToDoTheme.activities.size());
-		assertEquals(2, observer.values().get(0).lxThemes.get(1).filterCategories.size());
-		assertEquals(1, observer.values().get(0).lxThemes.get(2).filterCategories.size());
 	}
 
 	private void givenCreateTripParamsHasOneOffer(String activityId) {

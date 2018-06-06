@@ -134,7 +134,6 @@
     <dimen name="lx_sort_filter_margin">16dp</dimen>
     <dimen name="lx_results_bottom_padding">58dp</dimen>
     <dimen name="gt_results_bottom_padding">0dp</dimen>
-    <dimen name="lx_category_image_width">300dp</dimen>
     <dimen name="space_below_lx_filter_view_height">52dp</dimen>
     <dimen name="lx_price_text_size">20sp</dimen>
 
