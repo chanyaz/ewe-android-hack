@@ -211,6 +211,24 @@ class LXResultsPresenterTest {
     }
 
     @Test
+    fun testSingleActivityCountHeaderTextForDefaultSearch() {
+        val lxSearchResponse = createLxSearchResponse(true)
+        buildSearchParams()
+
+        val searResultObserver = lxResultsPresenter.SearchResultObserver()
+        val searchResultsWidget = lxResultsPresenter.findViewById<LXSearchResultsWidget>(R.id.lx_search_results_widget)
+        searResultObserver.widget = lxResultsPresenter.searchResultsWidget
+        searResultObserver.searchType = SearchType.DEFAULT_SEARCH
+        searResultObserver.onNext(lxSearchResponse)
+        val holder = searchResultsWidget.recyclerView.adapter.createViewHolder(searchResultsWidget.recyclerView, 2) as RecyclerView.ViewHolder
+
+        searchResultsWidget.recyclerView.adapter.bindViewHolder(holder, 0)
+        assertNotNull(searchResultsWidget)
+        val activityCountText = holder.itemView.findViewById<TextView>(R.id.lx_activity_count_header)
+        assertEquals("1 thing to do near you", activityCountText.text)
+    }
+
+    @Test
     fun testActivityCountHeaderTextForExplicitSearch() {
         val lxSearchResponse = createLxSearchResponse()
         buildSearchParams()
@@ -229,6 +247,27 @@ class LXResultsPresenterTest {
         assertNotNull(searchResultsWidget)
         val activityCountText = holder.itemView.findViewById<TextView>(R.id.lx_activity_count_header)
         assertEquals("3 things to do in Las Cruces (and vicinity)", activityCountText.text)
+    }
+
+    @Test
+    fun testSingleActivityCountHeaderTextForExplicitSearch() {
+        val lxSearchResponse = createLxSearchResponse(true)
+        buildSearchParams()
+
+        val testSubject: PublishSubject<String> = PublishSubject.create()
+        val searResultObserver = lxResultsPresenter.SearchResultObserver()
+        val searchResultsWidget = lxResultsPresenter.findViewById<LXSearchResultsWidget>(R.id.lx_search_results_widget)
+        testSubject.subscribe(searchResultsWidget.destinationShortNameObserver)
+        searResultObserver.widget = lxResultsPresenter.searchResultsWidget
+        searResultObserver.searchType = SearchType.EXPLICIT_SEARCH
+        testSubject.onNext("Las Cruces (and vicinity)")
+        searResultObserver.onNext(lxSearchResponse)
+        val holder = searchResultsWidget.recyclerView.adapter.createViewHolder(searchResultsWidget.recyclerView, 2) as RecyclerView.ViewHolder
+
+        searchResultsWidget.recyclerView.adapter.bindViewHolder(holder, 0)
+        assertNotNull(searchResultsWidget)
+        val activityCountText = holder.itemView.findViewById<TextView>(R.id.lx_activity_count_header)
+        assertEquals("1 thing to do in Las Cruces (and vicinity)", activityCountText.text)
     }
 
     @Test
@@ -266,16 +305,17 @@ class LXResultsPresenterTest {
         Db.sharedInstance.setAbacusResponse(abacusResponse)
     }
 
-    fun createLxSearchResponse(): LXSearchResponse {
+    fun createLxSearchResponse(returnSingleActivity: Boolean = false): LXSearchResponse {
         val lxSearchResponse = LXSearchResponse()
         val lxcategoryMetadata = LXCategoryMetadata()
         lxcategoryMetadata.displayValue = "Attractions"
         lxcategoryMetadata.categoryKeyEN = "Attractions"
         lxcategoryMetadata.categoryType = LXCategoryType.PrivateTransfers
         val filterCategories = java.util.HashMap<String, LXCategoryMetadata>()
-        filterCategories.put("PrivateTransfers", lxcategoryMetadata )
+        filterCategories.put("PrivateTransfers", lxcategoryMetadata)
         val gson = GsonBuilder().create()
         val lxActivities = ArrayList<LXActivity>()
+        val lxSingleActivity = ArrayList<LXActivity>(1)
 
         for (index in 0..2) {
             val lxActivity = gson.fromJson<LXActivity>(
@@ -284,7 +324,12 @@ class LXResultsPresenterTest {
             lxActivity.price = Money(10 + index, "USD")
             lxActivities.add(lxActivity)
         }
-        lxSearchResponse.activities = lxActivities
+        if (returnSingleActivity) {
+            lxSingleActivity.add(0, lxActivities.first())
+            lxSearchResponse.activities = lxSingleActivity
+        } else {
+            lxSearchResponse.activities = lxActivities
+        }
         lxSearchResponse.filterCategories = filterCategories
         buildSearchParams()
         return lxSearchResponse

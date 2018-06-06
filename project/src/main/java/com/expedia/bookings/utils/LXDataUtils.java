@@ -471,15 +471,18 @@ public class LXDataUtils {
 		}
 	}
 
-	public static String getActivityCountHeaderString(Context context, int totalActivityCount, String activityDestination) {
-		return Phrase.from(context.getResources(), R.string.lx_activity_count_header_TEMPLATE)
+	public static String getActivityCountHeaderString(Context context, int totalActivityCount,
+		String activityDestination) {
+		return Phrase.from(
+			context.getResources().getQuantityString(R.plurals.lx_activity_count_header_TEMPLATE, totalActivityCount))
 			.put("activitycount", totalActivityCount)
 			.put("destination", activityDestination)
 			.format().toString();
 	}
 
 	public static String getActivityCountHeaderCurrentLocationString(Context context, int activityCount) {
-		return Phrase.from(context.getResources(), R.string.lx_activity_count_header_current_location_TEMPLATE)
+		return Phrase.from(context.getResources()
+			.getQuantityString(R.plurals.lx_activity_count_header_current_location_TEMPLATE, activityCount))
 			.put("activitycount", activityCount)
 			.format().toString();
 	}

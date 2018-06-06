@@ -672,11 +672,20 @@
     <!-- Hint for filtering results by activity name -->
     <string name="lx_filter_hint">Keyword or phrase</string>
 
+    <!-- "LX count string to display number of results on default search results page. Eg. 1 thing to do near you" -->
     <!-- "LX count string to display number of results on default search results page. Eg. 132 things to do near you" -->
-    <string name="lx_activity_count_header_current_location_TEMPLATE">{activitycount} things to do near you</string>
+    <plurals name="lx_activity_count_header_current_location_TEMPLATE">
+        <item quantity="one">{activitycount} thing to do near you</item>
+        <item quantity="other">{activitycount} things to do near you</item>
+    </plurals>
 
+
+    <!-- "LX count string to display number of results on explicit search results page. Eg. 1 thing to do in Vegas"-->
     <!-- "LX count string to display number of results on explicit search results page. Eg. 132 things to do in Vegas"-->
-    <string name="lx_activity_count_header_TEMPLATE">{activitycount} things to do in {destination}</string>
+    <plurals name="lx_activity_count_header_TEMPLATE">
+        <item quantity="one">{activitycount} thing to do in {destination}</item>
+        <item quantity="other">{activitycount} things to do in {destination}</item>
+    </plurals>
 
     <!-- Sort & Filter label -->
     <string name="sort_and_filter">Sort &amp; Filter</string>
