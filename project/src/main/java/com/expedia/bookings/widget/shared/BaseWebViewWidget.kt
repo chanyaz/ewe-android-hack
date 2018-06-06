@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.net.http.SslError
+import android.support.annotation.VisibleForTesting
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
@@ -22,10 +23,12 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.analytics.AppAnalytics
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.WebViewUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.WebViewViewModel
+import com.mobiata.android.util.AndroidUtils
 import com.mobiata.android.util.SettingUtils
 
 open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -38,7 +41,8 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
     var webView = WebView(context)
     open fun chromeClient() = WebChromeClient()
 
-    private fun addNewWebViewToWidget(context: Context): WebView {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun addNewWebViewToWidget(context: Context): WebView {
         webView.visibility = View.GONE
         container.removeView(webView)
 
@@ -48,6 +52,9 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
         webView.settings.javaScriptEnabled = true
         webView.settings.domStorageEnabled = true
         webView.settings.setSupportMultipleWindows(true)
+
+        val userAgentString = WebViewUtils.userAgentString
+        webView.settings.userAgentString = WebViewUtils.generateUserAgentStringWithDeviceType(userAgentString, AndroidUtils.isTablet(context))
 
         webView.setDownloadListener { url, _, _, _, _ ->
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))

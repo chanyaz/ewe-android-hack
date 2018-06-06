@@ -772,6 +772,8 @@ class FlightCheckoutViewTest {
         setFlightPresenterAndFlightServices()
         setupTestToOpenInFlightOutboundPresenter()
 
+        flightPresenter.webCheckoutView.addNewWebViewToWidget(activity)
+
         assertEquals("Android " + WebViewUtils.userAgentString + " app.webview.tablet", flightPresenter.webCheckoutView.webView.settings.userAgentString)
     }
 
@@ -781,6 +783,8 @@ class FlightCheckoutViewTest {
         setPOSToIndia()
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
+
+        flightPresenter.webCheckoutView.addNewWebViewToWidget(activity)
 
         assertEquals("Android " + WebViewUtils.userAgentString + " app.webview.phone", flightPresenter.webCheckoutView.webView.settings.userAgentString)
     }

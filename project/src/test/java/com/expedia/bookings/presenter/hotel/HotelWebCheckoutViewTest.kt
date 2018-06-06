@@ -290,6 +290,7 @@ class HotelWebCheckoutViewTest {
     fun testUserAgentStringHasTabletInfo() {
         setPOSWithWebCheckoutEnabled(true)
         setUpTestToStartAtDetailsScreen()
+        hotelPresenter.webCheckoutView.addNewWebViewToWidget(activity)
         assertEquals("Android " + WebViewUtils.userAgentString + " app.webview.tablet", hotelPresenter.webCheckoutView.webView.settings.userAgentString)
     }
 
@@ -298,6 +299,7 @@ class HotelWebCheckoutViewTest {
     fun testUserAgentStringHasPhoneInfo() {
         setPOSWithWebCheckoutEnabled(true)
         setUpTestToStartAtDetailsScreen()
+        hotelPresenter.webCheckoutView.addNewWebViewToWidget(activity)
         assertEquals("Android " + WebViewUtils.userAgentString + " app.webview.phone", hotelPresenter.webCheckoutView.webView.settings.userAgentString)
     }
 

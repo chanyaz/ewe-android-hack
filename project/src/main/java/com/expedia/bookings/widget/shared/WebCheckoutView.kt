@@ -21,14 +21,12 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extensions.setVisibility
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager
-import com.expedia.bookings.utils.WebViewUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isMidAPIEnabled
 import com.expedia.bookings.widget.LoadingOverlayWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.WebCheckoutViewViewModel
 import com.expedia.vm.WebViewViewModel
-import com.mobiata.android.util.AndroidUtils
 import io.reactivex.subjects.PublishSubject
 
 @Suppress("DEPRECATION")
@@ -112,8 +110,6 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
         toolbar.visibility = View.GONE
         toolbar.title = context.getString(R.string.secure_checkout)
         toolbar.navigationIcon = context.getDrawable(R.drawable.ic_arrow_back_white_24dp)
-
-        setUserAgentString(AndroidUtils.isTablet(context))
 
         showLoadingIndicator.subscribe { status ->
             toolbar.setVisibility(!status)
@@ -230,10 +226,5 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
     private fun shouldShowNativeLXConfirmation(url: String): Boolean {
         return (url.contains(context.getString(R.string.mid_confirmation_url_tag))) &&
                 AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppLxWebCheckoutView)
-    }
-
-    private fun setUserAgentString(isTabletDevice: Boolean) {
-        val userAgentString = WebViewUtils.userAgentString
-        webView.settings.userAgentString = WebViewUtils.generateUserAgentStringWithDeviceType(userAgentString, isTabletDevice)
     }
 }
