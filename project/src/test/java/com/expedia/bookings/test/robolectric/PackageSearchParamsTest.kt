@@ -7,20 +7,20 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.packages.PackageHotelFilterOptions
 import com.expedia.bookings.data.packages.PackageSearchParams
-import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.packages.vm.PackageSearchViewModel
+import com.expedia.bookings.services.TestObserver
+import com.expedia.bookings.utils.Ui
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import com.expedia.bookings.services.TestObserver
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import kotlin.test.assertFalse
 
 @RunWith(RobolectricRunner::class)
 class PackageSearchParamsTest {
@@ -97,79 +97,6 @@ class PackageSearchParamsTest {
         assertEquals("10,1", params.childAges)
         assertNotNull(params.infantsInSeats)
         assertTrue(params.infantsInSeats!!)
-    }
-
-    @Test
-    fun testOriginIdString() {
-        val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
-                activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
-                .origin(getDummySuggestion("123"))
-                .destination(getDummySuggestion("456"))
-                .adults(1)
-                .children(listOf(10, 2))
-                .startDate(LocalDate.now())
-                .endDate(LocalDate.now().plusDays(1))
-                .build() as PackageSearchParams
-
-        val paramsMap = params.toQueryMap()
-        assertEquals("1011", paramsMap["originId"])
-        assertEquals("1011", params.originId)
-    }
-
-    @Test
-    fun testOriginIdStringWhenMultiCityNull() {
-        val dummyOriginSuggestion = getDummySuggestion("123")
-        dummyOriginSuggestion.hierarchyInfo?.airport?.multicity = null
-
-        val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
-                activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
-                .origin(dummyOriginSuggestion)
-                .destination(getDummySuggestion("456"))
-                .adults(1)
-                .children(listOf(10, 2))
-                .startDate(LocalDate.now())
-                .endDate(LocalDate.now().plusDays(1))
-                .build() as PackageSearchParams
-
-        val paramsMap = params.toQueryMap()
-        assertEquals("1011", paramsMap["originId"])
-        assertEquals("1011", params.originId)
-    }
-
-    @Test
-    fun testDestinationIdString() {
-        val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
-                activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
-                .origin(getDummySuggestion("123"))
-                .destination(getDummySuggestion("456"))
-                .adults(1)
-                .children(listOf(10, 2))
-                .startDate(LocalDate.now())
-                .endDate(LocalDate.now().plusDays(1))
-                .build() as PackageSearchParams
-
-        val paramsMap = params.toQueryMap()
-        assertEquals("1011", paramsMap["destinationId"])
-        assertEquals("1011", params.destinationId)
-    }
-
-    @Test
-    fun testDestinationIdStringWhenSuggestionTypePOI() {
-        val destinationDummySuggestion = getDummySuggestion("456")
-        destinationDummySuggestion.type = "POI"
-        val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
-                activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
-                .origin(getDummySuggestion("123"))
-                .destination(destinationDummySuggestion)
-                .adults(1)
-                .children(listOf(10, 2))
-                .startDate(LocalDate.now())
-                .endDate(LocalDate.now().plusDays(1))
-                .build() as PackageSearchParams
-
-        val paramsMap = params.toQueryMap()
-        assertEquals("1011", paramsMap["destinationId"])
-        assertEquals("1011", params.destinationId)
     }
 
     @Test

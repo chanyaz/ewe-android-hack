@@ -8,7 +8,6 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.utils.Constants
 import org.joda.time.Days
 import org.joda.time.LocalDate
-import java.util.HashMap
 import kotlin.properties.Delegates
 
 open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?, startDate: LocalDate, endDate: LocalDate?, adults: Int, children: List<Int>, infantSeatingInLap: Boolean, val flightCabinClass: String? = null) : AbstractFlightSearchParams(origin, destination, adults, children, startDate, endDate, infantSeatingInLap) {
@@ -152,56 +151,6 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
 
     fun isHotelFilterSearch(): Boolean {
         return filterOptions?.isNotEmpty() == true
-    }
-
-    fun toQueryMap(): Map<String, Any?> {
-        val params = HashMap<String, Any?>()
-        if (pageType != null) params.put("pageType", pageType)
-        params.put("originId", originId)
-        params.put("destinationId", destinationId)
-        params.put("ftla", origin?.hierarchyInfo?.airport?.airportCode)
-        params.put("ttla", destination?.hierarchyInfo?.airport?.airportCode)
-        params.put("fromDate", startDate.toString())
-        params.put("toDate", endDate.toString())
-        params.put("numberOfRooms", numberOfRooms)
-        params.put("adultsPerRoom[1]", adults)
-        if (children.size > 0) {
-            params.put("childrenPerRoom[1]", children.size)
-            makeChildrenAgesParams(params, "childAges[1]", children, 1)
-        }
-        if (searchProduct != null) params.put("searchProduct", searchProduct)
-        if (packagePIID != null) params.put("packagePIID", packagePIID)
-        if (selectedLegId != null) params.put("selectedLegId", selectedLegId)
-        params.put("packageTripType", Constants.PACKAGE_TRIP_TYPE)
-        if (isOutboundSearch() || isChangePackageSearch()) {
-            params.put("currentFlights", currentFlights.joinToString(","))
-        }
-
-        if (isChangePackageSearch()) {
-            params.put("defaultFlights", defaultFlights.joinToString(","))
-        }
-
-        if (pageType == Constants.PACKAGE_CHANGE_FLIGHT) {
-            params.put("action", Constants.PACKAGE_FILTER_CHANGE_FLIGHT)
-        }
-
-        if (filterOptions != null) {
-            params.putAll(filterOptions!!.getFiltersQueryMap())
-        }
-
-        return params
-    }
-
-    private fun makeChildrenAgesParams(params: HashMap<String, Any?>, keyString: String, valueList: List<Int>, startIndex: Int) {
-        for (i in startIndex..valueList.size) {
-            val key = StringBuilder(keyString)
-            key.append("[").append(i).append("]")
-            val childAge = valueList[i - 1]
-            params.put(key.toString(), childAge)
-            if (childAge < 2) {
-                params.put("infantsInSeats", if (infantSeatingInLap) 0 else 1)
-            }
-        }
     }
 
     fun getNumberOfSeatedChildren(): Int {
