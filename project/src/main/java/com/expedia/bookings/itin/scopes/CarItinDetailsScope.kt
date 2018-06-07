@@ -18,3 +18,10 @@ data class CarsMasterScope(
         override val toaster: IToaster,
         override val phoneHandler: IPhoneHandler,
         override val tripsTracking: ITripsTracking) : HasCarRepo, HasLifecycleOwner, HasStringProvider, HasActivityLauncher, HasWebViewLauncher, HasToaster, HasPhoneHandler, HasTripsTracking
+
+data class CarItinMoreHelpMasterScope(
+        override val strings: StringSource,
+        override val lifecycleOwner: LifecycleOwner,
+        override val itinCarRepo: ItinCarRepoInterface,
+        override val tripsTracking: ITripsTracking
+) : HasStringProvider, HasCarRepo, HasTripsTracking, HasLifecycleOwner

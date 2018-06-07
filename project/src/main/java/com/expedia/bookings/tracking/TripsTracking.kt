@@ -282,9 +282,10 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
         s.trackLink("Itinerary Action")
     }
 
-    //CAR Tracking
     private const val ITIN_CAR_DETAILS_DIRECTION = "App.Itinerary.Car.Directions"
     private const val ITIN_CAR_DETAILS_MAP = "App.Itinerary.Car.Map"
+    private const val ITIN_CAR_MORE_HELP = "App.Itinerary.Car.MoreHelp"
+    private const val ITIN_CAR_CALL_SUPPORT = "App.Itinerary.Car.Manage.Call.Car"
 
     override fun trackItinCarDetailsMap() {
         val s = createTrackLinkEvent(ITIN_CAR_DETAILS_MAP)
@@ -293,6 +294,16 @@ object TripsTracking : OmnitureTracking(), ITripsTracking {
 
     override fun trackItinCarDetailsDirections() {
         val s = createTrackLinkEvent(ITIN_CAR_DETAILS_DIRECTION)
+        s.trackLink("Itinerary Action")
+    }
+
+    override fun trackItinCarMoreHelpClicked() {
+        val s = createTrackLinkEvent(ITIN_CAR_MORE_HELP)
+        s.trackLink("Itinerary Action")
+    }
+
+    override fun trackItinCarCallSupportClicked() {
+        val s = createTrackLinkEvent(ITIN_CAR_CALL_SUPPORT)
         s.trackLink("Itinerary Action")
     }
 
