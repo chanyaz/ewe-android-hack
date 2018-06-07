@@ -28,10 +28,6 @@ fun isFHCPackageWebViewEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppPackagesWebviewFHC)
 }
 
-fun shouldPackageForceUpdateBeVisible(context: Context): Boolean {
-    return false
-}
-
 fun isAllowUnknownCardTypesEnabled(context: Context): Boolean {
     return AbacusFeatureConfigManager.isBucketedForTest(context, AbacusUtils.EBAndroidAppAllowUnknownCardTypes)
 }

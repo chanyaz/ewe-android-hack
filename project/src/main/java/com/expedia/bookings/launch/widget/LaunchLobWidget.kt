@@ -19,7 +19,6 @@ import com.expedia.bookings.utils.NavigationHelper
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.PlayStoreUtil
 import com.expedia.bookings.utils.isBrandColorEnabled
-import com.expedia.bookings.utils.shouldPackageForceUpdateBeVisible
 import com.expedia.bookings.widget.GridLinesItemDecoration
 import com.expedia.util.notNullAndObservable
 import io.reactivex.subjects.PublishSubject
@@ -65,11 +64,7 @@ class LaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 LineOfBusiness.LX -> nav.goToActivities(null)
                 LineOfBusiness.CARS -> nav.goToCars()
                 LineOfBusiness.PACKAGES -> {
-                    if (shouldPackageForceUpdateBeVisible(context)) {
-                        PlayStoreUtil.showForceUpgradeDailogWithMessage(context)
-                    } else {
-                        nav.goToPackages(null, null)
-                    }
+                    nav.goToPackages(null, null)
                 }
                 LineOfBusiness.RAILS -> nav.goToRail(null)
                 else -> {
