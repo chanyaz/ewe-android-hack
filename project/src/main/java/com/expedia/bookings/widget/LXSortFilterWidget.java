@@ -28,12 +28,14 @@ import com.expedia.bookings.data.lx.LXCategoryMetadata;
 import com.expedia.bookings.data.lx.LXSortFilterMetadata;
 import com.expedia.bookings.data.lx.LXSortType;
 import com.expedia.bookings.extensions.TextViewExtensionsKt;
+import com.expedia.bookings.extensions.ViewExtensionsKt;
 import com.expedia.bookings.featureconfig.AbacusFeatureConfigManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.util.RxKt;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -42,6 +44,7 @@ import butterknife.OnClick;
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import kotlin.Unit;
 
 
 public class LXSortFilterWidget extends LinearLayout {
@@ -74,6 +77,9 @@ public class LXSortFilterWidget extends LinearLayout {
 
 	@InjectView(R.id.dynamic_feedback_container)
 	DynamicFeedbackWidget dynamicFeedbackWidget;
+
+	@InjectView(R.id.dynamic_feedback_clear_button)
+	com.expedia.bookings.widget.TextView dynamicFeedbackClearButton;
 
 	@InjectView(R.id.toolbar_sort_filter)
 	Toolbar toolbar;
@@ -138,6 +144,10 @@ public class LXSortFilterWidget extends LinearLayout {
 		}
 
 		TextViewExtensionsKt.subscribeTextChange(activityNameFilterEditText, activityFilterSubscriber);
+		ViewExtensionsKt.subscribeOnClick(dynamicFeedbackClearButton, RxKt.endlessObserver(unit -> {
+			onDynamicFeedbackClearButtonClicked();
+			return Unit.INSTANCE;
+		}));
 	}
 
 	private Observer activityFilterSubscriber = new Observer() {
@@ -275,8 +285,7 @@ public class LXSortFilterWidget extends LinearLayout {
 		doneButton.setAlpha(isFilteredToZeroResults ? 0.15f : 1.0f);
 	}
 
-	@Subscribe
-	public void onDynamicFeedbackClearButtonClicked(Events.DynamicFeedbackClearButtonClicked event) {
+	private void onDynamicFeedbackClearButtonClicked() {
 		filterSelected = false;
 		OmnitureTracking.trackLinkLXSortAndFilterCleared();
 		LXSortFilterMetadata lxSortFilterMetadata = defaultFilterMetadata();

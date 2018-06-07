@@ -7,14 +7,12 @@ import android.util.AttributeSet;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.SpannableBuilder;
 import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 
 public class DynamicFeedbackWidget extends CardView {
 
@@ -28,11 +26,6 @@ public class DynamicFeedbackWidget extends CardView {
 
 	@InjectView(R.id.dynamic_feedback_clear_button)
 	android.widget.TextView dynamicFeedbackClearButton;
-
-	@OnClick(R.id.dynamic_feedback_clear_button)
-	public void onClearFiltersClick() {
-		Events.post(new Events.DynamicFeedbackClearButtonClicked());
-	}
 
 	@Override
 	protected void onFinishInflate() {

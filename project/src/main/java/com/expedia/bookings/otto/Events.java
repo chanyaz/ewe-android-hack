@@ -157,10 +157,6 @@ public class Events {
 		// ignore
 	}
 
-	public static class DynamicFeedbackClearButtonClicked {
-		//ignore
-	}
-
 	public static class LXFilterDoneClicked {
 		//ignore
 	}

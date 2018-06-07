@@ -107,7 +107,7 @@ public class LXSortFilterWidgetTest {
 		attractions.checked = true;
 		widget.onCategoryCheckChanged(new Events.LXFilterCategoryCheckedChanged(attractions, "Attractions"));
 		assertEquals(1, widget.getNumberOfSelectedFilters());
-		widget.onDynamicFeedbackClearButtonClicked(new Events.DynamicFeedbackClearButtonClicked());
+		widget.findViewById(R.id.dynamic_feedback_clear_button).performClick();
 
 		assertEquals(0, widget.getNumberOfSelectedFilters());
 		assertTrue(popularitySortButton.isSelected());
