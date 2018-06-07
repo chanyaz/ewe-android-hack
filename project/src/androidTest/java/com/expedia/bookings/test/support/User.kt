@@ -1,15 +1,16 @@
 package com.expedia.bookings.test.support
 
-class User {
+class User() {
     var email = ""
     var password = ""
     var tier = ""
     var type = ""
 
-    constructor()
-    constructor(email: String, password: String, type: String) {
+    constructor(email: String, password: String) : this() {
         this.email = email
         this.password = password
+    }
+    constructor(email: String, password: String, type: String) : this(email, password) {
         this.type = type
     }
 

@@ -8,6 +8,7 @@ import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 
 import android.graphics.Rect;
+import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.espresso.PerformException;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
@@ -23,6 +24,8 @@ import android.support.test.espresso.util.HumanReadables;
 import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.style.ClickableSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -610,6 +613,57 @@ public final class ViewActions {
 				seekBar.getListener().onRangeSeekBarValuesChanged(seekBar, minValue, maxValue, FilterRangeSeekBar.Thumb.MIN);
 				seekBar.setMinValue(minValue);
 				seekBar.setMaxValue(maxValue);
+			}
+		};
+	}
+
+	public static ViewAction clickClickableSpan(final CharSequence textToClick) {
+		return new ViewAction() {
+			@Override
+			public Matcher<View> getConstraints() {
+				return Matchers.instanceOf(TextView.class);
+			}
+
+			@Override
+			public String getDescription() {
+				return "clicking on a ClickableSpan";
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				TextView textView = (TextView) view;
+				SpannableString spannableString = (SpannableString) textView.getText();
+
+				if (spannableString.length() == 0) {
+					// TextView is empty, nothing to do
+					throw new NoMatchingViewException.Builder()
+							.includeViewHierarchy(true)
+							.withRootView(textView)
+							.build();
+				}
+
+				// Get the links inside the TextView and check if we find textToClick
+				ClickableSpan[] spans = spannableString.getSpans(0, spannableString.length(), ClickableSpan.class);
+				if (spans.length > 0) {
+					ClickableSpan spanCandidate;
+					for (ClickableSpan span : spans) {
+						spanCandidate = span;
+						int start = spannableString.getSpanStart(spanCandidate);
+						int end = spannableString.getSpanEnd(spanCandidate);
+						CharSequence sequence = spannableString.subSequence(start, end);
+						if (textToClick.toString().equals(sequence.toString())) {
+							span.onClick(textView);
+							return;
+						}
+					}
+				}
+
+				// textToClick not found in TextView
+				throw new NoMatchingViewException.Builder()
+						.includeViewHierarchy(true)
+						.withRootView(textView)
+						.build();
+
 			}
 		};
 	}

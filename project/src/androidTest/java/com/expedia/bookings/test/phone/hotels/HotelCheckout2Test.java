@@ -11,7 +11,7 @@ import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.pagemodels.common.CheckoutScreen;
-import com.expedia.bookings.test.pagemodels.common.LogInScreen;
+import com.expedia.bookings.test.pagemodels.appengagement.LogInScreen;
 import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.test.pagemodels.hotels.HotelCheckoutScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;

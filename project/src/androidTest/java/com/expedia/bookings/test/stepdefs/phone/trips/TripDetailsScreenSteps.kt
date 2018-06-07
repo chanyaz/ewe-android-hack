@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.stepdefs.phone
+package com.expedia.bookings.test.stepdefs.phone.trips
 
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.pagemodels.trips.TripDetailsScreen
@@ -7,7 +7,7 @@ import com.expedia.bookings.test.pagemodels.trips.TripDetailsScreen.HotelMap.ver
 import com.expedia.bookings.test.pagemodels.trips.TripDetailsScreen.HotelMap.verifyMapMarkerPresent
 import com.expedia.bookings.test.pagemodels.trips.TripDetailsScreen.HotelMap.waitForMapToLoad
 import com.expedia.bookings.test.pagemodels.trips.TripsScreen
-import com.expedia.bookings.test.stepdefs.phone.HomeScreenSteps.switchToTab
+import com.expedia.bookings.test.stepdefs.phone.common.HomeScreenSteps.switchToTab
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 

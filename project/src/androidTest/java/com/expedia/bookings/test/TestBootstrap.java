@@ -26,8 +26,8 @@ import cucumber.api.java.After;
 import cucumber.api.java.Before;
 
 public class TestBootstrap extends ActivityInstrumentationTestCase2<RouterActivity> {
-
 	public static Activity mActivity;
+	private String cucumberImagesDirectoryPath;
 
 	public TestBootstrap() {
 		super(RouterActivity.class);
@@ -65,6 +65,13 @@ public class TestBootstrap extends ActivityInstrumentationTestCase2<RouterActivi
 		if (Common.isPackageInstalled(packageName)) {
 			Common.forceStopProcess("com.facebook.katana");
 			Common.clearProcessData("com.facebook.katana");
+		}
+
+		//Always create images directory.
+		cucumberImagesDirectoryPath = mActivity.getApplicationContext().getFilesDir().getPath() + "/cucumber-images/";
+		File cucumberDirectory = new File(cucumberImagesDirectoryPath);
+		if (!cucumberDirectory.exists()) {
+			cucumberDirectory.mkdirs();
 		}
 	}
 
@@ -107,11 +114,6 @@ public class TestBootstrap extends ActivityInstrumentationTestCase2<RouterActivi
 	}
 
 	private void saveFailedTestCaseImage(Bitmap bm, String fileName) throws IOException {
-		String cucumberImagesDirectoryPath = mActivity.getApplicationContext().getFilesDir().getPath() + "/cucumber-images/";
-		File cucumberDirectory = new File(cucumberImagesDirectoryPath);
-		if (!cucumberDirectory.exists()) {
-			cucumberDirectory.mkdirs();
-		}
 		File file = new File(cucumberImagesDirectoryPath + fileName);
 		try {
 			FileOutputStream fOut = new FileOutputStream(file);

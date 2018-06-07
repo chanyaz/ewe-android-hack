@@ -10,7 +10,8 @@ import com.expedia.bookings.test.pagemodels.common.SearchScreenActions;
 import com.expedia.bookings.test.pagemodels.hotels.HotelCheckoutScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelInfoSiteScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelResultsScreen;
-import com.expedia.bookings.test.stepdefs.phone.HomeScreenSteps;
+import com.expedia.bookings.test.stepdefs.phone.account.AccountScreenSteps;
+import com.expedia.bookings.test.stepdefs.phone.common.HomeScreenSteps;
 import com.expedia.bookings.test.support.User;
 
 import static android.support.test.espresso.action.ViewActions.click;
@@ -42,7 +43,7 @@ public class HotelSwPTest extends PhoneTestCase {
 	private static void goToCheckout(boolean clickSwP) throws Throwable {
 		LaunchScreen.waitForLOBHeaderToBeDisplayed();
 		HomeScreenSteps.switchToTab("Account");
-		HomeScreenSteps.logInToTheApp(new User("goldstatus@mobiata.com", "password", "expedia"));
+		new AccountScreenSteps().logInToTheApp(new User("goldstatus@mobiata.com", "password", "expedia"));
 		LaunchScreen.shopButton().perform(click());
 		LaunchScreen.hotelsLaunchButton().perform(click());
 		if (clickSwP) {

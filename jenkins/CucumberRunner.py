@@ -122,15 +122,23 @@ def createDummyFiles(device):
 
 
 def removeDummyFiles(device):
+    package=jsonParam['package']+".debug"
+    deviceInitialImageDir="/data/data/com.expedia.bookings.debug/files/cucumber-images"
     runShell(["adb","-s",device,"shell","rm","-rf","/data/local/tmp/cucumber-htmlreport"])
     runShell(["adb","-s",device,"shell","rm","-rf","/sdcard/cucumber-images"])
+    runShell(["adb","-s",device,"shell","run-as",package,"rm","-rf",deviceInitialImageDir])
 
 
 def downloadReport(device, feature):
     systemReportDir="project/build/outputs/report/"+feature+"/"
     deviceReportDir="/data/local/tmp/cucumber-htmlreport/"
+    deviceInitialImageDir="/data/data/com.expedia.bookings.debug/files/cucumber-images"
+    deviceImagesDir="/sdcard/cucumber-images"
+    package=jsonParam['package']+".debug"
     runShell(["mkdir","-p",systemReportDir])
     runShell(["adb","-s",device,"pull",deviceReportDir,systemReportDir])
+    runShell(["adb","-s",device,"shell","run-as",package,"cp","-R",deviceInitialImageDir,"/sdcard"])
+    runShell(["adb","-s",device,"pull",deviceImagesDir,systemReportDir])
 
 
 def main():
