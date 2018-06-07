@@ -235,6 +235,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	 * @param fhid - flightHistoryId from flightstats
 	 * @return TripComponent containing the flight with the matching historyId or null
 	 */
+	@Override
 	public TripFlight getTripComponentFromFlightHistoryId(int fhid) {
 
 		synchronized (mItinCardDatas) {
@@ -704,10 +705,12 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 
 	private Set<ItinerarySyncListener> mSyncListeners = new HashSet<>();
 
+	@Override
 	public void addSyncListener(ItinerarySyncListener listener) {
 		mSyncListeners.add(listener);
 	}
 
+	@Override
 	public void removeSyncListener(ItinerarySyncListener listener) {
 		mSyncListeners.remove(listener);
 	}
@@ -939,6 +942,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 	 *
 	 * @return true if the sync started or is in progress, false if it never started
 	 */
+	@Override
 	public boolean startSync(boolean forceRefresh) {
 		return startSync(forceRefresh, true, true);
 	}
@@ -987,6 +991,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		return deepRefreshTrip(trip.getItineraryKey(), false);
 	}
 
+	@Override
 	public boolean deepRefreshTrip(String key, boolean doSyncIfNotFound) {
 		Trip trip = mTrips.get(key);
 
@@ -1057,6 +1062,7 @@ public class ItineraryManager implements JSONable, ItineraryManagerInterface {
 		}
 	}
 
+	@Override
 	public boolean isSyncing() {
 		return mSyncTask != null && mSyncTask.getStatus() != AsyncTask.Status.FINISHED && !mSyncTask.finished();
 	}

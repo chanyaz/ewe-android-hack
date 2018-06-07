@@ -481,7 +481,7 @@
 
         <!-- Push Notifications -->
 
-        <service android:name="com.expedia.bookings.notification.GCMIntentService" />
+        <service android:name="com.expedia.bookings.notification.GCMIntentServiceV2" />
 
         <receiver
             android:name="com.expedia.bookings.notification.GCMReceiver"

@@ -32,14 +32,18 @@ public class PushNotificationUtils {
 	 * @param context
 	 */
 	public static void generateNotification(Context context, int fhid, String locKey,
-		String[] locKeyArgs, String titleArg, String nID) {
+		String[] locKeyArgs, String titleArg, String nID, String type) {
 		if (fhid < 0) {
 			Log.e(LOGGING_TAG, "PushNotificationUtils.generateNotification FlightHistoryId must be >= 0");
 		}
 		else {
 			ItinCardDataFlight data = (ItinCardDataFlight) ItineraryManager.getInstance()
 				.getItinCardDataFromFlightHistoryId(fhid);
-			if (data != null) {
+			if (type != null) {
+				INotificationManager notificationManager = Ui.getApplication(context).appComponent().notificationManager();
+				PushNotificationUtilsV2.generateFlightAlertWithNoLocalizationNotification(notificationManager, locKey, titleArg, nID, data, type);
+			}
+			else if (data != null) {
 				if (hasLocKeyForNewFlightAlerts(locKey)) {
 					generateFlightAlertNotification(context, fhid, locKey,
 						locKeyArgs, titleArg, nID, data);

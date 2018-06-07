@@ -136,8 +136,9 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 		boolean isNotificationNotBooking = !finalNotification.getNotificationType()
 			.equals(NotificationType.DESKTOP_BOOKING);
+		boolean isFlightAlertsNotification = finalNotification.getNotificationType().equals(NotificationType.FLIGHT_ALERT);
 
-		if (isNotificationNotBooking) { // check trip is still valid (i.e. not cancelled)
+		if (isNotificationNotBooking && !isFlightAlertsNotification) { // check trip is still valid (i.e. not cancelled)
 			if (getItineraryManagerInstance().startSync(false)) {
 				getItineraryManagerInstance()
 					.addSyncListener(
