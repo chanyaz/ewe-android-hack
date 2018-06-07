@@ -12,7 +12,8 @@ data class ItinCar(
 
 data class CarVendor(
         val longName: String?,
-        val localPhoneNumber: String?
+        val localPhoneNumber: String?,
+        val shortName: String?
 )
 
 data class CarLocation(

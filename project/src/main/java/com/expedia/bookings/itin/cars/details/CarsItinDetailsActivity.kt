@@ -78,21 +78,30 @@ class CarsItinDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.car_itin_detail_activity)
         Ui.getApplication(this).tripComponent().inject(this)
+
         val activityLauncher = ActivityLauncher(this)
         val webViewLauncher: IWebViewLauncher = WebViewLauncher(this)
         val itinId = intent.getStringExtra(CAR_ITIN_ID)
         val tripsTracking = TripsTracking
         val phoneHandler = PhoneHandler(this)
         repo = ItinCarRepo(itinId, jsonUtil, ItineraryManager.getInstance().syncFinishObservable)
+
         val scope = CarsMasterScope(stringProvider, webViewLauncher, this, activityLauncher, repo, toaster, phoneHandler, tripsTracking)
+
         imageWidget.viewModel = CarItinImageViewModel(scope)
+
         toolbarViewModel = CarItinToolbarViewModel(scope)
         toolbar.viewModel = toolbarViewModel
+
         timingsWidget.viewModel = CarItinTimingsWidgetViewModel(scope)
+
         val mapScope = CarItinMapWidgetViewModelScope(stringProvider, tripsTracking, this, repo, toaster, phoneHandler, activityLauncher)
+
         pickupMapWidget.viewModel = CarItinPickupMapWidgetViewModel(mapScope)
         dropOffMapViewModel = CarItinDropOffMapWidgetViewModel(mapScope)
+
         dropOffMapWidget.viewModel = dropOffMapViewModel
+
         manageBookingWidget.viewModel = CarItinManageBookingWidgetViewModel(scope)
     }
 
