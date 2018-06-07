@@ -8,12 +8,12 @@ class FlightItinDetailsResponse : AbstractItinDetailsResponse() {
 
     class FlightResponseData : ResponseData() {
         var flights = emptyList<Flight>()
-        lateinit var airAttachQualificationInfo: AirAttachQualificationInfo
+        var airAttachQualificationInfo: AirAttachQualificationInfo? = null
         var insurance: List<Insurance>? = null
 
         class AirAttachQualificationInfo {
             var airAttachQualified: Boolean = false
-            lateinit var offerExpiresTime: OfferExpiresTime
+            var offerExpiresTime: OfferExpiresTime? = null
 
             class OfferExpiresTime {
                 lateinit var raw: String

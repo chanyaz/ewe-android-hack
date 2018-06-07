@@ -167,8 +167,7 @@ class FlightCheckoutViewTest {
         Db.getTripBucket().add(TripBucketItemFlightV2(getFlightCreateTripResponse()))
         flightPresenter.flightOfferViewModel.flightProductId.onNext("happy_round_trip")
 
-        testUrlSubscriber.assertValues("https://www.expedia.com/FlightCheckout?tripid=happy_round_trip",
-                "about:blank", "https://www.expedia.com/FlightCheckout?tripid=happy_round_trip")
+        testUrlSubscriber.assertValues( "about:blank")
         assertTrue(flightPresenter.webCheckoutView.visibility == View.GONE)
         assertTrue(flightPresenter.flightOverviewPresenter.visibility == View.VISIBLE)
         flightPresenter.flightOverviewPresenter.checkoutButton.performClick()
@@ -452,10 +451,9 @@ class FlightCheckoutViewTest {
 
         flightPresenter.flightCreateTripViewModel.tripParams.onNext(createTripParams("create_trip_price_increase"))
         flightPresenter.errorPresenter.viewmodel.fireRetryCreateTrip.onNext(Unit)
+        flightPresenter.webCheckoutView.viewModel.showWebViewObservable.onNext(true)
 
-        testUrlSubscriber.assertValues("https://www.expedia.com/FlightCheckout?tripid=happy_one_way",
-                "about:blank",
-                "https://www.expedia.com/FlightCheckout?tripid=happy_one_way")
+        testUrlSubscriber.assertValues("about:blank", "https://www.expedia.com/FlightCheckout?tripid=happy_one_way")
         assertTrue(flightPresenter.flightOverviewPresenter.visibility == View.VISIBLE)
         assertFalse(flightPresenter.webCheckoutView.webView.canGoBack())
     }
@@ -774,6 +772,8 @@ class FlightCheckoutViewTest {
         setFlightPresenterAndFlightServices()
         setupTestToOpenInFlightOutboundPresenter()
 
+        flightPresenter.webCheckoutView.addNewWebViewToWidget(activity)
+
         assertEquals("Android " + WebViewUtils.userAgentString + " app.webview.tablet", flightPresenter.webCheckoutView.webView.settings.userAgentString)
     }
 
@@ -783,6 +783,8 @@ class FlightCheckoutViewTest {
         setPOSToIndia()
         createMockFlightServices()
         setFlightPresenterAndFlightServices()
+
+        flightPresenter.webCheckoutView.addNewWebViewToWidget(activity)
 
         assertEquals("Android " + WebViewUtils.userAgentString + " app.webview.phone", flightPresenter.webCheckoutView.webView.settings.userAgentString)
     }

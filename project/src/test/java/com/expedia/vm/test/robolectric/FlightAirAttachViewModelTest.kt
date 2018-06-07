@@ -67,6 +67,27 @@ class FlightAirAttachViewModelTest {
     }
 
     @Test
+    fun crossSellIsNull() {
+        val expiresInFuture = DateTime.now().plusDays(50).toString()
+        val response = getCheckoutResponse(expiresInFuture, false)
+
+        val crossSellDaysRemaining = TestObserver<String>()
+        val crossSellExpiresTodayView = TestObserver<Boolean>()
+        val crossSellExpiresFutureView = TestObserver<Boolean>()
+
+        viewModel = HotelCrossSellViewModel(activity)
+        viewModel.daysRemainingVisibility.subscribe(crossSellExpiresFutureView)
+        viewModel.daysRemainingText.subscribe(crossSellDaysRemaining)
+        viewModel.expiresTodayVisibility.subscribe(crossSellExpiresTodayView)
+
+        viewModel.confirmationObservable.onNext(response)
+
+        crossSellExpiresFutureView.assertNoValues()
+        crossSellDaysRemaining.assertNoValues()
+        crossSellExpiresTodayView.assertNoValues()
+    }
+
+    @Test
     fun crossSellExpirationPastTest() {
 //        note this scenario is unlikely
         val pastExpiration = DateTime.now().minusDays(50).toString()
@@ -84,28 +105,33 @@ class FlightAirAttachViewModelTest {
         crossSellExpiresTodayView.assertValue(true)
     }
 
-    private fun getCheckoutResponse(dateOfExpiration: String): FlightCheckoutResponse {
+    private fun getCheckoutResponse(dateOfExpiration: String, hasAirAttach: Boolean = true): FlightCheckoutResponse {
         val response = FlightCheckoutResponse()
         response.newTrip = TripDetails("12345", "", "")
-        val qualifierObject = FlightCheckoutResponse.AirAttachInfo()
-        val offerTimeField = FlightCheckoutResponse.AirAttachInfo.AirAttachExpirationInfo()
-
+        var airAttachInfo: FlightCheckoutResponse.AirAttachInfo?
         val field = response.javaClass.getDeclaredField("airAttachInfo")
         field.isAccessible = true
+        if (hasAirAttach) {
+            airAttachInfo = FlightCheckoutResponse.AirAttachInfo()
+            val offerTimeField = FlightCheckoutResponse.AirAttachInfo.AirAttachExpirationInfo()
 
-        val boolField = qualifierObject.javaClass.getDeclaredField("hasAirAttach")
-        boolField.isAccessible = true
+            val boolField = airAttachInfo.javaClass.getDeclaredField("hasAirAttach")
+            boolField.isAccessible = true
 
-        val timeRemainingField = qualifierObject.javaClass.getDeclaredField("offerExpirationTimes")
-        timeRemainingField.isAccessible = true
+            val timeRemainingField = airAttachInfo.javaClass.getDeclaredField("offerExpirationTimes")
+            timeRemainingField.isAccessible = true
 
-        val timeField = offerTimeField.javaClass.getDeclaredField("fullExpirationDate")
-        timeField.isAccessible = true
+            val timeField = offerTimeField.javaClass.getDeclaredField("fullExpirationDate")
+            timeField.isAccessible = true
 
-        timeField.set(offerTimeField, dateOfExpiration)
-        boolField.set(qualifierObject, true)
-        timeRemainingField.set(qualifierObject, offerTimeField)
-        field.set(response, qualifierObject)
+            timeField.set(offerTimeField, dateOfExpiration)
+            boolField.set(airAttachInfo, true)
+            timeRemainingField.set(airAttachInfo, offerTimeField)
+        } else {
+            airAttachInfo = null
+        }
+
+        field.set(response, airAttachInfo)
 
         return response
     }

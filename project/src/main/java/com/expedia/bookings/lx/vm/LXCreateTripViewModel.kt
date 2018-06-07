@@ -1,11 +1,9 @@
 package com.expedia.bookings.lx.vm
 
 import android.content.Context
-import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LXState
 import com.expedia.bookings.data.lx.LXCreateTripResponseV2
-import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.LxServices
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.Ui
@@ -41,14 +39,7 @@ class LXCreateTripViewModel(val context: Context) : BaseCreateTripViewModel() {
             override fun onError(e: Throwable) {
                 showCreateTripDialogObservable.onNext(false)
                 if (RetrofitUtils.isNetworkError(e)) {
-                    val retryFun = fun() {
-                        performCreateTrip.onNext(Unit)
-                    }
-                    val cancelFun = fun() {
-                        val activity = context as AppCompatActivity
-                        activity.onBackPressed()
-                    }
-                    DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+                    noNetworkObservable.onNext(Unit)
                 }
             }
 
