@@ -56,7 +56,6 @@ class TripListAdapterTest {
         assertEquals("Upcoming", adapter.getPageTitle(0))
         assertEquals("Past", adapter.getPageTitle(1))
         assertEquals("Cancelled", adapter.getPageTitle(2))
-        assertEquals("", adapter.getPageTitle(7))
     }
 
     @Test

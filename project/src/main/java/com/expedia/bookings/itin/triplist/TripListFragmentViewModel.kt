@@ -10,7 +10,11 @@ class TripListFragmentViewModel(val tripsTracking: ITripsTracking) : ITripListFr
 
     init {
         tripListVisitTrackingSubject.subscribe { tabPosition ->
-            tripsTracking.trackTripListVisit(tabPosition)
+            when (tabPosition) {
+                TripListTabs.UPCOMING_TAB.value -> tripsTracking.trackTripListUpcomingTabVisit()
+                TripListTabs.PAST_TAB.value -> tripsTracking.trackTripListPastTabVisit()
+                TripListTabs.CANCELLED_TAB.value -> tripsTracking.trackTripListCancelledTabVisit()
+            }
         }
 
         tabSelectedSubject.subscribe {

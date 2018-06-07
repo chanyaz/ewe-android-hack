@@ -17,8 +17,10 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class TripListFragmentTest {
@@ -73,16 +75,15 @@ class TripListFragmentTest {
         val mockTripsTracking = MockTripsTracking()
         testFragment.tripsTracking = mockTripsTracking
         loadTripListFragment()
-        assertNull(mockTripsTracking.trackTripListVisited)
+        assertFalse(mockTripsTracking.trackTripListUpcomingTabSelected)
         testFragment.trackTripListVisit()
-        assertNotNull(mockTripsTracking.trackTripListVisited)
-        assertEquals(0, mockTripsTracking.trackTripListVisited)
+        assertTrue(mockTripsTracking.trackTripListUpcomingTabSelected)
 
         val tabLayout = testFragment.view!!.findViewById<TabLayout>(R.id.trip_list_tabs)
+        assertFalse(mockTripsTracking.trackTripListCancelledTabSelected)
         tabLayout.getTabAt(2)?.select()
         testFragment.trackTripListVisit()
-        assertNotNull(mockTripsTracking.trackTripListVisited)
-        assertEquals(2, mockTripsTracking.trackTripListVisited)
+        assertTrue(mockTripsTracking.trackTripListCancelledTabSelected)
     }
 
     @Test

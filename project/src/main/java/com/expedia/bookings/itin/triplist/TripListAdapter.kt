@@ -23,8 +23,7 @@ class TripListAdapter(val context: Context) : PagerAdapter() {
         return when (position) {
             TripListTabs.UPCOMING_TAB.value -> context.getString(R.string.trip_folder_upcoming_tab_title)
             TripListTabs.PAST_TAB.value -> context.getString(R.string.trip_folder_past_tab_title)
-            TripListTabs.CANCELLED_TAB.value -> context.getString(R.string.trip_folder_cancelled_tab_title)
-            else -> ""
+            else -> context.getString(R.string.trip_folder_cancelled_tab_title)
         }
     }
 

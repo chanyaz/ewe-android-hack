@@ -4,12 +4,12 @@ import android.app.Activity
 import android.content.Context
 import android.support.design.widget.TabLayout
 import android.view.View
+import com.expedia.bookings.activity.DeepLinkWebViewActivity
+import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.analytics.OmnitureTestUtils.Companion.assertLinkTracked
 import com.expedia.bookings.analytics.OmnitureTestUtils.Companion.assertStateNotTracked
 import com.expedia.bookings.analytics.OmnitureTestUtils.Companion.assertStateTracked
-import com.expedia.bookings.activity.DeepLinkWebViewActivity
-import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.user.RestrictedProfileSource
@@ -45,7 +45,6 @@ import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
@@ -293,10 +292,9 @@ class PhoneLaunchActivityTest {
         activity.viewPager.currentItem = PhoneLaunchActivity.PAGER_POS_LAUNCH
         activity.supportFragmentManager.beginTransaction().add(tripListFragment, "TRIP_LIST_FRAGMENT").commitNow()
 
-        assertNull(mockTripsTracking.trackTripListVisited)
+        assertFalse(mockTripsTracking.trackTripListUpcomingTabSelected)
         activity.toolbar.tabLayout.getTabAt(1)?.select()
-        assertNotNull(mockTripsTracking.trackTripListVisited)
-        assertEquals(0, mockTripsTracking.trackTripListVisited)
+        assertTrue(mockTripsTracking.trackTripListUpcomingTabSelected)
     }
 
     @Test
