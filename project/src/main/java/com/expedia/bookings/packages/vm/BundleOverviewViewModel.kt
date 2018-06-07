@@ -103,7 +103,7 @@ class BundleOverviewViewModel(val context: Context, private val packageServicesM
                     .put("enddate", LocaleBasedDateFormatUtils.localDateToMMMd(params.endDate!!))
                     .put("guests", StrUtils.formatTravelerString(context, params.guests))
                     .format().toString())
-            val type = if (params.isOutboundSearch(true)) PackageProductSearchType.MultiItemOutboundFlights else PackageProductSearchType.MultiItemInboundFlights
+            val type = if (params.isOutboundSearch()) PackageProductSearchType.MultiItemOutboundFlights else PackageProductSearchType.MultiItemInboundFlights
 
             searchPackageSubscriber = packageServicesManager?.doPackageSearch(params, type, successResponseHandler, errorResponseHandler)
         }

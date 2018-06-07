@@ -142,8 +142,8 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
         }
     }
 
-    fun isOutboundSearch(isMidApiEnabled: Boolean): Boolean {
-        return (isMidApiEnabled || packagePIID != null) && selectedLegId == null
+    fun isOutboundSearch(): Boolean {
+        return selectedLegId == null
     }
 
     fun isChangePackageSearch(): Boolean {
@@ -173,7 +173,7 @@ open class PackageSearchParams(origin: SuggestionV4?, destination: SuggestionV4?
         if (packagePIID != null) params.put("packagePIID", packagePIID)
         if (selectedLegId != null) params.put("selectedLegId", selectedLegId)
         params.put("packageTripType", Constants.PACKAGE_TRIP_TYPE)
-        if (isOutboundSearch(false) || isChangePackageSearch()) {
+        if (isOutboundSearch() || isChangePackageSearch()) {
             params.put("currentFlights", currentFlights.joinToString(","))
         }
 
