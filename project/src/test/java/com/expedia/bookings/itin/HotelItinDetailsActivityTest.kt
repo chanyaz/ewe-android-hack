@@ -7,7 +7,9 @@ import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.analytics.AnalyticsProvider
 import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.ItinCardDataHotel
+import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.ItineraryManagerInterface
+import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.itin.hotel.details.HotelItinBookingDetails
 import com.expedia.bookings.itin.hotel.details.HotelItinCheckInCheckOutDetails
 import com.expedia.bookings.itin.hotel.details.HotelItinDetailsActivity
@@ -156,6 +158,28 @@ class HotelItinDetailsActivityTest {
     }
 
     class MockItinManager : ItineraryManagerInterface {
+        override fun addSyncListener(listener: ItineraryManager.ItinerarySyncListener) {
+        }
+
+        override fun removeSyncListener(listener: ItineraryManager.ItinerarySyncListener) {
+        }
+
+        override fun getTripComponentFromFlightHistoryId(id: Int): TripFlight {
+            return TripFlight()
+        }
+
+        override fun isSyncing(): Boolean {
+            return true
+        }
+
+        override fun startSync(boolean: Boolean): Boolean {
+            return true
+        }
+
+        override fun deepRefreshTrip(key: String, doSyncIfNotFound: Boolean): Boolean {
+            return true
+        }
+
         override fun getItinCardDataFromItinId(id: String?): ItinCardData? {
             return ItinCardDataHotelBuilder().isSharedItin(true).build()
         }

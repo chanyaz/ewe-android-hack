@@ -92,7 +92,8 @@ public class Notification extends Model implements JSONable {
 		HOTEL_PRE_TRIP,
 		HOTEL_ACTIVITY_IN_TRIP,
 		FLIGHT_DELAYED,
-		HOTEL_REVIEW
+		HOTEL_REVIEW,
+		FLIGHT_ALERT
 	}
 
 

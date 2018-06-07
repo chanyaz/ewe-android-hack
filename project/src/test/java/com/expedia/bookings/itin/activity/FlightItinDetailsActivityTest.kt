@@ -5,7 +5,9 @@ import android.text.format.DateUtils
 import com.expedia.bookings.analytics.OmnitureTestUtils
 import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.ItinCardDataFlight
+import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.ItineraryManagerInterface
+import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.itin.flight.details.FlightItinDetailsActivity
 import com.expedia.bookings.services.TestObserver
 import com.expedia.bookings.test.MultiBrand
@@ -84,6 +86,27 @@ class FlightItinDetailsActivityTest {
             } else {
                 itinCardDataTwo
             }
+        }
+        override fun addSyncListener(listener: ItineraryManager.ItinerarySyncListener) {
+        }
+
+        override fun removeSyncListener(listener: ItineraryManager.ItinerarySyncListener) {
+        }
+
+        override fun getTripComponentFromFlightHistoryId(id: Int): TripFlight {
+            return TripFlight()
+        }
+
+        override fun isSyncing(): Boolean {
+            return true
+        }
+
+        override fun startSync(boolean: Boolean): Boolean {
+            return true
+        }
+
+        override fun deepRefreshTrip(key: String, doSyncIfNotFound: Boolean): Boolean {
+            return true
         }
     }
 }
