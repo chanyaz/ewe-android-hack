@@ -65,7 +65,6 @@ class PackageActivity : AbstractAppCompatActivity() {
         packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.collapseSelectedHotel()
         packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.collapseFlightDetails()
         packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.collapseFlightDetails()
-        packagePresenter.bundleLoadingView.visibility = View.GONE
 
         when (resultCode) {
             Activity.RESULT_CANCELED -> {
@@ -249,7 +248,6 @@ class PackageActivity : AbstractAppCompatActivity() {
 
     @VisibleForTesting( otherwise = VisibleForTesting.PRIVATE)
     fun packageCreateTrip() {
-        packagePresenter.bundleLoadingView.visibility = View.GONE
         Db.sharedInstance.packageParams.pageType = null
         changedOutboundFlight = false
         packagePresenter.bundlePresenter.performMIDCreateTripSubject.onNext(Unit)
