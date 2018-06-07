@@ -1,0 +1,28 @@
+{
+    "errors": [
+        {
+            "systemEvent": "MIS_INVALID_REQUEST",
+            "description": "destinationId Failed to convert property value of type 'java.lang.String' to required type 'long' for property 'destinationId'; nested exception is java.lang.NumberFormatException: For input string: \"\""
+        },
+        {
+            "systemEvent": "MIS_INVALID_REQUEST",
+            "description": "originId Failed to convert property value of type 'java.lang.String' to required type 'long' for property 'originId'; nested exception is java.lang.NumberFormatException: For input string: \"\"",
+            "key": "MIS_INVALID_REQUEST"
+        },
+        {
+            "systemEvent": "MIS_INVALID_REQUEST",
+            "description": "origin may not be null for flight-inclusive package types",
+            "key": "MIS_INVALID_REQUEST"
+        },
+        {
+            "systemEvent": "MIS_INVALID_REQUEST",
+            "description": "destination may not be null",
+            "key": "MIS_INVALID_REQUEST"
+        }
+    ],
+    "messageInfo": {
+        "transactionGUID": "9c8de78d-d5b5-4ca6-86e8-0878d2311570",
+        "userGUID": "8f04feed-0222-4f27-9d62-8ba5ba142f06",
+        "tuid": -1
+    }
+}
